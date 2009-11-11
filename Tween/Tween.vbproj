@@ -339,6 +339,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>"c:\Program Files\Microsoft.NET\SDK\v2.0\Bin\sgen.exe" /f /a:"$(TargetPath)"</PostBuildEvent>
+    <PostBuildEvent>"C:\Program Files\Microsoft Visual Studio 8\SDK\v2.0\Bin\sgen.exe" /f /a:"$(TargetPath)"</PostBuildEvent>
   </PropertyGroup>
 </Project>

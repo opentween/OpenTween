@@ -973,10 +973,10 @@ Public NotInheritable Class TabInformations
     Public Function IsDefaultTab(ByVal tabName As String) As Boolean
         If tabName IsNot Nothing AndAlso _
            _tabs.ContainsKey(tabName) AndAlso _
-           _tabs(tabName).TabType = TabUsageType.Home OrElse _
+           (_tabs(tabName).TabType = TabUsageType.Home OrElse _
            _tabs(tabName).TabType = TabUsageType.Mentions OrElse _
            _tabs(tabName).TabType = TabUsageType.DirectMessage OrElse _
-           _tabs(tabName).TabType = TabUsageType.Favorites Then
+           _tabs(tabName).TabType = TabUsageType.Favorites) Then
             Return True
         Else
             Return False
