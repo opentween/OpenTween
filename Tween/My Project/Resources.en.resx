@@ -1,0 +1,720 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddCustomTabsText1" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="AddCustomTabsText2" xml:space="preserve">
+    <value>Post</value>
+  </data>
+  <data name="AddCustomTabsText3" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="AddCustomTabsText4" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="AddNewTabText1" xml:space="preserve">
+    <value>(New Tab)</value>
+  </data>
+  <data name="AddNewTabText2" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="AddNewTabText3" xml:space="preserve">
+    <value>Post</value>
+  </data>
+  <data name="AddNewTabText4" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="AddNewTabText5" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="AddTabMenuItem_ClickText1" xml:space="preserve">
+    <value>Tab ""{0}""　is already exists; please specify other name.</value>
+  </data>
+  <data name="AddTabMenuItem_ClickText2" xml:space="preserve">
+    <value>Add tab</value>
+  </data>
+  <data name="Button3_ClickText1" xml:space="preserve">
+    <value>Executable (*.exe)|*.exe|All files (*.*)|*.*</value>
+  </data>
+  <data name="Button3_ClickText2" xml:space="preserve">
+    <value>Choose the web browser</value>
+  </data>
+  <data name="ButtonDelete_ClickText1" xml:space="preserve">
+    <value>Delete this rules? {0}   『{1}』</value>
+  </data>
+  <data name="ButtonDelete_ClickText2" xml:space="preserve">
+    <value>Confirm deleting rule</value>
+  </data>
+  <data name="ButtonOK_ClickText1" xml:space="preserve">
+    <value>Choice the rule.</value>
+  </data>
+  <data name="ButtonOK_ClickText2" xml:space="preserve">
+    <value>Rule checking</value>
+  </data>
+  <data name="ButtonOK_ClickText3" xml:space="preserve">
+    <value>Invalid regular expression pattern.</value>
+  </data>
+  <data name="CheckNewVersionText1" xml:space="preserve">
+    <value>Tween Update Check</value>
+  </data>
+  <data name="CheckNewVersionText10" xml:space="preserve">
+    <value>Versioin check failed. Please try again later.</value>
+  </data>
+  <data name="CheckNewVersionText2" xml:space="preserve">
+    <value>Tween Update Check Result</value>
+  </data>
+  <data name="CheckNewVersionText3" xml:space="preserve">
+    <value>New version  {0} is available. Update?</value>
+  </data>
+  <data name="CheckNewVersionText4" xml:space="preserve">
+    <value>Downloading updater failed. Try again later.</value>
+  </data>
+  <data name="CheckNewVersionText5" xml:space="preserve">
+    <value>New version is available but download failed. Try again later.</value>
+  </data>
+  <data name="CheckNewVersionText6" xml:space="preserve">
+    <value>New version is not found. Latest version is {0}. Download it?</value>
+  </data>
+  <data name="CheckNewVersionText7" xml:space="preserve">
+    <value>Your Tween is latest; you don't need to update. Version: </value>
+  </data>
+  <data name="CheckNewVersionText8" xml:space="preserve">
+    <value>Latest version:</value>
+  </data>
+  <data name="CheckNewVersionText9" xml:space="preserve">
+    <value>Version check failed</value>
+  </data>
+  <data name="ClearTabMenuItem_ClickText1" xml:space="preserve">
+    <value>Delete all tweets in this tab {0} ? (posts aren't deleted from the server.)</value>
+  </data>
+  <data name="ClearTabMenuItem_ClickText2" xml:space="preserve">
+    <value>Confirm Clearing Tab</value>
+  </data>
+  <data name="ContextMenuStrip3_OpeningText1" xml:space="preserve">
+    <value>(Icon fetch failed)</value>
+  </data>
+  <data name="ContextMenuStrip3_OpeningText2" xml:space="preserve">
+    <value>(Choice the tweet)</value>
+  </data>
+  <data name="DeleteStripMenuItem_ClickText1" xml:space="preserve">
+    <value>Delete selected tweets/messages?{0}WARNING: They are deleted from server too!{0}  To remove ID from tab, select [Move ID].{0}  To remove tab, select [Delete Tab].{0}{0}To cancel operation, select [Cancel].</value>
+  </data>
+  <data name="DeleteStripMenuItem_ClickText2" xml:space="preserve">
+    <value>Check removing</value>
+  </data>
+  <data name="DeleteStripMenuItem_ClickText3" xml:space="preserve">
+    <value>Remove failed</value>
+  </data>
+  <data name="DeleteStripMenuItem_ClickText4" xml:space="preserve">
+    <value>Remove succeeded</value>
+  </data>
+  <data name="DMPeriod_ValidatingText1" xml:space="preserve">
+    <value>Fetching interval must a value in 0 or 30 to 6000.</value>
+  </data>
+  <data name="DMPeriod_ValidatingText2" xml:space="preserve">
+    <value>Fetching interval must a value in 0 or 30 to 6000.</value>
+  </data>
+  <data name="DoTabSearchText1" xml:space="preserve">
+    <value>Invalid regular expression pattern.</value>
+  </data>
+  <data name="DoTabSearchText2" xml:space="preserve">
+    <value>No matches found.</value>
+  </data>
+  <data name="DoTabSearchText3" xml:space="preserve">
+    <value>Find</value>
+  </data>
+  <data name="FavAddToolStripMenuItem_ClickText1" xml:space="preserve">
+    <value>Mark favorite those selected tweets?</value>
+  </data>
+  <data name="FavAddToolStripMenuItem_ClickText2" xml:space="preserve">
+    <value>Check favoring</value>
+  </data>
+  <data name="FavAddToolStripMenuItem_ClickText3" xml:space="preserve">
+    <value>Favoring</value>
+  </data>
+  <data name="FavAddToolStripMenuItem_ClickText4" xml:space="preserve">
+    <value>No fav added</value>
+  </data>
+  <data name="FavRemoveToolStripMenuItem_ClickText1" xml:space="preserve">
+    <value>Unmark favorite those selected tweets?</value>
+  </data>
+  <data name="FavRemoveToolStripMenuItem_ClickText2" xml:space="preserve">
+    <value>Check favoring</value>
+  </data>
+  <data name="FavRemoveToolStripMenuItem_ClickText3" xml:space="preserve">
+    <value>Unfavoring</value>
+  </data>
+  <data name="FavRemoveToolStripMenuItem_ClickText4" xml:space="preserve">
+    <value>No fav removed</value>
+  </data>
+  <data name="Form1_LoadText1" xml:space="preserve">
+    <value>Refreshing...</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText1" xml:space="preserve">
+    <value>Recent refreshed</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText10" xml:space="preserve">
+    <value>Initial fetch completed</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText11" xml:space="preserve">
+    <value>DMRcv refreshed</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText12" xml:space="preserve">
+    <value>DMSnt refreshing...</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText13" xml:space="preserve">
+    <value>DMSnt refreshed</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText14" xml:space="preserve">
+    <value>POST completed</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText15" xml:space="preserve">
+    <value>Mark fav(</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText16" xml:space="preserve">
+    <value>) failed:</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText17" xml:space="preserve">
+    <value>Unmark fav(</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText18" xml:space="preserve">
+    <value>) failed:</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText2" xml:space="preserve">
+    <value> tweets were read. Continue to read more?</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText3" xml:space="preserve">
+    <value>Confirm continue reading</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText4" xml:space="preserve">
+    <value>Reply refreshing...</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText5" xml:space="preserve">
+    <value>Recent refreshing...</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText6" xml:space="preserve">
+    <value>pages</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText8" xml:space="preserve">
+    <value>DMRcv refreshing...</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText9" xml:space="preserve">
+    <value>Reply refreshed</value>
+  </data>
+  <data name="IDRuleMenuItem_ClickText1" xml:space="preserve">
+    <value>(New Tab)</value>
+  </data>
+  <data name="IDRuleMenuItem_ClickText2" xml:space="preserve">
+    <value>Tab ""{0}""　is already exists; please specify other name.</value>
+  </data>
+  <data name="IDRuleMenuItem_ClickText3" xml:space="preserve">
+    <value>Add tab</value>
+  </data>
+  <data name="IDRuleMenuItem_ClickText4" xml:space="preserve">
+    <value>Leave in Recent?</value>
+  </data>
+  <data name="IDRuleMenuItem_ClickText5" xml:space="preserve">
+    <value>Moving</value>
+  </data>
+  <data name="IDRuleMenuItem_ClickText6" xml:space="preserve">
+    <value>Make post mark?</value>
+  </data>
+  <data name="IDRuleMenuItem_ClickText7" xml:space="preserve">
+    <value>Marking</value>
+  </data>
+  <data name="InfoTwitterMenuItem_ClickText1" xml:space="preserve">
+    <value>No information from Twitter.</value>
+  </data>
+  <data name="InfoTwitterMenuItem_ClickText2" xml:space="preserve">
+    <value>Information from Twitter</value>
+  </data>
+  <data name="LoadConfigurationText1" xml:space="preserve">
+    <value>This configuration file was generated by Tween automatically. Do not modify by hand.</value>
+  </data>
+  <data name="MenuItemSearchNext_ClickText1" xml:space="preserve">
+    <value>Invalid regular expression pattern.</value>
+  </data>
+  <data name="MenuItemSearchNext_ClickText2" xml:space="preserve">
+    <value>No matches found.</value>
+  </data>
+  <data name="MenuItemSearchNext_ClickText3" xml:space="preserve">
+    <value>Find</value>
+  </data>
+  <data name="MenuItemSearchPrev_ClickText1" xml:space="preserve">
+    <value>Invalid regular expression pattern.</value>
+  </data>
+  <data name="MenuItemSearchPrev_ClickText2" xml:space="preserve">
+    <value>No matches found.</value>
+  </data>
+  <data name="MenuItemSearchPrev_ClickText3" xml:space="preserve">
+    <value>Find</value>
+  </data>
+  <data name="NextPages_ValidatingText1" xml:space="preserve">
+    <value>NextPages_ValidatingText2	Page count must be number 0 to 20.</value>
+  </data>
+  <data name="NextPages_ValidatingText2" xml:space="preserve">
+    <value>Page count must be number 0 to 20.</value>
+  </data>
+  <data name="NextThreshold_ValidatingText1" xml:space="preserve">
+    <value>Threshold must be number 1 to 20.</value>
+  </data>
+  <data name="NextThreshold_ValidatingText2" xml:space="preserve">
+    <value>Threshold must be number 1 to 20.</value>
+  </data>
+  <data name="PostWorker_RunWorkerCompletedText4" xml:space="preserve">
+    <value>POST completed</value>
+  </data>
+  <data name="PostWorker_RunWorkerCompletedText5" xml:space="preserve">
+    <value>Recent refreshing...</value>
+  </data>
+  <data name="RefreshDirectMessageText1" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="RefreshDirectMessageText2" xml:space="preserve">
+    <value>tweets</value>
+  </data>
+  <data name="RefreshStripMenuItem_ClickText1" xml:space="preserve">
+    <value>Recent refreshing...</value>
+  </data>
+  <data name="RefreshStripMenuItem_ClickText2" xml:space="preserve">
+    <value>Reply refreshing...</value>
+  </data>
+  <data name="RefreshStripMenuItem_ClickText3" xml:space="preserve">
+    <value>DMRcv refreshing...</value>
+  </data>
+  <data name="RefreshTimelineText1" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="RefreshTimelineText2" xml:space="preserve">
+    <value>tweets</value>
+  </data>
+  <data name="RefreshTimelineText3" xml:space="preserve">
+    <value>Load log</value>
+  </data>
+  <data name="RefreshTimelineText4" xml:space="preserve">
+    <value>Initial loading</value>
+  </data>
+  <data name="RemoveSpecifiedTabText1" xml:space="preserve">
+    <value>Remove this tab?{0}(Tweets in this tab move to Recent)</value>
+  </data>
+  <data name="RemoveSpecifiedTabText2" xml:space="preserve">
+    <value>Confirm removing tab</value>
+  </data>
+  <data name="SaveLogMenuItem_ClickText1" xml:space="preserve">
+    <value>Save all selected tweets?{0}  [Yes]: Save all tweets{0}  [No]: Save all SELECTED tweets{0}  [Cancel]: Cancel to save.{0}(Save as Tab-Separated-Text)</value>
+  </data>
+  <data name="SaveLogMenuItem_ClickText2" xml:space="preserve">
+    <value>Select save target</value>
+  </data>
+  <data name="SaveLogMenuItem_ClickText3" xml:space="preserve">
+    <value>TSV files (*.tsv)|*.tsv|All files (*.*)|*.*</value>
+  </data>
+  <data name="SaveLogMenuItem_ClickText4" xml:space="preserve">
+    <value>Specify save as...</value>
+  </data>
+  <data name="Save_ClickText1" xml:space="preserve">
+    <value>Specify username and password.</value>
+  </data>
+  <data name="Save_ClickText2" xml:space="preserve">
+    <value>Invalid username (E-mail address is not allowed in username)</value>
+  </data>
+  <data name="Save_ClickText3" xml:space="preserve">
+    <value>Invalid setting value.</value>
+  </data>
+  <data name="SearchItem1Url" xml:space="preserve">
+    <value>http://en.wikipedia.org/wiki/{0}</value>
+  </data>
+  <data name="SearchItem2Url" xml:space="preserve">
+    <value>http://www.google.com/search?q={0}</value>
+  </data>
+  <data name="SearchItem3Url" xml:space="preserve">
+    <value>http://pcod.no-ip.org/yats/search?query={0}</value>
+  </data>
+  <data name="SearchItem4Url" xml:space="preserve">
+    <value>http://search.twitter.com/search?q={0}</value>
+  </data>
+  <data name="SetFiltersText1" xml:space="preserve">
+    <value>[User: {0}]  </value>
+  </data>
+  <data name="SetFiltersText10" xml:space="preserve">
+    <value>Make post mark</value>
+  </data>
+  <data name="SetFiltersText11" xml:space="preserve">
+    <value>Copy/</value>
+  </data>
+  <data name="SetFiltersText2" xml:space="preserve">
+    <value>[User: (All)] </value>
+  </data>
+  <data name="SetFiltersText3" xml:space="preserve">
+    <value>[Body: </value>
+  </data>
+  <data name="SetFiltersText4" xml:space="preserve">
+    <value>]  </value>
+  </data>
+  <data name="SetFiltersText5" xml:space="preserve">
+    <value>Complex/</value>
+  </data>
+  <data name="SetFiltersText6" xml:space="preserve">
+    <value>Simple/</value>
+  </data>
+  <data name="SetFiltersText7" xml:space="preserve">
+    <value>Regexp/</value>
+  </data>
+  <data name="SetFiltersText8" xml:space="preserve">
+    <value>URL/</value>
+  </data>
+  <data name="SetFiltersText9" xml:space="preserve">
+    <value>Move</value>
+  </data>
+  <data name="SetMainWindowTitleText1" xml:space="preserve">
+    <value>{0} (Not Read Reply)</value>
+  </data>
+  <data name="SetMainWindowTitleText2" xml:space="preserve">
+    <value>{0} (Not Read)</value>
+  </data>
+  <data name="SetMainWindowTitleText3" xml:space="preserve">
+    <value>{0} ({1}) (Reply)</value>
+  </data>
+  <data name="SetMainWindowTitleText4" xml:space="preserve">
+    <value>{0}/{1} (Not Read/All)</value>
+  </data>
+  <data name="SetStatusLabelText1" xml:space="preserve">
+    <value>[Tab: {0}/{1} All: {2}/{3} (Reply: {4})] [Spd: Pst {5}/ Fav {6}/ TL {7}] [Interval: </value>
+  </data>
+  <data name="SetStatusLabelText2" xml:space="preserve">
+    <value>-]</value>
+  </data>
+  <data name="SetStatusLabelText3" xml:space="preserve">
+    <value>]</value>
+  </data>
+  <data name="StartupReadDM_ValidatingText1" xml:space="preserve">
+    <value>Reading page number must be number 1 to 999.</value>
+  </data>
+  <data name="StartupReadDM_ValidatingText2" xml:space="preserve">
+    <value>Reading page number must be number 1 to 999.</value>
+  </data>
+  <data name="StartupReadPages_ValidatingText1" xml:space="preserve">
+    <value>Reading page number must be number 1 to 999.</value>
+  </data>
+  <data name="StartupReadPages_ValidatingText2" xml:space="preserve">
+    <value>Reading page number must be number 1 to 999.</value>
+  </data>
+  <data name="StartupReadReply_ValidatingText1" xml:space="preserve">
+    <value>Reading page number must be number 1 to 999.</value>
+  </data>
+  <data name="StartupReadReply_ValidatingText2" xml:space="preserve">
+    <value>Reading page number must be number 1 to 999.</value>
+  </data>
+  <data name="StartupText1" xml:space="preserve">
+    <value>Another Tween is running. To run plurally, execute Tween in another folder.</value>
+  </data>
+  <data name="StartupText2" xml:space="preserve">
+    <value>Tween</value>
+  </data>
+  <data name="TabMenuItem_ClickText1" xml:space="preserve">
+    <value>(New Tab)</value>
+  </data>
+  <data name="TabMenuItem_ClickText2" xml:space="preserve">
+    <value>Tab ""{0}""　is already exists; please specify other name.</value>
+  </data>
+  <data name="TabMenuItem_ClickText3" xml:space="preserve">
+    <value>Add tab</value>
+  </data>
+  <data name="TextProxyPort_ValidatingText1" xml:space="preserve">
+    <value>Port number must be integer number.</value>
+  </data>
+  <data name="TextProxyPort_ValidatingText2" xml:space="preserve">
+    <value>Port number must be number 0 to 65535.</value>
+  </data>
+  <data name="TimelinePeriod_ValidatingText1" xml:space="preserve">
+    <value>Refresh interval must be number 0 or 30 to 6000</value>
+  </data>
+  <data name="TimelinePeriod_ValidatingText2" xml:space="preserve">
+    <value>Refresh interval must be number 0 or 30 to 6000</value>
+  </data>
+  <data name="TimerDM_TickText1" xml:space="preserve">
+    <value>DMRcv refreshing...</value>
+  </data>
+  <data name="TimerTimeline_TickText1" xml:space="preserve">
+    <value>Recent refreshing...</value>
+  </data>
+  <data name="TraceOutText1" xml:space="preserve">
+    <value>Please send this file to kiri_feather@users.sourceforge.jp.</value>
+  </data>
+  <data name="TraceOutText2" xml:space="preserve">
+    <value>Please tweet to @kiri_feather in Twitter if you can.</value>
+  </data>
+  <data name="TraceOutText3" xml:space="preserve">
+    <value>Environment:</value>
+  </data>
+  <data name="TraceOutText4" xml:space="preserve">
+    <value>   Operating System: {0}</value>
+  </data>
+  <data name="TraceOutText5" xml:space="preserve">
+    <value>   Common Language Runtime          : {0}</value>
+  </data>
+  <data name="TraceOutText6" xml:space="preserve">
+    <value>   Tween.exe Version    : {0}</value>
+  </data>
+  <data name="TweenAboutBox_LoadText1" xml:space="preserve">
+    <value>About {0}</value>
+  </data>
+  <data name="TweenAboutBox_LoadText2" xml:space="preserve">
+    <value>Version {0}</value>
+  </data>
+  <data name="UnhandledExceptionText1" xml:space="preserve">
+    <value>**** Error Log: {0} ****</value>
+  </data>
+  <data name="UnhandledExceptionText10" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="UnhandledExceptionText2" xml:space="preserve">
+    <value>Please send this file to kiri_feather@users.sourceforge.jp.</value>
+  </data>
+  <data name="UnhandledExceptionText3" xml:space="preserve">
+    <value>Please tweet to @kiri_feather in Twitter if you can.</value>
+  </data>
+  <data name="UnhandledExceptionText4" xml:space="preserve">
+    <value>Environment:</value>
+  </data>
+  <data name="UnhandledExceptionText5" xml:space="preserve">
+    <value>Operating System: {0}</value>
+  </data>
+  <data name="UnhandledExceptionText6" xml:space="preserve">
+    <value>Common Language Runtime          : {0}</value>
+  </data>
+  <data name="UnhandledExceptionText7" xml:space="preserve">
+    <value>Tween.exe Version    : {0}</value>
+  </data>
+  <data name="UnhandledExceptionText8" xml:space="preserve">
+    <value>Exception {0}: {1}</value>
+  </data>
+  <data name="UnhandledExceptionText9" xml:space="preserve">
+    <value>We are sorry but error was happened. A log text was created as {0} in same folder of Tween.exe. Please send this to kiri.feather@gmail.com or{1}tweet to @kiri_feather in Twitter.{1}[OK] to open log file. [Cancel] to continue.</value>
+  </data>
+  <data name="UpdateFollowersMenuItem1_ClickText1" xml:space="preserve">
+    <value>Followers refreshing...</value>
+  </data>
+  <data name="UpdateFollowersMenuItem1_ClickText2" xml:space="preserve">
+    <value>Followers refresh error: </value>
+  </data>
+  <data name="UpdateFollowersMenuItem1_ClickText3" xml:space="preserve">
+    <value>Followers refreshed</value>
+  </data>
+  <data name="BlackFavAddToolStripMenuItem_ClickText1" xml:space="preserve">
+    <value>Mark black-favorite those selected tweets?</value>
+  </data>
+  <data name="BlackFavAddToolStripMenuItem_ClickText2" xml:space="preserve">
+    <value>Check black-favoring</value>
+  </data>
+  <data name="BlackFavAddToolStripMenuItem_ClickText3" xml:space="preserve">
+    <value>BlackFavoring</value>
+  </data>
+  <data name="BlackFavAddToolStripMenuItem_ClickText4" xml:space="preserve">
+    <value>No black-fav added</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText15_black" xml:space="preserve">
+    <value>Mark black-fav(</value>
+  </data>
+  <data name="TextBoxOutputzKey_Validating" xml:space="preserve">
+    <value>Your secret key using with Outputz must be fill-in.</value>
+  </data>
+  <data name="TextCountApi_Validating1" xml:space="preserve">
+    <value>Getting number of tweet in Api-mode must be 20 to 200.</value>
+  </data>
+  <data name="AddNewTabText4_2" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Tabs_DoubleClickText1" xml:space="preserve">
+    <value>Tab ""{0}""　is already exists; please specify other name.</value>
+  </data>
+  <data name="Tabs_DoubleClickText2" xml:space="preserve">
+    <value>Rename tab</value>
+  </data>
+  <data name="UnhandledExceptionText11" xml:space="preserve">
+    <value>Administrator  authority：</value>
+  </data>
+  <data name="UnhandledExceptionText12" xml:space="preserve">
+    <value>Users  authority：</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText19" xml:space="preserve">
+    <value>Fav refreshing...</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText20" xml:space="preserve">
+    <value>Fav refreshed</value>
+  </data>
+  <data name="SetFiltersText12" xml:space="preserve">
+    <value> &lt;&lt;Exclude&gt;&gt; </value>
+  </data>
+  <data name="SetFiltersText13" xml:space="preserve">
+    <value>CaseSensitive/</value>
+  </data>
+  <data name="ApiInfo1" xml:space="preserve">
+    <value>Upper bound : </value>
+  </data>
+  <data name="ApiInfo2" xml:space="preserve">
+    <value>Remain count : </value>
+  </data>
+  <data name="ApiInfo3" xml:space="preserve">
+    <value>Reset time : </value>
+  </data>
+  <data name="ApiInfo4" xml:space="preserve">
+    <value>API Information</value>
+  </data>
+  <data name="ApiInfo5" xml:space="preserve">
+    <value>* Failed to get API information. *</value>
+  </data>
+  <data name="FRMessage1" xml:space="preserve">
+    <value>Please input user ID.</value>
+  </data>
+  <data name="FRMessage2" xml:space="preserve">
+    <value>Failed : </value>
+  </data>
+  <data name="FRMessage3" xml:space="preserve">
+    <value>Done!</value>
+  </data>
+  <data name="PostLengthOverMessage1" xml:space="preserve">
+    <value>The length of tweet is over 140 characters. Do you want to cut down automatically and to do post?</value>
+  </data>
+  <data name="PostLengthOverMessage2" xml:space="preserve">
+    <value>Over the limit length of tweet</value>
+  </data>
+  <data name="WebModeWarning1" xml:space="preserve">
+    <value>The web mode (=don't use api mode) has been selected now.</value>
+  </data>
+  <data name="WebModeWarning2" xml:space="preserve">
+    <value>* The Web mode has the possibility of violating the TOS of Twitter.</value>
+  </data>
+  <data name="WebModeWarning3" xml:space="preserve">
+    <value>* API mode has the frequency limitation to get TL.</value>
+  </data>
+  <data name="WebModeWarning4" xml:space="preserve">
+    <value>Please select "OK" when switching to API mode.</value>
+  </data>
+  <data name="WebModeWarning5" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="WebModeWarning6" xml:space="preserve">
+    <value>It switched to API mode.</value>
+  </data>
+  <data name="WebModeWarning7" xml:space="preserve">
+    <value>Please put the check in "Use API" in "Operation" tab of the setting when you want to return it to API mode.</value>
+  </data>
+</root>
