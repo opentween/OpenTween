@@ -1,0 +1,933 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="Label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 12</value>
+  </data>
+  <data name="Label1.Text" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="Label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 12</value>
+  </data>
+  <data name="Label2.Text" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Cancel.Text" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 12</value>
+  </data>
+  <data name="Label3.Text" xml:space="preserve">
+    <value>Timeline Fetching Interval (sec.)</value>
+  </data>
+  <data name="Label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>153, 12</value>
+  </data>
+  <data name="Label4.Text" xml:space="preserve">
+    <value>Threshold of Fetching (1-20)</value>
+  </data>
+  <data name="Label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 12</value>
+  </data>
+  <data name="Label5.Text" xml:space="preserve">
+    <value>DM Fetching Interval (sec.)</value>
+  </data>
+  <data name="Label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>128, 12</value>
+  </data>
+  <data name="Label6.Text" xml:space="preserve">
+    <value>Fetching Pages at Once</value>
+  </data>
+  <data name="Label7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>122, 12</value>
+  </data>
+  <data name="Label7.Text" xml:space="preserve">
+    <value>Loading Logs Previous:</value>
+  </data>
+  <data name="Label8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>142, 12</value>
+  </data>
+  <data name="Label8.Text" xml:space="preserve">
+    <value>First-time Fetching Pages:</value>
+  </data>
+  <data name="Label9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>135, 12</value>
+  </data>
+  <data name="Label9.Text" xml:space="preserve">
+    <value>First-time Reading Posts</value>
+  </data>
+  <data name="StartupReaded.Size" type="System.Drawing.Size, System.Drawing">
+    <value>81, 16</value>
+  </data>
+  <data name="StartupReaded.Text" xml:space="preserve">
+    <value>Make Read</value>
+  </data>
+  <data name="Label11.Size" type="System.Drawing.Size, System.Drawing">
+    <value>162, 12</value>
+  </data>
+  <data name="Label11.Text" xml:space="preserve">
+    <value>Icon size in List (16 in default)</value>
+  </data>
+  <data name="Label12.Size" type="System.Drawing.Size, System.Drawing">
+    <value>38, 12</value>
+  </data>
+  <data name="Label12.Text" xml:space="preserve">
+    <value>Footer</value>
+  </data>
+  <data name="PlaySnd.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 16</value>
+  </data>
+  <data name="PlaySnd.Text" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="Label14.Size" type="System.Drawing.Size, System.Drawing">
+    <value>42, 12</value>
+  </data>
+  <data name="Label14.Text" xml:space="preserve">
+    <value>Sounds</value>
+  </data>
+  <data name="Label15.Text" xml:space="preserve">
+    <value>Sounds will play when you enable this option and set sound file for each tabs.</value>
+  </data>
+  <data name="OneWayLv.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 16</value>
+  </data>
+  <data name="OneWayLv.Text" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="Label16.Size" type="System.Drawing.Size, System.Drawing">
+    <value>145, 12</value>
+  </data>
+  <data name="Label16.Text" xml:space="preserve">
+    <value>Colorize One-way following</value>
+  </data>
+  <data name="Button1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>129, 418</value>
+  </data>
+  <data name="Button1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>129, 22</value>
+  </data>
+  <data name="Button1.Text" xml:space="preserve">
+    <value>Back to the default</value>
+  </data>
+  <data name="btnDetailLink.Text" xml:space="preserve">
+    <value>Fore...</value>
+  </data>
+  <data name="Label18.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 12</value>
+  </data>
+  <data name="Label18.Text" xml:space="preserve">
+    <value>Details of Tweet(Link)</value>
+  </data>
+  <data name="btnInputFont.Text" xml:space="preserve">
+    <value>Font...</value>
+  </data>
+  <data name="Label65.Size" type="System.Drawing.Size, System.Drawing">
+    <value>97, 12</value>
+  </data>
+  <data name="Label65.Text" xml:space="preserve">
+    <value>Font of input field</value>
+  </data>
+  <data name="btnInputBackcolor.Text" xml:space="preserve">
+    <value>Back...</value>
+  </data>
+  <data name="Label52.Size" type="System.Drawing.Size, System.Drawing">
+    <value>169, 12</value>
+  </data>
+  <data name="Label52.Text" xml:space="preserve">
+    <value>Backcolor of focused input field</value>
+  </data>
+  <data name="btnUnread.Text" xml:space="preserve">
+    <value>Font&amp;&amp;Fore...</value>
+  </data>
+  <data name="Label20.Size" type="System.Drawing.Size, System.Drawing">
+    <value>76, 12</value>
+  </data>
+  <data name="Label20.Text" xml:space="preserve">
+    <value>Unread Tweet</value>
+  </data>
+  <data name="btnAtTo.Text" xml:space="preserve">
+    <value>Back...</value>
+  </data>
+  <data name="Label49.Size" type="System.Drawing.Size, System.Drawing">
+    <value>78, 12</value>
+  </data>
+  <data name="Label49.Text" xml:space="preserve">
+    <value>Replied Tweet</value>
+  </data>
+  <data name="btnDetailBack.Text" xml:space="preserve">
+    <value>Back...</value>
+  </data>
+  <data name="Label37.Size" type="System.Drawing.Size, System.Drawing">
+    <value>110, 12</value>
+  </data>
+  <data name="Label37.Text" xml:space="preserve">
+    <value>Backcolor of Details</value>
+  </data>
+  <data name="btnListBack.Text" xml:space="preserve">
+    <value>Back...</value>
+  </data>
+  <data name="Label19.Size" type="System.Drawing.Size, System.Drawing">
+    <value>90, 12</value>
+  </data>
+  <data name="Label19.Text" xml:space="preserve">
+    <value>Backcolor of list</value>
+  </data>
+  <data name="btnAtFromTarget.Text" xml:space="preserve">
+    <value>Back...</value>
+  </data>
+  <data name="Label28.Size" type="System.Drawing.Size, System.Drawing">
+    <value>114, 12</value>
+  </data>
+  <data name="Label28.Text" xml:space="preserve">
+    <value>Replied User's Tweet</value>
+  </data>
+  <data name="btnAtTarget.Text" xml:space="preserve">
+    <value>Back...</value>
+  </data>
+  <data name="Label30.Size" type="System.Drawing.Size, System.Drawing">
+    <value>137, 12</value>
+  </data>
+  <data name="Label30.Text" xml:space="preserve">
+    <value>Replies for Selected User</value>
+  </data>
+  <data name="btnTarget.Text" xml:space="preserve">
+    <value>Back...</value>
+  </data>
+  <data name="Label32.Size" type="System.Drawing.Size, System.Drawing">
+    <value>120, 12</value>
+  </data>
+  <data name="Label32.Text" xml:space="preserve">
+    <value>Selected User's Tweet</value>
+  </data>
+  <data name="btnAtSelf.Text" xml:space="preserve">
+    <value>Back...</value>
+  </data>
+  <data name="Label34.Size" type="System.Drawing.Size, System.Drawing">
+    <value>84, 12</value>
+  </data>
+  <data name="Label34.Text" xml:space="preserve">
+    <value>Replies for You</value>
+  </data>
+  <data name="btnSelf.Text" xml:space="preserve">
+    <value>Back...</value>
+  </data>
+  <data name="Label36.Size" type="System.Drawing.Size, System.Drawing">
+    <value>89, 12</value>
+  </data>
+  <data name="Label36.Text" xml:space="preserve">
+    <value>Your Own Tweet</value>
+  </data>
+  <data name="btnDetail.Text" xml:space="preserve">
+    <value>Font&amp;&amp;Fore...</value>
+  </data>
+  <data name="Label26.Size" type="System.Drawing.Size, System.Drawing">
+    <value>90, 12</value>
+  </data>
+  <data name="Label26.Text" xml:space="preserve">
+    <value>Details of Tweet</value>
+  </data>
+  <data name="btnOWL.Text" xml:space="preserve">
+    <value>Fore...</value>
+  </data>
+  <data name="Label24.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 12</value>
+  </data>
+  <data name="Label24.Text" xml:space="preserve">
+    <value>One-way following</value>
+  </data>
+  <data name="btnFav.Text" xml:space="preserve">
+    <value>Fore...</value>
+  </data>
+  <data name="Label22.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 12</value>
+  </data>
+  <data name="Label22.Text" xml:space="preserve">
+    <value>Favorited</value>
+  </data>
+  <data name="btnListFont.Text" xml:space="preserve">
+    <value>Font&amp;&amp;Fore...</value>
+  </data>
+  <data name="Label61.Size" type="System.Drawing.Size, System.Drawing">
+    <value>94, 12</value>
+  </data>
+  <data name="Label61.Text" xml:space="preserve">
+    <value>Font of tweet list</value>
+  </data>
+  <data name="GroupBox1.Text" xml:space="preserve">
+    <value>Font &amp;&amp; Color</value>
+  </data>
+  <data name="cmbNameBalloon.Items" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="cmbNameBalloon.Items1" xml:space="preserve">
+    <value>User ID</value>
+  </data>
+  <data name="cmbNameBalloon.Items2" xml:space="preserve">
+    <value>Nickname</value>
+  </data>
+  <data name="Label10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>103, 12</value>
+  </data>
+  <data name="Label10.Text" xml:space="preserve">
+    <value>Username in popup</value>
+  </data>
+  <data name="CheckUseRecommendStatus.Size" type="System.Drawing.Size, System.Drawing">
+    <value>188, 16</value>
+  </data>
+  <data name="CheckUseRecommendStatus.Text" xml:space="preserve">
+    <value>Use Recommended [TWNvNNN]</value>
+  </data>
+  <data name="Label23.Size" type="System.Drawing.Size, System.Drawing">
+    <value>105, 12</value>
+  </data>
+  <data name="Label23.Text" xml:space="preserve">
+    <value>Date Format in List</value>
+  </data>
+  <data name="CheckBox3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 16</value>
+  </data>
+  <data name="CheckBox3.Text" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="Label25.Size" type="System.Drawing.Size, System.Drawing">
+    <value>139, 12</value>
+  </data>
+  <data name="Label25.Text" xml:space="preserve">
+    <value>Show Icon in Details Pane</value>
+  </data>
+  <data name="CheckPostCtrlEnter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 16</value>
+  </data>
+  <data name="CheckPostCtrlEnter.Text" xml:space="preserve">
+    <value>Enable (instead of Enter)</value>
+  </data>
+  <data name="Label27.Size" type="System.Drawing.Size, System.Drawing">
+    <value>117, 12</value>
+  </data>
+  <data name="Label27.Text" xml:space="preserve">
+    <value>Tweet with Ctrl-Enter</value>
+  </data>
+  <data name="IconSize.Items" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="Label38.Size" type="System.Drawing.Size, System.Drawing">
+    <value>89, 12</value>
+  </data>
+  <data name="Label38.Text" xml:space="preserve">
+    <value>Manage Reading</value>
+  </data>
+  <data name="UReadMng.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 16</value>
+  </data>
+  <data name="UReadMng.Text" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="Label39.Size" type="System.Drawing.Size, System.Drawing">
+    <value>136, 12</value>
+  </data>
+  <data name="Label39.Text" xml:space="preserve">
+    <value>Make Read when updated</value>
+  </data>
+  <data name="Label40.Size" type="System.Drawing.Size, System.Drawing">
+    <value>136, 12</value>
+  </data>
+  <data name="Label40.Text" xml:space="preserve">
+    <value>Exit when Closed Window</value>
+  </data>
+  <data name="CheckCloseToExit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 16</value>
+  </data>
+  <data name="CheckCloseToExit.Text" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="Label41.Size" type="System.Drawing.Size, System.Drawing">
+    <value>118, 12</value>
+  </data>
+  <data name="Label41.Text" xml:space="preserve">
+    <value>Iconize when Minimize</value>
+  </data>
+  <data name="CheckMinimizeToTray.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 16</value>
+  </data>
+  <data name="CheckMinimizeToTray.Text" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="Label44.Size" type="System.Drawing.Size, System.Drawing">
+    <value>88, 12</value>
+  </data>
+  <data name="Label44.Text" xml:space="preserve">
+    <value>Path to Browser</value>
+  </data>
+  <data name="CheckboxReply.Size" type="System.Drawing.Size, System.Drawing">
+    <value>95, 16</value>
+  </data>
+  <data name="CheckboxReply.Text" xml:space="preserve">
+    <value>Fetch Replies</value>
+  </data>
+  <data name="CheckDispUsername.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 16</value>
+  </data>
+  <data name="CheckDispUsername.Text" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="Label46.Size" type="System.Drawing.Size, System.Drawing">
+    <value>141, 12</value>
+  </data>
+  <data name="Label46.Text" xml:space="preserve">
+    <value>Show Username in Popups</value>
+  </data>
+  <data name="Label45.Size" type="System.Drawing.Size, System.Drawing">
+    <value>65, 12</value>
+  </data>
+  <data name="Label45.Text" xml:space="preserve">
+    <value>Title format</value>
+  </data>
+  <data name="ComboDispTitle.Items" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="ComboDispTitle.Items1" xml:space="preserve">
+    <value>Program Version</value>
+  </data>
+  <data name="ComboDispTitle.Items2" xml:space="preserve">
+    <value>Latest your post</value>
+  </data>
+  <data name="ComboDispTitle.Items3" xml:space="preserve">
+    <value>unread @reply items</value>
+  </data>
+  <data name="ComboDispTitle.Items4" xml:space="preserve">
+    <value>unread items</value>
+  </data>
+  <data name="ComboDispTitle.Items5" xml:space="preserve">
+    <value>unread items(unread @reply items)</value>
+  </data>
+  <data name="ComboDispTitle.Items6" xml:space="preserve">
+    <value>unread items/all items</value>
+  </data>
+  <data name="Label47.Size" type="System.Drawing.Size, System.Drawing">
+    <value>115, 12</value>
+  </data>
+  <data name="Label47.Text" xml:space="preserve">
+    <value>Apply after restarting</value>
+  </data>
+  <data name="TabPage1.Text" xml:space="preserve">
+    <value>Basic</value>
+  </data>
+  <data name="TabPage2.Text" xml:space="preserve">
+    <value>Behavior</value>
+  </data>
+  <data name="TabPage3.Text" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="TabPage4.Text" xml:space="preserve">
+    <value>Fonts &amp; Colors</value>
+  </data>
+  <data name="TabPage5.Text" xml:space="preserve">
+    <value>Connection</value>
+  </data>
+  <data name="Label70.Size" type="System.Drawing.Size, System.Drawing">
+    <value>176, 12</value>
+  </data>
+  <data name="Label70.Text" xml:space="preserve">
+    <value>Show warning if API isn't enabled</value>
+  </data>
+  <data name="CheckStartupAPImodeNoWarning.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 16</value>
+  </data>
+  <data name="CheckStartupAPImodeNoWarning.Text" xml:space="preserve">
+    <value>Don't show</value>
+  </data>
+  <data name="Label69.Size" type="System.Drawing.Size, System.Drawing">
+    <value>156, 12</value>
+  </data>
+  <data name="Label69.Text" xml:space="preserve">
+    <value>Reply Fetching Interval (sec.)</value>
+  </data>
+  <data name="CheckPostAndGet.Size" type="System.Drawing.Size, System.Drawing">
+    <value>88, 16</value>
+  </data>
+  <data name="CheckPostAndGet.Text" xml:space="preserve">
+    <value>Post &amp;&amp; fetch</value>
+  </data>
+  <data name="Label67.Size" type="System.Drawing.Size, System.Drawing">
+    <value>201, 12</value>
+  </data>
+  <data name="Label67.Text" xml:space="preserve">
+    <value>Getting number of tweets in API mode</value>
+  </data>
+  <data name="Label66.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 12</value>
+  </data>
+  <data name="Label66.Text" xml:space="preserve">
+    <value>POST method</value>
+  </data>
+  <data name="CheckPostMethod.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 16</value>
+  </data>
+  <data name="CheckPostMethod.Text" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="Label43.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 12</value>
+  </data>
+  <data name="Label43.Text" xml:space="preserve">
+    <value>TwitterAPI</value>
+  </data>
+  <data name="CheckUseApi.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 16</value>
+  </data>
+  <data name="CheckUseApi.Text" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="Label54.Size" type="System.Drawing.Size, System.Drawing">
+    <value>131, 12</value>
+  </data>
+  <data name="Label54.Text" xml:space="preserve">
+    <value>Get User List in Starting</value>
+  </data>
+  <data name="CheckStartupFollowers.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 16</value>
+  </data>
+  <data name="CheckStartupFollowers.Text" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="Label53.Size" type="System.Drawing.Size, System.Drawing">
+    <value>169, 12</value>
+  </data>
+  <data name="Label53.Text" xml:space="preserve">
+    <value>Update Parsing Keys in Starting</value>
+  </data>
+  <data name="CheckStartupKey.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 16</value>
+  </data>
+  <data name="CheckStartupKey.Text" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="Label51.Size" type="System.Drawing.Size, System.Drawing">
+    <value>158, 12</value>
+  </data>
+  <data name="Label51.Text" xml:space="preserve">
+    <value>Check for Updates in Starting</value>
+  </data>
+  <data name="CheckStartupVersion.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 16</value>
+  </data>
+  <data name="CheckStartupVersion.Text" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="CheckPeriodAdjust.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 16</value>
+  </data>
+  <data name="CheckPeriodAdjust.Text" xml:space="preserve">
+    <value>Enable Auto-Adjustment</value>
+  </data>
+  <data name="Label79.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 426</value>
+  </data>
+  <data name="Label79.Size" type="System.Drawing.Size, System.Drawing">
+    <value>139, 12</value>
+  </data>
+  <data name="Label79.Text" xml:space="preserve">
+    <value>Use Input @ID supplement</value>
+  </data>
+  <data name="Label74.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 404</value>
+  </data>
+  <data name="Label74.Size" type="System.Drawing.Size, System.Drawing">
+    <value>106, 12</value>
+  </data>
+  <data name="Label74.Text" xml:space="preserve">
+    <value>Get favs in Starting</value>
+  </data>
+  <data name="chkGetFav.Location" type="System.Drawing.Point, System.Drawing">
+    <value>173, 403</value>
+  </data>
+  <data name="chkGetFav.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 16</value>
+  </data>
+  <data name="chkGetFav.Text" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="Label71.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 12</value>
+  </data>
+  <data name="Label71.Text" xml:space="preserve">
+    <value>Primary URLshorten service</value>
+  </data>
+  <data name="CheckProtectNotInclude.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 16</value>
+  </data>
+  <data name="CheckProtectNotInclude.Text" xml:space="preserve">
+    <value>Execlude protected tweets</value>
+  </data>
+  <data name="Label42.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 12</value>
+  </data>
+  <data name="Label42.Text" xml:space="preserve">
+    <value>Clipboard copy or ReTweet</value>
+  </data>
+  <data name="CheckAutoConvertUrl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 16</value>
+  </data>
+  <data name="CheckAutoConvertUrl.Text" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="Label29.Size" type="System.Drawing.Size, System.Drawing">
+    <value>103, 12</value>
+  </data>
+  <data name="Label29.Text" xml:space="preserve">
+    <value>Auto shorten URLs</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Label57.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Label57.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Label57.Size" type="System.Drawing.Size, System.Drawing">
+    <value>382, 28</value>
+  </data>
+  <data name="Label57.Text" xml:space="preserve">
+    <value>Refetch tweets and verify whether marked favorites. This option causes traffic incleasement.</value>
+  </data>
+  <data name="Label56.Size" type="System.Drawing.Size, System.Drawing">
+    <value>138, 12</value>
+  </data>
+  <data name="Label56.Text" xml:space="preserve">
+    <value>Marking Favorites Strictly</value>
+  </data>
+  <data name="CheckFavRestrict.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 16</value>
+  </data>
+  <data name="CheckFavRestrict.Text" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="CheckTinyURL.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 16</value>
+  </data>
+  <data name="CheckTinyURL.Text" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="Label50.Size" type="System.Drawing.Size, System.Drawing">
+    <value>136, 12</value>
+  </data>
+  <data name="Label50.Text" xml:space="preserve">
+    <value>Resolve Shortening URLs</value>
+  </data>
+  <data name="Button3.Text" xml:space="preserve">
+    <value>Open...</value>
+  </data>
+  <data name="CheckAlwaysTop.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 16</value>
+  </data>
+  <data name="CheckAlwaysTop.Text" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="Label58.Size" type="System.Drawing.Size, System.Drawing">
+    <value>81, 12</value>
+  </data>
+  <data name="Label58.Text" xml:space="preserve">
+    <value>Always on Top</value>
+  </data>
+  <data name="Label21.Size" type="System.Drawing.Size, System.Drawing">
+    <value>101, 12</value>
+  </data>
+  <data name="Label21.Text" xml:space="preserve">
+    <value>Lock Sorting Order</value>
+  </data>
+  <data name="CheckSortOrderLock.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 16</value>
+  </data>
+  <data name="CheckSortOrderLock.Text" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="Label78.Size" type="System.Drawing.Size, System.Drawing">
+    <value>57, 12</value>
+  </data>
+  <data name="Label78.Text" xml:space="preserve">
+    <value>Show Grid</value>
+  </data>
+  <data name="CheckShowGrid.Size" type="System.Drawing.Size, System.Drawing">
+    <value>51, 16</value>
+  </data>
+  <data name="CheckShowGrid.Text" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="Label75.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 12</value>
+  </data>
+  <data name="Label75.Text" xml:space="preserve">
+    <value>Font in Detail Pane（for AA）</value>
+  </data>
+  <data name="CheckMonospace.Size" type="System.Drawing.Size, System.Drawing">
+    <value>81, 16</value>
+  </data>
+  <data name="CheckMonospace.Text" xml:space="preserve">
+    <value>Monospace</value>
+  </data>
+  <data name="Label73.Size" type="System.Drawing.Size, System.Drawing">
+    <value>81, 12</value>
+  </data>
+  <data name="Label73.Text" xml:space="preserve">
+    <value>Read own post</value>
+  </data>
+  <data name="chkReadOwnPost.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 16</value>
+  </data>
+  <data name="chkReadOwnPost.Text" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="Label72.Size" type="System.Drawing.Size, System.Drawing">
+    <value>167, 12</value>
+  </data>
+  <data name="Label72.Text" xml:space="preserve">
+    <value>Tasktray icon with unread reply</value>
+  </data>
+  <data name="Label48.Size" type="System.Drawing.Size, System.Drawing">
+    <value>90, 12</value>
+  </data>
+  <data name="Label48.Text" xml:space="preserve">
+    <value>Show icon in tab</value>
+  </data>
+  <data name="chkTabIconDisp.Size" type="System.Drawing.Size, System.Drawing">
+    <value>51, 16</value>
+  </data>
+  <data name="chkTabIconDisp.Text" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="Label68.Size" type="System.Drawing.Size, System.Drawing">
+    <value>148, 12</value>
+  </data>
+  <data name="Label68.Text" xml:space="preserve">
+    <value>Limit the condition of popup</value>
+  </data>
+  <data name="CheckBalloonLimit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>193, 16</value>
+  </data>
+  <data name="CheckBalloonLimit.Text" xml:space="preserve">
+    <value>only at the minimization and icon</value>
+  </data>
+  <data name="Label17.Size" type="System.Drawing.Size, System.Drawing">
+    <value>162, 12</value>
+  </data>
+  <data name="Label17.Text" xml:space="preserve">
+    <value>Unread styles(Font&amp;&amp;Forecolor)</value>
+  </data>
+  <data name="chkUnreadStyle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 16</value>
+  </data>
+  <data name="chkUnreadStyle.Text" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="CheckUseSsl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>130, 16</value>
+  </data>
+  <data name="CheckUseSsl.Text" xml:space="preserve">
+    <value>Use HTTPS Protocol</value>
+  </data>
+  <data name="Label64.Size" type="System.Drawing.Size, System.Drawing">
+    <value>371, 12</value>
+  </data>
+  <data name="Label64.Text" xml:space="preserve">
+    <value>※Adjust Connection timeout if the error of timeout happens frequently.</value>
+  </data>
+  <data name="Label63.Size" type="System.Drawing.Size, System.Drawing">
+    <value>130, 12</value>
+  </data>
+  <data name="Label63.Text" xml:space="preserve">
+    <value>Connection timeout(sec)</value>
+  </data>
+  <data name="GroupBox2.Text" xml:space="preserve">
+    <value>Proxy Server</value>
+  </data>
+  <data name="Label55.Size" type="System.Drawing.Size, System.Drawing">
+    <value>320, 12</value>
+  </data>
+  <data name="Label55.Text" xml:space="preserve">
+    <value>Keep credential empty if the proxy server don't need to log in</value>
+  </data>
+  <data name="LabelProxyPassword.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 12</value>
+  </data>
+  <data name="LabelProxyPassword.Text" xml:space="preserve">
+    <value>Pass&amp;word</value>
+  </data>
+  <data name="LabelProxyUser.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 12</value>
+  </data>
+  <data name="LabelProxyUser.Text" xml:space="preserve">
+    <value>&amp;Username</value>
+  </data>
+  <data name="LabelProxyPort.Size" type="System.Drawing.Size, System.Drawing">
+    <value>26, 12</value>
+  </data>
+  <data name="LabelProxyPort.Text" xml:space="preserve">
+    <value>&amp;Port</value>
+  </data>
+  <data name="LabelProxyAddress.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 12</value>
+  </data>
+  <data name="LabelProxyAddress.Text" xml:space="preserve">
+    <value>Pro&amp;xy Host</value>
+  </data>
+  <data name="RadioProxySpecified.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 16</value>
+  </data>
+  <data name="RadioProxySpecified.Text" xml:space="preserve">
+    <value>Use Below:</value>
+  </data>
+  <data name="RadioProxyIE.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 16</value>
+  </data>
+  <data name="RadioProxyIE.Text" xml:space="preserve">
+    <value>Refer Settings of Internet Explorer</value>
+  </data>
+  <data name="RadioProxyNone.Size" type="System.Drawing.Size, System.Drawing">
+    <value>73, 16</value>
+  </data>
+  <data name="RadioProxyNone.Text" xml:space="preserve">
+    <value>Don't Use</value>
+  </data>
+  <data name="Label60.Size" type="System.Drawing.Size, System.Drawing">
+    <value>107, 12</value>
+  </data>
+  <data name="Label60.Text" xml:space="preserve">
+    <value>URI of your Outputz</value>
+  </data>
+  <data name="Label59.Size" type="System.Drawing.Size, System.Drawing">
+    <value>86, 12</value>
+  </data>
+  <data name="Label59.Text" xml:space="preserve">
+    <value>Your secret key</value>
+  </data>
+  <data name="CheckOutputz.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 16</value>
+  </data>
+  <data name="CheckOutputz.Text" xml:space="preserve">
+    <value>Use Outputz</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+</root>

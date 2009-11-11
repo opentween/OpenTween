@@ -1,0 +1,30 @@
+﻿謝辞
+
+本ソフトウェアにおいて、Tween/Resources ディレクトリに含まれる
+以下のファイル:
+    1o.ico
+    2b.ico
+    3b.ico
+    4b.ico
+    4r.ico
+    4y.ico
+    5b.ico
+    5o.ico
+    5r.ico
+    5y.ico
+    6b.ico
+    6o.ico
+    re.ico
+    re2.ico
+    re3.ico
+    re4.ico
+は Minami <http://www.pi-kun.com/> によって作成されました。
+上記のファイルは GNU General Public License (GPL) (GNU 一般公衆利用許諾書)
+によってライセンスされていません。上記のファイルに対する問い合わせは、
+Tween の著作者ではなくアイコンの著者にお問い合わせください。
+
+謝辞終わり。
+
+GNU General Public License (GPL) (GNU 一般公衆利用許諾書) の非公式な
+日本語訳は 2008 年 11 月 17 日 (日本時間) の時点で
+http://sourceforge.jp/magazine/07/09/02/130237 にて公開されています。
