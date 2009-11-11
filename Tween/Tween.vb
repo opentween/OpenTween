@@ -2869,7 +2869,8 @@ Public Class TweenMain
         _colHd8.Width = 50
         'End If
 
-        If _statuses.Tabs(tabName).TabType = TabUsageType.Mentions OrElse Not _statuses.IsDefaultTab(tabName) Then
+        If (_statuses.Tabs.ContainsKey(tabName) AndAlso _statuses.Tabs(tabName).TabType = TabUsageType.Mentions) _
+           OrElse Not _statuses.IsDefaultTab(tabName) Then
             TabDialog.AddTab(tabName)
         End If
 
@@ -4625,6 +4626,9 @@ RETRY:
                 If _statuses.Tabs(ListTab.TabPages(i).Text).TabType = TabUsageType.Mentions OrElse Not _statuses.IsDefaultTab(ListTab.TabPages(i).Text) Then
                     TabDialog.RemoveTab(ListTab.TabPages(i).Text)
                 End If
+                If ListTab.TabPages(i).Text = tabName Then
+                    ListTab.TabPages(i).Text = newTabText
+                End If
             Next
             _statuses.RenameTab(tabName, newTabText)
 
@@ -6351,9 +6355,9 @@ RETRY:
             RefreshStripMenuItem.Enabled = False
         End If
         _initial = False
-        TimerTimeline.Enabled = True
-        TimerReply.Enabled = True
-        TimerDM.Enabled = True
+        If SettingDialog.TimelinePeriodInt > 0 Then TimerTimeline.Enabled = True
+        If SettingDialog.DMPeriodInt > 0 Then TimerDM.Enabled = True
+        If SettingDialog.ReplyPeriodInt > 0 Then TimerReply.Enabled = True
     End Sub
 
     Private Sub doGetFollowersMenu(ByVal CacheInvalidate As Boolean)
