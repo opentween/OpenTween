@@ -2756,11 +2756,13 @@ Public Class TweenMain
         If tabName <> ReplaceInvalidFilename(tabName) Then Return False
 
         'タブタイプ重複チェック
-        If tabType = TabUsageType.DirectMessage OrElse _
-           tabType = TabUsageType.Favorites OrElse _
-           tabType = TabUsageType.Home OrElse _
-           tabType = TabUsageType.Mentions Then
-            If _statuses.GetTabByType(tabType) IsNot Nothing Then Return False
+        If Not startup Then
+            If tabType = TabUsageType.DirectMessage OrElse _
+               tabType = TabUsageType.Favorites OrElse _
+               tabType = TabUsageType.Home OrElse _
+               tabType = TabUsageType.Mentions Then
+                If _statuses.GetTabByType(tabType) IsNot Nothing Then Return False
+            End If
         End If
         'Dim myTab As New TabStructure()
 
