@@ -3355,8 +3355,13 @@ Public Module Twitter
         '絶対パス表現のUriをリンクに置換
         retStr = rgUrl.Replace(Text, "<a href=""$&"">$&</a>")
         '@返信を抽出し、@先リスト作成
-        Dim rg As New Regex("(^|[ -/:-@[-^`{-~])@([a-zA-Z0-9_/]{1,41})")
+        Dim rg As New Regex("(^|[ -/:-@[-^`{-~])@([a-zA-Z0-9_]{1,20}/[a-zA-Z0-9_\-]{1,24}[a-zA-Z0-9_])")
         Dim m As Match = rg.Match(retStr)
+        '@先をリンクに置換
+        retStr = rg.Replace(retStr, "$1@<a href=""/$2"">$2</a>")
+
+        rg = New Regex("(^|[ -/:-@[-^`{-~])@([a-zA-Z0-9_]{1,20})")
+        m = rg.Match(retStr)
         While m.Success
             AtList.Add(m.Result("$2").ToLower)
             m = m.NextMatch
@@ -3365,7 +3370,7 @@ Public Module Twitter
         retStr = rg.Replace(retStr, "$1@<a href=""/$2"">$2</a>")
 
         'ハッシュタグを抽出し、リンクに置換
-        Dim rgh As New Regex("(^|[] !""$%&'()*+,-.:;<=>?@[\^`{|}~])#([^] !""#$%&'()*+,-.:;<=>?@[\^`{|}~\r\n]+)")
+        Dim rgh As New Regex("(^|[ .!,-:;<>?])#([^] !""#$%&'()*+,.:;<=>?@\-[\^`{|}~\r\n]+)")
         Dim mh As Match = rgh.Match(retStr)
         If mh.Success AndAlso Not IsNumeric(mh.Result("$2")) Then
             retStr = rgh.Replace(retStr, "$1<a href=""" + _protocol + "twitter.com/search?q=%23$2"">#$2</a>")
