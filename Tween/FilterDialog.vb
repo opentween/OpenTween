@@ -614,7 +614,7 @@ Public Class FilterDialog
             tabName = inputName.TabName
         End Using
         If tabName <> "" Then
-            If Not DirectCast(Me.Owner, TweenMain).AddNewTab(tabName, False) Then
+            If Not DirectCast(Me.Owner, TweenMain).AddNewTab(tabName, False, TabUsageType.UserDefined) Then
                 Dim tmp As String = String.Format(My.Resources.AddTabMenuItem_ClickText1, tabName)
                 MessageBox.Show(tmp, My.Resources.AddTabMenuItem_ClickText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Exit Sub

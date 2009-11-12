@@ -518,14 +518,18 @@ retry:
 
     Public Enum TabUsageType
         Undefined
-        Home
-        Mentions
-        DirectMessage
-        Favorites
+        Home            'Unique
+        Mentions        'Unique
+        DirectMessage   'Unique
+        Favorites       'Unique
         UserDefined
-        LocalQuery
-        Profile
-        PublicSearch
+        LocalQuery      'Pin(no save/no save query/distribute/no update(normal update))
+        Profile         'Pin(save/no distribute/manual update)
+        PublicSearch    'Pin(save/no distribute/auto update)
+        Lists
+        'RTMyTweet
+        'RTByOthers
+        'RTByMe
     End Enum
 
     Public fileVersion As String
