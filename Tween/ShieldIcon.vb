@@ -56,7 +56,7 @@ Public Class ShieldIcon
         'NT6 kernelかどうか検査
         If Not IsNT6() Then
             icondata = Nothing
-            Return
+            Exit Sub
         End If
 
         Try
@@ -68,7 +68,6 @@ Public Class ShieldIcon
         Catch ex As Exception
             icondata = Nothing
         End Try
-        Return
     End Sub
 
     Public Sub Dispose()

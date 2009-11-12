@@ -581,7 +581,7 @@ Public Module Twitter
 
                     'from Sourceの取得
                     'ToDo: _parseSourceFromを正規表現へ。wedataからの取得へ変更（次版より）
-                    Dim rg As New Regex("<span>.+>(?<name>.+)</a>.*</span> ")
+                    Dim rg As New Regex("<span>.+>(?<name>.+)</a>.*</span>")
                     Dim m As Match = rg.Match(strPost)
                     If m.Success Then
                         post.Source = m.Result("${name}")
@@ -1270,7 +1270,7 @@ Public Module Twitter
 
                     'from Sourceの取得
                     'ToDo: _parseSourceFromを正規表現へ。wedataからの取得へ変更（次版より）
-                    Dim rg As New Regex("<span>.+>(?<name>.+)</a>.*</span> ")
+                    Dim rg As New Regex("<span>.+>(?<name>.+)</a>.*</span>")
                     Dim m As Match = rg.Match(strPost)
                     If m.Success Then
                         post.Source = m.Result("${name}")

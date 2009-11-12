@@ -28,6 +28,7 @@ Partial Class DialogAsShieldIcon
         Me.Cancel_Button = New System.Windows.Forms.Button
         Me.PictureBox1 = New System.Windows.Forms.PictureBox
         Me.Label1 = New System.Windows.Forms.Label
+        Me.TextDetail = New System.Windows.Forms.TextBox
         Me.TableLayoutPanel1.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -61,12 +62,19 @@ Partial Class DialogAsShieldIcon
         resources.ApplyResources(Me.Label1, "Label1")
         Me.Label1.Name = "Label1"
         '
+        'TextDetail
+        '
+        resources.ApplyResources(Me.TextDetail, "TextDetail")
+        Me.TextDetail.Name = "TextDetail"
+        Me.TextDetail.ReadOnly = True
+        '
         'DialogAsShieldIcon
         '
         Me.AcceptButton = Me.OK_Button
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.Cancel_Button
+        Me.Controls.Add(Me.TextDetail)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.PictureBox1)
         Me.Controls.Add(Me.TableLayoutPanel1)
@@ -79,6 +87,7 @@ Partial Class DialogAsShieldIcon
         Me.TableLayoutPanel1.ResumeLayout(False)
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
     Friend WithEvents TableLayoutPanel1 As System.Windows.Forms.TableLayoutPanel
@@ -86,5 +95,6 @@ Partial Class DialogAsShieldIcon
     Friend WithEvents Cancel_Button As System.Windows.Forms.Button
     Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
     Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents TextDetail As System.Windows.Forms.TextBox
 
 End Class

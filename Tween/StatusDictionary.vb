@@ -314,7 +314,6 @@ Public NotInheritable Class TabInformations
     Private _tabs As New Dictionary(Of String, TabClass)
     Private _statuses As Dictionary(Of Long, PostClass) = New Dictionary(Of Long, PostClass)
     Private _addedIds As List(Of Long)
-    'Private _editMode As EDITMODE
 
     '発言の追加
     'AddPost(複数回) -> DistributePosts          -> SubmitUpdate
@@ -327,11 +326,6 @@ Public NotInheritable Class TabInformations
     Private ReadOnly LockUnread As New Object
 
     Private Shared _instance As TabInformations = New TabInformations
-
-    Public Enum EDITMODE
-        Post
-        Dm
-    End Enum
 
     Private Sub New()
         _sorter = New IdComparerClass(Me)

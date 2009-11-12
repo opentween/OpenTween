@@ -88,7 +88,7 @@ Public Class TweenMain
     'Private _tabs As New List(Of TabStructure)() '要素TabStructureクラスのジェネリックリストインスタンス（タブ情報用）
     Private fDialog As New FilterDialog() 'フィルター編集画面
     Private UrlDialog As New OpenURL()
-    Private dialogAsShieldicon As New DialogAsShieldIcon() ' シールドアイコン付きダイアログ
+    Private dialogAsShieldicon As DialogAsShieldIcon    ' シールドアイコン付きダイアログ
     Private AtIdSupl As AtIdSupplement    '@id補助
 
     '表示フォント、色、アイコン
@@ -246,7 +246,6 @@ Public Class TweenMain
         SearchDialog.Dispose()
         fDialog.Dispose()
         UrlDialog.Dispose()
-        dialogAsShieldicon.Dispose()
         If TIconDic IsNot Nothing AndAlso TIconDic.Keys.Count > 0 Then
             For Each key As String In TIconDic.Keys
                 TIconDic(key).Dispose()
@@ -894,7 +893,7 @@ Public Class TweenMain
             If _statuses.Tabs(tn).TabType = TabUsageType.Undefined Then
                 _statuses.Tabs(tn).TabType = TabUsageType.UserDefined
             End If
-            If Not AddNewTab(tn, True) Then Throw New Exception("タブ作成エラー")
+            If Not AddNewTab(tn, True, _statuses.Tabs(tn).TabType) Then Throw New Exception("タブ作成エラー")
         Next
 
         JumpUnreadMenuItem.ShortcutKeyDisplayString = "Space"
@@ -910,7 +909,7 @@ Public Class TweenMain
         End If
         _curTab = ListTab.SelectedTab
         _curItemIndex = -1
-        _curList = DirectCast(_curTab.Controls(0), DetailsListView)
+        _curList = DirectCast(_curTab.Tag, DetailsListView)
         SetMainWindowTitle()
         SetNotifyIconText()
 
@@ -1187,7 +1186,7 @@ Public Class TweenMain
         'リストに反映＆選択状態復元
         Try
             For Each tab As TabPage In ListTab.TabPages
-                Dim lst As DetailsListView = DirectCast(tab.Controls(0), DetailsListView)
+                Dim lst As DetailsListView = DirectCast(tab.Tag, DetailsListView)
                 Dim tabInfo As TabClass = _statuses.Tabs(tab.Text)
                 lst.BeginUpdate()
                 If lst.VirtualListSize <> tabInfo.AllCount Then
@@ -1304,7 +1303,7 @@ Public Class TweenMain
     Private Sub SaveSelectedStatus(ByVal selId As Dictionary(Of String, Long()), ByVal focusedId As Dictionary(Of String, Long))
         If _endingFlag Then Exit Sub
         For Each tab As TabPage In ListTab.TabPages
-            Dim lst As DetailsListView = DirectCast(tab.Controls(0), DetailsListView)
+            Dim lst As DetailsListView = DirectCast(tab.Tag, DetailsListView)
             If lst.SelectedIndices.Count > 0 AndAlso lst.SelectedIndices.Count < 31 Then
                 selId.Add(tab.Text, _statuses.GetId(tab.Text, lst.SelectedIndices))
             Else
@@ -1406,11 +1405,11 @@ Public Class TweenMain
             itm = _itemCache(Index - _itemCacheIndex)
             post = _postCache(Index - _itemCacheIndex)
         Else
-            itm = DirectCast(Tab.Controls(0), DetailsListView).Items(Index)
+            itm = DirectCast(Tab.Tag, DetailsListView).Items(Index)
             post = _statuses.Item(Tab.Text, Index)
         End If
 
-        ChangeItemStyleRead(Read, itm, post, DirectCast(Tab.Controls(0), DetailsListView))
+        ChangeItemStyleRead(Read, itm, post, DirectCast(Tab.Tag, DetailsListView))
     End Sub
 
     Private Sub ChangeItemStyleRead(ByVal Read As Boolean, ByVal Item As ListViewItem, ByVal Post As PostClass, ByVal DList As DetailsListView)
@@ -1624,7 +1623,7 @@ Public Class TweenMain
 
         RunAsync(args)
 
-        ListTab.SelectedTab.Controls(0).Focus()
+        DirectCast(ListTab.SelectedTab.Tag, Control).Focus()
     End Sub
 
     Private Sub EndToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EndToolStripMenuItem.Click
@@ -1756,7 +1755,7 @@ Public Class TweenMain
                 bw.ReportProgress(200)
                 For i As Integer = 0 To 1
                     ret = Twitter.PostStatus(args.status, _reply_to_id)
-                    If ret = "" OrElse ret.StartsWith("Outputz:") Then Exit For
+                    If ret = "" OrElse ret = "OK:Delaying?" OrElse ret.StartsWith("Outputz:") Then Exit For
                 Next
                 _reply_to_id = 0
                 _reply_to_name = ""
@@ -1992,7 +1991,7 @@ Public Class TweenMain
             End If
             For Each tp As TabPage In ListTab.TabPages
                 If tp.Text = favTabName Then
-                    DirectCast(tp.Controls(0), DetailsListView).VirtualListSize = _statuses.Tabs(favTabName).AllCount
+                    DirectCast(tp.Tag, DetailsListView).VirtualListSize = _statuses.Tabs(favTabName).AllCount
                     Exit For
                 End If
             Next
@@ -2063,7 +2062,7 @@ Public Class TweenMain
                 urlUndoBuffer = Nothing
                 UrlUndoToolStripMenuItem.Enabled = False  'Undoをできないように設定
 
-                If rslt.retMsg.Length > 0 AndAlso Not rslt.retMsg.StartsWith("Outputz") Then
+                If rslt.retMsg.Length > 0 AndAlso Not rslt.retMsg.StartsWith("Outputz") AndAlso Not rslt.retMsg <> "OK:Delaying?" Then
                     StatusLabel.Text = rslt.retMsg
                 Else
                     _postTimestamps.Add(Now)
@@ -2397,7 +2396,7 @@ Public Class TweenMain
             _curPost = Nothing
             _curItemIndex = -1
             For Each tb As TabPage In ListTab.TabPages
-                DirectCast(tb.Controls(0), DetailsListView).VirtualListSize = _statuses.Tabs(tb.Text).AllCount
+                DirectCast(tb.Tag, DetailsListView).VirtualListSize = _statuses.Tabs(tb.Text).AllCount
                 If _curTab.Equals(tb) Then
                     _curList.SelectedIndices.Clear()
                     If _statuses.Tabs(tb.Text).AllCount > 0 Then
@@ -2600,7 +2599,7 @@ Public Class TweenMain
 
                 Try
                     For Each mytab As TabPage In ListTab.TabPages
-                        Dim lst As DetailsListView = DirectCast(mytab.Controls(0), DetailsListView)
+                        Dim lst As DetailsListView = DirectCast(mytab.Tag, DetailsListView)
                         lst.GridLines = SettingDialog.ShowGrid
                     Next
                 Catch ex As Exception
@@ -2696,9 +2695,9 @@ Public Class TweenMain
                                 tb.ImageIndex = 0
                             End If
                         End If
-                        If tb.Controls IsNot Nothing AndAlso tb.Controls.Count > 0 Then
-                            DirectCast(tb.Controls(0), DetailsListView).Font = _fntReaded
-                            DirectCast(tb.Controls(0), DetailsListView).BackColor = _clListBackcolor
+                        If tb.Tag IsNot Nothing AndAlso tb.Controls.Count > 0 Then
+                            DirectCast(tb.Tag, DetailsListView).Font = _fntReaded
+                            DirectCast(tb.Tag, DetailsListView).BackColor = _clListBackcolor
                         End If
                     Next
                 Catch ex As Exception
@@ -2746,7 +2745,7 @@ Public Class TweenMain
         End If
     End Sub
 
-    Public Function AddNewTab(ByVal tabName As String, ByVal startup As Boolean) As Boolean
+    Public Function AddNewTab(ByVal tabName As String, ByVal startup As Boolean, ByVal tabType As TabUsageType) As Boolean
         '重複チェック
         For Each tb As TabPage In ListTab.TabPages
             If tb.Text = tabName Then Return False
@@ -2756,6 +2755,13 @@ Public Class TweenMain
         If tabName = My.Resources.AddNewTabText1 Then Return False
         If tabName <> ReplaceInvalidFilename(tabName) Then Return False
 
+        'タブタイプ重複チェック
+        If tabType = TabUsageType.DirectMessage OrElse _
+           tabType = TabUsageType.Favorites OrElse _
+           tabType = TabUsageType.Home OrElse _
+           tabType = TabUsageType.Mentions Then
+            If _statuses.GetTabByType(tabType) IsNot Nothing Then Return False
+        End If
         'Dim myTab As New TabStructure()
 
         Dim _tabPage As TabPage = New TabPage
@@ -2782,6 +2788,8 @@ Public Class TweenMain
         'If Not startup Then _section.ListElement.Add(New ListElement(tabName))
 
         Dim cnt As Integer = ListTab.TabPages.Count
+
+        '''ToDo:Create and set controls follow tabtypes
 
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -2938,6 +2946,7 @@ Public Class TweenMain
         Me.ListTab.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
+        _tabPage.Tag = _listCustom
         Return True
     End Function
 
@@ -2965,7 +2974,8 @@ Public Class TweenMain
         Me.SuspendLayout()
 
         Dim _tabPage As TabPage = ListTab.TabPages(idx)
-        Dim _listCustom As DetailsListView = DirectCast(_tabPage.Controls(0), DetailsListView)
+        Dim _listCustom As DetailsListView = DirectCast(_tabPage.Tag, DetailsListView)
+        _tabPage.Tag = Nothing
 
         _tabPage.SuspendLayout()
 
@@ -3027,7 +3037,7 @@ Public Class TweenMain
         'SaveConfigsTab(False)
 
         For Each tp As TabPage In ListTab.TabPages
-            Dim lst As DetailsListView = DirectCast(tp.Controls(0), DetailsListView)
+            Dim lst As DetailsListView = DirectCast(tp.Tag, DetailsListView)
             If lst.VirtualListSize <> _statuses.Tabs(tp.Text).AllCount Then
                 lst.VirtualListSize = _statuses.Tabs(tp.Text).AllCount
             End If
@@ -3102,8 +3112,8 @@ Public Class TweenMain
         '列幅、列並びを他のタブに設定
         For Each tb As TabPage In ListTab.TabPages
             If Not tb.Equals(_curTab) Then
-                If tb IsNot Nothing AndAlso tb.Controls.Count > 0 Then
-                    Dim lst As DetailsListView = DirectCast(tb.Controls(0), DetailsListView)
+                If tb.Tag IsNot Nothing AndAlso tb.Controls.Count > 0 Then
+                    Dim lst As DetailsListView = DirectCast(tb.Tag, DetailsListView)
                     For i As Integer = 0 To lst.Columns.Count - 1
                         lst.Columns(dispOrder(i)).DisplayIndex = i
                         lst.Columns(i).Width = _curList.Columns(i).Width
@@ -3381,7 +3391,6 @@ Public Class TweenMain
                             ByVal CaseSensitive As Boolean, _
                             ByVal UseRegex As Boolean, _
                             ByVal SType As SEARCHTYPE)
-        'Dim myList As DetailsListView = DirectCast(ListTab.SelectedTab.Controls(0), DetailsListView)
         Dim cidx As Integer = 0
         Dim fnd As Boolean = False
         Dim toIdx As Integer
@@ -3554,7 +3563,7 @@ RETRY:
             idx = _statuses.GetOldestUnreadId(ListTab.TabPages(i).Text)
             If idx > -1 Then
                 ListTab.SelectedIndex = i
-                lst = DirectCast(ListTab.TabPages(i).Controls(0), DetailsListView)
+                lst = DirectCast(ListTab.TabPages(i).Tag, DetailsListView)
                 Exit For
             End If
         Next
@@ -3565,7 +3574,7 @@ RETRY:
                 idx = _statuses.GetOldestUnreadId(ListTab.TabPages(i).Text)
                 If idx > -1 Then
                     ListTab.SelectedIndex = i
-                    lst = DirectCast(ListTab.TabPages(i).Controls(0), DetailsListView)
+                    lst = DirectCast(ListTab.TabPages(i).Tag, DetailsListView)
                     Exit For
                 End If
             Next
@@ -3574,7 +3583,7 @@ RETRY:
         '全部調べたが未読見つからず→先頭タブの最新発言へ
         If idx = -1 Then
             ListTab.SelectedIndex = 0
-            lst = DirectCast(ListTab.TabPages(0).Controls(0), DetailsListView)
+            lst = DirectCast(ListTab.TabPages(0).Tag, DetailsListView)
             If _statuses.SortOrder = SortOrder.Ascending Then
                 idx = lst.VirtualListSize - 1
             Else
@@ -3631,7 +3640,8 @@ RETRY:
 
     Private Sub CheckNewVersion(Optional ByVal startup As Boolean = False)
         Dim retMsg As String = ""
-        Dim strVer As String
+        Dim strVer As String = ""
+        Dim strDetail As String = ""
         Dim forceUpdate As Boolean = My.Computer.Keyboard.ShiftKeyDown
 
         Try
@@ -3643,32 +3653,13 @@ RETRY:
         End Try
         If retMsg.Length > 0 Then
             strVer = retMsg.Substring(0, 4)
+            If retMsg.Length > 4 Then
+                strDetail = retMsg.Substring(5).Trim
+            End If
             If strVer.CompareTo(fileVersion.Replace(".", "")) > 0 Then
                 Dim tmp As String = String.Format(My.Resources.CheckNewVersionText3, strVer)
-                If dialogAsShieldicon.Show(tmp, My.Resources.CheckNewVersionText1, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
-                    retMsg = Twitter.GetTweenBinary(strVer)
-                    If retMsg.Length = 0 Then
-                        retMsg = Twitter.GetTweenUpBinary()
-                        If retMsg.Length = 0 Then
-                            RunTweenUp()
-                            'If startup Then
-                            '    Application.Exit()
-                            'Else
-                            _endingFlag = True
-                            Me.Close()
-                            'End If
-                            Exit Sub
-                        Else
-                            If Not startup Then MessageBox.Show(My.Resources.CheckNewVersionText4 + System.Environment.NewLine + retMsg, My.Resources.CheckNewVersionText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        End If
-                    Else
-                        If Not startup Then MessageBox.Show(My.Resources.CheckNewVersionText5 + System.Environment.NewLine + retMsg, My.Resources.CheckNewVersionText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    End If
-                End If
-            Else
-                If forceUpdate Then
-                    Dim tmp As String = String.Format(My.Resources.CheckNewVersionText6, strVer)
-                    If dialogAsShieldicon.Show(tmp, My.Resources.CheckNewVersionText1, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
+                Using dialogAsShieldicon As New DialogAsShieldIcon
+                    If dialogAsShieldicon.Show(tmp, strDetail, My.Resources.CheckNewVersionText1, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
                         retMsg = Twitter.GetTweenBinary(strVer)
                         If retMsg.Length = 0 Then
                             retMsg = Twitter.GetTweenUpBinary()
@@ -3688,6 +3679,32 @@ RETRY:
                             If Not startup Then MessageBox.Show(My.Resources.CheckNewVersionText5 + System.Environment.NewLine + retMsg, My.Resources.CheckNewVersionText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         End If
                     End If
+                End Using
+            Else
+                If forceUpdate Then
+                    Dim tmp As String = String.Format(My.Resources.CheckNewVersionText6, strVer)
+                    Using dialogAsShieldicon As New DialogAsShieldIcon
+                        If dialogAsShieldicon.Show(tmp, strDetail, My.Resources.CheckNewVersionText1, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
+                            retMsg = Twitter.GetTweenBinary(strVer)
+                            If retMsg.Length = 0 Then
+                                retMsg = Twitter.GetTweenUpBinary()
+                                If retMsg.Length = 0 Then
+                                    RunTweenUp()
+                                    'If startup Then
+                                    '    Application.Exit()
+                                    'Else
+                                    _endingFlag = True
+                                    Me.Close()
+                                    'End If
+                                    Exit Sub
+                                Else
+                                    If Not startup Then MessageBox.Show(My.Resources.CheckNewVersionText4 + System.Environment.NewLine + retMsg, My.Resources.CheckNewVersionText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                End If
+                            Else
+                                If Not startup Then MessageBox.Show(My.Resources.CheckNewVersionText5 + System.Environment.NewLine + retMsg, My.Resources.CheckNewVersionText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            End If
+                        End If
+                    End Using
                 ElseIf Not startup Then
                     MessageBox.Show(My.Resources.CheckNewVersionText7 + fileVersion.Replace(".", "") + My.Resources.CheckNewVersionText8 + strVer, My.Resources.CheckNewVersionText2, MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End If
@@ -4077,7 +4094,7 @@ RETRY:
             If _statuses.Tabs(ListTab.TabPages(tabidx).Text).TabType = TabUsageType.DirectMessage Then Continue For ' Directタブは対象外
             '_itemCache = Nothing
             '_postCache = Nothing
-            For idx As Integer = 0 To DirectCast(ListTab.TabPages(tabidx).Controls(0), DetailsListView).VirtualListSize - 1
+            For idx As Integer = 0 To DirectCast(ListTab.TabPages(tabidx).Tag, DetailsListView).VirtualListSize - 1
                 If _statuses.Item(ListTab.TabPages(tabidx).Text, idx).Id = targetId Then
                     ListTab.SelectedIndex = tabidx
                     ListTabSelect(ListTab.TabPages(tabidx))
@@ -4325,7 +4342,7 @@ RETRY:
 
     Private Sub StatusText_Leave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StatusText.Leave
         ' フォーカスがメニューに遷移しないならばフォーカスはタブに移ることを期待
-        If ListTab.SelectedTab IsNot Nothing AndAlso MenuStrip1.Tag Is Nothing Then Me.Tag = ListTab.SelectedTab.Controls(0)
+        If ListTab.SelectedTab IsNot Nothing AndAlso MenuStrip1.Tag Is Nothing Then Me.Tag = ListTab.SelectedTab.Tag
         StatusText.BackColor = Color.FromKnownColor(KnownColor.Window)
     End Sub
 
@@ -5126,7 +5143,7 @@ RETRY:
             _curItemIndex = -1
             _statuses.FilterAll()
             For Each tb As TabPage In ListTab.TabPages
-                DirectCast(tb.Controls(0), DetailsListView).VirtualListSize = _statuses.Tabs(tb.Text).AllCount
+                DirectCast(tb.Tag, DetailsListView).VirtualListSize = _statuses.Tabs(tb.Text).AllCount
                 If _statuses.Tabs(tb.Text).UnreadCount > 0 Then
                     If SettingDialog.TabIconDisp Then
                         tb.ImageIndex = 0
@@ -5153,7 +5170,7 @@ RETRY:
         End Using
         Me.TopMost = SettingDialog.AlwaysTop
         If tabName <> "" Then
-            If Not AddNewTab(tabName, False) Then
+            If Not AddNewTab(tabName, False, TabUsageType.UserDefined) Then
                 Dim tmp As String = String.Format(My.Resources.AddTabMenuItem_ClickText1, tabName)
                 MessageBox.Show(tmp, My.Resources.AddTabMenuItem_ClickText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Else
@@ -5188,7 +5205,7 @@ RETRY:
                     End Using
                     Me.TopMost = SettingDialog.AlwaysTop
                     If tabName.Length > 0 Then
-                        If Not AddNewTab(tabName, False) Then
+                        If Not AddNewTab(tabName, False, TabUsageType.UserDefined) Then
                             Dim tmp As String = String.Format(My.Resources.TabMenuItem_ClickText2, tabName)
                             MessageBox.Show(tmp, My.Resources.TabMenuItem_ClickText3, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         Else
@@ -5214,7 +5231,7 @@ RETRY:
             _curItemIndex = -1
             _statuses.FilterAll()
             For Each tb As TabPage In ListTab.TabPages
-                DirectCast(tb.Controls(0), DetailsListView).VirtualListSize = _statuses.Tabs(tb.Text).AllCount
+                DirectCast(tb.Tag, DetailsListView).VirtualListSize = _statuses.Tabs(tb.Text).AllCount
                 If _statuses.Tabs(tb.Text).UnreadCount > 0 Then
                     If SettingDialog.TabIconDisp Then
                         tb.ImageIndex = 0
@@ -5307,7 +5324,7 @@ RETRY:
                 End Using
                 Me.TopMost = SettingDialog.AlwaysTop
                 If tabName <> "" Then
-                    If Not AddNewTab(tabName, False) Then
+                    If Not AddNewTab(tabName, False, TabUsageType.UserDefined) Then
                         Dim tmp As String = String.Format(My.Resources.IDRuleMenuItem_ClickText2, tabName)
                         MessageBox.Show(tmp, My.Resources.IDRuleMenuItem_ClickText3, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Else
@@ -5364,7 +5381,7 @@ RETRY:
             _curItemIndex = -1
             _statuses.FilterAll()
             For Each tb As TabPage In ListTab.TabPages
-                DirectCast(tb.Controls(0), DetailsListView).VirtualListSize = _statuses.Tabs(tb.Text).AllCount
+                DirectCast(tb.Tag, DetailsListView).VirtualListSize = _statuses.Tabs(tb.Text).AllCount
                 If _statuses.Tabs(tb.Text).UnreadCount > 0 Then
                     If SettingDialog.TabIconDisp Then
                         tb.ImageIndex = 0
@@ -5495,7 +5512,7 @@ RETRY:
         For Each tb As TabPage In ListTab.TabPages
             If tb.Text = _rclickTabName Then
                 tb.ImageIndex = -1
-                DirectCast(tb.Controls(0), DetailsListView).VirtualListSize = 0
+                DirectCast(tb.Tag, DetailsListView).VirtualListSize = 0
                 Exit For
             End If
         Next
@@ -5907,7 +5924,7 @@ RETRY:
             DirectCast(Me.Tag, Control).Select()
         Else ' 戻り先が指定されていない (初期状態) 場合はタブに遷移
             If ListTab.SelectedIndex > -1 AndAlso ListTab.SelectedTab.HasChildren Then
-                Me.Tag = ListTab.SelectedTab.Controls(0)
+                Me.Tag = ListTab.SelectedTab.Tag
                 DirectCast(Me.Tag, Control).Select()
             End If
         End If
@@ -6138,7 +6155,6 @@ RETRY:
     Private Sub BlackFavAddToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BlackFavAddToolStripMenuItem.Click
 
         Dim cnt As Integer = 0
-        'Dim MyList As DetailsListView = DirectCast(ListTab.SelectedTab.Controls(0), DetailsListView)
 
         If _statuses.GetTabByType(TabUsageType.DirectMessage).TabName = _curTab.Text OrElse _curList.SelectedIndices.Count = 0 Then Exit Sub
 
@@ -6193,7 +6209,7 @@ RETRY:
         _itemCacheIndex = -1
         _postCache = Nothing
         _curTab = _tab
-        _curList = DirectCast(_tab.Controls(0), DetailsListView)
+        _curList = DirectCast(_tab.Tag, DetailsListView)
         If _curList.SelectedIndices.Count > 0 Then
             _curItemIndex = _curList.SelectedIndices(0)
             _curPost = GetCurTabPost(_curItemIndex)
