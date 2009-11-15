@@ -3612,7 +3612,7 @@ RETRY:
     Private Sub StatusOpenMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StatusOpenMenuItem.Click
         If _curList.SelectedIndices.Count > 0 AndAlso _statuses.Tabs(_curTab.Text).TabType <> TabUsageType.DirectMessage Then
             Dim post As PostClass = _statuses.Item(_curTab.Text, _curList.SelectedIndices(0))
-            OpenUriAsync("http://twitter.com/" + post.Name + "/statuses/" + post.Id.ToString)
+            OpenUriAsync("http://twitter.com/" + post.Name + "/status/" + post.Id.ToString)
         End If
     End Sub
 
@@ -4003,7 +4003,7 @@ RETRY:
         For Each idx As Integer In _curList.SelectedIndices
             Dim post As PostClass = _statuses.Item(_curTab.Text, idx)
             If post.IsProtect AndAlso SettingDialog.ProtectNotInclude Then Continue For
-            sb.AppendFormat("{0}:{1} [http://twitter.com/{0}/statuses/{2}]{3}", post.Name, post.Data, post.Id, Environment.NewLine)
+            sb.AppendFormat("{0}:{1} [http://twitter.com/{0}/status/{2}]{3}", post.Name, post.Data, post.Id, Environment.NewLine)
         Next
         If sb.Length > 0 Then
             clstr = sb.ToString()
@@ -4016,7 +4016,7 @@ RETRY:
         Dim sb As New StringBuilder()
         For Each idx As Integer In _curList.SelectedIndices
             Dim post As PostClass = _statuses.Item(_curTab.Text, idx)
-            sb.AppendFormat("http://twitter.com/{0}/statuses/{1}{2}", post.Name, post.Id, Environment.NewLine)
+            sb.AppendFormat("http://twitter.com/{0}/status/{1}{2}", post.Name, post.Id, Environment.NewLine)
         Next
         If sb.Length > 0 Then
             clstr = sb.ToString()
@@ -5678,11 +5678,11 @@ RETRY:
 
     Private Sub RepliedStatusOpenMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RepliedStatusOpenMenuItem.Click
         If _curPost IsNot Nothing AndAlso _curPost.InReplyToUser IsNot Nothing AndAlso _curPost.InReplyToId > 0 Then
-            If _statuses.ContainsKey(_curPost.InReplyToId) Then
+            If _statuses.ContainsKey(_curPost.InReplyToId) AndAlso Not My.Computer.Keyboard.ShiftKeyDown Then
                 Dim repPost As PostClass = _statuses.Item(_curPost.InReplyToId)
                 MessageBox.Show(repPost.Name + " / " + repPost.Nickname + "   (" + repPost.PDate.ToString() + ")" + Environment.NewLine + repPost.Data)
             Else
-                OpenUriAsync("http://twitter.com/" + _curPost.InReplyToUser + "/statuses/" + _curPost.InReplyToId.ToString())
+                OpenUriAsync("http://twitter.com/" + _curPost.InReplyToUser + "/status/" + _curPost.InReplyToId.ToString())
             End If
         End If
     End Sub
