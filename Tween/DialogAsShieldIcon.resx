@@ -265,7 +265,7 @@
     <value>True</value>
   </data>
   <data name="TextDetail.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
-    <value>Vertical</value>
+    <value>Both</value>
   </data>
   <data name="TextDetail.Size" type="System.Drawing.Size, System.Drawing">
     <value>388, 101</value>
