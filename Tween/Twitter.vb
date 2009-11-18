@@ -626,23 +626,28 @@ Public Module Twitter
                     If gType = WORKERTYPE.Reply Then post.IsReply = True
 
                     'Get Fav
-                    pos1 = strPost.IndexOf(_parseStar, pos2, StringComparison.Ordinal)
-                    If pos1 > -1 Then
-                        Try
-                            pos2 = strPost.IndexOf(_parseStarTo, pos1 + _parseStar.Length, StringComparison.Ordinal)
-                            If strPost.Substring(pos1 + _parseStar.Length, pos2 - pos1 - _parseStar.Length) = _parseStarEmpty Then
-                                post.IsFav = False
-                            Else
-                                post.IsFav = True
-                            End If
-                        Catch ex As Exception
-                            _signed = False
-                            TraceOut("TM-Fav:" + strPost)
-                            Return "GetTimeline -> Err: Can't get fav status."
-                        End Try
+                    If strPost.IndexOf("class=""fav-action fav""") > -1 Then
+                        post.IsFav = True
                     Else
                         post.IsFav = False
                     End If
+                    'pos1 = strPost.IndexOf(_parseStar, pos2, StringComparison.Ordinal)
+                    'If pos1 > -1 Then
+                    '    Try
+                    '        pos2 = strPost.IndexOf(_parseStarTo, pos1 + _parseStar.Length, StringComparison.Ordinal)
+                    '        If strPost.Substring(pos1 + _parseStar.Length, pos2 - pos1 - _parseStar.Length) = _parseStarEmpty Then
+                    '            post.IsFav = False
+                    '        Else
+                    '            post.IsFav = True
+                    '        End If
+                    '    Catch ex As Exception
+                    '        _signed = False
+                    '        TraceOut("TM-Fav:" + strPost)
+                    '        Return "GetTimeline -> Err: Can't get fav status."
+                    '    End Try
+                    'Else
+                    '    post.IsFav = False
+                    'End If
 
 
                     If _endingFlag Then Return ""
@@ -2454,16 +2459,16 @@ Public Module Twitter
                                 If ln.StartsWith("      ""tagto"": """) Then
                                     _isReplyTo = ln.Substring(16, ln.Length - 1 - 16).Replace("\", "")
                                 End If
-                            Case "GetStar"
-                                If ln.StartsWith("      ""tagfrom"": """) Then
-                                    _parseStar = ln.Substring(18, ln.Length - 1 - 18).Replace("\", "")
-                                End If
-                                If ln.StartsWith("      ""tagfrom2"": """) Then
-                                    _parseStarEmpty = ln.Substring(19, ln.Length - 1 - 19).Replace("\", "")
-                                End If
-                                If ln.StartsWith("      ""tagto"": """) Then
-                                    _parseStarTo = ln.Substring(16, ln.Length - 1 - 16).Replace("\", "")
-                                End If
+                                'Case "GetStar"
+                                '    If ln.StartsWith("      ""tagfrom"": """) Then
+                                '        _parseStar = ln.Substring(18, ln.Length - 1 - 18).Replace("\", "")
+                                '    End If
+                                '    If ln.StartsWith("      ""tagfrom2"": """) Then
+                                '        _parseStarEmpty = ln.Substring(19, ln.Length - 1 - 19).Replace("\", "")
+                                '    End If
+                                '    If ln.StartsWith("      ""tagto"": """) Then
+                                '        _parseStarTo = ln.Substring(16, ln.Length - 1 - 16).Replace("\", "")
+                                '    End If
                             Case "Follower"
                                 If ln.StartsWith("      ""tagfrom"": """) Then
                                     _followerList = ln.Substring(18, ln.Length - 1 - 18).Replace("\", "")
@@ -3482,9 +3487,9 @@ Public Module Twitter
         sw.WriteLine("    Public _parseDateTo As String = " + Chr(34) + _parseDateTo.Replace(Chr(34), Chr(34) + Chr(34)) + Chr(34))
         sw.WriteLine("    Public _getAuthKey As String = " + Chr(34) + _getAuthKey.Replace(Chr(34), Chr(34) + Chr(34)) + Chr(34))
         sw.WriteLine("    Public _getAuthKeyTo As String = " + Chr(34) + _getAuthKeyTo.Replace(Chr(34), Chr(34) + Chr(34)) + Chr(34))
-        sw.WriteLine("    Public _parseStar As String = " + Chr(34) + _parseStar.Replace(Chr(34), Chr(34) + Chr(34)) + Chr(34))
-        sw.WriteLine("    Public _parseStarTo As String = " + Chr(34) + _parseStarTo.Replace(Chr(34), Chr(34) + Chr(34)) + Chr(34))
-        sw.WriteLine("    Public _parseStarEmpty As String = " + Chr(34) + _parseStarEmpty.Replace(Chr(34), Chr(34) + Chr(34)) + Chr(34))
+        'sw.WriteLine("    Public _parseStar As String = " + Chr(34) + _parseStar.Replace(Chr(34), Chr(34) + Chr(34)) + Chr(34))
+        'sw.WriteLine("    Public _parseStarTo As String = " + Chr(34) + _parseStarTo.Replace(Chr(34), Chr(34) + Chr(34)) + Chr(34))
+        'sw.WriteLine("    Public _parseStarEmpty As String = " + Chr(34) + _parseStarEmpty.Replace(Chr(34), Chr(34) + Chr(34)) + Chr(34))
         sw.WriteLine("    Public _followerList As String = " + Chr(34) + _followerList.Replace(Chr(34), Chr(34) + Chr(34)) + Chr(34))
         sw.WriteLine("    Public _followerMbr1 As String = " + Chr(34) + _followerMbr1.Replace(Chr(34), Chr(34) + Chr(34)) + Chr(34))
         sw.WriteLine("    Public _followerMbr2 As String = " + Chr(34) + _followerMbr2.Replace(Chr(34), Chr(34) + Chr(34)) + Chr(34))

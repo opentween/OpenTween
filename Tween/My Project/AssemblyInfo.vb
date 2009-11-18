@@ -55,5 +55,5 @@ Imports System.Runtime.InteropServices
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
 <Assembly: AssemblyVersion("0.7.*")> 
-<Assembly: AssemblyFileVersion("0.7.7.0")> 
+<Assembly: AssemblyFileVersion("0.7.8.0")> 
 
