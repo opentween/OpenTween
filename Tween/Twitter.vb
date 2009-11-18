@@ -3375,7 +3375,7 @@ Public Module Twitter
         retStr = rg.Replace(retStr, "$1@<a href=""/$2"">$2</a>")
 
         'ハッシュタグを抽出し、リンクに置換
-        Dim rgh As New Regex("(^|[ .!,-:;<>?])#([^] !""#$%&'()*+,.:;<=>?@\-[\^`{|}~\r\n]+)")
+        Dim rgh As New Regex("(^|[ .!,\-:;<>?])#([^] !""#$%&'()*+,.:;<=>?@\-[\^`{|}~\r\n]+)")
         Dim mh As Match = rgh.Match(retStr)
         If mh.Success AndAlso Not IsNumeric(mh.Result("$2")) Then
             retStr = rgh.Replace(retStr, "$1<a href=""" + _protocol + "twitter.com/search?q=%23$2"">#$2</a>")
