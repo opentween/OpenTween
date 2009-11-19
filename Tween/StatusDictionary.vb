@@ -51,6 +51,7 @@ Public NotInheritable Class PostClass
     Private _statuses As Statuses = Statuses.None
     Private _Uid As Long
     Private _FilterHit As Boolean
+    Private _RetweetedBy As String
 
     <FlagsAttribute()> _
     Private Enum Statuses
@@ -82,7 +83,8 @@ Public NotInheritable Class PostClass
             ByVal ImageIndex As Integer, _
             ByVal IsDm As Boolean, _
             ByVal Uid As Long, _
-            ByVal FilterHit As Boolean)
+            ByVal FilterHit As Boolean, _
+            ByVal RetweetedBy As String)
         _Nick = Nickname
         _Data = Data
         _ImageUrl = ImageUrl
@@ -105,6 +107,7 @@ Public NotInheritable Class PostClass
         _IsDm = IsDm
         _Uid = Uid
         _FilterHit = FilterHit
+        _RetweetedBy = RetweetedBy
     End Sub
 
     Public Sub New()
@@ -304,6 +307,14 @@ Public NotInheritable Class PostClass
         End Get
         Set(ByVal value As Boolean)
             _FilterHit = value
+        End Set
+    End Property
+    Public Property RetweetedBy() As String
+        Get
+            Return _RetweetedBy
+        End Get
+        Set(ByVal value As String)
+            _RetweetedBy = value
         End Set
     End Property
 End Class
