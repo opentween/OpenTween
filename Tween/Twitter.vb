@@ -324,7 +324,7 @@ Public Module Twitter
             End If
 
             ' tr 要素の class 属性を消去
-            retMsg = Regex.Replace(retMsg, "(?<tagStart><li)(?<cls> class=""[^""]+"")", "${tagStart}")
+            retMsg = Regex.Replace(retMsg, "(?<tagStart><li)(?<cls>\s+class=""[^""]+"")", "${tagStart}")
             'Do
             '    Try
             '        Dim idx As Integer = retMsg.IndexOf(_removeClass, StringComparison.Ordinal)
@@ -368,6 +368,8 @@ Public Module Twitter
             Dim dlgt(20) As GetIconImageDelegate
             Dim ar(20) As IAsyncResult
             Dim arIdx As Integer = -1
+            Dim rg As Regex
+            Dim m As Match
 
             For Each strPost As String In posts
                 intCnt += 1
@@ -486,6 +488,17 @@ Public Module Twitter
                         post.IsProtect = True
                     End If
 
+                    'RetweetedBy
+                    If strPost.IndexOf("class=""big-retweet-icon""") > -1 Then
+                        rg = New Regex("class=""shared-content"".+<a href=""/(?<name>[a-zA-Z0-9_]+)""")
+                        m = rg.Match(strPost)
+                        If m.Success Then
+                            post.RetweetedBy = m.Result("${name}")
+                        Else
+                            post.RetweetedBy = ""
+                        End If
+                    End If
+
                     'Get Message
                     pos1 = strPost.IndexOf(_parseMsg1, pos2, StringComparison.Ordinal)
                     If pos1 < 0 Then
@@ -581,8 +594,8 @@ Public Module Twitter
 
                     'from Sourceの取得
                     'ToDo: _parseSourceFromを正規表現へ。wedataからの取得へ変更（次版より）
-                    Dim rg As New Regex("<span>.+>(?<name>.+)</a>.*</span>")
-                    Dim m As Match = rg.Match(strPost)
+                    rg = New Regex("<span>.+>(?<name>.+)</a>.*</span>")
+                    m = rg.Match(strPost)
                     If m.Success Then
                         post.Source = m.Result("${name}")
                     Else
@@ -648,7 +661,6 @@ Public Module Twitter
                     'Else
                     '    post.IsFav = False
                     'End If
-
 
                     If _endingFlag Then Return ""
 
@@ -803,7 +815,7 @@ Public Module Twitter
             End If
 
             ' tr 要素の class 属性を消去
-            retMsg = Regex.Replace(retMsg, "(?<tagStart><li)(?<cls> class=""[^""]+"")", "${tagStart}")
+            retMsg = Regex.Replace(retMsg, "(?<tagStart><li)(?<cls>\s+class=""[^""]+"")", "${tagStart}")
             'Do
             '    Try
             '        Dim idx As Integer = retMsg.IndexOf(_removeClass, StringComparison.Ordinal)
@@ -1058,7 +1070,7 @@ Public Module Twitter
             End If
 
             ' tr 要素の class 属性を消去
-            retMsg = Regex.Replace(retMsg, "(?<tagStart><li)(?<cls> class=""[^""]+"")", "${tagStart}")
+            retMsg = Regex.Replace(retMsg, "(?<tagStart><li)(?<cls>\s+class=""[^""]+"")", "${tagStart}")
             'Do
             '    Try
             '        Dim idx As Integer = retMsg.IndexOf(_removeClass, StringComparison.Ordinal)
@@ -1098,6 +1110,8 @@ Public Module Twitter
             Dim dlgt(20) As GetIconImageDelegate
             Dim ar(20) As IAsyncResult
             Dim arIdx As Integer = -1
+            Dim rg As Regex
+            Dim m As Match
 
             For Each strPost As String In posts
                 intCnt += 1
@@ -1178,6 +1192,17 @@ Public Module Twitter
                     'Protect
                     If strPost.IndexOf(_isProtect, pos2, StringComparison.Ordinal) > -1 Then
                         post.IsProtect = True
+                    End If
+
+                    'RetweetedBy
+                    If strPost.IndexOf("class=""big-retweet-icon""") > -1 Then
+                        rg = New Regex("class=""shared-content"".+<a href=""/(?<name>[a-zA-Z0-9_]+)""")
+                        m = rg.Match(strPost)
+                        If m.Success Then
+                            post.RetweetedBy = m.Result("${name}")
+                        Else
+                            post.RetweetedBy = ""
+                        End If
                     End If
 
                     'Get Message
@@ -1275,8 +1300,8 @@ Public Module Twitter
 
                     'from Sourceの取得
                     'ToDo: _parseSourceFromを正規表現へ。wedataからの取得へ変更（次版より）
-                    Dim rg As New Regex("<span>.+>(?<name>.+)</a>.*</span>")
-                    Dim m As Match = rg.Match(strPost)
+                    rg = New Regex("<span>.+>(?<name>.+)</a>.*</span>")
+                    m = rg.Match(strPost)
                     If m.Success Then
                         post.Source = m.Result("${name}")
                     Else

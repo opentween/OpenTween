@@ -3279,6 +3279,7 @@ Public Class TweenMain
         If Post.IsMark Then mk += "♪"
         If Post.IsProtect Then mk += "Ю"
         If Post.InReplyToId > 0 Then mk += "⇒"
+        If Not String.IsNullOrEmpty(Post.RetweetedBy) Then mk += "RT"
         Dim sitem() As String = {"", Post.Nickname, Post.Data, Post.PDate.ToString(SettingDialog.DateTimeFormat), Post.Name, "", mk, Post.Source}
         Dim itm As ListViewItem = New ListViewItem(sitem, Post.ImageIndex)
         Dim read As Boolean = Post.IsRead
@@ -3614,7 +3615,11 @@ RETRY:
     Private Sub StatusOpenMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StatusOpenMenuItem.Click
         If _curList.SelectedIndices.Count > 0 AndAlso _statuses.Tabs(_curTab.Text).TabType <> TabUsageType.DirectMessage Then
             Dim post As PostClass = _statuses.Item(_curTab.Text, _curList.SelectedIndices(0))
-            OpenUriAsync("http://twitter.com/" + post.Name + "/status/" + post.Id.ToString)
+            If String.IsNullOrEmpty(post.RetweetedBy) Then
+                OpenUriAsync("http://twitter.com/" + post.Name + "/status/" + post.Id.ToString)
+            Else
+                OpenUriAsync("http://twitter.com/" + post.RetweetedBy + "/status/" + post.Id.ToString)
+            End If
         End If
     End Sub
 
@@ -3756,6 +3761,9 @@ RETRY:
             NameLabel.Text = ""
         End If
         NameLabel.Text += _curPost.Name + "/" + _curPost.Nickname
+        If Not String.IsNullOrEmpty(_curPost.RetweetedBy) Then
+            NameLabel.Text += " (RT:" + _curPost.RetweetedBy + ")"
+        End If
         'If UserPicture.Image IsNot Nothing Then UserPicture.Image.Dispose()
         If _curPost.ImageIndex > -1 Then
             UserPicture.Image = TIconDic(_curPost.ImageUrl)
@@ -4005,7 +4013,11 @@ RETRY:
         For Each idx As Integer In _curList.SelectedIndices
             Dim post As PostClass = _statuses.Item(_curTab.Text, idx)
             If post.IsProtect AndAlso SettingDialog.ProtectNotInclude Then Continue For
-            sb.AppendFormat("{0}:{1} [http://twitter.com/{0}/status/{2}]{3}", post.Name, post.Data, post.Id, Environment.NewLine)
+            If String.IsNullOrEmpty(post.RetweetedBy) Then
+                sb.AppendFormat("{0}:{1} [http://twitter.com/{0}/status/{2}]{3}", post.Name, post.Data, post.Id, Environment.NewLine)
+            Else
+                sb.AppendFormat("{0}:{1} [http://twitter.com/{2}/status/{3}]{4}", post.Name, post.Data, post.RetweetedBy, post.Id, Environment.NewLine)
+            End If
         Next
         If sb.Length > 0 Then
             clstr = sb.ToString()
@@ -4018,7 +4030,11 @@ RETRY:
         Dim sb As New StringBuilder()
         For Each idx As Integer In _curList.SelectedIndices
             Dim post As PostClass = _statuses.Item(_curTab.Text, idx)
-            sb.AppendFormat("http://twitter.com/{0}/status/{1}{2}", post.Name, post.Id, Environment.NewLine)
+            If String.IsNullOrEmpty(post.RetweetedBy) Then
+                sb.AppendFormat("http://twitter.com/{0}/status/{1}{2}", post.Name, post.Id, Environment.NewLine)
+            Else
+                sb.AppendFormat("http://twitter.com/{0}/status/{1}{2}", post.RetweetedBy, post.Id, Environment.NewLine)
+            End If
         Next
         If sb.Length > 0 Then
             clstr = sb.ToString()
