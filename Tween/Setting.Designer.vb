@@ -54,6 +54,9 @@ Partial Class Setting
         Me.OneWayLv = New System.Windows.Forms.CheckBox
         Me.Label16 = New System.Windows.Forms.Label
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
+        Me.btnRetweet = New System.Windows.Forms.Button
+        Me.lblRetweet = New System.Windows.Forms.Label
+        Me.Label80 = New System.Windows.Forms.Label
         Me.ButtonBackToDefaultFontColor = New System.Windows.Forms.Button
         Me.btnDetailLink = New System.Windows.Forms.Button
         Me.lblDetailLink = New System.Windows.Forms.Label
@@ -179,6 +182,8 @@ Partial Class Setting
         Me.Label50 = New System.Windows.Forms.Label
         Me.Button3 = New System.Windows.Forms.Button
         Me.TabPage3 = New System.Windows.Forms.TabPage
+        Me.LanguageCombo = New System.Windows.Forms.ComboBox
+        Me.Label13 = New System.Windows.Forms.Label
         Me.CheckAlwaysTop = New System.Windows.Forms.CheckBox
         Me.Label58 = New System.Windows.Forms.Label
         Me.Label21 = New System.Windows.Forms.Label
@@ -224,6 +229,7 @@ Partial Class Setting
         Me.Label59 = New System.Windows.Forms.Label
         Me.TextBoxOutputzKey = New System.Windows.Forms.TextBox
         Me.CheckOutputz = New System.Windows.Forms.CheckBox
+        Me.Label81 = New System.Windows.Forms.Label
         Me.GroupBox1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
@@ -395,6 +401,9 @@ Partial Class Setting
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.btnRetweet)
+        Me.GroupBox1.Controls.Add(Me.lblRetweet)
+        Me.GroupBox1.Controls.Add(Me.Label80)
         Me.GroupBox1.Controls.Add(Me.ButtonBackToDefaultFontColor)
         Me.GroupBox1.Controls.Add(Me.btnDetailLink)
         Me.GroupBox1.Controls.Add(Me.lblDetailLink)
@@ -447,6 +456,23 @@ Partial Class Setting
         resources.ApplyResources(Me.GroupBox1, "GroupBox1")
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.TabStop = False
+        '
+        'btnRetweet
+        '
+        resources.ApplyResources(Me.btnRetweet, "btnRetweet")
+        Me.btnRetweet.Name = "btnRetweet"
+        Me.btnRetweet.UseVisualStyleBackColor = True
+        '
+        'lblRetweet
+        '
+        Me.lblRetweet.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        resources.ApplyResources(Me.lblRetweet, "lblRetweet")
+        Me.lblRetweet.Name = "lblRetweet"
+        '
+        'Label80
+        '
+        resources.ApplyResources(Me.Label80, "Label80")
+        Me.Label80.Name = "Label80"
         '
         'ButtonBackToDefaultFontColor
         '
@@ -1225,6 +1251,9 @@ Partial Class Setting
         '
         'TabPage3
         '
+        Me.TabPage3.Controls.Add(Me.Label81)
+        Me.TabPage3.Controls.Add(Me.LanguageCombo)
+        Me.TabPage3.Controls.Add(Me.Label13)
         Me.TabPage3.Controls.Add(Me.CheckAlwaysTop)
         Me.TabPage3.Controls.Add(Me.Label58)
         Me.TabPage3.Controls.Add(Me.Label21)
@@ -1264,6 +1293,19 @@ Partial Class Setting
         resources.ApplyResources(Me.TabPage3, "TabPage3")
         Me.TabPage3.Name = "TabPage3"
         Me.TabPage3.UseVisualStyleBackColor = True
+        '
+        'LanguageCombo
+        '
+        Me.LanguageCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.LanguageCombo.FormattingEnabled = True
+        Me.LanguageCombo.Items.AddRange(New Object() {resources.GetString("LanguageCombo.Items"), resources.GetString("LanguageCombo.Items1"), resources.GetString("LanguageCombo.Items2")})
+        resources.ApplyResources(Me.LanguageCombo, "LanguageCombo")
+        Me.LanguageCombo.Name = "LanguageCombo"
+        '
+        'Label13
+        '
+        resources.ApplyResources(Me.Label13, "Label13")
+        Me.Label13.Name = "Label13"
         '
         'CheckAlwaysTop
         '
@@ -1544,6 +1586,13 @@ Partial Class Setting
         Me.CheckOutputz.Name = "CheckOutputz"
         Me.CheckOutputz.UseVisualStyleBackColor = True
         '
+        'Label81
+        '
+        resources.ApplyResources(Me.Label81, "Label81")
+        Me.Label81.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Label81.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label81.Name = "Label81"
+        '
         'Setting
         '
         Me.AcceptButton = Me.Save
@@ -1778,4 +1827,10 @@ Partial Class Setting
     Friend WithEvents lblDetailLink As System.Windows.Forms.Label
     Friend WithEvents Label18 As System.Windows.Forms.Label
     Friend WithEvents ButtonBackToDefaultFontColor As System.Windows.Forms.Button
+    Friend WithEvents btnRetweet As System.Windows.Forms.Button
+    Friend WithEvents lblRetweet As System.Windows.Forms.Label
+    Friend WithEvents Label80 As System.Windows.Forms.Label
+    Friend WithEvents LanguageCombo As System.Windows.Forms.ComboBox
+    Friend WithEvents Label13 As System.Windows.Forms.Label
+    Friend WithEvents Label81 As System.Windows.Forms.Label
 End Class

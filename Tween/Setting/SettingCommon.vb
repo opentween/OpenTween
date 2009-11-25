@@ -90,6 +90,7 @@ Public Class SettingCommon
     Public IsMonospace As Boolean = False
     Public ReadOldPosts As Boolean = False
     Public UseSsl As Boolean = True
+    Public Language As String = "OS"
 
     <Xml.Serialization.XmlIgnore()> _
     Public OutputzKey As String = ""
