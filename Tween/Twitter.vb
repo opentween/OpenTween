@@ -497,6 +497,13 @@ Public Module Twitter
                         Else
                             post.RetweetedBy = ""
                         End If
+                        rg = New Regex("&in_reply_to_status_id=(?<id>[0-9]+)&in_reply_to=")
+                        m = rg.Match(strPost)
+                        If m.Success Then
+                            post.RetweetedId = Long.Parse(m.Result("${id}"))
+                        Else
+                            post.RetweetedId = 0
+                        End If
                     End If
 
                     'Get Message
@@ -1202,6 +1209,13 @@ Public Module Twitter
                             post.RetweetedBy = m.Result("${name}")
                         Else
                             post.RetweetedBy = ""
+                        End If
+                        rg = New Regex("&in_reply_to_status_id=(?<id>[0-9]+)&in_reply_to=")
+                        m = rg.Match(strPost)
+                        If m.Success Then
+                            post.RetweetedId = Long.Parse(m.Result("${id}"))
+                        Else
+                            post.RetweetedId = 0
                         End If
                     End If
 
@@ -3005,20 +3019,65 @@ Public Module Twitter
             Dim xentry As XmlElement = CType(xentryNode, XmlElement)
             Dim post As New PostClass
             Try
-                post.PDate = DateTime.ParseExact(xentry.Item("created_at").InnerText, "ddd MMM dd HH:mm:ss zzzz yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None)
                 post.Id = Long.Parse(xentry.Item("id").InnerText)
                 '二重取得回避
                 SyncLock LockObj
                     If TabInformations.GetInstance.ContainsKey(post.Id) Then Continue For
                 End SyncLock
-                '本文
-                post.Data = xentry.Item("text").InnerText
+                'Retweet判定
+                Dim xRnode As XmlNode = xentry.SelectSingleNode("./retweeted_status")
+                If xRnode IsNot Nothing Then
+                    Dim xRentry As XmlElement = CType(xRnode, XmlElement)
+                    post.PDate = DateTime.ParseExact(xRentry.Item("created_at").InnerText, "ddd MMM dd HH:mm:ss zzzz yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None)
+                    'Id
+                    post.RetweetedId = Long.Parse(xRentry.Item("id").InnerText)
+                    '本文
+                    post.Data = xRentry.Item("text").InnerText
+                    'Source取得（htmlの場合は、中身を取り出し）
+                    post.Source = xRentry.Item("source").InnerText
+                    'Reply先
+                    Long.TryParse(xRentry.Item("in_reply_to_status_id").InnerText, post.InReplyToId)
+                    post.InReplyToUser = xRentry.Item("in_reply_to_screen_name").InnerText
+                    'in_reply_to_user_idを使うか？
+                    post.IsFav = Boolean.Parse(xRentry.Item("favorited").InnerText)
+
+                    '以下、ユーザー情報
+                    Dim xRUentry As XmlElement = CType(xRentry.SelectSingleNode("./user"), XmlElement)
+                    post.Uid = Long.Parse(xRUentry.Item("id").InnerText)
+                    post.Name = xRUentry.Item("screen_name").InnerText
+                    post.Nickname = xRUentry.Item("name").InnerText
+                    post.ImageUrl = xRUentry.Item("profile_image_url").InnerText
+                    post.IsProtect = Boolean.Parse(xRUentry.Item("protected").InnerText)
+                    post.IsMe = post.Name.ToLower.Equals(_uid)
+
+                    'Retweetした人
+                    Dim xUentry As XmlElement = CType(xentry.SelectSingleNode("./user"), XmlElement)
+                    post.RetweetedBy = xUentry.Item("screen_name").InnerText
+                Else
+                    post.PDate = DateTime.ParseExact(xentry.Item("created_at").InnerText, "ddd MMM dd HH:mm:ss zzzz yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None)
+                    '本文
+                    post.Data = xentry.Item("text").InnerText
+                    'Source取得（htmlの場合は、中身を取り出し）
+                    post.Source = xentry.Item("source").InnerText
+                    Long.TryParse(xentry.Item("in_reply_to_status_id").InnerText, post.InReplyToId)
+                    post.InReplyToUser = xentry.Item("in_reply_to_screen_name").InnerText
+                    'in_reply_to_user_idを使うか？
+                    post.IsFav = Boolean.Parse(xentry.Item("favorited").InnerText)
+
+                    '以下、ユーザー情報
+                    Dim xUentry As XmlElement = CType(xentry.SelectSingleNode("./user"), XmlElement)
+                    post.Uid = Long.Parse(xUentry.Item("id").InnerText)
+                    post.Name = xUentry.Item("screen_name").InnerText
+                    post.Nickname = xUentry.Item("name").InnerText
+                    post.ImageUrl = xUentry.Item("profile_image_url").InnerText
+                    post.IsProtect = Boolean.Parse(xUentry.Item("protected").InnerText)
+                    post.IsMe = post.Name.ToLower.Equals(_uid)
+                End If
                 'HTMLに整形
                 post.OriginalData = CreateHtmlAnchor(post.Data, post.ReplyToList)
                 post.Data = HttpUtility.HtmlDecode(post.Data)
                 post.Data = post.Data.Replace("<3", "♡")
-                'Source取得（htmlの場合は、中身を取り出し）
-                post.Source = xentry.Item("source").InnerText
+                'Source整形
                 If post.Source.StartsWith("<") Then
                     Dim rgS As New Regex(">(?<source>.+)<")
                     Dim mS As Match = rgS.Match(post.Source)
@@ -3026,19 +3085,7 @@ Public Module Twitter
                         post.Source = mS.Result("${source}")
                     End If
                 End If
-                Long.TryParse(xentry.Item("in_reply_to_status_id").InnerText, post.InReplyToId)
-                post.InReplyToUser = xentry.Item("in_reply_to_screen_name").InnerText
-                'in_reply_to_user_idを使うか？
-                post.IsFav = Boolean.Parse(xentry.Item("favorited").InnerText)
 
-                '以下、ユーザー情報
-                Dim xUentry As XmlElement = CType(xentry.SelectSingleNode("./user"), XmlElement)
-                post.Uid = Long.Parse(xUentry.Item("id").InnerText)
-                post.Name = xUentry.Item("screen_name").InnerText
-                post.Nickname = xUentry.Item("name").InnerText
-                post.ImageUrl = xUentry.Item("profile_image_url").InnerText
-                post.IsProtect = Boolean.Parse(xUentry.Item("protected").InnerText)
-                post.IsMe = post.Name.ToLower.Equals(_uid)
                 post.IsRead = read
                 If gType = WORKERTYPE.Timeline Then
                     post.IsReply = post.ReplyToList.Contains(_uid)
@@ -3240,20 +3287,65 @@ Public Module Twitter
             Dim xentry As XmlElement = CType(xentryNode, XmlElement)
             Dim post As New PostClass
             Try
-                post.PDate = DateTime.ParseExact(xentry.Item("created_at").InnerText, "ddd MMM dd HH:mm:ss zzzz yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None)
                 post.Id = Long.Parse(xentry.Item("id").InnerText)
-                ''二重取得回避
-                'SyncLock LockObj
-                '    If TabInformations.GetInstance.ContainsKey(post.Id) Then Continue For
-                'End SyncLock
-                '本文
-                post.Data = xentry.Item("text").InnerText
+                '二重取得回避
+                SyncLock LockObj
+                    If TabInformations.GetInstance.ContainsKey(post.Id) Then Continue For
+                End SyncLock
+                'Retweet判定
+                Dim xRnode As XmlNode = xentry.SelectSingleNode("./retweeted_status")
+                If xRnode IsNot Nothing Then
+                    Dim xRentry As XmlElement = CType(xRnode, XmlElement)
+                    post.PDate = DateTime.ParseExact(xRentry.Item("created_at").InnerText, "ddd MMM dd HH:mm:ss zzzz yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None)
+                    'Id
+                    post.RetweetedId = Long.Parse(xRentry.Item("id").InnerText)
+                    '本文
+                    post.Data = xRentry.Item("text").InnerText
+                    'Source取得（htmlの場合は、中身を取り出し）
+                    post.Source = xRentry.Item("source").InnerText
+                    'Reply先
+                    Long.TryParse(xRentry.Item("in_reply_to_status_id").InnerText, post.InReplyToId)
+                    post.InReplyToUser = xRentry.Item("in_reply_to_screen_name").InnerText
+                    'in_reply_to_user_idを使うか？
+                    post.IsFav = Boolean.Parse(xRentry.Item("favorited").InnerText)
+
+                    '以下、ユーザー情報
+                    Dim xRUentry As XmlElement = CType(xRentry.SelectSingleNode("./user"), XmlElement)
+                    post.Uid = Long.Parse(xRUentry.Item("id").InnerText)
+                    post.Name = xRUentry.Item("screen_name").InnerText
+                    post.Nickname = xRUentry.Item("name").InnerText
+                    post.ImageUrl = xRUentry.Item("profile_image_url").InnerText
+                    post.IsProtect = Boolean.Parse(xRUentry.Item("protected").InnerText)
+                    post.IsMe = post.Name.ToLower.Equals(_uid)
+
+                    'Retweetした人
+                    Dim xUentry As XmlElement = CType(xentry.SelectSingleNode("./user"), XmlElement)
+                    post.RetweetedBy = xUentry.Item("screen_name").InnerText
+                Else
+                    post.PDate = DateTime.ParseExact(xentry.Item("created_at").InnerText, "ddd MMM dd HH:mm:ss zzzz yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None)
+                    '本文
+                    post.Data = xentry.Item("text").InnerText
+                    'Source取得（htmlの場合は、中身を取り出し）
+                    post.Source = xentry.Item("source").InnerText
+                    Long.TryParse(xentry.Item("in_reply_to_status_id").InnerText, post.InReplyToId)
+                    post.InReplyToUser = xentry.Item("in_reply_to_screen_name").InnerText
+                    'in_reply_to_user_idを使うか？
+                    post.IsFav = Boolean.Parse(xentry.Item("favorited").InnerText)
+
+                    '以下、ユーザー情報
+                    Dim xUentry As XmlElement = CType(xentry.SelectSingleNode("./user"), XmlElement)
+                    post.Uid = Long.Parse(xUentry.Item("id").InnerText)
+                    post.Name = xUentry.Item("screen_name").InnerText
+                    post.Nickname = xUentry.Item("name").InnerText
+                    post.ImageUrl = xUentry.Item("profile_image_url").InnerText
+                    post.IsProtect = Boolean.Parse(xUentry.Item("protected").InnerText)
+                    post.IsMe = post.Name.ToLower.Equals(_uid)
+                End If
                 'HTMLに整形
                 post.OriginalData = CreateHtmlAnchor(post.Data, post.ReplyToList)
                 post.Data = HttpUtility.HtmlDecode(post.Data)
                 post.Data = post.Data.Replace("<3", "♡")
-                'Source取得（htmlの場合は、中身を取り出し）
-                post.Source = xentry.Item("source").InnerText
+                'Source整形
                 If post.Source.StartsWith("<") Then
                     Dim rgS As New Regex(">(?<source>.+)<")
                     Dim mS As Match = rgS.Match(post.Source)
@@ -3261,19 +3353,7 @@ Public Module Twitter
                         post.Source = mS.Result("${source}")
                     End If
                 End If
-                Long.TryParse(xentry.Item("in_reply_to_status_id").InnerText, post.InReplyToId)
-                post.InReplyToUser = xentry.Item("in_reply_to_screen_name").InnerText
-                'in_reply_to_user_idを使うか？
-                post.IsFav = Boolean.Parse(xentry.Item("favorited").InnerText)
 
-                '以下、ユーザー情報
-                Dim xUentry As XmlElement = CType(xentry.SelectSingleNode("./user"), XmlElement)
-                post.Uid = Long.Parse(xUentry.Item("id").InnerText)
-                post.Name = xUentry.Item("screen_name").InnerText
-                post.Nickname = xUentry.Item("name").InnerText
-                post.ImageUrl = xUentry.Item("profile_image_url").InnerText
-                post.IsProtect = Boolean.Parse(xUentry.Item("protected").InnerText)
-                post.IsMe = post.Name.ToLower.Equals(_uid)
                 post.IsRead = read
                 post.IsReply = post.ReplyToList.Contains(_uid)
 

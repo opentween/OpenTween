@@ -111,6 +111,17 @@ Public Class SettingLocal
     End Property
 
     <Xml.Serialization.XmlIgnore()> _
+    Public ColorRetweet As Color = Color.FromKnownColor(System.Drawing.KnownColor.Green)
+    Public Property ColorRetweetStr() As String
+        Get
+            Return _cc.ConvertToString(ColorRetweet)
+        End Get
+        Set(ByVal value As String)
+            ColorRetweet = DirectCast(_cc.ConvertFromString(value), Color)
+        End Set
+    End Property
+
+    <Xml.Serialization.XmlIgnore()> _
     Public FontDetail As Font = System.Drawing.SystemFonts.DefaultFont
     Public Property FontDetailStr() As String
         Get

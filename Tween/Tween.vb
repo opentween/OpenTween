@@ -98,6 +98,7 @@ Public Class TweenMain
     Private _clReaded As Color            '既読用文字色
     Private _clFav As Color               'Fav用文字色
     Private _clOWL As Color               '片思い用文字色
+    Private _clRetweet As Color               'Retweet用文字色
     Private _fntDetail As Font            '発言詳細部用フォント
     Private _clDetail As Color              '発言詳細部用色
     Private _clDetailLink As Color          '発言詳細部用リンク文字色
@@ -147,6 +148,7 @@ Public Class TweenMain
     Private _brsForeColorReaded As SolidBrush
     Private _brsForeColorFav As SolidBrush
     Private _brsForeColorOWL As SolidBrush
+    Private _brsForeColorRetweet As SolidBrush
     Private _brsBackColorMine As SolidBrush
     Private _brsBackColorAt As SolidBrush
     Private _brsBackColorYou As SolidBrush
@@ -270,6 +272,7 @@ Public Class TweenMain
         If _brsForeColorReaded IsNot Nothing Then _brsForeColorReaded.Dispose()
         If _brsForeColorFav IsNot Nothing Then _brsForeColorFav.Dispose()
         If _brsForeColorOWL IsNot Nothing Then _brsForeColorOWL.Dispose()
+        If _brsForeColorRetweet IsNot Nothing Then _brsForeColorRetweet.Dispose()
         If _brsBackColorMine IsNot Nothing Then _brsBackColorMine.Dispose()
         If _brsBackColorAt IsNot Nothing Then _brsBackColorAt.Dispose()
         If _brsBackColorYou IsNot Nothing Then _brsBackColorYou.Dispose()
@@ -445,6 +448,7 @@ Public Class TweenMain
         _clReaded = _cfgLocal.ColorRead
         _clFav = _cfgLocal.ColorFav
         _clOWL = _cfgLocal.ColorOWL
+        _clRetweet = _cfgLocal.ColorRetweet
         _fntDetail = _cfgLocal.FontDetail
         _clDetail = _cfgLocal.ColorDetail
         _clDetailLink = _cfgLocal.ColorDetailLink
@@ -464,6 +468,7 @@ Public Class TweenMain
         _brsForeColorReaded = New SolidBrush(_clReaded)
         _brsForeColorFav = New SolidBrush(_clFav)
         _brsForeColorOWL = New SolidBrush(_clOWL)
+        _brsForeColorRetweet = New SolidBrush(_clRetweet)
         _brsBackColorMine = New SolidBrush(_clSelf)
         _brsBackColorAt = New SolidBrush(_clAtSelf)
         _brsBackColorYou = New SolidBrush(_clTarget)
@@ -515,6 +520,7 @@ Public Class TweenMain
         SettingDialog.ColorReaded = _clReaded
         SettingDialog.ColorFav = _clFav
         SettingDialog.ColorOWL = _clOWL
+        SettingDialog.ColorRetweet = _clRetweet
         SettingDialog.FontDetail = _fntDetail
         SettingDialog.ColorDetail = _clDetail
         SettingDialog.ColorDetailLink = _clDetailLink
@@ -651,6 +657,7 @@ Public Class TweenMain
             _clReaded = SettingDialog.ColorReaded
             _clFav = SettingDialog.ColorFav
             _clOWL = SettingDialog.ColorOWL
+            _clRetweet = SettingDialog.ColorRetweet
             _fntDetail = SettingDialog.FontDetail
             _clDetail = SettingDialog.ColorDetail
             _clDetailLink = SettingDialog.ColorDetailLink
@@ -669,10 +676,12 @@ Public Class TweenMain
             _brsForeColorReaded.Dispose()
             _brsForeColorFav.Dispose()
             _brsForeColorOWL.Dispose()
+            _brsForeColorRetweet.Dispose()
             _brsForeColorUnread = New SolidBrush(_clUnread)
             _brsForeColorReaded = New SolidBrush(_clReaded)
             _brsForeColorFav = New SolidBrush(_clFav)
             _brsForeColorOWL = New SolidBrush(_clOWL)
+            _brsForeColorRetweet = New SolidBrush(_clRetweet)
             _brsBackColorMine.Dispose()
             _brsBackColorAt.Dispose()
             _brsBackColorYou.Dispose()
@@ -1426,6 +1435,8 @@ Public Class TweenMain
         Dim cl As Color
         If Post.IsFav Then
             cl = _clFav
+        ElseIf Post.RetweetedId > 0 Then
+            cl = _clRetweet
         ElseIf Post.IsOwl AndAlso (Post.IsDm OrElse SettingDialog.OneWayLove) Then
             cl = _clOWL
         ElseIf Read OrElse Not SettingDialog.UseUnreadStyle Then
@@ -1704,12 +1715,18 @@ Public Class TweenMain
                     args.page = i + 1
                     bw.ReportProgress(50, MakeStatusMessage(args, False))
                     If Not post.IsFav Then
-                        ret = Twitter.PostFavAdd(post.Id)
+                        If post.RetweetedId = 0 Then
+                            ret = Twitter.PostFavAdd(post.Id)
+                        Else
+                            ret = Twitter.PostFavAdd(post.RetweetedId)
+                        End If
                         If ret.Length = 0 Then
                             args.sIds.Add(post.Id)
                             post.IsFav = True    'リスト再描画必要
                             _favTimestamps.Add(Now)
-                            _statuses.GetTabByType(TabUsageType.Favorites).Add(post.Id, post.IsRead, False)
+                            If post.RetweetedId = 0 Then
+                                _statuses.GetTabByType(TabUsageType.Favorites).Add(post.Id, post.IsRead, False)
+                            End If
                         End If
                     End If
                 Next
@@ -1721,6 +1738,11 @@ Public Class TweenMain
                     args.page = i + 1
                     bw.ReportProgress(50, MakeStatusMessage(args, False))
                     If post.IsFav Then
+                        If post.RetweetedId = 0 Then
+                            ret = Twitter.PostFavRemove(post.Id)
+                        Else
+                            ret = Twitter.PostFavRemove(post.RetweetedId)
+                        End If
                         ret = Twitter.PostFavRemove(post.Id)
                         If ret.Length = 0 Then
                             args.sIds.Add(post.Id)
@@ -2617,6 +2639,7 @@ Public Class TweenMain
                 _clReaded = SettingDialog.ColorReaded
                 _clFav = SettingDialog.ColorFav
                 _clOWL = SettingDialog.ColorOWL
+                _clRetweet = SettingDialog.ColorRetweet
                 _fntDetail = SettingDialog.FontDetail
                 _clDetail = SettingDialog.ColorDetail
                 _clDetailLink = SettingDialog.ColorDetailLink
@@ -2643,10 +2666,12 @@ Public Class TweenMain
                 _brsForeColorReaded.Dispose()
                 _brsForeColorFav.Dispose()
                 _brsForeColorOWL.Dispose()
+                _brsForeColorRetweet.Dispose()
                 _brsForeColorUnread = New SolidBrush(_clUnread)
                 _brsForeColorReaded = New SolidBrush(_clReaded)
                 _brsForeColorFav = New SolidBrush(_clFav)
                 _brsForeColorOWL = New SolidBrush(_clOWL)
+                _brsForeColorRetweet = New SolidBrush(_clRetweet)
                 _brsBackColorMine.Dispose()
                 _brsBackColorAt.Dispose()
                 _brsBackColorYou.Dispose()
@@ -3279,7 +3304,6 @@ Public Class TweenMain
         If Post.IsMark Then mk += "♪"
         If Post.IsProtect Then mk += "Ю"
         If Post.InReplyToId > 0 Then mk += "⇒"
-        If Not String.IsNullOrEmpty(Post.RetweetedBy) Then mk += "RT"
         Dim sitem() As String = {"", Post.Nickname, Post.Data, Post.PDate.ToString(SettingDialog.DateTimeFormat), Post.Name, "", mk, Post.Source}
         Dim itm As ListViewItem = New ListViewItem(sitem, Post.ImageIndex)
         Dim read As Boolean = Post.IsRead
@@ -3355,6 +3379,8 @@ Public Class TweenMain
                         brs = _brsForeColorFav
                     Case _clOWL
                         brs = _brsForeColorOWL
+                    Case _clRetweet
+                        brs = _brsForeColorRetweet
                     Case Else
                         brs = New SolidBrush(e.Item.ForeColor)
                 End Select
@@ -3615,10 +3641,10 @@ RETRY:
     Private Sub StatusOpenMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StatusOpenMenuItem.Click
         If _curList.SelectedIndices.Count > 0 AndAlso _statuses.Tabs(_curTab.Text).TabType <> TabUsageType.DirectMessage Then
             Dim post As PostClass = _statuses.Item(_curTab.Text, _curList.SelectedIndices(0))
-            If String.IsNullOrEmpty(post.RetweetedBy) Then
+            If post.RetweetedId = 0 Then
                 OpenUriAsync("http://twitter.com/" + post.Name + "/status/" + post.Id.ToString)
             Else
-                OpenUriAsync("http://twitter.com/" + post.RetweetedBy + "/status/" + post.Id.ToString)
+                OpenUriAsync("http://twitter.com/" + post.Name + "/status/" + post.RetweetedId.ToString)
             End If
         End If
     End Sub
@@ -3775,6 +3801,7 @@ RETRY:
         NameLabel.ForeColor = System.Drawing.SystemColors.ControlText
         DateTimeLabel.Text = _curPost.PDate.ToString()
         If _curPost.IsOwl AndAlso (SettingDialog.OneWayLove OrElse _statuses.Tabs(_curTab.Text).TabType = TabUsageType.DirectMessage) Then NameLabel.ForeColor = _clOWL
+        If _curPost.RetweetedId > 0 Then NameLabel.ForeColor = _clRetweet
         If _curPost.IsFav Then NameLabel.ForeColor = _clFav
 
         If DumpPostClassToolStripMenuItem.Checked Then
@@ -4013,7 +4040,7 @@ RETRY:
         For Each idx As Integer In _curList.SelectedIndices
             Dim post As PostClass = _statuses.Item(_curTab.Text, idx)
             If post.IsProtect AndAlso SettingDialog.ProtectNotInclude Then Continue For
-            If String.IsNullOrEmpty(post.RetweetedBy) Then
+            If post.RetweetedId = 0 Then
                 sb.AppendFormat("{0}:{1} [http://twitter.com/{0}/status/{2}]{3}", post.Name, post.Data, post.Id, Environment.NewLine)
             Else
                 sb.AppendFormat("{0}:{1} [http://twitter.com/{2}/status/{3}]{4}", post.Name, post.Data, post.RetweetedBy, post.Id, Environment.NewLine)
@@ -4537,6 +4564,7 @@ RETRY:
             _cfgLocal.ColorDetailLink = _clDetailLink
             _cfgLocal.ColorFav = _clFav
             _cfgLocal.ColorOWL = _clOWL
+            _cfgLocal.ColorRetweet = _clRetweet
             _cfgLocal.ColorSelf = _clSelf
             _cfgLocal.ColorAtSelf = _clAtSelf
             _cfgLocal.ColorTarget = _clTarget
@@ -4809,7 +4837,11 @@ RETRY:
 
                     ' ステータステキストが入力されていない場合先頭に@ユーザー名を追加する
                     StatusText.Text = "@" + _curPost.Name + " "
-                    _reply_to_id = _curPost.Id
+                    If _curPost.RetweetedId > 0 Then
+                        _reply_to_id = _curPost.RetweetedId
+                    Else
+                        _reply_to_id = _curPost.Id
+                    End If
                     _reply_to_name = _curPost.Name
                 Else
                     '何か入力済の場合
@@ -4819,7 +4851,11 @@ RETRY:
                         If StatusText.Text.Contains("@" + _curPost.Name + " ") Then
                             If _reply_to_id > 0 AndAlso _reply_to_name = _curPost.Name Then
                                 '返信先書き換え
-                                _reply_to_id = _curPost.Id
+                                If _curPost.RetweetedId > 0 Then
+                                    _reply_to_id = _curPost.RetweetedId
+                                Else
+                                    _reply_to_id = _curPost.Id
+                                End If
                                 _reply_to_name = _curPost.Name
                             End If
                             Exit Sub
@@ -4834,7 +4870,11 @@ RETRY:
                             Else
                                 ' 単独リプライ
                                 StatusText.Text = "@" + _curPost.Name + " " + StatusText.Text
-                                _reply_to_id = _curPost.Id
+                                If _curPost.RetweetedId > 0 Then
+                                    _reply_to_id = _curPost.RetweetedId
+                                Else
+                                    _reply_to_id = _curPost.Id
+                                End If
                                 _reply_to_name = _curPost.Name
                             End If
                         Else
@@ -4963,7 +5003,11 @@ RETRY:
                             StatusText.Text = ids
                             StatusText.SelectionStart = ids.Length
                             StatusText.Focus()
-                            _reply_to_id = post.Id
+                            If post.RetweetedId > 0 Then
+                                _reply_to_id = post.RetweetedId
+                            Else
+                                _reply_to_id = post.Id
+                            End If
                             _reply_to_name = post.Name
                             Exit Sub
                         End If

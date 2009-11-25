@@ -46,6 +46,7 @@ Public Class Setting
     Private _clReaded As Color
     Private _clFav As Color
     Private _clOWL As Color
+    Private _clRetweet As Color
     Private _fntDetail As Font
     Private _clSelf As Color
     Private _clAtSelf As Color
@@ -111,6 +112,7 @@ Public Class Setting
     Private _MyBitlyPw As String
     Private _MyShowGrid As Boolean
     Private _MyUseAtIdSupplement As Boolean
+    Private _MyLanguage As String
 
     Private Sub Save_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Save.Click
         Try
@@ -151,6 +153,7 @@ Public Class Setting
             _clReaded = lblListFont.ForeColor
             _clFav = lblFav.ForeColor
             _clOWL = lblOWL.ForeColor
+            _clRetweet = lblRetweet.ForeColor
             _fntDetail = lblDetail.Font
             _clSelf = lblSelf.BackColor
             _clAtSelf = lblAtSelf.BackColor
@@ -260,6 +263,14 @@ Public Class Setting
                 Case 2
                     _MyReplyIconState = REPLY_ICONSTATE.BlinkIcon
             End Select
+            Select Case LanguageCombo.SelectedIndex
+                Case 0
+                    _MyLanguage = "OS"
+                Case 1
+                    _MyLanguage = "ja"
+                Case Else
+                    _MyLanguage = "en"
+            End Select
         Catch ex As Exception
             MessageBox.Show(My.Resources.Save_ClickText3)
             Me.DialogResult = Windows.Forms.DialogResult.Cancel
@@ -320,6 +331,7 @@ Public Class Setting
         lblListFont.ForeColor = _clReaded
         lblFav.ForeColor = _clFav
         lblOWL.ForeColor = _clOWL
+        lblRetweet.ForeColor = _clRetweet
         lblDetail.Font = _fntDetail
         lblSelf.BackColor = _clSelf
         lblAtSelf.BackColor = _clAtSelf
@@ -451,6 +463,14 @@ Public Class Setting
                 ReplyIconStateCombo.SelectedIndex = 1
             Case REPLY_ICONSTATE.BlinkIcon
                 ReplyIconStateCombo.SelectedIndex = 2
+        End Select
+        Select Case _MyLanguage
+            Case "OS"
+                LanguageCombo.SelectedIndex = 0
+            Case "ja"
+                LanguageCombo.SelectedIndex = 1
+            Case Else
+                LanguageCombo.SelectedIndex = 2
         End Select
 
         TabControl1.SelectedIndex = 0
@@ -675,7 +695,7 @@ Public Class Setting
 
     End Sub
 
-    Private Sub btnColor_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSelf.Click, btnAtSelf.Click, btnTarget.Click, btnAtTarget.Click, btnAtFromTarget.Click, btnFav.Click, btnOWL.Click, btnInputBackcolor.Click, btnAtTo.Click, btnListBack.Click, btnDetailBack.Click, btnDetailLink.Click
+    Private Sub btnColor_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSelf.Click, btnAtSelf.Click, btnTarget.Click, btnAtTarget.Click, btnAtFromTarget.Click, btnFav.Click, btnOWL.Click, btnInputBackcolor.Click, btnAtTo.Click, btnListBack.Click, btnDetailBack.Click, btnDetailLink.Click, btnRetweet.Click
         Dim Btn As Button = CType(sender, Button)
         Dim rtn As DialogResult
 
@@ -699,6 +719,8 @@ Public Class Setting
                 ColorDialog1.Color = lblFav.ForeColor
             Case "btnOWL"
                 ColorDialog1.Color = lblOWL.ForeColor
+            Case "btnRetweet"
+                ColorDialog1.Color = lblRetweet.ForeColor
                 'Case "btnUnread"
                 '    'ColorDialog1.Color = lblUnRead.ForeColor
                 'Case "btnReaded"
@@ -734,6 +756,8 @@ Public Class Setting
                 lblFav.ForeColor = ColorDialog1.Color
             Case "btnOWL"
                 lblOWL.ForeColor = ColorDialog1.Color
+            Case "btnRetweet"
+                lblRetweet.ForeColor = ColorDialog1.Color
                 'Case "btnUnread"
                 '    'lblUnRead.ForeColor = ColorDialog1.Color
                 'Case "btnReaded"
@@ -976,6 +1000,15 @@ Public Class Setting
         End Get
         Set(ByVal value As Color)
             _clOWL = value
+        End Set
+    End Property
+
+    Public Property ColorRetweet() As Color
+        Get
+            Return _clRetweet
+        End Get
+        Set(ByVal value As Color)
+            _clRetweet = value
         End Set
     End Property
 
@@ -1548,6 +1581,15 @@ Public Class Setting
         End Get
         Set(ByVal value As Boolean)
             _MyUseAtIdSupplement = value
+        End Set
+    End Property
+
+    Public Property Language() As String
+        Get
+            Return _MyLanguage
+        End Get
+        Set(ByVal value As String)
+            _MyLanguage = value
         End Set
     End Property
 
