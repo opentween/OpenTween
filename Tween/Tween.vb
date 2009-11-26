@@ -1724,9 +1724,7 @@ Public Class TweenMain
                             args.sIds.Add(post.Id)
                             post.IsFav = True    'リスト再描画必要
                             _favTimestamps.Add(Now)
-                            If post.RetweetedId = 0 Then
-                                _statuses.GetTabByType(TabUsageType.Favorites).Add(post.Id, post.IsRead, False)
-                            End If
+                            _statuses.GetTabByType(TabUsageType.Favorites).Add(post.Id, post.IsRead, False)
                         End If
                     End If
                 Next
@@ -1743,7 +1741,6 @@ Public Class TweenMain
                         Else
                             ret = Twitter.PostFavRemove(post.RetweetedId)
                         End If
-                        ret = Twitter.PostFavRemove(post.Id)
                         If ret.Length = 0 Then
                             args.sIds.Add(post.Id)
                             post.IsFav = False    'リスト再描画必要
