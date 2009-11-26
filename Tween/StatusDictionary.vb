@@ -166,10 +166,17 @@ Public NotInheritable Class PostClass
     End Property
     Public Property IsFav() As Boolean
         Get
-            Return _IsFav
+            If Me.RetweetedId > 0 AndAlso TabInformations.GetInstance.RetweetSource(Me.RetweetedId) IsNot Nothing Then
+                Return TabInformations.GetInstance.RetweetSource(Me.RetweetedId).IsFav
+            Else
+                Return _IsFav
+            End If
         End Get
         Set(ByVal value As Boolean)
             _IsFav = value
+            If Me.RetweetedId > 0 AndAlso TabInformations.GetInstance.RetweetSource(Me.RetweetedId) IsNot Nothing Then
+                TabInformations.GetInstance.RetweetSource(Me.RetweetedId).IsFav = value
+            End If
         End Set
     End Property
     Public Property OriginalData() As String
@@ -334,8 +341,9 @@ Public NotInheritable Class TabInformations
     '個別タブの情報をDictionaryで保持
     Private _sorter As IdComparerClass
     Private _tabs As New Dictionary(Of String, TabClass)
-    Private _statuses As Dictionary(Of Long, PostClass) = New Dictionary(Of Long, PostClass)
+    Private _statuses As New Dictionary(Of Long, PostClass)
     Private _addedIds As List(Of Long)
+    Private _retweets As New Dictionary(Of Long, PostClass)
 
     '発言の追加
     'AddPost(複数回) -> DistributePosts          -> SubmitUpdate
@@ -456,11 +464,22 @@ Public NotInheritable Class TabInformations
         Me.SortPosts()
     End Sub
 
+    Public ReadOnly Property RetweetSource(ByVal Id As Long) As PostClass
+        Get
+            If _retweets.ContainsKey(Id) Then
+                Return _retweets(Id)
+            Else
+                Return Nothing
+            End If
+        End Get
+    End Property
+
     Public Sub RemovePost(ByVal Name As String, ByVal Id As Long)
         SyncLock LockObj
             Dim post As PostClass = _statuses(Id)
             '指定タブから該当ID削除
             Dim tab As TabClass = _tabs(Name)
+            Dim tType As TabUsageType = tab.TabType
             If tab.Contains(Id) Then
                 If tab.UnreadManage AndAlso Not post.IsRead Then    '未読管理
                     SyncLock LockUnread
@@ -469,6 +488,21 @@ Public NotInheritable Class TabInformations
                     End SyncLock
                 End If
                 tab.Remove(Id)
+            End If
+            'FavタブからRetweet発言を削除する場合は、他の同一参照Retweetも削除
+            If tType = TabUsageType.Favorites AndAlso post.RetweetedId > 0 Then
+                For i As Integer = 0 To tab.AllCount - 1
+                    Dim rPost As PostClass = Me.Item(Name, i)
+                    If rPost.RetweetedId > 0 AndAlso rPost.RetweetedId = post.RetweetedId Then
+                        If tab.UnreadManage AndAlso Not rPost.IsRead Then    '未読管理
+                            SyncLock LockUnread
+                                tab.UnreadCount -= 1
+                                Me.SetNextUnreadId(rPost.Id, tab)
+                            End SyncLock
+                        End If
+                        tab.Remove(rPost.Id)
+                    End If
+                Next
             End If
         End SyncLock
     End Sub
@@ -707,9 +741,49 @@ Public NotInheritable Class TabInformations
             Else
                 _statuses.Add(Item.Id, Item)    'DMと区別しない？
             End If
+            If Item.RetweetedId > 0 Then
+                If Not _retweets.ContainsKey(Item.RetweetedId) Then
+                    Me.AddRetweet(Item)
+                End If
+            End If
+            If Item.IsFav AndAlso _retweets.ContainsKey(Item.Id) Then
+                Exit Sub    'Fav済みのRetweet元発言は追加しない
+            End If
             If _addedIds Is Nothing Then _addedIds = New List(Of Long) 'タブ追加用IDコレクション準備
             _addedIds.Add(Item.Id)
         End SyncLock
+    End Sub
+
+    Private Sub AddRetweet(ByVal item As PostClass)
+        _retweets.Add( _
+            item.RetweetedId, _
+            New PostClass( _
+                item.Nickname, _
+                item.Data, _
+                item.OriginalData, _
+                item.ImageUrl, _
+                item.Name, _
+                item.PDate, _
+                item.RetweetedId, _
+                item.IsFav, _
+                item.IsRead, _
+                item.IsReply, _
+                item.IsProtect, _
+                item.IsOwl, _
+                item.IsMark, _
+                item.InReplyToUser, _
+                item.InReplyToId, _
+                item.Source, _
+                item.ReplyToList, _
+                item.IsMe, _
+                item.ImageIndex, _
+                item.IsDm, _
+                item.Uid, _
+                item.FilterHit, _
+                "", _
+                0 _
+            ) _
+        )
     End Sub
 
     Public Sub SetRead(ByVal Read As Boolean, ByVal TabName As String, ByVal Index As Integer)
