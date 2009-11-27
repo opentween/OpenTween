@@ -1777,24 +1777,41 @@ Public Class Setting
     Private Sub ButtonBackToDefaultFontColor_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonBackToDefaultFontColor.Click
         lblUnread.ForeColor = System.Drawing.SystemColors.ControlText
         lblUnread.Font = New Font(SystemFonts.DefaultFont, FontStyle.Bold Or FontStyle.Underline)
+
         lblListFont.ForeColor = System.Drawing.SystemColors.ControlText
         lblListFont.Font = System.Drawing.SystemFonts.DefaultFont
+
         lblDetail.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.ControlText)
         lblDetail.Font = System.Drawing.SystemFonts.DefaultFont
+
         lblInputFont.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.ControlText)
         lblInputFont.Font = System.Drawing.SystemFonts.DefaultFont
+
         lblSelf.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.AliceBlue)
+
         lblAtSelf.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.AntiqueWhite)
+
         lblTarget.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.LemonChiffon)
+
         lblAtTarget.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.LavenderBlush)
+
         lblAtFromTarget.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.Honeydew)
+
         lblFav.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Red)
+
         lblOWL.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Blue)
+
         lblInputBackcolor.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.LemonChiffon)
+
         lblAtTo.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.Pink)
+
         lblListBackcolor.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.Window)
+
         lblDetailBackcolor.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.Window)
+
         lblDetailLink.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Blue)
+
+        lblRetweet.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Green)
     End Sub
 End Class
 

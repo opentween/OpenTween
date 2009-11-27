@@ -352,18 +352,19 @@ Namespace My.Resources
         '''<summary>
         '''  更新履歴
         '''
-        '''==== Ver 0.7.2.1(Unreleased)
-        ''' * 発言詳細部のサイズを50*50（画像領域48*48）へ変更
-        '''==== Ver 0.7.2.0(2009/10/31)
-        ''' * @ID入力補助で、id確定した際、直前の文字が消えるバグ修正
-        '''==== Ver 0.7.1.0(2009/10/31)
-        ''' * リストにグリッド線を表示するオプション追加（マウスホイールで操作すると画面にゴミが残ります）
-        ''' * C-rでid追加した際、余分なスペースが入らないように修正
-        ''' * スクリーンセーバー起動中はバルーン表示を停止
-        ''' * @ID入力補助機能追加（Enter,Tabで確定、Escape,Backspaceで全削除でキャンセル、候補選択でC-Deleteでリストから削除）
-        ''' * 選択発言を基に振り分けルール作成する際、選択発言を反映したルールになっていないバグ修正
-        ''' * 短縮URL解決のタイムアウトを2秒→5秒へ。合わせて100件のキャッシュを追加（定期クリア）
-        ''' * 返信先（in_reply_to）付加の条件を変更（複数＠でもin_reply_toが付くケースを増やした [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        '''==== Ver 0.8.0.0(Unreleased)
+        ''' * Webモードで公式RT発言をコピー、開くした時にユーザーと発言IDが不整合になっていた問題に対応
+        '''==== Ver 0.7.9.0(2009/11/19)
+        ''' * APIモードでのハッシュタグ誤認対応
+        ''' * Webモードで公式RT発言が取得できない問題に対応。マーク欄に「RT」、発言詳細の発言者の後ろにRTしたユーザーを表示。基本はRT元発言を表示します。（APIモードは変更なし）
+        '''==== Ver 0.7.8.0(2009/11/18)
+        ''' * Webモードで、公式ReTweetが有効になっている場合に、RT発言をFav発言と誤認する問題に対応
+        '''==== Ver 0.7.7.0(2009/11/15)
+        ''' * バージョンアップの確認ダイアログをキャンセルして、再度確認して表示する際に例外が発生するバグ修正
+        ''' * バージョンアップの確認ダイアログに更新内容を表示するように変更
+        ''' * Web仕様変更対応（Source取得）
+        ''' * 投稿リトライで、遅延判定時はリトライしないように変更
+        ''' * @user/lists形式 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property ChangeLog() As String
             Get
@@ -1254,6 +1255,15 @@ Namespace My.Resources
             Get
                 Dim obj As Object = ResourceManager.GetObject("ReplyBlink", resourceCulture)
                 Return CType(obj,System.Drawing.Icon)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Retweetしてもよろしいですか？ に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property RetweetQuestion1() As String
+            Get
+                Return ResourceManager.GetString("RetweetQuestion1", resourceCulture)
             End Get
         End Property
         
