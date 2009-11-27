@@ -129,6 +129,7 @@ Public Module Twitter
             "http://j.mp/" _
         }
 
+    Private Const _apiHost As String = "api."
     Private Const _baseUrlStr As String = "twitter.com"
     Private Const _loginPath As String = "/sessions"
     Private Const _homePath As String = "/home"
@@ -137,6 +138,7 @@ Public Module Twitter
     Private Const _DMPathSnt As String = "/sent"
     Private Const _DMDestroyPath As String = "/direct_messages/destroy/"
     Private Const _StDestroyPath As String = "/statuses/destroy/"
+    Private Const _postRetweetPath As String = "/1/statuses/retweet/"
     Private Const _uidHeader As String = "session[username_or_email]="
     Private Const _pwdHeader As String = "session[password]="
     Private Const _pageQry As String = "?page="
@@ -1895,6 +1897,30 @@ Public Module Twitter
         'データ部分の生成
         Dim resStatus As String = ""
         Dim resMsg As String = DirectCast(CreateSocket.GetWebResponse(_protocol + _hubServer + _StDestroyPath + id.ToString + ".xml", resStatus, MySocket.REQ_TYPE.ReqPOSTAPI), String)
+
+        If resMsg.StartsWith("<?xml") = False OrElse resStatus.StartsWith("OK") = False Then
+            If resStatus.StartsWith("Err: Unauthorized") Then
+                Twitter.AccountState = ACCOUNT_STATE.Invalid
+                Return "Check your Username/Password."
+            Else
+                Return resStatus
+            End If
+        End If
+
+        Return ""
+    End Function
+
+    Public Function PostRetweet(ByVal id As Long) As String
+        If _endingFlag Then Return ""
+        If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
+
+        'データ部分の生成
+        Dim target As Long = id
+        If TabInformations.GetInstance.Item(id).RetweetedId > 0 Then
+            target = TabInformations.GetInstance.Item(id).RetweetedId
+        End If
+        Dim resStatus As String = ""
+        Dim resMsg As String = DirectCast(CreateSocket.GetWebResponse(_protocol + _apiHost + _hubServer + _postRetweetPath + target.ToString + ".xml", resStatus, MySocket.REQ_TYPE.ReqPOSTAPI), String)
 
         If resMsg.StartsWith("<?xml") = False OrElse resStatus.StartsWith("OK") = False Then
             If resStatus.StartsWith("Err: Unauthorized") Then

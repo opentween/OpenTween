@@ -588,6 +588,7 @@ Public Class TweenMain
         SettingDialog.BitlyUser = _cfgCommon.BilyUser
         SettingDialog.BitlyPwd = _cfgCommon.BitlyPwd
         SettingDialog.ShowGrid = _cfgCommon.ShowGrid
+        SettingDialog.Language = _cfgCommon.Language
         SettingDialog.UseAtIdSupplement = _cfgCommon.UseAtIdSupplement
         If SettingDialog.UseAtIdSupplement Then
             AtIdSupl = New AtIdSupplement(SettingAtIdList.Load().AtIdList)
@@ -1590,6 +1591,9 @@ Public Class TweenMain
             '複数行でEnter投稿の場合、Ctrlも押されていたらフッタ付加しない
             isRemoveFooter = My.Computer.Keyboard.CtrlKeyDown
         End If
+        If Not isRemoveFooter AndAlso (StatusText.Text.Contains("RT @") OrElse StatusText.Text.Contains("QT @")) Then
+            isRemoveFooter = True
+        End If
         If GetRestStatusCount(False, Not isRemoveFooter) - adjustCount < 0 Then
             If MessageBox.Show(My.Resources.PostLengthOverMessage1, My.Resources.PostLengthOverMessage2, MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.OK Then
                 isCutOff = True
@@ -1675,7 +1679,8 @@ Public Class TweenMain
 
         Threading.Thread.CurrentThread.Priority = Threading.ThreadPriority.BelowNormal
 
-        'My.Application.InitCulture()
+        My.Application.InitCulture()
+
         Dim ret As String = ""
         Dim rslt As New GetWorkerResult()
 
@@ -1778,6 +1783,10 @@ Public Class TweenMain
                 Next
                 _reply_to_id = 0
                 _reply_to_name = ""
+                bw.ReportProgress(300)
+            Case WORKERTYPE.Retweet
+                bw.ReportProgress(200)
+                ret = Twitter.PostRetweet(args.ids(0))
                 bw.ReportProgress(300)
             Case WORKERTYPE.Follower
                 bw.ReportProgress(50, My.Resources.UpdateFollowersMenuItem1_ClickText1)
@@ -2100,6 +2109,19 @@ Public Class TweenMain
                     SetMainWindowTitle()
                 End If
                 If rslt.retMsg.Length = 0 AndAlso SettingDialog.PostAndGet Then GetTimeline(WORKERTYPE.Timeline, 1, 0)
+            Case WORKERTYPE.Retweet
+                If rslt.retMsg.Length > 0 Then
+                    StatusLabel.Text = rslt.retMsg
+                Else
+                    _postTimestamps.Add(Now)
+                    Dim oneHour As Date = Now.Subtract(New TimeSpan(1, 0, 0))
+                    For i As Integer = _postTimestamps.Count - 1 To 0 Step -1
+                        If _postTimestamps(i).CompareTo(oneHour) < 0 Then
+                            _postTimestamps.RemoveAt(i)
+                        End If
+                    Next
+                End If
+                If rslt.retMsg.Length = 0 AndAlso SettingDialog.PostAndGet Then GetTimeline(WORKERTYPE.Timeline, 1, 0)
             Case WORKERTYPE.Follower
                 '_waitFollower = False
                 _itemCache = Nothing
@@ -2341,9 +2363,11 @@ Public Class TweenMain
         If _curPost Is Nothing OrElse _curPost.IsDm Then
             ReTweetStripMenuItem.Enabled = False
             ReTweetOriginalStripMenuItem.Enabled = False
+            QuoteStripMenuItem.Enabled = False
         Else
             ReTweetStripMenuItem.Enabled = True
             ReTweetOriginalStripMenuItem.Enabled = True
+            QuoteStripMenuItem.Enabled = True
         End If
     End Sub
 
@@ -4515,6 +4539,7 @@ RETRY:
                 _cfgCommon.BitlyPwd = SettingDialog.BitlyPwd
                 _cfgCommon.ShowGrid = SettingDialog.ShowGrid
                 _cfgCommon.UseAtIdSupplement = SettingDialog.UseAtIdSupplement
+                _cfgCommon.Language = SettingDialog.Language
 
                 _cfgCommon.SortOrder = _statuses.SortOrder
                 Select Case _statuses.SortMode
@@ -5542,9 +5567,13 @@ RETRY:
                     If String.IsNullOrEmpty(urlStr) Then Continue For
                     UrlDialog.AddUrl(urlEncodeMultibyteChar(urlStr))
                 Next
-                If UrlDialog.ShowDialog() = Windows.Forms.DialogResult.OK Then
-                    openUrlStr = UrlDialog.SelectedUrl
-                End If
+                Try
+                    If UrlDialog.ShowDialog() = Windows.Forms.DialogResult.OK Then
+                        openUrlStr = UrlDialog.SelectedUrl
+                    End If
+                Catch ex As Exception
+                    Exit Sub
+                End Try
                 Me.TopMost = SettingDialog.AlwaysTop
             End If
             If String.IsNullOrEmpty(openUrlStr) Then Exit Sub
@@ -5667,7 +5696,7 @@ RETRY:
 
     Friend Sub CheckReplyTo(ByVal StatusText As String)
         ' 本当にリプライ先指定すべきかどうかの判定
-        Dim id As New Regex("(^|[ -/:-@[-^`{-~])@[a-zA-Z0-9_]+")
+        Dim id As New Regex("(^|[ -/:-@[-^`{-~])(?<id>@[a-zA-Z0-9_]+)")
         Dim m As MatchCollection
 
         m = id.Matches(StatusText)
@@ -5675,7 +5704,7 @@ RETRY:
         If AtIdSupl IsNot Nothing Then
             Dim bCnt As Integer = AtIdSupl.IdCount
             For Each mid As Match In m
-                AtIdSupl.AddId(mid.ToString)
+                AtIdSupl.AddId(mid.Result("${id}"))
             Next
             If bCnt <> AtIdSupl.IdCount Then modifySettingAtId = True
         End If
@@ -5697,7 +5726,7 @@ RETRY:
 
         If m IsNot Nothing AndAlso Not StatusText.StartsWith(". ") Then
             For Each mid As Match In m
-                If mid.ToString = "@" + _reply_to_name Then
+                If mid.Result("${id}") = "@" + _reply_to_name Then
                     Exit Sub
                 End If
             Next
@@ -6488,30 +6517,49 @@ RETRY:
     End Sub
 
     Private Sub ReTweetOriginalStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReTweetOriginalStripMenuItem.Click
-        'RT @id:内容
-        '元発言のみRT
-        If _curPost IsNot Nothing Then
-            If _curPost.IsDm OrElse _
-               Not StatusText.Enabled Then Exit Sub
-
+        '公式RT
+        If _curPost IsNot Nothing AndAlso Not _curPost.IsDm Then
             If SettingDialog.ProtectNotInclude AndAlso _curPost.IsProtect Then
                 MessageBox.Show("Protected.")
                 Exit Sub
             End If
-
-            Dim rtdata As String = _curPost.OriginalData
-            rtdata = CreateRetweet(rtdata)
-
-            Dim rx As New Regex("^(?<multi>(RT @[0-9a-zA-Z_]+\s?:\s?)*)(?<org>RT @[0-9a-zA-Z_]+\s?:)")
-            If rx.IsMatch(rtdata) Then
-                StatusText.Text = HttpUtility.HtmlDecode(rx.Replace(rtdata, "${org}"))
-            Else
-                StatusText.Text = "RT @" + _curPost.Name + ": " + HttpUtility.HtmlDecode(rtdata)
+            If MessageBox.Show(My.Resources.RetweetQuestion1, "Retweet", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
+                Exit Sub
             End If
+            Dim args As New GetWorkerArg
+            args.ids = New List(Of Long)
+            args.sIds = New List(Of Long)
+            args.tName = _curTab.Text
+            args.type = WORKERTYPE.Retweet
+            args.ids.Add(_curPost.Id)
 
-            StatusText.SelectionStart = 0
-            StatusText.Focus()
+            RunAsync(args)
         End If
+
+        ''RT @id:内容
+        ''元発言のみRT
+        'If _curPost IsNot Nothing Then
+        '    If _curPost.IsDm OrElse _
+        '       Not StatusText.Enabled Then Exit Sub
+
+        '    If SettingDialog.ProtectNotInclude AndAlso _curPost.IsProtect Then
+        '        MessageBox.Show("Protected.")
+        '        Exit Sub
+        '    End If
+
+        '    Dim rtdata As String = _curPost.OriginalData
+        '    rtdata = CreateRetweet(rtdata)
+
+        '    Dim rx As New Regex("^(?<multi>(RT @[0-9a-zA-Z_]+\s?:\s?)*)(?<org>RT @[0-9a-zA-Z_]+\s?:)")
+        '    If rx.IsMatch(rtdata) Then
+        '        StatusText.Text = HttpUtility.HtmlDecode(rx.Replace(rtdata, "${org}"))
+        '    Else
+        '        StatusText.Text = "RT @" + _curPost.Name + ": " + HttpUtility.HtmlDecode(rtdata)
+        '    End If
+
+        '    StatusText.SelectionStart = 0
+        '    StatusText.Focus()
+        'End If
     End Sub
 
     Private Function CreateRetweet(ByVal status As String) As String
@@ -6732,10 +6780,33 @@ RETRY:
         modifySettingCommon = True
     End Sub
 
-    Private Sub UserPicture_Paint(ByVal sender As System.Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles UserPicture.Paint
-        If e.Graphics.InterpolationMode <> Drawing2D.InterpolationMode.HighQualityBicubic Then
-            e.Graphics.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
-            UserPicture.GetType().GetMethod("OnPaint", BindingFlags.NonPublic Or BindingFlags.Instance).Invoke(UserPicture, New Object() {e})
+    'Private Sub UserPicture_Paint(ByVal sender As System.Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles UserPicture.Paint
+    '    If e.Graphics.InterpolationMode <> Drawing2D.InterpolationMode.HighQualityBicubic Then
+    '        e.Graphics.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
+    '        UserPicture.GetType().GetMethod("OnPaint", BindingFlags.NonPublic Or BindingFlags.Instance).Invoke(UserPicture, New Object() {e})
+    '    End If
+    'End Sub
+
+    Private Sub QuoteStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles QuoteStripMenuItem.Click
+        'QT @id:内容
+        '返信先情報付加
+        If _curPost IsNot Nothing Then
+            If _curPost.IsDm OrElse _
+               Not StatusText.Enabled Then Exit Sub
+
+            If SettingDialog.ProtectNotInclude AndAlso _curPost.IsProtect Then
+                MessageBox.Show("Protected.")
+                Exit Sub
+            End If
+            Dim rtdata As String = _curPost.OriginalData
+            rtdata = CreateRetweet(rtdata)
+
+            StatusText.Text = " QT @" + _curPost.Name + ": " + HttpUtility.HtmlDecode(rtdata)
+            _reply_to_id = _curPost.Id
+            _reply_to_name = _curPost.Name
+
+            StatusText.SelectionStart = 0
+            StatusText.Focus()
         End If
     End Sub
 End Class

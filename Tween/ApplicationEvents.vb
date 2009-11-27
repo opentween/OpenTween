@@ -47,7 +47,7 @@ Namespace My
 
         Private Sub MyApplication_Startup(ByVal sender As Object, ByVal e As Microsoft.VisualBasic.ApplicationServices.StartupEventArgs) Handles Me.Startup
 
-            'InitCulture()
+            InitCulture()
 
             Dim pt As String = Application.Info.DirectoryPath.Replace("\", "/") + "/" + Application.Info.ProductName
             mt = New System.Threading.Mutex(False, pt)
@@ -97,25 +97,28 @@ Namespace My
 
         Public ReadOnly Property CultureCode() As String
             Get
-                Static _ccode As String = Nothing
-                If _ccode Is Nothing Then
-                    Dim filename As String = System.IO.Path.Combine(Application.Info.DirectoryPath, "TweenConf.xml")
-                    If IO.File.Exists(filename) Then
-                        Try
-                            Using config As New IO.StreamReader(filename)
-                                Dim xmlDoc As New Xml.XmlDocument
-                                xmlDoc.Load(config)
-                                Dim ns As New Xml.XmlNamespaceManager(xmlDoc.NameTable)
-                                ns.AddNamespace("conf", "urn:XSpect.Configuration.XmlConfiguration")
-                                _ccode = xmlDoc.SelectSingleNode("//conf:configuration/entry[@key='cultureCode']", ns).SelectSingleNode("string").InnerText
-                            End Using
-                        Catch ex As Exception
+                'Static _ccode As String = Nothing
+                If cultureStr Is Nothing Then
+                    Dim cfgCommon As SettingCommon = SettingCommon.Load()
+                    cultureStr = cfgCommon.Language
+                    If cultureStr = "OS" Then cultureStr = ""
+                    'Dim filename As String = System.IO.Path.Combine(Application.Info.DirectoryPath, "TweenConf.xml")
+                    'If IO.File.Exists(filename) Then
+                    '    Try
+                    '        Using config As New IO.StreamReader(filename)
+                    '            Dim xmlDoc As New Xml.XmlDocument
+                    '            xmlDoc.Load(config)
+                    '            Dim ns As New Xml.XmlNamespaceManager(xmlDoc.NameTable)
+                    '            ns.AddNamespace("conf", "urn:XSpect.Configuration.XmlConfiguration")
+                    '            _ccode = xmlDoc.SelectSingleNode("//conf:configuration/entry[@key='cultureCode']", ns).SelectSingleNode("string").InnerText
+                    '        End Using
+                    '    Catch ex As Exception
 
-                        End Try
+                    '    End Try
 
-                    End If
+                    'End If
                 End If
-                Return _ccode
+                Return cultureStr
             End Get
         End Property
 

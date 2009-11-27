@@ -717,4 +717,7 @@
   <data name="WebModeWarning7" xml:space="preserve">
     <value>Please put the check in "Use API" in "Operation" tab of the setting when you want to return it to API mode.</value>
   </data>
+  <data name="RetweetQuestion1" xml:space="preserve">
+    <value>Retweet this tweet?</value>
+  </data>
 </root>

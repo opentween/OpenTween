@@ -769,4 +769,7 @@
   <data name="WebModeWarning7" xml:space="preserve">
     <value>APIモードへ戻す場合は、設定の「動作」タブにある「API使用」にチェックを入れて下さい。</value>
   </data>
+  <data name="RetweetQuestion1" xml:space="preserve">
+    <value>Retweetしてもよろしいですか？</value>
+  </data>
 </root>

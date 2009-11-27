@@ -30,6 +30,7 @@ Imports System.Web
 Public Module MyCommon
     Private ReadOnly LockObj As New Object
     Public _endingFlag As Boolean        '終了フラグ
+    Public cultureStr As String = Nothing
 
     Public Enum IconSizes
         IconNone = 0
@@ -108,6 +109,7 @@ Public Module MyCommon
         Follower                'Followerリスト取得
         OpenUri                 'Uri開く
         Favorites               'Fav取得
+        Retweet                 'Retweetする
     End Enum
 
     Public Structure DEFAULTTAB
