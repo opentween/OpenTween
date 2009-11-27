@@ -101,7 +101,12 @@ Namespace My
                 If cultureStr Is Nothing Then
                     Dim cfgCommon As SettingCommon = SettingCommon.Load()
                     cultureStr = cfgCommon.Language
-                    If cultureStr = "OS" Then cultureStr = ""
+                    If cultureStr = "OS" Then
+                        If Not Threading.Thread.CurrentThread.CurrentUICulture.Name.StartsWith("ja") AndAlso _
+                           Not Threading.Thread.CurrentThread.CurrentUICulture.Name.StartsWith("en") Then
+                            cultureStr = "en"
+                        End If
+                    End If
                     'Dim filename As String = System.IO.Path.Combine(Application.Info.DirectoryPath, "TweenConf.xml")
                     'If IO.File.Exists(filename) Then
                     '    Try
