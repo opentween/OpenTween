@@ -566,19 +566,24 @@ Public NotInheritable Class TabInformations
     Private Sub SetNextUnreadId(ByVal CurrentId As Long, ByVal Tab As TabClass)
         'CurrentID:今既読にしたID(OldestIDの可能性あり)
         '最古未読が設定されていて、既読の場合（1発言以上存在）
-        If Tab.OldestUnreadId > -1 AndAlso _
-           _statuses.ContainsKey(Tab.OldestUnreadId) AndAlso _
-           _statuses.Item(Tab.OldestUnreadId).IsRead AndAlso _
-           _sorter.Mode = IdComparerClass.ComparerMode.Id Then     '次の未読探索
-            If Tab.UnreadCount = 0 Then
-                '未読数０→最古未読なし
-                Tab.OldestUnreadId = -1
-            ElseIf Tab.OldestUnreadId = CurrentId Then
-                '最古IDを既読にしたタイミング→次のIDから続けて探索
-                Dim idx As Integer = Tab.IndexOf(CurrentId)
-                If idx > -1 Then
-                    '続きから探索
-                    FindUnreadId(idx, Tab)
+        Try
+            If Tab.OldestUnreadId > -1 AndAlso _
+               _statuses.ContainsKey(Tab.OldestUnreadId) AndAlso _
+               _statuses.Item(Tab.OldestUnreadId).IsRead AndAlso _
+               _sorter.Mode = IdComparerClass.ComparerMode.Id Then     '次の未読探索
+                If Tab.UnreadCount = 0 Then
+                    '未読数０→最古未読なし
+                    Tab.OldestUnreadId = -1
+                ElseIf Tab.OldestUnreadId = CurrentId Then
+                    '最古IDを既読にしたタイミング→次のIDから続けて探索
+                    Dim idx As Integer = Tab.IndexOf(CurrentId)
+                    If idx > -1 Then
+                        '続きから探索
+                        FindUnreadId(idx, Tab)
+                    Else
+                        '頭から探索
+                        FindUnreadId(-1, Tab)
+                    End If
                 Else
                     '頭から探索
                     FindUnreadId(-1, Tab)
@@ -587,10 +592,10 @@ Public NotInheritable Class TabInformations
                 '頭から探索
                 FindUnreadId(-1, Tab)
             End If
-        Else
+        Catch ex As Generic.KeyNotFoundException
             '頭から探索
             FindUnreadId(-1, Tab)
-        End If
+        End Try
     End Sub
 
     Private Sub FindUnreadId(ByVal StartIdx As Integer, ByVal Tab As TabClass)

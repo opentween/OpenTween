@@ -865,7 +865,6 @@ Public Class TweenMain
 
         StatusLabel.Text = My.Resources.Form1_LoadText1       '画面右下の状態表示を変更
         StatusLabelUrl.Text = ""            '画面左下のリンク先URL表示部を初期化
-        PostBrowser.DocumentText = ""       '発言詳細部初期化
         NameLabel.Text = ""                 '発言詳細部名前ラベル初期化
         DateTimeLabel.Text = ""             '発言詳細部日時ラベル初期化
 
@@ -1378,10 +1377,10 @@ Public Class TweenMain
         End If
     End Sub
 
-    Private Sub Mylist_Scrolled(ByVal sender As Object, ByVal e As System.EventArgs)
-        'TimerColorize.Stop()
-        'TimerColorize.Start()
-    End Sub
+    'Private Sub Mylist_Scrolled(ByVal sender As Object, ByVal e As System.EventArgs)
+    '    'TimerColorize.Stop()
+    '    'TimerColorize.Start()
+    'End Sub
 
     Private Sub MyList_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If _curList.SelectedIndices.Count <> 1 Then Exit Sub
@@ -2896,7 +2895,7 @@ Public Class TweenMain
                 AddHandler _listCustom.DrawItem, AddressOf MyList_DrawItemDefault
         End Select
 
-        AddHandler _listCustom.Scrolled, AddressOf Mylist_Scrolled
+        'AddHandler _listCustom.Scrolled, AddressOf Mylist_Scrolled
         AddHandler _listCustom.MouseClick, AddressOf MyList_MouseClick
         AddHandler _listCustom.ColumnReordered, AddressOf MyList_ColumnReordered
         AddHandler _listCustom.ColumnWidthChanged, AddressOf MyList_ColumnWidthChanged
@@ -3046,7 +3045,7 @@ Public Class TweenMain
                 RemoveHandler _listCustom.DrawItem, AddressOf MyList_DrawItemDefault
         End Select
 
-        RemoveHandler _listCustom.Scrolled, AddressOf Mylist_Scrolled
+        'RemoveHandler _listCustom.Scrolled, AddressOf Mylist_Scrolled
         RemoveHandler _listCustom.MouseClick, AddressOf MyList_MouseClick
         RemoveHandler _listCustom.ColumnReordered, AddressOf MyList_ColumnReordered
         RemoveHandler _listCustom.ColumnWidthChanged, AddressOf MyList_ColumnWidthChanged
@@ -3862,7 +3861,11 @@ RETRY:
             PostBrowser.Visible = True
         ElseIf PostBrowser.DocumentText <> dTxt Then
             PostBrowser.Visible = False
-            PostBrowser.DocumentText = dTxt
+            Try
+                PostBrowser.DocumentText = dTxt
+            Catch ex As System.Runtime.InteropServices.COMException
+                '原因不明
+            End Try
             PostBrowser.Visible = True
         End If
     End Sub
@@ -6396,6 +6399,13 @@ RETRY:
     End Sub
 
     Private Sub TweenMain_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
+        Try
+            PostBrowser.Url = New Uri("about:blank")
+            PostBrowser.DocumentText = ""       '発言詳細部初期化
+        Catch ex As Exception
+
+        End Try
+
         If IsNetworkAvailable() Then
             If SettingDialog.ReadPages > 0 Then
                 _waitTimeline = True
