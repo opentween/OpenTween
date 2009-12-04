@@ -43,6 +43,7 @@ Partial Class TweenMain
         Me.ClearTabMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator11 = New System.Windows.Forms.ToolStripSeparator
         Me.DeleteTabMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.MenuItemTab = New System.Windows.Forms.ToolStripMenuItem
         Me.TabImage = New System.Windows.Forms.ImageList(Me.components)
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel
@@ -124,7 +125,6 @@ Partial Class TweenMain
         Me.SelectAllMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.DeleteStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.RefreshStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.MenuItemTab = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuItemCommand = New System.Windows.Forms.ToolStripMenuItem
         Me.TinyUrlConvertToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.UrlConvertAutoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -233,6 +233,7 @@ Partial Class TweenMain
         '
         Me.SplitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         resources.ApplyResources(Me.SplitContainer1, "SplitContainer1")
+        Me.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
         Me.SplitContainer1.Name = "SplitContainer1"
         '
         'SplitContainer1.Panel1
@@ -327,6 +328,12 @@ Partial Class TweenMain
         Me.DeleteTabMenuItem.Name = "DeleteTabMenuItem"
         resources.ApplyResources(Me.DeleteTabMenuItem, "DeleteTabMenuItem")
         '
+        'MenuItemTab
+        '
+        Me.MenuItemTab.DropDown = Me.ContextMenuTabProperty
+        Me.MenuItemTab.Name = "MenuItemTab"
+        resources.ApplyResources(Me.MenuItemTab, "MenuItemTab")
+        '
         'TabImage
         '
         Me.TabImage.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit
@@ -407,7 +414,7 @@ Partial Class TweenMain
         Me.PostBrowser.Name = "PostBrowser"
         Me.PostBrowser.ScriptErrorsSuppressed = True
         Me.PostBrowser.TabStop = False
-        Me.PostBrowser.Url = New System.Uri("about:blank", System.UriKind.Absolute)
+        Me.PostBrowser.Url = New System.Uri("", System.UriKind.Relative)
         '
         'ContextMenuStrip4
         '
@@ -790,12 +797,6 @@ Partial Class TweenMain
         '
         Me.RefreshStripMenuItem.Name = "RefreshStripMenuItem"
         resources.ApplyResources(Me.RefreshStripMenuItem, "RefreshStripMenuItem")
-        '
-        'MenuItemTab
-        '
-        Me.MenuItemTab.DropDown = Me.ContextMenuTabProperty
-        Me.MenuItemTab.Name = "MenuItemTab"
-        resources.ApplyResources(Me.MenuItemTab, "MenuItemTab")
         '
         'MenuItemCommand
         '

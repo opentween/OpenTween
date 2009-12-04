@@ -1733,9 +1733,14 @@ Public Module Twitter
             SyncLock LockObj
                 post.ImageIndex = _lIcon.Images.IndexOfKey(post.ImageUrl)
                 If post.ImageIndex = -1 Then
-                    _dIcon.Add(post.ImageUrl, img)  '詳細表示用ディクショナリに追加
-                    _lIcon.Images.Add(post.ImageUrl, bmp2)
-                    post.ImageIndex = _lIcon.Images.IndexOfKey(post.ImageUrl)
+                    Try
+                        _dIcon.Add(post.ImageUrl, img)  '詳細表示用ディクショナリに追加
+                        _lIcon.Images.Add(post.ImageUrl, bmp2)
+                        post.ImageIndex = _lIcon.Images.IndexOfKey(post.ImageUrl)
+                    Catch ex As InvalidOperationException
+                        'タイミングにより追加できない場合がある？（キー重複ではない）
+                        post.ImageIndex = -1
+                    End Try
                 End If
             End SyncLock
             TabInformations.GetInstance.AddPost(post)
@@ -3028,6 +3033,8 @@ Public Module Twitter
                 Return resStatus
             End If
         End If
+
+        If gType = WORKERTYPE.Timeline Then Debug.WriteLine(retMsg)
 
         Dim arIdx As Integer = -1
         Dim dlgt(_countApi) As GetIconImageDelegate    'countQueryに合わせる

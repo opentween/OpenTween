@@ -146,18 +146,23 @@ Namespace TweenCustomControl
         End Sub
 
         Private Sub SetUpdateBounds(ByVal itemIndex As Integer, ByVal subItemIndex As Integer)
-            If itemIndex > Me.Items.Count Then
-                Throw New ArgumentOutOfRangeException("itemIndex")
-            End If
-            If subItemIndex > Me.Columns.Count Then
-                Throw New ArgumentOutOfRangeException("subItemIndex")
-            End If
-            Dim item As ListViewItem = Me.Items(itemIndex)
-            If item.UseItemStyleForSubItems Then
-                Me.changeBounds = item.Bounds
-            Else
-                Me.changeBounds = Me.GetSubItemBounds(itemIndex, subItemIndex)
-            End If
+            Try
+                If itemIndex > Me.Items.Count Then
+                    Throw New ArgumentOutOfRangeException("itemIndex")
+                End If
+                If subItemIndex > Me.Columns.Count Then
+                    Throw New ArgumentOutOfRangeException("subItemIndex")
+                End If
+                Dim item As ListViewItem = Me.Items(itemIndex)
+                If item.UseItemStyleForSubItems Then
+                    Me.changeBounds = item.Bounds
+                Else
+                    Me.changeBounds = Me.GetSubItemBounds(itemIndex, subItemIndex)
+                End If
+            Catch ex As ArgumentException
+                'タイミングによりBoundsプロパティが取れない？
+                Me.changeBounds = Rectangle.Empty
+            End Try
         End Sub
 
         Private Function GetSubItemBounds(ByVal itemIndex As Integer, ByVal subitemIndex As Integer) As Rectangle
@@ -174,8 +179,8 @@ Namespace TweenCustomControl
         Protected Overrides Sub WndProc(ByRef m As System.Windows.Forms.Message)
             Const WM_ERASEBKGND As Integer = &H14
             Const WM_PAINT As Integer = &HF
-            Const WM_VSCROLL As Integer = &H115
-            Const WM_MOUSEWHEEL As Integer = &H20A
+            'Const WM_VSCROLL As Integer = &H115
+            'Const WM_MOUSEWHEEL As Integer = &H20A
             'Const WM_SETFOCUS As Integer = &H7
 
             If m.Msg = WM_ERASEBKGND Then
@@ -192,13 +197,17 @@ Namespace TweenCustomControl
                     Me.changeBounds = Rectangle.Empty
                 End If
             End If
-            If m.Msg = WM_VSCROLL OrElse m.Msg = WM_MOUSEWHEEL Then
-                RaiseEvent Scrolled(Me, New System.EventArgs)
-            End If
+            'If m.Msg = WM_VSCROLL OrElse m.Msg = WM_MOUSEWHEEL Then
+            '    RaiseEvent Scrolled(Me, New System.EventArgs)
+            'End If
             'If m.Msg = WM_SETFOCUS Then
             '    Return
             'End If
-            MyBase.WndProc(m)
+            Try
+                MyBase.WndProc(m)
+            Catch ex As ArgumentOutOfRangeException
+                'Substringでlengthが0以下。アイコンサイズが影響？
+            End Try
         End Sub
 
     End Class
