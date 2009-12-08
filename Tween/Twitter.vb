@@ -3072,7 +3072,8 @@ Public Module Twitter
                     Long.TryParse(xRentry.Item("in_reply_to_status_id").InnerText, post.InReplyToId)
                     post.InReplyToUser = xRentry.Item("in_reply_to_screen_name").InnerText
                     'in_reply_to_user_idを使うか？
-                    post.IsFav = Boolean.Parse(xRentry.Item("favorited").InnerText)
+                    'post.IsFav = Boolean.Parse(xRentry.Item("favorited").InnerText)
+                    post.IsFav = False
 
                     '以下、ユーザー情報
                     Dim xRUentry As XmlElement = CType(xRentry.SelectSingleNode("./user"), XmlElement)
