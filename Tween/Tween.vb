@@ -1776,10 +1776,11 @@ Public Class TweenMain
                 ' Contributed by shuyoko <http://twitter.com/shuyoko> END.
             Case WORKERTYPE.PostMessage
                 bw.ReportProgress(200)
-                For i As Integer = 0 To 1
-                    ret = Twitter.PostStatus(args.status, _reply_to_id)
-                    If ret = "" OrElse ret = "OK:Delaying?" OrElse ret.StartsWith("Outputz:") Then Exit For
-                Next
+                'For i As Integer = 0 To 1
+                '    ret = Twitter.PostStatus(args.status, _reply_to_id)
+                '    If ret = "" OrElse ret = "OK:Delaying?" OrElse ret.StartsWith("Outputz:") Then Exit For
+                'Next
+                ret = Twitter.PostStatus(args.status, _reply_to_id)
                 _reply_to_id = 0
                 _reply_to_name = ""
                 bw.ReportProgress(300)
