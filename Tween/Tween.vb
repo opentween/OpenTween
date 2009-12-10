@@ -962,7 +962,7 @@ Public Class TweenMain
         e.Graphics.DrawString(txt, e.Font, fore, e.Bounds, sfTab)
     End Sub
 
-    Private Function LoadConfig() As Boolean
+    Private Function LoadOldConfig() As Boolean
         Dim needToSave As Boolean = False
         _cfgCommon = SettingCommon.Load()
         _cfgLocal = SettingLocal.Load()
@@ -1001,8 +1001,29 @@ Public Class TweenMain
         End If
     End Function
 
+    Private Sub LoadConfig()
+        Dim needToSave As Boolean = False
+        _cfgCommon = SettingCommon.Load()
+        _cfgLocal = SettingLocal.Load()
+        Dim tabs As List(Of TabClass) = SettingTabs.Load().Tabs
+        For Each tb As TabClass In tabs
+            _statuses.Tabs.Add(tb.TabName, tb)
+        Next
+        If _statuses.Tabs.Count = 0 Then
+            _statuses.AddTab(DEFAULTTAB.RECENT, TabUsageType.Home)
+            _statuses.AddTab(DEFAULTTAB.REPLY, TabUsageType.Mentions)
+            _statuses.AddTab(DEFAULTTAB.DM, TabUsageType.DirectMessage)
+            _statuses.AddTab(DEFAULTTAB.FAV, TabUsageType.Favorites)
+        End If
+    End Sub
+
     Private Sub ConvertConfig()
-        If LoadConfig() Then Exit Sub
+        '新タブ設定ファイル存在チェック
+        If System.IO.File.Exists(SettingTabs.GetSettingFilePath("")) Then
+            LoadConfig()
+            Exit Sub
+        End If
+        If LoadOldConfig() Then Exit Sub
 
         '_cfg = SettingToConfig.Load()
         'If _cfg Is Nothing Then Exit Sub
@@ -2090,7 +2111,7 @@ Public Class TweenMain
                 urlUndoBuffer = Nothing
                 UrlUndoToolStripMenuItem.Enabled = False  'Undoをできないように設定
 
-                If rslt.retMsg.Length > 0 AndAlso Not rslt.retMsg.StartsWith("Outputz") AndAlso Not rslt.retMsg <> "OK:Delaying?" Then
+                If rslt.retMsg.Length > 0 AndAlso Not rslt.retMsg.StartsWith("Outputz") AndAlso rslt.retMsg <> "OK:Delaying?" Then
                     StatusLabel.Text = rslt.retMsg
                 Else
                     _postTimestamps.Add(Now)
@@ -3813,6 +3834,17 @@ RETRY:
         End If
         'If UserPicture.Image IsNot Nothing Then UserPicture.Image.Dispose()
         If _curPost.ImageIndex > -1 Then
+            Dim fd As New System.Drawing.Imaging.FrameDimension(TIconDic(_curPost.ImageUrl).FrameDimensionsList(0))
+            Dim fd_count As Integer = TIconDic(_curPost.ImageUrl).GetFrameCount(fd)
+            If fd_count > 1 Then
+                Try
+                    TIconDic(_curPost.ImageUrl).SelectActiveFrame(fd, 1)
+                Catch ex As Exception
+                    Dim bmp As New Bitmap(TIconDic(_curPost.ImageUrl))
+                    TIconDic(_curPost.ImageUrl).Dispose()
+                    TIconDic(_curPost.ImageUrl) = bmp
+                End Try
+            End If
             UserPicture.Image = TIconDic(_curPost.ImageUrl)
         Else
             UserPicture.Image = Nothing
@@ -4200,11 +4232,25 @@ RETRY:
             stp = -1
         End If
 
+        Dim name As String = ""
+        If _curPost.RetweetedId = 0 Then
+            name = _curPost.Name
+        Else
+            name = _curPost.RetweetedBy
+        End If
         For idx As Integer = fIdx To toIdx Step stp
-            If _statuses.Item(_curTab.Text, idx).Name = _curPost.Name Then
-                SelectListItem(_curList, idx)
-                _curList.EnsureVisible(idx)
-                Exit For
+            If _statuses.Item(_curTab.Text, idx).RetweetedId = 0 Then
+                If _statuses.Item(_curTab.Text, idx).Name = name Then
+                    SelectListItem(_curList, idx)
+                    _curList.EnsureVisible(idx)
+                    Exit For
+                End If
+            Else
+                If _statuses.Item(_curTab.Text, idx).RetweetedBy = name Then
+                    SelectListItem(_curList, idx)
+                    _curList.EnsureVisible(idx)
+                    Exit For
+                End If
             End If
         Next
     End Sub
@@ -4238,8 +4284,13 @@ RETRY:
         For idx As Integer = fIdx To toIdx Step stp
             Dim post As PostClass = _statuses.Item(_curTab.Text, idx)
             If post.Name = _anchorPost.Name OrElse _
+               post.RetweetedBy = _anchorPost.Name OrElse _
+               post.Name = _anchorPost.RetweetedBy OrElse _
+               (Not String.IsNullOrEmpty(post.RetweetedBy) AndAlso post.RetweetedBy = _anchorPost.RetweetedBy) OrElse _
                _anchorPost.ReplyToList.Contains(post.Name.ToLower()) OrElse _
-               post.ReplyToList.Contains(_anchorPost.Name.ToLower()) Then
+               _anchorPost.ReplyToList.Contains(post.RetweetedBy.ToLower()) OrElse _
+               post.ReplyToList.Contains(_anchorPost.Name.ToLower()) OrElse _
+               post.ReplyToList.Contains(_anchorPost.RetweetedBy.ToLower()) Then
                 SelectListItem(_curList, idx)
                 _curList.EnsureVisible(idx)
                 Exit For
@@ -4462,7 +4513,8 @@ RETRY:
         If Not ifModified Then
             SaveConfigsCommon()
             SaveConfigsLocal()
-            SaveConfigsTab(True)    'True:事前に設定ファイル削除
+            'SaveConfigsTab(True)    'True:事前に設定ファイル削除
+            SaveConfigsTabs()
         Else
             If modifySettingCommon Then SaveConfigsCommon()
             If modifySettingLocal Then SaveConfigsLocal()
@@ -4559,10 +4611,19 @@ RETRY:
                         _cfgCommon.SortColumn = 7
                 End Select
 
-                _cfgCommon.TabList.Clear()
-                For i As Integer = 0 To ListTab.TabPages.Count - 1
-                    _cfgCommon.TabList.Add(ListTab.TabPages(i).Text)
-                Next
+                '                _cfgCommon.TabList.Clear()
+                '                For i As Integer = 0 To ListTab.TabPages.Count - 1
+                '                    Dim tnList As String = ListTab.TabPages(i).Text
+                '                    Dim seq As Integer = 1
+                'RETRY:
+                '                    seq += 1
+                '                    For Each tn As String In _cfgCommon.TabList
+                '                        If tn.ToLower() = tnList.ToLower() Then
+                '                            tnList += "_" + seq.ToString()
+                '                        End If
+                '                    Next
+                '                    _cfgCommon.TabList.Add(ListTab.TabPages(i).Text)
+                '                Next
 
                 _cfgCommon.Save()
             End SyncLock
@@ -4614,26 +4675,34 @@ RETRY:
         End SyncLock
     End Sub
 
-    Private Sub SaveConfigsTab(ByVal DeleteBefore As Boolean)
-        If _ignoreConfigSave Then Exit Sub
-        Dim cnt As Integer = 0
-        If ListTab IsNot Nothing AndAlso _
-           ListTab.TabPages IsNot Nothing AndAlso _
-           ListTab.TabPages.Count > 0 Then
-            If DeleteBefore Then SettingTab.DeleteConfigFile() '旧設定ファイル削除
-            For cnt = 0 To ListTab.TabPages.Count - 1
-                SaveConfigsTab(ListTab.TabPages(cnt).Text)
-            Next
-        End If
-    End Sub
+    'Private Sub SaveConfigsTab(ByVal DeleteBefore As Boolean)
+    '    If _ignoreConfigSave Then Exit Sub
+    '    Dim cnt As Integer = 0
+    '    If ListTab IsNot Nothing AndAlso _
+    '       ListTab.TabPages IsNot Nothing AndAlso _
+    '       ListTab.TabPages.Count > 0 Then
+    '        If DeleteBefore Then SettingTab.DeleteConfigFile() '旧設定ファイル削除
+    '        For cnt = 0 To ListTab.TabPages.Count - 1
+    '            SaveConfigsTab(ListTab.TabPages(cnt).Text)
+    '        Next
+    '    End If
+    'End Sub
 
-    Private Sub SaveConfigsTab(ByVal tabName As String)
-        If _ignoreConfigSave Then Exit Sub
-        SyncLock _syncObject
-            Dim tabSetting As New SettingTab
-            tabSetting.Tab = _statuses.Tabs(tabName)
-            tabSetting.Save()
-        End SyncLock
+    'Private Sub SaveConfigsTab(ByVal tabName As String)
+    '    If _ignoreConfigSave Then Exit Sub
+    '    SyncLock _syncObject
+    '        Dim tabSetting As New SettingTab
+    '        tabSetting.Tab = _statuses.Tabs(tabName)
+    '        tabSetting.Save()
+    '    End SyncLock
+    'End Sub
+
+    Private Sub SaveConfigsTabs()
+        Dim tabSetting As New SettingTabs
+        For i As Integer = 0 To ListTab.TabPages.Count - 1
+            tabSetting.Tabs.Add(_statuses.Tabs(ListTab.TabPages(i).Text))
+        Next
+        tabSetting.Save()
     End Sub
 
     Private Sub SaveLogMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SaveLogMenuItem.Click
@@ -4732,7 +4801,8 @@ RETRY:
                 End If
             Next
             SaveConfigsCommon()
-            SaveConfigsTab(newTabText)
+            'SaveConfigsTab(newTabText)
+            SaveConfigsTabs()
             _rclickTabName = newTabText
             tabName = newTabText
             Return True
@@ -5161,7 +5231,8 @@ RETRY:
 
         ChangeTabUnreadManage(_rclickTabName, UreadManageMenuItem.Checked)
 
-        SaveConfigsTab(_rclickTabName)
+        'SaveConfigsTab(_rclickTabName)
+        SaveConfigsTabs()
     End Sub
 
     Public Sub ChangeTabUnreadManage(ByVal tabName As String, ByVal isManage As Boolean)
@@ -5196,7 +5267,8 @@ RETRY:
 
         _statuses.Tabs(_rclickTabName).Notify = NotifyDispMenuItem.Checked
 
-        SaveConfigsTab(_rclickTabName)
+        'SaveConfigsTab(_rclickTabName)
+        SaveConfigsTabs()
     End Sub
 
     Private Sub SoundFileComboBox_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SoundFileComboBox.SelectedIndexChanged
@@ -5204,7 +5276,8 @@ RETRY:
 
         _statuses.Tabs(_rclickTabName).SoundFile = DirectCast(SoundFileComboBox.SelectedItem, String)
 
-        SaveConfigsTab(_rclickTabName)
+        'SaveConfigsTab(_rclickTabName)
+        SaveConfigsTabs()
     End Sub
 
     Private Sub DeleteTabMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles DeleteTabMenuItem.Click
@@ -5213,7 +5286,8 @@ RETRY:
         RemoveSpecifiedTab(_rclickTabName)
         _rclickTabName = ""
         SaveConfigsCommon()
-        SaveConfigsTab(False)
+        'SaveConfigsTab(False)
+        SaveConfigsTabs()
     End Sub
 
     Private Sub FilterEditMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FilterEditMenuItem.Click
@@ -5248,7 +5322,8 @@ RETRY:
         Finally
             Me.Cursor = Cursors.Default
         End Try
-        SaveConfigsTab(False)
+        'SaveConfigsTab(False)
+        SaveConfigsTabs()
     End Sub
 
     Private Sub AddTabMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AddTabMenuItem.Click
@@ -5267,7 +5342,8 @@ RETRY:
                 '成功
                 _statuses.AddTab(tabName, TabUsageType.UserDefined)
                 SaveConfigsCommon()
-                SaveConfigsTab(False)
+                'SaveConfigsTab(False)
+                SaveConfigsTabs()
             End If
         End If
     End Sub
@@ -5308,7 +5384,11 @@ RETRY:
                 End If
             Loop While True
             fDialog.SetCurrent(tabName)
-            fDialog.AddNewFilter(_statuses.Item(_curTab.Text, idx).Name, _statuses.Item(_curTab.Text, idx).Data)
+            If _statuses.Item(_curTab.Text, idx).RetweetedId = 0 Then
+                fDialog.AddNewFilter(_statuses.Item(_curTab.Text, idx).Name, _statuses.Item(_curTab.Text, idx).Data)
+            Else
+                fDialog.AddNewFilter(_statuses.Item(_curTab.Text, idx).RetweetedBy, _statuses.Item(_curTab.Text, idx).Data)
+            End If
             fDialog.ShowDialog()
             Me.TopMost = SettingDialog.AlwaysTop
         Next
@@ -5337,7 +5417,8 @@ RETRY:
             Me.Cursor = Cursors.Default
         End Try
         SaveConfigsCommon()
-        SaveConfigsTab(False)
+        'SaveConfigsTab(False)
+        SaveConfigsTabs()
     End Sub
 
     Protected Overrides Function ProcessDialogKey( _
@@ -5453,7 +5534,11 @@ RETRY:
             If Not ids.Contains(post.Name) Then
                 Dim fc As New FiltersClass
                 ids.Add(post.Name)
-                fc.NameFilter = post.Name
+                If post.RetweetedId = 0 Then
+                    fc.NameFilter = post.Name
+                Else
+                    fc.NameFilter = post.RetweetedBy
+                End If
                 fc.SearchBoth = True
                 fc.MoveFrom = mv
                 fc.SetMark = mk
@@ -5487,7 +5572,8 @@ RETRY:
             Me.Cursor = Cursors.Default
         End Try
         SaveConfigsCommon()
-        SaveConfigsTab(False)
+        'SaveConfigsTab(False)
+        SaveConfigsTabs()
     End Sub
 
     Private Sub CopySTOTMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CopySTOTMenuItem.Click

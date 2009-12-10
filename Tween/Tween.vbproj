@@ -146,6 +146,7 @@
     <Compile Include="Setting\SettingLocal.vb" />
     <Compile Include="Setting\SettingTab.vb" />
     <Compile Include="Setting\SettingFollower.vb" />
+    <Compile Include="Setting\SettingTabs.vb" />
     <Compile Include="ShieldIcon.vb" />
     <Compile Include="StatusDictionary.vb" />
     <Compile Include="FilterDialog.Designer.vb">

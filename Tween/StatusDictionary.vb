@@ -51,8 +51,8 @@ Public NotInheritable Class PostClass
     Private _statuses As Statuses = Statuses.None
     Private _Uid As Long
     Private _FilterHit As Boolean
-    Private _RetweetedBy As String
-    Private _RetweetedId As Long
+    Private _RetweetedBy As String = ""
+    Private _RetweetedId As Long = 0
 
     <FlagsAttribute()> _
     Private Enum Statuses
@@ -689,7 +689,12 @@ Public NotInheritable Class TabInformations
                 Dim add As Boolean = False  '通知リスト追加フラグ
                 Dim mv As Boolean = False   '移動フラグ（Recent追加有無）
                 For Each tn As String In _tabs.Keys
-                    Dim rslt As HITRESULT = _tabs(tn).AddFiltered(post.Id, post.IsRead, post.Name, post.Data, post.OriginalData)
+                    Dim rslt As HITRESULT = HITRESULT.None
+                    If post.RetweetedId = 0 Then
+                        rslt = _tabs(tn).AddFiltered(post.Id, post.IsRead, post.Name, post.Data, post.OriginalData)
+                    Else
+                        rslt = _tabs(tn).AddFiltered(post.Id, post.IsRead, post.RetweetedBy, post.Data, post.OriginalData)
+                    End If
                     If rslt <> HITRESULT.None Then
                         If rslt = HITRESULT.CopyAndMark Then post.IsMark = True 'マークあり
                         If rslt = HITRESULT.Move Then
@@ -943,7 +948,12 @@ Public NotInheritable Class TabInformations
                     For Each id As Long In _statuses.Keys
                         Dim post As PostClass = _statuses.Item(id)
                         If post.IsDm Then Continue For
-                        Dim rslt As HITRESULT = tb.AddFiltered(post.Id, post.IsRead, post.Name, post.Data, post.OriginalData)
+                        Dim rslt As HITRESULT = HITRESULT.None
+                        If post.RetweetedId = 0 Then
+                            rslt = tb.AddFiltered(post.Id, post.IsRead, post.Name, post.Data, post.OriginalData)
+                        Else
+                            rslt = tb.AddFiltered(post.Id, post.IsRead, post.RetweetedBy, post.Data, post.OriginalData)
+                        End If
                         Select Case rslt
                             Case HITRESULT.CopyAndMark
                                 post.IsMark = True 'マークあり
@@ -1092,6 +1102,7 @@ Public NotInheritable Class TabClass
     Private _tmpIds As List(Of TempolaryId)
     Private _tabName As String = ""
     Private _tabType As TabUsageType = TabUsageType.Undefined
+    Private _tabFilename As String = ""
     'Private rwLock As New System.Threading.ReaderWriterLock()   'フィルタ用
 
     Private Structure TempolaryId
@@ -1115,7 +1126,7 @@ Public NotInheritable Class TabClass
     End Sub
 
     Public Sub New(ByVal TabName As String, ByVal TabType As TabUsageType)
-        Me.TabName = TabName
+        _tabName = TabName
         _filters = New List(Of FiltersClass)
         _notify = True
         _soundFile = ""
@@ -1369,6 +1380,16 @@ Public NotInheritable Class TabClass
         End Get
         Set(ByVal value As String)
             _tabName = value
+        End Set
+    End Property
+
+    <Xml.Serialization.XmlIgnore()> _
+    Public Property TabFilename() As String
+        Get
+            Return _tabFilename
+        End Get
+        Set(ByVal value As String)
+            _tabFilename = value
         End Set
     End Property
 
@@ -1743,8 +1764,9 @@ Public NotInheritable Class FiltersClass
             rgOpt = RegexOptions.IgnoreCase
         End If
         If _searchBoth Then
-            If _name = "" OrElse Name.Equals(_name, compOpt) OrElse _
-                            (_useRegex AndAlso Regex.IsMatch(Name, _name, rgOpt)) Then
+            If _name = "" OrElse _
+                Name.Equals(_name, compOpt) OrElse _
+                (_useRegex AndAlso Regex.IsMatch(Name, _name, rgOpt)) Then
                 For Each fs As String In _body
                     If _useRegex Then
                         If Regex.IsMatch(tBody, fs, rgOpt) = False Then bHit = False
