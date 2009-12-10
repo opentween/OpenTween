@@ -92,6 +92,8 @@ Namespace My
             If e.Exception.Message <> "A generic error occurred in GDI+." AndAlso _
                e.Exception.Message <> "GDI+ で汎用エラーが発生しました。" Then
                 e.ExitApplication = ExceptionOut(e.Exception)
+            Else
+                e.ExitApplication = False
             End If
         End Sub
 
