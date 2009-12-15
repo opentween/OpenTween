@@ -126,7 +126,8 @@ Public Module Twitter
             "http://airme.us/", _
             "http://qurl.com/", _
             "http://bctiny.com/", _
-            "http://j.mp/" _
+            "http://j.mp/", _
+            "http://goo.gl/" _
         }
 
     Private Const _apiHost As String = "api."
@@ -417,6 +418,11 @@ Public Module Twitter
                 Else
 
                     Dim post As New PostClass
+
+                    pos1 = strPost.IndexOf("</ol>")
+                    If pos1 > -1 Then
+                        strPost = strPost.Substring(0, pos1)
+                    End If
 
                     Try
                         'Get ID
@@ -874,6 +880,11 @@ Public Module Twitter
                     'Dim lItem As New MyListItem
                     Dim post As New PostClass()
 
+                    pos1 = strPost.IndexOf("</ol>")
+                    If pos1 > -1 Then
+                        strPost = strPost.Substring(0, pos1)
+                    End If
+
                     'Get ID
                     Try
                         pos1 = 0
@@ -1130,6 +1141,11 @@ Public Module Twitter
                 Else
 
                     Dim post As New PostClass
+
+                    pos1 = strPost.IndexOf("</ol>")
+                    If pos1 > -1 Then
+                        strPost = strPost.Substring(0, pos1)
+                    End If
 
                     Try
                         'Get ID
@@ -2141,9 +2157,9 @@ Public Module Twitter
     End Function
 
 #Region "follower取得"
-    Delegate Function GetFollowersDelegate(ByVal Query As Integer) As String
+    'Delegate Function GetFollowersDelegate(ByVal Query As Integer) As String
     'Private semaphore As Threading.Semaphore = Nothing
-    Private threadNum As Integer = 0
+    'Private threadNum As Integer = 0
     Private _threadErr As Boolean = False
 
     Private Function GetFollowersMethod() As String
@@ -2191,65 +2207,61 @@ Public Module Twitter
         Return ""
     End Function
 
-    Private Sub GetFollowersCallback(ByVal ar As IAsyncResult)
-        Dim dlgt As GetFollowersDelegate = DirectCast(ar.AsyncState, GetFollowersDelegate)
+    'Private Sub GetFollowersCallback(ByVal ar As IAsyncResult)
+    '    Dim dlgt As GetFollowersDelegate = DirectCast(ar.AsyncState, GetFollowersDelegate)
 
-        Try
-            Dim ret As String = dlgt.EndInvoke(ar)
-            If Not ret.Equals("") AndAlso Not _threadErr Then
-                TraceOut(ret)
-                _threadErr = True
-            End If
-        Catch ex As Exception
-            _threadErr = True
-            ex.Data("IsTerminatePermission") = False
-            Throw
-        Finally
-            GetTmSemaphore.Release()                     ' セマフォから出る
-            Interlocked.Decrement(threadNum)        ' スレッド数カウンタを-1
-        End Try
+    '    Try
+    '        Dim ret As String = dlgt.EndInvoke(ar)
+    '        If Not ret.Equals("") AndAlso Not _threadErr Then
+    '            TraceOut(ret)
+    '            _threadErr = True
+    '        End If
+    '    Catch ex As Exception
+    '        _threadErr = True
+    '        ex.Data("IsTerminatePermission") = False
+    '        Throw
+    '    Finally
+    '        GetTmSemaphore.Release()                     ' セマフォから出る
+    '        Interlocked.Decrement(threadNum)        ' スレッド数カウンタを-1
+    '    End Try
 
-    End Sub
+    'End Sub
 
     ' キャッシュの検証と読み込み　-1を渡した場合は読み込みのみ行う（APIエラーでFollowersCountが取得できなかったとき）
-    Private Function ValidateCache(ByVal _FollowersCount As Integer) As Integer
+    Private Function ValidateCache() As Integer
 
+        follower.Clear()
         Try
             Dim setting As SettingFollower = SettingFollower.Load()
-            tmpFollower = setting.Follower
-            If tmpFollower.Count = 0 OrElse Not tmpFollower(0).Equals(_uid.ToLower()) Then
+            follower = setting.Follower
+            If follower.Count = 0 OrElse Not follower(0).Equals(_uid.ToLower()) Then
                 ' 別IDの場合はキャッシュ破棄して読み直し
-                tmpFollower.Clear()
-                tmpFollower.Add(_uid.ToLower())
-                Return _FollowersCount
+                Return -1
             End If
         Catch ex As XmlException
             ' 不正なxmlの場合は読み直し
-            tmpFollower.Clear()
-            tmpFollower.Add(_uid.ToLower())
-            Return _FollowersCount
+            Return -1
         Catch ex As InvalidOperationException
             'XMLが壊れている場合
-            tmpFollower.Clear()
-            tmpFollower.Add(_uid.ToLower())
-            Return _FollowersCount
+            Return -1
         End Try
 
-        If _FollowersCount = -1 Then Return tmpFollower.Count
+        'If _FollowersCount = -1 Then Return tmpFollower.Count
+        Return follower.Count
 
-        If (_FollowersCount + 1) = tmpFollower.Count Then
-            '変動がないので読み込みの必要なし
-            Return 0
-        ElseIf (_FollowersCount + 1) < tmpFollower.Count Then
-            '減っている場合はどこが抜けているのかわからないので全部破棄して読み直し
-            tmpFollower.Clear()
-            tmpFollower.Add(_uid.ToLower())
-            Return _FollowersCount
-        End If
+        'If (_FollowersCount + 1) = tmpFollower.Count Then
+        '    '変動がないので読み込みの必要なし
+        '    Return 0
+        'ElseIf (_FollowersCount + 1) < tmpFollower.Count Then
+        '    '減っている場合はどこが抜けているのかわからないので全部破棄して読み直し
+        '    tmpFollower.Clear()
+        '    tmpFollower.Add(_uid.ToLower())
+        '    Return _FollowersCount
+        'End If
 
-        ' 増えた場合は差分だけ読む
+        '' 増えた場合は差分だけ読む
 
-        Return _FollowersCount - tmpFollower.Count
+        'Return _FollowersCount - tmpFollower.Count
 
     End Function
 
@@ -2275,9 +2287,9 @@ Public Module Twitter
 
         'Interlocked.Exchange(threadNum, 0)      ' スレッド数カウンタ初期化
         _threadErr = False
-        follower.Clear()
+        'follower.Clear()
         tmpFollower.Clear()
-        follower.Add(_uid.ToLower())
+        'follower.Add(_uid.ToLower())
         tmpFollower.Add(_uid.ToLower())
 
         'resMsg = DirectCast(CreateSocket.GetWebResponse("https://twitter.com/users/show/" + _uid + ".xml", resStatus, MySocket.REQ_TYPE.ReqGetAPI), String)
@@ -2364,10 +2376,13 @@ Public Module Twitter
         If _endingFlag Then Return ""
 
         If _threadErr Then
-            If ValidateCache(-1) > 0 Then
+            If ValidateCache() > 0 Then
                 SyncLock LockObj
-                    follower = tmpFollower
+                    For Each name As String In tmpFollower
+                        If Not follower.Contains(name) Then follower.Add(name)
+                    Next
                 End SyncLock
+                If Not _endingFlag AndAlso follower.Count > 1 Then UpdateCache()
                 Return "Can't get followers. Use cache."
             Else
                 ' エラーが発生しているならFollowersリストクリア
@@ -2395,7 +2410,7 @@ Public Module Twitter
 #End Region
 
     Public Sub RefreshOwl()
-        If follower.Count > 1 Then TabInformations.GetInstance.RefreshOwl(follower)
+        TabInformations.GetInstance.RefreshOwl(follower)
     End Sub
 
     Public Property Username() As String
