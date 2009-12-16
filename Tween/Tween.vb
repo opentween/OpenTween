@@ -1802,8 +1802,10 @@ Public Class TweenMain
                 '    If ret = "" OrElse ret = "OK:Delaying?" OrElse ret.StartsWith("Outputz:") Then Exit For
                 'Next
                 ret = Twitter.PostStatus(args.status, _reply_to_id)
-                _reply_to_id = 0
-                _reply_to_name = ""
+                If ret = "" OrElse ret.StartsWith("Outputz") OrElse ret.StartsWith("OK:") Then
+                    _reply_to_id = 0
+                    _reply_to_name = ""
+                End If
                 bw.ReportProgress(300)
             Case WORKERTYPE.Retweet
                 bw.ReportProgress(200)
@@ -2123,6 +2125,10 @@ Public Class TweenMain
                     Next
 
                     If rslt.retMsg.Length > 0 Then StatusLabel.Text = rslt.retMsg 'Outputz失敗時
+
+                    If rslt.retMsg = "OK:Delaying?" Then
+                        MessageBox.Show(rslt.retMsg, "Delay or DuplicationLimit", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End If
 
                     StatusText.Text = ""
                     _history.Add("")
