@@ -4905,7 +4905,7 @@ RETRY:
 
         ListTab.ResumeLayout()
 
-        modifySettingCommon = True
+        SaveConfigsTabs()
     End Sub
 
     Private Sub MakeReplyOrDirectStatus(Optional ByVal isAuto As Boolean = True, Optional ByVal isReply As Boolean = True, Optional ByVal isAll As Boolean = False)
