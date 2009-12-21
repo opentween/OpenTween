@@ -6091,12 +6091,12 @@ RETRY:
 
     Private Sub NewPostPopMenuItem_CheckStateChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles NewPostPopMenuItem.CheckStateChanged
         _cfgCommon.NewAllPop = NewPostPopMenuItem.Checked
-        'SaveConfigsCommon()
+        modifySettingCommon = True
     End Sub
 
     Private Sub ListLockMenuItem_CheckStateChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ListLockMenuItem.CheckStateChanged
         _cfgCommon.ListLock = ListLockMenuItem.Checked
-        'SaveConfigsCommon()
+        modifySettingCommon = True
     End Sub
 
     Private Sub MenuStrip1_MenuActivate(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuStrip1.MenuActivate
@@ -6162,7 +6162,6 @@ RETRY:
             _cfgLocal.Width8 = lst.Columns(7).Width
         End If
         modifySettingLocal = True
-        'SaveConfigsLocal()
     End Sub
 
     Private Sub MyList_ColumnWidthChanged(ByVal sender As System.Object, ByVal e As ColumnWidthChangedEventArgs)
@@ -6912,4 +6911,5 @@ RETRY:
             StatusText.Focus()
         End If
     End Sub
+
 End Class

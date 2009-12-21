@@ -43,7 +43,6 @@ Partial Class TweenMain
         Me.ClearTabMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator11 = New System.Windows.Forms.ToolStripSeparator
         Me.DeleteTabMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.MenuItemTab = New System.Windows.Forms.ToolStripMenuItem
         Me.TabImage = New System.Windows.Forms.ImageList(Me.components)
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel
@@ -125,6 +124,7 @@ Partial Class TweenMain
         Me.SelectAllMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.DeleteStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.RefreshStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.MenuItemTab = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuItemCommand = New System.Windows.Forms.ToolStripMenuItem
         Me.TinyUrlConvertToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.UrlConvertAutoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -327,12 +327,6 @@ Partial Class TweenMain
         '
         Me.DeleteTabMenuItem.Name = "DeleteTabMenuItem"
         resources.ApplyResources(Me.DeleteTabMenuItem, "DeleteTabMenuItem")
-        '
-        'MenuItemTab
-        '
-        Me.MenuItemTab.DropDown = Me.ContextMenuTabProperty
-        Me.MenuItemTab.Name = "MenuItemTab"
-        resources.ApplyResources(Me.MenuItemTab, "MenuItemTab")
         '
         'TabImage
         '
@@ -797,6 +791,12 @@ Partial Class TweenMain
         '
         Me.RefreshStripMenuItem.Name = "RefreshStripMenuItem"
         resources.ApplyResources(Me.RefreshStripMenuItem, "RefreshStripMenuItem")
+        '
+        'MenuItemTab
+        '
+        Me.MenuItemTab.DropDown = Me.ContextMenuTabProperty
+        Me.MenuItemTab.Name = "MenuItemTab"
+        resources.ApplyResources(Me.MenuItemTab, "MenuItemTab")
         '
         'MenuItemCommand
         '
