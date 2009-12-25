@@ -749,15 +749,17 @@ Public Class TweenMain
         'タイトルバー領域
         Dim tbarRect As New Rectangle(Me.Location, New Size(_mySize.Width, SystemInformation.CaptionHeight))
         Dim outOfScreen As Boolean = True
-        For Each scr As Screen In Screen.AllScreens
-            If Not Rectangle.Intersect(tbarRect, scr.Bounds).IsEmpty Then
-                outOfScreen = False
-                Exit For
+        If Screen.AllScreens.Length = 1 Then    'ハングするとの報告
+            For Each scr As Screen In Screen.AllScreens
+                If Not Rectangle.Intersect(tbarRect, scr.Bounds).IsEmpty Then
+                    outOfScreen = False
+                    Exit For
+                End If
+            Next
+            If outOfScreen Then
+                Me.DesktopLocation = New Point(0, 0)
+                _myLoc = Me.DesktopLocation
             End If
-        Next
-        If outOfScreen Then
-            Me.DesktopLocation = New Point(0, 0)
-            _myLoc = Me.DesktopLocation
         End If
         Me.TopMost = SettingDialog.AlwaysTop
         _mySpDis = _cfgLocal.SplitterDistance
@@ -1797,11 +1799,10 @@ Public Class TweenMain
                 ' Contributed by shuyoko <http://twitter.com/shuyoko> END.
             Case WORKERTYPE.PostMessage
                 bw.ReportProgress(200)
-                'For i As Integer = 0 To 1
-                '    ret = Twitter.PostStatus(args.status, _reply_to_id)
-                '    If ret = "" OrElse ret = "OK:Delaying?" OrElse ret.StartsWith("Outputz:") Then Exit For
-                'Next
-                ret = Twitter.PostStatus(args.status, _reply_to_id)
+                For i As Integer = 0 To 1
+                    ret = Twitter.PostStatus(args.status, _reply_to_id)
+                    If ret = "" OrElse ret = "OK:Delaying?" OrElse ret.StartsWith("Outputz:") Then Exit For
+                Next
                 If ret = "" OrElse ret.StartsWith("Outputz") OrElse ret.StartsWith("OK:") Then
                     _reply_to_id = 0
                     _reply_to_name = ""
@@ -2876,9 +2877,53 @@ Public Class TweenMain
 
         _tabPage.SuspendLayout()
 
-        Me.ListTab.Controls.Add(_tabPage)
 
+
+        ''' 検索関連の準備
+        Dim pnl As New Panel
+        Dim lbl As New Label
+        Dim cmb As New ComboBox
+        Dim btn As New Button
+        pnl.SuspendLayout()
+
+        pnl.Controls.Add(cmb)
+        pnl.Controls.Add(btn)
+        pnl.Controls.Add(lbl)
+        pnl.Name = "panel1"
+        pnl.Dock = DockStyle.Top
+        pnl.Height = cmb.Height
+
+        lbl.Text = "検索"
+        lbl.Name = "label1"
+        lbl.Dock = DockStyle.Left
+        lbl.Width = 50
+        lbl.Height = cmb.Height
+        lbl.TextAlign = ContentAlignment.MiddleLeft
+
+        btn.Text = "button1"
+        btn.Name = "button1"
+        btn.UseVisualStyleBackColor = True
+        btn.Dock = DockStyle.Right
+
+        cmb.Text = ""
+        cmb.Dock = DockStyle.Fill
+        cmb.Name = "combo1"
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Me.ListTab.Controls.Add(_tabPage)
         _tabPage.Controls.Add(_listCustom)
+        _tabPage.Controls.Add(pnl)
         _tabPage.Location = New Point(4, 4)
         _tabPage.Name = "CTab" + cnt.ToString()
         _tabPage.Size = New Size(380, 260)
@@ -3014,6 +3059,12 @@ Public Class TweenMain
                 Next
             End If
         End If
+
+
+
+
+        pnl.ResumeLayout(False)
+
 
         _tabPage.ResumeLayout(False)
 
@@ -3898,14 +3949,17 @@ RETRY:
             PostBrowser.Visible = False
             PostBrowser.DocumentText = detailHtmlFormatHeader + sb.ToString + detailHtmlFormatFooter
             PostBrowser.Visible = True
-        ElseIf PostBrowser.DocumentText <> dTxt Then
-            PostBrowser.Visible = False
+        Else
             Try
-                PostBrowser.DocumentText = dTxt
+                If PostBrowser.DocumentText <> dTxt Then
+                    PostBrowser.Visible = False
+                    PostBrowser.DocumentText = dTxt
+                End If
             Catch ex As System.Runtime.InteropServices.COMException
                 '原因不明
+            Finally
+                PostBrowser.Visible = True
             End Try
-            PostBrowser.Visible = True
         End If
     End Sub
 
@@ -6171,37 +6225,46 @@ RETRY:
         If _iconCol Then
             If _cfgLocal.Width1 <> lst.Columns(0).Width Then
                 _cfgLocal.Width1 = lst.Columns(0).Width
+                modifySettingLocal = True
             End If
             If _cfgLocal.Width3 <> lst.Columns(1).Width Then
                 _cfgLocal.Width3 = lst.Columns(1).Width
+                modifySettingLocal = True
             End If
         Else
             If _cfgLocal.Width1 <> lst.Columns(0).Width Then
                 _cfgLocal.Width1 = lst.Columns(0).Width
+                modifySettingLocal = True
             End If
             If _cfgLocal.Width2 <> lst.Columns(1).Width Then
                 _cfgLocal.Width2 = lst.Columns(1).Width
+                modifySettingLocal = True
             End If
             If _cfgLocal.Width3 <> lst.Columns(2).Width Then
                 _cfgLocal.Width3 = lst.Columns(2).Width
+                modifySettingLocal = True
             End If
             If _cfgLocal.Width4 <> lst.Columns(3).Width Then
                 _cfgLocal.Width4 = lst.Columns(3).Width
+                modifySettingLocal = True
             End If
             If _cfgLocal.Width5 <> lst.Columns(4).Width Then
                 _cfgLocal.Width5 = lst.Columns(4).Width
+                modifySettingLocal = True
             End If
             If _cfgLocal.Width6 <> lst.Columns(5).Width Then
                 _cfgLocal.Width6 = lst.Columns(5).Width
+                modifySettingLocal = True
             End If
             If _cfgLocal.Width7 <> lst.Columns(6).Width Then
                 _cfgLocal.Width7 = lst.Columns(6).Width
+                modifySettingLocal = True
             End If
             If _cfgLocal.Width8 <> lst.Columns(7).Width Then
                 _cfgLocal.Width8 = lst.Columns(7).Width
+                modifySettingLocal = True
             End If
         End If
-        modifySettingLocal = True
         ' 非表示の時にColumnChangedが呼ばれた場合はForm初期化処理中なので保存しない
         'If changed Then
         '    SaveConfigsLocal()

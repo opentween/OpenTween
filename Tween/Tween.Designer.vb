@@ -43,6 +43,7 @@ Partial Class TweenMain
         Me.ClearTabMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator11 = New System.Windows.Forms.ToolStripSeparator
         Me.DeleteTabMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.MenuItemTab = New System.Windows.Forms.ToolStripMenuItem
         Me.TabImage = New System.Windows.Forms.ImageList(Me.components)
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel
@@ -52,7 +53,6 @@ Partial Class TweenMain
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
         Me.SaveIconPictureToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.NameLabel = New System.Windows.Forms.Label
-        Me.PostBrowser = New System.Windows.Forms.WebBrowser
         Me.ContextMenuStrip4 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
         Me.SearchItem2ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -124,7 +124,6 @@ Partial Class TweenMain
         Me.SelectAllMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.DeleteStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.RefreshStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.MenuItemTab = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuItemCommand = New System.Windows.Forms.ToolStripMenuItem
         Me.TinyUrlConvertToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.UrlConvertAutoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -172,6 +171,7 @@ Partial Class TweenMain
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
         Me.TimerReply = New System.Windows.Forms.Timer(Me.components)
+        Me.PostBrowser = New System.Windows.Forms.WebBrowser
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -328,6 +328,12 @@ Partial Class TweenMain
         Me.DeleteTabMenuItem.Name = "DeleteTabMenuItem"
         resources.ApplyResources(Me.DeleteTabMenuItem, "DeleteTabMenuItem")
         '
+        'MenuItemTab
+        '
+        Me.MenuItemTab.DropDown = Me.ContextMenuTabProperty
+        Me.MenuItemTab.Name = "MenuItemTab"
+        resources.ApplyResources(Me.MenuItemTab, "MenuItemTab")
+        '
         'TabImage
         '
         Me.TabImage.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit
@@ -397,18 +403,6 @@ Partial Class TweenMain
         '
         resources.ApplyResources(Me.NameLabel, "NameLabel")
         Me.NameLabel.Name = "NameLabel"
-        '
-        'PostBrowser
-        '
-        Me.PostBrowser.AllowWebBrowserDrop = False
-        Me.TableLayoutPanel1.SetColumnSpan(Me.PostBrowser, 2)
-        Me.PostBrowser.ContextMenuStrip = Me.ContextMenuStrip4
-        resources.ApplyResources(Me.PostBrowser, "PostBrowser")
-        Me.PostBrowser.IsWebBrowserContextMenuEnabled = False
-        Me.PostBrowser.Name = "PostBrowser"
-        Me.PostBrowser.ScriptErrorsSuppressed = True
-        Me.PostBrowser.TabStop = False
-        Me.PostBrowser.Url = New System.Uri("", System.UriKind.Relative)
         '
         'ContextMenuStrip4
         '
@@ -792,12 +786,6 @@ Partial Class TweenMain
         Me.RefreshStripMenuItem.Name = "RefreshStripMenuItem"
         resources.ApplyResources(Me.RefreshStripMenuItem, "RefreshStripMenuItem")
         '
-        'MenuItemTab
-        '
-        Me.MenuItemTab.DropDown = Me.ContextMenuTabProperty
-        Me.MenuItemTab.Name = "MenuItemTab"
-        resources.ApplyResources(Me.MenuItemTab, "MenuItemTab")
-        '
         'MenuItemCommand
         '
         Me.MenuItemCommand.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TinyUrlConvertToolStripMenuItem, Me.UpdateFollowersMenuItem1, Me.ToolStripMenuItem10, Me.ToolStripSeparator1, Me.FollowCommandMenuItem, Me.RemoveCommandMenuItem, Me.FriendshipMenuItem, Me.ToolStripSeparator3, Me.OwnStatusMenuItem})
@@ -1037,6 +1025,18 @@ Partial Class TweenMain
         'TimerReply
         '
         Me.TimerReply.Interval = 600000
+        '
+        'PostBrowser
+        '
+        Me.PostBrowser.AllowWebBrowserDrop = False
+        Me.TableLayoutPanel1.SetColumnSpan(Me.PostBrowser, 2)
+        Me.PostBrowser.ContextMenuStrip = Me.ContextMenuStrip4
+        resources.ApplyResources(Me.PostBrowser, "PostBrowser")
+        Me.PostBrowser.IsWebBrowserContextMenuEnabled = False
+        Me.PostBrowser.Name = "PostBrowser"
+        Me.PostBrowser.ScriptErrorsSuppressed = True
+        Me.PostBrowser.TabStop = False
+        Me.PostBrowser.Url = New System.Uri("", System.UriKind.Relative)
         '
         'TweenMain
         '
