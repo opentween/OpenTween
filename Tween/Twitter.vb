@@ -3176,6 +3176,118 @@ Public Module Twitter
         Return ""
     End Function
 
+    Public Function GetSearch(ByVal read As Boolean, _
+                            ByVal tabName As String) As String
+
+        If _endingFlag Then Return ""
+
+        Dim retMsg As String = ""
+        Dim resStatus As String = ""
+        Dim sck As MySocket = CreateSocket()
+        Const SEARCH_HOST As String = "search."
+        Const SEARCH_PATH As String = "/search.atom"
+
+        Dim tb As TabClass = TabInformations.GetInstance.Tabs(tabName)
+        If tb Is Nothing Then Return ""
+        Dim query As String = tb.SearchQuery
+        If query = "" Then Return ""
+
+        retMsg = DirectCast(sck.GetWebResponse(_protocol + SEARCH_HOST + _hubServer + SEARCH_PATH + "?" + query, resStatus, MySocket.REQ_TYPE.ReqGetAPINoAuth, userAgent:="Tween"), String)
+
+        If retMsg = "" Then
+            If resStatus.StartsWith("Err: BadRequest") Then
+                Return "Invalid search query."
+            ElseIf resStatus.StartsWith("Err: 420") Then    '暫定：2010/1/18よりAPI制限で420返るらしい
+                Return "Maybe, the requests reached API limit."
+            Else
+                Return resStatus
+            End If
+        End If
+
+        Dim arIdx As Integer = -1
+        Dim dlgt(_countApi) As GetIconImageDelegate    'countQueryに合わせる
+        Dim ar(_countApi) As IAsyncResult              'countQueryに合わせる
+        Dim xdoc As New XmlDocument
+        Try
+            xdoc.LoadXml(retMsg)
+        Catch ex As Exception
+            TraceOut(retMsg)
+            Return "Invalid ATOM!"
+        End Try
+        Dim nsmgr As New XmlNamespaceManager(xdoc.NameTable)
+        nsmgr.AddNamespace("search", "http://www.w3.org/2005/Atom")
+        For Each xentryNode As XmlNode In xdoc.DocumentElement.SelectNodes("/search:feed/search:entry", nsmgr)
+            Dim xentry As XmlElement = CType(xentryNode, XmlElement)
+            Dim post As New PostClass
+            Try
+                post.Id = Long.Parse(xentry.Item("id").InnerText.Split(":"c)(2))
+                post.PDate = DateTime.Parse(xentry.Item("published").InnerText)
+                '本文
+                post.Data = xentry.Item("title").InnerText
+                'Source取得（htmlの場合は、中身を取り出し）
+                post.Source = xentry.Item("twitter:source").InnerText
+                post.InReplyToId = 0
+                post.InReplyToUser = ""
+                post.IsFav = False
+
+                '以下、ユーザー情報
+                Dim xUentry As XmlElement = CType(xentry.SelectSingleNode("./search:author", nsmgr), XmlElement)
+                post.Uid = 0
+                post.Name = xUentry.Item("name").InnerText.Split(" "c)(0).Trim
+                post.Nickname = xUentry.Item("name").InnerText.Substring(post.Name.Length).Trim
+                If post.Nickname.Length > 2 Then
+                    post.Nickname = post.Nickname.Substring(1, post.Nickname.Length - 2)
+                Else
+                    post.Nickname = post.Name
+                End If
+                post.ImageUrl = CType(xentry.SelectSingleNode("./search:link[@type='image/png']", nsmgr), XmlElement).GetAttribute("href")
+                post.IsProtect = False
+                post.IsMe = post.Name.ToLower.Equals(_uid)
+
+                'HTMLに整形
+                post.OriginalData = CreateHtmlAnchor(post.Data, post.ReplyToList)
+                post.Data = HttpUtility.HtmlDecode(post.Data)
+                'Source整形
+                If post.Source.StartsWith("<") Then
+                    Dim rgS As New Regex(">(?<source>.+)<")
+                    Dim mS As Match = rgS.Match(post.Source)
+                    If mS.Success Then
+                        post.Source = mS.Result("${source}")
+                    End If
+                End If
+
+                post.IsRead = read
+                post.IsReply = post.ReplyToList.Contains(_uid)
+
+                post.IsOwl = False
+                If post.IsMe AndAlso Not read AndAlso _readOwnPost Then post.IsRead = True
+
+                post.IsDm = False
+            Catch ex As Exception
+                TraceOut(retMsg)
+                Continue For
+            End Try
+
+            '非同期アイコン取得＆StatusDictionaryに追加
+            arIdx += 1
+            dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
+            ar(arIdx) = dlgt(arIdx).BeginInvoke(post, Nothing, Nothing)
+        Next
+
+        'アイコン取得完了待ち
+        For i As Integer = 0 To arIdx
+            Try
+                dlgt(i).EndInvoke(ar(i))
+            Catch ex As Exception
+                '最後までendinvoke回す（ゾンビ化回避）
+                ex.Data("IsTerminatePermission") = False
+                Throw
+            End Try
+        Next
+
+        Return ""
+    End Function
+
     Public Function GetDirectMessageApi(ByVal read As Boolean, _
                             ByVal gType As WORKERTYPE) As String
         If _endingFlag Then Return ""
