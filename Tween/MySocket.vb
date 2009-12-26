@@ -41,17 +41,14 @@ Public NotInheritable Class MySocket
         ReqGETBinary
         ReqPOST
         ReqPOSTEncode
-        'ReqPOSTEncodeProtoVer1
-        'ReqPOSTEncodeProtoVer2
-        'ReqPOSTEncodeProtoVer3
         ReqGETForwardTo
         ReqGETFile
         ReqGETFileUp
         ReqGETFileRes
         ReqGETFileDll
-        'ReqGetNoCache
         ReqPOSTAPI
         ReqGetAPI
+        ReqGetAPINoAuth
         ReqGetApp
     End Enum
 
@@ -104,7 +101,7 @@ Public NotInheritable Class MySocket
                 webReq.Timeout = timeOut
             End If
 
-            If reqType <> REQ_TYPE.ReqPOSTAPI AndAlso reqType <> REQ_TYPE.ReqGetAPI Then
+            If reqType <> REQ_TYPE.ReqPOSTAPI AndAlso reqType <> REQ_TYPE.ReqGetAPI AndAlso reqType <> REQ_TYPE.ReqGetAPINoAuth Then
                 webReq.CookieContainer = cCon
                 webReq.AutomaticDecompression = DecompressionMethods.Deflate Or DecompressionMethods.GZip
             End If
@@ -123,9 +120,6 @@ Public NotInheritable Class MySocket
             If reqType = REQ_TYPE.ReqPOST OrElse _
                reqType = REQ_TYPE.ReqPOSTEncode OrElse _
                reqType = REQ_TYPE.ReqPOSTAPI Then
-                'reqType = REQ_TYPE.ReqPOSTEncodeProtoVer1 OrElse _
-                'reqType = REQ_TYPE.ReqPOSTEncodeProtoVer2 OrElse _
-                'reqType = REQ_TYPE.ReqPOSTEncodeProtoVer3 OrElse _
                 webReq.Method = "POST"
 
                 If DefaultTimeOut = timeOut Then
@@ -140,42 +134,16 @@ Public NotInheritable Class MySocket
                     Case REQ_TYPE.ReqPOST
                         webReq.ContentType = "application/x-www-form-urlencoded"
                     Case REQ_TYPE.ReqPOSTEncode
-                        '                        webReq.ContentType = "application/x-www-form-urlencoded; charset=" + _enc.WebName
                         webReq.ContentType = "application/x-www-form-urlencoded"
                         webReq.Accept = "text/xml,application/xml,application/xhtml+xml,text/html,text/plain,image/png,*/*"
-                        'Case REQ_TYPE.ReqPOSTEncodeProtoVer1
-                        '    webReq.ContentType = "application/x-www-form-urlencoded; charset=" + _enc.WebName
-                        '    webReq.Accept = "text/javascript, text/html, application/xml, text/xml, */*"
-                        '    webReq.Headers.Add("x-prototype-version", "1.6.0.1")
-                        '    webReq.Headers.Add("x-requested-with", "XMLHttpRequest")
-                        '    webReq.Headers.Add("Accept-Language", "ja,en-us;q=0.7,en;q=0.3")
-                        '    webReq.Headers.Add("Accept-Charset", "Shift_JIS,utf-8;q=0.7,*;q=0.7")
-                        'Case REQ_TYPE.ReqPOSTEncodeProtoVer2
-                        '    webReq.ContentType = "application/x-www-form-urlencoded; charset=" + _enc.WebName
-                        '    webReq.Accept = "text/javascript, text/html, application/xml, text/xml, */*"
-                        '    webReq.Headers.Add("x-prototype-version", "1.6.0.1")
-                        '    webReq.Headers.Add("x-requested-with", "XMLHttpRequest")
-                        '    webReq.Headers.Add("Accept-Language", "ja,en-us;q=0.7,en;q=0.3")
-                        '    webReq.Headers.Add("Accept-Charset", "Shift_JIS,utf-8;q=0.7,*;q=0.7")
-                        'Case REQ_TYPE.ReqPOSTEncodeProtoVer3
-                        '    webReq.ContentType = "application/x-www-form-urlencoded; charset=" + _enc.WebName
-                        '    webReq.Accept = "application/json, text/javascript, */*"
-                        '    webReq.Headers.Add("x-prototype-version", "1.6.0.1")
-                        '    webReq.Headers.Add("x-requested-with", "XMLHttpRequest")
-                        '    webReq.Headers.Add("Accept-Language", "ja,en-us;q=0.7,en;q=0.3")
-                        '    webReq.Headers.Add("Accept-Charset", "Shift_JIS,utf-8;q=0.7,*;q=0.7")
                     Case REQ_TYPE.ReqPOSTAPI
                         webReq.ContentType = "application/x-www-form-urlencoded"
                         webReq.Accept = "text/html, */*"
-                        'webReq.Headers.Add("X-Twitter-Client", "Tween")
-                        'webReq.Headers.Add("X-Twitter-Client-Version", _version)
-                        'webReq.Headers.Add("X-Twitter-Client-URL", "http://www.asahi-net.or.jp/~ne5h-ykmz/tween.xml")
                         webReq.Headers.Add(HttpRequestHeader.Authorization, _cre)
                 End Select
                 Dim st As Stream = webReq.GetRequestStream()
                 st.Write(dataB, 0, dataB.Length)
                 st.Close()
-                'ElseIf reqType = REQ_TYPE.ReqGET Or reqType = REQ_TYPE.ReqGetNoCache Then
             ElseIf reqType = REQ_TYPE.ReqGET Then
                 webReq.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
                 webReq.Headers.Add("Accept-Language", "ja,en-us;q=0.7,en;q=0.3")
@@ -187,14 +155,14 @@ Public NotInheritable Class MySocket
             ElseIf reqType = REQ_TYPE.ReqGetAPI Then
                 webReq.ContentType = "application/x-www-form-urlencoded"
                 webReq.Accept = "text/html, */*"
-                'webReq.Headers.Add("X-Twitter-Client", "Tween")
-                'webReq.Headers.Add("X-Twitter-Client-Version", _version)
-                'webReq.Headers.Add("X-Twitter-Client-URL", "http://www.asahi-net.or.jp/~ne5h-ykmz/tween.xml")
                 webReq.Headers.Add(HttpRequestHeader.Authorization, _cre)
+            ElseIf reqType = REQ_TYPE.ReqGetAPINoAuth Then
+                webReq.ContentType = "application/x-www-form-urlencoded"
+                webReq.Accept = "text/html, */*"
             End If
 
             Using webRes As HttpWebResponse = CType(webReq.GetResponse(), HttpWebResponse)
-                If reqType <> REQ_TYPE.ReqPOSTAPI AndAlso reqType <> REQ_TYPE.ReqGetAPI Then
+                If reqType <> REQ_TYPE.ReqPOSTAPI AndAlso reqType <> REQ_TYPE.ReqGetAPI AndAlso reqType <> REQ_TYPE.ReqGetAPINoAuth Then
                     SyncLock cConLock
                         For Each ck As Cookie In webRes.Cookies
                             If ck.Domain.StartsWith(".") Then
@@ -214,8 +182,7 @@ Public NotInheritable Class MySocket
 
                 Using strm As Stream = webRes.GetResponseStream()
                     Select Case reqType
-                        'Case REQ_TYPE.ReqGET, REQ_TYPE.ReqPOST, REQ_TYPE.ReqPOSTEncode, REQ_TYPE.ReqPOSTEncodeProtoVer1, REQ_TYPE.ReqPOSTEncodeProtoVer2, REQ_TYPE.ReqPOSTEncodeProtoVer3, REQ_TYPE.ReqGetNoCache, REQ_TYPE.ReqPOSTAPI, REQ_TYPE.ReqGetAPI, REQ_TYPE.ReqGetApp
-                        Case REQ_TYPE.ReqGET, REQ_TYPE.ReqPOST, REQ_TYPE.ReqPOSTEncode, REQ_TYPE.ReqPOSTAPI, REQ_TYPE.ReqGetAPI, REQ_TYPE.ReqGetApp
+                        Case REQ_TYPE.ReqGET, REQ_TYPE.ReqPOST, REQ_TYPE.ReqPOSTEncode, REQ_TYPE.ReqPOSTAPI, REQ_TYPE.ReqGetAPI, REQ_TYPE.ReqGetApp, REQ_TYPE.ReqGetAPINoAuth
                             Dim rtStr As String
                             Using sr As New StreamReader(strm, _enc)
                                 rtStr = sr.ReadToEnd()

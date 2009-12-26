@@ -25,7 +25,7 @@ Imports System.Collections.Generic
 Imports System.Collections.ObjectModel
 Imports Tween.TweenCustomControl
 Imports System.Text.RegularExpressions
-
+Imports System.Web.HttpUtility
 
 Public NotInheritable Class PostClass
     Private _Nick As String
@@ -1108,8 +1108,56 @@ Public NotInheritable Class TabClass
     Private _tmpIds As List(Of TempolaryId)
     Private _tabName As String = ""
     Private _tabType As TabUsageType = TabUsageType.Undefined
-    Private _tabFilename As String = ""
-    'Private rwLock As New System.Threading.ReaderWriterLock()   'フィルタ用
+
+    'Search query
+    Private _searchLang As String = ""
+    Private _searchSource As String = ""
+    Private _searchLinks As Boolean = False
+    Private _searchWords As String = ""
+
+    Public Property SearchLang() As String
+        Get
+            Return _searchLang
+        End Get
+        Set(ByVal value As String)
+            _searchLang = value
+        End Set
+    End Property
+    Public Property SearchSource() As String
+        Get
+            Return _searchSource
+        End Get
+        Set(ByVal value As String)
+            _searchSource = value
+        End Set
+    End Property
+    Public Property SearchLinks() As Boolean
+        Get
+            Return _searchLinks
+        End Get
+        Set(ByVal value As Boolean)
+            _searchLinks = value
+        End Set
+    End Property
+    Public Property SearchWords() As String
+        Get
+            Return _searchWords
+        End Get
+        Set(ByVal value As String)
+            _searchWords = value.Trim
+        End Set
+    End Property
+    Public ReadOnly Property SearchQuery() As String
+        Get
+            Dim qry As String = ""
+            If String.IsNullOrEmpty(_searchWords) Then Return ""
+            qry = "q=" + _searchWords
+            If Not String.IsNullOrEmpty(_searchSource) Then qry += " source:" + _searchSource
+            If _searchLinks Then qry += " filter:links"
+            If Not String.IsNullOrEmpty(_searchLang) Then qry += "&lang=" + _searchLang
+            Return UrlEncode(qry)
+        End Get
+    End Property
 
     Private Structure TempolaryId
         Public Id As Long
@@ -1386,16 +1434,6 @@ Public NotInheritable Class TabClass
         End Get
         Set(ByVal value As String)
             _tabName = value
-        End Set
-    End Property
-
-    <Xml.Serialization.XmlIgnore()> _
-    Public Property TabFilename() As String
-        Get
-            Return _tabFilename
-        End Get
-        Set(ByVal value As String)
-            _tabFilename = value
         End Set
     End Property
 
