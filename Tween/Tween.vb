@@ -1278,7 +1278,7 @@ Public Class TweenMain
 
     Private Function GetScrollPos(ByRef smode As Integer) As Long
         Dim topId As Long = -1
-        If _curList.VirtualListSize > 0 Then
+        If _curList IsNot Nothing AndAlso _curTab IsNot Nothing AndAlso _curList.VirtualListSize > 0 Then
             If _statuses.SortMode = IdComparerClass.ComparerMode.Id Then
                 If _statuses.SortOrder = SortOrder.Ascending Then
                     'Id昇順
