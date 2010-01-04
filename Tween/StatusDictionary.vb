@@ -53,6 +53,7 @@ Public NotInheritable Class PostClass
     Private _FilterHit As Boolean
     Private _RetweetedBy As String = ""
     Private _RetweetedId As Long = 0
+    Private _searchTabName As String = ""
 
     <FlagsAttribute()> _
     Private Enum Statuses
@@ -335,6 +336,14 @@ Public NotInheritable Class PostClass
             _RetweetedId = value
         End Set
     End Property
+    Public Property SearchTabName() As String
+        Get
+            Return _searchTabName
+        End Get
+        Set(ByVal value As String)
+            _searchTabName = value
+        End Set
+    End Property
 End Class
 
 Public NotInheritable Class TabInformations
@@ -533,18 +542,22 @@ Public NotInheritable Class TabInformations
            tb.Contains(tb.OldestUnreadId) AndAlso _
            tb.UnreadCount > 0 Then
             '未読アイテムへ
-            If _statuses.Item(tb.OldestUnreadId).IsRead Then
-                '状態不整合（最古未読ＩＤが実は既読）
-                SyncLock LockUnread
-                    Me.SetNextUnreadId(-1, tb)  '頭から探索
-                End SyncLock
-                If tb.OldestUnreadId = -1 Then
-                    Return -1
+            If tb.TabType <> TabUsageType.PublicSearch Then
+                If _statuses.Item(tb.OldestUnreadId).IsRead Then
+                    '状態不整合（最古未読ＩＤが実は既読）
+                    SyncLock LockUnread
+                        Me.SetNextUnreadId(-1, tb)  '頭から探索
+                    End SyncLock
+                    If tb.OldestUnreadId = -1 Then
+                        Return -1
+                    Else
+                        Return tb.IndexOf(tb.OldestUnreadId)
+                    End If
                 Else
-                    Return tb.IndexOf(tb.OldestUnreadId)
+                    Return tb.IndexOf(tb.OldestUnreadId)    '最短経路
                 End If
             Else
-                Return tb.IndexOf(tb.OldestUnreadId)    '最短経路
+
             End If
         Else
             '一見未読なさそうだが、未読カウントはあるので探索
@@ -1108,6 +1121,7 @@ Public NotInheritable Class TabClass
     Private _tmpIds As List(Of TempolaryId)
     Private _tabName As String = ""
     Private _tabType As TabUsageType = TabUsageType.Undefined
+    Private _searchedPosts As Dictionary(Of Long, PostClass)
 
     'Search query
     Private _searchLang As String = ""
@@ -1158,6 +1172,12 @@ Public NotInheritable Class TabClass
             Return UrlEncode(qry)
         End Get
     End Property
+
+    Public Function SearchedPost(ByVal Id As Long) As PostClass
+        If _searchedPosts Is Nothing Then Return Nothing
+        If Not _searchedPosts.ContainsKey(Id) Then Return Nothing
+        Return _searchedPosts(Id)
+    End Function
 
     Private Structure TempolaryId
         Public Id As Long
@@ -1257,6 +1277,15 @@ Public NotInheritable Class TabClass
         '    rwLock.ReleaseReaderLock()
         'End Try
     End Function
+
+    '検索結果の追加
+    Public Sub AddSearchedPost(ByVal Post As PostClass)
+        If _searchedPosts Is Nothing Then _searchedPosts = New Dictionary(Of Long, PostClass)
+        If _searchedPosts.ContainsKey(Post.Id) Then Exit Sub
+        _searchedPosts.Add(Post.Id, Post)
+        If _tmpIds Is Nothing Then _tmpIds = New List(Of TempolaryId)
+        _tmpIds.Add(New TempolaryId(Post.Id, Post.IsRead))
+    End Sub
 
     Public Sub AddSubmit()
         If _tmpIds Is Nothing Then Exit Sub
