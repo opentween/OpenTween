@@ -3261,8 +3261,8 @@ Public Module Twitter
 
                 post.IsOwl = False
                 If post.IsMe AndAlso Not read AndAlso _readOwnPost Then post.IsRead = True
-
                 post.IsDm = False
+                post.SearchTabName = tabName
             Catch ex As Exception
                 TraceOut(retMsg)
                 Continue For
