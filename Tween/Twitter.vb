@@ -1744,13 +1744,24 @@ Public Module Twitter
             Using g As Graphics = Graphics.FromImage(bmp2)
                 g.InterpolationMode = Drawing2D.InterpolationMode.High
                 g.DrawImage(img, 0, 0, _iconSz, _iconSz)
+                g.Dispose()
             End Using
 
             SyncLock LockObj
                 post.ImageIndex = _lIcon.Images.IndexOfKey(post.ImageUrl)
                 If post.ImageIndex = -1 Then
                     Try
-                        _dIcon.Add(post.ImageUrl, img)  '詳細表示用ディクショナリに追加
+                        Dim fd As New System.Drawing.Imaging.FrameDimension(img.FrameDimensionsList(0))
+                        Dim fd_count As Integer = img.GetFrameCount(fd)
+                        If fd_count > 1 Then
+                            Try
+                                img.SelectActiveFrame(fd, 1)
+                                _dIcon.Add(post.ImageUrl, img)  '詳細表示用ディクショナリに追加
+                            Catch ex As Exception
+                                Dim bmp As New Bitmap(img)
+                                _dIcon.Add(post.ImageUrl, bmp)  '詳細表示用ディクショナリに追加
+                            End Try
+                        End If
                         _lIcon.Images.Add(post.ImageUrl, bmp2)
                         post.ImageIndex = _lIcon.Images.IndexOfKey(post.ImageUrl)
                     Catch ex As InvalidOperationException

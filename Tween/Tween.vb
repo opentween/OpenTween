@@ -962,6 +962,7 @@ Public Class TweenMain
             fore = System.Drawing.SystemBrushes.ControlText
         End Try
         e.Graphics.DrawString(txt, e.Font, fore, e.Bounds, sfTab)
+        fore.Dispose()
     End Sub
 
     Private Function LoadOldConfig() As Boolean
@@ -3463,12 +3464,13 @@ Public Class TweenMain
             Dim rctB As RectangleF = e.Bounds
             rct.Width = e.Header.Width
             rctB.Width = e.Header.Width
-            If _iconCol Then rct.Height = 12
+            If _iconCol Then rct.Height = e.Item.Font.Height
             'アイコン以外の列
             If Not e.Item.Selected Then     'e.ItemStateでうまく判定できない？？？
                 '選択されていない行
                 '文字色
                 Dim brs As SolidBrush = Nothing
+                Dim flg As Boolean = False
                 Select Case e.Item.ForeColor
                     Case _clUnread
                         brs = _brsForeColorUnread
@@ -3482,33 +3484,39 @@ Public Class TweenMain
                         brs = _brsForeColorRetweet
                     Case Else
                         brs = New SolidBrush(e.Item.ForeColor)
+                        flg = True
                 End Select
                 If rct.Width > 0 Then
                     If _iconCol Then
+                        Dim fnt As New Font(e.Item.Font, FontStyle.Bold)
                         e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems(2).Text, e.Item.Font, brs, rctB, sf)
-                        e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") <" + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + "> from " + e.Item.SubItems(7).Text, New Font(e.Item.Font, FontStyle.Bold), brs, rct, sf)
+                        e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") <" + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + "> from " + e.Item.SubItems(7).Text, fnt, brs, rct, sf)
+                        fnt.Dispose()
                     Else
                         e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, brs, rct, sf)
                     End If
                 End If
+                If flg Then brs.Dispose()
             Else
                 If rct.Width > 0 Then
                     '選択中の行
+                    Dim fnt As New Font(e.Item.Font, FontStyle.Bold)
                     If DirectCast(sender, Windows.Forms.Control).Focused Then
                         If _iconCol Then
                             e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems(2).Text, e.Item.Font, _brsHighLightText, rctB, sf)
-                            e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") <" + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + "> from " + e.Item.SubItems(7).Text, New Font(e.Item.Font, FontStyle.Bold), _brsHighLightText, rct, sf)
+                            e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") <" + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + "> from " + e.Item.SubItems(7).Text, fnt, _brsHighLightText, rct, sf)
                         Else
                             e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, _brsHighLightText, rct, sf)
                         End If
                     Else
                         If _iconCol Then
                             e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems(2).Text, e.Item.Font, _brsForeColorUnread, rctB, sf)
-                            e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") <" + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + "> from " + e.Item.SubItems(7).Text, New Font(e.Item.Font, FontStyle.Bold), _brsForeColorUnread, rct, sf)
+                            e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") <" + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + "> from " + e.Item.SubItems(7).Text, fnt, _brsForeColorUnread, rct, sf)
                         Else
                             e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, _brsForeColorUnread, rct, sf)
                         End If
                     End If
+                    fnt.Dispose()
                 End If
             End If
         Else
@@ -3803,6 +3811,7 @@ RETRY:
                                 '    Application.Exit()
                                 'Else
                                 _endingFlag = True
+                                dialogAsShieldicon.Dispose()
                                 Me.Close()
                                 'End If
                                 Exit Sub
@@ -3813,6 +3822,7 @@ RETRY:
                             If Not startup Then MessageBox.Show(My.Resources.CheckNewVersionText5 + System.Environment.NewLine + retMsg, My.Resources.CheckNewVersionText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         End If
                     End If
+                    dialogAsShieldicon.Dispose()
                 End Using
             Else
                 If forceUpdate Then
@@ -3828,6 +3838,7 @@ RETRY:
                                     '    Application.Exit()
                                     'Else
                                     _endingFlag = True
+                                    dialogAsShieldicon.Dispose()
                                     Me.Close()
                                     'End If
                                     Exit Sub
@@ -3838,6 +3849,7 @@ RETRY:
                                 If Not startup Then MessageBox.Show(My.Resources.CheckNewVersionText5 + System.Environment.NewLine + retMsg, My.Resources.CheckNewVersionText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                             End If
                         End If
+                        dialogAsShieldicon.Dispose()
                     End Using
                 ElseIf Not startup Then
                     MessageBox.Show(My.Resources.CheckNewVersionText7 + fileVersion.Replace(".", "") + My.Resources.CheckNewVersionText8 + strVer, My.Resources.CheckNewVersionText2, MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -3891,17 +3903,6 @@ RETRY:
         End If
         'If UserPicture.Image IsNot Nothing Then UserPicture.Image.Dispose()
         If _curPost.ImageIndex > -1 Then
-            Dim fd As New System.Drawing.Imaging.FrameDimension(TIconDic(_curPost.ImageUrl).FrameDimensionsList(0))
-            Dim fd_count As Integer = TIconDic(_curPost.ImageUrl).GetFrameCount(fd)
-            If fd_count > 1 Then
-                Try
-                    TIconDic(_curPost.ImageUrl).SelectActiveFrame(fd, 1)
-                Catch ex As Exception
-                    Dim bmp As New Bitmap(TIconDic(_curPost.ImageUrl))
-                    TIconDic(_curPost.ImageUrl).Dispose()
-                    TIconDic(_curPost.ImageUrl) = bmp
-                End Try
-            End If
             UserPicture.Image = TIconDic(_curPost.ImageUrl)
         Else
             UserPicture.Image = Nothing
@@ -4805,6 +4806,8 @@ RETRY:
                                  """" & post.OriginalData.Replace(vbLf, "").Replace("""", """""") + """")
                     Next
                 End If
+                sw.Close()
+                sw.Dispose()
             End Using
         End If
         Me.TopMost = SettingDialog.AlwaysTop
@@ -4829,6 +4832,7 @@ RETRY:
             inputName.TabName = tabName
             inputName.ShowDialog()
             newTabText = inputName.TabName
+            inputName.Dispose()
         End Using
         Me.TopMost = SettingDialog.AlwaysTop
         If newTabText <> "" Then
@@ -5392,6 +5396,7 @@ RETRY:
             inputName.TabName = "MyTab" + (ListTab.TabPages.Count + 1).ToString
             inputName.ShowDialog()
             tabName = inputName.TabName
+            inputName.Dispose()
         End Using
         Me.TopMost = SettingDialog.AlwaysTop
         If tabName <> "" Then
@@ -5428,6 +5433,7 @@ RETRY:
                         inputName.TabName = "MyTab" + ListTab.TabPages.Count.ToString
                         inputName.ShowDialog()
                         tabName = inputName.TabName
+                        inputName.Dispose()
                     End Using
                     Me.TopMost = SettingDialog.AlwaysTop
                     If tabName.Length > 0 Then
@@ -5552,6 +5558,7 @@ RETRY:
                     inputName.TabName = "MyTab" + ListTab.TabPages.Count.ToString
                     inputName.ShowDialog()
                     tabName = inputName.TabName
+                    inputName.Dispose()
                 End Using
                 Me.TopMost = SettingDialog.AlwaysTop
                 If tabName <> "" Then
@@ -5980,8 +5987,10 @@ RETRY:
                 Using g As Graphics = Graphics.FromImage(bmp2)
                     g.InterpolationMode = Drawing2D.InterpolationMode.High
                     g.DrawImage(TIconDic(name), 0, 0, TIconDic(name).Size.Width, TIconDic(name).Size.Height)
+                    g.Dispose()
                 End Using
                 bmp2.Save(Me.SaveFileDialog1.FileName)
+                bmp2.Dispose()
             End Using
         End If
     End Sub
@@ -6857,6 +6866,7 @@ RETRY:
                     MessageBox.Show(My.Resources.FRMessage3)
                 End If
             End If
+            inputName.Dispose()
         End Using
     End Sub
 
@@ -6880,6 +6890,7 @@ RETRY:
                     MessageBox.Show(My.Resources.FRMessage3)
                 End If
             End If
+            inputName.Dispose()
         End Using
     End Sub
 
@@ -6901,6 +6912,7 @@ RETRY:
                 Dim ret As String = Twitter.GetFriendshipInfo(inputName.TabName.Trim())
                 MessageBox.Show(ret)
             End If
+            inputName.Dispose()
         End Using
     End Sub
 
