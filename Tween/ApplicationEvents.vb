@@ -34,12 +34,15 @@ Namespace My
     ' StartupNextInstance: 単一インスタンス アプリケーションが起動され、それが既にアクティブであるときに発生します。 
     ' NetworkAvailabilityChanged: ネットワーク接続が接続されたとき、または切断されたときに発生します。
     Partial Friend Class MyApplication
-        Private mt As System.Threading.Mutex
+        Private Shared mt As System.Threading.Mutex
 
         Private Sub MyApplication_Shutdown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shutdown
             Try
-                mt.ReleaseMutex()
-                mt.Close()
+                If mt IsNot Nothing Then
+                    mt.ReleaseMutex()
+                    mt.Close()
+                    mt = Nothing
+                End If
             Catch ex As Exception
 
             End Try
@@ -78,12 +81,17 @@ Namespace My
                     End If
                     '起動キャンセル
                     e.Cancel = True
+                    Try
+                        mt.ReleaseMutex()
+                        mt.Close()
+                        mt = Nothing
+                    Catch ex As Exception
+
+                    End Try
                     Exit Sub
                 End If
             Catch ex As Exception
             End Try
-
-            GC.KeepAlive(mt)
 
         End Sub
 
@@ -109,21 +117,6 @@ Namespace My
                             cultureStr = "en"
                         End If
                     End If
-                    'Dim filename As String = System.IO.Path.Combine(Application.Info.DirectoryPath, "TweenConf.xml")
-                    'If IO.File.Exists(filename) Then
-                    '    Try
-                    '        Using config As New IO.StreamReader(filename)
-                    '            Dim xmlDoc As New Xml.XmlDocument
-                    '            xmlDoc.Load(config)
-                    '            Dim ns As New Xml.XmlNamespaceManager(xmlDoc.NameTable)
-                    '            ns.AddNamespace("conf", "urn:XSpect.Configuration.XmlConfiguration")
-                    '            _ccode = xmlDoc.SelectSingleNode("//conf:configuration/entry[@key='cultureCode']", ns).SelectSingleNode("string").InnerText
-                    '        End Using
-                    '    Catch ex As Exception
-
-                    '    End Try
-
-                    'End If
                 End If
                 Return cultureStr
             End Get
