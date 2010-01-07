@@ -1760,7 +1760,10 @@ Public Module Twitter
                             Catch ex As Exception
                                 Dim bmp As New Bitmap(img)
                                 _dIcon.Add(post.ImageUrl, bmp)  '詳細表示用ディクショナリに追加
+                                img.Dispose()
                             End Try
+                        Else
+                            _dIcon.Add(post.ImageUrl, img)  '詳細表示用ディクショナリに追加
                         End If
                         _lIcon.Images.Add(post.ImageUrl, bmp2)
                         post.ImageIndex = _lIcon.Images.IndexOfKey(post.ImageUrl)
@@ -3635,12 +3638,14 @@ Public Module Twitter
         '絶対パス表現のUriをリンクに置換
         retStr = rgUrl.Replace(Text, "<a href=""$&"">$&</a>")
         '@返信を抽出し、@先リスト作成
-        Dim rg As New Regex("(^|[ -/:-@[-^`{-~])@([a-zA-Z0-9_]{1,20}/[a-zA-Z0-9_\-]{1,24}[a-zA-Z0-9_])")
+        'Dim rg As New Regex("(^|[ -/:-@[-^`{-~])@([a-zA-Z0-9_]{1,20}/[a-zA-Z0-9_\-]{1,24}[a-zA-Z0-9_])")
+        Dim rg As New Regex("(^|[^a-zA-Z0-9_])[@＠]([a-zA-Z0-9_]{1,20}/[a-zA-Z0-9_\-]{1,24}[a-zA-Z0-9_])")
         Dim m As Match = rg.Match(retStr)
         '@先をリンクに置換
         retStr = rg.Replace(retStr, "$1@<a href=""/$2"">$2</a>")
 
-        rg = New Regex("(^|[ -/:-@[-^`{-~])@([a-zA-Z0-9_]{1,20})")
+        'rg = New Regex("(^|[ -/:-@[-^`{-~])@([a-zA-Z0-9_]{1,20})")
+        rg = New Regex("(^|[^a-zA-Z0-9_])[@＠]([a-zA-Z0-9_]{1,20})")
         m = rg.Match(retStr)
         While m.Success
             AtList.Add(m.Result("$2").ToLower)
@@ -3650,7 +3655,8 @@ Public Module Twitter
         retStr = rg.Replace(retStr, "$1@<a href=""/$2"">$2</a>")
 
         'ハッシュタグを抽出し、リンクに置換
-        Dim rgh As New Regex("(^|[ .!,\-:;<>?])#([^] !""#$%&'()*+,.:;<=>?@\-[\^`{|}~\r\n]+)")
+        'Dim rgh As New Regex("(^|[ .!,\-:;<>?])#([^] !""#$%&'()*+,.:;<=>?@\-[\^`{|}~\r\n]+)")
+        Dim rgh As New Regex("(^|[^a-zA-Z0-9_])[#＃]([a-zA-Z0-9_]+)")
         Dim mh As Match = rgh.Match(retStr)
         If mh.Success AndAlso Not IsNumeric(mh.Result("$2")) Then
             retStr = rgh.Replace(retStr, "$1<a href=""" + _protocol + "twitter.com/search?q=%23$2"">#$2</a>")
