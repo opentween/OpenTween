@@ -755,22 +755,35 @@ Public NotInheritable Class TabInformations
 
     Public Sub AddPost(ByVal Item As PostClass)
         SyncLock LockObj
-            If _statuses.ContainsKey(Item.Id) Then
-                If Item.IsFav Then
-                    _statuses.Item(Item.Id).IsFav = True
+            If Item.SearchTabName <> "" Then
+                If _statuses.ContainsKey(Item.Id) Then
+                    If Item.IsFav Then
+                        _statuses.Item(Item.Id).IsFav = True
+                    Else
+                        Exit Sub        '追加済みなら何もしない
+                    End If
                 Else
-                    Exit Sub        '追加済みなら何もしない
+                    _statuses.Add(Item.Id, Item)    'DMと区別しない？
+                End If
+                If Item.RetweetedId > 0 Then
+                    If Not _retweets.ContainsKey(Item.RetweetedId) Then
+                        Me.AddRetweet(Item)
+                    End If
+                End If
+                If Item.IsFav AndAlso _retweets.ContainsKey(Item.Id) Then
+                    Exit Sub    'Fav済みのRetweet元発言は追加しない
                 End If
             Else
-                _statuses.Add(Item.Id, Item)    'DMと区別しない？
-            End If
-            If Item.RetweetedId > 0 Then
-                If Not _retweets.ContainsKey(Item.RetweetedId) Then
-                    Me.AddRetweet(Item)
+                '公式検索の場合
+                Dim tb As TabClass
+                If Me.Tabs.ContainsKey(Item.SearchTabName) Then
+                    tb = Me.Tabs(Item.SearchTabName)
+                Else
+                    Exit Sub
                 End If
-            End If
-            If Item.IsFav AndAlso _retweets.ContainsKey(Item.Id) Then
-                Exit Sub    'Fav済みのRetweet元発言は追加しない
+                If tb Is Nothing Then Exit Sub
+                If tb.Contains(Item.Id) Then Exit Sub
+                tb.Add(Item.Id, Item.IsRead, True)
             End If
             If _addedIds Is Nothing Then _addedIds = New List(Of Long) 'タブ追加用IDコレクション準備
             _addedIds.Add(Item.Id)
@@ -1279,7 +1292,7 @@ Public NotInheritable Class TabClass
     End Function
 
     '検索結果の追加
-    Public Sub AddSearchedPost(ByVal Post As PostClass)
+    Public Sub AddPostToInnerStrage(ByVal Post As PostClass)
         If _searchedPosts Is Nothing Then _searchedPosts = New Dictionary(Of Long, PostClass)
         If _searchedPosts.ContainsKey(Post.Id) Then Exit Sub
         _searchedPosts.Add(Post.Id, Post)
