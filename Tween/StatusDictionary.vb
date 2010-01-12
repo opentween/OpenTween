@@ -748,7 +748,17 @@ Public NotInheritable Class TabInformations
             Else
                 dmTab.Add(post.Id, post.IsRead, True)
                 If dmTab.Notify Then _notifyPosts.Add(post)
-                _soundFile = dmTab.SoundFile
+                If dmTab.SoundFile <> "" Then _soundFile = dmTab.SoundFile
+            End If
+        Next
+        For Each tn As String In _tabs.Keys
+            If _tabs(tn).TabType = TabUsageType.PublicSearch Then
+                If _tabs(tn).GetTemporaryPosts.Length > 0 Then
+                    For Each post As PostClass In _tabs(tn).GetTemporaryPosts
+                        _notifyPosts.Add(post)
+                    Next
+                    If _soundFile = "" AndAlso _tabs(tn).SoundFile <> "" Then _soundFile = _tabs(tn).SoundFile
+                End If
             End If
         Next
     End Sub
@@ -773,6 +783,8 @@ Public NotInheritable Class TabInformations
                 If Item.IsFav AndAlso _retweets.ContainsKey(Item.Id) Then
                     Exit Sub    'Fav済みのRetweet元発言は追加しない
                 End If
+                If _addedIds Is Nothing Then _addedIds = New List(Of Long) 'タブ追加用IDコレクション準備
+                _addedIds.Add(Item.Id)
             Else
                 '公式検索の場合
                 Dim tb As TabClass
@@ -785,8 +797,6 @@ Public NotInheritable Class TabInformations
                 If tb.Contains(Item.Id) Then Exit Sub
                 tb.Add(Item.Id, Item.IsRead, True)
             End If
-            If _addedIds Is Nothing Then _addedIds = New List(Of Long) 'タブ追加用IDコレクション準備
-            _addedIds.Add(Item.Id)
         End SyncLock
     End Sub
 
@@ -1131,7 +1141,7 @@ Public NotInheritable Class TabClass
     Private _unreadCount As Integer = 0
     Private _ids As List(Of Long)
     Private _filterMod As Boolean = False
-    Private _tmpIds As List(Of TempolaryId)
+    Private _tmpIds As List(Of TemporaryId)
     Private _tabName As String = ""
     Private _tabType As TabUsageType = TabUsageType.Undefined
     Private _searchedPosts As Dictionary(Of Long, PostClass)
@@ -1192,7 +1202,16 @@ Public NotInheritable Class TabClass
         Return _searchedPosts(Id)
     End Function
 
-    Private Structure TempolaryId
+    Public Function GetTemporaryPosts() As PostClass()
+        Dim tempPosts As New List(Of PostClass)
+        If _tmpIds Is Nothing OrElse _tmpIds.Count = 0 Then Return tempPosts.ToArray
+        For Each tempId As TemporaryId In _tmpIds
+            tempPosts.Add(_searchedPosts(tempId.Id))
+        Next
+        Return tempPosts.ToArray
+    End Function
+
+    Private Structure TemporaryId
         Public Id As Long
         Public Read As Boolean
 
@@ -1247,8 +1266,8 @@ Public NotInheritable Class TabClass
         If Not Temporary Then
             Me.Add(ID, Read)
         Else
-            If _tmpIds Is Nothing Then _tmpIds = New List(Of TempolaryId)
-            _tmpIds.Add(New TempolaryId(ID, Read))
+            If _tmpIds Is Nothing Then _tmpIds = New List(Of TemporaryId)
+            _tmpIds.Add(New TemporaryId(ID, Read))
         End If
     End Sub
 
@@ -1260,6 +1279,8 @@ Public NotInheritable Class TabClass
                                 ByVal OrgData As String) As HITRESULT
         'Try
         '    rwLock.AcquireReaderLock(System.Threading.Timeout.Infinite) '読み取りロック取得
+
+        If Me.TabType = TabUsageType.PublicSearch Then Return HITRESULT.None
 
         Dim rslt As HITRESULT = HITRESULT.None
         '全フィルタ評価（優先順位あり）
@@ -1279,8 +1300,8 @@ Public NotInheritable Class TabClass
         Next
 
         If rslt <> HITRESULT.None Then
-            If _tmpIds Is Nothing Then _tmpIds = New List(Of TempolaryId)
-            _tmpIds.Add(New TempolaryId(ID, Read))
+            If _tmpIds Is Nothing Then _tmpIds = New List(Of TemporaryId)
+            _tmpIds.Add(New TemporaryId(ID, Read))
         End If
         'Me.Add(ID, Read)
 
@@ -1292,17 +1313,17 @@ Public NotInheritable Class TabClass
     End Function
 
     '検索結果の追加
-    Public Sub AddPostToInnerStrage(ByVal Post As PostClass)
+    Public Sub AddPostToInnerStorage(ByVal Post As PostClass)
         If _searchedPosts Is Nothing Then _searchedPosts = New Dictionary(Of Long, PostClass)
         If _searchedPosts.ContainsKey(Post.Id) Then Exit Sub
         _searchedPosts.Add(Post.Id, Post)
-        If _tmpIds Is Nothing Then _tmpIds = New List(Of TempolaryId)
-        _tmpIds.Add(New TempolaryId(Post.Id, Post.IsRead))
+        If _tmpIds Is Nothing Then _tmpIds = New List(Of TemporaryId)
+        _tmpIds.Add(New TemporaryId(Post.Id, Post.IsRead))
     End Sub
 
     Public Sub AddSubmit()
         If _tmpIds Is Nothing Then Exit Sub
-        For Each tId As TempolaryId In _tmpIds
+        For Each tId As TemporaryId In _tmpIds
             Me.Add(tId.Id, tId.Read)
         Next
         _tmpIds.Clear()

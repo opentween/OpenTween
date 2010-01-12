@@ -110,6 +110,7 @@ Public Module MyCommon
         OpenUri                 'Uri開く
         Favorites               'Fav取得
         Retweet                 'Retweetする
+        PublicSearch            '公式検索
     End Enum
 
     Public Structure DEFAULTTAB
