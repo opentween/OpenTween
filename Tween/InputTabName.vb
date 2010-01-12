@@ -57,7 +57,44 @@ Public Class InputTabName
         End Set
     End Property
 
+    Private _isShowUsage As Boolean
+    Public WriteOnly Property IsShowUsage() As Boolean
+        Set(ByVal value As Boolean)
+            _isShowUsage = value
+        End Set
+    End Property
+
+    Private _usage As TabUsageType
+    Public ReadOnly Property Usage() As TabUsageType
+        Get
+            Return _usage
+        End Get
+    End Property
+
+    Private Sub InputTabName_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        Me.LabelUsage.Visible = False
+        Me.ComboUsage.Visible = False
+        Me.ComboUsage.Items.Add("タイムライン振り分け")
+        Me.ComboUsage.Items.Add("PublicSearch")
+        Me.ComboUsage.SelectedIndex = 0
+    End Sub
+
     Private Sub InputTabName_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
         ActiveControl = TextTabName
+        If _isShowUsage Then
+            Me.LabelUsage.Visible = True
+            Me.ComboUsage.Visible = True
+        End If
+    End Sub
+
+    Private Sub ComboUsage_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboUsage.SelectedIndexChanged
+        Select Case ComboUsage.SelectedIndex
+            Case 0
+                _usage = TabUsageType.UserDefined
+            Case 1
+                _usage = TabUsageType.PublicSearch
+            Case Else
+                _usage = TabUsageType.Undefined
+        End Select
     End Sub
 End Class
