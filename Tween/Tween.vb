@@ -737,7 +737,7 @@ Public Class TweenMain
         If IsNetworkAvailable() Then
             If SettingDialog.StartupFollowers Then
                 '_waitFollower = True
-                GetTimeline(WORKERTYPE.Follower, 0, 0)
+                GetTimeline(WORKERTYPE.Follower, 0, 0, "")
             End If
         End If
 
@@ -1162,7 +1162,7 @@ Public Class TweenMain
                 'If SettingDialog.TimelinePeriodInt > 0 Then TimerTimeline.Enabled = True
                 'If SettingDialog.ReplyPeriodInt > 0 Then TimerReply.Enabled = True
             Else
-                GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0)
+                GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
             End If
         Else
             _myStatusOnline = False
@@ -1180,7 +1180,7 @@ Public Class TweenMain
 
         If Not IsNetworkAvailable() Then Exit Sub
 
-        GetTimeline(WORKERTYPE.Timeline, 1, 0)
+        GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
     End Sub
 
     Private Sub TimerDM_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TimerDM.Tick
@@ -1188,13 +1188,13 @@ Public Class TweenMain
 
         If Not IsNetworkAvailable() Then Exit Sub
 
-        GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0)
+        GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
     End Sub
 
     Private Sub TimerReply_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TimerReply.Tick
         If Not IsNetworkAvailable() Then Exit Sub
 
-        GetTimeline(WORKERTYPE.Reply, 1, 0)
+        GetTimeline(WORKERTYPE.Reply, 1, 0, "")
     End Sub
 
     Private Sub RefreshTimeline()
@@ -1853,6 +1853,11 @@ Public Class TweenMain
                     ret = Twitter.GetFavorites(args.page, read, args.endPage, args.type, rslt.newDM)
                 End If
                 rslt.addCount = _statuses.DistributePosts()
+            Case WORKERTYPE.PublicSearch
+                bw.ReportProgress(50, MakeStatusMessage(args, False))
+                ret = Twitter.GetSearch(read, args.tName)
+                '新着時未読クリア
+                rslt.addCount = _statuses.DistributePosts()
         End Select
         'キャンセル要求
         If bw.CancellationPending Then
@@ -2079,7 +2084,7 @@ Public Class TweenMain
                             End If
                         End If
                         If rslt.newDM Then
-                            GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0)
+                            GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
                         End If
                     Else
                         'API使用時の取得調整は別途考える（カウント調整？）
@@ -2088,7 +2093,7 @@ Public Class TweenMain
             Case WORKERTYPE.Reply
                 _waitReply = False
                 If rslt.newDM AndAlso Not _initial Then
-                    GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0)
+                    GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
                 End If
             Case WORKERTYPE.Favorites
                 _waitFav = False
@@ -2137,7 +2142,7 @@ Public Class TweenMain
                     _hisIdx = _history.Count - 1
                     SetMainWindowTitle()
                 End If
-                If rslt.retMsg.Length = 0 AndAlso SettingDialog.PostAndGet Then GetTimeline(WORKERTYPE.Timeline, 1, 0)
+                If rslt.retMsg.Length = 0 AndAlso SettingDialog.PostAndGet Then GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
             Case WORKERTYPE.Retweet
                 If rslt.retMsg.Length > 0 Then
                     StatusLabel.Text = rslt.retMsg
@@ -2150,7 +2155,7 @@ Public Class TweenMain
                         End If
                     Next
                 End If
-                If rslt.retMsg.Length = 0 AndAlso SettingDialog.PostAndGet Then GetTimeline(WORKERTYPE.Timeline, 1, 0)
+                If rslt.retMsg.Length = 0 AndAlso SettingDialog.PostAndGet Then GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
             Case WORKERTYPE.Follower
                 '_waitFollower = False
                 _itemCache = Nothing
@@ -2160,34 +2165,35 @@ Public Class TweenMain
 
     End Sub
 
-    Private Sub GetTimeline(ByVal WkType As WORKERTYPE, ByVal fromPage As Integer, ByVal toPage As Integer)
+    Private Sub GetTimeline(ByVal WkType As WORKERTYPE, ByVal fromPage As Integer, ByVal toPage As Integer, ByVal tabName As String)
         'toPage=0:通常モード
         If Not IsNetworkAvailable() Then Exit Sub
-        'タイマー停止
-        If SettingDialog.UseAPI Then
-            Select Case WkType
-                Case WORKERTYPE.Timeline
-                    'TimerTimeline.Enabled = False
-                Case WORKERTYPE.Reply
-                    'TimerReply.Enabled = False
-                Case WORKERTYPE.DirectMessegeRcv, WORKERTYPE.DirectMessegeSnt
-                    'TimerDM.Enabled = False
-            End Select
-        Else
-            Select Case WkType
-                Case WORKERTYPE.Timeline
-                    'TimerTimeline.Enabled = False
-                Case WORKERTYPE.Reply
-                    'TimerReply.Enabled = False
-                Case WORKERTYPE.DirectMessegeRcv, WORKERTYPE.DirectMessegeSnt
-                    'TimerDM.Enabled = False
-            End Select
-        End If
+        ''タイマー停止
+        'If SettingDialog.UseAPI Then
+        '    Select Case WkType
+        '        Case WORKERTYPE.Timeline
+        '            'TimerTimeline.Enabled = False
+        '        Case WORKERTYPE.Reply
+        '            'TimerReply.Enabled = False
+        '        Case WORKERTYPE.DirectMessegeRcv, WORKERTYPE.DirectMessegeSnt
+        '            'TimerDM.Enabled = False
+        '    End Select
+        'Else
+        '    Select Case WkType
+        '        Case WORKERTYPE.Timeline
+        '            'TimerTimeline.Enabled = False
+        '        Case WORKERTYPE.Reply
+        '            'TimerReply.Enabled = False
+        '        Case WORKERTYPE.DirectMessegeRcv, WORKERTYPE.DirectMessegeSnt
+        '            'TimerDM.Enabled = False
+        '    End Select
+        'End If
         '非同期実行引数設定
         Dim args As New GetWorkerArg
         args.page = fromPage
         args.endPage = toPage
         args.type = WkType
+        args.tName = tabName
 
         RunAsync(args)
 
@@ -2196,7 +2202,7 @@ Public Class TweenMain
            Not _initial AndAlso _
            WkType = WORKERTYPE.Timeline AndAlso _
            SettingDialog.CheckReply Then
-            TimerReply.Enabled = False
+            'TimerReply.Enabled = False
             Dim _args As New GetWorkerArg
             _args.page = fromPage
             _args.endPage = toPage
@@ -2549,20 +2555,20 @@ Public Class TweenMain
         If _curTab IsNot Nothing Then
             Select Case _statuses.Tabs(_curTab.Text).TabType
                 Case TabUsageType.Mentions
-                    GetTimeline(WORKERTYPE.Reply, 1, 0)
+                    GetTimeline(WORKERTYPE.Reply, 1, 0, "")
                 Case TabUsageType.DirectMessage
-                    GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0)
+                    GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
                 Case TabUsageType.Favorites
-                    GetTimeline(WORKERTYPE.Favorites, 1, 0)
+                    GetTimeline(WORKERTYPE.Favorites, 1, 0, "")
                     'Case TabUsageType.Profile
                     '' TODO
                     'Case TabUsageType.PublicSearch
                     '' TODO
                 Case Else
-                    GetTimeline(WORKERTYPE.Timeline, 1, 0)
+                    GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
             End Select
         Else
-            GetTimeline(WORKERTYPE.Timeline, 1, 0)
+            GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
         End If
     End Sub
 
@@ -2881,50 +2887,69 @@ Public Class TweenMain
 
 
         ''' 検索関連の準備
-        Dim pnl As New Panel
-        Dim lbl As New Label
-        Dim cmb As New ComboBox
-        Dim btn As New Button
-        pnl.SuspendLayout()
+        Dim pnl As Panel = Nothing
+        If tabType = TabUsageType.PublicSearch Then
+            pnl = New Panel
 
-        pnl.Controls.Add(cmb)
-        pnl.Controls.Add(btn)
-        pnl.Controls.Add(lbl)
-        pnl.Name = "panel1"
-        pnl.Dock = DockStyle.Top
-        pnl.Height = cmb.Height
+            Dim lbl As Label
+            Dim cmb As ComboBox
+            Dim btn As Button
 
-        lbl.Text = "検索"
-        lbl.Name = "label1"
-        lbl.Dock = DockStyle.Left
-        lbl.Width = 50
-        lbl.Height = cmb.Height
-        lbl.TextAlign = ContentAlignment.MiddleLeft
+            lbl = New Label
+            cmb = New ComboBox
+            btn = New Button
+            pnl.SuspendLayout()
 
-        btn.Text = "button1"
-        btn.Name = "button1"
-        btn.UseVisualStyleBackColor = True
-        btn.Dock = DockStyle.Right
+            pnl.Controls.Add(cmb)
+            pnl.Controls.Add(btn)
+            pnl.Controls.Add(lbl)
+            pnl.Name = "panelSearch"
+            pnl.Dock = DockStyle.Top
+            pnl.Height = cmb.Height
 
-        cmb.Text = ""
-        cmb.Dock = DockStyle.Fill
-        cmb.Name = "combo1"
+            lbl.Text = "PublicSearch"
+            lbl.Name = "label1"
+            lbl.Dock = DockStyle.Left
+            lbl.Width = 50
+            lbl.Height = cmb.Height
+            lbl.TextAlign = ContentAlignment.MiddleLeft
 
+            btn.Text = "Search"
+            btn.Name = "buttonSearch"
+            btn.UseVisualStyleBackColor = True
+            btn.Dock = DockStyle.Right
+            AddHandler btn.Click, AddressOf SearchButton_Click
 
-
-
-
-
-
-
-
-
-
-
+            cmb.Text = ""
+            cmb.Dock = DockStyle.Fill
+            cmb.Name = "comboSearch"
+            'cmb.Items.Add("")
+            'cmb.Items.Add("ja")
+            'cmb.Items.Add("en")
+            'cmb.Items.Add("ar")
+            'cmb.Items.Add("da")
+            'cmb.Items.Add("nl")
+            'cmb.Items.Add("fa")
+            'cmb.Items.Add("fi")
+            'cmb.Items.Add("fr")
+            'cmb.Items.Add("de")
+            'cmb.Items.Add("hu")
+            'cmb.Items.Add("is")
+            'cmb.Items.Add("it")
+            'cmb.Items.Add("no")
+            'cmb.Items.Add("pl")
+            'cmb.Items.Add("pt")
+            'cmb.Items.Add("ru")
+            'cmb.Items.Add("es")
+            'cmb.Items.Add("sv")
+            'cmb.Items.Add("th")
+        End If
 
         Me.ListTab.Controls.Add(_tabPage)
         _tabPage.Controls.Add(_listCustom)
-        _tabPage.Controls.Add(pnl)
+
+        If tabType = TabUsageType.PublicSearch Then _tabPage.Controls.Add(pnl)
+
         _tabPage.Location = New Point(4, 4)
         _tabPage.Name = "CTab" + cnt.ToString()
         _tabPage.Size = New Size(380, 260)
@@ -3064,7 +3089,7 @@ Public Class TweenMain
 
 
 
-        pnl.ResumeLayout(False)
+        If tabType = TabUsageType.PublicSearch Then pnl.ResumeLayout(False)
 
 
         _tabPage.ResumeLayout(False)
@@ -3095,6 +3120,8 @@ Public Class TweenMain
 
         SetListProperty()   '他のタブに列幅等を反映
 
+        Dim tabType As TabUsageType = _statuses.Tabs(TabName).TabType
+
         'オブジェクトインスタンスの削除
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -3109,6 +3136,20 @@ Public Class TweenMain
         _tabPage.SuspendLayout()
 
         Me.ListTab.Controls.Remove(_tabPage)
+
+        Dim pnl As Control = Nothing
+        If tabType = TabUsageType.PublicSearch Then
+            pnl = _tabPage.Controls("panelSearch")
+            For Each ctrl As Control In pnl.Controls
+                If ctrl.Name = "buttonSearch" Then
+                    RemoveHandler ctrl.Click, AddressOf SearchButton_Click
+                End If
+                pnl.Controls.Remove(ctrl)
+                ctrl.Dispose()
+            Next
+            _tabPage.Controls.Remove(pnl)
+        End If
+
         _tabPage.Controls.Remove(_listCustom)
         _listCustom.Columns.Clear()
         _listCustom.ContextMenuStrip = Nothing
@@ -6573,19 +6614,19 @@ RETRY:
         If IsNetworkAvailable() Then
             If SettingDialog.ReadPages > 0 Then
                 _waitTimeline = True
-                GetTimeline(WORKERTYPE.Timeline, 1, SettingDialog.ReadPages)
+                GetTimeline(WORKERTYPE.Timeline, 1, SettingDialog.ReadPages, "")
             End If
             If SettingDialog.ReadPagesReply > 0 Then
                 _waitReply = True
-                GetTimeline(WORKERTYPE.Reply, 1, SettingDialog.ReadPagesReply)
+                GetTimeline(WORKERTYPE.Reply, 1, SettingDialog.ReadPagesReply, "")
             End If
             If SettingDialog.ReadPagesDM > 0 Then
                 _waitDm = True
-                GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, SettingDialog.ReadPagesDM)
+                GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, SettingDialog.ReadPagesDM, "")
             End If
             If SettingDialog.GetFav Then
                 _waitFav = True
-                GetTimeline(WORKERTYPE.Favorites, 1, 1)
+                GetTimeline(WORKERTYPE.Favorites, 1, 1, "")
             End If
             Dim i As Integer = 0
             Do While (_waitTimeline OrElse _waitReply OrElse _waitDm OrElse _waitFav) AndAlso Not _endingFlag
@@ -6641,7 +6682,7 @@ RETRY:
     End Sub
 
     Private Sub doGetFollowersMenu(ByVal CacheInvalidate As Boolean)
-        GetTimeline(WORKERTYPE.Follower, 1, 0)
+        GetTimeline(WORKERTYPE.Follower, 1, 0, "")
         'Try
         '    StatusLabel.Text = My.Resources.UpdateFollowersMenuItem1_ClickText1
         '    My.Application.DoEvents()
@@ -6987,4 +7028,16 @@ RETRY:
         End If
     End Sub
 
+    Private Sub SearchButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Dim pnl As Control = DirectCast(Me, Control).Parent
+        If pnl Is Nothing Then Exit Sub
+        Dim tbName As String = pnl.Parent.Text
+        Dim tb As TabClass = _statuses.Tabs(tbName)
+        tb.SearchWords = pnl.Controls("comboSearch").Text
+        Dim lst As DetailsListView = DirectCast(pnl.Parent.Tag, DetailsListView)
+        lst.VirtualListSize = 0
+        lst.Items.Clear()
+
+        GetTimeline(WORKERTYPE.PublicSearch, 1, 0, tbName)
+    End Sub
 End Class

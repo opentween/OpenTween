@@ -2184,8 +2184,9 @@ Public Module Twitter
 
         Do
             If _endingFlag Then Exit Do
-            resMsg = DirectCast(CreateSocket.GetWebResponse("https://" + _hubServer + _GetFollowers + _cursorQry + page.ToString, resStatus, MySocket.REQ_TYPE.ReqGetAPI), String)
+            resMsg = DirectCast(CreateSocket.GetWebResponse("http://" + _hubServer + _GetFollowers + _cursorQry + page.ToString, resStatus, MySocket.REQ_TYPE.ReqGetAPI), String)
             If resStatus.StartsWith("OK") = False Then
+                Debug.WriteLine(page.ToString)
                 _threadErr = True
                 Return resStatus
             End If
@@ -2837,7 +2838,13 @@ Public Module Twitter
                         Exit Select
                     End If
                     Try
-                        Dim req As String = "http://api.bit.ly/shorten?version=" + BitlyApiVersion + _
+                        Dim req As String = ""
+                        If ConverterType = UrlConverter.Bitly Then
+                            req = "http://api.bit.ly/shorten?version="
+                        Else
+                            req = "http://api.j.mp/shorten?version="
+                        End If
+                        req += BitlyApiVersion + _
                             "&login=" + BitlyLogin + _
                             "&apiKey=" + BitlyApiKey + _
                             "&longUrl=" + SrcUrl
@@ -2851,10 +2858,10 @@ Public Module Twitter
                         Return "Can't convert"
                     End Try
                 End If
-                If Not ret.StartsWith("http://bit.ly") Then
+                If Not ret.StartsWith("http://bit.ly") AndAlso Not ret.StartsWith("http://j.mp") Then
                     Return "Can't convert"
                 End If
-                If ConverterType = UrlConverter.Jmp Then ret = ret.Replace("bit.ly", "j.mp")
+                'If ConverterType = UrlConverter.Jmp Then ret = ret.Replace("bit.ly", "j.mp")
         End Select
         '変換結果から改行を除去
         Dim ch As Char() = {ControlChars.Cr, ControlChars.Lf}
