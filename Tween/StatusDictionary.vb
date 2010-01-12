@@ -367,7 +367,7 @@ Public NotInheritable Class TabInformations
     Private Shared _instance As TabInformations = New TabInformations
 
     Private Sub New()
-        _sorter = New IdComparerClass(Me)
+        _sorter = New IdComparerClass()
     End Sub
 
     Public Shared Function GetInstance() As TabInformations
@@ -431,6 +431,11 @@ Public NotInheritable Class TabInformations
 
     Public Sub SortPosts()
         For Each key As String In _tabs.Keys
+            If _tabs(key).TabType <> TabUsageType.PublicSearch Then
+                _sorter.posts = _statuses
+            Else
+                _sorter.posts = _tabs(key).Posts
+            End If
             _tabs(key).Sort(_sorter)
         Next
     End Sub
@@ -651,9 +656,10 @@ Public NotInheritable Class TabInformations
     Public Function DistributePosts() As Integer
         SyncLock LockObj
             '戻り値は追加件数
-            If _addedIds Is Nothing Then Return 0
-            If _addedIds.Count = 0 Then Return 0
+            'If _addedIds Is Nothing Then Return 0
+            'If _addedIds.Count = 0 Then Return 0
 
+            If _addedIds Is Nothing Then _addedIds = New List(Of Long)
             If _notifyPosts Is Nothing Then _notifyPosts = New List(Of PostClass)
             Me.Distribute()    'タブに仮振分
             _addCount = _addedIds.Count
@@ -765,7 +771,7 @@ Public NotInheritable Class TabInformations
 
     Public Sub AddPost(ByVal Item As PostClass)
         SyncLock LockObj
-            If Item.SearchTabName <> "" Then
+            If Item.SearchTabName = "" Then
                 If _statuses.ContainsKey(Item.Id) Then
                     If Item.IsFav Then
                         _statuses.Item(Item.Id).IsFav = True
@@ -925,8 +931,16 @@ Public NotInheritable Class TabInformations
     End Property
 
     Public Function ContainsKey(ByVal Id As Long) As Boolean
+        '公式検索は非対応
         SyncLock LockObj
             Return _statuses.ContainsKey(Id)
+        End SyncLock
+    End Function
+
+    Public Function ContainsKey(ByVal Id As Long, ByVal TabName As String) As Boolean
+        '公式検索は対応版
+        SyncLock LockObj
+            Return _tabs(TabName).Contains(Id)
         End SyncLock
     End Function
 
@@ -1056,16 +1070,18 @@ Public NotInheritable Class TabInformations
 
     Public Sub ClearTabIds(ByVal TabName As String)
         '不要なPostを削除
-        For Each Id As Long In _tabs(TabName).BackupIds
-            Dim Hit As Boolean = False
-            For Each tb As TabClass In _tabs.Values
-                If tb.Contains(Id) Then
-                    Hit = True
-                    Exit For
-                End If
+        If _tabs(TabName).TabType <> TabUsageType.PublicSearch Then
+            For Each Id As Long In _tabs(TabName).BackupIds
+                Dim Hit As Boolean = False
+                For Each tb As TabClass In _tabs.Values
+                    If tb.Contains(Id) Then
+                        Hit = True
+                        Exit For
+                    End If
+                Next
+                If Not Hit Then _statuses.Remove(Id)
             Next
-            If Not Hit Then _statuses.Remove(Id)
-        Next
+        End If
         '指定タブをクリア
         _tabs(TabName).ClearIDs()
     End Sub
@@ -1144,7 +1160,7 @@ Public NotInheritable Class TabClass
     Private _tmpIds As List(Of TemporaryId)
     Private _tabName As String = ""
     Private _tabType As TabUsageType = TabUsageType.Undefined
-    Private _searchedPosts As Dictionary(Of Long, PostClass)
+    Private _posts As New Dictionary(Of Long, PostClass)
 
     'Search query
     Private _searchLang As String = ""
@@ -1192,21 +1208,30 @@ Public NotInheritable Class TabClass
             If Not String.IsNullOrEmpty(_searchSource) Then qry += " source:" + _searchSource
             If _searchLinks Then qry += " filter:links"
             If Not String.IsNullOrEmpty(_searchLang) Then qry += "&lang=" + _searchLang
-            Return UrlEncode(qry)
+            'Return UrlEncode(qry)
+            Return qry
         End Get
     End Property
 
+    Public Property Posts() As Dictionary(Of Long, PostClass)
+        Get
+            Return _posts
+        End Get
+        Set(ByVal value As Dictionary(Of Long, PostClass))
+            _posts = value
+        End Set
+    End Property
+
     Public Function SearchedPost(ByVal Id As Long) As PostClass
-        If _searchedPosts Is Nothing Then Return Nothing
-        If Not _searchedPosts.ContainsKey(Id) Then Return Nothing
-        Return _searchedPosts(Id)
+        If Not _posts.ContainsKey(Id) Then Return Nothing
+        Return _posts(Id)
     End Function
 
     Public Function GetTemporaryPosts() As PostClass()
         Dim tempPosts As New List(Of PostClass)
         If _tmpIds Is Nothing OrElse _tmpIds.Count = 0 Then Return tempPosts.ToArray
         For Each tempId As TemporaryId In _tmpIds
-            tempPosts.Add(_searchedPosts(tempId.Id))
+            tempPosts.Add(_posts(tempId.Id))
         Next
         Return tempPosts.ToArray
     End Function
@@ -1314,9 +1339,8 @@ Public NotInheritable Class TabClass
 
     '検索結果の追加
     Public Sub AddPostToInnerStorage(ByVal Post As PostClass)
-        If _searchedPosts Is Nothing Then _searchedPosts = New Dictionary(Of Long, PostClass)
-        If _searchedPosts.ContainsKey(Post.Id) Then Exit Sub
-        _searchedPosts.Add(Post.Id, Post)
+        If _posts.ContainsKey(Post.Id) Then Exit Sub
+        _posts.Add(Post.Id, Post)
         If _tmpIds Is Nothing Then _tmpIds = New List(Of TemporaryId)
         _tmpIds.Add(New TemporaryId(Post.Id, Post.IsRead))
     End Sub
@@ -1467,6 +1491,9 @@ Public NotInheritable Class TabClass
         _ids.Clear()
         _unreadCount = 0
         _oldestUnreadItem = -1
+        If _posts IsNot Nothing Then
+            _posts.Clear()
+        End If
     End Sub
 
     Public Function GetId(ByVal Index As Integer) As Long
@@ -1508,6 +1535,7 @@ Public NotInheritable Class TabClass
             _tabType = value
         End Set
     End Property
+
 End Class
 
 <Serializable()> _
@@ -2052,7 +2080,7 @@ Public NotInheritable Class IdComparerClass
 
     Private _order As SortOrder
     Private _mode As ComparerMode
-    Private _statuses As TabInformations
+    Private _statuses As Dictionary(Of Long, PostClass)
     Private _CmpMethod As Comparison(Of Long)
 
     ''' <summary>
@@ -2087,18 +2115,30 @@ Public NotInheritable Class IdComparerClass
     ''' <param name="col">並び替える列番号</param>
     ''' <param name="ord">昇順か降順か</param>
     ''' <param name="cmod">並び替えの方法</param>
-    Public Sub New(ByVal ord As SortOrder, ByVal SortMode As ComparerMode)
-        _order = ord
-        _mode = SortMode
+    'Public Sub New(ByVal ord As SortOrder, ByVal SortMode As ComparerMode)
+    '    _order = ord
+    '    _mode = SortMode
+    '    SetCmpMethod(_mode, _order)
+    'End Sub
+
+    'Public Sub New(ByVal posts As Dictionary(Of Long, PostClass))
+    '    _order = SortOrder.Ascending
+    '    _mode = ComparerMode.Id
+    '    _statuses = posts
+    '    SetCmpMethod(_mode, _order)
+    'End Sub
+
+    Public Sub New()
+        _order = SortOrder.Ascending
+        _mode = ComparerMode.Id
         SetCmpMethod(_mode, _order)
     End Sub
 
-    Public Sub New(ByVal TabInf As TabInformations)
-        _order = SortOrder.Ascending
-        _mode = ComparerMode.Id
-        _statuses = TabInf
-        SetCmpMethod(_mode, _order)
-    End Sub
+    Public WriteOnly Property posts() As Dictionary(Of Long, PostClass)
+        Set(ByVal value As Dictionary(Of Long, PostClass))
+            _statuses = value
+        End Set
+    End Property
 
     ' 指定したソートモードとソートオーダーに従い使用する比較関数のアドレスを返す
     Public Overloads ReadOnly Property CmpMethod(ByVal _sortmode As ComparerMode, ByVal _sortorder As SortOrder) As Comparison(Of Long)

@@ -3242,6 +3242,7 @@ Public Module Twitter
             Dim post As New PostClass
             Try
                 post.Id = Long.Parse(xentry.Item("id").InnerText.Split(":"c)(2))
+                If TabInformations.GetInstance.ContainsKey(post.Id, tabName) Then Continue For
                 post.PDate = DateTime.Parse(xentry.Item("published").InnerText)
                 '本文
                 post.Data = xentry.Item("title").InnerText

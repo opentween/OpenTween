@@ -29,6 +29,8 @@ Partial Class InputTabName
         Me.Cancel_Button = New System.Windows.Forms.Button
         Me.LabelDescription = New System.Windows.Forms.Label
         Me.TextTabName = New System.Windows.Forms.TextBox
+        Me.LabelUsage = New System.Windows.Forms.Label
+        Me.ComboUsage = New System.Windows.Forms.ComboBox
         Me.TableLayoutPanel1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -60,12 +62,26 @@ Partial Class InputTabName
         resources.ApplyResources(Me.TextTabName, "TextTabName")
         Me.TextTabName.Name = "TextTabName"
         '
+        'LabelUsage
+        '
+        resources.ApplyResources(Me.LabelUsage, "LabelUsage")
+        Me.LabelUsage.Name = "LabelUsage"
+        '
+        'ComboUsage
+        '
+        Me.ComboUsage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboUsage.FormattingEnabled = True
+        resources.ApplyResources(Me.ComboUsage, "ComboUsage")
+        Me.ComboUsage.Name = "ComboUsage"
+        '
         'InputTabName
         '
         Me.AcceptButton = Me.OK_Button
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.Cancel_Button
+        Me.Controls.Add(Me.ComboUsage)
+        Me.Controls.Add(Me.LabelUsage)
         Me.Controls.Add(Me.TextTabName)
         Me.Controls.Add(Me.LabelDescription)
         Me.Controls.Add(Me.TableLayoutPanel1)
@@ -85,5 +101,7 @@ Partial Class InputTabName
     Friend WithEvents Cancel_Button As System.Windows.Forms.Button
     Friend WithEvents LabelDescription As System.Windows.Forms.Label
     Friend WithEvents TextTabName As System.Windows.Forms.TextBox
+    Friend WithEvents LabelUsage As System.Windows.Forms.Label
+    Friend WithEvents ComboUsage As System.Windows.Forms.ComboBox
 
 End Class

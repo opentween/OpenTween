@@ -5433,20 +5433,23 @@ RETRY:
 
     Private Sub AddTabMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AddTabMenuItem.Click
         Dim tabName As String = Nothing
+        Dim tabUsage As TabUsageType
         Using inputName As New InputTabName()
             inputName.TabName = "MyTab" + (ListTab.TabPages.Count + 1).ToString
+            inputName.IsShowUsage = True
             inputName.ShowDialog()
             tabName = inputName.TabName
+            tabUsage = inputName.Usage
             inputName.Dispose()
         End Using
         Me.TopMost = SettingDialog.AlwaysTop
         If tabName <> "" Then
-            If Not AddNewTab(tabName, False, TabUsageType.UserDefined) Then
+            If Not AddNewTab(tabName, False, tabUsage) Then
                 Dim tmp As String = String.Format(My.Resources.AddTabMenuItem_ClickText1, tabName)
                 MessageBox.Show(tmp, My.Resources.AddTabMenuItem_ClickText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Else
                 '成功
-                _statuses.AddTab(tabName, TabUsageType.UserDefined)
+                _statuses.AddTab(tabName, tabUsage)
                 SaveConfigsCommon()
                 'SaveConfigsTab(False)
                 SaveConfigsTabs()
@@ -7029,7 +7032,7 @@ RETRY:
     End Sub
 
     Private Sub SearchButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        Dim pnl As Control = DirectCast(Me, Control).Parent
+        Dim pnl As Control = DirectCast(sender, Control).Parent
         If pnl Is Nothing Then Exit Sub
         Dim tbName As String = pnl.Parent.Text
         Dim tb As TabClass = _statuses.Tabs(tbName)
@@ -7037,6 +7040,7 @@ RETRY:
         Dim lst As DetailsListView = DirectCast(pnl.Parent.Tag, DetailsListView)
         lst.VirtualListSize = 0
         lst.Items.Clear()
+        _statuses.ClearTabIds(tbName)
 
         GetTimeline(WORKERTYPE.PublicSearch, 1, 0, tbName)
     End Sub
