@@ -577,22 +577,24 @@ Public NotInheritable Class TabInformations
            tb.Contains(tb.OldestUnreadId) AndAlso _
            tb.UnreadCount > 0 Then
             '未読アイテムへ
+            Dim isRead As Boolean
             If tb.TabType <> TabUsageType.PublicSearch Then
-                If _statuses.Item(tb.OldestUnreadId).IsRead Then
-                    '状態不整合（最古未読ＩＤが実は既読）
-                    SyncLock LockUnread
-                        Me.SetNextUnreadId(-1, tb)  '頭から探索
-                    End SyncLock
-                    If tb.OldestUnreadId = -1 Then
-                        Return -1
-                    Else
-                        Return tb.IndexOf(tb.OldestUnreadId)
-                    End If
+                isRead = _statuses(tb.OldestUnreadId).IsRead
+            Else
+                isRead = tb.Posts(tb.OldestUnreadId).IsRead
+            End If
+            If isRead Then
+                '状態不整合（最古未読ＩＤが実は既読）
+                SyncLock LockUnread
+                    Me.SetNextUnreadId(-1, tb)  '頭から探索
+                End SyncLock
+                If tb.OldestUnreadId = -1 Then
+                    Return -1
                 Else
-                    Return tb.IndexOf(tb.OldestUnreadId)    '最短経路
+                    Return tb.IndexOf(tb.OldestUnreadId)
                 End If
             Else
-
+                Return tb.IndexOf(tb.OldestUnreadId)    '最短経路
             End If
         Else
             '一見未読なさそうだが、未読カウントはあるので探索
@@ -906,10 +908,12 @@ Public NotInheritable Class TabInformations
                 tb.UnreadCount -= 1
                 Me.SetNextUnreadId(Id, tb)  '次の未読セット
                 '他タブの最古未読ＩＤはタブ切り替え時に。
+                If tb.TabType = TabUsageType.PublicSearch Then Exit Sub
                 For Each key As String In _tabs.Keys
                     If key <> TabName AndAlso _
                        _tabs(key).UnreadManage AndAlso _
-                       _tabs(key).Contains(Id) Then
+                       _tabs(key).Contains(Id) AndAlso _
+                       _tabs(key).TabType <> TabUsageType.PublicSearch Then
                         _tabs(key).UnreadCount -= 1
                         If _tabs(key).OldestUnreadId = Id Then _tabs(key).OldestUnreadId = -1
                     End If
@@ -917,8 +921,12 @@ Public NotInheritable Class TabInformations
             Else
                 tb.UnreadCount += 1
                 If tb.OldestUnreadId > Id OrElse tb.OldestUnreadId = -1 Then tb.OldestUnreadId = Id
+                If tb.TabType = TabUsageType.PublicSearch Then Exit Sub
                 For Each key As String In _tabs.Keys
-                    If Not key = TabName AndAlso _tabs(key).UnreadManage AndAlso _tabs(key).Contains(Id) Then
+                    If Not key = TabName AndAlso _
+                       _tabs(key).UnreadManage AndAlso _
+                       _tabs(key).Contains(Id) AndAlso _
+                       _tabs(key).TabType <> TabUsageType.PublicSearch Then
                         _tabs(key).UnreadCount += 1
                         If _tabs(key).OldestUnreadId > Id Then _tabs(key).OldestUnreadId = Id
                     End If
@@ -1259,8 +1267,8 @@ Public NotInheritable Class TabClass
             Dim qry As String = ""
             If String.IsNullOrEmpty(_searchWords) Then Return ""
             qry = "q=" + _searchWords
-            If Not String.IsNullOrEmpty(_searchSource) Then qry += " source:" + _searchSource
-            If _searchLinks Then qry += " filter:links"
+            If Not String.IsNullOrEmpty(_searchSource) Then qry += "&source=" + _searchSource
+            If _searchLinks Then qry += "&filter=links"
             If Not String.IsNullOrEmpty(_searchLang) Then qry += "&lang=" + _searchLang
             'Return UrlEncode(qry)
             Return qry
