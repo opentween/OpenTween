@@ -865,10 +865,10 @@ Public Module Twitter
             Dim strSep() As String = {_splitDM}
             Dim posts() As String = retMsg.Split(strSep, StringSplitOptions.RemoveEmptyEntries)
             Dim intCnt As Integer = 0   'カウンタ
-            Dim listCnt As Integer = 0
-            SyncLock LockObj
-                listCnt = TabInformations.GetInstance.ItemCount
-            End SyncLock
+            'Dim listCnt As Integer = 0
+            'SyncLock LockObj
+            '    listCnt = TabInformations.GetInstance.ItemCount
+            'End SyncLock
             Dim dlgt(20) As GetIconImageDelegate
             Dim ar(20) As IAsyncResult
             Dim arIdx As Integer = -1
@@ -1123,10 +1123,10 @@ Public Module Twitter
             Dim strSep() As String = {strSepTmp}
             Dim posts() As String = retMsg.Split(strSep, StringSplitOptions.RemoveEmptyEntries)
             Dim intCnt As Integer = 0
-            Dim listCnt As Integer = 0
-            SyncLock LockObj
-                listCnt = TabInformations.GetInstance.ItemCount
-            End SyncLock
+            'Dim listCnt As Integer = 0
+            'SyncLock LockObj
+            '    listCnt = TabInformations.GetInstance.ItemCount
+            'End SyncLock
             Dim dlgt(20) As GetIconImageDelegate
             Dim ar(20) As IAsyncResult
             Dim arIdx As Integer = -1

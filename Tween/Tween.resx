@@ -1326,6 +1326,9 @@
   <data name="ToolStripMenuItem10.Text" xml:space="preserve">
     <value>BlackFav</value>
   </data>
+  <data name="ToolStripMenuItem10.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="ToolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
     <value>192, 6</value>
   </data>
