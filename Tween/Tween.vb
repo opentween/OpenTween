@@ -2907,7 +2907,7 @@ Public Class TweenMain
             pnl.Dock = DockStyle.Top
             pnl.Height = cmb.Height
 
-            lbl.Text = "PublicSearch"
+            lbl.Text = "Search"
             lbl.Name = "label1"
             lbl.Dock = DockStyle.Left
             lbl.Width = 50
@@ -2923,6 +2923,8 @@ Public Class TweenMain
             cmb.Text = ""
             cmb.Dock = DockStyle.Fill
             cmb.Name = "comboSearch"
+            cmb.DropDownStyle = ComboBoxStyle.DropDown
+            cmb.ImeMode = Windows.Forms.ImeMode.NoControl
             'cmb.Items.Add("")
             'cmb.Items.Add("ja")
             'cmb.Items.Add("en")
@@ -3027,7 +3029,7 @@ Public Class TweenMain
         'End If
 
         If (_statuses.Tabs.ContainsKey(tabName) AndAlso _statuses.Tabs(tabName).TabType = TabUsageType.Mentions) _
-           OrElse Not _statuses.IsDefaultTab(tabName) Then
+           OrElse (Not _statuses.IsDefaultTab(tabName) AndAlso _statuses.Tabs(tabName).TabType <> TabUsageType.PublicSearch) Then
             TabDialog.AddTab(tabName)
         End If
 
@@ -4890,7 +4892,8 @@ RETRY:
             Next
             'タブ名のリスト作り直し（デフォルトタブ以外は再作成）
             For i As Integer = 0 To ListTab.TabCount - 1
-                If _statuses.Tabs(ListTab.TabPages(i).Text).TabType = TabUsageType.Mentions OrElse Not _statuses.IsDefaultTab(ListTab.TabPages(i).Text) Then
+                If _statuses.Tabs(ListTab.TabPages(i).Text).TabType = TabUsageType.Mentions OrElse _
+                   (Not _statuses.IsDefaultTab(ListTab.TabPages(i).Text) AndAlso _statuses.Tabs(ListTab.TabPages(i).Text).TabType <> TabUsageType.PublicSearch) Then
                     TabDialog.RemoveTab(ListTab.TabPages(i).Text)
                 End If
                 If ListTab.TabPages(i).Text = tabName Then
@@ -4900,7 +4903,8 @@ RETRY:
             _statuses.RenameTab(tabName, newTabText)
 
             For i As Integer = 0 To ListTab.TabCount - 1
-                If _statuses.Tabs(ListTab.TabPages(i).Text).TabType = TabUsageType.Mentions OrElse Not _statuses.IsDefaultTab(ListTab.TabPages(i).Text) Then
+                If _statuses.Tabs(ListTab.TabPages(i).Text).TabType = TabUsageType.Mentions OrElse _
+                   (Not _statuses.IsDefaultTab(ListTab.TabPages(i).Text) AndAlso _statuses.Tabs(ListTab.TabPages(i).Text).TabType <> TabUsageType.PublicSearch) Then
                     If ListTab.TabPages(i).Text = tabName Then
                         ListTab.TabPages(i).Text = newTabText
                     End If

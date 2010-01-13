@@ -58,8 +58,8 @@ Public Class FilterDialog
             ShowDetail()
         End If
         EditFilterGroup.Enabled = False
-        Select Case tabName
-            Case DEFAULTTAB.RECENT, DEFAULTTAB.DM, DEFAULTTAB.FAV
+        Select Case TabInformations.GetInstance.Tabs(tabName).TabType
+            Case TabUsageType.Home, TabUsageType.DirectMessage, TabUsageType.Favorites, TabUsageType.PublicSearch
                 ButtonNew.Enabled = False
                 ButtonEdit.Enabled = False
                 ButtonDelete.Enabled = False
@@ -608,19 +608,22 @@ Public Class FilterDialog
 
     Private Sub ButtonAddTab_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonAddTab.Click
         Dim tabName As String = Nothing
+        Dim tabType As TabUsageType
         Using inputName As New InputTabName()
             inputName.TabName = "MyTab" + (ListTabs.Items.Count + 1).ToString
+            inputName.IsShowUsage = True
             inputName.ShowDialog()
             tabName = inputName.TabName
+            tabType = inputName.Usage
         End Using
         If tabName <> "" Then
-            If Not DirectCast(Me.Owner, TweenMain).AddNewTab(tabName, False, TabUsageType.UserDefined) Then
+            If Not DirectCast(Me.Owner, TweenMain).AddNewTab(tabName, False, tabType) Then
                 Dim tmp As String = String.Format(My.Resources.AddTabMenuItem_ClickText1, tabName)
                 MessageBox.Show(tmp, My.Resources.AddTabMenuItem_ClickText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Exit Sub
             Else
                 '成功
-                _sts.AddTab(tabName, TabUsageType.UserDefined)
+                _sts.AddTab(tabName, tabType)
                 ListTabs.Items.Add(tabName)
             End If
         End If
