@@ -1777,27 +1777,27 @@ Public Class TweenMain
                 Next
                 rslt.sIds = args.sIds
                 ' Contributed by shuyoko <http://twitter.com/shuyoko> BEGIN:
-            Case WORKERTYPE.BlackFavAdd
-                'スレッド処理はしない
-                For i As Integer = 0 To args.ids.Count - 1
-                    Dim post As PostClass = _statuses.Item(args.ids(i))
-                    Dim blackid As Long = 0
-                    args.page = i + 1
-                    bw.ReportProgress(50, MakeStatusMessage(args, False))
-                    If Not post.IsFav Then
-                        ret = Twitter.GetBlackFavId(post.Id, blackid)
-                        If ret.Length = 0 Then
-                            ret = Twitter.PostFavAdd(blackid)
-                            If ret.Length = 0 Then
-                                args.sIds.Add(post.Id)
-                                post.IsFav = True    'リスト再描画必要
-                                _favTimestamps.Add(Now)
-                            End If
-                        End If
-                    End If
-                Next
-                rslt.sIds = args.sIds
-                ' Contributed by shuyoko <http://twitter.com/shuyoko> END.
+                'Case WORKERTYPE.BlackFavAdd
+                '    'スレッド処理はしない
+                '    For i As Integer = 0 To args.ids.Count - 1
+                '        Dim post As PostClass = _statuses.Item(args.ids(i))
+                '        Dim blackid As Long = 0
+                '        args.page = i + 1
+                '        bw.ReportProgress(50, MakeStatusMessage(args, False))
+                '        If Not post.IsFav Then
+                '            ret = Twitter.GetBlackFavId(post.Id, blackid)
+                '            If ret.Length = 0 Then
+                '                ret = Twitter.PostFavAdd(blackid)
+                '                If ret.Length = 0 Then
+                '                    args.sIds.Add(post.Id)
+                '                    post.IsFav = True    'リスト再描画必要
+                '                    _favTimestamps.Add(Now)
+                '                End If
+                '            End If
+                '        End If
+                '    Next
+                '    rslt.sIds = args.sIds
+                '    ' Contributed by shuyoko <http://twitter.com/shuyoko> END.
             Case WORKERTYPE.PostMessage
                 bw.ReportProgress(200)
                 For i As Integer = 0 To 1
@@ -3001,6 +3001,7 @@ Public Class TweenMain
         AddHandler _listCustom.CacheVirtualItems, AddressOf MyList_CacheVirtualItems
         AddHandler _listCustom.RetrieveVirtualItem, AddressOf MyList_RetrieveVirtualItem
         AddHandler _listCustom.DrawSubItem, AddressOf MyList_DrawSubItem
+        AddHandler _listCustom.KeyDown, AddressOf MyList_KeyDown
 
         _colHd1.Text = ""
         _colHd1.Width = 48
@@ -3173,6 +3174,7 @@ Public Class TweenMain
         RemoveHandler _listCustom.CacheVirtualItems, AddressOf MyList_CacheVirtualItems
         RemoveHandler _listCustom.RetrieveVirtualItem, AddressOf MyList_RetrieveVirtualItem
         RemoveHandler _listCustom.DrawSubItem, AddressOf MyList_DrawSubItem
+        RemoveHandler _listCustom.KeyDown, AddressOf MyList_KeyDown
 
         TabDialog.RemoveTab(TabName)
 
@@ -4009,7 +4011,7 @@ RETRY:
         OpenUriAsync("http://sourceforge.jp/projects/tween/wiki/FrontPage")
     End Sub
 
-    Private Sub ListTab_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles ListTab.KeyDown
+    Private Sub MyList_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs)
         If e.Modifiers = Keys.None Then
             ' ModifierKeyが押されていない場合
             If e.KeyCode = Keys.N OrElse e.KeyCode = Keys.Right Then
