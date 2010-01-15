@@ -1695,7 +1695,7 @@ Public Class TweenMain
 
         'Google検索（試験実装）
         If StatusText.Text.StartsWith("Google:") AndAlso StatusText.Text.Trim.Length > 7 Then
-            Dim tmp As String = String.Format(My.Resources.SearchItem1Url, HttpUtility.UrlEncode(StatusText.Text.Substring(7)))
+            Dim tmp As String = String.Format(My.Resources.SearchItem2Url, HttpUtility.UrlEncode(StatusText.Text.Substring(7)))
             OpenUriAsync(tmp)
         End If
 
