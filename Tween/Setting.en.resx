@@ -152,16 +152,10 @@
     <value>DM Fetching Interval (sec.)</value>
   </data>
   <data name="Label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>128, 12</value>
+    <value>205, 12</value>
   </data>
   <data name="Label6.Text" xml:space="preserve">
-    <value>Fetching Pages at Once</value>
-  </data>
-  <data name="Label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>122, 12</value>
-  </data>
-  <data name="Label7.Text" xml:space="preserve">
-    <value>Loading Logs Previous:</value>
+    <value>Fetching Pages at Once over threshold</value>
   </data>
   <data name="Label8.Size" type="System.Drawing.Size, System.Drawing">
     <value>142, 12</value>
@@ -219,6 +213,9 @@
   </data>
   <data name="Label16.Text" xml:space="preserve">
     <value>Colorize One-way following</value>
+  </data>
+  <data name="GroupBox1.Text" xml:space="preserve">
+    <value>Font &amp;&amp; Color</value>
   </data>
   <data name="btnRetweet.Text" xml:space="preserve">
     <value>Fore...</value>
@@ -366,9 +363,6 @@
   </data>
   <data name="Label61.Text" xml:space="preserve">
     <value>Font of tweet list</value>
-  </data>
-  <data name="GroupBox1.Text" xml:space="preserve">
-    <value>Font &amp;&amp; Color</value>
   </data>
   <data name="cmbNameBalloon.Items" xml:space="preserve">
     <value>None</value>
@@ -523,6 +517,9 @@
   <data name="Label47.Text" xml:space="preserve">
     <value>Apply after restarting</value>
   </data>
+  <data name="TabPage1.Text" xml:space="preserve">
+    <value>Basic</value>
+  </data>
   <data name="Label70.Size" type="System.Drawing.Size, System.Drawing">
     <value>176, 12</value>
   </data>
@@ -548,10 +545,10 @@
     <value>Post &amp;&amp; fetch</value>
   </data>
   <data name="Label67.Size" type="System.Drawing.Size, System.Drawing">
-    <value>201, 12</value>
+    <value>226, 12</value>
   </data>
   <data name="Label67.Text" xml:space="preserve">
-    <value>Getting number of tweets in API mode</value>
+    <value>Getting number of tweets/mentions in API </value>
   </data>
   <data name="Label66.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 12</value>
@@ -619,8 +616,8 @@
   <data name="CheckPeriodAdjust.Text" xml:space="preserve">
     <value>Enable Auto-Adjustment</value>
   </data>
-  <data name="TabPage1.Text" xml:space="preserve">
-    <value>Basic</value>
+  <data name="TabPage2.Text" xml:space="preserve">
+    <value>Behavior</value>
   </data>
   <data name="Label79.Location" type="System.Drawing.Point, System.Drawing">
     <value>11, 426</value>
@@ -720,8 +717,8 @@
   <data name="Button3.Text" xml:space="preserve">
     <value>Open...</value>
   </data>
-  <data name="TabPage2.Text" xml:space="preserve">
-    <value>Behavior</value>
+  <data name="TabPage3.Text" xml:space="preserve">
+    <value>View</value>
   </data>
   <data name="CheckAlwaysTop.Size" type="System.Drawing.Size, System.Drawing">
     <value>58, 16</value>
@@ -825,11 +822,11 @@
   <data name="chkUnreadStyle.Text" xml:space="preserve">
     <value>Enable</value>
   </data>
-  <data name="TabPage3.Text" xml:space="preserve">
-    <value>View</value>
-  </data>
   <data name="TabPage4.Text" xml:space="preserve">
     <value>Fonts &amp; Colors</value>
+  </data>
+  <data name="TabPage5.Text" xml:space="preserve">
+    <value>Connection</value>
   </data>
   <data name="CheckUseSsl.Size" type="System.Drawing.Size, System.Drawing">
     <value>130, 16</value>
@@ -848,6 +845,9 @@
   </data>
   <data name="Label63.Text" xml:space="preserve">
     <value>Connection timeout(sec)</value>
+  </data>
+  <data name="GroupBox2.Text" xml:space="preserve">
+    <value>Proxy Server</value>
   </data>
   <data name="Label55.Size" type="System.Drawing.Size, System.Drawing">
     <value>320, 12</value>
@@ -897,12 +897,6 @@
   <data name="RadioProxyNone.Text" xml:space="preserve">
     <value>Don't Use</value>
   </data>
-  <data name="GroupBox2.Text" xml:space="preserve">
-    <value>Proxy Server</value>
-  </data>
-  <data name="TabPage5.Text" xml:space="preserve">
-    <value>Connection</value>
-  </data>
   <data name="Label60.Size" type="System.Drawing.Size, System.Drawing">
     <value>107, 12</value>
   </data>
@@ -920,6 +914,12 @@
   </data>
   <data name="CheckOutputz.Text" xml:space="preserve">
     <value>Use Outputz</value>
+  </data>
+  <data name="Label7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 12</value>
+  </data>
+  <data name="Label7.Text" xml:space="preserve">
+    <value>Public Search Interval (sec.)</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Settings</value>

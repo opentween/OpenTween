@@ -50,6 +50,7 @@ Public Class SettingCommon
     Public TimelinePeriod As Integer = 90
     Public ReplyPeriod As Integer = 600
     Public DMPeriod As Integer = 600
+    Public PubSearchPeriod As Integer = 180
     Public ReadPages As Integer = 1
     Public ReadPagesReply As Integer = 1
     Public ReadPagesDM As Integer = 1
@@ -66,6 +67,7 @@ Public Class SettingCommon
     Public UseApi As Boolean = True
     Public UsePostMethod As Boolean = False
     Public CountApi As Integer = 60
+    Public CountApiReply As Integer = 20
     Public CheckReply As Boolean = True
     Public PostAndGet As Boolean = True
     Public DispUsername As Boolean = False

@@ -182,6 +182,13 @@ Public Class TweenMain
     Private StatusLabel As New ToolStripLabelHistory
     Private shield As New ShieldIcon
     Private SecurityManager As InternetSecurityManager
+
+    Private _homeCounter As Integer = 0
+    Private _homeCounterAdjuster As Integer = 0
+    Private _mentionCounter As Integer = 0
+    Private _dmCounter As Integer = 0
+    'Private _favCounter As Integer = 0
+    Private _pubSearchCounter As Integer = 0
     '''''''''''''''''''''''''''''''''''''''''''''''''''''
 #If DEBUG Then
     Private _drawcount As Long = 0
@@ -490,6 +497,7 @@ Public Class TweenMain
         SettingDialog.TimelinePeriodInt = _cfgCommon.TimelinePeriod
         SettingDialog.ReplyPeriodInt = _cfgCommon.ReplyPeriod
         SettingDialog.DMPeriodInt = _cfgCommon.DMPeriod
+        SettingDialog.PubSearchPeriodInt = _cfgCommon.PubSearchPeriod
         SettingDialog.NextPageThreshold = _cfgCommon.NextPageThreshold
         SettingDialog.NextPagesInt = _cfgCommon.NextPages
         SettingDialog.MaxPostNum = _cfgCommon.MaxPostNum
@@ -540,6 +548,7 @@ Public Class TweenMain
         SettingDialog.PostCtrlEnter = _cfgCommon.PostCtrlEnter
         SettingDialog.UseAPI = _cfgCommon.UseApi
         SettingDialog.CountApi = _cfgCommon.CountApi
+        SettingDialog.CountApiReply = _cfgCommon.CountApiReply
         SettingDialog.UsePostMethod = False
         SettingDialog.HubServer = _cfgCommon.HubServer
         SettingDialog.BrowserPath = _cfgLocal.BrowserPath
@@ -726,6 +735,7 @@ Public Class TweenMain
         Twitter.NextPages = SettingDialog.NextPagesInt    '閾値オーバー時の読み込みページ数（未使用）
         Twitter.DefaultTimeOut = SettingDialog.DefaultTimeOut
         Twitter.CountApi = SettingDialog.CountApi
+        Twitter.CountApiReply = SettingDialog.CountApiReply
         Twitter.UseAPI = SettingDialog.UseAPI
         Twitter.UsePostMethod = False
         Twitter.HubServer = SettingDialog.HubServer
@@ -779,23 +789,24 @@ Public Class TweenMain
 
         'タイマー設定
         'Recent取得間隔
-        If SettingDialog.TimelinePeriodInt > 0 Then
-            TimerTimeline.Interval = SettingDialog.TimelinePeriodInt * 1000
-        Else
-            TimerTimeline.Interval = 600000
-        End If
-        'Reply取得間隔
-        If SettingDialog.ReplyPeriodInt > 0 Then
-            TimerReply.Interval = SettingDialog.ReplyPeriodInt * 1000
-        Else
-            TimerReply.Interval = 6000000
-        End If
-        'DM取得間隔
-        If SettingDialog.DMPeriodInt > 0 Then
-            TimerDM.Interval = SettingDialog.DMPeriodInt * 1000
-        Else
-            TimerDM.Interval = 6000000
-        End If
+        TimerTimeline.Interval = 1000
+        'If SettingDialog.TimelinePeriodInt > 0 Then
+        '    TimerTimeline.Interval = SettingDialog.TimelinePeriodInt * 1000
+        'Else
+        '    TimerTimeline.Interval = 600000
+        'End If
+        ''Reply取得間隔
+        'If SettingDialog.ReplyPeriodInt > 0 Then
+        '    TimerReply.Interval = SettingDialog.ReplyPeriodInt * 1000
+        'Else
+        '    TimerReply.Interval = 6000000
+        'End If
+        ''DM取得間隔
+        'If SettingDialog.DMPeriodInt > 0 Then
+        '    TimerDM.Interval = SettingDialog.DMPeriodInt * 1000
+        'Else
+        '    TimerDM.Interval = 6000000
+        'End If
         '更新中アイコンアニメーション間隔
         TimerRefreshIcon.Interval = 85
         TimerRefreshIcon.Enabled = True
@@ -1177,13 +1188,34 @@ Public Class TweenMain
     End Sub
 
     Private Sub TimerTimeline_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TimerTimeline.Tick
+        If _homeCounter > 0 Then _homeCounter -= 1
+        If _mentionCounter > 0 Then _mentionCounter -= 1
+        If _dmCounter > 0 Then _dmCounter -= 1
+        If _pubSearchCounter > 0 Then _pubSearchCounter -= 1
 
         If Not IsNetworkAvailable() Then Exit Sub
 
-        GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
+        If _homeCounter <= 0 AndAlso SettingDialog.TimelinePeriodInt > 0 Then
+            _homeCounter = SettingDialog.TimelinePeriodInt - _homeCounterAdjuster
+            GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
+        End If
+        If _mentionCounter <= 0 AndAlso SettingDialog.ReplyPeriodInt > 0 Then
+            _mentionCounter = SettingDialog.ReplyPeriodInt
+            GetTimeline(WORKERTYPE.Reply, 1, 0, "")
+        End If
+        If _dmCounter <= 0 AndAlso SettingDialog.DMPeriodInt > 0 Then
+            _dmCounter = SettingDialog.DMPeriodInt
+            GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
+        End If
+        If _pubSearchCounter <= 0 AndAlso SettingDialog.PubSearchPeriodInt > 0 Then
+            _pubSearchCounter = SettingDialog.PubSearchPeriodInt
+            For Each tb As TabClass In _statuses.Tabs.Values
+                If tb.TabType = TabUsageType.PublicSearch AndAlso tb.SearchWords <> "" Then GetTimeline(WORKERTYPE.PublicSearch, 1, 0, tb.TabName)
+            Next
+        End If
     End Sub
 
-    Private Sub TimerDM_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TimerDM.Tick
+    Private Sub TimerDM_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs)
         GC.Collect()
 
         If Not IsNetworkAvailable() Then Exit Sub
@@ -1191,7 +1223,7 @@ Public Class TweenMain
         GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
     End Sub
 
-    Private Sub TimerReply_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TimerReply.Tick
+    Private Sub TimerReply_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If Not IsNetworkAvailable() Then Exit Sub
 
         GetTimeline(WORKERTYPE.Reply, 1, 0, "")
@@ -1661,6 +1693,12 @@ Public Class TweenMain
 
         RunAsync(args)
 
+        'Google検索（試験実装）
+        If StatusText.Text.StartsWith("Google:") Then
+            Dim tmp As String = String.Format(My.Resources.SearchItem1Url, HttpUtility.UrlEncode(StatusText.Text.Substring(7)))
+            OpenUriAsync(tmp)
+        End If
+
         DirectCast(ListTab.SelectedTab.Tag, Control).Focus()
     End Sub
 
@@ -1678,8 +1716,8 @@ Public Class TweenMain
             _ignoreConfigSave = True
             _endingFlag = True
             TimerTimeline.Enabled = False
-            TimerReply.Enabled = False
-            TimerDM.Enabled = False
+            'TimerReply.Enabled = False
+            'TimerDM.Enabled = False
             TimerColorize.Enabled = False
             TimerRefreshIcon.Enabled = False
         End If
@@ -1855,7 +1893,7 @@ Public Class TweenMain
                 rslt.addCount = _statuses.DistributePosts()
             Case WORKERTYPE.PublicSearch
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
-                ret = Twitter.GetSearch(read, args.tName)
+                ret = Twitter.GetSearch(read, args.tName, args.page = -1)
                 '新着時未読クリア
                 rslt.addCount = _statuses.DistributePosts()
         End Select
@@ -1941,6 +1979,8 @@ Public Class TweenMain
                                         My.Resources.GetTimelineWorker_RunWorkerCompletedText16 + (AsyncArg.page - AsyncArg.sIds.Count - 1).ToString()
                 Case WORKERTYPE.Favorites
                     smsg = My.Resources.GetTimelineWorker_RunWorkerCompletedText19
+                Case WORKERTYPE.PublicSearch
+                    smsg = "Search refreshing..."
             End Select
         Else
             '完了メッセージ
@@ -1963,6 +2003,8 @@ Public Class TweenMain
                     smsg = My.Resources.GetTimelineWorker_RunWorkerCompletedText20
                 Case WORKERTYPE.Follower
                     smsg = My.Resources.UpdateFollowersMenuItem1_ClickText3
+                Case WORKERTYPE.PublicSearch
+                    smsg = "Search refreshed"
             End Select
         End If
         Return smsg
@@ -2074,13 +2116,17 @@ Public Class TweenMain
                     If Not SettingDialog.UseAPI Then
                         If SettingDialog.PeriodAdjust AndAlso SettingDialog.TimelinePeriodInt > 0 Then
                             If rslt.addCount >= 20 Then
-                                Dim itv As Integer = TimerTimeline.Interval
-                                itv -= 5000
-                                If itv < 15000 Then itv = 15000
-                                TimerTimeline.Interval = itv
+                                _homeCounterAdjuster += 5
+                                If SettingDialog.TimelinePeriodInt - _homeCounterAdjuster < 15 Then _homeCounterAdjuster = SettingDialog.TimelinePeriodInt - 15
+                                'Dim itv As Integer = TimerTimeline.Interval
+                                'itv -= 5000
+                                'If itv < 15000 Then itv = 15000
+                                'TimerTimeline.Interval = itv
                             Else
-                                TimerTimeline.Interval += 1000
-                                If TimerTimeline.Interval > SettingDialog.TimelinePeriodInt * 1000 Then TimerTimeline.Interval = SettingDialog.TimelinePeriodInt * 1000
+                                _homeCounterAdjuster -= 1
+                                If _homeCounterAdjuster < 0 Then _homeCounterAdjuster = 0
+                                'TimerTimeline.Interval += 1000
+                                'If TimerTimeline.Interval > SettingDialog.TimelinePeriodInt * 1000 Then TimerTimeline.Interval = SettingDialog.TimelinePeriodInt * 1000
                             End If
                         End If
                         If rslt.newDM Then
@@ -2132,10 +2178,6 @@ Public Class TweenMain
                     Next
 
                     If rslt.retMsg.Length > 0 Then StatusLabel.Text = rslt.retMsg 'Outputz失敗時
-
-                    If rslt.retMsg = "OK:Delaying?" Then
-                        MessageBox.Show(rslt.retMsg, "Delay or DuplicationLimit", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    End If
 
                     StatusText.Text = ""
                     _history.Add("")
@@ -2404,6 +2446,11 @@ Public Class TweenMain
             ReTweetOriginalStripMenuItem.Enabled = True
             QuoteStripMenuItem.Enabled = True
         End If
+        If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.PublicSearch Then
+            RefreshMoreStripMenuItem.Enabled = True
+        Else
+            RefreshMoreStripMenuItem.Enabled = False
+        End If
     End Sub
 
     Private Sub ReplyStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReplyStripMenuItem.Click
@@ -2562,13 +2609,40 @@ Public Class TweenMain
                     GetTimeline(WORKERTYPE.Favorites, 1, 0, "")
                     'Case TabUsageType.Profile
                     '' TODO
-                    'Case TabUsageType.PublicSearch
+                Case TabUsageType.PublicSearch
                     '' TODO
+                    Dim tb As TabClass = _statuses.Tabs(_curTab.Text)
+                    If tb.SearchWords = "" Then Exit Sub
+                    GetTimeline(WORKERTYPE.PublicSearch, 1, 0, _curTab.Text)
                 Case Else
                     GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
             End Select
         Else
             GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
+        End If
+    End Sub
+
+    Private Sub DoRefreshMore()
+        If _curTab IsNot Nothing Then
+            Select Case _statuses.Tabs(_curTab.Text).TabType
+                'Case TabUsageType.Mentions
+                '    GetTimeline(WORKERTYPE.Reply, 1, 0, "")
+                'Case TabUsageType.DirectMessage
+                '    GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
+                'Case TabUsageType.Favorites
+                '    GetTimeline(WORKERTYPE.Favorites, 1, 0, "")
+                'Case TabUsageType.Profile
+                '' TODO
+                Case TabUsageType.PublicSearch
+                    ' TODO
+                    Dim tb As TabClass = _statuses.Tabs(_curTab.Text)
+                    If tb.SearchWords = "" Then Exit Sub
+                    GetTimeline(WORKERTYPE.PublicSearch, -1, 0, _curTab.Text)
+                    'Case Else
+                    '    GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
+            End Select
+        Else
+            'GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
         End If
     End Sub
 
@@ -2590,30 +2664,13 @@ Public Class TweenMain
                 Try
                     If SettingDialog.TimelinePeriodInt > 0 Then
                         If SettingDialog.PeriodAdjust AndAlso Not SettingDialog.UseAPI Then
-                            If SettingDialog.TimelinePeriodInt * 1000 < TimerTimeline.Interval Then
-                                TimerTimeline.Interval = SettingDialog.TimelinePeriodInt * 1000
+                            If SettingDialog.TimelinePeriodInt < _homeCounter - _homeCounterAdjuster Then
+                                _homeCounter = SettingDialog.TimelinePeriodInt
+                                _homeCounterAdjuster = 0
                             End If
                         Else
-                            TimerTimeline.Interval = SettingDialog.TimelinePeriodInt * 1000
+                            _homeCounterAdjuster = 0
                         End If
-                        TimerTimeline.Enabled = True
-                    Else
-                        TimerTimeline.Interval = 600000
-                        TimerTimeline.Enabled = False
-                    End If
-                    If SettingDialog.ReplyPeriodInt > 0 Then
-                        TimerReply.Interval = SettingDialog.ReplyPeriodInt * 1000
-                        TimerReply.Enabled = True
-                    Else
-                        TimerReply.Interval = 6000000
-                        TimerReply.Enabled = False
-                    End If
-                    If SettingDialog.DMPeriodInt > 0 Then
-                        TimerDM.Interval = SettingDialog.DMPeriodInt * 1000
-                        TimerDM.Enabled = True
-                    Else
-                        TimerDM.Interval = 6000000
-                        TimerDM.Enabled = False
                     End If
                 Catch ex As Exception
                     ex.Data("Instance") = "Set Timers"
@@ -2627,6 +2684,7 @@ Public Class TweenMain
                 End If
                 Twitter.UseAPI = SettingDialog.UseAPI
                 Twitter.CountApi = SettingDialog.CountApi
+                Twitter.CountApiReply = SettingDialog.CountApiReply
                 Twitter.UsePostMethod = False
                 Twitter.HubServer = SettingDialog.HubServer
                 Twitter.TinyUrlResolve = SettingDialog.TinyUrlResolve
@@ -2824,9 +2882,39 @@ Public Class TweenMain
             StatusLabelUrl.Text = PostBrowser.StatusText.Replace("&", "&&")
         ElseIf e.Url.AbsoluteUri <> "about:blank" Then
             e.Cancel = True
+            If AddNewTabForHashtag(e.Url.AbsoluteUri) Then Exit Sub
             OpenUriAsync(e.Url.AbsoluteUri)
         End If
     End Sub
+
+    Public Function AddNewTabForHashtag(ByVal urlStrEncoded As String) As Boolean
+        If urlStrEncoded.StartsWith("http://twitter.com/search?q=%23") OrElse _
+           urlStrEncoded.StartsWith("https://twitter.com/search?q=%23") Then
+            'ハッシュタグの場合は、タブで開く
+            Dim urlStr As String = HttpUtility.UrlDecode(urlStrEncoded)
+            Dim hash As String = urlStr.Substring(urlStr.IndexOf("#"))
+            Dim tabName As String = hash
+            For i As Integer = 0 To 10
+                If _statuses.ContainsTab(tabName) Then
+                    tabName += "_"
+                Else
+                    Exit For
+                End If
+            Next
+            _statuses.AddTab(tabName, TabUsageType.PublicSearch)
+            _statuses.Tabs(tabName).SearchWords = hash
+            If Not AddNewTab(tabName, False, TabUsageType.PublicSearch) Then
+                'まずありえない
+                Return False
+            End If
+            SaveConfigsTabs()
+            ListTab.SelectedIndex = ListTab.TabPages.Count - 1
+            Me.SearchButton_Click(ListTab.SelectedTab.Controls("panelSearch").Controls("comboSearch"), Nothing)
+            Return True
+        Else
+            Return False
+        End If
+    End Function
 
     Public Function AddNewTab(ByVal tabName As String, ByVal startup As Boolean, ByVal tabType As TabUsageType) As Boolean
         '重複チェック
@@ -2836,7 +2924,7 @@ Public Class TweenMain
 
         '新規タブ名チェック
         If tabName = My.Resources.AddNewTabText1 Then Return False
-        If tabName <> ReplaceInvalidFilename(tabName) Then Return False
+        'If tabName <> ReplaceInvalidFilename(tabName) Then Return False
 
         'タブタイプ重複チェック
         If Not startup Then
@@ -2891,21 +2979,40 @@ Public Class TweenMain
         If tabType = TabUsageType.PublicSearch Then
             pnl = New Panel
 
-            Dim lbl As Label
-            Dim cmb As ComboBox
-            Dim btn As Button
+            Dim lbl As New Label
+            Dim cmb As New ComboBox
+            Dim btn As New Button
+            Dim cmbLang As New ComboBox
 
-            lbl = New Label
-            cmb = New ComboBox
-            btn = New Button
             pnl.SuspendLayout()
 
+
             pnl.Controls.Add(cmb)
+            pnl.Controls.Add(cmbLang)
             pnl.Controls.Add(btn)
             pnl.Controls.Add(lbl)
             pnl.Name = "panelSearch"
             pnl.Dock = DockStyle.Top
             pnl.Height = cmb.Height
+
+            cmb.Text = ""
+            cmb.Anchor = AnchorStyles.Left Or AnchorStyles.Right
+            cmb.Dock = DockStyle.Fill
+            cmb.Name = "comboSearch"
+            cmb.DropDownStyle = ComboBoxStyle.DropDown
+            cmb.ImeMode = Windows.Forms.ImeMode.NoControl
+            If _statuses.ContainsTab(tabName) Then
+                cmb.Text = _statuses.Tabs(tabName).SearchWords
+                cmb.Items.Add(_statuses.Tabs(tabName).SearchWords)
+            End If
+
+            cmbLang.Text = ""
+            cmbLang.Anchor = AnchorStyles.Left Or AnchorStyles.Right
+            cmbLang.Dock = DockStyle.Right
+            cmbLang.Width = 50
+            cmbLang.Name = "comboLang"
+            cmbLang.DropDownStyle = ComboBoxStyle.DropDownList
+            If _statuses.ContainsTab(tabName) Then cmbLang.Text = _statuses.Tabs(tabName).SearchLang
 
             lbl.Text = "Search"
             lbl.Name = "label1"
@@ -2920,31 +3027,26 @@ Public Class TweenMain
             btn.Dock = DockStyle.Right
             AddHandler btn.Click, AddressOf SearchButton_Click
 
-            cmb.Text = ""
-            cmb.Dock = DockStyle.Fill
-            cmb.Name = "comboSearch"
-            cmb.DropDownStyle = ComboBoxStyle.DropDown
-            cmb.ImeMode = Windows.Forms.ImeMode.NoControl
-            'cmb.Items.Add("")
-            'cmb.Items.Add("ja")
-            'cmb.Items.Add("en")
-            'cmb.Items.Add("ar")
-            'cmb.Items.Add("da")
-            'cmb.Items.Add("nl")
-            'cmb.Items.Add("fa")
-            'cmb.Items.Add("fi")
-            'cmb.Items.Add("fr")
-            'cmb.Items.Add("de")
-            'cmb.Items.Add("hu")
-            'cmb.Items.Add("is")
-            'cmb.Items.Add("it")
-            'cmb.Items.Add("no")
-            'cmb.Items.Add("pl")
-            'cmb.Items.Add("pt")
-            'cmb.Items.Add("ru")
-            'cmb.Items.Add("es")
-            'cmb.Items.Add("sv")
-            'cmb.Items.Add("th")
+            cmbLang.Items.Add("")
+            cmbLang.Items.Add("ja")
+            cmbLang.Items.Add("en")
+            cmbLang.Items.Add("ar")
+            cmbLang.Items.Add("da")
+            cmbLang.Items.Add("nl")
+            cmbLang.Items.Add("fa")
+            cmbLang.Items.Add("fi")
+            cmbLang.Items.Add("fr")
+            cmbLang.Items.Add("de")
+            cmbLang.Items.Add("hu")
+            cmbLang.Items.Add("is")
+            cmbLang.Items.Add("it")
+            cmbLang.Items.Add("no")
+            cmbLang.Items.Add("pl")
+            cmbLang.Items.Add("pt")
+            cmbLang.Items.Add("ru")
+            cmbLang.Items.Add("es")
+            cmbLang.Items.Add("sv")
+            cmbLang.Items.Add("th")
         End If
 
         Me.ListTab.Controls.Add(_tabPage)
@@ -3029,7 +3131,7 @@ Public Class TweenMain
         'End If
 
         If (_statuses.Tabs.ContainsKey(tabName) AndAlso _statuses.Tabs(tabName).TabType = TabUsageType.Mentions) _
-           OrElse (Not _statuses.IsDefaultTab(tabName) AndAlso _statuses.Tabs(tabName).TabType <> TabUsageType.PublicSearch) Then
+           OrElse (Not _statuses.IsDefaultTab(tabName) AndAlso tabType <> TabUsageType.PublicSearch) Then
             TabDialog.AddTab(tabName)
         End If
 
@@ -4169,6 +4271,11 @@ RETRY:
             '    e.SuppressKeyPress = True
             '    UnreadStripMenuItem_Click(Nothing, Nothing)
             'End If
+            If e.KeyCode = Keys.R Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                dorefreshmore()
+            End If
         End If
         If Not e.Alt Then
             If e.KeyCode = Keys.J Then
@@ -4645,6 +4752,7 @@ RETRY:
                 _cfgCommon.TimelinePeriod = SettingDialog.TimelinePeriodInt
                 _cfgCommon.ReplyPeriod = SettingDialog.ReplyPeriodInt
                 _cfgCommon.DMPeriod = SettingDialog.DMPeriodInt
+                _cfgCommon.PubSearchPeriod = SettingDialog.PubSearchPeriodInt
                 _cfgCommon.MaxPostNum = SettingDialog.MaxPostNum
                 _cfgCommon.ReadPages = SettingDialog.ReadPages
                 _cfgCommon.ReadPagesReply = SettingDialog.ReadPagesReply
@@ -4659,6 +4767,7 @@ RETRY:
                 _cfgCommon.PostCtrlEnter = SettingDialog.PostCtrlEnter
                 _cfgCommon.UseApi = SettingDialog.UseAPI
                 _cfgCommon.CountApi = SettingDialog.CountApi
+                _cfgCommon.CountApiReply = SettingDialog.CountApiReply
                 _cfgCommon.UsePostMethod = False
                 _cfgCommon.HubServer = SettingDialog.HubServer
                 _cfgCommon.CheckReply = SettingDialog.CheckReply
@@ -4883,8 +4992,7 @@ RETRY:
         If newTabText <> "" Then
             '新タブ名存在チェック
             For i As Integer = 0 To ListTab.TabCount - 1
-                If ListTab.TabPages(i).Text = newTabText OrElse _
-                   newTabText <> ReplaceInvalidFilename(newTabText) Then
+                If ListTab.TabPages(i).Text = newTabText Then
                     Dim tmp As String = String.Format(My.Resources.Tabs_DoubleClickText1, newTabText)
                     MessageBox.Show(tmp, My.Resources.Tabs_DoubleClickText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Return False
@@ -5396,7 +5504,7 @@ RETRY:
 
         RemoveSpecifiedTab(_rclickTabName)
         _rclickTabName = ""
-        SaveConfigsCommon()
+        'SaveConfigsCommon()
         'SaveConfigsTab(False)
         SaveConfigsTabs()
     End Sub
@@ -5440,6 +5548,14 @@ RETRY:
     Private Sub AddTabMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AddTabMenuItem.Click
         Dim tabName As String = Nothing
         Dim tabUsage As TabUsageType
+        Dim tabNameTemp As String = "MyTab" + (ListTab.TabPages.Count + 1).ToString
+        For i As Integer = 2 To 100
+            If _statuses.ContainsTab(tabNameTemp) Then
+                tabNameTemp = "MyTab" + (ListTab.TabPages.Count + i).ToString
+            Else
+                Exit For
+            End If
+        Next
         Using inputName As New InputTabName()
             inputName.TabName = "MyTab" + (ListTab.TabPages.Count + 1).ToString
             inputName.IsShowUsage = True
@@ -5456,7 +5572,7 @@ RETRY:
             Else
                 '成功
                 _statuses.AddTab(tabName, tabUsage)
-                SaveConfigsCommon()
+                'SaveConfigsCommon()
                 'SaveConfigsTab(False)
                 SaveConfigsTabs()
             End If
@@ -5540,33 +5656,40 @@ RETRY:
     Protected Overrides Function ProcessDialogKey( _
         ByVal keyData As Keys) As Boolean
         'TextBox1でEnterを押してもビープ音が鳴らないようにする
-        If StatusText.Focused AndAlso _
-            (keyData And Keys.KeyCode) = Keys.Enter Then
-            '改行
-            If StatusText.Multiline AndAlso _
-               (keyData And Keys.Shift) = Keys.Shift AndAlso _
-               (keyData And Keys.Control) <> Keys.Control Then
-                Dim pos1 As Integer = StatusText.SelectionStart
-                If StatusText.SelectionLength > 0 Then
-                    StatusText.Text = StatusText.Text.Remove(pos1, StatusText.SelectionLength)  '選択状態文字列削除
+        If (keyData And Keys.KeyCode) = Keys.Enter Then
+            If StatusText.Focused Then
+                '改行
+                If StatusText.Multiline AndAlso _
+                   (keyData And Keys.Shift) = Keys.Shift AndAlso _
+                   (keyData And Keys.Control) <> Keys.Control Then
+                    Dim pos1 As Integer = StatusText.SelectionStart
+                    If StatusText.SelectionLength > 0 Then
+                        StatusText.Text = StatusText.Text.Remove(pos1, StatusText.SelectionLength)  '選択状態文字列削除
+                    End If
+                    StatusText.Text = StatusText.Text.Insert(pos1, Environment.NewLine)  '改行挿入
+                    StatusText.SelectionStart = pos1 + Environment.NewLine.Length    'カーソルを改行の次の文字へ移動
+                    Return True
                 End If
-                StatusText.Text = StatusText.Text.Insert(pos1, Environment.NewLine)  '改行挿入
-                StatusText.SelectionStart = pos1 + Environment.NewLine.Length    'カーソルを改行の次の文字へ移動
-                Return True
-            End If
-            '投稿
-            If (Not StatusText.Multiline AndAlso _
-                    ((keyData And Keys.Control) = Keys.Control AndAlso SettingDialog.PostCtrlEnter) OrElse _
-                    ((keyData And Keys.Control) <> Keys.Control AndAlso Not SettingDialog.PostCtrlEnter)) OrElse _
-               (StatusText.Multiline AndAlso _
-                    (Not SettingDialog.PostCtrlEnter AndAlso _
-                        ((keyData And Keys.Control) <> Keys.Control AndAlso (keyData And Keys.Shift) <> Keys.Shift) OrElse _
-                        ((keyData And Keys.Control) = Keys.Control AndAlso (keyData And Keys.Shift) = Keys.Shift)) OrElse _
-                    (SettingDialog.PostCtrlEnter AndAlso (keyData And Keys.Control) = Keys.Control)) Then
-                PostButton_Click(Nothing, Nothing)
+                '投稿
+                If (Not StatusText.Multiline AndAlso _
+                        ((keyData And Keys.Control) = Keys.Control AndAlso SettingDialog.PostCtrlEnter) OrElse _
+                        ((keyData And Keys.Control) <> Keys.Control AndAlso Not SettingDialog.PostCtrlEnter)) OrElse _
+                   (StatusText.Multiline AndAlso _
+                        (Not SettingDialog.PostCtrlEnter AndAlso _
+                            ((keyData And Keys.Control) <> Keys.Control AndAlso (keyData And Keys.Shift) <> Keys.Shift) OrElse _
+                            ((keyData And Keys.Control) = Keys.Control AndAlso (keyData And Keys.Shift) = Keys.Shift)) OrElse _
+                        (SettingDialog.PostCtrlEnter AndAlso (keyData And Keys.Control) = Keys.Control)) Then
+                    PostButton_Click(Nothing, Nothing)
+                    Return True
+                End If
+            ElseIf _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.PublicSearch AndAlso _
+                (ListTab.SelectedTab.Controls("panelSearch").Controls("comboSearch").Focused OrElse _
+                 ListTab.SelectedTab.Controls("panelSearch").Controls("comboLang").Focused) Then
+                Me.SearchButton_Click(ListTab.SelectedTab.Controls("panelSearch").Controls("comboSearch"), Nothing)
                 Return True
             End If
         End If
+
         Return MyBase.ProcessDialogKey(keyData)
     End Function
 
@@ -5784,6 +5907,7 @@ RETRY:
                 Me.TopMost = SettingDialog.AlwaysTop
             End If
             If String.IsNullOrEmpty(openUrlStr) Then Exit Sub
+            If AddNewTabForHashtag(HttpUtility.UrlEncode(openUrlStr)) Then Exit Sub
             openUrlStr = openUrlStr.Replace("://twitter.com/search?q=#", "://twitter.com/search?q=%23")
             OpenUriAsync(openUrlStr)
         End If
@@ -5883,7 +6007,7 @@ RETRY:
         If SettingDialog.TimelinePeriodInt = 0 Then
             slbl.Append(My.Resources.SetStatusLabelText2)
         Else
-            slbl.Append((TimerTimeline.Interval / 1000).ToString() + My.Resources.SetStatusLabelText3)
+            slbl.Append((SettingDialog.TimelinePeriodInt - _homeCounterAdjuster).ToString() + My.Resources.SetStatusLabelText3)
         End If
         If Twitter.RemainCountApi > -1 AndAlso SettingDialog.UseAPI Then
             slbl.Append(" [API: " + Twitter.RemainCountApi.ToString + "]")
@@ -6458,37 +6582,37 @@ RETRY:
         End If
     End Sub
 
-    ' Contributed by shuyoko <http://twitter.com/shuyoko> BEGIN:
-    Private Sub BlackFavAddToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BlackFavAddToolStripMenuItem.Click
+    '' Contributed by shuyoko <http://twitter.com/shuyoko> BEGIN:
+    'Private Sub BlackFavAddToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BlackFavAddToolStripMenuItem.Click
 
-        Dim cnt As Integer = 0
+    '    Dim cnt As Integer = 0
 
-        If _statuses.GetTabByType(TabUsageType.DirectMessage).TabName = _curTab.Text OrElse _curList.SelectedIndices.Count = 0 Then Exit Sub
+    '    If _statuses.GetTabByType(TabUsageType.DirectMessage).TabName = _curTab.Text OrElse _curList.SelectedIndices.Count = 0 Then Exit Sub
 
-        If _curList.SelectedIndices.Count > 1 Then
-            If MessageBox.Show(My.Resources.BlackFavAddToolStripMenuItem_ClickText1, My.Resources.BlackFavAddToolStripMenuItem_ClickText2, _
-                               MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
-                Exit Sub
-            End If
-        End If
+    '    If _curList.SelectedIndices.Count > 1 Then
+    '        If MessageBox.Show(My.Resources.BlackFavAddToolStripMenuItem_ClickText1, My.Resources.BlackFavAddToolStripMenuItem_ClickText2, _
+    '                           MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
+    '            Exit Sub
+    '        End If
+    '    End If
 
-        Dim args As New GetWorkerArg()
-        args.ids = New List(Of Long)
-        args.sIds = New List(Of Long)
-        args.tName = _curTab.Text
-        For Each idx As Integer In _curList.SelectedIndices
-            If Not _statuses.Item(_curTab.Text, idx).IsFav Then
-                args.ids.Add(_statuses.Item(_curTab.Text, idx).Id)
-            End If
-        Next
-        args.type = WORKERTYPE.BlackFavAdd
-        If args.ids.Count = 0 Then
-            StatusLabel.Text = My.Resources.BlackFavAddToolStripMenuItem_ClickText4
-            Exit Sub
-        End If
+    '    Dim args As New GetWorkerArg()
+    '    args.ids = New List(Of Long)
+    '    args.sIds = New List(Of Long)
+    '    args.tName = _curTab.Text
+    '    For Each idx As Integer In _curList.SelectedIndices
+    '        If Not _statuses.Item(_curTab.Text, idx).IsFav Then
+    '            args.ids.Add(_statuses.Item(_curTab.Text, idx).Id)
+    '        End If
+    '    Next
+    '    args.type = WORKERTYPE.BlackFavAdd
+    '    If args.ids.Count = 0 Then
+    '        StatusLabel.Text = My.Resources.BlackFavAddToolStripMenuItem_ClickText4
+    '        Exit Sub
+    '    End If
 
-        RunAsync(args)
-    End Sub
+    '    RunAsync(args)
+    'End Sub
 
     Private Function IsNetworkAvailable() As Boolean
         Dim nw As Boolean = True
@@ -6685,9 +6809,7 @@ RETRY:
             RefreshStripMenuItem.Enabled = False
         End If
         _initial = False
-        If SettingDialog.TimelinePeriodInt > 0 Then TimerTimeline.Enabled = True
-        If SettingDialog.DMPeriodInt > 0 Then TimerDM.Enabled = True
-        If SettingDialog.ReplyPeriodInt > 0 Then TimerReply.Enabled = True
+        TimerTimeline.Enabled = True
     End Sub
 
     Private Sub doGetFollowersMenu(ByVal CacheInvalidate As Boolean)
@@ -7038,16 +7160,28 @@ RETRY:
     End Sub
 
     Private Sub SearchButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        '公式検索
         Dim pnl As Control = DirectCast(sender, Control).Parent
         If pnl Is Nothing Then Exit Sub
         Dim tbName As String = pnl.Parent.Text
         Dim tb As TabClass = _statuses.Tabs(tbName)
+        If pnl.Controls("comboSearch").Text.Trim = "" Then Exit Sub
         tb.SearchWords = pnl.Controls("comboSearch").Text
-        Dim lst As DetailsListView = DirectCast(pnl.Parent.Tag, DetailsListView)
-        lst.VirtualListSize = 0
-        lst.Items.Clear()
-        _statuses.ClearTabIds(tbName)
+        tb.SearchLang = pnl.Controls("comboLang").Text
+        If tb.IsQueryChanged Then
+            DirectCast(pnl.Controls("comboSearch"), ComboBox).Items.Insert(0, tb.SearchWords)
+            Dim lst As DetailsListView = DirectCast(pnl.Parent.Tag, DetailsListView)
+            lst.VirtualListSize = 0
+            lst.Items.Clear()
+            _statuses.ClearTabIds(tbName)
+            SaveConfigsTabs()   '検索条件の保存
+        End If
 
         GetTimeline(WORKERTYPE.PublicSearch, 1, 0, tbName)
+    End Sub
+
+    Private Sub RefreshMoreStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RefreshMoreStripMenuItem.Click
+        'もっと前を取得
+        DoRefreshMore()
     End Sub
 End Class

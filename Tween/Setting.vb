@@ -26,6 +26,7 @@ Public Class Setting
     Private _Mypassword As String
     Private _MytimelinePeriod As Integer
     Private _MyDMPeriod As Integer
+    Private _MyPubSearchPeriod As Integer
     Private _MynextThreshold As Integer
     Private _MyNextPages As Integer
     Private _MyLogDays As Integer
@@ -66,6 +67,7 @@ Public Class Setting
     Private _useAPI As Boolean
     Private _usePostMethod As Boolean
     Private _countApi As Integer
+    Private _countApiReply As Integer
     Private _hubServer As String
     Private _browserpath As String
     Private _MyCheckReply As Boolean
@@ -120,6 +122,7 @@ Public Class Setting
             _Mypassword = Password.Text.Trim()
             _MytimelinePeriod = CType(TimelinePeriod.Text, Integer)
             _MyDMPeriod = CType(DMPeriod.Text, Integer)
+            _MyPubSearchPeriod = CType(PubSearchPeriod.Text, Integer)
             _MyReplyPeriod = CType(ReplyPeriod.Text, Integer)
             _MynextThreshold = CType(NextThreshold.Text, Integer)
             _MyNextPages = CType(NextPages.Text, Integer)
@@ -180,6 +183,7 @@ Public Class Setting
             _useAPI = CheckUseApi.Checked
             _usePostMethod = False
             _countApi = CType(TextCountApi.Text, Integer)
+            _countApiReply = CType(TextCountApiReply.Text, Integer)
             _hubServer = "twitter.com"
             _browserpath = BrowserPathText.Text.Trim
             _MyCheckReply = CheckboxReply.Checked
@@ -284,6 +288,7 @@ Public Class Setting
         TimelinePeriod.Text = _MytimelinePeriod.ToString()
         ReplyPeriod.Text = _MyReplyPeriod.ToString()
         DMPeriod.Text = _MyDMPeriod.ToString()
+        PubSearchPeriod.Text = _MyPubSearchPeriod.ToString()
         NextThreshold.Text = _MynextThreshold.ToString()
         NextPages.Text = _MyNextPages.ToString()
         'MaxPost.Text = _MyMaxPostNum.ToString()
@@ -368,9 +373,11 @@ Public Class Setting
         StartupReadDM.Enabled = Not CheckUseApi.Checked
         CheckPostMethod.Enabled = False
         TextCountApi.Enabled = CheckUseApi.Checked
+        TextCountApiReply.Enabled = CheckUseApi.Checked
 
         CheckPostMethod.Checked = False
         TextCountApi.Text = _countApi.ToString
+        TextCountApiReply.Text = _countApiReply.ToString
         'HubServerDomain.Text = _hubServer
         BrowserPathText.Text = _browserpath
         CheckboxReply.Checked = _MyCheckReply
@@ -559,7 +566,23 @@ Public Class Setting
         End If
     End Sub
 
-    Private Sub ReadLogDays_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ReadLogDays.Validating
+    Private Sub PubSearchPeriod_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles PubSearchPeriod.Validating
+        Dim prd As Integer
+        Try
+            prd = CType(PubSearchPeriod.Text, Integer)
+        Catch ex As Exception
+            MessageBox.Show(My.Resources.DMPeriod_ValidatingText1)
+            e.Cancel = True
+            Exit Sub
+        End Try
+
+        If prd <> 0 And (prd < 30 Or prd > 6000) Then
+            MessageBox.Show(My.Resources.DMPeriod_ValidatingText2)
+            e.Cancel = True
+        End If
+    End Sub
+
+    Private Sub ReadLogDays_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs)
         'Dim days As Integer
         'Try
         '    days = CType(ReadLogDays.Text, Integer)
@@ -817,6 +840,15 @@ Public Class Setting
         End Get
         Set(ByVal value As Integer)
             _MyDMPeriod = value
+        End Set
+    End Property
+
+    Public Property PubSearchPeriodInt() As Integer
+        Get
+            Return _MyPubSearchPeriod
+        End Get
+        Set(ByVal value As Integer)
+            _MyPubSearchPeriod = value
         End Set
     End Property
 
@@ -1180,6 +1212,15 @@ Public Class Setting
         End Get
         Set(ByVal value As Integer)
             _countApi = value
+        End Set
+    End Property
+
+    Public Property CountApiReply() As Integer
+        Get
+            Return _countApiReply
+        End Get
+        Set(ByVal value As Integer)
+            _countApiReply = value
         End Set
     End Property
 
@@ -1714,12 +1755,29 @@ Public Class Setting
         StartupReadDM.Enabled = Not CheckUseApi.Checked
         CheckPostMethod.Enabled = False
         TextCountApi.Enabled = CheckUseApi.Checked
+        TextCountApiReply.Enabled = CheckUseApi.Checked
     End Sub
 
     Private Sub TextCountApi_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles TextCountApi.Validating
         Dim cnt As Integer
         Try
             cnt = Integer.Parse(TextCountApi.Text)
+        Catch ex As Exception
+            MessageBox.Show(My.Resources.TextCountApi_Validating1)
+            e.Cancel = True
+            Exit Sub
+        End Try
+
+        If cnt < 20 OrElse cnt > 200 Then
+            MessageBox.Show(My.Resources.TextCountApi_Validating1)
+            e.Cancel = True
+        End If
+    End Sub
+
+    Private Sub TextCountApiReply_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles TextCountApiReply.Validating
+        Dim cnt As Integer
+        Try
+            cnt = Integer.Parse(TextCountApiReply.Text)
         Catch ex As Exception
             MessageBox.Show(My.Resources.TextCountApi_Validating1)
             e.Cancel = True

@@ -412,7 +412,7 @@
     <value>Initial loading</value>
   </data>
   <data name="RemoveSpecifiedTabText1" xml:space="preserve">
-    <value>Remove this tab?{0}(Tweets in this tab move to Recent)</value>
+    <value>Remove this tab?{0}</value>
   </data>
   <data name="RemoveSpecifiedTabText2" xml:space="preserve">
     <value>Confirm removing tab</value>
@@ -719,5 +719,8 @@
   </data>
   <data name="RetweetQuestion1" xml:space="preserve">
     <value>Retweet this tweet?</value>
+  </data>
+  <data name="InputTabName_Load1" xml:space="preserve">
+    <value>Filtered Timeline</value>
   </data>
 </root>

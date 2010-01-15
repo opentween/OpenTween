@@ -82,6 +82,7 @@ Public Module Twitter
     Private _hubServer As String
     Private _defaultTimeOut As Integer      ' MySocketクラスへ渡すタイムアウト待ち時間（秒単位　ミリ秒への換算はMySocketクラス側で行う）
     Private _countApi As Integer
+    Private _countApiReply As Integer
     Private _usePostMethod As Boolean
     Private _ApiMethod As MySocket.REQ_TYPE
     Private _readOwnPost As Boolean
@@ -2960,6 +2961,13 @@ Public Module Twitter
         End Set
     End Property
 
+    Public WriteOnly Property CountApiReply() As Integer
+        'API時のMentions取得件数
+        Set(ByVal value As Integer)
+            _countApiReply = value
+        End Set
+    End Property
+
     Public WriteOnly Property UsePostMethod() As Boolean
         Set(ByVal value As Boolean)
             _usePostMethod = False
@@ -3050,13 +3058,16 @@ Public Module Twitter
         Dim sck As MySocket = CreateSocket()
         'スレッド取得は行わず、countで調整
         Const COUNT_QUERY As String = "count="
-        Const FRIEND_PATH As String = "/statuses/home_timeline.xml"
+        Const FRIEND_PATH As String = "/1/statuses/home_timeline.xml"
         Const REPLY_PATH As String = "/statuses/mentions.xml"
 
+        Dim countQuery As Integer
         If gType = WORKERTYPE.Timeline Then
-            retMsg = DirectCast(sck.GetWebResponse(_protocol + _hubServer + FRIEND_PATH + "?" + COUNT_QUERY + _countApi.ToString(), resStatus, _ApiMethod), String)
+            retMsg = DirectCast(sck.GetWebResponse(_protocol + _apiHost + _hubServer + FRIEND_PATH + "?" + COUNT_QUERY + _countApi.ToString(), resStatus, _ApiMethod), String)
+            countQuery = _countApi
         Else
-            retMsg = DirectCast(sck.GetWebResponse(_protocol + _hubServer + REPLY_PATH + "?" + COUNT_QUERY + _countApi.ToString(), resStatus, _ApiMethod), String)
+            retMsg = DirectCast(sck.GetWebResponse(_protocol + _hubServer + REPLY_PATH + "?" + COUNT_QUERY + _countApiReply.ToString(), resStatus, _ApiMethod), String)
+            countQuery = _countApiReply
         End If
 
         If retMsg = "" Then
@@ -3073,8 +3084,8 @@ Public Module Twitter
         If gType = WORKERTYPE.Timeline Then Debug.WriteLine(retMsg)
 
         Dim arIdx As Integer = -1
-        Dim dlgt(_countApi) As GetIconImageDelegate    'countQueryに合わせる
-        Dim ar(_countApi) As IAsyncResult              'countQueryに合わせる
+        Dim dlgt(countQuery) As GetIconImageDelegate    'countQueryに合わせる
+        Dim ar(countQuery) As IAsyncResult              'countQueryに合わせる
         Dim xdoc As New XmlDocument
         Try
             xdoc.LoadXml(retMsg)
@@ -3198,7 +3209,8 @@ Public Module Twitter
     End Function
 
     Public Function GetSearch(ByVal read As Boolean, _
-                            ByVal tabName As String) As String
+                            ByVal tabName As String, _
+                            ByVal more As Boolean) As String
 
         If _endingFlag Then Return ""
 
@@ -3210,10 +3222,10 @@ Public Module Twitter
 
         Dim tb As TabClass = TabInformations.GetInstance.Tabs(tabName)
         If tb Is Nothing Then Return ""
-        Dim query As String = tb.SearchQuery
+        Dim query As String = tb.SearchQuery(more)
         If query = "" Then Return ""
 
-        retMsg = DirectCast(sck.GetWebResponse(_protocol + SEARCH_HOST + _hubServer + SEARCH_PATH + "?" + query, resStatus, MySocket.REQ_TYPE.ReqGetAPINoAuth, userAgent:="Tween"), String)
+        retMsg = DirectCast(sck.GetWebResponse(_protocol + SEARCH_HOST + _hubServer + SEARCH_PATH + "?" + query + "&rpp=40", resStatus, MySocket.REQ_TYPE.ReqGetAPINoAuth, userAgent:="Tween"), String)
 
         If retMsg = "" Then
             If resStatus.StartsWith("Err: BadRequest") Then
@@ -3226,8 +3238,8 @@ Public Module Twitter
         End If
 
         Dim arIdx As Integer = -1
-        Dim dlgt(_countApi) As GetIconImageDelegate    'countQueryに合わせる
-        Dim ar(_countApi) As IAsyncResult              'countQueryに合わせる
+        Dim dlgt(40) As GetIconImageDelegate    'countQueryに合わせる
+        Dim ar(40) As IAsyncResult              'countQueryに合わせる
         Dim xdoc As New XmlDocument
         Try
             xdoc.LoadXml(retMsg)
@@ -3295,6 +3307,9 @@ Public Module Twitter
             dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
             ar(arIdx) = dlgt(arIdx).BeginInvoke(post, Nothing, Nothing)
         Next
+
+        '' TODO
+        '' 遡るための情報max_idやnext_pageの情報を保持する
 
         'アイコン取得完了待ち
         For i As Integer = 0 To arIdx

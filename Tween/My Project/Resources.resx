@@ -443,7 +443,7 @@
     <value>起動読込</value>
   </data>
   <data name="RemoveSpecifiedTabText1" xml:space="preserve">
-    <value>このタブを削除してもよろしいですか？{0}（このタブの発言はRecentへ戻されます。）</value>
+    <value>このタブを削除してもよろしいですか？{0}</value>
   </data>
   <data name="RemoveSpecifiedTabText2" xml:space="preserve">
     <value>タブの削除確認</value>
@@ -771,5 +771,8 @@
   </data>
   <data name="RetweetQuestion1" xml:space="preserve">
     <value>Retweetしてもよろしいですか？</value>
+  </data>
+  <data name="InputTabName_Load1" xml:space="preserve">
+    <value>タイムライン振り分け</value>
   </data>
 </root>

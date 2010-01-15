@@ -352,19 +352,20 @@ Namespace My.Resources
         '''<summary>
         '''  更新履歴
         '''
-        '''==== Ver 0.8.0.0(Unreleased)
-        ''' * Webモードで公式RT発言をコピー、開くした時にユーザーと発言IDが不整合になっていた問題に対応
-        '''==== Ver 0.7.9.0(2009/11/19)
-        ''' * APIモードでのハッシュタグ誤認対応
-        ''' * Webモードで公式RT発言が取得できない問題に対応。マーク欄に「RT」、発言詳細の発言者の後ろにRTしたユーザーを表示。基本はRT元発言を表示します。（APIモードは変更なし）
-        '''==== Ver 0.7.8.0(2009/11/18)
-        ''' * Webモードで、公式ReTweetが有効になっている場合に、RT発言をFav発言と誤認する問題に対応
-        '''==== Ver 0.7.7.0(2009/11/15)
-        ''' * バージョンアップの確認ダイアログをキャンセルして、再度確認して表示する際に例外が発生するバグ修正
-        ''' * バージョンアップの確認ダイアログに更新内容を表示するように変更
-        ''' * Web仕様変更対応（Source取得）
-        ''' * 投稿リトライで、遅延判定時はリトライしないように変更
-        ''' * @user/lists形式 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        '''==== Ver 0.8.2.0(Unreleased)
+        ''' * 短縮URL展開でgoo.glに対応
+        ''' * Webモードで、20件目のつぶやきにゴミがついているためのprotect誤判定するなどのバグ修正
+        ''' * WebモードのFollower取得で、全件取得に失敗した場合は、以前取得したキャッシュに追加するよう変更
+        ''' * 投稿失敗時でも返信先情報をクリアしてしまうバグ修正
+        ''' * 投稿で遅延または10ポスト内重複制限になり「OK:Delaying?」になった際、メッセージボックスを表示するよう変更
+        ''' * メニューの「ファイル」→「新着通知」の設定が保存されないバグ修正
+        ''' * タブ順序が保存されないバグ修正
+        ''' * マルチディスプレイ環境では、起動時に画面が表示範囲外になっている場合の補正チェックをしないように変更
+        ''' * 発言詳細部の書き換えで例外が発生するケースがあるので対処
+        ''' * 投稿リトライするように戻し
+        ''' * タブ切り替えで設定保存処理が実行されていたバグ修正
+        ''' * APIモードでの@と#のリンク作成基準をWebに合わせた
+        '''==== Ver 0.8.1.0(2009/ [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property ChangeLog() As String
             Get
@@ -976,6 +977,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  タイムライン振り分け に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property InputTabName_Load1() As String
+            Get
+                Return ResourceManager.GetString("InputTabName_Load1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  この設定ファイルは Tween により自動生成されました。手動で変更しないでください。 に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property LoadConfigurationText1() As String
@@ -1227,7 +1237,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  このタブを削除してもよろしいですか？{0}（このタブの発言はRecentへ戻されます。） に類似しているローカライズされた文字列を検索します。
+        '''  このタブを削除してもよろしいですか？{0} に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property RemoveSpecifiedTabText1() As String
             Get
