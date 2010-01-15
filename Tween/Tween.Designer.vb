@@ -165,14 +165,14 @@ Partial Class TweenMain
         Me.ToolStripMenuItemApiCommandEvasion = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItemUrlAutoShorten = New System.Windows.Forms.ToolStripMenuItem
         Me.IdeographicSpaceToSpaceToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripSeparator8 = New System.Windows.Forms.ToolStripSeparator
+        Me.HashSelectComboBox = New System.Windows.Forms.ToolStripComboBox
         Me.TimerTimeline = New System.Windows.Forms.Timer(Me.components)
         Me.NotifyIcon1 = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.TimerColorize = New System.Windows.Forms.Timer(Me.components)
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
-        Me.ToolStripSeparator8 = New System.Windows.Forms.ToolStripSeparator
-        Me.HashSelectComboBox = New System.Windows.Forms.ToolStripComboBox
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -261,7 +261,6 @@ Partial Class TweenMain
         '
         Me.ContextMenuTabProperty.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddTabMenuItem, Me.TabRenameMenuItem, Me.ToolStripSeparator20, Me.UreadManageMenuItem, Me.NotifyDispMenuItem, Me.SoundFileComboBox, Me.ToolStripSeparator18, Me.FilterEditMenuItem, Me.ToolStripSeparator19, Me.ClearTabMenuItem, Me.ToolStripSeparator11, Me.DeleteTabMenuItem})
         Me.ContextMenuTabProperty.Name = "ContextMenuStrip3"
-        Me.ContextMenuTabProperty.OwnerItem = Me.MenuItemTab
         Me.ContextMenuTabProperty.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional
         resources.ApplyResources(Me.ContextMenuTabProperty, "ContextMenuTabProperty")
         '
@@ -540,7 +539,6 @@ Partial Class TweenMain
         '
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SettingStripMenuItem, Me.ToolStripSeparator9, Me.SaveLogMenuItem, Me.ToolStripSeparator17, Me.NewPostPopMenuItem, Me.PlaySoundMenuItem, Me.ListLockMenuItem, Me.ToolStripSeparator15, Me.MultiLineMenuItem, Me.ToolStripSeparator21, Me.EndToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.OwnerItem = Me.MenuItemFile
         Me.ContextMenuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional
         Me.ContextMenuStrip1.ShowCheckMargin = True
         Me.ContextMenuStrip1.ShowImageMargin = False
@@ -1015,6 +1013,16 @@ Partial Class TweenMain
         Me.IdeographicSpaceToSpaceToolStripMenuItem.Name = "IdeographicSpaceToSpaceToolStripMenuItem"
         resources.ApplyResources(Me.IdeographicSpaceToSpaceToolStripMenuItem, "IdeographicSpaceToSpaceToolStripMenuItem")
         '
+        'ToolStripSeparator8
+        '
+        Me.ToolStripSeparator8.Name = "ToolStripSeparator8"
+        resources.ApplyResources(Me.ToolStripSeparator8, "ToolStripSeparator8")
+        '
+        'HashSelectComboBox
+        '
+        Me.HashSelectComboBox.Name = "HashSelectComboBox"
+        resources.ApplyResources(Me.HashSelectComboBox, "HashSelectComboBox")
+        '
         'TimerTimeline
         '
         Me.TimerTimeline.Interval = 60000
@@ -1034,16 +1042,6 @@ Partial Class TweenMain
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
-        '
-        'ToolStripSeparator8
-        '
-        Me.ToolStripSeparator8.Name = "ToolStripSeparator8"
-        resources.ApplyResources(Me.ToolStripSeparator8, "ToolStripSeparator8")
-        '
-        'HashSelectComboBox
-        '
-        Me.HashSelectComboBox.Name = "HashSelectComboBox"
-        resources.ApplyResources(Me.HashSelectComboBox, "HashSelectComboBox")
         '
         'TweenMain
         '
