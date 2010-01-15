@@ -1694,7 +1694,7 @@ Public Class TweenMain
         RunAsync(args)
 
         'Google検索（試験実装）
-        If StatusText.Text.StartsWith("Google:") Then
+        If StatusText.Text.StartsWith("Google:") AndAlso StatusText.Text.Trim.Length > 7 Then
             Dim tmp As String = String.Format(My.Resources.SearchItem1Url, HttpUtility.UrlEncode(StatusText.Text.Substring(7)))
             OpenUriAsync(tmp)
         End If
@@ -2882,39 +2882,36 @@ Public Class TweenMain
             StatusLabelUrl.Text = PostBrowser.StatusText.Replace("&", "&&")
         ElseIf e.Url.AbsoluteUri <> "about:blank" Then
             e.Cancel = True
-            If AddNewTabForHashtag(e.Url.AbsoluteUri) Then Exit Sub
-            OpenUriAsync(e.Url.AbsoluteUri)
+
+            If e.Url.AbsoluteUri.StartsWith("http://twitter.com/search?q=%23") OrElse _
+               e.Url.AbsoluteUri.StartsWith("https://twitter.com/search?q=%23") Then
+                'ハッシュタグの場合は、タブで開く
+                Dim urlStr As String = HttpUtility.UrlDecode(e.Url.AbsoluteUri)
+                Dim hash As String = urlStr.Substring(urlStr.IndexOf("#"))
+                AddNewTabForSearch(hash)
+                Exit Sub
+            Else
+                OpenUriAsync(e.Url.AbsoluteUri)
+            End If
         End If
     End Sub
 
-    Public Function AddNewTabForHashtag(ByVal urlStrEncoded As String) As Boolean
-        If urlStrEncoded.StartsWith("http://twitter.com/search?q=%23") OrElse _
-           urlStrEncoded.StartsWith("https://twitter.com/search?q=%23") Then
-            'ハッシュタグの場合は、タブで開く
-            Dim urlStr As String = HttpUtility.UrlDecode(urlStrEncoded)
-            Dim hash As String = urlStr.Substring(urlStr.IndexOf("#"))
-            Dim tabName As String = hash
-            For i As Integer = 0 To 10
-                If _statuses.ContainsTab(tabName) Then
-                    tabName += "_"
-                Else
-                    Exit For
-                End If
-            Next
-            _statuses.AddTab(tabName, TabUsageType.PublicSearch)
-            _statuses.Tabs(tabName).SearchWords = hash
-            If Not AddNewTab(tabName, False, TabUsageType.PublicSearch) Then
-                'まずありえない
-                Return False
+    Private Sub AddNewTabForSearch(ByVal searchWord As String)
+        Dim tabName As String = searchWord
+        For i As Integer = 0 To 10
+            If _statuses.ContainsTab(tabName) Then
+                tabName += "_"
+            Else
+                Exit For
             End If
-            SaveConfigsTabs()
-            ListTab.SelectedIndex = ListTab.TabPages.Count - 1
-            Me.SearchButton_Click(ListTab.SelectedTab.Controls("panelSearch").Controls("comboSearch"), Nothing)
-            Return True
-        Else
-            Return False
-        End If
-    End Function
+        Next
+        _statuses.AddTab(tabName, TabUsageType.PublicSearch)
+        _statuses.Tabs(tabName).SearchWords = searchWord
+        AddNewTab(tabName, False, TabUsageType.PublicSearch)
+        SaveConfigsTabs()
+        ListTab.SelectedIndex = ListTab.TabPages.Count - 1
+        Me.SearchButton_Click(ListTab.SelectedTab.Controls("panelSearch").Controls("comboSearch"), Nothing)
+    End Sub
 
     Public Function AddNewTab(ByVal tabName As String, ByVal startup As Boolean, ByVal tabType As TabUsageType) As Boolean
         '重複チェック
@@ -4194,7 +4191,7 @@ RETRY:
             End If
         End If
         _anchorFlag = False
-        If e.Control AndAlso Not e.Alt AndAlso Not e.Shift Then
+        If (e.Control OrElse My.Computer.Keyboard.CtrlKeyDown) AndAlso Not e.Alt AndAlso Not e.Shift Then
             ' CTRLキーが押されている場合
             If e.KeyCode = Keys.Home OrElse e.KeyCode = Keys.End Then
                 TimerColorize.Stop()
@@ -5907,7 +5904,16 @@ RETRY:
                 Me.TopMost = SettingDialog.AlwaysTop
             End If
             If String.IsNullOrEmpty(openUrlStr) Then Exit Sub
-            If AddNewTabForHashtag(HttpUtility.UrlEncode(openUrlStr)) Then Exit Sub
+
+            If openUrlStr.StartsWith("http://twitter.com/search?q=%23") OrElse _
+               openUrlStr.StartsWith("https://twitter.com/search?q=%23") Then
+                'ハッシュタグの場合は、タブで開く
+                Dim urlStr As String = HttpUtility.UrlDecode(openUrlStr)
+                Dim hash As String = urlStr.Substring(urlStr.IndexOf("#"))
+                AddNewTabForSearch(hash)
+                Exit Sub
+            End If
+
             openUrlStr = openUrlStr.Replace("://twitter.com/search?q=#", "://twitter.com/search?q=%23")
             OpenUriAsync(openUrlStr)
         End If
@@ -6471,10 +6477,15 @@ RETRY:
         Dim _SelObj As Object = typ.InvokeMember("selection", BindingFlags.GetProperty, Nothing, PostBrowser.Document.DomDocument, Nothing)
         Dim _objRange As Object = _SelObj.GetType().InvokeMember("createRange", BindingFlags.InvokeMethod, Nothing, _SelObj, Nothing)
         Dim _selText As String = DirectCast(_objRange.GetType().InvokeMember("text", BindingFlags.GetProperty, Nothing, _objRange, Nothing), String)
-        Dim tmp As String
 
         If _selText IsNot Nothing Then
-            tmp = String.Format(url, HttpUtility.UrlEncode(_selText))
+            If url = My.Resources.SearchItem4Url Then
+                '公式検索
+                AddNewTabForSearch(_selText)
+                Exit Sub
+            End If
+
+            Dim tmp As String = String.Format(url, HttpUtility.UrlEncode(_selText))
             OpenUriAsync(tmp)
         End If
     End Sub
