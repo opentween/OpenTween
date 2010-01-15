@@ -172,6 +172,12 @@
   <data name="DeleteTabMenuItem.Text" xml:space="preserve">
     <value>&amp;Delete This Tab</value>
   </data>
+  <data name="MenuItemTab.Size" type="System.Drawing.Size, System.Drawing">
+    <value>36, 20</value>
+  </data>
+  <data name="MenuItemTab.Text" xml:space="preserve">
+    <value>&amp;Tab</value>
+  </data>
   <data name="ContextMenuTabProperty.Size" type="System.Drawing.Size, System.Drawing">
     <value>193, 206</value>
   </data>
@@ -457,17 +463,14 @@
   <data name="RefreshStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Update</value>
   </data>
+  <data name="RefreshMoreStripMenuItem.Text" xml:space="preserve">
+    <value>GetMore</value>
+  </data>
   <data name="MenuItemOperate.Size" type="System.Drawing.Size, System.Drawing">
     <value>66, 20</value>
   </data>
   <data name="MenuItemOperate.Text" xml:space="preserve">
     <value>&amp;Operation</value>
-  </data>
-  <data name="MenuItemTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>36, 20</value>
-  </data>
-  <data name="MenuItemTab.Text" xml:space="preserve">
-    <value>&amp;Tab</value>
   </data>
   <data name="UrlConvertAutoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>166, 22</value>

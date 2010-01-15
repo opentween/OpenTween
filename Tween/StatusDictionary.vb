@@ -1020,9 +1020,42 @@ Public NotInheritable Class TabInformations
     End Function
 
     Public Sub SetUnreadManage(ByVal Manage As Boolean)
-        For Each tn As String In _tabs.Keys
-            SetTabUnreadManage(tn, Manage)
-        Next
+        If Manage Then
+            For Each key As String In _tabs.Keys
+                Dim tb As TabClass = _tabs(key)
+                If tb.UnreadManage Then
+                    SyncLock LockUnread
+                        Dim cnt As Integer = 0
+                        Dim oldest As Long = Long.MaxValue
+                        Dim posts As Dictionary(Of Long, PostClass)
+                        If tb.TabType <> TabUsageType.PublicSearch Then
+                            posts = _statuses
+                        Else
+                            posts = tb.Posts
+                        End If
+                        For Each id As Long In tb.BackupIds
+                            If Not posts(id).IsRead Then
+                                cnt += 1
+                                If oldest > id Then oldest = id
+                            End If
+                        Next
+                        If oldest = Long.MaxValue Then oldest = -1
+                        tb.OldestUnreadId = oldest
+                        tb.UnreadCount = cnt
+                    End SyncLock
+                End If
+            Next
+        Else
+            For Each key As String In _tabs.Keys
+                Dim tb As TabClass = _tabs(key)
+                If tb.UnreadManage AndAlso tb.UnreadCount > 0 Then
+                    SyncLock LockUnread
+                        tb.UnreadCount = 0
+                        tb.OldestUnreadId = -1
+                    End SyncLock
+                End If
+            Next
+        End If
     End Sub
 
     Public Sub RenameTab(ByVal Original As String, ByVal NewName As String)
@@ -1141,21 +1174,19 @@ Public NotInheritable Class TabInformations
             If Manage Then
                 Dim cnt As Integer = 0
                 Dim oldest As Long = Long.MaxValue
+                Dim posts As Dictionary(Of Long, PostClass)
                 If tb.TabType <> TabUsageType.PublicSearch Then
-                    For Each id As Long In tb.BackupIds
-                        If Not _statuses(id).IsRead Then
-                            cnt += 1
-                            If oldest > id Then oldest = id
-                        End If
-                    Next
+                    posts = _statuses
                 Else
-                    For Each id As Long In tb.BackupIds
-                        If Not tb.Posts(id).IsRead Then
-                            cnt += 1
-                            If oldest > id Then oldest = id
-                        End If
-                    Next
+                    posts = tb.Posts
                 End If
+                For Each id As Long In tb.BackupIds
+                    If Not posts(id).IsRead Then
+                        cnt += 1
+                        If oldest > id Then oldest = id
+                    End If
+                Next
+                If oldest = Long.MaxValue Then oldest = -1
                 tb.OldestUnreadId = oldest
                 tb.UnreadCount = cnt
             Else
@@ -1222,11 +1253,8 @@ Public NotInheritable Class TabClass
 
     'Search query
     Private _searchLang As String = ""
-    Private _searchSource As String = ""
-    Private _searchLinks As Boolean = False
     Private _searchWords As String = ""
 
-    <Xml.Serialization.XmlIgnore()> _
     Public Property SearchLang() As String
         Get
             Return _searchLang
@@ -1235,25 +1263,6 @@ Public NotInheritable Class TabClass
             _searchLang = value
         End Set
     End Property
-    <Xml.Serialization.XmlIgnore()> _
-    Public Property SearchSource() As String
-        Get
-            Return _searchSource
-        End Get
-        Set(ByVal value As String)
-            _searchSource = value
-        End Set
-    End Property
-    <Xml.Serialization.XmlIgnore()> _
-    Public Property SearchLinks() As Boolean
-        Get
-            Return _searchLinks
-        End Get
-        Set(ByVal value As Boolean)
-            _searchLinks = value
-        End Set
-    End Property
-    <Xml.Serialization.XmlIgnore()> _
     Public Property SearchWords() As String
         Get
             Return _searchWords
@@ -1262,18 +1271,23 @@ Public NotInheritable Class TabClass
             _searchWords = value.Trim
         End Set
     End Property
-    Public ReadOnly Property SearchQuery() As String
-        Get
-            Dim qry As String = ""
-            If String.IsNullOrEmpty(_searchWords) Then Return ""
-            qry = "q=" + _searchWords
-            If Not String.IsNullOrEmpty(_searchSource) Then qry += "&source=" + _searchSource
-            If _searchLinks Then qry += "&filter=links"
-            If Not String.IsNullOrEmpty(_searchLang) Then qry += "&lang=" + _searchLang
-            'Return UrlEncode(qry)
-            Return qry
-        End Get
-    End Property
+    Private _beforeQuery As String = ""
+    Public Function SearchQuery(ByVal more As Boolean) As String
+        Dim qry As String = ""
+        If String.IsNullOrEmpty(_searchWords) Then Return ""
+        qry = "q=" + UrlEncode(_searchWords)
+        If Not String.IsNullOrEmpty(_searchLang) Then qry += "&lang=" + _searchLang
+        _beforeQuery = qry
+        If more Then qry += "&page=" + ((_ids.Count \ 40) + 1).ToString
+        Return qry
+    End Function
+
+    Public Function IsQueryChanged() As Boolean
+        Dim qry As String = ""
+        qry = "q=" + UrlEncode(_searchWords)
+        If Not String.IsNullOrEmpty(_searchLang) Then qry += "&lang=" + _searchLang
+        Return Not _beforeQuery.Equals(qry)
+    End Function
 
     <Xml.Serialization.XmlIgnore()> _
     Public Property Posts() As Dictionary(Of Long, PostClass)

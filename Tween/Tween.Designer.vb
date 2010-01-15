@@ -125,6 +125,7 @@ Partial Class TweenMain
         Me.SelectAllMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.DeleteStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.RefreshStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.RefreshMoreStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuItemCommand = New System.Windows.Forms.ToolStripMenuItem
         Me.TinyUrlConvertToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.UrlConvertAutoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -166,12 +167,12 @@ Partial Class TweenMain
         Me.IdeographicSpaceToSpaceToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.TimerTimeline = New System.Windows.Forms.Timer(Me.components)
         Me.NotifyIcon1 = New System.Windows.Forms.NotifyIcon(Me.components)
-        Me.TimerDM = New System.Windows.Forms.Timer(Me.components)
         Me.TimerColorize = New System.Windows.Forms.Timer(Me.components)
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
-        Me.TimerReply = New System.Windows.Forms.Timer(Me.components)
+        Me.ToolStripSeparator8 = New System.Windows.Forms.ToolStripSeparator
+        Me.HashSelectComboBox = New System.Windows.Forms.ToolStripComboBox
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -649,9 +650,8 @@ Partial Class TweenMain
         '
         'ContextMenuStrip2
         '
-        Me.ContextMenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ReplyStripMenuItem, Me.ReplyAllStripMenuItem, Me.DMStripMenuItem, Me.ReTweetOriginalStripMenuItem, Me.ReTweetStripMenuItem, Me.QuoteStripMenuItem, Me.ToolStripSeparator2, Me.FavAddToolStripMenuItem, Me.FavRemoveToolStripMenuItem, Me.ToolStripMenuItem6, Me.ToolStripMenuItem7, Me.ToolStripSeparator4, Me.ToolStripMenuItem11, Me.JumpUnreadMenuItem, Me.ToolStripSeparator10, Me.SelectAllMenuItem, Me.DeleteStripMenuItem, Me.RefreshStripMenuItem})
+        Me.ContextMenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ReplyStripMenuItem, Me.ReplyAllStripMenuItem, Me.DMStripMenuItem, Me.ReTweetOriginalStripMenuItem, Me.ReTweetStripMenuItem, Me.QuoteStripMenuItem, Me.ToolStripSeparator2, Me.FavAddToolStripMenuItem, Me.FavRemoveToolStripMenuItem, Me.ToolStripMenuItem6, Me.ToolStripMenuItem7, Me.ToolStripSeparator4, Me.ToolStripMenuItem11, Me.JumpUnreadMenuItem, Me.ToolStripSeparator10, Me.SelectAllMenuItem, Me.DeleteStripMenuItem, Me.RefreshStripMenuItem, Me.RefreshMoreStripMenuItem})
         Me.ContextMenuStrip2.Name = "ContextMenuStrip2"
-        Me.ContextMenuStrip2.OwnerItem = Me.MenuItemOperate
         Me.ContextMenuStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional
         resources.ApplyResources(Me.ContextMenuStrip2, "ContextMenuStrip2")
         '
@@ -797,6 +797,11 @@ Partial Class TweenMain
         '
         Me.RefreshStripMenuItem.Name = "RefreshStripMenuItem"
         resources.ApplyResources(Me.RefreshStripMenuItem, "RefreshStripMenuItem")
+        '
+        'RefreshMoreStripMenuItem
+        '
+        Me.RefreshMoreStripMenuItem.Name = "RefreshMoreStripMenuItem"
+        resources.ApplyResources(Me.RefreshMoreStripMenuItem, "RefreshMoreStripMenuItem")
         '
         'MenuItemCommand
         '
@@ -978,7 +983,7 @@ Partial Class TweenMain
         '
         'ContextMenuStripPostMode
         '
-        Me.ContextMenuStripPostMode.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItemUrlMultibyteSplit, Me.ToolStripMenuItemApiCommandEvasion, Me.ToolStripMenuItemUrlAutoShorten, Me.IdeographicSpaceToSpaceToolStripMenuItem})
+        Me.ContextMenuStripPostMode.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItemUrlMultibyteSplit, Me.ToolStripMenuItemApiCommandEvasion, Me.ToolStripMenuItemUrlAutoShorten, Me.IdeographicSpaceToSpaceToolStripMenuItem, Me.ToolStripSeparator8, Me.HashSelectComboBox})
         Me.ContextMenuStripPostMode.Name = "ContextMenuStripPostMode"
         resources.ApplyResources(Me.ContextMenuStripPostMode, "ContextMenuStripPostMode")
         '
@@ -1019,10 +1024,6 @@ Partial Class TweenMain
         Me.NotifyIcon1.ContextMenuStrip = Me.ContextMenuStrip1
         resources.ApplyResources(Me.NotifyIcon1, "NotifyIcon1")
         '
-        'TimerDM
-        '
-        Me.TimerDM.Interval = 600000
-        '
         'TimerColorize
         '
         '
@@ -1034,9 +1035,15 @@ Partial Class TweenMain
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'TimerReply
+        'ToolStripSeparator8
         '
-        Me.TimerReply.Interval = 600000
+        Me.ToolStripSeparator8.Name = "ToolStripSeparator8"
+        resources.ApplyResources(Me.ToolStripSeparator8, "ToolStripSeparator8")
+        '
+        'HashSelectComboBox
+        '
+        Me.HashSelectComboBox.Name = "HashSelectComboBox"
+        resources.ApplyResources(Me.HashSelectComboBox, "HashSelectComboBox")
         '
         'TweenMain
         '
@@ -1084,7 +1091,6 @@ Partial Class TweenMain
     Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents DMStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents DeleteStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents TimerDM As System.Windows.Forms.Timer
     Friend WithEvents RefreshStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SettingStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator9 As System.Windows.Forms.ToolStripSeparator
@@ -1203,7 +1209,6 @@ Partial Class TweenMain
     Friend WithEvents DebugModeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents DumpPostClassToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents TraceOutToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents TimerReply As System.Windows.Forms.Timer
     Friend WithEvents TwurlnlToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents TabRenameMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents UnuToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
@@ -1223,5 +1228,8 @@ Partial Class TweenMain
     Friend WithEvents FriendshipContextMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents JmpStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents QuoteStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RefreshMoreStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator8 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents HashSelectComboBox As System.Windows.Forms.ToolStripComboBox
 
 End Class

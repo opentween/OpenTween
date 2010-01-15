@@ -74,7 +74,7 @@ Public Class InputTabName
     Private Sub InputTabName_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         Me.LabelUsage.Visible = False
         Me.ComboUsage.Visible = False
-        Me.ComboUsage.Items.Add("タイムライン振り分け")
+        Me.ComboUsage.Items.Add(My.Resources.InputTabName_Load1)
         Me.ComboUsage.Items.Add("PublicSearch")
         Me.ComboUsage.SelectedIndex = 0
     End Sub
