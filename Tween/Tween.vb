@@ -973,7 +973,6 @@ Public Class TweenMain
             fore = System.Drawing.SystemBrushes.ControlText
         End Try
         e.Graphics.DrawString(txt, e.Font, fore, e.Bounds, sfTab)
-        fore.Dispose()
     End Sub
 
     Private Function LoadOldConfig() As Boolean
