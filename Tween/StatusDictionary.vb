@@ -710,6 +710,9 @@ Public NotInheritable Class TabInformations
             If _notifyPosts Is Nothing Then _notifyPosts = New List(Of PostClass)
             Me.Distribute()    'タブに仮振分
             _addCount = _addedIds.Count
+            For Each tb As TabClass In _tabs.Values
+                If tb.TabType = TabUsageType.PublicSearch Then _addCount += tb.GetTemporaryPosts.Length
+            Next
             _addedIds.Clear()
             _addedIds = Nothing     '後始末
             Return _addCount     '件数
@@ -807,9 +810,18 @@ Public NotInheritable Class TabInformations
         For Each tn As String In _tabs.Keys
             If _tabs(tn).TabType = TabUsageType.PublicSearch Then
                 If _tabs(tn).GetTemporaryPosts.Length > 0 Then
-                    For Each post As PostClass In _tabs(tn).GetTemporaryPosts
-                        _notifyPosts.Add(post)
-                    Next
+                    If _tabs(tn).Notify Then
+                        For Each post As PostClass In _tabs(tn).GetTemporaryPosts
+                            Dim exist As Boolean = False
+                            For Each npost As PostClass In _notifyPosts
+                                If npost.Id = post.Id Then
+                                    exist = True
+                                    Exit For
+                                End If
+                            Next
+                            If Not exist Then _notifyPosts.Add(post)
+                        Next
+                    End If
                     If _soundFile = "" AndAlso _tabs(tn).SoundFile <> "" Then _soundFile = _tabs(tn).SoundFile
                 End If
             End If
