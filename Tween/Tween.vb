@@ -925,7 +925,6 @@ Public Class TweenMain
         'ReadedStripMenuItem.ShortcutKeyDisplayString = "B"
         'UnreadStripMenuItem.ShortcutKeyDisplayString = "Shift+B"
 
-        AddHandler My.Computer.Network.NetworkAvailabilityChanged, AddressOf Network_NetworkAvailabilityChanged
         If SettingDialog.MinimizeToTray = False OrElse Me.WindowState <> FormWindowState.Minimized Then
             Me.Visible = True
         End If
@@ -1384,12 +1383,24 @@ Public Class TweenMain
 
     Private Sub NotifyNewPosts(ByVal notifyPosts() As PostClass, ByVal soundFile As String, ByVal addCount As Integer)
         '新着通知
-        If (NewPostPopMenuItem.Checked AndAlso _
-               notifyPosts IsNot Nothing AndAlso notifyPosts.Length > 0 AndAlso _
-               Not _initial AndAlso _
-               ((SettingDialog.LimitBalloon AndAlso _
-                 (Me.WindowState = FormWindowState.Minimized OrElse Not Me.Visible OrElse Form.ActiveForm Is Nothing)) _
-                OrElse Not SettingDialog.LimitBalloon)) AndAlso Not IsScreenSaverRunning() Then
+        If ( _
+                NewPostPopMenuItem.Checked AndAlso _
+                notifyPosts IsNot Nothing AndAlso _
+                notifyPosts.Length > 0 AndAlso _
+                Not _initial AndAlso _
+                ( _
+                    ( _
+                        SettingDialog.LimitBalloon AndAlso _
+                        ( _
+                            Me.WindowState = FormWindowState.Minimized OrElse _
+                            Not Me.Visible OrElse _
+                            Form.ActiveForm Is Nothing _
+                        ) _
+                    ) OrElse _
+                    Not SettingDialog.LimitBalloon _
+                ) _
+            ) AndAlso _
+            Not IsScreenSaverRunning() Then
             Dim sb As New StringBuilder
             Dim reply As Boolean = False
             Dim dm As Boolean = False
@@ -6747,6 +6758,7 @@ RETRY:
     End Sub
 
     Private Sub TweenMain_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
+        AddHandler My.Computer.Network.NetworkAvailabilityChanged, AddressOf Network_NetworkAvailabilityChanged
         Try
             PostBrowser.Url = New Uri("about:blank")
             PostBrowser.DocumentText = ""       '発言詳細部初期化
