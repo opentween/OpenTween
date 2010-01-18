@@ -2858,7 +2858,7 @@ Public Class TweenMain
     Private Sub PostBrowser_Navigated(ByVal sender As Object, ByVal e As System.Windows.Forms.WebBrowserNavigatedEventArgs) Handles PostBrowser.Navigated
         If e.Url.AbsoluteUri <> "about:blank" Then
             DispSelectedPost()
-            OpenUriAsync(e.Url.AbsoluteUri)
+            OpenUriAsync(e.Url.OriginalString)
         End If
     End Sub
 
@@ -2876,7 +2876,7 @@ Public Class TweenMain
                 AddNewTabForSearch(hash)
                 Exit Sub
             Else
-                OpenUriAsync(e.Url.AbsoluteUri)
+                OpenUriAsync(e.Url.OriginalString)
             End If
         End If
     End Sub
@@ -4152,12 +4152,12 @@ RETRY:
             If e.KeyCode = Keys.S Then
                 e.Handled = True
                 e.SuppressKeyPress = True
-                SendKeys.Send("^{PGDN}")
+                GoNextTab(True)
             End If
             If e.KeyCode = Keys.A Then
                 e.Handled = True
                 e.SuppressKeyPress = True
-                SendKeys.Send("^{PGUP}")
+                GoNextTab(False)
             End If
             'If e.KeyCode = Keys.OemQuestion Then
             '    e.Handled = True
@@ -4182,8 +4182,8 @@ RETRY:
                 TimerColorize.Stop()
                 TimerColorize.Start()
             End If
-            If e.KeyCode = Keys.N Then SendKeys.Send("^{PGDN}")
-            If e.KeyCode = Keys.P Then SendKeys.Send("^{PGUP}")
+            If e.KeyCode = Keys.N Then GoNextTab(True)
+            If e.KeyCode = Keys.P Then GoNextTab(False)
             'If e.KeyCode = Keys.F Then
             '    e.Handled = True
             '    e.SuppressKeyPress = True
@@ -4284,6 +4284,18 @@ RETRY:
                 CopyIdUri()
             End If
         End If
+    End Sub
+
+    Private Sub GoNextTab(ByVal forward As Boolean)
+        Dim idx As Integer = ListTab.SelectedIndex
+        If forward Then
+            idx += 1
+            If idx > ListTab.TabPages.Count - 1 Then idx = 0
+        Else
+            idx -= 1
+            If idx < 0 Then idx = ListTab.TabPages.Count - 1
+        End If
+        ListTab.SelectedIndex = idx
     End Sub
 
     Private Sub CopyStot()
