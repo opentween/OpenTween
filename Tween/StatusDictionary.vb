@@ -431,14 +431,16 @@ Public NotInheritable Class TabInformations
     End Property
 
     Public Sub SortPosts()
-        For Each key As String In _tabs.Keys
-            If _tabs(key).TabType <> TabUsageType.PublicSearch Then
-                _sorter.posts = _statuses
-            Else
-                _sorter.posts = _tabs(key).Posts
-            End If
-            _tabs(key).Sort(_sorter)
-        Next
+        SyncLock LockObj
+            For Each key As String In _tabs.Keys
+                If _tabs(key).TabType <> TabUsageType.PublicSearch Then
+                    _sorter.posts = _statuses
+                Else
+                    _sorter.posts = _tabs(key).Posts
+                End If
+                _tabs(key).Sort(_sorter)
+            Next
+        End SyncLock
     End Sub
 
     Public ReadOnly Property Sorter() As IdComparerClass
@@ -1164,20 +1166,23 @@ Public NotInheritable Class TabInformations
 
     Public Sub ClearTabIds(ByVal TabName As String)
         '不要なPostを削除
-        If _tabs(TabName).TabType <> TabUsageType.PublicSearch Then
-            For Each Id As Long In _tabs(TabName).BackupIds
-                Dim Hit As Boolean = False
-                For Each tb As TabClass In _tabs.Values
-                    If tb.Contains(Id) Then
-                        Hit = True
-                        Exit For
-                    End If
+        SyncLock LockObj
+            If _tabs(TabName).TabType <> TabUsageType.PublicSearch Then
+                For Each Id As Long In _tabs(TabName).BackupIds
+                    Dim Hit As Boolean = False
+                    For Each tb As TabClass In _tabs.Values
+                        If tb.Contains(Id) Then
+                            Hit = True
+                            Exit For
+                        End If
+                    Next
+                    If Not Hit Then _statuses.Remove(Id)
                 Next
-                If Not Hit Then _statuses.Remove(Id)
-            Next
-        End If
-        '指定タブをクリア
-        _tabs(TabName).ClearIDs()
+            End If
+
+            '指定タブをクリア
+            _tabs(TabName).ClearIDs()
+        End SyncLock
     End Sub
 
     Public Sub SetTabUnreadManage(ByVal TabName As String, ByVal Manage As Boolean)
