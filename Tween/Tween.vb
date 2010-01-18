@@ -1194,15 +1194,12 @@ Public Class TweenMain
         If Not IsNetworkAvailable() Then Exit Sub
 
         If _homeCounter <= 0 AndAlso SettingDialog.TimelinePeriodInt > 0 Then
-            _homeCounter = SettingDialog.TimelinePeriodInt - _homeCounterAdjuster
             GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
         End If
         If _mentionCounter <= 0 AndAlso SettingDialog.ReplyPeriodInt > 0 Then
-            _mentionCounter = SettingDialog.ReplyPeriodInt
             GetTimeline(WORKERTYPE.Reply, 1, 0, "")
         End If
         If _dmCounter <= 0 AndAlso SettingDialog.DMPeriodInt > 0 Then
-            _dmCounter = SettingDialog.DMPeriodInt
             GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
         End If
         If _pubSearchCounter <= 0 AndAlso SettingDialog.PubSearchPeriodInt > 0 Then
@@ -1211,20 +1208,6 @@ Public Class TweenMain
                 If tb.TabType = TabUsageType.PublicSearch AndAlso tb.SearchWords <> "" Then GetTimeline(WORKERTYPE.PublicSearch, 1, 0, tb.TabName)
             Next
         End If
-    End Sub
-
-    Private Sub TimerDM_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        GC.Collect()
-
-        If Not IsNetworkAvailable() Then Exit Sub
-
-        GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
-    End Sub
-
-    Private Sub TimerReply_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        If Not IsNetworkAvailable() Then Exit Sub
-
-        GetTimeline(WORKERTYPE.Reply, 1, 0, "")
     End Sub
 
     Private Sub RefreshTimeline()
@@ -2220,26 +2203,17 @@ Public Class TweenMain
     Private Sub GetTimeline(ByVal WkType As WORKERTYPE, ByVal fromPage As Integer, ByVal toPage As Integer, ByVal tabName As String)
         'toPage=0:通常モード
         If Not IsNetworkAvailable() Then Exit Sub
-        ''タイマー停止
-        'If SettingDialog.UseAPI Then
-        '    Select Case WkType
-        '        Case WORKERTYPE.Timeline
-        '            'TimerTimeline.Enabled = False
-        '        Case WORKERTYPE.Reply
-        '            'TimerReply.Enabled = False
-        '        Case WORKERTYPE.DirectMessegeRcv, WORKERTYPE.DirectMessegeSnt
-        '            'TimerDM.Enabled = False
-        '    End Select
-        'Else
-        '    Select Case WkType
-        '        Case WORKERTYPE.Timeline
-        '            'TimerTimeline.Enabled = False
-        '        Case WORKERTYPE.Reply
-        '            'TimerReply.Enabled = False
-        '        Case WORKERTYPE.DirectMessegeRcv, WORKERTYPE.DirectMessegeSnt
-        '            'TimerDM.Enabled = False
-        '    End Select
-        'End If
+        ''タイマー初期化
+        If SettingDialog.TimelinePeriodInt > 0 Then
+            _homeCounter = SettingDialog.TimelinePeriodInt - _homeCounterAdjuster
+        End If
+        If SettingDialog.ReplyPeriodInt > 0 Then
+            _mentionCounter = SettingDialog.ReplyPeriodInt
+        End If
+        If SettingDialog.DMPeriodInt > 0 Then
+            _dmCounter = SettingDialog.DMPeriodInt
+        End If
+
         '非同期実行引数設定
         Dim args As New GetWorkerArg
         args.page = fromPage
@@ -2255,6 +2229,7 @@ Public Class TweenMain
            WkType = WORKERTYPE.Timeline AndAlso _
            SettingDialog.CheckReply Then
             'TimerReply.Enabled = False
+            _mentionCounter = SettingDialog.ReplyPeriodInt
             Dim _args As New GetWorkerArg
             _args.page = fromPage
             _args.endPage = toPage
