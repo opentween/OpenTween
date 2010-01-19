@@ -43,7 +43,6 @@ Partial Class TweenMain
         Me.ClearTabMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator11 = New System.Windows.Forms.ToolStripSeparator
         Me.DeleteTabMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.MenuItemTab = New System.Windows.Forms.ToolStripMenuItem
         Me.TabImage = New System.Windows.Forms.ImageList(Me.components)
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel
@@ -89,6 +88,8 @@ Partial Class TweenMain
         Me.ToolStripSeparator21 = New System.Windows.Forms.ToolStripSeparator
         Me.EndToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuItemEdit = New System.Windows.Forms.ToolStripMenuItem
+        Me.UndoRemoveTabMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripSeparator12 = New System.Windows.Forms.ToolStripSeparator
         Me.CopySTOTMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.CopyURLMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator
@@ -126,6 +127,7 @@ Partial Class TweenMain
         Me.DeleteStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.RefreshStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.RefreshMoreStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.MenuItemTab = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuItemCommand = New System.Windows.Forms.ToolStripMenuItem
         Me.TinyUrlConvertToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.UrlConvertAutoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -328,12 +330,6 @@ Partial Class TweenMain
         '
         Me.DeleteTabMenuItem.Name = "DeleteTabMenuItem"
         resources.ApplyResources(Me.DeleteTabMenuItem, "DeleteTabMenuItem")
-        '
-        'MenuItemTab
-        '
-        Me.MenuItemTab.DropDown = Me.ContextMenuTabProperty
-        Me.MenuItemTab.Name = "MenuItemTab"
-        resources.ApplyResources(Me.MenuItemTab, "MenuItemTab")
         '
         'TabImage
         '
@@ -609,9 +605,19 @@ Partial Class TweenMain
         '
         'MenuItemEdit
         '
-        Me.MenuItemEdit.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopySTOTMenuItem, Me.CopyURLMenuItem, Me.ToolStripSeparator6, Me.MenuItemSubSearch, Me.MenuItemSearchNext, Me.MenuItemSearchPrev})
+        Me.MenuItemEdit.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UndoRemoveTabMenuItem, Me.ToolStripSeparator12, Me.CopySTOTMenuItem, Me.CopyURLMenuItem, Me.ToolStripSeparator6, Me.MenuItemSubSearch, Me.MenuItemSearchNext, Me.MenuItemSearchPrev})
         Me.MenuItemEdit.Name = "MenuItemEdit"
         resources.ApplyResources(Me.MenuItemEdit, "MenuItemEdit")
+        '
+        'UndoRemoveTabMenuItem
+        '
+        Me.UndoRemoveTabMenuItem.Name = "UndoRemoveTabMenuItem"
+        resources.ApplyResources(Me.UndoRemoveTabMenuItem, "UndoRemoveTabMenuItem")
+        '
+        'ToolStripSeparator12
+        '
+        Me.ToolStripSeparator12.Name = "ToolStripSeparator12"
+        resources.ApplyResources(Me.ToolStripSeparator12, "ToolStripSeparator12")
         '
         'CopySTOTMenuItem
         '
@@ -804,6 +810,12 @@ Partial Class TweenMain
         '
         Me.RefreshMoreStripMenuItem.Name = "RefreshMoreStripMenuItem"
         resources.ApplyResources(Me.RefreshMoreStripMenuItem, "RefreshMoreStripMenuItem")
+        '
+        'MenuItemTab
+        '
+        Me.MenuItemTab.DropDown = Me.ContextMenuTabProperty
+        Me.MenuItemTab.Name = "MenuItemTab"
+        resources.ApplyResources(Me.MenuItemTab, "MenuItemTab")
         '
         'MenuItemCommand
         '
@@ -1233,5 +1245,7 @@ Partial Class TweenMain
     Friend WithEvents RefreshMoreStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator8 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents HashSelectComboBox As System.Windows.Forms.ToolStripComboBox
+    Friend WithEvents UndoRemoveTabMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator12 As System.Windows.Forms.ToolStripSeparator
 
 End Class

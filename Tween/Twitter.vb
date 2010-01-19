@@ -1938,6 +1938,9 @@ Public Module Twitter
             If resStatus.StartsWith("Err: Unauthorized") Then
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Return "Check your Username/Password."
+            ElseIf resStatus.StartsWith("Err: Not Found") Then
+                '削除済みと判定する
+                Return ""
             Else
                 Return resStatus
             End If
@@ -1984,6 +1987,9 @@ Public Module Twitter
             If resStatus.StartsWith("Err: Unauthorized") Then
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Return "Check your Username/Password."
+            ElseIf resStatus.StartsWith("Err: Not Found") Then
+                '削除済みと判定する
+                Return ""
             Else
                 Return resStatus
             End If
@@ -2163,6 +2169,9 @@ Public Module Twitter
             If resStatus.StartsWith("Err: Unauthorized") Then
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Return "Check your Username/Password."
+            ElseIf resStatus.StartsWith("Err: Not Found") Then
+                '削除済みと判定する
+                Return ""
             Else
                 Return resStatus
             End If

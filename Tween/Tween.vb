@@ -1376,14 +1376,14 @@ Public Class TweenMain
                         SettingDialog.LimitBalloon AndAlso _
                         ( _
                             Me.WindowState = FormWindowState.Minimized OrElse _
-                            Not Me.Visible OrElse _
-                            Form.ActiveForm Is Nothing _
+                            Not Me.Visible _
                         ) _
                     ) OrElse _
                     Not SettingDialog.LimitBalloon _
                 ) _
             ) AndAlso _
             Not IsScreenSaverRunning() Then
+            '                            Form.ActiveForm Is Nothing _
             Dim sb As New StringBuilder
             Dim reply As Boolean = False
             Dim dm As Boolean = False
@@ -2844,6 +2844,16 @@ Public Class TweenMain
                 _postCache = Nothing
                 If _curList IsNot Nothing Then _curList.Refresh()
                 ListTab.Refresh()
+
+                Outputz.key = SettingDialog.OutputzKey
+                Outputz.Enabled = SettingDialog.OutputzEnabled
+                Select Case SettingDialog.OutputzUrlmode
+                    Case OutputzUrlmode.twittercom
+                        Outputz.url = "http://twitter.com/"
+                    Case OutputzUrlmode.twittercomWithUsername
+                        Outputz.url = "http://twitter.com/" + SettingDialog.UserID
+                End Select
+
             End SyncLock
         End If
 
@@ -7192,5 +7202,24 @@ RETRY:
     Private Sub RefreshMoreStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RefreshMoreStripMenuItem.Click
         'もっと前を取得
         DoRefreshMore()
+    End Sub
+
+    Private Sub UndoRemoveTabMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UndoRemoveTabMenuItem.Click
+        If _statuses.RemovedTab Is Nothing Then
+            MessageBox.Show("There isn't removed tab.", "Undo", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        Else
+            Dim tb As TabClass = _statuses.RemovedTab
+            _statuses.RemovedTab = Nothing
+            Dim renamed As String = tb.TabName
+            For i As Integer = 1 To Integer.MaxValue
+                If Not _statuses.ContainsTab(renamed) Then Exit For
+                renamed = tb.TabName + "(" + i.ToString + ")"
+            Next
+            tb.TabName = renamed
+            _statuses.Tabs.Add(renamed, tb)
+            AddNewTab(renamed, False, tb.TabType)
+            SaveConfigsTabs()
+        End If
     End Sub
 End Class
