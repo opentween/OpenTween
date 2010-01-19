@@ -353,6 +353,7 @@ Public NotInheritable Class TabInformations
     Private _statuses As New Dictionary(Of Long, PostClass)
     Private _addedIds As List(Of Long)
     Private _retweets As New Dictionary(Of Long, PostClass)
+    Private _removedTab As TabClass = Nothing
 
     '発言の追加
     'AddPost(複数回) -> DistributePosts          -> SubmitUpdate
@@ -403,9 +404,20 @@ Public NotInheritable Class TabInformations
                     If Not exist Then homeTab.Add(Id, _statuses(Id).IsRead, False)
                 Next
             End If
+            If _removedTab IsNot Nothing Then _removedTab = Nothing
+            _removedTab = _tabs(TabName)
             _tabs.Remove(TabName)
         End SyncLock
     End Sub
+
+    Public Property RemovedTab() As TabClass
+        Get
+            Return _removedTab
+        End Get
+        Set(ByVal value As TabClass)
+            _removedTab = value
+        End Set
+    End Property
 
     Public Function ContainsTab(ByVal TabText As String) As Boolean
         Return _tabs.ContainsKey(TabText)

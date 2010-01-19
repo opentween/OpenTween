@@ -424,88 +424,88 @@
     <value>337, 7</value>
   </metadata>
   <data name="SearchItem2ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 22</value>
+    <value>160, 22</value>
   </data>
   <data name="SearchItem2ToolStripMenuItem.Text" xml:space="preserve">
-    <value>Google</value>
+    <value>Google(&amp;G)</value>
   </data>
   <data name="SearchItem1ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 22</value>
+    <value>160, 22</value>
   </data>
   <data name="SearchItem1ToolStripMenuItem.Text" xml:space="preserve">
-    <value>Wikipedia</value>
+    <value>Wikipedia(&amp;W)</value>
   </data>
   <data name="SearchItem3ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 22</value>
+    <value>160, 22</value>
   </data>
   <data name="SearchItem3ToolStripMenuItem.Text" xml:space="preserve">
-    <value>Twitter検索</value>
+    <value>Twitter検索(&amp;Y)</value>
   </data>
   <data name="SearchItem4ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 22</value>
+    <value>160, 22</value>
   </data>
   <data name="SearchItem4ToolStripMenuItem.Text" xml:space="preserve">
-    <value>Twitter Search</value>
+    <value>Twitter Search(&amp;S)</value>
   </data>
   <data name="CurrentTabToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 22</value>
+    <value>160, 22</value>
   </data>
   <data name="CurrentTabToolStripMenuItem.Text" xml:space="preserve">
-    <value>現在のタブ</value>
+    <value>現在のタブ(&amp;L)</value>
   </data>
   <data name="ToolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 22</value>
+    <value>182, 22</value>
   </data>
   <data name="ToolStripMenuItem2.Text" xml:space="preserve">
-    <value>選択文字列で検索</value>
+    <value>選択文字列で検索(&amp;S)</value>
   </data>
   <data name="ToolStripSeparator13.Size" type="System.Drawing.Size, System.Drawing">
-    <value>163, 6</value>
+    <value>179, 6</value>
   </data>
   <data name="ToolStripMenuItem3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 22</value>
+    <value>182, 22</value>
   </data>
   <data name="ToolStripMenuItem3.Text" xml:space="preserve">
-    <value>選択文字列をコピー</value>
+    <value>選択文字列をコピー(&amp;C)</value>
   </data>
   <data name="ToolStripMenuItem4.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="ToolStripMenuItem4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 22</value>
+    <value>182, 22</value>
   </data>
   <data name="ToolStripMenuItem4.Text" xml:space="preserve">
-    <value>URLをコピー</value>
+    <value>URLをコピー(&amp;U)</value>
   </data>
   <data name="ToolStripMenuItem5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 22</value>
+    <value>182, 22</value>
   </data>
   <data name="ToolStripMenuItem5.Text" xml:space="preserve">
-    <value>すべて選択</value>
+    <value>すべて選択(&amp;A)</value>
   </data>
   <data name="ToolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>163, 6</value>
+    <value>179, 6</value>
   </data>
   <data name="FollowContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 22</value>
+    <value>182, 22</value>
   </data>
   <data name="FollowContextMenuItem.Text" xml:space="preserve">
-    <value>Follow</value>
+    <value>Follow(&amp;F)</value>
   </data>
   <data name="RemoveContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 22</value>
+    <value>182, 22</value>
   </data>
   <data name="RemoveContextMenuItem.Text" xml:space="preserve">
-    <value>Remove</value>
+    <value>Unfollow(&amp;N)</value>
   </data>
   <data name="FriendshipContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 22</value>
+    <value>182, 22</value>
   </data>
   <data name="FriendshipContextMenuItem.Text" xml:space="preserve">
-    <value>ShowFriendship</value>
+    <value>ShowFriendship(&amp;H)</value>
   </data>
   <data name="ContextMenuStrip4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 170</value>
+    <value>183, 170</value>
   </data>
   <data name="&gt;&gt;ContextMenuStrip4.Name" xml:space="preserve">
     <value>ContextMenuStrip4</value>
@@ -953,6 +953,15 @@
   </data>
   <data name="MenuItemFile.Text" xml:space="preserve">
     <value>ファイル(&amp;F)</value>
+  </data>
+  <data name="UndoRemoveTabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>214, 22</value>
+  </data>
+  <data name="UndoRemoveTabMenuItem.Text" xml:space="preserve">
+    <value>Undo remove tab</value>
+  </data>
+  <data name="ToolStripSeparator12.Size" type="System.Drawing.Size, System.Drawing">
+    <value>211, 6</value>
   </data>
   <data name="CopySTOTMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>214, 22</value>
@@ -1662,12 +1671,6 @@
   <data name="&gt;&gt;DeleteTabMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;MenuItemTab.Name" xml:space="preserve">
-    <value>MenuItemTab</value>
-  </data>
-  <data name="&gt;&gt;MenuItemTab.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;TabImage.Name" xml:space="preserve">
     <value>TabImage</value>
   </data>
@@ -1853,6 +1856,18 @@
   </data>
   <data name="&gt;&gt;MenuItemEdit.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;UndoRemoveTabMenuItem.Name" xml:space="preserve">
+    <value>UndoRemoveTabMenuItem</value>
+  </data>
+  <data name="&gt;&gt;UndoRemoveTabMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripSeparator12.Name" xml:space="preserve">
+    <value>ToolStripSeparator12</value>
+  </data>
+  <data name="&gt;&gt;ToolStripSeparator12.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CopySTOTMenuItem.Name" xml:space="preserve">
     <value>CopySTOTMenuItem</value>
@@ -2068,6 +2083,12 @@
     <value>RefreshMoreStripMenuItem</value>
   </data>
   <data name="&gt;&gt;RefreshMoreStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MenuItemTab.Name" xml:space="preserve">
+    <value>MenuItemTab</value>
+  </data>
+  <data name="&gt;&gt;MenuItemTab.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;MenuItemCommand.Name" xml:space="preserve">
