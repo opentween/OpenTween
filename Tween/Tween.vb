@@ -3097,7 +3097,7 @@ Public Class TweenMain
         AddHandler _listCustom.CacheVirtualItems, AddressOf MyList_CacheVirtualItems
         AddHandler _listCustom.RetrieveVirtualItem, AddressOf MyList_RetrieveVirtualItem
         AddHandler _listCustom.DrawSubItem, AddressOf MyList_DrawSubItem
-        AddHandler _listCustom.KeyDown, AddressOf MyList_KeyDown
+        'AddHandler _listCustom.KeyDown, AddressOf MyList_KeyDown
 
         _colHd1.Text = ""
         _colHd1.Width = 48
@@ -3270,7 +3270,7 @@ Public Class TweenMain
         RemoveHandler _listCustom.CacheVirtualItems, AddressOf MyList_CacheVirtualItems
         RemoveHandler _listCustom.RetrieveVirtualItem, AddressOf MyList_RetrieveVirtualItem
         RemoveHandler _listCustom.DrawSubItem, AddressOf MyList_DrawSubItem
-        RemoveHandler _listCustom.KeyDown, AddressOf MyList_KeyDown
+        'RemoveHandler _listCustom.KeyDown, AddressOf MyList_KeyDown
 
         TabDialog.RemoveTab(TabName)
 
@@ -4107,7 +4107,15 @@ RETRY:
         OpenUriAsync("http://sourceforge.jp/projects/tween/wiki/FrontPage")
     End Sub
 
-    Private Sub MyList_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs)
+    Private Sub ListTab_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles ListTab.KeyDown
+        If ListTab.SelectedTab IsNot Nothing Then
+            If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.PublicSearch Then
+                Dim pnl As Control = ListTab.SelectedTab.Controls("panelSearch")
+                If pnl.Controls("comboSearch").Focused OrElse _
+                   pnl.Controls("comboLang").Focused OrElse _
+                   pnl.Controls("buttonSearch").Focused Then Exit Sub
+            End If
+        End If
         If e.Modifiers = Keys.None Then
             ' ModifierKeyが押されていない場合
             If e.KeyCode = Keys.N OrElse e.KeyCode = Keys.Right Then
@@ -4266,7 +4274,7 @@ RETRY:
             If e.KeyCode = Keys.R Then
                 e.Handled = True
                 e.SuppressKeyPress = True
-                dorefreshmore()
+                DoRefreshMore()
             End If
         End If
         If Not e.Alt Then
