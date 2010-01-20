@@ -108,12 +108,7 @@ Public NotInheritable Class MySocket
             webReq.KeepAlive = True
             webReq.AllowAutoRedirect = False
             webReq.UserAgent = userAgent
-            'If reqType = REQ_TYPE.ReqGetNoCache Then
-            '    webReq.CachePolicy = cpolicy
-            'End If
-            If _proxyType <> ProxyType.IE Then
-                webReq.Proxy = _proxy
-            End If
+            If _proxyType <> ProxyType.IE Then webReq.Proxy = _proxy
 
             If referer <> "" Then webReq.Referer = referer
             'POST系
@@ -122,14 +117,6 @@ Public NotInheritable Class MySocket
                reqType = REQ_TYPE.ReqPOSTAPI Then
                 webReq.Method = "POST"
 
-                If DefaultTimeOut = timeOut Then
-                    webReq.Timeout = DefaultTimeOut
-                Else
-                    webReq.Timeout = timeOut
-                End If
-
-                Dim dataB As Byte() = Encoding.ASCII.GetBytes(data)
-                webReq.ContentLength = dataB.Length
                 Select Case reqType
                     Case REQ_TYPE.ReqPOST
                         webReq.ContentType = "application/x-www-form-urlencoded"
@@ -141,9 +128,10 @@ Public NotInheritable Class MySocket
                         webReq.Accept = "text/html, */*"
                         webReq.Headers.Add(HttpRequestHeader.Authorization, _cre)
                 End Select
-                Dim st As Stream = webReq.GetRequestStream()
-                st.Write(dataB, 0, dataB.Length)
-                st.Close()
+                'データ設定
+                Using writer As New StreamWriter(webReq.GetRequestStream)
+                    writer.Write(data)
+                End Using
             ElseIf reqType = REQ_TYPE.ReqGET Then
                 webReq.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
                 webReq.Headers.Add("Accept-Language", "ja,en-us;q=0.7,en;q=0.3")
