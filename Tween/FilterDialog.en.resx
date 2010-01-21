@@ -123,40 +123,7 @@
   <data name="Label11.Text" xml:space="preserve">
     <value>If only the [ExcludingRule] is set, it becomes excluding set to the this tab. </value>
   </data>
-  <data name="GroupExclude.Text" xml:space="preserve">
-    <value>ExcludingRule</value>
-  </data>
-  <data name="GroupMatch.Text" xml:space="preserve">
-    <value>MatchingRule</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="CheckMark.Size" type="System.Drawing.Size, System.Drawing">
-    <value>72, 16</value>
-  </data>
-  <data name="CheckMark.Text" xml:space="preserve">
-    <value>Mark this</value>
-  </data>
-  <data name="OptMark.Size" type="System.Drawing.Size, System.Drawing">
-    <value>101, 16</value>
-  </data>
-  <data name="OptMark.Text" xml:space="preserve">
-    <value>Copy the tweet</value>
-  </data>
-  <data name="OptMove.Size" type="System.Drawing.Size, System.Drawing">
-    <value>117, 16</value>
-  </data>
-  <data name="OptMove.Text" xml:space="preserve">
-    <value>Move from Recent</value>
-  </data>
-  <data name="GroupBox1.Text" xml:space="preserve">
-    <value>Additional Action (&amp;E):</value>
-  </data>
-  <data name="ButtonCancel.Text" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="EditFilterGroup.Text" xml:space="preserve">
-    <value>Rule</value>
-  </data>
   <data name="CheckExCaseSensitive.Location" type="System.Drawing.Point, System.Drawing">
     <value>221, 89</value>
   </data>
@@ -214,6 +181,9 @@
   <data name="Label4.Text" xml:space="preserve">
     <value>User ID</value>
   </data>
+  <data name="GroupExclude.Text" xml:space="preserve">
+    <value>ExcludingRule</value>
+  </data>
   <data name="CheckCaseSensitive.Location" type="System.Drawing.Point, System.Drawing">
     <value>221, 94</value>
   </data>
@@ -270,6 +240,36 @@
   </data>
   <data name="Label6.Text" xml:space="preserve">
     <value>User ID</value>
+  </data>
+  <data name="GroupMatch.Text" xml:space="preserve">
+    <value>MatchingRule</value>
+  </data>
+  <data name="CheckMark.Size" type="System.Drawing.Size, System.Drawing">
+    <value>72, 16</value>
+  </data>
+  <data name="CheckMark.Text" xml:space="preserve">
+    <value>Mark this</value>
+  </data>
+  <data name="OptCopy.Size" type="System.Drawing.Size, System.Drawing">
+    <value>116, 16</value>
+  </data>
+  <data name="OptCopy.Text" xml:space="preserve">
+    <value>Copy from Recent</value>
+  </data>
+  <data name="OptMove.Size" type="System.Drawing.Size, System.Drawing">
+    <value>117, 16</value>
+  </data>
+  <data name="OptMove.Text" xml:space="preserve">
+    <value>Move from Recent</value>
+  </data>
+  <data name="GroupBox1.Text" xml:space="preserve">
+    <value>Additional Action (&amp;E):</value>
+  </data>
+  <data name="ButtonCancel.Text" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="EditFilterGroup.Text" xml:space="preserve">
+    <value>Rule</value>
   </data>
   <data name="ButtonNew.Text" xml:space="preserve">
     <value>&amp;New</value>

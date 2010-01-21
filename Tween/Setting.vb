@@ -95,6 +95,7 @@ Public Class Setting
     Private _MyOutputz As Boolean
     Private _MyOutputzKey As String
     Private _MyOutputzUrlmode As OutputzUrlmode
+    Private _MyNicoms As Boolean
     Private _MyUnreadStyle As Boolean
     Private _MyDateTimeFormat As String
     Private _MyDefaultTimeOut As Integer
@@ -243,6 +244,7 @@ Public Class Setting
                     Outputz.url = "http://twitter.com/" + _MyuserID
             End Select
 
+            _MyNicoms = CheckNicoms.Checked
             _MyUnreadStyle = chkUnreadStyle.Checked
             _MyDateTimeFormat = CmbDateTimeFormat.Text
             _MyDefaultTimeOut = CType(ConnectionTimeOut.Text, Integer)      ' 0の場合はGetWebResponse()側でTimeOut.Infiniteへ読み替える
@@ -447,6 +449,7 @@ Public Class Setting
                 ComboBoxOutputzUrlmode.SelectedIndex = 1
         End Select
 
+        CheckNicoms.Checked = _MyNicoms
         chkUnreadStyle.Checked = _MyUnreadStyle
         CmbDateTimeFormat.Text = _MyDateTimeFormat
         ConnectionTimeOut.Text = _MyDefaultTimeOut.ToString
@@ -1481,6 +1484,14 @@ Public Class Setting
         End Set
     End Property
 
+    Public Property Nicoms() As Boolean
+        Get
+            Return _MyNicoms
+        End Get
+        Set(ByVal value As Boolean)
+            _MyNicoms = value
+        End Set
+    End Property
     Public Property AutoShortUrlFirst() As UrlConverter
         Get
             Return _MyAutoShortUrlFirst

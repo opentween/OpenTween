@@ -140,6 +140,7 @@ Partial Class Setting
         Me.TabControl1 = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
         Me.TextCountApiReply = New System.Windows.Forms.TextBox
+        Me.Label7 = New System.Windows.Forms.Label
         Me.PubSearchPeriod = New System.Windows.Forms.TextBox
         Me.Label70 = New System.Windows.Forms.Label
         Me.CheckStartupAPImodeNoWarning = New System.Windows.Forms.CheckBox
@@ -224,12 +225,12 @@ Partial Class Setting
         Me.RadioProxyIE = New System.Windows.Forms.RadioButton
         Me.RadioProxyNone = New System.Windows.Forms.RadioButton
         Me.TabPage6 = New System.Windows.Forms.TabPage
+        Me.CheckNicoms = New System.Windows.Forms.CheckBox
         Me.Label60 = New System.Windows.Forms.Label
         Me.ComboBoxOutputzUrlmode = New System.Windows.Forms.ComboBox
         Me.Label59 = New System.Windows.Forms.Label
         Me.TextBoxOutputzKey = New System.Windows.Forms.TextBox
         Me.CheckOutputz = New System.Windows.Forms.CheckBox
-        Me.Label7 = New System.Windows.Forms.Label
         Me.GroupBox1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
@@ -1376,6 +1377,14 @@ Partial Class Setting
         Me.TextCountApiReply.Font = Nothing
         Me.TextCountApiReply.Name = "TextCountApiReply"
         '
+        'Label7
+        '
+        Me.Label7.AccessibleDescription = Nothing
+        Me.Label7.AccessibleName = Nothing
+        resources.ApplyResources(Me.Label7, "Label7")
+        Me.Label7.Font = Nothing
+        Me.Label7.Name = "Label7"
+        '
         'PubSearchPeriod
         '
         Me.PubSearchPeriod.AccessibleDescription = Nothing
@@ -2239,6 +2248,7 @@ Partial Class Setting
         Me.TabPage6.AccessibleName = Nothing
         resources.ApplyResources(Me.TabPage6, "TabPage6")
         Me.TabPage6.BackgroundImage = Nothing
+        Me.TabPage6.Controls.Add(Me.CheckNicoms)
         Me.TabPage6.Controls.Add(Me.Label60)
         Me.TabPage6.Controls.Add(Me.ComboBoxOutputzUrlmode)
         Me.TabPage6.Controls.Add(Me.Label59)
@@ -2247,6 +2257,16 @@ Partial Class Setting
         Me.TabPage6.Font = Nothing
         Me.TabPage6.Name = "TabPage6"
         Me.TabPage6.UseVisualStyleBackColor = True
+        '
+        'CheckNicoms
+        '
+        Me.CheckNicoms.AccessibleDescription = Nothing
+        Me.CheckNicoms.AccessibleName = Nothing
+        resources.ApplyResources(Me.CheckNicoms, "CheckNicoms")
+        Me.CheckNicoms.BackgroundImage = Nothing
+        Me.CheckNicoms.Font = Nothing
+        Me.CheckNicoms.Name = "CheckNicoms"
+        Me.CheckNicoms.UseVisualStyleBackColor = True
         '
         'Label60
         '
@@ -2295,14 +2315,6 @@ Partial Class Setting
         Me.CheckOutputz.Font = Nothing
         Me.CheckOutputz.Name = "CheckOutputz"
         Me.CheckOutputz.UseVisualStyleBackColor = True
-        '
-        'Label7
-        '
-        Me.Label7.AccessibleDescription = Nothing
-        Me.Label7.AccessibleName = Nothing
-        resources.ApplyResources(Me.Label7, "Label7")
-        Me.Label7.Font = Nothing
-        Me.Label7.Name = "Label7"
         '
         'Setting
         '
@@ -2549,4 +2561,5 @@ Partial Class Setting
     Friend WithEvents TextCountApiReply As System.Windows.Forms.TextBox
     Friend WithEvents PubSearchPeriod As System.Windows.Forms.TextBox
     Friend WithEvents Label7 As System.Windows.Forms.Label
+    Friend WithEvents CheckNicoms As System.Windows.Forms.CheckBox
 End Class

@@ -93,6 +93,7 @@ Public Class SettingCommon
     Public ReadOldPosts As Boolean = False
     Public UseSsl As Boolean = True
     Public Language As String = "OS"
+    Public Nicoms As Boolean = False
 
     <Xml.Serialization.XmlIgnore()> _
     Public OutputzKey As String = ""

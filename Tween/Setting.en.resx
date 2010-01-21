@@ -214,11 +214,14 @@
   <data name="Label16.Text" xml:space="preserve">
     <value>Colorize One-way following</value>
   </data>
-  <data name="GroupBox1.Text" xml:space="preserve">
-    <value>Font &amp;&amp; Color</value>
-  </data>
   <data name="btnRetweet.Text" xml:space="preserve">
     <value>Fore...</value>
+  </data>
+  <data name="ButtonBackToDefaultFontColor.Size" type="System.Drawing.Size, System.Drawing">
+    <value>96, 22</value>
+  </data>
+  <data name="ButtonBackToDefaultFontColor.Text" xml:space="preserve">
+    <value>Back to Default</value>
   </data>
   <data name="btnDetailLink.Text" xml:space="preserve">
     <value>Fore...</value>
@@ -364,6 +367,9 @@
   <data name="Label61.Text" xml:space="preserve">
     <value>Font of tweet list</value>
   </data>
+  <data name="GroupBox1.Text" xml:space="preserve">
+    <value>Font &amp;&amp; Color</value>
+  </data>
   <data name="cmbNameBalloon.Items" xml:space="preserve">
     <value>None</value>
   </data>
@@ -435,6 +441,12 @@
   </data>
   <data name="Label39.Text" xml:space="preserve">
     <value>Make Read when updated</value>
+  </data>
+  <data name="CheckReadOldPosts.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 16</value>
+  </data>
+  <data name="CheckReadOldPosts.Text" xml:space="preserve">
+    <value>Enable</value>
   </data>
   <data name="Label40.Size" type="System.Drawing.Size, System.Drawing">
     <value>136, 12</value>
@@ -519,6 +531,24 @@
   </data>
   <data name="TabPage1.Text" xml:space="preserve">
     <value>Basic</value>
+  </data>
+  <data name="TabPage2.Text" xml:space="preserve">
+    <value>Behavior</value>
+  </data>
+  <data name="TabPage3.Text" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="TabPage4.Text" xml:space="preserve">
+    <value>Fonts &amp; Colors</value>
+  </data>
+  <data name="TabPage5.Text" xml:space="preserve">
+    <value>Connection</value>
+  </data>
+  <data name="Label7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 12</value>
+  </data>
+  <data name="Label7.Text" xml:space="preserve">
+    <value>Public Search Interval (sec.)</value>
   </data>
   <data name="Label70.Size" type="System.Drawing.Size, System.Drawing">
     <value>176, 12</value>
@@ -616,9 +646,6 @@
   <data name="CheckPeriodAdjust.Text" xml:space="preserve">
     <value>Enable Auto-Adjustment</value>
   </data>
-  <data name="TabPage2.Text" xml:space="preserve">
-    <value>Behavior</value>
-  </data>
   <data name="Label79.Location" type="System.Drawing.Point, System.Drawing">
     <value>11, 426</value>
   </data>
@@ -627,6 +654,15 @@
   </data>
   <data name="Label79.Text" xml:space="preserve">
     <value>Use Input @ID supplement</value>
+  </data>
+  <data name="CheckAtIdSupple.Location" type="System.Drawing.Point, System.Drawing">
+    <value>173, 425</value>
+  </data>
+  <data name="CheckAtIdSupple.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 16</value>
+  </data>
+  <data name="CheckAtIdSupple.Text" xml:space="preserve">
+    <value>Enable</value>
   </data>
   <data name="Label74.Location" type="System.Drawing.Point, System.Drawing">
     <value>11, 404</value>
@@ -716,9 +752,6 @@
   </data>
   <data name="Button3.Text" xml:space="preserve">
     <value>Open...</value>
-  </data>
-  <data name="TabPage3.Text" xml:space="preserve">
-    <value>View</value>
   </data>
   <data name="CheckAlwaysTop.Size" type="System.Drawing.Size, System.Drawing">
     <value>58, 16</value>
@@ -822,12 +855,6 @@
   <data name="chkUnreadStyle.Text" xml:space="preserve">
     <value>Enable</value>
   </data>
-  <data name="TabPage4.Text" xml:space="preserve">
-    <value>Fonts &amp; Colors</value>
-  </data>
-  <data name="TabPage5.Text" xml:space="preserve">
-    <value>Connection</value>
-  </data>
   <data name="CheckUseSsl.Size" type="System.Drawing.Size, System.Drawing">
     <value>130, 16</value>
   </data>
@@ -897,6 +924,12 @@
   <data name="RadioProxyNone.Text" xml:space="preserve">
     <value>Don't Use</value>
   </data>
+  <data name="CheckNicoms.Size" type="System.Drawing.Size, System.Drawing">
+    <value>196, 16</value>
+  </data>
+  <data name="CheckNicoms.Text" xml:space="preserve">
+    <value>Shorten nicovideo urls by nico.ms</value>
+  </data>
   <data name="Label60.Size" type="System.Drawing.Size, System.Drawing">
     <value>107, 12</value>
   </data>
@@ -914,12 +947,6 @@
   </data>
   <data name="CheckOutputz.Text" xml:space="preserve">
     <value>Use Outputz</value>
-  </data>
-  <data name="Label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 12</value>
-  </data>
-  <data name="Label7.Text" xml:space="preserve">
-    <value>Public Search Interval (sec.)</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Settings</value>

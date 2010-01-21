@@ -22,57 +22,54 @@ Partial Class AtIdSupplement
     'コード エディタを使って変更しないでください。
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AtIdSupplement))
         Me.ButtonOK = New System.Windows.Forms.Button
         Me.ButtonCancel = New System.Windows.Forms.Button
         Me.TextId = New System.Windows.Forms.TextBox
+        Me.Label1 = New System.Windows.Forms.Label
         Me.SuspendLayout()
         '
         'ButtonOK
         '
         Me.ButtonOK.DialogResult = System.Windows.Forms.DialogResult.OK
-        Me.ButtonOK.Location = New System.Drawing.Point(0, 121)
+        resources.ApplyResources(Me.ButtonOK, "ButtonOK")
         Me.ButtonOK.Name = "ButtonOK"
-        Me.ButtonOK.Size = New System.Drawing.Size(75, 23)
-        Me.ButtonOK.TabIndex = 1
         Me.ButtonOK.TabStop = False
-        Me.ButtonOK.Text = "Button1"
         Me.ButtonOK.UseVisualStyleBackColor = True
         '
         'ButtonCancel
         '
         Me.ButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.ButtonCancel.Location = New System.Drawing.Point(82, 121)
+        resources.ApplyResources(Me.ButtonCancel, "ButtonCancel")
         Me.ButtonCancel.Name = "ButtonCancel"
-        Me.ButtonCancel.Size = New System.Drawing.Size(75, 23)
-        Me.ButtonCancel.TabIndex = 2
         Me.ButtonCancel.TabStop = False
-        Me.ButtonCancel.Text = "Button2"
         Me.ButtonCancel.UseVisualStyleBackColor = True
         '
         'TextId
         '
         Me.TextId.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend
         Me.TextId.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource
-        Me.TextId.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TextId.Location = New System.Drawing.Point(0, 0)
+        resources.ApplyResources(Me.TextId, "TextId")
         Me.TextId.Name = "TextId"
-        Me.TextId.Size = New System.Drawing.Size(162, 19)
-        Me.TextId.TabIndex = 3
+        '
+        'Label1
+        '
+        resources.ApplyResources(Me.Label1, "Label1")
+        Me.Label1.Name = "Label1"
         '
         'AtIdSupplement
         '
         Me.AcceptButton = Me.ButtonOK
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
+        resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.ButtonCancel
-        Me.ClientSize = New System.Drawing.Size(162, 19)
+        Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.TextId)
         Me.Controls.Add(Me.ButtonCancel)
         Me.Controls.Add(Me.ButtonOK)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Name = "AtIdSupplement"
         Me.ShowInTaskbar = False
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.TopMost = True
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -81,4 +78,5 @@ Partial Class AtIdSupplement
     Friend WithEvents ButtonOK As System.Windows.Forms.Button
     Friend WithEvents ButtonCancel As System.Windows.Forms.Button
     Friend WithEvents TextId As System.Windows.Forms.TextBox
+    Friend WithEvents Label1 As System.Windows.Forms.Label
 End Class
