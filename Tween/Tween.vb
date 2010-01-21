@@ -643,6 +643,8 @@ Public Class TweenMain
                 Outputz.url = "http://twitter.com/" + SettingDialog.UserID
         End Select
 
+        SettingDialog.Nicoms = _cfgCommon.Nicoms
+
         _initial = True
 
         'ユーザー名、パスワードが未設定なら設定画面を表示（初回起動時など）
@@ -1603,7 +1605,11 @@ Public Class TweenMain
 
         _history(_history.Count - 1) = StatusText.Text.Trim
 
-        If SettingDialog.UrlConvertAuto Then UrlConvertAutoToolStripMenuItem_Click(Nothing, Nothing)
+        If SettingDialog.UrlConvertAuto Then
+            UrlConvertAutoToolStripMenuItem_Click(Nothing, Nothing)
+        ElseIf SettingDialog.Nicoms Then
+            UrlConvert(UrlConverter.Nicoms)
+        End If
         Dim args As New GetWorkerArg()
         args.page = 0
         args.endPage = 0
@@ -4838,6 +4844,8 @@ RETRY:
                         _cfgCommon.SortColumn = 7
                 End Select
 
+                _cfgCommon.Nicoms = SettingDialog.Nicoms
+
                 '                _cfgCommon.TabList.Clear()
                 '                For i As Integer = 0 To ListTab.TabPages.Count - 1
                 '                    Dim tnList As String = ListTab.TabPages(i).Text
@@ -6222,6 +6230,7 @@ RETRY:
     End Sub
 
     Private Function UrlConvert(ByVal Converter_Type As UrlConverter) As Boolean
+        'Converter_Type=Nicomsの場合は、nicovideoのみ短縮する
         Dim result As String = ""
         Dim url As Regex = New Regex("(?<![0-9A-Za-z])(?:https?|shttp)://(?:(?:[-_.!~*'()a-zA-Z0-9;:&=+$,]|%[0-9A-Fa-f" + _
                                      "][0-9A-Fa-f])*@)?(?:(?:[a-zA-Z0-9](?:[-a-zA-Z0-9]*[a-zA-Z0-9])?\.)" + _
@@ -6232,7 +6241,7 @@ RETRY:
                                      "])*(?:;(?:[-_.!~*'()a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)*)" + _
                                      "*)?(?:\?(?:[-_.!~*'()a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])" + _
                                      "*)?(?:#(?:[-_.!~*'()a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)?")
-
+        Dim nico As Regex = New Regex("^https?://[a-z]+\.(nicovideo|niconicommons)\.jp/[a-z]+/[a-z0-9]+$")
 
         If StatusText.SelectionLength > 0 Then
             Dim tmp As String = StatusText.SelectedText
@@ -6240,12 +6249,22 @@ RETRY:
             If tmp.StartsWith("http") Then
                 ' 文字列が選択されている場合はその文字列について処理
 
-                '短縮URL変換 日本語を含むかもしれないのでURLエンコードする
-                result = Twitter.MakeShortUrl(Converter_Type, StatusText.SelectedText)
-
-                If result.Equals("Can't convert") Then
-                    StatusLabel.Text = result.Insert(0, Converter_Type.ToString() + ":")
-                    Return False
+                'nico.ms使用、nicovideoにマッチしたら変換
+                If SettingDialog.Nicoms AndAlso nico.IsMatch(tmp) Then
+                    result = Twitter.MakeShortNicoms(tmp)
+                    If result.Equals("Can't convert") Then
+                        StatusLabel.Text = result.Insert(0, "nico.ms:")
+                        Return False
+                    End If
+                ElseIf Converter_Type <> UrlConverter.Nicoms Then
+                    '短縮URL変換 日本語を含むかもしれないのでURLエンコードする
+                    result = Twitter.MakeShortUrl(Converter_Type, tmp)
+                    If result.Equals("Can't convert") Then
+                        StatusLabel.Text = result.Insert(0, Converter_Type.ToString() + ":")
+                        Return False
+                    End If
+                Else
+                    Return True
                 End If
 
                 If Not result = "" Then
@@ -6278,11 +6297,21 @@ RETRY:
                 '選んだURLを選択（？）
                 StatusText.Select(StatusText.Text.IndexOf(tmp, StringComparison.Ordinal), tmp.Length)
 
-                '短縮URL変換
-                result = Twitter.MakeShortUrl(Converter_Type, StatusText.SelectedText)
-
-                If result.Equals("Can't convert") Then
-                    StatusLabel.Text = result.Insert(0, Converter_Type.ToString() + ":")
+                'nico.ms使用、nicovideoにマッチしたら変換
+                If SettingDialog.Nicoms AndAlso nico.IsMatch(tmp) Then
+                    result = Twitter.MakeShortNicoms(tmp)
+                    If result.Equals("Can't convert") Then
+                        StatusLabel.Text = result.Insert(0, "nico.ms:")
+                        Continue For
+                    End If
+                ElseIf Converter_Type <> UrlConverter.Nicoms Then
+                    '短縮URL変換 日本語を含むかもしれないのでURLエンコードする
+                    result = Twitter.MakeShortUrl(Converter_Type, tmp)
+                    If result.Equals("Can't convert") Then
+                        StatusLabel.Text = result.Insert(0, Converter_Type.ToString() + ":")
+                        Continue For
+                    End If
+                Else
                     Continue For
                 End If
 

@@ -2767,6 +2767,9 @@ Public Module Twitter
             End If
         Next
 
+        'nico.msは短縮しない
+        If SrcUrl.StartsWith("http://nico.ms/") Then Return "Can't convert"
+
         SrcUrl = HttpUtility.UrlEncode(SrcUrl)
         Select Case ConverterType
             Case UrlConverter.TinyUrl       'tinyurl
@@ -2878,6 +2881,25 @@ Public Module Twitter
         ret = ret.TrimEnd(ch)
         If src.Length < ret.Length Then ret = src ' 圧縮の結果逆に長くなった場合は圧縮前のURLを返す
         Return ret
+    End Function
+
+    Public Function MakeShortNicoms(ByVal SrcUrl As String) As String
+        Dim ret As String = ""
+        Dim resStatus As String = ""
+        Dim src As String = urlEncodeMultibyteChar(SrcUrl)
+
+        Try
+            ret = DirectCast(CreateSocket.GetWebResponse("http://nico.ms/q/" + SrcUrl, resStatus, MySocket.REQ_TYPE.ReqGetAPINoAuth), String)
+        Catch ex As Exception
+            Return "Can't convert"
+        End Try
+
+        If ret.StartsWith("http") AndAlso resStatus.StartsWith("OK") Then
+            Return ret
+        Else
+            Return "Can't convert"
+        End If
+
     End Function
 
 #Region "バージョンアップ"

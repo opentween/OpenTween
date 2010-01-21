@@ -75,6 +75,8 @@ Public Module MyCommon
         Unu
         Bitly
         Jmp
+        '特殊
+        Nicoms
     End Enum
 
     Public Enum OutputzUrlmode

@@ -181,6 +181,10 @@
     <Compile Include="Win32Api.vb" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AtIdSupplement.en.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>AtIdSupplement.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AtIdSupplement.resx">
       <SubType>Designer</SubType>
       <DependentUpon>AtIdSupplement.vb</DependentUpon>
