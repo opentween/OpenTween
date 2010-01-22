@@ -3002,6 +3002,7 @@ Public Class TweenMain
             cmb.Name = "comboSearch"
             cmb.DropDownStyle = ComboBoxStyle.DropDown
             cmb.ImeMode = Windows.Forms.ImeMode.NoControl
+
             If _statuses.ContainsTab(tabName) Then
                 cmb.Text = _statuses.Tabs(tabName).SearchWords
                 cmb.Items.Add(_statuses.Tabs(tabName).SearchWords)
@@ -5571,16 +5572,8 @@ RETRY:
     Private Sub AddTabMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AddTabMenuItem.Click
         Dim tabName As String = Nothing
         Dim tabUsage As TabUsageType
-        Dim tabNameTemp As String = "MyTab" + (ListTab.TabPages.Count + 1).ToString
-        For i As Integer = 2 To 100
-            If _statuses.ContainsTab(tabNameTemp) Then
-                tabNameTemp = "MyTab" + (ListTab.TabPages.Count + i).ToString
-            Else
-                Exit For
-            End If
-        Next
         Using inputName As New InputTabName()
-            inputName.TabName = "MyTab" + (ListTab.TabPages.Count + 1).ToString
+            inputName.TabName = _statuses.GetUniqueTabName
             inputName.IsShowUsage = True
             inputName.ShowDialog()
             tabName = inputName.TabName
@@ -5606,38 +5599,9 @@ RETRY:
         '選択発言を元にフィルタ追加
         For Each idx As Integer In _curList.SelectedIndices
             Dim tabName As String = ""
-            Do
-                '振り分け先タブ選択
-                If TabDialog.ShowDialog = Windows.Forms.DialogResult.Cancel Then
-                    Me.TopMost = SettingDialog.AlwaysTop
-                    Exit For
-                End If
-                Me.TopMost = SettingDialog.AlwaysTop
-                tabName = TabDialog.SelectedTabName
+            'タブ選択（or追加）
+            If Not SelectTab(tabName) Then Exit For
 
-                ListTab.SelectedTab.Focus()
-                '新規タブが選択→タブ追加
-                If tabName = My.Resources.TabMenuItem_ClickText1 Then
-                    Using inputName As New InputTabName()
-                        inputName.TabName = "MyTab" + ListTab.TabPages.Count.ToString
-                        inputName.ShowDialog()
-                        tabName = inputName.TabName
-                        inputName.Dispose()
-                    End Using
-                    Me.TopMost = SettingDialog.AlwaysTop
-                    If tabName.Length > 0 Then
-                        If Not AddNewTab(tabName, False, TabUsageType.UserDefined) Then
-                            Dim tmp As String = String.Format(My.Resources.TabMenuItem_ClickText2, tabName)
-                            MessageBox.Show(tmp, My.Resources.TabMenuItem_ClickText3, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Else
-                            _statuses.AddTab(tabName, TabUsageType.UserDefined)
-                            Exit Do
-                        End If
-                    End If
-                Else
-                    Exit Do
-                End If
-            Loop While True
             fDialog.SetCurrent(tabName)
             If _statuses.Item(_curTab.Text, idx).RetweetedId = 0 Then
                 fDialog.AddNewFilter(_statuses.Item(_curTab.Text, idx).Name, _statuses.Item(_curTab.Text, idx).Data)
@@ -5671,7 +5635,7 @@ RETRY:
         Finally
             Me.Cursor = Cursors.Default
         End Try
-        SaveConfigsCommon()
+        'SaveConfigsCommon()
         'SaveConfigsTab(False)
         SaveConfigsTabs()
     End Sub
@@ -5738,59 +5702,13 @@ RETRY:
         '未選択なら処理終了
         If _curList.SelectedIndices.Count = 0 Then Exit Sub
 
-        Do
-            '振り分け先タブ選択
-            If TabDialog.ShowDialog = Windows.Forms.DialogResult.Cancel Then
-                Me.TopMost = SettingDialog.AlwaysTop
-                Exit Sub
-            End If
-            Me.TopMost = SettingDialog.AlwaysTop
-            tabName = TabDialog.SelectedTabName
+        'タブ選択（or追加）
+        If Not SelectTab(tabName) Then Exit Sub
 
-            ListTab.SelectedTab.Focus()
-            '新規タブを選択→タブ作成
-            If tabName = My.Resources.IDRuleMenuItem_ClickText1 Then
-                Using inputName As New InputTabName()
-                    inputName.TabName = "MyTab" + ListTab.TabPages.Count.ToString
-                    inputName.ShowDialog()
-                    tabName = inputName.TabName
-                    inputName.Dispose()
-                End Using
-                Me.TopMost = SettingDialog.AlwaysTop
-                If tabName <> "" Then
-                    If Not AddNewTab(tabName, False, TabUsageType.UserDefined) Then
-                        Dim tmp As String = String.Format(My.Resources.IDRuleMenuItem_ClickText2, tabName)
-                        MessageBox.Show(tmp, My.Resources.IDRuleMenuItem_ClickText3, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    Else
-                        _statuses.AddTab(tabName, TabUsageType.UserDefined)
-                        Exit Do
-                    End If
-                End If
-            Else
-                '既存タブを選択
-                Exit Do
-            End If
-        Loop While True
         Dim mv As Boolean = False
-        With Block
-            '移動するか？
-            Dim _tmp As String = String.Format(My.Resources.IDRuleMenuItem_ClickText4, Environment.NewLine)
-            If MessageBox.Show(_tmp, My.Resources.IDRuleMenuItem_ClickText5, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
-                mv = False
-            Else
-                mv = True
-            End If
-        End With
         Dim mk As Boolean = False
-        If Not mv Then
-            'マークするか？
-            Dim _tmp As String = String.Format(My.Resources.IDRuleMenuItem_ClickText6, vbCrLf)
-            If MessageBox.Show(_tmp, My.Resources.IDRuleMenuItem_ClickText7, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
-                mk = True
-            Else
-                mk = False
-            End If
-        End If
+        MoveOrCopy(mv, mk)
+
         Dim ids As New List(Of String)
         For Each idx As Integer In _curList.SelectedIndices
             Dim post As PostClass = _statuses.Item(_curTab.Text, idx)
@@ -5834,11 +5752,69 @@ RETRY:
         Finally
             Me.Cursor = Cursors.Default
         End Try
-        SaveConfigsCommon()
+        'SaveConfigsCommon()
         'SaveConfigsTab(False)
         SaveConfigsTabs()
     End Sub
 
+    Private Function SelectTab(ByRef tabName As String) As Boolean
+        Do
+            '振り分け先タブ選択
+            If TabDialog.ShowDialog = Windows.Forms.DialogResult.Cancel Then
+                Me.TopMost = SettingDialog.AlwaysTop
+                Return False
+            End If
+            Me.TopMost = SettingDialog.AlwaysTop
+            tabName = TabDialog.SelectedTabName
+
+            ListTab.SelectedTab.Focus()
+            '新規タブを選択→タブ作成
+            If tabName = My.Resources.IDRuleMenuItem_ClickText1 Then
+                Using inputName As New InputTabName()
+                    inputName.TabName = _statuses.GetUniqueTabName
+                    inputName.ShowDialog()
+                    tabName = inputName.TabName
+                    inputName.Dispose()
+                End Using
+                Me.TopMost = SettingDialog.AlwaysTop
+                If tabName <> "" Then
+                    If Not AddNewTab(tabName, False, TabUsageType.UserDefined) Then
+                        Dim tmp As String = String.Format(My.Resources.IDRuleMenuItem_ClickText2, tabName)
+                        MessageBox.Show(tmp, My.Resources.IDRuleMenuItem_ClickText3, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        'もう一度タブ名入力
+                    Else
+                        _statuses.AddTab(tabName, TabUsageType.UserDefined)
+                        Return True
+                    End If
+                End If
+            Else
+                '既存タブを選択
+                Return True
+            End If
+        Loop While True
+
+    End Function
+
+    Private Sub MoveOrCopy(ByRef move As Boolean, ByRef mark As Boolean)
+        With Block
+            '移動するか？
+            Dim _tmp As String = String.Format(My.Resources.IDRuleMenuItem_ClickText4, Environment.NewLine)
+            If MessageBox.Show(_tmp, My.Resources.IDRuleMenuItem_ClickText5, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
+                move = False
+            Else
+                move = True
+            End If
+        End With
+        If Not move Then
+            'マークするか？
+            Dim _tmp As String = String.Format(My.Resources.IDRuleMenuItem_ClickText6, vbCrLf)
+            If MessageBox.Show(_tmp, My.Resources.IDRuleMenuItem_ClickText7, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
+                mark = True
+            Else
+                mark = False
+            End If
+        End If
+    End Sub
     Private Sub CopySTOTMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CopySTOTMenuItem.Click
         Me.CopyStot()
     End Sub
@@ -6035,14 +6011,14 @@ RETRY:
             End If
         Next
 
+        If Twitter.RemainCountApi > -1 AndAlso SettingDialog.UseAPI Then
+            slbl.Append("[API: " + Twitter.RemainCountApi.ToString + "] ")
+        End If
         slbl.AppendFormat(My.Resources.SetStatusLabelText1, tur, tal, ur, al, urat, _postTimestamps.Count, _favTimestamps.Count, _tlCount)
         If SettingDialog.TimelinePeriodInt = 0 Then
             slbl.Append(My.Resources.SetStatusLabelText2)
         Else
             slbl.Append((SettingDialog.TimelinePeriodInt - _homeCounterAdjuster).ToString() + My.Resources.SetStatusLabelText3)
-        End If
-        If Twitter.RemainCountApi > -1 AndAlso SettingDialog.UseAPI Then
-            slbl.Append(" [API: " + Twitter.RemainCountApi.ToString + "]")
         End If
 
         StatusLabelUrl.Text = slbl.ToString()
@@ -7269,6 +7245,57 @@ RETRY:
             If post.RetweetedId > 0 Then
                 OpenUriAsync("http://twitter.com/" + GetCurTabPost(_curList.SelectedIndices(0)).RetweetedBy)
             End If
+        End If
+    End Sub
+
+    Private Sub IdFilterAddMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles IdFilterAddMenuItem.Click
+        Dim m As Match = Regex.Match(PostBrowser.StatusText, "^https?://twitter.com/(?<name>[a-zA-Z0-9_]+)$")
+        If m.Success Then
+            Dim tabName As String = ""
+
+            '未選択なら処理終了
+            If _curList.SelectedIndices.Count = 0 Then Exit Sub
+
+            'タブ選択（or追加）
+            If Not SelectTab(tabName) Then Exit Sub
+
+            Dim mv As Boolean = False
+            Dim mk As Boolean = False
+            MoveOrCopy(mv, mk)
+
+            Dim fc As New FiltersClass
+            fc.NameFilter = m.Result("${name}")
+            fc.SearchBoth = True
+            fc.MoveFrom = mv
+            fc.SetMark = mk
+            fc.UseRegex = False
+            fc.SearchUrl = False
+            _statuses.Tabs(tabName).AddFilter(fc)
+
+            Try
+                Me.Cursor = Cursors.WaitCursor
+                _itemCache = Nothing
+                _postCache = Nothing
+                _curPost = Nothing
+                _curItemIndex = -1
+                _statuses.FilterAll()
+                For Each tb As TabPage In ListTab.TabPages
+                    DirectCast(tb.Tag, DetailsListView).VirtualListSize = _statuses.Tabs(tb.Text).AllCount
+                    If _statuses.Tabs(tb.Text).UnreadCount > 0 Then
+                        If SettingDialog.TabIconDisp Then
+                            tb.ImageIndex = 0
+                        End If
+                    Else
+                        If SettingDialog.TabIconDisp Then
+                            tb.ImageIndex = -1
+                        End If
+                    End If
+                Next
+                If Not SettingDialog.TabIconDisp Then ListTab.Refresh()
+            Finally
+                Me.Cursor = Cursors.Default
+            End Try
+            SaveConfigsTabs()
         End If
     End Sub
 End Class

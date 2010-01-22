@@ -145,7 +145,7 @@
     <value>ユーザ名</value>
   </data>
   <data name="AddTabMenuItem_ClickText1" xml:space="preserve">
-    <value>タブ　""{0}""　は既に存在するか、使えない文字（ \ : / ? * &lt; &gt; | ）を含んでいるため、追加できません。別の名前を指定してください。</value>
+    <value>タブ　""{0}""　は既に存在するため、追加できません。別の名前を指定してください。</value>
   </data>
   <data name="AddTabMenuItem_ClickText2" xml:space="preserve">
     <value>タブ追加</value>
@@ -338,7 +338,7 @@
     <value>(新規タブ)</value>
   </data>
   <data name="IDRuleMenuItem_ClickText2" xml:space="preserve">
-    <value>タブ　""{0}""　は既に存在するか、使えない文字（ \ : / ? * &lt; &gt; | ）を含んでいるため、追加できません。別の名前を指定してください。</value>
+    <value>タブ　""{0}""　は既に存在するため、追加できません。別の名前を指定してください。</value>
   </data>
   <data name="IDRuleMenuItem_ClickText3" xml:space="preserve">
     <value>タブ追加</value>
@@ -566,7 +566,7 @@
     <value>(新規タブ)</value>
   </data>
   <data name="TabMenuItem_ClickText2" xml:space="preserve">
-    <value>タブ　""{0}""　は既に存在するか、使えない文字（ \ : / ? * &lt; &gt; | ）を含んでいるため、追加できません。別の名前を指定してください。</value>
+    <value>タブ　""{0}""　は既に存在するため、追加できません。別の名前を指定してください。</value>
   </data>
   <data name="TabMenuItem_ClickText3" xml:space="preserve">
     <value>タブ追加</value>
@@ -692,7 +692,7 @@
     <value>日時</value>
   </data>
   <data name="Tabs_DoubleClickText1" xml:space="preserve">
-    <value>タブ　""{0}""　は既に存在するか、使えない文字（ \ : / ? * &lt; &gt; | ）を含んでいるため、変更できません。別の名前を指定してください。</value>
+    <value>タブ　""{0}""　は既に存在するため、変更できません。別の名前を指定してください。</value>
   </data>
   <data name="Tabs_DoubleClickText2" xml:space="preserve">
     <value>タブ名変更</value>

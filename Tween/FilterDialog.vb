@@ -102,12 +102,14 @@ Public Class FilterDialog
         MSG1.SelectAll()
         MSG2.Text = id + msg
         MSG2.SelectAll()
+        TextSource.Text = ""
         UID.Enabled = True
         MSG1.Enabled = True
         MSG2.Enabled = False
         CheckRegex.Checked = False
         CheckURL.Checked = False
         CheckCaseSensitive.Checked = False
+        CheckRetweet.Checked = False
 
         RadioExAnd.Checked = True
         RadioExPLUS.Checked = False
@@ -117,12 +119,14 @@ Public Class FilterDialog
         ExMSG1.SelectAll()
         ExMSG2.Text = ""
         ExMSG2.SelectAll()
+        TextExSource.Text = ""
         ExUID.Enabled = True
         ExMSG1.Enabled = True
         ExMSG2.Enabled = False
         CheckExRegex.Checked = False
         CheckExURL.Checked = False
         CheckExCaseSensitive.Checked = False
+        CheckExRetweet.Checked = False
 
         'OptNone.Checked = True
         OptCopy.Checked = True
@@ -147,24 +151,28 @@ Public Class FilterDialog
         UID.Text = ""
         MSG1.Text = ""
         MSG2.Text = ""
+        TextSource.Text = ""
         UID.Enabled = True
         MSG1.Enabled = True
         MSG2.Enabled = False
         CheckRegex.Checked = False
         CheckURL.Checked = False
         CheckCaseSensitive.Checked = False
+        CheckRetweet.Checked = False
 
         RadioExAnd.Checked = True
         RadioExPLUS.Checked = False
         ExUID.Text = ""
         ExMSG1.Text = ""
         ExMSG2.Text = ""
+        TextExSource.Text = ""
         ExUID.Enabled = True
         ExMSG1.Enabled = True
         ExMSG2.Enabled = False
         CheckExRegex.Checked = False
         CheckExURL.Checked = False
         CheckExCaseSensitive.Checked = False
+        CheckExRetweet.Checked = False
 
         'OptNone.Checked = True
         OptCopy.Checked = True
@@ -256,9 +264,11 @@ Public Class FilterDialog
                 MSG2.Text = MSG2.Text.Trim
                 MSG2.SelectAll()
             End If
+            TextSource.Text = fc.Source
             CheckRegex.Checked = fc.UseRegex
             CheckURL.Checked = fc.SearchUrl
             CheckCaseSensitive.Checked = fc.CaseSensitive
+            CheckRetweet.Checked = fc.IsRt
 
             If fc.ExSearchBoth Then
                 RadioExAnd.Checked = True
@@ -290,9 +300,11 @@ Public Class FilterDialog
                 ExMSG2.Text = ExMSG2.Text.Trim
                 ExMSG2.SelectAll()
             End If
+            TextExSource.Text = fc.ExSource
             CheckExRegex.Checked = fc.ExUseRegex
             CheckExURL.Checked = fc.ExSearchUrl
             CheckExCaseSensitive.Checked = fc.ExCaseSensitive
+            CheckExRetweet.Checked = fc.IsExRt
 
             'If fc.moveFrom Then
             '    OptMove.Checked = True
@@ -316,9 +328,11 @@ Public Class FilterDialog
             UID.Text = ""
             MSG1.Text = ""
             MSG2.Text = ""
+            TextSource.Text = ""
             CheckRegex.Checked = False
             CheckURL.Checked = False
             CheckCaseSensitive.Checked = False
+            CheckRetweet.Checked = False
 
             RadioExAnd.Checked = True
             RadioExPLUS.Checked = False
@@ -328,9 +342,11 @@ Public Class FilterDialog
             ExUID.Text = ""
             ExMSG1.Text = ""
             ExMSG2.Text = ""
+            TextExSource.Text = ""
             CheckExRegex.Checked = False
             CheckExURL.Checked = False
             CheckExCaseSensitive.Checked = False
+            CheckExRetweet.Checked = False
 
             OptCopy.Checked = True
             CheckMark.Checked = True
@@ -376,6 +392,7 @@ Public Class FilterDialog
             ft.SearchBoth = False
             bdy = MSG2.Text
         End If
+        ft.Source = TextSource.Text.Trim
 
         If CheckRegex.Checked Then
             ft.BodyFilter.Add(bdy)
@@ -389,6 +406,7 @@ Public Class FilterDialog
         ft.UseRegex = CheckRegex.Checked
         ft.SearchUrl = CheckURL.Checked
         ft.CaseSensitive = CheckCaseSensitive.Checked
+        ft.IsRt = CheckRetweet.Checked
 
         bdy = ""
         If RadioExAnd.Checked Then
@@ -400,6 +418,7 @@ Public Class FilterDialog
             ft.ExSearchBoth = False
             bdy = ExMSG2.Text
         End If
+        ft.ExSource = TextExSource.Text.Trim
 
         If CheckExRegex.Checked Then
             ft.ExBodyFilter.Add(bdy)
@@ -413,6 +432,7 @@ Public Class FilterDialog
         ft.ExUseRegex = CheckExRegex.Checked
         ft.ExSearchUrl = CheckExURL.Checked
         ft.ExCaseSensitive = CheckExCaseSensitive.Checked
+        ft.IsExRt = CheckExRetweet.Checked
 
         If _mode = EDITMODE.AddNew Then
             If Not _sts.Tabs(ListTabs.SelectedItem.ToString()).AddFilter(ft) Then
@@ -438,10 +458,13 @@ Public Class FilterDialog
 
     Private Function CheckMatchRule(ByRef isBlank As Boolean) As Boolean
         isBlank = False
+        TextSource.Text = TextSource.Text.Trim()
         If RadioAND.Checked Then
-            If Not CheckRegex.Checked Then MSG1.Text = MSG1.Text.Replace("　", " ").Trim()
+            MSG1.Text = MSG1.Text.Trim
             UID.Text = UID.Text.Trim()
-            If UID.Text = "" AndAlso MSG1.Text = "" Then
+            If Not CheckRegex.Checked Then MSG1.Text = MSG1.Text.Replace("　", " ")
+
+            If UID.Text = "" AndAlso MSG1.Text = "" AndAlso TextSource.Text = "" AndAlso CheckRetweet.Checked = False Then
                 isBlank = True
                 Return True
             End If
@@ -464,8 +487,9 @@ Public Class FilterDialog
                 End If
             End If
         Else
-            If Not CheckRegex.Checked Then MSG2.Text = MSG2.Text.Replace("　", " ").Trim()
-            If MSG2.Text.Trim = "" Then
+            MSG2.Text = MSG2.Text.Trim
+            If Not CheckRegex.Checked Then MSG2.Text = MSG2.Text.Replace("　", " ")
+            If MSG2.Text = "" AndAlso TextSource.Text = "" AndAlso CheckRetweet.Checked = False Then
                 isBlank = True
                 Return True
             End If
@@ -478,15 +502,26 @@ Public Class FilterDialog
                 End Try
             End If
         End If
+
+        If CheckRegex.Checked AndAlso TextSource.Text <> "" Then
+            Try
+                Dim rgx As New System.Text.RegularExpressions.Regex(TextSource.Text)
+            Catch ex As Exception
+                MessageBox.Show(My.Resources.ButtonOK_ClickText3 + ex.Message, My.Resources.ButtonOK_ClickText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            End Try
+        End If
         Return True
     End Function
 
     Private Function CheckExcludeRule(ByRef isBlank As Boolean) As Boolean
         isBlank = False
+        TextExSource.Text = TextExSource.Text.Trim
         If RadioExAnd.Checked Then
-            If Not CheckExRegex.Checked Then ExMSG1.Text = ExMSG1.Text.Replace("　", " ").Trim()
+            ExMSG1.Text = ExMSG1.Text.Trim
+            If Not CheckExRegex.Checked Then ExMSG1.Text = ExMSG1.Text.Replace("　", " ")
             ExUID.Text = ExUID.Text.Trim()
-            If ExUID.Text = "" AndAlso ExMSG1.Text = "" Then
+            If ExUID.Text = "" AndAlso ExMSG1.Text = "" AndAlso TextExSource.Text = "" AndAlso CheckExRetweet.Checked = False Then
                 isBlank = True
                 Return True
             End If
@@ -509,8 +544,9 @@ Public Class FilterDialog
                 End If
             End If
         Else
-            If Not CheckExRegex.Checked Then ExMSG2.Text = ExMSG2.Text.Replace("　", " ").Trim()
-            If ExMSG2.Text.Trim = "" Then
+            ExMSG2.Text = ExMSG2.Text.Trim
+            If Not CheckExRegex.Checked Then ExMSG2.Text = ExMSG2.Text.Replace("　", " ")
+            If ExMSG2.Text = "" AndAlso TextExSource.Text = "" AndAlso CheckExRetweet.Checked = False Then
                 isBlank = True
                 Return True
             End If
@@ -523,6 +559,16 @@ Public Class FilterDialog
                 End Try
             End If
         End If
+
+        If CheckExRegex.Checked AndAlso TextExSource.Text <> "" Then
+            Try
+                Dim rgx As New System.Text.RegularExpressions.Regex(TextExSource.Text)
+            Catch ex As Exception
+                MessageBox.Show(My.Resources.ButtonOK_ClickText3 + ex.Message, My.Resources.ButtonOK_ClickText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            End Try
+        End If
+
         Return True
     End Function
 
@@ -610,7 +656,7 @@ Public Class FilterDialog
         Dim tabName As String = Nothing
         Dim tabType As TabUsageType
         Using inputName As New InputTabName()
-            inputName.TabName = "MyTab" + (ListTabs.Items.Count + 1).ToString
+            inputName.TabName = _sts.GetUniqueTabName
             inputName.IsShowUsage = True
             inputName.ShowDialog()
             tabName = inputName.TabName

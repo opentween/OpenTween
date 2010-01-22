@@ -69,6 +69,7 @@ Partial Class TweenMain
         Me.FollowContextMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.RemoveContextMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.FriendshipContextMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.IdFilterAddMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.DateTimeLabel = New System.Windows.Forms.Label
         Me.StatusText = New System.Windows.Forms.TextBox
         Me.lblLen = New System.Windows.Forms.Label
@@ -424,7 +425,7 @@ Partial Class TweenMain
         '
         'ContextMenuStrip4
         '
-        Me.ContextMenuStrip4.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem2, Me.ToolStripSeparator13, Me.ToolStripMenuItem3, Me.ToolStripMenuItem4, Me.ToolStripMenuItem5, Me.ToolStripSeparator5, Me.FollowContextMenuItem, Me.RemoveContextMenuItem, Me.FriendshipContextMenuItem})
+        Me.ContextMenuStrip4.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem2, Me.ToolStripSeparator13, Me.ToolStripMenuItem3, Me.ToolStripMenuItem4, Me.ToolStripMenuItem5, Me.ToolStripSeparator5, Me.FollowContextMenuItem, Me.RemoveContextMenuItem, Me.FriendshipContextMenuItem, Me.IdFilterAddMenuItem})
         Me.ContextMenuStrip4.Name = "ContextMenuStrip4"
         resources.ApplyResources(Me.ContextMenuStrip4, "ContextMenuStrip4")
         '
@@ -498,6 +499,11 @@ Partial Class TweenMain
         '
         Me.FriendshipContextMenuItem.Name = "FriendshipContextMenuItem"
         resources.ApplyResources(Me.FriendshipContextMenuItem, "FriendshipContextMenuItem")
+        '
+        'IdFilterAddMenuItem
+        '
+        Me.IdFilterAddMenuItem.Name = "IdFilterAddMenuItem"
+        resources.ApplyResources(Me.IdFilterAddMenuItem, "IdFilterAddMenuItem")
         '
         'DateTimeLabel
         '
@@ -667,6 +673,7 @@ Partial Class TweenMain
         '
         Me.ContextMenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ReplyStripMenuItem, Me.ReplyAllStripMenuItem, Me.DMStripMenuItem, Me.ReTweetOriginalStripMenuItem, Me.ReTweetStripMenuItem, Me.QuoteStripMenuItem, Me.ToolStripSeparator2, Me.FavAddToolStripMenuItem, Me.FavRemoveToolStripMenuItem, Me.ToolStripMenuItem6, Me.ToolStripMenuItem7, Me.ToolStripSeparator4, Me.ToolStripMenuItem11, Me.JumpUnreadMenuItem, Me.ToolStripSeparator10, Me.SelectAllMenuItem, Me.DeleteStripMenuItem, Me.RefreshStripMenuItem, Me.RefreshMoreStripMenuItem})
         Me.ContextMenuStrip2.Name = "ContextMenuStrip2"
+        Me.ContextMenuStrip2.OwnerItem = Me.MenuItemOperate
         Me.ContextMenuStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional
         resources.ApplyResources(Me.ContextMenuStrip2, "ContextMenuStrip2")
         '
@@ -1254,5 +1261,6 @@ Partial Class TweenMain
     Friend WithEvents UndoRemoveTabMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator12 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents MoveToRTHomeMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents IdFilterAddMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

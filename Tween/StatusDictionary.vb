@@ -1255,6 +1255,18 @@ Public NotInheritable Class TabInformations
             Return False
         End If
     End Function
+
+    Public Function GetUniqueTabName() As String
+        Dim tabNameTemp As String = "MyTab" + (_tabs.Count + 1).ToString
+        For i As Integer = 2 To 100
+            If _tabs.ContainsKey(tabNameTemp) Then
+                tabNameTemp = "MyTab" + (_tabs.Count + i).ToString
+            Else
+                Exit For
+            End If
+        Next
+        Return tabNameTemp
+    End Function
 End Class
 
 <Serializable()> _
