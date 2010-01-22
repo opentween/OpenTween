@@ -1708,6 +1708,23 @@ Public Module Twitter
         retStr = retStr.Replace("<a href=", "<a target=""_self"" href=")
         retStr = retStr.Replace(vbLf, "<br>")
 
+        '半角スペースを置換(Thanks @anis774)
+        Dim isTag As Boolean = False
+        For i As Integer = 0 To retStr.Length - 1
+            If retStr(i) = "<"c Then
+                isTag = True
+            End If
+            If retStr(i) = ">"c Then
+                isTag = False
+            End If
+
+            If (Not isTag) AndAlso (retStr(i) = " "c) Then
+                retStr.Remove(i, 1)
+                retStr.Insert(i, "&nbsp;")
+                i += 5
+            End If
+        Next
+
         Return SanitizeHtml(retStr)
     End Function
 
@@ -1969,6 +1986,102 @@ Public Module Twitter
                 Return resStatus
             End If
         End If
+
+        Dim dlgt As GetIconImageDelegate    'countQueryに合わせる
+        Dim ar As IAsyncResult              'countQueryに合わせる
+        Dim xdoc As New XmlDocument
+        Try
+            xdoc.LoadXml(resMsg)
+        Catch ex As Exception
+            TraceOut(resMsg)
+            'MessageBox.Show("不正なXMLです。(TL-LoadXml)")
+            Return "Invalid XML!"
+        End Try
+
+        'ReTweetしたものをTLに追加
+        Dim xentryNode As XmlNode = xdoc.DocumentElement.SelectSingleNode("/status")
+        If xentryNode Is Nothing Then Return "Invalid XML!"
+        Dim xentry As XmlElement = CType(xentryNode, XmlElement)
+        Dim post As New PostClass
+        Try
+            post.Id = Long.Parse(xentry.Item("id").InnerText)
+            '二重取得回避
+            SyncLock LockObj
+                If TabInformations.GetInstance.ContainsKey(post.Id) Then Return ""
+            End SyncLock
+            'Retweet判定
+            Dim xRnode As XmlNode = xentry.SelectSingleNode("./retweeted_status")
+            If xRnode Is Nothing Then Return "Invalid XML!"
+
+            Dim xRentry As XmlElement = CType(xRnode, XmlElement)
+            post.PDate = DateTime.ParseExact(xRentry.Item("created_at").InnerText, "ddd MMM dd HH:mm:ss zzzz yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None)
+            'Id
+            post.RetweetedId = Long.Parse(xRentry.Item("id").InnerText)
+            '本文
+            post.Data = xRentry.Item("text").InnerText
+            'Source取得（htmlの場合は、中身を取り出し）
+            post.Source = xRentry.Item("source").InnerText
+            'Reply先
+            Long.TryParse(xRentry.Item("in_reply_to_status_id").InnerText, post.InReplyToId)
+            post.InReplyToUser = xRentry.Item("in_reply_to_screen_name").InnerText
+            post.IsFav = TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites).Contains(post.RetweetedId)
+
+            '以下、ユーザー情報
+            Dim xRUentry As XmlElement = CType(xRentry.SelectSingleNode("./user"), XmlElement)
+            post.Uid = Long.Parse(xRUentry.Item("id").InnerText)
+            post.Name = xRUentry.Item("screen_name").InnerText
+            post.Nickname = xRUentry.Item("name").InnerText
+            post.ImageUrl = xRUentry.Item("profile_image_url").InnerText
+            post.IsProtect = Boolean.Parse(xRUentry.Item("protected").InnerText)
+            'post.IsMe = post.Name.ToLower.Equals(_uid)
+            post.IsMe = True
+
+            'Retweetした人(自分のはず)
+            Dim xUentry As XmlElement = CType(xentry.SelectSingleNode("./user"), XmlElement)
+            post.RetweetedBy = xUentry.Item("screen_name").InnerText
+
+            'HTMLに整形
+            post.OriginalData = CreateHtmlAnchor(post.Data, post.ReplyToList)
+            post.Data = HttpUtility.HtmlDecode(post.Data)
+            post.Data = post.Data.Replace("<3", "♡")
+            'Source整形
+            If post.Source.StartsWith("<") Then
+                Dim rgS As New Regex(">(?<source>.+)<")
+                Dim mS As Match = rgS.Match(post.Source)
+                If mS.Success Then
+                    post.Source = mS.Result("${source}")
+                End If
+            End If
+
+            post.IsRead = False
+            post.IsReply = post.ReplyToList.Contains(_uid)
+
+            If post.IsMe Then
+                post.IsOwl = False
+            Else
+                If followerId.Count > 0 Then post.IsOwl = Not followerId.Contains(post.Uid)
+            End If
+            If post.IsMe AndAlso _readOwnPost Then post.IsRead = True
+
+            post.IsDm = False
+        Catch ex As Exception
+            TraceOut(resMsg)
+            'MessageBox.Show("不正なXMLです。(TL-Parse)")
+            Return "Invalid XML!"
+        End Try
+
+        '非同期アイコン取得＆StatusDictionaryに追加
+        dlgt = New GetIconImageDelegate(AddressOf GetIconImage)
+        ar = dlgt.BeginInvoke(post, Nothing, Nothing)
+
+        'アイコン取得完了待ち
+        Try
+            dlgt.EndInvoke(ar)
+        Catch ex As Exception
+            '最後までendinvoke回す（ゾンビ化回避）
+            ex.Data("IsTerminatePermission") = False
+            Throw
+        End Try
 
         Return ""
     End Function
@@ -3112,7 +3225,7 @@ Public Module Twitter
             End If
         End If
 
-        If gType = WORKERTYPE.Timeline Then Debug.WriteLine(retMsg)
+        'If gType = WORKERTYPE.Timeline Then Debug.WriteLine(retMsg)
 
         Dim arIdx As Integer = -1
         Dim dlgt(countQuery) As GetIconImageDelegate    'countQueryに合わせる
@@ -3678,6 +3791,8 @@ Public Module Twitter
 
     Private Function CreateHtmlAnchor(ByVal Text As String, ByVal AtList As List(Of String)) As String
         Dim retStr As String = HttpUtility.HtmlEncode(Text)     '要検証（デコードされて取得されるので再エンコード）
+        '半角スペースを置換（Thanks @anis774）
+        retStr = retStr.Replace(" ", "&nbsp;")                  'HttpUtility.HtmlEncode()ではスペースが処理されない為
 
         'uriの正規表現
         Dim rgUrl As Regex = New Regex("(?<![0-9A-Za-z])(?:https?|shttp|ftps?)://(?:(?:[-_.!~*'()a-zA-Z0-9;:&=+$,]|%[0-9A-Fa-f" + _
@@ -3710,7 +3825,7 @@ Public Module Twitter
 
         'ハッシュタグを抽出し、リンクに置換
         'Dim rgh As New Regex("(^|[ .!,\-:;<>?])#([^] !""#$%&'()*+,.:;<=>?@\-[\^`{|}~\r\n]+)")
-        Dim rgh As New Regex("(^|[^a-zA-Z0-9_])[#＃]([a-zA-Z0-9_]+)")
+        Dim rgh As New Regex("(^|[^a-zA-Z0-9_/])[#＃]([a-zA-Z0-9_]+)")
         Dim mh As Match = rgh.Match(retStr)
         If mh.Success AndAlso Not IsNumeric(mh.Result("$2")) Then
             retStr = rgh.Replace(retStr, "$1<a href=""" + _protocol + "twitter.com/search?q=%23$2"">#$2</a>")
