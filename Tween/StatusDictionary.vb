@@ -773,11 +773,7 @@ Public NotInheritable Class TabInformations
                 Dim mv As Boolean = False   '移動フラグ（Recent追加有無）
                 For Each tn As String In _tabs.Keys
                     Dim rslt As HITRESULT = HITRESULT.None
-                    If post.RetweetedId = 0 Then
-                        rslt = _tabs(tn).AddFiltered(post.Id, post.IsRead, post.Name, post.Data, post.OriginalData)
-                    Else
-                        rslt = _tabs(tn).AddFiltered(post.Id, post.IsRead, post.RetweetedBy, post.Data, post.OriginalData)
-                    End If
+                    rslt = _tabs(tn).AddFiltered(post)
                     If rslt <> HITRESULT.None Then
                         If rslt = HITRESULT.CopyAndMark Then post.IsMark = True 'マークあり
                         If rslt = HITRESULT.Move Then
@@ -855,9 +851,7 @@ Public NotInheritable Class TabInformations
                     _statuses.Add(Item.Id, Item)    'DMと区別しない？
                 End If
                 If Item.RetweetedId > 0 Then
-                    If Not _retweets.ContainsKey(Item.RetweetedId) Then
-                        Me.AddRetweet(Item)
-                    End If
+                    Me.AddRetweet(Item)
                 End If
                 If Item.IsFav AndAlso _retweets.ContainsKey(Item.Id) Then
                     Exit Sub    'Fav済みのRetweet元発言は追加しない
@@ -881,35 +875,37 @@ Public NotInheritable Class TabInformations
     End Sub
 
     Private Sub AddRetweet(ByVal item As PostClass)
+        If _retweets.ContainsKey(item.RetweetedId) Then Exit Sub
+
         _retweets.Add( _
-            item.RetweetedId, _
-            New PostClass( _
-                item.Nickname, _
-                item.Data, _
-                item.OriginalData, _
-                item.ImageUrl, _
-                item.Name, _
-                item.PDate, _
-                item.RetweetedId, _
-                item.IsFav, _
-                item.IsRead, _
-                item.IsReply, _
-                item.IsProtect, _
-                item.IsOwl, _
-                item.IsMark, _
-                item.InReplyToUser, _
-                item.InReplyToId, _
-                item.Source, _
-                item.ReplyToList, _
-                item.IsMe, _
-                item.ImageIndex, _
-                item.IsDm, _
-                item.Uid, _
-                item.FilterHit, _
-                "", _
-                0 _
-            ) _
-        )
+                    item.RetweetedId, _
+                    New PostClass( _
+                        item.Nickname, _
+                        item.Data, _
+                        item.OriginalData, _
+                        item.ImageUrl, _
+                        item.Name, _
+                        item.PDate, _
+                        item.RetweetedId, _
+                        item.IsFav, _
+                        item.IsRead, _
+                        item.IsReply, _
+                        item.IsProtect, _
+                        item.IsOwl, _
+                        item.IsMark, _
+                        item.InReplyToUser, _
+                        item.InReplyToId, _
+                        item.Source, _
+                        item.ReplyToList, _
+                        item.IsMe, _
+                        item.ImageIndex, _
+                        item.IsDm, _
+                        item.Uid, _
+                        item.FilterHit, _
+                        "", _
+                        0 _
+                    ) _
+                )
     End Sub
 
     Public Sub SetRead(ByVal Read As Boolean, ByVal TabName As String, ByVal Index As Integer)
@@ -1107,11 +1103,7 @@ Public NotInheritable Class TabInformations
                         Dim post As PostClass = _statuses.Item(id)
                         If post.IsDm Then Continue For
                         Dim rslt As HITRESULT = HITRESULT.None
-                        If post.RetweetedId = 0 Then
-                            rslt = tb.AddFiltered(post.Id, post.IsRead, post.Name, post.Data, post.OriginalData)
-                        Else
-                            rslt = tb.AddFiltered(post.Id, post.IsRead, post.RetweetedBy, post.Data, post.OriginalData)
-                        End If
+                        rslt = tb.AddFiltered(post)
                         Select Case rslt
                             Case HITRESULT.CopyAndMark
                                 post.IsMark = True 'マークあり
@@ -1403,20 +1395,15 @@ Public NotInheritable Class TabClass
     End Sub
 
     'フィルタに合致したら追加
-    Public Function AddFiltered(ByVal ID As Long, _
-                                ByVal Read As Boolean, _
-                                ByVal Name As String, _
-                                ByVal Body As String, _
-                                ByVal OrgData As String) As HITRESULT
+    Public Function AddFiltered(ByVal post As PostClass) As HITRESULT
         'Try
         '    rwLock.AcquireReaderLock(System.Threading.Timeout.Infinite) '読み取りロック取得
-
         If Me.TabType = TabUsageType.PublicSearch Then Return HITRESULT.None
 
         Dim rslt As HITRESULT = HITRESULT.None
         '全フィルタ評価（優先順位あり）
         For Each ft As FiltersClass In _filters
-            Select Case ft.IsHit(Name, Body, OrgData)   'フィルタクラスでヒット判定
+            Select Case ft.IsHit(post)   'フィルタクラスでヒット判定
                 Case HITRESULT.None
                 Case HITRESULT.Copy
                     If rslt <> HITRESULT.CopyAndMark Then rslt = HITRESULT.Copy
@@ -1432,7 +1419,7 @@ Public NotInheritable Class TabClass
 
         If rslt <> HITRESULT.None Then
             If _tmpIds Is Nothing Then _tmpIds = New List(Of TemporaryId)
-            _tmpIds.Add(New TemporaryId(ID, Read))
+            _tmpIds.Add(New TemporaryId(post.Id, post.IsRead))
         End If
         'Me.Add(ID, Read)
 
@@ -1654,78 +1641,82 @@ Public NotInheritable Class FiltersClass
     Private _searchUrl As Boolean = False
     Private _caseSensitive As Boolean = False
     Private _useRegex As Boolean = False
+    Private _isRt As Boolean = False
+    Private _source As String = ""
     Private _exname As String = ""
     Private _exbody As New List(Of String)
     Private _exsearchBoth As Boolean = True
     Private _exsearchUrl As Boolean = False
     Private _exuseRegex As Boolean = False
     Private _excaseSensitive As Boolean = False
+    Private _isExRt As Boolean = False
+    Private _exSource As String = ""
     Private _moveFrom As Boolean = False
     Private _setMark As Boolean = True
 
-    Public Sub New(ByVal NameFilter As String, _
-        ByVal BodyFilter As List(Of String), _
-        ByVal SearchBoth As Boolean, _
-        ByVal SearchUrl As Boolean, _
-        ByVal CaseSensitive As Boolean, _
-        ByVal UseRegex As Boolean, _
-        ByVal ParentTab As String, _
-        ByVal ExNameFilter As String, _
-        ByVal ExBodyFilter As List(Of String), _
-        ByVal ExSearchBoth As Boolean, _
-        ByVal ExSearchUrl As Boolean, _
-        ByVal ExUseRegex As Boolean, _
-        ByVal ExCaseSensitive As Boolean, _
-        ByVal MoveFrom As Boolean, _
-        ByVal SetMark As Boolean)
-        _name = NameFilter
-        _body = BodyFilter
-        _searchBoth = SearchBoth
-        _searchUrl = SearchUrl
-        _caseSensitive = CaseSensitive
-        _useRegex = UseRegex
-        _exname = ExNameFilter
-        _exbody = ExBodyFilter
-        _exsearchBoth = ExSearchBoth
-        _exsearchUrl = ExSearchUrl
-        _exuseRegex = ExUseRegex
-        _excaseSensitive = ExCaseSensitive
-        _moveFrom = MoveFrom
-        _setMark = SetMark
-        '正規表現検証
-        If _useRegex Then
-            Try
-                Dim rgx As New Regex(_name)
-            Catch ex As Exception
-                Throw New Exception(My.Resources.ButtonOK_ClickText3 + ex.Message)
-                Exit Sub
-            End Try
-            For Each bs As String In _body
-                Try
-                    Dim rgx As New Regex(bs)
-                Catch ex As Exception
-                    Throw New Exception(My.Resources.ButtonOK_ClickText3 + ex.Message)
-                    Exit Sub
-                End Try
-            Next
-        End If
-        If _exuseRegex Then
-            Try
-                Dim rgx As New Regex(_exname)
-            Catch ex As Exception
-                Throw New Exception(My.Resources.ButtonOK_ClickText3 + ex.Message)
-                Exit Sub
-            End Try
-            For Each bs As String In _exbody
-                Try
-                    Dim rgx As New Regex(bs)
-                Catch ex As Exception
-                    Throw New Exception(My.Resources.ButtonOK_ClickText3 + ex.Message)
-                    Exit Sub
-                End Try
-            Next
-        End If
-    End Sub
+    'Public Sub New(ByVal NameFilter As String, _
+    '    ByVal BodyFilter As List(Of String), _
+    '    ByVal SearchBoth As Boolean, _
+    '    ByVal SearchUrl As Boolean, _
+    '    ByVal CaseSensitive As Boolean, _
+    '    ByVal UseRegex As Boolean, _
+    '    ByVal ParentTab As String, _
+    '    ByVal ExNameFilter As String, _
+    '    ByVal ExBodyFilter As List(Of String), _
+    '    ByVal ExSearchBoth As Boolean, _
+    '    ByVal ExSearchUrl As Boolean, _
+    '    ByVal ExUseRegex As Boolean, _
+    '    ByVal ExCaseSensitive As Boolean, _
+    '    ByVal MoveFrom As Boolean, _
+    '    ByVal SetMark As Boolean)
+    '    _name = NameFilter
+    '    _body = BodyFilter
+    '    _searchBoth = SearchBoth
+    '    _searchUrl = SearchUrl
+    '    _caseSensitive = CaseSensitive
+    '    _useRegex = UseRegex
+    '    _exname = ExNameFilter
+    '    _exbody = ExBodyFilter
+    '    _exsearchBoth = ExSearchBoth
+    '    _exsearchUrl = ExSearchUrl
+    '    _exuseRegex = ExUseRegex
+    '    _excaseSensitive = ExCaseSensitive
+    '    _moveFrom = MoveFrom
+    '    _setMark = SetMark
+    '    '正規表現検証
+    '    If _useRegex Then
+    '        Try
+    '            Dim rgx As New Regex(_name)
+    '        Catch ex As Exception
+    '            Throw New Exception(My.Resources.ButtonOK_ClickText3 + ex.Message)
+    '            Exit Sub
+    '        End Try
+    '        For Each bs As String In _body
+    '            Try
+    '                Dim rgx As New Regex(bs)
+    '            Catch ex As Exception
+    '                Throw New Exception(My.Resources.ButtonOK_ClickText3 + ex.Message)
+    '                Exit Sub
+    '            End Try
+    '        Next
+    '    End If
+    '    If _exuseRegex Then
+    '        Try
+    '            Dim rgx As New Regex(_exname)
+    '        Catch ex As Exception
+    '            Throw New Exception(My.Resources.ButtonOK_ClickText3 + ex.Message)
+    '            Exit Sub
+    '        End Try
+    '        For Each bs As String In _exbody
+    '            Try
+    '                Dim rgx As New Regex(bs)
+    '            Catch ex As Exception
+    '                Throw New Exception(My.Resources.ButtonOK_ClickText3 + ex.Message)
+    '                Exit Sub
+    '            End Try
+    '        Next
+    '    End If
+    'End Sub
 
     Public Sub New()
 
@@ -1765,6 +1756,12 @@ Public NotInheritable Class FiltersClass
             End If
             If _caseSensitive Then
                 fs.Append(My.Resources.SetFiltersText13)
+            End If
+            If _isRt Then
+                fs.Append("RT/")
+            End If
+            If _source <> "" Then
+                fs.AppendFormat("Source…{0}/", _source)
             End If
             'If _moveFrom Then
             '    fs.Append(My.Resources.SetFiltersText9)
@@ -1809,6 +1806,12 @@ Public NotInheritable Class FiltersClass
             End If
             If _excaseSensitive Then
                 fs.Append(My.Resources.SetFiltersText13)
+            End If
+            If _isExRt Then
+                fs.Append("RT/")
+            End If
+            If _exSource <> "" Then
+                fs.AppendFormat("Source…{0}/", _exSource)
             End If
             fs.Length -= 1
             fs.Append(")")
@@ -1983,17 +1986,53 @@ Public NotInheritable Class FiltersClass
         End Set
     End Property
 
+    Public Property IsRt() As Boolean
+        Get
+            Return _isRt
+        End Get
+        Set(ByVal value As Boolean)
+            _isRt = value
+        End Set
+    End Property
+
+    Public Property IsExRt() As Boolean
+        Get
+            Return _isExRt
+        End Get
+        Set(ByVal value As Boolean)
+            _isExRt = value
+        End Set
+    End Property
+
+    Public Property Source() As String
+        Get
+            Return _source
+        End Get
+        Set(ByVal value As String)
+            _source = value
+        End Set
+    End Property
+
+    Public Property ExSource() As String
+        Get
+            Return _exSource
+        End Get
+        Set(ByVal value As String)
+            _exSource = value
+        End Set
+    End Property
+
     Public Overrides Function ToString() As String
         Return MakeSummary()
     End Function
 
-    Public Function IsHit(ByVal Name As String, ByVal Body As String, ByVal OrgData As String) As HITRESULT
+    Public Function IsHit(ByVal post As PostClass) As HITRESULT
         Dim bHit As Boolean = True
         Dim tBody As String
         If _searchUrl Then
-            tBody = OrgData
+            tBody = post.OriginalData
         Else
-            tBody = Body
+            tBody = post.Data
         End If
         '検索オプション
         Dim compOpt As System.StringComparison
@@ -2007,16 +2046,18 @@ Public NotInheritable Class FiltersClass
         End If
         If _searchBoth Then
             If _name = "" OrElse _
-                Name.Equals(_name, compOpt) OrElse _
-                (_useRegex AndAlso Regex.IsMatch(Name, _name, rgOpt)) Then
+                post.Name.Equals(_name, compOpt) OrElse _
+                post.RetweetedBy.Equals(_name, compOpt) OrElse _
+                (_useRegex AndAlso (Regex.IsMatch(post.Name, _name, rgOpt)) OrElse _
+                                   (Regex.IsMatch(post.RetweetedBy, _name, rgOpt))) Then
                 For Each fs As String In _body
                     If _useRegex Then
-                        If Regex.IsMatch(tBody, fs, rgOpt) = False Then bHit = False
+                        If Not Regex.IsMatch(tBody, fs, rgOpt) Then bHit = False
                     Else
                         If _caseSensitive Then
-                            If tBody.Contains(fs) = False Then bHit = False
+                            If Not tBody.Contains(fs) Then bHit = False
                         Else
-                            If tBody.ToLower().Contains(fs.ToLower()) = False Then bHit = False
+                            If Not tBody.ToLower().Contains(fs.ToLower()) Then bHit = False
                         End If
                     End If
                     If Not bHit Then Exit For
@@ -2027,19 +2068,32 @@ Public NotInheritable Class FiltersClass
         Else
             For Each fs As String In _body
                 If _useRegex Then
-                    If Not (Regex.IsMatch(Name, fs, rgOpt) OrElse _
+                    If Not (Regex.IsMatch(post.Name, fs, rgOpt) OrElse _
+                            Regex.IsMatch(post.RetweetedBy, fs, rgOpt) OrElse _
                             Regex.IsMatch(tBody, fs, rgOpt)) Then bHit = False
                 Else
                     If _caseSensitive Then
-                        If Not (Name.Contains(fs) OrElse _
+                        If Not (post.Name.Contains(fs) OrElse _
+                                post.RetweetedBy.Contains(fs) OrElse _
                                 tBody.Contains(fs)) Then bHit = False
                     Else
-                        If Not (Name.ToLower().Contains(fs.ToLower()) OrElse _
+                        If Not (post.Name.ToLower().Contains(fs.ToLower()) OrElse _
+                                post.RetweetedBy.ToLower().Contains(fs.ToLower()) OrElse _
                                 tBody.ToLower().Contains(fs.ToLower())) Then bHit = False
                     End If
                 End If
                 If Not bHit Then Exit For
             Next
+        End If
+        If _isRt Then
+            If post.RetweetedId = 0 Then bHit = False
+        End If
+        If Not String.IsNullOrEmpty(_source) Then
+            If _useRegex Then
+                If Not Regex.IsMatch(post.Source, _source, rgOpt) Then bHit = False
+            Else
+                If Not post.Source.Equals(_source, compOpt) Then bHit = False
+            End If
         End If
         If bHit Then
             '除外判定
@@ -2057,8 +2111,12 @@ Public NotInheritable Class FiltersClass
                     rgOpt = RegexOptions.IgnoreCase
                 End If
                 If _exsearchBoth Then
-                    If _exname = "" OrElse Name.Equals(_exname, compOpt) OrElse _
-                                    (_exuseRegex AndAlso Regex.IsMatch(Name, _exname, rgOpt)) Then
+                    If _exname = "" OrElse _
+                        post.Name.Equals(_exname, compOpt) OrElse _
+                        post.RetweetedBy.Equals(_exname, compOpt) OrElse _
+                        (_exuseRegex AndAlso _
+                            (Regex.IsMatch(post.Name, _exname, rgOpt) OrElse _
+                             Regex.IsMatch(post.RetweetedBy, _exname, rgOpt))) Then
                         If _exbody.Count > 0 Then
                             For Each fs As String In _exbody
                                 If _exuseRegex Then
@@ -2079,14 +2137,17 @@ Public NotInheritable Class FiltersClass
                 Else
                     For Each fs As String In _exbody
                         If _exuseRegex Then
-                            If Regex.IsMatch(Name, fs, rgOpt) OrElse _
+                            If Regex.IsMatch(post.Name, fs, rgOpt) OrElse _
+                               Regex.IsMatch(post.RetweetedBy, fs, rgOpt) OrElse _
                                Regex.IsMatch(tBody, fs, rgOpt) Then exFlag = True
                         Else
                             If _excaseSensitive Then
-                                If Name.Contains(fs) OrElse _
+                                If post.Name.Contains(fs) OrElse _
+                                   post.RetweetedBy.Contains(fs) OrElse _
                                    tBody.Contains(fs) Then exFlag = True
                             Else
-                                If Name.ToLower().Contains(fs.ToLower()) OrElse _
+                                If post.Name.ToLower().Contains(fs.ToLower()) OrElse _
+                                   post.RetweetedBy.ToLower().Contains(fs.ToLower()) OrElse _
                                    tBody.ToLower().Contains(fs.ToLower()) Then exFlag = True
                             End If
                         End If
@@ -2094,8 +2155,18 @@ Public NotInheritable Class FiltersClass
                     Next
                 End If
             End If
+            If _isExRt Then
+                If post.RetweetedId > 0 Then exFlag = True
+            End If
+            If Not String.IsNullOrEmpty(_exSource) Then
+                If _exuseRegex Then
+                    If Regex.IsMatch(post.Source, _exSource, rgOpt) Then exFlag = True
+                Else
+                    If post.Source.Equals(_exSource, compOpt) Then exFlag = True
+                End If
+            End If
 
-            If _name = "" AndAlso _body.Count = 0 Then
+            If _name = "" AndAlso _body.Count = 0 AndAlso Not _isRt AndAlso _source = "" Then
                 bHit = False
             End If
             If bHit Then
@@ -2146,7 +2217,11 @@ Public NotInheritable Class FiltersClass
                (Me.ExNameFilter = other.ExNameFilter) And _
                (Me.ExSearchBoth = other.ExSearchBoth) And _
                (Me.ExSearchUrl = other.ExSearchUrl) And _
-               (Me.ExUseRegex = other.ExUseRegex)
+               (Me.ExUseRegex = other.ExUseRegex) And _
+               (Me.IsRt = other.IsRt) And _
+               (Me.Source = other.Source) And _
+               (Me.IsExRt = other.IsExRt) And _
+               (Me.ExSource = other.ExSource)
     End Function
 
     Public Overrides Function Equals(ByVal obj As Object) As Boolean
@@ -2166,7 +2241,11 @@ Public NotInheritable Class FiltersClass
                Me.ExNameFilter.GetHashCode Xor _
                Me.ExSearchBoth.GetHashCode Xor _
                Me.ExSearchUrl.GetHashCode Xor _
-               Me.ExUseRegex.GetHashCode
+               Me.ExUseRegex.GetHashCode Xor _
+               Me.IsRt.GetHashCode Xor _
+               Me.Source.GetHashCode Xor _
+               Me.IsExRt.GetHashCode Xor _
+               Me.ExSource.GetHashCode
     End Function
 End Class
 

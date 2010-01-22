@@ -1164,6 +1164,7 @@ Public Class TweenMain
             FavAddToolStripMenuItem.Enabled = True
             FavRemoveToolStripMenuItem.Enabled = True
             MoveToHomeToolStripMenuItem.Enabled = True
+            MoveToRTHomeMenuItem.Enabled = True
             MoveToFavToolStripMenuItem.Enabled = True
             DeleteStripMenuItem.Enabled = True
             RefreshStripMenuItem.Enabled = True
@@ -1181,6 +1182,7 @@ Public Class TweenMain
             FavAddToolStripMenuItem.Enabled = False
             FavRemoveToolStripMenuItem.Enabled = False
             MoveToHomeToolStripMenuItem.Enabled = False
+            MoveToRTHomeMenuItem.Enabled = False
             MoveToFavToolStripMenuItem.Enabled = False
             DeleteStripMenuItem.Enabled = False
             RefreshStripMenuItem.Enabled = False
@@ -2457,7 +2459,8 @@ Public Class TweenMain
         If _statuses.Tabs(_curTab.Text).TabType <> TabUsageType.DirectMessage Then
             Dim myPost As Boolean = False
             For Each idx As Integer In _curList.SelectedIndices
-                If GetCurTabPost(idx).IsMe Then
+                If GetCurTabPost(idx).IsMe OrElse _
+                   GetCurTabPost(idx).RetweetedBy.ToLower = SettingDialog.UserID.ToLower Then
                     myPost = True
                     Exit For
                 End If
@@ -2489,7 +2492,7 @@ Public Class TweenMain
                 If _statuses.Tabs(_curTab.Text).TabType = TabUsageType.DirectMessage Then
                     rtn = Twitter.RemoveDirectMessage(Id)
                 Else
-                    If _statuses.Item(Id).IsMe Then
+                    If _statuses.Item(Id).IsMe OrElse _statuses.Item(Id).RetweetedBy.ToLower = SettingDialog.UserID.ToLower Then
                         rtn = Twitter.RemoveStatus(Id)
                     Else
                         Continue For
@@ -7106,7 +7109,7 @@ RETRY:
 
     Private Sub RemoveCommand(ByVal id As String)
         Using inputName As New InputTabName()
-            inputName.FormTitle = "Remove"
+            inputName.FormTitle = "Unfollow"
             inputName.FormDescription = My.Resources.FRMessage1
             inputName.TabName = id
             If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
@@ -7257,6 +7260,15 @@ RETRY:
             _statuses.Tabs.Add(renamed, tb)
             AddNewTab(renamed, False, tb.TabType)
             SaveConfigsTabs()
+        End If
+    End Sub
+
+    Private Sub MoveToRTHomeMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MoveToRTHomeMenuItem.Click
+        If _curList.SelectedIndices.Count > 0 Then
+            Dim post As PostClass = GetCurTabPost(_curList.SelectedIndices(0))
+            If post.RetweetedId > 0 Then
+                OpenUriAsync("http://twitter.com/" + GetCurTabPost(_curList.SelectedIndices(0)).RetweetedBy)
+            End If
         End If
     End Sub
 End Class
