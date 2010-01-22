@@ -29,6 +29,9 @@ Partial Class FilterDialog
         Me.EditFilterGroup = New System.Windows.Forms.GroupBox
         Me.Label11 = New System.Windows.Forms.Label
         Me.GroupExclude = New System.Windows.Forms.GroupBox
+        Me.TextExSource = New System.Windows.Forms.TextBox
+        Me.Label12 = New System.Windows.Forms.Label
+        Me.CheckExRetweet = New System.Windows.Forms.CheckBox
         Me.CheckExCaseSensitive = New System.Windows.Forms.CheckBox
         Me.RadioExAnd = New System.Windows.Forms.RadioButton
         Me.Label1 = New System.Windows.Forms.Label
@@ -42,6 +45,9 @@ Partial Class FilterDialog
         Me.ExMSG1 = New System.Windows.Forms.TextBox
         Me.ExMSG2 = New System.Windows.Forms.TextBox
         Me.GroupMatch = New System.Windows.Forms.GroupBox
+        Me.TextSource = New System.Windows.Forms.TextBox
+        Me.Label5 = New System.Windows.Forms.Label
+        Me.CheckRetweet = New System.Windows.Forms.CheckBox
         Me.CheckCaseSensitive = New System.Windows.Forms.CheckBox
         Me.RadioAND = New System.Windows.Forms.RadioButton
         Me.Label8 = New System.Windows.Forms.Label
@@ -134,6 +140,9 @@ Partial Class FilterDialog
         Me.GroupExclude.AccessibleName = Nothing
         resources.ApplyResources(Me.GroupExclude, "GroupExclude")
         Me.GroupExclude.BackgroundImage = Nothing
+        Me.GroupExclude.Controls.Add(Me.TextExSource)
+        Me.GroupExclude.Controls.Add(Me.Label12)
+        Me.GroupExclude.Controls.Add(Me.CheckExRetweet)
         Me.GroupExclude.Controls.Add(Me.CheckExCaseSensitive)
         Me.GroupExclude.Controls.Add(Me.RadioExAnd)
         Me.GroupExclude.Controls.Add(Me.Label1)
@@ -149,6 +158,33 @@ Partial Class FilterDialog
         Me.GroupExclude.Font = Nothing
         Me.GroupExclude.Name = "GroupExclude"
         Me.GroupExclude.TabStop = False
+        '
+        'TextExSource
+        '
+        Me.TextExSource.AccessibleDescription = Nothing
+        Me.TextExSource.AccessibleName = Nothing
+        resources.ApplyResources(Me.TextExSource, "TextExSource")
+        Me.TextExSource.BackgroundImage = Nothing
+        Me.TextExSource.Font = Nothing
+        Me.TextExSource.Name = "TextExSource"
+        '
+        'Label12
+        '
+        Me.Label12.AccessibleDescription = Nothing
+        Me.Label12.AccessibleName = Nothing
+        resources.ApplyResources(Me.Label12, "Label12")
+        Me.Label12.Font = Nothing
+        Me.Label12.Name = "Label12"
+        '
+        'CheckExRetweet
+        '
+        Me.CheckExRetweet.AccessibleDescription = Nothing
+        Me.CheckExRetweet.AccessibleName = Nothing
+        resources.ApplyResources(Me.CheckExRetweet, "CheckExRetweet")
+        Me.CheckExRetweet.BackgroundImage = Nothing
+        Me.CheckExRetweet.Font = Nothing
+        Me.CheckExRetweet.Name = "CheckExRetweet"
+        Me.CheckExRetweet.UseVisualStyleBackColor = True
         '
         'CheckExCaseSensitive
         '
@@ -267,6 +303,9 @@ Partial Class FilterDialog
         Me.GroupMatch.AccessibleName = Nothing
         resources.ApplyResources(Me.GroupMatch, "GroupMatch")
         Me.GroupMatch.BackgroundImage = Nothing
+        Me.GroupMatch.Controls.Add(Me.TextSource)
+        Me.GroupMatch.Controls.Add(Me.Label5)
+        Me.GroupMatch.Controls.Add(Me.CheckRetweet)
         Me.GroupMatch.Controls.Add(Me.CheckCaseSensitive)
         Me.GroupMatch.Controls.Add(Me.RadioAND)
         Me.GroupMatch.Controls.Add(Me.Label8)
@@ -282,6 +321,33 @@ Partial Class FilterDialog
         Me.GroupMatch.Font = Nothing
         Me.GroupMatch.Name = "GroupMatch"
         Me.GroupMatch.TabStop = False
+        '
+        'TextSource
+        '
+        Me.TextSource.AccessibleDescription = Nothing
+        Me.TextSource.AccessibleName = Nothing
+        resources.ApplyResources(Me.TextSource, "TextSource")
+        Me.TextSource.BackgroundImage = Nothing
+        Me.TextSource.Font = Nothing
+        Me.TextSource.Name = "TextSource"
+        '
+        'Label5
+        '
+        Me.Label5.AccessibleDescription = Nothing
+        Me.Label5.AccessibleName = Nothing
+        resources.ApplyResources(Me.Label5, "Label5")
+        Me.Label5.Font = Nothing
+        Me.Label5.Name = "Label5"
+        '
+        'CheckRetweet
+        '
+        Me.CheckRetweet.AccessibleDescription = Nothing
+        Me.CheckRetweet.AccessibleName = Nothing
+        resources.ApplyResources(Me.CheckRetweet, "CheckRetweet")
+        Me.CheckRetweet.BackgroundImage = Nothing
+        Me.CheckRetweet.Font = Nothing
+        Me.CheckRetweet.Name = "CheckRetweet"
+        Me.CheckRetweet.UseVisualStyleBackColor = True
         '
         'CheckCaseSensitive
         '
@@ -705,5 +771,11 @@ Partial Class FilterDialog
     Friend WithEvents GroupTab As System.Windows.Forms.GroupBox
     Friend WithEvents CheckExCaseSensitive As System.Windows.Forms.CheckBox
     Friend WithEvents CheckCaseSensitive As System.Windows.Forms.CheckBox
+    Friend WithEvents CheckRetweet As System.Windows.Forms.CheckBox
+    Friend WithEvents TextExSource As System.Windows.Forms.TextBox
+    Friend WithEvents Label12 As System.Windows.Forms.Label
+    Friend WithEvents CheckExRetweet As System.Windows.Forms.CheckBox
+    Friend WithEvents TextSource As System.Windows.Forms.TextBox
+    Friend WithEvents Label5 As System.Windows.Forms.Label
 
 End Class

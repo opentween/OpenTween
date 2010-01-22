@@ -124,8 +124,11 @@
     <value>If only the [ExcludingRule] is set, it becomes excluding set to the this tab. </value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="CheckExCaseSensitive.Location" type="System.Drawing.Point, System.Drawing">
-    <value>221, 89</value>
+  <data name="CheckExRetweet.Size" type="System.Drawing.Size, System.Drawing">
+    <value>69, 16</value>
+  </data>
+  <data name="CheckExRetweet.Text" xml:space="preserve">
+    <value>ReTweet</value>
   </data>
   <data name="CheckExCaseSensitive.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 16</value>
@@ -145,9 +148,6 @@
   <data name="Label1.Text" xml:space="preserve">
     <value>Tweet Body</value>
   </data>
-  <data name="CheckExURL.Location" type="System.Drawing.Point, System.Drawing">
-    <value>124, 89</value>
-  </data>
   <data name="CheckExURL.Size" type="System.Drawing.Size, System.Drawing">
     <value>91, 16</value>
   </data>
@@ -159,9 +159,6 @@
   </data>
   <data name="RadioExPLUS.Text" xml:space="preserve">
     <value>Simple</value>
-  </data>
-  <data name="CheckExRegex.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 89</value>
   </data>
   <data name="CheckExRegex.Size" type="System.Drawing.Size, System.Drawing">
     <value>110, 16</value>
@@ -184,8 +181,11 @@
   <data name="GroupExclude.Text" xml:space="preserve">
     <value>ExcludingRule</value>
   </data>
-  <data name="CheckCaseSensitive.Location" type="System.Drawing.Point, System.Drawing">
-    <value>221, 94</value>
+  <data name="CheckRetweet.Size" type="System.Drawing.Size, System.Drawing">
+    <value>69, 16</value>
+  </data>
+  <data name="CheckRetweet.Text" xml:space="preserve">
+    <value>ReTweet</value>
   </data>
   <data name="CheckCaseSensitive.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 16</value>
@@ -206,7 +206,7 @@
     <value>Tweet Body</value>
   </data>
   <data name="CheckURL.Location" type="System.Drawing.Point, System.Drawing">
-    <value>124, 94</value>
+    <value>299, 41</value>
   </data>
   <data name="CheckURL.Size" type="System.Drawing.Size, System.Drawing">
     <value>91, 16</value>
@@ -221,7 +221,7 @@
     <value>Simple</value>
   </data>
   <data name="CheckRegex.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 94</value>
+    <value>299, 19</value>
   </data>
   <data name="CheckRegex.Size" type="System.Drawing.Size, System.Drawing">
     <value>110, 16</value>
