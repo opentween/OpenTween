@@ -3002,6 +3002,10 @@ Public Class TweenMain
             cmb.Name = "comboSearch"
             cmb.DropDownStyle = ComboBoxStyle.DropDown
             cmb.ImeMode = Windows.Forms.ImeMode.NoControl
+            cmb.TabStop = False
+            AddHandler cmb.Enter, AddressOf SearchControls_Enter
+            AddHandler cmb.Leave, AddressOf SearchControls_Leave
+
 
             If _statuses.ContainsTab(tabName) Then
                 cmb.Text = _statuses.Tabs(tabName).SearchWords
@@ -3014,12 +3018,15 @@ Public Class TweenMain
             cmbLang.Width = 50
             cmbLang.Name = "comboLang"
             cmbLang.DropDownStyle = ComboBoxStyle.DropDownList
+            cmbLang.TabStop = False
             If _statuses.ContainsTab(tabName) Then cmbLang.Text = _statuses.Tabs(tabName).SearchLang
+            AddHandler cmbLang.Enter, AddressOf SearchControls_Enter
+            AddHandler cmbLang.Leave, AddressOf SearchControls_Leave
 
-            lbl.Text = "Search"
+            lbl.Text = "Search(C-S-f)"
             lbl.Name = "label1"
             lbl.Dock = DockStyle.Left
-            lbl.Width = 50
+            lbl.Width = 90
             lbl.Height = cmb.Height
             lbl.TextAlign = ContentAlignment.MiddleLeft
 
@@ -3027,7 +3034,10 @@ Public Class TweenMain
             btn.Name = "buttonSearch"
             btn.UseVisualStyleBackColor = True
             btn.Dock = DockStyle.Right
+            btn.TabStop = False
             AddHandler btn.Click, AddressOf SearchButton_Click
+            AddHandler btn.Enter, AddressOf SearchControls_Enter
+            AddHandler btn.Leave, AddressOf SearchControls_Leave
 
             cmbLang.Items.Add("")
             cmbLang.Items.Add("ja")
@@ -3251,6 +3261,8 @@ Public Class TweenMain
                 If ctrl.Name = "buttonSearch" Then
                     RemoveHandler ctrl.Click, AddressOf SearchButton_Click
                 End If
+                RemoveHandler ctrl.Enter, AddressOf SearchControls_Enter
+                RemoveHandler ctrl.Leave, AddressOf SearchControls_Leave
                 pnl.Controls.Remove(ctrl)
                 ctrl.Dispose()
             Next
@@ -7196,6 +7208,7 @@ RETRY:
 
     Private Sub SearchButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         '公式検索
+        DirectCast(ListTab.SelectedTab.Tag, DetailsListView).Focus()
         Dim pnl As Control = DirectCast(sender, Control).Parent
         If pnl Is Nothing Then Exit Sub
         Dim tbName As String = pnl.Parent.Text
@@ -7296,6 +7309,36 @@ RETRY:
                 Me.Cursor = Cursors.Default
             End Try
             SaveConfigsTabs()
+        End If
+    End Sub
+
+    Private Sub SearchControls_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Dim pnl As Control = DirectCast(sender, Control).Parent
+        For Each ctl As Control In pnl.Controls
+            ctl.TabStop = True
+        Next
+    End Sub
+
+    Private Sub SearchControls_Leave(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Dim pnl As Control = DirectCast(sender, Control).Parent
+        Dim leave As Boolean = True
+        For Each ctl As Control In pnl.Controls
+            If ctl.Focused AndAlso sender IsNot ctl Then
+                leave = False
+                Exit For
+            End If
+        Next
+        If leave Then
+            For Each ctl As Control In pnl.Controls
+                ctl.TabStop = False
+            Next
+        End If
+    End Sub
+
+    Private Sub PublicSearchQueryMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PublicSearchQueryMenuItem.Click
+        If ListTab.SelectedTab IsNot Nothing Then
+            If _statuses.Tabs(ListTab.SelectedTab.Text).TabType <> TabUsageType.PublicSearch Then Exit Sub
+            ListTab.SelectedTab.Controls("panelSearch").Controls("comboSearch").Focus()
         End If
     End Sub
 End Class

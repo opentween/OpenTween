@@ -98,6 +98,8 @@ Partial Class TweenMain
         Me.MenuItemSubSearch = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuItemSearchNext = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuItemSearchPrev = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripSeparator22 = New System.Windows.Forms.ToolStripSeparator
+        Me.PublicSearchQueryMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuItemOperate = New System.Windows.Forms.ToolStripMenuItem
         Me.ContextMenuStrip2 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ReplyStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -619,7 +621,7 @@ Partial Class TweenMain
         '
         'MenuItemEdit
         '
-        Me.MenuItemEdit.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UndoRemoveTabMenuItem, Me.ToolStripSeparator12, Me.CopySTOTMenuItem, Me.CopyURLMenuItem, Me.ToolStripSeparator6, Me.MenuItemSubSearch, Me.MenuItemSearchNext, Me.MenuItemSearchPrev})
+        Me.MenuItemEdit.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UndoRemoveTabMenuItem, Me.ToolStripSeparator12, Me.CopySTOTMenuItem, Me.CopyURLMenuItem, Me.ToolStripSeparator6, Me.MenuItemSubSearch, Me.MenuItemSearchNext, Me.MenuItemSearchPrev, Me.ToolStripSeparator22, Me.PublicSearchQueryMenuItem})
         Me.MenuItemEdit.Name = "MenuItemEdit"
         resources.ApplyResources(Me.MenuItemEdit, "MenuItemEdit")
         '
@@ -662,6 +664,16 @@ Partial Class TweenMain
         '
         Me.MenuItemSearchPrev.Name = "MenuItemSearchPrev"
         resources.ApplyResources(Me.MenuItemSearchPrev, "MenuItemSearchPrev")
+        '
+        'ToolStripSeparator22
+        '
+        Me.ToolStripSeparator22.Name = "ToolStripSeparator22"
+        resources.ApplyResources(Me.ToolStripSeparator22, "ToolStripSeparator22")
+        '
+        'PublicSearchQueryMenuItem
+        '
+        Me.PublicSearchQueryMenuItem.Name = "PublicSearchQueryMenuItem"
+        resources.ApplyResources(Me.PublicSearchQueryMenuItem, "PublicSearchQueryMenuItem")
         '
         'MenuItemOperate
         '
@@ -1262,5 +1274,7 @@ Partial Class TweenMain
     Friend WithEvents ToolStripSeparator12 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents MoveToRTHomeMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents IdFilterAddMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator22 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents PublicSearchQueryMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class
