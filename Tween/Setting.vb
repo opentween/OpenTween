@@ -116,6 +116,7 @@ Public Class Setting
     Private _MyShowGrid As Boolean
     Private _MyUseAtIdSupplement As Boolean
     Private _MyLanguage As String
+    Private _MyHashList As List(Of String)
 
     Private Sub Save_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Save.Click
         Try
@@ -277,6 +278,10 @@ Public Class Setting
                 Case Else
                     _MyLanguage = "en"
             End Select
+            _MyHashList = New List(Of String)
+            For Each hash As String In ListHash.Items
+                _MyHashList.Add(hash)
+            Next
         Catch ex As Exception
             MessageBox.Show(My.Resources.Save_ClickText3)
             Me.DialogResult = Windows.Forms.DialogResult.Cancel
@@ -482,6 +487,7 @@ Public Class Setting
             Case Else
                 LanguageCombo.SelectedIndex = 2
         End Select
+        ListHash.Items.AddRange(_MyHashList.ToArray)
 
         TabControl1.SelectedIndex = 0
         ActiveControl = Username
@@ -1882,5 +1888,34 @@ Public Class Setting
 
         lblRetweet.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Green)
     End Sub
+
+    Private Sub ButtonHashAdd_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonHashAdd.Click
+        Dim inputText As String = ""
+        Using tagInput As New InputTabName
+            tagInput.FormTitle = "New HashTag"
+            tagInput.FormDescription = "Input HashTag"
+            tagInput.IsShowUsage = False
+            tagInput.ShowDialog()
+            inputText = tagInput.TabName
+            tagInput.Dispose()
+        End Using
+        If inputText = "" Then Exit Sub
+        If Not inputText.StartsWith("#") Then inputText = "#" + inputText
+        ListHash.Items.Add(inputText)
+    End Sub
+
+    Private Sub ButtonHashDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonHashDelete.Click
+        If ListHash.SelectedIndex = -1 Then Exit Sub
+        ListHash.Items.RemoveAt(ListHash.SelectedIndex)
+    End Sub
+
+    Public Property HashList() As List(Of String)
+        Get
+            Return _MyHashList
+        End Get
+        Set(ByVal value As List(Of String))
+            _MyHashList = value
+        End Set
+    End Property
 End Class
 

@@ -90,6 +90,7 @@ Public Class TweenMain
     Private UrlDialog As New OpenURL()
     Private dialogAsShieldicon As DialogAsShieldIcon    ' シールドアイコン付きダイアログ
     Private AtIdSupl As AtIdSupplement    '@id補助
+    Private HashSupl As AtIdSupplement    'Hashtag補助
 
     '表示フォント、色、アイコン
     Private _fntUnread As Font            '未読用フォント
@@ -599,9 +600,7 @@ Public Class TweenMain
         SettingDialog.ShowGrid = _cfgCommon.ShowGrid
         SettingDialog.Language = _cfgCommon.Language
         SettingDialog.UseAtIdSupplement = _cfgCommon.UseAtIdSupplement
-        If SettingDialog.UseAtIdSupplement Then
-            AtIdSupl = New AtIdSupplement(SettingAtIdList.Load().AtIdList)
-        End If
+        AtIdSupl = New AtIdSupplement(SettingAtIdList.Load().AtIdList, "@")
 
         SettingDialog.IsMonospace = _cfgCommon.IsMonospace
         If SettingDialog.IsMonospace Then
@@ -752,6 +751,10 @@ Public Class TweenMain
                 GetTimeline(WORKERTYPE.Follower, 0, 0, "")
             End If
         End If
+        'ハッシュタグ関連
+        HashSupl = New AtIdSupplement(_cfgCommon.HashTags, "#")
+        SettingDialog.HashList = _cfgCommon.HashTags
+        HashSelectComboBox.Items.AddRange(_cfgCommon.HashTags.ToArray)
 
         'ウィンドウ設定
         Me.ClientSize = _cfgLocal.FormSize
@@ -2840,12 +2843,6 @@ Public Class TweenMain
                     ex.Data("IsTerminatePermission") = False
                     Throw
                 End Try
-                If SettingDialog.UseAtIdSupplement AndAlso AtIdSupl Is Nothing Then
-                    AtIdSupl = New AtIdSupplement(SettingAtIdList.Load().AtIdList)
-                End If
-                If Not SettingDialog.UseAtIdSupplement AndAlso AtIdSupl IsNot Nothing Then
-                    AtIdSupl = Nothing
-                End If
                 SetMainWindowTitle()
                 SetNotifyIconText()
 
@@ -3429,7 +3426,7 @@ Public Class TweenMain
             '@マーク
             AtIdSupl.ShowDialog()
             Me.TopMost = SettingDialog.AlwaysTop
-            If AtIdSupl.inputId <> "" Then
+            If AtIdSupl.inputText <> "" Then
                 Dim fHalf As String = ""
                 Dim eHalf As String = ""
                 Dim selStart As Integer = StatusText.SelectionStart
@@ -3439,25 +3436,8 @@ Public Class TweenMain
                 If selStart < StatusText.Text.Length Then
                     eHalf = StatusText.Text.Substring(selStart)
                 End If
-                StatusText.Text = fHalf + AtIdSupl.inputId + eHalf
-                StatusText.SelectionStart = selStart + AtIdSupl.inputId.Length
-            Else
-                ''入力なし＆Backspaceで戻ったら、入力欄の＠も消す
-                'If AtIdSupl.isBack Then
-                '    Dim fHalf As String = ""
-                '    Dim eHalf As String = ""
-                '    Dim selStart As Integer = StatusText.SelectionStart
-                '    If selStart > 1 Then
-                '        fHalf = StatusText.Text.Substring(0, selStart - 1)
-                '    End If
-                '    If selStart < StatusText.Text.Length Then
-                '        eHalf = StatusText.Text.Substring(selStart)
-                '    End If
-                '    StatusText.Text = fHalf + eHalf
-                '    If selStart > 0 Then
-                '        StatusText.SelectionStart = selStart - 1
-                '    End If
-                'End If
+                StatusText.Text = fHalf + AtIdSupl.inputText + eHalf
+                StatusText.SelectionStart = selStart + AtIdSupl.inputText.Length
             End If
             e.Handled = True
         End If
@@ -4767,7 +4747,7 @@ RETRY:
             If modifySettingLocal Then SaveConfigsLocal()
             If modifySettingAtId AndAlso SettingDialog.UseAtIdSupplement AndAlso AtIdSupl IsNot Nothing Then
                 modifySettingAtId = False
-                Dim cfgAtId As New SettingAtIdList(AtIdSupl.GetIdList)
+                Dim cfgAtId As New SettingAtIdList(AtIdSupl.GetItemList)
                 cfgAtId.Save()
             End If
         End If
@@ -6052,12 +6032,12 @@ RETRY:
 
         m = id.Matches(StatusText)
 
-        If AtIdSupl IsNot Nothing Then
-            Dim bCnt As Integer = AtIdSupl.IdCount
+        If SettingDialog.UseAtIdSupplement AndAlso AtIdSupl IsNot Nothing Then
+            Dim bCnt As Integer = AtIdSupl.ItemCount
             For Each mid As Match In m
-                AtIdSupl.AddId(mid.Result("${id}"))
+                AtIdSupl.AddItem(mid.Result("${id}"))
             Next
-            If bCnt <> AtIdSupl.IdCount Then modifySettingAtId = True
+            If bCnt <> AtIdSupl.ItemCount Then modifySettingAtId = True
         End If
 
         ' リプライ先ステータスIDの指定がない場合は指定しない
