@@ -61,12 +61,13 @@ Public Class AtIdSupplement
     End Sub
 
     Private Sub AtIdSupplement_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        Me.Height = Me.TextId.Height + SystemInformation.ToolWindowCaptionHeight + Me.TextId.Margin.Top + Me.Label1.Height
+        'Me.Height = Me.TextId.Height + SystemInformation.ToolWindowCaptionHeight + Me.TextId.Margin.Top + Me.Label1.Height
     End Sub
 
     Private Sub AtIdSupplement_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
+        'TextId.Text = startChar
+        'TextId.SelectionStart = 1
         TextId.Text = startChar
-        TextId.SelectionStart = 1
     End Sub
 
     Public Sub New()

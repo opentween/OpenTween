@@ -86,6 +86,7 @@ Public Module Twitter
     Private _usePostMethod As Boolean
     Private _ApiMethod As MySocket.REQ_TYPE
     Private _readOwnPost As Boolean
+    Private _hashList As New List(Of String)
 
     '共通で使用する状態
     Private _authKey As String              'StatusUpdate、発言削除で使用
@@ -1704,6 +1705,14 @@ Public Module Twitter
 
     Private Function AdjustHtml(ByVal orgData As String) As String
         Dim retStr As String = orgData
+        Dim hash As New Regex("<a [^>]+>[#|＃](?<1>[a-zA-Z0-9_]+)</a>")
+        Dim m As Match = hash.Match(retStr)
+        While m.Success
+            SyncLock LockObj
+                _hashList.Add("#" + m.Groups(1).Value)
+            End SyncLock
+            m = m.NextMatch
+        End While
         retStr = Regex.Replace(retStr, "<a [^>]*href=""/", "<a href=""" + _protocol + "twitter.com/")
         retStr = retStr.Replace("<a href=", "<a target=""_self"" href=")
         retStr = retStr.Replace(vbLf, "<br>")
@@ -3830,7 +3839,12 @@ Public Module Twitter
         If mh.Success AndAlso Not IsNumeric(mh.Result("$2")) Then
             retStr = rgh.Replace(retStr, "$1<a href=""" + _protocol + "twitter.com/search?q=%23$2"">#$2</a>")
         End If
-
+        While mh.Success
+            SyncLock LockObj
+                _hashList.Add("#" + mh.Result("$2"))
+            End SyncLock
+            mh = mh.NextMatch
+        End While
 
         retStr = AdjustHtml(ShortUrlResolve(PreProcessUrl(retStr))) 'IDN置換、短縮Uri解決、@リンクを相対→絶対にしてtarget属性付与
         Return retStr
@@ -3903,6 +3917,15 @@ Public Module Twitter
             Return False
         End Try
         Return True
+    End Function
+
+    Public Function GetHashList() As String()
+        Dim hashArray As String()
+        SyncLock LockObj
+            hashArray = _hashList.ToArray
+            _hashList.Clear()
+        End SyncLock
+        Return hashArray
     End Function
 
 #Region "デバッグモード解析キー自動生成"
