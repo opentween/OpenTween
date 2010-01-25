@@ -643,6 +643,7 @@ Public Class TweenMain
         End Select
 
         SettingDialog.Nicoms = _cfgCommon.Nicoms
+        SettingDialog.HashList = _cfgCommon.HashTags
 
         _initial = True
 
@@ -752,9 +753,9 @@ Public Class TweenMain
             End If
         End If
         'ハッシュタグ関連
-        HashSupl = New AtIdSupplement(_cfgCommon.HashTags, "#")
-        SettingDialog.HashList = _cfgCommon.HashTags
-        HashSelectComboBox.Items.AddRange(_cfgCommon.HashTags.ToArray)
+        HashSupl = New AtIdSupplement(SettingDialog.HashList, "#")
+        HashSelectComboBox.Items.AddRange(SettingDialog.HashList.ToArray)
+        HashSelectComboBox.Text = _cfgCommon.HashSelected
 
         'ウィンドウ設定
         Me.ClientSize = _cfgLocal.FormSize
@@ -1295,6 +1296,11 @@ Public Class TweenMain
 
         SetMainWindowTitle()
         If Not StatusLabelUrl.Text.StartsWith("http") Then SetStatusLabel()
+
+        For Each hash As String In Twitter.GetHashList
+            HashSupl.AddItem(hash)
+        Next
+
     End Sub
 
     Private Function GetScrollPos(ByRef smode As Integer) As Long
@@ -1665,15 +1671,24 @@ Public Class TweenMain
             End If
         End If
 
-        If (StatusText.Text.StartsWith("D ")) OrElse isRemoveFooter Then
-            args.status = StatusText.Text.Trim
-        ElseIf SettingDialog.UseRecommendStatus() Then
-            ' 推奨ステータスを使用する
-            args.status = StatusText.Text.Trim() + SettingDialog.RecommendStatusText
+        Dim footer As String = ""
+        If StatusText.Text.StartsWith("D ") OrElse StatusText.Text.StartsWith("d ") Then
+            'DM時は何もつけない
+            footer = ""
         Else
-            ' テキストボックスに入力されている文字列を使用する
-            args.status = StatusText.Text.Trim() + " " + SettingDialog.Status.Trim()
+            'ハッシュタグ
+            footer = " " + Me.HashSelectComboBox.Text
+            If Not isRemoveFooter Then
+                If SettingDialog.UseRecommendStatus Then
+                    ' 推奨ステータスを使用する
+                    footer += SettingDialog.RecommendStatusText
+                Else
+                    ' テキストボックスに入力されている文字列を使用する
+                    footer += " " + SettingDialog.Status.Trim
+                End If
+            End If
         End If
+        args.status = StatusText.Text.Trim + footer
 
         If ToolStripMenuItemApiCommandEvasion.Checked Then
             ' APIコマンド回避
@@ -2215,13 +2230,13 @@ Public Class TweenMain
         'toPage=0:通常モード
         If Not IsNetworkAvailable() Then Exit Sub
         ''タイマー初期化
-        If SettingDialog.TimelinePeriodInt > 0 Then
+        If WkType = WORKERTYPE.Timeline AndAlso SettingDialog.TimelinePeriodInt > 0 Then
             _homeCounter = SettingDialog.TimelinePeriodInt - _homeCounterAdjuster
         End If
-        If SettingDialog.ReplyPeriodInt > 0 Then
+        If WkType = WORKERTYPE.Reply AndAlso SettingDialog.ReplyPeriodInt > 0 Then
             _mentionCounter = SettingDialog.ReplyPeriodInt
         End If
-        If SettingDialog.DMPeriodInt > 0 Then
+        If WkType = WORKERTYPE.DirectMessegeRcv AndAlso SettingDialog.DMPeriodInt > 0 Then
             _dmCounter = SettingDialog.DMPeriodInt
         End If
 
@@ -2860,6 +2875,10 @@ Public Class TweenMain
                         Outputz.url = "http://twitter.com/" + SettingDialog.UserID
                 End Select
 
+                Dim selHash As String = Me.HashSelectComboBox.Text
+                Me.HashSelectComboBox.Items.Clear()
+                Me.HashSelectComboBox.Items.AddRange(SettingDialog.HashList.ToArray)
+                Me.HashSelectComboBox.Text = selHash
             End SyncLock
         End If
 
@@ -2992,6 +3011,8 @@ Public Class TweenMain
             pnl.Name = "panelSearch"
             pnl.Dock = DockStyle.Top
             pnl.Height = cmb.Height
+            AddHandler pnl.Enter, AddressOf SearchControls_Enter
+            AddHandler pnl.Leave, AddressOf SearchControls_Leave
 
             cmb.Text = ""
             cmb.Anchor = AnchorStyles.Left Or AnchorStyles.Right
@@ -3000,8 +3021,9 @@ Public Class TweenMain
             cmb.DropDownStyle = ComboBoxStyle.DropDown
             cmb.ImeMode = Windows.Forms.ImeMode.NoControl
             cmb.TabStop = False
-            AddHandler cmb.Enter, AddressOf SearchControls_Enter
-            AddHandler cmb.Leave, AddressOf SearchControls_Leave
+            cmb.AutoCompleteMode = AutoCompleteMode.None
+            'AddHandler cmb.Enter, AddressOf SearchControls_Enter
+            'AddHandler cmb.Leave, AddressOf SearchControls_Leave
 
 
             If _statuses.ContainsTab(tabName) Then
@@ -3017,8 +3039,8 @@ Public Class TweenMain
             cmbLang.DropDownStyle = ComboBoxStyle.DropDownList
             cmbLang.TabStop = False
             If _statuses.ContainsTab(tabName) Then cmbLang.Text = _statuses.Tabs(tabName).SearchLang
-            AddHandler cmbLang.Enter, AddressOf SearchControls_Enter
-            AddHandler cmbLang.Leave, AddressOf SearchControls_Leave
+            'AddHandler cmbLang.Enter, AddressOf SearchControls_Enter
+            'AddHandler cmbLang.Leave, AddressOf SearchControls_Leave
 
             lbl.Text = "Search(C-S-f)"
             lbl.Name = "label1"
@@ -3033,8 +3055,8 @@ Public Class TweenMain
             btn.Dock = DockStyle.Right
             btn.TabStop = False
             AddHandler btn.Click, AddressOf SearchButton_Click
-            AddHandler btn.Enter, AddressOf SearchControls_Enter
-            AddHandler btn.Leave, AddressOf SearchControls_Leave
+            'AddHandler btn.Enter, AddressOf SearchControls_Enter
+            'AddHandler btn.Leave, AddressOf SearchControls_Leave
 
             cmbLang.Items.Add("")
             cmbLang.Items.Add("ja")
@@ -3424,22 +3446,30 @@ Public Class TweenMain
         If Not SettingDialog.UseAtIdSupplement OrElse AtIdSupl Is Nothing Then Exit Sub
         If e.KeyChar = "@" Then
             '@マーク
-            AtIdSupl.ShowDialog()
-            Me.TopMost = SettingDialog.AlwaysTop
-            If AtIdSupl.inputText <> "" Then
-                Dim fHalf As String = ""
-                Dim eHalf As String = ""
-                Dim selStart As Integer = StatusText.SelectionStart
-                If selStart > 1 Then
-                    fHalf = StatusText.Text.Substring(0, selStart)
-                End If
-                If selStart < StatusText.Text.Length Then
-                    eHalf = StatusText.Text.Substring(selStart)
-                End If
-                StatusText.Text = fHalf + AtIdSupl.inputText + eHalf
-                StatusText.SelectionStart = selStart + AtIdSupl.inputText.Length
-            End If
+            ShowSuplDialog(AtIdSupl)
             e.Handled = True
+        End If
+        If e.KeyChar = "#" Then
+            ShowSuplDialog(HashSupl)
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub ShowSuplDialog(ByVal dialog As AtIdSupplement)
+        dialog.ShowDialog()
+        Me.TopMost = SettingDialog.AlwaysTop
+        If dialog.inputText <> "" Then
+            Dim fHalf As String = ""
+            Dim eHalf As String = ""
+            Dim selStart As Integer = StatusText.SelectionStart
+            If selStart > 1 Then
+                fHalf = StatusText.Text.Substring(0, selStart)
+            End If
+            If selStart < StatusText.Text.Length Then
+                eHalf = StatusText.Text.Substring(selStart)
+            End If
+            StatusText.Text = fHalf + dialog.inputText + eHalf
+            StatusText.SelectionStart = selStart + dialog.inputText.Length
         End If
     End Sub
 
@@ -3483,6 +3513,7 @@ Public Class TweenMain
                 pLen -= SettingDialog.Status.Length + 1
             End If
         End If
+        pLen -= Me.HashSelectComboBox.Text.Length + 1
         Return pLen
     End Function
 
@@ -4841,6 +4872,8 @@ RETRY:
                 End Select
 
                 _cfgCommon.Nicoms = SettingDialog.Nicoms
+                _cfgCommon.HashTags = SettingDialog.HashList
+                _cfgCommon.HashSelected = Me.HashSelectComboBox.Text
 
                 '                _cfgCommon.TabList.Clear()
                 '                For i As Integer = 0 To ListTab.TabPages.Count - 1
@@ -6026,9 +6059,20 @@ RETRY:
     End Sub
 
     Friend Sub CheckReplyTo(ByVal StatusText As String)
+        Dim m As MatchCollection
+        'ハッシュタグの保存
+        Dim hash As New Regex("(^|[^a-zA-Z0-9_/])[#|＃](?<hash>[a-zA-Z0-9_]+)")
+        m = hash.Matches(StatusText)
+        For Each hm As Match In m
+            Dim hstr As String = "#" + hm.Result("${hash}")
+            If Not Me.HashSelectComboBox.Items.Contains(hstr) Then
+                Me.HashSelectComboBox.Items.Add(hstr)
+                SettingDialog.HashList.Add(hstr)
+            End If
+            HashSupl.AddItem(hstr)
+        Next
         ' 本当にリプライ先指定すべきかどうかの判定
         Dim id As New Regex("(^|[ -/:-@[-^`{-~])(?<id>@[a-zA-Z0-9_]+)")
-        Dim m As MatchCollection
 
         m = id.Matches(StatusText)
 
@@ -6541,16 +6585,23 @@ RETRY:
                 FollowContextMenuItem.Enabled = True
                 RemoveContextMenuItem.Enabled = True
                 FriendshipContextMenuItem.Enabled = True
+                If Regex.IsMatch(PostBrowser.StatusText, "^https?://twitter.com/search\?q=%23") Then
+                    UseHashtagMenuItem.Enabled = True
+                Else
+                    UseHashtagMenuItem.Enabled = False
+                End If
             Else
                 FollowContextMenuItem.Enabled = False
                 RemoveContextMenuItem.Enabled = False
                 FriendshipContextMenuItem.Enabled = False
+                UseHashtagMenuItem.Enabled = False
             End If
         Else
             ToolStripMenuItem4.Enabled = False
             FollowContextMenuItem.Enabled = False
             RemoveContextMenuItem.Enabled = False
             FriendshipContextMenuItem.Enabled = False
+            UseHashtagMenuItem.Enabled = False
         End If
         ' 文字列選択されていないときは選択文字列関係の項目を非表示に
         Dim _selText As String = PostBrowser_GetSelectionText()
@@ -7188,7 +7239,6 @@ RETRY:
 
     Private Sub SearchButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         '公式検索
-        DirectCast(ListTab.SelectedTab.Tag, DetailsListView).Focus()
         Dim pnl As Control = DirectCast(sender, Control).Parent
         If pnl Is Nothing Then Exit Sub
         Dim tbName As String = pnl.Parent.Text
@@ -7206,6 +7256,7 @@ RETRY:
         End If
 
         GetTimeline(WORKERTYPE.PublicSearch, 1, 0, tbName)
+        DirectCast(ListTab.SelectedTab.Tag, DetailsListView).Focus()
     End Sub
 
     Private Sub RefreshMoreStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RefreshMoreStripMenuItem.Click
@@ -7293,32 +7344,41 @@ RETRY:
     End Sub
 
     Private Sub SearchControls_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        Dim pnl As Control = DirectCast(sender, Control).Parent
+        Dim pnl As Control = DirectCast(sender, Control)
         For Each ctl As Control In pnl.Controls
             ctl.TabStop = True
         Next
     End Sub
 
     Private Sub SearchControls_Leave(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        Dim pnl As Control = DirectCast(sender, Control).Parent
-        Dim leave As Boolean = True
+        Dim pnl As Control = DirectCast(sender, Control)
         For Each ctl As Control In pnl.Controls
-            If ctl.Focused AndAlso sender IsNot ctl Then
-                leave = False
-                Exit For
-            End If
+            ctl.TabStop = False
         Next
-        If leave Then
-            For Each ctl As Control In pnl.Controls
-                ctl.TabStop = False
-            Next
-        End If
     End Sub
 
     Private Sub PublicSearchQueryMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PublicSearchQueryMenuItem.Click
         If ListTab.SelectedTab IsNot Nothing Then
             If _statuses.Tabs(ListTab.SelectedTab.Text).TabType <> TabUsageType.PublicSearch Then Exit Sub
             ListTab.SelectedTab.Controls("panelSearch").Controls("comboSearch").Focus()
+        End If
+    End Sub
+
+    Private Sub UseHashtagMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UseHashtagMenuItem.Click
+        Dim m As Match = Regex.Match(PostBrowser.StatusText, "^https?://twitter.com/search\?q=%23(?<hash>[a-zA-Z0-9_]+)$")
+        If m.Success Then
+            Me.HashSelectComboBox.Items.Add("#" + m.Result("${hash}"))
+            Me.HashSelectComboBox.Text = "#" + m.Result("${hash}")
+            modifySettingCommon = True
+        End If
+    End Sub
+
+    Private Sub ContextMenuStripPostMode_Closed(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ToolStripDropDownClosedEventArgs) Handles ContextMenuStripPostMode.Closed
+        modifySettingCommon = True
+        If HashSelectComboBox.Text <> "" Then
+            ButtonPostMode.ForeColor = Color.Red
+        Else
+            ButtonPostMode.ForeColor = System.Drawing.SystemColors.ControlText
         End If
     End Sub
 End Class

@@ -95,6 +95,7 @@ Public Class SettingCommon
     Public Language As String = "OS"
     Public Nicoms As Boolean = False
     Public HashTags As New List(Of String)
+    Public HashSelected As String = ""
 
     <Xml.Serialization.XmlIgnore()> _
     Public OutputzKey As String = ""
