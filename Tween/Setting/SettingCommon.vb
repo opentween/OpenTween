@@ -94,6 +94,7 @@ Public Class SettingCommon
     Public UseSsl As Boolean = True
     Public Language As String = "OS"
     Public Nicoms As Boolean = False
+    Public HashTags As New List(Of String)
 
     <Xml.Serialization.XmlIgnore()> _
     Public OutputzKey As String = ""
