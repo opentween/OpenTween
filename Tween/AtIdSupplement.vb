@@ -3,11 +3,18 @@ Public Class AtIdSupplement
     Public inputText As String = ""
     Public isBack As Boolean = False
     Private startChar As String = ""
+    Private tabkeyFix As Boolean = False
 
     Public Sub AddItem(ByVal id As String)
         If Not Me.TextId.AutoCompleteCustomSource.Contains(id) Then
             Me.TextId.AutoCompleteCustomSource.Add(id)
         End If
+    End Sub
+
+    Public Sub AddRangeItem(ByVal ids As String())
+        For Each id As String In ids
+            Me.AddItem(id)
+        Next
     End Sub
 
     Public Function GetItemList() As List(Of String)
@@ -44,7 +51,7 @@ Public Class AtIdSupplement
             isBack = True
             Me.Close()
         End If
-        If e.KeyCode = Keys.Space OrElse e.KeyCode = Keys.Tab Then
+        If e.KeyCode = Keys.Space OrElse (e.KeyCode = Keys.Tab AndAlso tabkeyFix) Then
             inputText = Me.TextId.Text + " "
             isBack = False
             Me.Close()
@@ -67,7 +74,10 @@ Public Class AtIdSupplement
     Private Sub AtIdSupplement_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
         'TextId.Text = startChar
         'TextId.SelectionStart = 1
-        TextId.Text = startChar
+        TextId.Text = ""
+        TextId.Focus()
+        My.Application.DoEvents()
+        SendKeys.Send(startChar)
     End Sub
 
     Public Sub New()
@@ -79,7 +89,7 @@ Public Class AtIdSupplement
 
     End Sub
 
-    Public Sub New(ByVal ItemList As List(Of String), ByVal startCharacter As String)
+    Public Sub New(ByVal ItemList As List(Of String), ByVal startCharacter As String, ByVal tabFix As Boolean)
 
         ' この呼び出しは、Windows フォーム デザイナで必要です。
         InitializeComponent()
@@ -90,11 +100,11 @@ Public Class AtIdSupplement
             Me.TextId.AutoCompleteCustomSource.Add(ItemList(i))
         Next
         startChar = startCharacter
-
+        tabkeyFix = tabFix
     End Sub
 
     Private Sub TextId_PreviewKeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.PreviewKeyDownEventArgs) Handles TextId.PreviewKeyDown
-        If e.KeyCode = Keys.Tab Then
+        If e.KeyCode = Keys.Tab AndAlso tabkeyFix Then
             inputText = Me.TextId.Text + " "
             isBack = False
             Me.Close()
