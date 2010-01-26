@@ -1709,7 +1709,10 @@ Public Class TweenMain
             args.status = args.status.Replace("　", "  ")
         End If
 
-        If isCutOff AndAlso args.status.Length > 140 Then args.status = args.status.Substring(0, 140)
+        If isCutOff AndAlso args.status.Length > 140 Then
+            args.status = args.status.Substring(0, 140)
+            If MessageBox.Show(args.status, "Post or Cancel?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then Exit Sub
+        End If
 
         RunAsync(args)
 
@@ -3448,52 +3451,31 @@ Public Class TweenMain
         If Not SettingDialog.UseAtIdSupplement OrElse AtIdSupl Is Nothing Then Exit Sub
         If e.KeyChar = "@" Then
             '@マーク
-            AtIdSupl.ShowDialog()
-            Me.TopMost = SettingDialog.AlwaysTop
-            If AtIdSupl.inputText <> "" Then
-                Dim fHalf As String = ""
-                Dim eHalf As String = ""
-                Dim selStart As Integer = StatusText.SelectionStart
-                If selStart > 1 Then
-                    fHalf = StatusText.Text.Substring(0, selStart)
-                End If
-                If selStart < StatusText.Text.Length Then
-                    eHalf = StatusText.Text.Substring(selStart)
-                End If
-                StatusText.Text = fHalf + AtIdSupl.inputText + eHalf
-                StatusText.SelectionStart = selStart + AtIdSupl.inputText.Length
-            End If
+            ShowSuplDialog(AtIdSupl)
             e.Handled = True
-        End If
-        If e.KeyChar = "#" Then
-            HashSupl.ShowDialog()
-            Me.TopMost = SettingDialog.AlwaysTop
-            Dim hash As String = HashSupl.inputText.Trim
-            If hash <> "" AndAlso hash.StartsWith("#") Then
-                Me.HashSelectComboBox.Text = hash
-                Me.ButtonPostMode.ForeColor = Color.Red
-            End If
+        ElseIf e.KeyChar = "#" Then
+            ShowSuplDialog(HashSupl)
             e.Handled = True
         End If
     End Sub
 
-    'Private Sub ShowSuplDialog(ByVal dialog As AtIdSupplement)
-    '    dialog.ShowDialog()
-    '    Me.TopMost = SettingDialog.AlwaysTop
-    '    If dialog.inputText <> "" Then
-    '        Dim fHalf As String = ""
-    '        Dim eHalf As String = ""
-    '        Dim selStart As Integer = StatusText.SelectionStart
-    '        If selStart > 1 Then
-    '            fHalf = StatusText.Text.Substring(0, selStart)
-    '        End If
-    '        If selStart < StatusText.Text.Length Then
-    '            eHalf = StatusText.Text.Substring(selStart)
-    '        End If
-    '        StatusText.Text = fHalf + dialog.inputText + eHalf
-    '        StatusText.SelectionStart = selStart + dialog.inputText.Length
-    '    End If
-    'End Sub
+    Private Sub ShowSuplDialog(ByVal dialog As AtIdSupplement)
+        dialog.ShowDialog()
+        Me.TopMost = SettingDialog.AlwaysTop
+        If dialog.inputText <> "" Then
+            Dim fHalf As String = ""
+            Dim eHalf As String = ""
+            Dim selStart As Integer = StatusText.SelectionStart
+            If selStart > 1 Then
+                fHalf = StatusText.Text.Substring(0, selStart)
+            End If
+            If selStart < StatusText.Text.Length Then
+                eHalf = StatusText.Text.Substring(selStart)
+            End If
+            StatusText.Text = fHalf + dialog.inputText + eHalf
+            StatusText.SelectionStart = selStart + dialog.inputText.Length
+        End If
+    End Sub
 
     Private Sub StatusText_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles StatusText.KeyUp
         'スペースキーで未読ジャンプ
