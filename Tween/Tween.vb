@@ -600,7 +600,7 @@ Public Class TweenMain
         SettingDialog.ShowGrid = _cfgCommon.ShowGrid
         SettingDialog.Language = _cfgCommon.Language
         SettingDialog.UseAtIdSupplement = _cfgCommon.UseAtIdSupplement
-        AtIdSupl = New AtIdSupplement(SettingAtIdList.Load().AtIdList, "@")
+        AtIdSupl = New AtIdSupplement(SettingAtIdList.Load().AtIdList, "@", True)
 
         SettingDialog.IsMonospace = _cfgCommon.IsMonospace
         If SettingDialog.IsMonospace Then
@@ -753,9 +753,12 @@ Public Class TweenMain
             End If
         End If
         'ハッシュタグ関連
-        HashSupl = New AtIdSupplement(SettingDialog.HashList, "#")
+        HashSupl = New AtIdSupplement(SettingDialog.HashList, "#", False)
         HashSelectComboBox.Items.AddRange(SettingDialog.HashList.ToArray)
         HashSelectComboBox.Text = _cfgCommon.HashSelected
+        If _cfgCommon.HashSelected <> "" Then
+            Me.ButtonPostMode.ForeColor = Color.Red
+        End If
 
         'ウィンドウ設定
         Me.ClientSize = _cfgLocal.FormSize
@@ -1297,9 +1300,7 @@ Public Class TweenMain
         SetMainWindowTitle()
         If Not StatusLabelUrl.Text.StartsWith("http") Then SetStatusLabel()
 
-        For Each hash As String In Twitter.GetHashList
-            HashSupl.AddItem(hash)
-        Next
+        HashSupl.AddRangeItem(Twitter.GetHashList)
 
     End Sub
 
@@ -2879,6 +2880,7 @@ Public Class TweenMain
                 Me.HashSelectComboBox.Items.Clear()
                 Me.HashSelectComboBox.Items.AddRange(SettingDialog.HashList.ToArray)
                 Me.HashSelectComboBox.Text = selHash
+                Me.HashSupl.AddRangeItem(SettingDialog.HashList.ToArray)
             End SyncLock
         End If
 
@@ -3446,32 +3448,52 @@ Public Class TweenMain
         If Not SettingDialog.UseAtIdSupplement OrElse AtIdSupl Is Nothing Then Exit Sub
         If e.KeyChar = "@" Then
             '@マーク
-            ShowSuplDialog(AtIdSupl)
+            AtIdSupl.ShowDialog()
+            Me.TopMost = SettingDialog.AlwaysTop
+            If AtIdSupl.inputText <> "" Then
+                Dim fHalf As String = ""
+                Dim eHalf As String = ""
+                Dim selStart As Integer = StatusText.SelectionStart
+                If selStart > 1 Then
+                    fHalf = StatusText.Text.Substring(0, selStart)
+                End If
+                If selStart < StatusText.Text.Length Then
+                    eHalf = StatusText.Text.Substring(selStart)
+                End If
+                StatusText.Text = fHalf + AtIdSupl.inputText + eHalf
+                StatusText.SelectionStart = selStart + AtIdSupl.inputText.Length
+            End If
             e.Handled = True
         End If
         If e.KeyChar = "#" Then
-            ShowSuplDialog(HashSupl)
+            HashSupl.ShowDialog()
+            Me.TopMost = SettingDialog.AlwaysTop
+            Dim hash As String = HashSupl.inputText.Trim
+            If hash <> "" AndAlso hash.StartsWith("#") Then
+                Me.HashSelectComboBox.Text = hash
+                Me.ButtonPostMode.ForeColor = Color.Red
+            End If
             e.Handled = True
         End If
     End Sub
 
-    Private Sub ShowSuplDialog(ByVal dialog As AtIdSupplement)
-        dialog.ShowDialog()
-        Me.TopMost = SettingDialog.AlwaysTop
-        If dialog.inputText <> "" Then
-            Dim fHalf As String = ""
-            Dim eHalf As String = ""
-            Dim selStart As Integer = StatusText.SelectionStart
-            If selStart > 1 Then
-                fHalf = StatusText.Text.Substring(0, selStart)
-            End If
-            If selStart < StatusText.Text.Length Then
-                eHalf = StatusText.Text.Substring(selStart)
-            End If
-            StatusText.Text = fHalf + dialog.inputText + eHalf
-            StatusText.SelectionStart = selStart + dialog.inputText.Length
-        End If
-    End Sub
+    'Private Sub ShowSuplDialog(ByVal dialog As AtIdSupplement)
+    '    dialog.ShowDialog()
+    '    Me.TopMost = SettingDialog.AlwaysTop
+    '    If dialog.inputText <> "" Then
+    '        Dim fHalf As String = ""
+    '        Dim eHalf As String = ""
+    '        Dim selStart As Integer = StatusText.SelectionStart
+    '        If selStart > 1 Then
+    '            fHalf = StatusText.Text.Substring(0, selStart)
+    '        End If
+    '        If selStart < StatusText.Text.Length Then
+    '            eHalf = StatusText.Text.Substring(selStart)
+    '        End If
+    '        StatusText.Text = fHalf + dialog.inputText + eHalf
+    '        StatusText.SelectionStart = selStart + dialog.inputText.Length
+    '    End If
+    'End Sub
 
     Private Sub StatusText_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles StatusText.KeyUp
         'スペースキーで未読ジャンプ
@@ -7369,6 +7391,7 @@ RETRY:
         If m.Success Then
             Me.HashSelectComboBox.Items.Add("#" + m.Result("${hash}"))
             Me.HashSelectComboBox.Text = "#" + m.Result("${hash}")
+            Me.ButtonPostMode.ForeColor = Color.Red
             modifySettingCommon = True
         End If
     End Sub
@@ -7380,5 +7403,11 @@ RETRY:
         Else
             ButtonPostMode.ForeColor = System.Drawing.SystemColors.ControlText
         End If
+    End Sub
+
+    Private Sub HashClearMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HashClearMenuItem.Click
+        Me.HashSelectComboBox.Text = ""
+        Me.ButtonPostMode.ForeColor = Drawing.SystemColors.ControlText
+        modifySettingCommon = True
     End Sub
 End Class

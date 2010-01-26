@@ -1896,7 +1896,7 @@ Public Class Setting
             tagInput.FormDescription = "Input HashTag"
             tagInput.IsShowUsage = False
             tagInput.ShowDialog()
-            inputText = tagInput.TabName
+            inputText = tagInput.TabName.Trim
             tagInput.Dispose()
         End Using
         If inputText = "" Then Exit Sub
