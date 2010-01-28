@@ -69,6 +69,7 @@ Public Class AtIdSupplement
 
     Private Sub AtIdSupplement_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         'Me.Height = Me.TextId.Height + SystemInformation.ToolWindowCaptionHeight + Me.TextId.Margin.Top + Me.Label1.Height
+        If startChar = "#" Then Me.ClientSize = New Size(Me.TextId.Width, Me.TextId.Height) 'プロパティで切り替えできるように
     End Sub
 
     Private Sub AtIdSupplement_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown

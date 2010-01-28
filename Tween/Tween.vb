@@ -239,6 +239,33 @@ Public Class TweenMain
         PrevSearch
     End Enum
 
+    Private Class SpaceKeyCanceler
+        Inherits NativeWindow
+        Implements IDisposable
+
+        Dim WM_KEYDOWN As Integer = &H100
+        Dim VK_SPACE As Integer = &H20
+
+        Public Sub New(ByVal control As Control)
+            Me.AssignHandle(control.Handle)
+        End Sub
+
+        Protected Overrides Sub WndProc(ByRef m As System.Windows.Forms.Message)
+            If (m.Msg = WM_KEYDOWN) AndAlso (CInt(m.WParam) = VK_SPACE) Then
+                RaiseEvent SpaceCancel(Me, EventArgs.Empty)
+                Exit Sub
+            End If
+
+            MyBase.WndProc(m)
+        End Sub
+
+        Public Event SpaceCancel As EventHandler
+
+        Public Sub Dispose() Implements IDisposable.Dispose
+            Me.ReleaseHandle()
+        End Sub
+    End Class
+
     Private Sub TweenMain_Activated(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Activated
         '画面が他画面の裏に隠れると、アイコン画像が再描画されない問題の対応
         If UserPicture.Image IsNot Nothing Then
@@ -656,6 +683,7 @@ Public Class TweenMain
         'ハッシュタグ関連
         HashSupl = New AtIdSupplement(_cfgCommon.HashTags, "#")
         HashMgr = New HashtagManage(HashSupl, _cfgCommon.HashTags.ToArray)
+        HashMgr.UseHash = _cfgCommon.HashSelected
 
         _initial = True
 
@@ -1690,6 +1718,7 @@ Public Class TweenMain
             footer = ""
         Else
             'ハッシュタグ
+            If HashMgr.UseHash <> "" Then footer = " " + HashMgr.UseHash
             If Not isRemoveFooter Then
                 If SettingDialog.UseRecommendStatus Then
                     ' 推奨ステータスを使用する
@@ -3472,7 +3501,7 @@ Public Class TweenMain
             Dim fHalf As String = ""
             Dim eHalf As String = ""
             Dim selStart As Integer = StatusText.SelectionStart
-            If selStart > 1 Then
+            If selStart > 0 Then
                 fHalf = StatusText.Text.Substring(0, selStart)
             End If
             If selStart < StatusText.Text.Length Then
@@ -3522,6 +3551,9 @@ Public Class TweenMain
             ElseIf SettingDialog.Status.Length > 0 Then
                 pLen -= SettingDialog.Status.Length + 1
             End If
+        End If
+        If HashMgr.UseHash <> "" Then
+            pLen -= HashMgr.UseHash.Length + 1
         End If
         Return pLen
     End Function
@@ -6593,15 +6625,14 @@ RETRY:
                 FollowContextMenuItem.Enabled = True
                 RemoveContextMenuItem.Enabled = True
                 FriendshipContextMenuItem.Enabled = True
-                If Regex.IsMatch(PostBrowser.StatusText, "^https?://twitter.com/search\?q=%23") Then
-                    UseHashtagMenuItem.Enabled = True
-                Else
-                    UseHashtagMenuItem.Enabled = False
-                End If
             Else
                 FollowContextMenuItem.Enabled = False
                 RemoveContextMenuItem.Enabled = False
                 FriendshipContextMenuItem.Enabled = False
+            End If
+            If Regex.IsMatch(PostBrowser.StatusText, "^https?://twitter.com/search\?q=%23") Then
+                UseHashtagMenuItem.Enabled = True
+            Else
                 UseHashtagMenuItem.Enabled = False
             End If
         Else
@@ -7372,37 +7403,35 @@ RETRY:
         Dim m As Match = Regex.Match(PostBrowser.StatusText, "^https?://twitter.com/search\?q=%23(?<hash>[a-zA-Z0-9_]+)$")
         If m.Success Then
             HashMgr.UseHash = "#" + m.Result("${hash}")
-            HashMgr.AutoAdd = True
             HashStripSplitButton.Text = HashMgr.UseHash
             '使用ハッシュタグとして設定
             modifySettingCommon = True
         End If
     End Sub
 
-    Private Class SpaceKeyCanceler
-        Inherits NativeWindow
-        Implements IDisposable
+    Private Sub StatusLabel_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StatusLabel.DoubleClick
+        MessageBox.Show(StatusLabel.TextHistory, "Logs", MessageBoxButtons.OK, MessageBoxIcon.None)
+    End Sub
 
-        Dim WM_KEYDOWN As Integer = &H100
-        Dim VK_SPACE As Integer = &H20
+    Private Sub HashManageMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HashManageMenuItem.Click
+        Dim rslt As DialogResult = HashMgr.ShowDialog()
+        Me.TopMost = SettingDialog.AlwaysTop
+        If rslt = Windows.Forms.DialogResult.Cancel Then Exit Sub
+        If HashMgr.UseHash <> "" Then
+            HashStripSplitButton.Text = HashMgr.UseHash
+        Else
+            HashStripSplitButton.Text = "#[-]"
+        End If
+        modifySettingCommon = True
+    End Sub
 
-        Public Sub New(ByVal control As Control)
-            Me.AssignHandle(control.Handle)
-        End Sub
-
-        Protected Overrides Sub WndProc(ByRef m As System.Windows.Forms.Message)
-            If (m.Msg = WM_KEYDOWN) AndAlso (CInt(m.WParam) = VK_SPACE) Then
-                RaiseEvent SpaceCancel(Me, EventArgs.Empty)
-                Exit Sub
-            End If
-
-            MyBase.WndProc(m)
-        End Sub
-
-        Public Event SpaceCancel As EventHandler
-
-        Public Sub Dispose() Implements IDisposable.Dispose
-            Me.ReleaseHandle()
-        End Sub
-    End Class
+    Private Sub HashToggleMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles HashToggleMenuItem.Click
+        HashMgr.ToggleHash()
+        If HashMgr.UseHash <> "" Then
+            HashStripSplitButton.Text = HashMgr.UseHash
+        Else
+            HashStripSplitButton.Text = "#[-]"
+        End If
+        modifySettingCommon = True
+    End Sub
 End Class
