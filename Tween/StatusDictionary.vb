@@ -725,7 +725,7 @@ Public NotInheritable Class TabInformations
             Me.Distribute()    'タブに仮振分
             _addCount = _addedIds.Count
             For Each tb As TabClass In _tabs.Values
-                If tb.TabType = TabUsageType.PublicSearch Then _addCount += tb.GetTemporaryPosts.Length
+                If tb.TabType = TabUsageType.PublicSearch Then _addCount += tb.GetTemporaryCount
             Next
             _addedIds.Clear()
             _addedIds = Nothing     '後始末
@@ -817,23 +817,21 @@ Public NotInheritable Class TabInformations
                 If dmTab.SoundFile <> "" Then _soundFile = dmTab.SoundFile
             End If
         Next
-        For Each tn As String In _tabs.Keys
-            If _tabs(tn).TabType = TabUsageType.PublicSearch Then
-                If _tabs(tn).GetTemporaryPosts.Length > 0 Then
-                    If _tabs(tn).Notify Then
-                        For Each post As PostClass In _tabs(tn).GetTemporaryPosts
-                            Dim exist As Boolean = False
-                            For Each npost As PostClass In _notifyPosts
-                                If npost.Id = post.Id Then
-                                    exist = True
-                                    Exit For
-                                End If
-                            Next
-                            If Not exist Then _notifyPosts.Add(post)
+        For Each tb As TabClass In _tabs.Values
+            If tb.TabType = TabUsageType.PublicSearch Then
+                If tb.Notify Then
+                    For Each post As PostClass In tb.GetTemporaryPosts
+                        Dim exist As Boolean = False
+                        For Each npost As PostClass In _notifyPosts
+                            If npost.Id = post.Id Then
+                                exist = True
+                                Exit For
+                            End If
                         Next
-                    End If
-                    If _soundFile = "" AndAlso _tabs(tn).SoundFile <> "" Then _soundFile = _tabs(tn).SoundFile
+                        If Not exist Then _notifyPosts.Add(post)
+                    Next
                 End If
+                If _soundFile = "" AndAlso tb.SoundFile <> "" Then _soundFile = tb.SoundFile
             End If
         Next
     End Sub
@@ -1279,7 +1277,7 @@ Public NotInheritable Class TabClass
     Private _unreadCount As Integer = 0
     Private _ids As List(Of Long)
     Private _filterMod As Boolean = False
-    Private _tmpIds As List(Of TemporaryId)
+    Private _tmpIds As New List(Of TemporaryId)
     Private _tabName As String = ""
     Private _tabType As TabUsageType = TabUsageType.Undefined
     Private _posts As New Dictionary(Of Long, PostClass)
@@ -1339,11 +1337,15 @@ Public NotInheritable Class TabClass
 
     Public Function GetTemporaryPosts() As PostClass()
         Dim tempPosts As New List(Of PostClass)
-        If _tmpIds Is Nothing OrElse _tmpIds.Count = 0 Then Return tempPosts.ToArray
+        If _tmpIds.Count = 0 Then Return tempPosts.ToArray
         For Each tempId As TemporaryId In _tmpIds
             tempPosts.Add(_posts(tempId.Id))
         Next
         Return tempPosts.ToArray
+    End Function
+
+    Public Function GetTemporaryCount() As Integer
+        Return _tmpIds.Count
     End Function
 
     Private Structure TemporaryId
@@ -1401,7 +1403,6 @@ Public NotInheritable Class TabClass
         If Not Temporary Then
             Me.Add(ID, Read)
         Else
-            If _tmpIds Is Nothing Then _tmpIds = New List(Of TemporaryId)
             _tmpIds.Add(New TemporaryId(ID, Read))
         End If
     End Sub
@@ -1430,7 +1431,6 @@ Public NotInheritable Class TabClass
         Next
 
         If rslt <> HITRESULT.None Then
-            If _tmpIds Is Nothing Then _tmpIds = New List(Of TemporaryId)
             _tmpIds.Add(New TemporaryId(post.Id, post.IsRead))
         End If
         'Me.Add(ID, Read)
@@ -1446,17 +1446,15 @@ Public NotInheritable Class TabClass
     Public Sub AddPostToInnerStorage(ByVal Post As PostClass)
         If _posts.ContainsKey(Post.Id) Then Exit Sub
         _posts.Add(Post.Id, Post)
-        If _tmpIds Is Nothing Then _tmpIds = New List(Of TemporaryId)
         _tmpIds.Add(New TemporaryId(Post.Id, Post.IsRead))
     End Sub
 
     Public Sub AddSubmit()
-        If _tmpIds Is Nothing Then Exit Sub
+        If _tmpIds.Count = 0 Then Exit Sub
         For Each tId As TemporaryId In _tmpIds
             Me.Add(tId.Id, tId.Read)
         Next
         _tmpIds.Clear()
-        _tmpIds = Nothing
     End Sub
 
     Public Sub Remove(ByVal Id As Long)
@@ -1595,6 +1593,7 @@ Public NotInheritable Class TabClass
 
     Public Sub ClearIDs()
         _ids.Clear()
+        _tmpIds.Clear()
         _unreadCount = 0
         _oldestUnreadItem = -1
         If _posts IsNot Nothing Then

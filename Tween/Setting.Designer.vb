@@ -231,10 +231,6 @@ Partial Class Setting
         Me.Label59 = New System.Windows.Forms.Label
         Me.TextBoxOutputzKey = New System.Windows.Forms.TextBox
         Me.CheckOutputz = New System.Windows.Forms.CheckBox
-        Me.GroupBox3 = New System.Windows.Forms.GroupBox
-        Me.ListHash = New System.Windows.Forms.ListBox
-        Me.ButtonHashAdd = New System.Windows.Forms.Button
-        Me.ButtonHashDelete = New System.Windows.Forms.Button
         Me.GroupBox1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
@@ -244,7 +240,6 @@ Partial Class Setting
         Me.TabPage5.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.TabPage6.SuspendLayout()
-        Me.GroupBox3.SuspendLayout()
         Me.SuspendLayout()
         '
         'Label1
@@ -1558,7 +1553,6 @@ Partial Class Setting
         '
         'TabPage6
         '
-        Me.TabPage6.Controls.Add(Me.GroupBox3)
         Me.TabPage6.Controls.Add(Me.CheckNicoms)
         Me.TabPage6.Controls.Add(Me.Label60)
         Me.TabPage6.Controls.Add(Me.ComboBoxOutputzUrlmode)
@@ -1605,33 +1599,6 @@ Partial Class Setting
         Me.CheckOutputz.Name = "CheckOutputz"
         Me.CheckOutputz.UseVisualStyleBackColor = True
         '
-        'GroupBox3
-        '
-        Me.GroupBox3.Controls.Add(Me.ButtonHashDelete)
-        Me.GroupBox3.Controls.Add(Me.ButtonHashAdd)
-        Me.GroupBox3.Controls.Add(Me.ListHash)
-        resources.ApplyResources(Me.GroupBox3, "GroupBox3")
-        Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.TabStop = False
-        '
-        'ListHash
-        '
-        Me.ListHash.FormattingEnabled = True
-        resources.ApplyResources(Me.ListHash, "ListHash")
-        Me.ListHash.Name = "ListHash"
-        '
-        'ButtonHashAdd
-        '
-        resources.ApplyResources(Me.ButtonHashAdd, "ButtonHashAdd")
-        Me.ButtonHashAdd.Name = "ButtonHashAdd"
-        Me.ButtonHashAdd.UseVisualStyleBackColor = True
-        '
-        'ButtonHashDelete
-        '
-        resources.ApplyResources(Me.ButtonHashDelete, "ButtonHashDelete")
-        Me.ButtonHashDelete.Name = "ButtonHashDelete"
-        Me.ButtonHashDelete.UseVisualStyleBackColor = True
-        '
         'Setting
         '
         Me.AcceptButton = Me.Save
@@ -1663,7 +1630,6 @@ Partial Class Setting
         Me.GroupBox2.PerformLayout()
         Me.TabPage6.ResumeLayout(False)
         Me.TabPage6.PerformLayout()
-        Me.GroupBox3.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -1874,8 +1840,4 @@ Partial Class Setting
     Friend WithEvents PubSearchPeriod As System.Windows.Forms.TextBox
     Friend WithEvents Label7 As System.Windows.Forms.Label
     Friend WithEvents CheckNicoms As System.Windows.Forms.CheckBox
-    Friend WithEvents GroupBox3 As System.Windows.Forms.GroupBox
-    Friend WithEvents ButtonHashDelete As System.Windows.Forms.Button
-    Friend WithEvents ButtonHashAdd As System.Windows.Forms.Button
-    Friend WithEvents ListHash As System.Windows.Forms.ListBox
 End Class

@@ -24,10 +24,11 @@
 Namespace TweenCustomControl
 
     Public NotInheritable Class ToolStripLabelHistory
-        Inherits ToolStripLabel
+        Inherits ToolStripStatusLabel
 
         Private sList As New List(Of String)
         Private Const MAXCNT As Integer = 10
+        Private tTip As ToolTip
 
         Public Overrides Property Text() As String
             Get
@@ -47,5 +48,6 @@ Namespace TweenCustomControl
                 MyBase.Text = value
             End Set
         End Property
+
     End Class
 End Namespace
