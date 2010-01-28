@@ -6,6 +6,11 @@ Public Class HashtagManage
     Private _hashSupl As AtIdSupplement
 
     Private Sub OK_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OK_Button.Click
+        If HistoryHashList.Focused AndAlso HistoryHashList.SelectedIndices.Count > 0 Then
+            Me.ReplaceButton_Click(Nothing, Nothing)
+            UseHashText.Focus()
+            Exit Sub
+        End If
         UseHashText.Text = UseHashText.Text.Trim
         UseHashText.Text = UseHashText.Text.Replace("Åî", "#")
         UseHashText.Text = UseHashText.Text.Replace("Å@", " ")
@@ -47,23 +52,18 @@ Public Class HashtagManage
 
     Public Property UseHash() As String
         Get
-            If CheckAutoAdd.Checked Then
-                Return _useHash
-            Else
-                Return ""
-            End If
+            Return _useHash
         End Get
         Set(ByVal value As String)
-            If value.Trim <> "" Then
-                _useHash = value.Trim
-                UseHashText.Text = _useHash
-                Me.AddHashToHistory(_useHash)
-            End If
+            _useHash = value.Trim
+            UseHashText.Text = _useHash
+            If _useHash <> "" Then Me.AddHashToHistory(_useHash)
         End Set
     End Property
 
     Private Sub HashtagManage_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
         UseHashText.Text = _useHash
+        UseHashText.Focus()
     End Sub
 
     Public Sub AddHashToHistory(ByVal hash As String)
@@ -72,15 +72,6 @@ Public Class HashtagManage
             HistoryHashList.Items.Insert(0, hash)
         End If
     End Sub
-
-    Public Property AutoAdd() As Boolean
-        Get
-            Return CheckAutoAdd.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            CheckAutoAdd.Checked = value
-        End Set
-    End Property
 
     Private Sub ReplaceButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReplaceButton.Click
         UseHashText.Text = ""
@@ -114,7 +105,7 @@ Public Class HashtagManage
                 Dim fHalf As String = ""
                 Dim eHalf As String = ""
                 Dim selStart As Integer = UseHashText.SelectionStart
-                If selStart > 1 Then
+                If selStart > 0 Then
                     fHalf = UseHashText.Text.Substring(0, selStart)
                 End If
                 If selStart < UseHashText.Text.Length Then
@@ -136,4 +127,20 @@ Public Class HashtagManage
             Return hash
         End Get
     End Property
+
+    Private Sub HistoryHashList_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles HistoryHashList.DoubleClick
+        Me.AddButton_Click(Nothing, Nothing)
+    End Sub
+
+    Public Sub ToggleHash()
+        If _useHash <> "" Then
+            _useHash = ""
+            UseHashText.Text = ""
+        Else
+            If HistoryHashList.Items.Count > 0 Then
+                _useHash = HistoryHashList.Items(0).ToString
+                UseHashText.Text = _useHash
+            End If
+        End If
+    End Sub
 End Class

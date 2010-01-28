@@ -31,7 +31,6 @@ Partial Class HashtagManage
         Me.HistoryHashList = New System.Windows.Forms.ListBox
         Me.UseHashText = New System.Windows.Forms.TextBox
         Me.Label1 = New System.Windows.Forms.Label
-        Me.CheckAutoAdd = New System.Windows.Forms.CheckBox
         Me.TableLayoutPanel1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -43,7 +42,7 @@ Partial Class HashtagManage
         Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
         Me.TableLayoutPanel1.Controls.Add(Me.OK_Button, 0, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.Cancel_Button, 1, 0)
-        Me.TableLayoutPanel1.Location = New System.Drawing.Point(135, 269)
+        Me.TableLayoutPanel1.Location = New System.Drawing.Point(135, 228)
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
         Me.TableLayoutPanel1.RowCount = 1
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
@@ -75,7 +74,7 @@ Partial Class HashtagManage
         Me.DeleteButton.Name = "DeleteButton"
         Me.DeleteButton.Size = New System.Drawing.Size(79, 29)
         Me.DeleteButton.TabIndex = 5
-        Me.DeleteButton.Text = "&Delete"
+        Me.DeleteButton.Text = "Delete"
         Me.DeleteButton.UseVisualStyleBackColor = True
         '
         'ReplaceButton
@@ -84,7 +83,7 @@ Partial Class HashtagManage
         Me.ReplaceButton.Name = "ReplaceButton"
         Me.ReplaceButton.Size = New System.Drawing.Size(79, 29)
         Me.ReplaceButton.TabIndex = 4
-        Me.ReplaceButton.Text = "&Replace"
+        Me.ReplaceButton.Text = "Replace"
         Me.ReplaceButton.UseVisualStyleBackColor = True
         '
         'AddButton
@@ -93,7 +92,7 @@ Partial Class HashtagManage
         Me.AddButton.Name = "AddButton"
         Me.AddButton.Size = New System.Drawing.Size(79, 29)
         Me.AddButton.TabIndex = 3
-        Me.AddButton.Text = "&Add"
+        Me.AddButton.Text = "Add"
         Me.AddButton.UseVisualStyleBackColor = True
         '
         'HistoryHashList
@@ -102,7 +101,7 @@ Partial Class HashtagManage
         Me.HistoryHashList.ItemHeight = 12
         Me.HistoryHashList.Location = New System.Drawing.Point(12, 49)
         Me.HistoryHashList.Name = "HistoryHashList"
-        Me.HistoryHashList.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple
+        Me.HistoryHashList.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
         Me.HistoryHashList.Size = New System.Drawing.Size(267, 136)
         Me.HistoryHashList.TabIndex = 2
         '
@@ -122,24 +121,13 @@ Partial Class HashtagManage
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "使用するタグ"
         '
-        'CheckAutoAdd
-        '
-        Me.CheckAutoAdd.AutoSize = True
-        Me.CheckAutoAdd.Location = New System.Drawing.Point(12, 238)
-        Me.CheckAutoAdd.Name = "CheckAutoAdd"
-        Me.CheckAutoAdd.Size = New System.Drawing.Size(121, 16)
-        Me.CheckAutoAdd.TabIndex = 6
-        Me.CheckAutoAdd.Text = "文末に自動付加(&U)"
-        Me.CheckAutoAdd.UseVisualStyleBackColor = True
-        '
         'HashtagManage
         '
         Me.AcceptButton = Me.OK_Button
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.Cancel_Button
-        Me.ClientSize = New System.Drawing.Size(293, 307)
-        Me.Controls.Add(Me.CheckAutoAdd)
+        Me.ClientSize = New System.Drawing.Size(293, 266)
         Me.Controls.Add(Me.DeleteButton)
         Me.Controls.Add(Me.ReplaceButton)
         Me.Controls.Add(Me.AddButton)
@@ -168,6 +156,5 @@ Partial Class HashtagManage
     Friend WithEvents HistoryHashList As System.Windows.Forms.ListBox
     Friend WithEvents UseHashText As System.Windows.Forms.TextBox
     Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents CheckAutoAdd As System.Windows.Forms.CheckBox
 
 End Class

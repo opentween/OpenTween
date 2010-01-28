@@ -28,7 +28,7 @@ Namespace TweenCustomControl
 
         Private sList As New List(Of String)
         Private Const MAXCNT As Integer = 10
-        Private tTip As ToolTip
+        Private _history As String = ""
 
         Public Overrides Property Text() As String
             Get
@@ -39,15 +39,19 @@ Namespace TweenCustomControl
                 Do While sList.Count > MAXCNT
                     sList.RemoveAt(0)
                 Loop
-                Dim his As String = ""
+                _history = ""
                 For Each hstr As String In sList
-                    If his <> "" Then his += System.Environment.NewLine
-                    his += hstr
+                    If _history <> "" Then _history += System.Environment.NewLine
+                    _history += hstr
                 Next
-                Me.ToolTipText = his
                 MyBase.Text = value
             End Set
         End Property
 
+        Public ReadOnly Property TextHistory() As String
+            Get
+                Return _history
+            End Get
+        End Property
     End Class
 End Namespace
