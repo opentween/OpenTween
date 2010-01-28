@@ -3,7 +3,7 @@ Public Class AtIdSupplement
     Public inputText As String = ""
     Public isBack As Boolean = False
     Private startChar As String = ""
-    Private tabkeyFix As Boolean = False
+    '    Private tabkeyFix As Boolean = False
 
     Public Sub AddItem(ByVal id As String)
         If Not Me.TextId.AutoCompleteCustomSource.Contains(id) Then
@@ -51,7 +51,7 @@ Public Class AtIdSupplement
             isBack = True
             Me.Close()
         End If
-        If e.KeyCode = Keys.Space OrElse (e.KeyCode = Keys.Tab AndAlso tabkeyFix) Then
+        If e.KeyCode = Keys.Space OrElse e.KeyCode = Keys.Tab Then
             inputText = Me.TextId.Text + " "
             isBack = False
             Me.Close()
@@ -77,6 +77,7 @@ Public Class AtIdSupplement
         TextId.Text = ""
         TextId.Focus()
         My.Application.DoEvents()   '苦し紛れ（ドロップダウンしないので）
+        My.Application.DoEvents()   '苦し紛れ（ドロップダウンしないので）
         SendKeys.Send(startChar)
     End Sub
 
@@ -89,7 +90,7 @@ Public Class AtIdSupplement
 
     End Sub
 
-    Public Sub New(ByVal ItemList As List(Of String), ByVal startCharacter As String, ByVal tabFix As Boolean)
+    Public Sub New(ByVal ItemList As List(Of String), ByVal startCharacter As String)
 
         ' この呼び出しは、Windows フォーム デザイナで必要です。
         InitializeComponent()
@@ -100,11 +101,10 @@ Public Class AtIdSupplement
             Me.TextId.AutoCompleteCustomSource.Add(ItemList(i))
         Next
         startChar = startCharacter
-        tabkeyFix = tabFix
     End Sub
 
     Private Sub TextId_PreviewKeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.PreviewKeyDownEventArgs) Handles TextId.PreviewKeyDown
-        If e.KeyCode = Keys.Tab AndAlso tabkeyFix Then
+        If e.KeyCode = Keys.Tab Then
             inputText = Me.TextId.Text + " "
             isBack = False
             Me.Close()

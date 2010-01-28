@@ -126,13 +126,82 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="StatusLabelUrl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>367, 17</value>
+    <value>241, 17</value>
   </data>
   <data name="StatusLabelUrl.Text" xml:space="preserve">
     <value>ToolStripStatusLabel1</value>
   </data>
   <data name="StatusLabelUrl.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
+  </data>
+  <data name="StatusLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 17</value>
+  </data>
+  <data name="StatusLabel.Text" xml:space="preserve">
+    <value>Starting...</value>
+  </data>
+  <data name="StatusLabel.ToolTipText" xml:space="preserve">
+    <value>Starting...</value>
+  </data>
+  <metadata name="ContextMenuStripPostMode.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>130, 8</value>
+  </metadata>
+  <data name="ToolStripMenuItemUrlMultibyteSplit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>235, 22</value>
+  </data>
+  <data name="ToolStripMenuItemUrlMultibyteSplit.Text" xml:space="preserve">
+    <value>URLからの全角文字列の切り離し</value>
+  </data>
+  <data name="ToolStripMenuItemApiCommandEvasion.Size" type="System.Drawing.Size, System.Drawing">
+    <value>235, 22</value>
+  </data>
+  <data name="ToolStripMenuItemApiCommandEvasion.Text" xml:space="preserve">
+    <value>APIコマンドを回避する</value>
+  </data>
+  <data name="ToolStripMenuItemUrlAutoShorten.Size" type="System.Drawing.Size, System.Drawing">
+    <value>235, 22</value>
+  </data>
+  <data name="ToolStripMenuItemUrlAutoShorten.Text" xml:space="preserve">
+    <value>自動的にURLを短縮する</value>
+  </data>
+  <data name="IdeographicSpaceToSpaceToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>235, 22</value>
+  </data>
+  <data name="IdeographicSpaceToSpaceToolStripMenuItem.Text" xml:space="preserve">
+    <value>全角スペースを半角スペースにする</value>
+  </data>
+  <data name="ContextMenuStripPostMode.Size" type="System.Drawing.Size, System.Drawing">
+    <value>236, 92</value>
+  </data>
+  <data name="&gt;&gt;ContextMenuStripPostMode.Name" xml:space="preserve">
+    <value>ContextMenuStripPostMode</value>
+  </data>
+  <data name="&gt;&gt;ContextMenuStripPostMode.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="HashStripSplitButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAgxJREFUOE+lkvtL
+        U2EYx+0PEbtpFwnBKPGKiJImGP0gYhIYs1E5GF5gIxkpA00JRSmMEF0ohMh+GaRWYlqabMVcNdS2QpaI
+        VqiDIYhk397vA6fXhCjyhYdzeM/5fp7vczkAdeL2cwho7v/wWzT1zcN+Pwhr51uY2/y41PQaF+wzKKiZ
+        QvaN58g0jyLd5KEUcQbg+84P/Cm2tncQjW3j68YWIqubCC3FcOJc478BAuGoZM6zvoRnakXEruEIjhc4
+        /g5gZop9c+voGAyLbQIfeBZxLL9BA1jzXvuGbWamuKh+GmmVbswE19A59FEBbmoAG7YbsLtm2mZmiml9
+        cvabNDwpz6YB7LYBoMXCumkJr7LOmnnHzBQ/9X2Bo2cOibm1GsBREbAQiYmw/8lnuCeWkVzcgnZlnw1j
+        3HV/wuNXK6i/9x5Hc6wawDlTXHbLJ+LZUBQPRyKwdQdxutwl1h+NLXHh5Ht1ewBHsiwawCW57HyDAfWR
+        dvl0uhZQ1eqX8aVc7EKLqrum651ATLf9OJx5XQM4KmY0xPzZ0hFAiQJnXB0WwME0E3IsL5B17ZlADqWb
+        NYDrOepdlcysmTWWOrxqbceRWtaLk0VO1XW72D5Vckd2gMBfq8zdpmUG62NJvKM4+XyziDk24xmfWoGE
+        s1c0gHPmbrPTpHNJKOCo2G1mZs20zcwUJ5yp1AB5+8/zEwgF5GMVDxh4AAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="HashStripSplitButton.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="HashStripSplitButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>65, 20</value>
+  </data>
+  <data name="HashStripSplitButton.Text" xml:space="preserve">
+    <value>#[none]</value>
   </data>
   <data name="StatusStrip1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -634,7 +703,7 @@
     <value>0, 0</value>
   </data>
   <data name="StatusText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>275, 19</value>
+    <value>290, 19</value>
   </data>
   <data name="StatusText.TabIndex" type="System.Int32, mscorlib">
     <value>25</value>
@@ -658,7 +727,7 @@
     <value>Off</value>
   </data>
   <data name="lblLen.Location" type="System.Drawing.Point, System.Drawing">
-    <value>275, 0</value>
+    <value>290, 0</value>
   </data>
   <data name="lblLen.Size" type="System.Drawing.Size, System.Drawing">
     <value>44, 21</value>
@@ -691,7 +760,7 @@
     <value>Off</value>
   </data>
   <data name="PostButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>319, 0</value>
+    <value>334, 0</value>
   </data>
   <data name="PostButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>44, 21</value>
@@ -713,39 +782,6 @@
   </data>
   <data name="&gt;&gt;PostButton.ZOrder" xml:space="preserve">
     <value>2</value>
-  </data>
-  <data name="ButtonPostMode.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Right</value>
-  </data>
-  <data name="ButtonPostMode.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Marlett, 6.75pt, style=Bold</value>
-  </data>
-  <data name="ButtonPostMode.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Off</value>
-  </data>
-  <data name="ButtonPostMode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>363, 0</value>
-  </data>
-  <data name="ButtonPostMode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>15, 21</value>
-  </data>
-  <data name="ButtonPostMode.TabIndex" type="System.Int32, mscorlib">
-    <value>26</value>
-  </data>
-  <data name="ButtonPostMode.Text" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="&gt;&gt;ButtonPostMode.Name" xml:space="preserve">
-    <value>ButtonPostMode</value>
-  </data>
-  <data name="&gt;&gt;ButtonPostMode.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ButtonPostMode.Parent" xml:space="preserve">
-    <value>SplitContainer2.Panel2</value>
-  </data>
-  <data name="&gt;&gt;ButtonPostMode.ZOrder" xml:space="preserve">
-    <value>3</value>
   </data>
   <data name="&gt;&gt;SplitContainer2.Panel2.Name" xml:space="preserve">
     <value>SplitContainer2.Panel2</value>
@@ -1548,51 +1584,6 @@
   <data name="&gt;&gt;ToolStripContainer1.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
-  <metadata name="ContextMenuStripPostMode.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>130, 8</value>
-  </metadata>
-  <data name="ToolStripMenuItemUrlMultibyteSplit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>235, 22</value>
-  </data>
-  <data name="ToolStripMenuItemUrlMultibyteSplit.Text" xml:space="preserve">
-    <value>URLからの全角文字列の切り離し</value>
-  </data>
-  <data name="ToolStripMenuItemApiCommandEvasion.Size" type="System.Drawing.Size, System.Drawing">
-    <value>235, 22</value>
-  </data>
-  <data name="ToolStripMenuItemApiCommandEvasion.Text" xml:space="preserve">
-    <value>APIコマンドを回避する</value>
-  </data>
-  <data name="ToolStripMenuItemUrlAutoShorten.Size" type="System.Drawing.Size, System.Drawing">
-    <value>235, 22</value>
-  </data>
-  <data name="ToolStripMenuItemUrlAutoShorten.Text" xml:space="preserve">
-    <value>自動的にURLを短縮する</value>
-  </data>
-  <data name="IdeographicSpaceToSpaceToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>235, 22</value>
-  </data>
-  <data name="IdeographicSpaceToSpaceToolStripMenuItem.Text" xml:space="preserve">
-    <value>全角スペースを半角スペースにする</value>
-  </data>
-  <data name="ToolStripSeparator8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 6</value>
-  </data>
-  <data name="HashSelectComboBox.MaxDropDownItems" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="HashSelectComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 21</value>
-  </data>
-  <data name="ContextMenuStripPostMode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>236, 123</value>
-  </data>
-  <data name="&gt;&gt;ContextMenuStripPostMode.Name" xml:space="preserve">
-    <value>ContextMenuStripPostMode</value>
-  </data>
-  <data name="&gt;&gt;ContextMenuStripPostMode.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <metadata name="TimerTimeline.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>504, 0</value>
   </metadata>
@@ -1640,6 +1631,42 @@
   </data>
   <data name="&gt;&gt;StatusLabelUrl.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;StatusLabel.Name" xml:space="preserve">
+    <value>StatusLabel</value>
+  </data>
+  <data name="&gt;&gt;StatusLabel.Type" xml:space="preserve">
+    <value>Tween.TweenCustomControl.ToolStripLabelHistory, Tween, Version=0.8.3679.33743, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;HashStripSplitButton.Name" xml:space="preserve">
+    <value>HashStripSplitButton</value>
+  </data>
+  <data name="&gt;&gt;HashStripSplitButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSplitButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItemUrlMultibyteSplit.Name" xml:space="preserve">
+    <value>ToolStripMenuItemUrlMultibyteSplit</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItemUrlMultibyteSplit.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItemApiCommandEvasion.Name" xml:space="preserve">
+    <value>ToolStripMenuItemApiCommandEvasion</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItemApiCommandEvasion.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItemUrlAutoShorten.Name" xml:space="preserve">
+    <value>ToolStripMenuItemUrlAutoShorten</value>
+  </data>
+  <data name="&gt;&gt;ToolStripMenuItemUrlAutoShorten.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;IdeographicSpaceToSpaceToolStripMenuItem.Name" xml:space="preserve">
+    <value>IdeographicSpaceToSpaceToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;IdeographicSpaceToSpaceToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;AddTabMenuItem.Name" xml:space="preserve">
     <value>AddTabMenuItem</value>
@@ -1711,6 +1738,12 @@
     <value>DeleteTabMenuItem</value>
   </data>
   <data name="&gt;&gt;DeleteTabMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MenuItemTab.Name" xml:space="preserve">
+    <value>MenuItemTab</value>
+  </data>
+  <data name="&gt;&gt;MenuItemTab.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;TabImage.Name" xml:space="preserve">
@@ -2163,12 +2196,6 @@
   <data name="&gt;&gt;RefreshMoreStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;MenuItemTab.Name" xml:space="preserve">
-    <value>MenuItemTab</value>
-  </data>
-  <data name="&gt;&gt;MenuItemTab.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;MenuItemCommand.Name" xml:space="preserve">
     <value>MenuItemCommand</value>
   </data>
@@ -2372,42 +2399,6 @@
   </data>
   <data name="&gt;&gt;TraceOutToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ToolStripMenuItemUrlMultibyteSplit.Name" xml:space="preserve">
-    <value>ToolStripMenuItemUrlMultibyteSplit</value>
-  </data>
-  <data name="&gt;&gt;ToolStripMenuItemUrlMultibyteSplit.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ToolStripMenuItemApiCommandEvasion.Name" xml:space="preserve">
-    <value>ToolStripMenuItemApiCommandEvasion</value>
-  </data>
-  <data name="&gt;&gt;ToolStripMenuItemApiCommandEvasion.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ToolStripMenuItemUrlAutoShorten.Name" xml:space="preserve">
-    <value>ToolStripMenuItemUrlAutoShorten</value>
-  </data>
-  <data name="&gt;&gt;ToolStripMenuItemUrlAutoShorten.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;IdeographicSpaceToSpaceToolStripMenuItem.Name" xml:space="preserve">
-    <value>IdeographicSpaceToSpaceToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;IdeographicSpaceToSpaceToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ToolStripSeparator8.Name" xml:space="preserve">
-    <value>ToolStripSeparator8</value>
-  </data>
-  <data name="&gt;&gt;ToolStripSeparator8.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;HashSelectComboBox.Name" xml:space="preserve">
-    <value>HashSelectComboBox</value>
-  </data>
-  <data name="&gt;&gt;HashSelectComboBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;TimerTimeline.Name" xml:space="preserve">
     <value>TimerTimeline</value>

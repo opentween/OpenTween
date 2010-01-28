@@ -72,6 +72,7 @@ Public Class TweenMain
     Private _myStatusError As Boolean = False
     Private _myStatusOnline As Boolean = False
     Private soundfileListup As Boolean = False
+    Private _spaceKeyCanceler As SpaceKeyCanceler
 
     '設定ファイル関連
     'Private _cfg As SettingToConfig '旧
@@ -91,6 +92,7 @@ Public Class TweenMain
     Private dialogAsShieldicon As DialogAsShieldIcon    ' シールドアイコン付きダイアログ
     Private AtIdSupl As AtIdSupplement    '@id補助
     Private HashSupl As AtIdSupplement    'Hashtag補助
+    Private HashMgr As HashtagManage
 
     '表示フォント、色、アイコン
     Private _fntUnread As Font            '未読用フォント
@@ -180,7 +182,6 @@ Public Class TweenMain
     Private _bw(9) As BackgroundWorker
     Private _bwFollower As BackgroundWorker
     Private cMode As Integer
-    Private StatusLabel As New ToolStripLabelHistory
     Private shield As New ShieldIcon
     Private SecurityManager As InternetSecurityManager
 
@@ -256,6 +257,7 @@ Public Class TweenMain
         SearchDialog.Dispose()
         fDialog.Dispose()
         UrlDialog.Dispose()
+        _spaceKeyCanceler.Dispose()
         If TIconDic IsNot Nothing AndAlso TIconDic.Keys.Count > 0 Then
             For Each key As String In TIconDic.Keys
                 TIconDic(key).Dispose()
@@ -407,7 +409,9 @@ Public Class TweenMain
 
         VerUpMenuItem.Image = shield.Icon
         If Not My.Application.CommandLineArgs.Count = 0 AndAlso My.Application.CommandLineArgs.Contains("/d") Then TraceFlag = True
-        Me.StatusStrip1.Items.Add(StatusLabel)
+
+        StatusLabel.BorderSides = ToolStripStatusLabelBorderSides.Right
+        Me.StatusStrip1.Items.Insert(1, StatusLabel)
 
         fileVersion = _
             System.Diagnostics.FileVersionInfo.GetVersionInfo( _
@@ -502,7 +506,13 @@ Public Class TweenMain
         SettingDialog.NextPageThreshold = _cfgCommon.NextPageThreshold
         SettingDialog.NextPagesInt = _cfgCommon.NextPages
         SettingDialog.MaxPostNum = _cfgCommon.MaxPostNum
-
+        '不正値チェック
+        If Not My.Application.CommandLineArgs.Contains("nolimit") Then
+            If SettingDialog.TimelinePeriodInt < 30 AndAlso SettingDialog.TimelinePeriodInt > 0 Then SettingDialog.TimelinePeriodInt = 30
+            If SettingDialog.ReplyPeriodInt < 30 AndAlso SettingDialog.ReplyPeriodInt > 0 Then SettingDialog.ReplyPeriodInt = 30
+            If SettingDialog.DMPeriodInt < 30 AndAlso SettingDialog.DMPeriodInt > 0 Then SettingDialog.DMPeriodInt = 30
+            If SettingDialog.PubSearchPeriodInt < 30 AndAlso SettingDialog.PubSearchPeriodInt > 0 Then SettingDialog.PubSearchPeriodInt = 30
+        End If
         '起動時読み込みページ数
         SettingDialog.ReadPages = _cfgCommon.ReadPages
         SettingDialog.ReadPagesReply = _cfgCommon.ReadPagesReply
@@ -600,7 +610,7 @@ Public Class TweenMain
         SettingDialog.ShowGrid = _cfgCommon.ShowGrid
         SettingDialog.Language = _cfgCommon.Language
         SettingDialog.UseAtIdSupplement = _cfgCommon.UseAtIdSupplement
-        AtIdSupl = New AtIdSupplement(SettingAtIdList.Load().AtIdList, "@", True)
+        AtIdSupl = New AtIdSupplement(SettingAtIdList.Load().AtIdList, "@")
 
         SettingDialog.IsMonospace = _cfgCommon.IsMonospace
         If SettingDialog.IsMonospace Then
@@ -643,7 +653,9 @@ Public Class TweenMain
         End Select
 
         SettingDialog.Nicoms = _cfgCommon.Nicoms
-        SettingDialog.HashList = _cfgCommon.HashTags
+        'ハッシュタグ関連
+        HashSupl = New AtIdSupplement(_cfgCommon.HashTags, "#")
+        HashMgr = New HashtagManage(HashSupl, _cfgCommon.HashTags.ToArray)
 
         _initial = True
 
@@ -751,13 +763,6 @@ Public Class TweenMain
                 '_waitFollower = True
                 GetTimeline(WORKERTYPE.Follower, 0, 0, "")
             End If
-        End If
-        'ハッシュタグ関連
-        HashSupl = New AtIdSupplement(SettingDialog.HashList, "#", False)
-        HashSelectComboBox.Items.AddRange(SettingDialog.HashList.ToArray)
-        HashSelectComboBox.Text = _cfgCommon.HashSelected
-        If _cfgCommon.HashSelected <> "" Then
-            Me.ButtonPostMode.ForeColor = Color.Red
         End If
 
         'ウィンドウ設定
@@ -955,6 +960,13 @@ Public Class TweenMain
         TimerColorize.Start()
         _ignoreConfigSave = False
         SaveConfigsAll(False)
+
+        Me._spaceKeyCanceler = New SpaceKeyCanceler(Me.PostButton)
+        AddHandler Me._spaceKeyCanceler.SpaceCancel, AddressOf spaceKeyCanceler_SpaceCancel
+    End Sub
+
+    Private Sub spaceKeyCanceler_SpaceCancel(ByVal sender As Object, ByVal e As EventArgs)
+        JumpUnreadMenuItem_Click(Nothing, Nothing)
     End Sub
 
     Private Sub ListTab_DrawItem( _
@@ -1678,7 +1690,6 @@ Public Class TweenMain
             footer = ""
         Else
             'ハッシュタグ
-            footer = " " + Me.HashSelectComboBox.Text
             If Not isRemoveFooter Then
                 If SettingDialog.UseRecommendStatus Then
                     ' 推奨ステータスを使用する
@@ -2879,11 +2890,6 @@ Public Class TweenMain
                         Outputz.url = "http://twitter.com/" + SettingDialog.UserID
                 End Select
 
-                Dim selHash As String = Me.HashSelectComboBox.Text
-                Me.HashSelectComboBox.Items.Clear()
-                Me.HashSelectComboBox.Items.AddRange(SettingDialog.HashList.ToArray)
-                Me.HashSelectComboBox.Text = selHash
-                Me.HashSupl.AddRangeItem(SettingDialog.HashList.ToArray)
             End SyncLock
         End If
 
@@ -3517,7 +3523,6 @@ Public Class TweenMain
                 pLen -= SettingDialog.Status.Length + 1
             End If
         End If
-        pLen -= Me.HashSelectComboBox.Text.Length + 1
         Return pLen
     End Function
 
@@ -4351,6 +4356,7 @@ RETRY:
             If idx < 0 Then idx = ListTab.TabPages.Count - 1
         End If
         ListTab.SelectedIndex = idx
+        ListTabSelect(ListTab.TabPages(idx))
     End Sub
 
     Private Sub CopyStot()
@@ -4876,8 +4882,9 @@ RETRY:
                 End Select
 
                 _cfgCommon.Nicoms = SettingDialog.Nicoms
-                _cfgCommon.HashTags = SettingDialog.HashList
-                _cfgCommon.HashSelected = Me.HashSelectComboBox.Text
+                _cfgCommon.HashTags = HashMgr.HashHistories
+                _cfgCommon.HashSelected = HashMgr.UseHash
+                '_cfgCommon.HashSelected = Me.HashSelectComboBox.Text
 
                 '                _cfgCommon.TabList.Clear()
                 '                For i As Integer = 0 To ListTab.TabPages.Count - 1
@@ -6069,10 +6076,7 @@ RETRY:
         m = hash.Matches(StatusText)
         For Each hm As Match In m
             Dim hstr As String = "#" + hm.Result("${hash}")
-            If Not Me.HashSelectComboBox.Items.Contains(hstr) Then
-                Me.HashSelectComboBox.Items.Add(hstr)
-                SettingDialog.HashList.Add(hstr)
-            End If
+            HashMgr.AddHashToHistory(hstr)
             HashSupl.AddItem(hstr)
         Next
         ' 本当にリプライ先指定すべきかどうかの判定
@@ -7043,10 +7047,6 @@ RETRY:
         End If
     End Sub
 
-    Private Sub ButtonPostMode_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonPostMode.Click
-        ContextMenuStripPostMode.Show(ButtonPostMode, position:=New Point(0, ButtonPostMode.Height))
-    End Sub
-
     Private Sub ToolStripMenuItemUrlAutoShorten_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItemUrlAutoShorten.CheckedChanged
         SettingDialog.UrlConvertAuto = ToolStripMenuItemUrlAutoShorten.Checked
         'SaveConfigsCommon()
@@ -7371,25 +7371,38 @@ RETRY:
     Private Sub UseHashtagMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UseHashtagMenuItem.Click
         Dim m As Match = Regex.Match(PostBrowser.StatusText, "^https?://twitter.com/search\?q=%23(?<hash>[a-zA-Z0-9_]+)$")
         If m.Success Then
-            Me.HashSelectComboBox.Items.Add("#" + m.Result("${hash}"))
-            Me.HashSelectComboBox.Text = "#" + m.Result("${hash}")
-            Me.ButtonPostMode.ForeColor = Color.Red
+            HashMgr.UseHash = "#" + m.Result("${hash}")
+            HashMgr.AutoAdd = True
+            HashStripSplitButton.Text = HashMgr.UseHash
+            '使用ハッシュタグとして設定
             modifySettingCommon = True
         End If
     End Sub
 
-    Private Sub ContextMenuStripPostMode_Closed(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ToolStripDropDownClosedEventArgs) Handles ContextMenuStripPostMode.Closed
-        modifySettingCommon = True
-        If HashSelectComboBox.Text <> "" Then
-            ButtonPostMode.ForeColor = Color.Red
-        Else
-            ButtonPostMode.ForeColor = System.Drawing.SystemColors.ControlText
-        End If
-    End Sub
+    Private Class SpaceKeyCanceler
+        Inherits NativeWindow
+        Implements IDisposable
 
-    Private Sub HashClearMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HashClearMenuItem.Click
-        Me.HashSelectComboBox.Text = ""
-        Me.ButtonPostMode.ForeColor = Drawing.SystemColors.ControlText
-        modifySettingCommon = True
-    End Sub
+        Dim WM_KEYDOWN As Integer = &H100
+        Dim VK_SPACE As Integer = &H20
+
+        Public Sub New(ByVal control As Control)
+            Me.AssignHandle(control.Handle)
+        End Sub
+
+        Protected Overrides Sub WndProc(ByRef m As System.Windows.Forms.Message)
+            If (m.Msg = WM_KEYDOWN) AndAlso (CInt(m.WParam) = VK_SPACE) Then
+                RaiseEvent SpaceCancel(Me, EventArgs.Empty)
+                Exit Sub
+            End If
+
+            MyBase.WndProc(m)
+        End Sub
+
+        Public Event SpaceCancel As EventHandler
+
+        Public Sub Dispose() Implements IDisposable.Dispose
+            Me.ReleaseHandle()
+        End Sub
+    End Class
 End Class
