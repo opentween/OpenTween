@@ -684,6 +684,7 @@ Public Class TweenMain
         HashSupl = New AtIdSupplement(_cfgCommon.HashTags, "#")
         HashMgr = New HashtagManage(HashSupl, _cfgCommon.HashTags.ToArray)
         HashMgr.UseHash = _cfgCommon.HashSelected
+        If HashMgr.UseHash <> "" Then HashStripSplitButton.Text = HashMgr.UseHash
 
         _initial = True
 
