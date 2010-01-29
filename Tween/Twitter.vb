@@ -1975,7 +1975,7 @@ Public Module Twitter
         Return ""
     End Function
 
-    Public Function PostRetweet(ByVal id As Long) As String
+    Public Function PostRetweet(ByVal id As Long, ByVal read As Boolean) As String
         If _endingFlag Then Return ""
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
@@ -2062,7 +2062,7 @@ Public Module Twitter
                 End If
             End If
 
-            post.IsRead = False
+            post.IsRead = read
             post.IsReply = post.ReplyToList.Contains(_uid)
 
             If post.IsMe Then

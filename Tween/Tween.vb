@@ -1913,7 +1913,7 @@ Public Class TweenMain
                 bw.ReportProgress(300)
             Case WORKERTYPE.Retweet
                 bw.ReportProgress(200)
-                ret = Twitter.PostRetweet(args.ids(0))
+                ret = Twitter.PostRetweet(args.ids(0), read)
                 bw.ReportProgress(300)
             Case WORKERTYPE.Follower
                 bw.ReportProgress(50, My.Resources.UpdateFollowersMenuItem1_ClickText1)

@@ -22,6 +22,7 @@ Partial Class HashtagManage
     'コード エディタを使って変更しないでください。
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(HashtagManage))
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel
         Me.OK_Button = New System.Windows.Forms.Button
         Me.Cancel_Button = New System.Windows.Forms.Button
@@ -36,98 +37,101 @@ Partial Class HashtagManage
         '
         'TableLayoutPanel1
         '
-        Me.TableLayoutPanel1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TableLayoutPanel1.ColumnCount = 2
-        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel1.AccessibleDescription = Nothing
+        Me.TableLayoutPanel1.AccessibleName = Nothing
+        resources.ApplyResources(Me.TableLayoutPanel1, "TableLayoutPanel1")
+        Me.TableLayoutPanel1.BackgroundImage = Nothing
         Me.TableLayoutPanel1.Controls.Add(Me.OK_Button, 0, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.Cancel_Button, 1, 0)
-        Me.TableLayoutPanel1.Location = New System.Drawing.Point(135, 228)
+        Me.TableLayoutPanel1.Font = Nothing
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
-        Me.TableLayoutPanel1.RowCount = 1
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel1.Size = New System.Drawing.Size(146, 27)
-        Me.TableLayoutPanel1.TabIndex = 7
         '
         'OK_Button
         '
-        Me.OK_Button.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.OK_Button.Location = New System.Drawing.Point(3, 3)
+        Me.OK_Button.AccessibleDescription = Nothing
+        Me.OK_Button.AccessibleName = Nothing
+        resources.ApplyResources(Me.OK_Button, "OK_Button")
+        Me.OK_Button.BackgroundImage = Nothing
+        Me.OK_Button.Font = Nothing
         Me.OK_Button.Name = "OK_Button"
-        Me.OK_Button.Size = New System.Drawing.Size(67, 21)
-        Me.OK_Button.TabIndex = 0
-        Me.OK_Button.Text = "OK"
         '
         'Cancel_Button
         '
-        Me.Cancel_Button.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.Cancel_Button.AccessibleDescription = Nothing
+        Me.Cancel_Button.AccessibleName = Nothing
+        resources.ApplyResources(Me.Cancel_Button, "Cancel_Button")
+        Me.Cancel_Button.BackgroundImage = Nothing
         Me.Cancel_Button.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.Cancel_Button.Location = New System.Drawing.Point(76, 3)
+        Me.Cancel_Button.Font = Nothing
         Me.Cancel_Button.Name = "Cancel_Button"
-        Me.Cancel_Button.Size = New System.Drawing.Size(67, 21)
-        Me.Cancel_Button.TabIndex = 1
-        Me.Cancel_Button.Text = "キャンセル"
         '
         'DeleteButton
         '
-        Me.DeleteButton.Location = New System.Drawing.Point(200, 191)
+        Me.DeleteButton.AccessibleDescription = Nothing
+        Me.DeleteButton.AccessibleName = Nothing
+        resources.ApplyResources(Me.DeleteButton, "DeleteButton")
+        Me.DeleteButton.BackgroundImage = Nothing
+        Me.DeleteButton.Font = Nothing
         Me.DeleteButton.Name = "DeleteButton"
-        Me.DeleteButton.Size = New System.Drawing.Size(79, 29)
-        Me.DeleteButton.TabIndex = 5
-        Me.DeleteButton.Text = "Delete"
         Me.DeleteButton.UseVisualStyleBackColor = True
         '
         'ReplaceButton
         '
-        Me.ReplaceButton.Location = New System.Drawing.Point(97, 191)
+        Me.ReplaceButton.AccessibleDescription = Nothing
+        Me.ReplaceButton.AccessibleName = Nothing
+        resources.ApplyResources(Me.ReplaceButton, "ReplaceButton")
+        Me.ReplaceButton.BackgroundImage = Nothing
+        Me.ReplaceButton.Font = Nothing
         Me.ReplaceButton.Name = "ReplaceButton"
-        Me.ReplaceButton.Size = New System.Drawing.Size(79, 29)
-        Me.ReplaceButton.TabIndex = 4
-        Me.ReplaceButton.Text = "Replace"
         Me.ReplaceButton.UseVisualStyleBackColor = True
         '
         'AddButton
         '
-        Me.AddButton.Location = New System.Drawing.Point(12, 191)
+        Me.AddButton.AccessibleDescription = Nothing
+        Me.AddButton.AccessibleName = Nothing
+        resources.ApplyResources(Me.AddButton, "AddButton")
+        Me.AddButton.BackgroundImage = Nothing
+        Me.AddButton.Font = Nothing
         Me.AddButton.Name = "AddButton"
-        Me.AddButton.Size = New System.Drawing.Size(79, 29)
-        Me.AddButton.TabIndex = 3
-        Me.AddButton.Text = "Add"
         Me.AddButton.UseVisualStyleBackColor = True
         '
         'HistoryHashList
         '
+        Me.HistoryHashList.AccessibleDescription = Nothing
+        Me.HistoryHashList.AccessibleName = Nothing
+        resources.ApplyResources(Me.HistoryHashList, "HistoryHashList")
+        Me.HistoryHashList.BackgroundImage = Nothing
+        Me.HistoryHashList.Font = Nothing
         Me.HistoryHashList.FormattingEnabled = True
-        Me.HistoryHashList.ItemHeight = 12
-        Me.HistoryHashList.Location = New System.Drawing.Point(12, 49)
         Me.HistoryHashList.Name = "HistoryHashList"
         Me.HistoryHashList.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
-        Me.HistoryHashList.Size = New System.Drawing.Size(267, 136)
-        Me.HistoryHashList.TabIndex = 2
         '
         'UseHashText
         '
-        Me.UseHashText.Location = New System.Drawing.Point(12, 24)
+        Me.UseHashText.AccessibleDescription = Nothing
+        Me.UseHashText.AccessibleName = Nothing
+        resources.ApplyResources(Me.UseHashText, "UseHashText")
+        Me.UseHashText.BackgroundImage = Nothing
+        Me.UseHashText.Font = Nothing
         Me.UseHashText.Name = "UseHashText"
-        Me.UseHashText.Size = New System.Drawing.Size(267, 19)
-        Me.UseHashText.TabIndex = 1
         '
         'Label1
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(10, 9)
+        Me.Label1.AccessibleDescription = Nothing
+        Me.Label1.AccessibleName = Nothing
+        resources.ApplyResources(Me.Label1, "Label1")
+        Me.Label1.Font = Nothing
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(65, 12)
-        Me.Label1.TabIndex = 0
-        Me.Label1.Text = "使用するタグ"
         '
         'HashtagManage
         '
         Me.AcceptButton = Me.OK_Button
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
+        Me.AccessibleDescription = Nothing
+        Me.AccessibleName = Nothing
+        resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.BackgroundImage = Nothing
         Me.CancelButton = Me.Cancel_Button
-        Me.ClientSize = New System.Drawing.Size(293, 266)
         Me.Controls.Add(Me.DeleteButton)
         Me.Controls.Add(Me.ReplaceButton)
         Me.Controls.Add(Me.AddButton)
@@ -135,13 +139,13 @@ Partial Class HashtagManage
         Me.Controls.Add(Me.UseHashText)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.TableLayoutPanel1)
+        Me.Font = Nothing
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
+        Me.Icon = Nothing
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "HashtagManage"
         Me.ShowInTaskbar = False
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
-        Me.Text = "HashtagManage"
         Me.TableLayoutPanel1.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()

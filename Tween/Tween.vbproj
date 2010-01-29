@@ -199,6 +199,10 @@
       <DependentUpon>DialogAsShieldIcon.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="HashtagManage.en.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>HashtagManage.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="HashtagManage.resx">
       <SubType>Designer</SubType>
       <DependentUpon>HashtagManage.vb</DependentUpon>

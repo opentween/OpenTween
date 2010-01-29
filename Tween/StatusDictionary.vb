@@ -1555,12 +1555,16 @@ Public NotInheritable Class TabClass
         original.SearchUrl = modified.SearchUrl
         original.UseRegex = modified.UseRegex
         original.CaseSensitive = modified.CaseSensitive
+        original.IsRt = modified.IsRt
+        original.Source = modified.Source
         original.ExBodyFilter = modified.ExBodyFilter
         original.ExNameFilter = modified.ExNameFilter
         original.ExSearchBoth = modified.ExSearchBoth
         original.ExSearchUrl = modified.ExSearchUrl
         original.ExUseRegex = modified.ExUseRegex
         original.ExCaseSensitive = modified.ExCaseSensitive
+        original.IsExRt = modified.IsExRt
+        original.ExSource = modified.ExSource
         original.MoveFrom = modified.MoveFrom
         original.SetMark = modified.SetMark
         _filterMod = True
@@ -1736,7 +1740,7 @@ Public NotInheritable Class FiltersClass
     'フィルタ一覧に表示する文言生成
     Private Function MakeSummary() As String
         Dim fs As New System.Text.StringBuilder()
-        If _name <> "" OrElse _body.Count > 0 Then
+        If _name <> "" OrElse _body.Count > 0 OrElse _isRt OrElse _source <> "" Then
             If _searchBoth Then
                 If _name <> "" Then
                     fs.AppendFormat(My.Resources.SetFiltersText1, _name)
@@ -1772,7 +1776,7 @@ Public NotInheritable Class FiltersClass
                 fs.Append("RT/")
             End If
             If _source <> "" Then
-                fs.AppendFormat("Source…{0}/", _source)
+                fs.AppendFormat("Src…{0}/", _source)
             End If
             'If _moveFrom Then
             '    fs.Append(My.Resources.SetFiltersText9)
@@ -1784,7 +1788,7 @@ Public NotInheritable Class FiltersClass
             fs.Length -= 1
             fs.Append(")")
         End If
-        If _exname <> "" OrElse _exbody.Count > 0 Then
+        If _exname <> "" OrElse _exbody.Count > 0 OrElse _isExRt OrElse _exSource <> "" Then
             '除外
             fs.Append(My.Resources.SetFiltersText12)
             If _exsearchBoth Then
@@ -1822,7 +1826,7 @@ Public NotInheritable Class FiltersClass
                 fs.Append("RT/")
             End If
             If _exSource <> "" Then
-                fs.AppendFormat("Source…{0}/", _exSource)
+                fs.AppendFormat("Src…{0}/", _exSource)
             End If
             fs.Length -= 1
             fs.Append(")")
