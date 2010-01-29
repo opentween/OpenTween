@@ -607,7 +607,7 @@
     <value>Exception {0}: {1}</value>
   </data>
   <data name="UnhandledExceptionText9" xml:space="preserve">
-    <value>We are sorry but error was happened. A log text was created as {0} in same folder of Tween.exe. Please send this to kiri.feather@gmail.com or{1}tweet to @kiri_feather in Twitter.{1}[OK] to open log file. [Cancel] to continue.</value>
+    <value>We are sorry but error was happened. A log text was created as {0} in same folder of Tween.exe. Please send this to kiri_feather@users.sourceforge.jp or{1}tweet to @kiri_feather in Twitter.{1}[OK] to open log file. [Cancel] to continue.</value>
   </data>
   <data name="UpdateFollowersMenuItem1_ClickText1" xml:space="preserve">
     <value>Followers refreshing...</value>

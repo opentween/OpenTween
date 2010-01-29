@@ -68,7 +68,8 @@ Public Class HashtagManage
 
     Public Sub AddHashToHistory(ByVal hash As String)
         hash = hash.Trim
-        If hash <> "" AndAlso Not HistoryHashList.Items.Contains(hash) Then
+        If hash <> "" Then
+            If HistoryHashList.Items.Contains(hash) Then HistoryHashList.Items.Remove(hash)
             HistoryHashList.Items.Insert(0, hash)
         End If
     End Sub
@@ -134,6 +135,7 @@ Public Class HashtagManage
 
     Public Sub ToggleHash()
         If _useHash <> "" Then
+            Me.AddHashToHistory(_useHash)
             _useHash = ""
             UseHashText.Text = ""
         Else
