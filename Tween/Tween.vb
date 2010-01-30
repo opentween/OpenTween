@@ -179,6 +179,7 @@ Public Class TweenMain
     Private _waitReply As Boolean = False
     Private _waitDm As Boolean = False
     Private _waitFav As Boolean = False
+    Private _waitPubSearch As Boolean = False
     Private _bw(9) As BackgroundWorker
     Private _bwFollower As BackgroundWorker
     Private cMode As Integer
@@ -319,7 +320,6 @@ Public Class TweenMain
         If _brsBackColorNone IsNot Nothing Then _brsBackColorNone.Dispose()
         If _brsDeactiveSelection IsNot Nothing Then _brsDeactiveSelection.Dispose()
         shield.Dispose()
-        StatusLabel.Dispose()
         sf.Dispose()
         sfTab.Dispose()
         For Each bw As BackgroundWorker In _bw
@@ -436,9 +436,6 @@ Public Class TweenMain
 
         VerUpMenuItem.Image = shield.Icon
         If Not My.Application.CommandLineArgs.Count = 0 AndAlso My.Application.CommandLineArgs.Contains("/d") Then TraceFlag = True
-
-        StatusLabel.BorderSides = ToolStripStatusLabelBorderSides.Right
-        Me.StatusStrip1.Items.Insert(1, StatusLabel)
 
         fileVersion = _
             System.Diagnostics.FileVersionInfo.GetVersionInfo( _
@@ -856,6 +853,8 @@ Public Class TweenMain
 
         '状態表示部の初期化（画面右下）
         StatusLabel.Text = ""
+        StatusLabel.AutoToolTip = False
+        StatusLabel.ToolTipText = ""
         '文字カウンタ初期化
         lblLen.Text = GetRestStatusCount(True, False).ToString()
 
@@ -1256,9 +1255,7 @@ Public Class TweenMain
         End If
         If _pubSearchCounter <= 0 AndAlso SettingDialog.PubSearchPeriodInt > 0 Then
             _pubSearchCounter = SettingDialog.PubSearchPeriodInt
-            For Each tb As TabClass In _statuses.Tabs.Values
-                If tb.TabType = TabUsageType.PublicSearch AndAlso tb.SearchWords <> "" Then GetTimeline(WORKERTYPE.PublicSearch, 1, 0, tb.TabName)
-            Next
+            GetTimeline(WORKERTYPE.PublicSearch, 1, 0, "")
         End If
     End Sub
 
@@ -1957,7 +1954,15 @@ Public Class TweenMain
                 rslt.addCount = _statuses.DistributePosts()
             Case WORKERTYPE.PublicSearch
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
-                ret = Twitter.GetSearch(read, args.tName, args.page = -1)
+                If args.tName = "" Then
+                    For Each tn As String In _statuses.Tabs.Keys
+                        If _statuses.Tabs(tn).TabType = TabUsageType.PublicSearch Then
+                            ret = Twitter.GetSearch(read, tn, False)
+                        End If
+                    Next
+                Else
+                    ret = Twitter.GetSearch(read, args.tName, args.page = -1)
+                End If
                 '新着時未読クリア
                 rslt.addCount = _statuses.DistributePosts()
         End Select
@@ -2117,6 +2122,7 @@ Public Class TweenMain
             _waitReply = False
             _waitDm = False
             _waitFav = False
+            _waitPubSearch = False
             Throw New Exception("BackgroundWorker Exception", e.Error)
             Exit Sub
         End If
@@ -2267,6 +2273,8 @@ Public Class TweenMain
                 _itemCache = Nothing
                 _postCache = Nothing
                 _curList.Refresh()
+            Case WORKERTYPE.PublicSearch
+                _waitPubSearch = False
         End Select
 
     End Sub
@@ -6879,8 +6887,10 @@ RETRY:
                 _waitFav = True
                 GetTimeline(WORKERTYPE.Favorites, 1, 1, "")
             End If
+            _waitPubSearch = True
+            GetTimeline(WORKERTYPE.PublicSearch, 1, 0, "")  'tabname="":全タブ
             Dim i As Integer = 0
-            Do While (_waitTimeline OrElse _waitReply OrElse _waitDm OrElse _waitFav) AndAlso Not _endingFlag
+            Do While (_waitTimeline OrElse _waitReply OrElse _waitDm OrElse _waitFav OrElse _waitPubSearch) AndAlso Not _endingFlag
                 System.Threading.Thread.Sleep(100)
                 My.Application.DoEvents()
                 i += 1
