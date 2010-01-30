@@ -1,7 +1,7 @@
 ﻿' Tween - Client of Twitter
-' Copyright (c) 2007-2009 kiri_feather (@kiri_feather) <kiri_feather@gmail.com>
-'           (c) 2008-2009 Moz (@syo68k) <http://iddy.jp/profile/moz/>
-'           (c) 2008-2009 takeshik (@takeshik) <http://www.takeshik.org/>
+' Copyright (c) 2007-2010 kiri_feather (@kiri_feather) <kiri_feather@gmail.com>
+'           (c) 2008-2010 Moz (@syo68k) <http://iddy.jp/profile/moz/>
+'           (c) 2008-2010 takeshik (@takeshik) <http://www.takeshik.org/>
 ' All rights reserved.
 ' 
 ' This file is part of Tween.
@@ -724,9 +724,6 @@ Public NotInheritable Class TabInformations
             If _notifyPosts Is Nothing Then _notifyPosts = New List(Of PostClass)
             Me.Distribute()    'タブに仮振分
             _addCount = _addedIds.Count
-            For Each tb As TabClass In _tabs.Values
-                If tb.TabType = TabUsageType.PublicSearch Then _addCount += tb.GetTemporaryCount
-            Next
             _addedIds.Clear()
             _addedIds = Nothing     '後始末
             Return _addCount     '件数
@@ -742,8 +739,9 @@ Public NotInheritable Class TabInformations
                 Return 0
             End If
 
-            For Each key As String In _tabs.Keys
-                _tabs(key).AddSubmit()  '振分確定（各タブに反映）
+            For Each tb As TabClass In _tabs.Values
+                If tb.TabType = TabUsageType.PublicSearch Then _addCount += tb.GetTemporaryCount
+                tb.AddSubmit()  '振分確定（各タブに反映）
             Next
             Me.SortPosts()
 
@@ -1221,6 +1219,25 @@ Public NotInheritable Class TabInformations
             If follower.Count > 1 Then
                 For Each id As Long In _statuses.Keys
                     If Not _statuses(id).IsDm Then _statuses(id).IsOwl = Not follower.Contains(_statuses(id).Name.ToLower())
+                Next
+            Else
+                For Each id As Long In _statuses.Keys
+                    If Not _statuses(id).IsDm Then _statuses(id).IsOwl = False
+                Next
+            End If
+        End SyncLock
+    End Sub
+
+    Public Sub RefreshOwl(ByVal follower As List(Of Long))
+        SyncLock LockObj
+            If follower.Count > 0 Then
+                For Each post As PostClass In _statuses.Values
+                    If post.IsDm Then Continue For
+                    If post.IsMe Then
+                        post.IsOwl = False
+                    Else
+                        post.IsOwl = Not follower.Contains(post.Uid)
+                    End If
                 Next
             Else
                 For Each id As Long In _statuses.Keys
@@ -2063,8 +2080,8 @@ Public NotInheritable Class FiltersClass
             If _name = "" OrElse _
                 post.Name.Equals(_name, compOpt) OrElse _
                 post.RetweetedBy.Equals(_name, compOpt) OrElse _
-                (_useRegex AndAlso (Regex.IsMatch(post.Name, _name, rgOpt)) OrElse _
-                                   (Regex.IsMatch(post.RetweetedBy, _name, rgOpt))) Then
+                (_useRegex AndAlso (Regex.IsMatch(post.Name, _name, rgOpt) OrElse _
+                                    Regex.IsMatch(post.RetweetedBy, _name, rgOpt))) Then
                 For Each fs As String In _body
                     If _useRegex Then
                         If Not Regex.IsMatch(tBody, fs, rgOpt) Then bHit = False

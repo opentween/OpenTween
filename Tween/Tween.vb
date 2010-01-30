@@ -1,7 +1,7 @@
 ﻿' Tween - Client of Twitter
-' Copyright (c) 2007-2009 kiri_feather (@kiri_feather) <kiri_feather@gmail.com>
-'           (c) 2008-2009 Moz (@syo68k) <http://iddy.jp/profile/moz/>
-'           (c) 2008-2009 takeshik (@takeshik) <http://www.takeshik.org/>
+' Copyright (c) 2007-2010 kiri_feather (@kiri_feather) <kiri_feather@gmail.com>
+'           (c) 2008-2010 Moz (@syo68k) <http://iddy.jp/profile/moz/>
+'           (c) 2008-2010 takeshik (@takeshik) <http://www.takeshik.org/>
 ' All rights reserved.
 ' 
 ' This file is part of Tween.
@@ -1916,10 +1916,11 @@ Public Class TweenMain
                 bw.ReportProgress(50, My.Resources.UpdateFollowersMenuItem1_ClickText1)
                 If SettingDialog.UseAPI Then
                     ret = Twitter.GetFollowersApi()
+                    Twitter.RefreshOwlApi()
                 Else
                     ret = Twitter.GetFollowers(False)       ' Followersリストキャッシュ有効
+                    Twitter.RefreshOwl()    '洗い換え
                 End If
-                Twitter.RefreshOwl()    '洗い換え
             Case WORKERTYPE.OpenUri
                 Dim myPath As String = Convert.ToString(args.status)
 
@@ -1955,7 +1956,10 @@ Public Class TweenMain
             Case WORKERTYPE.PublicSearch
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
                 If args.tName = "" Then
-                    For Each tn As String In _statuses.Tabs.Keys
+                    Dim tnarr(_statuses.Tabs.Count - 1) As String
+                    _statuses.Tabs.Keys.CopyTo(tnarr, 0)
+                    For Each tn As String In tnarr
+                        If String.IsNullOrEmpty(tn) Then Exit For
                         If _statuses.Tabs(tn).TabType = TabUsageType.PublicSearch Then
                             ret = Twitter.GetSearch(read, tn, False)
                         End If
@@ -5041,24 +5045,30 @@ RETRY:
                     'All
                     For idx As Integer = 0 To _curList.VirtualListSize - 1
                         Dim post As PostClass = _statuses.Item(_curTab.Text, idx)
+                        Dim protect As String = ""
+                        If post.IsProtect Then protect = "Protect"
                         sw.WriteLine(post.Nickname & vbTab & _
                                  """" & post.Data.Replace(vbLf, "").Replace("""", """""") + """" & vbTab & _
                                  post.PDate.ToString() & vbTab & _
                                  post.Name & vbTab & _
                                  post.Id.ToString() & vbTab & _
                                  post.ImageUrl & vbTab & _
-                                 """" & post.OriginalData.Replace(vbLf, "").Replace("""", """""") + """")
+                                 """" & post.OriginalData.Replace(vbLf, "").Replace("""", """""") + """" & vbTab & _
+                                 protect)
                     Next
                 Else
                     For Each idx As Integer In _curList.SelectedIndices
                         Dim post As PostClass = _statuses.Item(_curTab.Text, idx)
+                        Dim protect As String = ""
+                        If post.IsProtect Then protect = "Protect"
                         sw.WriteLine(post.Nickname & vbTab & _
                                  """" & post.Data.Replace(vbLf, "").Replace("""", """""") + """" & vbTab & _
                                  post.PDate.ToString() & vbTab & _
                                  post.Name & vbTab & _
                                  post.Id.ToString() & vbTab & _
                                  post.ImageUrl & vbTab & _
-                                 """" & post.OriginalData.Replace(vbLf, "").Replace("""", """""") + """")
+                                 """" & post.OriginalData.Replace(vbLf, "").Replace("""", """""") + """" & vbTab & _
+                                 protect)
                     Next
                 End If
                 sw.Close()
@@ -7445,4 +7455,9 @@ RETRY:
         End If
         modifySettingCommon = True
     End Sub
+
+    Private Sub HashStripSplitButton_ButtonClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles HashStripSplitButton.ButtonClick
+        HashToggleMenuItem_Click(Nothing, Nothing)
+    End Sub
+
 End Class
