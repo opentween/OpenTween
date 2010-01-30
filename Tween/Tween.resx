@@ -1648,7 +1648,7 @@
     <value>StatusLabel</value>
   </data>
   <data name="&gt;&gt;StatusLabel.Type" xml:space="preserve">
-    <value>Tween.TweenCustomControl.ToolStripLabelHistory, Tween, Version=0.8.3682.24535, Culture=neutral, PublicKeyToken=null</value>
+    <value>Tween.TweenCustomControl.ToolStripLabelHistory, Tween, Version=0.8.3682.38778, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;HashStripSplitButton.Name" xml:space="preserve">
     <value>HashStripSplitButton</value>
