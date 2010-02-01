@@ -2210,23 +2210,6 @@ Public Module Twitter
         End If
     End Function
 
-    ' Contributed by shuyoko <http://twitter.com/shuyoko> BEGIN:
-    Public Function GetBlackFavId(ByVal id As Long, ByRef blackid As Long) As String
-        Dim dataStr As String = _authKeyHeader + HttpUtility.UrlEncode(_authKey)
-        Dim resStatus As String = ""
-        Dim resMsg As String = DirectCast(CreateSocket.GetWebResponse("http://blavotter.hocha.org/blackfav/getblack.php?format=simple&id=" + id.ToString(), resStatus, MySocket.REQ_TYPE.ReqGET), String)
-
-        If resStatus.StartsWith("OK") = False Then
-            Return resStatus
-        End If
-
-        blackid = Long.Parse(resMsg)
-
-        Return ""
-
-    End Function
-    ' Contributed by shuyoko <http://twitter.com/shuyoko> END.
-
     Public Function PostFavAdd(ByVal id As Long) As String
         If _endingFlag Then Return ""
 
@@ -3366,7 +3349,7 @@ Public Module Twitter
     End Function
 
     Public Function GetSearch(ByVal read As Boolean, _
-                            ByVal tabName As String, _
+                            ByVal tab As TabClass, _
                             ByVal more As Boolean) As String
 
         If _endingFlag Then Return ""
@@ -3377,9 +3360,8 @@ Public Module Twitter
         Const SEARCH_HOST As String = "search."
         Const SEARCH_PATH As String = "/search.atom"
 
-        Dim tb As TabClass = TabInformations.GetInstance.Tabs(tabName)
-        If tb Is Nothing Then Return ""
-        Dim query As String = tb.SearchQuery(more)
+        If tab Is Nothing Then Return ""
+        Dim query As String = tab.SearchQuery(more)
         If query = "" Then Return ""
 
         retMsg = DirectCast(sck.GetWebResponse(_protocol + SEARCH_HOST + _hubServer + SEARCH_PATH + "?" + query + "&rpp=40", resStatus, MySocket.REQ_TYPE.ReqGetAPINoAuth, userAgent:="Tween"), String)
@@ -3393,6 +3375,8 @@ Public Module Twitter
                 Return resStatus
             End If
         End If
+
+        If Not TabInformations.GetInstance.ContainsTab(tab) Then Return ""
 
         Dim arIdx As Integer = -1
         Dim dlgt(40) As GetIconImageDelegate    'countQueryに合わせる
@@ -3411,7 +3395,7 @@ Public Module Twitter
             Dim post As New PostClass
             Try
                 post.Id = Long.Parse(xentry.Item("id").InnerText.Split(":"c)(2))
-                If TabInformations.GetInstance.ContainsKey(post.Id, tabName) Then Continue For
+                If TabInformations.GetInstance.ContainsKey(post.Id, tab.TabName) Then Continue For
                 post.PDate = DateTime.Parse(xentry.Item("published").InnerText)
                 '本文
                 post.Data = xentry.Item("title").InnerText
@@ -3453,7 +3437,7 @@ Public Module Twitter
                 post.IsOwl = False
                 If post.IsMe AndAlso Not read AndAlso _readOwnPost Then post.IsRead = True
                 post.IsDm = False
-                post.SearchTabName = tabName
+                post.SearchTabName = tab.TabName
             Catch ex As Exception
                 TraceOut(retMsg)
                 Continue For

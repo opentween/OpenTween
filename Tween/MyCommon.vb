@@ -107,7 +107,6 @@ Public Module MyCommon
         PostMessage             '発言POST
         FavAdd                  'Fav追加
         FavRemove               'Fav削除
-        BlackFavAdd             'BlackFav追加 (Added by shuyoko <http://twitter.com/shuyoko>)
         Follower                'Followerリスト取得
         OpenUri                 'Uri開く
         Favorites               'Fav取得

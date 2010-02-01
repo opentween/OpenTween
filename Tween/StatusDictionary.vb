@@ -443,16 +443,14 @@ Public NotInheritable Class TabInformations
     End Property
 
     Public Sub SortPosts()
-        SyncLock LockObj
-            For Each key As String In _tabs.Keys
-                If _tabs(key).TabType <> TabUsageType.PublicSearch Then
-                    _sorter.posts = _statuses
-                Else
-                    _sorter.posts = _tabs(key).Posts
-                End If
-                _tabs(key).Sort(_sorter)
-            Next
-        End SyncLock
+        For Each key As String In _tabs.Keys
+            If _tabs(key).TabType <> TabUsageType.PublicSearch Then
+                _sorter.posts = _statuses
+            Else
+                _sorter.posts = _tabs(key).Posts
+            End If
+            _tabs(key).Sort(_sorter)
+        Next
     End Sub
 
     Public ReadOnly Property Sorter() As IdComparerClass
@@ -1130,7 +1128,6 @@ Public NotInheritable Class TabInformations
                     Next
                 End If
             Next
-
             Me.SortPosts()
         End SyncLock
     End Sub
@@ -1232,7 +1229,7 @@ Public NotInheritable Class TabInformations
         SyncLock LockObj
             If follower.Count > 0 Then
                 For Each post As PostClass In _statuses.Values
-                    If post.IsDm Then Continue For
+                    If post.Uid = 0 OrElse post.IsDm Then Continue For
                     If post.IsMe Then
                         post.IsOwl = False
                     Else
@@ -1251,10 +1248,31 @@ Public NotInheritable Class TabInformations
         'Home,Mentions,DM,Favは1つに制限する
         'その他のタイプを指定されたら、最初に合致したものを返す
         '合致しなければNothingを返す
-        For Each tb As TabClass In _tabs.Values
-            If tb.TabType = tabType Then Return tb
-        Next
-        Return Nothing
+        SyncLock LockObj
+            For Each tb As TabClass In _tabs.Values
+                If tb.TabType = tabType Then Return tb
+            Next
+            Return Nothing
+        End SyncLock
+    End Function
+
+    Public Function GetTabsByType(ByVal tabType As TabUsageType) As List(Of TabClass)
+        '合致したタブをListで返す
+        '合致しなければ空のListを返す
+        SyncLock LockObj
+            Dim tbs As New List(Of TabClass)
+            For Each tb As TabClass In _tabs.Values
+                If tb.TabType = tabType Then tbs.Add(tb)
+            Next
+            Return tbs
+        End SyncLock
+    End Function
+
+    Public Function GetTabByName(ByVal tabName As String) As TabClass
+        SyncLock LockObj
+            If _tabs.ContainsKey(tabName) Then Return _tabs(tabName)
+            Return Nothing
+        End SyncLock
     End Function
 
     ' デフォルトタブの判定処理
