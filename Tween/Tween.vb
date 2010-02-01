@@ -174,6 +174,7 @@ Public Class TweenMain
     Private _curItemIndex As Integer
     Private _curList As DetailsListView
     Private _curPost As PostClass
+    Private _isColumnChanged As Boolean = False
     'Private _waitFollower As Boolean = False
     Private _waitTimeline As Boolean = False
     Private _waitReply As Boolean = False
@@ -1488,6 +1489,7 @@ Public Class TweenMain
         'If _curList.SelectedIndices.Count = 0 Then Exit Sub
 
         _curItemIndex = _curList.SelectedIndices(0)
+        If _curPost Is GetCurTabPost(_curItemIndex) Then Exit Sub 'refreshで既読化されるのを防ぐため追加
         _curPost = GetCurTabPost(_curItemIndex)
         If SettingDialog.UnreadManage Then _statuses.SetRead(True, _curTab.Text, _curItemIndex)
         'MyList.RedrawItems(MyList.SelectedIndices(0), MyList.SelectedIndices(0), False)   'RetrieveVirtualItemが発生することを期待
@@ -1875,28 +1877,6 @@ Public Class TweenMain
                     End If
                 Next
                 rslt.sIds = args.sIds
-                ' Contributed by shuyoko <http://twitter.com/shuyoko> BEGIN:
-                'Case WORKERTYPE.BlackFavAdd
-                '    'スレッド処理はしない
-                '    For i As Integer = 0 To args.ids.Count - 1
-                '        Dim post As PostClass = _statuses.Item(args.ids(i))
-                '        Dim blackid As Long = 0
-                '        args.page = i + 1
-                '        bw.ReportProgress(50, MakeStatusMessage(args, False))
-                '        If Not post.IsFav Then
-                '            ret = Twitter.GetBlackFavId(post.Id, blackid)
-                '            If ret.Length = 0 Then
-                '                ret = Twitter.PostFavAdd(blackid)
-                '                If ret.Length = 0 Then
-                '                    args.sIds.Add(post.Id)
-                '                    post.IsFav = True    'リスト再描画必要
-                '                    _favTimestamps.Add(Now)
-                '                End If
-                '            End If
-                '        End If
-                '    Next
-                '    rslt.sIds = args.sIds
-                '    ' Contributed by shuyoko <http://twitter.com/shuyoko> END.
             Case WORKERTYPE.PostMessage
                 bw.ReportProgress(200)
                 For i As Integer = 0 To 1
@@ -1956,16 +1936,14 @@ Public Class TweenMain
             Case WORKERTYPE.PublicSearch
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
                 If args.tName = "" Then
-                    Dim tnarr(_statuses.Tabs.Count - 1) As String
-                    _statuses.Tabs.Keys.CopyTo(tnarr, 0)
-                    For Each tn As String In tnarr
-                        If String.IsNullOrEmpty(tn) Then Exit For
-                        If _statuses.Tabs(tn).TabType = TabUsageType.PublicSearch Then
-                            ret = Twitter.GetSearch(read, tn, False)
-                        End If
+                    For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.PublicSearch)
+                        ret = Twitter.GetSearch(read, tb, False)
                     Next
                 Else
-                    ret = Twitter.GetSearch(read, args.tName, args.page = -1)
+                    Dim tb As TabClass = _statuses.GetTabByName(args.tName)
+                    If tb IsNot Nothing Then
+                        ret = Twitter.GetSearch(read, tb, args.page = -1)
+                    End If
                 End If
                 '新着時未読クリア
                 rslt.addCount = _statuses.DistributePosts()
@@ -1977,7 +1955,7 @@ Public Class TweenMain
         End If
 
         '時速表示用
-        If args.type = WORKERTYPE.FavAdd OrElse args.type = WORKERTYPE.BlackFavAdd Then
+        If args.type = WORKERTYPE.FavAdd Then
             Dim oneHour As Date = Now.Subtract(New TimeSpan(1, 0, 0))
             For i As Integer = _favTimestamps.Count - 1 To 0 Step -1
                 If _favTimestamps(i).CompareTo(oneHour) < 0 Then
@@ -2047,9 +2025,6 @@ Public Class TweenMain
                 Case WORKERTYPE.FavRemove
                     smsg = My.Resources.GetTimelineWorker_RunWorkerCompletedText17 + AsyncArg.page.ToString() + "/" + AsyncArg.ids.Count.ToString() + _
                                         My.Resources.GetTimelineWorker_RunWorkerCompletedText18 + (AsyncArg.page - AsyncArg.sIds.Count - 1).ToString()
-                Case WORKERTYPE.BlackFavAdd
-                    smsg = My.Resources.GetTimelineWorker_RunWorkerCompletedText15_black + AsyncArg.page.ToString() + "/" + AsyncArg.ids.Count.ToString() + _
-                                        My.Resources.GetTimelineWorker_RunWorkerCompletedText16 + (AsyncArg.page - AsyncArg.sIds.Count - 1).ToString()
                 Case WORKERTYPE.Favorites
                     smsg = My.Resources.GetTimelineWorker_RunWorkerCompletedText19
                 Case WORKERTYPE.PublicSearch
@@ -2069,8 +2044,6 @@ Public Class TweenMain
                 Case WORKERTYPE.FavAdd
                     '進捗メッセージ残す
                 Case WORKERTYPE.FavRemove
-                    '進捗メッセージ残す
-                Case WORKERTYPE.BlackFavAdd
                     '進捗メッセージ残す
                 Case WORKERTYPE.Favorites
                     smsg = My.Resources.GetTimelineWorker_RunWorkerCompletedText20
@@ -2219,7 +2192,7 @@ Public Class TweenMain
                 _waitFav = False
             Case WORKERTYPE.DirectMessegeRcv
                 _waitDm = False
-            Case WORKERTYPE.FavAdd, WORKERTYPE.BlackFavAdd, WORKERTYPE.FavRemove
+            Case WORKERTYPE.FavAdd, WORKERTYPE.FavRemove
                 _curList.BeginUpdate()
                 If rslt.type = WORKERTYPE.FavRemove AndAlso _statuses.Tabs(_curTab.Text).TabType = TabUsageType.Favorites Then
                     '色変えは不要
@@ -2493,16 +2466,12 @@ Public Class TweenMain
             FavRemoveToolStripMenuItem.Enabled = False
             StatusOpenMenuItem.Enabled = False
             FavorareMenuItem.Enabled = False
-            BlackFavAddToolStripMenuItem.Enabled = False
-            'BlackFavRemoveToolStripMenuItem.Enabled = False
         Else
             If IsNetworkAvailable() Then
                 FavAddToolStripMenuItem.Enabled = True
                 FavRemoveToolStripMenuItem.Enabled = True
                 StatusOpenMenuItem.Enabled = True
                 FavorareMenuItem.Enabled = True
-                BlackFavAddToolStripMenuItem.Enabled = True
-                'BlackFavRemoveToolStripMenuItem.Enabled = True
             End If
         End If
         If _curPost Is Nothing OrElse _curPost.IsDm Then
@@ -3460,6 +3429,7 @@ Public Class TweenMain
     Private Sub SetListProperty()
         '削除などで見つからない場合は処理せず
         If _curList Is Nothing Then Exit Sub
+        If Not _isColumnChanged Then Exit Sub
 
         Dim dispOrder(_curList.Columns.Count - 1) As Integer
         For i As Integer = 0 To _curList.Columns.Count - 1
@@ -3483,6 +3453,8 @@ Public Class TweenMain
                 End If
             End If
         Next
+
+        _isColumnChanged = False
     End Sub
 
     Private Sub PostBrowser_StatusTextChanged(ByVal sender As Object, ByVal e As EventArgs) Handles PostBrowser.StatusTextChanged
@@ -4401,7 +4373,7 @@ RETRY:
             If idx < 0 Then idx = ListTab.TabPages.Count - 1
         End If
         ListTab.SelectedIndex = idx
-        ListTabSelect(ListTab.TabPages(idx))
+        'ListTabSelect(ListTab.TabPages(idx))
     End Sub
 
     Private Sub CopyStot()
@@ -6523,6 +6495,7 @@ RETRY:
             _cfgLocal.Width8 = lst.Columns(7).Width
         End If
         modifySettingLocal = True
+        _isColumnChanged = True
     End Sub
 
     Private Sub MyList_ColumnWidthChanged(ByVal sender As System.Object, ByVal e As ColumnWidthChangedEventArgs)
@@ -6533,43 +6506,53 @@ RETRY:
             If _cfgLocal.Width1 <> lst.Columns(0).Width Then
                 _cfgLocal.Width1 = lst.Columns(0).Width
                 modifySettingLocal = True
+                _isColumnChanged = True
             End If
             If _cfgLocal.Width3 <> lst.Columns(1).Width Then
                 _cfgLocal.Width3 = lst.Columns(1).Width
                 modifySettingLocal = True
+                _isColumnChanged = True
             End If
         Else
             If _cfgLocal.Width1 <> lst.Columns(0).Width Then
                 _cfgLocal.Width1 = lst.Columns(0).Width
                 modifySettingLocal = True
+                _isColumnChanged = True
             End If
             If _cfgLocal.Width2 <> lst.Columns(1).Width Then
                 _cfgLocal.Width2 = lst.Columns(1).Width
                 modifySettingLocal = True
+                _isColumnChanged = True
             End If
             If _cfgLocal.Width3 <> lst.Columns(2).Width Then
                 _cfgLocal.Width3 = lst.Columns(2).Width
                 modifySettingLocal = True
+                _isColumnChanged = True
             End If
             If _cfgLocal.Width4 <> lst.Columns(3).Width Then
                 _cfgLocal.Width4 = lst.Columns(3).Width
                 modifySettingLocal = True
+                _isColumnChanged = True
             End If
             If _cfgLocal.Width5 <> lst.Columns(4).Width Then
                 _cfgLocal.Width5 = lst.Columns(4).Width
                 modifySettingLocal = True
+                _isColumnChanged = True
             End If
             If _cfgLocal.Width6 <> lst.Columns(5).Width Then
                 _cfgLocal.Width6 = lst.Columns(5).Width
                 modifySettingLocal = True
+                _isColumnChanged = True
             End If
             If _cfgLocal.Width7 <> lst.Columns(6).Width Then
                 _cfgLocal.Width7 = lst.Columns(6).Width
                 modifySettingLocal = True
+                _isColumnChanged = True
             End If
             If _cfgLocal.Width8 <> lst.Columns(7).Width Then
                 _cfgLocal.Width8 = lst.Columns(7).Width
                 modifySettingLocal = True
+                _isColumnChanged = True
             End If
         End If
         ' 非表示の時にColumnChangedが呼ばれた場合はForm初期化処理中なので保存しない
@@ -6717,38 +6700,6 @@ RETRY:
         End If
     End Sub
 
-    '' Contributed by shuyoko <http://twitter.com/shuyoko> BEGIN:
-    'Private Sub BlackFavAddToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BlackFavAddToolStripMenuItem.Click
-
-    '    Dim cnt As Integer = 0
-
-    '    If _statuses.GetTabByType(TabUsageType.DirectMessage).TabName = _curTab.Text OrElse _curList.SelectedIndices.Count = 0 Then Exit Sub
-
-    '    If _curList.SelectedIndices.Count > 1 Then
-    '        If MessageBox.Show(My.Resources.BlackFavAddToolStripMenuItem_ClickText1, My.Resources.BlackFavAddToolStripMenuItem_ClickText2, _
-    '                           MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
-    '            Exit Sub
-    '        End If
-    '    End If
-
-    '    Dim args As New GetWorkerArg()
-    '    args.ids = New List(Of Long)
-    '    args.sIds = New List(Of Long)
-    '    args.tName = _curTab.Text
-    '    For Each idx As Integer In _curList.SelectedIndices
-    '        If Not _statuses.Item(_curTab.Text, idx).IsFav Then
-    '            args.ids.Add(_statuses.Item(_curTab.Text, idx).Id)
-    '        End If
-    '    Next
-    '    args.type = WORKERTYPE.BlackFavAdd
-    '    If args.ids.Count = 0 Then
-    '        StatusLabel.Text = My.Resources.BlackFavAddToolStripMenuItem_ClickText4
-    '        Exit Sub
-    '    End If
-
-    '    RunAsync(args)
-    'End Sub
-
     Private Function IsNetworkAvailable() As Boolean
         Dim nw As Boolean = True
         Try
@@ -6771,9 +6722,6 @@ RETRY:
     Private Sub ListTabSelect(ByVal _tab As TabPage)
         SetListProperty()
 
-        _itemCache = Nothing
-        _itemCacheIndex = -1
-        _postCache = Nothing
         _curTab = _tab
         _curList = DirectCast(_tab.Tag, DetailsListView)
         If _curList.SelectedIndices.Count > 0 Then
