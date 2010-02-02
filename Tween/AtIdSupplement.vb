@@ -97,11 +97,12 @@ Public Class AtIdSupplement
     Private Sub AtIdSupplement_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
         'TextId.Text = startChar
         'TextId.SelectionStart = 1
-        TextId.Text = ""
+        TextId.Text = startChar
+        TextId.SelectionStart = 1
         TextId.Focus()
-        My.Application.DoEvents()   '苦し紛れ（ドロップダウンしないので）
-        My.Application.DoEvents()   '苦し紛れ（ドロップダウンしないので）
-        SendKeys.Send(startChar)
+        'My.Application.DoEvents()   '苦し紛れ（ドロップダウンしないので）
+        'My.Application.DoEvents()   '苦し紛れ（ドロップダウンしないので）
+        'SendKeys.Send(startChar)
     End Sub
 
     Public Sub New()

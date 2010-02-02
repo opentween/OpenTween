@@ -723,4 +723,7 @@
   <data name="InputTabName_Load1" xml:space="preserve">
     <value>Filtered Timeline</value>
   </data>
+  <data name="ShowYourProfileText1" xml:space="preserve">
+    <value>Your profile info don't taken yet. Please try again after posting the tweet.</value>
+  </data>
 </root>

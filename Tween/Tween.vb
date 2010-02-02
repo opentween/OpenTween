@@ -3060,26 +3060,6 @@ Public Class TweenMain
             cmbLang.Name = "comboLang"
             cmbLang.DropDownStyle = ComboBoxStyle.DropDownList
             cmbLang.TabStop = False
-            If _statuses.ContainsTab(tabName) Then cmbLang.Text = _statuses.Tabs(tabName).SearchLang
-            'AddHandler cmbLang.Enter, AddressOf SearchControls_Enter
-            'AddHandler cmbLang.Leave, AddressOf SearchControls_Leave
-
-            lbl.Text = "Search(C-S-f)"
-            lbl.Name = "label1"
-            lbl.Dock = DockStyle.Left
-            lbl.Width = 90
-            lbl.Height = cmb.Height
-            lbl.TextAlign = ContentAlignment.MiddleLeft
-
-            btn.Text = "Search"
-            btn.Name = "buttonSearch"
-            btn.UseVisualStyleBackColor = True
-            btn.Dock = DockStyle.Right
-            btn.TabStop = False
-            AddHandler btn.Click, AddressOf SearchButton_Click
-            'AddHandler btn.Enter, AddressOf SearchControls_Enter
-            'AddHandler btn.Leave, AddressOf SearchControls_Leave
-
             cmbLang.Items.Add("")
             cmbLang.Items.Add("ja")
             cmbLang.Items.Add("en")
@@ -3100,6 +3080,26 @@ Public Class TweenMain
             cmbLang.Items.Add("es")
             cmbLang.Items.Add("sv")
             cmbLang.Items.Add("th")
+            If _statuses.ContainsTab(tabName) Then cmbLang.Text = _statuses.Tabs(tabName).SearchLang
+            'AddHandler cmbLang.Enter, AddressOf SearchControls_Enter
+            'AddHandler cmbLang.Leave, AddressOf SearchControls_Leave
+
+            lbl.Text = "Search(C-S-f)"
+            lbl.Name = "label1"
+            lbl.Dock = DockStyle.Left
+            lbl.Width = 90
+            lbl.Height = cmb.Height
+            lbl.TextAlign = ContentAlignment.MiddleLeft
+
+            btn.Text = "Search"
+            btn.Name = "buttonSearch"
+            btn.UseVisualStyleBackColor = True
+            btn.Dock = DockStyle.Right
+            btn.TabStop = False
+            AddHandler btn.Click, AddressOf SearchButton_Click
+            'AddHandler btn.Enter, AddressOf SearchControls_Enter
+            'AddHandler btn.Leave, AddressOf SearchControls_Leave
+
         End If
 
         Me.ListTab.Controls.Add(_tabPage)
@@ -5650,6 +5650,10 @@ RETRY:
                 'SaveConfigsCommon()
                 'SaveConfigsTab(False)
                 SaveConfigsTabs()
+                If tabUsage = TabUsageType.PublicSearch Then
+                    ListTab.SelectedIndex = ListTab.TabPages.Count - 1
+                    ListTab.SelectedTab.Controls("panelSearch").Controls("comboSearch").Focus()
+                End If
             End If
         End If
     End Sub
@@ -6724,6 +6728,10 @@ RETRY:
     Private Sub ListTabSelect(ByVal _tab As TabPage)
         SetListProperty()
 
+        _itemCache = Nothing
+        _itemCacheIndex = -1
+        _postCache = Nothing
+
         _curTab = _tab
         _curList = DirectCast(_tab.Tag, DetailsListView)
         If _curList.SelectedIndices.Count > 0 Then
@@ -7181,6 +7189,10 @@ RETRY:
         If Not String.IsNullOrEmpty(Twitter.Bio) Then
             bio = Twitter.Bio
         End If
+        If Twitter.FriendsCount = 0 AndAlso Twitter.FollowersCount = 0 AndAlso Twitter.StatusesCount = 0 AndAlso loc = "" AndAlso bio = "" Then
+            MessageBox.Show(My.Resources.ShowYourProfileText1, "Your status", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End If
         MessageBox.Show("Following : " + Twitter.FriendsCount.ToString() + Environment.NewLine + _
                         "Followers : " + Twitter.FollowersCount.ToString() + Environment.NewLine + _
                         "Statuses count : " + Twitter.StatusesCount.ToString() + Environment.NewLine + _
@@ -7251,8 +7263,13 @@ RETRY:
         Dim tb As TabClass = _statuses.Tabs(tbName)
         tb.SearchWords = pnl.Controls("comboSearch").Text
         tb.SearchLang = pnl.Controls("comboLang").Text
-        If pnl.Controls("comboSearch").Text.Trim = "" Then Exit Sub
+        If pnl.Controls("comboSearch").Text.Trim = "" Then
+            DirectCast(ListTab.SelectedTab.Tag, DetailsListView).Focus()
+            Exit Sub
+        End If
         If tb.IsQueryChanged Then
+            Dim idx As Integer = DirectCast(pnl.Controls("comboSearch"), ComboBox).Items.IndexOf(tb.SearchWords)
+            If idx > -1 Then DirectCast(pnl.Controls("comboSearch"), ComboBox).Items.RemoveAt(idx)
             DirectCast(pnl.Controls("comboSearch"), ComboBox).Items.Insert(0, tb.SearchWords)
             Dim lst As DetailsListView = DirectCast(pnl.Parent.Tag, DetailsListView)
             lst.VirtualListSize = 0
@@ -7285,6 +7302,7 @@ RETRY:
             tb.TabName = renamed
             _statuses.Tabs.Add(renamed, tb)
             AddNewTab(renamed, False, tb.TabType)
+            ListTab.SelectedIndex = ListTab.TabPages.Count - 1
             SaveConfigsTabs()
         End If
     End Sub
