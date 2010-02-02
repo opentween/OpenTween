@@ -1429,14 +1429,14 @@ Public Class TweenMain
                         SettingDialog.LimitBalloon AndAlso _
                         ( _
                             Me.WindowState = FormWindowState.Minimized OrElse _
-                            Not Me.Visible _
+                            Not Me.Visible OrElse _
+                            Form.ActiveForm Is Nothing _
                         ) _
                     ) OrElse _
                     Not SettingDialog.LimitBalloon _
                 ) _
             ) AndAlso _
             Not IsScreenSaverRunning() Then
-            '                            Form.ActiveForm Is Nothing _
             Dim sb As New StringBuilder
             Dim reply As Boolean = False
             Dim dm As Boolean = False
@@ -3468,7 +3468,7 @@ Public Class TweenMain
     End Sub
 
     Private Sub StatusText_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles StatusText.KeyPress
-        If Not SettingDialog.UseAtIdSupplement OrElse AtIdSupl Is Nothing Then Exit Sub
+        If Not SettingDialog.UseAtIdSupplement Then Exit Sub
         If e.KeyChar = "@" Then
             '@マーク
             ShowSuplDialog(AtIdSupl)
@@ -5797,13 +5797,15 @@ RETRY:
             _statuses.FilterAll()
             For Each tb As TabPage In ListTab.TabPages
                 DirectCast(tb.Tag, DetailsListView).VirtualListSize = _statuses.Tabs(tb.Text).AllCount
-                If _statuses.Tabs(tb.Text).UnreadCount > 0 Then
-                    If SettingDialog.TabIconDisp Then
-                        tb.ImageIndex = 0
-                    End If
-                Else
-                    If SettingDialog.TabIconDisp Then
-                        tb.ImageIndex = -1
+                If _statuses.ContainsTab(tb.Text) Then
+                    If _statuses.Tabs(tb.Text).UnreadCount > 0 Then
+                        If SettingDialog.TabIconDisp Then
+                            tb.ImageIndex = 0
+                        End If
+                    Else
+                        If SettingDialog.TabIconDisp Then
+                            tb.ImageIndex = -1
+                        End If
                     End If
                 End If
             Next
@@ -6107,7 +6109,7 @@ RETRY:
 
         m = id.Matches(StatusText)
 
-        If SettingDialog.UseAtIdSupplement AndAlso AtIdSupl IsNot Nothing Then
+        If SettingDialog.UseAtIdSupplement Then
             Dim bCnt As Integer = AtIdSupl.ItemCount
             For Each mid As Match In m
                 AtIdSupl.AddItem(mid.Result("${id}"))
@@ -7247,9 +7249,9 @@ RETRY:
         If pnl Is Nothing Then Exit Sub
         Dim tbName As String = pnl.Parent.Text
         Dim tb As TabClass = _statuses.Tabs(tbName)
-        If pnl.Controls("comboSearch").Text.Trim = "" Then Exit Sub
         tb.SearchWords = pnl.Controls("comboSearch").Text
         tb.SearchLang = pnl.Controls("comboLang").Text
+        If pnl.Controls("comboSearch").Text.Trim = "" Then Exit Sub
         If tb.IsQueryChanged Then
             DirectCast(pnl.Controls("comboSearch"), ComboBox).Items.Insert(0, tb.SearchWords)
             Dim lst As DetailsListView = DirectCast(pnl.Parent.Tag, DetailsListView)
