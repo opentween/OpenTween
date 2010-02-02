@@ -120,6 +120,15 @@
   <data name="Cancel_Button.Text" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="DeleteButton.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="ReplaceButton.Text" xml:space="preserve">
+    <value>Change</value>
+  </data>
+  <data name="AddButton.Text" xml:space="preserve">
+    <value>Add to text</value>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="Label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>156, 12</value>

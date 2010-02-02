@@ -85,7 +85,7 @@ Public Class HashtagManage
 
     Private Sub HashtagManage_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
         UseHashText.Text = _useHash
-        UseHashText.Focus()
+        HistoryHashList.Focus()
     End Sub
 
     Public Sub AddHashToHistory(ByVal hash As String)
@@ -106,6 +106,7 @@ Public Class HashtagManage
 
     Private Sub DeleteButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DeleteButton.Click
         For i As Integer = 0 To HistoryHashList.SelectedIndices.Count - 1
+            If UseHashText.Text = HistoryHashList.SelectedItems(0).ToString Then UseHashText.Text = ""
             HistoryHashList.Items.RemoveAt(HistoryHashList.SelectedIndices(0))
         Next
     End Sub
@@ -157,9 +158,14 @@ Public Class HashtagManage
 
     Public Sub ToggleHash()
         If _useHash <> "" Then
-            Me.AddHashToHistory(_useHash)
-            _useHash = ""
-            UseHashText.Text = ""
+            Dim idx As Integer = HistoryHashList.Items.IndexOf(_useHash)
+            If idx = HistoryHashList.Items.Count - 1 Then
+                _useHash = ""
+                UseHashText.Text = ""
+            Else
+                _useHash = HistoryHashList.Items(idx + 1).ToString
+                UseHashText.Text = _useHash
+            End If
         Else
             If HistoryHashList.Items.Count > 0 Then
                 _useHash = HistoryHashList.Items(0).ToString

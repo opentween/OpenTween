@@ -1040,6 +1040,18 @@
         zkDsDMTOQOwMxM7A+XMG/g+vfKQUwgG5fQAAAABJRU5ErkJggg==
 </value>
   </data>
+  <data name="LabelProductName.Text" xml:space="preserve">
+    <value>Product</value>
+  </data>
+  <data name="LabelVersion.Text" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="LabelCopyright.Text" xml:space="preserve">
+    <value>Copyright</value>
+  </data>
+  <data name="LabelCompanyName.Text" xml:space="preserve">
+    <value>Company</value>
+  </data>
   <data name="OKButton.Text" xml:space="preserve">
     <value>&amp;OK</value>
   </data>
