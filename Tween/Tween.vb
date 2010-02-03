@@ -3900,6 +3900,7 @@ RETRY:
             If idx > -1 Then
                 ListTab.SelectedIndex = i
                 lst = DirectCast(ListTab.TabPages(i).Tag, DetailsListView)
+                _curTab = ListTab.TabPages(i)
                 Exit For
             End If
         Next
@@ -3911,6 +3912,7 @@ RETRY:
                 If idx > -1 Then
                     ListTab.SelectedIndex = i
                     lst = DirectCast(ListTab.TabPages(i).Tag, DetailsListView)
+                    _curTab = ListTab.TabPages(i)
                     Exit For
                 End If
             Next
@@ -3920,6 +3922,7 @@ RETRY:
         If idx = -1 Then
             ListTab.SelectedIndex = 0
             lst = DirectCast(ListTab.TabPages(0).Tag, DetailsListView)
+            _curTab = ListTab.TabPages(0)
             If _statuses.SortOrder = SortOrder.Ascending Then
                 idx = lst.VirtualListSize - 1
             Else
@@ -3939,6 +3942,11 @@ RETRY:
             Else
                 lst.EnsureVisible(idx)
             End If
+            If SettingDialog.UnreadManage Then _statuses.SetRead(True, _curTab.Text, idx)
+            ChangeCacheStyleRead(True, idx, _curTab)   '既読へ（フォント、文字色）
+            ColorizeList()
+            TimerColorize.Stop()
+            TimerColorize.Start()
         End If
         lst.Focus()
     End Sub
@@ -6762,6 +6770,7 @@ RETRY:
         LView.SelectedIndices.Clear()
         LView.Items(Index).Selected = True
         LView.Items(Index).Focused = True
+
         If flg Then LView.Invalidate(bnd)
     End Sub
 
