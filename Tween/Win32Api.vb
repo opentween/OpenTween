@@ -1,4 +1,4 @@
-' Tween - Client of Twitter
+ï»¿' Tween - Client of Twitter
 ' Copyright (c) 2007-2010 kiri_feather (@kiri_feather) <kiri_feather@gmail.com>
 '           (c) 2008-2010 Moz (@syo68k) <http://iddy.jp/profile/moz/>
 '           (c) 2008-2010 takeshik (@takeshik) <http://www.takeshik.org/>
@@ -25,68 +25,68 @@ Imports System.Runtime.InteropServices
 Imports System.Diagnostics
 
 Module Win32Api
-#Region "æs‹N“®ƒvƒƒZƒX‚ğƒAƒNƒeƒBƒu‚É‚·‚é"
-    ' ŠO•”ƒvƒƒZƒX‚ÌƒEƒBƒ“ƒhƒE‚ğ‹N“®‚·‚é
+#Region "å…ˆè¡Œèµ·å‹•ãƒ—ãƒ­ã‚»ã‚¹ã‚’ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ã«ã™ã‚‹"
+    ' å¤–éƒ¨ãƒ—ãƒ­ã‚»ã‚¹ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’èµ·å‹•ã™ã‚‹
     Public Sub WakeupWindow(ByVal hWnd As IntPtr)
-        ' ƒƒCƒ“EƒEƒBƒ“ƒhƒE‚ªÅ¬‰»‚³‚ê‚Ä‚¢‚ê‚ÎŒ³‚É–ß‚·
+        ' ãƒ¡ã‚¤ãƒ³ãƒ»ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãŒæœ€å°åŒ–ã•ã‚Œã¦ã„ã‚Œã°å…ƒã«æˆ»ã™
         If IsIconic(hWnd) Then
             ShowWindowAsync(hWnd, SW_RESTORE)
         End If
 
-        ' ƒƒCƒ“EƒEƒBƒ“ƒhƒE‚ğÅ‘O–Ê‚É•\¦‚·‚é
+        ' ãƒ¡ã‚¤ãƒ³ãƒ»ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’æœ€å‰é¢ã«è¡¨ç¤ºã™ã‚‹
         SetForegroundWindow(hWnd)
     End Sub
 
-    ' ŠO•”ƒvƒƒZƒX‚ÌƒƒCƒ“EƒEƒBƒ“ƒhƒE‚ğ‹N“®‚·‚é‚½‚ß‚ÌWin32 API
+    ' å¤–éƒ¨ãƒ—ãƒ­ã‚»ã‚¹ã®ãƒ¡ã‚¤ãƒ³ãƒ»ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’èµ·å‹•ã™ã‚‹ãŸã‚ã®Win32 API
     <DllImport("user32.dll")> _
     Private Function SetForegroundWindow( _
         ByVal hWnd As IntPtr) As Boolean
     End Function
-    ' ƒEƒBƒ“ƒhƒE‚Ì•\¦ó‘Ô‚ğİ’è
+    ' ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®è¡¨ç¤ºçŠ¶æ…‹ã‚’è¨­å®š
     <DllImport("user32.dll")> _
     Private Function ShowWindowAsync( _
         ByVal hWnd As IntPtr, _
         ByVal nCmdShow As Integer) As Boolean
     End Function
-    ' w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ªÅ¬‰»i ƒAƒCƒRƒ“‰»j‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ’²‚×‚é
+    ' æŒ‡å®šã•ã‚ŒãŸã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãŒæœ€å°åŒ–ï¼ˆ ã‚¢ã‚¤ã‚³ãƒ³åŒ–ï¼‰ã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’èª¿ã¹ã‚‹
     <DllImport("user32.dll")> _
     Private Function IsIconic( _
         ByVal hWnd As IntPtr) As Boolean
     End Function
-    ' ShowWindowAsyncŠÖ”‚Ìƒpƒ‰ƒ[ƒ^‚É“n‚·’è‹`’l
-    Private Const SW_RESTORE As Integer = 9 ' ‰æ–Ê‚ğŒ³‚Ì‘å‚«‚³‚É–ß‚·
+    ' ShowWindowAsyncé–¢æ•°ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã«æ¸¡ã™å®šç¾©å€¤
+    Private Const SW_RESTORE As Integer = 9 ' ç”»é¢ã‚’å…ƒã®å¤§ãã•ã«æˆ»ã™
 
-    ' Às’†‚Ì“¯‚¶ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒvƒƒZƒX‚ğæ“¾‚·‚é
+    ' å®Ÿè¡Œä¸­ã®åŒã˜ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒ—ãƒ­ã‚»ã‚¹ã‚’å–å¾—ã™ã‚‹
     Public Function GetPreviousProcess() As Process
         Dim curProcess As Process = Process.GetCurrentProcess()
         Dim allProcesses() As Process = Process.GetProcessesByName(curProcess.ProcessName)
 
         Dim checkProcess As Process
         For Each checkProcess In allProcesses
-            ' ©•ª©g‚ÌƒvƒƒZƒXID‚Í–³‹‚·‚é
+            ' è‡ªåˆ†è‡ªèº«ã®ãƒ—ãƒ­ã‚»ã‚¹IDã¯ç„¡è¦–ã™ã‚‹
             If checkProcess.Id <> curProcess.Id Then
-                ' ƒvƒƒZƒX‚Ìƒtƒ‹ƒpƒX–¼‚ğ”äŠr‚µ‚Ä“¯‚¶ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚©ŒŸØ
+                ' ãƒ—ãƒ­ã‚»ã‚¹ã®ãƒ•ãƒ«ãƒ‘ã‚¹åã‚’æ¯”è¼ƒã—ã¦åŒã˜ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‹æ¤œè¨¼
                 If String.Compare( _
                         checkProcess.MainModule.FileName, _
                         curProcess.MainModule.FileName, True) = 0 Then
-                    ' “¯‚¶ƒtƒ‹ƒpƒX–¼‚ÌƒvƒƒZƒX‚ğæ“¾
+                    ' åŒã˜ãƒ•ãƒ«ãƒ‘ã‚¹åã®ãƒ—ãƒ­ã‚»ã‚¹ã‚’å–å¾—
                     Return checkProcess
                 End If
             End If
         Next
 
-        ' “¯‚¶ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒvƒƒZƒX‚ªŒ©‚Â‚©‚ç‚È‚¢I  
+        ' åŒã˜ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒ—ãƒ­ã‚»ã‚¹ãŒè¦‹ã¤ã‹ã‚‰ãªã„ï¼  
         Return Nothing
     End Function
 #End Region
-#Region "ƒ^ƒXƒNƒgƒŒƒCƒAƒCƒRƒ“‚ÌƒNƒŠƒbƒN"
-    ' w’è‚³‚ê‚½ƒNƒ‰ƒX–¼‚¨‚æ‚ÑƒEƒBƒ“ƒhƒE–¼‚Æˆê’v‚·‚éƒgƒbƒvƒŒƒxƒ‹ƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚µ‚Ü‚·
+#Region "ã‚¿ã‚¹ã‚¯ãƒˆãƒ¬ã‚¤ã‚¢ã‚¤ã‚³ãƒ³ã®ã‚¯ãƒªãƒƒã‚¯"
+    ' æŒ‡å®šã•ã‚ŒãŸã‚¯ãƒ©ã‚¹åãŠã‚ˆã³ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦åã¨ä¸€è‡´ã™ã‚‹ãƒˆãƒƒãƒ—ãƒ¬ãƒ™ãƒ«ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«ã‚’å–å¾—ã—ã¾ã™
     <DllImport("user32.dll")> _
     Private Function FindWindow( _
         ByVal lpClassName As String, _
         ByVal lpWindowName As String) As IntPtr
     End Function
-    ' w’è‚³‚ê‚½•¶š—ñ‚Æˆê’v‚·‚éƒNƒ‰ƒX–¼‚ÆƒEƒBƒ“ƒhƒE–¼•¶š—ñ‚ğ‚ÂƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹‚ğ•Ô‚µ‚Ü‚·
+    ' æŒ‡å®šã•ã‚ŒãŸæ–‡å­—åˆ—ã¨ä¸€è‡´ã™ã‚‹ã‚¯ãƒ©ã‚¹åã¨ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦åæ–‡å­—åˆ—ã‚’æŒã¤ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«ã‚’è¿”ã—ã¾ã™
     <DllImport("user32.dll")> _
     Private Function FindWindowEx( _
         ByVal hWnd1 As IntPtr, _
@@ -94,7 +94,7 @@ Module Win32Api
         ByVal lpsz1 As String, _
         ByVal lpsz2 As String) As IntPtr
     End Function
-    ' w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ÖAw’è‚³‚ê‚½ƒƒbƒZ[ƒW‚ğ‘—M‚µ‚Ü‚·
+    ' æŒ‡å®šã•ã‚ŒãŸã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã¸ã€æŒ‡å®šã•ã‚ŒãŸãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’é€ä¿¡ã—ã¾ã™
     <DllImport("user32.dll")> _
     Private Function SendMessage( _
         ByVal hwnd As IntPtr, _
@@ -102,14 +102,14 @@ Module Win32Api
         ByVal wParam As IntPtr, _
         ByVal lParam As IntPtr) As Integer
     End Function
-    ' SendMessage‚Å‘—M‚·‚éƒƒbƒZ[ƒW
+    ' SendMessageã§é€ä¿¡ã™ã‚‹ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
     Private Enum Sm_Message As Integer
-        WM_USER = &H400                     'ƒ†[ƒU[’è‹`ƒƒbƒZ[ƒW
-        TB_GETBUTTON = WM_USER + 23         'ƒc[ƒ‹ƒo[‚Ìƒ{ƒ^ƒ“æ“¾
-        TB_BUTTONCOUNT = WM_USER + 24       'ƒc[ƒ‹ƒo[‚Ìƒ{ƒ^ƒ“iƒAƒCƒRƒ“j”æ“¾
-        TB_GETBUTTONINFO = WM_USER + 65     'ƒc[ƒ‹ƒo[‚Ìƒ{ƒ^ƒ“Ú×î•ñæ“¾
+        WM_USER = &H400                     'ãƒ¦ãƒ¼ã‚¶ãƒ¼å®šç¾©ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+        TB_GETBUTTON = WM_USER + 23         'ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã®ãƒœã‚¿ãƒ³å–å¾—
+        TB_BUTTONCOUNT = WM_USER + 24       'ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã®ãƒœã‚¿ãƒ³ï¼ˆã‚¢ã‚¤ã‚³ãƒ³ï¼‰æ•°å–å¾—
+        TB_GETBUTTONINFO = WM_USER + 65     'ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã®ãƒœã‚¿ãƒ³è©³ç´°æƒ…å ±å–å¾—
     End Enum
-    ' ƒc[ƒ‹ƒo[ƒ{ƒ^ƒ“\‘¢‘Ì
+    ' ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ãƒœã‚¿ãƒ³æ§‹é€ ä½“
     <StructLayout(LayoutKind.Sequential, Pack:=1)> _
     Private Structure TBBUTTON
         Public iBitmap As Integer
@@ -121,7 +121,7 @@ Module Win32Api
         Public dwData As Integer
         Public iString As Integer
     End Structure
-    ' ƒc[ƒ‹ƒo[ƒ{ƒ^ƒ“Ú×î•ñ\‘¢‘Ì
+    ' ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ãƒœã‚¿ãƒ³è©³ç´°æƒ…å ±æ§‹é€ ä½“
     <StructLayout(LayoutKind.Sequential)> _
     Private Structure TBBUTTONINFO
         Public cbSize As Int32
@@ -135,7 +135,7 @@ Module Win32Api
         Public pszText As IntPtr
         Public cchText As Int32
     End Structure
-    ' TBBUTTONINFO‚ÌlParam‚Åƒ|ƒCƒ“ƒg‚³‚ê‚éƒAƒCƒRƒ“î•ñiPostMessage‚Åg—pj
+    ' TBBUTTONINFOã®lParamã§ãƒã‚¤ãƒ³ãƒˆã•ã‚Œã‚‹ã‚¢ã‚¤ã‚³ãƒ³æƒ…å ±ï¼ˆPostMessageã§ä½¿ç”¨ï¼‰
     <StructLayout(LayoutKind.Sequential)> _
     Private Structure TRAYNOTIFY
         Public hWnd As IntPtr
@@ -145,27 +145,27 @@ Module Win32Api
         Public dwDummy2 As UInt32
         Public hIcon As IntPtr
     End Structure
-    ' TBBUTTONINFO‚Éw’è‚·‚éƒ}ƒXƒNî•ñ
+    ' TBBUTTONINFOã«æŒ‡å®šã™ã‚‹ãƒã‚¹ã‚¯æƒ…å ±
     <Flags()> _
     Private Enum ToolbarButtonMask As Int32
         TBIF_COMMAND = &H20
         TBIF_LPARAM = &H10
         TBIF_TEXT = &H2
     End Enum
-    ' w’è‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ğì¬‚µ‚½ƒXƒŒƒbƒh‚Ì ID ‚ğæ“¾‚µ‚Ü‚·
+    ' æŒ‡å®šã•ã‚ŒãŸã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’ä½œæˆã—ãŸã‚¹ãƒ¬ãƒƒãƒ‰ã® ID ã‚’å–å¾—ã—ã¾ã™
     <DllImport("user32.dll", SetLastError:=True)> _
     Private Function GetWindowThreadProcessId( _
         ByVal hwnd As IntPtr, _
         ByRef lpdwProcessId As Integer) As Integer
     End Function
-    ' w’è‚µ‚½ƒvƒƒZƒXID‚É‘Î‚·‚éƒvƒƒZƒXƒnƒ“ƒhƒ‹‚ğæ“¾‚µ‚Ü‚·
+    ' æŒ‡å®šã—ãŸãƒ—ãƒ­ã‚»ã‚¹IDã«å¯¾ã™ã‚‹ãƒ—ãƒ­ã‚»ã‚¹ãƒãƒ³ãƒ‰ãƒ«ã‚’å–å¾—ã—ã¾ã™
     <DllImport("kernel32.dll")> _
     Private Function OpenProcess( _
         ByVal dwDesiredAccess As ProcessAccess, _
         <MarshalAs(UnmanagedType.Bool)> ByVal bInheritHandle As Boolean, _
         ByVal dwProcessId As Integer) As IntPtr
     End Function
-    ' OpenProcess‚Åw’è‚·‚éƒAƒNƒZƒXŒ 
+    ' OpenProcessã§æŒ‡å®šã™ã‚‹ã‚¢ã‚¯ã‚»ã‚¹æ¨©
     <Flags()> _
     Private Enum ProcessAccess As Integer
         ''' <summary>Specifies all possible access flags for the process object.</summary>
@@ -189,7 +189,7 @@ Module Win32Api
         ''' <summary>Enables usage of the process handle in any of the wait functions to wait for the process to terminate.</summary>
         Synchronize = &H100000
     End Enum
-    ' w’è‚µ‚½ƒvƒƒZƒX‚Ì‰¼‘zƒAƒhƒŒƒX‹óŠÔ‚Éƒƒ‚ƒŠ—Ìˆæ‚ğŠm•Û
+    ' æŒ‡å®šã—ãŸãƒ—ãƒ­ã‚»ã‚¹ã®ä»®æƒ³ã‚¢ãƒ‰ãƒ¬ã‚¹ç©ºé–“ã«ãƒ¡ãƒ¢ãƒªé ˜åŸŸã‚’ç¢ºä¿
     <DllImport("kernel32.dll", SetLastError:=True, ExactSpelling:=True)> _
     Private Function VirtualAllocEx( _
         ByVal hProcess As IntPtr, _
@@ -198,7 +198,7 @@ Module Win32Api
         ByVal flAllocationType As AllocationTypes, _
         ByVal flProtect As MemoryProtectionTypes) As IntPtr
     End Function
-    ' ƒAƒƒP[ƒgí—Ş
+    ' ã‚¢ãƒ­ã‚±ãƒ¼ãƒˆç¨®é¡
     <Flags()> _
     Private Enum AllocationTypes As UInteger
         Commit = &H1000
@@ -211,7 +211,7 @@ Module Win32Api
         WriteWatch = &H200000
         LargePages = &H20000000
     End Enum
-    ' ƒAƒƒP[ƒg‚µ‚½ƒƒ‚ƒŠ‚É‘Î‚·‚é•ÛŒìƒŒƒxƒ‹
+    ' ã‚¢ãƒ­ã‚±ãƒ¼ãƒˆã—ãŸãƒ¡ãƒ¢ãƒªã«å¯¾ã™ã‚‹ä¿è­·ãƒ¬ãƒ™ãƒ«
     <Flags()> _
     Private Enum MemoryProtectionTypes As UInteger
         Execute = &H10
@@ -226,11 +226,11 @@ Module Win32Api
         NoCacheModifierflag = &H200
         WriteCombineModifierflag = &H400
     End Enum
-    ' ƒI[ƒvƒ“‚µ‚Ä‚¢‚éƒJ[ƒlƒ‹ƒIƒuƒWƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹‚ğƒNƒ[ƒY‚µ‚Ü‚·
+    ' ã‚ªãƒ¼ãƒ—ãƒ³ã—ã¦ã„ã‚‹ã‚«ãƒ¼ãƒãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒãƒ³ãƒ‰ãƒ«ã‚’ã‚¯ãƒ­ãƒ¼ã‚ºã—ã¾ã™
     <DllImport("kernel32.dll", SetLastError:=True)> _
     Private Function CloseHandle(ByVal hHandle As IntPtr) As Boolean
     End Function
-    ' w’è‚³‚ê‚½ƒvƒƒZƒX‚Ì‰¼‘zƒAƒhƒŒƒX‹óŠÔ“à‚Ìƒƒ‚ƒŠ—Ìˆæ‚ğ‰ğ•ú‚Ü‚½‚ÍƒRƒ~ƒbƒg‰ğœ‚µ‚Ü‚·
+    ' æŒ‡å®šã•ã‚ŒãŸãƒ—ãƒ­ã‚»ã‚¹ã®ä»®æƒ³ã‚¢ãƒ‰ãƒ¬ã‚¹ç©ºé–“å†…ã®ãƒ¡ãƒ¢ãƒªé ˜åŸŸã‚’è§£æ”¾ã¾ãŸã¯ã‚³ãƒŸãƒƒãƒˆè§£é™¤ã—ã¾ã™
     <DllImport("kernel32.dll")> _
     Private Function VirtualFreeEx( _
         ByVal hProcess As IntPtr, _
@@ -238,12 +238,12 @@ Module Win32Api
         ByVal dwSize As Integer, _
         ByVal dwFreeType As Integer) As Boolean
     End Function
-    ' ƒƒ‚ƒŠ‰ğ•úí•Ê
+    ' ãƒ¡ãƒ¢ãƒªè§£æ”¾ç¨®åˆ¥
     <Flags()> _
     Private Enum MemoryFreeTypes
         Release = &H8000
     End Enum
-    'w’è‚µ‚½ƒvƒƒZƒX‚Ìƒƒ‚ƒŠ—Ìˆæ‚Éƒf[ƒ^‚ğƒRƒs[‚·‚é
+    'æŒ‡å®šã—ãŸãƒ—ãƒ­ã‚»ã‚¹ã®ãƒ¡ãƒ¢ãƒªé ˜åŸŸã«ãƒ‡ãƒ¼ã‚¿ã‚’ã‚³ãƒ”ãƒ¼ã™ã‚‹
     <DllImport("kernel32.dll", SetLastError:=True)> _
     Private Function WriteProcessMemory( _
         ByVal hProcess As IntPtr, _
@@ -252,7 +252,7 @@ Module Win32Api
         ByVal nSize As Integer, _
         <Out()> ByRef lpNumberOfBytesWritten As Integer) As Boolean
     End Function
-    'w’è‚µ‚½ƒvƒƒZƒX‚Ìƒƒ‚ƒŠ—Ìˆæ‚Ìƒf[ƒ^‚ğŒÄ‚Ño‚µ‘¤ƒvƒƒZƒX‚Ìƒoƒbƒtƒ@‚ÉƒRƒs[‚·‚é
+    'æŒ‡å®šã—ãŸãƒ—ãƒ­ã‚»ã‚¹ã®ãƒ¡ãƒ¢ãƒªé ˜åŸŸã®ãƒ‡ãƒ¼ã‚¿ã‚’å‘¼ã³å‡ºã—å´ãƒ—ãƒ­ã‚»ã‚¹ã®ãƒãƒƒãƒ•ã‚¡ã«ã‚³ãƒ”ãƒ¼ã™ã‚‹
     <DllImport("kernel32.dll", SetLastError:=True)> _
     Private Function ReadProcessMemory( _
         ByVal hProcess As IntPtr, _
@@ -261,7 +261,7 @@ Module Win32Api
         ByVal iSize As Integer, _
         ByRef lpNumberOfBytesRead As Integer) As Boolean
     End Function
-    'ƒƒbƒZ[ƒW‚ğƒEƒBƒ“ƒhƒE‚ÌƒƒbƒZ[ƒW ƒLƒ…[‚É’u‚«A‘Î‰‚·‚éƒEƒBƒ“ƒhƒE‚ªƒƒbƒZ[ƒW‚ğˆ—‚·‚é‚Ì‚ğ‘Ò‚½‚¸‚É–ß‚è‚Ü‚·
+    'ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ ã‚­ãƒ¥ãƒ¼ã«ç½®ãã€å¯¾å¿œã™ã‚‹ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãŒãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å‡¦ç†ã™ã‚‹ã®ã‚’å¾…ãŸãšã«æˆ»ã‚Šã¾ã™
     <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
     Private Function PostMessage( _
         ByVal hWnd As IntPtr, _
@@ -269,192 +269,192 @@ Module Win32Api
         ByVal wParam As UInt32, _
         ByVal lParam As UInt32) As Boolean
     End Function
-    'PostMessage‚Å‘—M‚·‚éƒƒbƒZ[ƒW
+    'PostMessageã§é€ä¿¡ã™ã‚‹ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
     Private Enum PM_Message As UInt32
-        WM_LBUTTONDOWN = &H201      '¶ƒ}ƒEƒXƒ{ƒ^ƒ“‰Ÿ‚µ‰º‚°
-        WM_LBUTTONUP = &H202        '¶ƒ}ƒEƒXƒ{ƒ^ƒ“—£‚µ
+        WM_LBUTTONDOWN = &H201      'å·¦ãƒã‚¦ã‚¹ãƒœã‚¿ãƒ³æŠ¼ã—ä¸‹ã’
+        WM_LBUTTONUP = &H202        'å·¦ãƒã‚¦ã‚¹ãƒœã‚¿ãƒ³é›¢ã—
     End Enum
 
-    'ƒ^ƒXƒNƒgƒŒƒCƒAƒCƒRƒ“‚ÌƒNƒŠƒbƒNˆ—
+    'ã‚¿ã‚¹ã‚¯ãƒˆãƒ¬ã‚¤ã‚¢ã‚¤ã‚³ãƒ³ã®ã‚¯ãƒªãƒƒã‚¯å‡¦ç†
     Public Function ClickTasktrayIcon(ByVal tooltip As String) As Boolean
         Const TRAY_WINDOW As String = "Shell_TrayWnd"
         Const TRAY_NOTIFYWINDOW As String = "TrayNotifyWnd"
         Const TRAY_PAGER As String = "SysPager"
         Const TOOLBAR_CONTROL As String = "ToolbarWindow32"
-        'ƒ^ƒXƒNƒo[‚Ìƒnƒ“ƒhƒ‹æ“¾
+        'ã‚¿ã‚¹ã‚¯ãƒãƒ¼ã®ãƒãƒ³ãƒ‰ãƒ«å–å¾—
         Dim taskbarWin As IntPtr = FindWindow(TRAY_WINDOW, Nothing)
         If taskbarWin.Equals(IntPtr.Zero) Then Return False
-        '’Ê’m—Ìˆæ‚Ìƒnƒ“ƒhƒ‹æ“¾
+        'é€šçŸ¥é ˜åŸŸã®ãƒãƒ³ãƒ‰ãƒ«å–å¾—
         Dim trayWin As IntPtr = FindWindowEx(taskbarWin, IntPtr.Zero, TRAY_NOTIFYWINDOW, Nothing)
         If trayWin.Equals(IntPtr.Zero) Then Return False
-        'SysPager‚Ì—L–³Šm”FBiXP/2000‚ÍSysPager‚ ‚èj
+        'SysPagerã®æœ‰ç„¡ç¢ºèªã€‚ï¼ˆXP/2000ã¯SysPagerã‚ã‚Šï¼‰
         Dim tempWin As IntPtr = FindWindowEx(trayWin, IntPtr.Zero, TRAY_PAGER, Nothing)
         If tempWin.Equals(IntPtr.Zero) Then tempWin = trayWin
-        'ƒ^ƒXƒNƒgƒŒƒC‚ªƒc[ƒ‹ƒo[‚Åo—ˆ‚Ä‚¢‚é‚©Šm”F
-        '@¨@ƒc[ƒ‹ƒo[‚Å‚È‚¯‚ê‚ÎI—¹
+        'ã‚¿ã‚¹ã‚¯ãƒˆãƒ¬ã‚¤ãŒãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã§å‡ºæ¥ã¦ã„ã‚‹ã‹ç¢ºèª
+        'ã€€â†’ã€€ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã§ãªã‘ã‚Œã°çµ‚äº†
         Dim toolWin As IntPtr = FindWindowEx(tempWin, IntPtr.Zero, TOOLBAR_CONTROL, Nothing)
         If toolWin.Equals(IntPtr.Zero) Then Return False
-        'ƒ^ƒXƒNƒgƒŒƒC‚ÌƒvƒƒZƒXiExplorerj‚ğæ“¾‚µAŠO•”‚©‚çQÆ‚·‚é‚½‚ß‚ÉŠJ‚­
+        'ã‚¿ã‚¹ã‚¯ãƒˆãƒ¬ã‚¤ã®ãƒ—ãƒ­ã‚»ã‚¹ï¼ˆExplorerï¼‰ã‚’å–å¾—ã—ã€å¤–éƒ¨ã‹ã‚‰å‚ç…§ã™ã‚‹ãŸã‚ã«é–‹ã
         Dim expPid As Integer = 0
         GetWindowThreadProcessId(toolWin, expPid)
         Dim hProc As IntPtr = OpenProcess(ProcessAccess.VMOperation Or ProcessAccess.VMRead Or ProcessAccess.VMWrite, False, expPid)
         If hProc.Equals(IntPtr.Zero) Then Return False
 
-        'ƒvƒƒZƒX‚ğ•Â‚¶‚é‚½‚ß‚ÉTry-Finally
+        'ãƒ—ãƒ­ã‚»ã‚¹ã‚’é–‰ã˜ã‚‹ãŸã‚ã«Try-Finally
         Try
-            Dim tbButtonLocal As New TBBUTTON   '–{ƒvƒƒZƒX“à‚Ìƒ^ƒXƒNƒo[ƒ{ƒ^ƒ“î•ñì¬iƒTƒCƒY“Á’è‚Å‚Ì‚İg—pj
-            'Explorer“à‚Ìƒ^ƒXƒNƒo[ƒ{ƒ^ƒ“Ši”[ƒƒ‚ƒŠŠm•Û
+            Dim tbButtonLocal As New TBBUTTON   'æœ¬ãƒ—ãƒ­ã‚»ã‚¹å†…ã®ã‚¿ã‚¹ã‚¯ãƒãƒ¼ãƒœã‚¿ãƒ³æƒ…å ±ä½œæˆï¼ˆã‚µã‚¤ã‚ºç‰¹å®šã§ã®ã¿ä½¿ç”¨ï¼‰
+            'Explorerå†…ã®ã‚¿ã‚¹ã‚¯ãƒãƒ¼ãƒœã‚¿ãƒ³æ ¼ç´ãƒ¡ãƒ¢ãƒªç¢ºä¿
             Dim ptbSysButton As IntPtr = VirtualAllocEx(hProc, IntPtr.Zero, Marshal.SizeOf(tbButtonLocal), AllocationTypes.Reserve Or AllocationTypes.Commit, MemoryProtectionTypes.ReadWrite)
-            If ptbSysButton.Equals(IntPtr.Zero) Then Return False 'ƒƒ‚ƒŠŠm•Û¸”s
+            If ptbSysButton.Equals(IntPtr.Zero) Then Return False 'ãƒ¡ãƒ¢ãƒªç¢ºä¿å¤±æ•—
             Try
-                Dim tbButtonInfoLocal As New TBBUTTONINFO   '–{ƒvƒƒZƒX“àƒc[ƒ‹ƒo[ƒ{ƒ^ƒ“Ú×î•ñì¬
-                'Explorer“à‚Ìƒ^ƒXƒNƒo[ƒ{ƒ^ƒ“Ú×î•ñŠi”[ƒƒ‚ƒŠŠm•Û
+                Dim tbButtonInfoLocal As New TBBUTTONINFO   'æœ¬ãƒ—ãƒ­ã‚»ã‚¹å†…ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ãƒœã‚¿ãƒ³è©³ç´°æƒ…å ±ä½œæˆ
+                'Explorerå†…ã®ã‚¿ã‚¹ã‚¯ãƒãƒ¼ãƒœã‚¿ãƒ³è©³ç´°æƒ…å ±æ ¼ç´ãƒ¡ãƒ¢ãƒªç¢ºä¿
                 Dim ptbSysInfo As IntPtr = VirtualAllocEx(hProc, IntPtr.Zero, Marshal.SizeOf(tbButtonInfoLocal), AllocationTypes.Reserve Or AllocationTypes.Commit, MemoryProtectionTypes.ReadWrite)
-                If ptbSysInfo.Equals(IntPtr.Zero) Then Return False 'ƒƒ‚ƒŠŠm•Û¸”s
+                If ptbSysInfo.Equals(IntPtr.Zero) Then Return False 'ãƒ¡ãƒ¢ãƒªç¢ºä¿å¤±æ•—
                 Try
-                    Const titleSize As Integer = 256    'Tooltip•¶š—ñ’·
-                    Dim title As String = ""            'Tooltip•¶š—ñ
-                    '‹¤—Lƒƒ‚ƒŠ‚ÉTooltip“Çƒƒ‚ƒŠŠm•Û
+                    Const titleSize As Integer = 256    'Tooltipæ–‡å­—åˆ—é•·
+                    Dim title As String = ""            'Tooltipæ–‡å­—åˆ—
+                    'å…±æœ‰ãƒ¡ãƒ¢ãƒªã«Tooltipèª­è¾¼ãƒ¡ãƒ¢ãƒªç¢ºä¿
                     Dim pszTitle As IntPtr = Marshal.AllocCoTaskMem(titleSize)
-                    If pszTitle.Equals(IntPtr.Zero) Then Return False 'ƒƒ‚ƒŠŠm•Û¸”s
+                    If pszTitle.Equals(IntPtr.Zero) Then Return False 'ãƒ¡ãƒ¢ãƒªç¢ºä¿å¤±æ•—
                     Try
-                        'Explorer“à‚ÉTooltip“Çƒƒ‚ƒŠŠm•Û
+                        'Explorerå†…ã«Tooltipèª­è¾¼ãƒ¡ãƒ¢ãƒªç¢ºä¿
                         Dim pszSysTitle As IntPtr = VirtualAllocEx(hProc, IntPtr.Zero, titleSize, AllocationTypes.Reserve Or AllocationTypes.Commit, MemoryProtectionTypes.ReadWrite)
-                        If pszSysTitle.Equals(IntPtr.Zero) Then Return False 'ƒƒ‚ƒŠŠm•Û¸”s
+                        If pszSysTitle.Equals(IntPtr.Zero) Then Return False 'ãƒ¡ãƒ¢ãƒªç¢ºä¿å¤±æ•—
                         Try
-                            '’Ê’m—Ìˆæƒ{ƒ^ƒ“”æ“¾
+                            'é€šçŸ¥é ˜åŸŸãƒœã‚¿ãƒ³æ•°å–å¾—
                             Dim iCount As Integer = SendMessage(toolWin, Sm_Message.TB_BUTTONCOUNT, New IntPtr(0), New IntPtr(0))
-                            '¶‚©‚ç‡‚Éî•ñæ“¾
+                            'å·¦ã‹ã‚‰é †ã«æƒ…å ±å–å¾—
                             For i As Integer = 0 To iCount - 1
-                                Dim dwBytes As Integer = 0  '“Ç‚İ‘‚«ƒoƒCƒg”
-                                Dim tbButtonLocal2 As TBBUTTON  'ƒ{ƒ^ƒ“î•ñ
-                                Dim tbButtonInfoLocal2 As TBBUTTONINFO  'ƒ{ƒ^ƒ“Ú×î•ñ
-                                '‹¤—Lƒƒ‚ƒŠ‚Éƒ{ƒ^ƒ“î•ñ“Çƒƒ‚ƒŠŠm•Û
+                                Dim dwBytes As Integer = 0  'èª­ã¿æ›¸ããƒã‚¤ãƒˆæ•°
+                                Dim tbButtonLocal2 As TBBUTTON  'ãƒœã‚¿ãƒ³æƒ…å ±
+                                Dim tbButtonInfoLocal2 As TBBUTTONINFO  'ãƒœã‚¿ãƒ³è©³ç´°æƒ…å ±
+                                'å…±æœ‰ãƒ¡ãƒ¢ãƒªã«ãƒœã‚¿ãƒ³æƒ…å ±èª­è¾¼ãƒ¡ãƒ¢ãƒªç¢ºä¿
                                 Dim ptrLocal As IntPtr = Marshal.AllocCoTaskMem(Marshal.SizeOf(tbButtonLocal))
-                                If ptrLocal.Equals(IntPtr.Zero) Then Return False 'ƒƒ‚ƒŠŠm•Û¸”s
+                                If ptrLocal.Equals(IntPtr.Zero) Then Return False 'ãƒ¡ãƒ¢ãƒªç¢ºä¿å¤±æ•—
                                 Try
-                                    Marshal.StructureToPtr(tbButtonLocal, ptrLocal, True)   '‹¤—Lƒƒ‚ƒŠ‰Šú‰»
-                                    'ƒ{ƒ^ƒ“î•ñæ“¾iidCommand‚ğæ“¾‚·‚é‚½‚ßj
+                                    Marshal.StructureToPtr(tbButtonLocal, ptrLocal, True)   'å…±æœ‰ãƒ¡ãƒ¢ãƒªåˆæœŸåŒ–
+                                    'ãƒœã‚¿ãƒ³æƒ…å ±å–å¾—ï¼ˆidCommandã‚’å–å¾—ã™ã‚‹ãŸã‚ï¼‰
                                     SendMessage( _
                                         toolWin, _
                                         Sm_Message.TB_GETBUTTON, _
                                         New IntPtr(i), _
                                         ptbSysButton)
-                                    'Explorer“à‚Ìƒƒ‚ƒŠ‚ğ‹¤—Lƒƒ‚ƒŠ‚É“Ç‚İ‚İ
+                                    'Explorerå†…ã®ãƒ¡ãƒ¢ãƒªã‚’å…±æœ‰ãƒ¡ãƒ¢ãƒªã«èª­ã¿è¾¼ã¿
                                     ReadProcessMemory( _
                                         hProc, _
                                         ptbSysButton, _
                                         ptrLocal, _
                                         Marshal.SizeOf(tbButtonLocal), _
                                         dwBytes)
-                                    '‹¤—Lƒƒ‚ƒŠ‚Ì“à—e‚ğ\‘¢‘Ì‚É•ÏŠ·
+                                    'å…±æœ‰ãƒ¡ãƒ¢ãƒªã®å†…å®¹ã‚’æ§‹é€ ä½“ã«å¤‰æ›
                                     tbButtonLocal2 = DirectCast( _
                                                         Marshal.PtrToStructure( _
                                                             ptrLocal, _
                                                             GetType(TBBUTTON)), _
                                                         TBBUTTON)
                                 Finally
-                                    Marshal.FreeCoTaskMem(ptrLocal) '‹¤—Lƒƒ‚ƒŠ‰ğ•ú
+                                    Marshal.FreeCoTaskMem(ptrLocal) 'å…±æœ‰ãƒ¡ãƒ¢ãƒªè§£æ”¾
                                 End Try
 
-                                'ƒ{ƒ^ƒ“Ú×î•ñ‚ğæ“¾‚·‚é‚½‚ß‚Ìƒ}ƒXƒN“™‚ğİ’è
+                                'ãƒœã‚¿ãƒ³è©³ç´°æƒ…å ±ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®ãƒã‚¹ã‚¯ç­‰ã‚’è¨­å®š
                                 tbButtonInfoLocal.cbSize = Marshal.SizeOf(tbButtonInfoLocal)
                                 tbButtonInfoLocal.dwMask = ToolbarButtonMask.TBIF_COMMAND Or ToolbarButtonMask.TBIF_LPARAM Or ToolbarButtonMask.TBIF_TEXT
-                                tbButtonInfoLocal.pszText = pszSysTitle     'Tooltip‘‚«‚İæ—Ìˆæ
+                                tbButtonInfoLocal.pszText = pszSysTitle     'Tooltipæ›¸ãè¾¼ã¿å…ˆé ˜åŸŸ
                                 tbButtonInfoLocal.cchText = titleSize
-                                'ƒ}ƒXƒNİ’è“™‚ğExplorer‚Ìƒƒ‚ƒŠ‚Ö‘‚«‚İ
+                                'ãƒã‚¹ã‚¯è¨­å®šç­‰ã‚’Explorerã®ãƒ¡ãƒ¢ãƒªã¸æ›¸ãè¾¼ã¿
                                 WriteProcessMemory( _
                                     hProc, _
                                     ptbSysInfo, _
                                     tbButtonInfoLocal, _
                                     Marshal.SizeOf(tbButtonInfoLocal), _
                                     dwBytes)
-                                'ƒ{ƒ^ƒ“Ú×î•ñæ“¾
+                                'ãƒœã‚¿ãƒ³è©³ç´°æƒ…å ±å–å¾—
                                 SendMessage( _
                                     toolWin, _
                                     Sm_Message.TB_GETBUTTONINFO, _
                                     tbButtonLocal2.idCommand, _
                                     ptbSysInfo)
-                                '‹¤—Lƒƒ‚ƒŠ‚Éƒ{ƒ^ƒ“Ú×î•ñ‚ğ“Ç‚İ‚Ş—ÌˆæŠm•Û
+                                'å…±æœ‰ãƒ¡ãƒ¢ãƒªã«ãƒœã‚¿ãƒ³è©³ç´°æƒ…å ±ã‚’èª­ã¿è¾¼ã‚€é ˜åŸŸç¢ºä¿
                                 Dim ptrInfo As IntPtr = Marshal.AllocCoTaskMem(Marshal.SizeOf(tbButtonInfoLocal))
-                                If ptrInfo.Equals(IntPtr.Zero) Then Return False '‹¤—Lƒƒ‚ƒŠŠm•Û¸”s
+                                If ptrInfo.Equals(IntPtr.Zero) Then Return False 'å…±æœ‰ãƒ¡ãƒ¢ãƒªç¢ºä¿å¤±æ•—
                                 Try
-                                    Marshal.StructureToPtr(tbButtonInfoLocal, ptrInfo, True)    '‹¤—Lƒƒ‚ƒŠ‰Šú‰»
-                                    'Explorer“à‚Ìƒƒ‚ƒŠ‚ğ‹¤—Lƒƒ‚ƒŠ‚É“Ç‚İ‚İ
+                                    Marshal.StructureToPtr(tbButtonInfoLocal, ptrInfo, True)    'å…±æœ‰ãƒ¡ãƒ¢ãƒªåˆæœŸåŒ–
+                                    'Explorerå†…ã®ãƒ¡ãƒ¢ãƒªã‚’å…±æœ‰ãƒ¡ãƒ¢ãƒªã«èª­ã¿è¾¼ã¿
                                     ReadProcessMemory( _
                                         hProc, _
                                         ptbSysInfo, _
                                         ptrInfo, _
                                         Marshal.SizeOf(tbButtonInfoLocal), _
                                         dwBytes)
-                                    '‹¤—Lƒƒ‚ƒŠ‚Ì“à—e‚ğ\‘¢‘Ì‚É•ÏŠ·
+                                    'å…±æœ‰ãƒ¡ãƒ¢ãƒªã®å†…å®¹ã‚’æ§‹é€ ä½“ã«å¤‰æ›
                                     tbButtonInfoLocal2 = DirectCast( _
                                                             Marshal.PtrToStructure( _
                                                                 ptrInfo, _
                                                                 GetType(TBBUTTONINFO)), _
                                                             TBBUTTONINFO)
                                 Finally
-                                    Marshal.FreeCoTaskMem(ptrInfo)  '‹¤—Lƒƒ‚ƒŠ‰ğ•ú
+                                    Marshal.FreeCoTaskMem(ptrInfo)  'å…±æœ‰ãƒ¡ãƒ¢ãƒªè§£æ”¾
                                 End Try
-                                'Tooltip‚Ì“à—e‚ğExplorer“à‚Ìƒƒ‚ƒŠ‚©‚ç‹¤—Lƒƒ‚ƒŠ‚Ö“Ç
+                                'Tooltipã®å†…å®¹ã‚’Explorerå†…ã®ãƒ¡ãƒ¢ãƒªã‹ã‚‰å…±æœ‰ãƒ¡ãƒ¢ãƒªã¸èª­è¾¼
                                 ReadProcessMemory(hProc, pszSysTitle, pszTitle, titleSize, dwBytes)
-                                'ƒ[ƒJƒ‹•Ï”‚Ö•ÏŠ·
+                                'ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã¸å¤‰æ›
                                 title = Marshal.PtrToStringAnsi(pszTitle, titleSize)
 
-                                'Tooltip‚ªw’è•¶š—ñ‚ğŠÜ‚ñ‚Å‚¢‚ê‚ÎƒNƒŠƒbƒN
+                                'TooltipãŒæŒ‡å®šæ–‡å­—åˆ—ã‚’å«ã‚“ã§ã„ã‚Œã°ã‚¯ãƒªãƒƒã‚¯
                                 If title.Contains(tooltip) Then
-                                    'PostMessage‚ÅƒNƒŠƒbƒN‚ğ‘—‚é‚½‚ß‚ÉAƒ{ƒ^ƒ“Ú×î•ñ‚ÌlParam‚Åƒ|ƒCƒ“ƒg‚³‚ê‚Ä‚¢‚éTRAYNOTIFYî•ñ‚ª•K—v
+                                    'PostMessageã§ã‚¯ãƒªãƒƒã‚¯ã‚’é€ã‚‹ãŸã‚ã«ã€ãƒœã‚¿ãƒ³è©³ç´°æƒ…å ±ã®lParamã§ãƒã‚¤ãƒ³ãƒˆã•ã‚Œã¦ã„ã‚‹TRAYNOTIFYæƒ…å ±ãŒå¿…è¦
                                     Dim tNotify As New TRAYNOTIFY
                                     Dim tNotify2 As TRAYNOTIFY
-                                    '‹¤—Lƒƒ‚ƒŠŠm•Û
+                                    'å…±æœ‰ãƒ¡ãƒ¢ãƒªç¢ºä¿
                                     Dim ptNotify As IntPtr = Marshal.AllocCoTaskMem(Marshal.SizeOf(tNotify))
-                                    If ptNotify.Equals(IntPtr.Zero) Then Return False 'ƒƒ‚ƒŠŠm•Û¸”s
+                                    If ptNotify.Equals(IntPtr.Zero) Then Return False 'ãƒ¡ãƒ¢ãƒªç¢ºä¿å¤±æ•—
                                     Try
-                                        Marshal.StructureToPtr(tNotify, ptNotify, True) '‰Šú‰»
-                                        'lParam‚Ìƒƒ‚ƒŠ‚ğ“Ç
+                                        Marshal.StructureToPtr(tNotify, ptNotify, True) 'åˆæœŸåŒ–
+                                        'lParamã®ãƒ¡ãƒ¢ãƒªã‚’èª­è¾¼
                                         ReadProcessMemory( _
                                             hProc, _
                                             tbButtonInfoLocal2.lParam, _
                                             ptNotify, _
                                             Marshal.SizeOf(tNotify), _
                                             dwBytes)
-                                        '\‘¢‘Ì‚Ö•ÏŠ·
+                                        'æ§‹é€ ä½“ã¸å¤‰æ›
                                         tNotify2 = DirectCast( _
                                                         Marshal.PtrToStructure( _
                                                             ptNotify, _
                                                             GetType(TRAYNOTIFY)), _
                                                         TRAYNOTIFY)
                                     Finally
-                                        Marshal.FreeCoTaskMem(ptNotify) '‹¤—Lƒƒ‚ƒŠ‰ğ•ú
+                                        Marshal.FreeCoTaskMem(ptNotify) 'å…±æœ‰ãƒ¡ãƒ¢ãƒªè§£æ”¾
                                     End Try
-                                    'ƒNƒŠƒbƒN‚·‚é‚½‚ß‚É‚Í’Ê’m—Ìˆæ‚ªƒAƒNƒeƒBƒu‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢
+                                    'ã‚¯ãƒªãƒƒã‚¯ã™ã‚‹ãŸã‚ã«ã¯é€šçŸ¥é ˜åŸŸãŒã‚¢ã‚¯ãƒ†ã‚£ãƒ–ã§ãªã‘ã‚Œã°ãªã‚‰ãªã„
                                     SetForegroundWindow(tNotify2.hWnd)
-                                    '¶ƒNƒŠƒbƒN
+                                    'å·¦ã‚¯ãƒªãƒƒã‚¯
                                     PostMessage(tNotify2.hWnd, tNotify2.uCallbackMessage, tNotify2.uID, PM_Message.WM_LBUTTONDOWN)
                                     PostMessage(tNotify2.hWnd, tNotify2.uCallbackMessage, tNotify2.uID, PM_Message.WM_LBUTTONUP)
                                     Return True
                                 End If
                             Next
-                            Return False    'ŠY“–‚È‚µ
+                            Return False    'è©²å½“ãªã—
                         Finally
-                            VirtualFreeEx(hProc, pszSysTitle, titleSize, MemoryFreeTypes.Release)   'ƒƒ‚ƒŠ‰ğ•ú
+                            VirtualFreeEx(hProc, pszSysTitle, titleSize, MemoryFreeTypes.Release)   'ãƒ¡ãƒ¢ãƒªè§£æ”¾
                         End Try
                     Finally
-                        Marshal.FreeCoTaskMem(pszTitle)     '‹¤—Lƒƒ‚ƒŠ‰ğ•ú
+                        Marshal.FreeCoTaskMem(pszTitle)     'å…±æœ‰ãƒ¡ãƒ¢ãƒªè§£æ”¾
                     End Try
                 Finally
-                    VirtualFreeEx(hProc, ptbSysInfo, Marshal.SizeOf(tbButtonInfoLocal), MemoryFreeTypes.Release)    'ƒƒ‚ƒŠ‰ğ•ú
+                    VirtualFreeEx(hProc, ptbSysInfo, Marshal.SizeOf(tbButtonInfoLocal), MemoryFreeTypes.Release)    'ãƒ¡ãƒ¢ãƒªè§£æ”¾
                 End Try
             Finally
-                VirtualFreeEx(hProc, ptbSysButton, Marshal.SizeOf(tbButtonLocal), MemoryFreeTypes.Release)      'ƒƒ‚ƒŠ‰ğ•ú
+                VirtualFreeEx(hProc, ptbSysButton, Marshal.SizeOf(tbButtonLocal), MemoryFreeTypes.Release)      'ãƒ¡ãƒ¢ãƒªè§£æ”¾
             End Try
         Finally
-            CloseHandle(hProc)  'Explorer‚ÌƒvƒƒZƒX•Â‚¶‚é
+            CloseHandle(hProc)  'Explorerã®ãƒ—ãƒ­ã‚»ã‚¹é–‰ã˜ã‚‹
         End Try
     End Function
 #End Region
 
-    '‰æ–Ê‚ğƒuƒŠƒ“ƒN‚·‚é‚½‚ß‚ÌWin32APIB‹N“®‚É10ƒy[ƒW“Ç‚İæ‚è‚²‚Æ‚ÉŒp‘±Šm”FƒƒbƒZ[ƒW‚ğ•\¦‚·‚éÛ‚Ì’Ê’m‹­’²—p
+    'ç”»é¢ã‚’ãƒ–ãƒªãƒ³ã‚¯ã™ã‚‹ãŸã‚ã®Win32APIã€‚èµ·å‹•æ™‚ã«10ãƒšãƒ¼ã‚¸èª­ã¿å–ã‚Šã”ã¨ã«ç¶™ç¶šç¢ºèªãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¡¨ç¤ºã™ã‚‹éš›ã®é€šçŸ¥å¼·èª¿ç”¨
     <DllImport("user32.dll")> _
     Public Function FlashWindow( _
         ByVal hwnd As Integer, _
@@ -467,7 +467,7 @@ Module Win32Api
         ByVal rect As IntPtr) As Boolean
     End Function
 
-#Region "ƒXƒNƒŠ[ƒ“ƒZ[ƒo[‹N“®’†‚©”»’è"
+#Region "ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‚»ãƒ¼ãƒãƒ¼èµ·å‹•ä¸­ã‹åˆ¤å®š"
     <DllImport("user32", CharSet:=CharSet.Auto)> _
     Private Function SystemParametersInfo( _
                 ByVal intAction As Integer, _
@@ -476,7 +476,7 @@ Module Win32Api
                 ByVal intWinIniFlag As Integer) As Integer
         ' returns non-zero value if function succeeds
     End Function
-    'ƒXƒNƒŠ[ƒ“ƒZ[ƒo[‚ª‹N“®’†‚©‚ğæ“¾‚·‚é’è”
+    'ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‚»ãƒ¼ãƒãƒ¼ãŒèµ·å‹•ä¸­ã‹ã‚’å–å¾—ã™ã‚‹å®šæ•°
     Private Const SPI_GETSCREENSAVERRUNNING As Integer = &H61
 
     Public Function IsScreenSaverRunning() As Boolean

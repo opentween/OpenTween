@@ -1,4 +1,4 @@
-Imports System.Net
+ï»¿Imports System.Net
 Imports System.Collections.Generic
 Imports System.Collections.Specialized
 Imports System.IO
@@ -9,93 +9,93 @@ Public Class HttpConnectionOAuth
     Inherits HttpConnection
 
     '''<summary>
-    '''OAuth–¼‚Ìoauth_timestampZo—pŠî€“ú•ti1970/1/1 00:00:00j
+    '''OAuthç½²åã®oauth_timestampç®—å‡ºç”¨åŸºæº–æ—¥ä»˜ï¼ˆ1970/1/1 00:00:00ï¼‰
     '''</summary>
     Private Shared ReadOnly UnixEpoch As New DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Unspecified)
 
     '''<summary>
-    '''OAuth–¼‚Ìoauth_nonceZo—p—”ƒNƒ‰ƒX
+    '''OAuthç½²åã®oauth_nonceç®—å‡ºç”¨ä¹±æ•°ã‚¯ãƒ©ã‚¹
     '''</summary>
     Private Shared ReadOnly NonceRandom As New Random
 
     '''<summary>
-    '''OAuth‚Ì”FØƒvƒƒZƒX‚Ì‚İg—p‚·‚éƒŠƒNƒGƒXƒgƒg[ƒNƒ“
+    '''OAuthã®èªè¨¼ãƒ—ãƒ­ã‚»ã‚¹æ™‚ã®ã¿ä½¿ç”¨ã™ã‚‹ãƒªã‚¯ã‚¨ã‚¹ãƒˆãƒˆãƒ¼ã‚¯ãƒ³
     '''</summary>
     Private Shared requestToken As String
 
     '''<summary>
-    '''OAuth‚ÌƒAƒNƒZƒXƒg[ƒNƒ“B‰i‘±‰»‰Â”\iƒ†[ƒU[æ‚èÁ‚µ‚Ì‰Â”\«‚Í‚ ‚éjB
+    '''OAuthã®ã‚¢ã‚¯ã‚»ã‚¹ãƒˆãƒ¼ã‚¯ãƒ³ã€‚æ°¸ç¶šåŒ–å¯èƒ½ï¼ˆãƒ¦ãƒ¼ã‚¶ãƒ¼å–ã‚Šæ¶ˆã—ã®å¯èƒ½æ€§ã¯ã‚ã‚‹ï¼‰ã€‚
     '''</summary>
     Private Shared token As String = ""
 
     '''<summary>
-    '''OAuth‚Ì–¼ì¬—p”é–§ƒAƒNƒZƒXƒg[ƒNƒ“B‰i‘±‰»‰Â”\iƒ†[ƒU[æ‚èÁ‚µ‚Ì‰Â”\«‚Í‚ ‚éjB
+    '''OAuthã®ç½²åä½œæˆç”¨ç§˜å¯†ã‚¢ã‚¯ã‚»ã‚¹ãƒˆãƒ¼ã‚¯ãƒ³ã€‚æ°¸ç¶šåŒ–å¯èƒ½ï¼ˆãƒ¦ãƒ¼ã‚¶ãƒ¼å–ã‚Šæ¶ˆã—ã®å¯èƒ½æ€§ã¯ã‚ã‚‹ï¼‰ã€‚
     '''</summary>
     Private Shared tokenSecret As String = ""
 
     '''<summary>
-    '''OAuth‚ÌƒRƒ“ƒVƒ…[ƒ}[Œ®
+    '''OAuthã®ã‚³ãƒ³ã‚·ãƒ¥ãƒ¼ãƒãƒ¼éµ
     '''</summary>
     Private Const ConsumerKey As String = "EANjQEa5LokuVld682tTDA"
 
     '''<summary>
-    '''OAuth‚Ì–¼ì¬—p”é–§ƒRƒ“ƒVƒ…[ƒ}[ƒf[ƒ^
+    '''OAuthã®ç½²åä½œæˆç”¨ç§˜å¯†ã‚³ãƒ³ã‚·ãƒ¥ãƒ¼ãƒãƒ¼ãƒ‡ãƒ¼ã‚¿
     '''</summary>
     Private Const ConsumerSecret As String = "zXfwkzmuO6FcHtoikleV3EVgdh5vVAs6ft6ZxtYTYM"
 
     '''<summary>
-    '''OAuth‚ÌƒŠƒNƒGƒXƒgƒg[ƒNƒ“æ“¾æURI
+    '''OAuthã®ãƒªã‚¯ã‚¨ã‚¹ãƒˆãƒˆãƒ¼ã‚¯ãƒ³å–å¾—å…ˆURI
     '''</summary>
     Private Const RequestTokenUrl As String = "http://twitter.com/oauth/request_token"
 
     '''<summary>
-    '''OAuth‚Ìƒ†[ƒU[”FØ—pƒy[ƒWURI
+    '''OAuthã®ãƒ¦ãƒ¼ã‚¶ãƒ¼èªè¨¼ç”¨ãƒšãƒ¼ã‚¸URI
     '''</summary>
     '''<remarks>
-    '''ƒNƒGƒŠuoauth_token=ƒŠƒNƒGƒXƒgƒg[ƒNƒ“v‚ğ•t‰Á‚µ‚ÄA‚±‚ÌURI‚ğƒuƒ‰ƒEƒU‚ÅŠJ‚­Bƒ†[ƒU[‚ª³”F‘€ì‚ğs‚¤‚ÆPINƒR[ƒh‚ª•\¦‚³‚ê‚éB
+    '''ã‚¯ã‚¨ãƒªã€Œoauth_token=ãƒªã‚¯ã‚¨ã‚¹ãƒˆãƒˆãƒ¼ã‚¯ãƒ³ã€ã‚’ä»˜åŠ ã—ã¦ã€ã“ã®URIã‚’ãƒ–ãƒ©ã‚¦ã‚¶ã§é–‹ãã€‚ãƒ¦ãƒ¼ã‚¶ãƒ¼ãŒæ‰¿èªæ“ä½œã‚’è¡Œã†ã¨PINã‚³ãƒ¼ãƒ‰ãŒè¡¨ç¤ºã•ã‚Œã‚‹ã€‚
     '''</remarks>
     Private Const AuthorizeUrl As String = "http://twitter.com/oauth/authorize"
 
     '''<summary>
-    '''OAuth‚ÌƒAƒNƒZƒXƒg[ƒNƒ“æ“¾æURI
+    '''OAuthã®ã‚¢ã‚¯ã‚»ã‚¹ãƒˆãƒ¼ã‚¯ãƒ³å–å¾—å…ˆURI
     '''</summary>
     Private Const AccessTokenUrl As String = "http://twitter.com/oauth/access_token"
 
     '''<summary>
-    '''HTTP’ÊM‚µ‚ÄƒRƒ“ƒeƒ“ƒc‚ğæ“¾‚·‚éi•¶š—ñƒRƒ“ƒeƒ“ƒcj
+    '''HTTPé€šä¿¡ã—ã¦ã‚³ãƒ³ãƒ†ãƒ³ãƒ„ã‚’å–å¾—ã™ã‚‹ï¼ˆæ–‡å­—åˆ—ã‚³ãƒ³ãƒ†ãƒ³ãƒ„ï¼‰
     '''</summary>
     '''<remarks>
-    '''’ÊMƒ^ƒCƒ€ƒAƒEƒg‚È‚ÇWebException‚ğƒnƒ“ƒhƒ‹‚µ‚Ä‚¢‚È‚¢‚½‚ßAŒÄ‚Ño‚µŒ³‚Åˆ—‚ª•K—vB
-    '''ƒ^ƒCƒ€ƒAƒEƒgw’è‚âƒŒƒXƒ|ƒ“ƒXƒwƒbƒ_æ“¾‚ÍÈ—ª‚µ‚Ä‚¢‚éB
-    '''ƒŒƒXƒ|ƒ“ƒX‚Ìƒ{ƒfƒBƒXƒgƒŠ[ƒ€‚ğ•¶š—ñ‚É•ÏŠ·‚µ‚Äcontentˆø”‚ÉŠi”[‚µ‚Ä–ß‚·B•¶šƒGƒ“ƒR[ƒh‚Í–¢w’è
+    '''é€šä¿¡ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆãªã©WebExceptionã‚’ãƒãƒ³ãƒ‰ãƒ«ã—ã¦ã„ãªã„ãŸã‚ã€å‘¼ã³å‡ºã—å…ƒã§å‡¦ç†ãŒå¿…è¦ã€‚
+    '''ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆæŒ‡å®šã‚„ãƒ¬ã‚¹ãƒãƒ³ã‚¹ãƒ˜ãƒƒãƒ€å–å¾—ã¯çœç•¥ã—ã¦ã„ã‚‹ã€‚
+    '''ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã®ãƒœãƒ‡ã‚£ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’æ–‡å­—åˆ—ã«å¤‰æ›ã—ã¦contentå¼•æ•°ã«æ ¼ç´ã—ã¦æˆ»ã™ã€‚æ–‡å­—ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰ã¯æœªæŒ‡å®š
     '''</remarks>
-    '''<param name="method">HTTP‚Ìƒƒ\ƒbƒh</param>
+    '''<param name="method">HTTPã®ãƒ¡ã‚½ãƒƒãƒ‰</param>
     '''<param name="requestUri">URI</param>
-    '''<param name="param">key=value‚É“WŠJ‚³‚ê‚ÄAƒNƒGƒŠiGETjEƒ{ƒfƒBiPOSTj‚É•t‰Á‚³‚ê‚é‘—Mî•ñ</param>
-    '''<param name="content">[IN/OUT]HTTPƒŒƒXƒ|ƒ“ƒX‚Ìƒ{ƒfƒB•”ƒf[ƒ^•Ô‹p—pBŒÄ‚Ño‚µŒ³‚Å‰Šú‰»‚ª•K—v</param>
-    '''<param name="headerInfo">[IN/OUT]HTTP‰“š‚Ìƒwƒbƒ_î•ñ</param>
-    '''<returns>’ÊMŒ‹‰Ê‚ÌHttpStatusCode</returns>
+    '''<param name="param">key=valueã«å±•é–‹ã•ã‚Œã¦ã€ã‚¯ã‚¨ãƒªï¼ˆGETæ™‚ï¼‰ãƒ»ãƒœãƒ‡ã‚£ï¼ˆPOSTæ™‚ï¼‰ã«ä»˜åŠ ã•ã‚Œã‚‹é€ä¿¡æƒ…å ±</param>
+    '''<param name="content">[IN/OUT]HTTPãƒ¬ã‚¹ãƒãƒ³ã‚¹ã®ãƒœãƒ‡ã‚£éƒ¨ãƒ‡ãƒ¼ã‚¿è¿”å´ç”¨ã€‚å‘¼ã³å‡ºã—å…ƒã§åˆæœŸåŒ–ãŒå¿…è¦</param>
+    '''<param name="headerInfo">[IN/OUT]HTTPå¿œç­”ã®ãƒ˜ãƒƒãƒ€æƒ…å ±</param>
+    '''<returns>é€šä¿¡çµæœã®HttpStatusCode</returns>
     Protected Function GetContent(ByVal method As RequestMethod, _
             ByVal requestUri As Uri, _
             ByVal param As SortedList(Of String, String), _
             ByRef content As String, _
             ByVal headerInfo As Dictionary(Of String, String)) As HttpStatusCode
-        'content‚ªƒCƒ“ƒXƒ^ƒ“ƒX‚³‚ê‚Ä‚¢‚é‚©ƒ`ƒFƒbƒN
+        'contentãŒã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã•ã‚Œã¦ã„ã‚‹ã‹ãƒã‚§ãƒƒã‚¯
         If content Is Nothing Then Throw New ArgumentNullException("content")
-        '”FØÏ‚©ƒ`ƒFƒbƒN
+        'èªè¨¼æ¸ˆã‹ãƒã‚§ãƒƒã‚¯
         If String.IsNullOrEmpty(token) Then Throw New Exception("Sequence error. (Token is blank.)")
 
         Dim webReq As HttpWebRequest = CreateRequest(method, _
                                                     requestUri, _
                                                     param, _
                                                     False)
-        'OAuth”FØƒwƒbƒ_‚ğ•t‰Á
+        'OAuthèªè¨¼ãƒ˜ãƒƒãƒ€ã‚’ä»˜åŠ 
         AppendOAuthInfo(webReq, param, token, tokenSecret)
 
         Return GetResponse(webReq, content, headerInfo, False)
     End Function
 
-#Region "”FØˆ—"
+#Region "èªè¨¼å‡¦ç†"
     Protected Function AuthorizeAccount() As Boolean
         Dim authUri As Uri = GetAuthorizePageUri()
         If authUri Is Nothing Then Return False
@@ -164,7 +164,7 @@ Public Class HttpConnectionOAuth
     End Function
 #End Region
 
-#Region "OAuth”FØ—pƒwƒbƒ_ì¬E•t‰Áˆ—"
+#Region "OAuthèªè¨¼ç”¨ãƒ˜ãƒƒãƒ€ä½œæˆãƒ»ä»˜åŠ å‡¦ç†"
     Private Shared Sub AppendOAuthInfo(ByVal webRequest As HttpWebRequest, _
                                         ByVal query As SortedList(Of String, String), _
                                         ByVal token As String, _

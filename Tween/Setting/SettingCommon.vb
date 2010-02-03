@@ -1,4 +1,4 @@
-' Tween - Client of Twitter
+ï»¿' Tween - Client of Twitter
 ' Copyright (c) 2007-2010 kiri_feather (@kiri_feather) <kiri_feather@gmail.com>
 '           (c) 2008-2010 Moz (@syo68k) <http://iddy.jp/profile/moz/>
 '           (c) 2008-2010 takeshik (@takeshik) <http://www.takeshik.org/>
@@ -24,7 +24,7 @@
 Public Class SettingCommon
     Inherits SettingBase(Of SettingCommon)
 
-#Region "SettingƒNƒ‰ƒXŠî–{"
+#Region "Settingã‚¯ãƒ©ã‚¹åŸºæœ¬"
     Public Shared Function Load() As SettingCommon
         Return LoadSettings()
     End Function

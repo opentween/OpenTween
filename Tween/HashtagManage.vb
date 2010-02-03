@@ -1,4 +1,4 @@
-' Tween - Client of Twitter
+ï»¿' Tween - Client of Twitter
 ' Copyright (c) 2007-2010 kiri_feather (@kiri_feather) <kiri_feather@gmail.com>
 '           (c) 2008-2010 Moz (@syo68k) <http://iddy.jp/profile/moz/>
 '           (c) 2008-2010 takeshik (@takeshik) <http://www.takeshik.org/>
@@ -34,8 +34,8 @@ Public Class HashtagManage
             Exit Sub
         End If
         UseHashText.Text = UseHashText.Text.Trim
-        UseHashText.Text = UseHashText.Text.Replace("”", "#")
-        UseHashText.Text = UseHashText.Text.Replace("@", " ")
+        UseHashText.Text = UseHashText.Text.Replace("ï¼ƒ", "#")
+        UseHashText.Text = UseHashText.Text.Replace("ã€€", " ")
         Dim adjust As String = ""
         For Each hash As String In UseHashText.Text.Split(" "c)
             If hash.Length > 0 Then
@@ -47,7 +47,7 @@ Public Class HashtagManage
                     MessageBox.Show("emply hashtag.", "Hashtag warning", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
                     Exit Sub
                 End If
-                'g—p•s‰Â‚Ì•¶šƒ`ƒFƒbƒN‚Í‚µ‚È‚¢
+                'ä½¿ç”¨ä¸å¯ã®æ–‡å­—ãƒã‚§ãƒƒã‚¯ã¯ã—ãªã„
                 adjust += hash + " "
             End If
         Next
@@ -113,10 +113,10 @@ Public Class HashtagManage
 
     Public Sub New(ByVal hashSuplForm As AtIdSupplement, ByVal history() As String)
 
-        ' ‚±‚ÌŒÄ‚Ño‚µ‚ÍAWindows ƒtƒH[ƒ€ ƒfƒUƒCƒi‚Å•K—v‚Å‚·B
+        ' ã“ã®å‘¼ã³å‡ºã—ã¯ã€Windows ãƒ•ã‚©ãƒ¼ãƒ  ãƒ‡ã‚¶ã‚¤ãƒŠã§å¿…è¦ã§ã™ã€‚
         InitializeComponent()
 
-        ' InitializeComponent() ŒÄ‚Ño‚µ‚ÌŒã‚Å‰Šú‰»‚ğ’Ç‰Á‚µ‚Ü‚·B
+        ' InitializeComponent() å‘¼ã³å‡ºã—ã®å¾Œã§åˆæœŸåŒ–ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 
         _hashSupl = hashSuplForm
         HistoryHashList.Items.AddRange(history)

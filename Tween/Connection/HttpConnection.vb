@@ -1,42 +1,42 @@
-Imports System.Net
+ï»¿Imports System.Net
 Imports System.IO
 Imports System.Collections.Generic
 Imports System.Collections.Specialized
 Imports System.Text
 
 '''<summary>
-'''HttpWebRequest,HttpWebResponse‚ğg—p‚µ‚½Šî–{“I‚È’ÊM‹@”\‚ğ’ñ‹Ÿ‚·‚é
+'''HttpWebRequest,HttpWebResponseã‚’ä½¿ç”¨ã—ãŸåŸºæœ¬çš„ãªé€šä¿¡æ©Ÿèƒ½ã‚’æä¾›ã™ã‚‹
 '''</summary>
 '''<remarks>
-'''ƒvƒƒLƒVî•ñ‚È‚Ç‚ğİ’è‚·‚é‚½‚ßAg—p‘O‚ÉÃ“Iƒƒ\ƒbƒhInitializeConnection‚ğŒÄ‚Ño‚·‚±‚ÆB
-'''’ÊM•û®‚É‚æ‚Á‚Ä•K—v‚É‚È‚éHTTPƒwƒbƒ_‚Ì•t‰Á‚È‚Ç‚ÍA”h¶ƒNƒ‰ƒX‚ÅGetContentƒƒ\ƒbƒh‚ğƒI[ƒo[ƒ‰ƒCƒh‚µ‚Äs‚¤B
+'''ãƒ—ãƒ­ã‚­ã‚·æƒ…å ±ãªã©ã‚’è¨­å®šã™ã‚‹ãŸã‚ã€ä½¿ç”¨å‰ã«é™çš„ãƒ¡ã‚½ãƒƒãƒ‰InitializeConnectionã‚’å‘¼ã³å‡ºã™ã“ã¨ã€‚
+'''é€šä¿¡æ–¹å¼ã«ã‚ˆã£ã¦å¿…è¦ã«ãªã‚‹HTTPãƒ˜ãƒƒãƒ€ã®ä»˜åŠ ãªã©ã¯ã€æ´¾ç”Ÿã‚¯ãƒ©ã‚¹ã§GetContentãƒ¡ã‚½ãƒƒãƒ‰ã‚’ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã¦è¡Œã†ã€‚
 '''</remarks>
 Public Class HttpConnection
     '''<summary>
-    '''ƒvƒƒLƒV
+    '''ãƒ—ãƒ­ã‚­ã‚·
     '''</summary>
     Private Shared proxy As WebProxy = Nothing
 
     '''<summary>
-    '''ƒ†[ƒU[‚ª‘I‘ğ‚µ‚½ƒvƒƒLƒV‚Ì•û®
+    '''ãƒ¦ãƒ¼ã‚¶ãƒ¼ãŒé¸æŠã—ãŸãƒ—ãƒ­ã‚­ã‚·ã®æ–¹å¼
     '''</summary>
     Private Shared proxyType As ProxyType = ProxyType.IE
 
     '''<summary>
-    '''ƒNƒbƒL[•Û‘¶—pƒRƒ“ƒeƒi
+    '''ã‚¯ãƒƒã‚­ãƒ¼ä¿å­˜ç”¨ã‚³ãƒ³ãƒ†ãƒŠ
     '''</summary>
     Private Shared cookieContainer As New CookieContainer
 
     '''<summary>
-    '''‰Šú‰»Ï‚İƒtƒ‰ƒO
+    '''åˆæœŸåŒ–æ¸ˆã¿ãƒ•ãƒ©ã‚°
     '''</summary>
     Private Shared isInitialize As Boolean = False
 
     '''<summary>
-    '''HTTP’ÊM‚Ìƒƒ\ƒbƒh
+    '''HTTPé€šä¿¡ã®ãƒ¡ã‚½ãƒƒãƒ‰
     '''</summary>
     '''<remarks>
-    '''‘¼‚Ìƒƒ\ƒbƒhiHEAD,PUT,CONNECT‚È‚Çj‚ª•K—v‚Èê‡‚Í’Ç‰Á‚·‚é‚±‚Æ
+    '''ä»–ã®ãƒ¡ã‚½ãƒƒãƒ‰ï¼ˆHEAD,PUT,CONNECTãªã©ï¼‰ãŒå¿…è¦ãªå ´åˆã¯è¿½åŠ ã™ã‚‹ã“ã¨
     '''</remarks>
     Protected Enum RequestMethod
         ReqGet
@@ -44,16 +44,16 @@ Public Class HttpConnection
     End Enum
 
     '''<summary>
-    '''HttpWebRequestƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚é
+    '''HttpWebRequestã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—ã™ã‚‹
     '''</summary>
     '''<remarks>
-    '''•K—v‚Èƒwƒbƒ_—Ş‚ÍŒÄ‚Ño‚µŒ³‚Å•t‰Á‚·‚é‚±‚Æ
-    '''iTimeout,AutomaticDecompression,AllowAutoRedirect,UserAgent,ContentType,Accept,HttpRequestHeader.Authorization,ƒJƒXƒ^ƒ€ƒwƒbƒ_j
-    '''<param name="method">HTTP’ÊMƒƒ\ƒbƒhiGET/POST‚È‚Çj</param>
-    '''<param name="requestUri">’ÊMæURI</param>
-    '''<param name="param">GET‚ÌƒNƒGƒŠA‚Ü‚½‚ÍPOST‚Ìƒ{ƒfƒBƒf[ƒ^</param>
-    '''<param name="withCookie">’ÊM‚Écookie‚ğg—p‚·‚é‚©</param>
-    '''<returns>ˆø”‚Åw’è‚³‚ê‚½“à—e‚ğ”½‰f‚µ‚½HttpWebRequestƒIƒuƒWƒFƒNƒg</returns>
+    '''å¿…è¦ãªãƒ˜ãƒƒãƒ€é¡ã¯å‘¼ã³å‡ºã—å…ƒã§ä»˜åŠ ã™ã‚‹ã“ã¨
+    '''ï¼ˆTimeout,AutomaticDecompression,AllowAutoRedirect,UserAgent,ContentType,Accept,HttpRequestHeader.Authorization,ã‚«ã‚¹ã‚¿ãƒ ãƒ˜ãƒƒãƒ€ï¼‰
+    '''<param name="method">HTTPé€šä¿¡ãƒ¡ã‚½ãƒƒãƒ‰ï¼ˆGET/POSTãªã©ï¼‰</param>
+    '''<param name="requestUri">é€šä¿¡å…ˆURI</param>
+    '''<param name="param">GETæ™‚ã®ã‚¯ã‚¨ãƒªã€ã¾ãŸã¯POSTæ™‚ã®ãƒœãƒ‡ã‚£ãƒ‡ãƒ¼ã‚¿</param>
+    '''<param name="withCookie">é€šä¿¡ã«cookieã‚’ä½¿ç”¨ã™ã‚‹ã‹</param>
+    '''<returns>å¼•æ•°ã§æŒ‡å®šã•ã‚ŒãŸå†…å®¹ã‚’åæ˜ ã—ãŸHttpWebRequestã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ</returns>
     Protected Shared Function CreateRequest(ByVal method As RequestMethod, _
                                             ByVal requestUri As Uri, _
                                             ByVal param As SortedList(Of String, String), _
@@ -61,7 +61,7 @@ Public Class HttpConnection
                                         ) As HttpWebRequest
         If Not isInitialize Then Throw New Exception("Sequence error.(not initialized)")
 
-        'GETƒƒ\ƒbƒh‚Ìê‡‚ÍƒNƒGƒŠ‚Æurl‚ğŒ‹‡
+        'GETãƒ¡ã‚½ãƒƒãƒ‰ã®å ´åˆã¯ã‚¯ã‚¨ãƒªã¨urlã‚’çµåˆ
         Dim ub As New UriBuilder(requestUri.AbsoluteUri)
         If method = RequestMethod.ReqGet Then
             ub.Query = CreateQueryString(param)
@@ -69,7 +69,7 @@ Public Class HttpConnection
 
         Dim webReq As HttpWebRequest = DirectCast(WebRequest.Create(ub.Uri), HttpWebRequest)
 
-        'ƒvƒƒLƒVİ’è
+        'ãƒ—ãƒ­ã‚­ã‚·è¨­å®š
         If proxyType <> proxyType.IE Then webReq.Proxy = proxy
 
         If method = RequestMethod.ReqGet Then
@@ -77,31 +77,31 @@ Public Class HttpConnection
         Else
             webReq.Method = "POST"
             webReq.ContentType = "application/x-www-form-urlencoded"
-            'POSTƒƒ\ƒbƒh‚Ìê‡‚ÍAƒ{ƒfƒBƒf[ƒ^‚Æ‚µ‚ÄƒNƒGƒŠ\¬‚µ‚Ä‘‚«‚İ
+            'POSTãƒ¡ã‚½ãƒƒãƒ‰ã®å ´åˆã¯ã€ãƒœãƒ‡ã‚£ãƒ‡ãƒ¼ã‚¿ã¨ã—ã¦ã‚¯ã‚¨ãƒªæ§‹æˆã—ã¦æ›¸ãè¾¼ã¿
             Using writer As New StreamWriter(webReq.GetRequestStream)
                 writer.Write(CreateQueryString(param))
             End Using
         End If
-        'cookieİ’è
+        'cookieè¨­å®š
         If withCookie Then webReq.CookieContainer = cookieContainer
-        'ƒ^ƒCƒ€ƒAƒEƒgİ’è
+        'ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆè¨­å®š
         webReq.Timeout = DefaultTimeout
 
         Return webReq
     End Function
 
     '''<summary>
-    '''HTTP‚Ì‰“š‚ğˆ—‚µAƒXƒgƒŠ[ƒ€‚ÌƒRƒs[‚ğ•Ô‹p
+    '''HTTPã®å¿œç­”ã‚’å‡¦ç†ã—ã€ã‚¹ãƒˆãƒªãƒ¼ãƒ ã®ã‚³ãƒ”ãƒ¼ã‚’è¿”å´
     '''</summary>
     '''<remarks>
-    '''ƒŠƒ_ƒCƒŒƒNƒg‰“š‚Ìê‡iAllowAutoRedirect=False‚Ìê‡‚Ì‚İj‚ÍAheaderInfoƒCƒ“ƒXƒ^ƒ“ƒX‚ª‚ ‚ê‚ÎLocation‚ğ’Ç‰Á‚µ‚ÄƒŠƒ_ƒCƒŒƒNƒgæ‚ğ•Ô‹pBƒ{ƒfƒBƒf[ƒ^‚Íˆ—‚µ‚È‚¢B
-    '''WebException‚Íƒnƒ“ƒhƒ‹‚µ‚Ä‚¢‚È‚¢‚Ì‚ÅAŒÄ‚Ño‚µŒ³‚ÅƒLƒƒƒbƒ`‚·‚é‚±‚Æ
+    '''ãƒªãƒ€ã‚¤ãƒ¬ã‚¯ãƒˆå¿œç­”ã®å ´åˆï¼ˆAllowAutoRedirect=Falseã®å ´åˆã®ã¿ï¼‰ã¯ã€headerInfoã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãŒã‚ã‚Œã°Locationã‚’è¿½åŠ ã—ã¦ãƒªãƒ€ã‚¤ãƒ¬ã‚¯ãƒˆå…ˆã‚’è¿”å´ã€‚ãƒœãƒ‡ã‚£ãƒ‡ãƒ¼ã‚¿ã¯å‡¦ç†ã—ãªã„ã€‚
+    '''WebExceptionã¯ãƒãƒ³ãƒ‰ãƒ«ã—ã¦ã„ãªã„ã®ã§ã€å‘¼ã³å‡ºã—å…ƒã§ã‚­ãƒ£ãƒƒãƒã™ã‚‹ã“ã¨
     '''</remarks>
-    '''<param name="webRequest">HTTP’ÊMƒŠƒNƒGƒXƒgƒIƒuƒWƒFƒNƒg</param>
-    '''<param name="contentStream">[OUT]HTTP‰“š‚Ìƒ{ƒfƒBƒXƒgƒŠ[ƒ€‚ÌƒRƒs[‘‚«‚İ—p</param>
-    '''<param name="headerInfo">[IN/OUT]HTTP‰“š‚Ìƒwƒbƒ_î•ñBƒwƒbƒ_–¼‚ğƒL[‚É‚µ‚Ä‹óƒf[ƒ^‚ÌƒRƒŒƒNƒVƒ‡ƒ“‚ğ“n‚·‚±‚Æ‚ÅAŠY“–‚Ìƒwƒbƒ_‚ğƒf[ƒ^‚Éİ’è‚µ‚Ä–ß‚·</param>
-    '''<param name="withCookie">’ÊM‚Écookie‚ğg—p‚·‚é</param>
-    '''<returns>HTTP‰“š‚ÌƒXƒe[ƒ^ƒXƒR[ƒh</returns>
+    '''<param name="webRequest">HTTPé€šä¿¡ãƒªã‚¯ã‚¨ã‚¹ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ</param>
+    '''<param name="contentStream">[OUT]HTTPå¿œç­”ã®ãƒœãƒ‡ã‚£ã‚¹ãƒˆãƒªãƒ¼ãƒ ã®ã‚³ãƒ”ãƒ¼æ›¸ãè¾¼ã¿ç”¨</param>
+    '''<param name="headerInfo">[IN/OUT]HTTPå¿œç­”ã®ãƒ˜ãƒƒãƒ€æƒ…å ±ã€‚ãƒ˜ãƒƒãƒ€åã‚’ã‚­ãƒ¼ã«ã—ã¦ç©ºãƒ‡ãƒ¼ã‚¿ã®ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã‚’æ¸¡ã™ã“ã¨ã§ã€è©²å½“ã®ãƒ˜ãƒƒãƒ€ã‚’ãƒ‡ãƒ¼ã‚¿ã«è¨­å®šã—ã¦æˆ»ã™</param>
+    '''<param name="withCookie">é€šä¿¡ã«cookieã‚’ä½¿ç”¨ã™ã‚‹</param>
+    '''<returns>HTTPå¿œç­”ã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚³ãƒ¼ãƒ‰</returns>
     Protected Shared Function GetResponse(ByVal webRequest As HttpWebRequest, _
                                         ByVal contentStream As Stream, _
                                         ByVal headerInfo As Dictionary(Of String, String), _
@@ -109,11 +109,11 @@ Public Class HttpConnection
                                     ) As HttpStatusCode
         Using webRes As HttpWebResponse = CType(webRequest.GetResponse(), HttpWebResponse)
             Dim statusCode As HttpStatusCode = webRes.StatusCode
-            'cookie•Û
+            'cookieä¿æŒ
             If withCookie Then SaveCookie(webRes.Cookies)
-            'ƒŠƒ_ƒCƒŒƒNƒg‰“š‚Ìê‡‚ÍAƒŠƒ_ƒCƒŒƒNƒgæ‚ğİ’è‚µ‚ÄI—¹
+            'ãƒªãƒ€ã‚¤ãƒ¬ã‚¯ãƒˆå¿œç­”ã®å ´åˆã¯ã€ãƒªãƒ€ã‚¤ãƒ¬ã‚¯ãƒˆå…ˆã‚’è¨­å®šã—ã¦çµ‚äº†
             GetHeaderInfo(webRes, headerInfo)
-            '‰“š‚ÌƒXƒgƒŠ[ƒ€‚ğƒRƒs[‚µ‚Ä–ß‚·
+            'å¿œç­”ã®ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’ã‚³ãƒ”ãƒ¼ã—ã¦æˆ»ã™
             If webRes.ContentLength > 0 Then
                 Using stream As Stream = webRes.GetResponseStream()
                     If stream IsNot Nothing Then CopyStream(stream, contentStream)
@@ -130,11 +130,11 @@ Public Class HttpConnection
                                     ) As HttpStatusCode
         Using webRes As HttpWebResponse = CType(webRequest.GetResponse(), HttpWebResponse)
             Dim statusCode As HttpStatusCode = webRes.StatusCode
-            'cookie•Û
+            'cookieä¿æŒ
             If withCookie Then SaveCookie(webRes.Cookies)
-            'ƒŠƒ_ƒCƒŒƒNƒg‰“š‚Ìê‡‚ÍAƒŠƒ_ƒCƒŒƒNƒgæ‚ğİ’è‚µ‚ÄI—¹
+            'ãƒªãƒ€ã‚¤ãƒ¬ã‚¯ãƒˆå¿œç­”ã®å ´åˆã¯ã€ãƒªãƒ€ã‚¤ãƒ¬ã‚¯ãƒˆå…ˆã‚’è¨­å®šã—ã¦çµ‚äº†
             GetHeaderInfo(webRes, headerInfo)
-            '‰“š‚ÌƒXƒgƒŠ[ƒ€‚ğƒeƒLƒXƒg‚É‘‚«o‚µ‚Ä–ß‚·
+            'å¿œç­”ã®ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’ãƒ†ã‚­ã‚¹ãƒˆã«æ›¸ãå‡ºã—ã¦æˆ»ã™
             If contentText Is Nothing Then Throw New ArgumentNullException("contentText")
             If webRes.ContentLength > 0 Then
                 Using sr As StreamReader = New StreamReader(webRes.GetResponseStream)
@@ -152,11 +152,11 @@ Public Class HttpConnection
                                     ) As HttpStatusCode
         Using webRes As HttpWebResponse = CType(webRequest.GetResponse(), HttpWebResponse)
             Dim statusCode As HttpStatusCode = webRes.StatusCode
-            'cookie•Û
+            'cookieä¿æŒ
             If withCookie Then SaveCookie(webRes.Cookies)
-            'ƒŠƒ_ƒCƒŒƒNƒg‰“š‚Ìê‡‚ÍAƒŠƒ_ƒCƒŒƒNƒgæ‚ğİ’è‚µ‚ÄI—¹
+            'ãƒªãƒ€ã‚¤ãƒ¬ã‚¯ãƒˆå¿œç­”ã®å ´åˆã¯ã€ãƒªãƒ€ã‚¤ãƒ¬ã‚¯ãƒˆå…ˆã‚’è¨­å®šã—ã¦çµ‚äº†
             GetHeaderInfo(webRes, headerInfo)
-            '‰“š‚ÌƒXƒgƒŠ[ƒ€‚ğBitmap‚É‚µ‚Ä–ß‚·
+            'å¿œç­”ã®ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’Bitmapã«ã—ã¦æˆ»ã™
             If webRes.ContentLength > 0 Then contentBitmap = New Bitmap(webRes.GetResponseStream)
             Return statusCode
         End Using
@@ -172,10 +172,10 @@ Public Class HttpConnection
     End Sub
 
     '''<summary>
-    '''in/out‚ÌƒXƒgƒŠ[ƒ€ƒCƒ“ƒXƒ^ƒ“ƒX‚ğó‚¯æ‚èAƒRƒs[‚µ‚Ä•Ô‹p
+    '''in/outã®ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å—ã‘å–ã‚Šã€ã‚³ãƒ”ãƒ¼ã—ã¦è¿”å´
     '''</summary>
-    '''<param name="inStream">ƒRƒs[Œ³ƒXƒgƒŠ[ƒ€ƒCƒ“ƒXƒ^ƒ“ƒXB“Ç‚İæ‚è‰Â‚Å‚ ‚é‚±‚Æ</param>
-    '''<param name="outStream">ƒRƒs[æƒXƒgƒŠ[ƒ€ƒCƒ“ƒXƒ^ƒ“ƒXB‘‚«‚İ‰Â‚Å‚ ‚é‚±‚Æ</param>
+    '''<param name="inStream">ã‚³ãƒ”ãƒ¼å…ƒã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã€‚èª­ã¿å–ã‚Šå¯ã§ã‚ã‚‹ã“ã¨</param>
+    '''<param name="outStream">ã‚³ãƒ”ãƒ¼å…ˆã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã€‚æ›¸ãè¾¼ã¿å¯ã§ã‚ã‚‹ã“ã¨</param>
     Private Shared Sub CopyStream(ByVal inStream As Stream, ByVal outStream As Stream)
         If inStream Is Nothing Then Throw New ArgumentNullException("inStream")
         If outStream Is Nothing Then Throw New ArgumentNullException("outStream")
@@ -193,10 +193,10 @@ Public Class HttpConnection
     End Sub
 
     '''<summary>
-    '''headerInfo‚ÌƒL[î•ñ‚Åw’è‚³‚ê‚½HTTPƒwƒbƒ_î•ñ‚ğæ“¾EŠi”[‚·‚éBredirect‰“š‚ÍLocationƒwƒbƒ_‚Ì“à—e‚ğ’Ç‹L‚·‚é
+    '''headerInfoã®ã‚­ãƒ¼æƒ…å ±ã§æŒ‡å®šã•ã‚ŒãŸHTTPãƒ˜ãƒƒãƒ€æƒ…å ±ã‚’å–å¾—ãƒ»æ ¼ç´ã™ã‚‹ã€‚redirectå¿œç­”æ™‚ã¯Locationãƒ˜ãƒƒãƒ€ã®å†…å®¹ã‚’è¿½è¨˜ã™ã‚‹
     '''</summary>
-    '''<param name="webResponse">HTTP‰“š</param>
-    '''<param name="headerInfo">[IN/OUT]ƒL[‚Éƒwƒbƒ_–¼‚ğw’è‚µ‚½ƒf[ƒ^‹ó‚ÌƒRƒŒƒNƒVƒ‡ƒ“Bæ“¾‚µ‚½’l‚ğƒf[ƒ^‚ÉƒZƒbƒg‚µ‚Ä–ß‚·</param>
+    '''<param name="webResponse">HTTPå¿œç­”</param>
+    '''<param name="headerInfo">[IN/OUT]ã‚­ãƒ¼ã«ãƒ˜ãƒƒãƒ€åã‚’æŒ‡å®šã—ãŸãƒ‡ãƒ¼ã‚¿ç©ºã®ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã€‚å–å¾—ã—ãŸå€¤ã‚’ãƒ‡ãƒ¼ã‚¿ã«ã‚»ãƒƒãƒˆã—ã¦æˆ»ã™</param>
     Private Shared Sub GetHeaderInfo(ByVal webResponse As HttpWebResponse, _
                                     ByVal headerInfo As Dictionary(Of String, String))
 
@@ -228,9 +228,9 @@ Public Class HttpConnection
     End Sub
 
     '''<summary>
-    '''ƒNƒGƒŠƒRƒŒƒNƒVƒ‡ƒ“‚ğkey=valueŒ`®‚Ì•¶š—ñ‚É\¬‚µ‚Ä–ß‚·
+    '''ã‚¯ã‚¨ãƒªã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã‚’key=valueå½¢å¼ã®æ–‡å­—åˆ—ã«æ§‹æˆã—ã¦æˆ»ã™
     '''</summary>
-    '''<param name="param">ƒNƒGƒŠA‚Ü‚½‚Íƒ|ƒXƒgƒf[ƒ^‚Æ‚È‚ékey-valueƒRƒŒƒNƒVƒ‡ƒ“</param>
+    '''<param name="param">ã‚¯ã‚¨ãƒªã€ã¾ãŸã¯ãƒã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿ã¨ãªã‚‹key-valueã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³</param>
     Protected Shared Function CreateQueryString(ByVal param As SortedList(Of String, String)) As String
         If param Is Nothing OrElse param.Count = 0 Then Return String.Empty
 
@@ -242,10 +242,10 @@ Public Class HttpConnection
     End Function
 
     '''<summary>
-    '''ƒNƒGƒŠŒ`®ikey1=value1&key2=value2&...j‚Ì•¶š—ñ‚ğkey-valueƒRƒŒƒNƒVƒ‡ƒ“‚É‹l‚ß’¼‚µ
+    '''ã‚¯ã‚¨ãƒªå½¢å¼ï¼ˆkey1=value1&key2=value2&...ï¼‰ã®æ–‡å­—åˆ—ã‚’key-valueã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã«è©°ã‚ç›´ã—
     '''</summary>
-    '''<param name="queryString">ƒNƒGƒŠ•¶š—ñ</param>
-    '''<returns>key-value‚ÌƒRƒŒƒNƒVƒ‡ƒ“</returns>
+    '''<param name="queryString">ã‚¯ã‚¨ãƒªæ–‡å­—åˆ—</param>
+    '''<returns>key-valueã®ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³</returns>
     Protected Shared Function ParseQueryString(ByVal queryString As String) As NameValueCollection
         Dim query As New NameValueCollection
         Dim parts() As String = queryString.Split("&"c)
@@ -261,10 +261,10 @@ Public Class HttpConnection
     End Function
 
     '''<summary>
-    '''2ƒoƒCƒg•¶š‚àl—¶‚µ‚½UrlƒGƒ“ƒR[ƒh
+    '''2ãƒã‚¤ãƒˆæ–‡å­—ã‚‚è€ƒæ…®ã—ãŸUrlã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰
     '''</summary>
-    '''<param name="str">ƒGƒ“ƒR[ƒh‚·‚é•¶š—ñ</param>
-    '''<returns>ƒGƒ“ƒR[ƒhŒ‹‰Ê•¶š—ñ</returns>
+    '''<param name="str">ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰ã™ã‚‹æ–‡å­—åˆ—</param>
+    '''<returns>ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰çµæœæ–‡å­—åˆ—</returns>
     Protected Shared Function UrlEncode(ByVal stringToEncode As String) As String
         Const UnreservedChars As String = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.~"
         Dim sb As New StringBuilder
@@ -282,12 +282,12 @@ Public Class HttpConnection
 
 #Region "DefaultTimeout"
     '''<summary>
-    '''’ÊMƒ^ƒCƒ€ƒAƒEƒgŠÔimsj
+    '''é€šä¿¡ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆæ™‚é–“ï¼ˆmsï¼‰
     '''</summary>
     Private Shared timeout As Integer = 20000
 
     '''<summary>
-    '''’ÊMƒ^ƒCƒ€ƒAƒEƒgŠÔimsjB10`120•b‚Ì”ÍˆÍ‚Åw’èB”ÍˆÍŠO‚Í20•b‚Æ‚·‚é
+    '''é€šä¿¡ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆæ™‚é–“ï¼ˆmsï¼‰ã€‚10ï½120ç§’ã®ç¯„å›²ã§æŒ‡å®šã€‚ç¯„å›²å¤–ã¯20ç§’ã¨ã™ã‚‹
     '''</summary>
     Protected Shared Property DefaultTimeout() As Integer
         Get
@@ -298,7 +298,7 @@ Public Class HttpConnection
             Const TimeoutMaxValue As Integer = 120000
             Const TimeoutDefaultValue As Integer = 20000
             If value < TimeoutMinValue OrElse value > TimeoutMaxValue Then
-                ' ”ÍˆÍŠO‚È‚çƒfƒtƒHƒ‹ƒg’lİ’è
+                ' ç¯„å›²å¤–ãªã‚‰ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤è¨­å®š
                 timeout = TimeoutDefaultValue
             Else
                 timeout = value
@@ -308,17 +308,17 @@ Public Class HttpConnection
 #End Region
 
     '''<summary>
-    '''’ÊMƒNƒ‰ƒX‚Ì‰Šú‰»ˆ—Bƒ^ƒCƒ€ƒAƒEƒg’l‚ÆƒvƒƒLƒV‚ğİ’è‚·‚é
+    '''é€šä¿¡ã‚¯ãƒ©ã‚¹ã®åˆæœŸåŒ–å‡¦ç†ã€‚ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆå€¤ã¨ãƒ—ãƒ­ã‚­ã‚·ã‚’è¨­å®šã™ã‚‹
     '''</summary>
     '''<remarks>
-    '''’ÊMŠJn‘O‚ÉÅ’áˆê“xŒÄ‚Ño‚·‚±‚Æ
+    '''é€šä¿¡é–‹å§‹å‰ã«æœ€ä½ä¸€åº¦å‘¼ã³å‡ºã™ã“ã¨
     '''</remarks>
-    '''<param name="timeout">ƒ^ƒCƒ€ƒAƒEƒg’li•bj</param>
-    '''<param name="proxyType">‚È‚µEw’èEIEƒfƒtƒHƒ‹ƒg</param>
-    '''<param name="proxyAddress">ƒvƒƒLƒV‚ÌƒzƒXƒg–¼orIPƒAƒhƒŒƒX</param>
-    '''<param name="proxyPort">ƒvƒƒLƒV‚Ìƒ|[ƒg”Ô†</param>
-    '''<param name="proxyUser">ƒvƒƒLƒV”FØ‚ª•K—v‚Èê‡‚Ìƒ†[ƒU–¼B•s—v‚È‚ç‹ó•¶š</param>
-    '''<param name="proxyPassword">ƒvƒƒLƒV”FØ‚ª•K—v‚Èê‡‚ÌƒpƒXƒ[ƒhB•s—v‚È‚ç‹ó•¶š</param>
+    '''<param name="timeout">ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆå€¤ï¼ˆç§’ï¼‰</param>
+    '''<param name="proxyType">ãªã—ãƒ»æŒ‡å®šãƒ»IEãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ</param>
+    '''<param name="proxyAddress">ãƒ—ãƒ­ã‚­ã‚·ã®ãƒ›ã‚¹ãƒˆåorIPã‚¢ãƒ‰ãƒ¬ã‚¹</param>
+    '''<param name="proxyPort">ãƒ—ãƒ­ã‚­ã‚·ã®ãƒãƒ¼ãƒˆç•ªå·</param>
+    '''<param name="proxyUser">ãƒ—ãƒ­ã‚­ã‚·èªè¨¼ãŒå¿…è¦ãªå ´åˆã®ãƒ¦ãƒ¼ã‚¶åã€‚ä¸è¦ãªã‚‰ç©ºæ–‡å­—</param>
+    '''<param name="proxyPassword">ãƒ—ãƒ­ã‚­ã‚·èªè¨¼ãŒå¿…è¦ãªå ´åˆã®ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã€‚ä¸è¦ãªã‚‰ç©ºæ–‡å­—</param>
     Public Shared Sub InitializeConnection( _
             ByVal timeout As Integer, _
             ByVal proxyType As ProxyType, _
@@ -338,7 +338,7 @@ Public Class HttpConnection
                     proxy.Credentials = New NetworkCredential(proxyUser, proxyPassword)
                 End If
             Case proxyType.IE
-                'IEİ’èiƒVƒXƒeƒ€İ’èj‚ÍƒfƒtƒHƒ‹ƒg’l‚È‚Ì‚Åˆ—‚µ‚È‚¢
+                'IEè¨­å®šï¼ˆã‚·ã‚¹ãƒ†ãƒ è¨­å®šï¼‰ã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ãªã®ã§å‡¦ç†ã—ãªã„
         End Select
         proxyType = proxyType
     End Sub
