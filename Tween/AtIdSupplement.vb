@@ -1,4 +1,4 @@
-' Tween - Client of Twitter
+ï»¿' Tween - Client of Twitter
 ' Copyright (c) 2007-2010 kiri_feather (@kiri_feather) <kiri_feather@gmail.com>
 '           (c) 2008-2010 Moz (@syo68k) <http://iddy.jp/profile/moz/>
 '           (c) 2008-2010 takeshik (@takeshik) <http://www.takeshik.org/>
@@ -91,7 +91,7 @@ Public Class AtIdSupplement
 
     Private Sub AtIdSupplement_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         'Me.Height = Me.TextId.Height + SystemInformation.ToolWindowCaptionHeight + Me.TextId.Margin.Top + Me.Label1.Height
-        If startChar = "#" Then Me.ClientSize = New Size(Me.TextId.Width, Me.TextId.Height) 'ƒvƒƒpƒeƒB‚ÅØ‚è‘Ö‚¦‚Å‚«‚é‚æ‚¤‚É
+        If startChar = "#" Then Me.ClientSize = New Size(Me.TextId.Width, Me.TextId.Height) 'ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã§åˆ‡ã‚Šæ›¿ãˆã§ãã‚‹ã‚ˆã†ã«
     End Sub
 
     Private Sub AtIdSupplement_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
@@ -100,26 +100,26 @@ Public Class AtIdSupplement
         TextId.Text = startChar
         TextId.SelectionStart = 1
         TextId.Focus()
-        'My.Application.DoEvents()   '‹ê‚µ•´‚êiƒhƒƒbƒvƒ_ƒEƒ“‚µ‚È‚¢‚Ì‚Åj
-        'My.Application.DoEvents()   '‹ê‚µ•´‚êiƒhƒƒbƒvƒ_ƒEƒ“‚µ‚È‚¢‚Ì‚Åj
+        'My.Application.DoEvents()   'è‹¦ã—ç´›ã‚Œï¼ˆãƒ‰ãƒ­ãƒƒãƒ—ãƒ€ã‚¦ãƒ³ã—ãªã„ã®ã§ï¼‰
+        'My.Application.DoEvents()   'è‹¦ã—ç´›ã‚Œï¼ˆãƒ‰ãƒ­ãƒƒãƒ—ãƒ€ã‚¦ãƒ³ã—ãªã„ã®ã§ï¼‰
         'SendKeys.Send(startChar)
     End Sub
 
     Public Sub New()
 
-        ' ‚±‚ÌŒÄ‚Ño‚µ‚ÍAWindows ƒtƒH[ƒ€ ƒfƒUƒCƒi‚Å•K—v‚Å‚·B
+        ' ã“ã®å‘¼ã³å‡ºã—ã¯ã€Windows ãƒ•ã‚©ãƒ¼ãƒ  ãƒ‡ã‚¶ã‚¤ãƒŠã§å¿…è¦ã§ã™ã€‚
         InitializeComponent()
 
-        ' InitializeComponent() ŒÄ‚Ño‚µ‚ÌŒã‚Å‰Šú‰»‚ğ’Ç‰Á‚µ‚Ü‚·B
+        ' InitializeComponent() å‘¼ã³å‡ºã—ã®å¾Œã§åˆæœŸåŒ–ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 
     End Sub
 
     Public Sub New(ByVal ItemList As List(Of String), ByVal startCharacter As String)
 
-        ' ‚±‚ÌŒÄ‚Ño‚µ‚ÍAWindows ƒtƒH[ƒ€ ƒfƒUƒCƒi‚Å•K—v‚Å‚·B
+        ' ã“ã®å‘¼ã³å‡ºã—ã¯ã€Windows ãƒ•ã‚©ãƒ¼ãƒ  ãƒ‡ã‚¶ã‚¤ãƒŠã§å¿…è¦ã§ã™ã€‚
         InitializeComponent()
 
-        ' InitializeComponent() ŒÄ‚Ño‚µ‚ÌŒã‚Å‰Šú‰»‚ğ’Ç‰Á‚µ‚Ü‚·B
+        ' InitializeComponent() å‘¼ã³å‡ºã—ã®å¾Œã§åˆæœŸåŒ–ã‚’è¿½åŠ ã—ã¾ã™ã€‚
 
         For i As Integer = 0 To ItemList.Count - 1
             Me.TextId.AutoCompleteCustomSource.Add(ItemList(i))

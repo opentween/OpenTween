@@ -1,4 +1,4 @@
-Imports System.Text
+ï»¿Imports System.Text
 Imports System.Net
 
 Public Class HttpConnectionApi
@@ -24,16 +24,16 @@ Public Class HttpConnectionApi
             ByVal param As SortedList(Of String, String), _
             ByRef content As String, _
             ByVal headerInfo As Dictionary(Of String, String)) As HttpStatusCode
-        'content‚ªƒCƒ“ƒXƒ^ƒ“ƒX‚³‚ê‚Ä‚¢‚é‚©ƒ`ƒFƒbƒN
+        'contentãŒã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã•ã‚Œã¦ã„ã‚‹ã‹ãƒã‚§ãƒƒã‚¯
         If content Is Nothing Then Throw New ArgumentNullException("content")
-        '”FØÏ‚©ƒ`ƒFƒbƒN
+        'èªè¨¼æ¸ˆã‹ãƒã‚§ãƒƒã‚¯
         If String.IsNullOrEmpty(userName) Then Throw New Exception("Sequence error. (userName is blank.)")
 
         Dim webReq As HttpWebRequest = CreateRequest(method, _
                                                     requestUri, _
                                                     param, _
                                                     False)
-        'API—pƒwƒbƒ_‚ğ•t‰Á
+        'APIç”¨ãƒ˜ãƒƒãƒ€ã‚’ä»˜åŠ 
         AppendApiInfo(webReq)
 
         Return GetResponse(webReq, content, headerInfo, False)
