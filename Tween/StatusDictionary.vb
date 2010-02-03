@@ -444,20 +444,9 @@ Public NotInheritable Class TabInformations
 
     Public Sub SortPosts()
         For Each key As String In _tabs.Keys
-            If _tabs(key).TabType <> TabUsageType.PublicSearch Then
-                _sorter.posts = _statuses
-            Else
-                _sorter.posts = _tabs(key).Posts
-            End If
-            _tabs(key).Sort(_sorter)
+            _tabs(key).Sort()
         Next
     End Sub
-
-    Public ReadOnly Property Sorter() As IdComparerClass
-        Get
-            Return _sorter
-        End Get
-    End Property
 
     Public Property SortOrder() As SortOrder
         Get
@@ -465,6 +454,9 @@ Public NotInheritable Class TabInformations
         End Get
         Set(ByVal value As SortOrder)
             _sorter.Order = value
+            For Each key As String In _tabs.Keys
+                _tabs(key).Sorter.Order = value
+            Next
         End Set
     End Property
 
@@ -474,6 +466,9 @@ Public NotInheritable Class TabInformations
         End Get
         Set(ByVal value As IdComparerClass.ComparerMode)
             _sorter.Mode = value
+            For Each key As String In _tabs.Keys
+                _tabs(key).Sorter.Mode = value
+            Next
         End Set
     End Property
 
@@ -484,9 +479,16 @@ Public NotInheritable Class TabInformations
             Else
                 _sorter.Order = Windows.Forms.SortOrder.Ascending
             End If
+            For Each key As String In _tabs.Keys
+                _tabs(key).Sorter.Order = _sorter.Order
+            Next
         Else
             _sorter.Mode = SortMode
             _sorter.Order = Windows.Forms.SortOrder.Ascending
+            For Each key As String In _tabs.Keys
+                _tabs(key).Sorter.Mode = SortMode
+                _tabs(key).Sorter.Order = Windows.Forms.SortOrder.Ascending
+            Next
         End If
         Me.SortPosts()
     End Sub
@@ -1300,6 +1302,12 @@ Public NotInheritable Class TabInformations
         Next
         Return tabNameTemp
     End Function
+
+    Public ReadOnly Property Posts() As Dictionary(Of Long, PostClass)
+        Get
+            Return _statuses
+        End Get
+    End Property
 End Class
 
 <Serializable()> _
@@ -1316,6 +1324,7 @@ Public NotInheritable Class TabClass
     Private _tabName As String = ""
     Private _tabType As TabUsageType = TabUsageType.Undefined
     Private _posts As New Dictionary(Of Long, PostClass)
+    Private _sorter As New IdComparerClass
 
     'Search query
     Private _searchLang As String = ""
@@ -1412,11 +1421,22 @@ Public NotInheritable Class TabClass
         _ids = New List(Of Long)
         _oldestUnreadItem = -1
         _tabType = TabType
+        If TabType = TabUsageType.PublicSearch Then
+            _sorter.posts = _posts
+        Else
+            _sorter.posts = TabInformations.GetInstance.posts
+        End If
     End Sub
 
-    Public Sub Sort(ByVal Sorter As IdComparerClass)
-        _ids.Sort(Sorter.CmpMethod)
+    Public Sub Sort()
+        _ids.Sort(_sorter.CmpMethod)
     End Sub
+
+    Public ReadOnly Property Sorter() As IdComparerClass
+        Get
+            Return _sorter
+        End Get
+    End Property
 
     '無条件に追加
     Private Sub Add(ByVal ID As Long, ByVal Read As Boolean)
@@ -1677,6 +1697,11 @@ Public NotInheritable Class TabClass
         End Get
         Set(ByVal value As TabUsageType)
             _tabType = value
+            If _tabType = TabUsageType.PublicSearch Then
+                _sorter.posts = _posts
+            Else
+                _sorter.posts = TabInformations.GetInstance.posts
+            End If
         End Set
     End Property
 
