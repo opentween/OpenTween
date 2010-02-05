@@ -7415,7 +7415,12 @@ RETRY:
     End Sub
 
     Private Sub HashManageMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HashManageMenuItem.Click
-        Dim rslt As DialogResult = HashMgr.ShowDialog()
+        Dim rslt As DialogResult
+        Try
+            rslt = HashMgr.ShowDialog()
+        Catch ex As Exception
+            Exit Sub
+        End Try
         Me.TopMost = SettingDialog.AlwaysTop
         If rslt = Windows.Forms.DialogResult.Cancel Then Exit Sub
         If HashMgr.UseHash <> "" Then
