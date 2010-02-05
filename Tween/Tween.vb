@@ -1243,8 +1243,6 @@ Public Class TweenMain
         If _dmCounter > 0 Then _dmCounter -= 1
         If _pubSearchCounter > 0 Then _pubSearchCounter -= 1
 
-        If Not IsNetworkAvailable() Then Exit Sub
-
         If _homeCounter <= 0 AndAlso SettingDialog.TimelinePeriodInt > 0 Then
             GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
         End If
@@ -1489,7 +1487,7 @@ Public Class TweenMain
         'If _curList.SelectedIndices.Count = 0 Then Exit Sub
 
         _curItemIndex = _curList.SelectedIndices(0)
-        If _curPost Is GetCurTabPost(_curItemIndex) Then Exit Sub 'refreshで既読化されるのを防ぐため追加
+        'If _curPost Is GetCurTabPost(_curItemIndex) Then Exit Sub 'refreshで既読化されるのを防ぐため追加
         _curPost = GetCurTabPost(_curItemIndex)
         If SettingDialog.UnreadManage Then _statuses.SetRead(True, _curTab.Text, _curItemIndex)
         'MyList.RedrawItems(MyList.SelectedIndices(0), MyList.SelectedIndices(0), False)   'RetrieveVirtualItemが発生することを期待
@@ -1853,7 +1851,14 @@ Public Class TweenMain
                             args.sIds.Add(post.Id)
                             post.IsFav = True    'リスト再描画必要
                             _favTimestamps.Add(Now)
-                            _statuses.GetTabByType(TabUsageType.Favorites).Add(post.Id, post.IsRead, False)
+                            If post.SearchTabName = "" Then
+                                '検索タブからのfavは、favタブへ追加せず
+                                _statuses.GetTabByType(TabUsageType.Favorites).Add(post.Id, post.IsRead, False)
+                            End If
+                            '検索タブに反映
+                            For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.PublicSearch)
+                                If tb.Contains(post.Id) Then tb.Posts(post.Id).IsFav = True
+                            Next
                         End If
                     End If
                 Next
@@ -1873,6 +1878,10 @@ Public Class TweenMain
                         If ret.Length = 0 Then
                             args.sIds.Add(post.Id)
                             post.IsFav = False    'リスト再描画必要
+                            '検索タブに反映
+                            For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.PublicSearch)
+                                If tb.Contains(post.Id) Then tb.Posts(post.Id).IsFav = False
+                            Next
                         End If
                     End If
                 Next
@@ -1896,10 +1905,8 @@ Public Class TweenMain
                 bw.ReportProgress(50, My.Resources.UpdateFollowersMenuItem1_ClickText1)
                 If SettingDialog.UseAPI Then
                     ret = Twitter.GetFollowersApi()
-                    Twitter.RefreshOwlApi()
                 Else
                     ret = Twitter.GetFollowers(False)       ' Followersリストキャッシュ有効
-                    Twitter.RefreshOwl()    '洗い換え
                 End If
             Case WORKERTYPE.OpenUri
                 Dim myPath As String = Convert.ToString(args.status)
@@ -2940,16 +2947,16 @@ Public Class TweenMain
 
     Private Sub AddNewTabForSearch(ByVal searchWord As String)
         Dim tabName As String = searchWord
-        For i As Integer = 0 To 10
+        For i As Integer = 0 To 100
             If _statuses.ContainsTab(tabName) Then
                 tabName += "_"
             Else
                 Exit For
             End If
         Next
-        _statuses.AddTab(tabName, TabUsageType.PublicSearch)
-        _statuses.Tabs(tabName).SearchWords = searchWord
         AddNewTab(tabName, False, TabUsageType.PublicSearch)
+        _statuses.AddTab(tabName, TabUsageType.PublicSearch)
+        DirectCast(ListTab.SelectedTab.Controls("panelSearch").Controls("comboSearch"), ComboBox).Text = searchWord
         SaveConfigsTabs()
         ListTab.SelectedIndex = ListTab.TabPages.Count - 1
         Me.SearchButton_Click(ListTab.SelectedTab.Controls("panelSearch").Controls("comboSearch"), Nothing)
@@ -3900,7 +3907,7 @@ RETRY:
             If idx > -1 Then
                 ListTab.SelectedIndex = i
                 lst = DirectCast(ListTab.TabPages(i).Tag, DetailsListView)
-                _curTab = ListTab.TabPages(i)
+                '_curTab = ListTab.TabPages(i)
                 Exit For
             End If
         Next
@@ -3912,7 +3919,7 @@ RETRY:
                 If idx > -1 Then
                     ListTab.SelectedIndex = i
                     lst = DirectCast(ListTab.TabPages(i).Tag, DetailsListView)
-                    _curTab = ListTab.TabPages(i)
+                    '_curTab = ListTab.TabPages(i)
                     Exit For
                 End If
             Next
@@ -3922,7 +3929,7 @@ RETRY:
         If idx = -1 Then
             ListTab.SelectedIndex = 0
             lst = DirectCast(ListTab.TabPages(0).Tag, DetailsListView)
-            _curTab = ListTab.TabPages(0)
+            '_curTab = ListTab.TabPages(0)
             If _statuses.SortOrder = SortOrder.Ascending Then
                 idx = lst.VirtualListSize - 1
             Else
@@ -3942,11 +3949,6 @@ RETRY:
             Else
                 lst.EnsureVisible(idx)
             End If
-            If SettingDialog.UnreadManage Then _statuses.SetRead(True, _curTab.Text, idx)
-            ChangeCacheStyleRead(True, idx, _curTab)   '既読へ（フォント、文字色）
-            ColorizeList()
-            TimerColorize.Stop()
-            TimerColorize.Start()
         End If
         lst.Focus()
     End Sub
@@ -4261,7 +4263,7 @@ RETRY:
             End If
         End If
         _anchorFlag = False
-        If (e.Control OrElse My.Computer.Keyboard.CtrlKeyDown) AndAlso Not e.Alt AndAlso Not e.Shift Then
+        If e.Control AndAlso Not e.Alt AndAlso Not e.Shift Then
             ' CTRLキーが押されている場合
             If e.KeyCode = Keys.Home OrElse e.KeyCode = Keys.End Then
                 TimerColorize.Stop()
@@ -4381,7 +4383,7 @@ RETRY:
             If idx < 0 Then idx = ListTab.TabPages.Count - 1
         End If
         ListTab.SelectedIndex = idx
-        'ListTabSelect(ListTab.TabPages(idx))
+        ListTabSelect(ListTab.TabPages(idx))
     End Sub
 
     Private Sub CopyStot()
@@ -5660,6 +5662,7 @@ RETRY:
                 SaveConfigsTabs()
                 If tabUsage = TabUsageType.PublicSearch Then
                     ListTab.SelectedIndex = ListTab.TabPages.Count - 1
+                    ListTabSelect(ListTab.TabPages(ListTab.TabPages.Count - 1))
                     ListTab.SelectedTab.Controls("panelSearch").Controls("comboSearch").Focus()
                 End If
             End If

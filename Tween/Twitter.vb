@@ -2513,20 +2513,22 @@ Public Module Twitter
                     Next
                 End SyncLock
                 If Not _endingFlag AndAlso follower.Count > 1 Then UpdateCache()
-                Return "Can't get followers. Use cache."
+                ret = "Can't get followers. Use cache."
             Else
                 ' エラーが発生しているならFollowersリストクリア
                 SyncLock LockObj
                     follower.Clear()
                     follower.Add(_uid.ToLower())
                 End SyncLock
-                Return "Can't get followers."
+                ret = "Can't get followers."
             End If
+        Else
+            SyncLock LockObj
+                follower = tmpFollower
+            End SyncLock
+            ret = ""
         End If
 
-        SyncLock LockObj
-            follower = tmpFollower
-        End SyncLock
         If Not _endingFlag AndAlso follower.Count > 1 Then UpdateCache()
 
 #If DEBUG Then
@@ -2534,18 +2536,19 @@ Public Module Twitter
         'Console.WriteLine(sw.ElapsedMilliseconds)
 #End If
 
-        Return ""
+        TabInformations.GetInstance.RefreshOwl(follower)
+        Return ret
     End Function
 
 #End Region
 
-    Public Sub RefreshOwl()
-        TabInformations.GetInstance.RefreshOwl(follower)
-    End Sub
+    'Public Sub RefreshOwl()
+    '    TabInformations.GetInstance.RefreshOwl(follower)
+    'End Sub
 
-    Public Sub RefreshOwlApi()
-        TabInformations.GetInstance.RefreshOwl(followerId)
-    End Sub
+    'Public Sub RefreshOwlApi()
+    '    TabInformations.GetInstance.RefreshOwl(followerId)
+    'End Sub
 
     Public Property Username() As String
         Get
@@ -3732,15 +3735,20 @@ Public Module Twitter
     Public Function GetFollowersApi() As String
         If _endingFlag Then Return ""
         Dim page As Long = -1
+        Dim tmpFollower As New List(Of Long)(followerId)
 
         followerId.Clear()
-
         Do
             Dim ret As String = FollowerApi(page)
-            If ret <> "" Then Return ret
+            If ret <> "" Then
+                followerId.Clear()
+                followerId.AddRange(tmpFollower)
+                Return ret
+            End If
         Loop While page > 0
 
-        RefreshOwlApi()
+        TabInformations.GetInstance.RefreshOwl(followerId)
+
         Return ""
     End Function
 
@@ -3826,7 +3834,7 @@ Public Module Twitter
         'Dim rgh As New Regex("(^|[ .!,\-:;<>?])#([^] !""#$%&'()*+,.:;<=>?@\-[\^`{|}~\r\n]+)")
         Dim rgh As New Regex("(^|[^a-zA-Z0-9_/])[#＃]([a-zA-Z0-9_]+)")
         Dim mh As Match = rgh.Match(retStr)
-        If mh.Success AndAlso Not IsNumeric(mh.Result("$2")) Then
+        If mh.Success Then
             retStr = rgh.Replace(retStr, "$1<a href=""" + _protocol + "twitter.com/search?q=%23$2"">#$2</a>")
         End If
         While mh.Success
