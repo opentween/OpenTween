@@ -171,6 +171,9 @@
   <data name="TextId.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
+  <data name="TextId.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Disable</value>
+  </data>
   <data name="TextId.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>

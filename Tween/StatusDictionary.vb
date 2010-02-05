@@ -535,9 +535,9 @@ Public NotInheritable Class TabInformations
                         End If
                     Next
                 End If
-            Else
-                'TabType=PublicSearchの場合（Postの保存先がTabClass内）
-                If Not tab.Contains(Id) Then Exit Sub
+            End If
+            'TabType=PublicSearchの場合（Postの保存先がTabClass内）
+            If tab.Contains(Id) AndAlso tab.TabType = TabUsageType.PublicSearch Then
                 post = tab.Posts(Id)
                 If tab.UnreadManage AndAlso Not post.IsRead Then    '未読管理
                     SyncLock LockUnread
@@ -990,6 +990,7 @@ Public NotInheritable Class TabInformations
 
     Public ReadOnly Property Item(ByVal TabName As String, ByVal Index As Integer) As PostClass
         Get
+            If Not _tabs.ContainsKey(TabName) Then Return Nothing
             If _tabs(TabName).TabType = TabUsageType.PublicSearch Then
                 Return _tabs(TabName).Posts(_tabs(TabName).GetId(Index))
             Else
