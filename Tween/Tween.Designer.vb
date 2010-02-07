@@ -53,7 +53,6 @@ Partial Class TweenMain
         Me.ClearTabMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator11 = New System.Windows.Forms.ToolStripSeparator
         Me.DeleteTabMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.MenuItemTab = New System.Windows.Forms.ToolStripMenuItem
         Me.TabImage = New System.Windows.Forms.ImageList(Me.components)
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel
@@ -87,18 +86,6 @@ Partial Class TweenMain
         Me.PostButton = New System.Windows.Forms.Button
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip
         Me.MenuItemFile = New System.Windows.Forms.ToolStripMenuItem
-        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.SettingStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripSeparator9 = New System.Windows.Forms.ToolStripSeparator
-        Me.SaveLogMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripSeparator17 = New System.Windows.Forms.ToolStripSeparator
-        Me.NewPostPopMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.PlaySoundMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ListLockMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripSeparator15 = New System.Windows.Forms.ToolStripSeparator
-        Me.MultiLineMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripSeparator21 = New System.Windows.Forms.ToolStripSeparator
-        Me.EndToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuItemEdit = New System.Windows.Forms.ToolStripMenuItem
         Me.UndoRemoveTabMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator12 = New System.Windows.Forms.ToolStripSeparator
@@ -111,37 +98,7 @@ Partial Class TweenMain
         Me.ToolStripSeparator22 = New System.Windows.Forms.ToolStripSeparator
         Me.PublicSearchQueryMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuItemOperate = New System.Windows.Forms.ToolStripMenuItem
-        Me.ContextMenuStrip2 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ReplyStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ReplyAllStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.DMStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ReTweetOriginalStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ReTweetStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.QuoteStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
-        Me.FavAddToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.FavRemoveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem6 = New System.Windows.Forms.ToolStripMenuItem
-        Me.MoveToHomeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.MoveToFavToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.StatusOpenMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.RepliedStatusOpenMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.FavorareMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.OpenURLMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.MoveToRTHomeMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem7 = New System.Windows.Forms.ToolStripMenuItem
-        Me.TabMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.IDRuleMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator
-        Me.ToolStripMenuItem11 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ReadedStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.UnreadStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.JumpUnreadMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripSeparator10 = New System.Windows.Forms.ToolStripSeparator
-        Me.SelectAllMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.DeleteStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.RefreshStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.RefreshMoreStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.MenuItemTab = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuItemCommand = New System.Windows.Forms.ToolStripMenuItem
         Me.TinyUrlConvertToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.UrlConvertAutoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -174,6 +131,49 @@ Partial Class TweenMain
         Me.DebugModeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.DumpPostClassToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.TraceOutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.SettingStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripSeparator9 = New System.Windows.Forms.ToolStripSeparator
+        Me.SaveLogMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripSeparator17 = New System.Windows.Forms.ToolStripSeparator
+        Me.NewPostPopMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.PlaySoundMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ListLockMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripSeparator15 = New System.Windows.Forms.ToolStripSeparator
+        Me.MultiLineMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripSeparator21 = New System.Windows.Forms.ToolStripSeparator
+        Me.EndToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ContextMenuStrip2 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ReplyStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ReplyAllStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.DMStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ReTweetOriginalStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ReTweetStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.QuoteStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
+        Me.FavAddToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.FavRemoveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem6 = New System.Windows.Forms.ToolStripMenuItem
+        Me.MoveToHomeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.MoveToFavToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.StatusOpenMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.RepliedStatusOpenMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.FavorareMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.OpenURLMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.MoveToRTHomeMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem7 = New System.Windows.Forms.ToolStripMenuItem
+        Me.TabMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.IDRuleMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator
+        Me.ToolStripMenuItem11 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ReadedStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.UnreadStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.JumpUnreadMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripSeparator10 = New System.Windows.Forms.ToolStripSeparator
+        Me.SelectAllMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.DeleteStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.RefreshStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.RefreshMoreStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.TimerTimeline = New System.Windows.Forms.Timer(Me.components)
         Me.NotifyIcon1 = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.TimerColorize = New System.Windows.Forms.Timer(Me.components)
@@ -231,6 +231,7 @@ Partial Class TweenMain
         '
         'StatusLabelUrl
         '
+        Me.StatusLabelUrl.AutoToolTip = True
         Me.StatusLabelUrl.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right
         Me.StatusLabelUrl.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
         Me.StatusLabelUrl.Name = "StatusLabelUrl"
@@ -334,7 +335,6 @@ Partial Class TweenMain
         '
         Me.ContextMenuTabProperty.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddTabMenuItem, Me.TabRenameMenuItem, Me.ToolStripSeparator20, Me.UreadManageMenuItem, Me.NotifyDispMenuItem, Me.SoundFileComboBox, Me.ToolStripSeparator18, Me.FilterEditMenuItem, Me.ToolStripSeparator19, Me.ClearTabMenuItem, Me.ToolStripSeparator11, Me.DeleteTabMenuItem})
         Me.ContextMenuTabProperty.Name = "ContextMenuStrip3"
-        Me.ContextMenuTabProperty.OwnerItem = Me.MenuItemTab
         Me.ContextMenuTabProperty.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional
         resources.ApplyResources(Me.ContextMenuTabProperty, "ContextMenuTabProperty")
         '
@@ -401,12 +401,6 @@ Partial Class TweenMain
         '
         Me.DeleteTabMenuItem.Name = "DeleteTabMenuItem"
         resources.ApplyResources(Me.DeleteTabMenuItem, "DeleteTabMenuItem")
-        '
-        'MenuItemTab
-        '
-        Me.MenuItemTab.DropDown = Me.ContextMenuTabProperty
-        Me.MenuItemTab.Name = "MenuItemTab"
-        resources.ApplyResources(Me.MenuItemTab, "MenuItemTab")
         '
         'TabImage
         '
@@ -609,79 +603,8 @@ Partial Class TweenMain
         '
         'MenuItemFile
         '
-        Me.MenuItemFile.DropDown = Me.ContextMenuStrip1
         Me.MenuItemFile.Name = "MenuItemFile"
         resources.ApplyResources(Me.MenuItemFile, "MenuItemFile")
-        '
-        'ContextMenuStrip1
-        '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SettingStripMenuItem, Me.ToolStripSeparator9, Me.SaveLogMenuItem, Me.ToolStripSeparator17, Me.NewPostPopMenuItem, Me.PlaySoundMenuItem, Me.ListLockMenuItem, Me.ToolStripSeparator15, Me.MultiLineMenuItem, Me.ToolStripSeparator21, Me.EndToolStripMenuItem})
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.OwnerItem = Me.MenuItemFile
-        Me.ContextMenuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional
-        Me.ContextMenuStrip1.ShowCheckMargin = True
-        Me.ContextMenuStrip1.ShowImageMargin = False
-        resources.ApplyResources(Me.ContextMenuStrip1, "ContextMenuStrip1")
-        '
-        'SettingStripMenuItem
-        '
-        Me.SettingStripMenuItem.Name = "SettingStripMenuItem"
-        resources.ApplyResources(Me.SettingStripMenuItem, "SettingStripMenuItem")
-        '
-        'ToolStripSeparator9
-        '
-        Me.ToolStripSeparator9.Name = "ToolStripSeparator9"
-        resources.ApplyResources(Me.ToolStripSeparator9, "ToolStripSeparator9")
-        '
-        'SaveLogMenuItem
-        '
-        Me.SaveLogMenuItem.Name = "SaveLogMenuItem"
-        resources.ApplyResources(Me.SaveLogMenuItem, "SaveLogMenuItem")
-        '
-        'ToolStripSeparator17
-        '
-        Me.ToolStripSeparator17.Name = "ToolStripSeparator17"
-        resources.ApplyResources(Me.ToolStripSeparator17, "ToolStripSeparator17")
-        '
-        'NewPostPopMenuItem
-        '
-        Me.NewPostPopMenuItem.CheckOnClick = True
-        Me.NewPostPopMenuItem.Name = "NewPostPopMenuItem"
-        resources.ApplyResources(Me.NewPostPopMenuItem, "NewPostPopMenuItem")
-        '
-        'PlaySoundMenuItem
-        '
-        Me.PlaySoundMenuItem.CheckOnClick = True
-        Me.PlaySoundMenuItem.Name = "PlaySoundMenuItem"
-        resources.ApplyResources(Me.PlaySoundMenuItem, "PlaySoundMenuItem")
-        '
-        'ListLockMenuItem
-        '
-        Me.ListLockMenuItem.CheckOnClick = True
-        Me.ListLockMenuItem.Name = "ListLockMenuItem"
-        resources.ApplyResources(Me.ListLockMenuItem, "ListLockMenuItem")
-        '
-        'ToolStripSeparator15
-        '
-        Me.ToolStripSeparator15.Name = "ToolStripSeparator15"
-        resources.ApplyResources(Me.ToolStripSeparator15, "ToolStripSeparator15")
-        '
-        'MultiLineMenuItem
-        '
-        Me.MultiLineMenuItem.CheckOnClick = True
-        Me.MultiLineMenuItem.Name = "MultiLineMenuItem"
-        resources.ApplyResources(Me.MultiLineMenuItem, "MultiLineMenuItem")
-        '
-        'ToolStripSeparator21
-        '
-        Me.ToolStripSeparator21.Name = "ToolStripSeparator21"
-        resources.ApplyResources(Me.ToolStripSeparator21, "ToolStripSeparator21")
-        '
-        'EndToolStripMenuItem
-        '
-        Me.EndToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.EndToolStripMenuItem.Name = "EndToolStripMenuItem"
-        resources.ApplyResources(Me.EndToolStripMenuItem, "EndToolStripMenuItem")
         '
         'MenuItemEdit
         '
@@ -741,170 +664,13 @@ Partial Class TweenMain
         '
         'MenuItemOperate
         '
-        Me.MenuItemOperate.DropDown = Me.ContextMenuStrip2
         Me.MenuItemOperate.Name = "MenuItemOperate"
         resources.ApplyResources(Me.MenuItemOperate, "MenuItemOperate")
         '
-        'ContextMenuStrip2
+        'MenuItemTab
         '
-        Me.ContextMenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ReplyStripMenuItem, Me.ReplyAllStripMenuItem, Me.DMStripMenuItem, Me.ReTweetOriginalStripMenuItem, Me.ReTweetStripMenuItem, Me.QuoteStripMenuItem, Me.ToolStripSeparator2, Me.FavAddToolStripMenuItem, Me.FavRemoveToolStripMenuItem, Me.ToolStripMenuItem6, Me.ToolStripMenuItem7, Me.ToolStripSeparator4, Me.ToolStripMenuItem11, Me.JumpUnreadMenuItem, Me.ToolStripSeparator10, Me.SelectAllMenuItem, Me.DeleteStripMenuItem, Me.RefreshStripMenuItem, Me.RefreshMoreStripMenuItem})
-        Me.ContextMenuStrip2.Name = "ContextMenuStrip2"
-        Me.ContextMenuStrip2.OwnerItem = Me.MenuItemOperate
-        Me.ContextMenuStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional
-        resources.ApplyResources(Me.ContextMenuStrip2, "ContextMenuStrip2")
-        '
-        'ReplyStripMenuItem
-        '
-        Me.ReplyStripMenuItem.Name = "ReplyStripMenuItem"
-        resources.ApplyResources(Me.ReplyStripMenuItem, "ReplyStripMenuItem")
-        '
-        'ReplyAllStripMenuItem
-        '
-        Me.ReplyAllStripMenuItem.Name = "ReplyAllStripMenuItem"
-        resources.ApplyResources(Me.ReplyAllStripMenuItem, "ReplyAllStripMenuItem")
-        '
-        'DMStripMenuItem
-        '
-        Me.DMStripMenuItem.Name = "DMStripMenuItem"
-        resources.ApplyResources(Me.DMStripMenuItem, "DMStripMenuItem")
-        '
-        'ReTweetOriginalStripMenuItem
-        '
-        Me.ReTweetOriginalStripMenuItem.Name = "ReTweetOriginalStripMenuItem"
-        resources.ApplyResources(Me.ReTweetOriginalStripMenuItem, "ReTweetOriginalStripMenuItem")
-        '
-        'ReTweetStripMenuItem
-        '
-        Me.ReTweetStripMenuItem.Name = "ReTweetStripMenuItem"
-        resources.ApplyResources(Me.ReTweetStripMenuItem, "ReTweetStripMenuItem")
-        '
-        'QuoteStripMenuItem
-        '
-        Me.QuoteStripMenuItem.Name = "QuoteStripMenuItem"
-        resources.ApplyResources(Me.QuoteStripMenuItem, "QuoteStripMenuItem")
-        '
-        'ToolStripSeparator2
-        '
-        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        resources.ApplyResources(Me.ToolStripSeparator2, "ToolStripSeparator2")
-        '
-        'FavAddToolStripMenuItem
-        '
-        Me.FavAddToolStripMenuItem.Name = "FavAddToolStripMenuItem"
-        resources.ApplyResources(Me.FavAddToolStripMenuItem, "FavAddToolStripMenuItem")
-        '
-        'FavRemoveToolStripMenuItem
-        '
-        Me.FavRemoveToolStripMenuItem.Name = "FavRemoveToolStripMenuItem"
-        resources.ApplyResources(Me.FavRemoveToolStripMenuItem, "FavRemoveToolStripMenuItem")
-        '
-        'ToolStripMenuItem6
-        '
-        Me.ToolStripMenuItem6.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MoveToHomeToolStripMenuItem, Me.MoveToFavToolStripMenuItem, Me.StatusOpenMenuItem, Me.RepliedStatusOpenMenuItem, Me.FavorareMenuItem, Me.OpenURLMenuItem, Me.MoveToRTHomeMenuItem})
-        Me.ToolStripMenuItem6.Name = "ToolStripMenuItem6"
-        resources.ApplyResources(Me.ToolStripMenuItem6, "ToolStripMenuItem6")
-        '
-        'MoveToHomeToolStripMenuItem
-        '
-        Me.MoveToHomeToolStripMenuItem.Name = "MoveToHomeToolStripMenuItem"
-        resources.ApplyResources(Me.MoveToHomeToolStripMenuItem, "MoveToHomeToolStripMenuItem")
-        '
-        'MoveToFavToolStripMenuItem
-        '
-        Me.MoveToFavToolStripMenuItem.Name = "MoveToFavToolStripMenuItem"
-        resources.ApplyResources(Me.MoveToFavToolStripMenuItem, "MoveToFavToolStripMenuItem")
-        '
-        'StatusOpenMenuItem
-        '
-        Me.StatusOpenMenuItem.Name = "StatusOpenMenuItem"
-        resources.ApplyResources(Me.StatusOpenMenuItem, "StatusOpenMenuItem")
-        '
-        'RepliedStatusOpenMenuItem
-        '
-        Me.RepliedStatusOpenMenuItem.Name = "RepliedStatusOpenMenuItem"
-        resources.ApplyResources(Me.RepliedStatusOpenMenuItem, "RepliedStatusOpenMenuItem")
-        '
-        'FavorareMenuItem
-        '
-        Me.FavorareMenuItem.Name = "FavorareMenuItem"
-        resources.ApplyResources(Me.FavorareMenuItem, "FavorareMenuItem")
-        '
-        'OpenURLMenuItem
-        '
-        Me.OpenURLMenuItem.Name = "OpenURLMenuItem"
-        resources.ApplyResources(Me.OpenURLMenuItem, "OpenURLMenuItem")
-        '
-        'MoveToRTHomeMenuItem
-        '
-        Me.MoveToRTHomeMenuItem.Name = "MoveToRTHomeMenuItem"
-        resources.ApplyResources(Me.MoveToRTHomeMenuItem, "MoveToRTHomeMenuItem")
-        '
-        'ToolStripMenuItem7
-        '
-        Me.ToolStripMenuItem7.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TabMenuItem, Me.IDRuleMenuItem})
-        Me.ToolStripMenuItem7.Name = "ToolStripMenuItem7"
-        resources.ApplyResources(Me.ToolStripMenuItem7, "ToolStripMenuItem7")
-        '
-        'TabMenuItem
-        '
-        Me.TabMenuItem.Name = "TabMenuItem"
-        resources.ApplyResources(Me.TabMenuItem, "TabMenuItem")
-        '
-        'IDRuleMenuItem
-        '
-        Me.IDRuleMenuItem.Name = "IDRuleMenuItem"
-        resources.ApplyResources(Me.IDRuleMenuItem, "IDRuleMenuItem")
-        '
-        'ToolStripSeparator4
-        '
-        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
-        resources.ApplyResources(Me.ToolStripSeparator4, "ToolStripSeparator4")
-        '
-        'ToolStripMenuItem11
-        '
-        Me.ToolStripMenuItem11.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ReadedStripMenuItem, Me.UnreadStripMenuItem})
-        Me.ToolStripMenuItem11.Name = "ToolStripMenuItem11"
-        resources.ApplyResources(Me.ToolStripMenuItem11, "ToolStripMenuItem11")
-        '
-        'ReadedStripMenuItem
-        '
-        Me.ReadedStripMenuItem.Name = "ReadedStripMenuItem"
-        resources.ApplyResources(Me.ReadedStripMenuItem, "ReadedStripMenuItem")
-        '
-        'UnreadStripMenuItem
-        '
-        Me.UnreadStripMenuItem.Name = "UnreadStripMenuItem"
-        resources.ApplyResources(Me.UnreadStripMenuItem, "UnreadStripMenuItem")
-        '
-        'JumpUnreadMenuItem
-        '
-        Me.JumpUnreadMenuItem.Name = "JumpUnreadMenuItem"
-        resources.ApplyResources(Me.JumpUnreadMenuItem, "JumpUnreadMenuItem")
-        '
-        'ToolStripSeparator10
-        '
-        Me.ToolStripSeparator10.Name = "ToolStripSeparator10"
-        resources.ApplyResources(Me.ToolStripSeparator10, "ToolStripSeparator10")
-        '
-        'SelectAllMenuItem
-        '
-        Me.SelectAllMenuItem.Name = "SelectAllMenuItem"
-        resources.ApplyResources(Me.SelectAllMenuItem, "SelectAllMenuItem")
-        '
-        'DeleteStripMenuItem
-        '
-        Me.DeleteStripMenuItem.Name = "DeleteStripMenuItem"
-        resources.ApplyResources(Me.DeleteStripMenuItem, "DeleteStripMenuItem")
-        '
-        'RefreshStripMenuItem
-        '
-        Me.RefreshStripMenuItem.Name = "RefreshStripMenuItem"
-        resources.ApplyResources(Me.RefreshStripMenuItem, "RefreshStripMenuItem")
-        '
-        'RefreshMoreStripMenuItem
-        '
-        Me.RefreshMoreStripMenuItem.Name = "RefreshMoreStripMenuItem"
-        resources.ApplyResources(Me.RefreshMoreStripMenuItem, "RefreshMoreStripMenuItem")
+        Me.MenuItemTab.Name = "MenuItemTab"
+        resources.ApplyResources(Me.MenuItemTab, "MenuItemTab")
         '
         'MenuItemCommand
         '
@@ -1072,6 +838,236 @@ Partial Class TweenMain
         Me.TraceOutToolStripMenuItem.CheckOnClick = True
         Me.TraceOutToolStripMenuItem.Name = "TraceOutToolStripMenuItem"
         resources.ApplyResources(Me.TraceOutToolStripMenuItem, "TraceOutToolStripMenuItem")
+        '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SettingStripMenuItem, Me.ToolStripSeparator9, Me.SaveLogMenuItem, Me.ToolStripSeparator17, Me.NewPostPopMenuItem, Me.PlaySoundMenuItem, Me.ListLockMenuItem, Me.ToolStripSeparator15, Me.MultiLineMenuItem, Me.ToolStripSeparator21, Me.EndToolStripMenuItem})
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional
+        Me.ContextMenuStrip1.ShowCheckMargin = True
+        Me.ContextMenuStrip1.ShowImageMargin = False
+        resources.ApplyResources(Me.ContextMenuStrip1, "ContextMenuStrip1")
+        '
+        'SettingStripMenuItem
+        '
+        Me.SettingStripMenuItem.Name = "SettingStripMenuItem"
+        resources.ApplyResources(Me.SettingStripMenuItem, "SettingStripMenuItem")
+        '
+        'ToolStripSeparator9
+        '
+        Me.ToolStripSeparator9.Name = "ToolStripSeparator9"
+        resources.ApplyResources(Me.ToolStripSeparator9, "ToolStripSeparator9")
+        '
+        'SaveLogMenuItem
+        '
+        Me.SaveLogMenuItem.Name = "SaveLogMenuItem"
+        resources.ApplyResources(Me.SaveLogMenuItem, "SaveLogMenuItem")
+        '
+        'ToolStripSeparator17
+        '
+        Me.ToolStripSeparator17.Name = "ToolStripSeparator17"
+        resources.ApplyResources(Me.ToolStripSeparator17, "ToolStripSeparator17")
+        '
+        'NewPostPopMenuItem
+        '
+        Me.NewPostPopMenuItem.CheckOnClick = True
+        Me.NewPostPopMenuItem.Name = "NewPostPopMenuItem"
+        resources.ApplyResources(Me.NewPostPopMenuItem, "NewPostPopMenuItem")
+        '
+        'PlaySoundMenuItem
+        '
+        Me.PlaySoundMenuItem.CheckOnClick = True
+        Me.PlaySoundMenuItem.Name = "PlaySoundMenuItem"
+        resources.ApplyResources(Me.PlaySoundMenuItem, "PlaySoundMenuItem")
+        '
+        'ListLockMenuItem
+        '
+        Me.ListLockMenuItem.CheckOnClick = True
+        Me.ListLockMenuItem.Name = "ListLockMenuItem"
+        resources.ApplyResources(Me.ListLockMenuItem, "ListLockMenuItem")
+        '
+        'ToolStripSeparator15
+        '
+        Me.ToolStripSeparator15.Name = "ToolStripSeparator15"
+        resources.ApplyResources(Me.ToolStripSeparator15, "ToolStripSeparator15")
+        '
+        'MultiLineMenuItem
+        '
+        Me.MultiLineMenuItem.CheckOnClick = True
+        Me.MultiLineMenuItem.Name = "MultiLineMenuItem"
+        resources.ApplyResources(Me.MultiLineMenuItem, "MultiLineMenuItem")
+        '
+        'ToolStripSeparator21
+        '
+        Me.ToolStripSeparator21.Name = "ToolStripSeparator21"
+        resources.ApplyResources(Me.ToolStripSeparator21, "ToolStripSeparator21")
+        '
+        'EndToolStripMenuItem
+        '
+        Me.EndToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.EndToolStripMenuItem.Name = "EndToolStripMenuItem"
+        resources.ApplyResources(Me.EndToolStripMenuItem, "EndToolStripMenuItem")
+        '
+        'ContextMenuStrip2
+        '
+        Me.ContextMenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ReplyStripMenuItem, Me.ReplyAllStripMenuItem, Me.DMStripMenuItem, Me.ReTweetOriginalStripMenuItem, Me.ReTweetStripMenuItem, Me.QuoteStripMenuItem, Me.ToolStripSeparator2, Me.FavAddToolStripMenuItem, Me.FavRemoveToolStripMenuItem, Me.ToolStripMenuItem6, Me.ToolStripMenuItem7, Me.ToolStripSeparator4, Me.ToolStripMenuItem11, Me.JumpUnreadMenuItem, Me.ToolStripSeparator10, Me.SelectAllMenuItem, Me.DeleteStripMenuItem, Me.RefreshStripMenuItem, Me.RefreshMoreStripMenuItem})
+        Me.ContextMenuStrip2.Name = "ContextMenuStrip2"
+        Me.ContextMenuStrip2.OwnerItem = Me.MenuItemOperate
+        Me.ContextMenuStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional
+        resources.ApplyResources(Me.ContextMenuStrip2, "ContextMenuStrip2")
+        '
+        'ReplyStripMenuItem
+        '
+        Me.ReplyStripMenuItem.Name = "ReplyStripMenuItem"
+        resources.ApplyResources(Me.ReplyStripMenuItem, "ReplyStripMenuItem")
+        '
+        'ReplyAllStripMenuItem
+        '
+        Me.ReplyAllStripMenuItem.Name = "ReplyAllStripMenuItem"
+        resources.ApplyResources(Me.ReplyAllStripMenuItem, "ReplyAllStripMenuItem")
+        '
+        'DMStripMenuItem
+        '
+        Me.DMStripMenuItem.Name = "DMStripMenuItem"
+        resources.ApplyResources(Me.DMStripMenuItem, "DMStripMenuItem")
+        '
+        'ReTweetOriginalStripMenuItem
+        '
+        Me.ReTweetOriginalStripMenuItem.Name = "ReTweetOriginalStripMenuItem"
+        resources.ApplyResources(Me.ReTweetOriginalStripMenuItem, "ReTweetOriginalStripMenuItem")
+        '
+        'ReTweetStripMenuItem
+        '
+        Me.ReTweetStripMenuItem.Name = "ReTweetStripMenuItem"
+        resources.ApplyResources(Me.ReTweetStripMenuItem, "ReTweetStripMenuItem")
+        '
+        'QuoteStripMenuItem
+        '
+        Me.QuoteStripMenuItem.Name = "QuoteStripMenuItem"
+        resources.ApplyResources(Me.QuoteStripMenuItem, "QuoteStripMenuItem")
+        '
+        'ToolStripSeparator2
+        '
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        resources.ApplyResources(Me.ToolStripSeparator2, "ToolStripSeparator2")
+        '
+        'FavAddToolStripMenuItem
+        '
+        Me.FavAddToolStripMenuItem.Name = "FavAddToolStripMenuItem"
+        resources.ApplyResources(Me.FavAddToolStripMenuItem, "FavAddToolStripMenuItem")
+        '
+        'FavRemoveToolStripMenuItem
+        '
+        Me.FavRemoveToolStripMenuItem.Name = "FavRemoveToolStripMenuItem"
+        resources.ApplyResources(Me.FavRemoveToolStripMenuItem, "FavRemoveToolStripMenuItem")
+        '
+        'ToolStripMenuItem6
+        '
+        Me.ToolStripMenuItem6.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MoveToHomeToolStripMenuItem, Me.MoveToFavToolStripMenuItem, Me.StatusOpenMenuItem, Me.RepliedStatusOpenMenuItem, Me.FavorareMenuItem, Me.OpenURLMenuItem, Me.MoveToRTHomeMenuItem})
+        Me.ToolStripMenuItem6.Name = "ToolStripMenuItem6"
+        resources.ApplyResources(Me.ToolStripMenuItem6, "ToolStripMenuItem6")
+        '
+        'MoveToHomeToolStripMenuItem
+        '
+        Me.MoveToHomeToolStripMenuItem.Name = "MoveToHomeToolStripMenuItem"
+        resources.ApplyResources(Me.MoveToHomeToolStripMenuItem, "MoveToHomeToolStripMenuItem")
+        '
+        'MoveToFavToolStripMenuItem
+        '
+        Me.MoveToFavToolStripMenuItem.Name = "MoveToFavToolStripMenuItem"
+        resources.ApplyResources(Me.MoveToFavToolStripMenuItem, "MoveToFavToolStripMenuItem")
+        '
+        'StatusOpenMenuItem
+        '
+        Me.StatusOpenMenuItem.Name = "StatusOpenMenuItem"
+        resources.ApplyResources(Me.StatusOpenMenuItem, "StatusOpenMenuItem")
+        '
+        'RepliedStatusOpenMenuItem
+        '
+        Me.RepliedStatusOpenMenuItem.Name = "RepliedStatusOpenMenuItem"
+        resources.ApplyResources(Me.RepliedStatusOpenMenuItem, "RepliedStatusOpenMenuItem")
+        '
+        'FavorareMenuItem
+        '
+        Me.FavorareMenuItem.Name = "FavorareMenuItem"
+        resources.ApplyResources(Me.FavorareMenuItem, "FavorareMenuItem")
+        '
+        'OpenURLMenuItem
+        '
+        Me.OpenURLMenuItem.Name = "OpenURLMenuItem"
+        resources.ApplyResources(Me.OpenURLMenuItem, "OpenURLMenuItem")
+        '
+        'MoveToRTHomeMenuItem
+        '
+        Me.MoveToRTHomeMenuItem.Name = "MoveToRTHomeMenuItem"
+        resources.ApplyResources(Me.MoveToRTHomeMenuItem, "MoveToRTHomeMenuItem")
+        '
+        'ToolStripMenuItem7
+        '
+        Me.ToolStripMenuItem7.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TabMenuItem, Me.IDRuleMenuItem})
+        Me.ToolStripMenuItem7.Name = "ToolStripMenuItem7"
+        resources.ApplyResources(Me.ToolStripMenuItem7, "ToolStripMenuItem7")
+        '
+        'TabMenuItem
+        '
+        Me.TabMenuItem.Name = "TabMenuItem"
+        resources.ApplyResources(Me.TabMenuItem, "TabMenuItem")
+        '
+        'IDRuleMenuItem
+        '
+        Me.IDRuleMenuItem.Name = "IDRuleMenuItem"
+        resources.ApplyResources(Me.IDRuleMenuItem, "IDRuleMenuItem")
+        '
+        'ToolStripSeparator4
+        '
+        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
+        resources.ApplyResources(Me.ToolStripSeparator4, "ToolStripSeparator4")
+        '
+        'ToolStripMenuItem11
+        '
+        Me.ToolStripMenuItem11.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ReadedStripMenuItem, Me.UnreadStripMenuItem})
+        Me.ToolStripMenuItem11.Name = "ToolStripMenuItem11"
+        resources.ApplyResources(Me.ToolStripMenuItem11, "ToolStripMenuItem11")
+        '
+        'ReadedStripMenuItem
+        '
+        Me.ReadedStripMenuItem.Name = "ReadedStripMenuItem"
+        resources.ApplyResources(Me.ReadedStripMenuItem, "ReadedStripMenuItem")
+        '
+        'UnreadStripMenuItem
+        '
+        Me.UnreadStripMenuItem.Name = "UnreadStripMenuItem"
+        resources.ApplyResources(Me.UnreadStripMenuItem, "UnreadStripMenuItem")
+        '
+        'JumpUnreadMenuItem
+        '
+        Me.JumpUnreadMenuItem.Name = "JumpUnreadMenuItem"
+        resources.ApplyResources(Me.JumpUnreadMenuItem, "JumpUnreadMenuItem")
+        '
+        'ToolStripSeparator10
+        '
+        Me.ToolStripSeparator10.Name = "ToolStripSeparator10"
+        resources.ApplyResources(Me.ToolStripSeparator10, "ToolStripSeparator10")
+        '
+        'SelectAllMenuItem
+        '
+        Me.SelectAllMenuItem.Name = "SelectAllMenuItem"
+        resources.ApplyResources(Me.SelectAllMenuItem, "SelectAllMenuItem")
+        '
+        'DeleteStripMenuItem
+        '
+        Me.DeleteStripMenuItem.Name = "DeleteStripMenuItem"
+        resources.ApplyResources(Me.DeleteStripMenuItem, "DeleteStripMenuItem")
+        '
+        'RefreshStripMenuItem
+        '
+        Me.RefreshStripMenuItem.Name = "RefreshStripMenuItem"
+        resources.ApplyResources(Me.RefreshStripMenuItem, "RefreshStripMenuItem")
+        '
+        'RefreshMoreStripMenuItem
+        '
+        Me.RefreshMoreStripMenuItem.Name = "RefreshMoreStripMenuItem"
+        resources.ApplyResources(Me.RefreshMoreStripMenuItem, "RefreshMoreStripMenuItem")
         '
         'TimerTimeline
         '
