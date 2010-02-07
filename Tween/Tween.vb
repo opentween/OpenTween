@@ -7445,4 +7445,33 @@ RETRY:
         HashToggleMenuItem_Click(Nothing, Nothing)
     End Sub
 
+    Private Sub MenuItemFile_DropDownOpening(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemFile.DropDownOpening
+        Me.MenuItemFile.DropDown = Me.ContextMenuStrip1
+        AddHandler Me.ContextMenuStrip1.Closed, AddressOf Me.ContextMenuStrip1_DeleteDropdown
+    End Sub
+
+    Private Sub ContextMenuStrip1_DeleteDropdown(ByVal sender As Object, ByVal e As System.Windows.Forms.ToolStripDropDownClosedEventArgs)
+        Me.MenuItemFile.DropDown = Nothing
+        RemoveHandler Me.ContextMenuStrip1.Closed, AddressOf Me.ContextMenuStrip1_DeleteDropdown
+    End Sub
+
+    Private Sub MenuItemOperate_DropDownOpening(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemOperate.DropDownOpening
+        Me.MenuItemOperate.DropDown = Me.ContextMenuStrip2
+        AddHandler Me.ContextMenuStrip2.Closed, AddressOf Me.ContextMenuStrip2_DeleteDropdown
+    End Sub
+
+    Private Sub ContextMenuStrip2_DeleteDropdown(ByVal sender As Object, ByVal e As System.Windows.Forms.ToolStripDropDownClosedEventArgs)
+        Me.MenuItemOperate.DropDown = Nothing
+        RemoveHandler Me.ContextMenuStrip2.Closed, AddressOf Me.ContextMenuStrip2_DeleteDropdown
+    End Sub
+
+    Private Sub MenuItemTab_DropDownOpening(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemTab.DropDownOpening
+        Me.MenuItemTab.DropDown = Me.ContextMenuTabProperty
+        AddHandler Me.ContextMenuTabProperty.Closed, AddressOf Me.ContextMenuTabProperty_DeleteDropdown
+    End Sub
+
+    Private Sub ContextMenuTabProperty_DeleteDropdown(ByVal sender As Object, ByVal e As System.Windows.Forms.ToolStripDropDownClosedEventArgs)
+        Me.MenuItemTab.DropDown = Nothing
+        RemoveHandler Me.ContextMenuTabProperty.Closed, AddressOf Me.ContextMenuTabProperty_DeleteDropdown
+    End Sub
 End Class

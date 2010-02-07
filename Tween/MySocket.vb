@@ -268,14 +268,14 @@ Public NotInheritable Class MySocket
         Catch ex As System.Net.WebException
             If ex.Status = WebExceptionStatus.ProtocolError Then
                 Dim eres As HttpWebResponse = CType(ex.Response, HttpWebResponse)
-                resStatus = "Err: " + eres.StatusCode.ToString() + " " + eres.ResponseUri.AbsoluteUri
+                resStatus = "Err: " + eres.StatusCode.ToString()
                 If reqType = REQ_TYPE.ReqGETBinary Then
                     Return Nothing
                 Else
                     Return ""
                 End If
             Else
-                resStatus = "Err: ProtocolError(" + ex.Message + ") " + url
+                resStatus = "Err: ProtocolError(" + ex.Message + ") "
                 If reqType = REQ_TYPE.ReqGETBinary Then
                     Return Nothing
                 Else
@@ -283,7 +283,7 @@ Public NotInheritable Class MySocket
                 End If
             End If
         Catch ex As Exception
-            resStatus = "Err: " + ex.Message + " " + url
+            resStatus = "Err: " + ex.Message + " "
             If reqType = REQ_TYPE.ReqGETBinary Then
                 Return Nothing
             Else

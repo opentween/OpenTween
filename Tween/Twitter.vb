@@ -226,7 +226,7 @@ Public Module Twitter
                 'OK
             ElseIf resStatus.StartsWith("Err:") Then
                 ' その他プロトコルエラー
-                Return "SignIn Failed -> " + resStatus
+                Return "SignIn Failed"
             Else
                 '応答がOK でありサインインできていない場合の未知の応答
                 'TraceOut(True, "SignIn Failed." + vbCrLf + "resStatus:" + resStatus + vbCrLf + "resMsg:" + vbCrLf + resMsg)
