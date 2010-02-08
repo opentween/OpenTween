@@ -2956,7 +2956,9 @@ Public Class TweenMain
         Next
         AddNewTab(tabName, False, TabUsageType.PublicSearch)
         _statuses.AddTab(tabName, TabUsageType.PublicSearch)
-        DirectCast(ListTab.SelectedTab.Controls("panelSearch").Controls("comboSearch"), ComboBox).Text = searchWord
+        Dim cmb As ComboBox = DirectCast(ListTab.SelectedTab.Controls("panelSearch").Controls("comboSearch"), ComboBox)
+        cmb.Items.Add(searchWord)
+        cmb.Text = searchWord
         SaveConfigsTabs()
         ListTab.SelectedIndex = ListTab.TabPages.Count - 1
         Me.SearchButton_Click(ListTab.SelectedTab.Controls("panelSearch").Controls("comboSearch"), Nothing)
@@ -3051,13 +3053,10 @@ Public Class TweenMain
             cmb.ImeMode = Windows.Forms.ImeMode.NoControl
             cmb.TabStop = False
             cmb.AutoCompleteMode = AutoCompleteMode.None
-            'AddHandler cmb.Enter, AddressOf SearchControls_Enter
-            'AddHandler cmb.Leave, AddressOf SearchControls_Leave
-
 
             If _statuses.ContainsTab(tabName) Then
-                cmb.Text = _statuses.Tabs(tabName).SearchWords
                 cmb.Items.Add(_statuses.Tabs(tabName).SearchWords)
+                cmb.Text = _statuses.Tabs(tabName).SearchWords
             End If
 
             cmbLang.Text = ""
@@ -7474,4 +7473,5 @@ RETRY:
         Me.MenuItemTab.DropDown = Nothing
         RemoveHandler Me.ContextMenuTabProperty.Closed, AddressOf Me.ContextMenuTabProperty_DeleteDropdown
     End Sub
+
 End Class

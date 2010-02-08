@@ -32,7 +32,14 @@ Partial Class HashtagManage
         Me.HistoryHashList = New System.Windows.Forms.ListBox
         Me.UseHashText = New System.Windows.Forms.TextBox
         Me.Label1 = New System.Windows.Forms.Label
+        Me.CheckBox1 = New System.Windows.Forms.CheckBox
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox
+        Me.RadioButton1 = New System.Windows.Forms.RadioButton
+        Me.RadioButton2 = New System.Windows.Forms.RadioButton
+        Me.Label2 = New System.Windows.Forms.Label
+        Me.Label3 = New System.Windows.Forms.Label
         Me.TableLayoutPanel1.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
         '
         'TableLayoutPanel1
@@ -88,18 +95,60 @@ Partial Class HashtagManage
         resources.ApplyResources(Me.Label1, "Label1")
         Me.Label1.Name = "Label1"
         '
+        'CheckBox1
+        '
+        resources.ApplyResources(Me.CheckBox1, "CheckBox1")
+        Me.CheckBox1.Name = "CheckBox1"
+        Me.CheckBox1.UseVisualStyleBackColor = True
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.Label3)
+        Me.GroupBox1.Controls.Add(Me.RadioButton2)
+        Me.GroupBox1.Controls.Add(Me.RadioButton1)
+        Me.GroupBox1.Controls.Add(Me.AddButton)
+        Me.GroupBox1.Controls.Add(Me.ReplaceButton)
+        Me.GroupBox1.Controls.Add(Me.UseHashText)
+        Me.GroupBox1.Controls.Add(Me.Label1)
+        resources.ApplyResources(Me.GroupBox1, "GroupBox1")
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.TabStop = False
+        '
+        'RadioButton1
+        '
+        resources.ApplyResources(Me.RadioButton1, "RadioButton1")
+        Me.RadioButton1.Name = "RadioButton1"
+        Me.RadioButton1.TabStop = True
+        Me.RadioButton1.UseVisualStyleBackColor = True
+        '
+        'RadioButton2
+        '
+        resources.ApplyResources(Me.RadioButton2, "RadioButton2")
+        Me.RadioButton2.Name = "RadioButton2"
+        Me.RadioButton2.TabStop = True
+        Me.RadioButton2.UseVisualStyleBackColor = True
+        '
+        'Label2
+        '
+        resources.ApplyResources(Me.Label2, "Label2")
+        Me.Label2.Name = "Label2"
+        '
+        'Label3
+        '
+        resources.ApplyResources(Me.Label3, "Label3")
+        Me.Label3.Name = "Label3"
+        '
         'HashtagManage
         '
         Me.AcceptButton = Me.OK_Button
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.Cancel_Button
+        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.GroupBox1)
+        Me.Controls.Add(Me.CheckBox1)
         Me.Controls.Add(Me.DeleteButton)
-        Me.Controls.Add(Me.ReplaceButton)
-        Me.Controls.Add(Me.AddButton)
         Me.Controls.Add(Me.HistoryHashList)
-        Me.Controls.Add(Me.UseHashText)
-        Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.TableLayoutPanel1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
@@ -108,6 +157,8 @@ Partial Class HashtagManage
         Me.ShowInTaskbar = False
         Me.TopMost = True
         Me.TableLayoutPanel1.ResumeLayout(False)
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -121,5 +172,11 @@ Partial Class HashtagManage
     Friend WithEvents HistoryHashList As System.Windows.Forms.ListBox
     Friend WithEvents UseHashText As System.Windows.Forms.TextBox
     Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents CheckBox1 As System.Windows.Forms.CheckBox
+    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
+    Friend WithEvents RadioButton2 As System.Windows.Forms.RadioButton
+    Friend WithEvents RadioButton1 As System.Windows.Forms.RadioButton
+    Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents Label2 As System.Windows.Forms.Label
 
 End Class
