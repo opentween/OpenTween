@@ -35,6 +35,7 @@ Partial Class TweenMain
         Me.ToolStripMenuItemApiCommandEvasion = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItemUrlAutoShorten = New System.Windows.Forms.ToolStripMenuItem
         Me.IdeographicSpaceToSpaceToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.MultiLineMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator8 = New System.Windows.Forms.ToolStripSeparator
         Me.HashToggleMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.HashManageMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -140,8 +141,6 @@ Partial Class TweenMain
         Me.PlaySoundMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ListLockMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator15 = New System.Windows.Forms.ToolStripSeparator
-        Me.MultiLineMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripSeparator21 = New System.Windows.Forms.ToolStripSeparator
         Me.EndToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ContextMenuStrip2 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ReplyStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -256,7 +255,7 @@ Partial Class TweenMain
         '
         'ContextMenuStripPostMode
         '
-        Me.ContextMenuStripPostMode.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItemUrlMultibyteSplit, Me.ToolStripMenuItemApiCommandEvasion, Me.ToolStripMenuItemUrlAutoShorten, Me.IdeographicSpaceToSpaceToolStripMenuItem, Me.ToolStripSeparator8, Me.HashToggleMenuItem, Me.HashManageMenuItem})
+        Me.ContextMenuStripPostMode.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItemUrlMultibyteSplit, Me.ToolStripMenuItemApiCommandEvasion, Me.ToolStripMenuItemUrlAutoShorten, Me.IdeographicSpaceToSpaceToolStripMenuItem, Me.MultiLineMenuItem, Me.ToolStripSeparator8, Me.HashToggleMenuItem, Me.HashManageMenuItem})
         Me.ContextMenuStripPostMode.Name = "ContextMenuStripPostMode"
         Me.ContextMenuStripPostMode.OwnerItem = Me.HashStripSplitButton
         resources.ApplyResources(Me.ContextMenuStripPostMode, "ContextMenuStripPostMode")
@@ -288,6 +287,12 @@ Partial Class TweenMain
         Me.IdeographicSpaceToSpaceToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
         Me.IdeographicSpaceToSpaceToolStripMenuItem.Name = "IdeographicSpaceToSpaceToolStripMenuItem"
         resources.ApplyResources(Me.IdeographicSpaceToSpaceToolStripMenuItem, "IdeographicSpaceToSpaceToolStripMenuItem")
+        '
+        'MultiLineMenuItem
+        '
+        Me.MultiLineMenuItem.CheckOnClick = True
+        Me.MultiLineMenuItem.Name = "MultiLineMenuItem"
+        resources.ApplyResources(Me.MultiLineMenuItem, "MultiLineMenuItem")
         '
         'ToolStripSeparator8
         '
@@ -841,7 +846,7 @@ Partial Class TweenMain
         '
         'ContextMenuStrip1
         '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SettingStripMenuItem, Me.ToolStripSeparator9, Me.SaveLogMenuItem, Me.ToolStripSeparator17, Me.NewPostPopMenuItem, Me.PlaySoundMenuItem, Me.ListLockMenuItem, Me.ToolStripSeparator15, Me.MultiLineMenuItem, Me.ToolStripSeparator21, Me.EndToolStripMenuItem})
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SettingStripMenuItem, Me.ToolStripSeparator9, Me.SaveLogMenuItem, Me.ToolStripSeparator17, Me.NewPostPopMenuItem, Me.PlaySoundMenuItem, Me.ListLockMenuItem, Me.ToolStripSeparator15, Me.EndToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
         Me.ContextMenuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional
         Me.ContextMenuStrip1.ShowCheckMargin = True
@@ -890,17 +895,6 @@ Partial Class TweenMain
         '
         Me.ToolStripSeparator15.Name = "ToolStripSeparator15"
         resources.ApplyResources(Me.ToolStripSeparator15, "ToolStripSeparator15")
-        '
-        'MultiLineMenuItem
-        '
-        Me.MultiLineMenuItem.CheckOnClick = True
-        Me.MultiLineMenuItem.Name = "MultiLineMenuItem"
-        resources.ApplyResources(Me.MultiLineMenuItem, "MultiLineMenuItem")
-        '
-        'ToolStripSeparator21
-        '
-        Me.ToolStripSeparator21.Name = "ToolStripSeparator21"
-        resources.ApplyResources(Me.ToolStripSeparator21, "ToolStripSeparator21")
         '
         'EndToolStripMenuItem
         '
@@ -1204,8 +1198,6 @@ Partial Class TweenMain
     Friend WithEvents StatusText As System.Windows.Forms.TextBox
     Friend WithEvents lblLen As System.Windows.Forms.Label
     Friend WithEvents PostButton As System.Windows.Forms.Button
-    Friend WithEvents MultiLineMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripSeparator21 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents TinyUrlConvertToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents UpdateFollowersMenuItem1 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents TinyURLToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
@@ -1282,5 +1274,6 @@ Partial Class TweenMain
     Friend WithEvents HashToggleMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator8 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents HashManageMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents MultiLineMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class
