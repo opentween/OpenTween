@@ -167,4 +167,5 @@ Public Class SettingCommon
     Public BitlyPwd As String = ""
     Public ShowGrid As Boolean = False
     Public UseAtIdSupplement As Boolean = True
+    Public UseHashSupplement As Boolean = True
 End Class

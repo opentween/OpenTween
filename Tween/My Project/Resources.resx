@@ -778,4 +778,7 @@
   <data name="ShowYourProfileText1" xml:space="preserve">
     <value>まだあなたのプロフィール情報を取得していません。投稿後に再度お試しください。</value>
   </data>
+  <data name="DeleteHashtagsMessage1" xml:space="preserve">
+    <value>選択しているハッシュタグを削除してもよろしいですか？</value>
+  </data>
 </root>
