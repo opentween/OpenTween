@@ -634,6 +634,24 @@
   <data name="TabPage1.Text" xml:space="preserve">
     <value>Basic</value>
   </data>
+  <data name="Label82.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 448</value>
+  </data>
+  <data name="Label82.Size" type="System.Drawing.Size, System.Drawing">
+    <value>142, 12</value>
+  </data>
+  <data name="Label82.Text" xml:space="preserve">
+    <value>Use Input #tag supplement</value>
+  </data>
+  <data name="CheckHashSupple.Location" type="System.Drawing.Point, System.Drawing">
+    <value>173, 447</value>
+  </data>
+  <data name="CheckHashSupple.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 16</value>
+  </data>
+  <data name="CheckHashSupple.Text" xml:space="preserve">
+    <value>Enable</value>
+  </data>
   <data name="Label79.Location" type="System.Drawing.Point, System.Drawing">
     <value>11, 426</value>
   </data>

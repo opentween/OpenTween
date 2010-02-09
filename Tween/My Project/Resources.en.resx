@@ -726,4 +726,7 @@
   <data name="ShowYourProfileText1" xml:space="preserve">
     <value>Your profile info don't taken yet. Please try again after posting the tweet.</value>
   </data>
+  <data name="DeleteHashtagsMessage1" xml:space="preserve">
+    <value>Will you delete these selecting hashtags?</value>
+  </data>
 </root>

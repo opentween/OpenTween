@@ -635,6 +635,7 @@ Public Class TweenMain
         SettingDialog.ShowGrid = _cfgCommon.ShowGrid
         SettingDialog.Language = _cfgCommon.Language
         SettingDialog.UseAtIdSupplement = _cfgCommon.UseAtIdSupplement
+        SettingDialog.UseHashSupplement = _cfgCommon.UseHashSupplement
         AtIdSupl = New AtIdSupplement(SettingAtIdList.Load().AtIdList, "@")
 
         SettingDialog.IsMonospace = _cfgCommon.IsMonospace
@@ -3500,12 +3501,13 @@ Public Class TweenMain
     End Sub
 
     Private Sub StatusText_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles StatusText.KeyPress
-        If Not SettingDialog.UseAtIdSupplement Then Exit Sub
         If e.KeyChar = "@" Then
+            If Not SettingDialog.UseAtIdSupplement Then Exit Sub
             '@マーク
             ShowSuplDialog(AtIdSupl)
             e.Handled = True
         ElseIf e.KeyChar = "#" Then
+            If Not SettingDialog.UseHashSupplement Then Exit Sub
             ShowSuplDialog(HashSupl)
             e.Handled = True
         End If
@@ -4917,6 +4919,7 @@ RETRY:
                 _cfgCommon.BitlyPwd = SettingDialog.BitlyPwd
                 _cfgCommon.ShowGrid = SettingDialog.ShowGrid
                 _cfgCommon.UseAtIdSupplement = SettingDialog.UseAtIdSupplement
+                _cfgCommon.UseHashSupplement = SettingDialog.UseHashSupplement
                 _cfgCommon.Language = SettingDialog.Language
 
                 _cfgCommon.SortOrder = _statuses.SortOrder

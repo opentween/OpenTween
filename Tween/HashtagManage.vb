@@ -30,53 +30,16 @@ Public Class HashtagManage
     Private _isPermanent As Boolean = False
     Private _isHead As Boolean = False
     Private _insert As Boolean = False
+    Private _localUseHash As String = ""
+    Private _localIsHead As Boolean
 
     Private Sub OK_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OK_Button.Click
-        '履歴にフォーカスがあり、アイテムを選択している場合は、固定ハッシュに設定＆フォーカス移動して終了
-        If HistoryHashList.Focused AndAlso HistoryHashList.SelectedIndices.Count > 0 Then
-            If Me.CheckPermanent.Checked Then
-                Me.ReplaceButton_Click(Nothing, Nothing)
-                UseHashText.Focus()
-                Exit Sub
-            Else
-                Me.InsertButton_Click(Nothing, Nothing)
-                Exit Sub
-            End If
-        End If
-        'ハッシュタグの整形
-        UseHashText.Text = UseHashText.Text.Trim
-        UseHashText.Text = UseHashText.Text.Replace("＃", "#")
-        UseHashText.Text = UseHashText.Text.Replace("　", " ")
-        Dim adjust As String = ""
-        For Each hash As String In UseHashText.Text.Split(" "c)
-            If hash.Length > 0 Then
-                If Not hash.StartsWith("#") Then
-                    MessageBox.Show("Invalid hashtag. -> " + hash, "Hashtag warning", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
-                    Exit Sub
-                End If
-                If hash.Length = 1 Then
-                    MessageBox.Show("emply hashtag.", "Hashtag warning", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
-                    Exit Sub
-                End If
-                '使用不可の文字チェックはしない
-                adjust += hash + " "
-            End If
-        Next
-        adjust = adjust.Trim
-        UseHashText.Text = adjust
-        _permHash = adjust
-        Me.AddHashToHistory(_permHash)
+        _permHash = UseHashText.Text
         _useHash = ""
-        If adjust = "" Then Me.CheckPermanent.Checked = False
         Me._insert = False
         Me._isPermanent = Me.CheckPermanent.Checked
         Me._isHead = Me.RadioHead.Checked
         Me.DialogResult = System.Windows.Forms.DialogResult.OK
-        Me.Close()
-    End Sub
-
-    Private Sub Cancel_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Cancel_Button.Click
-        Me.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.Close()
     End Sub
 
@@ -96,6 +59,7 @@ Public Class HashtagManage
             If Not UseHashText.Text.Contains(hash + " ") Then UseHashText.Text += hash + " "
         Next
         UseHashText.Text = UseHashText.Text.Trim
+        UseHashText.Focus()
     End Sub
 
     Private Sub InsertButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles InsertButton.Click
@@ -106,8 +70,9 @@ Public Class HashtagManage
             _useHash = ""
         End If
         Me._insert = True
-        'Me._isPermanent = Me.CheckPermanent.Checked
-        'Me._isHead = Me.RadioHead.Checked
+        Me._isPermanent = Me.CheckPermanent.Checked
+        Me._isHead = Me.RadioHead.Checked
+        Me._permHash = Me.UseHashText.Text
         Me.DialogResult = System.Windows.Forms.DialogResult.OK
         Me.Close()
     End Sub
@@ -121,6 +86,12 @@ Public Class HashtagManage
     End Sub
 
     Private Sub DeleteButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DeleteButton.Click
+        If MessageBox.Show(My.Resources.DeleteHashtagsMessage1, _
+                            "Delete Hashtags", _
+                            MessageBoxButtons.OKCancel, _
+                            MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
+            Exit Sub
+        End If
         For i As Integer = 0 To HistoryHashList.SelectedIndices.Count - 1
             If UseHashText.Text = HistoryHashList.SelectedItems(0).ToString Then UseHashText.Text = ""
             HistoryHashList.Items.RemoveAt(HistoryHashList.SelectedIndices(0))
@@ -129,7 +100,11 @@ Public Class HashtagManage
 
     Private Sub HashtagManage_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
         Me.CheckPermanent.Checked = Me._isPermanent
-        Me.GroupPermanent.Enabled = Me._isPermanent
+        Me.GroupPermanent.Enabled = False
+        Me.AddButton.Enabled = False
+        Me.ReplaceButton.Enabled = False
+        Me.InsertButton.Enabled = True
+        Me.EditButton.Enabled = True
         Me.RadioHead.Checked = Me._isHead
         Me.RadioLast.Checked = Not Me._isHead
         UseHashText.Text = _permHash
@@ -180,11 +155,6 @@ Public Class HashtagManage
         Else
             Me.InsertButton_Click(Nothing, Nothing)
         End If
-    End Sub
-
-    Private Sub CheckPermanent_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckPermanent.CheckedChanged
-        Me.GroupPermanent.Enabled = Me.CheckPermanent.Checked
-        Me.InsertButton.Enabled = Not Me.CheckPermanent.Checked
     End Sub
 
     Public Sub ToggleHash()
@@ -258,4 +228,92 @@ Public Class HashtagManage
             Return _insert
         End Get
     End Property
+
+    Private Sub EditButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EditButton.Click
+        Me.InsertButton.Enabled = False
+        Me.AddButton.Enabled = True
+        Me.ReplaceButton.Enabled = True
+        Me.GroupPermanent.Enabled = True
+        Me.EditButton.Enabled = False
+        Me.UseHashText.Focus()
+        Me.OK_Button.Enabled = False
+        'キャンセル時のために退避
+        Me._localUseHash = Me.UseHashText.Text
+        Me._localIsHead = Me.RadioHead.Checked
+    End Sub
+
+    Private Sub PermOK_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PermOK_Button.Click
+        'ハッシュタグの整形
+        UseHashText.Text = UseHashText.Text.Trim
+        UseHashText.Text = UseHashText.Text.Replace("＃", "#")
+        UseHashText.Text = UseHashText.Text.Replace("　", " ")
+        Dim adjust As String = ""
+        For Each hash As String In UseHashText.Text.Split(" "c)
+            If hash.Length > 0 Then
+                If Not hash.StartsWith("#") Then
+                    MessageBox.Show("Invalid hashtag. -> " + hash, "Hashtag warning", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
+                    Exit Sub
+                End If
+                If hash.Length = 1 Then
+                    MessageBox.Show("emply hashtag.", "Hashtag warning", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
+                    Exit Sub
+                End If
+                '使用不可の文字チェックはしない
+                adjust += hash + " "
+            End If
+        Next
+        adjust = adjust.Trim
+        UseHashText.Text = adjust
+        Me.AddHashToHistory(adjust)
+
+        Me.InsertButton.Enabled = True
+        Me.AddButton.Enabled = False
+        Me.ReplaceButton.Enabled = False
+        Me.GroupPermanent.Enabled = False
+        Me.EditButton.Enabled = True
+        Me.OK_Button.Enabled = True
+        Me.EditButton.Focus()
+    End Sub
+
+    Private Sub PermCancel_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PermCancel_Button.Click
+        Me.UseHashText.Text = Me._localUseHash
+        Me.RadioHead.Checked = Me._localIsHead
+
+        Me.InsertButton.Enabled = True
+        Me.AddButton.Enabled = False
+        Me.ReplaceButton.Enabled = False
+        Me.GroupPermanent.Enabled = False
+        Me.EditButton.Enabled = True
+        Me.OK_Button.Enabled = True
+        Me.EditButton.Focus()
+    End Sub
+
+    Private Sub HashtagManage_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            If Me.HistoryHashList.Focused Then
+                If Me.InsertButton.Enabled Then
+                    Me.InsertButton_Click(Nothing, Nothing)
+                Else
+                    Me.ReplaceButton_Click(Nothing, Nothing)
+                End If
+            ElseIf Me.UseHashText.Focused OrElse Me.RadioHead.Focused OrElse Me.RadioLast.Focused OrElse Me.PermOK_Button.Focused Then
+                Me.PermOK_Button_Click(Nothing, Nothing)
+            ElseIf Me.PermCancel_Button.Focused Then
+                Me.PermCancel_Button_Click(Nothing, Nothing)
+            Else
+                If Me.InsertButton.Enabled Then
+                    Me.InsertButton_Click(Nothing, Nothing)
+                Else
+                    Me.OK_Button_Click(Nothing, Nothing)
+                End If
+            End If
+        End If
+        If e.KeyCode = Keys.Escape Then
+            If Me.InsertButton.Enabled Then
+                Me.OK_Button_Click(Nothing, Nothing)
+            Else
+                Me.PermCancel_Button_Click(Nothing, Nothing)
+            End If
+        End If
+    End Sub
 End Class
