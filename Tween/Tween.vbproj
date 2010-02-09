@@ -358,6 +358,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>"$(DevEnvDir)..\..\SDK\v2.0\bin\sgen.exe" /f /a:"$(TargetPath)"</PostBuildEvent>
+    <PostBuildEvent>if exist "$(DevEnvDir)..\..\SDK\v2.0\bin\sgen.exe" "$(DevEnvDir)..\..\SDK\v2.0\bin\sgen.exe" /f /a:"$(TargetPath)"</PostBuildEvent>
   </PropertyGroup>
 </Project>

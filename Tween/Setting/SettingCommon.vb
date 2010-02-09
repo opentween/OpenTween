@@ -118,6 +118,8 @@ Public Class SettingCommon
     Public Nicoms As Boolean = False
     Public HashTags As New List(Of String)
     Public HashSelected As String = ""
+    Public HashIsPermanent As Boolean = False
+    Public HashIsHead As Boolean = False
 
     <Xml.Serialization.XmlIgnore()> _
     Public OutputzKey As String = ""
