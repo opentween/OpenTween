@@ -121,19 +121,55 @@
     <value>Cancel</value>
   </data>
   <data name="DeleteButton.Text" xml:space="preserve">
-    <value>Delete</value>
+    <value>&amp;Delete</value>
   </data>
   <data name="ReplaceButton.Text" xml:space="preserve">
-    <value>Change</value>
+    <value>&amp;Replace</value>
   </data>
   <data name="AddButton.Text" xml:space="preserve">
-    <value>Add to text</value>
+    <value>&amp;Add</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="Label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>156, 12</value>
+    <value>86, 12</value>
   </data>
   <data name="Label1.Text" xml:space="preserve">
-    <value>Hashtag adding to your tweet</value>
+    <value>&amp;Using Hashtags</value>
+  </data>
+  <data name="CheckPermanent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 16</value>
+  </data>
+  <data name="CheckPermanent.Text" xml:space="preserve">
+    <value>Always add (&amp;Permanent)</value>
+  </data>
+  <data name="Label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>76, 12</value>
+  </data>
+  <data name="Label3.Text" xml:space="preserve">
+    <value>I&amp;nsert Postion</value>
+  </data>
+  <data name="RadioLast.Size" type="System.Drawing.Size, System.Drawing">
+    <value>45, 16</value>
+  </data>
+  <data name="RadioLast.Text" xml:space="preserve">
+    <value>Last</value>
+  </data>
+  <data name="RadioHead.Size" type="System.Drawing.Size, System.Drawing">
+    <value>49, 16</value>
+  </data>
+  <data name="RadioHead.Text" xml:space="preserve">
+    <value>Head</value>
+  </data>
+  <data name="GroupPermanent.Text" xml:space="preserve">
+    <value>Permanent Hashtag</value>
+  </data>
+  <data name="Label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>42, 12</value>
+  </data>
+  <data name="Label2.Text" xml:space="preserve">
+    <value>&amp;History</value>
+  </data>
+  <data name="InsertButton.Text" xml:space="preserve">
+    <value>&amp;Insert</value>
   </data>
 </root>

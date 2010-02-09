@@ -179,6 +179,8 @@ Partial Class TweenMain
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
+        Me.ContextMenuStripDummy = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.DummyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -199,6 +201,7 @@ Partial Class TweenMain
         Me.MenuStrip1.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.ContextMenuStrip2.SuspendLayout()
+        Me.ContextMenuStripDummy.SuspendLayout()
         Me.SuspendLayout()
         '
         'ToolStripContainer1
@@ -608,6 +611,7 @@ Partial Class TweenMain
         '
         'MenuItemFile
         '
+        Me.MenuItemFile.DropDown = Me.ContextMenuStripDummy
         Me.MenuItemFile.Name = "MenuItemFile"
         resources.ApplyResources(Me.MenuItemFile, "MenuItemFile")
         '
@@ -669,11 +673,13 @@ Partial Class TweenMain
         '
         'MenuItemOperate
         '
+        Me.MenuItemOperate.DropDown = Me.ContextMenuStripDummy
         Me.MenuItemOperate.Name = "MenuItemOperate"
         resources.ApplyResources(Me.MenuItemOperate, "MenuItemOperate")
         '
         'MenuItemTab
         '
+        Me.MenuItemTab.DropDown = Me.ContextMenuStripDummy
         Me.MenuItemTab.Name = "MenuItemTab"
         resources.ApplyResources(Me.MenuItemTab, "MenuItemTab")
         '
@@ -1083,6 +1089,18 @@ Partial Class TweenMain
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
+        'ContextMenuStripDummy
+        '
+        Me.ContextMenuStripDummy.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DummyToolStripMenuItem})
+        Me.ContextMenuStripDummy.Name = "ContextMenuStripDummy"
+        Me.ContextMenuStripDummy.OwnerItem = Me.MenuItemTab
+        resources.ApplyResources(Me.ContextMenuStripDummy, "ContextMenuStripDummy")
+        '
+        'DummyToolStripMenuItem
+        '
+        Me.DummyToolStripMenuItem.Name = "DummyToolStripMenuItem"
+        resources.ApplyResources(Me.DummyToolStripMenuItem, "DummyToolStripMenuItem")
+        '
         'TweenMain
         '
         Me.AllowDrop = True
@@ -1118,6 +1136,7 @@ Partial Class TweenMain
         Me.MenuStrip1.PerformLayout()
         Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ContextMenuStrip2.ResumeLayout(False)
+        Me.ContextMenuStripDummy.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -1275,5 +1294,7 @@ Partial Class TweenMain
     Friend WithEvents ToolStripSeparator8 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents HashManageMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MultiLineMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ContextMenuStripDummy As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents DummyToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

@@ -680,9 +680,12 @@ Public Class TweenMain
         SettingDialog.Nicoms = _cfgCommon.Nicoms
         'ハッシュタグ関連
         HashSupl = New AtIdSupplement(_cfgCommon.HashTags, "#")
-        HashMgr = New HashtagManage(HashSupl, _cfgCommon.HashTags.ToArray)
-        HashMgr.UseHash = _cfgCommon.HashSelected
-        If HashMgr.UseHash <> "" Then HashStripSplitButton.Text = HashMgr.UseHash
+        HashMgr = New HashtagManage(HashSupl, _
+                                _cfgCommon.HashTags.ToArray, _
+                                _cfgCommon.HashSelected, _
+                                _cfgCommon.HashIsPermanent, _
+                                _cfgCommon.HashIsHead)
+        If HashMgr.PermanentHash <> "" AndAlso HashMgr.IsPermanent Then HashStripSplitButton.Text = HashMgr.PermanentHash
 
         _initial = True
 
@@ -1711,12 +1714,19 @@ Public Class TweenMain
         End If
 
         Dim footer As String = ""
+        Dim header As String = ""
         If StatusText.Text.StartsWith("D ") OrElse StatusText.Text.StartsWith("d ") Then
             'DM時は何もつけない
             footer = ""
         Else
             'ハッシュタグ
-            If HashMgr.UseHash <> "" Then footer = " " + HashMgr.UseHash
+            If HashMgr.PermanentHash <> "" AndAlso HashMgr.IsPermanent Then
+                If HashMgr.IsHead Then
+                    header = HashMgr.PermanentHash + " "
+                Else
+                    footer = " " + HashMgr.PermanentHash
+                End If
+            End If
             If Not isRemoveFooter Then
                 If SettingDialog.UseRecommendStatus Then
                     ' 推奨ステータスを使用する
@@ -1727,7 +1737,7 @@ Public Class TweenMain
                 End If
             End If
         End If
-        args.status = StatusText.Text.Trim + footer
+        args.status = header + StatusText.Text.Trim + footer
 
         If ToolStripMenuItemApiCommandEvasion.Checked Then
             ' APIコマンド回避
@@ -2946,6 +2956,18 @@ Public Class TweenMain
     End Sub
 
     Private Sub AddNewTabForSearch(ByVal searchWord As String)
+        '同一検索条件のタブが既に存在すれば、そのタブアクティブにして終了
+        For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.PublicSearch)
+            If tb.SearchWords = searchWord AndAlso tb.SearchLang = "" Then
+                For Each tp As TabPage In ListTab.TabPages
+                    If tb.TabName = tp.Text Then
+                        ListTab.SelectedTab = tp
+                        Exit Sub
+                    End If
+                Next
+            End If
+        Next
+        'ユニークなタブ名生成
         Dim tabName As String = searchWord
         For i As Integer = 0 To 100
             If _statuses.ContainsTab(tabName) Then
@@ -2954,13 +2976,17 @@ Public Class TweenMain
                 Exit For
             End If
         Next
+        'タブ追加
         AddNewTab(tabName, False, TabUsageType.PublicSearch)
         _statuses.AddTab(tabName, TabUsageType.PublicSearch)
+        '追加したタブをアクティブに
+        ListTab.SelectedIndex = ListTab.TabPages.Count - 1
+        '検索条件の設定
         Dim cmb As ComboBox = DirectCast(ListTab.SelectedTab.Controls("panelSearch").Controls("comboSearch"), ComboBox)
         cmb.Items.Add(searchWord)
         cmb.Text = searchWord
         SaveConfigsTabs()
-        ListTab.SelectedIndex = ListTab.TabPages.Count - 1
+        '検索実行
         Me.SearchButton_Click(ListTab.SelectedTab.Controls("panelSearch").Controls("comboSearch"), Nothing)
     End Sub
 
@@ -3543,8 +3569,8 @@ Public Class TweenMain
                 pLen -= SettingDialog.Status.Length + 1
             End If
         End If
-        If HashMgr.UseHash <> "" Then
-            pLen -= HashMgr.UseHash.Length + 1
+        If HashMgr.PermanentHash <> "" AndAlso HashMgr.IsPermanent Then
+            pLen -= HashMgr.PermanentHash.Length + 1
         End If
         Return pLen
     End Function
@@ -4909,7 +4935,9 @@ RETRY:
 
                 _cfgCommon.Nicoms = SettingDialog.Nicoms
                 _cfgCommon.HashTags = HashMgr.HashHistories
-                _cfgCommon.HashSelected = HashMgr.UseHash
+                _cfgCommon.HashSelected = HashMgr.PermanentHash
+                _cfgCommon.HashIsHead = HashMgr.IsHead
+                _cfgCommon.HashIsPermanent = HashMgr.IsPermanent
                 '_cfgCommon.HashSelected = Me.HashSelectComboBox.Text
 
                 '                _cfgCommon.TabList.Clear()
@@ -7272,10 +7300,13 @@ RETRY:
         If pnl Is Nothing Then Exit Sub
         Dim tbName As String = pnl.Parent.Text
         Dim tb As TabClass = _statuses.Tabs(tbName)
-        tb.SearchWords = pnl.Controls("comboSearch").Text
-        tb.SearchLang = pnl.Controls("comboLang").Text
-        If pnl.Controls("comboSearch").Text.Trim = "" Then
+        Dim cmb As ComboBox = DirectCast(pnl.Controls("comboSearch"), ComboBox)
+        cmb.Text = cmb.Text.Trim
+        tb.SearchWords = cmb.Text
+        tb.SearchLang = cmb.Text
+        If cmb.Text = "" Then
             DirectCast(ListTab.SelectedTab.Tag, DetailsListView).Focus()
+            SaveConfigsTabs()
             Exit Sub
         End If
         If tb.IsQueryChanged Then
@@ -7402,7 +7433,7 @@ RETRY:
     Private Sub UseHashtagMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UseHashtagMenuItem.Click
         Dim m As Match = Regex.Match(PostBrowser.StatusText, "^https?://twitter.com/search\?q=%23(?<hash>[a-zA-Z0-9_]+)$")
         If m.Success Then
-            HashMgr.UseHash = "#" + m.Result("${hash}")
+            HashMgr.PermanentHash = "#" + m.Result("${hash}")
             HashStripSplitButton.Text = HashMgr.UseHash
             '使用ハッシュタグとして設定
             modifySettingCommon = True
@@ -7422,18 +7453,31 @@ RETRY:
         End Try
         Me.TopMost = SettingDialog.AlwaysTop
         If rslt = Windows.Forms.DialogResult.Cancel Then Exit Sub
-        If HashMgr.UseHash <> "" Then
-            HashStripSplitButton.Text = HashMgr.UseHash
+        If HashMgr.IsPermanent AndAlso HashMgr.PermanentHash <> "" AndAlso Not HashMgr.IsInsert Then
+            HashStripSplitButton.Text = HashMgr.PermanentHash
         Else
             HashStripSplitButton.Text = "#[-]"
+        End If
+        If HashMgr.IsInsert AndAlso HashMgr.UseHash <> "" Then
+            Dim sidx As Integer = StatusText.SelectionStart
+            Dim hash As String = HashMgr.UseHash + " "
+            If sidx > 0 Then
+                If StatusText.Text.Substring(sidx - 1, 1) <> " " Then
+                    hash = " " + hash
+                End If
+            End If
+            StatusText.Text = StatusText.Text.Insert(sidx, hash)
+            sidx += hash.Length
+            StatusText.SelectionStart = sidx
+            StatusText.Focus()
         End If
         modifySettingCommon = True
     End Sub
 
     Private Sub HashToggleMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles HashToggleMenuItem.Click
         HashMgr.ToggleHash()
-        If HashMgr.UseHash <> "" Then
-            HashStripSplitButton.Text = HashMgr.UseHash
+        If HashMgr.PermanentHash <> "" AndAlso HashMgr.IsPermanent Then
+            HashStripSplitButton.Text = HashMgr.PermanentHash
         Else
             HashStripSplitButton.Text = "#[-]"
         End If
@@ -7446,32 +7490,28 @@ RETRY:
 
     Private Sub MenuItemFile_DropDownOpening(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemFile.DropDownOpening
         Me.MenuItemFile.DropDown = Me.ContextMenuStrip1
-        AddHandler Me.ContextMenuStrip1.Closed, AddressOf Me.ContextMenuStrip1_DeleteDropdown
-    End Sub
-
-    Private Sub ContextMenuStrip1_DeleteDropdown(ByVal sender As Object, ByVal e As System.Windows.Forms.ToolStripDropDownClosedEventArgs)
-        Me.MenuItemFile.DropDown = Nothing
-        RemoveHandler Me.ContextMenuStrip1.Closed, AddressOf Me.ContextMenuStrip1_DeleteDropdown
+        AddHandler Me.ContextMenuStrip1.Closed, AddressOf Me.DeleteDropdown
     End Sub
 
     Private Sub MenuItemOperate_DropDownOpening(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemOperate.DropDownOpening
         Me.MenuItemOperate.DropDown = Me.ContextMenuStrip2
-        AddHandler Me.ContextMenuStrip2.Closed, AddressOf Me.ContextMenuStrip2_DeleteDropdown
-    End Sub
-
-    Private Sub ContextMenuStrip2_DeleteDropdown(ByVal sender As Object, ByVal e As System.Windows.Forms.ToolStripDropDownClosedEventArgs)
-        Me.MenuItemOperate.DropDown = Nothing
-        RemoveHandler Me.ContextMenuStrip2.Closed, AddressOf Me.ContextMenuStrip2_DeleteDropdown
+        AddHandler Me.ContextMenuStrip2.Closed, AddressOf Me.DeleteDropdown
     End Sub
 
     Private Sub MenuItemTab_DropDownOpening(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemTab.DropDownOpening
         Me.MenuItemTab.DropDown = Me.ContextMenuTabProperty
-        AddHandler Me.ContextMenuTabProperty.Closed, AddressOf Me.ContextMenuTabProperty_DeleteDropdown
+        AddHandler Me.ContextMenuTabProperty.Closed, AddressOf Me.DeleteDropdown
     End Sub
 
-    Private Sub ContextMenuTabProperty_DeleteDropdown(ByVal sender As Object, ByVal e As System.Windows.Forms.ToolStripDropDownClosedEventArgs)
-        Me.MenuItemTab.DropDown = Nothing
-        RemoveHandler Me.ContextMenuTabProperty.Closed, AddressOf Me.ContextMenuTabProperty_DeleteDropdown
+    Private Sub DeleteDropdown(ByVal sender As Object, ByVal e As System.Windows.Forms.ToolStripDropDownClosedEventArgs)
+        For Each menuItem As ToolStripMenuItem In Me.MenuStrip1.Items
+            If menuItem.DropDown Is sender Then
+                Dim sender_ As ContextMenuStrip = DirectCast(sender, ContextMenuStrip)
+                menuItem.DropDown = Me.ContextMenuStripDummy
+                RemoveHandler sender_.Closed, AddressOf Me.DeleteDropdown
+                Exit Sub
+            End If
+        Next
     End Sub
 
 End Class
