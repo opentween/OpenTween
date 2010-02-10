@@ -291,21 +291,13 @@ Public Class HashtagManage
     Private Sub HashtagManage_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.Enter Then
             If Me.HistoryHashList.Focused Then
-                If Me.InsertButton.Enabled Then
-                    Me.InsertButton_Click(Nothing, Nothing)
-                Else
+                If Me.ReplaceButton.Enabled Then
                     Me.ReplaceButton_Click(Nothing, Nothing)
                 End If
             ElseIf Me.UseHashText.Focused OrElse Me.RadioHead.Focused OrElse Me.RadioLast.Focused OrElse Me.PermOK_Button.Focused Then
                 Me.PermOK_Button_Click(Nothing, Nothing)
             ElseIf Me.PermCancel_Button.Focused Then
                 Me.PermCancel_Button_Click(Nothing, Nothing)
-            Else
-                If Me.InsertButton.Enabled Then
-                    Me.InsertButton_Click(Nothing, Nothing)
-                Else
-                    Me.Close_Button_Click(Nothing, Nothing)
-                End If
             End If
         End If
         If e.KeyCode = Keys.Escape Then

@@ -285,6 +285,66 @@
   <metadata name="ContextMenuTabProperty.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>411, 54</value>
   </metadata>
+  <data name="AddTabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>196, 22</value>
+  </data>
+  <data name="AddTabMenuItem.Text" xml:space="preserve">
+    <value>タブ作成(&amp;N)...</value>
+  </data>
+  <data name="TabRenameMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>196, 22</value>
+  </data>
+  <data name="TabRenameMenuItem.Text" xml:space="preserve">
+    <value>タブ名の変更(&amp;R)</value>
+  </data>
+  <data name="ToolStripSeparator20.Size" type="System.Drawing.Size, System.Drawing">
+    <value>193, 6</value>
+  </data>
+  <data name="UreadManageMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>196, 22</value>
+  </data>
+  <data name="UreadManageMenuItem.Text" xml:space="preserve">
+    <value>未読管理(&amp;U)</value>
+  </data>
+  <data name="NotifyDispMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>196, 22</value>
+  </data>
+  <data name="NotifyDispMenuItem.Text" xml:space="preserve">
+    <value>新着通知表示(&amp;Q)</value>
+  </data>
+  <data name="SoundFileComboBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>121, 21</value>
+  </data>
+  <data name="SoundFileComboBox.ToolTipText" xml:space="preserve">
+    <value>再生するwavファイルを指定してください</value>
+  </data>
+  <data name="ToolStripSeparator18.Size" type="System.Drawing.Size, System.Drawing">
+    <value>193, 6</value>
+  </data>
+  <data name="FilterEditMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>196, 22</value>
+  </data>
+  <data name="FilterEditMenuItem.Text" xml:space="preserve">
+    <value>振り分けルール編集(&amp;F)...</value>
+  </data>
+  <data name="ToolStripSeparator19.Size" type="System.Drawing.Size, System.Drawing">
+    <value>193, 6</value>
+  </data>
+  <data name="ClearTabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>196, 22</value>
+  </data>
+  <data name="ClearTabMenuItem.Text" xml:space="preserve">
+    <value>このタブの発言をクリア(&amp;C)</value>
+  </data>
+  <data name="ToolStripSeparator11.Size" type="System.Drawing.Size, System.Drawing">
+    <value>193, 6</value>
+  </data>
+  <data name="DeleteTabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>196, 22</value>
+  </data>
+  <data name="DeleteTabMenuItem.Text" xml:space="preserve">
+    <value>タブ削除(&amp;D)</value>
+  </data>
   <data name="ContextMenuTabProperty.Size" type="System.Drawing.Size, System.Drawing">
     <value>197, 207</value>
   </data>
@@ -354,6 +414,48 @@
   <data name="TableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
+  <metadata name="ContextMenuStrip3.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>289, 91</value>
+  </metadata>
+  <data name="IconNameToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>122, 22</value>
+  </data>
+  <data name="IconNameToolStripMenuItem.Text" xml:space="preserve">
+    <value>IconName</value>
+  </data>
+  <data name="ToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 6</value>
+  </data>
+  <data name="SaveIconPictureToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>122, 22</value>
+  </data>
+  <data name="SaveIconPictureToolStripMenuItem.Text" xml:space="preserve">
+    <value>保存(&amp;I)...</value>
+  </data>
+  <data name="ContextMenuStrip3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>123, 54</value>
+  </data>
+  <data name="&gt;&gt;ContextMenuStrip3.Name" xml:space="preserve">
+    <value>ContextMenuStrip3</value>
+  </data>
+  <data name="&gt;&gt;ContextMenuStrip3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="UserPicture.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Off</value>
+  </data>
+  <data name="UserPicture.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="UserPicture.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 50</value>
+  </data>
+  <data name="UserPicture.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
+    <value>Zoom</value>
+  </data>
+  <data name="UserPicture.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
   <data name="&gt;&gt;UserPicture.Name" xml:space="preserve">
     <value>UserPicture</value>
   </data>
@@ -365,6 +467,36 @@
   </data>
   <data name="&gt;&gt;UserPicture.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="NameLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="NameLabel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="NameLabel.Font" type="System.Drawing.Font, System.Drawing">
+    <value>MS UI Gothic, 9pt, style=Bold</value>
+  </data>
+  <data name="NameLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Off</value>
+  </data>
+  <data name="NameLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>59, 3</value>
+  </data>
+  <data name="NameLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 0</value>
+  </data>
+  <data name="NameLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>267, 14</value>
+  </data>
+  <data name="NameLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="NameLabel.Text" xml:space="preserve">
+    <value>LblName</value>
+  </data>
+  <data name="NameLabel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
   </data>
   <data name="&gt;&gt;NameLabel.Name" xml:space="preserve">
     <value>NameLabel</value>
@@ -378,6 +510,123 @@
   <data name="&gt;&gt;NameLabel.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <metadata name="ContextMenuStrip4.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>425, 17</value>
+  </metadata>
+  <data name="SearchItem2ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>158, 22</value>
+  </data>
+  <data name="SearchItem2ToolStripMenuItem.Text" xml:space="preserve">
+    <value>Google(&amp;G)</value>
+  </data>
+  <data name="SearchItem1ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>158, 22</value>
+  </data>
+  <data name="SearchItem1ToolStripMenuItem.Text" xml:space="preserve">
+    <value>Wikipedia(&amp;W)</value>
+  </data>
+  <data name="SearchItem3ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>158, 22</value>
+  </data>
+  <data name="SearchItem3ToolStripMenuItem.Text" xml:space="preserve">
+    <value>Twitter検索(&amp;Y)</value>
+  </data>
+  <data name="SearchItem4ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>158, 22</value>
+  </data>
+  <data name="SearchItem4ToolStripMenuItem.Text" xml:space="preserve">
+    <value>Twitter Search(&amp;S)</value>
+  </data>
+  <data name="CurrentTabToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>158, 22</value>
+  </data>
+  <data name="CurrentTabToolStripMenuItem.Text" xml:space="preserve">
+    <value>現在のタブ(&amp;L)</value>
+  </data>
+  <data name="ToolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>196, 22</value>
+  </data>
+  <data name="ToolStripMenuItem2.Text" xml:space="preserve">
+    <value>選択文字列で検索(&amp;S)</value>
+  </data>
+  <data name="ToolStripSeparator13.Size" type="System.Drawing.Size, System.Drawing">
+    <value>193, 6</value>
+  </data>
+  <data name="ToolStripMenuItem3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>196, 22</value>
+  </data>
+  <data name="ToolStripMenuItem3.Text" xml:space="preserve">
+    <value>選択文字列をコピー(&amp;C)</value>
+  </data>
+  <data name="ToolStripMenuItem4.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="ToolStripMenuItem4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>196, 22</value>
+  </data>
+  <data name="ToolStripMenuItem4.Text" xml:space="preserve">
+    <value>URLをコピー(&amp;U)</value>
+  </data>
+  <data name="ToolStripMenuItem5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>196, 22</value>
+  </data>
+  <data name="ToolStripMenuItem5.Text" xml:space="preserve">
+    <value>すべて選択(&amp;A)</value>
+  </data>
+  <data name="ToolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>193, 6</value>
+  </data>
+  <data name="FollowContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>196, 22</value>
+  </data>
+  <data name="FollowContextMenuItem.Text" xml:space="preserve">
+    <value>フォローする(&amp;F)</value>
+  </data>
+  <data name="RemoveContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>196, 22</value>
+  </data>
+  <data name="RemoveContextMenuItem.Text" xml:space="preserve">
+    <value>フォロー解除(&amp;N)</value>
+  </data>
+  <data name="FriendshipContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>196, 22</value>
+  </data>
+  <data name="FriendshipContextMenuItem.Text" xml:space="preserve">
+    <value>相互フォロー状態表示(&amp;H)</value>
+  </data>
+  <data name="IdFilterAddMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>196, 22</value>
+  </data>
+  <data name="IdFilterAddMenuItem.Text" xml:space="preserve">
+    <value>ID振分ルール作成(&amp;I)</value>
+  </data>
+  <data name="UseHashtagMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>196, 22</value>
+  </data>
+  <data name="UseHashtagMenuItem.Text" xml:space="preserve">
+    <value>Use this &amp;Hashtag</value>
+  </data>
+  <data name="ContextMenuStrip4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>197, 214</value>
+  </data>
+  <data name="&gt;&gt;ContextMenuStrip4.Name" xml:space="preserve">
+    <value>ContextMenuStrip4</value>
+  </data>
+  <data name="&gt;&gt;ContextMenuStrip4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PostBrowser.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="PostBrowser.Location" type="System.Drawing.Point, System.Drawing">
+    <value>59, 20</value>
+  </data>
+  <data name="PostBrowser.Size" type="System.Drawing.Size, System.Drawing">
+    <value>396, 82</value>
+  </data>
+  <data name="PostBrowser.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
   <data name="&gt;&gt;PostBrowser.Name" xml:space="preserve">
     <value>PostBrowser</value>
   </data>
@@ -389,6 +638,30 @@
   </data>
   <data name="&gt;&gt;PostBrowser.ZOrder" xml:space="preserve">
     <value>2</value>
+  </data>
+  <data name="DateTimeLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Right</value>
+  </data>
+  <data name="DateTimeLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Off</value>
+  </data>
+  <data name="DateTimeLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>332, 3</value>
+  </data>
+  <data name="DateTimeLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 0</value>
+  </data>
+  <data name="DateTimeLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>123, 14</value>
+  </data>
+  <data name="DateTimeLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="DateTimeLabel.Text" xml:space="preserve">
+    <value>Label1</value>
+  </data>
+  <data name="DateTimeLabel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
   </data>
   <data name="&gt;&gt;DateTimeLabel.Name" xml:space="preserve">
     <value>DateTimeLabel</value>
@@ -672,471 +945,6 @@
   <data name="MenuStrip1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>None</value>
   </data>
-  <data name="MenuItemFile.Size" type="System.Drawing.Size, System.Drawing">
-    <value>67, 20</value>
-  </data>
-  <data name="MenuItemFile.Text" xml:space="preserve">
-    <value>ファイル(&amp;F)</value>
-  </data>
-  <data name="MenuItemEdit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>57, 20</value>
-  </data>
-  <data name="MenuItemEdit.Text" xml:space="preserve">
-    <value>編集(&amp;E)</value>
-  </data>
-  <data name="MenuItemOperate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 20</value>
-  </data>
-  <data name="MenuItemOperate.Text" xml:space="preserve">
-    <value>操作(&amp;O)</value>
-  </data>
-  <data name="CreateTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 22</value>
-  </data>
-  <data name="CreateTbMenuItem.Text" xml:space="preserve">
-    <value>タブ作成(&amp;N)...</value>
-  </data>
-  <data name="RenameTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 22</value>
-  </data>
-  <data name="RenameTbMenuItem.Text" xml:space="preserve">
-    <value>タブ名変更(&amp;R)</value>
-  </data>
-  <data name="ToolStripSeparator28.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 6</value>
-  </data>
-  <data name="UnreadMngTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 22</value>
-  </data>
-  <data name="UnreadMngTbMenuItem.Text" xml:space="preserve">
-    <value>未読管理(&amp;U)</value>
-  </data>
-  <data name="NotifyTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 22</value>
-  </data>
-  <data name="NotifyTbMenuItem.Text" xml:space="preserve">
-    <value>新着通知表示(&amp;Q)</value>
-  </data>
-  <data name="SoundFileTbComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 21</value>
-  </data>
-  <data name="ToolStripSeparator29.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 6</value>
-  </data>
-  <data name="EditRuleTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 22</value>
-  </data>
-  <data name="EditRuleTbMenuItem.Text" xml:space="preserve">
-    <value>振り分けルール編集(&amp;F)...</value>
-  </data>
-  <data name="ToolStripSeparator30.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 6</value>
-  </data>
-  <data name="ClearTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 22</value>
-  </data>
-  <data name="ClearTbMenuItem.Text" xml:space="preserve">
-    <value>このタブの発言をクリア(&amp;C)</value>
-  </data>
-  <data name="ToolStripSeparator31.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 6</value>
-  </data>
-  <data name="DeleteTbMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+W</value>
-  </data>
-  <data name="DeleteTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 22</value>
-  </data>
-  <data name="DeleteTbMenuItem.Text" xml:space="preserve">
-    <value>タブ削除(&amp;D)</value>
-  </data>
-  <data name="MenuItemTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 20</value>
-  </data>
-  <data name="MenuItemTab.Text" xml:space="preserve">
-    <value>タブ(&amp;T)</value>
-  </data>
-  <data name="MenuItemCommand.Size" type="System.Drawing.Size, System.Drawing">
-    <value>89, 20</value>
-  </data>
-  <data name="MenuItemCommand.Text" xml:space="preserve">
-    <value>その他機能(&amp;C)</value>
-  </data>
-  <data name="MenuItemHelp.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 20</value>
-  </data>
-  <data name="MenuItemHelp.Text" xml:space="preserve">
-    <value>ヘルプ(&amp;H)</value>
-  </data>
-  <data name="MenuStrip1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="MenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>462, 24</value>
-  </data>
-  <data name="MenuStrip1.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="MenuStrip1.Text" xml:space="preserve">
-    <value>MenuStrip1</value>
-  </data>
-  <data name="&gt;&gt;MenuStrip1.Name" xml:space="preserve">
-    <value>MenuStrip1</value>
-  </data>
-  <data name="&gt;&gt;MenuStrip1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;MenuStrip1.Parent" xml:space="preserve">
-    <value>ToolStripContainer1.TopToolStripPanel</value>
-  </data>
-  <data name="&gt;&gt;MenuStrip1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;ToolStripContainer1.TopToolStripPanel.Name" xml:space="preserve">
-    <value>ToolStripContainer1.TopToolStripPanel</value>
-  </data>
-  <data name="&gt;&gt;ToolStripContainer1.TopToolStripPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ToolStripContainer1.TopToolStripPanel.Parent" xml:space="preserve">
-    <value>ToolStripContainer1</value>
-  </data>
-  <data name="&gt;&gt;ToolStripContainer1.TopToolStripPanel.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;ToolStripContainer1.Name" xml:space="preserve">
-    <value>ToolStripContainer1</value>
-  </data>
-  <data name="&gt;&gt;ToolStripContainer1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripContainer, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ToolStripContainer1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;ToolStripContainer1.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="AddTabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 22</value>
-  </data>
-  <data name="AddTabMenuItem.Text" xml:space="preserve">
-    <value>タブ作成(&amp;N)...</value>
-  </data>
-  <data name="TabRenameMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 22</value>
-  </data>
-  <data name="TabRenameMenuItem.Text" xml:space="preserve">
-    <value>タブ名の変更(&amp;R)</value>
-  </data>
-  <data name="ToolStripSeparator20.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 6</value>
-  </data>
-  <data name="UreadManageMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 22</value>
-  </data>
-  <data name="UreadManageMenuItem.Text" xml:space="preserve">
-    <value>未読管理(&amp;U)</value>
-  </data>
-  <data name="NotifyDispMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 22</value>
-  </data>
-  <data name="NotifyDispMenuItem.Text" xml:space="preserve">
-    <value>新着通知表示(&amp;Q)</value>
-  </data>
-  <data name="SoundFileComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 21</value>
-  </data>
-  <data name="SoundFileComboBox.ToolTipText" xml:space="preserve">
-    <value>再生するwavファイルを指定してください</value>
-  </data>
-  <data name="ToolStripSeparator18.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 6</value>
-  </data>
-  <data name="FilterEditMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 22</value>
-  </data>
-  <data name="FilterEditMenuItem.Text" xml:space="preserve">
-    <value>振り分けルール編集(&amp;F)...</value>
-  </data>
-  <data name="ToolStripSeparator19.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 6</value>
-  </data>
-  <data name="ClearTabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 22</value>
-  </data>
-  <data name="ClearTabMenuItem.Text" xml:space="preserve">
-    <value>このタブの発言をクリア(&amp;C)</value>
-  </data>
-  <data name="ToolStripSeparator11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 6</value>
-  </data>
-  <data name="DeleteTabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 22</value>
-  </data>
-  <data name="DeleteTabMenuItem.Text" xml:space="preserve">
-    <value>タブ削除(&amp;D)</value>
-  </data>
-  <metadata name="ContextMenuStrip3.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>289, 91</value>
-  </metadata>
-  <data name="ContextMenuStrip3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 54</value>
-  </data>
-  <data name="&gt;&gt;ContextMenuStrip3.Name" xml:space="preserve">
-    <value>ContextMenuStrip3</value>
-  </data>
-  <data name="&gt;&gt;ContextMenuStrip3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="UserPicture.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Off</value>
-  </data>
-  <data name="UserPicture.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="UserPicture.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 50</value>
-  </data>
-  <data name="UserPicture.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
-    <value>Zoom</value>
-  </data>
-  <data name="UserPicture.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;UserPicture.Name" xml:space="preserve">
-    <value>UserPicture</value>
-  </data>
-  <data name="&gt;&gt;UserPicture.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;UserPicture.Parent" xml:space="preserve">
-    <value>TableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;UserPicture.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="IconNameToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>122, 22</value>
-  </data>
-  <data name="IconNameToolStripMenuItem.Text" xml:space="preserve">
-    <value>IconName</value>
-  </data>
-  <data name="ToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>119, 6</value>
-  </data>
-  <data name="SaveIconPictureToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>122, 22</value>
-  </data>
-  <data name="SaveIconPictureToolStripMenuItem.Text" xml:space="preserve">
-    <value>保存(&amp;I)...</value>
-  </data>
-  <data name="NameLabel.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="NameLabel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="NameLabel.Font" type="System.Drawing.Font, System.Drawing">
-    <value>MS UI Gothic, 9pt, style=Bold</value>
-  </data>
-  <data name="NameLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Off</value>
-  </data>
-  <data name="NameLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>59, 3</value>
-  </data>
-  <data name="NameLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 0</value>
-  </data>
-  <data name="NameLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 14</value>
-  </data>
-  <data name="NameLabel.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="NameLabel.Text" xml:space="preserve">
-    <value>LblName</value>
-  </data>
-  <data name="NameLabel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="&gt;&gt;NameLabel.Name" xml:space="preserve">
-    <value>NameLabel</value>
-  </data>
-  <data name="&gt;&gt;NameLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;NameLabel.Parent" xml:space="preserve">
-    <value>TableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;NameLabel.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <metadata name="ContextMenuStrip4.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>425, 17</value>
-  </metadata>
-  <data name="ContextMenuStrip4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>197, 214</value>
-  </data>
-  <data name="&gt;&gt;ContextMenuStrip4.Name" xml:space="preserve">
-    <value>ContextMenuStrip4</value>
-  </data>
-  <data name="&gt;&gt;ContextMenuStrip4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="PostBrowser.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="PostBrowser.Location" type="System.Drawing.Point, System.Drawing">
-    <value>59, 20</value>
-  </data>
-  <data name="PostBrowser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>396, 82</value>
-  </data>
-  <data name="PostBrowser.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="&gt;&gt;PostBrowser.Name" xml:space="preserve">
-    <value>PostBrowser</value>
-  </data>
-  <data name="&gt;&gt;PostBrowser.Type" xml:space="preserve">
-    <value>System.Windows.Forms.WebBrowser, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;PostBrowser.Parent" xml:space="preserve">
-    <value>TableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;PostBrowser.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="ToolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 22</value>
-  </data>
-  <data name="ToolStripMenuItem2.Text" xml:space="preserve">
-    <value>選択文字列で検索(&amp;S)</value>
-  </data>
-  <data name="SearchItem2ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>158, 22</value>
-  </data>
-  <data name="SearchItem2ToolStripMenuItem.Text" xml:space="preserve">
-    <value>Google(&amp;G)</value>
-  </data>
-  <data name="SearchItem1ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>158, 22</value>
-  </data>
-  <data name="SearchItem1ToolStripMenuItem.Text" xml:space="preserve">
-    <value>Wikipedia(&amp;W)</value>
-  </data>
-  <data name="SearchItem3ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>158, 22</value>
-  </data>
-  <data name="SearchItem3ToolStripMenuItem.Text" xml:space="preserve">
-    <value>Twitter検索(&amp;Y)</value>
-  </data>
-  <data name="SearchItem4ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>158, 22</value>
-  </data>
-  <data name="SearchItem4ToolStripMenuItem.Text" xml:space="preserve">
-    <value>Twitter Search(&amp;S)</value>
-  </data>
-  <data name="CurrentTabToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>158, 22</value>
-  </data>
-  <data name="CurrentTabToolStripMenuItem.Text" xml:space="preserve">
-    <value>現在のタブ(&amp;L)</value>
-  </data>
-  <data name="ToolStripSeparator13.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 6</value>
-  </data>
-  <data name="ToolStripMenuItem3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 22</value>
-  </data>
-  <data name="ToolStripMenuItem3.Text" xml:space="preserve">
-    <value>選択文字列をコピー(&amp;C)</value>
-  </data>
-  <data name="ToolStripMenuItem4.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="ToolStripMenuItem4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 22</value>
-  </data>
-  <data name="ToolStripMenuItem4.Text" xml:space="preserve">
-    <value>URLをコピー(&amp;U)</value>
-  </data>
-  <data name="ToolStripMenuItem5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 22</value>
-  </data>
-  <data name="ToolStripMenuItem5.Text" xml:space="preserve">
-    <value>すべて選択(&amp;A)</value>
-  </data>
-  <data name="ToolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 6</value>
-  </data>
-  <data name="FollowContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 22</value>
-  </data>
-  <data name="FollowContextMenuItem.Text" xml:space="preserve">
-    <value>フォローする(&amp;F)</value>
-  </data>
-  <data name="RemoveContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 22</value>
-  </data>
-  <data name="RemoveContextMenuItem.Text" xml:space="preserve">
-    <value>フォロー解除(&amp;N)</value>
-  </data>
-  <data name="FriendshipContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 22</value>
-  </data>
-  <data name="FriendshipContextMenuItem.Text" xml:space="preserve">
-    <value>相互フォロー状態表示(&amp;H)</value>
-  </data>
-  <data name="IdFilterAddMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 22</value>
-  </data>
-  <data name="IdFilterAddMenuItem.Text" xml:space="preserve">
-    <value>ID振分ルール作成(&amp;I)</value>
-  </data>
-  <data name="UseHashtagMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 22</value>
-  </data>
-  <data name="UseHashtagMenuItem.Text" xml:space="preserve">
-    <value>Use this &amp;Hashtag</value>
-  </data>
-  <data name="DateTimeLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Right</value>
-  </data>
-  <data name="DateTimeLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Off</value>
-  </data>
-  <data name="DateTimeLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>332, 3</value>
-  </data>
-  <data name="DateTimeLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 0</value>
-  </data>
-  <data name="DateTimeLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 14</value>
-  </data>
-  <data name="DateTimeLabel.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="DateTimeLabel.Text" xml:space="preserve">
-    <value>Label1</value>
-  </data>
-  <data name="DateTimeLabel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleRight</value>
-  </data>
-  <data name="&gt;&gt;DateTimeLabel.Name" xml:space="preserve">
-    <value>DateTimeLabel</value>
-  </data>
-  <data name="&gt;&gt;DateTimeLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;DateTimeLabel.Parent" xml:space="preserve">
-    <value>TableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;DateTimeLabel.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
   <data name="SettingFileMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>171, 22</value>
   </data>
@@ -1181,6 +989,12 @@
   </data>
   <data name="EndFileMenuItem.Text" xml:space="preserve">
     <value>終了(&amp;X)</value>
+  </data>
+  <data name="MenuItemFile.Size" type="System.Drawing.Size, System.Drawing">
+    <value>67, 20</value>
+  </data>
+  <data name="MenuItemFile.Text" xml:space="preserve">
+    <value>ファイル(&amp;F)</value>
   </data>
   <data name="UndoRemoveTabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>230, 22</value>
@@ -1244,6 +1058,12 @@
   </data>
   <data name="PublicSearchQueryMenuItem.Text" xml:space="preserve">
     <value>抽出条件入力(&amp;Q)</value>
+  </data>
+  <data name="MenuItemEdit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>57, 20</value>
+  </data>
+  <data name="MenuItemEdit.Text" xml:space="preserve">
+    <value>編集(&amp;E)</value>
   </data>
   <data name="ReplyOpMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+R</value>
@@ -1320,12 +1140,6 @@
   <data name="UnFavOpMenuItem.Text" xml:space="preserve">
     <value>Fav削除(&amp;V)</value>
   </data>
-  <data name="OpenOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 22</value>
-  </data>
-  <data name="OpenOpMenuItem.Text" xml:space="preserve">
-    <value>開く(&amp;O)</value>
-  </data>
   <data name="OpenHomeOpMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+H</value>
   </data>
@@ -1389,11 +1203,11 @@
   <data name="OpenRterHomeMenuItem.Text" xml:space="preserve">
     <value>RTした人のホームを開く(&amp;R)</value>
   </data>
-  <data name="CreateRuleOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="OpenOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>232, 22</value>
   </data>
-  <data name="CreateRuleOpMenuItem.Text" xml:space="preserve">
-    <value>振り分けルール作成(&amp;C)</value>
+  <data name="OpenOpMenuItem.Text" xml:space="preserve">
+    <value>開く(&amp;O)</value>
   </data>
   <data name="CreateTabRuleOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>202, 22</value>
@@ -1407,14 +1221,14 @@
   <data name="CreateIdRuleOpMenuItem.Text" xml:space="preserve">
     <value>ID振り分けルール作成(&amp;I)</value>
   </data>
-  <data name="ToolStripSeparator26.Size" type="System.Drawing.Size, System.Drawing">
-    <value>229, 6</value>
-  </data>
-  <data name="ChangeReadOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="CreateRuleOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>232, 22</value>
   </data>
-  <data name="ChangeReadOpMenuItem.Text" xml:space="preserve">
-    <value>未読状態変更(&amp;H)</value>
+  <data name="CreateRuleOpMenuItem.Text" xml:space="preserve">
+    <value>振り分けルール作成(&amp;C)</value>
+  </data>
+  <data name="ToolStripSeparator26.Size" type="System.Drawing.Size, System.Drawing">
+    <value>229, 6</value>
   </data>
   <data name="ReadOpMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+B</value>
@@ -1433,6 +1247,12 @@
   </data>
   <data name="UnreadOpMenuItem.Text" xml:space="preserve">
     <value>未読にする(&amp;U)</value>
+  </data>
+  <data name="ChangeReadOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>232, 22</value>
+  </data>
+  <data name="ChangeReadOpMenuItem.Text" xml:space="preserve">
+    <value>未読状態変更(&amp;H)</value>
   </data>
   <data name="JumpReadOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>232, 22</value>
@@ -1479,11 +1299,77 @@
   <data name="RefreshPrevOpMenuItem.Text" xml:space="preserve">
     <value>前データを取得(&amp;I)</value>
   </data>
-  <data name="TinyUrlConvertToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="MenuItemOperate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 20</value>
+  </data>
+  <data name="MenuItemOperate.Text" xml:space="preserve">
+    <value>操作(&amp;O)</value>
+  </data>
+  <data name="CreateTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>196, 22</value>
   </data>
-  <data name="TinyUrlConvertToolStripMenuItem.Text" xml:space="preserve">
-    <value>入力欄のURLを短縮変換</value>
+  <data name="CreateTbMenuItem.Text" xml:space="preserve">
+    <value>タブ作成(&amp;N)...</value>
+  </data>
+  <data name="RenameTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>196, 22</value>
+  </data>
+  <data name="RenameTbMenuItem.Text" xml:space="preserve">
+    <value>タブ名変更(&amp;R)</value>
+  </data>
+  <data name="ToolStripSeparator28.Size" type="System.Drawing.Size, System.Drawing">
+    <value>193, 6</value>
+  </data>
+  <data name="UnreadMngTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>196, 22</value>
+  </data>
+  <data name="UnreadMngTbMenuItem.Text" xml:space="preserve">
+    <value>未読管理(&amp;U)</value>
+  </data>
+  <data name="NotifyTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>196, 22</value>
+  </data>
+  <data name="NotifyTbMenuItem.Text" xml:space="preserve">
+    <value>新着通知表示(&amp;Q)</value>
+  </data>
+  <data name="SoundFileTbComboBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>121, 21</value>
+  </data>
+  <data name="ToolStripSeparator29.Size" type="System.Drawing.Size, System.Drawing">
+    <value>193, 6</value>
+  </data>
+  <data name="EditRuleTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>196, 22</value>
+  </data>
+  <data name="EditRuleTbMenuItem.Text" xml:space="preserve">
+    <value>振り分けルール編集(&amp;F)...</value>
+  </data>
+  <data name="ToolStripSeparator30.Size" type="System.Drawing.Size, System.Drawing">
+    <value>193, 6</value>
+  </data>
+  <data name="ClearTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>196, 22</value>
+  </data>
+  <data name="ClearTbMenuItem.Text" xml:space="preserve">
+    <value>このタブの発言をクリア(&amp;C)</value>
+  </data>
+  <data name="ToolStripSeparator31.Size" type="System.Drawing.Size, System.Drawing">
+    <value>193, 6</value>
+  </data>
+  <data name="DeleteTbMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+W</value>
+  </data>
+  <data name="DeleteTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>196, 22</value>
+  </data>
+  <data name="DeleteTbMenuItem.Text" xml:space="preserve">
+    <value>タブ削除(&amp;D)</value>
+  </data>
+  <data name="MenuItemTab.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 20</value>
+  </data>
+  <data name="MenuItemTab.Text" xml:space="preserve">
+    <value>タブ(&amp;T)</value>
   </data>
   <data name="UrlConvertAutoToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+L</value>
@@ -1539,11 +1425,11 @@
   <data name="JmpStripMenuItem.Text" xml:space="preserve">
     <value>j.mp</value>
   </data>
-  <data name="UpdateFollowersMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="TinyUrlConvertToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>196, 22</value>
   </data>
-  <data name="UpdateFollowersMenuItem1.Text" xml:space="preserve">
-    <value>片思いユーザーリスト取得</value>
+  <data name="TinyUrlConvertToolStripMenuItem.Text" xml:space="preserve">
+    <value>入力欄のURLを短縮変換</value>
   </data>
   <data name="GetFollowersDiffToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1559,6 +1445,12 @@
   </data>
   <data name="GetFollowersAllToolStripMenuItem.Text" xml:space="preserve">
     <value>全て再取得</value>
+  </data>
+  <data name="UpdateFollowersMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>196, 22</value>
+  </data>
+  <data name="UpdateFollowersMenuItem1.Text" xml:space="preserve">
+    <value>片思いユーザーリスト取得</value>
   </data>
   <data name="ToolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
     <value>193, 6</value>
@@ -1589,6 +1481,12 @@
   </data>
   <data name="OwnStatusMenuItem.Text" xml:space="preserve">
     <value>自分のプロフィール表示</value>
+  </data>
+  <data name="MenuItemCommand.Size" type="System.Drawing.Size, System.Drawing">
+    <value>89, 20</value>
+  </data>
+  <data name="MenuItemCommand.Text" xml:space="preserve">
+    <value>その他機能(&amp;C)</value>
   </data>
   <data name="MatomeMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>F1</value>
@@ -1638,15 +1536,6 @@
   <data name="AboutMenuItem.Text" xml:space="preserve">
     <value>Tweenについて(&amp;A)...</value>
   </data>
-  <data name="DebugModeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>194, 22</value>
-  </data>
-  <data name="DebugModeToolStripMenuItem.Text" xml:space="preserve">
-    <value>デバッグモード</value>
-  </data>
-  <data name="DebugModeToolStripMenuItem.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
   <data name="DumpPostClassToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>157, 22</value>
   </data>
@@ -1659,18 +1548,72 @@
   <data name="TraceOutToolStripMenuItem.Text" xml:space="preserve">
     <value>TraceOut出力</value>
   </data>
+  <data name="DebugModeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>194, 22</value>
+  </data>
+  <data name="DebugModeToolStripMenuItem.Text" xml:space="preserve">
+    <value>デバッグモード</value>
+  </data>
+  <data name="DebugModeToolStripMenuItem.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="MenuItemHelp.Size" type="System.Drawing.Size, System.Drawing">
+    <value>63, 20</value>
+  </data>
+  <data name="MenuItemHelp.Text" xml:space="preserve">
+    <value>ヘルプ(&amp;H)</value>
+  </data>
+  <data name="MenuStrip1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="MenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>462, 24</value>
+  </data>
+  <data name="MenuStrip1.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="MenuStrip1.Text" xml:space="preserve">
+    <value>MenuStrip1</value>
+  </data>
+  <data name="&gt;&gt;MenuStrip1.Name" xml:space="preserve">
+    <value>MenuStrip1</value>
+  </data>
+  <data name="&gt;&gt;MenuStrip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MenuStrip1.Parent" xml:space="preserve">
+    <value>ToolStripContainer1.TopToolStripPanel</value>
+  </data>
+  <data name="&gt;&gt;MenuStrip1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;ToolStripContainer1.TopToolStripPanel.Name" xml:space="preserve">
+    <value>ToolStripContainer1.TopToolStripPanel</value>
+  </data>
+  <data name="&gt;&gt;ToolStripContainer1.TopToolStripPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripContainer1.TopToolStripPanel.Parent" xml:space="preserve">
+    <value>ToolStripContainer1</value>
+  </data>
+  <data name="&gt;&gt;ToolStripContainer1.TopToolStripPanel.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;ToolStripContainer1.Name" xml:space="preserve">
+    <value>ToolStripContainer1</value>
+  </data>
+  <data name="&gt;&gt;ToolStripContainer1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripContainer, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripContainer1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;ToolStripContainer1.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
   <metadata name="ContextMenuStrip2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>163, 54</value>
   </metadata>
-  <data name="ContextMenuStrip2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>186, 374</value>
-  </data>
-  <data name="&gt;&gt;ContextMenuStrip2.Name" xml:space="preserve">
-    <value>ContextMenuStrip2</value>
-  </data>
-  <data name="&gt;&gt;ContextMenuStrip2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="ReplyStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>185, 22</value>
   </data>
@@ -1722,12 +1665,6 @@
   <data name="FavRemoveToolStripMenuItem.Text" xml:space="preserve">
     <value>Fav削除(&amp;V)</value>
   </data>
-  <data name="ToolStripMenuItem6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 22</value>
-  </data>
-  <data name="ToolStripMenuItem6.Text" xml:space="preserve">
-    <value>開く(&amp;O)</value>
-  </data>
   <data name="MoveToHomeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>199, 22</value>
   </data>
@@ -1770,11 +1707,11 @@
   <data name="MoveToRTHomeMenuItem.Text" xml:space="preserve">
     <value>RTした人のホームを開く(&amp;R)</value>
   </data>
-  <data name="ToolStripMenuItem7.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ToolStripMenuItem6.Size" type="System.Drawing.Size, System.Drawing">
     <value>185, 22</value>
   </data>
-  <data name="ToolStripMenuItem7.Text" xml:space="preserve">
-    <value>振り分けルール作成(&amp;C)</value>
+  <data name="ToolStripMenuItem6.Text" xml:space="preserve">
+    <value>開く(&amp;O)</value>
   </data>
   <data name="TabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>214, 22</value>
@@ -1788,14 +1725,14 @@
   <data name="IDRuleMenuItem.Text" xml:space="preserve">
     <value>ID振り分けルール作成...</value>
   </data>
-  <data name="ToolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 6</value>
-  </data>
-  <data name="ToolStripMenuItem11.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ToolStripMenuItem7.Size" type="System.Drawing.Size, System.Drawing">
     <value>185, 22</value>
   </data>
-  <data name="ToolStripMenuItem11.Text" xml:space="preserve">
-    <value>未読状態変更(&amp;H)</value>
+  <data name="ToolStripMenuItem7.Text" xml:space="preserve">
+    <value>振り分けルール作成(&amp;C)</value>
+  </data>
+  <data name="ToolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>182, 6</value>
   </data>
   <data name="ReadedStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>140, 22</value>
@@ -1808,6 +1745,12 @@
   </data>
   <data name="UnreadStripMenuItem.Text" xml:space="preserve">
     <value>未読にする</value>
+  </data>
+  <data name="ToolStripMenuItem11.Size" type="System.Drawing.Size, System.Drawing">
+    <value>185, 22</value>
+  </data>
+  <data name="ToolStripMenuItem11.Text" xml:space="preserve">
+    <value>未読状態変更(&amp;H)</value>
   </data>
   <data name="JumpUnreadMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>185, 22</value>
@@ -1842,18 +1785,18 @@
   <data name="RefreshMoreStripMenuItem.Text" xml:space="preserve">
     <value>前データを取得(&amp;I)</value>
   </data>
+  <data name="ContextMenuStrip2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>186, 374</value>
+  </data>
+  <data name="&gt;&gt;ContextMenuStrip2.Name" xml:space="preserve">
+    <value>ContextMenuStrip2</value>
+  </data>
+  <data name="&gt;&gt;ContextMenuStrip2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <metadata name="ContextMenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 54</value>
   </metadata>
-  <data name="ContextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>172, 154</value>
-  </data>
-  <data name="&gt;&gt;ContextMenuStrip1.Name" xml:space="preserve">
-    <value>ContextMenuStrip1</value>
-  </data>
-  <data name="&gt;&gt;ContextMenuStrip1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="SettingStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>171, 22</value>
   </data>
@@ -1901,6 +1844,15 @@
   </data>
   <data name="EndToolStripMenuItem.Text" xml:space="preserve">
     <value>終了(&amp;X)</value>
+  </data>
+  <data name="ContextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>172, 154</value>
+  </data>
+  <data name="&gt;&gt;ContextMenuStrip1.Name" xml:space="preserve">
+    <value>ContextMenuStrip1</value>
+  </data>
+  <data name="&gt;&gt;ContextMenuStrip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <metadata name="TimerTimeline.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>571, 17</value>
