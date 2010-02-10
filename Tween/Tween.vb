@@ -452,10 +452,6 @@ Public Class TweenMain
         NotifyIcon1.Icon = NIconAt      'タスクトレイ
         TabImage.Images.Add(TabIcon)    'タブ見出し
 
-        'ContextMenuStrip1.OwnerItem = Nothing
-        'ContextMenuStrip2.OwnerItem = Nothing
-        'ContextMenuTabProperty.OwnerItem = Nothing
-
         SettingDialog.Owner = Me
         SearchDialog.Owner = Me
         fDialog.Owner = Me
@@ -5646,7 +5642,7 @@ RETRY:
     End Sub
 
     Private Sub DeleteTabMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles DeleteTabMenuItem.Click, DeleteTbMenuItem.Click
-        If _rclickTabName = "" OrElse DirectCast(DirectCast(sender, ToolStripMenuItem).Owner, ContextMenuStrip).OwnerItem IsNot Nothing Then _rclickTabName = ListTab.SelectedTab.Text
+        If _rclickTabName = "" OrElse sender Is Me.DeleteTbMenuItem Then _rclickTabName = ListTab.SelectedTab.Text
 
         RemoveSpecifiedTab(_rclickTabName)
         '_rclickTabName = ""
@@ -7486,7 +7482,7 @@ RETRY:
         End Try
         Me.TopMost = SettingDialog.AlwaysTop
         If rslt = Windows.Forms.DialogResult.Cancel Then Exit Sub
-        If HashMgr.IsPermanent AndAlso HashMgr.PermanentHash <> "" AndAlso Not HashMgr.IsInsert Then
+        If HashMgr.IsPermanent AndAlso HashMgr.PermanentHash <> "" Then
             HashStripSplitButton.Text = HashMgr.PermanentHash
         Else
             HashStripSplitButton.Text = "#[-]"
