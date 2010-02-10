@@ -207,6 +207,8 @@ Namespace TweenCustomControl
                 MyBase.WndProc(m)
             Catch ex As ArgumentOutOfRangeException
                 'Substringでlengthが0以下。アイコンサイズが影響？
+            Catch ex As AccessViolationException
+                'WndProcのさらに先で発生する。
             End Try
         End Sub
 
