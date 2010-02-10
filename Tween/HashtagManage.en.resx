@@ -117,8 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Cancel_Button.Text" xml:space="preserve">
-    <value>Cancel</value>
+  <data name="Close_Button.Text" xml:space="preserve">
+    <value>Close</value>
   </data>
   <data name="DeleteButton.Text" xml:space="preserve">
     <value>&amp;Delete</value>
@@ -134,13 +134,16 @@
     <value>86, 12</value>
   </data>
   <data name="Label1.Text" xml:space="preserve">
-    <value>&amp;Using Hashtags</value>
+    <value>Using Hash&amp;tags</value>
   </data>
   <data name="CheckPermanent.Size" type="System.Drawing.Size, System.Drawing">
     <value>149, 16</value>
   </data>
   <data name="CheckPermanent.Text" xml:space="preserve">
     <value>Always add (&amp;Permanent)</value>
+  </data>
+  <data name="PermCancel_Button.Text" xml:space="preserve">
+    <value>Cancel</value>
   </data>
   <data name="Label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>76, 12</value>
@@ -171,5 +174,8 @@
   </data>
   <data name="InsertButton.Text" xml:space="preserve">
     <value>&amp;Insert</value>
+  </data>
+  <data name="EditButton.Text" xml:space="preserve">
+    <value>&amp;Edit permanent hashtags</value>
   </data>
 </root>
