@@ -452,9 +452,9 @@ Public Class TweenMain
         NotifyIcon1.Icon = NIconAt      'タスクトレイ
         TabImage.Images.Add(TabIcon)    'タブ見出し
 
-        ContextMenuStrip1.OwnerItem = Nothing
-        ContextMenuStrip2.OwnerItem = Nothing
-        ContextMenuTabProperty.OwnerItem = Nothing
+        'ContextMenuStrip1.OwnerItem = Nothing
+        'ContextMenuStrip2.OwnerItem = Nothing
+        'ContextMenuTabProperty.OwnerItem = Nothing
 
         SettingDialog.Owner = Me
         SearchDialog.Owner = Me
@@ -477,6 +477,7 @@ Public Class TweenMain
         _password = _cfgCommon.Password
         '新着バルーン通知のチェック状態設定
         NewPostPopMenuItem.Checked = _cfgCommon.NewAllPop
+        Me.NotifyFileMenuItem.Checked = NewPostPopMenuItem.Checked
 
         'フォント＆文字色＆背景色保持
         _fntUnread = _cfgLocal.FontUnread
@@ -547,6 +548,7 @@ Public Class TweenMain
         SettingDialog.Readed = _cfgCommon.Read
         '新着取得時のリストスクロールをするか。Trueならスクロールしない
         ListLockMenuItem.Checked = _cfgCommon.ListLock
+        Me.LockListFileMenuItem.Checked = _cfgCommon.ListLock
         SettingDialog.IconSz = _cfgCommon.IconSize
         '文末ステータス
         SettingDialog.Status = _cfgLocal.StatusText
@@ -555,6 +557,7 @@ Public Class TweenMain
         'サウンド再生（タブ別設定より優先）
         SettingDialog.PlaySound = _cfgCommon.PlaySound
         PlaySoundMenuItem.Checked = SettingDialog.PlaySound
+        Me.PlaySoundFileMenuItem.Checked = SettingDialog.PlaySound
         '片思い表示。Trueなら片思い表示する
         SettingDialog.OneWayLove = _cfgCommon.OneWayLove
         'フォント＆文字色＆背景色
@@ -822,6 +825,7 @@ Public Class TweenMain
         MultiLineMenuItem.Checked = _cfgLocal.StatusMultiline
         Me.Tween_ClientSizeChanged(Me, Nothing)
         PlaySoundMenuItem.Checked = SettingDialog.PlaySound
+        Me.PlaySoundFileMenuItem.Checked = SettingDialog.PlaySound
         '入力欄
         StatusText.Font = _fntInputFont
         StatusText.ForeColor = _clInputFont
@@ -965,7 +969,7 @@ Public Class TweenMain
             If Not AddNewTab(tn, True, _statuses.Tabs(tn).TabType) Then Throw New Exception("タブ作成エラー")
         Next
 
-        JumpUnreadMenuItem.ShortcutKeyDisplayString = "Space"
+        Me.JumpReadOpMenuItem.ShortcutKeyDisplayString = "Space"
         CopySTOTMenuItem.ShortcutKeyDisplayString = "Ctrl+C"
         CopyURLMenuItem.ShortcutKeyDisplayString = "Ctrl+Shift+C"
         'MenuItemSubSearch.ShortcutKeyDisplayString = "/"
@@ -1774,7 +1778,7 @@ Public Class TweenMain
         DirectCast(ListTab.SelectedTab.Tag, Control).Focus()
     End Sub
 
-    Private Sub EndToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EndToolStripMenuItem.Click
+    Private Sub EndToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EndToolStripMenuItem.Click, EndFileMenuItem.Click
         _endingFlag = True
         Me.Close()
     End Sub
@@ -2334,7 +2338,7 @@ Public Class TweenMain
         MakeReplyOrDirectStatus()
     End Sub
 
-    Private Sub FavAddToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FavAddToolStripMenuItem.Click
+    Private Sub FavAddToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FavAddToolStripMenuItem.Click, FavOpMenuItem.Click
         If _statuses.Tabs(_curTab.Text).TabType = TabUsageType.DirectMessage OrElse _curList.SelectedIndices.Count = 0 Then Exit Sub
 
         '複数fav確認msg
@@ -2362,7 +2366,7 @@ Public Class TweenMain
         RunAsync(args)
     End Sub
 
-    Private Sub FavRemoveToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FavRemoveToolStripMenuItem.Click
+    Private Sub FavRemoveToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FavRemoveToolStripMenuItem.Click, UnFavOpMenuItem.Click
         If _statuses.Tabs(_curTab.Text).TabType = TabUsageType.DirectMessage OrElse _curList.SelectedIndices.Count = 0 Then Exit Sub
 
         If _curList.SelectedIndices.Count > 1 Then
@@ -2398,13 +2402,13 @@ Public Class TweenMain
     End Function
 
 
-    Private Sub MoveToHomeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MoveToHomeToolStripMenuItem.Click
+    Private Sub MoveToHomeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MoveToHomeToolStripMenuItem.Click, OpenHomeOpMenuItem.Click
         If _curList.SelectedIndices.Count > 0 Then
             OpenUriAsync("http://twitter.com/" + GetCurTabPost(_curList.SelectedIndices(0)).Name)
         End If
     End Sub
 
-    Private Sub MoveToFavToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MoveToFavToolStripMenuItem.Click
+    Private Sub MoveToFavToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MoveToFavToolStripMenuItem.Click, OpenFavOpMenuItem.Click
         If _curList.SelectedIndices.Count > 0 Then
             OpenUriAsync("http://twitter.com/" + GetCurTabPost(_curList.SelectedIndices(0)).Name + "/favorites")
         End If
@@ -2508,15 +2512,15 @@ Public Class TweenMain
         End If
     End Sub
 
-    Private Sub ReplyStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReplyStripMenuItem.Click
+    Private Sub ReplyStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReplyStripMenuItem.Click, ReplyOpMenuItem.Click
         MakeReplyOrDirectStatus(False, True)
     End Sub
 
-    Private Sub DMStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DMStripMenuItem.Click
+    Private Sub DMStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DMStripMenuItem.Click, DmOpMenuItem.Click
         MakeReplyOrDirectStatus(False, False)
     End Sub
 
-    Private Sub DeleteStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DeleteStripMenuItem.Click
+    Private Sub DeleteStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DeleteStripMenuItem.Click, DelOpMenuItem.Click
         If _curTab Is Nothing OrElse _curList Is Nothing Then Exit Sub
         If _statuses.Tabs(_curTab.Text).TabType <> TabUsageType.DirectMessage Then
             Dim myPost As Boolean = False
@@ -2606,7 +2610,7 @@ Public Class TweenMain
         End Try
     End Sub
 
-    Private Sub ReadedStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReadedStripMenuItem.Click
+    Private Sub ReadedStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReadedStripMenuItem.Click, ReadOpMenuItem.Click
         _curList.BeginUpdate()
         If SettingDialog.UnreadManage Then
             For Each idx As Integer In _curList.SelectedIndices
@@ -2628,7 +2632,7 @@ Public Class TweenMain
         If Not SettingDialog.TabIconDisp Then ListTab.Refresh()
     End Sub
 
-    Private Sub UnreadStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UnreadStripMenuItem.Click
+    Private Sub UnreadStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UnreadStripMenuItem.Click, UnreadOpMenuItem.Click
         _curList.BeginUpdate()
         If SettingDialog.UnreadManage Then
             For Each idx As Integer In _curList.SelectedIndices
@@ -2650,7 +2654,7 @@ Public Class TweenMain
         If Not SettingDialog.TabIconDisp Then ListTab.Refresh()
     End Sub
 
-    Private Sub RefreshStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RefreshStripMenuItem.Click
+    Private Sub RefreshStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RefreshStripMenuItem.Click, RefreshOpMenuItem.Click
         DoRefresh()
     End Sub
 
@@ -2702,7 +2706,7 @@ Public Class TweenMain
         End If
     End Sub
 
-    Private Sub SettingStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SettingStripMenuItem.Click
+    Private Sub SettingStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SettingStripMenuItem.Click, SettingFileMenuItem.Click
         Dim chgUseApi As Boolean = False
         Dim result As DialogResult
 
@@ -2803,6 +2807,7 @@ Public Class TweenMain
                 End Try
 
                 PlaySoundMenuItem.Checked = SettingDialog.PlaySound
+                Me.PlaySoundFileMenuItem.Checked = SettingDialog.PlaySound
                 _fntUnread = SettingDialog.FontUnread
                 _clUnread = SettingDialog.ColorUnread
                 _fntReaded = SettingDialog.FontReaded
@@ -3922,7 +3927,7 @@ RETRY:
         Me.TopMost = SettingDialog.AlwaysTop
     End Sub
 
-    Private Sub JumpUnreadMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles JumpUnreadMenuItem.Click
+    Private Sub JumpUnreadMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles JumpUnreadMenuItem.Click, JumpReadOpMenuItem.Click
         Dim bgnIdx As Integer = ListTab.TabPages.IndexOf(_curTab)
         Dim idx As Integer = -1
         Dim lst As DetailsListView = Nothing
@@ -3980,7 +3985,7 @@ RETRY:
         lst.Focus()
     End Sub
 
-    Private Sub StatusOpenMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StatusOpenMenuItem.Click
+    Private Sub StatusOpenMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StatusOpenMenuItem.Click, OpenStatusOpMenuItem.Click
         If _curList.SelectedIndices.Count > 0 AndAlso _statuses.Tabs(_curTab.Text).TabType <> TabUsageType.DirectMessage Then
             Dim post As PostClass = _statuses.Item(_curTab.Text, _curList.SelectedIndices(0))
             If post.RetweetedId = 0 Then
@@ -3991,7 +3996,7 @@ RETRY:
         End If
     End Sub
 
-    Private Sub FavorareMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles FavorareMenuItem.Click
+    Private Sub FavorareMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles FavorareMenuItem.Click, OpenFavotterOpMenuItem.Click
         If _curList.SelectedIndices.Count > 0 Then
             Dim post As PostClass = _statuses.Item(_curTab.Text, _curList.SelectedIndices(0))
             OpenUriAsync("http://favotter.matope.com/user.php?user=" + post.Name)
@@ -5037,7 +5042,7 @@ RETRY:
         tabSetting.Save()
     End Sub
 
-    Private Sub SaveLogMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SaveLogMenuItem.Click
+    Private Sub SaveLogMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SaveLogMenuItem.Click, SaveFileMenuItem.Click
         Dim rslt As DialogResult = MessageBox.Show(String.Format(My.Resources.SaveLogMenuItem_ClickText1, Environment.NewLine), _
                 My.Resources.SaveLogMenuItem_ClickText2, _
                 MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
@@ -5535,7 +5540,7 @@ RETRY:
 
     Private Sub ContextMenuTabProperty_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuTabProperty.Opening
         '右クリックの場合はタブ名が設定済。アプリケーションキーの場合は現在のタブを対象とする
-        If _rclickTabName = "" OrElse ContextMenuTabProperty.OwnerItem IsNot Nothing Then _rclickTabName = ListTab.SelectedTab.Text
+        If _rclickTabName = "" OrElse sender IsNot ContextMenuTabProperty Then _rclickTabName = ListTab.SelectedTab.Text
         If _statuses Is Nothing Then Exit Sub
         If _statuses.Tabs Is Nothing Then Exit Sub
 
@@ -5543,34 +5548,49 @@ RETRY:
         If tb Is Nothing Then Exit Sub
 
         NotifyDispMenuItem.Checked = tb.Notify
+        Me.NotifyTbMenuItem.Checked = tb.Notify
 
         soundfileListup = True
         SoundFileComboBox.Items.Clear()
+        Me.SoundFileTbComboBox.Items.Clear()
         SoundFileComboBox.Items.Add("")
+        Me.SoundFileTbComboBox.Items.Add("")
         Dim oDir As IO.DirectoryInfo = New IO.DirectoryInfo(My.Application.Info.DirectoryPath)
         For Each oFile As IO.FileInfo In oDir.GetFiles("*.wav")
             SoundFileComboBox.Items.Add(oFile.Name)
+            Me.SoundFileTbComboBox.Items.Add(oFile.Name)
         Next
         Dim idx As Integer = SoundFileComboBox.Items.IndexOf(tb.SoundFile)
         If idx = -1 Then idx = 0
         SoundFileComboBox.SelectedIndex = idx
+        Me.SoundFileTbComboBox.SelectedIndex = idx
         soundfileListup = False
         UreadManageMenuItem.Checked = tb.UnreadManage
+        Me.UnreadMngTbMenuItem.Checked = tb.UnreadManage
+
         If _statuses.Tabs(_rclickTabName).TabType <> TabUsageType.Mentions AndAlso _statuses.IsDefaultTab(_rclickTabName) Then
             FilterEditMenuItem.Enabled = True
+            Me.EditRuleTbMenuItem.Enabled = True
             DeleteTabMenuItem.Enabled = False
+            Me.DeleteTbMenuItem.Enabled = False
         ElseIf _statuses.Tabs(_rclickTabName).TabType = TabUsageType.Mentions Then
             FilterEditMenuItem.Enabled = True
+            Me.EditRuleTbMenuItem.Enabled = True
             DeleteTabMenuItem.Enabled = False
+            Me.DeleteTbMenuItem.Enabled = False
         Else
             FilterEditMenuItem.Enabled = True
+            Me.EditRuleTbMenuItem.Enabled = True
             DeleteTabMenuItem.Enabled = True
+            Me.DeleteTbMenuItem.Enabled = True
         End If
     End Sub
 
-    Private Sub UreadManageMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UreadManageMenuItem.Click
-        If _rclickTabName = "" Then Exit Sub
+    Private Sub UreadManageMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UreadManageMenuItem.Click, UnreadMngTbMenuItem.Click
+        UreadManageMenuItem.Checked = DirectCast(sender, ToolStripMenuItem).Checked
+        Me.UnreadMngTbMenuItem.Checked = UreadManageMenuItem.Checked
 
+        If _rclickTabName = "" Then Exit Sub
         ChangeTabUnreadManage(_rclickTabName, UreadManageMenuItem.Checked)
 
         'SaveConfigsTab(_rclickTabName)
@@ -5604,7 +5624,10 @@ RETRY:
         If Not SettingDialog.TabIconDisp Then ListTab.Refresh()
     End Sub
 
-    Private Sub NotifyDispMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NotifyDispMenuItem.Click
+    Private Sub NotifyDispMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NotifyDispMenuItem.Click, NotifyTbMenuItem.Click
+        NotifyDispMenuItem.Checked = DirectCast(sender, ToolStripMenuItem).Checked
+        Me.NotifyTbMenuItem.Checked = NotifyDispMenuItem.Checked
+
         If _rclickTabName = "" Then Exit Sub
 
         _statuses.Tabs(_rclickTabName).Notify = NotifyDispMenuItem.Checked
@@ -5613,7 +5636,7 @@ RETRY:
         SaveConfigsTabs()
     End Sub
 
-    Private Sub SoundFileComboBox_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SoundFileComboBox.SelectedIndexChanged
+    Private Sub SoundFileComboBox_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SoundFileComboBox.SelectedIndexChanged, SoundFileTbComboBox.SelectedIndexChanged
         If soundfileListup OrElse _rclickTabName = "" Then Exit Sub
 
         _statuses.Tabs(_rclickTabName).SoundFile = DirectCast(SoundFileComboBox.SelectedItem, String)
@@ -5622,11 +5645,11 @@ RETRY:
         SaveConfigsTabs()
     End Sub
 
-    Private Sub DeleteTabMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles DeleteTabMenuItem.Click
-        If _rclickTabName = "" Then Exit Sub
+    Private Sub DeleteTabMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles DeleteTabMenuItem.Click, DeleteTbMenuItem.Click
+        If _rclickTabName = "" OrElse DirectCast(DirectCast(sender, ToolStripMenuItem).Owner, ContextMenuStrip).OwnerItem IsNot Nothing Then _rclickTabName = ListTab.SelectedTab.Text
 
         RemoveSpecifiedTab(_rclickTabName)
-        _rclickTabName = ""
+        '_rclickTabName = ""
         'SaveConfigsCommon()
         'SaveConfigsTab(False)
         SaveConfigsTabs()
@@ -5668,7 +5691,7 @@ RETRY:
         SaveConfigsTabs()
     End Sub
 
-    Private Sub AddTabMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AddTabMenuItem.Click
+    Private Sub AddTabMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AddTabMenuItem.Click, CreateTbMenuItem.Click
         Dim tabName As String = Nothing
         Dim tabUsage As TabUsageType
         Using inputName As New InputTabName()
@@ -5699,7 +5722,7 @@ RETRY:
         End If
     End Sub
 
-    Private Sub TabMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TabMenuItem.Click
+    Private Sub TabMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TabMenuItem.Click, CreateTabRuleOpMenuItem.Click
         '選択発言を元にフィルタ追加
         For Each idx As Integer In _curList.SelectedIndices
             Dim tabName As String = ""
@@ -5796,11 +5819,11 @@ RETRY:
         End If
     End Sub
 
-    Private Sub ReplyAllStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReplyAllStripMenuItem.Click
+    Private Sub ReplyAllStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReplyAllStripMenuItem.Click, ReplyAllOpMenuItem.Click
         MakeReplyOrDirectStatus(False, True, True)
     End Sub
 
-    Private Sub IDRuleMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles IDRuleMenuItem.Click
+    Private Sub IDRuleMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles IDRuleMenuItem.Click, CreateIdRuleOpMenuItem.Click
         Dim tabName As String = ""
 
         '未選択なら処理終了
@@ -5929,7 +5952,7 @@ RETRY:
         Me.CopyIdUri()
     End Sub
 
-    Private Sub SelectAllMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SelectAllMenuItem.Click
+    Private Sub SelectAllMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SelectAllMenuItem.Click, SelAllOpMenuItem.Click
         If StatusText.Focused Then
             ' 発言欄でのCtrl+A
             StatusText.SelectAll()
@@ -5974,7 +5997,7 @@ RETRY:
         Twitter.GetWedata()
     End Sub
 
-    Private Sub OpenURLMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OpenURLMenuItem.Click
+    Private Sub OpenURLMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OpenURLMenuItem.Click, OpenUrlOpMenuItem.Click
         If PostBrowser.Document.Links.Count > 0 Then
             UrlDialog.ClearUrl()
 
@@ -6027,7 +6050,7 @@ RETRY:
         End If
     End Sub
 
-    Private Sub ClearTabMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ClearTabMenuItem.Click
+    Private Sub ClearTabMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ClearTabMenuItem.Click, ClearTbMenuItem.Click
         If _rclickTabName = "" Then Exit Sub
         Dim tmp As String = String.Format(My.Resources.ClearTabMenuItem_ClickText1, Environment.NewLine)
         If MessageBox.Show(tmp, My.Resources.ClearTabMenuItem_ClickText2, MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
@@ -6199,7 +6222,9 @@ RETRY:
         End If
     End Sub
 
-    Private Sub PlaySoundMenuItem_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PlaySoundMenuItem.CheckedChanged
+    Private Sub PlaySoundMenuItem_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PlaySoundMenuItem.CheckedChanged, PlaySoundFileMenuItem.CheckStateChanged
+        PlaySoundMenuItem.Checked = DirectCast(sender, ToolStripMenuItem).Checked
+        Me.PlaySoundFileMenuItem.Checked = PlaySoundMenuItem.Checked
         If PlaySoundMenuItem.Checked Then
             SettingDialog.PlaySound = True
         Else
@@ -6217,7 +6242,7 @@ RETRY:
         End If
     End Sub
 
-    Private Sub RepliedStatusOpenMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RepliedStatusOpenMenuItem.Click
+    Private Sub RepliedStatusOpenMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RepliedStatusOpenMenuItem.Click, OpenRepSourceOpMenuItem.Click
         If _curPost IsNot Nothing AndAlso _curPost.InReplyToUser IsNot Nothing AndAlso _curPost.InReplyToId > 0 Then
             If _statuses.ContainsKey(_curPost.InReplyToId) AndAlso Not My.Computer.Keyboard.ShiftKeyDown Then
                 Dim repPost As PostClass = _statuses.Item(_curPost.InReplyToId)
@@ -6469,12 +6494,16 @@ RETRY:
         doUrlUndo()
     End Sub
 
-    Private Sub NewPostPopMenuItem_CheckStateChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles NewPostPopMenuItem.CheckStateChanged
+    Private Sub NewPostPopMenuItem_CheckStateChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles NewPostPopMenuItem.CheckStateChanged, NotifyFileMenuItem.CheckStateChanged
+        Me.NotifyFileMenuItem.Checked = DirectCast(sender, ToolStripMenuItem).Checked
+        Me.NewPostPopMenuItem.Checked = Me.NotifyFileMenuItem.Checked
         _cfgCommon.NewAllPop = NewPostPopMenuItem.Checked
         modifySettingCommon = True
     End Sub
 
-    Private Sub ListLockMenuItem_CheckStateChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ListLockMenuItem.CheckStateChanged
+    Private Sub ListLockMenuItem_CheckStateChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ListLockMenuItem.CheckStateChanged, LockListFileMenuItem.CheckStateChanged
+        ListLockMenuItem.Checked = DirectCast(sender, ToolStripMenuItem).Checked
+        Me.LockListFileMenuItem.Checked = ListLockMenuItem.Checked
         _cfgCommon.ListLock = ListLockMenuItem.Checked
         modifySettingCommon = True
     End Sub
@@ -6980,7 +7009,7 @@ RETRY:
         doGetFollowersMenu(True)        ' Followersリストキャッシュ無効
     End Sub
 
-    Private Sub ReTweetStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReTweetStripMenuItem.Click
+    Private Sub ReTweetStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReTweetStripMenuItem.Click, RtUnOpMenuItem.Click
         'RT @id:内容
         If _curPost IsNot Nothing Then
             If _curPost.IsDm OrElse _
@@ -7000,7 +7029,7 @@ RETRY:
         End If
     End Sub
 
-    Private Sub ReTweetOriginalStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReTweetOriginalStripMenuItem.Click
+    Private Sub ReTweetOriginalStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReTweetOriginalStripMenuItem.Click, RtOpMenuItem.Click
         '公式RT
         If _curPost IsNot Nothing AndAlso Not _curPost.IsDm Then
             If SettingDialog.ProtectNotInclude AndAlso _curPost.IsProtect Then
@@ -7121,7 +7150,7 @@ RETRY:
         Me.StatusText_Leave(StatusText, System.EventArgs.Empty)
     End Sub
 
-    Private Sub TabRenameMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TabRenameMenuItem.Click
+    Private Sub TabRenameMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TabRenameMenuItem.Click, RenameTbMenuItem.Click
         If _rclickTabName = "" Then Exit Sub
         TabRename(_rclickTabName)
     End Sub
@@ -7274,7 +7303,7 @@ RETRY:
     '    End If
     'End Sub
 
-    Private Sub QuoteStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles QuoteStripMenuItem.Click
+    Private Sub QuoteStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles QuoteStripMenuItem.Click, QtOpMenuItem.Click
         'QT @id:内容
         '返信先情報付加
         If _curPost IsNot Nothing Then
@@ -7304,9 +7333,10 @@ RETRY:
         Dim tbName As String = pnl.Parent.Text
         Dim tb As TabClass = _statuses.Tabs(tbName)
         Dim cmb As ComboBox = DirectCast(pnl.Controls("comboSearch"), ComboBox)
+        Dim cmbLang As ComboBox = DirectCast(pnl.Controls("comboLang"), ComboBox)
         cmb.Text = cmb.Text.Trim
         tb.SearchWords = cmb.Text
-        tb.SearchLang = cmb.Text
+        tb.SearchLang = cmbLang.Text
         If cmb.Text = "" Then
             DirectCast(ListTab.SelectedTab.Tag, DetailsListView).Focus()
             SaveConfigsTabs()
@@ -7327,7 +7357,7 @@ RETRY:
         DirectCast(ListTab.SelectedTab.Tag, DetailsListView).Focus()
     End Sub
 
-    Private Sub RefreshMoreStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RefreshMoreStripMenuItem.Click
+    Private Sub RefreshMoreStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RefreshMoreStripMenuItem.Click, RefreshPrevOpMenuItem.Click
         'もっと前を取得
         DoRefreshMore()
     End Sub
@@ -7352,7 +7382,7 @@ RETRY:
         End If
     End Sub
 
-    Private Sub MoveToRTHomeMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MoveToRTHomeMenuItem.Click
+    Private Sub MoveToRTHomeMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MoveToRTHomeMenuItem.Click, OpenRterHomeMenuItem.Click
         If _curList.SelectedIndices.Count > 0 Then
             Dim post As PostClass = GetCurTabPost(_curList.SelectedIndices(0))
             If post.RetweetedId > 0 Then
@@ -7491,30 +7521,37 @@ RETRY:
         HashToggleMenuItem_Click(Nothing, Nothing)
     End Sub
 
-    Private Sub MenuItemFile_DropDownOpening(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemFile.DropDownOpening
-        Me.MenuItemFile.DropDown = Me.ContextMenuStrip1
-        AddHandler Me.ContextMenuStrip1.Closed, AddressOf Me.DeleteDropdown
-    End Sub
-
     Private Sub MenuItemOperate_DropDownOpening(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemOperate.DropDownOpening
-        Me.MenuItemOperate.DropDown = Me.ContextMenuStrip2
-        AddHandler Me.ContextMenuStrip2.Closed, AddressOf Me.DeleteDropdown
+        If ListTab.SelectedTab Is Nothing Then Exit Sub
+        If _statuses Is Nothing OrElse _statuses.Tabs Is Nothing OrElse Not _statuses.Tabs.ContainsKey(ListTab.SelectedTab.Text) Then Exit Sub
+        If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.DirectMessage Then
+            Me.FavOpMenuItem.Enabled = False
+            Me.UnFavOpMenuItem.Enabled = False
+            Me.OpenStatusOpMenuItem.Enabled = False
+            Me.OpenFavotterOpMenuItem.Enabled = False
+        Else
+            Me.FavOpMenuItem.Enabled = True
+            Me.UnFavOpMenuItem.Enabled = True
+            Me.OpenStatusOpMenuItem.Enabled = True
+            Me.OpenFavotterOpMenuItem.Enabled = True
+        End If
+        If _curPost Is Nothing OrElse _curPost.IsDm Then
+            Me.RtOpMenuItem.Enabled = False
+            Me.RtUnOpMenuItem.Enabled = False
+            Me.QtOpMenuItem.Enabled = False
+        Else
+            Me.RtOpMenuItem.Enabled = True
+            Me.RtUnOpMenuItem.Enabled = True
+            Me.QtOpMenuItem.Enabled = True
+        End If
+        If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.PublicSearch Then
+            Me.RefreshPrevOpMenuItem.Enabled = True
+        Else
+            Me.RefreshPrevOpMenuItem.Enabled = False
+        End If
     End Sub
 
     Private Sub MenuItemTab_DropDownOpening(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemTab.DropDownOpening
-        Me.MenuItemTab.DropDown = Me.ContextMenuTabProperty
-        AddHandler Me.ContextMenuTabProperty.Closed, AddressOf Me.DeleteDropdown
+        ContextMenuTabProperty_Opening(sender, Nothing)
     End Sub
-
-    Private Sub DeleteDropdown(ByVal sender As Object, ByVal e As System.Windows.Forms.ToolStripDropDownClosedEventArgs)
-        For Each menuItem As ToolStripMenuItem In Me.MenuStrip1.Items
-            If menuItem.DropDown Is sender Then
-                Dim sender_ As ContextMenuStrip = DirectCast(sender, ContextMenuStrip)
-                menuItem.DropDown = Me.ContextMenuStripDummy
-                RemoveHandler sender_.Closed, AddressOf Me.DeleteDropdown
-                Exit Sub
-            End If
-        Next
-    End Sub
-
 End Class

@@ -33,7 +33,7 @@ Public Class HashtagManage
     Private _localUseHash As String = ""
     Private _localIsHead As Boolean
 
-    Private Sub OK_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OK_Button.Click
+    Private Sub Close_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Close_Button.Click
         _permHash = UseHashText.Text
         _useHash = ""
         Me._insert = False
@@ -236,7 +236,7 @@ Public Class HashtagManage
         Me.GroupPermanent.Enabled = True
         Me.EditButton.Enabled = False
         Me.UseHashText.Focus()
-        Me.OK_Button.Enabled = False
+        Me.Close_Button.Enabled = False
         'キャンセル時のために退避
         Me._localUseHash = Me.UseHashText.Text
         Me._localIsHead = Me.RadioHead.Checked
@@ -271,7 +271,7 @@ Public Class HashtagManage
         Me.ReplaceButton.Enabled = False
         Me.GroupPermanent.Enabled = False
         Me.EditButton.Enabled = True
-        Me.OK_Button.Enabled = True
+        Me.Close_Button.Enabled = True
         Me.EditButton.Focus()
     End Sub
 
@@ -284,7 +284,7 @@ Public Class HashtagManage
         Me.ReplaceButton.Enabled = False
         Me.GroupPermanent.Enabled = False
         Me.EditButton.Enabled = True
-        Me.OK_Button.Enabled = True
+        Me.Close_Button.Enabled = True
         Me.EditButton.Focus()
     End Sub
 
@@ -304,13 +304,13 @@ Public Class HashtagManage
                 If Me.InsertButton.Enabled Then
                     Me.InsertButton_Click(Nothing, Nothing)
                 Else
-                    Me.OK_Button_Click(Nothing, Nothing)
+                    Me.Close_Button_Click(Nothing, Nothing)
                 End If
             End If
         End If
         If e.KeyCode = Keys.Escape Then
             If Me.InsertButton.Enabled Then
-                Me.OK_Button_Click(Nothing, Nothing)
+                Me.Close_Button_Click(Nothing, Nothing)
             Else
                 Me.PermCancel_Button_Click(Nothing, Nothing)
             End If

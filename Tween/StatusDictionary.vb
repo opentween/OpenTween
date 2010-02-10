@@ -990,7 +990,7 @@ Public NotInheritable Class TabInformations
 
     Public ReadOnly Property Item(ByVal TabName As String, ByVal Index As Integer) As PostClass
         Get
-            If Not _tabs.ContainsKey(TabName) Then Return Nothing
+            'If Not _tabs.ContainsKey(TabName) Then Return Nothing
             If _tabs(TabName).TabType = TabUsageType.PublicSearch Then
                 Return _tabs(TabName).Posts(_tabs(TabName).GetId(Index))
             Else
@@ -2173,6 +2173,12 @@ Public NotInheritable Class FiltersClass
         End If
         If bHit Then
             '除外判定
+            If _exsearchUrl Then
+                tBody = post.OriginalData
+            Else
+                tBody = post.Data
+            End If
+
             Dim exFlag As Boolean = False
             'If _name = "" AndAlso _body.Count = 0 Then
             '    exFlag = True
