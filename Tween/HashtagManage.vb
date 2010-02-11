@@ -25,7 +25,6 @@ Imports System.Windows.Forms
 Public Class HashtagManage
 
     Private _useHash As String = ""
-    Private _permHash As String = ""
     Private _hashSupl As AtIdSupplement
     Private _isPermanent As Boolean = False
     Private _isHead As Boolean = False
@@ -229,7 +228,7 @@ Public Class HashtagManage
         End Get
     End Property
 
-    Private Sub EditButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EditButton.Click
+    Private Sub EditButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Me.InsertButton.Enabled = False
         Me.AddButton.Enabled = True
         Me.ReplaceButton.Enabled = True
