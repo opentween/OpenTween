@@ -3423,7 +3423,7 @@ Public Module Twitter
                 post.IsMe = post.Name.ToLower.Equals(_uid)
 
                 'HTMLに整形
-                post.OriginalData = CreateHtmlAnchor(post.Data, post.ReplyToList)
+                post.OriginalData = CreateHtmlAnchor(HttpUtility.HtmlEncode(post.Data), post.ReplyToList)
                 post.Data = HttpUtility.HtmlDecode(post.Data)
                 'Source整形
                 If post.Source.StartsWith("<") Then
@@ -3797,9 +3797,8 @@ Public Module Twitter
     End Function
 
     Private Function CreateHtmlAnchor(ByVal Text As String, ByVal AtList As List(Of String)) As String
-        Dim retStr As String = HttpUtility.HtmlEncode(Text)     '要検証（デコードされて取得されるので再エンコード）
-        '半角スペースを置換（Thanks @anis774）
-        retStr = retStr.Replace(" ", "&nbsp;")                  'HttpUtility.HtmlEncode()ではスペースが処理されない為
+        'Dim retStr As String = HttpUtility.HtmlEncode(Text)     '要検証（デコードされて取得されるので再エンコード）
+        Dim retStr As String = HttpUtility.HtmlDecode(Text)
 
         'uriの正規表現
         Dim rgUrl As Regex = New Regex("(?<![0-9A-Za-z])(?:https?|shttp|ftps?)://(?:(?:[-_.!~*'()a-zA-Z0-9;:&=+$,]|%[0-9A-Fa-f" + _
@@ -3812,7 +3811,15 @@ Public Module Twitter
                          "*)?(?:\?(?:[-_.!~*'()a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])" + _
                          "*)?(?:#(?:[-_.!~*'()a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)?")
         '絶対パス表現のUriをリンクに置換
-        retStr = rgUrl.Replace(Text, "<a href=""$&"">$&</a>")
+        'retStr = rgUrl.Replace(retStr, "<a href=""$&"">$&</a>")
+        For Each mt As Match In rgUrl.Matches(retStr)
+            Text.Replace(mt.Result("$&"), "<a href=""" + mt.Result("$&") + """>" + mt.Result("$&") + "</a>")
+        Next
+        retStr = Text
+
+        '半角スペースを置換（Thanks @anis774）
+        retStr = retStr.Replace(" ", "&nbsp;")                  'HttpUtility.HtmlEncode()ではスペースが処理されない為
+
         '@返信を抽出し、@先リスト作成
         'Dim rg As New Regex("(^|[ -/:-@[-^`{-~])@([a-zA-Z0-9_]{1,20}/[a-zA-Z0-9_\-]{1,24}[a-zA-Z0-9_])")
         Dim rg As New Regex("(^|[^a-zA-Z0-9_])[@＠]([a-zA-Z0-9_]{1,20}/[a-zA-Z0-9_\-]{1,24}[a-zA-Z0-9_])")

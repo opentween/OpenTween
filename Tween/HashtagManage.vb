@@ -237,7 +237,11 @@ Public Class HashtagManage
     End Sub
 
     Private Sub PermCancel_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PermCancel_Button.Click
-        Me.UseHashText.Text = Me.HistoryHashList.Items(Me.HistoryHashList.SelectedIndices(0)).ToString
+        If Me.HistoryHashList.Items.Count > 0 Then
+            Me.UseHashText.Text = Me.HistoryHashList.Items(Me.HistoryHashList.SelectedIndices(0)).ToString
+        Else
+            Me.UseHashText.Text = ""
+        End If
 
         ChangeMode(False)
     End Sub
