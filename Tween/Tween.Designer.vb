@@ -79,7 +79,9 @@ Partial Class TweenMain
         Me.FollowContextMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.RemoveContextMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.FriendshipContextMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripSeparator32 = New System.Windows.Forms.ToolStripSeparator
         Me.IdFilterAddMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripSeparator33 = New System.Windows.Forms.ToolStripSeparator
         Me.UseHashtagMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.DateTimeLabel = New System.Windows.Forms.Label
         Me.StatusText = New System.Windows.Forms.TextBox
@@ -543,7 +545,7 @@ Partial Class TweenMain
         '
         'ContextMenuStrip4
         '
-        Me.ContextMenuStrip4.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem2, Me.ToolStripSeparator13, Me.ToolStripMenuItem3, Me.ToolStripMenuItem4, Me.ToolStripMenuItem5, Me.ToolStripSeparator5, Me.FollowContextMenuItem, Me.RemoveContextMenuItem, Me.FriendshipContextMenuItem, Me.IdFilterAddMenuItem, Me.UseHashtagMenuItem})
+        Me.ContextMenuStrip4.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem2, Me.ToolStripSeparator13, Me.ToolStripMenuItem3, Me.ToolStripMenuItem4, Me.ToolStripMenuItem5, Me.ToolStripSeparator5, Me.FollowContextMenuItem, Me.RemoveContextMenuItem, Me.FriendshipContextMenuItem, Me.ToolStripSeparator32, Me.IdFilterAddMenuItem, Me.ToolStripSeparator33, Me.UseHashtagMenuItem})
         Me.ContextMenuStrip4.Name = "ContextMenuStrip4"
         resources.ApplyResources(Me.ContextMenuStrip4, "ContextMenuStrip4")
         '
@@ -618,10 +620,20 @@ Partial Class TweenMain
         Me.FriendshipContextMenuItem.Name = "FriendshipContextMenuItem"
         resources.ApplyResources(Me.FriendshipContextMenuItem, "FriendshipContextMenuItem")
         '
+        'ToolStripSeparator32
+        '
+        Me.ToolStripSeparator32.Name = "ToolStripSeparator32"
+        resources.ApplyResources(Me.ToolStripSeparator32, "ToolStripSeparator32")
+        '
         'IdFilterAddMenuItem
         '
         Me.IdFilterAddMenuItem.Name = "IdFilterAddMenuItem"
         resources.ApplyResources(Me.IdFilterAddMenuItem, "IdFilterAddMenuItem")
+        '
+        'ToolStripSeparator33
+        '
+        Me.ToolStripSeparator33.Name = "ToolStripSeparator33"
+        resources.ApplyResources(Me.ToolStripSeparator33, "ToolStripSeparator33")
         '
         'UseHashtagMenuItem
         '
@@ -1643,5 +1655,7 @@ Partial Class TweenMain
     Friend WithEvents ToolStripSeparator29 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripSeparator30 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripSeparator31 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripSeparator32 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripSeparator33 As System.Windows.Forms.ToolStripSeparator
 
 End Class
