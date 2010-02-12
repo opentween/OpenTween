@@ -685,7 +685,7 @@ Public Class TweenMain
                                 _cfgCommon.HashSelected, _
                                 _cfgCommon.HashIsPermanent, _
                                 _cfgCommon.HashIsHead)
-        If HashMgr.PermanentHash <> "" AndAlso HashMgr.IsPermanent Then HashStripSplitButton.Text = HashMgr.PermanentHash
+        If HashMgr.UseHash <> "" AndAlso HashMgr.IsPermanent Then HashStripSplitButton.Text = HashMgr.UseHash
 
         _initial = True
 
@@ -1721,11 +1721,11 @@ Public Class TweenMain
             footer = ""
         Else
             'ハッシュタグ
-            If HashMgr.PermanentHash <> "" AndAlso HashMgr.IsPermanent Then
+            If HashMgr.UseHash <> "" Then
                 If HashMgr.IsHead Then
-                    header = HashMgr.PermanentHash + " "
+                    header = HashMgr.UseHash + " "
                 Else
-                    footer = " " + HashMgr.PermanentHash
+                    footer = " " + HashMgr.UseHash
                 End If
             End If
             If Not isRemoveFooter Then
@@ -2247,6 +2247,10 @@ Public Class TweenMain
                     StatusText.Text = ""
                     _history.Add("")
                     _hisIdx = _history.Count - 1
+                    If Not HashMgr.IsPermanent AndAlso HashMgr.UseHash <> "" Then
+                        HashMgr.ClearHashtag()
+                        Me.HashStripSplitButton.Text = "#[-]"
+                    End If
                     SetMainWindowTitle()
                 End If
                 If rslt.retMsg.Length = 0 AndAlso SettingDialog.PostAndGet Then GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
@@ -3572,8 +3576,8 @@ Public Class TweenMain
                 pLen -= SettingDialog.Status.Length + 1
             End If
         End If
-        If HashMgr.PermanentHash <> "" AndAlso HashMgr.IsPermanent Then
-            pLen -= HashMgr.PermanentHash.Length + 1
+        If HashMgr.UseHash <> "" Then
+            pLen -= HashMgr.UseHash.Length + 1
         End If
         Return pLen
     End Function
@@ -4939,7 +4943,11 @@ RETRY:
 
                 _cfgCommon.Nicoms = SettingDialog.Nicoms
                 _cfgCommon.HashTags = HashMgr.HashHistories
-                _cfgCommon.HashSelected = HashMgr.PermanentHash
+                If HashMgr.IsPermanent Then
+                    _cfgCommon.HashSelected = HashMgr.UseHash
+                Else
+                    _cfgCommon.HashSelected = ""
+                End If
                 _cfgCommon.HashIsHead = HashMgr.IsHead
                 _cfgCommon.HashIsPermanent = HashMgr.IsPermanent
                 '_cfgCommon.HashSelected = Me.HashSelectComboBox.Text
@@ -6163,11 +6171,20 @@ RETRY:
         'ハッシュタグの保存
         Dim hash As New Regex("(^|[^a-zA-Z0-9_/])[#|＃](?<hash>[a-zA-Z0-9_]+)")
         m = hash.Matches(StatusText)
+        Dim hstr As String = ""
         For Each hm As Match In m
-            Dim hstr As String = "#" + hm.Result("${hash}")
-            HashMgr.AddHashToHistory(hstr)
-            HashSupl.AddItem(hstr)
+            If Not IsNumeric(hm.Result("${hash}")) Then
+                If Not hstr.Contains("#" + hm.Result("${hash}") + " ") Then
+                    hstr += "#" + hm.Result("${hash}") + " "
+                    HashSupl.AddItem("#" + hm.Result("${hash}"))
+                End If
+            End If
         Next
+        If HashMgr.UseHash <> "" AndAlso Not hstr.Contains(HashMgr.UseHash + " ") Then
+            hstr += HashMgr.UseHash
+        End If
+        If hstr <> "" Then HashMgr.AddHashToHistory(hstr.Trim, False)
+
         ' 本当にリプライ先指定すべきかどうかの判定
         Dim id As New Regex("(^|[ -/:-@[-^`{-~])(?<id>@[a-zA-Z0-9_]+)")
 
@@ -7462,7 +7479,7 @@ RETRY:
     Private Sub UseHashtagMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UseHashtagMenuItem.Click
         Dim m As Match = Regex.Match(PostBrowser.StatusText, "^https?://twitter.com/search\?q=%23(?<hash>[a-zA-Z0-9_]+)$")
         If m.Success Then
-            HashMgr.PermanentHash = "#" + m.Result("${hash}")
+            HashMgr.SetPermanentHash("#" + m.Result("${hash}"))
             HashStripSplitButton.Text = HashMgr.UseHash
             '使用ハッシュタグとして設定
             modifySettingCommon = True
@@ -7482,31 +7499,31 @@ RETRY:
         End Try
         Me.TopMost = SettingDialog.AlwaysTop
         If rslt = Windows.Forms.DialogResult.Cancel Then Exit Sub
-        If HashMgr.IsPermanent AndAlso HashMgr.PermanentHash <> "" Then
-            HashStripSplitButton.Text = HashMgr.PermanentHash
+        If HashMgr.UseHash <> "" Then
+            HashStripSplitButton.Text = HashMgr.UseHash
         Else
             HashStripSplitButton.Text = "#[-]"
         End If
-        If HashMgr.IsInsert AndAlso HashMgr.UseHash <> "" Then
-            Dim sidx As Integer = StatusText.SelectionStart
-            Dim hash As String = HashMgr.UseHash + " "
-            If sidx > 0 Then
-                If StatusText.Text.Substring(sidx - 1, 1) <> " " Then
-                    hash = " " + hash
-                End If
-            End If
-            StatusText.Text = StatusText.Text.Insert(sidx, hash)
-            sidx += hash.Length
-            StatusText.SelectionStart = sidx
-            StatusText.Focus()
-        End If
+        'If HashMgr.IsInsert AndAlso HashMgr.UseHash <> "" Then
+        '    Dim sidx As Integer = StatusText.SelectionStart
+        '    Dim hash As String = HashMgr.UseHash + " "
+        '    If sidx > 0 Then
+        '        If StatusText.Text.Substring(sidx - 1, 1) <> " " Then
+        '            hash = " " + hash
+        '        End If
+        '    End If
+        '    StatusText.Text = StatusText.Text.Insert(sidx, hash)
+        '    sidx += hash.Length
+        '    StatusText.SelectionStart = sidx
+        '    StatusText.Focus()
+        'End If
         modifySettingCommon = True
     End Sub
 
     Private Sub HashToggleMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles HashToggleMenuItem.Click
         HashMgr.ToggleHash()
-        If HashMgr.PermanentHash <> "" AndAlso HashMgr.IsPermanent Then
-            HashStripSplitButton.Text = HashMgr.PermanentHash
+        If HashMgr.UseHash <> "" Then
+            HashStripSplitButton.Text = HashMgr.UseHash
         Else
             HashStripSplitButton.Text = "#[-]"
         End If

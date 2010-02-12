@@ -117,14 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Close_Button.Text" xml:space="preserve">
-    <value>Close</value>
+  <data name="Cancel_Button.Text" xml:space="preserve">
+    <value>Cancel</value>
   </data>
   <data name="DeleteButton.Text" xml:space="preserve">
     <value>&amp;Delete</value>
   </data>
-  <data name="ReplaceButton.Text" xml:space="preserve">
-    <value>&amp;Replace</value>
+  <data name="EditButton.Text" xml:space="preserve">
+    <value>&amp;Edit</value>
   </data>
   <data name="AddButton.Text" xml:space="preserve">
     <value>&amp;Add</value>
@@ -137,10 +137,13 @@
     <value>Using Hash&amp;tags</value>
   </data>
   <data name="CheckPermanent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 16</value>
+    <value>83, 16</value>
   </data>
   <data name="CheckPermanent.Text" xml:space="preserve">
-    <value>Always add (&amp;Permanent)</value>
+    <value>A&amp;lways add</value>
+  </data>
+  <data name="GroupDetail.Text" xml:space="preserve">
+    <value>Detail</value>
   </data>
   <data name="PermCancel_Button.Text" xml:space="preserve">
     <value>Cancel</value>
@@ -163,19 +166,10 @@
   <data name="RadioHead.Text" xml:space="preserve">
     <value>Head</value>
   </data>
-  <data name="GroupPermanent.Text" xml:space="preserve">
-    <value>Permanent Hashtag</value>
+  <data name="UnSelectButton.Text" xml:space="preserve">
+    <value>Not &amp;Use</value>
   </data>
-  <data name="Label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>42, 12</value>
-  </data>
-  <data name="Label2.Text" xml:space="preserve">
-    <value>&amp;History</value>
-  </data>
-  <data name="InsertButton.Text" xml:space="preserve">
-    <value>&amp;Insert</value>
-  </data>
-  <data name="EditButton.Text" xml:space="preserve">
-    <value>&amp;Edit permanent hashtags</value>
+  <data name="GroupHashtag.Text" xml:space="preserve">
+    <value>Hashtags</value>
   </data>
 </root>
