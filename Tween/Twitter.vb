@@ -1718,25 +1718,47 @@ Public Module Twitter
         retStr = retStr.Replace(vbLf, "<br>")
 
         '半角スペースを置換(Thanks @anis774)
-        Dim isTag As Boolean = False
-        For i As Integer = 0 To retStr.Length - 1
-            If retStr(i) = "<"c Then
-                isTag = True
-            End If
-            If retStr(i) = ">"c Then
-                isTag = False
-            End If
+        Dim ret As Boolean = False
+        Do
+            ret = EscapeSpace(retStr)
+        Loop While Not ret
+        'Dim isTag As Boolean = False
+        'For i As Integer = 0 To retStr.Length - 1
+        '    If retStr(i) = "<"c Then
+        '        isTag = True
+        '    End If
+        '    If retStr(i) = ">"c Then
+        '        isTag = False
+        '    End If
 
-            If (Not isTag) AndAlso (retStr(i) = " "c) Then
-                retStr.Remove(i, 1)
-                retStr.Insert(i, "&nbsp;")
-                i += 5
-            End If
-        Next
+        '    If (Not isTag) AndAlso (retStr(i) = " "c) Then
+        '        retStr = retStr.Remove(i, 1)
+        '        retStr = retStr.Insert(i, "&nbsp;")
+        '    End If
+        'Next
 
         Return SanitizeHtml(retStr)
     End Function
 
+    Private Function EscapeSpace(ByRef html As String) As Boolean
+        '半角スペースを置換(Thanks @anis774)
+        Dim isTag As Boolean = False
+        For i As Integer = 0 To html.Length - 1
+            If html(i) = "<"c Then
+                isTag = True
+            End If
+            If html(i) = ">"c Then
+                isTag = False
+            End If
+
+            If (Not isTag) AndAlso (html(i) = " "c) Then
+                html = html.Remove(i, 1)
+                html = html.Insert(i, "&nbsp;")
+                Return False
+            End If
+        Next
+        Return True
+    End Function
     Private Sub GetIconImage(ByVal post As PostClass)
         Dim img As Image
         Dim bmp2 As Bitmap
@@ -3798,10 +3820,10 @@ Public Module Twitter
 
     Private Function CreateHtmlAnchor(ByVal Text As String, ByVal AtList As List(Of String)) As String
         'Dim retStr As String = HttpUtility.HtmlEncode(Text)     '要検証（デコードされて取得されるので再エンコード）
-        Dim retStr As String = HttpUtility.HtmlDecode(Text)
-
+        'Dim retStr As String = HttpUtility.HtmlDecode(Text)
+        Dim retStr As String = ""
         'uriの正規表現
-        Dim rgUrl As Regex = New Regex("(?<![0-9A-Za-z])(?:https?|shttp|ftps?)://(?:(?:[-_.!~*'()a-zA-Z0-9;:&=+$,]|%[0-9A-Fa-f" + _
+        Dim rgUrl As Regex = New Regex("(?<![0-9A-Za-z=])(?:https?|shttp|ftps?)://(?:(?:[-_.!~*'()a-zA-Z0-9;:&=+$,]|%[0-9A-Fa-f" + _
                          "][0-9A-Fa-f])*@)?(?:(?:[a-zA-Z0-9](?:[-a-zA-Z0-9]*[a-zA-Z0-9])?\.)" + _
                          "*[a-zA-Z](?:[-a-zA-Z0-9]*[a-zA-Z0-9])?\.?|[0-9]+\.[0-9]+\.[0-9]+\." + _
                          "[0-9]+)(?::[0-9]*)?(?:/(?:[-_.!~*'()a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f]" + _
@@ -3811,14 +3833,15 @@ Public Module Twitter
                          "*)?(?:\?(?:[-_.!~*'()a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])" + _
                          "*)?(?:#(?:[-_.!~*'()a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)?")
         '絶対パス表現のUriをリンクに置換
-        'retStr = rgUrl.Replace(retStr, "<a href=""$&"">$&</a>")
-        For Each mt As Match In rgUrl.Matches(retStr)
-            Text.Replace(mt.Result("$&"), "<a href=""" + mt.Result("$&") + """>" + mt.Result("$&") + "</a>")
-        Next
-        retStr = Text
+        retStr = rgUrl.Replace(Text, "<a href=""$&"">$&</a>")
+        'Dim mts As MatchCollection = rgUrl.Matches(retStr)
+        '''半角スペースを置換（Thanks @anis774）
+        ''Text = Text.Replace(" ", "&nbsp;")                  'HttpUtility.HtmlEncode()ではスペースが処理されない為
 
-        '半角スペースを置換（Thanks @anis774）
-        retStr = retStr.Replace(" ", "&nbsp;")                  'HttpUtility.HtmlEncode()ではスペースが処理されない為
+        'For Each mt As Match In mts
+        '    Text = Text.Replace(mt.Result("$&"), "<a href=""" + mt.Result("$&") + """>" + mt.Result("$&") + "</a>")
+        'Next
+        'retStr = Text
 
         '@返信を抽出し、@先リスト作成
         'Dim rg As New Regex("(^|[ -/:-@[-^`{-~])@([a-zA-Z0-9_]{1,20}/[a-zA-Z0-9_\-]{1,24}[a-zA-Z0-9_])")
@@ -3839,17 +3862,29 @@ Public Module Twitter
 
         'ハッシュタグを抽出し、リンクに置換
         'Dim rgh As New Regex("(^|[ .!,\-:;<>?])#([^] !""#$%&'()*+,.:;<=>?@\-[\^`{|}~\r\n]+)")
-        Dim rgh As New Regex("(^|[^a-zA-Z0-9_/])[#＃]([a-zA-Z0-9_]+)")
-        Dim mh As Match = rgh.Match(retStr)
-        If mh.Success Then
-            retStr = rgh.Replace(retStr, "$1<a href=""" + _protocol + "twitter.com/search?q=%23$2"">#$2</a>")
-        End If
-        While mh.Success
-            SyncLock LockObj
-                _hashList.Add("#" + mh.Result("$2"))
-            End SyncLock
-            mh = mh.NextMatch
-        End While
+        Dim rgh As New Regex("(^|[^a-zA-Z0-9_/&])[#＃]([a-zA-Z0-9_]+)")
+        Dim mhs As MatchCollection = rgh.Matches(retStr)
+        For Each mt As Match In mhs
+            If Not IsNumeric(mt.Result("$2")) Then
+                'retStr = retStr.Replace(mt.Result("$1") + mt.Result("$2"), "<a href=""" + _protocol + "twitter.com/search?q=%23" + mt.Result("$2") + """>#" + mt.Result("$2") + "</a>")
+                SyncLock LockObj
+                    _hashList.Add("#" + mt.Result("$2"))
+                End SyncLock
+            End If
+        Next
+        retStr = rgh.Replace(retStr, "$1<a href=""" + _protocol + "twitter.com/search?q=%23$2"">#$2</a>")
+        '数字のみハッシュタグを戻す
+        Dim rgnh As New Regex("<a href=""" + _protocol + "twitter.com/search\?q=%23[0-9]+"">(#[0-9]+)</a>")
+        retStr = rgnh.Replace(retStr, "$1")
+        'If mh.Success Then
+        '    retStr = rgh.Replace(retStr, "$1<a href=""" + _protocol + "twitter.com/search?q=%23$2"">#$2</a>")
+        'End If
+        'While mh.Success
+        '    SyncLock LockObj
+        '        _hashList.Add("#" + mh.Result("$2"))
+        '    End SyncLock
+        '    mh = mh.NextMatch
+        'End While
 
         retStr = AdjustHtml(ShortUrlResolve(PreProcessUrl(retStr))) 'IDN置換、短縮Uri解決、@リンクを相対→絶対にしてtarget属性付与
         Return retStr
