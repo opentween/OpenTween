@@ -377,11 +377,13 @@ Public NotInheritable Class TabInformations
 
     Public Sub AddTab(ByVal TabName As String, ByVal TabType As TabUsageType)
         _tabs.Add(TabName, New TabClass(TabName, TabType))
+        _tabs(TabName).Sorter.Mode = _sorter.Mode
+        _tabs(TabName).Sorter.Order = _sorter.Order
     End Sub
 
-    Public Sub AddTab(ByVal TabName As String, ByVal Tab As TabClass)
-        _tabs.Add(TabName, Tab)
-    End Sub
+    'Public Sub AddTab(ByVal TabName As String, ByVal Tab As TabClass)
+    '    _tabs.Add(TabName, Tab)
+    'End Sub
 
     Public Sub RemoveTab(ByVal TabName As String)
         SyncLock LockObj

@@ -5643,7 +5643,7 @@ RETRY:
     Private Sub SoundFileComboBox_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SoundFileComboBox.SelectedIndexChanged, SoundFileTbComboBox.SelectedIndexChanged
         If soundfileListup OrElse _rclickTabName = "" Then Exit Sub
 
-        _statuses.Tabs(_rclickTabName).SoundFile = DirectCast(SoundFileComboBox.SelectedItem, String)
+        _statuses.Tabs(_rclickTabName).SoundFile = DirectCast(DirectCast(sender, ToolStripComboBox).SelectedItem, String)
 
         'SaveConfigsTab(_rclickTabName)
         SaveConfigsTabs()
@@ -5659,7 +5659,7 @@ RETRY:
         SaveConfigsTabs()
     End Sub
 
-    Private Sub FilterEditMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FilterEditMenuItem.Click
+    Private Sub FilterEditMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FilterEditMenuItem.Click, EditRuleTbMenuItem.Click
         'If _rclickTabName = "" OrElse _rclickTabName = DEFAULTTAB.RECENT OrElse _rclickTabName = DEFAULTTAB.DM _
         '        OrElse _rclickTabName = DEFAULTTAB.FAV Then Exit Sub
 
@@ -7567,4 +7567,5 @@ RETRY:
     Private Sub MenuItemTab_DropDownOpening(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemTab.DropDownOpening
         ContextMenuTabProperty_Opening(sender, Nothing)
     End Sub
+
 End Class
