@@ -781,4 +781,19 @@
   <data name="DeleteHashtagsMessage1" xml:space="preserve">
     <value>選択しているハッシュタグを削除してもよろしいですか？</value>
   </data>
+  <data name="GetFriendshipInfo1" xml:space="preserve">
+    <value>&gt;&gt;&gt; ◯ フォローしています</value>
+  </data>
+  <data name="GetFriendshipInfo2" xml:space="preserve">
+    <value>&gt;&gt;&gt; × フォローしていません</value>
+  </data>
+  <data name="GetFriendshipInfo3" xml:space="preserve">
+    <value>&lt;&lt;&lt; ◯ フォローされています</value>
+  </data>
+  <data name="GetFriendshipInfo4" xml:space="preserve">
+    <value>&lt;&lt;&lt; × フォローされていません</value>
+  </data>
+  <data name="GetFriendshipInfo5" xml:space="preserve">
+    <value> さんとのフォロー関係</value>
+  </data>
 </root>

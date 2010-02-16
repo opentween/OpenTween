@@ -300,6 +300,7 @@ Partial Class TweenMain
         '
         'HashStripSplitButton
         '
+        Me.HashStripSplitButton.AutoToolTip = False
         Me.HashStripSplitButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
         Me.HashStripSplitButton.DropDown = Me.ContextMenuStripPostMode
         Me.HashStripSplitButton.DropDownButtonWidth = 13
