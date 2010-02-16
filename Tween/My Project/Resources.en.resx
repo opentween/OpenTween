@@ -729,4 +729,19 @@
   <data name="DeleteHashtagsMessage1" xml:space="preserve">
     <value>Will you delete these selecting hashtags?</value>
   </data>
+  <data name="GetFriendshipInfo1" xml:space="preserve">
+    <value>&gt;&gt;&gt; Following</value>
+  </data>
+  <data name="GetFriendshipInfo2" xml:space="preserve">
+    <value>&gt;&gt;&gt; NOT Following</value>
+  </data>
+  <data name="GetFriendshipInfo3" xml:space="preserve">
+    <value>&lt;&lt;&lt; Followed</value>
+  </data>
+  <data name="GetFriendshipInfo4" xml:space="preserve">
+    <value>&lt;&lt;&lt; NOT Followed</value>
+  </data>
+  <data name="GetFriendshipInfo5" xml:space="preserve">
+    <value> Relationship</value>
+  </data>
 </root>

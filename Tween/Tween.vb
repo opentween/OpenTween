@@ -3641,8 +3641,14 @@ Public Class TweenMain
         If Post.IsMark Then mk += "♪"
         If Post.IsProtect Then mk += "Ю"
         If Post.InReplyToId > 0 Then mk += "⇒"
-        Dim sitem() As String = {"", Post.Nickname, Post.Data, Post.PDate.ToString(SettingDialog.DateTimeFormat), Post.Name, "", mk, Post.Source}
-        Dim itm As ListViewItem = New ListViewItem(sitem, Post.ImageIndex)
+        Dim itm As ListViewItem
+        If Post.RetweetedId = 0 Then
+            Dim sitem() As String = {"", Post.Nickname, Post.Data, Post.PDate.ToString(SettingDialog.DateTimeFormat), Post.Name, "", mk, Post.Source}
+            itm = New ListViewItem(sitem, Post.ImageIndex)
+        Else
+            Dim sitem() As String = {"", Post.Nickname, Post.Data, Post.PDate.ToString(SettingDialog.DateTimeFormat), Post.Name + "(RT:" + Post.RetweetedBy + ")", "", mk, Post.Source}
+            itm = New ListViewItem(sitem, Post.ImageIndex)
+        End If
         Dim read As Boolean = Post.IsRead
         '未読管理していなかったら既読として扱う
         If Not _statuses.Tabs(Tab.Text).UnreadManage OrElse _
@@ -3727,7 +3733,7 @@ Public Class TweenMain
                     If _iconCol Then
                         Dim fnt As New Font(e.Item.Font, FontStyle.Bold)
                         e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems(2).Text, e.Item.Font, brs, rctB, sf)
-                        e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") <" + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + "> from " + e.Item.SubItems(7).Text, fnt, brs, rct, sf)
+                        e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]", fnt, brs, rct, sf)
                         fnt.Dispose()
                     Else
                         e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, brs, rct, sf)
@@ -3741,14 +3747,14 @@ Public Class TweenMain
                     If DirectCast(sender, Windows.Forms.Control).Focused Then
                         If _iconCol Then
                             e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems(2).Text, e.Item.Font, _brsHighLightText, rctB, sf)
-                            e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") <" + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + "> from " + e.Item.SubItems(7).Text, fnt, _brsHighLightText, rct, sf)
+                            e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]", fnt, _brsHighLightText, rct, sf)
                         Else
                             e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, _brsHighLightText, rct, sf)
                         End If
                     Else
                         If _iconCol Then
                             e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems(2).Text, e.Item.Font, _brsForeColorUnread, rctB, sf)
-                            e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") <" + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + "> from " + e.Item.SubItems(7).Text, fnt, _brsForeColorUnread, rct, sf)
+                            e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]", fnt, _brsForeColorUnread, rct, sf)
                         Else
                             e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, _brsForeColorUnread, rct, sf)
                         End If
@@ -7257,8 +7263,26 @@ RETRY:
             inputName.TabName = id
             If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
                Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
-                Dim ret As String = Twitter.GetFriendshipInfo(inputName.TabName.Trim())
-                MessageBox.Show(ret)
+                Dim isFollowing As Boolean = False
+                Dim isFollowed As Boolean = False
+                Dim result As String = ""
+                Dim ret As String = Twitter.GetFriendshipInfo(inputName.TabName.Trim(), isFollowing, isFollowed)
+                If ret = "" Then
+                    If isFollowing Then
+                        result = My.Resources.GetFriendshipInfo1 + System.Environment.NewLine
+                    Else
+                        result = My.Resources.GetFriendshipInfo2 + System.Environment.NewLine
+                    End If
+                    If isFollowed Then
+                        result += My.Resources.GetFriendshipInfo3
+                    Else
+                        result += My.Resources.GetFriendshipInfo4
+                    End If
+                    result = id + My.Resources.GetFriendshipInfo5 + System.Environment.NewLine + result
+                Else
+                    result = ret
+                End If
+                MessageBox.Show(result)
             End If
             inputName.Dispose()
         End Using

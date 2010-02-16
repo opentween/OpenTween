@@ -2188,7 +2188,7 @@ Public Module Twitter
         Return ""
     End Function
 
-    Public Function GetFriendshipInfo(ByVal id As String) As String
+    Public Function GetFriendshipInfo(ByVal id As String, ByRef isFollowing As Boolean, ByRef isFollowed As Boolean) As String
 
         If _endingFlag Then Return ""
 
@@ -2212,19 +2212,8 @@ Public Module Twitter
             Dim result As String = ""
             Try
                 xdoc.LoadXml(resMsg)
-                Dim isFollowing As Boolean = Boolean.Parse(xdoc.SelectSingleNode("/relationship/source/following").InnerText)
-                Dim isFollowed As Boolean = Boolean.Parse(xdoc.SelectSingleNode("/relationship/source/followed_by").InnerText)
-                If isFollowing Then
-                    result = "Following " + id + "." + System.Environment.NewLine
-                Else
-                    result = "NOT follwing them." + System.Environment.NewLine
-                End If
-                If isFollowed Then
-                    result += "Followed by " + id + "."
-                Else
-                    result += "NOT followed by " + id + "."
-                End If
-                result = "Ok. The results are below..." + System.Environment.NewLine + result
+                isFollowing = Boolean.Parse(xdoc.SelectSingleNode("/relationship/source/following").InnerText)
+                isFollowed = Boolean.Parse(xdoc.SelectSingleNode("/relationship/source/followed_by").InnerText)
             Catch ex As Exception
                 result = "Err: Invalid XML."
             End Try
