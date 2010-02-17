@@ -627,6 +627,9 @@ Public Class FilterDialog
         ComboSound.Items.Clear()
         ComboSound.Items.Add("")
         Dim oDir As IO.DirectoryInfo = New IO.DirectoryInfo(My.Application.Info.DirectoryPath)
+        If IO.Directory.Exists(IO.Path.Combine(My.Application.Info.DirectoryPath, "Sounds")) Then
+            oDir = oDir.GetDirectories("Sounds")(0)
+        End If
         For Each oFile As IO.FileInfo In oDir.GetFiles("*.wav")
             ComboSound.Items.Add(oFile.Name)
         Next
