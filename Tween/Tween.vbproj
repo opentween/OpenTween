@@ -357,7 +357,11 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Target Name="AfterBuild">
+    <SGen BuildAssemblyName="$(TargetFileName)" BuildAssemblyPath="$(TargetDir)" ShouldGenerateSerializer="true" UseProxyTypes="false" />
+  </Target>
   <PropertyGroup>
-    <PostBuildEvent>if exist "$(DevEnvDir)..\..\SDK\v2.0\bin\sgen.exe" "$(DevEnvDir)..\..\SDK\v2.0\bin\sgen.exe" /f /a:"$(TargetPath)"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>
