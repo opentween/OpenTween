@@ -1474,7 +1474,11 @@ Public Class TweenMain
         'サウンド再生
         If Not _initial AndAlso SettingDialog.PlaySound AndAlso soundFile <> "" Then
             Try
-                My.Computer.Audio.Play(Path.Combine(My.Application.Info.DirectoryPath.ToString(), soundFile), AudioPlayMode.Background)
+                Dim dir As String = My.Application.Info.DirectoryPath
+                If Directory.Exists(Path.Combine(dir, "Sounds")) Then
+                    dir = Path.Combine(dir, "Sounds")
+                End If
+                My.Computer.Audio.Play(Path.Combine(dir, soundFile), AudioPlayMode.Background)
             Catch ex As Exception
 
             End Try
@@ -5566,6 +5570,9 @@ RETRY:
         SoundFileComboBox.Items.Add("")
         Me.SoundFileTbComboBox.Items.Add("")
         Dim oDir As IO.DirectoryInfo = New IO.DirectoryInfo(My.Application.Info.DirectoryPath)
+        If IO.Directory.Exists(IO.Path.Combine(My.Application.Info.DirectoryPath, "Sounds")) Then
+            oDir = oDir.GetDirectories("Sounds")(0)
+        End If
         For Each oFile As IO.FileInfo In oDir.GetFiles("*.wav")
             SoundFileComboBox.Items.Add(oFile.Name)
             Me.SoundFileTbComboBox.Items.Add(oFile.Name)
