@@ -7274,7 +7274,8 @@ RETRY:
                 Dim isFollowing As Boolean = False
                 Dim isFollowed As Boolean = False
                 Dim result As String = ""
-                Dim ret As String = Twitter.GetFriendshipInfo(inputName.TabName.Trim(), isFollowing, isFollowed)
+                id = inputName.TabName.Trim
+                Dim ret As String = Twitter.GetFriendshipInfo(id, isFollowing, isFollowed)
                 If ret = "" Then
                     If isFollowing Then
                         result = My.Resources.GetFriendshipInfo1 + System.Environment.NewLine
