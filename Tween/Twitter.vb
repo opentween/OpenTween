@@ -329,7 +329,7 @@ Public Module Twitter
             End If
 
             ' tr 要素の class 属性を消去
-            retMsg = Regex.Replace(retMsg, "(?<tagStart><li)(?<cls>\s+class=""[^""]+"")", "${tagStart}")
+            retMsg = Regex.Replace(retMsg, "(?<tagStart><li)(?<cls>\s+class=""[^""]+""\s+)", "${tagStart} ")
             'Do
             '    Try
             '        Dim idx As Integer = retMsg.IndexOf(_removeClass, StringComparison.Ordinal)
@@ -832,7 +832,7 @@ Public Module Twitter
             End If
 
             ' tr 要素の class 属性を消去
-            retMsg = Regex.Replace(retMsg, "(?<tagStart><li)(?<cls>\s+class=""[^""]+"")", "${tagStart}")
+            retMsg = Regex.Replace(retMsg, "(?<tagStart><li)(?<cls>\s+class=""[^""]+""\s+)", "${tagStart} ")
             'Do
             '    Try
             '        Dim idx As Integer = retMsg.IndexOf(_removeClass, StringComparison.Ordinal)
@@ -1092,7 +1092,7 @@ Public Module Twitter
             End If
 
             ' tr 要素の class 属性を消去
-            retMsg = Regex.Replace(retMsg, "(?<tagStart><li)(?<cls>\s+class=""[^""]+"")", "${tagStart}")
+            retMsg = Regex.Replace(retMsg, "(?<tagStart><li)(?<cls>\s+class=""[^""]+""\s+)", "${tagStart} ")
             'Do
             '    Try
             '        Dim idx As Integer = retMsg.IndexOf(_removeClass, StringComparison.Ordinal)
