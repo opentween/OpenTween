@@ -725,10 +725,11 @@ Public NotInheritable Class TabInformations
             If _addedIds Is Nothing Then _addedIds = New List(Of Long)
             If _notifyPosts Is Nothing Then _notifyPosts = New List(Of PostClass)
             Me.Distribute()    'タブに仮振分
-            _addCount += _addedIds.Count
+            Dim retCnt As Integer = _addedIds.Count
+            _addCount += retCnt
             _addedIds.Clear()
             _addedIds = Nothing     '後始末
-            Return _addCount     '件数
+            Return retCnt     '件数
         End SyncLock
     End Function
 
