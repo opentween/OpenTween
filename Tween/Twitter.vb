@@ -3272,7 +3272,8 @@ Public Module Twitter
                     'Reply先
                     Long.TryParse(xRentry.Item("in_reply_to_status_id").InnerText, post.InReplyToId)
                     post.InReplyToUser = xRentry.Item("in_reply_to_screen_name").InnerText
-                    post.IsFav = TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites).Contains(post.RetweetedId)
+                    'post.IsFav = TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites).Contains(post.RetweetedId)
+                    post.IsFav = Boolean.Parse(xentry.Item("favorited").InnerText)
 
                     '以下、ユーザー情報
                     Dim xRUentry As XmlElement = CType(xRentry.SelectSingleNode("./user"), XmlElement)
