@@ -89,6 +89,7 @@
     <Compile Include="Connection\HttpConnection.vb" />
     <Compile Include="Connection\HttpConnectionApi.vb" />
     <Compile Include="Connection\HttpConnectionOAuth.vb" />
+    <Compile Include="Connection\HttpConnectionXAuth.vb" />
     <Compile Include="DetailsListView.vb">
       <SubType>Component</SubType>
     </Compile>
