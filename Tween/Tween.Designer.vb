@@ -176,7 +176,6 @@ Partial Class TweenMain
         Me.MatomeMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator16 = New System.Windows.Forms.ToolStripSeparator
         Me.VerUpMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.WedataMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator14 = New System.Windows.Forms.ToolStripSeparator
         Me.ApiInfoMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.InfoTwitterMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -1108,7 +1107,7 @@ Partial Class TweenMain
         '
         'MenuItemHelp
         '
-        Me.MenuItemHelp.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MatomeMenuItem, Me.ToolStripSeparator16, Me.VerUpMenuItem, Me.WedataMenuItem, Me.ToolStripSeparator14, Me.ApiInfoMenuItem, Me.InfoTwitterMenuItem, Me.ToolStripSeparator7, Me.AboutMenuItem, Me.DebugModeToolStripMenuItem})
+        Me.MenuItemHelp.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MatomeMenuItem, Me.ToolStripSeparator16, Me.VerUpMenuItem, Me.ToolStripSeparator14, Me.ApiInfoMenuItem, Me.InfoTwitterMenuItem, Me.ToolStripSeparator7, Me.AboutMenuItem, Me.DebugModeToolStripMenuItem})
         Me.MenuItemHelp.Name = "MenuItemHelp"
         resources.ApplyResources(Me.MenuItemHelp, "MenuItemHelp")
         '
@@ -1126,11 +1125,6 @@ Partial Class TweenMain
         '
         Me.VerUpMenuItem.Name = "VerUpMenuItem"
         resources.ApplyResources(Me.VerUpMenuItem, "VerUpMenuItem")
-        '
-        'WedataMenuItem
-        '
-        Me.WedataMenuItem.Name = "WedataMenuItem"
-        resources.ApplyResources(Me.WedataMenuItem, "WedataMenuItem")
         '
         'ToolStripSeparator14
         '
@@ -1514,7 +1508,6 @@ Partial Class TweenMain
     Friend WithEvents MatomeMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator16 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents VerUpMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents WedataMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator14 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents InfoTwitterMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator7 As System.Windows.Forms.ToolStripSeparator

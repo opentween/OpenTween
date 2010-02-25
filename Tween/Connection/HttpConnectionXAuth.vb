@@ -84,12 +84,7 @@ Public Class HttpConnectionXAuth
             Throw New Exception("Sequence error.(username or password is blank)")
         End If
         Dim reqUri As New Uri(AccessTokenUrl)
-        Dim parameter As New SortedList(Of String, String)
-        parameter.Add("oauth_consumer_key", ConsumerKey)
-        parameter.Add("oauth_signature_method", "HMAC-SHA1")
-        parameter.Add("oauth_timestamp", GetTimestamp())
-        parameter.Add("oauth_nonce", GetNonce())
-        parameter.Add("oauth_version", "1.0")
+        Dim parameter As SortedList(Of String, String) = GetOAuthParameter("")
         parameter.Add("x_auth_mode", "client_auth")
         parameter.Add("x_auth_username", username)
         parameter.Add("x_auth_password", password)
@@ -105,6 +100,7 @@ Public Class HttpConnectionXAuth
                 Dim tokenData As NameValueCollection = ParseQueryString(contentText)
                 token = tokenData.Item("oauth_token")
                 tokenSecret = tokenData.Item("oauth_token_secret")
+                ''' TODO:その他情報も格納するか検討（user_idなど）
                 If token = "" Then Return False
                 Return True
             Else
@@ -121,13 +117,7 @@ Public Class HttpConnectionXAuth
                                         ByVal query As SortedList(Of String, String), _
                                         ByVal token As String, _
                                         ByVal tokenSecret As String)
-        Dim parameter As New SortedList(Of String, String)
-        parameter.Add("oauth_consumer_key", ConsumerKey)
-        parameter.Add("oauth_signature_method", "HMAC-SHA1")
-        parameter.Add("oauth_timestamp", GetTimestamp())
-        parameter.Add("oauth_nonce", GetNonce())
-        parameter.Add("oauth_version", "1.0")
-        If Not String.IsNullOrEmpty(token) Then parameter.Add("oauth_token", token)
+        Dim parameter As SortedList(Of String, String) = GetOAuthParameter(token)
         If query IsNot Nothing Then
             For Each item As KeyValuePair(Of String, String) In query
                 parameter.Add(item.Key, item.Value)
@@ -142,6 +132,17 @@ Public Class HttpConnectionXAuth
         Next
         webRequest.Headers.Add(HttpRequestHeader.Authorization, sb.ToString)
     End Sub
+
+    Private Shared Function GetOAuthParameter(ByVal token As String) As SortedList(Of String, String)
+        Dim parameter As New SortedList(Of String, String)
+        parameter.Add("oauth_consumer_key", ConsumerKey)
+        parameter.Add("oauth_signature_method", "HMAC-SHA1")
+        parameter.Add("oauth_timestamp", GetTimestamp())
+        parameter.Add("oauth_nonce", GetNonce())
+        parameter.Add("oauth_version", "1.0")
+        If Not String.IsNullOrEmpty(token) Then parameter.Add("oauth_token", token)
+        Return parameter
+    End Function
 
     Private Shared Function CreateSignature(ByVal tokenSecret As String, _
                                             ByVal method As String, _

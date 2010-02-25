@@ -525,8 +525,8 @@ Public Class TweenMain
         SettingDialog.ReplyPeriodInt = _cfgCommon.ReplyPeriod
         SettingDialog.DMPeriodInt = _cfgCommon.DMPeriod
         SettingDialog.PubSearchPeriodInt = _cfgCommon.PubSearchPeriod
-        SettingDialog.NextPageThreshold = _cfgCommon.NextPageThreshold
-        SettingDialog.NextPagesInt = _cfgCommon.NextPages
+        'SettingDialog.NextPageThreshold = _cfgCommon.NextPageThreshold
+        'SettingDialog.NextPagesInt = _cfgCommon.NextPages
         SettingDialog.MaxPostNum = _cfgCommon.MaxPostNum
         '不正値チェック
         If Not My.Application.CommandLineArgs.Contains("nolimit") Then
@@ -536,9 +536,9 @@ Public Class TweenMain
             If SettingDialog.PubSearchPeriodInt < 30 AndAlso SettingDialog.PubSearchPeriodInt > 0 Then SettingDialog.PubSearchPeriodInt = 30
         End If
         '起動時読み込みページ数
-        SettingDialog.ReadPages = _cfgCommon.ReadPages
-        SettingDialog.ReadPagesReply = _cfgCommon.ReadPagesReply
-        SettingDialog.ReadPagesDM = _cfgCommon.ReadPagesDM
+        'SettingDialog.ReadPages = _cfgCommon.ReadPages
+        'SettingDialog.ReadPagesReply = _cfgCommon.ReadPagesReply
+        'SettingDialog.ReadPagesDM = _cfgCommon.ReadPagesDM
 
         '起動時読み込み分を既読にするか。Trueなら既読として処理
         SettingDialog.Readed = _cfgCommon.Read
@@ -581,13 +581,13 @@ Public Class TweenMain
 
         SettingDialog.NameBalloon = _cfgCommon.NameBalloon
         SettingDialog.PostCtrlEnter = _cfgCommon.PostCtrlEnter
-        SettingDialog.UseAPI = _cfgCommon.UseApi
+        'SettingDialog.UseAPI = _cfgCommon.UseApi
         SettingDialog.CountApi = _cfgCommon.CountApi
         SettingDialog.CountApiReply = _cfgCommon.CountApiReply
         SettingDialog.UsePostMethod = False
         SettingDialog.HubServer = _cfgCommon.HubServer
         SettingDialog.BrowserPath = _cfgLocal.BrowserPath
-        SettingDialog.CheckReply = _cfgCommon.CheckReply
+        'SettingDialog.CheckReply = _cfgCommon.CheckReply
         SettingDialog.PostAndGet = _cfgCommon.PostAndGet
         SettingDialog.UseRecommendStatus = _cfgLocal.UseRecommendStatus
         SettingDialog.DispUsername = _cfgCommon.DispUsername
@@ -605,9 +605,9 @@ Public Class TweenMain
 
         SettingDialog.PeriodAdjust = _cfgCommon.PeriodAdjust
         SettingDialog.StartupVersion = _cfgCommon.StartupVersion
-        SettingDialog.StartupKey = _cfgCommon.StartupKey
+        'SettingDialog.StartupKey = _cfgCommon.StartupKey
         SettingDialog.StartupFollowers = _cfgCommon.StartupFollowers
-        SettingDialog.StartupAPImodeNoWarning = _cfgCommon.StartupApiModeNoWarning
+        'SettingDialog.StartupAPImodeNoWarning = _cfgCommon.StartupApiModeNoWarning
         SettingDialog.RestrictFavCheck = _cfgCommon.RestrictFavCheck
         SettingDialog.AlwaysTop = _cfgCommon.AlwaysTop
         SettingDialog.UrlConvertAuto = _cfgCommon.UrlConvertAuto
@@ -775,13 +775,13 @@ Public Class TweenMain
         Twitter.ProxyPort = SettingDialog.ProxyPort
         Twitter.ProxyUser = SettingDialog.ProxyUser
         Twitter.ProxyPassword = SettingDialog.ProxyPassword
-        Twitter.NextThreshold = SettingDialog.NextPageThreshold   '次頁取得閾値
-        Twitter.NextPages = SettingDialog.NextPagesInt    '閾値オーバー時の読み込みページ数（未使用）
+        'Twitter.NextThreshold = SettingDialog.NextPageThreshold   '次頁取得閾値
+        'Twitter.NextPages = SettingDialog.NextPagesInt    '閾値オーバー時の読み込みページ数（未使用）
         Twitter.DefaultTimeOut = SettingDialog.DefaultTimeOut
         Twitter.CountApi = SettingDialog.CountApi
         Twitter.CountApiReply = SettingDialog.CountApiReply
-        Twitter.UseAPI = SettingDialog.UseAPI
-        Twitter.UsePostMethod = False
+        'Twitter.UseAPI = SettingDialog.UseAPI
+        'Twitter.UsePostMethod = False
         Twitter.HubServer = SettingDialog.HubServer
         Twitter.RestrictFavCheck = SettingDialog.RestrictFavCheck
         Twitter.ReadOwnPost = SettingDialog.ReadOwnPost
@@ -863,9 +863,9 @@ Public Class TweenMain
         '文字カウンタ初期化
         lblLen.Text = GetRestStatusCount(True, False).ToString()
 
-        If SettingDialog.StartupKey Then
-            Twitter.GetWedata()
-        End If
+        'If SettingDialog.StartupKey Then
+        '    Twitter.GetWedata()
+        'End If
 
         ''''''''''''''''''''''''''''''''''''''''
         _statuses.SortOrder = DirectCast(_cfgCommon.SortOrder, System.Windows.Forms.SortOrder)
@@ -1331,7 +1331,7 @@ Public Class TweenMain
                 End Select
             End If
         Catch ex As Exception
-            ex.Data("Msg") = "Ref2, UseAPI=" + SettingDialog.UseAPI.ToString
+            ex.Data("Msg") = "Ref2"
             Throw
         End Try
 
@@ -1831,11 +1831,12 @@ Public Class TweenMain
         Select Case args.type
             Case WORKERTYPE.Timeline, WORKERTYPE.Reply
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
-                If SettingDialog.UseAPI Then
-                    ret = Twitter.GetTimelineApi(read, args.type)
-                Else
-                    ret = Twitter.GetTimeline(args.page, read, args.endPage, args.type, rslt.newDM)
-                End If
+                ret = Twitter.GetTimelineApi(read, args.type)
+                'If SettingDialog.UseAPI Then
+                '    ret = Twitter.GetTimelineApi(read, args.type)
+                'Else
+                '    ret = Twitter.GetTimeline(args.page, read, args.endPage, args.type, rslt.newDM)
+                'End If
                 '新着時未読クリア
                 If ret = "" AndAlso args.type = WORKERTYPE.Timeline AndAlso SettingDialog.ReadOldPosts Then
                     _statuses.SetRead()
@@ -1843,12 +1844,14 @@ Public Class TweenMain
                 rslt.addCount = _statuses.DistributePosts()
             Case WORKERTYPE.DirectMessegeRcv    '送信分もまとめて取得
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
-                If SettingDialog.UseAPI Then
-                    ret = Twitter.GetDirectMessageApi(read, WORKERTYPE.DirectMessegeRcv)
-                    If ret = "" Then ret = Twitter.GetDirectMessageApi(read, WORKERTYPE.DirectMessegeSnt)
-                Else
-                    ret = Twitter.GetDirectMessage(args.page, read, args.endPage, args.type)
-                End If
+                ret = Twitter.GetDirectMessageApi(read, WORKERTYPE.DirectMessegeRcv)
+                If ret = "" Then ret = Twitter.GetDirectMessageApi(read, WORKERTYPE.DirectMessegeSnt)
+                'If SettingDialog.UseAPI Then
+                '    ret = Twitter.GetDirectMessageApi(read, WORKERTYPE.DirectMessegeRcv)
+                '    If ret = "" Then ret = Twitter.GetDirectMessageApi(read, WORKERTYPE.DirectMessegeSnt)
+                'Else
+                '    ret = Twitter.GetDirectMessage(args.page, read, args.endPage, args.type)
+                'End If
                 rslt.addCount = _statuses.DistributePosts()
             Case WORKERTYPE.FavAdd
                 'スレッド処理はしない
@@ -1918,11 +1921,12 @@ Public Class TweenMain
                 bw.ReportProgress(300)
             Case WORKERTYPE.Follower
                 bw.ReportProgress(50, My.Resources.UpdateFollowersMenuItem1_ClickText1)
-                If SettingDialog.UseAPI Then
-                    ret = Twitter.GetFollowersApi()
-                Else
-                    ret = Twitter.GetFollowers(False)       ' Followersリストキャッシュ有効
-                End If
+                ret = Twitter.GetFollowersApi()
+                'If SettingDialog.UseAPI Then
+                '    ret = Twitter.GetFollowersApi()
+                'Else
+                '    ret = Twitter.GetFollowers(False)       ' Followersリストキャッシュ有効
+                'End If
             Case WORKERTYPE.OpenUri
                 Dim myPath As String = Convert.ToString(args.status)
 
@@ -1949,11 +1953,12 @@ Public Class TweenMain
                 End Try
             Case WORKERTYPE.Favorites
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
-                If SettingDialog.UseAPI Then
-                    ret = Twitter.GetFavoritesApi(read, args.type)
-                Else
-                    ret = Twitter.GetFavorites(args.page, read, args.endPage, args.type, rslt.newDM)
-                End If
+                ret = Twitter.GetFavoritesApi(read, args.type)
+                'If SettingDialog.UseAPI Then
+                '    ret = Twitter.GetFavoritesApi(read, args.type)
+                'Else
+                '    ret = Twitter.GetFavorites(args.page, read, args.endPage, args.type, rslt.newDM)
+                'End If
                 rslt.addCount = _statuses.DistributePosts()
             Case WORKERTYPE.PublicSearch
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
@@ -2182,28 +2187,28 @@ Public Class TweenMain
                 If Not _initial Then
                     '通常時
                     '自動調整
-                    If Not SettingDialog.UseAPI Then
-                        If SettingDialog.PeriodAdjust AndAlso SettingDialog.TimelinePeriodInt > 0 Then
-                            If rslt.addCount >= 20 Then
-                                _homeCounterAdjuster += 5
-                                If SettingDialog.TimelinePeriodInt - _homeCounterAdjuster < 15 Then _homeCounterAdjuster = SettingDialog.TimelinePeriodInt - 15
-                                'Dim itv As Integer = TimerTimeline.Interval
-                                'itv -= 5000
-                                'If itv < 15000 Then itv = 15000
-                                'TimerTimeline.Interval = itv
-                            Else
-                                _homeCounterAdjuster -= 1
-                                If _homeCounterAdjuster < 0 Then _homeCounterAdjuster = 0
-                                'TimerTimeline.Interval += 1000
-                                'If TimerTimeline.Interval > SettingDialog.TimelinePeriodInt * 1000 Then TimerTimeline.Interval = SettingDialog.TimelinePeriodInt * 1000
-                            End If
-                        End If
-                        If rslt.newDM Then
-                            GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
-                        End If
-                    Else
-                        'API使用時の取得調整は別途考える（カウント調整？）
-                    End If
+                    'If Not SettingDialog.UseAPI Then
+                    '    If SettingDialog.PeriodAdjust AndAlso SettingDialog.TimelinePeriodInt > 0 Then
+                    '        If rslt.addCount >= 20 Then
+                    '            _homeCounterAdjuster += 5
+                    '            If SettingDialog.TimelinePeriodInt - _homeCounterAdjuster < 15 Then _homeCounterAdjuster = SettingDialog.TimelinePeriodInt - 15
+                    '            'Dim itv As Integer = TimerTimeline.Interval
+                    '            'itv -= 5000
+                    '            'If itv < 15000 Then itv = 15000
+                    '            'TimerTimeline.Interval = itv
+                    '        Else
+                    '            _homeCounterAdjuster -= 1
+                    '            If _homeCounterAdjuster < 0 Then _homeCounterAdjuster = 0
+                    '            'TimerTimeline.Interval += 1000
+                    '            'If TimerTimeline.Interval > SettingDialog.TimelinePeriodInt * 1000 Then TimerTimeline.Interval = SettingDialog.TimelinePeriodInt * 1000
+                    '        End If
+                    '    End If
+                    '    If rslt.newDM Then
+                    '        GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
+                    '    End If
+                    'Else
+                    '    'API使用時の取得調整は別途考える（カウント調整？）
+                    'End If
                 End If
             Case WORKERTYPE.Reply
                 _waitReply = False
@@ -2306,18 +2311,18 @@ Public Class TweenMain
         RunAsync(args)
 
         'Timeline取得モードの場合はReplyも同時に取得
-        If Not SettingDialog.UseAPI AndAlso _
-           Not _initial AndAlso _
-           WkType = WORKERTYPE.Timeline AndAlso _
-           SettingDialog.CheckReply Then
-            'TimerReply.Enabled = False
-            _mentionCounter = SettingDialog.ReplyPeriodInt
-            Dim _args As New GetWorkerArg
-            _args.page = fromPage
-            _args.endPage = toPage
-            _args.type = WORKERTYPE.Reply
-            RunAsync(_args)
-        End If
+        'If Not SettingDialog.UseAPI AndAlso _
+        '   Not _initial AndAlso _
+        '   WkType = WORKERTYPE.Timeline AndAlso _
+        '   SettingDialog.CheckReply Then
+        '    'TimerReply.Enabled = False
+        '    _mentionCounter = SettingDialog.ReplyPeriodInt
+        '    Dim _args As New GetWorkerArg
+        '    _args.page = fromPage
+        '    _args.endPage = toPage
+        '    _args.type = WORKERTYPE.Reply
+        '    RunAsync(_args)
+        'End If
     End Sub
 
     Private Function NextPageMessage(ByVal page As Integer) As DialogResult
@@ -2711,7 +2716,7 @@ Public Class TweenMain
     End Sub
 
     Private Sub SettingStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SettingStripMenuItem.Click, SettingFileMenuItem.Click
-        Dim chgUseApi As Boolean = False
+        'Dim chgUseApi As Boolean = False
         Dim result As DialogResult
 
         Try
@@ -2727,29 +2732,30 @@ Public Class TweenMain
                 Twitter.Password = _password
                 Try
                     If SettingDialog.TimelinePeriodInt > 0 Then
-                        If SettingDialog.PeriodAdjust AndAlso Not SettingDialog.UseAPI Then
-                            If SettingDialog.TimelinePeriodInt < _homeCounter - _homeCounterAdjuster Then
-                                _homeCounter = SettingDialog.TimelinePeriodInt
-                                _homeCounterAdjuster = 0
-                            End If
-                        Else
-                            _homeCounterAdjuster = 0
-                        End If
+                        _homeCounterAdjuster = 0
+                        'If SettingDialog.PeriodAdjust AndAlso Not SettingDialog.UseAPI Then
+                        '    If SettingDialog.TimelinePeriodInt < _homeCounter - _homeCounterAdjuster Then
+                        '        _homeCounter = SettingDialog.TimelinePeriodInt
+                        '        _homeCounterAdjuster = 0
+                        '    End If
+                        'Else
+                        '    _homeCounterAdjuster = 0
+                        'End If
                     End If
                 Catch ex As Exception
                     ex.Data("Instance") = "Set Timers"
                     ex.Data("IsTerminatePermission") = False
                     Throw
                 End Try
-                Twitter.NextThreshold = SettingDialog.NextPageThreshold
-                Twitter.NextPages = SettingDialog.NextPagesInt
-                If Twitter.UseAPI <> SettingDialog.UseAPI AndAlso Not _initial Then
-                    chgUseApi = True
-                End If
-                Twitter.UseAPI = SettingDialog.UseAPI
+                'Twitter.NextThreshold = SettingDialog.NextPageThreshold
+                'Twitter.NextPages = SettingDialog.NextPagesInt
+                'If Twitter.UseAPI <> SettingDialog.UseAPI AndAlso Not _initial Then
+                '    chgUseApi = True
+                'End If
+                'Twitter.UseAPI = SettingDialog.UseAPI
                 Twitter.CountApi = SettingDialog.CountApi
                 Twitter.CountApiReply = SettingDialog.CountApiReply
-                Twitter.UsePostMethod = False
+                'Twitter.UsePostMethod = False
                 Twitter.HubServer = SettingDialog.HubServer
                 Twitter.TinyUrlResolve = SettingDialog.TinyUrlResolve
                 Twitter.RestrictFavCheck = SettingDialog.RestrictFavCheck
@@ -2936,7 +2942,7 @@ Public Class TweenMain
         Me.TopMost = SettingDialog.AlwaysTop
         SaveConfigsAll(False)
 
-        If chgUseApi AndAlso SettingDialog.OneWayLove Then doGetFollowersMenu(False) 'API使用を切り替えたら取り直し
+        'If chgUseApi AndAlso SettingDialog.OneWayLove Then doGetFollowersMenu(False) 'API使用を切り替えたら取り直し
     End Sub
 
     Private Sub PostBrowser_Navigated(ByVal sender As Object, ByVal e As System.Windows.Forms.WebBrowserNavigatedEventArgs) Handles PostBrowser.Navigated
@@ -3209,11 +3215,12 @@ Public Class TweenMain
         _colHd2.Width = 80
         _colHd3.Text = My.Resources.AddNewTabText3
         _colHd3.Width = 300
-        If SettingDialog.UseAPI Then
-            _colHd4.Text = My.Resources.AddNewTabText4_2
-        Else
-            _colHd4.Text = My.Resources.AddNewTabText4
-        End If
+        _colHd4.Text = My.Resources.AddNewTabText4_2
+        'If SettingDialog.UseAPI Then
+        '    _colHd4.Text = My.Resources.AddNewTabText4_2
+        'Else
+        '    _colHd4.Text = My.Resources.AddNewTabText4
+        'End If
         _colHd4.Width = 50
         _colHd5.Text = My.Resources.AddNewTabText5
         _colHd5.Width = 50
@@ -4871,16 +4878,16 @@ RETRY:
             SyncLock _syncObject
                 _cfgCommon.UserName = _username
                 _cfgCommon.Password = _password
-                _cfgCommon.NextPageThreshold = SettingDialog.NextPageThreshold
-                _cfgCommon.NextPages = SettingDialog.NextPagesInt
+                '_cfgCommon.NextPageThreshold = SettingDialog.NextPageThreshold
+                '_cfgCommon.NextPages = SettingDialog.NextPagesInt
                 _cfgCommon.TimelinePeriod = SettingDialog.TimelinePeriodInt
                 _cfgCommon.ReplyPeriod = SettingDialog.ReplyPeriodInt
                 _cfgCommon.DMPeriod = SettingDialog.DMPeriodInt
                 _cfgCommon.PubSearchPeriod = SettingDialog.PubSearchPeriodInt
                 _cfgCommon.MaxPostNum = SettingDialog.MaxPostNum
-                _cfgCommon.ReadPages = SettingDialog.ReadPages
-                _cfgCommon.ReadPagesReply = SettingDialog.ReadPagesReply
-                _cfgCommon.ReadPagesDM = SettingDialog.ReadPagesDM
+                '_cfgCommon.ReadPages = SettingDialog.ReadPages
+                '_cfgCommon.ReadPagesReply = SettingDialog.ReadPagesReply
+                '_cfgCommon.ReadPagesDM = SettingDialog.ReadPagesDM
                 _cfgCommon.Read = SettingDialog.Readed
                 _cfgCommon.IconSize = SettingDialog.IconSz
                 _cfgCommon.UnreadManage = SettingDialog.UnreadManage
@@ -4889,12 +4896,12 @@ RETRY:
 
                 _cfgCommon.NameBalloon = SettingDialog.NameBalloon
                 _cfgCommon.PostCtrlEnter = SettingDialog.PostCtrlEnter
-                _cfgCommon.UseApi = SettingDialog.UseAPI
+                '_cfgCommon.UseApi = SettingDialog.UseAPI
                 _cfgCommon.CountApi = SettingDialog.CountApi
                 _cfgCommon.CountApiReply = SettingDialog.CountApiReply
-                _cfgCommon.UsePostMethod = False
+                '_cfgCommon.UsePostMethod = False
                 _cfgCommon.HubServer = SettingDialog.HubServer
-                _cfgCommon.CheckReply = SettingDialog.CheckReply
+                '_cfgCommon.CheckReply = SettingDialog.CheckReply
                 _cfgCommon.PostAndGet = SettingDialog.PostAndGet
                 _cfgCommon.DispUsername = SettingDialog.DispUsername
                 _cfgCommon.MinimizeToTray = SettingDialog.MinimizeToTray
@@ -4904,9 +4911,9 @@ RETRY:
                 _cfgCommon.TinyUrlResolve = SettingDialog.TinyUrlResolve
                 _cfgCommon.PeriodAdjust = SettingDialog.PeriodAdjust
                 _cfgCommon.StartupVersion = SettingDialog.StartupVersion
-                _cfgCommon.StartupKey = SettingDialog.StartupKey
+                '_cfgCommon.StartupKey = SettingDialog.StartupKey
                 _cfgCommon.StartupFollowers = SettingDialog.StartupFollowers
-                _cfgCommon.StartupApiModeNoWarning = SettingDialog.StartupAPImodeNoWarning
+                '_cfgCommon.StartupApiModeNoWarning = SettingDialog.StartupAPImodeNoWarning
                 _cfgCommon.RestrictFavCheck = SettingDialog.RestrictFavCheck
                 _cfgCommon.AlwaysTop = SettingDialog.AlwaysTop
                 _cfgCommon.UrlConvertAuto = SettingDialog.UrlConvertAuto
@@ -6010,9 +6017,9 @@ RETRY:
         _curList.EnsureVisible(idx)
     End Sub
 
-    Private Sub WedataMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles WedataMenuItem.Click
-        Twitter.GetWedata()
-    End Sub
+    'Private Sub WedataMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles WedataMenuItem.Click
+    '    Twitter.GetWedata()
+    'End Sub
 
     Private Sub OpenURLMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OpenURLMenuItem.Click, OpenUrlOpMenuItem.Click
         If PostBrowser.Document.Links.Count > 0 Then
@@ -6157,7 +6164,7 @@ RETRY:
             End If
         Next
 
-        If Twitter.RemainCountApi > -1 AndAlso SettingDialog.UseAPI Then
+        If Twitter.RemainCountApi > -1 Then
             slbl.Append("[API: " + Twitter.RemainCountApi.ToString + "] ")
         End If
         slbl.AppendFormat(My.Resources.SetStatusLabelText1, tur, tal, ur, al, urat, _postTimestamps.Count, _favTimestamps.Count, _tlCount)
@@ -6936,22 +6943,30 @@ RETRY:
         End Try
 
         If IsNetworkAvailable() Then
-            If SettingDialog.ReadPages > 0 Then
-                _waitTimeline = True
-                GetTimeline(WORKERTYPE.Timeline, 1, SettingDialog.ReadPages, "")
-            End If
-            If SettingDialog.ReadPagesReply > 0 Then
-                _waitReply = True
-                GetTimeline(WORKERTYPE.Reply, 1, SettingDialog.ReadPagesReply, "")
-            End If
-            If SettingDialog.ReadPagesDM > 0 Then
-                _waitDm = True
-                GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, SettingDialog.ReadPagesDM, "")
-            End If
-            If SettingDialog.GetFav Then
-                _waitFav = True
-                GetTimeline(WORKERTYPE.Favorites, 1, 1, "")
-            End If
+            _waitTimeline = True
+            GetTimeline(WORKERTYPE.Timeline, 1, 1, "")
+            'If SettingDialog.ReadPages > 0 Then
+            '    _waitTimeline = True
+            '    GetTimeline(WORKERTYPE.Timeline, 1, SettingDialog.ReadPages, "")
+            'End If
+            _waitReply = True
+            GetTimeline(WORKERTYPE.Reply, 1, 1, "")
+            'If SettingDialog.ReadPagesReply > 0 Then
+            '    _waitReply = True
+            '    GetTimeline(WORKERTYPE.Reply, 1, SettingDialog.ReadPagesReply, "")
+            'End If
+            _waitDm = True
+            GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 1, "")
+            'If SettingDialog.ReadPagesDM > 0 Then
+            '    _waitDm = True
+            '    GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, SettingDialog.ReadPagesDM, "")
+            'End If
+            _waitFav = True
+            GetTimeline(WORKERTYPE.Favorites, 1, 1, "")
+            'If SettingDialog.GetFav Then
+            '    _waitFav = True
+            '    GetTimeline(WORKERTYPE.Favorites, 1, 1, "")
+            'End If
             _waitPubSearch = True
             GetTimeline(WORKERTYPE.PublicSearch, 1, 0, "")  'tabname="":全タブ
             Dim i As Integer = 0
@@ -6980,17 +6995,17 @@ RETRY:
                 CheckNewVersion(True)
             End If
 
-            ' Webモードで起動した場合に警告する
-            If Not SettingDialog.StartupAPImodeNoWarning AndAlso Not SettingDialog.UseAPI Then
-                If MessageBox.Show(My.Resources.WebModeWarning1 + Environment.NewLine + My.Resources.WebModeWarning2 + Environment.NewLine + My.Resources.WebModeWarning3 + Environment.NewLine + My.Resources.WebModeWarning4, My.Resources.WebModeWarning5, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) = Windows.Forms.DialogResult.OK Then
-                    SettingDialog.UseAPI = True
-                    'SaveConfigsCommon()
-                    MessageBox.Show(My.Resources.WebModeWarning6)
-                Else
-                    MessageBox.Show(My.Resources.WebModeWarning7)
-                    'MessageBox.Show("取得間隔に注意してください。タイムライン取得系APIはRecent,Reply,DMの合計で1時間に" + GetMaxCountApi.ToString() + "回までしか使えません。", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                End If
-            End If
+            '' Webモードで起動した場合に警告する
+            'If Not SettingDialog.StartupAPImodeNoWarning AndAlso Not SettingDialog.UseAPI Then
+            '    If MessageBox.Show(My.Resources.WebModeWarning1 + Environment.NewLine + My.Resources.WebModeWarning2 + Environment.NewLine + My.Resources.WebModeWarning3 + Environment.NewLine + My.Resources.WebModeWarning4, My.Resources.WebModeWarning5, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) = Windows.Forms.DialogResult.OK Then
+            '        SettingDialog.UseAPI = True
+            '        'SaveConfigsCommon()
+            '        MessageBox.Show(My.Resources.WebModeWarning6)
+            '    Else
+            '        MessageBox.Show(My.Resources.WebModeWarning7)
+            '        'MessageBox.Show("取得間隔に注意してください。タイムライン取得系APIはRecent,Reply,DMの合計で1時間に" + GetMaxCountApi.ToString() + "回までしか使えません。", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            '    End If
+            'End If
 
         Else
             PostButton.Enabled = False
