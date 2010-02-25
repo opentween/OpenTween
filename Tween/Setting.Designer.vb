@@ -32,14 +32,8 @@ Partial Class Setting
         Me.Cancel = New System.Windows.Forms.Button
         Me.Label3 = New System.Windows.Forms.Label
         Me.TimelinePeriod = New System.Windows.Forms.TextBox
-        Me.Label4 = New System.Windows.Forms.Label
-        Me.NextThreshold = New System.Windows.Forms.TextBox
         Me.DMPeriod = New System.Windows.Forms.TextBox
         Me.Label5 = New System.Windows.Forms.Label
-        Me.NextPages = New System.Windows.Forms.TextBox
-        Me.Label6 = New System.Windows.Forms.Label
-        Me.StartupReadPages = New System.Windows.Forms.TextBox
-        Me.Label8 = New System.Windows.Forms.Label
         Me.Label9 = New System.Windows.Forms.Label
         Me.StartupReaded = New System.Windows.Forms.CheckBox
         Me.Label11 = New System.Windows.Forms.Label
@@ -114,11 +108,6 @@ Partial Class Setting
         Me.Label25 = New System.Windows.Forms.Label
         Me.CheckPostCtrlEnter = New System.Windows.Forms.CheckBox
         Me.Label27 = New System.Windows.Forms.Label
-        Me.Label31 = New System.Windows.Forms.Label
-        Me.Label33 = New System.Windows.Forms.Label
-        Me.Label35 = New System.Windows.Forms.Label
-        Me.StartupReadReply = New System.Windows.Forms.TextBox
-        Me.StartupReadDM = New System.Windows.Forms.TextBox
         Me.TextBox3 = New System.Windows.Forms.TextBox
         Me.IconSize = New System.Windows.Forms.ComboBox
         Me.Label38 = New System.Windows.Forms.Label
@@ -131,7 +120,6 @@ Partial Class Setting
         Me.CheckMinimizeToTray = New System.Windows.Forms.CheckBox
         Me.BrowserPathText = New System.Windows.Forms.TextBox
         Me.Label44 = New System.Windows.Forms.Label
-        Me.CheckboxReply = New System.Windows.Forms.CheckBox
         Me.CheckDispUsername = New System.Windows.Forms.CheckBox
         Me.Label46 = New System.Windows.Forms.Label
         Me.Label45 = New System.Windows.Forms.Label
@@ -142,21 +130,13 @@ Partial Class Setting
         Me.TextCountApiReply = New System.Windows.Forms.TextBox
         Me.Label7 = New System.Windows.Forms.Label
         Me.PubSearchPeriod = New System.Windows.Forms.TextBox
-        Me.Label70 = New System.Windows.Forms.Label
-        Me.CheckStartupAPImodeNoWarning = New System.Windows.Forms.CheckBox
         Me.Label69 = New System.Windows.Forms.Label
         Me.ReplyPeriod = New System.Windows.Forms.TextBox
         Me.CheckPostAndGet = New System.Windows.Forms.CheckBox
         Me.Label67 = New System.Windows.Forms.Label
         Me.TextCountApi = New System.Windows.Forms.TextBox
-        Me.Label66 = New System.Windows.Forms.Label
-        Me.CheckPostMethod = New System.Windows.Forms.CheckBox
-        Me.Label43 = New System.Windows.Forms.Label
-        Me.CheckUseApi = New System.Windows.Forms.CheckBox
         Me.Label54 = New System.Windows.Forms.Label
         Me.CheckStartupFollowers = New System.Windows.Forms.CheckBox
-        Me.Label53 = New System.Windows.Forms.Label
-        Me.CheckStartupKey = New System.Windows.Forms.CheckBox
         Me.Label51 = New System.Windows.Forms.Label
         Me.CheckStartupVersion = New System.Windows.Forms.CheckBox
         Me.CheckPeriodAdjust = New System.Windows.Forms.CheckBox
@@ -290,16 +270,6 @@ Partial Class Setting
         resources.ApplyResources(Me.TimelinePeriod, "TimelinePeriod")
         Me.TimelinePeriod.Name = "TimelinePeriod"
         '
-        'Label4
-        '
-        resources.ApplyResources(Me.Label4, "Label4")
-        Me.Label4.Name = "Label4"
-        '
-        'NextThreshold
-        '
-        resources.ApplyResources(Me.NextThreshold, "NextThreshold")
-        Me.NextThreshold.Name = "NextThreshold"
-        '
         'DMPeriod
         '
         resources.ApplyResources(Me.DMPeriod, "DMPeriod")
@@ -309,26 +279,6 @@ Partial Class Setting
         '
         resources.ApplyResources(Me.Label5, "Label5")
         Me.Label5.Name = "Label5"
-        '
-        'NextPages
-        '
-        resources.ApplyResources(Me.NextPages, "NextPages")
-        Me.NextPages.Name = "NextPages"
-        '
-        'Label6
-        '
-        resources.ApplyResources(Me.Label6, "Label6")
-        Me.Label6.Name = "Label6"
-        '
-        'StartupReadPages
-        '
-        resources.ApplyResources(Me.StartupReadPages, "StartupReadPages")
-        Me.StartupReadPages.Name = "StartupReadPages"
-        '
-        'Label8
-        '
-        resources.ApplyResources(Me.Label8, "Label8")
-        Me.Label8.Name = "Label8"
         '
         'Label9
         '
@@ -790,31 +740,6 @@ Partial Class Setting
         resources.ApplyResources(Me.Label27, "Label27")
         Me.Label27.Name = "Label27"
         '
-        'Label31
-        '
-        resources.ApplyResources(Me.Label31, "Label31")
-        Me.Label31.Name = "Label31"
-        '
-        'Label33
-        '
-        resources.ApplyResources(Me.Label33, "Label33")
-        Me.Label33.Name = "Label33"
-        '
-        'Label35
-        '
-        resources.ApplyResources(Me.Label35, "Label35")
-        Me.Label35.Name = "Label35"
-        '
-        'StartupReadReply
-        '
-        resources.ApplyResources(Me.StartupReadReply, "StartupReadReply")
-        Me.StartupReadReply.Name = "StartupReadReply"
-        '
-        'StartupReadDM
-        '
-        resources.ApplyResources(Me.StartupReadDM, "StartupReadDM")
-        Me.StartupReadDM.Name = "StartupReadDM"
-        '
         'TextBox3
         '
         resources.ApplyResources(Me.TextBox3, "TextBox3")
@@ -882,12 +807,6 @@ Partial Class Setting
         resources.ApplyResources(Me.Label44, "Label44")
         Me.Label44.Name = "Label44"
         '
-        'CheckboxReply
-        '
-        resources.ApplyResources(Me.CheckboxReply, "CheckboxReply")
-        Me.CheckboxReply.Name = "CheckboxReply"
-        Me.CheckboxReply.UseVisualStyleBackColor = True
-        '
         'CheckDispUsername
         '
         resources.ApplyResources(Me.CheckDispUsername, "CheckDispUsername")
@@ -936,21 +855,13 @@ Partial Class Setting
         Me.TabPage1.Controls.Add(Me.TextCountApiReply)
         Me.TabPage1.Controls.Add(Me.Label7)
         Me.TabPage1.Controls.Add(Me.PubSearchPeriod)
-        Me.TabPage1.Controls.Add(Me.Label70)
-        Me.TabPage1.Controls.Add(Me.CheckStartupAPImodeNoWarning)
         Me.TabPage1.Controls.Add(Me.Label69)
         Me.TabPage1.Controls.Add(Me.ReplyPeriod)
         Me.TabPage1.Controls.Add(Me.CheckPostAndGet)
         Me.TabPage1.Controls.Add(Me.Label67)
         Me.TabPage1.Controls.Add(Me.TextCountApi)
-        Me.TabPage1.Controls.Add(Me.Label66)
-        Me.TabPage1.Controls.Add(Me.CheckPostMethod)
-        Me.TabPage1.Controls.Add(Me.Label43)
-        Me.TabPage1.Controls.Add(Me.CheckUseApi)
         Me.TabPage1.Controls.Add(Me.Label54)
         Me.TabPage1.Controls.Add(Me.CheckStartupFollowers)
-        Me.TabPage1.Controls.Add(Me.Label53)
-        Me.TabPage1.Controls.Add(Me.CheckStartupKey)
         Me.TabPage1.Controls.Add(Me.Label51)
         Me.TabPage1.Controls.Add(Me.CheckStartupVersion)
         Me.TabPage1.Controls.Add(Me.CheckPeriodAdjust)
@@ -960,22 +871,10 @@ Partial Class Setting
         Me.TabPage1.Controls.Add(Me.Password)
         Me.TabPage1.Controls.Add(Me.Label3)
         Me.TabPage1.Controls.Add(Me.TimelinePeriod)
-        Me.TabPage1.Controls.Add(Me.CheckboxReply)
-        Me.TabPage1.Controls.Add(Me.Label4)
-        Me.TabPage1.Controls.Add(Me.NextThreshold)
         Me.TabPage1.Controls.Add(Me.Label5)
         Me.TabPage1.Controls.Add(Me.DMPeriod)
-        Me.TabPage1.Controls.Add(Me.Label6)
-        Me.TabPage1.Controls.Add(Me.NextPages)
-        Me.TabPage1.Controls.Add(Me.Label8)
-        Me.TabPage1.Controls.Add(Me.StartupReadPages)
         Me.TabPage1.Controls.Add(Me.Label9)
         Me.TabPage1.Controls.Add(Me.StartupReaded)
-        Me.TabPage1.Controls.Add(Me.Label31)
-        Me.TabPage1.Controls.Add(Me.Label33)
-        Me.TabPage1.Controls.Add(Me.Label35)
-        Me.TabPage1.Controls.Add(Me.StartupReadReply)
-        Me.TabPage1.Controls.Add(Me.StartupReadDM)
         resources.ApplyResources(Me.TabPage1, "TabPage1")
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.UseVisualStyleBackColor = True
@@ -994,17 +893,6 @@ Partial Class Setting
         '
         resources.ApplyResources(Me.PubSearchPeriod, "PubSearchPeriod")
         Me.PubSearchPeriod.Name = "PubSearchPeriod"
-        '
-        'Label70
-        '
-        resources.ApplyResources(Me.Label70, "Label70")
-        Me.Label70.Name = "Label70"
-        '
-        'CheckStartupAPImodeNoWarning
-        '
-        resources.ApplyResources(Me.CheckStartupAPImodeNoWarning, "CheckStartupAPImodeNoWarning")
-        Me.CheckStartupAPImodeNoWarning.Name = "CheckStartupAPImodeNoWarning"
-        Me.CheckStartupAPImodeNoWarning.UseVisualStyleBackColor = True
         '
         'Label69
         '
@@ -1032,28 +920,6 @@ Partial Class Setting
         resources.ApplyResources(Me.TextCountApi, "TextCountApi")
         Me.TextCountApi.Name = "TextCountApi"
         '
-        'Label66
-        '
-        resources.ApplyResources(Me.Label66, "Label66")
-        Me.Label66.Name = "Label66"
-        '
-        'CheckPostMethod
-        '
-        resources.ApplyResources(Me.CheckPostMethod, "CheckPostMethod")
-        Me.CheckPostMethod.Name = "CheckPostMethod"
-        Me.CheckPostMethod.UseVisualStyleBackColor = True
-        '
-        'Label43
-        '
-        resources.ApplyResources(Me.Label43, "Label43")
-        Me.Label43.Name = "Label43"
-        '
-        'CheckUseApi
-        '
-        resources.ApplyResources(Me.CheckUseApi, "CheckUseApi")
-        Me.CheckUseApi.Name = "CheckUseApi"
-        Me.CheckUseApi.UseVisualStyleBackColor = True
-        '
         'Label54
         '
         resources.ApplyResources(Me.Label54, "Label54")
@@ -1064,17 +930,6 @@ Partial Class Setting
         resources.ApplyResources(Me.CheckStartupFollowers, "CheckStartupFollowers")
         Me.CheckStartupFollowers.Name = "CheckStartupFollowers"
         Me.CheckStartupFollowers.UseVisualStyleBackColor = True
-        '
-        'Label53
-        '
-        resources.ApplyResources(Me.Label53, "Label53")
-        Me.Label53.Name = "Label53"
-        '
-        'CheckStartupKey
-        '
-        resources.ApplyResources(Me.CheckStartupKey, "CheckStartupKey")
-        Me.CheckStartupKey.Name = "CheckStartupKey"
-        Me.CheckStartupKey.UseVisualStyleBackColor = True
         '
         'Label51
         '
@@ -1656,14 +1511,8 @@ Partial Class Setting
     Friend WithEvents Cancel As System.Windows.Forms.Button
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents TimelinePeriod As System.Windows.Forms.TextBox
-    Friend WithEvents Label4 As System.Windows.Forms.Label
-    Friend WithEvents NextThreshold As System.Windows.Forms.TextBox
     Friend WithEvents DMPeriod As System.Windows.Forms.TextBox
     Friend WithEvents Label5 As System.Windows.Forms.Label
-    Friend WithEvents NextPages As System.Windows.Forms.TextBox
-    Friend WithEvents Label6 As System.Windows.Forms.Label
-    Friend WithEvents StartupReadPages As System.Windows.Forms.TextBox
-    Friend WithEvents Label8 As System.Windows.Forms.Label
     Friend WithEvents Label9 As System.Windows.Forms.Label
     Friend WithEvents StartupReaded As System.Windows.Forms.CheckBox
     Friend WithEvents Label11 As System.Windows.Forms.Label
@@ -1713,11 +1562,6 @@ Partial Class Setting
     Friend WithEvents Label25 As System.Windows.Forms.Label
     Friend WithEvents CheckPostCtrlEnter As System.Windows.Forms.CheckBox
     Friend WithEvents Label27 As System.Windows.Forms.Label
-    Friend WithEvents Label31 As System.Windows.Forms.Label
-    Friend WithEvents Label33 As System.Windows.Forms.Label
-    Friend WithEvents Label35 As System.Windows.Forms.Label
-    Friend WithEvents StartupReadReply As System.Windows.Forms.TextBox
-    Friend WithEvents StartupReadDM As System.Windows.Forms.TextBox
     Friend WithEvents TextBox3 As System.Windows.Forms.TextBox
     Friend WithEvents IconSize As System.Windows.Forms.ComboBox
     Friend WithEvents btnDetailBack As System.Windows.Forms.Button
@@ -1733,7 +1577,6 @@ Partial Class Setting
     Friend WithEvents CheckMinimizeToTray As System.Windows.Forms.CheckBox
     Friend WithEvents BrowserPathText As System.Windows.Forms.TextBox
     Friend WithEvents Label44 As System.Windows.Forms.Label
-    Friend WithEvents CheckboxReply As System.Windows.Forms.CheckBox
     Friend WithEvents CheckDispUsername As System.Windows.Forms.CheckBox
     Friend WithEvents Label46 As System.Windows.Forms.Label
     Friend WithEvents Label45 As System.Windows.Forms.Label
@@ -1765,8 +1608,6 @@ Partial Class Setting
     Friend WithEvents LabelProxyUser As System.Windows.Forms.Label
     Friend WithEvents Label55 As System.Windows.Forms.Label
     Friend WithEvents CheckPeriodAdjust As System.Windows.Forms.CheckBox
-    Friend WithEvents Label53 As System.Windows.Forms.Label
-    Friend WithEvents CheckStartupKey As System.Windows.Forms.CheckBox
     Friend WithEvents Label51 As System.Windows.Forms.Label
     Friend WithEvents CheckStartupVersion As System.Windows.Forms.CheckBox
     Friend WithEvents Label54 As System.Windows.Forms.Label
@@ -1803,10 +1644,6 @@ Partial Class Setting
     Friend WithEvents btnInputFont As System.Windows.Forms.Button
     Friend WithEvents lblInputFont As System.Windows.Forms.Label
     Friend WithEvents Label65 As System.Windows.Forms.Label
-    Friend WithEvents Label66 As System.Windows.Forms.Label
-    Friend WithEvents CheckPostMethod As System.Windows.Forms.CheckBox
-    Friend WithEvents Label43 As System.Windows.Forms.Label
-    Friend WithEvents CheckUseApi As System.Windows.Forms.CheckBox
     Friend WithEvents Label67 As System.Windows.Forms.Label
     Friend WithEvents TextCountApi As System.Windows.Forms.TextBox
     Friend WithEvents Label68 As System.Windows.Forms.Label
@@ -1814,8 +1651,6 @@ Partial Class Setting
     Friend WithEvents CheckPostAndGet As System.Windows.Forms.CheckBox
     Friend WithEvents Label69 As System.Windows.Forms.Label
     Friend WithEvents ReplyPeriod As System.Windows.Forms.TextBox
-    Friend WithEvents Label70 As System.Windows.Forms.Label
-    Friend WithEvents CheckStartupAPImodeNoWarning As System.Windows.Forms.CheckBox
     Friend WithEvents ComboBoxAutoShortUrlFirst As System.Windows.Forms.ComboBox
     Friend WithEvents Label71 As System.Windows.Forms.Label
     Friend WithEvents Label48 As System.Windows.Forms.Label
