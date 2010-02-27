@@ -38,7 +38,7 @@ Public Class HttpConnection
     '''<remarks>
     '''他のメソッド（HEAD,PUT,CONNECTなど）が必要な場合は追加すること
     '''</remarks>
-    Protected Enum RequestMethod
+    Public Enum RequestMethod
         ReqGet
         ReqPost
     End Enum

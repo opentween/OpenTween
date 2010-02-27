@@ -40,31 +40,47 @@ Public Class SettingCommon
     Public Password As String = ""
     Public Property EncryptPassword() As String
         Get
-            Dim pwd As String = Password
-            If String.IsNullOrEmpty(pwd) Then pwd = ""
-            If pwd.Length > 0 Then
-                Try
-                    Return EncryptString(pwd)
-                Catch ex As Exception
-                    Return ""
-                End Try
-            Else
-                Return ""
-            End If
+            Return Encrypt(Password)
         End Get
         Set(ByVal value As String)
-            Dim pwd As String = value
-            If String.IsNullOrEmpty(pwd) Then pwd = ""
-            If pwd.Length > 0 Then
-                Try
-                    pwd = DecryptString(pwd)
-                Catch ex As Exception
-                    pwd = ""
-                End Try
-            End If
-            Password = pwd
+            Password = Decrypt(value)
         End Set
     End Property
+    Public Token As String = ""
+    <Xml.Serialization.XmlIgnore()> _
+    Public TokenSecret As String = ""
+    Public Property EncryptTokenSecret() As String
+        Get
+            Return Encrypt(TokenSecret)
+        End Get
+        Set(ByVal value As String)
+            TokenSecret = Decrypt(value)
+        End Set
+    End Property
+
+    Private Function Encrypt(ByVal password As String) As String
+        If String.IsNullOrEmpty(password) Then password = ""
+        If password.Length > 0 Then
+            Try
+                Return EncryptString(password)
+            Catch ex As Exception
+                Return ""
+            End Try
+        Else
+            Return ""
+        End If
+    End Function
+    Private Function Decrypt(ByVal password As String) As String
+        If String.IsNullOrEmpty(password) Then password = ""
+        If password.Length > 0 Then
+            Try
+                password = DecryptString(password)
+            Catch ex As Exception
+                password = ""
+            End Try
+        End If
+        Return password
+    End Function
 
     Public TabList As New List(Of String)
     'Public NextPageThreshold As Integer = 20
@@ -125,29 +141,10 @@ Public Class SettingCommon
     Public OutputzKey As String = ""
     Public Property EncryptOutputzKey() As String
         Get
-            Dim pwd As String = OutputzKey
-            If String.IsNullOrEmpty(pwd) Then pwd = ""
-            If pwd.Length > 0 Then
-                Try
-                    Return EncryptString(pwd)
-                Catch ex As Exception
-                    Return ""
-                End Try
-            Else
-                Return ""
-            End If
+            Return Encrypt(OutputzKey)
         End Get
         Set(ByVal value As String)
-            Dim pwd As String = value
-            If String.IsNullOrEmpty(pwd) Then pwd = ""
-            If pwd.Length > 0 Then
-                Try
-                    pwd = DecryptString(pwd)
-                Catch ex As Exception
-                    pwd = ""
-                End Try
-            End If
-            OutputzKey = pwd
+            OutputzKey = Decrypt(value)
         End Set
     End Property
 
