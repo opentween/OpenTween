@@ -19,11 +19,6 @@ Public Class HttpConnectionOAuth
     Private Shared ReadOnly NonceRandom As New Random
 
     '''<summary>
-    '''OAuthの認証プロセス時のみ使用するリクエストトークン
-    '''</summary>
-    Private Shared requestToken As String
-
-    '''<summary>
     '''OAuthのアクセストークン。永続化可能（ユーザー取り消しの可能性はある）。
     '''</summary>
     Private Shared token As String = ""
@@ -36,30 +31,12 @@ Public Class HttpConnectionOAuth
     '''<summary>
     '''OAuthのコンシューマー鍵
     '''</summary>
-    Private Const ConsumerKey As String = "EANjQEa5LokuVld682tTDA"
+    Private Shared consumerKey As String
 
     '''<summary>
     '''OAuthの署名作成用秘密コンシューマーデータ
     '''</summary>
-    Private Const ConsumerSecret As String = "zXfwkzmuO6FcHtoikleV3EVgdh5vVAs6ft6ZxtYTYM"
-
-    '''<summary>
-    '''OAuthのリクエストトークン取得先URI
-    '''</summary>
-    Private Const RequestTokenUrl As String = "http://twitter.com/oauth/request_token"
-
-    '''<summary>
-    '''OAuthのユーザー認証用ページURI
-    '''</summary>
-    '''<remarks>
-    '''クエリ「oauth_token=リクエストトークン」を付加して、このURIをブラウザで開く。ユーザーが承認操作を行うとPINコードが表示される。
-    '''</remarks>
-    Private Const AuthorizeUrl As String = "http://twitter.com/oauth/authorize"
-
-    '''<summary>
-    '''OAuthのアクセストークン取得先URI
-    '''</summary>
-    Private Const AccessTokenUrl As String = "http://twitter.com/oauth/access_token"
+    Private Shared consumerSecret As String
 
     '''<summary>
     '''HTTP通信してコンテンツを取得する（文字列コンテンツ）
@@ -75,7 +52,7 @@ Public Class HttpConnectionOAuth
     '''<param name="content">[IN/OUT]HTTPレスポンスのボディ部データ返却用。呼び出し元で初期化が必要</param>
     '''<param name="headerInfo">[IN/OUT]HTTP応答のヘッダ情報</param>
     '''<returns>通信結果のHttpStatusCode</returns>
-    Protected Function GetContent(ByVal method As RequestMethod, _
+    Public Function GetContent(ByVal method As RequestMethod, _
             ByVal requestUri As Uri, _
             ByVal param As SortedList(Of String, String), _
             ByRef content As String, _
@@ -96,27 +73,66 @@ Public Class HttpConnectionOAuth
     End Function
 
 #Region "認証処理"
-    Protected Function AuthorizeAccount() As Boolean
-        Dim authUri As Uri = GetAuthorizePageUri()
+    Public Function AuthorizePinFlow(ByVal requestTokenUrl As String, _
+                                        ByVal accessTokenUrl As String, _
+                                        ByVal authorizeUrl As String) As Boolean
+        'PIN-based flow
+        Dim requestToken As String = ""
+        Dim authUri As Uri = GetAuthorizePageUri(requestTokenUrl, authorizeUrl, requestToken)
         If authUri Is Nothing Then Return False
-        System.Diagnostics.Process.Start(authUri.PathAndQuery)
+        System.Diagnostics.Process.Start(authUri.PathAndQuery) 'ブラウザで表示
         Dim inputForm As New InputTabName
         inputForm.FormTitle = "Input PIN code"
         inputForm.FormDescription = "Input the PIN code shown in the browser after you accept OAuth request."
         If inputForm.ShowDialog() = DialogResult.OK AndAlso Not String.IsNullOrEmpty(inputForm.TabName) Then
-            Return GetAccessToken(inputForm.TabName)
+            Return GetAccessToken(accessTokenUrl, inputForm.TabName, requestToken)
         Else
             Return False
         End If
     End Function
 
-    Private Shared Function GetAuthorizePageUri() As Uri
+    Public Function AuthorizeXAuth(ByVal url As String, ByVal username As String, ByVal password As String) As Boolean
+        Dim webReq As HttpWebRequest = Nothing
+        If String.IsNullOrEmpty(username) OrElse String.IsNullOrEmpty(password) Then
+            Throw New Exception("Sequence error.(username or password is blank)")
+        End If
+        Dim reqUri As New Uri(url)
+        Dim parameter As New SortedList(Of String, String)
+        parameter.Add("x_auth_mode", "client_auth")
+        parameter.Add("x_auth_username", username)
+        parameter.Add("x_auth_password", password)
+
+        webReq = HttpConnection.CreateRequest(RequestMethod.ReqPost, reqUri, parameter, False)
+
+        AppendOAuthInfo(webReq, parameter, "", "")
+
+        Try
+            Dim status As HttpStatusCode
+            Dim contentText As String = ""
+            status = HttpConnection.GetResponse(webReq, contentText, Nothing, False)
+            If status = HttpStatusCode.OK Then
+                Dim tokenData As NameValueCollection = ParseQueryString(contentText)
+                token = tokenData.Item("oauth_token")
+                tokenSecret = tokenData.Item("oauth_token_secret")
+                ''' TODO:その他情報も格納するか検討（user_idなど）
+                If token = "" Then Return False
+                Return True
+            Else
+                Return False
+            End If
+        Catch ex As Exception
+            Return False
+        End Try
+    End Function
+
+    Private Function GetAuthorizePageUri(ByVal requestTokenUrl As String, _
+                                        ByVal authorizeUrl As String, _
+                                        ByRef requestToken As String) As Uri
         Const tokenKey As String = "oauth_token"
-        requestToken = ""
-        Dim reqTokenData As NameValueCollection = GetOAuthToken(New Uri(RequestTokenUrl), "")
+        Dim reqTokenData As NameValueCollection = GetOAuthToken(New Uri(requestTokenUrl), "", "")
         If reqTokenData IsNot Nothing Then
             requestToken = reqTokenData.Item(tokenKey)
-            Dim ub As New UriBuilder(AuthorizeUrl)
+            Dim ub As New UriBuilder(authorizeUrl)
             ub.Query = String.Format("{0}={1}", tokenKey, requestToken)
             Return ub.Uri
         Else
@@ -124,22 +140,22 @@ Public Class HttpConnectionOAuth
         End If
     End Function
 
-    Private Shared Function GetAccessToken(ByVal pinCode As String) As Boolean
+    Private Function GetAccessToken(ByVal accessTokenUrl As String, ByVal pinCode As String, ByVal requestToken As String) As Boolean
         If String.IsNullOrEmpty(requestToken) Then Throw New Exception("Sequence error.(requestToken is blank)")
 
-        Dim accessTokenData As NameValueCollection = GetOAuthToken(New Uri(AccessTokenUrl), pinCode)
+        Dim accessTokenData As NameValueCollection = GetOAuthToken(New Uri(accessTokenUrl), pinCode, requestToken)
 
         If accessTokenData IsNot Nothing Then
-            Token = accessTokenData.Item("oauth_token")
-            TokenSecret = accessTokenData.Item("oauth_token_secret")
-            If Token = "" Then Return False
+            token = accessTokenData.Item("oauth_token")
+            tokenSecret = accessTokenData.Item("oauth_token_secret")
+            If token = "" Then Return False
             Return True
         Else
             Return False
         End If
     End Function
 
-    Private Shared Function GetOAuthToken(ByVal requestUri As Uri, ByVal pinCode As String) As NameValueCollection
+    Private Function GetOAuthToken(ByVal requestUri As Uri, ByVal pinCode As String, ByVal requestToken As String) As NameValueCollection
         Dim webReq As HttpWebRequest = Nothing
         If String.IsNullOrEmpty(pinCode) Then
             webReq = HttpConnection.CreateRequest(RequestMethod.ReqGet, requestUri, Nothing, False)
@@ -169,13 +185,7 @@ Public Class HttpConnectionOAuth
                                         ByVal query As SortedList(Of String, String), _
                                         ByVal token As String, _
                                         ByVal tokenSecret As String)
-        Dim parameter As New SortedList(Of String, String)
-        parameter.Add("oauth_consumer_key", ConsumerKey)
-        parameter.Add("oauth_signature_method", "HMAC-SHA1")
-        parameter.Add("oauth_timestamp", GetTimestamp())
-        parameter.Add("oauth_nonce", GetNonce())
-        parameter.Add("oauth_version", "1.0")
-        If Not String.IsNullOrEmpty(token) Then parameter.Add("oauth_token", token)
+        Dim parameter As SortedList(Of String, String) = GetOAuthParameter(token)
         If query IsNot Nothing Then
             For Each item As KeyValuePair(Of String, String) In query
                 parameter.Add(item.Key, item.Value)
@@ -190,6 +200,17 @@ Public Class HttpConnectionOAuth
         Next
         webRequest.Headers.Add(HttpRequestHeader.Authorization, sb.ToString)
     End Sub
+
+    Private Shared Function GetOAuthParameter(ByVal token As String) As SortedList(Of String, String)
+        Dim parameter As New SortedList(Of String, String)
+        parameter.Add("oauth_consumer_key", ConsumerKey)
+        parameter.Add("oauth_signature_method", "HMAC-SHA1")
+        parameter.Add("oauth_timestamp", GetTimestamp())
+        parameter.Add("oauth_nonce", GetNonce())
+        parameter.Add("oauth_version", "1.0")
+        If Not String.IsNullOrEmpty(token) Then parameter.Add("oauth_token", token)
+        Return parameter
+    End Function
 
     Private Shared Function CreateSignature(ByVal tokenSecret As String, _
                                             ByVal method As String, _
@@ -215,8 +236,13 @@ Public Class HttpConnectionOAuth
     End Function
 #End Region
 
-    Protected Shared Sub Initialize(ByVal token As String, ByVal tokenSecret As String)
-        HttpConnectionOAuth.Token = token
-        HttpConnectionOAuth.TokenSecret = tokenSecret
+    Public Shared Sub Initialize(ByVal consumerKeyStr As String, _
+                                    ByVal consumerSecretStr As String, _
+                                    ByVal token As String, _
+                                    ByVal tokenSecret As String)
+        consumerKey = consumerKeyStr
+        consumerSecret = consumerSecretStr
+        HttpConnectionOAuth.token = token
+        HttpConnectionOAuth.tokenSecret = tokenSecret
     End Sub
 End Class

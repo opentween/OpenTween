@@ -127,6 +127,7 @@ Partial Class Setting
         Me.Label47 = New System.Windows.Forms.Label
         Me.TabControl1 = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
+        Me.Button1 = New System.Windows.Forms.Button
         Me.TextCountApiReply = New System.Windows.Forms.TextBox
         Me.Label7 = New System.Windows.Forms.Label
         Me.PubSearchPeriod = New System.Windows.Forms.TextBox
@@ -852,6 +853,7 @@ Partial Class Setting
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.Button1)
         Me.TabPage1.Controls.Add(Me.TextCountApiReply)
         Me.TabPage1.Controls.Add(Me.Label7)
         Me.TabPage1.Controls.Add(Me.PubSearchPeriod)
@@ -878,6 +880,12 @@ Partial Class Setting
         resources.ApplyResources(Me.TabPage1, "TabPage1")
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'Button1
+        '
+        resources.ApplyResources(Me.Button1, "Button1")
+        Me.Button1.Name = "Button1"
+        Me.Button1.UseVisualStyleBackColor = True
         '
         'TextCountApiReply
         '
@@ -1692,4 +1700,5 @@ Partial Class Setting
     Friend WithEvents CheckNicoms As System.Windows.Forms.CheckBox
     Friend WithEvents Label82 As System.Windows.Forms.Label
     Friend WithEvents CheckHashSupple As System.Windows.Forms.CheckBox
+    Friend WithEvents Button1 As System.Windows.Forms.Button
 End Class

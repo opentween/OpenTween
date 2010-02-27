@@ -170,6 +170,40 @@ Public Module Twitter
     Private Const PATH_FOLLOW As String = "/1/friendships/create.xml?screen_name="
     Private Const PATH_REMOVE As String = "/1/friendships/destroy.xml?screen_name="
 
+    'OAuth関連
+    '''<summary>
+    '''OAuthのコンシューマー鍵
+    '''</summary>
+    Private Const ConsumerKey As String = "EANjQEa5LokuVld682tTDA"
+
+    '''<summary>
+    '''OAuthの署名作成用秘密コンシューマーデータ
+    '''</summary>
+    Private Const ConsumerSecret As String = "zXfwkzmuO6FcHtoikleV3EVgdh5vVAs6ft6ZxtYTYM"
+
+    '''<summary>
+    '''OAuthのアクセストークン取得先URI
+    '''</summary>
+    Private Const AccessTokenUrlXAuth As String = "https://api.twitter.com/oauth/access_token"
+
+    '''<summary>
+    '''OAuthのアクセストークン取得先URI
+    '''</summary>
+    Private Const AccessTokenUrl As String = "http://twitter.com/oauth/access_token"
+
+    '''<summary>
+    '''OAuthのリクエストトークン取得先URI
+    '''</summary>
+    Private Const RequestTokenUrl As String = "http://twitter.com/oauth/request_token"
+
+    '''<summary>
+    '''OAuthのユーザー認証用ページURI
+    '''</summary>
+    '''<remarks>
+    '''クエリ「oauth_token=リクエストトークン」を付加して、このURIをブラウザで開く。ユーザーが承認操作を行うとPINコードが表示される。
+    '''</remarks>
+    Private Const AuthorizeUrl As String = "http://twitter.com/oauth/authorize"
+
     ''''Wedata対応
     'Private Const wedataUrl As String = "http://wedata.net/databases/Tween/items.json"
 

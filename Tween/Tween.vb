@@ -40,9 +40,6 @@ Imports Microsoft.Win32
 Public Class TweenMain
 
     '各種設定
-    Private _username As String         'ユーザー名
-    Private _password As String         'パスワード（デクリプト済み）
-
     Private _mySize As Size             '画面サイズ
     Private _myLoc As Point             '画面位置
     Private _mySpDis As Integer         '区切り位置
@@ -469,8 +466,8 @@ Public Class TweenMain
 
         ''設定読み出し
         'ユーザー名とパスワードの取得
-        _username = _cfgCommon.UserName
-        _password = _cfgCommon.Password
+        '_username = _cfgCommon.UserName
+        '_password = _cfgCommon.Password
         '新着バルーン通知のチェック状態設定
         NewPostPopMenuItem.Checked = _cfgCommon.NewAllPop
         Me.NotifyFileMenuItem.Checked = NewPostPopMenuItem.Checked
@@ -519,8 +516,8 @@ Public Class TweenMain
         sfTab.LineAlignment = StringAlignment.Center
 
         '設定画面への反映
-        SettingDialog.UserID = _username                                'ユーザ名
-        SettingDialog.PasswordStr = _password                           'パスワード
+        SettingDialog.UserID = _cfgCommon.UserName                                'ユーザ名
+        SettingDialog.PasswordStr = _cfgCommon.Password                           'パスワード
         SettingDialog.TimelinePeriodInt = _cfgCommon.TimelinePeriod
         SettingDialog.ReplyPeriodInt = _cfgCommon.ReplyPeriod
         SettingDialog.DMPeriodInt = _cfgCommon.DMPeriod
@@ -690,16 +687,14 @@ Public Class TweenMain
         _initial = True
 
         'ユーザー名、パスワードが未設定なら設定画面を表示（初回起動時など）
-        If _username = "" Or _password = "" Then
+        If SettingDialog.UserID = "" OrElse SettingDialog.PasswordStr = "" Then
             '設定せずにキャンセルされた場合はプログラム終了
             If SettingDialog.ShowDialog() = Windows.Forms.DialogResult.Cancel Then
                 Application.Exit()  '強制終了
                 Exit Sub
             End If
-            _username = SettingDialog.UserID
-            _password = SettingDialog.PasswordStr
             '設定されたが、依然ユーザー名とパスワードが未設定ならプログラム終了
-            If _username = "" Or _password = "" Then
+            If SettingDialog.UserID = "" OrElse SettingDialog.PasswordStr = "" Then
                 Application.Exit()  '強制終了
                 Exit Sub
             End If
@@ -768,8 +763,8 @@ Public Class TweenMain
         End If
 
         'Twitter用通信クラス初期化
-        Twitter.Username = _username
-        Twitter.Password = _password
+        Twitter.Username = SettingDialog.UserID
+        Twitter.Password = SettingDialog.PasswordStr
         Twitter.SelectedProxyType = SettingDialog.SelectedProxyType
         Twitter.ProxyAddress = SettingDialog.ProxyAddress
         Twitter.ProxyPort = SettingDialog.ProxyPort
@@ -1454,7 +1449,7 @@ Public Class TweenMain
                 End Select
                 sb.Append(post.Data)
             Next
-            If SettingDialog.DispUsername Then NotifyIcon1.BalloonTipTitle = _username + " - " Else NotifyIcon1.BalloonTipTitle = ""
+            If SettingDialog.DispUsername Then NotifyIcon1.BalloonTipTitle = SettingDialog.UserID + " - " Else NotifyIcon1.BalloonTipTitle = ""
             If dm Then
                 NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning
                 NotifyIcon1.BalloonTipTitle += "Tween [DM] " + My.Resources.RefreshDirectMessageText1 + " " + addCount.ToString() + My.Resources.RefreshDirectMessageText2
@@ -2726,10 +2721,8 @@ Public Class TweenMain
         End Try
         If result = Windows.Forms.DialogResult.OK Then
             SyncLock _syncObject
-                _username = SettingDialog.UserID
-                _password = SettingDialog.PasswordStr
-                Twitter.Username = _username
-                Twitter.Password = _password
+                Twitter.Username = SettingDialog.UserID
+                Twitter.Password = SettingDialog.PasswordStr
                 Try
                     If SettingDialog.TimelinePeriodInt > 0 Then
                         _homeCounterAdjuster = 0
@@ -4873,11 +4866,11 @@ RETRY:
     Private Sub SaveConfigsCommon()
         If _ignoreConfigSave Then Exit Sub
 
-        If _username <> "" AndAlso _password <> "" Then
+        If SettingDialog.UserID <> "" AndAlso SettingDialog.PasswordStr <> "" Then
             modifySettingCommon = False
             SyncLock _syncObject
-                _cfgCommon.UserName = _username
-                _cfgCommon.Password = _password
+                _cfgCommon.UserName = SettingDialog.UserID
+                _cfgCommon.Password = SettingDialog.PasswordStr
                 '_cfgCommon.NextPageThreshold = SettingDialog.NextPageThreshold
                 '_cfgCommon.NextPages = SettingDialog.NextPagesInt
                 _cfgCommon.TimelinePeriod = SettingDialog.TimelinePeriodInt
@@ -5409,13 +5402,13 @@ RETRY:
                         For cnt As Integer = 0 To _curList.SelectedIndices.Count - 1
                             Dim post As PostClass = _statuses.Item(_curTab.Text, _curList.SelectedIndices(cnt))
                             If Not ids.Contains("@" + post.Name + " ") AndAlso _
-                               Not post.Name.Equals(_username, StringComparison.CurrentCultureIgnoreCase) Then
+                               Not post.Name.Equals(SettingDialog.UserID, StringComparison.CurrentCultureIgnoreCase) Then
                                 ids += "@" + post.Name + " "
                             End If
                             If isAll Then
                                 For Each nm As String In post.ReplyToList
                                     If Not ids.Contains("@" + nm + " ") AndAlso _
-                                       Not nm.Equals(_username, StringComparison.CurrentCultureIgnoreCase) Then
+                                       Not nm.Equals(SettingDialog.UserID, StringComparison.CurrentCultureIgnoreCase) Then
                                         ids += "@" + nm + " "
                                     End If
                                 Next
@@ -5452,12 +5445,12 @@ RETRY:
                         Dim sidx As Integer = StatusText.SelectionStart
                         Dim post As PostClass = _curPost
                         If Not ids.Contains("@" + post.Name + " ") AndAlso _
-                           Not post.Name.Equals(_username, StringComparison.CurrentCultureIgnoreCase) Then
+                           Not post.Name.Equals(SettingDialog.UserID, StringComparison.CurrentCultureIgnoreCase) Then
                             ids += "@" + post.Name + " "
                         End If
                         For Each nm As String In post.ReplyToList
                             If Not ids.Contains("@" + nm + " ") AndAlso _
-                               Not nm.Equals(_username, StringComparison.CurrentCultureIgnoreCase) Then
+                               Not nm.Equals(SettingDialog.UserID, StringComparison.CurrentCultureIgnoreCase) Then
                                 ids += "@" + nm + " "
                             End If
                         Next
@@ -6119,7 +6112,7 @@ RETRY:
             Next
         End If
 
-        If SettingDialog.DispUsername Then ttl.Append(_username).Append(" - ")
+        If SettingDialog.DispUsername Then ttl.Append(SettingDialog.UserID).Append(" - ")
         ttl.Append("Tween  ")
         Select Case SettingDialog.DispLatestPost
             Case DispTitleEnum.Ver
@@ -6180,7 +6173,7 @@ RETRY:
     Private Sub SetNotifyIconText()
         ' タスクトレイアイコンのツールチップテキスト書き換え
         If SettingDialog.DispUsername Then
-            NotifyIcon1.Text = _username + " - Tween"
+            NotifyIcon1.Text = SettingDialog.UserID + " - Tween"
         Else
             NotifyIcon1.Text = "Tween"
         End If
