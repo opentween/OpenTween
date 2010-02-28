@@ -123,7 +123,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="Label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 9</value>
+    <value>14, 41</value>
   </data>
   <data name="Label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>57, 12</value>
@@ -144,13 +144,13 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;Label1.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>17</value>
   </data>
   <data name="Label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="Label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 30</value>
+    <value>14, 62</value>
   </data>
   <data name="Label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>52, 12</value>
@@ -171,10 +171,10 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;Label2.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>18</value>
   </data>
   <data name="Username.Location" type="System.Drawing.Point, System.Drawing">
-    <value>105, 6</value>
+    <value>105, 38</value>
   </data>
   <data name="Username.Size" type="System.Drawing.Size, System.Drawing">
     <value>186, 19</value>
@@ -192,10 +192,10 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;Username.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>19</value>
   </data>
   <data name="Password.Location" type="System.Drawing.Point, System.Drawing">
-    <value>105, 27</value>
+    <value>105, 59</value>
   </data>
   <data name="Password.Size" type="System.Drawing.Size, System.Drawing">
     <value>186, 19</value>
@@ -213,7 +213,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;Password.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>20</value>
   </data>
   <data name="Save.Location" type="System.Drawing.Point, System.Drawing">
     <value>259, 518</value>
@@ -267,7 +267,7 @@
     <value>True</value>
   </data>
   <data name="Label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 55</value>
+    <value>14, 114</value>
   </data>
   <data name="Label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>130, 12</value>
@@ -288,10 +288,10 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;Label3.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>21</value>
   </data>
   <data name="TimelinePeriod.Location" type="System.Drawing.Point, System.Drawing">
-    <value>247, 52</value>
+    <value>247, 111</value>
   </data>
   <data name="TimelinePeriod.Size" type="System.Drawing.Size, System.Drawing">
     <value>65, 19</value>
@@ -309,10 +309,10 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;TimelinePeriod.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>22</value>
   </data>
   <data name="DMPeriod.Location" type="System.Drawing.Point, System.Drawing">
-    <value>247, 122</value>
+    <value>247, 181</value>
   </data>
   <data name="DMPeriod.Size" type="System.Drawing.Size, System.Drawing">
     <value>65, 19</value>
@@ -330,13 +330,13 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;DMPeriod.ZOrder" xml:space="preserve">
-    <value>21</value>
+    <value>24</value>
   </data>
   <data name="Label5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="Label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 125</value>
+    <value>14, 184</value>
   </data>
   <data name="Label5.Size" type="System.Drawing.Size, System.Drawing">
     <value>94, 12</value>
@@ -357,7 +357,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;Label5.ZOrder" xml:space="preserve">
-    <value>20</value>
+    <value>23</value>
   </data>
   <data name="Label9.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -384,7 +384,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;Label9.ZOrder" xml:space="preserve">
-    <value>22</value>
+    <value>25</value>
   </data>
   <data name="StartupReaded.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -411,7 +411,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;StartupReaded.ZOrder" xml:space="preserve">
-    <value>23</value>
+    <value>26</value>
   </data>
   <data name="Label11.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2871,29 +2871,113 @@
   <data name="&gt;&gt;Label47.ZOrder" xml:space="preserve">
     <value>25</value>
   </data>
-  <data name="Button1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>297, 23</value>
+  <data name="AuthUserLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
-  <data name="Button1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+  <data name="AuthUserLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>223, 13</value>
   </data>
-  <data name="Button1.TabIndex" type="System.Int32, mscorlib">
-    <value>43</value>
+  <data name="AuthUserLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 14</value>
   </data>
-  <data name="Button1.Text" xml:space="preserve">
-    <value>認証する</value>
+  <data name="AuthUserLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>46</value>
   </data>
-  <data name="&gt;&gt;Button1.Name" xml:space="preserve">
-    <value>Button1</value>
+  <data name="AuthUserLabel.Text" xml:space="preserve">
+    <value>認証済み</value>
   </data>
-  <data name="&gt;&gt;Button1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;AuthUserLabel.Name" xml:space="preserve">
+    <value>AuthUserLabel</value>
   </data>
-  <data name="&gt;&gt;Button1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;AuthUserLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;AuthUserLabel.Parent" xml:space="preserve">
     <value>TabPage1</value>
   </data>
-  <data name="&gt;&gt;Button1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;AuthUserLabel.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="AuthStateLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="AuthStateLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>105, 13</value>
+  </data>
+  <data name="AuthStateLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>112, 14</value>
+  </data>
+  <data name="AuthStateLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>45</value>
+  </data>
+  <data name="AuthStateLabel.Text" xml:space="preserve">
+    <value>Not Authenticated</value>
+  </data>
+  <data name="&gt;&gt;AuthStateLabel.Name" xml:space="preserve">
+    <value>AuthStateLabel</value>
+  </data>
+  <data name="&gt;&gt;AuthStateLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;AuthStateLabel.Parent" xml:space="preserve">
+    <value>TabPage1</value>
+  </data>
+  <data name="&gt;&gt;AuthStateLabel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="Label4.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Label4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 13</value>
+  </data>
+  <data name="Label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 12</value>
+  </data>
+  <data name="Label4.TabIndex" type="System.Int32, mscorlib">
+    <value>44</value>
+  </data>
+  <data name="Label4.Text" xml:space="preserve">
+    <value>認証状態</value>
+  </data>
+  <data name="&gt;&gt;Label4.Name" xml:space="preserve">
+    <value>Label4</value>
+  </data>
+  <data name="&gt;&gt;Label4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label4.Parent" xml:space="preserve">
+    <value>TabPage1</value>
+  </data>
+  <data name="&gt;&gt;Label4.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="AuthorizeButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>297, 55</value>
+  </data>
+  <data name="AuthorizeButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="AuthorizeButton.TabIndex" type="System.Int32, mscorlib">
+    <value>43</value>
+  </data>
+  <data name="AuthorizeButton.Text" xml:space="preserve">
+    <value>認証する</value>
+  </data>
+  <data name="&gt;&gt;AuthorizeButton.Name" xml:space="preserve">
+    <value>AuthorizeButton</value>
+  </data>
+  <data name="&gt;&gt;AuthorizeButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;AuthorizeButton.Parent" xml:space="preserve">
+    <value>TabPage1</value>
+  </data>
+  <data name="&gt;&gt;AuthorizeButton.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
   <data name="TextCountApiReply.Location" type="System.Drawing.Point, System.Drawing">
     <value>297, 429</value>
@@ -2914,7 +2998,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;TextCountApiReply.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>4</value>
   </data>
   <data name="Label7.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2923,7 +3007,7 @@
     <value>NoControl</value>
   </data>
   <data name="Label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 150</value>
+    <value>14, 209</value>
   </data>
   <data name="Label7.Size" type="System.Drawing.Size, System.Drawing">
     <value>137, 12</value>
@@ -2944,10 +3028,10 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;Label7.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>5</value>
   </data>
   <data name="PubSearchPeriod.Location" type="System.Drawing.Point, System.Drawing">
-    <value>247, 147</value>
+    <value>247, 206</value>
   </data>
   <data name="PubSearchPeriod.Size" type="System.Drawing.Size, System.Drawing">
     <value>65, 19</value>
@@ -2965,7 +3049,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;PubSearchPeriod.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>6</value>
   </data>
   <data name="Label69.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2974,7 +3058,7 @@
     <value>NoControl</value>
   </data>
   <data name="Label69.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 100</value>
+    <value>14, 159</value>
   </data>
   <data name="Label69.Size" type="System.Drawing.Size, System.Drawing">
     <value>123, 12</value>
@@ -2995,10 +3079,10 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;Label69.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>7</value>
   </data>
   <data name="ReplyPeriod.Location" type="System.Drawing.Point, System.Drawing">
-    <value>247, 97</value>
+    <value>247, 156</value>
   </data>
   <data name="ReplyPeriod.Size" type="System.Drawing.Size, System.Drawing">
     <value>65, 19</value>
@@ -3016,7 +3100,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;ReplyPeriod.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>8</value>
   </data>
   <data name="CheckPostAndGet.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3025,7 +3109,7 @@
     <value>NoControl</value>
   </data>
   <data name="CheckPostAndGet.Location" type="System.Drawing.Point, System.Drawing">
-    <value>24, 75</value>
+    <value>24, 134</value>
   </data>
   <data name="CheckPostAndGet.Size" type="System.Drawing.Size, System.Drawing">
     <value>84, 16</value>
@@ -3046,7 +3130,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;CheckPostAndGet.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>9</value>
   </data>
   <data name="Label67.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3076,7 +3160,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;Label67.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>10</value>
   </data>
   <data name="TextCountApi.Location" type="System.Drawing.Point, System.Drawing">
     <value>247, 429</value>
@@ -3097,7 +3181,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;TextCountApi.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>11</value>
   </data>
   <data name="Label54.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3124,7 +3208,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;Label54.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>12</value>
   </data>
   <data name="CheckStartupFollowers.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3151,7 +3235,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;CheckStartupFollowers.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>13</value>
   </data>
   <data name="Label51.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3178,7 +3262,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;Label51.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>14</value>
   </data>
   <data name="CheckStartupVersion.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3205,13 +3289,13 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;CheckStartupVersion.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>15</value>
   </data>
   <data name="CheckPeriodAdjust.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="CheckPeriodAdjust.Location" type="System.Drawing.Point, System.Drawing">
-    <value>241, 75</value>
+    <value>241, 134</value>
   </data>
   <data name="CheckPeriodAdjust.Size" type="System.Drawing.Size, System.Drawing">
     <value>91, 16</value>
@@ -3232,7 +3316,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;CheckPeriodAdjust.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>16</value>
   </data>
   <data name="TabPage1.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>

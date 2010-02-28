@@ -796,4 +796,16 @@
   <data name="GetFriendshipInfo5" xml:space="preserve">
     <value> さんとのフォロー関係</value>
   </data>
+  <data name="AuthorizeButton_Click1" xml:space="preserve">
+    <value>認証しました</value>
+  </data>
+  <data name="AuthorizeButton_Click2" xml:space="preserve">
+    <value>認証できませんでした</value>
+  </data>
+  <data name="AuthorizeButton_Click3" xml:space="preserve">
+    <value>認証済</value>
+  </data>
+  <data name="AuthorizeButton_Click4" xml:space="preserve">
+    <value>未認証</value>
+  </data>
 </root>

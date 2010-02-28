@@ -435,6 +435,9 @@ Public Class TweenMain
         VerUpMenuItem.Image = shield.Icon
         If Not My.Application.CommandLineArgs.Count = 0 AndAlso My.Application.CommandLineArgs.Contains("/d") Then TraceFlag = True
 
+        Me._spaceKeyCanceler = New SpaceKeyCanceler(Me.PostButton)
+        AddHandler Me._spaceKeyCanceler.SpaceCancel, AddressOf spaceKeyCanceler_SpaceCancel
+
         fileVersion = _
             System.Diagnostics.FileVersionInfo.GetVersionInfo( _
             System.Reflection.Assembly.GetExecutingAssembly().Location).FileVersion
@@ -517,7 +520,7 @@ Public Class TweenMain
 
         '設定画面への反映
         SettingDialog.UserID = _cfgCommon.UserName                                'ユーザ名
-        SettingDialog.PasswordStr = _cfgCommon.Password                           'パスワード
+        'SettingDialog.PasswordStr = _cfgCommon.Password                           'パスワード
         SettingDialog.TimelinePeriodInt = _cfgCommon.TimelinePeriod
         SettingDialog.ReplyPeriodInt = _cfgCommon.ReplyPeriod
         SettingDialog.DMPeriodInt = _cfgCommon.DMPeriod
@@ -684,17 +687,21 @@ Public Class TweenMain
                                 _cfgCommon.HashIsHead)
         If HashMgr.UseHash <> "" AndAlso HashMgr.IsPermanent Then HashStripSplitButton.Text = HashMgr.UseHash
 
+        '認証関連
+        If _cfgCommon.Token = "" Then _cfgCommon.UserName = ""
+        Twitter.Initialize(_cfgCommon.Token, _cfgCommon.TokenSecret, _cfgCommon.UserName)
+
         _initial = True
 
         'ユーザー名、パスワードが未設定なら設定画面を表示（初回起動時など）
-        If SettingDialog.UserID = "" OrElse SettingDialog.PasswordStr = "" Then
+        If Twitter.Username = "" Then
             '設定せずにキャンセルされた場合はプログラム終了
             If SettingDialog.ShowDialog() = Windows.Forms.DialogResult.Cancel Then
                 Application.Exit()  '強制終了
                 Exit Sub
             End If
             '設定されたが、依然ユーザー名とパスワードが未設定ならプログラム終了
-            If SettingDialog.UserID = "" OrElse SettingDialog.PasswordStr = "" Then
+            If Twitter.Username = "" Then
                 Application.Exit()  '強制終了
                 Exit Sub
             End If
@@ -763,16 +770,22 @@ Public Class TweenMain
         End If
 
         'Twitter用通信クラス初期化
-        Twitter.Username = SettingDialog.UserID
-        Twitter.Password = SettingDialog.PasswordStr
-        Twitter.SelectedProxyType = SettingDialog.SelectedProxyType
-        Twitter.ProxyAddress = SettingDialog.ProxyAddress
-        Twitter.ProxyPort = SettingDialog.ProxyPort
-        Twitter.ProxyUser = SettingDialog.ProxyUser
-        Twitter.ProxyPassword = SettingDialog.ProxyPassword
+        'Twitter.Username = SettingDialog.UserID
+        'Twitter.Password = SettingDialog.PasswordStr
+        HttpConnection.InitializeConnection(SettingDialog.DefaultTimeOut, _
+                                            SettingDialog.SelectedProxyType, _
+                                            SettingDialog.ProxyAddress, _
+                                            SettingDialog.ProxyPort, _
+                                            SettingDialog.ProxyUser, _
+                                            SettingDialog.ProxyPassword)
+        'Twitter.SelectedProxyType = SettingDialog.SelectedProxyType
+        'Twitter.ProxyAddress = SettingDialog.ProxyAddress
+        'Twitter.ProxyPort = SettingDialog.ProxyPort
+        'Twitter.ProxyUser = SettingDialog.ProxyUser
+        'Twitter.ProxyPassword = SettingDialog.ProxyPassword
         'Twitter.NextThreshold = SettingDialog.NextPageThreshold   '次頁取得閾値
         'Twitter.NextPages = SettingDialog.NextPagesInt    '閾値オーバー時の読み込みページ数（未使用）
-        Twitter.DefaultTimeOut = SettingDialog.DefaultTimeOut
+        'Twitter.DefaultTimeOut = SettingDialog.DefaultTimeOut
         Twitter.CountApi = SettingDialog.CountApi
         Twitter.CountApiReply = SettingDialog.CountApiReply
         'Twitter.UseAPI = SettingDialog.UseAPI
@@ -783,12 +796,12 @@ Public Class TweenMain
         Twitter.UseSsl = SettingDialog.UseSsl
         Twitter.BitlyId = SettingDialog.BitlyUser
         Twitter.BitlyKey = SettingDialog.BitlyPwd
-        If IsNetworkAvailable() Then
-            If SettingDialog.StartupFollowers Then
-                '_waitFollower = True
-                GetTimeline(WORKERTYPE.Follower, 0, 0, "")
-            End If
-        End If
+        'If IsNetworkAvailable() Then
+        '    If SettingDialog.StartupFollowers Then
+        '        '_waitFollower = True
+        '        GetTimeline(WORKERTYPE.Follower, 0, 0, "")
+        '    End If
+        'End If
 
         'ウィンドウ設定
         Me.ClientSize = _cfgLocal.FormSize
@@ -989,8 +1002,6 @@ Public Class TweenMain
         _ignoreConfigSave = False
         SaveConfigsAll(False)
 
-        Me._spaceKeyCanceler = New SpaceKeyCanceler(Me.PostButton)
-        AddHandler Me._spaceKeyCanceler.SpaceCancel, AddressOf spaceKeyCanceler_SpaceCancel
     End Sub
 
     Private Sub spaceKeyCanceler_SpaceCancel(ByVal sender As Object, ByVal e As EventArgs)
@@ -2721,8 +2732,8 @@ Public Class TweenMain
         End Try
         If result = Windows.Forms.DialogResult.OK Then
             SyncLock _syncObject
-                Twitter.Username = SettingDialog.UserID
-                Twitter.Password = SettingDialog.PasswordStr
+                'Twitter.Username = SettingDialog.UserID
+                'Twitter.Password = SettingDialog.PasswordStr
                 Try
                     If SettingDialog.TimelinePeriodInt > 0 Then
                         _homeCounterAdjuster = 0
@@ -2757,11 +2768,17 @@ Public Class TweenMain
                 Twitter.BitlyId = SettingDialog.BitlyUser
                 Twitter.BitlyKey = SettingDialog.BitlyPwd
 
-                Twitter.SelectedProxyType = SettingDialog.SelectedProxyType
-                Twitter.ProxyAddress = SettingDialog.ProxyAddress
-                Twitter.ProxyPort = SettingDialog.ProxyPort
-                Twitter.ProxyUser = SettingDialog.ProxyUser
-                Twitter.ProxyPassword = SettingDialog.ProxyPassword
+                'Twitter.SelectedProxyType = SettingDialog.SelectedProxyType
+                'Twitter.ProxyAddress = SettingDialog.ProxyAddress
+                'Twitter.ProxyPort = SettingDialog.ProxyPort
+                'Twitter.ProxyUser = SettingDialog.ProxyUser
+                'Twitter.ProxyPassword = SettingDialog.ProxyPassword
+                HttpConnection.InitializeConnection(SettingDialog.DefaultTimeOut, _
+                                                    SettingDialog.SelectedProxyType, _
+                                                    SettingDialog.ProxyAddress, _
+                                                    SettingDialog.ProxyPort, _
+                                                    SettingDialog.ProxyUser, _
+                                                    SettingDialog.ProxyPassword)
                 Try
                     If SettingDialog.TabIconDisp Then
                         RemoveHandler ListTab.DrawItem, AddressOf ListTab_DrawItem
@@ -4866,11 +4883,13 @@ RETRY:
     Private Sub SaveConfigsCommon()
         If _ignoreConfigSave Then Exit Sub
 
-        If SettingDialog.UserID <> "" AndAlso SettingDialog.PasswordStr <> "" Then
+        If Twitter.Username <> "" Then
             modifySettingCommon = False
             SyncLock _syncObject
                 _cfgCommon.UserName = SettingDialog.UserID
-                _cfgCommon.Password = SettingDialog.PasswordStr
+                '_cfgCommon.Password = SettingDialog.PasswordStr
+                _cfgCommon.Token = HttpConnectionOAuth.AccessToken
+                _cfgCommon.TokenSecret = HttpConnectionOAuth.AccessTokenSecret
                 '_cfgCommon.NextPageThreshold = SettingDialog.NextPageThreshold
                 '_cfgCommon.NextPages = SettingDialog.NextPagesInt
                 _cfgCommon.TimelinePeriod = SettingDialog.TimelinePeriodInt
@@ -6936,6 +6955,10 @@ RETRY:
         End Try
 
         If IsNetworkAvailable() Then
+            If SettingDialog.StartupFollowers Then
+                '_waitFollower = True
+                GetTimeline(WORKERTYPE.Follower, 0, 0, "")
+            End If
             _waitTimeline = True
             GetTimeline(WORKERTYPE.Timeline, 1, 1, "")
             'If SettingDialog.ReadPages > 0 Then

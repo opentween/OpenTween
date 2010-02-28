@@ -744,4 +744,16 @@
   <data name="GetFriendshipInfo5" xml:space="preserve">
     <value> Relationship</value>
   </data>
+  <data name="AuthorizeButton_Click1" xml:space="preserve">
+    <value>Authentication success</value>
+  </data>
+  <data name="AuthorizeButton_Click2" xml:space="preserve">
+    <value>Authentication failed</value>
+  </data>
+  <data name="AuthorizeButton_Click3" xml:space="preserve">
+    <value>Authenticated</value>
+  </data>
+  <data name="AuthorizeButton_Click4" xml:space="preserve">
+    <value>Not authenticated</value>
+  </data>
 </root>
