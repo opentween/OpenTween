@@ -23,7 +23,7 @@
 
 Public Class Setting
     Private _MyuserID As String
-    Private _Mypassword As String
+    'Private _Mypassword As String
     Private _MytimelinePeriod As Integer
     Private _MyDMPeriod As Integer
     Private _MyPubSearchPeriod As Integer
@@ -121,7 +121,7 @@ Public Class Setting
     Private Sub Save_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Save.Click
         Try
             _MyuserID = Username.Text.Trim()
-            _Mypassword = Password.Text.Trim()
+            '_Mypassword = Password.Text.Trim()
             _MytimelinePeriod = CType(TimelinePeriod.Text, Integer)
             _MyDMPeriod = CType(DMPeriod.Text, Integer)
             _MyPubSearchPeriod = CType(PubSearchPeriod.Text, Integer)
@@ -288,7 +288,14 @@ Public Class Setting
 
     Private Sub Setting_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Username.Text = _MyuserID
-        Password.Text = _Mypassword
+        'Password.Text = _Mypassword
+        If HttpConnectionOAuth.AccessToken = "" Then
+            Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
+            Me.AuthUserLabel.Text = ""
+        Else
+            Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
+            Me.AuthUserLabel.Text = HttpConnectionOAuth.AuthUsername
+        End If
         TimelinePeriod.Text = _MytimelinePeriod.ToString()
         ReplyPeriod.Text = _MyReplyPeriod.ToString()
         DMPeriod.Text = _MyDMPeriod.ToString()
@@ -813,14 +820,14 @@ Public Class Setting
         End Set
     End Property
 
-    Public Property PasswordStr() As String
-        Get
-            Return _Mypassword
-        End Get
-        Set(ByVal value As String)
-            _Mypassword = value
-        End Set
-    End Property
+    'Public Property PasswordStr() As String
+    '    Get
+    '        Return _Mypassword
+    '    End Get
+    '    Set(ByVal value As String)
+    '        _Mypassword = value
+    '    End Set
+    'End Property
 
     Public Property TimelinePeriodInt() As Integer
         Get
@@ -1895,5 +1902,37 @@ Public Class Setting
         lblRetweet.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Green)
     End Sub
 
+    Private Sub AuthorizeButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AuthorizeButton.Click
+        Dim user As String = Me.Username.Text.Trim
+        Dim pwd As String = Me.Password.Text.Trim
+        If String.IsNullOrEmpty(user) OrElse String.IsNullOrEmpty(pwd) Then
+            MessageBox.Show(My.Resources.Save_ClickText1)
+            Exit Sub
+        End If
+
+        '現在の設定内容で通信
+        If RadioProxyNone.Checked Then
+            _MyProxyType = ProxyType.None
+        ElseIf RadioProxyIE.Checked Then
+            _MyProxyType = ProxyType.IE
+        Else
+            _MyProxyType = ProxyType.Specified
+        End If
+        _MyProxyAddress = TextProxyAddress.Text.Trim()
+        _MyProxyPort = Integer.Parse(TextProxyPort.Text.Trim())
+        _MyProxyUser = TextProxyUser.Text.Trim()
+        _MyProxyPassword = TextProxyPassword.Text.Trim()
+
+        '通信基底クラス初期化
+        HttpConnection.InitializeConnection(20, _MyProxyType, _MyProxyAddress, _MyProxyPort, _MyProxyUser, _MyProxyPassword)
+        Dim rslt As Boolean = Twitter.Authorize(user, pwd)
+        If rslt Then
+            MessageBox.Show(My.Resources.AuthorizeButton_Click1, "Authenticate", MessageBoxButtons.OK)
+            Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
+            Me.AuthUserLabel.Text = HttpConnectionOAuth.AuthUsername
+        Else
+            MessageBox.Show(My.Resources.AuthorizeButton_Click2, "Authenticate", MessageBoxButtons.OK)
+        End If
+    End Sub
 End Class
 

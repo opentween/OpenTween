@@ -29,6 +29,7 @@ Imports System.IO
 Imports System.Text.RegularExpressions
 Imports System.Globalization
 Imports System.Diagnostics
+Imports System.Net
 
 Public Module Twitter
     Delegate Sub GetIconImageDelegate(ByVal post As PostClass)
@@ -60,12 +61,12 @@ Public Module Twitter
 
     'プロパティからアクセスされる共通情報
     Private _uid As String
-    Private _pwd As String
-    Private _proxyType As ProxyType
-    Private _proxyAddress As String
-    Private _proxyPort As Integer
-    Private _proxyUser As String
-    Private _proxyPassword As String
+    'Private _pwd As String
+    'Private _proxyType As ProxyType
+    'Private _proxyAddress As String
+    'Private _proxyPort As Integer
+    'Private _proxyUser As String
+    'Private _proxyPassword As String
 
     'Private _nextThreshold As Integer
     'Private _nextPages As Integer
@@ -80,7 +81,7 @@ Public Module Twitter
     'Private _useAPI As Boolean
 
     Private _hubServer As String
-    Private _defaultTimeOut As Integer      ' MySocketクラスへ渡すタイムアウト待ち時間（秒単位　ミリ秒への換算はMySocketクラス側で行う）
+    'Private _defaultTimeOut As Integer      ' MySocketクラスへ渡すタイムアウト待ち時間（秒単位　ミリ秒への換算はMySocketクラス側で行う）
     Private _countApi As Integer
     Private _countApiReply As Integer
     Private _usePostMethod As Boolean
@@ -89,9 +90,8 @@ Public Module Twitter
     Private _hashList As New List(Of String)
 
     '共通で使用する状態
-    Private _authKey As String              'StatusUpdate、発言削除で使用
-    Private _authKeyDM As String              'DM送信、DM削除で使用
-    Private _signed As Boolean
+    'Private _authKey As String              'StatusUpdate、発言削除で使用
+    'Private _authKeyDM As String              'DM送信、DM削除で使用
     Private _infoTwitter As String = ""
     Private _dmCount As Integer
     Private _getDm As Boolean
@@ -207,6 +207,19 @@ Public Module Twitter
     ''''Wedata対応
     'Private Const wedataUrl As String = "http://wedata.net/databases/Tween/items.json"
 
+    Public Function Authorize(ByVal username As String, ByVal password As String) As Boolean
+        Dim xauth As New HttpConnectionOAuth
+        Dim rslt As Boolean = xauth.AuthorizeXAuth(AccessTokenUrlXAuth, username, password)
+        If rslt Then
+            _uid = HttpConnectionOAuth.AuthUsername
+        End If
+        Return rslt
+    End Function
+
+    Public Sub Initialize(ByVal token As String, ByVal tokenSecret As String, ByVal username As String)
+        HttpConnectionOAuth.Initialize(ConsumerKey, ConsumerSecret, token, tokenSecret)
+        Twitter.Username = username
+    End Sub
     'Private Function SignIn() As String
     '    If _endingFlag Then Return ""
 
@@ -1597,6 +1610,11 @@ Public Module Twitter
                     Dim Response As String = ""
                     Dim retUrlStr As String = ""
                     Dim tmpurlStr As String = urlstr
+                    Dim retStatus As HttpStatusCode
+                    Dim resHeader As New Dictionary(Of String, String)
+                    Dim httpCon As New HttpConnectionApi
+
+
                     retUrlStr = urlEncodeMultibyteChar(DirectCast(CreateSocket.GetWebResponse(tmpurlStr, Response, MySocket.REQ_TYPE.ReqGETForwardTo, timeOut:=5000), String))
                     If retUrlStr.StartsWith("http") Then
                         retUrlStr = retUrlStr.Replace("""", "%22")  'ダブルコーテーションがあるとURL終端と判断されるため、これだけ再エンコード
@@ -2608,17 +2626,6 @@ Public Module Twitter
         End Get
         Set(ByVal value As String)
             _uid = value.ToLower
-            _signed = False
-        End Set
-    End Property
-
-    Public Property Password() As String
-        Get
-            Return _pwd
-        End Get
-        Set(ByVal value As String)
-            _pwd = value
-            _signed = False
         End Set
     End Property
 
@@ -2878,35 +2885,35 @@ Public Module Twitter
         End Set
     End Property
 
-    Public WriteOnly Property SelectedProxyType() As ProxyType
-        Set(ByVal value As ProxyType)
-            _proxyType = value
-        End Set
-    End Property
+    'Public WriteOnly Property SelectedProxyType() As ProxyType
+    '    Set(ByVal value As ProxyType)
+    '        _proxyType = value
+    '    End Set
+    'End Property
 
-    Public WriteOnly Property ProxyAddress() As String
-        Set(ByVal value As String)
-            _proxyAddress = value
-        End Set
-    End Property
+    'Public WriteOnly Property ProxyAddress() As String
+    '    Set(ByVal value As String)
+    '        _proxyAddress = value
+    '    End Set
+    'End Property
 
-    Public WriteOnly Property ProxyPort() As Integer
-        Set(ByVal value As Integer)
-            _proxyPort = value
-        End Set
-    End Property
+    'Public WriteOnly Property ProxyPort() As Integer
+    '    Set(ByVal value As Integer)
+    '        _proxyPort = value
+    '    End Set
+    'End Property
 
-    Public WriteOnly Property ProxyUser() As String
-        Set(ByVal value As String)
-            _proxyUser = value
-        End Set
-    End Property
+    'Public WriteOnly Property ProxyUser() As String
+    '    Set(ByVal value As String)
+    '        _proxyUser = value
+    '    End Set
+    'End Property
 
-    Public WriteOnly Property ProxyPassword() As String
-        Set(ByVal value As String)
-            _proxyPassword = value
-        End Set
-    End Property
+    'Public WriteOnly Property ProxyPassword() As String
+    '    Set(ByVal value As String)
+    '        _proxyPassword = value
+    '    End Set
+    'End Property
 
     Public WriteOnly Property RestrictFavCheck() As Boolean
         Set(ByVal value As Boolean)
@@ -3124,8 +3131,9 @@ Public Module Twitter
 
 #End Region
 
-    Private Function CreateSocket() As MySocket
-        Return New MySocket("UTF-8", _uid, _pwd, _proxyType, _proxyAddress, _proxyPort, _proxyUser, _proxyPassword, _defaultTimeOut)
+    Private Function CreateSocket() As HttpConnection
+        'Return New MySocket("UTF-8", _uid, _pwd, _proxyType, _proxyAddress, _proxyPort, _proxyUser, _proxyPassword, _defaultTimeOut)
+        Return New HttpConnectionOAuth
     End Function
 
     Public WriteOnly Property ListIcon() As ImageList
@@ -3140,14 +3148,14 @@ Public Module Twitter
         End Set
     End Property
 
-    Public Property DefaultTimeOut() As Integer
-        Get
-            Return _defaultTimeOut
-        End Get
-        Set(ByVal value As Integer)
-            _defaultTimeOut = value
-        End Set
-    End Property
+    'Public Property DefaultTimeOut() As Integer
+    '    Get
+    '        Return _defaultTimeOut
+    '    End Get
+    '    Set(ByVal value As Integer)
+    '        _defaultTimeOut = value
+    '    End Set
+    'End Property
 
     Public WriteOnly Property CountApi() As Integer
         'API時の取得件数

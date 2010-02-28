@@ -38,6 +38,7 @@ Public Class HttpConnectionOAuth
     '''</summary>
     Private Shared consumerSecret As String
 
+    Private Shared authorizedUsername As String
     '''<summary>
     '''HTTP通信してコンテンツを取得する（文字列コンテンツ）
     '''</summary>
@@ -238,11 +239,29 @@ Public Class HttpConnectionOAuth
 
     Public Shared Sub Initialize(ByVal consumerKeyStr As String, _
                                     ByVal consumerSecretStr As String, _
-                                    ByVal token As String, _
-                                    ByVal tokenSecret As String)
+                                    ByVal accessToken As String, _
+                                    ByVal accessTokenSecret As String)
         consumerKey = consumerKeyStr
         consumerSecret = consumerSecretStr
-        HttpConnectionOAuth.token = token
-        HttpConnectionOAuth.tokenSecret = tokenSecret
+        HttpConnectionOAuth.token = accessToken
+        HttpConnectionOAuth.tokenSecret = accessTokenSecret
     End Sub
+
+    Public Shared ReadOnly Property AccessToken() As String
+        Get
+            Return HttpConnectionOAuth.token
+        End Get
+    End Property
+
+    Public Shared ReadOnly Property AccessTokenSecret() As String
+        Get
+            Return HttpConnectionOAuth.tokenSecret
+        End Get
+    End Property
+
+    Public Shared ReadOnly Property AuthUsername() As String
+        Get
+            Return HttpConnectionOAuth.authorizedUsername
+        End Get
+    End Property
 End Class
