@@ -22,6 +22,8 @@
 ' Boston, MA 02110-1301, USA.
 
 Imports System.Web
+Imports System.Net
+Imports System.Collections.Generic
 
 Public Module Outputz
     Private myOuturl As String
@@ -67,20 +69,17 @@ Public Module Outputz
         End Set
     End Property
 
-    Public Function Post(ByVal obj As MySocket, ByVal length As Integer) As String
+    Public Function Post(ByVal length As Integer) As Boolean
 
-        If state = False Then Return ""
+        If state = False Then Return True
 
-        Dim resStatus As String = ""
+        Dim content As String = ""
         Dim output As String = "http://outputz.com/api/post"
-        Dim data As String = String.Format("key={0}&uri={1}&size={2}", myApikeyEncoded, myOuturlEncoded, length)
+        Dim param As New SortedList(Of String, String)
+        param.Add("key", myApikeyEncoded)
+        param.Add("uri", myOuturlEncoded)
+        param.Add("size", length.ToString)
 
-        obj.GetWebResponse(output, resStatus, MySocket.REQ_TYPE.ReqPOST, data, userAgent:="Tween/" + fileVersion)
-
-        If resStatus.StartsWith("OK") Then
-            Return ""
-        Else
-            Return resStatus
-        End If
+        Return (New HttpVarious).PostData(output, param)
     End Function
 End Module

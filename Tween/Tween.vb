@@ -519,7 +519,7 @@ Public Class TweenMain
         sfTab.LineAlignment = StringAlignment.Center
 
         '設定画面への反映
-        SettingDialog.UserID = _cfgCommon.UserName                                'ユーザ名
+        'SettingDialog.UserID = _cfgCommon.UserName                                'ユーザ名
         'SettingDialog.PasswordStr = _cfgCommon.Password                           'パスワード
         SettingDialog.TimelinePeriodInt = _cfgCommon.TimelinePeriod
         SettingDialog.ReplyPeriodInt = _cfgCommon.ReplyPeriod
@@ -674,7 +674,7 @@ Public Class TweenMain
             Case OutputzUrlmode.twittercom
                 Outputz.url = "http://twitter.com/"
             Case OutputzUrlmode.twittercomWithUsername
-                Outputz.url = "http://twitter.com/" + SettingDialog.UserID
+                Outputz.url = "http://twitter.com/" + Twitter.Username
         End Select
 
         SettingDialog.Nicoms = _cfgCommon.Nicoms
@@ -1460,7 +1460,7 @@ Public Class TweenMain
                 End Select
                 sb.Append(post.Data)
             Next
-            If SettingDialog.DispUsername Then NotifyIcon1.BalloonTipTitle = SettingDialog.UserID + " - " Else NotifyIcon1.BalloonTipTitle = ""
+            If SettingDialog.DispUsername Then NotifyIcon1.BalloonTipTitle = Twitter.Username + " - " Else NotifyIcon1.BalloonTipTitle = ""
             If dm Then
                 NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning
                 NotifyIcon1.BalloonTipTitle += "Tween [DM] " + My.Resources.RefreshDirectMessageText1 + " " + addCount.ToString() + My.Resources.RefreshDirectMessageText2
@@ -2541,7 +2541,7 @@ Public Class TweenMain
             Dim myPost As Boolean = False
             For Each idx As Integer In _curList.SelectedIndices
                 If GetCurTabPost(idx).IsMe OrElse _
-                   GetCurTabPost(idx).RetweetedBy.ToLower = SettingDialog.UserID.ToLower Then
+                   GetCurTabPost(idx).RetweetedBy.ToLower = Twitter.Username.ToLower Then
                     myPost = True
                     Exit For
                 End If
@@ -2573,7 +2573,7 @@ Public Class TweenMain
                 If _statuses.Tabs(_curTab.Text).TabType = TabUsageType.DirectMessage Then
                     rtn = Twitter.RemoveDirectMessage(Id)
                 Else
-                    If _statuses.Item(Id).IsMe OrElse _statuses.Item(Id).RetweetedBy.ToLower = SettingDialog.UserID.ToLower Then
+                    If _statuses.Item(Id).IsMe OrElse _statuses.Item(Id).RetweetedBy.ToLower = Twitter.Username.ToLower Then
                         rtn = Twitter.RemoveStatus(Id)
                     Else
                         Continue For
@@ -2941,7 +2941,7 @@ Public Class TweenMain
                     Case OutputzUrlmode.twittercom
                         Outputz.url = "http://twitter.com/"
                     Case OutputzUrlmode.twittercomWithUsername
-                        Outputz.url = "http://twitter.com/" + SettingDialog.UserID
+                        Outputz.url = "http://twitter.com/" + Twitter.Username
                 End Select
 
             End SyncLock
@@ -4071,20 +4071,15 @@ RETRY:
                     If dialogAsShieldicon.Show(tmp, strDetail, My.Resources.CheckNewVersionText1, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
                         retMsg = Twitter.GetTweenBinary(strVer)
                         If retMsg.Length = 0 Then
-                            retMsg = Twitter.GetTweenUpBinary()
-                            If retMsg.Length = 0 Then
-                                RunTweenUp()
-                                'If startup Then
-                                '    Application.Exit()
-                                'Else
-                                _endingFlag = True
-                                dialogAsShieldicon.Dispose()
-                                Me.Close()
-                                'End If
-                                Exit Sub
-                            Else
-                                If Not startup Then MessageBox.Show(My.Resources.CheckNewVersionText4 + System.Environment.NewLine + retMsg, My.Resources.CheckNewVersionText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                            End If
+                            RunTweenUp()
+                            'If startup Then
+                            '    Application.Exit()
+                            'Else
+                            _endingFlag = True
+                            dialogAsShieldicon.Dispose()
+                            Me.Close()
+                            'End If
+                            Exit Sub
                         Else
                             If Not startup Then MessageBox.Show(My.Resources.CheckNewVersionText5 + System.Environment.NewLine + retMsg, My.Resources.CheckNewVersionText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         End If
@@ -4098,20 +4093,15 @@ RETRY:
                         If dialogAsShieldicon.Show(tmp, strDetail, My.Resources.CheckNewVersionText1, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
                             retMsg = Twitter.GetTweenBinary(strVer)
                             If retMsg.Length = 0 Then
-                                retMsg = Twitter.GetTweenUpBinary()
-                                If retMsg.Length = 0 Then
-                                    RunTweenUp()
-                                    'If startup Then
-                                    '    Application.Exit()
-                                    'Else
-                                    _endingFlag = True
-                                    dialogAsShieldicon.Dispose()
-                                    Me.Close()
-                                    'End If
-                                    Exit Sub
-                                Else
-                                    If Not startup Then MessageBox.Show(My.Resources.CheckNewVersionText4 + System.Environment.NewLine + retMsg, My.Resources.CheckNewVersionText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                                End If
+                                RunTweenUp()
+                                'If startup Then
+                                '    Application.Exit()
+                                'Else
+                                _endingFlag = True
+                                dialogAsShieldicon.Dispose()
+                                Me.Close()
+                                'End If
+                                Exit Sub
                             Else
                                 If Not startup Then MessageBox.Show(My.Resources.CheckNewVersionText5 + System.Environment.NewLine + retMsg, My.Resources.CheckNewVersionText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                             End If
@@ -4886,10 +4876,10 @@ RETRY:
         If Twitter.Username <> "" Then
             modifySettingCommon = False
             SyncLock _syncObject
-                _cfgCommon.UserName = SettingDialog.UserID
+                _cfgCommon.UserName = Twitter.Username
                 '_cfgCommon.Password = SettingDialog.PasswordStr
-                _cfgCommon.Token = HttpConnectionOAuth.AccessToken
-                _cfgCommon.TokenSecret = HttpConnectionOAuth.AccessTokenSecret
+                _cfgCommon.Token = HttpTwitter.AccessToken
+                _cfgCommon.TokenSecret = HttpTwitter.AccessTokenSecret
                 '_cfgCommon.NextPageThreshold = SettingDialog.NextPageThreshold
                 '_cfgCommon.NextPages = SettingDialog.NextPagesInt
                 _cfgCommon.TimelinePeriod = SettingDialog.TimelinePeriodInt
@@ -5421,13 +5411,13 @@ RETRY:
                         For cnt As Integer = 0 To _curList.SelectedIndices.Count - 1
                             Dim post As PostClass = _statuses.Item(_curTab.Text, _curList.SelectedIndices(cnt))
                             If Not ids.Contains("@" + post.Name + " ") AndAlso _
-                               Not post.Name.Equals(SettingDialog.UserID, StringComparison.CurrentCultureIgnoreCase) Then
+                               Not post.Name.Equals(Twitter.Username, StringComparison.CurrentCultureIgnoreCase) Then
                                 ids += "@" + post.Name + " "
                             End If
                             If isAll Then
                                 For Each nm As String In post.ReplyToList
                                     If Not ids.Contains("@" + nm + " ") AndAlso _
-                                       Not nm.Equals(SettingDialog.UserID, StringComparison.CurrentCultureIgnoreCase) Then
+                                       Not nm.Equals(Twitter.Username, StringComparison.CurrentCultureIgnoreCase) Then
                                         ids += "@" + nm + " "
                                     End If
                                 Next
@@ -5464,12 +5454,12 @@ RETRY:
                         Dim sidx As Integer = StatusText.SelectionStart
                         Dim post As PostClass = _curPost
                         If Not ids.Contains("@" + post.Name + " ") AndAlso _
-                           Not post.Name.Equals(SettingDialog.UserID, StringComparison.CurrentCultureIgnoreCase) Then
+                           Not post.Name.Equals(Twitter.Username, StringComparison.CurrentCultureIgnoreCase) Then
                             ids += "@" + post.Name + " "
                         End If
                         For Each nm As String In post.ReplyToList
                             If Not ids.Contains("@" + nm + " ") AndAlso _
-                               Not nm.Equals(SettingDialog.UserID, StringComparison.CurrentCultureIgnoreCase) Then
+                               Not nm.Equals(Twitter.Username, StringComparison.CurrentCultureIgnoreCase) Then
                                 ids += "@" + nm + " "
                             End If
                         Next
@@ -6131,7 +6121,7 @@ RETRY:
             Next
         End If
 
-        If SettingDialog.DispUsername Then ttl.Append(SettingDialog.UserID).Append(" - ")
+        If SettingDialog.DispUsername Then ttl.Append(Twitter.Username).Append(" - ")
         ttl.Append("Tween  ")
         Select Case SettingDialog.DispLatestPost
             Case DispTitleEnum.Ver
@@ -6192,7 +6182,7 @@ RETRY:
     Private Sub SetNotifyIconText()
         ' タスクトレイアイコンのツールチップテキスト書き換え
         If SettingDialog.DispUsername Then
-            NotifyIcon1.Text = SettingDialog.UserID + " - Tween"
+            NotifyIcon1.Text = Twitter.Username + " - Tween"
         Else
             NotifyIcon1.Text = "Tween"
         End If

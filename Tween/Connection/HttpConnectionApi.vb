@@ -29,7 +29,7 @@ Public Class HttpConnectionApi
         Return GetResponse(webReq, content, headerInfo, False)
     End Function
 
-    Private Shared Sub AppendApiInfo(ByVal webRequest As HttpWebRequest, ByVal authRequired As Boolean)
+    Private Sub AppendApiInfo(ByVal webRequest As HttpWebRequest, ByVal authRequired As Boolean)
         webRequest.ContentType = "application/x-www-form-urlencoded"
         webRequest.Accept = "text/html, */*"
         If authRequired Then webRequest.Headers.Add(HttpRequestHeader.Authorization, credential)

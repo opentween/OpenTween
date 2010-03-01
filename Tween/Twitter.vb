@@ -33,28 +33,28 @@ Imports System.Net
 
 Public Module Twitter
     Delegate Sub GetIconImageDelegate(ByVal post As PostClass)
-    Delegate Function GetTimelineDelegate(ByVal page As Integer, _
-                                ByVal read As Boolean, _
-                                ByRef endPage As Integer, _
-                                ByVal gType As WORKERTYPE, _
-                                ByRef getDM As Boolean) As String
-    Delegate Function GetDirectMessageDelegate(ByVal page As Integer, _
-                                    ByVal read As Boolean, _
-                                    ByVal endPage As Integer, _
-                                    ByVal gType As WORKERTYPE) As String
+    'Delegate Function GetTimelineDelegate(ByVal page As Integer, _
+    '                            ByVal read As Boolean, _
+    '                            ByRef endPage As Integer, _
+    '                            ByVal gType As WORKERTYPE, _
+    '                            ByRef getDM As Boolean) As String
+    'Delegate Function GetDirectMessageDelegate(ByVal page As Integer, _
+    '                                ByVal read As Boolean, _
+    '                                ByVal endPage As Integer, _
+    '                                ByVal gType As WORKERTYPE) As String
     Private ReadOnly LockObj As New Object
-    Private GetTmSemaphore As New Threading.Semaphore(8, 8)
+    'Private GetTmSemaphore As New Threading.Semaphore(8, 8)
 
-    Private follower As New List(Of String)
+    'Private follower As New List(Of String)
     Private followerId As New List(Of Long)
-    Private tmpFollower As New List(Of String)
+    'Private tmpFollower As New List(Of String)
 
     Private _followersCount As Integer = 0
     Private _friendsCount As Integer = 0
     Private _statusesCount As Integer = 0
     Private _location As String = ""
     Private _bio As String = ""
-    Private _useSsl As Boolean = True
+    'Private _useSsl As Boolean = True
     Private _protocol As String = "https://"
     Private _bitlyId As String = ""
     Private _bitlyKey As String = ""
@@ -84,7 +84,7 @@ Public Module Twitter
     'Private _defaultTimeOut As Integer      ' MySocketクラスへ渡すタイムアウト待ち時間（秒単位　ミリ秒への換算はMySocketクラス側で行う）
     Private _countApi As Integer
     Private _countApiReply As Integer
-    Private _usePostMethod As Boolean
+    'Private _usePostMethod As Boolean
     'Private _ApiMethod As MySocket.REQ_TYPE
     Private _readOwnPost As Boolean
     Private _hashList As New List(Of String)
@@ -93,8 +93,8 @@ Public Module Twitter
     'Private _authKey As String              'StatusUpdate、発言削除で使用
     'Private _authKeyDM As String              'DM送信、DM削除で使用
     Private _infoTwitter As String = ""
-    Private _dmCount As Integer
-    Private _getDm As Boolean
+    'Private _dmCount As Integer
+    'Private _getDm As Boolean
     Private _remainCountApi As Integer = -1
 
     Private _ShortUrlService() As String = { _
@@ -170,21 +170,7 @@ Public Module Twitter
     Private Const PATH_FOLLOW As String = "/1/friendships/create.xml?screen_name="
     Private Const PATH_REMOVE As String = "/1/friendships/destroy.xml?screen_name="
 
-    'OAuth関連
-    '''<summary>
-    '''OAuthのコンシューマー鍵
-    '''</summary>
-    Private Const ConsumerKey As String = "EANjQEa5LokuVld682tTDA"
 
-    '''<summary>
-    '''OAuthの署名作成用秘密コンシューマーデータ
-    '''</summary>
-    Private Const ConsumerSecret As String = "zXfwkzmuO6FcHtoikleV3EVgdh5vVAs6ft6ZxtYTYM"
-
-    '''<summary>
-    '''OAuthのアクセストークン取得先URI
-    '''</summary>
-    Private Const AccessTokenUrlXAuth As String = "https://api.twitter.com/oauth/access_token"
 
     '''<summary>
     '''OAuthのアクセストークン取得先URI
@@ -208,17 +194,21 @@ Public Module Twitter
     'Private Const wedataUrl As String = "http://wedata.net/databases/Tween/items.json"
 
     Public Function Authorize(ByVal username As String, ByVal password As String) As Boolean
-        Dim xauth As New HttpConnectionOAuth
-        Dim rslt As Boolean = xauth.AuthorizeXAuth(AccessTokenUrlXAuth, username, password)
+        Dim twCon As New HttpTwitter
+        Dim rslt As Boolean = twCon.Auth(username, password)
         If rslt Then
-            _uid = HttpConnectionOAuth.AuthUsername
+            _uid = HttpTwitter.AuthUsername
         End If
         Return rslt
     End Function
 
+    Public Sub ClearAuthInfo()
+        HttpTwitter.ClearAuthInfo()
+    End Sub
+
     Public Sub Initialize(ByVal token As String, ByVal tokenSecret As String, ByVal username As String)
-        HttpConnectionOAuth.Initialize(ConsumerKey, ConsumerSecret, token, tokenSecret)
-        Twitter.Username = username
+        HttpTwitter.Initialize(token, tokenSecret, username)
+        _uid = username.ToLower
     End Sub
     'Private Function SignIn() As String
     '    If _endingFlag Then Return ""
@@ -1504,211 +1494,231 @@ Public Module Twitter
         Loop
         Return orgData
     End Function
-#If 0 Then
-    Private Function doShortUrlResolve(ByRef orgData As String) As Boolean
-        Dim replaced As Boolean = False
-        For Each _svc As String In _ShortUrlService
-            Dim svc As String = _svc
-            Dim posl1 As Integer
-            Dim posl2 As Integer = 0
+    '#If 0 Then
+    '    Private Function doShortUrlResolve(ByRef orgData As String) As Boolean
+    '        Dim replaced As Boolean = False
+    '        For Each _svc As String In _ShortUrlService
+    '            Dim svc As String = _svc
+    '            Dim posl1 As Integer
+    '            Dim posl2 As Integer = 0
 
-            Do While True
-                If orgData.IndexOf("<a href=""" + svc, posl2, StringComparison.Ordinal) > -1 Then
-                    Dim urlStr As String = ""
-                    Try
-                        posl1 = orgData.IndexOf("<a href=""" + svc, posl2, StringComparison.Ordinal)
-                        posl1 = orgData.IndexOf(svc, posl1, StringComparison.Ordinal)
-                        posl2 = orgData.IndexOf("""", posl1, StringComparison.Ordinal)
-                        urlStr = New Uri(urlEncodeMultibyteChar(orgData.Substring(posl1, posl2 - posl1))).GetLeftPart(UriPartial.Path)
-                        Dim Response As String = ""
-                        Dim retUrlStr As String = ""
-                        Dim tmpurlStr As String = urlStr
-                        Dim SchemeAndDomain As Regex = New Regex("http://.+?/+?")
-                        Dim tmpSchemeAndDomain As String = ""
-                        For i As Integer = 0 To 4   'とりあえず5回試す
-                            retUrlStr = urlEncodeMultibyteChar(DirectCast(CreateSocket.GetWebResponse(tmpurlStr, Response, MySocket.REQ_TYPE.ReqGETForwardTo), String))
-                            If retUrlStr.Length > 0 Then
-                                ' 転送先URLが返された (まだ転送されるかもしれないので返値を引数にしてもう一度)
-                                ' 取得試行回数オーバーの場合は取得結果を転送先とする
-                                Dim scd As Match = SchemeAndDomain.Match(retUrlStr)
-                                If scd.Success AndAlso scd.Value <> svc Then
-                                    svc = scd.Value()
-                                End If
-                                tmpurlStr = retUrlStr
-                                Continue For
-                            Else
-                                ' 転送先URLが返されなかった
-                                If tmpurlStr <> urlStr Then
-                                    '少なくとも一度以上転送されている (前回の結果を転送先とする)
-                                    retUrlStr = tmpurlStr
-                                Else
-                                    ' 一度も転送されていない
-                                    retUrlStr = ""
-                                End If
-                                Exit For
-                            End If
-                        Next
-                        If retUrlStr.Length > 0 Then
-                            If Not retUrlStr.StartsWith("http") Then
-                                If retUrlStr.StartsWith("/") Then
-                                    retUrlStr = urlEncodeMultibyteChar(svc + retUrlStr.Substring(1))
-                                ElseIf retUrlStr.StartsWith("data:") Then
-                                    '
-                                Else
-                                    retUrlStr = urlEncodeMultibyteChar(retUrlStr.Insert(0, svc))
-                                End If
-                            Else
-                                retUrlStr = urlEncodeMultibyteChar(retUrlStr)
-                            End If
-                            orgData = orgData.Replace("<a href=""" + urlStr, "<a href=""" + retUrlStr)
-                            posl2 = 0   '置換した場合は頭から再探索（複数同時置換での例外対応）
-                            replaced = True
-                        End If
-                    Catch ex As Exception
-                        '_signed = False
-                        'Return "GetTimeline -> Err: Can't get tinyurl."
-                    End Try
-                Else
-                    Exit Do
-                End If
-            Loop
-        Next
-        Return replaced
-    End Function
-#Else
+    '            Do While True
+    '                If orgData.IndexOf("<a href=""" + svc, posl2, StringComparison.Ordinal) > -1 Then
+    '                    Dim urlStr As String = ""
+    '                    Try
+    '                        posl1 = orgData.IndexOf("<a href=""" + svc, posl2, StringComparison.Ordinal)
+    '                        posl1 = orgData.IndexOf(svc, posl1, StringComparison.Ordinal)
+    '                        posl2 = orgData.IndexOf("""", posl1, StringComparison.Ordinal)
+    '                        urlStr = New Uri(urlEncodeMultibyteChar(orgData.Substring(posl1, posl2 - posl1))).GetLeftPart(UriPartial.Path)
+    '                        Dim Response As String = ""
+    '                        Dim retUrlStr As String = ""
+    '                        Dim tmpurlStr As String = urlStr
+    '                        Dim SchemeAndDomain As Regex = New Regex("http://.+?/+?")
+    '                        Dim tmpSchemeAndDomain As String = ""
+    '                        For i As Integer = 0 To 4   'とりあえず5回試す
+    '                            retUrlStr = urlEncodeMultibyteChar(DirectCast(CreateSocket.GetWebResponse(tmpurlStr, Response, MySocket.REQ_TYPE.ReqGETForwardTo), String))
+    '                            If retUrlStr.Length > 0 Then
+    '                                ' 転送先URLが返された (まだ転送されるかもしれないので返値を引数にしてもう一度)
+    '                                ' 取得試行回数オーバーの場合は取得結果を転送先とする
+    '                                Dim scd As Match = SchemeAndDomain.Match(retUrlStr)
+    '                                If scd.Success AndAlso scd.Value <> svc Then
+    '                                    svc = scd.Value()
+    '                                End If
+    '                                tmpurlStr = retUrlStr
+    '                                Continue For
+    '                            Else
+    '                                ' 転送先URLが返されなかった
+    '                                If tmpurlStr <> urlStr Then
+    '                                    '少なくとも一度以上転送されている (前回の結果を転送先とする)
+    '                                    retUrlStr = tmpurlStr
+    '                                Else
+    '                                    ' 一度も転送されていない
+    '                                    retUrlStr = ""
+    '                                End If
+    '                                Exit For
+    '                            End If
+    '                        Next
+    '                        If retUrlStr.Length > 0 Then
+    '                            If Not retUrlStr.StartsWith("http") Then
+    '                                If retUrlStr.StartsWith("/") Then
+    '                                    retUrlStr = urlEncodeMultibyteChar(svc + retUrlStr.Substring(1))
+    '                                ElseIf retUrlStr.StartsWith("data:") Then
+    '                                    '
+    '                                Else
+    '                                    retUrlStr = urlEncodeMultibyteChar(retUrlStr.Insert(0, svc))
+    '                                End If
+    '                            Else
+    '                                retUrlStr = urlEncodeMultibyteChar(retUrlStr)
+    '                            End If
+    '                            orgData = orgData.Replace("<a href=""" + urlStr, "<a href=""" + retUrlStr)
+    '                            posl2 = 0   '置換した場合は頭から再探索（複数同時置換での例外対応）
+    '                            replaced = True
+    '                        End If
+    '                    Catch ex As Exception
+    '                        '_signed = False
+    '                        'Return "GetTimeline -> Err: Can't get tinyurl."
+    '                    End Try
+    '                Else
+    '                    Exit Do
+    '                End If
+    '            Loop
+    '        Next
+    '        Return replaced
+    '    End Function
+    '#Else
 
-    Private Sub doShortUrlResolve(ByRef orgData As String)
-        'Dim replaced As Boolean = False
-        'Dim svc As String
-        'Dim posl1 As Integer
-        'Dim posl2 As Integer = 0
-        Static urlCache As New Specialized.StringDictionary()
-        If urlCache.Count > 500 Then urlCache.Clear() '定期的にリセット
+    '    Private Sub doShortUrlResolve(ByRef orgData As String)
+    '        'Dim replaced As Boolean = False
+    '        'Dim svc As String
+    '        'Dim posl1 As Integer
+    '        'Dim posl2 As Integer = 0
+    '        Static urlCache As New Specialized.StringDictionary()
+    '        If urlCache.Count > 500 Then urlCache.Clear() '定期的にリセット
 
-        Dim rx As New Regex("<a href=""(?<svc>http://.+?/)(?<path>[^""]+)""", RegexOptions.IgnoreCase)
-        Dim m As MatchCollection = rx.Matches(orgData)
-        Dim urlList As New List(Of String)
-        For Each orgUrlMatch As Match In m
-            Dim orgUrl As String = orgUrlMatch.Result("${svc}")
-            Dim orgUrlPath As String = orgUrlMatch.Result("${path}")
-            If Array.IndexOf(_ShortUrlService, orgUrl) > -1 AndAlso _
-               Not urlList.Contains(orgUrl + orgUrlPath) Then
-                urlList.Add(orgUrl + orgUrlPath)
-            End If
-        Next
-        For Each orgUrl As String In urlList
-            If urlCache.ContainsKey(orgUrl) Then
-                Try
-                    orgData = orgData.Replace("<a href=""" + orgUrl + """", "<a href=""" + urlCache(orgUrl) + """")
-                Catch ex As Exception
-                    'Through
-                End Try
-            Else
-                Try
-                    'urlとして生成できない場合があるらしい
-                    Dim urlstr As String = New Uri(urlEncodeMultibyteChar(orgUrl)).GetLeftPart(UriPartial.Path)
-                    Dim Response As String = ""
-                    Dim retUrlStr As String = ""
-                    Dim tmpurlStr As String = urlstr
-                    Dim retStatus As HttpStatusCode
-                    Dim resHeader As New Dictionary(Of String, String)
-                    Dim httpCon As New HttpConnectionApi
+    '        Dim rx As New Regex("<a href=""(?<svc>http://.+?/)(?<path>[^""]+)""", RegexOptions.IgnoreCase)
+    '        Dim m As MatchCollection = rx.Matches(orgData)
+    '        Dim urlList As New List(Of String)
+    '        For Each orgUrlMatch As Match In m
+    '            Dim orgUrl As String = orgUrlMatch.Result("${svc}")
+    '            Dim orgUrlPath As String = orgUrlMatch.Result("${path}")
+    '            If Array.IndexOf(_ShortUrlService, orgUrl) > -1 AndAlso _
+    '               Not urlList.Contains(orgUrl + orgUrlPath) Then
+    '                urlList.Add(orgUrl + orgUrlPath)
+    '            End If
+    '        Next
+    '        For Each orgUrl As String In urlList
+    '            If urlCache.ContainsKey(orgUrl) Then
+    '                Try
+    '                    orgData = orgData.Replace("<a href=""" + orgUrl + """", "<a href=""" + urlCache(orgUrl) + """")
+    '                Catch ex As Exception
+    '                    'Through
+    '                End Try
+    '            Else
+    '                Try
+    '                    'urlとして生成できない場合があるらしい
+    '                    'Dim urlstr As String = New Uri(urlEncodeMultibyteChar(orgUrl)).GetLeftPart(UriPartial.Path)
+    '                    Dim retUrlStr As String = ""
+    '                    Dim tmpurlStr As String = New Uri(urlEncodeMultibyteChar(orgUrl)).GetLeftPart(UriPartial.Path)
+    '                    Dim httpVar As New HttpVarious
+    '                    retUrlStr = urlEncodeMultibyteChar(httpVar.GetRedirectTo(tmpurlStr))
+    '                    If retUrlStr.StartsWith("http") Then
+    '                        retUrlStr = retUrlStr.Replace("""", "%22")  'ダブルコーテーションがあるとURL終端と判断されるため、これだけ再エンコード
+    '                        orgData = orgData.Replace("<a href=""" + orgUrl + """", "<a href=""" + retUrlStr + """")
+    '                        urlCache.Add(orgUrl, retUrlStr)
+    '                    End If
+    '                Catch ex As Exception
+    '                    'Through
+    '                End Try
+    '            End If
+    '        Next
 
-
-                    retUrlStr = urlEncodeMultibyteChar(DirectCast(CreateSocket.GetWebResponse(tmpurlStr, Response, MySocket.REQ_TYPE.ReqGETForwardTo, timeOut:=5000), String))
-                    If retUrlStr.StartsWith("http") Then
-                        retUrlStr = retUrlStr.Replace("""", "%22")  'ダブルコーテーションがあるとURL終端と判断されるため、これだけ再エンコード
-                        orgData = orgData.Replace("<a href=""" + orgUrl + """", "<a href=""" + retUrlStr + """")
-                        urlCache.Add(orgUrl, retUrlStr)
-                    End If
-                Catch ex As Exception
-                    'Through
-                End Try
-            End If
-        Next
-
-        'For Each ma As Match In m
-        '    svc = ma.Result("${svc}")
-        '    posl1 = ma.Index
-        '    If orgData.IndexOf("<a href=""" + svc, posl2, StringComparison.Ordinal) > -1 Then
-        '        Dim urlStr As String = ""
-        '        Try
-        '            posl1 = orgData.IndexOf("<a href=""" + svc, posl2, StringComparison.Ordinal)
-        '            posl1 = orgData.IndexOf(svc, posl1, StringComparison.Ordinal)
-        '            posl2 = orgData.IndexOf("""", posl1, StringComparison.Ordinal)
-        '            urlStr = New Uri(urlEncodeMultibyteChar(orgData.Substring(posl1, posl2 - posl1))).GetLeftPart(UriPartial.Path)
-        '            Dim Response As String = ""
-        '            Dim retUrlStr As String = ""
-        '            Dim tmpurlStr As String = urlStr
-        '            Dim SchemeAndDomain As Regex = New Regex("http://.+?/+?")
-        '            Dim tmpSchemeAndDomain As String = ""
-        '            For i As Integer = 0 To 4   'とりあえず5回試す
-        '                retUrlStr = urlEncodeMultibyteChar(DirectCast(CreateSocket.GetWebResponse(tmpurlStr, Response, MySocket.REQ_TYPE.ReqGETForwardTo, timeOut:=2000), String))
-        '                If retUrlStr.Length > 0 Then
-        '                    ' 転送先URLが返された (まだ転送されるかもしれないので返値を引数にしてもう一度)
-        '                    ' 取得試行回数オーバーの場合は取得結果を転送先とする
-        '                    Dim scd As Match = SchemeAndDomain.Match(retUrlStr)
-        '                    If scd.Success AndAlso scd.Value <> svc Then
-        '                        svc = scd.Value()
-        '                    End If
-        '                    tmpurlStr = retUrlStr
-        '                    Continue For
-        '                Else
-        '                    ' 転送先URLが返されなかった
-        '                    If tmpurlStr <> urlStr Then
-        '                        '少なくとも一度以上転送されている (前回の結果を転送先とする)
-        '                        retUrlStr = tmpurlStr
-        '                    Else
-        '                        ' 一度も転送されていない
-        '                        retUrlStr = ""
-        '                    End If
-        '                    Exit For
-        '                End If
-        '            Next
-        '            If retUrlStr.Length > 0 Then
-        '                If Not retUrlStr.StartsWith("http") Then
-        '                    If retUrlStr.StartsWith("/") Then
-        '                        retUrlStr = urlEncodeMultibyteChar(svc + retUrlStr.Substring(1))
-        '                    ElseIf retUrlStr.StartsWith("data:") Then
-        '                        '
-        '                    Else
-        '                        retUrlStr = urlEncodeMultibyteChar(retUrlStr.Insert(0, svc))
-        '                    End If
-        '                Else
-        '                    retUrlStr = urlEncodeMultibyteChar(retUrlStr)
-        '                End If
-        '                orgData = orgData.Replace("<a href=""" + urlStr, "<a href=""" + retUrlStr)
-        '                posl2 = 0   '置換した場合は頭から再探索（複数同時置換での例外対応）
-        '                replaced = True
-        '            End If
-        '        Catch ex As Exception
-        '            '_signed = False
-        '            'Return "GetTimeline -> Err: Can't get tinyurl."
-        '        End Try
-        '    Else
-        '        Exit For
-        '    End If
-        'Next
-        'Return replaced
-    End Sub
-#End If
+    '        'For Each ma As Match In m
+    '        '    svc = ma.Result("${svc}")
+    '        '    posl1 = ma.Index
+    '        '    If orgData.IndexOf("<a href=""" + svc, posl2, StringComparison.Ordinal) > -1 Then
+    '        '        Dim urlStr As String = ""
+    '        '        Try
+    '        '            posl1 = orgData.IndexOf("<a href=""" + svc, posl2, StringComparison.Ordinal)
+    '        '            posl1 = orgData.IndexOf(svc, posl1, StringComparison.Ordinal)
+    '        '            posl2 = orgData.IndexOf("""", posl1, StringComparison.Ordinal)
+    '        '            urlStr = New Uri(urlEncodeMultibyteChar(orgData.Substring(posl1, posl2 - posl1))).GetLeftPart(UriPartial.Path)
+    '        '            Dim Response As String = ""
+    '        '            Dim retUrlStr As String = ""
+    '        '            Dim tmpurlStr As String = urlStr
+    '        '            Dim SchemeAndDomain As Regex = New Regex("http://.+?/+?")
+    '        '            Dim tmpSchemeAndDomain As String = ""
+    '        '            For i As Integer = 0 To 4   'とりあえず5回試す
+    '        '                retUrlStr = urlEncodeMultibyteChar(DirectCast(CreateSocket.GetWebResponse(tmpurlStr, Response, MySocket.REQ_TYPE.ReqGETForwardTo, timeOut:=2000), String))
+    '        '                If retUrlStr.Length > 0 Then
+    '        '                    ' 転送先URLが返された (まだ転送されるかもしれないので返値を引数にしてもう一度)
+    '        '                    ' 取得試行回数オーバーの場合は取得結果を転送先とする
+    '        '                    Dim scd As Match = SchemeAndDomain.Match(retUrlStr)
+    '        '                    If scd.Success AndAlso scd.Value <> svc Then
+    '        '                        svc = scd.Value()
+    '        '                    End If
+    '        '                    tmpurlStr = retUrlStr
+    '        '                    Continue For
+    '        '                Else
+    '        '                    ' 転送先URLが返されなかった
+    '        '                    If tmpurlStr <> urlStr Then
+    '        '                        '少なくとも一度以上転送されている (前回の結果を転送先とする)
+    '        '                        retUrlStr = tmpurlStr
+    '        '                    Else
+    '        '                        ' 一度も転送されていない
+    '        '                        retUrlStr = ""
+    '        '                    End If
+    '        '                    Exit For
+    '        '                End If
+    '        '            Next
+    '        '            If retUrlStr.Length > 0 Then
+    '        '                If Not retUrlStr.StartsWith("http") Then
+    '        '                    If retUrlStr.StartsWith("/") Then
+    '        '                        retUrlStr = urlEncodeMultibyteChar(svc + retUrlStr.Substring(1))
+    '        '                    ElseIf retUrlStr.StartsWith("data:") Then
+    '        '                        '
+    '        '                    Else
+    '        '                        retUrlStr = urlEncodeMultibyteChar(retUrlStr.Insert(0, svc))
+    '        '                    End If
+    '        '                Else
+    '        '                    retUrlStr = urlEncodeMultibyteChar(retUrlStr)
+    '        '                End If
+    '        '                orgData = orgData.Replace("<a href=""" + urlStr, "<a href=""" + retUrlStr)
+    '        '                posl2 = 0   '置換した場合は頭から再探索（複数同時置換での例外対応）
+    '        '                replaced = True
+    '        '            End If
+    '        '        Catch ex As Exception
+    '        '            '_signed = False
+    '        '            'Return "GetTimeline -> Err: Can't get tinyurl."
+    '        '        End Try
+    '        '    Else
+    '        '        Exit For
+    '        '    End If
+    '        'Next
+    '        'Return replaced
+    '    End Sub
+    '#End If
 
     Private Function ShortUrlResolve(ByVal orgData As String) As String
         If _tinyUrlResolve Then
-#If DEBUG Then
-            Static Dim sw As New Stopwatch()
-            Static Dim c As Integer = 0
-            sw.Start()
-#End If
-            doShortUrlResolve(orgData)
-            'Do
+            Static urlCache As New Specialized.StringDictionary()
+            If urlCache.Count > 500 Then urlCache.Clear() '定期的にリセット
 
-            'Loop While doShortUrlResolve(orgData)
-#If DEBUG Then
-            sw.Stop()
-            c += 1
-            Console.WriteLine("ShortUrlResolve: " + c.ToString() + " / " + sw.Elapsed.ToString)
-#End If
+            Dim rx As New Regex("<a href=""(?<svc>http://.+?/)(?<path>[^""]+)""", RegexOptions.IgnoreCase)
+            Dim m As MatchCollection = rx.Matches(orgData)
+            Dim urlList As New List(Of String)
+            For Each orgUrlMatch As Match In m
+                Dim orgUrl As String = orgUrlMatch.Result("${svc}")
+                Dim orgUrlPath As String = orgUrlMatch.Result("${path}")
+                If Array.IndexOf(_ShortUrlService, orgUrl) > -1 AndAlso _
+                   Not urlList.Contains(orgUrl + orgUrlPath) Then
+                    urlList.Add(orgUrl + orgUrlPath)
+                End If
+            Next
+            For Each orgUrl As String In urlList
+                If urlCache.ContainsKey(orgUrl) Then
+                    Try
+                        orgData = orgData.Replace("<a href=""" + orgUrl + """", "<a href=""" + urlCache(orgUrl) + """")
+                    Catch ex As Exception
+                        'Through
+                    End Try
+                Else
+                    Try
+                        'urlとして生成できない場合があるらしい
+                        'Dim urlstr As String = New Uri(urlEncodeMultibyteChar(orgUrl)).GetLeftPart(UriPartial.Path)
+                        Dim retUrlStr As String = ""
+                        Dim tmpurlStr As String = New Uri(urlEncodeMultibyteChar(orgUrl)).GetLeftPart(UriPartial.Path)
+                        Dim httpVar As New HttpVarious
+                        retUrlStr = urlEncodeMultibyteChar(httpVar.GetRedirectTo(tmpurlStr))
+                        If retUrlStr.StartsWith("http") Then
+                            retUrlStr = retUrlStr.Replace("""", "%22")  'ダブルコーテーションがあるとURL終端と判断されるため、これだけ再エンコード
+                            orgData = orgData.Replace("<a href=""" + orgUrl + """", "<a href=""" + retUrlStr + """")
+                            urlCache.Add(orgUrl, retUrlStr)
+                        End If
+                    Catch ex As Exception
+                        'Through
+                    End Try
+                End If
+            Next
         End If
         Return orgData
     End Function
@@ -1822,6 +1832,7 @@ Public Module Twitter
         Next
         Return True
     End Function
+
     Private Sub GetIconImage(ByVal post As PostClass)
         Dim img As Image
         Dim bmp2 As Bitmap
@@ -1842,8 +1853,8 @@ Public Module Twitter
                 Exit Sub
             End If
 
-            Dim resStatus As String = ""
-            img = DirectCast(CreateSocket.GetWebResponse(post.ImageUrl, resStatus, MySocket.REQ_TYPE.ReqGETBinary), System.Drawing.Image)
+            Dim httpVar As New HttpVarious
+            img = httpVar.GetImage(post.ImageUrl)
             If img Is Nothing Then
                 post.ImageIndex = -1
                 TabInformations.GetInstance.AddPost(post)
@@ -1984,56 +1995,52 @@ Public Module Twitter
 
         postStr = postStr.Trim()
 
-        'データ部分の生成
-        Dim dataStr As String
-        If reply_to = 0 Then
-            dataStr = _statusHeader + HttpUtility.UrlEncode(postStr) + "&source=Tween"
-        Else
-            dataStr = _statusHeader + HttpUtility.UrlEncode(postStr) + "&source=Tween" + "&in_reply_to_status_id=" + HttpUtility.UrlEncode(reply_to.ToString)
-        End If
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+        Try
+            res = (New HttpTwitter).UpdateStatus(postStr, reply_to, content)
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
 
-        Dim resStatus As String = ""
-        Dim resMsg As String = DirectCast(CreateSocket.GetWebResponse(_protocol + _apiHost + _hubServer + _statusUpdatePathAPI, resStatus, MySocket.REQ_TYPE.ReqPOSTAPI, dataStr), String)
+        Select Case res
+            Case HttpStatusCode.OK
+                Dim xd As XmlDocument = New XmlDocument()
+                Try
+                    xd.LoadXml(content)
+                    Dim xNode As XmlNode = Nothing
+                    xNode = xd.SelectSingleNode("/status/user/followers_count/text()")
+                    If xNode IsNot Nothing Then _followersCount = Integer.Parse(xNode.Value)
+                    xNode = xd.SelectSingleNode("/status/user/friends_count/text()")
+                    If xNode IsNot Nothing Then _friendsCount = Integer.Parse(xNode.Value)
+                    xNode = xd.SelectSingleNode("/status/user/statuses_count/text()")
+                    If xNode IsNot Nothing Then _statusesCount = Integer.Parse(xNode.Value)
+                    xNode = xd.SelectSingleNode("/status/user/location/text()")
+                    If xNode IsNot Nothing Then _location = xNode.Value
+                    xNode = xd.SelectSingleNode("/status/user/description/text()")
+                    If xNode IsNot Nothing Then _bio = xNode.Value
+                Catch ex As Exception
+                    Return ""
+                End Try
 
-        If resStatus.StartsWith("OK") Then
-            Dim xd As XmlDocument = New XmlDocument()
-            Try
-                xd.LoadXml(resMsg)
-                Dim xNode As XmlNode = Nothing
-                xNode = xd.SelectSingleNode("/status/user/followers_count/text()")
-                If xNode IsNot Nothing Then _followersCount = Integer.Parse(xNode.Value)
-                xNode = xd.SelectSingleNode("/status/user/friends_count/text()")
-                If xNode IsNot Nothing Then _friendsCount = Integer.Parse(xNode.Value)
-                xNode = xd.SelectSingleNode("/status/user/statuses_count/text()")
-                If xNode IsNot Nothing Then _statusesCount = Integer.Parse(xNode.Value)
-                xNode = xd.SelectSingleNode("/status/user/location/text()")
-                If xNode IsNot Nothing Then _location = xNode.Value
-                xNode = xd.SelectSingleNode("/status/user/description/text()")
-                If xNode IsNot Nothing Then _bio = xNode.Value
-            Catch ex As Exception
-            End Try
-
-            If Not postStr.StartsWith("D ", StringComparison.OrdinalIgnoreCase) AndAlso _
-                    Not postStr.StartsWith("DM ", StringComparison.OrdinalIgnoreCase) AndAlso _
-                    IsPostRestricted(resMsg) Then
-                Return "OK:Delaying?"
-            End If
-            resStatus = Outputz.Post(CreateSocket, postStr.Length)
-            If resStatus.Length > 0 Then
-                Return "Outputz:" + resStatus
-            Else
-                Return ""
-            End If
-        ElseIf resStatus.StartsWith("Err: Forbidden") Then
-            Return "Err:Forbidden(Update Limits?)"
-        Else
-            If resStatus.StartsWith("Err: Unauthorized") Then
+                If Not postStr.StartsWith("D ", StringComparison.OrdinalIgnoreCase) AndAlso _
+                        Not postStr.StartsWith("DM ", StringComparison.OrdinalIgnoreCase) AndAlso _
+                        IsPostRestricted(content) Then
+                    Return "OK:Delaying?"
+                End If
+                If Outputz.Post(postStr.Length) Then
+                    Return ""
+                Else
+                    Return "Outputz:Failed"
+                End If
+            Case HttpStatusCode.Forbidden
+                Return "Err:Update Limits?"
+            Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Return "Check your Username/Password."
-            Else
-                Return resStatus
-            End If
-        End If
+            Case Else
+                Return "Err:" + res.ToString
+        End Select
     End Function
 
     Public Function RemoveStatus(ByVal id As Long) As String
@@ -2041,23 +2048,26 @@ Public Module Twitter
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
-        'データ部分の生成
-        Dim resStatus As String = ""
-        Dim resMsg As String = DirectCast(CreateSocket.GetWebResponse(_protocol + _apiHost + _hubServer + _StDestroyPath + id.ToString + ".xml", resStatus, MySocket.REQ_TYPE.ReqPOSTAPI), String)
+        Dim res As HttpStatusCode
 
-        If resMsg.StartsWith("<?xml") = False OrElse resStatus.StartsWith("OK") = False Then
-            If resStatus.StartsWith("Err: Unauthorized") Then
+        Try
+            res = (New HttpTwitter).DestroyStatus(id)
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
+
+        Select Case res
+            Case HttpStatusCode.OK
+                Return ""
+            Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Return "Check your Username/Password."
-            ElseIf resStatus.StartsWith("Err: Not Found") Then
-                '削除済みと判定する
+            Case HttpStatusCode.NotFound
                 Return ""
-            Else
-                Return resStatus
-            End If
-        End If
+            Case Else
+                Return "Err:" + res.ToString
+        End Select
 
-        Return ""
     End Function
 
     Public Function PostRetweet(ByVal id As Long, ByVal read As Boolean) As String
@@ -2067,27 +2077,32 @@ Public Module Twitter
         'データ部分の生成
         Dim target As Long = id
         If TabInformations.GetInstance.Item(id).RetweetedId > 0 Then
-            target = TabInformations.GetInstance.Item(id).RetweetedId
+            target = TabInformations.GetInstance.Item(id).RetweetedId '再RTの場合は元発言をRT
         End If
-        Dim resStatus As String = ""
-        Dim resMsg As String = DirectCast(CreateSocket.GetWebResponse(_protocol + _apiHost + _hubServer + _postRetweetPath + target.ToString + ".xml", resStatus, MySocket.REQ_TYPE.ReqPOSTAPI), String)
 
-        If resMsg.StartsWith("<?xml") = False OrElse resStatus.StartsWith("OK") = False Then
-            If resStatus.StartsWith("Err: Unauthorized") Then
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+        Try
+            res = (New HttpTwitter).RetweetStatus(target, content)
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
+
+        Select Case res
+            Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Return "Check your Username/Password."
-            Else
-                Return resStatus
-            End If
-        End If
+            Case Is <> HttpStatusCode.OK
+                Return "Err:" + res.ToString()
+        End Select
 
         Dim dlgt As GetIconImageDelegate    'countQueryに合わせる
         Dim ar As IAsyncResult              'countQueryに合わせる
         Dim xdoc As New XmlDocument
         Try
-            xdoc.LoadXml(resMsg)
+            xdoc.LoadXml(content)
         Catch ex As Exception
-            TraceOut(resMsg)
+            TraceOut(content)
             'MessageBox.Show("不正なXMLです。(TL-LoadXml)")
             Return "Invalid XML!"
         End Try
@@ -2159,7 +2174,7 @@ Public Module Twitter
 
             post.IsDm = False
         Catch ex As Exception
-            TraceOut(resMsg)
+            TraceOut(content)
             'MessageBox.Show("不正なXMLです。(TL-Parse)")
             Return "Invalid XML!"
         End Try
@@ -2185,174 +2200,206 @@ Public Module Twitter
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
-        'データ部分の生成
-        'Dim dataStr As String = _authKeyHeader + HttpUtility.UrlEncode(_authKey)
-        Dim resStatus As String = ""
-        Dim resMsg As String = DirectCast(CreateSocket.GetWebResponse(_protocol + _apiHost + _hubServer + _DMDestroyPath + id.ToString + ".xml", resStatus, MySocket.REQ_TYPE.ReqPOSTAPI), String)
+        Dim res As HttpStatusCode
 
-        If resMsg.StartsWith("<?xml") = False OrElse resStatus.StartsWith("OK") = False Then
-            If resStatus.StartsWith("Err: Unauthorized") Then
-                Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
-            ElseIf resStatus.StartsWith("Err: Not Found") Then
-                '削除済みと判定する
+        Try
+            res = (New HttpTwitter).DestroyDirectMessage(id)
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
+
+        Select Case res
+            Case HttpStatusCode.OK
                 Return ""
-            Else
-                Return resStatus
-            End If
-        End If
-
-        Return ""
+            Case HttpStatusCode.Unauthorized
+                Twitter.AccountState = ACCOUNT_STATE.Invalid
+                Return "Check your Username/Password."
+            Case HttpStatusCode.NotFound
+                Return ""
+            Case Else
+                Return "Err:" + res.ToString
+        End Select
     End Function
 
-    Public Function PostFollowCommand(ByVal id As String) As String
+    Public Function PostFollowCommand(ByVal screenName As String) As String
 
         If _endingFlag Then Return ""
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
+        Dim res As HttpStatusCode
 
-        Dim resStatus As String = ""
-        Dim resMsg As String = DirectCast(CreateSocket.GetWebResponse(_protocol + _apiHost + _hubServer + PATH_FOLLOW + id, resStatus, MySocket.REQ_TYPE.ReqPOSTAPI), String)
+        Try
+            res = (New HttpTwitter).CreateFriendships(screenName)
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
 
-        If Not resStatus.StartsWith("OK") Then
-            If resStatus.StartsWith("Err: Unauthorized") Then
+        Select Case res
+            Case HttpStatusCode.OK
+                Return ""
+            Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Return "Check your Username/Password."
-            Else
-                Return resStatus
-            End If
-        End If
-
-        Return ""
+            Case HttpStatusCode.Forbidden
+                Return "Err:Update Limits?"
+            Case Else
+                Return "Err:" + res.ToString
+        End Select
     End Function
 
-    Public Function PostRemoveCommand(ByVal id As String) As String
+    Public Function PostRemoveCommand(ByVal screenName As String) As String
 
         If _endingFlag Then Return ""
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
+        Dim res As HttpStatusCode
 
-        Dim resStatus As String = ""
-        Dim resMsg As String = DirectCast(CreateSocket.GetWebResponse(_protocol + _apiHost + _hubServer + PATH_REMOVE + id, resStatus, MySocket.REQ_TYPE.ReqPOSTAPI), String)
+        Try
+            res = (New HttpTwitter).DestroyFriendships(screenName)
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
 
-        If Not resStatus.StartsWith("OK") Then
-            If resStatus.StartsWith("Err: Unauthorized") Then
+        Select Case res
+            Case HttpStatusCode.OK
+                Return ""
+            Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Return "Check your Username/Password."
-            Else
-                Return resStatus
-            End If
-        End If
-
-        Return ""
+            Case Else
+                Return "Err:" + res.ToString
+        End Select
     End Function
 
-    Public Function GetFriendshipInfo(ByVal id As String, ByRef isFollowing As Boolean, ByRef isFollowed As Boolean) As String
+    Public Function GetFriendshipInfo(ByVal screenName As String, ByRef isFollowing As Boolean, ByRef isFollowed As Boolean) As String
 
         If _endingFlag Then Return ""
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+        Try
+            res = (New HttpTwitter).ShowFriendships(_uid, screenName, content)
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
 
-        Dim resStatus As String = ""
-        Dim resMsg As String = DirectCast(CreateSocket.GetWebResponse(_protocol + _apiHost + _hubServer + PATH_FRIENDSHIP + _uid + QUERY_TARGET + id, resStatus, MySocket.REQ_TYPE.ReqGetAPI), String)
-
-        If Not resStatus.StartsWith("OK") Then
-            If resStatus.StartsWith("Err: Unauthorized") Then
+        Select Case res
+            Case HttpStatusCode.OK
+                Dim xdoc As New XmlDocument
+                Dim result As String = ""
+                Try
+                    xdoc.LoadXml(content)
+                    isFollowing = Boolean.Parse(xdoc.SelectSingleNode("/relationship/source/following").InnerText)
+                    isFollowed = Boolean.Parse(xdoc.SelectSingleNode("/relationship/source/followed_by").InnerText)
+                Catch ex As Exception
+                    result = "Err:Invalid XML."
+                End Try
+                Return result
+            Case HttpStatusCode.BadRequest
+                Return "Err:API Limits?"
+            Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Return "Check your Username/Password."
-            Else
-                Return resStatus
-            End If
-        Else
-            Dim xdoc As New XmlDocument
-            Dim result As String = ""
-            Try
-                xdoc.LoadXml(resMsg)
-                isFollowing = Boolean.Parse(xdoc.SelectSingleNode("/relationship/source/following").InnerText)
-                isFollowed = Boolean.Parse(xdoc.SelectSingleNode("/relationship/source/followed_by").InnerText)
-            Catch ex As Exception
-                result = "Err: Invalid XML."
-            End Try
-            Return result
-        End If
+            Case Else
+                Return "Err:" + res.ToString
+        End Select
     End Function
 
     Public Function PostFavAdd(ByVal id As Long) As String
         If _endingFlag Then Return ""
 
-
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
-        'データ部分の生成
-        'Dim dataStr As String = _authKeyHeader + HttpUtility.UrlEncode(_authKey)
-        Dim resStatus As String = ""
-        Dim resMsg As String = DirectCast(CreateSocket.GetWebResponse(_protocol + _apiHost + _hubServer + _postFavAddPath + id.ToString() + ".xml", resStatus, MySocket.REQ_TYPE.ReqPOSTAPI), String)
+        Dim res As HttpStatusCode
 
-        If resStatus.StartsWith("OK") = False Then
-            If resStatus.StartsWith("Err: Unauthorized") Then
+        Try
+            res = (New HttpTwitter).CreateFavorites(id)
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
+
+        Select Case res
+            Case HttpStatusCode.OK
+                If Not _restrictFavCheck Then Return ""
+            Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Return "Check your Username/Password."
-            Else
-                Return resStatus
-            End If
-        End If
-
-        If _restrictFavCheck = False Then Return ""
+            Case HttpStatusCode.Forbidden
+                Return "Err:Update Limits?"
+            Case Else
+                Return "Err:" + res.ToString
+        End Select
 
         'http://twitter.com/statuses/show/id.xml APIを発行して本文を取得
 
-        resMsg = DirectCast(CreateSocket.GetWebResponse(_protocol + _apiHost + _hubServer + _ShowStatus + id.ToString() + ".xml", resStatus, MySocket.REQ_TYPE.ReqGetAPI), String)
-
+        Dim content As String = ""
         Try
-            Using rd As Xml.XmlTextReader = New Xml.XmlTextReader(New System.IO.StringReader(resMsg))
-                rd.Read()
-                While rd.EOF = False
-                    If rd.IsStartElement("favorited") Then
-                        If rd.ReadElementContentAsBoolean() = True Then
-                            Return ""  '正常にふぁぼれている
-                        Else
-                            Return "NG(Restricted?)"  '正常応答なのにふぁぼれてないので制限っぽい
-                        End If
-                    Else
-                        rd.Read()
-                    End If
-                End While
-                rd.Close()
-            End Using
-        Catch ex As XmlException
-            '
+            res = (New HttpTwitter).ShowStatuses(id, content)
+        Catch ex As Exception
+            Return "Err:" + ex.Message
         End Try
 
-        Return ""
+        Select Case res
+            Case HttpStatusCode.OK
+                Try
+                    Using rd As Xml.XmlTextReader = New Xml.XmlTextReader(New System.IO.StringReader(content))
+                        rd.Read()
+                        While rd.EOF = False
+                            If rd.IsStartElement("favorited") Then
+                                If rd.ReadElementContentAsBoolean() = True Then
+                                    Return ""  '正常にふぁぼれている
+                                Else
+                                    Return "NG(Restricted?)"  '正常応答なのにふぁぼれてないので制限っぽい
+                                End If
+                            Else
+                                rd.Read()
+                            End If
+                        End While
+                        rd.Close()
+                        Return "Err:Invalid XML!"
+                    End Using
+                Catch ex As XmlException
+                    Return ""
+                End Try
+            Case HttpStatusCode.Unauthorized
+                Twitter.AccountState = ACCOUNT_STATE.Invalid
+                Return "Check your Username/Password."
+            Case HttpStatusCode.BadRequest
+                Return "Err:API Limits?"
+            Case Else
+                Return "Err:" + res.ToString
+        End Select
+
     End Function
 
     Public Function PostFavRemove(ByVal id As Long) As String
         If _endingFlag Then Return ""
 
-
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
-        'データ部分の生成
-        'Dim dataStr As String = _authKeyHeader + HttpUtility.UrlEncode(_authKey)
-        Dim resStatus As String = ""
-        Dim resMsg As String = DirectCast(CreateSocket.GetWebResponse(_protocol + _apiHost + _hubServer + _postFavRemovePath + id.ToString() + ".xml", resStatus, MySocket.REQ_TYPE.ReqPOSTAPI), String)
+        Dim res As HttpStatusCode
 
-        If resStatus.StartsWith("OK") = False Then
-            If resStatus.StartsWith("Err: Unauthorized") Then
+        Try
+            res = (New HttpTwitter).DestroyFavorites(id)
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
+
+        Select Case res
+            Case HttpStatusCode.OK
+                Return ""
+            Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Return "Check your Username/Password."
-            ElseIf resStatus.StartsWith("Err: Not Found") Then
-                '削除済みと判定する
-                Return ""
-            Else
-                Return resStatus
-            End If
-        End If
-
-        Return ""
+            Case HttpStatusCode.Forbidden
+                Return "Err:Update Limits?"
+            Case Else
+                Return "Err:" + res.ToString
+        End Select
     End Function
 
     '#Region "follower取得"
@@ -2620,13 +2667,10 @@ Public Module Twitter
     '    TabInformations.GetInstance.RefreshOwl(followerId)
     'End Sub
 
-    Public Property Username() As String
+    Public ReadOnly Property Username() As String
         Get
-            Return _uid
+            Return HttpTwitter.AuthUsername
         End Get
-        Set(ByVal value As String)
-            _uid = value.ToLower
-        End Set
     End Property
 
     Private _accountState As ACCOUNT_STATE = ACCOUNT_STATE.Valid
@@ -2928,9 +2972,9 @@ Public Module Twitter
     End Property
 
     Public Function MakeShortUrl(ByVal ConverterType As UrlConverter, ByVal SrcUrl As String) As String
-        Dim ret As String = ""
-        Dim resStatus As String = ""
         Dim src As String = urlEncodeMultibyteChar(SrcUrl)
+        Dim param As New SortedList(Of String, String)
+        Dim content As String = ""
 
         For Each svc As String In _ShortUrlService
             If SrcUrl.StartsWith(svc) Then
@@ -2942,69 +2986,63 @@ Public Module Twitter
         If SrcUrl.StartsWith("http://nico.ms/") Then Return "Can't convert"
 
         SrcUrl = HttpUtility.UrlEncode(SrcUrl)
+
         Select Case ConverterType
             Case UrlConverter.TinyUrl       'tinyurl
                 If SrcUrl.StartsWith("http") Then
                     If "http://tinyurl.com/xxxxxx".Length > src.Length AndAlso Not src.Contains("?") AndAlso Not src.Contains("#") Then
                         ' 明らかに長くなると推測できる場合は圧縮しない
-                        ret = src
+                        content = src
                         Exit Select
                     End If
-                    Try
-                        ret = DirectCast(CreateSocket.GetWebResponse("http://tinyurl.com/api-create.php?url=" + SrcUrl, resStatus, MySocket.REQ_TYPE.ReqPOSTEncode), String)
-                    Catch ex As Exception
+                    If Not (New HttpVarious).PostData("http://tinyurl.com/api-create.php?url=" + SrcUrl, Nothing, content) Then
                         Return "Can't convert"
-                    End Try
+                    End If
                 End If
-                If Not ret.StartsWith("http://tinyurl.com/") Then
+                If Not content.StartsWith("http://tinyurl.com/") Then
                     Return "Can't convert"
                 End If
             Case UrlConverter.Isgd
                 If SrcUrl.StartsWith("http") Then
                     If "http://is.gd/xxxx".Length > src.Length AndAlso Not src.Contains("?") AndAlso Not src.Contains("#") Then
                         ' 明らかに長くなると推測できる場合は圧縮しない
-                        ret = src
+                        content = src
                         Exit Select
                     End If
-                    Try
-                        ret = DirectCast(CreateSocket.GetWebResponse("http://is.gd/api.php?longurl=" + SrcUrl, resStatus, MySocket.REQ_TYPE.ReqPOSTEncode), String)
-                    Catch ex As Exception
+                    If Not (New HttpVarious).PostData("http://is.gd/api.php?longurl=" + SrcUrl, Nothing, content) Then
                         Return "Can't convert"
-                    End Try
+                    End If
                 End If
-                If Not ret.StartsWith("http://is.gd/") Then
+                If Not content.StartsWith("http://is.gd/") Then
                     Return "Can't convert"
                 End If
             Case UrlConverter.Twurl
                 If SrcUrl.StartsWith("http") Then
                     If "http://twurl.nl/xxxxxx".Length > src.Length AndAlso Not src.Contains("?") AndAlso Not src.Contains("#") Then
                         ' 明らかに長くなると推測できる場合は圧縮しない
-                        ret = src
+                        content = src
                         Exit Select
                     End If
-                    Try
-                        ret = DirectCast(CreateSocket.GetWebResponse("http://tweetburner.com/links", resStatus, MySocket.REQ_TYPE.ReqPOSTEncode, "link[url]=" + SrcUrl), String)
-                    Catch ex As Exception
+                    param.Add("link[url]", SrcUrl)
+                    If Not (New HttpVarious).PostData("http://tweetburner.com/links", param, content) Then
                         Return "Can't convert"
-                    End Try
+                    End If
                 End If
-                If Not ret.StartsWith("http://twurl.nl/") Then
+                If Not content.StartsWith("http://twurl.nl/") Then
                     Return "Can't convert"
                 End If
             Case UrlConverter.Unu
                 If SrcUrl.StartsWith("http") Then
                     If "http://u.nu/xxxx".Length > src.Length AndAlso Not src.Contains("?") AndAlso Not src.Contains("#") Then
                         ' 明らかに長くなると推測できる場合は圧縮しない
-                        ret = src
+                        content = src
                         Exit Select
                     End If
-                    Try
-                        ret = DirectCast(CreateSocket.GetWebResponse("http://u.nu/unu-api-simple?url=" + SrcUrl, resStatus, MySocket.REQ_TYPE.ReqPOSTEncode), String)
-                    Catch ex As Exception
+                    If Not (New HttpVarious).PostData("http://u.nu/unu-api-simple?url=" + SrcUrl, Nothing, content) Then
                         Return "Can't convert"
-                    End Try
+                    End If
                 End If
-                If Not ret.StartsWith("http://u.nu") Then
+                If Not content.StartsWith("http://u.nu") Then
                     Return "Can't convert"
                 End If
             Case UrlConverter.Bitly, UrlConverter.Jmp
@@ -3018,55 +3056,49 @@ Public Module Twitter
                 If SrcUrl.StartsWith("http") Then
                     If "http://bit.ly/xxxx".Length > src.Length AndAlso Not src.Contains("?") AndAlso Not src.Contains("#") Then
                         ' 明らかに長くなると推測できる場合は圧縮しない
-                        ret = src
+                        content = src
                         Exit Select
                     End If
-                    Try
-                        Dim req As String = ""
-                        If ConverterType = UrlConverter.Bitly Then
-                            req = "http://api.bit.ly/shorten?version="
-                        Else
-                            req = "http://api.j.mp/shorten?version="
-                        End If
-                        req += BitlyApiVersion + _
-                            "&login=" + BitlyLogin + _
-                            "&apiKey=" + BitlyApiKey + _
-                            "&longUrl=" + SrcUrl
-                        If BitlyLogin <> "tweenapi" Then req += "&history=1"
-                        ret = DirectCast(CreateSocket.GetWebResponse(req, resStatus, MySocket.REQ_TYPE.ReqPOSTEncode), String)
-                        Dim rx As Regex = New Regex("""shortUrl"": ""(?<ShortUrl>.*?)""")
-                        If rx.Match(ret).Success Then
-                            ret = rx.Match(ret).Groups("ShortUrl").Value
-                        End If
-                    Catch ex As Exception
+                    Dim req As String = ""
+                    If ConverterType = UrlConverter.Bitly Then
+                        req = "http://api.bit.ly/shorten?version="
+                    Else
+                        req = "http://api.j.mp/shorten?version="
+                    End If
+                    req += BitlyApiVersion + _
+                        "&login=" + BitlyLogin + _
+                        "&apiKey=" + BitlyApiKey + _
+                        "&longUrl=" + SrcUrl
+                    If BitlyLogin <> "tweenapi" Then req += "&history=1"
+                    If Not (New HttpVarious).PostData(req, Nothing, content) Then
                         Return "Can't convert"
-                    End Try
+                    Else
+                        Dim rx As Regex = New Regex("""shortUrl"": ""(?<ShortUrl>.*?)""")
+                        If rx.Match(content).Success Then
+                            content = rx.Match(content).Groups("ShortUrl").Value
+                        End If
+                    End If
                 End If
-                If Not ret.StartsWith("http://bit.ly") AndAlso Not ret.StartsWith("http://j.mp") Then
+                If Not content.StartsWith("http://bit.ly") AndAlso Not content.StartsWith("http://j.mp") Then
                     Return "Can't convert"
                 End If
-                'If ConverterType = UrlConverter.Jmp Then ret = ret.Replace("bit.ly", "j.mp")
         End Select
         '変換結果から改行を除去
         Dim ch As Char() = {ControlChars.Cr, ControlChars.Lf}
-        ret = ret.TrimEnd(ch)
-        If src.Length < ret.Length Then ret = src ' 圧縮の結果逆に長くなった場合は圧縮前のURLを返す
-        Return ret
+        content = content.TrimEnd(ch)
+        If src.Length < content.Length Then content = src ' 圧縮の結果逆に長くなった場合は圧縮前のURLを返す
+        Return content
     End Function
 
     Public Function MakeShortNicoms(ByVal SrcUrl As String) As String
-        Dim ret As String = ""
-        Dim resStatus As String = ""
-        Dim src As String = urlEncodeMultibyteChar(SrcUrl)
+        Dim content As String = ""
 
-        Try
-            ret = DirectCast(CreateSocket.GetWebResponse("http://nico.ms/q/" + SrcUrl, resStatus, MySocket.REQ_TYPE.ReqGetAPINoAuth), String)
-        Catch ex As Exception
+        If Not (New HttpVarious).GetData("http://nico.ms/q/" + SrcUrl, Nothing, content) Then
             Return "Can't convert"
-        End Try
+        End If
 
-        If ret.StartsWith("http") AndAlso resStatus.StartsWith("OK") Then
-            Return ret
+        If content.StartsWith("http") Then
+            Return content
         Else
             Return "Can't convert"
         End If
@@ -3075,66 +3107,40 @@ Public Module Twitter
 
 #Region "バージョンアップ"
     Public Function GetVersionInfo() As String
-        Dim resStatus As String = ""
-        Dim ret As String = DirectCast(CreateSocket.GetWebResponse("http://tween.sourceforge.jp/version2.txt?" + Now.ToString("yyMMddHHmmss") + Environment.TickCount.ToString(), resStatus), String)
-        If ret.Length = 0 Then Throw New Exception("GetVersionInfo: " + resStatus)
-        Return ret
+        Dim content As String = ""
+        If Not (New HttpVarious).GetData("http://tween.sourceforge.jp/version2.txt?" + Now.ToString("yyMMddHHmmss") + Environment.TickCount.ToString(), Nothing, content) Then
+            Throw New Exception("GetVersionInfo Failed")
+        End If
+        Return content
     End Function
 
     Public Function GetTweenBinary(ByVal strVer As String) As String
-        Dim resStatus As String = ""
-        Dim ret As String = ""
-        ret = DirectCast(CreateSocket.GetWebResponse("http://tween.sourceforge.jp/Tween" + strVer + ".gz?" + Now.ToString("yyMMddHHmmss") + Environment.TickCount.ToString(), resStatus, MySocket.REQ_TYPE.ReqGETFile), String)
-        If ret = "" OrElse resStatus.StartsWith("OK") Then
-            '取得OKなら、続いてresources.dllダウンロード
-            ret = GetTweenResourcesDll(strVer)
-            If ret = "" Then
-                Return GetTweenDll(strVer)
-            Else
-                Return ret
+        Try
+            If Not (New HttpVarious).GetDataToFile("http://tween.sourceforge.jp/Tween" + strVer + ".gz?" + Now.ToString("yyMMddHHmmss") + Environment.TickCount.ToString(), _
+                                                Path.Combine(Application.StartupPath(), "TweenNew.exe")) Then
+                Return "Err:Download failed"
             End If
-        Else
-            Return resStatus
-        End If
-    End Function
-
-    Public Function GetTweenUpBinary() As String
-        Dim resStatus As String = ""
-        Dim ret As String = DirectCast(CreateSocket.GetWebResponse("http://tween.sourceforge.jp/TweenUp.gz?" + Now.ToString("yyMMddHHmmss") + Environment.TickCount.ToString(), resStatus, MySocket.REQ_TYPE.ReqGETFileUp), String)
-        If ret = "" OrElse resStatus.StartsWith("OK") Then
+            If Directory.Exists(Path.Combine(Application.StartupPath(), "en")) = False Then
+                Directory.CreateDirectory(Path.Combine(Application.StartupPath(), "en"))
+            End If
+            If Not (New HttpVarious).GetDataToFile("http://tween.sourceforge.jp/TweenRes" + strVer + ".gz?" + Now.ToString("yyMMddHHmmss") + Environment.TickCount.ToString(), _
+                                                Path.Combine(Application.StartupPath(), "en\Tween.resourcesNew.dll")) Then
+                Return "Err:Download failed"
+            End If
+            If Not (New HttpVarious).GetDataToFile("http://tween.sourceforge.jp/TweenUp.gz?" + Now.ToString("yyMMddHHmmss") + Environment.TickCount.ToString(), _
+                                                Path.Combine(Application.StartupPath(), "TweenUp.exe")) Then
+                Return "Err:Download failed"
+            End If
+            If Not (New HttpVarious).GetDataToFile("http://tween.sourceforge.jp/TweenDll" + strVer + ".gz?" + Now.ToString("yyMMddHHmmss") + Environment.TickCount.ToString(), _
+                                                Path.Combine(Application.StartupPath(), "TweenNew.XmlSerializers.dll")) Then
+                Return "Err:Download failed"
+            End If
             Return ""
-        Else
-            Return resStatus
-        End If
+        Catch ex As Exception
+            Return "Err:Download failed"
+        End Try
     End Function
-
-    Public Function GetTweenResourcesDll(ByVal strver As String) As String
-        Dim resStatus As String = ""
-        Dim ret As String = DirectCast(CreateSocket.GetWebResponse("http://tween.sourceforge.jp/TweenRes" + strver + ".gz?" + Now.ToString("yyMMddHHmmss") + Environment.TickCount.ToString(), resStatus, MySocket.REQ_TYPE.ReqGETFileRes), String)
-        If ret = "" OrElse resStatus.StartsWith("OK") Then
-            Return ""
-        Else
-            Return resStatus
-        End If
-    End Function
-
-    Public Function GetTweenDll(ByVal strVer As String) As String
-        Dim resStatus As String = ""
-        Dim ret As String = ""
-        ret = DirectCast(CreateSocket.GetWebResponse("http://tween.sourceforge.jp/TweenDll" + strVer + ".gz?" + Now.ToString("yyMMddHHmmss") + Environment.TickCount.ToString(), resStatus, MySocket.REQ_TYPE.ReqGETFileDll), String)
-        If ret = "" OrElse resStatus.StartsWith("OK") Then
-            Return ""
-        Else
-            Return resStatus
-        End If
-    End Function
-
 #End Region
-
-    Private Function CreateSocket() As HttpConnection
-        'Return New MySocket("UTF-8", _uid, _pwd, _proxyType, _proxyAddress, _proxyPort, _proxyUser, _proxyPassword, _defaultTimeOut)
-        Return New HttpConnectionOAuth
-    End Function
 
     Public WriteOnly Property ListIcon() As ImageList
         Set(ByVal value As ImageList)
@@ -3228,12 +3234,7 @@ Public Module Twitter
 
     Public WriteOnly Property UseSsl() As Boolean
         Set(ByVal value As Boolean)
-            _useSsl = value
-            If _useSsl Then
-                _protocol = "https://"
-            Else
-                _protocol = "http://"
-            End If
+            HttpTwitter.UseSsl = value
         End Set
     End Property
 
@@ -3256,41 +3257,39 @@ Public Module Twitter
 
         If _endingFlag Then Return ""
 
-        Dim retMsg As String = ""
-        Dim resStatus As String = ""
-        Dim sck As MySocket = CreateSocket()
-        'スレッド取得は行わず、countで調整
-
         Dim countQuery As Integer
-        If gType = WORKERTYPE.Timeline Then
-            retMsg = DirectCast(sck.GetWebResponse(_protocol + _apiHost + _hubServer + FRIEND_PATH + "?" + COUNT_QUERY + _countApi.ToString(), resStatus, MySocket.REQ_TYPE.ReqGetAPI), String)
-            countQuery = _countApi
-        Else
-            retMsg = DirectCast(sck.GetWebResponse(_protocol + _apiHost + _hubServer + REPLY_PATH + "?" + COUNT_QUERY + _countApiReply.ToString(), resStatus, MySocket.REQ_TYPE.ReqGetAPI), String)
-            countQuery = _countApiReply
-        End If
-
-        If retMsg = "" Then
-            If resStatus.StartsWith("Err: BadRequest") Then
-                Return "Maybe, the requests reached API limit."
-            ElseIf resStatus.StartsWith("Err: Unauthorized") Then
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+        Try
+            If gType = WORKERTYPE.Timeline Then
+                res = (New HttpTwitter).HomeTimeline(_countApi, content)
+                countQuery = _countApi
+            Else
+                res = (New HttpTwitter).Mentions(_countApiReply, content)
+                countQuery = _countApiReply
+            End If
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
+        Select Case res
+            Case HttpStatusCode.OK
+            Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Return "Check your Username/Password."
-            Else
-                Return resStatus
-            End If
-        End If
-
-        'If gType = WORKERTYPE.Timeline Then Debug.WriteLine(retMsg)
+            Case HttpStatusCode.BadRequest
+                Return "Err:API Limits?"
+            Case Else
+                Return "Err:" + res.ToString()
+        End Select
 
         Dim arIdx As Integer = -1
         Dim dlgt(countQuery) As GetIconImageDelegate    'countQueryに合わせる
         Dim ar(countQuery) As IAsyncResult              'countQueryに合わせる
         Dim xdoc As New XmlDocument
         Try
-            xdoc.LoadXml(retMsg)
+            xdoc.LoadXml(content)
         Catch ex As Exception
-            TraceOut(retMsg)
+            TraceOut(content)
             'MessageBox.Show("不正なXMLです。(TL-LoadXml)")
             Return "Invalid XML!"
         End Try
@@ -3382,7 +3381,7 @@ Public Module Twitter
 
                 post.IsDm = False
             Catch ex As Exception
-                TraceOut(retMsg)
+                TraceOut(content)
                 'MessageBox.Show("不正なXMLです。(TL-Parse)")
                 Continue For
             End Try
@@ -3404,7 +3403,6 @@ Public Module Twitter
             End Try
         Next
 
-        _remainCountApi = sck.RemainCountApi
         'If _ApiMethod = MySocket.REQ_TYPE.ReqGetAPI Then _remainCountApi = sck.RemainCountApi
 
         Return ""
@@ -3925,7 +3923,7 @@ Public Module Twitter
 
     Public ReadOnly Property RemainCountApi() As Integer
         Get
-            Return _remainCountApi
+            Return HttpTwitter.RemainCountApi
         End Get
     End Property
 
