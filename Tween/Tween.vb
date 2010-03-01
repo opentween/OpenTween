@@ -4878,8 +4878,8 @@ RETRY:
             SyncLock _syncObject
                 _cfgCommon.UserName = Twitter.Username
                 '_cfgCommon.Password = SettingDialog.PasswordStr
-                _cfgCommon.Token = HttpTwitter.AccessToken
-                _cfgCommon.TokenSecret = HttpTwitter.AccessTokenSecret
+                _cfgCommon.Token = Twitter.AccessToken
+                _cfgCommon.TokenSecret = Twitter.AccessTokenSecret
                 '_cfgCommon.NextPageThreshold = SettingDialog.NextPageThreshold
                 '_cfgCommon.NextPages = SettingDialog.NextPagesInt
                 _cfgCommon.TimelinePeriod = SettingDialog.TimelinePeriodInt

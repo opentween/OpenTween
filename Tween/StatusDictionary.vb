@@ -1350,22 +1350,36 @@ Public NotInheritable Class TabClass
             _searchWords = value.Trim
         End Set
     End Property
-    Private _beforeQuery As String = ""
-    Public Function SearchQuery(ByVal more As Boolean) As String
-        Dim qry As String = ""
-        If String.IsNullOrEmpty(_searchWords) Then Return ""
-        qry = "q=" + UrlEncode(_searchWords)
-        If Not String.IsNullOrEmpty(_searchLang) Then qry += "&lang=" + _searchLang
+    Public ReadOnly Property SearchPage() As Integer
+        Get
+            Return ((_ids.Count \ 40) + 1)
+        End Get
+    End Property
+    Private _beforeQuery As New Dictionary(Of String, String)
+    Public Sub SaveQuery(ByVal more As Boolean)
+        Dim qry As New Dictionary(Of String, String)
+        If String.IsNullOrEmpty(_searchWords) Then
+            _beforeQuery = qry
+            Exit Sub
+        End If
+        qry.Add("q", _searchWords)
+        If Not String.IsNullOrEmpty(_searchLang) Then qry.Add("lang", _searchLang)
         _beforeQuery = qry
-        If more Then qry += "&page=" + ((_ids.Count \ 40) + 1).ToString
-        Return qry
-    End Function
+    End Sub
 
     Public Function IsQueryChanged() As Boolean
-        Dim qry As String = ""
-        qry = "q=" + UrlEncode(_searchWords)
-        If Not String.IsNullOrEmpty(_searchLang) Then qry += "&lang=" + _searchLang
-        Return Not _beforeQuery.Equals(qry)
+        Dim qry As New Dictionary(Of String, String)
+        If Not String.IsNullOrEmpty(_searchWords) Then
+            qry.Add("q", _searchWords)
+            If Not String.IsNullOrEmpty(_searchLang) Then qry.Add("lang", _searchLang)
+        End If
+        If qry.Count <> _beforeQuery.Count Then Return True
+
+        For Each kvp As KeyValuePair(Of String, String) In qry
+            If Not _beforeQuery.ContainsKey(kvp.Key) OrElse _beforeQuery(kvp.Key) <> kvp.Value Then
+                Return True
+            End If
+        Next
     End Function
 
     <Xml.Serialization.XmlIgnore()> _
