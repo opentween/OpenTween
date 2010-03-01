@@ -20,31 +20,31 @@ Public Class HttpTwitter
     Private Const AccessTokenUrlXAuth As String = "https://api.twitter.com/oauth/access_token"
 
     Private Shared _protocol As String = "http://"
-    Private Shared _remainCountApi As New Dictionary(Of String, String)
+    Private _remainCountApi As New Dictionary(Of String, String)
 
     Public Sub New()
         _remainCountApi.Add("X-RateLimit-Remaining", "-1")
     End Sub
 
-    Public Overloads Shared Sub Initialize(ByVal accessToken As String, _
+    Public Overloads Sub Initialize(ByVal accessToken As String, _
                                     ByVal accessTokenSecret As String, _
                                     ByVal username As String)
         HttpConnectionOAuth.Initialize(ConsumerKey, ConsumerSecret, accessToken, accessTokenSecret, username)
     End Sub
 
-    Public Overloads Shared ReadOnly Property AccessToken() As String
+    Public Overloads ReadOnly Property AccessToken() As String
         Get
             Return HttpConnectionOAuth.AccessToken
         End Get
     End Property
 
-    Public Overloads Shared ReadOnly Property AccessTokenSecret() As String
+    Public Overloads ReadOnly Property AccessTokenSecret() As String
         Get
             Return HttpConnectionOAuth.AccessTokenSecret
         End Get
     End Property
 
-    Public Overloads Shared ReadOnly Property AuthUsername() As String
+    Public Overloads ReadOnly Property AuthUsername() As String
         Get
             Return HttpConnectionOAuth.AuthUsername
         End Get
@@ -54,7 +54,7 @@ Public Class HttpTwitter
         Return AuthorizeXAuth(AccessTokenUrlXAuth, username, password)
     End Function
 
-    Public Shared Sub ClearAuthInfo()
+    Public Sub ClearAuthInfo()
         HttpConnectionOAuth.Initialize(ConsumerKey, ConsumerSecret, "", "", "")
     End Sub
 
@@ -68,7 +68,7 @@ Public Class HttpTwitter
         End Set
     End Property
 
-    Public Shared ReadOnly Property RemainCountApi() As Integer
+    Public ReadOnly Property RemainCountApi() As Integer
         Get
             Return Integer.Parse(_remainCountApi("X-RateLimit-Remaining"))
         End Get
@@ -319,4 +319,129 @@ Public Class HttpTwitter
             Throw ex
         End Try
     End Function
+
+    Public Function DirectMessages(ByRef content As String) As HttpStatusCode
+        If HttpConnectionOAuth.AuthUsername = "" Then
+            Return HttpStatusCode.Unauthorized
+        End If
+        Try
+            Return GetContent(RequestMethod.ReqGet, _
+                            New Uri(_protocol + "api.twitter.com/1/direct_messages.xml"), _
+                            Nothing, _
+                            content, _
+                            _remainCountApi)
+        Catch ex As WebException
+            If ex.Status = WebExceptionStatus.ProtocolError Then
+                Dim res As HttpWebResponse = DirectCast(ex.Response, HttpWebResponse)
+                Return res.StatusCode
+            End If
+            Throw ex
+        End Try
+    End Function
+
+    Public Function DirectMessagesSent(ByRef content As String) As HttpStatusCode
+        If HttpConnectionOAuth.AuthUsername = "" Then
+            Return HttpStatusCode.Unauthorized
+        End If
+        Try
+            Return GetContent(RequestMethod.ReqGet, _
+                            New Uri(_protocol + "api.twitter.com/1/direct_messages/sent.xml"), _
+                            Nothing, _
+                            content, _
+                            _remainCountApi)
+        Catch ex As WebException
+            If ex.Status = WebExceptionStatus.ProtocolError Then
+                Dim res As HttpWebResponse = DirectCast(ex.Response, HttpWebResponse)
+                Return res.StatusCode
+            End If
+            Throw ex
+        End Try
+    End Function
+
+    Public Function Favorites(ByVal count As Integer, ByRef content As String) As HttpStatusCode
+        If HttpConnectionOAuth.AuthUsername = "" Then
+            Return HttpStatusCode.Unauthorized
+        End If
+        Dim param As New SortedList(Of String, String)
+        If count <> 20 Then param.Add("count", count.ToString())
+        Try
+            Return GetContent(RequestMethod.ReqGet, _
+                            New Uri(_protocol + "api.twitter.com/1/favorites.xml"), _
+                            param, _
+                            content, _
+                            _remainCountApi)
+        Catch ex As WebException
+            If ex.Status = WebExceptionStatus.ProtocolError Then
+                Dim res As HttpWebResponse = DirectCast(ex.Response, HttpWebResponse)
+                Return res.StatusCode
+            End If
+            Throw ex
+        End Try
+    End Function
+
+    Public Function Search(ByVal words As String, ByVal lang As String, ByVal rpp As Integer, ByVal page As Integer, ByRef content As String) As HttpStatusCode
+        Dim param As New SortedList(Of String, String)
+        If Not String.IsNullOrEmpty(words) Then param.Add("q", words)
+        If Not String.IsNullOrEmpty(lang) Then param.Add("lang", lang)
+        If rpp > 0 Then param.Add("rpp", rpp.ToString())
+        If page > 0 Then param.Add("page", page.ToString())
+
+        If param.Count = 0 Then Return HttpStatusCode.BadRequest
+
+        Dim req As HttpWebRequest = CreateRequest(RequestMethod.ReqGet, _
+                                                New Uri(_protocol + "search.twitter.com/search.atom"), _
+                                                param, _
+                                                False)
+        req.UserAgent = "Tween"
+        Try
+            Return Me.GetResponse(req, content, Nothing, False)
+        Catch ex As WebException
+            If ex.Status = WebExceptionStatus.ProtocolError Then
+                Dim res As HttpWebResponse = DirectCast(ex.Response, HttpWebResponse)
+                Return res.StatusCode
+            End If
+            Throw ex
+        End Try
+    End Function
+
+    Public Function FollowerIds(ByVal cursor As Long, ByRef content As String) As HttpStatusCode
+        If HttpConnectionOAuth.AuthUsername = "" Then
+            Return HttpStatusCode.Unauthorized
+        End If
+        Dim param As New SortedList(Of String, String)
+        param.Add("cursor", cursor.ToString())
+        Try
+            Return GetContent(RequestMethod.ReqGet, _
+                            New Uri(_protocol + "api.twitter.com/1/followers/ids.xml"), _
+                            param, _
+                            content, _
+                            _remainCountApi)
+        Catch ex As WebException
+            If ex.Status = WebExceptionStatus.ProtocolError Then
+                Dim res As HttpWebResponse = DirectCast(ex.Response, HttpWebResponse)
+                Return res.StatusCode
+            End If
+            Throw ex
+        End Try
+    End Function
+
+    Public Function RateLimitStatus(ByRef content As String) As HttpStatusCode
+        If HttpConnectionOAuth.AuthUsername = "" Then
+            Return HttpStatusCode.Unauthorized
+        End If
+        Try
+            Return GetContent(RequestMethod.ReqGet, _
+                            New Uri(_protocol + "api.twitter.com/1/rate_limit_status.xml"), _
+                            Nothing, _
+                            content, _
+                            Nothing)
+        Catch ex As WebException
+            If ex.Status = WebExceptionStatus.ProtocolError Then
+                Dim res As HttpWebResponse = DirectCast(ex.Response, HttpWebResponse)
+                Return res.StatusCode
+            End If
+            Throw ex
+        End Try
+    End Function
+
 End Class

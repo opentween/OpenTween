@@ -193,21 +193,22 @@ Public Module Twitter
     ''''Wedata対応
     'Private Const wedataUrl As String = "http://wedata.net/databases/Tween/items.json"
 
+    Private twCon As New HttpTwitter
+
     Public Function Authorize(ByVal username As String, ByVal password As String) As Boolean
-        Dim twCon As New HttpTwitter
         Dim rslt As Boolean = twCon.Auth(username, password)
         If rslt Then
-            _uid = HttpTwitter.AuthUsername
+            _uid = twCon.AuthUsername
         End If
         Return rslt
     End Function
 
     Public Sub ClearAuthInfo()
-        HttpTwitter.ClearAuthInfo()
+        twCon.ClearAuthInfo()
     End Sub
 
     Public Sub Initialize(ByVal token As String, ByVal tokenSecret As String, ByVal username As String)
-        HttpTwitter.Initialize(token, tokenSecret, username)
+        twCon.Initialize(token, tokenSecret, username)
         _uid = username.ToLower
     End Sub
     'Private Function SignIn() As String
@@ -1998,7 +1999,7 @@ Public Module Twitter
         Dim res As HttpStatusCode
         Dim content As String = ""
         Try
-            res = (New HttpTwitter).UpdateStatus(postStr, reply_to, content)
+            res = twCon.UpdateStatus(postStr, reply_to, content)
         Catch ex As Exception
             Return "Err:" + ex.Message
         End Try
@@ -2051,7 +2052,7 @@ Public Module Twitter
         Dim res As HttpStatusCode
 
         Try
-            res = (New HttpTwitter).DestroyStatus(id)
+            res = twCon.DestroyStatus(id)
         Catch ex As Exception
             Return "Err:" + ex.Message
         End Try
@@ -2083,7 +2084,7 @@ Public Module Twitter
         Dim res As HttpStatusCode
         Dim content As String = ""
         Try
-            res = (New HttpTwitter).RetweetStatus(target, content)
+            res = twCon.RetweetStatus(target, content)
         Catch ex As Exception
             Return "Err:" + ex.Message
         End Try
@@ -2203,7 +2204,7 @@ Public Module Twitter
         Dim res As HttpStatusCode
 
         Try
-            res = (New HttpTwitter).DestroyDirectMessage(id)
+            res = twCon.DestroyDirectMessage(id)
         Catch ex As Exception
             Return "Err:" + ex.Message
         End Try
@@ -2230,7 +2231,7 @@ Public Module Twitter
         Dim res As HttpStatusCode
 
         Try
-            res = (New HttpTwitter).CreateFriendships(screenName)
+            res = twCon.CreateFriendships(screenName)
         Catch ex As Exception
             Return "Err:" + ex.Message
         End Try
@@ -2257,7 +2258,7 @@ Public Module Twitter
         Dim res As HttpStatusCode
 
         Try
-            res = (New HttpTwitter).DestroyFriendships(screenName)
+            res = twCon.DestroyFriendships(screenName)
         Catch ex As Exception
             Return "Err:" + ex.Message
         End Try
@@ -2282,7 +2283,7 @@ Public Module Twitter
         Dim res As HttpStatusCode
         Dim content As String = ""
         Try
-            res = (New HttpTwitter).ShowFriendships(_uid, screenName, content)
+            res = twCon.ShowFriendships(_uid, screenName, content)
         Catch ex As Exception
             Return "Err:" + ex.Message
         End Try
@@ -2317,7 +2318,7 @@ Public Module Twitter
         Dim res As HttpStatusCode
 
         Try
-            res = (New HttpTwitter).CreateFavorites(id)
+            res = twCon.CreateFavorites(id)
         Catch ex As Exception
             Return "Err:" + ex.Message
         End Try
@@ -2338,7 +2339,7 @@ Public Module Twitter
 
         Dim content As String = ""
         Try
-            res = (New HttpTwitter).ShowStatuses(id, content)
+            res = twCon.ShowStatuses(id, content)
         Catch ex As Exception
             Return "Err:" + ex.Message
         End Try
@@ -2384,7 +2385,7 @@ Public Module Twitter
         Dim res As HttpStatusCode
 
         Try
-            res = (New HttpTwitter).DestroyFavorites(id)
+            res = twCon.DestroyFavorites(id)
         Catch ex As Exception
             Return "Err:" + ex.Message
         End Try
@@ -2669,7 +2670,7 @@ Public Module Twitter
 
     Public ReadOnly Property Username() As String
         Get
-            Return HttpTwitter.AuthUsername
+            Return twCon.AuthUsername
         End Get
     End Property
 
@@ -3262,10 +3263,10 @@ Public Module Twitter
         Dim content As String = ""
         Try
             If gType = WORKERTYPE.Timeline Then
-                res = (New HttpTwitter).HomeTimeline(_countApi, content)
+                res = twCon.HomeTimeline(_countApi, content)
                 countQuery = _countApi
             Else
-                res = (New HttpTwitter).Mentions(_countApiReply, content)
+                res = twCon.Mentions(_countApiReply, content)
                 countQuery = _countApiReply
             End If
         Catch ex As Exception
@@ -3414,27 +3415,24 @@ Public Module Twitter
 
         If _endingFlag Then Return ""
 
-        Dim retMsg As String = ""
-        Dim resStatus As String = ""
-        Dim sck As MySocket = CreateSocket()
-        Const SEARCH_HOST As String = "search."
-        Const SEARCH_PATH As String = "/search.atom"
-
-        If tab Is Nothing Then Return ""
-        Dim query As String = tab.SearchQuery(more)
-        If query = "" Then Return ""
-
-        retMsg = DirectCast(sck.GetWebResponse(_protocol + SEARCH_HOST + _hubServer + SEARCH_PATH + "?" + query + "&rpp=40", resStatus, MySocket.REQ_TYPE.ReqGetAPINoAuth, userAgent:="Tween"), String)
-
-        If retMsg = "" Then
-            If resStatus.StartsWith("Err: BadRequest") Then
-                Return "Invalid search query."
-            ElseIf resStatus.StartsWith("Err: 420") Then    '暫定：2010/1/18よりAPI制限で420返るらしい
-                Return "Maybe, the requests reached API limit."
-            Else
-                Return resStatus
-            End If
-        End If
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+        Dim page As Integer = 0
+        If more Then page = tab.SearchPage
+        Try
+            res = twCon.Search(tab.SearchWords, tab.SearchLang, 40, page, content)
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
+        Select Case res
+            Case HttpStatusCode.BadRequest
+                Return "Invalid query"
+            Case HttpStatusCode.NotFound
+                Return "Invalid query"
+            Case HttpStatusCode.PaymentRequired 'API Documentには420と書いてあるが、該当コードがないので402にしてある
+                Return "Search API Limit?"
+            Case HttpStatusCode.OK
+        End Select
 
         If Not TabInformations.GetInstance.ContainsTab(tab) Then Return ""
 
@@ -3443,9 +3441,9 @@ Public Module Twitter
         Dim ar(40) As IAsyncResult              'countQueryに合わせる
         Dim xdoc As New XmlDocument
         Try
-            xdoc.LoadXml(retMsg)
+            xdoc.LoadXml(content)
         Catch ex As Exception
-            TraceOut(retMsg)
+            TraceOut(content)
             Return "Invalid ATOM!"
         End Try
         Dim nsmgr As New XmlNamespaceManager(xdoc.NameTable)
@@ -3499,7 +3497,7 @@ Public Module Twitter
                 post.IsDm = False
                 post.SearchTabName = tab.TabName
             Catch ex As Exception
-                TraceOut(retMsg)
+                TraceOut(content)
                 Continue For
             End Try
 
@@ -3532,37 +3530,38 @@ Public Module Twitter
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
-        Dim retMsg As String = ""
-        Dim resStatus As String = ""
-        Dim sck As MySocket = CreateSocket()
-        'スレッド取得は行わず、countで調整
-        Const GET_COUNT As Integer = 20
+        Dim res As HttpStatusCode
+        Dim content As String = ""
 
-        If gType = WORKERTYPE.DirectMessegeRcv Then
-            retMsg = DirectCast(sck.GetWebResponse(_protocol + _apiHost + _hubServer + RECEIVE_PATH, resStatus, MySocket.REQ_TYPE.ReqGetAPI), String)
-        Else
-            retMsg = DirectCast(sck.GetWebResponse(_protocol + _apiHost + _hubServer + SENT_PATH, resStatus, MySocket.REQ_TYPE.ReqGetAPI), String)
-        End If
+        Try
+            If gType = WORKERTYPE.DirectMessegeRcv Then
+                res = twCon.DirectMessages(content)
+            Else
+                res = twCon.DirectMessagesSent(content)
+            End If
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
 
-        If retMsg = "" Then
-            If resStatus.StartsWith("Err: BadRequest") Then
-                Return "Maybe, the requests reached API limit."
-            ElseIf resStatus.StartsWith("Err: Unauthorized") Then
+        Select Case res
+            Case HttpStatusCode.OK
+            Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Return "Check your Username/Password."
-            Else
-                Return resStatus
-            End If
-        End If
+            Case HttpStatusCode.BadRequest
+                Return "Err:API Limits?"
+            Case Else
+                Return "Err:" + res.ToString()
+        End Select
 
         Dim arIdx As Integer = -1
-        Dim dlgt(GET_COUNT) As GetIconImageDelegate    'countQueryに合わせる
-        Dim ar(GET_COUNT) As IAsyncResult              'countQueryに合わせる
+        Dim dlgt(20) As GetIconImageDelegate    'countQueryに合わせる
+        Dim ar(20) As IAsyncResult              'countQueryに合わせる
         Dim xdoc As New XmlDocument
         Try
-            xdoc.LoadXml(retMsg)
+            xdoc.LoadXml(content)
         Catch ex As Exception
-            TraceOut(retMsg)
+            TraceOut(content)
             'MessageBox.Show("不正なXMLです。(DM-LoadXml)")
             Return "Invalid XML!"
         End Try
@@ -3608,7 +3607,7 @@ Public Module Twitter
                 post.ImageUrl = xUentry.Item("profile_image_url").InnerText
                 post.IsProtect = Boolean.Parse(xUentry.Item("protected").InnerText)
             Catch ex As Exception
-                TraceOut(retMsg)
+                TraceOut(content)
                 'MessageBox.Show("不正なXMLです。(DM-Parse)")
                 Continue For
             End Try
@@ -3634,7 +3633,7 @@ Public Module Twitter
             End Try
         Next
 
-        _remainCountApi = sck.RemainCountApi
+        '_remainCountApi = sck.RemainCountApi
         'If _ApiMethod = MySocket.REQ_TYPE.ReqGetAPI Then _remainCountApi = sck.RemainCountApi
 
         Return ""
@@ -3647,32 +3646,33 @@ Public Module Twitter
 
         If _endingFlag Then Return ""
 
-        Dim retMsg As String = ""
-        Dim resStatus As String = ""
-        Dim sck As MySocket = CreateSocket()
-        'スレッド取得は行わず、countで調整
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+        Try
+            res = twCon.Favorites(_countApi, content)
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
 
-        retMsg = DirectCast(sck.GetWebResponse(_protocol + _apiHost + _hubServer + FAV_PATH + "?" + COUNT_QUERY + _countApi.ToString(), resStatus, MySocket.REQ_TYPE.ReqGetAPI), String)
-
-        If retMsg = "" Then
-            If resStatus.StartsWith("Err: BadRequest") Then
-                Return "Maybe, the requests reached API limit."
-            ElseIf resStatus.StartsWith("Err: Unauthorized") Then
+        Select Case res
+            Case HttpStatusCode.OK
+            Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Return "Check your Username/Password."
-            Else
-                Return resStatus
-            End If
-        End If
+            Case HttpStatusCode.BadRequest
+                Return "Err:API Limits?"
+            Case Else
+                Return "Err:" + res.ToString()
+        End Select
 
         Dim arIdx As Integer = -1
         Dim dlgt(_countApi) As GetIconImageDelegate    'countQueryに合わせる
         Dim ar(_countApi) As IAsyncResult              'countQueryに合わせる
         Dim xdoc As New XmlDocument
         Try
-            xdoc.LoadXml(retMsg)
+            xdoc.LoadXml(content)
         Catch ex As Exception
-            TraceOut(retMsg)
+            TraceOut(content)
             'MessageBox.Show("不正なXMLです。(TL-LoadXml)")
             Return "Invalid XML!"
         End Try
@@ -3759,7 +3759,7 @@ Public Module Twitter
 
                 post.IsDm = False
             Catch ex As Exception
-                TraceOut(retMsg)
+                TraceOut(content)
                 'MessageBox.Show("不正なXMLです。(TL-Parse)")
                 Continue For
             End Try
@@ -3781,7 +3781,7 @@ Public Module Twitter
             End Try
         Next
 
-        _remainCountApi = sck.RemainCountApi
+        '_remainCountApi = sck.RemainCountApi
         'If _ApiMethod = MySocket.REQ_TYPE.ReqGetAPI Then _remainCountApi = sck.RemainCountApi
 
         Return ""
@@ -3789,48 +3789,51 @@ Public Module Twitter
 
     Public Function GetFollowersApi() As String
         If _endingFlag Then Return ""
-        Dim page As Long = -1
+        Dim cursor As Long = -1
         Dim tmpFollower As New List(Of Long)(followerId)
 
         followerId.Clear()
         Do
-            Dim ret As String = FollowerApi(page)
+            Dim ret As String = FollowerApi(cursor)
             If ret <> "" Then
                 followerId.Clear()
                 followerId.AddRange(tmpFollower)
                 Return ret
             End If
-        Loop While page > 0
+        Loop While cursor > 0
 
         TabInformations.GetInstance.RefreshOwl(followerId)
 
         Return ""
     End Function
 
-    Private Function FollowerApi(ByRef page As Long) As String
+    Private Function FollowerApi(ByRef cursor As Long) As String
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
-        Dim retMsg As String = ""
-        Dim resStatus As String = ""
-        Dim curCount As Integer = followerId.Count
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+        Try
+            res = twCon.FollowerIds(cursor, content)
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
 
-        retMsg = DirectCast(CreateSocket.GetWebResponse(_protocol + _apiHost + _hubServer + FOLLOWER_PATH + _cursorQry + page.ToString(), resStatus, MySocket.REQ_TYPE.ReqGetAPI), String)
-
-        If retMsg = "" Then
-            If resStatus.StartsWith("Err: Unauthorized") Then
+        Select Case res
+            Case HttpStatusCode.OK
+            Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Return "Check your Username/Password."
-            Else
-                Return resStatus
-            End If
-        End If
+            Case HttpStatusCode.BadRequest
+                Return "Err:API Limits?"
+            Case Else
+                Return "Err:" + res.ToString()
+        End Select
 
         Dim xdoc As New XmlDocument
         Try
-            xdoc.LoadXml(retMsg)
+            xdoc.LoadXml(content)
         Catch ex As Exception
-            TraceOut(retMsg)
-            MessageBox.Show("The data was broken. Please retry later.(FollowerApi-LoadXml)")
+            TraceOut(content)
             Return "Invalid XML!"
         End Try
 
@@ -3838,10 +3841,9 @@ Public Module Twitter
             For Each xentryNode As XmlNode In xdoc.DocumentElement.SelectNodes("/id_list/ids/id")
                 followerId.Add(Long.Parse(xentryNode.InnerText))
             Next
-            page = Long.Parse(xdoc.DocumentElement.SelectSingleNode("/id_list/next_cursor").InnerText)
+            cursor = Long.Parse(xdoc.DocumentElement.SelectSingleNode("/id_list/next_cursor").InnerText)
         Catch ex As Exception
-            TraceOut(retMsg)
-            MessageBox.Show("The data was broken. Please retry later.(FollowerApi-Parse)")
+            TraceOut(content)
             Return "Invalid XML!"
         End Try
 
@@ -3923,71 +3925,36 @@ Public Module Twitter
 
     Public ReadOnly Property RemainCountApi() As Integer
         Get
-            Return HttpTwitter.RemainCountApi
+            Return twCon.RemainCountApi
         End Get
     End Property
 
-    Public Function GetMaxCountApi() As Integer
-        Dim _maxcnt As Integer = 0
-        Dim resMsg As String = ""
-        Dim resStatus As String = ""
-        resMsg = DirectCast(CreateSocket.GetWebResponse(_protocol + _apiHost + _hubServer + _rateLimitStatus, resStatus, MySocket.REQ_TYPE.ReqGetAPI), String)
-        Dim xdoc As New XmlDocument
-        Try
-            xdoc.LoadXml(resMsg)
-            _maxcnt = Integer.Parse(xdoc.SelectSingleNode("/hash/hourly-limit").InnerText)
-        Catch ex As Exception
-            _maxcnt = 0
-        End Try
-        Return _maxcnt
-    End Function
-
-    Public Function GetRemainCountApi() As Integer
-        Dim _remain As Integer = 0
-        Dim resMsg As String = ""
-        Dim resStatus As String = ""
-        resMsg = DirectCast(CreateSocket.GetWebResponse(_protocol + _apiHost + _hubServer + _rateLimitStatus, resStatus, MySocket.REQ_TYPE.ReqGetAPI), String)
-        Dim xdoc As New XmlDocument
-        Try
-            xdoc.LoadXml(resMsg)
-            _remain = Integer.Parse(xdoc.SelectSingleNode("/hash/remaining-hits").InnerText)
-        Catch ex As Exception
-            _remain = 0
-        End Try
-        Return _remain
-    End Function
-
-    Public Function GetResetTimeApi() As DateTime
-        Dim _tm As DateTime
-        Dim resMsg As String = ""
-        Dim resStatus As String = ""
-        resMsg = DirectCast(CreateSocket.GetWebResponse(_protocol + _apiHost + _hubServer + _rateLimitStatus, resStatus, MySocket.REQ_TYPE.ReqGetAPI), String)
-        Dim xdoc As New XmlDocument
-        Try
-            xdoc.LoadXml(resMsg)
-            _tm = DateTime.Parse(xdoc.SelectSingleNode("/hash/reset-time").InnerText)
-        Catch ex As Exception
-            _tm = Nothing
-        End Try
-        Return _tm
-    End Function
-
     Public Function GetInfoApi(ByRef info As ApiInfo) As Boolean
+        If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return True
 
-        Dim resMsg As String = ""
-        Dim resStatus As String = ""
-        resMsg = DirectCast(CreateSocket.GetWebResponse(_protocol + _apiHost + _hubServer + _rateLimitStatus, resStatus, MySocket.REQ_TYPE.ReqGetAPI), String)
+        If _endingFlag Then Return True
+
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+        Try
+            res = twCon.RateLimitStatus(content)
+        Catch ex As Exception
+            Return False
+        End Try
+
+        If res <> HttpStatusCode.OK Then Return False
+
         Dim xdoc As New XmlDocument
         Try
-            xdoc.LoadXml(resMsg)
+            xdoc.LoadXml(content)
             info.MaxCount = Integer.Parse(xdoc.SelectSingleNode("/hash/hourly-limit").InnerText)
             info.RemainCount = Integer.Parse(xdoc.SelectSingleNode("/hash/remaining-hits").InnerText)
             info.ResetTime = DateTime.Parse(xdoc.SelectSingleNode("/hash/reset-time").InnerText)
             info.ResetTimeInSeconds = Integer.Parse(xdoc.SelectSingleNode("/hash/reset-time-in-seconds").InnerText)
+            Return True
         Catch ex As Exception
             Return False
         End Try
-        Return True
     End Function
 
     Public Function GetHashList() As String()
@@ -4060,4 +4027,16 @@ Public Module Twitter
     '    End Sub
     '#End If
     '#End Region
+
+    Public ReadOnly Property AccessToken() As String
+        Get
+            Return twCon.AccessToken
+        End Get
+    End Property
+
+    Public ReadOnly Property AccessTokenSecret() As String
+        Get
+            Return twCon.AccessTokenSecret
+        End Get
+    End Property
 End Module
