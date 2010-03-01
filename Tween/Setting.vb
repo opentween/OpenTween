@@ -22,7 +22,7 @@
 ' Boston, MA 02110-1301, USA.
 
 Public Class Setting
-    Private _MyuserID As String
+    'Private _MyuserID As String
     'Private _Mypassword As String
     Private _MytimelinePeriod As Integer
     Private _MyDMPeriod As Integer
@@ -120,7 +120,7 @@ Public Class Setting
 
     Private Sub Save_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Save.Click
         Try
-            _MyuserID = Username.Text.Trim()
+            '_MyuserID = Username.Text.Trim()
             '_Mypassword = Password.Text.Trim()
             _MytimelinePeriod = CType(TimelinePeriod.Text, Integer)
             _MyDMPeriod = CType(DMPeriod.Text, Integer)
@@ -242,7 +242,7 @@ Public Class Setting
                     Outputz.url = "http://twitter.com/"
                 Case 1
                     _MyOutputzUrlmode = OutputzUrlmode.twittercomWithUsername
-                    Outputz.url = "http://twitter.com/" + _MyuserID
+                    Outputz.url = "http://twitter.com/" + Twitter.Username
             End Select
 
             _MyNicoms = CheckNicoms.Checked
@@ -287,14 +287,14 @@ Public Class Setting
     End Sub
 
     Private Sub Setting_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Username.Text = _MyuserID
+        'Username.Text = _MyuserID
         'Password.Text = _Mypassword
-        If HttpConnectionOAuth.AccessToken = "" Then
+        If Twitter.Username = "" Then
             Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
             Me.AuthUserLabel.Text = ""
         Else
             Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
-            Me.AuthUserLabel.Text = HttpConnectionOAuth.AuthUsername
+            Me.AuthUserLabel.Text = Twitter.Username
         End If
         TimelinePeriod.Text = _MytimelinePeriod.ToString()
         ReplyPeriod.Text = _MyReplyPeriod.ToString()
@@ -811,14 +811,14 @@ Public Class Setting
         End Select
     End Sub
 
-    Public Property UserID() As String
-        Get
-            Return _MyuserID
-        End Get
-        Set(ByVal value As String)
-            _MyuserID = value
-        End Set
-    End Property
+    'Public Property UserID() As String
+    '    Get
+    '        Return _MyuserID
+    '    End Get
+    '    Set(ByVal value As String)
+    '        _MyuserID = value
+    '    End Set
+    'End Property
 
     'Public Property PasswordStr() As String
     '    Get
@@ -1929,10 +1929,16 @@ Public Class Setting
         If rslt Then
             MessageBox.Show(My.Resources.AuthorizeButton_Click1, "Authenticate", MessageBoxButtons.OK)
             Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
-            Me.AuthUserLabel.Text = HttpConnectionOAuth.AuthUsername
+            Me.AuthUserLabel.Text = Twitter.Username
         Else
             MessageBox.Show(My.Resources.AuthorizeButton_Click2, "Authenticate", MessageBoxButtons.OK)
         End If
+    End Sub
+
+    Private Sub AuthClearButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AuthClearButton.Click
+        Twitter.ClearAuthInfo()
+        Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
+        Me.AuthUserLabel.Text = ""
     End Sub
 End Class
 

@@ -217,6 +217,7 @@ Partial Class Setting
         Me.Label59 = New System.Windows.Forms.Label
         Me.TextBoxOutputzKey = New System.Windows.Forms.TextBox
         Me.CheckOutputz = New System.Windows.Forms.CheckBox
+        Me.AuthClearButton = New System.Windows.Forms.Button
         Me.GroupBox1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
@@ -856,6 +857,7 @@ Partial Class Setting
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.AuthClearButton)
         Me.TabPage1.Controls.Add(Me.AuthUserLabel)
         Me.TabPage1.Controls.Add(Me.AuthStateLabel)
         Me.TabPage1.Controls.Add(Me.Label4)
@@ -1500,6 +1502,12 @@ Partial Class Setting
         Me.CheckOutputz.Name = "CheckOutputz"
         Me.CheckOutputz.UseVisualStyleBackColor = True
         '
+        'AuthClearButton
+        '
+        resources.ApplyResources(Me.AuthClearButton, "AuthClearButton")
+        Me.AuthClearButton.Name = "AuthClearButton"
+        Me.AuthClearButton.UseVisualStyleBackColor = True
+        '
         'Setting
         '
         Me.AcceptButton = Me.Save
@@ -1727,4 +1735,5 @@ Partial Class Setting
     Friend WithEvents AuthStateLabel As System.Windows.Forms.Label
     Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents AuthUserLabel As System.Windows.Forms.Label
+    Friend WithEvents AuthClearButton As System.Windows.Forms.Button
 End Class

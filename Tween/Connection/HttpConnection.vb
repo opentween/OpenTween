@@ -54,7 +54,7 @@ Public Class HttpConnection
     '''<param name="param">GET時のクエリ、またはPOST時のボディデータ</param>
     '''<param name="withCookie">通信にcookieを使用するか</param>
     '''<returns>引数で指定された内容を反映したHttpWebRequestオブジェクト</returns>
-    Protected Shared Function CreateRequest(ByVal method As RequestMethod, _
+    Protected Function CreateRequest(ByVal method As RequestMethod, _
                                             ByVal requestUri As Uri, _
                                             ByVal param As SortedList(Of String, String), _
                                             ByVal withCookie As Boolean _
@@ -102,7 +102,7 @@ Public Class HttpConnection
     '''<param name="headerInfo">[IN/OUT]HTTP応答のヘッダ情報。ヘッダ名をキーにして空データのコレクションを渡すことで、該当のヘッダをデータに設定して戻す</param>
     '''<param name="withCookie">通信にcookieを使用する</param>
     '''<returns>HTTP応答のステータスコード</returns>
-    Protected Shared Function GetResponse(ByVal webRequest As HttpWebRequest, _
+    Protected Function GetResponse(ByVal webRequest As HttpWebRequest, _
                                         ByVal contentStream As Stream, _
                                         ByVal headerInfo As Dictionary(Of String, String), _
                                         ByVal withCookie As Boolean _
@@ -115,15 +115,21 @@ Public Class HttpConnection
             GetHeaderInfo(webRes, headerInfo)
             '応答のストリームをコピーして戻す
             If webRes.ContentLength > 0 Then
-                Using stream As Stream = webRes.GetResponseStream()
-                    If stream IsNot Nothing Then CopyStream(stream, contentStream)
-                End Using
+                If webRes.ContentEncoding = "gzip" OrElse webRes.ContentEncoding = "deflate" Then
+                    Using stream As Stream = webRes.GetResponseStream()
+                        If stream IsNot Nothing Then CopyStream(stream, contentStream)
+                    End Using
+                Else
+                    Using stream As Stream = New System.IO.Compression.GZipStream(webRes.GetResponseStream, Compression.CompressionMode.Decompress)
+                        If stream IsNot Nothing Then CopyStream(stream, contentStream)
+                    End Using
+                End If
             End If
             Return statusCode
         End Using
     End Function
 
-    Protected Shared Function GetResponse(ByVal webRequest As HttpWebRequest, _
+    Protected Function GetResponse(ByVal webRequest As HttpWebRequest, _
                                         ByRef contentText As String, _
                                         ByVal headerInfo As Dictionary(Of String, String), _
                                         ByVal withCookie As Boolean _
@@ -145,7 +151,21 @@ Public Class HttpConnection
         End Using
     End Function
 
-    Protected Shared Function GetResponse(ByVal webRequest As HttpWebRequest, _
+    Protected Function GetResponse(ByVal webRequest As HttpWebRequest, _
+                                        ByVal headerInfo As Dictionary(Of String, String), _
+                                        ByVal withCookie As Boolean _
+                                    ) As HttpStatusCode
+        Using webRes As HttpWebResponse = CType(webRequest.GetResponse(), HttpWebResponse)
+            Dim statusCode As HttpStatusCode = webRes.StatusCode
+            'cookie保持
+            If withCookie Then SaveCookie(webRes.Cookies)
+            'リダイレクト応答の場合は、リダイレクト先を設定して終了
+            GetHeaderInfo(webRes, headerInfo)
+            Return statusCode
+        End Using
+    End Function
+
+    Protected Function GetResponse(ByVal webRequest As HttpWebRequest, _
                                         ByVal contentBitmap As Bitmap, _
                                         ByVal headerInfo As Dictionary(Of String, String), _
                                         ByVal withCookie As Boolean _
@@ -162,7 +182,7 @@ Public Class HttpConnection
         End Using
     End Function
 
-    Private Shared Sub SaveCookie(ByVal cookieCollection As CookieCollection)
+    Private Sub SaveCookie(ByVal cookieCollection As CookieCollection)
         For Each ck As Cookie In cookieCollection
             If ck.Domain.StartsWith(".") Then
                 ck.Domain = ck.Domain.Substring(1, ck.Domain.Length - 1)
@@ -176,7 +196,7 @@ Public Class HttpConnection
     '''</summary>
     '''<param name="inStream">コピー元ストリームインスタンス。読み取り可であること</param>
     '''<param name="outStream">コピー先ストリームインスタンス。書き込み可であること</param>
-    Private Shared Sub CopyStream(ByVal inStream As Stream, ByVal outStream As Stream)
+    Private Sub CopyStream(ByVal inStream As Stream, ByVal outStream As Stream)
         If inStream Is Nothing Then Throw New ArgumentNullException("inStream")
         If outStream Is Nothing Then Throw New ArgumentNullException("outStream")
         If Not inStream.CanRead Then Throw New ArgumentException("Input stream can not read.")
@@ -197,7 +217,7 @@ Public Class HttpConnection
     '''</summary>
     '''<param name="webResponse">HTTP応答</param>
     '''<param name="headerInfo">[IN/OUT]キーにヘッダ名を指定したデータ空のコレクション。取得した値をデータにセットして戻す</param>
-    Private Shared Sub GetHeaderInfo(ByVal webResponse As HttpWebResponse, _
+    Private Sub GetHeaderInfo(ByVal webResponse As HttpWebResponse, _
                                     ByVal headerInfo As Dictionary(Of String, String))
 
         If headerInfo Is Nothing Then Exit Sub
@@ -231,7 +251,7 @@ Public Class HttpConnection
     '''クエリコレクションをkey=value形式の文字列に構成して戻す
     '''</summary>
     '''<param name="param">クエリ、またはポストデータとなるkey-valueコレクション</param>
-    Protected Shared Function CreateQueryString(ByVal param As SortedList(Of String, String)) As String
+    Protected Function CreateQueryString(ByVal param As SortedList(Of String, String)) As String
         If param Is Nothing OrElse param.Count = 0 Then Return String.Empty
 
         Dim query As New StringBuilder
@@ -246,7 +266,7 @@ Public Class HttpConnection
     '''</summary>
     '''<param name="queryString">クエリ文字列</param>
     '''<returns>key-valueのコレクション</returns>
-    Protected Shared Function ParseQueryString(ByVal queryString As String) As NameValueCollection
+    Protected Function ParseQueryString(ByVal queryString As String) As NameValueCollection
         Dim query As New NameValueCollection
         Dim parts() As String = queryString.Split("&"c)
         For Each part As String In parts
@@ -265,7 +285,7 @@ Public Class HttpConnection
     '''</summary>
     '''<param name="str">エンコードする文字列</param>
     '''<returns>エンコード結果文字列</returns>
-    Protected Shared Function UrlEncode(ByVal stringToEncode As String) As String
+    Protected Function UrlEncode(ByVal stringToEncode As String) As String
         Const UnreservedChars As String = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.~"
         Dim sb As New StringBuilder
         Dim bytes As Byte() = Encoding.UTF8.GetBytes(stringToEncode)

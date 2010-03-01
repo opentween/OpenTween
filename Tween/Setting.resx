@@ -123,7 +123,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="Label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 41</value>
+    <value>14, 59</value>
   </data>
   <data name="Label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>57, 12</value>
@@ -144,13 +144,13 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;Label1.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>18</value>
   </data>
   <data name="Label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="Label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 62</value>
+    <value>14, 80</value>
   </data>
   <data name="Label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>52, 12</value>
@@ -171,10 +171,10 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;Label2.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>19</value>
   </data>
   <data name="Username.Location" type="System.Drawing.Point, System.Drawing">
-    <value>105, 38</value>
+    <value>105, 56</value>
   </data>
   <data name="Username.Size" type="System.Drawing.Size, System.Drawing">
     <value>186, 19</value>
@@ -192,10 +192,10 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;Username.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>20</value>
   </data>
   <data name="Password.Location" type="System.Drawing.Point, System.Drawing">
-    <value>105, 59</value>
+    <value>105, 77</value>
   </data>
   <data name="Password.Size" type="System.Drawing.Size, System.Drawing">
     <value>186, 19</value>
@@ -213,7 +213,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;Password.ZOrder" xml:space="preserve">
-    <value>20</value>
+    <value>21</value>
   </data>
   <data name="Save.Location" type="System.Drawing.Point, System.Drawing">
     <value>259, 518</value>
@@ -288,7 +288,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;Label3.ZOrder" xml:space="preserve">
-    <value>21</value>
+    <value>22</value>
   </data>
   <data name="TimelinePeriod.Location" type="System.Drawing.Point, System.Drawing">
     <value>247, 111</value>
@@ -309,7 +309,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;TimelinePeriod.ZOrder" xml:space="preserve">
-    <value>22</value>
+    <value>23</value>
   </data>
   <data name="DMPeriod.Location" type="System.Drawing.Point, System.Drawing">
     <value>247, 181</value>
@@ -330,7 +330,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;DMPeriod.ZOrder" xml:space="preserve">
-    <value>24</value>
+    <value>25</value>
   </data>
   <data name="Label5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -357,7 +357,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;Label5.ZOrder" xml:space="preserve">
-    <value>23</value>
+    <value>24</value>
   </data>
   <data name="Label9.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -384,7 +384,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;Label9.ZOrder" xml:space="preserve">
-    <value>25</value>
+    <value>26</value>
   </data>
   <data name="StartupReaded.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -411,7 +411,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;StartupReaded.ZOrder" xml:space="preserve">
-    <value>26</value>
+    <value>27</value>
   </data>
   <data name="Label11.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2871,11 +2871,38 @@
   <data name="&gt;&gt;Label47.ZOrder" xml:space="preserve">
     <value>25</value>
   </data>
+  <data name="AuthClearButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="AuthClearButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>297, 23</value>
+  </data>
+  <data name="AuthClearButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="AuthClearButton.TabIndex" type="System.Int32, mscorlib">
+    <value>47</value>
+  </data>
+  <data name="AuthClearButton.Text" xml:space="preserve">
+    <value>クリア</value>
+  </data>
+  <data name="&gt;&gt;AuthClearButton.Name" xml:space="preserve">
+    <value>AuthClearButton</value>
+  </data>
+  <data name="&gt;&gt;AuthClearButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;AuthClearButton.Parent" xml:space="preserve">
+    <value>TabPage1</value>
+  </data>
+  <data name="&gt;&gt;AuthClearButton.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="AuthUserLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="AuthUserLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>223, 13</value>
+    <value>105, 27</value>
   </data>
   <data name="AuthUserLabel.Size" type="System.Drawing.Size, System.Drawing">
     <value>149, 14</value>
@@ -2896,7 +2923,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;AuthUserLabel.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="AuthStateLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -2923,7 +2950,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;AuthStateLabel.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="Label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2953,10 +2980,10 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;Label4.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="AuthorizeButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>297, 55</value>
+    <value>297, 73</value>
   </data>
   <data name="AuthorizeButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -2977,7 +3004,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;AuthorizeButton.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="TextCountApiReply.Location" type="System.Drawing.Point, System.Drawing">
     <value>297, 429</value>
@@ -2998,7 +3025,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;TextCountApiReply.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="Label7.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3028,7 +3055,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;Label7.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="PubSearchPeriod.Location" type="System.Drawing.Point, System.Drawing">
     <value>247, 206</value>
@@ -3049,7 +3076,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;PubSearchPeriod.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="Label69.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3079,7 +3106,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;Label69.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="ReplyPeriod.Location" type="System.Drawing.Point, System.Drawing">
     <value>247, 156</value>
@@ -3100,7 +3127,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;ReplyPeriod.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="CheckPostAndGet.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3130,7 +3157,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;CheckPostAndGet.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="Label67.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3160,7 +3187,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;Label67.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="TextCountApi.Location" type="System.Drawing.Point, System.Drawing">
     <value>247, 429</value>
@@ -3181,7 +3208,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;TextCountApi.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="Label54.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3208,7 +3235,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;Label54.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>13</value>
   </data>
   <data name="CheckStartupFollowers.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3235,7 +3262,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;CheckStartupFollowers.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>14</value>
   </data>
   <data name="Label51.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3262,7 +3289,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;Label51.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>15</value>
   </data>
   <data name="CheckStartupVersion.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3289,7 +3316,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;CheckStartupVersion.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>16</value>
   </data>
   <data name="CheckPeriodAdjust.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3316,16 +3343,16 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;CheckPeriodAdjust.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>17</value>
   </data>
   <data name="TabPage1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
+    <value>4, 21</value>
   </data>
   <data name="TabPage1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
   <data name="TabPage1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>399, 474</value>
+    <value>399, 475</value>
   </data>
   <data name="TabPage1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -3964,13 +3991,13 @@
     <value>21</value>
   </data>
   <data name="TabPage2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
+    <value>4, 21</value>
   </data>
   <data name="TabPage2.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
   <data name="TabPage2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>399, 474</value>
+    <value>399, 475</value>
   </data>
   <data name="TabPage2.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -4675,13 +4702,13 @@
     <value>22</value>
   </data>
   <data name="TabPage3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
+    <value>4, 21</value>
   </data>
   <data name="TabPage3.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
   <data name="TabPage3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>399, 474</value>
+    <value>399, 475</value>
   </data>
   <data name="TabPage3.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -4702,13 +4729,13 @@
     <value>2</value>
   </data>
   <data name="TabPage4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
+    <value>4, 21</value>
   </data>
   <data name="TabPage4.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
   <data name="TabPage4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>399, 474</value>
+    <value>399, 475</value>
   </data>
   <data name="TabPage4.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -5158,13 +5185,13 @@
     <value>4</value>
   </data>
   <data name="TabPage5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
+    <value>4, 21</value>
   </data>
   <data name="TabPage5.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
   <data name="TabPage5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>399, 474</value>
+    <value>399, 475</value>
   </data>
   <data name="TabPage5.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -5344,10 +5371,10 @@
     <value>5</value>
   </data>
   <data name="TabPage6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
+    <value>4, 21</value>
   </data>
   <data name="TabPage6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>399, 474</value>
+    <value>399, 475</value>
   </data>
   <data name="TabPage6.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
