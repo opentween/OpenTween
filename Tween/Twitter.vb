@@ -3865,6 +3865,11 @@ Public Module Twitter
                          "])*(?:;(?:[-_.!~*'()a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)*)" + _
                          "*)?(?:\?(?:[-_.!~*'()a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])" + _
                          "*)?(?:#(?:[-_.!~*'()a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)?")
+        Dim rgUrl2 As Regex = New Regex("(?<![^\/""':!=]|^|\:)" + _
+                                    "(?:https?://|www\.)" + _
+                                    "((?:[\.-]|[^\p{IsGeneralPunctuation}])+\.[a-z]{2,}(?::[0-9]+)?)" + _
+                                    "(/[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9)=#/]?)?" + _
+                                    "(\?[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9_&=#])?)")
         '絶対パス表現のUriをリンクに置換
         retStr = rgUrl.Replace(Text, "<a href=""$&"">$&</a>")
         'Dim mts As MatchCollection = rgUrl.Matches(retStr)
@@ -3878,7 +3883,7 @@ Public Module Twitter
 
         '@返信を抽出し、@先リスト作成
         'Dim rg As New Regex("(^|[ -/:-@[-^`{-~])@([a-zA-Z0-9_]{1,20}/[a-zA-Z0-9_\-]{1,24}[a-zA-Z0-9_])")
-        Dim rg As New Regex("(^|[^a-zA-Z0-9_])[@＠]([a-zA-Z0-9_]{1,20}/[a-zA-Z0-9_\-]{1,24}[a-zA-Z0-9_])")
+        Dim rg As New Regex("(^|[^a-zA-Z0-9_])[@＠]([a-zA-Z0-9_]{1,20}/[a-zA-Z0-9_\-]{1,80}[a-zA-Z0-9_])")
         Dim m As Match = rg.Match(retStr)
         '@先をリンクに置換
         retStr = rg.Replace(retStr, "$1@<a href=""/$2"">$2</a>")
