@@ -1852,6 +1852,7 @@ Public Class TweenMain
             rslt.type = args.type
             rslt.tName = args.tName
             e.Result = rslt
+            Exit Sub
         End If
 
         If args.type <> WORKERTYPE.OpenUri Then bw.ReportProgress(0, "") 'Notifyアイコンアニメーション開始
@@ -1996,7 +1997,10 @@ Public Class TweenMain
                 Else
                     Dim tb As TabClass = _statuses.GetTabByName(args.tName)
                     If tb IsNot Nothing Then
-                        ret = Twitter.GetSearch(read, tb, args.page = -1)
+                        ret = Twitter.GetSearch(read, tb, False)
+                        If ret = "" AndAlso args.page = -1 Then
+                            ret = Twitter.GetSearch(read, tb, True)
+                        End If
                     End If
                 End If
                 '新着時未読クリア
@@ -4470,7 +4474,11 @@ RETRY:
         Next
         If sb.Length > 0 Then
             clstr = sb.ToString()
-            Clipboard.SetDataObject(clstr, False, 5, 100)
+            Try
+                Clipboard.SetDataObject(clstr, False, 5, 100)
+            Catch ex As Exception
+                MessageBox.Show(ex.Message)
+            End Try
         End If
     End Sub
 
@@ -4487,7 +4495,11 @@ RETRY:
         Next
         If sb.Length > 0 Then
             clstr = sb.ToString()
-            Clipboard.SetDataObject(clstr, False, 5, 100)
+            Try
+                Clipboard.SetDataObject(clstr, False, 5, 100)
+            Catch ex As Exception
+                MessageBox.Show(ex.Message)
+            End Try
         End If
     End Sub
 
@@ -6687,7 +6699,11 @@ RETRY:
         Dim _SelObj As Object = typ.InvokeMember("selection", BindingFlags.GetProperty, Nothing, PostBrowser.Document.DomDocument, Nothing)
         Dim _objRange As Object = _SelObj.GetType().InvokeMember("createRange", BindingFlags.InvokeMethod, Nothing, _SelObj, Nothing)
         Dim _selText As String = DirectCast(_objRange.GetType().InvokeMember("text", BindingFlags.GetProperty, Nothing, _objRange, Nothing), String)
-        Clipboard.SetDataObject(_selText, False, 5, 100)
+        Try
+            Clipboard.SetDataObject(_selText, False, 5, 100)
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
     End Sub
 
     Private Sub doSearchToolStrip(ByVal url As String)
@@ -6733,7 +6749,11 @@ RETRY:
     Private Sub ToolStripMenuItem4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem4.Click
         'URLをコピー
         'If PostBrowser.StatusText.StartsWith("http") Then   '念のため
-        Clipboard.SetDataObject(PostBrowser.StatusText, False, 5, 100)
+        Try
+            Clipboard.SetDataObject(PostBrowser.StatusText, False, 5, 100)
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
         'End If
     End Sub
 

@@ -128,7 +128,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="MyCommon.vb" />
-    <Compile Include="MySocket.vb" />
     <Compile Include="OpenURL.Designer.vb">
       <DependentUpon>OpenURL.vb</DependentUpon>
     </Compile>
