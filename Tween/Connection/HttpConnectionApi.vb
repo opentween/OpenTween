@@ -10,7 +10,7 @@ Public Class HttpConnectionApi
 
     Protected Function GetContent(ByVal method As RequestMethod, _
             ByVal requestUri As Uri, _
-            ByVal param As SortedList(Of String, String), _
+            ByVal param As Dictionary(Of String, String), _
             ByRef content As String, _
             ByVal headerInfo As Dictionary(Of String, String), _
             ByVal authRequired As Boolean) As HttpStatusCode

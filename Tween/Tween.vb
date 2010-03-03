@@ -1813,6 +1813,21 @@ Public Class TweenMain
         Me.Activate()
     End Sub
 
+    Private Shared Function CheckAccountValid() As Boolean
+        Static errorCount As Integer = 0
+        If Twitter.AccountState <> ACCOUNT_STATE.Valid Then
+            errorCount += 1
+            If errorCount > 5 Then
+                errorCount = 0
+                Twitter.AccountState = ACCOUNT_STATE.Valid
+                Return True
+            End If
+            Return False
+        End If
+        errorCount = 0
+        Return True
+    End Function
+
     Private Sub GetTimelineWorker_DoWork(ByVal sender As System.Object, ByVal e As System.ComponentModel.DoWorkEventArgs)
         Dim bw As BackgroundWorker = DirectCast(sender, BackgroundWorker)
         If bw.CancellationPending OrElse _endingFlag Then
@@ -1832,6 +1847,12 @@ Public Class TweenMain
 
         Dim args As GetWorkerArg = DirectCast(e.Argument, GetWorkerArg)
 
+        If Not CheckAccountValid() Then
+            rslt.retMsg = "Auth error. Check your account"
+            rslt.type = args.type
+            rslt.tName = args.tName
+            e.Result = rslt
+        End If
 
         If args.type <> WORKERTYPE.OpenUri Then bw.ReportProgress(0, "") 'Notifyアイコンアニメーション開始
         Select Case args.type
@@ -4873,121 +4894,104 @@ RETRY:
     Private Sub SaveConfigsCommon()
         If _ignoreConfigSave Then Exit Sub
 
-        If Twitter.Username <> "" Then
-            modifySettingCommon = False
-            SyncLock _syncObject
-                _cfgCommon.UserName = Twitter.Username
-                '_cfgCommon.Password = SettingDialog.PasswordStr
-                _cfgCommon.Token = Twitter.AccessToken
-                _cfgCommon.TokenSecret = Twitter.AccessTokenSecret
-                '_cfgCommon.NextPageThreshold = SettingDialog.NextPageThreshold
-                '_cfgCommon.NextPages = SettingDialog.NextPagesInt
-                _cfgCommon.TimelinePeriod = SettingDialog.TimelinePeriodInt
-                _cfgCommon.ReplyPeriod = SettingDialog.ReplyPeriodInt
-                _cfgCommon.DMPeriod = SettingDialog.DMPeriodInt
-                _cfgCommon.PubSearchPeriod = SettingDialog.PubSearchPeriodInt
-                _cfgCommon.MaxPostNum = SettingDialog.MaxPostNum
-                '_cfgCommon.ReadPages = SettingDialog.ReadPages
-                '_cfgCommon.ReadPagesReply = SettingDialog.ReadPagesReply
-                '_cfgCommon.ReadPagesDM = SettingDialog.ReadPagesDM
-                _cfgCommon.Read = SettingDialog.Readed
-                _cfgCommon.IconSize = SettingDialog.IconSz
-                _cfgCommon.UnreadManage = SettingDialog.UnreadManage
-                _cfgCommon.PlaySound = SettingDialog.PlaySound
-                _cfgCommon.OneWayLove = SettingDialog.OneWayLove
+        modifySettingCommon = False
+        SyncLock _syncObject
+            _cfgCommon.UserName = Twitter.Username
+            '_cfgCommon.Password = SettingDialog.PasswordStr
+            _cfgCommon.Token = Twitter.AccessToken
+            _cfgCommon.TokenSecret = Twitter.AccessTokenSecret
+            '_cfgCommon.NextPageThreshold = SettingDialog.NextPageThreshold
+            '_cfgCommon.NextPages = SettingDialog.NextPagesInt
+            _cfgCommon.TimelinePeriod = SettingDialog.TimelinePeriodInt
+            _cfgCommon.ReplyPeriod = SettingDialog.ReplyPeriodInt
+            _cfgCommon.DMPeriod = SettingDialog.DMPeriodInt
+            _cfgCommon.PubSearchPeriod = SettingDialog.PubSearchPeriodInt
+            _cfgCommon.MaxPostNum = SettingDialog.MaxPostNum
+            '_cfgCommon.ReadPages = SettingDialog.ReadPages
+            '_cfgCommon.ReadPagesReply = SettingDialog.ReadPagesReply
+            '_cfgCommon.ReadPagesDM = SettingDialog.ReadPagesDM
+            _cfgCommon.Read = SettingDialog.Readed
+            _cfgCommon.IconSize = SettingDialog.IconSz
+            _cfgCommon.UnreadManage = SettingDialog.UnreadManage
+            _cfgCommon.PlaySound = SettingDialog.PlaySound
+            _cfgCommon.OneWayLove = SettingDialog.OneWayLove
 
-                _cfgCommon.NameBalloon = SettingDialog.NameBalloon
-                _cfgCommon.PostCtrlEnter = SettingDialog.PostCtrlEnter
-                '_cfgCommon.UseApi = SettingDialog.UseAPI
-                _cfgCommon.CountApi = SettingDialog.CountApi
-                _cfgCommon.CountApiReply = SettingDialog.CountApiReply
-                '_cfgCommon.UsePostMethod = False
-                _cfgCommon.HubServer = SettingDialog.HubServer
-                '_cfgCommon.CheckReply = SettingDialog.CheckReply
-                _cfgCommon.PostAndGet = SettingDialog.PostAndGet
-                _cfgCommon.DispUsername = SettingDialog.DispUsername
-                _cfgCommon.MinimizeToTray = SettingDialog.MinimizeToTray
-                _cfgCommon.CloseToExit = SettingDialog.CloseToExit
-                _cfgCommon.DispLatestPost = SettingDialog.DispLatestPost
-                _cfgCommon.SortOrderLock = SettingDialog.SortOrderLock
-                _cfgCommon.TinyUrlResolve = SettingDialog.TinyUrlResolve
-                _cfgCommon.PeriodAdjust = SettingDialog.PeriodAdjust
-                _cfgCommon.StartupVersion = SettingDialog.StartupVersion
-                '_cfgCommon.StartupKey = SettingDialog.StartupKey
-                _cfgCommon.StartupFollowers = SettingDialog.StartupFollowers
-                '_cfgCommon.StartupApiModeNoWarning = SettingDialog.StartupAPImodeNoWarning
-                _cfgCommon.RestrictFavCheck = SettingDialog.RestrictFavCheck
-                _cfgCommon.AlwaysTop = SettingDialog.AlwaysTop
-                _cfgCommon.UrlConvertAuto = SettingDialog.UrlConvertAuto
-                _cfgCommon.Outputz = SettingDialog.OutputzEnabled
-                _cfgCommon.OutputzKey = SettingDialog.OutputzKey
-                _cfgCommon.OutputzUrlMode = SettingDialog.OutputzUrlmode
-                _cfgCommon.UseUnreadStyle = SettingDialog.UseUnreadStyle
-                _cfgCommon.DateTimeFormat = SettingDialog.DateTimeFormat
-                _cfgCommon.DefaultTimeOut = SettingDialog.DefaultTimeOut
-                _cfgCommon.ProtectNotInclude = SettingDialog.ProtectNotInclude
-                _cfgCommon.LimitBalloon = SettingDialog.LimitBalloon
-                _cfgCommon.AutoShortUrlFirst = SettingDialog.AutoShortUrlFirst
-                _cfgCommon.TabIconDisp = SettingDialog.TabIconDisp
-                _cfgCommon.ReplyIconState = SettingDialog.ReplyIconState
-                _cfgCommon.ReadOwnPost = SettingDialog.ReadOwnPost
-                _cfgCommon.GetFav = SettingDialog.GetFav
-                _cfgCommon.IsMonospace = SettingDialog.IsMonospace
-                If IdeographicSpaceToSpaceToolStripMenuItem IsNot Nothing AndAlso _
-                   IdeographicSpaceToSpaceToolStripMenuItem.IsDisposed = False Then
-                    _cfgCommon.WideSpaceConvert = Me.IdeographicSpaceToSpaceToolStripMenuItem.Checked
-                End If
-                _cfgCommon.ReadOldPosts = SettingDialog.ReadOldPosts
-                _cfgCommon.UseSsl = SettingDialog.UseSsl
-                _cfgCommon.BilyUser = SettingDialog.BitlyUser
-                _cfgCommon.BitlyPwd = SettingDialog.BitlyPwd
-                _cfgCommon.ShowGrid = SettingDialog.ShowGrid
-                _cfgCommon.UseAtIdSupplement = SettingDialog.UseAtIdSupplement
-                _cfgCommon.UseHashSupplement = SettingDialog.UseHashSupplement
-                _cfgCommon.Language = SettingDialog.Language
+            _cfgCommon.NameBalloon = SettingDialog.NameBalloon
+            _cfgCommon.PostCtrlEnter = SettingDialog.PostCtrlEnter
+            '_cfgCommon.UseApi = SettingDialog.UseAPI
+            _cfgCommon.CountApi = SettingDialog.CountApi
+            _cfgCommon.CountApiReply = SettingDialog.CountApiReply
+            '_cfgCommon.UsePostMethod = False
+            _cfgCommon.HubServer = SettingDialog.HubServer
+            '_cfgCommon.CheckReply = SettingDialog.CheckReply
+            _cfgCommon.PostAndGet = SettingDialog.PostAndGet
+            _cfgCommon.DispUsername = SettingDialog.DispUsername
+            _cfgCommon.MinimizeToTray = SettingDialog.MinimizeToTray
+            _cfgCommon.CloseToExit = SettingDialog.CloseToExit
+            _cfgCommon.DispLatestPost = SettingDialog.DispLatestPost
+            _cfgCommon.SortOrderLock = SettingDialog.SortOrderLock
+            _cfgCommon.TinyUrlResolve = SettingDialog.TinyUrlResolve
+            _cfgCommon.PeriodAdjust = SettingDialog.PeriodAdjust
+            _cfgCommon.StartupVersion = SettingDialog.StartupVersion
+            '_cfgCommon.StartupKey = SettingDialog.StartupKey
+            _cfgCommon.StartupFollowers = SettingDialog.StartupFollowers
+            '_cfgCommon.StartupApiModeNoWarning = SettingDialog.StartupAPImodeNoWarning
+            _cfgCommon.RestrictFavCheck = SettingDialog.RestrictFavCheck
+            _cfgCommon.AlwaysTop = SettingDialog.AlwaysTop
+            _cfgCommon.UrlConvertAuto = SettingDialog.UrlConvertAuto
+            _cfgCommon.Outputz = SettingDialog.OutputzEnabled
+            _cfgCommon.OutputzKey = SettingDialog.OutputzKey
+            _cfgCommon.OutputzUrlMode = SettingDialog.OutputzUrlmode
+            _cfgCommon.UseUnreadStyle = SettingDialog.UseUnreadStyle
+            _cfgCommon.DateTimeFormat = SettingDialog.DateTimeFormat
+            _cfgCommon.DefaultTimeOut = SettingDialog.DefaultTimeOut
+            _cfgCommon.ProtectNotInclude = SettingDialog.ProtectNotInclude
+            _cfgCommon.LimitBalloon = SettingDialog.LimitBalloon
+            _cfgCommon.AutoShortUrlFirst = SettingDialog.AutoShortUrlFirst
+            _cfgCommon.TabIconDisp = SettingDialog.TabIconDisp
+            _cfgCommon.ReplyIconState = SettingDialog.ReplyIconState
+            _cfgCommon.ReadOwnPost = SettingDialog.ReadOwnPost
+            _cfgCommon.GetFav = SettingDialog.GetFav
+            _cfgCommon.IsMonospace = SettingDialog.IsMonospace
+            If IdeographicSpaceToSpaceToolStripMenuItem IsNot Nothing AndAlso _
+               IdeographicSpaceToSpaceToolStripMenuItem.IsDisposed = False Then
+                _cfgCommon.WideSpaceConvert = Me.IdeographicSpaceToSpaceToolStripMenuItem.Checked
+            End If
+            _cfgCommon.ReadOldPosts = SettingDialog.ReadOldPosts
+            _cfgCommon.UseSsl = SettingDialog.UseSsl
+            _cfgCommon.BilyUser = SettingDialog.BitlyUser
+            _cfgCommon.BitlyPwd = SettingDialog.BitlyPwd
+            _cfgCommon.ShowGrid = SettingDialog.ShowGrid
+            _cfgCommon.UseAtIdSupplement = SettingDialog.UseAtIdSupplement
+            _cfgCommon.UseHashSupplement = SettingDialog.UseHashSupplement
+            _cfgCommon.Language = SettingDialog.Language
 
-                _cfgCommon.SortOrder = _statuses.SortOrder
-                Select Case _statuses.SortMode
-                    Case IdComparerClass.ComparerMode.Nickname  'ニックネーム
-                        _cfgCommon.SortColumn = 1
-                    Case IdComparerClass.ComparerMode.Data  '本文
-                        _cfgCommon.SortColumn = 2
-                    Case IdComparerClass.ComparerMode.Id  '時刻=発言Id
-                        _cfgCommon.SortColumn = 3
-                    Case IdComparerClass.ComparerMode.Name  '名前
-                        _cfgCommon.SortColumn = 4
-                    Case IdComparerClass.ComparerMode.Source  'Source
-                        _cfgCommon.SortColumn = 7
-                End Select
+            _cfgCommon.SortOrder = _statuses.SortOrder
+            Select Case _statuses.SortMode
+                Case IdComparerClass.ComparerMode.Nickname  'ニックネーム
+                    _cfgCommon.SortColumn = 1
+                Case IdComparerClass.ComparerMode.Data  '本文
+                    _cfgCommon.SortColumn = 2
+                Case IdComparerClass.ComparerMode.Id  '時刻=発言Id
+                    _cfgCommon.SortColumn = 3
+                Case IdComparerClass.ComparerMode.Name  '名前
+                    _cfgCommon.SortColumn = 4
+                Case IdComparerClass.ComparerMode.Source  'Source
+                    _cfgCommon.SortColumn = 7
+            End Select
 
-                _cfgCommon.Nicoms = SettingDialog.Nicoms
-                _cfgCommon.HashTags = HashMgr.HashHistories
-                If HashMgr.IsPermanent Then
-                    _cfgCommon.HashSelected = HashMgr.UseHash
-                Else
-                    _cfgCommon.HashSelected = ""
-                End If
-                _cfgCommon.HashIsHead = HashMgr.IsHead
-                _cfgCommon.HashIsPermanent = HashMgr.IsPermanent
-                '_cfgCommon.HashSelected = Me.HashSelectComboBox.Text
+            _cfgCommon.Nicoms = SettingDialog.Nicoms
+            _cfgCommon.HashTags = HashMgr.HashHistories
+            If HashMgr.IsPermanent Then
+                _cfgCommon.HashSelected = HashMgr.UseHash
+            Else
+                _cfgCommon.HashSelected = ""
+            End If
+            _cfgCommon.HashIsHead = HashMgr.IsHead
+            _cfgCommon.HashIsPermanent = HashMgr.IsPermanent
 
-                '                _cfgCommon.TabList.Clear()
-                '                For i As Integer = 0 To ListTab.TabPages.Count - 1
-                '                    Dim tnList As String = ListTab.TabPages(i).Text
-                '                    Dim seq As Integer = 1
-                'RETRY:
-                '                    seq += 1
-                '                    For Each tn As String In _cfgCommon.TabList
-                '                        If tn.ToLower() = tnList.ToLower() Then
-                '                            tnList += "_" + seq.ToString()
-                '                        End If
-                '                    Next
-                '                    _cfgCommon.TabList.Add(ListTab.TabPages(i).Text)
-                '                Next
-
-                _cfgCommon.Save()
-            End SyncLock
-        End If
+            _cfgCommon.Save()
+        End SyncLock
     End Sub
 
     Private Sub SaveConfigsLocal()
@@ -6385,15 +6389,20 @@ RETRY:
     Private Function UrlConvert(ByVal Converter_Type As UrlConverter) As Boolean
         'Converter_Type=Nicomsの場合は、nicovideoのみ短縮する
         Dim result As String = ""
-        Dim url As Regex = New Regex("(?<![0-9A-Za-z])(?:https?|shttp)://(?:(?:[-_.!~*'()a-zA-Z0-9;:&=+$,]|%[0-9A-Fa-f" + _
-                                     "][0-9A-Fa-f])*@)?(?:(?:[a-zA-Z0-9](?:[-a-zA-Z0-9]*[a-zA-Z0-9])?\.)" + _
-                                     "*[a-zA-Z](?:[-a-zA-Z0-9]*[a-zA-Z0-9])?\.?|[0-9]+\.[0-9]+\.[0-9]+\." + _
-                                     "[0-9]+)(?::[0-9]*)?(?:/(?:[-_.!~*'()a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f]" + _
-                                     "[0-9A-Fa-f])*(?:;(?:[-_.!~*'()a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-" + _
-                                     "Fa-f])*)*(?:/(?:[-_.!~*'()a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f" + _
-                                     "])*(?:;(?:[-_.!~*'()a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)*)" + _
-                                     "*)?(?:\?(?:[-_.!~*'()a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])" + _
-                                     "*)?(?:#(?:[-_.!~*'()a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)?")
+        Dim url As Regex = New Regex("(?<before>(?:[^\/""':!=]|^|\:))" + _
+                                    "(?<url>(?<protocol>https?://|www\.)" + _
+                                    "(?<domain>(?:[\.-]|[^\p{P}])+\.[a-z]{2,}(?::[0-9]+)?)" + _
+                                    "(?<path>/[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9)=#/]?)?" + _
+                                    "(?<query>\?[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9_&=#])?)", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+        'Dim url As Regex = New Regex("(?<![0-9A-Za-z])(?:https?|shttp)://(?:(?:[-_.!~*'()a-zA-Z0-9;:&=+$,]|%[0-9A-Fa-f" + _
+        '                             "][0-9A-Fa-f])*@)?(?:(?:[a-zA-Z0-9](?:[-a-zA-Z0-9]*[a-zA-Z0-9])?\.)" + _
+        '                             "*[a-zA-Z](?:[-a-zA-Z0-9]*[a-zA-Z0-9])?\.?|[0-9]+\.[0-9]+\.[0-9]+\." + _
+        '                             "[0-9]+)(?::[0-9]*)?(?:/(?:[-_.!~*'()a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f]" + _
+        '                             "[0-9A-Fa-f])*(?:;(?:[-_.!~*'()a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-" + _
+        '                             "Fa-f])*)*(?:/(?:[-_.!~*'()a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f" + _
+        '                             "])*(?:;(?:[-_.!~*'()a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)*)" + _
+        '                             "*)?(?:\?(?:[-_.!~*'()a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])" + _
+        '                             "*)?(?:#(?:[-_.!~*'()a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)?")
         Dim nico As Regex = New Regex("^https?://[a-z]+\.(nicovideo|niconicommons)\.jp/[a-z]+/[a-z0-9]+$")
 
         If StatusText.SelectionLength > 0 Then
@@ -6439,16 +6448,14 @@ RETRY:
                 End If
             End If
         Else
-            Dim urls As RegularExpressions.MatchCollection = Nothing
-            urls = url.Matches(StatusText.Text)
-
             ' 正規表現にマッチしたURL文字列をtinyurl化
-            For Each tmp2 As Match In urls
-                Dim tmp As String = tmp2.ToString
+            For Each mt As Match In url.Matches(StatusText.Text)
+                Dim tmp As String = mt.Result("${url}")
+                If tmp.StartsWith("w", StringComparison.OrdinalIgnoreCase) Then tmp = "http://" + tmp
                 Dim undotmp As New urlUndo
 
                 '選んだURLを選択（？）
-                StatusText.Select(StatusText.Text.IndexOf(tmp, StringComparison.Ordinal), tmp.Length)
+                StatusText.Select(StatusText.Text.IndexOf(mt.Result("${url}"), StringComparison.Ordinal), mt.Result("${url}").Length)
 
                 'nico.ms使用、nicovideoにマッチしたら変換
                 If SettingDialog.Nicoms AndAlso nico.IsMatch(tmp) Then
@@ -6469,10 +6476,10 @@ RETRY:
                 End If
 
                 If Not result = "" Then
-                    StatusText.Select(StatusText.Text.IndexOf(tmp, StringComparison.Ordinal), tmp.Length)
+                    StatusText.Select(StatusText.Text.IndexOf(mt.Result("${url}"), StringComparison.Ordinal), mt.Result("${url}").Length)
                     StatusText.SelectedText = result
                     'undoバッファにセット
-                    undotmp.Before = tmp
+                    undotmp.Before = mt.Result("${url}")
                     undotmp.After = result
 
                     If urlUndoBuffer Is Nothing Then

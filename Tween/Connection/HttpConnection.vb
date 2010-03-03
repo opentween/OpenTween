@@ -56,7 +56,7 @@ Public Class HttpConnection
     '''<returns>引数で指定された内容を反映したHttpWebRequestオブジェクト</returns>
     Protected Function CreateRequest(ByVal method As RequestMethod, _
                                             ByVal requestUri As Uri, _
-                                            ByVal param As SortedList(Of String, String), _
+                                            ByVal param As Dictionary(Of String, String), _
                                             ByVal withCookie As Boolean _
                                         ) As HttpWebRequest
         If Not isInitialize Then Throw New Exception("Sequence error.(not initialized)")
@@ -166,7 +166,7 @@ Public Class HttpConnection
     End Function
 
     Protected Function GetResponse(ByVal webRequest As HttpWebRequest, _
-                                        ByVal contentBitmap As Bitmap, _
+                                        ByRef contentBitmap As Bitmap, _
                                         ByVal headerInfo As Dictionary(Of String, String), _
                                         ByVal withCookie As Boolean _
                                     ) As HttpStatusCode
@@ -251,7 +251,7 @@ Public Class HttpConnection
     '''クエリコレクションをkey=value形式の文字列に構成して戻す
     '''</summary>
     '''<param name="param">クエリ、またはポストデータとなるkey-valueコレクション</param>
-    Protected Function CreateQueryString(ByVal param As SortedList(Of String, String)) As String
+    Protected Function CreateQueryString(ByVal param As IDictionary(Of String, String)) As String
         If param Is Nothing OrElse param.Count = 0 Then Return String.Empty
 
         Dim query As New StringBuilder

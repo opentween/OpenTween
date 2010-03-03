@@ -7,12 +7,12 @@ Public Class HttpTwitter
     '''<summary>
     '''OAuthのコンシューマー鍵
     '''</summary>
-    Private Const ConsumerKey As String = "EANjQEa5LokuVld682tTDA"
+    Private Const ConsumerKey As String = "iOQHfiCUsyOyamW8JJ8jg"
 
     '''<summary>
     '''OAuthの署名作成用秘密コンシューマーデータ
     '''</summary>
-    Private Const ConsumerSecret As String = "zXfwkzmuO6FcHtoikleV3EVgdh5vVAs6ft6ZxtYTYM"
+    Private Const ConsumerSecret As String = "5PS2oa5f2VaKMPrlZa7DTbz0aFULKd3Ojxqgsm142Dw"
 
     '''<summary>
     '''OAuthのアクセストークン取得先URI
@@ -29,24 +29,24 @@ Public Class HttpTwitter
     Public Overloads Sub Initialize(ByVal accessToken As String, _
                                     ByVal accessTokenSecret As String, _
                                     ByVal username As String)
-        HttpConnectionOAuth.Initialize(ConsumerKey, ConsumerSecret, accessToken, accessTokenSecret, username)
+        Initialize(ConsumerKey, ConsumerSecret, accessToken, accessTokenSecret, username)
     End Sub
 
     Public Overloads ReadOnly Property AccessToken() As String
         Get
-            Return HttpConnectionOAuth.AccessToken
+            Return MyBase.AccessToken
         End Get
     End Property
 
     Public Overloads ReadOnly Property AccessTokenSecret() As String
         Get
-            Return HttpConnectionOAuth.AccessTokenSecret
+            Return MyBase.AccessTokenSecret
         End Get
     End Property
 
     Public Overloads ReadOnly Property AuthUsername() As String
         Get
-            Return HttpConnectionOAuth.AuthUsername
+            Return MyBase.AuthUsername
         End Get
     End Property
 
@@ -55,7 +55,7 @@ Public Class HttpTwitter
     End Function
 
     Public Sub ClearAuthInfo()
-        HttpConnectionOAuth.Initialize(ConsumerKey, ConsumerSecret, "", "", "")
+        MyBase.Initialize(ConsumerKey, ConsumerSecret, "", "", "")
     End Sub
 
     Public Shared WriteOnly Property UseSsl() As Boolean
@@ -75,10 +75,10 @@ Public Class HttpTwitter
     End Property
 
     Public Function UpdateStatus(ByVal status As String, ByVal replyToId As Long, ByRef content As String) As HttpStatusCode
-        If HttpConnectionOAuth.AuthUsername = "" Then
+        If Me.AuthUsername = "" Then
             Return HttpStatusCode.Unauthorized
         End If
-        Dim param As New SortedList(Of String, String)
+        Dim param As New Dictionary(Of String, String)
         param.Add("status", status)
         If replyToId > 0 Then param.Add("in_reply_to_status_id", replyToId.ToString)
         Try
@@ -97,7 +97,7 @@ Public Class HttpTwitter
     End Function
 
     Public Function DestroyStatus(ByVal id As Long) As HttpStatusCode
-        If HttpConnectionOAuth.AuthUsername = "" Then
+        If Me.AuthUsername = "" Then
             Return HttpStatusCode.Unauthorized
         End If
         Try
@@ -116,7 +116,7 @@ Public Class HttpTwitter
     End Function
 
     Public Function DestroyDirectMessage(ByVal id As Long) As HttpStatusCode
-        If HttpConnectionOAuth.AuthUsername = "" Then
+        If Me.AuthUsername = "" Then
             Return HttpStatusCode.Unauthorized
         End If
         Try
@@ -135,7 +135,7 @@ Public Class HttpTwitter
     End Function
 
     Public Function RetweetStatus(ByVal id As Long, ByRef content As String) As HttpStatusCode
-        If HttpConnectionOAuth.AuthUsername = "" Then
+        If Me.AuthUsername = "" Then
             Return HttpStatusCode.Unauthorized
         End If
         Try
@@ -154,10 +154,10 @@ Public Class HttpTwitter
     End Function
 
     Public Function CreateFriendships(ByVal screenName As String) As HttpStatusCode
-        If HttpConnectionOAuth.AuthUsername = "" Then
+        If Me.AuthUsername = "" Then
             Return HttpStatusCode.Unauthorized
         End If
-        Dim param As New SortedList(Of String, String)
+        Dim param As New Dictionary(Of String, String)
         param.Add("screen_name", screenName)
         Try
             Return GetContent(RequestMethod.ReqPost, _
@@ -175,10 +175,10 @@ Public Class HttpTwitter
     End Function
 
     Public Function DestroyFriendships(ByVal screenName As String) As HttpStatusCode
-        If HttpConnectionOAuth.AuthUsername = "" Then
+        If Me.AuthUsername = "" Then
             Return HttpStatusCode.Unauthorized
         End If
-        Dim param As New SortedList(Of String, String)
+        Dim param As New Dictionary(Of String, String)
         param.Add("screen_name", screenName)
         Try
             Return GetContent(RequestMethod.ReqPost, _
@@ -196,10 +196,10 @@ Public Class HttpTwitter
     End Function
 
     Public Function ShowFriendships(ByVal souceScreenName As String, ByVal targetScreenName As String, ByRef content As String) As HttpStatusCode
-        If HttpConnectionOAuth.AuthUsername = "" Then
+        If Me.AuthUsername = "" Then
             Return HttpStatusCode.Unauthorized
         End If
-        Dim param As New SortedList(Of String, String)
+        Dim param As New Dictionary(Of String, String)
         param.Add("source_screen_name", souceScreenName)
         param.Add("target_screen_name", targetScreenName)
         Try
@@ -218,7 +218,7 @@ Public Class HttpTwitter
     End Function
 
     Public Function ShowStatuses(ByVal id As Long, ByRef content As String) As HttpStatusCode
-        If HttpConnectionOAuth.AuthUsername = "" Then
+        If Me.AuthUsername = "" Then
             Return HttpStatusCode.Unauthorized
         End If
         Try
@@ -237,7 +237,7 @@ Public Class HttpTwitter
     End Function
 
     Public Function CreateFavorites(ByVal id As Long) As HttpStatusCode
-        If HttpConnectionOAuth.AuthUsername = "" Then
+        If Me.AuthUsername = "" Then
             Return HttpStatusCode.Unauthorized
         End If
         Try
@@ -256,7 +256,7 @@ Public Class HttpTwitter
     End Function
 
     Public Function DestroyFavorites(ByVal id As Long) As HttpStatusCode
-        If HttpConnectionOAuth.AuthUsername = "" Then
+        If Me.AuthUsername = "" Then
             Return HttpStatusCode.Unauthorized
         End If
         Try
@@ -275,10 +275,10 @@ Public Class HttpTwitter
     End Function
 
     Public Function HomeTimeline(ByVal count As Integer, ByRef content As String) As HttpStatusCode
-        If HttpConnectionOAuth.AuthUsername = "" Then
+        If Me.AuthUsername = "" Then
             Return HttpStatusCode.Unauthorized
         End If
-        Dim param As New SortedList(Of String, String)
+        Dim param As New Dictionary(Of String, String)
         If count > 0 Then
             param.Add("count", count.ToString())
         End If
@@ -298,10 +298,10 @@ Public Class HttpTwitter
     End Function
 
     Public Function Mentions(ByVal count As Integer, ByRef content As String) As HttpStatusCode
-        If HttpConnectionOAuth.AuthUsername = "" Then
+        If Me.AuthUsername = "" Then
             Return HttpStatusCode.Unauthorized
         End If
-        Dim param As New SortedList(Of String, String)
+        Dim param As New Dictionary(Of String, String)
         If count > 0 Then
             param.Add("count", count.ToString())
         End If
@@ -321,7 +321,7 @@ Public Class HttpTwitter
     End Function
 
     Public Function DirectMessages(ByRef content As String) As HttpStatusCode
-        If HttpConnectionOAuth.AuthUsername = "" Then
+        If Me.AuthUsername = "" Then
             Return HttpStatusCode.Unauthorized
         End If
         Try
@@ -340,7 +340,7 @@ Public Class HttpTwitter
     End Function
 
     Public Function DirectMessagesSent(ByRef content As String) As HttpStatusCode
-        If HttpConnectionOAuth.AuthUsername = "" Then
+        If Me.AuthUsername = "" Then
             Return HttpStatusCode.Unauthorized
         End If
         Try
@@ -359,10 +359,10 @@ Public Class HttpTwitter
     End Function
 
     Public Function Favorites(ByVal count As Integer, ByRef content As String) As HttpStatusCode
-        If HttpConnectionOAuth.AuthUsername = "" Then
+        If Me.AuthUsername = "" Then
             Return HttpStatusCode.Unauthorized
         End If
-        Dim param As New SortedList(Of String, String)
+        Dim param As New Dictionary(Of String, String)
         If count <> 20 Then param.Add("count", count.ToString())
         Try
             Return GetContent(RequestMethod.ReqGet, _
@@ -380,7 +380,7 @@ Public Class HttpTwitter
     End Function
 
     Public Function Search(ByVal words As String, ByVal lang As String, ByVal rpp As Integer, ByVal page As Integer, ByRef content As String) As HttpStatusCode
-        Dim param As New SortedList(Of String, String)
+        Dim param As New Dictionary(Of String, String)
         If Not String.IsNullOrEmpty(words) Then param.Add("q", words)
         If Not String.IsNullOrEmpty(lang) Then param.Add("lang", lang)
         If rpp > 0 Then param.Add("rpp", rpp.ToString())
@@ -405,10 +405,10 @@ Public Class HttpTwitter
     End Function
 
     Public Function FollowerIds(ByVal cursor As Long, ByRef content As String) As HttpStatusCode
-        If HttpConnectionOAuth.AuthUsername = "" Then
+        If Me.AuthUsername = "" Then
             Return HttpStatusCode.Unauthorized
         End If
-        Dim param As New SortedList(Of String, String)
+        Dim param As New Dictionary(Of String, String)
         param.Add("cursor", cursor.ToString())
         Try
             Return GetContent(RequestMethod.ReqGet, _
@@ -426,7 +426,7 @@ Public Class HttpTwitter
     End Function
 
     Public Function RateLimitStatus(ByRef content As String) As HttpStatusCode
-        If HttpConnectionOAuth.AuthUsername = "" Then
+        If Me.AuthUsername = "" Then
             Return HttpStatusCode.Unauthorized
         End If
         Try

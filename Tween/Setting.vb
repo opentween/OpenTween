@@ -286,6 +286,14 @@ Public Class Setting
         End Try
     End Sub
 
+    Private Sub Setting_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+        If Twitter.Username = "" Then
+            If MessageBox.Show(My.Resources.Setting_FormClosing1, "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
+                e.Cancel = True
+            End If
+        End If
+    End Sub
+
     Private Sub Setting_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         'Username.Text = _MyuserID
         'Password.Text = _Mypassword
@@ -1829,27 +1837,27 @@ Public Class Setting
         End Set
     End Property
 
-    Private Sub Username_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles Username.Validating
-        If Username.Text.Trim = "" Then
-            MessageBox.Show(My.Resources.Save_ClickText1)
-            e.Cancel = True
-            Exit Sub
-        End If
-        If Username.Text.Contains("@") Then
-            MessageBox.Show(My.Resources.Save_ClickText2)
-            e.Cancel = True
-            Exit Sub
-        End If
+    'Private Sub Username_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles Username.Validating
+    '    If Username.Text.Trim = "" Then
+    '        MessageBox.Show(My.Resources.Save_ClickText1)
+    '        e.Cancel = True
+    '        Exit Sub
+    '    End If
+    '    If Username.Text.Contains("@") Then
+    '        MessageBox.Show(My.Resources.Save_ClickText2)
+    '        e.Cancel = True
+    '        Exit Sub
+    '    End If
 
-    End Sub
+    'End Sub
 
-    Private Sub Password_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles Password.Validating
-        If Password.Text.Trim = "" Then
-            MessageBox.Show(My.Resources.Save_ClickText1)
-            e.Cancel = True
-            Exit Sub
-        End If
-    End Sub
+    'Private Sub Password_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles Password.Validating
+    '    If Password.Text.Trim = "" Then
+    '        MessageBox.Show(My.Resources.Save_ClickText1)
+    '        e.Cancel = True
+    '        Exit Sub
+    '    End If
+    'End Sub
 
     Private Sub ComboBoxAutoShortUrlFirst_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboBoxAutoShortUrlFirst.SelectedIndexChanged
         If ComboBoxAutoShortUrlFirst.SelectedIndex = UrlConverter.Bitly OrElse _
@@ -1940,5 +1948,6 @@ Public Class Setting
         Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
         Me.AuthUserLabel.Text = ""
     End Sub
+
 End Class
 

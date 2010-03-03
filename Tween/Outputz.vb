@@ -75,7 +75,7 @@ Public Module Outputz
 
         Dim content As String = ""
         Dim output As String = "http://outputz.com/api/post"
-        Dim param As New SortedList(Of String, String)
+        Dim param As New Dictionary(Of String, String)
         param.Add("key", myApikeyEncoded)
         param.Add("uri", myOuturlEncoded)
         param.Add("size", length.ToString)
