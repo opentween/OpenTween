@@ -431,7 +431,7 @@ Public Class HttpTwitter
         End If
         Try
             Return GetContent(RequestMethod.ReqGet, _
-                            New Uri(_protocol + "api.twitter.com/1/rate_limit_status.xml"), _
+                            New Uri(_protocol + "api.twitter.com/1/account/rate_limit_status.xml"), _
                             Nothing, _
                             content, _
                             Nothing)
