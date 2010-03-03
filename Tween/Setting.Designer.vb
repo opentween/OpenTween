@@ -127,6 +127,7 @@ Partial Class Setting
         Me.Label47 = New System.Windows.Forms.Label
         Me.TabControl1 = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
+        Me.AuthClearButton = New System.Windows.Forms.Button
         Me.AuthUserLabel = New System.Windows.Forms.Label
         Me.AuthStateLabel = New System.Windows.Forms.Label
         Me.Label4 = New System.Windows.Forms.Label
@@ -217,7 +218,6 @@ Partial Class Setting
         Me.Label59 = New System.Windows.Forms.Label
         Me.TextBoxOutputzKey = New System.Windows.Forms.TextBox
         Me.CheckOutputz = New System.Windows.Forms.CheckBox
-        Me.AuthClearButton = New System.Windows.Forms.Button
         Me.GroupBox1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
@@ -889,6 +889,12 @@ Partial Class Setting
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.UseVisualStyleBackColor = True
         '
+        'AuthClearButton
+        '
+        resources.ApplyResources(Me.AuthClearButton, "AuthClearButton")
+        Me.AuthClearButton.Name = "AuthClearButton"
+        Me.AuthClearButton.UseVisualStyleBackColor = True
+        '
         'AuthUserLabel
         '
         Me.AuthUserLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
@@ -1501,12 +1507,6 @@ Partial Class Setting
         resources.ApplyResources(Me.CheckOutputz, "CheckOutputz")
         Me.CheckOutputz.Name = "CheckOutputz"
         Me.CheckOutputz.UseVisualStyleBackColor = True
-        '
-        'AuthClearButton
-        '
-        resources.ApplyResources(Me.AuthClearButton, "AuthClearButton")
-        Me.AuthClearButton.Name = "AuthClearButton"
-        Me.AuthClearButton.UseVisualStyleBackColor = True
         '
         'Setting
         '

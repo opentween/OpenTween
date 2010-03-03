@@ -808,4 +808,7 @@
   <data name="AuthorizeButton_Click4" xml:space="preserve">
     <value>未認証</value>
   </data>
+  <data name="Setting_FormClosing1" xml:space="preserve">
+    <value>アカウントが認証されていません。閉じてもよろしいですか？</value>
+  </data>
 </root>

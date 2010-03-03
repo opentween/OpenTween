@@ -2974,7 +2974,7 @@ Public Module Twitter
 
     Public Function MakeShortUrl(ByVal ConverterType As UrlConverter, ByVal SrcUrl As String) As String
         Dim src As String = urlEncodeMultibyteChar(SrcUrl)
-        Dim param As New SortedList(Of String, String)
+        Dim param As New Dictionary(Of String, String)
         Dim content As String = ""
 
         For Each svc As String In _ShortUrlService
@@ -3236,6 +3236,11 @@ Public Module Twitter
     Public WriteOnly Property UseSsl() As Boolean
         Set(ByVal value As Boolean)
             HttpTwitter.UseSsl = value
+            If value Then
+                _protocol = "https://"
+            Else
+                _protocol = "http://"
+            End If
         End Set
     End Property
 
@@ -3856,40 +3861,32 @@ Public Module Twitter
         'Dim retStr As String = HttpUtility.HtmlDecode(Text)
         Dim retStr As String = ""
         'uriの正規表現
-        Dim rgUrl As Regex = New Regex("(?<![0-9A-Za-z=])(?:https?|shttp|ftps?)://(?:(?:[-_.!~*'()a-zA-Z0-9;:&=+$,]|%[0-9A-Fa-f" + _
-                         "][0-9A-Fa-f])*@)?(?:(?:[a-zA-Z0-9](?:[-a-zA-Z0-9]*[a-zA-Z0-9])?\.)" + _
-                         "*[a-zA-Z](?:[-a-zA-Z0-9]*[a-zA-Z0-9])?\.?|[0-9]+\.[0-9]+\.[0-9]+\." + _
-                         "[0-9]+)(?::[0-9]*)?(?:/(?:[-_.!~*'()a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f]" + _
-                         "[0-9A-Fa-f])*(?:;(?:[-_.!~*'()a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-" + _
-                         "Fa-f])*)*(?:/(?:[-_.!~*'()a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f" + _
-                         "])*(?:;(?:[-_.!~*'()a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)*)" + _
-                         "*)?(?:\?(?:[-_.!~*'()a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])" + _
-                         "*)?(?:#(?:[-_.!~*'()a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)?")
-        Dim rgUrl2 As Regex = New Regex("(?<![^\/""':!=]|^|\:)" + _
-                                    "(?:https?://|www\.)" + _
-                                    "((?:[\.-]|[^\p{IsGeneralPunctuation}])+\.[a-z]{2,}(?::[0-9]+)?)" + _
-                                    "(/[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9)=#/]?)?" + _
-                                    "(\?[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9_&=#])?)")
+        'Dim rgUrl As Regex = New Regex("(?<![0-9A-Za-z=])(?:https?|shttp|ftps?)://(?:(?:[-_.!~*'()a-zA-Z0-9;:&=+$,]|%[0-9A-Fa-f" + _
+        '                 "][0-9A-Fa-f])*@)?(?:(?:[a-zA-Z0-9](?:[-a-zA-Z0-9]*[a-zA-Z0-9])?\.)" + _
+        '                 "*[a-zA-Z](?:[-a-zA-Z0-9]*[a-zA-Z0-9])?\.?|[0-9]+\.[0-9]+\.[0-9]+\." + _
+        '                 "[0-9]+)(?::[0-9]*)?(?:/(?:[-_.!~*'()a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f]" + _
+        '                 "[0-9A-Fa-f])*(?:;(?:[-_.!~*'()a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-" + _
+        '                 "Fa-f])*)*(?:/(?:[-_.!~*'()a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f" + _
+        '                 "])*(?:;(?:[-_.!~*'()a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)*)" + _
+        '                 "*)?(?:\?(?:[-_.!~*'()a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])" + _
+        '                 "*)?(?:#(?:[-_.!~*'()a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)?")
+        Dim rgUrl As Regex = New Regex("(?<before>(?:[^\/""':!=]|^|\:))" + _
+                                    "(?<url>(?<protocol>https?://|www\.)" + _
+                                    "(?<domain>(?:[\.-]|[^\p{P}])+\.[a-z]{2,}(?::[0-9]+)?)" + _
+                                    "(?<path>/[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9)=#/]?)?" + _
+                                    "(?<query>\?[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9_&=#])?)", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
         '絶対パス表現のUriをリンクに置換
-        retStr = rgUrl.Replace(Text, "<a href=""$&"">$&</a>")
-        'Dim mts As MatchCollection = rgUrl.Matches(retStr)
-        '''半角スペースを置換（Thanks @anis774）
-        ''Text = Text.Replace(" ", "&nbsp;")                  'HttpUtility.HtmlEncode()ではスペースが処理されない為
-
-        'For Each mt As Match In mts
-        '    Text = Text.Replace(mt.Result("$&"), "<a href=""" + mt.Result("$&") + """>" + mt.Result("$&") + "</a>")
-        'Next
-        'retStr = Text
+        retStr = rgUrl.Replace(Text, New MatchEvaluator(AddressOf AutoLinkUrl))
 
         '@返信を抽出し、@先リスト作成
         'Dim rg As New Regex("(^|[ -/:-@[-^`{-~])@([a-zA-Z0-9_]{1,20}/[a-zA-Z0-9_\-]{1,24}[a-zA-Z0-9_])")
-        Dim rg As New Regex("(^|[^a-zA-Z0-9_])[@＠]([a-zA-Z0-9_]{1,20}/[a-zA-Z0-9_\-]{1,80}[a-zA-Z0-9_])")
+        Dim rg As New Regex("(^|[^a-zA-Z0-9_])[@＠]([a-zA-Z0-9_]{1,20}/[a-zA-Z0-9_\-]{1,79}[a-zA-Z0-9_])", RegexOptions.Compiled)
         Dim m As Match = rg.Match(retStr)
         '@先をリンクに置換
         retStr = rg.Replace(retStr, "$1@<a href=""/$2"">$2</a>")
 
         'rg = New Regex("(^|[ -/:-@[-^`{-~])@([a-zA-Z0-9_]{1,20})")
-        rg = New Regex("(^|[^a-zA-Z0-9_])[@＠]([a-zA-Z0-9_]{1,20})")
+        rg = New Regex("(^|[^a-zA-Z0-9_])[@＠]([a-zA-Z0-9_]{1,20})", RegexOptions.Compiled)
         m = rg.Match(retStr)
         While m.Success
             AtList.Add(m.Result("$2").ToLower)
@@ -3900,7 +3897,7 @@ Public Module Twitter
 
         'ハッシュタグを抽出し、リンクに置換
         'Dim rgh As New Regex("(^|[ .!,\-:;<>?])#([^] !""#$%&'()*+,.:;<=>?@\-[\^`{|}~\r\n]+)")
-        Dim rgh As New Regex("(^|[^a-zA-Z0-9_/&])[#＃]([a-zA-Z0-9_]+)")
+        Dim rgh As New Regex("(^|[^a-zA-Z0-9_/&])[#＃]([a-zA-Z0-9_]+)", RegexOptions.Compiled)
         Dim mhs As MatchCollection = rgh.Matches(retStr)
         For Each mt As Match In mhs
             If Not IsNumeric(mt.Result("$2")) Then
@@ -3910,22 +3907,25 @@ Public Module Twitter
                 End SyncLock
             End If
         Next
-        retStr = rgh.Replace(retStr, "$1<a href=""" + _protocol + "twitter.com/search?q=%23$2"">#$2</a>")
-        '数字のみハッシュタグを戻す
-        Dim rgnh As New Regex("<a href=""" + _protocol + "twitter.com/search\?q=%23[0-9]+"">(#[0-9]+)</a>")
-        retStr = rgnh.Replace(retStr, "$1")
-        'If mh.Success Then
-        '    retStr = rgh.Replace(retStr, "$1<a href=""" + _protocol + "twitter.com/search?q=%23$2"">#$2</a>")
-        'End If
-        'While mh.Success
-        '    SyncLock LockObj
-        '        _hashList.Add("#" + mh.Result("$2"))
-        '    End SyncLock
-        '    mh = mh.NextMatch
-        'End While
+        retStr = rgh.Replace(retStr, New MatchEvaluator(AddressOf AutoLinkHashtag))
 
         retStr = AdjustHtml(ShortUrlResolve(PreProcessUrl(retStr))) 'IDN置換、短縮Uri解決、@リンクを相対→絶対にしてtarget属性付与
         Return retStr
+    End Function
+
+    Private Function AutoLinkUrl(ByVal m As Match) As String
+        Dim sb As New StringBuilder(m.Result("${before}<a href="""))
+        If m.Result("${protocol}").StartsWith("w", StringComparison.OrdinalIgnoreCase) Then
+            sb.Append("http://")
+        End If
+        sb.Append(m.Result("${url}"">")).Append(m.Result("${url}")).Append("</a>")
+        Return sb.ToString
+    End Function
+
+    Private Function AutoLinkHashtag(ByVal m As Match) As String
+        If IsNumeric(m.Result("$2")) Then Return m.Result("$1#$2")
+        Dim sb As New StringBuilder(m.Result("$1<a href="""))
+        Return sb.Append(_protocol).Append("twitter.com/search?q=%23").Append(m.Result("$2"">#$2</a>")).ToString
     End Function
 
     Public ReadOnly Property RemainCountApi() As Integer
@@ -4044,4 +4044,5 @@ Public Module Twitter
             Return twCon.AccessTokenSecret
         End Get
     End Property
+
 End Module

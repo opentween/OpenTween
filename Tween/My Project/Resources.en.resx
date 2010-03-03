@@ -756,4 +756,7 @@
   <data name="AuthorizeButton_Click4" xml:space="preserve">
     <value>Not authenticated</value>
   </data>
+  <data name="Setting_FormClosing1" xml:space="preserve">
+    <value>Account is not Validated. Will you close setting dialog?</value>
+  </data>
 </root>

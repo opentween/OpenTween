@@ -34,7 +34,7 @@ Public Class HttpVarious
         End Try
     End Function
 
-    Public Function PostData(ByVal Url As String, ByVal param As SortedList(Of String, String)) As Boolean
+    Public Function PostData(ByVal Url As String, ByVal param As Dictionary(Of String, String)) As Boolean
         Dim req As HttpWebRequest = CreateRequest(RequestMethod.ReqPost, New Uri(Url), param, False)
         Try
             Dim res As HttpStatusCode = Me.GetResponse(req, Nothing, False)
@@ -45,7 +45,7 @@ Public Class HttpVarious
         End Try
     End Function
 
-    Public Function PostData(ByVal Url As String, ByVal param As SortedList(Of String, String), ByRef content As String) As Boolean
+    Public Function PostData(ByVal Url As String, ByVal param As Dictionary(Of String, String), ByRef content As String) As Boolean
         Dim req As HttpWebRequest = CreateRequest(RequestMethod.ReqPost, New Uri(Url), param, False)
         Try
             Dim res As HttpStatusCode = Me.GetResponse(req, content, Nothing, False)
@@ -56,7 +56,7 @@ Public Class HttpVarious
         End Try
     End Function
 
-    Public Function GetData(ByVal Url As String, ByVal param As SortedList(Of String, String), ByRef content As String) As Boolean
+    Public Function GetData(ByVal Url As String, ByVal param As Dictionary(Of String, String), ByRef content As String) As Boolean
         Dim req As HttpWebRequest = CreateRequest(RequestMethod.ReqGet, New Uri(Url), param, False)
         Try
             Dim res As HttpStatusCode = Me.GetResponse(req, content, Nothing, False)

@@ -273,7 +273,7 @@
     <value>130, 12</value>
   </data>
   <data name="Label3.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="Label3.Text" xml:space="preserve">
     <value>タイムライン更新間隔（秒）</value>
@@ -297,7 +297,7 @@
     <value>65, 19</value>
   </data>
   <data name="TimelinePeriod.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="&gt;&gt;TimelinePeriod.Name" xml:space="preserve">
     <value>TimelinePeriod</value>
@@ -2989,7 +2989,7 @@
     <value>75, 23</value>
   </data>
   <data name="AuthorizeButton.TabIndex" type="System.Int32, mscorlib">
-    <value>43</value>
+    <value>4</value>
   </data>
   <data name="AuthorizeButton.Text" xml:space="preserve">
     <value>認証する</value>
@@ -3142,7 +3142,7 @@
     <value>84, 16</value>
   </data>
   <data name="CheckPostAndGet.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="CheckPostAndGet.Text" xml:space="preserve">
     <value>投稿時取得</value>

@@ -139,29 +139,11 @@
   <data name="Label3.Text" xml:space="preserve">
     <value>Timeline Fetching Interval (sec.)</value>
   </data>
-  <data name="Label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 12</value>
-  </data>
-  <data name="Label4.Text" xml:space="preserve">
-    <value>Threshold of Fetching (1-20)</value>
-  </data>
   <data name="Label5.Size" type="System.Drawing.Size, System.Drawing">
     <value>144, 12</value>
   </data>
   <data name="Label5.Text" xml:space="preserve">
     <value>DM Fetching Interval (sec.)</value>
-  </data>
-  <data name="Label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>205, 12</value>
-  </data>
-  <data name="Label6.Text" xml:space="preserve">
-    <value>Fetching Pages at Once over threshold</value>
-  </data>
-  <data name="Label8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>142, 12</value>
-  </data>
-  <data name="Label8.Text" xml:space="preserve">
-    <value>First-time Fetching Pages:</value>
   </data>
   <data name="Label9.Size" type="System.Drawing.Size, System.Drawing">
     <value>135, 12</value>
@@ -478,12 +460,6 @@
   <data name="Label44.Text" xml:space="preserve">
     <value>Path to Browser</value>
   </data>
-  <data name="CheckboxReply.Size" type="System.Drawing.Size, System.Drawing">
-    <value>95, 16</value>
-  </data>
-  <data name="CheckboxReply.Text" xml:space="preserve">
-    <value>Fetch Replies</value>
-  </data>
   <data name="CheckDispUsername.Size" type="System.Drawing.Size, System.Drawing">
     <value>58, 16</value>
   </data>
@@ -529,23 +505,23 @@
   <data name="Label47.Text" xml:space="preserve">
     <value>Apply after restarting</value>
   </data>
+  <data name="AuthClearButton.Text" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="Label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>65, 12</value>
+  </data>
+  <data name="Label4.Text" xml:space="preserve">
+    <value>Auth status</value>
+  </data>
+  <data name="AuthorizeButton.Text" xml:space="preserve">
+    <value>Auth</value>
+  </data>
   <data name="Label7.Size" type="System.Drawing.Size, System.Drawing">
     <value>149, 12</value>
   </data>
   <data name="Label7.Text" xml:space="preserve">
     <value>Public Search Interval (sec.)</value>
-  </data>
-  <data name="Label70.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 12</value>
-  </data>
-  <data name="Label70.Text" xml:space="preserve">
-    <value>Show warning if API isn't enabled</value>
-  </data>
-  <data name="CheckStartupAPImodeNoWarning.Size" type="System.Drawing.Size, System.Drawing">
-    <value>80, 16</value>
-  </data>
-  <data name="CheckStartupAPImodeNoWarning.Text" xml:space="preserve">
-    <value>Don't show</value>
   </data>
   <data name="Label69.Size" type="System.Drawing.Size, System.Drawing">
     <value>156, 12</value>
@@ -565,30 +541,6 @@
   <data name="Label67.Text" xml:space="preserve">
     <value>Getting number of tweets/mentions in API </value>
   </data>
-  <data name="Label66.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 12</value>
-  </data>
-  <data name="Label66.Text" xml:space="preserve">
-    <value>POST method</value>
-  </data>
-  <data name="CheckPostMethod.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 16</value>
-  </data>
-  <data name="CheckPostMethod.Text" xml:space="preserve">
-    <value>Enable</value>
-  </data>
-  <data name="Label43.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 12</value>
-  </data>
-  <data name="Label43.Text" xml:space="preserve">
-    <value>TwitterAPI</value>
-  </data>
-  <data name="CheckUseApi.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 16</value>
-  </data>
-  <data name="CheckUseApi.Text" xml:space="preserve">
-    <value>Enable</value>
-  </data>
   <data name="Label54.Size" type="System.Drawing.Size, System.Drawing">
     <value>131, 12</value>
   </data>
@@ -599,18 +551,6 @@
     <value>58, 16</value>
   </data>
   <data name="CheckStartupFollowers.Text" xml:space="preserve">
-    <value>Enable</value>
-  </data>
-  <data name="Label53.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 12</value>
-  </data>
-  <data name="Label53.Text" xml:space="preserve">
-    <value>Update Parsing Keys in Starting</value>
-  </data>
-  <data name="CheckStartupKey.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 16</value>
-  </data>
-  <data name="CheckStartupKey.Text" xml:space="preserve">
     <value>Enable</value>
   </data>
   <data name="Label51.Size" type="System.Drawing.Size, System.Drawing">
