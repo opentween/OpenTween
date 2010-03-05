@@ -78,7 +78,7 @@ Public Class Setting
     Private _MyMinimizeToTray As Boolean
     Private _MyCloseToExit As Boolean
     Private _MyTinyUrlResolve As Boolean
-    Private _MyProxyType As ProxyType
+    Private _MyProxyType As HttpConnection.ProxyType
     Private _MyProxyAddress As String
     Private _MyProxyPort As Integer
     Private _MyProxyUser As String
@@ -213,11 +213,11 @@ Public Class Setting
             _MySortOrderLock = CheckSortOrderLock.Checked
             _MyTinyUrlResolve = CheckTinyURL.Checked
             If RadioProxyNone.Checked Then
-                _MyProxyType = ProxyType.None
+                _MyProxyType = HttpConnection.ProxyType.None
             ElseIf RadioProxyIE.Checked Then
-                _MyProxyType = ProxyType.IE
+                _MyProxyType = HttpConnection.ProxyType.IE
             Else
-                _MyProxyType = ProxyType.Specified
+                _MyProxyType = HttpConnection.ProxyType.Specified
             End If
             _MyProxyAddress = TextProxyAddress.Text.Trim()
             _MyProxyPort = Integer.Parse(TextProxyPort.Text.Trim())
@@ -232,17 +232,17 @@ Public Class Setting
             _MyAlwaysTop = CheckAlwaysTop.Checked
             _MyUrlConvertAuto = CheckAutoConvertUrl.Checked
             _MyOutputz = CheckOutputz.Checked
-            Outputz.Enabled = _MyOutputz
+            Outputz.outputzEnabled = _MyOutputz
             _MyOutputzKey = TextBoxOutputzKey.Text.Trim()
-            Outputz.key = _MyOutputzKey
+            Outputz.outputzKey = _MyOutputzKey
 
             Select Case ComboBoxOutputzUrlmode.SelectedIndex
                 Case 0
                     _MyOutputzUrlmode = OutputzUrlmode.twittercom
-                    Outputz.url = "http://twitter.com/"
+                    Outputz.outputzUrl = "http://twitter.com/"
                 Case 1
                     _MyOutputzUrlmode = OutputzUrlmode.twittercomWithUsername
-                    Outputz.url = "http://twitter.com/" + Twitter.Username
+                    Outputz.outputzUrl = "http://twitter.com/" + Twitter.Username
             End Select
 
             _MyNicoms = CheckNicoms.Checked
@@ -424,9 +424,9 @@ Public Class Setting
         CheckSortOrderLock.Checked = _MySortOrderLock
         CheckTinyURL.Checked = _MyTinyUrlResolve
         Select Case _MyProxyType
-            Case ProxyType.None
+            Case HttpConnection.ProxyType.None
                 RadioProxyNone.Checked = True
-            Case ProxyType.IE
+            Case HttpConnection.ProxyType.IE
                 RadioProxyIE.Checked = True
             Case Else
                 RadioProxySpecified.Checked = True
@@ -455,9 +455,9 @@ Public Class Setting
         CheckAlwaysTop.Checked = _MyAlwaysTop
         CheckAutoConvertUrl.Checked = _MyUrlConvertAuto
         CheckOutputz.Checked = _MyOutputz
-        Outputz.Enabled = _MyOutputz
+        Outputz.outputzEnabled = _MyOutputz
         TextBoxOutputzKey.Text = _MyOutputzKey
-        Outputz.key = _MyOutputzKey
+        Outputz.outputzKey = _MyOutputzKey
 
         Select Case _MyOutputzUrlmode
             Case OutputzUrlmode.twittercom
@@ -1361,11 +1361,11 @@ Public Class Setting
         End Set
     End Property
 
-    Public Property SelectedProxyType() As ProxyType
+    Public Property SelectedProxyType() As HttpConnection.ProxyType
         Get
             Return _MyProxyType
         End Get
-        Set(ByVal value As ProxyType)
+        Set(ByVal value As HttpConnection.ProxyType)
             _MyProxyType = value
         End Set
     End Property
@@ -1920,11 +1920,11 @@ Public Class Setting
 
         '現在の設定内容で通信
         If RadioProxyNone.Checked Then
-            _MyProxyType = ProxyType.None
+            _MyProxyType = HttpConnection.ProxyType.None
         ElseIf RadioProxyIE.Checked Then
-            _MyProxyType = ProxyType.IE
+            _MyProxyType = HttpConnection.ProxyType.IE
         Else
-            _MyProxyType = ProxyType.Specified
+            _MyProxyType = HttpConnection.ProxyType.Specified
         End If
         _MyProxyAddress = TextProxyAddress.Text.Trim()
         _MyProxyPort = Integer.Parse(TextProxyPort.Text.Trim())
@@ -1933,7 +1933,7 @@ Public Class Setting
 
         '通信基底クラス初期化
         HttpConnection.InitializeConnection(20, _MyProxyType, _MyProxyAddress, _MyProxyPort, _MyProxyUser, _MyProxyPassword)
-        Dim rslt As Boolean = Twitter.Authorize(user, pwd)
+        Dim rslt As Boolean = Twitter.Authenticate(user, pwd)
         If rslt Then
             MessageBox.Show(My.Resources.AuthorizeButton_Click1, "Authenticate", MessageBoxButtons.OK)
             Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3

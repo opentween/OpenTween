@@ -1256,7 +1256,7 @@ Public NotInheritable Class TabInformations
         '合致しなければNothingを返す
         SyncLock LockObj
             For Each tb As TabClass In _tabs.Values
-                If tb.TabType = tabType Then Return tb
+                If tb IsNot Nothing AndAlso tb.TabType = tabType Then Return tb
             Next
             Return Nothing
         End SyncLock

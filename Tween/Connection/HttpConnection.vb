@@ -9,7 +9,7 @@ Imports System.Text
 '''</summary>
 '''<remarks>
 '''プロキシ情報などを設定するため、使用前に静的メソッドInitializeConnectionを呼び出すこと。
-'''通信方式によって必要になるHTTPヘッダの付加などは、派生クラスでGetContentメソッドをオーバーライドして行う。
+'''通信方式によって必要になるHTTPヘッダの付加などは、派生クラスで行う。
 '''</remarks>
 Public Class HttpConnection
     '''<summary>
@@ -20,7 +20,7 @@ Public Class HttpConnection
     '''<summary>
     '''ユーザーが選択したプロキシの方式
     '''</summary>
-    Private Shared proxyType As ProxyType = ProxyType.IE
+    Private Shared proxyKind As ProxyType = proxyType.IE
 
     '''<summary>
     '''クッキー保存用コンテナ
@@ -32,29 +32,26 @@ Public Class HttpConnection
     '''</summary>
     Private Shared isInitialize As Boolean = False
 
-    '''<summary>
-    '''HTTP通信のメソッド
-    '''</summary>
-    '''<remarks>
-    '''他のメソッド（HEAD,PUT,CONNECTなど）が必要な場合は追加すること
-    '''</remarks>
-    Public Enum RequestMethod
-        ReqGet
-        ReqPost
+    Public Enum ProxyType
+        None
+        IE
+        Specified
     End Enum
 
     '''<summary>
-    '''HttpWebRequestオブジェクトを取得する
+    '''HttpWebRequestオブジェクトを取得する。パラメータはGET/HEAD/DELETEではクエリに、POST/PUTではエンティティボディに変換される。
     '''</summary>
     '''<remarks>
-    '''必要なヘッダ類は呼び出し元で付加すること
+    '''追加で必要となるHTTPヘッダや通信オプションは呼び出し元で付加すること
     '''（Timeout,AutomaticDecompression,AllowAutoRedirect,UserAgent,ContentType,Accept,HttpRequestHeader.Authorization,カスタムヘッダ）
-    '''<param name="method">HTTP通信メソッド（GET/POSTなど）</param>
+    '''POST/PUTでクエリが必要な場合は、requestUriに含めること。
+    '''</remarks>
+    '''<param name="method">HTTP通信メソッド（GET/HEAD/POST/PUT/DELETE）</param>
     '''<param name="requestUri">通信先URI</param>
-    '''<param name="param">GET時のクエリ、またはPOST時のボディデータ</param>
+    '''<param name="param">GET時のクエリ、またはPOST時のエンティティボディ</param>
     '''<param name="withCookie">通信にcookieを使用するか</param>
     '''<returns>引数で指定された内容を反映したHttpWebRequestオブジェクト</returns>
-    Protected Function CreateRequest(ByVal method As RequestMethod, _
+    Protected Function CreateRequest(ByVal method As String, _
                                             ByVal requestUri As Uri, _
                                             ByVal param As Dictionary(Of String, String), _
                                             ByVal withCookie As Boolean _
@@ -63,21 +60,19 @@ Public Class HttpConnection
 
         'GETメソッドの場合はクエリとurlを結合
         Dim ub As New UriBuilder(requestUri.AbsoluteUri)
-        If method = RequestMethod.ReqGet Then
+        If method = "GET" OrElse method = "DELETE" OrElse method = "HEAD" Then
             ub.Query = CreateQueryString(param)
         End If
 
         Dim webReq As HttpWebRequest = DirectCast(WebRequest.Create(ub.Uri), HttpWebRequest)
 
         'プロキシ設定
-        If proxyType <> proxyType.IE Then webReq.Proxy = proxy
+        If proxyKind <> ProxyType.IE Then webReq.Proxy = proxy
 
-        If method = RequestMethod.ReqGet Then
-            webReq.Method = "GET"
-        Else
-            webReq.Method = "POST"
+        webReq.Method = method
+        If method = "POST" OrElse method = "PUT" Then
             webReq.ContentType = "application/x-www-form-urlencoded"
-            'POSTメソッドの場合は、ボディデータとしてクエリ構成して書き込み
+            'POST/PUTメソッドの場合は、ボディデータとしてクエリ構成して書き込み
             Using writer As New StreamWriter(webReq.GetRequestStream)
                 writer.Write(CreateQueryString(param))
             End Using
@@ -91,15 +86,16 @@ Public Class HttpConnection
     End Function
 
     '''<summary>
-    '''HTTPの応答を処理し、ストリームのコピーを返却
+    '''HTTPの応答を処理し、引数で指定されたストリームに書き込み
     '''</summary>
     '''<remarks>
-    '''リダイレクト応答の場合（AllowAutoRedirect=Falseの場合のみ）は、headerInfoインスタンスがあればLocationを追加してリダイレクト先を返却。ボディデータは処理しない。
+    '''リダイレクト応答の場合（AllowAutoRedirect=Falseの場合のみ）は、headerInfoインスタンスがあればLocationを追加してリダイレクト先を返却
     '''WebExceptionはハンドルしていないので、呼び出し元でキャッチすること
+    '''gzipファイルのダウンロードを想定しているため、他形式の場合は伸張時に問題が発生する可能性があります。
     '''</remarks>
     '''<param name="webRequest">HTTP通信リクエストオブジェクト</param>
-    '''<param name="contentStream">[OUT]HTTP応答のボディストリームのコピー書き込み用</param>
-    '''<param name="headerInfo">[IN/OUT]HTTP応答のヘッダ情報。ヘッダ名をキーにして空データのコレクションを渡すことで、該当のヘッダをデータに設定して戻す</param>
+    '''<param name="contentStream">[OUT]HTTP応答のボディストリームのコピー先</param>
+    '''<param name="headerInfo">[IN/OUT]HTTP応答のヘッダ情報。ヘッダ名をキーにして空データのコレクションを渡すことで、該当ヘッダの値をデータに設定して戻す</param>
     '''<param name="withCookie">通信にcookieを使用する</param>
     '''<returns>HTTP応答のステータスコード</returns>
     Protected Function GetResponse(ByVal webRequest As HttpWebRequest, _
@@ -111,10 +107,11 @@ Public Class HttpConnection
             Dim statusCode As HttpStatusCode = webRes.StatusCode
             'cookie保持
             If withCookie Then SaveCookie(webRes.Cookies)
-            'リダイレクト応答の場合は、リダイレクト先を設定して終了
+            'リダイレクト応答の場合は、リダイレクト先を設定
             GetHeaderInfo(webRes, headerInfo)
             '応答のストリームをコピーして戻す
             If webRes.ContentLength > 0 Then
+                'gzipなら応答ストリームの内容は伸張済み。それ以外なら伸張する。
                 If webRes.ContentEncoding = "gzip" OrElse webRes.ContentEncoding = "deflate" Then
                     Using stream As Stream = webRes.GetResponseStream()
                         If stream IsNot Nothing Then CopyStream(stream, contentStream)
@@ -129,6 +126,19 @@ Public Class HttpConnection
         End Using
     End Function
 
+    '''<summary>
+    '''HTTPの応答を処理し、応答ボディデータをテキストとして返却する
+    '''</summary>
+    '''<remarks>
+    '''リダイレクト応答の場合（AllowAutoRedirect=Falseの場合のみ）は、headerInfoインスタンスがあればLocationを追加してリダイレクト先を返却
+    '''WebExceptionはハンドルしていないので、呼び出し元でキャッチすること
+    '''テキストの文字コードはUTF-8を前提として、エンコードはしていません
+    '''</remarks>
+    '''<param name="webRequest">HTTP通信リクエストオブジェクト</param>
+    '''<param name="contentText">[OUT]HTTP応答のボディデータ</param>
+    '''<param name="headerInfo">[IN/OUT]HTTP応答のヘッダ情報。ヘッダ名をキーにして空データのコレクションを渡すことで、該当ヘッダの値をデータに設定して戻す</param>
+    '''<param name="withCookie">通信にcookieを使用する</param>
+    '''<returns>HTTP応答のステータスコード</returns>
     Protected Function GetResponse(ByVal webRequest As HttpWebRequest, _
                                         ByRef contentText As String, _
                                         ByVal headerInfo As Dictionary(Of String, String), _
@@ -138,9 +148,9 @@ Public Class HttpConnection
             Dim statusCode As HttpStatusCode = webRes.StatusCode
             'cookie保持
             If withCookie Then SaveCookie(webRes.Cookies)
-            'リダイレクト応答の場合は、リダイレクト先を設定して終了
+            'リダイレクト応答の場合は、リダイレクト先を設定
             GetHeaderInfo(webRes, headerInfo)
-            '応答のストリームをテキストに書き出して戻す
+            '応答のストリームをテキストに書き出し
             If contentText Is Nothing Then Throw New ArgumentNullException("contentText")
             If webRes.ContentLength > 0 Then
                 Using sr As StreamReader = New StreamReader(webRes.GetResponseStream)
@@ -151,6 +161,17 @@ Public Class HttpConnection
         End Using
     End Function
 
+    '''<summary>
+    '''HTTPの応答を処理します。応答ボディデータが不要な用途向け。
+    '''</summary>
+    '''<remarks>
+    '''リダイレクト応答の場合（AllowAutoRedirect=Falseの場合のみ）は、headerInfoインスタンスがあればLocationを追加してリダイレクト先を返却
+    '''WebExceptionはハンドルしていないので、呼び出し元でキャッチすること
+    '''</remarks>
+    '''<param name="webRequest">HTTP通信リクエストオブジェクト</param>
+    '''<param name="headerInfo">[IN/OUT]HTTP応答のヘッダ情報。ヘッダ名をキーにして空データのコレクションを渡すことで、該当ヘッダの値をデータに設定して戻す</param>
+    '''<param name="withCookie">通信にcookieを使用する</param>
+    '''<returns>HTTP応答のステータスコード</returns>
     Protected Function GetResponse(ByVal webRequest As HttpWebRequest, _
                                         ByVal headerInfo As Dictionary(Of String, String), _
                                         ByVal withCookie As Boolean _
@@ -159,12 +180,24 @@ Public Class HttpConnection
             Dim statusCode As HttpStatusCode = webRes.StatusCode
             'cookie保持
             If withCookie Then SaveCookie(webRes.Cookies)
-            'リダイレクト応答の場合は、リダイレクト先を設定して終了
+            'リダイレクト応答の場合は、リダイレクト先を設定
             GetHeaderInfo(webRes, headerInfo)
             Return statusCode
         End Using
     End Function
 
+    '''<summary>
+    '''HTTPの応答を処理し、応答ボディデータをBitmapとして返却します
+    '''</summary>
+    '''<remarks>
+    '''リダイレクト応答の場合（AllowAutoRedirect=Falseの場合のみ）は、headerInfoインスタンスがあればLocationを追加してリダイレクト先を返却
+    '''WebExceptionはハンドルしていないので、呼び出し元でキャッチすること
+    '''</remarks>
+    '''<param name="webRequest">HTTP通信リクエストオブジェクト</param>
+    '''<param name="contentText">[OUT]HTTP応答のボディデータを書き込むBitmap</param>
+    '''<param name="headerInfo">[IN/OUT]HTTP応答のヘッダ情報。ヘッダ名をキーにして空データのコレクションを渡すことで、該当ヘッダの値をデータに設定して戻す</param>
+    '''<param name="withCookie">通信にcookieを使用する</param>
+    '''<returns>HTTP応答のステータスコード</returns>
     Protected Function GetResponse(ByVal webRequest As HttpWebRequest, _
                                         ByRef contentBitmap As Bitmap, _
                                         ByVal headerInfo As Dictionary(Of String, String), _
@@ -174,7 +207,7 @@ Public Class HttpConnection
             Dim statusCode As HttpStatusCode = webRes.StatusCode
             'cookie保持
             If withCookie Then SaveCookie(webRes.Cookies)
-            'リダイレクト応答の場合は、リダイレクト先を設定して終了
+            'リダイレクト応答の場合は、リダイレクト先を設定
             GetHeaderInfo(webRes, headerInfo)
             '応答のストリームをBitmapにして戻す
             If webRes.ContentLength > 0 Then contentBitmap = New Bitmap(webRes.GetResponseStream)
@@ -182,6 +215,9 @@ Public Class HttpConnection
         End Using
     End Function
 
+    '''<summary>
+    '''クッキーを保存。ホスト名なしのドメインの場合、ドメイン名から先頭のドットを除去して追加しないと再利用されないため
+    '''</summary>
     Private Sub SaveCookie(ByVal cookieCollection As CookieCollection)
         For Each ck As Cookie In cookieCollection
             If ck.Domain.StartsWith(".") Then
@@ -362,4 +398,5 @@ Public Class HttpConnection
         End Select
         proxyType = proxyType
     End Sub
+
 End Class

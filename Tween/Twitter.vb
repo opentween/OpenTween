@@ -129,7 +129,8 @@ Public Module Twitter
             "http://qurl.com/", _
             "http://bctiny.com/", _
             "http://j.mp/", _
-            "http://goo.gl/" _
+            "http://goo.gl/", _
+            "http://ow.ly/" _
         }
 
     Private Const _apiHost As String = "api."
@@ -195,10 +196,10 @@ Public Module Twitter
 
     Private twCon As New HttpTwitter
 
-    Public Function Authorize(ByVal username As String, ByVal password As String) As Boolean
-        Dim rslt As Boolean = twCon.Auth(username, password)
+    Public Function Authenticate(ByVal username As String, ByVal password As String) As Boolean
+        Dim rslt As Boolean = twCon.AuthUserAndPass(username, password)
         If rslt Then
-            _uid = twCon.AuthUsername
+            _uid = twCon.AuthenticatedUsername.ToLower
         End If
         Return rslt
     End Function
@@ -2029,7 +2030,7 @@ Public Module Twitter
                         IsPostRestricted(content) Then
                     Return "OK:Delaying?"
                 End If
-                If Outputz.Post(postStr.Length) Then
+                If Outputz.outputzPost(postStr.Length) Then
                     Return ""
                 Else
                     Return "Outputz:Failed"
@@ -2670,7 +2671,7 @@ Public Module Twitter
 
     Public ReadOnly Property Username() As String
         Get
-            Return twCon.AuthUsername
+            Return twCon.AuthenticatedUsername
         End Get
     End Property
 
@@ -3939,27 +3940,31 @@ Public Module Twitter
 
         If _endingFlag Then Return True
 
-        Dim res As HttpStatusCode
-        Dim content As String = ""
-        Try
-            res = twCon.RateLimitStatus(content)
-        Catch ex As Exception
-            Return False
-        End Try
+        info.MaxCount = twCon.UpperCountApi
+        info.RemainCount = twCon.RemainCountApi
+        info.ResetTime = twCon.ResetTimeApi
+        Return True
+        'Dim res As HttpStatusCode
+        'Dim content As String = ""
+        'Try
+        '    res = twCon.RateLimitStatus(content)
+        'Catch ex As Exception
+        '    Return False
+        'End Try
 
-        If res <> HttpStatusCode.OK Then Return False
+        'If res <> HttpStatusCode.OK Then Return False
 
-        Dim xdoc As New XmlDocument
-        Try
-            xdoc.LoadXml(content)
-            info.MaxCount = Integer.Parse(xdoc.SelectSingleNode("/hash/hourly-limit").InnerText)
-            info.RemainCount = Integer.Parse(xdoc.SelectSingleNode("/hash/remaining-hits").InnerText)
-            info.ResetTime = DateTime.Parse(xdoc.SelectSingleNode("/hash/reset-time").InnerText)
-            info.ResetTimeInSeconds = Integer.Parse(xdoc.SelectSingleNode("/hash/reset-time-in-seconds").InnerText)
-            Return True
-        Catch ex As Exception
-            Return False
-        End Try
+        'Dim xdoc As New XmlDocument
+        'Try
+        '    xdoc.LoadXml(content)
+        '    info.MaxCount = Integer.Parse(xdoc.SelectSingleNode("/hash/hourly-limit").InnerText)
+        '    info.RemainCount = Integer.Parse(xdoc.SelectSingleNode("/hash/remaining-hits").InnerText)
+        '    info.ResetTime = DateTime.Parse(xdoc.SelectSingleNode("/hash/reset-time").InnerText)
+        '    info.ResetTimeInSeconds = Integer.Parse(xdoc.SelectSingleNode("/hash/reset-time-in-seconds").InnerText)
+        '    Return True
+        'Catch ex As Exception
+        '    Return False
+        'End Try
     End Function
 
     Public Function GetHashList() As String()
