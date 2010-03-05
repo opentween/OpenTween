@@ -668,13 +668,13 @@ Public Class TweenMain
             SettingDialog.DateTimeFormat = "yyyy/MM/dd H:mm:ss"
         End Try
 
-        Outputz.key = SettingDialog.OutputzKey
-        Outputz.Enabled = SettingDialog.OutputzEnabled
+        Outputz.outputzKey = SettingDialog.OutputzKey
+        Outputz.outputzEnabled = SettingDialog.OutputzEnabled
         Select Case SettingDialog.OutputzUrlmode
             Case OutputzUrlmode.twittercom
-                Outputz.url = "http://twitter.com/"
+                Outputz.outputzUrl = "http://twitter.com/"
             Case OutputzUrlmode.twittercomWithUsername
-                Outputz.url = "http://twitter.com/" + Twitter.Username
+                Outputz.outputzUrl = "http://twitter.com/" + Twitter.Username
         End Select
 
         SettingDialog.Nicoms = _cfgCommon.Nicoms
@@ -2960,13 +2960,13 @@ Public Class TweenMain
                 If _curList IsNot Nothing Then _curList.Refresh()
                 ListTab.Refresh()
 
-                Outputz.key = SettingDialog.OutputzKey
-                Outputz.Enabled = SettingDialog.OutputzEnabled
+                Outputz.outputzKey = SettingDialog.OutputzKey
+                Outputz.outputzEnabled = SettingDialog.OutputzEnabled
                 Select Case SettingDialog.OutputzUrlmode
                     Case OutputzUrlmode.twittercom
-                        Outputz.url = "http://twitter.com/"
+                        Outputz.outputzUrl = "http://twitter.com/"
                     Case OutputzUrlmode.twittercomWithUsername
-                        Outputz.url = "http://twitter.com/" + Twitter.Username
+                        Outputz.outputzUrl = "http://twitter.com/" + Twitter.Username
                 End Select
 
             End SyncLock
@@ -5550,7 +5550,8 @@ RETRY:
             Exit Sub
         End If
 
-        If SettingDialog.ReplyIconState <> REPLY_ICONSTATE.None AndAlso _statuses.GetTabByType(TabUsageType.Mentions).UnreadCount > 0 Then
+        Dim tb As TabClass = _statuses.GetTabByType(TabUsageType.Mentions)
+        If SettingDialog.ReplyIconState <> REPLY_ICONSTATE.None AndAlso tb IsNot Nothing AndAlso tb.UnreadCount > 0 Then
             If blinkCnt > 0 Then Exit Sub
             blink = Not blink
             If blink OrElse SettingDialog.ReplyIconState = REPLY_ICONSTATE.StaticIcon Then

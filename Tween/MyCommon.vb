@@ -62,11 +62,11 @@ Public Module MyCommon
         Day
     End Enum
 
-    Public Enum ProxyType
-        None
-        IE
-        Specified
-    End Enum
+    'Public Enum ProxyType
+    '    None
+    '    IE
+    '    Specified
+    'End Enum
 
     Public Enum UrlConverter
         TinyUrl
@@ -143,7 +143,6 @@ Public Module MyCommon
         Dim MaxCount As Integer
         Dim RemainCount As Integer
         Dim ResetTime As DateTime
-        Dim ResetTimeInSeconds As Integer
     End Structure
 
     Public Enum ACCOUNT_STATE

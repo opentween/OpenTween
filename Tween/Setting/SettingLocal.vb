@@ -59,7 +59,7 @@ Public Class SettingLocal
     Public DisplayIndex7 As Integer = 6
     Public DisplayIndex8 As Integer = 7
     Public BrowserPath As String = ""
-    Public ProxyType As ProxyType = ProxyType.IE
+    Public ProxyType As HttpConnection.ProxyType = HttpConnection.ProxyType.IE
     Public ProxyAddress As String = "127.0.0.1"
     Public ProxyPort As Integer = 80
     Public ProxyUser As String = ""

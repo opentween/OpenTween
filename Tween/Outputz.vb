@@ -40,7 +40,7 @@ Public Module Outputz
     '    Enabled = _state
     'End Sub
 
-    Public Property url() As String
+    Public Property outputzUrl() As String
         Get
             Return myOuturl
         End Get
@@ -50,7 +50,7 @@ Public Module Outputz
         End Set
     End Property
 
-    Public Property key() As String
+    Public Property outputzKey() As String
         Get
             Return myApikey
         End Get
@@ -60,7 +60,7 @@ Public Module Outputz
         End Set
     End Property
 
-    Public Property Enabled() As Boolean
+    Public Property outputzEnabled() As Boolean
         Get
             Return state
         End Get
@@ -69,7 +69,7 @@ Public Module Outputz
         End Set
     End Property
 
-    Public Function Post(ByVal length As Integer) As Boolean
+    Public Function outputzPost(ByVal length As Integer) As Boolean
 
         If state = False Then Return True
 
