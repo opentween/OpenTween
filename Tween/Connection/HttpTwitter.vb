@@ -138,76 +138,47 @@ Public Class HttpTwitter
         Dim param As New Dictionary(Of String, String)
         param.Add("status", status)
         If replyToId > 0 Then param.Add("in_reply_to_status_id", replyToId.ToString)
-        Try
-            Return httpCon.GetContent(PostMethod, _
+
+        Return httpCon.GetContent(PostMethod, _
                             New Uri(_protocol + "api.twitter.com/1/statuses/update.xml"), _
                             param, _
                             content, _
                             Nothing)
-        Catch ex As WebException
-            If ex.Status = WebExceptionStatus.ProtocolError Then
-                Dim res As HttpWebResponse = DirectCast(ex.Response, HttpWebResponse)
-                Return res.StatusCode
-            End If
-            Throw ex
-        End Try
     End Function
 
     Public Function DestroyStatus(ByVal id As Long) As HttpStatusCode
         If Me.AuthenticatedUsername = "" Then
             Return HttpStatusCode.Unauthorized
         End If
-        Try
-            Return httpCon.GetContent(PostMethod, _
+
+        Return httpCon.GetContent(PostMethod, _
                             New Uri(_protocol + "api.twitter.com/1/statuses/destroy/" + id.ToString + ".xml"), _
                             Nothing, _
                             Nothing, _
                             Nothing)
-        Catch ex As WebException
-            If ex.Status = WebExceptionStatus.ProtocolError Then
-                Dim res As HttpWebResponse = DirectCast(ex.Response, HttpWebResponse)
-                Return res.StatusCode
-            End If
-            Throw ex
-        End Try
     End Function
 
     Public Function DestroyDirectMessage(ByVal id As Long) As HttpStatusCode
         If Me.AuthenticatedUsername = "" Then
             Return HttpStatusCode.Unauthorized
         End If
-        Try
-            Return httpCon.GetContent(PostMethod, _
+
+        Return httpCon.GetContent(PostMethod, _
                             New Uri(_protocol + "api.twitter.com/1/direct_messages/destroy/" + id.ToString + ".xml"), _
                             Nothing, _
                             Nothing, _
                             Nothing)
-        Catch ex As WebException
-            If ex.Status = WebExceptionStatus.ProtocolError Then
-                Dim res As HttpWebResponse = DirectCast(ex.Response, HttpWebResponse)
-                Return res.StatusCode
-            End If
-            Throw ex
-        End Try
     End Function
 
     Public Function RetweetStatus(ByVal id As Long, ByRef content As String) As HttpStatusCode
         If Me.AuthenticatedUsername = "" Then
             Return HttpStatusCode.Unauthorized
         End If
-        Try
-            Return httpCon.GetContent(PostMethod, _
+        Return httpCon.GetContent(PostMethod, _
                             New Uri(_protocol + "api.twitter.com/1/statuses/retweet/" + id.ToString() + ".xml"), _
                             Nothing, _
                             content, _
                             Nothing)
-        Catch ex As WebException
-            If ex.Status = WebExceptionStatus.ProtocolError Then
-                Dim res As HttpWebResponse = DirectCast(ex.Response, HttpWebResponse)
-                Return res.StatusCode
-            End If
-            Throw ex
-        End Try
     End Function
 
     Public Function CreateFriendships(ByVal screenName As String) As HttpStatusCode
@@ -216,19 +187,12 @@ Public Class HttpTwitter
         End If
         Dim param As New Dictionary(Of String, String)
         param.Add("screen_name", screenName)
-        Try
-            Return httpCon.GetContent(PostMethod, _
+
+        Return httpCon.GetContent(PostMethod, _
                             New Uri(_protocol + "api.twitter.com/1/friendships/create.xml"), _
                             param, _
                             Nothing, _
                             Nothing)
-        Catch ex As WebException
-            If ex.Status = WebExceptionStatus.ProtocolError Then
-                Dim res As HttpWebResponse = DirectCast(ex.Response, HttpWebResponse)
-                Return res.StatusCode
-            End If
-            Throw ex
-        End Try
     End Function
 
     Public Function DestroyFriendships(ByVal screenName As String) As HttpStatusCode
@@ -237,19 +201,12 @@ Public Class HttpTwitter
         End If
         Dim param As New Dictionary(Of String, String)
         param.Add("screen_name", screenName)
-        Try
-            Return httpCon.GetContent(PostMethod, _
+
+        Return httpCon.GetContent(PostMethod, _
                             New Uri(_protocol + "api.twitter.com/1/friendships/destroy.xml"), _
                             param, _
                             Nothing, _
                             Nothing)
-        Catch ex As WebException
-            If ex.Status = WebExceptionStatus.ProtocolError Then
-                Dim res As HttpWebResponse = DirectCast(ex.Response, HttpWebResponse)
-                Return res.StatusCode
-            End If
-            Throw ex
-        End Try
     End Function
 
     Public Function ShowFriendships(ByVal souceScreenName As String, ByVal targetScreenName As String, ByRef content As String) As HttpStatusCode
@@ -259,76 +216,48 @@ Public Class HttpTwitter
         Dim param As New Dictionary(Of String, String)
         param.Add("source_screen_name", souceScreenName)
         param.Add("target_screen_name", targetScreenName)
-        Try
-            Return httpCon.GetContent(GetMethod, _
+
+        Return httpCon.GetContent(GetMethod, _
                             New Uri(_protocol + "api.twitter.com/1/friendships/show.xml"), _
                             param, _
                             content, _
                             _remainCountApi)
-        Catch ex As WebException
-            If ex.Status = WebExceptionStatus.ProtocolError Then
-                Dim res As HttpWebResponse = DirectCast(ex.Response, HttpWebResponse)
-                Return res.StatusCode
-            End If
-            Throw ex
-        End Try
     End Function
 
     Public Function ShowStatuses(ByVal id As Long, ByRef content As String) As HttpStatusCode
         If Me.AuthenticatedUsername = "" Then
             Return HttpStatusCode.Unauthorized
         End If
-        Try
-            Return httpCon.GetContent(GetMethod, _
+
+        Return httpCon.GetContent(GetMethod, _
                             New Uri(_protocol + "api.twitter.com/1/statuses/show/" + id.ToString() + ".xml"), _
                             Nothing, _
                             content, _
                             _remainCountApi)
-        Catch ex As WebException
-            If ex.Status = WebExceptionStatus.ProtocolError Then
-                Dim res As HttpWebResponse = DirectCast(ex.Response, HttpWebResponse)
-                Return res.StatusCode
-            End If
-            Throw ex
-        End Try
     End Function
 
     Public Function CreateFavorites(ByVal id As Long) As HttpStatusCode
         If Me.AuthenticatedUsername = "" Then
             Return HttpStatusCode.Unauthorized
         End If
-        Try
-            Return httpCon.GetContent(PostMethod, _
+
+        Return httpCon.GetContent(PostMethod, _
                             New Uri(_protocol + "api.twitter.com/1/favorites/create/" + id.ToString() + ".xml"), _
                             Nothing, _
                             Nothing, _
                             Nothing)
-        Catch ex As WebException
-            If ex.Status = WebExceptionStatus.ProtocolError Then
-                Dim res As HttpWebResponse = DirectCast(ex.Response, HttpWebResponse)
-                Return res.StatusCode
-            End If
-            Throw ex
-        End Try
     End Function
 
     Public Function DestroyFavorites(ByVal id As Long) As HttpStatusCode
         If Me.AuthenticatedUsername = "" Then
             Return HttpStatusCode.Unauthorized
         End If
-        Try
-            Return httpCon.GetContent(PostMethod, _
+
+        Return httpCon.GetContent(PostMethod, _
                             New Uri(_protocol + "api.twitter.com/1/favorites/destroy/" + id.ToString() + ".xml"), _
                             Nothing, _
                             Nothing, _
                             Nothing)
-        Catch ex As WebException
-            If ex.Status = WebExceptionStatus.ProtocolError Then
-                Dim res As HttpWebResponse = DirectCast(ex.Response, HttpWebResponse)
-                Return res.StatusCode
-            End If
-            Throw ex
-        End Try
     End Function
 
     Public Function HomeTimeline(ByVal count As Integer, ByRef content As String) As HttpStatusCode
@@ -339,19 +268,12 @@ Public Class HttpTwitter
         If count > 0 Then
             param.Add("count", count.ToString())
         End If
-        Try
-            Return httpCon.GetContent(GetMethod, _
+
+        Return httpCon.GetContent(GetMethod, _
                             New Uri(_protocol + "api.twitter.com/1/statuses/home_timeline.xml"), _
                             param, _
                             content, _
                             _remainCountApi)
-        Catch ex As WebException
-            If ex.Status = WebExceptionStatus.ProtocolError Then
-                Dim res As HttpWebResponse = DirectCast(ex.Response, HttpWebResponse)
-                Return res.StatusCode
-            End If
-            Throw ex
-        End Try
     End Function
 
     Public Function Mentions(ByVal count As Integer, ByRef content As String) As HttpStatusCode
@@ -362,57 +284,36 @@ Public Class HttpTwitter
         If count > 0 Then
             param.Add("count", count.ToString())
         End If
-        Try
-            Return httpCon.GetContent(GetMethod, _
+
+        Return httpCon.GetContent(GetMethod, _
                             New Uri(_protocol + "api.twitter.com/1/statuses/mentions.xml"), _
                             param, _
                             content, _
                             _remainCountApi)
-        Catch ex As WebException
-            If ex.Status = WebExceptionStatus.ProtocolError Then
-                Dim res As HttpWebResponse = DirectCast(ex.Response, HttpWebResponse)
-                Return res.StatusCode
-            End If
-            Throw ex
-        End Try
     End Function
 
     Public Function DirectMessages(ByRef content As String) As HttpStatusCode
         If Me.AuthenticatedUsername = "" Then
             Return HttpStatusCode.Unauthorized
         End If
-        Try
-            Return httpCon.GetContent(GetMethod, _
+
+        Return httpCon.GetContent(GetMethod, _
                             New Uri(_protocol + "api.twitter.com/1/direct_messages.xml"), _
                             Nothing, _
                             content, _
                             _remainCountApi)
-        Catch ex As WebException
-            If ex.Status = WebExceptionStatus.ProtocolError Then
-                Dim res As HttpWebResponse = DirectCast(ex.Response, HttpWebResponse)
-                Return res.StatusCode
-            End If
-            Throw ex
-        End Try
     End Function
 
     Public Function DirectMessagesSent(ByRef content As String) As HttpStatusCode
         If Me.AuthenticatedUsername = "" Then
             Return HttpStatusCode.Unauthorized
         End If
-        Try
-            Return httpCon.GetContent(GetMethod, _
+
+        Return httpCon.GetContent(GetMethod, _
                             New Uri(_protocol + "api.twitter.com/1/direct_messages/sent.xml"), _
                             Nothing, _
                             content, _
                             _remainCountApi)
-        Catch ex As WebException
-            If ex.Status = WebExceptionStatus.ProtocolError Then
-                Dim res As HttpWebResponse = DirectCast(ex.Response, HttpWebResponse)
-                Return res.StatusCode
-            End If
-            Throw ex
-        End Try
     End Function
 
     Public Function Favorites(ByVal count As Integer, ByRef content As String) As HttpStatusCode
@@ -421,19 +322,12 @@ Public Class HttpTwitter
         End If
         Dim param As New Dictionary(Of String, String)
         If count <> 20 Then param.Add("count", count.ToString())
-        Try
-            Return httpCon.GetContent(GetMethod, _
+
+        Return httpCon.GetContent(GetMethod, _
                             New Uri(_protocol + "api.twitter.com/1/favorites.xml"), _
                             param, _
                             content, _
                             _remainCountApi)
-        Catch ex As WebException
-            If ex.Status = WebExceptionStatus.ProtocolError Then
-                Dim res As HttpWebResponse = DirectCast(ex.Response, HttpWebResponse)
-                Return res.StatusCode
-            End If
-            Throw ex
-        End Try
     End Function
 
     Public Function Search(ByVal words As String, ByVal lang As String, ByVal rpp As Integer, ByVal page As Integer, ByRef content As String) As HttpStatusCode
@@ -445,20 +339,12 @@ Public Class HttpTwitter
 
         If param.Count = 0 Then Return HttpStatusCode.BadRequest
 
-        Try
-            Return httpConVar.GetContent(GetMethod, _
+        Return httpConVar.GetContent(GetMethod, _
                                         _protocol + "search.twitter.com/search.atom", _
                                         param, _
                                         content, _
                                         Nothing, _
                                         "Tween")
-        Catch ex As WebException
-            If ex.Status = WebExceptionStatus.ProtocolError Then
-                Dim res As HttpWebResponse = DirectCast(ex.Response, HttpWebResponse)
-                Return res.StatusCode
-            End If
-            Throw ex
-        End Try
     End Function
 
     Public Function FollowerIds(ByVal cursor As Long, ByRef content As String) As HttpStatusCode
@@ -467,38 +353,24 @@ Public Class HttpTwitter
         End If
         Dim param As New Dictionary(Of String, String)
         param.Add("cursor", cursor.ToString())
-        Try
-            Return httpCon.GetContent(GetMethod, _
+
+        Return httpCon.GetContent(GetMethod, _
                             New Uri(_protocol + "api.twitter.com/1/followers/ids.xml"), _
                             param, _
                             content, _
                             _remainCountApi)
-        Catch ex As WebException
-            If ex.Status = WebExceptionStatus.ProtocolError Then
-                Dim res As HttpWebResponse = DirectCast(ex.Response, HttpWebResponse)
-                Return res.StatusCode
-            End If
-            Throw ex
-        End Try
     End Function
 
     Public Function RateLimitStatus(ByRef content As String) As HttpStatusCode
         If Me.AuthenticatedUsername = "" Then
             Return HttpStatusCode.Unauthorized
         End If
-        Try
-            Return httpCon.GetContent(GetMethod, _
+
+        Return httpCon.GetContent(GetMethod, _
                             New Uri(_protocol + "api.twitter.com/1/account/rate_limit_status.xml"), _
                             Nothing, _
                             content, _
                             Nothing)
-        Catch ex As WebException
-            If ex.Status = WebExceptionStatus.ProtocolError Then
-                Dim res As HttpWebResponse = DirectCast(ex.Response, HttpWebResponse)
-                Return res.StatusCode
-            End If
-            Throw ex
-        End Try
     End Function
 
 End Class
