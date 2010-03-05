@@ -51,7 +51,7 @@ Public Class HttpConnectionOAuth
     Private userIdentKey As String
 
     '''<summary>
-    '''OAuthの署名作成用秘密コンシューマーデータ
+    '''認証完了時の応答からuserIdentKey情報に基づいて取得するユーザー情報
     '''</summary>
     Private authorizedUsername As String
 
@@ -253,8 +253,8 @@ Public Class HttpConnectionOAuth
     '''</summary>
     '''<param name="webRequest">追加対象のHTTPリクエスト</param>
     '''<param name="query">OAuth追加情報＋クエリ or POSTデータ</param>
-    '''<param name="token">アクセストークン</param>
-    '''<param name="tokenSecret">アクセストークンシークレット</param>
+    '''<param name="token">アクセストークン、もしくはリクエストトークン。未取得なら空文字列</param>
+    '''<param name="tokenSecret">アクセストークンシークレット。認証処理では空文字列</param>
     Private Sub AppendOAuthInfo(ByVal webRequest As HttpWebRequest, _
                                         ByVal query As Dictionary(Of String, String), _
                                         ByVal token As String, _
@@ -283,7 +283,7 @@ Public Class HttpConnectionOAuth
     '''<summary>
     '''OAuthで使用する共通情報を取得する
     '''</summary>
-    '''<param name="token">アクセストークン。未取得なら空文字列</param>
+    '''<param name="token">アクセストークン、もしくはリクエストトークン。未取得なら空文字列</param>
     '''<returns>OAuth情報のディクショナリ</returns>
     Private Function GetOAuthParameter(ByVal token As String) As Dictionary(Of String, String)
         Dim parameter As New Dictionary(Of String, String)
@@ -292,7 +292,7 @@ Public Class HttpConnectionOAuth
         parameter.Add("oauth_timestamp", Convert.ToInt64((DateTime.UtcNow - UnixEpoch).TotalSeconds).ToString())   'epoch秒
         parameter.Add("oauth_nonce", NonceRandom.Next(123400, 9999999).ToString())
         parameter.Add("oauth_version", "1.0")
-        If Not String.IsNullOrEmpty(token) Then parameter.Add("oauth_token", token) 'アクセストークンがあれば追加
+        If Not String.IsNullOrEmpty(token) Then parameter.Add("oauth_token", token) 'トークンがあれば追加
         Return parameter
     End Function
 
@@ -317,7 +317,7 @@ Public Class HttpConnectionOAuth
         Dim url As String = String.Format("{0}://{1}{2}", uri.Scheme, uri.Host, uri.AbsolutePath)
         '署名のベース文字列生成（&区切り）。クエリ形式文字列は再エンコードする
         Dim signatureBase As String = String.Format("{0}&{1}&{2}", method, UrlEncode(url), UrlEncode(paramString))
-        '署名鍵の文字列をコンシューマー秘密鍵とアクセストークン秘密鍵から生成（&区切り。アクセストークンなくても&残すこと）
+        '署名鍵の文字列をコンシューマー秘密鍵とアクセストークン秘密鍵から生成（&区切り。アクセストークン秘密鍵なくても&残すこと）
         Dim key As String = UrlEncode(consumerSecret) + "&"
         If Not String.IsNullOrEmpty(tokenSecret) Then key += UrlEncode(tokenSecret)
         '鍵生成＆署名生成
@@ -328,40 +328,66 @@ Public Class HttpConnectionOAuth
 
 #End Region
 
-    Public Sub Initialize(ByVal consumerKeyStr As String, _
-                                    ByVal consumerSecretStr As String, _
+    '''<summary>
+    '''初期化。各種トークンの設定とユーザー識別情報設定
+    '''</summary>
+    '''<param name="consumerKey">コンシューマー鍵</param>
+    '''<param name="consumerSecret">コンシューマー秘密鍵</param>
+    '''<param name="accessToken">アクセストークン</param>
+    '''<param name="accessTokenSecret">アクセストークン秘密鍵</param>
+    '''<param name="userIdentifier">アクセストークン取得時に得られるユーザー識別情報。不要なら空文字列</param>
+    Public Sub Initialize(ByVal consumerKey As String, _
+                                    ByVal consumerSecret As String, _
                                     ByVal accessToken As String, _
                                     ByVal accessTokenSecret As String, _
                                     ByVal userIdentifier As String)
-        Me.consumerKey = consumerKeyStr
-        Me.consumerSecret = consumerSecretStr
+        Me.consumerKey = consumerKey
+        Me.consumerSecret = consumerSecret
         Me.token = accessToken
         Me.tokenSecret = accessTokenSecret
         Me.userIdentKey = userIdentifier
     End Sub
 
-    Public Sub Initialize(ByVal consumerKeyStr As String, _
-                                ByVal consumerSecretStr As String, _
+    '''<summary>
+    '''初期化。各種トークンの設定とユーザー識別情報設定
+    '''</summary>
+    '''<param name="consumerKey">コンシューマー鍵</param>
+    '''<param name="consumerSecret">コンシューマー秘密鍵</param>
+    '''<param name="accessToken">アクセストークン</param>
+    '''<param name="accessTokenSecret">アクセストークン秘密鍵</param>
+    '''<param name="username">認証済みユーザー名</param>
+    '''<param name="userIdentifier">アクセストークン取得時に得られるユーザー識別情報。不要なら空文字列</param>
+    Public Sub Initialize(ByVal consumerKey As String, _
+                                ByVal consumerSecret As String, _
                                 ByVal accessToken As String, _
                                 ByVal accessTokenSecret As String, _
                                 ByVal username As String, _
                                 ByVal userIdentifier As String)
-        Initialize(consumerKeyStr, consumerSecretStr, accessToken, accessTokenSecret, userIdentifier)
+        Initialize(consumerKey, consumerSecret, accessToken, accessTokenSecret, userIdentifier)
         authorizedUsername = username
     End Sub
 
+    '''<summary>
+    '''アクセストークン
+    '''</summary>
     Public ReadOnly Property AccessToken() As String
         Get
             Return token
         End Get
     End Property
 
+    '''<summary>
+    '''アクセストークン秘密鍵
+    '''</summary>
     Public ReadOnly Property AccessTokenSecret() As String
         Get
             Return tokenSecret
         End Get
     End Property
 
+    '''<summary>
+    '''認証済みユーザー名
+    '''</summary>
     Public ReadOnly Property AuthUsername() As String Implements IHttpConnection.AuthUsername
         Get
             Return authorizedUsername

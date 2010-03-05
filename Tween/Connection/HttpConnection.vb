@@ -103,27 +103,35 @@ Public Class HttpConnection
                                         ByVal headerInfo As Dictionary(Of String, String), _
                                         ByVal withCookie As Boolean _
                                     ) As HttpStatusCode
-        Using webRes As HttpWebResponse = CType(webRequest.GetResponse(), HttpWebResponse)
-            Dim statusCode As HttpStatusCode = webRes.StatusCode
-            'cookie保持
-            If withCookie Then SaveCookie(webRes.Cookies)
-            'リダイレクト応答の場合は、リダイレクト先を設定
-            GetHeaderInfo(webRes, headerInfo)
-            '応答のストリームをコピーして戻す
-            If webRes.ContentLength > 0 Then
-                'gzipなら応答ストリームの内容は伸張済み。それ以外なら伸張する。
-                If webRes.ContentEncoding = "gzip" OrElse webRes.ContentEncoding = "deflate" Then
-                    Using stream As Stream = webRes.GetResponseStream()
-                        If stream IsNot Nothing Then CopyStream(stream, contentStream)
-                    End Using
-                Else
-                    Using stream As Stream = New System.IO.Compression.GZipStream(webRes.GetResponseStream, Compression.CompressionMode.Decompress)
-                        If stream IsNot Nothing Then CopyStream(stream, contentStream)
-                    End Using
+        Try
+            Using webRes As HttpWebResponse = CType(webRequest.GetResponse(), HttpWebResponse)
+                Dim statusCode As HttpStatusCode = webRes.StatusCode
+                'cookie保持
+                If withCookie Then SaveCookie(webRes.Cookies)
+                'リダイレクト応答の場合は、リダイレクト先を設定
+                GetHeaderInfo(webRes, headerInfo)
+                '応答のストリームをコピーして戻す
+                If webRes.ContentLength > 0 Then
+                    'gzipなら応答ストリームの内容は伸張済み。それ以外なら伸張する。
+                    If webRes.ContentEncoding = "gzip" OrElse webRes.ContentEncoding = "deflate" Then
+                        Using stream As Stream = webRes.GetResponseStream()
+                            If stream IsNot Nothing Then CopyStream(stream, contentStream)
+                        End Using
+                    Else
+                        Using stream As Stream = New System.IO.Compression.GZipStream(webRes.GetResponseStream, Compression.CompressionMode.Decompress)
+                            If stream IsNot Nothing Then CopyStream(stream, contentStream)
+                        End Using
+                    End If
                 End If
+                Return statusCode
+            End Using
+        Catch ex As WebException
+            If ex.Status = WebExceptionStatus.ProtocolError Then
+                Dim res As HttpWebResponse = DirectCast(ex.Response, HttpWebResponse)
+                Return res.StatusCode
             End If
-            Return statusCode
-        End Using
+            Throw ex
+        End Try
     End Function
 
     '''<summary>
@@ -144,21 +152,29 @@ Public Class HttpConnection
                                         ByVal headerInfo As Dictionary(Of String, String), _
                                         ByVal withCookie As Boolean _
                                     ) As HttpStatusCode
-        Using webRes As HttpWebResponse = CType(webRequest.GetResponse(), HttpWebResponse)
-            Dim statusCode As HttpStatusCode = webRes.StatusCode
-            'cookie保持
-            If withCookie Then SaveCookie(webRes.Cookies)
-            'リダイレクト応答の場合は、リダイレクト先を設定
-            GetHeaderInfo(webRes, headerInfo)
-            '応答のストリームをテキストに書き出し
-            If contentText Is Nothing Then Throw New ArgumentNullException("contentText")
-            If webRes.ContentLength > 0 Then
-                Using sr As StreamReader = New StreamReader(webRes.GetResponseStream)
-                    contentText = sr.ReadToEnd()
-                End Using
+        Try
+            Using webRes As HttpWebResponse = CType(webRequest.GetResponse(), HttpWebResponse)
+                Dim statusCode As HttpStatusCode = webRes.StatusCode
+                'cookie保持
+                If withCookie Then SaveCookie(webRes.Cookies)
+                'リダイレクト応答の場合は、リダイレクト先を設定
+                GetHeaderInfo(webRes, headerInfo)
+                '応答のストリームをテキストに書き出し
+                If contentText Is Nothing Then Throw New ArgumentNullException("contentText")
+                If webRes.ContentLength > 0 Then
+                    Using sr As StreamReader = New StreamReader(webRes.GetResponseStream)
+                        contentText = sr.ReadToEnd()
+                    End Using
+                End If
+                Return statusCode
+            End Using
+        Catch ex As WebException
+            If ex.Status = WebExceptionStatus.ProtocolError Then
+                Dim res As HttpWebResponse = DirectCast(ex.Response, HttpWebResponse)
+                Return res.StatusCode
             End If
-            Return statusCode
-        End Using
+            Throw ex
+        End Try
     End Function
 
     '''<summary>
@@ -176,14 +192,22 @@ Public Class HttpConnection
                                         ByVal headerInfo As Dictionary(Of String, String), _
                                         ByVal withCookie As Boolean _
                                     ) As HttpStatusCode
-        Using webRes As HttpWebResponse = CType(webRequest.GetResponse(), HttpWebResponse)
-            Dim statusCode As HttpStatusCode = webRes.StatusCode
-            'cookie保持
-            If withCookie Then SaveCookie(webRes.Cookies)
-            'リダイレクト応答の場合は、リダイレクト先を設定
-            GetHeaderInfo(webRes, headerInfo)
-            Return statusCode
-        End Using
+        Try
+            Using webRes As HttpWebResponse = CType(webRequest.GetResponse(), HttpWebResponse)
+                Dim statusCode As HttpStatusCode = webRes.StatusCode
+                'cookie保持
+                If withCookie Then SaveCookie(webRes.Cookies)
+                'リダイレクト応答の場合は、リダイレクト先を設定
+                GetHeaderInfo(webRes, headerInfo)
+                Return statusCode
+            End Using
+        Catch ex As WebException
+            If ex.Status = WebExceptionStatus.ProtocolError Then
+                Dim res As HttpWebResponse = DirectCast(ex.Response, HttpWebResponse)
+                Return res.StatusCode
+            End If
+            Throw ex
+        End Try
     End Function
 
     '''<summary>
@@ -203,16 +227,24 @@ Public Class HttpConnection
                                         ByVal headerInfo As Dictionary(Of String, String), _
                                         ByVal withCookie As Boolean _
                                     ) As HttpStatusCode
-        Using webRes As HttpWebResponse = CType(webRequest.GetResponse(), HttpWebResponse)
-            Dim statusCode As HttpStatusCode = webRes.StatusCode
-            'cookie保持
-            If withCookie Then SaveCookie(webRes.Cookies)
-            'リダイレクト応答の場合は、リダイレクト先を設定
-            GetHeaderInfo(webRes, headerInfo)
-            '応答のストリームをBitmapにして戻す
-            If webRes.ContentLength > 0 Then contentBitmap = New Bitmap(webRes.GetResponseStream)
-            Return statusCode
-        End Using
+        Try
+            Using webRes As HttpWebResponse = CType(webRequest.GetResponse(), HttpWebResponse)
+                Dim statusCode As HttpStatusCode = webRes.StatusCode
+                'cookie保持
+                If withCookie Then SaveCookie(webRes.Cookies)
+                'リダイレクト応答の場合は、リダイレクト先を設定
+                GetHeaderInfo(webRes, headerInfo)
+                '応答のストリームをBitmapにして戻す
+                If webRes.ContentLength > 0 Then contentBitmap = New Bitmap(webRes.GetResponseStream)
+                Return statusCode
+            End Using
+        Catch ex As WebException
+            If ex.Status = WebExceptionStatus.ProtocolError Then
+                Dim res As HttpWebResponse = DirectCast(ex.Response, HttpWebResponse)
+                Return res.StatusCode
+            End If
+            Throw ex
+        End Try
     End Function
 
     '''<summary>

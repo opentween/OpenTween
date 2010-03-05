@@ -1215,37 +1215,37 @@ Public Class TweenMain
         '_cfgLocal.Save()
     End Sub
 
-    Private Sub Network_NetworkAvailabilityChanged(ByVal sender As Object, ByVal e As Devices.NetworkAvailableEventArgs)
-        If e.IsNetworkAvailable Then
-            Dim args As New GetWorkerArg()
-            PostButton.Enabled = True
-            FavAddToolStripMenuItem.Enabled = True
-            FavRemoveToolStripMenuItem.Enabled = True
-            MoveToHomeToolStripMenuItem.Enabled = True
-            MoveToRTHomeMenuItem.Enabled = True
-            MoveToFavToolStripMenuItem.Enabled = True
-            DeleteStripMenuItem.Enabled = True
-            RefreshStripMenuItem.Enabled = True
-            _myStatusOnline = True
-            If Not _initial Then
-                'If SettingDialog.DMPeriodInt > 0 Then TimerDM.Enabled = True
-                'If SettingDialog.TimelinePeriodInt > 0 Then TimerTimeline.Enabled = True
-                'If SettingDialog.ReplyPeriodInt > 0 Then TimerReply.Enabled = True
-            Else
-                GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
-            End If
-        Else
-            _myStatusOnline = False
-            PostButton.Enabled = False
-            FavAddToolStripMenuItem.Enabled = False
-            FavRemoveToolStripMenuItem.Enabled = False
-            MoveToHomeToolStripMenuItem.Enabled = False
-            MoveToRTHomeMenuItem.Enabled = False
-            MoveToFavToolStripMenuItem.Enabled = False
-            DeleteStripMenuItem.Enabled = False
-            RefreshStripMenuItem.Enabled = False
-        End If
-    End Sub
+    'Private Sub Network_NetworkAvailabilityChanged(ByVal sender As Object, ByVal e As Devices.NetworkAvailableEventArgs)
+    '    If e.IsNetworkAvailable Then
+    '        Dim args As New GetWorkerArg()
+    '        PostButton.Enabled = True
+    '        FavAddToolStripMenuItem.Enabled = True
+    '        FavRemoveToolStripMenuItem.Enabled = True
+    '        MoveToHomeToolStripMenuItem.Enabled = True
+    '        MoveToRTHomeMenuItem.Enabled = True
+    '        MoveToFavToolStripMenuItem.Enabled = True
+    '        DeleteStripMenuItem.Enabled = True
+    '        RefreshStripMenuItem.Enabled = True
+    '        _myStatusOnline = True
+    '        If Not _initial Then
+    '            'If SettingDialog.DMPeriodInt > 0 Then TimerDM.Enabled = True
+    '            'If SettingDialog.TimelinePeriodInt > 0 Then TimerTimeline.Enabled = True
+    '            'If SettingDialog.ReplyPeriodInt > 0 Then TimerReply.Enabled = True
+    '        Else
+    '            GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
+    '        End If
+    '    Else
+    '        _myStatusOnline = False
+    '        PostButton.Enabled = False
+    '        FavAddToolStripMenuItem.Enabled = False
+    '        FavRemoveToolStripMenuItem.Enabled = False
+    '        MoveToHomeToolStripMenuItem.Enabled = False
+    '        MoveToRTHomeMenuItem.Enabled = False
+    '        MoveToFavToolStripMenuItem.Enabled = False
+    '        DeleteStripMenuItem.Enabled = False
+    '        RefreshStripMenuItem.Enabled = False
+    '    End If
+    'End Sub
 
     Private Sub TimerTimeline_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TimerTimeline.Tick
         If _homeCounter > 0 Then _homeCounter -= 1
@@ -6168,20 +6168,27 @@ RETRY:
         'ステータス欄にカウント表示
         'タブ未読数/タブ発言数 全未読数/総発言数 (未読＠＋未読DM数)
         If _statuses Is Nothing Then Exit Sub
-        Dim urat As Integer = _statuses.GetTabByType(TabUsageType.Mentions).UnreadCount + _statuses.GetTabByType(TabUsageType.DirectMessage).UnreadCount
+        Dim tbRep As TabClass = _statuses.GetTabByType(TabUsageType.Mentions)
+        Dim tbDm As TabClass = _statuses.GetTabByType(TabUsageType.DirectMessage)
+        If tbRep Is Nothing OrElse tbDm Is Nothing Then Exit Sub
+        Dim urat As Integer = tbRep.UnreadCount + tbDm.UnreadCount
         Dim ur As Integer = 0
         Dim al As Integer = 0
         Dim tur As Integer = 0
         Dim tal As Integer = 0
         Dim slbl As StringBuilder = New StringBuilder(256)
-        For Each key As String In _statuses.Tabs.Keys
-            ur += _statuses.Tabs(key).UnreadCount
-            al += _statuses.Tabs(key).AllCount
-            If key.Equals(_curTab.Text) Then
-                tur = _statuses.Tabs(key).UnreadCount
-                tal = _statuses.Tabs(key).AllCount
-            End If
-        Next
+        Try
+            For Each key As String In _statuses.Tabs.Keys
+                ur += _statuses.Tabs(key).UnreadCount
+                al += _statuses.Tabs(key).AllCount
+                If key.Equals(_curTab.Text) Then
+                    tur = _statuses.Tabs(key).UnreadCount
+                    tal = _statuses.Tabs(key).AllCount
+                End If
+            Next
+        Catch ex As Exception
+            Exit Sub
+        End Try
 
         If Twitter.RemainCountApi > -1 Then
             slbl.Append("[API: " + Twitter.RemainCountApi.ToString + "] ")
@@ -6964,7 +6971,7 @@ RETRY:
     End Sub
 
     Private Sub TweenMain_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
-        AddHandler My.Computer.Network.NetworkAvailabilityChanged, AddressOf Network_NetworkAvailabilityChanged
+        'AddHandler My.Computer.Network.NetworkAvailabilityChanged, AddressOf Network_NetworkAvailabilityChanged
         Try
             PostBrowser.Url = New Uri("about:blank")
             PostBrowser.DocumentText = ""       '発言詳細部初期化

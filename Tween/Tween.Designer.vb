@@ -303,14 +303,13 @@ Partial Class TweenMain
         Me.HashStripSplitButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
         Me.HashStripSplitButton.DropDown = Me.ContextMenuStripPostMode
         Me.HashStripSplitButton.DropDownButtonWidth = 13
-        resources.ApplyResources(Me.HashStripSplitButton, "HashStripSplitButton")
         Me.HashStripSplitButton.Name = "HashStripSplitButton"
+        resources.ApplyResources(Me.HashStripSplitButton, "HashStripSplitButton")
         '
         'ContextMenuStripPostMode
         '
         Me.ContextMenuStripPostMode.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItemUrlMultibyteSplit, Me.ToolStripMenuItemApiCommandEvasion, Me.ToolStripMenuItemUrlAutoShorten, Me.IdeographicSpaceToSpaceToolStripMenuItem, Me.MultiLineMenuItem, Me.ToolStripSeparator8, Me.HashToggleMenuItem, Me.HashManageMenuItem})
         Me.ContextMenuStripPostMode.Name = "ContextMenuStripPostMode"
-        Me.ContextMenuStripPostMode.OwnerItem = Me.HashStripSplitButton
         resources.ApplyResources(Me.ContextMenuStripPostMode, "ContextMenuStripPostMode")
         '
         'ToolStripMenuItemUrlMultibyteSplit
