@@ -131,7 +131,7 @@ Namespace My
         End Sub
         Public Overloads Sub InitCulture()
             Try
-                ChangeUICulture(Me.CultureCode)
+                If Me.CultureCode <> "OS" Then ChangeUICulture(Me.CultureCode)
             Catch ex As Exception
 
             End Try

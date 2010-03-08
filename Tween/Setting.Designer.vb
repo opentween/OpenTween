@@ -127,6 +127,9 @@ Partial Class Setting
         Me.Label47 = New System.Windows.Forms.Label
         Me.TabControl1 = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
+        Me.AuthBasicRadio = New System.Windows.Forms.RadioButton
+        Me.AuthOAuthRadio = New System.Windows.Forms.RadioButton
+        Me.Label6 = New System.Windows.Forms.Label
         Me.AuthClearButton = New System.Windows.Forms.Button
         Me.AuthUserLabel = New System.Windows.Forms.Label
         Me.AuthStateLabel = New System.Windows.Forms.Label
@@ -218,9 +221,10 @@ Partial Class Setting
         Me.Label59 = New System.Windows.Forms.Label
         Me.TextBoxOutputzKey = New System.Windows.Forms.TextBox
         Me.CheckOutputz = New System.Windows.Forms.CheckBox
-        Me.Label6 = New System.Windows.Forms.Label
-        Me.AuthOAuthRadio = New System.Windows.Forms.RadioButton
-        Me.AuthBasicRadio = New System.Windows.Forms.RadioButton
+        Me.Label8 = New System.Windows.Forms.Label
+        Me.TwitterAPIText = New System.Windows.Forms.TextBox
+        Me.Label31 = New System.Windows.Forms.Label
+        Me.TwitterSearchAPIText = New System.Windows.Forms.TextBox
         Me.GroupBox1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
@@ -895,6 +899,25 @@ Partial Class Setting
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.UseVisualStyleBackColor = True
         '
+        'AuthBasicRadio
+        '
+        resources.ApplyResources(Me.AuthBasicRadio, "AuthBasicRadio")
+        Me.AuthBasicRadio.Name = "AuthBasicRadio"
+        Me.AuthBasicRadio.TabStop = True
+        Me.AuthBasicRadio.UseVisualStyleBackColor = True
+        '
+        'AuthOAuthRadio
+        '
+        resources.ApplyResources(Me.AuthOAuthRadio, "AuthOAuthRadio")
+        Me.AuthOAuthRadio.Name = "AuthOAuthRadio"
+        Me.AuthOAuthRadio.TabStop = True
+        Me.AuthOAuthRadio.UseVisualStyleBackColor = True
+        '
+        'Label6
+        '
+        resources.ApplyResources(Me.Label6, "Label6")
+        Me.Label6.Name = "Label6"
+        '
         'AuthClearButton
         '
         resources.ApplyResources(Me.AuthClearButton, "AuthClearButton")
@@ -1348,6 +1371,10 @@ Partial Class Setting
         '
         'TabPage5
         '
+        Me.TabPage5.Controls.Add(Me.TwitterSearchAPIText)
+        Me.TabPage5.Controls.Add(Me.Label31)
+        Me.TabPage5.Controls.Add(Me.TwitterAPIText)
+        Me.TabPage5.Controls.Add(Me.Label8)
         Me.TabPage5.Controls.Add(Me.CheckUseSsl)
         Me.TabPage5.Controls.Add(Me.Label64)
         Me.TabPage5.Controls.Add(Me.ConnectionTimeOut)
@@ -1514,24 +1541,25 @@ Partial Class Setting
         Me.CheckOutputz.Name = "CheckOutputz"
         Me.CheckOutputz.UseVisualStyleBackColor = True
         '
-        'Label6
+        'Label8
         '
-        resources.ApplyResources(Me.Label6, "Label6")
-        Me.Label6.Name = "Label6"
+        resources.ApplyResources(Me.Label8, "Label8")
+        Me.Label8.Name = "Label8"
         '
-        'AuthOAuthRadio
+        'TwitterAPIText
         '
-        resources.ApplyResources(Me.AuthOAuthRadio, "AuthOAuthRadio")
-        Me.AuthOAuthRadio.Name = "AuthOAuthRadio"
-        Me.AuthOAuthRadio.TabStop = True
-        Me.AuthOAuthRadio.UseVisualStyleBackColor = True
+        resources.ApplyResources(Me.TwitterAPIText, "TwitterAPIText")
+        Me.TwitterAPIText.Name = "TwitterAPIText"
         '
-        'AuthBasicRadio
+        'Label31
         '
-        resources.ApplyResources(Me.AuthBasicRadio, "AuthBasicRadio")
-        Me.AuthBasicRadio.Name = "AuthBasicRadio"
-        Me.AuthBasicRadio.TabStop = True
-        Me.AuthBasicRadio.UseVisualStyleBackColor = True
+        resources.ApplyResources(Me.Label31, "Label31")
+        Me.Label31.Name = "Label31"
+        '
+        'TwitterSearchAPIText
+        '
+        resources.ApplyResources(Me.TwitterSearchAPIText, "TwitterSearchAPIText")
+        Me.TwitterSearchAPIText.Name = "TwitterSearchAPIText"
         '
         'Setting
         '
@@ -1764,4 +1792,8 @@ Partial Class Setting
     Friend WithEvents AuthBasicRadio As System.Windows.Forms.RadioButton
     Friend WithEvents AuthOAuthRadio As System.Windows.Forms.RadioButton
     Friend WithEvents Label6 As System.Windows.Forms.Label
+    Friend WithEvents TwitterSearchAPIText As System.Windows.Forms.TextBox
+    Friend WithEvents Label31 As System.Windows.Forms.Label
+    Friend WithEvents TwitterAPIText As System.Windows.Forms.TextBox
+    Friend WithEvents Label8 As System.Windows.Forms.Label
 End Class

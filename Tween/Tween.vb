@@ -522,6 +522,18 @@ Public Class TweenMain
         'SettingDialog.UserID = _cfgCommon.UserName                                'ユーザ名
         'SettingDialog.PasswordStr = _cfgCommon.Password                           'パスワード
         SettingDialog.IsOAuth = _cfgCommon.IsOAuth
+        HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl
+        HttpTwitter.TwitterSearchUrl = _cfgCommon.TwitterSearchUrl
+        SettingDialog.TwitterApiUrl = _cfgCommon.TwitterUrl
+        SettingDialog.TwitterSearchApiUrl = _cfgCommon.TwitterSearchUrl
+        '認証関連
+        If _cfgCommon.IsOAuth Then
+            If _cfgCommon.Token = "" Then _cfgCommon.UserName = ""
+            Twitter.Initialize(_cfgCommon.Token, _cfgCommon.TokenSecret, _cfgCommon.UserName)
+        Else
+            Twitter.Initialize(_cfgCommon.UserName, _cfgCommon.Password)
+        End If
+
 
         SettingDialog.TimelinePeriodInt = _cfgCommon.TimelinePeriod
         SettingDialog.ReplyPeriodInt = _cfgCommon.ReplyPeriod
@@ -587,7 +599,6 @@ Public Class TweenMain
         SettingDialog.CountApi = _cfgCommon.CountApi
         SettingDialog.CountApiReply = _cfgCommon.CountApiReply
         SettingDialog.UsePostMethod = False
-        SettingDialog.HubServer = _cfgCommon.HubServer
         SettingDialog.BrowserPath = _cfgLocal.BrowserPath
         'SettingDialog.CheckReply = _cfgCommon.CheckReply
         SettingDialog.PostAndGet = _cfgCommon.PostAndGet
@@ -689,14 +700,6 @@ Public Class TweenMain
                                 _cfgCommon.HashIsHead)
         If HashMgr.UseHash <> "" AndAlso HashMgr.IsPermanent Then HashStripSplitButton.Text = HashMgr.UseHash
 
-        '認証関連
-        If _cfgCommon.IsOAuth Then
-            If _cfgCommon.Token = "" Then _cfgCommon.UserName = ""
-            Twitter.Initialize(_cfgCommon.Token, _cfgCommon.TokenSecret, _cfgCommon.UserName)
-        Else
-            Twitter.Initialize(_cfgCommon.UserName, _cfgCommon.Password)
-        End If
-
         _initial = True
 
         'ユーザー名、パスワードが未設定なら設定画面を表示（初回起動時など）
@@ -796,12 +799,13 @@ Public Class TweenMain
         Twitter.CountApiReply = SettingDialog.CountApiReply
         'Twitter.UseAPI = SettingDialog.UseAPI
         'Twitter.UsePostMethod = False
-        Twitter.HubServer = SettingDialog.HubServer
         Twitter.RestrictFavCheck = SettingDialog.RestrictFavCheck
         Twitter.ReadOwnPost = SettingDialog.ReadOwnPost
         Twitter.UseSsl = SettingDialog.UseSsl
         Twitter.BitlyId = SettingDialog.BitlyUser
         Twitter.BitlyKey = SettingDialog.BitlyPwd
+        HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl
+        HttpTwitter.TwitterSearchUrl = _cfgCommon.TwitterSearchUrl
         'If IsNetworkAvailable() Then
         '    If SettingDialog.StartupFollowers Then
         '        '_waitFollower = True
@@ -1998,7 +2002,7 @@ Public Class TweenMain
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
                 If args.tName = "" Then
                     For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.PublicSearch)
-                        ret = Twitter.GetSearch(read, tb, False)
+                        If tb.SearchWords <> "" Then ret = Twitter.GetSearch(read, tb, False)
                     Next
                 Else
                     Dim tb As TabClass = _statuses.GetTabByName(args.tName)
@@ -2791,13 +2795,14 @@ Public Class TweenMain
                 Twitter.CountApi = SettingDialog.CountApi
                 Twitter.CountApiReply = SettingDialog.CountApiReply
                 'Twitter.UsePostMethod = False
-                Twitter.HubServer = SettingDialog.HubServer
                 Twitter.TinyUrlResolve = SettingDialog.TinyUrlResolve
                 Twitter.RestrictFavCheck = SettingDialog.RestrictFavCheck
                 Twitter.ReadOwnPost = SettingDialog.ReadOwnPost
                 Twitter.UseSsl = SettingDialog.UseSsl
                 Twitter.BitlyId = SettingDialog.BitlyUser
                 Twitter.BitlyKey = SettingDialog.BitlyPwd
+                HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl
+                HttpTwitter.TwitterSearchUrl = _cfgCommon.TwitterSearchUrl
 
                 'Twitter.SelectedProxyType = SettingDialog.SelectedProxyType
                 'Twitter.ProxyAddress = SettingDialog.ProxyAddress
@@ -4942,7 +4947,6 @@ RETRY:
             _cfgCommon.CountApi = SettingDialog.CountApi
             _cfgCommon.CountApiReply = SettingDialog.CountApiReply
             '_cfgCommon.UsePostMethod = False
-            _cfgCommon.HubServer = SettingDialog.HubServer
             '_cfgCommon.CheckReply = SettingDialog.CheckReply
             _cfgCommon.PostAndGet = SettingDialog.PostAndGet
             _cfgCommon.DispUsername = SettingDialog.DispUsername
@@ -5009,6 +5013,8 @@ RETRY:
             End If
             _cfgCommon.HashIsHead = HashMgr.IsHead
             _cfgCommon.HashIsPermanent = HashMgr.IsPermanent
+            _cfgCommon.TwitterUrl = SettingDialog.TwitterApiUrl
+            _cfgCommon.TwitterSearchUrl = SettingDialog.TwitterSearchApiUrl
 
             _cfgCommon.Save()
         End SyncLock
@@ -6859,7 +6865,7 @@ RETRY:
         Try
             nw = My.Computer.Network.IsAvailable
         Catch ex As Exception
-            nw = True
+            nw = False
         End Try
         _myStatusOnline = nw
         Return nw

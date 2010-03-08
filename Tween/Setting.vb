@@ -68,7 +68,6 @@ Public Class Setting
     Private _usePostMethod As Boolean
     Private _countApi As Integer
     Private _countApiReply As Integer
-    Private _hubServer As String
     Private _browserpath As String
     'Private _MyCheckReply As Boolean
     Private _MyUseRecommendStatus As Boolean
@@ -118,18 +117,16 @@ Public Class Setting
     Private _MyUseHashSupplement As Boolean
     Private _MyLanguage As String
     Private _MyIsOAuth As Boolean
-
-    Private _accessToken As String
-    Private _accessTokenSecret As String
-    Private _usernameStr As String
+    Private _MyTwitterApiUrl As String
+    Private _MyTwitterSearchApiUrl As String
 
     Private Sub Save_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Save.Click
         Try
             '_MyuserID = Username.Text.Trim()
             '_Mypassword = Password.Text.Trim()
-            If AuthBasicRadio.Checked Then
-                Twitter.Initialize(Me.Username.Text.Trim, Me.Password.Text.Trim)
-            End If
+            'If AuthBasicRadio.Checked Then
+            '    Twitter.Initialize(Me.Username.Text.Trim, Me.Password.Text.Trim)
+            'End If
             _MyIsOAuth = AuthOAuthRadio.Checked
             _MytimelinePeriod = CType(TimelinePeriod.Text, Integer)
             _MyDMPeriod = CType(DMPeriod.Text, Integer)
@@ -195,7 +192,6 @@ Public Class Setting
             _usePostMethod = False
             _countApi = CType(TextCountApi.Text, Integer)
             _countApiReply = CType(TextCountApiReply.Text, Integer)
-            _hubServer = "twitter.com"
             _browserpath = BrowserPathText.Text.Trim
             '_MyCheckReply = CheckboxReply.Checked
             _MyPostAndGet = CheckPostAndGet.Checked
@@ -272,6 +268,8 @@ Public Class Setting
             _MyShowGrid = CheckShowGrid.Checked
             _MyUseAtIdSupplement = CheckAtIdSupple.Checked
             _MyUseHashSupplement = CheckHashSupple.Checked
+            _MyTwitterApiUrl = TwitterAPIText.Text.Trim
+            _MyTwitterSearchApiUrl = TwitterSearchAPIText.Text.Trim
             Select Case ReplyIconStateCombo.SelectedIndex
                 Case 0
                     _MyReplyIconState = REPLY_ICONSTATE.None
@@ -304,38 +302,35 @@ Public Class Setting
     End Sub
 
     Private Sub Setting_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim uname As String = Twitter.Username
+        Dim pw As String = Twitter.Password
+        Dim tk As String = Twitter.AccessToken
+        Dim tks As String = Twitter.AccessTokenSecret
         If Not Me._MyIsOAuth Then
             'BASIC認証時のみ表示
-            Username.Text = Twitter.Username
-            Password.Text = Twitter.Password
-            Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
-            Me.AuthUserLabel.Text = Twitter.Username
             Me.AuthStateLabel.Enabled = False
             Me.AuthUserLabel.Enabled = False
             Me.AuthClearButton.Enabled = False
-            Me.AuthorizeButton.Enabled = False
-            Me._accessToken = ""
-            Me._accessTokenSecret = ""
-            Me._usernameStr = ""
             Me.AuthOAuthRadio.Checked = False
             Me.AuthBasicRadio.Checked = True
+            Twitter.Initialize(uname, pw)
         Else
-            If Twitter.Username = "" Then
-                Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
-                Me.AuthUserLabel.Text = ""
-            Else
-                Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
-                Me.AuthUserLabel.Text = Twitter.Username
-            End If
             Me.AuthStateLabel.Enabled = True
             Me.AuthUserLabel.Enabled = True
             Me.AuthClearButton.Enabled = True
-            Me.AuthorizeButton.Enabled = True
-            Me._accessToken = Twitter.AccessToken
-            Me._accessTokenSecret = Twitter.AccessTokenSecret
-            Me._usernameStr = Twitter.Username
             Me.AuthOAuthRadio.Checked = True
             Me.AuthBasicRadio.Checked = False
+            Twitter.Initialize(tk, tks, uname)
+        End If
+
+        Username.Text = uname
+        Password.Text = pw
+        If Twitter.Username = "" Then
+            Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
+            Me.AuthUserLabel.Text = ""
+        Else
+            Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
+            Me.AuthUserLabel.Text = Twitter.Username
         End If
 
         TimelinePeriod.Text = _MytimelinePeriod.ToString()
@@ -518,6 +513,8 @@ Public Class Setting
         CheckShowGrid.Checked = _MyShowGrid
         CheckAtIdSupple.Checked = _MyUseAtIdSupplement
         CheckHashSupple.Checked = _MyUseHashSupplement
+        TwitterAPIText.Text = _MyTwitterApiUrl
+        TwitterSearchAPIText.Text = _MyTwitterSearchApiUrl
         Select Case _MyReplyIconState
             Case REPLY_ICONSTATE.None
                 ReplyIconStateCombo.SelectedIndex = 0
@@ -1351,15 +1348,6 @@ Public Class Setting
         End Set
     End Property
 
-    Public Property HubServer() As String
-        Get
-            Return _hubServer
-        End Get
-        Set(ByVal value As String)
-            _hubServer = value
-        End Set
-    End Property
-
     Public Property BrowserPath() As String
         Get
             Return _browserpath
@@ -1697,6 +1685,24 @@ Public Class Setting
         End Set
     End Property
 
+    Public Property TwitterApiUrl() As String
+        Get
+            Return _MyTwitterApiUrl
+        End Get
+        Set(ByVal value As String)
+            _MyTwitterApiUrl = value
+        End Set
+    End Property
+
+    Public Property TwitterSearchApiUrl() As String
+        Get
+            Return _MyTwitterSearchApiUrl
+        End Get
+        Set(ByVal value As String)
+            _MyTwitterSearchApiUrl = value
+        End Set
+    End Property
+
     Public Property Language() As String
         Get
             Return _MyLanguage
@@ -1962,30 +1968,37 @@ Public Class Setting
         End If
 
         '現在の設定内容で通信
+        Dim ptype As HttpConnection.ProxyType
         If RadioProxyNone.Checked Then
-            _MyProxyType = HttpConnection.ProxyType.None
+            ptype = HttpConnection.ProxyType.None
         ElseIf RadioProxyIE.Checked Then
-            _MyProxyType = HttpConnection.ProxyType.IE
+            ptype = HttpConnection.ProxyType.IE
         Else
-            _MyProxyType = HttpConnection.ProxyType.Specified
+            ptype = HttpConnection.ProxyType.Specified
         End If
-        _MyProxyAddress = TextProxyAddress.Text.Trim()
-        _MyProxyPort = Integer.Parse(TextProxyPort.Text.Trim())
-        _MyProxyUser = TextProxyUser.Text.Trim()
-        _MyProxyPassword = TextProxyPassword.Text.Trim()
+        Dim padr As String = TextProxyAddress.Text.Trim()
+        Dim pport As Integer = Integer.Parse(TextProxyPort.Text.Trim())
+        Dim pusr As String = TextProxyUser.Text.Trim()
+        Dim ppw As String = TextProxyPassword.Text.Trim()
 
         '通信基底クラス初期化
-        HttpConnection.InitializeConnection(20, _MyProxyType, _MyProxyAddress, _MyProxyPort, _MyProxyUser, _MyProxyPassword)
+        HttpConnection.InitializeConnection(20, ptype, padr, pport, pusr, ppw)
+        HttpTwitter.TwitterUrl = TwitterAPIText.Text.Trim
+        HttpTwitter.TwitterSearchUrl = TwitterSearchAPIText.Text.Trim
+        If Me.AuthBasicRadio.Checked Then
+            Twitter.Initialize("", "")
+        Else
+            Twitter.Initialize("", "", "")
+        End If
         Dim rslt As Boolean = Twitter.Authenticate(user, pwd)
         If rslt Then
             MessageBox.Show(My.Resources.AuthorizeButton_Click1, "Authenticate", MessageBoxButtons.OK)
             Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
             Me.AuthUserLabel.Text = Twitter.Username
-            Me._accessToken = Twitter.AccessToken
-            Me._accessTokenSecret = Twitter.AccessTokenSecret
-            Me._usernameStr = Twitter.Username
         Else
             MessageBox.Show(My.Resources.AuthorizeButton_Click2, "Authenticate", MessageBoxButtons.OK)
+            Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
+            Me.AuthUserLabel.Text = ""
         End If
     End Sub
 
@@ -1993,9 +2006,6 @@ Public Class Setting
         Twitter.ClearAuthInfo()
         Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
         Me.AuthUserLabel.Text = ""
-        Me._accessToken = ""
-        Me._accessTokenSecret = ""
-        Me._usernameStr = ""
     End Sub
 
     Private Sub AuthOAuthRadio_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AuthOAuthRadio.CheckedChanged
@@ -2003,26 +2013,18 @@ Public Class Setting
             'BASIC認証時のみ表示
             'Username.Text = Twitter.Username
             'Password.Text = Twitter.Password
-            Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
-            Me.AuthUserLabel.Text = Twitter.Username
+            Twitter.Initialize("", "")
             Me.AuthStateLabel.Enabled = False
             Me.AuthUserLabel.Enabled = False
             Me.AuthClearButton.Enabled = False
-            Me.AuthorizeButton.Enabled = False
         Else
-            Twitter.Initialize(Me._accessToken, Me._accessTokenSecret, Me._usernameStr)
-            If Twitter.Username = "" Then
-                Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
-                Me.AuthUserLabel.Text = ""
-            Else
-                Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
-                Me.AuthUserLabel.Text = Twitter.Username
-            End If
+            Twitter.Initialize("", "", "")
             Me.AuthStateLabel.Enabled = True
             Me.AuthUserLabel.Enabled = True
             Me.AuthClearButton.Enabled = True
-            Me.AuthorizeButton.Enabled = True
         End If
+        Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
+        Me.AuthUserLabel.Text = ""
     End Sub
 End Class
 

@@ -101,7 +101,8 @@ Public Class HttpConnectionBasic
         Dim orgCre As String = Me.credential
         Me.credential = "Basic " + Convert.ToBase64String(Encoding.ASCII.GetBytes(username + ":" + password))
         Try
-            If Me.GetContent("GET", url, Nothing, Nothing, Nothing) = HttpStatusCode.OK Then
+            Dim content As String = ""
+            If Me.GetContent("GET", url, Nothing, content, Nothing) = HttpStatusCode.OK Then
                 Me._userName = username
                 Me._password = password
                 Return True
