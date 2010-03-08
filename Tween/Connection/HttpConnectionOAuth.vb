@@ -150,7 +150,7 @@ Public Class HttpConnectionOAuth
     '''<param name="username">認証用ユーザー名</param>
     '''<param name="password">認証用パスワード</param>
     '''<returns>取得結果真偽値</returns>
-    Public Function AuthenticateXAuth(ByVal accessTokenUrl As String, ByVal username As String, ByVal password As String) As Boolean Implements IHttpConnection.Authenticate
+    Public Function AuthenticateXAuth(ByVal accessTokenUrl As Uri, ByVal username As String, ByVal password As String) As Boolean Implements IHttpConnection.Authenticate
         'ユーザー・パスワードチェック
         If String.IsNullOrEmpty(username) OrElse String.IsNullOrEmpty(password) Then
             Throw New Exception("Sequence error.(username or password is blank)")
@@ -162,7 +162,7 @@ Public Class HttpConnectionOAuth
         parameter.Add("x_auth_password", password)
 
         'アクセストークン取得
-        Dim accessTokenData As NameValueCollection = GetOAuthToken(New Uri(accessTokenUrl), "", "", parameter)
+        Dim accessTokenData As NameValueCollection = GetOAuthToken(accessTokenUrl, "", "", parameter)
 
         If accessTokenData IsNot Nothing Then
             token = accessTokenData.Item("oauth_token")
@@ -393,4 +393,5 @@ Public Class HttpConnectionOAuth
             Return authorizedUsername
         End Get
     End Property
+
 End Class

@@ -209,9 +209,17 @@ Public Module Twitter
     End Sub
 
     Public Sub Initialize(ByVal token As String, ByVal tokenSecret As String, ByVal username As String)
+        'xAuth認証
         twCon.Initialize(token, tokenSecret, username)
         _uid = username.ToLower
     End Sub
+
+    Public Sub Initialize(ByVal username As String, ByVal password As String)
+        'BASIC認証
+        twCon.Initialize(username, password)
+        _uid = username.ToLower
+    End Sub
+
     'Private Function SignIn() As String
     '    If _endingFlag Then Return ""
 
@@ -2672,6 +2680,12 @@ Public Module Twitter
     Public ReadOnly Property Username() As String
         Get
             Return twCon.AuthenticatedUsername
+        End Get
+    End Property
+
+    Public ReadOnly Property Password() As String
+        Get
+            Return twCon.Password
         End Get
     End Property
 

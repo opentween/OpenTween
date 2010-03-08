@@ -70,8 +70,8 @@ Public Class HttpVarious
         End Try
     End Function
 
-    Public Function GetContent(ByVal method As String, ByVal Url As String, ByVal param As Dictionary(Of String, String), ByRef content As String, ByVal headerInfo As Dictionary(Of String, String), ByVal userAgent As String) As HttpStatusCode
-        Dim req As HttpWebRequest = CreateRequest(method, New Uri(Url), param, False)
+    Public Function GetContent(ByVal method As String, ByVal Url As Uri, ByVal param As Dictionary(Of String, String), ByRef content As String, ByVal headerInfo As Dictionary(Of String, String), ByVal userAgent As String) As HttpStatusCode
+        Dim req As HttpWebRequest = CreateRequest(method, Url, param, False)
         req.UserAgent = userAgent
         Return Me.GetResponse(req, content, headerInfo, False)
     End Function

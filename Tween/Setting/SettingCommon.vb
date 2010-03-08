@@ -36,16 +36,17 @@ Public Class SettingCommon
 
     Public UserName As String = ""
 
-    '<Xml.Serialization.XmlIgnore()> _
-    'Public Password As String = ""
-    'Public Property EncryptPassword() As String
-    '    Get
-    '        Return Encrypt(Password)
-    '    End Get
-    '    Set(ByVal value As String)
-    '        Password = Decrypt(value)
-    '    End Set
-    'End Property
+    <Xml.Serialization.XmlIgnore()> _
+    Public Password As String = ""
+    Public Property EncryptPassword() As String
+        Get
+            Return Encrypt(Password)
+        End Get
+        Set(ByVal value As String)
+            Password = Decrypt(value)
+        End Set
+    End Property
+
     Public Token As String = ""
     <Xml.Serialization.XmlIgnore()> _
     Public TokenSecret As String = ""
@@ -165,4 +166,7 @@ Public Class SettingCommon
     Public ShowGrid As Boolean = False
     Public UseAtIdSupplement As Boolean = True
     Public UseHashSupplement As Boolean = True
+    Public TwitterUrl As String = "api.twitter.com"
+    Public TwitterSearchUrl As String = "search.twitter.com"
+    Public IsOAuth As Boolean = True
 End Class

@@ -521,6 +521,8 @@ Public Class TweenMain
         '設定画面への反映
         'SettingDialog.UserID = _cfgCommon.UserName                                'ユーザ名
         'SettingDialog.PasswordStr = _cfgCommon.Password                           'パスワード
+        SettingDialog.IsOAuth = _cfgCommon.IsOAuth
+
         SettingDialog.TimelinePeriodInt = _cfgCommon.TimelinePeriod
         SettingDialog.ReplyPeriodInt = _cfgCommon.ReplyPeriod
         SettingDialog.DMPeriodInt = _cfgCommon.DMPeriod
@@ -688,8 +690,12 @@ Public Class TweenMain
         If HashMgr.UseHash <> "" AndAlso HashMgr.IsPermanent Then HashStripSplitButton.Text = HashMgr.UseHash
 
         '認証関連
-        If _cfgCommon.Token = "" Then _cfgCommon.UserName = ""
-        Twitter.Initialize(_cfgCommon.Token, _cfgCommon.TokenSecret, _cfgCommon.UserName)
+        If _cfgCommon.IsOAuth Then
+            If _cfgCommon.Token = "" Then _cfgCommon.UserName = ""
+            Twitter.Initialize(_cfgCommon.Token, _cfgCommon.TokenSecret, _cfgCommon.UserName)
+        Else
+            Twitter.Initialize(_cfgCommon.UserName, _cfgCommon.Password)
+        End If
 
         _initial = True
 
@@ -4909,6 +4915,8 @@ RETRY:
         modifySettingCommon = False
         SyncLock _syncObject
             _cfgCommon.UserName = Twitter.Username
+            _cfgCommon.Password = Twitter.Password
+            _cfgCommon.IsOAuth = SettingDialog.IsOAuth
             '_cfgCommon.Password = SettingDialog.PasswordStr
             _cfgCommon.Token = Twitter.AccessToken
             _cfgCommon.TokenSecret = Twitter.AccessTokenSecret

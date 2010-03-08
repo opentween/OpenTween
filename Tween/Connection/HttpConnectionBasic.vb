@@ -14,11 +14,11 @@ Public Class HttpConnectionBasic
     '''<summary>
     '''認証用ユーザー名
     '''</summary>
-    Private userName As String = ""
+    Private _userName As String = ""
     '''<summary>
     '''認証用パスワード
     '''</summary>
-    Private password As String = ""
+    Private _password As String = ""
     '''<summary>
     '''Authorizationヘッダに設定するエンコード済み文字列
     '''</summary>
@@ -67,8 +67,8 @@ Public Class HttpConnectionBasic
     '''<param name="userName">認証で使用するユーザー名</param>
     '''<param name="password">認証で使用するパスワード</param>
     Public Sub Initialize(ByVal userName As String, ByVal password As String)
-        Me.userName = userName
-        Me.password = password
+        Me._userName = userName
+        Me._password = password
         Me.credential = "Basic " + Convert.ToBase64String(Encoding.ASCII.GetBytes(userName + ":" + password))
     End Sub
 
@@ -77,7 +77,16 @@ Public Class HttpConnectionBasic
     '''</summary>
     Public ReadOnly Property AuthUsername() As String Implements IHttpConnection.AuthUsername
         Get
-            Return userName
+            Return _userName
+        End Get
+    End Property
+
+    '''<summary>
+    '''パスワード
+    '''</summary>
+    Public ReadOnly Property Password() As String
+        Get
+            Return Me._password
         End Get
     End Property
 
@@ -87,14 +96,14 @@ Public Class HttpConnectionBasic
     '''<param name="url">認証先のURL</param>
     '''<param name="userName">認証で使用するユーザー名</param>
     '''<param name="password">認証で使用するパスワード</param>
-    Public Function Authenticate(ByVal url As String, ByVal username As String, ByVal password As String) As Boolean Implements IHttpConnection.Authenticate
+    Public Function Authenticate(ByVal url As Uri, ByVal username As String, ByVal password As String) As Boolean Implements IHttpConnection.Authenticate
         'urlは認証必要なGETメソッドとする
         Dim orgCre As String = Me.credential
         Me.credential = "Basic " + Convert.ToBase64String(Encoding.ASCII.GetBytes(username + ":" + password))
         Try
-            If Me.GetContent("GET", New Uri(url), Nothing, Nothing, Nothing) = HttpStatusCode.OK Then
-                Me.userName = username
-                Me.password = password
+            If Me.GetContent("GET", url, Nothing, Nothing, Nothing) = HttpStatusCode.OK Then
+                Me._userName = username
+                Me._password = password
                 Return True
             End If
             Me.credential = orgCre
