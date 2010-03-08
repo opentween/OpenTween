@@ -48,12 +48,12 @@ Public Class HttpConnectionOAuth
     '''<summary>
     '''認証成功時の応答でユーザー情報を取得する場合のキー。設定しない場合は、AuthUsernameもブランクのままとなる
     '''</summary>
-    Private userIdentKey As String
+    Private userIdentKey As String = ""
 
     '''<summary>
     '''認証完了時の応答からuserIdentKey情報に基づいて取得するユーザー情報
     '''</summary>
-    Private authorizedUsername As String
+    Private authorizedUsername As String = ""
 
     '''<summary>
     '''OAuth認証で指定のURLとHTTP通信を行い、結果を返す

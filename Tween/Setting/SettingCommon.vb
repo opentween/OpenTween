@@ -113,7 +113,6 @@ Public Class SettingCommon
     Public MinimizeToTray As Boolean = False
     Public CloseToExit As Boolean = False
     Public DispLatestPost As DispTitleEnum = DispTitleEnum.Post
-    Public HubServer As String = "twitter.com"
     Public SortOrderLock As Boolean = False
     Public TinyUrlResolve As Boolean = True
     Public PeriodAdjust As Boolean = True

@@ -2732,15 +2732,6 @@ Public Module Twitter
     '    End Set
     'End Property
 
-    Public Property HubServer() As String
-        Get
-            Return _hubServer
-        End Get
-        Set(ByVal value As String)
-            _hubServer = value
-        End Set
-    End Property
-
     '    Public Sub GetWedata()
     '        Dim resStatus As String = ""
     '        Dim resMsg As String = ""
@@ -3452,6 +3443,8 @@ Public Module Twitter
             Case HttpStatusCode.PaymentRequired 'API Documentには420と書いてあるが、該当コードがないので402にしてある
                 Return "Search API Limit?"
             Case HttpStatusCode.OK
+            Case Else
+                Return "Err:" + res.ToString
         End Select
 
         If Not TabInformations.GetInstance.ContainsTab(tab) Then Return ""
