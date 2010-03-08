@@ -38,8 +38,9 @@ Public Class HttpConnectionBasic
             ByVal param As Dictionary(Of String, String), _
             ByRef content As String, _
             ByVal headerInfo As Dictionary(Of String, String)) As HttpStatusCode Implements IHttpConnection.GetContent
-        'contentがインスタンスされているかチェック
-        If content Is Nothing Then Throw New ArgumentNullException("content")
+
+        '認証済かチェック
+        If String.IsNullOrEmpty(_userName) OrElse String.IsNullOrEmpty(_password) Then Throw New Exception("Sequence error. (account is blank.)")
 
         Dim webReq As HttpWebRequest = CreateRequest(method, _
                                                     requestUri, _
@@ -48,7 +49,11 @@ Public Class HttpConnectionBasic
         'BASIC認証用ヘッダを付加
         AppendApiInfo(webReq)
 
-        Return GetResponse(webReq, content, headerInfo, False)
+        If content Is Nothing Then
+            Return GetResponse(webReq, headerInfo, False)
+        Else
+            Return GetResponse(webReq, content, headerInfo, False)
+        End If
     End Function
 
     '''<summary>
@@ -101,8 +106,7 @@ Public Class HttpConnectionBasic
         Dim orgCre As String = Me.credential
         Me.credential = "Basic " + Convert.ToBase64String(Encoding.ASCII.GetBytes(username + ":" + password))
         Try
-            Dim content As String = ""
-            If Me.GetContent("GET", url, Nothing, content, Nothing) = HttpStatusCode.OK Then
+            If Me.GetContent("GET", url, Nothing, Nothing, Nothing) = HttpStatusCode.OK Then
                 Me._userName = username
                 Me._password = password
                 Return True
