@@ -218,6 +218,9 @@ Partial Class Setting
         Me.Label59 = New System.Windows.Forms.Label
         Me.TextBoxOutputzKey = New System.Windows.Forms.TextBox
         Me.CheckOutputz = New System.Windows.Forms.CheckBox
+        Me.Label6 = New System.Windows.Forms.Label
+        Me.AuthOAuthRadio = New System.Windows.Forms.RadioButton
+        Me.AuthBasicRadio = New System.Windows.Forms.RadioButton
         Me.GroupBox1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
@@ -857,6 +860,9 @@ Partial Class Setting
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.AuthBasicRadio)
+        Me.TabPage1.Controls.Add(Me.AuthOAuthRadio)
+        Me.TabPage1.Controls.Add(Me.Label6)
         Me.TabPage1.Controls.Add(Me.AuthClearButton)
         Me.TabPage1.Controls.Add(Me.AuthUserLabel)
         Me.TabPage1.Controls.Add(Me.AuthStateLabel)
@@ -1508,6 +1514,25 @@ Partial Class Setting
         Me.CheckOutputz.Name = "CheckOutputz"
         Me.CheckOutputz.UseVisualStyleBackColor = True
         '
+        'Label6
+        '
+        resources.ApplyResources(Me.Label6, "Label6")
+        Me.Label6.Name = "Label6"
+        '
+        'AuthOAuthRadio
+        '
+        resources.ApplyResources(Me.AuthOAuthRadio, "AuthOAuthRadio")
+        Me.AuthOAuthRadio.Name = "AuthOAuthRadio"
+        Me.AuthOAuthRadio.TabStop = True
+        Me.AuthOAuthRadio.UseVisualStyleBackColor = True
+        '
+        'AuthBasicRadio
+        '
+        resources.ApplyResources(Me.AuthBasicRadio, "AuthBasicRadio")
+        Me.AuthBasicRadio.Name = "AuthBasicRadio"
+        Me.AuthBasicRadio.TabStop = True
+        Me.AuthBasicRadio.UseVisualStyleBackColor = True
+        '
         'Setting
         '
         Me.AcceptButton = Me.Save
@@ -1736,4 +1761,7 @@ Partial Class Setting
     Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents AuthUserLabel As System.Windows.Forms.Label
     Friend WithEvents AuthClearButton As System.Windows.Forms.Button
+    Friend WithEvents AuthBasicRadio As System.Windows.Forms.RadioButton
+    Friend WithEvents AuthOAuthRadio As System.Windows.Forms.RadioButton
+    Friend WithEvents Label6 As System.Windows.Forms.Label
 End Class

@@ -117,11 +117,20 @@ Public Class Setting
     Private _MyUseAtIdSupplement As Boolean
     Private _MyUseHashSupplement As Boolean
     Private _MyLanguage As String
+    Private _MyIsOAuth As Boolean
+
+    Private _accessToken As String
+    Private _accessTokenSecret As String
+    Private _usernameStr As String
 
     Private Sub Save_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Save.Click
         Try
             '_MyuserID = Username.Text.Trim()
             '_Mypassword = Password.Text.Trim()
+            If AuthBasicRadio.Checked Then
+                Twitter.Initialize(Me.Username.Text.Trim, Me.Password.Text.Trim)
+            End If
+            _MyIsOAuth = AuthOAuthRadio.Checked
             _MytimelinePeriod = CType(TimelinePeriod.Text, Integer)
             _MyDMPeriod = CType(DMPeriod.Text, Integer)
             _MyPubSearchPeriod = CType(PubSearchPeriod.Text, Integer)
@@ -295,15 +304,40 @@ Public Class Setting
     End Sub
 
     Private Sub Setting_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        'Username.Text = _MyuserID
-        'Password.Text = _Mypassword
-        If Twitter.Username = "" Then
-            Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
-            Me.AuthUserLabel.Text = ""
-        Else
+        If Not Me._MyIsOAuth Then
+            'BASIC認証時のみ表示
+            Username.Text = Twitter.Username
+            Password.Text = Twitter.Password
             Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
             Me.AuthUserLabel.Text = Twitter.Username
+            Me.AuthStateLabel.Enabled = False
+            Me.AuthUserLabel.Enabled = False
+            Me.AuthClearButton.Enabled = False
+            Me.AuthorizeButton.Enabled = False
+            Me._accessToken = ""
+            Me._accessTokenSecret = ""
+            Me._usernameStr = ""
+            Me.AuthOAuthRadio.Checked = False
+            Me.AuthBasicRadio.Checked = True
+        Else
+            If Twitter.Username = "" Then
+                Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
+                Me.AuthUserLabel.Text = ""
+            Else
+                Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
+                Me.AuthUserLabel.Text = Twitter.Username
+            End If
+            Me.AuthStateLabel.Enabled = True
+            Me.AuthUserLabel.Enabled = True
+            Me.AuthClearButton.Enabled = True
+            Me.AuthorizeButton.Enabled = True
+            Me._accessToken = Twitter.AccessToken
+            Me._accessTokenSecret = Twitter.AccessTokenSecret
+            Me._usernameStr = Twitter.Username
+            Me.AuthOAuthRadio.Checked = True
+            Me.AuthBasicRadio.Checked = False
         End If
+
         TimelinePeriod.Text = _MytimelinePeriod.ToString()
         ReplyPeriod.Text = _MyReplyPeriod.ToString()
         DMPeriod.Text = _MyDMPeriod.ToString()
@@ -1672,6 +1706,15 @@ Public Class Setting
         End Set
     End Property
 
+    Public Property IsOAuth() As Boolean
+        Get
+            Return _MyIsOAuth
+        End Get
+        Set(ByVal value As Boolean)
+            _MyIsOAuth = value
+        End Set
+    End Property
+
     Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
         Dim filedlg As New OpenFileDialog()
 
@@ -1938,6 +1981,9 @@ Public Class Setting
             MessageBox.Show(My.Resources.AuthorizeButton_Click1, "Authenticate", MessageBoxButtons.OK)
             Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
             Me.AuthUserLabel.Text = Twitter.Username
+            Me._accessToken = Twitter.AccessToken
+            Me._accessTokenSecret = Twitter.AccessTokenSecret
+            Me._usernameStr = Twitter.Username
         Else
             MessageBox.Show(My.Resources.AuthorizeButton_Click2, "Authenticate", MessageBoxButtons.OK)
         End If
@@ -1947,7 +1993,36 @@ Public Class Setting
         Twitter.ClearAuthInfo()
         Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
         Me.AuthUserLabel.Text = ""
+        Me._accessToken = ""
+        Me._accessTokenSecret = ""
+        Me._usernameStr = ""
     End Sub
 
+    Private Sub AuthOAuthRadio_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AuthOAuthRadio.CheckedChanged
+        If AuthBasicRadio.Checked Then
+            'BASIC認証時のみ表示
+            'Username.Text = Twitter.Username
+            'Password.Text = Twitter.Password
+            Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
+            Me.AuthUserLabel.Text = Twitter.Username
+            Me.AuthStateLabel.Enabled = False
+            Me.AuthUserLabel.Enabled = False
+            Me.AuthClearButton.Enabled = False
+            Me.AuthorizeButton.Enabled = False
+        Else
+            Twitter.Initialize(Me._accessToken, Me._accessTokenSecret, Me._usernameStr)
+            If Twitter.Username = "" Then
+                Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
+                Me.AuthUserLabel.Text = ""
+            Else
+                Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
+                Me.AuthUserLabel.Text = Twitter.Username
+            End If
+            Me.AuthStateLabel.Enabled = True
+            Me.AuthUserLabel.Enabled = True
+            Me.AuthClearButton.Enabled = True
+            Me.AuthorizeButton.Enabled = True
+        End If
+    End Sub
 End Class
 

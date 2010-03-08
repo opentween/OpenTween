@@ -78,11 +78,19 @@ Public Class HttpTwitter
         End Get
     End Property
 
+    Public ReadOnly Property Password() As String
+        Get
+            'OAuthではパスワード取得させない
+            If connectionType = AuthMethod.Basic Then Return DirectCast(httpCon, HttpConnectionBasic).Password
+            Return ""
+        End Get
+    End Property
+
     Public Function AuthUserAndPass(ByVal username As String, ByVal password As String) As Boolean
         If connectionType = AuthMethod.Basic Then
-            Return httpCon.Authenticate("https://api.twitter.com/1/account/verify_credentials.xml", username, password)
+            Return httpCon.Authenticate(CreateTwitterUri("/1/account/verify_credentials.xml"), username, password)
         Else
-            Return httpCon.Authenticate(AccessTokenUrlXAuth, username, password)
+            Return httpCon.Authenticate(New Uri(AccessTokenUrlXAuth), username, password)
         End If
     End Function
 
@@ -106,12 +114,14 @@ Public Class HttpTwitter
 
     Public ReadOnly Property RemainCountApi() As Integer
         Get
+            If _remainCountApi("X-RateLimit-Remaining") = "" Then Return 0
             Return Integer.Parse(_remainCountApi("X-RateLimit-Remaining"))
         End Get
     End Property
 
     Public ReadOnly Property UpperCountApi() As Integer
         Get
+            If _remainCountApi("X-RateLimit-Limit") = "" Then Return 0
             Return Integer.Parse(_remainCountApi("X-RateLimit-Limit"))
         End Get
     End Property
@@ -140,7 +150,7 @@ Public Class HttpTwitter
         If replyToId > 0 Then param.Add("in_reply_to_status_id", replyToId.ToString)
 
         Return httpCon.GetContent(PostMethod, _
-                            New Uri(_protocol + "api.twitter.com/1/statuses/update.xml"), _
+                            CreateTwitterUri("/1/statuses/update.xml"), _
                             param, _
                             content, _
                             Nothing)
@@ -152,7 +162,7 @@ Public Class HttpTwitter
         End If
 
         Return httpCon.GetContent(PostMethod, _
-                            New Uri(_protocol + "api.twitter.com/1/statuses/destroy/" + id.ToString + ".xml"), _
+                            CreateTwitterUri("/1/statuses/destroy/" + id.ToString + ".xml"), _
                             Nothing, _
                             Nothing, _
                             Nothing)
@@ -164,7 +174,7 @@ Public Class HttpTwitter
         End If
 
         Return httpCon.GetContent(PostMethod, _
-                            New Uri(_protocol + "api.twitter.com/1/direct_messages/destroy/" + id.ToString + ".xml"), _
+                            CreateTwitterUri("/1/direct_messages/destroy/" + id.ToString + ".xml"), _
                             Nothing, _
                             Nothing, _
                             Nothing)
@@ -175,7 +185,7 @@ Public Class HttpTwitter
             Return HttpStatusCode.Unauthorized
         End If
         Return httpCon.GetContent(PostMethod, _
-                            New Uri(_protocol + "api.twitter.com/1/statuses/retweet/" + id.ToString() + ".xml"), _
+                            CreateTwitterUri("/1/statuses/retweet/" + id.ToString() + ".xml"), _
                             Nothing, _
                             content, _
                             Nothing)
@@ -189,7 +199,7 @@ Public Class HttpTwitter
         param.Add("screen_name", screenName)
 
         Return httpCon.GetContent(PostMethod, _
-                            New Uri(_protocol + "api.twitter.com/1/friendships/create.xml"), _
+                            CreateTwitterUri("/1/friendships/create.xml"), _
                             param, _
                             Nothing, _
                             Nothing)
@@ -203,7 +213,7 @@ Public Class HttpTwitter
         param.Add("screen_name", screenName)
 
         Return httpCon.GetContent(PostMethod, _
-                            New Uri(_protocol + "api.twitter.com/1/friendships/destroy.xml"), _
+                            CreateTwitterUri("/1/friendships/destroy.xml"), _
                             param, _
                             Nothing, _
                             Nothing)
@@ -218,7 +228,7 @@ Public Class HttpTwitter
         param.Add("target_screen_name", targetScreenName)
 
         Return httpCon.GetContent(GetMethod, _
-                            New Uri(_protocol + "api.twitter.com/1/friendships/show.xml"), _
+                            CreateTwitterUri("/1/friendships/show.xml"), _
                             param, _
                             content, _
                             _remainCountApi)
@@ -230,7 +240,7 @@ Public Class HttpTwitter
         End If
 
         Return httpCon.GetContent(GetMethod, _
-                            New Uri(_protocol + "api.twitter.com/1/statuses/show/" + id.ToString() + ".xml"), _
+                            CreateTwitterUri("/1/statuses/show/" + id.ToString() + ".xml"), _
                             Nothing, _
                             content, _
                             _remainCountApi)
@@ -242,7 +252,7 @@ Public Class HttpTwitter
         End If
 
         Return httpCon.GetContent(PostMethod, _
-                            New Uri(_protocol + "api.twitter.com/1/favorites/create/" + id.ToString() + ".xml"), _
+                            CreateTwitterUri("/1/favorites/create/" + id.ToString() + ".xml"), _
                             Nothing, _
                             Nothing, _
                             Nothing)
@@ -254,7 +264,7 @@ Public Class HttpTwitter
         End If
 
         Return httpCon.GetContent(PostMethod, _
-                            New Uri(_protocol + "api.twitter.com/1/favorites/destroy/" + id.ToString() + ".xml"), _
+                            CreateTwitterUri("/1/favorites/destroy/" + id.ToString() + ".xml"), _
                             Nothing, _
                             Nothing, _
                             Nothing)
@@ -270,7 +280,7 @@ Public Class HttpTwitter
         End If
 
         Return httpCon.GetContent(GetMethod, _
-                            New Uri(_protocol + "api.twitter.com/1/statuses/home_timeline.xml"), _
+                            CreateTwitterUri("/1/statuses/home_timeline.xml"), _
                             param, _
                             content, _
                             _remainCountApi)
@@ -286,7 +296,7 @@ Public Class HttpTwitter
         End If
 
         Return httpCon.GetContent(GetMethod, _
-                            New Uri(_protocol + "api.twitter.com/1/statuses/mentions.xml"), _
+                            CreateTwitterUri("/1/statuses/mentions.xml"), _
                             param, _
                             content, _
                             _remainCountApi)
@@ -298,7 +308,7 @@ Public Class HttpTwitter
         End If
 
         Return httpCon.GetContent(GetMethod, _
-                            New Uri(_protocol + "api.twitter.com/1/direct_messages.xml"), _
+                            CreateTwitterUri("/1/direct_messages.xml"), _
                             Nothing, _
                             content, _
                             _remainCountApi)
@@ -310,7 +320,7 @@ Public Class HttpTwitter
         End If
 
         Return httpCon.GetContent(GetMethod, _
-                            New Uri(_protocol + "api.twitter.com/1/direct_messages/sent.xml"), _
+                            CreateTwitterUri("/1/direct_messages/sent.xml"), _
                             Nothing, _
                             content, _
                             _remainCountApi)
@@ -324,7 +334,7 @@ Public Class HttpTwitter
         If count <> 20 Then param.Add("count", count.ToString())
 
         Return httpCon.GetContent(GetMethod, _
-                            New Uri(_protocol + "api.twitter.com/1/favorites.xml"), _
+                            CreateTwitterUri("/1/favorites.xml"), _
                             param, _
                             content, _
                             _remainCountApi)
@@ -340,7 +350,7 @@ Public Class HttpTwitter
         If param.Count = 0 Then Return HttpStatusCode.BadRequest
 
         Return httpConVar.GetContent(GetMethod, _
-                                        _protocol + "search.twitter.com/search.atom", _
+                                        CreateTwitterSearchUri("/search.atom"), _
                                         param, _
                                         content, _
                                         Nothing, _
@@ -355,7 +365,7 @@ Public Class HttpTwitter
         param.Add("cursor", cursor.ToString())
 
         Return httpCon.GetContent(GetMethod, _
-                            New Uri(_protocol + "api.twitter.com/1/followers/ids.xml"), _
+                            CreateTwitterUri("/1/followers/ids.xml"), _
                             param, _
                             content, _
                             _remainCountApi)
@@ -367,10 +377,34 @@ Public Class HttpTwitter
         End If
 
         Return httpCon.GetContent(GetMethod, _
-                            New Uri(_protocol + "api.twitter.com/1/account/rate_limit_status.xml"), _
+                            CreateTwitterUri("/1/account/rate_limit_status.xml"), _
                             Nothing, _
                             content, _
                             Nothing)
     End Function
 
+    Private Shared _twitterUrl As String = "api.twitter.com"
+    'Private TwitterUrl As String = "sorayukigtap.appspot.com/api"
+    Private Shared _TwitterSearchUrl As String = "search.twitter.com"
+    'Private TwitterSearchUrl As String = "sorayukigtap.appspot.com/search"
+
+    Private Function CreateTwitterUri(ByVal path As String) As Uri
+        Return New Uri(String.Format("{0}{1}{2}", _protocol, _twitterUrl, path))
+    End Function
+
+    Private Function CreateTwitterSearchUri(ByVal path As String) As Uri
+        Return New Uri(String.Format("{0}{1}{2}", _protocol, _TwitterSearchUrl, path))
+    End Function
+
+    Public Shared WriteOnly Property TwitterUrl() As String
+        Set(ByVal value As String)
+            _twitterUrl = value
+        End Set
+    End Property
+
+    Public Shared WriteOnly Property TwitterSearchUrl() As String
+        Set(ByVal value As String)
+            _TwitterSearchUrl = value
+        End Set
+    End Property
 End Class

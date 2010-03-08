@@ -161,11 +161,9 @@ Public Class HttpConnection
                 GetHeaderInfo(webRes, headerInfo)
                 '応答のストリームをテキストに書き出し
                 If contentText Is Nothing Then Throw New ArgumentNullException("contentText")
-                If webRes.ContentLength > 0 Then
-                    Using sr As StreamReader = New StreamReader(webRes.GetResponseStream)
-                        contentText = sr.ReadToEnd()
-                    End Using
-                End If
+                Using sr As StreamReader = New StreamReader(webRes.GetResponseStream)
+                    contentText = sr.ReadToEnd()
+                End Using
                 Return statusCode
             End Using
         Catch ex As WebException

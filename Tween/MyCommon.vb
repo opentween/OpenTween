@@ -536,4 +536,5 @@ retry:
     End Enum
 
     Public fileVersion As String
+
 End Module
