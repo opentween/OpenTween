@@ -807,7 +807,7 @@ Public NotInheritable Class TabInformations
             If post.IsFav Then    'Fav済み発言だったらFavoritesタブに追加
                 If favTab.Contains(post.Id) Then
                     '取得済みなら非通知
-                    _soundFile = ""
+                    '_soundFile = ""
                     add = False
                 Else
                     favTab.Add(post.Id, post.IsRead, True)
@@ -820,18 +820,24 @@ Public NotInheritable Class TabInformations
         For Each tb As TabClass In _tabs.Values
             If tb.TabType = TabUsageType.PublicSearch OrElse tb.TabType = TabUsageType.DirectMessage Then
                 If tb.Notify Then
-                    For Each post As PostClass In tb.GetTemporaryPosts
-                        Dim exist As Boolean = False
-                        For Each npost As PostClass In _notifyPosts
-                            If npost.Id = post.Id Then
-                                exist = True
-                                Exit For
-                            End If
+                    If tb.GetTemporaryCount > 0 Then
+                        For Each post As PostClass In tb.GetTemporaryPosts
+                            Dim exist As Boolean = False
+                            For Each npost As PostClass In _notifyPosts
+                                If npost.Id = post.Id Then
+                                    exist = True
+                                    Exit For
+                                End If
+                            Next
+                            If Not exist Then _notifyPosts.Add(post)
                         Next
-                        If Not exist Then _notifyPosts.Add(post)
-                    Next
+                        If tb.SoundFile <> "" Then
+                            If tb.TabType = TabUsageType.DirectMessage OrElse _soundFile = "" Then
+                                _soundFile = tb.SoundFile
+                            End If
+                        End If
+                    End If
                 End If
-                If tb.SoundFile <> "" Then _soundFile = tb.SoundFile
             End If
         Next
     End Sub
