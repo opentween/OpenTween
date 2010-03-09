@@ -31,7 +31,7 @@ Imports System.Globalization
 Imports System.Diagnostics
 Imports System.Net
 
-Public Module Twitter
+Public Class Twitter
     Delegate Sub GetIconImageDelegate(ByVal post As PostClass)
     'Delegate Function GetTimelineDelegate(ByVal page As Integer, _
     '                            ByVal read As Boolean, _
@@ -194,6 +194,7 @@ Public Module Twitter
     ''''Wedata対応
     'Private Const wedataUrl As String = "http://wedata.net/databases/Tween/items.json"
 
+    Private op As New Outputz
     'max_idで古い発言を取得するために保持（lists分は個別タブで管理）
     Private minHomeTimeline As Long = Long.MaxValue
     Private minMentions As Long = Long.MaxValue
@@ -2045,7 +2046,7 @@ Public Module Twitter
                         IsPostRestricted(content) Then
                     Return "OK:Delaying?"
                 End If
-                If Outputz.outputzPost(postStr.Length) Then
+                If op.Post(postStr.Length) Then
                     Return ""
                 Else
                     Return "Outputz:Failed"
@@ -2696,8 +2697,8 @@ Public Module Twitter
         End Get
     End Property
 
-    Private _accountState As ACCOUNT_STATE = ACCOUNT_STATE.Valid
-    Public Property AccountState() As ACCOUNT_STATE
+    Private Shared _accountState As ACCOUNT_STATE = ACCOUNT_STATE.Valid
+    Public Shared Property AccountState() As ACCOUNT_STATE
         Get
             Return _accountState
         End Get
@@ -3270,7 +3271,8 @@ Public Module Twitter
     End Property
 
     Public Function GetTimelineApi(ByVal read As Boolean, _
-                            ByVal gType As WORKERTYPE) As String
+                            ByVal gType As WORKERTYPE, _
+                            ByVal more As Boolean) As String
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
@@ -3281,10 +3283,18 @@ Public Module Twitter
         Dim content As String = ""
         Try
             If gType = WORKERTYPE.Timeline Then
-                res = twCon.HomeTimeline(_countApi, 0, 0, content)
+                If more Then
+                    res = twCon.HomeTimeline(_countApi, minHomeTimeline, 0, content)
+                Else
+                    res = twCon.HomeTimeline(_countApi, 0, 0, content)
+                End If
                 countQuery = _countApi
             Else
-                res = twCon.Mentions(_countApiReply, 0, 0, content)
+                If more Then
+                    res = twCon.Mentions(_countApiReply, minMentions, 0, content)
+                Else
+                    res = twCon.Mentions(_countApiReply, 0, 0, content)
+                End If
                 countQuery = _countApiReply
             End If
         Catch ex As Exception
@@ -3550,7 +3560,8 @@ Public Module Twitter
     End Function
 
     Public Function GetDirectMessageApi(ByVal read As Boolean, _
-                            ByVal gType As WORKERTYPE) As String
+                            ByVal gType As WORKERTYPE, _
+                            ByVal more As Boolean) As String
         If _endingFlag Then Return ""
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
@@ -3560,9 +3571,17 @@ Public Module Twitter
 
         Try
             If gType = WORKERTYPE.DirectMessegeRcv Then
-                res = twCon.DirectMessages(0, 0, 0, content)
+                If more Then
+                    res = twCon.DirectMessages(20, minDirectmessage, 0, content)
+                Else
+                    res = twCon.DirectMessages(20, 0, 0, content)
+                End If
             Else
-                res = twCon.DirectMessagesSent(0, 0, 0, content)
+                If more Then
+                    res = twCon.DirectMessagesSent(20, minDirectmessageSent, 0, content)
+                Else
+                    res = twCon.DirectMessagesSent(20, 0, 0, content)
+                End If
             End If
         Catch ex As Exception
             Return "Err:" + ex.Message
@@ -4075,4 +4094,4 @@ Public Module Twitter
         End Get
     End Property
 
-End Module
+End Class

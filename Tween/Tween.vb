@@ -79,6 +79,9 @@ Public Class TweenMain
     Private modifySettingCommon As Boolean = False
     Private modifySettingAtId As Boolean = False
 
+    'twitter解析部
+    Private tw As New Twitter
+
     'サブ画面インスタンス
     Private SettingDialog As New Setting()       '設定画面インスタンス
     Private TabDialog As New TabsDialog()        'タブ選択ダイアログインスタンス
@@ -529,9 +532,9 @@ Public Class TweenMain
         '認証関連
         If _cfgCommon.IsOAuth Then
             If _cfgCommon.Token = "" Then _cfgCommon.UserName = ""
-            Twitter.Initialize(_cfgCommon.Token, _cfgCommon.TokenSecret, _cfgCommon.UserName)
+            tw.Initialize(_cfgCommon.Token, _cfgCommon.TokenSecret, _cfgCommon.UserName)
         Else
-            Twitter.Initialize(_cfgCommon.UserName, _cfgCommon.Password)
+            tw.Initialize(_cfgCommon.UserName, _cfgCommon.Password)
         End If
 
 
@@ -681,15 +684,6 @@ Public Class TweenMain
             SettingDialog.DateTimeFormat = "yyyy/MM/dd H:mm:ss"
         End Try
 
-        Outputz.outputzKey = SettingDialog.OutputzKey
-        Outputz.outputzEnabled = SettingDialog.OutputzEnabled
-        Select Case SettingDialog.OutputzUrlmode
-            Case OutputzUrlmode.twittercom
-                Outputz.outputzUrl = "http://twitter.com/"
-            Case OutputzUrlmode.twittercomWithUsername
-                Outputz.outputzUrl = "http://twitter.com/" + Twitter.Username
-        End Select
-
         SettingDialog.Nicoms = _cfgCommon.Nicoms
         'ハッシュタグ関連
         HashSupl = New AtIdSupplement(_cfgCommon.HashTags, "#")
@@ -703,14 +697,14 @@ Public Class TweenMain
         _initial = True
 
         'ユーザー名、パスワードが未設定なら設定画面を表示（初回起動時など）
-        If Twitter.Username = "" Then
+        If tw.Username = "" Then
             '設定せずにキャンセルされた場合はプログラム終了
             If SettingDialog.ShowDialog() = Windows.Forms.DialogResult.Cancel Then
                 Application.Exit()  '強制終了
                 Exit Sub
             End If
             '設定されたが、依然ユーザー名とパスワードが未設定ならプログラム終了
-            If Twitter.Username = "" Then
+            If tw.Username = "" Then
                 Application.Exit()  '強制終了
                 Exit Sub
             End If
@@ -795,15 +789,15 @@ Public Class TweenMain
         'Twitter.NextThreshold = SettingDialog.NextPageThreshold   '次頁取得閾値
         'Twitter.NextPages = SettingDialog.NextPagesInt    '閾値オーバー時の読み込みページ数（未使用）
         'Twitter.DefaultTimeOut = SettingDialog.DefaultTimeOut
-        Twitter.CountApi = SettingDialog.CountApi
-        Twitter.CountApiReply = SettingDialog.CountApiReply
+        tw.CountApi = SettingDialog.CountApi
+        tw.CountApiReply = SettingDialog.CountApiReply
         'Twitter.UseAPI = SettingDialog.UseAPI
         'Twitter.UsePostMethod = False
-        Twitter.RestrictFavCheck = SettingDialog.RestrictFavCheck
-        Twitter.ReadOwnPost = SettingDialog.ReadOwnPost
-        Twitter.UseSsl = SettingDialog.UseSsl
-        Twitter.BitlyId = SettingDialog.BitlyUser
-        Twitter.BitlyKey = SettingDialog.BitlyPwd
+        tw.RestrictFavCheck = SettingDialog.RestrictFavCheck
+        tw.ReadOwnPost = SettingDialog.ReadOwnPost
+        tw.UseSsl = SettingDialog.UseSsl
+        tw.BitlyId = SettingDialog.BitlyUser
+        tw.BitlyKey = SettingDialog.BitlyPwd
         HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl
         HttpTwitter.TwitterSearchUrl = _cfgCommon.TwitterSearchUrl
         'If IsNetworkAvailable() Then
@@ -812,6 +806,14 @@ Public Class TweenMain
         '        GetTimeline(WORKERTYPE.Follower, 0, 0, "")
         '    End If
         'End If
+        Outputz.Key = SettingDialog.OutputzKey
+        Outputz.Enabled = SettingDialog.OutputzEnabled
+        Select Case SettingDialog.OutputzUrlmode
+            Case OutputzUrlmode.twittercom
+                Outputz.OutUrl = "http://twitter.com/"
+            Case OutputzUrlmode.twittercomWithUsername
+                Outputz.OutUrl = "http://twitter.com/" + tw.Username
+        End Select
 
         'ウィンドウ設定
         Me.ClientSize = _cfgLocal.FormSize
@@ -920,12 +922,12 @@ Public Class TweenMain
                 _iconCol = True
         End Select
         If _iconSz = 0 Then
-            Twitter.GetIcon = False
+            tw.GetIcon = False
         Else
-            Twitter.GetIcon = True
-            Twitter.IconSize = _iconSz
+            tw.GetIcon = True
+            tw.IconSize = _iconSz
         End If
-        Twitter.TinyUrlResolve = SettingDialog.TinyUrlResolve
+        tw.TinyUrlResolve = SettingDialog.TinyUrlResolve
 
         '発言詳細部アイコンをリストアイコンにサイズ変更
         Dim sz As Integer = _iconSz
@@ -938,8 +940,8 @@ Public Class TweenMain
         '発言詳細部のアイコンリスト作成
         TIconDic = New Dictionary(Of String, Image)
 
-        Twitter.ListIcon = TIconSmallList
-        Twitter.DetailIcon = TIconDic
+        tw.ListIcon = TIconSmallList
+        tw.DetailIcon = TIconDic
 
         StatusLabel.Text = My.Resources.Form1_LoadText1       '画面右下の状態表示を変更
         StatusLabelUrl.Text = ""            '画面左下のリンク先URL表示部を初期化
@@ -1357,7 +1359,7 @@ Public Class TweenMain
         SetMainWindowTitle()
         If Not StatusLabelUrl.Text.StartsWith("http") Then SetStatusLabel()
 
-        HashSupl.AddRangeItem(Twitter.GetHashList)
+        HashSupl.AddRangeItem(tw.GetHashList)
 
     End Sub
 
@@ -1470,7 +1472,7 @@ Public Class TweenMain
                 End Select
                 sb.Append(post.Data)
             Next
-            If SettingDialog.DispUsername Then NotifyIcon1.BalloonTipTitle = Twitter.Username + " - " Else NotifyIcon1.BalloonTipTitle = ""
+            If SettingDialog.DispUsername Then NotifyIcon1.BalloonTipTitle = tw.Username + " - " Else NotifyIcon1.BalloonTipTitle = ""
             If dm Then
                 NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning
                 NotifyIcon1.BalloonTipTitle += "Tween [DM] " + My.Resources.RefreshDirectMessageText1 + " " + addCount.ToString() + My.Resources.RefreshDirectMessageText2
@@ -1869,7 +1871,7 @@ Public Class TweenMain
         Select Case args.type
             Case WORKERTYPE.Timeline, WORKERTYPE.Reply
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
-                ret = Twitter.GetTimelineApi(read, args.type)
+                ret = tw.GetTimelineApi(read, args.type, args.page = -1)
                 'If SettingDialog.UseAPI Then
                 '    ret = Twitter.GetTimelineApi(read, args.type)
                 'Else
@@ -1882,8 +1884,8 @@ Public Class TweenMain
                 rslt.addCount = _statuses.DistributePosts()
             Case WORKERTYPE.DirectMessegeRcv    '送信分もまとめて取得
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
-                ret = Twitter.GetDirectMessageApi(read, WORKERTYPE.DirectMessegeRcv)
-                If ret = "" Then ret = Twitter.GetDirectMessageApi(read, WORKERTYPE.DirectMessegeSnt)
+                ret = tw.GetDirectMessageApi(read, WORKERTYPE.DirectMessegeRcv, args.page = -1)
+                If ret = "" Then ret = tw.GetDirectMessageApi(read, WORKERTYPE.DirectMessegeSnt, args.page = -1)
                 'If SettingDialog.UseAPI Then
                 '    ret = Twitter.GetDirectMessageApi(read, WORKERTYPE.DirectMessegeRcv)
                 '    If ret = "" Then ret = Twitter.GetDirectMessageApi(read, WORKERTYPE.DirectMessegeSnt)
@@ -1899,9 +1901,9 @@ Public Class TweenMain
                     bw.ReportProgress(50, MakeStatusMessage(args, False))
                     If Not post.IsFav Then
                         If post.RetweetedId = 0 Then
-                            ret = Twitter.PostFavAdd(post.Id)
+                            ret = tw.PostFavAdd(post.Id)
                         Else
-                            ret = Twitter.PostFavAdd(post.RetweetedId)
+                            ret = tw.PostFavAdd(post.RetweetedId)
                         End If
                         If ret.Length = 0 Then
                             args.sIds.Add(post.Id)
@@ -1927,9 +1929,9 @@ Public Class TweenMain
                     bw.ReportProgress(50, MakeStatusMessage(args, False))
                     If post.IsFav Then
                         If post.RetweetedId = 0 Then
-                            ret = Twitter.PostFavRemove(post.Id)
+                            ret = tw.PostFavRemove(post.Id)
                         Else
-                            ret = Twitter.PostFavRemove(post.RetweetedId)
+                            ret = tw.PostFavRemove(post.RetweetedId)
                         End If
                         If ret.Length = 0 Then
                             args.sIds.Add(post.Id)
@@ -1945,7 +1947,7 @@ Public Class TweenMain
             Case WORKERTYPE.PostMessage
                 bw.ReportProgress(200)
                 For i As Integer = 0 To 1
-                    ret = Twitter.PostStatus(args.status, _reply_to_id)
+                    ret = tw.PostStatus(args.status, _reply_to_id)
                     If ret = "" OrElse ret = "OK:Delaying?" OrElse ret.StartsWith("Outputz:") Then Exit For
                 Next
                 If ret = "" OrElse ret.StartsWith("Outputz") OrElse ret.StartsWith("OK:") Then
@@ -1955,11 +1957,11 @@ Public Class TweenMain
                 bw.ReportProgress(300)
             Case WORKERTYPE.Retweet
                 bw.ReportProgress(200)
-                ret = Twitter.PostRetweet(args.ids(0), read)
+                ret = tw.PostRetweet(args.ids(0), read)
                 bw.ReportProgress(300)
             Case WORKERTYPE.Follower
                 bw.ReportProgress(50, My.Resources.UpdateFollowersMenuItem1_ClickText1)
-                ret = Twitter.GetFollowersApi()
+                ret = tw.GetFollowersApi()
                 'If SettingDialog.UseAPI Then
                 '    ret = Twitter.GetFollowersApi()
                 'Else
@@ -1991,7 +1993,7 @@ Public Class TweenMain
                 End Try
             Case WORKERTYPE.Favorites
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
-                ret = Twitter.GetFavoritesApi(read, args.type)
+                ret = tw.GetFavoritesApi(read, args.type)
                 'If SettingDialog.UseAPI Then
                 '    ret = Twitter.GetFavoritesApi(read, args.type)
                 'Else
@@ -2002,14 +2004,14 @@ Public Class TweenMain
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
                 If args.tName = "" Then
                     For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.PublicSearch)
-                        If tb.SearchWords <> "" Then ret = Twitter.GetSearch(read, tb, False)
+                        If tb.SearchWords <> "" Then ret = tw.GetSearch(read, tb, False)
                     Next
                 Else
                     Dim tb As TabClass = _statuses.GetTabByName(args.tName)
                     If tb IsNot Nothing Then
-                        ret = Twitter.GetSearch(read, tb, False)
+                        ret = tw.GetSearch(read, tb, False)
                         If ret = "" AndAlso args.page = -1 Then
-                            ret = Twitter.GetSearch(read, tb, True)
+                            ret = tw.GetSearch(read, tb, True)
                         End If
                     End If
                 End If
@@ -2349,7 +2351,12 @@ Public Class TweenMain
         args.type = WkType
         args.tName = tabName
 
-        RunAsync(args)
+        Static lastTime As New Dictionary(Of WORKERTYPE, DateTime)
+        If Not lastTime.ContainsKey(WkType) Then lastTime.Add(WkType, New DateTime)
+        If Now.Subtract(lastTime(WkType)).Seconds > 1 Then
+            lastTime(WkType) = Now
+            RunAsync(args)
+        End If
 
         'Timeline取得モードの場合はReplyも同時に取得
         'If Not SettingDialog.UseAPI AndAlso _
@@ -2555,7 +2562,7 @@ Public Class TweenMain
             ReTweetOriginalStripMenuItem.Enabled = True
             QuoteStripMenuItem.Enabled = True
         End If
-        If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.PublicSearch Then
+        If _statuses.Tabs(ListTab.SelectedTab.Text).TabType <> TabUsageType.Favorites Then
             RefreshMoreStripMenuItem.Enabled = True
         Else
             RefreshMoreStripMenuItem.Enabled = False
@@ -2576,7 +2583,7 @@ Public Class TweenMain
             Dim myPost As Boolean = False
             For Each idx As Integer In _curList.SelectedIndices
                 If GetCurTabPost(idx).IsMe OrElse _
-                   GetCurTabPost(idx).RetweetedBy.ToLower = Twitter.Username.ToLower Then
+                   GetCurTabPost(idx).RetweetedBy.ToLower = tw.Username.ToLower Then
                     myPost = True
                     Exit For
                 End If
@@ -2606,10 +2613,10 @@ Public Class TweenMain
             For Each Id As Long In _statuses.GetId(_curTab.Text, _curList.SelectedIndices)
                 Dim rtn As String = ""
                 If _statuses.Tabs(_curTab.Text).TabType = TabUsageType.DirectMessage Then
-                    rtn = Twitter.RemoveDirectMessage(Id)
+                    rtn = tw.RemoveDirectMessage(Id)
                 Else
-                    If _statuses.Item(Id).IsMe OrElse _statuses.Item(Id).RetweetedBy.ToLower = Twitter.Username.ToLower Then
-                        rtn = Twitter.RemoveStatus(Id)
+                    If _statuses.Item(Id).IsMe OrElse _statuses.Item(Id).RetweetedBy.ToLower = tw.Username.ToLower Then
+                        rtn = tw.RemoveStatus(Id)
                     Else
                         Continue For
                     End If
@@ -2735,24 +2742,24 @@ Public Class TweenMain
     Private Sub DoRefreshMore()
         If _curTab IsNot Nothing Then
             Select Case _statuses.Tabs(_curTab.Text).TabType
-                'Case TabUsageType.Mentions
-                '    GetTimeline(WORKERTYPE.Reply, 1, 0, "")
-                'Case TabUsageType.DirectMessage
-                '    GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
-                'Case TabUsageType.Favorites
-                '    GetTimeline(WORKERTYPE.Favorites, 1, 0, "")
-                'Case TabUsageType.Profile
-                '' TODO
+                Case TabUsageType.Mentions
+                    GetTimeline(WORKERTYPE.Reply, -1, 0, "")
+                Case TabUsageType.DirectMessage
+                    GetTimeline(WORKERTYPE.DirectMessegeRcv, -1, 0, "")
+                Case TabUsageType.Favorites
+                    '    GetTimeline(WORKERTYPE.Favorites, -1, 0, "")
+                Case TabUsageType.Profile
+                    '' TODO
                 Case TabUsageType.PublicSearch
                     ' TODO
                     Dim tb As TabClass = _statuses.Tabs(_curTab.Text)
                     If tb.SearchWords = "" Then Exit Sub
                     GetTimeline(WORKERTYPE.PublicSearch, -1, 0, _curTab.Text)
-                    'Case Else
-                    '    GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
+                Case Else
+                    GetTimeline(WORKERTYPE.Timeline, -1, 0, "")
             End Select
         Else
-            'GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
+            GetTimeline(WORKERTYPE.Timeline, -1, 0, "")
         End If
     End Sub
 
@@ -2792,15 +2799,15 @@ Public Class TweenMain
                 '    chgUseApi = True
                 'End If
                 'Twitter.UseAPI = SettingDialog.UseAPI
-                Twitter.CountApi = SettingDialog.CountApi
-                Twitter.CountApiReply = SettingDialog.CountApiReply
+                tw.CountApi = SettingDialog.CountApi
+                tw.CountApiReply = SettingDialog.CountApiReply
                 'Twitter.UsePostMethod = False
-                Twitter.TinyUrlResolve = SettingDialog.TinyUrlResolve
-                Twitter.RestrictFavCheck = SettingDialog.RestrictFavCheck
-                Twitter.ReadOwnPost = SettingDialog.ReadOwnPost
-                Twitter.UseSsl = SettingDialog.UseSsl
-                Twitter.BitlyId = SettingDialog.BitlyUser
-                Twitter.BitlyKey = SettingDialog.BitlyPwd
+                tw.TinyUrlResolve = SettingDialog.TinyUrlResolve
+                tw.RestrictFavCheck = SettingDialog.RestrictFavCheck
+                tw.ReadOwnPost = SettingDialog.ReadOwnPost
+                tw.UseSsl = SettingDialog.UseSsl
+                tw.BitlyId = SettingDialog.BitlyUser
+                tw.BitlyKey = SettingDialog.BitlyPwd
                 HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl
                 HttpTwitter.TwitterSearchUrl = _cfgCommon.TwitterSearchUrl
 
@@ -2971,13 +2978,13 @@ Public Class TweenMain
                 If _curList IsNot Nothing Then _curList.Refresh()
                 ListTab.Refresh()
 
-                Outputz.outputzKey = SettingDialog.OutputzKey
-                Outputz.outputzEnabled = SettingDialog.OutputzEnabled
+                Outputz.Key = SettingDialog.OutputzKey
+                Outputz.Enabled = SettingDialog.OutputzEnabled
                 Select Case SettingDialog.OutputzUrlmode
                     Case OutputzUrlmode.twittercom
-                        Outputz.outputzUrl = "http://twitter.com/"
+                        Outputz.OutUrl = "http://twitter.com/"
                     Case OutputzUrlmode.twittercomWithUsername
-                        Outputz.outputzUrl = "http://twitter.com/" + Twitter.Username
+                        Outputz.OutUrl = "http://twitter.com/" + tw.Username
                 End Select
 
             End SyncLock
@@ -4090,7 +4097,7 @@ RETRY:
         Dim forceUpdate As Boolean = My.Computer.Keyboard.ShiftKeyDown
 
         Try
-            retMsg = Twitter.GetVersionInfo()
+            retMsg = tw.GetVersionInfo()
         Catch ex As Exception
             StatusLabel.Text = My.Resources.CheckNewVersionText9
             If Not startup Then MessageBox.Show(My.Resources.CheckNewVersionText10, My.Resources.CheckNewVersionText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -4105,7 +4112,7 @@ RETRY:
                 Dim tmp As String = String.Format(My.Resources.CheckNewVersionText3, strVer)
                 Using dialogAsShieldicon As New DialogAsShieldIcon
                     If dialogAsShieldicon.Show(tmp, strDetail, My.Resources.CheckNewVersionText1, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
-                        retMsg = Twitter.GetTweenBinary(strVer)
+                        retMsg = tw.GetTweenBinary(strVer)
                         If retMsg.Length = 0 Then
                             RunTweenUp()
                             'If startup Then
@@ -4127,7 +4134,7 @@ RETRY:
                     Dim tmp As String = String.Format(My.Resources.CheckNewVersionText6, strVer)
                     Using dialogAsShieldicon As New DialogAsShieldIcon
                         If dialogAsShieldicon.Show(tmp, strDetail, My.Resources.CheckNewVersionText1, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
-                            retMsg = Twitter.GetTweenBinary(strVer)
+                            retMsg = tw.GetTweenBinary(strVer)
                             If retMsg.Length = 0 Then
                                 RunTweenUp()
                                 'If startup Then
@@ -4919,12 +4926,12 @@ RETRY:
 
         modifySettingCommon = False
         SyncLock _syncObject
-            _cfgCommon.UserName = Twitter.Username
-            _cfgCommon.Password = Twitter.Password
+            _cfgCommon.UserName = tw.Username
+            _cfgCommon.Password = tw.Password
             _cfgCommon.IsOAuth = SettingDialog.IsOAuth
             '_cfgCommon.Password = SettingDialog.PasswordStr
-            _cfgCommon.Token = Twitter.AccessToken
-            _cfgCommon.TokenSecret = Twitter.AccessTokenSecret
+            _cfgCommon.Token = tw.AccessToken
+            _cfgCommon.TokenSecret = tw.AccessTokenSecret
             '_cfgCommon.NextPageThreshold = SettingDialog.NextPageThreshold
             '_cfgCommon.NextPages = SettingDialog.NextPagesInt
             _cfgCommon.TimelinePeriod = SettingDialog.TimelinePeriodInt
@@ -5441,13 +5448,13 @@ RETRY:
                         For cnt As Integer = 0 To _curList.SelectedIndices.Count - 1
                             Dim post As PostClass = _statuses.Item(_curTab.Text, _curList.SelectedIndices(cnt))
                             If Not ids.Contains("@" + post.Name + " ") AndAlso _
-                               Not post.Name.Equals(Twitter.Username, StringComparison.CurrentCultureIgnoreCase) Then
+                               Not post.Name.Equals(tw.Username, StringComparison.CurrentCultureIgnoreCase) Then
                                 ids += "@" + post.Name + " "
                             End If
                             If isAll Then
                                 For Each nm As String In post.ReplyToList
                                     If Not ids.Contains("@" + nm + " ") AndAlso _
-                                       Not nm.Equals(Twitter.Username, StringComparison.CurrentCultureIgnoreCase) Then
+                                       Not nm.Equals(tw.Username, StringComparison.CurrentCultureIgnoreCase) Then
                                         ids += "@" + nm + " "
                                     End If
                                 Next
@@ -5484,12 +5491,12 @@ RETRY:
                         Dim sidx As Integer = StatusText.SelectionStart
                         Dim post As PostClass = _curPost
                         If Not ids.Contains("@" + post.Name + " ") AndAlso _
-                           Not post.Name.Equals(Twitter.Username, StringComparison.CurrentCultureIgnoreCase) Then
+                           Not post.Name.Equals(tw.Username, StringComparison.CurrentCultureIgnoreCase) Then
                             ids += "@" + post.Name + " "
                         End If
                         For Each nm As String In post.ReplyToList
                             If Not ids.Contains("@" + nm + " ") AndAlso _
-                               Not nm.Equals(Twitter.Username, StringComparison.CurrentCultureIgnoreCase) Then
+                               Not nm.Equals(tw.Username, StringComparison.CurrentCultureIgnoreCase) Then
                                 ids += "@" + nm + " "
                             End If
                         Next
@@ -5865,10 +5872,10 @@ RETRY:
     End Function
 
     Private Sub InfoTwitterMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles InfoTwitterMenuItem.Click
-        If Twitter.InfoTwitter.Trim() = "" Then
+        If tw.InfoTwitter.Trim() = "" Then
             MessageBox.Show(My.Resources.InfoTwitterMenuItem_ClickText1, My.Resources.InfoTwitterMenuItem_ClickText2, MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
-            Dim inf As String = Twitter.InfoTwitter.Trim()
+            Dim inf As String = tw.InfoTwitter.Trim()
             inf = "<html><head></head><body>" + inf + "</body></html>"
             PostBrowser.Visible = False
             PostBrowser.DocumentText = inf
@@ -6152,7 +6159,7 @@ RETRY:
             Next
         End If
 
-        If SettingDialog.DispUsername Then ttl.Append(Twitter.Username).Append(" - ")
+        If SettingDialog.DispUsername Then ttl.Append(tw.Username).Append(" - ")
         ttl.Append("Tween  ")
         Select Case SettingDialog.DispLatestPost
             Case DispTitleEnum.Ver
@@ -6204,8 +6211,8 @@ RETRY:
             Exit Sub
         End Try
 
-        If Twitter.RemainCountApi > -1 Then
-            slbl.Append("[API: " + Twitter.RemainCountApi.ToString + "] ")
+        If tw.RemainCountApi > -1 Then
+            slbl.Append("[API: " + tw.RemainCountApi.ToString + "] ")
         End If
         slbl.AppendFormat(My.Resources.SetStatusLabelText1, tur, tal, ur, al, urat, _postTimestamps.Count, _favTimestamps.Count, _tlCount)
         If SettingDialog.TimelinePeriodInt = 0 Then
@@ -6220,7 +6227,7 @@ RETRY:
     Private Sub SetNotifyIconText()
         ' タスクトレイアイコンのツールチップテキスト書き換え
         If SettingDialog.DispUsername Then
-            NotifyIcon1.Text = Twitter.Username + " - Tween"
+            NotifyIcon1.Text = tw.Username + " - Tween"
         Else
             NotifyIcon1.Text = "Tween"
         End If
@@ -6447,14 +6454,14 @@ RETRY:
 
                 'nico.ms使用、nicovideoにマッチしたら変換
                 If SettingDialog.Nicoms AndAlso nico.IsMatch(tmp) Then
-                    result = Twitter.MakeShortNicoms(tmp)
+                    result = tw.MakeShortNicoms(tmp)
                     If result.Equals("Can't convert") Then
                         StatusLabel.Text = result.Insert(0, "nico.ms:")
                         Return False
                     End If
                 ElseIf Converter_Type <> UrlConverter.Nicoms Then
                     '短縮URL変換 日本語を含むかもしれないのでURLエンコードする
-                    result = Twitter.MakeShortUrl(Converter_Type, tmp)
+                    result = tw.MakeShortUrl(Converter_Type, tmp)
                     If result.Equals("Can't convert") Then
                         StatusLabel.Text = result.Insert(0, Converter_Type.ToString() + ":")
                         Return False
@@ -6493,14 +6500,14 @@ RETRY:
 
                 'nico.ms使用、nicovideoにマッチしたら変換
                 If SettingDialog.Nicoms AndAlso nico.IsMatch(tmp) Then
-                    result = Twitter.MakeShortNicoms(tmp)
+                    result = tw.MakeShortNicoms(tmp)
                     If result.Equals("Can't convert") Then
                         StatusLabel.Text = result.Insert(0, "nico.ms:")
                         Continue For
                     End If
                 ElseIf Converter_Type <> UrlConverter.Nicoms Then
                     '短縮URL変換 日本語を含むかもしれないのでURLエンコードする
-                    result = Twitter.MakeShortUrl(Converter_Type, tmp)
+                    result = tw.MakeShortUrl(Converter_Type, tmp)
                     If result.Equals("Can't convert") Then
                         StatusLabel.Text = result.Insert(0, Converter_Type.ToString() + ":")
                         Continue For
@@ -7268,7 +7275,7 @@ RETRY:
         Dim info As New ApiInfo
         Dim tmp As String
 
-        If GetInfoApi(info) Then
+        If tw.GetInfoApi(info) Then
             tmp = My.Resources.ApiInfo1 + info.MaxCount.ToString() + Environment.NewLine + _
                 My.Resources.ApiInfo2 + info.RemainCount.ToString + Environment.NewLine + _
                 My.Resources.ApiInfo3 + info.ResetTime.ToString()
@@ -7291,7 +7298,7 @@ RETRY:
             inputName.TabName = id
             If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
                Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
-                Dim ret As String = Twitter.PostFollowCommand(inputName.TabName.Trim())
+                Dim ret As String = tw.PostFollowCommand(inputName.TabName.Trim())
                 If Not String.IsNullOrEmpty(ret) Then
                     MessageBox.Show(My.Resources.FRMessage2 + ret)
                 Else
@@ -7315,7 +7322,7 @@ RETRY:
             inputName.TabName = id
             If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
                Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
-                Dim ret As String = Twitter.PostRemoveCommand(inputName.TabName.Trim())
+                Dim ret As String = tw.PostRemoveCommand(inputName.TabName.Trim())
                 If Not String.IsNullOrEmpty(ret) Then
                     MessageBox.Show(My.Resources.FRMessage2 + ret)
                 Else
@@ -7345,7 +7352,7 @@ RETRY:
                 Dim isFollowed As Boolean = False
                 Dim result As String = ""
                 id = inputName.TabName.Trim
-                Dim ret As String = Twitter.GetFriendshipInfo(id, isFollowing, isFollowed)
+                Dim ret As String = tw.GetFriendshipInfo(id, isFollowing, isFollowed)
                 If ret = "" Then
                     If isFollowing Then
                         result = My.Resources.GetFriendshipInfo1 + System.Environment.NewLine
@@ -7370,19 +7377,19 @@ RETRY:
     Private Sub OwnStatusMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OwnStatusMenuItem.Click
         Dim loc As String = ""
         Dim bio As String = ""
-        If Not String.IsNullOrEmpty(Twitter.Location) Then
-            loc = Twitter.Location
+        If Not String.IsNullOrEmpty(tw.Location) Then
+            loc = tw.Location
         End If
-        If Not String.IsNullOrEmpty(Twitter.Bio) Then
-            bio = Twitter.Bio
+        If Not String.IsNullOrEmpty(tw.Bio) Then
+            bio = tw.Bio
         End If
-        If Twitter.FriendsCount = 0 AndAlso Twitter.FollowersCount = 0 AndAlso Twitter.StatusesCount = 0 AndAlso loc = "" AndAlso bio = "" Then
+        If tw.FriendsCount = 0 AndAlso tw.FollowersCount = 0 AndAlso tw.StatusesCount = 0 AndAlso loc = "" AndAlso bio = "" Then
             MessageBox.Show(My.Resources.ShowYourProfileText1, "Your status", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
         End If
-        MessageBox.Show("Following : " + Twitter.FriendsCount.ToString() + Environment.NewLine + _
-                        "Followers : " + Twitter.FollowersCount.ToString() + Environment.NewLine + _
-                        "Statuses count : " + Twitter.StatusesCount.ToString() + Environment.NewLine + _
+        MessageBox.Show("Following : " + tw.FriendsCount.ToString() + Environment.NewLine + _
+                        "Followers : " + tw.FollowersCount.ToString() + Environment.NewLine + _
+                        "Statuses count : " + tw.StatusesCount.ToString() + Environment.NewLine + _
                         "Location : " + loc + Environment.NewLine + _
                         "Bio : " + bio, "Your status")
     End Sub
@@ -7434,7 +7441,11 @@ RETRY:
             rtdata = CreateRetweet(rtdata)
 
             StatusText.Text = " QT @" + _curPost.Name + ": " + HttpUtility.HtmlDecode(rtdata)
-            _reply_to_id = _curPost.Id
+            If _curPost.RetweetedId = 0 Then
+                _reply_to_id = _curPost.Id
+            Else
+                _reply_to_id = _curPost.RetweetedId
+            End If
             _reply_to_name = _curPost.Name
 
             StatusText.SelectionStart = 0
@@ -7660,7 +7671,7 @@ RETRY:
             Me.RtUnOpMenuItem.Enabled = True
             Me.QtOpMenuItem.Enabled = True
         End If
-        If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.PublicSearch Then
+        If _statuses.Tabs(ListTab.SelectedTab.Text).TabType <> TabUsageType.Favorites Then
             Me.RefreshPrevOpMenuItem.Enabled = True
         Else
             Me.RefreshPrevOpMenuItem.Enabled = False
@@ -7671,4 +7682,9 @@ RETRY:
         ContextMenuTabProperty_Opening(sender, Nothing)
     End Sub
 
+    Public ReadOnly Property TwitterInstance() As Twitter
+        Get
+            Return tw
+        End Get
+    End Property
 End Class
