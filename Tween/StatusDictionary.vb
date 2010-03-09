@@ -811,7 +811,7 @@ Public NotInheritable Class TabInformations
                     add = False
                 Else
                     favTab.Add(post.Id, post.IsRead, True)
-                    If Not favTab.SoundFile = "" Then _soundFile = favTab.SoundFile
+                    If Not favTab.SoundFile = "" AndAlso _soundFile = "" Then _soundFile = favTab.SoundFile
                     If favTab.Notify Then add = True
                 End If
             End If
