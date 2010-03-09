@@ -505,10 +505,11 @@ Public NotInheritable Class TabInformations
         End Get
     End Property
 
-    Public Sub RemovePost(ByVal Name As String, ByVal Id As Long)
+    Public Sub RemoveFavPost(ByVal Id As Long)
         SyncLock LockObj
             Dim post As PostClass = Nothing
-            Dim tab As TabClass = _tabs(Name)
+            Dim tab As TabClass = Me.GetTabByType(TabUsageType.Favorites)
+            Dim tn As String = tab.TabName
             If _statuses.ContainsKey(Id) Then
                 post = _statuses(Id)
                 '指定タブから該当ID削除
@@ -525,7 +526,7 @@ Public NotInheritable Class TabInformations
                 'FavタブからRetweet発言を削除する場合は、他の同一参照Retweetも削除
                 If tType = TabUsageType.Favorites AndAlso post.RetweetedId > 0 Then
                     For i As Integer = 0 To tab.AllCount - 1
-                        Dim rPost As PostClass = Me.Item(Name, i)
+                        Dim rPost As PostClass = Me.Item(tn, i)
                         If rPost.RetweetedId > 0 AndAlso rPost.RetweetedId = post.RetweetedId Then
                             If tab.UnreadManage AndAlso Not rPost.IsRead Then    '未読管理
                                 SyncLock LockUnread
@@ -538,18 +539,18 @@ Public NotInheritable Class TabInformations
                     Next
                 End If
             End If
-            'TabType=PublicSearchの場合（Postの保存先がTabClass内）
-            If tab.Contains(Id) AndAlso _
-               (tab.TabType = TabUsageType.PublicSearch OrElse tab.TabType = TabUsageType.DirectMessage) Then
-                post = tab.Posts(Id)
-                If tab.UnreadManage AndAlso Not post.IsRead Then    '未読管理
-                    SyncLock LockUnread
-                        tab.UnreadCount -= 1
-                        Me.SetNextUnreadId(Id, tab)
-                    End SyncLock
-                End If
-                tab.Remove(Id)
-            End If
+            ''TabType=PublicSearchの場合（Postの保存先がTabClass内）
+            'If tab.Contains(Id) AndAlso _
+            '   (tab.TabType = TabUsageType.PublicSearch OrElse tab.TabType = TabUsageType.DirectMessage) Then
+            '    post = tab.Posts(Id)
+            '    If tab.UnreadManage AndAlso Not post.IsRead Then    '未読管理
+            '        SyncLock LockUnread
+            '            tab.UnreadCount -= 1
+            '            Me.SetNextUnreadId(Id, tab)
+            '        End SyncLock
+            '    End If
+            '    tab.Remove(Id)
+            'End If
         End SyncLock
     End Sub
 

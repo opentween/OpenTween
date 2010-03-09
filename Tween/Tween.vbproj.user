@@ -11,7 +11,7 @@
     </BootstrapperUrlHistory>
     <FallbackCulture>ja-JP</FallbackCulture>
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
-    <ProjectView>ShowAllFiles</ProjectView>
+    <ProjectView>ProjectFiles</ProjectView>
     <ErrorReportUrlHistory>
     </ErrorReportUrlHistory>
     <ApplicationRevision>0</ApplicationRevision>

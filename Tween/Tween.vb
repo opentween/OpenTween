@@ -2196,7 +2196,7 @@ Public Class TweenMain
             DispSelectedPost()          ' 詳細画面書き直し
             Dim favTabName As String = _statuses.GetTabByType(TabUsageType.Favorites).TabName
             For Each i As Long In rslt.sIds
-                _statuses.RemovePost(favTabName, i)
+                _statuses.RemoveFavPost(i)
             Next
             If _curTab.Text.Equals(favTabName) Then
                 _itemCache = Nothing    'キャッシュ破棄
