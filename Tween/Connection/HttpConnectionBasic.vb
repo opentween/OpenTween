@@ -40,7 +40,7 @@ Public Class HttpConnectionBasic
             ByVal headerInfo As Dictionary(Of String, String)) As HttpStatusCode Implements IHttpConnection.GetContent
 
         '認証済かチェック
-        If String.IsNullOrEmpty(Me.credential) Then Throw New Exception("Sequence error. (account is blank.)")
+        If String.IsNullOrEmpty(Me.credential) Then Return HttpStatusCode.Unauthorized
 
         Dim webReq As HttpWebRequest = CreateRequest(method, _
                                                     requestUri, _

@@ -194,6 +194,13 @@ Public Module Twitter
     ''''Wedata対応
     'Private Const wedataUrl As String = "http://wedata.net/databases/Tween/items.json"
 
+    'max_idで古い発言を取得するために保持（lists分は個別タブで管理）
+    Private minHomeTimeline As Long = Long.MaxValue
+    Private minMentions As Long = Long.MaxValue
+    Private minDirectmessage As Long = Long.MaxValue
+    Private minDirectmessageSent As Long = Long.MaxValue
+    Private minFavorites As Long = Long.MaxValue
+
     Private twCon As New HttpTwitter
 
     Public Function Authenticate(ByVal username As String, ByVal password As String) As Boolean
@@ -3274,10 +3281,10 @@ Public Module Twitter
         Dim content As String = ""
         Try
             If gType = WORKERTYPE.Timeline Then
-                res = twCon.HomeTimeline(_countApi, content)
+                res = twCon.HomeTimeline(_countApi, 0, 0, content)
                 countQuery = _countApi
             Else
-                res = twCon.Mentions(_countApiReply, content)
+                res = twCon.Mentions(_countApiReply, 0, 0, content)
                 countQuery = _countApiReply
             End If
         Catch ex As Exception
@@ -3311,6 +3318,11 @@ Public Module Twitter
             Dim post As New PostClass
             Try
                 post.Id = Long.Parse(xentry.Item("id").InnerText)
+                If gType = WORKERTYPE.Timeline Then
+                    If minHomeTimeline > post.Id Then minHomeTimeline = post.Id
+                Else
+                    If minMentions > post.Id Then minMentions = post.Id
+                End If
                 '二重取得回避
                 SyncLock LockObj
                     If TabInformations.GetInstance.ContainsKey(post.Id) Then Continue For
@@ -3548,9 +3560,9 @@ Public Module Twitter
 
         Try
             If gType = WORKERTYPE.DirectMessegeRcv Then
-                res = twCon.DirectMessages(content)
+                res = twCon.DirectMessages(0, 0, 0, content)
             Else
-                res = twCon.DirectMessagesSent(content)
+                res = twCon.DirectMessagesSent(0, 0, 0, content)
             End If
         Catch ex As Exception
             Return "Err:" + ex.Message
@@ -3584,6 +3596,11 @@ Public Module Twitter
             Dim post As New PostClass
             Try
                 post.Id = Long.Parse(xentry.Item("id").InnerText)
+                If gType = WORKERTYPE.DirectMessegeRcv Then
+                    If minDirectmessage > post.Id Then minDirectmessage = post.Id
+                Else
+                    If minDirectmessageSent > post.Id Then minDirectmessageSent = post.Id
+                End If
                 '二重取得回避
                 SyncLock LockObj
                     If TabInformations.GetInstance.GetTabByType(TabUsageType.DirectMessage).Contains(post.Id) Then Continue For
@@ -3695,6 +3712,7 @@ Public Module Twitter
             Dim post As New PostClass
             Try
                 post.Id = Long.Parse(xentry.Item("id").InnerText)
+                If minFavorites > post.Id Then minFavorites = post.Id
                 '二重取得回避
                 SyncLock LockObj
                     If TabInformations.GetInstance.ContainsKey(post.Id) Then Continue For

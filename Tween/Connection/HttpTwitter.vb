@@ -142,9 +142,6 @@ Public Class HttpTwitter
     End Property
 
     Public Function UpdateStatus(ByVal status As String, ByVal replyToId As Long, ByRef content As String) As HttpStatusCode
-        If Me.AuthenticatedUsername = "" Then
-            Return HttpStatusCode.Unauthorized
-        End If
         Dim param As New Dictionary(Of String, String)
         param.Add("status", status)
         If replyToId > 0 Then param.Add("in_reply_to_status_id", replyToId.ToString)
@@ -157,10 +154,6 @@ Public Class HttpTwitter
     End Function
 
     Public Function DestroyStatus(ByVal id As Long) As HttpStatusCode
-        If Me.AuthenticatedUsername = "" Then
-            Return HttpStatusCode.Unauthorized
-        End If
-
         Return httpCon.GetContent(PostMethod, _
                             CreateTwitterUri("/1/statuses/destroy/" + id.ToString + ".xml"), _
                             Nothing, _
@@ -169,10 +162,6 @@ Public Class HttpTwitter
     End Function
 
     Public Function DestroyDirectMessage(ByVal id As Long) As HttpStatusCode
-        If Me.AuthenticatedUsername = "" Then
-            Return HttpStatusCode.Unauthorized
-        End If
-
         Return httpCon.GetContent(PostMethod, _
                             CreateTwitterUri("/1/direct_messages/destroy/" + id.ToString + ".xml"), _
                             Nothing, _
@@ -181,9 +170,6 @@ Public Class HttpTwitter
     End Function
 
     Public Function RetweetStatus(ByVal id As Long, ByRef content As String) As HttpStatusCode
-        If Me.AuthenticatedUsername = "" Then
-            Return HttpStatusCode.Unauthorized
-        End If
         Return httpCon.GetContent(PostMethod, _
                             CreateTwitterUri("/1/statuses/retweet/" + id.ToString() + ".xml"), _
                             Nothing, _
@@ -192,9 +178,6 @@ Public Class HttpTwitter
     End Function
 
     Public Function CreateFriendships(ByVal screenName As String) As HttpStatusCode
-        If Me.AuthenticatedUsername = "" Then
-            Return HttpStatusCode.Unauthorized
-        End If
         Dim param As New Dictionary(Of String, String)
         param.Add("screen_name", screenName)
 
@@ -206,9 +189,6 @@ Public Class HttpTwitter
     End Function
 
     Public Function DestroyFriendships(ByVal screenName As String) As HttpStatusCode
-        If Me.AuthenticatedUsername = "" Then
-            Return HttpStatusCode.Unauthorized
-        End If
         Dim param As New Dictionary(Of String, String)
         param.Add("screen_name", screenName)
 
@@ -220,9 +200,6 @@ Public Class HttpTwitter
     End Function
 
     Public Function ShowFriendships(ByVal souceScreenName As String, ByVal targetScreenName As String, ByRef content As String) As HttpStatusCode
-        If Me.AuthenticatedUsername = "" Then
-            Return HttpStatusCode.Unauthorized
-        End If
         Dim param As New Dictionary(Of String, String)
         param.Add("source_screen_name", souceScreenName)
         param.Add("target_screen_name", targetScreenName)
@@ -235,10 +212,6 @@ Public Class HttpTwitter
     End Function
 
     Public Function ShowStatuses(ByVal id As Long, ByRef content As String) As HttpStatusCode
-        If Me.AuthenticatedUsername = "" Then
-            Return HttpStatusCode.Unauthorized
-        End If
-
         Return httpCon.GetContent(GetMethod, _
                             CreateTwitterUri("/1/statuses/show/" + id.ToString() + ".xml"), _
                             Nothing, _
@@ -247,10 +220,6 @@ Public Class HttpTwitter
     End Function
 
     Public Function CreateFavorites(ByVal id As Long) As HttpStatusCode
-        If Me.AuthenticatedUsername = "" Then
-            Return HttpStatusCode.Unauthorized
-        End If
-
         Return httpCon.GetContent(PostMethod, _
                             CreateTwitterUri("/1/favorites/create/" + id.ToString() + ".xml"), _
                             Nothing, _
@@ -259,10 +228,6 @@ Public Class HttpTwitter
     End Function
 
     Public Function DestroyFavorites(ByVal id As Long) As HttpStatusCode
-        If Me.AuthenticatedUsername = "" Then
-            Return HttpStatusCode.Unauthorized
-        End If
-
         Return httpCon.GetContent(PostMethod, _
                             CreateTwitterUri("/1/favorites/destroy/" + id.ToString() + ".xml"), _
                             Nothing, _
@@ -270,13 +235,16 @@ Public Class HttpTwitter
                             Nothing)
     End Function
 
-    Public Function HomeTimeline(ByVal count As Integer, ByRef content As String) As HttpStatusCode
-        If Me.AuthenticatedUsername = "" Then
-            Return HttpStatusCode.Unauthorized
-        End If
+    Public Function HomeTimeline(ByVal count As Integer, ByVal max_id As Long, ByVal since_id As Long, ByRef content As String) As HttpStatusCode
         Dim param As New Dictionary(Of String, String)
         If count > 0 Then
             param.Add("count", count.ToString())
+        End If
+        If max_id > 0 Then
+            param.Add("max_id", max_id.ToString())
+        End If
+        If since_id > 0 Then
+            param.Add("since_id", since_id.ToString())
         End If
 
         Return httpCon.GetContent(GetMethod, _
@@ -286,13 +254,16 @@ Public Class HttpTwitter
                             _remainCountApi)
     End Function
 
-    Public Function Mentions(ByVal count As Integer, ByRef content As String) As HttpStatusCode
-        If Me.AuthenticatedUsername = "" Then
-            Return HttpStatusCode.Unauthorized
-        End If
+    Public Function Mentions(ByVal count As Integer, ByVal max_id As Long, ByVal since_id As Long, ByRef content As String) As HttpStatusCode
         Dim param As New Dictionary(Of String, String)
         If count > 0 Then
             param.Add("count", count.ToString())
+        End If
+        If max_id > 0 Then
+            param.Add("max_id", max_id.ToString())
+        End If
+        If since_id > 0 Then
+            param.Add("since_id", since_id.ToString())
         End If
 
         Return httpCon.GetContent(GetMethod, _
@@ -302,9 +273,16 @@ Public Class HttpTwitter
                             _remainCountApi)
     End Function
 
-    Public Function DirectMessages(ByRef content As String) As HttpStatusCode
-        If Me.AuthenticatedUsername = "" Then
-            Return HttpStatusCode.Unauthorized
+    Public Function DirectMessages(ByVal count As Integer, ByVal max_id As Long, ByVal since_id As Long, ByRef content As String) As HttpStatusCode
+        Dim param As New Dictionary(Of String, String)
+        If count > 0 Then
+            param.Add("count", count.ToString())
+        End If
+        If max_id > 0 Then
+            param.Add("max_id", max_id.ToString())
+        End If
+        If since_id > 0 Then
+            param.Add("since_id", since_id.ToString())
         End If
 
         Return httpCon.GetContent(GetMethod, _
@@ -314,9 +292,16 @@ Public Class HttpTwitter
                             _remainCountApi)
     End Function
 
-    Public Function DirectMessagesSent(ByRef content As String) As HttpStatusCode
-        If Me.AuthenticatedUsername = "" Then
-            Return HttpStatusCode.Unauthorized
+    Public Function DirectMessagesSent(ByVal count As Integer, ByVal max_id As Long, ByVal since_id As Long, ByRef content As String) As HttpStatusCode
+        Dim param As New Dictionary(Of String, String)
+        If count > 0 Then
+            param.Add("count", count.ToString())
+        End If
+        If max_id > 0 Then
+            param.Add("max_id", max_id.ToString())
+        End If
+        If since_id > 0 Then
+            param.Add("since_id", since_id.ToString())
         End If
 
         Return httpCon.GetContent(GetMethod, _
@@ -327,9 +312,6 @@ Public Class HttpTwitter
     End Function
 
     Public Function Favorites(ByVal count As Integer, ByRef content As String) As HttpStatusCode
-        If Me.AuthenticatedUsername = "" Then
-            Return HttpStatusCode.Unauthorized
-        End If
         Dim param As New Dictionary(Of String, String)
         If count <> 20 Then param.Add("count", count.ToString())
 
@@ -358,9 +340,6 @@ Public Class HttpTwitter
     End Function
 
     Public Function FollowerIds(ByVal cursor As Long, ByRef content As String) As HttpStatusCode
-        If Me.AuthenticatedUsername = "" Then
-            Return HttpStatusCode.Unauthorized
-        End If
         Dim param As New Dictionary(Of String, String)
         param.Add("cursor", cursor.ToString())
 
@@ -372,10 +351,6 @@ Public Class HttpTwitter
     End Function
 
     Public Function RateLimitStatus(ByRef content As String) As HttpStatusCode
-        If Me.AuthenticatedUsername = "" Then
-            Return HttpStatusCode.Unauthorized
-        End If
-
         Return httpCon.GetContent(GetMethod, _
                             CreateTwitterUri("/1/account/rate_limit_status.xml"), _
                             Nothing, _
@@ -383,6 +358,48 @@ Public Class HttpTwitter
                             Nothing)
     End Function
 
+    Public Function GetLists(ByVal user As String, ByVal cursor As Long, ByRef content As String) As HttpStatusCode
+        Dim param As New Dictionary(Of String, String)
+        param.Add("cursor", cursor.ToString)
+        Return httpCon.GetContent(GetMethod, _
+                            CreateTwitterUri("/1/" + user + "/lists.xml"), _
+                            param, _
+                            content, _
+                            _remainCountApi)
+    End Function
+
+    Public Function GetListsSubscriptions(ByVal user As String, ByVal cursor As Long, ByRef content As String) As HttpStatusCode
+        Dim param As New Dictionary(Of String, String)
+        param.Add("cursor", cursor.ToString)
+        Return httpCon.GetContent(GetMethod, _
+                            CreateTwitterUri("/1/" + user + "/lists/subscriptions.xml"), _
+                            param, _
+                            content, _
+                            _remainCountApi)
+    End Function
+
+    Public Function GetListsStatuses(ByVal user As String, ByVal list_id As String, ByVal per_page As Integer, ByVal max_id As Long, ByVal since_id As Long, ByRef content As String) As HttpStatusCode
+        '認証なくても取得できるが、protectedユーザー分が抜ける
+        Dim param As New Dictionary(Of String, String)
+        If per_page > 0 Then
+            param.Add("per_page", per_page.ToString())
+        End If
+        If max_id > 0 Then
+            param.Add("max_id", max_id.ToString())
+        End If
+        If since_id > 0 Then
+            param.Add("since_id", since_id.ToString())
+        End If
+
+        Return httpCon.GetContent(GetMethod, _
+                            CreateTwitterUri("/1/" + user + "/lists/" + list_id + "/statuses.xml"), _
+                            param, _
+                            content, _
+                            _remainCountApi)
+    End Function
+
+
+#Region "Proxy API"
     Private Shared _twitterUrl As String = "api.twitter.com"
     'Private TwitterUrl As String = "sorayukigtap.appspot.com/api"
     Private Shared _TwitterSearchUrl As String = "search.twitter.com"
@@ -407,4 +424,6 @@ Public Class HttpTwitter
             _TwitterSearchUrl = value
         End Set
     End Property
+#End Region
+
 End Class

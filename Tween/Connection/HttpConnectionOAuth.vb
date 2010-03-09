@@ -70,7 +70,7 @@ Public Class HttpConnectionOAuth
             ByRef content As String, _
             ByVal headerInfo As Dictionary(Of String, String)) As HttpStatusCode Implements IHttpConnection.GetContent
         '認証済かチェック
-        If String.IsNullOrEmpty(token) Then Throw New Exception("Sequence error. (Token is blank.)")
+        If String.IsNullOrEmpty(token) Then Return HttpStatusCode.Unauthorized
 
         Dim webReq As HttpWebRequest = CreateRequest(method, _
                                                     requestUri, _
