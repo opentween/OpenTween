@@ -505,6 +505,12 @@
   <data name="Label47.Text" xml:space="preserve">
     <value>Apply after restarting</value>
   </data>
+  <data name="Label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 12</value>
+  </data>
+  <data name="Label6.Text" xml:space="preserve">
+    <value>Auth method</value>
+  </data>
   <data name="AuthClearButton.Text" xml:space="preserve">
     <value>Clear</value>
   </data>

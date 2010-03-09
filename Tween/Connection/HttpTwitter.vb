@@ -1,20 +1,20 @@
-Imports System.Net
+ï»¿Imports System.Net
 
 Public Class HttpTwitter
 
-    'OAuthŠÖ˜A
+    'OAuthé–¢é€£
     '''<summary>
-    '''OAuth‚ÌƒRƒ“ƒVƒ…[ƒ}[Œ®
+    '''OAuthã®ã‚³ãƒ³ã‚·ãƒ¥ãƒ¼ãƒãƒ¼éµ
     '''</summary>
     Private Const ConsumerKey As String = "iOQHfiCUsyOyamW8JJ8jg"
 
     '''<summary>
-    '''OAuth‚Ì–¼ì¬—p”é–§ƒRƒ“ƒVƒ…[ƒ}[ƒf[ƒ^
+    '''OAuthã®ç½²åä½œæˆç”¨ç§˜å¯†ã‚³ãƒ³ã‚·ãƒ¥ãƒ¼ãƒãƒ¼ãƒ‡ãƒ¼ã‚¿
     '''</summary>
     Private Const ConsumerSecret As String = "5PS2oa5f2VaKMPrlZa7DTbz0aFULKd3Ojxqgsm142Dw"
 
     '''<summary>
-    '''OAuth‚ÌƒAƒNƒZƒXƒg[ƒNƒ“æ“¾æURI
+    '''OAuthã®ã‚¢ã‚¯ã‚»ã‚¹ãƒˆãƒ¼ã‚¯ãƒ³å–å¾—å…ˆURI
     '''</summary>
     Private Const AccessTokenUrlXAuth As String = "https://api.twitter.com/oauth/access_token"
 
@@ -93,7 +93,7 @@ Public Class HttpTwitter
     Public ReadOnly Property Password() As String
         Get
             If httpCon IsNot Nothing Then
-                'OAuth‚Å‚ÍƒpƒXƒ[ƒhæ“¾‚³‚¹‚È‚¢
+                'OAuthã§ã¯ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰å–å¾—ã•ã›ãªã„
                 If connectionType = AuthMethod.Basic Then Return DirectCast(httpCon, HttpConnectionBasic).Password
                 Return ""
             Else
@@ -395,7 +395,7 @@ Public Class HttpTwitter
     End Function
 
     Public Function GetListsStatuses(ByVal user As String, ByVal list_id As String, ByVal per_page As Integer, ByVal max_id As Long, ByVal since_id As Long, ByRef content As String) As HttpStatusCode
-        '”FØ‚È‚­‚Ä‚àæ“¾‚Å‚«‚é‚ªAprotectedƒ†[ƒU[•ª‚ª”²‚¯‚é
+        'èªè¨¼ãªãã¦ã‚‚å–å¾—ã§ãã‚‹ãŒã€protectedãƒ¦ãƒ¼ã‚¶ãƒ¼åˆ†ãŒæŠœã‘ã‚‹
         Dim param As New Dictionary(Of String, String)
         If per_page > 0 Then
             param.Add("per_page", per_page.ToString())

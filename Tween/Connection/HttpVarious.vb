@@ -1,4 +1,4 @@
-Imports System.Net
+﻿Imports System.Net
 Imports System.Collections.Generic
 
 Public Class HttpVarious
