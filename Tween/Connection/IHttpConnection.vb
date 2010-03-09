@@ -1,4 +1,4 @@
-Imports System.Net
+﻿Imports System.Net
 
 Public Interface IHttpConnection
 
