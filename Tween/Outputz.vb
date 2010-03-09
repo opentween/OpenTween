@@ -25,22 +25,15 @@ Imports System.Web
 Imports System.Net
 Imports System.Collections.Generic
 
-Public Module Outputz
-    Private myOuturl As String
-    Private myOuturlEncoded As String
-    Private myApikey As String
-    Private myApikeyEncoded As String
+Public Class Outputz
+    Private Shared myOuturl As String
+    Private Shared myOuturlEncoded As String
+    Private Shared myApikey As String
+    Private Shared myApikeyEncoded As String
 
-    Private state As Boolean
+    Private Shared state As Boolean
 
-
-    'Public Sub New(ByVal _key As String, ByVal _url As String, ByVal _state As Boolean)
-    '    url = _url
-    '    key = _key
-    '    Enabled = _state
-    'End Sub
-
-    Public Property outputzUrl() As String
+    Public Shared Property OutUrl() As String
         Get
             Return myOuturl
         End Get
@@ -50,7 +43,7 @@ Public Module Outputz
         End Set
     End Property
 
-    Public Property outputzKey() As String
+    Public Shared Property Key() As String
         Get
             Return myApikey
         End Get
@@ -60,7 +53,7 @@ Public Module Outputz
         End Set
     End Property
 
-    Public Property outputzEnabled() As Boolean
+    Public Shared Property Enabled() As Boolean
         Get
             Return state
         End Get
@@ -69,7 +62,7 @@ Public Module Outputz
         End Set
     End Property
 
-    Public Function outputzPost(ByVal length As Integer) As Boolean
+    Public Function Post(ByVal length As Integer) As Boolean
 
         If state = False Then Return True
 
@@ -82,4 +75,4 @@ Public Module Outputz
 
         Return (New HttpVarious).PostData(output, param)
     End Function
-End Module
+End Class

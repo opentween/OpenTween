@@ -60,29 +60,45 @@ Public Class HttpTwitter
 
     Public ReadOnly Property AccessToken() As String
         Get
-            If connectionType = AuthMethod.Basic Then Return ""
-            Return DirectCast(httpCon, HttpConnectionOAuth).AccessToken
+            If httpCon IsNot Nothing Then
+                If connectionType = AuthMethod.Basic Then Return ""
+                Return DirectCast(httpCon, HttpConnectionOAuth).AccessToken
+            Else
+                Return ""
+            End If
         End Get
     End Property
 
     Public ReadOnly Property AccessTokenSecret() As String
         Get
-            If connectionType = AuthMethod.Basic Then Return ""
-            Return DirectCast(httpCon, HttpConnectionOAuth).AccessTokenSecret
+            If httpCon IsNot Nothing Then
+                If connectionType = AuthMethod.Basic Then Return ""
+                Return DirectCast(httpCon, HttpConnectionOAuth).AccessTokenSecret
+            Else
+                Return ""
+            End If
         End Get
     End Property
 
     Public ReadOnly Property AuthenticatedUsername() As String
         Get
-            Return httpCon.AuthUsername
+            If httpCon IsNot Nothing Then
+                Return httpCon.AuthUsername
+            Else
+                Return ""
+            End If
         End Get
     End Property
 
     Public ReadOnly Property Password() As String
         Get
-            'OAuthではパスワード取得させない
-            If connectionType = AuthMethod.Basic Then Return DirectCast(httpCon, HttpConnectionBasic).Password
-            Return ""
+            If httpCon IsNot Nothing Then
+                'OAuthではパスワード取得させない
+                If connectionType = AuthMethod.Basic Then Return DirectCast(httpCon, HttpConnectionBasic).Password
+                Return ""
+            Else
+                Return ""
+            End If
         End Get
     End Property
 

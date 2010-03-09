@@ -22,6 +22,7 @@
 ' Boston, MA 02110-1301, USA.
 
 Public Class Setting
+    Private tw As Twitter
     'Private _MyuserID As String
     'Private _Mypassword As String
     Private _MytimelinePeriod As Integer
@@ -237,17 +238,17 @@ Public Class Setting
             _MyAlwaysTop = CheckAlwaysTop.Checked
             _MyUrlConvertAuto = CheckAutoConvertUrl.Checked
             _MyOutputz = CheckOutputz.Checked
-            Outputz.outputzEnabled = _MyOutputz
+            'Outputz.outputzEnabled = _MyOutputz
             _MyOutputzKey = TextBoxOutputzKey.Text.Trim()
-            Outputz.outputzKey = _MyOutputzKey
+            'Outputz.outputzKey = _MyOutputzKey
 
             Select Case ComboBoxOutputzUrlmode.SelectedIndex
                 Case 0
                     _MyOutputzUrlmode = OutputzUrlmode.twittercom
-                    Outputz.outputzUrl = "http://twitter.com/"
+                    'Outputz.outputzUrl = "http://twitter.com/"
                 Case 1
                     _MyOutputzUrlmode = OutputzUrlmode.twittercomWithUsername
-                    Outputz.outputzUrl = "http://twitter.com/" + Twitter.Username
+                    'Outputz.outputzUrl = "http://twitter.com/" + tw.Username
             End Select
 
             _MyNicoms = CheckNicoms.Checked
@@ -294,7 +295,7 @@ Public Class Setting
     End Sub
 
     Private Sub Setting_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
-        If Twitter.Username = "" Then
+        If tw IsNot Nothing AndAlso tw.Username = "" Then
             If MessageBox.Show(My.Resources.Setting_FormClosing1, "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
                 e.Cancel = True
             End If
@@ -302,10 +303,11 @@ Public Class Setting
     End Sub
 
     Private Sub Setting_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim uname As String = Twitter.Username
-        Dim pw As String = Twitter.Password
-        Dim tk As String = Twitter.AccessToken
-        Dim tks As String = Twitter.AccessTokenSecret
+        tw = DirectCast(Me.Owner, TweenMain).TwitterInstance
+        Dim uname As String = tw.Username
+        Dim pw As String = tw.Password
+        Dim tk As String = tw.AccessToken
+        Dim tks As String = tw.AccessTokenSecret
         If Not Me._MyIsOAuth Then
             'BASIC認証時のみ表示
             Me.AuthStateLabel.Enabled = False
@@ -313,24 +315,24 @@ Public Class Setting
             Me.AuthClearButton.Enabled = False
             Me.AuthOAuthRadio.Checked = False
             Me.AuthBasicRadio.Checked = True
-            Twitter.Initialize(uname, pw)
+            tw.Initialize(uname, pw)
         Else
             Me.AuthStateLabel.Enabled = True
             Me.AuthUserLabel.Enabled = True
             Me.AuthClearButton.Enabled = True
             Me.AuthOAuthRadio.Checked = True
             Me.AuthBasicRadio.Checked = False
-            Twitter.Initialize(tk, tks, uname)
+            tw.Initialize(tk, tks, uname)
         End If
 
         Username.Text = uname
         Password.Text = pw
-        If Twitter.Username = "" Then
+        If tw.Username = "" Then
             Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
             Me.AuthUserLabel.Text = ""
         Else
             Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
-            Me.AuthUserLabel.Text = Twitter.Username
+            Me.AuthUserLabel.Text = tw.Username
         End If
 
         TimelinePeriod.Text = _MytimelinePeriod.ToString()
@@ -484,9 +486,9 @@ Public Class Setting
         CheckAlwaysTop.Checked = _MyAlwaysTop
         CheckAutoConvertUrl.Checked = _MyUrlConvertAuto
         CheckOutputz.Checked = _MyOutputz
-        Outputz.outputzEnabled = _MyOutputz
+        'Outputz.outputzEnabled = _MyOutputz
         TextBoxOutputzKey.Text = _MyOutputzKey
-        Outputz.outputzKey = _MyOutputzKey
+        'Outputz.outputzKey = _MyOutputzKey
 
         Select Case _MyOutputzUrlmode
             Case OutputzUrlmode.twittercom
@@ -1986,15 +1988,15 @@ Public Class Setting
         HttpTwitter.TwitterUrl = TwitterAPIText.Text.Trim
         HttpTwitter.TwitterSearchUrl = TwitterSearchAPIText.Text.Trim
         If Me.AuthBasicRadio.Checked Then
-            Twitter.Initialize("", "")
+            tw.Initialize("", "")
         Else
-            Twitter.Initialize("", "", "")
+            tw.Initialize("", "", "")
         End If
-        Dim rslt As Boolean = Twitter.Authenticate(user, pwd)
+        Dim rslt As Boolean = tw.Authenticate(user, pwd)
         If rslt Then
             MessageBox.Show(My.Resources.AuthorizeButton_Click1, "Authenticate", MessageBoxButtons.OK)
             Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
-            Me.AuthUserLabel.Text = Twitter.Username
+            Me.AuthUserLabel.Text = tw.Username
         Else
             MessageBox.Show(My.Resources.AuthorizeButton_Click2, "Authenticate", MessageBoxButtons.OK)
             Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
@@ -2003,7 +2005,7 @@ Public Class Setting
     End Sub
 
     Private Sub AuthClearButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AuthClearButton.Click
-        Twitter.ClearAuthInfo()
+        tw.ClearAuthInfo()
         Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
         Me.AuthUserLabel.Text = ""
     End Sub
@@ -2013,12 +2015,12 @@ Public Class Setting
             'BASIC認証時のみ表示
             'Username.Text = Twitter.Username
             'Password.Text = Twitter.Password
-            Twitter.Initialize("", "")
+            tw.Initialize("", "")
             Me.AuthStateLabel.Enabled = False
             Me.AuthUserLabel.Enabled = False
             Me.AuthClearButton.Enabled = False
         Else
-            Twitter.Initialize("", "", "")
+            tw.Initialize("", "", "")
             Me.AuthStateLabel.Enabled = True
             Me.AuthUserLabel.Enabled = True
             Me.AuthClearButton.Enabled = True
