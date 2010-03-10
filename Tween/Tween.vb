@@ -2353,7 +2353,7 @@ Public Class TweenMain
 
         Static lastTime As New Dictionary(Of WORKERTYPE, DateTime)
         If Not lastTime.ContainsKey(WkType) Then lastTime.Add(WkType, New DateTime)
-        If Now.Subtract(lastTime(WkType)).Seconds > 1 Then
+        If Now.Subtract(lastTime(WkType)).TotalSeconds > 1 Then
             lastTime(WkType) = Now
             RunAsync(args)
         End If
