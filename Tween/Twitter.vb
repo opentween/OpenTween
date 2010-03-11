@@ -3984,31 +3984,31 @@ Public Class Twitter
 
         If _endingFlag Then Return True
 
-        info.MaxCount = twCon.UpperCountApi
-        info.RemainCount = twCon.RemainCountApi
-        info.ResetTime = twCon.ResetTimeApi
-        Return True
-        'Dim res As HttpStatusCode
-        'Dim content As String = ""
-        'Try
-        '    res = twCon.RateLimitStatus(content)
-        'Catch ex As Exception
-        '    Return False
-        'End Try
+        'info.MaxCount = twCon.UpperCountApi
+        'info.RemainCount = twCon.RemainCountApi
+        'info.ResetTime = twCon.ResetTimeApi
+        'Return True
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+        Try
+            res = twCon.RateLimitStatus(content)
+        Catch ex As Exception
+            Return False
+        End Try
 
-        'If res <> HttpStatusCode.OK Then Return False
+        If res <> HttpStatusCode.OK Then Return False
 
-        'Dim xdoc As New XmlDocument
-        'Try
-        '    xdoc.LoadXml(content)
-        '    info.MaxCount = Integer.Parse(xdoc.SelectSingleNode("/hash/hourly-limit").InnerText)
-        '    info.RemainCount = Integer.Parse(xdoc.SelectSingleNode("/hash/remaining-hits").InnerText)
-        '    info.ResetTime = DateTime.Parse(xdoc.SelectSingleNode("/hash/reset-time").InnerText)
-        '    info.ResetTimeInSeconds = Integer.Parse(xdoc.SelectSingleNode("/hash/reset-time-in-seconds").InnerText)
-        '    Return True
-        'Catch ex As Exception
-        '    Return False
-        'End Try
+        Dim xdoc As New XmlDocument
+        Try
+            xdoc.LoadXml(content)
+            info.MaxCount = Integer.Parse(xdoc.SelectSingleNode("/hash/hourly-limit").InnerText)
+            info.RemainCount = Integer.Parse(xdoc.SelectSingleNode("/hash/remaining-hits").InnerText)
+            info.ResetTime = DateTime.Parse(xdoc.SelectSingleNode("/hash/reset-time").InnerText)
+            'info.ResetTimeInSeconds = Integer.Parse(xdoc.SelectSingleNode("/hash/reset-time-in-seconds").InnerText)
+            Return True
+        Catch ex As Exception
+            Return False
+        End Try
     End Function
 
     Public Function GetHashList() As String()
