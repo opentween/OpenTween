@@ -49,6 +49,7 @@ Public Class TweenMain
 
     '雑多なフラグ類
     Private _initial As Boolean         'True:起動時処理中
+    Private _initialLayout As Boolean = True
     Private _ignoreConfigSave As Boolean         'True:起動時処理中
     'Private listViewItemSorter As ListViewItemComparer      'リストソート用カスタムクラス
     Private _tabDrag As Boolean           'タブドラッグ中フラグ（DoDragDropを実行するかの判定用）
@@ -432,6 +433,7 @@ Public Class TweenMain
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         _ignoreConfigSave = True
+        Me.WindowState = FormWindowState.Minimized
         Me.Visible = False
         SecurityManager = New InternetSecurityManager(PostBrowser)
 
@@ -818,28 +820,30 @@ Public Class TweenMain
         'ウィンドウ設定
         Me.ClientSize = _cfgLocal.FormSize
         _mySize = Me.ClientSize                     'サイズ保持（最小化・最大化されたまま終了した場合の対応用）
-        Me.DesktopLocation = _cfgLocal.FormLocation
-        _myLoc = Me.DesktopLocation                        '位置保持（最小化・最大化されたまま終了した場合の対応用）
+        _myLoc = _cfgLocal.FormLocation
         'タイトルバー領域
-        Dim tbarRect As New Rectangle(Me.Location, New Size(_mySize.Width, SystemInformation.CaptionHeight))
-        Dim outOfScreen As Boolean = True
-        If Screen.AllScreens.Length = 1 Then    'ハングするとの報告
-            For Each scr As Screen In Screen.AllScreens
-                If Not Rectangle.Intersect(tbarRect, scr.Bounds).IsEmpty Then
-                    outOfScreen = False
-                    Exit For
+        If Me.WindowState <> FormWindowState.Minimized Then
+            Me.DesktopLocation = _cfgLocal.FormLocation
+            Dim tbarRect As New Rectangle(Me.Location, New Size(_mySize.Width, SystemInformation.CaptionHeight))
+            Dim outOfScreen As Boolean = True
+            If Screen.AllScreens.Length = 1 Then    'ハングするとの報告
+                For Each scr As Screen In Screen.AllScreens
+                    If Not Rectangle.Intersect(tbarRect, scr.Bounds).IsEmpty Then
+                        outOfScreen = False
+                        Exit For
+                    End If
+                Next
+                If outOfScreen Then
+                    Me.DesktopLocation = New Point(0, 0)
+                    _myLoc = Me.DesktopLocation
                 End If
-            Next
-            If outOfScreen Then
-                Me.DesktopLocation = New Point(0, 0)
-                _myLoc = Me.DesktopLocation
             End If
         End If
         Me.TopMost = SettingDialog.AlwaysTop
         _mySpDis = _cfgLocal.SplitterDistance
         _mySpDis2 = _cfgLocal.StatusTextHeight
         MultiLineMenuItem.Checked = _cfgLocal.StatusMultiline
-        Me.Tween_ClientSizeChanged(Me, Nothing)
+        'Me.Tween_ClientSizeChanged(Me, Nothing)
         PlaySoundMenuItem.Checked = SettingDialog.PlaySound
         Me.PlaySoundFileMenuItem.Checked = SettingDialog.PlaySound
         '入力欄
@@ -1013,7 +1017,7 @@ Public Class TweenMain
         TimerColorize.Start()
         _ignoreConfigSave = False
         SaveConfigsAll(False)
-
+        Me.TweenMain_Resize(Nothing, Nothing)
     End Sub
 
     Private Sub spaceKeyCanceler_SpaceCancel(ByVal sender As Object, ByVal e As EventArgs)
@@ -1682,10 +1686,13 @@ Public Class TweenMain
         _history(_history.Count - 1) = StatusText.Text.Trim
 
         If SettingDialog.UrlConvertAuto Then
+            StatusText.SelectionStart = StatusText.Text.Length - 1
             UrlConvertAutoToolStripMenuItem_Click(Nothing, Nothing)
         ElseIf SettingDialog.Nicoms Then
+            StatusText.SelectionStart = StatusText.Text.Length - 1
             UrlConvert(UrlConverter.Nicoms)
         End If
+        StatusText.SelectionStart = StatusText.Text.Length - 1
         Dim args As New GetWorkerArg()
         args.page = 0
         args.endPage = 0
@@ -2472,31 +2479,14 @@ Public Class TweenMain
     End Sub
 
     Private Sub Tween_ClientSizeChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.ClientSizeChanged
-        'ショートカットから最小化状態で起動した際の対応
-        Static initialize As Boolean = False
-
         If Me.WindowState <> FormWindowState.Minimized Then
-            If initialize Then
+            If Not _initialLayout Then
                 If Me.WindowState = FormWindowState.Normal Then
                     _mySize = Me.ClientSize
                     _mySpDis = Me.SplitContainer1.SplitterDistance
                     If StatusText.Multiline Then _mySpDis2 = Me.StatusText.Height
                     modifySettingLocal = True
                 End If
-            ElseIf _cfgLocal IsNot Nothing Then
-                '初回フォームレイアウト復元
-                Try
-                    Me.SplitContainer1.SplitterDistance = _cfgLocal.SplitterDistance     'Splitterの位置設定
-                    '発言欄複数行
-                    StatusText.Multiline = _cfgLocal.StatusMultiline
-                    If StatusText.Multiline Then
-                        SplitContainer2.SplitterDistance = SplitContainer2.Height - _cfgLocal.StatusTextHeight - SplitContainer2.SplitterWidth
-                    Else
-                        SplitContainer2.SplitterDistance = SplitContainer2.Height - SplitContainer2.Panel2MinSize - SplitContainer2.SplitterWidth
-                    End If
-                    initialize = True
-                Catch ex As Exception
-                End Try
             End If
         End If
     End Sub
@@ -2531,7 +2521,7 @@ Public Class TweenMain
     End Sub
 
     Private Sub Tween_LocationChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.LocationChanged
-        If Me.WindowState = FormWindowState.Normal Then
+        If Me.WindowState = FormWindowState.Normal AndAlso Not _initialLayout Then
             _myLoc = Me.DesktopLocation
             modifySettingLocal = True
         End If
@@ -6300,6 +6290,21 @@ RETRY:
         If SettingDialog.MinimizeToTray AndAlso WindowState = FormWindowState.Minimized Then
             Me.Visible = False
         End If
+        If _initialLayout AndAlso _cfgLocal IsNot Nothing AndAlso Me.WindowState = FormWindowState.Normal AndAlso Me.Visible = True Then
+            Me.ClientSize = _cfgLocal.FormSize
+            _mySize = Me.ClientSize                     'サイズ保持（最小化・最大化されたまま終了した場合の対応用）
+            Me.DesktopLocation = _cfgLocal.FormLocation
+            _myLoc = Me.DesktopLocation                        '位置保持（最小化・最大化されたまま終了した場合の対応用）
+            Me.SplitContainer1.SplitterDistance = _cfgLocal.SplitterDistance     'Splitterの位置設定
+            '発言欄複数行
+            StatusText.Multiline = _cfgLocal.StatusMultiline
+            If StatusText.Multiline Then
+                SplitContainer2.SplitterDistance = SplitContainer2.Height - _cfgLocal.StatusTextHeight - SplitContainer2.SplitterWidth
+            Else
+                SplitContainer2.SplitterDistance = SplitContainer2.Height - SplitContainer2.Panel2MinSize - SplitContainer2.SplitterWidth
+            End If
+            _initialLayout = False
+        End If
     End Sub
 
     Private Sub PlaySoundMenuItem_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PlaySoundMenuItem.CheckedChanged, PlaySoundFileMenuItem.CheckStateChanged
@@ -6315,7 +6320,7 @@ RETRY:
     End Sub
 
     Private Sub SplitContainer1_SplitterMoved(ByVal sender As Object, ByVal e As System.Windows.Forms.SplitterEventArgs) Handles SplitContainer1.SplitterMoved
-        If Me.WindowState = FormWindowState.Normal Then
+        If Me.WindowState = FormWindowState.Normal AndAlso Not _initialLayout Then
             _mySpDis = SplitContainer1.SplitterDistance
             If StatusText.Multiline Then _mySpDis2 = StatusText.Height
             modifySettingLocal = True
@@ -6491,6 +6496,7 @@ RETRY:
         Else
             ' 正規表現にマッチしたURL文字列をtinyurl化
             For Each mt As Match In url.Matches(StatusText.Text)
+                If StatusText.Text.IndexOf(mt.Result("${url}"), StringComparison.Ordinal) = -1 Then Continue For
                 Dim tmp As String = mt.Result("${url}")
                 If tmp.StartsWith("w", StringComparison.OrdinalIgnoreCase) Then tmp = "http://" + tmp
                 Dim undotmp As New urlUndo
@@ -6992,7 +6998,9 @@ RETRY:
     End Sub
 
     Private Sub TweenMain_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
-        'AddHandler My.Computer.Network.NetworkAvailabilityChanged, AddressOf Network_NetworkAvailabilityChanged
+        If Me.WindowState = FormWindowState.Minimized AndAlso SettingDialog.MinimizeToTray Then
+            Me.Visible = False
+        End If
         Try
             PostBrowser.Url = New Uri("about:blank")
             PostBrowser.DocumentText = ""       '発言詳細部初期化
@@ -7687,4 +7695,5 @@ RETRY:
             Return tw
         End Get
     End Property
+
 End Class
