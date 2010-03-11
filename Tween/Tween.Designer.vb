@@ -62,7 +62,6 @@ Partial Class TweenMain
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
         Me.SaveIconPictureToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.NameLabel = New System.Windows.Forms.Label
-        Me.PostBrowser = New System.Windows.Forms.WebBrowser
         Me.ContextMenuStrip4 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
         Me.SearchItem2ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -230,6 +229,7 @@ Partial Class TweenMain
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
+        Me.PostBrowser = New System.Windows.Forms.WebBrowser
         Me.StatusLabel = New Tween.TweenCustomControl.ToolStripLabelHistory
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
@@ -522,18 +522,6 @@ Partial Class TweenMain
         resources.ApplyResources(Me.NameLabel, "NameLabel")
         Me.NameLabel.Name = "NameLabel"
         Me.NameLabel.UseMnemonic = False
-        '
-        'PostBrowser
-        '
-        Me.PostBrowser.AllowWebBrowserDrop = False
-        Me.TableLayoutPanel1.SetColumnSpan(Me.PostBrowser, 2)
-        Me.PostBrowser.ContextMenuStrip = Me.ContextMenuStrip4
-        resources.ApplyResources(Me.PostBrowser, "PostBrowser")
-        Me.PostBrowser.IsWebBrowserContextMenuEnabled = False
-        Me.PostBrowser.Name = "PostBrowser"
-        Me.PostBrowser.ScriptErrorsSuppressed = True
-        Me.PostBrowser.TabStop = False
-        Me.PostBrowser.Url = New System.Uri("", System.UriKind.Relative)
         '
         'ContextMenuStrip4
         '
@@ -1398,6 +1386,18 @@ Partial Class TweenMain
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
+        '
+        'PostBrowser
+        '
+        Me.PostBrowser.AllowWebBrowserDrop = False
+        Me.TableLayoutPanel1.SetColumnSpan(Me.PostBrowser, 2)
+        Me.PostBrowser.ContextMenuStrip = Me.ContextMenuStrip4
+        resources.ApplyResources(Me.PostBrowser, "PostBrowser")
+        Me.PostBrowser.IsWebBrowserContextMenuEnabled = False
+        Me.PostBrowser.Name = "PostBrowser"
+        Me.PostBrowser.ScriptErrorsSuppressed = True
+        Me.PostBrowser.TabStop = False
+        Me.PostBrowser.Url = New System.Uri("", System.UriKind.Relative)
         '
         'StatusLabel
         '

@@ -433,7 +433,6 @@ Public Class TweenMain
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         _ignoreConfigSave = True
-        Me.WindowState = FormWindowState.Minimized
         Me.Visible = False
         SecurityManager = New InternetSecurityManager(PostBrowser)
 
@@ -819,7 +818,7 @@ Public Class TweenMain
 
         'ウィンドウ設定
         Me.ClientSize = _cfgLocal.FormSize
-        _mySize = Me.ClientSize                     'サイズ保持（最小化・最大化されたまま終了した場合の対応用）
+        _mySize = _cfgLocal.FormSize                     'サイズ保持（最小化・最大化されたまま終了した場合の対応用）
         _myLoc = _cfgLocal.FormLocation
         'タイトルバー領域
         If Me.WindowState <> FormWindowState.Minimized Then
@@ -2480,7 +2479,7 @@ Public Class TweenMain
 
     Private Sub Tween_ClientSizeChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.ClientSizeChanged
         If Me.WindowState <> FormWindowState.Minimized Then
-            If Not _initialLayout Then
+            If Not _initialLayout AndAlso Me.Visible = True Then
                 If Me.WindowState = FormWindowState.Normal Then
                     _mySize = Me.ClientSize
                     _mySpDis = Me.SplitContainer1.SplitterDistance
@@ -6287,14 +6286,14 @@ RETRY:
     End Sub
 
     Private Sub TweenMain_Resize(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Resize
-        If SettingDialog.MinimizeToTray AndAlso WindowState = FormWindowState.Minimized Then
+        If Not _initialLayout AndAlso SettingDialog.MinimizeToTray AndAlso WindowState = FormWindowState.Minimized Then
             Me.Visible = False
         End If
         If _initialLayout AndAlso _cfgLocal IsNot Nothing AndAlso Me.WindowState = FormWindowState.Normal AndAlso Me.Visible = True Then
             Me.ClientSize = _cfgLocal.FormSize
-            _mySize = Me.ClientSize                     'サイズ保持（最小化・最大化されたまま終了した場合の対応用）
+            '_mySize = Me.ClientSize                     'サイズ保持（最小化・最大化されたまま終了した場合の対応用）
             Me.DesktopLocation = _cfgLocal.FormLocation
-            _myLoc = Me.DesktopLocation                        '位置保持（最小化・最大化されたまま終了した場合の対応用）
+            '_myLoc = Me.DesktopLocation                        '位置保持（最小化・最大化されたまま終了した場合の対応用）
             Me.SplitContainer1.SplitterDistance = _cfgLocal.SplitterDistance     'Splitterの位置設定
             '発言欄複数行
             StatusText.Multiline = _cfgLocal.StatusMultiline
@@ -6998,9 +6997,9 @@ RETRY:
     End Sub
 
     Private Sub TweenMain_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
-        If Me.WindowState = FormWindowState.Minimized AndAlso SettingDialog.MinimizeToTray Then
-            Me.Visible = False
-        End If
+        'If Me.WindowState = FormWindowState.Minimized AndAlso SettingDialog.MinimizeToTray Then
+        '    Me.Visible = False
+        'End If
         Try
             PostBrowser.Url = New Uri("about:blank")
             PostBrowser.DocumentText = ""       '発言詳細部初期化
