@@ -1015,8 +1015,8 @@ Public Class TweenMain
         TimerColorize.Interval = 200
         TimerColorize.Start()
         _ignoreConfigSave = False
-        SaveConfigsAll(False)
         Me.TweenMain_Resize(Nothing, Nothing)
+        SaveConfigsAll(False)
     End Sub
 
     Private Sub spaceKeyCanceler_SpaceCancel(ByVal sender As Object, ByVal e As EventArgs)
@@ -6299,6 +6299,7 @@ RETRY:
             StatusText.Multiline = _cfgLocal.StatusMultiline
             If StatusText.Multiline Then
                 SplitContainer2.SplitterDistance = SplitContainer2.Height - _cfgLocal.StatusTextHeight - SplitContainer2.SplitterWidth
+                StatusText.Height = _cfgLocal.StatusTextHeight
             Else
                 SplitContainer2.SplitterDistance = SplitContainer2.Height - SplitContainer2.Panel2MinSize - SplitContainer2.SplitterWidth
             End If
@@ -7030,12 +7031,10 @@ RETRY:
             '    _waitDm = True
             '    GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, SettingDialog.ReadPagesDM, "")
             'End If
-            _waitFav = True
-            GetTimeline(WORKERTYPE.Favorites, 1, 1, "")
-            'If SettingDialog.GetFav Then
-            '    _waitFav = True
-            '    GetTimeline(WORKERTYPE.Favorites, 1, 1, "")
-            'End If
+            If SettingDialog.GetFav Then
+                _waitFav = True
+                GetTimeline(WORKERTYPE.Favorites, 1, 1, "")
+            End If
             _waitPubSearch = True
             GetTimeline(WORKERTYPE.PublicSearch, 1, 0, "")  'tabname="":全タブ
             Dim i As Integer = 0
