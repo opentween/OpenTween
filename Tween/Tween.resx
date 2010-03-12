@@ -126,7 +126,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="StatusLabelUrl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>325, 22</value>
+    <value>341, 17</value>
   </data>
   <data name="StatusLabelUrl.Text" xml:space="preserve">
     <value>ToolStripStatusLabel1</value>
@@ -135,7 +135,7 @@
     <value>MiddleLeft</value>
   </data>
   <data name="StatusLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>71, 22</value>
+    <value>61, 17</value>
   </data>
   <data name="StatusLabel.Text" xml:space="preserve">
     <value>Starting...</value>
@@ -147,25 +147,25 @@
     <value>237, 17</value>
   </metadata>
   <data name="ToolStripMenuItemUrlMultibyteSplit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>280, 22</value>
+    <value>242, 22</value>
   </data>
   <data name="ToolStripMenuItemUrlMultibyteSplit.Text" xml:space="preserve">
     <value>URLからの全角文字列の切り離し</value>
   </data>
   <data name="ToolStripMenuItemApiCommandEvasion.Size" type="System.Drawing.Size, System.Drawing">
-    <value>280, 22</value>
+    <value>242, 22</value>
   </data>
   <data name="ToolStripMenuItemApiCommandEvasion.Text" xml:space="preserve">
     <value>APIコマンドを回避する</value>
   </data>
   <data name="ToolStripMenuItemUrlAutoShorten.Size" type="System.Drawing.Size, System.Drawing">
-    <value>280, 22</value>
+    <value>242, 22</value>
   </data>
   <data name="ToolStripMenuItemUrlAutoShorten.Text" xml:space="preserve">
     <value>自動的にURLを短縮する</value>
   </data>
   <data name="IdeographicSpaceToSpaceToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>280, 22</value>
+    <value>242, 22</value>
   </data>
   <data name="IdeographicSpaceToSpaceToolStripMenuItem.Text" xml:space="preserve">
     <value>全角スペースを半角スペースにする</value>
@@ -174,19 +174,19 @@
     <value>Ctrl+Y</value>
   </data>
   <data name="MultiLineMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>280, 22</value>
+    <value>242, 22</value>
   </data>
   <data name="MultiLineMenuItem.Text" xml:space="preserve">
     <value>発言欄複数行入力(&amp;M)</value>
   </data>
   <data name="ToolStripSeparator8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>277, 6</value>
+    <value>239, 6</value>
   </data>
   <data name="HashToggleMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+Shift+T</value>
   </data>
   <data name="HashToggleMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>280, 22</value>
+    <value>242, 22</value>
   </data>
   <data name="HashToggleMenuItem.Text" xml:space="preserve">
     <value>ハッシュタグ自動付加</value>
@@ -195,13 +195,13 @@
     <value>Ctrl+T</value>
   </data>
   <data name="HashManageMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>280, 22</value>
+    <value>242, 22</value>
   </data>
   <data name="HashManageMenuItem.Text" xml:space="preserve">
     <value>ハッシュタグ設定</value>
   </data>
   <data name="ContextMenuStripPostMode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>281, 164</value>
+    <value>243, 164</value>
   </data>
   <data name="&gt;&gt;ContextMenuStripPostMode.Name" xml:space="preserve">
     <value>ContextMenuStripPostMode</value>
@@ -210,7 +210,7 @@
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="HashStripSplitButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>51, 25</value>
+    <value>45, 20</value>
   </data>
   <data name="HashStripSplitButton.Text" xml:space="preserve">
     <value>#[-]</value>
@@ -219,7 +219,7 @@
     <value>0, 0</value>
   </data>
   <data name="StatusStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>462, 27</value>
+    <value>462, 22</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="StatusStrip1.TabIndex" type="System.Int32, mscorlib">
@@ -268,67 +268,67 @@
     <value>411, 54</value>
   </metadata>
   <data name="AddTabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>226, 22</value>
+    <value>196, 22</value>
   </data>
   <data name="AddTabMenuItem.Text" xml:space="preserve">
     <value>タブ作成(&amp;N)...</value>
   </data>
   <data name="TabRenameMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>226, 22</value>
+    <value>196, 22</value>
   </data>
   <data name="TabRenameMenuItem.Text" xml:space="preserve">
     <value>タブ名の変更(&amp;R)</value>
   </data>
   <data name="ToolStripSeparator20.Size" type="System.Drawing.Size, System.Drawing">
-    <value>223, 6</value>
+    <value>193, 6</value>
   </data>
   <data name="UreadManageMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>226, 22</value>
+    <value>196, 22</value>
   </data>
   <data name="UreadManageMenuItem.Text" xml:space="preserve">
     <value>未読管理(&amp;U)</value>
   </data>
   <data name="NotifyDispMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>226, 22</value>
+    <value>196, 22</value>
   </data>
   <data name="NotifyDispMenuItem.Text" xml:space="preserve">
     <value>新着通知表示(&amp;Q)</value>
   </data>
   <data name="SoundFileComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 26</value>
+    <value>121, 21</value>
   </data>
   <data name="SoundFileComboBox.ToolTipText" xml:space="preserve">
     <value>再生するwavファイルを指定してください</value>
   </data>
   <data name="ToolStripSeparator18.Size" type="System.Drawing.Size, System.Drawing">
-    <value>223, 6</value>
+    <value>193, 6</value>
   </data>
   <data name="FilterEditMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>226, 22</value>
+    <value>196, 22</value>
   </data>
   <data name="FilterEditMenuItem.Text" xml:space="preserve">
     <value>振り分けルール編集(&amp;F)...</value>
   </data>
   <data name="ToolStripSeparator19.Size" type="System.Drawing.Size, System.Drawing">
-    <value>223, 6</value>
+    <value>193, 6</value>
   </data>
   <data name="ClearTabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>226, 22</value>
+    <value>196, 22</value>
   </data>
   <data name="ClearTabMenuItem.Text" xml:space="preserve">
     <value>このタブの発言をクリア(&amp;C)</value>
   </data>
   <data name="ToolStripSeparator11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>223, 6</value>
+    <value>193, 6</value>
   </data>
   <data name="DeleteTabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>226, 22</value>
+    <value>196, 22</value>
   </data>
   <data name="DeleteTabMenuItem.Text" xml:space="preserve">
     <value>タブ削除(&amp;D)</value>
   </data>
   <data name="ContextMenuTabProperty.Size" type="System.Drawing.Size, System.Drawing">
-    <value>227, 212</value>
+    <value>197, 207</value>
   </data>
   <data name="&gt;&gt;ContextMenuTabProperty.Name" xml:space="preserve">
     <value>ContextMenuTabProperty</value>
@@ -355,7 +355,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="ListTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>458, 162</value>
+    <value>458, 169</value>
   </data>
   <data name="ListTab.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -400,22 +400,22 @@
     <value>289, 91</value>
   </metadata>
   <data name="IconNameToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 22</value>
+    <value>122, 22</value>
   </data>
   <data name="IconNameToolStripMenuItem.Text" xml:space="preserve">
     <value>IconName</value>
   </data>
   <data name="ToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>133, 6</value>
+    <value>119, 6</value>
   </data>
   <data name="SaveIconPictureToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 22</value>
+    <value>122, 22</value>
   </data>
   <data name="SaveIconPictureToolStripMenuItem.Text" xml:space="preserve">
     <value>保存(&amp;I)...</value>
   </data>
   <data name="ContextMenuStrip3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 54</value>
+    <value>123, 54</value>
   </data>
   <data name="&gt;&gt;ContextMenuStrip3.Name" xml:space="preserve">
     <value>ContextMenuStrip3</value>
@@ -496,46 +496,46 @@
     <value>425, 17</value>
   </metadata>
   <data name="SearchItem2ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>158, 22</value>
   </data>
   <data name="SearchItem2ToolStripMenuItem.Text" xml:space="preserve">
     <value>Google(&amp;G)</value>
   </data>
   <data name="SearchItem1ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>158, 22</value>
   </data>
   <data name="SearchItem1ToolStripMenuItem.Text" xml:space="preserve">
     <value>Wikipedia(&amp;W)</value>
   </data>
   <data name="SearchItem3ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>158, 22</value>
   </data>
   <data name="SearchItem3ToolStripMenuItem.Text" xml:space="preserve">
     <value>Twitter検索(&amp;Y)</value>
   </data>
   <data name="SearchItem4ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>158, 22</value>
   </data>
   <data name="SearchItem4ToolStripMenuItem.Text" xml:space="preserve">
     <value>Twitter Search(&amp;S)</value>
   </data>
   <data name="CurrentTabToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>158, 22</value>
   </data>
   <data name="CurrentTabToolStripMenuItem.Text" xml:space="preserve">
     <value>現在のタブ(&amp;L)</value>
   </data>
   <data name="ToolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>214, 22</value>
+    <value>196, 22</value>
   </data>
   <data name="ToolStripMenuItem2.Text" xml:space="preserve">
     <value>選択文字列で検索(&amp;S)</value>
   </data>
   <data name="ToolStripSeparator13.Size" type="System.Drawing.Size, System.Drawing">
-    <value>211, 6</value>
+    <value>193, 6</value>
   </data>
   <data name="ToolStripMenuItem3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>214, 22</value>
+    <value>196, 22</value>
   </data>
   <data name="ToolStripMenuItem3.Text" xml:space="preserve">
     <value>選択文字列をコピー(&amp;C)</value>
@@ -544,58 +544,58 @@
     <value>False</value>
   </data>
   <data name="ToolStripMenuItem4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>214, 22</value>
+    <value>196, 22</value>
   </data>
   <data name="ToolStripMenuItem4.Text" xml:space="preserve">
     <value>URLをコピー(&amp;U)</value>
   </data>
   <data name="ToolStripMenuItem5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>214, 22</value>
+    <value>196, 22</value>
   </data>
   <data name="ToolStripMenuItem5.Text" xml:space="preserve">
     <value>すべて選択(&amp;A)</value>
   </data>
   <data name="ToolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>211, 6</value>
+    <value>193, 6</value>
   </data>
   <data name="FollowContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>214, 22</value>
+    <value>196, 22</value>
   </data>
   <data name="FollowContextMenuItem.Text" xml:space="preserve">
     <value>フォローする(&amp;F)</value>
   </data>
   <data name="RemoveContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>214, 22</value>
+    <value>196, 22</value>
   </data>
   <data name="RemoveContextMenuItem.Text" xml:space="preserve">
     <value>フォロー解除(&amp;N)</value>
   </data>
   <data name="FriendshipContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>214, 22</value>
+    <value>196, 22</value>
   </data>
   <data name="FriendshipContextMenuItem.Text" xml:space="preserve">
     <value>相互フォロー状態表示(&amp;R)</value>
   </data>
   <data name="ToolStripSeparator32.Size" type="System.Drawing.Size, System.Drawing">
-    <value>211, 6</value>
+    <value>193, 6</value>
   </data>
   <data name="IdFilterAddMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>214, 22</value>
+    <value>196, 22</value>
   </data>
   <data name="IdFilterAddMenuItem.Text" xml:space="preserve">
     <value>ID振分ルール作成(&amp;I)</value>
   </data>
   <data name="ToolStripSeparator33.Size" type="System.Drawing.Size, System.Drawing">
-    <value>211, 6</value>
+    <value>193, 6</value>
   </data>
   <data name="UseHashtagMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>214, 22</value>
+    <value>196, 22</value>
   </data>
   <data name="UseHashtagMenuItem.Text" xml:space="preserve">
     <value>ハッシュタグを固定(&amp;H)</value>
   </data>
   <data name="ContextMenuStrip4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>215, 226</value>
+    <value>197, 226</value>
   </data>
   <data name="&gt;&gt;ContextMenuStrip4.Name" xml:space="preserve">
     <value>ContextMenuStrip4</value>
@@ -850,10 +850,10 @@
     <value>23</value>
   </data>
   <data name="SplitContainer1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>462, 300</value>
+    <value>462, 307</value>
   </data>
   <data name="SplitContainer1.SplitterDistance" type="System.Int32, mscorlib">
-    <value>166</value>
+    <value>173</value>
   </data>
   <data name="SplitContainer1.SplitterWidth" type="System.Int32, mscorlib">
     <value>2</value>
@@ -874,7 +874,7 @@
     <value>0</value>
   </data>
   <data name="ToolStripContainer1.ContentPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>462, 300</value>
+    <value>462, 307</value>
   </data>
   <data name="&gt;&gt;ToolStripContainer1.ContentPanel.Name" xml:space="preserve">
     <value>ToolStripContainer1.ContentPanel</value>
@@ -934,85 +934,85 @@
     <value>None</value>
   </data>
   <data name="SettingFileMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>189, 22</value>
+    <value>171, 22</value>
   </data>
   <data name="SettingFileMenuItem.Text" xml:space="preserve">
     <value>設定(&amp;O)</value>
   </data>
   <data name="ToolStripSeparator21.Size" type="System.Drawing.Size, System.Drawing">
-    <value>186, 6</value>
+    <value>168, 6</value>
   </data>
   <data name="SaveFileMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>189, 22</value>
+    <value>171, 22</value>
   </data>
   <data name="SaveFileMenuItem.Text" xml:space="preserve">
     <value>ファイル保存(&amp;S)</value>
   </data>
   <data name="ToolStripSeparator23.Size" type="System.Drawing.Size, System.Drawing">
-    <value>186, 6</value>
+    <value>168, 6</value>
   </data>
   <data name="NotifyFileMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>189, 22</value>
+    <value>171, 22</value>
   </data>
   <data name="NotifyFileMenuItem.Text" xml:space="preserve">
     <value>新着通知(&amp;Q)</value>
   </data>
   <data name="PlaySoundFileMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>189, 22</value>
+    <value>171, 22</value>
   </data>
   <data name="PlaySoundFileMenuItem.Text" xml:space="preserve">
     <value>サウンド再生(&amp;P)</value>
   </data>
   <data name="LockListFileMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>189, 22</value>
+    <value>171, 22</value>
   </data>
   <data name="LockListFileMenuItem.Text" xml:space="preserve">
     <value>新着時リスト固定(&amp;L)</value>
   </data>
   <data name="ToolStripSeparator24.Size" type="System.Drawing.Size, System.Drawing">
-    <value>186, 6</value>
+    <value>168, 6</value>
   </data>
   <data name="EndFileMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>189, 22</value>
+    <value>171, 22</value>
   </data>
   <data name="EndFileMenuItem.Text" xml:space="preserve">
     <value>終了(&amp;X)</value>
   </data>
   <data name="MenuItemFile.Size" type="System.Drawing.Size, System.Drawing">
-    <value>85, 22</value>
+    <value>67, 20</value>
   </data>
   <data name="MenuItemFile.Text" xml:space="preserve">
     <value>ファイル(&amp;F)</value>
   </data>
   <data name="UndoRemoveTabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>259, 22</value>
+    <value>230, 22</value>
   </data>
   <data name="UndoRemoveTabMenuItem.Text" xml:space="preserve">
     <value>タブ削除の取消</value>
   </data>
   <data name="ToolStripSeparator12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>256, 6</value>
+    <value>227, 6</value>
   </data>
   <data name="CopySTOTMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>259, 22</value>
+    <value>230, 22</value>
   </data>
   <data name="CopySTOTMenuItem.Text" xml:space="preserve">
     <value>コピー（STOT形式テキスト）(&amp;C)</value>
   </data>
   <data name="CopyURLMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>259, 22</value>
+    <value>230, 22</value>
   </data>
   <data name="CopyURLMenuItem.Text" xml:space="preserve">
     <value>コピー（ステータスURL）(&amp;S)</value>
   </data>
   <data name="ToolStripSeparator6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>256, 6</value>
+    <value>227, 6</value>
   </data>
   <data name="MenuItemSubSearch.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+F</value>
   </data>
   <data name="MenuItemSubSearch.Size" type="System.Drawing.Size, System.Drawing">
-    <value>259, 22</value>
+    <value>230, 22</value>
   </data>
   <data name="MenuItemSubSearch.Text" xml:space="preserve">
     <value>検索(&amp;F)...</value>
@@ -1021,7 +1021,7 @@
     <value>F3</value>
   </data>
   <data name="MenuItemSearchNext.Size" type="System.Drawing.Size, System.Drawing">
-    <value>259, 22</value>
+    <value>230, 22</value>
   </data>
   <data name="MenuItemSearchNext.Text" xml:space="preserve">
     <value>次を検索(&amp;X)</value>
@@ -1030,25 +1030,25 @@
     <value>Shift+F3</value>
   </data>
   <data name="MenuItemSearchPrev.Size" type="System.Drawing.Size, System.Drawing">
-    <value>259, 22</value>
+    <value>230, 22</value>
   </data>
   <data name="MenuItemSearchPrev.Text" xml:space="preserve">
     <value>前を検索(&amp;P)</value>
   </data>
   <data name="ToolStripSeparator22.Size" type="System.Drawing.Size, System.Drawing">
-    <value>256, 6</value>
+    <value>227, 6</value>
   </data>
   <data name="PublicSearchQueryMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+Shift+F</value>
   </data>
   <data name="PublicSearchQueryMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>259, 22</value>
+    <value>230, 22</value>
   </data>
   <data name="PublicSearchQueryMenuItem.Text" xml:space="preserve">
     <value>抽出条件入力(&amp;Q)</value>
   </data>
   <data name="MenuItemEdit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>61, 22</value>
+    <value>57, 20</value>
   </data>
   <data name="MenuItemEdit.Text" xml:space="preserve">
     <value>編集(&amp;E)</value>
@@ -1057,7 +1057,7 @@
     <value>Ctrl+R</value>
   </data>
   <data name="ReplyOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 22</value>
+    <value>232, 22</value>
   </data>
   <data name="ReplyOpMenuItem.Text" xml:space="preserve">
     <value>＠返信(&amp;R)</value>
@@ -1066,7 +1066,7 @@
     <value>Ctrl+Shift+R</value>
   </data>
   <data name="ReplyAllOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 22</value>
+    <value>232, 22</value>
   </data>
   <data name="ReplyAllOpMenuItem.Text" xml:space="preserve">
     <value>＠返信ALL(&amp;E)</value>
@@ -1075,7 +1075,7 @@
     <value>Ctrl+M</value>
   </data>
   <data name="DmOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 22</value>
+    <value>232, 22</value>
   </data>
   <data name="DmOpMenuItem.Text" xml:space="preserve">
     <value>DM送信(&amp;M)</value>
@@ -1084,7 +1084,7 @@
     <value>Alt+R</value>
   </data>
   <data name="RtOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 22</value>
+    <value>232, 22</value>
   </data>
   <data name="RtOpMenuItem.Text" xml:space="preserve">
     <value>Re&amp;tweet</value>
@@ -1093,7 +1093,7 @@
     <value>Alt+Shift+R</value>
   </data>
   <data name="RtUnOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 22</value>
+    <value>232, 22</value>
   </data>
   <data name="RtUnOpMenuItem.Text" xml:space="preserve">
     <value>Retweet(U&amp;nofficial)</value>
@@ -1102,19 +1102,19 @@
     <value>Ctrl+Q</value>
   </data>
   <data name="QtOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 22</value>
+    <value>232, 22</value>
   </data>
   <data name="QtOpMenuItem.Text" xml:space="preserve">
     <value>&amp;Quote</value>
   </data>
   <data name="ToolStripSeparator25.Size" type="System.Drawing.Size, System.Drawing">
-    <value>264, 6</value>
+    <value>229, 6</value>
   </data>
   <data name="FavOpMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+S</value>
   </data>
   <data name="FavOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 22</value>
+    <value>232, 22</value>
   </data>
   <data name="FavOpMenuItem.Text" xml:space="preserve">
     <value>Fav追加(&amp;F)</value>
@@ -1123,7 +1123,7 @@
     <value>Ctrl+Shift+S</value>
   </data>
   <data name="UnFavOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 22</value>
+    <value>232, 22</value>
   </data>
   <data name="UnFavOpMenuItem.Text" xml:space="preserve">
     <value>Fav削除(&amp;V)</value>
@@ -1132,7 +1132,7 @@
     <value>Ctrl+H</value>
   </data>
   <data name="OpenHomeOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>315, 22</value>
+    <value>268, 22</value>
   </data>
   <data name="OpenHomeOpMenuItem.Text" xml:space="preserve">
     <value>ホームを開く(&amp;H)</value>
@@ -1141,7 +1141,7 @@
     <value>Ctrl+G</value>
   </data>
   <data name="OpenFavOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>315, 22</value>
+    <value>268, 22</value>
   </data>
   <data name="OpenFavOpMenuItem.Text" xml:space="preserve">
     <value>Favを開く(&amp;G)</value>
@@ -1150,7 +1150,7 @@
     <value>Ctrl+O</value>
   </data>
   <data name="OpenStatusOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>315, 22</value>
+    <value>268, 22</value>
   </data>
   <data name="OpenStatusOpMenuItem.Text" xml:space="preserve">
     <value>ステータスを開く(&amp;O)</value>
@@ -1159,7 +1159,7 @@
     <value>Ctrl+I</value>
   </data>
   <data name="OpenRepSourceOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>315, 22</value>
+    <value>268, 22</value>
   </data>
   <data name="OpenRepSourceOpMenuItem.Text" xml:space="preserve">
     <value>返信元ステータスを開く(&amp;I)</value>
@@ -1168,7 +1168,7 @@
     <value>Ctrl+Shift+O</value>
   </data>
   <data name="OpenFavotterOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>315, 22</value>
+    <value>268, 22</value>
   </data>
   <data name="OpenFavotterOpMenuItem.Text" xml:space="preserve">
     <value>ふぁぼられを開く(&amp;P)</value>
@@ -1177,7 +1177,7 @@
     <value>Ctrl+E</value>
   </data>
   <data name="OpenUrlOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>315, 22</value>
+    <value>268, 22</value>
   </data>
   <data name="OpenUrlOpMenuItem.Text" xml:space="preserve">
     <value>発言内URLを開く(&amp;U)</value>
@@ -1186,43 +1186,43 @@
     <value>Ctrl+Shift+H</value>
   </data>
   <data name="OpenRterHomeMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>315, 22</value>
+    <value>268, 22</value>
   </data>
   <data name="OpenRterHomeMenuItem.Text" xml:space="preserve">
     <value>RTした人のホームを開く(&amp;R)</value>
   </data>
   <data name="OpenOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 22</value>
+    <value>232, 22</value>
   </data>
   <data name="OpenOpMenuItem.Text" xml:space="preserve">
     <value>開く(&amp;O)</value>
   </data>
   <data name="CreateTabRuleOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>227, 22</value>
+    <value>202, 22</value>
   </data>
   <data name="CreateTabRuleOpMenuItem.Text" xml:space="preserve">
     <value>タブ振り分けルール作成(&amp;N)</value>
   </data>
   <data name="CreateIdRuleOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>227, 22</value>
+    <value>202, 22</value>
   </data>
   <data name="CreateIdRuleOpMenuItem.Text" xml:space="preserve">
     <value>ID振り分けルール作成(&amp;I)</value>
   </data>
   <data name="CreateRuleOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 22</value>
+    <value>232, 22</value>
   </data>
   <data name="CreateRuleOpMenuItem.Text" xml:space="preserve">
     <value>振り分けルール作成(&amp;C)</value>
   </data>
   <data name="ToolStripSeparator26.Size" type="System.Drawing.Size, System.Drawing">
-    <value>264, 6</value>
+    <value>229, 6</value>
   </data>
   <data name="ReadOpMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+B</value>
   </data>
   <data name="ReadOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>239, 22</value>
+    <value>209, 22</value>
   </data>
   <data name="ReadOpMenuItem.Text" xml:space="preserve">
     <value>既読にする(&amp;B)</value>
@@ -1231,31 +1231,31 @@
     <value>Ctrl+Shift+B</value>
   </data>
   <data name="UnreadOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>239, 22</value>
+    <value>209, 22</value>
   </data>
   <data name="UnreadOpMenuItem.Text" xml:space="preserve">
     <value>未読にする(&amp;U)</value>
   </data>
   <data name="ChangeReadOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 22</value>
+    <value>232, 22</value>
   </data>
   <data name="ChangeReadOpMenuItem.Text" xml:space="preserve">
     <value>未読状態変更(&amp;H)</value>
   </data>
   <data name="JumpReadOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 22</value>
+    <value>232, 22</value>
   </data>
   <data name="JumpReadOpMenuItem.Text" xml:space="preserve">
     <value>未読へジャンプ(&amp;J)</value>
   </data>
   <data name="ToolStripSeparator27.Size" type="System.Drawing.Size, System.Drawing">
-    <value>264, 6</value>
+    <value>229, 6</value>
   </data>
   <data name="SelAllOpMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+A</value>
   </data>
   <data name="SelAllOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 22</value>
+    <value>232, 22</value>
   </data>
   <data name="SelAllOpMenuItem.Text" xml:space="preserve">
     <value>全て選択(&amp;A)</value>
@@ -1264,7 +1264,7 @@
     <value>Ctrl+D</value>
   </data>
   <data name="DelOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 22</value>
+    <value>232, 22</value>
   </data>
   <data name="DelOpMenuItem.Text" xml:space="preserve">
     <value>削除(&amp;D)</value>
@@ -1273,7 +1273,7 @@
     <value>F5</value>
   </data>
   <data name="RefreshOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 22</value>
+    <value>232, 22</value>
   </data>
   <data name="RefreshOpMenuItem.Text" xml:space="preserve">
     <value>更新(&amp;U)</value>
@@ -1282,79 +1282,79 @@
     <value>Shift+F5</value>
   </data>
   <data name="RefreshPrevOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 22</value>
+    <value>232, 22</value>
   </data>
   <data name="RefreshPrevOpMenuItem.Text" xml:space="preserve">
     <value>前データを取得(&amp;I)</value>
   </data>
   <data name="MenuItemOperate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 22</value>
+    <value>59, 20</value>
   </data>
   <data name="MenuItemOperate.Text" xml:space="preserve">
     <value>操作(&amp;O)</value>
   </data>
   <data name="CreateTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>226, 22</value>
+    <value>196, 22</value>
   </data>
   <data name="CreateTbMenuItem.Text" xml:space="preserve">
     <value>タブ作成(&amp;N)...</value>
   </data>
   <data name="RenameTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>226, 22</value>
+    <value>196, 22</value>
   </data>
   <data name="RenameTbMenuItem.Text" xml:space="preserve">
     <value>タブ名変更(&amp;R)</value>
   </data>
   <data name="ToolStripSeparator28.Size" type="System.Drawing.Size, System.Drawing">
-    <value>223, 6</value>
+    <value>193, 6</value>
   </data>
   <data name="UnreadMngTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>226, 22</value>
+    <value>196, 22</value>
   </data>
   <data name="UnreadMngTbMenuItem.Text" xml:space="preserve">
     <value>未読管理(&amp;U)</value>
   </data>
   <data name="NotifyTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>226, 22</value>
+    <value>196, 22</value>
   </data>
   <data name="NotifyTbMenuItem.Text" xml:space="preserve">
     <value>新着通知表示(&amp;Q)</value>
   </data>
   <data name="SoundFileTbComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 26</value>
+    <value>121, 21</value>
   </data>
   <data name="ToolStripSeparator29.Size" type="System.Drawing.Size, System.Drawing">
-    <value>223, 6</value>
+    <value>193, 6</value>
   </data>
   <data name="EditRuleTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>226, 22</value>
+    <value>196, 22</value>
   </data>
   <data name="EditRuleTbMenuItem.Text" xml:space="preserve">
     <value>振り分けルール編集(&amp;F)...</value>
   </data>
   <data name="ToolStripSeparator30.Size" type="System.Drawing.Size, System.Drawing">
-    <value>223, 6</value>
+    <value>193, 6</value>
   </data>
   <data name="ClearTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>226, 22</value>
+    <value>196, 22</value>
   </data>
   <data name="ClearTbMenuItem.Text" xml:space="preserve">
     <value>このタブの発言をクリア(&amp;C)</value>
   </data>
   <data name="ToolStripSeparator31.Size" type="System.Drawing.Size, System.Drawing">
-    <value>223, 6</value>
+    <value>193, 6</value>
   </data>
   <data name="DeleteTbMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+W</value>
   </data>
   <data name="DeleteTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>226, 22</value>
+    <value>196, 22</value>
   </data>
   <data name="DeleteTbMenuItem.Text" xml:space="preserve">
     <value>タブ削除(&amp;D)</value>
   </data>
   <data name="MenuItemTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 22</value>
+    <value>50, 20</value>
   </data>
   <data name="MenuItemTab.Text" xml:space="preserve">
     <value>タブ(&amp;T)</value>
@@ -1363,7 +1363,7 @@
     <value>Ctrl+L</value>
   </data>
   <data name="UrlConvertAutoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>242, 22</value>
+    <value>220, 22</value>
   </data>
   <data name="UrlConvertAutoToolStripMenuItem.Text" xml:space="preserve">
     <value>短縮サービス自動選択</value>
@@ -1372,49 +1372,49 @@
     <value>False</value>
   </data>
   <data name="UrlUndoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>242, 22</value>
+    <value>220, 22</value>
   </data>
   <data name="UrlUndoToolStripMenuItem.Text" xml:space="preserve">
     <value>元に戻す</value>
   </data>
   <data name="TinyURLToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>242, 22</value>
+    <value>220, 22</value>
   </data>
   <data name="TinyURLToolStripMenuItem.Text" xml:space="preserve">
     <value>TinyURL</value>
   </data>
   <data name="IsgdToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>242, 22</value>
+    <value>220, 22</value>
   </data>
   <data name="IsgdToolStripMenuItem.Text" xml:space="preserve">
     <value>is.gd</value>
   </data>
   <data name="TwurlnlToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>242, 22</value>
+    <value>220, 22</value>
   </data>
   <data name="TwurlnlToolStripMenuItem.Text" xml:space="preserve">
     <value>twurl.nl</value>
   </data>
   <data name="UnuToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>242, 22</value>
+    <value>220, 22</value>
   </data>
   <data name="UnuToolStripMenuItem.Text" xml:space="preserve">
     <value>u.nu</value>
   </data>
   <data name="BitlyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>242, 22</value>
+    <value>220, 22</value>
   </data>
   <data name="BitlyToolStripMenuItem.Text" xml:space="preserve">
     <value>bit.ly</value>
   </data>
   <data name="JmpStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>242, 22</value>
+    <value>220, 22</value>
   </data>
   <data name="JmpStripMenuItem.Text" xml:space="preserve">
     <value>j.mp</value>
   </data>
   <data name="TinyUrlConvertToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>220, 22</value>
+    <value>196, 22</value>
   </data>
   <data name="TinyUrlConvertToolStripMenuItem.Text" xml:space="preserve">
     <value>入力欄のURLを短縮変換</value>
@@ -1423,55 +1423,55 @@
     <value>False</value>
   </data>
   <data name="GetFollowersDiffToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>208, 22</value>
+    <value>195, 22</value>
   </data>
   <data name="GetFollowersDiffToolStripMenuItem.Text" xml:space="preserve">
     <value>現在からの増加分を取得</value>
   </data>
   <data name="GetFollowersAllToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>208, 22</value>
+    <value>195, 22</value>
   </data>
   <data name="GetFollowersAllToolStripMenuItem.Text" xml:space="preserve">
     <value>全て再取得</value>
   </data>
   <data name="UpdateFollowersMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>220, 22</value>
+    <value>196, 22</value>
   </data>
   <data name="UpdateFollowersMenuItem1.Text" xml:space="preserve">
     <value>片思いユーザーリスト取得</value>
   </data>
   <data name="ToolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>217, 6</value>
+    <value>193, 6</value>
   </data>
   <data name="FollowCommandMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>220, 22</value>
+    <value>196, 22</value>
   </data>
   <data name="FollowCommandMenuItem.Text" xml:space="preserve">
     <value>フォローする(&amp;F)</value>
   </data>
   <data name="RemoveCommandMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>220, 22</value>
+    <value>196, 22</value>
   </data>
   <data name="RemoveCommandMenuItem.Text" xml:space="preserve">
     <value>フォロー解除(&amp;N)</value>
   </data>
   <data name="FriendshipMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>220, 22</value>
+    <value>196, 22</value>
   </data>
   <data name="FriendshipMenuItem.Text" xml:space="preserve">
     <value>相互フォロー状態表示(&amp;H)</value>
   </data>
   <data name="ToolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>217, 6</value>
+    <value>193, 6</value>
   </data>
   <data name="OwnStatusMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>220, 22</value>
+    <value>196, 22</value>
   </data>
   <data name="OwnStatusMenuItem.Text" xml:space="preserve">
     <value>自分のプロフィール表示</value>
   </data>
   <data name="MenuItemCommand.Size" type="System.Drawing.Size, System.Drawing">
-    <value>98, 22</value>
+    <value>89, 20</value>
   </data>
   <data name="MenuItemCommand.Text" xml:space="preserve">
     <value>その他機能(&amp;C)</value>
@@ -1480,58 +1480,58 @@
     <value>F1</value>
   </data>
   <data name="MatomeMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>227, 22</value>
+    <value>194, 22</value>
   </data>
   <data name="MatomeMenuItem.Text" xml:space="preserve">
     <value>Tweenまとめサイト(&amp;H)</value>
   </data>
   <data name="ToolStripSeparator16.Size" type="System.Drawing.Size, System.Drawing">
-    <value>224, 6</value>
+    <value>191, 6</value>
   </data>
   <data name="VerUpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>227, 22</value>
+    <value>194, 22</value>
   </data>
   <data name="VerUpMenuItem.Text" xml:space="preserve">
     <value>最新版の取得(&amp;G)</value>
   </data>
   <data name="ToolStripSeparator14.Size" type="System.Drawing.Size, System.Drawing">
-    <value>224, 6</value>
+    <value>191, 6</value>
   </data>
   <data name="ApiInfoMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>227, 22</value>
+    <value>194, 22</value>
   </data>
   <data name="ApiInfoMenuItem.Text" xml:space="preserve">
     <value>API情報</value>
   </data>
   <data name="InfoTwitterMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>227, 22</value>
+    <value>194, 22</value>
   </data>
   <data name="InfoTwitterMenuItem.Text" xml:space="preserve">
     <value>Twitterからのお知らせ(&amp;I)</value>
   </data>
   <data name="ToolStripSeparator7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>224, 6</value>
+    <value>191, 6</value>
   </data>
   <data name="AboutMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>227, 22</value>
+    <value>194, 22</value>
   </data>
   <data name="AboutMenuItem.Text" xml:space="preserve">
     <value>Tweenについて(&amp;A)...</value>
   </data>
   <data name="DumpPostClassToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 22</value>
+    <value>157, 22</value>
   </data>
   <data name="DumpPostClassToolStripMenuItem.Text" xml:space="preserve">
     <value>PostClassのダンプ</value>
   </data>
   <data name="TraceOutToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 22</value>
+    <value>157, 22</value>
   </data>
   <data name="TraceOutToolStripMenuItem.Text" xml:space="preserve">
     <value>TraceOut出力</value>
   </data>
   <data name="DebugModeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>227, 22</value>
+    <value>194, 22</value>
   </data>
   <data name="DebugModeToolStripMenuItem.Text" xml:space="preserve">
     <value>デバッグモード</value>
@@ -1540,7 +1540,7 @@
     <value>False</value>
   </data>
   <data name="MenuItemHelp.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 22</value>
+    <value>63, 20</value>
   </data>
   <data name="MenuItemHelp.Text" xml:space="preserve">
     <value>ヘルプ(&amp;H)</value>
@@ -1549,7 +1549,7 @@
     <value>0, 0</value>
   </data>
   <data name="MenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>462, 26</value>
+    <value>462, 24</value>
   </data>
   <data name="MenuStrip1.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -1597,178 +1597,178 @@
     <value>163, 54</value>
   </metadata>
   <data name="ReplyStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 22</value>
+    <value>185, 22</value>
   </data>
   <data name="ReplyStripMenuItem.Text" xml:space="preserve">
     <value>@返信(&amp;R)</value>
   </data>
   <data name="ReplyAllStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 22</value>
+    <value>185, 22</value>
   </data>
   <data name="ReplyAllStripMenuItem.Text" xml:space="preserve">
     <value>@返信ALL(&amp;E)</value>
   </data>
   <data name="DMStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 22</value>
+    <value>185, 22</value>
   </data>
   <data name="DMStripMenuItem.Text" xml:space="preserve">
     <value>DM送信(&amp;M)</value>
   </data>
   <data name="ReTweetOriginalStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 22</value>
+    <value>185, 22</value>
   </data>
   <data name="ReTweetOriginalStripMenuItem.Text" xml:space="preserve">
     <value>Re&amp;tweet</value>
   </data>
   <data name="ReTweetStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 22</value>
+    <value>185, 22</value>
   </data>
   <data name="ReTweetStripMenuItem.Text" xml:space="preserve">
     <value>Retweet(U&amp;nofficial)</value>
   </data>
   <data name="QuoteStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 22</value>
+    <value>185, 22</value>
   </data>
   <data name="QuoteStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Quote</value>
   </data>
   <data name="ToolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 6</value>
+    <value>182, 6</value>
   </data>
   <data name="FavAddToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 22</value>
+    <value>185, 22</value>
   </data>
   <data name="FavAddToolStripMenuItem.Text" xml:space="preserve">
     <value>Fav追加(&amp;F)</value>
   </data>
   <data name="FavRemoveToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 22</value>
+    <value>185, 22</value>
   </data>
   <data name="FavRemoveToolStripMenuItem.Text" xml:space="preserve">
     <value>Fav削除(&amp;V)</value>
   </data>
   <data name="MoveToHomeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>230, 22</value>
+    <value>199, 22</value>
   </data>
   <data name="MoveToHomeToolStripMenuItem.Text" xml:space="preserve">
     <value>ホームを開く(&amp;H)</value>
   </data>
   <data name="MoveToFavToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>230, 22</value>
+    <value>199, 22</value>
   </data>
   <data name="MoveToFavToolStripMenuItem.Text" xml:space="preserve">
     <value>Favを開く(&amp;G)</value>
   </data>
   <data name="StatusOpenMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>230, 22</value>
+    <value>199, 22</value>
   </data>
   <data name="StatusOpenMenuItem.Text" xml:space="preserve">
     <value>ステータスを開く(&amp;O)</value>
   </data>
   <data name="RepliedStatusOpenMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>230, 22</value>
+    <value>199, 22</value>
   </data>
   <data name="RepliedStatusOpenMenuItem.Text" xml:space="preserve">
     <value>返信元ステータスを開く(&amp;I)</value>
   </data>
   <data name="FavorareMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>230, 22</value>
+    <value>199, 22</value>
   </data>
   <data name="FavorareMenuItem.Text" xml:space="preserve">
     <value>ふぁぼられを開く(&amp;P)</value>
   </data>
   <data name="OpenURLMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>230, 22</value>
+    <value>199, 22</value>
   </data>
   <data name="OpenURLMenuItem.Text" xml:space="preserve">
     <value>発言内URLを開く(&amp;U)</value>
   </data>
   <data name="MoveToRTHomeMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>230, 22</value>
+    <value>199, 22</value>
   </data>
   <data name="MoveToRTHomeMenuItem.Text" xml:space="preserve">
     <value>RTした人のホームを開く(&amp;R)</value>
   </data>
   <data name="ToolStripMenuItem6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 22</value>
+    <value>185, 22</value>
   </data>
   <data name="ToolStripMenuItem6.Text" xml:space="preserve">
     <value>開く(&amp;O)</value>
   </data>
   <data name="TabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>239, 22</value>
+    <value>214, 22</value>
   </data>
   <data name="TabMenuItem.Text" xml:space="preserve">
     <value>タブ振り分けルール作成(&amp;N)...</value>
   </data>
   <data name="IDRuleMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>239, 22</value>
+    <value>214, 22</value>
   </data>
   <data name="IDRuleMenuItem.Text" xml:space="preserve">
     <value>ID振り分けルール作成...</value>
   </data>
   <data name="ToolStripMenuItem7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 22</value>
+    <value>185, 22</value>
   </data>
   <data name="ToolStripMenuItem7.Text" xml:space="preserve">
     <value>振り分けルール作成(&amp;C)</value>
   </data>
   <data name="ToolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 6</value>
+    <value>182, 6</value>
   </data>
   <data name="ReadedStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>154, 22</value>
+    <value>140, 22</value>
   </data>
   <data name="ReadedStripMenuItem.Text" xml:space="preserve">
     <value>既読にする(&amp;B)</value>
   </data>
   <data name="UnreadStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>154, 22</value>
+    <value>140, 22</value>
   </data>
   <data name="UnreadStripMenuItem.Text" xml:space="preserve">
     <value>未読にする</value>
   </data>
   <data name="ToolStripMenuItem11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 22</value>
+    <value>185, 22</value>
   </data>
   <data name="ToolStripMenuItem11.Text" xml:space="preserve">
     <value>未読状態変更(&amp;H)</value>
   </data>
   <data name="JumpUnreadMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 22</value>
+    <value>185, 22</value>
   </data>
   <data name="JumpUnreadMenuItem.Text" xml:space="preserve">
     <value>未読へジャンプ(&amp;J)</value>
   </data>
   <data name="ToolStripSeparator10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 6</value>
+    <value>182, 6</value>
   </data>
   <data name="SelectAllMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 22</value>
+    <value>185, 22</value>
   </data>
   <data name="SelectAllMenuItem.Text" xml:space="preserve">
     <value>全て選択(&amp;A)</value>
   </data>
   <data name="DeleteStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 22</value>
+    <value>185, 22</value>
   </data>
   <data name="DeleteStripMenuItem.Text" xml:space="preserve">
     <value>削除(&amp;D)</value>
   </data>
   <data name="RefreshStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 22</value>
+    <value>185, 22</value>
   </data>
   <data name="RefreshStripMenuItem.Text" xml:space="preserve">
     <value>更新(&amp;U)</value>
   </data>
   <data name="RefreshMoreStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 22</value>
+    <value>185, 22</value>
   </data>
   <data name="RefreshMoreStripMenuItem.Text" xml:space="preserve">
     <value>前データを取得(&amp;I)</value>
   </data>
   <data name="ContextMenuStrip2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>203, 374</value>
+    <value>186, 374</value>
   </data>
   <data name="&gt;&gt;ContextMenuStrip2.Name" xml:space="preserve">
     <value>ContextMenuStrip2</value>
@@ -1780,55 +1780,55 @@
     <value>17, 54</value>
   </metadata>
   <data name="SettingStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>189, 22</value>
+    <value>171, 22</value>
   </data>
   <data name="SettingStripMenuItem.Text" xml:space="preserve">
     <value>設定(&amp;O)...</value>
   </data>
   <data name="ToolStripSeparator9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>186, 6</value>
+    <value>168, 6</value>
   </data>
   <data name="SaveLogMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>189, 22</value>
+    <value>171, 22</value>
   </data>
   <data name="SaveLogMenuItem.Text" xml:space="preserve">
     <value>ファイル保存(&amp;S)...</value>
   </data>
   <data name="ToolStripSeparator17.Size" type="System.Drawing.Size, System.Drawing">
-    <value>186, 6</value>
+    <value>168, 6</value>
   </data>
   <data name="NewPostPopMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>189, 22</value>
+    <value>171, 22</value>
   </data>
   <data name="NewPostPopMenuItem.Text" xml:space="preserve">
     <value>新着通知(&amp;Q)</value>
   </data>
   <data name="PlaySoundMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>189, 22</value>
+    <value>171, 22</value>
   </data>
   <data name="PlaySoundMenuItem.Text" xml:space="preserve">
     <value>サウンド再生(&amp;P)</value>
   </data>
   <data name="ListLockMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>189, 22</value>
+    <value>171, 22</value>
   </data>
   <data name="ListLockMenuItem.Text" xml:space="preserve">
     <value>新着時リスト固定(&amp;L)</value>
   </data>
   <data name="ToolStripSeparator15.Size" type="System.Drawing.Size, System.Drawing">
-    <value>186, 6</value>
+    <value>168, 6</value>
   </data>
   <data name="EndToolStripMenuItem.ShowShortcutKeys" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="EndToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>189, 22</value>
+    <value>171, 22</value>
   </data>
   <data name="EndToolStripMenuItem.Text" xml:space="preserve">
     <value>終了(&amp;X)</value>
   </data>
   <data name="ContextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>190, 154</value>
+    <value>172, 154</value>
   </data>
   <data name="&gt;&gt;ContextMenuStrip1.Name" xml:space="preserve">
     <value>ContextMenuStrip1</value>
