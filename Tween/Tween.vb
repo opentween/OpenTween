@@ -6449,7 +6449,7 @@ RETRY:
         '                             "])*(?:;(?:[-_.!~*'()a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)*)" + _
         '                             "*)?(?:\?(?:[-_.!~*'()a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])" + _
         '                             "*)?(?:#(?:[-_.!~*'()a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)?")
-        Dim nico As Regex = New Regex("^https?://[a-z]+\.(nicovideo|niconicommons)\.jp/[a-z]+/[a-z0-9]+$")
+        Dim nico As Regex = New Regex("^https?://[a-z]+\.(nicovideo|niconicommons|nicolive)\.jp/[a-z]+/[a-z0-9]+$")
 
         If StatusText.SelectionLength > 0 Then
             Dim tmp As String = StatusText.SelectedText
@@ -6459,11 +6459,8 @@ RETRY:
 
                 'nico.ms使用、nicovideoにマッチしたら変換
                 If SettingDialog.Nicoms AndAlso nico.IsMatch(tmp) Then
-                    result = tw.MakeShortNicoms(tmp)
-                    If result.Equals("Can't convert") Then
-                        StatusLabel.Text = result.Insert(0, "nico.ms:")
-                        Return False
-                    End If
+                    'result = tw.MakeShortNicoms(tmp)
+                    result = nicoms.Shorten(tmp)
                 ElseIf Converter_Type <> UrlConverter.Nicoms Then
                     '短縮URL変換 日本語を含むかもしれないのでURLエンコードする
                     result = tw.MakeShortUrl(Converter_Type, tmp)
@@ -6506,11 +6503,7 @@ RETRY:
 
                 'nico.ms使用、nicovideoにマッチしたら変換
                 If SettingDialog.Nicoms AndAlso nico.IsMatch(tmp) Then
-                    result = tw.MakeShortNicoms(tmp)
-                    If result.Equals("Can't convert") Then
-                        StatusLabel.Text = result.Insert(0, "nico.ms:")
-                        Continue For
-                    End If
+                    result = nicoms.Shorten(tmp)
                 ElseIf Converter_Type <> UrlConverter.Nicoms Then
                     '短縮URL変換 日本語を含むかもしれないのでURLエンコードする
                     result = tw.MakeShortUrl(Converter_Type, tmp)

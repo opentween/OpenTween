@@ -3105,20 +3105,20 @@ Public Class Twitter
         Return content
     End Function
 
-    Public Function MakeShortNicoms(ByVal SrcUrl As String) As String
-        Dim content As String = ""
+    'Public Function MakeShortNicoms(ByVal SrcUrl As String) As String
+    '    Dim content As String = ""
 
-        If Not (New HttpVarious).GetData("http://nico.ms/q/" + SrcUrl, Nothing, content) Then
-            Return "Can't convert"
-        End If
+    '    If Not (New HttpVarious).GetData("http://nico.ms/q/" + SrcUrl, Nothing, content) Then
+    '        Return "Can't convert"
+    '    End If
 
-        If content.StartsWith("http") Then
-            Return content
-        Else
-            Return "Can't convert"
-        End If
+    '    If content.StartsWith("http") Then
+    '        Return content
+    '    Else
+    '        Return "Can't convert"
+    '    End If
 
-    End Function
+    'End Function
 
 #Region "バージョンアップ"
     Public Function GetVersionInfo() As String
