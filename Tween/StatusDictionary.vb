@@ -1342,6 +1342,7 @@ Public NotInheritable Class TabClass
     Private _posts As New Dictionary(Of Long, PostClass)
     Private _sorter As New IdComparerClass
 
+#Region "検索"
     'Search query
     Private _searchLang As String = ""
     Private _searchWords As String = ""
@@ -1393,6 +1394,19 @@ Public NotInheritable Class TabClass
             End If
         Next
     End Function
+#End Region
+
+#Region "リスト"
+    Private _listInfo As ListElement
+    Public Property ListInfo() As ListElement
+        Get
+            Return _listInfo
+        End Get
+        Set(ByVal value As ListElement)
+            _listInfo = value
+        End Set
+    End Property
+#End Region
 
     <Xml.Serialization.XmlIgnore()> _
     Public Property Posts() As Dictionary(Of Long, PostClass)
@@ -1451,7 +1465,7 @@ Public NotInheritable Class TabClass
         _ids = New List(Of Long)
         _oldestUnreadItem = -1
         _tabType = TabType
-        If TabType = TabUsageType.PublicSearch OrElse TabType = TabUsageType.DirectMessage Then
+        If TabType = TabUsageType.PublicSearch OrElse TabType = TabUsageType.DirectMessage OrElse TabType = TabUsageType.Lists Then
             _sorter.posts = _posts
         Else
             _sorter.posts = TabInformations.GetInstance.Posts
