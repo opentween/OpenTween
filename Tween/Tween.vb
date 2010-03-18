@@ -4244,6 +4244,7 @@ RETRY:
                 If PostBrowser.DocumentText <> dTxt Then
                     PostBrowser.Visible = False
                     PostBrowser.DocumentText = dTxt
+                    thumbnail(_curPost.Id, dTxt)
                 End If
             Catch ex As System.Runtime.InteropServices.COMException
                 '原因不明
@@ -7687,4 +7688,174 @@ RETRY:
         End Get
     End Property
 
+#Region "イメージプレビュー"
+    Private Function chk_url(ByVal dtxt As String) As String()
+        Dim mc As System.Text.RegularExpressions.MatchCollection = _
+    System.Text.RegularExpressions.Regex.Matches( _
+        dtxt, _
+        "<a\s+[^>]*href\s*=\s*(?:(?<quot>[""'])(?<url>.*?)\k<quot>|" + _
+            "(?<url>[^\s>]+))[^>]*>(?<text>.*?)</a>", _
+        System.Text.RegularExpressions.RegexOptions.IgnoreCase Or _
+        System.Text.RegularExpressions.RegexOptions.Singleline)
+
+        If mc.Count = 0 Then Return Nothing
+
+        Dim result As New List(Of String)
+        'Dim re As Regex = New Regex("htt(p|ps)://twitter.com/.*")
+        For Each m As System.Text.RegularExpressions.Match In mc
+            'If re.IsMatch(m.Groups("url").Value) = False Then
+            result.Add(m.Groups("url").Value)
+            'End If
+        Next
+        Return result.ToArray
+    End Function
+
+    Private bgw As BackgroundWorker
+    Private lckPrev As New Object
+    Private _prev As PreviewData
+    Private Class PreviewData
+        Implements IDisposable
+
+        Public statusId As Long
+        Public urls As List(Of String)
+        Public pics As New List(Of Bitmap)
+        Public Sub New(ByVal id As Long, ByVal urlList As List(Of String))
+            statusId = id
+            urls = urlList
+        End Sub
+
+        Private disposedValue As Boolean = False        ' 重複する呼び出しを検出するには
+
+        ' IDisposable
+        Protected Overridable Sub Dispose(ByVal disposing As Boolean)
+            If Not Me.disposedValue Then
+                If disposing Then
+                    ' TODO: 明示的に呼び出されたときにマネージ リソースを解放します
+                End If
+
+                ' TODO: 共有のアンマネージ リソースを解放します
+                For Each bmp As Bitmap In pics
+                    If bmp IsNot Nothing Then bmp.Dispose()
+                Next
+            End If
+            Me.disposedValue = True
+        End Sub
+
+#Region " IDisposable Support "
+        ' このコードは、破棄可能なパターンを正しく実装できるように Visual Basic によって追加されました。
+        Public Sub Dispose() Implements IDisposable.Dispose
+            ' このコードを変更しないでください。クリーンアップ コードを上の Dispose(ByVal disposing As Boolean) に記述します。
+            Dispose(True)
+            GC.SuppressFinalize(Me)
+        End Sub
+#End Region
+
+    End Class
+
+    Private Sub thumbnail(ByVal id As Long, ByVal dtxt As String)
+        If Not PreviewPicture.Image Is Nothing Then
+            PreviewPicture.Image.Dispose()
+            PreviewPicture.Image = Nothing
+        End If
+        SyncLock lckPrev
+            If _prev IsNot Nothing Then
+                _prev.Dispose()
+                _prev = Nothing
+            End If
+        End SyncLock
+        Dim re As Regex
+
+        Dim urls() As String = chk_url(dtxt)
+        If urls Is Nothing Then Exit Sub
+
+        Dim imglist As New List(Of String)
+
+        For Each url As String In urls
+            '画像拡張子で終わるURL（直リンク）
+            re = New Regex("http://.*(\.jpg|\.jpeg|\.gif|\.png|\.bmp)", RegexOptions.IgnoreCase)
+            If re.IsMatch(url) Then
+                imglist.Add(url)
+                Continue For
+            End If
+            'twitpic
+            re = New Regex("http://twitpic\.com/.*", RegexOptions.IgnoreCase)
+            If re.IsMatch(url) Then
+                If url.IndexOf("http://twitpic.com/show/thumb/") = -1 Then
+                    imglist.Add(url.Replace("http://twitpic.com/", "http://twitpic.com/show/thumb/"))
+                    Continue For
+                End If
+            End If
+            'yfrog
+            re = New Regex("http://yfrog\.com/.*", RegexOptions.IgnoreCase)
+            If re.IsMatch(url) Then
+                re = New Regex("http://yfrog\.com/.*\.th\.jpg")
+                If re.IsMatch(url) = False Then
+                    imglist.Add(url + ".th.jpg")
+                    Continue For
+                End If
+            End If
+            'tweetphoto
+            Const comp As String = "http://TweetPhotoAPI.com/api/TPAPI.svc/imagefromurl?size=thumbnail&url="
+            re = New Regex("http://tweetphoto\.com/[0-9]*|http://pic\.gd/[a-z0-9]*", RegexOptions.IgnoreCase)
+            If re.IsMatch(url) Then
+                re = New Regex(comp, RegexOptions.IgnoreCase)
+                If re.IsMatch(url) = False Then
+                    imglist.Add(comp + url)
+                    Continue For
+                End If
+            End If
+        Next
+
+        If imglist.Count = 0 Then Exit Sub
+
+        're = New Regex("http://.*\.jpg.*|http://.*(\.jpg|\.jpeg|\.gif|\.png|\.bmp)|http://twitpic\.com/show/thumb/.*|http://TweetPhotoAPI\.com/api/TPAPI\.svc/imagefromurl.*", RegexOptions.IgnoreCase)
+        'If re.IsMatch(imglist(0)) = True Then
+        bgw = New BackgroundWorker()
+        AddHandler bgw.DoWork, AddressOf bgw_DoWork
+        AddHandler bgw.RunWorkerCompleted, AddressOf bgw_Completed
+        bgw.RunWorkerAsync(New PreviewData(id, imglist))
+        'End If
+
+    End Sub
+
+    Private Sub bgw_DoWork(ByVal sender As Object, ByVal e As System.ComponentModel.DoWorkEventArgs)
+        Dim arg As PreviewData = DirectCast(e.Argument, PreviewData)
+        For Each url As String In arg.urls
+            Try
+                Dim wc As New System.Net.WebClient()
+                arg.pics.Add(New Bitmap(wc.OpenRead(url)))
+                wc.Dispose()
+            Catch ex As Exception
+            End Try
+        Next
+        If arg.pics.Count = 0 Then
+            Exit Sub
+        End If
+        SyncLock lckPrev
+            _prev = arg
+        End SyncLock
+    End Sub
+
+    Private Sub bgw_Completed(ByVal sender As System.Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs)
+        SyncLock lckPrev
+            If _prev IsNot Nothing AndAlso _curPost IsNot Nothing AndAlso _prev.statusId = _curPost.Id Then
+                Me.PreviewScrollBar.Maximum = _prev.pics.Count - 1
+                If Me.PreviewScrollBar.Maximum > 1 Then
+                    Me.PreviewScrollBar.Value = 0
+                End If
+                Me.PreviewPicture.Image = _prev.pics(0)
+            End If
+        End SyncLock
+    End Sub
+
+    Private Sub PreviewScrollBar_Scroll(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ScrollEventArgs) Handles PreviewScrollBar.Scroll
+        SyncLock lckPrev
+            If _prev IsNot Nothing AndAlso _curPost IsNot Nothing AndAlso _prev.statusId = _curPost.Id Then
+                If _prev.pics.Count > e.NewValue Then
+                    Me.PreviewPicture.Image = _prev.pics(e.NewValue)
+                End If
+            End If
+        End SyncLock
+    End Sub
+#End Region
 End Class
