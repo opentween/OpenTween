@@ -7718,7 +7718,7 @@ RETRY:
 
         Public statusId As Long
         Public urls As List(Of String)
-        Public pics As New List(Of Bitmap)
+        Public pics As New List(Of Image)
         Public Sub New(ByVal id As Long, ByVal urlList As List(Of String))
             statusId = id
             urls = urlList
@@ -7821,12 +7821,10 @@ RETRY:
     Private Sub bgw_DoWork(ByVal sender As Object, ByVal e As System.ComponentModel.DoWorkEventArgs)
         Dim arg As PreviewData = DirectCast(e.Argument, PreviewData)
         For Each url As String In arg.urls
-            Try
-                Dim wc As New System.Net.WebClient()
-                arg.pics.Add(New Bitmap(wc.OpenRead(url)))
-                wc.Dispose()
-            Catch ex As Exception
-            End Try
+            Dim http As New HttpVarious
+            Dim img As Image = http.GetImage(url)
+            If img Is Nothing Then Continue For
+            arg.pics.Add(img)
         Next
         If arg.pics.Count = 0 Then
             Exit Sub
@@ -7858,4 +7856,5 @@ RETRY:
         End SyncLock
     End Sub
 #End Region
+
 End Class
