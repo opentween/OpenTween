@@ -62,6 +62,8 @@ Partial Class TweenMain
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator
         Me.SaveIconPictureToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.NameLabel = New System.Windows.Forms.Label
+        Me.DateTimeLabel = New System.Windows.Forms.Label
+        Me.SplitContainer3 = New System.Windows.Forms.SplitContainer
         Me.PostBrowser = New System.Windows.Forms.WebBrowser
         Me.ContextMenuStrip4 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
@@ -82,7 +84,8 @@ Partial Class TweenMain
         Me.IdFilterAddMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator33 = New System.Windows.Forms.ToolStripSeparator
         Me.UseHashtagMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.DateTimeLabel = New System.Windows.Forms.Label
+        Me.PreviewPicture = New System.Windows.Forms.PictureBox
+        Me.PreviewScrollBar = New System.Windows.Forms.VScrollBar
         Me.StatusText = New System.Windows.Forms.TextBox
         Me.lblLen = New System.Windows.Forms.Label
         Me.PostButton = New System.Windows.Forms.Button
@@ -230,9 +233,6 @@ Partial Class TweenMain
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
-        Me.SplitContainer3 = New System.Windows.Forms.SplitContainer
-        Me.PreviewScrollBar = New System.Windows.Forms.VScrollBar
-        Me.PreviewPicture = New System.Windows.Forms.PictureBox
         Me.StatusLabel = New Tween.TweenCustomControl.ToolStripLabelHistory
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
@@ -250,14 +250,14 @@ Partial Class TweenMain
         Me.TableLayoutPanel1.SuspendLayout()
         CType(Me.UserPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ContextMenuStrip3.SuspendLayout()
-        Me.ContextMenuStrip4.SuspendLayout()
-        Me.MenuStrip1.SuspendLayout()
-        Me.ContextMenuStrip2.SuspendLayout()
-        Me.ContextMenuStrip1.SuspendLayout()
         Me.SplitContainer3.Panel1.SuspendLayout()
         Me.SplitContainer3.Panel2.SuspendLayout()
         Me.SplitContainer3.SuspendLayout()
+        Me.ContextMenuStrip4.SuspendLayout()
         CType(Me.PreviewPicture, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.MenuStrip1.SuspendLayout()
+        Me.ContextMenuStrip2.SuspendLayout()
+        Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'ToolStripContainer1
@@ -481,6 +481,7 @@ Partial Class TweenMain
         Me.SplitContainer2.Panel2.Controls.Add(Me.StatusText)
         Me.SplitContainer2.Panel2.Controls.Add(Me.lblLen)
         Me.SplitContainer2.Panel2.Controls.Add(Me.PostButton)
+        Me.SplitContainer2.TabStop = False
         '
         'TableLayoutPanel1
         '
@@ -528,6 +529,28 @@ Partial Class TweenMain
         resources.ApplyResources(Me.NameLabel, "NameLabel")
         Me.NameLabel.Name = "NameLabel"
         Me.NameLabel.UseMnemonic = False
+        '
+        'DateTimeLabel
+        '
+        resources.ApplyResources(Me.DateTimeLabel, "DateTimeLabel")
+        Me.DateTimeLabel.Name = "DateTimeLabel"
+        '
+        'SplitContainer3
+        '
+        Me.TableLayoutPanel1.SetColumnSpan(Me.SplitContainer3, 2)
+        resources.ApplyResources(Me.SplitContainer3, "SplitContainer3")
+        Me.SplitContainer3.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
+        Me.SplitContainer3.Name = "SplitContainer3"
+        '
+        'SplitContainer3.Panel1
+        '
+        Me.SplitContainer3.Panel1.Controls.Add(Me.PostBrowser)
+        '
+        'SplitContainer3.Panel2
+        '
+        Me.SplitContainer3.Panel2.Controls.Add(Me.PreviewPicture)
+        Me.SplitContainer3.Panel2.Controls.Add(Me.PreviewScrollBar)
+        Me.SplitContainer3.TabStop = False
         '
         'PostBrowser
         '
@@ -637,10 +660,18 @@ Partial Class TweenMain
         Me.UseHashtagMenuItem.Name = "UseHashtagMenuItem"
         resources.ApplyResources(Me.UseHashtagMenuItem, "UseHashtagMenuItem")
         '
-        'DateTimeLabel
+        'PreviewPicture
         '
-        resources.ApplyResources(Me.DateTimeLabel, "DateTimeLabel")
-        Me.DateTimeLabel.Name = "DateTimeLabel"
+        resources.ApplyResources(Me.PreviewPicture, "PreviewPicture")
+        Me.PreviewPicture.Name = "PreviewPicture"
+        Me.PreviewPicture.TabStop = False
+        '
+        'PreviewScrollBar
+        '
+        resources.ApplyResources(Me.PreviewScrollBar, "PreviewScrollBar")
+        Me.PreviewScrollBar.LargeChange = 1
+        Me.PreviewScrollBar.Maximum = 0
+        Me.PreviewScrollBar.Name = "PreviewScrollBar"
         '
         'StatusText
         '
@@ -1404,36 +1435,6 @@ Partial Class TweenMain
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'SplitContainer3
-        '
-        Me.SplitContainer3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.TableLayoutPanel1.SetColumnSpan(Me.SplitContainer3, 2)
-        resources.ApplyResources(Me.SplitContainer3, "SplitContainer3")
-        Me.SplitContainer3.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
-        Me.SplitContainer3.Name = "SplitContainer3"
-        '
-        'SplitContainer3.Panel1
-        '
-        Me.SplitContainer3.Panel1.Controls.Add(Me.PostBrowser)
-        '
-        'SplitContainer3.Panel2
-        '
-        Me.SplitContainer3.Panel2.Controls.Add(Me.PreviewPicture)
-        Me.SplitContainer3.Panel2.Controls.Add(Me.PreviewScrollBar)
-        '
-        'PreviewScrollBar
-        '
-        resources.ApplyResources(Me.PreviewScrollBar, "PreviewScrollBar")
-        Me.PreviewScrollBar.LargeChange = 1
-        Me.PreviewScrollBar.Maximum = 0
-        Me.PreviewScrollBar.Name = "PreviewScrollBar"
-        '
-        'PreviewPicture
-        '
-        resources.ApplyResources(Me.PreviewPicture, "PreviewPicture")
-        Me.PreviewPicture.Name = "PreviewPicture"
-        Me.PreviewPicture.TabStop = False
-        '
         'StatusLabel
         '
         Me.StatusLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right
@@ -1472,15 +1473,15 @@ Partial Class TweenMain
         Me.TableLayoutPanel1.PerformLayout()
         CType(Me.UserPicture, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ContextMenuStrip3.ResumeLayout(False)
+        Me.SplitContainer3.Panel1.ResumeLayout(False)
+        Me.SplitContainer3.Panel2.ResumeLayout(False)
+        Me.SplitContainer3.ResumeLayout(False)
         Me.ContextMenuStrip4.ResumeLayout(False)
+        CType(Me.PreviewPicture, System.ComponentModel.ISupportInitialize).EndInit()
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
         Me.ContextMenuStrip2.ResumeLayout(False)
         Me.ContextMenuStrip1.ResumeLayout(False)
-        Me.SplitContainer3.Panel1.ResumeLayout(False)
-        Me.SplitContainer3.Panel2.ResumeLayout(False)
-        Me.SplitContainer3.ResumeLayout(False)
-        CType(Me.PreviewPicture, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub

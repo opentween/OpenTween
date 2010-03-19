@@ -358,7 +358,7 @@
     <value>458, 169</value>
   </data>
   <data name="ListTab.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>0</value>
   </data>
   <data name="&gt;&gt;ListTab.Name" xml:space="preserve">
     <value>ListTab</value>
@@ -472,7 +472,7 @@
     <value>267, 14</value>
   </data>
   <data name="NameLabel.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+    <value>0</value>
   </data>
   <data name="NameLabel.Text" xml:space="preserve">
     <value>LblName</value>
@@ -508,7 +508,7 @@
     <value>123, 14</value>
   </data>
   <data name="DateTimeLabel.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
+    <value>1</value>
   </data>
   <data name="DateTimeLabel.Text" xml:space="preserve">
     <value>Label1</value>
@@ -652,10 +652,10 @@
     <value>0, 0</value>
   </data>
   <data name="PostBrowser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>293, 78</value>
+    <value>297, 82</value>
   </data>
   <data name="PostBrowser.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
+    <value>3</value>
   </data>
   <data name="&gt;&gt;PostBrowser.Name" xml:space="preserve">
     <value>PostBrowser</value>
@@ -691,7 +691,7 @@
     <value>0, 0</value>
   </data>
   <data name="PreviewPicture.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 78</value>
+    <value>78, 82</value>
   </data>
   <data name="PreviewPicture.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>Zoom</value>
@@ -718,13 +718,13 @@
     <value>Off</value>
   </data>
   <data name="PreviewScrollBar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>74, 0</value>
+    <value>78, 0</value>
   </data>
   <data name="PreviewScrollBar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>17, 78</value>
+    <value>17, 82</value>
   </data>
   <data name="PreviewScrollBar.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>4</value>
   </data>
   <data name="&gt;&gt;PreviewScrollBar.Name" xml:space="preserve">
     <value>PreviewScrollBar</value>
@@ -760,7 +760,7 @@
     <value>297</value>
   </data>
   <data name="SplitContainer3.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
+    <value>2</value>
   </data>
   <data name="&gt;&gt;SplitContainer3.Name" xml:space="preserve">
     <value>SplitContainer3</value>
@@ -787,7 +787,7 @@
     <value>458, 105</value>
   </data>
   <data name="TableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
-    <value>20</value>
+    <value>0</value>
   </data>
   <data name="&gt;&gt;TableLayoutPanel1.Name" xml:space="preserve">
     <value>TableLayoutPanel1</value>
@@ -829,7 +829,7 @@
     <value>370, 19</value>
   </data>
   <data name="StatusText.TabIndex" type="System.Int32, mscorlib">
-    <value>25</value>
+    <value>1</value>
   </data>
   <data name="&gt;&gt;StatusText.Name" xml:space="preserve">
     <value>StatusText</value>
@@ -856,7 +856,7 @@
     <value>44, 21</value>
   </data>
   <data name="lblLen.TabIndex" type="System.Int32, mscorlib">
-    <value>24</value>
+    <value>2</value>
   </data>
   <data name="lblLen.Text" xml:space="preserve">
     <value>999</value>
@@ -889,7 +889,7 @@
     <value>44, 21</value>
   </data>
   <data name="PostButton.TabIndex" type="System.Int32, mscorlib">
-    <value>23</value>
+    <value>3</value>
   </data>
   <data name="PostButton.Text" xml:space="preserve">
     <value>Post</value>
@@ -931,7 +931,7 @@
     <value>2</value>
   </data>
   <data name="SplitContainer2.TabIndex" type="System.Int32, mscorlib">
-    <value>19</value>
+    <value>1</value>
   </data>
   <data name="&gt;&gt;SplitContainer2.Name" xml:space="preserve">
     <value>SplitContainer2</value>
@@ -970,7 +970,7 @@
     <value>2</value>
   </data>
   <data name="SplitContainer1.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
+    <value>1</value>
   </data>
   <data name="&gt;&gt;SplitContainer1.Name" xml:space="preserve">
     <value>SplitContainer1</value>
@@ -1033,7 +1033,7 @@
     <value>462, 353</value>
   </data>
   <data name="ToolStripContainer1.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
+    <value>0</value>
   </data>
   <data name="ToolStripContainer1.Text" xml:space="preserve">
     <value>ToolStripContainer1</value>
@@ -1663,7 +1663,7 @@
     <value>462, 24</value>
   </data>
   <data name="MenuStrip1.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
+    <value>0</value>
   </data>
   <data name="MenuStrip1.Text" xml:space="preserve">
     <value>MenuStrip1</value>
