@@ -55,6 +55,7 @@ Partial Class TweenMain
         Me.DeleteTabMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.TabImage = New System.Windows.Forms.ImageList(Me.components)
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
+        Me.DummyTextBox = New System.Windows.Forms.TextBox
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel
         Me.UserPicture = New System.Windows.Forms.PictureBox
         Me.ContextMenuStrip3 = New System.Windows.Forms.ContextMenuStrip(Me.components)
@@ -475,6 +476,7 @@ Partial Class TweenMain
         'SplitContainer2.Panel1
         '
         Me.SplitContainer2.Panel1.Controls.Add(Me.TableLayoutPanel1)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.DummyTextBox)
         '
         'SplitContainer2.Panel2
         '
@@ -482,6 +484,11 @@ Partial Class TweenMain
         Me.SplitContainer2.Panel2.Controls.Add(Me.lblLen)
         Me.SplitContainer2.Panel2.Controls.Add(Me.PostButton)
         Me.SplitContainer2.TabStop = False
+        '
+        'DummyTextBox
+        '
+        resources.ApplyResources(Me.DummyTextBox, "DummyTextBox")
+        Me.DummyTextBox.Name = "DummyTextBox"
         '
         'TableLayoutPanel1
         '
@@ -539,7 +546,6 @@ Partial Class TweenMain
         '
         Me.TableLayoutPanel1.SetColumnSpan(Me.SplitContainer3, 2)
         resources.ApplyResources(Me.SplitContainer3, "SplitContainer3")
-        Me.SplitContainer3.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
         Me.SplitContainer3.Name = "SplitContainer3"
         '
         'SplitContainer3.Panel1
@@ -1466,6 +1472,7 @@ Partial Class TweenMain
         Me.SplitContainer1.ResumeLayout(False)
         Me.ContextMenuTabProperty.ResumeLayout(False)
         Me.SplitContainer2.Panel1.ResumeLayout(False)
+        Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.Panel2.PerformLayout()
         Me.SplitContainer2.ResumeLayout(False)
@@ -1694,5 +1701,6 @@ Partial Class TweenMain
     Friend WithEvents SplitContainer3 As System.Windows.Forms.SplitContainer
     Friend WithEvents PreviewScrollBar As System.Windows.Forms.VScrollBar
     Friend WithEvents PreviewPicture As System.Windows.Forms.PictureBox
+    Friend WithEvents DummyTextBox As System.Windows.Forms.TextBox
 
 End Class

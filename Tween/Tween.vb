@@ -3219,7 +3219,7 @@ Public Class TweenMain
         _listCustom.Name = "CList" + Environment.TickCount.ToString()
         _listCustom.ShowItemToolTips = True
         _listCustom.Size = New Size(380, 260)
-        _listCustom.TabIndex = 4                                   'これ大丈夫？
+        '_listCustom.TabIndex = 4                                   'これ大丈夫？
         _listCustom.UseCompatibleStateImageBehavior = False
         _listCustom.View = View.Details
         _listCustom.OwnerDraw = True
@@ -7857,4 +7857,11 @@ RETRY:
     End Sub
 #End Region
 
+    Private Sub DummyTextBox_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DummyTextBox.Enter
+        If Me.StatusText.Enabled Then
+            Me.StatusText.Focus()
+        Else
+            DirectCast(Me.ListTab.SelectedTab.Tag, Control).Focus()
+        End If
+    End Sub
 End Class
