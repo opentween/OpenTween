@@ -28,6 +28,7 @@ Partial Class TweenMain
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip
         Me.StatusLabelUrl = New System.Windows.Forms.ToolStripStatusLabel
+        Me.StatusLabel = New Tween.TweenCustomControl.ToolStripLabelHistory
         Me.HashStripSplitButton = New System.Windows.Forms.ToolStripSplitButton
         Me.ContextMenuStripPostMode = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItemUrlMultibyteSplit = New System.Windows.Forms.ToolStripMenuItem
@@ -55,7 +56,6 @@ Partial Class TweenMain
         Me.DeleteTabMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.TabImage = New System.Windows.Forms.ImageList(Me.components)
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
-        Me.DummyTextBox = New System.Windows.Forms.TextBox
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel
         Me.UserPicture = New System.Windows.Forms.PictureBox
         Me.ContextMenuStrip3 = New System.Windows.Forms.ContextMenuStrip(Me.components)
@@ -87,6 +87,7 @@ Partial Class TweenMain
         Me.UseHashtagMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.PreviewPicture = New System.Windows.Forms.PictureBox
         Me.PreviewScrollBar = New System.Windows.Forms.VScrollBar
+        Me.DummyTextBox = New System.Windows.Forms.TextBox
         Me.StatusText = New System.Windows.Forms.TextBox
         Me.lblLen = New System.Windows.Forms.Label
         Me.PostButton = New System.Windows.Forms.Button
@@ -234,7 +235,6 @@ Partial Class TweenMain
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
-        Me.StatusLabel = New Tween.TweenCustomControl.ToolStripLabelHistory
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -296,6 +296,14 @@ Partial Class TweenMain
         Me.StatusLabelUrl.Name = "StatusLabelUrl"
         resources.ApplyResources(Me.StatusLabelUrl, "StatusLabelUrl")
         Me.StatusLabelUrl.Spring = True
+        '
+        'StatusLabel
+        '
+        Me.StatusLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right
+        Me.StatusLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.StatusLabel.DoubleClickEnabled = True
+        Me.StatusLabel.Name = "StatusLabel"
+        resources.ApplyResources(Me.StatusLabel, "StatusLabel")
         '
         'HashStripSplitButton
         '
@@ -485,11 +493,6 @@ Partial Class TweenMain
         Me.SplitContainer2.Panel2.Controls.Add(Me.PostButton)
         Me.SplitContainer2.TabStop = False
         '
-        'DummyTextBox
-        '
-        resources.ApplyResources(Me.DummyTextBox, "DummyTextBox")
-        Me.DummyTextBox.Name = "DummyTextBox"
-        '
         'TableLayoutPanel1
         '
         resources.ApplyResources(Me.TableLayoutPanel1, "TableLayoutPanel1")
@@ -544,8 +547,10 @@ Partial Class TweenMain
         '
         'SplitContainer3
         '
+        Me.SplitContainer3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.TableLayoutPanel1.SetColumnSpan(Me.SplitContainer3, 2)
         resources.ApplyResources(Me.SplitContainer3, "SplitContainer3")
+        Me.SplitContainer3.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
         Me.SplitContainer3.Name = "SplitContainer3"
         '
         'SplitContainer3.Panel1
@@ -678,6 +683,11 @@ Partial Class TweenMain
         Me.PreviewScrollBar.LargeChange = 1
         Me.PreviewScrollBar.Maximum = 0
         Me.PreviewScrollBar.Name = "PreviewScrollBar"
+        '
+        'DummyTextBox
+        '
+        resources.ApplyResources(Me.DummyTextBox, "DummyTextBox")
+        Me.DummyTextBox.Name = "DummyTextBox"
         '
         'StatusText
         '
@@ -1440,14 +1450,6 @@ Partial Class TweenMain
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
-        '
-        'StatusLabel
-        '
-        Me.StatusLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right
-        Me.StatusLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.StatusLabel.DoubleClickEnabled = True
-        Me.StatusLabel.Name = "StatusLabel"
-        resources.ApplyResources(Me.StatusLabel, "StatusLabel")
         '
         'TweenMain
         '
