@@ -7865,10 +7865,17 @@ RETRY:
                 Continue For
             End If
             'youtube
-            re = New Regex("^http://www\.youtube\.com/watch\?v=([\w\-]+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+            re = New Regex("^http://www\.youtube\.com/watch\?v=([\w\-]+)", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
             mc = re.Match(url)
             If mc.Success Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://i.ytimg.com/vi/${1}/default.jpg")))
+                Continue For
+            End If
+            'ニコニコ
+            re = New Regex("^http://(?:www\.nicovideo\.jp/watch|nico\.ms)/(?:sm|nm)([0-9]+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+            mc = re.Match(url)
+            If mc.Success Then
+                imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://tn-skr.smilevideo.jp/smile?i=${1}")))
                 Continue For
             End If
         Next
