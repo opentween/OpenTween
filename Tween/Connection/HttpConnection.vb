@@ -60,7 +60,7 @@ Public Class HttpConnection
 
         'GETメソッドの場合はクエリとurlを結合
         Dim ub As New UriBuilder(requestUri.AbsoluteUri)
-        If method = "GET" OrElse method = "DELETE" OrElse method = "HEAD" Then
+        If param IsNot Nothing AndAlso (method = "GET" OrElse method = "DELETE" OrElse method = "HEAD") Then
             ub.Query = CreateQueryString(param)
         End If
 
@@ -233,7 +233,8 @@ Public Class HttpConnection
                 'リダイレクト応答の場合は、リダイレクト先を設定
                 GetHeaderInfo(webRes, headerInfo)
                 '応答のストリームをBitmapにして戻す
-                If webRes.ContentLength > 0 Then contentBitmap = New Bitmap(webRes.GetResponseStream)
+                'If webRes.ContentLength > 0 Then contentBitmap = New Bitmap(webRes.GetResponseStream)
+                contentBitmap = New Bitmap(webRes.GetResponseStream)
                 Return statusCode
             End Using
         Catch ex As WebException

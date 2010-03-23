@@ -44,6 +44,7 @@ Public Class TweenMain
     Private _myLoc As Point             '画面位置
     Private _mySpDis As Integer         '区切り位置
     Private _mySpDis2 As Integer        '発言欄区切り位置
+    Private _mySpDis3 As Integer        'プレビュー区切り位置
     Private _iconSz As Integer            'アイコンサイズ（現在は16、24、48の3種類。将来直接数字指定可能とする 注：24x24の場合に26と指定しているのはMSゴシック系フォントのための仕様）
     Private _iconCol As Boolean           '1列表示の時True（48サイズのとき）
 
@@ -841,6 +842,7 @@ Public Class TweenMain
         Me.TopMost = SettingDialog.AlwaysTop
         _mySpDis = _cfgLocal.SplitterDistance
         _mySpDis2 = _cfgLocal.StatusTextHeight
+        _mySpDis3 = _cfgLocal.PreviewDistance
         MultiLineMenuItem.Checked = _cfgLocal.StatusMultiline
         'Me.Tween_ClientSizeChanged(Me, Nothing)
         PlaySoundMenuItem.Checked = SettingDialog.PlaySound
@@ -2483,6 +2485,7 @@ Public Class TweenMain
                 If Me.WindowState = FormWindowState.Normal Then
                     _mySize = Me.ClientSize
                     _mySpDis = Me.SplitContainer1.SplitterDistance
+                    _mySpDis3 = Me.SplitContainer3.SplitterDistance
                     If StatusText.Multiline Then _mySpDis2 = Me.StatusText.Height
                     modifySettingLocal = True
                 End If
@@ -4244,7 +4247,12 @@ RETRY:
                 If PostBrowser.DocumentText <> dTxt Then
                     PostBrowser.Visible = False
                     PostBrowser.DocumentText = dTxt
-                    thumbnail(_curPost.Id, dTxt)
+                    Dim rg As New Regex("<a target=""_self"" href=""(?<url>http[^""]+)""", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+                    Dim lnks As New List(Of String)
+                    For Each lnk As Match In rg.Matches(dTxt)
+                        lnks.Add(lnk.Result("${url}"))
+                    Next
+                    thumbnail(_curPost.Id, lnks)
                 End If
             Catch ex As System.Runtime.InteropServices.COMException
                 '原因不明
@@ -5024,6 +5032,7 @@ RETRY:
             _cfgLocal.FormSize = _mySize
             _cfgLocal.FormLocation = _myLoc
             _cfgLocal.SplitterDistance = _mySpDis
+            _cfgLocal.PreviewDistance = _mySpDis3
             _cfgLocal.StatusMultiline = StatusText.Multiline
             _cfgLocal.StatusTextHeight = _mySpDis2
             _cfgLocal.StatusText = SettingDialog.Status
@@ -6304,6 +6313,7 @@ RETRY:
             Else
                 SplitContainer2.SplitterDistance = SplitContainer2.Height - SplitContainer2.Panel2MinSize - SplitContainer2.SplitterWidth
             End If
+            Me.SplitContainer3.SplitterDistance = _cfgLocal.PreviewDistance
             _initialLayout = False
         End If
     End Sub
@@ -7689,27 +7699,6 @@ RETRY:
     End Property
 
 #Region "イメージプレビュー"
-    Private Function chk_url(ByVal dtxt As String) As String()
-        Dim mc As System.Text.RegularExpressions.MatchCollection = _
-    System.Text.RegularExpressions.Regex.Matches( _
-        dtxt, _
-        "<a\s+[^>]*href\s*=\s*(?:(?<quot>[""'])(?<url>.*?)\k<quot>|" + _
-            "(?<url>[^\s>]+))[^>]*>(?<text>.*?)</a>", _
-        System.Text.RegularExpressions.RegexOptions.IgnoreCase Or _
-        System.Text.RegularExpressions.RegexOptions.Singleline)
-
-        If mc.Count = 0 Then Return Nothing
-
-        Dim result As New List(Of String)
-        'Dim re As Regex = New Regex("htt(p|ps)://twitter.com/.*")
-        For Each m As System.Text.RegularExpressions.Match In mc
-            'If re.IsMatch(m.Groups("url").Value) = False Then
-            result.Add(m.Groups("url").Value)
-            'End If
-        Next
-        Return result.ToArray
-    End Function
-
     Private bgw As BackgroundWorker
     Private lckPrev As New Object
     Private _prev As PreviewData
@@ -7717,9 +7706,9 @@ RETRY:
         Implements IDisposable
 
         Public statusId As Long
-        Public urls As List(Of String)
-        Public pics As New List(Of Image)
-        Public Sub New(ByVal id As Long, ByVal urlList As List(Of String))
+        Public urls As List(Of KeyValuePair(Of String, String))
+        Public pics As New List(Of KeyValuePair(Of String, Image))
+        Public Sub New(ByVal id As Long, ByVal urlList As List(Of KeyValuePair(Of String, String)))
             statusId = id
             urls = urlList
         End Sub
@@ -7734,8 +7723,8 @@ RETRY:
                 End If
 
                 ' TODO: 共有のアンマネージ リソースを解放します
-                For Each bmp As Bitmap In pics
-                    If bmp IsNot Nothing Then bmp.Dispose()
+                For Each pic As KeyValuePair(Of String, Image) In pics
+                    If pic.Value IsNot Nothing Then pic.Value.Dispose()
                 Next
             End If
             Me.disposedValue = True
@@ -7752,10 +7741,11 @@ RETRY:
 
     End Class
 
-    Private Sub thumbnail(ByVal id As Long, ByVal dtxt As String)
+    Private Sub thumbnail(ByVal id As Long, ByVal links As List(Of String))
         If Not PreviewPicture.Image Is Nothing Then
             PreviewPicture.Image.Dispose()
             PreviewPicture.Image = Nothing
+            Me.SplitContainer3.Panel2Collapsed = True
         End If
         SyncLock lckPrev
             If _prev IsNot Nothing Then
@@ -7763,50 +7753,132 @@ RETRY:
                 _prev = Nothing
             End If
         End SyncLock
-        Dim re As Regex
 
-        Dim urls() As String = chk_url(dtxt)
-        If urls Is Nothing Then Exit Sub
+        If links.Count = 0 Then
+            Me.PreviewScrollBar.Maximum = 0
+            Me.PreviewScrollBar.Enabled = False
+            Me.SplitContainer3.Panel2Collapsed = True
+            Exit Sub
+        End If
 
-        Dim imglist As New List(Of String)
+        Dim imglist As New List(Of KeyValuePair(Of String, String))
 
-        For Each url As String In urls
+        For Each url As String In links
+            Dim re As Regex
+            Dim mc As Match
+            'imgur
+            re = New Regex("^http://imgur\.com/(\w+)\.jpg$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+            mc = re.Match(url)
+            If mc.Success Then
+                imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://i.imgur.com/${1}l.jpg")))
+                Continue For
+            End If
             '画像拡張子で終わるURL（直リンク）
-            re = New Regex("http://.*(\.jpg|\.jpeg|\.gif|\.png|\.bmp)", RegexOptions.IgnoreCase)
-            If re.IsMatch(url) Then
-                imglist.Add(url)
+            re = New Regex("^http://.*(\.jpg|\.jpeg|\.gif|\.png|\.bmp)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+            mc = re.Match(url)
+            If mc.Success Then
+                imglist.Add(New KeyValuePair(Of String, String)(url, url))
                 Continue For
             End If
             'twitpic
-            re = New Regex("http://twitpic\.com/.*", RegexOptions.IgnoreCase)
-            If re.IsMatch(url) Then
-                If url.IndexOf("http://twitpic.com/show/thumb/") = -1 Then
-                    imglist.Add(url.Replace("http://twitpic.com/", "http://twitpic.com/show/thumb/"))
-                    Continue For
-                End If
+            re = New Regex("^http://twitpic\.com/(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+            mc = re.Match(url)
+            If mc.Success Then
+                imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://twitpic.com/show/thumb/${1}")))
+                Continue For
             End If
             'yfrog
-            re = New Regex("http://yfrog\.com/.*", RegexOptions.IgnoreCase)
-            If re.IsMatch(url) Then
-                re = New Regex("http://yfrog\.com/.*\.th\.jpg")
-                If re.IsMatch(url) = False Then
-                    imglist.Add(url + ".th.jpg")
-                    Continue For
-                End If
+            re = New Regex("^http://yfrog\.com/(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+            mc = re.Match(url)
+            If mc.Success Then
+                imglist.Add(New KeyValuePair(Of String, String)(url, url + ".th.jpg"))
+                Continue For
             End If
             'tweetphoto
             Const comp As String = "http://TweetPhotoAPI.com/api/TPAPI.svc/imagefromurl?size=thumbnail&url="
-            re = New Regex("http://tweetphoto\.com/[0-9]*|http://pic\.gd/[a-z0-9]*", RegexOptions.IgnoreCase)
+            re = New Regex("^(http://tweetphoto\.com/[0-9]+|http://pic\.gd/[a-z0-9]+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
             If re.IsMatch(url) Then
-                re = New Regex(comp, RegexOptions.IgnoreCase)
-                If re.IsMatch(url) = False Then
-                    imglist.Add(comp + url)
-                    Continue For
-                End If
+                imglist.Add(New KeyValuePair(Of String, String)(url, comp + url))
+                Continue For
+            End If
+            'Mobypicture
+            re = New Regex("^http://moby\.to/(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+            mc = re.Match(url)
+            If mc.Success Then
+                imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://mobypicture.com/?${1}:small")))
+                Continue For
+            End If
+            '携帯百景
+            re = New Regex("^http://movapic\.com/pic/(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+            mc = re.Match(url)
+            If mc.Success Then
+                imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://image.movapic.com/pic/s_${1}.jpeg")))
+                Continue For
+            End If
+            'はてなフォトライフ
+            re = New Regex("^http://f\.hatena\.ne\.jp/(([a-z])[a-z0-9_-]{1,30}[a-z0-9])/((\d{8})\d+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+            mc = re.Match(url)
+            If mc.Success Then
+                imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://img.f.hatena.ne.jp/images/fotolife/${2}/${1}/${4}/${3}_120.jpg")))
+                Continue For
+            End If
+            'PhotoShare
+            re = New Regex("^http://(?:www\.)?bcphotoshare\.com/photos/\d+/(\d+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+            mc = re.Match(url)
+            If mc.Success Then
+                imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://images.bcphotoshare.com/storages/${1}/thumb180.jpg")))
+                Continue For
+            End If
+            'PhotoShare の短縮 URL
+            re = New Regex("^http://bctiny\.com/p(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+            mc = re.Match(url)
+            If mc.Success Then
+                imglist.Add(New KeyValuePair(Of String, String)(url, "http://images.bcphotoshare.com/storages/" + RadixConvert.ToInt32(mc.Result("${1}"), 32).ToString + "/thumb180.jpg"))
+                Continue For
+            End If
+            'img.ly
+            re = New Regex("^http://img\.ly/(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+            mc = re.Match(url)
+            If mc.Success Then
+                imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://img.ly/show/thumb/${1}")))
+                Continue For
+            End If
+            'brightkite
+            re = New Regex("^http://brightkite\.com/objects/((\w{2})(\w{2})\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+            mc = re.Match(url)
+            If mc.Success Then
+                imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://cdn.brightkite.com/${2}/${3}/${1}-feed.jpg")))
+                Continue For
+            End If
+            'Twitgoo
+            re = New Regex("^http://twitgoo\.com/(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+            mc = re.Match(url)
+            If mc.Success Then
+                imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://twitgoo.com/${1}/mini")))
+                Continue For
+            End If
+            'pic.im
+            re = New Regex("^http://pic\.im/(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+            mc = re.Match(url)
+            If mc.Success Then
+                imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://pic.im/website/thumbnail/${1}")))
+                Continue For
+            End If
+            'youtube
+            re = New Regex("^http://www\.youtube\.com/watch\?v=([\w\-]+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+            mc = re.Match(url)
+            If mc.Success Then
+                imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://i.ytimg.com/vi/${1}/default.jpg")))
+                Continue For
             End If
         Next
 
-        If imglist.Count = 0 Then Exit Sub
+        If imglist.Count = 0 Then
+            Me.PreviewScrollBar.Maximum = 0
+            Me.PreviewScrollBar.Enabled = False
+            Me.SplitContainer3.Panel2Collapsed = True
+            Exit Sub
+        End If
 
         're = New Regex("http://.*\.jpg.*|http://.*(\.jpg|\.jpeg|\.gif|\.png|\.bmp)|http://twitpic\.com/show/thumb/.*|http://TweetPhotoAPI\.com/api/TPAPI\.svc/imagefromurl.*", RegexOptions.IgnoreCase)
         'If re.IsMatch(imglist(0)) = True Then
@@ -7820,11 +7892,11 @@ RETRY:
 
     Private Sub bgw_DoWork(ByVal sender As Object, ByVal e As System.ComponentModel.DoWorkEventArgs)
         Dim arg As PreviewData = DirectCast(e.Argument, PreviewData)
-        For Each url As String In arg.urls
+        For Each url As KeyValuePair(Of String, String) In arg.urls
             Dim http As New HttpVarious
-            Dim img As Image = http.GetImage(url)
+            Dim img As Image = http.GetImage(url.Value)
             If img Is Nothing Then Continue For
-            arg.pics.Add(img)
+            arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, img))
         Next
         If arg.pics.Count = 0 Then
             Exit Sub
@@ -7837,11 +7909,19 @@ RETRY:
     Private Sub bgw_Completed(ByVal sender As System.Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs)
         SyncLock lckPrev
             If _prev IsNot Nothing AndAlso _curPost IsNot Nothing AndAlso _prev.statusId = _curPost.Id Then
+                Me.SplitContainer3.Panel2Collapsed = False
                 Me.PreviewScrollBar.Maximum = _prev.pics.Count - 1
-                If Me.PreviewScrollBar.Maximum > 1 Then
-                    Me.PreviewScrollBar.Value = 0
+                If Me.PreviewScrollBar.Maximum > 0 Then
+                    Me.PreviewScrollBar.Enabled = True
+                Else
+                    Me.PreviewScrollBar.Enabled = False
                 End If
-                Me.PreviewPicture.Image = _prev.pics(0)
+                Me.PreviewScrollBar.Value = 0
+                Me.PreviewPicture.Image = _prev.pics(0).Value
+            Else
+                Me.PreviewScrollBar.Maximum = 0
+                Me.PreviewScrollBar.Enabled = False
+                Me.SplitContainer3.Panel2Collapsed = True
             End If
         End SyncLock
     End Sub
@@ -7850,10 +7930,18 @@ RETRY:
         SyncLock lckPrev
             If _prev IsNot Nothing AndAlso _curPost IsNot Nothing AndAlso _prev.statusId = _curPost.Id Then
                 If _prev.pics.Count > e.NewValue Then
-                    Me.PreviewPicture.Image = _prev.pics(e.NewValue)
+                    Me.PreviewPicture.Image = _prev.pics(e.NewValue).Value
                 End If
             End If
         End SyncLock
+    End Sub
+
+    Private Sub PreviewPicture_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles PreviewPicture.DoubleClick
+        If _prev IsNot Nothing Then
+            If Me.PreviewScrollBar.Value < _prev.pics.Count Then
+                OpenUriAsync(_prev.pics(Me.PreviewScrollBar.Value).Key)
+            End If
+        End If
     End Sub
 #End Region
 
@@ -7862,6 +7950,13 @@ RETRY:
             Me.StatusText.Focus()
         Else
             DirectCast(Me.ListTab.SelectedTab.Tag, Control).Focus()
+        End If
+    End Sub
+
+    Private Sub SplitContainer3_SplitterMoved(ByVal sender As System.Object, ByVal e As System.Windows.Forms.SplitterEventArgs) Handles SplitContainer3.SplitterMoved
+        If Me.WindowState = FormWindowState.Normal AndAlso Not _initialLayout Then
+            _mySpDis3 = SplitContainer3.SplitterDistance
+            modifySettingLocal = True
         End If
     End Sub
 End Class

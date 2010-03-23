@@ -138,6 +138,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Outputz.vb" />
+    <Compile Include="RadixConvert.vb" />
     <Compile Include="SearchWord.Designer.vb">
       <DependentUpon>SearchWord.vb</DependentUpon>
     </Compile>
