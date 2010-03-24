@@ -5499,6 +5499,12 @@ RETRY:
                                 ids += "@" + nm + " "
                             End If
                         Next
+                        If post.RetweetedBy <> "" Then
+                            If Not ids.Contains("@" + post.RetweetedBy + " ") AndAlso _
+                               Not post.RetweetedBy.Equals(tw.Username, StringComparison.CurrentCultureIgnoreCase) Then
+                                ids += "@" + post.RetweetedBy + " "
+                            End If
+                        End If
                         If ids.Length = 0 Then Exit Sub
                         If StatusText.Text = "" Then
                             '未入力の場合のみ返信先付加

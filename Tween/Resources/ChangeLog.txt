@@ -1,5 +1,12 @@
 ﻿更新履歴
 
+==== Ver 0.8.8.3(2010/03/24)
+ * 起動時FAV取得の設定が無視されるバグ修正
+ * 複数行入力状態が復元されないバグ修正
+ * nico.ms短縮ロジック取り込み
+ * 画像プレビュー実装（imgur/twitpic/yfrog/tweetphoto /Mobypicture/携帯百景/はてなフォトライフ/photoshare/img.ly/brightkite/twitgoo/pic.im /youtube/ニコニコ動画）
+ * bkite.com,youtu.beのURL展開に対応
+ * 公式RTに対して返信ALLをしたときは、RTした人も返信先に追加するよう変更
 ==== Ver 0.8.8.2(2010/03/12)
  * 認証エラーが返ってくると、以後更新しなくなってしまうバグ修正
  * API情報取得が正常に動作しないバグ修正
