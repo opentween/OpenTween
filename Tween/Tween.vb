@@ -443,6 +443,8 @@ Public Class TweenMain
         Me._spaceKeyCanceler = New SpaceKeyCanceler(Me.PostButton)
         AddHandler Me._spaceKeyCanceler.SpaceCancel, AddressOf spaceKeyCanceler_SpaceCancel
 
+        Regex.CacheSize = 100
+
         fileVersion = _
             System.Diagnostics.FileVersionInfo.GetVersionInfo( _
             System.Reflection.Assembly.GetExecutingAssembly().Location).FileVersion
@@ -671,8 +673,8 @@ Public Class TweenMain
         End If
         Me.IdeographicSpaceToSpaceToolStripMenuItem.Checked = _cfgCommon.WideSpaceConvert
 
-        Dim statregex As New Regex("^0*")
-        SettingDialog.RecommendStatusText = " [TWNv" + statregex.Replace(fileVersion.Replace(".", ""), "") + "]"
+        'Dim statregex As New Regex("^0*")
+        SettingDialog.RecommendStatusText = " [TWNv" + Regex.Replace(fileVersion.Replace(".", ""), "^0*", "") + "]"
 
         '書式指定文字列エラーチェック
         Try
@@ -1705,14 +1707,17 @@ Public Class TweenMain
         Dim tmpStatus As String = StatusText.Text.Trim
         If ToolStripMenuItemApiCommandEvasion.Checked Then
             ' APIコマンド回避
-            Dim regex As New Regex("^[+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]*(get|g|fav|follow|f|on|off|stop|quit|leave|l|whois|w|nudge|n|stats|invite|track|untrack|tracks|tracking|\*)([+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]+|$)", RegexOptions.IgnoreCase)
-            If regex.IsMatch(tmpStatus) AndAlso tmpStatus.EndsWith(" .") = False Then adjustCount += 2
+            'Dim regex As New Regex("^[+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]*(get|g|fav|follow|f|on|off|stop|quit|leave|l|whois|w|nudge|n|stats|invite|track|untrack|tracks|tracking|\*)([+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]+|$)", RegexOptions.IgnoreCase)
+            If Regex.IsMatch(tmpStatus, _
+                "^[+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]*(get|g|fav|follow|f|on|off|stop|quit|leave|l|whois|w|nudge|n|stats|invite|track|untrack|tracks|tracking|\*)([+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]+|$)", _
+                RegexOptions.IgnoreCase) _
+               AndAlso tmpStatus.EndsWith(" .") = False Then adjustCount += 2
         End If
 
         If ToolStripMenuItemUrlMultibyteSplit.Checked Then
             ' URLと全角文字の切り離し
-            Dim regex2 As New Regex("https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#]+")
-            adjustCount += regex2.Matches(tmpStatus).Count
+            'Dim regex2 As New Regex("https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#]+")
+            adjustCount += Regex.Matches(tmpStatus, "https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#]+").Count
         End If
 
         If IdeographicSpaceToSpaceToolStripMenuItem.Checked Then
@@ -1772,15 +1777,18 @@ Public Class TweenMain
 
         If ToolStripMenuItemApiCommandEvasion.Checked Then
             ' APIコマンド回避
-            Dim regex As New Regex("^[+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]*(get|g|fav|follow|f|on|off|stop|quit|leave|l|whois|w|nudge|n|stats|invite|track|untrack|tracks|tracking|\*)([+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]+|$)", RegexOptions.IgnoreCase)
-            If regex.IsMatch(args.status) AndAlso args.status.EndsWith(" .") = False Then args.status += " ."
+            'Dim regex As New Regex("^[+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]*(get|g|fav|follow|f|on|off|stop|quit|leave|l|whois|w|nudge|n|stats|invite|track|untrack|tracks|tracking|\*)([+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]+|$)", RegexOptions.IgnoreCase)
+            If Regex.IsMatch(args.status, _
+                "^[+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]*(get|g|fav|follow|f|on|off|stop|quit|leave|l|whois|w|nudge|n|stats|invite|track|untrack|tracks|tracking|\*)([+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]+|$)", _
+                RegexOptions.IgnoreCase) _
+               AndAlso args.status.EndsWith(" .") = False Then args.status += " ."
         End If
 
         If ToolStripMenuItemUrlMultibyteSplit.Checked Then
             ' URLと全角文字の切り離し
-            Dim regex2 As New Regex("https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#]+")
-            Dim mc2 As Match = regex2.Match(args.status)
-            If mc2.Success Then args.status = regex2.Replace(args.status, "$& ")
+            'Dim regex2 As New Regex("https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#]+")
+            Dim mc2 As Match = Regex.Match(args.status, "https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#]+")
+            If mc2.Success Then args.status = Regex.Replace(args.status, "https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#]+", "$& ")
         End If
 
         If IdeographicSpaceToSpaceToolStripMenuItem.Checked Then
@@ -4247,9 +4255,9 @@ RETRY:
                 If PostBrowser.DocumentText <> dTxt Then
                     PostBrowser.Visible = False
                     PostBrowser.DocumentText = dTxt
-                    Dim rg As New Regex("<a target=""_self"" href=""(?<url>http[^""]+)""", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+                    'Dim rg As New Regex("<a target=""_self"" href=""(?<url>http[^""]+)""", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
                     Dim lnks As New List(Of String)
-                    For Each lnk As Match In rg.Matches(dTxt)
+                    For Each lnk As Match In Regex.Matches(dTxt, "<a target=""_self"" href=""(?<url>http[^""]+)""", RegexOptions.IgnoreCase)
                         lnks.Add(lnk.Result("${url}"))
                     Next
                     thumbnail(_curPost.Id, lnks)
@@ -6085,14 +6093,19 @@ RETRY:
             Else
                 For Each linkElm As HtmlElement In PostBrowser.Document.Links
                     Dim urlStr As String = ""
+                    Dim linkText As String = ""
                     Try
                         urlStr = IDNDecode(linkElm.GetAttribute("href"))
+                        linkText = linkElm.InnerText
+                        If Not linkText.StartsWith("http") AndAlso Not linkText.StartsWith("#") Then
+                            linkText = "@" + linkText
+                        End If
                     Catch ex As ArgumentException
                         '変なHTML？
                         Exit Sub
                     End Try
                     If String.IsNullOrEmpty(urlStr) Then Continue For
-                    UrlDialog.AddUrl(urlEncodeMultibyteChar(urlStr))
+                    UrlDialog.AddUrl(New OpenUrlItem(linkText, urlEncodeMultibyteChar(urlStr)))
                 Next
                 Try
                     If UrlDialog.ShowDialog() = Windows.Forms.DialogResult.OK Then
@@ -6241,8 +6254,8 @@ RETRY:
     Friend Sub CheckReplyTo(ByVal StatusText As String)
         Dim m As MatchCollection
         'ハッシュタグの保存
-        Dim hash As New Regex("(^|[^a-zA-Z0-9_/])[#|＃](?<hash>[a-zA-Z0-9_]+)")
-        m = hash.Matches(StatusText)
+        'Dim hash As New Regex("(^|[^a-zA-Z0-9_/])[#|＃](?<hash>[a-zA-Z0-9_]+)")
+        m = Regex.Matches(StatusText, "(^|[^a-zA-Z0-9_/])[#|＃](?<hash>[a-zA-Z0-9_]+)")
         Dim hstr As String = ""
         For Each hm As Match In m
             If Not IsNumeric(hm.Result("${hash}")) Then
@@ -6258,9 +6271,9 @@ RETRY:
         If hstr <> "" Then HashMgr.AddHashToHistory(hstr.Trim, False)
 
         ' 本当にリプライ先指定すべきかどうかの判定
-        Dim id As New Regex("(^|[ -/:-@[-^`{-~])(?<id>@[a-zA-Z0-9_]+)")
+        'Dim id As New Regex("(^|[ -/:-@[-^`{-~])(?<id>@[a-zA-Z0-9_]+)")
 
-        m = id.Matches(StatusText)
+        m = Regex.Matches(StatusText, "(^|[ -/:-@[-^`{-~])(?<id>@[a-zA-Z0-9_]+)")
 
         If SettingDialog.UseAtIdSupplement Then
             Dim bCnt As Integer = AtIdSupl.ItemCount
@@ -6452,11 +6465,16 @@ RETRY:
     Private Function UrlConvert(ByVal Converter_Type As UrlConverter) As Boolean
         'Converter_Type=Nicomsの場合は、nicovideoのみ短縮する
         Dim result As String = ""
-        Dim url As Regex = New Regex("(?<before>(?:[^\/""':!=]|^|\:))" + _
+        'Dim url As Regex = New Regex("(?<before>(?:[^\/""':!=]|^|\:))" + _
+        '                            "(?<url>(?<protocol>https?://|www\.)" + _
+        '                            "(?<domain>(?:[\.-]|[^\p{P}])+\.[a-z]{2,}(?::[0-9]+)?)" + _
+        '                            "(?<path>/[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9)=#/]?)?" + _
+        '                            "(?<query>\?[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9_&=#])?)", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+        Const url As String = "(?<before>(?:[^\/""':!=]|^|\:))" + _
                                     "(?<url>(?<protocol>https?://|www\.)" + _
                                     "(?<domain>(?:[\.-]|[^\p{P}])+\.[a-z]{2,}(?::[0-9]+)?)" + _
                                     "(?<path>/[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9)=#/]?)?" + _
-                                    "(?<query>\?[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9_&=#])?)", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+                                    "(?<query>\?[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9_&=#])?)"
         'Dim url As Regex = New Regex("(?<![0-9A-Za-z])(?:https?|shttp)://(?:(?:[-_.!~*'()a-zA-Z0-9;:&=+$,]|%[0-9A-Fa-f" + _
         '                             "][0-9A-Fa-f])*@)?(?:(?:[a-zA-Z0-9](?:[-a-zA-Z0-9]*[a-zA-Z0-9])?\.)" + _
         '                             "*[a-zA-Z](?:[-a-zA-Z0-9]*[a-zA-Z0-9])?\.?|[0-9]+\.[0-9]+\.[0-9]+\." + _
@@ -6466,7 +6484,8 @@ RETRY:
         '                             "])*(?:;(?:[-_.!~*'()a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)*)" + _
         '                             "*)?(?:\?(?:[-_.!~*'()a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])" + _
         '                             "*)?(?:#(?:[-_.!~*'()a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)?")
-        Dim nico As Regex = New Regex("^https?://[a-z]+\.(nicovideo|niconicommons|nicolive)\.jp/[a-z]+/[a-z0-9]+$")
+        'Dim nico As Regex = New Regex("^https?://[a-z]+\.(nicovideo|niconicommons|nicolive)\.jp/[a-z]+/[a-z0-9]+$")
+        Const nico As String = "^https?://[a-z]+\.(nicovideo|niconicommons|nicolive)\.jp/[a-z]+/[a-z0-9]+$"
 
         If StatusText.SelectionLength > 0 Then
             Dim tmp As String = StatusText.SelectedText
@@ -6475,7 +6494,7 @@ RETRY:
                 ' 文字列が選択されている場合はその文字列について処理
 
                 'nico.ms使用、nicovideoにマッチしたら変換
-                If SettingDialog.Nicoms AndAlso nico.IsMatch(tmp) Then
+                If SettingDialog.Nicoms AndAlso Regex.IsMatch(tmp, nico) Then
                     'result = tw.MakeShortNicoms(tmp)
                     result = nicoms.Shorten(tmp)
                 ElseIf Converter_Type <> UrlConverter.Nicoms Then
@@ -6509,7 +6528,7 @@ RETRY:
             End If
         Else
             ' 正規表現にマッチしたURL文字列をtinyurl化
-            For Each mt As Match In url.Matches(StatusText.Text)
+            For Each mt As Match In Regex.Matches(StatusText.Text, url, RegexOptions.IgnoreCase)
                 If StatusText.Text.IndexOf(mt.Result("${url}"), StringComparison.Ordinal) = -1 Then Continue For
                 Dim tmp As String = mt.Result("${url}")
                 If tmp.StartsWith("w", StringComparison.OrdinalIgnoreCase) Then tmp = "http://" + tmp
@@ -6519,7 +6538,7 @@ RETRY:
                 StatusText.Select(StatusText.Text.IndexOf(mt.Result("${url}"), StringComparison.Ordinal), mt.Result("${url}").Length)
 
                 'nico.ms使用、nicovideoにマッチしたら変換
-                If SettingDialog.Nicoms AndAlso nico.IsMatch(tmp) Then
+                If SettingDialog.Nicoms AndAlso Regex.IsMatch(tmp, nico) Then
                     result = nicoms.Shorten(tmp)
                 ElseIf Converter_Type <> UrlConverter.Nicoms Then
                     '短縮URL変換 日本語を含むかもしれないのでURLエンコードする
@@ -7200,8 +7219,8 @@ RETRY:
         '展開しないように変更
         '展開するか判定
         Dim isUrl As Boolean = False
-        Dim rx As Regex = New Regex("<a target=""_self"" href=""(?<url>[^""]+)""[^>]*>(?<link>(https?|shttp|ftps?)://[^<]+)</a>")
-        Dim ms As MatchCollection = rx.Matches(status)
+        'Dim rx As Regex = New Regex("<a target=""_self"" href=""(?<url>[^""]+)""[^>]*>(?<link>(https?|shttp|ftps?)://[^<]+)</a>")
+        Dim ms As MatchCollection = Regex.Matches(status, "<a target=""_self"" href=""(?<url>[^""]+)""[^>]*>(?<link>(https?|shttp|ftps?)://[^<]+)</a>")
         For Each m As Match In ms
             If m.Result("${link}").EndsWith("...") Then
                 isUrl = True
@@ -7209,17 +7228,17 @@ RETRY:
             End If
         Next
         If isUrl Then
-            status = rx.Replace(status, "${url}")
+            status = Regex.Replace(status, "<a target=""_self"" href=""(?<url>[^""]+)""[^>]*>(?<link>(https?|shttp|ftps?)://[^<]+)</a>", "${url}")
         Else
-            status = rx.Replace(status, "${link}")
+            status = Regex.Replace(status, "<a target=""_self"" href=""(?<url>[^""]+)""[^>]*>(?<link>(https?|shttp|ftps?)://[^<]+)</a>", "${link}")
         End If
 
         'その他のリンク(@IDなど)を置き換える
-        rx = New Regex("@<a target=""_self"" href=""https?://twitter.com/(?<url>[^""]+)""[^>]*>(?<link>[^<]+)</a>")
-        status = rx.Replace(status, "@${url}")
+        'rx = New Regex("@<a target=""_self"" href=""https?://twitter.com/(?<url>[^""]+)""[^>]*>(?<link>[^<]+)</a>")
+        status = Regex.Replace(status, "@<a target=""_self"" href=""https?://twitter.com/(?<url>[^""]+)""[^>]*>(?<link>[^<]+)</a>", "@${url}")
         'ハッシュタグ
-        rx = New Regex("<a target=""_self"" href=""(?<url>[^""]+)""[^>]*>(?<link>[^<]+)</a>")
-        status = rx.Replace(status, "${link}")
+        'rx = New Regex("<a target=""_self"" href=""(?<url>[^""]+)""[^>]*>(?<link>[^<]+)</a>")
+        status = Regex.Replace(status, "<a target=""_self"" href=""(?<url>[^""]+)""[^>]*>(?<link>[^<]+)</a>", "${link}")
         '<br>タグ除去
         If StatusText.Multiline Then
             status = Regex.Replace(status, "(\r\n|\n|\r)?<br>", vbCrLf, RegexOptions.IgnoreCase Or RegexOptions.Multiline)
@@ -7770,116 +7789,116 @@ RETRY:
         Dim imglist As New List(Of KeyValuePair(Of String, String))
 
         For Each url As String In links
-            Dim re As Regex
+            'Dim re As Regex
             Dim mc As Match
             'imgur
-            re = New Regex("^http://imgur\.com/(\w+)\.jpg$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
-            mc = re.Match(url)
+            're = New Regex("^http://imgur\.com/(\w+)\.jpg$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+            mc = Regex.Match(url, "^http://imgur\.com/(\w+)\.jpg$", RegexOptions.IgnoreCase)
             If mc.Success Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://i.imgur.com/${1}l.jpg")))
                 Continue For
             End If
             '画像拡張子で終わるURL（直リンク）
-            re = New Regex("^http://.*(\.jpg|\.jpeg|\.gif|\.png|\.bmp)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
-            mc = re.Match(url)
+            're = New Regex("^http://.*(\.jpg|\.jpeg|\.gif|\.png|\.bmp)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+            mc = Regex.Match(url, "^http://.*(\.jpg|\.jpeg|\.gif|\.png|\.bmp)$", RegexOptions.IgnoreCase)
             If mc.Success Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, url))
                 Continue For
             End If
             'twitpic
-            re = New Regex("^http://twitpic\.com/(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
-            mc = re.Match(url)
+            're = New Regex("^http://twitpic\.com/(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+            mc = Regex.Match(url, "^http://twitpic\.com/(\w+)$", RegexOptions.IgnoreCase)
             If mc.Success Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://twitpic.com/show/thumb/${1}")))
                 Continue For
             End If
             'yfrog
-            re = New Regex("^http://yfrog\.com/(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
-            mc = re.Match(url)
+            're = New Regex("^http://yfrog\.com/(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+            mc = Regex.Match(url, "^http://yfrog\.com/(\w+)$", RegexOptions.IgnoreCase)
             If mc.Success Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, url + ".th.jpg"))
                 Continue For
             End If
             'tweetphoto
             Const comp As String = "http://TweetPhotoAPI.com/api/TPAPI.svc/imagefromurl?size=thumbnail&url="
-            re = New Regex("^(http://tweetphoto\.com/[0-9]+|http://pic\.gd/[a-z0-9]+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
-            If re.IsMatch(url) Then
+            're = New Regex("^(http://tweetphoto\.com/[0-9]+|http://pic\.gd/[a-z0-9]+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+            If Regex.IsMatch(url, "^(http://tweetphoto\.com/[0-9]+|http://pic\.gd/[a-z0-9]+)$", RegexOptions.IgnoreCase) Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, comp + url))
                 Continue For
             End If
             'Mobypicture
-            re = New Regex("^http://moby\.to/(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
-            mc = re.Match(url)
+            're = New Regex("^http://moby\.to/(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+            mc = Regex.Match(url, "^http://moby\.to/(\w+)$", RegexOptions.IgnoreCase)
             If mc.Success Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://mobypicture.com/?${1}:small")))
                 Continue For
             End If
             '携帯百景
-            re = New Regex("^http://movapic\.com/pic/(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
-            mc = re.Match(url)
+            're = New Regex("^http://movapic\.com/pic/(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+            mc = Regex.Match(url, "^http://movapic\.com/pic/(\w+)$", RegexOptions.IgnoreCase)
             If mc.Success Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://image.movapic.com/pic/s_${1}.jpeg")))
                 Continue For
             End If
             'はてなフォトライフ
-            re = New Regex("^http://f\.hatena\.ne\.jp/(([a-z])[a-z0-9_-]{1,30}[a-z0-9])/((\d{8})\d+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
-            mc = re.Match(url)
+            're = New Regex("^http://f\.hatena\.ne\.jp/(([a-z])[a-z0-9_-]{1,30}[a-z0-9])/((\d{8})\d+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+            mc = Regex.Match(url, "^http://f\.hatena\.ne\.jp/(([a-z])[a-z0-9_-]{1,30}[a-z0-9])/((\d{8})\d+)$", RegexOptions.IgnoreCase)
             If mc.Success Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://img.f.hatena.ne.jp/images/fotolife/${2}/${1}/${4}/${3}_120.jpg")))
                 Continue For
             End If
             'PhotoShare
-            re = New Regex("^http://(?:www\.)?bcphotoshare\.com/photos/\d+/(\d+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
-            mc = re.Match(url)
+            're = New Regex("^http://(?:www\.)?bcphotoshare\.com/photos/\d+/(\d+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+            mc = Regex.Match(url, "^http://(?:www\.)?bcphotoshare\.com/photos/\d+/(\d+)$", RegexOptions.IgnoreCase)
             If mc.Success Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://images.bcphotoshare.com/storages/${1}/thumb180.jpg")))
                 Continue For
             End If
             'PhotoShare の短縮 URL
-            re = New Regex("^http://bctiny\.com/p(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
-            mc = re.Match(url)
+            're = New Regex("^http://bctiny\.com/p(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+            mc = Regex.Match(url, "^http://bctiny\.com/p(\w+)$", RegexOptions.IgnoreCase)
             If mc.Success Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, "http://images.bcphotoshare.com/storages/" + RadixConvert.ToInt32(mc.Result("${1}"), 32).ToString + "/thumb180.jpg"))
                 Continue For
             End If
             'img.ly
-            re = New Regex("^http://img\.ly/(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
-            mc = re.Match(url)
+            're = New Regex("^http://img\.ly/(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+            mc = Regex.Match(url, "^http://img\.ly/(\w+)$", RegexOptions.IgnoreCase)
             If mc.Success Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://img.ly/show/thumb/${1}")))
                 Continue For
             End If
             'brightkite
-            re = New Regex("^http://brightkite\.com/objects/((\w{2})(\w{2})\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
-            mc = re.Match(url)
+            're = New Regex("^http://brightkite\.com/objects/((\w{2})(\w{2})\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+            mc = Regex.Match(url, "^http://brightkite\.com/objects/((\w{2})(\w{2})\w+)$", RegexOptions.IgnoreCase)
             If mc.Success Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://cdn.brightkite.com/${2}/${3}/${1}-feed.jpg")))
                 Continue For
             End If
             'Twitgoo
-            re = New Regex("^http://twitgoo\.com/(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
-            mc = re.Match(url)
+            're = New Regex("^http://twitgoo\.com/(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+            mc = Regex.Match(url, "^http://twitgoo\.com/(\w+)$", RegexOptions.IgnoreCase)
             If mc.Success Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://twitgoo.com/${1}/mini")))
                 Continue For
             End If
             'pic.im
-            re = New Regex("^http://pic\.im/(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
-            mc = re.Match(url)
+            're = New Regex("^http://pic\.im/(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+            mc = Regex.Match(url, "^http://pic\.im/(\w+)$", RegexOptions.IgnoreCase)
             If mc.Success Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://pic.im/website/thumbnail/${1}")))
                 Continue For
             End If
             'youtube
-            re = New Regex("^http://www\.youtube\.com/watch\?v=([\w\-]+)", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
-            mc = re.Match(url)
+            're = New Regex("^http://www\.youtube\.com/watch\?v=([\w\-]+)", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+            mc = Regex.Match(url, "^http://www\.youtube\.com/watch\?v=([\w\-]+)", RegexOptions.IgnoreCase)
             If mc.Success Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://i.ytimg.com/vi/${1}/default.jpg")))
                 Continue For
             End If
             'ニコニコ
-            re = New Regex("^http://(?:www\.nicovideo\.jp/watch|nico\.ms)/(?:sm|nm)([0-9]+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
-            mc = re.Match(url)
+            're = New Regex("^http://(?:www\.nicovideo\.jp/watch|nico\.ms)/(?:sm|nm)([0-9]+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+            mc = Regex.Match(url, "^http://(?:www\.nicovideo\.jp/watch|nico\.ms)/(?:sm|nm)([0-9]+)$", RegexOptions.IgnoreCase)
             If mc.Success Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://tn-skr.smilevideo.jp/smile?i=${1}")))
                 Continue For

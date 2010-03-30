@@ -1703,8 +1703,8 @@ Public Class Twitter
             Static urlCache As New Specialized.StringDictionary()
             If urlCache.Count > 500 Then urlCache.Clear() '定期的にリセット
 
-            Dim rx As New Regex("<a href=""(?<svc>http://.+?/)(?<path>[^""]+)""", RegexOptions.IgnoreCase)
-            Dim m As MatchCollection = rx.Matches(orgData)
+            'Dim rx As New Regex("<a href=""(?<svc>http://.+?/)(?<path>[^""]+)""", RegexOptions.IgnoreCase)
+            Dim m As MatchCollection = Regex.Matches(orgData, "<a href=""(?<svc>http://.+?/)(?<path>[^""]+)""", RegexOptions.IgnoreCase)
             Dim urlList As New List(Of String)
             For Each orgUrlMatch As Match In m
                 Dim orgUrl As String = orgUrlMatch.Result("${svc}")
@@ -1784,22 +1784,23 @@ Public Class Twitter
         Dim retdata As String = orgdata
 
         '  <script ～ </script>
-        Dim rx As Regex = New Regex( _
-            "<(script|object|applet|image|frameset|fieldset|legend|style).*" & _
-            "</(script|object|applet|image|frameset|fieldset|legend|style)>", RegexOptions.IgnoreCase)
-        retdata = rx.Replace(retdata, "")
+        'Dim rx As Regex = New Regex( _
+        '    "<(script|object|applet|image|frameset|fieldset|legend|style).*" & _
+        '    "</(script|object|applet|image|frameset|fieldset|legend|style)>", RegexOptions.IgnoreCase)
+        retdata = Regex.Replace(retdata, "<(script|object|applet|image|frameset|fieldset|legend|style).*" & _
+            "</(script|object|applet|image|frameset|fieldset|legend|style)>", "", RegexOptions.IgnoreCase)
 
         ' <frame src="...">
-        rx = New Regex("<(frame|link|iframe|img)>", RegexOptions.IgnoreCase)
-        retdata = rx.Replace(retdata, "")
+        'rx = New Regex("<(frame|link|iframe|img)>", RegexOptions.IgnoreCase)
+        retdata = Regex.Replace(retdata, "<(frame|link|iframe|img)>", "", RegexOptions.IgnoreCase)
 
         Return retdata
     End Function
 
     Private Function AdjustHtml(ByVal orgData As String) As String
         Dim retStr As String = orgData
-        Dim hash As New Regex("<a [^>]+>[#|＃](?<1>[a-zA-Z0-9_]+)</a>")
-        Dim m As Match = hash.Match(retStr)
+        'Dim hash As New Regex("<a [^>]+>[#|＃](?<1>[a-zA-Z0-9_]+)</a>")
+        Dim m As Match = Regex.Match(retStr, "<a [^>]+>[#|＃](?<1>[a-zA-Z0-9_]+)</a>")
         While m.Success
             SyncLock LockObj
                 _hashList.Add("#" + m.Groups(1).Value)
@@ -1894,22 +1895,34 @@ Public Class Twitter
                 post.ImageIndex = _lIcon.Images.IndexOfKey(post.ImageUrl)
                 If post.ImageIndex = -1 Then
                     Try
-                        Dim fd As New System.Drawing.Imaging.FrameDimension(img.FrameDimensionsList(0))
-                        Dim fd_count As Integer = img.GetFrameCount(fd)
-                        If fd_count > 1 Then
-                            Try
-                                img.SelectActiveFrame(fd, 1)
+                        If img.RawFormat.Guid = Imaging.ImageFormat.Gif.Guid Then
+                            Dim fd As New System.Drawing.Imaging.FrameDimension(img.FrameDimensionsList(0))
+                            Dim fd_count As Integer = img.GetFrameCount(fd)
+                            If fd_count > 1 Then
+                                Try
+                                    For i As Integer = 0 To fd_count - 1
+                                        img.SelectActiveFrame(fd, i)
+                                    Next
+                                    _dIcon.Add(post.ImageUrl, img)  '詳細表示用ディクショナリに追加
+                                Catch ex As Exception
+                                    Dim bmp As New Bitmap(48, 48)
+                                    Using g As Graphics = Graphics.FromImage(bmp)
+                                        g.InterpolationMode = Drawing2D.InterpolationMode.High
+                                        g.DrawImage(img, 0, 0, 48, 48)
+                                    End Using
+                                    _dIcon.Add(post.ImageUrl, bmp)  '詳細表示用ディクショナリに追加
+                                    img.Dispose()
+                                End Try
+                            Else
                                 _dIcon.Add(post.ImageUrl, img)  '詳細表示用ディクショナリに追加
-                            Catch ex As Exception
-                                Dim bmp As New Bitmap(img)
-                                _dIcon.Add(post.ImageUrl, bmp)  '詳細表示用ディクショナリに追加
-                                img.Dispose()
-                            End Try
+                            End If
+                            _lIcon.Images.Add(post.ImageUrl, bmp2)
+                            post.ImageIndex = _lIcon.Images.IndexOfKey(post.ImageUrl)
                         Else
-                            _dIcon.Add(post.ImageUrl, img)  '詳細表示用ディクショナリに追加
+                            _dIcon.Add(post.ImageUrl, img)
+                            _lIcon.Images.Add(post.ImageUrl, bmp2)
+                            post.ImageIndex = _lIcon.Images.IndexOfKey(post.ImageUrl)
                         End If
-                        _lIcon.Images.Add(post.ImageUrl, bmp2)
-                        post.ImageIndex = _lIcon.Images.IndexOfKey(post.ImageUrl)
                     Catch ex As InvalidOperationException
                         'タイミングにより追加できない場合がある？（キー重複ではない）
                         post.ImageIndex = -1
@@ -2175,8 +2188,8 @@ Public Class Twitter
             post.Data = post.Data.Replace("<3", "♡")
             'Source整形
             If post.Source.StartsWith("<") Then
-                Dim rgS As New Regex(">(?<source>.+)<")
-                Dim mS As Match = rgS.Match(post.Source)
+                'Dim rgS As New Regex(">(?<source>.+)<")
+                Dim mS As Match = Regex.Match(post.Source, ">(?<source>.+)<")
                 If mS.Success Then
                     post.Source = mS.Result("${source}")
                 End If
@@ -3090,9 +3103,9 @@ Public Class Twitter
                     If Not (New HttpVarious).PostData(req, Nothing, content) Then
                         Return "Can't convert"
                     Else
-                        Dim rx As Regex = New Regex("""shortUrl"": ""(?<ShortUrl>.*?)""")
-                        If rx.Match(content).Success Then
-                            content = rx.Match(content).Groups("ShortUrl").Value
+                        'Dim rx As Regex = New Regex("""shortUrl"": ""(?<ShortUrl>.*?)""")
+                        If Regex.Match(content, """shortUrl"": ""(?<ShortUrl>.*?)""").Success Then
+                            content = Regex.Match(content, """shortUrl"": ""(?<ShortUrl>.*?)""").Groups("ShortUrl").Value
                         End If
                     End If
                 End If
@@ -3394,8 +3407,8 @@ Public Class Twitter
                 post.Data = post.Data.Replace("<3", "♡")
                 'Source整形
                 If post.Source.StartsWith("<") Then
-                    Dim rgS As New Regex(">(?<source>.+)<")
-                    Dim mS As Match = rgS.Match(post.Source)
+                    'Dim rgS As New Regex(">(?<source>.+)<")
+                    Dim mS As Match = Regex.Match(post.Source, ">(?<source>.+)<")
                     If mS.Success Then
                         post.Source = mS.Result("${source}")
                     End If
@@ -3519,8 +3532,8 @@ Public Class Twitter
                 post.Data = HttpUtility.HtmlDecode(post.Data)
                 'Source整形
                 If post.Source.StartsWith("<") Then
-                    Dim rgS As New Regex(">(?<source>.+)<")
-                    Dim mS As Match = rgS.Match(post.Source)
+                    'Dim rgS As New Regex(">(?<source>.+)<")
+                    Dim mS As Match = Regex.Match(post.Source, ">(?<source>.+)<")
                     If mS.Success Then
                         post.Source = mS.Result("${source}")
                     End If
@@ -3793,8 +3806,8 @@ Public Class Twitter
                 post.Data = post.Data.Replace("<3", "♡")
                 'Source整形
                 If post.Source.StartsWith("<") Then
-                    Dim rgS As New Regex(">(?<source>.+)<")
-                    Dim mS As Match = rgS.Match(post.Source)
+                    'Dim rgS As New Regex(">(?<source>.+)<")
+                    Dim mS As Match = Regex.Match(post.Source, ">(?<source>.+)<")
                     If mS.Success Then
                         post.Source = mS.Result("${source}")
                     End If
@@ -3917,35 +3930,35 @@ Public Class Twitter
         '                 "])*(?:;(?:[-_.!~*'()a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)*)" + _
         '                 "*)?(?:\?(?:[-_.!~*'()a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])" + _
         '                 "*)?(?:#(?:[-_.!~*'()a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)?")
-        Dim rgUrl As Regex = New Regex("(?<before>(?:[^\/""':!=]|^|\:))" + _
+        Const rgUrl As String = "(?<before>(?:[^\/""':!=]|^|\:))" + _
                                     "(?<url>(?<protocol>https?://|www\.)" + _
                                     "(?<domain>(?:[\.-]|[^\p{P}])+\.[a-z]{2,}(?::[0-9]+)?)" + _
                                     "(?<path>/[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9)=#/]?)?" + _
-                                    "(?<query>\?[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9_&=#])?)", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
+                                    "(?<query>\?[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9_&=#])?)"
         '絶対パス表現のUriをリンクに置換
-        retStr = rgUrl.Replace(Text, New MatchEvaluator(AddressOf AutoLinkUrl))
+        retStr = Regex.Replace(Text, rgUrl, New MatchEvaluator(AddressOf AutoLinkUrl), RegexOptions.IgnoreCase)
 
         '@返信を抽出し、@先リスト作成
         'Dim rg As New Regex("(^|[ -/:-@[-^`{-~])@([a-zA-Z0-9_]{1,20}/[a-zA-Z0-9_\-]{1,24}[a-zA-Z0-9_])")
-        Dim rg As New Regex("(^|[^a-zA-Z0-9_])[@＠]([a-zA-Z0-9_]{1,20}/[a-zA-Z0-9_\-]{1,79}[a-zA-Z0-9_])", RegexOptions.Compiled)
-        Dim m As Match = rg.Match(retStr)
+        'Dim rg As New Regex("(^|[^a-zA-Z0-9_])[@＠]([a-zA-Z0-9_]{1,20}/[a-zA-Z0-9_\-]{1,79}[a-zA-Z0-9_])", RegexOptions.Compiled)
+        'Dim m As Match = Regex.Match(retStr, "(^|[^a-zA-Z0-9_])[@＠]([a-zA-Z0-9_]{1,20}/[a-zA-Z0-9_\-]{1,79}[a-zA-Z0-9_])")
         '@先をリンクに置換
-        retStr = rg.Replace(retStr, "$1@<a href=""/$2"">$2</a>")
+        retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9_])[@＠]([a-zA-Z0-9_]{1,20}/[a-zA-Z0-9_\-]{1,79}[a-zA-Z0-9_])", "$1@<a href=""/$2"">$2</a>")
 
         'rg = New Regex("(^|[ -/:-@[-^`{-~])@([a-zA-Z0-9_]{1,20})")
-        rg = New Regex("(^|[^a-zA-Z0-9_])[@＠]([a-zA-Z0-9_]{1,20})", RegexOptions.Compiled)
-        m = rg.Match(retStr)
+        'rg = New Regex("(^|[^a-zA-Z0-9_])[@＠]([a-zA-Z0-9_]{1,20})", RegexOptions.Compiled)
+        Dim m As Match = Regex.Match(retStr, "(^|[^a-zA-Z0-9_])[@＠]([a-zA-Z0-9_]{1,20})")
         While m.Success
             AtList.Add(m.Result("$2").ToLower)
             m = m.NextMatch
         End While
         '@先をリンクに置換
-        retStr = rg.Replace(retStr, "$1@<a href=""/$2"">$2</a>")
+        retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9_])[@＠]([a-zA-Z0-9_]{1,20})", "$1@<a href=""/$2"">$2</a>")
 
         'ハッシュタグを抽出し、リンクに置換
         'Dim rgh As New Regex("(^|[ .!,\-:;<>?])#([^] !""#$%&'()*+,.:;<=>?@\-[\^`{|}~\r\n]+)")
-        Dim rgh As New Regex("(^|[^a-zA-Z0-9_/&])[#＃]([a-zA-Z0-9_]+)", RegexOptions.Compiled)
-        Dim mhs As MatchCollection = rgh.Matches(retStr)
+        'Dim rgh As New Regex("(^|[^a-zA-Z0-9_/&])[#＃]([a-zA-Z0-9_]+)", RegexOptions.Compiled)
+        Dim mhs As MatchCollection = Regex.Matches(retStr, "(^|[^a-zA-Z0-9_/&])[#＃]([a-zA-Z0-9_]+)")
         For Each mt As Match In mhs
             If Not IsNumeric(mt.Result("$2")) Then
                 'retStr = retStr.Replace(mt.Result("$1") + mt.Result("$2"), "<a href=""" + _protocol + "twitter.com/search?q=%23" + mt.Result("$2") + """>#" + mt.Result("$2") + "</a>")
@@ -3954,7 +3967,7 @@ Public Class Twitter
                 End SyncLock
             End If
         Next
-        retStr = rgh.Replace(retStr, New MatchEvaluator(AddressOf AutoLinkHashtag))
+        retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9_/&])[#＃]([a-zA-Z0-9_]+)", New MatchEvaluator(AddressOf AutoLinkHashtag))
 
         retStr = AdjustHtml(ShortUrlResolve(PreProcessUrl(retStr))) 'IDN置換、短縮Uri解決、@リンクを相対→絶対にしてtarget属性付与
         Return retStr

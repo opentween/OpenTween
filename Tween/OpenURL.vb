@@ -47,8 +47,8 @@ Public Class OpenURL
         UrlList.Items.Clear()
     End Sub
 
-    Public Sub AddUrl(ByVal strUrl As String)
-        UrlList.Items.Add(strUrl)
+    Public Sub AddUrl(ByVal openUrlItem As OpenUrlItem)
+        UrlList.Items.Add(openUrlItem)
     End Sub
 
     Public ReadOnly Property SelectedUrl() As String
@@ -82,4 +82,34 @@ Public Class OpenURL
         End If
         OK_Button_Click(sender, e)
     End Sub
+End Class
+
+Public Class OpenUrlItem
+    Private _url As String
+    Private _linkText As String
+
+    Public Sub New(ByVal linkText As String, ByVal url As String)
+        Me._linkText = linkText
+        Me._url = url
+    End Sub
+
+    Public ReadOnly Property Text() As String
+        Get
+            If Me._linkText.TrimEnd("/"c) = Me._url.TrimEnd("/"c) Then
+                Return Me._url
+            Else
+                Return Me._linkText + " (" + Me.Url + ")"
+            End If
+        End Get
+    End Property
+
+    Public ReadOnly Property Url() As String
+        Get
+            Return Me._url
+        End Get
+    End Property
+
+    Public Overrides Function ToString() As String
+        Return Me._url
+    End Function
 End Class
