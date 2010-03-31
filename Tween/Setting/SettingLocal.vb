@@ -65,7 +65,7 @@ Public Class SettingLocal
     Public ProxyUser As String = ""
     Public StatusMultiline As Boolean = False
     Public StatusTextHeight As Integer = 38
-    Public PreviewDistance As Integer = 50
+    Public PreviewDistance As Integer = -1
 
     <Xml.Serialization.XmlIgnore()> _
     Public FontUnread As New Font(SystemFonts.DefaultFont, FontStyle.Bold Or FontStyle.Underline)

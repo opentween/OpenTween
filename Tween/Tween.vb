@@ -845,6 +845,11 @@ Public Class TweenMain
         _mySpDis = _cfgLocal.SplitterDistance
         _mySpDis2 = _cfgLocal.StatusTextHeight
         _mySpDis3 = _cfgLocal.PreviewDistance
+        If _mySpDis3 = -1 Then
+            _mySpDis3 = _mySize.Width - 100
+            If _mySpDis3 < 1 Then _mySpDis3 = 50
+            _cfgLocal.PreviewDistance = _mySpDis3
+        End If
         MultiLineMenuItem.Checked = _cfgLocal.StatusMultiline
         'Me.Tween_ClientSizeChanged(Me, Nothing)
         PlaySoundMenuItem.Checked = SettingDialog.PlaySound
