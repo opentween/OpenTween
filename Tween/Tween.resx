@@ -223,7 +223,7 @@
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="StatusStrip1.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
+    <value>0</value>
   </data>
   <data name="StatusStrip1.Text" xml:space="preserve">
     <value>StatusStrip1</value>
@@ -655,7 +655,7 @@
     <value>299, 78</value>
   </data>
   <data name="PostBrowser.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>0</value>
   </data>
   <data name="&gt;&gt;PostBrowser.Name" xml:space="preserve">
     <value>PostBrowser</value>
@@ -724,7 +724,7 @@
     <value>17, 78</value>
   </data>
   <data name="PreviewScrollBar.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>0</value>
   </data>
   <data name="&gt;&gt;PreviewScrollBar.Name" xml:space="preserve">
     <value>PreviewScrollBar</value>
@@ -787,7 +787,7 @@
     <value>465, 105</value>
   </data>
   <data name="TableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>1</value>
   </data>
   <data name="&gt;&gt;TableLayoutPanel1.Name" xml:space="preserve">
     <value>TableLayoutPanel1</value>
@@ -850,7 +850,7 @@
     <value>377, 19</value>
   </data>
   <data name="StatusText.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="&gt;&gt;StatusText.Name" xml:space="preserve">
     <value>StatusText</value>
@@ -877,7 +877,7 @@
     <value>44, 21</value>
   </data>
   <data name="lblLen.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>1</value>
   </data>
   <data name="lblLen.Text" xml:space="preserve">
     <value>999</value>
@@ -910,7 +910,7 @@
     <value>44, 21</value>
   </data>
   <data name="PostButton.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>2</value>
   </data>
   <data name="PostButton.Text" xml:space="preserve">
     <value>Post</value>
@@ -991,7 +991,7 @@
     <value>2</value>
   </data>
   <data name="SplitContainer1.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="&gt;&gt;SplitContainer1.Name" xml:space="preserve">
     <value>SplitContainer1</value>

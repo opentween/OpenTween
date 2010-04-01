@@ -7729,7 +7729,6 @@ RETRY:
     End Property
 
 #Region "イメージプレビュー"
-    Private bgw As BackgroundWorker
     Private lckPrev As New Object
     Private _prev As PreviewData
     Private Class PreviewData
@@ -7777,12 +7776,12 @@ RETRY:
             PreviewPicture.Image = Nothing
             Me.SplitContainer3.Panel2Collapsed = True
         End If
-        SyncLock lckPrev
-            If _prev IsNot Nothing Then
-                _prev.Dispose()
-                _prev = Nothing
-            End If
-        End SyncLock
+        'SyncLock lckPrev
+        '    If _prev IsNot Nothing Then
+        '        _prev.Dispose()
+        '        _prev = Nothing
+        '    End If
+        'End SyncLock
 
         If links.Count = 0 Then
             Me.PreviewScrollBar.Maximum = 0
@@ -7919,6 +7918,7 @@ RETRY:
 
         're = New Regex("http://.*\.jpg.*|http://.*(\.jpg|\.jpeg|\.gif|\.png|\.bmp)|http://twitpic\.com/show/thumb/.*|http://TweetPhotoAPI\.com/api/TPAPI\.svc/imagefromurl.*", RegexOptions.IgnoreCase)
         'If re.IsMatch(imglist(0)) = True Then
+        Dim bgw As BackgroundWorker
         bgw = New BackgroundWorker()
         AddHandler bgw.DoWork, AddressOf bgw_DoWork
         AddHandler bgw.RunWorkerCompleted, AddressOf bgw_Completed
@@ -7936,16 +7936,23 @@ RETRY:
             arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, img))
         Next
         If arg.pics.Count = 0 Then
-            Exit Sub
+            e.Result = Nothing
+        Else
+            e.Result = arg
         End If
-        SyncLock lckPrev
-            _prev = arg
-        End SyncLock
     End Sub
 
     Private Sub bgw_Completed(ByVal sender As System.Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs)
+        If e.Result Is Nothing Then
+            Me.PreviewScrollBar.Maximum = 0
+            Me.PreviewScrollBar.Enabled = False
+            Me.SplitContainer3.Panel2Collapsed = True
+            Exit Sub
+        End If
+        Dim prv As PreviewData = DirectCast(e.Result, PreviewData)
         SyncLock lckPrev
-            If _prev IsNot Nothing AndAlso _curPost IsNot Nothing AndAlso _prev.statusId = _curPost.Id Then
+            If prv IsNot Nothing AndAlso _curPost IsNot Nothing AndAlso prv.statusId = _curPost.Id Then
+                _prev = prv
                 Me.SplitContainer3.Panel2Collapsed = False
                 Me.PreviewScrollBar.Maximum = _prev.pics.Count - 1
                 If Me.PreviewScrollBar.Maximum > 0 Then
@@ -7996,4 +8003,5 @@ RETRY:
             modifySettingLocal = True
         End If
     End Sub
+
 End Class
