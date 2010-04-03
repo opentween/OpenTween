@@ -7862,8 +7862,11 @@ RETRY:
             're = New Regex("^http://bctiny\.com/p(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
             mc = Regex.Match(url, "^http://bctiny\.com/p(\w+)$", RegexOptions.IgnoreCase)
             If mc.Success Then
-                imglist.Add(New KeyValuePair(Of String, String)(url, "http://images.bcphotoshare.com/storages/" + RadixConvert.ToInt32(mc.Result("${1}"), 32).ToString + "/thumb180.jpg"))
-                Continue For
+                Try
+                    imglist.Add(New KeyValuePair(Of String, String)(url, "http://images.bcphotoshare.com/storages/" + RadixConvert.ToInt32(mc.Result("${1}"), 32).ToString + "/thumb180.jpg"))
+                    Continue For
+                Catch ex As ArgumentOutOfRangeException
+                End Try
             End If
             'img.ly
             're = New Regex("^http://img\.ly/(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
