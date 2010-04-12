@@ -486,6 +486,7 @@ Partial Class TweenMain
         '
         Me.SplitContainer3.Panel2.Controls.Add(Me.PreviewPicture)
         Me.SplitContainer3.Panel2.Controls.Add(Me.PreviewScrollBar)
+        Me.SplitContainer3.Panel2Collapsed = True
         Me.SplitContainer3.TabStop = False
         '
         'SplitContainer2
