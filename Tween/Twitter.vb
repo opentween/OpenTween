@@ -132,7 +132,8 @@ Public Class Twitter
             "http://goo.gl/", _
             "http://ow.ly/", _
             "http://bkite.com/", _
-            "http://youtu.be/" _
+            "http://youtu.be/", _
+            "http://dlvr.it" _
         }
 
     Private Const _apiHost As String = "api."
