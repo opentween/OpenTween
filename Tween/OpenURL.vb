@@ -95,10 +95,13 @@ Public Class OpenUrlItem
 
     Public ReadOnly Property Text() As String
         Get
+            If Me._linkText.StartsWith("@") OrElse Me._linkText.StartsWith("＠") OrElse Me._linkText.StartsWith("#") OrElse Me._linkText.StartsWith("＃") Then
+                Return Me._linkText
+            End If
             If Me._linkText.TrimEnd("/"c) = Me._url.TrimEnd("/"c) Then
                 Return Me._url
             Else
-                Return Me._linkText + " (" + Me.Url + ")"
+                Return Me._linkText + "  >>>  " + Me.Url
             End If
         End Get
     End Property
