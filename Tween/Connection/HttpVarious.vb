@@ -27,6 +27,7 @@ Public Class HttpVarious
 
     Public Function GetImage(ByVal url As String) As Image
         Dim req As HttpWebRequest = CreateRequest(GetMethod, New Uri(url), Nothing, False)
+        req.Timeout = 5000
         Try
             Dim img As Bitmap = Nothing
             Dim ret As HttpStatusCode = GetResponse(req, img, Nothing, False)

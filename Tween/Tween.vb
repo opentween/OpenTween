@@ -846,7 +846,7 @@ Public Class TweenMain
         _mySpDis2 = _cfgLocal.StatusTextHeight
         _mySpDis3 = _cfgLocal.PreviewDistance
         If _mySpDis3 = -1 Then
-            _mySpDis3 = _mySize.Width - 100
+            _mySpDis3 = _mySize.Width - 150
             If _mySpDis3 < 1 Then _mySpDis3 = 50
             _cfgLocal.PreviewDistance = _mySpDis3
         End If
@@ -3379,7 +3379,7 @@ Public Class TweenMain
 
         Dim tmp As String = String.Format(My.Resources.RemoveSpecifiedTabText1, Environment.NewLine)
         If MessageBox.Show(tmp, My.Resources.RemoveSpecifiedTabText2, _
-                         MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
+                         MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.Cancel Then
             Return False
         End If
 
@@ -7903,6 +7903,11 @@ RETRY:
                 imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://i.ytimg.com/vi/${1}/default.jpg")))
                 Continue For
             End If
+            mc = Regex.Match(url, "^http://youtu\.be/([\w\-]+)", RegexOptions.IgnoreCase)
+            If mc.Success Then
+                imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://i.ytimg.com/vi/${1}/default.jpg")))
+                Continue For
+            End If
             'ニコニコ
             're = New Regex("^http://(?:www\.nicovideo\.jp/watch|nico\.ms)/(?:sm|nm)([0-9]+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
             mc = Regex.Match(url, "^http://(?:www\.nicovideo\.jp/watch|nico\.ms)/(?:sm|nm)([0-9]+)$", RegexOptions.IgnoreCase)
@@ -7992,13 +7997,13 @@ RETRY:
     End Sub
 #End Region
 
-    Private Sub DummyTextBox_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DummyTextBox.Enter
-        If Me.StatusText.Enabled Then
-            Me.StatusText.Focus()
-        Else
-            DirectCast(Me.ListTab.SelectedTab.Tag, Control).Focus()
-        End If
-    End Sub
+    'Private Sub DummyTextBox_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DummyTextBox.Enter
+    '    If Me.StatusText.Enabled Then
+    '        Me.StatusText.Focus()
+    '    Else
+    '        DirectCast(Me.ListTab.SelectedTab.Tag, Control).Focus()
+    '    End If
+    'End Sub
 
     Private Sub SplitContainer3_SplitterMoved(ByVal sender As System.Object, ByVal e As System.Windows.Forms.SplitterEventArgs) Handles SplitContainer3.SplitterMoved
         If Me.WindowState = FormWindowState.Normal AndAlso Not _initialLayout Then
