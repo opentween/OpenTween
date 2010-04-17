@@ -3378,7 +3378,7 @@ Public Class TweenMain
         If _statuses.IsDefaultTab(TabName) Then Return False
 
         Dim tmp As String = String.Format(My.Resources.RemoveSpecifiedTabText1, Environment.NewLine)
-        If MessageBox.Show(tmp, My.Resources.RemoveSpecifiedTabText2, _
+        If MessageBox.Show(tmp, TabName + " " + My.Resources.RemoveSpecifiedTabText2, _
                          MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.Cancel Then
             Return False
         End If
