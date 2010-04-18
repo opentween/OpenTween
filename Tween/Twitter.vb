@@ -2068,6 +2068,14 @@ Public Class Twitter
                     Return "Outputz:Failed"
                 End If
             Case HttpStatusCode.Forbidden
+                Dim xd As XmlDocument = New XmlDocument
+                Try
+                    xd.LoadXml(content)
+                    Dim xNode As XmlNode = Nothing
+                    xNode = xd.SelectSingleNode("/hash/error")
+                    Return "OK:" + xNode.InnerText
+                Catch ex As Exception
+                End Try
                 Return "Err:Update Limits?"
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
@@ -3912,6 +3920,120 @@ Public Class Twitter
             TraceOut(content)
             Return "Invalid XML!"
         End Try
+
+        Return ""
+
+    End Function
+
+    Public Function GetListsApi() As String
+        If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
+
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+        Dim cursor As Long = -1
+
+        Dim lists As New List(Of ListElement)
+        Do
+            Try
+                res = twCon.GetLists(Me.Username, cursor, content)
+            Catch ex As Exception
+                Return "Err:" + ex.Message
+            End Try
+
+            Select Case res
+                Case HttpStatusCode.OK
+                Case HttpStatusCode.Unauthorized
+                    Twitter.AccountState = ACCOUNT_STATE.Invalid
+                    Return "Check your Username/Password."
+                Case HttpStatusCode.BadRequest
+                    Return "Err:API Limits?"
+                Case Else
+                    Return "Err:" + res.ToString()
+            End Select
+
+            Dim xdoc As New XmlDocument
+            Try
+                xdoc.LoadXml(content)
+            Catch ex As Exception
+                TraceOut(content)
+                Return "Invalid XML!"
+            End Try
+
+            Try
+                For Each xentryNode As XmlNode In xdoc.DocumentElement.SelectNodes("/lists_list/lists/list")
+                    Dim xentry As XmlElement = CType(xentryNode, XmlElement)
+                    Dim lst As New ListElement
+                    lst.Description = xentry.Item("description").InnerText
+                    lst.Id = Long.Parse(xentry.Item("id").InnerText)
+                    lst.IsPublic = (xentry.Item("mode").InnerText = "public")
+                    lst.MemberCount = Integer.Parse(xentry.Item("member_count").InnerText)
+                    lst.Name = xentry.Item("name").InnerText
+                    lst.SubscriberCount = Integer.Parse(xentry.Item("subscriber_count").InnerText)
+                    lst.Slug = xentry.Item("slug").InnerText
+                    Dim xUserEntry As XmlElement = CType(xentry.SelectSingleNode("./user"), XmlElement)
+                    lst.Nickname = xUserEntry.Item("name").InnerText
+                    lst.Username = xUserEntry.Item("screen_name").InnerText
+                    lst.UserId = Long.Parse(xUserEntry.Item("id").InnerText)
+                    lists.Add(lst)
+                Next
+                cursor = Long.Parse(xdoc.DocumentElement.SelectSingleNode("/lists_list/next_cursor").InnerText)
+            Catch ex As Exception
+                TraceOut(content)
+                Return "Invalid XML!"
+            End Try
+        Loop While cursor <> 0
+
+        cursor = -1
+        content = ""
+        Do
+            Try
+                res = twCon.GetListsSubscriptions(Me.Username, cursor, content)
+            Catch ex As Exception
+                Return "Err:" + ex.Message
+            End Try
+
+            Select Case res
+                Case HttpStatusCode.OK
+                Case HttpStatusCode.Unauthorized
+                    Twitter.AccountState = ACCOUNT_STATE.Invalid
+                    Return "Check your Username/Password."
+                Case HttpStatusCode.BadRequest
+                    Return "Err:API Limits?"
+                Case Else
+                    Return "Err:" + res.ToString()
+            End Select
+
+            Dim xdoc As New XmlDocument
+            Try
+                xdoc.LoadXml(content)
+            Catch ex As Exception
+                TraceOut(content)
+                Return "Invalid XML!"
+            End Try
+
+            Try
+                For Each xentryNode As XmlNode In xdoc.DocumentElement.SelectNodes("/lists_list/lists/list")
+                    Dim xentry As XmlElement = CType(xentryNode, XmlElement)
+                    Dim lst As New ListElement
+                    lst.Description = xentry.Item("description").InnerText
+                    lst.Id = Long.Parse(xentry.Item("id").InnerText)
+                    lst.IsPublic = (xentry.Item("mode").InnerText = "public")
+                    lst.MemberCount = Integer.Parse(xentry.Item("member_count").InnerText)
+                    lst.Name = xentry.Item("name").InnerText
+                    lst.SubscriberCount = Integer.Parse(xentry.Item("subscriber_count").InnerText)
+                    lst.Slug = xentry.Item("slug").InnerText
+                    Dim xUserEntry As XmlElement = CType(xentry.SelectSingleNode("./user"), XmlElement)
+                    lst.Nickname = xUserEntry.Item("name").InnerText
+                    lst.Username = xUserEntry.Item("screen_name").InnerText
+                    lst.UserId = Long.Parse(xUserEntry.Item("id").InnerText)
+                    lists.Add(lst)
+                Next
+                cursor = Long.Parse(xdoc.DocumentElement.SelectSingleNode("/lists_list/next_cursor").InnerText)
+            Catch ex As Exception
+                TraceOut(content)
+                Return "Invalid XML!"
+            End Try
+        Loop While cursor <> 0
 
         Return ""
 

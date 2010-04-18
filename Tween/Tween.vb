@@ -1969,7 +1969,7 @@ Public Class TweenMain
                 bw.ReportProgress(200)
                 For i As Integer = 0 To 1
                     ret = tw.PostStatus(args.status, _reply_to_id)
-                    If ret = "" OrElse ret = "OK:Delaying?" OrElse ret.StartsWith("Outputz:") Then Exit For
+                    If ret = "" OrElse ret.StartsWith("OK:") OrElse ret.StartsWith("Outputz:") Then Exit For
                 Next
                 If ret = "" OrElse ret.StartsWith("Outputz") OrElse ret.StartsWith("OK:") Then
                     _reply_to_id = 0
@@ -2304,9 +2304,7 @@ Public Class TweenMain
                 urlUndoBuffer = Nothing
                 UrlUndoToolStripMenuItem.Enabled = False  'Undoをできないように設定
 
-                If rslt.retMsg.Length > 0 AndAlso Not rslt.retMsg.StartsWith("Outputz") AndAlso rslt.retMsg <> "OK:Delaying?" Then
-                    StatusLabel.Text = rslt.retMsg
-                Else
+                If rslt.retMsg = "" OrElse rslt.retMsg.StartsWith("Outputz") OrElse rslt.retMsg.StartsWith("OK:") Then
                     _postTimestamps.Add(Now)
                     Dim oneHour As Date = Now.Subtract(New TimeSpan(1, 0, 0))
                     For i As Integer = _postTimestamps.Count - 1 To 0 Step -1
@@ -2314,8 +2312,6 @@ Public Class TweenMain
                             _postTimestamps.RemoveAt(i)
                         End If
                     Next
-
-                    If rslt.retMsg.Length > 0 Then StatusLabel.Text = rslt.retMsg 'Outputz失敗時
 
                     StatusText.Text = ""
                     _history.Add("")
@@ -2325,6 +2321,7 @@ Public Class TweenMain
                         Me.HashStripSplitButton.Text = "#[-]"
                     End If
                     SetMainWindowTitle()
+                    rslt.retMsg = ""
                 End If
                 If rslt.retMsg.Length = 0 AndAlso SettingDialog.PostAndGet Then GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
             Case WORKERTYPE.Retweet

@@ -113,6 +113,12 @@
     <Compile Include="InputTabName.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ListAvailable.Designer.vb">
+      <DependentUpon>ListAvailable.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ListAvailable.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ListElement.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -219,6 +225,10 @@
     <EmbeddedResource Include="InputTabName.resx">
       <SubType>Designer</SubType>
       <DependentUpon>InputTabName.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListAvailable.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ListAvailable.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.en.resx">
       <SubType>Designer</SubType>
