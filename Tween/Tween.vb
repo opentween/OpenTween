@@ -2563,7 +2563,11 @@ Public Class TweenMain
             ReTweetOriginalStripMenuItem.Enabled = False
             QuoteStripMenuItem.Enabled = False
         Else
-            ReTweetStripMenuItem.Enabled = True
+            If _curPost.IsMe Then
+                ReTweetStripMenuItem.Enabled = False
+            Else
+                ReTweetStripMenuItem.Enabled = True
+            End If
             ReTweetOriginalStripMenuItem.Enabled = True
             QuoteStripMenuItem.Enabled = True
         End If
