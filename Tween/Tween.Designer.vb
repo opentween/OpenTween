@@ -569,7 +569,6 @@ Partial Class TweenMain
         Me.PostBrowser.MinimumSize = New System.Drawing.Size(20, 20)
         Me.PostBrowser.Name = "PostBrowser"
         Me.PostBrowser.TabStop = False
-        Me.PostBrowser.WebBrowserShortcutsEnabled = False
         '
         'ContextMenuStrip4
         '

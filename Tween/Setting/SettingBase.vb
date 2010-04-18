@@ -103,7 +103,8 @@ Public MustInherit Class SettingBase(Of T As {Class, New})
                 '検証エラー or 書き込みエラー
                 If cnt > 3 Then
                     'リトライオーバー
-                    Throw New System.InvalidOperationException("Can't write setting XML.(" + fileName + ")")
+                    MessageBox.Show("Can't write setting XML.(" + fileName + ")", "Save Settings", MessageBoxButtons.OK)
+                    'Throw New System.InvalidOperationException("Can't write setting XML.(" + fileName + ")")
                     Exit Sub
                 End If
                 'リトライ

@@ -169,6 +169,9 @@ Public Class HttpConnection
         Catch ex As WebException
             If ex.Status = WebExceptionStatus.ProtocolError Then
                 Dim res As HttpWebResponse = DirectCast(ex.Response, HttpWebResponse)
+                Using sr As StreamReader = New StreamReader(res.GetResponseStream)
+                    contentText = sr.ReadToEnd()
+                End Using
                 Return res.StatusCode
             End If
             Throw ex

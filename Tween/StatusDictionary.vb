@@ -367,6 +367,9 @@ Public NotInheritable Class TabInformations
 
     Private Shared _instance As TabInformations = New TabInformations
 
+    'List
+    Private _lists As New List(Of ListElement)
+
     Private Sub New()
         _sorter = New IdComparerClass()
     End Sub
@@ -374,6 +377,15 @@ Public NotInheritable Class TabInformations
     Public Shared Function GetInstance() As TabInformations
         Return _instance    'singleton
     End Function
+
+    Public Property SubscribableLists() As List(Of ListElement)
+        Get
+            Return _lists
+        End Get
+        Set(ByVal value As List(Of ListElement))
+            _lists = value
+        End Set
+    End Property
 
     Public Sub AddTab(ByVal TabName As String, ByVal TabType As TabUsageType)
         _tabs.Add(TabName, New TabClass(TabName, TabType))
@@ -1341,6 +1353,7 @@ Public NotInheritable Class TabClass
     Private _tabType As TabUsageType = TabUsageType.Undefined
     Private _posts As New Dictionary(Of Long, PostClass)
     Private _sorter As New IdComparerClass
+    Private _list As New ListElement
 
 #Region "検索"
     'Search query
@@ -1480,6 +1493,15 @@ Public NotInheritable Class TabClass
         Get
             Return _sorter
         End Get
+    End Property
+
+    Public Property FollowList() As ListElement
+        Get
+            Return _list
+        End Get
+        Set(ByVal value As ListElement)
+            _list = value
+        End Set
     End Property
 
     '無条件に追加
