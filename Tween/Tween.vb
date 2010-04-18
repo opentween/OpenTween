@@ -6850,6 +6850,7 @@ RETRY:
             RemoveContextMenuItem.Enabled = False
             FriendshipContextMenuItem.Enabled = False
             UseHashtagMenuItem.Enabled = False
+            IdFilterAddMenuItem.Enabled = False
         End If
         ' 文字列選択されていないときは選択文字列関係の項目を非表示に
         Dim _selText As String = PostBrowser_GetSelectionText()
