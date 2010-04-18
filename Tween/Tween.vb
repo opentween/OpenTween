@@ -2564,11 +2564,11 @@ Public Class TweenMain
             QuoteStripMenuItem.Enabled = False
         Else
             If _curPost.IsMe Then
-                ReTweetStripMenuItem.Enabled = False
+                ReTweetOriginalStripMenuItem.Enabled = False
             Else
-                ReTweetStripMenuItem.Enabled = True
+                ReTweetOriginalStripMenuItem.Enabled = True
             End If
-            ReTweetOriginalStripMenuItem.Enabled = True
+            ReTweetStripMenuItem.Enabled = True
             QuoteStripMenuItem.Enabled = True
         End If
         If _statuses.Tabs(ListTab.SelectedTab.Text).TabType <> TabUsageType.Favorites Then
