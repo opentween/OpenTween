@@ -6843,6 +6843,12 @@ RETRY:
                 RemoveContextMenuItem.Enabled = False
                 FriendshipContextMenuItem.Enabled = False
             End If
+            If Regex.IsMatch(PostBrowser.StatusText, "^https?://twitter.com/(?<name>[a-zA-Z0-9_]+)$") Then
+                IdFilterAddMenuItem.Enabled = True
+            Else
+                IdFilterAddMenuItem.Enabled = False
+            End If
+
             If Regex.IsMatch(PostBrowser.StatusText, "^https?://twitter.com/search\?q=%23") Then
                 UseHashtagMenuItem.Enabled = True
             Else
