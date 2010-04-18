@@ -7718,7 +7718,11 @@ RETRY:
             Me.RtUnOpMenuItem.Enabled = False
             Me.QtOpMenuItem.Enabled = False
         Else
-            Me.RtOpMenuItem.Enabled = True
+            If _curPost.IsMe Then
+                Me.RtOpMenuItem.Enabled = False
+            Else
+                Me.RtOpMenuItem.Enabled = True
+            End If
             Me.RtUnOpMenuItem.Enabled = True
             Me.QtOpMenuItem.Enabled = True
         End If
