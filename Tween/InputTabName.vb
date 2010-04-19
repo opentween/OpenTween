@@ -74,8 +74,9 @@ Public Class InputTabName
     Private Sub InputTabName_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         Me.LabelUsage.Visible = False
         Me.ComboUsage.Visible = False
-        Me.ComboUsage.Items.Add(My.Resources.InputTabName_Load1)
+        Me.ComboUsage.Items.Add("Lists")
         Me.ComboUsage.Items.Add("PublicSearch")
+        Me.ComboUsage.Items.Add(My.Resources.InputTabName_Load1)
         Me.ComboUsage.SelectedIndex = 0
     End Sub
 
@@ -90,9 +91,11 @@ Public Class InputTabName
     Private Sub ComboUsage_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboUsage.SelectedIndexChanged
         Select Case ComboUsage.SelectedIndex
             Case 0
-                _usage = TabUsageType.UserDefined
+                _usage = TabUsageType.Lists
             Case 1
                 _usage = TabUsageType.PublicSearch
+            Case 2
+                _usage = TabUsageType.UserDefined
             Case Else
                 _usage = TabUsageType.Undefined
         End Select
