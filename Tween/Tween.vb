@@ -196,6 +196,7 @@ Public Class TweenMain
     'Private _favCounter As Integer = 0
     Private _pubSearchCounter As Integer = 0
     '''''''''''''''''''''''''''''''''''''''''''''''''''''
+    Private _postBrowserStatusText As String = ""
 #If DEBUG Then
     Private _drawcount As Long = 0
     Private _drawtime As Long = 0
@@ -1969,12 +1970,16 @@ Public Class TweenMain
                 bw.ReportProgress(200)
                 For i As Integer = 0 To 1
                     ret = tw.PostStatus(args.status, _reply_to_id)
-                    If ret = "" OrElse ret.StartsWith("OK:") OrElse ret.StartsWith("Outputz:") Then Exit For
+                    If ret = "" OrElse _
+                       ret.StartsWith("OK:") OrElse _
+                       ret.StartsWith("Outputz:") OrElse _
+                       args.status.StartsWith("D", StringComparison.OrdinalIgnoreCase) OrElse _
+                       args.status.StartsWith("DM", StringComparison.OrdinalIgnoreCase) Then
+                        _reply_to_id = 0
+                        _reply_to_name = ""
+                        Exit For
+                    End If
                 Next
-                If ret = "" OrElse ret.StartsWith("Outputz") OrElse ret.StartsWith("OK:") Then
-                    _reply_to_id = 0
-                    _reply_to_name = ""
-                End If
                 bw.ReportProgress(300)
             Case WORKERTYPE.Retweet
                 bw.ReportProgress(200)
@@ -6820,7 +6825,7 @@ RETRY:
         'URLをコピー
         'If PostBrowser.StatusText.StartsWith("http") Then   '念のため
         Try
-            Clipboard.SetDataObject(PostBrowser.StatusText, False, 5, 100)
+            Clipboard.SetDataObject(Me._postBrowserStatusText, False, 5, 100)
         Catch ex As Exception
             MessageBox.Show(ex.Message)
         End Try
@@ -6830,6 +6835,7 @@ RETRY:
     Private Sub ContextMenuStrip4_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip4.Opening
         ' URLコピーの項目の表示/非表示
         If PostBrowser.StatusText.StartsWith("http") Then
+            Me._postBrowserStatusText = PostBrowser.StatusText
             ToolStripMenuItem4.Enabled = True
             If Regex.IsMatch(PostBrowser.StatusText, "^https?://twitter.com/[a-zA-Z0-9_]+$") Then
                 FollowContextMenuItem.Enabled = True
@@ -6852,6 +6858,7 @@ RETRY:
                 UseHashtagMenuItem.Enabled = False
             End If
         Else
+            Me._postBrowserStatusText = ""
             ToolStripMenuItem4.Enabled = False
             FollowContextMenuItem.Enabled = False
             RemoveContextMenuItem.Enabled = False
@@ -7443,21 +7450,21 @@ RETRY:
     End Sub
 
     Private Sub FollowContextMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FollowContextMenuItem.Click
-        Dim m As Match = Regex.Match(PostBrowser.StatusText, "^https?://twitter.com/(?<name>[a-zA-Z0-9_]+)$")
+        Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(?<name>[a-zA-Z0-9_]+)$")
         If m.Success Then
             FollowCommand(m.Result("${name}"))
         End If
     End Sub
 
     Private Sub RemoveContextMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RemoveContextMenuItem.Click
-        Dim m As Match = Regex.Match(PostBrowser.StatusText, "^https?://twitter.com/(?<name>[a-zA-Z0-9_]+)$")
+        Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(?<name>[a-zA-Z0-9_]+)$")
         If m.Success Then
             RemoveCommand(m.Result("${name}"))
         End If
     End Sub
 
     Private Sub FriendshipContextMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FriendshipContextMenuItem.Click
-        Dim m As Match = Regex.Match(PostBrowser.StatusText, "^https?://twitter.com/(?<name>[a-zA-Z0-9_]+)$")
+        Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(?<name>[a-zA-Z0-9_]+)$")
         If m.Success Then
             ShowFriendship(m.Result("${name}"))
         End If
@@ -7567,7 +7574,7 @@ RETRY:
     End Sub
 
     Private Sub IdFilterAddMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles IdFilterAddMenuItem.Click
-        Dim m As Match = Regex.Match(PostBrowser.StatusText, "^https?://twitter.com/(?<name>[a-zA-Z0-9_]+)$")
+        Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(?<name>[a-zA-Z0-9_]+)$")
         If m.Success Then
             Dim tabName As String = ""
 
@@ -7639,7 +7646,7 @@ RETRY:
     End Sub
 
     Private Sub UseHashtagMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UseHashtagMenuItem.Click
-        Dim m As Match = Regex.Match(PostBrowser.StatusText, "^https?://twitter.com/search\?q=%23(?<hash>[a-zA-Z0-9_]+)$")
+        Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/search\?q=%23(?<hash>[a-zA-Z0-9_]+)$")
         If m.Success Then
             HashMgr.SetPermanentHash("#" + m.Result("${hash}"))
             HashStripSplitButton.Text = HashMgr.UseHash
