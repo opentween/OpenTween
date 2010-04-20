@@ -6836,23 +6836,21 @@ RETRY:
         ' URLコピーの項目の表示/非表示
         If PostBrowser.StatusText.StartsWith("http") Then
             Me._postBrowserStatusText = PostBrowser.StatusText
+            Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(?<name>[a-zA-Z0-9_]+)$")
             ToolStripMenuItem4.Enabled = True
-            If Regex.IsMatch(PostBrowser.StatusText, "^https?://twitter.com/[a-zA-Z0-9_]+$") Then
+            If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
                 FollowContextMenuItem.Enabled = True
                 RemoveContextMenuItem.Enabled = True
                 FriendshipContextMenuItem.Enabled = True
+                IdFilterAddMenuItem.Enabled = True
             Else
                 FollowContextMenuItem.Enabled = False
                 RemoveContextMenuItem.Enabled = False
                 FriendshipContextMenuItem.Enabled = False
-            End If
-            If Regex.IsMatch(PostBrowser.StatusText, "^https?://twitter.com/(?<name>[a-zA-Z0-9_]+)$") Then
-                IdFilterAddMenuItem.Enabled = True
-            Else
                 IdFilterAddMenuItem.Enabled = False
             End If
 
-            If Regex.IsMatch(PostBrowser.StatusText, "^https?://twitter.com/search\?q=%23") Then
+            If Regex.IsMatch(Me._postBrowserStatusText, "^https?://twitter.com/search\?q=%23") Then
                 UseHashtagMenuItem.Enabled = True
             Else
                 UseHashtagMenuItem.Enabled = False
@@ -7449,23 +7447,31 @@ RETRY:
                         "Bio : " + bio, "Your status")
     End Sub
 
+    ' TwitterIDでない固定文字列を調べる（文字列検証のみ　実際に取得はしない）
+    ' URLから切り出した文字列を渡す
+
+    Private Function IsTwitterId(ByVal name As String) As Boolean
+        Dim m As Match = Regex.Match(name, "^(about|jobs|tos|privacy)$")
+        Return Not m.Success
+    End Function
+
     Private Sub FollowContextMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FollowContextMenuItem.Click
         Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(?<name>[a-zA-Z0-9_]+)$")
-        If m.Success Then
+        If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
             FollowCommand(m.Result("${name}"))
         End If
     End Sub
 
     Private Sub RemoveContextMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RemoveContextMenuItem.Click
         Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(?<name>[a-zA-Z0-9_]+)$")
-        If m.Success Then
+        If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
             RemoveCommand(m.Result("${name}"))
         End If
     End Sub
 
     Private Sub FriendshipContextMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FriendshipContextMenuItem.Click
         Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(?<name>[a-zA-Z0-9_]+)$")
-        If m.Success Then
+        If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
             ShowFriendship(m.Result("${name}"))
         End If
     End Sub
@@ -7575,7 +7581,7 @@ RETRY:
 
     Private Sub IdFilterAddMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles IdFilterAddMenuItem.Click
         Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(?<name>[a-zA-Z0-9_]+)$")
-        If m.Success Then
+        If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
             Dim tabName As String = ""
 
             '未選択なら処理終了
