@@ -2180,7 +2180,7 @@ Public Class TweenMain
 
         If _endingFlag OrElse e.Cancelled Then Exit Sub 'キャンセル
 
-        IsNetworkAvailable()
+        'IsNetworkAvailable()
 
         'If _myStatusOnline Then
         '    'タイマー再始動
