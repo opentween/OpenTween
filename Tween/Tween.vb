@@ -7727,7 +7727,7 @@ RETRY:
             Else
                 Me.RtOpMenuItem.Enabled = True
             End If
-            If _curPost.IsProtect = True Then
+            If _curPost.IsProtect = True AndAlso SettingDialog.ProtectNotInclude Then
                 Me.RtOpMenuItem.Enabled = False
                 Me.RtUnOpMenuItem.Enabled = False
                 Me.QtOpMenuItem.Enabled = False
