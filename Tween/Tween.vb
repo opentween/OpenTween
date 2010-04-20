@@ -8031,4 +8031,11 @@ RETRY:
         End If
     End Sub
 
+    Private Sub MenuItemEdit_DropDownOpening(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemEdit.DropDownOpening
+        If _statuses.RemovedTab Is Nothing Then
+            UndoRemoveTabMenuItem.Enabled = False
+        Else
+            UndoRemoveTabMenuItem.Enabled = True
+        End If
+    End Sub
 End Class
