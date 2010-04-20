@@ -7722,11 +7722,6 @@ RETRY:
             Me.RtUnOpMenuItem.Enabled = False
             Me.QtOpMenuItem.Enabled = False
         Else
-            If _curPost.IsMe Then
-                Me.RtOpMenuItem.Enabled = False
-            Else
-                Me.RtOpMenuItem.Enabled = True
-            End If
             If _curPost.IsProtect = True AndAlso SettingDialog.ProtectNotInclude Then
                 Me.RtOpMenuItem.Enabled = False
                 Me.RtUnOpMenuItem.Enabled = False
@@ -7735,6 +7730,11 @@ RETRY:
                 Me.RtOpMenuItem.Enabled = True
                 Me.RtUnOpMenuItem.Enabled = True
                 Me.QtOpMenuItem.Enabled = True
+            End If
+            If _curPost.IsMe Then
+                Me.RtOpMenuItem.Enabled = False
+            Else
+                Me.RtOpMenuItem.Enabled = True
             End If
         End If
         If _statuses.Tabs(ListTab.SelectedTab.Text).TabType <> TabUsageType.Favorites Then
