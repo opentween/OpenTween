@@ -1666,9 +1666,6 @@ Public Class TweenMain
         ElseIf TargetPost.IsMe Then
             '自分=発言者
             cl = _clSelf
-        ElseIf TargetPost.Name.Equals(BasePost.Name, StringComparison.OrdinalIgnoreCase) Then
-            '発言者
-            cl = _clTarget
         ElseIf TargetPost.IsReply Then
             '自分宛返信
             cl = _clAtSelf
@@ -1678,6 +1675,9 @@ Public Class TweenMain
         ElseIf TargetPost.ReplyToList.Contains(BasePost.Name.ToLower()) Then
             'その人への返信
             cl = _clAtTarget
+        ElseIf TargetPost.Name.Equals(BasePost.Name, StringComparison.OrdinalIgnoreCase) Then
+            '発言者
+            cl = _clTarget
         Else
             'その他
             'cl = System.Drawing.SystemColors.Window
