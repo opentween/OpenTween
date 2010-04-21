@@ -7955,14 +7955,13 @@ RETRY:
             'サムネイルURLは画像ページから抽出する
             mc = Regex.Match(url, "^http://www\.pixiv\.net/(member_illust|index)\.php\?mode=medium&illust_id=([0-9]+)$", RegexOptions.IgnoreCase)
             If mc.Success Then
-                Dim wc As New System.Net.WebClient()
-                wc.Encoding = Encoding.UTF8
-                Dim src As String = wc.DownloadString(mc.Groups(0).Value)
-                Dim _mc As Match = Regex.Match(src, mc.Result("http://img([0-9]+)\.pixiv\.net/img/.+/${2}_s\.([a-zA-Z]+)"))
-                If _mc.Success Then
-                    imglist.Add(New KeyValuePair(Of String, String)(url, _mc.Value))
+                Dim src As String = ""
+                If (New HttpVarious).GetData(mc.Groups(0).Value, Nothing, src) Then
+                    Dim _mc As Match = Regex.Match(src, mc.Result("http://img([0-9]+)\.pixiv\.net/img/.+/${2}_s\.([a-zA-Z]+)"))
+                    If _mc.Success Then
+                        imglist.Add(New KeyValuePair(Of String, String)(url, _mc.Value))
+                    End If
                 End If
-                wc.Dispose()
                 Continue For
             End If
         Next
