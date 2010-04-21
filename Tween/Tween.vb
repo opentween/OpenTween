@@ -7959,8 +7959,9 @@ RETRY:
                 wc.Encoding = Encoding.UTF8
                 Dim src As String = wc.DownloadString(mc.Groups(0).Value)
                 Dim _mc As Match = Regex.Match(src, mc.Result("http://img([0-9]+)\.pixiv\.net/img/.+/${2}_s\.([a-zA-Z]+)"))
-
-                imglist.Add(New KeyValuePair(Of String, String)(url, _mc.Value))
+                If _mc.Success Then
+                    imglist.Add(New KeyValuePair(Of String, String)(url, _mc.Value))
+                End If
                 wc.Dispose()
                 Continue For
             End If
