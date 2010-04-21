@@ -7947,6 +7947,23 @@ RETRY:
                 imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://tn-skr.smilevideo.jp/smile?i=${1}")))
                 Continue For
             End If
+            'pixiv
+            '参考: http://tail.s68.xrea.com/blog/2009/02/pixivflash.html Pixivの画像をFlashとかで取得する方法など:しっぽのブログ
+            'ユーザー向けの画像ページ http://www.pixiv.net/member_illust.php?mode=medium&illust_id=[ID番号]
+            '非ログインユーザー向けの画像ページ http://www.pixiv.net/index.php?mode=medium&illust_id=[ID番号]
+            'サムネイルURL http://img[サーバー番号].pixiv.net/img/[ユーザー名]/[サムネイルID]_s.[拡張子]
+            'サムネイルURLは画像ページから抽出する
+            mc = Regex.Match(url, "^http://www\.pixiv\.net/(member_illust|index)\.php\?mode=medium&illust_id=([0-9]+)$", RegexOptions.IgnoreCase)
+            If mc.Success Then
+                Dim wc As New System.Net.WebClient()
+                wc.Encoding = Encoding.UTF8
+                Dim src As String = wc.DownloadString(mc.Groups(0).Value)
+                Dim _mc As Match = Regex.Match(src, mc.Result("http://img([0-9]+)\.pixiv\.net/img/.+/${2}_s\.([a-zA-Z]+)"))
+
+                imglist.Add(New KeyValuePair(Of String, String)(url, _mc.Value))
+                wc.Dispose()
+                Continue For
+            End If
         Next
 
         If imglist.Count = 0 Then
@@ -7971,7 +7988,7 @@ RETRY:
         Dim arg As PreviewData = DirectCast(e.Argument, PreviewData)
         For Each url As KeyValuePair(Of String, String) In arg.urls
             Dim http As New HttpVarious
-            Dim img As Image = http.GetImage(url.Value)
+            Dim img As Image = http.GetImage(url.Value, url.Key)
             If img Is Nothing Then Continue For
             arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, img))
         Next

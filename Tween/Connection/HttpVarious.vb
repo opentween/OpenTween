@@ -25,8 +25,22 @@ Public Class HttpVarious
         End Try
     End Function
 
-    Public Function GetImage(ByVal url As String) As Image
+    Public Overloads Function GetImage(ByVal url As String) As Image
         Dim req As HttpWebRequest = CreateRequest(GetMethod, New Uri(url), Nothing, False)
+        req.Timeout = 5000
+        Try
+            Dim img As Bitmap = Nothing
+            Dim ret As HttpStatusCode = GetResponse(req, img, Nothing, False)
+            If ret = HttpStatusCode.OK Then Return img
+            Return Nothing
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+
+    Public Overloads Function GetImage(ByVal url As String, ByVal referer As String) As Image
+        Dim req As HttpWebRequest = CreateRequest(GetMethod, New Uri(url), Nothing, False)
+        req.Referer = referer
         req.Timeout = 5000
         Try
             Dim img As Bitmap = Nothing
