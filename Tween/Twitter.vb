@@ -134,7 +134,8 @@ Public Class Twitter
             "http://bkite.com/", _
             "http://youtu.be/", _
             "http://dlvr.it/", _
-            "http://p.tl/" _
+            "http://p.tl/", _
+            "http://flic.kr/" _
         }
 
     Private Const _apiHost As String = "api."
