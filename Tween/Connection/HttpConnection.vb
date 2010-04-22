@@ -430,7 +430,7 @@ Public Class HttpConnection
             Case proxyType.IE
                 'IE設定（システム設定）はデフォルト値なので処理しない
         End Select
-        proxyType = proxyType
+        proxyKind = proxyType
     End Sub
 
 End Class
