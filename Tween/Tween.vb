@@ -7964,6 +7964,23 @@ RETRY:
                 End If
                 Continue For
             End If
+            'flickr
+            '参考: http://tanarky.blogspot.com/2010/03/flickr-urlunavailable.html アグレッシブエンジニア: flickr の画像URL仕様についてまとめ(Unavailable画像)
+            '画像URL仕様　http://farm{farm}.static.flickr.com/{server}/{id}_{secret}_{size}.{extension} 
+            'photostreamなど複数の画像がある場合先頭の一つのみ認識と言うことにする
+            '(二つ目のキャプチャ 一つ目の画像はユーザーアイコン）
+            mc = Regex.Match(url, "^http://www.flickr.com/", RegexOptions.IgnoreCase)
+            If mc.Success Then
+                Dim src As String = ""
+                If (New HttpVarious).GetData(url, Nothing, src) Then
+                    Dim _mc As MatchCollection = Regex.Matches(src, mc.Result("http://farm[0-9]+\.static\.flickr\.com/[0-9]+/.+\.([a-zA-Z]+)"))
+                    '二つ以上キャプチャした場合先頭の一つだけ 一つだけの場合はユーザーアイコンしか取れなかった
+                    If _mc.Count > 1 Then
+                        imglist.Add(New KeyValuePair(Of String, String)(url, _mc.Item(1).Value))
+                    End If
+                End If
+                Continue For
+            End If
         Next
 
         If imglist.Count = 0 Then
