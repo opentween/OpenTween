@@ -7843,7 +7843,7 @@ RETRY:
             End If
             'twitpic
             're = New Regex("^http://twitpic\.com/(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
-            mc = Regex.Match(url, "^http://twitpic\.com/(\w+)$", RegexOptions.IgnoreCase)
+            mc = Regex.Match(url, "^http://twitpic\.com/(\w+)(/full/?)?$", RegexOptions.IgnoreCase)
             If mc.Success Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://twitpic.com/show/thumb/${1}")))
                 Continue For
