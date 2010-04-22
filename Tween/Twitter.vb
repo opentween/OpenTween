@@ -4058,7 +4058,7 @@ Public Class Twitter
         Const rgUrl As String = "(?<before>(?:[^\/""':!=]|^|\:))" + _
                                     "(?<url>(?<protocol>https?://|www\.)" + _
                                     "(?<domain>(?:[\.-]|[^\p{P}])+\.[a-z]{2,}(?::[0-9]+)?)" + _
-                                    "(?<path>/[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9)=#/]?)?" + _
+                                    "(?<path>/[a-z0-9!*'();:&=+$/%#\[\]\-_.,~@]*[a-z0-9)=#/]?)?" + _
                                     "(?<query>\?[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9_&=#])?)"
         '絶対パス表現のUriをリンクに置換
         retStr = Regex.Replace(Text, rgUrl, New MatchEvaluator(AddressOf AutoLinkUrl), RegexOptions.IgnoreCase)
