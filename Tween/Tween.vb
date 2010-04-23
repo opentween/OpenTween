@@ -7953,8 +7953,8 @@ RETRY:
             '非ログインユーザー向けの画像ページ http://www.pixiv.net/index.php?mode=medium&illust_id=[ID番号]
             'サムネイルURL http://img[サーバー番号].pixiv.net/img/[ユーザー名]/[サムネイルID]_s.[拡張子]
             'サムネイルURLは画像ページから抽出する
-            mc = Regex.Match(url, "^http://www\.pixiv\.net/(member_illust|index)\.php\?mode=(medium|big)&(amp;)?illust_id=(?<illustId>[0-9]+)(&(amp;)?tag=.+)*$", RegexOptions.IgnoreCase)
-            If mc.Success Then
+            mc = Regex.Match(url, "^http://www\.pixiv\.net/(member_illust|index)\.php\?mode=(medium|big)&(amp;)?illust_id=(?<illustId>[0-9]+)(&(amp;)?tag=(?<tag>.+))*$", RegexOptions.IgnoreCase)
+            If Not mc.Groups("tag").Value = "R-18" AndAlso mc.Success Then
                 Dim src As String = ""
                 If (New HttpVarious).GetData(Regex.Replace(mc.Groups(0).Value, "amp;", ""), Nothing, src) Then
                     Dim _mc As Match = Regex.Match(src, mc.Result("http://img([0-9]+)\.pixiv\.net/img/.+/${illustId}_s\.([a-zA-Z]+)"))
