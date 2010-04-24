@@ -4272,6 +4272,11 @@ RETRY:
             sb.AppendFormat("(PlainText)    : <xmp>{0}</xmp><br>", _curPost.OriginalData)
             sb.AppendFormat("PDate          : {0}<br>", _curPost.PDate.ToString)
             sb.AppendFormat("Source         : {0}<br>", _curPost.Source)
+            sb.AppendFormat("Uid            : {0}<br>", _curPost.Uid)
+            sb.AppendFormat("FilterHit      : {0}<br>", _curPost.FilterHit)
+            sb.AppendFormat("RetweetedBy    : {0}<br>", _curPost.RetweetedBy)
+            sb.AppendFormat("RetweetedId    : {0}<br>", _curPost.RetweetedId)
+            sb.AppendFormat("SearchTabName  : {0}<br>", _curPost.SearchTabName)
             sb.Append("-----End PostClass Dump<br>")
 
             PostBrowser.Visible = False
