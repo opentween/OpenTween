@@ -7959,7 +7959,7 @@ RETRY:
                 If (New HttpVarious).GetData(Regex.Replace(mc.Groups(0).Value, "amp;", ""), Nothing, src, 5000) Then
                     Dim _mc As Match = Regex.Match(src, mc.Result("http://img([0-9]+)\.pixiv\.net/img/.+/${illustId}_s\.([a-zA-Z]+)"))
                     If _mc.Success Then
-                        imglist.Add(New KeyValuePair(Of String, String)(url, _mc.Value))
+                        imglist.Add(New KeyValuePair(Of String, String)(url.Replace("amp;", ""), _mc.Value))
                     End If
                 End If
                 Continue For
