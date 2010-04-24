@@ -195,6 +195,10 @@ Public Class TweenMain
     Private _dmCounter As Integer = 0
     'Private _favCounter As Integer = 0
     Private _pubSearchCounter As Integer = 0
+
+    Private UnreadCounter As Integer = -1
+    Private UnreadAtCounter As Integer = -1
+
     '''''''''''''''''''''''''''''''''''''''''''''''''''''
     Private _postBrowserStatusText As String = ""
 #If DEBUG Then
@@ -6240,6 +6244,8 @@ RETRY:
             Exit Sub
         End Try
 
+        UnreadCounter = tur
+        UnreadAtCounter = urat
         If tw.RemainCountApi > -1 Then
             slbl.Append("[API: " + tw.RemainCountApi.ToString + "] ")
         End If
@@ -6255,11 +6261,22 @@ RETRY:
 
     Private Sub SetNotifyIconText()
         ' タスクトレイアイコンのツールチップテキスト書き換え
+        ' Tween [未読/@]
+        Static ur As New StringBuilder(64)
+        ur.Remove(0, ur.Length)
         If SettingDialog.DispUsername Then
-            NotifyIcon1.Text = tw.Username + " - Tween"
-        Else
-            NotifyIcon1.Text = "Tween"
+            ur.Append(tw.Username)
+            ur.Append(" - ")
         End If
+        ur.Append("Tween")
+        If UnreadCounter <> -1 AndAlso UnreadAtCounter <> -1 Then
+            ur.Append(" [")
+            ur.Append(UnreadCounter)
+            ur.Append("/@")
+            ur.Append(UnreadAtCounter)
+            ur.Append("]")
+        End If
+        NotifyIcon1.Text = ur.ToString()
     End Sub
 
     Friend Sub CheckReplyTo(ByVal StatusText As String)
@@ -8084,5 +8101,9 @@ RETRY:
         Else
             UndoRemoveTabMenuItem.Enabled = True
         End If
+    End Sub
+
+    Private Sub NotifyIcon1_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles NotifyIcon1.MouseMove
+        SetNotifyIconText()
     End Sub
 End Class
