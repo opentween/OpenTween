@@ -7956,7 +7956,7 @@ RETRY:
             mc = Regex.Match(url, "^http://www\.pixiv\.net/(member_illust|index)\.php\?mode=(medium|big)&(amp;)?illust_id=(?<illustId>[0-9]+)(&(amp;)?tag=(?<tag>.+))*$", RegexOptions.IgnoreCase)
             If Not mc.Groups("tag").Value = "R-18" AndAlso mc.Success Then
                 Dim src As String = ""
-                If (New HttpVarious).GetData(Regex.Replace(mc.Groups(0).Value, "amp;", ""), Nothing, src) Then
+                If (New HttpVarious).GetData(Regex.Replace(mc.Groups(0).Value, "amp;", ""), Nothing, src, 5000) Then
                     Dim _mc As Match = Regex.Match(src, mc.Result("http://img([0-9]+)\.pixiv\.net/img/.+/${illustId}_s\.([a-zA-Z]+)"))
                     If _mc.Success Then
                         imglist.Add(New KeyValuePair(Of String, String)(url, _mc.Value))
@@ -7972,7 +7972,7 @@ RETRY:
             mc = Regex.Match(url, "^http://www.flickr.com/", RegexOptions.IgnoreCase)
             If mc.Success Then
                 Dim src As String = ""
-                If (New HttpVarious).GetData(url, Nothing, src) Then
+                If (New HttpVarious).GetData(url, Nothing, src, 5000) Then
                     Dim _mc As MatchCollection = Regex.Matches(src, mc.Result("http://farm[0-9]+\.static\.flickr\.com/[0-9]+/.+\.([a-zA-Z]+)"))
                     '二つ以上キャプチャした場合先頭の一つだけ 一つだけの場合はユーザーアイコンしか取れなかった
                     If _mc.Count > 1 Then
