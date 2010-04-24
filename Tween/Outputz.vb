@@ -27,9 +27,7 @@ Imports System.Collections.Generic
 
 Public Class Outputz
     Private Shared myOuturl As String
-    Private Shared myOuturlEncoded As String
     Private Shared myApikey As String
-    Private Shared myApikeyEncoded As String
 
     Private Shared state As Boolean
 
@@ -39,7 +37,6 @@ Public Class Outputz
         End Get
         Set(ByVal value As String)
             myOuturl = value
-            myOuturlEncoded = HttpUtility.UrlEncode(value)
         End Set
     End Property
 
@@ -49,7 +46,6 @@ Public Class Outputz
         End Get
         Set(ByVal value As String)
             myApikey = value
-            myApikeyEncoded = HttpUtility.UrlEncode(value)
         End Set
     End Property
 
@@ -69,8 +65,8 @@ Public Class Outputz
         Dim content As String = ""
         Dim output As String = "http://outputz.com/api/post"
         Dim param As New Dictionary(Of String, String)
-        param.Add("key", myApikeyEncoded)
-        param.Add("uri", myOuturlEncoded)
+        param.Add("key", myApikey)
+        param.Add("uri", myOuturl)
         param.Add("size", length.ToString)
 
         Return (New HttpVarious).PostData(output, param)
