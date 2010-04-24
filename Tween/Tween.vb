@@ -2589,6 +2589,11 @@ Public Class TweenMain
         Else
             RepliedStatusOpenMenuItem.Enabled = True
         End If
+        If _curPost.RetweetedBy = "" Then
+            MoveToRTHomeMenuItem.Enabled = False
+        Else
+            MoveToRTHomeMenuItem.Enabled = True
+        End If
     End Sub
 
     Private Sub ReplyStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReplyStripMenuItem.Click, ReplyOpMenuItem.Click
