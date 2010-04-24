@@ -7568,6 +7568,8 @@ RETRY:
             Dim idx As Integer = DirectCast(pnl.Controls("comboSearch"), ComboBox).Items.IndexOf(tb.SearchWords)
             If idx > -1 Then DirectCast(pnl.Controls("comboSearch"), ComboBox).Items.RemoveAt(idx)
             DirectCast(pnl.Controls("comboSearch"), ComboBox).Items.Insert(0, tb.SearchWords)
+            cmb.Text = tb.SearchWords
+            cmb.SelectAll()
             Dim lst As DetailsListView = DirectCast(pnl.Parent.Tag, DetailsListView)
             lst.VirtualListSize = 0
             lst.Items.Clear()
