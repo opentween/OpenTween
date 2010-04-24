@@ -2584,6 +2584,11 @@ Public Class TweenMain
         Else
             RefreshMoreStripMenuItem.Enabled = False
         End If
+        If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.PublicSearch OrElse Not _curPost.IsReply Then
+            RepliedStatusOpenMenuItem.Enabled = False
+        Else
+            RepliedStatusOpenMenuItem.Enabled = True
+        End If
     End Sub
 
     Private Sub ReplyStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReplyStripMenuItem.Click, ReplyOpMenuItem.Click
