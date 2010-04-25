@@ -221,7 +221,7 @@ Public Class HashtagManage
 
         UseHashText.Text = hashStr
         Dim idx As Integer = 0
-        If Not Me._isAdd Then
+        If Not Me._isAdd AndAlso Me.HistoryHashList.SelectedIndices.Count > 0 Then
             idx = Me.HistoryHashList.SelectedIndices(0)
             Me.HistoryHashList.Items.RemoveAt(idx)
             Me.HistoryHashList.SelectedIndices.Clear()
@@ -237,7 +237,7 @@ Public Class HashtagManage
     End Sub
 
     Private Sub PermCancel_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PermCancel_Button.Click
-        If Me.HistoryHashList.Items.Count > 0 Then
+        If Me.HistoryHashList.Items.Count > 0 AndAlso Me.HistoryHashList.SelectedIndices.Count > 0 Then
             Me.UseHashText.Text = Me.HistoryHashList.Items(Me.HistoryHashList.SelectedIndices(0)).ToString
         Else
             Me.UseHashText.Text = ""
