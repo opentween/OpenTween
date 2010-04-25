@@ -4391,6 +4391,11 @@ RETRY:
                 e.SuppressKeyPress = True
                 SendKeys.Send("{PGUP}")
             End If
+            If e.KeyCode = Keys.I Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                SendKeys.Send("{TAB}")
+            End If
         End If
         _anchorFlag = False
         If e.Control AndAlso Not e.Alt AndAlso Not e.Shift Then
