@@ -7228,7 +7228,7 @@ RETRY:
 
     Private Sub ReTweetOriginalStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReTweetOriginalStripMenuItem.Click, RtOpMenuItem.Click
         '公式RT
-        If _curPost IsNot Nothing AndAlso Not _curPost.IsDm Then
+        If _curPost IsNot Nothing AndAlso Not _curPost.IsDm AndAlso Not _curPost.IsMe Then
             If SettingDialog.ProtectNotInclude AndAlso _curPost.IsProtect Then
                 MessageBox.Show("Protected.")
                 Exit Sub
