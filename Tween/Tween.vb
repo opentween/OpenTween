@@ -2584,12 +2584,14 @@ Public Class TweenMain
         Else
             RefreshMoreStripMenuItem.Enabled = False
         End If
-        If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.PublicSearch OrElse Not _curPost.IsReply Then
+        If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.PublicSearch _
+                            OrElse _curPost Is Nothing _
+                            OrElse Not _curPost.IsReply Then
             RepliedStatusOpenMenuItem.Enabled = False
         Else
             RepliedStatusOpenMenuItem.Enabled = True
         End If
-        If _curPost.RetweetedBy = "" Then
+        If _curPost Is Nothing OrElse _curPost.RetweetedBy = "" Then
             MoveToRTHomeMenuItem.Enabled = False
         Else
             MoveToRTHomeMenuItem.Enabled = True
