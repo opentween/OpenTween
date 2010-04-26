@@ -210,11 +210,15 @@ Public Class Twitter
     Private twCon As New HttpTwitter
 
     Public Function Authenticate(ByVal username As String, ByVal password As String) As Boolean
-        Dim rslt As Boolean = twCon.AuthUserAndPass(username, password)
-        If rslt Then
-            _uid = twCon.AuthenticatedUsername.ToLower
-        End If
-        Return rslt
+        Try
+            Dim rslt As Boolean = twCon.AuthUserAndPass(username, password)
+            If rslt Then
+                _uid = twCon.AuthenticatedUsername.ToLower
+            End If
+            Return rslt
+        Catch ex As Exception
+            Return False
+        End Try
     End Function
 
     Public Sub ClearAuthInfo()
@@ -3468,6 +3472,162 @@ Public Class Twitter
         Return ""
     End Function
 
+    Public Function GetListStatus(ByVal read As Boolean, _
+                            ByVal tab As TabClass, _
+                            ByVal more As Boolean) As String
+
+        If _endingFlag Then Return ""
+
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+        Dim page As Integer = 0
+        Dim countQuery As Integer = 0
+        Try
+            If more Then
+                res = twCon.GetListsStatuses(tab.ListInfo.Username, tab.ListInfo.Id.ToString, _countApi, tab.OldestId, 0, content)
+            Else
+                res = twCon.GetListsStatuses(tab.ListInfo.Username, tab.ListInfo.Id.ToString, _countApi, 0, 0, content)
+            End If
+            countQuery = _countApi
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
+        Select Case res
+            Case HttpStatusCode.OK
+            Case HttpStatusCode.Unauthorized
+                Twitter.AccountState = ACCOUNT_STATE.Invalid
+                Return "Check your Username/Password."
+            Case HttpStatusCode.BadRequest
+                Return "Err:API Limits?"
+            Case Else
+                Return "Err:" + res.ToString()
+        End Select
+
+        Dim arIdx As Integer = -1
+        Dim dlgt(countQuery) As GetIconImageDelegate    'countQueryに合わせる
+        Dim ar(countQuery) As IAsyncResult              'countQueryに合わせる
+        Dim xdoc As New XmlDocument
+        Try
+            xdoc.LoadXml(content)
+        Catch ex As Exception
+            TraceOut(content)
+            'MessageBox.Show("不正なXMLです。(TL-LoadXml)")
+            Return "Invalid XML!"
+        End Try
+
+        For Each xentryNode As XmlNode In xdoc.DocumentElement.SelectNodes("./status")
+            Dim xentry As XmlElement = CType(xentryNode, XmlElement)
+            Dim post As New PostClass
+            Try
+                post.Id = Long.Parse(xentry.Item("id").InnerText)
+                If tab.OldestId > post.Id Then tab.OldestId = post.Id
+                '二重取得回避
+                SyncLock LockObj
+                    If TabInformations.GetInstance.ContainsKey(post.Id, tab.TabName) Then Continue For
+                End SyncLock
+                'Retweet判定
+                Dim xRnode As XmlNode = xentry.SelectSingleNode("./retweeted_status")
+                If xRnode IsNot Nothing Then
+                    Dim xRentry As XmlElement = CType(xRnode, XmlElement)
+                    post.PDate = DateTime.ParseExact(xRentry.Item("created_at").InnerText, "ddd MMM dd HH:mm:ss zzzz yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None)
+                    'Id
+                    post.RetweetedId = Long.Parse(xRentry.Item("id").InnerText)
+                    '本文
+                    post.Data = xRentry.Item("text").InnerText
+                    'Source取得（htmlの場合は、中身を取り出し）
+                    post.Source = xRentry.Item("source").InnerText
+                    'Reply先
+                    Long.TryParse(xRentry.Item("in_reply_to_status_id").InnerText, post.InReplyToId)
+                    post.InReplyToUser = xRentry.Item("in_reply_to_screen_name").InnerText
+                    'post.IsFav = TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites).Contains(post.RetweetedId)
+                    post.IsFav = Boolean.Parse(xentry.Item("favorited").InnerText)
+
+                    '以下、ユーザー情報
+                    Dim xRUentry As XmlElement = CType(xRentry.SelectSingleNode("./user"), XmlElement)
+                    post.Uid = Long.Parse(xRUentry.Item("id").InnerText)
+                    post.Name = xRUentry.Item("screen_name").InnerText
+                    post.Nickname = xRUentry.Item("name").InnerText
+                    post.ImageUrl = xRUentry.Item("profile_image_url").InnerText
+                    post.IsProtect = Boolean.Parse(xRUentry.Item("protected").InnerText)
+                    post.IsMe = post.Name.ToLower.Equals(_uid)
+
+                    'Retweetした人
+                    Dim xUentry As XmlElement = CType(xentry.SelectSingleNode("./user"), XmlElement)
+                    post.RetweetedBy = xUentry.Item("screen_name").InnerText
+                Else
+                    post.PDate = DateTime.ParseExact(xentry.Item("created_at").InnerText, "ddd MMM dd HH:mm:ss zzzz yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None)
+                    '本文
+                    post.Data = xentry.Item("text").InnerText
+                    'Source取得（htmlの場合は、中身を取り出し）
+                    post.Source = xentry.Item("source").InnerText
+                    Long.TryParse(xentry.Item("in_reply_to_status_id").InnerText, post.InReplyToId)
+                    post.InReplyToUser = xentry.Item("in_reply_to_screen_name").InnerText
+                    'in_reply_to_user_idを使うか？
+                    post.IsFav = Boolean.Parse(xentry.Item("favorited").InnerText)
+
+                    '以下、ユーザー情報
+                    Dim xUentry As XmlElement = CType(xentry.SelectSingleNode("./user"), XmlElement)
+                    post.Uid = Long.Parse(xUentry.Item("id").InnerText)
+                    post.Name = xUentry.Item("screen_name").InnerText
+                    post.Nickname = xUentry.Item("name").InnerText
+                    post.ImageUrl = xUentry.Item("profile_image_url").InnerText
+                    post.IsProtect = Boolean.Parse(xUentry.Item("protected").InnerText)
+                    post.IsMe = post.Name.ToLower.Equals(_uid)
+                End If
+                'HTMLに整形
+                post.OriginalData = CreateHtmlAnchor(post.Data, post.ReplyToList)
+                post.Data = HttpUtility.HtmlDecode(post.Data)
+                post.Data = post.Data.Replace("<3", "♡")
+                'Source整形
+                If post.Source.StartsWith("<") Then
+                    'Dim rgS As New Regex(">(?<source>.+)<")
+                    Dim mS As Match = Regex.Match(post.Source, ">(?<source>.+)<")
+                    If mS.Success Then
+                        post.Source = mS.Result("${source}")
+                    End If
+                End If
+
+                post.IsRead = read
+
+                post.IsReply = post.ReplyToList.Contains(_uid)
+
+                If post.IsMe Then
+                    post.IsOwl = False
+                Else
+                    If followerId.Count > 0 Then post.IsOwl = Not followerId.Contains(post.Uid)
+                End If
+                If post.IsMe AndAlso Not read AndAlso _readOwnPost Then post.IsRead = True
+
+                post.IsDm = False
+                post.RelTabName = tab.TabName
+            Catch ex As Exception
+                TraceOut(content)
+                'MessageBox.Show("不正なXMLです。(TL-Parse)")
+                Continue For
+            End Try
+
+            '非同期アイコン取得＆StatusDictionaryに追加
+            arIdx += 1
+            dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
+            ar(arIdx) = dlgt(arIdx).BeginInvoke(post, Nothing, Nothing)
+        Next
+
+        'アイコン取得完了待ち
+        For i As Integer = 0 To arIdx
+            Try
+                dlgt(i).EndInvoke(ar(i))
+            Catch ex As Exception
+                '最後までendinvoke回す（ゾンビ化回避）
+                ex.Data("IsTerminatePermission") = False
+                Throw
+            End Try
+        Next
+
+        'If _ApiMethod = MySocket.REQ_TYPE.ReqGetAPI Then _remainCountApi = sck.RemainCountApi
+
+        Return ""
+    End Function
+
     Public Function GetSearch(ByVal read As Boolean, _
                             ByVal tab As TabClass, _
                             ByVal more As Boolean) As String
@@ -3556,7 +3716,7 @@ Public Class Twitter
                 post.IsOwl = False
                 If post.IsMe AndAlso Not read AndAlso _readOwnPost Then post.IsRead = True
                 post.IsDm = False
-                post.SearchTabName = tab.TabName
+                post.RelTabName = tab.TabName
             Catch ex As Exception
                 TraceOut(content)
                 Continue For
@@ -4037,6 +4197,7 @@ Public Class Twitter
             End Try
         Loop While cursor <> 0
 
+        TabInformations.GetInstance.SubscribableLists = lists
         Return ""
 
     End Function

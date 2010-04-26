@@ -336,7 +336,7 @@ Public NotInheritable Class PostClass
             _RetweetedId = value
         End Set
     End Property
-    Public Property SearchTabName() As String
+    Public Property RelTabName() As String
         Get
             Return _searchTabName
         End Get
@@ -383,12 +383,22 @@ Public NotInheritable Class TabInformations
             Return _lists
         End Get
         Set(ByVal value As List(Of ListElement))
+            If value IsNot Nothing AndAlso value.Count > 0 Then
+                For Each tb As TabClass In Me.GetTabsByType(TabUsageType.Lists)
+                    For Each list As ListElement In value
+                        If tb.ListInfo.Id = list.Id Then
+                            tb.ListInfo = list
+                            Exit For
+                        End If
+                    Next
+                Next
+            End If
             _lists = value
         End Set
     End Property
 
-    Public Sub AddTab(ByVal TabName As String, ByVal TabType As TabUsageType)
-        _tabs.Add(TabName, New TabClass(TabName, TabType))
+    Public Sub AddTab(ByVal TabName As String, ByVal TabType As TabUsageType, ByVal List As ListElement)
+        _tabs.Add(TabName, New TabClass(TabName, TabType, List))
         _tabs(TabName).Sorter.Mode = _sorter.Mode
         _tabs(TabName).Sorter.Order = _sorter.Order
     End Sub
@@ -400,7 +410,7 @@ Public NotInheritable Class TabInformations
     Public Sub RemoveTab(ByVal TabName As String)
         SyncLock LockObj
             If IsDefaultTab(TabName) Then Exit Sub '念のため
-            If _tabs(TabName).TabType <> TabUsageType.PublicSearch Then
+            If _tabs(TabName).TabType <> TabUsageType.PublicSearch AndAlso _tabs(TabName).TabType <> TabUsageType.Lists Then
                 Dim homeTab As TabClass = GetTabByType(TabUsageType.Home)
                 Dim dmName As String = GetTabByType(TabUsageType.DirectMessage).TabName
 
@@ -587,7 +597,7 @@ Public NotInheritable Class TabInformations
                 _statuses.Remove(Id)
             End If
             For Each tb As TabClass In _tabs.Values
-                If (tb.TabType = TabUsageType.PublicSearch OrElse tb.TabType = TabUsageType.DirectMessage) _
+                If (tb.TabType = TabUsageType.PublicSearch OrElse tb.TabType = TabUsageType.DirectMessage OrElse tb.TabType = TabUsageType.Lists) _
                    AndAlso tb.Contains(Id) Then
                     post = tb.Posts(Id)
                     If tb.UnreadManage AndAlso Not post.IsRead Then
@@ -609,7 +619,7 @@ Public NotInheritable Class TabInformations
            tb.UnreadCount > 0 Then
             '未読アイテムへ
             Dim isRead As Boolean
-            If tb.TabType <> TabUsageType.PublicSearch AndAlso tb.TabType <> TabUsageType.DirectMessage Then
+            If tb.TabType <> TabUsageType.PublicSearch AndAlso tb.TabType <> TabUsageType.DirectMessage AndAlso tb.TabType <> TabUsageType.Lists Then
                 isRead = _statuses(tb.OldestUnreadId).IsRead
             Else
                 isRead = tb.Posts(tb.OldestUnreadId).IsRead
@@ -649,7 +659,7 @@ Public NotInheritable Class TabInformations
         '最古未読が設定されていて、既読の場合（1発言以上存在）
         Try
             Dim posts As Dictionary(Of Long, PostClass)
-            If Tab.TabType <> TabUsageType.PublicSearch AndAlso Tab.TabType <> TabUsageType.DirectMessage Then
+            If Tab.TabType <> TabUsageType.PublicSearch AndAlso Tab.TabType <> TabUsageType.DirectMessage AndAlso Tab.TabType <> TabUsageType.Lists Then
                 posts = _statuses
             Else
                 posts = Tab.Posts
@@ -714,7 +724,7 @@ Public NotInheritable Class TabInformations
             toIdx = 0
             stp = -1
         End If
-        If Tab.TabType <> TabUsageType.PublicSearch AndAlso Tab.TabType <> TabUsageType.DirectMessage Then
+        If Tab.TabType <> TabUsageType.PublicSearch AndAlso Tab.TabType <> TabUsageType.DirectMessage AndAlso Tab.TabType <> TabUsageType.Lists Then
             For i As Integer = StartIdx To toIdx Step stp
                 If Not _statuses(Tab.GetId(i)).IsRead Then
                     Tab.OldestUnreadId = Tab.GetId(i)
@@ -758,7 +768,7 @@ Public NotInheritable Class TabInformations
             End If
 
             For Each tb As TabClass In _tabs.Values
-                If tb.TabType = TabUsageType.PublicSearch OrElse tb.TabType = TabUsageType.DirectMessage Then
+                If tb.TabType = TabUsageType.PublicSearch OrElse tb.TabType = TabUsageType.DirectMessage OrElse tb.TabType = TabUsageType.Lists Then
                     _addCount += tb.GetTemporaryCount
                 End If
                 tb.AddSubmit()  '振分確定（各タブに反映）
@@ -830,7 +840,7 @@ Public NotInheritable Class TabInformations
             If add Then _notifyPosts.Add(post)
         Next
         For Each tb As TabClass In _tabs.Values
-            If tb.TabType = TabUsageType.PublicSearch OrElse tb.TabType = TabUsageType.DirectMessage Then
+            If tb.TabType = TabUsageType.PublicSearch OrElse tb.TabType = TabUsageType.DirectMessage OrElse tb.TabType = TabUsageType.Lists Then
                 If tb.Notify Then
                     If tb.GetTemporaryCount > 0 Then
                         For Each post As PostClass In tb.GetTemporaryPosts
@@ -856,7 +866,7 @@ Public NotInheritable Class TabInformations
 
     Public Sub AddPost(ByVal Item As PostClass)
         SyncLock LockObj
-            If Item.SearchTabName = "" Then
+            If Item.RelTabName = "" Then
                 If Not Item.IsDm Then
                     If _statuses.ContainsKey(Item.Id) Then
                         If Item.IsFav Then
@@ -882,10 +892,10 @@ Public NotInheritable Class TabInformations
                     tb.AddPostToInnerStorage(Item)
                 End If
             Else
-                '公式検索の場合
+                '公式検索、リストの場合
                 Dim tb As TabClass
-                If Me.Tabs.ContainsKey(Item.SearchTabName) Then
-                    tb = Me.Tabs(Item.SearchTabName)
+                If Me.Tabs.ContainsKey(Item.RelTabName) Then
+                    tb = Me.Tabs(Item.RelTabName)
                 Else
                     Exit Sub
                 End If
@@ -939,7 +949,7 @@ Public NotInheritable Class TabInformations
 
         Dim Id As Long = tb.GetId(Index)
         Dim post As PostClass
-        If tb.TabType <> TabUsageType.PublicSearch AndAlso tb.TabType <> TabUsageType.DirectMessage Then
+        If tb.TabType <> TabUsageType.PublicSearch AndAlso tb.TabType <> TabUsageType.DirectMessage AndAlso tb.TabType <> TabUsageType.Lists Then
             post = _statuses(Id)
         Else
             post = tb.Posts(Id)
@@ -953,12 +963,12 @@ Public NotInheritable Class TabInformations
                 tb.UnreadCount -= 1
                 Me.SetNextUnreadId(Id, tb)  '次の未読セット
                 '他タブの最古未読ＩＤはタブ切り替え時に。
-                If tb.TabType = TabUsageType.PublicSearch OrElse tb.TabType = TabUsageType.DirectMessage Then Exit Sub
+                If tb.TabType = TabUsageType.PublicSearch OrElse tb.TabType = TabUsageType.DirectMessage OrElse tb.TabType = TabUsageType.Lists Then Exit Sub
                 For Each key As String In _tabs.Keys
                     If key <> TabName AndAlso _
                        _tabs(key).UnreadManage AndAlso _
                        _tabs(key).Contains(Id) AndAlso _
-                       (_tabs(key).TabType <> TabUsageType.PublicSearch AndAlso _tabs(key).TabType <> TabUsageType.DirectMessage) Then
+                       (_tabs(key).TabType <> TabUsageType.PublicSearch AndAlso _tabs(key).TabType <> TabUsageType.DirectMessage AndAlso _tabs(key).TabType <> TabUsageType.Lists) Then
                         _tabs(key).UnreadCount -= 1
                         If _tabs(key).OldestUnreadId = Id Then _tabs(key).OldestUnreadId = -1
                     End If
@@ -966,12 +976,12 @@ Public NotInheritable Class TabInformations
             Else
                 tb.UnreadCount += 1
                 If tb.OldestUnreadId > Id OrElse tb.OldestUnreadId = -1 Then tb.OldestUnreadId = Id
-                If tb.TabType = TabUsageType.PublicSearch OrElse tb.TabType = TabUsageType.DirectMessage Then Exit Sub
+                If tb.TabType = TabUsageType.PublicSearch OrElse tb.TabType = TabUsageType.DirectMessage OrElse tb.TabType = TabUsageType.Lists Then Exit Sub
                 For Each key As String In _tabs.Keys
                     If Not key = TabName AndAlso _
                        _tabs(key).UnreadManage AndAlso _
                        _tabs(key).Contains(Id) AndAlso _
-                       (_tabs(key).TabType <> TabUsageType.PublicSearch AndAlso _tabs(key).TabType <> TabUsageType.DirectMessage) Then
+                       (_tabs(key).TabType <> TabUsageType.PublicSearch AndAlso _tabs(key).TabType <> TabUsageType.DirectMessage AndAlso _tabs(key).TabType <> TabUsageType.Lists) Then
                         _tabs(key).UnreadCount += 1
                         If _tabs(key).OldestUnreadId > Id Then _tabs(key).OldestUnreadId = Id
                     End If
@@ -1006,7 +1016,7 @@ Public NotInheritable Class TabInformations
         Get
             If _statuses.ContainsKey(ID) Then Return _statuses(ID)
             For Each tb As TabClass In _tabs.Values
-                If (tb.TabType = TabUsageType.PublicSearch OrElse tb.TabType = TabUsageType.DirectMessage) AndAlso _
+                If (tb.TabType = TabUsageType.PublicSearch OrElse tb.TabType = TabUsageType.DirectMessage OrElse tb.TabType = TabUsageType.Lists) AndAlso _
                    tb.Contains(ID) Then
                     Return tb.Posts(ID)
                 End If
@@ -1018,7 +1028,7 @@ Public NotInheritable Class TabInformations
     Public ReadOnly Property Item(ByVal TabName As String, ByVal Index As Integer) As PostClass
         Get
             'If Not _tabs.ContainsKey(TabName) Then Return Nothing
-            If _tabs(TabName).TabType = TabUsageType.PublicSearch OrElse _tabs(TabName).TabType = TabUsageType.DirectMessage Then
+            If _tabs(TabName).TabType = TabUsageType.PublicSearch OrElse _tabs(TabName).TabType = TabUsageType.DirectMessage OrElse _tabs(TabName).TabType = TabUsageType.Lists Then
                 Return _tabs(TabName).Posts(_tabs(TabName).GetId(Index))
             Else
                 Return _statuses(_tabs(TabName).GetId(Index))
@@ -1030,7 +1040,7 @@ Public NotInheritable Class TabInformations
         Get
             Dim length As Integer = EndIndex - StartIndex + 1
             Dim posts() As PostClass = New PostClass(length - 1) {}
-            If _tabs(TabName).TabType = TabUsageType.PublicSearch OrElse _tabs(TabName).TabType = TabUsageType.DirectMessage Then
+            If _tabs(TabName).TabType = TabUsageType.PublicSearch OrElse _tabs(TabName).TabType = TabUsageType.DirectMessage OrElse _tabs(TabName).TabType = TabUsageType.Lists Then
                 For i As Integer = 0 To length - 1
                     posts(i) = _tabs(TabName).Posts(_tabs(TabName).GetId(StartIndex + i))
                 Next i
@@ -1074,7 +1084,7 @@ Public NotInheritable Class TabInformations
                         Dim cnt As Integer = 0
                         Dim oldest As Long = Long.MaxValue
                         Dim posts As Dictionary(Of Long, PostClass)
-                        If tb.TabType <> TabUsageType.PublicSearch AndAlso tb.TabType <> TabUsageType.DirectMessage Then
+                        If tb.TabType <> TabUsageType.PublicSearch AndAlso tb.TabType <> TabUsageType.DirectMessage AndAlso tb.TabType <> TabUsageType.Lists Then
                             posts = _statuses
                         Else
                             posts = tb.Posts
@@ -1194,7 +1204,7 @@ Public NotInheritable Class TabInformations
     Public Sub ClearTabIds(ByVal TabName As String)
         '不要なPostを削除
         SyncLock LockObj
-            If _tabs(TabName).TabType <> TabUsageType.PublicSearch AndAlso _tabs(TabName).TabType <> TabUsageType.DirectMessage Then
+            If _tabs(TabName).TabType <> TabUsageType.PublicSearch AndAlso _tabs(TabName).TabType <> TabUsageType.DirectMessage AndAlso _tabs(TabName).TabType <> TabUsageType.Lists Then
                 For Each Id As Long In _tabs(TabName).BackupIds
                     Dim Hit As Boolean = False
                     For Each tb As TabClass In _tabs.Values
@@ -1219,7 +1229,7 @@ Public NotInheritable Class TabInformations
                 Dim cnt As Integer = 0
                 Dim oldest As Long = Long.MaxValue
                 Dim posts As Dictionary(Of Long, PostClass)
-                If tb.TabType <> TabUsageType.PublicSearch AndAlso tb.TabType <> TabUsageType.DirectMessage Then
+                If tb.TabType <> TabUsageType.PublicSearch AndAlso tb.TabType <> TabUsageType.DirectMessage AndAlso tb.TabType <> TabUsageType.Lists Then
                     posts = _statuses
                 Else
                     posts = tb.Posts
@@ -1353,7 +1363,7 @@ Public NotInheritable Class TabClass
     Private _tabType As TabUsageType = TabUsageType.Undefined
     Private _posts As New Dictionary(Of Long, PostClass)
     Private _sorter As New IdComparerClass
-    Private _list As New ListElement
+    Private _oldestId As Long = -1   '古いポスト取得用
 
 #Region "検索"
     'Search query
@@ -1421,6 +1431,15 @@ Public NotInheritable Class TabClass
     End Property
 #End Region
 
+    Public Property OldestId() As Long
+        Get
+            Return _oldestId
+        End Get
+        Set(ByVal value As Long)
+            _oldestId = value
+        End Set
+    End Property
+
     <Xml.Serialization.XmlIgnore()> _
     Public Property Posts() As Dictionary(Of Long, PostClass)
         Get
@@ -1467,9 +1486,10 @@ Public NotInheritable Class TabClass
         _ids = New List(Of Long)
         _oldestUnreadItem = -1
         _tabType = TabUsageType.Undefined
+        _listInfo = Nothing
     End Sub
 
-    Public Sub New(ByVal TabName As String, ByVal TabType As TabUsageType)
+    Public Sub New(ByVal TabName As String, ByVal TabType As TabUsageType, ByVal list As ListElement)
         _tabName = TabName
         _filters = New List(Of FiltersClass)
         _notify = True
@@ -1478,6 +1498,7 @@ Public NotInheritable Class TabClass
         _ids = New List(Of Long)
         _oldestUnreadItem = -1
         _tabType = TabType
+        Me.ListInfo = list
         If TabType = TabUsageType.PublicSearch OrElse TabType = TabUsageType.DirectMessage OrElse TabType = TabUsageType.Lists Then
             _sorter.posts = _posts
         Else
@@ -1493,15 +1514,6 @@ Public NotInheritable Class TabClass
         Get
             Return _sorter
         End Get
-    End Property
-
-    Public Property FollowList() As ListElement
-        Get
-            Return _list
-        End Get
-        Set(ByVal value As ListElement)
-            _list = value
-        End Set
     End Property
 
     '無条件に追加
@@ -1532,7 +1544,7 @@ Public NotInheritable Class TabClass
     Public Function AddFiltered(ByVal post As PostClass) As HITRESULT
         'Try
         '    rwLock.AcquireReaderLock(System.Threading.Timeout.Infinite) '読み取りロック取得
-        If Me.TabType = TabUsageType.PublicSearch OrElse Me.TabType = TabUsageType.DirectMessage Then Return HITRESULT.None
+        If Me.TabType = TabUsageType.PublicSearch OrElse Me.TabType = TabUsageType.DirectMessage OrElse Me.TabType = TabUsageType.Lists Then Return HITRESULT.None
 
         Dim rslt As HITRESULT = HITRESULT.None
         '全フィルタ評価（優先順位あり）
@@ -1581,7 +1593,7 @@ Public NotInheritable Class TabClass
     Public Sub Remove(ByVal Id As Long)
         If Not Me._ids.Contains(Id) Then Exit Sub
         Me._ids.Remove(Id)
-        If Me.TabType = TabUsageType.PublicSearch OrElse Me.TabType = TabUsageType.DirectMessage Then _posts.Remove(Id)
+        If Me.TabType = TabUsageType.PublicSearch OrElse Me.TabType = TabUsageType.DirectMessage OrElse Me.TabType = TabUsageType.Lists Then _posts.Remove(Id)
     End Sub
 
     Public Sub Remove(ByVal Id As Long, ByVal Read As Boolean)
@@ -1593,7 +1605,7 @@ Public NotInheritable Class TabClass
         End If
 
         Me._ids.Remove(Id)
-        If Me.TabType = TabUsageType.PublicSearch OrElse Me.TabType = TabUsageType.DirectMessage Then _posts.Remove(Id)
+        If Me.TabType = TabUsageType.PublicSearch OrElse Me.TabType = TabUsageType.DirectMessage OrElse Me.TabType = TabUsageType.Lists Then _posts.Remove(Id)
     End Sub
 
     Public Property UnreadManage() As Boolean
@@ -1763,7 +1775,7 @@ Public NotInheritable Class TabClass
         End Get
         Set(ByVal value As TabUsageType)
             _tabType = value
-            If _tabType = TabUsageType.PublicSearch OrElse _tabType = TabUsageType.DirectMessage Then
+            If _tabType = TabUsageType.PublicSearch OrElse _tabType = TabUsageType.DirectMessage OrElse _tabType = TabUsageType.Lists Then
                 _sorter.posts = _posts
             Else
                 _sorter.posts = TabInformations.GetInstance.Posts

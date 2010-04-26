@@ -183,6 +183,7 @@ Public Class TweenMain
     Private _waitDm As Boolean = False
     Private _waitFav As Boolean = False
     Private _waitPubSearch As Boolean = False
+    Private _waitLists As Boolean = False
     Private _bw(9) As BackgroundWorker
     Private _bwFollower As BackgroundWorker
     Private cMode As Integer
@@ -195,6 +196,7 @@ Public Class TweenMain
     Private _dmCounter As Integer = 0
     'Private _favCounter As Integer = 0
     Private _pubSearchCounter As Integer = 0
+    Private _listsCounter As Integer = 0
 
     Private UnreadCounter As Integer = -1
     Private UnreadAtCounter As Integer = -1
@@ -551,6 +553,7 @@ Public Class TweenMain
         SettingDialog.ReplyPeriodInt = _cfgCommon.ReplyPeriod
         SettingDialog.DMPeriodInt = _cfgCommon.DMPeriod
         SettingDialog.PubSearchPeriodInt = _cfgCommon.PubSearchPeriod
+        SettingDialog.ListsPeriodInt = _cfgCommon.ListsPeriod
         'SettingDialog.NextPageThreshold = _cfgCommon.NextPageThreshold
         'SettingDialog.NextPagesInt = _cfgCommon.NextPages
         SettingDialog.MaxPostNum = _cfgCommon.MaxPostNum
@@ -560,6 +563,7 @@ Public Class TweenMain
             If SettingDialog.ReplyPeriodInt < 30 AndAlso SettingDialog.ReplyPeriodInt > 0 Then SettingDialog.ReplyPeriodInt = 30
             If SettingDialog.DMPeriodInt < 30 AndAlso SettingDialog.DMPeriodInt > 0 Then SettingDialog.DMPeriodInt = 30
             If SettingDialog.PubSearchPeriodInt < 30 AndAlso SettingDialog.PubSearchPeriodInt > 0 Then SettingDialog.PubSearchPeriodInt = 30
+            If SettingDialog.ListsPeriodInt < 30 AndAlso SettingDialog.ListsPeriodInt > 0 Then SettingDialog.ListsPeriodInt = 30
         End If
         '起動時読み込みページ数
         'SettingDialog.ReadPages = _cfgCommon.ReadPages
@@ -969,28 +973,28 @@ Public Class TweenMain
         'デフォルトタブの存在チェック、ない場合には追加
         If _statuses.GetTabByType(TabUsageType.Home) Is Nothing Then
             If Not _statuses.Tabs.ContainsKey(DEFAULTTAB.RECENT) Then
-                _statuses.AddTab(DEFAULTTAB.RECENT, TabUsageType.Home)
+                _statuses.AddTab(DEFAULTTAB.RECENT, TabUsageType.Home, Nothing)
             Else
                 _statuses.Tabs(DEFAULTTAB.RECENT).TabType = TabUsageType.Home
             End If
         End If
         If _statuses.GetTabByType(TabUsageType.Mentions) Is Nothing Then
             If Not _statuses.Tabs.ContainsKey(DEFAULTTAB.REPLY) Then
-                _statuses.AddTab(DEFAULTTAB.REPLY, TabUsageType.Mentions)
+                _statuses.AddTab(DEFAULTTAB.REPLY, TabUsageType.Mentions, Nothing)
             Else
                 _statuses.Tabs(DEFAULTTAB.REPLY).TabType = TabUsageType.Mentions
             End If
         End If
         If _statuses.GetTabByType(TabUsageType.DirectMessage) Is Nothing Then
             If Not _statuses.Tabs.ContainsKey(DEFAULTTAB.DM) Then
-                _statuses.AddTab(DEFAULTTAB.DM, TabUsageType.DirectMessage)
+                _statuses.AddTab(DEFAULTTAB.DM, TabUsageType.DirectMessage, Nothing)
             Else
                 _statuses.Tabs(DEFAULTTAB.DM).TabType = TabUsageType.DirectMessage
             End If
         End If
         If _statuses.GetTabByType(TabUsageType.Favorites) Is Nothing Then
             If Not _statuses.Tabs.ContainsKey(DEFAULTTAB.FAV) Then
-                _statuses.AddTab(DEFAULTTAB.FAV, TabUsageType.Favorites)
+                _statuses.AddTab(DEFAULTTAB.FAV, TabUsageType.Favorites, Nothing)
             Else
                 _statuses.Tabs(DEFAULTTAB.FAV).TabType = TabUsageType.Favorites
             End If
@@ -1082,10 +1086,10 @@ Public Class TweenMain
                 End If
             Next
         Else
-            _statuses.AddTab(DEFAULTTAB.RECENT, TabUsageType.Home)
-            _statuses.AddTab(DEFAULTTAB.REPLY, TabUsageType.Mentions)
-            _statuses.AddTab(DEFAULTTAB.DM, TabUsageType.DirectMessage)
-            _statuses.AddTab(DEFAULTTAB.FAV, TabUsageType.Favorites)
+            _statuses.AddTab(DEFAULTTAB.RECENT, TabUsageType.Home, Nothing)
+            _statuses.AddTab(DEFAULTTAB.REPLY, TabUsageType.Mentions, Nothing)
+            _statuses.AddTab(DEFAULTTAB.DM, TabUsageType.DirectMessage, Nothing)
+            _statuses.AddTab(DEFAULTTAB.FAV, TabUsageType.Favorites, Nothing)
         End If
         If needToSave Then
             _cfgCommon.TabList.Clear()
@@ -1111,10 +1115,10 @@ Public Class TweenMain
             _statuses.Tabs.Add(tb.TabName, tb)
         Next
         If _statuses.Tabs.Count = 0 Then
-            _statuses.AddTab(DEFAULTTAB.RECENT, TabUsageType.Home)
-            _statuses.AddTab(DEFAULTTAB.REPLY, TabUsageType.Mentions)
-            _statuses.AddTab(DEFAULTTAB.DM, TabUsageType.DirectMessage)
-            _statuses.AddTab(DEFAULTTAB.FAV, TabUsageType.Favorites)
+            _statuses.AddTab(DEFAULTTAB.RECENT, TabUsageType.Home, Nothing)
+            _statuses.AddTab(DEFAULTTAB.REPLY, TabUsageType.Mentions, Nothing)
+            _statuses.AddTab(DEFAULTTAB.DM, TabUsageType.DirectMessage, Nothing)
+            _statuses.AddTab(DEFAULTTAB.FAV, TabUsageType.Favorites, Nothing)
         End If
     End Sub
 
@@ -1294,6 +1298,10 @@ Public Class TweenMain
         If _pubSearchCounter <= 0 AndAlso SettingDialog.PubSearchPeriodInt > 0 Then
             _pubSearchCounter = SettingDialog.PubSearchPeriodInt
             GetTimeline(WORKERTYPE.PublicSearch, 1, 0, "")
+        End If
+        If _listsCounter <= 0 AndAlso SettingDialog.ListsPeriodInt > 0 Then
+            _listsCounter = SettingDialog.ListsPeriodInt
+            GetTimeline(WORKERTYPE.List, 1, 0, "")
         End If
     End Sub
 
@@ -1935,12 +1943,15 @@ Public Class TweenMain
                             args.sIds.Add(post.Id)
                             post.IsFav = True    'リスト再描画必要
                             _favTimestamps.Add(Now)
-                            If post.SearchTabName = "" Then
-                                '検索タブからのfavは、favタブへ追加せず
+                            If post.RelTabName = "" Then
+                                '検索,リストタブからのfavは、favタブへ追加せず
                                 _statuses.GetTabByType(TabUsageType.Favorites).Add(post.Id, post.IsRead, False)
                             End If
-                            '検索タブに反映
+                            '検索、リストタブに反映
                             For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.PublicSearch)
+                                If tb.Contains(post.Id) Then tb.Posts(post.Id).IsFav = True
+                            Next
+                            For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.Lists)
                                 If tb.Contains(post.Id) Then tb.Posts(post.Id).IsFav = True
                             Next
                         End If
@@ -1962,8 +1973,11 @@ Public Class TweenMain
                         If ret.Length = 0 Then
                             args.sIds.Add(post.Id)
                             post.IsFav = False    'リスト再描画必要
-                            '検索タブに反映
+                            '検索,リストタブに反映
                             For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.PublicSearch)
+                                If tb.Contains(post.Id) Then tb.Posts(post.Id).IsFav = False
+                            Next
+                            For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.Lists)
                                 If tb.Contains(post.Id) Then tb.Posts(post.Id).IsFav = False
                             Next
                         End If
@@ -2043,6 +2057,20 @@ Public Class TweenMain
                         If ret = "" AndAlso args.page = -1 Then
                             ret = tw.GetSearch(read, tb, True)
                         End If
+                    End If
+                End If
+                '新着時未読クリア
+                rslt.addCount = _statuses.DistributePosts()
+            Case WORKERTYPE.List
+                bw.ReportProgress(50, MakeStatusMessage(args, False))
+                If args.tName = "" Then
+                    For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.Lists)
+                        If tb.ListInfo IsNot Nothing AndAlso tb.ListInfo.Id <> 0 Then ret = tw.GetListStatus(read, tb, False)
+                    Next
+                Else
+                    Dim tb As TabClass = _statuses.GetTabByName(args.tName)
+                    If tb IsNot Nothing Then
+                        ret = tw.GetListStatus(read, tb, args.page = -1)
                     End If
                 End If
                 '新着時未読クリア
@@ -2129,6 +2157,8 @@ Public Class TweenMain
                     smsg = My.Resources.GetTimelineWorker_RunWorkerCompletedText19
                 Case WORKERTYPE.PublicSearch
                     smsg = "Search refreshing..."
+                Case WORKERTYPE.List
+                    smsg = "List refreshing..."
             End Select
         Else
             '完了メッセージ
@@ -2151,6 +2181,8 @@ Public Class TweenMain
                     smsg = My.Resources.UpdateFollowersMenuItem1_ClickText3
                 Case WORKERTYPE.PublicSearch
                     smsg = "Search refreshed"
+                Case WORKERTYPE.List
+                    smsg = "List refreshed"
             End Select
         End If
         Return smsg
@@ -2200,6 +2232,7 @@ Public Class TweenMain
             _waitDm = False
             _waitFav = False
             _waitPubSearch = False
+            _waitLists = False
             Throw New Exception("BackgroundWorker Exception", e.Error)
             Exit Sub
         End If
@@ -2353,6 +2386,8 @@ Public Class TweenMain
                 _curList.Refresh()
             Case WORKERTYPE.PublicSearch
                 _waitPubSearch = False
+            Case WORKERTYPE.List
+                _waitLists = False
         End Select
 
     End Sub
@@ -2760,6 +2795,11 @@ Public Class TweenMain
                     Dim tb As TabClass = _statuses.Tabs(_curTab.Text)
                     If tb.SearchWords = "" Then Exit Sub
                     GetTimeline(WORKERTYPE.PublicSearch, 1, 0, _curTab.Text)
+                Case TabUsageType.Lists
+                    '' TODO
+                    Dim tb As TabClass = _statuses.Tabs(_curTab.Text)
+                    If tb.ListInfo Is Nothing OrElse tb.ListInfo.Id = 0 Then Exit Sub
+                    GetTimeline(WORKERTYPE.List, 1, 0, _curTab.Text)
                 Case Else
                     GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
             End Select
@@ -2784,6 +2824,11 @@ Public Class TweenMain
                     Dim tb As TabClass = _statuses.Tabs(_curTab.Text)
                     If tb.SearchWords = "" Then Exit Sub
                     GetTimeline(WORKERTYPE.PublicSearch, -1, 0, _curTab.Text)
+                Case TabUsageType.Lists
+                    '' TODO
+                    Dim tb As TabClass = _statuses.Tabs(_curTab.Text)
+                    If tb.ListInfo Is Nothing OrElse tb.ListInfo.Id = 0 Then Exit Sub
+                    GetTimeline(WORKERTYPE.List, -1, 0, _curTab.Text)
                 Case Else
                     GetTimeline(WORKERTYPE.Timeline, -1, 0, "")
             End Select
@@ -3076,7 +3121,7 @@ Public Class TweenMain
         Next
         'タブ追加
         AddNewTab(tabName, False, TabUsageType.PublicSearch)
-        _statuses.AddTab(tabName, TabUsageType.PublicSearch)
+        _statuses.AddTab(tabName, TabUsageType.PublicSearch, Nothing)
         '追加したタブをアクティブに
         ListTab.SelectedIndex = ListTab.TabPages.Count - 1
         '検索条件の設定
@@ -3315,7 +3360,7 @@ Public Class TweenMain
         'End If
 
         If (_statuses.Tabs.ContainsKey(tabName) AndAlso _statuses.Tabs(tabName).TabType = TabUsageType.Mentions) _
-           OrElse (Not _statuses.IsDefaultTab(tabName) AndAlso tabType <> TabUsageType.PublicSearch) Then
+           OrElse (Not _statuses.IsDefaultTab(tabName) AndAlso tabType <> TabUsageType.PublicSearch AndAlso tabType <> TabUsageType.Lists) Then
             TabDialog.AddTab(tabName)
         End If
 
@@ -4278,7 +4323,7 @@ RETRY:
             sb.AppendFormat("FilterHit      : {0}<br>", _curPost.FilterHit)
             sb.AppendFormat("RetweetedBy    : {0}<br>", _curPost.RetweetedBy)
             sb.AppendFormat("RetweetedId    : {0}<br>", _curPost.RetweetedId)
-            sb.AppendFormat("SearchTabName  : {0}<br>", _curPost.SearchTabName)
+            sb.AppendFormat("SearchTabName  : {0}<br>", _curPost.RelTabName)
             sb.Append("-----End PostClass Dump<br>")
 
             PostBrowser.Visible = False
@@ -4983,6 +5028,7 @@ RETRY:
             _cfgCommon.ReplyPeriod = SettingDialog.ReplyPeriodInt
             _cfgCommon.DMPeriod = SettingDialog.DMPeriodInt
             _cfgCommon.PubSearchPeriod = SettingDialog.PubSearchPeriodInt
+            _cfgCommon.ListsPeriod = SettingDialog.ListsPeriodInt
             _cfgCommon.MaxPostNum = SettingDialog.MaxPostNum
             '_cfgCommon.ReadPages = SettingDialog.ReadPages
             '_cfgCommon.ReadPagesReply = SettingDialog.ReadPagesReply
@@ -5235,7 +5281,7 @@ RETRY:
             'タブ名のリスト作り直し（デフォルトタブ以外は再作成）
             For i As Integer = 0 To ListTab.TabCount - 1
                 If _statuses.Tabs(ListTab.TabPages(i).Text).TabType = TabUsageType.Mentions OrElse _
-                   (Not _statuses.IsDefaultTab(ListTab.TabPages(i).Text) AndAlso _statuses.Tabs(ListTab.TabPages(i).Text).TabType <> TabUsageType.PublicSearch) Then
+                   (Not _statuses.IsDefaultTab(ListTab.TabPages(i).Text) AndAlso _statuses.Tabs(ListTab.TabPages(i).Text).TabType <> TabUsageType.PublicSearch AndAlso _statuses.Tabs(ListTab.TabPages(i).Text).TabType <> TabUsageType.Lists) Then
                     TabDialog.RemoveTab(ListTab.TabPages(i).Text)
                 End If
                 If ListTab.TabPages(i).Text = tabName Then
@@ -5246,7 +5292,7 @@ RETRY:
 
             For i As Integer = 0 To ListTab.TabCount - 1
                 If _statuses.Tabs(ListTab.TabPages(i).Text).TabType = TabUsageType.Mentions OrElse _
-                   (Not _statuses.IsDefaultTab(ListTab.TabPages(i).Text) AndAlso _statuses.Tabs(ListTab.TabPages(i).Text).TabType <> TabUsageType.PublicSearch) Then
+                   (Not _statuses.IsDefaultTab(ListTab.TabPages(i).Text) AndAlso _statuses.Tabs(ListTab.TabPages(i).Text).TabType <> TabUsageType.PublicSearch AndAlso _statuses.Tabs(ListTab.TabPages(i).Text).TabType <> TabUsageType.Lists) Then
                     If ListTab.TabPages(i).Text = tabName Then
                         ListTab.TabPages(i).Text = newTabText
                     End If
@@ -5820,12 +5866,25 @@ RETRY:
         End Using
         Me.TopMost = SettingDialog.AlwaysTop
         If tabName <> "" Then
+            'List対応
+            Dim list As ListElement = Nothing
+            If tabUsage = TabUsageType.Lists Then
+                Dim rslt As String = tw.GetListsApi()
+                If rslt <> "" Then
+                    MessageBox.Show("Failed to get lists. (" + rslt + ")")
+                End If
+                Using listAvail As New ListAvailable
+                    If listAvail.ShowDialog(Me) = Windows.Forms.DialogResult.Cancel Then Exit Sub
+                    If listAvail.SelectedList Is Nothing Then Exit Sub
+                    list = listAvail.SelectedList
+                End Using
+            End If
             If Not AddNewTab(tabName, False, tabUsage) Then
                 Dim tmp As String = String.Format(My.Resources.AddTabMenuItem_ClickText1, tabName)
                 MessageBox.Show(tmp, My.Resources.AddTabMenuItem_ClickText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Else
                 '成功
-                _statuses.AddTab(tabName, tabUsage)
+                _statuses.AddTab(tabName, tabUsage, list)
                 'SaveConfigsCommon()
                 'SaveConfigsTab(False)
                 SaveConfigsTabs()
@@ -6028,7 +6087,7 @@ RETRY:
                         MessageBox.Show(tmp, My.Resources.IDRuleMenuItem_ClickText3, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         'もう一度タブ名入力
                     Else
-                        _statuses.AddTab(tabName, TabUsageType.UserDefined)
+                        _statuses.AddTab(tabName, TabUsageType.UserDefined, Nothing)
                         Return True
                     End If
                 End If
@@ -7129,8 +7188,10 @@ RETRY:
             End If
             _waitPubSearch = True
             GetTimeline(WORKERTYPE.PublicSearch, 1, 0, "")  'tabname="":全タブ
+            _waitLists = True
+            GetTimeline(WORKERTYPE.List, 1, 0, "")  'tabname="":全タブ
             Dim i As Integer = 0
-            Do While (_waitTimeline OrElse _waitReply OrElse _waitDm OrElse _waitFav OrElse _waitPubSearch) AndAlso Not _endingFlag
+            Do While (_waitTimeline OrElse _waitReply OrElse _waitDm OrElse _waitFav OrElse _waitPubSearch OrElse _waitLists) AndAlso Not _endingFlag
                 System.Threading.Thread.Sleep(100)
                 My.Application.DoEvents()
                 i += 1
