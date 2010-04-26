@@ -1285,6 +1285,7 @@ Public Class TweenMain
         If _mentionCounter > 0 Then _mentionCounter -= 1
         If _dmCounter > 0 Then _dmCounter -= 1
         If _pubSearchCounter > 0 Then _pubSearchCounter -= 1
+        If _listsCounter > 0 Then _pubSearchCounter -= 1
 
         If _homeCounter <= 0 AndAlso SettingDialog.TimelinePeriodInt > 0 Then
             GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
@@ -5892,6 +5893,11 @@ RETRY:
                     ListTab.SelectedIndex = ListTab.TabPages.Count - 1
                     ListTabSelect(ListTab.TabPages(ListTab.TabPages.Count - 1))
                     ListTab.SelectedTab.Controls("panelSearch").Controls("comboSearch").Focus()
+                End If
+                If tabUsage = TabUsageType.Lists Then
+                    ListTab.SelectedIndex = ListTab.TabPages.Count - 1
+                    ListTabSelect(ListTab.TabPages(ListTab.TabPages.Count - 1))
+                    GetTimeline(WORKERTYPE.List, 1, 0, tabName)
                 End If
             End If
         End If
