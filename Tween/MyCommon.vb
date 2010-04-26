@@ -112,6 +112,7 @@ Public Module MyCommon
         Favorites               'Fav取得
         Retweet                 'Retweetする
         PublicSearch            '公式検索
+        List                    'Lists
     End Enum
 
     Public Structure DEFAULTTAB

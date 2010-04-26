@@ -52,8 +52,8 @@ Public Class ListAvailable
             Else
                 Me.StatusLabel.Text = "Private"
             End If
-            Me.MemberCountLabel.Text = lst.MemberCount.ToString("N")
-            Me.SubscriberCountLabel.Text = lst.SubscriberCount.ToString("N")
+            Me.MemberCountLabel.Text = lst.MemberCount.ToString("#,##0")
+            Me.SubscriberCountLabel.Text = lst.SubscriberCount.ToString("#,##0")
             Me.DescriptionText.Text = lst.Description
         End If
     End Sub

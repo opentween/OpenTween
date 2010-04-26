@@ -59,7 +59,7 @@ Public Class FilterDialog
         End If
         EditFilterGroup.Enabled = False
         Select Case TabInformations.GetInstance.Tabs(tabName).TabType
-            Case TabUsageType.Home, TabUsageType.DirectMessage, TabUsageType.Favorites, TabUsageType.PublicSearch
+            Case TabUsageType.Home, TabUsageType.DirectMessage, TabUsageType.Favorites, TabUsageType.PublicSearch, TabUsageType.Lists
                 ButtonNew.Enabled = False
                 ButtonEdit.Enabled = False
                 ButtonDelete.Enabled = False
@@ -666,13 +666,26 @@ Public Class FilterDialog
             tabType = inputName.Usage
         End Using
         If tabName <> "" Then
+            'List対応
+            Dim list As ListElement = Nothing
+            If tabType = TabUsageType.Lists Then
+                Dim rslt As String = DirectCast(Me.Owner, TweenMain).TwitterInstance.GetListsApi()
+                If rslt <> "" Then
+                    MessageBox.Show("Failed to get lists. (" + rslt + ")")
+                End If
+                Using listAvail As New ListAvailable
+                    If listAvail.ShowDialog(Me) = Windows.Forms.DialogResult.Cancel Then Exit Sub
+                    If listAvail.SelectedList Is Nothing Then Exit Sub
+                    list = listAvail.SelectedList
+                End Using
+            End If
             If Not DirectCast(Me.Owner, TweenMain).AddNewTab(tabName, False, tabType) Then
                 Dim tmp As String = String.Format(My.Resources.AddTabMenuItem_ClickText1, tabName)
                 MessageBox.Show(tmp, My.Resources.AddTabMenuItem_ClickText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Exit Sub
             Else
                 '成功
-                _sts.AddTab(tabName, tabType)
+                _sts.AddTab(tabName, tabType, list)
                 ListTabs.Items.Add(tabName)
             End If
         End If

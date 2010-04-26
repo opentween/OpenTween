@@ -90,6 +90,7 @@ Public Class SettingCommon
     Public ReplyPeriod As Integer = 600
     Public DMPeriod As Integer = 600
     Public PubSearchPeriod As Integer = 180
+    Public ListsPeriod As Integer = 180
     'Public ReadPages As Integer = 1
     'Public ReadPagesReply As Integer = 1
     'Public ReadPagesDM As Integer = 1

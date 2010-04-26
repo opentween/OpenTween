@@ -28,6 +28,7 @@ Public Class Setting
     Private _MytimelinePeriod As Integer
     Private _MyDMPeriod As Integer
     Private _MyPubSearchPeriod As Integer
+    Private _MyListsPeriod As Integer
     'Private _MynextThreshold As Integer
     'Private _MyNextPages As Integer
     Private _MyLogDays As Integer
@@ -132,6 +133,7 @@ Public Class Setting
             _MytimelinePeriod = CType(TimelinePeriod.Text, Integer)
             _MyDMPeriod = CType(DMPeriod.Text, Integer)
             _MyPubSearchPeriod = CType(PubSearchPeriod.Text, Integer)
+            _MyListsPeriod = CType(ListsPeriod.Text, Integer)
             _MyReplyPeriod = CType(ReplyPeriod.Text, Integer)
             '_MynextThreshold = CType(NextThreshold.Text, Integer)
             '_MyNextPages = CType(NextPages.Text, Integer)
@@ -339,6 +341,7 @@ Public Class Setting
         ReplyPeriod.Text = _MyReplyPeriod.ToString()
         DMPeriod.Text = _MyDMPeriod.ToString()
         PubSearchPeriod.Text = _MyPubSearchPeriod.ToString()
+        ListsPeriod.Text = _MyListsPeriod.ToString()
         'NextThreshold.Text = _MynextThreshold.ToString()
         'NextPages.Text = _MyNextPages.ToString()
         'MaxPost.Text = _MyMaxPostNum.ToString()
@@ -636,6 +639,22 @@ Public Class Setting
         End If
     End Sub
 
+    Private Sub ListsPeriod_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ListsPeriod.Validating
+        Dim prd As Integer
+        Try
+            prd = CType(ListsPeriod.Text, Integer)
+        Catch ex As Exception
+            MessageBox.Show(My.Resources.DMPeriod_ValidatingText1)
+            e.Cancel = True
+            Exit Sub
+        End Try
+
+        If prd <> 0 AndAlso (prd < 30 OrElse prd > 6000) Then
+            MessageBox.Show(My.Resources.DMPeriod_ValidatingText2)
+            e.Cancel = True
+        End If
+    End Sub
+
     Private Sub ReadLogDays_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs)
         'Dim days As Integer
         'Try
@@ -903,6 +922,15 @@ Public Class Setting
         End Get
         Set(ByVal value As Integer)
             _MyPubSearchPeriod = value
+        End Set
+    End Property
+
+    Public Property ListsPeriodInt() As Integer
+        Get
+            Return _MyListsPeriod
+        End Get
+        Set(ByVal value As Integer)
+            _MyListsPeriod = value
         End Set
     End Property
 
