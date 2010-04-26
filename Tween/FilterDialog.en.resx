@@ -128,7 +128,7 @@
     <value>69, 16</value>
   </data>
   <data name="CheckExRetweet.Text" xml:space="preserve">
-    <value>ReTweet</value>
+    <value>ReTweet Only</value>
   </data>
   <data name="CheckExCaseSensitive.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 16</value>
@@ -185,7 +185,7 @@
     <value>69, 16</value>
   </data>
   <data name="CheckRetweet.Text" xml:space="preserve">
-    <value>ReTweet</value>
+    <value>ReTweet Only</value>
   </data>
   <data name="CheckCaseSensitive.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 16</value>
@@ -299,7 +299,7 @@
     <value>Manage reading</value>
   </data>
   <data name="CheckNotifyNew.Text" xml:space="preserve">
-    <value>Aleart Popups</value>
+    <value>Alert Popups</value>
   </data>
   <data name="Label10.Size" type="System.Drawing.Size, System.Drawing">
     <value>70, 12</value>
