@@ -160,6 +160,7 @@ Public Class HttpTwitter
     Public Function UpdateStatus(ByVal status As String, ByVal replyToId As Long, ByRef content As String) As HttpStatusCode
         Dim param As New Dictionary(Of String, String)
         param.Add("status", status)
+        If connectionType = AuthMethod.Basic Then param.Add("source", "Tween")
         If replyToId > 0 Then param.Add("in_reply_to_status_id", replyToId.ToString)
 
         Return httpCon.GetContent(PostMethod, _
