@@ -1285,7 +1285,7 @@ Public Class TweenMain
         If _mentionCounter > 0 Then _mentionCounter -= 1
         If _dmCounter > 0 Then _dmCounter -= 1
         If _pubSearchCounter > 0 Then _pubSearchCounter -= 1
-        If _listsCounter > 0 Then _pubSearchCounter -= 1
+        If _listsCounter > 0 Then _listsCounter -= 1
 
         If _homeCounter <= 0 AndAlso SettingDialog.TimelinePeriodInt > 0 Then
             GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
