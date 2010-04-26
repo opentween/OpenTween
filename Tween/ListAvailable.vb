@@ -27,6 +27,13 @@ Public Class ListAvailable
         Me.ListsList.Items.AddRange(TabInformations.GetInstance.SubscribableLists.ToArray)
         If Me.ListsList.Items.Count > 0 Then
             Me.ListsList.SelectedIndex = 0
+        Else
+            Me.UsernameLabel.Text = ""
+            Me.NameLabel.Text = ""
+            Me.StatusLabel.Text = ""
+            Me.MemberCountLabel.Text = "0"
+            Me.SubscriberCountLabel.Text = "0"
+            Me.DescriptionText.Text = ""
         End If
     End Sub
 

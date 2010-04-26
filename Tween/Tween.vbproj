@@ -226,6 +226,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>InputTabName.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ListAvailable.en.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ListAvailable.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ListAvailable.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ListAvailable.vb</DependentUpon>
