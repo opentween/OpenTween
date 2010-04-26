@@ -3484,9 +3484,9 @@ Public Class Twitter
         Dim countQuery As Integer = 0
         Try
             If more Then
-                res = twCon.GetListsStatuses(tab.ListInfo.Username, tab.ListInfo.Id.ToString, _countApi, tab.OldestId, 0, content)
+                res = twCon.GetListsStatuses(tab.ListInfo.UserId.ToString, tab.ListInfo.Id.ToString, _countApi, tab.OldestId, 0, content)
             Else
-                res = twCon.GetListsStatuses(tab.ListInfo.Username, tab.ListInfo.Id.ToString, _countApi, 0, 0, content)
+                res = twCon.GetListsStatuses(tab.ListInfo.UserId.ToString, tab.ListInfo.Id.ToString, _countApi, 0, 0, content)
             End If
             countQuery = _countApi
         Catch ex As Exception
