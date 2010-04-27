@@ -3472,7 +3472,7 @@ Public Class Twitter
                 End If
 
                 post.IsRead = read
-                If gType = WORKERTYPE.Timeline OrElse tab Is Nothing Then
+                If gType = WORKERTYPE.Timeline OrElse tab IsNot Nothing Then
                     post.IsReply = post.ReplyToList.Contains(_uid)
                 Else
                     post.IsReply = True
