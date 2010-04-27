@@ -6333,7 +6333,7 @@ RETRY:
             Exit Sub
         End Try
 
-        UnreadCounter = tur
+        UnreadCounter = ur
         UnreadAtCounter = urat
         If tw.RemainCountApi > -1 Then
             slbl.Append("[API: " + tw.RemainCountApi.ToString + "] ")
