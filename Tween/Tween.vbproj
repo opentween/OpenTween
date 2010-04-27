@@ -206,8 +206,20 @@
       <SubType>Designer</SubType>
       <DependentUpon>AtIdSupplement.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AtIdSupplement.zh-CHS.resx">
+      <DependentUpon>AtIdSupplement.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="DialogAsShieldIcon.resx">
       <DependentUpon>DialogAsShieldIcon.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DialogAsShieldIcon.zh-CHS.resx">
+      <DependentUpon>DialogAsShieldIcon.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FilterDialog.zh-CHS.resx">
+      <DependentUpon>FilterDialog.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="HashtagManage.en.resx">
@@ -218,6 +230,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>HashtagManage.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="HashtagManage.zh-CHS.resx">
+      <DependentUpon>HashtagManage.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="InputTabName.en.resx">
       <DependentUpon>InputTabName.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -226,6 +242,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>InputTabName.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="InputTabName.zh-CHS.resx">
+      <DependentUpon>InputTabName.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="ListAvailable.en.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ListAvailable.vb</DependentUpon>
@@ -233,6 +253,10 @@
     <EmbeddedResource Include="ListAvailable.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ListAvailable.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListAvailable.zh-CHS.resx">
+      <DependentUpon>ListAvailable.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.en.resx">
       <SubType>Designer</SubType>
@@ -243,6 +267,9 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.zh-CHS.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="OpenURL.en.resx">
       <DependentUpon>OpenURL.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -251,6 +278,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>OpenURL.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="OpenURL.zh-CHS.resx">
+      <DependentUpon>OpenURL.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="SearchWord.en.resx">
       <DependentUpon>SearchWord.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -258,6 +289,10 @@
     <EmbeddedResource Include="SearchWord.resx">
       <SubType>Designer</SubType>
       <DependentUpon>SearchWord.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SearchWord.zh-CHS.resx">
+      <DependentUpon>SearchWord.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Setting.en.resx">
       <DependentUpon>Setting.vb</DependentUpon>
@@ -275,11 +310,19 @@
       <DependentUpon>FilterDialog.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Setting.zh-CHS.resx">
+      <DependentUpon>Setting.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="TabsDialog.en.resx">
       <DependentUpon>TabsDialog.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="TabsDialog.resx">
+      <DependentUpon>TabsDialog.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TabsDialog.zh-CHS.resx">
       <DependentUpon>TabsDialog.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -291,6 +334,10 @@
       <DependentUpon>Tween.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Tween.zh-CHS.resx">
+      <DependentUpon>Tween.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="TweenAboutBox.en.resx">
       <DependentUpon>TweenAboutBox.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -298,6 +345,10 @@
     <EmbeddedResource Include="TweenAboutBox.resx">
       <SubType>Designer</SubType>
       <DependentUpon>TweenAboutBox.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TweenAboutBox.zh-CHS.resx">
+      <DependentUpon>TweenAboutBox.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

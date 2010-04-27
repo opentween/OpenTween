@@ -113,7 +113,8 @@ Namespace My
                     cultureStr = cfgCommon.Language
                     If cultureStr = "OS" Then
                         If Not Threading.Thread.CurrentThread.CurrentUICulture.Name.StartsWith("ja") AndAlso _
-                           Not Threading.Thread.CurrentThread.CurrentUICulture.Name.StartsWith("en") Then
+                           Not Threading.Thread.CurrentThread.CurrentUICulture.Name.StartsWith("en") AndAlso _
+                           Not Threading.Thread.CurrentThread.CurrentUICulture.Name.StartsWith("zh-CHS") Then
                             cultureStr = "en"
                         End If
                     End If
