@@ -1173,8 +1173,8 @@ Partial Class TweenMain
         '
         'InfoTwitterMenuItem
         '
-        Me.InfoTwitterMenuItem.Name = "InfoTwitterMenuItem"
         resources.ApplyResources(Me.InfoTwitterMenuItem, "InfoTwitterMenuItem")
+        Me.InfoTwitterMenuItem.Name = "InfoTwitterMenuItem"
         '
         'ToolStripSeparator7
         '
