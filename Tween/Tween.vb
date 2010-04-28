@@ -2622,7 +2622,7 @@ Public Class TweenMain
         End If
         If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.PublicSearch _
                             OrElse _curPost Is Nothing _
-                            OrElse Not _curPost.IsReply Then
+                            OrElse Not _curPost.InReplyToId > 0 Then
             RepliedStatusOpenMenuItem.Enabled = False
         Else
             RepliedStatusOpenMenuItem.Enabled = True
@@ -7865,7 +7865,7 @@ RETRY:
         End If
         If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.PublicSearch _
             OrElse _curPost Is Nothing _
-            OrElse Not _curPost.IsReply Then
+            OrElse Not _curPost.InReplyToId > 0 Then
             OpenRepSourceOpMenuItem.Enabled = False
         Else
             OpenRepSourceOpMenuItem.Enabled = True
