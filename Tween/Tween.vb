@@ -8130,7 +8130,7 @@ RETRY:
                     If _mc.Success Then
                         Dim _img As Image = http.GetImage(_mc.Value, url.Key)
                         If _img Is Nothing Then Continue For
-                        arg.pics.Add(New KeyValuePair(Of String, Image)(_mc.Value, _img))
+                        arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, _img))
                     End If
                 End If
             ElseIf url.Key.StartsWith("http://www.flickr.com/") Then
@@ -8143,7 +8143,7 @@ RETRY:
                         If _mc.Count > 1 Then
                             Dim _img As Image = http.GetImage(_mc.Item(1).Value, url.Key)
                             If _img Is Nothing Then Continue For
-                            arg.pics.Add(New KeyValuePair(Of String, Image)(_mc.Item(1).Value, _img))
+                            arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, _img))
                         End If
                     End If
                     Continue For
