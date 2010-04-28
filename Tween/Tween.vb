@@ -8069,13 +8069,7 @@ RETRY:
             'サムネイルURLは画像ページから抽出する
             mc = Regex.Match(url, "^http://www\.pixiv\.net/(member_illust|index)\.php\?mode=(medium|big)&(amp;)?illust_id=(?<illustId>[0-9]+)(&(amp;)?tag=(?<tag>.+))*$", RegexOptions.IgnoreCase)
             If Not mc.Groups("tag").Value = "R-18" AndAlso mc.Success Then
-                Dim src As String = ""
-                If (New HttpVarious).GetData(Regex.Replace(mc.Groups(0).Value, "amp;", ""), Nothing, src, 5000) Then
-                    Dim _mc As Match = Regex.Match(src, mc.Result("http://img([0-9]+)\.pixiv\.net/img/.+/${illustId}_s\.([a-zA-Z]+)"))
-                    If _mc.Success Then
-                        imglist.Add(New KeyValuePair(Of String, String)(url.Replace("amp;", ""), _mc.Value))
-                    End If
-                End If
+                imglist.Add(New KeyValuePair(Of String, String)(url.Replace("amp;", ""), mc.Value))
                 Continue For
             End If
             'flickr
@@ -8085,14 +8079,7 @@ RETRY:
             '(二つ目のキャプチャ 一つ目の画像はユーザーアイコン）
             mc = Regex.Match(url, "^http://www.flickr.com/", RegexOptions.IgnoreCase)
             If mc.Success Then
-                Dim src As String = ""
-                If (New HttpVarious).GetData(url, Nothing, src, 5000) Then
-                    Dim _mc As MatchCollection = Regex.Matches(src, mc.Result("http://farm[0-9]+\.static\.flickr\.com/[0-9]+/.+\.([a-zA-Z]+)"))
-                    '二つ以上キャプチャした場合先頭の一つだけ 一つだけの場合はユーザーアイコンしか取れなかった
-                    If _mc.Count > 1 Then
-                        imglist.Add(New KeyValuePair(Of String, String)(url, _mc.Item(1).Value))
-                    End If
-                End If
+                imglist.Add(New KeyValuePair(Of String, String)(url, mc.Value))
                 Continue For
             End If
         Next
@@ -8117,11 +8104,42 @@ RETRY:
 
     Private Sub bgw_DoWork(ByVal sender As Object, ByVal e As System.ComponentModel.DoWorkEventArgs)
         Dim arg As PreviewData = DirectCast(e.Argument, PreviewData)
+        ' pixivとFlickrのhtml解析もこちらでやる
         For Each url As KeyValuePair(Of String, String) In arg.urls
             Dim http As New HttpVarious
-            Dim img As Image = http.GetImage(url.Value, url.Key)
-            If img Is Nothing Then Continue For
-            arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, img))
+
+            If url.Key.StartsWith("http://www.pixiv.net/") Then
+                Dim src As String = ""
+                'illustIDをキャプチャ
+                Dim mc As Match = Regex.Match(url.Key, "^http://www\.pixiv\.net/(member_illust|index)\.php\?mode=(medium|big)&(amp;)?illust_id=(?<illustId>[0-9]+)(&(amp;)?tag=(?<tag>.+))*$", RegexOptions.IgnoreCase)
+                If (New HttpVarious).GetData(Regex.Replace(mc.Groups(0).Value, "amp;", ""), Nothing, src, 5000) Then
+                    Dim _mc As Match = Regex.Match(src, mc.Result("http://img([0-9]+)\.pixiv\.net/img/.+/${illustId}_s\.([a-zA-Z]+)"))
+                    If _mc.Success Then
+                        Dim _img As Image = http.GetImage(_mc.Value, url.Key)
+                        If _img Is Nothing Then Continue For
+                        arg.pics.Add(New KeyValuePair(Of String, Image)(_mc.Value, _img))
+                    End If
+                End If
+            ElseIf url.Key.StartsWith("http://www.flickr.com/") Then
+                Dim mc As Match = Regex.Match(url.Key, "^http://www.flickr.com/", RegexOptions.IgnoreCase)
+                If mc.Success Then
+                    Dim src As String = ""
+                    If (New HttpVarious).GetData(url.Key, Nothing, src, 5000) Then
+                        Dim _mc As MatchCollection = Regex.Matches(src, mc.Result("http://farm[0-9]+\.static\.flickr\.com/[0-9]+/.+\.([a-zA-Z]+)"))
+                        '二つ以上キャプチャした場合先頭の一つだけ 一つだけの場合はユーザーアイコンしか取れなかった
+                        If _mc.Count > 1 Then
+                            Dim _img As Image = http.GetImage(_mc.Item(1).Value, url.Key)
+                            If _img Is Nothing Then Continue For
+                            arg.pics.Add(New KeyValuePair(Of String, Image)(_mc.Item(1).Value, _img))
+                        End If
+                    End If
+                    Continue For
+                End If
+            Else
+                Dim img As Image = http.GetImage(url.Value, url.Key)
+                If img Is Nothing Then Continue For
+                arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, img))
+            End If
         Next
         If arg.pics.Count = 0 Then
             e.Result = Nothing
