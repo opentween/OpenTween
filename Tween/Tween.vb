@@ -7857,10 +7857,23 @@ RETRY:
                 Me.RtOpMenuItem.Enabled = True
             End If
         End If
+
         If _statuses.Tabs(ListTab.SelectedTab.Text).TabType <> TabUsageType.Favorites Then
             Me.RefreshPrevOpMenuItem.Enabled = True
         Else
             Me.RefreshPrevOpMenuItem.Enabled = False
+        End If
+        If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.PublicSearch _
+            OrElse _curPost Is Nothing _
+            OrElse Not _curPost.IsReply Then
+            OpenRepSourceOpMenuItem.Enabled = False
+        Else
+            OpenRepSourceOpMenuItem.Enabled = True
+        End If
+        If _curPost Is Nothing OrElse _curPost.RetweetedBy = "" Then
+            OpenRterHomeMenuItem.Enabled = False
+        Else
+            OpenRterHomeMenuItem.Enabled = True
         End If
     End Sub
 
