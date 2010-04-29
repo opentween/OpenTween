@@ -1040,6 +1040,9 @@
         zkDsDMTOQOwMxM7A+XMG/g+vfKQUwgG5fQAAAABJRU5ErkJggg==
 </value>
   </data>
+  <data name="OKButton.Text" xml:space="preserve">
+    <value>确定(&amp;O)</value>
+  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>关于Tween</value>
   </data>
