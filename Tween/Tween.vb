@@ -8110,6 +8110,8 @@ RETRY:
         'If re.IsMatch(imglist(0)) = True Then
         Dim bgw As BackgroundWorker
         bgw = New BackgroundWorker()
+        bgw.WorkerReportsProgress = True
+        AddHandler bgw.ProgressChanged, AddressOf bgw_ProgressChanged
         AddHandler bgw.DoWork, AddressOf bgw_DoWork
         AddHandler bgw.RunWorkerCompleted, AddressOf bgw_Completed
         bgw.RunWorkerAsync(New PreviewData(id, imglist))
@@ -8117,8 +8119,22 @@ RETRY:
 
     End Sub
 
+    Private Sub bgw_ProgressChanged(ByVal sender As Object, ByVal e As System.ComponentModel.ProgressChangedEventArgs)
+        If e.ProgressPercentage = 0 Then    '開始
+            StatusLabel.Text = "Thumbnail generating..."
+        ElseIf e.ProgressPercentage = 100 Then '正常終了
+            StatusLabel.Text = "Thumbnail generated."
+        Else ' エラー
+            StatusLabel.Text = "cant't get Thumbnail."
+        End If
+        StatusLabel.Visible = True
+    End Sub
+
     Private Sub bgw_DoWork(ByVal sender As Object, ByVal e As System.ComponentModel.DoWorkEventArgs)
         Dim arg As PreviewData = DirectCast(e.Argument, PreviewData)
+        Dim worker As BackgroundWorker = DirectCast(sender, BackgroundWorker)
+
+        worker.ReportProgress(0)
         ' pixivとFlickrのhtml解析もこちらでやる
         For Each url As KeyValuePair(Of String, String) In arg.urls
             Dim http As New HttpVarious
@@ -8157,8 +8173,10 @@ RETRY:
             End If
         Next
         If arg.pics.Count = 0 Then
+            worker.ReportProgress(-1)
             e.Result = Nothing
         Else
+            worker.ReportProgress(100)
             e.Result = arg
         End If
     End Sub
