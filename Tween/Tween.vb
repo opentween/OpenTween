@@ -7853,8 +7853,10 @@ RETRY:
             End If
             If _curPost.IsMe Then
                 Me.RtOpMenuItem.Enabled = False
+                Me.DeleteStripMenuItem.Enabled = True
             Else
                 Me.RtOpMenuItem.Enabled = True
+                Me.DeleteStripMenuItem.Enabled = False
             End If
         End If
 
@@ -8080,7 +8082,7 @@ RETRY:
             '非ログインユーザー向けの画像ページ http://www.pixiv.net/index.php?mode=medium&illust_id=[ID番号]
             'サムネイルURL http://img[サーバー番号].pixiv.net/img/[ユーザー名]/[サムネイルID]_s.[拡張子]
             'サムネイルURLは画像ページから抽出する
-            mc = Regex.Match(url, "^http://www\.pixiv\.net/(member_illust|index)\.php\?mode=(medium|big|manga)&(amp;)?illust_id=(?<illustId>[0-9]+)(&(amp;)?(tag|type)=(?<tag>.+))*$", RegexOptions.IgnoreCase)
+            mc = Regex.Match(url, "^http://www\.pixiv\.net/(member_illust|index)\.php\?mode=(medium|big)&(amp;)?illust_id=(?<illustId>[0-9]+)(&(amp;)?tag=(?<tag>.+))*$", RegexOptions.IgnoreCase)
             If Not mc.Groups("tag").Value = "R-18" AndAlso mc.Success Then
                 imglist.Add(New KeyValuePair(Of String, String)(url.Replace("amp;", ""), mc.Value))
                 Continue For
@@ -8121,10 +8123,10 @@ RETRY:
         For Each url As KeyValuePair(Of String, String) In arg.urls
             Dim http As New HttpVarious
 
-            If Regex.Match(url.Key, "^http://www\.pixiv\.net/", RegexOptions.IgnoreCase).Success Then
+            If url.Key.StartsWith("http://www.pixiv.net/") Then
                 Dim src As String = ""
                 'illustIDをキャプチャ
-                Dim mc As Match = Regex.Match(url.Key, "^http://www\.pixiv\.net/(member_illust|index)\.php\?mode=(medium|big|manga)&(amp;)?illust_id=(?<illustId>[0-9]+)(&(amp;)?(tag|type)=(?<tag>.+))*$", RegexOptions.IgnoreCase)
+                Dim mc As Match = Regex.Match(url.Key, "^http://www\.pixiv\.net/(member_illust|index)\.php\?mode=(medium|big)&(amp;)?illust_id=(?<illustId>[0-9]+)(&(amp;)?tag=(?<tag>.+))*$", RegexOptions.IgnoreCase)
                 If (New HttpVarious).GetData(Regex.Replace(mc.Groups(0).Value, "amp;", ""), Nothing, src, 5000) Then
                     Dim _mc As Match = Regex.Match(src, mc.Result("http://img([0-9]+)\.pixiv\.net/img/.+/${illustId}_s\.([a-zA-Z]+)"))
                     If _mc.Success Then
@@ -8133,12 +8135,12 @@ RETRY:
                         arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, _img))
                     End If
                 End If
-            ElseIf Regex.Match(url.Key, "^http://(www\.)?flickr\.com/", RegexOptions.IgnoreCase).Success Then
-                Dim mc As Match = Regex.Match(url.Key, "^http://(www\.)?flickr\.com/", RegexOptions.IgnoreCase)
+            ElseIf url.Key.StartsWith("http://www.flickr.com/") Then
+                Dim mc As Match = Regex.Match(url.Key, "^http://www.flickr.com/", RegexOptions.IgnoreCase)
                 If mc.Success Then
                     Dim src As String = ""
                     If (New HttpVarious).GetData(url.Key, Nothing, src, 5000) Then
-                        Dim _mc As MatchCollection = Regex.Matches(src, mc.Result("http://farm[0-9]+\.static\.flickr\.com/[0-9]+/.+?\.([a-zA-Z]+)"))
+                        Dim _mc As MatchCollection = Regex.Matches(src, mc.Result("http://farm[0-9]+\.static\.flickr\.com/[0-9]+/.+\.([a-zA-Z]+)"))
                         '二つ以上キャプチャした場合先頭の一つだけ 一つだけの場合はユーザーアイコンしか取れなかった
                         If _mc.Count > 1 Then
                             Dim _img As Image = http.GetImage(_mc.Item(1).Value, url.Key)
