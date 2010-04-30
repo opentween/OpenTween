@@ -7853,10 +7853,10 @@ RETRY:
             End If
             If _curPost.IsMe Then
                 Me.RtOpMenuItem.Enabled = False
-                Me.DeleteStripMenuItem.Enabled = True
+                Me.DelOpMenuItem.Enabled = True
             Else
                 Me.RtOpMenuItem.Enabled = True
-                Me.DeleteStripMenuItem.Enabled = False
+                Me.DelOpMenuItem.Enabled = False
             End If
         End If
 
