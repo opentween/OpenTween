@@ -8173,10 +8173,8 @@ RETRY:
             End If
         Next
         If arg.pics.Count = 0 Then
-            worker.ReportProgress(-1)
             e.Result = Nothing
         Else
-            worker.ReportProgress(100)
             e.Result = arg
         End If
     End Sub
@@ -8186,6 +8184,7 @@ RETRY:
             Me.PreviewScrollBar.Maximum = 0
             Me.PreviewScrollBar.Enabled = False
             Me.SplitContainer3.Panel2Collapsed = True
+            bgw_ProgressChanged(Nothing, New System.ComponentModel.ProgressChangedEventArgs(-1, Nothing))
             Exit Sub
         End If
         Dim prv As PreviewData = DirectCast(e.Result, PreviewData)
@@ -8207,6 +8206,7 @@ RETRY:
                 Me.SplitContainer3.Panel2Collapsed = True
             End If
         End SyncLock
+        bgw_ProgressChanged(Nothing, New System.ComponentModel.ProgressChangedEventArgs(100, Nothing))
     End Sub
 
     Private Sub PreviewScrollBar_Scroll(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ScrollEventArgs) Handles PreviewScrollBar.Scroll
