@@ -8097,6 +8097,12 @@ RETRY:
                 imglist.Add(New KeyValuePair(Of String, String)(url, mc.Value))
                 Continue For
             End If
+            'TwitVideo
+            mc = Regex.Match(url, "^http://twitvideo\.jp/(\w+)$", RegexOptions.IgnoreCase)
+            If mc.Success Then
+                imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://twitvideo.jp/img/thumb/${1}")))
+                Continue For
+            End If
         Next
 
         If imglist.Count = 0 Then
