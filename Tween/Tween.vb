@@ -6358,6 +6358,9 @@ RETRY:
             ur.Append(" - ")
         End If
         ur.Append("Tween")
+#If DEBUG Then
+        ur.Append("(Debug Build)")
+#End If
         If UnreadCounter <> -1 AndAlso UnreadAtCounter <> -1 Then
             ur.Append(" [")
             ur.Append(UnreadCounter)
