@@ -8125,7 +8125,7 @@ RETRY:
         ElseIf e.ProgressPercentage = 100 Then '正常終了
             StatusLabel.Text = "Thumbnail generated."
         Else ' エラー
-            StatusLabel.Text = "cant't get Thumbnail."
+            StatusLabel.Text = "can't get Thumbnail."
         End If
         StatusLabel.Visible = True
     End Sub
