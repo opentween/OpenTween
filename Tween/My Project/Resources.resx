@@ -242,10 +242,10 @@
     <value>削除成功</value>
   </data>
   <data name="DMPeriod_ValidatingText1" xml:space="preserve">
-    <value>更新間隔には数値（0または30～6000）を指定してください。</value>
+    <value>更新間隔には数値（0または15～6000）を指定してください。</value>
   </data>
   <data name="DMPeriod_ValidatingText2" xml:space="preserve">
-    <value>更新間隔には数値（0または30～6000）を指定してください。</value>
+    <value>更新間隔には数値（0または15～6000）を指定してください。</value>
   </data>
   <data name="DoTabSearchText1" xml:space="preserve">
     <value>正規表現パターンが間違っています。</value>
@@ -578,10 +578,10 @@
     <value>ポート番号には0～65535を指定してください。</value>
   </data>
   <data name="TimelinePeriod_ValidatingText1" xml:space="preserve">
-    <value>更新間隔には数値（0または30～6000）を指定してください。</value>
+    <value>更新間隔には数値（0または15～6000）を指定してください。</value>
   </data>
   <data name="TimelinePeriod_ValidatingText2" xml:space="preserve">
-    <value>更新間隔には数値（0または30～6000）を指定してください。</value>
+    <value>更新間隔には数値（0または15～6000）を指定してください。</value>
   </data>
   <data name="TimerDM_TickText1" xml:space="preserve">
     <value>DMRcv更新中...</value>

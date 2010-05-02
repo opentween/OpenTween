@@ -559,11 +559,11 @@ Public Class TweenMain
         SettingDialog.MaxPostNum = _cfgCommon.MaxPostNum
         '不正値チェック
         If Not My.Application.CommandLineArgs.Contains("nolimit") Then
-            If SettingDialog.TimelinePeriodInt < 30 AndAlso SettingDialog.TimelinePeriodInt > 0 Then SettingDialog.TimelinePeriodInt = 30
-            If SettingDialog.ReplyPeriodInt < 30 AndAlso SettingDialog.ReplyPeriodInt > 0 Then SettingDialog.ReplyPeriodInt = 30
-            If SettingDialog.DMPeriodInt < 30 AndAlso SettingDialog.DMPeriodInt > 0 Then SettingDialog.DMPeriodInt = 30
-            If SettingDialog.PubSearchPeriodInt < 30 AndAlso SettingDialog.PubSearchPeriodInt > 0 Then SettingDialog.PubSearchPeriodInt = 30
-            If SettingDialog.ListsPeriodInt < 30 AndAlso SettingDialog.ListsPeriodInt > 0 Then SettingDialog.ListsPeriodInt = 30
+            If SettingDialog.TimelinePeriodInt < 15 AndAlso SettingDialog.TimelinePeriodInt > 0 Then SettingDialog.TimelinePeriodInt = 15
+            If SettingDialog.ReplyPeriodInt < 15 AndAlso SettingDialog.ReplyPeriodInt > 0 Then SettingDialog.ReplyPeriodInt = 15
+            If SettingDialog.DMPeriodInt < 15 AndAlso SettingDialog.DMPeriodInt > 0 Then SettingDialog.DMPeriodInt = 15
+            If SettingDialog.PubSearchPeriodInt < 15 AndAlso SettingDialog.PubSearchPeriodInt > 0 Then SettingDialog.PubSearchPeriodInt = 15
+            If SettingDialog.ListsPeriodInt < 15 AndAlso SettingDialog.ListsPeriodInt > 0 Then SettingDialog.ListsPeriodInt = 15
         End If
         '起動時読み込みページ数
         'SettingDialog.ReadPages = _cfgCommon.ReadPages
