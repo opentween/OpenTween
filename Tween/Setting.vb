@@ -553,7 +553,7 @@ Public Class Setting
             Exit Sub
         End Try
 
-        If prd <> 0 AndAlso (prd < 30 OrElse prd > 6000) Then
+        If prd <> 0 AndAlso (prd < 15 OrElse prd > 6000) Then
             MessageBox.Show(My.Resources.TimelinePeriod_ValidatingText2)
             e.Cancel = True
         End If
@@ -569,7 +569,7 @@ Public Class Setting
             Exit Sub
         End Try
 
-        If prd <> 0 AndAlso (prd < 30 OrElse prd > 6000) Then
+        If prd <> 0 AndAlso (prd < 15 OrElse prd > 6000) Then
             MessageBox.Show(My.Resources.TimelinePeriod_ValidatingText2)
             e.Cancel = True
         End If
@@ -617,7 +617,7 @@ Public Class Setting
             Exit Sub
         End Try
 
-        If prd <> 0 AndAlso (prd < 30 OrElse prd > 6000) Then
+        If prd <> 0 AndAlso (prd < 15 OrElse prd > 6000) Then
             MessageBox.Show(My.Resources.DMPeriod_ValidatingText2)
             e.Cancel = True
         End If
@@ -633,7 +633,7 @@ Public Class Setting
             Exit Sub
         End Try
 
-        If prd <> 0 AndAlso (prd < 30 OrElse prd > 6000) Then
+        If prd <> 0 AndAlso (prd < 15 OrElse prd > 6000) Then
             MessageBox.Show(My.Resources.DMPeriod_ValidatingText2)
             e.Cancel = True
         End If
@@ -649,7 +649,7 @@ Public Class Setting
             Exit Sub
         End Try
 
-        If prd <> 0 AndAlso (prd < 30 OrElse prd > 6000) Then
+        If prd <> 0 AndAlso (prd < 15 OrElse prd > 6000) Then
             MessageBox.Show(My.Resources.DMPeriod_ValidatingText2)
             e.Cancel = True
         End If
