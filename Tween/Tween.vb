@@ -2642,7 +2642,7 @@ Public Class TweenMain
         MakeReplyOrDirectStatus(False, False)
     End Sub
 
-    Private Sub DeleteStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DeleteStripMenuItem.Click, DelOpMenuItem.Click
+    Private Sub doStatusDelete()
         If _curTab Is Nothing OrElse _curList Is Nothing Then Exit Sub
         If _statuses.Tabs(_curTab.Text).TabType <> TabUsageType.DirectMessage Then
             Dim myPost As Boolean = False
@@ -2730,6 +2730,10 @@ Public Class TweenMain
         Finally
             Me.Cursor = Cursors.Default
         End Try
+    End Sub
+
+    Private Sub DeleteStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DeleteStripMenuItem.Click, DelOpMenuItem.Click
+        doStatusDelete()
     End Sub
 
     Private Sub ReadedStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReadedStripMenuItem.Click, ReadOpMenuItem.Click
@@ -4454,6 +4458,8 @@ RETRY:
             End If
             If e.KeyCode = Keys.N Then GoNextTab(True)
             If e.KeyCode = Keys.P Then GoNextTab(False)
+            If e.KeyCode = Keys.I Then doRepliedStatusOpen()
+            If e.KeyCode = Keys.D Then doStatusDelete()
             'If e.KeyCode = Keys.F Then
             '    e.Handled = True
             '    e.SuppressKeyPress = True
@@ -4478,6 +4484,7 @@ RETRY:
                 e.SuppressKeyPress = True
                 GoSamePostToAnotherTab(True)
             End If
+            If e.KeyCode = Keys.R Then doReTweetOriginal()
         End If
         If e.Shift AndAlso Not e.Control AndAlso Not e.Alt Then
             ' SHIFTキーが押されている場合
@@ -4528,6 +4535,10 @@ RETRY:
                 e.SuppressKeyPress = True
                 DoRefreshMore()
             End If
+        End If
+        If e.Control AndAlso Not e.Alt AndAlso e.Shift Then
+            ' CTRL+SHIFTキーが押されている場合
+            If e.KeyCode = Keys.H Then doMoveToRTHome()
         End If
         If Not e.Alt Then
             If e.KeyCode = Keys.J Then
@@ -6481,7 +6492,7 @@ RETRY:
         End If
     End Sub
 
-    Private Sub RepliedStatusOpenMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RepliedStatusOpenMenuItem.Click, OpenRepSourceOpMenuItem.Click
+    Private Sub doRepliedStatusOpen()
         If _curPost IsNot Nothing AndAlso _curPost.InReplyToUser IsNot Nothing AndAlso _curPost.InReplyToId > 0 Then
             If _statuses.ContainsKey(_curPost.InReplyToId) AndAlso Not My.Computer.Keyboard.ShiftKeyDown Then
                 Dim repPost As PostClass = _statuses.Item(_curPost.InReplyToId)
@@ -6490,6 +6501,10 @@ RETRY:
                 OpenUriAsync("http://twitter.com/" + _curPost.InReplyToUser + "/status/" + _curPost.InReplyToId.ToString())
             End If
         End If
+    End Sub
+
+    Private Sub RepliedStatusOpenMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RepliedStatusOpenMenuItem.Click, OpenRepSourceOpMenuItem.Click
+        doRepliedStatusOpen()
     End Sub
 
     Private Sub ContextMenuStrip3_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip3.Opening
@@ -7300,7 +7315,7 @@ RETRY:
         End If
     End Sub
 
-    Private Sub ReTweetOriginalStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReTweetOriginalStripMenuItem.Click, RtOpMenuItem.Click
+    Private Sub doReTweetOriginal()
         '公式RT
         If _curPost IsNot Nothing AndAlso Not _curPost.IsDm AndAlso Not _curPost.IsMe Then
             If SettingDialog.ProtectNotInclude AndAlso _curPost.IsProtect Then
@@ -7319,32 +7334,11 @@ RETRY:
 
             RunAsync(args)
         End If
-
-        ''RT @id:内容
-        ''元発言のみRT
-        'If _curPost IsNot Nothing Then
-        '    If _curPost.IsDm OrElse _
-        '       Not StatusText.Enabled Then Exit Sub
-
-        '    If SettingDialog.ProtectNotInclude AndAlso _curPost.IsProtect Then
-        '        MessageBox.Show("Protected.")
-        '        Exit Sub
-        '    End If
-
-        '    Dim rtdata As String = _curPost.OriginalData
-        '    rtdata = CreateRetweet(rtdata)
-
-        '    Dim rx As New Regex("^(?<multi>(RT @[0-9a-zA-Z_]+\s?:\s?)*)(?<org>RT @[0-9a-zA-Z_]+\s?:)")
-        '    If rx.IsMatch(rtdata) Then
-        '        StatusText.Text = HttpUtility.HtmlDecode(rx.Replace(rtdata, "${org}"))
-        '    Else
-        '        StatusText.Text = "RT @" + _curPost.Name + ": " + HttpUtility.HtmlDecode(rtdata)
-        '    End If
-
-        '    StatusText.SelectionStart = 0
-        '    StatusText.Focus()
-        'End If
     End Sub
+
+    Private Sub ReTweetOriginalStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReTweetOriginalStripMenuItem.Click, RtOpMenuItem.Click
+        doReTweetOriginal()
+     End Sub
 
     Private Function CreateRetweet(ByVal status As String) As String
 
@@ -7687,13 +7681,16 @@ RETRY:
         End If
     End Sub
 
-    Private Sub MoveToRTHomeMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MoveToRTHomeMenuItem.Click, OpenRterHomeMenuItem.Click
+    Private Sub doMoveToRTHome()
         If _curList.SelectedIndices.Count > 0 Then
             Dim post As PostClass = GetCurTabPost(_curList.SelectedIndices(0))
             If post.RetweetedId > 0 Then
                 OpenUriAsync("http://twitter.com/" + GetCurTabPost(_curList.SelectedIndices(0)).RetweetedBy)
             End If
         End If
+    End Sub
+    Private Sub MoveToRTHomeMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MoveToRTHomeMenuItem.Click, OpenRterHomeMenuItem.Click
+        doMoveToRTHome()
     End Sub
 
     Private Sub IdFilterAddMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles IdFilterAddMenuItem.Click
