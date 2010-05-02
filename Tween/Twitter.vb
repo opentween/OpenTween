@@ -4141,7 +4141,7 @@ Public Class Twitter
         Next
         retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9_/&])[#＃]([a-zA-Z0-9_]+)", New MatchEvaluator(AddressOf AutoLinkHashtag))
 
-        retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9_/&#＃@＠>])sm([0-9]{4,10})", "$1<a href=""http://www.nicovideo.jp/watch/sm$2"">sm$2</a>")
+        retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9_/&#＃@＠>=])sm([0-9]{4,10})", "$1<a href=""http://www.nicovideo.jp/watch/sm$2"">sm$2</a>")
 
         retStr = AdjustHtml(ShortUrlResolve(PreProcessUrl(retStr))) 'IDN置換、短縮Uri解決、@リンクを相対→絶対にしてtarget属性付与
         Return retStr
