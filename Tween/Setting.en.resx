@@ -774,6 +774,15 @@
   <data name="chkReadOwnPost.Text" xml:space="preserve">
     <value>Enable</value>
   </data>
+  <data name="ReplyIconStateCombo.Items" xml:space="preserve">
+    <value>Don't notify</value>
+  </data>
+  <data name="ReplyIconStateCombo.Items1" xml:space="preserve">
+    <value>Change icon</value>
+  </data>
+  <data name="ReplyIconStateCombo.Items2" xml:space="preserve">
+    <value>Change icon&amp;blink</value>
+  </data>
   <data name="Label72.Size" type="System.Drawing.Size, System.Drawing">
     <value>167, 12</value>
   </data>
