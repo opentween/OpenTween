@@ -8114,10 +8114,9 @@ RETRY:
 
         're = New Regex("http://.*\.jpg.*|http://.*(\.jpg|\.jpeg|\.gif|\.png|\.bmp)|http://twitpic\.com/show/thumb/.*|http://TweetPhotoAPI\.com/api/TPAPI\.svc/imagefromurl.*", RegexOptions.IgnoreCase)
         'If re.IsMatch(imglist(0)) = True Then
+        ThumbnailProgressChanged(0)
         Dim bgw As BackgroundWorker
         bgw = New BackgroundWorker()
-        bgw.WorkerReportsProgress = True
-        AddHandler bgw.ProgressChanged, AddressOf bgw_ProgressChanged
         AddHandler bgw.DoWork, AddressOf bgw_DoWork
         AddHandler bgw.RunWorkerCompleted, AddressOf bgw_Completed
         bgw.RunWorkerAsync(New PreviewData(id, imglist))
@@ -8125,22 +8124,20 @@ RETRY:
 
     End Sub
 
-    Private Sub bgw_ProgressChanged(ByVal sender As Object, ByVal e As System.ComponentModel.ProgressChangedEventArgs)
-        If e.ProgressPercentage = 0 Then    '開始
+    Private Sub ThumbnailProgressChanged(ByVal ProgressPercentage As Integer)
+        If ProgressPercentage = 0 Then    '開始
             StatusLabel.Text = "Thumbnail generating..."
-        ElseIf e.ProgressPercentage = 100 Then '正常終了
+        ElseIf ProgressPercentage = 100 Then '正常終了
             StatusLabel.Text = "Thumbnail generated."
         Else ' エラー
             StatusLabel.Text = "can't get Thumbnail."
         End If
-        StatusLabel.Visible = True
     End Sub
 
     Private Sub bgw_DoWork(ByVal sender As Object, ByVal e As System.ComponentModel.DoWorkEventArgs)
         Dim arg As PreviewData = DirectCast(e.Argument, PreviewData)
         Dim worker As BackgroundWorker = DirectCast(sender, BackgroundWorker)
 
-        worker.ReportProgress(0)
         ' pixivとFlickrのhtml解析もこちらでやる
         For Each url As KeyValuePair(Of String, String) In arg.urls
             Dim http As New HttpVarious
@@ -8190,7 +8187,7 @@ RETRY:
             Me.PreviewScrollBar.Maximum = 0
             Me.PreviewScrollBar.Enabled = False
             Me.SplitContainer3.Panel2Collapsed = True
-            bgw_ProgressChanged(Nothing, New System.ComponentModel.ProgressChangedEventArgs(-1, Nothing))
+            ThumbnailProgressChanged(-1)
             Exit Sub
         End If
         Dim prv As PreviewData = DirectCast(e.Result, PreviewData)
@@ -8212,7 +8209,7 @@ RETRY:
                 Me.SplitContainer3.Panel2Collapsed = True
             End If
         End SyncLock
-        bgw_ProgressChanged(Nothing, New System.ComponentModel.ProgressChangedEventArgs(100, Nothing))
+        ThumbnailProgressChanged(100)
     End Sub
 
     Private Sub PreviewScrollBar_Scroll(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ScrollEventArgs) Handles PreviewScrollBar.Scroll
