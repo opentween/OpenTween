@@ -7632,6 +7632,31 @@ RETRY:
         Dim cmb As ComboBox = DirectCast(pnl.Controls("comboSearch"), ComboBox)
         Dim cmbLang As ComboBox = DirectCast(pnl.Controls("comboLang"), ComboBox)
         cmb.Text = cmb.Text.Trim
+        ' 検索式演算子 OR についてのみ大文字しか認識しないので強制的に大文字とする
+        Dim Quote As Boolean = False
+        Dim _idx As Integer = 0
+        Dim buf As New StringBuilder()
+        Dim c As Char() = cmb.Text.ToCharArray()
+        For cnt As Integer = 0 To cmb.Text.Length - 1
+            If _idx > cmb.Text.Length - 4 Then
+                buf.Append(cmb.Text.Substring(_idx, 3))
+                Exit For
+            End If
+            If c(cnt) = CChar("""") Then
+                Quote = Not Quote
+            Else
+                If Not Quote AndAlso cmb.Text.Substring(_idx, 4).Equals(" or ") Then
+                    buf.Append(" OR ")
+                    _idx += 3
+                    cnt += 3
+                    Continue For
+                End If
+            End If
+            buf.Append(c(cnt))
+            _idx += 1
+        Next
+        cmb.Text = buf.ToString()
+
         tb.SearchWords = cmb.Text
         tb.SearchLang = cmbLang.Text
         If cmb.Text = "" Then
