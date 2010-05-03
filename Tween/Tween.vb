@@ -664,6 +664,7 @@ Public Class TweenMain
         SettingDialog.Language = _cfgCommon.Language
         SettingDialog.UseAtIdSupplement = _cfgCommon.UseAtIdSupplement
         SettingDialog.UseHashSupplement = _cfgCommon.UseHashSupplement
+        SettingDialog.PreviewEnable = _cfgCommon.PreviewEnable
         AtIdSupl = New AtIdSupplement(SettingAtIdList.Load().AtIdList, "@")
 
         SettingDialog.IsMonospace = _cfgCommon.IsMonospace
@@ -1930,60 +1931,84 @@ Public Class TweenMain
                 rslt.addCount = _statuses.DistributePosts()
             Case WORKERTYPE.FavAdd
                 'スレッド処理はしない
-                For i As Integer = 0 To args.ids.Count - 1
-                    Dim post As PostClass = _statuses.Item(args.ids(i))
-                    args.page = i + 1
-                    bw.ReportProgress(50, MakeStatusMessage(args, False))
-                    If Not post.IsFav Then
-                        If post.RetweetedId = 0 Then
-                            ret = tw.PostFavAdd(post.Id)
+                If _statuses.Tabs.ContainsKey(args.tName) Then
+                    Dim tbc As TabClass = _statuses.Tabs(args.tName)
+                    For i As Integer = 0 To args.ids.Count - 1
+                        Dim post As PostClass = Nothing
+                        If tbc.TabType = TabUsageType.Lists OrElse tbc.TabType = TabUsageType.PublicSearch Then
+                            post = tbc.Posts(args.ids(i))
                         Else
-                            ret = tw.PostFavAdd(post.RetweetedId)
+                            post = _statuses.Item(args.ids(i))
                         End If
-                        If ret.Length = 0 Then
-                            args.sIds.Add(post.Id)
-                            post.IsFav = True    'リスト再描画必要
-                            _favTimestamps.Add(Now)
-                            If post.RelTabName = "" Then
-                                '検索,リストタブからのfavは、favタブへ追加せず
-                                _statuses.GetTabByType(TabUsageType.Favorites).Add(post.Id, post.IsRead, False)
+                        args.page = i + 1
+                        bw.ReportProgress(50, MakeStatusMessage(args, False))
+                        If Not post.IsFav Then
+                            If post.RetweetedId = 0 Then
+                                ret = tw.PostFavAdd(post.Id)
+                            Else
+                                ret = tw.PostFavAdd(post.RetweetedId)
                             End If
-                            '検索、リストタブに反映
-                            For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.PublicSearch)
-                                If tb.Contains(post.Id) Then tb.Posts(post.Id).IsFav = True
-                            Next
-                            For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.Lists)
-                                If tb.Contains(post.Id) Then tb.Posts(post.Id).IsFav = True
-                            Next
+                            If ret.Length = 0 Then
+                                args.sIds.Add(post.Id)
+                                post.IsFav = True    'リスト再描画必要
+                                _favTimestamps.Add(Now)
+                                If post.RelTabName = "" Then
+                                    '検索,リストタブからのfavは、favタブへ追加せず。それ以外は追加
+                                    _statuses.GetTabByType(TabUsageType.Favorites).Add(post.Id, post.IsRead, False)
+                                Else
+                                    '検索・リストタブからのfavで、TLでも取得済みならfav反映
+                                    If _statuses.ContainsKey(post.Id) Then
+                                        Dim postTl As PostClass = _statuses.Item(post.Id)
+                                        postTl.IsFav = True
+                                        _statuses.GetTabByType(TabUsageType.Favorites).Add(postTl.Id, postTl.IsRead, False)
+                                    End If
+                                End If
+                                '検索、リストタブに反映
+                                For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.PublicSearch)
+                                    If tb.Contains(post.Id) Then tb.Posts(post.Id).IsFav = True
+                                Next
+                                For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.Lists)
+                                    If tb.Contains(post.Id) Then tb.Posts(post.Id).IsFav = True
+                                Next
+                            End If
                         End If
-                    End If
-                Next
+                    Next
+                End If
                 rslt.sIds = args.sIds
             Case WORKERTYPE.FavRemove
                 'スレッド処理はしない
-                For i As Integer = 0 To args.ids.Count - 1
-                    Dim post As PostClass = _statuses.Item(args.ids(i))
-                    args.page = i + 1
-                    bw.ReportProgress(50, MakeStatusMessage(args, False))
-                    If post.IsFav Then
-                        If post.RetweetedId = 0 Then
-                            ret = tw.PostFavRemove(post.Id)
+                If _statuses.Tabs.ContainsKey(args.tName) Then
+                    Dim tbc As TabClass = _statuses.Tabs(args.tName)
+                    For i As Integer = 0 To args.ids.Count - 1
+                        Dim post As PostClass = Nothing
+                        If tbc.TabType = TabUsageType.Lists OrElse tbc.TabType = TabUsageType.PublicSearch Then
+                            post = tbc.Posts(args.ids(i))
                         Else
-                            ret = tw.PostFavRemove(post.RetweetedId)
+                            post = _statuses.Item(args.ids(i))
                         End If
-                        If ret.Length = 0 Then
-                            args.sIds.Add(post.Id)
-                            post.IsFav = False    'リスト再描画必要
-                            '検索,リストタブに反映
-                            For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.PublicSearch)
-                                If tb.Contains(post.Id) Then tb.Posts(post.Id).IsFav = False
-                            Next
-                            For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.Lists)
-                                If tb.Contains(post.Id) Then tb.Posts(post.Id).IsFav = False
-                            Next
+                        args.page = i + 1
+                        bw.ReportProgress(50, MakeStatusMessage(args, False))
+                        If post.IsFav Then
+                            If post.RetweetedId = 0 Then
+                                ret = tw.PostFavRemove(post.Id)
+                            Else
+                                ret = tw.PostFavRemove(post.RetweetedId)
+                            End If
+                            If ret.Length = 0 Then
+                                args.sIds.Add(post.Id)
+                                post.IsFav = False    'リスト再描画必要
+                                If _statuses.ContainsKey(post.Id) Then _statuses.Item(post.Id).IsFav = False
+                                '検索,リストタブに反映
+                                For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.PublicSearch)
+                                    If tb.Contains(post.Id) Then tb.Posts(post.Id).IsFav = False
+                                Next
+                                For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.Lists)
+                                    If tb.Contains(post.Id) Then tb.Posts(post.Id).IsFav = False
+                                Next
+                            End If
                         End If
-                    End If
-                Next
+                    Next
+                End If
                 rslt.sIds = args.sIds
             Case WORKERTYPE.PostMessage
                 bw.ReportProgress(200)
@@ -2335,7 +2360,13 @@ Public Class TweenMain
                         If _curTab.Text.Equals(rslt.tName) Then
                             Dim idx As Integer = _statuses.Tabs(rslt.tName).IndexOf(rslt.sIds(i))
                             If idx > -1 Then
-                                Dim post As PostClass = _statuses.Item(rslt.sIds(i))
+                                Dim post As PostClass = Nothing
+                                Dim tb As TabClass = _statuses.Tabs(rslt.tName)
+                                If tb.TabType = TabUsageType.Lists OrElse tb.TabType = TabUsageType.PublicSearch Then
+                                    post = tb.Posts(rslt.sIds(i))
+                                Else
+                                    post = _statuses.Item(rslt.sIds(i))
+                                End If
                                 ChangeCacheStyleRead(post.IsRead, idx, _curTab)
                                 If idx = _curItemIndex Then DispSelectedPost() '選択アイテム再表示
                             End If
@@ -4179,7 +4210,7 @@ RETRY:
             retMsg = tw.GetVersionInfo()
         Catch ex As Exception
             StatusLabel.Text = My.Resources.CheckNewVersionText9
-            If Not startup Then MessageBox.Show(My.Resources.CheckNewVersionText10, My.Resources.CheckNewVersionText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            If Not startup Then MessageBox.Show(My.Resources.CheckNewVersionText10, My.Resources.CheckNewVersionText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2)
             Exit Sub
         End Try
         If retMsg.Length > 0 Then
@@ -5098,6 +5129,7 @@ RETRY:
             _cfgCommon.ShowGrid = SettingDialog.ShowGrid
             _cfgCommon.UseAtIdSupplement = SettingDialog.UseAtIdSupplement
             _cfgCommon.UseHashSupplement = SettingDialog.UseHashSupplement
+            _cfgCommon.PreviewEnable = SettingDialog.PreviewEnable
             _cfgCommon.Language = SettingDialog.Language
 
             _cfgCommon.SortOrder = _statuses.SortOrder
@@ -7961,6 +7993,10 @@ RETRY:
     End Class
 
     Private Sub thumbnail(ByVal id As Long, ByVal links As List(Of String))
+        If Not SettingDialog.PreviewEnable Then
+            Me.SplitContainer3.Panel2Collapsed = True
+            Exit Sub
+        End If
         If Not PreviewPicture.Image Is Nothing Then
             PreviewPicture.Image.Dispose()
             PreviewPicture.Image = Nothing

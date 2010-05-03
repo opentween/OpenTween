@@ -757,6 +757,6 @@
     <value>Not authenticated</value>
   </data>
   <data name="Setting_FormClosing1" xml:space="preserve">
-    <value>Account is not Validated. Will you close setting dialog?</value>
+    <value>Key in your Username and Password then press [Auth] button. Will you exit application without validating your account?</value>
   </data>
 </root>
