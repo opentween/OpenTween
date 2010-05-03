@@ -3384,8 +3384,8 @@ Public Class Twitter
 
     Private Function CreatePostsFromXml(ByVal content As String, ByVal gType As WORKERTYPE, ByVal tab As TabClass, ByVal read As Boolean, ByVal count As Integer, ByRef minimumId As Long) As String
         Dim arIdx As Integer = -1
-        Dim dlgt(count) As GetIconImageDelegate    'countQueryに合わせる
-        Dim ar(count) As IAsyncResult              'countQueryに合わせる
+        Dim dlgt(300) As GetIconImageDelegate    'countQueryに合わせる
+        Dim ar(300) As IAsyncResult              'countQueryに合わせる
         Dim xdoc As New XmlDocument
         Try
             xdoc.LoadXml(content)
