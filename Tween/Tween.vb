@@ -5711,7 +5711,14 @@ RETRY:
 
     Private Sub ContextMenuTabProperty_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuTabProperty.Opening
         '右クリックの場合はタブ名が設定済。アプリケーションキーの場合は現在のタブを対象とする
-        If _rclickTabName = "" OrElse sender IsNot ContextMenuTabProperty Then _rclickTabName = ListTab.SelectedTab.Text
+        If _rclickTabName = "" OrElse sender IsNot ContextMenuTabProperty Then
+            If ListTab IsNot Nothing AndAlso ListTab.SelectedTab IsNot Nothing Then
+                _rclickTabName = ListTab.SelectedTab.Text
+            Else
+                Exit Sub
+            End If
+        End If
+
         If _statuses Is Nothing Then Exit Sub
         If _statuses.Tabs Is Nothing Then Exit Sub
 
