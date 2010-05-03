@@ -121,6 +121,7 @@ Public Class Setting
     Private _MyIsOAuth As Boolean
     Private _MyTwitterApiUrl As String
     Private _MyTwitterSearchApiUrl As String
+    Private _MyPreviewEnable As Boolean
 
     Private Sub Save_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Save.Click
         Try
@@ -271,6 +272,7 @@ Public Class Setting
             _MyShowGrid = CheckShowGrid.Checked
             _MyUseAtIdSupplement = CheckAtIdSupple.Checked
             _MyUseHashSupplement = CheckHashSupple.Checked
+            _MyPreviewEnable = CheckPreviewEnable.Checked
             _MyTwitterApiUrl = TwitterAPIText.Text.Trim
             _MyTwitterSearchApiUrl = TwitterSearchAPIText.Text.Trim
             Select Case ReplyIconStateCombo.SelectedIndex
@@ -297,7 +299,7 @@ Public Class Setting
     End Sub
 
     Private Sub Setting_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
-        If tw IsNot Nothing AndAlso tw.Username = "" Then
+        If tw IsNot Nothing AndAlso tw.Username = "" AndAlso e.CloseReason = CloseReason.None Then
             If MessageBox.Show(My.Resources.Setting_FormClosing1, "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
                 e.Cancel = True
             End If
@@ -518,6 +520,7 @@ Public Class Setting
         CheckShowGrid.Checked = _MyShowGrid
         CheckAtIdSupple.Checked = _MyUseAtIdSupplement
         CheckHashSupple.Checked = _MyUseHashSupplement
+        CheckPreviewEnable.Checked = _MyPreviewEnable
         TwitterAPIText.Text = _MyTwitterApiUrl
         TwitterSearchAPIText.Text = _MyTwitterSearchApiUrl
         Select Case _MyReplyIconState
@@ -1712,6 +1715,15 @@ Public Class Setting
         End Get
         Set(ByVal value As Boolean)
             _MyUseHashSupplement = value
+        End Set
+    End Property
+
+    Public Property PreviewEnable() As Boolean
+        Get
+            Return _MyPreviewEnable
+        End Get
+        Set(ByVal value As Boolean)
+            _MyPreviewEnable = value
         End Set
     End Property
 

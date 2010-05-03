@@ -137,6 +137,7 @@ Public Class SettingCommon
     Public HashSelected As String = ""
     Public HashIsPermanent As Boolean = False
     Public HashIsHead As Boolean = False
+    Public PreviewEnable As Boolean = True
 
     <Xml.Serialization.XmlIgnore()> _
     Public OutputzKey As String = ""
