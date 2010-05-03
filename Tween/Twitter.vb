@@ -2079,7 +2079,7 @@ Public Class Twitter
                     xd.LoadXml(content)
                     Dim xNode As XmlNode = Nothing
                     xNode = xd.SelectSingleNode("/hash/error")
-                    Return "OK:" + xNode.InnerText
+                    Return "Err:" + xNode.InnerText
                 Catch ex As Exception
                 End Try
                 Return "Err:Update Limits?"
@@ -3495,6 +3495,7 @@ Public Class Twitter
 
             '非同期アイコン取得＆StatusDictionaryに追加
             arIdx += 1
+            If arIdx > dlgt.Length - 1 Then Continue For
             dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
             ar(arIdx) = dlgt(arIdx).BeginInvoke(post, Nothing, Nothing)
         Next
