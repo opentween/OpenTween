@@ -1709,13 +1709,13 @@ Public Class TweenMain
         _history(_history.Count - 1) = StatusText.Text.Trim
 
         If SettingDialog.UrlConvertAuto Then
-            StatusText.SelectionStart = StatusText.Text.Length - 1
+            StatusText.SelectionStart = StatusText.Text.Length
             UrlConvertAutoToolStripMenuItem_Click(Nothing, Nothing)
         ElseIf SettingDialog.Nicoms Then
-            StatusText.SelectionStart = StatusText.Text.Length - 1
+            StatusText.SelectionStart = StatusText.Text.Length
             UrlConvert(UrlConverter.Nicoms)
         End If
-        StatusText.SelectionStart = StatusText.Text.Length - 1
+        StatusText.SelectionStart = StatusText.Text.Length
         Dim args As New GetWorkerArg()
         args.page = 0
         args.endPage = 0

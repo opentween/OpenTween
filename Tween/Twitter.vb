@@ -135,6 +135,7 @@ Public Class Twitter
             "http://youtu.be/", _
             "http://dlvr.it/", _
             "http://p.tl/", _
+            "http://ht.ly/", _
             "http://flic.kr/" _
         }
 
