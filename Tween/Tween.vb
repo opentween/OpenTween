@@ -2635,6 +2635,7 @@ Public Class TweenMain
             ReTweetStripMenuItem.Enabled = False
             ReTweetOriginalStripMenuItem.Enabled = False
             QuoteStripMenuItem.Enabled = False
+            DeleteStripMenuItem.Enabled = True
         Else
             If _curPost.IsMe Then
                 ReTweetOriginalStripMenuItem.Enabled = False
@@ -7902,6 +7903,7 @@ RETRY:
             Me.RtOpMenuItem.Enabled = False
             Me.RtUnOpMenuItem.Enabled = False
             Me.QtOpMenuItem.Enabled = False
+            Me.DelOpMenuItem.Enabled = True
         Else
             If _curPost.IsProtect = True AndAlso SettingDialog.ProtectNotInclude Then
                 Me.RtOpMenuItem.Enabled = False
