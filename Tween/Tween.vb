@@ -2633,6 +2633,11 @@ Public Class TweenMain
             ' U+25B4 BLACK UP-POINTING SMALL TRIANGLE
             ColumnText(e.Column) = ColumnOrgText(e.Column) + "▴"
         End If
+        For i As Integer = 0 To 7
+            DirectCast(sender, DetailsListView).Columns.Item(i).Text = ColumnOrgText(i)
+        Next
+        DirectCast(sender, DetailsListView).Columns.Item(e.Column).Text = ColumnText(e.Column)
+
         _itemCache = Nothing
         _postCache = Nothing
         _curList.Refresh()
@@ -3865,7 +3870,6 @@ Public Class TweenMain
     End Function
 
     Private Sub MyList_DrawColumnHeader(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DrawListViewColumnHeaderEventArgs)
-        e.Header.Text = ColumnText(e.Header.Index)
         e.DrawDefault = True
     End Sub
 
