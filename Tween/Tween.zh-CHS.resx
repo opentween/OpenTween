@@ -193,6 +193,9 @@
   <data name="NotifyDispMenuItem.Text" xml:space="preserve">
     <value>提示新消息(&amp;Q)</value>
   </data>
+  <data name="SoundFileComboBox.ToolTipText" xml:space="preserve">
+    <value>请选择要播放的wav文件</value>
+  </data>
   <data name="ToolStripSeparator18.Size" type="System.Drawing.Size, System.Drawing">
     <value>182, 6</value>
   </data>
@@ -222,18 +225,6 @@
   </data>
   <data name="ContextMenuTabProperty.Size" type="System.Drawing.Size, System.Drawing">
     <value>186, 207</value>
-  </data>
-  <data name="IconNameToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
-  </data>
-  <data name="ToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 6</value>
-  </data>
-  <data name="SaveIconPictureToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
-  </data>
-  <data name="ContextMenuStrip3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 76</value>
   </data>
   <data name="NameLabel.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 9pt, style=Bold</value>
