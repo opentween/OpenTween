@@ -496,7 +496,7 @@ Public NotInheritable Class TabInformations
         End Set
     End Property
 
-    Public Sub ToggleSortOrder(ByVal SortMode As IdComparerClass.ComparerMode)
+    Public Function ToggleSortOrder(ByVal SortMode As IdComparerClass.ComparerMode) As Windows.Forms.SortOrder
         If _sorter.Mode = SortMode Then
             If _sorter.Order = Windows.Forms.SortOrder.Ascending Then
                 _sorter.Order = Windows.Forms.SortOrder.Descending
@@ -515,7 +515,8 @@ Public NotInheritable Class TabInformations
             Next
         End If
         Me.SortPosts()
-    End Sub
+        Return _sorter.Order
+    End Function
 
     Public ReadOnly Property RetweetSource(ByVal Id As Long) As PostClass
         Get
