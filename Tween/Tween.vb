@@ -201,6 +201,9 @@ Public Class TweenMain
     Private UnreadCounter As Integer = -1
     Private UnreadAtCounter As Integer = -1
 
+    Private ColumnOrgText(8) As String
+    Private ColumnText(8) As String
+
     '''''''''''''''''''''''''''''''''''''''''''''''''''''
     Private _postBrowserStatusText As String = ""
 #If DEBUG Then
@@ -439,7 +442,28 @@ Public Class TweenMain
         End If
     End Sub
 
+    Private Sub InitColumnText()
+        ColumnText(0) = ""
+        ColumnText(1) = My.Resources.AddNewTabText2
+        ColumnText(2) = My.Resources.AddNewTabText3
+        ColumnText(3) = My.Resources.AddNewTabText4_2
+        ColumnText(4) = My.Resources.AddNewTabText5
+        ColumnText(5) = ""
+        ColumnText(6) = ""
+        ColumnText(7) = "Source"
+
+        ColumnOrgText(0) = ""
+        ColumnOrgText(1) = My.Resources.AddNewTabText2
+        ColumnOrgText(2) = My.Resources.AddNewTabText3
+        ColumnOrgText(3) = My.Resources.AddNewTabText4_2
+        ColumnOrgText(4) = My.Resources.AddNewTabText5
+        ColumnOrgText(5) = ""
+        ColumnOrgText(6) = ""
+        ColumnOrgText(7) = "Source"
+    End Sub
+
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        InitColumnText()
         _ignoreConfigSave = True
         Me.Visible = False
         SecurityManager = New InternetSecurityManager(PostBrowser)
@@ -2601,7 +2625,14 @@ Public Class TweenMain
                     mode = IdComparerClass.ComparerMode.Source
             End Select
         End If
-        _statuses.ToggleSortOrder(mode)
+        InitColumnText()
+        If _statuses.ToggleSortOrder(mode) = SortOrder.Ascending Then
+            ' U+25BE BLACK DOWN-POINTING SMALL TRIANGLE
+            ColumnText(e.Column) = ColumnOrgText(e.Column) + "▾"
+        Else
+            ' U+25B4 BLACK UP-POINTING SMALL TRIANGLE
+            ColumnText(e.Column) = ColumnOrgText(e.Column) + "▴"
+        End If
         _itemCache = Nothing
         _postCache = Nothing
         _curList.Refresh()
@@ -3834,6 +3865,7 @@ Public Class TweenMain
     End Function
 
     Private Sub MyList_DrawColumnHeader(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DrawListViewColumnHeaderEventArgs)
+        e.Header.Text = ColumnText(e.Header.Index)
         e.DrawDefault = True
     End Sub
 
