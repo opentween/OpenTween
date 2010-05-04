@@ -288,6 +288,10 @@ Public Class Setting
                     _MyLanguage = "OS"
                 Case 1
                     _MyLanguage = "ja"
+                Case 2
+                    _MyLanguage = "en"
+                Case 3
+                    _MyLanguage = "zh-CN"
                 Case Else
                     _MyLanguage = "en"
             End Select
@@ -536,8 +540,12 @@ Public Class Setting
                 LanguageCombo.SelectedIndex = 0
             Case "ja"
                 LanguageCombo.SelectedIndex = 1
-            Case Else
+            Case "en"
                 LanguageCombo.SelectedIndex = 2
+            Case "zh-CN"
+                LanguageCombo.SelectedIndex = 3
+            Case Else
+                LanguageCombo.SelectedIndex = 0
         End Select
 
         TabControl1.SelectedIndex = 0
