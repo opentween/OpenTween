@@ -2208,7 +2208,7 @@ Public Class Twitter
                 'Dim rgS As New Regex(">(?<source>.+)<")
                 Dim mS As Match = Regex.Match(post.Source, ">(?<source>.+)<")
                 If mS.Success Then
-                    post.Source = mS.Result("${source}")
+                    post.Source = HttpUtility.HtmlDecode(mS.Result("${source}"))
                 End If
             End If
 
@@ -3469,7 +3469,7 @@ Public Class Twitter
                     'Dim rgS As New Regex(">(?<source>.+)<")
                     Dim mS As Match = Regex.Match(post.Source, ">(?<source>.+)<")
                     If mS.Success Then
-                        post.Source = mS.Result("${source}")
+                        post.Source = HttpUtility.HtmlDecode(mS.Result("${source}"))
                     End If
                 End If
 
@@ -3595,7 +3595,7 @@ Public Class Twitter
                     'Dim rgS As New Regex(">(?<source>.+)<")
                     Dim mS As Match = Regex.Match(post.Source, ">(?<source>.+)<")
                     If mS.Success Then
-                        post.Source = mS.Result("${source}")
+                        post.Source = HttpUtility.HtmlDecode(mS.Result("${source}"))
                     End If
                 End If
 
@@ -3869,7 +3869,7 @@ Public Class Twitter
                     'Dim rgS As New Regex(">(?<source>.+)<")
                     Dim mS As Match = Regex.Match(post.Source, ">(?<source>.+)<")
                     If mS.Success Then
-                        post.Source = mS.Result("${source}")
+                        post.Source = HttpUtility.HtmlDecode(mS.Result("${source}"))
                     End If
                 End If
 

@@ -114,7 +114,7 @@ Namespace My
                     If cultureStr = "OS" Then
                         If Not Threading.Thread.CurrentThread.CurrentUICulture.Name.StartsWith("ja") AndAlso _
                            Not Threading.Thread.CurrentThread.CurrentUICulture.Name.StartsWith("en") AndAlso _
-                           Not Threading.Thread.CurrentThread.CurrentUICulture.Name.StartsWith("zh-CHS") Then
+                           Not Threading.Thread.CurrentThread.CurrentUICulture.Name.StartsWith("zh-CN") Then
                             cultureStr = "en"
                         End If
                     End If
