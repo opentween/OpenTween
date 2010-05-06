@@ -177,6 +177,7 @@ Public Class Twitter
     Private Const REPLY_PATH As String = "/1/statuses/mentions.xml"
     Private Const PATH_FOLLOW As String = "/1/friendships/create.xml?screen_name="
     Private Const PATH_REMOVE As String = "/1/friendships/destroy.xml?screen_name="
+    Private Const PATH_SHOW As String = "/1/users/show/"
 
 
 
@@ -1707,7 +1708,7 @@ Public Class Twitter
     '    End Sub
     '#End If
 
-    Private Function ShortUrlResolve(ByVal orgData As String) As String
+    Public Function ShortUrlResolve(ByVal orgData As String) As String
         If _tinyUrlResolve Then
             Static urlCache As New Specialized.StringDictionary()
             If urlCache.Count > 500 Then urlCache.Clear() '定期的にリセット
@@ -2359,6 +2360,42 @@ Public Class Twitter
         End Select
     End Function
 
+    Public Function GetUserInfo(ByVal screenName As String, ByRef xmlBuf As String) As String
+
+        If _endingFlag Then Return ""
+
+        If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
+
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+        xmlBuf = Nothing
+        Try
+            res = twCon.ShowUserInfo(screenName, content)
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
+
+        Select Case res
+            Case HttpStatusCode.OK
+                Dim xdoc As New XmlDocument
+                Dim result As String = ""
+                Try
+                    xdoc.LoadXml(content)
+                    xmlBuf = content
+                Catch ex As Exception
+                    result = "Err:Invalid XML."
+                    xmlBuf = Nothing
+                End Try
+                Return result
+            Case HttpStatusCode.BadRequest
+                Return "Err:API Limits?"
+            Case HttpStatusCode.Unauthorized
+                Twitter.AccountState = ACCOUNT_STATE.Invalid
+                Return "Check your Username/Password."
+            Case Else
+                Return "Err:" + res.ToString
+        End Select
+    End Function
     Public Function PostFavAdd(ByVal id As Long) As String
         If _endingFlag Then Return ""
 
