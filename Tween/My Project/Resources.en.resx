@@ -117,18 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddCustomTabsText1" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="AddCustomTabsText2" xml:space="preserve">
-    <value>Post</value>
-  </data>
-  <data name="AddCustomTabsText3" xml:space="preserve">
-    <value>Date</value>
-  </data>
-  <data name="AddCustomTabsText4" xml:space="preserve">
-    <value>Username</value>
-  </data>
   <data name="AddNewTabText1" xml:space="preserve">
     <value>(New Tab)</value>
   </data>
@@ -226,10 +214,10 @@
     <value>Remove succeeded</value>
   </data>
   <data name="DMPeriod_ValidatingText1" xml:space="preserve">
-    <value>Fetching interval must a value in 0 or 30 to 6000.</value>
+    <value>Fetching interval must a value in 0 or 15 to 6000.</value>
   </data>
   <data name="DMPeriod_ValidatingText2" xml:space="preserve">
-    <value>Fetching interval must a value in 0 or 30 to 6000.</value>
+    <value>Fetching interval must a value in 0 or 15 to 6000.</value>
   </data>
   <data name="DoTabSearchText1" xml:space="preserve">
     <value>Invalid regular expression pattern.</value>
@@ -544,10 +532,10 @@
     <value>Port number must be number 0 to 65535.</value>
   </data>
   <data name="TimelinePeriod_ValidatingText1" xml:space="preserve">
-    <value>Refresh interval must be number 0 or 30 to 6000</value>
+    <value>Refresh interval must be number 0 or 15 to 6000</value>
   </data>
   <data name="TimelinePeriod_ValidatingText2" xml:space="preserve">
-    <value>Refresh interval must be number 0 or 30 to 6000</value>
+    <value>Refresh interval must be number 0 or 15 to 6000</value>
   </data>
   <data name="TimerDM_TickText1" xml:space="preserve">
     <value>DMRcv refreshing...</value>
@@ -618,18 +606,6 @@
   <data name="UpdateFollowersMenuItem1_ClickText3" xml:space="preserve">
     <value>Followers refreshed</value>
   </data>
-  <data name="BlackFavAddToolStripMenuItem_ClickText1" xml:space="preserve">
-    <value>Mark black-favorite those selected tweets?</value>
-  </data>
-  <data name="BlackFavAddToolStripMenuItem_ClickText2" xml:space="preserve">
-    <value>Check black-favoring</value>
-  </data>
-  <data name="BlackFavAddToolStripMenuItem_ClickText3" xml:space="preserve">
-    <value>BlackFavoring</value>
-  </data>
-  <data name="BlackFavAddToolStripMenuItem_ClickText4" xml:space="preserve">
-    <value>No black-fav added</value>
-  </data>
   <data name="GetTimelineWorker_RunWorkerCompletedText15_black" xml:space="preserve">
     <value>Mark black-fav(</value>
   </data>
@@ -696,27 +672,6 @@
   <data name="PostLengthOverMessage2" xml:space="preserve">
     <value>Over the limit length of tweet</value>
   </data>
-  <data name="WebModeWarning1" xml:space="preserve">
-    <value>The web mode (=don't use api mode) has been selected now.</value>
-  </data>
-  <data name="WebModeWarning2" xml:space="preserve">
-    <value>* The Web mode has the possibility of violating the TOS of Twitter.</value>
-  </data>
-  <data name="WebModeWarning3" xml:space="preserve">
-    <value>* API mode has the frequency limitation to get TL.</value>
-  </data>
-  <data name="WebModeWarning4" xml:space="preserve">
-    <value>Please select "OK" when switching to API mode.</value>
-  </data>
-  <data name="WebModeWarning5" xml:space="preserve">
-    <value>Warning</value>
-  </data>
-  <data name="WebModeWarning6" xml:space="preserve">
-    <value>It switched to API mode.</value>
-  </data>
-  <data name="WebModeWarning7" xml:space="preserve">
-    <value>Please put the check in "Use API" in "Operation" tab of the setting when you want to return it to API mode.</value>
-  </data>
   <data name="RetweetQuestion1" xml:space="preserve">
     <value>Retweet this tweet?</value>
   </data>
@@ -758,5 +713,14 @@
   </data>
   <data name="Setting_FormClosing1" xml:space="preserve">
     <value>Key in your Username and Password then press [Auth] button. Will you exit application without validating your account?</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="ShowUserInfo1" xml:space="preserve">
+    <value>User Information analyze failed.</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
   </data>
 </root>
