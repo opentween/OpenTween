@@ -2328,14 +2328,24 @@ Public Class TweenMain
         End If
 
         'リストに反映
-        Dim busy As Boolean = False
-        For Each bw As BackgroundWorker In _bw
-            If bw IsNot Nothing AndAlso bw.IsBusy Then
-                busy = True
-                Exit For
-            End If
-        Next
-        If Not busy Then RefreshTimeline() 'background処理なければ、リスト反映
+        'Dim busy As Boolean = False
+        'For Each bw As BackgroundWorker In _bw
+        '    If bw IsNot Nothing AndAlso bw.IsBusy Then
+        '        busy = True
+        '        Exit For
+        '    End If
+        'Next
+        'If Not busy Then RefreshTimeline() 'background処理なければ、リスト反映
+        If rslt.type = WORKERTYPE.Timeline OrElse _
+           rslt.type = WORKERTYPE.Reply OrElse _
+           rslt.type = WORKERTYPE.List OrElse _
+           rslt.type = WORKERTYPE.PublicSearch OrElse _
+           rslt.type = WORKERTYPE.DirectMessegeRcv OrElse _
+           rslt.type = WORKERTYPE.DirectMessegeSnt OrElse _
+           rslt.type = WORKERTYPE.Favorites OrElse _
+           rslt.type = WORKERTYPE.Follower Then
+            RefreshTimeline() 'リスト反映
+        End If
 
         Select Case rslt.type
             Case WORKERTYPE.Timeline
