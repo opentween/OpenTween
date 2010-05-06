@@ -117,18 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddCustomTabsText1" xml:space="preserve">
-    <value>名前</value>
-  </data>
-  <data name="AddCustomTabsText2" xml:space="preserve">
-    <value>投稿</value>
-  </data>
-  <data name="AddCustomTabsText3" xml:space="preserve">
-    <value>日時</value>
-  </data>
-  <data name="AddCustomTabsText4" xml:space="preserve">
-    <value>ユーザ名</value>
-  </data>
   <data name="AddNewTabText1" xml:space="preserve">
     <value>(新規タブ)</value>
   </data>
@@ -150,7 +138,7 @@
   <data name="AddTabMenuItem_ClickText2" xml:space="preserve">
     <value>タブ追加</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="At" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\5b.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -652,18 +640,6 @@
   <data name="UpdateFollowersMenuItem1_ClickText3" xml:space="preserve">
     <value>Followers取得完了</value>
   </data>
-  <data name="BlackFavAddToolStripMenuItem_ClickText1" xml:space="preserve">
-    <value>選択された発言をBlack Favoritesに追加します。よろしいですか？</value>
-  </data>
-  <data name="BlackFavAddToolStripMenuItem_ClickText2" xml:space="preserve">
-    <value>BlackFav確認</value>
-  </data>
-  <data name="BlackFavAddToolStripMenuItem_ClickText3" xml:space="preserve">
-    <value>BlackFav追加中...</value>
-  </data>
-  <data name="BlackFavAddToolStripMenuItem_ClickText4" xml:space="preserve">
-    <value>BlackFav追加なし</value>
-  </data>
   <data name="GetTimelineWorker_RunWorkerCompletedText15_black" xml:space="preserve">
     <value>BlackFav追加(</value>
   </data>
@@ -748,27 +724,6 @@
   <data name="PostLengthOverMessage2" xml:space="preserve">
     <value>文字数制限オーバー</value>
   </data>
-  <data name="WebModeWarning1" xml:space="preserve">
-    <value>現在Webモードです。</value>
-  </data>
-  <data name="WebModeWarning2" xml:space="preserve">
-    <value>* Webモードの使用はTwitterの利用規約に違反する恐れがあります。</value>
-  </data>
-  <data name="WebModeWarning3" xml:space="preserve">
-    <value>* APIモードではタイムライン取得に回数制限があります。</value>
-  </data>
-  <data name="WebModeWarning4" xml:space="preserve">
-    <value>APIモードに切り替える場合は「OK」を押してください。</value>
-  </data>
-  <data name="WebModeWarning5" xml:space="preserve">
-    <value>警告</value>
-  </data>
-  <data name="WebModeWarning6" xml:space="preserve">
-    <value>APIモードへ切り替えました。</value>
-  </data>
-  <data name="WebModeWarning7" xml:space="preserve">
-    <value>APIモードへ戻す場合は、設定の「動作」タブにある「API使用」にチェックを入れて下さい。</value>
-  </data>
   <data name="RetweetQuestion1" xml:space="preserve">
     <value>Retweetしてもよろしいですか？</value>
   </data>
@@ -810,5 +765,14 @@
   </data>
   <data name="Setting_FormClosing1" xml:space="preserve">
     <value>ユーザー名とパスワードを入力して「認証する」ボタンを押してください。認証せずに終了してもよろしいですか？</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>いいえ</value>
+  </data>
+  <data name="ShowUserInfo1" xml:space="preserve">
+    <value>ユーザー情報解析失敗</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>はい</value>
   </data>
 </root>

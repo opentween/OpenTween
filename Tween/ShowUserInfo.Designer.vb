@@ -46,6 +46,8 @@ Partial Class ShowUserInfo
         Me.ButtonUnFollow = New System.Windows.Forms.Button()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.LabelIsProtected = New System.Windows.Forms.Label()
+        Me.LabelIsFollowing = New System.Windows.Forms.Label()
+        Me.LabelIsFollowed = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
         'ButtonClose
@@ -176,10 +178,22 @@ Partial Class ShowUserInfo
         resources.ApplyResources(Me.LabelIsProtected, "LabelIsProtected")
         Me.LabelIsProtected.Name = "LabelIsProtected"
         '
+        'LabelIsFollowing
+        '
+        resources.ApplyResources(Me.LabelIsFollowing, "LabelIsFollowing")
+        Me.LabelIsFollowing.Name = "LabelIsFollowing"
+        '
+        'LabelIsFollowed
+        '
+        resources.ApplyResources(Me.LabelIsFollowed, "LabelIsFollowed")
+        Me.LabelIsFollowed.Name = "LabelIsFollowed"
+        '
         'ShowUserInfo
         '
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me.LabelIsFollowed)
+        Me.Controls.Add(Me.LabelIsFollowing)
         Me.Controls.Add(Me.LabelIsProtected)
         Me.Controls.Add(Me.Label10)
         Me.Controls.Add(Me.ButtonUnFollow)
@@ -236,4 +250,6 @@ Partial Class ShowUserInfo
     Friend WithEvents ButtonUnFollow As System.Windows.Forms.Button
     Friend WithEvents Label10 As System.Windows.Forms.Label
     Friend WithEvents LabelIsProtected As System.Windows.Forms.Label
+    Friend WithEvents LabelIsFollowing As System.Windows.Forms.Label
+    Friend WithEvents LabelIsFollowed As System.Windows.Forms.Label
 End Class
