@@ -51,7 +51,7 @@ Public Class ShowUserInfo
 
     Private Sub ShowUserInfo_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         If Not AnalizeUserInfo(userInfoXml) Then
-            MessageBox.Show("ユーザー情報解析失敗")
+            MessageBox.Show(My.Resources.ShowUserInfo1)
             Me.Close()
             Return
         Else
@@ -68,7 +68,27 @@ Public Class ShowUserInfo
             LinkLabelTweet.Text = _info.StatusesCount.ToString
 
             LabelCreatedAt.Text = _info.CreatedAt.ToString
-            LabelIsProtected.Text = DirectCast(IIf(_info.Protect, "はい", "いいえ"), String)
+            LabelIsProtected.Text = DirectCast(IIf(_info.Protect, My.Resources.Yes, My.Resources.No), String)
+
+            Dim isFollowing As Boolean = False
+            Dim isFollowed As Boolean = False
+            Dim ret As String = TweenMain.TwitterInstance.GetFriendshipInfo(_info.ScreenName, isFollowing, isFollowed)
+            If ret = "" Then
+                If isFollowing Then
+                    LabelIsFollowing.Text = My.Resources.GetFriendshipInfo1
+                Else
+                    LabelIsFollowing.Text = My.Resources.GetFriendshipInfo2
+                End If
+                ButtonFollow.Enabled = Not isFollowed
+                If isFollowed Then
+                    LabelIsFollowed.Text = My.Resources.GetFriendshipInfo3
+                Else
+                    LabelIsFollowed.Text = My.Resources.GetFriendshipInfo4
+                End If
+                ButtonUnFollow.Enabled = Not isFollowed
+            Else
+                MessageBox.Show(ret)
+            End If
         End If
     End Sub
 
@@ -104,4 +124,21 @@ Public Class ShowUserInfo
         TweenMain.OpenUriAsync("http://twitter.com/" + _info.ScreenName + "/favorites")
     End Sub
 
+    Private Sub ButtonFollow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonFollow.Click
+        Dim ret As String = TweenMain.TwitterInstance.PostFollowCommand(_info.ScreenName)
+        If Not String.IsNullOrEmpty(ret) Then
+            MessageBox.Show(My.Resources.FRMessage2 + ret)
+        Else
+            MessageBox.Show(My.Resources.FRMessage3)
+        End If
+    End Sub
+
+    Private Sub ButtonUnFollow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonUnFollow.Click
+        Dim ret As String = TweenMain.TwitterInstance.PostRemoveCommand(_info.ScreenName)
+        If Not String.IsNullOrEmpty(ret) Then
+            MessageBox.Show(My.Resources.FRMessage2 + ret)
+        Else
+            MessageBox.Show(My.Resources.FRMessage3)
+        End If
+    End Sub
 End Class
