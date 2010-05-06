@@ -7145,7 +7145,7 @@ RETRY:
         Return nw
     End Function
 
-    Private Sub OpenUriAsync(ByVal UriString As String)
+    Public Sub OpenUriAsync(ByVal UriString As String)
         Dim args As New GetWorkerArg
         args.type = WORKERTYPE.OpenUri
         args.status = UriString
@@ -7424,7 +7424,7 @@ RETRY:
 
     Private Sub ReTweetOriginalStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReTweetOriginalStripMenuItem.Click, RtOpMenuItem.Click
         doReTweetOriginal()
-     End Sub
+    End Sub
 
     Private Function CreateRetweet(ByVal status As String) As String
 
@@ -8369,5 +8369,37 @@ RETRY:
 
     Private Sub NotifyIcon1_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles NotifyIcon1.MouseMove
         SetNotifyIconText()
+    End Sub
+
+    Private Sub UserStatusToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UserStatusToolStripMenuItem.Click
+        Dim id As String = ""
+        If _curPost IsNot Nothing Then
+            id = _curPost.Name
+        End If
+        ShowUserStatus(id)
+    End Sub
+
+    Private Sub ShowUserStatus(ByVal id As String)
+        Using inputName As New InputTabName()
+            inputName.FormTitle = "Show UserStatus"
+            inputName.FormDescription = My.Resources.FRMessage1
+            inputName.TabName = id
+            If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
+               Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
+                Dim result As String = ""
+                Dim xmlbuf As String = ""
+                id = inputName.TabName.Trim
+                Dim ret As String = tw.GetUserInfo(id, xmlbuf)
+                If ret = "" Then
+                    Using userinfo As New ShowUserInfo()
+                        userinfo.XmlData = xmlbuf
+                        userinfo.ShowDialog()
+                    End Using
+                Else
+                    result = ret
+                End If
+            End If
+            inputName.Dispose()
+        End Using
     End Sub
 End Class
