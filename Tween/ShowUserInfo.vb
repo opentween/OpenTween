@@ -79,13 +79,13 @@ Public Class ShowUserInfo
                 Else
                     LabelIsFollowing.Text = My.Resources.GetFriendshipInfo2
                 End If
-                ButtonFollow.Enabled = Not isFollowed
+                ButtonFollow.Enabled = Not isFollowing
                 If isFollowed Then
                     LabelIsFollowed.Text = My.Resources.GetFriendshipInfo3
                 Else
                     LabelIsFollowed.Text = My.Resources.GetFriendshipInfo4
                 End If
-                ButtonUnFollow.Enabled = Not isFollowed
+                ButtonUnFollow.Enabled = isFollowing
             Else
                 MessageBox.Show(ret)
             End If
