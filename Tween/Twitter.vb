@@ -4142,9 +4142,9 @@ Public Class Twitter
         '                 "])*(?:;(?:[-_.!~*'()a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)*)" + _
         '                 "*)?(?:\?(?:[-_.!~*'()a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])" + _
         '                 "*)?(?:#(?:[-_.!~*'()a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)?")
-        Const rgUrl As String = "(?<before>(?:[^\/""':!=]|^|\:))" + _
+        Const rgUrl As String = "(?<before>(?:[^\""':!=]|^|\:))" + _
                                     "(?<url>(?<protocol>https?://|www\.)" + _
-                                    "(?<domain>(?:[\.-]|[^\p{P}])+\.[a-z]{2,}(?::[0-9]+)?)" + _
+                                    "(?<domain>(?:[\.-]|[^\p{P}\s])+\.[a-z]{2,}(?::[0-9]+)?)" + _
                                     "(?<path>/[a-z0-9!*'();:&=+$/%#\[\]\-_.,~@]*[a-z0-9)=#/]?)?" + _
                                     "(?<query>\?[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9_&=#])?)"
         '絶対パス表現のUriをリンクに置換
@@ -4155,7 +4155,7 @@ Public Class Twitter
         'Dim rg As New Regex("(^|[^a-zA-Z0-9_])[@＠]([a-zA-Z0-9_]{1,20}/[a-zA-Z0-9_\-]{1,79}[a-zA-Z0-9_])", RegexOptions.Compiled)
         'Dim m As Match = Regex.Match(retStr, "(^|[^a-zA-Z0-9_])[@＠]([a-zA-Z0-9_]{1,20}/[a-zA-Z0-9_\-]{1,79}[a-zA-Z0-9_])")
         '@先をリンクに置換（リスト）
-        retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9_])[@＠]([a-zA-Z0-9_]{1,20}/[a-zA-Z0-9_\-]{1,79}[a-zA-Z0-9_])", "$1@<a href=""/$2"">$2</a>")
+        retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9_])([@＠]+)([a-zA-Z0-9_]{1,20})(/[a-zA-Z][a-zA-Z0-9\p{IsLatin-1Supplement}\-]{0,79})?", "$1$2<a href=""/$3$4"">$3$4</a>")
 
         'rg = New Regex("(^|[ -/:-@[-^`{-~])@([a-zA-Z0-9_]{1,20})")
         'rg = New Regex("(^|[^a-zA-Z0-9_])[@＠]([a-zA-Z0-9_]{1,20})", RegexOptions.Compiled)
@@ -4165,12 +4165,12 @@ Public Class Twitter
             m = m.NextMatch
         End While
         '@先をリンクに置換
-        retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9_])[@＠]([a-zA-Z0-9_]{1,20})", "$1@<a href=""/$2"">$2</a>")
+        'retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9_])[@＠]([a-zA-Z0-9_]{1,20})", "$1@<a href=""/$2"">$2</a>")
 
         'ハッシュタグを抽出し、リンクに置換
         'Dim rgh As New Regex("(^|[ .!,\-:;<>?])#([^] !""#$%&'()*+,.:;<=>?@\-[\^`{|}~\r\n]+)")
         'Dim rgh As New Regex("(^|[^a-zA-Z0-9_/&])[#＃]([a-zA-Z0-9_]+)", RegexOptions.Compiled)
-        Dim mhs As MatchCollection = Regex.Matches(retStr, "(^|[^a-zA-Z0-9_/&])[#＃]([a-zA-Z0-9_]+)")
+        Dim mhs As MatchCollection = Regex.Matches(retStr, "(^|[^a-zA-Z0-9/&])[#＃]([0-9a-zA-Z_]*[a-zA-Z_]+[a-zA-Z_\xc0-\xd6\xd8-\xf6\xf8-\xff]*)")
         For Each mt As Match In mhs
             If Not IsNumeric(mt.Result("$2")) Then
                 'retStr = retStr.Replace(mt.Result("$1") + mt.Result("$2"), "<a href=""" + _protocol + "twitter.com/search?q=%23" + mt.Result("$2") + """>#" + mt.Result("$2") + "</a>")
@@ -4179,7 +4179,7 @@ Public Class Twitter
                 End SyncLock
             End If
         Next
-        retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9_/&])[#＃]([a-zA-Z0-9_]+)", New MatchEvaluator(AddressOf AutoLinkHashtag))
+        retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9/&])([#＃])([0-9a-zA-Z_]*[a-zA-Z_]+[a-zA-Z_\xc0-\xd6\xd8-\xf6\xf8-\xff]*)", "$1<a href=""" & _protocol & "twitter.com/search?q=%23$3"">$2$3</a>")
 
         retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9_/&#＃@＠>=])(sm|nm)([0-9]{4,10})", "$1<a href=""http://www.nicovideo.jp/watch/$2$3"">$2$3</a>")
 
@@ -4196,11 +4196,11 @@ Public Class Twitter
         Return sb.ToString
     End Function
 
-    Private Function AutoLinkHashtag(ByVal m As Match) As String
-        If IsNumeric(m.Result("$2")) Then Return m.Result("$1#$2")
-        Dim sb As New StringBuilder(m.Result("$1<a href="""))
-        Return sb.Append(_protocol).Append("twitter.com/search?q=%23").Append(m.Result("$2"">#$2</a>")).ToString
-    End Function
+    'Private Function AutoLinkHashtag(ByVal m As Match) As String
+    '    If IsNumeric(m.Result("$2")) Then Return m.Result("$1#$2")
+    '    Dim sb As New StringBuilder(m.Result("$1<a href="""))
+    '    Return sb.Append(_protocol).Append("twitter.com/search?q=%23").Append(m.Result("$2"">#$2</a>")).ToString
+    'End Function
 
     Public ReadOnly Property RemainCountApi() As Integer
         Get
