@@ -27,6 +27,7 @@ Public Class ShowUserInfo
 
     Private userInfoXml As String = ""
     Private _info As UserInfo
+    Private icondata As Image = Nothing
 
     Private Structure UserInfo
         Dim Name As String
@@ -78,8 +79,13 @@ Public Class ShowUserInfo
             Me.Close()
             Return
         Else
+            'アイコンロード
+            BackgroundWorker1.RunWorkerAsync()
+
             Me.Text = Me.Text.Insert(0, _info.ScreenName + " ")
+            LabelScreenName.Text = _info.ScreenName
             LabelName.Text = _info.Name
+
             LabelLocation.Text = _info.Location
             LinkLabelWeb.Text = _info.Url
 
@@ -172,5 +178,37 @@ Public Class ShowUserInfo
         Else
             MessageBox.Show(My.Resources.FRMessage3)
         End If
+    End Sub
+
+    Private Sub ShowUserInfo_Activated(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Activated
+        '画面が他画面の裏に隠れると、アイコン画像が再描画されない問題の対応
+        If UserPicture.Image IsNot Nothing Then
+            UserPicture.Invalidate(False)
+        End If
+    End Sub
+
+    Private Sub ShowUserInfo_FormClosing(ByVal sender As System.Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
+        UserPicture.Image = Nothing
+        If icondata IsNot Nothing Then
+            icondata.Dispose()
+        End If
+    End Sub
+
+    Private Sub BackgroundWorker1_DoWork(ByVal sender As System.Object, ByVal e As System.ComponentModel.DoWorkEventArgs) Handles BackgroundWorker1.DoWork
+        Try
+            icondata = (New HttpVarious).GetImage(_info.ImageUrl.ToString())
+        Catch ex As Exception
+            icondata = Nothing
+        End Try
+    End Sub
+
+    Private Sub BackgroundWorker1_RunWorkerCompleted(ByVal sender As System.Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles BackgroundWorker1.RunWorkerCompleted
+        Try
+            If icondata IsNot Nothing Then
+                UserPicture.Image = icondata
+            End If
+        Catch ex As Exception
+            UserPicture.Image = Nothing
+        End Try
     End Sub
 End Class

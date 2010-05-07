@@ -48,6 +48,10 @@ Partial Class ShowUserInfo
         Me.LabelIsProtected = New System.Windows.Forms.Label()
         Me.LabelIsFollowing = New System.Windows.Forms.Label()
         Me.LabelIsFollowed = New System.Windows.Forms.Label()
+        Me.UserPicture = New System.Windows.Forms.PictureBox()
+        Me.LabelScreenName = New System.Windows.Forms.Label()
+        Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
+        CType(Me.UserPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'ButtonClose
@@ -188,10 +192,26 @@ Partial Class ShowUserInfo
         resources.ApplyResources(Me.LabelIsFollowed, "LabelIsFollowed")
         Me.LabelIsFollowed.Name = "LabelIsFollowed"
         '
+        'UserPicture
+        '
+        resources.ApplyResources(Me.UserPicture, "UserPicture")
+        Me.UserPicture.Name = "UserPicture"
+        Me.UserPicture.TabStop = False
+        '
+        'LabelScreenName
+        '
+        resources.ApplyResources(Me.LabelScreenName, "LabelScreenName")
+        Me.LabelScreenName.Name = "LabelScreenName"
+        '
+        'BackgroundWorker1
+        '
+        '
         'ShowUserInfo
         '
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me.LabelScreenName)
+        Me.Controls.Add(Me.UserPicture)
         Me.Controls.Add(Me.LabelIsFollowed)
         Me.Controls.Add(Me.LabelIsFollowing)
         Me.Controls.Add(Me.LabelIsProtected)
@@ -223,6 +243,7 @@ Partial Class ShowUserInfo
         Me.Name = "ShowUserInfo"
         Me.ShowIcon = False
         Me.TopMost = True
+        CType(Me.UserPicture, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -252,4 +273,7 @@ Partial Class ShowUserInfo
     Friend WithEvents LabelIsProtected As System.Windows.Forms.Label
     Friend WithEvents LabelIsFollowing As System.Windows.Forms.Label
     Friend WithEvents LabelIsFollowed As System.Windows.Forms.Label
+    Friend WithEvents UserPicture As System.Windows.Forms.PictureBox
+    Friend WithEvents LabelScreenName As System.Windows.Forms.Label
+    Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
 End Class
