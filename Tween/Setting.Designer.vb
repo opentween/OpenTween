@@ -127,6 +127,13 @@ Partial Class Setting
         Me.Label47 = New System.Windows.Forms.Label()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.LabelPostAndGet = New System.Windows.Forms.Label()
+        Me.Label84 = New System.Windows.Forms.Label()
+        Me.MaxApi = New System.Windows.Forms.Label()
+        Me.Label70 = New System.Windows.Forms.Label()
+        Me.Label53 = New System.Windows.Forms.Label()
+        Me.Label43 = New System.Windows.Forms.Label()
+        Me.LabelApiUsing = New System.Windows.Forms.Label()
         Me.Label33 = New System.Windows.Forms.Label()
         Me.ListsPeriod = New System.Windows.Forms.TextBox()
         Me.AuthBasicRadio = New System.Windows.Forms.RadioButton()
@@ -229,13 +236,6 @@ Partial Class Setting
         Me.Label59 = New System.Windows.Forms.Label()
         Me.TextBoxOutputzKey = New System.Windows.Forms.TextBox()
         Me.CheckOutputz = New System.Windows.Forms.CheckBox()
-        Me.LabelApiUsing = New System.Windows.Forms.Label()
-        Me.Label43 = New System.Windows.Forms.Label()
-        Me.Label53 = New System.Windows.Forms.Label()
-        Me.Label70 = New System.Windows.Forms.Label()
-        Me.MaxApi = New System.Windows.Forms.Label()
-        Me.Label84 = New System.Windows.Forms.Label()
-        Me.LabelPostAndGet = New System.Windows.Forms.Label()
         Me.GroupBox1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
@@ -919,6 +919,41 @@ Partial Class Setting
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.UseVisualStyleBackColor = True
         '
+        'LabelPostAndGet
+        '
+        resources.ApplyResources(Me.LabelPostAndGet, "LabelPostAndGet")
+        Me.LabelPostAndGet.Name = "LabelPostAndGet"
+        '
+        'Label84
+        '
+        resources.ApplyResources(Me.Label84, "Label84")
+        Me.Label84.Name = "Label84"
+        '
+        'MaxApi
+        '
+        resources.ApplyResources(Me.MaxApi, "MaxApi")
+        Me.MaxApi.Name = "MaxApi"
+        '
+        'Label70
+        '
+        resources.ApplyResources(Me.Label70, "Label70")
+        Me.Label70.Name = "Label70"
+        '
+        'Label53
+        '
+        resources.ApplyResources(Me.Label53, "Label53")
+        Me.Label53.Name = "Label53"
+        '
+        'Label43
+        '
+        resources.ApplyResources(Me.Label43, "Label43")
+        Me.Label43.Name = "Label43"
+        '
+        'LabelApiUsing
+        '
+        resources.ApplyResources(Me.LabelApiUsing, "LabelApiUsing")
+        Me.LabelApiUsing.Name = "LabelApiUsing"
+        '
         'Label33
         '
         resources.ApplyResources(Me.Label33, "Label33")
@@ -1601,41 +1636,6 @@ Partial Class Setting
         resources.ApplyResources(Me.CheckOutputz, "CheckOutputz")
         Me.CheckOutputz.Name = "CheckOutputz"
         Me.CheckOutputz.UseVisualStyleBackColor = True
-        '
-        'LabelApiUsing
-        '
-        resources.ApplyResources(Me.LabelApiUsing, "LabelApiUsing")
-        Me.LabelApiUsing.Name = "LabelApiUsing"
-        '
-        'Label43
-        '
-        resources.ApplyResources(Me.Label43, "Label43")
-        Me.Label43.Name = "Label43"
-        '
-        'Label53
-        '
-        resources.ApplyResources(Me.Label53, "Label53")
-        Me.Label53.Name = "Label53"
-        '
-        'Label70
-        '
-        resources.ApplyResources(Me.Label70, "Label70")
-        Me.Label70.Name = "Label70"
-        '
-        'MaxApi
-        '
-        resources.ApplyResources(Me.MaxApi, "MaxApi")
-        Me.MaxApi.Name = "MaxApi"
-        '
-        'Label84
-        '
-        resources.ApplyResources(Me.Label84, "Label84")
-        Me.Label84.Name = "Label84"
-        '
-        'LabelPostAndGet
-        '
-        resources.ApplyResources(Me.LabelPostAndGet, "LabelPostAndGet")
-        Me.LabelPostAndGet.Name = "LabelPostAndGet"
         '
         'Setting
         '
