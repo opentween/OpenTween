@@ -718,6 +718,12 @@
   <data name="OwnStatusMenuItem.Text" xml:space="preserve">
     <value>显示自己个人信息</value>
   </data>
+  <data name="UserStatusToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>185, 22</value>
+  </data>
+  <data name="UserStatusToolStripMenuItem.Text" xml:space="preserve">
+    <value>显示用户信息</value>
+  </data>
   <data name="MenuItemCommand.Size" type="System.Drawing.Size, System.Drawing">
     <value>58, 20</value>
   </data>
