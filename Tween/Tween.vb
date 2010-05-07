@@ -206,6 +206,8 @@ Public Class TweenMain
 
     '''''''''''''''''''''''''''''''''''''''''''''''''''''
     Private _postBrowserStatusText As String = ""
+
+    Private _colorize As Boolean = False
 #If DEBUG Then
     Private _drawcount As Long = 0
     Private _drawtime As Long = 0
@@ -919,7 +921,7 @@ Public Class TweenMain
         '    TimerDM.Interval = 6000000
         'End If
         '更新中アイコンアニメーション間隔
-        TimerRefreshIcon.Interval = 85
+        TimerRefreshIcon.Interval = 200
         TimerRefreshIcon.Enabled = True
 
         '状態表示部の初期化（画面右下）
@@ -1055,8 +1057,8 @@ Public Class TweenMain
             ListTab.ImageList = Nothing
         End If
 
-        TimerColorize.Interval = 200
-        TimerColorize.Start()
+        'TimerColorize.Interval = 200
+        'TimerColorize.Start()
         _ignoreConfigSave = False
         Me.TweenMain_Resize(Nothing, Nothing)
         SaveConfigsAll(False)
@@ -1574,8 +1576,9 @@ Public Class TweenMain
         'ColorizeList(-1)    '全キャッシュ更新（背景色）
         'DispSelectedPost()
         ColorizeList()
-        TimerColorize.Stop()
-        TimerColorize.Start()
+        'TimerColorize.Stop()
+        'TimerColorize.Start()
+        _colorize = True
         'cMode = 1
     End Sub
 
@@ -1872,7 +1875,7 @@ Public Class TweenMain
             TimerTimeline.Enabled = False
             'TimerReply.Enabled = False
             'TimerDM.Enabled = False
-            TimerColorize.Enabled = False
+            'TimerColorize.Enabled = False
             TimerRefreshIcon.Enabled = False
         End If
     End Sub
@@ -4318,12 +4321,8 @@ RETRY:
         End If
     End Sub
 
-    Private Sub TimerColorize_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TimerColorize.Tick
-        If TimerColorize.Enabled = False Then Exit Sub
-
-        TimerColorize.Stop()
-        TimerColorize.Enabled = False
-        TimerColorize.Interval = 200
+    Private Sub Colorize()
+        _colorize = False
         DispSelectedPost()
         '件数関連の場合、タイトル即時書き換え
         If SettingDialog.DispLatestPost <> DispTitleEnum.None AndAlso _
@@ -4531,8 +4530,9 @@ RETRY:
         If e.Control AndAlso Not e.Alt AndAlso Not e.Shift Then
             ' CTRLキーが押されている場合
             If e.KeyCode = Keys.Home OrElse e.KeyCode = Keys.End Then
-                TimerColorize.Stop()
-                TimerColorize.Start()
+                'TimerColorize.Stop()
+                'TimerColorize.Start()
+                _colorize = True
             End If
             If e.KeyCode = Keys.N Then GoNextTab(True)
             If e.KeyCode = Keys.P Then GoNextTab(False)
@@ -5727,6 +5727,7 @@ RETRY:
     End Sub
 
     Private Sub TimerRefreshIcon_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TimerRefreshIcon.Tick
+        If _colorize Then Colorize()
         If Not TimerRefreshIcon.Enabled Then Exit Sub
         Static iconCnt As Integer = 0
         Static blinkCnt As Integer = 0

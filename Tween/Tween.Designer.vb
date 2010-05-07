@@ -231,7 +231,6 @@ Partial Class TweenMain
         Me.EndToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.TimerTimeline = New System.Windows.Forms.Timer(Me.components)
         Me.NotifyIcon1 = New System.Windows.Forms.NotifyIcon(Me.components)
-        Me.TimerColorize = New System.Windows.Forms.Timer(Me.components)
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
@@ -1437,9 +1436,6 @@ Partial Class TweenMain
         Me.NotifyIcon1.ContextMenuStrip = Me.ContextMenuStrip1
         resources.ApplyResources(Me.NotifyIcon1, "NotifyIcon1")
         '
-        'TimerColorize
-        '
-        '
         'TimerRefreshIcon
         '
         Me.TimerRefreshIcon.Interval = 50
@@ -1506,7 +1502,6 @@ Partial Class TweenMain
     Friend WithEvents ListLockMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents JumpUnreadMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator15 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents TimerColorize As System.Windows.Forms.Timer
     Friend WithEvents ToolStripSeparator4 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents SaveLogMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator17 As System.Windows.Forms.ToolStripSeparator
