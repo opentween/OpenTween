@@ -3132,7 +3132,7 @@ Public Class Twitter
             Case UrlConverter.Bitly, UrlConverter.Jmp
                 Dim BitlyLogin As String = "tweenapi"
                 Dim BitlyApiKey As String = "R_c5ee0e30bdfff88723c4457cc331886b"
-                If _bitlyId <> "" Then
+                If _bitlyId <> "" AndAlso BitlyApiKey <> "" Then
                     BitlyLogin = _bitlyId
                     BitlyApiKey = _bitlyKey
                 End If
