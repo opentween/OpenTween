@@ -6540,11 +6540,14 @@ RETRY:
             '_mySize = Me.ClientSize                     'サイズ保持（最小化・最大化されたまま終了した場合の対応用）
             Me.DesktopLocation = _cfgLocal.FormLocation
             '_myLoc = Me.DesktopLocation                        '位置保持（最小化・最大化されたまま終了した場合の対応用）
-            If _cfgLocal.SplitterDistance > 0 Then Me.SplitContainer1.SplitterDistance = _cfgLocal.SplitterDistance 'Splitterの位置設定
+            If _cfgLocal.SplitterDistance > Me.SplitContainer1.Panel1MinSize AndAlso _cfgLocal.SplitterDistance < Me.SplitContainer1.Height - Me.SplitContainer1.Panel2MinSize - Me.SplitContainer1.SplitterWidth Then
+                Me.SplitContainer1.SplitterDistance = _cfgLocal.SplitterDistance 'Splitterの位置設定
+            End If
             '発言欄複数行
             StatusText.Multiline = _cfgLocal.StatusMultiline
             If StatusText.Multiline Then
-                If SplitContainer2.Height - _cfgLocal.StatusTextHeight - SplitContainer2.SplitterWidth > 0 Then
+                Dim dis As Integer = SplitContainer2.Height - _cfgLocal.StatusTextHeight - SplitContainer2.SplitterWidth
+                If dis > SplitContainer2.Panel1MinSize AndAlso dis < SplitContainer2.Height - SplitContainer2.Panel2MinSize - SplitContainer2.SplitterWidth Then
                     SplitContainer2.SplitterDistance = SplitContainer2.Height - _cfgLocal.StatusTextHeight - SplitContainer2.SplitterWidth
                 End If
                 StatusText.Height = _cfgLocal.StatusTextHeight
@@ -6553,7 +6556,9 @@ RETRY:
                     SplitContainer2.SplitterDistance = SplitContainer2.Height - SplitContainer2.Panel2MinSize - SplitContainer2.SplitterWidth
                 End If
             End If
-            If _cfgLocal.PreviewDistance > 0 Then Me.SplitContainer3.SplitterDistance = _cfgLocal.PreviewDistance
+            If _cfgLocal.PreviewDistance > Me.SplitContainer3.Panel1MinSize AndAlso _cfgLocal.PreviewDistance < Me.SplitContainer3.Height - Me.SplitContainer3.Panel2MinSize - Me.SplitContainer3.SplitterWidth Then
+                Me.SplitContainer3.SplitterDistance = _cfgLocal.PreviewDistance
+            End If
             _initialLayout = False
         End If
     End Sub
