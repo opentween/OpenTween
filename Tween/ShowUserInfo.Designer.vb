@@ -49,8 +49,8 @@ Partial Class ShowUserInfo
         Me.LabelIsFollowing = New System.Windows.Forms.Label()
         Me.LabelIsFollowed = New System.Windows.Forms.Label()
         Me.UserPicture = New System.Windows.Forms.PictureBox()
+        Me.BackgroundWorkerImageLoader = New System.ComponentModel.BackgroundWorker()
         Me.LabelScreenName = New System.Windows.Forms.Label()
-        Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
         CType(Me.UserPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -198,13 +198,13 @@ Partial Class ShowUserInfo
         Me.UserPicture.Name = "UserPicture"
         Me.UserPicture.TabStop = False
         '
+        'BackgroundWorkerImageLoader
+        '
+        '
         'LabelScreenName
         '
         resources.ApplyResources(Me.LabelScreenName, "LabelScreenName")
         Me.LabelScreenName.Name = "LabelScreenName"
-        '
-        'BackgroundWorker1
-        '
         '
         'ShowUserInfo
         '
@@ -274,6 +274,6 @@ Partial Class ShowUserInfo
     Friend WithEvents LabelIsFollowing As System.Windows.Forms.Label
     Friend WithEvents LabelIsFollowed As System.Windows.Forms.Label
     Friend WithEvents UserPicture As System.Windows.Forms.PictureBox
+    Friend WithEvents BackgroundWorkerImageLoader As System.ComponentModel.BackgroundWorker
     Friend WithEvents LabelScreenName As System.Windows.Forms.Label
-    Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
 End Class

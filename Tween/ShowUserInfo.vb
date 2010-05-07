@@ -80,7 +80,7 @@ Public Class ShowUserInfo
             Return
         Else
             'アイコンロード
-            BackgroundWorker1.RunWorkerAsync()
+            BackgroundWorkerImageLoader.RunWorkerAsync()
 
             Me.Text = Me.Text.Insert(0, _info.ScreenName + " ")
             LabelScreenName.Text = _info.ScreenName
@@ -194,7 +194,7 @@ Public Class ShowUserInfo
         End If
     End Sub
 
-    Private Sub BackgroundWorker1_DoWork(ByVal sender As System.Object, ByVal e As System.ComponentModel.DoWorkEventArgs) Handles BackgroundWorker1.DoWork
+    Private Sub BackgroundWorker1_DoWork(ByVal sender As System.Object, ByVal e As System.ComponentModel.DoWorkEventArgs) Handles BackgroundWorkerImageLoader.DoWork
         Try
             icondata = (New HttpVarious).GetImage(_info.ImageUrl.ToString())
         Catch ex As Exception
@@ -202,7 +202,7 @@ Public Class ShowUserInfo
         End Try
     End Sub
 
-    Private Sub BackgroundWorker1_RunWorkerCompleted(ByVal sender As System.Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles BackgroundWorker1.RunWorkerCompleted
+    Private Sub BackgroundWorker1_RunWorkerCompleted(ByVal sender As System.Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles BackgroundWorkerImageLoader.RunWorkerCompleted
         Try
             If icondata IsNot Nothing Then
                 UserPicture.Image = icondata
