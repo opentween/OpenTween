@@ -1,4 +1,27 @@
-﻿Imports System.Xml
+﻿' Tween - Client of Twitter
+' Copyright (c) 2007-2010 kiri_feather (@kiri_feather) <kiri_feather@gmail.com>
+'           (c) 2008-2010 Moz (@syo68k) <http://iddy.jp/profile/moz/>
+'           (c) 2008-2010 takeshik (@takeshik) <http://www.takeshik.org/>
+' All rights reserved.
+' 
+' This file is part of Tween.
+' 
+' This program is free software; you can redistribute it and/or modify it
+' under the terms of the GNU General Public License as published by the Free
+' Software Foundation; either version 3 of the License, or (at your option)
+' any later version.
+' 
+' This program is distributed in the hope that it will be useful, but
+' WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+' or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+' for more details. 
+' 
+' You should have received a copy of the GNU General Public License along
+' with this program. If not, see <http://www.gnu.org/licenses/>, or write to
+' the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
+' Boston, MA 02110-1301, USA.
+
+Imports System.Xml
 
 Public Class ShowUserInfo
 
@@ -70,24 +93,33 @@ Public Class ShowUserInfo
             LabelCreatedAt.Text = _info.CreatedAt.ToString
             LabelIsProtected.Text = DirectCast(IIf(_info.Protect, My.Resources.Yes, My.Resources.No), String)
 
-            Dim isFollowing As Boolean = False
-            Dim isFollowed As Boolean = False
-            Dim ret As String = TweenMain.TwitterInstance.GetFriendshipInfo(_info.ScreenName, isFollowing, isFollowed)
-            If ret = "" Then
-                If isFollowing Then
-                    LabelIsFollowing.Text = My.Resources.GetFriendshipInfo1
-                Else
-                    LabelIsFollowing.Text = My.Resources.GetFriendshipInfo2
-                End If
-                ButtonFollow.Enabled = Not isFollowing
-                If isFollowed Then
-                    LabelIsFollowed.Text = My.Resources.GetFriendshipInfo3
-                Else
-                    LabelIsFollowed.Text = My.Resources.GetFriendshipInfo4
-                End If
-                ButtonUnFollow.Enabled = isFollowing
+            If TweenMain.TwitterInstance.Username = _info.ScreenName Then
+                ' 自分の場合
+                LabelIsFollowing.Text = ""
+                LabelIsFollowed.Text = ""
+                ButtonFollow.Enabled = False
+                ButtonUnFollow.Enabled = False
             Else
-                MessageBox.Show(ret)
+                Dim isFollowing As Boolean = False
+                Dim isFollowed As Boolean = False
+                Dim ret As String = TweenMain.TwitterInstance.GetFriendshipInfo(_info.ScreenName, isFollowing, isFollowed)
+                If ret = "" Then
+                    If isFollowing Then
+                        LabelIsFollowing.Text = My.Resources.GetFriendshipInfo1
+                    Else
+                        LabelIsFollowing.Text = My.Resources.GetFriendshipInfo2
+                    End If
+                    ButtonFollow.Enabled = Not isFollowing
+                    If isFollowed Then
+                        LabelIsFollowed.Text = My.Resources.GetFriendshipInfo3
+                    Else
+                        LabelIsFollowed.Text = My.Resources.GetFriendshipInfo4
+                    End If
+                    ButtonUnFollow.Enabled = isFollowing
+                Else
+                    MessageBox.Show(ret)
+                End If
+
             End If
         End If
     End Sub
