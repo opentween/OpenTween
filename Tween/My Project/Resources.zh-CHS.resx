@@ -117,18 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddCustomTabsText1" xml:space="preserve">
-    <value>昵称</value>
-  </data>
-  <data name="AddCustomTabsText2" xml:space="preserve">
-    <value>消息</value>
-  </data>
-  <data name="AddCustomTabsText3" xml:space="preserve">
-    <value>时间</value>
-  </data>
-  <data name="AddCustomTabsText4" xml:space="preserve">
-    <value>账号</value>
-  </data>
   <data name="AddNewTabText1" xml:space="preserve">
     <value>(新标签)</value>
   </data>
@@ -618,18 +606,6 @@
   <data name="UpdateFollowersMenuItem1_ClickText3" xml:space="preserve">
     <value>关注人已刷新</value>
   </data>
-  <data name="BlackFavAddToolStripMenuItem_ClickText1" xml:space="preserve">
-    <value>将选中的消息加入Black-favorite，可以吗？</value>
-  </data>
-  <data name="BlackFavAddToolStripMenuItem_ClickText2" xml:space="preserve">
-    <value>BlackFav正在检查</value>
-  </data>
-  <data name="BlackFavAddToolStripMenuItem_ClickText3" xml:space="preserve">
-    <value>BlackFav正在添加</value>
-  </data>
-  <data name="BlackFavAddToolStripMenuItem_ClickText4" xml:space="preserve">
-    <value>BlackFav未添加</value>
-  </data>
   <data name="GetTimelineWorker_RunWorkerCompletedText15_black" xml:space="preserve">
     <value>BalckFav添加(</value>
   </data>
@@ -696,27 +672,6 @@
   <data name="PostLengthOverMessage2" xml:space="preserve">
     <value>消息文本长度超出限制</value>
   </data>
-  <data name="WebModeWarning1" xml:space="preserve">
-    <value>当前选用了Web模式 (=不使用API的模式)。</value>
-  </data>
-  <data name="WebModeWarning2" xml:space="preserve">
-    <value>* Web模式有可能违反Twitter用户使用协议。</value>
-  </data>
-  <data name="WebModeWarning3" xml:space="preserve">
-    <value>* API模式下有刷新时间线频率等限制。</value>
-  </data>
-  <data name="WebModeWarning4" xml:space="preserve">
-    <value>要切换到API模式请点击确定。</value>
-  </data>
-  <data name="WebModeWarning5" xml:space="preserve">
-    <value>警告</value>
-  </data>
-  <data name="WebModeWarning6" xml:space="preserve">
-    <value>切换到API模式了。</value>
-  </data>
-  <data name="WebModeWarning7" xml:space="preserve">
-    <value>要切换回API模式，请在设置的“行为”标签中勾选“使用API”。</value>
-  </data>
   <data name="RetweetQuestion1" xml:space="preserve">
     <value>Retweet该条消息？</value>
   </data>
@@ -782,5 +737,20 @@
   </data>
   <data name="CreateDateTimeFormatSampleText1" xml:space="preserve">
     <value>无效的日期时间格式</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText23" xml:space="preserve">
+    <value>列表正在刷新...</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText24" xml:space="preserve">
+    <value>列表已刷新</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>是</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>否</value>
+  </data>
+  <data name="ShowUserInfo1" xml:space="preserve">
+    <value>用户信息解析失败</value>
   </data>
 </root>
