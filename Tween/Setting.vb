@@ -567,7 +567,9 @@ Public Class Setting
         If prd <> 0 AndAlso (prd < 15 OrElse prd > 6000) Then
             MessageBox.Show(My.Resources.TimelinePeriod_ValidatingText2)
             e.Cancel = True
+            Exit Sub
         End If
+        CalcApiUsing()
     End Sub
 
     Private Sub ReplyPeriod_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ReplyPeriod.Validating
@@ -583,7 +585,9 @@ Public Class Setting
         If prd <> 0 AndAlso (prd < 15 OrElse prd > 6000) Then
             MessageBox.Show(My.Resources.TimelinePeriod_ValidatingText2)
             e.Cancel = True
+            Exit Sub
         End If
+        CalcApiUsing()
     End Sub
 
     'Private Sub NextThreshold_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs)
@@ -631,7 +635,9 @@ Public Class Setting
         If prd <> 0 AndAlso (prd < 15 OrElse prd > 6000) Then
             MessageBox.Show(My.Resources.DMPeriod_ValidatingText2)
             e.Cancel = True
+            Exit Sub
         End If
+        CalcApiUsing()
     End Sub
 
     Private Sub PubSearchPeriod_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles PubSearchPeriod.Validating
@@ -663,7 +669,9 @@ Public Class Setting
         If prd <> 0 AndAlso (prd < 15 OrElse prd > 6000) Then
             MessageBox.Show(My.Resources.DMPeriod_ValidatingText2)
             e.Cancel = True
+            Exit Sub
         End If
+        CalcApiUsing()
     End Sub
 
     Private Sub ReadLogDays_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs)
@@ -1908,6 +1916,7 @@ Public Class Setting
         If cnt < 20 OrElse cnt > 200 Then
             MessageBox.Show(My.Resources.TextCountApi_Validating1)
             e.Cancel = True
+            Exit Sub
         End If
     End Sub
 
@@ -1924,6 +1933,7 @@ Public Class Setting
         If cnt < 20 OrElse cnt > 200 Then
             MessageBox.Show(My.Resources.TextCountApi_Validating1)
             e.Cancel = True
+            Exit Sub
         End If
     End Sub
 
@@ -2075,6 +2085,62 @@ Public Class Setting
         End If
         Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
         Me.AuthUserLabel.Text = ""
+        CalcApiUsing()
+    End Sub
+
+    Private Sub CalcApiUsing()
+        Dim UsingApi As Integer = 0
+        Dim tmp As Integer
+        Dim ListsTabNum As Integer = 0
+
+        Try
+            ' 初回起動時などにNothingの場合あり
+            ListsTabNum = TabInformations.GetInstance.GetTabsByType(TabUsageType.Lists).Count
+        Catch ex As Exception
+            Exit Sub
+        End Try
+
+        ' Recent計算 0は手動更新
+        If Integer.TryParse(TimelinePeriod.Text, tmp) Then
+            If tmp <> 0 Then
+                UsingApi += 3600 \ tmp
+            End If
+        End If
+
+        ' Reply計算 0は手動更新
+        If Integer.TryParse(ReplyPeriod.Text, tmp) Then
+            If tmp <> 0 Then
+                UsingApi += 3600 \ tmp
+            End If
+        End If
+
+        ' DM計算 0は手動更新 送受信両方
+        If Integer.TryParse(DMPeriod.Text, tmp) Then
+            If tmp <> 0 Then
+                UsingApi += (3600 \ tmp) * 2
+            End If
+        End If
+
+        ' Listsタブ計算 0は手動更新
+        If Integer.TryParse(ListsPeriod.Text, tmp) Then
+            If tmp <> 0 Then
+                UsingApi += (3600 \ tmp) * ListsTabNum
+            End If
+        End If
+
+        LabelApiUsing.Text = UsingApi.ToString
+        LabelPostAndGet.Visible = CheckPostAndGet.Checked
+
+        If AuthOAuthRadio.Checked Then
+            MaxApi.Text = "350"
+        ElseIf AuthBasicRadio.Checked Then
+            MaxApi.Text = "150"
+        End If
+
+    End Sub
+
+    Private Sub CheckPostAndGet_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckPostAndGet.CheckedChanged
+        CalcApiUsing()
     End Sub
 End Class
 

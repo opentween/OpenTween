@@ -229,6 +229,13 @@ Partial Class Setting
         Me.Label59 = New System.Windows.Forms.Label()
         Me.TextBoxOutputzKey = New System.Windows.Forms.TextBox()
         Me.CheckOutputz = New System.Windows.Forms.CheckBox()
+        Me.LabelApiUsing = New System.Windows.Forms.Label()
+        Me.Label43 = New System.Windows.Forms.Label()
+        Me.Label53 = New System.Windows.Forms.Label()
+        Me.Label70 = New System.Windows.Forms.Label()
+        Me.MaxApi = New System.Windows.Forms.Label()
+        Me.Label84 = New System.Windows.Forms.Label()
+        Me.LabelPostAndGet = New System.Windows.Forms.Label()
         Me.GroupBox1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
@@ -868,6 +875,13 @@ Partial Class Setting
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.LabelPostAndGet)
+        Me.TabPage1.Controls.Add(Me.Label84)
+        Me.TabPage1.Controls.Add(Me.MaxApi)
+        Me.TabPage1.Controls.Add(Me.Label70)
+        Me.TabPage1.Controls.Add(Me.Label53)
+        Me.TabPage1.Controls.Add(Me.Label43)
+        Me.TabPage1.Controls.Add(Me.LabelApiUsing)
         Me.TabPage1.Controls.Add(Me.Label33)
         Me.TabPage1.Controls.Add(Me.ListsPeriod)
         Me.TabPage1.Controls.Add(Me.AuthBasicRadio)
@@ -1588,6 +1602,41 @@ Partial Class Setting
         Me.CheckOutputz.Name = "CheckOutputz"
         Me.CheckOutputz.UseVisualStyleBackColor = True
         '
+        'LabelApiUsing
+        '
+        resources.ApplyResources(Me.LabelApiUsing, "LabelApiUsing")
+        Me.LabelApiUsing.Name = "LabelApiUsing"
+        '
+        'Label43
+        '
+        resources.ApplyResources(Me.Label43, "Label43")
+        Me.Label43.Name = "Label43"
+        '
+        'Label53
+        '
+        resources.ApplyResources(Me.Label53, "Label53")
+        Me.Label53.Name = "Label53"
+        '
+        'Label70
+        '
+        resources.ApplyResources(Me.Label70, "Label70")
+        Me.Label70.Name = "Label70"
+        '
+        'MaxApi
+        '
+        resources.ApplyResources(Me.MaxApi, "MaxApi")
+        Me.MaxApi.Name = "MaxApi"
+        '
+        'Label84
+        '
+        resources.ApplyResources(Me.Label84, "Label84")
+        Me.Label84.Name = "Label84"
+        '
+        'LabelPostAndGet
+        '
+        resources.ApplyResources(Me.LabelPostAndGet, "LabelPostAndGet")
+        Me.LabelPostAndGet.Name = "LabelPostAndGet"
+        '
         'Setting
         '
         Me.AcceptButton = Me.Save
@@ -1827,4 +1876,11 @@ Partial Class Setting
     Friend WithEvents ListsPeriod As System.Windows.Forms.TextBox
     Friend WithEvents Label35 As System.Windows.Forms.Label
     Friend WithEvents CheckPreviewEnable As System.Windows.Forms.CheckBox
+    Friend WithEvents LabelApiUsing As System.Windows.Forms.Label
+    Friend WithEvents Label84 As System.Windows.Forms.Label
+    Friend WithEvents MaxApi As System.Windows.Forms.Label
+    Friend WithEvents Label70 As System.Windows.Forms.Label
+    Friend WithEvents Label53 As System.Windows.Forms.Label
+    Friend WithEvents Label43 As System.Windows.Forms.Label
+    Friend WithEvents LabelPostAndGet As System.Windows.Forms.Label
 End Class
