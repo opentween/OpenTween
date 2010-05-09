@@ -3184,7 +3184,7 @@ Public Class TweenMain
         End If
     End Sub
 
-    Private Sub AddNewTabForSearch(ByVal searchWord As String)
+    Public Sub AddNewTabForSearch(ByVal searchWord As String)
         '同一検索条件のタブが既に存在すれば、そのタブアクティブにして終了
         For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.PublicSearch)
             If tb.SearchWords = searchWord AndAlso tb.SearchLang = "" Then
@@ -4341,11 +4341,15 @@ RETRY:
         If Not SettingDialog.TabIconDisp Then ListTab.Refresh()
     End Sub
 
+    Public Function createDetailHtml(ByVal orgdata As String) As String
+        Return detailHtmlFormatHeader + orgdata + detailHtmlFormatFooter
+    End Function
+
     Private Sub DispSelectedPost()
 
         If _curList.SelectedIndices.Count = 0 OrElse _curPost Is Nothing Then Exit Sub
 
-        Dim dTxt As String = detailHtmlFormatHeader + _curPost.OriginalData + detailHtmlFormatFooter
+        Dim dTxt As String = createDetailHtml(_curPost.OriginalData)
         If _statuses.Tabs(_curTab.Text).TabType = TabUsageType.DirectMessage AndAlso _curPost.IsOwl Then
             NameLabel.Text = "DM TO -> "
         ElseIf _statuses.Tabs(_curTab.Text).TabType = TabUsageType.DirectMessage Then

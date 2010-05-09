@@ -31,7 +31,6 @@ Partial Class ShowUserInfo
         Me.LinkLabelWeb = New System.Windows.Forms.LinkLabel()
         Me.LabelLocation = New System.Windows.Forms.Label()
         Me.LabelName = New System.Windows.Forms.Label()
-        Me.LabelDescription = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.LinkLabelFollowing = New System.Windows.Forms.LinkLabel()
@@ -51,6 +50,7 @@ Partial Class ShowUserInfo
         Me.UserPicture = New System.Windows.Forms.PictureBox()
         Me.BackgroundWorkerImageLoader = New System.ComponentModel.BackgroundWorker()
         Me.LabelScreenName = New System.Windows.Forms.Label()
+        Me.DescriptionBrowser = New System.Windows.Forms.WebBrowser()
         CType(Me.UserPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -99,12 +99,6 @@ Partial Class ShowUserInfo
         resources.ApplyResources(Me.LabelName, "LabelName")
         Me.LabelName.Name = "LabelName"
         Me.LabelName.UseMnemonic = False
-        '
-        'LabelDescription
-        '
-        resources.ApplyResources(Me.LabelDescription, "LabelDescription")
-        Me.LabelDescription.Name = "LabelDescription"
-        Me.LabelDescription.UseMnemonic = False
         '
         'Label5
         '
@@ -207,10 +201,21 @@ Partial Class ShowUserInfo
         resources.ApplyResources(Me.LabelScreenName, "LabelScreenName")
         Me.LabelScreenName.Name = "LabelScreenName"
         '
+        'DescriptionBrowser
+        '
+        Me.DescriptionBrowser.AllowWebBrowserDrop = False
+        Me.DescriptionBrowser.IsWebBrowserContextMenuEnabled = False
+        resources.ApplyResources(Me.DescriptionBrowser, "DescriptionBrowser")
+        Me.DescriptionBrowser.MinimumSize = New System.Drawing.Size(20, 20)
+        Me.DescriptionBrowser.Name = "DescriptionBrowser"
+        Me.DescriptionBrowser.Url = New System.Uri("", System.UriKind.Relative)
+        Me.DescriptionBrowser.WebBrowserShortcutsEnabled = False
+        '
         'ShowUserInfo
         '
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me.DescriptionBrowser)
         Me.Controls.Add(Me.LabelScreenName)
         Me.Controls.Add(Me.UserPicture)
         Me.Controls.Add(Me.LabelIsFollowed)
@@ -229,7 +234,6 @@ Partial Class ShowUserInfo
         Me.Controls.Add(Me.LinkLabelFollowing)
         Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.Label5)
-        Me.Controls.Add(Me.LabelDescription)
         Me.Controls.Add(Me.LabelName)
         Me.Controls.Add(Me.LabelLocation)
         Me.Controls.Add(Me.LinkLabelWeb)
@@ -257,7 +261,6 @@ Partial Class ShowUserInfo
     Friend WithEvents LinkLabelWeb As System.Windows.Forms.LinkLabel
     Friend WithEvents LabelLocation As System.Windows.Forms.Label
     Friend WithEvents LabelName As System.Windows.Forms.Label
-    Friend WithEvents LabelDescription As System.Windows.Forms.Label
     Friend WithEvents Label5 As System.Windows.Forms.Label
     Friend WithEvents Label6 As System.Windows.Forms.Label
     Friend WithEvents LinkLabelFollowing As System.Windows.Forms.LinkLabel
@@ -277,4 +280,5 @@ Partial Class ShowUserInfo
     Friend WithEvents UserPicture As System.Windows.Forms.PictureBox
     Friend WithEvents BackgroundWorkerImageLoader As System.ComponentModel.BackgroundWorker
     Friend WithEvents LabelScreenName As System.Windows.Forms.Label
+    Friend WithEvents DescriptionBrowser As System.Windows.Forms.WebBrowser
 End Class

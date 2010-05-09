@@ -22,12 +22,15 @@
 ' Boston, MA 02110-1301, USA.
 
 Imports System.Xml
+Imports System.Web
 
 Public Class ShowUserInfo
 
     Private userInfoXml As String = ""
     Private _info As UserInfo
     Private icondata As Image = Nothing
+    Private atlist As New Generic.List(Of String)
+    Dim dTxt As String
 
     Private Structure UserInfo
         Dim Name As String
@@ -89,7 +92,11 @@ Public Class ShowUserInfo
             LabelLocation.Text = _info.Location
             LinkLabelWeb.Text = _info.Url
 
-            LabelDescription.Text = _info.Description
+            'LabelDescription.Text = _info.Description
+
+            DescriptionBrowser.Visible = False
+            dTxt = TweenMain.createDetailHtml( _
+                    TweenMain.TwitterInstance.CreateHtmlAnchor(_info.Description, atlist))
 
             LinkLabelFollowing.Text = _info.FriendsCount.ToString
             LinkLabelFollowers.Text = _info.FollowersCount.ToString
@@ -216,5 +223,27 @@ Public Class ShowUserInfo
         Catch ex As Exception
             UserPicture.Image = Nothing
         End Try
+    End Sub
+
+    Private Sub ShowUserInfo_Shown(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Shown
+        DescriptionBrowser.DocumentText = dTxt
+        DescriptionBrowser.Visible = True
+    End Sub
+
+    Private Sub DescriptionBrowser_Navigating(ByVal sender As System.Object, ByVal e As System.Windows.Forms.WebBrowserNavigatingEventArgs) Handles DescriptionBrowser.Navigating
+        If e.Url.AbsoluteUri <> "about:blank" Then
+            e.Cancel = True
+
+            If e.Url.AbsoluteUri.StartsWith("http://twitter.com/search?q=%23") OrElse _
+               e.Url.AbsoluteUri.StartsWith("https://twitter.com/search?q=%23") Then
+                'ハッシュタグの場合は、タブで開く
+                Dim urlStr As String = HttpUtility.UrlDecode(e.Url.AbsoluteUri)
+                Dim hash As String = urlStr.Substring(urlStr.IndexOf("#"))
+                TweenMain.AddNewTabForSearch(hash)
+                Exit Sub
+            Else
+                TweenMain.OpenUriAsync(e.Url.OriginalString)
+            End If
+        End If
     End Sub
 End Class
