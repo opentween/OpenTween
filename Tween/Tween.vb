@@ -4444,6 +4444,7 @@ RETRY:
                    pnl.Controls("buttonSearch").Focused Then Exit Sub
             End If
         End If
+
         If e.Modifiers = Keys.None Then
             ' ModifierKeyが押されていない場合
             If e.KeyCode = Keys.N OrElse e.KeyCode = Keys.Right Then
@@ -4538,6 +4539,7 @@ RETRY:
             If e.KeyCode = Keys.P Then GoNextTab(False)
             If e.KeyCode = Keys.I Then doRepliedStatusOpen()
             If e.KeyCode = Keys.D Then doStatusDelete()
+            If e.KeyCode = Keys.Q Then doQuote()
             'If e.KeyCode = Keys.F Then
             '    e.Handled = True
             '    e.SuppressKeyPress = True
@@ -4618,7 +4620,13 @@ RETRY:
             ' CTRL+SHIFTキーが押されている場合
             If e.KeyCode = Keys.H Then doMoveToRTHome()
         End If
+        If Not e.Control AndAlso e.Alt AndAlso e.Shift Then
+            ' ALT+SHIFTキーが押されている場合
+            If e.KeyCode = Keys.R Then doReTweetUnofficial()
+        End If
+
         If Not e.Alt Then
+            ' Altキーが押されている場合
             If e.KeyCode = Keys.J Then
                 e.Handled = True
                 e.SuppressKeyPress = True
@@ -4629,10 +4637,6 @@ RETRY:
                 e.SuppressKeyPress = True
                 SendKeys.Send("{UP}")
             End If
-        End If
-        If Not e.Control AndAlso e.Alt AndAlso e.Shift Then
-            ' ALT+SHIFTキーが押されている場合
-            If e.KeyCode = Keys.R Then doReTweetUnofficial()
         End If
 
         If e.KeyCode = Keys.C Then
@@ -7691,14 +7695,7 @@ RETRY:
         modifySettingCommon = True
     End Sub
 
-    'Private Sub UserPicture_Paint(ByVal sender As System.Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles UserPicture.Paint
-    '    If e.Graphics.InterpolationMode <> Drawing2D.InterpolationMode.HighQualityBicubic Then
-    '        e.Graphics.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
-    '        UserPicture.GetType().GetMethod("OnPaint", BindingFlags.NonPublic Or BindingFlags.Instance).Invoke(UserPicture, New Object() {e})
-    '    End If
-    'End Sub
-
-    Private Sub QuoteStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles QuoteStripMenuItem.Click, QtOpMenuItem.Click
+    Private Sub doQuote()
         'QT @id:内容
         '返信先情報付加
         If _curPost IsNot Nothing Then
@@ -7723,6 +7720,10 @@ RETRY:
             StatusText.SelectionStart = 0
             StatusText.Focus()
         End If
+    End Sub
+
+    Private Sub QuoteStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles QuoteStripMenuItem.Click, QtOpMenuItem.Click
+        doQuote()
     End Sub
 
     Private Sub SearchButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
