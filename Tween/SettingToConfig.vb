@@ -539,7 +539,7 @@ Public NotInheritable Class SettingToConfig
 
     Public Property ReplyPeriod() As Integer
         Get
-            Return GetValueOrDefault("replyPeriod", 600)
+            Return GetValueOrDefault("replyPeriod", 180)
         End Get
         Set(ByVal value As Integer)
             Item("replyPeriod") = value
