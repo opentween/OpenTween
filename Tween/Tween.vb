@@ -4630,6 +4630,11 @@ RETRY:
                 SendKeys.Send("{UP}")
             End If
         End If
+        If Not e.Control AndAlso e.Alt AndAlso e.Shift Then
+            ' ALT+SHIFTキーが押されている場合
+            If e.KeyCode = Keys.R Then doReTweetUnofficial()
+        End If
+
         If e.KeyCode = Keys.C Then
             Dim clstr As String = ""
             If e.Control AndAlso Not e.Alt AndAlso Not e.Shift Then
@@ -7388,7 +7393,7 @@ RETRY:
         doGetFollowersMenu(True)        ' Followersリストキャッシュ無効
     End Sub
 
-    Private Sub ReTweetStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReTweetStripMenuItem.Click, RtUnOpMenuItem.Click
+    Private Sub doReTweetUnofficial()
         'RT @id:内容
         If _curPost IsNot Nothing Then
             If _curPost.IsDm OrElse _
@@ -7406,6 +7411,10 @@ RETRY:
             StatusText.SelectionStart = 0
             StatusText.Focus()
         End If
+    End Sub
+
+    Private Sub ReTweetStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReTweetStripMenuItem.Click, RtUnOpMenuItem.Click
+        doReTweetUnofficial()
     End Sub
 
     Private Sub doReTweetOriginal()
