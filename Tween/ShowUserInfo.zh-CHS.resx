@@ -120,6 +120,9 @@
   <data name="ButtonClose.Text" xml:space="preserve">
     <value>关闭</value>
   </data>
+  <data name="Label1.Text" xml:space="preserve">
+    <value>昵称</value>
+  </data>
   <data name="Label2.Text" xml:space="preserve">
     <value>所在地</value>
   </data>
@@ -137,16 +140,16 @@
     <value>简介</value>
   </data>
   <data name="Label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>53, 12</value>
+    <value>41, 12</value>
   </data>
   <data name="Label5.Text" xml:space="preserve">
-    <value>关注人数</value>
+    <value>好友数</value>
   </data>
   <data name="Label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>53, 12</value>
+    <value>41, 12</value>
   </data>
   <data name="Label6.Text" xml:space="preserve">
-    <value>被关注数</value>
+    <value>关注数</value>
   </data>
   <data name="Label7.Size" type="System.Drawing.Size, System.Drawing">
     <value>53, 12</value>
