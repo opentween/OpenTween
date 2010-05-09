@@ -168,6 +168,9 @@ Public Class ShowUserInfo
             MessageBox.Show(My.Resources.FRMessage2 + ret)
         Else
             MessageBox.Show(My.Resources.FRMessage3)
+            LabelIsFollowing.Text = My.Resources.GetFriendshipInfo1
+            ButtonFollow.Enabled = False
+            ButtonUnFollow.Enabled = True
         End If
     End Sub
 
@@ -177,6 +180,9 @@ Public Class ShowUserInfo
             MessageBox.Show(My.Resources.FRMessage2 + ret)
         Else
             MessageBox.Show(My.Resources.FRMessage3)
+            LabelIsFollowing.Text = My.Resources.GetFriendshipInfo2
+            ButtonFollow.Enabled = True
+            ButtonUnFollow.Enabled = False
         End If
     End Sub
 
