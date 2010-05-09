@@ -451,6 +451,42 @@
   <data name="Label47.Text" xml:space="preserve">
     <value>重启之后才生效。</value>
   </data>
+  <data name="LabelPostAndGet.Size" type="System.Drawing.Size, System.Drawing">
+    <value>251, 12</value>
+  </data>
+  <data name="LabelPostAndGet.Text" xml:space="preserve">
+    <value>成功刷新消息、发送消息时都会消耗API配额。</value>
+  </data>
+  <data name="Label84.Size" type="System.Drawing.Size, System.Drawing">
+    <value>71, 12</value>
+  </data>
+  <data name="Label84.Text" xml:space="preserve">
+    <value>次API配额。</value>
+  </data>
+  <data name="MaxApi.Location" type="System.Drawing.Point, System.Drawing">
+    <value>144, 382</value>
+  </data>
+  <data name="Label70.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 12</value>
+  </data>
+  <data name="Label70.Text" xml:space="preserve">
+    <value>一小时内最多可以使用</value>
+  </data>
+  <data name="Label53.Size" type="System.Drawing.Size, System.Drawing">
+    <value>71, 12</value>
+  </data>
+  <data name="Label53.Text" xml:space="preserve">
+    <value>次API配额。</value>
+  </data>
+  <data name="Label43.Size" type="System.Drawing.Size, System.Drawing">
+    <value>89, 12</value>
+  </data>
+  <data name="Label43.Text" xml:space="preserve">
+    <value>一小时内将使用</value>
+  </data>
+  <data name="LabelApiUsing.Location" type="System.Drawing.Point, System.Drawing">
+    <value>109, 344</value>
+  </data>
   <data name="Label33.Size" type="System.Drawing.Size, System.Drawing">
     <value>107, 12</value>
   </data>
@@ -622,15 +658,6 @@
   <data name="TabPage2.Text" xml:space="preserve">
     <value>行为</value>
   </data>
-  <data name="TabPage3.Text" xml:space="preserve">
-    <value>显示</value>
-  </data>
-  <data name="TabPage4.Text" xml:space="preserve">
-    <value>字体与颜色</value>
-  </data>
-  <data name="TabPage6.Text" xml:space="preserve">
-    <value>附加</value>
-  </data>
   <data name="Label81.Size" type="System.Drawing.Size, System.Drawing">
     <value>65, 12</value>
   </data>
@@ -745,6 +772,12 @@
   <data name="chkUnreadStyle.Text" xml:space="preserve">
     <value>启用</value>
   </data>
+  <data name="TabPage3.Text" xml:space="preserve">
+    <value>显示</value>
+  </data>
+  <data name="TabPage4.Text" xml:space="preserve">
+    <value>字体与颜色</value>
+  </data>
   <data name="TwitterSearchAPIText.Location" type="System.Drawing.Point, System.Drawing">
     <value>234, 302</value>
   </data>
@@ -770,10 +803,10 @@
     <value>使用HTTPS通信</value>
   </data>
   <data name="Label64.Size" type="System.Drawing.Size, System.Drawing">
-    <value>329, 12</value>
+    <value>317, 12</value>
   </data>
   <data name="Label64.Text" xml:space="preserve">
-    <value>※刷新频繁出现超时的话请调整为更大的值。默认是20提秒。</value>
+    <value>※刷新频繁出现超时的话请调整为更大的值。默认是20秒。</value>
   </data>
   <data name="Label63.Location" type="System.Drawing.Point, System.Drawing">
     <value>151, 189</value>
@@ -783,9 +816,6 @@
   </data>
   <data name="Label63.Text" xml:space="preserve">
     <value>超时时间(秒)</value>
-  </data>
-  <data name="GroupBox2.Text" xml:space="preserve">
-    <value>代理设置</value>
   </data>
   <data name="Label55.Size" type="System.Drawing.Size, System.Drawing">
     <value>281, 12</value>
@@ -835,6 +865,9 @@
   <data name="RadioProxyNone.Text" xml:space="preserve">
     <value>不使用</value>
   </data>
+  <data name="GroupBox2.Text" xml:space="preserve">
+    <value>代理设置</value>
+  </data>
   <data name="CheckNicoms.Size" type="System.Drawing.Size, System.Drawing">
     <value>216, 16</value>
   </data>
@@ -858,6 +891,9 @@
   </data>
   <data name="CheckOutputz.Text" xml:space="preserve">
     <value>对应Outputz</value>
+  </data>
+  <data name="TabPage6.Text" xml:space="preserve">
+    <value>附加</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>设置</value>
