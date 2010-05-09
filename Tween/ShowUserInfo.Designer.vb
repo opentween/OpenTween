@@ -194,6 +194,7 @@ Partial Class ShowUserInfo
         '
         'UserPicture
         '
+        Me.UserPicture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         resources.ApplyResources(Me.UserPicture, "UserPicture")
         Me.UserPicture.Name = "UserPicture"
         Me.UserPicture.TabStop = False
