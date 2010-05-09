@@ -4128,7 +4128,7 @@ Public Class Twitter
 
     End Function
 
-    Private Function CreateHtmlAnchor(ByVal Text As String, ByVal AtList As List(Of String)) As String
+    Public Function CreateHtmlAnchor(ByVal Text As String, ByVal AtList As List(Of String)) As String
         'Dim retStr As String = HttpUtility.HtmlEncode(Text)     '要検証（デコードされて取得されるので再エンコード）
         'Dim retStr As String = HttpUtility.HtmlDecode(Text)
         Dim retStr As String = ""

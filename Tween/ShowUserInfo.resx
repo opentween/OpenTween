@@ -329,30 +329,6 @@
   <data name="&gt;&gt;LabelName.ZOrder" xml:space="preserve">
     <value>19</value>
   </data>
-  <data name="LabelDescription.Location" type="System.Drawing.Point, System.Drawing">
-    <value>71, 203</value>
-  </data>
-  <data name="LabelDescription.Size" type="System.Drawing.Size, System.Drawing">
-    <value>328, 134</value>
-  </data>
-  <data name="LabelDescription.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="LabelDescription.Text" xml:space="preserve">
-    <value>LabelDescription</value>
-  </data>
-  <data name="&gt;&gt;LabelDescription.Name" xml:space="preserve">
-    <value>LabelDescription</value>
-  </data>
-  <data name="&gt;&gt;LabelDescription.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LabelDescription.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;LabelDescription.ZOrder" xml:space="preserve">
-    <value>18</value>
-  </data>
   <data name="Label5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -378,7 +354,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Label5.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>18</value>
   </data>
   <data name="Label6.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -405,7 +381,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Label6.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>17</value>
   </data>
   <data name="LinkLabelFollowing.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -432,7 +408,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;LinkLabelFollowing.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>16</value>
   </data>
   <data name="LinkLabelFollowers.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -459,7 +435,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;LinkLabelFollowers.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>15</value>
   </data>
   <data name="Label7.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -486,7 +462,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Label7.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>14</value>
   </data>
   <data name="LabelCreatedAt.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -513,7 +489,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;LabelCreatedAt.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>13</value>
   </data>
   <data name="Label8.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -540,7 +516,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Label8.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="LinkLabelTweet.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -567,7 +543,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;LinkLabelTweet.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="Label9.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -594,7 +570,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Label9.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="LinkLabelFav.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -621,7 +597,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;LinkLabelFav.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="ButtonFollow.Location" type="System.Drawing.Point, System.Drawing">
     <value>16, 489</value>
@@ -645,7 +621,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;ButtonFollow.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="ButtonUnFollow.Location" type="System.Drawing.Point, System.Drawing">
     <value>116, 489</value>
@@ -669,7 +645,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;ButtonUnFollow.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="Label10.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -696,7 +672,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Label10.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="LabelIsProtected.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -723,7 +699,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;LabelIsProtected.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="LabelIsFollowing.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -750,7 +726,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;LabelIsFollowing.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="LabelIsFollowed.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -777,7 +753,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;LabelIsFollowed.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="UserPicture.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 24</value>
@@ -802,7 +778,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;UserPicture.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <metadata name="BackgroundWorkerImageLoader.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
@@ -832,6 +808,27 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;LabelScreenName.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="DescriptionBrowser.Location" type="System.Drawing.Point, System.Drawing">
+    <value>66, 202</value>
+  </data>
+  <data name="DescriptionBrowser.Size" type="System.Drawing.Size, System.Drawing">
+    <value>341, 123</value>
+  </data>
+  <data name="DescriptionBrowser.TabIndex" type="System.Int32, mscorlib">
+    <value>27</value>
+  </data>
+  <data name="&gt;&gt;DescriptionBrowser.Name" xml:space="preserve">
+    <value>DescriptionBrowser</value>
+  </data>
+  <data name="&gt;&gt;DescriptionBrowser.Type" xml:space="preserve">
+    <value>System.Windows.Forms.WebBrowser, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DescriptionBrowser.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;DescriptionBrowser.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
