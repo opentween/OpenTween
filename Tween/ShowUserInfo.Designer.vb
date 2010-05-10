@@ -203,6 +203,10 @@ Partial Class ShowUserInfo
         resources.ApplyResources(Me.LabelScreenName, "LabelScreenName")
         Me.LabelScreenName.Name = "LabelScreenName"
         '
+        'ToolTip1
+        '
+        Me.ToolTip1.ShowAlways = True
+        '
         'DescriptionBrowser
         '
         Me.DescriptionBrowser.AllowWebBrowserDrop = False

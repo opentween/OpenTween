@@ -1493,7 +1493,7 @@ Public Class Twitter
     '        End Try
     '    End Function
 
-    Private Function PreProcessUrl(ByVal orgData As String) As String
+    Public Function PreProcessUrl(ByVal orgData As String) As String
         Dim posl1 As Integer
         Dim posl2 As Integer = 0
         Dim IDNConveter As IdnMapping = New IdnMapping()
