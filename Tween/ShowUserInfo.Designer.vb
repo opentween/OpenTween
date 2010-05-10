@@ -22,6 +22,7 @@ Partial Class ShowUserInfo
     'コード エディターを使って変更しないでください。
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ShowUserInfo))
         Me.ButtonClose = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -51,6 +52,7 @@ Partial Class ShowUserInfo
         Me.BackgroundWorkerImageLoader = New System.ComponentModel.BackgroundWorker()
         Me.LabelScreenName = New System.Windows.Forms.Label()
         Me.DescriptionBrowser = New System.Windows.Forms.WebBrowser()
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         CType(Me.UserPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -281,4 +283,5 @@ Partial Class ShowUserInfo
     Friend WithEvents BackgroundWorkerImageLoader As System.ComponentModel.BackgroundWorker
     Friend WithEvents LabelScreenName As System.Windows.Forms.Label
     Friend WithEvents DescriptionBrowser As System.Windows.Forms.WebBrowser
+    Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
 End Class
