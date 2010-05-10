@@ -32,6 +32,16 @@ Public Class ShowUserInfo
     Private atlist As New Generic.List(Of String)
     Dim dTxt As String
 
+    Private Const Mainpath As String = "http://twitter.com/"
+    Private Const Followingpath As String = "/following"
+    Private Const Followerspath As String = "/followers"
+    Private Const Favpath As String = "/favorites"
+
+    Private Home As String
+    Private Following As String
+    Private Followers As String
+    Private Favorites As String
+
     Private Structure UserInfo
         Dim Name As String
         Dim ScreenName As String
@@ -48,6 +58,19 @@ Public Class ShowUserInfo
         Dim Verified As Boolean
     End Structure
 
+    Private Sub InitPath()
+        Home = Mainpath + _info.ScreenName
+        Following = Home + Followingpath
+        Followers = Home + Followerspath
+        Favorites = Home + Favpath
+    End Sub
+
+    Private Sub InitTooltip()
+        ToolTip1.SetToolTip(LinkLabelTweet, Home)
+        ToolTip1.SetToolTip(LinkLabelFollowing, Following)
+        ToolTip1.SetToolTip(LinkLabelFollowers, Followers)
+        ToolTip1.SetToolTip(LinkLabelFav, Favorites)
+    End Sub
 
     Private Function AnalizeUserInfo(ByVal xmlData As String) As Boolean
         If xmlData Is Nothing Then Return False
@@ -85,14 +108,14 @@ Public Class ShowUserInfo
             'アイコンロード
             BackgroundWorkerImageLoader.RunWorkerAsync()
 
+            InitPath()
+            InitTooltip()
             Me.Text = Me.Text.Insert(0, _info.ScreenName + " ")
             LabelScreenName.Text = _info.ScreenName
             LabelName.Text = _info.Name
 
             LabelLocation.Text = _info.Location
             LinkLabelWeb.Text = _info.Url
-
-            'LabelDescription.Text = _info.Description
 
             DescriptionBrowser.Visible = False
             dTxt = TweenMain.createDetailHtml( _
@@ -154,19 +177,19 @@ Public Class ShowUserInfo
     End Sub
 
     Private Sub LinkLabelFollowing_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabelFollowing.LinkClicked
-        TweenMain.OpenUriAsync("http://twitter.com/" + _info.ScreenName + "/following")
+        TweenMain.OpenUriAsync(Following)
     End Sub
 
     Private Sub LinkLabelFollowers_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabelFollowers.LinkClicked
-        TweenMain.OpenUriAsync("http://twitter.com/" + _info.ScreenName + "/followers")
+        TweenMain.OpenUriAsync(Followers)
     End Sub
 
     Private Sub LinkLabelTweet_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabelTweet.LinkClicked
-        TweenMain.OpenUriAsync("http://twitter.com/" + _info.ScreenName)
+        TweenMain.OpenUriAsync(Home)
     End Sub
 
     Private Sub LinkLabelFav_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabelFav.LinkClicked
-        TweenMain.OpenUriAsync("http://twitter.com/" + _info.ScreenName + "/favorites")
+        TweenMain.OpenUriAsync(Favorites)
     End Sub
 
     Private Sub ButtonFollow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonFollow.Click
@@ -249,10 +272,8 @@ Public Class ShowUserInfo
 
     Private Sub DescriptionBrowser_StatusTextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles DescriptionBrowser.StatusTextChanged
         If DescriptionBrowser.StatusText.StartsWith("http") Then
-            ToolTip1.Active = True
             ToolTip1.Show(DescriptionBrowser.StatusText, Me, PointToClient(MousePosition))
         ElseIf DescriptionBrowser.StatusText = "" Then
-            ToolTip1.Active = False
             ToolTip1.Hide(Me)
         End If
     End Sub
