@@ -23,6 +23,7 @@
 
 Imports System.Xml
 Imports System.Web
+Imports System.Text.RegularExpressions
 
 Public Class ShowUserInfo
 
@@ -30,7 +31,8 @@ Public Class ShowUserInfo
     Private _info As UserInfo
     Private icondata As Image = Nothing
     Private atlist As New Generic.List(Of String)
-    Dim dTxt As String
+    Private dTxt As String
+    Private ToolTipWeb As String
 
     Private Const Mainpath As String = "http://twitter.com/"
     Private Const Followingpath As String = "/following"
@@ -105,6 +107,7 @@ Public Class ShowUserInfo
             Me.Close()
             Return
         Else
+            Dim webtext As String
             'アイコンロード
             BackgroundWorkerImageLoader.RunWorkerAsync()
 
@@ -115,6 +118,12 @@ Public Class ShowUserInfo
             LabelName.Text = _info.Name
 
             LabelLocation.Text = _info.Location
+
+
+            webtext = TweenMain.TwitterInstance.PreProcessUrl("<a href=""" + _info.Url + """>Dummy</a>")
+            webtext = TweenMain.TwitterInstance.ShortUrlResolve(webtext)
+            ToolTip1.SetToolTip(LinkLabelWeb, _
+                                Regex.Match(webtext, "<a href=""(?<url>.*?)""").Groups.Item("url").Value)
             LinkLabelWeb.Text = _info.Url
 
             DescriptionBrowser.Visible = False
