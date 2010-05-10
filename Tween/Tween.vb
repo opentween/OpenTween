@@ -184,7 +184,7 @@ Public Class TweenMain
     Private _waitFav As Boolean = False
     Private _waitPubSearch As Boolean = False
     Private _waitLists As Boolean = False
-    Private _bw(9) As BackgroundWorker
+    Private _bw(18) As BackgroundWorker
     Private _bwFollower As BackgroundWorker
     Private cMode As Integer
     Private shield As New ShieldIcon
@@ -8091,28 +8091,24 @@ RETRY:
             'Dim re As Regex
             Dim mc As Match
             'imgur
-            're = New Regex("^http://imgur\.com/(\w+)\.jpg$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
             mc = Regex.Match(url, "^http://imgur\.com/(\w+)\.jpg$", RegexOptions.IgnoreCase)
             If mc.Success Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://i.imgur.com/${1}l.jpg")))
                 Continue For
             End If
             '画像拡張子で終わるURL（直リンク）
-            're = New Regex("^http://.*(\.jpg|\.jpeg|\.gif|\.png|\.bmp)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
             mc = Regex.Match(url, "^http://.*(\.jpg|\.jpeg|\.gif|\.png|\.bmp)$", RegexOptions.IgnoreCase)
             If mc.Success Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, url))
                 Continue For
             End If
             'twitpic
-            're = New Regex("^http://twitpic\.com/(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
             mc = Regex.Match(url, "^http://twitpic\.com/(\w+)(/full/?)?$", RegexOptions.IgnoreCase)
             If mc.Success Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://twitpic.com/show/thumb/${1}")))
                 Continue For
             End If
             'yfrog
-            're = New Regex("^http://yfrog\.com/(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
             mc = Regex.Match(url, "^http://yfrog\.com/(\w+)$", RegexOptions.IgnoreCase)
             If mc.Success Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, url + ".th.jpg"))
@@ -8120,41 +8116,35 @@ RETRY:
             End If
             'tweetphoto
             Const comp As String = "http://TweetPhotoAPI.com/api/TPAPI.svc/imagefromurl?size=thumbnail&url="
-            're = New Regex("^(http://tweetphoto\.com/[0-9]+|http://pic\.gd/[a-z0-9]+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
             If Regex.IsMatch(url, "^(http://tweetphoto\.com/[0-9]+|http://pic\.gd/[a-z0-9]+)$", RegexOptions.IgnoreCase) Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, comp + url))
                 Continue For
             End If
             'Mobypicture
-            're = New Regex("^http://moby\.to/(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
             mc = Regex.Match(url, "^http://moby\.to/(\w+)$", RegexOptions.IgnoreCase)
             If mc.Success Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://mobypicture.com/?${1}:small")))
                 Continue For
             End If
             '携帯百景
-            're = New Regex("^http://movapic\.com/pic/(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
             mc = Regex.Match(url, "^http://movapic\.com/pic/(\w+)$", RegexOptions.IgnoreCase)
             If mc.Success Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://image.movapic.com/pic/s_${1}.jpeg")))
                 Continue For
             End If
             'はてなフォトライフ
-            're = New Regex("^http://f\.hatena\.ne\.jp/(([a-z])[a-z0-9_-]{1,30}[a-z0-9])/((\d{8})\d+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
             mc = Regex.Match(url, "^http://f\.hatena\.ne\.jp/(([a-z])[a-z0-9_-]{1,30}[a-z0-9])/((\d{8})\d+)$", RegexOptions.IgnoreCase)
             If mc.Success Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://img.f.hatena.ne.jp/images/fotolife/${2}/${1}/${4}/${3}_120.jpg")))
                 Continue For
             End If
             'PhotoShare
-            're = New Regex("^http://(?:www\.)?bcphotoshare\.com/photos/\d+/(\d+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
             mc = Regex.Match(url, "^http://(?:www\.)?bcphotoshare\.com/photos/\d+/(\d+)$", RegexOptions.IgnoreCase)
             If mc.Success Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://images.bcphotoshare.com/storages/${1}/thumb180.jpg")))
                 Continue For
             End If
             'PhotoShare の短縮 URL
-            're = New Regex("^http://bctiny\.com/p(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
             mc = Regex.Match(url, "^http://bctiny\.com/p(\w+)$", RegexOptions.IgnoreCase)
             If mc.Success Then
                 Try
@@ -8164,35 +8154,30 @@ RETRY:
                 End Try
             End If
             'img.ly
-            're = New Regex("^http://img\.ly/(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
             mc = Regex.Match(url, "^http://img\.ly/(\w+)$", RegexOptions.IgnoreCase)
             If mc.Success Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://img.ly/show/thumb/${1}")))
                 Continue For
             End If
             'brightkite
-            're = New Regex("^http://brightkite\.com/objects/((\w{2})(\w{2})\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
             mc = Regex.Match(url, "^http://brightkite\.com/objects/((\w{2})(\w{2})\w+)$", RegexOptions.IgnoreCase)
             If mc.Success Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://cdn.brightkite.com/${2}/${3}/${1}-feed.jpg")))
                 Continue For
             End If
             'Twitgoo
-            're = New Regex("^http://twitgoo\.com/(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
             mc = Regex.Match(url, "^http://twitgoo\.com/(\w+)$", RegexOptions.IgnoreCase)
             If mc.Success Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://twitgoo.com/${1}/mini")))
                 Continue For
             End If
             'pic.im
-            're = New Regex("^http://pic\.im/(\w+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
             mc = Regex.Match(url, "^http://pic\.im/(\w+)$", RegexOptions.IgnoreCase)
             If mc.Success Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://pic.im/website/thumbnail/${1}")))
                 Continue For
             End If
             'youtube
-            're = New Regex("^http://www\.youtube\.com/watch\?v=([\w\-]+)", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
             mc = Regex.Match(url, "^http://www\.youtube\.com/watch\?v=([\w\-]+)", RegexOptions.IgnoreCase)
             If mc.Success Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://i.ytimg.com/vi/${1}/default.jpg")))
@@ -8204,7 +8189,6 @@ RETRY:
                 Continue For
             End If
             'ニコニコ
-            're = New Regex("^http://(?:www\.nicovideo\.jp/watch|nico\.ms)/(?:sm|nm)([0-9]+)$", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
             mc = Regex.Match(url, "^http://(?:www\.nicovideo\.jp/watch|nico\.ms)/(?:sm|nm)([0-9]+)$", RegexOptions.IgnoreCase)
             If mc.Success Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://tn-skr.smilevideo.jp/smile?i=${1}")))
@@ -8235,6 +8219,12 @@ RETRY:
             mc = Regex.Match(url, "^http://twitvideo\.jp/(\w+)$", RegexOptions.IgnoreCase)
             If mc.Success Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://twitvideo.jp/img/thumb/${1}")))
+                Continue For
+            End If
+            'piapro
+            mc = Regex.Match(url, "^http://piapro\.jp/content/(?<contentId>[0-9a-z]+)", RegexOptions.IgnoreCase)
+            If mc.Success Then
+                imglist.Add(New KeyValuePair(Of String, String)(url, mc.Value))
                 Continue For
             End If
         Next
@@ -8303,6 +8293,23 @@ RETRY:
                     End If
                     Continue For
                 End If
+            ElseIf url.Key.StartsWith("http://piapro.jp/") Then
+                Dim mc As Match = Regex.Match(url.Key, "^http://piapro\.jp/content/(?<contentId>[0-9a-z]+)", RegexOptions.IgnoreCase)
+                If mc.Success Then
+                    Dim src As String = ""
+                    If (New HttpVarious).GetData(url.Key, Nothing, src, 5000) Then
+                        Dim _mc As Match = Regex.Match(src, mc.Result("http://c1\.piapro\.jp/timg/${contentId}_\d{14}_\d{4}_\d{4}\.(jpg|png|gif)"))
+                        If _mc.Success Then
+                            '各画像には120x120のサムネイルがある（多分）ので、URLを置き換える。元々ページに埋め込まれている画像は500x500
+                            Dim r As New System.Text.RegularExpressions.Regex("_\d{4}_\d{4}")
+                            Dim min_img_url As String = r.Replace(_mc.Value, "_0120_0120")
+                            Dim _img As Image = http.GetImage(min_img_url, url.Key)
+                            If _img Is Nothing Then Continue For
+                            arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, _img))
+                        End If
+                    End If
+                End If
+                Continue For
             Else
                 Dim img As Image = http.GetImage(url.Value, url.Key)
                 If img Is Nothing Then Continue For
