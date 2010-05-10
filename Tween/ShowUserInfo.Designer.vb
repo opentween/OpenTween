@@ -51,8 +51,8 @@ Partial Class ShowUserInfo
         Me.UserPicture = New System.Windows.Forms.PictureBox()
         Me.BackgroundWorkerImageLoader = New System.ComponentModel.BackgroundWorker()
         Me.LabelScreenName = New System.Windows.Forms.Label()
-        Me.DescriptionBrowser = New System.Windows.Forms.WebBrowser()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.DescriptionBrowser = New System.Windows.Forms.WebBrowser()
         CType(Me.UserPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '

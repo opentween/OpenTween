@@ -117,6 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ButtonClose.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="ButtonClose.Location" type="System.Drawing.Point, System.Drawing">
     <value>336, 489</value>
@@ -146,6 +150,9 @@
   <data name="Label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="Label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="Label1.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 98</value>
   </data>
@@ -172,6 +179,9 @@
   </data>
   <data name="Label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="Label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="Label2.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 124</value>
@@ -200,6 +210,9 @@
   <data name="Label3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="Label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="Label3.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 151</value>
   </data>
@@ -227,6 +240,9 @@
   <data name="Label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="Label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="Label4.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 203</value>
   </data>
@@ -250,6 +266,9 @@
   </data>
   <data name="&gt;&gt;Label4.ZOrder" xml:space="preserve">
     <value>22</value>
+  </data>
+  <data name="LinkLabelWeb.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="LinkLabelWeb.Location" type="System.Drawing.Point, System.Drawing">
     <value>71, 151</value>
@@ -278,6 +297,9 @@
   <data name="LabelLocation.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="LabelLocation.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="LabelLocation.Location" type="System.Drawing.Point, System.Drawing">
     <value>71, 124</value>
   </data>
@@ -304,6 +326,9 @@
   </data>
   <data name="LabelName.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="LabelName.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="LabelName.Location" type="System.Drawing.Point, System.Drawing">
     <value>71, 98</value>
@@ -332,6 +357,9 @@
   <data name="Label5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="Label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="Label5.Location" type="System.Drawing.Point, System.Drawing">
     <value>14, 375</value>
   </data>
@@ -358,6 +386,9 @@
   </data>
   <data name="Label6.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="Label6.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="Label6.Location" type="System.Drawing.Point, System.Drawing">
     <value>206, 375</value>
@@ -386,6 +417,9 @@
   <data name="LinkLabelFollowing.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="LinkLabelFollowing.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="LinkLabelFollowing.Location" type="System.Drawing.Point, System.Drawing">
     <value>107, 375</value>
   </data>
@@ -412,6 +446,9 @@
   </data>
   <data name="LinkLabelFollowers.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="LinkLabelFollowers.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="LinkLabelFollowers.Location" type="System.Drawing.Point, System.Drawing">
     <value>299, 375</value>
@@ -440,6 +477,9 @@
   <data name="Label7.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="Label7.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="Label7.Location" type="System.Drawing.Point, System.Drawing">
     <value>14, 348</value>
   </data>
@@ -466,6 +506,9 @@
   </data>
   <data name="LabelCreatedAt.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="LabelCreatedAt.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="LabelCreatedAt.Location" type="System.Drawing.Point, System.Drawing">
     <value>131, 348</value>
@@ -494,6 +537,9 @@
   <data name="Label8.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="Label8.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="Label8.Location" type="System.Drawing.Point, System.Drawing">
     <value>14, 400</value>
   </data>
@@ -520,6 +566,9 @@
   </data>
   <data name="LinkLabelTweet.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="LinkLabelTweet.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="LinkLabelTweet.Location" type="System.Drawing.Point, System.Drawing">
     <value>107, 400</value>
@@ -548,6 +597,9 @@
   <data name="Label9.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="Label9.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="Label9.Location" type="System.Drawing.Point, System.Drawing">
     <value>205, 399</value>
   </data>
@@ -575,6 +627,9 @@
   <data name="LinkLabelFav.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="LinkLabelFav.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="LinkLabelFav.Location" type="System.Drawing.Point, System.Drawing">
     <value>299, 400</value>
   </data>
@@ -599,6 +654,9 @@
   <data name="&gt;&gt;LinkLabelFav.ZOrder" xml:space="preserve">
     <value>9</value>
   </data>
+  <data name="ButtonFollow.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="ButtonFollow.Location" type="System.Drawing.Point, System.Drawing">
     <value>16, 489</value>
   </data>
@@ -622,6 +680,9 @@
   </data>
   <data name="&gt;&gt;ButtonFollow.ZOrder" xml:space="preserve">
     <value>8</value>
+  </data>
+  <data name="ButtonUnFollow.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="ButtonUnFollow.Location" type="System.Drawing.Point, System.Drawing">
     <value>116, 489</value>
@@ -650,6 +711,9 @@
   <data name="Label10.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="Label10.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="Label10.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 427</value>
   </data>
@@ -676,6 +740,9 @@
   </data>
   <data name="LabelIsProtected.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="LabelIsProtected.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="LabelIsProtected.Location" type="System.Drawing.Point, System.Drawing">
     <value>107, 427</value>
@@ -704,6 +771,9 @@
   <data name="LabelIsFollowing.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="LabelIsFollowing.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="LabelIsFollowing.Location" type="System.Drawing.Point, System.Drawing">
     <value>14, 454</value>
   </data>
@@ -731,6 +801,9 @@
   <data name="LabelIsFollowed.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="LabelIsFollowed.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="LabelIsFollowed.Location" type="System.Drawing.Point, System.Drawing">
     <value>207, 454</value>
   </data>
@@ -755,13 +828,15 @@
   <data name="&gt;&gt;LabelIsFollowed.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="UserPicture.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="UserPicture.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 24</value>
   </data>
   <data name="UserPicture.Size" type="System.Drawing.Size, System.Drawing">
     <value>48, 48</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="UserPicture.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>StretchImage</value>
   </data>
@@ -785,6 +860,9 @@
   </metadata>
   <data name="LabelScreenName.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="LabelScreenName.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="LabelScreenName.Location" type="System.Drawing.Point, System.Drawing">
     <value>73, 39</value>
@@ -810,6 +888,9 @@
   <data name="&gt;&gt;LabelScreenName.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <metadata name="ToolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>230, 17</value>
+  </metadata>
   <data name="DescriptionBrowser.Location" type="System.Drawing.Point, System.Drawing">
     <value>66, 202</value>
   </data>
@@ -831,9 +912,6 @@
   <data name="&gt;&gt;DescriptionBrowser.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <metadata name="ToolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>230, 17</value>
-  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -845,6 +923,9 @@
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>425, 524</value>
+  </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterParent</value>
