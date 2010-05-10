@@ -246,4 +246,14 @@ Public Class ShowUserInfo
             End If
         End If
     End Sub
+
+    Private Sub DescriptionBrowser_StatusTextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles DescriptionBrowser.StatusTextChanged
+        If DescriptionBrowser.StatusText.StartsWith("http") Then
+            ToolTip1.Active = True
+            ToolTip1.Show(DescriptionBrowser.StatusText, Me, PointToClient(MousePosition))
+        ElseIf DescriptionBrowser.StatusText = "" Then
+            ToolTip1.Active = False
+            ToolTip1.Hide(Me)
+        End If
+    End Sub
 End Class
