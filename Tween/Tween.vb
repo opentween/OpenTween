@@ -4249,7 +4249,7 @@ RETRY:
     Private Sub FavorareMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles FavorareMenuItem.Click, OpenFavotterOpMenuItem.Click
         If _curList.SelectedIndices.Count > 0 Then
             Dim post As PostClass = _statuses.Item(_curTab.Text, _curList.SelectedIndices(0))
-            OpenUriAsync("http://favotter.net/user.php?user=" + post.Name)
+            OpenUriAsync("http://favotter.net/user/" + post.Name)
         End If
     End Sub
 
