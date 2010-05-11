@@ -222,7 +222,7 @@ Public Class TweenMain
     Private urlUndoBuffer As Generic.List(Of urlUndo) = Nothing
 
     'Backgroundworkerの処理結果通知用引数構造体
-    Private Structure GetWorkerResult
+    Private Class GetWorkerResult
         Public retMsg As String                     '処理結果詳細メッセージ。エラー時に値がセットされる
         'Public notifyPosts As List(Of PostClass) '取得した発言。Twitter.MyListItem構造体を要素としたジェネリックリスト
         Public page As Integer                      '取得対象ページ番号
@@ -235,18 +235,20 @@ Public Class TweenMain
         Public newDM As Boolean
         'Public soundFile As String
         Public addCount As Integer
-    End Structure
+        Public status As PostingStatus
+    End Class
 
     'Backgroundworkerへ処理内容を通知するための引数用構造体
-    Private Structure GetWorkerArg
+    Private Class GetWorkerArg
         Public page As Integer                      '処理対象ページ番号
         Public endPage As Integer                   '処理終了ページ番号（起動時の読み込みページ数。通常時はpageと同じ値をセット）
         Public type As WORKERTYPE                   '処理種別
-        Public status As String                     '発言POST時の発言内容
+        Public url As String                     'URLをブラウザで開くときのアドレス
+        Public status As New PostingStatus          '発言POST時の発言内容
         Public ids As List(Of Long)               'Fav追加・削除時のItemIndex
         Public sIds As List(Of Long)              'Fav追加・削除成功分のItemIndex
         Public tName As String                      'Fav追加・削除時のタブ名
-    End Structure
+    End Class
 
     '検索処理タイプ
     Private Enum SEARCHTYPE
@@ -254,6 +256,12 @@ Public Class TweenMain
         NextSearch
         PrevSearch
     End Enum
+
+    Private Class PostingStatus
+        Public status As String = ""
+        Public inReplyToId As Long = 0
+        Public inReplyToName As String = ""
+    End Class
 
     Private Class SpaceKeyCanceler
         Inherits NativeWindow
@@ -1820,33 +1828,36 @@ Public Class TweenMain
                 End If
             End If
         End If
-        args.status = header + StatusText.Text.Trim + footer
+        args.status.status = header + StatusText.Text.Trim + footer
 
         If ToolStripMenuItemApiCommandEvasion.Checked Then
             ' APIコマンド回避
             'Dim regex As New Regex("^[+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]*(get|g|fav|follow|f|on|off|stop|quit|leave|l|whois|w|nudge|n|stats|invite|track|untrack|tracks|tracking|\*)([+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]+|$)", RegexOptions.IgnoreCase)
-            If Regex.IsMatch(args.status, _
+            If Regex.IsMatch(args.status.status, _
                 "^[+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]*(get|g|fav|follow|f|on|off|stop|quit|leave|l|whois|w|nudge|n|stats|invite|track|untrack|tracks|tracking|\*)([+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]+|$)", _
                 RegexOptions.IgnoreCase) _
-               AndAlso args.status.EndsWith(" .") = False Then args.status += " ."
+               AndAlso args.status.status.EndsWith(" .") = False Then args.status.status += " ."
         End If
 
         If ToolStripMenuItemUrlMultibyteSplit.Checked Then
             ' URLと全角文字の切り離し
             'Dim regex2 As New Regex("https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#]+")
-            Dim mc2 As Match = Regex.Match(args.status, "https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#]+")
-            If mc2.Success Then args.status = Regex.Replace(args.status, "https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#]+", "$& ")
+            Dim mc2 As Match = Regex.Match(args.status.status, "https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#]+")
+            If mc2.Success Then args.status.status = Regex.Replace(args.status.status, "https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#]+", "$& ")
         End If
 
         If IdeographicSpaceToSpaceToolStripMenuItem.Checked Then
             ' 文中の全角スペースを半角スペース2個にする
-            args.status = args.status.Replace("　", "  ")
+            args.status.status = args.status.status.Replace("　", "  ")
         End If
 
-        If isCutOff AndAlso args.status.Length > 140 Then
-            args.status = args.status.Substring(0, 140)
-            If MessageBox.Show(args.status, "Post or Cancel?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then Exit Sub
+        If isCutOff AndAlso args.status.status.Length > 140 Then
+            args.status.status = args.status.status.Substring(0, 140)
+            If MessageBox.Show(args.status.status, "Post or Cancel?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then Exit Sub
         End If
+
+        args.status.inReplyToId = _reply_to_id
+        args.status.inReplyToName = _reply_to_name
 
         RunAsync(args)
 
@@ -1856,7 +1867,12 @@ Public Class TweenMain
             OpenUriAsync(tmp)
         End If
 
+        _reply_to_id = 0
+        _reply_to_name = ""
+        StatusText.Text = ""
         DirectCast(ListTab.SelectedTab.Tag, Control).Focus()
+        urlUndoBuffer = Nothing
+        UrlUndoToolStripMenuItem.Enabled = False  'Undoをできないように設定
     End Sub
 
     Private Sub EndToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EndToolStripMenuItem.Click, EndFileMenuItem.Click
@@ -2040,18 +2056,18 @@ Public Class TweenMain
             Case WORKERTYPE.PostMessage
                 bw.ReportProgress(200)
                 For i As Integer = 0 To 1
-                    ret = tw.PostStatus(args.status, _reply_to_id)
+                    ret = tw.PostStatus(args.status.status, args.status.inReplyToId)
                     If ret = "" OrElse _
                        ret.StartsWith("OK:") OrElse _
                        ret.StartsWith("Outputz:") OrElse _
-                       args.status.StartsWith("D", StringComparison.OrdinalIgnoreCase) OrElse _
-                       args.status.StartsWith("DM", StringComparison.OrdinalIgnoreCase) Then
-                        _reply_to_id = 0
-                        _reply_to_name = ""
+                       ret = "Err:Status is a duplicate." OrElse _
+                       args.status.status.StartsWith("D", StringComparison.OrdinalIgnoreCase) OrElse _
+                       args.status.status.StartsWith("DM", StringComparison.OrdinalIgnoreCase) Then
                         Exit For
                     End If
                 Next
                 bw.ReportProgress(300)
+                rslt.status = args.status
             Case WORKERTYPE.Retweet
                 bw.ReportProgress(200)
                 ret = tw.PostRetweet(args.ids(0), read)
@@ -2065,7 +2081,7 @@ Public Class TweenMain
                 '    ret = Twitter.GetFollowers(False)       ' Followersリストキャッシュ有効
                 'End If
             Case WORKERTYPE.OpenUri
-                Dim myPath As String = Convert.ToString(args.status)
+                Dim myPath As String = Convert.ToString(args.url)
 
                 Try
                     If SettingDialog.BrowserPath <> "" Then
@@ -2247,17 +2263,17 @@ Public Class TweenMain
             '発言投稿
             If e.ProgressPercentage = 200 Then    '開始
                 StatusLabel.Text = "Posting..."
-                StatusText.Enabled = False
-                PostButton.Enabled = False
-                ReplyStripMenuItem.Enabled = False
-                DMStripMenuItem.Enabled = False
+                'StatusText.Enabled = False
+                'PostButton.Enabled = False
+                'ReplyStripMenuItem.Enabled = False
+                'DMStripMenuItem.Enabled = False
             End If
             If e.ProgressPercentage = 300 Then  '終了
                 StatusLabel.Text = My.Resources.PostWorker_RunWorkerCompletedText4
-                StatusText.Enabled = True
-                PostButton.Enabled = True
-                ReplyStripMenuItem.Enabled = True
-                DMStripMenuItem.Enabled = True
+                'StatusText.Enabled = True
+                'PostButton.Enabled = True
+                'ReplyStripMenuItem.Enabled = True
+                'DMStripMenuItem.Enabled = True
             End If
         Else
             Dim smsg As String = DirectCast(e.UserState, String)
@@ -2291,7 +2307,6 @@ Public Class TweenMain
         End If
 
         Dim rslt As GetWorkerResult = DirectCast(e.Result, GetWorkerResult)
-        Dim args As New GetWorkerArg()
 
         If rslt.type = WORKERTYPE.OpenUri Then Exit Sub
 
@@ -2412,10 +2427,7 @@ Public Class TweenMain
                 End If
                 _curList.EndUpdate()
             Case WORKERTYPE.PostMessage
-                urlUndoBuffer = Nothing
-                UrlUndoToolStripMenuItem.Enabled = False  'Undoをできないように設定
-
-                If rslt.retMsg = "" OrElse rslt.retMsg.StartsWith("Outputz") OrElse rslt.retMsg.StartsWith("OK:") Then
+                If rslt.retMsg = "" OrElse rslt.retMsg.StartsWith("Outputz") OrElse rslt.retMsg.StartsWith("OK:") OrElse rslt.retMsg = "Err:Status is a duplicate." Then
                     _postTimestamps.Add(Now)
                     Dim oneHour As Date = Now.Subtract(New TimeSpan(1, 0, 0))
                     For i As Integer = _postTimestamps.Count - 1 To 0 Step -1
@@ -2424,7 +2436,6 @@ Public Class TweenMain
                         End If
                     Next
 
-                    StatusText.Text = ""
                     _history.Add("")
                     _hisIdx = _history.Count - 1
                     If Not HashMgr.IsPermanent AndAlso HashMgr.UseHash <> "" Then
@@ -2433,6 +2444,15 @@ Public Class TweenMain
                     End If
                     SetMainWindowTitle()
                     rslt.retMsg = ""
+                Else
+                    If MessageBox.Show(String.Format("{0}" & System.Environment.NewLine & """" & rslt.status.status & """" & Environment.NewLine & "{1}", My.Resources.StatusUpdateFailed1, My.Resources.StatusUpdateFailed2), "Failed to update status", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Retry Then
+                        Dim args As New GetWorkerArg()
+                        args.page = 0
+                        args.endPage = 0
+                        args.type = WORKERTYPE.PostMessage
+                        args.status = rslt.status
+                        RunAsync(args)
+                    End If
                 End If
                 If rslt.retMsg.Length = 0 AndAlso SettingDialog.PostAndGet Then GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
             Case WORKERTYPE.Retweet
@@ -7168,7 +7188,7 @@ RETRY:
     Public Sub OpenUriAsync(ByVal UriString As String)
         Dim args As New GetWorkerArg
         args.type = WORKERTYPE.OpenUri
-        args.status = UriString
+        args.url = UriString
 
         RunAsync(args)
     End Sub

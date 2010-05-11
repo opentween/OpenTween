@@ -723,4 +723,10 @@
   <data name="Yes" xml:space="preserve">
     <value>Yes</value>
   </data>
+  <data name="StatusUpdateFailed1" xml:space="preserve">
+    <value>Failed to update status.</value>
+  </data>
+  <data name="StatusUpdateFailed2" xml:space="preserve">
+    <value>Do you retry to update status?</value>
+  </data>
 </root>
