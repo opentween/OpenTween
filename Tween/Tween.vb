@@ -6570,7 +6570,7 @@ RETRY:
                     SplitContainer2.SplitterDistance = SplitContainer2.Height - SplitContainer2.Panel2MinSize - SplitContainer2.SplitterWidth
                 End If
             End If
-            If _cfgLocal.PreviewDistance > Me.SplitContainer3.Panel1MinSize AndAlso _cfgLocal.PreviewDistance < Me.SplitContainer3.Height - Me.SplitContainer3.Panel2MinSize - Me.SplitContainer3.SplitterWidth Then
+            If _cfgLocal.PreviewDistance > Me.SplitContainer3.Panel1MinSize AndAlso _cfgLocal.PreviewDistance < Me.SplitContainer3.Width - Me.SplitContainer3.Panel2MinSize - Me.SplitContainer3.SplitterWidth Then
                 Me.SplitContainer3.SplitterDistance = _cfgLocal.PreviewDistance
             End If
             _initialLayout = False
