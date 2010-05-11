@@ -138,7 +138,7 @@
   <data name="AddTabMenuItem_ClickText2" xml:space="preserve">
     <value>タブ追加</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="At" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\5b.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -774,5 +774,11 @@
   </data>
   <data name="Yes" xml:space="preserve">
     <value>はい</value>
+  </data>
+  <data name="StatusUpdateFailed1" xml:space="preserve">
+    <value>投稿に失敗しました</value>
+  </data>
+  <data name="StatusUpdateFailed2" xml:space="preserve">
+    <value>もう一度投稿を試みますか？</value>
   </data>
 </root>
