@@ -2445,7 +2445,7 @@ Public Class TweenMain
                     SetMainWindowTitle()
                     rslt.retMsg = ""
                 Else
-                    If MessageBox.Show(String.Format("{0}" & System.Environment.NewLine & """" & rslt.status.status & """" & Environment.NewLine & "{1}", My.Resources.StatusUpdateFailed1, My.Resources.StatusUpdateFailed2), "Failed to update status", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Retry Then
+                    If MessageBox.Show(String.Format("{0}   --->   [ " & rslt.retMsg & " ]" & Environment.NewLine & """" & rslt.status.status & """" & Environment.NewLine & "{1}", My.Resources.StatusUpdateFailed1, My.Resources.StatusUpdateFailed2), "Failed to update status", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Retry Then
                         Dim args As New GetWorkerArg()
                         args.page = 0
                         args.endPage = 0
