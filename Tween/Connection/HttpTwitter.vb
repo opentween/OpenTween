@@ -203,25 +203,25 @@ Public Class HttpTwitter
                             content, _
                             Nothing)
     End Function
-    Public Function CreateFriendships(ByVal screenName As String) As HttpStatusCode
+    Public Function CreateFriendships(ByVal screenName As String, ByRef content As String) As HttpStatusCode
         Dim param As New Dictionary(Of String, String)
         param.Add("screen_name", screenName)
 
         Return httpCon.GetContent(PostMethod, _
                             CreateTwitterUri("/1/friendships/create.xml"), _
                             param, _
-                            Nothing, _
+                            content, _
                             Nothing)
     End Function
 
-    Public Function DestroyFriendships(ByVal screenName As String) As HttpStatusCode
+    Public Function DestroyFriendships(ByVal screenName As String, ByRef content As String) As HttpStatusCode
         Dim param As New Dictionary(Of String, String)
         param.Add("screen_name", screenName)
 
         Return httpCon.GetContent(PostMethod, _
                             CreateTwitterUri("/1/friendships/destroy.xml"), _
                             param, _
-                            Nothing, _
+                            content, _
                             Nothing)
     End Function
 
@@ -245,19 +245,19 @@ Public Class HttpTwitter
                             _remainCountApi)
     End Function
 
-    Public Function CreateFavorites(ByVal id As Long) As HttpStatusCode
+    Public Function CreateFavorites(ByVal id As Long, ByRef content As String) As HttpStatusCode
         Return httpCon.GetContent(PostMethod, _
                             CreateTwitterUri("/1/favorites/create/" + id.ToString() + ".xml"), _
                             Nothing, _
-                            Nothing, _
+                            content, _
                             Nothing)
     End Function
 
-    Public Function DestroyFavorites(ByVal id As Long) As HttpStatusCode
+    Public Function DestroyFavorites(ByVal id As Long, ByRef content As String) As HttpStatusCode
         Return httpCon.GetContent(PostMethod, _
                             CreateTwitterUri("/1/favorites/destroy/" + id.ToString() + ".xml"), _
                             Nothing, _
-                            Nothing, _
+                            content, _
                             Nothing)
     End Function
 
