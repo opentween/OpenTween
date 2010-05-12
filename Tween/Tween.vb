@@ -7391,34 +7391,12 @@ RETRY:
         TimerTimeline.Enabled = True
     End Sub
 
-    Private Sub doGetFollowersMenu(ByVal CacheInvalidate As Boolean)
+    Private Sub doGetFollowersMenu()
         GetTimeline(WORKERTYPE.Follower, 1, 0, "")
-        'Try
-        '    StatusLabel.Text = My.Resources.UpdateFollowersMenuItem1_ClickText1
-        '    My.Application.DoEvents()
-        '    Me.Cursor = Cursors.WaitCursor
-        '    Dim ret As String
-        '    If SettingDialog.UseAPI Then
-        '        ret = Twitter.GetFollowersApi()
-        '    Else
-        '        ret = Twitter.GetFollowers(CacheInvalidate)
-        '    End If
-        '    If ret <> "" Then
-        '        StatusLabel.Text = My.Resources.UpdateFollowersMenuItem1_ClickText2 & ret
-        '        Exit Sub
-        '    End If
-        '    StatusLabel.Text = My.Resources.UpdateFollowersMenuItem1_ClickText3
-        'Finally
-        '    Me.Cursor = Cursors.Default
-        'End Try
     End Sub
 
-    Private Sub GetFollowersDiffToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GetFollowersDiffToolStripMenuItem.Click
-        doGetFollowersMenu(False)       ' Followersリストキャッシュ有効
-    End Sub
-
-    Private Sub GetFollowersAllToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GetFollowersAllToolStripMenuItem.Click
-        doGetFollowersMenu(True)        ' Followersリストキャッシュ無効
+    Private Sub GetFollowersAllToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UpdateFollowersMenuItem1.Click
+        doGetFollowersMenu()
     End Sub
 
     Private Sub doReTweetUnofficial()
