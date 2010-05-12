@@ -223,13 +223,13 @@ Public Class TweenMain
 
     'Backgroundworkerの処理結果通知用引数構造体
     Private Class GetWorkerResult
-        Public retMsg As String                     '処理結果詳細メッセージ。エラー時に値がセットされる
+        Public retMsg As String = ""                     '処理結果詳細メッセージ。エラー時に値がセットされる
         'Public notifyPosts As List(Of PostClass) '取得した発言。Twitter.MyListItem構造体を要素としたジェネリックリスト
         Public page As Integer                      '取得対象ページ番号
         Public endPage As Integer                   '取得終了ページ番号（継続可能ならインクリメントされて返る。pageと比較して継続判定）
         Public type As WORKERTYPE                   '処理種別
         Public imgs As Dictionary(Of String, Image)                    '新規取得したアイコンイメージ
-        Public tName As String                      'Fav追加・削除時のタブ名
+        Public tName As String = ""                  'Fav追加・削除時のタブ名
         Public ids As List(Of Long)               'Fav追加・削除時のID
         Public sIds As List(Of Long)                  'Fav追加・削除成功分のID
         Public newDM As Boolean
@@ -243,11 +243,11 @@ Public Class TweenMain
         Public page As Integer                      '処理対象ページ番号
         Public endPage As Integer                   '処理終了ページ番号（起動時の読み込みページ数。通常時はpageと同じ値をセット）
         Public type As WORKERTYPE                   '処理種別
-        Public url As String                     'URLをブラウザで開くときのアドレス
+        Public url As String = ""            'URLをブラウザで開くときのアドレス
         Public status As New PostingStatus          '発言POST時の発言内容
         Public ids As List(Of Long)               'Fav追加・削除時のItemIndex
         Public sIds As List(Of Long)              'Fav追加・削除成功分のItemIndex
-        Public tName As String                      'Fav追加・削除時のタブ名
+        Public tName As String = ""            'Fav追加・削除時のタブ名
     End Class
 
     '検索処理タイプ
@@ -2331,7 +2331,7 @@ Public Class TweenMain
             For Each i As Long In rslt.sIds
                 _statuses.RemoveFavPost(i)
             Next
-            If _curTab.Text.Equals(favTabName) Then
+            If _curTab IsNot Nothing AndAlso _curTab.Text.Equals(favTabName) Then
                 _itemCache = Nothing    'キャッシュ破棄
                 _postCache = Nothing
                 _curPost = Nothing
@@ -2369,30 +2369,7 @@ Public Class TweenMain
             Case WORKERTYPE.Timeline
                 _waitTimeline = False
                 If Not _initial Then
-                    '通常時
-                    '自動調整
-                    'If Not SettingDialog.UseAPI Then
-                    '    If SettingDialog.PeriodAdjust AndAlso SettingDialog.TimelinePeriodInt > 0 Then
-                    '        If rslt.addCount >= 20 Then
-                    '            _homeCounterAdjuster += 5
-                    '            If SettingDialog.TimelinePeriodInt - _homeCounterAdjuster < 15 Then _homeCounterAdjuster = SettingDialog.TimelinePeriodInt - 15
-                    '            'Dim itv As Integer = TimerTimeline.Interval
-                    '            'itv -= 5000
-                    '            'If itv < 15000 Then itv = 15000
-                    '            'TimerTimeline.Interval = itv
-                    '        Else
-                    '            _homeCounterAdjuster -= 1
-                    '            If _homeCounterAdjuster < 0 Then _homeCounterAdjuster = 0
-                    '            'TimerTimeline.Interval += 1000
-                    '            'If TimerTimeline.Interval > SettingDialog.TimelinePeriodInt * 1000 Then TimerTimeline.Interval = SettingDialog.TimelinePeriodInt * 1000
-                    '        End If
-                    '    End If
-                    '    If rslt.newDM Then
-                    '        GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
-                    '    End If
-                    'Else
                     '    'API使用時の取得調整は別途考える（カウント調整？）
-                    'End If
                 End If
             Case WORKERTYPE.Reply
                 _waitReply = False
@@ -2404,28 +2381,32 @@ Public Class TweenMain
             Case WORKERTYPE.DirectMessegeRcv
                 _waitDm = False
             Case WORKERTYPE.FavAdd, WORKERTYPE.FavRemove
-                _curList.BeginUpdate()
-                If rslt.type = WORKERTYPE.FavRemove AndAlso _statuses.Tabs(_curTab.Text).TabType = TabUsageType.Favorites Then
-                    '色変えは不要
-                Else
-                    For i As Integer = 0 To rslt.sIds.Count - 1
-                        If _curTab.Text.Equals(rslt.tName) Then
-                            Dim idx As Integer = _statuses.Tabs(rslt.tName).IndexOf(rslt.sIds(i))
-                            If idx > -1 Then
-                                Dim post As PostClass = Nothing
-                                Dim tb As TabClass = _statuses.Tabs(rslt.tName)
-                                If tb.TabType = TabUsageType.Lists OrElse tb.TabType = TabUsageType.PublicSearch Then
-                                    post = tb.Posts(rslt.sIds(i))
-                                Else
-                                    post = _statuses.Item(rslt.sIds(i))
+                If _curList IsNot Nothing Then
+                    _curList.BeginUpdate()
+                    If rslt.type = WORKERTYPE.FavRemove AndAlso _curTab IsNot Nothing AndAlso _statuses.Tabs(_curTab.Text).TabType = TabUsageType.Favorites Then
+                        '色変えは不要
+                    ElseIf _curTab IsNot Nothing Then
+                        For i As Integer = 0 To rslt.sIds.Count - 1
+                            If _curTab.Text.Equals(rslt.tName) Then
+                                Dim idx As Integer = _statuses.Tabs(rslt.tName).IndexOf(rslt.sIds(i))
+                                If idx > -1 Then
+                                    Dim post As PostClass = Nothing
+                                    Dim tb As TabClass = _statuses.Tabs(rslt.tName)
+                                    If tb IsNot Nothing Then
+                                        If tb.TabType = TabUsageType.Lists OrElse tb.TabType = TabUsageType.PublicSearch Then
+                                            post = tb.Posts(rslt.sIds(i))
+                                        Else
+                                            post = _statuses.Item(rslt.sIds(i))
+                                        End If
+                                        ChangeCacheStyleRead(post.IsRead, idx, _curTab)
+                                    End If
+                                    If idx = _curItemIndex Then DispSelectedPost() '選択アイテム再表示
                                 End If
-                                ChangeCacheStyleRead(post.IsRead, idx, _curTab)
-                                If idx = _curItemIndex Then DispSelectedPost() '選択アイテム再表示
                             End If
-                        End If
-                    Next
+                        Next
+                    End If
+                    _curList.EndUpdate()
                 End If
-                _curList.EndUpdate()
             Case WORKERTYPE.PostMessage
                 If rslt.retMsg = "" OrElse rslt.retMsg.StartsWith("Outputz") OrElse rslt.retMsg.StartsWith("OK:") OrElse rslt.retMsg = "Err:Status is a duplicate." Then
                     _postTimestamps.Add(Now)
@@ -2472,7 +2453,7 @@ Public Class TweenMain
                 '_waitFollower = False
                 _itemCache = Nothing
                 _postCache = Nothing
-                _curList.Refresh()
+                If _curList IsNot Nothing Then _curList.Refresh()
             Case WORKERTYPE.PublicSearch
                 _waitPubSearch = False
             Case WORKERTYPE.List
