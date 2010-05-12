@@ -236,6 +236,7 @@ Partial Class Setting
         Me.Label59 = New System.Windows.Forms.Label()
         Me.TextBoxOutputzKey = New System.Windows.Forms.TextBox()
         Me.CheckOutputz = New System.Windows.Forms.CheckBox()
+        Me.ButtonApiCalc = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
@@ -875,6 +876,7 @@ Partial Class Setting
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.ButtonApiCalc)
         Me.TabPage1.Controls.Add(Me.LabelPostAndGet)
         Me.TabPage1.Controls.Add(Me.Label84)
         Me.TabPage1.Controls.Add(Me.MaxApi)
@@ -1637,6 +1639,12 @@ Partial Class Setting
         Me.CheckOutputz.Name = "CheckOutputz"
         Me.CheckOutputz.UseVisualStyleBackColor = True
         '
+        'ButtonApiCalc
+        '
+        resources.ApplyResources(Me.ButtonApiCalc, "ButtonApiCalc")
+        Me.ButtonApiCalc.Name = "ButtonApiCalc"
+        Me.ButtonApiCalc.UseVisualStyleBackColor = True
+        '
         'Setting
         '
         Me.AcceptButton = Me.Save
@@ -1883,4 +1891,5 @@ Partial Class Setting
     Friend WithEvents Label53 As System.Windows.Forms.Label
     Friend WithEvents Label43 As System.Windows.Forms.Label
     Friend WithEvents LabelPostAndGet As System.Windows.Forms.Label
+    Friend WithEvents ButtonApiCalc As System.Windows.Forms.Button
 End Class

@@ -2146,5 +2146,9 @@ Public Class Setting
     Private Sub Setting_Shown(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Shown
         CalcApiUsing()
     End Sub
+
+    Private Sub ButtonApiCalc_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonApiCalc.Click
+        CalcApiUsing()
+    End Sub
 End Class
 
