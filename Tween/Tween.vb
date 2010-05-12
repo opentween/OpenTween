@@ -4378,6 +4378,8 @@ RETRY:
             NameLabel.Text = ""
         End If
         NameLabel.Text += _curPost.Name + "/" + _curPost.Nickname
+        NameLabel.Tag = _curPost.Name
+        ToolTip1.SetToolTip(NameLabel, "http://twitter.com/" + _curPost.Name)
         If Not String.IsNullOrEmpty(_curPost.RetweetedBy) Then
             NameLabel.Text += " (RT:" + _curPost.RetweetedBy + ")"
         End If
@@ -8427,5 +8429,11 @@ RETRY:
             End If
             inputName.Dispose()
         End Using
+    End Sub
+
+    Private Sub NameLabel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NameLabel.Click
+        If NameLabel.Tag IsNot Nothing Then
+            OpenUriAsync("http://twitter.com/" + NameLabel.Tag.ToString)
+        End If
     End Sub
 End Class
