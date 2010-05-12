@@ -232,6 +232,7 @@ Partial Class TweenMain
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -1680,5 +1681,6 @@ Partial Class TweenMain
     Friend WithEvents PreviewPicture As System.Windows.Forms.PictureBox
     Friend WithEvents PreviewScrollBar As System.Windows.Forms.VScrollBar
     Friend WithEvents UserStatusToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
 
 End Class
