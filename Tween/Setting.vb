@@ -2142,5 +2142,9 @@ Public Class Setting
     Private Sub CheckPostAndGet_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckPostAndGet.CheckedChanged
         CalcApiUsing()
     End Sub
+
+    Private Sub Setting_Shown(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Shown
+        CalcApiUsing()
+    End Sub
 End Class
 
