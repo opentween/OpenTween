@@ -31,7 +31,8 @@ Public Class ShowUserInfo
     Private _info As UserInfo
     Private icondata As Image = Nothing
     Private atlist As New Generic.List(Of String)
-    Private dTxt As String
+    Private descriptionTxt As String
+    Private recentPostTxt As String
     Private ToolTipWeb As String
 
     Private Const Mainpath As String = "http://twitter.com/"
@@ -58,6 +59,7 @@ Public Class ShowUserInfo
         Dim CreatedAt As DateTime
         Dim StatusesCount As Integer
         Dim Verified As Boolean
+        Dim RecentPost As String
     End Structure
 
     Private Sub InitPath()
@@ -94,6 +96,8 @@ Public Class ShowUserInfo
             _info.CreatedAt = DateTime.ParseExact(xdoc.SelectSingleNode("/user/created_at").InnerText, "ddd MMM dd HH:mm:ss zzzz yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None)
             _info.StatusesCount = Integer.Parse(xdoc.SelectSingleNode("/user/statuses_count").InnerText)
             _info.Verified = Boolean.Parse(xdoc.SelectSingleNode("/user/verified").InnerText)
+
+            _info.RecentPost = xdoc.SelectSingleNode("/user/status/text").InnerText
         Catch ex As Exception
             Return False
         End Try
@@ -127,8 +131,12 @@ Public Class ShowUserInfo
             LinkLabelWeb.Text = _info.Url
 
             DescriptionBrowser.Visible = False
-            dTxt = TweenMain.createDetailHtml( _
+            descriptionTxt = TweenMain.createDetailHtml( _
                     TweenMain.TwitterInstance.CreateHtmlAnchor(_info.Description, atlist))
+
+            RecentPostBrowser.Visible = False
+            recentPostTxt = TweenMain.createDetailHtml( _
+                    TweenMain.TwitterInstance.CreateHtmlAnchor(_info.RecentPost, atlist))
 
             LinkLabelFollowing.Text = _info.FriendsCount.ToString
             LinkLabelFollowers.Text = _info.FollowersCount.ToString
@@ -164,7 +172,6 @@ Public Class ShowUserInfo
                 Else
                     MessageBox.Show(ret)
                 End If
-
             End If
         End If
     End Sub
@@ -258,11 +265,13 @@ Public Class ShowUserInfo
     End Sub
 
     Private Sub ShowUserInfo_Shown(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Shown
-        DescriptionBrowser.DocumentText = dTxt
+        DescriptionBrowser.DocumentText = descriptionTxt
         DescriptionBrowser.Visible = True
+        RecentPostBrowser.DocumentText = recentPostTxt
+        RecentPostBrowser.Visible = True
     End Sub
 
-    Private Sub DescriptionBrowser_Navigating(ByVal sender As System.Object, ByVal e As System.Windows.Forms.WebBrowserNavigatingEventArgs) Handles DescriptionBrowser.Navigating
+    Private Sub WebBrowser_Navigating(ByVal sender As System.Object, ByVal e As System.Windows.Forms.WebBrowserNavigatingEventArgs) Handles DescriptionBrowser.Navigating, RecentPostBrowser.Navigating
         If e.Url.AbsoluteUri <> "about:blank" Then
             e.Cancel = True
 
@@ -279,11 +288,45 @@ Public Class ShowUserInfo
         End If
     End Sub
 
-    Private Sub DescriptionBrowser_StatusTextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles DescriptionBrowser.StatusTextChanged
-        If DescriptionBrowser.StatusText.StartsWith("http") Then
-            ToolTip1.Show(DescriptionBrowser.StatusText, Me, PointToClient(MousePosition))
+    Private Sub WebBrowser_StatusTextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles DescriptionBrowser.StatusTextChanged, RecentPostBrowser.StatusTextChanged
+        Dim ComponentInstance As WebBrowser = DirectCast(sender, WebBrowser)
+        If ComponentInstance.StatusText.StartsWith("http") Then
+            ToolTip1.Show(ComponentInstance.StatusText, Me, PointToClient(MousePosition))
         ElseIf DescriptionBrowser.StatusText = "" Then
             ToolTip1.Hide(Me)
+        End If
+    End Sub
+
+    Private Sub SelectAllToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SelectAllToolStripMenuItem.Click
+        Dim sc As WebBrowser = TryCast(ContextMenuStrip1.SourceControl, WebBrowser)
+        If sc IsNot Nothing Then
+            sc.Document.ExecCommand("SelectAll", False, Nothing)
+        End If
+    End Sub
+
+    Private Sub SelectionCopyToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SelectionCopyToolStripMenuItem.Click
+        Dim sc As WebBrowser = TryCast(ContextMenuStrip1.SourceControl, WebBrowser)
+        If sc IsNot Nothing Then
+            Dim _selText As String = TweenMain.WebBrowser_GetSelectionText(sc)
+            If _selText IsNot Nothing Then
+                Try
+                    Clipboard.SetDataObject(_selText, False, 5, 100)
+                Catch ex As Exception
+                    MessageBox.Show(ex.Message)
+                End Try
+            End If
+        End If
+    End Sub
+
+    Private Sub ContextMenuStrip1_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip1.Opening
+        Dim sc As WebBrowser = TryCast(ContextMenuStrip1.SourceControl, WebBrowser)
+        If sc IsNot Nothing Then
+            Dim _selText As String = TweenMain.WebBrowser_GetSelectionText(sc)
+            If _selText Is Nothing Then
+                SelectionCopyToolStripMenuItem.Enabled = False
+            Else
+                SelectionCopyToolStripMenuItem.Enabled = True
+            End If
         End If
     End Sub
 End Class
