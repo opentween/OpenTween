@@ -333,4 +333,8 @@ Public Class ShowUserInfo
             End If
         End If
     End Sub
+
+    Private Sub ShowUserInfo_MouseEnter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.MouseEnter
+        ToolTip1.Hide(Me)
+    End Sub
 End Class
