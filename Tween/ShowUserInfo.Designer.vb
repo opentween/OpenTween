@@ -53,7 +53,13 @@ Partial Class ShowUserInfo
         Me.LabelScreenName = New System.Windows.Forms.Label()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.DescriptionBrowser = New System.Windows.Forms.WebBrowser()
+        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.SelectionCopyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SelectAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Label11 = New System.Windows.Forms.Label()
+        Me.RecentPostBrowser = New System.Windows.Forms.WebBrowser()
         CType(Me.UserPicture, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'ButtonClose
@@ -85,6 +91,7 @@ Partial Class ShowUserInfo
         '
         'LinkLabelWeb
         '
+        Me.LinkLabelWeb.AutoEllipsis = True
         resources.ApplyResources(Me.LinkLabelWeb, "LinkLabelWeb")
         Me.LinkLabelWeb.Name = "LinkLabelWeb"
         Me.LinkLabelWeb.TabStop = True
@@ -210,25 +217,60 @@ Partial Class ShowUserInfo
         'DescriptionBrowser
         '
         Me.DescriptionBrowser.AllowWebBrowserDrop = False
+        Me.DescriptionBrowser.ContextMenuStrip = Me.ContextMenuStrip1
         Me.DescriptionBrowser.IsWebBrowserContextMenuEnabled = False
         resources.ApplyResources(Me.DescriptionBrowser, "DescriptionBrowser")
         Me.DescriptionBrowser.MinimumSize = New System.Drawing.Size(20, 20)
         Me.DescriptionBrowser.Name = "DescriptionBrowser"
-        Me.DescriptionBrowser.Url = New System.Uri("", System.UriKind.Relative)
+        Me.DescriptionBrowser.Url = New System.Uri("about:blank", System.UriKind.Absolute)
         Me.DescriptionBrowser.WebBrowserShortcutsEnabled = False
+        '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectionCopyToolStripMenuItem, Me.SelectAllToolStripMenuItem})
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        resources.ApplyResources(Me.ContextMenuStrip1, "ContextMenuStrip1")
+        '
+        'SelectionCopyToolStripMenuItem
+        '
+        Me.SelectionCopyToolStripMenuItem.Name = "SelectionCopyToolStripMenuItem"
+        resources.ApplyResources(Me.SelectionCopyToolStripMenuItem, "SelectionCopyToolStripMenuItem")
+        '
+        'SelectAllToolStripMenuItem
+        '
+        Me.SelectAllToolStripMenuItem.Name = "SelectAllToolStripMenuItem"
+        resources.ApplyResources(Me.SelectAllToolStripMenuItem, "SelectAllToolStripMenuItem")
+        '
+        'Label11
+        '
+        resources.ApplyResources(Me.Label11, "Label11")
+        Me.Label11.Name = "Label11"
+        '
+        'RecentPostBrowser
+        '
+        Me.RecentPostBrowser.AllowWebBrowserDrop = False
+        Me.RecentPostBrowser.ContextMenuStrip = Me.ContextMenuStrip1
+        Me.RecentPostBrowser.IsWebBrowserContextMenuEnabled = False
+        resources.ApplyResources(Me.RecentPostBrowser, "RecentPostBrowser")
+        Me.RecentPostBrowser.MinimumSize = New System.Drawing.Size(20, 20)
+        Me.RecentPostBrowser.Name = "RecentPostBrowser"
+        Me.RecentPostBrowser.Url = New System.Uri("about:blank", System.UriKind.Absolute)
+        Me.RecentPostBrowser.WebBrowserShortcutsEnabled = False
         '
         'ShowUserInfo
         '
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.Controls.Add(Me.DescriptionBrowser)
+        Me.Controls.Add(Me.RecentPostBrowser)
         Me.Controls.Add(Me.LabelScreenName)
         Me.Controls.Add(Me.UserPicture)
         Me.Controls.Add(Me.LabelIsFollowed)
         Me.Controls.Add(Me.LabelIsFollowing)
+        Me.Controls.Add(Me.DescriptionBrowser)
         Me.Controls.Add(Me.LabelIsProtected)
         Me.Controls.Add(Me.Label10)
         Me.Controls.Add(Me.ButtonUnFollow)
+        Me.Controls.Add(Me.Label11)
         Me.Controls.Add(Me.ButtonFollow)
         Me.Controls.Add(Me.LinkLabelFav)
         Me.Controls.Add(Me.Label9)
@@ -255,6 +297,7 @@ Partial Class ShowUserInfo
         Me.ShowIcon = False
         Me.TopMost = True
         CType(Me.UserPicture, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -288,4 +331,9 @@ Partial Class ShowUserInfo
     Friend WithEvents LabelScreenName As System.Windows.Forms.Label
     Friend WithEvents DescriptionBrowser As System.Windows.Forms.WebBrowser
     Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
+    Friend WithEvents ContextMenuStrip1 As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents SelectionCopyToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SelectAllToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents Label11 As System.Windows.Forms.Label
+    Friend WithEvents RecentPostBrowser As System.Windows.Forms.WebBrowser
 End Class
