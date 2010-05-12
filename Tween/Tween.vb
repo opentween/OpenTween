@@ -7022,14 +7022,18 @@ RETRY:
         'End If
     End Sub
 
+    Public Function WebBrowser_GetSelectionText(ByRef ComponentInstance As WebBrowser) As String
+        '発言詳細で「選択文字列をコピー」を行う
+        'WebBrowserコンポーネントのインスタンスを渡す
+        Dim typ As Type = ComponentInstance.ActiveXInstance.GetType()
+        Dim _SelObj As Object = typ.InvokeMember("selection", BindingFlags.GetProperty, Nothing, ComponentInstance.Document.DomDocument, Nothing)
+        Dim _objRange As Object = _SelObj.GetType().InvokeMember("createRange", BindingFlags.InvokeMethod, Nothing, _SelObj, Nothing)
+        Return DirectCast(_objRange.GetType().InvokeMember("text", BindingFlags.GetProperty, Nothing, _objRange, Nothing), String)
+    End Function
+
     Private Sub ToolStripMenuItem3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem3.Click
         '発言詳細で「選択文字列をコピー」
-        'PostBrowser.Document.ExecCommand("Copy", False, Nothing)
-        'SendKeys.Send("^c")
-        Dim typ As Type = PostBrowser.ActiveXInstance.GetType()
-        Dim _SelObj As Object = typ.InvokeMember("selection", BindingFlags.GetProperty, Nothing, PostBrowser.Document.DomDocument, Nothing)
-        Dim _objRange As Object = _SelObj.GetType().InvokeMember("createRange", BindingFlags.InvokeMethod, Nothing, _SelObj, Nothing)
-        Dim _selText As String = DirectCast(_objRange.GetType().InvokeMember("text", BindingFlags.GetProperty, Nothing, _objRange, Nothing), String)
+        Dim _selText As String = WebBrowser_GetSelectionText(PostBrowser)
         Try
             Clipboard.SetDataObject(_selText, False, 5, 100)
         Catch ex As Exception
@@ -7039,10 +7043,7 @@ RETRY:
 
     Private Sub doSearchToolStrip(ByVal url As String)
         '発言詳細で「選択文字列で検索」（選択文字列取得）
-        Dim typ As Type = PostBrowser.ActiveXInstance.GetType()
-        Dim _SelObj As Object = typ.InvokeMember("selection", BindingFlags.GetProperty, Nothing, PostBrowser.Document.DomDocument, Nothing)
-        Dim _objRange As Object = _SelObj.GetType().InvokeMember("createRange", BindingFlags.InvokeMethod, Nothing, _SelObj, Nothing)
-        Dim _selText As String = DirectCast(_objRange.GetType().InvokeMember("text", BindingFlags.GetProperty, Nothing, _objRange, Nothing), String)
+        Dim _selText As String = WebBrowser_GetSelectionText(PostBrowser)
 
         If _selText IsNot Nothing Then
             If url = My.Resources.SearchItem4Url Then
@@ -7121,7 +7122,7 @@ RETRY:
             IdFilterAddMenuItem.Enabled = False
         End If
         ' 文字列選択されていないときは選択文字列関係の項目を非表示に
-        Dim _selText As String = PostBrowser_GetSelectionText()
+        Dim _selText As String = WebBrowser_GetSelectionText(PostBrowser)
         If _selText Is Nothing Then
             ToolStripMenuItem2.Enabled = False
             ToolStripMenuItem3.Enabled = False
@@ -7132,16 +7133,9 @@ RETRY:
         e.Cancel = False
     End Sub
 
-    Private Function PostBrowser_GetSelectionText() As String
-        Dim typ As Type = PostBrowser.ActiveXInstance.GetType()
-        Dim _SelObj As Object = typ.InvokeMember("selection", BindingFlags.GetProperty, Nothing, PostBrowser.Document.DomDocument, Nothing)
-        Dim _objRange As Object = _SelObj.GetType().InvokeMember("createRange", BindingFlags.InvokeMethod, Nothing, _SelObj, Nothing)
-        Return DirectCast(_objRange.GetType().InvokeMember("text", BindingFlags.GetProperty, Nothing, _objRange, Nothing), String)
-    End Function
-
     Private Sub CurrentTabToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CurrentTabToolStripMenuItem.Click
         '発言詳細の選択文字列で現在のタブを検索
-        Dim _selText As String = PostBrowser_GetSelectionText()
+        Dim _selText As String = WebBrowser_GetSelectionText(PostBrowser)
 
         If _selText IsNot Nothing Then
             SearchDialog.SWord = _selText
