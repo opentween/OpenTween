@@ -8399,7 +8399,7 @@ RETRY:
                         userinfo.ShowDialog()
                     End Using
                 Else
-                    result = ret
+                    MessageBox.Show(ret)
                 End If
             End If
             inputName.Dispose()
