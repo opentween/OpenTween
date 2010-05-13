@@ -508,6 +508,12 @@
   <data name="TabPage1.Text" xml:space="preserve">
     <value>Basic</value>
   </data>
+  <data name="LabelPostAndGet.Size" type="System.Drawing.Size, System.Drawing">
+    <value>358, 12</value>
+  </data>
+  <data name="LabelPostAndGet.Text" xml:space="preserve">
+    <value>Because "Post &amp;&amp; fetch" is enabled, the API for each post consumed.</value>
+  </data>
   <data name="Label33.Size" type="System.Drawing.Size, System.Drawing">
     <value>150, 12</value>
   </data>

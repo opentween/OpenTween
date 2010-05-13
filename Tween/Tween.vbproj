@@ -320,7 +320,15 @@
       <DependentUpon>Setting.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="ShowUserInfo.en.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ShowUserInfo.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ShowUserInfo.resx">
+      <DependentUpon>ShowUserInfo.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ShowUserInfo.zh-CHS.resx">
       <DependentUpon>ShowUserInfo.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>

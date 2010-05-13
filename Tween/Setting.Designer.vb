@@ -24,219 +24,214 @@ Partial Class Setting
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Setting))
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.Username = New System.Windows.Forms.TextBox()
-        Me.Password = New System.Windows.Forms.TextBox()
-        Me.Save = New System.Windows.Forms.Button()
-        Me.Cancel = New System.Windows.Forms.Button()
-        Me.Label3 = New System.Windows.Forms.Label()
-        Me.TimelinePeriod = New System.Windows.Forms.TextBox()
-        Me.DMPeriod = New System.Windows.Forms.TextBox()
-        Me.Label5 = New System.Windows.Forms.Label()
-        Me.Label9 = New System.Windows.Forms.Label()
-        Me.StartupReaded = New System.Windows.Forms.CheckBox()
-        Me.Label11 = New System.Windows.Forms.Label()
-        Me.Label12 = New System.Windows.Forms.Label()
-        Me.StatusText = New System.Windows.Forms.TextBox()
-        Me.PlaySnd = New System.Windows.Forms.CheckBox()
-        Me.Label14 = New System.Windows.Forms.Label()
-        Me.Label15 = New System.Windows.Forms.Label()
-        Me.OneWayLv = New System.Windows.Forms.CheckBox()
-        Me.Label16 = New System.Windows.Forms.Label()
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.btnRetweet = New System.Windows.Forms.Button()
-        Me.lblRetweet = New System.Windows.Forms.Label()
-        Me.Label80 = New System.Windows.Forms.Label()
-        Me.ButtonBackToDefaultFontColor = New System.Windows.Forms.Button()
-        Me.btnDetailLink = New System.Windows.Forms.Button()
-        Me.lblDetailLink = New System.Windows.Forms.Label()
-        Me.Label18 = New System.Windows.Forms.Label()
-        Me.btnInputFont = New System.Windows.Forms.Button()
-        Me.lblInputFont = New System.Windows.Forms.Label()
-        Me.Label65 = New System.Windows.Forms.Label()
-        Me.btnInputBackcolor = New System.Windows.Forms.Button()
-        Me.lblInputBackcolor = New System.Windows.Forms.Label()
-        Me.Label52 = New System.Windows.Forms.Label()
-        Me.btnUnread = New System.Windows.Forms.Button()
-        Me.lblUnread = New System.Windows.Forms.Label()
-        Me.Label20 = New System.Windows.Forms.Label()
-        Me.btnAtTo = New System.Windows.Forms.Button()
-        Me.lblAtTo = New System.Windows.Forms.Label()
-        Me.Label49 = New System.Windows.Forms.Label()
-        Me.btnDetailBack = New System.Windows.Forms.Button()
-        Me.lblDetailBackcolor = New System.Windows.Forms.Label()
-        Me.Label37 = New System.Windows.Forms.Label()
-        Me.btnListBack = New System.Windows.Forms.Button()
-        Me.lblListBackcolor = New System.Windows.Forms.Label()
-        Me.Label19 = New System.Windows.Forms.Label()
-        Me.btnAtFromTarget = New System.Windows.Forms.Button()
-        Me.lblAtFromTarget = New System.Windows.Forms.Label()
-        Me.Label28 = New System.Windows.Forms.Label()
-        Me.btnAtTarget = New System.Windows.Forms.Button()
-        Me.lblAtTarget = New System.Windows.Forms.Label()
-        Me.Label30 = New System.Windows.Forms.Label()
-        Me.btnTarget = New System.Windows.Forms.Button()
-        Me.lblTarget = New System.Windows.Forms.Label()
-        Me.Label32 = New System.Windows.Forms.Label()
-        Me.btnAtSelf = New System.Windows.Forms.Button()
-        Me.lblAtSelf = New System.Windows.Forms.Label()
-        Me.Label34 = New System.Windows.Forms.Label()
-        Me.btnSelf = New System.Windows.Forms.Button()
-        Me.lblSelf = New System.Windows.Forms.Label()
-        Me.Label36 = New System.Windows.Forms.Label()
-        Me.btnDetail = New System.Windows.Forms.Button()
-        Me.lblDetail = New System.Windows.Forms.Label()
-        Me.Label26 = New System.Windows.Forms.Label()
-        Me.btnOWL = New System.Windows.Forms.Button()
-        Me.lblOWL = New System.Windows.Forms.Label()
-        Me.Label24 = New System.Windows.Forms.Label()
-        Me.btnFav = New System.Windows.Forms.Button()
-        Me.lblFav = New System.Windows.Forms.Label()
-        Me.Label22 = New System.Windows.Forms.Label()
-        Me.btnListFont = New System.Windows.Forms.Button()
-        Me.lblListFont = New System.Windows.Forms.Label()
-        Me.Label61 = New System.Windows.Forms.Label()
-        Me.FontDialog1 = New System.Windows.Forms.FontDialog()
-        Me.ColorDialog1 = New System.Windows.Forms.ColorDialog()
-        Me.cmbNameBalloon = New System.Windows.Forms.ComboBox()
-        Me.Label10 = New System.Windows.Forms.Label()
-        Me.CheckUseRecommendStatus = New System.Windows.Forms.CheckBox()
-        Me.CmbDateTimeFormat = New System.Windows.Forms.ComboBox()
-        Me.Label23 = New System.Windows.Forms.Label()
-        Me.CheckBox3 = New System.Windows.Forms.CheckBox()
-        Me.Label25 = New System.Windows.Forms.Label()
-        Me.CheckPostCtrlEnter = New System.Windows.Forms.CheckBox()
-        Me.Label27 = New System.Windows.Forms.Label()
-        Me.TextBox3 = New System.Windows.Forms.TextBox()
-        Me.IconSize = New System.Windows.Forms.ComboBox()
-        Me.Label38 = New System.Windows.Forms.Label()
-        Me.UReadMng = New System.Windows.Forms.CheckBox()
-        Me.Label39 = New System.Windows.Forms.Label()
-        Me.CheckReadOldPosts = New System.Windows.Forms.CheckBox()
-        Me.Label40 = New System.Windows.Forms.Label()
-        Me.CheckCloseToExit = New System.Windows.Forms.CheckBox()
-        Me.Label41 = New System.Windows.Forms.Label()
-        Me.CheckMinimizeToTray = New System.Windows.Forms.CheckBox()
-        Me.BrowserPathText = New System.Windows.Forms.TextBox()
-        Me.Label44 = New System.Windows.Forms.Label()
-        Me.CheckDispUsername = New System.Windows.Forms.CheckBox()
-        Me.Label46 = New System.Windows.Forms.Label()
-        Me.Label45 = New System.Windows.Forms.Label()
-        Me.ComboDispTitle = New System.Windows.Forms.ComboBox()
-        Me.Label47 = New System.Windows.Forms.Label()
-        Me.TabControl1 = New System.Windows.Forms.TabControl()
-        Me.TabPage1 = New System.Windows.Forms.TabPage()
-        Me.LabelPostAndGet = New System.Windows.Forms.Label()
-        Me.Label84 = New System.Windows.Forms.Label()
-        Me.MaxApi = New System.Windows.Forms.Label()
-        Me.Label70 = New System.Windows.Forms.Label()
-        Me.Label53 = New System.Windows.Forms.Label()
-        Me.Label43 = New System.Windows.Forms.Label()
-        Me.LabelApiUsing = New System.Windows.Forms.Label()
-        Me.Label33 = New System.Windows.Forms.Label()
-        Me.ListsPeriod = New System.Windows.Forms.TextBox()
-        Me.AuthBasicRadio = New System.Windows.Forms.RadioButton()
-        Me.AuthOAuthRadio = New System.Windows.Forms.RadioButton()
-        Me.Label6 = New System.Windows.Forms.Label()
-        Me.AuthClearButton = New System.Windows.Forms.Button()
-        Me.AuthUserLabel = New System.Windows.Forms.Label()
-        Me.AuthStateLabel = New System.Windows.Forms.Label()
-        Me.Label4 = New System.Windows.Forms.Label()
-        Me.AuthorizeButton = New System.Windows.Forms.Button()
-        Me.TextCountApiReply = New System.Windows.Forms.TextBox()
-        Me.Label7 = New System.Windows.Forms.Label()
-        Me.PubSearchPeriod = New System.Windows.Forms.TextBox()
-        Me.Label69 = New System.Windows.Forms.Label()
-        Me.ReplyPeriod = New System.Windows.Forms.TextBox()
-        Me.CheckPostAndGet = New System.Windows.Forms.CheckBox()
-        Me.Label67 = New System.Windows.Forms.Label()
-        Me.TextCountApi = New System.Windows.Forms.TextBox()
-        Me.Label54 = New System.Windows.Forms.Label()
-        Me.CheckStartupFollowers = New System.Windows.Forms.CheckBox()
-        Me.Label51 = New System.Windows.Forms.Label()
-        Me.CheckStartupVersion = New System.Windows.Forms.CheckBox()
-        Me.CheckPeriodAdjust = New System.Windows.Forms.CheckBox()
-        Me.TabPage2 = New System.Windows.Forms.TabPage()
-        Me.Label35 = New System.Windows.Forms.Label()
-        Me.CheckPreviewEnable = New System.Windows.Forms.CheckBox()
-        Me.Label82 = New System.Windows.Forms.Label()
-        Me.CheckHashSupple = New System.Windows.Forms.CheckBox()
-        Me.Label79 = New System.Windows.Forms.Label()
-        Me.CheckAtIdSupple = New System.Windows.Forms.CheckBox()
-        Me.TextBitlyPw = New System.Windows.Forms.TextBox()
-        Me.Label77 = New System.Windows.Forms.Label()
-        Me.TextBitlyId = New System.Windows.Forms.TextBox()
-        Me.Label76 = New System.Windows.Forms.Label()
-        Me.Label74 = New System.Windows.Forms.Label()
-        Me.chkGetFav = New System.Windows.Forms.CheckBox()
-        Me.ComboBoxAutoShortUrlFirst = New System.Windows.Forms.ComboBox()
-        Me.Label71 = New System.Windows.Forms.Label()
-        Me.CheckProtectNotInclude = New System.Windows.Forms.CheckBox()
-        Me.Label42 = New System.Windows.Forms.Label()
-        Me.CheckAutoConvertUrl = New System.Windows.Forms.CheckBox()
-        Me.Label29 = New System.Windows.Forms.Label()
-        Me.Label57 = New System.Windows.Forms.Label()
-        Me.Label56 = New System.Windows.Forms.Label()
-        Me.CheckFavRestrict = New System.Windows.Forms.CheckBox()
-        Me.CheckTinyURL = New System.Windows.Forms.CheckBox()
-        Me.Label50 = New System.Windows.Forms.Label()
-        Me.Button3 = New System.Windows.Forms.Button()
-        Me.TabPage3 = New System.Windows.Forms.TabPage()
-        Me.Label81 = New System.Windows.Forms.Label()
-        Me.LanguageCombo = New System.Windows.Forms.ComboBox()
-        Me.Label13 = New System.Windows.Forms.Label()
-        Me.CheckAlwaysTop = New System.Windows.Forms.CheckBox()
-        Me.Label58 = New System.Windows.Forms.Label()
-        Me.Label21 = New System.Windows.Forms.Label()
-        Me.CheckSortOrderLock = New System.Windows.Forms.CheckBox()
-        Me.Label78 = New System.Windows.Forms.Label()
-        Me.CheckShowGrid = New System.Windows.Forms.CheckBox()
-        Me.Label75 = New System.Windows.Forms.Label()
-        Me.CheckMonospace = New System.Windows.Forms.CheckBox()
-        Me.Label73 = New System.Windows.Forms.Label()
-        Me.chkReadOwnPost = New System.Windows.Forms.CheckBox()
-        Me.ReplyIconStateCombo = New System.Windows.Forms.ComboBox()
-        Me.Label72 = New System.Windows.Forms.Label()
-        Me.Label48 = New System.Windows.Forms.Label()
-        Me.chkTabIconDisp = New System.Windows.Forms.CheckBox()
-        Me.Label68 = New System.Windows.Forms.Label()
-        Me.CheckBalloonLimit = New System.Windows.Forms.CheckBox()
-        Me.LabelDateTimeFormatApplied = New System.Windows.Forms.Label()
-        Me.Label62 = New System.Windows.Forms.Label()
-        Me.Label17 = New System.Windows.Forms.Label()
-        Me.chkUnreadStyle = New System.Windows.Forms.CheckBox()
-        Me.TabPage4 = New System.Windows.Forms.TabPage()
-        Me.TabPage5 = New System.Windows.Forms.TabPage()
-        Me.TwitterSearchAPIText = New System.Windows.Forms.TextBox()
-        Me.Label31 = New System.Windows.Forms.Label()
-        Me.TwitterAPIText = New System.Windows.Forms.TextBox()
-        Me.Label8 = New System.Windows.Forms.Label()
-        Me.CheckUseSsl = New System.Windows.Forms.CheckBox()
-        Me.Label64 = New System.Windows.Forms.Label()
-        Me.ConnectionTimeOut = New System.Windows.Forms.TextBox()
-        Me.Label63 = New System.Windows.Forms.Label()
-        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
-        Me.Label55 = New System.Windows.Forms.Label()
-        Me.TextProxyPassword = New System.Windows.Forms.TextBox()
-        Me.LabelProxyPassword = New System.Windows.Forms.Label()
-        Me.TextProxyUser = New System.Windows.Forms.TextBox()
-        Me.LabelProxyUser = New System.Windows.Forms.Label()
-        Me.TextProxyPort = New System.Windows.Forms.TextBox()
-        Me.LabelProxyPort = New System.Windows.Forms.Label()
-        Me.TextProxyAddress = New System.Windows.Forms.TextBox()
-        Me.LabelProxyAddress = New System.Windows.Forms.Label()
-        Me.RadioProxySpecified = New System.Windows.Forms.RadioButton()
-        Me.RadioProxyIE = New System.Windows.Forms.RadioButton()
-        Me.RadioProxyNone = New System.Windows.Forms.RadioButton()
-        Me.TabPage6 = New System.Windows.Forms.TabPage()
-        Me.CheckNicoms = New System.Windows.Forms.CheckBox()
-        Me.Label60 = New System.Windows.Forms.Label()
-        Me.ComboBoxOutputzUrlmode = New System.Windows.Forms.ComboBox()
-        Me.Label59 = New System.Windows.Forms.Label()
-        Me.TextBoxOutputzKey = New System.Windows.Forms.TextBox()
-        Me.CheckOutputz = New System.Windows.Forms.CheckBox()
-        Me.ButtonApiCalc = New System.Windows.Forms.Button()
+        Me.Label1 = New System.Windows.Forms.Label
+        Me.Label2 = New System.Windows.Forms.Label
+        Me.Username = New System.Windows.Forms.TextBox
+        Me.Password = New System.Windows.Forms.TextBox
+        Me.Save = New System.Windows.Forms.Button
+        Me.Cancel = New System.Windows.Forms.Button
+        Me.Label3 = New System.Windows.Forms.Label
+        Me.TimelinePeriod = New System.Windows.Forms.TextBox
+        Me.DMPeriod = New System.Windows.Forms.TextBox
+        Me.Label5 = New System.Windows.Forms.Label
+        Me.Label9 = New System.Windows.Forms.Label
+        Me.StartupReaded = New System.Windows.Forms.CheckBox
+        Me.Label11 = New System.Windows.Forms.Label
+        Me.Label12 = New System.Windows.Forms.Label
+        Me.StatusText = New System.Windows.Forms.TextBox
+        Me.PlaySnd = New System.Windows.Forms.CheckBox
+        Me.Label14 = New System.Windows.Forms.Label
+        Me.Label15 = New System.Windows.Forms.Label
+        Me.OneWayLv = New System.Windows.Forms.CheckBox
+        Me.Label16 = New System.Windows.Forms.Label
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox
+        Me.btnRetweet = New System.Windows.Forms.Button
+        Me.lblRetweet = New System.Windows.Forms.Label
+        Me.Label80 = New System.Windows.Forms.Label
+        Me.ButtonBackToDefaultFontColor = New System.Windows.Forms.Button
+        Me.btnDetailLink = New System.Windows.Forms.Button
+        Me.lblDetailLink = New System.Windows.Forms.Label
+        Me.Label18 = New System.Windows.Forms.Label
+        Me.btnInputFont = New System.Windows.Forms.Button
+        Me.lblInputFont = New System.Windows.Forms.Label
+        Me.Label65 = New System.Windows.Forms.Label
+        Me.btnInputBackcolor = New System.Windows.Forms.Button
+        Me.lblInputBackcolor = New System.Windows.Forms.Label
+        Me.Label52 = New System.Windows.Forms.Label
+        Me.btnUnread = New System.Windows.Forms.Button
+        Me.lblUnread = New System.Windows.Forms.Label
+        Me.Label20 = New System.Windows.Forms.Label
+        Me.btnAtTo = New System.Windows.Forms.Button
+        Me.lblAtTo = New System.Windows.Forms.Label
+        Me.Label49 = New System.Windows.Forms.Label
+        Me.btnDetailBack = New System.Windows.Forms.Button
+        Me.lblDetailBackcolor = New System.Windows.Forms.Label
+        Me.Label37 = New System.Windows.Forms.Label
+        Me.btnListBack = New System.Windows.Forms.Button
+        Me.lblListBackcolor = New System.Windows.Forms.Label
+        Me.Label19 = New System.Windows.Forms.Label
+        Me.btnAtFromTarget = New System.Windows.Forms.Button
+        Me.lblAtFromTarget = New System.Windows.Forms.Label
+        Me.Label28 = New System.Windows.Forms.Label
+        Me.btnAtTarget = New System.Windows.Forms.Button
+        Me.lblAtTarget = New System.Windows.Forms.Label
+        Me.Label30 = New System.Windows.Forms.Label
+        Me.btnTarget = New System.Windows.Forms.Button
+        Me.lblTarget = New System.Windows.Forms.Label
+        Me.Label32 = New System.Windows.Forms.Label
+        Me.btnAtSelf = New System.Windows.Forms.Button
+        Me.lblAtSelf = New System.Windows.Forms.Label
+        Me.Label34 = New System.Windows.Forms.Label
+        Me.btnSelf = New System.Windows.Forms.Button
+        Me.lblSelf = New System.Windows.Forms.Label
+        Me.Label36 = New System.Windows.Forms.Label
+        Me.btnDetail = New System.Windows.Forms.Button
+        Me.lblDetail = New System.Windows.Forms.Label
+        Me.Label26 = New System.Windows.Forms.Label
+        Me.btnOWL = New System.Windows.Forms.Button
+        Me.lblOWL = New System.Windows.Forms.Label
+        Me.Label24 = New System.Windows.Forms.Label
+        Me.btnFav = New System.Windows.Forms.Button
+        Me.lblFav = New System.Windows.Forms.Label
+        Me.Label22 = New System.Windows.Forms.Label
+        Me.btnListFont = New System.Windows.Forms.Button
+        Me.lblListFont = New System.Windows.Forms.Label
+        Me.Label61 = New System.Windows.Forms.Label
+        Me.FontDialog1 = New System.Windows.Forms.FontDialog
+        Me.ColorDialog1 = New System.Windows.Forms.ColorDialog
+        Me.cmbNameBalloon = New System.Windows.Forms.ComboBox
+        Me.Label10 = New System.Windows.Forms.Label
+        Me.CheckUseRecommendStatus = New System.Windows.Forms.CheckBox
+        Me.CmbDateTimeFormat = New System.Windows.Forms.ComboBox
+        Me.Label23 = New System.Windows.Forms.Label
+        Me.CheckBox3 = New System.Windows.Forms.CheckBox
+        Me.Label25 = New System.Windows.Forms.Label
+        Me.CheckPostCtrlEnter = New System.Windows.Forms.CheckBox
+        Me.Label27 = New System.Windows.Forms.Label
+        Me.TextBox3 = New System.Windows.Forms.TextBox
+        Me.IconSize = New System.Windows.Forms.ComboBox
+        Me.Label38 = New System.Windows.Forms.Label
+        Me.UReadMng = New System.Windows.Forms.CheckBox
+        Me.Label39 = New System.Windows.Forms.Label
+        Me.CheckReadOldPosts = New System.Windows.Forms.CheckBox
+        Me.Label40 = New System.Windows.Forms.Label
+        Me.CheckCloseToExit = New System.Windows.Forms.CheckBox
+        Me.Label41 = New System.Windows.Forms.Label
+        Me.CheckMinimizeToTray = New System.Windows.Forms.CheckBox
+        Me.BrowserPathText = New System.Windows.Forms.TextBox
+        Me.Label44 = New System.Windows.Forms.Label
+        Me.CheckDispUsername = New System.Windows.Forms.CheckBox
+        Me.Label46 = New System.Windows.Forms.Label
+        Me.Label45 = New System.Windows.Forms.Label
+        Me.ComboDispTitle = New System.Windows.Forms.ComboBox
+        Me.Label47 = New System.Windows.Forms.Label
+        Me.TabControl1 = New System.Windows.Forms.TabControl
+        Me.TabPage1 = New System.Windows.Forms.TabPage
+        Me.ButtonApiCalc = New System.Windows.Forms.Button
+        Me.LabelPostAndGet = New System.Windows.Forms.Label
+        Me.LabelApiUsing = New System.Windows.Forms.Label
+        Me.Label33 = New System.Windows.Forms.Label
+        Me.ListsPeriod = New System.Windows.Forms.TextBox
+        Me.AuthBasicRadio = New System.Windows.Forms.RadioButton
+        Me.AuthOAuthRadio = New System.Windows.Forms.RadioButton
+        Me.Label6 = New System.Windows.Forms.Label
+        Me.AuthClearButton = New System.Windows.Forms.Button
+        Me.AuthUserLabel = New System.Windows.Forms.Label
+        Me.AuthStateLabel = New System.Windows.Forms.Label
+        Me.Label4 = New System.Windows.Forms.Label
+        Me.AuthorizeButton = New System.Windows.Forms.Button
+        Me.TextCountApiReply = New System.Windows.Forms.TextBox
+        Me.Label7 = New System.Windows.Forms.Label
+        Me.PubSearchPeriod = New System.Windows.Forms.TextBox
+        Me.Label69 = New System.Windows.Forms.Label
+        Me.ReplyPeriod = New System.Windows.Forms.TextBox
+        Me.CheckPostAndGet = New System.Windows.Forms.CheckBox
+        Me.Label67 = New System.Windows.Forms.Label
+        Me.TextCountApi = New System.Windows.Forms.TextBox
+        Me.Label54 = New System.Windows.Forms.Label
+        Me.CheckStartupFollowers = New System.Windows.Forms.CheckBox
+        Me.Label51 = New System.Windows.Forms.Label
+        Me.CheckStartupVersion = New System.Windows.Forms.CheckBox
+        Me.CheckPeriodAdjust = New System.Windows.Forms.CheckBox
+        Me.TabPage2 = New System.Windows.Forms.TabPage
+        Me.Label35 = New System.Windows.Forms.Label
+        Me.CheckPreviewEnable = New System.Windows.Forms.CheckBox
+        Me.Label82 = New System.Windows.Forms.Label
+        Me.CheckHashSupple = New System.Windows.Forms.CheckBox
+        Me.Label79 = New System.Windows.Forms.Label
+        Me.CheckAtIdSupple = New System.Windows.Forms.CheckBox
+        Me.TextBitlyPw = New System.Windows.Forms.TextBox
+        Me.Label77 = New System.Windows.Forms.Label
+        Me.TextBitlyId = New System.Windows.Forms.TextBox
+        Me.Label76 = New System.Windows.Forms.Label
+        Me.Label74 = New System.Windows.Forms.Label
+        Me.chkGetFav = New System.Windows.Forms.CheckBox
+        Me.ComboBoxAutoShortUrlFirst = New System.Windows.Forms.ComboBox
+        Me.Label71 = New System.Windows.Forms.Label
+        Me.CheckProtectNotInclude = New System.Windows.Forms.CheckBox
+        Me.Label42 = New System.Windows.Forms.Label
+        Me.CheckAutoConvertUrl = New System.Windows.Forms.CheckBox
+        Me.Label29 = New System.Windows.Forms.Label
+        Me.Label57 = New System.Windows.Forms.Label
+        Me.Label56 = New System.Windows.Forms.Label
+        Me.CheckFavRestrict = New System.Windows.Forms.CheckBox
+        Me.CheckTinyURL = New System.Windows.Forms.CheckBox
+        Me.Label50 = New System.Windows.Forms.Label
+        Me.Button3 = New System.Windows.Forms.Button
+        Me.TabPage3 = New System.Windows.Forms.TabPage
+        Me.Label81 = New System.Windows.Forms.Label
+        Me.LanguageCombo = New System.Windows.Forms.ComboBox
+        Me.Label13 = New System.Windows.Forms.Label
+        Me.CheckAlwaysTop = New System.Windows.Forms.CheckBox
+        Me.Label58 = New System.Windows.Forms.Label
+        Me.Label21 = New System.Windows.Forms.Label
+        Me.CheckSortOrderLock = New System.Windows.Forms.CheckBox
+        Me.Label78 = New System.Windows.Forms.Label
+        Me.CheckShowGrid = New System.Windows.Forms.CheckBox
+        Me.Label75 = New System.Windows.Forms.Label
+        Me.CheckMonospace = New System.Windows.Forms.CheckBox
+        Me.Label73 = New System.Windows.Forms.Label
+        Me.chkReadOwnPost = New System.Windows.Forms.CheckBox
+        Me.ReplyIconStateCombo = New System.Windows.Forms.ComboBox
+        Me.Label72 = New System.Windows.Forms.Label
+        Me.Label48 = New System.Windows.Forms.Label
+        Me.chkTabIconDisp = New System.Windows.Forms.CheckBox
+        Me.Label68 = New System.Windows.Forms.Label
+        Me.CheckBalloonLimit = New System.Windows.Forms.CheckBox
+        Me.LabelDateTimeFormatApplied = New System.Windows.Forms.Label
+        Me.Label62 = New System.Windows.Forms.Label
+        Me.Label17 = New System.Windows.Forms.Label
+        Me.chkUnreadStyle = New System.Windows.Forms.CheckBox
+        Me.TabPage4 = New System.Windows.Forms.TabPage
+        Me.TabPage5 = New System.Windows.Forms.TabPage
+        Me.TwitterSearchAPIText = New System.Windows.Forms.TextBox
+        Me.Label31 = New System.Windows.Forms.Label
+        Me.TwitterAPIText = New System.Windows.Forms.TextBox
+        Me.Label8 = New System.Windows.Forms.Label
+        Me.CheckUseSsl = New System.Windows.Forms.CheckBox
+        Me.Label64 = New System.Windows.Forms.Label
+        Me.ConnectionTimeOut = New System.Windows.Forms.TextBox
+        Me.Label63 = New System.Windows.Forms.Label
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox
+        Me.Label55 = New System.Windows.Forms.Label
+        Me.TextProxyPassword = New System.Windows.Forms.TextBox
+        Me.LabelProxyPassword = New System.Windows.Forms.Label
+        Me.TextProxyUser = New System.Windows.Forms.TextBox
+        Me.LabelProxyUser = New System.Windows.Forms.Label
+        Me.TextProxyPort = New System.Windows.Forms.TextBox
+        Me.LabelProxyPort = New System.Windows.Forms.Label
+        Me.TextProxyAddress = New System.Windows.Forms.TextBox
+        Me.LabelProxyAddress = New System.Windows.Forms.Label
+        Me.RadioProxySpecified = New System.Windows.Forms.RadioButton
+        Me.RadioProxyIE = New System.Windows.Forms.RadioButton
+        Me.RadioProxyNone = New System.Windows.Forms.RadioButton
+        Me.TabPage6 = New System.Windows.Forms.TabPage
+        Me.CheckNicoms = New System.Windows.Forms.CheckBox
+        Me.Label60 = New System.Windows.Forms.Label
+        Me.ComboBoxOutputzUrlmode = New System.Windows.Forms.ComboBox
+        Me.Label59 = New System.Windows.Forms.Label
+        Me.TextBoxOutputzKey = New System.Windows.Forms.TextBox
+        Me.CheckOutputz = New System.Windows.Forms.CheckBox
         Me.GroupBox1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
@@ -878,11 +873,6 @@ Partial Class Setting
         '
         Me.TabPage1.Controls.Add(Me.ButtonApiCalc)
         Me.TabPage1.Controls.Add(Me.LabelPostAndGet)
-        Me.TabPage1.Controls.Add(Me.Label84)
-        Me.TabPage1.Controls.Add(Me.MaxApi)
-        Me.TabPage1.Controls.Add(Me.Label70)
-        Me.TabPage1.Controls.Add(Me.Label53)
-        Me.TabPage1.Controls.Add(Me.Label43)
         Me.TabPage1.Controls.Add(Me.LabelApiUsing)
         Me.TabPage1.Controls.Add(Me.Label33)
         Me.TabPage1.Controls.Add(Me.ListsPeriod)
@@ -921,35 +911,16 @@ Partial Class Setting
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.UseVisualStyleBackColor = True
         '
+        'ButtonApiCalc
+        '
+        resources.ApplyResources(Me.ButtonApiCalc, "ButtonApiCalc")
+        Me.ButtonApiCalc.Name = "ButtonApiCalc"
+        Me.ButtonApiCalc.UseVisualStyleBackColor = True
+        '
         'LabelPostAndGet
         '
         resources.ApplyResources(Me.LabelPostAndGet, "LabelPostAndGet")
         Me.LabelPostAndGet.Name = "LabelPostAndGet"
-        '
-        'Label84
-        '
-        resources.ApplyResources(Me.Label84, "Label84")
-        Me.Label84.Name = "Label84"
-        '
-        'MaxApi
-        '
-        resources.ApplyResources(Me.MaxApi, "MaxApi")
-        Me.MaxApi.Name = "MaxApi"
-        '
-        'Label70
-        '
-        resources.ApplyResources(Me.Label70, "Label70")
-        Me.Label70.Name = "Label70"
-        '
-        'Label53
-        '
-        resources.ApplyResources(Me.Label53, "Label53")
-        Me.Label53.Name = "Label53"
-        '
-        'Label43
-        '
-        resources.ApplyResources(Me.Label43, "Label43")
-        Me.Label43.Name = "Label43"
         '
         'LabelApiUsing
         '
@@ -1639,12 +1610,6 @@ Partial Class Setting
         Me.CheckOutputz.Name = "CheckOutputz"
         Me.CheckOutputz.UseVisualStyleBackColor = True
         '
-        'ButtonApiCalc
-        '
-        resources.ApplyResources(Me.ButtonApiCalc, "ButtonApiCalc")
-        Me.ButtonApiCalc.Name = "ButtonApiCalc"
-        Me.ButtonApiCalc.UseVisualStyleBackColor = True
-        '
         'Setting
         '
         Me.AcceptButton = Me.Save
@@ -1885,11 +1850,6 @@ Partial Class Setting
     Friend WithEvents Label35 As System.Windows.Forms.Label
     Friend WithEvents CheckPreviewEnable As System.Windows.Forms.CheckBox
     Friend WithEvents LabelApiUsing As System.Windows.Forms.Label
-    Friend WithEvents Label84 As System.Windows.Forms.Label
-    Friend WithEvents MaxApi As System.Windows.Forms.Label
-    Friend WithEvents Label70 As System.Windows.Forms.Label
-    Friend WithEvents Label53 As System.Windows.Forms.Label
-    Friend WithEvents Label43 As System.Windows.Forms.Label
     Friend WithEvents LabelPostAndGet As System.Windows.Forms.Label
     Friend WithEvents ButtonApiCalc As System.Windows.Forms.Button
 End Class

@@ -729,4 +729,7 @@
   <data name="StatusUpdateFailed2" xml:space="preserve">
     <value>Do you retry to update status?</value>
   </data>
+  <data name="SettingAPIUse1" xml:space="preserve">
+    <value>Consumption API :  {0} / h    (Limit :  {1} / h)</value>
+  </data>
 </root>
