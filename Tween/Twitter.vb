@@ -2229,7 +2229,7 @@ Public Class Twitter
         Next
         retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9/&])([#＃])([0-9a-zA-Z_]*[a-zA-Z_]+[a-zA-Z0-9_\xc0-\xd6\xd8-\xf6\xf8-\xff]*)", "$1<a href=""" & _protocol & "twitter.com/search?q=%23$3"">$2$3</a>")
 
-        retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9_/&#＃@＠>=])(sm|nm)([0-9]{4,10})", "$1<a href=""http://www.nicovideo.jp/watch/$2$3"">$2$3</a>")
+        retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9_/&#＃@＠>=])(sm|nm)([0-9]{1,10})", "$1<a href=""http://www.nicovideo.jp/watch/$2$3"">$2$3</a>")
 
         retStr = AdjustHtml(ShortUrlResolve(PreProcessUrl(retStr))) 'IDN置換、短縮Uri解決、@リンクを相対→絶対にしてtarget属性付与
         Return retStr
