@@ -256,10 +256,22 @@
   <data name="LabelScreenName.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="ContextMenuStrip1.ToolTip" xml:space="preserve">
-    <value />
+  <data name="SelectionCopyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>130, 22</value>
   </data>
-  <data name="DescriptionBrowser.ToolTip" xml:space="preserve">
+  <data name="SelectionCopyToolStripMenuItem.Text" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="SelectAllToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>130, 22</value>
+  </data>
+  <data name="SelectAllToolStripMenuItem.Text" xml:space="preserve">
+    <value>Select All</value>
+  </data>
+  <data name="ContextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>131, 48</value>
+  </data>
+  <data name="ContextMenuStrip1.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="Label11.Size" type="System.Drawing.Size, System.Drawing">
@@ -273,6 +285,13 @@
   </data>
   <data name="RecentPostBrowser.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="DescriptionBrowser.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Inherit</value>
   </data>
   <data name="$this.ToolTip" xml:space="preserve">
     <value />

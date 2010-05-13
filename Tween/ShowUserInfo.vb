@@ -28,7 +28,7 @@ Imports System.Text.RegularExpressions
 Public Class ShowUserInfo
 
     Private userInfoXml As String = ""
-    Private _info As UserInfo
+    Private _info As New UserInfo
     Private icondata As Image = Nothing
     Private atlist As New Generic.List(Of String)
     Private descriptionTxt As String
@@ -44,23 +44,27 @@ Public Class ShowUserInfo
     Private Following As String
     Private Followers As String
     Private Favorites As String
+    Private MyOwner As TweenMain
+    Private FriendshipResult As String = ""
 
-    Private Structure UserInfo
-        Dim Name As String
-        Dim ScreenName As String
-        Dim Location As String
-        Dim Description As String
-        Dim ImageUrl As Uri
-        Dim Url As String
-        Dim Protect As Boolean
-        Dim FriendsCount As Integer
-        Dim FollowersCount As Integer
-        Dim FavoriteCount As Integer
-        Dim CreatedAt As DateTime
-        Dim StatusesCount As Integer
-        Dim Verified As Boolean
-        Dim RecentPost As String
-    End Structure
+    Private Class UserInfo
+        Public Name As String = ""
+        Public ScreenName As String = ""
+        Public Location As String = ""
+        Public Description As String = ""
+        Public ImageUrl As Uri = Nothing
+        Public Url As String = ""
+        Public Protect As Boolean = False
+        Public FriendsCount As Integer = 0
+        Public FollowersCount As Integer = 0
+        Public FavoriteCount As Integer = 0
+        Public CreatedAt As New DateTime
+        Public StatusesCount As Integer = 0
+        Public Verified As Boolean = False
+        Public RecentPost As String = ""
+        Public isFollowing As Boolean = False
+        Public isFollowed As Boolean = False
+    End Class
 
     Private Sub InitPath()
         Home = Mainpath + _info.ScreenName
@@ -106,78 +110,47 @@ Public Class ShowUserInfo
     End Function
 
     Private Sub ShowUserInfo_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        MyOwner = DirectCast(Me.Owner, TweenMain)
         If Not AnalizeUserInfo(userInfoXml) Then
             MessageBox.Show(My.Resources.ShowUserInfo1)
             Me.Close()
-            Return
-        Else
-            Dim webtext As String
-            'アイコンロード
-            BackgroundWorkerImageLoader.RunWorkerAsync()
-
-            InitPath()
-            InitTooltip()
-            Me.Text = Me.Text.Insert(0, _info.ScreenName + " ")
-            LabelScreenName.Text = _info.ScreenName
-            LabelName.Text = _info.Name
-
-            LabelLocation.Text = _info.Location
-
-
-            webtext = TweenMain.TwitterInstance.PreProcessUrl("<a href=""" + _info.Url + """>Dummy</a>")
-            webtext = TweenMain.TwitterInstance.ShortUrlResolve(webtext)
-            ToolTip1.SetToolTip(LinkLabelWeb, _
-                                Regex.Match(webtext, "<a href=""(?<url>.*?)""").Groups.Item("url").Value)
-            LinkLabelWeb.Text = _info.Url
-
-            DescriptionBrowser.Visible = False
-            descriptionTxt = TweenMain.createDetailHtml( _
-                    TweenMain.TwitterInstance.CreateHtmlAnchor(_info.Description, atlist))
-
-            RecentPostBrowser.Visible = False
-            recentPostTxt = TweenMain.createDetailHtml( _
-                    TweenMain.TwitterInstance.CreateHtmlAnchor(_info.RecentPost, atlist))
-
-            LinkLabelFollowing.Text = _info.FriendsCount.ToString
-            LinkLabelFollowers.Text = _info.FollowersCount.ToString
-            LinkLabelFav.Text = _info.FavoriteCount.ToString
-            LinkLabelTweet.Text = _info.StatusesCount.ToString
-
-            LabelCreatedAt.Text = _info.CreatedAt.ToString
-            LabelIsProtected.Text = DirectCast(IIf(_info.Protect, My.Resources.Yes, My.Resources.No), String)
-
-            If TweenMain.TwitterInstance.Username = _info.ScreenName Then
-                ' 自分の場合
-                LabelIsFollowing.Text = ""
-                LabelIsFollowed.Text = ""
-                ButtonFollow.Enabled = False
-                ButtonUnFollow.Enabled = False
-            Else
-                Dim isFollowing As Boolean = False
-                Dim isFollowed As Boolean = False
-                Dim ret As String = TweenMain.TwitterInstance.GetFriendshipInfo(_info.ScreenName, isFollowing, isFollowed)
-                If ret = "" Then
-                    If isFollowing Then
-                        LabelIsFollowing.Text = My.Resources.GetFriendshipInfo1
-                    Else
-                        LabelIsFollowing.Text = My.Resources.GetFriendshipInfo2
-                    End If
-                    ButtonFollow.Enabled = Not isFollowing
-                    If isFollowed Then
-                        LabelIsFollowed.Text = My.Resources.GetFriendshipInfo3
-                    Else
-                        LabelIsFollowed.Text = My.Resources.GetFriendshipInfo4
-                    End If
-                    ButtonUnFollow.Enabled = isFollowing
-                Else
-                    MessageBox.Show(ret)
-                    ButtonUnFollow.Enabled = False
-                    ButtonFollow.Enabled = False
-                    LabelIsFollowed.Text = My.Resources.GetFriendshipInfo6
-                    LabelIsFollowing.Text = My.Resources.GetFriendshipInfo6
-                End If
-            End If
+            Exit Sub
         End If
+
+        Dim webtext As String
+        'アイコンロード
+        BackgroundWorkerImageLoader.RunWorkerAsync()
+
+        InitPath()
+        InitTooltip()
+        Me.Text = Me.Text.Insert(0, _info.ScreenName + " ")
+        LabelScreenName.Text = _info.ScreenName
+        LabelName.Text = _info.Name
+
+        LabelLocation.Text = _info.Location
+
+
+        webtext = MyOwner.TwitterInstance.PreProcessUrl("<a href=""" + _info.Url + """>Dummy</a>")
+        webtext = MyOwner.TwitterInstance.ShortUrlResolve(webtext)
+        ToolTip1.SetToolTip(LinkLabelWeb, _
+                            Regex.Match(webtext, "<a href=""(?<url>.*?)""").Groups.Item("url").Value)
+        LinkLabelWeb.Text = _info.Url
+
+        DescriptionBrowser.Visible = False
+        descriptionTxt = MyOwner.createDetailHtml( _
+                MyOwner.TwitterInstance.CreateHtmlAnchor(_info.Description, atlist))
+
+        RecentPostBrowser.Visible = False
+        recentPostTxt = MyOwner.createDetailHtml( _
+                MyOwner.TwitterInstance.CreateHtmlAnchor(_info.RecentPost, atlist))
+
+        LinkLabelFollowing.Text = _info.FriendsCount.ToString
+        LinkLabelFollowers.Text = _info.FollowersCount.ToString
+        LinkLabelFav.Text = _info.FavoriteCount.ToString
+        LinkLabelTweet.Text = _info.StatusesCount.ToString
+
+        LabelCreatedAt.Text = _info.CreatedAt.ToString
+        LabelIsProtected.Text = DirectCast(IIf(_info.Protect, My.Resources.Yes, My.Resources.No), String)
     End Sub
 
     Private Sub ButtonOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonClose.Click
@@ -192,28 +165,28 @@ Public Class ShowUserInfo
 
     Private Sub LinkLabelWeb_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabelWeb.LinkClicked
         If _info.Url IsNot Nothing Then
-            TweenMain.OpenUriAsync(_info.Url)
+            MyOwner.OpenUriAsync(_info.Url)
         End If
     End Sub
 
     Private Sub LinkLabelFollowing_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabelFollowing.LinkClicked
-        TweenMain.OpenUriAsync(Following)
+        MyOwner.OpenUriAsync(Following)
     End Sub
 
     Private Sub LinkLabelFollowers_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabelFollowers.LinkClicked
-        TweenMain.OpenUriAsync(Followers)
+        MyOwner.OpenUriAsync(Followers)
     End Sub
 
     Private Sub LinkLabelTweet_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabelTweet.LinkClicked
-        TweenMain.OpenUriAsync(Home)
+        MyOwner.OpenUriAsync(Home)
     End Sub
 
     Private Sub LinkLabelFav_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabelFav.LinkClicked
-        TweenMain.OpenUriAsync(Favorites)
+        MyOwner.OpenUriAsync(Favorites)
     End Sub
 
     Private Sub ButtonFollow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonFollow.Click
-        Dim ret As String = TweenMain.TwitterInstance.PostFollowCommand(_info.ScreenName)
+        Dim ret As String = MyOwner.TwitterInstance.PostFollowCommand(_info.ScreenName)
         If Not String.IsNullOrEmpty(ret) Then
             MessageBox.Show(My.Resources.FRMessage2 + ret)
         Else
@@ -225,7 +198,7 @@ Public Class ShowUserInfo
     End Sub
 
     Private Sub ButtonUnFollow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonUnFollow.Click
-        Dim ret As String = TweenMain.TwitterInstance.PostRemoveCommand(_info.ScreenName)
+        Dim ret As String = MyOwner.TwitterInstance.PostRemoveCommand(_info.ScreenName)
         If Not String.IsNullOrEmpty(ret) Then
             MessageBox.Show(My.Resources.FRMessage2 + ret)
         Else
@@ -256,6 +229,11 @@ Public Class ShowUserInfo
         Catch ex As Exception
             icondata = Nothing
         End Try
+        If MyOwner.TwitterInstance.Username = _info.ScreenName Then Exit Sub
+
+        _info.isFollowing = False
+        _info.isFollowed = False
+        FriendshipResult = MyOwner.TwitterInstance.GetFriendshipInfo(_info.ScreenName, _info.isFollowing, _info.isFollowed)
     End Sub
 
     Private Sub BackgroundWorker1_RunWorkerCompleted(ByVal sender As System.Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles BackgroundWorkerImageLoader.RunWorkerCompleted
@@ -266,6 +244,36 @@ Public Class ShowUserInfo
         Catch ex As Exception
             UserPicture.Image = Nothing
         End Try
+
+        If MyOwner.TwitterInstance.Username = _info.ScreenName Then
+            ' 自分の場合
+            LabelIsFollowing.Text = ""
+            LabelIsFollowed.Text = ""
+            ButtonFollow.Enabled = False
+            ButtonUnFollow.Enabled = False
+        Else
+            If FriendshipResult = "" Then
+                If _info.isFollowing Then
+                    LabelIsFollowing.Text = My.Resources.GetFriendshipInfo1
+                Else
+                    LabelIsFollowing.Text = My.Resources.GetFriendshipInfo2
+                End If
+                ButtonFollow.Enabled = Not _info.isFollowing
+                If _info.isFollowed Then
+                    LabelIsFollowed.Text = My.Resources.GetFriendshipInfo3
+                Else
+                    LabelIsFollowed.Text = My.Resources.GetFriendshipInfo4
+                End If
+                ButtonUnFollow.Enabled = _info.isFollowing
+            Else
+                MessageBox.Show(FriendshipResult)
+                ButtonUnFollow.Enabled = False
+                ButtonFollow.Enabled = False
+                LabelIsFollowed.Text = My.Resources.GetFriendshipInfo6
+                LabelIsFollowing.Text = My.Resources.GetFriendshipInfo6
+            End If
+        End If
+
     End Sub
 
     Private Sub ShowUserInfo_Shown(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Shown
@@ -284,10 +292,10 @@ Public Class ShowUserInfo
                 'ハッシュタグの場合は、タブで開く
                 Dim urlStr As String = HttpUtility.UrlDecode(e.Url.AbsoluteUri)
                 Dim hash As String = urlStr.Substring(urlStr.IndexOf("#"))
-                TweenMain.AddNewTabForSearch(hash)
+                MyOwner.AddNewTabForSearch(hash)
                 Exit Sub
             Else
-                TweenMain.OpenUriAsync(e.Url.OriginalString)
+                MyOwner.OpenUriAsync(e.Url.OriginalString)
             End If
         End If
     End Sub
@@ -311,7 +319,7 @@ Public Class ShowUserInfo
     Private Sub SelectionCopyToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SelectionCopyToolStripMenuItem.Click
         Dim sc As WebBrowser = TryCast(ContextMenuStrip1.SourceControl, WebBrowser)
         If sc IsNot Nothing Then
-            Dim _selText As String = TweenMain.WebBrowser_GetSelectionText(sc)
+            Dim _selText As String = MyOwner.WebBrowser_GetSelectionText(sc)
             If _selText IsNot Nothing Then
                 Try
                     Clipboard.SetDataObject(_selText, False, 5, 100)
@@ -325,7 +333,7 @@ Public Class ShowUserInfo
     Private Sub ContextMenuStrip1_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip1.Opening
         Dim sc As WebBrowser = TryCast(ContextMenuStrip1.SourceControl, WebBrowser)
         If sc IsNot Nothing Then
-            Dim _selText As String = TweenMain.WebBrowser_GetSelectionText(sc)
+            Dim _selText As String = MyOwner.WebBrowser_GetSelectionText(sc)
             If _selText Is Nothing Then
                 SelectionCopyToolStripMenuItem.Enabled = False
             Else

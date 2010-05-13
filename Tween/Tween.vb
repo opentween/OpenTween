@@ -8396,7 +8396,7 @@ RETRY:
                 If ret = "" Then
                     Using userinfo As New ShowUserInfo()
                         userinfo.XmlData = xmlbuf
-                        userinfo.ShowDialog()
+                        userinfo.ShowDialog(Me)
                     End Using
                 Else
                     MessageBox.Show(ret)
