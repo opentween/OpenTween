@@ -753,4 +753,7 @@
   <data name="ShowUserInfo1" xml:space="preserve">
     <value>用户信息解析失败</value>
   </data>
+  <data name="SettingAPIUse1" xml:space="preserve">
+    <value>使用的API :  {0} / h    (最大 :  {1} / h)</value>
+  </data>
 </root>

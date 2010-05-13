@@ -2128,14 +2128,16 @@ Public Class Setting
             End If
         End If
 
-        LabelApiUsing.Text = UsingApi.ToString
-        LabelPostAndGet.Visible = CheckPostAndGet.Checked
-
+        '固定で良いのか？
+        Dim max As Integer
         If AuthOAuthRadio.Checked Then
-            MaxApi.Text = "350"
-        ElseIf AuthBasicRadio.Checked Then
-            MaxApi.Text = "150"
+            max = 350
+        Else
+            max = 150
         End If
+
+        LabelApiUsing.Text = String.Format(My.Resources.SettingAPIUse1, UsingApi, max)
+        LabelPostAndGet.Visible = CheckPostAndGet.Checked
 
     End Sub
 
