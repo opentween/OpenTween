@@ -137,13 +137,13 @@
     <value>取消</value>
   </data>
   <data name="Label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 12</value>
+    <value>116, 12</value>
   </data>
   <data name="Label3.Text" xml:space="preserve">
     <value>Timeline更新间隔(秒)</value>
   </data>
   <data name="Label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>89, 12</value>
+    <value>90, 12</value>
   </data>
   <data name="Label5.Text" xml:space="preserve">
     <value>DM更新间隔(秒)</value>
@@ -161,7 +161,7 @@
     <value>置为已读</value>
   </data>
   <data name="Label11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>173, 12</value>
+    <value>169, 12</value>
   </data>
   <data name="Label11.Text" xml:space="preserve">
     <value>列表中的头像图标大小(默认16)</value>
@@ -190,6 +190,9 @@
   <data name="Label15.Text" xml:space="preserve">
     <value>标签设置的提示音，只要启用“播放”选项就能被播放。</value>
   </data>
+  <data name="OneWayLv.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 16</value>
+  </data>
   <data name="OneWayLv.Text" xml:space="preserve">
     <value>启用</value>
   </data>
@@ -214,9 +217,6 @@
   <data name="Label18.Text" xml:space="preserve">
     <value>消息栏链接</value>
   </data>
-  <data name="btnInputFont.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 22</value>
-  </data>
   <data name="btnInputFont.Text" xml:space="preserve">
     <value>字体&amp;&amp;颜色</value>
   </data>
@@ -232,9 +232,6 @@
   <data name="Label52.Text" xml:space="preserve">
     <value>输入框激活时的背景色</value>
   </data>
-  <data name="btnUnread.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 22</value>
-  </data>
   <data name="btnUnread.Text" xml:space="preserve">
     <value>字体&amp;&amp;颜色</value>
   </data>
@@ -243,6 +240,9 @@
   </data>
   <data name="Label20.Text" xml:space="preserve">
     <value>未读字体</value>
+  </data>
+  <data name="Label49.Size" type="System.Drawing.Size, System.Drawing">
+    <value>109, 12</value>
   </data>
   <data name="Label49.Text" xml:space="preserve">
     <value>选中消息所@的消息</value>
@@ -256,8 +256,14 @@
   <data name="Label19.Text" xml:space="preserve">
     <value>普通消息</value>
   </data>
+  <data name="Label28.Size" type="System.Drawing.Size, System.Drawing">
+    <value>145, 12</value>
+  </data>
   <data name="Label28.Text" xml:space="preserve">
     <value>先中消息所@人的其它消息</value>
+  </data>
+  <data name="Label30.Size" type="System.Drawing.Size, System.Drawing">
+    <value>97, 12</value>
   </data>
   <data name="Label30.Text" xml:space="preserve">
     <value>@给选中人的消息</value>
@@ -268,14 +274,17 @@
   <data name="Label32.Text" xml:space="preserve">
     <value>选中人的其它消息</value>
   </data>
+  <data name="Label34.Size" type="System.Drawing.Size, System.Drawing">
+    <value>85, 12</value>
+  </data>
   <data name="Label34.Text" xml:space="preserve">
     <value>@给自己的消息</value>
   </data>
+  <data name="Label36.Size" type="System.Drawing.Size, System.Drawing">
+    <value>65, 12</value>
+  </data>
   <data name="Label36.Text" xml:space="preserve">
     <value>自己的消息</value>
-  </data>
-  <data name="btnDetail.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 22</value>
   </data>
   <data name="btnDetail.Text" xml:space="preserve">
     <value>字体&amp;&amp;颜色</value>
@@ -300,9 +309,6 @@
   </data>
   <data name="Label22.Text" xml:space="preserve">
     <value>Fav消息</value>
-  </data>
-  <data name="btnListFont.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 22</value>
   </data>
   <data name="btnListFont.Text" xml:space="preserve">
     <value>字体&amp;&amp;颜色</value>
@@ -332,7 +338,7 @@
     <value>新消息气球提示的用户名</value>
   </data>
   <data name="CheckUseRecommendStatus.Size" type="System.Drawing.Size, System.Drawing">
-    <value>132, 16</value>
+    <value>134, 16</value>
   </data>
   <data name="CheckUseRecommendStatus.Text" xml:space="preserve">
     <value>推荐使用[TWNv○○]</value>
@@ -356,19 +362,22 @@
     <value>消息栏的头像图标</value>
   </data>
   <data name="CheckPostCtrlEnter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>108, 16</value>
+    <value>100, 16</value>
   </data>
   <data name="CheckPostCtrlEnter.Text" xml:space="preserve">
     <value>使用Ctrl+Enter</value>
   </data>
   <data name="Label27.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 12</value>
+    <value>136, 12</value>
   </data>
   <data name="Label27.Text" xml:space="preserve">
     <value>发送快捷键(默认是Enter)</value>
   </data>
   <data name="Label38.Text" xml:space="preserve">
     <value>未读管理</value>
+  </data>
+  <data name="UReadMng.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 16</value>
   </data>
   <data name="UReadMng.Text" xml:space="preserve">
     <value>启用</value>
@@ -379,6 +388,9 @@
   <data name="Label39.Text" xml:space="preserve">
     <value>有更新的消息时清除旧未读</value>
   </data>
+  <data name="CheckReadOldPosts.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 16</value>
+  </data>
   <data name="CheckReadOldPosts.Text" xml:space="preserve">
     <value>启用</value>
   </data>
@@ -388,6 +400,9 @@
   <data name="Label40.Text" xml:space="preserve">
     <value>点击窗口上的×时</value>
   </data>
+  <data name="CheckCloseToExit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>72, 16</value>
+  </data>
   <data name="CheckCloseToExit.Text" xml:space="preserve">
     <value>退出程序</value>
   </data>
@@ -396,6 +411,9 @@
   </data>
   <data name="Label41.Text" xml:space="preserve">
     <value>窗口最小化时</value>
+  </data>
+  <data name="CheckMinimizeToTray.Size" type="System.Drawing.Size, System.Drawing">
+    <value>108, 16</value>
   </data>
   <data name="CheckMinimizeToTray.Text" xml:space="preserve">
     <value>缩小为托盘图标</value>
@@ -446,25 +464,22 @@
     <value>总未读数/总消息数</value>
   </data>
   <data name="Label47.Size" type="System.Drawing.Size, System.Drawing">
-    <value>101, 12</value>
+    <value>97, 12</value>
   </data>
   <data name="Label47.Text" xml:space="preserve">
     <value>重启之后才生效。</value>
   </data>
   <data name="LabelPostAndGet.Size" type="System.Drawing.Size, System.Drawing">
-    <value>251, 12</value>
+    <value>243, 12</value>
   </data>
   <data name="LabelPostAndGet.Text" xml:space="preserve">
     <value>成功刷新消息、发送消息时都会消耗API配额。</value>
   </data>
   <data name="Label84.Size" type="System.Drawing.Size, System.Drawing">
-    <value>71, 12</value>
+    <value>67, 12</value>
   </data>
   <data name="Label84.Text" xml:space="preserve">
     <value>次API配额。</value>
-  </data>
-  <data name="MaxApi.Location" type="System.Drawing.Point, System.Drawing">
-    <value>144, 382</value>
   </data>
   <data name="Label70.Size" type="System.Drawing.Size, System.Drawing">
     <value>125, 12</value>
@@ -473,7 +488,7 @@
     <value>一小时内最多可以使用</value>
   </data>
   <data name="Label53.Size" type="System.Drawing.Size, System.Drawing">
-    <value>71, 12</value>
+    <value>67, 12</value>
   </data>
   <data name="Label53.Text" xml:space="preserve">
     <value>次API配额。</value>
@@ -484,11 +499,8 @@
   <data name="Label43.Text" xml:space="preserve">
     <value>一小时内将使用</value>
   </data>
-  <data name="LabelApiUsing.Location" type="System.Drawing.Point, System.Drawing">
-    <value>109, 344</value>
-  </data>
   <data name="Label33.Size" type="System.Drawing.Size, System.Drawing">
-    <value>107, 12</value>
+    <value>98, 12</value>
   </data>
   <data name="Label33.Text" xml:space="preserve">
     <value>Lists更新间隔(秒)</value>
@@ -509,13 +521,13 @@
     <value>登录</value>
   </data>
   <data name="Label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 12</value>
+    <value>133, 12</value>
   </data>
   <data name="Label7.Text" xml:space="preserve">
     <value>Twitter搜索更新间隔(秒)</value>
   </data>
   <data name="Label69.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 12</value>
+    <value>119, 12</value>
   </data>
   <data name="Label69.Text" xml:space="preserve">
     <value>Mentions更新间隔(秒)</value>
@@ -569,7 +581,7 @@
     <value>启用</value>
   </data>
   <data name="Label82.Size" type="System.Drawing.Size, System.Drawing">
-    <value>77, 12</value>
+    <value>78, 12</value>
   </data>
   <data name="Label82.Text" xml:space="preserve">
     <value>辅助输入#Tag</value>
@@ -599,16 +611,19 @@
     <value>获取</value>
   </data>
   <data name="Label71.Size" type="System.Drawing.Size, System.Drawing">
-    <value>119, 12</value>
+    <value>123, 12</value>
   </data>
   <data name="Label71.Text" xml:space="preserve">
     <value>URL自动缩短优先使用</value>
   </data>
   <data name="CheckProtectNotInclude.Size" type="System.Drawing.Size, System.Drawing">
-    <value>138, 16</value>
+    <value>133, 16</value>
   </data>
   <data name="CheckProtectNotInclude.Text" xml:space="preserve">
     <value>不包含Protect者消息</value>
+  </data>
+  <data name="Label42.Size" type="System.Drawing.Size, System.Drawing">
+    <value>122, 12</value>
   </data>
   <data name="Label42.Text" xml:space="preserve">
     <value>复制ReTweet的文本时</value>
@@ -620,16 +635,19 @@
     <value>自动缩短</value>
   </data>
   <data name="Label29.Size" type="System.Drawing.Size, System.Drawing">
-    <value>95, 12</value>
+    <value>99, 12</value>
   </data>
   <data name="Label29.Text" xml:space="preserve">
     <value>缩短输入框的URL</value>
   </data>
   <data name="Label57.Size" type="System.Drawing.Size, System.Drawing">
-    <value>323, 12</value>
+    <value>312, 12</value>
   </data>
   <data name="Label57.Text" xml:space="preserve">
     <value>会重新读取原消息来验证Fav结果。会增加流量，推荐关闭。</value>
+  </data>
+  <data name="Label56.Size" type="System.Drawing.Size, System.Drawing">
+    <value>120, 12</value>
   </data>
   <data name="Label56.Text" xml:space="preserve">
     <value>是否严格检查Fav结果</value>
@@ -647,7 +665,7 @@
     <value>展开</value>
   </data>
   <data name="Label50.Size" type="System.Drawing.Size, System.Drawing">
-    <value>95, 12</value>
+    <value>99, 12</value>
   </data>
   <data name="Label50.Text" xml:space="preserve">
     <value>处理缩短网址URL</value>
@@ -675,6 +693,9 @@
   </data>
   <data name="Label58.Text" xml:space="preserve">
     <value>总在最前面</value>
+  </data>
+  <data name="Label21.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 12</value>
   </data>
   <data name="Label21.Text" xml:space="preserve">
     <value>列表排序</value>
@@ -704,7 +725,7 @@
     <value>消息栏文本字体等宽化(支持AA)</value>
   </data>
   <data name="CheckMonospace.Size" type="System.Drawing.Size, System.Drawing">
-    <value>132, 16</value>
+    <value>128, 16</value>
   </data>
   <data name="CheckMonospace.Text" xml:space="preserve">
     <value>启用(可能会有问题)</value>
@@ -761,7 +782,7 @@
     <value>最小化时</value>
   </data>
   <data name="Label17.Size" type="System.Drawing.Size, System.Drawing">
-    <value>161, 12</value>
+    <value>157, 12</value>
   </data>
   <data name="Label17.Text" xml:space="preserve">
     <value>未读文本样式(字体和颜色上)</value>
@@ -778,71 +799,62 @@
   <data name="TabPage4.Text" xml:space="preserve">
     <value>字体与颜色</value>
   </data>
-  <data name="TwitterSearchAPIText.Location" type="System.Drawing.Point, System.Drawing">
-    <value>234, 302</value>
-  </data>
   <data name="TwitterSearchAPIText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 21</value>
+    <value>143, 19</value>
   </data>
   <data name="Label31.Size" type="System.Drawing.Size, System.Drawing">
-    <value>215, 12</value>
+    <value>192, 12</value>
   </data>
   <data name="Label31.Text" xml:space="preserve">
     <value>Search API URL (search.twitter.com)</value>
   </data>
-  <data name="TwitterAPIText.Location" type="System.Drawing.Point, System.Drawing">
-    <value>234, 277</value>
-  </data>
   <data name="TwitterAPIText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 21</value>
+    <value>143, 19</value>
   </data>
   <data name="CheckUseSsl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 16</value>
+    <value>108, 16</value>
   </data>
   <data name="CheckUseSsl.Text" xml:space="preserve">
     <value>使用HTTPS通信</value>
   </data>
   <data name="Label64.Size" type="System.Drawing.Size, System.Drawing">
-    <value>317, 12</value>
+    <value>309, 12</value>
   </data>
   <data name="Label64.Text" xml:space="preserve">
     <value>※刷新频繁出现超时的话请调整为更大的值。默认是20秒。</value>
   </data>
-  <data name="Label63.Location" type="System.Drawing.Point, System.Drawing">
-    <value>151, 189</value>
-  </data>
   <data name="Label63.Size" type="System.Drawing.Size, System.Drawing">
-    <value>77, 12</value>
+    <value>73, 12</value>
   </data>
   <data name="Label63.Text" xml:space="preserve">
     <value>超时时间(秒)</value>
   </data>
   <data name="Label55.Size" type="System.Drawing.Size, System.Drawing">
-    <value>281, 12</value>
+    <value>273, 12</value>
   </data>
   <data name="Label55.Text" xml:space="preserve">
     <value>※代理不需要登录认证时，请将用户名密码栏留空。</value>
   </data>
   <data name="LabelProxyPassword.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 12</value>
+    <value>46, 12</value>
   </data>
   <data name="LabelProxyPassword.Text" xml:space="preserve">
     <value>密码(&amp;W)</value>
   </data>
   <data name="LabelProxyUser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 12</value>
+    <value>57, 12</value>
   </data>
   <data name="LabelProxyUser.Text" xml:space="preserve">
     <value>用户名(&amp;U)</value>
   </data>
   <data name="LabelProxyPort.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 12</value>
+    <value>44, 12</value>
   </data>
   <data name="LabelProxyPort.Text" xml:space="preserve">
     <value>端口(&amp;P)</value>
   </data>
   <data name="LabelProxyAddress.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 12</value>
+    <value>44, 12</value>
   </data>
   <data name="LabelProxyAddress.Text" xml:space="preserve">
     <value>地址(&amp;X)</value>
@@ -854,7 +866,7 @@
     <value>自定义</value>
   </data>
   <data name="RadioProxyIE.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 16</value>
+    <value>164, 16</value>
   </data>
   <data name="RadioProxyIE.Text" xml:space="preserve">
     <value>使用InternetExplorer的设置</value>
@@ -869,13 +881,13 @@
     <value>代理设置</value>
   </data>
   <data name="CheckNicoms.Size" type="System.Drawing.Size, System.Drawing">
-    <value>216, 16</value>
+    <value>212, 16</value>
   </data>
   <data name="CheckNicoms.Text" xml:space="preserve">
     <value>使用nico.ms缩短Niconico动画的URL</value>
   </data>
   <data name="Label60.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 12</value>
+    <value>63, 12</value>
   </data>
   <data name="Label60.Text" xml:space="preserve">
     <value>输出到URL</value>
@@ -887,7 +899,7 @@
     <value>复活咒语</value>
   </data>
   <data name="CheckOutputz.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 16</value>
+    <value>87, 16</value>
   </data>
   <data name="CheckOutputz.Text" xml:space="preserve">
     <value>对应Outputz</value>
