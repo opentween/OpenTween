@@ -62,6 +62,8 @@ Public Class ShowUserInfo
         Public StatusesCount As Integer = 0
         Public Verified As Boolean = False
         Public RecentPost As String = ""
+        Public PostCreatedAt As New DateTime
+        Public PostSource As String = ""        ' html形式　"<a href="http://sourceforge.jp/projects/tween/wiki/FrontPage" rel="nofollow">Tween</a>"
         Public isFollowing As Boolean = False
         Public isFollowed As Boolean = False
     End Class
@@ -102,6 +104,8 @@ Public Class ShowUserInfo
             _info.Verified = Boolean.Parse(xdoc.SelectSingleNode("/user/verified").InnerText)
 
             _info.RecentPost = xdoc.SelectSingleNode("/user/status/text").InnerText
+            _info.PostCreatedAt = DateTime.ParseExact(xdoc.SelectSingleNode("/user/status/created_at").InnerText, "ddd MMM dd HH:mm:ss zzzz yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None)
+            _info.PostSource = xdoc.SelectSingleNode("/user/status/source").InnerText
         Catch ex As Exception
             Return False
         End Try
@@ -142,7 +146,9 @@ Public Class ShowUserInfo
 
         RecentPostBrowser.Visible = False
         recentPostTxt = MyOwner.createDetailHtml( _
-                MyOwner.TwitterInstance.CreateHtmlAnchor(_info.RecentPost, atlist))
+                MyOwner.TwitterInstance.CreateHtmlAnchor(_info.RecentPost, atlist) + _
+                " Posted at " + _info.PostCreatedAt.ToString + _
+                " via " + _info.PostSource)
 
         LinkLabelFollowing.Text = _info.FriendsCount.ToString
         LinkLabelFollowers.Text = _info.FollowersCount.ToString
@@ -151,6 +157,7 @@ Public Class ShowUserInfo
 
         LabelCreatedAt.Text = _info.CreatedAt.ToString
         LabelIsProtected.Text = DirectCast(IIf(_info.Protect, My.Resources.Yes, My.Resources.No), String)
+        LabelIsVerified.Text = DirectCast(IIf(_info.Verified, My.Resources.Yes, My.Resources.No), String)
     End Sub
 
     Private Sub ButtonOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonClose.Click
