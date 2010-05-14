@@ -7323,10 +7323,7 @@ RETRY:
                 My.Application.DoEvents()
                 i += 1
                 If i > 50 Then
-                    If Not _endingFlag Then
-                        _statuses.DistributePosts()
-                        RefreshTimeline()
-                    Else
+                    If _endingFlag Then
                         Exit Sub
                     End If
                     i = 0
@@ -7334,9 +7331,6 @@ RETRY:
             Loop
 
             If _endingFlag Then Exit Sub
-
-            _statuses.DistributePosts()
-            RefreshTimeline()
 
             'バージョンチェック（引数：起動時チェックの場合はTrue･･･チェック結果のメッセージを表示しない）
             If SettingDialog.StartupVersion Then
