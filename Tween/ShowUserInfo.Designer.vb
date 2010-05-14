@@ -22,42 +22,44 @@ Partial Class ShowUserInfo
     'コード エディターを使って変更しないでください。
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ShowUserInfo))
-        Me.ButtonClose = New System.Windows.Forms.Button
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.Label4 = New System.Windows.Forms.Label
-        Me.LinkLabelWeb = New System.Windows.Forms.LinkLabel
-        Me.LabelLocation = New System.Windows.Forms.Label
-        Me.LabelName = New System.Windows.Forms.Label
-        Me.Label5 = New System.Windows.Forms.Label
-        Me.Label6 = New System.Windows.Forms.Label
-        Me.LinkLabelFollowing = New System.Windows.Forms.LinkLabel
-        Me.LinkLabelFollowers = New System.Windows.Forms.LinkLabel
-        Me.Label7 = New System.Windows.Forms.Label
-        Me.LabelCreatedAt = New System.Windows.Forms.Label
-        Me.Label8 = New System.Windows.Forms.Label
-        Me.LinkLabelTweet = New System.Windows.Forms.LinkLabel
-        Me.Label9 = New System.Windows.Forms.Label
-        Me.LinkLabelFav = New System.Windows.Forms.LinkLabel
-        Me.ButtonFollow = New System.Windows.Forms.Button
-        Me.ButtonUnFollow = New System.Windows.Forms.Button
-        Me.Label10 = New System.Windows.Forms.Label
-        Me.LabelIsProtected = New System.Windows.Forms.Label
-        Me.LabelIsFollowing = New System.Windows.Forms.Label
-        Me.LabelIsFollowed = New System.Windows.Forms.Label
-        Me.UserPicture = New System.Windows.Forms.PictureBox
-        Me.BackgroundWorkerImageLoader = New System.ComponentModel.BackgroundWorker
-        Me.LabelScreenName = New System.Windows.Forms.Label
+        Me.ButtonClose = New System.Windows.Forms.Button()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.LinkLabelWeb = New System.Windows.Forms.LinkLabel()
+        Me.LabelLocation = New System.Windows.Forms.Label()
+        Me.LabelName = New System.Windows.Forms.Label()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.LinkLabelFollowing = New System.Windows.Forms.LinkLabel()
+        Me.LinkLabelFollowers = New System.Windows.Forms.LinkLabel()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.LabelCreatedAt = New System.Windows.Forms.Label()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.LinkLabelTweet = New System.Windows.Forms.LinkLabel()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.LinkLabelFav = New System.Windows.Forms.LinkLabel()
+        Me.ButtonFollow = New System.Windows.Forms.Button()
+        Me.ButtonUnFollow = New System.Windows.Forms.Button()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me.LabelIsProtected = New System.Windows.Forms.Label()
+        Me.LabelIsFollowing = New System.Windows.Forms.Label()
+        Me.LabelIsFollowed = New System.Windows.Forms.Label()
+        Me.UserPicture = New System.Windows.Forms.PictureBox()
+        Me.BackgroundWorkerImageLoader = New System.ComponentModel.BackgroundWorker()
+        Me.LabelScreenName = New System.Windows.Forms.Label()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.SelectionCopyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.SelectAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.Label11 = New System.Windows.Forms.Label
-        Me.RecentPostBrowser = New System.Windows.Forms.WebBrowser
-        Me.DescriptionBrowser = New System.Windows.Forms.WebBrowser
+        Me.SelectionCopyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SelectAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Label11 = New System.Windows.Forms.Label()
+        Me.RecentPostBrowser = New System.Windows.Forms.WebBrowser()
+        Me.DescriptionBrowser = New System.Windows.Forms.WebBrowser()
+        Me.LabelIsVerified = New System.Windows.Forms.Label()
+        Me.Label13 = New System.Windows.Forms.Label()
         CType(Me.UserPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -265,38 +267,51 @@ Partial Class ShowUserInfo
         Me.DescriptionBrowser.Url = New System.Uri("about:blank", System.UriKind.Absolute)
         Me.DescriptionBrowser.WebBrowserShortcutsEnabled = False
         '
+        'LabelIsVerified
+        '
+        resources.ApplyResources(Me.LabelIsVerified, "LabelIsVerified")
+        Me.LabelIsVerified.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.LabelIsVerified.Name = "LabelIsVerified"
+        '
+        'Label13
+        '
+        resources.ApplyResources(Me.Label13, "Label13")
+        Me.Label13.Name = "Label13"
+        '
         'ShowUserInfo
         '
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.ButtonClose
+        Me.Controls.Add(Me.LabelIsVerified)
+        Me.Controls.Add(Me.Label13)
         Me.Controls.Add(Me.RecentPostBrowser)
         Me.Controls.Add(Me.UserPicture)
         Me.Controls.Add(Me.DescriptionBrowser)
         Me.Controls.Add(Me.LabelScreenName)
         Me.Controls.Add(Me.Label11)
         Me.Controls.Add(Me.LinkLabelFav)
-        Me.Controls.Add(Me.LabelIsProtected)
         Me.Controls.Add(Me.Label9)
+        Me.Controls.Add(Me.LabelIsProtected)
         Me.Controls.Add(Me.LabelCreatedAt)
         Me.Controls.Add(Me.LabelIsFollowing)
         Me.Controls.Add(Me.LabelIsFollowed)
         Me.Controls.Add(Me.LinkLabelTweet)
         Me.Controls.Add(Me.Label8)
-        Me.Controls.Add(Me.ButtonUnFollow)
         Me.Controls.Add(Me.LinkLabelFollowers)
-        Me.Controls.Add(Me.Label10)
+        Me.Controls.Add(Me.ButtonUnFollow)
         Me.Controls.Add(Me.LinkLabelFollowing)
+        Me.Controls.Add(Me.Label10)
         Me.Controls.Add(Me.Label6)
-        Me.Controls.Add(Me.ButtonFollow)
         Me.Controls.Add(Me.LabelName)
+        Me.Controls.Add(Me.ButtonFollow)
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.LabelLocation)
         Me.Controls.Add(Me.LinkLabelWeb)
-        Me.Controls.Add(Me.ButtonClose)
         Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.ButtonClose)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Label2)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
@@ -345,4 +360,6 @@ Partial Class ShowUserInfo
     Friend WithEvents SelectAllToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents Label11 As System.Windows.Forms.Label
     Friend WithEvents RecentPostBrowser As System.Windows.Forms.WebBrowser
+    Friend WithEvents LabelIsVerified As System.Windows.Forms.Label
+    Friend WithEvents Label13 As System.Windows.Forms.Label
 End Class
