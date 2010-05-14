@@ -274,7 +274,7 @@ Public Class Twitter
 
     Public Function ShortUrlResolve(ByVal orgData As String) As String
         If _tinyUrlResolve Then
-            Static urlCache As New Specialized.StringDictionary()
+            Static urlCache As New Dictionary(Of String, String)
             If urlCache.Count > 500 Then urlCache.Clear() '定期的にリセット
 
             'Dim rx As New Regex("<a href=""(?<svc>http://.+?/)(?<path>[^""]+)""", RegexOptions.IgnoreCase)
