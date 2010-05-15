@@ -107,7 +107,7 @@ Public Class SettingCommon
     'Public UseApi As Boolean = True
     'Public UsePostMethod As Boolean = False
     Public CountApi As Integer = 60
-    Public CountApiReply As Integer = 20
+    Public CountApiReply As Integer = 40
     'Public CheckReply As Boolean = True
     Public PostAndGet As Boolean = True
     Public DispUsername As Boolean = False
