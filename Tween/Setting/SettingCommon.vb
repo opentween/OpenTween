@@ -87,7 +87,7 @@ Public Class SettingCommon
     'Public NextPageThreshold As Integer = 20
     'Public NextPages As Integer = 1
     Public TimelinePeriod As Integer = 90
-    Public ReplyPeriod As Integer = 600
+    Public ReplyPeriod As Integer = 180
     Public DMPeriod As Integer = 600
     Public PubSearchPeriod As Integer = 180
     Public ListsPeriod As Integer = 180
