@@ -36,6 +36,7 @@ Imports System.Reflection
 Imports System.ComponentModel
 Imports System.Diagnostics
 Imports Microsoft.Win32
+Imports System.Xml
 
 Public Class TweenMain
 
@@ -8196,6 +8197,12 @@ RETRY:
                 imglist.Add(New KeyValuePair(Of String, String)(url, mc.Value))
                 Continue For
             End If
+            'フォト蔵
+            mc = Regex.Match(url, "^http://photozou\.jp/photo/show/(?<userId>[0-9]+)/(?<photoId>[0-9]+)", RegexOptions.IgnoreCase)
+            If mc.Success Then
+                imglist.Add(New KeyValuePair(Of String, String)(url, mc.Value))
+                Continue For
+            End If
         Next
 
         If imglist.Count = 0 Then
@@ -8276,6 +8283,28 @@ RETRY:
                             If _img Is Nothing Then Continue For
                             arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, _img))
                         End If
+                    End If
+                End If
+                Continue For
+            ElseIf url.Key.StartsWith("http://photozou.jp/") Then
+                Dim mc As Match = Regex.Match(url.Key, "^http://photozou\.jp/photo/show/(?<userId>[0-9]+)/(?<photoId>[0-9]+)", RegexOptions.IgnoreCase)
+                If mc.Success Then
+                    Dim src As String = ""
+                    Dim show_info As String = mc.Result("http://api.photozou.jp/rest/photo_info?photo_id=${photoId}")
+                    If (New HttpVarious).GetData(show_info, Nothing, src, 5000) Then
+                        Dim xdoc As New XmlDocument
+                        Dim thumbnail_url As String
+                        Try
+                            xdoc.LoadXml(src)
+                            thumbnail_url = xdoc.SelectSingleNode("/rsp/info/photo/thumbnail_image_url").InnerText
+                        Catch ex As Exception
+                            thumbnail_url = Nothing
+                        End Try
+                        If thumbnail_url Is Nothing Then Continue For
+                        Dim _img As Image = http.GetImage(thumbnail_url, url.Key)
+                        If _img Is Nothing Then Continue For
+                        arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, _img))
+                        Continue For
                     End If
                 End If
                 Continue For
