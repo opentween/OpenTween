@@ -566,7 +566,7 @@ Public NotInheritable Class SettingToConfig
 
     Public Property ReadPagesReply() As Integer
         Get
-            Return GetValueOrDefault("readPagesReply", 1)
+            Return GetValueOrDefault("readPagesReply", 2)
         End Get
         Set(ByVal value As Integer)
             Item("readPagesReply") = value
