@@ -1952,11 +1952,6 @@ Public Class TweenMain
             Case WORKERTYPE.Timeline, WORKERTYPE.Reply
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
                 ret = tw.GetTimelineApi(read, args.type, args.page = -1)
-                'If SettingDialog.UseAPI Then
-                '    ret = Twitter.GetTimelineApi(read, args.type)
-                'Else
-                '    ret = Twitter.GetTimeline(args.page, read, args.endPage, args.type, rslt.newDM)
-                'End If
                 '新着時未読クリア
                 If ret = "" AndAlso args.type = WORKERTYPE.Timeline AndAlso SettingDialog.ReadOldPosts Then
                     _statuses.SetRead()
@@ -1966,12 +1961,6 @@ Public Class TweenMain
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
                 ret = tw.GetDirectMessageApi(read, WORKERTYPE.DirectMessegeRcv, args.page = -1)
                 If ret = "" Then ret = tw.GetDirectMessageApi(read, WORKERTYPE.DirectMessegeSnt, args.page = -1)
-                'If SettingDialog.UseAPI Then
-                '    ret = Twitter.GetDirectMessageApi(read, WORKERTYPE.DirectMessegeRcv)
-                '    If ret = "" Then ret = Twitter.GetDirectMessageApi(read, WORKERTYPE.DirectMessegeSnt)
-                'Else
-                '    ret = Twitter.GetDirectMessage(args.page, read, args.endPage, args.type)
-                'End If
                 rslt.addCount = _statuses.DistributePosts()
             Case WORKERTYPE.FavAdd
                 'スレッド処理はしない
@@ -2076,11 +2065,6 @@ Public Class TweenMain
             Case WORKERTYPE.Follower
                 bw.ReportProgress(50, My.Resources.UpdateFollowersMenuItem1_ClickText1)
                 ret = tw.GetFollowersApi()
-                'If SettingDialog.UseAPI Then
-                '    ret = Twitter.GetFollowersApi()
-                'Else
-                '    ret = Twitter.GetFollowers(False)       ' Followersリストキャッシュ有効
-                'End If
             Case WORKERTYPE.OpenUri
                 Dim myPath As String = Convert.ToString(args.url)
 
@@ -2464,7 +2448,6 @@ Public Class TweenMain
     End Sub
 
     Private Sub GetTimeline(ByVal WkType As WORKERTYPE, ByVal fromPage As Integer, ByVal toPage As Integer, ByVal tabName As String)
-        'toPage=0:通常モード
         If Not IsNetworkAvailable() Then Exit Sub
         ''タイマー初期化
         If WkType = WORKERTYPE.Timeline AndAlso SettingDialog.TimelinePeriodInt > 0 Then
@@ -7289,27 +7272,14 @@ RETRY:
 
         If IsNetworkAvailable() Then
             If SettingDialog.StartupFollowers Then
-                '_waitFollower = True
                 GetTimeline(WORKERTYPE.Follower, 0, 0, "")
             End If
             _waitTimeline = True
             GetTimeline(WORKERTYPE.Timeline, 1, 1, "")
-            'If SettingDialog.ReadPages > 0 Then
-            '    _waitTimeline = True
-            '    GetTimeline(WORKERTYPE.Timeline, 1, SettingDialog.ReadPages, "")
-            'End If
             _waitReply = True
             GetTimeline(WORKERTYPE.Reply, 1, 1, "")
-            'If SettingDialog.ReadPagesReply > 0 Then
-            '    _waitReply = True
-            '    GetTimeline(WORKERTYPE.Reply, 1, SettingDialog.ReadPagesReply, "")
-            'End If
             _waitDm = True
             GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 1, "")
-            'If SettingDialog.ReadPagesDM > 0 Then
-            '    _waitDm = True
-            '    GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, SettingDialog.ReadPagesDM, "")
-            'End If
             If SettingDialog.GetFav Then
                 _waitFav = True
                 GetTimeline(WORKERTYPE.Favorites, 1, 1, "")
@@ -7338,17 +7308,10 @@ RETRY:
                 CheckNewVersion(True)
             End If
 
-            '' Webモードで起動した場合に警告する
-            'If Not SettingDialog.StartupAPImodeNoWarning AndAlso Not SettingDialog.UseAPI Then
-            '    If MessageBox.Show(My.Resources.WebModeWarning1 + Environment.NewLine + My.Resources.WebModeWarning2 + Environment.NewLine + My.Resources.WebModeWarning3 + Environment.NewLine + My.Resources.WebModeWarning4, My.Resources.WebModeWarning5, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) = Windows.Forms.DialogResult.OK Then
-            '        SettingDialog.UseAPI = True
-            '        'SaveConfigsCommon()
-            '        MessageBox.Show(My.Resources.WebModeWarning6)
-            '    Else
-            '        MessageBox.Show(My.Resources.WebModeWarning7)
-            '        'MessageBox.Show("取得間隔に注意してください。タイムライン取得系APIはRecent,Reply,DMの合計で1時間に" + GetMaxCountApi.ToString() + "回までしか使えません。", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            '    End If
-            'End If
+            ' 取得失敗の場合は再試行する
+            If tw.FollowersCount = 0 AndAlso SettingDialog.StartupFollowers Then
+                GetTimeline(WORKERTYPE.Follower, 0, 0, "")
+            End If
 
         Else
             PostButton.Enabled = False
