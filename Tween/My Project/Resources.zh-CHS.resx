@@ -754,6 +754,15 @@
     <value>用户信息解析失败</value>
   </data>
   <data name="SettingAPIUse1" xml:space="preserve">
-    <value>使用的API :  {0} / h    (最大 :  {1} / h)</value>
+    <value>使用的API:  {0} / h    (最大:  {1} / h)</value>
+  </data>
+  <data name="StatusUpdateFailed1" xml:space="preserve">
+    <value>发推失败了</value>
+  </data>
+  <data name="StatusUpdateFailed2" xml:space="preserve">
+    <value>想再试一次吗？</value>
+  </data>
+  <data name="GetFriendshipInfo6" xml:space="preserve">
+    <value>关注情况获取失败</value>
   </data>
 </root>
