@@ -454,6 +454,7 @@ Public Class TweenMain
     End Sub
 
     Private Sub InitColumnText()
+
         ColumnText(0) = ""
         ColumnText(1) = My.Resources.AddNewTabText2
         ColumnText(2) = My.Resources.AddNewTabText3
@@ -471,10 +472,41 @@ Public Class TweenMain
         ColumnOrgText(5) = ""
         ColumnOrgText(6) = ""
         ColumnOrgText(7) = "Source"
+
+        Dim c As Integer = 0
+        Select Case _statuses.SortMode
+            Case IdComparerClass.ComparerMode.Nickname  'ニックネーム
+                c = 1
+            Case IdComparerClass.ComparerMode.Data  '本文
+                c = 2
+            Case IdComparerClass.ComparerMode.Id  '時刻=発言Id
+                c = 3
+            Case IdComparerClass.ComparerMode.Name  '名前
+                c = 4
+            Case IdComparerClass.ComparerMode.Source  'Source
+                c = 7
+        End Select
+
+#If 1 Then
+        If _statuses.SortOrder() = SortOrder.Ascending Then
+            ' U+25BE BLACK DOWN-POINTING SMALL TRIANGLE
+            ColumnText(c) = ColumnOrgText(c) + "▾"
+        Else
+            ' U+25B4 BLACK UP-POINTING SMALL TRIANGLE
+            ColumnText(c) = ColumnOrgText(c) + "▴"
+        End If
+#Else
+        If _statuses.SortOrder() = SortOrder.Ascending Then
+            ' U+25BC	BLACK DOWN-POINTING TRIANGLE
+            ColumnText(c) = ColumnOrgText(c) + "▼"
+        Else
+            ' U+25B2	BLACK UP-POINTING TRIANGLE
+            ColumnText(c) = ColumnOrgText(c) + "▲"
+        End If
+#End If
     End Sub
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        InitColumnText()
         _ignoreConfigSave = True
         Me.Visible = False
         SecurityManager = New InternetSecurityManager(PostBrowser)
@@ -2627,14 +2659,9 @@ Public Class TweenMain
                     mode = IdComparerClass.ComparerMode.Source
             End Select
         End If
+        _statuses.ToggleSortOrder( mode )
         InitColumnText()
-        If _statuses.ToggleSortOrder(mode) = SortOrder.Ascending Then
-            ' U+25BE BLACK DOWN-POINTING SMALL TRIANGLE
-            ColumnText(e.Column) = ColumnOrgText(e.Column) + "▾"
-        Else
-            ' U+25B4 BLACK UP-POINTING SMALL TRIANGLE
-            ColumnText(e.Column) = ColumnOrgText(e.Column) + "▴"
-        End If
+
         For i As Integer = 0 To 7
             DirectCast(sender, DetailsListView).Columns.Item(i).Text = ColumnOrgText(i)
         Next
@@ -3415,29 +3442,23 @@ Public Class TweenMain
         AddHandler _listCustom.DrawSubItem, AddressOf MyList_DrawSubItem
         'AddHandler _listCustom.KeyDown, AddressOf MyList_KeyDown
 
-        _colHd1.Text = ""
+        InitColumnText()
+        _colHd1.Text = ColumnText(0)
         _colHd1.Width = 48
-        'If Not _iconCol Then
-        _colHd2.Text = My.Resources.AddNewTabText2
+        _colHd2.Text = ColumnText(1)
         _colHd2.Width = 80
-        _colHd3.Text = My.Resources.AddNewTabText3
+        _colHd3.Text = ColumnText(2)
         _colHd3.Width = 300
-        _colHd4.Text = My.Resources.AddNewTabText4_2
-        'If SettingDialog.UseAPI Then
-        '    _colHd4.Text = My.Resources.AddNewTabText4_2
-        'Else
-        '    _colHd4.Text = My.Resources.AddNewTabText4
-        'End If
+        _colHd4.Text = ColumnText(3)
         _colHd4.Width = 50
-        _colHd5.Text = My.Resources.AddNewTabText5
+        _colHd5.Text = ColumnText(4)
         _colHd5.Width = 50
-        _colHd6.Text = ""
+        _colHd6.Text = ColumnText(5)
         _colHd6.Width = 16
-        _colHd7.Text = ""
+        _colHd7.Text = ColumnText(6)
         _colHd7.Width = 16
-        _colHd8.Text = "Source"
+        _colHd8.Text = ColumnText(7)
         _colHd8.Width = 50
-        'End If
 
         If (_statuses.Tabs.ContainsKey(tabName) AndAlso _statuses.Tabs(tabName).TabType = TabUsageType.Mentions) _
            OrElse (Not _statuses.IsDefaultTab(tabName) AndAlso tabType <> TabUsageType.PublicSearch AndAlso tabType <> TabUsageType.Lists) Then
@@ -7191,6 +7212,10 @@ RETRY:
 
         _anchorPost = Nothing
         _anchorFlag = False
+
+        For i As Integer = 0 To 7
+            DirectCast(_tab.Tag, DetailsListView).Columns.Item(i).Text = ColumnText(i)
+        Next
     End Sub
 
     Private Sub ListTab_Selecting(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TabControlCancelEventArgs) Handles ListTab.Selecting
