@@ -8403,4 +8403,53 @@ RETRY:
             OpenUriAsync("http://twitter.com/" + NameLabel.Tag.ToString)
         End If
     End Sub
+
+    Private Sub FollowToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FollowToolStripMenuItem.Click
+        If NameLabel.Tag IsNot Nothing Then
+            Dim id As String = DirectCast(NameLabel.Tag, String)
+            If id <> tw.Username Then
+                FollowCommand(id)
+            End If
+        End If
+    End Sub
+
+    Private Sub UnFollowToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UnFollowToolStripMenuItem.Click
+        If NameLabel.Tag IsNot Nothing Then
+            Dim id As String = DirectCast(NameLabel.Tag, String)
+            If id <> tw.Username Then
+                RemoveCommand(id)
+            End If
+        End If
+    End Sub
+
+    Private Sub ShowFriendShipToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowFriendShipToolStripMenuItem.Click
+        If NameLabel.Tag IsNot Nothing Then
+            Dim id As String = DirectCast(NameLabel.Tag, String)
+            If id <> tw.Username Then
+                ShowFriendship(id)
+            End If
+        End If
+    End Sub
+
+    Private Sub ShowUserStatusToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowUserStatusToolStripMenuItem.Click
+        If NameLabel.Tag IsNot Nothing Then
+            Dim id As String = DirectCast(NameLabel.Tag, String)
+            ShowUserStatus(id)
+        End If
+    End Sub
+
+    Private Sub ContextMenuStripDetailName_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStripDetailName.Opening
+        If NameLabel.Tag IsNot Nothing Then
+            Dim id As String = DirectCast(NameLabel.Tag, String)
+            If id = tw.Username Then
+                FollowToolStripMenuItem.Enabled = False
+                UnFollowToolStripMenuItem.Enabled = False
+                ShowFriendShipToolStripMenuItem.Enabled = False
+            Else
+                FollowToolStripMenuItem.Enabled = True
+                UnFollowToolStripMenuItem.Enabled = True
+                ShowFriendShipToolStripMenuItem.Enabled = True
+            End If
+        End If
+    End Sub
 End Class
