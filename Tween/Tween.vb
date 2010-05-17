@@ -2658,6 +2658,11 @@ Public Class TweenMain
     Private Sub ContextMenuStrip2_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip2.Opening
         If ListTab.SelectedTab Is Nothing Then Exit Sub
         If _statuses Is Nothing OrElse _statuses.Tabs Is Nothing OrElse Not _statuses.Tabs.ContainsKey(ListTab.SelectedTab.Text) Then Exit Sub
+        If _curPost Is Nothing Then
+            ShowProfileMenuItem.Enabled = False
+        Else
+            ShowProfileMenuItem.Enabled = True
+        End If
         If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.DirectMessage Then
             FavAddToolStripMenuItem.Enabled = False
             FavRemoveToolStripMenuItem.Enabled = False
@@ -4537,16 +4542,16 @@ RETRY:
             If e.KeyCode = Keys.I Then doRepliedStatusOpen()
             If e.KeyCode = Keys.D Then doStatusDelete()
             If e.KeyCode = Keys.Q Then doQuote()
-            'If e.KeyCode = Keys.F Then
-            '    e.Handled = True
-            '    e.SuppressKeyPress = True
-            '    MovePageScroll(True)
-            'End If
-            'If e.KeyCode = Keys.B Then
-            '    e.Handled = True
-            '    e.SuppressKeyPress = True
-            '    MovePageScroll(False)
-            'End If
+        'If e.KeyCode = Keys.F Then
+        '    e.Handled = True
+        '    e.SuppressKeyPress = True
+        '    MovePageScroll(True)
+        'End If
+        'If e.KeyCode = Keys.B Then
+        '    e.Handled = True
+        '    e.SuppressKeyPress = True
+        '    MovePageScroll(False)
+        'End If
         End If
         If Not e.Control AndAlso e.Alt AndAlso Not e.Shift Then
             ' ALTキーが押されている場合
@@ -4634,6 +4639,7 @@ RETRY:
                 e.SuppressKeyPress = True
                 SendKeys.Send("{UP}")
             End If
+            If e.KeyCode = Keys.P AndAlso _curPost IsNot Nothing Then doShowUserStatus(_curPost.Name, False)
         End If
 
         If e.KeyCode = Keys.C Then
@@ -8383,28 +8389,48 @@ RETRY:
         ShowUserStatus(id)
     End Sub
 
-    Private Sub ShowUserStatus(ByVal id As String)
-        Using inputName As New InputTabName()
-            inputName.FormTitle = "Show UserStatus"
-            inputName.FormDescription = My.Resources.FRMessage1
-            inputName.TabName = id
-            If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
-               Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
-                Dim result As String = ""
-                Dim xmlbuf As String = ""
-                id = inputName.TabName.Trim
-                Dim ret As String = tw.GetUserInfo(id, xmlbuf)
-                If ret = "" Then
-                    Using userinfo As New ShowUserInfo()
-                        userinfo.XmlData = xmlbuf
-                        userinfo.ShowDialog(Me)
-                    End Using
-                Else
-                    MessageBox.Show(ret)
+    Private Sub doShowUserStatus(ByVal id As String, ByVal ShowInputDialog As Boolean)
+        Dim result As String = ""
+        Dim xmlbuf As String = ""
+        If ShowInputDialog Then
+            Using inputName As New InputTabName()
+                inputName.FormTitle = "Show UserStatus"
+                inputName.FormDescription = My.Resources.FRMessage1
+                inputName.TabName = id
+                If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
+                   Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
+                    id = inputName.TabName.Trim
+                    Dim ret As String = tw.GetUserInfo(id, xmlbuf)
+                    If ret = "" Then
+                        Using userinfo As New ShowUserInfo()
+                            userinfo.XmlData = xmlbuf
+                            userinfo.ShowDialog(Me)
+                        End Using
+                    Else
+                        MessageBox.Show(ret)
+                    End If
                 End If
+                inputName.Dispose()
+            End Using
+        Else
+            Dim ret As String = tw.GetUserInfo(id, xmlbuf)
+            If ret = "" Then
+                Using userinfo As New ShowUserInfo()
+                    userinfo.XmlData = xmlbuf
+                    userinfo.ShowDialog(Me)
+                End Using
+            Else
+                MessageBox.Show(ret)
             End If
-            inputName.Dispose()
-        End Using
+        End If
+    End Sub
+
+    Private Overloads Sub ShowUserStatus(ByVal id As String, ByVal ShowInputDialog As Boolean)
+        doShowUserStatus(id, ShowInputDialog)
+    End Sub
+
+    Private Overloads Sub ShowUserStatus(ByVal id As String)
+        doShowUserStatus(id, True)
     End Sub
 
     Private Sub NameLabel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NameLabel.Click
@@ -8443,7 +8469,7 @@ RETRY:
     Private Sub ShowUserStatusToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowUserStatusToolStripMenuItem.Click
         If NameLabel.Tag IsNot Nothing Then
             Dim id As String = DirectCast(NameLabel.Tag, String)
-            ShowUserStatus(id)
+            ShowUserStatus(id, False)
         End If
     End Sub
 
@@ -8459,6 +8485,12 @@ RETRY:
                 UnFollowToolStripMenuItem.Enabled = True
                 ShowFriendShipToolStripMenuItem.Enabled = True
             End If
+        End If
+    End Sub
+
+    Private Sub ShowProfileMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowProfileMenuItem.Click, ShowProfMenuItem.Click
+        If _curPost IsNot Nothing Then
+            ShowUserStatus(_curPost.Name, False)
         End If
     End Sub
 End Class

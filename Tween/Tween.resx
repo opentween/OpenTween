@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <metadata name="StatusStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>0, 0</value>
+    <value>17, 17</value>
   </metadata>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="StatusStrip1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
@@ -403,7 +403,7 @@
     <value>3</value>
   </data>
   <metadata name="ContextMenuStrip3.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>469, 91</value>
+    <value>498, 91</value>
   </metadata>
   <data name="IconNameToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>120, 22</value>
@@ -499,31 +499,31 @@
     <value>17, 91</value>
   </metadata>
   <data name="FollowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>197, 22</value>
+    <value>177, 22</value>
   </data>
   <data name="FollowToolStripMenuItem.Text" xml:space="preserve">
     <value>フォローする</value>
   </data>
   <data name="UnFollowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>197, 22</value>
+    <value>177, 22</value>
   </data>
   <data name="UnFollowToolStripMenuItem.Text" xml:space="preserve">
     <value>フォロー解除</value>
   </data>
   <data name="ShowFriendShipToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>197, 22</value>
+    <value>177, 22</value>
   </data>
   <data name="ShowFriendShipToolStripMenuItem.Text" xml:space="preserve">
     <value>相互フォロー状態表示</value>
   </data>
   <data name="ShowUserStatusToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>197, 22</value>
+    <value>177, 22</value>
   </data>
   <data name="ShowUserStatusToolStripMenuItem.Text" xml:space="preserve">
-    <value>ユーザーのプロフィール表示</value>
+    <value>プロフィール表示</value>
   </data>
   <data name="ContextMenuStripDetailName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>198, 92</value>
+    <value>178, 92</value>
   </data>
   <data name="&gt;&gt;ContextMenuStripDetailName.Name" xml:space="preserve">
     <value>ContextMenuStripDetailName</value>
@@ -571,7 +571,7 @@
     <value>2</value>
   </data>
   <metadata name="ContextMenuStrip4.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>425, 17</value>
+    <value>434, 17</value>
   </metadata>
   <data name="SearchItem2ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>160, 22</value>
@@ -604,16 +604,16 @@
     <value>現在のタブ(&amp;L)</value>
   </data>
   <data name="ToolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>197, 22</value>
+    <value>193, 22</value>
   </data>
   <data name="ToolStripMenuItem2.Text" xml:space="preserve">
     <value>選択文字列で検索(&amp;S)</value>
   </data>
   <data name="ToolStripSeparator13.Size" type="System.Drawing.Size, System.Drawing">
-    <value>194, 6</value>
+    <value>190, 6</value>
   </data>
   <data name="ToolStripMenuItem3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>197, 22</value>
+    <value>193, 22</value>
   </data>
   <data name="ToolStripMenuItem3.Text" xml:space="preserve">
     <value>選択文字列をコピー(&amp;C)</value>
@@ -622,64 +622,64 @@
     <value>False</value>
   </data>
   <data name="ToolStripMenuItem4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>197, 22</value>
+    <value>193, 22</value>
   </data>
   <data name="ToolStripMenuItem4.Text" xml:space="preserve">
     <value>URLをコピー(&amp;U)</value>
   </data>
   <data name="ToolStripMenuItem5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>197, 22</value>
+    <value>193, 22</value>
   </data>
   <data name="ToolStripMenuItem5.Text" xml:space="preserve">
     <value>すべて選択(&amp;A)</value>
   </data>
   <data name="ToolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>194, 6</value>
+    <value>190, 6</value>
   </data>
   <data name="FollowContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>197, 22</value>
+    <value>193, 22</value>
   </data>
   <data name="FollowContextMenuItem.Text" xml:space="preserve">
     <value>フォローする(&amp;F)</value>
   </data>
   <data name="RemoveContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>197, 22</value>
+    <value>193, 22</value>
   </data>
   <data name="RemoveContextMenuItem.Text" xml:space="preserve">
     <value>フォロー解除(&amp;N)</value>
   </data>
   <data name="FriendshipContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>197, 22</value>
+    <value>193, 22</value>
   </data>
   <data name="FriendshipContextMenuItem.Text" xml:space="preserve">
     <value>相互フォロー状態表示(&amp;R)</value>
   </data>
   <data name="ShowUserStatusContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>197, 22</value>
+    <value>193, 22</value>
   </data>
   <data name="ShowUserStatusContextMenuItem.Text" xml:space="preserve">
-    <value>ユーザーのプロフィール表示</value>
+    <value>プロフィール表示</value>
   </data>
   <data name="ToolStripSeparator32.Size" type="System.Drawing.Size, System.Drawing">
-    <value>194, 6</value>
+    <value>190, 6</value>
   </data>
   <data name="IdFilterAddMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>197, 22</value>
+    <value>193, 22</value>
   </data>
   <data name="IdFilterAddMenuItem.Text" xml:space="preserve">
     <value>ID振分ルール作成(&amp;I)</value>
   </data>
   <data name="ToolStripSeparator33.Size" type="System.Drawing.Size, System.Drawing">
-    <value>194, 6</value>
+    <value>190, 6</value>
   </data>
   <data name="UseHashtagMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>197, 22</value>
+    <value>193, 22</value>
   </data>
   <data name="UseHashtagMenuItem.Text" xml:space="preserve">
     <value>ハッシュタグを固定(&amp;H)</value>
   </data>
   <data name="ContextMenuStrip4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>198, 270</value>
+    <value>194, 248</value>
   </data>
   <data name="&gt;&gt;ContextMenuStrip4.Name" xml:space="preserve">
     <value>ContextMenuStrip4</value>
@@ -1078,7 +1078,7 @@
     <value>ToolStripContainer1</value>
   </data>
   <metadata name="MenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>0, 0</value>
+    <value>134, 17</value>
   </metadata>
   <data name="MenuStrip1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>None</value>
@@ -1277,6 +1277,18 @@
   </data>
   <data name="UnFavOpMenuItem.Text" xml:space="preserve">
     <value>Fav削除(&amp;V)</value>
+  </data>
+  <data name="ShowProfMenuItem.ShortcutKeyDisplayString" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ShowProfMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Alt+P</value>
+  </data>
+  <data name="ShowProfMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>233, 22</value>
+  </data>
+  <data name="ShowProfMenuItem.Text" xml:space="preserve">
+    <value>プロフィール表示</value>
   </data>
   <data name="OpenHomeOpMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+H</value>
@@ -1791,6 +1803,12 @@
   <data name="FavRemoveToolStripMenuItem.Text" xml:space="preserve">
     <value>Fav削除(&amp;V)</value>
   </data>
+  <data name="ShowProfileMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>182, 22</value>
+  </data>
+  <data name="ShowProfileMenuItem.Text" xml:space="preserve">
+    <value>プロフィール表示</value>
+  </data>
   <data name="MoveToHomeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>198, 22</value>
   </data>
@@ -1912,7 +1930,7 @@
     <value>前データを取得(&amp;I)</value>
   </data>
   <data name="ContextMenuStrip2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 374</value>
+    <value>183, 396</value>
   </data>
   <data name="&gt;&gt;ContextMenuStrip2.Name" xml:space="preserve">
     <value>ContextMenuStrip2</value>
@@ -1981,10 +1999,10 @@
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <metadata name="TimerTimeline.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>571, 17</value>
+    <value>586, 17</value>
   </metadata>
   <metadata name="NotifyIcon1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>693, 17</value>
+    <value>710, 17</value>
   </metadata>
   <data name="NotifyIcon1.Text" xml:space="preserve">
     <value>Tween</value>
@@ -1993,22 +2011,22 @@
     <value>True</value>
   </data>
   <metadata name="SaveFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>708, 54</value>
+    <value>596, 54</value>
   </metadata>
   <metadata name="TimerRefreshIcon.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>192, 91</value>
+    <value>221, 91</value>
   </metadata>
   <metadata name="OpenFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>335, 91</value>
+    <value>364, 91</value>
   </metadata>
   <metadata name="ToolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>621, 91</value>
+    <value>650, 91</value>
   </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>160</value>
+    <value>128</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 12</value>
@@ -2511,6 +2529,12 @@
   <data name="&gt;&gt;UnFavOpMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;ShowProfMenuItem.Name" xml:space="preserve">
+    <value>ShowProfMenuItem</value>
+  </data>
+  <data name="&gt;&gt;ShowProfMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;OpenOpMenuItem.Name" xml:space="preserve">
     <value>OpenOpMenuItem</value>
   </data>
@@ -2947,6 +2971,12 @@
     <value>FavRemoveToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;FavRemoveToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ShowProfileMenuItem.Name" xml:space="preserve">
+    <value>ShowProfileMenuItem</value>
+  </data>
+  <data name="&gt;&gt;ShowProfileMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;ToolStripMenuItem6.Name" xml:space="preserve">
