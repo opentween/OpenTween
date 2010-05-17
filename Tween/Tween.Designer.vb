@@ -128,6 +128,7 @@ Partial Class TweenMain
         Me.ToolStripSeparator25 = New System.Windows.Forms.ToolStripSeparator()
         Me.FavOpMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UnFavOpMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ShowProfMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenOpMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenHomeOpMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenFavOpMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -202,6 +203,7 @@ Partial Class TweenMain
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.FavAddToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FavRemoveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ShowProfileMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem6 = New System.Windows.Forms.ToolStripMenuItem()
         Me.MoveToHomeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MoveToFavToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -854,7 +856,7 @@ Partial Class TweenMain
         '
         'MenuItemOperate
         '
-        Me.MenuItemOperate.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ReplyOpMenuItem, Me.ReplyAllOpMenuItem, Me.DmOpMenuItem, Me.RtOpMenuItem, Me.RtUnOpMenuItem, Me.QtOpMenuItem, Me.ToolStripSeparator25, Me.FavOpMenuItem, Me.UnFavOpMenuItem, Me.OpenOpMenuItem, Me.CreateRuleOpMenuItem, Me.ToolStripSeparator26, Me.ChangeReadOpMenuItem, Me.JumpReadOpMenuItem, Me.ToolStripSeparator27, Me.SelAllOpMenuItem, Me.DelOpMenuItem, Me.RefreshOpMenuItem, Me.RefreshPrevOpMenuItem})
+        Me.MenuItemOperate.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ReplyOpMenuItem, Me.ReplyAllOpMenuItem, Me.DmOpMenuItem, Me.RtOpMenuItem, Me.RtUnOpMenuItem, Me.QtOpMenuItem, Me.ToolStripSeparator25, Me.FavOpMenuItem, Me.UnFavOpMenuItem, Me.ShowProfMenuItem, Me.OpenOpMenuItem, Me.CreateRuleOpMenuItem, Me.ToolStripSeparator26, Me.ChangeReadOpMenuItem, Me.JumpReadOpMenuItem, Me.ToolStripSeparator27, Me.SelAllOpMenuItem, Me.DelOpMenuItem, Me.RefreshOpMenuItem, Me.RefreshPrevOpMenuItem})
         Me.MenuItemOperate.Name = "MenuItemOperate"
         resources.ApplyResources(Me.MenuItemOperate, "MenuItemOperate")
         '
@@ -902,6 +904,11 @@ Partial Class TweenMain
         '
         Me.UnFavOpMenuItem.Name = "UnFavOpMenuItem"
         resources.ApplyResources(Me.UnFavOpMenuItem, "UnFavOpMenuItem")
+        '
+        'ShowProfMenuItem
+        '
+        Me.ShowProfMenuItem.Name = "ShowProfMenuItem"
+        resources.ApplyResources(Me.ShowProfMenuItem, "ShowProfMenuItem")
         '
         'OpenOpMenuItem
         '
@@ -1238,7 +1245,7 @@ Partial Class TweenMain
         '
         'ContextMenuStrip2
         '
-        Me.ContextMenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ReplyStripMenuItem, Me.ReplyAllStripMenuItem, Me.DMStripMenuItem, Me.ReTweetOriginalStripMenuItem, Me.ReTweetStripMenuItem, Me.QuoteStripMenuItem, Me.ToolStripSeparator2, Me.FavAddToolStripMenuItem, Me.FavRemoveToolStripMenuItem, Me.ToolStripMenuItem6, Me.ToolStripMenuItem7, Me.ToolStripSeparator4, Me.ToolStripMenuItem11, Me.JumpUnreadMenuItem, Me.ToolStripSeparator10, Me.SelectAllMenuItem, Me.DeleteStripMenuItem, Me.RefreshStripMenuItem, Me.RefreshMoreStripMenuItem})
+        Me.ContextMenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ReplyStripMenuItem, Me.ReplyAllStripMenuItem, Me.DMStripMenuItem, Me.ReTweetOriginalStripMenuItem, Me.ReTweetStripMenuItem, Me.QuoteStripMenuItem, Me.ToolStripSeparator2, Me.FavAddToolStripMenuItem, Me.FavRemoveToolStripMenuItem, Me.ShowProfileMenuItem, Me.ToolStripMenuItem6, Me.ToolStripMenuItem7, Me.ToolStripSeparator4, Me.ToolStripMenuItem11, Me.JumpUnreadMenuItem, Me.ToolStripSeparator10, Me.SelectAllMenuItem, Me.DeleteStripMenuItem, Me.RefreshStripMenuItem, Me.RefreshMoreStripMenuItem})
         Me.ContextMenuStrip2.Name = "ContextMenuStrip2"
         Me.ContextMenuStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional
         resources.ApplyResources(Me.ContextMenuStrip2, "ContextMenuStrip2")
@@ -1287,6 +1294,11 @@ Partial Class TweenMain
         '
         Me.FavRemoveToolStripMenuItem.Name = "FavRemoveToolStripMenuItem"
         resources.ApplyResources(Me.FavRemoveToolStripMenuItem, "FavRemoveToolStripMenuItem")
+        '
+        'ShowProfileMenuItem
+        '
+        Me.ShowProfileMenuItem.Name = "ShowProfileMenuItem"
+        resources.ApplyResources(Me.ShowProfileMenuItem, "ShowProfileMenuItem")
         '
         'ToolStripMenuItem6
         '
@@ -1728,5 +1740,7 @@ Partial Class TweenMain
     Friend WithEvents ShowFriendShipToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ShowUserStatusToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ShowUserStatusContextMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ShowProfileMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ShowProfMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class
