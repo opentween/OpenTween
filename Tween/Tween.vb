@@ -487,9 +487,7 @@ Public Class TweenMain
 
         Regex.CacheSize = 100
 
-        fileVersion = _
-            System.Diagnostics.FileVersionInfo.GetVersionInfo( _
-            System.Reflection.Assembly.GetExecutingAssembly().Location).FileVersion
+        fileVersion = DirectCast(Assembly.GetExecutingAssembly().GetCustomAttributes(GetType(AssemblyFileVersionAttribute), False)(0), AssemblyFileVersionAttribute).Version
 
         LoadIcons() ' アイコン読み込み
 
@@ -3682,6 +3680,7 @@ Public Class TweenMain
         DispSelectedPost()
         SetMainWindowTitle()
         SetStatusLabel()
+        If ListTab.Focused OrElse DirectCast(ListTab.SelectedTab.Tag, Control).Focused Then Me.Tag = ListTab.Tag
     End Sub
 
     Private Sub SetListProperty()
@@ -4264,7 +4263,7 @@ RETRY:
             If retMsg.Length > 4 Then
                 strDetail = retMsg.Substring(5).Trim
             End If
-            If strVer.CompareTo(fileVersion.Replace(".", "")) > 0 Then
+            If fileVersion <> "" AndAlso strVer.CompareTo(fileVersion.Replace(".", "")) > 0 Then
                 Dim tmp As String = String.Format(My.Resources.CheckNewVersionText3, strVer)
                 Using dialogAsShieldicon As New DialogAsShieldIcon
                     If dialogAsShieldicon.Show(tmp, strDetail, My.Resources.CheckNewVersionText1, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
@@ -6878,7 +6877,11 @@ RETRY:
 
     Private Sub MenuStrip1_MenuDeactivate(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuStrip1.MenuDeactivate
         If Me.Tag IsNot Nothing Then ' 設定された戻り先へ遷移
-            DirectCast(Me.Tag, Control).Select()
+            If Me.Tag Is Me.ListTab.SelectedTab Then
+                DirectCast(Me.ListTab.SelectedTab.Tag, Control).Select()
+            Else
+                DirectCast(Me.Tag, Control).Select()
+            End If
         Else ' 戻り先が指定されていない (初期状態) 場合はタブに遷移
             If ListTab.SelectedIndex > -1 AndAlso ListTab.SelectedTab.HasChildren Then
                 Me.Tag = ListTab.SelectedTab.Tag
