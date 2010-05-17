@@ -1372,7 +1372,11 @@ Public Class TweenMain
                         _itemCache = Nothing
                         _postCache = Nothing
                     End If
-                    lst.VirtualListSize = tabInfo.AllCount 'リスト件数更新
+                    Try
+                        lst.VirtualListSize = tabInfo.AllCount 'リスト件数更新
+                    Catch ex As Exception
+                        'アイコン描画不具合あり？
+                    End Try
                     Me.SelectListItem(lst, _
                                       _statuses.IndexOf(tab.Text, selId(tab.Text)), _
                                       _statuses.IndexOf(tab.Text, focusedId(tab.Text)))
@@ -2346,7 +2350,9 @@ Public Class TweenMain
            rslt.type = WORKERTYPE.DirectMessegeRcv OrElse _
            rslt.type = WORKERTYPE.DirectMessegeSnt OrElse _
            rslt.type = WORKERTYPE.Favorites OrElse _
-           rslt.type = WORKERTYPE.Follower Then
+           rslt.type = WORKERTYPE.Follower OrElse _
+           rslt.type = WORKERTYPE.FavAdd OrElse _
+           rslt.type = WORKERTYPE.FavRemove Then
             RefreshTimeline() 'リスト反映
         End If
 

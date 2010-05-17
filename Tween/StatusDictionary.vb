@@ -640,18 +640,19 @@ Public NotInheritable Class TabInformations
             End If
         Else
             '一見未読なさそうだが、未読カウントはあるので探索
-            If tb.UnreadCount > 0 Then
-                SyncLock LockUnread
-                    Me.SetNextUnreadId(-1, tb)
-                End SyncLock
-                If tb.OldestUnreadId = -1 Then
-                    Return -1
-                Else
-                    Return tb.IndexOf(tb.OldestUnreadId)
-                End If
-            Else
+            'If tb.UnreadCount > 0 Then
+            If Not tb.UnreadManage Then Return -1
+            SyncLock LockUnread
+                Me.SetNextUnreadId(-1, tb)
+            End SyncLock
+            If tb.OldestUnreadId = -1 Then
                 Return -1
+            Else
+                Return tb.IndexOf(tb.OldestUnreadId)
             End If
+            '    Else
+            '    Return -1
+            'End If
         End If
     End Function
 
@@ -672,7 +673,7 @@ Public NotInheritable Class TabInformations
                 If Tab.UnreadCount = 0 Then
                     '未読数０→最古未読なし
                     Tab.OldestUnreadId = -1
-                ElseIf Tab.OldestUnreadId = CurrentId Then
+                ElseIf Tab.OldestUnreadId = CurrentId AndAlso CurrentId > -1 Then
                     '最古IDを既読にしたタイミング→次のIDから続けて探索
                     Dim idx As Integer = Tab.IndexOf(CurrentId)
                     If idx > -1 Then
@@ -1657,6 +1658,7 @@ Public NotInheritable Class TabClass
             Return _unreadCount
         End Get
         Set(ByVal value As Integer)
+            If value < 0 Then value = 0
             _unreadCount = value
         End Set
     End Property
