@@ -7070,11 +7070,13 @@ RETRY:
                 FollowContextMenuItem.Enabled = True
                 RemoveContextMenuItem.Enabled = True
                 FriendshipContextMenuItem.Enabled = True
+                ShowUserStatusContextMenuItem.Enabled = True
                 IdFilterAddMenuItem.Enabled = True
             Else
                 FollowContextMenuItem.Enabled = False
                 RemoveContextMenuItem.Enabled = False
                 FriendshipContextMenuItem.Enabled = False
+                ShowUserStatusContextMenuItem.Enabled = False
                 IdFilterAddMenuItem.Enabled = False
             End If
 
@@ -7089,6 +7091,7 @@ RETRY:
             FollowContextMenuItem.Enabled = False
             RemoveContextMenuItem.Enabled = False
             FriendshipContextMenuItem.Enabled = False
+            ShowUserStatusContextMenuItem.Enabled = False
             UseHashtagMenuItem.Enabled = False
             IdFilterAddMenuItem.Enabled = False
         End If
@@ -7634,6 +7637,12 @@ RETRY:
         End If
     End Sub
 
+    Private Sub ShowUserStatusContextMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowUserStatusContextMenuItem.Click
+        Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(?<name>[a-zA-Z0-9_]+)$")
+        If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
+            ShowUserStatus(m.Result("${name}"))
+        End If
+    End Sub
     Private Sub IdeographicSpaceToSpaceToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles IdeographicSpaceToSpaceToolStripMenuItem.Click
         modifySettingCommon = True
     End Sub

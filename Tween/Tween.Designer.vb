@@ -86,6 +86,7 @@ Partial Class TweenMain
         Me.FollowContextMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RemoveContextMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FriendshipContextMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ShowUserStatusContextMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator32 = New System.Windows.Forms.ToolStripSeparator()
         Me.IdFilterAddMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator33 = New System.Windows.Forms.ToolStripSeparator()
@@ -604,7 +605,7 @@ Partial Class TweenMain
         '
         'ContextMenuStrip4
         '
-        Me.ContextMenuStrip4.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem2, Me.ToolStripSeparator13, Me.ToolStripMenuItem3, Me.ToolStripMenuItem4, Me.ToolStripMenuItem5, Me.ToolStripSeparator5, Me.FollowContextMenuItem, Me.RemoveContextMenuItem, Me.FriendshipContextMenuItem, Me.ToolStripSeparator32, Me.IdFilterAddMenuItem, Me.ToolStripSeparator33, Me.UseHashtagMenuItem})
+        Me.ContextMenuStrip4.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem2, Me.ToolStripSeparator13, Me.ToolStripMenuItem3, Me.ToolStripMenuItem4, Me.ToolStripMenuItem5, Me.ToolStripSeparator5, Me.FollowContextMenuItem, Me.RemoveContextMenuItem, Me.FriendshipContextMenuItem, Me.ShowUserStatusContextMenuItem, Me.ToolStripSeparator32, Me.IdFilterAddMenuItem, Me.ToolStripSeparator33, Me.UseHashtagMenuItem})
         Me.ContextMenuStrip4.Name = "ContextMenuStrip4"
         resources.ApplyResources(Me.ContextMenuStrip4, "ContextMenuStrip4")
         '
@@ -678,6 +679,11 @@ Partial Class TweenMain
         '
         Me.FriendshipContextMenuItem.Name = "FriendshipContextMenuItem"
         resources.ApplyResources(Me.FriendshipContextMenuItem, "FriendshipContextMenuItem")
+        '
+        'ShowUserStatusContextMenuItem
+        '
+        Me.ShowUserStatusContextMenuItem.Name = "ShowUserStatusContextMenuItem"
+        resources.ApplyResources(Me.ShowUserStatusContextMenuItem, "ShowUserStatusContextMenuItem")
         '
         'ToolStripSeparator32
         '
@@ -1721,5 +1727,6 @@ Partial Class TweenMain
     Friend WithEvents UnFollowToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ShowFriendShipToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ShowUserStatusToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ShowUserStatusContextMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class
