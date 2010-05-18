@@ -53,7 +53,6 @@ Public Class TweenMain
     Private _initial As Boolean         'True:起動時処理中
     Private _initialLayout As Boolean = True
     Private _ignoreConfigSave As Boolean         'True:起動時処理中
-    'Private listViewItemSorter As ListViewItemComparer      'リストソート用カスタムクラス
     Private _tabDrag As Boolean           'タブドラッグ中フラグ（DoDragDropを実行するかの判定用）
     Private _rclickTabName As String      '右クリックしたタブの名前（Tabコントロール機能不足対応）
     Private ReadOnly _syncObject As New Object()    'ロック用
@@ -89,7 +88,6 @@ Public Class TweenMain
     Private SettingDialog As New Setting()       '設定画面インスタンス
     Private TabDialog As New TabsDialog()        'タブ選択ダイアログインスタンス
     Private SearchDialog As New SearchWord()     '検索画面インスタンス
-    'Private _tabs As New List(Of TabStructure)() '要素TabStructureクラスのジェネリックリストインスタンス（タブ情報用）
     Private fDialog As New FilterDialog() 'フィルター編集画面
     Private UrlDialog As New OpenURL()
     Private dialogAsShieldicon As DialogAsShieldIcon    ' シールドアイコン付きダイアログ
@@ -119,7 +117,6 @@ Public Class TweenMain
     Private _clInputBackcolor As Color      '入力欄背景色
     Private _clInputFont As Color           '入力欄文字色
     Private _fntInputFont As Font           '入力欄フォント
-    'Private TIconList As ImageList        '発言詳細部用アイコン画像リスト
     Private TIconDic As Dictionary(Of String, Image)        '発言詳細部用アイコン画像リスト
     Private TIconSmallList As ImageList   'リスト表示用アイコン画像リスト
     Private NIconAt As Icon               'At.ico             タスクトレイアイコン：通常時
@@ -165,8 +162,6 @@ Public Class TweenMain
     Private _brsDeactiveSelection As New SolidBrush(Color.FromKnownColor(KnownColor.ButtonFace)) 'Listにフォーカスないときの選択行の背景色
     Private sf As New StringFormat()
     Private sfTab As New StringFormat()
-    'Private _columnIdx As Integer   'ListviewのDisplayIndex退避用（DrawItemで使用）
-    'Private _columnChangeFlag As Boolean
 
     '''''''''''''''''''''''''''''''''''''''''''''''''''''
     Private _statuses As TabInformations
@@ -547,9 +542,7 @@ Public Class TweenMain
         ConvertConfig()
 
         ''設定読み出し
-        'ユーザー名とパスワードの取得
-        '_username = _cfgCommon.UserName
-        '_password = _cfgCommon.Password
+
         '新着バルーン通知のチェック状態設定
         NewPostPopMenuItem.Checked = _cfgCommon.NewAllPop
         Me.NotifyFileMenuItem.Checked = NewPostPopMenuItem.Checked
@@ -598,8 +591,6 @@ Public Class TweenMain
         sfTab.LineAlignment = StringAlignment.Center
 
         '設定画面への反映
-        'SettingDialog.UserID = _cfgCommon.UserName                                'ユーザ名
-        'SettingDialog.PasswordStr = _cfgCommon.Password                           'パスワード
         SettingDialog.IsOAuth = _cfgCommon.IsOAuth
         HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl
         HttpTwitter.TwitterSearchUrl = _cfgCommon.TwitterSearchUrl
@@ -619,8 +610,6 @@ Public Class TweenMain
         SettingDialog.DMPeriodInt = _cfgCommon.DMPeriod
         SettingDialog.PubSearchPeriodInt = _cfgCommon.PubSearchPeriod
         SettingDialog.ListsPeriodInt = _cfgCommon.ListsPeriod
-        'SettingDialog.NextPageThreshold = _cfgCommon.NextPageThreshold
-        'SettingDialog.NextPagesInt = _cfgCommon.NextPages
         SettingDialog.MaxPostNum = _cfgCommon.MaxPostNum
         '不正値チェック
         If Not My.Application.CommandLineArgs.Contains("nolimit") Then
@@ -630,10 +619,6 @@ Public Class TweenMain
             If SettingDialog.PubSearchPeriodInt < 15 AndAlso SettingDialog.PubSearchPeriodInt > 0 Then SettingDialog.PubSearchPeriodInt = 15
             If SettingDialog.ListsPeriodInt < 15 AndAlso SettingDialog.ListsPeriodInt > 0 Then SettingDialog.ListsPeriodInt = 15
         End If
-        '起動時読み込みページ数
-        'SettingDialog.ReadPages = _cfgCommon.ReadPages
-        'SettingDialog.ReadPagesReply = _cfgCommon.ReadPagesReply
-        'SettingDialog.ReadPagesDM = _cfgCommon.ReadPagesDM
 
         '起動時読み込み分を既読にするか。Trueなら既読として処理
         SettingDialog.Readed = _cfgCommon.Read
@@ -676,12 +661,10 @@ Public Class TweenMain
 
         SettingDialog.NameBalloon = _cfgCommon.NameBalloon
         SettingDialog.PostCtrlEnter = _cfgCommon.PostCtrlEnter
-        'SettingDialog.UseAPI = _cfgCommon.UseApi
         SettingDialog.CountApi = _cfgCommon.CountApi
         SettingDialog.CountApiReply = _cfgCommon.CountApiReply
         SettingDialog.UsePostMethod = False
         SettingDialog.BrowserPath = _cfgLocal.BrowserPath
-        'SettingDialog.CheckReply = _cfgCommon.CheckReply
         SettingDialog.PostAndGet = _cfgCommon.PostAndGet
         SettingDialog.UseRecommendStatus = _cfgLocal.UseRecommendStatus
         SettingDialog.DispUsername = _cfgCommon.DispUsername
@@ -699,9 +682,7 @@ Public Class TweenMain
 
         SettingDialog.PeriodAdjust = _cfgCommon.PeriodAdjust
         SettingDialog.StartupVersion = _cfgCommon.StartupVersion
-        'SettingDialog.StartupKey = _cfgCommon.StartupKey
         SettingDialog.StartupFollowers = _cfgCommon.StartupFollowers
-        'SettingDialog.StartupAPImodeNoWarning = _cfgCommon.StartupApiModeNoWarning
         SettingDialog.RestrictFavCheck = _cfgCommon.RestrictFavCheck
         SettingDialog.AlwaysTop = _cfgCommon.AlwaysTop
         SettingDialog.UrlConvertAuto = _cfgCommon.UrlConvertAuto
@@ -852,26 +833,14 @@ Public Class TweenMain
         End If
 
         'Twitter用通信クラス初期化
-        'Twitter.Username = SettingDialog.UserID
-        'Twitter.Password = SettingDialog.PasswordStr
         HttpConnection.InitializeConnection(SettingDialog.DefaultTimeOut, _
                                             SettingDialog.SelectedProxyType, _
                                             SettingDialog.ProxyAddress, _
                                             SettingDialog.ProxyPort, _
                                             SettingDialog.ProxyUser, _
                                             SettingDialog.ProxyPassword)
-        'Twitter.SelectedProxyType = SettingDialog.SelectedProxyType
-        'Twitter.ProxyAddress = SettingDialog.ProxyAddress
-        'Twitter.ProxyPort = SettingDialog.ProxyPort
-        'Twitter.ProxyUser = SettingDialog.ProxyUser
-        'Twitter.ProxyPassword = SettingDialog.ProxyPassword
-        'Twitter.NextThreshold = SettingDialog.NextPageThreshold   '次頁取得閾値
-        'Twitter.NextPages = SettingDialog.NextPagesInt    '閾値オーバー時の読み込みページ数（未使用）
-        'Twitter.DefaultTimeOut = SettingDialog.DefaultTimeOut
         tw.CountApi = SettingDialog.CountApi
         tw.CountApiReply = SettingDialog.CountApiReply
-        'Twitter.UseAPI = SettingDialog.UseAPI
-        'Twitter.UsePostMethod = False
         tw.RestrictFavCheck = SettingDialog.RestrictFavCheck
         tw.ReadOwnPost = SettingDialog.ReadOwnPost
         tw.UseSsl = SettingDialog.UseSsl
@@ -879,12 +848,7 @@ Public Class TweenMain
         tw.BitlyKey = SettingDialog.BitlyPwd
         HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl
         HttpTwitter.TwitterSearchUrl = _cfgCommon.TwitterSearchUrl
-        'If IsNetworkAvailable() Then
-        '    If SettingDialog.StartupFollowers Then
-        '        '_waitFollower = True
-        '        GetTimeline(WORKERTYPE.Follower, 0, 0, "")
-        '    End If
-        'End If
+
         Outputz.Key = SettingDialog.OutputzKey
         Outputz.Enabled = SettingDialog.OutputzEnabled
         Select Case SettingDialog.OutputzUrlmode
@@ -969,10 +933,6 @@ Public Class TweenMain
         StatusLabel.ToolTipText = ""
         '文字カウンタ初期化
         lblLen.Text = GetRestStatusCount(True, False).ToString()
-
-        'If SettingDialog.StartupKey Then
-        '    Twitter.GetWedata()
-        'End If
 
         ''''''''''''''''''''''''''''''''''''''''
         _statuses.SortOrder = DirectCast(_cfgCommon.SortOrder, System.Windows.Forms.SortOrder)
@@ -1314,38 +1274,6 @@ Public Class TweenMain
         '_cfgLocal.Save()
     End Sub
 
-    'Private Sub Network_NetworkAvailabilityChanged(ByVal sender As Object, ByVal e As Devices.NetworkAvailableEventArgs)
-    '    If e.IsNetworkAvailable Then
-    '        Dim args As New GetWorkerArg()
-    '        PostButton.Enabled = True
-    '        FavAddToolStripMenuItem.Enabled = True
-    '        FavRemoveToolStripMenuItem.Enabled = True
-    '        MoveToHomeToolStripMenuItem.Enabled = True
-    '        MoveToRTHomeMenuItem.Enabled = True
-    '        MoveToFavToolStripMenuItem.Enabled = True
-    '        DeleteStripMenuItem.Enabled = True
-    '        RefreshStripMenuItem.Enabled = True
-    '        _myStatusOnline = True
-    '        If Not _initial Then
-    '            'If SettingDialog.DMPeriodInt > 0 Then TimerDM.Enabled = True
-    '            'If SettingDialog.TimelinePeriodInt > 0 Then TimerTimeline.Enabled = True
-    '            'If SettingDialog.ReplyPeriodInt > 0 Then TimerReply.Enabled = True
-    '        Else
-    '            GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
-    '        End If
-    '    Else
-    '        _myStatusOnline = False
-    '        PostButton.Enabled = False
-    '        FavAddToolStripMenuItem.Enabled = False
-    '        FavRemoveToolStripMenuItem.Enabled = False
-    '        MoveToHomeToolStripMenuItem.Enabled = False
-    '        MoveToRTHomeMenuItem.Enabled = False
-    '        MoveToFavToolStripMenuItem.Enabled = False
-    '        DeleteStripMenuItem.Enabled = False
-    '        RefreshStripMenuItem.Enabled = False
-    '    End If
-    'End Sub
-
     Private Sub TimerTimeline_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TimerTimeline.Tick
         If _homeCounter > 0 Then _homeCounter -= 1
         If _mentionCounter > 0 Then _mentionCounter -= 1
@@ -1599,10 +1527,6 @@ Public Class TweenMain
         End If
     End Sub
 
-    'Private Sub Mylist_Scrolled(ByVal sender As Object, ByVal e As System.EventArgs)
-    '    'TimerColorize.Stop()
-    '    'TimerColorize.Start()
-    'End Sub
 
     Private Sub MyList_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If _curList.SelectedIndices.Count <> 1 Then Exit Sub
@@ -2304,15 +2228,6 @@ Public Class TweenMain
 
         If _endingFlag OrElse e.Cancelled Then Exit Sub 'キャンセル
 
-        'IsNetworkAvailable()
-
-        'If _myStatusOnline Then
-        '    'タイマー再始動
-        '    If SettingDialog.TimelinePeriodInt > 0 AndAlso Not TimerTimeline.Enabled Then TimerTimeline.Enabled = True
-        '    If SettingDialog.DMPeriodInt > 0 AndAlso Not TimerDM.Enabled Then TimerDM.Enabled = True
-        '    If SettingDialog.ReplyPeriodInt > 0 AndAlso Not TimerReply.Enabled Then TimerReply.Enabled = True
-        'End If
-
         If e.Error IsNot Nothing Then
             _myStatusError = True
             _waitTimeline = False
@@ -2333,15 +2248,6 @@ Public Class TweenMain
         If rslt.retMsg.Length > 0 Then
             _myStatusError = True
             StatusLabel.Text = rslt.retMsg
-            'If Twitter.AccountState = ACCOUNT_STATE.Invalid Then
-            '    Try
-            '        Twitter.AccountState = ACCOUNT_STATE.Validating
-            '        SettingStripMenuItem_Click(Nothing, Nothing)
-            '        Twitter.AccountState = ACCOUNT_STATE.Valid
-            '    Catch ex As Exception
-            '        Twitter.AccountState = ACCOUNT_STATE.Invalid
-            '    End Try
-            'End If
         End If
 
         If rslt.type = WORKERTYPE.FavRemove Then
@@ -2955,8 +2861,6 @@ Public Class TweenMain
         End Try
         If result = Windows.Forms.DialogResult.OK Then
             SyncLock _syncObject
-                'Twitter.Username = SettingDialog.UserID
-                'Twitter.Password = SettingDialog.PasswordStr
                 Try
                     If SettingDialog.TimelinePeriodInt > 0 Then
                         _homeCounterAdjuster = 0
@@ -2974,12 +2878,6 @@ Public Class TweenMain
                     ex.Data("IsTerminatePermission") = False
                     Throw
                 End Try
-                'Twitter.NextThreshold = SettingDialog.NextPageThreshold
-                'Twitter.NextPages = SettingDialog.NextPagesInt
-                'If Twitter.UseAPI <> SettingDialog.UseAPI AndAlso Not _initial Then
-                '    chgUseApi = True
-                'End If
-                'Twitter.UseAPI = SettingDialog.UseAPI
                 tw.CountApi = SettingDialog.CountApi
                 tw.CountApiReply = SettingDialog.CountApiReply
                 'Twitter.UsePostMethod = False
@@ -7890,7 +7788,7 @@ RETRY:
         MessageBox.Show(StatusLabel.TextHistory, "Logs", MessageBoxButtons.OK, MessageBoxIcon.None)
     End Sub
 
-    Private Sub HashManageMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HashManageMenuItem.Click
+    Private Sub HashManageMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HashManageMenuItem.Click, HashManageToolStripMenuItem.Click
         Dim rslt As DialogResult
         Try
             rslt = HashMgr.ShowDialog()
@@ -7920,7 +7818,7 @@ RETRY:
         modifySettingCommon = True
     End Sub
 
-    Private Sub HashToggleMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles HashToggleMenuItem.Click
+    Private Sub HashToggleMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles HashToggleMenuItem.Click, HashToggleToolStripMenuItem.Click
         HashMgr.ToggleHash()
         If HashMgr.UseHash <> "" Then
             HashStripSplitButton.Text = HashMgr.UseHash

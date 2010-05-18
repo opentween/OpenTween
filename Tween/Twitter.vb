@@ -2104,12 +2104,6 @@ Public Class Twitter
         Return sb.ToString
     End Function
 
-    'Private Function AutoLinkHashtag(ByVal m As Match) As String
-    '    If IsNumeric(m.Result("$2")) Then Return m.Result("$1#$2")
-    '    Dim sb As New StringBuilder(m.Result("$1<a href="""))
-    '    Return sb.Append(_protocol).Append("twitter.com/search?q=%23").Append(m.Result("$2"">#$2</a>")).ToString
-    'End Function
-
     Public ReadOnly Property RemainCountApi() As Integer
         Get
             Return twCon.RemainCountApi
