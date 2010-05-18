@@ -921,34 +921,34 @@
   <data name="&gt;&gt;ContextMenuStrip1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Label11.AutoSize" type="System.Boolean, mscorlib">
+  <data name="LabelRecentPost.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="Label11.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="LabelRecentPost.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="Label11.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="LabelRecentPost.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 286</value>
   </data>
-  <data name="Label11.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="LabelRecentPost.Size" type="System.Drawing.Size, System.Drawing">
     <value>63, 12</value>
   </data>
-  <data name="Label11.TabIndex" type="System.Int32, mscorlib">
+  <data name="LabelRecentPost.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
   </data>
-  <data name="Label11.Text" xml:space="preserve">
+  <data name="LabelRecentPost.Text" xml:space="preserve">
     <value>最近の発言</value>
   </data>
-  <data name="&gt;&gt;Label11.Name" xml:space="preserve">
-    <value>Label11</value>
+  <data name="&gt;&gt;LabelRecentPost.Name" xml:space="preserve">
+    <value>LabelRecentPost</value>
   </data>
-  <data name="&gt;&gt;Label11.Type" xml:space="preserve">
+  <data name="&gt;&gt;LabelRecentPost.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;Label11.Parent" xml:space="preserve">
+  <data name="&gt;&gt;LabelRecentPost.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;Label11.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;LabelRecentPost.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
   <data name="RecentPostBrowser.Location" type="System.Drawing.Point, System.Drawing">
@@ -1021,7 +1021,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;LabelIsVerified.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="Label13.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -1057,7 +1057,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Label13.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -1070,9 +1070,6 @@
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>486, 444</value>
-  </data>
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterParent</value>

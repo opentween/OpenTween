@@ -103,9 +103,16 @@ Public Class ShowUserInfo
             _info.StatusesCount = Integer.Parse(xdoc.SelectSingleNode("/user/statuses_count").InnerText)
             _info.Verified = Boolean.Parse(xdoc.SelectSingleNode("/user/verified").InnerText)
 
-            _info.RecentPost = xdoc.SelectSingleNode("/user/status/text").InnerText
-            _info.PostCreatedAt = DateTime.ParseExact(xdoc.SelectSingleNode("/user/status/created_at").InnerText, "ddd MMM dd HH:mm:ss zzzz yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None)
-            _info.PostSource = xdoc.SelectSingleNode("/user/status/source").InnerText
+            ' 最終発言が取れないことがある
+            Try
+                _info.RecentPost = xdoc.SelectSingleNode("/user/status/text").InnerText
+                _info.PostCreatedAt = DateTime.ParseExact(xdoc.SelectSingleNode("/user/status/created_at").InnerText, "ddd MMM dd HH:mm:ss zzzz yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None)
+                _info.PostSource = xdoc.SelectSingleNode("/user/status/source").InnerText
+            Catch ex As Exception
+                _info.RecentPost = Nothing
+                _info.PostCreatedAt = Nothing
+                _info.PostSource = Nothing
+            End Try
         Catch ex As Exception
             Return False
         End Try
@@ -145,10 +152,12 @@ Public Class ShowUserInfo
                 MyOwner.TwitterInstance.CreateHtmlAnchor(_info.Description, atlist))
 
         RecentPostBrowser.Visible = False
-        recentPostTxt = MyOwner.createDetailHtml( _
+        If _info.RecentPost IsNot Nothing Then
+            recentPostTxt = MyOwner.createDetailHtml( _
                 MyOwner.TwitterInstance.CreateHtmlAnchor(_info.RecentPost, atlist) + _
-                " Posted at " + _info.PostCreatedAt.ToString + _
-                " via " + _info.PostSource)
+                 " Posted at " + _info.PostCreatedAt.ToString + _
+                 " via " + _info.PostSource)
+        End If
 
         LinkLabelFollowing.Text = _info.FriendsCount.ToString
         LinkLabelFollowers.Text = _info.FollowersCount.ToString
@@ -286,8 +295,12 @@ Public Class ShowUserInfo
     Private Sub ShowUserInfo_Shown(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Shown
         DescriptionBrowser.DocumentText = descriptionTxt
         DescriptionBrowser.Visible = True
-        RecentPostBrowser.DocumentText = recentPostTxt
-        RecentPostBrowser.Visible = True
+        If _info.RecentPost IsNot Nothing Then
+            RecentPostBrowser.DocumentText = recentPostTxt
+            RecentPostBrowser.Visible = True
+        Else
+            LabelRecentPost.Text = My.Resources.ShowUserInfo2
+        End If
     End Sub
 
     Private Sub WebBrowser_Navigating(ByVal sender As System.Object, ByVal e As System.Windows.Forms.WebBrowserNavigatingEventArgs) Handles DescriptionBrowser.Navigating, RecentPostBrowser.Navigating

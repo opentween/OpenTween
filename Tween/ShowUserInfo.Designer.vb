@@ -55,7 +55,7 @@ Partial Class ShowUserInfo
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.SelectionCopyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SelectAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Label11 = New System.Windows.Forms.Label()
+        Me.LabelRecentPost = New System.Windows.Forms.Label()
         Me.RecentPostBrowser = New System.Windows.Forms.WebBrowser()
         Me.DescriptionBrowser = New System.Windows.Forms.WebBrowser()
         Me.LabelIsVerified = New System.Windows.Forms.Label()
@@ -240,10 +240,10 @@ Partial Class ShowUserInfo
         Me.SelectAllToolStripMenuItem.Name = "SelectAllToolStripMenuItem"
         resources.ApplyResources(Me.SelectAllToolStripMenuItem, "SelectAllToolStripMenuItem")
         '
-        'Label11
+        'LabelRecentPost
         '
-        resources.ApplyResources(Me.Label11, "Label11")
-        Me.Label11.Name = "Label11"
+        resources.ApplyResources(Me.LabelRecentPost, "LabelRecentPost")
+        Me.LabelRecentPost.Name = "LabelRecentPost"
         '
         'RecentPostBrowser
         '
@@ -289,7 +289,7 @@ Partial Class ShowUserInfo
         Me.Controls.Add(Me.UserPicture)
         Me.Controls.Add(Me.DescriptionBrowser)
         Me.Controls.Add(Me.LabelScreenName)
-        Me.Controls.Add(Me.Label11)
+        Me.Controls.Add(Me.LabelRecentPost)
         Me.Controls.Add(Me.LinkLabelFav)
         Me.Controls.Add(Me.Label9)
         Me.Controls.Add(Me.LabelIsProtected)
@@ -358,7 +358,7 @@ Partial Class ShowUserInfo
     Friend WithEvents ContextMenuStrip1 As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents SelectionCopyToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SelectAllToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents Label11 As System.Windows.Forms.Label
+    Friend WithEvents LabelRecentPost As System.Windows.Forms.Label
     Friend WithEvents RecentPostBrowser As System.Windows.Forms.WebBrowser
     Friend WithEvents LabelIsVerified As System.Windows.Forms.Label
     Friend WithEvents Label13 As System.Windows.Forms.Label
