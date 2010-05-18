@@ -190,6 +190,9 @@
   <data name="LabelIsFollowed.Text" xml:space="preserve">
     <value>正被此人关注</value>
   </data>
+  <data name="ContextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>159, 48</value>
+  </data>
   <data name="SelectionCopyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>158, 22</value>
   </data>
@@ -202,13 +205,10 @@
   <data name="SelectAllToolStripMenuItem.Text" xml:space="preserve">
     <value>选择全部</value>
   </data>
-  <data name="ContextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>159, 48</value>
-  </data>
-  <data name="Label11.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="LabelRecentPost.Size" type="System.Drawing.Size, System.Drawing">
     <value>53, 12</value>
   </data>
-  <data name="Label11.Text" xml:space="preserve">
+  <data name="LabelRecentPost.Text" xml:space="preserve">
     <value>最近消息</value>
   </data>
   <data name="Label13.Size" type="System.Drawing.Size, System.Drawing">
