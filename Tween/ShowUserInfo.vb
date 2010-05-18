@@ -169,7 +169,7 @@ Public Class ShowUserInfo
         LabelIsVerified.Text = DirectCast(IIf(_info.Verified, My.Resources.Yes, My.Resources.No), String)
     End Sub
 
-    Private Sub ButtonOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonClose.Click
+    Private Sub ButtonClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonClose.Click
         Me.Close()
     End Sub
 
@@ -301,6 +301,7 @@ Public Class ShowUserInfo
         Else
             LabelRecentPost.Text = My.Resources.ShowUserInfo2
         End If
+        ButtonClose.Focus()
     End Sub
 
     Private Sub WebBrowser_Navigating(ByVal sender As System.Object, ByVal e As System.Windows.Forms.WebBrowserNavigatingEventArgs) Handles DescriptionBrowser.Navigating, RecentPostBrowser.Navigating
