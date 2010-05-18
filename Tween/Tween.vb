@@ -483,21 +483,41 @@ Public Class TweenMain
         End Select
 
 #If 1 Then
-        If _statuses.SortOrder() = SortOrder.Ascending Then
-            ' U+25BE BLACK DOWN-POINTING SMALL TRIANGLE
-            ColumnText(c) = ColumnOrgText(c) + "▾"
+        If _iconCol Then
+            If _statuses.SortOrder() = SortOrder.Ascending Then
+                ' U+25BE BLACK DOWN-POINTING SMALL TRIANGLE
+                ColumnText(2) = ColumnOrgText(2) + "▾"
+            Else
+                ' U+25B4 BLACK UP-POINTING SMALL TRIANGLE
+                ColumnText(2) = ColumnOrgText(2) + "▴"
+            End If
         Else
-            ' U+25B4 BLACK UP-POINTING SMALL TRIANGLE
-            ColumnText(c) = ColumnOrgText(c) + "▴"
+            If _statuses.SortOrder() = SortOrder.Ascending Then
+                ' U+25BE BLACK DOWN-POINTING SMALL TRIANGLE
+                ColumnText(c) = ColumnOrgText(c) + "▾"
+            Else
+                ' U+25B4 BLACK UP-POINTING SMALL TRIANGLE
+                ColumnText(c) = ColumnOrgText(c) + "▴"
+            End If
         End If
 #Else
-        If _statuses.SortOrder() = SortOrder.Ascending Then
-            ' U+25BC	BLACK DOWN-POINTING TRIANGLE
-            ColumnText(c) = ColumnOrgText(c) + "▼"
-        Else
-            ' U+25B2	BLACK UP-POINTING TRIANGLE
-            ColumnText(c) = ColumnOrgText(c) + "▲"
-        End If
+        if _iconcol then
+            If _statuses.SortOrder() = SortOrder.Ascending Then
+                ' U+25BC	BLACK DOWN-POINTING TRIANGLE
+                ColumnText(2) = ColumnOrgText(2) + "▼"
+            Else
+                ' U+25B2	BLACK UP-POINTING TRIANGLE
+                ColumnText(2) = ColumnOrgText(2) + "▲"
+            End If
+        else
+            If _statuses.SortOrder() = SortOrder.Ascending Then
+                ' U+25BC	BLACK DOWN-POINTING TRIANGLE
+                ColumnText(c) = ColumnOrgText(c) + "▼"
+            Else
+                ' U+25B2	BLACK UP-POINTING TRIANGLE
+                ColumnText(c) = ColumnOrgText(c) + "▲"
+            End If
+        end if
 #End If
     End Sub
 
@@ -2569,7 +2589,8 @@ Public Class TweenMain
         InitColumnText()
 
         If _iconCol Then
-            If e.Column = 1 Then DirectCast(sender, DetailsListView).Columns.Item(1).Text = ColumnText(2)
+            DirectCast(sender, DetailsListView).Columns.Item(0).Text = ColumnOrgText(0)
+            DirectCast(sender, DetailsListView).Columns.Item(1).Text = ColumnText(2)
         Else
             For i As Integer = 0 To 7
                 DirectCast(sender, DetailsListView).Columns.Item(i).Text = ColumnOrgText(i)
