@@ -84,16 +84,11 @@ Public Class SettingCommon
     End Function
 
     Public TabList As New List(Of String)
-    'Public NextPageThreshold As Integer = 20
-    'Public NextPages As Integer = 1
     Public TimelinePeriod As Integer = 90
     Public ReplyPeriod As Integer = 180
     Public DMPeriod As Integer = 600
     Public PubSearchPeriod As Integer = 180
     Public ListsPeriod As Integer = 180
-    'Public ReadPages As Integer = 1
-    'Public ReadPagesReply As Integer = 1
-    'Public ReadPagesDM As Integer = 1
     Public MaxPostNum As Integer = 125
     Public Read As Boolean = True
     Public ListLock As Boolean = False
@@ -104,11 +99,8 @@ Public Class SettingCommon
     Public OneWayLove As Boolean = True
     Public NameBalloon As NameBalloonEnum = NameBalloonEnum.NickName
     Public PostCtrlEnter As Boolean = False
-    'Public UseApi As Boolean = True
-    'Public UsePostMethod As Boolean = False
     Public CountApi As Integer = 60
     Public CountApiReply As Integer = 40
-    'Public CheckReply As Boolean = True
     Public PostAndGet As Boolean = True
     Public DispUsername As Boolean = False
     Public MinimizeToTray As Boolean = False
@@ -118,9 +110,7 @@ Public Class SettingCommon
     Public TinyUrlResolve As Boolean = True
     Public PeriodAdjust As Boolean = True
     Public StartupVersion As Boolean = True
-    'Public StartupKey As Boolean = True
     Public StartupFollowers As Boolean = True
-    'Public StartupApiModeNoWarning As Boolean = False
     Public RestrictFavCheck As Boolean = False
     Public AlwaysTop As Boolean = False
     Public CultureCode As String = ""
