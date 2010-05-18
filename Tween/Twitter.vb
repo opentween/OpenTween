@@ -284,15 +284,9 @@ Public Class Twitter
     Private Function SanitizeHtml(ByVal orgdata As String) As String
         Dim retdata As String = orgdata
 
-        '  <script ～ </script>
-        'Dim rx As Regex = New Regex( _
-        '    "<(script|object|applet|image|frameset|fieldset|legend|style).*" & _
-        '    "</(script|object|applet|image|frameset|fieldset|legend|style)>", RegexOptions.IgnoreCase)
         retdata = Regex.Replace(retdata, "<(script|object|applet|image|frameset|fieldset|legend|style).*" & _
             "</(script|object|applet|image|frameset|fieldset|legend|style)>", "", RegexOptions.IgnoreCase)
 
-        ' <frame src="...">
-        'rx = New Regex("<(frame|link|iframe|img)>", RegexOptions.IgnoreCase)
         retdata = Regex.Replace(retdata, "<(frame|link|iframe|img)>", "", RegexOptions.IgnoreCase)
 
         Return retdata
@@ -300,7 +294,6 @@ Public Class Twitter
 
     Private Function AdjustHtml(ByVal orgData As String) As String
         Dim retStr As String = orgData
-        'Dim hash As New Regex("<a [^>]+>[#|＃](?<1>[a-zA-Z0-9_]+)</a>")
         Dim m As Match = Regex.Match(retStr, "<a [^>]+>[#|＃](?<1>[a-zA-Z0-9_]+)</a>")
         While m.Success
             SyncLock LockObj
@@ -317,20 +310,6 @@ Public Class Twitter
         Do
             ret = EscapeSpace(retStr)
         Loop While Not ret
-        'Dim isTag As Boolean = False
-        'For i As Integer = 0 To retStr.Length - 1
-        '    If retStr(i) = "<"c Then
-        '        isTag = True
-        '    End If
-        '    If retStr(i) = ">"c Then
-        '        isTag = False
-        '    End If
-
-        '    If (Not isTag) AndAlso (retStr(i) = " "c) Then
-        '        retStr = retStr.Remove(i, 1)
-        '        retStr = retStr.Insert(i, "&nbsp;")
-        '    End If
-        'Next
 
         Return SanitizeHtml(retStr)
     End Function
@@ -439,40 +418,6 @@ Public Class Twitter
             post = Nothing
         End Try
     End Sub
-
-    'Private Function GetAuthKey(ByVal resMsg As String) As Integer
-    '    Dim pos1 As Integer
-    '    Dim pos2 As Integer
-
-    '    pos1 = resMsg.IndexOf(_getAuthKey, StringComparison.Ordinal)
-    '    If pos1 < 0 Then
-    '        'データ不正？
-    '        Return -7
-    '    End If
-    '    pos2 = resMsg.IndexOf(_getAuthKeyTo, pos1 + _getAuthKey.Length, StringComparison.Ordinal)
-    '    If pos2 > -1 Then
-    '        _authKey = resMsg.Substring(pos1 + _getAuthKey.Length, pos2 - pos1 - _getAuthKey.Length)
-    '    Else
-    '        Return -7
-    '    End If
-
-    '    Return 0
-    'End Function
-
-    'Private Function GetAuthKeyDM(ByVal resMsg As String) As Integer
-    '    Dim pos1 As Integer
-    '    Dim pos2 As Integer
-
-    '    pos1 = resMsg.IndexOf(_getAuthKey, StringComparison.Ordinal)
-    '    If pos1 < 0 Then
-    '        'データ不正？
-    '        Return -7
-    '    End If
-    '    pos2 = resMsg.IndexOf("""", pos1 + _getAuthKey.Length, StringComparison.Ordinal)
-    '    _authKeyDM = resMsg.Substring(pos1 + _getAuthKey.Length, pos2 - pos1 - _getAuthKey.Length)
-
-    '    Return 0
-    'End Function
 
     Private Structure PostInfo
         Public CreatedAt As String
@@ -1769,9 +1714,6 @@ Public Class Twitter
             End Try
         Next
 
-        '_remainCountApi = sck.RemainCountApi
-        'If _ApiMethod = MySocket.REQ_TYPE.ReqGetAPI Then _remainCountApi = sck.RemainCountApi
-
         Return ""
     End Function
 
@@ -2108,15 +2050,6 @@ Public Class Twitter
         'Dim retStr As String = HttpUtility.HtmlDecode(Text)
         Dim retStr As String = ""
         'uriの正規表現
-        'Dim rgUrl As Regex = New Regex("(?<![0-9A-Za-z=])(?:https?|shttp|ftps?)://(?:(?:[-_.!~*'()a-zA-Z0-9;:&=+$,]|%[0-9A-Fa-f" + _
-        '                 "][0-9A-Fa-f])*@)?(?:(?:[a-zA-Z0-9](?:[-a-zA-Z0-9]*[a-zA-Z0-9])?\.)" + _
-        '                 "*[a-zA-Z](?:[-a-zA-Z0-9]*[a-zA-Z0-9])?\.?|[0-9]+\.[0-9]+\.[0-9]+\." + _
-        '                 "[0-9]+)(?::[0-9]*)?(?:/(?:[-_.!~*'()a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f]" + _
-        '                 "[0-9A-Fa-f])*(?:;(?:[-_.!~*'()a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-" + _
-        '                 "Fa-f])*)*(?:/(?:[-_.!~*'()a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f" + _
-        '                 "])*(?:;(?:[-_.!~*'()a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)*)" + _
-        '                 "*)?(?:\?(?:[-_.!~*'()a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])" + _
-        '                 "*)?(?:#(?:[-_.!~*'()a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)?")
         Const rgUrl As String = "(?<before>(?:[^\""':!=]|^|\:))" + _
                                     "(?<url>(?<protocol>https?://|www\.)" + _
                                     "(?<domain>(?:[\.-]|[^\p{P}\s])+\.[a-z]{2,}(?::[0-9]+)?)" + _
