@@ -8339,7 +8339,7 @@ RETRY:
         SetNotifyIconText()
     End Sub
 
-    Private Sub UserStatusToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UserStatusToolStripMenuItem.Click
+    Private Sub UserStatusToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Dim id As String = ""
         If _curPost IsNot Nothing Then
             id = _curPost.Name
