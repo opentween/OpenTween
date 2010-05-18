@@ -1615,13 +1615,7 @@
     <value>280, 22</value>
   </data>
   <data name="OwnStatusMenuItem.Text" xml:space="preserve">
-    <value>自分のプロフィール表示</value>
-  </data>
-  <data name="UserStatusToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>280, 22</value>
-  </data>
-  <data name="UserStatusToolStripMenuItem.Text" xml:space="preserve">
-    <value>ユーザーのプロフィール表示</value>
+    <value>自プロフィール簡易表示</value>
   </data>
   <data name="ToolStripSeparator34.Size" type="System.Drawing.Size, System.Drawing">
     <value>277, 6</value>
@@ -2860,12 +2854,6 @@
     <value>OwnStatusMenuItem</value>
   </data>
   <data name="&gt;&gt;OwnStatusMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;UserStatusToolStripMenuItem.Name" xml:space="preserve">
-    <value>UserStatusToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;UserStatusToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;ToolStripSeparator34.Name" xml:space="preserve">

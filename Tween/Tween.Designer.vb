@@ -180,7 +180,6 @@ Partial Class TweenMain
         Me.FriendshipMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator
         Me.OwnStatusMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.UserStatusToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator34 = New System.Windows.Forms.ToolStripSeparator
         Me.HashToggleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.HashManageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -1092,7 +1091,7 @@ Partial Class TweenMain
         '
         'MenuItemCommand
         '
-        Me.MenuItemCommand.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TinyUrlConvertToolStripMenuItem, Me.UpdateFollowersMenuItem1, Me.ToolStripSeparator1, Me.FollowCommandMenuItem, Me.RemoveCommandMenuItem, Me.FriendshipMenuItem, Me.ToolStripSeparator3, Me.OwnStatusMenuItem, Me.UserStatusToolStripMenuItem, Me.ToolStripSeparator34, Me.HashToggleToolStripMenuItem, Me.HashManageToolStripMenuItem})
+        Me.MenuItemCommand.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TinyUrlConvertToolStripMenuItem, Me.UpdateFollowersMenuItem1, Me.ToolStripSeparator1, Me.FollowCommandMenuItem, Me.RemoveCommandMenuItem, Me.FriendshipMenuItem, Me.ToolStripSeparator3, Me.OwnStatusMenuItem, Me.ToolStripSeparator34, Me.HashToggleToolStripMenuItem, Me.HashManageToolStripMenuItem})
         Me.MenuItemCommand.Name = "MenuItemCommand"
         resources.ApplyResources(Me.MenuItemCommand, "MenuItemCommand")
         '
@@ -1176,11 +1175,6 @@ Partial Class TweenMain
         '
         Me.OwnStatusMenuItem.Name = "OwnStatusMenuItem"
         resources.ApplyResources(Me.OwnStatusMenuItem, "OwnStatusMenuItem")
-        '
-        'UserStatusToolStripMenuItem
-        '
-        Me.UserStatusToolStripMenuItem.Name = "UserStatusToolStripMenuItem"
-        resources.ApplyResources(Me.UserStatusToolStripMenuItem, "UserStatusToolStripMenuItem")
         '
         'ToolStripSeparator34
         '
@@ -1750,7 +1744,6 @@ Partial Class TweenMain
     Friend WithEvents SplitContainer3 As System.Windows.Forms.SplitContainer
     Friend WithEvents PreviewPicture As System.Windows.Forms.PictureBox
     Friend WithEvents PreviewScrollBar As System.Windows.Forms.VScrollBar
-    Friend WithEvents UserStatusToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
     Friend WithEvents ContextMenuStripDetailName As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents FollowToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
