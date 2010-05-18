@@ -765,4 +765,7 @@
   <data name="GetFriendshipInfo6" xml:space="preserve">
     <value>关注情况获取失败</value>
   </data>
+  <data name="ShowUserInfo2" xml:space="preserve">
+    <value>最近消息获取失败</value>
+  </data>
 </root>

@@ -226,6 +226,33 @@
   <data name="ContextMenuTabProperty.Size" type="System.Drawing.Size, System.Drawing">
     <value>186, 207</value>
   </data>
+  <data name="FollowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 22</value>
+  </data>
+  <data name="FollowToolStripMenuItem.Text" xml:space="preserve">
+    <value>关注</value>
+  </data>
+  <data name="UnFollowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 22</value>
+  </data>
+  <data name="UnFollowToolStripMenuItem.Text" xml:space="preserve">
+    <value>取消关注</value>
+  </data>
+  <data name="ShowFriendShipToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 22</value>
+  </data>
+  <data name="ShowFriendShipToolStripMenuItem.Text" xml:space="preserve">
+    <value>显示相互关注状态</value>
+  </data>
+  <data name="ShowUserStatusToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 22</value>
+  </data>
+  <data name="ShowUserStatusToolStripMenuItem.Text" xml:space="preserve">
+    <value>显示用户信息</value>
+  </data>
+  <data name="ContextMenuStripDetailName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>171, 92</value>
+  </data>
   <data name="NameLabel.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 9pt, style=Bold</value>
   </data>
@@ -277,6 +304,12 @@
   <data name="FriendshipContextMenuItem.Text" xml:space="preserve">
     <value>显示相互关注状态(&amp;R)</value>
   </data>
+  <data name="ShowUserStatusContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>185, 22</value>
+  </data>
+  <data name="ShowUserStatusContextMenuItem.Text" xml:space="preserve">
+    <value>显示用户信息(&amp;P)</value>
+  </data>
   <data name="ToolStripSeparator32.Size" type="System.Drawing.Size, System.Drawing">
     <value>182, 6</value>
   </data>
@@ -296,7 +329,7 @@
     <value>固定Hash Tag(&amp;H)</value>
   </data>
   <data name="ContextMenuStrip4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>186, 226</value>
+    <value>186, 248</value>
   </data>
   <data name="PostButton.Text" xml:space="preserve">
     <value>发送</value>
@@ -456,6 +489,9 @@
   </data>
   <data name="UnFavOpMenuItem.Text" xml:space="preserve">
     <value>从Fav删除(&amp;V)</value>
+  </data>
+  <data name="ShowProfMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>227, 22</value>
   </data>
   <data name="OpenHomeOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>243, 22</value>
@@ -670,18 +706,6 @@
   <data name="TinyUrlConvertToolStripMenuItem.Text" xml:space="preserve">
     <value>缩短输入框URL网址</value>
   </data>
-  <data name="GetFollowersDiffToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>158, 22</value>
-  </data>
-  <data name="GetFollowersDiffToolStripMenuItem.Text" xml:space="preserve">
-    <value>只获取新增部分</value>
-  </data>
-  <data name="GetFollowersAllToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>158, 22</value>
-  </data>
-  <data name="GetFollowersAllToolStripMenuItem.Text" xml:space="preserve">
-    <value>全部重取</value>
-  </data>
   <data name="UpdateFollowersMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
     <value>185, 22</value>
   </data>
@@ -722,7 +746,7 @@
     <value>185, 22</value>
   </data>
   <data name="UserStatusToolStripMenuItem.Text" xml:space="preserve">
-    <value>显示用户信息</value>
+    <value>显示用户信息(&amp;P)</value>
   </data>
   <data name="MenuItemCommand.Size" type="System.Drawing.Size, System.Drawing">
     <value>58, 20</value>
@@ -843,6 +867,12 @@
   </data>
   <data name="FavRemoveToolStripMenuItem.Text" xml:space="preserve">
     <value>从Fav删除(&amp;V)</value>
+  </data>
+  <data name="ShowProfileMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>173, 22</value>
+  </data>
+  <data name="ShowProfileMenuItem.Text" xml:space="preserve">
+    <value>显示用户信息(&amp;P)</value>
   </data>
   <data name="MoveToHomeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>185, 22</value>
@@ -965,7 +995,7 @@
     <value>读取更早的消息(&amp;I)</value>
   </data>
   <data name="ContextMenuStrip2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>174, 374</value>
+    <value>174, 396</value>
   </data>
   <data name="SettingStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>171, 22</value>
