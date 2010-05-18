@@ -173,7 +173,7 @@
     <value>取消关注</value>
   </data>
   <data name="Label10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>95, 12</value>
+    <value>86, 12</value>
   </data>
   <data name="Label10.Text" xml:space="preserve">
     <value>受保护(Protect)</value>
@@ -190,20 +190,20 @@
   <data name="LabelIsFollowed.Text" xml:space="preserve">
     <value>正被此人关注</value>
   </data>
-  <data name="ContextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>159, 48</value>
-  </data>
   <data name="SelectionCopyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>158, 22</value>
+    <value>160, 22</value>
   </data>
   <data name="SelectionCopyToolStripMenuItem.Text" xml:space="preserve">
     <value>复制选中的文本</value>
   </data>
   <data name="SelectAllToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>158, 22</value>
+    <value>160, 22</value>
   </data>
   <data name="SelectAllToolStripMenuItem.Text" xml:space="preserve">
     <value>选择全部</value>
+  </data>
+  <data name="ContextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>161, 48</value>
   </data>
   <data name="LabelRecentPost.Size" type="System.Drawing.Size, System.Drawing">
     <value>53, 12</value>
@@ -212,7 +212,7 @@
     <value>最近消息</value>
   </data>
   <data name="Label13.Size" type="System.Drawing.Size, System.Drawing">
-    <value>101, 12</value>
+    <value>89, 12</value>
   </data>
   <data name="Label13.Text" xml:space="preserve">
     <value>已认证(Verified)</value>
