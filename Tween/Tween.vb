@@ -2659,7 +2659,7 @@ Public Class TweenMain
                     mode = IdComparerClass.ComparerMode.Source
             End Select
         End If
-        _statuses.ToggleSortOrder( mode )
+        _statuses.ToggleSortOrder(mode)
         InitColumnText()
 
         For i As Integer = 0 To 7
@@ -4562,16 +4562,16 @@ RETRY:
             If e.KeyCode = Keys.I Then doRepliedStatusOpen()
             If e.KeyCode = Keys.D Then doStatusDelete()
             If e.KeyCode = Keys.Q Then doQuote()
-        'If e.KeyCode = Keys.F Then
-        '    e.Handled = True
-        '    e.SuppressKeyPress = True
-        '    MovePageScroll(True)
-        'End If
-        'If e.KeyCode = Keys.B Then
-        '    e.Handled = True
-        '    e.SuppressKeyPress = True
-        '    MovePageScroll(False)
-        'End If
+            'If e.KeyCode = Keys.F Then
+            '    e.Handled = True
+            '    e.SuppressKeyPress = True
+            '    MovePageScroll(True)
+            'End If
+            'If e.KeyCode = Keys.B Then
+            '    e.Handled = True
+            '    e.SuppressKeyPress = True
+            '    MovePageScroll(False)
+            'End If
         End If
         If Not e.Control AndAlso e.Alt AndAlso Not e.Shift Then
             ' ALTキーが押されている場合
@@ -8215,6 +8215,12 @@ RETRY:
                 imglist.Add(New KeyValuePair(Of String, String)(url, mc.Value))
                 Continue For
             End If
+            'tumblr
+            mc = Regex.Match(url, "^http://.+\.tumblr\.com/.+/?", RegexOptions.IgnoreCase)
+            If mc.Success Then
+                imglist.Add(New KeyValuePair(Of String, String)(url, mc.Value))
+                Continue For
+            End If
         Next
 
         If imglist.Count = 0 Then
@@ -8250,7 +8256,7 @@ RETRY:
         Dim arg As PreviewData = DirectCast(e.Argument, PreviewData)
         Dim worker As BackgroundWorker = DirectCast(sender, BackgroundWorker)
 
-        ' pixivとFlickrのhtml解析もこちらでやる
+        ' pixiv,Flickr,piapro,フォト蔵,tumblrの解析もこちらでやる
         For Each url As KeyValuePair(Of String, String) In arg.urls
             Dim http As New HttpVarious
 
@@ -8317,6 +8323,32 @@ RETRY:
                         If _img Is Nothing Then Continue For
                         arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, _img))
                         Continue For
+                    End If
+                End If
+                Continue For
+            ElseIf Regex.Match(url.Key, "^http://.+\.tumblr\.com/.+/?", RegexOptions.IgnoreCase).Success Then
+                Dim TargetUrl As String = (New HttpVarious).GetRedirectTo(url.Key)
+                Dim mc As Match = Regex.Match(TargetUrl, "(?<base>http://.+?\.tumblr\.com/)post/(?<postID>[0-9]+)(/(?<subject>.+?)/)?", RegexOptions.IgnoreCase)
+                Dim apiurl As String = mc.Groups("base").Value + "api/read?id=" + mc.Groups("postID").Value
+                Dim src As String = ""
+                Dim imgurl As String = Nothing
+                If (New HttpVarious).GetData(apiurl, Nothing, src, 5000) Then
+                    Dim xdoc As New XmlDocument
+                    Try
+                        xdoc.LoadXml(src)
+
+                        If xdoc.SelectSingleNode("/tumblr/posts/post").Attributes("type").Value = "photo" Then
+                            imgurl = xdoc.SelectSingleNode("/tumblr/posts/post/photo-url").InnerText
+                        End If
+
+                    Catch ex As Exception
+                        imgurl = Nothing
+                    End Try
+
+                    If imgurl IsNot Nothing Then
+                        Dim _img As Image = http.GetImage(imgurl, url.Key)
+                        If _img Is Nothing Then Continue For
+                        arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, _img))
                     End If
                 End If
                 Continue For
