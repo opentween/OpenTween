@@ -256,6 +256,33 @@
   <data name="ContextMenuStrip3.Size" type="System.Drawing.Size, System.Drawing">
     <value>147, 54</value>
   </data>
+  <data name="FollowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>186, 22</value>
+  </data>
+  <data name="FollowToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Follow</value>
+  </data>
+  <data name="UnFollowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>186, 22</value>
+  </data>
+  <data name="UnFollowToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Unfollow</value>
+  </data>
+  <data name="ShowFriendShipToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>186, 22</value>
+  </data>
+  <data name="ShowFriendShipToolStripMenuItem.Text" xml:space="preserve">
+    <value>Friendship &amp;Relation</value>
+  </data>
+  <data name="ShowUserStatusToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>186, 22</value>
+  </data>
+  <data name="ShowUserStatusToolStripMenuItem.Text" xml:space="preserve">
+    <value>User &amp;Profile</value>
+  </data>
+  <data name="ContextMenuStripDetailName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>187, 92</value>
+  </data>
   <data name="SearchItem2ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>285, 22</value>
   </data>
@@ -334,6 +361,12 @@
   <data name="FriendshipContextMenuItem.Text" xml:space="preserve">
     <value>Friendship &amp;Relation</value>
   </data>
+  <data name="ShowUserStatusContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>264, 22</value>
+  </data>
+  <data name="ShowUserStatusContextMenuItem.Text" xml:space="preserve">
+    <value>User &amp;Profile</value>
+  </data>
   <data name="ToolStripSeparator32.Size" type="System.Drawing.Size, System.Drawing">
     <value>261, 6</value>
   </data>
@@ -353,7 +386,7 @@
     <value>Use this &amp;Hashtag</value>
   </data>
   <data name="ContextMenuStrip4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>265, 226</value>
+    <value>265, 248</value>
   </data>
   <data name="SettingFileMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>211, 22</value>
@@ -477,6 +510,9 @@
   </data>
   <data name="UnFavOpMenuItem.Text" xml:space="preserve">
     <value>Unfavorite(&amp;V)</value>
+  </data>
+  <data name="ShowProfMenuItem.Text" xml:space="preserve">
+    <value>User &amp;Profile</value>
   </data>
   <data name="OpenHomeOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>261, 22</value>
@@ -665,52 +701,67 @@
     <value>189, 22</value>
   </data>
   <data name="TinyUrlConvertToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 22</value>
+    <value>250, 22</value>
   </data>
   <data name="TinyUrlConvertToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Shorten URL</value>
   </data>
   <data name="UpdateFollowersMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 22</value>
+    <value>250, 22</value>
   </data>
   <data name="UpdateFollowersMenuItem1.Text" xml:space="preserve">
     <value>Fetch User List</value>
   </data>
   <data name="ToolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 6</value>
+    <value>247, 6</value>
   </data>
   <data name="FollowCommandMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 22</value>
+    <value>250, 22</value>
   </data>
   <data name="FollowCommandMenuItem.Text" xml:space="preserve">
     <value>&amp;Follow</value>
   </data>
   <data name="RemoveCommandMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 22</value>
+    <value>250, 22</value>
   </data>
   <data name="RemoveCommandMenuItem.Text" xml:space="preserve">
     <value>U&amp;nfollow</value>
   </data>
   <data name="FriendshipMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 22</value>
+    <value>250, 22</value>
   </data>
   <data name="FriendshipMenuItem.Text" xml:space="preserve">
     <value>S&amp;how Friendship</value>
   </data>
   <data name="ToolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 6</value>
+    <value>247, 6</value>
   </data>
   <data name="OwnStatusMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 22</value>
+    <value>250, 22</value>
   </data>
   <data name="OwnStatusMenuItem.Text" xml:space="preserve">
     <value>Show your profile</value>
   </data>
   <data name="UserStatusToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 22</value>
+    <value>250, 22</value>
   </data>
   <data name="UserStatusToolStripMenuItem.Text" xml:space="preserve">
     <value>Show User Profile</value>
+  </data>
+  <data name="ToolStripSeparator34.Size" type="System.Drawing.Size, System.Drawing">
+    <value>247, 6</value>
+  </data>
+  <data name="HashToggleToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>250, 22</value>
+  </data>
+  <data name="HashToggleToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Toggle Hashtag</value>
+  </data>
+  <data name="HashManageToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>250, 22</value>
+  </data>
+  <data name="HashManageToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Hashtag Manager</value>
   </data>
   <data name="MenuItemCommand.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 22</value>
@@ -810,6 +861,12 @@
   </data>
   <data name="FavRemoveToolStripMenuItem.Text" xml:space="preserve">
     <value>Unmark Favorite</value>
+  </data>
+  <data name="ShowProfileMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>214, 22</value>
+  </data>
+  <data name="ShowProfileMenuItem.Text" xml:space="preserve">
+    <value>User &amp;Profile</value>
   </data>
   <data name="MoveToHomeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>210, 22</value>
@@ -932,7 +989,7 @@
     <value>GetMore</value>
   </data>
   <data name="ContextMenuStrip2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>215, 374</value>
+    <value>215, 396</value>
   </data>
   <data name="SettingStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>208, 22</value>
