@@ -2568,10 +2568,14 @@ Public Class TweenMain
         _statuses.ToggleSortOrder(mode)
         InitColumnText()
 
-        For i As Integer = 0 To 7
-            DirectCast(sender, DetailsListView).Columns.Item(i).Text = ColumnOrgText(i)
-        Next
-        DirectCast(sender, DetailsListView).Columns.Item(e.Column).Text = ColumnText(e.Column)
+        If _iconCol Then
+            If e.Column = 1 Then DirectCast(sender, DetailsListView).Columns.Item(1).Text = ColumnText(2)
+        Else
+            For i As Integer = 0 To 7
+                DirectCast(sender, DetailsListView).Columns.Item(i).Text = ColumnOrgText(i)
+            Next
+            DirectCast(sender, DetailsListView).Columns.Item(e.Column).Text = ColumnText(e.Column)
+        End If
 
         _itemCache = Nothing
         _postCache = Nothing
@@ -7111,9 +7115,13 @@ RETRY:
         _anchorPost = Nothing
         _anchorFlag = False
 
-        For i As Integer = 0 To 7
-            DirectCast(_tab.Tag, DetailsListView).Columns.Item(i).Text = ColumnText(i)
-        Next
+        If _iconCol Then
+            DirectCast(_tab.Tag, DetailsListView).Columns.Item(1).Text = ColumnText(2)
+        Else
+            For i As Integer = 0 To _curList.Columns.Count - 1
+                DirectCast(_tab.Tag, DetailsListView).Columns.Item(i).Text = ColumnText(i)
+            Next
+        End If
     End Sub
 
     Private Sub ListTab_Selecting(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TabControlCancelEventArgs) Handles ListTab.Selecting
