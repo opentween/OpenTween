@@ -493,6 +493,9 @@
   <data name="ShowProfMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>227, 22</value>
   </data>
+  <data name="ShowProfMenuItem.Text" xml:space="preserve">
+    <value>显示用户信息(&amp;P)</value>
+  </data>
   <data name="OpenHomeOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>243, 22</value>
   </data>
@@ -746,7 +749,7 @@
     <value>185, 22</value>
   </data>
   <data name="UserStatusToolStripMenuItem.Text" xml:space="preserve">
-    <value>显示用户信息(&amp;P)</value>
+    <value>显示用户信息</value>
   </data>
   <data name="MenuItemCommand.Size" type="System.Drawing.Size, System.Drawing">
     <value>58, 20</value>
