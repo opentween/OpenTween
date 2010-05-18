@@ -33,44 +33,20 @@ Imports System.Net
 
 Public Class Twitter
     Delegate Sub GetIconImageDelegate(ByVal post As PostClass)
-    'Delegate Function GetTimelineDelegate(ByVal page As Integer, _
-    '                            ByVal read As Boolean, _
-    '                            ByRef endPage As Integer, _
-    '                            ByVal gType As WORKERTYPE, _
-    '                            ByRef getDM As Boolean) As String
-    'Delegate Function GetDirectMessageDelegate(ByVal page As Integer, _
-    '                                ByVal read As Boolean, _
-    '                                ByVal endPage As Integer, _
-    '                                ByVal gType As WORKERTYPE) As String
     Private ReadOnly LockObj As New Object
-    'Private GetTmSemaphore As New Threading.Semaphore(8, 8)
-
-    'Private follower As New List(Of String)
     Private followerId As New List(Of Long)
-    'Private tmpFollower As New List(Of String)
 
     Private _followersCount As Integer = 0
     Private _friendsCount As Integer = 0
     Private _statusesCount As Integer = 0
     Private _location As String = ""
     Private _bio As String = ""
-    'Private _useSsl As Boolean = True
     Private _protocol As String = "https://"
     Private _bitlyId As String = ""
     Private _bitlyKey As String = ""
 
     'プロパティからアクセスされる共通情報
     Private _uid As String
-    'Private _pwd As String
-    'Private _proxyType As ProxyType
-    'Private _proxyAddress As String
-    'Private _proxyPort As Integer
-    'Private _proxyUser As String
-    'Private _proxyPassword As String
-
-    'Private _nextThreshold As Integer
-    'Private _nextPages As Integer
-
     Private _iconSz As Integer
     Private _getIcon As Boolean
     Private _lIcon As ImageList
@@ -78,23 +54,15 @@ Public Class Twitter
 
     Private _tinyUrlResolve As Boolean
     Private _restrictFavCheck As Boolean
-    'Private _useAPI As Boolean
 
     Private _hubServer As String
-    'Private _defaultTimeOut As Integer      ' MySocketクラスへ渡すタイムアウト待ち時間（秒単位　ミリ秒への換算はMySocketクラス側で行う）
     Private _countApi As Integer
     Private _countApiReply As Integer
-    'Private _usePostMethod As Boolean
-    'Private _ApiMethod As MySocket.REQ_TYPE
     Private _readOwnPost As Boolean
     Private _hashList As New List(Of String)
 
     '共通で使用する状態
-    'Private _authKey As String              'StatusUpdate、発言削除で使用
-    'Private _authKeyDM As String              'DM送信、DM削除で使用
     Private _infoTwitter As String = ""
-    'Private _dmCount As Integer
-    'Private _getDm As Boolean
     Private _remainCountApi As Integer = -1
 
     Private _ShortUrlService() As String = { _
@@ -142,11 +110,6 @@ Public Class Twitter
 
     Private Const _apiHost As String = "api."
     Private Const _baseUrlStr As String = "twitter.com"
-    'Private Const _loginPath As String = "/sessions"
-    'Private Const _homePath As String = "/home"
-    'Private Const _replyPath As String = "/replies"
-    'Private Const _DMPathRcv As String = "/inbox"
-    'Private Const _DMPathSnt As String = "/sent"
     Private Const _DMDestroyPath As String = "/1/direct_messages/destroy/"
     Private Const _StDestroyPath As String = "/1/statuses/destroy/"
     Private Const _postRetweetPath As String = "/1/statuses/retweet/"
@@ -156,13 +119,9 @@ Public Class Twitter
     Private Const _cursorQry As String = "?cursor="
     Private Const _statusHeader As String = "status="
     Private Const _statusUpdatePathAPI As String = "/1/statuses/update.xml"
-    'Private Const _linkToOld As String = "class=""section_links"" rel=""prev"""
     Private Const _postFavAddPath As String = "/1/favorites/create/"
     Private Const _postFavRemovePath As String = "/1/favorites/destroy/"
-    'Private Const _authKeyHeader As String = "authenticity_token="
-    'Private Const _parseLink1 As String = "<a href="""
-    'Private Const _parseLink2 As String = """>"
-    'Private Const _parseLink3 As String = "</a>"
+
     Private Const _GetFollowers As String = "/1/statuses/followers.xml"
     Private Const _ShowStatus As String = "/1/statuses/show/"
     Private Const _rateLimitStatus As String = "/1/account/rate_limit_status.xml"
@@ -277,7 +236,6 @@ Public Class Twitter
             Static urlCache As New Dictionary(Of String, String)
             If urlCache.Count > 500 Then urlCache.Clear() '定期的にリセット
 
-            'Dim rx As New Regex("<a href=""(?<svc>http://.+?/)(?<path>[^""]+)""", RegexOptions.IgnoreCase)
             Dim m As MatchCollection = Regex.Matches(orgData, "<a href=""(?<svc>http://.+?/)(?<path>[^""]+)""", RegexOptions.IgnoreCase)
             Dim urlList As New List(Of String)
             For Each orgUrlMatch As Match In m
@@ -319,37 +277,6 @@ Public Class Twitter
 
     Private Function GetPlainText(ByVal orgData As String) As String
         Return HttpUtility.HtmlDecode(Regex.Replace(orgData, "(?<tagStart><a [^>]+>)(?<text>[^<]+)(?<tagEnd></a>)", "${text}"))
-        '不具合緊急対応で上記へ変更
-        ''単純テキストの取り出し（リンクタグ除去）
-        'If orgData.IndexOf(_parseLink1, StringComparison.Ordinal) = -1 Then
-        '    retStr = HttpUtility.HtmlDecode(orgData)
-        'Else
-        '    Dim posl1 As Integer
-        '    Dim posl2 As Integer
-        '    Dim posl3 As Integer = 0
-
-        '    retStr = ""
-
-        '    posl3 = 0
-        '    Do While True
-        '        posl1 = orgData.IndexOf(_parseLink1, posl3, StringComparison.Ordinal)
-        '        If posl1 = -1 Then Exit Do
-
-        '        If (posl3 + _parseLink3.Length <> posl1) Or posl3 = 0 Then
-        '            If posl3 <> 0 Then
-        '                retStr += HttpUtility.HtmlDecode(orgData.Substring(posl3 + _parseLink3.Length, posl1 - posl3 - _parseLink3.Length))
-        '            Else
-        '                retStr += HttpUtility.HtmlDecode(orgData.Substring(0, posl1))
-        '            End If
-        '        End If
-        '        posl2 = orgData.IndexOf(_parseLink2, posl1, StringComparison.Ordinal)
-        '        posl3 = orgData.IndexOf(_parseLink3, posl2, StringComparison.Ordinal)
-        '        retStr += HttpUtility.HtmlDecode(orgData.Substring(posl2 + _parseLink2.Length, posl3 - posl2 - _parseLink2.Length))
-        '    Loop
-        '    retStr += HttpUtility.HtmlDecode(orgData.Substring(posl3 + _parseLink3.Length))
-        'End If
-
-        'Return retStr
     End Function
 
     ' htmlの簡易サニタイズ(詳細表示に不要なタグの除去)

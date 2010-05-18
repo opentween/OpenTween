@@ -2464,18 +2464,6 @@ Public NotInheritable Class IdComparerClass
     ''' <param name="col">並び替える列番号</param>
     ''' <param name="ord">昇順か降順か</param>
     ''' <param name="cmod">並び替えの方法</param>
-    'Public Sub New(ByVal ord As SortOrder, ByVal SortMode As ComparerMode)
-    '    _order = ord
-    '    _mode = SortMode
-    '    SetCmpMethod(_mode, _order)
-    'End Sub
-
-    'Public Sub New(ByVal posts As Dictionary(Of Long, PostClass))
-    '    _order = SortOrder.Ascending
-    '    _mode = ComparerMode.Id
-    '    _statuses = posts
-    '    SetCmpMethod(_mode, _order)
-    'End Sub
 
     Public Sub New()
         _order = SortOrder.Ascending
@@ -2547,7 +2535,6 @@ Public NotInheritable Class IdComparerClass
     End Function
 
     ' 比較用関数群 いずれもステータスIDの順序を考慮する
-    ' 注：ID比較でCTypeを使用しているが、abs(x-y)がInteger(Int32)に収まらないことはあり得ないのでこれでよい
     ' 本文比較　昇順
     Public Function Compare_ModeData_Ascending(ByVal x As Long, ByVal y As Long) As Integer
         Dim result As Integer = String.Compare(_statuses.Item(x).Data, _statuses.Item(y).Data)
