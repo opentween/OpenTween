@@ -4510,6 +4510,7 @@ RETRY:
                 GoSamePostToAnotherTab(True)
             End If
             If e.KeyCode = Keys.R Then doReTweetOriginal()
+            If e.KeyCode = Keys.P AndAlso _curPost IsNot Nothing Then doShowUserStatus(_curPost.Name, False)
         End If
         If e.Shift AndAlso Not e.Control AndAlso Not e.Alt Then
             ' SHIFTキーが押されている場合
@@ -4582,7 +4583,6 @@ RETRY:
                 e.SuppressKeyPress = True
                 SendKeys.Send("{UP}")
             End If
-            If e.KeyCode = Keys.P AndAlso _curPost IsNot Nothing Then doShowUserStatus(_curPost.Name, False)
         End If
 
         If e.KeyCode = Keys.C Then
