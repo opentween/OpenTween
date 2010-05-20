@@ -484,7 +484,7 @@ Public Class TweenMain
 
 #If 1 Then
         If _iconCol Then
-            If _statuses.SortOrder() = SortOrder.Ascending Then
+            If _statuses.SortOrder() = SortOrder.Descending Then
                 ' U+25BE BLACK DOWN-POINTING SMALL TRIANGLE
                 ColumnText(2) = ColumnOrgText(2) + "▾"
             Else
@@ -492,7 +492,7 @@ Public Class TweenMain
                 ColumnText(2) = ColumnOrgText(2) + "▴"
             End If
         Else
-            If _statuses.SortOrder() = SortOrder.Ascending Then
+            If _statuses.SortOrder() = SortOrder.Descending Then
                 ' U+25BE BLACK DOWN-POINTING SMALL TRIANGLE
                 ColumnText(c) = ColumnOrgText(c) + "▾"
             Else
