@@ -681,8 +681,13 @@ Public Class TweenMain
 
         SettingDialog.NameBalloon = _cfgCommon.NameBalloon
         SettingDialog.PostCtrlEnter = _cfgCommon.PostCtrlEnter
+
+
         SettingDialog.CountApi = _cfgCommon.CountApi
         SettingDialog.CountApiReply = _cfgCommon.CountApiReply
+        If SettingDialog.CountApi < 20 OrElse SettingDialog.CountApi > 200 Then SettingDialog.CountApi = 60
+        If SettingDialog.CountApiReply < 20 OrElse SettingDialog.CountApiReply > 200 Then SettingDialog.CountApiReply = 40
+
         SettingDialog.UsePostMethod = False
         SettingDialog.BrowserPath = _cfgLocal.BrowserPath
         SettingDialog.PostAndGet = _cfgCommon.PostAndGet
