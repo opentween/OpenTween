@@ -1854,6 +1854,8 @@ Public Class TweenMain
         _reply_to_id = 0
         _reply_to_name = ""
         StatusText.Text = ""
+        _history.Add("")
+        _hisIdx = _history.Count - 1
         DirectCast(ListTab.SelectedTab.Tag, Control).Focus()
         urlUndoBuffer = Nothing
         UrlUndoToolStripMenuItem.Enabled = False  'Undoをできないように設定
@@ -2369,8 +2371,6 @@ Public Class TweenMain
                         End If
                     Next
 
-                    _history.Add("")
-                    _hisIdx = _history.Count - 1
                     If Not HashMgr.IsPermanent AndAlso HashMgr.UseHash <> "" Then
                         HashMgr.ClearHashtag()
                         Me.HashStripSplitButton.Text = "#[-]"
@@ -7281,10 +7281,11 @@ RETRY:
                 CheckNewVersion(True)
             End If
 
-            ' 取得失敗の場合は再試行する
-            If tw.FollowersCount = 0 AndAlso SettingDialog.StartupFollowers Then
-                GetTimeline(WORKERTYPE.Follower, 0, 0, "")
-            End If
+            '取得結果は判断できない。やるならtwitterクラスにプロパティ等追加必要
+            '' 取得失敗の場合は再試行する
+            'If tw.FollowersCount = 0 AndAlso SettingDialog.StartupFollowers Then
+            '    GetTimeline(WORKERTYPE.Follower, 0, 0, "")
+            'End If
 
         Else
             PostButton.Enabled = False
@@ -8316,7 +8317,7 @@ RETRY:
                 End If
                 Me.PreviewScrollBar.Value = 0
                 Me.PreviewPicture.Image = _prev.pics(0).Value
-            Else
+            ElseIf _curPost.Id <> _prev.statusId Then
                 Me.PreviewScrollBar.Maximum = 0
                 Me.PreviewScrollBar.Enabled = False
                 Me.SplitContainer3.Panel2Collapsed = True
