@@ -2,6 +2,7 @@ Public Class nicoms
     Private Shared _nicovideo() As String = { _
         "www.nicovideo.jp/watch/", _
         "live.nicovideo.jp/watch/", _
+        "live.nicovideo.jp/gate/", _
         "live.nicolive.jp/gate/", _
         "co.nicovideo.jp/community/", _
         "com.nicovideo.jp/community/", _
@@ -33,6 +34,6 @@ Public Class nicoms
         i = url.IndexOf("seiga.nicovideo.jp/watch/", StringComparison.OrdinalIgnoreCase)
         If i = 0 Then Return String.Format("{0}{1}", "http://nico.ms/", url.Substring(25))
 
-        return url
+        Return "http://" + url
     End Function
 End Class
