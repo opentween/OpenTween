@@ -85,11 +85,11 @@ Public Class TweenMain
     Private tw As New Twitter
 
     'サブ画面インスタンス
-    Private SettingDialog As New Setting()       '設定画面インスタンス
-    Private TabDialog As New TabsDialog()        'タブ選択ダイアログインスタンス
-    Private SearchDialog As New SearchWord()     '検索画面インスタンス
-    Private fDialog As New FilterDialog() 'フィルター編集画面
-    Private UrlDialog As New OpenURL()
+    Private SettingDialog As New Setting       '設定画面インスタンス
+    Private TabDialog As New TabsDialog        'タブ選択ダイアログインスタンス
+    Private SearchDialog As New SearchWord     '検索画面インスタンス
+    Private fDialog As New FilterDialog 'フィルター編集画面
+    Private UrlDialog As New OpenURL
     Private dialogAsShieldicon As DialogAsShieldIcon    ' シールドアイコン付きダイアログ
     Private AtIdSupl As AtIdSupplement    '@id補助
     Private HashSupl As AtIdSupplement    'Hashtag補助
@@ -131,7 +131,7 @@ Public Class TweenMain
     Private _anchorPost As PostClass
     Private _anchorFlag As Boolean        'True:関連発言移動中（関連移動以外のオペレーションをするとFalseへ。Trueだとリスト背景色をアンカー発言選択中として描画）
 
-    Private _history As New List(Of String)()   '発言履歴
+    Private _history As New List(Of String)   '発言履歴
     Private _hisIdx As Integer                  '発言履歴カレントインデックス
 
     '発言投稿時のAPI引数（発言編集時に設定。手書きreplyでは設定されない）
@@ -139,9 +139,9 @@ Public Class TweenMain
     Private _reply_to_name As String    ' リプライ先ステータスの書き込み者の名前
 
     '時速表示用
-    Private _postTimestamps As New List(Of Date)()
-    Private _favTimestamps As New List(Of Date)()
-    Private _tlTimestamps As New Dictionary(Of Date, Integer)()
+    Private _postTimestamps As New List(Of Date)
+    Private _favTimestamps As New List(Of Date)
+    Private _tlTimestamps As New Dictionary(Of Date, Integer)
     Private _tlCount As Integer
 
     ' 以下DrawItem関連
@@ -2333,11 +2333,11 @@ Public Class TweenMain
             Case WORKERTYPE.DirectMessegeRcv
                 _waitDm = False
             Case WORKERTYPE.FavAdd, WORKERTYPE.FavRemove
-                If _curList IsNot Nothing Then
+                If _curList IsNot Nothing AndAlso _curTab IsNot Nothing Then
                     _curList.BeginUpdate()
-                    If rslt.type = WORKERTYPE.FavRemove AndAlso _curTab IsNot Nothing AndAlso _statuses.Tabs(_curTab.Text).TabType = TabUsageType.Favorites Then
+                    If rslt.type = WORKERTYPE.FavRemove AndAlso _statuses.Tabs(_curTab.Text).TabType = TabUsageType.Favorites Then
                         '色変えは不要
-                    ElseIf _curTab IsNot Nothing Then
+                    Else
                         For i As Integer = 0 To rslt.sIds.Count - 1
                             If _curTab.Text.Equals(rslt.tName) Then
                                 Dim idx As Integer = _statuses.Tabs(rslt.tName).IndexOf(rslt.sIds(i))
@@ -2389,9 +2389,7 @@ Public Class TweenMain
                 End If
                 If rslt.retMsg.Length = 0 AndAlso SettingDialog.PostAndGet Then GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
             Case WORKERTYPE.Retweet
-                If rslt.retMsg.Length > 0 Then
-                    StatusLabel.Text = rslt.retMsg
-                Else
+                If rslt.retMsg.Length = 0 Then
                     _postTimestamps.Add(Now)
                     Dim oneHour As Date = Now.Subtract(New TimeSpan(1, 0, 0))
                     For i As Integer = _postTimestamps.Count - 1 To 0 Step -1
@@ -2399,8 +2397,8 @@ Public Class TweenMain
                             _postTimestamps.RemoveAt(i)
                         End If
                     Next
+                    If SettingDialog.PostAndGet Then GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
                 End If
-                If rslt.retMsg.Length = 0 AndAlso SettingDialog.PostAndGet Then GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
             Case WORKERTYPE.Follower
                 '_waitFollower = False
                 _itemCache = Nothing
