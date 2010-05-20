@@ -6044,18 +6044,6 @@ RETRY:
         Return MyBase.ProcessDialogKey(keyData)
     End Function
 
-    Private Sub InfoTwitterMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles InfoTwitterMenuItem.Click
-        If tw.InfoTwitter.Trim() = "" Then
-            MessageBox.Show(My.Resources.InfoTwitterMenuItem_ClickText1, My.Resources.InfoTwitterMenuItem_ClickText2, MessageBoxButtons.OK, MessageBoxIcon.Information)
-        Else
-            Dim inf As String = tw.InfoTwitter.Trim()
-            inf = "<html><head></head><body>" + inf + "</body></html>"
-            PostBrowser.Visible = False
-            PostBrowser.DocumentText = inf
-            PostBrowser.Visible = True
-        End If
-    End Sub
-
     Private Sub ReplyAllStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReplyAllStripMenuItem.Click, ReplyAllOpMenuItem.Click
         MakeReplyOrDirectStatus(False, True, True)
     End Sub
@@ -8482,6 +8470,35 @@ RETRY:
     Private Sub ShowProfileMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowProfileMenuItem.Click, ShowProfMenuItem.Click
         If _curPost IsNot Nothing Then
             ShowUserStatus(_curPost.Name, False)
+        End If
+    End Sub
+
+    Private Delegate Function GetRetweetCountDelegate(ByVal statusid As Long) As Integer
+
+    Private Function doGetRetweetCount(ByVal statusid As Long) As Integer
+        Dim counter As Integer = 0
+        tw.GetStatus_Retweeted_Count(statusid, counter)
+        Return counter
+    End Function
+
+    Private Sub GetRetweetCallback(ByVal ar As IAsyncResult)
+        Dim retweet_count As Integer
+        Dim dlgt As GetRetweetCountDelegate = DirectCast(ar.AsyncState, GetRetweetCountDelegate)
+        retweet_count = dlgt.EndInvoke(ar)
+
+        MessageBox.Show("Retweet_count = " + retweet_count.ToString)
+    End Sub
+
+    Private Sub RtCountMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RtCountMenuItem.Click
+        If _curPost IsNot Nothing Then
+            Dim statusid As Long
+            Dim dlgRtCount As New GetRetweetCountDelegate(AddressOf doGetRetweetCount)
+            If _curPost.RetweetedId > 0 Then
+                statusid = _curPost.RetweetedId
+            Else
+                statusid = _curPost.Id
+            End If
+            Dim ar As IAsyncResult = dlgRtCount.BeginInvoke(statusid, New AsyncCallback(AddressOf GetRetweetCallback), dlgRtCount)
         End If
     End Sub
 End Class
