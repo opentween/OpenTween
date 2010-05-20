@@ -852,6 +852,54 @@ Public Class Twitter
                 Return "Err:" + res.ToString
         End Select
     End Function
+
+    Public Function GetStatus_Retweeted_Count(ByVal StatusId As Long, ByRef retweeted_count As Integer) As String
+
+        If _endingFlag Then Return ""
+
+        If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
+
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+        Dim xmlBuf As String = ""
+
+        retweeted_count = 0
+
+        ' 注：dev.twitter.comに記述されているcountパラメータは間違い。100が正しい
+        For i As Integer = 1 To 20
+
+            Try
+                res = twCon.Statusid_retweeted_by_ids(StatusId, 100, i, content)
+            Catch ex As Exception
+                Return "Err:" + ex.Message
+            End Try
+
+            Select Case res
+                Case HttpStatusCode.OK
+                    Dim xdoc As New XmlDocument
+                    Dim xnode As XmlNodeList
+                    Dim result As String = ""
+                    Try
+                        xdoc.LoadXml(content)
+                        xnode = xdoc.GetElementsByTagName("ids")
+                        retweeted_count += xnode.ItemOf(0).ChildNodes.Count
+                        If xnode.ItemOf(0).ChildNodes.Count < 100 Then Exit For
+                    Catch ex As Exception
+                        result = "Err:Invalid XML."
+                        xmlBuf = Nothing
+                    End Try
+                Case HttpStatusCode.BadRequest
+                    Return "Err:API Limits?"
+                Case HttpStatusCode.Unauthorized
+                    Twitter.AccountState = ACCOUNT_STATE.Invalid
+                    Return "Check your Username/Password."
+                Case Else
+                    Return "Err:" + res.ToString
+            End Select
+        Next
+        Return ""
+    End Function
+
     Public Function PostFavAdd(ByVal id As Long) As String
         If _endingFlag Then Return ""
 

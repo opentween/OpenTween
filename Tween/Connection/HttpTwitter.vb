@@ -424,6 +424,21 @@ Public Class HttpTwitter
                             _remainCountApi)
     End Function
 
+    Public Function Statusid_retweeted_by_ids(ByVal statusid As Long, ByVal count As Integer, ByVal page As Integer, ByRef content As String) As HttpStatusCode
+        Dim param As New Dictionary(Of String, String)
+        If count > 0 Then
+            param.Add("count", count.ToString())
+        End If
+        If page > 0 Then
+            param.Add("page", page.ToString())
+        End If
+
+        Return httpCon.GetContent(GetMethod, _
+                            CreateTwitterUri("/1/statuses/" + statusid.ToString + "/retweeted_by/ids.xml"), _
+                            param, _
+                            content, _
+                            _remainCountApi)
+    End Function
 
 #Region "Proxy API"
     Private Shared _twitterUrl As String = "api.twitter.com"
