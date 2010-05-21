@@ -790,4 +790,10 @@
   <data name="ShowUserInfo2" xml:space="preserve">
     <value>最新発言の取得に失敗しました</value>
   </data>
+  <data name="RtCountText1" xml:space="preserve">
+    <value>回Retweetされています</value>
+  </data>
+  <data name="RtCountText2" xml:space="preserve">
+    <value>Retweetカウントの取得に失敗しました</value>
+  </data>
 </root>

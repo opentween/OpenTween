@@ -316,20 +316,20 @@ Namespace My.Resources
         '''<summary>
         '''  更新履歴
         '''
-        '''==== Ver 0.8.9.4(2010/05/**)
-        ''' * 初期設定でのMentions取得数を40件へ。バージョンアップの方は手動で調整してください。
-        ''' * 画像プレビューをフォト蔵に対応
-        ''' * 起動時のFollowersリスト取得処理に失敗した場合、初期読み込み処理の最終段階で再試行するようにした
-        ''' * Twitterが相変わらずおかしいので、一時期無効にしていた公式RTがFav済みで流れてくる件の対策を復活
-        ''' * 詳細表示の名前表示部分を右クリックすることで、発言者のユーザー情報確認、フォロー・フォロー解除が行えるようにした
-        ''' * 詳細発言表示での右クリックメニューからユーザー情報の確認ができるようにした
-        ''' * 画面が白くなる問題に対処
-        ''' * 未読カウントがずれる問題に対処
-        ''' * 右クリックメニュー、操作メニューにプロフィール表示を追加。ショートカットキーはAlt+P。
-        ''' * カラムにソート方向を常時表示するようにした
-        ''' * Altキー2回押しでフォーカスがSplitContainerに移る不具合修正
-        ''' * 自身のバージョン取得方法変更
-        ''' * 自身のファイル [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        '''==== Ver 0.9.1.1(2010/05/**)
+        ''' * Ctrl+Pでユーザープロフィール画面が開いてしまうことがあったバグを修正
+        ''' * 通信時のメッセージログで時間も参照できるように
+        ''' * 設定ファイル読み込み時のエラーチェックを見直し
+        ''' * ソート順表示の方向が逆だったのを修正
+        ''' * その他機能に「この発言のRetweet回数を確認」を追加。Webでは見えなかった100人以上のRTでも確認できます。100人ごとにAPIを1消費します。（例：550人がRTしていれば6消費）
+        ''' * ニコ動の短縮パターンに漏れがあり、誤動作していたバグ修正
+        ''' * 発言履歴への追加・更新タイミング変更
+        ''' * 表示中の画像プレビューが閉じてしまう場合がある不具合修正
+        ''' * 詳細表示のユーザーアイコンダブルクリックでも発言者のホームを開けるようにした
+        '''==== Ver 0.9.1.0(2010/05/19)
+        ''' * リスト部のソート順表示が2カラムの場合に対応できていなかった問題を修正
+        '''==== Ver 0.9.0.0(2010/05/19)
+        ''' * 初期設定でのMentionsの更新間 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property ChangeLog() As String
             Get
@@ -1310,6 +1310,24 @@ Namespace My.Resources
         Friend ReadOnly Property RetweetQuestion1() As String
             Get
                 Return ResourceManager.GetString("RetweetQuestion1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  回Retweetされています に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property RtCountText1() As String
+            Get
+                Return ResourceManager.GetString("RtCountText1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Retweetカウントの取得に失敗しました に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property RtCountText2() As String
+            Get
+                Return ResourceManager.GetString("RtCountText2", resourceCulture)
             End Get
         End Property
         

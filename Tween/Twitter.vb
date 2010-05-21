@@ -866,7 +866,7 @@ Public Class Twitter
         retweeted_count = 0
 
         ' 注：dev.twitter.comに記述されているcountパラメータは間違い。100が正しい
-        For i As Integer = 1 To 20
+        For i As Integer = 1 To 100
 
             Try
                 res = twCon.Statusid_retweeted_by_ids(StatusId, 100, i, content)
@@ -885,15 +885,19 @@ Public Class Twitter
                         retweeted_count += xnode.ItemOf(0).ChildNodes.Count
                         If xnode.ItemOf(0).ChildNodes.Count < 100 Then Exit For
                     Catch ex As Exception
+                        retweeted_count = -1
                         result = "Err:Invalid XML."
                         xmlBuf = Nothing
                     End Try
                 Case HttpStatusCode.BadRequest
+                    retweeted_count = -1
                     Return "Err:API Limits?"
                 Case HttpStatusCode.Unauthorized
+                    retweeted_count = -1
                     Twitter.AccountState = ACCOUNT_STATE.Invalid
                     Return "Check your Username/Password."
                 Case Else
+                    retweeted_count = -1
                     Return "Err:" + res.ToString
             End Select
         Next
