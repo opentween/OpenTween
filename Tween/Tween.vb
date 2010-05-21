@@ -8107,7 +8107,7 @@ RETRY:
             'サムネイルURL http://img[サーバー番号].pixiv.net/img/[ユーザー名]/[サムネイルID]_s.[拡張子]
             'サムネイルURLは画像ページから抽出する
             mc = Regex.Match(url, "^http://www\.pixiv\.net/(member_illust|index)\.php\?mode=(medium|big)&(amp;)?illust_id=(?<illustId>[0-9]+)(&(amp;)?tag=(?<tag>.+)?)*$", RegexOptions.IgnoreCase)
-            If Not mc.Groups("tag").Value = "R-18" AndAlso mc.Success Then
+            If mc.Success Then
                 imglist.Add(New KeyValuePair(Of String, String)(url.Replace("amp;", ""), mc.Value))
                 Continue For
             End If
@@ -8190,12 +8190,17 @@ RETRY:
                 Dim src As String = ""
                 'illustIDをキャプチャ
                 Dim mc As Match = Regex.Match(url.Key, "^http://www\.pixiv\.net/(member_illust|index)\.php\?mode=(medium|big)&(amp;)?illust_id=(?<illustId>[0-9]+)(&(amp;)?tag=(?<tag>.+)?)*$", RegexOptions.IgnoreCase)
-                If (New HttpVarious).GetData(Regex.Replace(mc.Groups(0).Value, "amp;", ""), Nothing, src, 5000) Then
-                    Dim _mc As Match = Regex.Match(src, mc.Result("http://img([0-9]+)\.pixiv\.net/img/.+/${illustId}_s\.([a-zA-Z]+)"))
-                    If _mc.Success Then
-                        Dim _img As Image = http.GetImage(_mc.Value, url.Key)
-                        If _img Is Nothing Then Continue For
-                        arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, _img))
+                If mc.Groups("tag").Value = "R-18" OrElse mc.Groups("tag").Value = "R-18G" Then
+                    arg.IsError = True
+                    arg.AdditionalErrorMessage = "(NeededLogin.NotSupported)"
+                Else
+                    If (New HttpVarious).GetData(Regex.Replace(mc.Groups(0).Value, "amp;", ""), Nothing, src, 5000) Then
+                        Dim _mc As Match = Regex.Match(src, mc.Result("http://img([0-9]+)\.pixiv\.net/img/.+/${illustId}_s\.([a-zA-Z]+)"))
+                        If _mc.Success Then
+                            Dim _img As Image = http.GetImage(_mc.Value, url.Key)
+                            If _img Is Nothing Then Continue For
+                            arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, _img))
+                        End If
                     End If
                 End If
             ElseIf url.Key.StartsWith("http://www.flickr.com/") Then
