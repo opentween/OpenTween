@@ -165,8 +165,18 @@ Public Class ShowUserInfo
         LinkLabelTweet.Text = _info.StatusesCount.ToString
 
         LabelCreatedAt.Text = _info.CreatedAt.ToString
-        LabelIsProtected.Text = DirectCast(IIf(_info.Protect, My.Resources.Yes, My.Resources.No), String)
-        LabelIsVerified.Text = DirectCast(IIf(_info.Verified, My.Resources.Yes, My.Resources.No), String)
+
+        If _info.Protect Then
+            LabelIsProtected.Text = My.Resources.Yes
+        Else
+            LabelIsProtected.Text = My.Resources.No
+        End If
+
+        If _info.Verified Then
+            LabelIsVerified.Text = My.Resources.Yes
+        Else
+            LabelIsVerified.Text = My.Resources.No
+        End If
     End Sub
 
     Private Sub ButtonClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonClose.Click
