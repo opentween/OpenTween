@@ -8172,7 +8172,11 @@ RETRY:
         ElseIf ProgressPercentage = 100 Then '正常終了
             StatusLabel.Text = "Thumbnail generated."
         Else ' エラー
-            StatusLabel.Text = "can't get Thumbnail." + IIf(AddMsg Is Nothing, "", AddMsg).ToString
+            If AddMsg Is Nothing Then
+                StatusLabel.Text = "can't get Thumbnail."
+            Else
+                StatusLabel.Text = "can't get Thumbnail." + AddMsg
+            End If
         End If
     End Sub
 
