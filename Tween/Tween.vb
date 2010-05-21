@@ -8257,7 +8257,8 @@ RETRY:
                     End If
                 End If
                 Continue For
-            ElseIf Regex.Match(url.Key, "^http://.+\.tumblr\.com/.+/?", RegexOptions.IgnoreCase).Success Then
+            ElseIf Regex.Match(url.Key, "^http://.+\.tumblr\.com/.+/?", RegexOptions.IgnoreCase).Success _
+                        AndAlso Not Regex.Match(url.Key, "^http://.*(\.jpg|\.jpeg|\.gif|\.png|\.bmp)$", RegexOptions.IgnoreCase).Success Then
                 Dim TargetUrl As String = (New HttpVarious).GetRedirectTo(url.Key)
                 Dim mc As Match = Regex.Match(TargetUrl, "(?<base>http://.+?\.tumblr\.com/)post/(?<postID>[0-9]+)(/(?<subject>.+?)/)?", RegexOptions.IgnoreCase)
                 Dim apiurl As String = mc.Groups("base").Value + "api/read?id=" + mc.Groups("postID").Value
