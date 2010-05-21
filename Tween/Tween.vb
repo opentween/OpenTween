@@ -8196,7 +8196,7 @@ RETRY:
                 Dim mc As Match = Regex.Match(url.Key, "^http://www\.pixiv\.net/(member_illust|index)\.php\?mode=(medium|big)&(amp;)?illust_id=(?<illustId>[0-9]+)(&(amp;)?tag=(?<tag>.+)?)*$", RegexOptions.IgnoreCase)
                 If mc.Groups("tag").Value = "R-18" OrElse mc.Groups("tag").Value = "R-18G" Then
                     arg.IsError = True
-                    arg.AdditionalErrorMessage = "(NeededLogin.NotSupported)"
+                    arg.AdditionalErrorMessage = "(NeedLogin.NotSupported)"
                 Else
                     If (New HttpVarious).GetData(Regex.Replace(mc.Groups(0).Value, "amp;", ""), Nothing, src, 5000) Then
                         Dim _mc As Match = Regex.Match(src, mc.Result("http://img([0-9]+)\.pixiv\.net/img/.+/${illustId}_s\.([a-zA-Z]+)"))
