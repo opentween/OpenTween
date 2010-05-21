@@ -8488,7 +8488,11 @@ RETRY:
         Dim dlgt As GetRetweetCountDelegate = DirectCast(ar.AsyncState, GetRetweetCountDelegate)
         retweet_count = dlgt.EndInvoke(ar)
 
-        MessageBox.Show("Retweet_count = " + retweet_count.ToString)
+        If retweet_count < 0 Then
+            MessageBox.Show(My.Resources.RtCountText2)
+        Else
+            MessageBox.Show(retweet_count.ToString + My.Resources.RtCountText1)
+        End If
     End Sub
 
     Private Sub RtCountMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RtCountMenuItem.Click
