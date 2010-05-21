@@ -8307,7 +8307,7 @@ RETRY:
             Me.PreviewScrollBar.Maximum = 0
             Me.PreviewScrollBar.Enabled = False
             Me.SplitContainer3.Panel2Collapsed = True
-            If prv.AdditionalErrorMessage IsNot Nothing Then
+            If prv IsNot Nothing AndAlso prv.AdditionalErrorMessage IsNot Nothing Then
                 ThumbnailProgressChanged(-1, prv.AdditionalErrorMessage)
             Else
                 ThumbnailProgressChanged(-1)
