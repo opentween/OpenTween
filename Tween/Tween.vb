@@ -7936,6 +7936,9 @@ RETRY:
             urls = urlList
         End Sub
 
+        Public IsError As Boolean
+        Public AdditionalErrorMessage As String
+
         Private disposedValue As Boolean = False        ' 重複する呼び出しを検出するには
 
         ' IDisposable
@@ -8163,19 +8166,21 @@ RETRY:
 
     End Sub
 
-    Private Sub ThumbnailProgressChanged(ByVal ProgressPercentage As Integer)
+    Private Sub ThumbnailProgressChanged(ByVal ProgressPercentage As Integer, Optional ByVal AddMsg As String = Nothing)
         If ProgressPercentage = 0 Then    '開始
             StatusLabel.Text = "Thumbnail generating..."
         ElseIf ProgressPercentage = 100 Then '正常終了
             StatusLabel.Text = "Thumbnail generated."
         Else ' エラー
-            StatusLabel.Text = "can't get Thumbnail."
+            StatusLabel.Text = "can't get Thumbnail." + IIf(AddMsg Is Nothing, "", AddMsg).ToString
         End If
     End Sub
 
     Private Sub bgw_DoWork(ByVal sender As Object, ByVal e As System.ComponentModel.DoWorkEventArgs)
         Dim arg As PreviewData = DirectCast(e.Argument, PreviewData)
         Dim worker As BackgroundWorker = DirectCast(sender, BackgroundWorker)
+        Dim addMsg As String = Nothing
+        arg.AdditionalErrorMessage = Nothing
 
         ' pixiv,Flickr,piapro,フォト蔵,tumblrの解析もこちらでやる
         For Each url As KeyValuePair(Of String, String) In arg.urls
@@ -8258,8 +8263,12 @@ RETRY:
                     Try
                         xdoc.LoadXml(src)
 
-                        If xdoc.SelectSingleNode("/tumblr/posts/post").Attributes("type").Value = "photo" Then
+                        Dim type As String = xdoc.SelectSingleNode("/tumblr/posts/post").Attributes("type").Value
+                        If type = "photo" Then
                             imgurl = xdoc.SelectSingleNode("/tumblr/posts/post/photo-url").InnerText
+                        Else
+                            arg.AdditionalErrorMessage = "(PostType:" + type + ")"
+                            arg.IsError = True
                         End If
 
                     Catch ex As Exception
@@ -8280,21 +8289,26 @@ RETRY:
             End If
         Next
         If arg.pics.Count = 0 Then
-            e.Result = Nothing
+            arg.IsError = True
         Else
-            e.Result = arg
+            arg.IsError = False
         End If
+        e.Result = arg
     End Sub
 
     Private Sub bgw_Completed(ByVal sender As System.Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs)
-        If e.Result Is Nothing Then
+        Dim prv As PreviewData = TryCast(e.Result, PreviewData)
+        If prv Is Nothing OrElse prv.IsError Then
             Me.PreviewScrollBar.Maximum = 0
             Me.PreviewScrollBar.Enabled = False
             Me.SplitContainer3.Panel2Collapsed = True
-            ThumbnailProgressChanged(-1)
+            If prv.AdditionalErrorMessage IsNot Nothing Then
+                ThumbnailProgressChanged(-1, prv.AdditionalErrorMessage)
+            Else
+                ThumbnailProgressChanged(-1)
+            End If
             Exit Sub
         End If
-        Dim prv As PreviewData = DirectCast(e.Result, PreviewData)
         SyncLock lckPrev
             If prv IsNot Nothing AndAlso _curPost IsNot Nothing AndAlso prv.statusId = _curPost.Id Then
                 _prev = prv
