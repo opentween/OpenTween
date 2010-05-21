@@ -8166,13 +8166,13 @@ RETRY:
 
     End Sub
 
-    Private Sub ThumbnailProgressChanged(ByVal ProgressPercentage As Integer, Optional ByVal AddMsg As String = Nothing)
+    Private Sub ThumbnailProgressChanged(ByVal ProgressPercentage As Integer, Optional ByVal AddMsg As String = "")
         If ProgressPercentage = 0 Then    '開始
             StatusLabel.Text = "Thumbnail generating..."
         ElseIf ProgressPercentage = 100 Then '正常終了
             StatusLabel.Text = "Thumbnail generated."
         Else ' エラー
-            If AddMsg Is Nothing Then
+            If String.IsNullOrEmpty(AddMsg) Then
                 StatusLabel.Text = "can't get Thumbnail."
             Else
                 StatusLabel.Text = "can't get Thumbnail." + AddMsg
@@ -8183,8 +8183,8 @@ RETRY:
     Private Sub bgw_DoWork(ByVal sender As Object, ByVal e As System.ComponentModel.DoWorkEventArgs)
         Dim arg As PreviewData = DirectCast(e.Argument, PreviewData)
         Dim worker As BackgroundWorker = DirectCast(sender, BackgroundWorker)
-        Dim addMsg As String = Nothing
-        arg.AdditionalErrorMessage = Nothing
+        Dim addMsg As String = ""
+        arg.AdditionalErrorMessage = ""
 
         ' pixiv,Flickr,piapro,フォト蔵,tumblrの解析もこちらでやる
         For Each url As KeyValuePair(Of String, String) In arg.urls
@@ -8312,7 +8312,7 @@ RETRY:
             Me.PreviewScrollBar.Maximum = 0
             Me.PreviewScrollBar.Enabled = False
             Me.SplitContainer3.Panel2Collapsed = True
-            If prv IsNot Nothing AndAlso prv.AdditionalErrorMessage IsNot Nothing Then
+            If prv IsNot Nothing AndAlso Not String.IsNullOrEmpty(prv.AdditionalErrorMessage) Then
                 ThumbnailProgressChanged(-1, prv.AdditionalErrorMessage)
             Else
                 ThumbnailProgressChanged(-1)
