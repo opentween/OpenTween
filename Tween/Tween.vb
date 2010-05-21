@@ -1926,7 +1926,7 @@ Public Class TweenMain
 
         If Not CheckAccountValid() Then
             rslt.retMsg = "Auth error. Check your account"
-            rslt.type = args.type
+            rslt.type = WORKERTYPE.ErrorState  'エラー表示のみ行ない、後処理キャンセル
             rslt.tName = args.tName
             e.Result = rslt
             Exit Sub
@@ -2276,6 +2276,8 @@ Public Class TweenMain
             _myStatusError = True
             StatusLabel.Text = rslt.retMsg
         End If
+
+        If rslt.type = WORKERTYPE.ErrorState Then Exit Sub
 
         If rslt.type = WORKERTYPE.FavRemove Then
             DispSelectedPost()          ' 詳細画面書き直し
