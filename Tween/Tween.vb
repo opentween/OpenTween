@@ -8331,7 +8331,7 @@ RETRY:
                 End If
                 Me.PreviewScrollBar.Value = 0
                 Me.PreviewPicture.Image = _prev.pics(0).Value
-            ElseIf _prev IsNot Nothing AndAlso _curPost.Id <> _prev.statusId Then
+            ElseIf _curPost Is Nothing OrElse (_prev IsNot Nothing AndAlso _curPost.Id <> _prev.statusId) Then
                 Me.PreviewScrollBar.Maximum = 0
                 Me.PreviewScrollBar.Enabled = False
                 Me.SplitContainer3.Panel2Collapsed = True
