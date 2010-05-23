@@ -742,12 +742,6 @@
   <data name="OwnStatusMenuItem.Text" xml:space="preserve">
     <value>Show your profile</value>
   </data>
-  <data name="UserStatusToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>250, 22</value>
-  </data>
-  <data name="UserStatusToolStripMenuItem.Text" xml:space="preserve">
-    <value>Show User Profile</value>
-  </data>
   <data name="ToolStripSeparator34.Size" type="System.Drawing.Size, System.Drawing">
     <value>247, 6</value>
   </data>
@@ -763,53 +757,29 @@
   <data name="HashManageToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Hashtag Manager</value>
   </data>
+  <data name="RtCountMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>250, 22</value>
+  </data>
+  <data name="RtCountMenuItem.Text" xml:space="preserve">
+    <value>Retweeted &amp;Count that tweet</value>
+  </data>
   <data name="MenuItemCommand.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 22</value>
   </data>
   <data name="MenuItemCommand.Text" xml:space="preserve">
     <value>&amp;Command</value>
   </data>
-  <data name="MatomeMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 22</value>
-  </data>
   <data name="MatomeMenuItem.Text" xml:space="preserve">
     <value>Open Tween &amp;Help Site</value>
-  </data>
-  <data name="ToolStripSeparator16.Size" type="System.Drawing.Size, System.Drawing">
-    <value>245, 6</value>
-  </data>
-  <data name="VerUpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 22</value>
   </data>
   <data name="VerUpMenuItem.Text" xml:space="preserve">
     <value>Check for Updates (&amp;G)</value>
   </data>
-  <data name="ToolStripSeparator14.Size" type="System.Drawing.Size, System.Drawing">
-    <value>245, 6</value>
-  </data>
-  <data name="ApiInfoMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 22</value>
-  </data>
   <data name="ApiInfoMenuItem.Text" xml:space="preserve">
     <value>API Information</value>
   </data>
-  <data name="InfoTwitterMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 22</value>
-  </data>
-  <data name="InfoTwitterMenuItem.Text" xml:space="preserve">
-    <value>Get &amp;Information from Twitter</value>
-  </data>
-  <data name="ToolStripSeparator7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>245, 6</value>
-  </data>
-  <data name="AboutMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 22</value>
-  </data>
   <data name="AboutMenuItem.Text" xml:space="preserve">
     <value>&amp;About Tween...</value>
-  </data>
-  <data name="DebugModeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 22</value>
   </data>
   <data name="MenuItemHelp.Size" type="System.Drawing.Size, System.Drawing">
     <value>46, 22</value>
