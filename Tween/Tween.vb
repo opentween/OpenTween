@@ -8499,36 +8499,42 @@ RETRY:
         End If
     End Sub
 
-    Private Delegate Function GetRetweetCountDelegate(ByVal statusid As Long) As Integer
-
-    Private Function doGetRetweetCount(ByVal statusid As Long) As Integer
+    Private Sub GetRetweet_DoWork(ByVal sender As Object, ByVal e As ComponentModel.DoWorkEventArgs)
         Dim counter As Integer = 0
-        tw.GetStatus_Retweeted_Count(statusid, counter)
-        Return counter
-    End Function
 
-    Private Sub GetRetweetCallback(ByVal ar As IAsyncResult)
-        Dim retweet_count As Integer
-        Dim dlgt As GetRetweetCountDelegate = DirectCast(ar.AsyncState, GetRetweetCountDelegate)
-        retweet_count = dlgt.EndInvoke(ar)
-
-        If retweet_count < 0 Then
-            MessageBox.Show(My.Resources.RtCountText2)
+        Dim statusid As Long
+        If _curPost.RetweetedId > 0 Then
+            statusid = _curPost.RetweetedId
         Else
-            MessageBox.Show(retweet_count.ToString + My.Resources.RtCountText1)
+            statusid = _curPost.Id
         End If
+        tw.GetStatus_Retweeted_Count(statusid, counter)
+
+        e.Result = counter
+    End Sub
+
+    Private Sub GetRetweet_RunWorkerCompleted(ByVal sender As System.Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs)
+        Dim retweet_count As Integer = CType(e.Result, Integer)
     End Sub
 
     Private Sub RtCountMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RtCountMenuItem.Click
         If _curPost IsNot Nothing Then
-            Dim statusid As Long
-            Dim dlgRtCount As New GetRetweetCountDelegate(AddressOf doGetRetweetCount)
-            If _curPost.RetweetedId > 0 Then
-                statusid = _curPost.RetweetedId
+            Dim _info As New FormInfo
+            Dim retweet_count As Integer = 0
+            _info.InfoMessage = "Retweetカウント取得中・・・・"
+
+            AddHandler _info.Servicer.DoWork, AddressOf GetRetweet_DoWork
+            AddHandler _info.Servicer.RunWorkerCompleted, AddressOf GetRetweet_RunWorkerCompleted
+
+            ' ダイアログ表示
+            _info.ShowDialog()
+            retweet_count = CType(_info.ReturnValue, Integer)
+            If retweet_count < 0 Then
+                MessageBox.Show(My.Resources.RtCountText2)
             Else
-                statusid = _curPost.Id
+                MessageBox.Show(retweet_count.ToString + My.Resources.RtCountText1)
             End If
-            Dim ar As IAsyncResult = dlgRtCount.BeginInvoke(statusid, New AsyncCallback(AddressOf GetRetweetCallback), dlgRtCount)
+            _info.Dispose()
         End If
     End Sub
 End Class
