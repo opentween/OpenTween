@@ -2458,14 +2458,6 @@ Public Class TweenMain
         'End If
     End Sub
 
-    Private Function NextPageMessage(ByVal page As Integer) As DialogResult
-        Dim flashRslt As Integer = Win32Api.FlashWindow(Me.Handle.ToInt32, 1)
-        Return MessageBox.Show((page * 20).ToString + My.Resources.GetTimelineWorker_RunWorkerCompletedText2, _
-                           My.Resources.GetTimelineWorker_RunWorkerCompletedText3, _
-                           MessageBoxButtons.YesNo, _
-                           MessageBoxIcon.Question)
-    End Function
-
     Private Sub NotifyIcon1_MouseClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles NotifyIcon1.MouseClick
         If e.Button = Windows.Forms.MouseButtons.Left Then
             Me.Visible = True
