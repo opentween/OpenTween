@@ -7227,6 +7227,8 @@ RETRY:
 
         End Try
 
+        NotifyIcon1.Visible = True
+
         If IsNetworkAvailable() Then
             If SettingDialog.StartupFollowers Then
                 GetTimeline(WORKERTYPE.Follower, 0, 0, "")
