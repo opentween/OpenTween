@@ -455,13 +455,6 @@ Module Win32Api
     End Function
 #End Region
 
-    '画面をブリンクするためのWin32API。起動時に10ページ読み取りごとに継続確認メッセージを表示する際の通知強調用
-    <DllImport("user32.dll")> _
-    Public Function FlashWindow( _
-        ByVal hwnd As Integer, _
-        ByVal bInvert As Integer) As Integer
-    End Function
-
     <DllImport("user32.dll")> _
     Public Function ValidateRect( _
         ByVal hwnd As IntPtr, _
