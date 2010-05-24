@@ -522,6 +522,8 @@ Public Class TweenMain
     End Sub
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        '''グローバルホットキーの登録。設定で変更可能にするかも
+        '''_hookGlobalHotkey.RegisterOriginalHotkey(Keys.T, HookGlobalHotkey.ModKeys.Ctrl Or HookGlobalHotkey.ModKeys.Alt)
         _ignoreConfigSave = True
         Me.Visible = False
         SecurityManager = New InternetSecurityManager(PostBrowser)
@@ -8536,5 +8538,25 @@ RETRY:
             End If
             _info.Dispose()
         End If
+    End Sub
+
+    Private WithEvents _hookGlobalHotkey As HookGlobalHotkey
+    Public Sub New()
+
+        _hookGlobalHotkey = New HookGlobalHotkey(Me)
+        ' この呼び出しは、Windows フォーム デザイナで必要です。
+        InitializeComponent()
+
+        ' InitializeComponent() 呼び出しの後で初期化を追加します。
+
+    End Sub
+
+    Private Sub _hookGlobalHotkey_HotkeyPressed(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles _hookGlobalHotkey.HotkeyPressed
+        Me.Visible = True
+        If Me.WindowState = FormWindowState.Minimized Then
+            Me.WindowState = FormWindowState.Normal
+        End If
+        Me.Activate()
+        Me.StatusText.Focus()
     End Sub
 End Class
