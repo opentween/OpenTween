@@ -783,8 +783,10 @@ Public Class TweenMain
 
         _initial = True
 
+        Dim saveRequired As Boolean = False
         'ユーザー名、パスワードが未設定なら設定画面を表示（初回起動時など）
         If tw.Username = "" Then
+            saveRequired = True
             '設定せずにキャンセルされた場合はプログラム終了
             If SettingDialog.ShowDialog() = Windows.Forms.DialogResult.Cancel Then
                 Application.Exit()  '強制終了
@@ -1087,7 +1089,7 @@ Public Class TweenMain
         'TimerColorize.Start()
         _ignoreConfigSave = False
         Me.TweenMain_Resize(Nothing, Nothing)
-        SaveConfigsAll(False)
+        If saveRequired Then SaveConfigsAll(False)
     End Sub
 
     Private Sub spaceKeyCanceler_SpaceCancel(ByVal sender As Object, ByVal e As EventArgs)
@@ -7214,6 +7216,13 @@ RETRY:
         If bw Is Nothing Then Exit Sub
 
         bw.RunWorkerAsync(args)
+
+        Static cnt As Integer = 0
+        cnt += 1
+        If cnt > 100 Then
+            GC.Collect()
+            cnt = 0
+        End If
     End Sub
 
     Private Sub TweenMain_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
