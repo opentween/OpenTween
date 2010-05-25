@@ -47,7 +47,15 @@ Public Class HookGlobalHotkey
     End Sub
 
     Public Function RegisterOriginalHotkey(ByVal hotkey As Keys, ByVal modifiers As ModKeys) As Boolean
-        Dim key As New KeyEventArgs(DirectCast(hotkey Or modifiers, Keys))
+        Dim modKey As Keys = Keys.None
+        If (modifiers And ModKeys.Alt) = ModKeys.Alt Then modKey = modKey Or Keys.Alt
+        If (modifiers And ModKeys.Ctrl) = ModKeys.Ctrl Then modKey = modKey Or Keys.Control
+        If (modifiers And ModKeys.Shift) = ModKeys.Shift Then modKey = modKey Or Keys.Shift
+        If (modifiers And ModKeys.Win) = ModKeys.Win Then modKey = modKey Or Keys.LWin
+        Dim key As New KeyEventArgs(hotkey Or modKey)
+        For Each kvp As KeyValuePair(Of Integer, KeyEventArgs) In Me._hotkeyID
+            If kvp.Value.KeyData = key.KeyData Then Return True '“o˜^Ï‚Ý‚È‚ç³íI—¹
+        Next
         Dim hotkeyId As Integer = RegisterGlobalHotKey(hotkey, modifiers, Me._targetForm)
         If hotkeyId > 0 Then
             Me._hotkeyID.Add(hotkeyId, key)
