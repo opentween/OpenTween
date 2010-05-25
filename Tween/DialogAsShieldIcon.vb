@@ -72,6 +72,7 @@ Public Class DialogAsShieldIcon
 
         MyBase.Show()
         Do While Me.dResult = Windows.Forms.DialogResult.None
+            System.Threading.Thread.Sleep(200)
             Application.DoEvents()
         Loop
         If Buttons = MessageBoxButtons.YesNo Then
