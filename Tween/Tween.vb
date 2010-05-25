@@ -1424,7 +1424,7 @@ Public Class TweenMain
                         '制御しない
                         'smode = -1
                         '現在表示位置へ強制スクロール
-                        topId = _statuses.GetId(_curTab.Text, _curList.TopItem.Index)
+                        If _curList.TopItem IsNot Nothing Then topId = _statuses.GetId(_curTab.Text, _curList.TopItem.Index)
                         smode = 0
                     Else
                         '最下行が表示されていたら、最下行へ強制スクロール。最下行が表示されていなかったら制御しない
@@ -1435,7 +1435,7 @@ Public Class TweenMain
                             smode = -2
                         Else
                             'smode = -1
-                            topId = _statuses.GetId(_curTab.Text, _curList.TopItem.Index)
+                            If _curList.TopItem IsNot Nothing Then topId = _statuses.GetId(_curTab.Text, _curList.TopItem.Index)
                             smode = 0
                         End If
                     End If
@@ -1443,7 +1443,7 @@ Public Class TweenMain
                     'Id降順
                     If ListLockMenuItem.Checked Then
                         '現在表示位置へ強制スクロール
-                        topId = _statuses.GetId(_curTab.Text, _curList.TopItem.Index)
+                        If _curList.TopItem IsNot Nothing Then topId = _statuses.GetId(_curTab.Text, _curList.TopItem.Index)
                         smode = 0
                     Else
                         '最上行が表示されていたら、制御しない。最上行が表示されていなかったら、現在表示位置へ強制スクロール
@@ -1454,14 +1454,14 @@ Public Class TweenMain
                         If _item.Index = 0 Then
                             smode = -3  '最上行
                         Else
-                            topId = _statuses.GetId(_curTab.Text, _curList.TopItem.Index)
+                            If _curList.TopItem IsNot Nothing Then topId = _statuses.GetId(_curTab.Text, _curList.TopItem.Index)
                             smode = 0
                         End If
                     End If
                 End If
             Else
                 '現在表示位置へ強制スクロール
-                topId = _statuses.GetId(_curTab.Text, _curList.TopItem.Index)
+                If _curList.TopItem IsNot Nothing Then topId = _statuses.GetId(_curTab.Text, _curList.TopItem.Index)
                 smode = 0
             End If
         Else
