@@ -4299,7 +4299,7 @@ RETRY:
         End If
         NameLabel.Text += _curPost.Name + "/" + _curPost.Nickname
         NameLabel.Tag = _curPost.Name
-        ToolTip1.SetToolTip(NameLabel, "http://twitter.com/" + _curPost.Name)
+        'ToolTip1.SetToolTip(NameLabel, "http://twitter.com/" + _curPost.Name)
         If Not String.IsNullOrEmpty(_curPost.RetweetedBy) Then
             NameLabel.Text += " (RT:" + _curPost.RetweetedBy + ")"
         End If
