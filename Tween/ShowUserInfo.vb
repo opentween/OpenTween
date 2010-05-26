@@ -376,4 +376,8 @@ Public Class ShowUserInfo
     Private Sub ShowUserInfo_MouseEnter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.MouseEnter
         ToolTip1.Hide(Me)
     End Sub
+
+    Private Sub LinkLabel1_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
+        TweenMain.OpenUriAsync("http://twitter.com/help/verified")
+    End Sub
 End Class
