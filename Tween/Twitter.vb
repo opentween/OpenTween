@@ -106,6 +106,7 @@ Public Class Twitter
             "http://ht.ly/", _
             "http://tl.gd/", _
             "http://htn.to/", _
+            "http://amzn.to/", _
             "http://flic.kr/" _
         }
 
