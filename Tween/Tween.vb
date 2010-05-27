@@ -2081,11 +2081,6 @@ Public Class TweenMain
             Case WORKERTYPE.Favorites
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
                 ret = tw.GetFavoritesApi(read, args.type)
-                'If SettingDialog.UseAPI Then
-                '    ret = Twitter.GetFavoritesApi(read, args.type)
-                'Else
-                '    ret = Twitter.GetFavorites(args.page, read, args.endPage, args.type, rslt.newDM)
-                'End If
                 rslt.addCount = _statuses.DistributePosts()
             Case WORKERTYPE.PublicSearch
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
@@ -7276,12 +7271,10 @@ RETRY:
                 CheckNewVersion(True)
             End If
 
-            '取得結果は判断できない。やるならtwitterクラスにプロパティ等追加必要
-            '' 取得失敗の場合は再試行する
-            'If tw.FollowersCount = 0 AndAlso SettingDialog.StartupFollowers Then
-            '    GetTimeline(WORKERTYPE.Follower, 0, 0, "")
-            'End If
-
+            ' 取得失敗の場合は再試行する
+            If Not tw.GetFollowersSuccess AndAlso SettingDialog.StartupFollowers Then
+                GetTimeline(WORKERTYPE.Follower, 0, 0, "")
+            End If
         Else
             PostButton.Enabled = False
             FavAddToolStripMenuItem.Enabled = False

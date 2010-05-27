@@ -35,6 +35,7 @@ Public Class Twitter
     Delegate Sub GetIconImageDelegate(ByVal post As PostClass)
     Private ReadOnly LockObj As New Object
     Private followerId As New List(Of Long)
+    Private _GetFollowerResult As Boolean = False
 
     Private _followersCount As Integer = 0
     Private _friendsCount As Integer = 0
@@ -1931,14 +1932,22 @@ Public Class Twitter
             If ret <> "" Then
                 followerId.Clear()
                 followerId.AddRange(tmpFollower)
+                _GetFollowerResult = False
                 Return ret
             End If
         Loop While cursor > 0
 
         TabInformations.GetInstance.RefreshOwl(followerId)
 
+        _GetFollowerResult = True
         Return ""
     End Function
+
+    Public ReadOnly Property GetFollowersSuccess() As Boolean
+        Get
+            Return _GetFollowerResult
+        End Get
+    End Property
 
     Private Function FollowerApi(ByRef cursor As Long) As String
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
