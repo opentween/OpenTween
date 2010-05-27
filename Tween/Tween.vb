@@ -7965,6 +7965,10 @@ RETRY:
 
     End Class
 
+    Private Function IsDirectLink(ByVal url As String) As Boolean
+        Return Regex.Match(url, "^http://.*(\.jpg|\.jpeg|\.gif|\.png|\.bmp)$", RegexOptions.IgnoreCase).Success
+    End Function
+
     Private Sub thumbnail(ByVal id As Long, ByVal links As List(Of String))
         If Not SettingDialog.PreviewEnable Then
             Me.SplitContainer3.Panel2Collapsed = True
@@ -8001,8 +8005,7 @@ RETRY:
                 Continue For
             End If
             '画像拡張子で終わるURL（直リンク）
-            mc = Regex.Match(url, "^http://.*(\.jpg|\.jpeg|\.gif|\.png|\.bmp)$", RegexOptions.IgnoreCase)
-            If mc.Success Then
+            If IsDirectLink(url) Then
                 imglist.Add(New KeyValuePair(Of String, String)(url, url))
                 Continue For
             End If
@@ -8188,7 +8191,12 @@ RETRY:
         For Each url As KeyValuePair(Of String, String) In arg.urls
             Dim http As New HttpVarious
 
-            If url.Key.StartsWith("http://www.pixiv.net/") Then
+            If IsDirectLink(url.Key) Then
+                ' 画像直リンク
+                Dim img As Image = http.GetImage(url.Value, url.Key)
+                If img Is Nothing Then Continue For
+                arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, img))
+            ElseIf url.Key.StartsWith("http://www.pixiv.net/") Then
                 Dim src As String = ""
                 'illustIDをキャプチャ
                 Dim mc As Match = Regex.Match(url.Key, "^http://www\.pixiv\.net/(member_illust|index)\.php\?mode=(medium|big)&(amp;)?illust_id=(?<illustId>[0-9]+)(&(amp;)?tag=(?<tag>.+)?)*$", RegexOptions.IgnoreCase)
@@ -8259,8 +8267,7 @@ RETRY:
                     End If
                 End If
                 Continue For
-            ElseIf Regex.Match(url.Key, "^http://.+\.tumblr\.com/.+/?", RegexOptions.IgnoreCase).Success _
-                        AndAlso Not Regex.Match(url.Key, "^http://.*(\.jpg|\.jpeg|\.gif|\.png|\.bmp)$", RegexOptions.IgnoreCase).Success Then
+            ElseIf Regex.Match(url.Key, "^http://.+\.tumblr\.com/.+/?", RegexOptions.IgnoreCase).Success Then
                 Dim TargetUrl As String = (New HttpVarious).GetRedirectTo(url.Key)
                 Dim mc As Match = Regex.Match(TargetUrl, "(?<base>http://.+?\.tumblr\.com/)post/(?<postID>[0-9]+)(/(?<subject>.+?)/)?", RegexOptions.IgnoreCase)
                 Dim apiurl As String = mc.Groups("base").Value + "api/read?id=" + mc.Groups("postID").Value
@@ -8291,6 +8298,7 @@ RETRY:
                 End If
                 Continue For
             Else
+                ' 直リンクでなく、パターンに合致しない
                 Dim img As Image = http.GetImage(url.Value, url.Key)
                 If img Is Nothing Then Continue For
                 arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, img))
