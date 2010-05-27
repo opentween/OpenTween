@@ -8096,9 +8096,9 @@ RETRY:
                 Continue For
             End If
             'ニコニコ
-            mc = Regex.Match(url, "^http://(?:www\.nicovideo\.jp/watch|nico\.ms)/(?:sm|nm)([0-9]+)$", RegexOptions.IgnoreCase)
+            mc = Regex.Match(url, "^http://(?:(www|ext)\.nicovideo\.jp/watch|nico\.ms)/(?:sm|nm)?([0-9]+)(\?.+)?$", RegexOptions.IgnoreCase)
             If mc.Success Then
-                imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://tn-skr.smilevideo.jp/smile?i=${1}")))
+                imglist.Add(New KeyValuePair(Of String, String)(url, mc.Value))
                 Continue For
             End If
             'pixiv
@@ -8252,14 +8252,14 @@ RETRY:
                     Dim show_info As String = mc.Result("http://api.photozou.jp/rest/photo_info?photo_id=${photoId}")
                     If (New HttpVarious).GetData(show_info, Nothing, src, 5000) Then
                         Dim xdoc As New XmlDocument
-                        Dim thumbnail_url As String
+                        Dim thumbnail_url As String = ""
                         Try
                             xdoc.LoadXml(src)
                             thumbnail_url = xdoc.SelectSingleNode("/rsp/info/photo/thumbnail_image_url").InnerText
                         Catch ex As Exception
-                            thumbnail_url = Nothing
+                            thumbnail_url = ""
                         End Try
-                        If thumbnail_url Is Nothing Then Continue For
+                        If String.IsNullOrEmpty(thumbnail_url) Then Continue For
                         Dim _img As Image = http.GetImage(thumbnail_url, url.Key)
                         If _img Is Nothing Then Continue For
                         arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, _img))
@@ -8284,19 +8284,55 @@ RETRY:
                         Else
                             arg.AdditionalErrorMessage = "(PostType:" + type + ")"
                             arg.IsError = True
+                            imgurl = ""
                         End If
 
                     Catch ex As Exception
-                        imgurl = Nothing
+                        imgurl = ""
                     End Try
 
-                    If imgurl IsNot Nothing Then
+                    If Not String.IsNullOrEmpty(imgurl) Then
                         Dim _img As Image = http.GetImage(imgurl, url.Key)
                         If _img Is Nothing Then Continue For
                         arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, _img))
                     End If
                 End If
                 Continue For
+            ElseIf Regex.Match(url.Value, "^http://(?:(www|ext)\.nicovideo\.jp/watch|nico\.ms)/(?:sm|nm)?([0-9]+)(\?.+)?$", RegexOptions.IgnoreCase).Success Then
+                Dim mc As Match = Regex.Match(url.Value, "^http://(?:(www|ext)\.nicovideo\.jp/watch|nico\.ms)/(?<id>(?:sm|nm)?([0-9]+))(\?.+)?$", RegexOptions.IgnoreCase)
+                Dim apiurl As String = "http://www.nicovideo.jp/api/getthumbinfo/" + mc.Groups("id").Value
+                Dim src As String = ""
+                Dim imgurl As String = ""
+                If (New HttpVarious).GetData(apiurl, Nothing, src, 5000) Then
+                    Dim xdoc As New XmlDocument
+                    Try
+                        xdoc.LoadXml(src)
+                        Dim status As String = xdoc.SelectSingleNode("/nicovideo_thumb_response").Attributes("status").Value
+                        If status = "ok" Then
+                            imgurl = xdoc.SelectSingleNode("/nicovideo_thumb_response/thumb/thumbnail_url").InnerText
+                        ElseIf status = "fail" Then
+                            Dim errcode As String = xdoc.SelectSingleNode("/nicovideo_thumb_response/error/code").InnerText
+                            arg.AdditionalErrorMessage = "(" + errcode + ")"
+                            arg.IsError = True
+                            imgurl = ""
+                        Else
+                            arg.AdditionalErrorMessage = "(UnknownResponse)"
+                            arg.IsError = True
+                            imgurl = ""
+                        End If
+
+                    Catch ex As Exception
+                        imgurl = ""
+                        arg.AdditionalErrorMessage = "(Invalid XML)"
+                        arg.IsError = True
+                    End Try
+
+                    If Not String.IsNullOrEmpty(imgurl) Then
+                        Dim _img As Image = http.GetImage(imgurl, url.Key)
+                        If _img Is Nothing Then Continue For
+                        arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, _img))
+                    End If
+                End If
             Else
                 ' 直リンクでなく、パターンに合致しない
                 Dim img As Image = http.GetImage(url.Value, url.Key)
