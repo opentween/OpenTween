@@ -367,50 +367,49 @@ Public Class Twitter
 
             If _endingFlag Then Exit Sub
 
-            bmp2 = New Bitmap(_iconSz, _iconSz)
-            Using g As Graphics = Graphics.FromImage(bmp2)
-                g.InterpolationMode = Drawing2D.InterpolationMode.High
-                g.DrawImage(img, 0, 0, _iconSz, _iconSz)
-                g.Dispose()
-            End Using
-
             SyncLock LockObj
-                post.ImageIndex = _lIcon.Images.IndexOfKey(post.ImageUrl)
-                If post.ImageIndex = -1 Then
-                    Try
-                        If img.RawFormat.Guid = Imaging.ImageFormat.Gif.Guid Then
-                            Dim fd As New System.Drawing.Imaging.FrameDimension(img.FrameDimensionsList(0))
-                            Dim fd_count As Integer = img.GetFrameCount(fd)
-                            If fd_count > 1 Then
-                                Try
-                                    For i As Integer = 0 To fd_count - 1
-                                        img.SelectActiveFrame(fd, i)
-                                    Next
-                                    _dIcon.Add(post.ImageUrl, img)  '詳細表示用ディクショナリに追加
-                                Catch ex As Exception
-                                    Dim bmp As New Bitmap(48, 48)
-                                    Using g As Graphics = Graphics.FromImage(bmp)
-                                        g.InterpolationMode = Drawing2D.InterpolationMode.High
-                                        g.DrawImage(img, 0, 0, 48, 48)
-                                    End Using
-                                    _dIcon.Add(post.ImageUrl, bmp)  '詳細表示用ディクショナリに追加
-                                    img.Dispose()
-                                End Try
-                            Else
+                Try
+                    bmp2 = New Bitmap(_iconSz, _iconSz)
+                    Using g As Graphics = Graphics.FromImage(bmp2)
+                        g.InterpolationMode = Drawing2D.InterpolationMode.High
+                        g.DrawImage(img, 0, 0, _iconSz, _iconSz)
+                        g.Dispose()
+                    End Using
+
+                    If img.RawFormat.Guid = Imaging.ImageFormat.Gif.Guid Then
+                        Dim fd As New System.Drawing.Imaging.FrameDimension(img.FrameDimensionsList(0))
+                        Dim fd_count As Integer = img.GetFrameCount(fd)
+                        If fd_count > 1 Then
+                            Try
+                                For i As Integer = 0 To fd_count - 1
+                                    img.SelectActiveFrame(fd, i)
+                                Next
                                 _dIcon.Add(post.ImageUrl, img)  '詳細表示用ディクショナリに追加
-                            End If
-                            _lIcon.Images.Add(post.ImageUrl, bmp2)
-                            post.ImageIndex = _lIcon.Images.IndexOfKey(post.ImageUrl)
+                            Catch ex As Exception
+                                Dim bmp As New Bitmap(48, 48)
+                                Using g As Graphics = Graphics.FromImage(bmp)
+                                    g.InterpolationMode = Drawing2D.InterpolationMode.High
+                                    g.DrawImage(img, 0, 0, 48, 48)
+                                End Using
+                                _dIcon.Add(post.ImageUrl, bmp)  '詳細表示用ディクショナリに追加
+                                img.Dispose()
+                            End Try
                         Else
-                            _dIcon.Add(post.ImageUrl, img)
-                            _lIcon.Images.Add(post.ImageUrl, bmp2)
-                            post.ImageIndex = _lIcon.Images.IndexOfKey(post.ImageUrl)
+                            _dIcon.Add(post.ImageUrl, img)  '詳細表示用ディクショナリに追加
                         End If
-                    Catch ex As InvalidOperationException
-                        'タイミングにより追加できない場合がある？（キー重複ではない）
-                        post.ImageIndex = -1
-                    End Try
-                End If
+                        _lIcon.Images.Add(post.ImageUrl, bmp2)
+                        post.ImageIndex = _lIcon.Images.IndexOfKey(post.ImageUrl)
+                    Else
+                        _dIcon.Add(post.ImageUrl, img)
+                        _lIcon.Images.Add(post.ImageUrl, bmp2)
+                        post.ImageIndex = _lIcon.Images.IndexOfKey(post.ImageUrl)
+                    End If
+                Catch ex As InvalidOperationException
+                    'タイミングにより追加できない場合がある？（キー重複ではない）
+                    post.ImageIndex = -1
+                Catch ex As System.OverflowException
+                    '不正なアイコン？DrawImageに失敗する場合あり
+                End Try
             End SyncLock
             TabInformations.GetInstance.AddPost(post)
         Catch ex As ArgumentException
