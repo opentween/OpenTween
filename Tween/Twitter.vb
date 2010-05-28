@@ -1537,9 +1537,15 @@ Public Class Twitter
         Dim res As HttpStatusCode
         Dim content As String = ""
         Dim page As Integer = 0
-        If more Then page = tab.SearchPage
+        Dim sinceId As Long = 0
+        If more Then
+            page = tab.SearchPage
+        Else
+            sinceId = tab.SinceId
+        End If
+
         Try
-            res = twCon.Search(tab.SearchWords, tab.SearchLang, 40, page, content)
+            res = twCon.Search(tab.SearchWords, tab.SearchLang, 40, page, sinceId, content)
         Catch ex As Exception
             Return "Err:" + ex.Message
         End Try
@@ -1617,6 +1623,7 @@ Public Class Twitter
                 If post.IsMe AndAlso Not read AndAlso _readOwnPost Then post.IsRead = True
                 post.IsDm = False
                 post.RelTabName = tab.TabName
+                If Not more AndAlso post.Id > tab.SinceId Then tab.SinceId = post.Id
             Catch ex As Exception
                 TraceOut(content)
                 Continue For

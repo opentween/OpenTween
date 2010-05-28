@@ -1366,6 +1366,7 @@ Public NotInheritable Class TabClass
     Private _posts As New Dictionary(Of Long, PostClass)
     Private _sorter As New IdComparerClass
     Private _oldestId As Long = Long.MaxValue   '古いポスト取得用
+    Private _sinceId As Long = 0
 
 #Region "検索"
     'Search query
@@ -1440,6 +1441,16 @@ Public NotInheritable Class TabClass
         End Get
         Set(ByVal value As Long)
             _oldestId = value
+        End Set
+    End Property
+
+    <Xml.Serialization.XmlIgnore()> _
+    Public Property SinceId() As Long
+        Get
+            Return _sinceId
+        End Get
+        Set(ByVal value As Long)
+            _sinceId = value
         End Set
     End Property
 
