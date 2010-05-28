@@ -327,7 +327,6 @@ Partial Class TweenMain
         '
         Me.ContextMenuStripPostMode.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItemUrlMultibyteSplit, Me.ToolStripMenuItemApiCommandEvasion, Me.ToolStripMenuItemUrlAutoShorten, Me.IdeographicSpaceToSpaceToolStripMenuItem, Me.MultiLineMenuItem, Me.ToolStripSeparator8, Me.HashToggleMenuItem, Me.HashManageMenuItem})
         Me.ContextMenuStripPostMode.Name = "ContextMenuStripPostMode"
-        Me.ContextMenuStripPostMode.OwnerItem = Me.HashStripSplitButton
         resources.ApplyResources(Me.ContextMenuStripPostMode, "ContextMenuStripPostMode")
         '
         'ToolStripMenuItemUrlMultibyteSplit
@@ -371,6 +370,7 @@ Partial Class TweenMain
         '
         'HashToggleMenuItem
         '
+        Me.HashToggleMenuItem.CheckOnClick = True
         Me.HashToggleMenuItem.Name = "HashToggleMenuItem"
         resources.ApplyResources(Me.HashToggleMenuItem, "HashToggleMenuItem")
         '
@@ -1183,6 +1183,7 @@ Partial Class TweenMain
         '
         'HashToggleToolStripMenuItem
         '
+        Me.HashToggleToolStripMenuItem.CheckOnClick = True
         Me.HashToggleToolStripMenuItem.Name = "HashToggleToolStripMenuItem"
         resources.ApplyResources(Me.HashToggleToolStripMenuItem, "HashToggleToolStripMenuItem")
         '
