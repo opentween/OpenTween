@@ -732,4 +732,10 @@
   <data name="SettingAPIUse1" xml:space="preserve">
     <value>Consumption API :  {0} / h    (Limit :  {1} / h)</value>
   </data>
+  <data name="PubSearchPeriod_ValidatingText1" xml:space="preserve">
+    <value>Fetching interval must a value in 0 or 30 to 6000.</value>
+  </data>
+  <data name="PubSearchPeriod_ValidatingText2" xml:space="preserve">
+    <value>Fetching interval must a value in 0 or 30 to 6000.</value>
+  </data>
 </root>

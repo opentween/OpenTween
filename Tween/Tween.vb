@@ -638,7 +638,7 @@ Public Class TweenMain
             If SettingDialog.TimelinePeriodInt < 15 AndAlso SettingDialog.TimelinePeriodInt > 0 Then SettingDialog.TimelinePeriodInt = 15
             If SettingDialog.ReplyPeriodInt < 15 AndAlso SettingDialog.ReplyPeriodInt > 0 Then SettingDialog.ReplyPeriodInt = 15
             If SettingDialog.DMPeriodInt < 15 AndAlso SettingDialog.DMPeriodInt > 0 Then SettingDialog.DMPeriodInt = 15
-            If SettingDialog.PubSearchPeriodInt < 15 AndAlso SettingDialog.PubSearchPeriodInt > 0 Then SettingDialog.PubSearchPeriodInt = 15
+            If SettingDialog.PubSearchPeriodInt < 30 AndAlso SettingDialog.PubSearchPeriodInt > 0 Then SettingDialog.PubSearchPeriodInt = 30
             If SettingDialog.ListsPeriodInt < 15 AndAlso SettingDialog.ListsPeriodInt > 0 Then SettingDialog.ListsPeriodInt = 15
         End If
 
@@ -5062,20 +5062,14 @@ RETRY:
             _cfgCommon.UserName = tw.Username
             _cfgCommon.Password = tw.Password
             _cfgCommon.IsOAuth = SettingDialog.IsOAuth
-            '_cfgCommon.Password = SettingDialog.PasswordStr
             _cfgCommon.Token = tw.AccessToken
             _cfgCommon.TokenSecret = tw.AccessTokenSecret
-            '_cfgCommon.NextPageThreshold = SettingDialog.NextPageThreshold
-            '_cfgCommon.NextPages = SettingDialog.NextPagesInt
             _cfgCommon.TimelinePeriod = SettingDialog.TimelinePeriodInt
             _cfgCommon.ReplyPeriod = SettingDialog.ReplyPeriodInt
             _cfgCommon.DMPeriod = SettingDialog.DMPeriodInt
             _cfgCommon.PubSearchPeriod = SettingDialog.PubSearchPeriodInt
             _cfgCommon.ListsPeriod = SettingDialog.ListsPeriodInt
             _cfgCommon.MaxPostNum = SettingDialog.MaxPostNum
-            '_cfgCommon.ReadPages = SettingDialog.ReadPages
-            '_cfgCommon.ReadPagesReply = SettingDialog.ReadPagesReply
-            '_cfgCommon.ReadPagesDM = SettingDialog.ReadPagesDM
             _cfgCommon.Read = SettingDialog.Readed
             _cfgCommon.IconSize = SettingDialog.IconSz
             _cfgCommon.UnreadManage = SettingDialog.UnreadManage
@@ -5084,10 +5078,8 @@ RETRY:
 
             _cfgCommon.NameBalloon = SettingDialog.NameBalloon
             _cfgCommon.PostCtrlEnter = SettingDialog.PostCtrlEnter
-            '_cfgCommon.UseApi = SettingDialog.UseAPI
             _cfgCommon.CountApi = SettingDialog.CountApi
             _cfgCommon.CountApiReply = SettingDialog.CountApiReply
-            '_cfgCommon.UsePostMethod = False
             '_cfgCommon.CheckReply = SettingDialog.CheckReply
             _cfgCommon.PostAndGet = SettingDialog.PostAndGet
             _cfgCommon.DispUsername = SettingDialog.DispUsername
@@ -5098,9 +5090,7 @@ RETRY:
             _cfgCommon.TinyUrlResolve = SettingDialog.TinyUrlResolve
             _cfgCommon.PeriodAdjust = SettingDialog.PeriodAdjust
             _cfgCommon.StartupVersion = SettingDialog.StartupVersion
-            '_cfgCommon.StartupKey = SettingDialog.StartupKey
             _cfgCommon.StartupFollowers = SettingDialog.StartupFollowers
-            '_cfgCommon.StartupApiModeNoWarning = SettingDialog.StartupAPImodeNoWarning
             _cfgCommon.RestrictFavCheck = SettingDialog.RestrictFavCheck
             _cfgCommon.AlwaysTop = SettingDialog.AlwaysTop
             _cfgCommon.UrlConvertAuto = SettingDialog.UrlConvertAuto
@@ -7802,6 +7792,8 @@ RETRY:
         If m.Success Then
             HashMgr.SetPermanentHash("#" + m.Result("${hash}"))
             HashStripSplitButton.Text = HashMgr.UseHash
+            HashToggleMenuItem.Checked = True
+            HashToggleToolStripMenuItem.Checked = True
             '使用ハッシュタグとして設定
             modifySettingCommon = True
         End If
@@ -7822,8 +7814,12 @@ RETRY:
         If rslt = Windows.Forms.DialogResult.Cancel Then Exit Sub
         If HashMgr.UseHash <> "" Then
             HashStripSplitButton.Text = HashMgr.UseHash
+            HashToggleMenuItem.Checked = True
+            HashToggleToolStripMenuItem.Checked = True
         Else
             HashStripSplitButton.Text = "#[-]"
+            HashToggleMenuItem.Checked = False
+            HashToggleToolStripMenuItem.Checked = False
         End If
         'If HashMgr.IsInsert AndAlso HashMgr.UseHash <> "" Then
         '    Dim sidx As Integer = StatusText.SelectionStart

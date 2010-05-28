@@ -87,9 +87,7 @@ Public Class Setting
     Private _MyMaxPostNum As Integer
     Private _MyPeriodAdjust As Boolean
     Private _MyStartupVersion As Boolean
-    'Private _MyStartupKey As Boolean
     Private _MyStartupFollowers As Boolean
-    'Private _MyStartupAPImodeNoWarning As Boolean
     Private _MyRestrictFavCheck As Boolean
     Private _MyAlwaysTop As Boolean
     Private _MyUrlConvertAuto As Boolean
@@ -125,24 +123,14 @@ Public Class Setting
 
     Private Sub Save_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Save.Click
         Try
-            '_MyuserID = Username.Text.Trim()
-            '_Mypassword = Password.Text.Trim()
-            'If AuthBasicRadio.Checked Then
-            '    Twitter.Initialize(Me.Username.Text.Trim, Me.Password.Text.Trim)
-            'End If
             _MyIsOAuth = AuthOAuthRadio.Checked
             _MytimelinePeriod = CType(TimelinePeriod.Text, Integer)
             _MyDMPeriod = CType(DMPeriod.Text, Integer)
             _MyPubSearchPeriod = CType(PubSearchPeriod.Text, Integer)
             _MyListsPeriod = CType(ListsPeriod.Text, Integer)
             _MyReplyPeriod = CType(ReplyPeriod.Text, Integer)
-            '_MynextThreshold = CType(NextThreshold.Text, Integer)
-            '_MyNextPages = CType(NextPages.Text, Integer)
             _MyMaxPostNum = 125
 
-            '_MyReadPages = CType(StartupReadPages.Text, Integer)
-            '_MyReadPagesReply = CType(StartupReadReply.Text, Integer)
-            '_MyReadPagesDM = CType(StartupReadDM.Text, Integer)
             _MyReaded = StartupReaded.Checked
             Select Case IconSize.SelectedIndex
                 Case 0
@@ -158,7 +146,6 @@ Public Class Setting
             End Select
             _MyStatusText = StatusText.Text
             _MyPlaySound = PlaySnd.Checked
-            'TweenMain.PlaySoundMenuItem.Checked = _MyPlaySound  'これは勘弁
             _MyUnreadManage = UReadMng.Checked
             _MyOneWayLove = OneWayLv.Checked
 
@@ -191,8 +178,6 @@ Public Class Setting
                 Case 2
                     _MyNameBalloon = NameBalloonEnum.NickName
             End Select
-            _MyPostCtrlEnter = CheckPostCtrlEnter.Checked
-            '_useAPI = CheckUseApi.Checked
             _usePostMethod = False
             _countApi = CType(TextCountApi.Text, Integer)
             _countApiReply = CType(TextCountApiReply.Text, Integer)
@@ -234,8 +219,6 @@ Public Class Setting
             _MyProxyPassword = TextProxyPassword.Text.Trim()
             _MyPeriodAdjust = CheckPeriodAdjust.Checked
             _MyStartupVersion = CheckStartupVersion.Checked
-            '_MyStartupKey = CheckStartupKey.Checked
-            '_MyStartupAPImodeNoWarning = CheckStartupAPImodeNoWarning.Checked
             _MyStartupFollowers = CheckStartupFollowers.Checked
             _MyRestrictFavCheck = CheckFavRestrict.Checked
             _MyAlwaysTop = CheckAlwaysTop.Checked
@@ -348,21 +331,7 @@ Public Class Setting
         DMPeriod.Text = _MyDMPeriod.ToString()
         PubSearchPeriod.Text = _MyPubSearchPeriod.ToString()
         ListsPeriod.Text = _MyListsPeriod.ToString()
-        'NextThreshold.Text = _MynextThreshold.ToString()
-        'NextPages.Text = _MyNextPages.ToString()
-        'MaxPost.Text = _MyMaxPostNum.ToString()
-        'ReadLogDays.Text = _MyLogDays.ToString()
-        'Select Case _MyLogUnit
-        '    Case LogUnitEnum.Minute
-        '        ReadLogUnit.SelectedIndex = 0
-        '    Case LogUnitEnum.Hour
-        '        ReadLogUnit.SelectedIndex = 1
-        '    Case LogUnitEnum.Day
-        '        ReadLogUnit.SelectedIndex = 2
-        'End Select
-        'StartupReadPages.Text = _MyReadPages.ToString()
-        'StartupReadReply.Text = _MyReadPagesReply.ToString()
-        'StartupReadDM.Text = _MyReadPagesDM.ToString()
+
         StartupReaded.Checked = _MyReaded
         Select Case _MyIconSize
             Case IconSizes.IconNone
@@ -384,14 +353,11 @@ Public Class Setting
             StartupReaded.Enabled = True
         End If
         PlaySnd.Checked = _MyPlaySound
-        'TweenMain.PlaySoundMenuItem.Checked = _MyPlaySound
         OneWayLv.Checked = _MyOneWayLove
 
         lblListFont.Font = _fntReaded
         lblUnread.Font = _fntUnread
         lblUnread.ForeColor = _clUnread
-        'lblReaded.Font = _fntReaded
-        'lblReaded.ForeColor = _clReaded
         lblListFont.ForeColor = _clReaded
         lblFav.ForeColor = _clFav
         lblOWL.ForeColor = _clOWL
@@ -421,23 +387,9 @@ Public Class Setting
         End Select
 
         CheckPostCtrlEnter.Checked = _MyPostCtrlEnter
-        'CheckUseApi.Checked = _useAPI
-        'Enable切り替え
-        'CheckboxReply.Enabled = Not CheckUseApi.Checked
-        'CheckPeriodAdjust.Enabled = Not CheckUseApi.Checked
-        'NextThreshold.Enabled = Not CheckUseApi.Checked
-        'NextPages.Enabled = Not CheckUseApi.Checked
-        'StartupReadPages.Enabled = Not CheckUseApi.Checked
-        'StartupReadReply.Enabled = Not CheckUseApi.Checked
-        'StartupReadDM.Enabled = Not CheckUseApi.Checked
-        'CheckPostMethod.Enabled = False
-        'TextCountApi.Enabled = CheckUseApi.Checked
-        'TextCountApiReply.Enabled = CheckUseApi.Checked
 
-        'CheckPostMethod.Checked = False
         TextCountApi.Text = _countApi.ToString
         TextCountApiReply.Text = _countApiReply.ToString
-        'HubServerDomain.Text = _hubServer
         BrowserPathText.Text = _browserpath
         'CheckboxReply.Checked = _MyCheckReply
         CheckPostAndGet.Checked = _MyPostAndGet
@@ -488,16 +440,12 @@ Public Class Setting
 
         CheckPeriodAdjust.Checked = _MyPeriodAdjust
         CheckStartupVersion.Checked = _MyStartupVersion
-        'CheckStartupKey.Checked = _MyStartupKey
         CheckStartupFollowers.Checked = _MyStartupFollowers
-        'CheckStartupAPImodeNoWarning.Checked = _MyStartupAPImodeNoWarning
         CheckFavRestrict.Checked = _MyRestrictFavCheck
         CheckAlwaysTop.Checked = _MyAlwaysTop
         CheckAutoConvertUrl.Checked = _MyUrlConvertAuto
         CheckOutputz.Checked = _MyOutputz
-        'Outputz.outputzEnabled = _MyOutputz
         TextBoxOutputzKey.Text = _MyOutputzKey
-        'Outputz.outputzKey = _MyOutputzKey
 
         Select Case _MyOutputzUrlmode
             Case OutputzUrlmode.twittercom
@@ -590,38 +538,6 @@ Public Class Setting
         CalcApiUsing()
     End Sub
 
-    'Private Sub NextThreshold_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs)
-    '    Dim thr As Integer
-    '    Try
-    '        thr = CType(NextThreshold.Text, Integer)
-    '    Catch ex As Exception
-    '        MessageBox.Show(My.Resources.NextThreshold_ValidatingText1)
-    '        e.Cancel = True
-    '        Exit Sub
-    '    End Try
-
-    '    If thr < 1 OrElse thr > 20 Then
-    '        MessageBox.Show(My.Resources.NextThreshold_ValidatingText2)
-    '        e.Cancel = True
-    '    End If
-    'End Sub
-
-    'Private Sub NextPages_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs)
-    '    Dim thr As Integer
-    '    Try
-    '        thr = CType(NextPages.Text, Integer)
-    '    Catch ex As Exception
-    '        MessageBox.Show(My.Resources.NextPages_ValidatingText1)
-    '        e.Cancel = True
-    '        Exit Sub
-    '    End Try
-
-    '    If thr < 1 OrElse thr > 20 Then
-    '        MessageBox.Show(My.Resources.NextPages_ValidatingText2)
-    '        e.Cancel = True
-    '    End If
-    'End Sub
-
     Private Sub DMPeriod_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles DMPeriod.Validating
         Dim prd As Integer
         Try
@@ -645,13 +561,13 @@ Public Class Setting
         Try
             prd = CType(PubSearchPeriod.Text, Integer)
         Catch ex As Exception
-            MessageBox.Show(My.Resources.DMPeriod_ValidatingText1)
+            MessageBox.Show(My.Resources.PubSearchPeriod_ValidatingText1)
             e.Cancel = True
             Exit Sub
         End Try
 
-        If prd <> 0 AndAlso (prd < 15 OrElse prd > 6000) Then
-            MessageBox.Show(My.Resources.DMPeriod_ValidatingText2)
+        If prd <> 0 AndAlso (prd < 30 OrElse prd > 6000) Then
+            MessageBox.Show(My.Resources.PubSearchPeriod_ValidatingText2)
             e.Cancel = True
         End If
     End Sub
@@ -689,54 +605,6 @@ Public Class Setting
         '    e.Cancel = True
         'End If
     End Sub
-
-    'Private Sub StartupReadPages_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs)
-    '    Dim pages As Integer
-    '    Try
-    '        pages = CType(StartupReadPages.Text, Integer)
-    '    Catch ex As Exception
-    '        MessageBox.Show(My.Resources.StartupReadPages_ValidatingText1)
-    '        e.Cancel = True
-    '        Exit Sub
-    '    End Try
-
-    '    If pages < 1 OrElse pages > 999 Then
-    '        MessageBox.Show(My.Resources.StartupReadPages_ValidatingText2)
-    '        e.Cancel = True
-    '    End If
-    'End Sub
-
-    'Private Sub StartupReadReply_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs)
-    '    Dim pages As Integer
-    '    Try
-    '        pages = CType(StartupReadReply.Text, Integer)
-    '    Catch ex As Exception
-    '        MessageBox.Show(My.Resources.StartupReadReply_ValidatingText1)
-    '        e.Cancel = True
-    '        Exit Sub
-    '    End Try
-
-    '    If pages < 0 OrElse pages > 999 Then
-    '        MessageBox.Show(My.Resources.StartupReadReply_ValidatingText2)
-    '        e.Cancel = True
-    '    End If
-    'End Sub
-
-    'Private Sub StartupReadDM_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs)
-    '    Dim pages As Integer
-    '    Try
-    '        pages = CType(StartupReadDM.Text, Integer)
-    '    Catch ex As Exception
-    '        MessageBox.Show(My.Resources.StartupReadDM_ValidatingText1)
-    '        e.Cancel = True
-    '        Exit Sub
-    '    End Try
-
-    '    If pages < 1 OrElse pages > 999 Then
-    '        MessageBox.Show(My.Resources.StartupReadDM_ValidatingText2)
-    '        e.Cancel = True
-    '    End If
-    'End Sub
 
     Private Sub UReadMng_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If UReadMng.Checked = True Then
@@ -890,24 +758,6 @@ Public Class Setting
         End Select
     End Sub
 
-    'Public Property UserID() As String
-    '    Get
-    '        Return _MyuserID
-    '    End Get
-    '    Set(ByVal value As String)
-    '        _MyuserID = value
-    '    End Set
-    'End Property
-
-    'Public Property PasswordStr() As String
-    '    Get
-    '        Return _Mypassword
-    '    End Get
-    '    Set(ByVal value As String)
-    '        _Mypassword = value
-    '    End Set
-    'End Property
-
     Public Property TimelinePeriodInt() As Integer
         Get
             Return _MytimelinePeriod
@@ -953,15 +803,6 @@ Public Class Setting
         End Set
     End Property
 
-    'Public Property NextPageThreshold() As Integer
-    '    Get
-    '        Return _MynextThreshold
-    '    End Get
-    '    Set(ByVal value As Integer)
-    '        _MynextThreshold = value
-    '    End Set
-    'End Property
-
     Public Property MaxPostNum() As Integer
         Get
             Return _MyMaxPostNum
@@ -970,15 +811,6 @@ Public Class Setting
             _MyMaxPostNum = value
         End Set
     End Property
-
-    'Public Property NextPagesInt() As Integer
-    '    Get
-    '        Return _MyNextPages
-    '    End Get
-    '    Set(ByVal value As Integer)
-    '        _MyNextPages = value
-    '    End Set
-    'End Property
 
     Public Property LogDays() As Integer
         Get
@@ -997,33 +829,6 @@ Public Class Setting
             _MyLogUnit = value
         End Set
     End Property
-
-    'Public Property ReadPages() As Integer
-    '    Get
-    '        Return _MyReadPages
-    '    End Get
-    '    Set(ByVal value As Integer)
-    '        _MyReadPages = value
-    '    End Set
-    'End Property
-
-    'Public Property ReadPagesReply() As Integer
-    '    Get
-    '        Return _MyReadPagesReply
-    '    End Get
-    '    Set(ByVal value As Integer)
-    '        _MyReadPagesReply = value
-    '    End Set
-    'End Property
-
-    'Public Property ReadPagesDM() As Integer
-    '    Get
-    '        Return _MyReadPagesDM
-    '    End Get
-    '    Set(ByVal value As Integer)
-    '        _MyReadPagesDM = value
-    '    End Set
-    'End Property
 
     Public Property Readed() As Boolean
         Get
@@ -1289,15 +1094,6 @@ Public Class Setting
         End Set
     End Property
 
-    'Public Property UseAPI() As Boolean
-    '    Get
-    '        Return _useAPI
-    '    End Get
-    '    Set(ByVal value As Boolean)
-    '        _useAPI = value
-    '    End Set
-    'End Property
-
     Public Property UsePostMethod() As Boolean
         Get
             Return _usePostMethod
@@ -1324,15 +1120,6 @@ Public Class Setting
             _countApiReply = value
         End Set
     End Property
-
-    'Public Property CheckReply() As Boolean
-    '    Get
-    '        Return _MyCheckReply
-    '    End Get
-    '    Set(ByVal value As Boolean)
-    '        _MyCheckReply = value
-    '    End Set
-    'End Property
 
     Public Property PostAndGet() As Boolean
         Get
@@ -1495,15 +1282,6 @@ Public Class Setting
         End Set
     End Property
 
-    'Public Property StartupKey() As Boolean
-    '    Get
-    '        Return _MyStartupKey
-    '    End Get
-    '    Set(ByVal value As Boolean)
-    '        _MyStartupKey = value
-    '    End Set
-    'End Property
-
     Public Property StartupFollowers() As Boolean
         Get
             Return _MyStartupFollowers
@@ -1512,15 +1290,6 @@ Public Class Setting
             _MyStartupFollowers = value
         End Set
     End Property
-
-    'Public Property StartupAPImodeNoWarning() As Boolean
-    '    Get
-    '        Return _MyStartupAPImodeNoWarning
-    '    End Get
-    '    Set(ByVal value As Boolean)
-    '        _MyStartupAPImodeNoWarning = value
-    '    End Set
-    'End Property
 
     Public Property RestrictFavCheck() As Boolean
         Get
@@ -1890,19 +1659,6 @@ Public Class Setting
         CreateDateTimeFormatSample()
     End Sub
 
-    'Private Sub CheckUseApi_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
-    '    CheckboxReply.Enabled = Not CheckUseApi.Checked
-    '    CheckPeriodAdjust.Enabled = Not CheckUseApi.Checked
-    '    NextThreshold.Enabled = Not CheckUseApi.Checked
-    '    NextPages.Enabled = Not CheckUseApi.Checked
-    '    StartupReadPages.Enabled = Not CheckUseApi.Checked
-    '    StartupReadReply.Enabled = Not CheckUseApi.Checked
-    '    StartupReadDM.Enabled = Not CheckUseApi.Checked
-    '    CheckPostMethod.Enabled = False
-    '    TextCountApi.Enabled = CheckUseApi.Checked
-    '    TextCountApiReply.Enabled = CheckUseApi.Checked
-    'End Sub
-
     Private Sub TextCountApi_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles TextCountApi.Validating
         Dim cnt As Integer
         Try
@@ -1945,28 +1701,6 @@ Public Class Setting
             _MyLimitBalloon = value
         End Set
     End Property
-
-    'Private Sub Username_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles Username.Validating
-    '    If Username.Text.Trim = "" Then
-    '        MessageBox.Show(My.Resources.Save_ClickText1)
-    '        e.Cancel = True
-    '        Exit Sub
-    '    End If
-    '    If Username.Text.Contains("@") Then
-    '        MessageBox.Show(My.Resources.Save_ClickText2)
-    '        e.Cancel = True
-    '        Exit Sub
-    '    End If
-
-    'End Sub
-
-    'Private Sub Password_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles Password.Validating
-    '    If Password.Text.Trim = "" Then
-    '        MessageBox.Show(My.Resources.Save_ClickText1)
-    '        e.Cancel = True
-    '        Exit Sub
-    '    End If
-    'End Sub
 
     Private Sub ComboBoxAutoShortUrlFirst_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboBoxAutoShortUrlFirst.SelectedIndexChanged
         If ComboBoxAutoShortUrlFirst.SelectedIndex = UrlConverter.Bitly OrElse _
