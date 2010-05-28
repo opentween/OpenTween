@@ -319,16 +319,14 @@ Namespace My.Resources
         '''==== Ver 0.9.2.1(2010/05/**)
         ''' * Retweetカウントの取得の際に時間がかかるため、プログレスバーを表示するようにした
         ''' * タスクトレイへのアイコン追加タイミングを変更した
-        '''==== Ver 0.9.2.0(2010/05/23)
-        ''' * Ctrl+Pでユーザープロフィール画面が開いてしまうことがあったバグを修正
-        ''' * 通信時のメッセージログで時間も参照できるように。表示件数を20件に。
-        ''' * 設定ファイル読み込み時のエラーチェックを見直し
-        ''' * ソート順表示の方向が逆だったのを修正
-        ''' * その他機能に「この発言のRetweet回数を確認」を追加。Webでは見えなかった100人以上のRTでも確認できます。100人確認ごとにAPIを1消費します。（例：550人がRTしていれば6消費）
-        ''' * ニコ動の短縮パターンに漏れがあり、誤動作していたバグ修正
-        ''' * 投稿失敗時に発言履歴に残らない場合があった不具合修正
-        ''' * 表示中の画像プレビューが閉じてしまう場合がある不具合修正
-        ''' * 詳細表示のユーザーアイコンダブルクリックでも発言者のホームを開ける [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ''' * ユーザー情報ダイアログで、「認証済み(Verified)」の文字をクリックした際に、本家の認証済みアカウントについての説明ページを開くようにした
+        ''' * 詳細表示のユーザー名でのツールチップ表示を取りやめた。左クリックしてホームを開く、右クリックでメニューを開く機能はそのままです。
+        ''' * htn.to,amzn.toのURL展開に対応
+        ''' * Followersリストの取得リトライがうまく機能していなかったので修正
+        ''' * piapro,flickr,pixivにある画像への直リンクの場合にプレビューが動作しなかったバグを修正
+        ''' * 画像プレビューでニコニコ動画公式チャンネルの動画サムネイルに対応した。他にも対応URLパターンを増やした。
+        ''' * ニコニコ動画の画像プレビューの際に、サムネイル取得不可の場合エラーコードを表示するようにした
+        ''' * ハッシュタグの自動付加が有 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property ChangeLog() As String
             Get
@@ -1159,6 +1157,24 @@ Namespace My.Resources
         Friend ReadOnly Property PostWorker_RunWorkerCompletedText5() As String
             Get
                 Return ResourceManager.GetString("PostWorker_RunWorkerCompletedText5", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  更新間隔には数値（0または30～6000）を指定してください。 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property PubSearchPeriod_ValidatingText1() As String
+            Get
+                Return ResourceManager.GetString("PubSearchPeriod_ValidatingText1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  更新間隔には数値（0または30～6000）を指定してください。 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property PubSearchPeriod_ValidatingText2() As String
+            Get
+                Return ResourceManager.GetString("PubSearchPeriod_ValidatingText2", resourceCulture)
             End Get
         End Property
         
