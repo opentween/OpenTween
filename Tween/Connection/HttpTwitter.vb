@@ -348,12 +348,13 @@ Public Class HttpTwitter
                             _remainCountApi)
     End Function
 
-    Public Function Search(ByVal words As String, ByVal lang As String, ByVal rpp As Integer, ByVal page As Integer, ByRef content As String) As HttpStatusCode
+    Public Function Search(ByVal words As String, ByVal lang As String, ByVal rpp As Integer, ByVal page As Integer, ByVal sinceId As Long, ByRef content As String) As HttpStatusCode
         Dim param As New Dictionary(Of String, String)
         If Not String.IsNullOrEmpty(words) Then param.Add("q", words)
         If Not String.IsNullOrEmpty(lang) Then param.Add("lang", lang)
         If rpp > 0 Then param.Add("rpp", rpp.ToString())
         If page > 0 Then param.Add("page", page.ToString())
+        If sinceId > 0 Then param.Add("since_id", sinceId.ToString)
 
         If param.Count = 0 Then Return HttpStatusCode.BadRequest
 
