@@ -2375,6 +2375,8 @@ Public Class TweenMain
                     If Not HashMgr.IsPermanent AndAlso HashMgr.UseHash <> "" Then
                         HashMgr.ClearHashtag()
                         Me.HashStripSplitButton.Text = "#[-]"
+                        Me.HashToggleMenuItem.Checked = False
+                        Me.HashToggleToolStripMenuItem.Checked = False
                     End If
                     SetMainWindowTitle()
                     rslt.retMsg = ""
@@ -7843,8 +7845,12 @@ RETRY:
         HashMgr.ToggleHash()
         If HashMgr.UseHash <> "" Then
             HashStripSplitButton.Text = HashMgr.UseHash
+            HashToggleMenuItem.Checked = True
+            HashToggleToolStripMenuItem.Checked = True
         Else
             HashStripSplitButton.Text = "#[-]"
+            HashToggleMenuItem.Checked = False
+            HashToggleToolStripMenuItem.Checked = False
         End If
         modifySettingCommon = True
     End Sub
