@@ -31,7 +31,8 @@ Imports System.ComponentModel
 '''また、Twitterへの通信を必要とする場合は引数にTwitterInstanceを含めそれを使用すること。呼び出しは次の手順を必要とする。
 ''' 1.Class生成 2.サービス登録(AddHandler Instance.Servicer.Dowork,AddressOf Handler Servicer.RunWorkerCompletedも同様)
 ''' 3.Instance.Argumentへ引数セット 4.Instance.InfoMessageへ表示メッセージ設定 5.Instance.ShowDialog()により表示
-''' 6.Dispose タスクサービスが正常終了した場合は自分自身をCloseするので最後にDisposeすること。
+''' 6. 必要な場合はInstance.ReturnValue(=Servicerのe.Result)を参照し戻り値を得る
+''' 7.Dispose タスクサービスが正常終了した場合は自分自身をCloseするので最後にDisposeすること。
 '''</remarks>
 
 Public Class FormInfo
