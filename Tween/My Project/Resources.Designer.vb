@@ -1338,6 +1338,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Retweetカウント取得中・・・ に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property RtCountMenuItem_ClickText1() As String
+            Get
+                Return ResourceManager.GetString("RtCountMenuItem_ClickText1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  回Retweetされています に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property RtCountText1() As String

@@ -8584,18 +8584,13 @@ RETRY:
         e.Result = counter
     End Sub
 
-    Private Sub GetRetweet_RunWorkerCompleted(ByVal sender As System.Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs)
-        Dim retweet_count As Integer = CType(e.Result, Integer)
-    End Sub
-
     Private Sub RtCountMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RtCountMenuItem.Click
         If _curPost IsNot Nothing Then
             Dim _info As New FormInfo
             Dim retweet_count As Integer = 0
-            _info.InfoMessage = "Retweetカウント取得中・・・・"
+            _info.InfoMessage = My.Resources.RtCountMenuItem_ClickText1
 
             AddHandler _info.Servicer.DoWork, AddressOf GetRetweet_DoWork
-            AddHandler _info.Servicer.RunWorkerCompleted, AddressOf GetRetweet_RunWorkerCompleted
 
             ' ダイアログ表示
             _info.ShowDialog()
