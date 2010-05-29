@@ -2132,7 +2132,7 @@ Public Class Twitter
         'Dim rg As New Regex("(^|[^a-zA-Z0-9_])[@＠]([a-zA-Z0-9_]{1,20}/[a-zA-Z0-9_\-]{1,79}[a-zA-Z0-9_])", RegexOptions.Compiled)
         'Dim m As Match = Regex.Match(retStr, "(^|[^a-zA-Z0-9_])[@＠]([a-zA-Z0-9_]{1,20}/[a-zA-Z0-9_\-]{1,79}[a-zA-Z0-9_])")
         '@先をリンクに置換（リスト）
-        retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9_])([@＠]+)([a-zA-Z0-9_]{1,20}/[a-zA-Z][a-zA-Z0-9\p{IsLatin-1Supplement}\-]{0,79})", "$1$2<a href=""/$3"">$3</a>")
+        retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9_/])([@＠]+)([a-zA-Z0-9_]{1,20}/[a-zA-Z][a-zA-Z0-9\p{IsLatin-1Supplement}\-]{0,79})", "$1$2<a href=""/$3"">$3</a>")
 
         'rg = New Regex("(^|[ -/:-@[-^`{-~])@([a-zA-Z0-9_]{1,20})")
         'rg = New Regex("(^|[^a-zA-Z0-9_])[@＠]([a-zA-Z0-9_]{1,20})", RegexOptions.Compiled)
@@ -2140,9 +2140,10 @@ Public Class Twitter
         While m.Success
             AtList.Add(m.Result("$2").ToLower)
             m = m.NextMatch
+
         End While
         '@先をリンクに置換
-        retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9_])([@＠])([a-zA-Z0-9_]{1,20})", "$1$2<a href=""/$3"">$3</a>")
+        retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9_/])([@＠])([a-zA-Z0-9_]{1,20})", "$1$2<a href=""/$3"">$3</a>")
 
         'ハッシュタグを抽出し、リンクに置換
         'Dim rgh As New Regex("(^|[ .!,\-:;<>?])#([^] !""#$%&'()*+,.:;<=>?@\-[\^`{|}~\r\n]+)")
