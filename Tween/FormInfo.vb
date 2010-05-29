@@ -1,4 +1,38 @@
-﻿Imports System.ComponentModel
+﻿' Tween - Client of Twitter
+' Copyright (c) 2007-2010 kiri_feather (@kiri_feather) <kiri_feather@gmail.com>
+'           (c) 2008-2010 Moz (@syo68k) <http://iddy.jp/profile/moz/>
+'           (c) 2008-2010 takeshik (@takeshik) <http://www.takeshik.org/>
+' All rights reserved.
+' 
+' This file is part of Tween.
+' 
+' This program is free software; you can redistribute it and/or modify it
+' under the terms of the GNU General Public License as published by the Free
+' Software Foundation; either version 3 of the License, or (at your option)
+' any later version.
+' 
+' This program is distributed in the hope that it will be useful, but
+' WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+' or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+' for more details. 
+' 
+' You should have received a copy of the GNU General Public License along
+' with this program. If not, see <http://www.gnu.org/licenses/>, or write to
+' the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
+' Boston, MA 02110-1301, USA.
+
+Imports System.ComponentModel
+
+'''<summary>
+'''タスクサービス機能付きプログレスバー
+'''</summary>
+'''<remarks>
+'''重要：BackGroundWorkerコンポーネントが実際のタスクサービスを行うため、DoWorkでコントロールを触ることはできない。
+'''また、Twitterへの通信を必要とする場合は引数にTwitterInstanceを含めそれを使用すること。呼び出しは次の手順を必要とする。
+''' 1.Class生成 2.サービス登録(AddHandler Instance.Servicer.Dowork,AddressOf Handler Servicer.RunWorkerCompletedも同様)
+''' 3.Instance.Argumentへ引数セット 4.Instance.InfoMessageへ表示メッセージ設定 5.Instance.ShowDialog()により表示
+''' 6.Dispose
+'''</remarks>
 
 Public Class FormInfo
 
@@ -13,6 +47,11 @@ Public Class FormInfo
         LabelInformation.Refresh()
     End Sub
 
+    '''<summary>
+    '''ダイアログに表示されるユーザー向けメッセージを設定あるいは取得する
+    '''</summary>
+    '''<param name="msg">表示するメッセージ</param>
+    '''<returns>現在設定されているメッセージ</returns>
     Public Property InfoMessage() As String
         Get
             Return _msg
@@ -23,6 +62,11 @@ Public Class FormInfo
         End Set
     End Property
 
+    '''<summary>
+    '''Servicerへ渡すパラメータ
+    '''</summary>
+    '''<param name="args">Servicerへ渡すパラメータ</param>
+    '''<returns>現在設定されているServicerへ渡すパラメータ</returns>
     Public Property Argument() As Object
         Get
             Return _arg
@@ -32,6 +76,10 @@ Public Class FormInfo
         End Set
     End Property
 
+    '''<summary>
+    '''Servicerのe.Result
+    '''</summary>
+    '''<returns>Servicerのe.Result</returns>
     Public ReadOnly Property ReturnValue() As Object
         Get
             Return _ret
