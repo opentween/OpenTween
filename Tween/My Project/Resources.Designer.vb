@@ -551,6 +551,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  プロフィール取得中・・・ に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property doShowUserStatusText1() As String
+            Get
+                Return ResourceManager.GetString("doShowUserStatusText1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  正規表現パターンが間違っています。 に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property DoTabSearchText1() As String

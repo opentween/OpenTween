@@ -8438,9 +8438,21 @@ RETRY:
         ShowUserStatus(id)
     End Sub
 
+    Private Class GetUserInfoArgs
+        Public tw As Tween.Twitter
+        Public id As String
+        Public xmlbuf As String
+    End Class
+
+    Private Sub GetUserInfo_DoWork(ByVal sender As Object, ByVal e As DoWorkEventArgs)
+        Dim arg As GetUserInfoArgs = DirectCast(e.Argument, GetUserInfoArgs)
+        e.Result = TwitterInstance.GetUserInfo(arg.id, arg.xmlbuf)
+    End Sub
+
     Private Sub doShowUserStatus(ByVal id As String, ByVal ShowInputDialog As Boolean)
         Dim result As String = ""
         Dim xmlbuf As String = ""
+        Dim args As New GetUserInfoArgs
         If ShowInputDialog Then
             Using inputName As New InputTabName()
                 inputName.FormTitle = "Show UserStatus"
@@ -8449,10 +8461,17 @@ RETRY:
                 If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
                    Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
                     id = inputName.TabName.Trim
-                    Dim ret As String = tw.GetUserInfo(id, xmlbuf)
-                    If ret = "" Then
+                    Dim _info As New FormInfo
+                    _info.InfoMessage = My.Resources.doShowUserStatusText1
+                    AddHandler _info.Servicer.DoWork, AddressOf GetUserInfo_DoWork
+                    args.id = id
+                    args.xmlbuf = xmlbuf
+                    _info.Argument = args
+                    _info.ShowDialog()
+                    Dim ret As String = DirectCast(_info.ReturnValue, String)
+                    If String.IsNullOrEmpty(ret) Then
                         Using userinfo As New ShowUserInfo()
-                            userinfo.XmlData = xmlbuf
+                            userinfo.XmlData = args.xmlbuf
                             userinfo.ShowDialog(Me)
                         End Using
                     Else
@@ -8462,10 +8481,18 @@ RETRY:
                 inputName.Dispose()
             End Using
         Else
-            Dim ret As String = tw.GetUserInfo(id, xmlbuf)
-            If ret = "" Then
+            Dim _info As New FormInfo
+            AddHandler _info.Servicer.DoWork, AddressOf GetUserInfo_DoWork
+            _info.InfoMessage = My.Resources.doShowUserStatusText1
+            args.tw = tw
+            args.id = id
+            args.xmlbuf = xmlbuf
+            _info.Argument = args
+            _info.ShowDialog()
+            Dim ret As String = DirectCast(_info.ReturnValue, String)
+            If String.IsNullOrEmpty(ret) Then
                 Using userinfo As New ShowUserInfo()
-                    userinfo.XmlData = xmlbuf
+                    userinfo.XmlData = args.xmlbuf
                     userinfo.ShowDialog(Me)
                 End Using
             Else

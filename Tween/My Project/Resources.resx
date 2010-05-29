@@ -802,4 +802,7 @@
   <data name="PubSearchPeriod_ValidatingText2" xml:space="preserve">
     <value>更新間隔には数値（0または30～6000）を指定してください。</value>
   </data>
+  <data name="doShowUserStatusText1" xml:space="preserve">
+    <value>プロフィール取得中・・・</value>
+  </data>
 </root>
