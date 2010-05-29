@@ -7450,6 +7450,11 @@ RETRY:
         FollowCommand(id)
     End Sub
 
+    Private Sub FollowCommand_DoWork(ByVal sender As Object, ByVal e As DoWorkEventArgs)
+        Dim arg As FollowRemoveCommandArgs = DirectCast(e.Argument, FollowRemoveCommandArgs)
+        arg.tw.PostFollowCommand(arg.id)
+    End Sub
+
     Private Sub FollowCommand(ByVal id As String)
         Using inputName As New InputTabName()
             inputName.FormTitle = "Follow"
@@ -7457,14 +7462,21 @@ RETRY:
             inputName.TabName = id
             If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
                Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
-                Dim ret As String = tw.PostFollowCommand(inputName.TabName.Trim())
-                If Not String.IsNullOrEmpty(ret) Then
-                    MessageBox.Show(My.Resources.FRMessage2 + ret)
-                Else
-                    MessageBox.Show(My.Resources.FRMessage3)
-                End If
+                Using _info As New FormInfo
+                    Dim arg As New FollowRemoveCommandArgs
+                    arg.tw = tw
+                    arg.id = inputName.TabName.Trim()
+                    _info.Argument = arg
+                    AddHandler _info.Servicer.DoWork, AddressOf FollowCommand_DoWork
+                    _info.ShowDialog()
+                    Dim ret As String = DirectCast(_info.ReturnValue, String)
+                    If Not String.IsNullOrEmpty(ret) Then
+                        MessageBox.Show(My.Resources.FRMessage2 + ret)
+                    Else
+                        MessageBox.Show(My.Resources.FRMessage3)
+                    End If
+                End Using
             End If
-            inputName.Dispose()
         End Using
     End Sub
 
@@ -7474,6 +7486,16 @@ RETRY:
         RemoveCommand(id)
     End Sub
 
+    Private Class FollowRemoveCommandArgs
+        Public tw As Tween.Twitter
+        Public id As String
+    End Class
+
+    Private Sub RemoveCommand_DoWork(ByVal sender As Object, ByVal e As DoWorkEventArgs)
+        Dim arg As FollowRemoveCommandArgs = DirectCast(e.Argument, FollowRemoveCommandArgs)
+        arg.tw.PostRemoveCommand(arg.id)
+    End Sub
+
     Private Sub RemoveCommand(ByVal id As String)
         Using inputName As New InputTabName()
             inputName.FormTitle = "Unfollow"
@@ -7481,14 +7503,21 @@ RETRY:
             inputName.TabName = id
             If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
                Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
-                Dim ret As String = tw.PostRemoveCommand(inputName.TabName.Trim())
-                If Not String.IsNullOrEmpty(ret) Then
-                    MessageBox.Show(My.Resources.FRMessage2 + ret)
-                Else
-                    MessageBox.Show(My.Resources.FRMessage3)
-                End If
+                Using _info As New FormInfo
+                    Dim arg As New FollowRemoveCommandArgs
+                    arg.tw = tw
+                    arg.id = inputName.TabName.Trim()
+                    _info.Argument = arg
+                    AddHandler _info.Servicer.DoWork, AddressOf RemoveCommand_DoWork
+                    _info.ShowDialog()
+                    Dim ret As String = DirectCast(_info.ReturnValue, String)
+                    If Not String.IsNullOrEmpty(ret) Then
+                        MessageBox.Show(My.Resources.FRMessage2 + ret)
+                    Else
+                        MessageBox.Show(My.Resources.FRMessage3)
+                    End If
+                End Using
             End If
-            inputName.Dispose()
         End Using
     End Sub
 
@@ -8445,8 +8474,8 @@ RETRY:
     End Class
 
     Private Sub GetUserInfo_DoWork(ByVal sender As Object, ByVal e As DoWorkEventArgs)
-        Dim arg As GetUserInfoArgs = DirectCast(e.Argument, GetUserInfoArgs)
-        e.Result = TwitterInstance.GetUserInfo(arg.id, arg.xmlbuf)
+        Dim args As GetUserInfoArgs = DirectCast(e.Argument, GetUserInfoArgs)
+        e.Result = args.tw.GetUserInfo(args.id, args.xmlbuf)
     End Sub
 
     Private Sub doShowUserStatus(ByVal id As String, ByVal ShowInputDialog As Boolean)
@@ -8461,43 +8490,45 @@ RETRY:
                 If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
                    Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
                     id = inputName.TabName.Trim
-                    Dim _info As New FormInfo
-                    _info.InfoMessage = My.Resources.doShowUserStatusText1
-                    AddHandler _info.Servicer.DoWork, AddressOf GetUserInfo_DoWork
-                    args.id = id
-                    args.xmlbuf = xmlbuf
-                    _info.Argument = args
-                    _info.ShowDialog()
-                    Dim ret As String = DirectCast(_info.ReturnValue, String)
-                    If String.IsNullOrEmpty(ret) Then
-                        Using userinfo As New ShowUserInfo()
-                            userinfo.XmlData = args.xmlbuf
-                            userinfo.ShowDialog(Me)
-                        End Using
-                    Else
-                        MessageBox.Show(ret)
-                    End If
+                    Using _info As New FormInfo
+                        _info.InfoMessage = My.Resources.doShowUserStatusText1
+                        AddHandler _info.Servicer.DoWork, AddressOf GetUserInfo_DoWork
+                        args.tw = tw
+                        args.id = id
+                        args.xmlbuf = xmlbuf
+                        _info.Argument = args
+                        _info.ShowDialog()
+                        Dim ret As String = DirectCast(_info.ReturnValue, String)
+                        If String.IsNullOrEmpty(ret) Then
+                            Using userinfo As New ShowUserInfo()
+                                userinfo.XmlData = args.xmlbuf
+                                userinfo.ShowDialog(Me)
+                            End Using
+                        Else
+                            MessageBox.Show(ret)
+                        End If
+                    End Using
                 End If
-                inputName.Dispose()
             End Using
         Else
-            Dim _info As New FormInfo
-            AddHandler _info.Servicer.DoWork, AddressOf GetUserInfo_DoWork
-            _info.InfoMessage = My.Resources.doShowUserStatusText1
-            args.tw = tw
-            args.id = id
-            args.xmlbuf = xmlbuf
-            _info.Argument = args
-            _info.ShowDialog()
-            Dim ret As String = DirectCast(_info.ReturnValue, String)
-            If String.IsNullOrEmpty(ret) Then
-                Using userinfo As New ShowUserInfo()
-                    userinfo.XmlData = args.xmlbuf
-                    userinfo.ShowDialog(Me)
-                End Using
-            Else
-                MessageBox.Show(ret)
-            End If
+            Using _info As New FormInfo
+                AddHandler _info.Servicer.DoWork, AddressOf GetUserInfo_DoWork
+                _info.InfoMessage = My.Resources.doShowUserStatusText1
+                args.tw = tw
+                args.id = id
+                args.xmlbuf = xmlbuf
+                _info.Argument = args
+                _info.ShowDialog()
+                Dim ret As String = DirectCast(_info.ReturnValue, String)
+                If String.IsNullOrEmpty(ret) Then
+                    Using userinfo As New ShowUserInfo()
+                        userinfo.XmlData = args.xmlbuf
+                        userinfo.ShowDialog(Me)
+                    End Using
+                Else
+                    MessageBox.Show(ret)
+                End If
+            End Using
         End If
     End Sub
 
@@ -8586,21 +8617,21 @@ RETRY:
 
     Private Sub RtCountMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RtCountMenuItem.Click
         If _curPost IsNot Nothing Then
-            Dim _info As New FormInfo
-            Dim retweet_count As Integer = 0
-            _info.InfoMessage = My.Resources.RtCountMenuItem_ClickText1
+            Using _info As New FormInfo
+                Dim retweet_count As Integer = 0
+                _info.InfoMessage = My.Resources.RtCountMenuItem_ClickText1
 
-            AddHandler _info.Servicer.DoWork, AddressOf GetRetweet_DoWork
+                AddHandler _info.Servicer.DoWork, AddressOf GetRetweet_DoWork
 
-            ' ダイアログ表示
-            _info.ShowDialog()
-            retweet_count = CType(_info.ReturnValue, Integer)
-            If retweet_count < 0 Then
-                MessageBox.Show(My.Resources.RtCountText2)
-            Else
-                MessageBox.Show(retweet_count.ToString + My.Resources.RtCountText1)
-            End If
-            _info.Dispose()
+                ' ダイアログ表示
+                _info.ShowDialog()
+                retweet_count = CType(_info.ReturnValue, Integer)
+                If retweet_count < 0 Then
+                    MessageBox.Show(My.Resources.RtCountText2)
+                Else
+                    MessageBox.Show(retweet_count.ToString + My.Resources.RtCountText1)
+                End If
+            End Using
         End If
     End Sub
 
