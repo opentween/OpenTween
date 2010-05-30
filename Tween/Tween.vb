@@ -7979,6 +7979,7 @@ RETRY:
         Public statusId As Long
         Public urls As List(Of KeyValuePair(Of String, String))
         Public pics As New List(Of KeyValuePair(Of String, Image))
+        Public tooltiptext As New List(Of KeyValuePair(Of String, String))
         Public Sub New(ByVal id As Long, ByVal urlList As List(Of KeyValuePair(Of String, String)))
             statusId = id
             urls = urlList
@@ -8246,6 +8247,7 @@ RETRY:
                 Dim img As Image = http.GetImage(url.Value, url.Key)
                 If img Is Nothing Then Continue For
                 arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, img))
+                arg.tooltiptext.Add(New KeyValuePair(Of String, String)(url.Key, ""))
             ElseIf url.Key.StartsWith("http://www.pixiv.net/") Then
                 Dim src As String = ""
                 'illustIDをキャプチャ
@@ -8260,6 +8262,7 @@ RETRY:
                             Dim _img As Image = http.GetImage(_mc.Value, url.Key)
                             If _img Is Nothing Then Continue For
                             arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, _img))
+                            arg.tooltiptext.Add(New KeyValuePair(Of String, String)(url.Key, ""))
                         End If
                     End If
                 End If
@@ -8274,6 +8277,7 @@ RETRY:
                             Dim _img As Image = http.GetImage(_mc.Item(1).Value, url.Key)
                             If _img Is Nothing Then Continue For
                             arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, _img))
+                            arg.tooltiptext.Add(New KeyValuePair(Of String, String)(url.Key, ""))
                         End If
                     End If
                     Continue For
@@ -8291,6 +8295,7 @@ RETRY:
                             Dim _img As Image = http.GetImage(min_img_url, url.Key)
                             If _img Is Nothing Then Continue For
                             arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, _img))
+                            arg.tooltiptext.Add(New KeyValuePair(Of String, String)(url.Key, ""))
                         End If
                     End If
                 End If
@@ -8313,6 +8318,7 @@ RETRY:
                         Dim _img As Image = http.GetImage(thumbnail_url, url.Key)
                         If _img Is Nothing Then Continue For
                         arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, _img))
+                        arg.tooltiptext.Add(New KeyValuePair(Of String, String)(url.Key, ""))
                         Continue For
                     End If
                 End If
@@ -8345,6 +8351,7 @@ RETRY:
                         Dim _img As Image = http.GetImage(imgurl, url.Key)
                         If _img Is Nothing Then Continue For
                         arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, _img))
+                        arg.tooltiptext.Add(New KeyValuePair(Of String, String)(url.Key, ""))
                     End If
                 End If
                 Continue For
@@ -8354,12 +8361,38 @@ RETRY:
                 Dim src As String = ""
                 Dim imgurl As String = ""
                 If (New HttpVarious).GetData(apiurl, Nothing, src, 5000) Then
+                    Dim sb As New StringBuilder
                     Dim xdoc As New XmlDocument
                     Try
                         xdoc.LoadXml(src)
                         Dim status As String = xdoc.SelectSingleNode("/nicovideo_thumb_response").Attributes("status").Value
                         If status = "ok" Then
                             imgurl = xdoc.SelectSingleNode("/nicovideo_thumb_response/thumb/thumbnail_url").InnerText
+
+                            'ツールチップに動画情報をセットする
+                            sb.Append("タイトル    ")
+                            sb.Append(xdoc.SelectSingleNode("/nicovideo_thumb_response/thumb/title").InnerText)
+                            sb.AppendLine()
+
+                            sb.Append("再生時間    ")
+                            sb.Append(xdoc.SelectSingleNode("/nicovideo_thumb_response/thumb/length").InnerText)
+                            sb.AppendLine()
+
+                            sb.Append("投稿日時    ")
+                            sb.Append(xdoc.SelectSingleNode("/nicovideo_thumb_response/thumb/first_retrieve").InnerText)
+                            sb.AppendLine()
+
+                            sb.Append("再生数      ")
+                            sb.Append(xdoc.SelectSingleNode("/nicovideo_thumb_response/thumb/view_counter").InnerText)
+                            sb.AppendLine()
+
+                            sb.Append("コメント数  ")
+                            sb.Append(xdoc.SelectSingleNode("/nicovideo_thumb_response/thumb/comment_num").InnerText)
+                            sb.AppendLine()
+
+                            sb.Append("mylist数    ")
+                            sb.Append(xdoc.SelectSingleNode("/nicovideo_thumb_response/thumb/mylist_counter").InnerText)
+
                         ElseIf status = "fail" Then
                             Dim errcode As String = xdoc.SelectSingleNode("/nicovideo_thumb_response/error/code").InnerText
                             arg.AdditionalErrorMessage = "(" + errcode + ")"
@@ -8381,6 +8414,7 @@ RETRY:
                         Dim _img As Image = http.GetImage(imgurl, url.Key)
                         If _img Is Nothing Then Continue For
                         arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, _img))
+                        arg.tooltiptext.Add(New KeyValuePair(Of String, String)(url.Key, sb.ToString))
                     End If
                 End If
             Else
@@ -8388,6 +8422,7 @@ RETRY:
                 Dim img As Image = http.GetImage(url.Value, url.Key)
                 If img Is Nothing Then Continue For
                 arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, img))
+                arg.tooltiptext.Add(New KeyValuePair(Of String, String)(url.Key, ""))
             End If
         Next
         If arg.pics.Count = 0 Then
@@ -8423,6 +8458,11 @@ RETRY:
                 End If
                 Me.PreviewScrollBar.Value = 0
                 Me.PreviewPicture.Image = _prev.pics(0).Value
+                If Not String.IsNullOrEmpty(_prev.tooltiptext(0).Value) Then
+                    Me.ToolTip1.SetToolTip(Me.PreviewPicture, _prev.tooltiptext(0).Value)
+                Else
+                    Me.ToolTip1.SetToolTip(Me.PreviewPicture, "")
+                End If
             ElseIf _curPost Is Nothing OrElse (_prev IsNot Nothing AndAlso _curPost.Id <> _prev.statusId) Then
                 Me.PreviewScrollBar.Maximum = 0
                 Me.PreviewScrollBar.Enabled = False
@@ -8437,11 +8477,25 @@ RETRY:
             If _prev IsNot Nothing AndAlso _curPost IsNot Nothing AndAlso _prev.statusId = _curPost.Id Then
                 If _prev.pics.Count > e.NewValue Then
                     Me.PreviewPicture.Image = _prev.pics(e.NewValue).Value
+                    If Not String.IsNullOrEmpty(_prev.tooltiptext(e.NewValue).Value) Then
+                        Me.ToolTip1.Hide(Me.PreviewPicture)
+                        Me.ToolTip1.SetToolTip(Me.PreviewPicture, _prev.tooltiptext(e.NewValue).Value)
+                    Else
+                        Me.ToolTip1.SetToolTip(Me.PreviewPicture, "")
+                        Me.ToolTip1.Hide(Me.PreviewPicture)
+                    End If
                 End If
             End If
         End SyncLock
     End Sub
 
+    Private Sub PreviewPicture_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles PreviewPicture.MouseEnter
+
+    End Sub
+
+    Private Sub PreviewPicture_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles PreviewPicture.MouseLeave
+        Me.ToolTip1.Hide(Me.PreviewPicture)
+    End Sub
     Private Sub PreviewPicture_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles PreviewPicture.DoubleClick
         If _prev IsNot Nothing Then
             If Me.PreviewScrollBar.Value < _prev.pics.Count Then
