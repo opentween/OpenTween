@@ -7462,14 +7462,15 @@ RETRY:
             inputName.TabName = id
             If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
                Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
-                Using _info As New FormInfo
-                    Dim arg As New FollowRemoveCommandArgs
-                    arg.tw = tw
-                    arg.id = inputName.TabName.Trim()
-                    _info.Argument = arg
-                    AddHandler _info.Servicer.DoWork, AddressOf FollowCommand_DoWork
+                Dim arg As New FollowRemoveCommandArgs
+                arg.tw = tw
+                arg.id = inputName.TabName.Trim()
+                Using _info As New FormInfo("フォローしています・・・", _
+                                            AddressOf FollowCommand_DoWork, _
+                                            Nothing, _
+                                            arg)
                     _info.ShowDialog()
-                    Dim ret As String = DirectCast(_info.ReturnValue, String)
+                    Dim ret As String = DirectCast(_info.Result, String)
                     If Not String.IsNullOrEmpty(ret) Then
                         MessageBox.Show(My.Resources.FRMessage2 + ret)
                     Else
@@ -7503,14 +7504,15 @@ RETRY:
             inputName.TabName = id
             If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
                Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
-                Using _info As New FormInfo
-                    Dim arg As New FollowRemoveCommandArgs
-                    arg.tw = tw
-                    arg.id = inputName.TabName.Trim()
-                    _info.Argument = arg
-                    AddHandler _info.Servicer.DoWork, AddressOf RemoveCommand_DoWork
+                Dim arg As New FollowRemoveCommandArgs
+                arg.tw = tw
+                arg.id = inputName.TabName.Trim()
+                Using _info As New FormInfo("フォローを中止しています・・・", _
+                                            AddressOf RemoveCommand_DoWork, _
+                                            Nothing, _
+                                            arg)
                     _info.ShowDialog()
-                    Dim ret As String = DirectCast(_info.ReturnValue, String)
+                    Dim ret As String = DirectCast(_info.Result, String)
                     If Not String.IsNullOrEmpty(ret) Then
                         MessageBox.Show(My.Resources.FRMessage2 + ret)
                     Else
@@ -8490,15 +8492,15 @@ RETRY:
                 If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
                    Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
                     id = inputName.TabName.Trim
-                    Using _info As New FormInfo
-                        _info.InfoMessage = My.Resources.doShowUserStatusText1
-                        AddHandler _info.Servicer.DoWork, AddressOf GetUserInfo_DoWork
-                        args.tw = tw
-                        args.id = id
-                        args.xmlbuf = xmlbuf
-                        _info.Argument = args
+                    args.tw = tw
+                    args.id = id
+                    args.xmlbuf = xmlbuf
+                    Using _info As New FormInfo(My.Resources.doShowUserStatusText1, _
+                                                AddressOf GetUserInfo_DoWork, _
+                                                Nothing, _
+                                                args)
                         _info.ShowDialog()
-                        Dim ret As String = DirectCast(_info.ReturnValue, String)
+                        Dim ret As String = DirectCast(_info.Result, String)
                         If String.IsNullOrEmpty(ret) Then
                             Using userinfo As New ShowUserInfo()
                                 userinfo.XmlData = args.xmlbuf
@@ -8511,15 +8513,15 @@ RETRY:
                 End If
             End Using
         Else
-            Using _info As New FormInfo
-                AddHandler _info.Servicer.DoWork, AddressOf GetUserInfo_DoWork
-                _info.InfoMessage = My.Resources.doShowUserStatusText1
-                args.tw = tw
-                args.id = id
-                args.xmlbuf = xmlbuf
-                _info.Argument = args
+            args.tw = tw
+            args.id = id
+            args.xmlbuf = xmlbuf
+            Using _info As New FormInfo(My.Resources.doShowUserStatusText1, _
+                                        AddressOf GetUserInfo_DoWork, _
+                                        Nothing, _
+                                        args)
                 _info.ShowDialog()
-                Dim ret As String = DirectCast(_info.ReturnValue, String)
+                Dim ret As String = DirectCast(_info.Result, String)
                 If String.IsNullOrEmpty(ret) Then
                     Using userinfo As New ShowUserInfo()
                         userinfo.XmlData = args.xmlbuf
@@ -8617,15 +8619,13 @@ RETRY:
 
     Private Sub RtCountMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RtCountMenuItem.Click
         If _curPost IsNot Nothing Then
-            Using _info As New FormInfo
+            Using _info As New FormInfo(My.Resources.RtCountMenuItem_ClickText1, _
+                                        AddressOf GetRetweet_DoWork)
                 Dim retweet_count As Integer = 0
-                _info.InfoMessage = My.Resources.RtCountMenuItem_ClickText1
-
-                AddHandler _info.Servicer.DoWork, AddressOf GetRetweet_DoWork
 
                 ' ダイアログ表示
                 _info.ShowDialog()
-                retweet_count = CType(_info.ReturnValue, Integer)
+                retweet_count = CType(_info.Result, Integer)
                 If retweet_count < 0 Then
                     MessageBox.Show(My.Resources.RtCountText2)
                 Else
@@ -8655,11 +8655,11 @@ RETRY:
         Me.StatusText.Focus()
     End Sub
 
-    Private Sub NameLabel_MouseEnter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NameLabel.MouseEnter, UserPicture.MouseEnter
+    Private Sub NameLabel_MouseEnter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NameLabel.MouseEnter
         Me.NameLabel.Cursor = Cursors.Hand
     End Sub
 
-    Private Sub NameLabel_MouseLeave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NameLabel.MouseLeave, UserPicture.MouseLeave
+    Private Sub NameLabel_MouseLeave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NameLabel.MouseLeave
         Me.NameLabel.Cursor = Cursors.Default
     End Sub
 End Class
