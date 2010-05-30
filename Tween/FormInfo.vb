@@ -130,7 +130,7 @@ Public Class FormInfo
     Private Sub FormInfo_Shown(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Shown
         Servicer.RunWorkerAsync(_arg)
         While Servicer.IsBusy
-            Threading.Thread.Sleep(200)
+            Threading.Thread.Sleep(100)
             My.Application.DoEvents()
         End While
         Me.Close()
