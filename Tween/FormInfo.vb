@@ -43,6 +43,42 @@ Public Class FormInfo
 
     Public Servicer As New BackgroundWorker
 
+
+
+    Public Sub New()
+
+        ' この呼び出しはデザイナーで必要です。
+        InitializeComponent()
+
+        ' InitializeComponent() 呼び出しの後で初期化を追加します。
+
+        AddHandler Servicer.RunWorkerCompleted, AddressOf ResultCatcher
+
+    End Sub
+
+    Public Sub New(ByVal Message As String, _
+                   ByVal DoWork As System.ComponentModel.DoWorkEventHandler, _
+                   Optional ByVal RunWorkerCompleted As System.ComponentModel.RunWorkerCompletedEventHandler = Nothing, _
+                   Optional ByVal Argument As Object = Nothing)
+
+        ' この呼び出しはデザイナーで必要です。
+        InitializeComponent()
+
+        ' InitializeComponent() 呼び出しの後で初期化を追加します。
+
+        AddHandler Servicer.RunWorkerCompleted, AddressOf ResultCatcher
+
+        Me.InfoMessage = Message
+        AddHandler Me.Servicer.DoWork, DoWork
+
+        If RunWorkerCompleted IsNot Nothing Then
+            AddHandler Me.Servicer.RunWorkerCompleted, RunWorkerCompleted
+        End If
+
+        Me.Argument = Argument
+
+    End Sub
+
     Private Sub LabelInformation_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LabelInformation.TextChanged
         LabelInformation.Left = (Me.ClientSize.Width - LabelInformation.Size.Width) \ 2
         LabelInformation.Refresh()
@@ -81,18 +117,14 @@ Public Class FormInfo
     '''Servicerのe.Result
     '''</summary>
     '''<returns>Servicerのe.Result</returns>
-    Public ReadOnly Property ReturnValue() As Object
+    Public ReadOnly Property Result() As Object
         Get
             Return _ret
         End Get
     End Property
 
-    Private Sub ReturnValueCatcher(ByVal sender As Object, ByVal e As RunWorkerCompletedEventArgs)
+    Private Sub ResultCatcher(ByVal sender As Object, ByVal e As RunWorkerCompletedEventArgs)
         _ret = e.Result
-    End Sub
-
-    Private Sub FormInfo_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        AddHandler Servicer.RunWorkerCompleted, AddressOf ReturnValueCatcher
     End Sub
 
     Private Sub FormInfo_Shown(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Shown
