@@ -8679,4 +8679,12 @@ RETRY:
     Private Sub NameLabel_MouseLeave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NameLabel.MouseLeave
         Me.NameLabel.Cursor = Cursors.Default
     End Sub
+
+    Private Sub UserPicture_MouseEnter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UserPicture.MouseEnter
+        Me.UserPicture.Cursor = Cursors.Hand
+    End Sub
+
+    Private Sub UserPicture_MouseLeave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UserPicture.MouseLeave
+        Me.UserPicture.Cursor = Cursors.Default
+    End Sub
 End Class
