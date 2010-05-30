@@ -7452,7 +7452,7 @@ RETRY:
 
     Private Sub FollowCommand_DoWork(ByVal sender As Object, ByVal e As DoWorkEventArgs)
         Dim arg As FollowRemoveCommandArgs = DirectCast(e.Argument, FollowRemoveCommandArgs)
-        arg.tw.PostFollowCommand(arg.id)
+        e.Result = arg.tw.PostFollowCommand(arg.id)
     End Sub
 
     Private Sub FollowCommand(ByVal id As String)
@@ -7494,7 +7494,7 @@ RETRY:
 
     Private Sub RemoveCommand_DoWork(ByVal sender As Object, ByVal e As DoWorkEventArgs)
         Dim arg As FollowRemoveCommandArgs = DirectCast(e.Argument, FollowRemoveCommandArgs)
-        arg.tw.PostRemoveCommand(arg.id)
+        e.Result = arg.tw.PostRemoveCommand(arg.id)
     End Sub
 
     Private Sub RemoveCommand(ByVal id As String)
@@ -7531,36 +7531,53 @@ RETRY:
         ShowFriendship(id)
     End Sub
 
+    Private Class ShowFriendshipArgs
+        Public tw As Tween.Twitter
+        Public id As String
+        Public isFollowing As Boolean = False
+        Public isFollowed As Boolean = False
+    End Class
+
+    Private Sub ShowFriendship_DoWork(ByVal sender As Object, ByVal e As DoWorkEventArgs)
+        Dim arg As ShowFriendshipArgs = DirectCast(e.Argument, ShowFriendshipArgs)
+        arg.tw.GetFriendshipInfo(arg.id, arg.isFollowing, arg.isFollowed)
+    End Sub
+
     Private Sub ShowFriendship(ByVal id As String)
+        Dim args As New ShowFriendshipArgs
+        args.tw = tw
         Using inputName As New InputTabName()
             inputName.FormTitle = "Show Friendships"
             inputName.FormDescription = My.Resources.FRMessage1
             inputName.TabName = id
             If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
                Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
-                Dim isFollowing As Boolean = False
-                Dim isFollowed As Boolean = False
                 Dim result As String = ""
-                id = inputName.TabName.Trim
-                Dim ret As String = tw.GetFriendshipInfo(id, isFollowing, isFollowed)
-                If ret = "" Then
-                    If isFollowing Then
-                        result = My.Resources.GetFriendshipInfo1 + System.Environment.NewLine
+                args.id = inputName.TabName.Trim
+                Using _info As New FormInfo("フォロー状況取得中・・・", _
+                                            AddressOf ShowFriendship_DoWork, _
+                                            Nothing, _
+                                            args)
+                    _info.ShowDialog()
+                    Dim ret As String = DirectCast(_info.Result, String)
+                    If String.IsNullOrEmpty(ret) Then
+                        If args.isFollowing Then
+                            result = My.Resources.GetFriendshipInfo1 + System.Environment.NewLine
+                        Else
+                            result = My.Resources.GetFriendshipInfo2 + System.Environment.NewLine
+                        End If
+                        If args.isFollowed Then
+                            result += My.Resources.GetFriendshipInfo3
+                        Else
+                            result += My.Resources.GetFriendshipInfo4
+                        End If
+                        result = id + My.Resources.GetFriendshipInfo5 + System.Environment.NewLine + result
                     Else
-                        result = My.Resources.GetFriendshipInfo2 + System.Environment.NewLine
+                        result = ret
                     End If
-                    If isFollowed Then
-                        result += My.Resources.GetFriendshipInfo3
-                    Else
-                        result += My.Resources.GetFriendshipInfo4
-                    End If
-                    result = id + My.Resources.GetFriendshipInfo5 + System.Environment.NewLine + result
-                Else
-                    result = ret
-                End If
-                MessageBox.Show(result)
+                    MessageBox.Show(result)
+                End Using
             End If
-            inputName.Dispose()
         End Using
     End Sub
 
