@@ -8655,11 +8655,11 @@ RETRY:
         Me.StatusText.Focus()
     End Sub
 
-    Private Sub NameLabel_MouseEnter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NameLabel.MouseEnter
+    Private Sub NameLabel_MouseEnter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NameLabel.MouseEnter, UserPicture.MouseEnter
         Me.NameLabel.Cursor = Cursors.Hand
     End Sub
 
-    Private Sub NameLabel_MouseLeave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NameLabel.MouseLeave
+    Private Sub NameLabel_MouseLeave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NameLabel.MouseLeave, UserPicture.MouseLeave
         Me.NameLabel.Cursor = Cursors.Default
     End Sub
 End Class
