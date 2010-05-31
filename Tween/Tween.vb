@@ -8667,12 +8667,6 @@ RETRY:
         doShowUserStatus(id, True)
     End Sub
 
-    Private Sub NameLabel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NameLabel.Click, UserPicture.DoubleClick
-        If NameLabel.Tag IsNot Nothing Then
-            OpenUriAsync("http://twitter.com/" + NameLabel.Tag.ToString)
-        End If
-    End Sub
-
     Private Sub FollowToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FollowToolStripMenuItem.Click
         If NameLabel.Tag IsNot Nothing Then
             Dim id As String = DirectCast(NameLabel.Tag, String)
@@ -8811,5 +8805,11 @@ RETRY:
 
     Private Sub UserPicture_MouseLeave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UserPicture.MouseLeave
         Me.UserPicture.Cursor = Cursors.Default
+    End Sub
+
+    Private Sub NameLabel_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NameLabel.DoubleClick
+        If NameLabel.Tag IsNot Nothing Then
+            OpenUriAsync("http://twitter.com/" + NameLabel.Tag.ToString)
+        End If
     End Sub
 End Class
