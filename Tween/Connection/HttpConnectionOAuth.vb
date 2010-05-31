@@ -43,7 +43,7 @@ Public Class HttpConnectionOAuth
     '''<summary>
     '''OAuthの署名作成用秘密コンシューマーデータ
     '''</summary>
-    Private consumerSecret As String
+    Protected consumerSecret As String
 
     '''<summary>
     '''認証成功時の応答でユーザー情報を取得する場合のキー。設定しない場合は、AuthUsernameもブランクのままとなる

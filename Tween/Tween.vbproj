@@ -88,6 +88,7 @@
     <Compile Include="AtIdSupplement.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Connection\HttpOAuthApiProxy.vb" />
     <Compile Include="Connection\HttpConnection.vb" />
     <Compile Include="Connection\HttpConnectionBasic.vb" />
     <Compile Include="Connection\HttpConnectionOAuth.vb" />

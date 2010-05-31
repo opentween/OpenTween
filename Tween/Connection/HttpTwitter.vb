@@ -43,7 +43,7 @@ Public Class HttpTwitter
                                     ByVal accessTokenSecret As String, _
                                     ByVal username As String)
         'for OAuth
-        Dim con As New HttpConnectionOAuth
+        Dim con As New HttpOAuthApiProxy
         con.Initialize(ConsumerKey, ConsumerSecret, accessToken, accessTokenSecret, username, "screen_name")
         httpCon = con
         connectionType = AuthMethod.OAuth
@@ -458,6 +458,7 @@ Public Class HttpTwitter
     Public Shared WriteOnly Property TwitterUrl() As String
         Set(ByVal value As String)
             _twitterUrl = value
+            HttpOAuthApiProxy.ProxyHost = value
         End Set
     End Property
 
