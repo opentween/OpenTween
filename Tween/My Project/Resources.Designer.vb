@@ -1134,6 +1134,60 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  タイトル: に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property NiconicoInfoText1() As String
+            Get
+                Return ResourceManager.GetString("NiconicoInfoText1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  再生時間: に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property NiconicoInfoText2() As String
+            Get
+                Return ResourceManager.GetString("NiconicoInfoText2", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  投稿日時: に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property NiconicoInfoText3() As String
+            Get
+                Return ResourceManager.GetString("NiconicoInfoText3", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  再生数: に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property NiconicoInfoText4() As String
+            Get
+                Return ResourceManager.GetString("NiconicoInfoText4", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  コメント数: に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property NiconicoInfoText5() As String
+            Get
+                Return ResourceManager.GetString("NiconicoInfoText5", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  マイリスト数: に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property NiconicoInfoText6() As String
+            Get
+                Return ResourceManager.GetString("NiconicoInfoText6", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  いいえ に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property No() As String

@@ -817,4 +817,22 @@
   <data name="ShowFriendshipText1" xml:space="preserve">
     <value>フォロー状況取得中・・・</value>
   </data>
+  <data name="NiconicoInfoText1" xml:space="preserve">
+    <value>タイトル:</value>
+  </data>
+  <data name="NiconicoInfoText2" xml:space="preserve">
+    <value>再生時間:</value>
+  </data>
+  <data name="NiconicoInfoText3" xml:space="preserve">
+    <value>投稿日時:</value>
+  </data>
+  <data name="NiconicoInfoText4" xml:space="preserve">
+    <value>再生数:</value>
+  </data>
+  <data name="NiconicoInfoText5" xml:space="preserve">
+    <value>コメント数:</value>
+  </data>
+  <data name="NiconicoInfoText6" xml:space="preserve">
+    <value>マイリスト数:</value>
+  </data>
 </root>
