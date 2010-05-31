@@ -196,10 +196,10 @@ Public Class HttpTwitter
 
     Public Function ShowUserInfo(ByVal screenName As String, ByRef content As String) As HttpStatusCode
         Dim param As New Dictionary(Of String, String)
-
+        param.Add("screen_name", screenName)
         Return httpCon.GetContent(GetMethod, _
-                            CreateTwitterUri("/1/users/show/" + screenName + ".xml"), _
-                            Nothing, _
+                            CreateTwitterUri("/1/users/show/.xml"), _
+                            param, _
                             content, _
                             Nothing)
     End Function
