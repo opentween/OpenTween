@@ -7465,7 +7465,7 @@ RETRY:
                 Dim arg As New FollowRemoveCommandArgs
                 arg.tw = tw
                 arg.id = inputName.TabName.Trim()
-                Using _info As New FormInfo("フォローしています・・・", _
+                Using _info As New FormInfo(My.Resources.FollowCommandText1, _
                                             AddressOf FollowCommand_DoWork, _
                                             Nothing, _
                                             arg)
@@ -7507,7 +7507,7 @@ RETRY:
                 Dim arg As New FollowRemoveCommandArgs
                 arg.tw = tw
                 arg.id = inputName.TabName.Trim()
-                Using _info As New FormInfo("フォローを中止しています・・・", _
+                Using _info As New FormInfo(My.Resources.RemoveCommandText1, _
                                             AddressOf RemoveCommand_DoWork, _
                                             Nothing, _
                                             arg)
@@ -7554,7 +7554,7 @@ RETRY:
                Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
                 Dim result As String = ""
                 args.id = inputName.TabName.Trim
-                Using _info As New FormInfo("フォロー状況取得中・・・", _
+                Using _info As New FormInfo(My.Resources.ShowFriendshipText1, _
                                             AddressOf ShowFriendship_DoWork, _
                                             Nothing, _
                                             args)

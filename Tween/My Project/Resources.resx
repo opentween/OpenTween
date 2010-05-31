@@ -808,4 +808,13 @@
   <data name="RtCountMenuItem_ClickText1" xml:space="preserve">
     <value>Retweetカウント取得中・・・</value>
   </data>
+  <data name="FollowCommandText1" xml:space="preserve">
+    <value>フォローしています・・・</value>
+  </data>
+  <data name="RemoveCommandText1" xml:space="preserve">
+    <value>フォローを解除しています・・・</value>
+  </data>
+  <data name="ShowFriendshipText1" xml:space="preserve">
+    <value>フォロー状況取得中・・・</value>
+  </data>
 </root>

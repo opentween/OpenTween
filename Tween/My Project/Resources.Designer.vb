@@ -659,6 +659,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  フォローしています・・・ に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property FollowCommandText1() As String
+            Get
+                Return ResourceManager.GetString("FollowCommandText1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  更新中... に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property Form1_LoadText1() As String
@@ -1297,6 +1306,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  フォローを解除しています・・・ に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property RemoveCommandText1() As String
+            Get
+                Return ResourceManager.GetString("RemoveCommandText1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  このタブを削除してもよろしいですか？{0} に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property RemoveSpecifiedTabText1() As String
@@ -1658,6 +1676,15 @@ Namespace My.Resources
         Friend ReadOnly Property SettingAPIUse1() As String
             Get
                 Return ResourceManager.GetString("SettingAPIUse1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  フォロー状況取得中・・・ に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ShowFriendshipText1() As String
+            Get
+                Return ResourceManager.GetString("ShowFriendshipText1", resourceCulture)
             End Get
         End Property
         
