@@ -6517,10 +6517,20 @@ RETRY:
 
     Private Sub doRepliedStatusOpen()
         If _curPost IsNot Nothing AndAlso _curPost.InReplyToUser IsNot Nothing AndAlso _curPost.InReplyToId > 0 Then
-            If _statuses.ContainsKey(_curPost.InReplyToId) AndAlso Not My.Computer.Keyboard.ShiftKeyDown Then
+            If My.Computer.Keyboard.ShiftKeyDown Then
+                OpenUriAsync("http://twitter.com/" + _curPost.InReplyToUser + "/status/" + _curPost.InReplyToId.ToString())
+                Exit Sub
+            End If
+            If _statuses.ContainsKey(_curPost.InReplyToId) Then
                 Dim repPost As PostClass = _statuses.Item(_curPost.InReplyToId)
                 MessageBox.Show(repPost.Name + " / " + repPost.Nickname + "   (" + repPost.PDate.ToString() + ")" + Environment.NewLine + repPost.Data)
             Else
+                For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.Lists Or TabUsageType.PublicSearch)
+                    If tb Is Nothing OrElse Not tb.Contains(_curPost.InReplyToId) Then Exit For
+                    Dim repPost As PostClass = _statuses.Item(_curPost.InReplyToId)
+                    MessageBox.Show(repPost.Name + " / " + repPost.Nickname + "   (" + repPost.PDate.ToString() + ")" + Environment.NewLine + repPost.Data)
+                    Exit Sub
+                Next
                 OpenUriAsync("http://twitter.com/" + _curPost.InReplyToUser + "/status/" + _curPost.InReplyToId.ToString())
             End If
         End If

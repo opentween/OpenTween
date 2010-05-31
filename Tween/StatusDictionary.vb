@@ -1304,7 +1304,7 @@ Public NotInheritable Class TabInformations
         SyncLock LockObj
             Dim tbs As New List(Of TabClass)
             For Each tb As TabClass In _tabs.Values
-                If tb.TabType = tabType Then tbs.Add(tb)
+                If (tabType And tb.TabType) = tb.TabType Then tbs.Add(tb)
             Next
             Return tbs
         End SyncLock
