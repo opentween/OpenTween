@@ -178,6 +178,7 @@ Public Class Setting
                 Case 2
                     _MyNameBalloon = NameBalloonEnum.NickName
             End Select
+            _MyPostCtrlEnter = CheckPostCtrlEnter.Checked
             _usePostMethod = False
             _countApi = CType(TextCountApi.Text, Integer)
             _countApiReply = CType(TextCountApiReply.Text, Integer)
