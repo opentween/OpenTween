@@ -1763,12 +1763,12 @@ Public Class TweenMain
             adjustCount += Regex.Matches(tmpStatus, "https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#]+").Count
         End If
 
-        If IdeographicSpaceToSpaceToolStripMenuItem.Checked Then
-            ' 文中の全角スペースを半角スペース2個にする
-            For i As Integer = 0 To tmpStatus.Length - 1
-                If tmpStatus.Substring(i, 1) = "　" Then adjustCount += 1
-            Next
-        End If
+        'If IdeographicSpaceToSpaceToolStripMenuItem.Checked Then
+        '    ' 文中の全角スペースを半角スペース2個にする
+        '    For i As Integer = 0 To tmpStatus.Length - 1
+        '        If tmpStatus.Substring(i, 1) = "　" Then adjustCount += 1
+        '    Next
+        'End If
 
 
         Dim isCutOff As Boolean = False
@@ -1835,8 +1835,8 @@ Public Class TweenMain
         End If
 
         If IdeographicSpaceToSpaceToolStripMenuItem.Checked Then
-            ' 文中の全角スペースを半角スペース2個にする
-            args.status.status = args.status.status.Replace("　", "  ")
+            ' 文中の全角スペースを半角スペース1個にする
+            args.status.status = args.status.status.Replace("　", " ")
         End If
 
         If isCutOff AndAlso args.status.status.Length > 140 Then
