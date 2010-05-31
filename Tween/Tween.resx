@@ -529,7 +529,7 @@
     <value>このユーザーの発言を検索</value>
   </data>
   <data name="ContextMenuStripDetailName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 136</value>
+    <value>196, 114</value>
   </data>
   <data name="&gt;&gt;ContextMenuStripDetailName.Name" xml:space="preserve">
     <value>ContextMenuStripDetailName</value>
