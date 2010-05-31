@@ -198,7 +198,7 @@ Public Class HttpTwitter
         Dim param As New Dictionary(Of String, String)
         param.Add("screen_name", screenName)
         Return httpCon.GetContent(GetMethod, _
-                            CreateTwitterUri("/1/users/show/.xml"), _
+                            CreateTwitterUri("/1/users/show.xml"), _
                             param, _
                             content, _
                             Nothing)
