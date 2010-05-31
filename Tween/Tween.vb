@@ -7000,12 +7000,14 @@ RETRY:
                 RemoveContextMenuItem.Enabled = True
                 FriendshipContextMenuItem.Enabled = True
                 ShowUserStatusContextMenuItem.Enabled = True
+                SearchPostsDetailToolStripMenuItem.Enabled = True
                 IdFilterAddMenuItem.Enabled = True
             Else
                 FollowContextMenuItem.Enabled = False
                 RemoveContextMenuItem.Enabled = False
                 FriendshipContextMenuItem.Enabled = False
                 ShowUserStatusContextMenuItem.Enabled = False
+                SearchPostsDetailToolStripMenuItem.Enabled = False
                 IdFilterAddMenuItem.Enabled = False
             End If
 
@@ -7634,6 +7636,13 @@ RETRY:
         Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(?<name>[a-zA-Z0-9_]+)$")
         If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
             ShowUserStatus(m.Result("${name}"))
+        End If
+    End Sub
+
+    Private Sub SearchPostsDetailToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SearchPostsDetailToolStripMenuItem.Click
+        Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(?<name>[a-zA-Z0-9_]+)$")
+        If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
+            AddNewTabForSearch("from:" + m.Result("${name}"))
         End If
     End Sub
     Private Sub IdeographicSpaceToSpaceToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles IdeographicSpaceToSpaceToolStripMenuItem.Click
@@ -8698,6 +8707,13 @@ RETRY:
         End If
     End Sub
 
+    Private Sub SearchPostsDetailNameToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SearchPostsDetailNameToolStripMenuItem.Click
+        If NameLabel.Tag IsNot Nothing Then
+            Dim id As String = DirectCast(NameLabel.Tag, String)
+            AddNewTabForSearch("from:" + id)
+        End If
+    End Sub
+
     Private Sub ContextMenuStripDetailName_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStripDetailName.Opening
         If NameLabel.Tag IsNot Nothing Then
             Dim id As String = DirectCast(NameLabel.Tag, String)
@@ -8705,11 +8721,21 @@ RETRY:
                 FollowToolStripMenuItem.Enabled = False
                 UnFollowToolStripMenuItem.Enabled = False
                 ShowFriendShipToolStripMenuItem.Enabled = False
+                ShowUserStatusToolStripMenuItem.Enabled = True
+                SearchPostsDetailNameToolStripMenuItem.Enabled = False
             Else
                 FollowToolStripMenuItem.Enabled = True
                 UnFollowToolStripMenuItem.Enabled = True
                 ShowFriendShipToolStripMenuItem.Enabled = True
+                ShowUserStatusToolStripMenuItem.Enabled = True
+                SearchPostsDetailNameToolStripMenuItem.Enabled = True
             End If
+        Else
+            FollowToolStripMenuItem.Enabled = False
+            UnFollowToolStripMenuItem.Enabled = False
+            ShowFriendShipToolStripMenuItem.Enabled = False
+            ShowUserStatusToolStripMenuItem.Enabled = False
+            SearchPostsDetailNameToolStripMenuItem.Enabled = False
         End If
     End Sub
 

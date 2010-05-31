@@ -70,6 +70,7 @@ Partial Class TweenMain
         Me.UnFollowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ShowFriendShipToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ShowUserStatusToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SearchPostsDetailNameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PostBrowser = New System.Windows.Forms.WebBrowser()
         Me.ContextMenuStrip4 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
@@ -87,6 +88,7 @@ Partial Class TweenMain
         Me.RemoveContextMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FriendshipContextMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ShowUserStatusContextMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SearchPostsDetailToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator32 = New System.Windows.Forms.ToolStripSeparator()
         Me.IdFilterAddMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator33 = New System.Windows.Forms.ToolStripSeparator()
@@ -573,7 +575,7 @@ Partial Class TweenMain
         '
         'ContextMenuStripDetailName
         '
-        Me.ContextMenuStripDetailName.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FollowToolStripMenuItem, Me.UnFollowToolStripMenuItem, Me.ShowFriendShipToolStripMenuItem, Me.ShowUserStatusToolStripMenuItem})
+        Me.ContextMenuStripDetailName.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FollowToolStripMenuItem, Me.UnFollowToolStripMenuItem, Me.ShowFriendShipToolStripMenuItem, Me.ShowUserStatusToolStripMenuItem, Me.SearchPostsDetailNameToolStripMenuItem})
         Me.ContextMenuStripDetailName.Name = "ContextMenuStripName"
         resources.ApplyResources(Me.ContextMenuStripDetailName, "ContextMenuStripDetailName")
         '
@@ -597,6 +599,11 @@ Partial Class TweenMain
         Me.ShowUserStatusToolStripMenuItem.Name = "ShowUserStatusToolStripMenuItem"
         resources.ApplyResources(Me.ShowUserStatusToolStripMenuItem, "ShowUserStatusToolStripMenuItem")
         '
+        'SearchPostsDetailNameToolStripMenuItem
+        '
+        Me.SearchPostsDetailNameToolStripMenuItem.Name = "SearchPostsDetailNameToolStripMenuItem"
+        resources.ApplyResources(Me.SearchPostsDetailNameToolStripMenuItem, "SearchPostsDetailNameToolStripMenuItem")
+        '
         'PostBrowser
         '
         Me.PostBrowser.AllowWebBrowserDrop = False
@@ -610,7 +617,7 @@ Partial Class TweenMain
         '
         'ContextMenuStrip4
         '
-        Me.ContextMenuStrip4.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem2, Me.ToolStripSeparator13, Me.ToolStripMenuItem3, Me.ToolStripMenuItem4, Me.ToolStripMenuItem5, Me.ToolStripSeparator5, Me.FollowContextMenuItem, Me.RemoveContextMenuItem, Me.FriendshipContextMenuItem, Me.ShowUserStatusContextMenuItem, Me.ToolStripSeparator32, Me.IdFilterAddMenuItem, Me.ToolStripSeparator33, Me.UseHashtagMenuItem})
+        Me.ContextMenuStrip4.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem2, Me.ToolStripSeparator13, Me.ToolStripMenuItem3, Me.ToolStripMenuItem4, Me.ToolStripMenuItem5, Me.ToolStripSeparator5, Me.FollowContextMenuItem, Me.RemoveContextMenuItem, Me.FriendshipContextMenuItem, Me.ShowUserStatusContextMenuItem, Me.SearchPostsDetailToolStripMenuItem, Me.ToolStripSeparator32, Me.IdFilterAddMenuItem, Me.ToolStripSeparator33, Me.UseHashtagMenuItem})
         Me.ContextMenuStrip4.Name = "ContextMenuStrip4"
         resources.ApplyResources(Me.ContextMenuStrip4, "ContextMenuStrip4")
         '
@@ -689,6 +696,11 @@ Partial Class TweenMain
         '
         Me.ShowUserStatusContextMenuItem.Name = "ShowUserStatusContextMenuItem"
         resources.ApplyResources(Me.ShowUserStatusContextMenuItem, "ShowUserStatusContextMenuItem")
+        '
+        'SearchPostsDetailToolStripMenuItem
+        '
+        Me.SearchPostsDetailToolStripMenuItem.Name = "SearchPostsDetailToolStripMenuItem"
+        resources.ApplyResources(Me.SearchPostsDetailToolStripMenuItem, "SearchPostsDetailToolStripMenuItem")
         '
         'ToolStripSeparator32
         '
@@ -1758,5 +1770,7 @@ Partial Class TweenMain
     Friend WithEvents HashToggleToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents HashManageToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RtCountMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SearchPostsDetailToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SearchPostsDetailNameToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class
