@@ -8370,28 +8370,73 @@ RETRY:
                             imgurl = xdoc.SelectSingleNode("/nicovideo_thumb_response/thumb/thumbnail_url").InnerText
 
                             'ツールチップに動画情報をセットする
-                            sb.Append("タイトル    ")
-                            sb.Append(xdoc.SelectSingleNode("/nicovideo_thumb_response/thumb/title").InnerText)
-                            sb.AppendLine()
+                            Dim tmp As String
 
-                            sb.Append("再生時間    ")
-                            sb.Append(xdoc.SelectSingleNode("/nicovideo_thumb_response/thumb/length").InnerText)
-                            sb.AppendLine()
+                            Try
+                                tmp = xdoc.SelectSingleNode("/nicovideo_thumb_response/thumb/title").InnerText
+                                If Not String.IsNullOrEmpty(tmp) Then
+                                    sb.Append(My.Resources.NiconicoInfoText1)
+                                    sb.Append(tmp)
+                                    sb.AppendLine()
+                                End If
+                            Catch ex As Exception
 
-                            sb.Append("投稿日時    ")
-                            sb.Append(xdoc.SelectSingleNode("/nicovideo_thumb_response/thumb/first_retrieve").InnerText)
-                            sb.AppendLine()
+                            End Try
 
-                            sb.Append("再生数      ")
-                            sb.Append(xdoc.SelectSingleNode("/nicovideo_thumb_response/thumb/view_counter").InnerText)
-                            sb.AppendLine()
+                            Try
+                                tmp = xdoc.SelectSingleNode("/nicovideo_thumb_response/thumb/length").InnerText
+                                If Not String.IsNullOrEmpty(tmp) Then
+                                    sb.Append(My.Resources.NiconicoInfoText2)
+                                    sb.Append(tmp)
+                                    sb.AppendLine()
+                                End If
+                            Catch ex As Exception
 
-                            sb.Append("コメント数  ")
-                            sb.Append(xdoc.SelectSingleNode("/nicovideo_thumb_response/thumb/comment_num").InnerText)
-                            sb.AppendLine()
+                            End Try
 
-                            sb.Append("mylist数    ")
-                            sb.Append(xdoc.SelectSingleNode("/nicovideo_thumb_response/thumb/mylist_counter").InnerText)
+                            Try
+                                Dim tm As New DateTime
+                                tmp = xdoc.SelectSingleNode("/nicovideo_thumb_response/thumb/first_retrieve").InnerText
+                                If DateTime.TryParse(tmp, tm) Then
+                                    sb.Append(My.Resources.NiconicoInfoText3)
+                                    sb.Append(tm.ToString)
+                                    sb.AppendLine()
+                                End If
+                            Catch ex As Exception
+
+                            End Try
+
+                            Try
+                                tmp = xdoc.SelectSingleNode("/nicovideo_thumb_response/thumb/view_counter").InnerText
+                                If Not String.IsNullOrEmpty(tmp) Then
+                                    sb.Append(My.Resources.NiconicoInfoText4)
+                                    sb.Append(tmp)
+                                    sb.AppendLine()
+                                End If
+                            Catch ex As Exception
+
+                            End Try
+
+                            Try
+                                tmp = xdoc.SelectSingleNode("/nicovideo_thumb_response/thumb/comment_num").InnerText
+                                If Not String.IsNullOrEmpty(tmp) Then
+                                    sb.Append(My.Resources.NiconicoInfoText5)
+                                    sb.Append(tmp)
+                                    sb.AppendLine()
+                                End If
+                            Catch ex As Exception
+
+                            End Try
+                            Try
+                                tmp = xdoc.SelectSingleNode("/nicovideo_thumb_response/thumb/mylist_counter").InnerText
+                                If Not String.IsNullOrEmpty(tmp) Then
+                                    sb.Append(My.Resources.NiconicoInfoText6)
+                                    sb.Append(tmp)
+                                    sb.AppendLine()
+                                End If
+                            Catch ex As Exception
+
+                            End Try
 
                         ElseIf status = "fail" Then
                             Dim errcode As String = xdoc.SelectSingleNode("/nicovideo_thumb_response/error/code").InnerText
@@ -8414,7 +8459,7 @@ RETRY:
                         Dim _img As Image = http.GetImage(imgurl, url.Key)
                         If _img Is Nothing Then Continue For
                         arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, _img))
-                        arg.tooltiptext.Add(New KeyValuePair(Of String, String)(url.Key, sb.ToString))
+                        arg.tooltiptext.Add(New KeyValuePair(Of String, String)(url.Key, sb.ToString.Trim()))
                     End If
                 End If
             Else
