@@ -522,6 +522,7 @@ retry:
         Return name
     End Function
 
+    <FlagsAttribute()> _
     Public Enum TabUsageType
         Undefined
         Home            'Unique
