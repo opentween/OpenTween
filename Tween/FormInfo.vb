@@ -28,10 +28,11 @@ Imports System.ComponentModel
 '''</summary>
 '''<remarks>
 '''重要：BackGroundWorkerコンポーネントが実際のタスクサービスを行うため、DoWorkでコントロールを触ることはできない。
-'''また、Twitterへの通信を必要とする場合は引数にTwitterInstanceを含めそれを使用すること。呼び出しは次の手順を必要とする。
-''' 1.Class生成 2.サービス登録(AddHandler Instance.Servicer.Dowork,AddressOf Handler Servicer.RunWorkerCompletedも同様)
-''' 3.Instance.Argumentへ引数セット 4.Instance.InfoMessageへ表示メッセージ設定 5.Instance.ShowDialog()により表示
-''' 6. 必要な場合はInstance.ReturnValue(=Servicerのe.Result)を参照し戻り値を得る
+'''また、Twitterへの通信を必要とする場合は引数にTwitterInstanceを含めそれを使用すること。
+''' 1.Class生成 2.コンストラクタの引数としてサービス登録(Dowork RunWorkerCompletedも同様 使用しない場合Nothing)
+''' 3.Instance.Argumentへ,あるいはコンストラクタ引数へ引数セット 
+''' 4.Instance.InfoMessage、またはコンストラクタ引数へ表示メッセージ設定 5.Instance.ShowDialog()により表示
+''' 6. 必要な場合はInstance.Result(=Servicerのe.Result)を参照し戻り値を得る
 ''' 7.Dispose タスクサービスが正常終了した場合は自分自身をCloseするので最後にDisposeすること。
 '''</remarks>
 
@@ -53,16 +54,6 @@ Public Class FormInfo
     Private _arg As Object = Nothing
 
     Private Servicer As New BackgroundWorkerServicer
-
-
-    Public Sub New()
-
-        ' この呼び出しはデザイナーで必要です。
-        InitializeComponent()
-
-        ' InitializeComponent() 呼び出しの後で初期化を追加します。
-
-    End Sub
 
     Public Sub New(ByVal Message As String, _
                    ByVal DoWork As System.ComponentModel.DoWorkEventHandler, _
