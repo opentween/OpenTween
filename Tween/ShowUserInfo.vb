@@ -381,10 +381,25 @@ Public Class ShowUserInfo
     End Sub
 
     Private Sub LinkLabel1_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
-        TweenMain.OpenUriAsync("http://twitter.com/help/verified")
+        MyOwner.OpenUriAsync("http://twitter.com/help/verified")
     End Sub
 
     Private Sub ButtonSearchPosts_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonSearchPosts.Click
         MyOwner.AddNewTabForSearch("from:" + _info.ScreenName)
+    End Sub
+
+    Private Sub UserPicture_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UserPicture.DoubleClick
+        If UserPicture.Image IsNot Nothing Then
+            Dim name As String = _info.ImageUrl.ToString
+            MyOwner.OpenUriAsync(name.Remove(name.LastIndexOf("_normal"), 7))
+        End If
+    End Sub
+
+    Private Sub UserPicture_MouseEnter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UserPicture.MouseEnter
+        UserPicture.Cursor = Cursors.Hand
+    End Sub
+
+    Private Sub UserPicture_MouseLeave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UserPicture.MouseLeave
+        UserPicture.Cursor = Cursors.Default
     End Sub
 End Class
