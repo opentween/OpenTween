@@ -476,6 +476,10 @@ Public Class Twitter
 
         postStr = postStr.Trim()
 
+        If Regex.Match(postStr, "DM? +(?<id>[a-zA-Z0-9_]+) +(?<body>.+)", RegexOptions.IgnoreCase).Success Then
+            Return SendDirectMessage(postStr)
+        End If
+
         Dim res As HttpStatusCode
         Dim content As String = ""
         Try
@@ -514,7 +518,69 @@ Public Class Twitter
                 Else
                     Return "Outputz:Failed"
                 End If
-            Case HttpStatusCode.Forbidden
+            Case HttpStatusCode.Forbidden, HttpStatusCode.BadRequest
+                Dim xd As XmlDocument = New XmlDocument
+                Try
+                    xd.LoadXml(content)
+                    Dim xNode As XmlNode = Nothing
+                    xNode = xd.SelectSingleNode("/hash/error")
+                    Return "Err:" + xNode.InnerText
+                Catch ex As Exception
+                End Try
+                Return "Err:Update Limits?"
+            Case HttpStatusCode.Unauthorized
+                Twitter.AccountState = ACCOUNT_STATE.Invalid
+                Return "Check your Username/Password."
+            Case Else
+                Return "Err:" + res.ToString
+        End Select
+    End Function
+
+    Public Function SendDirectMessage(ByVal postStr As String) As String
+
+        If _endingFlag Then Return ""
+
+        If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
+
+        postStr = postStr.Trim()
+
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+
+        Dim mc As Match = Regex.Match(postStr, "DM? +(?<id>[a-zA-Z0-9_]+) +(?<body>.+)", RegexOptions.IgnoreCase)
+
+        Try
+            res = twCon.SendDirectMessage(mc.Groups("body").Value, mc.Groups("id").Value, content)
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
+
+        Select Case res
+            Case HttpStatusCode.OK
+                Dim xd As XmlDocument = New XmlDocument()
+                Try
+                    xd.LoadXml(content)
+                    Dim xNode As XmlNode = Nothing
+                    xNode = xd.SelectSingleNode("/status/user/followers_count/text()")
+                    If xNode IsNot Nothing Then _followersCount = Integer.Parse(xNode.Value)
+                    xNode = xd.SelectSingleNode("/status/user/friends_count/text()")
+                    If xNode IsNot Nothing Then _friendsCount = Integer.Parse(xNode.Value)
+                    xNode = xd.SelectSingleNode("/status/user/statuses_count/text()")
+                    If xNode IsNot Nothing Then _statusesCount = Integer.Parse(xNode.Value)
+                    xNode = xd.SelectSingleNode("/status/user/location/text()")
+                    If xNode IsNot Nothing Then _location = xNode.Value
+                    xNode = xd.SelectSingleNode("/status/user/description/text()")
+                    If xNode IsNot Nothing Then _bio = xNode.Value
+                Catch ex As Exception
+                    Return ""
+                End Try
+
+                If op.Post(postStr.Length) Then
+                    Return ""
+                Else
+                    Return "Outputz:Failed"
+                End If
+            Case HttpStatusCode.Forbidden, HttpStatusCode.BadRequest
                 Dim xd As XmlDocument = New XmlDocument
                 Try
                     xd.LoadXml(content)

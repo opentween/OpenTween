@@ -178,6 +178,18 @@ Public Class HttpTwitter
                             Nothing)
     End Function
 
+    Public Function SendDirectMessage(ByVal status As String, ByVal sendto As String, ByRef content As String) As HttpStatusCode
+        Dim param As New Dictionary(Of String, String)
+        param.Add("status", status)
+        param.Add("screen_name", sendto)
+
+        Return httpCon.GetContent(PostMethod, _
+                            CreateTwitterUri("/1/direct_messages/new.xml"), _
+                            param, _
+                            content, _
+                            Nothing)
+    End Function
+
     Public Function DestroyDirectMessage(ByVal id As Long) As HttpStatusCode
         Return httpCon.GetContent(PostMethod, _
                             CreateTwitterUri("/1/direct_messages/destroy/" + id.ToString + ".xml"), _
