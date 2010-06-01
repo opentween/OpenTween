@@ -61,6 +61,9 @@ Partial Class ShowUserInfo
         Me.DescriptionBrowser = New System.Windows.Forms.WebBrowser()
         Me.LabelIsVerified = New System.Windows.Forms.Label()
         Me.ButtonSearchPosts = New System.Windows.Forms.Button()
+        Me.FlowLayoutPanel1 = New System.Windows.Forms.FlowLayoutPanel()
+        Me.LabelId = New System.Windows.Forms.Label()
+        Me.Label12 = New System.Windows.Forms.Label()
         CType(Me.UserPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -287,11 +290,30 @@ Partial Class ShowUserInfo
         Me.ButtonSearchPosts.Name = "ButtonSearchPosts"
         Me.ButtonSearchPosts.UseVisualStyleBackColor = True
         '
+        'FlowLayoutPanel1
+        '
+        resources.ApplyResources(Me.FlowLayoutPanel1, "FlowLayoutPanel1")
+        Me.FlowLayoutPanel1.Name = "FlowLayoutPanel1"
+        '
+        'LabelId
+        '
+        resources.ApplyResources(Me.LabelId, "LabelId")
+        Me.LabelId.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.LabelId.Name = "LabelId"
+        '
+        'Label12
+        '
+        resources.ApplyResources(Me.Label12, "Label12")
+        Me.Label12.Name = "Label12"
+        '
         'ShowUserInfo
         '
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.ButtonClose
+        Me.Controls.Add(Me.LabelId)
+        Me.Controls.Add(Me.Label12)
+        Me.Controls.Add(Me.FlowLayoutPanel1)
         Me.Controls.Add(Me.ButtonSearchPosts)
         Me.Controls.Add(Me.LinkLabel1)
         Me.Controls.Add(Me.LabelIsVerified)
@@ -373,4 +395,7 @@ Partial Class ShowUserInfo
     Friend WithEvents LabelIsVerified As System.Windows.Forms.Label
     Friend WithEvents LinkLabel1 As System.Windows.Forms.LinkLabel
     Friend WithEvents ButtonSearchPosts As System.Windows.Forms.Button
+    Friend WithEvents FlowLayoutPanel1 As System.Windows.Forms.FlowLayoutPanel
+    Friend WithEvents LabelId As System.Windows.Forms.Label
+    Friend WithEvents Label12 As System.Windows.Forms.Label
 End Class
