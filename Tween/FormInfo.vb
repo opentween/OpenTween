@@ -35,14 +35,24 @@ Imports System.ComponentModel
 ''' 7.Dispose タスクサービスが正常終了した場合は自分自身をCloseするので最後にDisposeすること。
 '''</remarks>
 
+
 Public Class FormInfo
+
+    Private Class BackgroundWorkerServicer
+        Inherits BackgroundWorker
+
+        Public Result As Object = Nothing
+
+        Protected Overrides Sub OnRunWorkerCompleted(ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs)
+            Me.Result = e.Result
+            MyBase.OnRunWorkerCompleted(e)
+        End Sub
+    End Class
 
     Private _msg As String
     Private _arg As Object = Nothing
-    Private _ret As Object = Nothing
 
-    Public Servicer As New BackgroundWorker
-
+    Private Servicer As New BackgroundWorkerServicer
 
 
     Public Sub New()
@@ -51,8 +61,6 @@ Public Class FormInfo
         InitializeComponent()
 
         ' InitializeComponent() 呼び出しの後で初期化を追加します。
-
-        AddHandler Servicer.RunWorkerCompleted, AddressOf ResultCatcher
 
     End Sub
 
@@ -65,8 +73,6 @@ Public Class FormInfo
         InitializeComponent()
 
         ' InitializeComponent() 呼び出しの後で初期化を追加します。
-
-        AddHandler Servicer.RunWorkerCompleted, AddressOf ResultCatcher
 
         Me.InfoMessage = Message
         AddHandler Me.Servicer.DoWork, DoWork
@@ -119,13 +125,9 @@ Public Class FormInfo
     '''<returns>Servicerのe.Result</returns>
     Public ReadOnly Property Result() As Object
         Get
-            Return _ret
+            Return Servicer.Result
         End Get
     End Property
-
-    Private Sub ResultCatcher(ByVal sender As Object, ByVal e As RunWorkerCompletedEventArgs)
-        _ret = e.Result
-    End Sub
 
     Private Sub FormInfo_Shown(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Shown
         Servicer.RunWorkerAsync(_arg)
