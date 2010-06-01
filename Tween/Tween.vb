@@ -8216,6 +8216,12 @@ RETRY:
                 imglist.Add(New KeyValuePair(Of String, String)(url, mc.Value))
                 Continue For
             End If
+            'ついっぷるフォト
+            mc = Regex.Match(url, "^http://p\.twipple\.jp/(?<contentId>[0-9a-z]+)", RegexOptions.IgnoreCase)
+            If mc.Success Then
+                imglist.Add(New KeyValuePair(Of String, String)(url, mc.Value))
+                Continue For
+            End If
         Next
 
         If imglist.Count = 0 Then
@@ -8481,6 +8487,34 @@ RETRY:
                         arg.tooltiptext.Add(New KeyValuePair(Of String, String)(url.Key, sb.ToString.Trim()))
                     End If
                 End If
+            ElseIf url.Key.StartsWith("http://p.twipple.jp/") Then
+                Dim mc As Match = Regex.Match(url.Key, "^http://p.twipple.jp/(?<contentId>[0-9a-z]+)", RegexOptions.IgnoreCase)
+                If mc.Success Then
+                    Dim src As String = ""
+                    If (New HttpVarious).GetData(url.Key, Nothing, src, 5000) Then
+                        Dim thumbnail_url As String = ""
+                        Dim ContentId As String = mc.Groups("contentId").Value
+                        Dim DataDir As New StringBuilder
+
+                        ' DataDir作成
+                        DataDir.Append("data")
+                        For i As Integer = 0 To ContentId.Length - 1
+                            DataDir.Append("/")
+                            DataDir.Append(ContentId.Chars(i))
+                        Next
+
+                        ' サムネイルURL抽出
+                        thumbnail_url = Regex.Match(src, "http://p\.twipple\.jp/" + DataDir.ToString() + "_s\.([a-zA-Z]+)").Value
+
+                        If String.IsNullOrEmpty(thumbnail_url) Then Continue For
+                        Dim _img As Image = http.GetImage(thumbnail_url, url.Key)
+                        If _img Is Nothing Then Continue For
+                        arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, _img))
+                        arg.tooltiptext.Add(New KeyValuePair(Of String, String)(url.Key, ""))
+                        Continue For
+                    End If
+                End If
+                Continue For
             Else
                 ' 直リンクでなく、パターンに合致しない
                 Dim img As Image = http.GetImage(url.Value, url.Key)
