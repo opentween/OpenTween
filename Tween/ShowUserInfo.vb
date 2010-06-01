@@ -48,6 +48,7 @@ Public Class ShowUserInfo
     Private FriendshipResult As String = ""
 
     Private Class UserInfo
+        Public Id As Int64 = 0
         Public Name As String = ""
         Public ScreenName As String = ""
         Public Location As String = ""
@@ -87,6 +88,7 @@ Public Class ShowUserInfo
         Dim xdoc As New XmlDocument
         Try
             xdoc.LoadXml(xmlData)
+            _info.Id = Int64.Parse(xdoc.SelectSingleNode("/user/id").InnerText)
             _info.Name = xdoc.SelectSingleNode("/user/name").InnerText
             _info.ScreenName = xdoc.SelectSingleNode("/user/screen_name").InnerText
             _info.Location = xdoc.SelectSingleNode("/user/location").InnerText
@@ -135,6 +137,7 @@ Public Class ShowUserInfo
         InitPath()
         InitTooltip()
         Me.Text = Me.Text.Insert(0, _info.ScreenName + " ")
+        LabelId.Text = _info.Id.ToString
         LabelScreenName.Text = _info.ScreenName
         LabelName.Text = _info.Name
 
