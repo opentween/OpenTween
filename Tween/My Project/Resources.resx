@@ -835,4 +835,7 @@
   <data name="NiconicoInfoText6" xml:space="preserve">
     <value>マイリスト数:</value>
   </data>
+  <data name="OwnStatusTitle" xml:space="preserve">
+    <value>発言 {0}  フォロー {1}  フォロワー {2}({3})</value>
+  </data>
 </root>

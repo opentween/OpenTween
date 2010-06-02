@@ -4264,7 +4264,8 @@ RETRY:
         '件数関連の場合、タイトル即時書き換え
         If SettingDialog.DispLatestPost <> DispTitleEnum.None AndAlso _
            SettingDialog.DispLatestPost <> DispTitleEnum.Post AndAlso _
-           SettingDialog.DispLatestPost <> DispTitleEnum.Ver Then
+           SettingDialog.DispLatestPost <> DispTitleEnum.Ver AndAlso _
+           SettingDialog.DispLatestPost <> DispTitleEnum.OwnStatus Then
             SetMainWindowTitle()
         End If
         If Not StatusLabelUrl.Text.StartsWith("http") Then SetStatusLabel()
@@ -6301,9 +6302,11 @@ RETRY:
         Dim ur As Integer = 0
         Dim al As Integer = 0
         Static myVer As String = fileVersion
+        Static followers As Long = 0
         If SettingDialog.DispLatestPost <> DispTitleEnum.None AndAlso _
            SettingDialog.DispLatestPost <> DispTitleEnum.Post AndAlso _
-           SettingDialog.DispLatestPost <> DispTitleEnum.Ver Then
+           SettingDialog.DispLatestPost <> DispTitleEnum.Ver AndAlso _
+           SettingDialog.DispLatestPost <> DispTitleEnum.OwnStatus Then
             For Each key As String In _statuses.Tabs.Keys
                 ur += _statuses.Tabs(key).UnreadCount
                 al += _statuses.Tabs(key).AllCount
@@ -6327,6 +6330,9 @@ RETRY:
                 ttl.AppendFormat(My.Resources.SetMainWindowTitleText3, ur, _statuses.GetTabByType(TabUsageType.Mentions).UnreadCount + _statuses.GetTabByType(TabUsageType.DirectMessage).UnreadCount)
             Case DispTitleEnum.UnreadCountAllCount
                 ttl.AppendFormat(My.Resources.SetMainWindowTitleText4, ur, al)
+            Case DispTitleEnum.OwnStatus
+                If followers = 0 AndAlso tw.FollowersCount > 0 Then followers = tw.FollowersCount
+                ttl.AppendFormat(My.Resources.OwnStatusTitle, tw.StatusesCount, tw.FriendsCount, tw.FollowersCount, tw.FollowersCount - followers)
         End Select
 
         Try

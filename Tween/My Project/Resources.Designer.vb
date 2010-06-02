@@ -316,17 +316,17 @@ Namespace My.Resources
         '''<summary>
         '''  更新履歴
         '''
-        '''==== Ver 0.9.2.1(2010/05/**)
+        '''==== Ver 0.9.2.1(2010/06/01)
         ''' * Retweetカウントの取得の際に時間がかかるため、プログレスバーを表示するようにした
         ''' * タスクトレイへのアイコン追加タイミングを変更した
         ''' * ユーザー情報ダイアログで、「認証済み(Verified)」の文字をクリックした際に、本家の認証済みアカウントについての説明ページを開くようにした
-        ''' * 詳細表示のユーザー名でのツールチップ表示を取りやめた。左クリックしてホームを開く、右クリックでメニューを開く機能はそのままです。
+        ''' * 詳細表示のユーザー名でのツールチップ表示を取りやめた。ホームを開く、右クリックでメニューを開く機能はそのままです。
+        ''' * 詳細表示のユーザー名左クリックでホームを開く動作をダブルクリックに変更した
         ''' * htn.to,amzn.toのURL展開に対応
         ''' * Followersリストの取得リトライがうまく機能していなかったので修正
         ''' * piapro,flickr,pixivにある画像への直リンクの場合にプレビューが動作しなかったバグを修正
         ''' * 画像プレビューでニコニコ動画公式チャンネルの動画サムネイルに対応した。他にも対応URLパターンを増やした。
-        ''' * ニコニコ動画の画像プレビューの際に、サムネイル取得不可の場合エラーコードを表示するようにした
-        ''' * ハッシュタグの自動付加が有 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ''' * ニコニコ動画の画像プレビューの際に、サムネイル取得不可の場 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property ChangeLog() As String
             Get
@@ -1193,6 +1193,15 @@ Namespace My.Resources
         Friend ReadOnly Property No() As String
             Get
                 Return ResourceManager.GetString("No", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  発言 {0}  フォロー {1}  フォロワー {2}({3}) に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property OwnStatusTitle() As String
+            Get
+                Return ResourceManager.GetString("OwnStatusTitle", resourceCulture)
             End Get
         End Property
         

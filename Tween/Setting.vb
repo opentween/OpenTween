@@ -204,6 +204,8 @@ Public Class Setting
                     _MyDispLatestPost = DispTitleEnum.UnreadAllRepCount
                 Case 6  'Unread/All
                     _MyDispLatestPost = DispTitleEnum.UnreadCountAllCount
+                Case 7 'Count of Status/Follow/Follower
+                    _MyDispLatestPost = DispTitleEnum.OwnStatus
             End Select
             _MySortOrderLock = CheckSortOrderLock.Checked
             _MyTinyUrlResolve = CheckTinyURL.Checked
@@ -413,6 +415,8 @@ Public Class Setting
                 ComboDispTitle.SelectedIndex = 5
             Case DispTitleEnum.UnreadCountAllCount
                 ComboDispTitle.SelectedIndex = 6
+            Case DispTitleEnum.OwnStatus
+                ComboDispTitle.SelectedIndex = 7
         End Select
         CheckSortOrderLock.Checked = _MySortOrderLock
         CheckTinyURL.Checked = _MyTinyUrlResolve
