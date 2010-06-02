@@ -180,7 +180,7 @@ Public Class HttpTwitter
 
     Public Function SendDirectMessage(ByVal status As String, ByVal sendto As String, ByRef content As String) As HttpStatusCode
         Dim param As New Dictionary(Of String, String)
-        param.Add("status", status)
+        param.Add("text", status)
         param.Add("screen_name", sendto)
 
         Return httpCon.GetContent(PostMethod, _
