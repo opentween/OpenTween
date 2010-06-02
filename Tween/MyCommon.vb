@@ -524,16 +524,16 @@ retry:
 
     <FlagsAttribute()> _
     Public Enum TabUsageType
-        Undefined
-        Home            'Unique
-        Mentions        'Unique
-        DirectMessage   'Unique
-        Favorites       'Unique
-        UserDefined
-        LocalQuery      'Pin(no save/no save query/distribute/no update(normal update))
-        Profile         'Pin(save/no distribute/manual update)
-        PublicSearch    'Pin(save/no distribute/auto update)
-        Lists
+        Undefined = 0
+        Home = 1      'Unique
+        Mentions = 2     'Unique
+        DirectMessage = 4   'Unique
+        Favorites = 8       'Unique
+        UserDefined = 16
+        LocalQuery = 32      'Pin(no save/no save query/distribute/no update(normal update))
+        Profile = 64         'Pin(save/no distribute/manual update)
+        PublicSearch = 128    'Pin(save/no distribute/auto update)
+        Lists = 256
         'RTMyTweet
         'RTByOthers
         'RTByMe
