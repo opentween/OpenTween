@@ -47,6 +47,11 @@ Public Class ShowUserInfo
     Private MyOwner As TweenMain
     Private FriendshipResult As String = ""
 
+    Dim TextBoxName As New TextBox
+    Dim TextBoxLocation As New TextBox
+    Dim TextBoxWeb As New TextBox
+    Dim TextBoxDescription As New TextBox
+
     Private Class UserInfo
         Public Id As Int64 = 0
         Public Name As String = ""
@@ -122,6 +127,23 @@ Public Class ShowUserInfo
         Return True
     End Function
 
+    Private Sub SetLinklabelWeb(ByVal data As String)
+        Dim webtext As String
+        Dim jumpto As String
+        webtext = MyOwner.TwitterInstance.PreProcessUrl("<a href=""" + data + """>Dummy</a>")
+        webtext = MyOwner.TwitterInstance.ShortUrlResolve(webtext)
+        jumpto = Regex.Match(webtext, "<a href=""(?<url>.*?)""").Groups.Item("url").Value
+        ToolTip1.SetToolTip(LinkLabelWeb, jumpto)
+        LinkLabelWeb.Tag = jumpto
+        LinkLabelWeb.Text = data
+    End Sub
+
+    Private Function MakeDescriptionBrowserText(ByVal data As String) As String
+        descriptionTxt = MyOwner.createDetailHtml( _
+                                MyOwner.TwitterInstance.CreateHtmlAnchor(data, atlist))
+        Return descriptionTxt
+    End Function
+
     Private Sub ShowUserInfo_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         MyOwner = DirectCast(Me.Owner, TweenMain)
         If Not AnalizeUserInfo(userInfoXml) Then
@@ -130,7 +152,7 @@ Public Class ShowUserInfo
             Exit Sub
         End If
 
-        Dim webtext As String
+
         'アイコンロード
         BackgroundWorkerImageLoader.RunWorkerAsync()
 
@@ -143,16 +165,10 @@ Public Class ShowUserInfo
 
         LabelLocation.Text = _info.Location
 
-
-        webtext = MyOwner.TwitterInstance.PreProcessUrl("<a href=""" + _info.Url + """>Dummy</a>")
-        webtext = MyOwner.TwitterInstance.ShortUrlResolve(webtext)
-        ToolTip1.SetToolTip(LinkLabelWeb, _
-                            Regex.Match(webtext, "<a href=""(?<url>.*?)""").Groups.Item("url").Value)
-        LinkLabelWeb.Text = _info.Url
+        SetLinklabelWeb(_info.Url)
 
         DescriptionBrowser.Visible = False
-        descriptionTxt = MyOwner.createDetailHtml( _
-                MyOwner.TwitterInstance.CreateHtmlAnchor(_info.Description, atlist))
+        MakeDescriptionBrowserText(_info.Description)
 
         RecentPostBrowser.Visible = False
         If _info.RecentPost IsNot Nothing Then
@@ -194,7 +210,7 @@ Public Class ShowUserInfo
 
     Private Sub LinkLabelWeb_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabelWeb.LinkClicked
         If _info.Url IsNot Nothing Then
-            MyOwner.OpenUriAsync(_info.Url)
+            MyOwner.OpenUriAsync(LinkLabelWeb.Text)
         End If
     End Sub
 
@@ -401,5 +417,70 @@ Public Class ShowUserInfo
 
     Private Sub UserPicture_MouseLeave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UserPicture.MouseLeave
         UserPicture.Cursor = Cursors.Default
+    End Sub
+
+    Private Sub ButtonEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonEdit.Click
+        Static IsEditing As Boolean = False
+
+        ' 自分以外のプロフィールは変更できない
+        If MyOwner.TwitterInstance.Username <> _info.ScreenName Then Exit Sub
+
+        If Not IsEditing Then
+            ButtonEdit.Text = "適用"
+
+            '座標初期化,プロパティ設定
+            TextBoxName.Location = LabelName.Location
+            TextBoxName.Height = LabelName.Height
+            TextBoxName.Width = LabelName.Width
+            TextBoxName.Text = LabelName.Text
+            Me.Controls.Add(TextBoxName)
+            LabelName.Visible = False
+
+
+            TextBoxLocation.Location = LabelLocation.Location
+            TextBoxLocation.Height = LabelLocation.Height
+            TextBoxLocation.Width = LabelLocation.Width
+            TextBoxLocation.Text = LabelLocation.Text
+            Me.Controls.Add(TextBoxLocation)
+            LabelLocation.Visible = False
+
+            TextBoxWeb.Location = LinkLabelWeb.Location
+            TextBoxWeb.Height = LinkLabelWeb.Height
+            TextBoxWeb.Width = LinkLabelWeb.Width
+            TextBoxWeb.Text = _info.Url
+            Me.Controls.Add(TextBoxWeb)
+            LinkLabelWeb.Visible = False
+
+            TextBoxDescription.Location = DescriptionBrowser.Location
+            TextBoxDescription.Height = DescriptionBrowser.Height
+            TextBoxDescription.Width = DescriptionBrowser.Width
+            TextBoxDescription.Text = _info.Description
+            TextBoxDescription.Multiline = True
+            TextBoxDescription.ScrollBars = ScrollBars.Vertical
+            Me.Controls.Add(TextBoxDescription)
+            DescriptionBrowser.Visible = False
+
+            IsEditing = True
+        Else
+            LabelName.Text = TextBoxName.Text
+            Me.Controls.Remove(TextBoxName)
+            LabelName.Visible = True
+
+            LabelLocation.Text = TextBoxLocation.Text
+            Me.Controls.Remove(TextBoxLocation)
+            LabelLocation.Visible = True
+
+            SetLinklabelWeb(TextBoxWeb.Text)
+            Me.Controls.Remove(TextBoxWeb)
+            LinkLabelWeb.Visible = True
+
+            DescriptionBrowser.DocumentText = MakeDescriptionBrowserText(TextBoxDescription.Text)
+            Me.Controls.Remove(TextBoxDescription)
+            DescriptionBrowser.Visible = True
+
+            IsEditing = False
+        End If
+
+
     End Sub
 End Class
