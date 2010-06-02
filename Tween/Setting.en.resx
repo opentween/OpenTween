@@ -196,9 +196,6 @@
   <data name="Label16.Text" xml:space="preserve">
     <value>Colorize One-way following</value>
   </data>
-  <data name="GroupBox1.Text" xml:space="preserve">
-    <value>Font &amp;&amp; Color</value>
-  </data>
   <data name="btnRetweet.Text" xml:space="preserve">
     <value>Fore...</value>
   </data>
@@ -352,6 +349,9 @@
   <data name="Label61.Text" xml:space="preserve">
     <value>Font of tweet list</value>
   </data>
+  <data name="GroupBox1.Text" xml:space="preserve">
+    <value>Font &amp;&amp; Color</value>
+  </data>
   <data name="cmbNameBalloon.Items" xml:space="preserve">
     <value>None</value>
   </data>
@@ -499,14 +499,14 @@
   <data name="ComboDispTitle.Items6" xml:space="preserve">
     <value>unread items/all items</value>
   </data>
+  <data name="ComboDispTitle.Items7" xml:space="preserve">
+    <value>Count of Status/Follow/Follower</value>
+  </data>
   <data name="Label47.Size" type="System.Drawing.Size, System.Drawing">
     <value>115, 12</value>
   </data>
   <data name="Label47.Text" xml:space="preserve">
     <value>Apply after restarting</value>
-  </data>
-  <data name="TabPage1.Text" xml:space="preserve">
-    <value>Basic</value>
   </data>
   <data name="LabelPostAndGet.Size" type="System.Drawing.Size, System.Drawing">
     <value>358, 12</value>
@@ -592,8 +592,8 @@
   <data name="CheckPeriodAdjust.Text" xml:space="preserve">
     <value>Enable Auto-Adjustment</value>
   </data>
-  <data name="TabPage2.Text" xml:space="preserve">
-    <value>Behavior</value>
+  <data name="TabPage1.Text" xml:space="preserve">
+    <value>Basic</value>
   </data>
   <data name="Label35.Size" type="System.Drawing.Size, System.Drawing">
     <value>124, 12</value>
@@ -732,8 +732,8 @@
   <data name="Button3.Text" xml:space="preserve">
     <value>Open...</value>
   </data>
-  <data name="TabPage3.Text" xml:space="preserve">
-    <value>View</value>
+  <data name="TabPage2.Text" xml:space="preserve">
+    <value>Behavior</value>
   </data>
   <data name="CheckAlwaysTop.Size" type="System.Drawing.Size, System.Drawing">
     <value>58, 16</value>
@@ -846,11 +846,11 @@
   <data name="chkUnreadStyle.Text" xml:space="preserve">
     <value>Enable</value>
   </data>
+  <data name="TabPage3.Text" xml:space="preserve">
+    <value>View</value>
+  </data>
   <data name="TabPage4.Text" xml:space="preserve">
     <value>Fonts &amp; Colors</value>
-  </data>
-  <data name="TabPage5.Text" xml:space="preserve">
-    <value>Connection</value>
   </data>
   <data name="CheckUseSsl.Size" type="System.Drawing.Size, System.Drawing">
     <value>130, 16</value>
@@ -869,9 +869,6 @@
   </data>
   <data name="Label63.Text" xml:space="preserve">
     <value>Connection timeout(sec)</value>
-  </data>
-  <data name="GroupBox2.Text" xml:space="preserve">
-    <value>Proxy Server</value>
   </data>
   <data name="Label55.Size" type="System.Drawing.Size, System.Drawing">
     <value>320, 12</value>
@@ -920,6 +917,12 @@
   </data>
   <data name="RadioProxyNone.Text" xml:space="preserve">
     <value>Don't Use</value>
+  </data>
+  <data name="GroupBox2.Text" xml:space="preserve">
+    <value>Proxy Server</value>
+  </data>
+  <data name="TabPage5.Text" xml:space="preserve">
+    <value>Connection</value>
   </data>
   <data name="CheckNicoms.Size" type="System.Drawing.Size, System.Drawing">
     <value>196, 16</value>

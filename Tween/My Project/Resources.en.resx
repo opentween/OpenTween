@@ -738,4 +738,7 @@
   <data name="PubSearchPeriod_ValidatingText2" xml:space="preserve">
     <value>Fetching interval must a value in 0 or 30 to 6000.</value>
   </data>
+  <data name="OwnStatusTitle" xml:space="preserve">
+    <value>Tweets: {0}  Following: {1}  Followers: {2}({3})</value>
+  </data>
 </root>

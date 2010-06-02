@@ -54,6 +54,7 @@ Public Module MyCommon
         UnreadAllCount
         UnreadAllRepCount
         UnreadCountAllCount
+        OwnStatus
     End Enum
 
     Public Enum LogUnitEnum
