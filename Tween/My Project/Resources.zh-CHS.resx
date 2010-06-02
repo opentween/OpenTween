@@ -400,7 +400,7 @@
     <value>正在初始化</value>
   </data>
   <data name="RemoveSpecifiedTabText1" xml:space="preserve">
-    <value>要删除标签{0}？</value>
+    <value>确认要删除该标签吗？{0}</value>
   </data>
   <data name="RemoveSpecifiedTabText2" xml:space="preserve">
     <value>标签删除确认</value>
@@ -767,5 +767,38 @@
   </data>
   <data name="ShowUserInfo2" xml:space="preserve">
     <value>最近消息获取失败</value>
+  </data>
+  <data name="doShowUserStatusText1" xml:space="preserve">
+    <value>正在读取个人信息…</value>
+  </data>
+  <data name="FollowCommandText1" xml:space="preserve">
+    <value>正在关注…</value>
+  </data>
+  <data name="NiconicoInfoText1" xml:space="preserve">
+    <value>标题:</value>
+  </data>
+  <data name="NiconicoInfoText2" xml:space="preserve">
+    <value>播放时间:</value>
+  </data>
+  <data name="NiconicoInfoText3" xml:space="preserve">
+    <value>上传日期:</value>
+  </data>
+  <data name="NiconicoInfoText4" xml:space="preserve">
+    <value>播放数:</value>
+  </data>
+  <data name="NiconicoInfoText5" xml:space="preserve">
+    <value>评论数:</value>
+  </data>
+  <data name="NiconicoInfoText6" xml:space="preserve">
+    <value>收藏数:</value>
+  </data>
+  <data name="RemoveCommandText1" xml:space="preserve">
+    <value>正在取消关注…</value>
+  </data>
+  <data name="RtCountMenuItem_ClickText1" xml:space="preserve">
+    <value>正在读取Retweet数…</value>
+  </data>
+  <data name="ShowFriendshipText1" xml:space="preserve">
+    <value>正在获取关注状态…</value>
   </data>
 </root>

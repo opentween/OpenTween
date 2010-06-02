@@ -166,15 +166,6 @@
   <data name="ContextMenuStripPostMode.Size" type="System.Drawing.Size, System.Drawing">
     <value>236, 164</value>
   </data>
-  <data name="ContextMenuStripPostMode.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="StatusStrip1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ToolStripContainer1.BottomToolStripPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="AddTabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>185, 22</value>
   </data>
@@ -235,23 +226,17 @@
   <data name="ContextMenuTabProperty.Size" type="System.Drawing.Size, System.Drawing">
     <value>186, 207</value>
   </data>
-  <data name="ContextMenuTabProperty.ToolTip" xml:space="preserve">
-    <value />
+  <data name="IconNameToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>122, 22</value>
   </data>
-  <data name="ListTab.ToolTip" xml:space="preserve">
-    <value />
+  <data name="ToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 6</value>
   </data>
-  <data name="SplitContainer1.Panel1.ToolTip" xml:space="preserve">
-    <value />
+  <data name="SaveIconPictureToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>122, 22</value>
   </data>
-  <data name="ContextMenuStrip3.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="UserPicture.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="DateTimeLabel.ToolTip" xml:space="preserve">
-    <value />
+  <data name="ContextMenuStrip3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>123, 54</value>
   </data>
   <data name="FollowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>170, 22</value>
@@ -277,17 +262,17 @@
   <data name="ShowUserStatusToolStripMenuItem.Text" xml:space="preserve">
     <value>显示用户信息</value>
   </data>
-  <data name="ContextMenuStripDetailName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>171, 92</value>
+  <data name="SearchPostsDetailNameToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 22</value>
   </data>
-  <data name="ContextMenuStripDetailName.ToolTip" xml:space="preserve">
-    <value />
+  <data name="SearchPostsDetailNameToolStripMenuItem.Text" xml:space="preserve">
+    <value>搜索该用户的消息</value>
+  </data>
+  <data name="ContextMenuStripDetailName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>171, 114</value>
   </data>
   <data name="NameLabel.Font" type="System.Drawing.Font, System.Drawing">
-    <value>宋体, 9pt, style=Bold</value>
-  </data>
-  <data name="NameLabel.ToolTip" xml:space="preserve">
-    <value />
+    <value>SimSun, 9pt, style=Bold</value>
   </data>
   <data name="ToolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
     <value>185, 22</value>
@@ -364,68 +349,8 @@
   <data name="ContextMenuStrip4.Size" type="System.Drawing.Size, System.Drawing">
     <value>186, 248</value>
   </data>
-  <data name="ContextMenuStrip4.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="PostBrowser.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="TableLayoutPanel1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="SplitContainer2.Panel1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="StatusText.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="lblLen.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="PostButton.Text" xml:space="preserve">
     <value>发送</value>
-  </data>
-  <data name="PostButton.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="SplitContainer2.Panel2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="SplitContainer2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="SplitContainer3.Panel1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="PreviewPicture.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="PreviewScrollBar.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="SplitContainer3.Panel2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="SplitContainer3.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="SplitContainer1.Panel2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="SplitContainer1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ToolStripContainer1.ContentPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ToolStripContainer1.LeftToolStripPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ToolStripContainer1.RightToolStripPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ToolStripContainer1.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="SettingFileMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>171, 22</value>
@@ -922,12 +847,6 @@
   <data name="MenuItemHelp.Text" xml:space="preserve">
     <value>帮助(&amp;H)</value>
   </data>
-  <data name="MenuStrip1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ToolStripContainer1.TopToolStripPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="ReplyStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>173, 22</value>
   </data>
@@ -1108,9 +1027,6 @@
   <data name="ContextMenuStrip2.Size" type="System.Drawing.Size, System.Drawing">
     <value>174, 396</value>
   </data>
-  <data name="ContextMenuStrip2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="SettingStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>171, 22</value>
   </data>
@@ -1158,11 +1074,5 @@
   </data>
   <data name="ContextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
     <value>172, 154</value>
-  </data>
-  <data name="ContextMenuStrip1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="$this.ToolTip" xml:space="preserve">
-    <value />
   </data>
 </root>
