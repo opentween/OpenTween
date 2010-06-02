@@ -64,6 +64,7 @@ Partial Class ShowUserInfo
         Me.FlowLayoutPanel1 = New System.Windows.Forms.FlowLayoutPanel()
         Me.LabelId = New System.Windows.Forms.Label()
         Me.Label12 = New System.Windows.Forms.Label()
+        Me.ButtonEdit = New System.Windows.Forms.Button()
         CType(Me.UserPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -306,11 +307,18 @@ Partial Class ShowUserInfo
         resources.ApplyResources(Me.Label12, "Label12")
         Me.Label12.Name = "Label12"
         '
+        'ButtonEdit
+        '
+        resources.ApplyResources(Me.ButtonEdit, "ButtonEdit")
+        Me.ButtonEdit.Name = "ButtonEdit"
+        Me.ButtonEdit.UseVisualStyleBackColor = True
+        '
         'ShowUserInfo
         '
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.ButtonClose
+        Me.Controls.Add(Me.ButtonEdit)
         Me.Controls.Add(Me.LabelId)
         Me.Controls.Add(Me.Label12)
         Me.Controls.Add(Me.FlowLayoutPanel1)
@@ -398,4 +406,5 @@ Partial Class ShowUserInfo
     Friend WithEvents FlowLayoutPanel1 As System.Windows.Forms.FlowLayoutPanel
     Friend WithEvents LabelId As System.Windows.Forms.Label
     Friend WithEvents Label12 As System.Windows.Forms.Label
+    Friend WithEvents ButtonEdit As System.Windows.Forms.Button
 End Class
