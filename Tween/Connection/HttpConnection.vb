@@ -138,7 +138,7 @@ Public Class HttpConnection
                         Dim postBytes As Byte() = Encoding.UTF8.GetBytes(postData)
                         reqStream.Write(postBytes, 0, postBytes.Length)
 
-                        Using fs As New FileStream(kvp.Value.Name, FileMode.Open, FileAccess.Read)
+                        Using fs As New FileStream(kvp.Value.FullName, FileMode.Open, FileAccess.Read)
                             Dim readSize As Integer = 0
                             Dim readBytes(&H1000) As Byte
                             While True
