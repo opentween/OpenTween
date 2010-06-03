@@ -326,7 +326,9 @@ Public Class InternetSecurityManager
             Implements WebBrowserAPI.IInternetSecurityManager.MapUrlToZone
         pdwZone = 0
         Try
-            Dim url As New Uri(pwszUrl)
+            Dim urlStr As String = IDNDecode(pwszUrl)
+            If urlStr Is Nothing Then Return WebBrowserAPI.URLPOLICY_DISALLOW
+            Dim url As New Uri(urlStr)
             If url.Scheme = "data" Then
                 Return WebBrowserAPI.URLPOLICY_DISALLOW
             End If
