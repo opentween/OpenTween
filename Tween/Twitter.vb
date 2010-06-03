@@ -1129,7 +1129,7 @@ Public Class Twitter
         Dim res As HttpStatusCode
         Dim content As String = ""
         Try
-            res = twCon.UpdateProfileImage(filename, content)
+            res = twCon.UpdateProfileImage(New FileInfo(filename), content)
         Catch ex As Exception
             Return "Err:" + ex.Message
         End Try
