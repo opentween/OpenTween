@@ -2186,7 +2186,7 @@ Public Class Twitter
     Public Function CreateHtmlAnchor(ByVal Text As String, ByVal AtList As List(Of String)) As String
         'Dim retStr As String = HttpUtility.HtmlEncode(Text)     '要検証（デコードされて取得されるので再エンコード）
         'Dim retStr As String = HttpUtility.HtmlDecode(Text)
-        Dim retStr As String = ""
+        Dim retStr As String = Text.Replace("&gt;", "<<<<<tweenだいなり>>>>>").Replace("&lt;", "<<<<<tweenしょうなり>>>>>")
         'uriの正規表現
         Const rgUrl As String = "(?<before>(?:[^\""':!=]|^|\:))" + _
                                     "(?<url>(?<protocol>https?://|www\.)" + _
@@ -2194,7 +2194,7 @@ Public Class Twitter
                                     "(?<path>/[a-z0-9!*'();:&=+$/%#\[\]\-_.,~@]*[a-z0-9)=#/]?)?" + _
                                     "(?<query>\?[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9_&=#])?)"
         '絶対パス表現のUriをリンクに置換
-        retStr = Regex.Replace(Text, rgUrl, New MatchEvaluator(AddressOf AutoLinkUrl), RegexOptions.IgnoreCase)
+        retStr = Regex.Replace(retStr, rgUrl, New MatchEvaluator(AddressOf AutoLinkUrl), RegexOptions.IgnoreCase)
 
         '@返信を抽出し、@先リスト作成
         'Dim rg As New Regex("(^|[ -/:-@[-^`{-~])@([a-zA-Z0-9_]{1,20}/[a-zA-Z0-9_\-]{1,24}[a-zA-Z0-9_])")
@@ -2229,6 +2229,8 @@ Public Class Twitter
         retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9/&])([#＃])([0-9a-zA-Z_]*[a-zA-Z_]+[a-zA-Z0-9_\xc0-\xd6\xd8-\xf6\xf8-\xff]*)", "$1<a href=""" & _protocol & "twitter.com/search?q=%23$3"">$2$3</a>")
 
         retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9_/&#＃@＠>=])(sm|nm)([0-9]{1,10})", "$1<a href=""http://www.nicovideo.jp/watch/$2$3"">$2$3</a>")
+
+        retStr = retStr.Replace("<<<<<tweenだいなり>>>>>", "&gt;").Replace("<<<<<tweenしょうなり>>>>>", "&lt;")
 
         retStr = AdjustHtml(ShortUrlResolve(PreProcessUrl(retStr))) 'IDN置換、短縮Uri解決、@リンクを相対→絶対にしてtarget属性付与
         Return retStr
