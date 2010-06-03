@@ -205,7 +205,7 @@ Public Class Twitter
     Public Function PreProcessUrl(ByVal orgData As String) As String
         Dim posl1 As Integer
         Dim posl2 As Integer = 0
-        Dim IDNConveter As IdnMapping = New IdnMapping()
+        'Dim IDNConveter As IdnMapping = New IdnMapping()
         Dim href As String = "<a href="""
 
         Do While True
