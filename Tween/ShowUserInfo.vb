@@ -540,6 +540,13 @@ Public Class ShowUserInfo
             Exit Sub
         End If
 
+        Dim res As String = MyOwner.TwitterInstance.PostUpdateProfileImage(OpenFileDialog1.FileName)
+
+        If Not String.IsNullOrEmpty(res) Then
+            MessageBox.Show("ChangeIcon:Fail")
+        Else
+            MessageBox.Show("ChangeIcon:Success")
+        End If
 
     End Sub
 End Class
