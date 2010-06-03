@@ -1,6 +1,5 @@
 ﻿Imports System.Net
-Imports System.Text
-Imports System.Environment
+Imports System.IO
 
 Public Class HttpTwitter
 
@@ -470,31 +469,18 @@ Public Class HttpTwitter
                     _remainCountApi)
     End Function
 
-
-    ''' DO NOT WORK
-
-    Public Function UpdateProfileImage(ByVal filename As String, ByRef content As String) As HttpStatusCode
-        Dim stream As New IO.FileStream(filename, IO.FileMode.Open, IO.FileAccess.Read)
-        Dim boundary As String = TickCount.ToString
-        Dim enc As Encoding = Encoding.GetEncoding("UTF-8")
-        Dim data As String = ""
-
-        data = "--" + boundary + vbCrLf + _
-            "Content-Disposition: form-data; name=""image""; filename=""" + stream.Name + """" + vbCrLf + _
-            "Content-Type: application/octet-stream" + vbCrLf + _
-            "Content-Transfer-Encoding: binary" + vbCrLf + vbCrLf
-
-        Dim head As Byte() = enc.GetBytes(data)
-        Dim tail As Byte() = enc.GetBytes(vbCrLf + "--" + boundary + "--" + vbCrLf)
-
+    Public Function UpdateProfileImage(ByVal imageFile As FileInfo, ByRef content As String) As HttpStatusCode
+        Dim binary As New List(Of KeyValuePair(Of String, FileInfo))
+        binary.Add(New KeyValuePair(Of String, FileInfo)("image", imageFile))
 
         Return httpCon.GetContent(PostMethod, _
-            CreateTwitterUri("/1/account/update_profile_image.xml"), _
-            Nothing, _
-            content, _
-            _remainCountApi)
-
+                            CreateTwitterUri("/1/account/update_profile_image.xml"), _
+                            Nothing, _
+                            binary, _
+                            content, _
+                            Nothing)
     End Function
+
 #Region "Proxy API"
     Private Shared _twitterUrl As String = "api.twitter.com"
     'Private TwitterUrl As String = "sorayukigtap.appspot.com/api"

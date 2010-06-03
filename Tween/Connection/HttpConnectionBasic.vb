@@ -1,5 +1,6 @@
 ﻿Imports System.Text
 Imports System.Net
+Imports System.IO
 
 '''<summary>
 '''BASIC認証を使用するHTTP通信
@@ -45,6 +46,31 @@ Public Class HttpConnectionBasic
         Dim webReq As HttpWebRequest = CreateRequest(method, _
                                                     requestUri, _
                                                     param, _
+                                                    False)
+        'BASIC認証用ヘッダを付加
+        AppendApiInfo(webReq)
+
+        If content Is Nothing Then
+            Return GetResponse(webReq, headerInfo, False)
+        Else
+            Return GetResponse(webReq, content, headerInfo, False)
+        End If
+    End Function
+
+    Public Function GetContent(ByVal method As String, _
+            ByVal requestUri As Uri, _
+            ByVal param As Dictionary(Of String, String), _
+            ByVal binary As List(Of KeyValuePair(Of String, FileInfo)), _
+            ByRef content As String, _
+            ByVal headerInfo As Dictionary(Of String, String)) As HttpStatusCode Implements IHttpConnection.GetContent
+
+        '認証済かチェック
+        If String.IsNullOrEmpty(Me.credential) Then Return HttpStatusCode.Unauthorized
+
+        Dim webReq As HttpWebRequest = CreateRequest(method, _
+                                                    requestUri, _
+                                                    param, _
+                                                    binary, _
                                                     False)
         'BASIC認証用ヘッダを付加
         AppendApiInfo(webReq)

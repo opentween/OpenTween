@@ -86,6 +86,86 @@ Public Class HttpConnection
     End Function
 
     '''<summary>
+    '''multipartでのバイナリアップロード
+    '''</summary>
+    Protected Function CreateRequest(ByVal method As String, _
+                                        ByVal requestUri As Uri, _
+                                        ByVal param As Dictionary(Of String, String), _
+                                        ByVal binaryFileInfo As List(Of KeyValuePair(Of String, FileInfo)), _
+                                        ByVal withCookie As Boolean _
+                                    ) As HttpWebRequest
+        If Not isInitialize Then Throw New Exception("Sequence error.(not initialized)")
+
+        'methodはPOST,PUTのみ許可
+        Dim ub As New UriBuilder(requestUri.AbsoluteUri)
+        If method = "GET" OrElse method = "DELETE" OrElse method = "HEAD" Then
+            Throw New ArgumentException("Method must be POST or PUT")
+        End If
+        If (param Is Nothing OrElse param.Count = 0) AndAlso (binaryFileInfo Is Nothing OrElse binaryFileInfo.Count = 0) Then
+            Throw New ArgumentException("Data is empty")
+        End If
+
+        Dim webReq As HttpWebRequest = DirectCast(WebRequest.Create(ub.Uri), HttpWebRequest)
+
+        'プロキシ設定
+        If proxyKind <> ProxyType.IE Then webReq.Proxy = proxy
+
+        webReq.Method = method
+        If method = "POST" OrElse method = "PUT" Then
+            Dim boundary As String = System.Environment.TickCount.ToString()
+            webReq.ContentType = "multipart/form-data; boundary=" + boundary
+            Using reqStream As Stream = webReq.GetRequestStream
+                'POST送信するデータを作成
+                If param IsNot Nothing Then
+                    Dim postData As String = ""
+                    For Each kvp As KeyValuePair(Of String, String) In param
+                        postData += "--" + boundary + vbCrLf + _
+                            "Content-Disposition: form-data; name=""" + kvp.Key + """" + _
+                            vbCrLf + vbCrLf + kvp.Value + vbCrLf
+                    Next
+                    Dim postBytes As Byte() = Encoding.UTF8.GetBytes(postData)
+                    reqStream.Write(postBytes, 0, postBytes.Length)
+                End If
+
+                If binaryFileInfo IsNot Nothing Then
+                    For Each kvp As KeyValuePair(Of String, FileInfo) In binaryFileInfo
+                        Dim postData As String = ""
+                        postData = "--" + boundary + vbCrLf + _
+                                "Content-Disposition: form-data; name=""" + kvp.Key + """; filename=""" + _
+                                kvp.Value.Name + """" + vbCrLf + _
+                                "Content-Type: application/octet-stream" + vbCrLf + _
+                                "Content-Transfer-Encoding: binary" + vbCrLf + vbCrLf
+                        Dim postBytes As Byte() = Encoding.UTF8.GetBytes(postData)
+                        reqStream.Write(postBytes, 0, postBytes.Length)
+
+                        Using fs As New FileStream(kvp.Value.Name, FileMode.Open, FileAccess.Read)
+                            Dim readSize As Integer = 0
+                            Dim readBytes(&H1000) As Byte
+                            While True
+                                readSize = fs.Read(readBytes, 0, readBytes.Length)
+                                If readSize = 0 Then Exit While
+                                reqStream.Write(readBytes, 0, readSize)
+                            End While
+                            fs.Close()
+                        End Using
+                        Dim crlf As Byte() = Encoding.UTF8.GetBytes(vbCrLf)
+                        reqStream.Write(crlf, 0, crlf.Length)
+                    Next
+                End If
+                Dim endBytes As Byte() = Encoding.UTF8.GetBytes(vbCrLf + "--" + boundary + "--" + vbCrLf)
+                reqStream.Write(endBytes, 0, endBytes.Length)
+                reqStream.Close()
+            End Using
+        End If
+        'cookie設定
+        If withCookie Then webReq.CookieContainer = cookieContainer
+        'タイムアウト設定
+        webReq.Timeout = DefaultTimeout
+
+        Return webReq
+    End Function
+
+    '''<summary>
     '''HTTPの応答を処理し、引数で指定されたストリームに書き込み
     '''</summary>
     '''<remarks>

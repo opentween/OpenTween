@@ -86,6 +86,33 @@ Public Class HttpConnectionOAuth
         End If
     End Function
 
+    '''<summary>
+    '''バイナリアップロード
+    '''</summary>
+    Public Function GetContent(ByVal method As String, _
+        ByVal requestUri As Uri, _
+        ByVal param As Dictionary(Of String, String), _
+        ByVal binary As List(Of KeyValuePair(Of String, FileInfo)), _
+        ByRef content As String, _
+        ByVal headerInfo As Dictionary(Of String, String)) As HttpStatusCode Implements IHttpConnection.GetContent
+        '認証済かチェック
+        If String.IsNullOrEmpty(token) Then Return HttpStatusCode.Unauthorized
+
+        Dim webReq As HttpWebRequest = CreateRequest(method, _
+                                                    requestUri, _
+                                                    param, _
+                                                    binary, _
+                                                    False)
+        'OAuth認証ヘッダを付加
+        AppendOAuthInfo(webReq, Nothing, token, tokenSecret)
+
+        If content Is Nothing Then
+            Return GetResponse(webReq, headerInfo, False)
+        Else
+            Return GetResponse(webReq, content, headerInfo, False)
+        End If
+    End Function
+
 #Region "認証処理"
     '''<summary>
     '''OAuth認証の開始要求（リクエストトークン取得）。PIN入力用の前段
