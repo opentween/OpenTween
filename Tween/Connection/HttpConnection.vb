@@ -130,11 +130,24 @@ Public Class HttpConnection
                 If binaryFileInfo IsNot Nothing Then
                     For Each kvp As KeyValuePair(Of String, FileInfo) In binaryFileInfo
                         Dim postData As String = ""
+                        Dim mime As String = ""
+                        Select Case kvp.Value.Extension.ToLower
+                            Case ".jpg", ".jpeg"
+                                mime = "jpeg"
+                            Case ".gif"
+                                mime = "gif"
+                            Case ".png"
+                                mime = "png"
+                        End Select
+                        'postData = "--" + boundary + vbCrLf + _
+                        '        "Content-Disposition: form-data; name=""" + kvp.Key + """; filename=""" + _
+                        '        kvp.Value.Name + """" + vbCrLf + _
+                        '        "Content-Type: image/" + mime + vbCrLf + _
+                        '        "Content-Transfer-Encoding: binary" + vbCrLf + vbCrLf
                         postData = "--" + boundary + vbCrLf + _
                                 "Content-Disposition: form-data; name=""" + kvp.Key + """; filename=""" + _
                                 kvp.Value.Name + """" + vbCrLf + _
-                                "Content-Type: application/octet-stream" + vbCrLf + _
-                                "Content-Transfer-Encoding: binary" + vbCrLf + vbCrLf
+                                "Content-Type: image/" + mime + vbCrLf + vbCrLf 
                         Dim postBytes As Byte() = Encoding.UTF8.GetBytes(postData)
                         reqStream.Write(postBytes, 0, postBytes.Length)
 
@@ -155,6 +168,7 @@ Public Class HttpConnection
                 Dim endBytes As Byte() = Encoding.UTF8.GetBytes(vbCrLf + "--" + boundary + "--" + vbCrLf)
                 reqStream.Write(endBytes, 0, endBytes.Length)
                 reqStream.Close()
+                'webReq.ContentLength = len
             End Using
         End If
         'cookie設定
