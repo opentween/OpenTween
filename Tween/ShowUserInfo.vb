@@ -24,6 +24,7 @@
 Imports System.Xml
 Imports System.Web
 Imports System.Text.RegularExpressions
+Imports System.ComponentModel
 
 Public Class ShowUserInfo
 
@@ -195,6 +196,12 @@ Public Class ShowUserInfo
             LabelIsVerified.Text = My.Resources.Yes
         Else
             LabelIsVerified.Text = My.Resources.No
+        End If
+
+        If MyOwner.TwitterInstance.Username = _info.ScreenName Then
+            ButtonEdit.Enabled = True
+        Else
+            ButtonEdit.Enabled = False
         End If
     End Sub
 
@@ -419,6 +426,22 @@ Public Class ShowUserInfo
         UserPicture.Cursor = Cursors.Default
     End Sub
 
+    Private Class UpdateProfileArgs
+        Public tw As Twitter
+        Public name As String
+        Public location As String
+        Public url As String
+        Public description As String
+    End Class
+
+    Private Sub UpdateProfile_Dowork(ByVal sender As Object, ByVal e As DoWorkEventArgs)
+        Dim arg As UpdateProfileArgs = DirectCast(e.Argument, UpdateProfileArgs)
+        e.Result = arg.tw.PostUpdateProfile(arg.name, _
+                                            arg.url, _
+                                            arg.location, _
+                                            arg.description)
+    End Sub
+
     Private Sub ButtonEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonEdit.Click
         Static IsEditing As Boolean = False
 
@@ -432,14 +455,15 @@ Public Class ShowUserInfo
             TextBoxName.Location = LabelName.Location
             TextBoxName.Height = LabelName.Height
             TextBoxName.Width = LabelName.Width
+            TextBoxName.MaxLength = 20
             TextBoxName.Text = LabelName.Text
             Me.Controls.Add(TextBoxName)
             LabelName.Visible = False
 
-
             TextBoxLocation.Location = LabelLocation.Location
             TextBoxLocation.Height = LabelLocation.Height
             TextBoxLocation.Width = LabelLocation.Width
+            TextBoxLocation.MaxLength = 30
             TextBoxLocation.Text = LabelLocation.Text
             Me.Controls.Add(TextBoxLocation)
             LabelLocation.Visible = False
@@ -447,6 +471,7 @@ Public Class ShowUserInfo
             TextBoxWeb.Location = LinkLabelWeb.Location
             TextBoxWeb.Height = LinkLabelWeb.Height
             TextBoxWeb.Width = LinkLabelWeb.Width
+            TextBoxWeb.MaxLength = 100
             TextBoxWeb.Text = _info.Url
             Me.Controls.Add(TextBoxWeb)
             LinkLabelWeb.Visible = False
@@ -454,6 +479,7 @@ Public Class ShowUserInfo
             TextBoxDescription.Location = DescriptionBrowser.Location
             TextBoxDescription.Height = DescriptionBrowser.Height
             TextBoxDescription.Width = DescriptionBrowser.Width
+            TextBoxDescription.MaxLength = 160
             TextBoxDescription.Text = _info.Description
             TextBoxDescription.Multiline = True
             TextBoxDescription.ScrollBars = ScrollBars.Vertical
@@ -462,23 +488,56 @@ Public Class ShowUserInfo
 
             IsEditing = True
         Else
+            Dim arg As New UpdateProfileArgs
+
+            arg.tw = MyOwner.TwitterInstance
+            arg.name = TextBoxName.Text
+            arg.url = TextBoxWeb.Text
+            arg.location = TextBoxLocation.Text
+            arg.description = TextBoxDescription.Text
+
+            Using dlg As New FormInfo("プロフィール更新中・・・", _
+                                        AddressOf UpdateProfile_Dowork, _
+                                        Nothing, _
+                                        arg)
+                dlg.ShowDialog()
+                If Not String.IsNullOrEmpty(dlg.Result.ToString) Then
+                    Exit Sub
+                End If
+            End Using
+
             LabelName.Text = TextBoxName.Text
+            _info.Name = LabelName.Text
             Me.Controls.Remove(TextBoxName)
             LabelName.Visible = True
 
             LabelLocation.Text = TextBoxLocation.Text
+            _info.Location = LabelLocation.Text
             Me.Controls.Remove(TextBoxLocation)
             LabelLocation.Visible = True
 
             SetLinklabelWeb(TextBoxWeb.Text)
+            _info.Url = TextBoxWeb.Text
             Me.Controls.Remove(TextBoxWeb)
             LinkLabelWeb.Visible = True
 
             DescriptionBrowser.DocumentText = MakeDescriptionBrowserText(TextBoxDescription.Text)
+            _info.Description = TextBoxDescription.Text
             Me.Controls.Remove(TextBoxDescription)
             DescriptionBrowser.Visible = True
 
             IsEditing = False
+        End If
+
+
+    End Sub
+
+    Private Sub ChangeIconToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChangeIconToolStripMenuItem.Click
+        OpenFileDialog1.Filter = "画像ファイル(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png|すべてのファイル(*.*)|*.*"
+        OpenFileDialog1.Title = "サイズ700KBまでのアイコン画像ファイルを選択してください"
+
+        If OpenFileDialog1.ShowDialog() = DialogResult.No Then
+            Exit Sub
         End If
 
 

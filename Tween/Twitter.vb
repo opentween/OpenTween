@@ -1085,6 +1085,76 @@ Public Class Twitter
         End Select
     End Function
 
+    Public Function PostUpdateProfile(ByVal name As String, ByVal url As String, ByVal location As String, ByVal description As String) As String
+        If _endingFlag Then Return ""
+
+        If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
+
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+        Try
+            res = twCon.UpdateProfile(name, url, location, description, content)
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
+
+        Select Case res
+            Case HttpStatusCode.OK
+                Return ""
+            Case HttpStatusCode.Unauthorized
+                Twitter.AccountState = ACCOUNT_STATE.Invalid
+                Return "Check your Username/Password."
+            Case HttpStatusCode.Forbidden
+                Dim xd As XmlDocument = New XmlDocument
+                Try
+                    xd.LoadXml(content)
+                    Dim xNode As XmlNode = Nothing
+                    xNode = xd.SelectSingleNode("/hash/error")
+                    Return "Err:" + xNode.InnerText
+                Catch ex As Exception
+                    Return "Err:Forbidden"
+                End Try
+            Case Else
+                Return "Err:" + res.ToString
+        End Select
+    End Function
+
+    ''' DO NOT WORK
+
+    Public Function PostUpdateProfileImage(ByVal filename As String) As String
+        If _endingFlag Then Return ""
+
+        If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
+
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+        Try
+            res = twCon.UpdateProfileImage(filename, content)
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
+
+        Select Case res
+            Case HttpStatusCode.OK
+                Return ""
+            Case HttpStatusCode.Unauthorized
+                Twitter.AccountState = ACCOUNT_STATE.Invalid
+                Return "Check your Username/Password."
+            Case HttpStatusCode.Forbidden
+                Dim xd As XmlDocument = New XmlDocument
+                Try
+                    xd.LoadXml(content)
+                    Dim xNode As XmlNode = Nothing
+                    xNode = xd.SelectSingleNode("/hash/error")
+                    Return "Err:" + xNode.InnerText
+                Catch ex As Exception
+                    Return "Err:Forbidden"
+                End Try
+            Case Else
+                Return "Err:" + res.ToString
+        End Select
+    End Function
+
     Public ReadOnly Property Username() As String
         Get
             Return twCon.AuthenticatedUsername
