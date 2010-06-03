@@ -57,16 +57,20 @@ Partial Class ShowUserInfo
         Me.SelectionCopyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SelectAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.LabelRecentPost = New System.Windows.Forms.Label()
-        Me.RecentPostBrowser = New System.Windows.Forms.WebBrowser()
-        Me.DescriptionBrowser = New System.Windows.Forms.WebBrowser()
         Me.LabelIsVerified = New System.Windows.Forms.Label()
         Me.ButtonSearchPosts = New System.Windows.Forms.Button()
         Me.FlowLayoutPanel1 = New System.Windows.Forms.FlowLayoutPanel()
         Me.LabelId = New System.Windows.Forms.Label()
         Me.Label12 = New System.Windows.Forms.Label()
         Me.ButtonEdit = New System.Windows.Forms.Button()
+        Me.RecentPostBrowser = New System.Windows.Forms.WebBrowser()
+        Me.DescriptionBrowser = New System.Windows.Forms.WebBrowser()
+        Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.ContextMenuStrip2 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ChangeIconToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.UserPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ContextMenuStrip1.SuspendLayout()
+        Me.ContextMenuStrip2.SuspendLayout()
         Me.SuspendLayout()
         '
         'ButtonClose
@@ -211,6 +215,7 @@ Partial Class ShowUserInfo
         'UserPicture
         '
         Me.UserPicture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.UserPicture.ContextMenuStrip = Me.ContextMenuStrip2
         resources.ApplyResources(Me.UserPicture, "UserPicture")
         Me.UserPicture.Name = "UserPicture"
         Me.UserPicture.TabStop = False
@@ -257,28 +262,6 @@ Partial Class ShowUserInfo
         resources.ApplyResources(Me.LabelRecentPost, "LabelRecentPost")
         Me.LabelRecentPost.Name = "LabelRecentPost"
         '
-        'RecentPostBrowser
-        '
-        Me.RecentPostBrowser.AllowWebBrowserDrop = False
-        Me.RecentPostBrowser.ContextMenuStrip = Me.ContextMenuStrip1
-        Me.RecentPostBrowser.IsWebBrowserContextMenuEnabled = False
-        resources.ApplyResources(Me.RecentPostBrowser, "RecentPostBrowser")
-        Me.RecentPostBrowser.MinimumSize = New System.Drawing.Size(20, 20)
-        Me.RecentPostBrowser.Name = "RecentPostBrowser"
-        Me.RecentPostBrowser.Url = New System.Uri("about:blank", System.UriKind.Absolute)
-        Me.RecentPostBrowser.WebBrowserShortcutsEnabled = False
-        '
-        'DescriptionBrowser
-        '
-        Me.DescriptionBrowser.AllowWebBrowserDrop = False
-        Me.DescriptionBrowser.ContextMenuStrip = Me.ContextMenuStrip1
-        Me.DescriptionBrowser.IsWebBrowserContextMenuEnabled = False
-        resources.ApplyResources(Me.DescriptionBrowser, "DescriptionBrowser")
-        Me.DescriptionBrowser.MinimumSize = New System.Drawing.Size(20, 20)
-        Me.DescriptionBrowser.Name = "DescriptionBrowser"
-        Me.DescriptionBrowser.Url = New System.Uri("about:blank", System.UriKind.Absolute)
-        Me.DescriptionBrowser.WebBrowserShortcutsEnabled = False
-        '
         'LabelIsVerified
         '
         resources.ApplyResources(Me.LabelIsVerified, "LabelIsVerified")
@@ -312,6 +295,43 @@ Partial Class ShowUserInfo
         resources.ApplyResources(Me.ButtonEdit, "ButtonEdit")
         Me.ButtonEdit.Name = "ButtonEdit"
         Me.ButtonEdit.UseVisualStyleBackColor = True
+        '
+        'RecentPostBrowser
+        '
+        Me.RecentPostBrowser.AllowWebBrowserDrop = False
+        Me.RecentPostBrowser.ContextMenuStrip = Me.ContextMenuStrip1
+        Me.RecentPostBrowser.IsWebBrowserContextMenuEnabled = False
+        resources.ApplyResources(Me.RecentPostBrowser, "RecentPostBrowser")
+        Me.RecentPostBrowser.MinimumSize = New System.Drawing.Size(20, 20)
+        Me.RecentPostBrowser.Name = "RecentPostBrowser"
+        Me.RecentPostBrowser.Url = New System.Uri("about:blank", System.UriKind.Absolute)
+        Me.RecentPostBrowser.WebBrowserShortcutsEnabled = False
+        '
+        'DescriptionBrowser
+        '
+        Me.DescriptionBrowser.AllowWebBrowserDrop = False
+        Me.DescriptionBrowser.ContextMenuStrip = Me.ContextMenuStrip1
+        Me.DescriptionBrowser.IsWebBrowserContextMenuEnabled = False
+        resources.ApplyResources(Me.DescriptionBrowser, "DescriptionBrowser")
+        Me.DescriptionBrowser.MinimumSize = New System.Drawing.Size(20, 20)
+        Me.DescriptionBrowser.Name = "DescriptionBrowser"
+        Me.DescriptionBrowser.Url = New System.Uri("about:blank", System.UriKind.Absolute)
+        Me.DescriptionBrowser.WebBrowserShortcutsEnabled = False
+        '
+        'OpenFileDialog1
+        '
+        Me.OpenFileDialog1.FileName = "OpenFileDialog1"
+        '
+        'ContextMenuStrip2
+        '
+        Me.ContextMenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ChangeIconToolStripMenuItem})
+        Me.ContextMenuStrip2.Name = "ContextMenuStrip2"
+        resources.ApplyResources(Me.ContextMenuStrip2, "ContextMenuStrip2")
+        '
+        'ChangeIconToolStripMenuItem
+        '
+        Me.ChangeIconToolStripMenuItem.Name = "ChangeIconToolStripMenuItem"
+        resources.ApplyResources(Me.ChangeIconToolStripMenuItem, "ChangeIconToolStripMenuItem")
         '
         'ShowUserInfo
         '
@@ -362,6 +382,7 @@ Partial Class ShowUserInfo
         Me.TopMost = True
         CType(Me.UserPicture, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ContextMenuStrip1.ResumeLayout(False)
+        Me.ContextMenuStrip2.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -407,4 +428,7 @@ Partial Class ShowUserInfo
     Friend WithEvents LabelId As System.Windows.Forms.Label
     Friend WithEvents Label12 As System.Windows.Forms.Label
     Friend WithEvents ButtonEdit As System.Windows.Forms.Button
+    Friend WithEvents ContextMenuStrip2 As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents ChangeIconToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents OpenFileDialog1 As System.Windows.Forms.OpenFileDialog
 End Class
