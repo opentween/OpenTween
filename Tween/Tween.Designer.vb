@@ -245,6 +245,8 @@ Partial Class TweenMain
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.TimelinePanel = New System.Windows.Forms.Panel()
+        Me.ProfilePanel = New System.Windows.Forms.Panel()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -270,6 +272,7 @@ Partial Class TweenMain
         Me.MenuStrip1.SuspendLayout()
         Me.ContextMenuStrip2.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
+        Me.TimelinePanel.SuspendLayout()
         Me.SuspendLayout()
         '
         'ToolStripContainer1
@@ -391,7 +394,8 @@ Partial Class TweenMain
         '
         'SplitContainer1.Panel1
         '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.ListTab)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.TimelinePanel)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.ProfilePanel)
         '
         'SplitContainer1.Panel2
         '
@@ -1509,6 +1513,17 @@ Partial Class TweenMain
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
+        'TimelinePanel
+        '
+        Me.TimelinePanel.Controls.Add(Me.ListTab)
+        resources.ApplyResources(Me.TimelinePanel, "TimelinePanel")
+        Me.TimelinePanel.Name = "TimelinePanel"
+        '
+        'ProfilePanel
+        '
+        resources.ApplyResources(Me.ProfilePanel, "ProfilePanel")
+        Me.ProfilePanel.Name = "ProfilePanel"
+        '
         'TweenMain
         '
         Me.AllowDrop = True
@@ -1549,6 +1564,7 @@ Partial Class TweenMain
         Me.MenuStrip1.PerformLayout()
         Me.ContextMenuStrip2.ResumeLayout(False)
         Me.ContextMenuStrip1.ResumeLayout(False)
+        Me.TimelinePanel.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -1772,5 +1788,7 @@ Partial Class TweenMain
     Friend WithEvents RtCountMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SearchPostsDetailToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SearchPostsDetailNameToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents TimelinePanel As System.Windows.Forms.Panel
+    Friend WithEvents ProfilePanel As System.Windows.Forms.Panel
 
 End Class
