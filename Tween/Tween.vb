@@ -7028,6 +7028,7 @@ RETRY:
             RemoveContextMenuItem.Enabled = False
             FriendshipContextMenuItem.Enabled = False
             ShowUserStatusContextMenuItem.Enabled = False
+            SearchPostsDetailToolStripMenuItem.Enabled = False
             UseHashtagMenuItem.Enabled = False
             IdFilterAddMenuItem.Enabled = False
         End If
