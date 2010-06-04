@@ -3623,6 +3623,7 @@ Public Class TweenMain
         SetMainWindowTitle()
         SetStatusLabel()
         If ListTab.Focused OrElse DirectCast(ListTab.SelectedTab.Tag, Control).Focused Then Me.Tag = ListTab.Tag
+        TabMenuControl(ListTab.SelectedTab.Text)
     End Sub
 
     Private Sub SetListProperty()
@@ -5782,12 +5783,16 @@ RETRY:
         UreadManageMenuItem.Checked = tb.UnreadManage
         Me.UnreadMngTbMenuItem.Checked = tb.UnreadManage
 
-        If _statuses.Tabs(_rclickTabName).TabType <> TabUsageType.Mentions AndAlso _statuses.IsDefaultTab(_rclickTabName) Then
+        TabMenuControl(_rclickTabName)
+    End Sub
+
+    Private Sub TabMenuControl(ByVal tabName As String)
+        If _statuses.Tabs(tabName).TabType <> TabUsageType.Mentions AndAlso _statuses.IsDefaultTab(tabName) Then
             FilterEditMenuItem.Enabled = True
             Me.EditRuleTbMenuItem.Enabled = True
             DeleteTabMenuItem.Enabled = False
             Me.DeleteTbMenuItem.Enabled = False
-        ElseIf _statuses.Tabs(_rclickTabName).TabType = TabUsageType.Mentions Then
+        ElseIf _statuses.Tabs(tabName).TabType = TabUsageType.Mentions Then
             FilterEditMenuItem.Enabled = True
             Me.EditRuleTbMenuItem.Enabled = True
             DeleteTabMenuItem.Enabled = False

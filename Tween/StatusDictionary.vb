@@ -1378,6 +1378,7 @@ Public NotInheritable Class TabClass
             Return _searchLang
         End Get
         Set(ByVal value As String)
+            _sinceId = 0
             _searchLang = value
         End Set
     End Property
@@ -1386,6 +1387,7 @@ Public NotInheritable Class TabClass
             Return _searchWords
         End Get
         Set(ByVal value As String)
+            _sinceId = 0
             _searchWords = value.Trim
         End Set
     End Property
