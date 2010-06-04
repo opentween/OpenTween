@@ -49,6 +49,8 @@ Partial Class ShowUserInfo
         Me.LabelIsFollowing = New System.Windows.Forms.Label()
         Me.LabelIsFollowed = New System.Windows.Forms.Label()
         Me.UserPicture = New System.Windows.Forms.PictureBox()
+        Me.ContextMenuStrip2 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ChangeIconToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BackgroundWorkerImageLoader = New System.ComponentModel.BackgroundWorker()
         Me.LabelScreenName = New System.Windows.Forms.Label()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
@@ -66,11 +68,9 @@ Partial Class ShowUserInfo
         Me.RecentPostBrowser = New System.Windows.Forms.WebBrowser()
         Me.DescriptionBrowser = New System.Windows.Forms.WebBrowser()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.ContextMenuStrip2 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ChangeIconToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.UserPicture, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.ContextMenuStrip1.SuspendLayout()
         Me.ContextMenuStrip2.SuspendLayout()
+        Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'ButtonClose
@@ -220,6 +220,17 @@ Partial Class ShowUserInfo
         Me.UserPicture.Name = "UserPicture"
         Me.UserPicture.TabStop = False
         '
+        'ContextMenuStrip2
+        '
+        Me.ContextMenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ChangeIconToolStripMenuItem})
+        Me.ContextMenuStrip2.Name = "ContextMenuStrip2"
+        resources.ApplyResources(Me.ContextMenuStrip2, "ContextMenuStrip2")
+        '
+        'ChangeIconToolStripMenuItem
+        '
+        Me.ChangeIconToolStripMenuItem.Name = "ChangeIconToolStripMenuItem"
+        resources.ApplyResources(Me.ChangeIconToolStripMenuItem, "ChangeIconToolStripMenuItem")
+        '
         'BackgroundWorkerImageLoader
         '
         '
@@ -304,6 +315,7 @@ Partial Class ShowUserInfo
         resources.ApplyResources(Me.RecentPostBrowser, "RecentPostBrowser")
         Me.RecentPostBrowser.MinimumSize = New System.Drawing.Size(20, 20)
         Me.RecentPostBrowser.Name = "RecentPostBrowser"
+        Me.RecentPostBrowser.TabStop = False
         Me.RecentPostBrowser.Url = New System.Uri("about:blank", System.UriKind.Absolute)
         Me.RecentPostBrowser.WebBrowserShortcutsEnabled = False
         '
@@ -315,23 +327,13 @@ Partial Class ShowUserInfo
         resources.ApplyResources(Me.DescriptionBrowser, "DescriptionBrowser")
         Me.DescriptionBrowser.MinimumSize = New System.Drawing.Size(20, 20)
         Me.DescriptionBrowser.Name = "DescriptionBrowser"
+        Me.DescriptionBrowser.TabStop = False
         Me.DescriptionBrowser.Url = New System.Uri("about:blank", System.UriKind.Absolute)
         Me.DescriptionBrowser.WebBrowserShortcutsEnabled = False
         '
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
-        '
-        'ContextMenuStrip2
-        '
-        Me.ContextMenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ChangeIconToolStripMenuItem})
-        Me.ContextMenuStrip2.Name = "ContextMenuStrip2"
-        resources.ApplyResources(Me.ContextMenuStrip2, "ContextMenuStrip2")
-        '
-        'ChangeIconToolStripMenuItem
-        '
-        Me.ChangeIconToolStripMenuItem.Name = "ChangeIconToolStripMenuItem"
-        resources.ApplyResources(Me.ChangeIconToolStripMenuItem, "ChangeIconToolStripMenuItem")
         '
         'ShowUserInfo
         '
@@ -381,8 +383,8 @@ Partial Class ShowUserInfo
         Me.ShowIcon = False
         Me.TopMost = True
         CType(Me.UserPicture, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ContextMenuStrip2.ResumeLayout(False)
+        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
