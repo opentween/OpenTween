@@ -86,8 +86,17 @@ Public Class HttpConnection
     End Function
 
     '''<summary>
-    '''multipartでのバイナリアップロード
+    '''HttpWebRequestオブジェクトを取得する。multipartでのバイナリアップロード用。
     '''</summary>
+    '''<remarks>
+    '''methodにはPOST/PUTのみ指定可能
+    '''</remarks>
+    '''<param name="method">HTTP通信メソッド（POST/PUT）</param>
+    '''<param name="requestUri">通信先URI</param>
+    '''<param name="param">form-dataで指定する名前と文字列のディクショナリ</param>
+    '''<param name="param">form-dataで指定する名前とバイナリファイル情報のリスト</param>
+    '''<param name="withCookie">通信にcookieを使用するか</param>
+    '''<returns>引数で指定された内容を反映したHttpWebRequestオブジェクト</returns>
     Protected Function CreateRequest(ByVal method As String, _
                                         ByVal requestUri As Uri, _
                                         ByVal param As Dictionary(Of String, String), _
@@ -115,7 +124,7 @@ Public Class HttpConnection
             Dim boundary As String = System.Environment.TickCount.ToString()
             webReq.ContentType = "multipart/form-data; boundary=" + boundary
             Using reqStream As Stream = webReq.GetRequestStream
-                'POST送信するデータを作成
+                'POST送信する文字データを作成
                 If param IsNot Nothing Then
                     Dim postData As String = ""
                     For Each kvp As KeyValuePair(Of String, String) In param
@@ -126,31 +135,34 @@ Public Class HttpConnection
                     Dim postBytes As Byte() = Encoding.UTF8.GetBytes(postData)
                     reqStream.Write(postBytes, 0, postBytes.Length)
                 End If
-
+                'POST送信するバイナリデータを作成
                 If binaryFileInfo IsNot Nothing Then
                     For Each kvp As KeyValuePair(Of String, FileInfo) In binaryFileInfo
                         Dim postData As String = ""
+                        Dim crlfByte As Byte() = Encoding.UTF8.GetBytes(vbCrLf)
+                        'コンテンツタイプの指定
                         Dim mime As String = ""
                         Select Case kvp.Value.Extension.ToLower
-                            Case ".jpg", ".jpeg"
-                                mime = "jpeg"
+                            Case ".jpg", ".jpeg", ".jpe"
+                                mime = "image/jpeg"
                             Case ".gif"
-                                mime = "gif"
+                                mime = "image/gif"
                             Case ".png"
-                                mime = "png"
+                                mime = "image/png"
+                            Case ".tiff", ".tif"
+                                mime = "image/tiff"
+                            Case ".bmp"
+                                mime = "image/x-bmp"
+                            Case Else
+                                mime = "application/octet-stream" + vbCrLf + "Content-Transfer-Encoding: binary"
                         End Select
-                        'postData = "--" + boundary + vbCrLf + _
-                        '        "Content-Disposition: form-data; name=""" + kvp.Key + """; filename=""" + _
-                        '        kvp.Value.Name + """" + vbCrLf + _
-                        '        "Content-Type: image/" + mime + vbCrLf + _
-                        '        "Content-Transfer-Encoding: binary" + vbCrLf + vbCrLf
                         postData = "--" + boundary + vbCrLf + _
                                 "Content-Disposition: form-data; name=""" + kvp.Key + """; filename=""" + _
                                 kvp.Value.Name + """" + vbCrLf + _
-                                "Content-Type: image/" + mime + vbCrLf + vbCrLf 
+                                "Content-Type: " + mime + vbCrLf + vbCrLf
                         Dim postBytes As Byte() = Encoding.UTF8.GetBytes(postData)
                         reqStream.Write(postBytes, 0, postBytes.Length)
-
+                        'ファイルを読み出してHTTPのストリームに書き込み
                         Using fs As New FileStream(kvp.Value.FullName, FileMode.Open, FileAccess.Read)
                             Dim readSize As Integer = 0
                             Dim readBytes(&H1000) As Byte
@@ -161,14 +173,13 @@ Public Class HttpConnection
                             End While
                             fs.Close()
                         End Using
-                        Dim crlf As Byte() = Encoding.UTF8.GetBytes(vbCrLf)
-                        reqStream.Write(crlf, 0, crlf.Length)
+                        reqStream.Write(crlfByte, 0, crlfByte.Length)
                     Next
                 End If
-                Dim endBytes As Byte() = Encoding.UTF8.GetBytes(vbCrLf + "--" + boundary + "--" + vbCrLf)
+                '終端
+                Dim endBytes As Byte() = Encoding.UTF8.GetBytes("--" + boundary + "--" + vbCrLf)
                 reqStream.Write(endBytes, 0, endBytes.Length)
                 reqStream.Close()
-                'webReq.ContentLength = len
             End Using
         End If
         'cookie設定
