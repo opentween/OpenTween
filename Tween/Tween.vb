@@ -521,12 +521,24 @@ Public Class TweenMain
 #End If
     End Sub
 
+    Private Sub InitializeTraceFrag()
+#If DEBUG Then
+        TraceOutToolStripMenuItem.Checked = True
+        TraceFlag = True
+#End If
+        If Not fileVersion.EndsWith("0") Then
+            TraceOutToolStripMenuItem.Checked = True
+            TraceFlag = True
+        End If
+    End Sub
+
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         '''グローバルホットキーの登録。設定で変更可能にするかも
         '''_hookGlobalHotkey.RegisterOriginalHotkey(Keys.T, HookGlobalHotkey.ModKeys.Ctrl Or HookGlobalHotkey.ModKeys.Alt)
         _ignoreConfigSave = True
         Me.Visible = False
         SecurityManager = New InternetSecurityManager(PostBrowser)
+
 
         VerUpMenuItem.Image = shield.Icon
         If Not My.Application.CommandLineArgs.Count = 0 AndAlso My.Application.CommandLineArgs.Contains("/d") Then TraceFlag = True
@@ -537,7 +549,7 @@ Public Class TweenMain
         Regex.CacheSize = 100
 
         fileVersion = DirectCast(Assembly.GetExecutingAssembly().GetCustomAttributes(GetType(AssemblyFileVersionAttribute), False)(0), AssemblyFileVersionAttribute).Version
-
+        InitializeTraceFrag()
         LoadIcons() ' アイコン読み込み
 
         '発言保持クラス
@@ -935,23 +947,7 @@ Public Class TweenMain
         'タイマー設定
         'Recent取得間隔
         TimerTimeline.Interval = 1000
-        'If SettingDialog.TimelinePeriodInt > 0 Then
-        '    TimerTimeline.Interval = SettingDialog.TimelinePeriodInt * 1000
-        'Else
-        '    TimerTimeline.Interval = 600000
-        'End If
-        ''Reply取得間隔
-        'If SettingDialog.ReplyPeriodInt > 0 Then
-        '    TimerReply.Interval = SettingDialog.ReplyPeriodInt * 1000
-        'Else
-        '    TimerReply.Interval = 6000000
-        'End If
-        ''DM取得間隔
-        'If SettingDialog.DMPeriodInt > 0 Then
-        '    TimerDM.Interval = SettingDialog.DMPeriodInt * 1000
-        'Else
-        '    TimerDM.Interval = 6000000
-        'End If
+
         '更新中アイコンアニメーション間隔
         TimerRefreshIcon.Interval = 200
         TimerRefreshIcon.Enabled = True
@@ -1064,9 +1060,6 @@ Public Class TweenMain
         Me.JumpReadOpMenuItem.ShortcutKeyDisplayString = "Space"
         CopySTOTMenuItem.ShortcutKeyDisplayString = "Ctrl+C"
         CopyURLMenuItem.ShortcutKeyDisplayString = "Ctrl+Shift+C"
-        'MenuItemSubSearch.ShortcutKeyDisplayString = "/"
-        'ReadedStripMenuItem.ShortcutKeyDisplayString = "B"
-        'UnreadStripMenuItem.ShortcutKeyDisplayString = "Shift+B"
 
         If SettingDialog.MinimizeToTray = False OrElse Me.WindowState <> FormWindowState.Minimized Then
             Me.Visible = True
@@ -1085,8 +1078,6 @@ Public Class TweenMain
             ListTab.ImageList = Nothing
         End If
 
-        'TimerColorize.Interval = 200
-        'TimerColorize.Start()
         _ignoreConfigSave = False
         Me.TweenMain_Resize(Nothing, Nothing)
         If saveRequired Then SaveConfigsAll(False)
@@ -2874,7 +2865,6 @@ Public Class TweenMain
     End Sub
 
     Private Sub SettingStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SettingStripMenuItem.Click, SettingFileMenuItem.Click
-        'Dim chgUseApi As Boolean = False
         Dim result As DialogResult
 
         Try
@@ -2887,14 +2877,6 @@ Public Class TweenMain
                 Try
                     If SettingDialog.TimelinePeriodInt > 0 Then
                         _homeCounterAdjuster = 0
-                        'If SettingDialog.PeriodAdjust AndAlso Not SettingDialog.UseAPI Then
-                        '    If SettingDialog.TimelinePeriodInt < _homeCounter - _homeCounterAdjuster Then
-                        '        _homeCounter = SettingDialog.TimelinePeriodInt
-                        '        _homeCounterAdjuster = 0
-                        '    End If
-                        'Else
-                        '    _homeCounterAdjuster = 0
-                        'End If
                     End If
                 Catch ex As Exception
                     ex.Data("Instance") = "Set Timers"
@@ -2913,11 +2895,6 @@ Public Class TweenMain
                 HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl
                 HttpTwitter.TwitterSearchUrl = _cfgCommon.TwitterSearchUrl
 
-                'Twitter.SelectedProxyType = SettingDialog.SelectedProxyType
-                'Twitter.ProxyAddress = SettingDialog.ProxyAddress
-                'Twitter.ProxyPort = SettingDialog.ProxyPort
-                'Twitter.ProxyUser = SettingDialog.ProxyUser
-                'Twitter.ProxyPassword = SettingDialog.ProxyPassword
                 HttpConnection.InitializeConnection(SettingDialog.DefaultTimeOut, _
                                                     SettingDialog.SelectedProxyType, _
                                                     SettingDialog.ProxyAddress, _
@@ -3096,8 +3073,6 @@ Public Class TweenMain
 
         Me.TopMost = SettingDialog.AlwaysTop
         SaveConfigsAll(False)
-
-        'If chgUseApi AndAlso SettingDialog.OneWayLove Then doGetFollowersMenu(False) 'API使用を切り替えたら取り直し
     End Sub
 
     Private Sub PostBrowser_Navigated(ByVal sender As Object, ByVal e As System.Windows.Forms.WebBrowserNavigatedEventArgs) Handles PostBrowser.Navigated
