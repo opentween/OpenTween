@@ -48,11 +48,6 @@ Public Class ShowUserInfo
     Private MyOwner As TweenMain
     Private FriendshipResult As String = ""
 
-    Dim TextBoxName As New TextBox
-    Dim TextBoxLocation As New TextBox
-    Dim TextBoxWeb As New TextBox
-    Dim TextBoxDescription As New TextBox
-
     Private Class UserInfo
         Public Id As Int64 = 0
         Public Name As String = ""
@@ -459,7 +454,7 @@ Public Class ShowUserInfo
             TextBoxName.BackColor = MyOwner.InputBackColor
             TextBoxName.MaxLength = 20
             TextBoxName.Text = LabelName.Text
-            Me.Controls.Add(TextBoxName)
+            TextBoxName.Visible = True
             LabelName.Visible = False
 
             TextBoxLocation.Location = LabelLocation.Location
@@ -468,7 +463,7 @@ Public Class ShowUserInfo
             TextBoxLocation.BackColor = MyOwner.InputBackColor
             TextBoxLocation.MaxLength = 30
             TextBoxLocation.Text = LabelLocation.Text
-            Me.Controls.Add(TextBoxLocation)
+            TextBoxLocation.Visible = True
             LabelLocation.Visible = False
 
             TextBoxWeb.Location = LinkLabelWeb.Location
@@ -477,7 +472,7 @@ Public Class ShowUserInfo
             TextBoxWeb.BackColor = MyOwner.InputBackColor
             TextBoxWeb.MaxLength = 100
             TextBoxWeb.Text = _info.Url
-            Me.Controls.Add(TextBoxWeb)
+            TextBoxWeb.Visible = True
             LinkLabelWeb.Visible = False
 
             TextBoxDescription.Location = DescriptionBrowser.Location
@@ -488,7 +483,7 @@ Public Class ShowUserInfo
             TextBoxDescription.Text = _info.Description
             TextBoxDescription.Multiline = True
             TextBoxDescription.ScrollBars = ScrollBars.Vertical
-            Me.Controls.Add(TextBoxDescription)
+            TextBoxDescription.Visible = True
             DescriptionBrowser.Visible = False
 
             IsEditing = True
@@ -520,22 +515,22 @@ Public Class ShowUserInfo
 
             LabelName.Text = TextBoxName.Text
             _info.Name = LabelName.Text
-            Me.Controls.Remove(TextBoxName)
+            TextBoxName.Visible = False
             LabelName.Visible = True
 
             LabelLocation.Text = TextBoxLocation.Text
             _info.Location = LabelLocation.Text
-            Me.Controls.Remove(TextBoxLocation)
+            TextBoxLocation.Visible = False
             LabelLocation.Visible = True
 
             SetLinklabelWeb(TextBoxWeb.Text)
             _info.Url = TextBoxWeb.Text
-            Me.Controls.Remove(TextBoxWeb)
+            TextBoxWeb.Visible = False
             LinkLabelWeb.Visible = True
 
             DescriptionBrowser.DocumentText = MakeDescriptionBrowserText(TextBoxDescription.Text)
             _info.Description = TextBoxDescription.Text
-            Me.Controls.Remove(TextBoxDescription)
+            TextBoxDescription.Visible = False
             DescriptionBrowser.Visible = True
 
             IsEditing = False

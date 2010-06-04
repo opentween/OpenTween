@@ -68,6 +68,10 @@ Partial Class ShowUserInfo
         Me.RecentPostBrowser = New System.Windows.Forms.WebBrowser()
         Me.DescriptionBrowser = New System.Windows.Forms.WebBrowser()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.TextBoxName = New System.Windows.Forms.TextBox()
+        Me.TextBoxLocation = New System.Windows.Forms.TextBox()
+        Me.TextBoxWeb = New System.Windows.Forms.TextBox()
+        Me.TextBoxDescription = New System.Windows.Forms.TextBox()
         CType(Me.UserPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ContextMenuStrip2.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
@@ -335,11 +339,35 @@ Partial Class ShowUserInfo
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
+        'TextBoxName
+        '
+        resources.ApplyResources(Me.TextBoxName, "TextBoxName")
+        Me.TextBoxName.Name = "TextBoxName"
+        '
+        'TextBoxLocation
+        '
+        resources.ApplyResources(Me.TextBoxLocation, "TextBoxLocation")
+        Me.TextBoxLocation.Name = "TextBoxLocation"
+        '
+        'TextBoxWeb
+        '
+        resources.ApplyResources(Me.TextBoxWeb, "TextBoxWeb")
+        Me.TextBoxWeb.Name = "TextBoxWeb"
+        '
+        'TextBoxDescription
+        '
+        resources.ApplyResources(Me.TextBoxDescription, "TextBoxDescription")
+        Me.TextBoxDescription.Name = "TextBoxDescription"
+        '
         'ShowUserInfo
         '
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.ButtonClose
+        Me.Controls.Add(Me.TextBoxDescription)
+        Me.Controls.Add(Me.TextBoxWeb)
+        Me.Controls.Add(Me.TextBoxLocation)
+        Me.Controls.Add(Me.TextBoxName)
         Me.Controls.Add(Me.ButtonEdit)
         Me.Controls.Add(Me.LabelId)
         Me.Controls.Add(Me.Label12)
@@ -433,4 +461,8 @@ Partial Class ShowUserInfo
     Friend WithEvents ContextMenuStrip2 As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents ChangeIconToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents OpenFileDialog1 As System.Windows.Forms.OpenFileDialog
+    Friend WithEvents TextBoxName As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxLocation As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxWeb As System.Windows.Forms.TextBox
+    Friend WithEvents TextBoxDescription As System.Windows.Forms.TextBox
 End Class
