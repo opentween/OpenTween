@@ -486,6 +486,9 @@ Public Class ShowUserInfo
             TextBoxDescription.Visible = True
             DescriptionBrowser.Visible = False
 
+            TextBoxName.Focus()
+            TextBoxName.Select(TextBoxName.Text.Length, 0)
+
             IsEditing = True
         Else
             Dim arg As New UpdateProfileArgs
