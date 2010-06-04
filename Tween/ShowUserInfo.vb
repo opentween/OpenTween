@@ -153,7 +153,6 @@ Public Class ShowUserInfo
             Exit Sub
         End If
 
-
         'アイコンロード
         BackgroundWorkerImageLoader.RunWorkerAsync()
 
@@ -200,8 +199,10 @@ Public Class ShowUserInfo
 
         If MyOwner.TwitterInstance.Username = _info.ScreenName Then
             ButtonEdit.Enabled = True
+            ChangeIconToolStripMenuItem.Enabled = True
         Else
             ButtonEdit.Enabled = False
+            ChangeIconToolStripMenuItem.Enabled = False
         End If
     End Sub
 
@@ -275,7 +276,7 @@ Public Class ShowUserInfo
         End If
     End Sub
 
-    Private Sub BackgroundWorker1_DoWork(ByVal sender As System.Object, ByVal e As System.ComponentModel.DoWorkEventArgs) Handles BackgroundWorkerImageLoader.DoWork
+    Private Sub BackgroundWorkerImageLoader_DoWork(ByVal sender As System.Object, ByVal e As System.ComponentModel.DoWorkEventArgs) Handles BackgroundWorkerImageLoader.DoWork
         Try
             icondata = (New HttpVarious).GetImage(_info.ImageUrl.ToString())
         Catch ex As Exception
@@ -288,7 +289,7 @@ Public Class ShowUserInfo
         FriendshipResult = MyOwner.TwitterInstance.GetFriendshipInfo(_info.ScreenName, _info.isFollowing, _info.isFollowed)
     End Sub
 
-    Private Sub BackgroundWorker1_RunWorkerCompleted(ByVal sender As System.Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles BackgroundWorkerImageLoader.RunWorkerCompleted
+    Private Sub BackgroundWorkerImageLoader_RunWorkerCompleted(ByVal sender As System.Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles BackgroundWorkerImageLoader.RunWorkerCompleted
         Try
             If icondata IsNot Nothing Then
                 UserPicture.Image = icondata
@@ -455,6 +456,7 @@ Public Class ShowUserInfo
             TextBoxName.Location = LabelName.Location
             TextBoxName.Height = LabelName.Height
             TextBoxName.Width = LabelName.Width
+            TextBoxName.BackColor = MyOwner.InputBackColor
             TextBoxName.MaxLength = 20
             TextBoxName.Text = LabelName.Text
             Me.Controls.Add(TextBoxName)
@@ -463,6 +465,7 @@ Public Class ShowUserInfo
             TextBoxLocation.Location = LabelLocation.Location
             TextBoxLocation.Height = LabelLocation.Height
             TextBoxLocation.Width = LabelLocation.Width
+            TextBoxLocation.BackColor = MyOwner.InputBackColor
             TextBoxLocation.MaxLength = 30
             TextBoxLocation.Text = LabelLocation.Text
             Me.Controls.Add(TextBoxLocation)
@@ -471,6 +474,7 @@ Public Class ShowUserInfo
             TextBoxWeb.Location = LinkLabelWeb.Location
             TextBoxWeb.Height = LinkLabelWeb.Height
             TextBoxWeb.Width = LinkLabelWeb.Width
+            TextBoxWeb.BackColor = MyOwner.InputBackColor
             TextBoxWeb.MaxLength = 100
             TextBoxWeb.Text = _info.Url
             Me.Controls.Add(TextBoxWeb)
@@ -479,6 +483,7 @@ Public Class ShowUserInfo
             TextBoxDescription.Location = DescriptionBrowser.Location
             TextBoxDescription.Height = DescriptionBrowser.Height
             TextBoxDescription.Width = DescriptionBrowser.Width
+            TextBoxDescription.BackColor = MyOwner.InputBackColor
             TextBoxDescription.MaxLength = 160
             TextBoxDescription.Text = _info.Description
             TextBoxDescription.Multiline = True
@@ -490,21 +495,28 @@ Public Class ShowUserInfo
         Else
             Dim arg As New UpdateProfileArgs
 
-            arg.tw = MyOwner.TwitterInstance
-            arg.name = TextBoxName.Text
-            arg.url = TextBoxWeb.Text
-            arg.location = TextBoxLocation.Text
-            arg.description = TextBoxDescription.Text
+            If TextBoxName.Modified OrElse _
+                TextBoxLocation.Modified OrElse _
+                TextBoxWeb.Modified OrElse _
+                TextBoxDescription.Modified Then
 
-            Using dlg As New FormInfo("プロフィール更新中・・・", _
-                                        AddressOf UpdateProfile_Dowork, _
-                                        Nothing, _
-                                        arg)
-                dlg.ShowDialog()
-                If Not String.IsNullOrEmpty(dlg.Result.ToString) Then
-                    Exit Sub
-                End If
-            End Using
+                arg.tw = MyOwner.TwitterInstance
+                arg.name = TextBoxName.Text
+                arg.url = TextBoxWeb.Text
+                arg.location = TextBoxLocation.Text
+                arg.description = TextBoxDescription.Text
+
+                Using dlg As New FormInfo("プロフィール更新中・・・", _
+                                            AddressOf UpdateProfile_Dowork, _
+                                            Nothing, _
+                                            arg)
+                    dlg.ShowDialog()
+                    If Not String.IsNullOrEmpty(dlg.Result.ToString) Then
+                        Exit Sub
+                    End If
+                End Using
+            End If
+
 
             LabelName.Text = TextBoxName.Text
             _info.Name = LabelName.Text
@@ -529,24 +541,76 @@ Public Class ShowUserInfo
             IsEditing = False
         End If
 
+    End Sub
+
+    Class UpdateProfileImageArgs
+        Public tw As Twitter
+        Public FileName As String
+    End Class
+
+    Private Sub UpdateProfileImage_Dowork(ByVal sender As Object, ByVal e As DoWorkEventArgs)
+        Dim arg As UpdateProfileImageArgs = DirectCast(e.Argument, UpdateProfileImageArgs)
+        e.Result = arg.tw.PostUpdateProfileImage(arg.FileName)
+    End Sub
+
+#Region "変更後アイコン取得（Twitterの仕様により正常動作しない）"
+    Private Sub UpdateProfileImage_RunWorkerCompleted(ByVal sender As Object, ByVal e As RunWorkerCompletedEventArgs)
+        Dim res As String = ""
+        Dim xdocbuf As String = ""
+
+        If e.Result Is Nothing Then
+            Exit Sub
+        End If
+
+
+        ' アイコンを取得してみる
+        ' が、古いアイコンのユーザーデータが返ってくるため反映/判断できない
+
+        res = MyOwner.TwitterInstance.GetUserInfo(_info.ScreenName, xdocbuf)
+
+        Dim xdoc As New XmlDocument
+        Dim img As Image
+        Try
+            xdoc.LoadXml(xdocbuf)
+            _info.ImageUrl = New Uri(xdoc.SelectSingleNode("/user/profile_image_url").InnerText)
+            img = (New HttpVarious).GetImage(_info.ImageUrl.ToString)
+            If img IsNot Nothing Then
+                UserPicture.Image = img
+            End If
+        Catch ex As Exception
+
+        End Try
 
     End Sub
+#End Region
 
     Private Sub ChangeIconToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChangeIconToolStripMenuItem.Click
         OpenFileDialog1.Filter = "画像ファイル(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png|すべてのファイル(*.*)|*.*"
         OpenFileDialog1.Title = "サイズ700KBまでのアイコン画像ファイルを選択してください"
+        OpenFileDialog1.FileName = ""
 
-        If OpenFileDialog1.ShowDialog() = DialogResult.No Then
+        Dim rslt As Windows.Forms.DialogResult = OpenFileDialog1.ShowDialog
+
+        If rslt <> Windows.Forms.DialogResult.OK Then
             Exit Sub
         End If
 
-        Dim res As String = MyOwner.TwitterInstance.PostUpdateProfileImage(OpenFileDialog1.FileName)
+        Dim res As String = ""
+        Dim arg As New UpdateProfileImageArgs With {.tw = MyOwner.TwitterInstance, .FileName = OpenFileDialog1.FileName}
 
-        If Not String.IsNullOrEmpty(res) Then
-            MessageBox.Show("ChangeIcon:Fail")
-        Else
-            MessageBox.Show("ChangeIcon:Success")
-        End If
+        Using dlg As New FormInfo("アイコン設定中・・・", _
+                                  AddressOf UpdateProfileImage_Dowork, _
+                                  AddressOf UpdateProfileImage_RunWorkerCompleted,
+                                  arg)
+            dlg.ShowDialog()
+            res = TryCast(dlg.Result, String)
+            If Not String.IsNullOrEmpty(res) Then
+                ' "Err:"が付いたエラーメッセージが返ってくる
+                MessageBox.Show(res + vbCrLf + "注意：Twitterの仕様により、エラーが発生してもアイコンが変更できている場合があります。発言の際にご確認ください。")
+            Else
+                MessageBox.Show("アイコンを変更しました。 次回発言より反映されます。")
+            End If
+        End Using
 
     End Sub
 End Class

@@ -4992,6 +4992,15 @@ RETRY:
         StatusText.BackColor = _clInputBackcolor
     End Sub
 
+    Public Property InputBackColor() As System.Drawing.Color
+        Get
+            Return _clInputBackcolor
+        End Get
+        Set(ByVal value As System.Drawing.Color)
+            _clInputBackcolor = value
+        End Set
+    End Property
+
     Private Sub StatusText_Leave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StatusText.Leave
         ' フォーカスがメニューに遷移しないならばフォーカスはタブに移ることを期待
         If ListTab.SelectedTab IsNot Nothing AndAlso MenuStrip1.Tag Is Nothing Then Me.Tag = ListTab.SelectedTab.Tag
