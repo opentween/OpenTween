@@ -8267,7 +8267,7 @@ RETRY:
                 ' 画像直リンク
                 Dim img As Image = http.GetImage(url.Value, url.Key)
                 If img Is Nothing Then Continue For
-                arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, img))
+                arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, CheckValidImage(img)))
                 arg.tooltiptext.Add(New KeyValuePair(Of String, String)(url.Key, ""))
             ElseIf url.Key.StartsWith("http://www.pixiv.net/") Then
                 Dim src As String = ""
@@ -8282,7 +8282,7 @@ RETRY:
                         If _mc.Success Then
                             Dim _img As Image = http.GetImage(_mc.Value, url.Key)
                             If _img Is Nothing Then Continue For
-                            arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, _img))
+                            arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, CheckValidImage(_img)))
                             arg.tooltiptext.Add(New KeyValuePair(Of String, String)(url.Key, ""))
                         End If
                     End If
@@ -8297,7 +8297,7 @@ RETRY:
                         If _mc.Count > 1 Then
                             Dim _img As Image = http.GetImage(_mc.Item(1).Value, url.Key)
                             If _img Is Nothing Then Continue For
-                            arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, _img))
+                            arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, CheckValidImage(_img)))
                             arg.tooltiptext.Add(New KeyValuePair(Of String, String)(url.Key, ""))
                         End If
                     End If
@@ -8315,7 +8315,7 @@ RETRY:
                             Dim min_img_url As String = r.Replace(_mc.Value, "_0120_0120")
                             Dim _img As Image = http.GetImage(min_img_url, url.Key)
                             If _img Is Nothing Then Continue For
-                            arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, _img))
+                            arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, CheckValidImage(_img)))
                             arg.tooltiptext.Add(New KeyValuePair(Of String, String)(url.Key, ""))
                         End If
                     End If
@@ -8338,7 +8338,7 @@ RETRY:
                         If String.IsNullOrEmpty(thumbnail_url) Then Continue For
                         Dim _img As Image = http.GetImage(thumbnail_url, url.Key)
                         If _img Is Nothing Then Continue For
-                        arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, _img))
+                        arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, CheckValidImage(_img)))
                         arg.tooltiptext.Add(New KeyValuePair(Of String, String)(url.Key, ""))
                         Continue For
                     End If
@@ -8371,7 +8371,7 @@ RETRY:
                     If Not String.IsNullOrEmpty(imgurl) Then
                         Dim _img As Image = http.GetImage(imgurl, url.Key)
                         If _img Is Nothing Then Continue For
-                        arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, _img))
+                        arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, CheckValidImage(_img)))
                         arg.tooltiptext.Add(New KeyValuePair(Of String, String)(url.Key, ""))
                     End If
                 End If
@@ -8479,7 +8479,7 @@ RETRY:
                     If Not String.IsNullOrEmpty(imgurl) Then
                         Dim _img As Image = http.GetImage(imgurl, url.Key)
                         If _img Is Nothing Then Continue For
-                        arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, _img))
+                        arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, CheckValidImage(_img)))
                         arg.tooltiptext.Add(New KeyValuePair(Of String, String)(url.Key, sb.ToString.Trim()))
                     End If
                 End If
@@ -8505,7 +8505,7 @@ RETRY:
                         If String.IsNullOrEmpty(thumbnail_url) Then Continue For
                         Dim _img As Image = http.GetImage(thumbnail_url, url.Key)
                         If _img Is Nothing Then Continue For
-                        arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, _img))
+                        arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, CheckValidImage(_img)))
                         arg.tooltiptext.Add(New KeyValuePair(Of String, String)(url.Key, ""))
                         Continue For
                     End If
@@ -8515,7 +8515,7 @@ RETRY:
                 ' 直リンクでなく、パターンに合致しない
                 Dim img As Image = http.GetImage(url.Value, url.Key)
                 If img Is Nothing Then Continue For
-                arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, img))
+                arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, CheckValidImage(img)))
                 arg.tooltiptext.Add(New KeyValuePair(Of String, String)(url.Key, ""))
             End If
         Next

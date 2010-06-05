@@ -40,6 +40,7 @@ Partial Class TweenMain
         Me.HashToggleMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HashManageMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.TimelinePanel = New System.Windows.Forms.Panel()
         Me.ListTab = New System.Windows.Forms.TabControl()
         Me.ContextMenuTabProperty = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.AddTabMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -55,6 +56,7 @@ Partial Class TweenMain
         Me.ToolStripSeparator11 = New System.Windows.Forms.ToolStripSeparator()
         Me.DeleteTabMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TabImage = New System.Windows.Forms.ImageList(Me.components)
+        Me.ProfilePanel = New System.Windows.Forms.Panel()
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
@@ -245,8 +247,6 @@ Partial Class TweenMain
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.TimelinePanel = New System.Windows.Forms.Panel()
-        Me.ProfilePanel = New System.Windows.Forms.Panel()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -256,6 +256,7 @@ Partial Class TweenMain
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        Me.TimelinePanel.SuspendLayout()
         Me.ContextMenuTabProperty.SuspendLayout()
         Me.SplitContainer3.Panel1.SuspendLayout()
         Me.SplitContainer3.Panel2.SuspendLayout()
@@ -272,7 +273,6 @@ Partial Class TweenMain
         Me.MenuStrip1.SuspendLayout()
         Me.ContextMenuStrip2.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
-        Me.TimelinePanel.SuspendLayout()
         Me.SuspendLayout()
         '
         'ToolStripContainer1
@@ -402,6 +402,12 @@ Partial Class TweenMain
         Me.SplitContainer1.Panel2.Controls.Add(Me.SplitContainer3)
         Me.SplitContainer1.TabStop = False
         '
+        'TimelinePanel
+        '
+        Me.TimelinePanel.Controls.Add(Me.ListTab)
+        resources.ApplyResources(Me.TimelinePanel, "TimelinePanel")
+        Me.TimelinePanel.Name = "TimelinePanel"
+        '
         'ListTab
         '
         resources.ApplyResources(Me.ListTab, "ListTab")
@@ -489,6 +495,11 @@ Partial Class TweenMain
         Me.TabImage.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit
         resources.ApplyResources(Me.TabImage, "TabImage")
         Me.TabImage.TransparentColor = System.Drawing.Color.Transparent
+        '
+        'ProfilePanel
+        '
+        resources.ApplyResources(Me.ProfilePanel, "ProfilePanel")
+        Me.ProfilePanel.Name = "ProfilePanel"
         '
         'SplitContainer3
         '
@@ -1513,17 +1524,6 @@ Partial Class TweenMain
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'TimelinePanel
-        '
-        Me.TimelinePanel.Controls.Add(Me.ListTab)
-        resources.ApplyResources(Me.TimelinePanel, "TimelinePanel")
-        Me.TimelinePanel.Name = "TimelinePanel"
-        '
-        'ProfilePanel
-        '
-        resources.ApplyResources(Me.ProfilePanel, "ProfilePanel")
-        Me.ProfilePanel.Name = "ProfilePanel"
-        '
         'TweenMain
         '
         Me.AllowDrop = True
@@ -1545,6 +1545,7 @@ Partial Class TweenMain
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        Me.TimelinePanel.ResumeLayout(False)
         Me.ContextMenuTabProperty.ResumeLayout(False)
         Me.SplitContainer3.Panel1.ResumeLayout(False)
         Me.SplitContainer3.Panel2.ResumeLayout(False)
@@ -1564,7 +1565,6 @@ Partial Class TweenMain
         Me.MenuStrip1.PerformLayout()
         Me.ContextMenuStrip2.ResumeLayout(False)
         Me.ContextMenuStrip1.ResumeLayout(False)
-        Me.TimelinePanel.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
