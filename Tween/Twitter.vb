@@ -378,34 +378,9 @@ Public Class Twitter
                             g.Dispose()
                         End Using
 
-                        If img.RawFormat.Guid = Imaging.ImageFormat.Gif.Guid Then
-                            Dim fd As New System.Drawing.Imaging.FrameDimension(img.FrameDimensionsList(0))
-                            Dim fd_count As Integer = img.GetFrameCount(fd)
-                            If fd_count > 1 Then
-                                Try
-                                    For i As Integer = 0 To fd_count - 1
-                                        img.SelectActiveFrame(fd, i)
-                                    Next
-                                    _dIcon.Add(post.ImageUrl, img)  '詳細表示用ディクショナリに追加
-                                Catch ex As Exception
-                                    Dim bmp As New Bitmap(48, 48)
-                                    Using g As Graphics = Graphics.FromImage(bmp)
-                                        g.InterpolationMode = Drawing2D.InterpolationMode.High
-                                        g.DrawImage(img, 0, 0, 48, 48)
-                                    End Using
-                                    _dIcon.Add(post.ImageUrl, bmp)  '詳細表示用ディクショナリに追加
-                                    img.Dispose()
-                                End Try
-                            Else
-                                _dIcon.Add(post.ImageUrl, img)  '詳細表示用ディクショナリに追加
-                            End If
-                            _lIcon.Images.Add(post.ImageUrl, bmp2)
-                            post.ImageIndex = _lIcon.Images.IndexOfKey(post.ImageUrl)
-                        Else
-                            _dIcon.Add(post.ImageUrl, img)
-                            _lIcon.Images.Add(post.ImageUrl, bmp2)
-                            post.ImageIndex = _lIcon.Images.IndexOfKey(post.ImageUrl)
-                        End If
+                        _dIcon.Add(post.ImageUrl, CheckValidImage(img))
+                        _lIcon.Images.Add(post.ImageUrl, bmp2)
+                        post.ImageIndex = _lIcon.Images.IndexOfKey(post.ImageUrl)
                     Catch ex As InvalidOperationException
                         'タイミングにより追加できない場合がある？（キー重複ではない）
                         post.ImageIndex = -1
