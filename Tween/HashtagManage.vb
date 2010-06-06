@@ -90,7 +90,10 @@ Public Class HashtagManage
 
         For Each l As Object In list
             Dim src As String = TryCast(l, String)
-            If String.IsNullOrEmpty(src) Then Continue For
+            If String.IsNullOrEmpty(src) Then
+                idx += 1
+                Continue For
+            End If
             If String.Compare(src, value, True) = 0 Then
                 Return idx
             End If
