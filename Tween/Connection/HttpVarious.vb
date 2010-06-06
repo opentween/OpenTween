@@ -26,26 +26,17 @@ Public Class HttpVarious
     End Function
 
     Public Overloads Function GetImage(ByVal url As String) As Image
-        Try
-            Dim req As HttpWebRequest = CreateRequest(GetMethod, New Uri(url), Nothing, False)
-            req.Timeout = 5000
-            Dim img As Bitmap = Nothing
-            Dim ret As HttpStatusCode = GetResponse(req, img, Nothing, False)
-            If ret = HttpStatusCode.OK Then Return img
-            Return Nothing
-        Catch ex As Exception
-            Return Nothing
-        End Try
+        Return GetImage(url, "")
     End Function
 
     Public Overloads Function GetImage(ByVal url As String, ByVal referer As String) As Image
         Try
             Dim req As HttpWebRequest = CreateRequest(GetMethod, New Uri(url), Nothing, False)
-            req.Referer = referer
+            If Not String.IsNullOrEmpty(referer) Then req.Referer = referer
             req.Timeout = 5000
             Dim img As Bitmap = Nothing
             Dim ret As HttpStatusCode = GetResponse(req, img, Nothing, False)
-            If ret = HttpStatusCode.OK Then Return img
+            If ret = HttpStatusCode.OK Then Return CheckValidImage(img)
             Return Nothing
         Catch ex As Exception
             Return Nothing
@@ -123,4 +114,35 @@ Public Class HttpVarious
             Return False
         End Try
     End Function
+
+    Private Function CheckValidImage(ByVal img As Image) As Image
+        If img Is Nothing Then Return Nothing
+
+        If img.RawFormat.Guid = Imaging.ImageFormat.Gif.Guid Then
+            Dim fd As New System.Drawing.Imaging.FrameDimension(img.FrameDimensionsList(0))
+            Dim fd_count As Integer = img.GetFrameCount(fd)
+            If fd_count > 1 Then
+                Try
+                    For i As Integer = 0 To fd_count - 1
+                        img.SelectActiveFrame(fd, i)
+                    Next
+                    Return img
+                Catch ex As Exception
+                    '不正な画像の場合は、bitmapに書き直し
+                    Dim bmp As New Bitmap(48, 48)
+                    Using g As Graphics = Graphics.FromImage(bmp)
+                        g.InterpolationMode = Drawing2D.InterpolationMode.High
+                        g.DrawImage(img, 0, 0, 48, 48)
+                    End Using
+                    img.Dispose()
+                    Return bmp
+                End Try
+            Else
+                Return img
+            End If
+        Else
+            Return img
+        End If
+    End Function
+
 End Class
