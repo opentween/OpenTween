@@ -82,21 +82,43 @@ Public Class HashtagManage
         HistoryHashList.SelectedIndices.Clear()
     End Sub
 
+    Private Function GetIndexOf(ByVal list As ListBox.ObjectCollection, ByVal value As String) As Integer
+
+        If String.IsNullOrEmpty(value) Then Return -1
+
+        Dim idx As Integer = 0
+
+        For Each l As Object In list
+            Dim src As String = TryCast(l, String)
+            If String.IsNullOrEmpty(src) Then Continue For
+            If String.Compare(src, value, True) = 0 Then
+                Return idx
+            End If
+            idx += 1
+        Next
+
+        ' Not Found
+        Return -1
+    End Function
+
     Public Sub AddHashToHistory(ByVal hash As String, ByVal isIgnorePermanent As Boolean)
         hash = hash.Trim
         If hash <> "" Then
             If isIgnorePermanent OrElse Not _isPermanent Then
                 '無条件に先頭に挿入
-                If HistoryHashList.Items.Contains(hash) Then HistoryHashList.Items.Remove(hash)
+                Dim idx As Integer = GetIndexOf(HistoryHashList.Items, hash)
+
+                If idx <> -1 Then HistoryHashList.Items.RemoveAt(idx)
                 HistoryHashList.Items.Insert(0, hash)
             Else
                 '固定されていたら2行目に挿入
+                Dim idx As Integer = GetIndexOf(HistoryHashList.Items, hash)
                 If _isPermanent Then
-                    If HistoryHashList.Items.IndexOf(hash) > 0 Then
+                    If idx > 0 Then
                         '重複アイテムが2行目以降にあれば2行目へ
-                        HistoryHashList.Items.Remove(hash)
+                        HistoryHashList.Items.RemoveAt(idx)
                         HistoryHashList.Items.Insert(1, hash)
-                    ElseIf HistoryHashList.Items.IndexOf(hash) = -1 Then
+                    ElseIf idx = -1 Then
                         '重複アイテムなし
                         If HistoryHashList.Items.Count = 0 Then
                             'リストが空なら追加
