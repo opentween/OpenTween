@@ -120,20 +120,11 @@
   <data name="ButtonClose.Text" xml:space="preserve">
     <value>关闭</value>
   </data>
-  <data name="ButtonClose.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="Label1.Text" xml:space="preserve">
     <value>昵称</value>
   </data>
-  <data name="Label1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="Label2.Text" xml:space="preserve">
     <value>所在地</value>
-  </data>
-  <data name="Label2.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="Label3.Size" type="System.Drawing.Size, System.Drawing">
@@ -142,26 +133,11 @@
   <data name="Label3.Text" xml:space="preserve">
     <value>网站</value>
   </data>
-  <data name="Label3.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="Label4.Size" type="System.Drawing.Size, System.Drawing">
     <value>29, 12</value>
   </data>
   <data name="Label4.Text" xml:space="preserve">
     <value>简介</value>
-  </data>
-  <data name="Label4.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="LinkLabelWeb.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="LabelLocation.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="LabelName.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="Label5.Size" type="System.Drawing.Size, System.Drawing">
     <value>41, 12</value>
@@ -169,32 +145,14 @@
   <data name="Label5.Text" xml:space="preserve">
     <value>好友数</value>
   </data>
-  <data name="Label5.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="Label6.Size" type="System.Drawing.Size, System.Drawing">
     <value>41, 12</value>
   </data>
   <data name="Label6.Text" xml:space="preserve">
     <value>关注数</value>
   </data>
-  <data name="Label6.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="LinkLabelFollowing.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="LinkLabelFollowers.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="Label7.Text" xml:space="preserve">
     <value>注册时间</value>
-  </data>
-  <data name="Label7.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="LabelCreatedAt.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="Label8.Size" type="System.Drawing.Size, System.Drawing">
     <value>41, 12</value>
@@ -202,35 +160,17 @@
   <data name="Label8.Text" xml:space="preserve">
     <value>消息数</value>
   </data>
-  <data name="Label8.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="LinkLabelTweet.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="Label9.Size" type="System.Drawing.Size, System.Drawing">
     <value>41, 12</value>
   </data>
   <data name="Label9.Text" xml:space="preserve">
     <value>收藏数</value>
   </data>
-  <data name="Label9.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="LinkLabelFav.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="ButtonFollow.Text" xml:space="preserve">
     <value>关注</value>
   </data>
-  <data name="ButtonFollow.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="ButtonUnFollow.Text" xml:space="preserve">
     <value>取消关注</value>
-  </data>
-  <data name="ButtonUnFollow.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="Label10.Size" type="System.Drawing.Size, System.Drawing">
     <value>95, 12</value>
@@ -238,20 +178,11 @@
   <data name="Label10.Text" xml:space="preserve">
     <value>受保护(Protect)</value>
   </data>
-  <data name="Label10.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="LabelIsProtected.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="LabelIsFollowing.Size" type="System.Drawing.Size, System.Drawing">
     <value>77, 12</value>
   </data>
   <data name="LabelIsFollowing.Text" xml:space="preserve">
     <value>正在关注此人</value>
-  </data>
-  <data name="LabelIsFollowing.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="LabelIsFollowed.Size" type="System.Drawing.Size, System.Drawing">
     <value>77, 12</value>
@@ -259,23 +190,23 @@
   <data name="LabelIsFollowed.Text" xml:space="preserve">
     <value>正被此人关注</value>
   </data>
-  <data name="LabelIsFollowed.ToolTip" xml:space="preserve">
-    <value />
+  <data name="ChangeIconToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>122, 22</value>
   </data>
-  <data name="ContextMenuStrip2.ToolTip" xml:space="preserve">
-    <value />
+  <data name="ChangeIconToolStripMenuItem.Text" xml:space="preserve">
+    <value>修改头像</value>
   </data>
-  <data name="UserPicture.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="LabelScreenName.ToolTip" xml:space="preserve">
-    <value />
+  <data name="ContextMenuStrip2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>123, 26</value>
   </data>
   <data name="LinkLabel1.Size" type="System.Drawing.Size, System.Drawing">
     <value>101, 12</value>
   </data>
   <data name="LinkLabel1.Text" xml:space="preserve">
     <value>已认证(Verified)</value>
+  </data>
+  <data name="ContextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>161, 48</value>
   </data>
   <data name="SelectionCopyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>160, 22</value>
@@ -289,58 +220,22 @@
   <data name="SelectAllToolStripMenuItem.Text" xml:space="preserve">
     <value>选择全部</value>
   </data>
-  <data name="ContextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>161, 48</value>
-  </data>
-  <data name="ContextMenuStrip1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="LabelRecentPost.Size" type="System.Drawing.Size, System.Drawing">
     <value>53, 12</value>
   </data>
   <data name="LabelRecentPost.Text" xml:space="preserve">
     <value>最近消息</value>
   </data>
-  <data name="LabelRecentPost.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="LabelIsVerified.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="ButtonSearchPosts.Text" xml:space="preserve">
     <value>查看消息</value>
   </data>
-  <data name="ButtonSearchPosts.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="FlowLayoutPanel1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="LabelId.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="Label12.Text" xml:space="preserve">
-    <value>账户ID</value>
-  </data>
-  <data name="Label12.ToolTip" xml:space="preserve">
-    <value />
+    <value>用户ID</value>
   </data>
   <data name="ButtonEdit.Text" xml:space="preserve">
     <value>修改</value>
   </data>
-  <data name="ButtonEdit.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="RecentPostBrowser.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="DescriptionBrowser.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>的用户信息</value>
-  </data>
-  <data name="$this.ToolTip" xml:space="preserve">
-    <value />
   </data>
 </root>

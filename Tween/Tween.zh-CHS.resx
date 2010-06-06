@@ -118,6 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="StatusLabelUrl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>317, 17</value>
+  </data>
   <data name="ToolStripMenuItemUrlMultibyteSplit.Size" type="System.Drawing.Size, System.Drawing">
     <value>235, 22</value>
   </data>
@@ -239,6 +242,12 @@
     <value />
   </data>
   <data name="ListTab.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TimelinePanel.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ProfilePanel.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="SplitContainer1.Panel1.ToolTip" xml:space="preserve">

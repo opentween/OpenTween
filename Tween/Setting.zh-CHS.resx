@@ -199,9 +199,6 @@
   <data name="Label16.Text" xml:space="preserve">
     <value>用颜色区分单向关注</value>
   </data>
-  <data name="GroupBox1.Text" xml:space="preserve">
-    <value>字体和颜色设置</value>
-  </data>
   <data name="btnRetweet.Text" xml:space="preserve">
     <value>文本色</value>
   </data>
@@ -315,6 +312,9 @@
   </data>
   <data name="Label61.Text" xml:space="preserve">
     <value>列表字体</value>
+  </data>
+  <data name="GroupBox1.Text" xml:space="preserve">
+    <value>字体和颜色设置</value>
   </data>
   <data name="cmbNameBalloon.Items" xml:space="preserve">
     <value>无</value>
@@ -445,6 +445,9 @@
   <data name="ComboDispTitle.Items6" xml:space="preserve">
     <value>总未读数/总消息数</value>
   </data>
+  <data name="ComboDispTitle.Items7" xml:space="preserve">
+    <value>消息数/好友数/关注数</value>
+  </data>
   <data name="Label47.Size" type="System.Drawing.Size, System.Drawing">
     <value>101, 12</value>
   </data>
@@ -528,9 +531,6 @@
   </data>
   <data name="CheckPeriodAdjust.Text" xml:space="preserve">
     <value>自动调整</value>
-  </data>
-  <data name="TabPage2.Text" xml:space="preserve">
-    <value>行为</value>
   </data>
   <data name="Label35.Size" type="System.Drawing.Size, System.Drawing">
     <value>77, 12</value>
@@ -631,8 +631,8 @@
   <data name="Button3.Text" xml:space="preserve">
     <value>浏览</value>
   </data>
-  <data name="TabPage3.Text" xml:space="preserve">
-    <value>显示</value>
+  <data name="TabPage2.Text" xml:space="preserve">
+    <value>行为</value>
   </data>
   <data name="Label81.Size" type="System.Drawing.Size, System.Drawing">
     <value>65, 12</value>
@@ -748,6 +748,9 @@
   <data name="chkUnreadStyle.Text" xml:space="preserve">
     <value>启用</value>
   </data>
+  <data name="TabPage3.Text" xml:space="preserve">
+    <value>显示</value>
+  </data>
   <data name="TabPage4.Text" xml:space="preserve">
     <value>字体与颜色</value>
   </data>
@@ -780,9 +783,6 @@
   </data>
   <data name="Label63.Text" xml:space="preserve">
     <value>超时时间(秒)</value>
-  </data>
-  <data name="GroupBox2.Text" xml:space="preserve">
-    <value>代理设置</value>
   </data>
   <data name="Label55.Size" type="System.Drawing.Size, System.Drawing">
     <value>281, 12</value>
@@ -832,8 +832,8 @@
   <data name="RadioProxyNone.Text" xml:space="preserve">
     <value>不使用</value>
   </data>
-  <data name="TabPage6.Text" xml:space="preserve">
-    <value>附加</value>
+  <data name="GroupBox2.Text" xml:space="preserve">
+    <value>代理设置</value>
   </data>
   <data name="CheckNicoms.Size" type="System.Drawing.Size, System.Drawing">
     <value>216, 16</value>
@@ -858,6 +858,9 @@
   </data>
   <data name="CheckOutputz.Text" xml:space="preserve">
     <value>对应Outputz</value>
+  </data>
+  <data name="TabPage6.Text" xml:space="preserve">
+    <value>附加</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>设置</value>

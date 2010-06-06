@@ -801,4 +801,7 @@
   <data name="ShowFriendshipText1" xml:space="preserve">
     <value>正在获取关注状态…</value>
   </data>
+  <data name="OwnStatusTitle" xml:space="preserve">
+    <value>消息数 {0}  好友数 {1}  关注数 {2}({3})</value>
+  </data>
 </root>
