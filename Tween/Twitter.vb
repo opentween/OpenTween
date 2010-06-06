@@ -378,7 +378,7 @@ Public Class Twitter
                             g.Dispose()
                         End Using
 
-                        _dIcon.Add(post.ImageUrl, CheckValidImage(img))
+                        _dIcon.Add(post.ImageUrl, img)
                         _lIcon.Images.Add(post.ImageUrl, bmp2)
                         post.ImageIndex = _lIcon.Images.IndexOfKey(post.ImageUrl)
                     Catch ex As InvalidOperationException
