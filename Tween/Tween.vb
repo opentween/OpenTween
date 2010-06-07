@@ -217,6 +217,20 @@ Public Class TweenMain
 
     Private urlUndoBuffer As Generic.List(Of urlUndo) = Nothing
 
+    Private Structure ReplyChain
+        Public OriginalId As Long
+        Public InReplyToId As Long
+        Public OriginalTab As TabPage
+
+        Sub New(ByVal originalId As Long, ByVal inReplyToId As Long, ByVal originalTab As TabPage)
+            Me.OriginalId = originalId
+            Me.InReplyToId = inReplyToId
+            Me.OriginalTab = originalTab
+        End Sub
+    End Structure
+
+    Private replyChains As Stack(Of ReplyChain)
+
     'Backgroundworkerの処理結果通知用引数構造体
     Private Class GetWorkerResult
         Public retMsg As String = ""                     '処理結果詳細メッセージ。エラー時に値がセットされる
@@ -4446,6 +4460,18 @@ RETRY:
                 e.SuppressKeyPress = True
                 SendKeys.Send("{TAB}")
             End If
+            ' ] in_reply_to前方参照
+            If e.KeyCode = Keys.Oem6 Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                GoInReplyToPost()
+            End If
+            ' [ in_reply_to後方参照
+            If e.KeyCode = Keys.Oem4 Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                GoBackInReplyToPost()
+            End If
         End If
         _anchorFlag = False
         If e.Control AndAlso Not e.Alt AndAlso Not e.Shift Then
@@ -4898,6 +4924,48 @@ RETRY:
         End If
         _curList.EnsureVisible(idx)
     End Sub
+
+    Private Sub GoInReplyToPost()
+        If _curPost IsNot Nothing AndAlso _curPost.InReplyToUser IsNot Nothing AndAlso _curPost.InReplyToId > 0 Then
+            If _statuses.ContainsKey(_curPost.InReplyToId) Then
+                Dim idx As Integer = _statuses.Tabs(_curTab.Text).IndexOf(_curPost.InReplyToId)
+                If idx = -1 Then
+                    Dim repPost As PostClass = _statuses.Item(_curPost.InReplyToId)
+                    MessageBox.Show(repPost.Name + " / " + repPost.Nickname + "   (" + repPost.PDate.ToString() + ")" + Environment.NewLine + repPost.Data)
+                Else
+                    SelectListItem(_curList, idx)
+                    _curList.EnsureVisible(idx)
+                End If
+            Else
+                OpenUriAsync("http://twitter.com/" + _curPost.InReplyToUser + "/statuses/" + _curPost.InReplyToId.ToString())
+            End If
+        End If
+    End Sub
+
+    Private Sub GoBackInReplyToPost()
+        If replyChains Is Nothing OrElse replyChains.Count < 1 Then
+            Exit Sub
+        End If
+
+        Dim chainHead As ReplyChain = replyChains.Pop()
+        If chainHead.InReplyToId = _curPost.Id Then
+            Dim idx As Integer = _statuses.Tabs(chainHead.OriginalTab.Text).IndexOf(chainHead.OriginalId)
+            If idx = -1 Then
+                replyChains = Nothing
+            Else
+                Try
+                    ListTab.SelectTab(chainHead.OriginalTab)
+                Catch ex As Exception
+                    replyChains = Nothing
+                End Try
+                SelectListItem(_curList, idx)
+                _curList.EnsureVisible(idx)
+            End If
+        Else
+            replyChains = Nothing
+        End If
+    End Sub
+
 
     'Private Sub MovePageScroll(ByVal down As Boolean)
     '    Dim _item As ListViewItem
