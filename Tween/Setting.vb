@@ -1,4 +1,6 @@
-﻿' Tween - Client of Twitter
+﻿Imports System.ComponentModel
+
+' Tween - Client of Twitter
 ' Copyright (c) 2007-2010 kiri_feather (@kiri_feather) <kiri_feather@gmail.com>
 '           (c) 2008-2010 Moz (@syo68k) <http://iddy.jp/profile/moz/>
 '           (c) 2008-2010 takeshik (@takeshik) <http://www.takeshik.org/>
@@ -121,7 +123,20 @@ Public Class Setting
     Private _MyTwitterSearchApiUrl As String
     Private _MyPreviewEnable As Boolean
 
+    Private _ValidationError As Boolean = False
+
     Private Sub Save_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Save.Click
+        If Not String.IsNullOrEmpty(TextBitlyId.Text) OrElse Not String.IsNullOrEmpty(TextBitlyPw.Text) Then
+            If Not BitlyValidation(TextBitlyId.Text, TextBitlyPw.Text) Then
+                MessageBox.Show("IDとAPIキーの組み合わせが違います。IDと同時に設定するのはパスワードではなくAPIキーとなっております。ご確認ください。")
+                _ValidationError = True
+                Exit Sub
+            Else
+                _ValidationError = False
+            End If
+        Else
+            _ValidationError = False
+        End If
         Try
             _MyIsOAuth = AuthOAuthRadio.Checked
             _MytimelinePeriod = CType(TimelinePeriod.Text, Integer)
@@ -293,6 +308,9 @@ Public Class Setting
             If MessageBox.Show(My.Resources.Setting_FormClosing1, "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
                 e.Cancel = True
             End If
+        End If
+        If _ValidationError Then
+            e.Cancel = True
         End If
     End Sub
 
@@ -474,6 +492,8 @@ Public Class Setting
         CheckUseSsl.Checked = _MyUseSsl
         TextBitlyId.Text = _MyBitlyId
         TextBitlyPw.Text = _MyBitlyPw
+        TextBitlyId.Modified = False
+        TextBitlyPw.Modified = False
         CheckShowGrid.Checked = _MyShowGrid
         CheckAtIdSupple.Checked = _MyUseAtIdSupplement
         CheckHashSupple.Checked = _MyUseHashSupplement
@@ -1890,6 +1910,34 @@ Public Class Setting
 
     Private Sub ButtonApiCalc_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonApiCalc.Click
         CalcApiUsing()
+    End Sub
+
+    Private Function BitlyValidation(ByVal id As String, ByVal apikey As String) As Boolean
+        If String.IsNullOrEmpty(id) OrElse String.IsNullOrEmpty(apikey) Then
+            Return False
+        End If
+
+        Dim req As String = "http://api.bit.ly/v3/validate"
+        Dim content As String = ""
+        Dim param As New Dictionary(Of String, String)
+
+        param.Add("login", "tweenapi")
+        param.Add("apiKey", "R_c5ee0e30bdfff88723c4457cc331886b")
+        param.Add("x_login", id)
+        param.Add("x_apiKey", apikey)
+        param.Add("format", "txt")
+
+        If Not (New HttpVarious).PostData(req, param, content) Then
+            Return False
+        ElseIf content.Trim() = "1" Then
+            Return True
+        Else
+            Return False
+        End If
+    End Function
+
+    Private Sub Cancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Cancel.Click
+        _ValidationError = False
     End Sub
 End Class
 
