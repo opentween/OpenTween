@@ -266,16 +266,16 @@ Partial Class Setting
         '
         'Save
         '
-        resources.ApplyResources(Me.Save, "Save")
         Me.Save.DialogResult = System.Windows.Forms.DialogResult.OK
+        resources.ApplyResources(Me.Save, "Save")
         Me.Save.Name = "Save"
         Me.Save.UseVisualStyleBackColor = True
         '
         'Cancel
         '
-        resources.ApplyResources(Me.Cancel, "Cancel")
         Me.Cancel.CausesValidation = False
         Me.Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
+        resources.ApplyResources(Me.Cancel, "Cancel")
         Me.Cancel.Name = "Cancel"
         Me.Cancel.UseVisualStyleBackColor = True
         '
@@ -338,9 +338,9 @@ Partial Class Setting
         '
         'Label15
         '
-        resources.ApplyResources(Me.Label15, "Label15")
         Me.Label15.BackColor = System.Drawing.SystemColors.ActiveCaption
         Me.Label15.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        resources.ApplyResources(Me.Label15, "Label15")
         Me.Label15.Name = "Label15"
         '
         'OneWayLv
@@ -356,7 +356,6 @@ Partial Class Setting
         '
         'GroupBox1
         '
-        resources.ApplyResources(Me.GroupBox1, "GroupBox1")
         Me.GroupBox1.Controls.Add(Me.btnRetweet)
         Me.GroupBox1.Controls.Add(Me.lblRetweet)
         Me.GroupBox1.Controls.Add(Me.Label80)
@@ -409,6 +408,7 @@ Partial Class Setting
         Me.GroupBox1.Controls.Add(Me.btnListFont)
         Me.GroupBox1.Controls.Add(Me.lblListFont)
         Me.GroupBox1.Controls.Add(Me.Label61)
+        resources.ApplyResources(Me.GroupBox1, "GroupBox1")
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.TabStop = False
         '
@@ -420,8 +420,8 @@ Partial Class Setting
         '
         'lblRetweet
         '
-        resources.ApplyResources(Me.lblRetweet, "lblRetweet")
         Me.lblRetweet.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        resources.ApplyResources(Me.lblRetweet, "lblRetweet")
         Me.lblRetweet.Name = "lblRetweet"
         '
         'Label80
@@ -443,8 +443,8 @@ Partial Class Setting
         '
         'lblDetailLink
         '
-        resources.ApplyResources(Me.lblDetailLink, "lblDetailLink")
         Me.lblDetailLink.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        resources.ApplyResources(Me.lblDetailLink, "lblDetailLink")
         Me.lblDetailLink.Name = "lblDetailLink"
         '
         'Label18
@@ -460,8 +460,8 @@ Partial Class Setting
         '
         'lblInputFont
         '
-        resources.ApplyResources(Me.lblInputFont, "lblInputFont")
         Me.lblInputFont.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        resources.ApplyResources(Me.lblInputFont, "lblInputFont")
         Me.lblInputFont.Name = "lblInputFont"
         '
         'Label65
@@ -477,8 +477,8 @@ Partial Class Setting
         '
         'lblInputBackcolor
         '
-        resources.ApplyResources(Me.lblInputBackcolor, "lblInputBackcolor")
         Me.lblInputBackcolor.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        resources.ApplyResources(Me.lblInputBackcolor, "lblInputBackcolor")
         Me.lblInputBackcolor.Name = "lblInputBackcolor"
         '
         'Label52
@@ -494,8 +494,8 @@ Partial Class Setting
         '
         'lblUnread
         '
-        resources.ApplyResources(Me.lblUnread, "lblUnread")
         Me.lblUnread.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        resources.ApplyResources(Me.lblUnread, "lblUnread")
         Me.lblUnread.Name = "lblUnread"
         '
         'Label20
@@ -511,8 +511,8 @@ Partial Class Setting
         '
         'lblAtTo
         '
-        resources.ApplyResources(Me.lblAtTo, "lblAtTo")
         Me.lblAtTo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        resources.ApplyResources(Me.lblAtTo, "lblAtTo")
         Me.lblAtTo.Name = "lblAtTo"
         '
         'Label49
@@ -528,8 +528,8 @@ Partial Class Setting
         '
         'lblDetailBackcolor
         '
-        resources.ApplyResources(Me.lblDetailBackcolor, "lblDetailBackcolor")
         Me.lblDetailBackcolor.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        resources.ApplyResources(Me.lblDetailBackcolor, "lblDetailBackcolor")
         Me.lblDetailBackcolor.Name = "lblDetailBackcolor"
         '
         'Label37
@@ -545,8 +545,8 @@ Partial Class Setting
         '
         'lblListBackcolor
         '
-        resources.ApplyResources(Me.lblListBackcolor, "lblListBackcolor")
         Me.lblListBackcolor.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        resources.ApplyResources(Me.lblListBackcolor, "lblListBackcolor")
         Me.lblListBackcolor.Name = "lblListBackcolor"
         '
         'Label19
@@ -562,8 +562,8 @@ Partial Class Setting
         '
         'lblAtFromTarget
         '
-        resources.ApplyResources(Me.lblAtFromTarget, "lblAtFromTarget")
         Me.lblAtFromTarget.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        resources.ApplyResources(Me.lblAtFromTarget, "lblAtFromTarget")
         Me.lblAtFromTarget.Name = "lblAtFromTarget"
         '
         'Label28
@@ -579,8 +579,8 @@ Partial Class Setting
         '
         'lblAtTarget
         '
-        resources.ApplyResources(Me.lblAtTarget, "lblAtTarget")
         Me.lblAtTarget.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        resources.ApplyResources(Me.lblAtTarget, "lblAtTarget")
         Me.lblAtTarget.Name = "lblAtTarget"
         '
         'Label30
@@ -596,8 +596,8 @@ Partial Class Setting
         '
         'lblTarget
         '
-        resources.ApplyResources(Me.lblTarget, "lblTarget")
         Me.lblTarget.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        resources.ApplyResources(Me.lblTarget, "lblTarget")
         Me.lblTarget.Name = "lblTarget"
         '
         'Label32
@@ -613,8 +613,8 @@ Partial Class Setting
         '
         'lblAtSelf
         '
-        resources.ApplyResources(Me.lblAtSelf, "lblAtSelf")
         Me.lblAtSelf.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        resources.ApplyResources(Me.lblAtSelf, "lblAtSelf")
         Me.lblAtSelf.Name = "lblAtSelf"
         '
         'Label34
@@ -630,8 +630,8 @@ Partial Class Setting
         '
         'lblSelf
         '
-        resources.ApplyResources(Me.lblSelf, "lblSelf")
         Me.lblSelf.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        resources.ApplyResources(Me.lblSelf, "lblSelf")
         Me.lblSelf.Name = "lblSelf"
         '
         'Label36
@@ -647,8 +647,8 @@ Partial Class Setting
         '
         'lblDetail
         '
-        resources.ApplyResources(Me.lblDetail, "lblDetail")
         Me.lblDetail.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        resources.ApplyResources(Me.lblDetail, "lblDetail")
         Me.lblDetail.Name = "lblDetail"
         '
         'Label26
@@ -664,8 +664,8 @@ Partial Class Setting
         '
         'lblOWL
         '
-        resources.ApplyResources(Me.lblOWL, "lblOWL")
         Me.lblOWL.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        resources.ApplyResources(Me.lblOWL, "lblOWL")
         Me.lblOWL.Name = "lblOWL"
         '
         'Label24
@@ -681,8 +681,8 @@ Partial Class Setting
         '
         'lblFav
         '
-        resources.ApplyResources(Me.lblFav, "lblFav")
         Me.lblFav.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        resources.ApplyResources(Me.lblFav, "lblFav")
         Me.lblFav.Name = "lblFav"
         '
         'Label22
@@ -698,8 +698,8 @@ Partial Class Setting
         '
         'lblListFont
         '
-        resources.ApplyResources(Me.lblListFont, "lblListFont")
         Me.lblListFont.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        resources.ApplyResources(Me.lblListFont, "lblListFont")
         Me.lblListFont.Name = "lblListFont"
         '
         'Label61
@@ -709,10 +709,10 @@ Partial Class Setting
         '
         'cmbNameBalloon
         '
-        resources.ApplyResources(Me.cmbNameBalloon, "cmbNameBalloon")
         Me.cmbNameBalloon.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cmbNameBalloon.FormattingEnabled = True
         Me.cmbNameBalloon.Items.AddRange(New Object() {resources.GetString("cmbNameBalloon.Items"), resources.GetString("cmbNameBalloon.Items1"), resources.GetString("cmbNameBalloon.Items2")})
+        resources.ApplyResources(Me.cmbNameBalloon, "cmbNameBalloon")
         Me.cmbNameBalloon.Name = "cmbNameBalloon"
         '
         'Label10
@@ -766,10 +766,10 @@ Partial Class Setting
         '
         'IconSize
         '
-        resources.ApplyResources(Me.IconSize, "IconSize")
         Me.IconSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.IconSize.FormattingEnabled = True
         Me.IconSize.Items.AddRange(New Object() {resources.GetString("IconSize.Items"), resources.GetString("IconSize.Items1"), resources.GetString("IconSize.Items2"), resources.GetString("IconSize.Items3"), resources.GetString("IconSize.Items4")})
+        resources.ApplyResources(Me.IconSize, "IconSize")
         Me.IconSize.Name = "IconSize"
         '
         'Label38
@@ -844,10 +844,10 @@ Partial Class Setting
         '
         'ComboDispTitle
         '
-        resources.ApplyResources(Me.ComboDispTitle, "ComboDispTitle")
         Me.ComboDispTitle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboDispTitle.FormattingEnabled = True
         Me.ComboDispTitle.Items.AddRange(New Object() {resources.GetString("ComboDispTitle.Items"), resources.GetString("ComboDispTitle.Items1"), resources.GetString("ComboDispTitle.Items2"), resources.GetString("ComboDispTitle.Items3"), resources.GetString("ComboDispTitle.Items4"), resources.GetString("ComboDispTitle.Items5"), resources.GetString("ComboDispTitle.Items6"), resources.GetString("ComboDispTitle.Items7")})
+        resources.ApplyResources(Me.ComboDispTitle, "ComboDispTitle")
         Me.ComboDispTitle.Name = "ComboDispTitle"
         '
         'Label47
@@ -859,19 +859,18 @@ Partial Class Setting
         '
         'TabControl1
         '
-        resources.ApplyResources(Me.TabControl1, "TabControl1")
         Me.TabControl1.Controls.Add(Me.TabPage1)
         Me.TabControl1.Controls.Add(Me.TabPage2)
         Me.TabControl1.Controls.Add(Me.TabPage3)
         Me.TabControl1.Controls.Add(Me.TabPage4)
         Me.TabControl1.Controls.Add(Me.TabPage5)
         Me.TabControl1.Controls.Add(Me.TabPage6)
+        resources.ApplyResources(Me.TabControl1, "TabControl1")
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
         '
         'TabPage1
         '
-        resources.ApplyResources(Me.TabPage1, "TabPage1")
         Me.TabPage1.Controls.Add(Me.ButtonApiCalc)
         Me.TabPage1.Controls.Add(Me.LabelPostAndGet)
         Me.TabPage1.Controls.Add(Me.LabelApiUsing)
@@ -908,6 +907,7 @@ Partial Class Setting
         Me.TabPage1.Controls.Add(Me.DMPeriod)
         Me.TabPage1.Controls.Add(Me.Label9)
         Me.TabPage1.Controls.Add(Me.StartupReaded)
+        resources.ApplyResources(Me.TabPage1, "TabPage1")
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.UseVisualStyleBackColor = True
         '
@@ -964,14 +964,14 @@ Partial Class Setting
         '
         'AuthUserLabel
         '
-        resources.ApplyResources(Me.AuthUserLabel, "AuthUserLabel")
         Me.AuthUserLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        resources.ApplyResources(Me.AuthUserLabel, "AuthUserLabel")
         Me.AuthUserLabel.Name = "AuthUserLabel"
         '
         'AuthStateLabel
         '
-        resources.ApplyResources(Me.AuthStateLabel, "AuthStateLabel")
         Me.AuthStateLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        resources.ApplyResources(Me.AuthStateLabel, "AuthStateLabel")
         Me.AuthStateLabel.Name = "AuthStateLabel"
         '
         'Label4
@@ -1056,7 +1056,6 @@ Partial Class Setting
         '
         'TabPage2
         '
-        resources.ApplyResources(Me.TabPage2, "TabPage2")
         Me.TabPage2.Controls.Add(Me.Label35)
         Me.TabPage2.Controls.Add(Me.CheckPreviewEnable)
         Me.TabPage2.Controls.Add(Me.Label82)
@@ -1099,6 +1098,7 @@ Partial Class Setting
         Me.TabPage2.Controls.Add(Me.Label12)
         Me.TabPage2.Controls.Add(Me.StatusText)
         Me.TabPage2.Controls.Add(Me.CheckUseRecommendStatus)
+        resources.ApplyResources(Me.TabPage2, "TabPage2")
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.UseVisualStyleBackColor = True
         '
@@ -1168,10 +1168,10 @@ Partial Class Setting
         '
         'ComboBoxAutoShortUrlFirst
         '
-        resources.ApplyResources(Me.ComboBoxAutoShortUrlFirst, "ComboBoxAutoShortUrlFirst")
         Me.ComboBoxAutoShortUrlFirst.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBoxAutoShortUrlFirst.FormattingEnabled = True
         Me.ComboBoxAutoShortUrlFirst.Items.AddRange(New Object() {resources.GetString("ComboBoxAutoShortUrlFirst.Items"), resources.GetString("ComboBoxAutoShortUrlFirst.Items1"), resources.GetString("ComboBoxAutoShortUrlFirst.Items2"), resources.GetString("ComboBoxAutoShortUrlFirst.Items3"), resources.GetString("ComboBoxAutoShortUrlFirst.Items4"), resources.GetString("ComboBoxAutoShortUrlFirst.Items5")})
+        resources.ApplyResources(Me.ComboBoxAutoShortUrlFirst, "ComboBoxAutoShortUrlFirst")
         Me.ComboBoxAutoShortUrlFirst.Name = "ComboBoxAutoShortUrlFirst"
         '
         'Label71
@@ -1238,7 +1238,6 @@ Partial Class Setting
         '
         'TabPage3
         '
-        resources.ApplyResources(Me.TabPage3, "TabPage3")
         Me.TabPage3.Controls.Add(Me.Label81)
         Me.TabPage3.Controls.Add(Me.LanguageCombo)
         Me.TabPage3.Controls.Add(Me.Label13)
@@ -1278,6 +1277,7 @@ Partial Class Setting
         Me.TabPage3.Controls.Add(Me.IconSize)
         Me.TabPage3.Controls.Add(Me.CheckBox3)
         Me.TabPage3.Controls.Add(Me.TextBox3)
+        resources.ApplyResources(Me.TabPage3, "TabPage3")
         Me.TabPage3.Name = "TabPage3"
         Me.TabPage3.UseVisualStyleBackColor = True
         '
@@ -1290,10 +1290,10 @@ Partial Class Setting
         '
         'LanguageCombo
         '
-        resources.ApplyResources(Me.LanguageCombo, "LanguageCombo")
         Me.LanguageCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.LanguageCombo.FormattingEnabled = True
         Me.LanguageCombo.Items.AddRange(New Object() {resources.GetString("LanguageCombo.Items"), resources.GetString("LanguageCombo.Items1"), resources.GetString("LanguageCombo.Items2"), resources.GetString("LanguageCombo.Items3")})
+        resources.ApplyResources(Me.LanguageCombo, "LanguageCombo")
         Me.LanguageCombo.Name = "LanguageCombo"
         '
         'Label13
@@ -1358,10 +1358,10 @@ Partial Class Setting
         '
         'ReplyIconStateCombo
         '
-        resources.ApplyResources(Me.ReplyIconStateCombo, "ReplyIconStateCombo")
         Me.ReplyIconStateCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ReplyIconStateCombo.FormattingEnabled = True
         Me.ReplyIconStateCombo.Items.AddRange(New Object() {resources.GetString("ReplyIconStateCombo.Items"), resources.GetString("ReplyIconStateCombo.Items1"), resources.GetString("ReplyIconStateCombo.Items2")})
+        resources.ApplyResources(Me.ReplyIconStateCombo, "ReplyIconStateCombo")
         Me.ReplyIconStateCombo.Name = "ReplyIconStateCombo"
         '
         'Label72
@@ -1414,14 +1414,13 @@ Partial Class Setting
         '
         'TabPage4
         '
-        resources.ApplyResources(Me.TabPage4, "TabPage4")
         Me.TabPage4.Controls.Add(Me.GroupBox1)
+        resources.ApplyResources(Me.TabPage4, "TabPage4")
         Me.TabPage4.Name = "TabPage4"
         Me.TabPage4.UseVisualStyleBackColor = True
         '
         'TabPage5
         '
-        resources.ApplyResources(Me.TabPage5, "TabPage5")
         Me.TabPage5.Controls.Add(Me.TwitterSearchAPIText)
         Me.TabPage5.Controls.Add(Me.Label31)
         Me.TabPage5.Controls.Add(Me.TwitterAPIText)
@@ -1431,6 +1430,7 @@ Partial Class Setting
         Me.TabPage5.Controls.Add(Me.ConnectionTimeOut)
         Me.TabPage5.Controls.Add(Me.Label63)
         Me.TabPage5.Controls.Add(Me.GroupBox2)
+        resources.ApplyResources(Me.TabPage5, "TabPage5")
         Me.TabPage5.Name = "TabPage5"
         Me.TabPage5.UseVisualStyleBackColor = True
         '
@@ -1479,7 +1479,6 @@ Partial Class Setting
         '
         'GroupBox2
         '
-        resources.ApplyResources(Me.GroupBox2, "GroupBox2")
         Me.GroupBox2.Controls.Add(Me.Label55)
         Me.GroupBox2.Controls.Add(Me.TextProxyPassword)
         Me.GroupBox2.Controls.Add(Me.LabelProxyPassword)
@@ -1492,6 +1491,7 @@ Partial Class Setting
         Me.GroupBox2.Controls.Add(Me.RadioProxySpecified)
         Me.GroupBox2.Controls.Add(Me.RadioProxyIE)
         Me.GroupBox2.Controls.Add(Me.RadioProxyNone)
+        resources.ApplyResources(Me.GroupBox2, "GroupBox2")
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.TabStop = False
         '
@@ -1565,13 +1565,13 @@ Partial Class Setting
         '
         'TabPage6
         '
-        resources.ApplyResources(Me.TabPage6, "TabPage6")
         Me.TabPage6.Controls.Add(Me.CheckNicoms)
         Me.TabPage6.Controls.Add(Me.Label60)
         Me.TabPage6.Controls.Add(Me.ComboBoxOutputzUrlmode)
         Me.TabPage6.Controls.Add(Me.Label59)
         Me.TabPage6.Controls.Add(Me.TextBoxOutputzKey)
         Me.TabPage6.Controls.Add(Me.CheckOutputz)
+        resources.ApplyResources(Me.TabPage6, "TabPage6")
         Me.TabPage6.Name = "TabPage6"
         Me.TabPage6.UseVisualStyleBackColor = True
         '
@@ -1588,10 +1588,10 @@ Partial Class Setting
         '
         'ComboBoxOutputzUrlmode
         '
-        resources.ApplyResources(Me.ComboBoxOutputzUrlmode, "ComboBoxOutputzUrlmode")
         Me.ComboBoxOutputzUrlmode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBoxOutputzUrlmode.FormattingEnabled = True
         Me.ComboBoxOutputzUrlmode.Items.AddRange(New Object() {resources.GetString("ComboBoxOutputzUrlmode.Items"), resources.GetString("ComboBoxOutputzUrlmode.Items1")})
+        resources.ApplyResources(Me.ComboBoxOutputzUrlmode, "ComboBoxOutputzUrlmode")
         Me.ComboBoxOutputzUrlmode.Name = "ComboBoxOutputzUrlmode"
         '
         'Label59
