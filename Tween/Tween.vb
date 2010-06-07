@@ -4470,6 +4470,25 @@ RETRY:
             '    e.SuppressKeyPress = True
             '    MovePageScroll(False)
             'End If
+
+            ' タブダイレクト選択(Ctrl+1～8,Ctrl+9)
+
+            Select Case e.KeyCode
+                Case Keys.D1, Keys.D2, Keys.D3, Keys.D4, Keys.D5, Keys.D6, Keys.D7, Keys.D8
+                    Dim tabNo As Integer = e.KeyCode - Keys.D1
+                    If ListTab.TabPages.Count < tabNo Then
+                        Exit Sub
+                    End If
+                    ListTab.SelectedIndex = tabNo
+                    ListTabSelect(ListTab.TabPages(tabNo))
+                Case Keys.D9
+                    ListTab.SelectedIndex = ListTab.TabPages.Count - 1
+                    ListTabSelect(ListTab.TabPages(ListTab.TabPages.Count - 1))
+                Case Else
+            End Select
+
+
+
         End If
         If Not e.Control AndAlso e.Alt AndAlso Not e.Shift Then
             ' ALTキーが押されている場合
