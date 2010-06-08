@@ -4460,13 +4460,13 @@ RETRY:
                 e.SuppressKeyPress = True
                 SendKeys.Send("{TAB}")
             End If
-            ' ] in_reply_to前方参照
+            ' ] in_reply_to参照元へ戻る
             If e.KeyCode = Keys.Oem6 Then
                 e.Handled = True
                 e.SuppressKeyPress = True
                 GoInReplyToPost()
             End If
-            ' [ in_reply_to後方参照
+            ' [ in_reply_toへジャンプ
             If e.KeyCode = Keys.Oem4 Then
                 e.Handled = True
                 e.SuppressKeyPress = True
@@ -4930,6 +4930,14 @@ RETRY:
             If _statuses.ContainsKey(_curPost.InReplyToId) Then
                 Dim tab As TabPage = _curTab
                 Dim idx As Integer = _statuses.Tabs(_curTab.Text).IndexOf(_curPost.InReplyToId)
+                If idx = -1 Then
+                    For Each tab In ListTab.TabPages
+                        idx = _statuses.Tabs(tab.Text).IndexOf(_curPost.InReplyToId)
+                        If idx <> -1 Then
+                            Exit For
+                        End If
+                    Next
+                End If
                 If idx = -1 Then
                     Dim repPost As PostClass = _statuses.Item(_curPost.InReplyToId)
                     MessageBox.Show(repPost.Name + " / " + repPost.Nickname + "   (" + repPost.PDate.ToString() + ")" + Environment.NewLine + repPost.Data)
