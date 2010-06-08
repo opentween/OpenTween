@@ -583,7 +583,7 @@ Public Class ShowUserInfo
 #End Region
 
     Private Sub ChangeIconToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChangeIconToolStripMenuItem.Click
-        OpenFileDialog1.Filter = "画像ファイル(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png|すべてのファイル(*.*)|*.*"
+        OpenFileDialog1.Filter = "画像ファイル(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png"
         OpenFileDialog1.Title = "サイズ700KBまでのアイコン画像ファイルを選択してください"
         OpenFileDialog1.FileName = ""
 
