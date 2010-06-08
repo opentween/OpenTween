@@ -54,7 +54,6 @@ Partial Class FormInfo
         Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide
         Me.TopMost = True
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
     Friend WithEvents ProgressBar1 As System.Windows.Forms.ProgressBar
