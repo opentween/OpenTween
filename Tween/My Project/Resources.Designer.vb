@@ -314,19 +314,64 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  画像ファイル(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ChangeIconToolStripMenuItem_ClickText1() As String
+            Get
+                Return ResourceManager.GetString("ChangeIconToolStripMenuItem_ClickText1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  サイズ700KBまでのアイコン画像ファイルを選択してください に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ChangeIconToolStripMenuItem_ClickText2() As String
+            Get
+                Return ResourceManager.GetString("ChangeIconToolStripMenuItem_ClickText2", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  アイコン設定中・・・ に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ChangeIconToolStripMenuItem_ClickText3() As String
+            Get
+                Return ResourceManager.GetString("ChangeIconToolStripMenuItem_ClickText3", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  注意：Twitterの仕様により、エラーが発生してもアイコンが変更できている場合があります。次回発言の際にご確認ください。 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ChangeIconToolStripMenuItem_ClickText4() As String
+            Get
+                Return ResourceManager.GetString("ChangeIconToolStripMenuItem_ClickText4", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  アイコンを変更しました。 次回発言より反映されます。 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ChangeIconToolStripMenuItem_ClickText5() As String
+            Get
+                Return ResourceManager.GetString("ChangeIconToolStripMenuItem_ClickText5", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  更新履歴
         '''
-        '''==== Ver 0.9.2.1(2010/06/01)
-        ''' * Retweetカウントの取得の際に時間がかかるため、プログレスバーを表示するようにした
-        ''' * タスクトレイへのアイコン追加タイミングを変更した
-        ''' * ユーザー情報ダイアログで、「認証済み(Verified)」の文字をクリックした際に、本家の認証済みアカウントについての説明ページを開くようにした
-        ''' * 詳細表示のユーザー名でのツールチップ表示を取りやめた。ホームを開く、右クリックでメニューを開く機能はそのままです。
-        ''' * 詳細表示のユーザー名左クリックでホームを開く動作をダブルクリックに変更した
-        ''' * htn.to,amzn.toのURL展開に対応
-        ''' * Followersリストの取得リトライがうまく機能していなかったので修正
-        ''' * piapro,flickr,pixivにある画像への直リンクの場合にプレビューが動作しなかったバグを修正
-        ''' * 画像プレビューでニコニコ動画公式チャンネルの動画サムネイルに対応した。他にも対応URLパターンを増やした。
-        ''' * ニコニコ動画の画像プレビューの際に、サムネイル取得不可の場 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        '''==== Ver 0.9.2.2(2010/06/**)
+        ''' * DM送信で複数行を考慮していなかったのを修正(開発版のみ。安定版では問題ありません)
+        ''' * 画像プレビューで未対応画像形式のチェックをするようにした
+        ''' * ハッシュタグマネージャで大文字小文字を区別せずに扱うようにした
+        ''' * パスワードを設定するミスが多いため、設定画面をOKで閉じる際にbit.lyのアカウント情報が正しいかどうか検証するようにした
+        ''' * Ctrl+フルキー数字でタブのダイレクト選択ができるようにした。Ctrl+1～8で左端からのタブを選択、Ctrl+9で最後尾タブ選択。
+        ''' * in_reply_to_status_idの付いた書き込みで、reply先の書き込みをキーで追いかけられるようにした ]でreply先へジャンプ、[で元の書き込みへ戻る。(thx @__park)
+        ''' * ソート方法を切り替えたときに現在選択している発言が変更されないようにした
+        ''' * アイコン変更の際のファイル名フィルタを変更した
+        '''==== Ver 0.9.2.2(2010/06/05)
+        ''' * 発言数・Followers/ [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property ChangeLog() As String
             Get
@@ -2196,6 +2241,24 @@ Namespace My.Resources
         Friend ReadOnly Property UpdateFollowersMenuItem1_ClickText3() As String
             Get
                 Return ResourceManager.GetString("UpdateFollowersMenuItem1_ClickText3", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  適用 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property UserInfoButtonEdit_ClickText1() As String
+            Get
+                Return ResourceManager.GetString("UserInfoButtonEdit_ClickText1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  プロフィール更新中・・・ に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property UserInfoButtonEdit_ClickText2() As String
+            Get
+                Return ResourceManager.GetString("UserInfoButtonEdit_ClickText2", resourceCulture)
             End Get
         End Property
         
