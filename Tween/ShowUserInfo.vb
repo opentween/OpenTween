@@ -445,7 +445,7 @@ Public Class ShowUserInfo
         If MyOwner.TwitterInstance.Username <> _info.ScreenName Then Exit Sub
 
         If Not IsEditing Then
-            ButtonEdit.Text = "適用"
+            ButtonEdit.Text = My.Resources.UserInfoButtonEdit_ClickText1
 
             '座標初期化,プロパティ設定
             TextBoxName.Location = LabelName.Location
@@ -504,7 +504,7 @@ Public Class ShowUserInfo
                 arg.location = TextBoxLocation.Text
                 arg.description = TextBoxDescription.Text
 
-                Using dlg As New FormInfo("プロフィール更新中・・・", _
+                Using dlg As New FormInfo(My.Resources.UserInfoButtonEdit_ClickText2, _
                                             AddressOf UpdateProfile_Dowork, _
                                             Nothing, _
                                             arg)
@@ -583,8 +583,8 @@ Public Class ShowUserInfo
 #End Region
 
     Private Sub ChangeIconToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChangeIconToolStripMenuItem.Click
-        OpenFileDialog1.Filter = "画像ファイル(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png"
-        OpenFileDialog1.Title = "サイズ700KBまでのアイコン画像ファイルを選択してください"
+        OpenFileDialog1.Filter = My.Resources.ChangeIconToolStripMenuItem_ClickText1
+        OpenFileDialog1.Title = My.Resources.ChangeIconToolStripMenuItem_ClickText2
         OpenFileDialog1.FileName = ""
 
         Dim rslt As Windows.Forms.DialogResult = OpenFileDialog1.ShowDialog
@@ -596,7 +596,7 @@ Public Class ShowUserInfo
         Dim res As String = ""
         Dim arg As New UpdateProfileImageArgs With {.tw = MyOwner.TwitterInstance, .FileName = OpenFileDialog1.FileName}
 
-        Using dlg As New FormInfo("アイコン設定中・・・", _
+        Using dlg As New FormInfo(My.Resources.ChangeIconToolStripMenuItem_ClickText3, _
                                   AddressOf UpdateProfileImage_Dowork, _
                                   AddressOf UpdateProfileImage_RunWorkerCompleted,
                                   arg)
@@ -604,9 +604,9 @@ Public Class ShowUserInfo
             res = TryCast(dlg.Result, String)
             If Not String.IsNullOrEmpty(res) Then
                 ' "Err:"が付いたエラーメッセージが返ってくる
-                MessageBox.Show(res + vbCrLf + "注意：Twitterの仕様により、エラーが発生してもアイコンが変更できている場合があります。発言の際にご確認ください。")
+                MessageBox.Show(res + vbCrLf + My.Resources.ChangeIconToolStripMenuItem_ClickText4)
             Else
-                MessageBox.Show("アイコンを変更しました。 次回発言より反映されます。")
+                MessageBox.Show(My.Resources.ChangeIconToolStripMenuItem_ClickText5)
             End If
         End Using
 

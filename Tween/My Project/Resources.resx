@@ -838,4 +838,25 @@
   <data name="OwnStatusTitle" xml:space="preserve">
     <value>発言 {0}  フォロー {1}  フォロワー {2}({3})</value>
   </data>
+  <data name="ChangeIconToolStripMenuItem_ClickText1" xml:space="preserve">
+    <value>画像ファイル(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png</value>
+  </data>
+  <data name="ChangeIconToolStripMenuItem_ClickText2" xml:space="preserve">
+    <value>サイズ700KBまでのアイコン画像ファイルを選択してください</value>
+  </data>
+  <data name="ChangeIconToolStripMenuItem_ClickText3" xml:space="preserve">
+    <value>アイコン設定中・・・</value>
+  </data>
+  <data name="ChangeIconToolStripMenuItem_ClickText4" xml:space="preserve">
+    <value>注意：Twitterの仕様により、エラーが発生してもアイコンが変更できている場合があります。次回発言の際にご確認ください。</value>
+  </data>
+  <data name="ChangeIconToolStripMenuItem_ClickText5" xml:space="preserve">
+    <value>アイコンを変更しました。 次回発言より反映されます。</value>
+  </data>
+  <data name="UserInfoButtonEdit_ClickText1" xml:space="preserve">
+    <value>適用</value>
+  </data>
+  <data name="UserInfoButtonEdit_ClickText2" xml:space="preserve">
+    <value>プロフィール更新中・・・</value>
+  </data>
 </root>
