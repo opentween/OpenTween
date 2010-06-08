@@ -130,6 +130,8 @@ Public Class Setting
             If Not BitlyValidation(TextBitlyId.Text, TextBitlyPw.Text) Then
                 MessageBox.Show("IDとAPIキーの組み合わせが違います。IDと同時に設定するのはパスワードではなくAPIキーとなっております。ご確認ください。")
                 _ValidationError = True
+                TabControl1.SelectTab(1) ' 動作タブを選択
+                TextBitlyId.Focus()
                 Exit Sub
             Else
                 _ValidationError = False
