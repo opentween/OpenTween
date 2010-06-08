@@ -4928,11 +4928,20 @@ RETRY:
     Private Sub GoInReplyToPost()
         If _curPost IsNot Nothing AndAlso _curPost.InReplyToUser IsNot Nothing AndAlso _curPost.InReplyToId > 0 Then
             If _statuses.ContainsKey(_curPost.InReplyToId) Then
+                Dim tab As TabPage = _curTab
                 Dim idx As Integer = _statuses.Tabs(_curTab.Text).IndexOf(_curPost.InReplyToId)
                 If idx = -1 Then
                     Dim repPost As PostClass = _statuses.Item(_curPost.InReplyToId)
                     MessageBox.Show(repPost.Name + " / " + repPost.Nickname + "   (" + repPost.PDate.ToString() + ")" + Environment.NewLine + repPost.Data)
                 Else
+                    If replyChains Is Nothing OrElse (replyChains.Count > 0 AndAlso replyChains.Peek().InReplyToId <> _curPost.Id) Then
+                        replyChains = New Stack(Of ReplyChain)
+                    End If
+                    replyChains.Push(New ReplyChain(_curPost.Id, _curPost.InReplyToId, _curTab))
+
+                    If tab IsNot _curTab Then
+                        ListTab.SelectTab(tab)
+                    End If
                     SelectListItem(_curList, idx)
                     _curList.EnsureVisible(idx)
                 End If
