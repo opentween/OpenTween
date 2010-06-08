@@ -853,6 +853,9 @@
   <data name="ChangeIconToolStripMenuItem_ClickText5" xml:space="preserve">
     <value>アイコンを変更しました。 次回発言より反映されます。</value>
   </data>
+  <data name="SettingSave_ClickText1" xml:space="preserve">
+    <value>IDとAPIキーの組み合わせが違います。IDと同時に設定するのはパスワードではなくAPIキーです。ご確認ください。</value>
+  </data>
   <data name="UserInfoButtonEdit_ClickText1" xml:space="preserve">
     <value>適用</value>
   </data>

@@ -1788,6 +1788,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  IDとAPIキーの組み合わせが違います。IDと同時に設定するのはパスワードではなくAPIキーです。ご確認ください。 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property SettingSave_ClickText1() As String
+            Get
+                Return ResourceManager.GetString("SettingSave_ClickText1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  フォロー状況取得中・・・ に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property ShowFriendshipText1() As String
