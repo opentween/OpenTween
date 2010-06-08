@@ -2603,6 +2603,10 @@ Public Class TweenMain
 
         _itemCache = Nothing
         _postCache = Nothing
+
+        Dim idx As Integer = _statuses.Tabs(_curTab.Text).IndexOf(_curPost.Id)
+        SelectListItem(_curList, idx)
+        _curList.EnsureVisible(idx)
         _curList.Refresh()
         modifySettingCommon = True
     End Sub
