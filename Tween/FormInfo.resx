@@ -140,14 +140,11 @@
   <data name="&gt;&gt;ProgressBar1.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="LabelInformation.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="LabelInformation.Location" type="System.Drawing.Point, System.Drawing">
-    <value>101, 24</value>
+    <value>10, 5</value>
   </data>
   <data name="LabelInformation.Size" type="System.Drawing.Size, System.Drawing">
-    <value>89, 12</value>
+    <value>266, 48</value>
   </data>
   <data name="LabelInformation.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>

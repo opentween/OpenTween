@@ -77,7 +77,7 @@ Public Class FormInfo
     End Sub
 
     Private Sub LabelInformation_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LabelInformation.TextChanged
-        LabelInformation.Left = (Me.ClientSize.Width - LabelInformation.Size.Width) \ 2
+        'LabelInformation.Left = (Me.ClientSize.Width - LabelInformation.Size.Width) \ 2
         LabelInformation.Refresh()
     End Sub
 
