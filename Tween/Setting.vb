@@ -128,7 +128,7 @@ Public Class Setting
     Private Sub Save_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Save.Click
         If Not String.IsNullOrEmpty(TextBitlyId.Text) OrElse Not String.IsNullOrEmpty(TextBitlyPw.Text) Then
             If Not BitlyValidation(TextBitlyId.Text, TextBitlyPw.Text) Then
-                MessageBox.Show("IDとAPIキーの組み合わせが違います。IDと同時に設定するのはパスワードではなくAPIキーとなっております。ご確認ください。")
+                MessageBox.Show(My.Resources.SettingSave_ClickText1)
                 _ValidationError = True
                 TabControl1.SelectTab(1) ' 動作タブを選択
                 TextBitlyId.Focus()
