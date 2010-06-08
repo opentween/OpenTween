@@ -7149,6 +7149,17 @@ RETRY:
             ToolStripMenuItem2.Enabled = True
             ToolStripMenuItem3.Enabled = True
         End If
+        '発言内に自分以外のユーザーが含まれてればフォロー状態全表示を有効に
+        Dim ma As MatchCollection = Regex.Matches(Me.PostBrowser.DocumentText, "href=""https?://twitter.com/(?<name>[a-zA-Z0-9_]+)""")
+        Dim fAllFlag As Boolean = False
+        For Each mu As Match In ma
+            If mu.Result("${name}").ToLower <> tw.Username.ToLower Then
+                fAllFlag = True
+                Exit For
+            End If
+        Next
+        Me.FriendshipAllMenuItem.Enabled = fAllFlag
+
         e.Cancel = False
     End Sub
 
@@ -7600,7 +7611,7 @@ RETRY:
     Private Sub RemoveCommandMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RemoveCommandMenuItem.Click
         Dim id As String = ""
         If _curPost IsNot Nothing Then id = _curPost.Name
-        RemoveCommand(id)
+        RemoveCommand(id, False)
     End Sub
 
     Private Class FollowRemoveCommandArgs
@@ -7613,28 +7624,36 @@ RETRY:
         e.Result = arg.tw.PostRemoveCommand(arg.id)
     End Sub
 
-    Private Sub RemoveCommand(ByVal id As String)
-        Using inputName As New InputTabName()
-            inputName.FormTitle = "Unfollow"
-            inputName.FormDescription = My.Resources.FRMessage1
-            inputName.TabName = id
-            If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
-               Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
-                Dim arg As New FollowRemoveCommandArgs
-                arg.tw = tw
-                arg.id = inputName.TabName.Trim()
-                Using _info As New FormInfo(My.Resources.RemoveCommandText1, _
-                                            AddressOf RemoveCommand_DoWork, _
-                                            Nothing, _
-                                            arg)
-                    _info.ShowDialog()
-                    Dim ret As String = DirectCast(_info.Result, String)
-                    If Not String.IsNullOrEmpty(ret) Then
-                        MessageBox.Show(My.Resources.FRMessage2 + ret)
-                    Else
-                        MessageBox.Show(My.Resources.FRMessage3)
-                    End If
-                End Using
+    Private Sub RemoveCommand(ByVal id As String, ByVal skipInput As Boolean)
+
+        Dim arg As New FollowRemoveCommandArgs
+        arg.tw = tw
+        arg.id = id
+        If Not skipInput Then
+            Using inputName As New InputTabName()
+                inputName.FormTitle = "Unfollow"
+                inputName.FormDescription = My.Resources.FRMessage1
+                inputName.TabName = id
+                If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
+                   Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
+                    arg.tw = tw
+                    arg.id = inputName.TabName.Trim()
+                Else
+                    Exit Sub
+                End If
+            End Using
+        End If
+
+        Using _info As New FormInfo(My.Resources.RemoveCommandText1, _
+                                    AddressOf RemoveCommand_DoWork, _
+                                    Nothing, _
+                                    arg)
+            _info.ShowDialog()
+            Dim ret As String = DirectCast(_info.Result, String)
+            If Not String.IsNullOrEmpty(ret) Then
+                MessageBox.Show(My.Resources.FRMessage2 + ret)
+            Else
+                MessageBox.Show(My.Resources.FRMessage3)
             End If
         End Using
     End Sub
@@ -7649,14 +7668,29 @@ RETRY:
 
     Private Class ShowFriendshipArgs
         Public tw As Tween.Twitter
-        Public id As String
-        Public isFollowing As Boolean = False
-        Public isFollowed As Boolean = False
+        Public Class FriendshipInfo
+            Public id As String = ""
+            Public isFollowing As Boolean = False
+            Public isFollowed As Boolean = False
+            Public isError As Boolean = False
+            Public Sub New(ByVal id As String)
+                Me.id = id
+            End Sub
+        End Class
+        Public ids As New List(Of FriendshipInfo)
     End Class
 
     Private Sub ShowFriendship_DoWork(ByVal sender As Object, ByVal e As DoWorkEventArgs)
         Dim arg As ShowFriendshipArgs = DirectCast(e.Argument, ShowFriendshipArgs)
-        arg.tw.GetFriendshipInfo(arg.id, arg.isFollowing, arg.isFollowed)
+        Dim result As String = ""
+        For Each fInfo As ShowFriendshipArgs.FriendshipInfo In arg.ids
+            Dim rt As String = arg.tw.GetFriendshipInfo(fInfo.id, fInfo.isFollowing, fInfo.isFollowed)
+            If Not String.IsNullOrEmpty(rt) Then
+                If String.IsNullOrEmpty(result) Then result = rt
+                fInfo.isError = True
+            End If
+        Next
+        e.Result = result
     End Sub
 
     Private Sub ShowFriendship(ByVal id As String)
@@ -7668,33 +7702,81 @@ RETRY:
             inputName.TabName = id
             If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
                Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
-                Dim result As String = ""
-                args.id = inputName.TabName.Trim
+                Dim ret As String = ""
+                args.ids.Add(New ShowFriendshipArgs.FriendshipInfo(inputName.TabName.Trim))
                 Using _info As New FormInfo(My.Resources.ShowFriendshipText1, _
                                             AddressOf ShowFriendship_DoWork, _
                                             Nothing, _
                                             args)
                     _info.ShowDialog()
-                    Dim ret As String = DirectCast(_info.Result, String)
-                    If String.IsNullOrEmpty(ret) Then
-                        If args.isFollowing Then
-                            result = My.Resources.GetFriendshipInfo1 + System.Environment.NewLine
-                        Else
-                            result = My.Resources.GetFriendshipInfo2 + System.Environment.NewLine
-                        End If
-                        If args.isFollowed Then
-                            result += My.Resources.GetFriendshipInfo3
-                        Else
-                            result += My.Resources.GetFriendshipInfo4
-                        End If
-                        result = id + My.Resources.GetFriendshipInfo5 + System.Environment.NewLine + result
-                    Else
-                        result = ret
-                    End If
-                    MessageBox.Show(result)
+                    ret = DirectCast(_info.Result, String)
                 End Using
+                Dim result As String = ""
+                If String.IsNullOrEmpty(ret) Then
+                    If args.ids(0).isFollowing Then
+                        result = My.Resources.GetFriendshipInfo1 + System.Environment.NewLine
+                    Else
+                        result = My.Resources.GetFriendshipInfo2 + System.Environment.NewLine
+                    End If
+                    If args.ids(0).isFollowed Then
+                        result += My.Resources.GetFriendshipInfo3
+                    Else
+                        result += My.Resources.GetFriendshipInfo4
+                    End If
+                    result = id + My.Resources.GetFriendshipInfo5 + System.Environment.NewLine + result
+                Else
+                    result = ret
+                End If
+                MessageBox.Show(result)
             End If
         End Using
+    End Sub
+
+    Private Sub ShowFriendship(ByVal ids() As String)
+        For Each id As String In ids
+            Dim ret As String = ""
+            Dim args As New ShowFriendshipArgs
+            args.tw = tw
+            args.ids.Add(New ShowFriendshipArgs.FriendshipInfo(id.Trim))
+            Using _info As New FormInfo(My.Resources.ShowFriendshipText1, _
+                                        AddressOf ShowFriendship_DoWork, _
+                                        Nothing, _
+                                        args)
+                _info.ShowDialog()
+                ret = DirectCast(_info.Result, String)
+            End Using
+            Dim result As String = ""
+            Dim fInfo As ShowFriendshipArgs.FriendshipInfo = args.ids(0)
+            Dim ff As String = ""
+            If String.IsNullOrEmpty(ret) Then
+                ff = "  "
+                If fInfo.isFollowing Then
+                    ff += My.Resources.GetFriendshipInfo1
+                Else
+                    ff += My.Resources.GetFriendshipInfo2
+                End If
+                ff += System.Environment.NewLine + "  "
+                If fInfo.isFollowed Then
+                    ff += My.Resources.GetFriendshipInfo3
+                Else
+                    ff += My.Resources.GetFriendshipInfo4
+                End If
+                result += fInfo.id + My.Resources.GetFriendshipInfo5 + System.Environment.NewLine + ff
+                If fInfo.isFollowing Then
+                    If MessageBox.Show( _
+                        "フォロー解除しますか？" + System.Environment.NewLine + result, "フォロー解除確認", _
+                        MessageBoxButtons.YesNo, _
+                        MessageBoxIcon.Question, _
+                        MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.Yes Then
+                        RemoveCommand(fInfo.id, True)
+                    End If
+                Else
+                    MessageBox.Show(result)
+                End If
+            Else
+                MessageBox.Show(ret)
+            End If
+        Next
     End Sub
 
     Private Sub OwnStatusMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OwnStatusMenuItem.Click
@@ -7735,7 +7817,7 @@ RETRY:
     Private Sub RemoveContextMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RemoveContextMenuItem.Click
         Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(?<name>[a-zA-Z0-9_]+)$")
         If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
-            RemoveCommand(m.Result("${name}"))
+            RemoveCommand(m.Result("${name}"), False)
         End If
     End Sub
 
@@ -7744,6 +7826,17 @@ RETRY:
         If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
             ShowFriendship(m.Result("${name}"))
         End If
+    End Sub
+
+    Private Sub FriendshipAllMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FriendshipAllMenuItem.Click
+        Dim ma As MatchCollection = Regex.Matches(Me.PostBrowser.DocumentText, "href=""https?://twitter.com/(?<name>[a-zA-Z0-9_]+)""")
+        Dim ids As New List(Of String)
+        For Each mu As Match In ma
+            If mu.Result("${name}").ToLower <> tw.Username.ToLower Then
+                ids.Add(mu.Result("${name}"))
+            End If
+        Next
+        ShowFriendship(ids.ToArray)
     End Sub
 
     Private Sub ShowUserStatusContextMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowUserStatusContextMenuItem.Click
@@ -8828,7 +8921,7 @@ RETRY:
         If NameLabel.Tag IsNot Nothing Then
             Dim id As String = DirectCast(NameLabel.Tag, String)
             If id <> tw.Username Then
-                RemoveCommand(id)
+                RemoveCommand(id, False)
             End If
         End If
     End Sub
@@ -8960,4 +9053,5 @@ RETRY:
             OpenUriAsync("http://twitter.com/" + NameLabel.Tag.ToString)
         End If
     End Sub
+
 End Class
