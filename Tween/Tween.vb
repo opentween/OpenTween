@@ -6550,7 +6550,7 @@ RETRY:
         ' 2. リプライ先ステータスIDが設定されている(リストをダブルクリックで返信している)
         ' 3. 文中に含まれた@idがリプライ先のポスト者のIDと一致する
 
-        If m IsNot Nothing AndAlso Not StatusText.StartsWith(". ") Then
+        If m IsNot Nothing AndAlso Not StatusText.StartsWith(".") Then
             For Each mid As Match In m
                 If mid.Result("${id}") = "@" + _reply_to_name Then
                     Exit Sub
