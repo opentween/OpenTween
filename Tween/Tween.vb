@@ -5126,6 +5126,17 @@ RETRY:
                 e.Handled = True
                 e.SuppressKeyPress = True
                 StatusText.Focus()
+            ElseIf e.KeyCode = Keys.Space Then
+                If StatusText.SelectionStart > 0 Then
+                    Dim c As Char = StatusText.Text.Chars(StatusText.SelectionStart - 1)
+                    If c = "@" Then
+                        ShowSuplDialog(AtIdSupl)
+                    ElseIf c = "#" Then
+                        ShowSuplDialog(HashSupl)
+                    End If
+                End If
+                e.Handled = True
+                e.SuppressKeyPress = True
             End If
         End If
         Me.StatusText_TextChanged(Nothing, Nothing)
