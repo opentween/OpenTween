@@ -325,6 +325,7 @@ Public Class InternetSecurityManager
     Private Function MapUrlToZone(ByVal pwszUrl As String, ByRef pdwZone As Integer, ByVal dwFlags As Integer) As Integer _
             Implements WebBrowserAPI.IInternetSecurityManager.MapUrlToZone
         pdwZone = 0
+        If pwszUrl = "about:blank" Then Return WebBrowserAPI.INET_E_DEFAULT_ACTION
         Try
             Dim urlStr As String = IDNDecode(pwszUrl)
             If urlStr Is Nothing Then Return WebBrowserAPI.URLPOLICY_DISALLOW
