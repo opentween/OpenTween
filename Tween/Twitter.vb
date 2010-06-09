@@ -454,7 +454,7 @@ Public Class Twitter
 
         postStr = postStr.Trim()
 
-        If Regex.Match(postStr, "DM? +(?<id>[a-zA-Z0-9_]+) +(?<body>.+)", RegexOptions.IgnoreCase Or RegexOptions.Singleline).Success Then
+        If Regex.Match(postStr, "^DM? +(?<id>[a-zA-Z0-9_]+) +(?<body>.+)", RegexOptions.IgnoreCase Or RegexOptions.Singleline).Success Then
             Return SendDirectMessage(postStr)
         End If
 
@@ -525,7 +525,7 @@ Public Class Twitter
         Dim res As HttpStatusCode
         Dim content As String = ""
 
-        Dim mc As Match = Regex.Match(postStr, "DM? +(?<id>[a-zA-Z0-9_]+) +(?<body>.+)", RegexOptions.IgnoreCase Or RegexOptions.Singleline)
+        Dim mc As Match = Regex.Match(postStr, "^DM? +(?<id>[a-zA-Z0-9_]+) +(?<body>.+)", RegexOptions.IgnoreCase Or RegexOptions.Singleline)
 
         Try
             res = twCon.SendDirectMessage(mc.Groups("body").Value, mc.Groups("id").Value, content)
