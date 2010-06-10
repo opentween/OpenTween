@@ -3435,11 +3435,7 @@ Public Class TweenMain
             End If
         End If
 
-
-
-
         If tabType = TabUsageType.PublicSearch Then pnl.ResumeLayout(False)
-
 
         _tabPage.ResumeLayout(False)
 
@@ -3673,7 +3669,11 @@ Public Class TweenMain
         End If
     End Sub
 
-    Private Sub ShowSuplDialog(ByVal dialog As AtIdSupplement)
+    Private Overloads Sub ShowSuplDialog(ByVal dialog As AtIdSupplement)
+        ShowSuplDialog(dialog, 0)
+    End Sub
+
+    Private Overloads Sub ShowSuplDialog(ByVal dialog As AtIdSupplement, ByVal offset As Integer)
         dialog.ShowDialog()
         Me.TopMost = SettingDialog.AlwaysTop
         If dialog.inputText <> "" Then
@@ -3681,7 +3681,7 @@ Public Class TweenMain
             Dim eHalf As String = ""
             Dim selStart As Integer = StatusText.SelectionStart
             If selStart > 0 Then
-                fHalf = StatusText.Text.Substring(0, selStart)
+                fHalf = StatusText.Text.Substring(0, selStart - offset)
             End If
             If selStart < StatusText.Text.Length Then
                 eHalf = StatusText.Text.Substring(selStart)
@@ -5130,9 +5130,9 @@ RETRY:
                 If StatusText.SelectionStart > 0 Then
                     Dim c As Char = StatusText.Text.Chars(StatusText.SelectionStart - 1)
                     If c = "@" Then
-                        ShowSuplDialog(AtIdSupl)
+                        ShowSuplDialog(AtIdSupl, 2)
                     ElseIf c = "#" Then
-                        ShowSuplDialog(HashSupl)
+                        ShowSuplDialog(HashSupl, 2)
                     End If
                 End If
                 e.Handled = True
