@@ -804,4 +804,28 @@
   <data name="OwnStatusTitle" xml:space="preserve">
     <value>消息数 {0}  好友数 {1}  关注数 {2}({3})</value>
   </data>
+  <data name="ChangeIconToolStripMenuItem_ClickText1" xml:space="preserve">
+    <value>图像文件 (*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png</value>
+  </data>
+  <data name="ChangeIconToolStripMenuItem_ClickText2" xml:space="preserve">
+    <value>请选择用作头像的图片文件，文件最大可达700KB</value>
+  </data>
+  <data name="ChangeIconToolStripMenuItem_ClickText3" xml:space="preserve">
+    <value>头像上传中…</value>
+  </data>
+  <data name="ChangeIconToolStripMenuItem_ClickText4" xml:space="preserve">
+    <value>注意：由于Twitter本身的原因，即使出现错误提示，头像有时已更新成功。请在下次发消息时确认。</value>
+  </data>
+  <data name="ChangeIconToolStripMenuItem_ClickText5" xml:space="preserve">
+    <value>头像修改完成。将在下次发消息时生效。</value>
+  </data>
+  <data name="SettingSave_ClickText1" xml:space="preserve">
+    <value>ID与API Key组合错误。需要和ID一起设置的不是密码是API Key，请再确认。</value>
+  </data>
+  <data name="UserInfoButtonEdit_ClickText1" xml:space="preserve">
+    <value>应用</value>
+  </data>
+  <data name="UserInfoButtonEdit_ClickText2" xml:space="preserve">
+    <value>正在更新个人信息…</value>
+  </data>
 </root>

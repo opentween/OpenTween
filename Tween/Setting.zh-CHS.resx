@@ -565,8 +565,11 @@
   <data name="CheckAtIdSupple.Text" xml:space="preserve">
     <value>启用</value>
   </data>
+  <data name="Label74.Size" type="System.Drawing.Size, System.Drawing">
+    <value>89, 12</value>
+  </data>
   <data name="Label74.Text" xml:space="preserve">
-    <value>启动时读取Fav</value>
+    <value>启动时读取收藏</value>
   </data>
   <data name="chkGetFav.Size" type="System.Drawing.Size, System.Drawing">
     <value>48, 16</value>
@@ -586,8 +589,11 @@
   <data name="CheckProtectNotInclude.Text" xml:space="preserve">
     <value>不包含Protect者消息</value>
   </data>
+  <data name="Label42.Size" type="System.Drawing.Size, System.Drawing">
+    <value>101, 12</value>
+  </data>
   <data name="Label42.Text" xml:space="preserve">
-    <value>复制ReTweet的文本时</value>
+    <value>复制锐推的文本时</value>
   </data>
   <data name="CheckAutoConvertUrl.Size" type="System.Drawing.Size, System.Drawing">
     <value>72, 16</value>
