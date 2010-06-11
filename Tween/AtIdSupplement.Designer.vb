@@ -23,10 +23,10 @@ Partial Class AtIdSupplement
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AtIdSupplement))
-        Me.ButtonOK = New System.Windows.Forms.Button
-        Me.ButtonCancel = New System.Windows.Forms.Button
-        Me.TextId = New System.Windows.Forms.TextBox
-        Me.Label1 = New System.Windows.Forms.Label
+        Me.ButtonOK = New System.Windows.Forms.Button()
+        Me.ButtonCancel = New System.Windows.Forms.Button()
+        Me.TextId = New System.Windows.Forms.TextBox()
+        Me.Label1 = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
         'ButtonOK
