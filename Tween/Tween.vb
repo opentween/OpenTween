@@ -3681,6 +3681,8 @@ Public Class TweenMain
                     ElseIf c = "#" Then
                         startstr = StatusText.Text.Substring(i + 1, endidx - i)
                         ShowSuplDialog(HashSupl, startstr.Length + 1, startstr)
+                    Else
+                        Exit For
                     End If
                 Next
                 e.Handled = True
