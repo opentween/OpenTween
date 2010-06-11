@@ -3666,28 +3666,65 @@ Public Class TweenMain
             If Not SettingDialog.UseHashSupplement Then Exit Sub
             ShowSuplDialog(HashSupl)
             e.Handled = True
+        ElseIf e.KeyChar = " " AndAlso Control.ModifierKeys = Keys.Control Then
+            If StatusText.SelectionStart > 0 Then
+                Dim endidx As Integer = StatusText.SelectionStart - 1
+                Dim startstr As String = ""
+                For i As Integer = StatusText.SelectionStart - 1 To 0 Step -1
+                    Dim c As Char = StatusText.Text.Chars(i)
+                    If Char.IsLetterOrDigit(c) OrElse c = "_" Then
+                        Continue For
+                    End If
+                    If c = "@" Then
+                        startstr = StatusText.Text.Substring(i + 1, endidx - i)
+                        ShowSuplDialog(AtIdSupl, startstr.Length + 1, startstr)
+                    ElseIf c = "#" Then
+                        startstr = StatusText.Text.Substring(i + 1, endidx - i)
+                        ShowSuplDialog(HashSupl, startstr.Length + 1, startstr)
+                    End If
+                Next
+                e.Handled = True
+            End If
         End If
     End Sub
 
     Private Overloads Sub ShowSuplDialog(ByVal dialog As AtIdSupplement)
-        ShowSuplDialog(dialog, 0)
+        ShowSuplDialog(dialog, 0, "")
     End Sub
 
     Private Overloads Sub ShowSuplDialog(ByVal dialog As AtIdSupplement, ByVal offset As Integer)
+        ShowSuplDialog(dialog, offset, "")
+    End Sub
+
+    Private Overloads Sub ShowSuplDialog(ByVal dialog As AtIdSupplement, ByVal offset As Integer, ByVal startswith As String)
+        dialog.StartsWith = startswith
         dialog.ShowDialog()
         Me.TopMost = SettingDialog.AlwaysTop
-        If dialog.inputText <> "" Then
-            Dim fHalf As String = ""
-            Dim eHalf As String = ""
-            Dim selStart As Integer = StatusText.SelectionStart
+        Dim selStart As Integer = StatusText.SelectionStart
+        Dim fHalf As String = ""
+        Dim eHalf As String = ""
+        If dialog.DialogResult = Windows.Forms.DialogResult.OK Then
+            If dialog.inputText <> "" Then
+                If selStart > 0 Then
+                    fHalf = StatusText.Text.Substring(0, selStart - offset)
+                End If
+                If selStart < StatusText.Text.Length Then
+                    eHalf = StatusText.Text.Substring(selStart)
+                End If
+                StatusText.Text = fHalf + dialog.inputText + eHalf
+                StatusText.SelectionStart = selStart + dialog.inputText.Length
+            End If
+        Else
             If selStart > 0 Then
-                fHalf = StatusText.Text.Substring(0, selStart - offset)
+                fHalf = StatusText.Text.Substring(0, selStart - 1)
             End If
             If selStart < StatusText.Text.Length Then
                 eHalf = StatusText.Text.Substring(selStart)
             End If
-            StatusText.Text = fHalf + dialog.inputText + eHalf
-            StatusText.SelectionStart = selStart + dialog.inputText.Length
+            StatusText.Text = fHalf + eHalf
+            If selStart > 0 Then
+                StatusText.SelectionStart = selStart - 1
+            End If
         End If
     End Sub
 
@@ -5126,17 +5163,6 @@ RETRY:
                 e.Handled = True
                 e.SuppressKeyPress = True
                 StatusText.Focus()
-            ElseIf e.KeyCode = Keys.Space Then
-                If StatusText.SelectionStart > 0 Then
-                    Dim c As Char = StatusText.Text.Chars(StatusText.SelectionStart - 1)
-                    If c = "@" Then
-                        ShowSuplDialog(AtIdSupl, 2)
-                    ElseIf c = "#" Then
-                        ShowSuplDialog(HashSupl, 2)
-                    End If
-                End If
-                e.Handled = True
-                e.SuppressKeyPress = True
             End If
         End If
         Me.StatusText_TextChanged(Nothing, Nothing)

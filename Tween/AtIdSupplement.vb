@@ -27,6 +27,8 @@ Public Class AtIdSupplement
     Private startChar As String = ""
     '    Private tabkeyFix As Boolean = False
 
+    Private _StartsWith As String = ""
+
     Public Sub AddItem(ByVal id As String)
         If Not Me.TextId.AutoCompleteCustomSource.Contains(id) Then
             Me.TextId.AutoCompleteCustomSource.Add(id)
@@ -98,7 +100,10 @@ Public Class AtIdSupplement
         'TextId.Text = startChar
         'TextId.SelectionStart = 1
         TextId.Text = startChar
-        TextId.SelectionStart = 1
+        If Not String.IsNullOrEmpty(_StartsWith) Then
+            TextId.Text += _StartsWith.Substring(0, _StartsWith.Length)
+        End If
+        TextId.SelectionStart = TextId.Text.Length
         TextId.Focus()
         'My.Application.DoEvents()   '苦し紛れ（ドロップダウンしないので）
         'My.Application.DoEvents()   '苦し紛れ（ドロップダウンしないので）
@@ -133,5 +138,18 @@ Public Class AtIdSupplement
             isBack = False
             Me.Close()
         End If
+    End Sub
+
+    Public Property StartsWith() As String
+        Get
+            Return _StartsWith
+        End Get
+        Set(ByVal value As String)
+            _StartsWith = value
+        End Set
+    End Property
+
+    Private Sub AtIdSupplement_FormClosed(ByVal sender As System.Object, ByVal e As System.Windows.Forms.FormClosedEventArgs) Handles MyBase.FormClosed
+        _StartsWith = ""
     End Sub
 End Class
