@@ -126,7 +126,9 @@ Public Class Setting
     Private _ValidationError As Boolean = False
 
     Private Sub Save_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Save.Click
-        If Not String.IsNullOrEmpty(TextBitlyId.Text) OrElse Not String.IsNullOrEmpty(TextBitlyPw.Text) Then
+        If TweenMain.IsNetworkAvailable() AndAlso _
+            (ComboBoxAutoShortUrlFirst.SelectedIndex = UrlConverter.Bitly OrElse ComboBoxAutoShortUrlFirst.SelectedIndex = UrlConverter.Jmp) AndAlso _
+             (Not String.IsNullOrEmpty(TextBitlyId.Text) OrElse Not String.IsNullOrEmpty(TextBitlyPw.Text)) Then
             If Not BitlyValidation(TextBitlyId.Text, TextBitlyPw.Text) Then
                 MessageBox.Show(My.Resources.SettingSave_ClickText1)
                 _ValidationError = True
@@ -1933,8 +1935,10 @@ Public Class Setting
             Return False
         ElseIf content.Trim() = "1" Then
             Return True
-        Else
+        ElseIf content.Trim() = "0" Then
             Return False
+        Else
+            Return True             ' 規定外応答：通信エラーの可能性があるためスルー
         End If
     End Function
 
