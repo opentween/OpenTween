@@ -7239,7 +7239,7 @@ RETRY:
         End If
     End Sub
 
-    Private Function IsNetworkAvailable() As Boolean
+    Public Function IsNetworkAvailable() As Boolean
         Dim nw As Boolean = True
         Try
             nw = My.Computer.Network.IsAvailable
