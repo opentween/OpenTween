@@ -31,13 +31,8 @@ Public Class Setting
     Private _MyDMPeriod As Integer
     Private _MyPubSearchPeriod As Integer
     Private _MyListsPeriod As Integer
-    'Private _MynextThreshold As Integer
-    'Private _MyNextPages As Integer
     Private _MyLogDays As Integer
     Private _MyLogUnit As LogUnitEnum
-    'Private _MyReadPages As Integer
-    'Private _MyReadPagesReply As Integer
-    'Private _MyReadPagesDM As Integer
     Private _MyReaded As Boolean
     Private _MyIconSize As IconSizes
     Private _MyStatusText As String
@@ -68,7 +63,6 @@ Public Class Setting
     Private _clDetailLink As Color
     Private _MyNameBalloon As NameBalloonEnum
     Private _MyPostCtrlEnter As Boolean
-    'Private _useAPI As Boolean
     Private _usePostMethod As Boolean
     Private _countApi As Integer
     Private _countApiReply As Integer
@@ -246,23 +240,19 @@ Public Class Setting
             _MyAlwaysTop = CheckAlwaysTop.Checked
             _MyUrlConvertAuto = CheckAutoConvertUrl.Checked
             _MyOutputz = CheckOutputz.Checked
-            'Outputz.outputzEnabled = _MyOutputz
             _MyOutputzKey = TextBoxOutputzKey.Text.Trim()
-            'Outputz.outputzKey = _MyOutputzKey
 
             Select Case ComboBoxOutputzUrlmode.SelectedIndex
                 Case 0
                     _MyOutputzUrlmode = OutputzUrlmode.twittercom
-                    'Outputz.outputzUrl = "http://twitter.com/"
                 Case 1
                     _MyOutputzUrlmode = OutputzUrlmode.twittercomWithUsername
-                    'Outputz.outputzUrl = "http://twitter.com/" + tw.Username
             End Select
 
             _MyNicoms = CheckNicoms.Checked
             _MyUnreadStyle = chkUnreadStyle.Checked
             _MyDateTimeFormat = CmbDateTimeFormat.Text
-            _MyDefaultTimeOut = CType(ConnectionTimeOut.Text, Integer)      ' 0の場合はGetWebResponse()側でTimeOut.Infiniteへ読み替える
+            _MyDefaultTimeOut = CType(ConnectionTimeOut.Text, Integer)  
             _MyProtectNotInclude = CheckProtectNotInclude.Checked
             _MyLimitBalloon = CheckBalloonLimit.Checked
             _MyAutoShortUrlFirst = CType(ComboBoxAutoShortUrlFirst.SelectedIndex, UrlConverter)
@@ -617,22 +607,6 @@ Public Class Setting
             Exit Sub
         End If
         CalcApiUsing()
-    End Sub
-
-    Private Sub ReadLogDays_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs)
-        'Dim days As Integer
-        'Try
-        '    days = CType(ReadLogDays.Text, Integer)
-        'Catch ex As Exception
-        '    MessageBox.Show("読み込み日数には数値（0～7）を指定してください。")
-        '    e.Cancel = True
-        '    Exit Sub
-        'End Try
-
-        'If days < 0 Or days > 7 Then
-        '    MessageBox.Show("読み込み日数には数値（0～7）を指定してください。")
-        '    e.Cancel = True
-        'End If
     End Sub
 
     Private Sub UReadMng_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -1834,8 +1808,6 @@ Public Class Setting
     Private Sub AuthOAuthRadio_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AuthOAuthRadio.CheckedChanged
         If AuthBasicRadio.Checked Then
             'BASIC認証時のみ表示
-            'Username.Text = Twitter.Username
-            'Password.Text = Twitter.Password
             tw.Initialize("", "")
             Me.AuthStateLabel.Enabled = False
             Me.AuthUserLabel.Enabled = False
