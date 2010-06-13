@@ -61,7 +61,6 @@ Partial Class ShowUserInfo
         Me.LabelRecentPost = New System.Windows.Forms.Label()
         Me.LabelIsVerified = New System.Windows.Forms.Label()
         Me.ButtonSearchPosts = New System.Windows.Forms.Button()
-        Me.FlowLayoutPanel1 = New System.Windows.Forms.FlowLayoutPanel()
         Me.LabelId = New System.Windows.Forms.Label()
         Me.Label12 = New System.Windows.Forms.Label()
         Me.ButtonEdit = New System.Windows.Forms.Button()
@@ -289,11 +288,6 @@ Partial Class ShowUserInfo
         Me.ButtonSearchPosts.Name = "ButtonSearchPosts"
         Me.ButtonSearchPosts.UseVisualStyleBackColor = True
         '
-        'FlowLayoutPanel1
-        '
-        resources.ApplyResources(Me.FlowLayoutPanel1, "FlowLayoutPanel1")
-        Me.FlowLayoutPanel1.Name = "FlowLayoutPanel1"
-        '
         'LabelId
         '
         resources.ApplyResources(Me.LabelId, "LabelId")
@@ -366,17 +360,16 @@ Partial Class ShowUserInfo
         Me.CancelButton = Me.ButtonClose
         Me.Controls.Add(Me.TextBoxDescription)
         Me.Controls.Add(Me.TextBoxWeb)
-        Me.Controls.Add(Me.TextBoxLocation)
-        Me.Controls.Add(Me.TextBoxName)
         Me.Controls.Add(Me.ButtonEdit)
         Me.Controls.Add(Me.LabelId)
+        Me.Controls.Add(Me.TextBoxLocation)
+        Me.Controls.Add(Me.TextBoxName)
         Me.Controls.Add(Me.Label12)
-        Me.Controls.Add(Me.FlowLayoutPanel1)
         Me.Controls.Add(Me.ButtonSearchPosts)
         Me.Controls.Add(Me.LinkLabel1)
-        Me.Controls.Add(Me.LabelIsVerified)
         Me.Controls.Add(Me.RecentPostBrowser)
         Me.Controls.Add(Me.UserPicture)
+        Me.Controls.Add(Me.LabelIsVerified)
         Me.Controls.Add(Me.DescriptionBrowser)
         Me.Controls.Add(Me.LabelScreenName)
         Me.Controls.Add(Me.LabelRecentPost)
@@ -384,9 +377,9 @@ Partial Class ShowUserInfo
         Me.Controls.Add(Me.Label9)
         Me.Controls.Add(Me.LabelIsProtected)
         Me.Controls.Add(Me.LabelCreatedAt)
+        Me.Controls.Add(Me.LinkLabelTweet)
         Me.Controls.Add(Me.LabelIsFollowing)
         Me.Controls.Add(Me.LabelIsFollowed)
-        Me.Controls.Add(Me.LinkLabelTweet)
         Me.Controls.Add(Me.Label8)
         Me.Controls.Add(Me.LinkLabelFollowers)
         Me.Controls.Add(Me.ButtonUnFollow)
@@ -401,9 +394,9 @@ Partial Class ShowUserInfo
         Me.Controls.Add(Me.LabelLocation)
         Me.Controls.Add(Me.LinkLabelWeb)
         Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.ButtonClose)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.ButtonClose)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False
@@ -454,7 +447,6 @@ Partial Class ShowUserInfo
     Friend WithEvents LabelIsVerified As System.Windows.Forms.Label
     Friend WithEvents LinkLabel1 As System.Windows.Forms.LinkLabel
     Friend WithEvents ButtonSearchPosts As System.Windows.Forms.Button
-    Friend WithEvents FlowLayoutPanel1 As System.Windows.Forms.FlowLayoutPanel
     Friend WithEvents LabelId As System.Windows.Forms.Label
     Friend WithEvents Label12 As System.Windows.Forms.Label
     Friend WithEvents ButtonEdit As System.Windows.Forms.Button
