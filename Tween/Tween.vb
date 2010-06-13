@@ -3714,14 +3714,14 @@ Public Class TweenMain
             End If
         Else
             If selStart > 0 Then
-                fHalf = StatusText.Text.Substring(0, selStart - 1)
+                fHalf = StatusText.Text.Substring(0, selStart)
             End If
             If selStart < StatusText.Text.Length Then
                 eHalf = StatusText.Text.Substring(selStart)
             End If
             StatusText.Text = fHalf + eHalf
             If selStart > 0 Then
-                StatusText.SelectionStart = selStart - 1
+                StatusText.SelectionStart = selStart
             End If
         End If
     End Sub
