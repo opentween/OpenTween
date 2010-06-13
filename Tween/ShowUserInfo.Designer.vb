@@ -71,6 +71,8 @@ Partial Class ShowUserInfo
         Me.TextBoxLocation = New System.Windows.Forms.TextBox()
         Me.TextBoxWeb = New System.Windows.Forms.TextBox()
         Me.TextBoxDescription = New System.Windows.Forms.TextBox()
+        Me.ButtonBlock = New System.Windows.Forms.Button()
+        Me.ButtonReportSpam = New System.Windows.Forms.Button()
         CType(Me.UserPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ContextMenuStrip2.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
@@ -353,11 +355,25 @@ Partial Class ShowUserInfo
         resources.ApplyResources(Me.TextBoxDescription, "TextBoxDescription")
         Me.TextBoxDescription.Name = "TextBoxDescription"
         '
+        'ButtonBlock
+        '
+        resources.ApplyResources(Me.ButtonBlock, "ButtonBlock")
+        Me.ButtonBlock.Name = "ButtonBlock"
+        Me.ButtonBlock.UseVisualStyleBackColor = True
+        '
+        'ButtonReportSpam
+        '
+        resources.ApplyResources(Me.ButtonReportSpam, "ButtonReportSpam")
+        Me.ButtonReportSpam.Name = "ButtonReportSpam"
+        Me.ButtonReportSpam.UseVisualStyleBackColor = True
+        '
         'ShowUserInfo
         '
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.ButtonClose
+        Me.Controls.Add(Me.ButtonReportSpam)
+        Me.Controls.Add(Me.ButtonBlock)
         Me.Controls.Add(Me.TextBoxDescription)
         Me.Controls.Add(Me.TextBoxWeb)
         Me.Controls.Add(Me.ButtonEdit)
@@ -457,4 +473,6 @@ Partial Class ShowUserInfo
     Friend WithEvents TextBoxLocation As System.Windows.Forms.TextBox
     Friend WithEvents TextBoxWeb As System.Windows.Forms.TextBox
     Friend WithEvents TextBoxDescription As System.Windows.Forms.TextBox
+    Friend WithEvents ButtonBlock As System.Windows.Forms.Button
+    Friend WithEvents ButtonReportSpam As System.Windows.Forms.Button
 End Class

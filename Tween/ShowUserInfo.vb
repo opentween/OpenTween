@@ -611,4 +611,26 @@ Public Class ShowUserInfo
         End Using
 
     End Sub
+
+    Private Sub ButtonBlock_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonBlock.Click
+        If MessageBox.Show(_info.ScreenName + " をブロックします。よろしいですか？", "ブロック確認", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.Yes Then
+            Dim res As String = MyOwner.TwitterInstance.PostCreateBlock(_info.ScreenName)
+            If Not String.IsNullOrEmpty(res) Then
+                MessageBox.Show(res + vbCrLf + "エラーが発生しました。成功しているかどうかWebでご確認ください。")
+            Else
+                MessageBox.Show("ブロックを行いました。成功しているかどうかWebでご確認ください。")
+            End If
+        End If
+    End Sub
+
+    Private Sub ButtonReportSpam_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonReportSpam.Click
+        If MessageBox.Show(_info.ScreenName + " をブロックしスパム報告を行います。よろしいですか？", "スパム報告確認", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.Yes Then
+            Dim res As String = MyOwner.TwitterInstance.PostReportSpam(_info.ScreenName)
+            If Not String.IsNullOrEmpty(res) Then
+                MessageBox.Show(res + vbCrLf + "エラーが発生しました。成功しているかどうかWebでご確認ください。")
+            Else
+                MessageBox.Show("ブロックしスパム報告を行いました。成功しているかどうかWebでご確認ください。")
+            End If
+        End If
+    End Sub
 End Class

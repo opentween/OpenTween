@@ -238,6 +238,28 @@ Public Class HttpTwitter
                             Nothing)
     End Function
 
+    Public Function CreateBlock(ByVal screenName As String, ByRef content As String) As HttpStatusCode
+        Dim param As New Dictionary(Of String, String)
+        param.Add("screen_name", screenName)
+
+        Return httpCon.GetContent(PostMethod, _
+                            CreateTwitterUri("/1/blocks/create.xml"), _
+                            param, _
+                            content, _
+                            Nothing)
+    End Function
+
+    Public Function ReportSpam(ByVal screenName As String, ByRef content As String) As HttpStatusCode
+        Dim param As New Dictionary(Of String, String)
+        param.Add("screen_name", screenName)
+
+        Return httpCon.GetContent(PostMethod, _
+                            CreateTwitterUri("/1/report_spam.xml"), _
+                            param, _
+                            content, _
+                            Nothing)
+    End Function
+
     Public Function ShowFriendships(ByVal souceScreenName As String, ByVal targetScreenName As String, ByRef content As String) As HttpStatusCode
         Dim param As New Dictionary(Of String, String)
         param.Add("source_screen_name", souceScreenName)
