@@ -1932,13 +1932,13 @@ Public Class Setting
         param.Add("format", "txt")
 
         If Not (New HttpVarious).PostData(req, param, content) Then
-            Return False
+            Return True             ' 通信エラーの場合はとりあえずチェックを通ったことにする
         ElseIf content.Trim() = "1" Then
-            Return True
+            Return True             ' 検証成功
         ElseIf content.Trim() = "0" Then
-            Return False
+            Return False            ' 検証失敗 APIキーとIDの組み合わせが違う
         Else
-            Return True             ' 規定外応答：通信エラーの可能性があるためスルー
+            Return True             ' 規定外応答：通信エラーの可能性があるためとりあえずチェックを通ったことにする
         End If
     End Function
 
