@@ -195,9 +195,13 @@ Public Class ShowUserInfo
         If MyOwner.TwitterInstance.Username = _info.ScreenName Then
             ButtonEdit.Enabled = True
             ChangeIconToolStripMenuItem.Enabled = True
+            ButtonBlock.Enabled = False
+            ButtonReportSpam.Enabled = False
         Else
             ButtonEdit.Enabled = False
             ChangeIconToolStripMenuItem.Enabled = False
+            ButtonBlock.Enabled = True
+            ButtonReportSpam.Enabled = True
         End If
     End Sub
 
