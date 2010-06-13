@@ -246,14 +246,16 @@ Public Class ShowUserInfo
     End Sub
 
     Private Sub ButtonUnFollow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonUnFollow.Click
-        Dim ret As String = MyOwner.TwitterInstance.PostRemoveCommand(_info.ScreenName)
-        If Not String.IsNullOrEmpty(ret) Then
-            MessageBox.Show(My.Resources.FRMessage2 + ret)
-        Else
-            MessageBox.Show(My.Resources.FRMessage3)
-            LabelIsFollowing.Text = My.Resources.GetFriendshipInfo2
-            ButtonFollow.Enabled = True
-            ButtonUnFollow.Enabled = False
+        If MessageBox.Show(_info.ScreenName + " をフォロー解除します。よろしいですか？", "フォロー解除確認", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.Yes Then
+            Dim ret As String = MyOwner.TwitterInstance.PostRemoveCommand(_info.ScreenName)
+            If Not String.IsNullOrEmpty(ret) Then
+                MessageBox.Show(My.Resources.FRMessage2 + ret)
+            Else
+                MessageBox.Show(My.Resources.FRMessage3)
+                LabelIsFollowing.Text = My.Resources.GetFriendshipInfo2
+                ButtonFollow.Enabled = True
+                ButtonUnFollow.Enabled = False
+            End If
         End If
     End Sub
 
