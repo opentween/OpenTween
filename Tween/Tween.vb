@@ -204,10 +204,6 @@ Public Class TweenMain
     Private _postBrowserStatusText As String = ""
 
     Private _colorize As Boolean = False
-#If DEBUG Then
-    Private _drawcount As Long = 0
-    Private _drawtime As Long = 0
-#End If
 
     'URL短縮のUndo用
     Private Structure urlUndo
@@ -8138,6 +8134,7 @@ RETRY:
         '    StatusText.Focus()
         'End If
         modifySettingCommon = True
+        Me.StatusText_TextChanged(Nothing, Nothing)
     End Sub
 
     Private Sub HashToggleMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles HashToggleMenuItem.Click, HashToggleToolStripMenuItem.Click
@@ -8152,6 +8149,7 @@ RETRY:
             HashToggleToolStripMenuItem.Checked = False
         End If
         modifySettingCommon = True
+        Me.StatusText_TextChanged(Nothing, Nothing)
     End Sub
 
     Private Sub HashStripSplitButton_ButtonClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles HashStripSplitButton.ButtonClick
