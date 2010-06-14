@@ -4678,11 +4678,7 @@ RETRY:
         For Each idx As Integer In _curList.SelectedIndices
             Dim post As PostClass = _statuses.Item(_curTab.Text, idx)
             If post.IsProtect AndAlso SettingDialog.ProtectNotInclude Then Continue For
-            If post.RetweetedId = 0 Then
-                sb.AppendFormat("{0}:{1} [http://twitter.com/{0}/status/{2}]{3}", post.Name, post.Data, post.Id, Environment.NewLine)
-            Else
-                sb.AppendFormat("{0}:{1} [http://twitter.com/{2}/status/{3}]{4}", post.Name, post.Data, post.RetweetedBy, post.Id, Environment.NewLine)
-            End If
+            sb.AppendFormat("{0}:{1} [http://twitter.com/{0}/status/{2}]{3}", post.Name, post.Data, post.Id, Environment.NewLine)
         Next
         If sb.Length > 0 Then
             clstr = sb.ToString()
@@ -4699,11 +4695,7 @@ RETRY:
         Dim sb As New StringBuilder()
         For Each idx As Integer In _curList.SelectedIndices
             Dim post As PostClass = _statuses.Item(_curTab.Text, idx)
-            If String.IsNullOrEmpty(post.RetweetedBy) Then
-                sb.AppendFormat("http://twitter.com/{0}/status/{1}{2}", post.Name, post.Id, Environment.NewLine)
-            Else
-                sb.AppendFormat("http://twitter.com/{0}/status/{1}{2}", post.RetweetedBy, post.Id, Environment.NewLine)
-            End If
+            sb.AppendFormat("http://twitter.com/{0}/status/{1}{2}", post.Name, post.Id, Environment.NewLine)
         Next
         If sb.Length > 0 Then
             clstr = sb.ToString()
