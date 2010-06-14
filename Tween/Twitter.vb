@@ -358,7 +358,7 @@ Public Class Twitter
             End If
 
             Dim httpVar As New HttpVarious
-            img = httpVar.GetImage(post.ImageUrl)
+            img = httpVar.GetImage(post.ImageUrl, 10000)
             If img Is Nothing Then
                 post.ImageIndex = -1
                 TabInformations.GetInstance.AddPost(post)

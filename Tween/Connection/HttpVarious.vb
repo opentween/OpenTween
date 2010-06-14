@@ -26,14 +26,26 @@ Public Class HttpVarious
     End Function
 
     Public Overloads Function GetImage(ByVal url As String) As Image
-        Return GetImage(url, "")
+        Return GetImage(url, "", 10000)
+    End Function
+
+    Public Overloads Function GetImage(ByVal url As String, ByVal timeout As Integer) As Image
+        Return GetImage(url, "", timeout)
     End Function
 
     Public Overloads Function GetImage(ByVal url As String, ByVal referer As String) As Image
+        Return GetImage(url, referer, 10000)
+    End Function
+
+    Public Overloads Function GetImage(ByVal url As String, ByVal referer As String, ByVal timeout As Integer) As Image
         Try
             Dim req As HttpWebRequest = CreateRequest(GetMethod, New Uri(url), Nothing, False)
             If Not String.IsNullOrEmpty(referer) Then req.Referer = referer
-            req.Timeout = 5000
+            If timeout < 3000 OrElse timeout > 30000 Then
+                req.Timeout = 10000
+            Else
+                req.Timeout = timeout
+            End If
             Dim img As Bitmap = Nothing
             Dim ret As HttpStatusCode = GetResponse(req, img, Nothing, False)
             If ret = HttpStatusCode.OK Then Return CheckValidImage(img)
