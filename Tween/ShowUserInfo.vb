@@ -460,6 +460,7 @@ Public Class ShowUserInfo
             TextBoxName.BackColor = MyOwner.InputBackColor
             TextBoxName.MaxLength = 20
             TextBoxName.Text = LabelName.Text
+            TextBoxName.TabStop = True
             TextBoxName.Visible = True
             LabelName.Visible = False
 
@@ -469,6 +470,7 @@ Public Class ShowUserInfo
             TextBoxLocation.BackColor = MyOwner.InputBackColor
             TextBoxLocation.MaxLength = 30
             TextBoxLocation.Text = LabelLocation.Text
+            TextBoxLocation.TabStop = True
             TextBoxLocation.Visible = True
             LabelLocation.Visible = False
 
@@ -478,6 +480,7 @@ Public Class ShowUserInfo
             TextBoxWeb.BackColor = MyOwner.InputBackColor
             TextBoxWeb.MaxLength = 100
             TextBoxWeb.Text = _info.Url
+            TextBoxWeb.TabStop = True
             TextBoxWeb.Visible = True
             LinkLabelWeb.Visible = False
 
@@ -489,6 +492,7 @@ Public Class ShowUserInfo
             TextBoxDescription.Text = _info.Description
             TextBoxDescription.Multiline = True
             TextBoxDescription.ScrollBars = ScrollBars.Vertical
+            TextBoxDescription.TabStop = True
             TextBoxDescription.Visible = True
             DescriptionBrowser.Visible = False
 
@@ -524,21 +528,25 @@ Public Class ShowUserInfo
 
             LabelName.Text = TextBoxName.Text
             _info.Name = LabelName.Text
+            TextBoxName.TabStop = False
             TextBoxName.Visible = False
             LabelName.Visible = True
 
             LabelLocation.Text = TextBoxLocation.Text
             _info.Location = LabelLocation.Text
+            TextBoxLocation.TabStop = False
             TextBoxLocation.Visible = False
             LabelLocation.Visible = True
 
             SetLinklabelWeb(TextBoxWeb.Text)
             _info.Url = TextBoxWeb.Text
+            TextBoxWeb.TabStop = False
             TextBoxWeb.Visible = False
             LinkLabelWeb.Visible = True
 
             DescriptionBrowser.DocumentText = MakeDescriptionBrowserText(TextBoxDescription.Text)
             _info.Description = TextBoxDescription.Text
+            TextBoxDescription.TabStop = False
             TextBoxDescription.Visible = False
             DescriptionBrowser.Visible = True
 

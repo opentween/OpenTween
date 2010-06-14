@@ -339,21 +339,25 @@ Partial Class ShowUserInfo
         '
         resources.ApplyResources(Me.TextBoxName, "TextBoxName")
         Me.TextBoxName.Name = "TextBoxName"
+        Me.TextBoxName.TabStop = False
         '
         'TextBoxLocation
         '
         resources.ApplyResources(Me.TextBoxLocation, "TextBoxLocation")
         Me.TextBoxLocation.Name = "TextBoxLocation"
+        Me.TextBoxLocation.TabStop = False
         '
         'TextBoxWeb
         '
         resources.ApplyResources(Me.TextBoxWeb, "TextBoxWeb")
         Me.TextBoxWeb.Name = "TextBoxWeb"
+        Me.TextBoxWeb.TabStop = False
         '
         'TextBoxDescription
         '
         resources.ApplyResources(Me.TextBoxDescription, "TextBoxDescription")
         Me.TextBoxDescription.Name = "TextBoxDescription"
+        Me.TextBoxDescription.TabStop = False
         '
         'ButtonBlock
         '
