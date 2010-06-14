@@ -331,7 +331,7 @@ Public Class HttpConnectionOAuth
     '''<param name="uri">アクセス先Uri</param>
     '''<param name="parameter">クエリ、もしくはPOSTデータ</param>
     '''<returns>署名文字列</returns>
-    Private Function CreateSignature(ByVal tokenSecret As String, _
+    Protected Overridable Function CreateSignature(ByVal tokenSecret As String, _
                                             ByVal method As String, _
                                             ByVal uri As Uri, _
                                             ByVal parameter As Dictionary(Of String, String) _

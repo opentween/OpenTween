@@ -17,7 +17,7 @@ Public Class HttpOAuthApiProxy
         End Set
     End Property
 
-    Private Function CreateSignature(ByVal tokenSecret As String, _
+    Protected Overrides Function CreateSignature(ByVal tokenSecret As String, _
                                             ByVal method As String, _
                                             ByVal uri As Uri, _
                                             ByVal parameter As Dictionary(Of String, String) _
