@@ -249,6 +249,7 @@ Partial Class TweenMain
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.UserStatusToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -1131,7 +1132,7 @@ Partial Class TweenMain
         '
         'MenuItemCommand
         '
-        Me.MenuItemCommand.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TinyUrlConvertToolStripMenuItem, Me.UpdateFollowersMenuItem1, Me.ToolStripSeparator1, Me.FollowCommandMenuItem, Me.RemoveCommandMenuItem, Me.FriendshipMenuItem, Me.ToolStripSeparator3, Me.OwnStatusMenuItem, Me.ToolStripSeparator34, Me.HashToggleToolStripMenuItem, Me.HashManageToolStripMenuItem, Me.RtCountMenuItem})
+        Me.MenuItemCommand.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TinyUrlConvertToolStripMenuItem, Me.UpdateFollowersMenuItem1, Me.ToolStripSeparator1, Me.FollowCommandMenuItem, Me.RemoveCommandMenuItem, Me.FriendshipMenuItem, Me.ToolStripSeparator3, Me.OwnStatusMenuItem, Me.UserStatusToolStripMenuItem, Me.ToolStripSeparator34, Me.HashToggleToolStripMenuItem, Me.HashManageToolStripMenuItem, Me.RtCountMenuItem})
         Me.MenuItemCommand.Name = "MenuItemCommand"
         resources.ApplyResources(Me.MenuItemCommand, "MenuItemCommand")
         '
@@ -1536,6 +1537,11 @@ Partial Class TweenMain
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
+        'UserStatusToolStripMenuItem
+        '
+        Me.UserStatusToolStripMenuItem.Name = "UserStatusToolStripMenuItem"
+        resources.ApplyResources(Me.UserStatusToolStripMenuItem, "UserStatusToolStripMenuItem")
+        '
         'TweenMain
         '
         Me.AllowDrop = True
@@ -1804,5 +1810,6 @@ Partial Class TweenMain
     Friend WithEvents ProfilePanel As System.Windows.Forms.Panel
     Friend WithEvents FriendshipAllMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator35 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents UserStatusToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class
