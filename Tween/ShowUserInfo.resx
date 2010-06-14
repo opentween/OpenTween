@@ -130,7 +130,7 @@
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="ButtonClose.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>14</value>
   </data>
   <data name="ButtonClose.Text" xml:space="preserve">
     <value>閉じる</value>
@@ -277,7 +277,7 @@
     <value>350, 14</value>
   </data>
   <data name="LinkLabelWeb.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+    <value>0</value>
   </data>
   <data name="LinkLabelWeb.Text" xml:space="preserve">
     <value>LinkLabelWeb</value>
@@ -421,7 +421,7 @@
     <value>101, 12</value>
   </data>
   <data name="LinkLabelFollowing.TabIndex" type="System.Int32, mscorlib">
-    <value>20</value>
+    <value>10</value>
   </data>
   <data name="LinkLabelFollowing.Text" xml:space="preserve">
     <value>LinkLabelFollowing</value>
@@ -451,7 +451,7 @@
     <value>102, 12</value>
   </data>
   <data name="LinkLabelFollowers.TabIndex" type="System.Int32, mscorlib">
-    <value>22</value>
+    <value>12</value>
   </data>
   <data name="LinkLabelFollowers.Text" xml:space="preserve">
     <value>LinkLabelFollowers</value>
@@ -577,7 +577,7 @@
     <value>84, 12</value>
   </data>
   <data name="LinkLabelTweet.TabIndex" type="System.Int32, mscorlib">
-    <value>24</value>
+    <value>11</value>
   </data>
   <data name="LinkLabelTweet.Text" xml:space="preserve">
     <value>LinkLabelTweet</value>
@@ -637,7 +637,7 @@
     <value>72, 12</value>
   </data>
   <data name="LinkLabelFav.TabIndex" type="System.Int32, mscorlib">
-    <value>26</value>
+    <value>13</value>
   </data>
   <data name="LinkLabelFav.Text" xml:space="preserve">
     <value>LinkLabelFav</value>
@@ -837,6 +837,12 @@
   <metadata name="ContextMenuStrip2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>612, 17</value>
   </metadata>
+  <data name="ChangeIconToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>139, 22</value>
+  </data>
+  <data name="ChangeIconToolStripMenuItem.Text" xml:space="preserve">
+    <value>アイコンの変更</value>
+  </data>
   <data name="ContextMenuStrip2.Size" type="System.Drawing.Size, System.Drawing">
     <value>140, 26</value>
   </data>
@@ -872,12 +878,6 @@
   </data>
   <data name="&gt;&gt;UserPicture.ZOrder" xml:space="preserve">
     <value>14</value>
-  </data>
-  <data name="ChangeIconToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>139, 22</value>
-  </data>
-  <data name="ChangeIconToolStripMenuItem.Text" xml:space="preserve">
-    <value>アイコンの変更</value>
   </data>
   <metadata name="BackgroundWorkerImageLoader.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
@@ -928,7 +928,7 @@
     <value>100, 12</value>
   </data>
   <data name="LinkLabel1.TabIndex" type="System.Int32, mscorlib">
-    <value>30</value>
+    <value>1</value>
   </data>
   <data name="LinkLabel1.Text" xml:space="preserve">
     <value>認証済み(Verified)</value>
@@ -951,15 +951,6 @@
   <metadata name="ContextMenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>326, 17</value>
   </metadata>
-  <data name="ContextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 48</value>
-  </data>
-  <data name="&gt;&gt;ContextMenuStrip1.Name" xml:space="preserve">
-    <value>ContextMenuStrip1</value>
-  </data>
-  <data name="&gt;&gt;ContextMenuStrip1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="SelectionCopyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>166, 22</value>
   </data>
@@ -971,6 +962,15 @@
   </data>
   <data name="SelectAllToolStripMenuItem.Text" xml:space="preserve">
     <value>すべて選択</value>
+  </data>
+  <data name="ContextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>167, 48</value>
+  </data>
+  <data name="&gt;&gt;ContextMenuStrip1.Name" xml:space="preserve">
+    <value>ContextMenuStrip1</value>
+  </data>
+  <data name="&gt;&gt;ContextMenuStrip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="LabelRecentPost.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1135,7 +1135,7 @@
     <value>75, 23</value>
   </data>
   <data name="ButtonEdit.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>9</value>
   </data>
   <data name="ButtonEdit.Text" xml:space="preserve">
     <value>編集</value>
@@ -1204,7 +1204,7 @@
     <value>16, 19</value>
   </data>
   <data name="TextBoxName.TabIndex" type="System.Int32, mscorlib">
-    <value>35</value>
+    <value>5</value>
   </data>
   <data name="TextBoxName.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1228,7 +1228,7 @@
     <value>16, 19</value>
   </data>
   <data name="TextBoxLocation.TabIndex" type="System.Int32, mscorlib">
-    <value>36</value>
+    <value>6</value>
   </data>
   <data name="TextBoxLocation.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1252,7 +1252,7 @@
     <value>16, 19</value>
   </data>
   <data name="TextBoxWeb.TabIndex" type="System.Int32, mscorlib">
-    <value>37</value>
+    <value>7</value>
   </data>
   <data name="TextBoxWeb.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1276,7 +1276,7 @@
     <value>16, 19</value>
   </data>
   <data name="TextBoxDescription.TabIndex" type="System.Int32, mscorlib">
-    <value>38</value>
+    <value>8</value>
   </data>
   <data name="TextBoxDescription.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1300,7 +1300,7 @@
     <value>75, 23</value>
   </data>
   <data name="ButtonBlock.TabIndex" type="System.Int32, mscorlib">
-    <value>39</value>
+    <value>3</value>
   </data>
   <data name="ButtonBlock.Text" xml:space="preserve">
     <value>ブロック</value>
@@ -1315,7 +1315,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;ButtonBlock.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="ButtonReportSpam.Location" type="System.Drawing.Point, System.Drawing">
     <value>429, 182</value>
@@ -1324,7 +1324,7 @@
     <value>75, 23</value>
   </data>
   <data name="ButtonReportSpam.TabIndex" type="System.Int32, mscorlib">
-    <value>40</value>
+    <value>4</value>
   </data>
   <data name="ButtonReportSpam.Text" xml:space="preserve">
     <value>スパム報告</value>
@@ -1339,7 +1339,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;ButtonReportSpam.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>2</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
