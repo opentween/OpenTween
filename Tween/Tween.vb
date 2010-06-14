@@ -4500,13 +4500,13 @@ RETRY:
                 SendKeys.Send("{TAB}")
             End If
             ' ] in_reply_to参照元へ戻る
-            If e.KeyCode = Keys.Oem6 Then
+            If e.KeyCode = Keys.Oem4 Then
                 e.Handled = True
                 e.SuppressKeyPress = True
                 GoInReplyToPost()
             End If
             ' [ in_reply_toへジャンプ
-            If e.KeyCode = Keys.Oem4 Then
+            If e.KeyCode = Keys.Oem6 Then
                 e.Handled = True
                 e.SuppressKeyPress = True
                 GoBackInReplyToPost()
