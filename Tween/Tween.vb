@@ -2040,7 +2040,7 @@ Public Class TweenMain
                     If ret = "" OrElse _
                        ret.StartsWith("OK:") OrElse _
                        ret.StartsWith("Outputz:") OrElse _
-                       ret = "Err:Status is a duplicate." OrElse _
+                       ret.StartsWith("Warn:") OrElse _
                        args.status.status.StartsWith("D", StringComparison.OrdinalIgnoreCase) OrElse _
                        args.status.status.StartsWith("DM", StringComparison.OrdinalIgnoreCase) Then
                         Exit For
@@ -2364,7 +2364,10 @@ Public Class TweenMain
                     _curList.EndUpdate()
                 End If
             Case WORKERTYPE.PostMessage
-                If rslt.retMsg = "" OrElse rslt.retMsg.StartsWith("Outputz") OrElse rslt.retMsg.StartsWith("OK:") OrElse rslt.retMsg = "Err:Status is a duplicate." Then
+                If rslt.retMsg = "" OrElse _
+                    rslt.retMsg.StartsWith("Outputz") OrElse _
+                    rslt.retMsg.StartsWith("OK:") OrElse _
+                    rslt.retMsg = "Warn:Status is a duplicate." Then
                     _postTimestamps.Add(Now)
                     Dim oneHour As Date = Now.Subtract(New TimeSpan(1, 0, 0))
                     For i As Integer = _postTimestamps.Count - 1 To 0 Step -1
