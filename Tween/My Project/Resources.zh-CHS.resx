@@ -673,7 +673,7 @@
     <value>消息文本长度超出限制</value>
   </data>
   <data name="RetweetQuestion1" xml:space="preserve">
-    <value>Retweet该条消息？</value>
+    <value>锐推此消息？</value>
   </data>
   <data name="InputTabName_Load1" xml:space="preserve">
     <value>过滤的时间线</value>
@@ -796,7 +796,7 @@
     <value>正在取消关注…</value>
   </data>
   <data name="RtCountMenuItem_ClickText1" xml:space="preserve">
-    <value>正在读取Retweet数…</value>
+    <value>正在读取锐推数…</value>
   </data>
   <data name="ShowFriendshipText1" xml:space="preserve">
     <value>正在获取关注状态…</value>
