@@ -502,10 +502,25 @@ Public Class Twitter
                     xd.LoadXml(content)
                     Dim xNode As XmlNode = Nothing
                     xNode = xd.SelectSingleNode("/hash/error")
-                    Return "Err:" + xNode.InnerText
+                    Return "Warn:" + xNode.InnerText
                 Catch ex As Exception
                 End Try
-                Return "Err:Update Limits?"
+                Return "Warn:" + res.ToString
+            Case HttpStatusCode.Conflict, _
+                HttpStatusCode.ExpectationFailed, _
+                HttpStatusCode.Gone, _
+                HttpStatusCode.LengthRequired, _
+                HttpStatusCode.MethodNotAllowed, _
+                HttpStatusCode.NotAcceptable, _
+                HttpStatusCode.NotFound, _
+                HttpStatusCode.PaymentRequired, _
+                HttpStatusCode.PreconditionFailed, _
+                HttpStatusCode.RequestedRangeNotSatisfiable, _
+                HttpStatusCode.RequestEntityTooLarge, _
+                HttpStatusCode.RequestTimeout, _
+                HttpStatusCode.RequestUriTooLong
+                '仕様書にない400系エラー。サーバまでは到達しているのでリトライしない
+                Return "Warn:" + res.ToString
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Return "Check your Username/Password."
@@ -564,10 +579,25 @@ Public Class Twitter
                     xd.LoadXml(content)
                     Dim xNode As XmlNode = Nothing
                     xNode = xd.SelectSingleNode("/hash/error")
-                    Return "Err:" + xNode.InnerText
+                    Return "Warn:" + xNode.InnerText
                 Catch ex As Exception
                 End Try
-                Return "Err:Update Limits?"
+                Return "Warn:" + res.ToString
+            Case HttpStatusCode.Conflict, _
+                HttpStatusCode.ExpectationFailed, _
+                HttpStatusCode.Gone, _
+                HttpStatusCode.LengthRequired, _
+                HttpStatusCode.MethodNotAllowed, _
+                HttpStatusCode.NotAcceptable, _
+                HttpStatusCode.NotFound, _
+                HttpStatusCode.PaymentRequired, _
+                HttpStatusCode.PreconditionFailed, _
+                HttpStatusCode.RequestedRangeNotSatisfiable, _
+                HttpStatusCode.RequestEntityTooLarge, _
+                HttpStatusCode.RequestTimeout, _
+                HttpStatusCode.RequestUriTooLong
+                '仕様書にない400系エラー。サーバまでは到達しているのでリトライしない
+                Return "Warn:" + res.ToString
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Return "Check your Username/Password."
