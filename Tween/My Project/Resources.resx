@@ -862,4 +862,7 @@
   <data name="UserInfoButtonEdit_ClickText2" xml:space="preserve">
     <value>プロフィール更新中・・・</value>
   </data>
+  <data name="CopyStotText1" xml:space="preserve">
+    <value>警告：Protected発言はコピーされていません。</value>
+  </data>
 </root>
