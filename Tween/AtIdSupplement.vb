@@ -151,5 +151,10 @@ Public Class AtIdSupplement
 
     Private Sub AtIdSupplement_FormClosed(ByVal sender As System.Object, ByVal e As System.Windows.Forms.FormClosedEventArgs) Handles MyBase.FormClosed
         _StartsWith = ""
+        If isBack Then
+            Me.DialogResult = Windows.Forms.DialogResult.Cancel
+        Else
+            Me.DialogResult = Windows.Forms.DialogResult.OK
+        End If
     End Sub
 End Class
