@@ -862,6 +862,48 @@
   <data name="UserInfoButtonEdit_ClickText2" xml:space="preserve">
     <value>プロフィール更新中・・・</value>
   </data>
+  <data name="ButtonBlockDestroy_ClickText1" xml:space="preserve">
+    <value> をブロック解除します。よろしいですか？</value>
+  </data>
+  <data name="ButtonBlockDestroy_ClickText2" xml:space="preserve">
+    <value>ブロック解除確認</value>
+  </data>
+  <data name="ButtonBlockDestroy_ClickText3" xml:space="preserve">
+    <value>エラーが発生しました。成功しているかどうかWebでご確認ください。</value>
+  </data>
+  <data name="ButtonBlockDestroy_ClickText4" xml:space="preserve">
+    <value>ブロック解除を行いました。成功しているかどうかWebでご確認ください。</value>
+  </data>
+  <data name="ButtonBlock_ClickText1" xml:space="preserve">
+    <value> をブロックします。よろしいですか？</value>
+  </data>
+  <data name="ButtonBlock_ClickText2" xml:space="preserve">
+    <value>ブロック確認</value>
+  </data>
+  <data name="ButtonBlock_ClickText3" xml:space="preserve">
+    <value>エラーが発生しました。成功しているかどうかWebでご確認ください。</value>
+  </data>
+  <data name="ButtonBlock_ClickText4" xml:space="preserve">
+    <value>ブロックを行いました。成功しているかどうかWebでご確認ください。</value>
+  </data>
+  <data name="ButtonReportSpam_ClickText1" xml:space="preserve">
+    <value> をブロックしスパム報告を行います。よろしいですか？</value>
+  </data>
+  <data name="ButtonReportSpam_ClickText2" xml:space="preserve">
+    <value>スパム報告確認</value>
+  </data>
+  <data name="ButtonReportSpam_ClickText3" xml:space="preserve">
+    <value>エラーが発生しました。成功しているかどうかWebでご確認ください。</value>
+  </data>
+  <data name="ButtonReportSpam_ClickText4" xml:space="preserve">
+    <value>ブロックしスパム報告を行いました。成功しているかどうかWebでご確認ください。</value>
+  </data>
+  <data name="ButtonUnFollow_ClickText1" xml:space="preserve">
+    <value> をフォロー解除します。よろしいですか？</value>
+  </data>
+  <data name="ButtonUnFollow_ClickText2" xml:space="preserve">
+    <value>フォロー解除確認</value>
+  </data>
   <data name="CopyStotText1" xml:space="preserve">
     <value>警告：Protected発言はコピーされていません。</value>
   </data>
