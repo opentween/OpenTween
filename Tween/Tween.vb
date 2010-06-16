@@ -3665,27 +3665,6 @@ Public Class TweenMain
             If Not SettingDialog.UseHashSupplement Then Exit Sub
             ShowSuplDialog(HashSupl)
             e.Handled = True
-        ElseIf e.KeyChar = " " AndAlso Control.ModifierKeys = Keys.Control Then
-            If StatusText.SelectionStart > 0 Then
-                Dim endidx As Integer = StatusText.SelectionStart - 1
-                Dim startstr As String = ""
-                For i As Integer = StatusText.SelectionStart - 1 To 0 Step -1
-                    Dim c As Char = StatusText.Text.Chars(i)
-                    If Char.IsLetterOrDigit(c) OrElse c = "_" Then
-                        Continue For
-                    End If
-                    If c = "@" Then
-                        startstr = StatusText.Text.Substring(i + 1, endidx - i)
-                        ShowSuplDialog(AtIdSupl, startstr.Length + 1, startstr)
-                    ElseIf c = "#" Then
-                        startstr = StatusText.Text.Substring(i + 1, endidx - i)
-                        ShowSuplDialog(HashSupl, startstr.Length + 1, startstr)
-                    Else
-                        Exit For
-                    End If
-                Next
-                e.Handled = True
-            End If
         End If
     End Sub
 
@@ -5156,6 +5135,28 @@ RETRY:
                 e.Handled = True
                 e.SuppressKeyPress = True
                 StatusText.Focus()
+            End If
+        End If
+        If e.KeyCode = Keys.Space AndAlso e.Modifiers = (Keys.Shift Or Keys.Control) Then
+            If StatusText.SelectionStart > 0 Then
+                Dim endidx As Integer = StatusText.SelectionStart - 1
+                Dim startstr As String = ""
+                For i As Integer = StatusText.SelectionStart - 1 To 0 Step -1
+                    Dim c As Char = StatusText.Text.Chars(i)
+                    If Char.IsLetterOrDigit(c) OrElse c = "_" Then
+                        Continue For
+                    End If
+                    If c = "@" Then
+                        startstr = StatusText.Text.Substring(i + 1, endidx - i)
+                        ShowSuplDialog(AtIdSupl, startstr.Length + 1, startstr)
+                    ElseIf c = "#" Then
+                        startstr = StatusText.Text.Substring(i + 1, endidx - i)
+                        ShowSuplDialog(HashSupl, startstr.Length + 1, startstr)
+                    Else
+                        Exit For
+                    End If
+                Next
+                e.Handled = True
             End If
         End If
         Me.StatusText_TextChanged(Nothing, Nothing)
