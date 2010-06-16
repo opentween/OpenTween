@@ -361,17 +361,18 @@ Namespace My.Resources
         '''<summary>
         '''  更新履歴
         '''
-        '''==== Ver 0.9.2.2(2010/06/**)
+        '''==== Ver 0.9.2.4(2010/06/**)
+        ''' * 400系エラー時は投稿リトライを行わないように変更
+        ''' * API ProxyのOAuth対応が動作していなかったバグ修正
+        ''' * @,#補完ダイアログ呼び出しのショートカットをCtrl+Shift+Spaceに変更
+        ''' * プロフィール画面からブロック解除ができるようにした。ダイアログによる確認が入ります。
+        ''' * STOTコピーの際にProtect発言が含まれていた場合ダイアログを出すようにした
+        '''==== Ver 0.9.2.3(2010/06/14)
         ''' * DM送信で複数行を考慮していなかったのを修正(開発版のみ。安定版では問題ありません)
         ''' * 画像プレビューで未対応画像形式のチェックをするようにした
         ''' * ハッシュタグマネージャで大文字小文字を区別せずに扱うようにした
         ''' * パスワードを設定するミスが多いため、設定画面をOKで閉じる際にbit.lyのアカウント情報が正しいかどうか検証するようにした
-        ''' * Ctrl+フルキー数字でタブのダイレクト選択ができるようにした。Ctrl+1～8で左端からのタブを選択、Ctrl+9で最後尾タブ選択。
-        ''' * in_reply_to_status_idの付いた書き込みで、reply先の書き込みをキーで追いかけられるようにした ]でreply先へジャンプ、[で元の書き込みへ戻る。(thx @__park)
-        ''' * ソート方法を切り替えたときに現在選択している発言が変更されないようにした
-        ''' * アイコン変更の際のファイル名フィルタを変更した
-        '''==== Ver 0.9.2.2(2010/06/05)
-        ''' * 発言数・Followers/ [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ''' * Ctrl+フルキー数字でタブのダイレクト選択ができるようにした。Ctrl+1～8で左端からのタブを選択、 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property ChangeLog() As String
             Get
@@ -520,6 +521,15 @@ Namespace My.Resources
         Friend ReadOnly Property ContextMenuStrip3_OpeningText2() As String
             Get
                 Return ResourceManager.GetString("ContextMenuStrip3_OpeningText2", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  警告：Protected発言はコピーされていません。 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property CopyStotText1() As String
+            Get
+                Return ResourceManager.GetString("CopyStotText1", resourceCulture)
             End Get
         End Property
         

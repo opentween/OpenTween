@@ -4657,9 +4657,13 @@ RETRY:
     Private Sub CopyStot()
         Dim clstr As String = ""
         Dim sb As New StringBuilder()
+        Dim IsProtected As Boolean = False
         For Each idx As Integer In _curList.SelectedIndices
             Dim post As PostClass = _statuses.Item(_curTab.Text, idx)
-            If post.IsProtect AndAlso SettingDialog.ProtectNotInclude Then Continue For
+            If post.IsProtect AndAlso SettingDialog.ProtectNotInclude Then
+                IsProtected = True
+                Continue For
+            End If
             sb.AppendFormat("{0}:{1} [http://twitter.com/{0}/status/{2}]{3}", post.Name, post.Data, post.Id, Environment.NewLine)
         Next
         If sb.Length > 0 Then
@@ -4669,6 +4673,9 @@ RETRY:
             Catch ex As Exception
                 MessageBox.Show(ex.Message)
             End Try
+        End If
+        If IsProtected Then
+            MessageBox.Show(My.Resources.CopyStotText1)
         End If
     End Sub
 
