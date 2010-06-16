@@ -7761,7 +7761,7 @@ RETRY:
                     Else
                         result += My.Resources.GetFriendshipInfo4
                     End If
-                    result = id + My.Resources.GetFriendshipInfo5 + System.Environment.NewLine + result
+                    result = args.ids(0).id + My.Resources.GetFriendshipInfo5 + System.Environment.NewLine + result
                 Else
                     result = ret
                 End If
