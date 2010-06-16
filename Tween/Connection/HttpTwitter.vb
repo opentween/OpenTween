@@ -20,7 +20,7 @@ Public Class HttpTwitter
     Private Const AccessTokenUrlXAuth As String = "https://api.twitter.com/oauth/access_token"
 
     Private Shared _protocol As String = "http://"
-    Private _remainCountApi As New Dictionary(Of String, String)
+    Private _remainCountApi As New Dictionary(Of String, String)(StringComparer.CurrentCultureIgnoreCase)
 
     Private Const PostMethod As String = "POST"
     Private Const GetMethod As String = "GET"
