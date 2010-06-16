@@ -73,6 +73,7 @@ Partial Class ShowUserInfo
         Me.TextBoxDescription = New System.Windows.Forms.TextBox()
         Me.ButtonBlock = New System.Windows.Forms.Button()
         Me.ButtonReportSpam = New System.Windows.Forms.Button()
+        Me.ButtonBlockDestroy = New System.Windows.Forms.Button()
         CType(Me.UserPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ContextMenuStrip2.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
@@ -371,11 +372,18 @@ Partial Class ShowUserInfo
         Me.ButtonReportSpam.Name = "ButtonReportSpam"
         Me.ButtonReportSpam.UseVisualStyleBackColor = True
         '
+        'ButtonBlockDestroy
+        '
+        resources.ApplyResources(Me.ButtonBlockDestroy, "ButtonBlockDestroy")
+        Me.ButtonBlockDestroy.Name = "ButtonBlockDestroy"
+        Me.ButtonBlockDestroy.UseVisualStyleBackColor = True
+        '
         'ShowUserInfo
         '
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.ButtonClose
+        Me.Controls.Add(Me.ButtonBlockDestroy)
         Me.Controls.Add(Me.ButtonReportSpam)
         Me.Controls.Add(Me.ButtonBlock)
         Me.Controls.Add(Me.TextBoxDescription)
@@ -398,9 +406,9 @@ Partial Class ShowUserInfo
         Me.Controls.Add(Me.LabelIsProtected)
         Me.Controls.Add(Me.LabelCreatedAt)
         Me.Controls.Add(Me.LinkLabelTweet)
-        Me.Controls.Add(Me.LabelIsFollowing)
         Me.Controls.Add(Me.LabelIsFollowed)
         Me.Controls.Add(Me.Label8)
+        Me.Controls.Add(Me.LabelIsFollowing)
         Me.Controls.Add(Me.LinkLabelFollowers)
         Me.Controls.Add(Me.ButtonUnFollow)
         Me.Controls.Add(Me.LinkLabelFollowing)
@@ -479,4 +487,5 @@ Partial Class ShowUserInfo
     Friend WithEvents TextBoxDescription As System.Windows.Forms.TextBox
     Friend WithEvents ButtonBlock As System.Windows.Forms.Button
     Friend WithEvents ButtonReportSpam As System.Windows.Forms.Button
+    Friend WithEvents ButtonBlockDestroy As System.Windows.Forms.Button
 End Class
