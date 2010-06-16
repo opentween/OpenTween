@@ -647,4 +647,15 @@ Public Class ShowUserInfo
             End If
         End If
     End Sub
+
+    Private Sub ButtonBlockDestroy_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonBlockDestroy.Click
+        If MessageBox.Show(_info.ScreenName + " をブロック解除します。よろしいですか？", "ブロック解除確認", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.Yes Then
+            Dim res As String = MyOwner.TwitterInstance.PostDestroyBlock(_info.ScreenName)
+            If Not String.IsNullOrEmpty(res) Then
+                MessageBox.Show(res + vbCrLf + "エラーが発生しました。成功しているかどうかWebでご確認ください。")
+            Else
+                MessageBox.Show("ブロック解除を行いました。成功しているかどうかWebでご確認ください。")
+            End If
+        End If
+    End Sub
 End Class

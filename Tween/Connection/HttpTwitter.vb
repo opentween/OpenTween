@@ -249,6 +249,17 @@ Public Class HttpTwitter
                             Nothing)
     End Function
 
+    Public Function DestroyBlock(ByVal screenName As String, ByRef content As String) As HttpStatusCode
+        Dim param As New Dictionary(Of String, String)
+        param.Add("screen_name", screenName)
+
+        Return httpCon.GetContent(PostMethod, _
+                            CreateTwitterUri("/1/blocks/destroy.xml"), _
+                            param, _
+                            content, _
+                            Nothing)
+    End Function
+
     Public Function ReportSpam(ByVal screenName As String, ByRef content As String) As HttpStatusCode
         Dim param As New Dictionary(Of String, String)
         param.Add("screen_name", screenName)
