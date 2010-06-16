@@ -250,7 +250,9 @@ Public Class ShowUserInfo
     End Sub
 
     Private Sub ButtonUnFollow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonUnFollow.Click
-        If MessageBox.Show(_info.ScreenName + " をフォロー解除します。よろしいですか？", "フォロー解除確認", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.Yes Then
+        If MessageBox.Show(_info.ScreenName + My.Resources.ButtonUnFollow_ClickText1, _
+                           My.Resources.ButtonUnFollow_ClickText2, _
+                           MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.Yes Then
             Dim ret As String = MyOwner.TwitterInstance.PostRemoveCommand(_info.ScreenName)
             If Not String.IsNullOrEmpty(ret) Then
                 MessageBox.Show(My.Resources.FRMessage2 + ret)
@@ -627,34 +629,40 @@ Public Class ShowUserInfo
     End Sub
 
     Private Sub ButtonBlock_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonBlock.Click
-        If MessageBox.Show(_info.ScreenName + " をブロックします。よろしいですか？", "ブロック確認", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.Yes Then
+        If MessageBox.Show(_info.ScreenName + My.Resources.ButtonBlock_ClickText1, _
+                           My.Resources.ButtonBlock_ClickText2, _
+                           MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.Yes Then
             Dim res As String = MyOwner.TwitterInstance.PostCreateBlock(_info.ScreenName)
             If Not String.IsNullOrEmpty(res) Then
-                MessageBox.Show(res + vbCrLf + "エラーが発生しました。成功しているかどうかWebでご確認ください。")
+                MessageBox.Show(res + Environment.NewLine + My.Resources.ButtonBlock_ClickText3)
             Else
-                MessageBox.Show("ブロックを行いました。成功しているかどうかWebでご確認ください。")
+                MessageBox.Show(My.Resources.ButtonBlock_ClickText4)
             End If
         End If
     End Sub
 
     Private Sub ButtonReportSpam_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonReportSpam.Click
-        If MessageBox.Show(_info.ScreenName + " をブロックしスパム報告を行います。よろしいですか？", "スパム報告確認", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.Yes Then
+        If MessageBox.Show(_info.ScreenName + My.Resources.ButtonReportSpam_ClickText1, _
+                           My.Resources.ButtonReportSpam_ClickText2, _
+                           MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.Yes Then
             Dim res As String = MyOwner.TwitterInstance.PostReportSpam(_info.ScreenName)
             If Not String.IsNullOrEmpty(res) Then
-                MessageBox.Show(res + vbCrLf + "エラーが発生しました。成功しているかどうかWebでご確認ください。")
+                MessageBox.Show(res + Environment.NewLine + My.Resources.ButtonReportSpam_ClickText3)
             Else
-                MessageBox.Show("ブロックしスパム報告を行いました。成功しているかどうかWebでご確認ください。")
+                MessageBox.Show(My.Resources.ButtonReportSpam_ClickText4)
             End If
         End If
     End Sub
 
     Private Sub ButtonBlockDestroy_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonBlockDestroy.Click
-        If MessageBox.Show(_info.ScreenName + " をブロック解除します。よろしいですか？", "ブロック解除確認", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.Yes Then
+        If MessageBox.Show(_info.ScreenName + My.Resources.ButtonBlockDestroy_ClickText1, _
+                           My.Resources.ButtonBlockDestroy_ClickText2, _
+                           MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.Yes Then
             Dim res As String = MyOwner.TwitterInstance.PostDestroyBlock(_info.ScreenName)
             If Not String.IsNullOrEmpty(res) Then
-                MessageBox.Show(res + vbCrLf + "エラーが発生しました。成功しているかどうかWebでご確認ください。")
+                MessageBox.Show(res + Environment.NewLine + My.Resources.ButtonBlockDestroy_ClickText3)
             Else
-                MessageBox.Show("ブロック解除を行いました。成功しているかどうかWebでご確認ください。")
+                MessageBox.Show(My.Resources.ButtonBlockDestroy_ClickText4)
             End If
         End If
     End Sub

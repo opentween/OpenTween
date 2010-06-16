@@ -260,6 +260,78 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''   をブロックします。よろしいですか？ に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ButtonBlock_ClickText1() As String
+            Get
+                Return ResourceManager.GetString("ButtonBlock_ClickText1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  ブロック確認 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ButtonBlock_ClickText2() As String
+            Get
+                Return ResourceManager.GetString("ButtonBlock_ClickText2", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  エラーが発生しました。成功しているかどうかWebでご確認ください。 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ButtonBlock_ClickText3() As String
+            Get
+                Return ResourceManager.GetString("ButtonBlock_ClickText3", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  ブロックを行いました。成功しているかどうかWebでご確認ください。 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ButtonBlock_ClickText4() As String
+            Get
+                Return ResourceManager.GetString("ButtonBlock_ClickText4", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''   をブロック解除します。よろしいですか？ に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ButtonBlockDestroy_ClickText1() As String
+            Get
+                Return ResourceManager.GetString("ButtonBlockDestroy_ClickText1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  ブロック解除確認 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ButtonBlockDestroy_ClickText2() As String
+            Get
+                Return ResourceManager.GetString("ButtonBlockDestroy_ClickText2", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  エラーが発生しました。成功しているかどうかWebでご確認ください。 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ButtonBlockDestroy_ClickText3() As String
+            Get
+                Return ResourceManager.GetString("ButtonBlockDestroy_ClickText3", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  ブロック解除を行いました。成功しているかどうかWebでご確認ください。 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ButtonBlockDestroy_ClickText4() As String
+            Get
+                Return ResourceManager.GetString("ButtonBlockDestroy_ClickText4", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  このルールを削除してもよろしいですか？{0}   『{1}』 に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property ButtonDelete_ClickText1() As String
@@ -310,6 +382,60 @@ Namespace My.Resources
         Friend ReadOnly Property ButtonOK_ClickText4() As String
             Get
                 Return ResourceManager.GetString("ButtonOK_ClickText4", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''   をブロックしスパム報告を行います。よろしいですか？ に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ButtonReportSpam_ClickText1() As String
+            Get
+                Return ResourceManager.GetString("ButtonReportSpam_ClickText1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  スパム報告確認 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ButtonReportSpam_ClickText2() As String
+            Get
+                Return ResourceManager.GetString("ButtonReportSpam_ClickText2", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  エラーが発生しました。成功しているかどうかWebでご確認ください。 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ButtonReportSpam_ClickText3() As String
+            Get
+                Return ResourceManager.GetString("ButtonReportSpam_ClickText3", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  ブロックしスパム報告を行いました。成功しているかどうかWebでご確認ください。 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ButtonReportSpam_ClickText4() As String
+            Get
+                Return ResourceManager.GetString("ButtonReportSpam_ClickText4", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''   をフォロー解除します。よろしいですか？ に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ButtonUnFollow_ClickText1() As String
+            Get
+                Return ResourceManager.GetString("ButtonUnFollow_ClickText1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  フォロー解除確認 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ButtonUnFollow_ClickText2() As String
+            Get
+                Return ResourceManager.GetString("ButtonUnFollow_ClickText2", resourceCulture)
             End Get
         End Property
         
