@@ -2603,7 +2603,7 @@ Public Class TweenMain
         _itemCache = Nothing
         _postCache = Nothing
 
-        If _statuses.Tabs(_curTab.Text).AllCount > 0 Then
+        If _statuses.Tabs(_curTab.Text).AllCount > 0 AndAlso _curPost IsNot Nothing Then
             Dim idx As Integer = _statuses.Tabs(_curTab.Text).IndexOf(_curPost.Id)
             SelectListItem(_curList, idx)
             _curList.EnsureVisible(idx)
