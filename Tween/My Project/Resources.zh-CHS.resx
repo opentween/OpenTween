@@ -307,7 +307,7 @@
     <value>回复已更新</value>
   </data>
   <data name="IDRuleMenuItem_ClickText1" xml:space="preserve">
-    <value>(新标签)</value>
+    <value>(新建标签)</value>
   </data>
   <data name="IDRuleMenuItem_ClickText2" xml:space="preserve">
     <value>标签 ""{0}"" 已存在，请指定别的名称。</value>
@@ -517,7 +517,7 @@
     <value>Tween重复启动检查</value>
   </data>
   <data name="TabMenuItem_ClickText1" xml:space="preserve">
-    <value>(新标签)</value>
+    <value>(新建标签)</value>
   </data>
   <data name="TabMenuItem_ClickText2" xml:space="preserve">
     <value>标签 ""{0}""　已经存在；请指定别的名称。</value>
@@ -827,5 +827,50 @@
   </data>
   <data name="UserInfoButtonEdit_ClickText2" xml:space="preserve">
     <value>正在更新个人信息…</value>
+  </data>
+  <data name="ButtonBlockDestroy_ClickText1" xml:space="preserve">
+    <value>的屏蔽将被解除。继续吗？</value>
+  </data>
+  <data name="ButtonBlockDestroy_ClickText2" xml:space="preserve">
+    <value>解除屏蔽确认</value>
+  </data>
+  <data name="ButtonBlockDestroy_ClickText3" xml:space="preserve">
+    <value>服务报错了。还请通过Web方式确认是否解除成功。</value>
+  </data>
+  <data name="ButtonBlockDestroy_ClickText4" xml:space="preserve">
+    <value>屏蔽解除完成。请通过Web方式确认是否解除成功。</value>
+  </data>
+  <data name="ButtonBlock_ClickText1" xml:space="preserve">
+    <value>将被屏蔽。继续吗？</value>
+  </data>
+  <data name="ButtonBlock_ClickText2" xml:space="preserve">
+    <value>屏蔽确认</value>
+  </data>
+  <data name="ButtonBlock_ClickText3" xml:space="preserve">
+    <value>服务报错了。还请通过Web方式确认是否屏蔽成功。</value>
+  </data>
+  <data name="ButtonBlock_ClickText4" xml:space="preserve">
+    <value>屏蔽完成。请通过Web方式确认是否屏蔽成功。</value>
+  </data>
+  <data name="ButtonReportSpam_ClickText1" xml:space="preserve">
+    <value>将被屏蔽并且作为恶意账号向官方举报。继续吗？</value>
+  </data>
+  <data name="ButtonReportSpam_ClickText2" xml:space="preserve">
+    <value>举报确认</value>
+  </data>
+  <data name="ButtonReportSpam_ClickText3" xml:space="preserve">
+    <value>服务报错了。还请通过Web方式确认是否举报成功。</value>
+  </data>
+  <data name="ButtonReportSpam_ClickText4" xml:space="preserve">
+    <value>举报完成。请通过Web方式确认是否举报成功。</value>
+  </data>
+  <data name="ButtonUnFollow_ClickText1" xml:space="preserve">
+    <value>的关注将被取消。继续吗？</value>
+  </data>
+  <data name="ButtonUnFollow_ClickText2" xml:space="preserve">
+    <value>取消关注确认</value>
+  </data>
+  <data name="CopyStotText1" xml:space="preserve">
+    <value>警告：不能复制受保护(Protected)用户的消息。</value>
   </data>
 </root>
