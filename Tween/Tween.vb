@@ -3712,7 +3712,7 @@ Public Class TweenMain
         'スペースキーで未読ジャンプ
         If Not e.Alt AndAlso Not e.Control AndAlso Not e.Shift Then
             If e.KeyCode = Keys.Space OrElse e.KeyCode = Keys.ProcessKey Then
-                If StatusText.Text = " " OrElse StatusText.Text = "　" Then
+                If String.IsNullOrEmpty(StatusText.Text.Trim) Then
                     e.Handled = True
                     StatusText.Text = ""
                     JumpUnreadMenuItem_Click(Nothing, Nothing)
