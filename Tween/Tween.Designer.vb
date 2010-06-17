@@ -186,6 +186,7 @@ Partial Class TweenMain
         Me.FriendshipMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.OwnStatusMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.UserStatusToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator34 = New System.Windows.Forms.ToolStripSeparator()
         Me.HashToggleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HashManageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -249,7 +250,6 @@ Partial Class TweenMain
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.UserStatusToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -632,6 +632,7 @@ Partial Class TweenMain
         Me.PostBrowser.MinimumSize = New System.Drawing.Size(20, 20)
         Me.PostBrowser.Name = "PostBrowser"
         Me.PostBrowser.TabStop = False
+        Me.PostBrowser.WebBrowserShortcutsEnabled = False
         '
         'ContextMenuStrip4
         '
@@ -1217,6 +1218,11 @@ Partial Class TweenMain
         Me.OwnStatusMenuItem.Name = "OwnStatusMenuItem"
         resources.ApplyResources(Me.OwnStatusMenuItem, "OwnStatusMenuItem")
         '
+        'UserStatusToolStripMenuItem
+        '
+        Me.UserStatusToolStripMenuItem.Name = "UserStatusToolStripMenuItem"
+        resources.ApplyResources(Me.UserStatusToolStripMenuItem, "UserStatusToolStripMenuItem")
+        '
         'ToolStripSeparator34
         '
         Me.ToolStripSeparator34.Name = "ToolStripSeparator34"
@@ -1536,11 +1542,6 @@ Partial Class TweenMain
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
-        '
-        'UserStatusToolStripMenuItem
-        '
-        Me.UserStatusToolStripMenuItem.Name = "UserStatusToolStripMenuItem"
-        resources.ApplyResources(Me.UserStatusToolStripMenuItem, "UserStatusToolStripMenuItem")
         '
         'TweenMain
         '

@@ -5414,16 +5414,53 @@ RETRY:
     End Sub
 
     Private Sub PostBrowser_PreviewKeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.PreviewKeyDownEventArgs) Handles PostBrowser.PreviewKeyDown
-        If e.KeyCode = Keys.F5 OrElse e.KeyCode = Keys.R Then
-            e.IsInputKey = True
-            DoRefresh()
-        End If
-        If e.Modifiers = Keys.None AndAlso (e.KeyCode = Keys.Space OrElse e.KeyCode = Keys.ProcessKey) Then
-            e.IsInputKey = True
-            JumpUnreadMenuItem_Click(Nothing, Nothing)
-        End If
-    End Sub
+        ' ModifiersKeyなし
+        If e.Modifiers = Keys.None Then
+            Select Case e.KeyCode
+                Case Keys.Space, _
+                     Keys.ProcessKey
+                    e.IsInputKey = True
+                    JumpUnreadMenuItem_Click(Nothing, Nothing)
+                Case Keys.F5, _
+                     Keys.R
+                    e.IsInputKey = True
+                    DoRefresh()
+                Case Else
 
+            End Select
+        End If
+
+        ' ShiftKey + 何か
+        If e.Modifiers = Keys.Shift Then
+            Select Case e.KeyCode
+                Case Keys.F5, _
+                     Keys.R
+                    e.IsInputKey = True
+                    DoRefreshMore()
+                Case Else
+
+            End Select
+        End If
+        ' ControlKey + 何か
+        If e.Modifiers = Keys.Control Then
+            Select Case e.KeyCode
+                Case Keys.A
+                    e.IsInputKey = True
+                    PostBrowser.Document.ExecCommand("SelectAll", False, Nothing)
+                Case Keys.C
+                    e.IsInputKey = True
+                    Dim _selText As String = WebBrowser_GetSelectionText(PostBrowser)
+                    Try
+                        Clipboard.SetDataObject(_selText, False, 5, 100)
+                    Catch ex As Exception
+                        MessageBox.Show(ex.Message)
+                    End Try
+                Case Else
+
+            End Select
+        End If
+
+    End Sub
     Public Function TabRename(ByRef tabName As String) As Boolean
         'タブ名変更
         'If _statuses.IsDefaultTab(tabName) Then Return False
