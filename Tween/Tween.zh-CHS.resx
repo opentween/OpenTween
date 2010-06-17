@@ -1100,13 +1100,13 @@
     <value>170, 6</value>
   </data>
   <data name="ReadedStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>112, 22</value>
   </data>
   <data name="ReadedStripMenuItem.Text" xml:space="preserve">
     <value>已读(&amp;B)</value>
   </data>
   <data name="UnreadStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>112, 22</value>
   </data>
   <data name="UnreadStripMenuItem.Text" xml:space="preserve">
     <value>未读</value>

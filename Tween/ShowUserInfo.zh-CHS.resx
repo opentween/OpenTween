@@ -287,19 +287,19 @@
     <value>已认证(Verified)</value>
   </data>
   <data name="SelectionCopyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 22</value>
+    <value>158, 22</value>
   </data>
   <data name="SelectionCopyToolStripMenuItem.Text" xml:space="preserve">
     <value>复制选中的文本</value>
   </data>
   <data name="SelectAllToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 22</value>
+    <value>158, 22</value>
   </data>
   <data name="SelectAllToolStripMenuItem.Text" xml:space="preserve">
     <value>选择全部</value>
   </data>
   <data name="ContextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>161, 48</value>
+    <value>159, 48</value>
   </data>
   <data name="ContextMenuStrip1.ToolTip" xml:space="preserve">
     <value />
@@ -365,6 +365,12 @@
     <value>举报</value>
   </data>
   <data name="ButtonReportSpam.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ButtonBlockDestroy.Text" xml:space="preserve">
+    <value>解除屏蔽</value>
+  </data>
+  <data name="ButtonBlockDestroy.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="$this.Text" xml:space="preserve">
