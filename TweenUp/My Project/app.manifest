@@ -15,7 +15,7 @@
             下位互換性のためにファイルおよびレジストリの仮想化を
             利用する場合は、requestedExecutionLevel ノードを削除してください。
         -->
-        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+        <requestedExecutionLevel level="requireAdministrator" uiAccess="false" />
       </requestedPrivileges>
     </security>
   </trustInfo>
