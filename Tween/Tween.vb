@@ -3714,7 +3714,16 @@ Public Class TweenMain
         'スペースキーで未読ジャンプ
         If Not e.Alt AndAlso Not e.Control AndAlso Not e.Shift Then
             If e.KeyCode = Keys.Space OrElse e.KeyCode = Keys.ProcessKey Then
-                If String.IsNullOrEmpty(StatusText.Text.Trim) Then
+                Dim isSpace As Boolean = False
+                For Each c As Char In StatusText.Text.ToCharArray
+                    If c = " " OrElse c = "　" Then
+                        isSpace = True
+                    Else
+                        isSpace = False
+                        Exit For
+                    End If
+                Next
+                If isSpace Then
                     e.Handled = True
                     StatusText.Text = ""
                     JumpUnreadMenuItem_Click(Nothing, Nothing)
