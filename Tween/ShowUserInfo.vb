@@ -197,11 +197,13 @@ Public Class ShowUserInfo
             ChangeIconToolStripMenuItem.Enabled = True
             ButtonBlock.Enabled = False
             ButtonReportSpam.Enabled = False
+            ButtonBlockDestroy.Enabled = False
         Else
             ButtonEdit.Enabled = False
             ChangeIconToolStripMenuItem.Enabled = False
             ButtonBlock.Enabled = True
             ButtonReportSpam.Enabled = True
+            ButtonBlockDestroy.Enabled = True
         End If
     End Sub
 
@@ -448,11 +450,13 @@ Public Class ShowUserInfo
 
     Private Sub ButtonEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonEdit.Click
         Static IsEditing As Boolean = False
+        Static ButtonEditText As String = ""
 
         ' 自分以外のプロフィールは変更できない
         If MyOwner.TwitterInstance.Username <> _info.ScreenName Then Exit Sub
 
         If Not IsEditing Then
+            ButtonEditText = ButtonEdit.Text
             ButtonEdit.Text = My.Resources.UserInfoButtonEdit_ClickText1
 
             '座標初期化,プロパティ設定
@@ -551,6 +555,8 @@ Public Class ShowUserInfo
             TextBoxDescription.TabStop = False
             TextBoxDescription.Visible = False
             DescriptionBrowser.Visible = True
+
+            ButtonEdit.Text = ButtonEditText
 
             IsEditing = False
         End If
