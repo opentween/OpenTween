@@ -9157,7 +9157,7 @@ RETRY:
 
             If size.Width > StatusLabelUrl.Size.Width Then
                 Do Until size.Width < StatusLabelUrl.Size.Width
-                    txt = txt.Remove(txt.Length - 1, 1)
+                    txt = txt.Remove(txt.Length - 2, 2)
                     size = e.Graphics.MeasureString(txt, StatusLabelUrl.Font).ToSize
                 Loop
             End If
