@@ -108,7 +108,8 @@ Public Class Twitter
             "http://tl.gd/", _
             "http://htn.to/", _
             "http://amzn.to/", _
-            "http://flic.kr/" _
+            "http://flic.kr/", _
+            "http://moi.st/" _
         }
 
     Private Const _apiHost As String = "api."
