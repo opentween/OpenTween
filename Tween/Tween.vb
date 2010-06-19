@@ -305,6 +305,7 @@ Public Class TweenMain
         If StatusText.Focused Then
             Me.StatusText_Enter(Me.StatusText, System.EventArgs.Empty)
         End If
+        StatusLabelUrl.Text = " "
     End Sub
 
     Private Sub TweenMain_Disposed(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Disposed
@@ -6525,13 +6526,13 @@ RETRY:
         End Try
     End Sub
 
-    Private Sub SetStatusLabel()
+    Private Function GetStatusLabelText() As String
         'ステータス欄にカウント表示
         'タブ未読数/タブ発言数 全未読数/総発言数 (未読＠＋未読DM数)
-        If _statuses Is Nothing Then Exit Sub
+        If _statuses Is Nothing Then Return ""
         Dim tbRep As TabClass = _statuses.GetTabByType(TabUsageType.Mentions)
         Dim tbDm As TabClass = _statuses.GetTabByType(TabUsageType.DirectMessage)
-        If tbRep Is Nothing OrElse tbDm Is Nothing Then Exit Sub
+        If tbRep Is Nothing OrElse tbDm Is Nothing Then Return ""
         Dim urat As Integer = tbRep.UnreadCount + tbDm.UnreadCount
         Dim ur As Integer = 0
         Dim al As Integer = 0
@@ -6548,7 +6549,7 @@ RETRY:
                 End If
             Next
         Catch ex As Exception
-            Exit Sub
+            Return ""
         End Try
 
         UnreadCounter = ur
@@ -6563,7 +6564,11 @@ RETRY:
             slbl.Append((SettingDialog.TimelinePeriodInt - _homeCounterAdjuster).ToString() + My.Resources.SetStatusLabelText3)
         End If
 
-        StatusLabelUrl.Text = slbl.ToString()
+        Return slbl.ToString()
+    End Function
+
+    Private Sub SetStatusLabel()
+        StatusLabelUrl.Text = GetStatusLabelText()
     End Sub
 
     Private Sub SetNotifyIconText()
@@ -9139,6 +9144,25 @@ RETRY:
     Private Sub NameLabel_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NameLabel.DoubleClick, UserPicture.DoubleClick
         If NameLabel.Tag IsNot Nothing Then
             OpenUriAsync("http://twitter.com/" + NameLabel.Tag.ToString)
+        End If
+    End Sub
+
+    Private Sub StatusLabelUrl_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles StatusLabelUrl.Paint
+        Static LabelWidth As Integer = 0
+        If LabelWidth <> StatusLabelUrl.Width OrElse StatusLabelUrl.Text = " " Then
+            LabelWidth = StatusLabelUrl.Width
+            Dim txt As String = GetStatusLabelText()
+            Dim tiptxt As String = txt
+            Dim size As Size = e.Graphics.MeasureString(txt, StatusLabelUrl.Font).ToSize
+
+            If size.Width > StatusLabelUrl.Size.Width Then
+                Do Until size.Width < StatusLabelUrl.Size.Width
+                    txt = txt.Remove(txt.Length - 1, 1)
+                    size = e.Graphics.MeasureString(txt, StatusLabelUrl.Font).ToSize
+                Loop
+            End If
+            StatusLabelUrl.Text = txt
+            StatusLabelUrl.ToolTipText = tiptxt
         End If
     End Sub
 End Class
