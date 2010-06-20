@@ -1787,13 +1787,13 @@ Public Class Setting
         Else
             tw.Initialize("", "", "")
         End If
-        Dim rslt As Boolean = tw.Authenticate(user, pwd)
-        If rslt Then
+        Dim rslt As String = tw.Authenticate(user, pwd)
+        If String.IsNullOrEmpty(rslt) Then
             MessageBox.Show(My.Resources.AuthorizeButton_Click1, "Authenticate", MessageBoxButtons.OK)
             Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
             Me.AuthUserLabel.Text = tw.Username
         Else
-            MessageBox.Show(My.Resources.AuthorizeButton_Click2, "Authenticate", MessageBoxButtons.OK)
+            MessageBox.Show(My.Resources.AuthorizeButton_Click2 + Environment.NewLine + rslt, "Authenticate", MessageBoxButtons.OK)
             Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
             Me.AuthUserLabel.Text = ""
         End If
