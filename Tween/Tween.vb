@@ -5480,6 +5480,7 @@ RETRY:
         Using inputName As New InputTabName()
             inputName.TabName = tabName
             inputName.ShowDialog()
+            If inputName.DialogResult = Windows.Forms.DialogResult.Cancel orelse Then Return False
             newTabText = inputName.TabName
             inputName.Dispose()
         End Using
@@ -6087,6 +6088,7 @@ RETRY:
             inputName.TabName = _statuses.GetUniqueTabName
             inputName.IsShowUsage = True
             inputName.ShowDialog()
+            If inputName.DialogResult = Windows.Forms.DialogResult.Cancel Then Exit Sub
             tabName = inputName.TabName
             tabUsage = inputName.Usage
             inputName.Dispose()
@@ -6297,6 +6299,7 @@ RETRY:
                 Using inputName As New InputTabName()
                     inputName.TabName = _statuses.GetUniqueTabName
                     inputName.ShowDialog()
+                    If inputName.DialogResult = Windows.Forms.DialogResult.Cancel Then Return False
                     tabName = inputName.TabName
                     inputName.Dispose()
                 End Using
