@@ -8917,6 +8917,15 @@ RETRY:
         Else
             UndoRemoveTabMenuItem.Enabled = True
         End If
+        If ListTab.SelectedTab IsNot Nothing Then
+            If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.PublicSearch Then
+                PublicSearchQueryMenuItem.Enabled = True
+            Else
+                PublicSearchQueryMenuItem.Enabled = False
+            End If
+        Else
+            PublicSearchQueryMenuItem.Enabled = False
+        End If
     End Sub
 
     Private Sub NotifyIcon1_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles NotifyIcon1.MouseMove
