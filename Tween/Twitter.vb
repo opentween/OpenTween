@@ -162,9 +162,6 @@ Public Class Twitter
     '''</remarks>
     Private Const AuthorizeUrl As String = "http://twitter.com/oauth/authorize"
 
-    ''''Wedata対応
-    'Private Const wedataUrl As String = "http://wedata.net/databases/Tween/items.json"
-
     Private op As New Outputz
     'max_idで古い発言を取得するために保持（lists分は個別タブで管理）
     Private minHomeTimeline As Long = Long.MaxValue
@@ -175,18 +172,37 @@ Public Class Twitter
 
     Private twCon As New HttpTwitter
 
-    Public Function Authenticate(ByVal username As String, ByVal password As String) As Boolean
+    Public Function Authenticate(ByVal username As String, ByVal password As String) As String
+
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+
         Try
-            Dim rslt As HttpStatusCode = twCon.AuthUserAndPass(username, password)
-            Select Case rslt
-                Case HttpStatusCode.OK
-                    _uid = twCon.AuthenticatedUsername.ToLower
-                Case Else
-                    Return False
-            End Select
+            res = twCon.AuthUserAndPass(username, password)
         Catch ex As Exception
-            Return False
+            Return "Err:" + ex.Message
         End Try
+
+        Select Case res
+            Case HttpStatusCode.OK
+                Return ""
+            Case HttpStatusCode.Unauthorized
+                Twitter.AccountState = ACCOUNT_STATE.Invalid
+                Return "Check your Username/Password."
+            Case HttpStatusCode.Forbidden
+                Dim xd As XmlDocument = New XmlDocument
+                Try
+                    xd.LoadXml(content)
+                    Dim xNode As XmlNode = Nothing
+                    xNode = xd.SelectSingleNode("/hash/error")
+                    Return "Err:" + xNode.InnerText
+                Catch ex As Exception
+                    Return "Err:Forbidden"
+                End Try
+            Case Else
+                Return "Err:" + res.ToString
+        End Select
+
     End Function
 
     Public Sub ClearAuthInfo()
