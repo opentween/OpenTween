@@ -177,11 +177,13 @@ Public Class Twitter
 
     Public Function Authenticate(ByVal username As String, ByVal password As String) As Boolean
         Try
-            Dim rslt As Boolean = twCon.AuthUserAndPass(username, password)
-            If rslt Then
-                _uid = twCon.AuthenticatedUsername.ToLower
-            End If
-            Return rslt
+            Dim rslt As HttpStatusCode = twCon.AuthUserAndPass(username, password)
+            Select Case rslt
+                Case HttpStatusCode.OK
+                    _uid = twCon.AuthenticatedUsername.ToLower
+                Case Else
+                    Return False
+            End Select
         Catch ex As Exception
             Return False
         End Try

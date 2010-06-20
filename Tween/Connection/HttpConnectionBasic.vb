@@ -127,21 +127,22 @@ Public Class HttpConnectionBasic
     '''<param name="url">認証先のURL</param>
     '''<param name="userName">認証で使用するユーザー名</param>
     '''<param name="password">認証で使用するパスワード</param>
-    Public Function Authenticate(ByVal url As Uri, ByVal username As String, ByVal password As String) As Boolean Implements IHttpConnection.Authenticate
+    Public Function Authenticate(ByVal url As Uri, ByVal username As String, ByVal password As String) As HttpStatusCode Implements IHttpConnection.Authenticate
         'urlは認証必要なGETメソッドとする
         Dim orgCre As String = Me.credential
         Me.credential = "Basic " + Convert.ToBase64String(Encoding.ASCII.GetBytes(username + ":" + password))
         Try
-            If Me.GetContent("GET", url, Nothing, Nothing, Nothing) = HttpStatusCode.OK Then
+            Dim httpCode As HttpStatusCode = Me.GetContent("GET", url, Nothing, Nothing, Nothing)
+            If httpCode = HttpStatusCode.OK Then
                 Me._userName = username
                 Me._password = password
-                Return True
+            Else
+                Me.credential = orgCre
             End If
-            Me.credential = orgCre
-            Return False
+            Return httpCode
         Catch ex As Exception
             Me.credential = orgCre
-            Return False
+            Throw
         End Try
     End Function
 
