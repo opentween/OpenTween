@@ -5480,7 +5480,7 @@ RETRY:
         Using inputName As New InputTabName()
             inputName.TabName = tabName
             inputName.ShowDialog()
-            If inputName.DialogResult = Windows.Forms.DialogResult.Cancel orelse Then Return False
+            If inputName.DialogResult = Windows.Forms.DialogResult.Cancel Then Return False
             newTabText = inputName.TabName
             inputName.Dispose()
         End Using
