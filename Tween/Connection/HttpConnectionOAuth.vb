@@ -147,12 +147,16 @@ Public Class HttpConnectionOAuth
     '''<returns>取得結果真偽値</returns>
     Public Function AuthenticatePinFlow(ByVal accessTokenUrl As String, _
                                         ByVal requestToken As String, _
-                                        ByVal pinCode As String) As Boolean
+                                        ByVal pinCode As String) As HttpStatusCode
         'PIN-based flow
         If String.IsNullOrEmpty(requestToken) Then Throw New Exception("Sequence error.(requestToken is blank)")
 
         'アクセストークン取得
-        Dim accessTokenData As NameValueCollection = GetOAuthToken(New Uri(accessTokenUrl), pinCode, requestToken, Nothing)
+        Dim content As String = ""
+        Dim accessTokenData As NameValueCollection
+        Dim httpCode As HttpStatusCode = GetOAuthToken(New Uri(accessTokenUrl), pinCode, requestToken, Nothing, content)
+        If httpCode <> HttpStatusCode.OK Then Return httpCode
+        accessTokenData = ParseQueryString(content)
 
         If accessTokenData IsNot Nothing Then
             token = accessTokenData.Item("oauth_token")
@@ -163,10 +167,10 @@ Public Class HttpConnectionOAuth
             Else
                 authorizedUsername = ""
             End If
-            If token = "" Then Return False
-            Return True
+            If token = "" Then Throw New InvalidDataException("Token is null.")
+            Return HttpStatusCode.OK
         Else
-            Return False
+            Throw New InvalidDataException("Return value is null.")
         End If
     End Function
 
@@ -177,7 +181,7 @@ Public Class HttpConnectionOAuth
     '''<param name="username">認証用ユーザー名</param>
     '''<param name="password">認証用パスワード</param>
     '''<returns>取得結果真偽値</returns>
-    Public Function AuthenticateXAuth(ByVal accessTokenUrl As Uri, ByVal username As String, ByVal password As String) As Boolean Implements IHttpConnection.Authenticate
+    Public Function AuthenticateXAuth(ByVal accessTokenUrl As Uri, ByVal username As String, ByVal password As String) As HttpStatusCode Implements IHttpConnection.Authenticate
         'ユーザー・パスワードチェック
         If String.IsNullOrEmpty(username) OrElse String.IsNullOrEmpty(password) Then
             Throw New Exception("Sequence error.(username or password is blank)")
@@ -189,7 +193,10 @@ Public Class HttpConnectionOAuth
         parameter.Add("x_auth_password", password)
 
         'アクセストークン取得
-        Dim accessTokenData As NameValueCollection = GetOAuthToken(accessTokenUrl, "", "", parameter)
+        Dim content As String = ""
+        Dim httpCode As HttpStatusCode = GetOAuthToken(accessTokenUrl, "", "", parameter, content)
+        If httpCode <> HttpStatusCode.OK Then Return httpCode
+        Dim accessTokenData As NameValueCollection = ParseQueryString(content)
 
         If accessTokenData IsNot Nothing Then
             token = accessTokenData.Item("oauth_token")
@@ -200,10 +207,10 @@ Public Class HttpConnectionOAuth
             Else
                 authorizedUsername = ""
             End If
-            If token = "" Then Return False
-            Return True
+            If token = "" Then Throw New InvalidDataException("Token is null.")
+            Return HttpStatusCode.OK
         Else
-            Return False
+            Throw New InvalidDataException("Return value is null.")
         End If
     End Function
 
@@ -220,7 +227,11 @@ Public Class HttpConnectionOAuth
         Const tokenKey As String = "oauth_token"
 
         'リクエストトークン取得
-        Dim reqTokenData As NameValueCollection = GetOAuthToken(New Uri(requestTokenUrl), "", "", Nothing)
+        Dim content As String = ""
+        Dim reqTokenData As NameValueCollection
+        If GetOAuthToken(New Uri(requestTokenUrl), "", "", Nothing, content) <> HttpStatusCode.OK Then Return Nothing
+        reqTokenData = ParseQueryString(content)
+
         If reqTokenData IsNot Nothing Then
             requestToken = reqTokenData.Item(tokenKey)
             'Uri生成
@@ -240,7 +251,7 @@ Public Class HttpConnectionOAuth
     '''<param name="requestToken">PINフロー時のリクエストトークン取得時に設定。それ以外は空文字列</param>
     '''<param name="parameter">追加パラメータ。xAuthで使用</param>
     '''<returns>取得結果のデータ。正しく取得出来なかった場合はNothing</returns>
-    Private Function GetOAuthToken(ByVal requestUri As Uri, ByVal pinCode As String, ByVal requestToken As String, ByVal parameter As Dictionary(Of String, String)) As NameValueCollection
+    Private Function GetOAuthToken(ByVal requestUri As Uri, ByVal pinCode As String, ByVal requestToken As String, ByVal parameter As Dictionary(Of String, String), ByRef content As String) As HttpStatusCode
         Dim webReq As HttpWebRequest = Nothing
         'HTTPリクエスト生成。PINコードもパラメータも未指定の場合はGETメソッドで通信。それ以外はPOST
         If String.IsNullOrEmpty(pinCode) AndAlso parameter Is Nothing Then
@@ -260,17 +271,7 @@ Public Class HttpConnectionOAuth
         'OAuth関連情報をHTTPリクエストに追加
         AppendOAuthInfo(webReq, query, requestToken, "")
         'HTTP応答取得
-        Try
-            Dim contentText As String = ""
-            Dim status As HttpStatusCode = GetResponse(webReq, contentText, Nothing, False)
-            If status = HttpStatusCode.OK Then
-                Return ParseQueryString(contentText)
-            Else
-                Return Nothing
-            End If
-        Catch ex As Exception
-            Return Nothing
-        End Try
+        Return GetResponse(webReq, content, Nothing, False)
     End Function
 #End Region
 

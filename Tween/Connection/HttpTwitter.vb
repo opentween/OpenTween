@@ -103,7 +103,7 @@ Public Class HttpTwitter
         End Get
     End Property
 
-    Public Function AuthUserAndPass(ByVal username As String, ByVal password As String) As Boolean
+    Public Function AuthUserAndPass(ByVal username As String, ByVal password As String) As HttpStatusCode
         If connectionType = AuthMethod.Basic Then
             Return httpCon.Authenticate(CreateTwitterUri("/1/account/verify_credentials.xml"), username, password)
         Else

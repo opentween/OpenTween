@@ -16,7 +16,7 @@ Public Interface IHttpConnection
             ByRef content As String, _
             ByVal headerInfo As Dictionary(Of String, String)) As HttpStatusCode
 
-    Function Authenticate(ByVal url As Uri, ByVal username As String, ByVal password As String) As Boolean
+    Function Authenticate(ByVal url As Uri, ByVal username As String, ByVal password As String) As HttpStatusCode
 
     ReadOnly Property AuthUsername() As String
 End Interface
