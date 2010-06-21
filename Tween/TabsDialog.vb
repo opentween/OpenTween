@@ -22,8 +22,33 @@
 ' Boston, MA 02110-1301, USA.
 
 Imports System.Windows.Forms
+Imports System.Collections.Specialized
 
 Public Class TabsDialog
+
+    Private _multiSelect As Boolean = False
+    Private _newtabItem As String = My.Resources.AddNewTabText1
+
+    Public Sub New()
+
+        ' この呼び出しはデザイナーで必要です。
+        InitializeComponent()
+
+        ' InitializeComponent() 呼び出しの後で初期化を追加します。
+
+    End Sub
+
+
+    Public Sub New(ByVal multiselect As Boolean)
+
+        ' この呼び出しはデザイナーで必要です。
+        InitializeComponent()
+
+        ' InitializeComponent() 呼び出しの後で初期化を追加します。
+
+        Me.MultiSelect = True
+
+    End Sub
 
     Private Sub OK_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OK_Button.Click
         Me.DialogResult = System.Windows.Forms.DialogResult.OK
@@ -36,7 +61,11 @@ Public Class TabsDialog
     End Sub
 
     Private Sub TabsDialog_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        If TabList.SelectedIndex = -1 Then TabList.SelectedIndex = 0
+        If _multiSelect Then
+            TabList.SelectedIndex = -1
+        Else
+            If TabList.SelectedIndex = -1 Then TabList.SelectedIndex = 0
+        End If
     End Sub
 
     Public Sub AddTab(ByVal tabName As String)
@@ -55,6 +84,17 @@ Public Class TabsDialog
         Next
     End Sub
 
+    Public Sub ClearTab()
+        Dim startidx As Integer = 1
+
+        If _multiSelect Then
+            startidx = 0
+        End If
+        For i As Integer = startidx To TabList.Items.Count - 1
+            TabList.Items.RemoveAt(0)
+        Next
+    End Sub
+
     Public ReadOnly Property SelectedTabName() As String
         Get
             If TabList.SelectedIndex = -1 Then
@@ -63,6 +103,40 @@ Public Class TabsDialog
                 Return CStr(TabList.SelectedItem)
             End If
         End Get
+    End Property
+
+    Public ReadOnly Property SelectedTabNames() As StringCollection
+        Get
+            If TabList.SelectedIndex = -1 Then
+                Return Nothing
+            Else
+                Dim ret As New StringCollection
+                For Each selitem As Object In TabList.SelectedItems
+                    ret.Add(CStr(selitem))
+                Next
+                Return ret
+            End If
+        End Get
+    End Property
+
+    Public Property MultiSelect() As Boolean
+        Get
+            Return _multiSelect
+        End Get
+        Set(ByVal value As Boolean)
+            _multiSelect = value
+            If value Then
+                Me.TabList.SelectionMode = SelectionMode.MultiExtended
+                If Me.TabList.Items(0).ToString = My.Resources.AddNewTabText1 Then
+                    Me.TabList.Items.RemoveAt(0)
+                End If
+            Else
+                Me.TabList.SelectionMode = SelectionMode.One
+                If Me.TabList.Items(0).ToString <> My.Resources.AddNewTabText1 Then
+                    Me.TabList.Items.Insert(0, My.Resources.AddNewTabText1)
+                End If
+            End If
+        End Set
     End Property
 
     Private Sub TabList_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TabList.SelectedIndexChanged

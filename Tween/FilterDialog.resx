@@ -165,7 +165,7 @@
     <value>GroupBox2</value>
   </data>
   <data name="&gt;&gt;ListFilters.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="&gt;&gt;Label11.Name" xml:space="preserve">
     <value>Label11</value>
@@ -261,7 +261,7 @@
     <value>GroupBox2</value>
   </data>
   <data name="&gt;&gt;EditFilterGroup.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>8</value>
   </data>
   <data name="Label11.Location" type="System.Drawing.Point, System.Drawing">
     <value>436, 152</value>
@@ -1708,7 +1708,7 @@
     <value>GroupBox2</value>
   </data>
   <data name="&gt;&gt;ButtonNew.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>7</value>
   </data>
   <data name="ButtonDelete.Location" type="System.Drawing.Point, System.Drawing">
     <value>531, 210</value>
@@ -1732,10 +1732,10 @@
     <value>GroupBox2</value>
   </data>
   <data name="&gt;&gt;ButtonDelete.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>6</value>
   </data>
   <data name="ButtonEdit.Location" type="System.Drawing.Point, System.Drawing">
-    <value>270, 210</value>
+    <value>173, 209</value>
   </data>
   <data name="ButtonEdit.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -1756,7 +1756,55 @@
     <value>GroupBox2</value>
   </data>
   <data name="&gt;&gt;ButtonEdit.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>5</value>
+  </data>
+  <data name="ButtonRuleMove.Location" type="System.Drawing.Point, System.Drawing">
+    <value>342, 209</value>
+  </data>
+  <data name="ButtonRuleMove.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="ButtonRuleMove.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="ButtonRuleMove.Text" xml:space="preserve">
+    <value>移動</value>
+  </data>
+  <data name="&gt;&gt;ButtonRuleMove.Name" xml:space="preserve">
+    <value>ButtonRuleMove</value>
+  </data>
+  <data name="&gt;&gt;ButtonRuleMove.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ButtonRuleMove.Parent" xml:space="preserve">
+    <value>GroupBox2</value>
+  </data>
+  <data name="&gt;&gt;ButtonRuleMove.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="ButtonRuleCopy.Location" type="System.Drawing.Point, System.Drawing">
+    <value>261, 209</value>
+  </data>
+  <data name="ButtonRuleCopy.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="ButtonRuleCopy.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="ButtonRuleCopy.Text" xml:space="preserve">
+    <value>コピー</value>
+  </data>
+  <data name="&gt;&gt;ButtonRuleCopy.Name" xml:space="preserve">
+    <value>ButtonRuleCopy</value>
+  </data>
+  <data name="&gt;&gt;ButtonRuleCopy.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ButtonRuleCopy.Parent" xml:space="preserve">
+    <value>GroupBox2</value>
+  </data>
+  <data name="&gt;&gt;ButtonRuleCopy.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="ButtonRuleDown.Font" type="System.Drawing.Font, System.Drawing">
     <value>Marlett, 9pt, style=Bold</value>
@@ -1786,7 +1834,7 @@
     <value>GroupBox2</value>
   </data>
   <data name="&gt;&gt;ButtonRuleDown.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>2</value>
   </data>
   <data name="ButtonRuleUp.Font" type="System.Drawing.Font, System.Drawing">
     <value>Marlett, 9pt, style=Bold</value>
@@ -1816,7 +1864,7 @@
     <value>GroupBox2</value>
   </data>
   <data name="&gt;&gt;ButtonRuleUp.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="GroupBox2.Location" type="System.Drawing.Point, System.Drawing">
     <value>142, 9</value>

@@ -83,6 +83,8 @@ Partial Class FilterDialog
         Me.ButtonUp = New System.Windows.Forms.Button()
         Me.ButtonDown = New System.Windows.Forms.Button()
         Me.GroupTab = New System.Windows.Forms.GroupBox()
+        Me.ButtonRuleCopy = New System.Windows.Forms.Button()
+        Me.ButtonRuleMove = New System.Windows.Forms.Button()
         Me.EditFilterGroup.SuspendLayout()
         Me.GroupExclude.SuspendLayout()
         Me.GroupMatch.SuspendLayout()
@@ -390,6 +392,8 @@ Partial Class FilterDialog
         '
         'GroupBox2
         '
+        Me.GroupBox2.Controls.Add(Me.ButtonRuleMove)
+        Me.GroupBox2.Controls.Add(Me.ButtonRuleCopy)
         Me.GroupBox2.Controls.Add(Me.ButtonRuleDown)
         Me.GroupBox2.Controls.Add(Me.ButtonRuleUp)
         Me.GroupBox2.Controls.Add(Me.ListFilters)
@@ -488,6 +492,18 @@ Partial Class FilterDialog
         Me.GroupTab.Name = "GroupTab"
         Me.GroupTab.TabStop = False
         '
+        'ButtonRuleCopy
+        '
+        resources.ApplyResources(Me.ButtonRuleCopy, "ButtonRuleCopy")
+        Me.ButtonRuleCopy.Name = "ButtonRuleCopy"
+        Me.ButtonRuleCopy.UseVisualStyleBackColor = True
+        '
+        'ButtonRuleMove
+        '
+        resources.ApplyResources(Me.ButtonRuleMove, "ButtonRuleMove")
+        Me.ButtonRuleMove.Name = "ButtonRuleMove"
+        Me.ButtonRuleMove.UseVisualStyleBackColor = True
+        '
         'FilterDialog
         '
         resources.ApplyResources(Me, "$this")
@@ -576,5 +592,7 @@ Partial Class FilterDialog
     Friend WithEvents Label5 As System.Windows.Forms.Label
     Friend WithEvents ButtonRuleDown As System.Windows.Forms.Button
     Friend WithEvents ButtonRuleUp As System.Windows.Forms.Button
+    Friend WithEvents ButtonRuleMove As System.Windows.Forms.Button
+    Friend WithEvents ButtonRuleCopy As System.Windows.Forms.Button
 
 End Class
