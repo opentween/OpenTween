@@ -21,12 +21,16 @@
 ' the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 ' Boston, MA 02110-1301, USA.
 
+Imports System.Collections.Specialized
+
 Public Class FilterDialog
 
     Private _mode As EDITMODE
     Private _directAdd As Boolean
     Private _sts As TabInformations
     Private _cur As String
+
+    Private tabdialog As New TabsDialog(True)
 
     Private Enum EDITMODE
         AddNew
@@ -617,11 +621,16 @@ Public Class FilterDialog
     Private Sub FilterDialog_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
         _sts = TabInformations.GetInstance()
         ListTabs.Items.Clear()
+        tabdialog.ClearTab()
         For Each key As String In _sts.Tabs.Keys
             ListTabs.Items.Add(key)
-            'If key <> DEFAULTTAB.RECENT AndAlso key <> DEFAULTTAB.DM AndAlso key <> DEFAULTTAB.FAV Then
-            '    ListTabs.Items.Add(key)
-            'End If
+
+            Select Case TabInformations.GetInstance.Tabs(key).TabType
+                Case TabUsageType.Home, TabUsageType.DirectMessage, TabUsageType.Favorites, TabUsageType.PublicSearch, TabUsageType.Lists
+                    Exit Select
+                Case Else
+                    tabdialog.AddTab(key)
+            End Select
         Next
 
         ComboSound.Items.Clear()
@@ -801,5 +810,34 @@ Public Class FilterDialog
             _sts.Tabs(tabname).Filters.RemoveAt(idx + 1)
             _sts.Tabs(tabname).Filters.Insert(idx, target)
         End If
+    End Sub
+
+    Private Sub ButtonRuleCopy_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonRuleCopy.Click
+        tabdialog.Text = "ルールコピー先タブの選択"
+        If tabdialog.ShowDialog = Windows.Forms.DialogResult.Cancel Then
+            Exit Sub
+        End If
+        Dim tabname As String = ListTabs.SelectedItem.ToString
+        Dim tabs As StringCollection = tabdialog.SelectedTabNames
+        Dim filters As New Generic.List(Of FiltersClass)
+
+        For Each idx As Integer In ListFilters.SelectedIndices
+            filters.Add(_sts.Tabs(tabname).Filters(idx))
+        Next
+        For Each tb As String In tabs
+            _sts.Tabs(tb).Filters.AddRange(filters)
+        Next
+    End Sub
+
+    Private Sub ButtonRuleMove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonRuleMove.Click
+        tabdialog.Text = "ルール移動先タブの選択"
+        If tabdialog.ShowDialog = Windows.Forms.DialogResult.Cancel Then
+            Exit Sub
+        End If
+        Dim tabname As String = ListTabs.SelectedItem.ToString
+        Dim tabs As StringCollection = tabdialog.SelectedTabNames
+        Dim filters As New Generic.List(Of FiltersClass)
+
+        ''' TODO ルール移動処理
     End Sub
 End Class
