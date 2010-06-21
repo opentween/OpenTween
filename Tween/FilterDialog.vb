@@ -739,7 +739,7 @@ Public Class FilterDialog
     End Sub
 
     Private Sub ButtonDown_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonDown.Click
-        If ListTabs.SelectedIndex > -1 AndAlso ListTabs.SelectedIndex < ListTabs.Items.Count - 1 AndAlso ListTabs.SelectedItem.ToString <> "" Then
+        If ListTabs.SelectedIndex > -1 AndAlso ListTabs.SelectedIndex < ListTabs.Items.Count - 1 AndAlso Not String.IsNullOrEmpty(ListTabs.SelectedItem.ToString) Then
             Dim selName As String = ListTabs.SelectedItem.ToString
             Dim tgtName As String = ListTabs.Items(ListTabs.SelectedIndex + 1).ToString
             DirectCast(Me.Owner, TweenMain).ReOrderTab( _
@@ -775,5 +775,31 @@ Public Class FilterDialog
 
     Private Sub OptMove_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OptMove.CheckedChanged
         CheckMark.Enabled = Not OptMove.Checked
+    End Sub
+
+    Private Sub ButtonRuleUp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonRuleUp.Click
+        If ListTabs.SelectedIndex > -1 AndAlso ListFilters.SelectedItem IsNot Nothing AndAlso ListFilters.SelectedIndex > 0 Then
+            Dim tabname As String = ListTabs.SelectedItem.ToString
+            Dim selected As FiltersClass = _sts.Tabs(tabname).Filters(ListFilters.SelectedIndex)
+            Dim target As FiltersClass = _sts.Tabs(tabname).Filters(ListFilters.SelectedIndex - 1)
+            Dim idx As Integer = ListFilters.SelectedIndex
+            ListFilters.Items.RemoveAt(idx - 1)
+            ListFilters.Items.Insert(idx, target)
+            _sts.Tabs(tabname).Filters.RemoveAt(idx - 1)
+            _sts.Tabs(tabname).Filters.Insert(idx, target)
+        End If
+    End Sub
+
+    Private Sub ButtonRuleDown_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonRuleDown.Click
+        If ListTabs.SelectedIndex > -1 AndAlso ListFilters.SelectedItem IsNot Nothing AndAlso ListFilters.SelectedIndex < ListFilters.Items.Count - 1 Then
+            Dim tabname As String = ListTabs.SelectedItem.ToString
+            Dim selected As FiltersClass = _sts.Tabs(tabname).Filters(ListFilters.SelectedIndex)
+            Dim target As FiltersClass = _sts.Tabs(tabname).Filters(ListFilters.SelectedIndex + 1)
+            Dim idx As Integer = ListFilters.SelectedIndex
+            ListFilters.Items.RemoveAt(idx + 1)
+            ListFilters.Items.Insert(idx, target)
+            _sts.Tabs(tabname).Filters.RemoveAt(idx + 1)
+            _sts.Tabs(tabname).Filters.Insert(idx, target)
+        End If
     End Sub
 End Class
