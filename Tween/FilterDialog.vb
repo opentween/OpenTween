@@ -666,6 +666,7 @@ Public Class FilterDialog
                 For i As Integer = 0 To ListTabs.Items.Count - 1
                     If _cur = ListTabs.Items(i).ToString() Then
                         ListTabs.SelectedIndex = i
+                        tabdialog.TabList.Items.Remove(_cur)
                         Exit For
                     End If
                 Next
