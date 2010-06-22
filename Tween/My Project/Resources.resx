@@ -301,9 +301,6 @@
   <data name="GetTimelineWorker_RunWorkerCompletedText18" xml:space="preserve">
     <value>) 失敗:</value>
   </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText2" xml:space="preserve">
-    <value> ポストまで読み込み完了。さらに読み込みますか？</value>
-  </data>
   <data name="GetTimelineWorker_RunWorkerCompletedText3" xml:space="preserve">
     <value>読み込み継続確認</value>
   </data>
@@ -342,12 +339,6 @@
   </data>
   <data name="IDRuleMenuItem_ClickText7" xml:space="preserve">
     <value>マーク確認</value>
-  </data>
-  <data name="InfoTwitterMenuItem_ClickText1" xml:space="preserve">
-    <value>Twitterからのお知らせはありません。</value>
-  </data>
-  <data name="InfoTwitterMenuItem_ClickText2" xml:space="preserve">
-    <value>Twitterからのお知らせ</value>
   </data>
   <data name="LoadConfigurationText1" xml:space="preserve">
     <value>この設定ファイルは Tween により自動生成されました。手動で変更しないでください。</value>
@@ -906,5 +897,8 @@
   </data>
   <data name="CopyStotText1" xml:space="preserve">
     <value>警告：Protected発言はコピーされていません。</value>
+  </data>
+  <data name="ButtonDelete_ClickText3" xml:space="preserve">
+    <value>選択されている{0}件のルールを削除してもよろしいですか？   </value>
   </data>
 </root>

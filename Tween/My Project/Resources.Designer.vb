@@ -350,6 +350,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  選択されている{0}件のルールを削除してもよろしいですか？    に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ButtonDelete_ClickText3() As String
+            Get
+                Return ResourceManager.GetString("ButtonDelete_ClickText3", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  ルールを指定してください。 に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property ButtonOK_ClickText1() As String
@@ -493,12 +502,11 @@ Namespace My.Resources
         ''' * @,#補完ダイアログ呼び出しのショートカットをCtrl+Shift+Spaceに変更
         ''' * プロフィール画面からブロック解除ができるようにした。ダイアログによる確認が入ります。
         ''' * STOTコピーの際にProtect発言が含まれていた場合ダイアログを出すようにした
-        '''==== Ver 0.9.2.3(2010/06/14)
-        ''' * DM送信で複数行を考慮していなかったのを修正(開発版のみ。安定版では問題ありません)
-        ''' * 画像プレビューで未対応画像形式のチェックをするようにした
-        ''' * ハッシュタグマネージャで大文字小文字を区別せずに扱うようにした
-        ''' * パスワードを設定するミスが多いため、設定画面をOKで閉じる際にbit.lyのアカウント情報が正しいかどうか検証するようにした
-        ''' * Ctrl+フルキー数字でタブのダイレクト選択ができるようにした。Ctrl+1～8で左端からのタブを選択、 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ''' * 相互フォロー状態表示の際にID表示が正しくない場合があったのを修正
+        ''' * @,#補完ダイアログにおいて、Space、TABキーでの確定が機能していなかったバグを修正(0.9.2.3のみ。それ以外のバージョンでは問題ありません)
+        ''' * 詳細表示にフォーカスがある場合にIEのショートカットが動作してしまっていたのを修正
+        ''' * 詳細表示でSHIFT+F5キーまたはSHIFT+Rキーを押した場合に通常の更新として動作していたバグを修正(遡るのが正しい)
+        ''' * スペースキーを押したままにしてスペースの連続が入力された場合にも未 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property ChangeLog() As String
             Get
@@ -1047,15 +1055,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''   ポストまで読み込み完了。さらに読み込みますか？ に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property GetTimelineWorker_RunWorkerCompletedText2() As String
-            Get
-                Return ResourceManager.GetString("GetTimelineWorker_RunWorkerCompletedText2", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  Fav取得完了 に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property GetTimelineWorker_RunWorkerCompletedText20() As String
@@ -1178,24 +1177,6 @@ Namespace My.Resources
         Friend ReadOnly Property IDRuleMenuItem_ClickText7() As String
             Get
                 Return ResourceManager.GetString("IDRuleMenuItem_ClickText7", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Twitterからのお知らせはありません。 に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property InfoTwitterMenuItem_ClickText1() As String
-            Get
-                Return ResourceManager.GetString("InfoTwitterMenuItem_ClickText1", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Twitterからのお知らせ に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property InfoTwitterMenuItem_ClickText2() As String
-            Get
-                Return ResourceManager.GetString("InfoTwitterMenuItem_ClickText2", resourceCulture)
             End Get
         End Property
         

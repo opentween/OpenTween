@@ -67,17 +67,23 @@ Public Class FilterDialog
                 ButtonNew.Enabled = False
                 ButtonEdit.Enabled = False
                 ButtonDelete.Enabled = False
+                ButtonRuleUp.Enabled = False
+                ButtonRuleDown.Enabled = False
+                ButtonRuleCopy.Enabled = False
+                ButtonRuleMove.Enabled = False
             Case Else
                 ButtonNew.Enabled = True
                 ButtonEdit.Enabled = True
                 ButtonDelete.Enabled = True
+                ButtonRuleUp.Enabled = True
+                ButtonRuleDown.Enabled = True
+                ButtonRuleCopy.Enabled = True
+                ButtonRuleMove.Enabled = True
         End Select
         ButtonRenameTab.Enabled = True
         If TabInformations.GetInstance.IsDefaultTab(tabName) Then
-            'ButtonRenameTab.Enabled = False
             ButtonDeleteTab.Enabled = False
         Else
-            'ButtonRenameTab.Enabled = True
             ButtonDeleteTab.Enabled = True
         End If
         ButtonClose.Enabled = True
@@ -203,15 +209,24 @@ Public Class FilterDialog
 
     Private Sub ButtonDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonDelete.Click
         If ListFilters.SelectedIndex = -1 Then Exit Sub
-        Dim tmp As String = String.Format(My.Resources.ButtonDelete_ClickText1, vbCrLf, ListFilters.SelectedItem.ToString)
+        Dim tmp As String = ""
+        Dim rslt As Windows.Forms.DialogResult
 
-        If MessageBox.Show(tmp, My.Resources.ButtonDelete_ClickText2, _
-            MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then Exit Sub
+        If ListFilters.SelectedIndices.Count = 1 Then
+            tmp = String.Format(My.Resources.ButtonDelete_ClickText1, vbCrLf, ListFilters.SelectedItem.ToString)
+            rslt = MessageBox.Show(tmp, My.Resources.ButtonDelete_ClickText2, _
+                        MessageBoxButtons.OKCancel, MessageBoxIcon.Question)
+        Else
+            tmp = String.Format(My.Resources.ButtonDelete_ClickText3, ListFilters.SelectedIndices.Count.ToString)
+            rslt = MessageBox.Show(tmp, My.Resources.ButtonDelete_ClickText2, _
+                        MessageBoxButtons.OKCancel, MessageBoxIcon.Question)
+        End If
+        If rslt = Windows.Forms.DialogResult.Cancel Then Exit Sub
 
-        Dim i As Integer = ListFilters.SelectedIndex
-
-        _sts.Tabs(ListTabs.SelectedItem.ToString()).RemoveFilter(DirectCast(ListFilters.SelectedItem, FiltersClass))
-        ListFilters.Items.RemoveAt(i)
+        For idx As Integer = ListFilters.Items.Count - 1 To 0 Step -1
+            _sts.Tabs(ListTabs.SelectedItem.ToString()).RemoveFilter(DirectCast(ListFilters.Items(idx), FiltersClass))
+            ListFilters.Items.RemoveAt(idx)
+        Next
     End Sub
 
     Private Sub ButtonCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonCancel.Click
@@ -825,7 +840,11 @@ Public Class FilterDialog
             filters.Add(_sts.Tabs(tabname).Filters(idx))
         Next
         For Each tb As String In tabs
-            _sts.Tabs(tb).Filters.AddRange(filters)
+            For Each flt As FiltersClass In filters
+                If Not _sts.Tabs(tb).Filters.Contains(flt) Then
+                    _sts.Tabs(tb).Filters.Add(flt)
+                End If
+            Next
         Next
     End Sub
 
