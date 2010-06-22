@@ -224,8 +224,10 @@ Public Class FilterDialog
         If rslt = Windows.Forms.DialogResult.Cancel Then Exit Sub
 
         For idx As Integer = ListFilters.Items.Count - 1 To 0 Step -1
-            _sts.Tabs(ListTabs.SelectedItem.ToString()).RemoveFilter(DirectCast(ListFilters.Items(idx), FiltersClass))
-            ListFilters.Items.RemoveAt(idx)
+            If ListFilters.GetSelected(idx) Then
+                _sts.Tabs(ListTabs.SelectedItem.ToString()).RemoveFilter(DirectCast(ListFilters.Items(idx), FiltersClass))
+                ListFilters.Items.RemoveAt(idx)
+            End If
         Next
     End Sub
 
