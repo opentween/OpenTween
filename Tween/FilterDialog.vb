@@ -860,6 +860,21 @@ Public Class FilterDialog
         Dim tabs As StringCollection = tabdialog.SelectedTabNames
         Dim filters As New Generic.List(Of FiltersClass)
 
-        ''' TODO ルール移動処理
+        For Each idx As Integer In ListFilters.SelectedIndices
+            filters.Add(_sts.Tabs(tabname).Filters(idx))
+        Next
+        For Each tb As String In tabs
+            For Each flt As FiltersClass In filters
+                If Not _sts.Tabs(tb).Filters.Contains(flt) Then
+                    _sts.Tabs(tb).Filters.Add(flt)
+                End If
+            Next
+        Next
+        For idx As Integer = ListFilters.Items.Count - 1 To 0 Step -1
+            If ListFilters.GetSelected(idx) Then
+                _sts.Tabs(ListTabs.SelectedItem.ToString()).RemoveFilter(DirectCast(ListFilters.Items(idx), FiltersClass))
+                ListFilters.Items.RemoveAt(idx)
+            End If
+        Next
     End Sub
 End Class
