@@ -688,6 +688,7 @@ Public Class FilterDialog
             inputName.TabName = _sts.GetUniqueTabName
             inputName.IsShowUsage = True
             inputName.ShowDialog()
+            If inputName.DialogResult = Windows.Forms.DialogResult.Cancel Then Exit Sub
             tabName = inputName.TabName
             tabType = inputName.Usage
         End Using
