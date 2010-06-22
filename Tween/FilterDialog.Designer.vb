@@ -105,6 +105,7 @@ Partial Class FilterDialog
         Me.ListFilters.FormattingEnabled = True
         resources.ApplyResources(Me.ListFilters, "ListFilters")
         Me.ListFilters.Name = "ListFilters"
+        Me.ListFilters.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
         '
         'EditFilterGroup
         '
