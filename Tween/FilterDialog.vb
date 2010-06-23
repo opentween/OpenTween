@@ -221,16 +221,19 @@ Public Class FilterDialog
     Private Sub ButtonEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonEdit.Click
         If ListFilters.SelectedIndex = -1 Then Exit Sub
 
+        ShowDetail()
         ButtonNew.Enabled = False
         ButtonEdit.Enabled = False
         ButtonDelete.Enabled = False
         ButtonClose.Enabled = False
+        ButtonRuleUp.Enabled = False
+        ButtonRuleDown.Enabled = False
+        ButtonRuleCopy.Enabled = False
+        ButtonRuleMove.Enabled = False
         EditFilterGroup.Enabled = True
         ListTabs.Enabled = False
         GroupTab.Enabled = False
         ListFilters.Enabled = False
-
-        ShowDetail()
         _mode = EDITMODE.Edit
     End Sub
 
