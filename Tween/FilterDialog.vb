@@ -358,6 +358,13 @@ Public Class FilterDialog
                 OptCopy.Checked = True
             End If
             CheckMark.Checked = fc.SetMark
+
+            ButtonEdit.Enabled = True
+            ButtonDelete.Enabled = True
+            ButtonRuleUp.Enabled = True
+            ButtonRuleDown.Enabled = True
+            ButtonRuleCopy.Enabled = True
+            ButtonRuleMove.Enabled = True
         Else
             RadioAND.Checked = True
             RadioPLUS.Checked = False
@@ -389,6 +396,13 @@ Public Class FilterDialog
 
             OptCopy.Checked = True
             CheckMark.Checked = True
+
+            ButtonEdit.Enabled = False
+            ButtonDelete.Enabled = False
+            ButtonRuleUp.Enabled = False
+            ButtonRuleDown.Enabled = False
+            ButtonRuleCopy.Enabled = False
+            ButtonRuleMove.Enabled = False
         End If
     End Sub
 
