@@ -73,12 +73,21 @@ Public Class FilterDialog
                 ButtonRuleMove.Enabled = False
             Case Else
                 ButtonNew.Enabled = True
-                ButtonEdit.Enabled = True
-                ButtonDelete.Enabled = True
-                ButtonRuleUp.Enabled = True
-                ButtonRuleDown.Enabled = True
-                ButtonRuleCopy.Enabled = True
-                ButtonRuleMove.Enabled = True
+                If ListFilters.SelectedIndex > -1 Then
+                    ButtonEdit.Enabled = True
+                    ButtonDelete.Enabled = True
+                    ButtonRuleUp.Enabled = True
+                    ButtonRuleDown.Enabled = True
+                    ButtonRuleCopy.Enabled = True
+                    ButtonRuleMove.Enabled = True
+                Else
+                    ButtonEdit.Enabled = False
+                    ButtonDelete.Enabled = False
+                    ButtonRuleUp.Enabled = False
+                    ButtonRuleDown.Enabled = False
+                    ButtonRuleCopy.Enabled = False
+                    ButtonRuleMove.Enabled = False
+                End If
         End Select
         Select Case TabInformations.GetInstance.Tabs(tabName).TabType
             Case TabUsageType.Home
