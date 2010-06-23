@@ -431,6 +431,24 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  ルールコピー先タブの選択 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ButtonRuleCopy_ClickText1() As String
+            Get
+                Return ResourceManager.GetString("ButtonRuleCopy_ClickText1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  ルール移動先タブの選択 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ButtonRuleMove_ClickText1() As String
+            Get
+                Return ResourceManager.GetString("ButtonRuleMove_ClickText1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''   をフォロー解除します。よろしいですか？ に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property ButtonUnFollow_ClickText1() As String
@@ -2088,6 +2106,69 @@ Namespace My.Resources
         Friend ReadOnly Property Tabs_DoubleClickText2() As String
             Get
                 Return ResourceManager.GetString("Tabs_DoubleClickText2", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  DirectMessage に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property TabUsageTypeName_DirectMessage() As String
+            Get
+                Return ResourceManager.GetString("TabUsageTypeName_DirectMessage", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Favorites に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property TabUsageTypeName_Favorites() As String
+            Get
+                Return ResourceManager.GetString("TabUsageTypeName_Favorites", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  タイムライン に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property TabUsageTypeName_Home() As String
+            Get
+                Return ResourceManager.GetString("TabUsageTypeName_Home", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Lists に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property TabUsageTypeName_Lists() As String
+            Get
+                Return ResourceManager.GetString("TabUsageTypeName_Lists", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Reply に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property TabUsageTypeName_Mentions() As String
+            Get
+                Return ResourceManager.GetString("TabUsageTypeName_Mentions", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  PublicSearch に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property TabUsageTypeName_PublicSearch() As String
+            Get
+                Return ResourceManager.GetString("TabUsageTypeName_PublicSearch", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  タイムライン振り分け に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property TabUsageTypeName_UserDefined() As String
+            Get
+                Return ResourceManager.GetString("TabUsageTypeName_UserDefined", resourceCulture)
             End Get
         End Property
         

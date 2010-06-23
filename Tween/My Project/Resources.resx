@@ -901,4 +901,31 @@
   <data name="ButtonDelete_ClickText3" xml:space="preserve">
     <value>選択されている{0}件のルールを削除してもよろしいですか？   </value>
   </data>
+  <data name="ButtonRuleCopy_ClickText1" xml:space="preserve">
+    <value>ルールコピー先タブの選択</value>
+  </data>
+  <data name="ButtonRuleMove_ClickText1" xml:space="preserve">
+    <value>ルール移動先タブの選択</value>
+  </data>
+  <data name="TabUsageTypeName_DirectMessage" xml:space="preserve">
+    <value>DirectMessage</value>
+  </data>
+  <data name="TabUsageTypeName_Favorites" xml:space="preserve">
+    <value>Favorites</value>
+  </data>
+  <data name="TabUsageTypeName_Home" xml:space="preserve">
+    <value>タイムライン</value>
+  </data>
+  <data name="TabUsageTypeName_Lists" xml:space="preserve">
+    <value>Lists</value>
+  </data>
+  <data name="TabUsageTypeName_Mentions" xml:space="preserve">
+    <value>Reply</value>
+  </data>
+  <data name="TabUsageTypeName_PublicSearch" xml:space="preserve">
+    <value>PublicSearch</value>
+  </data>
+  <data name="TabUsageTypeName_UserDefined" xml:space="preserve">
+    <value>タイムライン振り分け</value>
+  </data>
 </root>
