@@ -91,19 +91,19 @@ Public Class FilterDialog
         End Select
         Select Case TabInformations.GetInstance.Tabs(tabName).TabType
             Case TabUsageType.Home
-                LabelTabType.Text = "タイムライン"
+                LabelTabType.Text = My.Resources.TabUsageTypeName_Home
             Case TabUsageType.Mentions
-                LabelTabType.Text = "Reply"
+                LabelTabType.Text = My.Resources.TabUsageTypeName_Mentions
             Case TabUsageType.DirectMessage
-                LabelTabType.Text = "DirectMessage"
+                LabelTabType.Text = My.Resources.TabUsageTypeName_DirectMessage
             Case TabUsageType.Favorites
-                LabelTabType.Text = "Favorites"
+                LabelTabType.Text = My.Resources.TabUsageTypeName_Favorites
             Case TabUsageType.UserDefined
-                LabelTabType.Text = "タイムライン振り分け"
+                LabelTabType.Text = My.Resources.TabUsageTypeName_UserDefined
             Case TabUsageType.PublicSearch
-                LabelTabType.Text = "PublicSearch"
+                LabelTabType.Text = My.Resources.TabUsageTypeName_PublicSearch
             Case TabUsageType.Lists
-                LabelTabType.Text = "Lists"
+                LabelTabType.Text = My.Resources.TabUsageTypeName_Lists
             Case Else
                 LabelTabType.Text = "UNKNOWN"
         End Select
@@ -876,7 +876,7 @@ Public Class FilterDialog
     End Sub
 
     Private Sub ButtonRuleCopy_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonRuleCopy.Click
-        tabdialog.Text = "ルールコピー先タブの選択"
+        tabdialog.Text = My.Resources.ButtonRuleCopy_ClickText1
         If tabdialog.ShowDialog = Windows.Forms.DialogResult.Cancel Then
             Exit Sub
         End If
@@ -897,7 +897,7 @@ Public Class FilterDialog
     End Sub
 
     Private Sub ButtonRuleMove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonRuleMove.Click
-        tabdialog.Text = "ルール移動先タブの選択"
+        tabdialog.Text = My.Resources.ButtonRuleMove_ClickText1
         If tabdialog.ShowDialog = Windows.Forms.DialogResult.Cancel Then
             Exit Sub
         End If
