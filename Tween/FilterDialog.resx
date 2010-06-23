@@ -167,102 +167,6 @@
   <data name="&gt;&gt;ListFilters.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="&gt;&gt;Label11.Name" xml:space="preserve">
-    <value>Label11</value>
-  </data>
-  <data name="&gt;&gt;Label11.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label11.Parent" xml:space="preserve">
-    <value>EditFilterGroup</value>
-  </data>
-  <data name="&gt;&gt;Label11.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;GroupExclude.Name" xml:space="preserve">
-    <value>GroupExclude</value>
-  </data>
-  <data name="&gt;&gt;GroupExclude.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GroupExclude.Parent" xml:space="preserve">
-    <value>EditFilterGroup</value>
-  </data>
-  <data name="&gt;&gt;GroupExclude.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;GroupMatch.Name" xml:space="preserve">
-    <value>GroupMatch</value>
-  </data>
-  <data name="&gt;&gt;GroupMatch.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GroupMatch.Parent" xml:space="preserve">
-    <value>EditFilterGroup</value>
-  </data>
-  <data name="&gt;&gt;GroupMatch.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;GroupBox1.Name" xml:space="preserve">
-    <value>GroupBox1</value>
-  </data>
-  <data name="&gt;&gt;GroupBox1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GroupBox1.Parent" xml:space="preserve">
-    <value>EditFilterGroup</value>
-  </data>
-  <data name="&gt;&gt;GroupBox1.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;ButtonCancel.Name" xml:space="preserve">
-    <value>ButtonCancel</value>
-  </data>
-  <data name="&gt;&gt;ButtonCancel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ButtonCancel.Parent" xml:space="preserve">
-    <value>EditFilterGroup</value>
-  </data>
-  <data name="&gt;&gt;ButtonCancel.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;ButtonOK.Name" xml:space="preserve">
-    <value>ButtonOK</value>
-  </data>
-  <data name="&gt;&gt;ButtonOK.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ButtonOK.Parent" xml:space="preserve">
-    <value>EditFilterGroup</value>
-  </data>
-  <data name="&gt;&gt;ButtonOK.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="EditFilterGroup.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 238</value>
-  </data>
-  <data name="EditFilterGroup.Size" type="System.Drawing.Size, System.Drawing">
-    <value>597, 263</value>
-  </data>
-  <data name="EditFilterGroup.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="EditFilterGroup.Text" xml:space="preserve">
-    <value>ルール編集</value>
-  </data>
-  <data name="&gt;&gt;EditFilterGroup.Name" xml:space="preserve">
-    <value>EditFilterGroup</value>
-  </data>
-  <data name="&gt;&gt;EditFilterGroup.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;EditFilterGroup.Parent" xml:space="preserve">
-    <value>GroupBox2</value>
-  </data>
-  <data name="&gt;&gt;EditFilterGroup.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
   <data name="Label11.Location" type="System.Drawing.Point, System.Drawing">
     <value>436, 152</value>
   </data>
@@ -286,210 +190,6 @@
   </data>
   <data name="&gt;&gt;Label11.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="&gt;&gt;TextExSource.Name" xml:space="preserve">
-    <value>TextExSource</value>
-  </data>
-  <data name="&gt;&gt;TextExSource.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TextExSource.Parent" xml:space="preserve">
-    <value>GroupExclude</value>
-  </data>
-  <data name="&gt;&gt;TextExSource.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;Label12.Name" xml:space="preserve">
-    <value>Label12</value>
-  </data>
-  <data name="&gt;&gt;Label12.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label12.Parent" xml:space="preserve">
-    <value>GroupExclude</value>
-  </data>
-  <data name="&gt;&gt;Label12.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;CheckExRetweet.Name" xml:space="preserve">
-    <value>CheckExRetweet</value>
-  </data>
-  <data name="&gt;&gt;CheckExRetweet.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckExRetweet.Parent" xml:space="preserve">
-    <value>GroupExclude</value>
-  </data>
-  <data name="&gt;&gt;CheckExRetweet.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;CheckExCaseSensitive.Name" xml:space="preserve">
-    <value>CheckExCaseSensitive</value>
-  </data>
-  <data name="&gt;&gt;CheckExCaseSensitive.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckExCaseSensitive.Parent" xml:space="preserve">
-    <value>GroupExclude</value>
-  </data>
-  <data name="&gt;&gt;CheckExCaseSensitive.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;RadioExAnd.Name" xml:space="preserve">
-    <value>RadioExAnd</value>
-  </data>
-  <data name="&gt;&gt;RadioExAnd.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;RadioExAnd.Parent" xml:space="preserve">
-    <value>GroupExclude</value>
-  </data>
-  <data name="&gt;&gt;RadioExAnd.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;Label1.Name" xml:space="preserve">
-    <value>Label1</value>
-  </data>
-  <data name="&gt;&gt;Label1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label1.Parent" xml:space="preserve">
-    <value>GroupExclude</value>
-  </data>
-  <data name="&gt;&gt;Label1.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;CheckExURL.Name" xml:space="preserve">
-    <value>CheckExURL</value>
-  </data>
-  <data name="&gt;&gt;CheckExURL.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckExURL.Parent" xml:space="preserve">
-    <value>GroupExclude</value>
-  </data>
-  <data name="&gt;&gt;CheckExURL.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;RadioExPLUS.Name" xml:space="preserve">
-    <value>RadioExPLUS</value>
-  </data>
-  <data name="&gt;&gt;RadioExPLUS.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;RadioExPLUS.Parent" xml:space="preserve">
-    <value>GroupExclude</value>
-  </data>
-  <data name="&gt;&gt;RadioExPLUS.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;CheckExRegex.Name" xml:space="preserve">
-    <value>CheckExRegex</value>
-  </data>
-  <data name="&gt;&gt;CheckExRegex.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckExRegex.Parent" xml:space="preserve">
-    <value>GroupExclude</value>
-  </data>
-  <data name="&gt;&gt;CheckExRegex.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="&gt;&gt;Label2.Name" xml:space="preserve">
-    <value>Label2</value>
-  </data>
-  <data name="&gt;&gt;Label2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label2.Parent" xml:space="preserve">
-    <value>GroupExclude</value>
-  </data>
-  <data name="&gt;&gt;Label2.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="&gt;&gt;Label3.Name" xml:space="preserve">
-    <value>Label3</value>
-  </data>
-  <data name="&gt;&gt;Label3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label3.Parent" xml:space="preserve">
-    <value>GroupExclude</value>
-  </data>
-  <data name="&gt;&gt;Label3.ZOrder" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="&gt;&gt;Label4.Name" xml:space="preserve">
-    <value>Label4</value>
-  </data>
-  <data name="&gt;&gt;Label4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label4.Parent" xml:space="preserve">
-    <value>GroupExclude</value>
-  </data>
-  <data name="&gt;&gt;Label4.ZOrder" xml:space="preserve">
-    <value>11</value>
-  </data>
-  <data name="&gt;&gt;ExUID.Name" xml:space="preserve">
-    <value>ExUID</value>
-  </data>
-  <data name="&gt;&gt;ExUID.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ExUID.Parent" xml:space="preserve">
-    <value>GroupExclude</value>
-  </data>
-  <data name="&gt;&gt;ExUID.ZOrder" xml:space="preserve">
-    <value>12</value>
-  </data>
-  <data name="&gt;&gt;ExMSG1.Name" xml:space="preserve">
-    <value>ExMSG1</value>
-  </data>
-  <data name="&gt;&gt;ExMSG1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ExMSG1.Parent" xml:space="preserve">
-    <value>GroupExclude</value>
-  </data>
-  <data name="&gt;&gt;ExMSG1.ZOrder" xml:space="preserve">
-    <value>13</value>
-  </data>
-  <data name="&gt;&gt;ExMSG2.Name" xml:space="preserve">
-    <value>ExMSG2</value>
-  </data>
-  <data name="&gt;&gt;ExMSG2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ExMSG2.Parent" xml:space="preserve">
-    <value>GroupExclude</value>
-  </data>
-  <data name="&gt;&gt;ExMSG2.ZOrder" xml:space="preserve">
-    <value>14</value>
-  </data>
-  <data name="GroupExclude.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 140</value>
-  </data>
-  <data name="GroupExclude.Size" type="System.Drawing.Size, System.Drawing">
-    <value>424, 116</value>
-  </data>
-  <data name="GroupExclude.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="GroupExclude.Text" xml:space="preserve">
-    <value>除外ルール</value>
-  </data>
-  <data name="&gt;&gt;GroupExclude.Name" xml:space="preserve">
-    <value>GroupExclude</value>
-  </data>
-  <data name="&gt;&gt;GroupExclude.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GroupExclude.Parent" xml:space="preserve">
-    <value>EditFilterGroup</value>
-  </data>
-  <data name="&gt;&gt;GroupExclude.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="TextExSource.Location" type="System.Drawing.Point, System.Drawing">
     <value>89, 89</value>
@@ -906,209 +606,29 @@
   <data name="&gt;&gt;ExMSG2.ZOrder" xml:space="preserve">
     <value>14</value>
   </data>
-  <data name="&gt;&gt;TextSource.Name" xml:space="preserve">
-    <value>TextSource</value>
+  <data name="GroupExclude.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 140</value>
   </data>
-  <data name="&gt;&gt;TextSource.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TextSource.Parent" xml:space="preserve">
-    <value>GroupMatch</value>
-  </data>
-  <data name="&gt;&gt;TextSource.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;Label5.Name" xml:space="preserve">
-    <value>Label5</value>
-  </data>
-  <data name="&gt;&gt;Label5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label5.Parent" xml:space="preserve">
-    <value>GroupMatch</value>
-  </data>
-  <data name="&gt;&gt;Label5.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;CheckRetweet.Name" xml:space="preserve">
-    <value>CheckRetweet</value>
-  </data>
-  <data name="&gt;&gt;CheckRetweet.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckRetweet.Parent" xml:space="preserve">
-    <value>GroupMatch</value>
-  </data>
-  <data name="&gt;&gt;CheckRetweet.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;CheckCaseSensitive.Name" xml:space="preserve">
-    <value>CheckCaseSensitive</value>
-  </data>
-  <data name="&gt;&gt;CheckCaseSensitive.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckCaseSensitive.Parent" xml:space="preserve">
-    <value>GroupMatch</value>
-  </data>
-  <data name="&gt;&gt;CheckCaseSensitive.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;RadioAND.Name" xml:space="preserve">
-    <value>RadioAND</value>
-  </data>
-  <data name="&gt;&gt;RadioAND.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;RadioAND.Parent" xml:space="preserve">
-    <value>GroupMatch</value>
-  </data>
-  <data name="&gt;&gt;RadioAND.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;Label8.Name" xml:space="preserve">
-    <value>Label8</value>
-  </data>
-  <data name="&gt;&gt;Label8.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label8.Parent" xml:space="preserve">
-    <value>GroupMatch</value>
-  </data>
-  <data name="&gt;&gt;Label8.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;CheckURL.Name" xml:space="preserve">
-    <value>CheckURL</value>
-  </data>
-  <data name="&gt;&gt;CheckURL.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckURL.Parent" xml:space="preserve">
-    <value>GroupMatch</value>
-  </data>
-  <data name="&gt;&gt;CheckURL.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;RadioPLUS.Name" xml:space="preserve">
-    <value>RadioPLUS</value>
-  </data>
-  <data name="&gt;&gt;RadioPLUS.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;RadioPLUS.Parent" xml:space="preserve">
-    <value>GroupMatch</value>
-  </data>
-  <data name="&gt;&gt;RadioPLUS.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;CheckRegex.Name" xml:space="preserve">
-    <value>CheckRegex</value>
-  </data>
-  <data name="&gt;&gt;CheckRegex.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckRegex.Parent" xml:space="preserve">
-    <value>GroupMatch</value>
-  </data>
-  <data name="&gt;&gt;CheckRegex.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="&gt;&gt;Label9.Name" xml:space="preserve">
-    <value>Label9</value>
-  </data>
-  <data name="&gt;&gt;Label9.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label9.Parent" xml:space="preserve">
-    <value>GroupMatch</value>
-  </data>
-  <data name="&gt;&gt;Label9.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="&gt;&gt;Label7.Name" xml:space="preserve">
-    <value>Label7</value>
-  </data>
-  <data name="&gt;&gt;Label7.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label7.Parent" xml:space="preserve">
-    <value>GroupMatch</value>
-  </data>
-  <data name="&gt;&gt;Label7.ZOrder" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="&gt;&gt;Label6.Name" xml:space="preserve">
-    <value>Label6</value>
-  </data>
-  <data name="&gt;&gt;Label6.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label6.Parent" xml:space="preserve">
-    <value>GroupMatch</value>
-  </data>
-  <data name="&gt;&gt;Label6.ZOrder" xml:space="preserve">
-    <value>11</value>
-  </data>
-  <data name="&gt;&gt;UID.Name" xml:space="preserve">
-    <value>UID</value>
-  </data>
-  <data name="&gt;&gt;UID.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;UID.Parent" xml:space="preserve">
-    <value>GroupMatch</value>
-  </data>
-  <data name="&gt;&gt;UID.ZOrder" xml:space="preserve">
-    <value>12</value>
-  </data>
-  <data name="&gt;&gt;MSG1.Name" xml:space="preserve">
-    <value>MSG1</value>
-  </data>
-  <data name="&gt;&gt;MSG1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;MSG1.Parent" xml:space="preserve">
-    <value>GroupMatch</value>
-  </data>
-  <data name="&gt;&gt;MSG1.ZOrder" xml:space="preserve">
-    <value>13</value>
-  </data>
-  <data name="&gt;&gt;MSG2.Name" xml:space="preserve">
-    <value>MSG2</value>
-  </data>
-  <data name="&gt;&gt;MSG2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;MSG2.Parent" xml:space="preserve">
-    <value>GroupMatch</value>
-  </data>
-  <data name="&gt;&gt;MSG2.ZOrder" xml:space="preserve">
-    <value>14</value>
-  </data>
-  <data name="GroupMatch.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 18</value>
-  </data>
-  <data name="GroupMatch.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="GroupExclude.Size" type="System.Drawing.Size, System.Drawing">
     <value>424, 116</value>
   </data>
-  <data name="GroupMatch.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+  <data name="GroupExclude.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
   </data>
-  <data name="GroupMatch.Text" xml:space="preserve">
-    <value>マッチルール</value>
+  <data name="GroupExclude.Text" xml:space="preserve">
+    <value>除外ルール</value>
   </data>
-  <data name="&gt;&gt;GroupMatch.Name" xml:space="preserve">
-    <value>GroupMatch</value>
+  <data name="&gt;&gt;GroupExclude.Name" xml:space="preserve">
+    <value>GroupExclude</value>
   </data>
-  <data name="&gt;&gt;GroupMatch.Type" xml:space="preserve">
+  <data name="&gt;&gt;GroupExclude.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;GroupMatch.Parent" xml:space="preserve">
+  <data name="&gt;&gt;GroupExclude.Parent" xml:space="preserve">
     <value>EditFilterGroup</value>
   </data>
-  <data name="&gt;&gt;GroupMatch.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="&gt;&gt;GroupExclude.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="TextSource.Location" type="System.Drawing.Point, System.Drawing">
     <value>89, 89</value>
@@ -1497,65 +1017,29 @@
   <data name="&gt;&gt;MSG2.ZOrder" xml:space="preserve">
     <value>14</value>
   </data>
-  <data name="&gt;&gt;CheckMark.Name" xml:space="preserve">
-    <value>CheckMark</value>
+  <data name="GroupMatch.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 18</value>
   </data>
-  <data name="&gt;&gt;CheckMark.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="GroupMatch.Size" type="System.Drawing.Size, System.Drawing">
+    <value>424, 116</value>
   </data>
-  <data name="&gt;&gt;CheckMark.Parent" xml:space="preserve">
-    <value>GroupBox1</value>
-  </data>
-  <data name="&gt;&gt;CheckMark.ZOrder" xml:space="preserve">
+  <data name="GroupMatch.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;OptCopy.Name" xml:space="preserve">
-    <value>OptCopy</value>
+  <data name="GroupMatch.Text" xml:space="preserve">
+    <value>マッチルール</value>
   </data>
-  <data name="&gt;&gt;OptCopy.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;GroupMatch.Name" xml:space="preserve">
+    <value>GroupMatch</value>
   </data>
-  <data name="&gt;&gt;OptCopy.Parent" xml:space="preserve">
-    <value>GroupBox1</value>
-  </data>
-  <data name="&gt;&gt;OptCopy.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;OptMove.Name" xml:space="preserve">
-    <value>OptMove</value>
-  </data>
-  <data name="&gt;&gt;OptMove.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;OptMove.Parent" xml:space="preserve">
-    <value>GroupBox1</value>
-  </data>
-  <data name="&gt;&gt;OptMove.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="GroupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>436, 18</value>
-  </data>
-  <data name="GroupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>155, 98</value>
-  </data>
-  <data name="GroupBox1.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="GroupBox1.Text" xml:space="preserve">
-    <value>マッチ時の追加動作(&amp;E)</value>
-  </data>
-  <data name="&gt;&gt;GroupBox1.Name" xml:space="preserve">
-    <value>GroupBox1</value>
-  </data>
-  <data name="&gt;&gt;GroupBox1.Type" xml:space="preserve">
+  <data name="&gt;&gt;GroupMatch.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;GroupBox1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;GroupMatch.Parent" xml:space="preserve">
     <value>EditFilterGroup</value>
   </data>
-  <data name="&gt;&gt;GroupBox1.ZOrder" xml:space="preserve">
-    <value>3</value>
+  <data name="&gt;&gt;GroupMatch.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <data name="CheckMark.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1638,6 +1122,30 @@
   <data name="&gt;&gt;OptMove.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="GroupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>436, 18</value>
+  </data>
+  <data name="GroupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>155, 98</value>
+  </data>
+  <data name="GroupBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="GroupBox1.Text" xml:space="preserve">
+    <value>マッチ時の追加動作(&amp;E)</value>
+  </data>
+  <data name="&gt;&gt;GroupBox1.Name" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;GroupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GroupBox1.Parent" xml:space="preserve">
+    <value>EditFilterGroup</value>
+  </data>
+  <data name="&gt;&gt;GroupBox1.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
   <data name="ButtonCancel.Location" type="System.Drawing.Point, System.Drawing">
     <value>516, 234</value>
   </data>
@@ -1686,6 +1194,30 @@
   <data name="&gt;&gt;ButtonOK.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
+  <data name="EditFilterGroup.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 238</value>
+  </data>
+  <data name="EditFilterGroup.Size" type="System.Drawing.Size, System.Drawing">
+    <value>597, 263</value>
+  </data>
+  <data name="EditFilterGroup.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="EditFilterGroup.Text" xml:space="preserve">
+    <value>ルール編集</value>
+  </data>
+  <data name="&gt;&gt;EditFilterGroup.Name" xml:space="preserve">
+    <value>EditFilterGroup</value>
+  </data>
+  <data name="&gt;&gt;EditFilterGroup.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;EditFilterGroup.Parent" xml:space="preserve">
+    <value>GroupBox2</value>
+  </data>
+  <data name="&gt;&gt;EditFilterGroup.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
   <data name="ButtonNew.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 209</value>
   </data>
@@ -1717,7 +1249,7 @@
     <value>75, 23</value>
   </data>
   <data name="ButtonDelete.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>7</value>
   </data>
   <data name="ButtonDelete.Text" xml:space="preserve">
     <value>削除(&amp;D)</value>
@@ -1741,7 +1273,7 @@
     <value>75, 23</value>
   </data>
   <data name="ButtonEdit.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="ButtonEdit.Text" xml:space="preserve">
     <value>編集(&amp;E)</value>
@@ -1765,7 +1297,7 @@
     <value>75, 23</value>
   </data>
   <data name="ButtonRuleMove.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
+    <value>6</value>
   </data>
   <data name="ButtonRuleMove.Text" xml:space="preserve">
     <value>移動</value>
@@ -1789,7 +1321,7 @@
     <value>75, 23</value>
   </data>
   <data name="ButtonRuleCopy.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
+    <value>5</value>
   </data>
   <data name="ButtonRuleCopy.Text" xml:space="preserve">
     <value>コピー</value>
@@ -1819,7 +1351,7 @@
     <value>34, 23</value>
   </data>
   <data name="ButtonRuleDown.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+    <value>3</value>
   </data>
   <data name="ButtonRuleDown.Text" xml:space="preserve">
     <value>6</value>
@@ -1849,7 +1381,7 @@
     <value>34, 23</value>
   </data>
   <data name="ButtonRuleUp.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>2</value>
   </data>
   <data name="ButtonRuleUp.Text" xml:space="preserve">
     <value>5</value>
@@ -1912,7 +1444,7 @@
     <value>GroupTab</value>
   </data>
   <data name="&gt;&gt;ListTabs.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>2</value>
   </data>
   <data name="ButtonAddTab.Location" type="System.Drawing.Point, System.Drawing">
     <value>8, 237</value>
@@ -1936,7 +1468,7 @@
     <value>GroupTab</value>
   </data>
   <data name="&gt;&gt;ButtonAddTab.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="ButtonDeleteTab.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1963,7 +1495,7 @@
     <value>GroupTab</value>
   </data>
   <data name="&gt;&gt;ButtonDeleteTab.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>6</value>
   </data>
   <data name="ButtonRenameTab.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1990,13 +1522,13 @@
     <value>GroupTab</value>
   </data>
   <data name="&gt;&gt;ButtonRenameTab.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>8</value>
   </data>
   <data name="CheckManageRead.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="CheckManageRead.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 334</value>
+    <value>8, 371</value>
   </data>
   <data name="CheckManageRead.Size" type="System.Drawing.Size, System.Drawing">
     <value>72, 16</value>
@@ -2017,7 +1549,7 @@
     <value>GroupTab</value>
   </data>
   <data name="&gt;&gt;CheckManageRead.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>10</value>
   </data>
   <data name="CheckNotifyNew.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2026,7 +1558,7 @@
     <value>NoControl</value>
   </data>
   <data name="CheckNotifyNew.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 356</value>
+    <value>8, 393</value>
   </data>
   <data name="CheckNotifyNew.Size" type="System.Drawing.Size, System.Drawing">
     <value>96, 16</value>
@@ -2047,10 +1579,10 @@
     <value>GroupTab</value>
   </data>
   <data name="&gt;&gt;CheckNotifyNew.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>11</value>
   </data>
   <data name="ComboSound.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 390</value>
+    <value>8, 427</value>
   </data>
   <data name="ComboSound.Size" type="System.Drawing.Size, System.Drawing">
     <value>113, 20</value>
@@ -2068,13 +1600,13 @@
     <value>GroupTab</value>
   </data>
   <data name="&gt;&gt;ComboSound.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>9</value>
   </data>
   <data name="Label10.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="Label10.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 375</value>
+    <value>6, 412</value>
   </data>
   <data name="Label10.Size" type="System.Drawing.Size, System.Drawing">
     <value>66, 12</value>
@@ -2095,7 +1627,7 @@
     <value>GroupTab</value>
   </data>
   <data name="&gt;&gt;Label10.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>7</value>
   </data>
   <data name="ButtonUp.Font" type="System.Drawing.Font, System.Drawing">
     <value>Marlett, 9pt, style=Bold</value>
@@ -2122,7 +1654,7 @@
     <value>GroupTab</value>
   </data>
   <data name="&gt;&gt;ButtonUp.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>5</value>
   </data>
   <data name="ButtonDown.Font" type="System.Drawing.Font, System.Drawing">
     <value>Marlett, 9pt, style=Bold</value>
@@ -2152,13 +1684,67 @@
     <value>GroupTab</value>
   </data>
   <data name="&gt;&gt;ButtonDown.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="LabelTabType.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LabelTabType.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 344</value>
+  </data>
+  <data name="LabelTabType.Size" type="System.Drawing.Size, System.Drawing">
+    <value>76, 12</value>
+  </data>
+  <data name="LabelTabType.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="LabelTabType.Text" xml:space="preserve">
+    <value>LabelTabType</value>
+  </data>
+  <data name="&gt;&gt;LabelTabType.Name" xml:space="preserve">
+    <value>LabelTabType</value>
+  </data>
+  <data name="&gt;&gt;LabelTabType.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LabelTabType.Parent" xml:space="preserve">
+    <value>GroupTab</value>
+  </data>
+  <data name="&gt;&gt;LabelTabType.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="Label13.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Label13.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 327</value>
+  </data>
+  <data name="Label13.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 12</value>
+  </data>
+  <data name="Label13.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="Label13.Text" xml:space="preserve">
+    <value>タブの種類</value>
+  </data>
+  <data name="&gt;&gt;Label13.Name" xml:space="preserve">
+    <value>Label13</value>
+  </data>
+  <data name="&gt;&gt;Label13.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label13.Parent" xml:space="preserve">
+    <value>GroupTab</value>
+  </data>
+  <data name="&gt;&gt;Label13.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="GroupTab.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 9</value>
   </data>
   <data name="GroupTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>127, 423</value>
+    <value>127, 459</value>
   </data>
   <data name="GroupTab.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>

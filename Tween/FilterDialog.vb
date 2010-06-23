@@ -80,6 +80,24 @@ Public Class FilterDialog
                 ButtonRuleCopy.Enabled = True
                 ButtonRuleMove.Enabled = True
         End Select
+        Select Case TabInformations.GetInstance.Tabs(tabName).TabType
+            Case TabUsageType.Home
+                LabelTabType.Text = "タイムライン"
+            Case TabUsageType.Mentions
+                LabelTabType.Text = "Reply"
+            Case TabUsageType.DirectMessage
+                LabelTabType.Text = "DirectMessage"
+            Case TabUsageType.Favorites
+                LabelTabType.Text = "Favorites"
+            Case TabUsageType.UserDefined
+                LabelTabType.Text = "タイムライン振り分け"
+            Case TabUsageType.PublicSearch
+                LabelTabType.Text = "PublicSearch"
+            Case TabUsageType.Lists
+                LabelTabType.Text = "Lists"
+            Case Else
+                LabelTabType.Text = "UNKNOWN"
+        End Select
         ButtonRenameTab.Enabled = True
         If TabInformations.GetInstance.IsDefaultTab(tabName) Then
             ButtonDeleteTab.Enabled = False

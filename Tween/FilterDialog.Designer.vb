@@ -70,6 +70,8 @@ Partial Class FilterDialog
         Me.ButtonDelete = New System.Windows.Forms.Button()
         Me.ButtonEdit = New System.Windows.Forms.Button()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.ButtonRuleMove = New System.Windows.Forms.Button()
+        Me.ButtonRuleCopy = New System.Windows.Forms.Button()
         Me.ButtonRuleDown = New System.Windows.Forms.Button()
         Me.ButtonRuleUp = New System.Windows.Forms.Button()
         Me.ListTabs = New System.Windows.Forms.ListBox()
@@ -83,8 +85,8 @@ Partial Class FilterDialog
         Me.ButtonUp = New System.Windows.Forms.Button()
         Me.ButtonDown = New System.Windows.Forms.Button()
         Me.GroupTab = New System.Windows.Forms.GroupBox()
-        Me.ButtonRuleCopy = New System.Windows.Forms.Button()
-        Me.ButtonRuleMove = New System.Windows.Forms.Button()
+        Me.Label13 = New System.Windows.Forms.Label()
+        Me.LabelTabType = New System.Windows.Forms.Label()
         Me.EditFilterGroup.SuspendLayout()
         Me.GroupExclude.SuspendLayout()
         Me.GroupMatch.SuspendLayout()
@@ -406,6 +408,18 @@ Partial Class FilterDialog
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.TabStop = False
         '
+        'ButtonRuleMove
+        '
+        resources.ApplyResources(Me.ButtonRuleMove, "ButtonRuleMove")
+        Me.ButtonRuleMove.Name = "ButtonRuleMove"
+        Me.ButtonRuleMove.UseVisualStyleBackColor = True
+        '
+        'ButtonRuleCopy
+        '
+        resources.ApplyResources(Me.ButtonRuleCopy, "ButtonRuleCopy")
+        Me.ButtonRuleCopy.Name = "ButtonRuleCopy"
+        Me.ButtonRuleCopy.UseVisualStyleBackColor = True
+        '
         'ButtonRuleDown
         '
         resources.ApplyResources(Me.ButtonRuleDown, "ButtonRuleDown")
@@ -479,6 +493,8 @@ Partial Class FilterDialog
         '
         'GroupTab
         '
+        Me.GroupTab.Controls.Add(Me.LabelTabType)
+        Me.GroupTab.Controls.Add(Me.Label13)
         Me.GroupTab.Controls.Add(Me.ListTabs)
         Me.GroupTab.Controls.Add(Me.ButtonDown)
         Me.GroupTab.Controls.Add(Me.ButtonAddTab)
@@ -493,17 +509,15 @@ Partial Class FilterDialog
         Me.GroupTab.Name = "GroupTab"
         Me.GroupTab.TabStop = False
         '
-        'ButtonRuleCopy
+        'Label13
         '
-        resources.ApplyResources(Me.ButtonRuleCopy, "ButtonRuleCopy")
-        Me.ButtonRuleCopy.Name = "ButtonRuleCopy"
-        Me.ButtonRuleCopy.UseVisualStyleBackColor = True
+        resources.ApplyResources(Me.Label13, "Label13")
+        Me.Label13.Name = "Label13"
         '
-        'ButtonRuleMove
+        'LabelTabType
         '
-        resources.ApplyResources(Me.ButtonRuleMove, "ButtonRuleMove")
-        Me.ButtonRuleMove.Name = "ButtonRuleMove"
-        Me.ButtonRuleMove.UseVisualStyleBackColor = True
+        resources.ApplyResources(Me.LabelTabType, "LabelTabType")
+        Me.LabelTabType.Name = "LabelTabType"
         '
         'FilterDialog
         '
@@ -595,5 +609,7 @@ Partial Class FilterDialog
     Friend WithEvents ButtonRuleUp As System.Windows.Forms.Button
     Friend WithEvents ButtonRuleMove As System.Windows.Forms.Button
     Friend WithEvents ButtonRuleCopy As System.Windows.Forms.Button
+    Friend WithEvents LabelTabType As System.Windows.Forms.Label
+    Friend WithEvents Label13 As System.Windows.Forms.Label
 
 End Class
