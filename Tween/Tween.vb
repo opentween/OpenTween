@@ -305,7 +305,6 @@ Public Class TweenMain
         If StatusText.Focused Then
             Me.StatusText_Enter(Me.StatusText, System.EventArgs.Empty)
         End If
-        StatusLabelUrl.Text = " "
     End Sub
 
     Private Sub TweenMain_Disposed(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Disposed
