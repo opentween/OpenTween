@@ -9158,28 +9158,4 @@ RETRY:
             OpenUriAsync("http://twitter.com/" + NameLabel.Tag.ToString)
         End If
     End Sub
-
-
-
-    Private Sub StatusLabelUrl_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles StatusLabelUrl.Paint
-        Static LabelWidth As Integer = 0
-        Static txt As New StringBuilder(" ", 128)
-        If LabelWidth <> StatusLabelUrl.Width OrElse StatusLabelUrl.Text = " " Then
-            LabelWidth = StatusLabelUrl.Width
-            txt.Remove(0, txt.Length)
-            txt.Append(GetStatusLabelText())
-            Dim tiptxt As String = txt.ToString
-            Dim size As Size = e.Graphics.MeasureString(tiptxt, StatusLabelUrl.Font).ToSize
-
-            If size.Width > StatusLabelUrl.Size.Width Then
-                Do Until size.Width < StatusLabelUrl.Size.Width
-                    txt.Remove(txt.Length - 2, 2)
-                    size = e.Graphics.MeasureString(txt.ToString, StatusLabelUrl.Font).ToSize
-                Loop
-            End If
-            StatusLabelUrl.Text = txt.ToString
-            StatusLabelUrl.ToolTipText = tiptxt
-        End If
-    End Sub
-
 End Class
