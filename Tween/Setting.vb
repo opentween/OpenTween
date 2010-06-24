@@ -1797,12 +1797,14 @@ Public Class Setting
             Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
             Me.AuthUserLabel.Text = ""
         End If
+        CalcApiUsing()
     End Sub
 
     Private Sub AuthClearButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AuthClearButton.Click
         tw.ClearAuthInfo()
         Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
         Me.AuthUserLabel.Text = ""
+        CalcApiUsing()
     End Sub
 
     Private Sub AuthOAuthRadio_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AuthOAuthRadio.CheckedChanged
@@ -1863,15 +1865,16 @@ Public Class Setting
             End If
         End If
 
-        '固定で良いのか？
-        Dim max As Integer
-        If AuthOAuthRadio.Checked Then
-            max = 350
-        Else
-            max = 150
+        If tw IsNot Nothing Then
+            ' TODO:可能ならここで上限値を取得したい
+            If tw.UpperCountApi = -1 Then
+                LabelApiUsing.Text = String.Format(My.Resources.SettingAPIUse1, UsingApi, "???")
+            Else
+                LabelApiUsing.Text = String.Format(My.Resources.SettingAPIUse1, UsingApi, tw.UpperCountApi)
+            End If
         End If
 
-        LabelApiUsing.Text = String.Format(My.Resources.SettingAPIUse1, UsingApi, max)
+
         LabelPostAndGet.Visible = CheckPostAndGet.Checked
 
     End Sub
