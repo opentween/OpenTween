@@ -2453,6 +2453,12 @@ Public Class Twitter
         End Get
     End Property
 
+    Public ReadOnly Property UpperCountApi() As Integer
+        Get
+            Return twCon.UpperCountApi
+        End Get
+    End Property
+
     Public Function GetInfoApi(ByRef info As ApiInfo) As Boolean
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return True
 
