@@ -6557,7 +6557,11 @@ RETRY:
         UnreadCounter = ur
         UnreadAtCounter = urat
         If tw.RemainCountApi > -1 Then
-            slbl.Append("[API: " + tw.RemainCountApi.ToString + "] ")
+            slbl.Append("[API: " + tw.RemainCountApi.ToString)
+            If tw.UpperCountApi > -1 Then
+                slbl.Append("/" + tw.UpperCountApi.ToString)
+            End If
+            slbl.Append("] ")
         End If
         slbl.AppendFormat(My.Resources.SetStatusLabelText1, tur, tal, ur, al, urat, _postTimestamps.Count, _favTimestamps.Count, _tlCount)
         If SettingDialog.TimelinePeriodInt = 0 Then
