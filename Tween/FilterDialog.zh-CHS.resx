@@ -130,6 +130,9 @@
   <data name="Label12.Text" xml:space="preserve">
     <value>来源</value>
   </data>
+  <data name="CheckExRetweet.Size" type="System.Drawing.Size, System.Drawing">
+    <value>60, 16</value>
+  </data>
   <data name="CheckExRetweet.Text" xml:space="preserve">
     <value>官方RT</value>
   </data>
@@ -183,6 +186,9 @@
   </data>
   <data name="Label5.Text" xml:space="preserve">
     <value>来源</value>
+  </data>
+  <data name="CheckRetweet.Size" type="System.Drawing.Size, System.Drawing">
+    <value>60, 16</value>
   </data>
   <data name="CheckRetweet.Text" xml:space="preserve">
     <value>官方RT</value>
@@ -271,6 +277,12 @@
   <data name="ButtonEdit.Text" xml:space="preserve">
     <value>编辑(&amp;E)</value>
   </data>
+  <data name="ButtonRuleMove.Text" xml:space="preserve">
+    <value>移动</value>
+  </data>
+  <data name="ButtonRuleCopy.Text" xml:space="preserve">
+    <value>复制</value>
+  </data>
   <data name="GroupBox2.Text" xml:space="preserve">
     <value>分配规则</value>
   </data>
@@ -297,6 +309,12 @@
   </data>
   <data name="Label10.Text" xml:space="preserve">
     <value>提示音</value>
+  </data>
+  <data name="Label13.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 12</value>
+  </data>
+  <data name="Label13.Text" xml:space="preserve">
+    <value>标签类型</value>
   </data>
   <data name="GroupTab.Text" xml:space="preserve">
     <value>标签</value>

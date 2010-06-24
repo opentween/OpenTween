@@ -285,9 +285,6 @@
   <data name="GetTimelineWorker_RunWorkerCompletedText18" xml:space="preserve">
     <value>) 失败:</value>
   </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText2" xml:space="preserve">
-    <value>消息已读。继续阅读更多吗？</value>
-  </data>
   <data name="GetTimelineWorker_RunWorkerCompletedText3" xml:space="preserve">
     <value>继续确认</value>
   </data>
@@ -326,12 +323,6 @@
   </data>
   <data name="IDRuleMenuItem_ClickText7" xml:space="preserve">
     <value>正在标记</value>
-  </data>
-  <data name="InfoTwitterMenuItem_ClickText1" xml:space="preserve">
-    <value>没有Twitter通知。</value>
-  </data>
-  <data name="InfoTwitterMenuItem_ClickText2" xml:space="preserve">
-    <value>Twitter通知</value>
   </data>
   <data name="LoadConfigurationText1" xml:space="preserve">
     <value>该配置文件由Tween自动生成。请不要手工修改。</value>
@@ -872,5 +863,35 @@
   </data>
   <data name="CopyStotText1" xml:space="preserve">
     <value>警告：不能复制受保护(Protected)用户的消息。</value>
+  </data>
+  <data name="ButtonRuleCopy_ClickText1" xml:space="preserve">
+    <value>选择规则要复制到的标签</value>
+  </data>
+  <data name="ButtonRuleMove_ClickText1" xml:space="preserve">
+    <value>选择规则要移动到的标签</value>
+  </data>
+  <data name="TabUsageTypeName_DirectMessage" xml:space="preserve">
+    <value>私信</value>
+  </data>
+  <data name="TabUsageTypeName_Favorites" xml:space="preserve">
+    <value>收藏</value>
+  </data>
+  <data name="TabUsageTypeName_Home" xml:space="preserve">
+    <value>时间线</value>
+  </data>
+  <data name="TabUsageTypeName_Lists" xml:space="preserve">
+    <value>列表</value>
+  </data>
+  <data name="TabUsageTypeName_Mentions" xml:space="preserve">
+    <value>回复</value>
+  </data>
+  <data name="TabUsageTypeName_PublicSearch" xml:space="preserve">
+    <value>公开搜索</value>
+  </data>
+  <data name="TabUsageTypeName_UserDefined" xml:space="preserve">
+    <value>过滤的时间线</value>
+  </data>
+  <data name="ButtonDelete_ClickText3" xml:space="preserve">
+    <value>要删除被选中的{0}条规则吗？</value>
   </data>
 </root>
