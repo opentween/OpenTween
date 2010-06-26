@@ -1881,7 +1881,13 @@ Public Class Setting
             ' 設定画面初期化時にhttpヘッダから最大値取得済み
             If _AuthStateValid Then
                 ' 認証状態有効
-                LabelApiUsing.Text = String.Format(My.Resources.SettingAPIUse1, UsingApi, tw.UpperCountApi)
+                If _UpperCount = tw.UpperCountApi Then
+                    ' _UpperCountはhttpヘッダのコピー
+                    LabelApiUsing.Text = String.Format(My.Resources.SettingAPIUse1, UsingApi, tw.UpperCountApi)
+                Else
+                    ' _UpperCountはAPI情報で取得した結果のコピー
+                    LabelApiUsing.Text = String.Format(My.Resources.SettingAPIUse1, UsingApi, _UpperCount)
+                End If
             Else
                 ' 認証状態が無効になっている(=httpヘッダから取得済みの最大値は現在無効)
                 LabelApiUsing.Text = String.Format(My.Resources.SettingAPIUse1, UsingApi, "???")
@@ -1892,9 +1898,11 @@ Public Class Setting
                 ' 認証状態有効(API情報取得で最大値が取得可能)
                 Dim _info As New ApiInfo
                 If tw.GetInfoApi(_info) Then
+                    ' API情報取得成功
                     LabelApiUsing.Text = String.Format(My.Resources.SettingAPIUse1, UsingApi, _info.MaxCount)
                     _UpperCount = _info.MaxCount
                 Else
+                    ' 取得失敗(最大値不明)
                     LabelApiUsing.Text = String.Format(My.Resources.SettingAPIUse1, UsingApi, "???")
                 End If
             Else
