@@ -495,6 +495,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
                 Dim xd As XmlDocument = New XmlDocument()
                 Try
                     xd.LoadXml(content)
@@ -577,6 +578,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
                 Dim xd As XmlDocument = New XmlDocument()
                 Try
                     xd.LoadXml(content)
@@ -648,6 +650,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
@@ -685,6 +688,8 @@ Public Class Twitter
             Case Is <> HttpStatusCode.OK
                 Return "Err:" + res.ToString()
         End Select
+
+        Twitter.AccountState = ACCOUNT_STATE.Valid
 
         Dim dlgt As GetIconImageDelegate    'countQueryに合わせる
         Dim ar As IAsyncResult              'countQueryに合わせる
@@ -800,6 +805,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
@@ -828,6 +834,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
@@ -864,6 +871,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
@@ -900,6 +908,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
@@ -936,6 +945,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
@@ -972,6 +982,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
@@ -1009,6 +1020,7 @@ Public Class Twitter
             Case HttpStatusCode.OK
                 Dim xdoc As New XmlDocument
                 Dim result As String = ""
+                Twitter.AccountState = ACCOUNT_STATE.Valid
                 Try
                     xdoc.LoadXml(content)
                     isFollowing = Boolean.Parse(xdoc.SelectSingleNode("/relationship/source/following").InnerText)
@@ -1046,6 +1058,7 @@ Public Class Twitter
             Case HttpStatusCode.OK
                 Dim xdoc As New XmlDocument
                 Dim result As String = ""
+                Twitter.AccountState = ACCOUNT_STATE.Valid
                 Try
                     xdoc.LoadXml(content)
                     xmlBuf = content
@@ -1090,6 +1103,7 @@ Public Class Twitter
                     Dim xdoc As New XmlDocument
                     Dim xnode As XmlNodeList
                     Dim result As String = ""
+                    Twitter.AccountState = ACCOUNT_STATE.Valid
                     Try
                         xdoc.LoadXml(content)
                         xnode = xdoc.GetElementsByTagName("ids")
@@ -1130,6 +1144,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
                 If Not _restrictFavCheck Then Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
@@ -1160,6 +1175,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
                 Try
                     Using rd As Xml.XmlTextReader = New Xml.XmlTextReader(New System.IO.StringReader(content))
                         rd.Read()
@@ -1206,6 +1222,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
@@ -1240,6 +1257,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
@@ -1276,6 +1294,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
@@ -1623,6 +1642,7 @@ Public Class Twitter
         End Try
         Select Case res
             Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Return "Check your Username/Password."
@@ -1661,6 +1681,7 @@ Public Class Twitter
         End Try
         Select Case res
             Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Return "Check your Username/Password."
@@ -1961,6 +1982,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Return "Check your Username/Password."
@@ -2074,6 +2096,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Return "Check your Username/Password."
@@ -2160,7 +2183,6 @@ Public Class Twitter
                 post.Data = post.Data.Replace("<3", "♡")
                 'Source整形
                 If post.Source.StartsWith("<") Then
-                    'Dim rgS As New Regex(">(?<source>.+)<")
                     Dim mS As Match = Regex.Match(post.Source, ">(?<source>.+)<")
                     If mS.Success Then
                         post.Source = HttpUtility.HtmlDecode(mS.Result("${source}"))
@@ -2199,9 +2221,6 @@ Public Class Twitter
                 Throw
             End Try
         Next
-
-        '_remainCountApi = sck.RemainCountApi
-        'If _ApiMethod = MySocket.REQ_TYPE.ReqGetAPI Then _remainCountApi = sck.RemainCountApi
 
         Return ""
     End Function
@@ -2247,6 +2266,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Return "Check your Username/Password."
@@ -2295,6 +2315,7 @@ Public Class Twitter
 
             Select Case res
                 Case HttpStatusCode.OK
+                    Twitter.AccountState = ACCOUNT_STATE.Valid
                 Case HttpStatusCode.Unauthorized
                     Twitter.AccountState = ACCOUNT_STATE.Invalid
                     Return "Check your Username/Password."
@@ -2347,6 +2368,7 @@ Public Class Twitter
 
             Select Case res
                 Case HttpStatusCode.OK
+                    Twitter.AccountState = ACCOUNT_STATE.Valid
                 Case HttpStatusCode.Unauthorized
                     Twitter.AccountState = ACCOUNT_STATE.Invalid
                     Return "Check your Username/Password."
@@ -2472,10 +2494,6 @@ Public Class Twitter
 
         If _endingFlag Then Return True
 
-        'info.MaxCount = twCon.UpperCountApi
-        'info.RemainCount = twCon.RemainCountApi
-        'info.ResetTime = twCon.ResetTimeApi
-        'Return True
         Dim res As HttpStatusCode
         Dim content As String = ""
         Try
