@@ -185,6 +185,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
@@ -206,17 +207,24 @@ Public Class Twitter
     End Function
 
     Public Sub ClearAuthInfo()
+        Twitter.AccountState = ACCOUNT_STATE.Invalid
         twCon.ClearAuthInfo()
     End Sub
 
     Public Sub Initialize(ByVal token As String, ByVal tokenSecret As String, ByVal username As String)
         'xAuth認証
+        If String.IsNullOrEmpty(token) OrElse String.IsNullOrEmpty(tokenSecret) OrElse String.IsNullOrEmpty(username) Then
+            Twitter.AccountState = ACCOUNT_STATE.Invalid
+        End If
         twCon.Initialize(token, tokenSecret, username)
         _uid = username.ToLower
     End Sub
 
     Public Sub Initialize(ByVal username As String, ByVal password As String)
         'BASIC認証
+        If String.IsNullOrEmpty(username) OrElse String.IsNullOrEmpty(password) Then
+            Twitter.AccountState = ACCOUNT_STATE.Invalid
+        End If
         twCon.Initialize(username, password)
         _uid = username.ToLower
     End Sub
