@@ -160,8 +160,8 @@ Public Class SettingCommon
     Public TwitterUrl As String = "api.twitter.com"
     Public TwitterSearchUrl As String = "search.twitter.com"
     Public IsOAuth As Boolean = True
-    Public HotkeyEnabled As Boolean
-    Public HotkeyModifier As Keys
-    Public HotkeyKey As Keys
-    Public HotkeyValue As Integer
+    Public HotkeyEnabled As Boolean = False
+    Public HotkeyModifier As Keys = Keys.None
+    Public HotkeyKey As Keys = Keys.None
+    Public HotkeyValue As Integer = 0
 End Class

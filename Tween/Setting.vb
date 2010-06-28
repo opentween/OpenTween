@@ -527,13 +527,19 @@ Public Class Setting
                 LanguageCombo.SelectedIndex = 0
         End Select
         HotkeyCheck.Checked = _HotkeyEnabled
-        HotkeyAlt.Checked = (_HotkeyMod Or Keys.Alt) = Keys.Alt
-        HotkeyCtrl.Checked = (_HotkeyMod Or Keys.Control) = Keys.Control
-        HotkeyShift.Checked = (_HotkeyMod Or Keys.Shift) = Keys.Shift
-        HotkeyWin.Checked = (_HotkeyMod Or Keys.LWin) = Keys.LWin
+        HotkeyAlt.Checked = ((_HotkeyMod And Keys.Alt) = Keys.Alt)
+        HotkeyCtrl.Checked = ((_HotkeyMod And Keys.Control) = Keys.Control)
+        HotkeyShift.Checked = ((_HotkeyMod And Keys.Shift) = Keys.Shift)
+        HotkeyWin.Checked = ((_HotkeyMod And Keys.LWin) = Keys.LWin)
         HotkeyCode.Text = _HotkeyValue.ToString
         HotkeyText.Text = _HotkeyKey.ToString
         HotkeyText.Tag = _HotkeyKey
+        HotkeyAlt.Enabled = HotkeyEnabled
+        HotkeyShift.Enabled = HotkeyEnabled
+        HotkeyCtrl.Enabled = HotkeyEnabled
+        HotkeyWin.Enabled = HotkeyEnabled
+        HotkeyText.Enabled = HotkeyEnabled
+        HotkeyCode.Enabled = HotkeyEnabled
 
         TabControl1.SelectedIndex = 0
         ActiveControl = Username
@@ -1970,6 +1976,8 @@ Public Class Setting
         HotkeyAlt.Enabled = HotkeyCheck.Checked
         HotkeyShift.Enabled = HotkeyCheck.Checked
         HotkeyWin.Enabled = HotkeyCheck.Checked
+        HotkeyText.Enabled = HotkeyCheck.Checked
+        HotkeyCode.Enabled = HotkeyCheck.Checked
     End Sub
 End Class
 
