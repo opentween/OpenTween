@@ -888,10 +888,10 @@ Public Class TweenMain
         If SettingDialog.HotkeyEnabled Then
             '''グローバルホットキーの登録。設定で変更可能にするかも
             Dim modKey As HookGlobalHotkey.ModKeys = HookGlobalHotkey.ModKeys.None
-            If (SettingDialog.HotkeyMod Or Keys.Alt) = Keys.Alt Then modKey = modKey Or HookGlobalHotkey.ModKeys.Alt
-            If (SettingDialog.HotkeyMod Or Keys.Control) = Keys.Control Then modKey = modKey Or HookGlobalHotkey.ModKeys.Ctrl
-            If (SettingDialog.HotkeyMod Or Keys.Shift) = Keys.Shift Then modKey = modKey Or HookGlobalHotkey.ModKeys.Shift
-            If (SettingDialog.HotkeyMod Or Keys.LWin) = Keys.LWin Then modKey = modKey Or HookGlobalHotkey.ModKeys.Win
+            If (SettingDialog.HotkeyMod And Keys.Alt) = Keys.Alt Then modKey = modKey Or HookGlobalHotkey.ModKeys.Alt
+            If (SettingDialog.HotkeyMod And Keys.Control) = Keys.Control Then modKey = modKey Or HookGlobalHotkey.ModKeys.Ctrl
+            If (SettingDialog.HotkeyMod And Keys.Shift) = Keys.Shift Then modKey = modKey Or HookGlobalHotkey.ModKeys.Shift
+            If (SettingDialog.HotkeyMod And Keys.LWin) = Keys.LWin Then modKey = modKey Or HookGlobalHotkey.ModKeys.Win
 
             _hookGlobalHotkey.RegisterOriginalHotkey(SettingDialog.HotkeyKey, SettingDialog.HotkeyValue, modKey)
         End If
@@ -3103,10 +3103,10 @@ Public Class TweenMain
                 If SettingDialog.HotkeyEnabled Then
                     '''グローバルホットキーの登録。設定で変更可能にするかも
                     Dim modKey As HookGlobalHotkey.ModKeys = HookGlobalHotkey.ModKeys.None
-                    If (SettingDialog.HotkeyMod Or Keys.Alt) = Keys.Alt Then modKey = modKey Or HookGlobalHotkey.ModKeys.Alt
-                    If (SettingDialog.HotkeyMod Or Keys.Control) = Keys.Control Then modKey = modKey Or HookGlobalHotkey.ModKeys.Ctrl
-                    If (SettingDialog.HotkeyMod Or Keys.Shift) = Keys.Shift Then modKey = modKey Or HookGlobalHotkey.ModKeys.Shift
-                    If (SettingDialog.HotkeyMod Or Keys.LWin) = Keys.LWin Then modKey = modKey Or HookGlobalHotkey.ModKeys.Win
+                    If (SettingDialog.HotkeyMod And Keys.Alt) = Keys.Alt Then modKey = modKey Or HookGlobalHotkey.ModKeys.Alt
+                    If (SettingDialog.HotkeyMod And Keys.Control) = Keys.Control Then modKey = modKey Or HookGlobalHotkey.ModKeys.Ctrl
+                    If (SettingDialog.HotkeyMod And Keys.Shift) = Keys.Shift Then modKey = modKey Or HookGlobalHotkey.ModKeys.Shift
+                    If (SettingDialog.HotkeyMod And Keys.LWin) = Keys.LWin Then modKey = modKey Or HookGlobalHotkey.ModKeys.Win
 
                     _hookGlobalHotkey.RegisterOriginalHotkey(SettingDialog.HotkeyKey, SettingDialog.HotkeyValue, modKey)
                 End If
