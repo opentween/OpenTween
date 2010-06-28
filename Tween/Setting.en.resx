@@ -508,6 +508,9 @@
   <data name="Label47.Text" xml:space="preserve">
     <value>Apply after restarting</value>
   </data>
+  <data name="ButtonApiCalc.Text" xml:space="preserve">
+    <value>Recalculation</value>
+  </data>
   <data name="LabelPostAndGet.Size" type="System.Drawing.Size, System.Drawing">
     <value>358, 12</value>
   </data>
@@ -592,20 +595,35 @@
   <data name="CheckPeriodAdjust.Text" xml:space="preserve">
     <value>Enable Auto-Adjustment</value>
   </data>
+  <data name="Label74.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 404</value>
+  </data>
+  <data name="Label74.Size" type="System.Drawing.Size, System.Drawing">
+    <value>106, 12</value>
+  </data>
+  <data name="Label74.Text" xml:space="preserve">
+    <value>Get favs in Starting</value>
+  </data>
+  <data name="chkGetFav.Location" type="System.Drawing.Point, System.Drawing">
+    <value>173, 403</value>
+  </data>
+  <data name="chkGetFav.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 16</value>
+  </data>
+  <data name="chkGetFav.Text" xml:space="preserve">
+    <value>Enable</value>
+  </data>
   <data name="TabPage1.Text" xml:space="preserve">
     <value>Basic</value>
   </data>
-  <data name="Label35.Size" type="System.Drawing.Size, System.Drawing">
-    <value>124, 12</value>
-  </data>
-  <data name="Label35.Text" xml:space="preserve">
-    <value>Disp Picture Thumbnail</value>
-  </data>
-  <data name="CheckPreviewEnable.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="HotkeyCheck.Size" type="System.Drawing.Size, System.Drawing">
     <value>58, 16</value>
   </data>
-  <data name="CheckPreviewEnable.Text" xml:space="preserve">
+  <data name="HotkeyCheck.Text" xml:space="preserve">
     <value>Enable</value>
+  </data>
+  <data name="GroupBox3.Text" xml:space="preserve">
+    <value>Hotkey</value>
   </data>
   <data name="Label82.Location" type="System.Drawing.Point, System.Drawing">
     <value>11, 439</value>
@@ -641,24 +659,6 @@
     <value>58, 16</value>
   </data>
   <data name="CheckAtIdSupple.Text" xml:space="preserve">
-    <value>Enable</value>
-  </data>
-  <data name="Label74.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 404</value>
-  </data>
-  <data name="Label74.Size" type="System.Drawing.Size, System.Drawing">
-    <value>106, 12</value>
-  </data>
-  <data name="Label74.Text" xml:space="preserve">
-    <value>Get favs in Starting</value>
-  </data>
-  <data name="chkGetFav.Location" type="System.Drawing.Point, System.Drawing">
-    <value>173, 403</value>
-  </data>
-  <data name="chkGetFav.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 16</value>
-  </data>
-  <data name="chkGetFav.Text" xml:space="preserve">
     <value>Enable</value>
   </data>
   <data name="Label71.Size" type="System.Drawing.Size, System.Drawing">
@@ -734,6 +734,18 @@
   </data>
   <data name="TabPage2.Text" xml:space="preserve">
     <value>Behavior</value>
+  </data>
+  <data name="Label35.Size" type="System.Drawing.Size, System.Drawing">
+    <value>124, 12</value>
+  </data>
+  <data name="Label35.Text" xml:space="preserve">
+    <value>Disp Picture Thumbnail</value>
+  </data>
+  <data name="CheckPreviewEnable.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 16</value>
+  </data>
+  <data name="CheckPreviewEnable.Text" xml:space="preserve">
+    <value>Enable</value>
   </data>
   <data name="CheckAlwaysTop.Size" type="System.Drawing.Size, System.Drawing">
     <value>58, 16</value>
