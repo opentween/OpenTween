@@ -118,8 +118,6 @@ Public Class Setting
     Private _MyPreviewEnable As Boolean
 
     Private _ValidationError As Boolean = False
-    Private _AuthStateValid As Boolean = False
-    Private _UpperCount As Integer = -1
 
     Private Sub Save_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Save.Click
         If TweenMain.IsNetworkAvailable() AndAlso _
@@ -254,7 +252,7 @@ Public Class Setting
             _MyNicoms = CheckNicoms.Checked
             _MyUnreadStyle = chkUnreadStyle.Checked
             _MyDateTimeFormat = CmbDateTimeFormat.Text
-            _MyDefaultTimeOut = CType(ConnectionTimeOut.Text, Integer)  
+            _MyDefaultTimeOut = CType(ConnectionTimeOut.Text, Integer)
             _MyProtectNotInclude = CheckProtectNotInclude.Checked
             _MyLimitBalloon = CheckBalloonLimit.Checked
             _MyAutoShortUrlFirst = CType(ComboBoxAutoShortUrlFirst.SelectedIndex, UrlConverter)
@@ -338,13 +336,9 @@ Public Class Setting
         If tw.Username = "" Then
             Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
             Me.AuthUserLabel.Text = ""
-            _AuthStateValid = False
-            _UpperCount = -1
         Else
             Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
             Me.AuthUserLabel.Text = tw.Username
-            _AuthStateValid = True
-            _UpperCount = tw.UpperCountApi
         End If
 
         TimelinePeriod.Text = _MytimelinePeriod.ToString()
@@ -1567,6 +1561,7 @@ Public Class Setting
 
         If filedlg.ShowDialog() = Windows.Forms.DialogResult.OK Then
             BrowserPathText.Text = filedlg.FileName
+
         End If
     End Sub
 
@@ -1797,14 +1792,11 @@ Public Class Setting
             MessageBox.Show(My.Resources.AuthorizeButton_Click1, "Authenticate", MessageBoxButtons.OK)
             Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
             Me.AuthUserLabel.Text = tw.Username
-            _AuthStateValid = True
         Else
             MessageBox.Show(My.Resources.AuthorizeButton_Click2 + Environment.NewLine + rslt, "Authenticate", MessageBoxButtons.OK)
             Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
             Me.AuthUserLabel.Text = ""
-            _AuthStateValid = False
         End If
-        _UpperCount = -1
         CalcApiUsing()
     End Sub
 
@@ -1812,8 +1804,6 @@ Public Class Setting
         tw.ClearAuthInfo()
         Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
         Me.AuthUserLabel.Text = ""
-        _AuthStateValid = False
-        _UpperCount = -1
         CalcApiUsing()
     End Sub
 
@@ -1832,8 +1822,6 @@ Public Class Setting
         End If
         Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
         Me.AuthUserLabel.Text = ""
-        _AuthStateValid = False
-        _UpperCount = -1
         CalcApiUsing()
     End Sub
 
@@ -1877,39 +1865,23 @@ Public Class Setting
             End If
         End If
 
-        If _UpperCount > -1 Then
-            ' 設定画面初期化時にhttpヘッダから最大値取得済み
-            If _AuthStateValid Then
-                ' 認証状態有効
-                If _UpperCount = tw.UpperCountApi Then
-                    ' _UpperCountはhttpヘッダのコピー
-                    LabelApiUsing.Text = String.Format(My.Resources.SettingAPIUse1, UsingApi, tw.UpperCountApi)
+        If tw IsNot Nothing Then
+            If tw.UpperCountApi = -1 Then
+                If Twitter.AccountState = ACCOUNT_STATE.Valid Then
+                    Dim _info As New ApiInfo
+                    If tw.GetInfoApi(_info) Then
+                        LabelApiUsing.Text = String.Format(My.Resources.SettingAPIUse1, UsingApi, _info.MaxCount)
+                    Else
+                        LabelApiUsing.Text = String.Format(My.Resources.SettingAPIUse1, UsingApi, "???")
+                    End If
                 Else
-                    ' _UpperCountはAPI情報で取得した結果のコピー
-                    LabelApiUsing.Text = String.Format(My.Resources.SettingAPIUse1, UsingApi, _UpperCount)
-                End If
-            Else
-                ' 認証状態が無効になっている(=httpヘッダから取得済みの最大値は現在無効)
-                LabelApiUsing.Text = String.Format(My.Resources.SettingAPIUse1, UsingApi, "???")
-            End If
-        Else
-            ' 設定画面初期化時にhttpヘッダから最大値取得していない
-            If _AuthStateValid Then
-                ' 認証状態有効(API情報取得で最大値が取得可能)
-                Dim _info As New ApiInfo
-                If tw.GetInfoApi(_info) Then
-                    ' API情報取得成功
-                    LabelApiUsing.Text = String.Format(My.Resources.SettingAPIUse1, UsingApi, _info.MaxCount)
-                    _UpperCount = _info.MaxCount
-                Else
-                    ' 取得失敗(最大値不明)
                     LabelApiUsing.Text = String.Format(My.Resources.SettingAPIUse1, UsingApi, "???")
                 End If
             Else
-                ' 認証状態が無効になっている(API情報を取得しても正確な数値はわからない)
-                LabelApiUsing.Text = String.Format(My.Resources.SettingAPIUse1, UsingApi, "???")
+                LabelApiUsing.Text = String.Format(My.Resources.SettingAPIUse1, UsingApi, tw.UpperCountApi)
             End If
         End If
+
 
         LabelPostAndGet.Visible = CheckPostAndGet.Checked
 

@@ -35,9 +35,27 @@ Public Class HttpTwitter
     Private connectionType As AuthMethod = AuthMethod.Basic
 
     Public Sub New()
-        _remainCountApi.Add("X-RateLimit-Remaining", "-1")
-        _remainCountApi.Add("X-RateLimit-Limit", "-1")
-        _remainCountApi.Add("X-RateLimit-Reset", "-1")
+        InitializeCount()
+    End Sub
+
+    Private Sub InitializeCount()
+        If _remainCountApi.ContainsKey("X-RateLimit-Remaining") Then
+            _remainCountApi.Item("X-RateLimit-Remaining") = "-1"
+        Else
+            _remainCountApi.Add("X-RateLimit-Remaining", "-1")
+        End If
+
+        If _remainCountApi.ContainsKey("X-RateLimit-Limit") Then
+            _remainCountApi.Item("X-RateLimit-Limit") = "-1"
+        Else
+            _remainCountApi.Add("X-RateLimit-Limit", "-1")
+        End If
+
+        If _remainCountApi.ContainsKey("X-RateLimit-Reset") Then
+            _remainCountApi.Item("X-RateLimit-Reset") = "-1"
+        Else
+            _remainCountApi.Add("X-RateLimit-Reset", "-1")
+        End If
     End Sub
 
     Public Sub Initialize(ByVal accessToken As String, _
@@ -45,6 +63,17 @@ Public Class HttpTwitter
                                     ByVal username As String)
         'for OAuth
         Dim con As New HttpOAuthApiProxy
+        Static tk As String = ""
+        Static tks As String = ""
+        Static un As String = ""
+        If tk <> accessToken OrElse tks <> accessTokenSecret OrElse _
+                un <> username OrElse connectionType <> AuthMethod.OAuth Then
+            ' 以前の認証状態よりひとつでも変化があったらhttpヘッダより読み取ったカウントは初期化
+            tk = accessToken
+            tks = accessTokenSecret
+            un = username
+            InitializeCount()
+        End If
         con.Initialize(ConsumerKey, ConsumerSecret, accessToken, accessTokenSecret, username, "screen_name")
         httpCon = con
         connectionType = AuthMethod.OAuth
@@ -54,6 +83,14 @@ Public Class HttpTwitter
                                     ByVal password As String)
         'for BASIC auth
         Dim con As New HttpConnectionBasic
+        Static un As String = ""
+        Static pw As String = ""
+        If un <> username OrElse pw <> password OrElse connectionType <> AuthMethod.Basic Then
+            ' 以前の認証状態よりひとつでも変化があったらhttpヘッダより読み取ったカウントは初期化
+            un = username
+            pw = password
+            InitializeCount()
+        End If
         con.Initialize(username, password)
         httpCon = con
         connectionType = AuthMethod.Basic
