@@ -543,8 +543,6 @@ Public Class TweenMain
     End Sub
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        '''グローバルホットキーの登録。設定で変更可能にするかも
-        '''_hookGlobalHotkey.RegisterOriginalHotkey(Keys.T, HookGlobalHotkey.ModKeys.Ctrl Or HookGlobalHotkey.ModKeys.Alt)
         _ignoreConfigSave = True
         Me.Visible = False
         SecurityManager = New InternetSecurityManager(PostBrowser)
@@ -794,6 +792,10 @@ Public Class TweenMain
         End Try
 
         SettingDialog.Nicoms = _cfgCommon.Nicoms
+        SettingDialog.HotkeyEnabled = _cfgCommon.HotkeyEnabled
+        SettingDialog.HotkeyMod = _cfgCommon.HotkeyModifier
+        SettingDialog.HotkeyKey = _cfgCommon.HotkeyKey
+        SettingDialog.HotkeyValue = _cfgCommon.HotkeyValue
         'ハッシュタグ関連
         HashSupl = New AtIdSupplement(_cfgCommon.HashTags, "#")
         HashMgr = New HashtagManage(HashSupl, _
@@ -881,6 +883,17 @@ Public Class TweenMain
                 detailHtmlFormatHeader += detailHtmlFormat6
             End If
             '他の設定項目は、随時設定画面で保持している値を読み出して使用
+        End If
+
+        If SettingDialog.HotkeyEnabled Then
+            '''グローバルホットキーの登録。設定で変更可能にするかも
+            Dim modKey As HookGlobalHotkey.ModKeys = HookGlobalHotkey.ModKeys.None
+            If (SettingDialog.HotkeyMod Or Keys.Alt) = Keys.Alt Then modKey = modKey Or HookGlobalHotkey.ModKeys.Alt
+            If (SettingDialog.HotkeyMod Or Keys.Control) = Keys.Control Then modKey = modKey Or HookGlobalHotkey.ModKeys.Ctrl
+            If (SettingDialog.HotkeyMod Or Keys.Shift) = Keys.Shift Then modKey = modKey Or HookGlobalHotkey.ModKeys.Shift
+            If (SettingDialog.HotkeyMod Or Keys.LWin) = Keys.LWin Then modKey = modKey Or HookGlobalHotkey.ModKeys.Win
+
+            _hookGlobalHotkey.RegisterOriginalHotkey(SettingDialog.HotkeyKey, SettingDialog.HotkeyValue, modKey)
         End If
 
         'Twitter用通信クラス初期化
@@ -1877,6 +1890,7 @@ Public Class TweenMain
             e.Cancel = True
             Me.Visible = False
         Else
+            _hookGlobalHotkey.UnregisterAllOriginalHotkey()
             _ignoreConfigSave = True
             _endingFlag = True
             TimerTimeline.Enabled = False
@@ -3085,6 +3099,17 @@ Public Class TweenMain
                         Outputz.OutUrl = "http://twitter.com/" + tw.Username
                 End Select
 
+                _hookGlobalHotkey.UnregisterAllOriginalHotkey()
+                If SettingDialog.HotkeyEnabled Then
+                    '''グローバルホットキーの登録。設定で変更可能にするかも
+                    Dim modKey As HookGlobalHotkey.ModKeys = HookGlobalHotkey.ModKeys.None
+                    If (SettingDialog.HotkeyMod Or Keys.Alt) = Keys.Alt Then modKey = modKey Or HookGlobalHotkey.ModKeys.Alt
+                    If (SettingDialog.HotkeyMod Or Keys.Control) = Keys.Control Then modKey = modKey Or HookGlobalHotkey.ModKeys.Ctrl
+                    If (SettingDialog.HotkeyMod Or Keys.Shift) = Keys.Shift Then modKey = modKey Or HookGlobalHotkey.ModKeys.Shift
+                    If (SettingDialog.HotkeyMod Or Keys.LWin) = Keys.LWin Then modKey = modKey Or HookGlobalHotkey.ModKeys.Win
+
+                    _hookGlobalHotkey.RegisterOriginalHotkey(SettingDialog.HotkeyKey, SettingDialog.HotkeyValue, modKey)
+                End If
             End SyncLock
         End If
 
@@ -5290,6 +5315,10 @@ RETRY:
             _cfgCommon.HashIsPermanent = HashMgr.IsPermanent
             _cfgCommon.TwitterUrl = SettingDialog.TwitterApiUrl
             _cfgCommon.TwitterSearchUrl = SettingDialog.TwitterSearchApiUrl
+            _cfgCommon.HotkeyEnabled = SettingDialog.HotkeyEnabled
+            _cfgCommon.HotkeyModifier = SettingDialog.HotkeyMod
+            _cfgCommon.HotkeyKey = SettingDialog.HotkeyKey
+            _cfgCommon.HotkeyValue = SettingDialog.HotkeyValue
 
             _cfgCommon.Save()
         End SyncLock

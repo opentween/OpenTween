@@ -492,7 +492,7 @@ Module Win32Api
     Private Declare Function GlobalDeleteAtom Lib "kernel32" (ByVal nAtom As Integer) As Integer
 
     ' register a global hot key
-    Public Function RegisterGlobalHotKey(ByVal hotkey As Keys, ByVal modifiers As Integer, ByVal targetForm As Form) As Integer
+    Public Function RegisterGlobalHotKey(ByVal hotkeyValue As Integer, ByVal modifiers As Integer, ByVal targetForm As Form) As Integer
         Dim hotkeyID As Integer = 0
         Try
             ' use the GlobalAddAtom API to get a unique ID (as suggested by MSDN docs)
@@ -506,7 +506,7 @@ Module Win32Api
             End If
 
             ' register the hotkey, throw if any error
-            If RegisterHotKey(targetForm.Handle, hotkeyID, modifiers, CInt(hotkey)) = 0 Then
+            If RegisterHotKey(targetForm.Handle, hotkeyID, modifiers, hotkeyValue) = 0 Then
                 Throw New Exception("Unable to register hotkey. Error code: " & _
                    Marshal.GetLastWin32Error.ToString)
             End If

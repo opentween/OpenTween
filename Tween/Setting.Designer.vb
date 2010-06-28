@@ -153,9 +153,17 @@ Partial Class Setting
         Me.Label51 = New System.Windows.Forms.Label()
         Me.CheckStartupVersion = New System.Windows.Forms.CheckBox()
         Me.CheckPeriodAdjust = New System.Windows.Forms.CheckBox()
+        Me.Label74 = New System.Windows.Forms.Label()
+        Me.chkGetFav = New System.Windows.Forms.CheckBox()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
-        Me.Label35 = New System.Windows.Forms.Label()
-        Me.CheckPreviewEnable = New System.Windows.Forms.CheckBox()
+        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.HotkeyCheck = New System.Windows.Forms.CheckBox()
+        Me.HotkeyCode = New System.Windows.Forms.Label()
+        Me.HotkeyText = New System.Windows.Forms.TextBox()
+        Me.HotkeyWin = New System.Windows.Forms.CheckBox()
+        Me.HotkeyAlt = New System.Windows.Forms.CheckBox()
+        Me.HotkeyShift = New System.Windows.Forms.CheckBox()
+        Me.HotkeyCtrl = New System.Windows.Forms.CheckBox()
         Me.Label82 = New System.Windows.Forms.Label()
         Me.CheckHashSupple = New System.Windows.Forms.CheckBox()
         Me.Label79 = New System.Windows.Forms.Label()
@@ -164,8 +172,6 @@ Partial Class Setting
         Me.Label77 = New System.Windows.Forms.Label()
         Me.TextBitlyId = New System.Windows.Forms.TextBox()
         Me.Label76 = New System.Windows.Forms.Label()
-        Me.Label74 = New System.Windows.Forms.Label()
-        Me.chkGetFav = New System.Windows.Forms.CheckBox()
         Me.ComboBoxAutoShortUrlFirst = New System.Windows.Forms.ComboBox()
         Me.Label71 = New System.Windows.Forms.Label()
         Me.CheckProtectNotInclude = New System.Windows.Forms.CheckBox()
@@ -179,6 +185,8 @@ Partial Class Setting
         Me.Label50 = New System.Windows.Forms.Label()
         Me.Button3 = New System.Windows.Forms.Button()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
+        Me.Label35 = New System.Windows.Forms.Label()
+        Me.CheckPreviewEnable = New System.Windows.Forms.CheckBox()
         Me.Label81 = New System.Windows.Forms.Label()
         Me.LanguageCombo = New System.Windows.Forms.ComboBox()
         Me.Label13 = New System.Windows.Forms.Label()
@@ -236,6 +244,7 @@ Partial Class Setting
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
+        Me.GroupBox3.SuspendLayout()
         Me.TabPage3.SuspendLayout()
         Me.TabPage4.SuspendLayout()
         Me.TabPage5.SuspendLayout()
@@ -907,6 +916,8 @@ Partial Class Setting
         Me.TabPage1.Controls.Add(Me.DMPeriod)
         Me.TabPage1.Controls.Add(Me.Label9)
         Me.TabPage1.Controls.Add(Me.StartupReaded)
+        Me.TabPage1.Controls.Add(Me.Label74)
+        Me.TabPage1.Controls.Add(Me.chkGetFav)
         resources.ApplyResources(Me.TabPage1, "TabPage1")
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.UseVisualStyleBackColor = True
@@ -941,12 +952,12 @@ Partial Class Setting
         '
         resources.ApplyResources(Me.AuthBasicRadio, "AuthBasicRadio")
         Me.AuthBasicRadio.Name = "AuthBasicRadio"
-        Me.AuthBasicRadio.TabStop = True
         Me.AuthBasicRadio.UseVisualStyleBackColor = True
         '
         'AuthOAuthRadio
         '
         resources.ApplyResources(Me.AuthOAuthRadio, "AuthOAuthRadio")
+        Me.AuthOAuthRadio.Checked = True
         Me.AuthOAuthRadio.Name = "AuthOAuthRadio"
         Me.AuthOAuthRadio.TabStop = True
         Me.AuthOAuthRadio.UseVisualStyleBackColor = True
@@ -1054,10 +1065,20 @@ Partial Class Setting
         Me.CheckPeriodAdjust.Name = "CheckPeriodAdjust"
         Me.CheckPeriodAdjust.UseVisualStyleBackColor = True
         '
+        'Label74
+        '
+        resources.ApplyResources(Me.Label74, "Label74")
+        Me.Label74.Name = "Label74"
+        '
+        'chkGetFav
+        '
+        resources.ApplyResources(Me.chkGetFav, "chkGetFav")
+        Me.chkGetFav.Name = "chkGetFav"
+        Me.chkGetFav.UseVisualStyleBackColor = True
+        '
         'TabPage2
         '
-        Me.TabPage2.Controls.Add(Me.Label35)
-        Me.TabPage2.Controls.Add(Me.CheckPreviewEnable)
+        Me.TabPage2.Controls.Add(Me.GroupBox3)
         Me.TabPage2.Controls.Add(Me.Label82)
         Me.TabPage2.Controls.Add(Me.CheckHashSupple)
         Me.TabPage2.Controls.Add(Me.Label79)
@@ -1066,8 +1087,6 @@ Partial Class Setting
         Me.TabPage2.Controls.Add(Me.Label77)
         Me.TabPage2.Controls.Add(Me.TextBitlyId)
         Me.TabPage2.Controls.Add(Me.Label76)
-        Me.TabPage2.Controls.Add(Me.Label74)
-        Me.TabPage2.Controls.Add(Me.chkGetFav)
         Me.TabPage2.Controls.Add(Me.ComboBoxAutoShortUrlFirst)
         Me.TabPage2.Controls.Add(Me.Label71)
         Me.TabPage2.Controls.Add(Me.CheckProtectNotInclude)
@@ -1102,16 +1121,60 @@ Partial Class Setting
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.UseVisualStyleBackColor = True
         '
-        'Label35
+        'GroupBox3
         '
-        resources.ApplyResources(Me.Label35, "Label35")
-        Me.Label35.Name = "Label35"
+        Me.GroupBox3.Controls.Add(Me.HotkeyCheck)
+        Me.GroupBox3.Controls.Add(Me.HotkeyCode)
+        Me.GroupBox3.Controls.Add(Me.HotkeyText)
+        Me.GroupBox3.Controls.Add(Me.HotkeyWin)
+        Me.GroupBox3.Controls.Add(Me.HotkeyAlt)
+        Me.GroupBox3.Controls.Add(Me.HotkeyShift)
+        Me.GroupBox3.Controls.Add(Me.HotkeyCtrl)
+        resources.ApplyResources(Me.GroupBox3, "GroupBox3")
+        Me.GroupBox3.Name = "GroupBox3"
+        Me.GroupBox3.TabStop = False
         '
-        'CheckPreviewEnable
+        'HotkeyCheck
         '
-        resources.ApplyResources(Me.CheckPreviewEnable, "CheckPreviewEnable")
-        Me.CheckPreviewEnable.Name = "CheckPreviewEnable"
-        Me.CheckPreviewEnable.UseVisualStyleBackColor = True
+        resources.ApplyResources(Me.HotkeyCheck, "HotkeyCheck")
+        Me.HotkeyCheck.Name = "HotkeyCheck"
+        Me.HotkeyCheck.UseVisualStyleBackColor = True
+        '
+        'HotkeyCode
+        '
+        resources.ApplyResources(Me.HotkeyCode, "HotkeyCode")
+        Me.HotkeyCode.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.HotkeyCode.Name = "HotkeyCode"
+        '
+        'HotkeyText
+        '
+        resources.ApplyResources(Me.HotkeyText, "HotkeyText")
+        Me.HotkeyText.Name = "HotkeyText"
+        Me.HotkeyText.ReadOnly = True
+        '
+        'HotkeyWin
+        '
+        resources.ApplyResources(Me.HotkeyWin, "HotkeyWin")
+        Me.HotkeyWin.Name = "HotkeyWin"
+        Me.HotkeyWin.UseVisualStyleBackColor = True
+        '
+        'HotkeyAlt
+        '
+        resources.ApplyResources(Me.HotkeyAlt, "HotkeyAlt")
+        Me.HotkeyAlt.Name = "HotkeyAlt"
+        Me.HotkeyAlt.UseVisualStyleBackColor = True
+        '
+        'HotkeyShift
+        '
+        resources.ApplyResources(Me.HotkeyShift, "HotkeyShift")
+        Me.HotkeyShift.Name = "HotkeyShift"
+        Me.HotkeyShift.UseVisualStyleBackColor = True
+        '
+        'HotkeyCtrl
+        '
+        resources.ApplyResources(Me.HotkeyCtrl, "HotkeyCtrl")
+        Me.HotkeyCtrl.Name = "HotkeyCtrl"
+        Me.HotkeyCtrl.UseVisualStyleBackColor = True
         '
         'Label82
         '
@@ -1154,17 +1217,6 @@ Partial Class Setting
         '
         resources.ApplyResources(Me.Label76, "Label76")
         Me.Label76.Name = "Label76"
-        '
-        'Label74
-        '
-        resources.ApplyResources(Me.Label74, "Label74")
-        Me.Label74.Name = "Label74"
-        '
-        'chkGetFav
-        '
-        resources.ApplyResources(Me.chkGetFav, "chkGetFav")
-        Me.chkGetFav.Name = "chkGetFav"
-        Me.chkGetFav.UseVisualStyleBackColor = True
         '
         'ComboBoxAutoShortUrlFirst
         '
@@ -1238,6 +1290,8 @@ Partial Class Setting
         '
         'TabPage3
         '
+        Me.TabPage3.Controls.Add(Me.Label35)
+        Me.TabPage3.Controls.Add(Me.CheckPreviewEnable)
         Me.TabPage3.Controls.Add(Me.Label81)
         Me.TabPage3.Controls.Add(Me.LanguageCombo)
         Me.TabPage3.Controls.Add(Me.Label13)
@@ -1280,6 +1334,17 @@ Partial Class Setting
         resources.ApplyResources(Me.TabPage3, "TabPage3")
         Me.TabPage3.Name = "TabPage3"
         Me.TabPage3.UseVisualStyleBackColor = True
+        '
+        'Label35
+        '
+        resources.ApplyResources(Me.Label35, "Label35")
+        Me.Label35.Name = "Label35"
+        '
+        'CheckPreviewEnable
+        '
+        resources.ApplyResources(Me.CheckPreviewEnable, "CheckPreviewEnable")
+        Me.CheckPreviewEnable.Name = "CheckPreviewEnable"
+        Me.CheckPreviewEnable.UseVisualStyleBackColor = True
         '
         'Label81
         '
@@ -1632,6 +1697,8 @@ Partial Class Setting
         Me.TabPage1.PerformLayout()
         Me.TabPage2.ResumeLayout(False)
         Me.TabPage2.PerformLayout()
+        Me.GroupBox3.ResumeLayout(False)
+        Me.GroupBox3.PerformLayout()
         Me.TabPage3.ResumeLayout(False)
         Me.TabPage3.PerformLayout()
         Me.TabPage4.ResumeLayout(False)
@@ -1852,4 +1919,12 @@ Partial Class Setting
     Friend WithEvents LabelApiUsing As System.Windows.Forms.Label
     Friend WithEvents LabelPostAndGet As System.Windows.Forms.Label
     Friend WithEvents ButtonApiCalc As System.Windows.Forms.Button
+    Friend WithEvents GroupBox3 As System.Windows.Forms.GroupBox
+    Friend WithEvents HotkeyText As System.Windows.Forms.TextBox
+    Friend WithEvents HotkeyWin As System.Windows.Forms.CheckBox
+    Friend WithEvents HotkeyAlt As System.Windows.Forms.CheckBox
+    Friend WithEvents HotkeyShift As System.Windows.Forms.CheckBox
+    Friend WithEvents HotkeyCtrl As System.Windows.Forms.CheckBox
+    Friend WithEvents HotkeyCheck As System.Windows.Forms.CheckBox
+    Friend WithEvents HotkeyCode As System.Windows.Forms.Label
 End Class

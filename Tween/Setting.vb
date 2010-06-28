@@ -116,6 +116,10 @@ Public Class Setting
     Private _MyTwitterApiUrl As String
     Private _MyTwitterSearchApiUrl As String
     Private _MyPreviewEnable As Boolean
+    Private _MyHotkeyEnabled As Boolean
+    Private _MyHotkeyMod As Keys
+    Private _MyHotkeyCode As String
+    Private _MyHotkeyValue As Integer
 
     Private _ValidationError As Boolean = False
 
@@ -290,6 +294,14 @@ Public Class Setting
                 Case Else
                     _MyLanguage = "en"
             End Select
+            _HotkeyEnabled = Me.HotkeyCheck.Checked
+            _HotkeyMod = Keys.None
+            If Me.HotkeyAlt.Checked Then _HotkeyMod = _HotkeyMod Or Keys.Alt
+            If Me.HotkeyShift.Checked Then _HotkeyMod = _HotkeyMod Or Keys.Shift
+            If Me.HotkeyCtrl.Checked Then _HotkeyMod = _HotkeyMod Or Keys.Control
+            If Me.HotkeyWin.Checked Then _HotkeyMod = _HotkeyMod Or Keys.LWin
+            If IsNumeric(HotkeyCode.Text) Then _HotkeyValue = CInt(HotkeyCode.Text)
+            _HotkeyKey = DirectCast(HotkeyText.Tag, Keys)
         Catch ex As Exception
             MessageBox.Show(My.Resources.Save_ClickText3)
             Me.DialogResult = Windows.Forms.DialogResult.Cancel
@@ -514,6 +526,14 @@ Public Class Setting
             Case Else
                 LanguageCombo.SelectedIndex = 0
         End Select
+        HotkeyCheck.Checked = _HotkeyEnabled
+        HotkeyAlt.Checked = (_HotkeyMod Or Keys.Alt) = Keys.Alt
+        HotkeyCtrl.Checked = (_HotkeyMod Or Keys.Control) = Keys.Control
+        HotkeyShift.Checked = (_HotkeyMod Or Keys.Shift) = Keys.Shift
+        HotkeyWin.Checked = (_HotkeyMod Or Keys.LWin) = Keys.LWin
+        HotkeyCode.Text = _HotkeyValue.ToString
+        HotkeyText.Text = _HotkeyKey.ToString
+        HotkeyText.Tag = _HotkeyKey
 
         TabControl1.SelectedIndex = 0
         ActiveControl = Username
@@ -1808,6 +1828,7 @@ Public Class Setting
     End Sub
 
     Private Sub AuthOAuthRadio_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AuthOAuthRadio.CheckedChanged
+        If tw Is Nothing Then Exit Sub
         If AuthBasicRadio.Checked Then
             'BASIC認証時のみ表示
             tw.Initialize("", "")
@@ -1927,6 +1948,28 @@ Public Class Setting
 
     Private Sub Cancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Cancel.Click
         _ValidationError = False
+    End Sub
+
+    Public Property HotkeyEnabled As Boolean
+    Public Property HotkeyKey As Keys
+    Public Property HotkeyValue As Integer
+    Public Property HotkeyMod As Keys
+
+    Private Sub HotkeyText_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles HotkeyText.KeyDown
+        'KeyValueで判定する。
+        '表示文字とのテーブルを用意すること
+        HotkeyText.Text = e.KeyCode.ToString
+        HotkeyCode.Text = e.KeyValue.ToString
+        HotkeyText.Tag = e.KeyCode
+        e.Handled = True
+        e.SuppressKeyPress = True
+    End Sub
+
+    Private Sub HotkeyCheck_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HotkeyCheck.CheckedChanged
+        HotkeyCtrl.Enabled = HotkeyCheck.Checked
+        HotkeyAlt.Enabled = HotkeyCheck.Checked
+        HotkeyShift.Enabled = HotkeyCheck.Checked
+        HotkeyWin.Enabled = HotkeyCheck.Checked
     End Sub
 End Class
 
