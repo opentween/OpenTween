@@ -9161,12 +9161,15 @@ RETRY:
     End Sub
 
     Private Sub _hookGlobalHotkey_HotkeyPressed(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles _hookGlobalHotkey.HotkeyPressed
-        Me.Visible = True
-        If Me.WindowState = FormWindowState.Minimized Then
-            Me.WindowState = FormWindowState.Normal
+        If (Me.WindowState = FormWindowState.Normal OrElse Me.WindowState = FormWindowState.Maximized) AndAlso StatusText.Focused AndAlso Me.Visible = True Then
+            'アイコン化
+            Me.Visible = False
+        Else
+            Me.Visible = True
+            If Me.WindowState = FormWindowState.Minimized Then Me.WindowState = FormWindowState.Normal
+            Me.Activate()
+            Me.StatusText.Focus()
         End If
-        Me.Activate()
-        Me.StatusText.Focus()
     End Sub
 
     Private Sub NameLabel_MouseEnter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NameLabel.MouseEnter
