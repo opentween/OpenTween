@@ -2434,7 +2434,6 @@ Public Class TweenMain
     End Sub
 
     Private Sub GetTimeline(ByVal WkType As WORKERTYPE, ByVal fromPage As Integer, ByVal toPage As Integer, ByVal tabName As String)
-        If Not IsNetworkAvailable() Then Exit Sub
         ''タイマー初期化
         If WkType = WORKERTYPE.Timeline AndAlso SettingDialog.TimelinePeriodInt > 0 Then
             _homeCounter = SettingDialog.TimelinePeriodInt - _homeCounterAdjuster
@@ -2445,6 +2444,8 @@ Public Class TweenMain
         If WkType = WORKERTYPE.DirectMessegeRcv AndAlso SettingDialog.DMPeriodInt > 0 Then
             _dmCounter = SettingDialog.DMPeriodInt
         End If
+
+        If Not IsNetworkAvailable() Then Exit Sub
 
         '非同期実行引数設定
         Dim args As New GetWorkerArg
