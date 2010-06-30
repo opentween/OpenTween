@@ -9162,7 +9162,7 @@ RETRY:
     End Sub
 
     Private Sub _hookGlobalHotkey_HotkeyPressed(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles _hookGlobalHotkey.HotkeyPressed
-        If (Me.WindowState = FormWindowState.Normal OrElse Me.WindowState = FormWindowState.Maximized) AndAlso StatusText.Focused AndAlso Me.Visible = True Then
+        If (Me.WindowState = FormWindowState.Normal OrElse Me.WindowState = FormWindowState.Maximized) AndAlso Me.Visible Then
             'アイコン化
             Me.Visible = False
         Else
