@@ -7458,12 +7458,12 @@ RETRY:
 
         bw.RunWorkerAsync(args)
 
-        Static cnt As Integer = 0
-        cnt += 1
-        If cnt > 100 Then
-            GC.Collect()
-            cnt = 0
-        End If
+        'Static cnt As Integer = 0
+        'cnt += 1
+        'If cnt > 100 Then
+        '    GC.Collect()
+        '    cnt = 0
+        'End If
     End Sub
 
     Private Sub TweenMain_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
