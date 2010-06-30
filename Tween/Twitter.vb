@@ -1864,8 +1864,8 @@ Public Class Twitter
         If Not TabInformations.GetInstance.ContainsTab(tab) Then Return ""
 
         Dim arIdx As Integer = -1
-        Dim dlgt(40) As GetIconImageDelegate    'countQueryに合わせる
-        Dim ar(40) As IAsyncResult              'countQueryに合わせる
+        Dim dlgt(300) As GetIconImageDelegate    'countQueryに合わせる
+        Dim ar(300) As IAsyncResult              'countQueryに合わせる
         Dim xdoc As New XmlDocument
         Try
             xdoc.LoadXml(content)
@@ -1993,8 +1993,8 @@ Public Class Twitter
         End Select
 
         Dim arIdx As Integer = -1
-        Dim dlgt(20) As GetIconImageDelegate    'countQueryに合わせる
-        Dim ar(20) As IAsyncResult              'countQueryに合わせる
+        Dim dlgt(300) As GetIconImageDelegate    'countQueryに合わせる
+        Dim ar(300) As IAsyncResult              'countQueryに合わせる
         Dim xdoc As New XmlDocument
         Try
             xdoc.LoadXml(content)
@@ -2107,8 +2107,8 @@ Public Class Twitter
         End Select
 
         Dim arIdx As Integer = -1
-        Dim dlgt(_countApi) As GetIconImageDelegate    'countQueryに合わせる
-        Dim ar(_countApi) As IAsyncResult              'countQueryに合わせる
+        Dim dlgt(300) As GetIconImageDelegate    'countQueryに合わせる
+        Dim ar(300) As IAsyncResult              'countQueryに合わせる
         Dim xdoc As New XmlDocument
         Try
             xdoc.LoadXml(content)
