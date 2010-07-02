@@ -5553,6 +5553,8 @@ RETRY:
             _rclickTabName = newTabText
             tabName = newTabText
             Return True
+        Else
+            Return False
         End If
     End Function
 
