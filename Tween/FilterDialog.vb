@@ -682,17 +682,10 @@ Public Class FilterDialog
     Private Sub FilterDialog_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
         _sts = TabInformations.GetInstance()
         ListTabs.Items.Clear()
-        tabdialog.ClearTab()
         For Each key As String In _sts.Tabs.Keys
             ListTabs.Items.Add(key)
-
-            Select Case TabInformations.GetInstance.Tabs(key).TabType
-                Case TabUsageType.Home, TabUsageType.DirectMessage, TabUsageType.Favorites, TabUsageType.PublicSearch, TabUsageType.Lists
-                    Exit Select
-                Case Else
-                    tabdialog.AddTab(key)
-            End Select
         Next
+        SetTabnamesToDialog()
 
         ComboSound.Items.Clear()
         ComboSound.Items.Add("")
@@ -710,12 +703,24 @@ Public Class FilterDialog
                 For i As Integer = 0 To ListTabs.Items.Count - 1
                     If _cur = ListTabs.Items(i).ToString() Then
                         ListTabs.SelectedIndex = i
-                        tabdialog.TabList.Items.Remove(_cur)
+                        'tabdialog.TabList.Items.Remove(_cur)
                         Exit For
                     End If
                 Next
             End If
         End If
+    End Sub
+
+    Private Sub SetTabnamesToDialog()
+        tabdialog.ClearTab()
+        For Each key As String In _sts.Tabs.Keys
+            Select Case TabInformations.GetInstance.Tabs(key).TabType
+                Case TabUsageType.Home, TabUsageType.DirectMessage, TabUsageType.Favorites, TabUsageType.PublicSearch, TabUsageType.Lists
+                    Exit Select
+                Case Else
+                    tabdialog.AddTab(key)
+            End Select
+        Next
     End Sub
 
     Private Sub ListTabs_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListTabs.SelectedIndexChanged
@@ -772,6 +777,7 @@ Public Class FilterDialog
                 idx -= 1
                 If idx < 0 Then idx = 0
                 ListTabs.SelectedIndex = idx
+                SetTabnamesToDialog()
             End If
         End If
     End Sub
@@ -784,6 +790,7 @@ Public Class FilterDialog
                 ListTabs.Items.RemoveAt(idx)
                 ListTabs.Items.Insert(idx, tb)
                 ListTabs.SelectedIndex = idx
+                SetTabnamesToDialog()
             End If
         End If
     End Sub
@@ -888,11 +895,13 @@ Public Class FilterDialog
             filters.Add(_sts.Tabs(tabname).Filters(idx))
         Next
         For Each tb As String In tabs
-            For Each flt As FiltersClass In filters
-                If Not _sts.Tabs(tb).Filters.Contains(flt) Then
-                    _sts.Tabs(tb).Filters.Add(flt)
-                End If
-            Next
+            If tb <> tabname Then
+                For Each flt As FiltersClass In filters
+                    If Not _sts.Tabs(tb).Filters.Contains(flt) Then
+                        _sts.Tabs(tb).Filters.Add(flt)
+                    End If
+                Next
+            End If
         Next
     End Sub
 
@@ -908,12 +917,15 @@ Public Class FilterDialog
         For Each idx As Integer In ListFilters.SelectedIndices
             filters.Add(_sts.Tabs(tabname).Filters(idx))
         Next
+        If tabs.Count = 1 AndAlso tabs(0) = tabname Then Exit Sub
         For Each tb As String In tabs
-            For Each flt As FiltersClass In filters
-                If Not _sts.Tabs(tb).Filters.Contains(flt) Then
-                    _sts.Tabs(tb).Filters.Add(flt)
-                End If
-            Next
+            If tb <> tabname Then
+                For Each flt As FiltersClass In filters
+                    If Not _sts.Tabs(tb).Filters.Contains(flt) Then
+                        _sts.Tabs(tb).Filters.Add(flt)
+                    End If
+                Next
+            End If
         Next
         For idx As Integer = ListFilters.Items.Count - 1 To 0 Step -1
             If ListFilters.GetSelected(idx) Then
