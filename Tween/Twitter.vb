@@ -1278,8 +1278,6 @@ Public Class Twitter
         End Select
     End Function
 
-    ''' DO NOT WORK
-
     Public Function PostUpdateProfileImage(ByVal filename As String) As String
         If _endingFlag Then Return ""
 
@@ -2234,7 +2232,7 @@ Public Class Twitter
         followerId.Clear()
         Do
             Dim ret As String = FollowerApi(cursor)
-            If ret <> "" Then
+            If Not String.IsNullOrEmpty(ret) Then
                 followerId.Clear()
                 followerId.AddRange(tmpFollower)
                 _GetFollowerResult = False
@@ -2417,8 +2415,6 @@ Public Class Twitter
     End Function
 
     Public Function CreateHtmlAnchor(ByVal Text As String, ByVal AtList As List(Of String)) As String
-        'Dim retStr As String = HttpUtility.HtmlEncode(Text)     '要検証（デコードされて取得されるので再エンコード）
-        'Dim retStr As String = HttpUtility.HtmlDecode(Text)
         Dim retStr As String = Text.Replace("&gt;", "<<<<<tweenだいなり>>>>>").Replace("&lt;", "<<<<<tweenしょうなり>>>>>")
         'uriの正規表現
         Const rgUrl As String = "(?<before>(?:[^\""':!=]|^|\:))" + _
@@ -2429,15 +2425,9 @@ Public Class Twitter
         '絶対パス表現のUriをリンクに置換
         retStr = Regex.Replace(retStr, rgUrl, New MatchEvaluator(AddressOf AutoLinkUrl), RegexOptions.IgnoreCase)
 
-        '@返信を抽出し、@先リスト作成
-        'Dim rg As New Regex("(^|[ -/:-@[-^`{-~])@([a-zA-Z0-9_]{1,20}/[a-zA-Z0-9_\-]{1,24}[a-zA-Z0-9_])")
-        'Dim rg As New Regex("(^|[^a-zA-Z0-9_])[@＠]([a-zA-Z0-9_]{1,20}/[a-zA-Z0-9_\-]{1,79}[a-zA-Z0-9_])", RegexOptions.Compiled)
-        'Dim m As Match = Regex.Match(retStr, "(^|[^a-zA-Z0-9_])[@＠]([a-zA-Z0-9_]{1,20}/[a-zA-Z0-9_\-]{1,79}[a-zA-Z0-9_])")
         '@先をリンクに置換（リスト）
         retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9_/])([@＠]+)([a-zA-Z0-9_]{1,20}/[a-zA-Z][a-zA-Z0-9\p{IsLatin-1Supplement}\-]{0,79})", "$1$2<a href=""/$3"">$3</a>")
 
-        'rg = New Regex("(^|[ -/:-@[-^`{-~])@([a-zA-Z0-9_]{1,20})")
-        'rg = New Regex("(^|[^a-zA-Z0-9_])[@＠]([a-zA-Z0-9_]{1,20})", RegexOptions.Compiled)
         Dim m As Match = Regex.Match(retStr, "(^|[^a-zA-Z0-9_])[@＠]([a-zA-Z0-9_]{1,20})")
         While m.Success
             AtList.Add(m.Result("$2").ToLower)
@@ -2448,8 +2438,6 @@ Public Class Twitter
         retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9_/])([@＠])([a-zA-Z0-9_]{1,20})", "$1$2<a href=""/$3"">$3</a>")
 
         'ハッシュタグを抽出し、リンクに置換
-        'Dim rgh As New Regex("(^|[ .!,\-:;<>?])#([^] !""#$%&'()*+,.:;<=>?@\-[\^`{|}~\r\n]+)")
-        'Dim rgh As New Regex("(^|[^a-zA-Z0-9_/&])[#＃]([a-zA-Z0-9_]+)", RegexOptions.Compiled)
         Dim mhs As MatchCollection = Regex.Matches(retStr, "(^|[^a-zA-Z0-9/&])[#＃]([0-9a-zA-Z_]*[a-zA-Z_]+[a-zA-Z_\xc0-\xd6\xd8-\xf6\xf8-\xff]*)")
         For Each mt As Match In mhs
             If Not IsNumeric(mt.Result("$2")) Then
@@ -2511,7 +2499,6 @@ Public Class Twitter
             info.MaxCount = Integer.Parse(xdoc.SelectSingleNode("/hash/hourly-limit").InnerText)
             info.RemainCount = Integer.Parse(xdoc.SelectSingleNode("/hash/remaining-hits").InnerText)
             info.ResetTime = DateTime.Parse(xdoc.SelectSingleNode("/hash/reset-time").InnerText)
-            'info.ResetTimeInSeconds = Integer.Parse(xdoc.SelectSingleNode("/hash/reset-time-in-seconds").InnerText)
             Return True
         Catch ex As Exception
             Return False
