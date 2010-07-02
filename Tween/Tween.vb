@@ -2900,6 +2900,7 @@ Public Class TweenMain
 
     Private Sub SettingStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SettingStripMenuItem.Click, SettingFileMenuItem.Click
         Dim result As DialogResult
+        Dim uid As String = tw.Username.ToLower
 
         Try
             result = SettingDialog.ShowDialog()
@@ -3111,6 +3112,8 @@ Public Class TweenMain
 
                     _hookGlobalHotkey.RegisterOriginalHotkey(SettingDialog.HotkeyKey, SettingDialog.HotkeyValue, modKey)
                 End If
+
+                If uid <> tw.Username Then Me.doGetFollowersMenu()
             End SyncLock
         End If
 

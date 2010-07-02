@@ -186,6 +186,7 @@ Public Class Twitter
         Select Case res
             Case HttpStatusCode.OK
                 Twitter.AccountState = ACCOUNT_STATE.Valid
+                _uid = username.ToLower
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
