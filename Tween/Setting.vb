@@ -1852,6 +1852,17 @@ Public Class Setting
         CalcApiUsing()
     End Sub
 
+    Private Class GetApiInfoArgs
+        Public tw As Twitter
+        Public info As ApiInfo
+    End Class
+
+    Private Sub GetApiInfo_Dowork(ByVal sender As Object, ByVal e As DoWorkEventArgs)
+        Dim args As GetApiInfoArgs = DirectCast(e.Argument, GetApiInfoArgs)
+        e.Result = tw.GetInfoApi(args.info)
+    End Sub
+
+
     Private Sub CalcApiUsing()
         Dim UsingApi As Integer = 0
         Dim tmp As Integer
@@ -1896,11 +1907,15 @@ Public Class Setting
             If tw.UpperCountApi = -1 Then
                 If Twitter.AccountState = ACCOUNT_STATE.Valid Then
                     Dim _info As New ApiInfo
-                    If tw.GetInfoApi(_info) Then
-                        LabelApiUsing.Text = String.Format(My.Resources.SettingAPIUse1, UsingApi, _info.MaxCount)
-                    Else
-                        LabelApiUsing.Text = String.Format(My.Resources.SettingAPIUse1, UsingApi, "???")
-                    End If
+                    Dim args As New GetApiInfoArgs With {.tw = tw, .info = _info}
+                    Using dlg As New FormInfo("API情報取得中・・・", AddressOf GetApiInfo_Dowork, Nothing, args)
+                        dlg.ShowDialog()
+                        If CBool(dlg.Result) Then
+                            LabelApiUsing.Text = String.Format(My.Resources.SettingAPIUse1, UsingApi, args.info.MaxCount)
+                        Else
+                            LabelApiUsing.Text = String.Format(My.Resources.SettingAPIUse1, UsingApi, "???")
+                        End If
+                    End Using
                 Else
                     LabelApiUsing.Text = String.Format(My.Resources.SettingAPIUse1, UsingApi, "???")
                 End If
