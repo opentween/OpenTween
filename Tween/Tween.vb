@@ -646,7 +646,6 @@ Public Class TweenMain
             tw.Initialize(_cfgCommon.UserName, _cfgCommon.Password)
         End If
 
-
         SettingDialog.TimelinePeriodInt = _cfgCommon.TimelinePeriod
         SettingDialog.ReplyPeriodInt = _cfgCommon.ReplyPeriod
         SettingDialog.DMPeriodInt = _cfgCommon.DMPeriod
@@ -2907,6 +2906,7 @@ Public Class TweenMain
         Catch ex As Exception
             Exit Sub
         End Try
+        SetStatusLabel()
         If result = Windows.Forms.DialogResult.OK Then
             SyncLock _syncObject
                 Try
@@ -7723,29 +7723,33 @@ RETRY:
     End Sub
 
     Private Sub FollowCommand(ByVal id As String)
-        Using inputName As New InputTabName()
-            inputName.FormTitle = "Follow"
-            inputName.FormDescription = My.Resources.FRMessage1
-            inputName.TabName = id
-            If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
-               Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
-                Dim arg As New FollowRemoveCommandArgs
-                arg.tw = tw
-                arg.id = inputName.TabName.Trim()
-                Using _info As New FormInfo(My.Resources.FollowCommandText1, _
-                                            AddressOf FollowCommand_DoWork, _
-                                            Nothing, _
-                                            arg)
-                    _info.ShowDialog()
-                    Dim ret As String = DirectCast(_info.Result, String)
-                    If Not String.IsNullOrEmpty(ret) Then
-                        MessageBox.Show(My.Resources.FRMessage2 + ret)
-                    Else
-                        MessageBox.Show(My.Resources.FRMessage3)
-                    End If
-                End Using
-            End If
-        End Using
+        Try
+            Using inputName As New InputTabName()
+                inputName.FormTitle = "Follow"
+                inputName.FormDescription = My.Resources.FRMessage1
+                inputName.TabName = id
+                If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
+                   Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
+                    Dim arg As New FollowRemoveCommandArgs
+                    arg.tw = tw
+                    arg.id = inputName.TabName.Trim()
+                    Using _info As New FormInfo(My.Resources.FollowCommandText1, _
+                                                AddressOf FollowCommand_DoWork, _
+                                                Nothing, _
+                                                arg)
+                        _info.ShowDialog()
+                        Dim ret As String = DirectCast(_info.Result, String)
+                        If Not String.IsNullOrEmpty(ret) Then
+                            MessageBox.Show(My.Resources.FRMessage2 + ret)
+                        Else
+                            MessageBox.Show(My.Resources.FRMessage3)
+                        End If
+                    End Using
+                End If
+            End Using
+        Finally
+            SetStatusLabel()
+        End Try
     End Sub
 
     Private Sub RemoveCommandMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RemoveCommandMenuItem.Click
@@ -7765,37 +7769,40 @@ RETRY:
     End Sub
 
     Private Sub RemoveCommand(ByVal id As String, ByVal skipInput As Boolean)
+        Try
+            Dim arg As New FollowRemoveCommandArgs
+            arg.tw = tw
+            arg.id = id
+            If Not skipInput Then
+                Using inputName As New InputTabName()
+                    inputName.FormTitle = "Unfollow"
+                    inputName.FormDescription = My.Resources.FRMessage1
+                    inputName.TabName = id
+                    If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
+                       Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
+                        arg.tw = tw
+                        arg.id = inputName.TabName.Trim()
+                    Else
+                        Exit Sub
+                    End If
+                End Using
+            End If
 
-        Dim arg As New FollowRemoveCommandArgs
-        arg.tw = tw
-        arg.id = id
-        If Not skipInput Then
-            Using inputName As New InputTabName()
-                inputName.FormTitle = "Unfollow"
-                inputName.FormDescription = My.Resources.FRMessage1
-                inputName.TabName = id
-                If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
-                   Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
-                    arg.tw = tw
-                    arg.id = inputName.TabName.Trim()
+            Using _info As New FormInfo(My.Resources.RemoveCommandText1, _
+                                        AddressOf RemoveCommand_DoWork, _
+                                        Nothing, _
+                                        arg)
+                _info.ShowDialog()
+                Dim ret As String = DirectCast(_info.Result, String)
+                If Not String.IsNullOrEmpty(ret) Then
+                    MessageBox.Show(My.Resources.FRMessage2 + ret)
                 Else
-                    Exit Sub
+                    MessageBox.Show(My.Resources.FRMessage3)
                 End If
             End Using
-        End If
-
-        Using _info As New FormInfo(My.Resources.RemoveCommandText1, _
-                                    AddressOf RemoveCommand_DoWork, _
-                                    Nothing, _
-                                    arg)
-            _info.ShowDialog()
-            Dim ret As String = DirectCast(_info.Result, String)
-            If Not String.IsNullOrEmpty(ret) Then
-                MessageBox.Show(My.Resources.FRMessage2 + ret)
-            Else
-                MessageBox.Show(My.Resources.FRMessage3)
-            End If
-        End Using
+        Finally
+            SetStatusLabel()
+        End Try
     End Sub
 
     Private Sub FriendshipMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FriendshipMenuItem.Click
@@ -7834,16 +7841,55 @@ RETRY:
     End Sub
 
     Private Sub ShowFriendship(ByVal id As String)
-        Dim args As New ShowFriendshipArgs
-        args.tw = tw
-        Using inputName As New InputTabName()
-            inputName.FormTitle = "Show Friendships"
-            inputName.FormDescription = My.Resources.FRMessage1
-            inputName.TabName = id
-            If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
-               Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
+        Try
+            Dim args As New ShowFriendshipArgs
+            args.tw = tw
+            Using inputName As New InputTabName()
+                inputName.FormTitle = "Show Friendships"
+                inputName.FormDescription = My.Resources.FRMessage1
+                inputName.TabName = id
+                If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
+                   Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
+                    Dim ret As String = ""
+                    args.ids.Add(New ShowFriendshipArgs.FriendshipInfo(inputName.TabName.Trim))
+                    Using _info As New FormInfo(My.Resources.ShowFriendshipText1, _
+                                                AddressOf ShowFriendship_DoWork, _
+                                                Nothing, _
+                                                args)
+                        _info.ShowDialog()
+                        ret = DirectCast(_info.Result, String)
+                    End Using
+                    Dim result As String = ""
+                    If String.IsNullOrEmpty(ret) Then
+                        If args.ids(0).isFollowing Then
+                            result = My.Resources.GetFriendshipInfo1 + System.Environment.NewLine
+                        Else
+                            result = My.Resources.GetFriendshipInfo2 + System.Environment.NewLine
+                        End If
+                        If args.ids(0).isFollowed Then
+                            result += My.Resources.GetFriendshipInfo3
+                        Else
+                            result += My.Resources.GetFriendshipInfo4
+                        End If
+                        result = args.ids(0).id + My.Resources.GetFriendshipInfo5 + System.Environment.NewLine + result
+                    Else
+                        result = ret
+                    End If
+                    MessageBox.Show(result)
+                End If
+            End Using
+        Finally
+            SetStatusLabel()
+        End Try
+    End Sub
+
+    Private Sub ShowFriendship(ByVal ids() As String)
+        Try
+            For Each id As String In ids
                 Dim ret As String = ""
-                args.ids.Add(New ShowFriendshipArgs.FriendshipInfo(inputName.TabName.Trim))
+                Dim args As New ShowFriendshipArgs
+                args.tw = tw
+                args.ids.Add(New ShowFriendshipArgs.FriendshipInfo(id.Trim))
                 Using _info As New FormInfo(My.Resources.ShowFriendshipText1, _
                                             AddressOf ShowFriendship_DoWork, _
                                             Nothing, _
@@ -7852,71 +7898,40 @@ RETRY:
                     ret = DirectCast(_info.Result, String)
                 End Using
                 Dim result As String = ""
+                Dim fInfo As ShowFriendshipArgs.FriendshipInfo = args.ids(0)
+                Dim ff As String = ""
                 If String.IsNullOrEmpty(ret) Then
-                    If args.ids(0).isFollowing Then
-                        result = My.Resources.GetFriendshipInfo1 + System.Environment.NewLine
+                    ff = "  "
+                    If fInfo.isFollowing Then
+                        ff += My.Resources.GetFriendshipInfo1
                     Else
-                        result = My.Resources.GetFriendshipInfo2 + System.Environment.NewLine
+                        ff += My.Resources.GetFriendshipInfo2
                     End If
-                    If args.ids(0).isFollowed Then
-                        result += My.Resources.GetFriendshipInfo3
+                    ff += System.Environment.NewLine + "  "
+                    If fInfo.isFollowed Then
+                        ff += My.Resources.GetFriendshipInfo3
                     Else
-                        result += My.Resources.GetFriendshipInfo4
+                        ff += My.Resources.GetFriendshipInfo4
                     End If
-                    result = args.ids(0).id + My.Resources.GetFriendshipInfo5 + System.Environment.NewLine + result
-                Else
-                    result = ret
-                End If
-                MessageBox.Show(result)
-            End If
-        End Using
-    End Sub
-
-    Private Sub ShowFriendship(ByVal ids() As String)
-        For Each id As String In ids
-            Dim ret As String = ""
-            Dim args As New ShowFriendshipArgs
-            args.tw = tw
-            args.ids.Add(New ShowFriendshipArgs.FriendshipInfo(id.Trim))
-            Using _info As New FormInfo(My.Resources.ShowFriendshipText1, _
-                                        AddressOf ShowFriendship_DoWork, _
-                                        Nothing, _
-                                        args)
-                _info.ShowDialog()
-                ret = DirectCast(_info.Result, String)
-            End Using
-            Dim result As String = ""
-            Dim fInfo As ShowFriendshipArgs.FriendshipInfo = args.ids(0)
-            Dim ff As String = ""
-            If String.IsNullOrEmpty(ret) Then
-                ff = "  "
-                If fInfo.isFollowing Then
-                    ff += My.Resources.GetFriendshipInfo1
-                Else
-                    ff += My.Resources.GetFriendshipInfo2
-                End If
-                ff += System.Environment.NewLine + "  "
-                If fInfo.isFollowed Then
-                    ff += My.Resources.GetFriendshipInfo3
-                Else
-                    ff += My.Resources.GetFriendshipInfo4
-                End If
-                result += fInfo.id + My.Resources.GetFriendshipInfo5 + System.Environment.NewLine + ff
-                If fInfo.isFollowing Then
-                    If MessageBox.Show( _
-                        "フォロー解除しますか？" + System.Environment.NewLine + result, "フォロー解除確認", _
-                        MessageBoxButtons.YesNo, _
-                        MessageBoxIcon.Question, _
-                        MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.Yes Then
-                        RemoveCommand(fInfo.id, True)
+                    result += fInfo.id + My.Resources.GetFriendshipInfo5 + System.Environment.NewLine + ff
+                    If fInfo.isFollowing Then
+                        If MessageBox.Show( _
+                            "フォロー解除しますか？" + System.Environment.NewLine + result, "フォロー解除確認", _
+                            MessageBoxButtons.YesNo, _
+                            MessageBoxIcon.Question, _
+                            MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.Yes Then
+                            RemoveCommand(fInfo.id, True)
+                        End If
+                    Else
+                        MessageBox.Show(result)
                     End If
                 Else
-                    MessageBox.Show(result)
+                    MessageBox.Show(ret)
                 End If
-            Else
-                MessageBox.Show(ret)
-            End If
-        Next
+            Next
+        Finally
+            SetStatusLabel()
+        End Try
     End Sub
 
     Private Sub OwnStatusMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OwnStatusMenuItem.Click
@@ -9147,19 +9162,23 @@ RETRY:
 
     Private Sub RtCountMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RtCountMenuItem.Click
         If _curPost IsNot Nothing Then
-            Using _info As New FormInfo(My.Resources.RtCountMenuItem_ClickText1, _
-                                        AddressOf GetRetweet_DoWork)
-                Dim retweet_count As Integer = 0
+            Try
+                Using _info As New FormInfo(My.Resources.RtCountMenuItem_ClickText1, _
+                            AddressOf GetRetweet_DoWork)
+                    Dim retweet_count As Integer = 0
 
-                ' ダイアログ表示
-                _info.ShowDialog()
-                retweet_count = CType(_info.Result, Integer)
-                If retweet_count < 0 Then
-                    MessageBox.Show(My.Resources.RtCountText2)
-                Else
-                    MessageBox.Show(retweet_count.ToString + My.Resources.RtCountText1)
-                End If
-            End Using
+                    ' ダイアログ表示
+                    _info.ShowDialog()
+                    retweet_count = CType(_info.Result, Integer)
+                    If retweet_count < 0 Then
+                        MessageBox.Show(My.Resources.RtCountText2)
+                    Else
+                        MessageBox.Show(retweet_count.ToString + My.Resources.RtCountText1)
+                    End If
+                End Using
+            Finally
+                SetStatusLabel()
+            End Try
         End If
     End Sub
 
