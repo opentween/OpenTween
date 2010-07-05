@@ -7693,18 +7693,34 @@ RETRY:
         UrlConvert(UrlConverter.Jmp)
     End Sub
 
+
+    Private Class GetApiInfoArgs
+        Public tw As Twitter
+        Public info As ApiInfo
+    End Class
+
+    Private Sub GetApiInfo_Dowork(ByVal sender As Object, ByVal e As DoWorkEventArgs)
+        Dim args As GetApiInfoArgs = DirectCast(e.Argument, GetApiInfoArgs)
+        e.Result = tw.GetInfoApi(args.info)
+    End Sub
+
     Private Sub ApiInfoMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ApiInfoMenuItem.Click
         Dim info As New ApiInfo
         Dim tmp As String
+        Dim args As New GetApiInfoArgs With {.tw = tw, .info = info}
 
-        If tw.GetInfoApi(info) Then
-            tmp = My.Resources.ApiInfo1 + info.MaxCount.ToString() + Environment.NewLine + _
-                My.Resources.ApiInfo2 + info.RemainCount.ToString + Environment.NewLine + _
-                My.Resources.ApiInfo3 + info.ResetTime.ToString()
-            SetStatusLabel()
-        Else
-            tmp = My.Resources.ApiInfo5
-        End If
+        Using dlg As New FormInfo("API情報取得中・・・", AddressOf GetApiInfo_Dowork, Nothing, args)
+            dlg.ShowDialog()
+            If CBool(dlg.Result) Then
+                tmp = My.Resources.ApiInfo1 + args.info.MaxCount.ToString() + Environment.NewLine + _
+                    My.Resources.ApiInfo2 + args.info.RemainCount.ToString + Environment.NewLine + _
+                    My.Resources.ApiInfo3 + args.info.ResetTime.ToString()
+                SetStatusLabel()
+            Else
+                tmp = My.Resources.ApiInfo5
+            End If
+        End Using
+
         MessageBox.Show(tmp, My.Resources.ApiInfo4, MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
 
