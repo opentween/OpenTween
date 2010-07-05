@@ -2905,8 +2905,10 @@ Public Class TweenMain
             result = SettingDialog.ShowDialog()
         Catch ex As Exception
             Exit Sub
+        Finally
+            SetStatusLabel()
         End Try
-        SetStatusLabel()
+
         If result = Windows.Forms.DialogResult.OK Then
             SyncLock _syncObject
                 Try
@@ -6119,7 +6121,6 @@ RETRY:
         Finally
             Me.Cursor = Cursors.Default
         End Try
-        'SaveConfigsTab(False)
         SaveConfigsTabs()
     End Sub
 
@@ -6213,8 +6214,6 @@ RETRY:
         Finally
             Me.Cursor = Cursors.Default
         End Try
-        'SaveConfigsCommon()
-        'SaveConfigsTab(False)
         SaveConfigsTabs()
     End Sub
 
@@ -7232,14 +7231,11 @@ RETRY:
     End Sub
 
     Private Sub ToolStripMenuItem4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem4.Click
-        'URLをコピー
-        'If PostBrowser.StatusText.StartsWith("http") Then   '念のため
         Try
             Clipboard.SetDataObject(Me._postBrowserStatusText, False, 5, 100)
         Catch ex As Exception
             MessageBox.Show(ex.Message)
         End Try
-        'End If
     End Sub
 
     Private Sub ContextMenuStrip4_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip4.Opening
@@ -7705,6 +7701,7 @@ RETRY:
             tmp = My.Resources.ApiInfo1 + info.MaxCount.ToString() + Environment.NewLine + _
                 My.Resources.ApiInfo2 + info.RemainCount.ToString + Environment.NewLine + _
                 My.Resources.ApiInfo3 + info.ResetTime.ToString()
+            SetStatusLabel()
         Else
             tmp = My.Resources.ApiInfo5
         End If
@@ -8130,6 +8127,7 @@ RETRY:
             End If
         End If
     End Sub
+
     Private Sub MoveToRTHomeMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MoveToRTHomeMenuItem.Click, OpenRterHomeMenuItem.Click
         doMoveToRTHome()
     End Sub
@@ -9016,54 +9014,58 @@ RETRY:
         Dim result As String = ""
         Dim xmlbuf As String = ""
         Dim args As New GetUserInfoArgs
-        If ShowInputDialog Then
-            Using inputName As New InputTabName()
-                inputName.FormTitle = "Show UserStatus"
-                inputName.FormDescription = My.Resources.FRMessage1
-                inputName.TabName = id
-                If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
-                   Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
-                    id = inputName.TabName.Trim
-                    args.tw = tw
-                    args.id = id
-                    args.xmlbuf = xmlbuf
-                    Using _info As New FormInfo(My.Resources.doShowUserStatusText1, _
-                                                AddressOf GetUserInfo_DoWork, _
-                                                Nothing, _
-                                                args)
-                        _info.ShowDialog()
-                        Dim ret As String = DirectCast(_info.Result, String)
-                        If String.IsNullOrEmpty(ret) Then
-                            Using userinfo As New ShowUserInfo()
-                                userinfo.XmlData = args.xmlbuf
-                                userinfo.ShowDialog(Me)
-                            End Using
-                        Else
-                            MessageBox.Show(ret)
-                        End If
-                    End Using
-                End If
-            End Using
-        Else
-            args.tw = tw
-            args.id = id
-            args.xmlbuf = xmlbuf
-            Using _info As New FormInfo(My.Resources.doShowUserStatusText1, _
-                                        AddressOf GetUserInfo_DoWork, _
-                                        Nothing, _
-                                        args)
-                _info.ShowDialog()
-                Dim ret As String = DirectCast(_info.Result, String)
-                If String.IsNullOrEmpty(ret) Then
-                    Using userinfo As New ShowUserInfo()
-                        userinfo.XmlData = args.xmlbuf
-                        userinfo.ShowDialog(Me)
-                    End Using
-                Else
-                    MessageBox.Show(ret)
-                End If
-            End Using
-        End If
+        Try
+            If ShowInputDialog Then
+                Using inputName As New InputTabName()
+                    inputName.FormTitle = "Show UserStatus"
+                    inputName.FormDescription = My.Resources.FRMessage1
+                    inputName.TabName = id
+                    If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
+                       Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
+                        id = inputName.TabName.Trim
+                        args.tw = tw
+                        args.id = id
+                        args.xmlbuf = xmlbuf
+                        Using _info As New FormInfo(My.Resources.doShowUserStatusText1, _
+                                                    AddressOf GetUserInfo_DoWork, _
+                                                    Nothing, _
+                                                    args)
+                            _info.ShowDialog()
+                            Dim ret As String = DirectCast(_info.Result, String)
+                            If String.IsNullOrEmpty(ret) Then
+                                Using userinfo As New ShowUserInfo()
+                                    userinfo.XmlData = args.xmlbuf
+                                    userinfo.ShowDialog(Me)
+                                End Using
+                            Else
+                                MessageBox.Show(ret)
+                            End If
+                        End Using
+                    End If
+                End Using
+            Else
+                args.tw = tw
+                args.id = id
+                args.xmlbuf = xmlbuf
+                Using _info As New FormInfo(My.Resources.doShowUserStatusText1, _
+                                            AddressOf GetUserInfo_DoWork, _
+                                            Nothing, _
+                                            args)
+                    _info.ShowDialog()
+                    Dim ret As String = DirectCast(_info.Result, String)
+                    If String.IsNullOrEmpty(ret) Then
+                        Using userinfo As New ShowUserInfo()
+                            userinfo.XmlData = args.xmlbuf
+                            userinfo.ShowDialog(Me)
+                        End Using
+                    Else
+                        MessageBox.Show(ret)
+                    End If
+                End Using
+            End If
+        Finally
+            SetStatusLabel()
+        End Try
     End Sub
 
     Private Overloads Sub ShowUserStatus(ByVal id As String, ByVal ShowInputDialog As Boolean)
