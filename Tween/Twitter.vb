@@ -177,6 +177,7 @@ Public Class Twitter
         Dim res As HttpStatusCode
         Dim content As String = ""
 
+        _infoapi.Initialize()
         Try
             res = twCon.AuthUserAndPass(username, password)
         Catch ex As Exception
@@ -217,6 +218,7 @@ Public Class Twitter
         If String.IsNullOrEmpty(token) OrElse String.IsNullOrEmpty(tokenSecret) OrElse String.IsNullOrEmpty(username) Then
             Twitter.AccountState = ACCOUNT_STATE.Invalid
         End If
+        _infoapi.Initialize()
         twCon.Initialize(token, tokenSecret, username)
         _uid = username.ToLower
     End Sub
@@ -226,6 +228,7 @@ Public Class Twitter
         If String.IsNullOrEmpty(username) OrElse String.IsNullOrEmpty(password) Then
             Twitter.AccountState = ACCOUNT_STATE.Invalid
         End If
+        _infoapi.Initialize()
         twCon.Initialize(username, password)
         _uid = username.ToLower
     End Sub
@@ -2468,15 +2471,72 @@ Public Class Twitter
 
     Public ReadOnly Property RemainCountApi() As Integer
         Get
-            Return twCon.RemainCountApi
+            If twCon.RemainCountApi <> -1 Then
+                _infoapi.Initialize()
+                Return twCon.RemainCountApi
+            Else
+                If _infoapi.RemainCount <> -1 Then
+                    Return _infoapi.RemainCount
+                Else
+                    Return -1
+                End If
+            End If
         End Get
     End Property
 
     Public ReadOnly Property UpperCountApi() As Integer
         Get
-            Return twCon.UpperCountApi
+            If twCon.UpperCountApi <> -1 Then
+                _infoapi.Initialize()
+                Return twCon.UpperCountApi
+            Else
+                If _infoapi.MaxCount <> -1 Then
+                    Return _infoapi.MaxCount
+                Else
+                    Return -1
+                End If
+            End If
         End Get
     End Property
+
+    Public ReadOnly Property ResetTimeApi() As DateTime
+        Get
+            If twCon.ResetTimeApi.ToBinary <> 0 Then
+                _infoapi.Initialize()
+                Return twCon.ResetTimeApi
+            Else
+                If _infoapi.ResetTime.ToBinary <> 0 Then
+                    Return _infoapi.ResetTime
+                Else
+                    Return New DateTime
+                End If
+            End If
+        End Get
+    End Property
+
+    Private Class infoApi
+        Public MaxCount As Integer = -1
+        Public RemainCount As Integer = -1
+        Public ResetTime As New DateTime
+        Public ResetTimeInSeconds As Integer = -1
+
+        Public Sub Initialize()
+            Me.MaxCount = -1
+            Me.RemainCount = -1
+            Me.ResetTime = New DateTime
+            Me.ResetTimeInSeconds = -1
+        End Sub
+
+        Public Function ConvertResetTimeInSecondsToResetTime(ByVal seconds As Integer) As DateTime
+            If seconds >= 0 Then
+                Return System.TimeZone.CurrentTimeZone.ToLocalTime((New DateTime(1970, 1, 1, 0, 0, 0)).AddSeconds(seconds))
+            Else
+                Return New DateTime
+            End If
+        End Function
+    End Class
+
+    Private _infoapi As New infoApi
 
     Public Function GetInfoApi(ByRef info As ApiInfo) As Boolean
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return True
@@ -2488,6 +2548,7 @@ Public Class Twitter
         Try
             res = twCon.RateLimitStatus(content)
         Catch ex As Exception
+            _infoapi.Initialize()
             Return False
         End Try
 
@@ -2499,8 +2560,14 @@ Public Class Twitter
             info.MaxCount = Integer.Parse(xdoc.SelectSingleNode("/hash/hourly-limit").InnerText)
             info.RemainCount = Integer.Parse(xdoc.SelectSingleNode("/hash/remaining-hits").InnerText)
             info.ResetTime = DateTime.Parse(xdoc.SelectSingleNode("/hash/reset-time").InnerText)
+
+            _infoapi.MaxCount = info.MaxCount
+            _infoapi.RemainCount = info.RemainCount
+            _infoapi.ResetTime = info.ResetTime
+            _infoapi.ResetTimeInSeconds = Integer.Parse(xdoc.SelectSingleNode("/hash/reset-time-in-seconds").InnerText)
             Return True
         Catch ex As Exception
+            _infoapi.Initialize()
             Return False
         End Try
     End Function
