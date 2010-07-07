@@ -1818,6 +1818,8 @@ Public Class Twitter
         For i As Integer = 0 To arIdx
             Try
                 dlgt(i).EndInvoke(ar(i))
+            Catch ex As IndexOutOfRangeException
+                Throw New IndexOutOfRangeException(String.Format("i={0},dlgt.Length={1},ar.Length={2},arIdx={3}", i, dlgt.Length, ar.Length, arIdx))
             Catch ex As Exception
                 '最後までendinvoke回す（ゾンビ化回避）
                 ex.Data("IsTerminatePermission") = False
