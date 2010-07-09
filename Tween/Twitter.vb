@@ -1476,9 +1476,9 @@ Public Class Twitter
                         End If
                     End If
                 End If
-                If Not content.StartsWith("http://bit.ly") AndAlso Not content.StartsWith("http://j.mp") Then
-                    Return "Can't convert"
-                End If
+                'If Not content.StartsWith("http://bit.ly") AndAlso Not content.StartsWith("http://j.mp") Then
+                '    Return "Can't convert"
+                'End If
         End Select
         '変換結果から改行を除去
         Dim ch As Char() = {ControlChars.Cr, ControlChars.Lf}
