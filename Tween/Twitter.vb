@@ -417,6 +417,10 @@ Public Class Twitter
                         post.ImageIndex = -1
                     Catch ex As System.OverflowException
                         '不正なアイコン？DrawImageに失敗する場合あり
+                        post.ImageIndex = -1
+                    Catch ex As OutOfMemoryException
+                        'DrawImageで発生
+                        post.ImageIndex = -1
                     End Try
                 End If
             End SyncLock
