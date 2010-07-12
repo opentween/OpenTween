@@ -85,7 +85,7 @@ Public Class TweenMain
     Private tw As New Twitter
 
     'サブ画面インスタンス
-    Private SettingDialog As New Setting       '設定画面インスタンス
+    Private SettingDialog As Setting = Setting.Instance       '設定画面インスタンス
     Private TabDialog As New TabsDialog        'タブ選択ダイアログインスタンス
     Private SearchDialog As New SearchWord     '検索画面インスタンス
     Private fDialog As New FilterDialog 'フィルター編集画面
@@ -254,6 +254,8 @@ Public Class TweenMain
         Public ids As List(Of Long)               'Fav追加・削除時のItemIndex
         Public sIds As List(Of Long)              'Fav追加・削除成功分のItemIndex
         Public tName As String = ""            'Fav追加・削除時のタブ名
+        Public imageService As String = ""      '画像投稿サービス名
+        Public imagePath As String = ""
     End Class
 
     '検索処理タイプ
@@ -558,6 +560,7 @@ Public Class TweenMain
 
         fileVersion = DirectCast(Assembly.GetExecutingAssembly().GetCustomAttributes(GetType(AssemblyFileVersionAttribute), False)(0), AssemblyFileVersionAttribute).Version
         InitializeTraceFrag()
+        ImageServiceCombo.SelectedIndex = 0
         LoadIcons() ' アイコン読み込み
 
         '発言保持クラス
@@ -1859,6 +1862,30 @@ Public Class TweenMain
 
         args.status.inReplyToId = _reply_to_id
         args.status.inReplyToName = _reply_to_name
+        If ImageSelectionPanel.Visible Then
+            '画像投稿
+            If ImageSelectedPicture.Image IsNot ImageSelectedPicture.InitialImage AndAlso _
+                ImageServiceCombo.SelectedIndex > -1 AndAlso _
+                ImagefilePathText.Text <> "" Then
+                If MessageBox.Show("画像を投稿します。よろしいですか？", _
+                                   "Post a Picture", _
+                                   MessageBoxButtons.OKCancel, _
+                                   MessageBoxIcon.Question, _
+                                   MessageBoxDefaultButton.Button1) _
+                               = Windows.Forms.DialogResult.Cancel Then
+                    ImageSelectionPanel.Visible = False
+                    TimelinePanel.Visible = True
+                    Exit Sub
+                End If
+                args.imageService = ImageServiceCombo.Text
+                args.imagePath = ImagefilePathText.Text
+                ImageSelectionPanel.Visible = False
+                TimelinePanel.Visible = True
+            Else
+                MessageBox.Show("投稿する画像または投稿先サービスが選択されていません。", "画像投稿")
+                Exit Sub
+            End If
+        End If
 
         RunAsync(args)
 
@@ -2048,17 +2075,23 @@ Public Class TweenMain
                 rslt.sIds = args.sIds
             Case WORKERTYPE.PostMessage
                 bw.ReportProgress(200)
-                For i As Integer = 0 To 1
-                    ret = tw.PostStatus(args.status.status, args.status.inReplyToId)
-                    If ret = "" OrElse _
-                       ret.StartsWith("OK:") OrElse _
-                       ret.StartsWith("Outputz:") OrElse _
-                       ret.StartsWith("Warn:") OrElse _
-                       args.status.status.StartsWith("D", StringComparison.OrdinalIgnoreCase) OrElse _
-                       args.status.status.StartsWith("DM", StringComparison.OrdinalIgnoreCase) Then
-                        Exit For
-                    End If
-                Next
+                If String.IsNullOrEmpty(args.imagePath) Then
+                    For i As Integer = 0 To 1
+                        ret = tw.PostStatus(args.status.status, args.status.inReplyToId)
+                        If ret = "" OrElse _
+                           ret.StartsWith("OK:") OrElse _
+                           ret.StartsWith("Outputz:") OrElse _
+                           ret.StartsWith("Warn:") OrElse _
+                           ret = "Err:Status is a duplicate." OrElse _
+                           args.status.status.StartsWith("D", StringComparison.OrdinalIgnoreCase) OrElse _
+                           args.status.status.StartsWith("DM", StringComparison.OrdinalIgnoreCase) Then
+                            Exit For
+                        End If
+                    Next
+                Else
+                    Dim picSvc As New PictureService(tw)
+                    ret = picSvc.Upload(args.imagePath, args.status.status, args.imageService)
+                End If
                 bw.ReportProgress(300)
                 rslt.status = args.status
             Case WORKERTYPE.Retweet
@@ -3366,11 +3399,14 @@ Public Class TweenMain
         _listCustom.BackColor = _clListBackcolor
 
         _listCustom.GridLines = SettingDialog.ShowGrid
+        _listCustom.AllowDrop = True
 
         AddHandler _listCustom.SelectedIndexChanged, AddressOf MyList_SelectedIndexChanged
         AddHandler _listCustom.MouseDoubleClick, AddressOf MyList_MouseDoubleClick
         AddHandler _listCustom.ColumnClick, AddressOf MyList_ColumnClick
         AddHandler _listCustom.DrawColumnHeader, AddressOf MyList_DrawColumnHeader
+        AddHandler _listCustom.DragDrop, AddressOf TweenMain_DragDrop
+        AddHandler _listCustom.DragOver, AddressOf TweenMain_DragOver
 
         Select Case _iconSz
             Case 26, 48
@@ -3537,6 +3573,8 @@ Public Class TweenMain
         RemoveHandler _listCustom.MouseDoubleClick, AddressOf MyList_MouseDoubleClick
         RemoveHandler _listCustom.ColumnClick, AddressOf MyList_ColumnClick
         RemoveHandler _listCustom.DrawColumnHeader, AddressOf MyList_DrawColumnHeader
+        RemoveHandler _listCustom.DragDrop, AddressOf TweenMain_DragDrop
+        RemoveHandler _listCustom.DragOver, AddressOf TweenMain_DragOver
 
         Select Case _iconSz
             Case 26, 48
@@ -7321,19 +7359,30 @@ RETRY:
     End Sub
 
     Private Sub TweenMain_DragDrop(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles MyBase.DragDrop
-        Dim data As String = TryCast(e.Data.GetData(DataFormats.StringFormat, True), String)
-        If data IsNot Nothing Then
-            StatusText.Text += data
+        If e.Data.GetDataPresent(DataFormats.FileDrop) Then
+            ImagefilePathText.Text = CType(e.Data.GetData(DataFormats.FileDrop, False), String())(0)
+            TimelinePanel.Visible = False
+            ImageSelectionPanel.Visible = True
+            ImageFromSelectedFile()
+        ElseIf e.Data.GetDataPresent(DataFormats.StringFormat) Then
+            Dim data As String = TryCast(e.Data.GetData(DataFormats.StringFormat, True), String)
+            If data IsNot Nothing Then StatusText.Text += data
         End If
     End Sub
 
     Private Sub TweenMain_DragOver(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles MyBase.DragOver
-        Dim data As String = TryCast(e.Data.GetData(DataFormats.StringFormat, True), String)
-        If data IsNot Nothing Then
+        If e.Data.GetDataPresent(DataFormats.FileDrop) OrElse _
+            e.Data.GetDataPresent(DataFormats.StringFormat) Then
             e.Effect = DragDropEffects.Copy
         Else
             e.Effect = DragDropEffects.None
         End If
+        'Dim data As String = TryCast(e.Data.GetData(DataFormats.StringFormat, True), String)
+        'If data IsNot Nothing Then
+        '    e.Effect = DragDropEffects.Copy
+        'Else
+        '    e.Effect = DragDropEffects.None
+        'End If
     End Sub
 
     Public Function IsNetworkAvailable() As Boolean
@@ -9242,6 +9291,74 @@ RETRY:
     Private Sub NameLabel_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NameLabel.DoubleClick, UserPicture.DoubleClick
         If NameLabel.Tag IsNot Nothing Then
             OpenUriAsync("http://twitter.com/" + NameLabel.Tag.ToString)
+        End If
+    End Sub
+#Region "画像投稿"
+    Private Sub ImageSelectMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ImageSelectMenuItem.Click
+        If ImageSelectionPanel.Visible = True Then
+            ImageSelectionPanel.Visible = False
+            TimelinePanel.Visible = True
+        Else
+            ImageSelectionPanel.Visible = True
+            TimelinePanel.Visible = False
+            ImagefilePathText.Focus()
+        End If
+    End Sub
+
+    Private Sub FilePickButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FilePickButton.Click
+        ''' ToDo: サービスによっては動画ファイルのアップロードも可能
+        OpenFileDialog1.Filter = "Image Files(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png|All Files(*.*)|*.*"
+        OpenFileDialog1.Title = "Select a image file for Upload"
+        OpenFileDialog1.FileName = ""
+        If OpenFileDialog1.ShowDialog() = Windows.Forms.DialogResult.Cancel Then Exit Sub
+        ImagefilePathText.Text = OpenFileDialog1.FileName
+        ImageFromSelectedFile()
+    End Sub
+
+    Private Sub ImagefilePathText_Validating(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ImagefilePathText.Validating
+        ImagefilePathText.Text = Trim(ImagefilePathText.Text)
+        If ImagefilePathText.Text = "" Then
+            ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
+        Else
+            ImageFromSelectedFile()
+        End If
+    End Sub
+
+    Private Sub ImageFromSelectedFile()
+        Dim ext As String() = {".jpeg", ".jpg", ".gif", ".png"}
+        If String.IsNullOrEmpty(Trim(ImagefilePathText.Text)) Then
+            ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
+            Exit Sub
+        End If
+
+        Dim fl As New FileInfo(Trim(ImagefilePathText.Text))
+        If Array.IndexOf(ext, fl.Extension.ToLower) = -1 Then
+            '画像以外の形式
+            ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
+            Exit Sub
+        End If
+        Try
+            ImageSelectedPicture.Image = _
+                Image.FromStream( _
+                    New FileStream(ImagefilePathText.Text, _
+                                   FileMode.Open, _
+                                   FileAccess.Read) _
+                               )
+        Catch ex As Exception
+            MessageBox.Show("The type of this file is not image.")
+            ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
+            Exit Sub
+        End Try
+    End Sub
+#End Region
+
+    Private Sub ImageSelection_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles _
+        ImagefilePathText.KeyDown, _
+        FilePickButton.KeyDown, _
+        ImageServiceCombo.KeyDown
+        If e.KeyCode = Keys.Escape Then
+            ImageSelectionPanel.Visible = False
+            TimelinePanel.Visible = True
         End If
     End Sub
 End Class

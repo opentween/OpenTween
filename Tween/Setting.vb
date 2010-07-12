@@ -24,6 +24,7 @@
 ' Boston, MA 02110-1301, USA.
 
 Public Class Setting
+    Private Shared _instance As New Setting
     Private tw As Twitter
     'Private _MyuserID As String
     'Private _Mypassword As String
@@ -1940,6 +1941,21 @@ Public Class Setting
     Private Sub ButtonApiCalc_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonApiCalc.Click
         CalcApiUsing()
     End Sub
+
+    Private Sub New()
+
+        ' この呼び出しはデザイナーで必要です。
+        InitializeComponent()
+
+        ' InitializeComponent() 呼び出しの後で初期化を追加します。
+
+    End Sub
+
+    Public Shared ReadOnly Property Instance As Setting
+        Get
+            Return _instance
+        End Get
+    End Property
 
     Private Function BitlyValidation(ByVal id As String, ByVal apikey As String) As Boolean
         If String.IsNullOrEmpty(id) OrElse String.IsNullOrEmpty(apikey) Then
