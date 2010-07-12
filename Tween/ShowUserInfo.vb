@@ -283,7 +283,8 @@ Public Class ShowUserInfo
 
     Private Sub BackgroundWorkerImageLoader_DoWork(ByVal sender As System.Object, ByVal e As System.ComponentModel.DoWorkEventArgs) Handles BackgroundWorkerImageLoader.DoWork
         Try
-            icondata = (New HttpVarious).GetImage(_info.ImageUrl.ToString())
+            Dim name As String = _info.ImageUrl.ToString
+            icondata = (New HttpVarious).GetImage(name.Replace("_normal", "_bigger"))
         Catch ex As Exception
             icondata = Nothing
         End Try
