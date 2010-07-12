@@ -177,6 +177,15 @@ Namespace My.Resources
             End Get
         End Property
         
+        '''<summary>
+        '''  API情報取得中・・・ に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ApiInfo6() As String
+            Get
+                Return ResourceManager.GetString("ApiInfo6", resourceCulture)
+            End Get
+        End Property
+        
         Friend ReadOnly Property At() As System.Drawing.Icon
             Get
                 Dim obj As Object = ResourceManager.GetObject("At", resourceCulture)
@@ -467,6 +476,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  API情報取得中・・・ に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property CalcApiUsingText1() As String
+            Get
+                Return ResourceManager.GetString("CalcApiUsingText1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  画像ファイル(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property ChangeIconToolStripMenuItem_ClickText1() As String
@@ -514,17 +532,19 @@ Namespace My.Resources
         '''<summary>
         '''  更新履歴
         '''
-        '''==== Ver 0.9.2.4(2010/06/**)
-        ''' * 400系エラー時は投稿リトライを行わないように変更
-        ''' * API ProxyのOAuth対応が動作していなかったバグ修正
-        ''' * @,#補完ダイアログ呼び出しのショートカットをCtrl+Shift+Spaceに変更
-        ''' * プロフィール画面からブロック解除ができるようにした。ダイアログによる確認が入ります。
-        ''' * STOTコピーの際にProtect発言が含まれていた場合ダイアログを出すようにした
-        ''' * 相互フォロー状態表示の際にID表示が正しくない場合があったのを修正
-        ''' * @,#補完ダイアログにおいて、Space、TABキーでの確定が機能していなかったバグを修正(0.9.2.3のみ。それ以外のバージョンでは問題ありません)
-        ''' * 詳細表示にフォーカスがある場合にIEのショートカットが動作してしまっていたのを修正
-        ''' * 詳細表示でSHIFT+F5キーまたはSHIFT+Rキーを押した場合に通常の更新として動作していたバグを修正(遡るのが正しい)
-        ''' * スペースキーを押したままにしてスペースの連続が入力された場合にも未 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        '''==== Ver 0.9.3.1(2010/07/02)
+        ''' * 認証完了後、認証済みユーザー情報をTwitterクラスで保持していないバグ修正
+        ''' * 振り分けルール画面でタブ名変更・削除をした場合、タブ選択画面に変更が反映されない問題を修正
+        ''' * 公式RTをコピーした時のURLが間違っていたので修正
+        ''' * 設定画面、メニューでのAPI情報取得処理を非同期化
+        ''' * その他機能よりAPIを使用するメニューを選択した場合、処理後にステータスバー表示を更新していなかったのを修正
+        ''' * API情報取得APIにより取得した情報と、API発行後に取得されたAPI情報を連動させるようにした
+        ''' * プロフィール画面でのアイコン画質を改善した
+        ''' * アイコン取得時に例外が発生することがあったので対応した
+        ''' * r.sm3.jpのリンクが壊れることがあったのを修正
+        ''' * bit.ly、j.mpで短縮した結果の判定で、短縮サービスと別名で短縮された場合も許可するよう変更（bit.ly-&gt;amzn.to対応）
+        '''==== Ver 0.9.3.0(2010/07/01)
+        ''' * in_reply_to [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property ChangeLog() As String
             Get
