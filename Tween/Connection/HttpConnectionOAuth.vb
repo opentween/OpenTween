@@ -283,7 +283,7 @@ Public Class HttpConnectionOAuth
     '''<param name="query">OAuth追加情報＋クエリ or POSTデータ</param>
     '''<param name="token">アクセストークン、もしくはリクエストトークン。未取得なら空文字列</param>
     '''<param name="tokenSecret">アクセストークンシークレット。認証処理では空文字列</param>
-    Private Sub AppendOAuthInfo(ByVal webRequest As HttpWebRequest, _
+    Protected Overridable Sub AppendOAuthInfo(ByVal webRequest As HttpWebRequest, _
                                         ByVal query As Dictionary(Of String, String), _
                                         ByVal token As String, _
                                         ByVal tokenSecret As String)
@@ -313,7 +313,7 @@ Public Class HttpConnectionOAuth
     '''</summary>
     '''<param name="token">アクセストークン、もしくはリクエストトークン。未取得なら空文字列</param>
     '''<returns>OAuth情報のディクショナリ</returns>
-    Private Function GetOAuthParameter(ByVal token As String) As Dictionary(Of String, String)
+    Protected Function GetOAuthParameter(ByVal token As String) As Dictionary(Of String, String)
         Dim parameter As New Dictionary(Of String, String)
         parameter.Add("oauth_consumer_key", consumerKey)
         parameter.Add("oauth_signature_method", "HMAC-SHA1")

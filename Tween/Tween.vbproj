@@ -113,6 +113,7 @@
     <Compile Include="AtIdSupplement.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Connection\HttpConnectionOAuthEcho.vb" />
     <Compile Include="Connection\HttpOAuthApiProxy.vb" />
     <Compile Include="Connection\HttpConnection.vb" />
     <Compile Include="Connection\HttpConnectionBasic.vb" />
@@ -120,6 +121,8 @@
     <Compile Include="Connection\HttpTwitter.vb" />
     <Compile Include="Connection\HttpVarious.vb" />
     <Compile Include="Connection\IHttpConnection.vb" />
+    <Compile Include="Connection\TwitPic.vb" />
+    <Compile Include="Connection\TwitVideo.vb" />
     <Compile Include="DetailsListView.vb">
       <SubType>Component</SubType>
     </Compile>
@@ -179,6 +182,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Outputz.vb" />
+    <Compile Include="PictureService.vb" />
     <Compile Include="RadixConvert.vb" />
     <Compile Include="SearchWord.Designer.vb">
       <DependentUpon>SearchWord.vb</DependentUpon>
