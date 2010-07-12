@@ -7709,7 +7709,7 @@ RETRY:
         Dim tmp As String
         Dim args As New GetApiInfoArgs With {.tw = tw, .info = info}
 
-        Using dlg As New FormInfo("API情報取得中・・・", AddressOf GetApiInfo_Dowork, Nothing, args)
+        Using dlg As New FormInfo(My.Resources.ApiInfo6, AddressOf GetApiInfo_Dowork, Nothing, args)
             dlg.ShowDialog()
             If CBool(dlg.Result) Then
                 tmp = My.Resources.ApiInfo1 + args.info.MaxCount.ToString() + Environment.NewLine + _

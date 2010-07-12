@@ -1908,7 +1908,7 @@ Public Class Setting
                 If Twitter.AccountState = ACCOUNT_STATE.Valid Then
                     Dim _info As New ApiInfo
                     Dim args As New GetApiInfoArgs With {.tw = tw, .info = _info}
-                    Using dlg As New FormInfo("API情報取得中・・・", AddressOf GetApiInfo_Dowork, Nothing, args)
+                    Using dlg As New FormInfo(My.Resources.CalcApiUsingText1, AddressOf GetApiInfo_Dowork, Nothing, args)
                         dlg.ShowDialog()
                         If CBool(dlg.Result) Then
                             LabelApiUsing.Text = String.Format(My.Resources.SettingAPIUse1, UsingApi, args.info.MaxCount)

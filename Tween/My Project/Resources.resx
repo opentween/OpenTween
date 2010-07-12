@@ -928,4 +928,10 @@
   <data name="TabUsageTypeName_UserDefined" xml:space="preserve">
     <value>タイムライン振り分け</value>
   </data>
+  <data name="ApiInfo6" xml:space="preserve">
+    <value>API情報取得中・・・</value>
+  </data>
+  <data name="CalcApiUsingText1" xml:space="preserve">
+    <value>API情報取得中・・・</value>
+  </data>
 </root>
