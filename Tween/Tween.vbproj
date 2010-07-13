@@ -443,6 +443,7 @@
     <None Include="Resources\6g.ico" />
     <Content Include="Resources\6o.ico" />
     <None Include="Resources\ChangeLog.txt" />
+    <None Include="Resources\InitialImage.png" />
     <Content Include="Resources\re2.ico" />
     <Content Include="Resources\re3.ico" />
     <Content Include="Resources\re4.ico" />

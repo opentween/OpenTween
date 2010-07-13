@@ -595,17 +595,11 @@
   <data name="CheckPeriodAdjust.Text" xml:space="preserve">
     <value>Enable Auto-Adjustment</value>
   </data>
-  <data name="Label74.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 404</value>
-  </data>
   <data name="Label74.Size" type="System.Drawing.Size, System.Drawing">
     <value>106, 12</value>
   </data>
   <data name="Label74.Text" xml:space="preserve">
     <value>Get favs in Starting</value>
-  </data>
-  <data name="chkGetFav.Location" type="System.Drawing.Point, System.Drawing">
-    <value>173, 403</value>
   </data>
   <data name="chkGetFav.Size" type="System.Drawing.Size, System.Drawing">
     <value>58, 16</value>
