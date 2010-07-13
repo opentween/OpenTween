@@ -741,4 +741,19 @@
   <data name="OwnStatusTitle" xml:space="preserve">
     <value>Tweets: {0}  Following: {1}  Followers: {2}({3})</value>
   </data>
+  <data name="PickPictureDialog1" xml:space="preserve">
+    <value>Select a media file to upload</value>
+  </data>
+  <data name="PostPictureConfirm1" xml:space="preserve">
+    <value>Do you want to upload the selected media file?</value>
+  </data>
+  <data name="PostPictureConfirm2" xml:space="preserve">
+    <value>Confirm to upload</value>
+  </data>
+  <data name="PostPictureWarn1" xml:space="preserve">
+    <value>Please select a service to upload the media file.</value>
+  </data>
+  <data name="PostPictureWarn2" xml:space="preserve">
+    <value>Media sharing service</value>
+  </data>
 </root>

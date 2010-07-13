@@ -1867,8 +1867,8 @@ Public Class TweenMain
             If ImageSelectedPicture.Image IsNot ImageSelectedPicture.InitialImage AndAlso _
                 ImageServiceCombo.SelectedIndex > -1 AndAlso _
                 ImagefilePathText.Text <> "" Then
-                If MessageBox.Show("画像を投稿します。よろしいですか？", _
-                                   "Post a Picture", _
+                If MessageBox.Show(My.Resources.PostPictureConfirm1, _
+                                   My.Resources.PostPictureConfirm2, _
                                    MessageBoxButtons.OKCancel, _
                                    MessageBoxIcon.Question, _
                                    MessageBoxDefaultButton.Button1) _
@@ -1879,10 +1879,12 @@ Public Class TweenMain
                 End If
                 args.imageService = ImageServiceCombo.Text
                 args.imagePath = ImagefilePathText.Text
+                ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
+                ImagefilePathText.Text = ""
                 ImageSelectionPanel.Visible = False
                 TimelinePanel.Visible = True
             Else
-                MessageBox.Show("投稿する画像または投稿先サービスが選択されていません。", "画像投稿")
+                MessageBox.Show(My.Resources.PostPictureWarn1, My.Resources.PostPictureWarn2)
                 Exit Sub
             End If
         End If
@@ -9308,7 +9310,7 @@ RETRY:
     Private Sub FilePickButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FilePickButton.Click
         ''' ToDo: サービスによっては動画ファイルのアップロードも可能
         OpenFileDialog1.Filter = "Image Files(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png|All Files(*.*)|*.*"
-        OpenFileDialog1.Title = "Select a image file for Upload"
+        OpenFileDialog1.Title = My.Resources.PickPictureDialog1
         OpenFileDialog1.FileName = ""
         If OpenFileDialog1.ShowDialog() = Windows.Forms.DialogResult.Cancel Then Exit Sub
         ImagefilePathText.Text = OpenFileDialog1.FileName

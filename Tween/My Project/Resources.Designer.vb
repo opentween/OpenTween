@@ -1218,6 +1218,13 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property InitialImage() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("InitialImage", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         '''<summary>
         '''  タイムライン振り分け に類似しているローカライズされた文字列を検索します。
         '''</summary>
@@ -1406,6 +1413,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  投稿する画像を選択 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property PickPictureDialog1() As String
+            Get
+                Return ResourceManager.GetString("PickPictureDialog1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  140文字を越えています。URL短縮、フッタ除去、末尾カットを行って投稿しますか？ に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property PostLengthOverMessage1() As String
@@ -1420,6 +1436,42 @@ Namespace My.Resources
         Friend ReadOnly Property PostLengthOverMessage2() As String
             Get
                 Return ResourceManager.GetString("PostLengthOverMessage2", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  画像を投稿します。よろしいですか？ に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property PostPictureConfirm1() As String
+            Get
+                Return ResourceManager.GetString("PostPictureConfirm1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  画像投稿確認 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property PostPictureConfirm2() As String
+            Get
+                Return ResourceManager.GetString("PostPictureConfirm2", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  投稿する画像または投稿先サービスが選択されていません。 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property PostPictureWarn1() As String
+            Get
+                Return ResourceManager.GetString("PostPictureWarn1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  画像投稿 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property PostPictureWarn2() As String
+            Get
+                Return ResourceManager.GetString("PostPictureWarn2", resourceCulture)
             End Get
         End Property
         

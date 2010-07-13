@@ -18,9 +18,7 @@ Public Class TwitPic
 
     Private Const PostMethod As String = "POST"
     Private Const GetMethod As String = "GET"
-    ''' ToDo:APIKey
     Private Const ApiKey As String = "287b60562aea3cab9f58fa54015848e8"
-    ''' ToDo:Supported file type
     Private pictureExt() As String = {".jpg", _
                                     ".jpeg", _
                                     ".gif", _
