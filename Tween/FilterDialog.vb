@@ -233,6 +233,10 @@ Public Class FilterDialog
         EditFilterGroup.Enabled = True
         ListTabs.Enabled = False
         GroupTab.Enabled = False
+
+        Dim idx As Integer = ListFilters.SelectedIndex
+        ListFilters.SelectedIndex = -1
+        ListFilters.SelectedIndex = idx
         ListFilters.Enabled = False
         _mode = EDITMODE.Edit
     End Sub
