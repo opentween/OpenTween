@@ -41,6 +41,7 @@ Public Class TwitPic
         param.Add("message", message)
         Dim binary As New List(Of KeyValuePair(Of String, FileInfo))
         binary.Add(New KeyValuePair(Of String, FileInfo)("media", mediaFile))
+        Me.InstanceTimeout = 60000 'タイムアウト60秒
 
         Return GetContent(PostMethod, _
                           New Uri("http://api.twitpic.com/2/upload.xml"), _

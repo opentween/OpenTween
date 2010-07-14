@@ -54,6 +54,7 @@ Public Class TwitVideo
         param.Add("message", message)
         Dim binary As New List(Of KeyValuePair(Of String, FileInfo))
         binary.Add(New KeyValuePair(Of String, FileInfo)("media", mediaFile))
+        Me.InstanceTimeout = 60000     'タイムアウト60秒
 
         Dim req As HttpWebRequest = CreateRequest(PostMethod, _
                                                   New Uri(url), _
