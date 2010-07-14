@@ -508,6 +508,7 @@ Public Class FilterDialog
         End If
 
         SetFilters(ListTabs.SelectedItem.ToString)
+        ListFilters.SelectedIndex = -1
         If _mode = EDITMODE.AddNew Then
             ListFilters.SelectedIndex = ListFilters.Items.Count - 1
         Else
