@@ -560,7 +560,6 @@ Public Class TweenMain
 
         fileVersion = DirectCast(Assembly.GetExecutingAssembly().GetCustomAttributes(GetType(AssemblyFileVersionAttribute), False)(0), AssemblyFileVersionAttribute).Version
         InitializeTraceFrag()
-        ImageServiceCombo.SelectedIndex = 0
         LoadIcons() ' アイコン読み込み
 
         '発言保持クラス
@@ -9372,10 +9371,22 @@ RETRY:
     End Sub
 
     Private Sub SetImageServiceCombo()
+        Dim svc As String = ""
+        If ImageServiceCombo.SelectedIndex > -1 Then svc = ImageServiceCombo.SelectedItem.ToString
         ImageServiceCombo.Items.Clear()
         If SettingDialog.IsOAuth Then
             ImageServiceCombo.Items.Add("TwitPic")
         End If
         ImageServiceCombo.Items.Add("TwitVideo")
+        If svc = "" Then
+            ImageServiceCombo.SelectedIndex = 0
+        Else
+            Dim idx As Integer = ImageServiceCombo.Items.IndexOf(svc)
+            If idx = -1 Then
+                ImageServiceCombo.SelectedIndex = 0
+            Else
+                ImageServiceCombo.SelectedIndex = idx
+            End If
+        End If
     End Sub
 End Class
