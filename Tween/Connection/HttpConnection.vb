@@ -80,7 +80,11 @@ Public Class HttpConnection
         'cookie設定
         If withCookie Then webReq.CookieContainer = cookieContainer
         'タイムアウト設定
-        webReq.Timeout = DefaultTimeout
+        If InstanceTimeout > 0 Then
+            webReq.Timeout = InstanceTimeout
+        Else
+            webReq.Timeout = DefaultTimeout
+        End If
 
         Return webReq
     End Function
@@ -205,7 +209,11 @@ Public Class HttpConnection
         'cookie設定
         If withCookie Then webReq.CookieContainer = cookieContainer
         'タイムアウト設定
-        webReq.Timeout = DefaultTimeout
+        If InstanceTimeout > 0 Then
+            webReq.Timeout = InstanceTimeout
+        Else
+            webReq.Timeout = DefaultTimeout
+        End If
 
         Return webReq
     End Function
@@ -494,6 +502,33 @@ Public Class HttpConnection
         Next
         Return sb.ToString()
     End Function
+
+#Region "InstanceTimeout"
+    '''<summary>
+    '''通信タイムアウト時間（ms）
+    '''</summary>
+    Private _timeout As Integer = 0
+
+    '''<summary>
+    '''通信タイムアウト時間（ms）。10～120秒の範囲で指定。範囲外は20秒とする
+    '''</summary>
+    Protected Property InstanceTimeout() As Integer
+        Get
+            Return _timeout
+        End Get
+        Set(ByVal value As Integer)
+            Const TimeoutMinValue As Integer = 10000
+            Const TimeoutMaxValue As Integer = 120000
+            Const TimeoutDefaultValue As Integer = 0
+            If value < TimeoutMinValue OrElse value > TimeoutMaxValue Then
+                ' 範囲外ならデフォルト値設定
+                _timeout = TimeoutDefaultValue
+            Else
+                _timeout = value
+            End If
+        End Set
+    End Property
+#End Region
 
 #Region "DefaultTimeout"
     '''<summary>
