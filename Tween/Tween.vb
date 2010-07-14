@@ -254,8 +254,6 @@ Public Class TweenMain
         Public ids As List(Of Long)               'Fav追加・削除時のItemIndex
         Public sIds As List(Of Long)              'Fav追加・削除成功分のItemIndex
         Public tName As String = ""            'Fav追加・削除時のタブ名
-        Public imageService As String = ""      '画像投稿サービス名
-        Public imagePath As String = ""
     End Class
 
     '検索処理タイプ
@@ -269,6 +267,8 @@ Public Class TweenMain
         Public status As String = ""
         Public inReplyToId As Long = 0
         Public inReplyToName As String = ""
+        Public imageService As String = ""      '画像投稿サービス名
+        Public imagePath As String = ""
     End Class
 
     Private Class SpaceKeyCanceler
@@ -923,6 +923,9 @@ Public Class TweenMain
             Case OutputzUrlmode.twittercomWithUsername
                 Outputz.OutUrl = "http://twitter.com/" + tw.Username
         End Select
+
+        '画像投稿サービス
+        SetImageServiceCombo()
 
         'ウィンドウ設定
         Me.ClientSize = _cfgLocal.FormSize
@@ -1877,8 +1880,8 @@ Public Class TweenMain
                     TimelinePanel.Visible = True
                     Exit Sub
                 End If
-                args.imageService = ImageServiceCombo.Text
-                args.imagePath = ImagefilePathText.Text
+                args.status.imageService = ImageServiceCombo.Text
+                args.status.imagePath = ImagefilePathText.Text
                 ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
                 ImagefilePathText.Text = ""
                 ImageSelectionPanel.Visible = False
@@ -2077,7 +2080,7 @@ Public Class TweenMain
                 rslt.sIds = args.sIds
             Case WORKERTYPE.PostMessage
                 bw.ReportProgress(200)
-                If String.IsNullOrEmpty(args.imagePath) Then
+                If String.IsNullOrEmpty(args.status.imagePath) Then
                     For i As Integer = 0 To 1
                         ret = tw.PostStatus(args.status.status, args.status.inReplyToId)
                         If ret = "" OrElse _
@@ -2092,7 +2095,7 @@ Public Class TweenMain
                     Next
                 Else
                     Dim picSvc As New PictureService(tw)
-                    ret = picSvc.Upload(args.imagePath, args.status.status, args.imageService)
+                    ret = picSvc.Upload(args.status.imagePath, args.status.status, args.status.imageService)
                 End If
                 bw.ReportProgress(300)
                 rslt.status = args.status
@@ -3151,6 +3154,8 @@ Public Class TweenMain
                 End If
 
                 If uid <> tw.Username Then Me.doGetFollowersMenu()
+
+                SetImageServiceCombo()
             End SyncLock
         End If
 
@@ -9364,5 +9369,13 @@ RETRY:
             ImageSelectionPanel.Visible = False
             TimelinePanel.Visible = True
         End If
+    End Sub
+
+    Private Sub SetImageServiceCombo()
+        ImageServiceCombo.Items.Clear()
+        If SettingDialog.IsOAuth Then
+            ImageServiceCombo.Items.Add("TwitPic")
+        End If
+        ImageServiceCombo.Items.Add("TwitVideo")
     End Sub
 End Class
