@@ -5,20 +5,23 @@ Imports System.Xml
 Public Class PictureService
     Private tw As Twitter
 
-    Public Function Upload(ByVal filePath As String, ByRef message As String, ByVal service As String) As String
+    Public Function Upload(ByRef filePath As String, ByRef message As String, ByVal service As String) As String
         Dim file As New FileInfo(filePath)
         If Not file.Exists Then Return "Err:File isn't exists."
         Dim st As Setting = Setting.Instance
+        Dim ret As String = ""
+        Dim upResult As Boolean = False
         Select Case service
             Case "TwitPic"
-                Return UpToTwitPic(file, message)
+                ret = UpToTwitPic(file, message, upResult)
             Case "TwitVideo"
-                Return UpToTwitVideo(file, message)
+                ret = UpToTwitVideo(file, message, upResult)
         End Select
-        Return ""
+        If upResult Then filePath = ""
+        Return ret
     End Function
 
-    Private Function UpToTwitPic(ByVal file As FileInfo, ByRef message As String) As String
+    Private Function UpToTwitPic(ByVal file As FileInfo, ByRef message As String, ByVal resultUpload As Boolean) As String
         Dim content As String = ""
         Dim ret As HttpStatusCode
         'TwitPicへの投稿
@@ -41,6 +44,8 @@ Public Class PictureService
         Else
             Return "Err:" + ret.ToString
         End If
+        'アップロードまでは成功
+        resultUpload = True
         'Twitterへの投稿
         '投稿メッセージの再構成
         If message.Length + url.Length + 1 > 140 Then
@@ -51,7 +56,7 @@ Public Class PictureService
         Return tw.PostStatus(message, 0)
     End Function
 
-    Private Function UpToTwitVideo(ByVal file As FileInfo, ByRef message As String) As String
+    Private Function UpToTwitVideo(ByVal file As FileInfo, ByRef message As String, ByVal resultUpload As Boolean) As String
         Dim content As String = ""
         Dim ret As HttpStatusCode
         'TwitVideoへの投稿
@@ -79,6 +84,8 @@ Public Class PictureService
         Else
             Return "Err:" + ret.ToString
         End If
+        'アップロードまでは成功
+        resultUpload = True
         'Twitterへの投稿
         '投稿メッセージの再構成
         If message.Length + url.Length + 1 > 140 Then
