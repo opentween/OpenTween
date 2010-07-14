@@ -5972,6 +5972,8 @@ RETRY:
 
         Dim tb As TabClass = _statuses.GetTabByType(TabUsageType.Mentions)
         If SettingDialog.ReplyIconState <> REPLY_ICONSTATE.None AndAlso tb IsNot Nothing AndAlso tb.UnreadCount > 0 Then
+            ' TODO: 点滅させるタイミングや回数などを考える
+            'FlashWindow(Me.Handle.ToInt32, 1)
             If blinkCnt > 0 Then Exit Sub
             blink = Not blink
             If blink OrElse SettingDialog.ReplyIconState = REPLY_ICONSTATE.StaticIcon Then
