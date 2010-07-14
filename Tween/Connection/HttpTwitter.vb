@@ -168,15 +168,25 @@ Public Class HttpTwitter
 
     Public ReadOnly Property RemainCountApi() As Integer
         Get
+            ' エラー扱いの場合は -1,0のどちらが正しい？
+            Dim result As Integer = 0
             If _remainCountApi("X-RateLimit-Remaining") = "" Then Return 0
-            Return Integer.Parse(_remainCountApi("X-RateLimit-Remaining"))
+            If Integer.TryParse(_remainCountApi("X-RateLimit-Remaining"), result) Then
+                Return result
+            End If
+            Return -1
         End Get
     End Property
 
     Public ReadOnly Property UpperCountApi() As Integer
         Get
+            ' エラー扱いの場合は -1,0のどちらが正しい？
+            Dim result As Integer = 0
             If _remainCountApi("X-RateLimit-Limit") = "" Then Return 0
-            Return Integer.Parse(_remainCountApi("X-RateLimit-Limit"))
+            If Integer.TryParse(_remainCountApi("X-RateLimit-Limit"), result) Then
+                Return result
+            End If
+            Return -1
         End Get
     End Property
 
