@@ -9392,6 +9392,7 @@ RETRY:
     Private Sub ImageCancelButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ImageCancelButton.Click
         ImageSelectionPanel.Visible = False
         TimelinePanel.Visible = True
+        StatusText.Focus()
     End Sub
 #End Region
 
