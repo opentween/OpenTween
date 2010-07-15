@@ -925,6 +925,7 @@ Public Class TweenMain
 
         '画像投稿サービス
         SetImageServiceCombo()
+        ImageSelectionPanel.Enabled = False
 
         'ウィンドウ設定
         Me.ClientSize = _cfgLocal.FormSize
@@ -1875,16 +1876,22 @@ Public Class TweenMain
                                    MessageBoxIcon.Question, _
                                    MessageBoxDefaultButton.Button1) _
                                = Windows.Forms.DialogResult.Cancel Then
-                    ImageSelectionPanel.Visible = False
                     TimelinePanel.Visible = True
+                    TimelinePanel.Enabled = True
+                    ImageSelectionPanel.Visible = False
+                    ImageSelectionPanel.Enabled = False
+                    DirectCast(ListTab.Tag, DetailsListView).Focus()
                     Exit Sub
                 End If
                 args.status.imageService = ImageServiceCombo.Text
                 args.status.imagePath = ImagefilePathText.Text
                 ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
                 ImagefilePathText.Text = ""
-                ImageSelectionPanel.Visible = False
                 TimelinePanel.Visible = True
+                TimelinePanel.Enabled = True
+                ImageSelectionPanel.Visible = False
+                ImageSelectionPanel.Enabled = False
+                DirectCast(ListTab.Tag, DetailsListView).Focus()
             Else
                 MessageBox.Show(My.Resources.PostPictureWarn1, My.Resources.PostPictureWarn2)
                 Exit Sub
@@ -7368,9 +7375,11 @@ RETRY:
 
     Private Sub TweenMain_DragDrop(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles MyBase.DragDrop
         If e.Data.GetDataPresent(DataFormats.FileDrop) Then
-            ImagefilePathText.Text = CType(e.Data.GetData(DataFormats.FileDrop, False), String())(0)
-            TimelinePanel.Visible = False
             ImageSelectionPanel.Visible = True
+            ImageSelectionPanel.Enabled = True
+            TimelinePanel.Visible = False
+            TimelinePanel.Enabled = False
+            ImagefilePathText.Text = CType(e.Data.GetData(DataFormats.FileDrop, False), String())(0)
             ImageFromSelectedFile()
         ElseIf e.Data.GetDataPresent(DataFormats.StringFormat) Then
             Dim data As String = TryCast(e.Data.GetData(DataFormats.StringFormat, True), String)
@@ -9304,12 +9313,16 @@ RETRY:
 #Region "画像投稿"
     Private Sub ImageSelectMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ImageSelectMenuItem.Click
         If ImageSelectionPanel.Visible = True Then
-            ImageSelectionPanel.Visible = False
             TimelinePanel.Visible = True
+            TimelinePanel.Enabled = True
+            ImageSelectionPanel.Visible = False
+            ImageSelectionPanel.Enabled = False
             DirectCast(ListTab.SelectedTab.Tag, DetailsListView).Focus()
         Else
             ImageSelectionPanel.Visible = True
+            ImageSelectionPanel.Enabled = True
             TimelinePanel.Visible = False
+            TimelinePanel.Enabled = False
             ImagefilePathText.Focus()
         End If
     End Sub
@@ -9365,8 +9378,10 @@ RETRY:
         FilePickButton.KeyDown, _
         ImageServiceCombo.KeyDown
         If e.KeyCode = Keys.Escape Then
-            ImageSelectionPanel.Visible = False
             TimelinePanel.Visible = True
+            TimelinePanel.Enabled = True
+            ImageSelectionPanel.Visible = False
+            ImageSelectionPanel.Enabled = False
             DirectCast(ListTab.SelectedTab.Tag, DetailsListView).Focus()
         End If
     End Sub
@@ -9400,8 +9415,10 @@ RETRY:
     End Sub
 
     Private Sub ImageCancelButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ImageCancelButton.Click
-        ImageSelectionPanel.Visible = False
         TimelinePanel.Visible = True
+        TimelinePanel.Enabled = True
+        ImageSelectionPanel.Visible = False
+        ImageSelectionPanel.Enabled = False
         DirectCast(ListTab.SelectedTab.Tag, DetailsListView).Focus()
     End Sub
 #End Region
