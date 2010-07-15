@@ -9306,6 +9306,7 @@ RETRY:
         If ImageSelectionPanel.Visible = True Then
             ImageSelectionPanel.Visible = False
             TimelinePanel.Visible = True
+            DirectCast(ListTab.SelectedTab.Tag, DetailsListView).Focus()
         Else
             ImageSelectionPanel.Visible = True
             TimelinePanel.Visible = False
@@ -9366,6 +9367,7 @@ RETRY:
         If e.KeyCode = Keys.Escape Then
             ImageSelectionPanel.Visible = False
             TimelinePanel.Visible = True
+            DirectCast(ListTab.SelectedTab.Tag, DetailsListView).Focus()
         End If
     End Sub
 
@@ -9392,7 +9394,7 @@ RETRY:
     Private Sub ImageCancelButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ImageCancelButton.Click
         ImageSelectionPanel.Visible = False
         TimelinePanel.Visible = True
-        StatusText.Focus()
+        DirectCast(ListTab.SelectedTab.Tag, DetailsListView).Focus()
     End Sub
 #End Region
 
