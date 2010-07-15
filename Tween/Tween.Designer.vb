@@ -49,6 +49,7 @@ Partial Class TweenMain
         Me.FilePickButton = New System.Windows.Forms.Button()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.ImageServiceCombo = New System.Windows.Forms.ComboBox()
+        Me.ImageCancelButton = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.TimelinePanel = New System.Windows.Forms.Panel()
         Me.ListTab = New System.Windows.Forms.TabControl()
@@ -260,7 +261,6 @@ Partial Class TweenMain
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.ImageCancelButton = New System.Windows.Forms.Button()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -479,6 +479,12 @@ Partial Class TweenMain
         Me.ImageServiceCombo.FormattingEnabled = True
         Me.ImageServiceCombo.Items.AddRange(New Object() {resources.GetString("ImageServiceCombo.Items"), resources.GetString("ImageServiceCombo.Items1")})
         Me.ImageServiceCombo.Name = "ImageServiceCombo"
+        '
+        'ImageCancelButton
+        '
+        resources.ApplyResources(Me.ImageCancelButton, "ImageCancelButton")
+        Me.ImageCancelButton.Name = "ImageCancelButton"
+        Me.ImageCancelButton.UseVisualStyleBackColor = True
         '
         'Label1
         '
@@ -1622,12 +1628,6 @@ Partial Class TweenMain
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
-        '
-        'ImageCancelButton
-        '
-        resources.ApplyResources(Me.ImageCancelButton, "ImageCancelButton")
-        Me.ImageCancelButton.Name = "ImageCancelButton"
-        Me.ImageCancelButton.UseVisualStyleBackColor = True
         '
         'TweenMain
         '
