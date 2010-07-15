@@ -260,6 +260,7 @@ Partial Class TweenMain
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.ImageCancelButton = New System.Windows.Forms.Button()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -450,6 +451,7 @@ Partial Class TweenMain
         Me.ImagePathPanel.Controls.Add(Me.FilePickButton)
         Me.ImagePathPanel.Controls.Add(Me.Label2)
         Me.ImagePathPanel.Controls.Add(Me.ImageServiceCombo)
+        Me.ImagePathPanel.Controls.Add(Me.ImageCancelButton)
         Me.ImagePathPanel.Controls.Add(Me.Label1)
         resources.ApplyResources(Me.ImagePathPanel, "ImagePathPanel")
         Me.ImagePathPanel.Name = "ImagePathPanel"
@@ -1621,6 +1623,12 @@ Partial Class TweenMain
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
+        'ImageCancelButton
+        '
+        resources.ApplyResources(Me.ImageCancelButton, "ImageCancelButton")
+        Me.ImageCancelButton.Name = "ImageCancelButton"
+        Me.ImageCancelButton.UseVisualStyleBackColor = True
+        '
         'TweenMain
         '
         Me.AllowDrop = True
@@ -1904,5 +1912,6 @@ Partial Class TweenMain
     Friend WithEvents FriendshipAllMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator36 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents UserStatusToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ImageCancelButton As System.Windows.Forms.Button
 
 End Class

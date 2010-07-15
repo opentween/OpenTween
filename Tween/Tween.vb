@@ -9358,7 +9358,6 @@ RETRY:
             Exit Sub
         End Try
     End Sub
-#End Region
 
     Private Sub ImageSelection_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles _
         ImagefilePathText.KeyDown, _
@@ -9389,4 +9388,11 @@ RETRY:
             End If
         End If
     End Sub
+
+    Private Sub ImageCancelButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ImageCancelButton.Click
+        ImageSelectionPanel.Visible = False
+        TimelinePanel.Visible = True
+    End Sub
+#End Region
+
 End Class
