@@ -1772,7 +1772,10 @@ Public Class Twitter
 
             '非同期アイコン取得＆StatusDictionaryに追加
             arIdx += 1
-            If arIdx > dlgt.Length - 1 Then Continue For
+            If arIdx > dlgt.Length - 1 Then
+                arIdx -= 1
+                Exit For
+            End If
             dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
             ar(arIdx) = dlgt(arIdx).BeginInvoke(post, Nothing, Nothing)
         Next
