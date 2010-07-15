@@ -141,7 +141,7 @@ Public Class Form1
                 '    'アイコン化、ダイアログ表示など、終了を受け付けられる状態ではない。
                 '    Throw New ApplicationException(My.Resources.TimeOutException)
                 'End If
-                If Not p.WaitForExit(30000) Then
+                If Not p.WaitForExit(60000) Then
                     ' 強制終了
                     'p.Kill()
                     'If Not p.WaitForExit(10000) Then
