@@ -9371,6 +9371,14 @@ RETRY:
         End If
     End Sub
 
+    Private Sub ImageSelection_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles _
+    ImagefilePathText.KeyPress, _
+    FilePickButton.KeyPress, _
+    ImageServiceCombo.KeyPress
+        If Convert.ToInt32(e.KeyChar) = &H1B Then
+            e.Handled = True
+        End If
+    End Sub
     Private Sub SetImageServiceCombo()
         Dim svc As String = ""
         If ImageServiceCombo.SelectedIndex > -1 Then svc = ImageServiceCombo.SelectedItem.ToString
