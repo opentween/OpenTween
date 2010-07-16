@@ -1891,7 +1891,8 @@ Public Class TweenMain
                 TimelinePanel.Enabled = True
                 ImageSelectionPanel.Visible = False
                 ImageSelectionPanel.Enabled = False
-                DirectCast(ListTab.Tag, DetailsListView).Focus()
+                ' TODO: NullRef起きるので要対策
+                'DirectCast(ListTab.Tag, DetailsListView).Focus()
             Else
                 MessageBox.Show(My.Resources.PostPictureWarn1, My.Resources.PostPictureWarn2)
                 Exit Sub
@@ -9319,6 +9320,7 @@ RETRY:
             ImageSelectionPanel.Enabled = False
             DirectCast(ListTab.SelectedTab.Tag, DetailsListView).Focus()
         Else
+            ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
             ImageSelectionPanel.Visible = True
             ImageSelectionPanel.Enabled = True
             TimelinePanel.Visible = False
@@ -9360,15 +9362,12 @@ RETRY:
             Exit Sub
         End If
         Try
-            ImageSelectedPicture.Image = _
-                Image.FromStream( _
-                    New FileStream(ImagefilePathText.Text, _
-                                   FileMode.Open, _
-                                   FileAccess.Read) _
-                               )
+            Dim fs As New FileStream(ImagefilePathText.Text, FileMode.Open, FileAccess.Read)
+            ImageSelectedPicture.Image = Image.FromStream(fs)
+            fs.Close()
         Catch ex As Exception
-            MessageBox.Show("The type of this file is not image.")
             ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
+            MessageBox.Show("The type of this file is not image.")
             Exit Sub
         End Try
     End Sub
@@ -9378,6 +9377,7 @@ RETRY:
         FilePickButton.KeyDown, _
         ImageServiceCombo.KeyDown
         If e.KeyCode = Keys.Escape Then
+            ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
             TimelinePanel.Visible = True
             TimelinePanel.Enabled = True
             ImageSelectionPanel.Visible = False
@@ -9415,6 +9415,7 @@ RETRY:
     End Sub
 
     Private Sub ImageCancelButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ImageCancelButton.Click
+        ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
         TimelinePanel.Visible = True
         TimelinePanel.Enabled = True
         ImageSelectionPanel.Visible = False
