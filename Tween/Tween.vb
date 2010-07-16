@@ -9349,19 +9349,20 @@ RETRY:
     End Sub
 
     Private Sub ImageFromSelectedFile()
-        Dim ext As String() = {".jpeg", ".jpg", ".gif", ".png"}
-        If String.IsNullOrEmpty(Trim(ImagefilePathText.Text)) Then
-            ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
-            Exit Sub
-        End If
-
-        Dim fl As New FileInfo(Trim(ImagefilePathText.Text))
-        If Array.IndexOf(ext, fl.Extension.ToLower) = -1 Then
-            '画像以外の形式
-            ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
-            Exit Sub
-        End If
         Try
+            Dim ext As String() = {".jpeg", ".jpg", ".gif", ".png"}
+            If String.IsNullOrEmpty(Trim(ImagefilePathText.Text)) Then
+                ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
+                Exit Sub
+            End If
+
+            Dim fl As New FileInfo(Trim(ImagefilePathText.Text))
+            If Array.IndexOf(ext, fl.Extension.ToLower) = -1 Then
+                '画像以外の形式
+                ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
+                Exit Sub
+            End If
+
             Dim fs As New FileStream(ImagefilePathText.Text, FileMode.Open, FileAccess.Read)
             ImageSelectedPicture.Image = Image.FromStream(fs)
             fs.Close()
