@@ -8515,9 +8515,9 @@ RETRY:
                 Continue For
             End If
             'twitpic
-            mc = Regex.Match(url, "^http://twitpic\.com/(\w+)(/full/?)?$", RegexOptions.IgnoreCase)
+            mc = Regex.Match(url, "^http://(www\.)?twitpic\.com/(?<photoId>\w+)(/full/?)?$", RegexOptions.IgnoreCase)
             If mc.Success Then
-                imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://twitpic.com/show/thumb/${1}")))
+                imglist.Add(New KeyValuePair(Of String, String)(url, mc.Result("http://twitpic.com/show/thumb/${photoId}")))
                 Continue For
             End If
             'yfrog
