@@ -7395,12 +7395,6 @@ RETRY:
         Else
             e.Effect = DragDropEffects.None
         End If
-        'Dim data As String = TryCast(e.Data.GetData(DataFormats.StringFormat, True), String)
-        'If data IsNot Nothing Then
-        '    e.Effect = DragDropEffects.Copy
-        'Else
-        '    e.Effect = DragDropEffects.None
-        'End If
     End Sub
 
     Public Function IsNetworkAvailable() As Boolean
@@ -9334,7 +9328,14 @@ RETRY:
         OpenFileDialog1.Filter = "Image Files(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png|All Files(*.*)|*.*"
         OpenFileDialog1.Title = My.Resources.PickPictureDialog1
         OpenFileDialog1.FileName = ""
-        If OpenFileDialog1.ShowDialog() = Windows.Forms.DialogResult.Cancel Then Exit Sub
+
+        Try
+            Me.AllowDrop = False
+            If OpenFileDialog1.ShowDialog() = Windows.Forms.DialogResult.Cancel Then Exit Sub
+        Finally
+            Me.AllowDrop = True
+        End Try
+
         ImagefilePathText.Text = OpenFileDialog1.FileName
         ImageFromSelectedFile()
     End Sub
