@@ -9315,7 +9315,6 @@ RETRY:
             ImageSelectionPanel.Enabled = False
             DirectCast(ListTab.SelectedTab.Tag, DetailsListView).Focus()
         Else
-            ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
             ImageSelectionPanel.Visible = True
             ImageSelectionPanel.Enabled = True
             TimelinePanel.Visible = False
