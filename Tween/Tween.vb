@@ -1891,8 +1891,9 @@ Public Class TweenMain
                 TimelinePanel.Enabled = True
                 ImageSelectionPanel.Visible = False
                 ImageSelectionPanel.Enabled = False
-                ' TODO: NullRef起きるので要対策
-                'DirectCast(ListTab.Tag, DetailsListView).Focus()
+                If _curList IsNot Nothing Then
+                    _curList.Focus()
+                End If
             Else
                 MessageBox.Show(My.Resources.PostPictureWarn1, My.Resources.PostPictureWarn2)
                 Exit Sub
