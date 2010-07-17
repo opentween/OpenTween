@@ -2755,6 +2755,10 @@ Public Class TweenMain
                 End If
             Next
             If Not myPost Then Exit Sub
+        Else
+            If _curList.SelectedIndices.Count = 0 Then
+                Exit Sub
+            End If
         End If
 
         Dim tmp As String = String.Format(My.Resources.DeleteStripMenuItem_ClickText1, Environment.NewLine)
