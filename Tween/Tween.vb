@@ -9313,11 +9313,13 @@ RETRY:
 #Region "画像投稿"
     Private Sub ImageSelectMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ImageSelectMenuItem.Click
         If ImageSelectionPanel.Visible = True Then
+            ImagefilePathText.CausesValidation = False
             TimelinePanel.Visible = True
             TimelinePanel.Enabled = True
             ImageSelectionPanel.Visible = False
             ImageSelectionPanel.Enabled = False
             DirectCast(ListTab.SelectedTab.Tag, DetailsListView).Focus()
+            ImagefilePathText.CausesValidation = True
         Else
             ImageSelectionPanel.Visible = True
             ImageSelectionPanel.Enabled = True
@@ -9345,6 +9347,10 @@ RETRY:
     End Sub
 
     Private Sub ImagefilePathText_Validating(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ImagefilePathText.Validating
+        If ImageCancelButton.Focused Then
+            ImagefilePathText.CausesValidation = False
+            Exit Sub
+        End If
         ImagefilePathText.Text = Trim(ImagefilePathText.Text)
         If ImagefilePathText.Text = "" Then
             ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
@@ -9389,6 +9395,7 @@ RETRY:
             ImageSelectionPanel.Visible = False
             ImageSelectionPanel.Enabled = False
             DirectCast(ListTab.SelectedTab.Tag, DetailsListView).Focus()
+            ImagefilePathText.CausesValidation = True
         End If
     End Sub
 
@@ -9397,9 +9404,20 @@ RETRY:
     FilePickButton.KeyPress, _
     ImageServiceCombo.KeyPress
         If Convert.ToInt32(e.KeyChar) = &H1B Then
+            ImagefilePathText.CausesValidation = False
             e.Handled = True
         End If
     End Sub
+
+    Private Sub ImageSelection_PreviewKeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.PreviewKeyDownEventArgs) Handles _
+    ImagefilePathText.PreviewKeyDown, _
+    FilePickButton.PreviewKeyDown, _
+    ImageServiceCombo.PreviewKeyDown
+        If e.KeyCode = Keys.Escape Then
+            ImagefilePathText.CausesValidation = False
+        End If
+    End Sub
+
     Private Sub SetImageServiceCombo()
         Dim svc As String = ""
         If ImageServiceCombo.SelectedIndex > -1 Then svc = ImageServiceCombo.SelectedItem.ToString
@@ -9421,12 +9439,14 @@ RETRY:
     End Sub
 
     Private Sub ImageCancelButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ImageCancelButton.Click
+        ImagefilePathText.CausesValidation = False
         ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
         TimelinePanel.Visible = True
         TimelinePanel.Enabled = True
         ImageSelectionPanel.Visible = False
         ImageSelectionPanel.Enabled = False
         DirectCast(ListTab.SelectedTab.Tag, DetailsListView).Focus()
+        ImagefilePathText.CausesValidation = True
     End Sub
 #End Region
 
