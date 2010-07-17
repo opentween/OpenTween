@@ -9377,10 +9377,12 @@ RETRY:
             Dim fs As New FileStream(ImagefilePathText.Text, FileMode.Open, FileAccess.Read)
             ImageSelectedPicture.Image = Image.FromStream(fs)
             fs.Close()
+        Catch ex As FileNotFoundException
+            ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
+            MessageBox.Show("File not found.")
         Catch ex As Exception
             ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
             MessageBox.Show("The type of this file is not image.")
-            Exit Sub
         End Try
     End Sub
 
