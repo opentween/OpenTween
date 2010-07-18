@@ -4209,6 +4209,10 @@ RETRY:
         Dim idx As Integer = -1
         Dim lst As DetailsListView = Nothing
 
+        If ImageSelectionPanel.Enabled Then
+            Exit Sub
+        End If
+
         '現在タブから最終タブまで探索
         For i As Integer = bgnIdx To ListTab.TabPages.Count - 1
             '未読Index取得
