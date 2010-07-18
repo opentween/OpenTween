@@ -124,6 +124,10 @@ Public Class FilterDialog
         '元フォームから直接呼ばれる
         ButtonNew.Enabled = False
         ButtonEdit.Enabled = False
+        ButtonRuleUp.Enabled = False
+        ButtonRuleDown.Enabled = False
+        ButtonRuleCopy.Enabled = False
+        ButtonRuleMove.Enabled = False
         ButtonDelete.Enabled = False
         ButtonClose.Enabled = False
         EditFilterGroup.Enabled = True
@@ -176,6 +180,11 @@ Public Class FilterDialog
     Private Sub ButtonNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonNew.Click
         ButtonNew.Enabled = False
         ButtonEdit.Enabled = False
+        ButtonClose.Enabled = False
+        ButtonRuleUp.Enabled = False
+        ButtonRuleDown.Enabled = False
+        ButtonRuleCopy.Enabled = False
+        ButtonRuleMove.Enabled = False
         ButtonDelete.Enabled = False
         ButtonClose.Enabled = False
         EditFilterGroup.Enabled = True
@@ -275,8 +284,21 @@ Public Class FilterDialog
         End If
         EditFilterGroup.Enabled = False
         ButtonNew.Enabled = True
-        ButtonEdit.Enabled = True
-        ButtonDelete.Enabled = True
+        If ListFilters.SelectedIndex > -1 Then
+            ButtonEdit.Enabled = True
+            ButtonDelete.Enabled = True
+            ButtonRuleUp.Enabled = True
+            ButtonRuleDown.Enabled = True
+            ButtonRuleCopy.Enabled = True
+            ButtonRuleMove.Enabled = True
+        Else
+            ButtonEdit.Enabled = False
+            ButtonDelete.Enabled = False
+            ButtonRuleUp.Enabled = False
+            ButtonRuleDown.Enabled = False
+            ButtonRuleCopy.Enabled = False
+            ButtonRuleMove.Enabled = False
+        End If
         ButtonClose.Enabled = True
         If _directAdd Then
             Me.Close()
@@ -374,13 +396,6 @@ Public Class FilterDialog
                 OptCopy.Checked = True
             End If
             CheckMark.Checked = fc.SetMark
-
-            ButtonEdit.Enabled = True
-            ButtonDelete.Enabled = True
-            ButtonRuleUp.Enabled = True
-            ButtonRuleDown.Enabled = True
-            ButtonRuleCopy.Enabled = True
-            ButtonRuleMove.Enabled = True
         Else
             RadioAND.Checked = True
             RadioPLUS.Checked = False
@@ -412,13 +427,6 @@ Public Class FilterDialog
 
             OptCopy.Checked = True
             CheckMark.Checked = True
-
-            ButtonEdit.Enabled = False
-            ButtonDelete.Enabled = False
-            ButtonRuleUp.Enabled = False
-            ButtonRuleDown.Enabled = False
-            ButtonRuleCopy.Enabled = False
-            ButtonRuleMove.Enabled = False
         End If
     End Sub
 
