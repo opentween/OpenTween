@@ -898,13 +898,13 @@ Public Class FilterDialog
         Dim filters As New Generic.List(Of FiltersClass)
 
         For Each idx As Integer In ListFilters.SelectedIndices
-            filters.Add(_sts.Tabs(tabname).Filters(idx))
+            filters.Add(_sts.Tabs(tabname).Filters(idx).CopyTo(New FiltersClass))
         Next
         For Each tb As String In tabs
             If tb <> tabname Then
                 For Each flt As FiltersClass In filters
                     If Not _sts.Tabs(tb).Filters.Contains(flt) Then
-                        _sts.Tabs(tb).AddFilter(flt)
+                        _sts.Tabs(tb).AddFilter(flt.CopyTo(New FiltersClass))
                     End If
                 Next
             End If
@@ -921,14 +921,14 @@ Public Class FilterDialog
         Dim filters As New Generic.List(Of FiltersClass)
 
         For Each idx As Integer In ListFilters.SelectedIndices
-            filters.Add(_sts.Tabs(tabname).Filters(idx))
+            filters.Add(_sts.Tabs(tabname).Filters(idx).CopyTo(New FiltersClass))
         Next
         If tabs.Count = 1 AndAlso tabs(0) = tabname Then Exit Sub
         For Each tb As String In tabs
             If tb <> tabname Then
                 For Each flt As FiltersClass In filters
                     If Not _sts.Tabs(tb).Filters.Contains(flt) Then
-                        _sts.Tabs(tb).AddFilter(flt)
+                        _sts.Tabs(tb).AddFilter(flt.CopyTo(New FiltersClass))
                     End If
                 Next
             End If
