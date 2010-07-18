@@ -105,7 +105,6 @@
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnalyzeKey.vb" />
     <Compile Include="ApplicationEvents.vb" />
     <Compile Include="AtIdSupplement.Designer.vb">
       <DependentUpon>AtIdSupplement.vb</DependentUpon>
