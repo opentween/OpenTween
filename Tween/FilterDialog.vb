@@ -904,7 +904,7 @@ Public Class FilterDialog
             If tb <> tabname Then
                 For Each flt As FiltersClass In filters
                     If Not _sts.Tabs(tb).Filters.Contains(flt) Then
-                        _sts.Tabs(tb).Filters.Add(flt)
+                        _sts.Tabs(tb).AddFilter(flt)
                     End If
                 Next
             End If
@@ -928,7 +928,7 @@ Public Class FilterDialog
             If tb <> tabname Then
                 For Each flt As FiltersClass In filters
                     If Not _sts.Tabs(tb).Filters.Contains(flt) Then
-                        _sts.Tabs(tb).Filters.Add(flt)
+                        _sts.Tabs(tb).AddFilter(flt)
                     End If
                 Next
             End If
