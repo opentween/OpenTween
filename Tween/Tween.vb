@@ -1744,7 +1744,9 @@ Public Class TweenMain
 
     Private Sub PostButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PostButton.Click
         If StatusText.Text.Trim.Length = 0 Then
-            DoRefresh()
+            If Not ImageSelectionPanel.Enabled Then
+                DoRefresh()
+            End If
             Exit Sub
         End If
 
