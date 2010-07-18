@@ -2400,6 +2400,32 @@ Public NotInheritable Class FiltersClass
                (Me.ExSource = other.ExSource)
     End Function
 
+    Public Overloads Function CopyTo(ByVal destination As FiltersClass) As FiltersClass
+
+        For i As Integer = 0 To Me.BodyFilter.Count - 1
+            destination.BodyFilter(i) = Me.BodyFilter(i)
+        Next
+        For i As Integer = 0 To Me.ExBodyFilter.Count - 1
+            destination.ExBodyFilter(i) = Me.ExBodyFilter(i)
+        Next
+
+        destination.MoveFrom = Me.MoveFrom
+        destination.SetMark = Me.SetMark
+        destination.NameFilter = Me.NameFilter
+        destination.SearchBoth = Me.SearchBoth
+        destination.SearchUrl = Me.SearchUrl
+        destination.UseRegex = Me.UseRegex
+        destination.ExNameFilter = Me.ExNameFilter
+        destination.ExSearchBoth = Me.ExSearchBoth
+        destination.ExSearchUrl = Me.ExSearchUrl
+        destination.ExUseRegex = Me.ExUseRegex
+        destination.IsRt = Me.IsRt
+        destination.Source = Me.Source
+        destination.IsExRt = Me.IsExRt
+        destination.ExSource = Me.ExSource
+        Return destination
+    End Function
+
     Public Overrides Function Equals(ByVal obj As Object) As Boolean
         If (obj Is Nothing) OrElse Not (Me.GetType() Is obj.GetType()) Then Return False
         Return Me.Equals(CType(obj, FiltersClass))
