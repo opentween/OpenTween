@@ -769,6 +769,7 @@ Public Class FilterDialog
                 '成功
                 _sts.AddTab(tabName, tabType, list)
                 ListTabs.Items.Add(tabName)
+                SetTabnamesToDialog()
             End If
         End If
     End Sub
