@@ -9381,7 +9381,10 @@ RETRY:
             End If
 
             Dim fs As New FileStream(ImagefilePathText.Text, FileMode.Open, FileAccess.Read)
-            ImageSelectedPicture.Image = Image.FromStream(fs)
+            ImageSelectedPicture.Image = (New HttpVarious).CheckValidImage( _
+                        Image.FromStream(fs), _
+                        ImageSelectedPicture.Width, _
+                        ImageSelectedPicture.Height)
             fs.Close()
         Catch ex As FileNotFoundException
             ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage

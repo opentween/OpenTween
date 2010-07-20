@@ -127,7 +127,11 @@ Public Class HttpVarious
         End Try
     End Function
 
-    Private Function CheckValidImage(ByVal img As Image) As Image
+    Public Overloads Function CheckValidImage(ByVal img As Image) As Image
+        Return CheckValidImage(img, 48, 48)
+    End Function
+
+    Public Overloads Function CheckValidImage(ByVal img As Image, ByVal width As Integer, ByVal height As Integer) As Image
         If img Is Nothing Then Return Nothing
 
         If img.RawFormat.Guid = Imaging.ImageFormat.Gif.Guid Then
@@ -141,10 +145,10 @@ Public Class HttpVarious
                     Return img
                 Catch ex As Exception
                     '不正な画像の場合は、bitmapに書き直し
-                    Dim bmp As New Bitmap(48, 48)
+                    Dim bmp As New Bitmap(width, height)
                     Using g As Graphics = Graphics.FromImage(bmp)
                         g.InterpolationMode = Drawing2D.InterpolationMode.High
-                        g.DrawImage(img, 0, 0, 48, 48)
+                        g.DrawImage(img, 0, 0, width, height)
                     End Using
                     img.Dispose()
                     Return bmp
