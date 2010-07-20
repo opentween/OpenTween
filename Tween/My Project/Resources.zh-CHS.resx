@@ -894,4 +894,19 @@
   <data name="ButtonDelete_ClickText3" xml:space="preserve">
     <value>要删除被选中的{0}条规则吗？</value>
   </data>
+  <data name="PickPictureDialog1" xml:space="preserve">
+    <value>选择要上传的图片</value>
+  </data>
+  <data name="PostPictureConfirm1" xml:space="preserve">
+    <value>选择的图片将被上传。继续吗？</value>
+  </data>
+  <data name="PostPictureConfirm2" xml:space="preserve">
+    <value>上传图片确认</value>
+  </data>
+  <data name="PostPictureWarn1" xml:space="preserve">
+    <value>尚未选择要使用的图片上传服务。</value>
+  </data>
+  <data name="PostPictureWarn2" xml:space="preserve">
+    <value>上传图片</value>
+  </data>
 </root>
