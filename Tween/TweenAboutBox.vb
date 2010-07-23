@@ -47,4 +47,7 @@ Public NotInheritable Class TweenAboutBox
         Me.Close()
     End Sub
 
+    Private Sub TweenAboutBox_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
+        OKButton.Focus()
+    End Sub
 End Class
