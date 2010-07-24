@@ -14,6 +14,8 @@ Public Class PictureService
         Select Case service
             Case "TwitPic"
                 ret = UpToTwitPic(file, message, upResult)
+            Case "img.ly"
+                ret = UpToimgly(file, message, upResult)
             Case "TwitVideo"
                 ret = UpToTwitVideo(file, message, upResult)
         End Select
@@ -26,6 +28,41 @@ Public Class PictureService
         Dim ret As HttpStatusCode
         'TwitPicへの投稿
         Dim svc As New TwitPic(tw.AccessToken, tw.AccessTokenSecret)
+        Try
+            ret = svc.Upload(file, message, content)
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
+        Dim url As String = ""
+        If ret = HttpStatusCode.OK Then
+            Dim xd As XmlDocument = New XmlDocument()
+            Try
+                xd.LoadXml(content)
+                'URLの取得
+                url = xd.SelectSingleNode("/image/url").InnerText
+            Catch ex As XmlException
+                Return "Err:" + ex.Message
+            End Try
+        Else
+            Return "Err:" + ret.ToString
+        End If
+        'アップロードまでは成功
+        resultUpload = True
+        'Twitterへの投稿
+        '投稿メッセージの再構成
+        If message.Length + url.Length + 1 > 140 Then
+            message = message.Substring(0, 140 - url.Length - 1) + " " + url
+        Else
+            message += " " + url
+        End If
+        Return tw.PostStatus(message, 0)
+    End Function
+
+    Private Function UpToimgly(ByVal file As FileInfo, ByRef message As String, ByVal resultUpload As Boolean) As String
+        Dim content As String = ""
+        Dim ret As HttpStatusCode
+        'img.lyへの投稿
+        Dim svc As New imgly(tw.AccessToken, tw.AccessTokenSecret)
         Try
             ret = svc.Upload(file, message, content)
         Catch ex As Exception

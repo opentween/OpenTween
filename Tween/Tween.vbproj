@@ -122,6 +122,7 @@
     <Compile Include="Connection\IHttpConnection.vb" />
     <Compile Include="Connection\TwitPic.vb" />
     <Compile Include="Connection\TwitVideo.vb" />
+    <Compile Include="Connection\imgly.vb" />
     <Compile Include="DetailsListView.vb">
       <SubType>Component</SubType>
     </Compile>

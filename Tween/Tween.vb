@@ -9435,6 +9435,7 @@ RETRY:
         ImageServiceCombo.Items.Clear()
         If SettingDialog.IsOAuth Then
             ImageServiceCombo.Items.Add("TwitPic")
+            ImageServiceCombo.Items.Add("img.ly")
         End If
         ImageServiceCombo.Items.Add("TwitVideo")
         If svc = "" Then
