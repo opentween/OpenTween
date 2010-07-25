@@ -6497,10 +6497,6 @@ RETRY:
         _curList.EnsureVisible(idx)
     End Sub
 
-    'Private Sub WedataMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles WedataMenuItem.Click
-    '    Twitter.GetWedata()
-    'End Sub
-
     Private Sub OpenURLMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OpenURLMenuItem.Click, OpenUrlOpMenuItem.Click
         If PostBrowser.Document.Links.Count > 0 Then
             UrlDialog.ClearUrl()
@@ -6663,22 +6659,35 @@ RETRY:
 
         UnreadCounter = ur
         UnreadAtCounter = urat
-        If tw.RemainCountApi > -1 Then
-            slbl.Append("[API: " + tw.RemainCountApi.ToString)
-            If tw.UpperCountApi > -1 Then
-                slbl.Append("/" + tw.UpperCountApi.ToString)
-            End If
-            slbl.Append("] ")
-        End If
+
         slbl.AppendFormat(My.Resources.SetStatusLabelText1, tur, tal, ur, al, urat, _postTimestamps.Count, _favTimestamps.Count, _tlCount)
         If SettingDialog.TimelinePeriodInt = 0 Then
             slbl.Append(My.Resources.SetStatusLabelText2)
         Else
             slbl.Append((SettingDialog.TimelinePeriodInt - _homeCounterAdjuster).ToString() + My.Resources.SetStatusLabelText3)
         End If
-
+        SetStatusLabelApi()
         Return slbl.ToString()
     End Function
+
+    Private Sub SetStatusLabelApi()
+        Dim slbl As New StringBuilder(256)
+        If tw.RemainCountApi > -1 Then
+            slbl.Append("[API: " + tw.RemainCountApi.ToString)
+            If tw.UpperCountApi > -1 Then
+                slbl.Append("/" + tw.UpperCountApi.ToString)
+            Else
+                slbl.Append("/???")
+            End If
+            slbl.Append("] ")
+            If tw.ResetTimeApi.ToBinary <> 0 Then
+                StatusLabelApi.ToolTipText = "ResetTime: " + tw.ResetTimeApi.ToString
+            End If
+        Else
+            slbl.Append("[API: ???/???]")
+        End If
+        StatusLabelApi.Text = slbl.ToString()
+    End Sub
 
     Private Sub SetStatusLabel()
         StatusLabelUrl.Text = GetStatusLabelText()

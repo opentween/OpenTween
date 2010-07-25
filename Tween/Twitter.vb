@@ -63,7 +63,6 @@ Public Class Twitter
     Private _hashList As New List(Of String)
 
     '共通で使用する状態
-    Private _infoTwitter As String = ""
     Private _remainCountApi As Integer = -1
 
     Private _ShortUrlService() As String = { _
@@ -1297,12 +1296,6 @@ Public Class Twitter
         Set(ByVal value As ACCOUNT_STATE)
             _accountState = value
         End Set
-    End Property
-
-    Public ReadOnly Property InfoTwitter() As String
-        Get
-            Return _infoTwitter
-        End Get
     End Property
 
     Public WriteOnly Property GetIcon() As Boolean
