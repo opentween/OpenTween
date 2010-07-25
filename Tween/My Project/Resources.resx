@@ -934,7 +934,6 @@
   <data name="CalcApiUsingText1" xml:space="preserve">
     <value>API情報取得中・・・</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="InitialImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\InitialImage.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -952,5 +951,9 @@
   </data>
   <data name="PostPictureWarn2" xml:space="preserve">
     <value>画像投稿</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="MultiMediaImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MultiMediaImage.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -9349,7 +9349,7 @@ RETRY:
 
     Private Sub FilePickButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FilePickButton.Click
         ''' ToDo: サービスによっては動画ファイルのアップロードも可能
-        OpenFileDialog1.Filter = "Image Files(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png|All Files(*.*)|*.*"
+        OpenFileDialog1.Filter = (New PictureService(tw)).GetFileOpenDialogFilter(ImageService)
         OpenFileDialog1.Title = My.Resources.PickPictureDialog1
         OpenFileDialog1.FileName = ""
 
@@ -9379,25 +9379,36 @@ RETRY:
 
     Private Sub ImageFromSelectedFile()
         Try
-            Dim ext As String() = {".jpeg", ".jpg", ".gif", ".png"}
+            Dim svc As New PictureService(tw)
             If String.IsNullOrEmpty(Trim(ImagefilePathText.Text)) Then
                 ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
                 Exit Sub
             End If
 
             Dim fl As New FileInfo(Trim(ImagefilePathText.Text))
-            If Array.IndexOf(ext, fl.Extension.ToLower) = -1 Then
+            If Not svc.IsValidExtension(fl.Extension.ToLower, ImageService) Then
                 '画像以外の形式
                 ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
                 Exit Sub
             End If
 
-            Dim fs As New FileStream(ImagefilePathText.Text, FileMode.Open, FileAccess.Read)
-            ImageSelectedPicture.Image = (New HttpVarious).CheckValidImage( _
-                        Image.FromStream(fs), _
-                        ImageSelectedPicture.Width, _
-                        ImageSelectedPicture.Height)
-            fs.Close()
+            Select Case svc.GetFileType(fl.Extension.ToLower, ImageService)
+                Case UploadFileType.Invalid
+                    ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
+                Case UploadFileType.Picture
+                    Dim fs As New FileStream(ImagefilePathText.Text, FileMode.Open, FileAccess.Read)
+                    ImageSelectedPicture.Image = (New HttpVarious).CheckValidImage( _
+                                Image.FromStream(fs), _
+                                ImageSelectedPicture.Width, _
+                                ImageSelectedPicture.Height)
+                    fs.Close()
+                Case UploadFileType.MultiMedia
+                    ''' TODO:動画アップロード用画像へ変更
+                    ImageSelectedPicture.Image = My.Resources.MultiMediaImage
+                Case Else
+                    ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
+            End Select
+
         Catch ex As FileNotFoundException
             ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
             MessageBox.Show("File not found.")
@@ -9461,6 +9472,12 @@ RETRY:
             End If
         End If
     End Sub
+
+    Private ReadOnly Property ImageService() As String
+        Get
+            Return CStr(ImageServiceCombo.SelectedItem)
+        End Get
+    End Property
 
     Private Sub ImageCancelButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ImageCancelButton.Click
         ImagefilePathText.CausesValidation = False

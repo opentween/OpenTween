@@ -23,6 +23,45 @@ Public Class PictureService
         Return ret
     End Function
 
+    Public Function IsValidExtension(ByVal ext As String, ByVal service As String) As Boolean
+        Dim ret As Boolean = False
+        Select Case service
+            Case "TwitPic"
+                ret = (New TwitPic(tw.AccessToken, tw.AccessTokenSecret)).CheckValidExtension(ext)
+            Case "img.ly"
+                ret = (New imgly(tw.AccessToken, tw.AccessTokenSecret)).CheckValidExtension(ext)
+            Case "TwitVideo"
+                ret = (New TwitVideo).CheckValidExtension(ext)
+        End Select
+        Return ret
+    End Function
+
+    Public Function GetFileOpenDialogFilter(ByVal service As String) As String
+        Dim ret As String = ""
+        Select Case service
+            Case "TwitPic"
+                ret = (New TwitPic(tw.AccessToken, tw.AccessTokenSecret)).GetFileOpenDialogFilter
+            Case "img.ly"
+                ret = (New imgly(tw.AccessToken, tw.AccessTokenSecret)).GetFileOpenDialogFilter
+            Case "TwitVideo"
+                ret = (New TwitVideo).GetFileOpenDialogFilter
+        End Select
+        Return ret
+    End Function
+
+    Public Function GetFileType(ByVal ext As String, ByVal service As String) As UploadFileType
+        Dim ret As UploadFileType = UploadFileType.Invalid
+        Select Case service
+            Case "TwitPic"
+                ret = (New TwitPic(tw.AccessToken, tw.AccessTokenSecret)).GetFileType(ext)
+            Case "img.ly"
+                ret = (New imgly(tw.AccessToken, tw.AccessTokenSecret)).GetFileType(ext)
+            Case "TwitVideo"
+                ret = (New TwitVideo).GetFileType(ext)
+        End Select
+        Return ret
+    End Function
+
     Private Function UpToTwitPic(ByVal file As FileInfo, ByRef message As String, ByVal resultUpload As Boolean) As String
         Dim content As String = ""
         Dim ret As HttpStatusCode
