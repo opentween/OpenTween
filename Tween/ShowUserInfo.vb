@@ -140,6 +140,11 @@ Public Class ShowUserInfo
         Return descriptionTxt
     End Function
 
+    Private Sub ShowUserInfo_FormClosed(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosedEventArgs) Handles Me.FormClosed
+        TweenMain.TopMost = Not TweenMain.TopMost
+        TweenMain.TopMost = Not TweenMain.TopMost
+    End Sub
+
     Private Sub ShowUserInfo_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         MyOwner = DirectCast(Me.Owner, TweenMain)
         If Not AnalizeUserInfo(userInfoXml) Then
