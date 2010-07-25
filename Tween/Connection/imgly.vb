@@ -49,6 +49,24 @@ Public Class imgly
                           Nothing)
     End Function
 
+    Public Function CheckValidExtension(ByVal ext As String) As Boolean
+        If Array.IndexOf(pictureExt, ext) > -1 Then
+            Return True
+        End If
+        Return False
+    End Function
+
+    Public Function GetFileOpenDialogFilter() As String
+        Return "Image Files(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png"
+    End Function
+
+    Public Function GetFileType(ByVal ext As String) As UploadFileType
+        If Array.IndexOf(pictureExt, ext) > -1 Then
+            Return UploadFileType.Picture
+        End If
+        Return UploadFileType.Invalid
+    End Function
+
     Public Sub New(ByVal accessToken As String, ByVal accessTokenSecret As String)
         MyBase.New(New Uri("http://api.twitter.com/"), _
                    New Uri("https://api.twitter.com/1/account/verify_credentials.json"))

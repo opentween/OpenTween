@@ -532,19 +532,17 @@ Namespace My.Resources
         '''<summary>
         '''  更新履歴
         '''
-        '''==== Ver 0.9.3.1(2010/07/02)
-        ''' * 認証完了後、認証済みユーザー情報をTwitterクラスで保持していないバグ修正
-        ''' * 振り分けルール画面でタブ名変更・削除をした場合、タブ選択画面に変更が反映されない問題を修正
-        ''' * 公式RTをコピーした時のURLが間違っていたので修正
-        ''' * 設定画面、メニューでのAPI情報取得処理を非同期化
-        ''' * その他機能よりAPIを使用するメニューを選択した場合、処理後にステータスバー表示を更新していなかったのを修正
-        ''' * API情報取得APIにより取得した情報と、API発行後に取得されたAPI情報を連動させるようにした
-        ''' * プロフィール画面でのアイコン画質を改善した
-        ''' * アイコン取得時に例外が発生することがあったので対応した
-        ''' * r.sm3.jpのリンクが壊れることがあったのを修正
-        ''' * bit.ly、j.mpで短縮した結果の判定で、短縮サービスと別名で短縮された場合も許可するよう変更（bit.ly-&gt;amzn.to対応）
-        '''==== Ver 0.9.3.0(2010/07/01)
-        ''' * in_reply_to [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        '''==== Ver 0.9.4.1(2010/07/**)
+        ''' * 画像投稿のキャンセル時にフォーカスをリスト部へ戻すようにした
+        ''' * 画像投稿モードをESCキーでキャンセルした際にビープ音が鳴らないようにした
+        ''' * 読み上げソフトで、タイムラインの選択tweetを変更すると、画像投稿画面の「投稿先」ラベルを毎回読み上げてしまうので、未使用時は投稿画面のパーツを無効に
+        ''' * 画像投稿モードで設定したファイルをロックしたままになるバグを修正
+        ''' * 画像投稿モードでファイル名として入力された文字列が無効なパス形式の場合に例外が発生するバグを修正
+        ''' * 画像プレビューで http://www.twitpic.com/ で始まるTwitPicのURLに対応した
+        ''' * 画像投稿モードでファイル選択ダイアログ表示中でもドラッグ＆ドロップを許可していたのを修正
+        ''' * 画像投稿後にリスト部にフォーカスが戻らないのを修正
+        ''' * DirectMessageタブで発言を選択していない場合に削除しようとすると例外が発生するバグを修正
+        ''' * 画像投稿モードから抜けた場合にも画像ファイル検証を行っていたの [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property ChangeLog() As String
             Get
@@ -1301,6 +1299,13 @@ Namespace My.Resources
             Get
                 Dim obj As Object = ResourceManager.GetObject("MIcon", resourceCulture)
                 Return CType(obj,System.Drawing.Icon)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property MultiMediaImage() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("MultiMediaImage", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
         

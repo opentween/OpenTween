@@ -64,4 +64,28 @@ Public Class TwitVideo
         Return Me.GetResponse(req, content, Nothing, False)
     End Function
 
+    Public Function CheckValidExtension(ByVal ext As String) As Boolean
+        If Array.IndexOf(pictureExt, ext) > -1 Then
+            Return True
+        End If
+        If Array.IndexOf(multimediaExt, ext) > -1 Then
+            Return True
+        End If
+        Return False
+    End Function
+
+    Public Function GetFileType(ByVal ext As String) As UploadFileType
+        If Array.IndexOf(pictureExt, ext) > -1 Then
+            Return UploadFileType.Picture
+        End If
+        If Array.IndexOf(multimediaExt, ext) > -1 Then
+            Return UploadFileType.MultiMedia
+        End If
+        Return UploadFileType.Invalid
+    End Function
+
+    Public Function GetFileOpenDialogFilter() As String
+        Return "Image Files(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png|" + _
+                "Movie Files(*.avi;*.wmv;*.flv;*.m4v;*.mov;*.mp4;*.rm;*.mpeg;*.mpg;*.3gp;*.3g2)|*.avi;*.wmv;*.flv;*.m4v;*.mov;*.mp4;*.rm;*.mpeg;*.mpg;*.3gp;*.3g2"
+    End Function
 End Class

@@ -63,11 +63,11 @@ Public Module MyCommon
         Day
     End Enum
 
-    'Public Enum ProxyType
-    '    None
-    '    IE
-    '    Specified
-    'End Enum
+    Public Enum UploadFileType
+        Invalid
+        Picture
+        MultiMedia
+    End Enum
 
     Public Enum UrlConverter
         TinyUrl

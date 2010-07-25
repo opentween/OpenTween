@@ -444,6 +444,7 @@
     <Content Include="Resources\6o.ico" />
     <None Include="Resources\ChangeLog.txt" />
     <None Include="Resources\InitialImage.png" />
+    <None Include="Resources\MultiMediaImage.png" />
     <Content Include="Resources\re2.ico" />
     <Content Include="Resources\re3.ico" />
     <Content Include="Resources\re4.ico" />
