@@ -6682,9 +6682,12 @@ RETRY:
             slbl.Append("] ")
             If tw.ResetTimeApi.ToBinary <> 0 Then
                 StatusLabelApi.ToolTipText = "ResetTime: " + tw.ResetTimeApi.ToString
+            Else
+                StatusLabelApi.ToolTipText = "ResetTime: ???"
             End If
         Else
             slbl.Append("[API: ???/???]")
+            StatusLabelApi.ToolTipText = "ResetTime: ???"
         End If
         StatusLabelApi.Text = slbl.ToString()
     End Sub

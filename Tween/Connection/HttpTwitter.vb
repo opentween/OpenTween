@@ -544,7 +544,7 @@ Public Class HttpTwitter
                     CreateTwitterUri("/1/account/update_profile.xml"), _
                     param, _
                     content, _
-                    _remainCountApi)
+                    Nothing)
     End Function
 
     Public Function UpdateProfileImage(ByVal imageFile As FileInfo, ByRef content As String) As HttpStatusCode
