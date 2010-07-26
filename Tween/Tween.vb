@@ -9405,6 +9405,7 @@ RETRY:
             If String.IsNullOrEmpty(Trim(ImagefilePathText.Text)) Then
                 ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
                 ImageSelectedPicture.Tag = UploadFileType.Invalid
+                ImagefilePathText.Text = ""
                 Exit Sub
             End If
 
@@ -9413,6 +9414,16 @@ RETRY:
                 '画像以外の形式
                 ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
                 ImageSelectedPicture.Tag = UploadFileType.Invalid
+                ImagefilePathText.Text = ""
+                Exit Sub
+            End If
+
+            If svc.GetMaxFileSize(fl.Extension, ImageService) < fl.Length Then
+                ' ファイルサイズが大きすぎる
+                ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
+                ImageSelectedPicture.Tag = UploadFileType.Invalid
+                ImagefilePathText.Text = ""
+                MessageBox.Show("File is too large.")
                 Exit Sub
             End If
 
@@ -9420,6 +9431,7 @@ RETRY:
                 Case UploadFileType.Invalid
                     ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
                     ImageSelectedPicture.Tag = UploadFileType.Invalid
+                    ImagefilePathText.Text = ""
                 Case UploadFileType.Picture
                     Using fs As New FileStream(ImagefilePathText.Text, FileMode.Open, FileAccess.Read)
                         ImageSelectedPicture.Image = (New HttpVarious).CheckValidImage( _
@@ -9430,21 +9442,23 @@ RETRY:
                     End Using
                     ImageSelectedPicture.Tag = UploadFileType.Picture
                 Case UploadFileType.MultiMedia
-                    ''' TODO:動画アップロード用画像へ変更
                     ImageSelectedPicture.Image = My.Resources.MultiMediaImage
                     ImageSelectedPicture.Tag = UploadFileType.MultiMedia
                 Case Else
                     ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
                     ImageSelectedPicture.Tag = UploadFileType.Invalid
+                    ImagefilePathText.Text = ""
             End Select
 
         Catch ex As FileNotFoundException
             ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
             ImageSelectedPicture.Tag = UploadFileType.Invalid
+            ImagefilePathText.Text = ""
             MessageBox.Show("File not found.")
         Catch ex As Exception
             ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
             ImageSelectedPicture.Tag = UploadFileType.Invalid
+            ImagefilePathText.Text = ""
             MessageBox.Show("The type of this file is not image.")
         End Try
     End Sub
