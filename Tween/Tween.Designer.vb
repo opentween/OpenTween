@@ -43,15 +43,6 @@ Partial Class TweenMain
         Me.HashToggleMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HashManageMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.ImageSelectionPanel = New System.Windows.Forms.Panel()
-        Me.ImageSelectedPicture = New System.Windows.Forms.PictureBox()
-        Me.ImagePathPanel = New System.Windows.Forms.Panel()
-        Me.ImagefilePathText = New System.Windows.Forms.TextBox()
-        Me.FilePickButton = New System.Windows.Forms.Button()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.ImageServiceCombo = New System.Windows.Forms.ComboBox()
-        Me.ImageCancelButton = New System.Windows.Forms.Button()
-        Me.Label1 = New System.Windows.Forms.Label()
         Me.TimelinePanel = New System.Windows.Forms.Panel()
         Me.ListTab = New System.Windows.Forms.TabControl()
         Me.ContextMenuTabProperty = New System.Windows.Forms.ContextMenuStrip(Me.components)
@@ -68,6 +59,15 @@ Partial Class TweenMain
         Me.ToolStripSeparator11 = New System.Windows.Forms.ToolStripSeparator()
         Me.DeleteTabMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TabImage = New System.Windows.Forms.ImageList(Me.components)
+        Me.ImageSelectionPanel = New System.Windows.Forms.Panel()
+        Me.ImageSelectedPicture = New System.Windows.Forms.PictureBox()
+        Me.ImagePathPanel = New System.Windows.Forms.Panel()
+        Me.ImagefilePathText = New System.Windows.Forms.TextBox()
+        Me.FilePickButton = New System.Windows.Forms.Button()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.ImageServiceCombo = New System.Windows.Forms.ComboBox()
+        Me.ImageCancelButton = New System.Windows.Forms.Button()
+        Me.Label1 = New System.Windows.Forms.Label()
         Me.ProfilePanel = New System.Windows.Forms.Panel()
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
@@ -271,11 +271,11 @@ Partial Class TweenMain
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        Me.TimelinePanel.SuspendLayout()
+        Me.ContextMenuTabProperty.SuspendLayout()
         Me.ImageSelectionPanel.SuspendLayout()
         CType(Me.ImageSelectedPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ImagePathPanel.SuspendLayout()
-        Me.TimelinePanel.SuspendLayout()
-        Me.ContextMenuTabProperty.SuspendLayout()
         Me.SplitContainer3.Panel1.SuspendLayout()
         Me.SplitContainer3.Panel2.SuspendLayout()
         Me.SplitContainer3.SuspendLayout()
@@ -428,75 +428,14 @@ Partial Class TweenMain
         '
         'SplitContainer1.Panel1
         '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.ImageSelectionPanel)
         Me.SplitContainer1.Panel1.Controls.Add(Me.TimelinePanel)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.ImageSelectionPanel)
         Me.SplitContainer1.Panel1.Controls.Add(Me.ProfilePanel)
         '
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.SplitContainer3)
         Me.SplitContainer1.TabStop = False
-        '
-        'ImageSelectionPanel
-        '
-        resources.ApplyResources(Me.ImageSelectionPanel, "ImageSelectionPanel")
-        Me.ImageSelectionPanel.Controls.Add(Me.ImageSelectedPicture)
-        Me.ImageSelectionPanel.Controls.Add(Me.ImagePathPanel)
-        Me.ImageSelectionPanel.Name = "ImageSelectionPanel"
-        '
-        'ImageSelectedPicture
-        '
-        resources.ApplyResources(Me.ImageSelectedPicture, "ImageSelectedPicture")
-        Me.ImageSelectedPicture.Image = Global.Tween.My.Resources.Resources.InitialImage
-        Me.ImageSelectedPicture.InitialImage = Global.Tween.My.Resources.Resources.InitialImage
-        Me.ImageSelectedPicture.Name = "ImageSelectedPicture"
-        Me.ImageSelectedPicture.TabStop = False
-        '
-        'ImagePathPanel
-        '
-        Me.ImagePathPanel.Controls.Add(Me.ImagefilePathText)
-        Me.ImagePathPanel.Controls.Add(Me.FilePickButton)
-        Me.ImagePathPanel.Controls.Add(Me.Label2)
-        Me.ImagePathPanel.Controls.Add(Me.ImageServiceCombo)
-        Me.ImagePathPanel.Controls.Add(Me.ImageCancelButton)
-        Me.ImagePathPanel.Controls.Add(Me.Label1)
-        resources.ApplyResources(Me.ImagePathPanel, "ImagePathPanel")
-        Me.ImagePathPanel.Name = "ImagePathPanel"
-        '
-        'ImagefilePathText
-        '
-        resources.ApplyResources(Me.ImagefilePathText, "ImagefilePathText")
-        Me.ImagefilePathText.Name = "ImagefilePathText"
-        '
-        'FilePickButton
-        '
-        resources.ApplyResources(Me.FilePickButton, "FilePickButton")
-        Me.FilePickButton.Name = "FilePickButton"
-        Me.FilePickButton.UseVisualStyleBackColor = True
-        '
-        'Label2
-        '
-        resources.ApplyResources(Me.Label2, "Label2")
-        Me.Label2.Name = "Label2"
-        '
-        'ImageServiceCombo
-        '
-        resources.ApplyResources(Me.ImageServiceCombo, "ImageServiceCombo")
-        Me.ImageServiceCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.ImageServiceCombo.FormattingEnabled = True
-        Me.ImageServiceCombo.Items.AddRange(New Object() {resources.GetString("ImageServiceCombo.Items"), resources.GetString("ImageServiceCombo.Items1")})
-        Me.ImageServiceCombo.Name = "ImageServiceCombo"
-        '
-        'ImageCancelButton
-        '
-        resources.ApplyResources(Me.ImageCancelButton, "ImageCancelButton")
-        Me.ImageCancelButton.Name = "ImageCancelButton"
-        Me.ImageCancelButton.UseVisualStyleBackColor = True
-        '
-        'Label1
-        '
-        resources.ApplyResources(Me.Label1, "Label1")
-        Me.Label1.Name = "Label1"
         '
         'TimelinePanel
         '
@@ -591,6 +530,67 @@ Partial Class TweenMain
         Me.TabImage.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit
         resources.ApplyResources(Me.TabImage, "TabImage")
         Me.TabImage.TransparentColor = System.Drawing.Color.Transparent
+        '
+        'ImageSelectionPanel
+        '
+        resources.ApplyResources(Me.ImageSelectionPanel, "ImageSelectionPanel")
+        Me.ImageSelectionPanel.Controls.Add(Me.ImageSelectedPicture)
+        Me.ImageSelectionPanel.Controls.Add(Me.ImagePathPanel)
+        Me.ImageSelectionPanel.Name = "ImageSelectionPanel"
+        '
+        'ImageSelectedPicture
+        '
+        resources.ApplyResources(Me.ImageSelectedPicture, "ImageSelectedPicture")
+        Me.ImageSelectedPicture.Image = Global.Tween.My.Resources.Resources.InitialImage
+        Me.ImageSelectedPicture.InitialImage = Global.Tween.My.Resources.Resources.InitialImage
+        Me.ImageSelectedPicture.Name = "ImageSelectedPicture"
+        Me.ImageSelectedPicture.TabStop = False
+        '
+        'ImagePathPanel
+        '
+        Me.ImagePathPanel.Controls.Add(Me.ImagefilePathText)
+        Me.ImagePathPanel.Controls.Add(Me.FilePickButton)
+        Me.ImagePathPanel.Controls.Add(Me.Label2)
+        Me.ImagePathPanel.Controls.Add(Me.ImageServiceCombo)
+        Me.ImagePathPanel.Controls.Add(Me.ImageCancelButton)
+        Me.ImagePathPanel.Controls.Add(Me.Label1)
+        resources.ApplyResources(Me.ImagePathPanel, "ImagePathPanel")
+        Me.ImagePathPanel.Name = "ImagePathPanel"
+        '
+        'ImagefilePathText
+        '
+        resources.ApplyResources(Me.ImagefilePathText, "ImagefilePathText")
+        Me.ImagefilePathText.Name = "ImagefilePathText"
+        '
+        'FilePickButton
+        '
+        resources.ApplyResources(Me.FilePickButton, "FilePickButton")
+        Me.FilePickButton.Name = "FilePickButton"
+        Me.FilePickButton.UseVisualStyleBackColor = True
+        '
+        'Label2
+        '
+        resources.ApplyResources(Me.Label2, "Label2")
+        Me.Label2.Name = "Label2"
+        '
+        'ImageServiceCombo
+        '
+        resources.ApplyResources(Me.ImageServiceCombo, "ImageServiceCombo")
+        Me.ImageServiceCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ImageServiceCombo.FormattingEnabled = True
+        Me.ImageServiceCombo.Items.AddRange(New Object() {resources.GetString("ImageServiceCombo.Items"), resources.GetString("ImageServiceCombo.Items1")})
+        Me.ImageServiceCombo.Name = "ImageServiceCombo"
+        '
+        'ImageCancelButton
+        '
+        resources.ApplyResources(Me.ImageCancelButton, "ImageCancelButton")
+        Me.ImageCancelButton.Name = "ImageCancelButton"
+        Me.ImageCancelButton.UseVisualStyleBackColor = True
+        '
+        'Label1
+        '
+        resources.ApplyResources(Me.Label1, "Label1")
+        Me.Label1.Name = "Label1"
         '
         'ProfilePanel
         '
@@ -1657,12 +1657,12 @@ Partial Class TweenMain
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        Me.TimelinePanel.ResumeLayout(False)
+        Me.ContextMenuTabProperty.ResumeLayout(False)
         Me.ImageSelectionPanel.ResumeLayout(False)
         CType(Me.ImageSelectedPicture, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ImagePathPanel.ResumeLayout(False)
         Me.ImagePathPanel.PerformLayout()
-        Me.TimelinePanel.ResumeLayout(False)
-        Me.ContextMenuTabProperty.ResumeLayout(False)
         Me.SplitContainer3.Panel1.ResumeLayout(False)
         Me.SplitContainer3.Panel2.ResumeLayout(False)
         Me.SplitContainer3.ResumeLayout(False)

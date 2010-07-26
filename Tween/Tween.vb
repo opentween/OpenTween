@@ -9402,12 +9402,13 @@ RETRY:
                     ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
                     ImageSelectedPicture.Tag = UploadFileType.Invalid
                 Case UploadFileType.Picture
-                    Dim fs As New FileStream(ImagefilePathText.Text, FileMode.Open, FileAccess.Read)
-                    ImageSelectedPicture.Image = (New HttpVarious).CheckValidImage( _
-                                Image.FromStream(fs), _
-                                ImageSelectedPicture.Width, _
-                                ImageSelectedPicture.Height)
-                    fs.Close()
+                    Using fs As New FileStream(ImagefilePathText.Text, FileMode.Open, FileAccess.Read)
+                        ImageSelectedPicture.Image = (New HttpVarious).CheckValidImage( _
+                                    Image.FromStream(fs), _
+                                    ImageSelectedPicture.Width, _
+                                    ImageSelectedPicture.Height)
+                        fs.Close()
+                    End Using
                     ImageSelectedPicture.Tag = UploadFileType.Picture
                 Case UploadFileType.MultiMedia
                     ''' TODO:動画アップロード用画像へ変更
