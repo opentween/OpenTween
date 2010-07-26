@@ -9513,8 +9513,6 @@ RETRY:
 
     Private Sub ImageCancelButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ImageCancelButton.Click
         ImagefilePathText.CausesValidation = False
-        ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
-        ImageSelectedPicture.Tag = UploadFileType.Invalid
         TimelinePanel.Visible = True
         TimelinePanel.Enabled = True
         ImageSelectionPanel.Visible = False
