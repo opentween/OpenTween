@@ -68,20 +68,20 @@ Public Class TwitVideo
     End Function
 
     Public Function CheckValidExtension(ByVal ext As String) As Boolean
-        If Array.IndexOf(pictureExt, ext) > -1 Then
+        If Array.IndexOf(pictureExt, ext.ToLower) > -1 Then
             Return True
         End If
-        If Array.IndexOf(multimediaExt, ext) > -1 Then
+        If Array.IndexOf(multimediaExt, ext.ToLower) > -1 Then
             Return True
         End If
         Return False
     End Function
 
     Public Function GetFileType(ByVal ext As String) As UploadFileType
-        If Array.IndexOf(pictureExt, ext) > -1 Then
+        If Array.IndexOf(pictureExt, ext.ToLower) > -1 Then
             Return UploadFileType.Picture
         End If
-        If Array.IndexOf(multimediaExt, ext) > -1 Then
+        If Array.IndexOf(multimediaExt, ext.ToLower) > -1 Then
             Return UploadFileType.MultiMedia
         End If
         Return UploadFileType.Invalid
