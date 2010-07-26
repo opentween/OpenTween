@@ -7414,8 +7414,27 @@ RETRY:
     End Sub
 
     Private Sub TweenMain_DragOver(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles MyBase.DragOver
-        If e.Data.GetDataPresent(DataFormats.FileDrop) OrElse _
-            e.Data.GetDataPresent(DataFormats.StringFormat) Then
+        If e.Data.GetDataPresent(DataFormats.FileDrop) Then
+            Dim filename As String = CType(e.Data.GetData(DataFormats.FileDrop, False), String())(0)
+            Dim fl As New FileInfo(filename)
+            Dim ext As String = fl.Extension
+            Dim picsvc As New PictureService(tw)
+
+            If picsvc.IsValidExtension(ext, ImageService) Then
+                e.Effect = DragDropEffects.Copy
+                Exit Sub
+            End If
+            For Each svc As String In ImageServiceCombo.Items
+                If picsvc.IsValidExtension(ext, svc) Then
+                    ImageServiceCombo.SelectedItem = svc
+                    e.Effect = DragDropEffects.Copy
+                    Exit Sub
+                Else
+                    Continue For
+                End If
+            Next
+            e.Effect = DragDropEffects.None
+        ElseIf e.Data.GetDataPresent(DataFormats.StringFormat) Then
             e.Effect = DragDropEffects.Copy
         Else
             e.Effect = DragDropEffects.None
