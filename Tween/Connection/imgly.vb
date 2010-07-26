@@ -23,6 +23,8 @@ Public Class imgly
                                     ".gif", _
                                     ".png"}
 
+    Private Const MaxFileSize As Long = 4 * 1024 * 1024
+
     Public Function Upload(ByVal mediaFile As FileInfo, _
                        ByVal message As String, _
                        ByRef content As String) As HttpStatusCode
@@ -30,7 +32,7 @@ Public Class imgly
         If String.IsNullOrEmpty(message) Then message = ""
         'Check filetype and size(Max 4MB)
         If Array.IndexOf(pictureExt, mediaFile.Extension.ToLower) > -1 Then
-            If mediaFile.Length > 4 * 1024 * 1024 Then Throw New ArgumentException("File is too large.")
+            If mediaFile.Length > MaxFileSize Then Throw New ArgumentException("File is too large.")
         Else
             Throw New ArgumentException("Service don't support this filetype.")
         End If
@@ -69,6 +71,13 @@ Public Class imgly
 
     Public Function IsSupportedFileType(ByVal type As UploadFileType) As Boolean
         Return type.Equals(UploadFileType.Picture)
+    End Function
+
+    Public Function GetMaxFileSize(ByVal ext As String) As Long
+        If Array.IndexOf(pictureExt, ext.ToLower) > -1 Then
+            Return MaxFileSize
+        End If
+        Return -1
     End Function
 
     Public Sub New(ByVal accessToken As String, ByVal accessTokenSecret As String)

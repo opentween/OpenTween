@@ -75,6 +75,19 @@ Public Class PictureService
         Return ret
     End Function
 
+    Public Function GetMaxFileSize(ByVal ext As String, ByVal service As String) As Long
+        Dim ret As Long = -1
+        Select Case service
+            Case "TwitPic"
+                ret = (New TwitPic(tw.AccessToken, tw.AccessTokenSecret)).GetMaxFileSize(ext)
+            Case "img.ly"
+                ret = (New imgly(tw.AccessToken, tw.AccessTokenSecret)).GetMaxFileSize(ext)
+            Case "TwitVideo"
+                ret = (New TwitVideo).GetMaxFileSize(ext)
+        End Select
+        Return ret
+    End Function
+
     Private Function UpToTwitPic(ByVal file As FileInfo, ByRef message As String, ByVal resultUpload As Boolean) As String
         Dim content As String = ""
         Dim ret As HttpStatusCode

@@ -24,6 +24,9 @@ Public Class TwitVideo
                                     ".gif", _
                                     ".png"}
 
+    Private Const MaxPictureFileSize As Long = 10 * 1024 * 1024
+    Private Const MaxMultiMediaFileSize As Long = 20 * 1024 * 1024
+
     Public Function Upload(ByVal mediaFile As FileInfo, _
                            ByVal message As String, _
                            ByVal keyword As String, _
@@ -34,9 +37,9 @@ Public Class TwitVideo
         If String.IsNullOrEmpty(message) Then Throw New ArgumentException("'Message' is required.")
         'Check filetype and size
         If Array.IndexOf(multimediaExt, mediaFile.Extension.ToLower) > -1 Then
-            If mediaFile.Length > 20971520 Then Throw New ArgumentException("File is too large.")
+            If mediaFile.Length > MaxMultiMediaFileSize Then Throw New ArgumentException("File is too large.")
         ElseIf Array.IndexOf(pictureExt, mediaFile.Extension.ToLower) > -1 Then
-            If mediaFile.Length > 10485760 Then Throw New ArgumentException("File is too large.")
+            If mediaFile.Length > MaxPictureFileSize Then Throw New ArgumentException("File is too large.")
         Else
             Throw New ArgumentException("Service don't support this filetype.")
         End If
@@ -86,6 +89,15 @@ Public Class TwitVideo
 
     Public Function IsSupportedFileType(ByVal type As UploadFileType) As Boolean
         Return type.Equals(UploadFileType.Picture) OrElse type.Equals(UploadFileType.MultiMedia)
+    End Function
+
+    Public Function GetMaxFileSize(ByVal ext As String) As Long
+        If Array.IndexOf(multimediaExt, ext.ToLower) > -1 Then
+            Return MaxMultiMediaFileSize
+        ElseIf Array.IndexOf(pictureExt, ext.ToLower) > -1 Then
+            Return MaxPictureFileSize
+        End If
+        Return -1
     End Function
 
     Public Function GetFileOpenDialogFilter() As String
