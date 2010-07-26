@@ -532,7 +532,7 @@
     <value>453, 166</value>
   </data>
   <data name="ImageSelectionPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="ImageSelectionPanel.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -670,7 +670,7 @@
     <value>453, 166</value>
   </data>
   <data name="TimelinePanel.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="&gt;&gt;TimelinePanel.Name" xml:space="preserve">
     <value>TimelinePanel</value>
