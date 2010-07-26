@@ -54,7 +54,7 @@ Public Class TwitPic
     End Function
 
     Public Function CheckValidExtension(ByVal ext As String) As Boolean
-        If Array.IndexOf(pictureExt, ext) > -1 Then
+        If Array.IndexOf(pictureExt, ext.ToLower) > -1 Then
             Return True
         End If
         Return False
@@ -65,7 +65,7 @@ Public Class TwitPic
     End Function
 
     Public Function GetFileType(ByVal ext As String) As UploadFileType
-        If Array.IndexOf(pictureExt, ext) > -1 Then
+        If Array.IndexOf(pictureExt, ext.ToLower) > -1 Then
             Return UploadFileType.Picture
         End If
         Return UploadFileType.Invalid
