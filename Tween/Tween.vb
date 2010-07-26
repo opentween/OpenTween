@@ -9330,6 +9330,7 @@ RETRY:
             OpenUriAsync("http://twitter.com/" + NameLabel.Tag.ToString)
         End If
     End Sub
+
 #Region "画像投稿"
     Private Sub ImageSelectMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ImageSelectMenuItem.Click
         If ImageSelectionPanel.Visible = True Then
@@ -9350,7 +9351,6 @@ RETRY:
     End Sub
 
     Private Sub FilePickButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FilePickButton.Click
-        ''' ToDo: サービスによっては動画ファイルのアップロードも可能
         OpenFileDialog1.Filter = (New PictureService(tw)).GetFileOpenDialogFilter(ImageService)
         OpenFileDialog1.Title = My.Resources.PickPictureDialog1
         OpenFileDialog1.FileName = ""
@@ -9374,6 +9374,7 @@ RETRY:
         ImagefilePathText.Text = Trim(ImagefilePathText.Text)
         If ImagefilePathText.Text = "" Then
             ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
+            ImageSelectedPicture.Tag = UploadFileType.Invalid
         Else
             ImageFromSelectedFile()
         End If
@@ -9384,6 +9385,7 @@ RETRY:
             Dim svc As New PictureService(tw)
             If String.IsNullOrEmpty(Trim(ImagefilePathText.Text)) Then
                 ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
+                ImageSelectedPicture.Tag = UploadFileType.Invalid
                 Exit Sub
             End If
 
@@ -9391,12 +9393,14 @@ RETRY:
             If Not svc.IsValidExtension(fl.Extension.ToLower, ImageService) Then
                 '画像以外の形式
                 ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
+                ImageSelectedPicture.Tag = UploadFileType.Invalid
                 Exit Sub
             End If
 
             Select Case svc.GetFileType(fl.Extension.ToLower, ImageService)
                 Case UploadFileType.Invalid
                     ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
+                    ImageSelectedPicture.Tag = UploadFileType.Invalid
                 Case UploadFileType.Picture
                     Dim fs As New FileStream(ImagefilePathText.Text, FileMode.Open, FileAccess.Read)
                     ImageSelectedPicture.Image = (New HttpVarious).CheckValidImage( _
@@ -9404,18 +9408,23 @@ RETRY:
                                 ImageSelectedPicture.Width, _
                                 ImageSelectedPicture.Height)
                     fs.Close()
+                    ImageSelectedPicture.Tag = UploadFileType.Picture
                 Case UploadFileType.MultiMedia
                     ''' TODO:動画アップロード用画像へ変更
                     ImageSelectedPicture.Image = My.Resources.MultiMediaImage
+                    ImageSelectedPicture.Tag = UploadFileType.MultiMedia
                 Case Else
                     ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
+                    ImageSelectedPicture.Tag = UploadFileType.Invalid
             End Select
 
         Catch ex As FileNotFoundException
             ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
+            ImageSelectedPicture.Tag = UploadFileType.Invalid
             MessageBox.Show("File not found.")
         Catch ex As Exception
             ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
+            ImageSelectedPicture.Tag = UploadFileType.Invalid
             MessageBox.Show("The type of this file is not image.")
         End Try
     End Sub
@@ -9426,6 +9435,7 @@ RETRY:
         ImageServiceCombo.KeyDown
         If e.KeyCode = Keys.Escape Then
             ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
+            ImageSelectedPicture.Tag = UploadFileType.Invalid
             TimelinePanel.Visible = True
             TimelinePanel.Enabled = True
             ImageSelectionPanel.Visible = False
@@ -9484,12 +9494,25 @@ RETRY:
     Private Sub ImageCancelButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ImageCancelButton.Click
         ImagefilePathText.CausesValidation = False
         ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
+        ImageSelectedPicture.Tag = UploadFileType.Invalid
         TimelinePanel.Visible = True
         TimelinePanel.Enabled = True
         ImageSelectionPanel.Visible = False
         ImageSelectionPanel.Enabled = False
         DirectCast(ListTab.SelectedTab.Tag, DetailsListView).Focus()
         ImagefilePathText.CausesValidation = True
+    End Sub
+
+    Private Sub ImageServiceCombo_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ImageServiceCombo.SelectedIndexChanged
+        If ImageSelectedPicture.Tag IsNot Nothing Then
+            If Not (New PictureService(tw)).IsSupportedFileType( _
+                    DirectCast(ImageSelectedPicture.Tag, UploadFileType), _
+                    ImageService) Then
+                ImagefilePathText.Text = ""
+                ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
+                ImageSelectedPicture.Tag = UploadFileType.Invalid
+            End If
+        End If
     End Sub
 #End Region
 

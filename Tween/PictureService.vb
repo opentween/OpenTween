@@ -62,6 +62,19 @@ Public Class PictureService
         Return ret
     End Function
 
+    Public Function IsSupportedFileType(ByVal type As UploadFileType, ByVal service As String) As Boolean
+        Dim ret As Boolean = False
+        Select Case service
+            Case "TwitPic"
+                ret = (New TwitPic(tw.AccessToken, tw.AccessTokenSecret)).IsSupportedFileType(type)
+            Case "img.ly"
+                ret = (New imgly(tw.AccessToken, tw.AccessTokenSecret)).IsSupportedFileType(type)
+            Case "TwitVideo"
+                ret = (New TwitVideo).IsSupportedFileType(type)
+        End Select
+        Return ret
+    End Function
+
     Private Function UpToTwitPic(ByVal file As FileInfo, ByRef message As String, ByVal resultUpload As Boolean) As String
         Dim content As String = ""
         Dim ret As HttpStatusCode

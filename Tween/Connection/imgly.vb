@@ -67,6 +67,10 @@ Public Class imgly
         Return UploadFileType.Invalid
     End Function
 
+    Public Function IsSupportedFileType(ByVal type As UploadFileType) As Boolean
+        Return type.Equals(UploadFileType.Picture)
+    End Function
+
     Public Sub New(ByVal accessToken As String, ByVal accessTokenSecret As String)
         MyBase.New(New Uri("http://api.twitter.com/"), _
                    New Uri("https://api.twitter.com/1/account/verify_credentials.json"))
