@@ -84,6 +84,10 @@ Public Class TwitVideo
         Return UploadFileType.Invalid
     End Function
 
+    Public Function IsSupportedFileType(ByVal type As UploadFileType) As Boolean
+        Return type.Equals(UploadFileType.Picture) OrElse type.Equals(UploadFileType.MultiMedia)
+    End Function
+
     Public Function GetFileOpenDialogFilter() As String
         Return "Image Files(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png|" + _
                 "Movie Files(*.avi;*.wmv;*.flv;*.m4v;*.mov;*.mp4;*.rm;*.mpeg;*.mpg;*.3gp;*.3g2)|*.avi;*.wmv;*.flv;*.m4v;*.mov;*.mp4;*.rm;*.mpeg;*.mpg;*.3gp;*.3g2"
