@@ -1882,7 +1882,9 @@ Public Class TweenMain
                     TimelinePanel.Enabled = True
                     ImageSelectionPanel.Visible = False
                     ImageSelectionPanel.Enabled = False
-                    DirectCast(ListTab.Tag, DetailsListView).Focus()
+                    If _curList IsNot Nothing Then
+                        _curList.Focus()
+                    End If
                     Exit Sub
                 End If
                 args.status.imageService = ImageServiceCombo.Text
