@@ -5566,7 +5566,7 @@ RETRY:
                 Case Keys.A
                     e.IsInputKey = True
                     PostBrowser.Document.ExecCommand("SelectAll", False, Nothing)
-                Case Keys.C
+                Case Keys.C, Keys.Insert
                     e.IsInputKey = True
                     Dim _selText As String = WebBrowser_GetSelectionText(PostBrowser)
                     Try
