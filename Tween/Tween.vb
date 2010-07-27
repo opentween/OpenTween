@@ -9537,13 +9537,18 @@ RETRY:
 
     Private Sub ImageServiceCombo_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ImageServiceCombo.SelectedIndexChanged
         If ImageSelectedPicture.Tag IsNot Nothing Then
-            If Not (New PictureService(tw)).IsSupportedFileType( _
-                    DirectCast(ImageSelectedPicture.Tag, UploadFileType), _
-                    ImageService) Then
-                ImagefilePathText.Text = ""
-                ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
-                ImageSelectedPicture.Tag = UploadFileType.Invalid
-            End If
+            Dim svc As New PictureService(tw)
+            Try
+                Dim fi As New FileInfo(ImagefilePathText.Text.Trim)
+                If Not (svc.IsValidExtension(fi.Extension, ImageService) AndAlso _
+                        svc.GetMaxFileSize(fi.Extension, ImageService) >= fi.Length) Then
+                    ImagefilePathText.Text = ""
+                    ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
+                    ImageSelectedPicture.Tag = UploadFileType.Invalid
+                End If
+            Catch ex As Exception
+
+            End Try
         End If
     End Sub
 #End Region
