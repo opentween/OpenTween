@@ -7420,12 +7420,14 @@ RETRY:
             Dim ext As String = fl.Extension
             Dim picsvc As New PictureService(tw)
 
-            If picsvc.IsValidExtension(ext, ImageService) Then
+            If picsvc.IsValidExtension(ext, ImageService) AndAlso _
+                    picsvc.GetMaxFileSize(ext, ImageService) >= fl.Length Then
                 e.Effect = DragDropEffects.Copy
                 Exit Sub
             End If
             For Each svc As String In ImageServiceCombo.Items
-                If picsvc.IsValidExtension(ext, svc) Then
+                If picsvc.IsValidExtension(ext, svc) AndAlso _
+                        picsvc.GetMaxFileSize(ext, svc) >= fl.Length Then
                     ImageServiceCombo.SelectedItem = svc
                     e.Effect = DragDropEffects.Copy
                     Exit Sub
