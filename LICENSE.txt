@@ -17,6 +17,8 @@ In this software, below icon files in Tween/Resources directory:
     re2.ico
     re3.ico
     re4.ico
+    InitialImage.png
+    MultiMediaImage.png
 was created by Minami <http://www.pi-kun.com/>.
 These files are NOT licensed under the GNU General Public License (GPL).
 Please inquire about these files not to copyright holders of Tween, but
