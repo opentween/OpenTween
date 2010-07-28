@@ -18,6 +18,8 @@
     re2.ico
     re3.ico
     re4.ico
+    InitialImage.png
+    MultiMediaImage.png
 は Minami <http://www.pi-kun.com/> によって作成されました。
 上記のファイルは GNU General Public License (GPL) (GNU 一般公衆利用許諾書)
 によってライセンスされていません。上記のファイルに対する問い合わせは、
