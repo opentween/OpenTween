@@ -89,28 +89,40 @@ Public Class ShowUserInfo
         Dim xdoc As New XmlDocument
         Try
             xdoc.LoadXml(xmlData)
-            _info.Id = Int64.Parse(xdoc.SelectSingleNode("/user/id").InnerText)
-            _info.Name = xdoc.SelectSingleNode("/user/name").InnerText
-            _info.ScreenName = xdoc.SelectSingleNode("/user/screen_name").InnerText
-            _info.Location = xdoc.SelectSingleNode("/user/location").InnerText
-            _info.Description = xdoc.SelectSingleNode("/user/description").InnerText
-            _info.ImageUrl = New Uri(xdoc.SelectSingleNode("/user/profile_image_url").InnerText)
+            Dim nd As String = "/user"
 
-            _info.Url = xdoc.SelectSingleNode("/user/url").InnerText
+            If xdoc.SelectSingleNode(nd) Is Nothing Then
+                nd = "/status/user"
+            End If
 
-            _info.Protect = Boolean.Parse(xdoc.SelectSingleNode("/user/protected").InnerText)
-            _info.FriendsCount = Integer.Parse(xdoc.SelectSingleNode("/user/friends_count").InnerText)
-            _info.FollowersCount = Integer.Parse(xdoc.SelectSingleNode("/user/followers_count").InnerText)
-            _info.FavoriteCount = Integer.Parse(xdoc.SelectSingleNode("/user/favourites_count").InnerText)
-            _info.CreatedAt = DateTime.ParseExact(xdoc.SelectSingleNode("/user/created_at").InnerText, "ddd MMM dd HH:mm:ss zzzz yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None)
-            _info.StatusesCount = Integer.Parse(xdoc.SelectSingleNode("/user/statuses_count").InnerText)
-            _info.Verified = Boolean.Parse(xdoc.SelectSingleNode("/user/verified").InnerText)
+            _info.Id = Int64.Parse(xdoc.SelectSingleNode(nd + "/id").InnerText)
+            _info.Name = xdoc.SelectSingleNode(nd + "/name").InnerText
+            _info.ScreenName = xdoc.SelectSingleNode(nd + "/screen_name").InnerText
+            _info.Location = xdoc.SelectSingleNode(nd + "/location").InnerText
+            _info.Description = xdoc.SelectSingleNode(nd + "/description").InnerText
+            _info.ImageUrl = New Uri(xdoc.SelectSingleNode(nd + "/profile_image_url").InnerText)
+
+            _info.Url = xdoc.SelectSingleNode(nd + "/url").InnerText
+
+            _info.Protect = Boolean.Parse(xdoc.SelectSingleNode(nd + "/protected").InnerText)
+            _info.FriendsCount = Integer.Parse(xdoc.SelectSingleNode(nd + "/friends_count").InnerText)
+            _info.FollowersCount = Integer.Parse(xdoc.SelectSingleNode(nd + "/followers_count").InnerText)
+            _info.FavoriteCount = Integer.Parse(xdoc.SelectSingleNode(nd + "/favourites_count").InnerText)
+            _info.CreatedAt = DateTime.ParseExact(xdoc.SelectSingleNode(nd + "/created_at").InnerText, "ddd MMM dd HH:mm:ss zzzz yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None)
+            _info.StatusesCount = Integer.Parse(xdoc.SelectSingleNode(nd + "/statuses_count").InnerText)
+            _info.Verified = Boolean.Parse(xdoc.SelectSingleNode(nd + "/verified").InnerText)
 
             ' 最終発言が取れないことがある
             Try
-                _info.RecentPost = xdoc.SelectSingleNode("/user/status/text").InnerText
-                _info.PostCreatedAt = DateTime.ParseExact(xdoc.SelectSingleNode("/user/status/created_at").InnerText, "ddd MMM dd HH:mm:ss zzzz yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None)
-                _info.PostSource = xdoc.SelectSingleNode("/user/status/source").InnerText
+                If nd = "/user" Then
+                    _info.RecentPost = xdoc.SelectSingleNode(nd + "/status/text").InnerText
+                    _info.PostCreatedAt = DateTime.ParseExact(xdoc.SelectSingleNode(nd + "/status/created_at").InnerText, "ddd MMM dd HH:mm:ss zzzz yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None)
+                    _info.PostSource = xdoc.SelectSingleNode(nd + "/status/source").InnerText
+                Else
+                    _info.RecentPost = xdoc.SelectSingleNode("/status/text").InnerText
+                    _info.PostCreatedAt = DateTime.ParseExact(xdoc.SelectSingleNode("/status/created_at").InnerText, "ddd MMM dd HH:mm:ss zzzz yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None)
+                    _info.PostSource = xdoc.SelectSingleNode("/status/source").InnerText
+                End If
             Catch ex As Exception
                 _info.RecentPost = Nothing
                 _info.PostCreatedAt = Nothing

@@ -6003,8 +6003,10 @@ RETRY:
             blink = Not blink
             If blink OrElse SettingDialog.ReplyIconState = REPLY_ICONSTATE.StaticIcon Then
                 NotifyIcon1.Icon = ReplyIcon
+                FlashWindow(Me.Handle.ToInt32, 1)
             Else
                 NotifyIcon1.Icon = ReplyIconBlink
+                FlashWindow(Me.Handle.ToInt32, 0)
             End If
             idle = False
             Exit Sub
@@ -8055,6 +8057,7 @@ RETRY:
     End Sub
 
     Private Sub OwnStatusMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OwnStatusMenuItem.Click
+#If 0 Then
         Dim loc As String = ""
         Dim bio As String = ""
         If Not String.IsNullOrEmpty(tw.Location) Then
@@ -8072,6 +8075,14 @@ RETRY:
                         "Statuses count : " + tw.StatusesCount.ToString() + Environment.NewLine + _
                         "Location : " + loc + Environment.NewLine + _
                         "Bio : " + bio, "Your status")
+#Else
+        If Not String.IsNullOrEmpty(tw.UserInfoXml) Then
+            doShowUserStatus(tw.UserInfoXml)
+        Else
+            MessageBox.Show(My.Resources.ShowYourProfileText1, "Your status", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End If
+#End If
     End Sub
 
     ' TwitterIDでない固定文字列を調べる（文字列検証のみ　実際に取得はしない）
@@ -9133,7 +9144,7 @@ RETRY:
         e.Result = args.tw.GetUserInfo(args.id, args.xmlbuf)
     End Sub
 
-    Private Sub doShowUserStatus(ByVal id As String, ByVal ShowInputDialog As Boolean)
+    Private Overloads Sub doShowUserStatus(ByVal id As String, ByVal ShowInputDialog As Boolean)
         Dim result As String = ""
         Dim xmlbuf As String = ""
         Dim args As New GetUserInfoArgs
@@ -9156,10 +9167,7 @@ RETRY:
                             _info.ShowDialog()
                             Dim ret As String = DirectCast(_info.Result, String)
                             If String.IsNullOrEmpty(ret) Then
-                                Using userinfo As New ShowUserInfo()
-                                    userinfo.XmlData = args.xmlbuf
-                                    userinfo.ShowDialog(Me)
-                                End Using
+                                doShowUserStatus(args.xmlbuf)
                             Else
                                 MessageBox.Show(ret)
                             End If
@@ -9177,15 +9185,23 @@ RETRY:
                     _info.ShowDialog()
                     Dim ret As String = DirectCast(_info.Result, String)
                     If String.IsNullOrEmpty(ret) Then
-                        Using userinfo As New ShowUserInfo()
-                            userinfo.XmlData = args.xmlbuf
-                            userinfo.ShowDialog(Me)
-                        End Using
+                        doShowUserStatus(args.xmlbuf)
                     Else
                         MessageBox.Show(ret)
                     End If
                 End Using
             End If
+        Finally
+            SetStatusLabel()
+        End Try
+    End Sub
+
+    Private Overloads Sub doShowUserStatus(ByVal xmldata As String)
+        Try
+            Using userinfo As New ShowUserInfo()
+                userinfo.XmlData = xmldata
+                userinfo.ShowDialog(Me)
+            End Using
         Finally
             SetStatusLabel()
         End Try
