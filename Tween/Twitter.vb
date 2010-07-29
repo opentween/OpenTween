@@ -42,6 +42,7 @@ Public Class Twitter
     Private _statusesCount As Integer = 0
     Private _location As String = ""
     Private _bio As String = ""
+    Private _userinfoxml As String = ""
     Private _protocol As String = "https://"
     Private _bitlyId As String = ""
     Private _bitlyKey As String = ""
@@ -472,8 +473,11 @@ Public Class Twitter
                     xNode = xd.SelectSingleNode("/status/user/description/text()")
                     If xNode IsNot Nothing Then _bio = xNode.Value
                     xNode = xd.SelectSingleNode("/status/user/id/text()")
-                    If xNode IsNot Nothing Then _userIdNo = xNode.Value
+                    If xNode IsNot Nothing Then _UserIdNo = xNode.Value
+
+                    _userinfoxml = String.Copy(content)
                 Catch ex As Exception
+                    _userinfoxml = ""
                     Return ""
                 End Try
 
@@ -1540,6 +1544,12 @@ Public Class Twitter
     Public ReadOnly Property Bio() As String
         Get
             Return _bio
+        End Get
+    End Property
+
+    Public ReadOnly Property UserInfoXml As String
+        Get
+            Return _userinfoxml
         End Get
     End Property
 
