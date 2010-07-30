@@ -897,55 +897,59 @@ Public Class FilterDialog
     End Sub
 
     Private Sub ButtonRuleCopy_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonRuleCopy.Click
-        tabdialog.Text = My.Resources.ButtonRuleCopy_ClickText1
-        If tabdialog.ShowDialog = Windows.Forms.DialogResult.Cancel Then
-            Exit Sub
-        End If
-        Dim tabname As String = ListTabs.SelectedItem.ToString
-        Dim tabs As StringCollection = tabdialog.SelectedTabNames
-        Dim filters As New Generic.List(Of FiltersClass)
-
-        For Each idx As Integer In ListFilters.SelectedIndices
-            filters.Add(_sts.Tabs(tabname).Filters(idx).CopyTo(New FiltersClass))
-        Next
-        For Each tb As String In tabs
-            If tb <> tabname Then
-                For Each flt As FiltersClass In filters
-                    If Not _sts.Tabs(tb).Filters.Contains(flt) Then
-                        _sts.Tabs(tb).AddFilter(flt.CopyTo(New FiltersClass))
-                    End If
-                Next
+        If ListTabs.SelectedIndex > -1 AndAlso ListFilters.SelectedItem IsNot Nothing Then
+            tabdialog.Text = My.Resources.ButtonRuleCopy_ClickText1
+            If tabdialog.ShowDialog = Windows.Forms.DialogResult.Cancel Then
+                Exit Sub
             End If
-        Next
+            Dim tabname As String = ListTabs.SelectedItem.ToString
+            Dim tabs As StringCollection = tabdialog.SelectedTabNames
+            Dim filters As New Generic.List(Of FiltersClass)
+
+            For Each idx As Integer In ListFilters.SelectedIndices
+                filters.Add(_sts.Tabs(tabname).Filters(idx).CopyTo(New FiltersClass))
+            Next
+            For Each tb As String In tabs
+                If tb <> tabname Then
+                    For Each flt As FiltersClass In filters
+                        If Not _sts.Tabs(tb).Filters.Contains(flt) Then
+                            _sts.Tabs(tb).AddFilter(flt.CopyTo(New FiltersClass))
+                        End If
+                    Next
+                End If
+            Next
+        End If
     End Sub
 
     Private Sub ButtonRuleMove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonRuleMove.Click
-        tabdialog.Text = My.Resources.ButtonRuleMove_ClickText1
-        If tabdialog.ShowDialog = Windows.Forms.DialogResult.Cancel Then
-            Exit Sub
-        End If
-        Dim tabname As String = ListTabs.SelectedItem.ToString
-        Dim tabs As StringCollection = tabdialog.SelectedTabNames
-        Dim filters As New Generic.List(Of FiltersClass)
+        If ListTabs.SelectedIndex > -1 AndAlso ListFilters.SelectedItem IsNot Nothing Then
+            tabdialog.Text = My.Resources.ButtonRuleMove_ClickText1
+            If tabdialog.ShowDialog = Windows.Forms.DialogResult.Cancel Then
+                Exit Sub
+            End If
+            Dim tabname As String = ListTabs.SelectedItem.ToString
+            Dim tabs As StringCollection = tabdialog.SelectedTabNames
+            Dim filters As New Generic.List(Of FiltersClass)
 
-        For Each idx As Integer In ListFilters.SelectedIndices
-            filters.Add(_sts.Tabs(tabname).Filters(idx).CopyTo(New FiltersClass))
-        Next
-        If tabs.Count = 1 AndAlso tabs(0) = tabname Then Exit Sub
-        For Each tb As String In tabs
-            If tb <> tabname Then
-                For Each flt As FiltersClass In filters
-                    If Not _sts.Tabs(tb).Filters.Contains(flt) Then
-                        _sts.Tabs(tb).AddFilter(flt.CopyTo(New FiltersClass))
-                    End If
-                Next
-            End If
-        Next
-        For idx As Integer = ListFilters.Items.Count - 1 To 0 Step -1
-            If ListFilters.GetSelected(idx) Then
-                _sts.Tabs(ListTabs.SelectedItem.ToString()).RemoveFilter(DirectCast(ListFilters.Items(idx), FiltersClass))
-                ListFilters.Items.RemoveAt(idx)
-            End If
-        Next
+            For Each idx As Integer In ListFilters.SelectedIndices
+                filters.Add(_sts.Tabs(tabname).Filters(idx).CopyTo(New FiltersClass))
+            Next
+            If tabs.Count = 1 AndAlso tabs(0) = tabname Then Exit Sub
+            For Each tb As String In tabs
+                If tb <> tabname Then
+                    For Each flt As FiltersClass In filters
+                        If Not _sts.Tabs(tb).Filters.Contains(flt) Then
+                            _sts.Tabs(tb).AddFilter(flt.CopyTo(New FiltersClass))
+                        End If
+                    Next
+                End If
+            Next
+            For idx As Integer = ListFilters.Items.Count - 1 To 0 Step -1
+                If ListFilters.GetSelected(idx) Then
+                    _sts.Tabs(ListTabs.SelectedItem.ToString()).RemoveFilter(DirectCast(ListFilters.Items(idx), FiltersClass))
+                    ListFilters.Items.RemoveAt(idx)
+                End If
+            Next
+        End If
     End Sub
 End Class
