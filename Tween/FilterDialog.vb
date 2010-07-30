@@ -918,6 +918,7 @@ Public Class FilterDialog
                     Next
                 End If
             Next
+            SetFilters(tabname)
         End If
     End Sub
 
@@ -950,6 +951,7 @@ Public Class FilterDialog
                     ListFilters.Items.RemoveAt(idx)
                 End If
             Next
+            SetFilters(tabname)
         End If
     End Sub
 End Class
