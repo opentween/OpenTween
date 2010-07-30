@@ -5603,7 +5603,7 @@ RETRY:
             Select Case e.KeyCode
                 Case Keys.P
                     e.IsInputKey = True
-                    ImageSelectMenuItem_Click(Nothing, Nothing)
+                    ImageSelectMenuItem_Click(Nothing,Nothing)
                 Case Else
 
             End Select
@@ -6897,15 +6897,21 @@ RETRY:
         If _curList.SelectedIndices.Count > 0 AndAlso _curPost IsNot Nothing Then
             Dim name As String = _curPost.ImageUrl
             If name.Length > 0 Then
-                name = IO.Path.GetFileNameWithoutExtension(name.Substring(name.LastIndexOf("/"c)))
-                name = name.Substring(0, name.Length - 7) ' "_normal".Length
-                Me.IconNameToolStripMenuItem.Enabled = True
+                Dim idx As Integer = name.LastIndexOf("/"c)
+                If idx <> -1 Then
+                    name = IO.Path.GetFileNameWithoutExtension(name.Substring(idx))
+                    name = name.Substring(0, name.Length - 7) ' "_normal".Length
+                    Me.IconNameToolStripMenuItem.Text = name
+                    Me.IconNameToolStripMenuItem.Enabled = True
+                Else
+                    Me.IconNameToolStripMenuItem.Enabled = False
+                    Me.IconNameToolStripMenuItem.Text = My.Resources.ContextMenuStrip3_OpeningText1
+                End If
                 If Me.TIconDic.ContainsKey(_curPost.ImageUrl) AndAlso Me.TIconDic(_curPost.ImageUrl) IsNot Nothing Then
                     Me.SaveIconPictureToolStripMenuItem.Enabled = True
                 Else
                     Me.SaveIconPictureToolStripMenuItem.Enabled = False
                 End If
-                Me.IconNameToolStripMenuItem.Text = name
             Else
                 Me.IconNameToolStripMenuItem.Enabled = False
                 Me.SaveIconPictureToolStripMenuItem.Enabled = False
