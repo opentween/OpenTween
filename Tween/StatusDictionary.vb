@@ -2402,12 +2402,17 @@ Public NotInheritable Class FiltersClass
 
     Public Overloads Function CopyTo(ByVal destination As FiltersClass) As FiltersClass
 
-        For i As Integer = 0 To Me.BodyFilter.Count - 1
-            destination.BodyFilter(i) = Me.BodyFilter(i)
-        Next
-        For i As Integer = 0 To Me.ExBodyFilter.Count - 1
-            destination.ExBodyFilter(i) = Me.ExBodyFilter(i)
-        Next
+        If Me.BodyFilter.Count > 0 Then
+            For Each flt As String In Me.BodyFilter
+                destination.BodyFilter.Add(String.Copy(flt))
+            Next
+        End If
+
+        If Me.ExBodyFilter.Count > 0 Then
+            For Each flt As String In Me.ExBodyFilter
+                destination.ExBodyFilter.Add(String.Copy(flt))
+            Next
+        End If
 
         destination.MoveFrom = Me.MoveFrom
         destination.SetMark = Me.SetMark
