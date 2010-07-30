@@ -668,7 +668,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  タイムアウトまでの時間には数値（0～120）を指定してください。 に類似しているローカライズされた文字列を検索します。
+        '''  タイムアウトまでの時間には数値（10～120）を指定してください。 に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property ConnectionTimeOut_ValidatingText1() As String
             Get
