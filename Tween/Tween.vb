@@ -5598,6 +5598,16 @@ RETRY:
             End Select
         End If
 
+        ' ControlKey + ShiftKey + 何か
+        If e.Modifiers = (Keys.Control Or Keys.Shift) Then
+            Select Case e.KeyCode
+                Case Keys.P
+                    e.IsInputKey = True
+                    ImageSelectMenuItem_Click(Nothing, Nothing)
+                Case Else
+
+            End Select
+        End If
     End Sub
     Public Function TabRename(ByRef tabName As String) As Boolean
         'タブ名変更
