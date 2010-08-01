@@ -9036,6 +9036,93 @@ RETRY:
                     End If
                 End If
                 Continue For
+            ElseIf url.Key.StartsWith("http://www.youtube.com/") OrElse url.Key.StartsWith("http://youtu.be/") Then
+                ' YouTube
+                ' 参考
+                ' http://code.google.com/intl/ja/apis/youtube/2.0/developers_guide_protocol_video_entries.html
+                ' デベロッパー ガイド: Data API プロトコル - 単独の動画情報の取得 - YouTube の API とツール - Google Code
+                ' http://code.google.com/intl/ja/apis/youtube/2.0/developers_guide_protocol_understanding_video_feeds.html#Understanding_Feeds_and_Entries 
+                ' デベロッパー ガイド: Data API プロトコル - 動画のフィードとエントリについて - YouTube の API とツール - Google Code
+                Dim mc As Match = Regex.Match(url.Key, "^http://(?:(www\.youtube\.com)|(youtu\.be))/watch\?v=(?<videoid>([\w\-]+))", RegexOptions.IgnoreCase)
+                If mc.Success Then
+                    Dim apiurl As String = "http://gdata.youtube.com/feeds/api/videos/" + mc.Groups("videoid").Value
+                    Dim imgurl As String = ""
+                    Dim src As String = ""
+                    If (New HttpVarious).GetData(apiurl, Nothing, src, 5000) Then
+                        Dim sb As New StringBuilder
+                        Dim xdoc As New XmlDocument
+                        Try
+                            xdoc.LoadXml(src)
+                            Dim nsmgr As New XmlNamespaceManager(xdoc.NameTable)
+                            nsmgr.AddNamespace("root", "http://www.w3.org/2005/Atom")
+                            nsmgr.AddNamespace("media", "http://search.yahoo.com/mrss/")
+
+                            Dim xentryNode As XmlNode = xdoc.DocumentElement.SelectSingleNode("/root:entry/media:group", nsmgr)
+                            Dim xentry As XmlElement = CType(xentryNode, XmlElement)
+                            Dim tmp As String = ""
+                            Try
+                                tmp = xentry.Item("media:title").InnerText
+                                If Not String.IsNullOrEmpty(tmp) Then
+                                    sb.Append("タイトル:")
+                                    sb.Append(tmp)
+                                    sb.AppendLine()
+                                End If
+                            Catch ex As Exception
+
+                            End Try
+
+                            Try
+                                Dim sec As Integer = 0
+
+                                If Integer.TryParse(xentry.Item("yt:duration").Attributes("seconds").Value, sec) Then
+                                    sb.Append("再生時間:")
+                                    sb.AppendFormat("{0:d}:{1:d2}", sec \ 60, sec Mod 60)
+                                    sb.AppendLine()
+                                End If
+                            Catch ex As Exception
+
+                            End Try
+
+                            Try
+                                Dim tmpdate As New DateTime
+
+                                xentry = CType(xdoc.DocumentElement.SelectSingleNode("/root:entry", nsmgr), XmlElement)
+                                If DateTime.TryParse(xentry.Item("published").InnerText, tmpdate) Then
+                                    sb.Append("投稿日時:")
+                                    sb.Append(tmpdate)
+                                    sb.AppendLine()
+                                End If
+                            Catch ex As Exception
+
+                            End Try
+
+                            Try
+                                Dim count As Integer = 0
+                                xentry = CType(xdoc.DocumentElement.SelectSingleNode("/root:entry", nsmgr), XmlElement)
+                                tmp = xentry.Item("yt:statistics").Attributes("viewCount").Value
+
+                                If Integer.TryParse(tmp, count) Then
+                                    sb.Append("再生数:")
+                                    sb.Append(tmp)
+                                    sb.AppendLine()
+                                End If
+                            Catch ex As Exception
+
+                            End Try
+
+                        Catch ex As Exception
+
+                        End Try
+
+                        If Not String.IsNullOrEmpty(url.Value) Then
+                            Dim _img As Image = http.GetImage(url.Value, url.Key)
+                            If _img Is Nothing Then Continue For
+                            arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, _img))
+                            arg.tooltiptext.Add(New KeyValuePair(Of String, String)(url.Key, sb.ToString.Trim()))
+                        End If
+                    End If
+
+                End If
             Else
                 ' 直リンクでなく、パターンに合致しない
                 Dim img As Image = http.GetImage(url.Value, url.Key)
