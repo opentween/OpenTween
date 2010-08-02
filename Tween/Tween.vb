@@ -6900,9 +6900,14 @@ RETRY:
                 Dim idx As Integer = name.LastIndexOf("/"c)
                 If idx <> -1 Then
                     name = IO.Path.GetFileNameWithoutExtension(name.Substring(idx))
-                    name = name.Substring(0, name.Length - 7) ' "_normal".Length
-                    Me.IconNameToolStripMenuItem.Text = name
-                    Me.IconNameToolStripMenuItem.Enabled = True
+                    If name.EndsWith("_normal", StringComparison.OrdinalIgnoreCase) Then
+                        name = name.Substring(0, name.Length - 7) ' "_normal".Length
+                        Me.IconNameToolStripMenuItem.Text = name
+                        Me.IconNameToolStripMenuItem.Enabled = True
+                    Else
+                        Me.IconNameToolStripMenuItem.Enabled = False
+                        Me.IconNameToolStripMenuItem.Text = My.Resources.ContextMenuStrip3_OpeningText1
+                    End If
                 Else
                     Me.IconNameToolStripMenuItem.Enabled = False
                     Me.IconNameToolStripMenuItem.Text = My.Resources.ContextMenuStrip3_OpeningText1
