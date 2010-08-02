@@ -9046,6 +9046,10 @@ RETRY:
                 ' デベロッパー ガイド: Data API プロトコル - 動画のフィードとエントリについて - YouTube の API とツール - Google Code
                 Dim videourl As String = (New HttpVarious).GetRedirectTo(url.Key)
                 Dim mc As Match = Regex.Match(videourl, "^http://(?:(www\.youtube\.com)|(youtu\.be))/(watch\?v=)?(?<videoid>([\w\-]+))", RegexOptions.IgnoreCase)
+                If videourl.StartsWith("http://www.youtube.com/index?ytsession=") Then
+                    videourl = url.Key
+                    mc = Regex.Match(videourl, "^http://(?:(www\.youtube\.com)|(youtu\.be))/(watch\?v=)?(?<videoid>([\w\-]+))", RegexOptions.IgnoreCase)
+                End If
                 If mc.Success Then
                     Dim apiurl As String = "http://gdata.youtube.com/feeds/api/videos/" + mc.Groups("videoid").Value
                     Dim imgurl As String = url.Value
