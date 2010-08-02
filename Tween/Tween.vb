@@ -9044,10 +9044,11 @@ RETRY:
                 ' デベロッパー ガイド: Data API プロトコル - 単独の動画情報の取得 - YouTube の API とツール - Google Code
                 ' http://code.google.com/intl/ja/apis/youtube/2.0/developers_guide_protocol_understanding_video_feeds.html#Understanding_Feeds_and_Entries 
                 ' デベロッパー ガイド: Data API プロトコル - 動画のフィードとエントリについて - YouTube の API とツール - Google Code
-                Dim mc As Match = Regex.Match(url.Key, "^http://(?:(www\.youtube\.com)|(youtu\.be))/(watch\?v=)?(?<videoid>([\w\-]+))", RegexOptions.IgnoreCase)
+                Dim videourl As String = (New HttpVarious).GetRedirectTo(url.Key)
+                Dim mc As Match = Regex.Match(videourl, "^http://(?:(www\.youtube\.com)|(youtu\.be))/(watch\?v=)?(?<videoid>([\w\-]+))", RegexOptions.IgnoreCase)
                 If mc.Success Then
                     Dim apiurl As String = "http://gdata.youtube.com/feeds/api/videos/" + mc.Groups("videoid").Value
-                    Dim imgurl As String = ""
+                    Dim imgurl As String = url.Value
                     Dim src As String = ""
                     If (New HttpVarious).GetData(apiurl, Nothing, src, 5000) Then
                         Dim sb As New StringBuilder
@@ -9124,12 +9125,21 @@ RETRY:
 
                             End Try
 
+                            mc = Regex.Match(videourl, "^http://www\.youtube\.com/watch\?v=([\w\-]+)", RegexOptions.IgnoreCase)
+                            If mc.Success Then
+                                imgurl = mc.Result("http://i.ytimg.com/vi/${1}/default.jpg")
+                            End If
+                            mc = Regex.Match(videourl, "^http://youtu\.be/([\w\-]+)", RegexOptions.IgnoreCase)
+                            If mc.Success Then
+                                imgurl = mc.Result("http://i.ytimg.com/vi/${1}/default.jpg")
+                            End If
+
                         Catch ex As Exception
 
                         End Try
 
-                        If Not String.IsNullOrEmpty(url.Value) Then
-                            Dim _img As Image = http.GetImage(url.Value, url.Key)
+                        If Not String.IsNullOrEmpty(imgurl) Then
+                            Dim _img As Image = http.GetImage(imgurl, videourl)
                             If _img Is Nothing Then Continue For
                             arg.pics.Add(New KeyValuePair(Of String, Image)(url.Key, _img))
                             arg.tooltiptext.Add(New KeyValuePair(Of String, String)(url.Key, sb.ToString.Trim()))
