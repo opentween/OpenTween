@@ -9036,14 +9036,15 @@ RETRY:
                     End If
                 End If
                 Continue For
-            ElseIf url.Key.StartsWith("http://www.youtube.com/") OrElse url.Key.StartsWith("http://youtu.be/") Then
+            ElseIf url.Key.StartsWith("http://www.youtube.com/", StringComparison.CurrentCultureIgnoreCase) _
+                        OrElse url.Key.StartsWith("http://youtu.be/", StringComparison.InvariantCultureIgnoreCase) Then
                 ' YouTube
                 ' 参考
                 ' http://code.google.com/intl/ja/apis/youtube/2.0/developers_guide_protocol_video_entries.html
                 ' デベロッパー ガイド: Data API プロトコル - 単独の動画情報の取得 - YouTube の API とツール - Google Code
                 ' http://code.google.com/intl/ja/apis/youtube/2.0/developers_guide_protocol_understanding_video_feeds.html#Understanding_Feeds_and_Entries 
                 ' デベロッパー ガイド: Data API プロトコル - 動画のフィードとエントリについて - YouTube の API とツール - Google Code
-                Dim mc As Match = Regex.Match(url.Key, "^http://(?:(www\.youtube\.com)|(youtu\.be))/watch\?v=(?<videoid>([\w\-]+))", RegexOptions.IgnoreCase)
+                Dim mc As Match = Regex.Match(url.Key, "^http://(?:(www\.youtube\.com)|(youtu\.be))/(watch\?v=)?(?<videoid>([\w\-]+))", RegexOptions.IgnoreCase)
                 If mc.Success Then
                     Dim apiurl As String = "http://gdata.youtube.com/feeds/api/videos/" + mc.Groups("videoid").Value
                     Dim imgurl As String = ""
@@ -9055,6 +9056,7 @@ RETRY:
                             xdoc.LoadXml(src)
                             Dim nsmgr As New XmlNamespaceManager(xdoc.NameTable)
                             nsmgr.AddNamespace("root", "http://www.w3.org/2005/Atom")
+                            nsmgr.AddNamespace("app", "http://purl.org/atom/app#")
                             nsmgr.AddNamespace("media", "http://search.yahoo.com/mrss/")
 
                             Dim xentryNode As XmlNode = xdoc.DocumentElement.SelectSingleNode("/root:entry/media:group", nsmgr)
@@ -9104,6 +9106,18 @@ RETRY:
                                 If Integer.TryParse(tmp, count) Then
                                     sb.Append("再生数:")
                                     sb.Append(tmp)
+                                    sb.AppendLine()
+                                End If
+                            Catch ex As Exception
+
+                            End Try
+
+                            Try
+                                xentry = CType(xdoc.DocumentElement.SelectSingleNode("/root:entry/app:control", nsmgr), XmlElement)
+                                If xentry IsNot Nothing Then
+                                    sb.Append(xentry.Item("yt:state").Attributes("name").Value)
+                                    sb.Append(":")
+                                    sb.Append(xentry.Item("yt:state").InnerText)
                                     sb.AppendLine()
                                 End If
                             Catch ex As Exception
