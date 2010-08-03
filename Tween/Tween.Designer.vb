@@ -316,12 +316,13 @@ Partial Class TweenMain
         'StatusStrip1
         '
         resources.ApplyResources(Me.StatusStrip1, "StatusStrip1")
-        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.StatusLabelApi, Me.StatusLabelUrl, Me.StatusLabel, Me.HashStripSplitButton})
+        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.StatusLabelUrl, Me.StatusLabelApi, Me.StatusLabel, Me.HashStripSplitButton})
         Me.StatusStrip1.Name = "StatusStrip1"
         Me.StatusStrip1.ShowItemToolTips = True
         '
         'StatusLabelApi
         '
+        Me.StatusLabelApi.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right
         Me.StatusLabelApi.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
         Me.StatusLabelApi.Name = "StatusLabelApi"
         resources.ApplyResources(Me.StatusLabelApi, "StatusLabelApi")
