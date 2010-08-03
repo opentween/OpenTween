@@ -4762,17 +4762,17 @@ RETRY:
 
     Private Sub ScrollDownPostBrowser(ByVal forward As Boolean)
         If forward Then
-            PostBrowser.Document.Body.ScrollTop += 5
+            PostBrowser.Document.Body.ScrollTop += SettingDialog.FontDetail.Height
         Else
-            PostBrowser.Document.Body.ScrollTop -= 5
+            PostBrowser.Document.Body.ScrollTop -= SettingDialog.FontDetail.Height
         End If
     End Sub
 
     Private Sub PageDownPostBrowser(ByVal forward As Boolean)
         If forward Then
-            PostBrowser.Document.Body.ScrollTop += PostBrowser.ClientRectangle.Height
+            PostBrowser.Document.Body.ScrollTop += PostBrowser.ClientRectangle.Height - SettingDialog.FontDetail.Height
         Else
-            PostBrowser.Document.Body.ScrollTop -= PostBrowser.ClientRectangle.Height
+            PostBrowser.Document.Body.ScrollTop -= PostBrowser.ClientRectangle.Height - SettingDialog.FontDetail.Height
         End If
     End Sub
 
