@@ -4659,6 +4659,18 @@ RETRY:
             End If
             If e.KeyCode = Keys.R Then doReTweetOriginal()
             If e.KeyCode = Keys.P AndAlso _curPost IsNot Nothing Then doShowUserStatus(_curPost.Name, False)
+            If e.KeyCode = Keys.Up Then
+                ScrollDownPostBrowser(False)
+            End If
+            If e.KeyCode = Keys.Down Then
+                ScrollDownPostBrowser(True)
+            End If
+            If e.KeyCode = Keys.PageUp Then
+                PageDownPostBrowser(False)
+            End If
+            If e.KeyCode = Keys.PageDown Then
+                PageDownPostBrowser(True)
+            End If
         End If
         If e.Shift AndAlso Not e.Control AndAlso Not e.Alt Then
             ' SHIFTキーが押されている場合
@@ -4745,6 +4757,22 @@ RETRY:
                 e.SuppressKeyPress = True
                 CopyIdUri()
             End If
+        End If
+    End Sub
+
+    Private Sub ScrollDownPostBrowser(ByVal forward As Boolean)
+        If forward Then
+            PostBrowser.Document.Body.ScrollTop += 5
+        Else
+            PostBrowser.Document.Body.ScrollTop -= 5
+        End If
+    End Sub
+
+    Private Sub PageDownPostBrowser(ByVal forward As Boolean)
+        If forward Then
+            PostBrowser.Document.Body.ScrollTop += PostBrowser.ClientRectangle.Height
+        Else
+            PostBrowser.Document.Body.ScrollTop -= PostBrowser.ClientRectangle.Height
         End If
     End Sub
 
