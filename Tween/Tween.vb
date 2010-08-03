@@ -9517,7 +9517,7 @@ RETRY:
         Me.UserPicture.Cursor = Cursors.Default
     End Sub
 
-    Private Sub NameLabel_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NameLabel.DoubleClick, UserPicture.DoubleClick
+    Private Sub NameLabel_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NameLabel.Click, UserPicture.DoubleClick
         If NameLabel.Tag IsNot Nothing Then
             OpenUriAsync("http://twitter.com/" + NameLabel.Tag.ToString)
         End If
