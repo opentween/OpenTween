@@ -4761,18 +4761,26 @@ RETRY:
     End Sub
 
     Private Sub ScrollDownPostBrowser(ByVal forward As Boolean)
+        Dim doc As HtmlDocument = PostBrowser.Document
+        If doc Is Nothing Then Exit Sub
+        If doc.Body Is Nothing Then Exit Sub
+
         If forward Then
-            PostBrowser.Document.Body.ScrollTop += SettingDialog.FontDetail.Height
+            doc.Body.ScrollTop += SettingDialog.FontDetail.Height
         Else
-            PostBrowser.Document.Body.ScrollTop -= SettingDialog.FontDetail.Height
+            doc.Body.ScrollTop -= SettingDialog.FontDetail.Height
         End If
     End Sub
 
     Private Sub PageDownPostBrowser(ByVal forward As Boolean)
+        Dim doc As HtmlDocument = PostBrowser.Document
+        If doc Is Nothing Then Exit Sub
+        If doc.Body Is Nothing Then Exit Sub
+
         If forward Then
-            PostBrowser.Document.Body.ScrollTop += PostBrowser.ClientRectangle.Height - SettingDialog.FontDetail.Height
+            doc.Body.ScrollTop += PostBrowser.ClientRectangle.Height - SettingDialog.FontDetail.Height
         Else
-            PostBrowser.Document.Body.ScrollTop -= PostBrowser.ClientRectangle.Height - SettingDialog.FontDetail.Height
+            doc.Body.ScrollTop -= PostBrowser.ClientRectangle.Height - SettingDialog.FontDetail.Height
         End If
     End Sub
 
