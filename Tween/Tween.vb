@@ -4736,7 +4736,7 @@ RETRY:
                 ScrollThumbnail(True)
             End If
             If e.KeyCode = Keys.Enter Then
-                If PreviewScrollBar.Maximum > 0 Then
+                If Not Me.SplitContainer3.Panel2Collapsed Then
                     PreviewPicture_DoubleClick(PreviewPicture, EventArgs.Empty)
                 End If
                 e.Handled = True
