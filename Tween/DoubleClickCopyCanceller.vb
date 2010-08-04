@@ -27,6 +27,7 @@ Public Class DoubleClickCopyCanceller
     Inherits NativeWindow
     Implements IDisposable
 
+    Const WM_GETTEXTLENGTH As Integer = &HE
     Const WM_GETTEXT As Integer = &HD
     Const WM_LBUTTONDBLCLK As Integer = &H203
     Dim _doubleClick As Boolean = False
@@ -39,10 +40,16 @@ Public Class DoubleClickCopyCanceller
         If m.Msg = WM_LBUTTONDBLCLK Then
             _doubleClick = True
         End If
-        If _doubleClick AndAlso m.Msg = WM_GETTEXT Then
-            _doubleClick = False
-            'm.Result = CType(0, IntPtr)
-            Exit Sub
+        If _doubleClick Then
+            If m.Msg = WM_GETTEXTLENGTH Then
+                m.Result = CType(0, IntPtr)
+                Exit Sub
+            End If
+            If m.Msg = WM_GETTEXT Then
+                _doubleClick = False
+                m.Result = CType(0, IntPtr)
+                Exit Sub
+            End If
         End If
         MyBase.WndProc(m)
     End Sub
