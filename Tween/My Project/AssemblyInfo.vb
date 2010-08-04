@@ -32,7 +32,7 @@ Imports System.Runtime.InteropServices
 ' アセンブリ属性の値を確認します。
 
 <Assembly: AssemblyTitle("Tween")> 
-<Assembly: AssemblyDescription("Client of Twitter. Free software(GPL3)" & vbcrlf & "<Contacts>" & vbcrlf & "Twitter:kiri_feather" & vbcrlf & "Mail:kiri_feather@users.sourceforge.jp" & vbcrlf & "<Associator developer>" & vbcrlf & "Developer:Takeshi KIRIYA(http://www.takeshik.org/)" & vbcrlf & "Developer:Moz(http://iddy.jp/profile/moz/)" & vbcrlf & "Icons:Minami(http://www.pi-kun.com/)")> 
+<Assembly: AssemblyDescription("Client of Twitter. Free software(GPL3)")> 
 <Assembly: AssemblyCompany("")> 
 <Assembly: AssemblyProduct("Tween")> 
 <Assembly: AssemblyCopyright("(C)kiri_feather 2007-2010 All Rights Reserved.")> 

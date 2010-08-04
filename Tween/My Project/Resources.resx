@@ -958,4 +958,8 @@
   <data name="PostButton_Click1" xml:space="preserve">
     <value>編集されてないため、公式RTとして投稿します。よろしいですか？</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Description" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\description.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

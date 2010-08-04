@@ -33,15 +33,15 @@ Partial Class TweenAboutBox
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(TweenAboutBox))
-        Me.TableLayoutPanel = New System.Windows.Forms.TableLayoutPanel
-        Me.LogoPictureBox = New System.Windows.Forms.PictureBox
-        Me.LabelProductName = New System.Windows.Forms.Label
-        Me.LabelVersion = New System.Windows.Forms.Label
-        Me.LabelCopyright = New System.Windows.Forms.Label
-        Me.LabelCompanyName = New System.Windows.Forms.Label
-        Me.TextBoxDescription = New System.Windows.Forms.TextBox
-        Me.OKButton = New System.Windows.Forms.Button
-        Me.ChangeLog = New System.Windows.Forms.TextBox
+        Me.TableLayoutPanel = New System.Windows.Forms.TableLayoutPanel()
+        Me.LogoPictureBox = New System.Windows.Forms.PictureBox()
+        Me.LabelProductName = New System.Windows.Forms.Label()
+        Me.LabelVersion = New System.Windows.Forms.Label()
+        Me.LabelCopyright = New System.Windows.Forms.Label()
+        Me.LabelCompanyName = New System.Windows.Forms.Label()
+        Me.TextBoxDescription = New System.Windows.Forms.TextBox()
+        Me.OKButton = New System.Windows.Forms.Button()
+        Me.ChangeLog = New System.Windows.Forms.TextBox()
         Me.TableLayoutPanel.SuspendLayout()
         CType(Me.LogoPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
