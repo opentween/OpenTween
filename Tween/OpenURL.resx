@@ -213,6 +213,9 @@
   <data name="UrlList.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
+  <data name="UrlList.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Off</value>
+  </data>
   <data name="UrlList.ItemHeight" type="System.Int32, mscorlib">
     <value>12</value>
   </data>
