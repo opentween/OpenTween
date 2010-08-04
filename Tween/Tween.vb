@@ -6777,24 +6777,27 @@ RETRY:
 
     Private Sub SetStatusLabelApi()
         Dim slbl As New StringBuilder(256)
-        If tw.RemainCountApi > -1 Then
-            slbl.Append("[API: " + tw.RemainCountApi.ToString)
-            If tw.UpperCountApi > -1 Then
-                slbl.Append("/" + tw.UpperCountApi.ToString)
-            Else
-                slbl.Append("/???")
-            End If
-            slbl.Append("] ")
-            If tw.ResetTimeApi.ToBinary <> 0 Then
-                StatusLabelApi.ToolTipText = "ResetTime: " + tw.ResetTimeApi.ToString
-            Else
-                StatusLabelApi.ToolTipText = "ResetTime: ???"
-            End If
+
+        If tw.RemainCountApi > -1 AndAlso tw.UpperCountApi > -1 Then
+            ' 正常
+            slbl.Append("API: " + tw.RemainCountApi.ToString + "/" + tw.UpperCountApi.ToString)
+        ElseIf tw.RemainCountApi > -1 Then
+            ' uppercount不正
+            slbl.Append("API: " + tw.RemainCountApi.ToString + "/???")
+        ElseIf tw.UpperCountApi > -1 Then
+            ' remaincount不正
+            slbl.Append("API: ???/" + tw.UpperCountApi.ToString)
         Else
-            slbl.Append("[API: ???/???]")
+            '両方とも不正
+            slbl.Append("API: ???/???")
+        End If
+
+        StatusLabelApi.Text = slbl.ToString()
+        If tw.ResetTimeApi.ToBinary <> 0 Then
+            StatusLabelApi.ToolTipText = "ResetTime: " + tw.ResetTimeApi.ToString
+        Else
             StatusLabelApi.ToolTipText = "ResetTime: ???"
         End If
-        StatusLabelApi.Text = slbl.ToString()
     End Sub
 
     Private Sub SetStatusLabel()
