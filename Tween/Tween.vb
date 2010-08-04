@@ -6793,7 +6793,7 @@ RETRY:
         End If
 
         StatusLabelApi.Text = slbl.ToString()
-        If tw.ResetTimeApi.ToBinary <> 0 Then
+        If tw.ResetTimeApi >= DateTime.Now Then
             StatusLabelApi.ToolTipText = "ResetTime: " + tw.ResetTimeApi.ToString
         Else
             StatusLabelApi.ToolTipText = "ResetTime: ???"
