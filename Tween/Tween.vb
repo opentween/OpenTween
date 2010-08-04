@@ -1753,6 +1753,13 @@ Public Class TweenMain
             Exit Sub
         End If
 
+        If _curPost IsNot Nothing AndAlso StatusText.Text = String.Format("RT @{0}: {1}", _curPost.Name, _curPost.Data) Then
+            If MessageBox.Show(My.Resources.PostButton_Click1, "Retweet", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.OK Then
+                doReTweetOriginal()
+                Exit Sub
+            End If
+        End If
+
         _history(_history.Count - 1) = StatusText.Text.Trim
 
         If SettingDialog.UrlConvertAuto Then
@@ -9582,7 +9589,7 @@ RETRY:
         Me.UserPicture.Cursor = Cursors.Default
     End Sub
 
-    Private Sub NameLabel_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NameLabel.Click, UserPicture.DoubleClick
+    Private Sub NameLabel_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NameLabel.DoubleClick, UserPicture.DoubleClick
         If NameLabel.Tag IsNot Nothing Then
             OpenUriAsync("http://twitter.com/" + NameLabel.Tag.ToString)
         End If

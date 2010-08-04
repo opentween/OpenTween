@@ -756,4 +756,7 @@
   <data name="PostPictureWarn2" xml:space="preserve">
     <value>Media sharing service</value>
   </data>
+  <data name="PostButton_Click1" xml:space="preserve">
+    <value>This tweet isn't changed. Post this tweet as Official Retweet?</value>
+  </data>
 </root>

@@ -1427,6 +1427,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  編集されてないため、公式RTとして投稿します。よろしいですか？ に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property PostButton_Click1() As String
+            Get
+                Return ResourceManager.GetString("PostButton_Click1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  140文字を越えています。URL短縮、フッタ除去、末尾カットを行って投稿しますか？ に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property PostLengthOverMessage1() As String
