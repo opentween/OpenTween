@@ -758,6 +758,25 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Client of Twitter. Free software(GPL3)
+        '''&lt;Contacts&gt;
+        '''Twitter:kiri_feather
+        '''Mail:kiri_feather@users.sourceforge.jp
+        '''&lt;Associator developer&gt;
+        '''Developer:Takeshi KIRIYA(http://www.takeshik.org/)
+        '''Developer:moz
+        '''Developper:sin_sin(http://twitter.com/sinsinpub)
+        '''Developer:anis(http://d.hatena.ne.jp/anis774/)
+        '''Tester:fantasticswallow(http://twitter.com/f_swallow)
+        '''Icons:Minami(http://www.pi-kun.com/) に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property Description() As String
+            Get
+                Return ResourceManager.GetString("Description", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  更新間隔には数値（0または15～6000）を指定してください。 に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property DMPeriod_ValidatingText1() As String

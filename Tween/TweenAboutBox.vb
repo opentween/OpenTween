@@ -41,6 +41,7 @@ Public NotInheritable Class TweenAboutBox
         Me.LabelCompanyName.Text = My.Application.Info.CompanyName
         Me.TextBoxDescription.Text = My.Application.Info.Description
         Me.ChangeLog.Text = My.Resources.ChangeLog
+        Me.TextBoxDescription.Text = My.Resources.Description
     End Sub
 
     Private Sub OKButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OKButton.Click

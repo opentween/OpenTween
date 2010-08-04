@@ -1,0 +1,11 @@
+﻿Client of Twitter. Free software(GPL3)
+<Contacts>
+Twitter:kiri_feather
+Mail:kiri_feather@users.sourceforge.jp
+<Associator developer>
+Developer:Takeshi KIRIYA(http://www.takeshik.org/)
+Developer:moz
+Developper:sin_sin(http://twitter.com/sinsinpub)
+Developer:anis(http://d.hatena.ne.jp/anis774/)
+Tester:fantasticswallow(http://twitter.com/f_swallow)
+Icons:Minami(http://www.pi-kun.com/)
