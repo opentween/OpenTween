@@ -82,6 +82,17 @@ Public Class OpenURL
         End If
         OK_Button_Click(sender, e)
     End Sub
+
+    Private Sub UrlList_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles UrlList.KeyDown
+        If e.KeyCode = Keys.J AndAlso UrlList.SelectedIndex < UrlList.Items.Count - 1 Then
+            e.SuppressKeyPress = True
+            UrlList.SelectedIndex += 1
+        End If
+        If e.KeyCode = Keys.K AndAlso UrlList.SelectedIndex > 0 Then
+            e.SuppressKeyPress = True
+            UrlList.SelectedIndex -= 1
+        End If
+    End Sub
 End Class
 
 Public Class OpenUrlItem
