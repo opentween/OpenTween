@@ -4729,6 +4729,19 @@ RETRY:
         If Not e.Control AndAlso e.Alt AndAlso e.Shift Then
             ' ALT+SHIFTキーが押されている場合
             If e.KeyCode = Keys.R Then doReTweetUnofficial()
+            If e.KeyCode = Keys.Up Then
+                ScrollThumbnail(False)
+            End If
+            If e.KeyCode = Keys.Down Then
+                ScrollThumbnail(True)
+            End If
+            If e.KeyCode = Keys.Enter Then
+                If PreviewScrollBar.Maximum > 0 Then
+                    PreviewPicture_DoubleClick(PreviewPicture, EventArgs.Empty)
+                End If
+                e.Handled = True
+                e.SuppressKeyPress = True
+            End If
         End If
 
         If Not e.Alt Then
@@ -4781,6 +4794,16 @@ RETRY:
             doc.Body.ScrollTop += PostBrowser.ClientRectangle.Height - SettingDialog.FontDetail.Height
         Else
             doc.Body.ScrollTop -= PostBrowser.ClientRectangle.Height - SettingDialog.FontDetail.Height
+        End If
+    End Sub
+
+    Private Sub ScrollThumbnail(ByVal forward As Boolean)
+        If forward Then
+            PreviewScrollBar.Value = Math.Min(PreviewScrollBar.Value + 1, PreviewScrollBar.Maximum)
+            PreviewScrollBar_Scroll(PreviewScrollBar, New ScrollEventArgs(ScrollEventType.SmallIncrement, PreviewScrollBar.Value))
+        Else
+            PreviewScrollBar.Value = Math.Max(PreviewScrollBar.Value - 1, PreviewScrollBar.Minimum)
+            PreviewScrollBar_Scroll(PreviewScrollBar, New ScrollEventArgs(ScrollEventType.SmallDecrement, PreviewScrollBar.Value))
         End If
     End Sub
 
@@ -5639,7 +5662,7 @@ RETRY:
             Select Case e.KeyCode
                 Case Keys.P
                     e.IsInputKey = True
-                    ImageSelectMenuItem_Click(Nothing,Nothing)
+                    ImageSelectMenuItem_Click(Nothing, Nothing)
                 Case Else
 
             End Select
