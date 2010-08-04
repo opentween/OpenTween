@@ -20,7 +20,8 @@
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <OptionStrict>On</OptionStrict>
-    <TargetFrameworkProfile />
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -132,6 +133,7 @@
     <Compile Include="DialogAsShieldIcon.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="DoubleClickCopyCanceller.vb" />
     <Compile Include="FormInfo.Designer.vb">
       <DependentUpon>FormInfo.vb</DependentUpon>
     </Compile>
