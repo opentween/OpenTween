@@ -214,7 +214,7 @@
     <value>Fill</value>
   </data>
   <data name="UrlList.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Off</value>
+    <value>Disable</value>
   </data>
   <data name="UrlList.ItemHeight" type="System.Int32, mscorlib">
     <value>12</value>
@@ -278,6 +278,9 @@
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>424, 194</value>
+  </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Disable</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>150, 200</value>
