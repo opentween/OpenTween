@@ -955,4 +955,7 @@
   <data name="MultiMediaImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MultiMediaImage.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="PostButton_Click1" xml:space="preserve">
+    <value>編集されてないため、公式RTとして投稿します。よろしいですか？</value>
+  </data>
 </root>
