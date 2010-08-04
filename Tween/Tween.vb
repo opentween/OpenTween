@@ -4842,8 +4842,10 @@ RETRY:
         If sb.Length > 0 Then
             clstr = sb.ToString()
             Try
-                Dim stotProc As New StotDelegate(AddressOf doStot)
-                stotProc.BeginInvoke(clstr, Nothing, Nothing)
+                Dim proc As New Action(Of String)(Sub(text)
+                                                      Me.Invoke(New Action(Of String)(AddressOf Clipboard.SetText), text)
+                                                  End Sub)
+                proc.BeginInvoke(clstr, Nothing, Nothing)
             Catch ex As Exception
                 MessageBox.Show(ex.Message)
             End Try
@@ -4852,12 +4854,6 @@ RETRY:
             MessageBox.Show(My.Resources.CopyStotText1)
         End If
     End Sub
-
-    Private Sub doStot(ByVal text As String)
-        Me.Invoke(New StotDelegate(AddressOf Clipboard.SetText), text)
-    End Sub
-
-    Delegate Sub StotDelegate(ByVal text As String)
 
     Private Sub CopyIdUri()
         Dim clstr As String = ""
