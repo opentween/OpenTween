@@ -1753,7 +1753,7 @@ Public Class TweenMain
             Exit Sub
         End If
 
-        If _curPost IsNot Nothing AndAlso StatusText.Text = String.Format("RT @{0}: {1}", _curPost.Name, _curPost.Data) Then
+        If _curPost IsNot Nothing AndAlso StatusText.Text.Trim() = String.Format("RT @{0}: {1}", _curPost.Name, _curPost.Data) Then
             If MessageBox.Show(My.Resources.PostButton_Click1, "Retweet", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.OK Then
                 doReTweetOriginal()
                 Exit Sub
