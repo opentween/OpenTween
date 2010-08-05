@@ -1368,6 +1368,7 @@ Public Class TweenMain
 
         'mentionsの更新前件数を保持
         Dim mentionsCount As Integer = _statuses.GetTabByType(TabUsageType.Mentions).AllCount
+        Dim dmCount As Integer = _statuses.GetTabByType(TabUsageType.DirectMessage).AllCount
 
         '更新確定
         Dim notifyPosts() As PostClass = Nothing
@@ -1439,7 +1440,7 @@ Public Class TweenMain
         NotifyNewPosts(notifyPosts,
                        soundFile,
                        addCount,
-                       mentionsCount <> _statuses.GetTabByType(TabUsageType.Mentions).AllCount)
+                       mentionsCount <> _statuses.GetTabByType(TabUsageType.Mentions).AllCount OrElse dmCount <> _statuses.GetTabByType(TabUsageType.DirectMessage).AllCount)
 
         SetMainWindowTitle()
         If Not StatusLabelUrl.Text.StartsWith("http") Then SetStatusLabel()
