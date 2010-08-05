@@ -308,6 +308,7 @@ Public Class TweenMain
         If StatusText.Focused Then
             Me.StatusText_Enter(Me.StatusText, System.EventArgs.Empty)
         End If
+        'Diagnostics.Trace.WriteLine(FlashMyWindow(Me.Handle, FlashSpecification.FlashStop, 0))
     End Sub
 
     Private Sub TweenMain_Disposed(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Disposed
@@ -1587,8 +1588,8 @@ Public Class TweenMain
         End If
 
         'mentions新着時に画面ブリンク
-        If Not _initial AndAlso SettingDialog.BlinkNewMentions AndAlso newMentions Then
-            FlashMyWindow(Me.Handle, FlashSpecification.FlashTimerNoForeground, 0)
+        If Not _initial AndAlso SettingDialog.BlinkNewMentions AndAlso newMentions AndAlso Form.ActiveForm Is Nothing Then
+            FlashMyWindow(Me.Handle, FlashSpecification.FlashTray, 3)
         End If
     End Sub
 
@@ -1770,6 +1771,7 @@ Public Class TweenMain
         If _curPost IsNot Nothing AndAlso StatusText.Text.Trim() = String.Format("RT @{0}: {1}", _curPost.Name, _curPost.Data) Then
             If MessageBox.Show(My.Resources.PostButton_Click1, "Retweet", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.OK Then
                 doReTweetOriginal()
+                StatusText.Text = ""
                 Exit Sub
             End If
         End If
