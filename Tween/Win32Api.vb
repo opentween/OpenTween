@@ -463,9 +463,9 @@ Module Win32Api
     End Function
 
 #Region "画面ブリンク用"
-    Public Sub FlashMyWindow(ByVal hwnd As IntPtr,
+    Public Function FlashMyWindow(ByVal hwnd As IntPtr,
         ByVal flashType As FlashSpecification,
-        ByVal flashCount As Integer)
+        ByVal flashCount As Integer) As Boolean
         Dim fInfo As New FLASHWINFO
         fInfo.cbSize = Convert.ToInt32(Marshal.SizeOf(fInfo))
         fInfo.hwnd = hwnd
@@ -473,8 +473,8 @@ Module Win32Api
         fInfo.uCount = flashCount
         fInfo.dwTimeout = 0
 
-        FlashWindowEx(fInfo)
-    End Sub
+        Return FlashWindowEx(fInfo)
+    End Function
 
     Public Enum FlashSpecification As Int32
         FlashStop = FLASHW_STOP
@@ -487,7 +487,7 @@ Module Win32Api
     ''' http://www.atmarkit.co.jp/fdotnet/dotnettips/723flashwindow/flashwindow.html
     <DllImport("user32.dll")> _
     Private Function FlashWindowEx( _
-        ByRef FWInfo As FLASHWINFO) As Integer
+        ByRef FWInfo As FLASHWINFO) As Boolean
     End Function
 
     Private Structure FLASHWINFO
