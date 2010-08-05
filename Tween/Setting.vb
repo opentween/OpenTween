@@ -117,10 +117,11 @@ Public Class Setting
     Private _MyTwitterApiUrl As String
     Private _MyTwitterSearchApiUrl As String
     Private _MyPreviewEnable As Boolean
-    Private _MyHotkeyEnabled As Boolean
-    Private _MyHotkeyMod As Keys
-    Private _MyHotkeyCode As String
-    Private _MyHotkeyValue As Integer
+    'Private _MyHotkeyEnabled As Boolean
+    'Private _MyHotkeyMod As Keys
+    'Private _MyHotkeyCode As String
+    'Private _MyHotkeyValue As Integer
+    'Private _MyBlinkNewMentions As Boolean
 
     Private _ValidationError As Boolean = False
 
@@ -303,6 +304,7 @@ Public Class Setting
             If Me.HotkeyWin.Checked Then _HotkeyMod = _HotkeyMod Or Keys.LWin
             If IsNumeric(HotkeyCode.Text) Then _HotkeyValue = CInt(HotkeyCode.Text)
             _HotkeyKey = DirectCast(HotkeyText.Tag, Keys)
+            _BlinkNewMentions = ChkNewMentionsBlink.Checked
         Catch ex As Exception
             MessageBox.Show(My.Resources.Save_ClickText3)
             Me.DialogResult = Windows.Forms.DialogResult.Cancel
@@ -541,6 +543,7 @@ Public Class Setting
         HotkeyWin.Enabled = HotkeyEnabled
         HotkeyText.Enabled = HotkeyEnabled
         HotkeyCode.Enabled = HotkeyEnabled
+        ChkNewMentionsBlink.Checked = _BlinkNewMentions
 
         TabControl1.SelectedIndex = 0
         ActiveControl = Username
@@ -2010,5 +2013,8 @@ Public Class Setting
         HotkeyText.Enabled = HotkeyCheck.Checked
         HotkeyCode.Enabled = HotkeyCheck.Checked
     End Sub
+
+    Public Property BlinkNewMentions As Boolean
+
 End Class
 

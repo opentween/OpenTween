@@ -811,16 +811,28 @@
     <value>Change icon&amp;blink</value>
   </data>
   <data name="Label72.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 12</value>
+    <value>188, 12</value>
   </data>
   <data name="Label72.Text" xml:space="preserve">
-    <value>Tasktray icon with unread reply</value>
+    <value>Tasktray icon with unread mentions</value>
+  </data>
+  <data name="Label43.Size" type="System.Drawing.Size, System.Drawing">
+    <value>130, 12</value>
+  </data>
+  <data name="Label43.Text" xml:space="preserve">
+    <value>Blink with new mentions</value>
   </data>
   <data name="Label48.Size" type="System.Drawing.Size, System.Drawing">
     <value>90, 12</value>
   </data>
   <data name="Label48.Text" xml:space="preserve">
     <value>Show icon in tab</value>
+  </data>
+  <data name="ChkNewMentionsBlink.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 16</value>
+  </data>
+  <data name="ChkNewMentionsBlink.Text" xml:space="preserve">
+    <value>Enable</value>
   </data>
   <data name="chkTabIconDisp.Size" type="System.Drawing.Size, System.Drawing">
     <value>51, 16</value>
