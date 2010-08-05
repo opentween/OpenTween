@@ -800,6 +800,9 @@ Public Class TweenMain
         SettingDialog.HotkeyMod = _cfgCommon.HotkeyModifier
         SettingDialog.HotkeyKey = _cfgCommon.HotkeyKey
         SettingDialog.HotkeyValue = _cfgCommon.HotkeyValue
+
+        SettingDialog.BlinkNewMentions = _cfgCommon.BlinkNewMentions
+
         'ハッシュタグ関連
         HashSupl = New AtIdSupplement(_cfgCommon.HashTags, "#")
         HashMgr = New HashtagManage(HashSupl, _
@@ -1362,6 +1365,9 @@ Public Class TweenMain
         Dim focusedId As New Dictionary(Of String, Long)
         SaveSelectedStatus(selId, focusedId)
 
+        'mentionsの更新前件数を保持
+        Dim mentionsCount As Integer = _statuses.GetTabByType(TabUsageType.Mentions).AllCount
+
         '更新確定
         Dim notifyPosts() As PostClass = Nothing
         Dim soundFile As String = ""
@@ -1429,7 +1435,10 @@ Public Class TweenMain
         End Try
 
         '新着通知
-        NotifyNewPosts(notifyPosts, soundFile, addCount)
+        NotifyNewPosts(notifyPosts,
+                       soundFile,
+                       addCount,
+                       mentionsCount <> _statuses.GetTabByType(TabUsageType.Mentions).AllCount)
 
         SetMainWindowTitle()
         If Not StatusLabelUrl.Text.StartsWith("http") Then SetStatusLabel()
@@ -1512,7 +1521,7 @@ Public Class TweenMain
 
     End Sub
 
-    Private Sub NotifyNewPosts(ByVal notifyPosts() As PostClass, ByVal soundFile As String, ByVal addCount As Integer)
+    Private Sub NotifyNewPosts(ByVal notifyPosts() As PostClass, ByVal soundFile As String, ByVal addCount As Integer, ByVal newMentions As Boolean)
         '新着通知
         If ( _
                 NewPostPopMenuItem.Checked AndAlso _
@@ -1575,6 +1584,11 @@ Public Class TweenMain
             Catch ex As Exception
 
             End Try
+        End If
+
+        'mentions新着時に画面ブリンク
+        If Not _initial AndAlso SettingDialog.BlinkNewMentions AndAlso newMentions Then
+            FlashMyWindow(Me.Handle, FlashSpecification.FlashTimerNoForeground, 0)
         End If
     End Sub
 
@@ -5489,6 +5503,7 @@ RETRY:
             _cfgCommon.HotkeyModifier = SettingDialog.HotkeyMod
             _cfgCommon.HotkeyKey = SettingDialog.HotkeyKey
             _cfgCommon.HotkeyValue = SettingDialog.HotkeyValue
+            _cfgCommon.BlinkNewMentions = SettingDialog.BlinkNewMentions
 
             _cfgCommon.Save()
         End SyncLock
@@ -6104,10 +6119,10 @@ RETRY:
             blink = Not blink
             If blink OrElse SettingDialog.ReplyIconState = REPLY_ICONSTATE.StaticIcon Then
                 NotifyIcon1.Icon = ReplyIcon
-                FlashWindow(Me.Handle.ToInt32, 1)
+                'FlashWindow(Me.Handle.ToInt32, 1)
             Else
                 NotifyIcon1.Icon = ReplyIconBlink
-                FlashWindow(Me.Handle.ToInt32, 0)
+                'FlashWindow(Me.Handle.ToInt32, 0)
             End If
             idle = False
             Exit Sub

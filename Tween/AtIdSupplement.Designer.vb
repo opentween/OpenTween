@@ -68,6 +68,8 @@ Partial Class AtIdSupplement
         Me.Controls.Add(Me.ButtonCancel)
         Me.Controls.Add(Me.ButtonOK)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
+        Me.MaximizeBox = False
+        Me.MinimizeBox = False
         Me.Name = "AtIdSupplement"
         Me.ShowInTaskbar = False
         Me.TopMost = True

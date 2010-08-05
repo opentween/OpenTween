@@ -462,6 +462,56 @@ Module Win32Api
         ByVal bInvert As Integer) As Integer
     End Function
 
+#Region "画面ブリンク用"
+    Public Sub FlashMyWindow(ByVal hwnd As IntPtr,
+        ByVal flashType As FlashSpecification,
+        ByVal flashCount As Integer)
+        Dim fInfo As New FLASHWINFO
+        fInfo.cbSize = Convert.ToInt32(Marshal.SizeOf(fInfo))
+        fInfo.hwnd = hwnd
+        fInfo.dwFlags = FlashSpecification.FlashAll
+        fInfo.uCount = flashCount
+        fInfo.dwTimeout = 0
+
+        FlashWindowEx(fInfo)
+    End Sub
+
+    Public Enum FlashSpecification As Int32
+        FlashStop = FLASHW_STOP
+        FlashCaption = FLASHW_CAPTION
+        FlashTray = FLASHW_TRAY
+        FlashAll = FLASHW_ALL
+        FlashTimer = FLASHW_TIMER
+        FlashTimerNoForeground = FLASHW_TIMERNOFG
+    End Enum
+    ''' http://www.atmarkit.co.jp/fdotnet/dotnettips/723flashwindow/flashwindow.html
+    <DllImport("user32.dll")> _
+    Private Function FlashWindowEx( _
+        ByRef FWInfo As FLASHWINFO) As Integer
+    End Function
+
+    Private Structure FLASHWINFO
+        Dim cbSize As Int32    ' FLASHWINFO構造体のサイズ
+        Dim hwnd As IntPtr     ' 点滅対象のウィンドウ・ハンドル
+        Dim dwFlags As Int32   ' 以下の「FLASHW_XXX」のいずれか
+        Dim uCount As Int32    ' 点滅する回数
+        Dim dwTimeout As Int32 ' 点滅する間隔（ミリ秒単位）
+    End Structure
+
+    ' 点滅を止める
+    Private Const FLASHW_STOP As Int32 = 0
+    ' タイトルバーを点滅させる
+    Private Const FLASHW_CAPTION As Int32 = &H1
+    ' タスクバー・ボタンを点滅させる
+    Private Const FLASHW_TRAY As Int32 = &H2
+    ' タスクバー・ボタンとタイトルバーを点滅させる
+    Private Const FLASHW_ALL As Int32 = &H3
+    ' FLASHW_STOPが指定されるまでずっと点滅させる
+    Private Const FLASHW_TIMER As Int32 = &H4
+    ' ウィンドウが最前面に来るまでずっと点滅させる
+    Private Const FLASHW_TIMERNOFG As Int32 = &HC
+#End Region
+
     <DllImport("user32.dll")> _
     Public Function ValidateRect( _
         ByVal hwnd As IntPtr, _

@@ -164,4 +164,5 @@ Public Class SettingCommon
     Public HotkeyModifier As Keys = Keys.None
     Public HotkeyKey As Keys = Keys.None
     Public HotkeyValue As Integer = 0
+    Public BlinkNewMentions As Boolean = False
 End Class

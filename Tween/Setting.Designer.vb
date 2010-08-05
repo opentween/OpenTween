@@ -202,7 +202,9 @@ Partial Class Setting
         Me.chkReadOwnPost = New System.Windows.Forms.CheckBox()
         Me.ReplyIconStateCombo = New System.Windows.Forms.ComboBox()
         Me.Label72 = New System.Windows.Forms.Label()
+        Me.Label43 = New System.Windows.Forms.Label()
         Me.Label48 = New System.Windows.Forms.Label()
+        Me.ChkNewMentionsBlink = New System.Windows.Forms.CheckBox()
         Me.chkTabIconDisp = New System.Windows.Forms.CheckBox()
         Me.Label68 = New System.Windows.Forms.Label()
         Me.CheckBalloonLimit = New System.Windows.Forms.CheckBox()
@@ -1308,7 +1310,9 @@ Partial Class Setting
         Me.TabPage3.Controls.Add(Me.chkReadOwnPost)
         Me.TabPage3.Controls.Add(Me.ReplyIconStateCombo)
         Me.TabPage3.Controls.Add(Me.Label72)
+        Me.TabPage3.Controls.Add(Me.Label43)
         Me.TabPage3.Controls.Add(Me.Label48)
+        Me.TabPage3.Controls.Add(Me.ChkNewMentionsBlink)
         Me.TabPage3.Controls.Add(Me.chkTabIconDisp)
         Me.TabPage3.Controls.Add(Me.Label68)
         Me.TabPage3.Controls.Add(Me.CheckBalloonLimit)
@@ -1434,10 +1438,21 @@ Partial Class Setting
         resources.ApplyResources(Me.Label72, "Label72")
         Me.Label72.Name = "Label72"
         '
+        'Label43
+        '
+        resources.ApplyResources(Me.Label43, "Label43")
+        Me.Label43.Name = "Label43"
+        '
         'Label48
         '
         resources.ApplyResources(Me.Label48, "Label48")
         Me.Label48.Name = "Label48"
+        '
+        'ChkNewMentionsBlink
+        '
+        resources.ApplyResources(Me.ChkNewMentionsBlink, "ChkNewMentionsBlink")
+        Me.ChkNewMentionsBlink.Name = "ChkNewMentionsBlink"
+        Me.ChkNewMentionsBlink.UseVisualStyleBackColor = True
         '
         'chkTabIconDisp
         '
@@ -1927,4 +1942,6 @@ Partial Class Setting
     Friend WithEvents HotkeyCtrl As System.Windows.Forms.CheckBox
     Friend WithEvents HotkeyCheck As System.Windows.Forms.CheckBox
     Friend WithEvents HotkeyCode As System.Windows.Forms.Label
+    Friend WithEvents Label43 As System.Windows.Forms.Label
+    Friend WithEvents ChkNewMentionsBlink As System.Windows.Forms.CheckBox
 End Class
