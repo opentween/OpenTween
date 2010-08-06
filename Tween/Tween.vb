@@ -1808,7 +1808,7 @@ Public Class TweenMain
         If ToolStripMenuItemUrlMultibyteSplit.Checked Then
             ' URLと全角文字の切り離し
             'Dim regex2 As New Regex("https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#]+")
-            adjustCount += Regex.Matches(tmpStatus, "https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#]+").Count
+            adjustCount += Regex.Matches(tmpStatus, "https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#^]+").Count
         End If
 
         'If IdeographicSpaceToSpaceToolStripMenuItem.Checked Then
@@ -1878,8 +1878,8 @@ Public Class TweenMain
         If ToolStripMenuItemUrlMultibyteSplit.Checked Then
             ' URLと全角文字の切り離し
             'Dim regex2 As New Regex("https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#]+")
-            Dim mc2 As Match = Regex.Match(args.status.status, "https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#]+")
-            If mc2.Success Then args.status.status = Regex.Replace(args.status.status, "https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#]+", "$& ")
+            Dim mc2 As Match = Regex.Match(args.status.status, "https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#^]+")
+            If mc2.Success Then args.status.status = Regex.Replace(args.status.status, "https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#^]+", "$& ")
         End If
 
         If IdeographicSpaceToSpaceToolStripMenuItem.Checked Then
@@ -7101,7 +7101,7 @@ RETRY:
         Const url As String = "(?<before>(?:[^\""':!=]|^|\:))" + _
                                     "(?<url>(?<protocol>https?://)" + _
                                     "(?<domain>(?:[\.-]|[^\p{P}\s])+\.[a-z]{2,}(?::[0-9]+)?)" + _
-                                    "(?<path>/[a-z0-9!*'();:&=+$/%#\[\]\-_.,~@]*[a-z0-9)=#/]?)?" + _
+                                    "(?<path>/[a-z0-9!*'();:&=+$/%#\[\]\-_.,~@^]*[a-z0-9)=#/]?)?" + _
                                     "(?<query>\?[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9_&=#/])?)"
 
         'Dim url As Regex = New Regex("(?<![0-9A-Za-z])(?:https?|shttp)://(?:(?:[-_.!~*'()a-zA-Z0-9;:&=+$,]|%[0-9A-Fa-f" + _
