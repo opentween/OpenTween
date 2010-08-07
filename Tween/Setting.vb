@@ -1845,6 +1845,7 @@ Public Class Setting
             Me.AuthStateLabel.Enabled = False
             Me.AuthUserLabel.Enabled = False
             Me.AuthClearButton.Enabled = False
+            MessageBox.Show(String.Format(My.Resources.BasicAuthWarning, Environment.NewLine))
         Else
             tw.Initialize("", "", "")
             Me.AuthStateLabel.Enabled = True

@@ -251,6 +251,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  認証モードがBASIC認証になっています。{0}BASIC認証の終了後はTwitterへログインすることはできません。{0}xAuthを使用してください。 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property BasicAuthWarning() As String
+            Get
+                Return ResourceManager.GetString("BasicAuthWarning", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  実行形式ファイル(*.exe)|*.exe|すべてのファイル(*.*)|*.* に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property Button3_ClickText1() As String
@@ -766,7 +775,7 @@ Namespace My.Resources
         '''Developer:Takeshi KIRIYA(http://www.takeshik.org/)
         '''Developer:moz
         '''Developper:sin_sin(http://twitter.com/sinsinpub)
-        '''Developer:anis(http://d.hatena.ne.jp/anis774/)
+        '''Developer:anis774(http://d.hatena.ne.jp/anis774/)
         '''Tester:fantasticswallow(http://twitter.com/f_swallow)
         '''Icons:Minami(http://www.pi-kun.com/) に類似しているローカライズされた文字列を検索します。
         '''</summary>

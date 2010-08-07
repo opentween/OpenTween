@@ -7772,6 +7772,11 @@ RETRY:
             If Not tw.GetFollowersSuccess AndAlso SettingDialog.StartupFollowers Then
                 GetTimeline(WORKERTYPE.Follower, 0, 0, "")
             End If
+
+
+            If Not _cfgCommon.IsOAuth Then
+                MessageBox.Show(String.Format(My.Resources.BasicAuthWarning, Environment.NewLine))
+            End If
         Else
             PostButton.Enabled = False
             FavAddToolStripMenuItem.Enabled = False
