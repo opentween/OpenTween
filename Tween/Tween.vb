@@ -4440,7 +4440,7 @@ RETRY:
         If _curList.SelectedIndices.Count = 0 OrElse _curPost Is Nothing Then Exit Sub
 
         Dim dTxt As String = createDetailHtml(_curPost.OriginalData)
-        If _statuses.Tabs(_curTab.Text).TabType = TabUsageType.DirectMessage AndAlso _curPost.IsOwl Then
+        If _statuses.Tabs(_curTab.Text).TabType = TabUsageType.DirectMessage AndAlso Not _curPost.IsOwl Then
             NameLabel.Text = "DM TO -> "
         ElseIf _statuses.Tabs(_curTab.Text).TabType = TabUsageType.DirectMessage Then
             NameLabel.Text = "DM FROM <- "
