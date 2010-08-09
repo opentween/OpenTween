@@ -2003,9 +2003,9 @@ Public Class Twitter
                 post.IsFav = False
                 '受信ＤＭかの判定で使用
                 If gType = WORKERTYPE.DirectMessegeRcv Then
-                    post.IsOwl = False
-                Else
                     post.IsOwl = True
+                Else
+                    post.IsOwl = False
                 End If
 
                 '以下、ユーザー情報
