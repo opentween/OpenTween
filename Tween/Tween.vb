@@ -1770,11 +1770,18 @@ Public Class TweenMain
         End If
 
         If _curPost IsNot Nothing AndAlso StatusText.Text.Trim() = String.Format("RT @{0}: {1}", _curPost.Name, _curPost.Data) Then
-            If MessageBox.Show(My.Resources.PostButton_Click1, "Retweet", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.OK Then
-                doReTweetOriginal()
-                StatusText.Text = ""
-                Exit Sub
-            End If
+            Dim rtResult As DialogResult = MessageBox.Show(String.Format(My.Resources.PostButton_Click1, Environment.NewLine),
+                                                           "Retweet",
+                                                           MessageBoxButtons.YesNoCancel,
+                                                           MessageBoxIcon.Question)
+            Select rtResult
+                Case Windows.Forms.DialogResult.Yes
+                    doReTweetOriginal()
+                    StatusText.Text = ""
+                    Exit Sub
+                Case Windows.Forms.DialogResult.Cancel
+                    Exit Sub
+            End Select
         End If
 
         _history(_history.Count - 1) = StatusText.Text.Trim
