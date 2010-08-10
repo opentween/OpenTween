@@ -1857,16 +1857,13 @@ Public Class Setting
         CalcApiUsing()
     End Sub
 
-    Private Class GetApiInfoArgs
-        Public tw As Twitter
-        Public info As ApiInfo
-    End Class
-
-    Private Sub GetApiInfo_Dowork(ByVal sender As Object, ByVal e As DoWorkEventArgs)
-        Dim args As GetApiInfoArgs = DirectCast(e.Argument, GetApiInfoArgs)
-        e.Result = tw.GetInfoApi(args.info)
+    Private Sub DisplayApiMaxCount(ByVal apiCount As Twitter.ApiInfo)
+        If apiCount.MaxCount > -1 Then
+            LabelApiUsing.Text = String.Format(My.Resources.SettingAPIUse1, apiCount.UsingCount, apiCount.MaxCount)
+        Else
+            LabelApiUsing.Text = String.Format(My.Resources.SettingAPIUse1, apiCount.UsingCount, "???")
+        End If
     End Sub
-
 
     Private Sub CalcApiUsing()
         Dim UsingApi As Integer = 0
@@ -1911,16 +1908,13 @@ Public Class Setting
         If tw IsNot Nothing Then
             If tw.UpperCountApi = -1 Then
                 If Twitter.AccountState = ACCOUNT_STATE.Valid Then
-                    Dim _info As New ApiInfo
-                    Dim args As New GetApiInfoArgs With {.tw = tw, .info = _info}
-                    Using dlg As New FormInfo(My.Resources.CalcApiUsingText1, AddressOf GetApiInfo_Dowork, Nothing, args)
-                        dlg.ShowDialog()
-                        If CBool(dlg.Result) Then
-                            LabelApiUsing.Text = String.Format(My.Resources.SettingAPIUse1, UsingApi, args.info.MaxCount)
-                        Else
-                            LabelApiUsing.Text = String.Format(My.Resources.SettingAPIUse1, UsingApi, "???")
-                        End If
-                    End Using
+                    Dim info As New Twitter.ApiInfo
+                    info.UsingCount = UsingApi
+                    Dim proc As New Action(Of Twitter.ApiInfo)(Sub(infoCount)
+                                                                   tw.GetInfoApi(infoCount) '取得エラー時はinfoCountは初期状態（値：-1）
+                                                                   Me.Invoke(New Action(Of Twitter.ApiInfo)(AddressOf DisplayApiMaxCount), infoCount)
+                                                               End Sub)
+                    proc.BeginInvoke(info, Nothing, Nothing)
                 Else
                     LabelApiUsing.Text = String.Format(My.Resources.SettingAPIUse1, UsingApi, "???")
                 End If
