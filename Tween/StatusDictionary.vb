@@ -760,7 +760,7 @@ Public NotInheritable Class TabInformations
         End SyncLock
     End Function
 
-    Public Function SubmitUpdate(ByRef soundFile As String, ByRef notifyPosts As PostClass()) As Integer
+    Public Function SubmitUpdate(ByRef soundFile As String, ByRef notifyPosts As PostClass(), ByRef isMentionIncluded As Boolean) As Integer
         '注：メインスレッドから呼ぶこと
         SyncLock LockObj
             If _notifyPosts Is Nothing Then
@@ -773,7 +773,7 @@ Public NotInheritable Class TabInformations
                 If tb.TabType = TabUsageType.PublicSearch OrElse tb.TabType = TabUsageType.DirectMessage OrElse tb.TabType = TabUsageType.Lists Then
                     _addCount += tb.GetTemporaryCount
                 End If
-                tb.AddSubmit()  '振分確定（各タブに反映）
+                tb.AddSubmit(isMentionIncluded)  '振分確定（各タブに反映）
             Next
             Me.SortPosts()
 
@@ -1598,12 +1598,18 @@ Public NotInheritable Class TabClass
         _tmpIds.Add(New TemporaryId(Post.Id, Post.IsRead))
     End Sub
 
-    Public Sub AddSubmit()
+    Public Sub AddSubmit(ByRef isMentionIncluded As Boolean)
         If _tmpIds.Count = 0 Then Exit Sub
         For Each tId As TemporaryId In _tmpIds
+            If Me.TabType = TabUsageType.Mentions AndAlso TabInformations.GetInstance.Item(tId.Id).IsReply Then isMentionIncluded = True
             Me.Add(tId.Id, tId.Read)
         Next
         _tmpIds.Clear()
+    End Sub
+
+    Public Sub AddSubmit()
+        Dim mention As Boolean
+        AddSubmit(mention)
     End Sub
 
     Public Sub Remove(ByVal Id As Long)

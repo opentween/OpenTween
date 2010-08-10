@@ -1368,14 +1368,14 @@ Public Class TweenMain
         SaveSelectedStatus(selId, focusedId)
 
         'mentionsの更新前件数を保持
-        Dim mentionsCount As Integer = _statuses.GetTabByType(TabUsageType.Mentions).AllCount
         Dim dmCount As Integer = _statuses.GetTabByType(TabUsageType.DirectMessage).AllCount
 
         '更新確定
         Dim notifyPosts() As PostClass = Nothing
         Dim soundFile As String = ""
         Dim addCount As Integer = 0
-        addCount = _statuses.SubmitUpdate(soundFile, notifyPosts)
+        Dim isMention As Boolean = False
+        addCount = _statuses.SubmitUpdate(soundFile, notifyPosts, isMention)
 
         If _endingFlag Then Exit Sub
 
@@ -1441,7 +1441,7 @@ Public Class TweenMain
         NotifyNewPosts(notifyPosts,
                        soundFile,
                        addCount,
-                       mentionsCount <> _statuses.GetTabByType(TabUsageType.Mentions).AllCount OrElse dmCount <> _statuses.GetTabByType(TabUsageType.DirectMessage).AllCount)
+                       isMention OrElse dmCount <> _statuses.GetTabByType(TabUsageType.DirectMessage).AllCount)
 
         SetMainWindowTitle()
         If Not StatusLabelUrl.Text.StartsWith("http") Then SetStatusLabel()
