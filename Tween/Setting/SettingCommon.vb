@@ -165,4 +165,5 @@ Public Class SettingCommon
     Public HotkeyKey As Keys = Keys.None
     Public HotkeyValue As Integer = 0
     Public BlinkNewMentions As Boolean = False
+    Public FocusLockToStatusText As Boolean = False
 End Class
