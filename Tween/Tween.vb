@@ -5398,8 +5398,7 @@ RETRY:
                 e.Handled = True
             End If
         End If
-        If e.Shift Then
-            ' Altキーが押されていない場合
+        If e.Shift AndAlso e.Control Then
             If e.KeyCode = Keys.Up Then
                 e.Handled = True
                 e.SuppressKeyPress = True
