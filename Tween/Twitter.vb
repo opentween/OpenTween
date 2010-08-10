@@ -2487,17 +2487,19 @@ Public Class Twitter
         End Get
     End Property
 
-    Private Class infoApi
+    Public Class ApiInfo
         Public MaxCount As Integer = -1
         Public RemainCount As Integer = -1
         Public ResetTime As New DateTime
         Public ResetTimeInSeconds As Integer = -1
+        Public UsingCount As Integer = -1
 
         Public Sub Initialize()
             Me.MaxCount = -1
             Me.RemainCount = -1
             Me.ResetTime = New DateTime
             Me.ResetTimeInSeconds = -1
+            'UsingCountは初期化対象外
         End Sub
 
         Public Function ConvertResetTimeInSecondsToResetTime(ByVal seconds As Integer) As DateTime
@@ -2509,9 +2511,9 @@ Public Class Twitter
         End Function
     End Class
 
-    Private _infoapi As New infoApi
+    Private _infoapi As New ApiInfo
 
-    Public Function GetInfoApi(ByRef info As ApiInfo) As Boolean
+    Public Function GetInfoApi(ByVal info As ApiInfo) As Boolean
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return True
 
         If _endingFlag Then Return True
@@ -2522,6 +2524,7 @@ Public Class Twitter
             res = twCon.RateLimitStatus(content)
         Catch ex As Exception
             _infoapi.Initialize()
+            info.Initialize()
             Return False
         End Try
 
@@ -2533,14 +2536,16 @@ Public Class Twitter
             info.MaxCount = Integer.Parse(xdoc.SelectSingleNode("/hash/hourly-limit").InnerText)
             info.RemainCount = Integer.Parse(xdoc.SelectSingleNode("/hash/remaining-hits").InnerText)
             info.ResetTime = DateTime.Parse(xdoc.SelectSingleNode("/hash/reset-time").InnerText)
+            info.ResetTimeInSeconds = Integer.Parse(xdoc.SelectSingleNode("/hash/reset-time-in-seconds").InnerText)
 
             _infoapi.MaxCount = info.MaxCount
             _infoapi.RemainCount = info.RemainCount
             _infoapi.ResetTime = info.ResetTime
-            _infoapi.ResetTimeInSeconds = Integer.Parse(xdoc.SelectSingleNode("/hash/reset-time-in-seconds").InnerText)
+            _infoapi.ResetTimeInSeconds = info.ResetTimeInSeconds
             Return True
         Catch ex As Exception
             _infoapi.Initialize()
+            info.Initialize()
             Return False
         End Try
     End Function

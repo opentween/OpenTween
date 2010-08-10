@@ -143,12 +143,6 @@ Public Module MyCommon
     Public DebugBuild As Boolean = False
 #End If
 
-    Public Structure ApiInfo
-        Dim MaxCount As Integer
-        Dim RemainCount As Integer
-        Dim ResetTime As DateTime
-    End Structure
-
     Public Enum ACCOUNT_STATE
         Valid
         Invalid

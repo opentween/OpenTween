@@ -7950,7 +7950,7 @@ RETRY:
 
     Private Class GetApiInfoArgs
         Public tw As Twitter
-        Public info As ApiInfo
+        Public info As Twitter.ApiInfo
     End Class
 
     Private Sub GetApiInfo_Dowork(ByVal sender As Object, ByVal e As DoWorkEventArgs)
@@ -7959,7 +7959,7 @@ RETRY:
     End Sub
 
     Private Sub ApiInfoMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ApiInfoMenuItem.Click
-        Dim info As New ApiInfo
+        Dim info As New Twitter.ApiInfo
         Dim tmp As String
         Dim args As New GetApiInfoArgs With {.tw = tw, .info = info}
 
