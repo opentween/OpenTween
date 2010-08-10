@@ -42,14 +42,17 @@ Public Class DoubleClickCopyCanceller
         End If
         If _doubleClick Then
             If m.Msg = WM_GETTEXTLENGTH Then
+                _doubleClick = False
                 m.Result = CType(0, IntPtr)
                 Exit Sub
             End If
+#If 0 Then
             If m.Msg = WM_GETTEXT Then
                 _doubleClick = False
                 m.Result = CType(0, IntPtr)
                 Exit Sub
             End If
+#End If
         End If
         MyBase.WndProc(m)
     End Sub
