@@ -4782,7 +4782,6 @@ RETRY:
         End If
 
         If Not e.Alt Then
-            ' Altキーが押されている場合
             If e.KeyCode = Keys.J Then
                 e.Handled = True
                 e.SuppressKeyPress = True
@@ -5397,6 +5396,19 @@ RETRY:
                     End If
                 Next
                 e.Handled = True
+            End If
+        End If
+        If e.Shift Then
+            ' Altキーが押されていない場合
+            If e.KeyCode = Keys.Up Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                GoPost(False)
+            End If
+            If e.KeyCode = Keys.Down Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                GoPost(True)
             End If
         End If
         Me.StatusText_TextChanged(Nothing, Nothing)
