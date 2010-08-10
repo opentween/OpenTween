@@ -364,18 +364,6 @@
   <data name="MIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\4b.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="NextPages_ValidatingText1" xml:space="preserve">
-    <value>ページ数には数値（1～20）を指定してください。</value>
-  </data>
-  <data name="NextPages_ValidatingText2" xml:space="preserve">
-    <value>ページ数には数値（1～20）を指定してください。</value>
-  </data>
-  <data name="NextThreshold_ValidatingText1" xml:space="preserve">
-    <value>閾値には数値（1～20）を指定してください。</value>
-  </data>
-  <data name="NextThreshold_ValidatingText2" xml:space="preserve">
-    <value>閾値には数値（1～20）を指定してください。</value>
-  </data>
   <data name="PostWorker_RunWorkerCompletedText4" xml:space="preserve">
     <value>POST完了</value>
   </data>
@@ -630,9 +618,6 @@
   </data>
   <data name="UpdateFollowersMenuItem1_ClickText3" xml:space="preserve">
     <value>Followers取得完了</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText15_black" xml:space="preserve">
-    <value>BlackFav追加(</value>
   </data>
   <data name="TextBoxOutputzKey_Validating" xml:space="preserve">
     <value>復活の呪文を指定してください。</value>

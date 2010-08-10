@@ -285,9 +285,6 @@
   <data name="GetTimelineWorker_RunWorkerCompletedText18" xml:space="preserve">
     <value>) failed:</value>
   </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText2" xml:space="preserve">
-    <value> tweets were read. Continue to read more?</value>
-  </data>
   <data name="GetTimelineWorker_RunWorkerCompletedText3" xml:space="preserve">
     <value>Confirm continue reading</value>
   </data>
@@ -353,18 +350,6 @@
   </data>
   <data name="MenuItemSearchPrev_ClickText3" xml:space="preserve">
     <value>Find</value>
-  </data>
-  <data name="NextPages_ValidatingText1" xml:space="preserve">
-    <value>NextPages_ValidatingText2	Page count must be number 0 to 20.</value>
-  </data>
-  <data name="NextPages_ValidatingText2" xml:space="preserve">
-    <value>Page count must be number 0 to 20.</value>
-  </data>
-  <data name="NextThreshold_ValidatingText1" xml:space="preserve">
-    <value>Threshold must be number 1 to 20.</value>
-  </data>
-  <data name="NextThreshold_ValidatingText2" xml:space="preserve">
-    <value>Threshold must be number 1 to 20.</value>
   </data>
   <data name="PostWorker_RunWorkerCompletedText4" xml:space="preserve">
     <value>POST completed</value>
@@ -606,9 +591,6 @@
   <data name="UpdateFollowersMenuItem1_ClickText3" xml:space="preserve">
     <value>Followers refreshed</value>
   </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText15_black" xml:space="preserve">
-    <value>Mark black-fav(</value>
-  </data>
   <data name="TextBoxOutputzKey_Validating" xml:space="preserve">
     <value>Your secret key using with Outputz must be fill-in.</value>
   </data>
@@ -758,5 +740,140 @@
   </data>
   <data name="PostButton_Click1" xml:space="preserve">
     <value>This tweet isn't changed. Post this tweet as Official Retweet?{0}[Yes:Official Retweet]{0}[No:resume]{0}[Cancel:abort to post]</value>
+  </data>
+  <data name="ApiInfo6" xml:space="preserve">
+    <value>Getting Api Information...</value>
+  </data>
+  <data name="BasicAuthWarning" xml:space="preserve">
+    <value>認証モードがBASIC認証になっています。{0}BASIC認証の終了後はTwitterへログインすることはできません。{0}xAuthを使用してください。</value>
+  </data>
+  <data name="ButtonBlockDestroy_ClickText1" xml:space="preserve">
+    <value> をブロック解除します。よろしいですか？</value>
+  </data>
+  <data name="ButtonBlockDestroy_ClickText2" xml:space="preserve">
+    <value>ブロック解除確認</value>
+  </data>
+  <data name="ButtonBlockDestroy_ClickText3" xml:space="preserve">
+    <value>エラーが発生しました。成功しているかどうかWebでご確認ください。</value>
+  </data>
+  <data name="ButtonBlockDestroy_ClickText4" xml:space="preserve">
+    <value>ブロック解除を行いました。成功しているかどうかWebでご確認ください。</value>
+  </data>
+  <data name="ButtonBlock_ClickText1" xml:space="preserve">
+    <value> をブロックします。よろしいですか？</value>
+  </data>
+  <data name="ButtonBlock_ClickText2" xml:space="preserve">
+    <value>ブロック確認</value>
+  </data>
+  <data name="ButtonBlock_ClickText3" xml:space="preserve">
+    <value>エラーが発生しました。成功しているかどうかWebでご確認ください。</value>
+  </data>
+  <data name="ButtonBlock_ClickText4" xml:space="preserve">
+    <value>ブロックを行いました。成功しているかどうかWebでご確認ください。</value>
+  </data>
+  <data name="ButtonOK_ClickText4" xml:space="preserve">
+    <value>既に存在するルールは追加できません</value>
+  </data>
+  <data name="ButtonReportSpam_ClickText1" xml:space="preserve">
+    <value> をブロックしスパム報告を行います。よろしいですか？</value>
+  </data>
+  <data name="ButtonReportSpam_ClickText2" xml:space="preserve">
+    <value>スパム報告確認</value>
+  </data>
+  <data name="ButtonReportSpam_ClickText3" xml:space="preserve">
+    <value>エラーが発生しました。成功しているかどうかWebでご確認ください。</value>
+  </data>
+  <data name="ButtonReportSpam_ClickText4" xml:space="preserve">
+    <value>ブロックしスパム報告を行いました。成功しているかどうかWebでご確認ください。</value>
+  </data>
+  <data name="ButtonRuleCopy_ClickText1" xml:space="preserve">
+    <value>ルールコピー先タブの選択</value>
+  </data>
+  <data name="ButtonRuleMove_ClickText1" xml:space="preserve">
+    <value>ルール移動先タブの選択</value>
+  </data>
+  <data name="ButtonUnFollow_ClickText1" xml:space="preserve">
+    <value> をフォロー解除します。よろしいですか？</value>
+  </data>
+  <data name="ButtonUnFollow_ClickText2" xml:space="preserve">
+    <value>フォロー解除確認</value>
+  </data>
+  <data name="CalcApiUsingText1" xml:space="preserve">
+    <value>API情報取得中・・・</value>
+  </data>
+  <data name="ChangeIconToolStripMenuItem_ClickText1" xml:space="preserve">
+    <value>画像ファイル(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png</value>
+  </data>
+  <data name="ChangeIconToolStripMenuItem_ClickText2" xml:space="preserve">
+    <value>サイズ700KBまでのアイコン画像ファイルを選択してください</value>
+  </data>
+  <data name="ChangeIconToolStripMenuItem_ClickText3" xml:space="preserve">
+    <value>アイコン設定中・・・</value>
+  </data>
+  <data name="ChangeIconToolStripMenuItem_ClickText4" xml:space="preserve">
+    <value>注意：Twitterの仕様により、エラーが発生してもアイコンが変更できている場合があります。次回発言の際にご確認ください。</value>
+  </data>
+  <data name="ChangeIconToolStripMenuItem_ClickText5" xml:space="preserve">
+    <value>アイコンを変更しました。 次回発言より反映されます。</value>
+  </data>
+  <data name="CmbDateTimeFormat_Validating" xml:space="preserve">
+    <value>無効な日時書式指定文字列です</value>
+  </data>
+  <data name="ConnectionTimeOut_ValidatingText1" xml:space="preserve">
+    <value>タイムアウトまでの時間には数値（10～120）を指定してください。</value>
+  </data>
+  <data name="CopyStotText1" xml:space="preserve">
+    <value>警告：Protected発言はコピーされていません。</value>
+  </data>
+  <data name="CreateDateTimeFormatSampleText1" xml:space="preserve">
+    <value>無効な日時書式指定文字列です</value>
+  </data>
+  <data name="doShowUserStatusText1" xml:space="preserve">
+    <value>プロフィール取得中・・・</value>
+  </data>
+  <data name="FollowCommandText1" xml:space="preserve">
+    <value>フォローしています・・・</value>
+  </data>
+  <data name="RemoveCommandText1" xml:space="preserve">
+    <value>フォローを解除しています・・・</value>
+  </data>
+  <data name="RtCountText1" xml:space="preserve">
+    <value>回Retweetされています</value>
+  </data>
+  <data name="RtCountText2" xml:space="preserve">
+    <value>Retweetカウントの取得に失敗しました</value>
+  </data>
+  <data name="ShowFriendshipText1" xml:space="preserve">
+    <value>フォロー状況取得中・・・</value>
+  </data>
+  <data name="ShowUserInfo2" xml:space="preserve">
+    <value>最新発言の取得に失敗しました</value>
+  </data>
+  <data name="TabUsageTypeName_DirectMessage" xml:space="preserve">
+    <value>DirectMessage</value>
+  </data>
+  <data name="TabUsageTypeName_Favorites" xml:space="preserve">
+    <value>Favorites</value>
+  </data>
+  <data name="TabUsageTypeName_Home" xml:space="preserve">
+    <value>タイムライン</value>
+  </data>
+  <data name="TabUsageTypeName_Lists" xml:space="preserve">
+    <value>Lists</value>
+  </data>
+  <data name="TabUsageTypeName_Mentions" xml:space="preserve">
+    <value>Reply</value>
+  </data>
+  <data name="TabUsageTypeName_PublicSearch" xml:space="preserve">
+    <value>PublicSearch</value>
+  </data>
+  <data name="TabUsageTypeName_UserDefined" xml:space="preserve">
+    <value>タイムライン振り分け</value>
+  </data>
+  <data name="UserInfoButtonEdit_ClickText1" xml:space="preserve">
+    <value>適用</value>
+  </data>
+  <data name="UserInfoButtonEdit_ClickText2" xml:space="preserve">
+    <value>プロフィール更新中・・・</value>
   </data>
 </root>
