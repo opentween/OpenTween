@@ -5319,7 +5319,7 @@ RETRY:
     End Sub
 
     Private Sub StatusText_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StatusText.Enter
-        ' フォーカスの戻り先を StatusText に設定
+            ' フォーカスの戻り先を StatusText に設定
         Me.Tag = StatusText
         StatusText.BackColor = _clInputBackcolor
     End Sub
@@ -5403,7 +5403,8 @@ RETRY:
                 e.Handled = True
                 e.SuppressKeyPress = True
                 Dim idx As Integer = 0
-                If _curList IsNot Nothing AndAlso _curList.SelectedIndices(0) > 0 Then
+                If _curList IsNot Nothing AndAlso _curList.Items.Count <> 0 AndAlso _
+                            _curList.SelectedIndices.Count > 0 AndAlso _curList.SelectedIndices(0) > 0 Then
                     idx = _curList.SelectedIndices(0) - 1
                     SelectListItem(_curList, idx)
                     _curList.EnsureVisible(idx)
@@ -5413,7 +5414,8 @@ RETRY:
                 e.Handled = True
                 e.SuppressKeyPress = True
                 Dim idx As Integer = 0
-                If _curList IsNot Nothing AndAlso _curList.SelectedIndices(0) < _curList.Items.Count - 1 Then
+                If _curList IsNot Nothing AndAlso _curList.Items.Count <> 0 AndAlso _curList.SelectedIndices.Count > 0 _
+                            AndAlso _curList.SelectedIndices(0) < _curList.Items.Count - 1 Then
                     idx = _curList.SelectedIndices(0) + 1
                     SelectListItem(_curList, idx)
                     _curList.EnsureVisible(idx)
