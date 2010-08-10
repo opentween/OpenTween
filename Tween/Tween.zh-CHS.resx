@@ -175,19 +175,6 @@
   <data name="ContextMenuStripPostMode.Size" type="System.Drawing.Size, System.Drawing">
     <value>236, 192</value>
   </data>
-  <data name="Label2.Text" xml:space="preserve">
-    <value>上传到</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="ImageCancelButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Off</value>
-  </data>
-  <data name="ImageCancelButton.Text" xml:space="preserve">
-    <value>取消</value>
-  </data>
-  <data name="Label1.Text" xml:space="preserve">
-    <value>图片文件</value>
-  </data>
   <data name="AddTabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>185, 22</value>
   </data>
@@ -247,6 +234,15 @@
   </data>
   <data name="ContextMenuTabProperty.Size" type="System.Drawing.Size, System.Drawing">
     <value>186, 207</value>
+  </data>
+  <data name="Label2.Text" xml:space="preserve">
+    <value>上传到</value>
+  </data>
+  <data name="ImageCancelButton.Text" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="Label1.Text" xml:space="preserve">
+    <value>图片文件</value>
   </data>
   <data name="IconNameToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>122, 22</value>
