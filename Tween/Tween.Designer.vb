@@ -27,8 +27,8 @@ Partial Class TweenMain
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(TweenMain))
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
-        Me.StatusLabelApi = New System.Windows.Forms.ToolStripStatusLabel()
         Me.StatusLabelUrl = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.StatusLabelApi = New System.Windows.Forms.ToolStripStatusLabel()
         Me.StatusLabel = New Tween.TweenCustomControl.ToolStripLabelHistory()
         Me.HashStripSplitButton = New System.Windows.Forms.ToolStripSplitButton()
         Me.ContextMenuStripPostMode = New System.Windows.Forms.ContextMenuStrip(Me.components)
@@ -37,6 +37,7 @@ Partial Class TweenMain
         Me.ToolStripMenuItemUrlAutoShorten = New System.Windows.Forms.ToolStripMenuItem()
         Me.IdeographicSpaceToSpaceToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MultiLineMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripFocusLockMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator35 = New System.Windows.Forms.ToolStripSeparator()
         Me.ImageSelectMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator8 = New System.Windows.Forms.ToolStripSeparator()
@@ -320,13 +321,6 @@ Partial Class TweenMain
         Me.StatusStrip1.Name = "StatusStrip1"
         Me.StatusStrip1.ShowItemToolTips = True
         '
-        'StatusLabelApi
-        '
-        Me.StatusLabelApi.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right
-        Me.StatusLabelApi.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.StatusLabelApi.Name = "StatusLabelApi"
-        resources.ApplyResources(Me.StatusLabelApi, "StatusLabelApi")
-        '
         'StatusLabelUrl
         '
         resources.ApplyResources(Me.StatusLabelUrl, "StatusLabelUrl")
@@ -335,6 +329,13 @@ Partial Class TweenMain
         Me.StatusLabelUrl.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
         Me.StatusLabelUrl.Name = "StatusLabelUrl"
         Me.StatusLabelUrl.Spring = True
+        '
+        'StatusLabelApi
+        '
+        Me.StatusLabelApi.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right
+        Me.StatusLabelApi.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.StatusLabelApi.Name = "StatusLabelApi"
+        resources.ApplyResources(Me.StatusLabelApi, "StatusLabelApi")
         '
         'StatusLabel
         '
@@ -355,7 +356,7 @@ Partial Class TweenMain
         '
         'ContextMenuStripPostMode
         '
-        Me.ContextMenuStripPostMode.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItemUrlMultibyteSplit, Me.ToolStripMenuItemApiCommandEvasion, Me.ToolStripMenuItemUrlAutoShorten, Me.IdeographicSpaceToSpaceToolStripMenuItem, Me.MultiLineMenuItem, Me.ToolStripSeparator35, Me.ImageSelectMenuItem, Me.ToolStripSeparator8, Me.HashToggleMenuItem, Me.HashManageMenuItem})
+        Me.ContextMenuStripPostMode.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItemUrlMultibyteSplit, Me.ToolStripMenuItemApiCommandEvasion, Me.ToolStripMenuItemUrlAutoShorten, Me.IdeographicSpaceToSpaceToolStripMenuItem, Me.MultiLineMenuItem, Me.ToolStripFocusLockMenuItem, Me.ToolStripSeparator35, Me.ImageSelectMenuItem, Me.ToolStripSeparator8, Me.HashToggleMenuItem, Me.HashManageMenuItem})
         Me.ContextMenuStripPostMode.Name = "ContextMenuStripPostMode"
         Me.ContextMenuStripPostMode.OwnerItem = Me.HashStripSplitButton
         resources.ApplyResources(Me.ContextMenuStripPostMode, "ContextMenuStripPostMode")
@@ -393,6 +394,12 @@ Partial Class TweenMain
         Me.MultiLineMenuItem.CheckOnClick = True
         Me.MultiLineMenuItem.Name = "MultiLineMenuItem"
         resources.ApplyResources(Me.MultiLineMenuItem, "MultiLineMenuItem")
+        '
+        'ToolStripFocusLockMenuItem
+        '
+        Me.ToolStripFocusLockMenuItem.CheckOnClick = True
+        Me.ToolStripFocusLockMenuItem.Name = "ToolStripFocusLockMenuItem"
+        resources.ApplyResources(Me.ToolStripFocusLockMenuItem, "ToolStripFocusLockMenuItem")
         '
         'ToolStripSeparator35
         '
@@ -1922,5 +1929,6 @@ Partial Class TweenMain
     Friend WithEvents UserStatusToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ImageCancelButton As System.Windows.Forms.Button
     Friend WithEvents StatusLabelApi As System.Windows.Forms.ToolStripStatusLabel
+    Friend WithEvents ToolStripFocusLockMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

@@ -780,6 +780,7 @@ Public Class TweenMain
             detailHtmlFormatHeader += detailHtmlFormat6
         End If
         Me.IdeographicSpaceToSpaceToolStripMenuItem.Checked = _cfgCommon.WideSpaceConvert
+        Me.ToolStripFocusLockMenuItem.Checked = _cfgCommon.FocusLockToStatusText
 
         'Dim statregex As New Regex("^0*")
         SettingDialog.RecommendStatusText = " [TWNv" + Regex.Replace(fileVersion.Replace(".", ""), "^0*", "") + "]"
@@ -1951,7 +1952,9 @@ Public Class TweenMain
         StatusText.Text = ""
         _history.Add("")
         _hisIdx = _history.Count - 1
-        DirectCast(ListTab.SelectedTab.Tag, Control).Focus()
+        If Not ToolStripFocusLockMenuItem.Checked Then
+            DirectCast(ListTab.SelectedTab.Tag, Control).Focus()
+        End If
         urlUndoBuffer = Nothing
         UrlUndoToolStripMenuItem.Enabled = False  'Undoをできないように設定
     End Sub
@@ -5514,6 +5517,7 @@ RETRY:
             _cfgCommon.HotkeyKey = SettingDialog.HotkeyKey
             _cfgCommon.HotkeyValue = SettingDialog.HotkeyValue
             _cfgCommon.BlinkNewMentions = SettingDialog.BlinkNewMentions
+            _cfgCommon.FocusLockToStatusText = ToolStripFocusLockMenuItem.Checked
 
             _cfgCommon.Save()
         End SyncLock
