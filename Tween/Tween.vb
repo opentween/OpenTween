@@ -5402,12 +5402,22 @@ RETRY:
             If e.KeyCode = Keys.Up Then
                 e.Handled = True
                 e.SuppressKeyPress = True
-                GoPost(False)
+                Dim idx As Integer = 0
+                If _curList IsNot Nothing AndAlso _curList.SelectedIndices(0) > 0 Then
+                    idx = _curList.SelectedIndices(0) - 1
+                    SelectListItem(_curList, idx)
+                    _curList.EnsureVisible(idx)
+                End If
             End If
             If e.KeyCode = Keys.Down Then
                 e.Handled = True
                 e.SuppressKeyPress = True
-                GoPost(True)
+                Dim idx As Integer = 0
+                If _curList IsNot Nothing AndAlso _curList.SelectedIndices(0) < _curList.Items.Count - 1 Then
+                    idx = _curList.SelectedIndices(0) + 1
+                    SelectListItem(_curList, idx)
+                    _curList.EnsureVisible(idx)
+                End If
             End If
         End If
         Me.StatusText_TextChanged(Nothing, Nothing)
