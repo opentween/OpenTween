@@ -549,7 +549,12 @@ Public NotInheritable Class TabInformations
                 'FavタブからRetweet発言を削除する場合は、他の同一参照Retweetも削除
                 If tType = TabUsageType.Favorites AndAlso post.RetweetedId > 0 Then
                     For i As Integer = 0 To tab.AllCount - 1
-                        Dim rPost As PostClass = Me.Item(tn, i)
+                        Dim rPost As PostClass = Nothing
+                        Try
+                            rPost = Me.Item(tn, i)
+                        Catch ex As ArgumentOutOfRangeException
+                            Exit For
+                        End Try
                         If rPost.RetweetedId > 0 AndAlso rPost.RetweetedId = post.RetweetedId Then
                             If tab.UnreadManage AndAlso Not rPost.IsRead Then    '未読管理
                                 SyncLock LockUnread
