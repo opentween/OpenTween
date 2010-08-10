@@ -1074,15 +1074,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  BlackFav追加( に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property GetTimelineWorker_RunWorkerCompletedText15_black() As String
-            Get
-                Return ResourceManager.GetString("GetTimelineWorker_RunWorkerCompletedText15_black", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  ) 失敗: に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property GetTimelineWorker_RunWorkerCompletedText16() As String
@@ -1334,42 +1325,6 @@ Namespace My.Resources
             Get
                 Dim obj As Object = ResourceManager.GetObject("MultiMediaImage", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  ページ数には数値（1～20）を指定してください。 に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property NextPages_ValidatingText1() As String
-            Get
-                Return ResourceManager.GetString("NextPages_ValidatingText1", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  ページ数には数値（1～20）を指定してください。 に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property NextPages_ValidatingText2() As String
-            Get
-                Return ResourceManager.GetString("NextPages_ValidatingText2", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  閾値には数値（1～20）を指定してください。 に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property NextThreshold_ValidatingText1() As String
-            Get
-                Return ResourceManager.GetString("NextThreshold_ValidatingText1", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  閾値には数値（1～20）を指定してください。 に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property NextThreshold_ValidatingText2() As String
-            Get
-                Return ResourceManager.GetString("NextThreshold_ValidatingText2", resourceCulture)
             End Get
         End Property
         
