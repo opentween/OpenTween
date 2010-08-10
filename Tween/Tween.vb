@@ -5529,7 +5529,10 @@ RETRY:
             _cfgCommon.HotkeyKey = SettingDialog.HotkeyKey
             _cfgCommon.HotkeyValue = SettingDialog.HotkeyValue
             _cfgCommon.BlinkNewMentions = SettingDialog.BlinkNewMentions
-            _cfgCommon.FocusLockToStatusText = ToolStripFocusLockMenuItem.Checked
+            If ToolStripFocusLockMenuItem IsNot Nothing AndAlso _
+                    ToolStripFocusLockMenuItem.IsDisposed = False Then
+                _cfgCommon.FocusLockToStatusText = Me.ToolStripFocusLockMenuItem.Checked
+            End If
 
             _cfgCommon.Save()
         End SyncLock
@@ -8299,7 +8302,12 @@ RETRY:
             AddNewTabForSearch("from:" + m.Result("${name}"))
         End If
     End Sub
+
     Private Sub IdeographicSpaceToSpaceToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles IdeographicSpaceToSpaceToolStripMenuItem.Click
+        modifySettingCommon = True
+    End Sub
+
+    Private Sub ToolStripFocusLockMenuItem_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripFocusLockMenuItem.Click
         modifySettingCommon = True
     End Sub
 
