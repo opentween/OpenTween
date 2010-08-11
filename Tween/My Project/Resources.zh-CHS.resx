@@ -345,18 +345,6 @@
   <data name="MenuItemSearchPrev_ClickText3" xml:space="preserve">
     <value>查找</value>
   </data>
-  <data name="NextPages_ValidatingText1" xml:space="preserve">
-    <value>页面数只能在0到20之间。</value>
-  </data>
-  <data name="NextPages_ValidatingText2" xml:space="preserve">
-    <value>页面数只能在0到20之间。</value>
-  </data>
-  <data name="NextThreshold_ValidatingText1" xml:space="preserve">
-    <value>阈值只能在1到20之间。</value>
-  </data>
-  <data name="NextThreshold_ValidatingText2" xml:space="preserve">
-    <value>阈值只能在1到20之间。</value>
-  </data>
   <data name="PostWorker_RunWorkerCompletedText4" xml:space="preserve">
     <value>发送完成</value>
   </data>
@@ -910,7 +898,7 @@
     <value>上传图片</value>
   </data>
   <data name="BasicAuthWarning" xml:space="preserve">
-    <value>当前登录认证模式是BASIC模式。{0}Twitter官方BASIC认证停止后将可能不能登录。{0}请改用xAuth模式。</value>
+    <value>当前登录认证模式是BASIC模式。{0}Twitter官方BASIC认证停止后将可能无法登录。{0}请尽快改用xAuth模式。</value>
   </data>
   <data name="PostButton_Click1" xml:space="preserve">
     <value>要用官方锐推方式发送未修改过的RT锐推吗？{0}[是：改用官方锐推]{0}[否：仍然用RT锐推]{0}[取消：不发送]</value>
