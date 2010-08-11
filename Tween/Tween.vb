@@ -7057,6 +7057,28 @@ RETRY:
             Me.SaveIconPictureToolStripMenuItem.Enabled = False
             Me.IconNameToolStripMenuItem.Text = My.Resources.ContextMenuStrip3_OpeningText2
         End If
+        If NameLabel.Tag IsNot Nothing Then
+            Dim id As String = DirectCast(NameLabel.Tag, String)
+            If id = tw.Username Then
+                FollowToolStripMenuItem.Enabled = False
+                UnFollowToolStripMenuItem.Enabled = False
+                ShowFriendShipToolStripMenuItem.Enabled = False
+                ShowUserStatusToolStripMenuItem.Enabled = True
+                SearchPostsDetailNameToolStripMenuItem.Enabled = False
+            Else
+                FollowToolStripMenuItem.Enabled = True
+                UnFollowToolStripMenuItem.Enabled = True
+                ShowFriendShipToolStripMenuItem.Enabled = True
+                ShowUserStatusToolStripMenuItem.Enabled = True
+                SearchPostsDetailNameToolStripMenuItem.Enabled = True
+            End If
+        Else
+            FollowToolStripMenuItem.Enabled = False
+            UnFollowToolStripMenuItem.Enabled = False
+            ShowFriendShipToolStripMenuItem.Enabled = False
+            ShowUserStatusToolStripMenuItem.Enabled = False
+            SearchPostsDetailNameToolStripMenuItem.Enabled = False
+        End If
     End Sub
 
     Private Sub IconNameToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles IconNameToolStripMenuItem.Click
@@ -9586,31 +9608,6 @@ RETRY:
         If NameLabel.Tag IsNot Nothing Then
             Dim id As String = DirectCast(NameLabel.Tag, String)
             AddNewTabForSearch("from:" + id)
-        End If
-    End Sub
-
-    Private Sub ContextMenuStripDetailName_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStripDetailName.Opening
-        If NameLabel.Tag IsNot Nothing Then
-            Dim id As String = DirectCast(NameLabel.Tag, String)
-            If id = tw.Username Then
-                FollowToolStripMenuItem.Enabled = False
-                UnFollowToolStripMenuItem.Enabled = False
-                ShowFriendShipToolStripMenuItem.Enabled = False
-                ShowUserStatusToolStripMenuItem.Enabled = True
-                SearchPostsDetailNameToolStripMenuItem.Enabled = False
-            Else
-                FollowToolStripMenuItem.Enabled = True
-                UnFollowToolStripMenuItem.Enabled = True
-                ShowFriendShipToolStripMenuItem.Enabled = True
-                ShowUserStatusToolStripMenuItem.Enabled = True
-                SearchPostsDetailNameToolStripMenuItem.Enabled = True
-            End If
-        Else
-            FollowToolStripMenuItem.Enabled = False
-            UnFollowToolStripMenuItem.Enabled = False
-            ShowFriendShipToolStripMenuItem.Enabled = False
-            ShowUserStatusToolStripMenuItem.Enabled = False
-            SearchPostsDetailNameToolStripMenuItem.Enabled = False
         End If
     End Sub
 

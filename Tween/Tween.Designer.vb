@@ -75,17 +75,17 @@ Partial Class TweenMain
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
         Me.UserPicture = New System.Windows.Forms.PictureBox()
         Me.ContextMenuStrip3 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.IconNameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.SaveIconPictureToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.DateTimeLabel = New System.Windows.Forms.Label()
-        Me.NameLabel = New System.Windows.Forms.Label()
-        Me.ContextMenuStripDetailName = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.FollowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UnFollowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ShowFriendShipToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator37 = New System.Windows.Forms.ToolStripSeparator()
         Me.ShowUserStatusToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SearchPostsDetailNameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.IconNameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SaveIconPictureToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DateTimeLabel = New System.Windows.Forms.Label()
+        Me.NameLabel = New System.Windows.Forms.Label()
         Me.PostBrowser = New System.Windows.Forms.WebBrowser()
         Me.ContextMenuStrip4 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
@@ -288,7 +288,6 @@ Partial Class TweenMain
         Me.TableLayoutPanel1.SuspendLayout()
         CType(Me.UserPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ContextMenuStrip3.SuspendLayout()
-        Me.ContextMenuStripDetailName.SuspendLayout()
         Me.ContextMenuStrip4.SuspendLayout()
         CType(Me.PreviewPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip1.SuspendLayout()
@@ -360,7 +359,6 @@ Partial Class TweenMain
         '
         Me.ContextMenuStripPostMode.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItemUrlMultibyteSplit, Me.ToolStripMenuItemApiCommandEvasion, Me.ToolStripMenuItemUrlAutoShorten, Me.IdeographicSpaceToSpaceToolStripMenuItem, Me.MultiLineMenuItem, Me.ToolStripFocusLockMenuItem, Me.ToolStripSeparator35, Me.ImageSelectMenuItem, Me.ToolStripSeparator8, Me.HashToggleMenuItem, Me.HashManageMenuItem})
         Me.ContextMenuStripPostMode.Name = "ContextMenuStripPostMode"
-        Me.ContextMenuStripPostMode.OwnerItem = Me.HashStripSplitButton
         resources.ApplyResources(Me.ContextMenuStripPostMode, "ContextMenuStripPostMode")
         '
         'ToolStripMenuItemUrlMultibyteSplit
@@ -661,44 +659,10 @@ Partial Class TweenMain
         '
         'ContextMenuStrip3
         '
-        Me.ContextMenuStrip3.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.IconNameToolStripMenuItem, Me.ToolStripMenuItem1, Me.SaveIconPictureToolStripMenuItem})
+        Me.ContextMenuStrip3.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FollowToolStripMenuItem, Me.UnFollowToolStripMenuItem, Me.ShowFriendShipToolStripMenuItem, Me.ToolStripSeparator37, Me.ShowUserStatusToolStripMenuItem, Me.SearchPostsDetailNameToolStripMenuItem, Me.ToolStripMenuItem1, Me.IconNameToolStripMenuItem, Me.SaveIconPictureToolStripMenuItem})
         Me.ContextMenuStrip3.Name = "ContextMenuStrip3"
         Me.ContextMenuStrip3.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional
         resources.ApplyResources(Me.ContextMenuStrip3, "ContextMenuStrip3")
-        '
-        'IconNameToolStripMenuItem
-        '
-        Me.IconNameToolStripMenuItem.Name = "IconNameToolStripMenuItem"
-        resources.ApplyResources(Me.IconNameToolStripMenuItem, "IconNameToolStripMenuItem")
-        '
-        'ToolStripMenuItem1
-        '
-        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        resources.ApplyResources(Me.ToolStripMenuItem1, "ToolStripMenuItem1")
-        '
-        'SaveIconPictureToolStripMenuItem
-        '
-        Me.SaveIconPictureToolStripMenuItem.Name = "SaveIconPictureToolStripMenuItem"
-        resources.ApplyResources(Me.SaveIconPictureToolStripMenuItem, "SaveIconPictureToolStripMenuItem")
-        '
-        'DateTimeLabel
-        '
-        resources.ApplyResources(Me.DateTimeLabel, "DateTimeLabel")
-        Me.DateTimeLabel.Name = "DateTimeLabel"
-        '
-        'NameLabel
-        '
-        Me.NameLabel.AutoEllipsis = True
-        resources.ApplyResources(Me.NameLabel, "NameLabel")
-        Me.NameLabel.ContextMenuStrip = Me.ContextMenuStripDetailName
-        Me.NameLabel.Name = "NameLabel"
-        Me.NameLabel.UseMnemonic = False
-        '
-        'ContextMenuStripDetailName
-        '
-        Me.ContextMenuStripDetailName.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FollowToolStripMenuItem, Me.UnFollowToolStripMenuItem, Me.ShowFriendShipToolStripMenuItem, Me.ShowUserStatusToolStripMenuItem, Me.SearchPostsDetailNameToolStripMenuItem})
-        Me.ContextMenuStripDetailName.Name = "ContextMenuStripName"
-        resources.ApplyResources(Me.ContextMenuStripDetailName, "ContextMenuStripDetailName")
         '
         'FollowToolStripMenuItem
         '
@@ -715,6 +679,11 @@ Partial Class TweenMain
         Me.ShowFriendShipToolStripMenuItem.Name = "ShowFriendShipToolStripMenuItem"
         resources.ApplyResources(Me.ShowFriendShipToolStripMenuItem, "ShowFriendShipToolStripMenuItem")
         '
+        'ToolStripSeparator37
+        '
+        Me.ToolStripSeparator37.Name = "ToolStripSeparator37"
+        resources.ApplyResources(Me.ToolStripSeparator37, "ToolStripSeparator37")
+        '
         'ShowUserStatusToolStripMenuItem
         '
         Me.ShowUserStatusToolStripMenuItem.Name = "ShowUserStatusToolStripMenuItem"
@@ -724,6 +693,33 @@ Partial Class TweenMain
         '
         Me.SearchPostsDetailNameToolStripMenuItem.Name = "SearchPostsDetailNameToolStripMenuItem"
         resources.ApplyResources(Me.SearchPostsDetailNameToolStripMenuItem, "SearchPostsDetailNameToolStripMenuItem")
+        '
+        'ToolStripMenuItem1
+        '
+        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        resources.ApplyResources(Me.ToolStripMenuItem1, "ToolStripMenuItem1")
+        '
+        'IconNameToolStripMenuItem
+        '
+        Me.IconNameToolStripMenuItem.Name = "IconNameToolStripMenuItem"
+        resources.ApplyResources(Me.IconNameToolStripMenuItem, "IconNameToolStripMenuItem")
+        '
+        'SaveIconPictureToolStripMenuItem
+        '
+        Me.SaveIconPictureToolStripMenuItem.Name = "SaveIconPictureToolStripMenuItem"
+        resources.ApplyResources(Me.SaveIconPictureToolStripMenuItem, "SaveIconPictureToolStripMenuItem")
+        '
+        'DateTimeLabel
+        '
+        resources.ApplyResources(Me.DateTimeLabel, "DateTimeLabel")
+        Me.DateTimeLabel.Name = "DateTimeLabel"
+        '
+        'NameLabel
+        '
+        Me.NameLabel.AutoEllipsis = True
+        resources.ApplyResources(Me.NameLabel, "NameLabel")
+        Me.NameLabel.Name = "NameLabel"
+        Me.NameLabel.UseMnemonic = False
         '
         'PostBrowser
         '
@@ -1694,7 +1690,6 @@ Partial Class TweenMain
         Me.TableLayoutPanel1.PerformLayout()
         CType(Me.UserPicture, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ContextMenuStrip3.ResumeLayout(False)
-        Me.ContextMenuStripDetailName.ResumeLayout(False)
         Me.ContextMenuStrip4.ResumeLayout(False)
         CType(Me.PreviewPicture, System.ComponentModel.ISupportInitialize).EndInit()
         Me.MenuStrip1.ResumeLayout(False)
@@ -1910,7 +1905,6 @@ Partial Class TweenMain
     Friend WithEvents PreviewPicture As System.Windows.Forms.PictureBox
     Friend WithEvents PreviewScrollBar As System.Windows.Forms.VScrollBar
     Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
-    Friend WithEvents ContextMenuStripDetailName As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents FollowToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents UnFollowToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ShowFriendShipToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
@@ -1944,5 +1938,6 @@ Partial Class TweenMain
     Friend WithEvents ToolStripFocusLockMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents リストに追加LToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents リスト編集ToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator37 As System.Windows.Forms.ToolStripSeparator
 
 End Class
