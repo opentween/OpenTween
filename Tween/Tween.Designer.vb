@@ -108,6 +108,7 @@ Partial Class TweenMain
         Me.SearchPostsDetailToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator32 = New System.Windows.Forms.ToolStripSeparator()
         Me.IdFilterAddMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.リストに追加LToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator33 = New System.Windows.Forms.ToolStripSeparator()
         Me.UseHashtagMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StatusText = New System.Windows.Forms.TextBox()
@@ -216,7 +217,6 @@ Partial Class TweenMain
         Me.DebugModeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DumpPostClassToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TraceOutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.リストに追加LToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ContextMenuStrip2 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ReplyStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ReplyAllStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -735,7 +735,7 @@ Partial Class TweenMain
         '
         'ContextMenuStrip4
         '
-        Me.ContextMenuStrip4.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem2, Me.ToolStripSeparator13, Me.ToolStripMenuItem3, Me.ToolStripMenuItem4, Me.ToolStripMenuItem5, Me.ToolStripSeparator5, Me.FollowContextMenuItem, Me.RemoveContextMenuItem, Me.FriendshipContextMenuItem, Me.FriendshipAllMenuItem, Me.ToolStripSeparator36, Me.ShowUserStatusContextMenuItem, Me.SearchPostsDetailToolStripMenuItem, Me.ToolStripSeparator32, Me.IdFilterAddMenuItem, Me.ToolStripSeparator33, Me.UseHashtagMenuItem})
+        Me.ContextMenuStrip4.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem2, Me.ToolStripSeparator13, Me.ToolStripMenuItem3, Me.ToolStripMenuItem4, Me.ToolStripMenuItem5, Me.ToolStripSeparator5, Me.FollowContextMenuItem, Me.RemoveContextMenuItem, Me.FriendshipContextMenuItem, Me.FriendshipAllMenuItem, Me.ToolStripSeparator36, Me.ShowUserStatusContextMenuItem, Me.SearchPostsDetailToolStripMenuItem, Me.ToolStripSeparator32, Me.IdFilterAddMenuItem, Me.リストに追加LToolStripMenuItem, Me.ToolStripSeparator33, Me.UseHashtagMenuItem})
         Me.ContextMenuStrip4.Name = "ContextMenuStrip4"
         resources.ApplyResources(Me.ContextMenuStrip4, "ContextMenuStrip4")
         '
@@ -839,6 +839,11 @@ Partial Class TweenMain
         '
         Me.IdFilterAddMenuItem.Name = "IdFilterAddMenuItem"
         resources.ApplyResources(Me.IdFilterAddMenuItem, "IdFilterAddMenuItem")
+        '
+        'リストに追加LToolStripMenuItem
+        '
+        Me.リストに追加LToolStripMenuItem.Name = "リストに追加LToolStripMenuItem"
+        resources.ApplyResources(Me.リストに追加LToolStripMenuItem, "リストに追加LToolStripMenuItem")
         '
         'ToolStripSeparator33
         '
@@ -1406,11 +1411,6 @@ Partial Class TweenMain
         Me.TraceOutToolStripMenuItem.CheckOnClick = True
         Me.TraceOutToolStripMenuItem.Name = "TraceOutToolStripMenuItem"
         resources.ApplyResources(Me.TraceOutToolStripMenuItem, "TraceOutToolStripMenuItem")
-        '
-        'リストに追加LToolStripMenuItem
-        '
-        Me.リストに追加LToolStripMenuItem.Name = "リストに追加LToolStripMenuItem"
-        resources.ApplyResources(Me.リストに追加LToolStripMenuItem, "リストに追加LToolStripMenuItem")
         '
         'ContextMenuStrip2
         '
