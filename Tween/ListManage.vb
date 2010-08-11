@@ -61,8 +61,8 @@
 
         If rslt <> "" Then
             MessageBox.Show("通信エラー (" + rslt + ")")
-            Me.ListsList.Items.Clear()
-            Me.ListManage_Load(Nothing, EventArgs.Empty)
+            'Me.ListsList.Items.Clear()
+            'Me.ListManage_Load(Nothing, EventArgs.Empty)
             Return
         End If
 
@@ -74,6 +74,8 @@
 
         Me.OKEditButton.Enabled = False
         Me.CancelEditButton.Enabled = False
+
+        Me.ListsList.Refresh()
     End Sub
 
     Private Sub CancelButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CancelEditButton.Click
@@ -82,6 +84,12 @@
 
         Me.OKEditButton.Enabled = False
         Me.CancelEditButton.Enabled = False
+
+        For i As Integer = 0 To Me.ListsList.Items.Count - 1
+            If TypeOf Me.ListsList.Items(i) Is NewListElement Then
+                Me.ListsList.Items.RemoveAt(i)
+            End If
+        Next
 
         Me.ListsList_SelectedIndexChanged(Me.ListsList, EventArgs.Empty)
     End Sub
@@ -158,8 +166,9 @@
             If Me.IsCreated Then
                 Return MyBase.Refresh()
             Else
-                Me._isCreated = True
-                Return Me._tw.CreateListApi(Me.Name, Not Me.IsPublic, Me.Description)
+                Dim rslt As String = Me._tw.CreateListApi(Me.Name, Not Me.IsPublic, Me.Description)
+                Me._isCreated = (rslt = "")
+                Return rslt
             End If
         End Function
 
@@ -170,7 +179,11 @@
         End Property
 
         Public Overrides Function ToString() As String
-            Return "NewList"
+            If IsCreated Then
+                Return MyBase.ToString()
+            Else
+                Return "NewList"
+            End If
         End Function
     End Class
 End Class
