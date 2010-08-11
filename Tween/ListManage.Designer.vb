@@ -45,7 +45,9 @@ Partial Class ListManage
         Me.PublicRadioButton = New System.Windows.Forms.RadioButton()
         Me.OKEditButton = New System.Windows.Forms.Button()
         Me.CancelEditButton = New System.Windows.Forms.Button()
+        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.GroupBox2.SuspendLayout()
+        Me.GroupBox3.SuspendLayout()
         Me.SuspendLayout()
         '
         'ListsList
@@ -53,18 +55,18 @@ Partial Class ListManage
         Me.ListsList.DisplayMember = "Name"
         Me.ListsList.FormattingEnabled = True
         Me.ListsList.ItemHeight = 12
-        Me.ListsList.Location = New System.Drawing.Point(12, 26)
+        Me.ListsList.Location = New System.Drawing.Point(12, 12)
         Me.ListsList.Name = "ListsList"
-        Me.ListsList.Size = New System.Drawing.Size(215, 232)
+        Me.ListsList.Size = New System.Drawing.Size(215, 196)
         Me.ListsList.TabIndex = 17
         '
         'DescriptionText
         '
-        Me.DescriptionText.Location = New System.Drawing.Point(28, 477)
+        Me.DescriptionText.Location = New System.Drawing.Point(59, 169)
         Me.DescriptionText.Multiline = True
         Me.DescriptionText.Name = "DescriptionText"
         Me.DescriptionText.ReadOnly = True
-        Me.DescriptionText.Size = New System.Drawing.Size(174, 56)
+        Me.DescriptionText.Size = New System.Drawing.Size(146, 56)
         Me.DescriptionText.TabIndex = 29
         Me.DescriptionText.Text = "Description"
         '
@@ -72,7 +74,7 @@ Partial Class ListManage
         '
         Me.Label12.AutoSize = True
         Me.Label12.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.Label12.Location = New System.Drawing.Point(85, 423)
+        Me.Label12.Location = New System.Drawing.Point(6, 147)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(53, 12)
         Me.Label12.TabIndex = 27
@@ -82,7 +84,7 @@ Partial Class ListManage
         '
         Me.Label10.AutoSize = True
         Me.Label10.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.Label10.Location = New System.Drawing.Point(12, 423)
+        Me.Label10.Location = New System.Drawing.Point(6, 122)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(53, 12)
         Me.Label10.TabIndex = 25
@@ -92,7 +94,7 @@ Partial Class ListManage
         '
         Me.Label6.AutoSize = True
         Me.Label6.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.Label6.Location = New System.Drawing.Point(12, 462)
+        Me.Label6.Location = New System.Drawing.Point(6, 172)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(29, 12)
         Me.Label6.TabIndex = 22
@@ -102,7 +104,7 @@ Partial Class ListManage
         '
         Me.Label4.AutoSize = True
         Me.Label4.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.Label4.Location = New System.Drawing.Point(12, 335)
+        Me.Label4.Location = New System.Drawing.Point(6, 46)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(41, 12)
         Me.Label4.TabIndex = 20
@@ -112,7 +114,7 @@ Partial Class ListManage
         '
         Me.Label1.AutoSize = True
         Me.Label1.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.Label1.Location = New System.Drawing.Point(12, 298)
+        Me.Label1.Location = New System.Drawing.Point(6, 21)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(41, 12)
         Me.Label1.TabIndex = 18
@@ -122,14 +124,14 @@ Partial Class ListManage
         '
         Me.UserList.FormattingEnabled = True
         Me.UserList.ItemHeight = 12
-        Me.UserList.Location = New System.Drawing.Point(233, 26)
+        Me.UserList.Location = New System.Drawing.Point(233, 12)
         Me.UserList.Name = "UserList"
-        Me.UserList.Size = New System.Drawing.Size(224, 316)
+        Me.UserList.Size = New System.Drawing.Size(224, 472)
         Me.UserList.TabIndex = 30
         '
         'GroupBox1
         '
-        Me.GroupBox1.Location = New System.Drawing.Point(463, 26)
+        Me.GroupBox1.Location = New System.Drawing.Point(463, 12)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(200, 220)
         Me.GroupBox1.TabIndex = 31
@@ -138,7 +140,7 @@ Partial Class ListManage
         '
         'AddListButton
         '
-        Me.AddListButton.Location = New System.Drawing.Point(12, 264)
+        Me.AddListButton.Location = New System.Drawing.Point(12, 214)
         Me.AddListButton.Name = "AddListButton"
         Me.AddListButton.Size = New System.Drawing.Size(53, 23)
         Me.AddListButton.TabIndex = 32
@@ -147,7 +149,7 @@ Partial Class ListManage
         '
         'DeleteListButton
         '
-        Me.DeleteListButton.Location = New System.Drawing.Point(174, 264)
+        Me.DeleteListButton.Location = New System.Drawing.Point(174, 214)
         Me.DeleteListButton.Name = "DeleteListButton"
         Me.DeleteListButton.Size = New System.Drawing.Size(53, 23)
         Me.DeleteListButton.TabIndex = 34
@@ -156,7 +158,7 @@ Partial Class ListManage
         '
         'RefreshUsersButton
         '
-        Me.RefreshUsersButton.Location = New System.Drawing.Point(233, 348)
+        Me.RefreshUsersButton.Location = New System.Drawing.Point(233, 488)
         Me.RefreshUsersButton.Name = "RefreshUsersButton"
         Me.RefreshUsersButton.Size = New System.Drawing.Size(133, 23)
         Me.RefreshUsersButton.TabIndex = 35
@@ -165,7 +167,7 @@ Partial Class ListManage
         '
         'DeleteUserButton
         '
-        Me.DeleteUserButton.Location = New System.Drawing.Point(463, 252)
+        Me.DeleteUserButton.Location = New System.Drawing.Point(463, 238)
         Me.DeleteUserButton.Name = "DeleteUserButton"
         Me.DeleteUserButton.Size = New System.Drawing.Size(114, 23)
         Me.DeleteUserButton.TabIndex = 36
@@ -174,23 +176,23 @@ Partial Class ListManage
         '
         'NameTextBox
         '
-        Me.NameTextBox.Location = New System.Drawing.Point(28, 350)
+        Me.NameTextBox.Location = New System.Drawing.Point(59, 43)
         Me.NameTextBox.Name = "NameTextBox"
         Me.NameTextBox.ReadOnly = True
-        Me.NameTextBox.Size = New System.Drawing.Size(174, 19)
+        Me.NameTextBox.Size = New System.Drawing.Size(146, 19)
         Me.NameTextBox.TabIndex = 37
         '
         'UsernameTextBox
         '
-        Me.UsernameTextBox.Location = New System.Drawing.Point(28, 313)
+        Me.UsernameTextBox.Location = New System.Drawing.Point(59, 18)
         Me.UsernameTextBox.Name = "UsernameTextBox"
         Me.UsernameTextBox.ReadOnly = True
-        Me.UsernameTextBox.Size = New System.Drawing.Size(174, 19)
+        Me.UsernameTextBox.Size = New System.Drawing.Size(146, 19)
         Me.UsernameTextBox.TabIndex = 39
         '
         'MemberCountTextBox
         '
-        Me.MemberCountTextBox.Location = New System.Drawing.Point(28, 438)
+        Me.MemberCountTextBox.Location = New System.Drawing.Point(65, 119)
         Me.MemberCountTextBox.Name = "MemberCountTextBox"
         Me.MemberCountTextBox.ReadOnly = True
         Me.MemberCountTextBox.Size = New System.Drawing.Size(46, 19)
@@ -198,7 +200,7 @@ Partial Class ListManage
         '
         'SubscriberCountTextBox
         '
-        Me.SubscriberCountTextBox.Location = New System.Drawing.Point(101, 438)
+        Me.SubscriberCountTextBox.Location = New System.Drawing.Point(65, 144)
         Me.SubscriberCountTextBox.Name = "SubscriberCountTextBox"
         Me.SubscriberCountTextBox.ReadOnly = True
         Me.SubscriberCountTextBox.Size = New System.Drawing.Size(46, 19)
@@ -207,7 +209,7 @@ Partial Class ListManage
         'EditCheckBox
         '
         Me.EditCheckBox.Appearance = System.Windows.Forms.Appearance.Button
-        Me.EditCheckBox.Location = New System.Drawing.Point(71, 264)
+        Me.EditCheckBox.Location = New System.Drawing.Point(71, 214)
         Me.EditCheckBox.Name = "EditCheckBox"
         Me.EditCheckBox.Size = New System.Drawing.Size(53, 23)
         Me.EditCheckBox.TabIndex = 42
@@ -219,9 +221,9 @@ Partial Class ListManage
         '
         Me.GroupBox2.Controls.Add(Me.PrivateRadioButton)
         Me.GroupBox2.Controls.Add(Me.PublicRadioButton)
-        Me.GroupBox2.Location = New System.Drawing.Point(14, 375)
+        Me.GroupBox2.Location = New System.Drawing.Point(27, 68)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(188, 45)
+        Me.GroupBox2.Size = New System.Drawing.Size(158, 45)
         Me.GroupBox2.TabIndex = 43
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "種別"
@@ -253,7 +255,7 @@ Partial Class ListManage
         'OKEditButton
         '
         Me.OKEditButton.Enabled = False
-        Me.OKEditButton.Location = New System.Drawing.Point(208, 510)
+        Me.OKEditButton.Location = New System.Drawing.Point(25, 236)
         Me.OKEditButton.Name = "OKEditButton"
         Me.OKEditButton.Size = New System.Drawing.Size(75, 23)
         Me.OKEditButton.TabIndex = 44
@@ -263,39 +265,49 @@ Partial Class ListManage
         'CancelEditButton
         '
         Me.CancelEditButton.Enabled = False
-        Me.CancelEditButton.Location = New System.Drawing.Point(291, 510)
+        Me.CancelEditButton.Location = New System.Drawing.Point(120, 236)
         Me.CancelEditButton.Name = "CancelEditButton"
         Me.CancelEditButton.Size = New System.Drawing.Size(75, 23)
         Me.CancelEditButton.TabIndex = 45
         Me.CancelEditButton.Text = "Cancel"
         Me.CancelEditButton.UseVisualStyleBackColor = True
         '
+        'GroupBox3
+        '
+        Me.GroupBox3.Controls.Add(Me.Label1)
+        Me.GroupBox3.Controls.Add(Me.CancelEditButton)
+        Me.GroupBox3.Controls.Add(Me.GroupBox2)
+        Me.GroupBox3.Controls.Add(Me.OKEditButton)
+        Me.GroupBox3.Controls.Add(Me.SubscriberCountTextBox)
+        Me.GroupBox3.Controls.Add(Me.MemberCountTextBox)
+        Me.GroupBox3.Controls.Add(Me.UsernameTextBox)
+        Me.GroupBox3.Controls.Add(Me.NameTextBox)
+        Me.GroupBox3.Controls.Add(Me.Label4)
+        Me.GroupBox3.Controls.Add(Me.Label6)
+        Me.GroupBox3.Controls.Add(Me.Label10)
+        Me.GroupBox3.Controls.Add(Me.DescriptionText)
+        Me.GroupBox3.Controls.Add(Me.Label12)
+        Me.GroupBox3.Location = New System.Drawing.Point(12, 243)
+        Me.GroupBox3.Name = "GroupBox3"
+        Me.GroupBox3.Size = New System.Drawing.Size(215, 268)
+        Me.GroupBox3.TabIndex = 46
+        Me.GroupBox3.TabStop = False
+        Me.GroupBox3.Text = "GroupBox3"
+        '
         'ListManage
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(683, 538)
-        Me.Controls.Add(Me.CancelEditButton)
-        Me.Controls.Add(Me.OKEditButton)
+        Me.ClientSize = New System.Drawing.Size(683, 522)
+        Me.Controls.Add(Me.GroupBox3)
         Me.Controls.Add(Me.DeleteUserButton)
         Me.Controls.Add(Me.RefreshUsersButton)
         Me.Controls.Add(Me.DeleteListButton)
         Me.Controls.Add(Me.AddListButton)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.UserList)
-        Me.Controls.Add(Me.DescriptionText)
-        Me.Controls.Add(Me.Label12)
-        Me.Controls.Add(Me.Label10)
-        Me.Controls.Add(Me.Label6)
-        Me.Controls.Add(Me.Label4)
-        Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.ListsList)
-        Me.Controls.Add(Me.NameTextBox)
-        Me.Controls.Add(Me.UsernameTextBox)
-        Me.Controls.Add(Me.MemberCountTextBox)
-        Me.Controls.Add(Me.SubscriberCountTextBox)
         Me.Controls.Add(Me.EditCheckBox)
-        Me.Controls.Add(Me.GroupBox2)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False
@@ -305,8 +317,9 @@ Partial Class ListManage
         Me.TopMost = True
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
+        Me.GroupBox3.ResumeLayout(False)
+        Me.GroupBox3.PerformLayout()
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
     Friend WithEvents ListsList As System.Windows.Forms.ListBox
@@ -332,4 +345,5 @@ Partial Class ListManage
     Friend WithEvents PublicRadioButton As System.Windows.Forms.RadioButton
     Friend WithEvents OKEditButton As System.Windows.Forms.Button
     Friend WithEvents CancelEditButton As System.Windows.Forms.Button
+    Friend WithEvents GroupBox3 As System.Windows.Forms.GroupBox
 End Class
