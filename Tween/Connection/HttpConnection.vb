@@ -302,6 +302,9 @@ Public Class HttpConnection
         Catch ex As WebException
             If ex.Status = WebExceptionStatus.ProtocolError Then
                 Dim res As HttpWebResponse = DirectCast(ex.Response, HttpWebResponse)
+                If ex.Response IsNot Nothing Then
+                    GetHeaderInfo(DirectCast(ex.Response, System.Net.HttpWebResponse), headerInfo)
+                End If
                 Using sr As StreamReader = New StreamReader(res.GetResponseStream)
                     contentText = sr.ReadToEnd()
                 End Using
@@ -337,6 +340,9 @@ Public Class HttpConnection
             End Using
         Catch ex As WebException
             If ex.Status = WebExceptionStatus.ProtocolError Then
+                If ex.Response IsNot Nothing Then
+                    GetHeaderInfo(DirectCast(ex.Response, System.Net.HttpWebResponse), headerInfo)
+                End If
                 Dim res As HttpWebResponse = DirectCast(ex.Response, HttpWebResponse)
                 Return res.StatusCode
             End If
@@ -375,6 +381,9 @@ Public Class HttpConnection
             End Using
         Catch ex As WebException
             If ex.Status = WebExceptionStatus.ProtocolError Then
+                If ex.Response IsNot Nothing Then
+                    GetHeaderInfo(DirectCast(ex.Response, System.Net.HttpWebResponse), headerInfo)
+                End If
                 Dim res As HttpWebResponse = DirectCast(ex.Response, HttpWebResponse)
                 Return res.StatusCode
             End If
