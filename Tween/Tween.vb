@@ -8110,6 +8110,16 @@ RETRY:
         ShowFriendship(id)
     End Sub
 
+    Private Sub リスト編集ToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles リスト編集ToolStripMenuItem.Click
+        Dim rslt As String = tw.GetListsApi()
+        If rslt <> "" Then
+            MessageBox.Show("Failed to get lists. (" + rslt + ")")
+        End If
+
+        Dim form As New ListManage(tw)
+        form.Show()
+    End Sub
+
     Private Class ShowFriendshipArgs
         Public tw As Tween.Twitter
         Public Class FriendshipInfo
@@ -8494,6 +8504,34 @@ RETRY:
                 Me.Cursor = Cursors.Default
             End Try
             SaveConfigsTabs()
+        End If
+    End Sub
+
+    Private Sub リストに追加LToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles リストに追加LToolStripMenuItem.Click
+        Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(?<name>[a-zA-Z0-9_]+)$")
+        If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
+            Dim user As String = m.Result("${name}")
+
+            Dim list As ListElement = Nothing
+            Dim res As String = Me.tw.GetListsApi()
+
+            If res <> "" Then
+                MessageBox.Show("Failed to get lists. (" + res + ")")
+                Return
+            End If
+
+            Using listAvail As New ListAvailable
+                If listAvail.ShowDialog(Me) = Windows.Forms.DialogResult.Cancel Then Exit Sub
+                If listAvail.SelectedList Is Nothing Then Exit Sub
+                list = listAvail.SelectedList
+            End Using
+
+            res = Me.tw.AddUserToList(list.Id.ToString(), user)
+
+            If res <> "" Then
+                MessageBox.Show("通信エラー (" + res + ")")
+                Return
+            End If
         End If
     End Sub
 
@@ -9661,6 +9699,10 @@ RETRY:
         If NameLabel.Tag IsNot Nothing Then
             OpenUriAsync("http://twitter.com/" + NameLabel.Tag.ToString)
         End If
+    End Sub
+
+    Private Sub SplitContainer2_MouseDoubleClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles SplitContainer2.MouseDoubleClick
+        Me.MultiLineMenuItem.PerformClick()
     End Sub
 
 #Region "画像投稿"

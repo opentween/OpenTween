@@ -204,6 +204,7 @@ Partial Class TweenMain
         Me.HashToggleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HashManageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RtCountMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.リスト編集ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuItemHelp = New System.Windows.Forms.ToolStripMenuItem()
         Me.MatomeMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator16 = New System.Windows.Forms.ToolStripSeparator()
@@ -215,6 +216,7 @@ Partial Class TweenMain
         Me.DebugModeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DumpPostClassToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TraceOutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.リストに追加LToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ContextMenuStrip2 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ReplyStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ReplyAllStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -358,6 +360,7 @@ Partial Class TweenMain
         '
         Me.ContextMenuStripPostMode.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItemUrlMultibyteSplit, Me.ToolStripMenuItemApiCommandEvasion, Me.ToolStripMenuItemUrlAutoShorten, Me.IdeographicSpaceToSpaceToolStripMenuItem, Me.MultiLineMenuItem, Me.ToolStripFocusLockMenuItem, Me.ToolStripSeparator35, Me.ImageSelectMenuItem, Me.ToolStripSeparator8, Me.HashToggleMenuItem, Me.HashManageMenuItem})
         Me.ContextMenuStripPostMode.Name = "ContextMenuStripPostMode"
+        Me.ContextMenuStripPostMode.OwnerItem = Me.HashStripSplitButton
         resources.ApplyResources(Me.ContextMenuStripPostMode, "ContextMenuStripPostMode")
         '
         'ToolStripMenuItemUrlMultibyteSplit
@@ -1233,7 +1236,7 @@ Partial Class TweenMain
         '
         'MenuItemCommand
         '
-        Me.MenuItemCommand.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TinyUrlConvertToolStripMenuItem, Me.UpdateFollowersMenuItem1, Me.ToolStripSeparator1, Me.FollowCommandMenuItem, Me.RemoveCommandMenuItem, Me.FriendshipMenuItem, Me.ToolStripSeparator3, Me.OwnStatusMenuItem, Me.UserStatusToolStripMenuItem, Me.ToolStripSeparator34, Me.HashToggleToolStripMenuItem, Me.HashManageToolStripMenuItem, Me.RtCountMenuItem})
+        Me.MenuItemCommand.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TinyUrlConvertToolStripMenuItem, Me.UpdateFollowersMenuItem1, Me.ToolStripSeparator1, Me.FollowCommandMenuItem, Me.RemoveCommandMenuItem, Me.FriendshipMenuItem, Me.ToolStripSeparator3, Me.OwnStatusMenuItem, Me.UserStatusToolStripMenuItem, Me.ToolStripSeparator34, Me.HashToggleToolStripMenuItem, Me.HashManageToolStripMenuItem, Me.RtCountMenuItem, Me.リスト編集ToolStripMenuItem})
         Me.MenuItemCommand.Name = "MenuItemCommand"
         resources.ApplyResources(Me.MenuItemCommand, "MenuItemCommand")
         '
@@ -1344,6 +1347,11 @@ Partial Class TweenMain
         Me.RtCountMenuItem.Name = "RtCountMenuItem"
         resources.ApplyResources(Me.RtCountMenuItem, "RtCountMenuItem")
         '
+        'リスト編集ToolStripMenuItem
+        '
+        Me.リスト編集ToolStripMenuItem.Name = "リスト編集ToolStripMenuItem"
+        resources.ApplyResources(Me.リスト編集ToolStripMenuItem, "リスト編集ToolStripMenuItem")
+        '
         'MenuItemHelp
         '
         Me.MenuItemHelp.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MatomeMenuItem, Me.ToolStripSeparator16, Me.VerUpMenuItem, Me.ToolStripSeparator14, Me.ApiInfoMenuItem, Me.ToolStripSeparator7, Me.AboutMenuItem, Me.DebugModeToolStripMenuItem})
@@ -1402,6 +1410,11 @@ Partial Class TweenMain
         Me.TraceOutToolStripMenuItem.CheckOnClick = True
         Me.TraceOutToolStripMenuItem.Name = "TraceOutToolStripMenuItem"
         resources.ApplyResources(Me.TraceOutToolStripMenuItem, "TraceOutToolStripMenuItem")
+        '
+        'リストに追加LToolStripMenuItem
+        '
+        Me.リストに追加LToolStripMenuItem.Name = "リストに追加LToolStripMenuItem"
+        resources.ApplyResources(Me.リストに追加LToolStripMenuItem, "リストに追加LToolStripMenuItem")
         '
         'ContextMenuStrip2
         '
@@ -1929,5 +1942,7 @@ Partial Class TweenMain
     Friend WithEvents ImageCancelButton As System.Windows.Forms.Button
     Friend WithEvents StatusLabelApi As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents ToolStripFocusLockMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents リストに追加LToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents リスト編集ToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

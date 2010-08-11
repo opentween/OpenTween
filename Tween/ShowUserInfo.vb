@@ -48,28 +48,6 @@ Public Class ShowUserInfo
     Private MyOwner As TweenMain
     Private FriendshipResult As String = ""
 
-    Private Class UserInfo
-        Public Id As Int64 = 0
-        Public Name As String = ""
-        Public ScreenName As String = ""
-        Public Location As String = ""
-        Public Description As String = ""
-        Public ImageUrl As Uri = Nothing
-        Public Url As String = ""
-        Public Protect As Boolean = False
-        Public FriendsCount As Integer = 0
-        Public FollowersCount As Integer = 0
-        Public FavoriteCount As Integer = 0
-        Public CreatedAt As New DateTime
-        Public StatusesCount As Integer = 0
-        Public Verified As Boolean = False
-        Public RecentPost As String = ""
-        Public PostCreatedAt As New DateTime
-        Public PostSource As String = ""        ' html形式　"<a href="http://sourceforge.jp/projects/tween/wiki/FrontPage" rel="nofollow">Tween</a>"
-        Public isFollowing As Boolean = False
-        Public isFollowed As Boolean = False
-    End Class
-
     Private Sub InitPath()
         Home = Mainpath + _info.ScreenName
         Following = Home + Followingpath

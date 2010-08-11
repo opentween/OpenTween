@@ -486,6 +486,30 @@ Public Class HttpTwitter
                             _remainCountApi)
     End Function
 
+    Public Function PostListID(ByVal user As String, ByVal list_id As String, ByVal name As String, ByVal mode As String, ByVal description As String, ByRef content As String) As HttpStatusCode
+        Dim param As New Dictionary(Of String, String)
+        If name IsNot Nothing Then param.Add("name", name)
+        If mode IsNot Nothing Then param.Add("mode", mode)
+        If description IsNot Nothing Then param.Add("description", description)
+
+        Return httpCon.GetContent(PostMethod, _
+                                  CreateTwitterUri("/1/" + user + "/lists/" + list_id + ".xml"), _
+                                  param, _
+                                  content, _
+                                  Nothing)
+    End Function
+
+    Public Function DeleteListID(ByVal user As String, ByVal list_id As String, ByRef content As String) As HttpStatusCode
+        Dim param As New Dictionary(Of String, String)
+        param.Add("_method", "DELETE")
+
+        Return httpCon.GetContent(PostMethod, _
+                                  CreateTwitterUri("/1/" + user + "/lists/" + list_id + ".xml"), _
+                                  param, _
+                                  content, _
+                                  Nothing)
+    End Function
+
     Public Function GetListsSubscriptions(ByVal user As String, ByVal cursor As Long, ByRef content As String) As HttpStatusCode
         Dim param As New Dictionary(Of String, String)
         param.Add("cursor", cursor.ToString)
@@ -512,6 +536,64 @@ Public Class HttpTwitter
         Return httpCon.GetContent(GetMethod, _
                             CreateTwitterUri("/1/" + user + "/lists/" + list_id + "/statuses.xml"), _
                             param, _
+                            content, _
+                            _remainCountApi)
+    End Function
+
+    Public Function PostLists(ByVal user As String, ByVal listname As String, ByVal isPrivate As Boolean, ByVal description As String, ByRef content As String) As HttpStatusCode
+        Dim mode As String = "public"
+        If isPrivate Then
+            mode = "private"
+        End If
+
+        Dim param As New Dictionary(Of String, String)
+        param.Add("name", listname)
+        param.Add("mode", mode)
+        If Not String.IsNullOrEmpty(description) Then
+            param.Add("description", description)
+        End If
+        Return httpCon.GetContent(PostMethod, _
+                            CreateTwitterUri("/1/" + user + "/lists.xml"), _
+                            param, _
+                            content, _
+                            Nothing)
+    End Function
+
+    Public Function GetListNembers(ByVal user As String, ByVal list_id As String, ByVal cursor As Long, ByRef content As String) As HttpStatusCode
+        Dim param As New Dictionary(Of String, String)
+        param.Add("cursor", cursor.ToString())
+        Return httpCon.GetContent(GetMethod, _
+                            CreateTwitterUri("/1/" + user + "/" + list_id + "/members.xml"), _
+                            param, _
+                            content, _
+                            _remainCountApi)
+    End Function
+
+    Public Function PostListMembers(ByVal user As String, ByVal list_id As String, ByVal id As String, ByRef content As String) As HttpStatusCode
+        Dim param As New Dictionary(Of String, String)
+        param.Add("id", id)
+        Return httpCon.GetContent(PostMethod, _
+                            CreateTwitterUri("/1/" + user + "/" + list_id + "/members.xml"), _
+                            param, _
+                            content, _
+                            Nothing)
+    End Function
+
+    Public Function DeleteListMembers(ByVal user As String, ByVal list_id As String, ByVal id As String, ByRef content As String) As HttpStatusCode
+        Dim param As New Dictionary(Of String, String)
+        param.Add("id", id)
+        param.Add("_method", "DELETE")
+        Return httpCon.GetContent(PostMethod, _
+                            CreateTwitterUri("/1/" + user + "/" + list_id + "/members.xml"), _
+                            param, _
+                            content, _
+                            Nothing)
+    End Function
+
+    Public Function GetListMembersID(ByVal user As String, ByVal list_id As String, ByVal id As String, ByRef content As String) As HttpStatusCode
+        Return httpCon.GetContent(GetMethod, _
+                            CreateTwitterUri("/1/" + user + "/" + list_id + "/members/" + id + ".xml"), _
+                            Nothing, _
                             content, _
                             _remainCountApi)
     End Function

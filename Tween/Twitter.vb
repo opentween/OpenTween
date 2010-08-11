@@ -2310,20 +2310,7 @@ Public Class Twitter
 
             Try
                 For Each xentryNode As XmlNode In xdoc.DocumentElement.SelectNodes("/lists_list/lists/list")
-                    Dim xentry As XmlElement = CType(xentryNode, XmlElement)
-                    Dim lst As New ListElement
-                    lst.Description = xentry.Item("description").InnerText
-                    lst.Id = Long.Parse(xentry.Item("id").InnerText)
-                    lst.IsPublic = (xentry.Item("mode").InnerText = "public")
-                    lst.MemberCount = Integer.Parse(xentry.Item("member_count").InnerText)
-                    lst.Name = xentry.Item("name").InnerText
-                    lst.SubscriberCount = Integer.Parse(xentry.Item("subscriber_count").InnerText)
-                    lst.Slug = xentry.Item("slug").InnerText
-                    Dim xUserEntry As XmlElement = CType(xentry.SelectSingleNode("./user"), XmlElement)
-                    lst.Nickname = xUserEntry.Item("name").InnerText
-                    lst.Username = xUserEntry.Item("screen_name").InnerText
-                    lst.UserId = Long.Parse(xUserEntry.Item("id").InnerText)
-                    lists.Add(lst)
+                    lists.Add(New ListElement(xentryNode, Me))
                 Next
                 cursor = Long.Parse(xdoc.DocumentElement.SelectSingleNode("/lists_list/next_cursor").InnerText)
             Catch ex As Exception
@@ -2363,20 +2350,7 @@ Public Class Twitter
 
             Try
                 For Each xentryNode As XmlNode In xdoc.DocumentElement.SelectNodes("/lists_list/lists/list")
-                    Dim xentry As XmlElement = CType(xentryNode, XmlElement)
-                    Dim lst As New ListElement
-                    lst.Description = xentry.Item("description").InnerText
-                    lst.Id = Long.Parse(xentry.Item("id").InnerText)
-                    lst.IsPublic = (xentry.Item("mode").InnerText = "public")
-                    lst.MemberCount = Integer.Parse(xentry.Item("member_count").InnerText)
-                    lst.Name = xentry.Item("name").InnerText
-                    lst.SubscriberCount = Integer.Parse(xentry.Item("subscriber_count").InnerText)
-                    lst.Slug = xentry.Item("slug").InnerText
-                    Dim xUserEntry As XmlElement = CType(xentry.SelectSingleNode("./user"), XmlElement)
-                    lst.Nickname = xUserEntry.Item("name").InnerText
-                    lst.Username = xUserEntry.Item("screen_name").InnerText
-                    lst.UserId = Long.Parse(xUserEntry.Item("id").InnerText)
-                    lists.Add(lst)
+                    lists.Add(New ListElement(xentryNode, Me))
                 Next
                 cursor = Long.Parse(xdoc.DocumentElement.SelectSingleNode("/lists_list/next_cursor").InnerText)
             Catch ex As Exception
@@ -2387,7 +2361,190 @@ Public Class Twitter
 
         TabInformations.GetInstance.SubscribableLists = lists
         Return ""
+    End Function
 
+    Public Function DeleteList(ByVal list_id As String) As String
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+
+        Try
+            res = twCon.DeleteListID(Me.Username, list_id, content)
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
+
+        Select Case res
+            Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
+            Case HttpStatusCode.Unauthorized
+                Twitter.AccountState = ACCOUNT_STATE.Invalid
+                Return "Check your Username/Password."
+            Case HttpStatusCode.BadRequest
+                Return "Err:API Limits?"
+            Case Else
+                Return "Err:" + res.ToString()
+        End Select
+
+        Return ""
+    End Function
+
+    Public Function EditList(ByVal list_id As String, ByVal new_name As String, ByVal isPrivate As Boolean, ByVal description As String, ByRef list As ListElement) As String
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+        Dim modeString As String = "public"
+        If isPrivate Then
+            modeString = "private"
+        End If
+
+        Try
+            res = twCon.PostListID(Me.Username, list_id, new_name, modeString, description, content)
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
+
+        Select Case res
+            Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
+            Case HttpStatusCode.Unauthorized
+                Twitter.AccountState = ACCOUNT_STATE.Invalid
+                Return "Check your Username/Password."
+            Case HttpStatusCode.BadRequest
+                Return "Err:API Limits?"
+            Case Else
+                Return "Err:" + res.ToString()
+        End Select
+
+        Dim xdoc As New XmlDocument
+        Try
+            xdoc.LoadXml(content)
+            Dim newList As New ListElement(xdoc.DocumentElement, Me)
+            list.Description = newList.Description
+            list.Id = newList.Id
+            list.IsPublic = newList.IsPublic
+            list.MemberCount = newList.MemberCount
+            list.Name = newList.Name
+            list.SubscriberCount = newList.SubscriberCount
+            list.Slug = newList.Slug
+            list.Nickname = newList.Nickname
+            list.Username = newList.Username
+            list.UserId = newList.UserId
+        Catch ex As Exception
+            TraceOut(content)
+            Return "Invalid XML!"
+        End Try
+
+        Return ""
+    End Function
+
+    Public Function GetListNembers(ByVal list_id As String, ByVal lists As List(Of UserInfo)) As String
+        If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
+
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+        Dim cursor As Long = -1
+
+        Do
+            Try
+                res = twCon.GetListNembers(Me.Username, list_id, cursor, content)
+            Catch ex As Exception
+                Return "Err:" + ex.Message
+            End Try
+
+            Select Case res
+                Case HttpStatusCode.OK
+                    Twitter.AccountState = ACCOUNT_STATE.Valid
+                Case HttpStatusCode.Unauthorized
+                    Twitter.AccountState = ACCOUNT_STATE.Invalid
+                    Return "Check your Username/Password."
+                Case HttpStatusCode.BadRequest
+                    Return "Err:API Limits?"
+                Case Else
+                    Return "Err:" + res.ToString()
+            End Select
+
+            Dim xdoc As New XmlDocument
+            Try
+                xdoc.LoadXml(content)
+            Catch ex As Exception
+                TraceOut(content)
+                Return "Invalid XML!"
+            End Try
+
+            Try
+                For Each xentryNode As XmlNode In xdoc.DocumentElement.SelectNodes("/users_list/users/user")
+                    lists.Add(New UserInfo(xentryNode))
+                Next
+                cursor = Long.Parse(xdoc.DocumentElement.SelectSingleNode("/users_list/next_cursor").InnerText)
+            Catch ex As Exception
+                TraceOut(content)
+                Return "Invalid XML!"
+            End Try
+        Loop While cursor <> 0
+
+        Return ""
+    End Function
+
+    Public Function CreateListApi(ByVal listName As String, ByVal isPrivate As Boolean, ByVal description As String) As String
+        If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
+
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+
+        Try
+            res = twCon.PostLists(Me.Username, listName, isPrivate, description, content)
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
+
+        Select Case res
+            Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
+            Case HttpStatusCode.Unauthorized
+                Twitter.AccountState = ACCOUNT_STATE.Invalid
+                Return "Check your Username/Password."
+            Case HttpStatusCode.BadRequest
+                Return "Err:API Limits?"
+            Case Else
+                Return "Err:" + res.ToString()
+        End Select
+
+        Dim xdoc As New XmlDocument
+        Try
+            xdoc.LoadXml(content)
+
+            TabInformations.GetInstance().SubscribableLists.Add(New ListElement(xdoc.DocumentElement, Me))
+        Catch ex As Exception
+            TraceOut(content)
+            Return "Invalid XML!"
+        End Try
+
+        Return ""
+    End Function
+
+    Public Function AddUserToList(ByVal list_name As String, ByVal user As String) As String
+        Dim content As String = ""
+        Dim res As HttpStatusCode
+
+        Try
+            res = twCon.PostListMembers(Me.Username, list_name, user, content)
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
+
+        Return ""
+    End Function
+
+    Public Function RemoveUserToList(ByVal list_name As String, ByVal user As String) As String
+        Dim content As String = ""
+        Dim res As HttpStatusCode
+
+        Try
+            res = twCon.DeleteListMembers(Me.Username, list_name, user, content)
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
+
+        Return ""
     End Function
 
     Public Function CreateHtmlAnchor(ByVal Text As String, ByVal AtList As List(Of String)) As String
