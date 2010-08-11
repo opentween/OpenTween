@@ -38,6 +38,7 @@ Public Class ListElement
         Return _tw.EditList(Me.Id.ToString(), Name, Not Me.IsPublic, Me.Description, Me)
     End Function
 
+    <Xml.Serialization.XmlIgnore()>
     Public ReadOnly Property Members As List(Of UserInfo)
         Get
             If Me._members Is Nothing Then
