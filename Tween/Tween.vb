@@ -72,7 +72,6 @@ Public Class TweenMain
     Private _myStatusOnline As Boolean = False
     Private soundfileListup As Boolean = False
     Private _spaceKeyCanceler As SpaceKeyCanceler
-    Private _doubleClickCanceler As DoubleClickCopyCanceller
 
     '設定ファイル関連
     'Private _cfg As SettingToConfig '旧
@@ -557,8 +556,6 @@ Public Class TweenMain
 
         Me._spaceKeyCanceler = New SpaceKeyCanceler(Me.PostButton)
         AddHandler Me._spaceKeyCanceler.SpaceCancel, AddressOf spaceKeyCanceler_SpaceCancel
-
-        Me._doubleClickCanceler = New DoubleClickCopyCanceller(Me.NameLabel)
 
         Regex.CacheSize = 100
 
