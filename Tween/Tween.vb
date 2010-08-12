@@ -4534,6 +4534,10 @@ RETRY:
         OpenUriAsync("http://sourceforge.jp/projects/tween/wiki/FrontPage")
     End Sub
 
+    Private Sub ShortcutKeyListMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShortcutKeyListMenuItem.Click
+        OpenUriAsync("http://sourceforge.jp/projects/tween/wiki/%E3%82%B7%E3%83%A7%E3%83%BC%E3%83%88%E3%82%AB%E3%83%83%E3%83%88%E3%82%AD%E3%83%BC")
+    End Sub
+
     Private Sub ListTab_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles ListTab.KeyDown
         If ListTab.SelectedTab IsNot Nothing Then
             If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.PublicSearch Then

@@ -208,6 +208,7 @@ Partial Class TweenMain
         Me.リスト編集ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuItemHelp = New System.Windows.Forms.ToolStripMenuItem()
         Me.MatomeMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ShortcutKeyListMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator16 = New System.Windows.Forms.ToolStripSeparator()
         Me.VerUpMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator14 = New System.Windows.Forms.ToolStripSeparator()
@@ -359,6 +360,7 @@ Partial Class TweenMain
         '
         Me.ContextMenuStripPostMode.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItemUrlMultibyteSplit, Me.ToolStripMenuItemApiCommandEvasion, Me.ToolStripMenuItemUrlAutoShorten, Me.IdeographicSpaceToSpaceToolStripMenuItem, Me.MultiLineMenuItem, Me.ToolStripFocusLockMenuItem, Me.ToolStripSeparator35, Me.ImageSelectMenuItem, Me.ToolStripSeparator8, Me.HashToggleMenuItem, Me.HashManageMenuItem})
         Me.ContextMenuStripPostMode.Name = "ContextMenuStripPostMode"
+        Me.ContextMenuStripPostMode.OwnerItem = Me.HashStripSplitButton
         resources.ApplyResources(Me.ContextMenuStripPostMode, "ContextMenuStripPostMode")
         '
         'ToolStripMenuItemUrlMultibyteSplit
@@ -1355,7 +1357,7 @@ Partial Class TweenMain
         '
         'MenuItemHelp
         '
-        Me.MenuItemHelp.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MatomeMenuItem, Me.ToolStripSeparator16, Me.VerUpMenuItem, Me.ToolStripSeparator14, Me.ApiInfoMenuItem, Me.ToolStripSeparator7, Me.AboutMenuItem, Me.DebugModeToolStripMenuItem})
+        Me.MenuItemHelp.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MatomeMenuItem, Me.ShortcutKeyListMenuItem, Me.ToolStripSeparator16, Me.VerUpMenuItem, Me.ToolStripSeparator14, Me.ApiInfoMenuItem, Me.ToolStripSeparator7, Me.AboutMenuItem, Me.DebugModeToolStripMenuItem})
         Me.MenuItemHelp.Name = "MenuItemHelp"
         resources.ApplyResources(Me.MenuItemHelp, "MenuItemHelp")
         '
@@ -1363,6 +1365,11 @@ Partial Class TweenMain
         '
         Me.MatomeMenuItem.Name = "MatomeMenuItem"
         resources.ApplyResources(Me.MatomeMenuItem, "MatomeMenuItem")
+        '
+        'ShortcutKeyListMenuItem
+        '
+        Me.ShortcutKeyListMenuItem.Name = "ShortcutKeyListMenuItem"
+        resources.ApplyResources(Me.ShortcutKeyListMenuItem, "ShortcutKeyListMenuItem")
         '
         'ToolStripSeparator16
         '
@@ -1939,5 +1946,6 @@ Partial Class TweenMain
     Friend WithEvents リストに追加LToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents リスト編集ToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator37 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ShortcutKeyListMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class
