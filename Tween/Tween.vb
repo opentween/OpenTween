@@ -9677,14 +9677,6 @@ RETRY:
         End If
     End Sub
 
-    Private Sub NameLabel_MouseEnter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NameLabel.MouseEnter
-        Me.NameLabel.Cursor = Cursors.Hand
-    End Sub
-
-    Private Sub NameLabel_MouseLeave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NameLabel.MouseLeave
-        Me.NameLabel.Cursor = Cursors.Default
-    End Sub
-
     Private Sub UserPicture_MouseEnter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UserPicture.MouseEnter
         Me.UserPicture.Cursor = Cursors.Hand
     End Sub
@@ -9693,7 +9685,7 @@ RETRY:
         Me.UserPicture.Cursor = Cursors.Default
     End Sub
 
-    Private Sub NameLabel_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NameLabel.DoubleClick, UserPicture.DoubleClick
+    Private Sub UserPicture_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UserPicture.DoubleClick
         If NameLabel.Tag IsNot Nothing Then
             OpenUriAsync("http://twitter.com/" + NameLabel.Tag.ToString)
         End If
