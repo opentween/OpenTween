@@ -91,8 +91,8 @@ Public Class TweenMain
     Private fDialog As New FilterDialog 'フィルター編集画面
     Private UrlDialog As New OpenURL
     Private dialogAsShieldicon As DialogAsShieldIcon    ' シールドアイコン付きダイアログ
-    Private AtIdSupl As AtIdSupplement    '@id補助
-    Private HashSupl As AtIdSupplement    'Hashtag補助
+    Public AtIdSupl As AtIdSupplement    '@id補助
+    Public HashSupl As AtIdSupplement    'Hashtag補助
     Private HashMgr As HashtagManage
 
     '表示フォント、色、アイコン
@@ -3787,53 +3787,54 @@ Public Class TweenMain
         If e.KeyChar = "@" Then
             If Not SettingDialog.UseAtIdSupplement Then Exit Sub
             '@マーク
-            ShowSuplDialog(AtIdSupl)
+            ShowSuplDialog(StatusText, AtIdSupl)
             e.Handled = True
         ElseIf e.KeyChar = "#" Then
             If Not SettingDialog.UseHashSupplement Then Exit Sub
-            ShowSuplDialog(HashSupl)
+            ShowSuplDialog(StatusText, HashSupl)
             e.Handled = True
         End If
     End Sub
 
-    Private Overloads Sub ShowSuplDialog(ByVal dialog As AtIdSupplement)
-        ShowSuplDialog(dialog, 0, "")
+    Public Overloads Sub ShowSuplDialog(ByVal owner As TextBox, ByVal dialog As AtIdSupplement)
+        ShowSuplDialog(owner, dialog, 0, "")
     End Sub
 
-    Private Overloads Sub ShowSuplDialog(ByVal dialog As AtIdSupplement, ByVal offset As Integer)
-        ShowSuplDialog(dialog, offset, "")
+    Public Overloads Sub ShowSuplDialog(ByVal owner As TextBox, ByVal dialog As AtIdSupplement, ByVal offset As Integer)
+        ShowSuplDialog(owner, dialog, offset, "")
     End Sub
 
-    Private Overloads Sub ShowSuplDialog(ByVal dialog As AtIdSupplement, ByVal offset As Integer, ByVal startswith As String)
+    Public Overloads Sub ShowSuplDialog(ByVal owner As TextBox, ByVal dialog As AtIdSupplement, ByVal offset As Integer, ByVal startswith As String)
         dialog.StartsWith = startswith
         dialog.ShowDialog()
         Me.TopMost = SettingDialog.AlwaysTop
-        Dim selStart As Integer = StatusText.SelectionStart
+        Dim selStart As Integer = owner.SelectionStart
         Dim fHalf As String = ""
         Dim eHalf As String = ""
         If dialog.DialogResult = Windows.Forms.DialogResult.OK Then
             If dialog.inputText <> "" Then
                 If selStart > 0 Then
-                    fHalf = StatusText.Text.Substring(0, selStart - offset)
+                    fHalf = owner.Text.Substring(0, selStart - offset)
                 End If
-                If selStart < StatusText.Text.Length Then
-                    eHalf = StatusText.Text.Substring(selStart)
+                If selStart < owner.Text.Length Then
+                    eHalf = owner.Text.Substring(selStart)
                 End If
-                StatusText.Text = fHalf + dialog.inputText + eHalf
-                StatusText.SelectionStart = selStart + dialog.inputText.Length
+                owner.Text = fHalf + dialog.inputText + eHalf
+                owner.SelectionStart = selStart + dialog.inputText.Length
             End If
         Else
             If selStart > 0 Then
-                fHalf = StatusText.Text.Substring(0, selStart)
+                fHalf = owner.Text.Substring(0, selStart)
             End If
-            If selStart < StatusText.Text.Length Then
-                eHalf = StatusText.Text.Substring(selStart)
+            If selStart < owner.Text.Length Then
+                eHalf = owner.Text.Substring(selStart)
             End If
-            StatusText.Text = fHalf + eHalf
+            owner.Text = fHalf + eHalf
             If selStart > 0 Then
-                StatusText.SelectionStart = selStart
+                owner.SelectionStart = selStart
             End If
         End If
+        owner.Focus()
     End Sub
 
     Private Sub StatusText_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles StatusText.KeyUp
@@ -5320,7 +5321,7 @@ RETRY:
     End Sub
 
     Private Sub StatusText_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StatusText.Enter
-            ' フォーカスの戻り先を StatusText に設定
+        ' フォーカスの戻り先を StatusText に設定
         Me.Tag = StatusText
         StatusText.BackColor = _clInputBackcolor
     End Sub
@@ -5388,10 +5389,10 @@ RETRY:
                     End If
                     If c = "@" Then
                         startstr = StatusText.Text.Substring(i + 1, endidx - i)
-                        ShowSuplDialog(AtIdSupl, startstr.Length + 1, startstr)
+                        ShowSuplDialog(StatusText, AtIdSupl, startstr.Length + 1, startstr)
                     ElseIf c = "#" Then
                         startstr = StatusText.Text.Substring(i + 1, endidx - i)
-                        ShowSuplDialog(HashSupl, startstr.Length + 1, startstr)
+                        ShowSuplDialog(StatusText, HashSupl, startstr.Length + 1, startstr)
                     Else
                         Exit For
                     End If
