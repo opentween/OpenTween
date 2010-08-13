@@ -29,6 +29,7 @@ Public Class FilterDialog
     Private _directAdd As Boolean
     Private _sts As TabInformations
     Private _cur As String
+    Private idlist As New List(Of String)
 
     Private tabdialog As New TabsDialog(True)
 
@@ -663,11 +664,13 @@ Public Class FilterDialog
     End Sub
 
     Private Sub FilterDialog_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
+#If 0 Then
         If e.KeyCode = Keys.Enter Then
             If EditFilterGroup.Enabled Then
                 ButtonOK_Click(Nothing, Nothing)
             End If
         End If
+#End If
         If e.KeyCode = Keys.Escape Then
             If EditFilterGroup.Enabled Then
                 ButtonCancel_Click(Nothing, Nothing)
@@ -709,6 +712,16 @@ Public Class FilterDialog
         For Each oFile As IO.FileInfo In oDir.GetFiles("*.wav")
             ComboSound.Items.Add(oFile.Name)
         Next
+
+        idlist.Clear()
+        For Each tmp As String In TweenMain.AtIdSupl.GetItemList
+            idlist.Add(tmp.Remove(0, 1))  ' @文字削除
+        Next
+        UID.AutoCompleteCustomSource.Clear()
+        UID.AutoCompleteCustomSource.AddRange(idlist.ToArray)
+
+        ExUID.AutoCompleteCustomSource.Clear()
+        ExUID.AutoCompleteCustomSource.AddRange(idlist.ToArray)
 
         '選択タブ変更
         If ListTabs.Items.Count > 0 Then
@@ -952,6 +965,48 @@ Public Class FilterDialog
                 End If
             Next
             SetFilters(tabname)
+        End If
+    End Sub
+
+    Private Sub FilterTextBox_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MSG1.KeyDown, MSG2.KeyDown, ExMSG1.KeyDown, ExMSG2.KeyDown
+        If e.KeyCode = Keys.Space AndAlso e.Modifiers = (Keys.Shift Or Keys.Control) Then
+            Dim main As TweenMain = DirectCast(Me.Owner, TweenMain)
+            Dim tbox As TextBox = DirectCast(sender, TextBox)
+            If tbox.SelectionStart > 0 Then
+                Dim endidx As Integer = tbox.SelectionStart - 1
+                Dim startstr As String = ""
+                For i As Integer = tbox.SelectionStart - 1 To 0 Step -1
+                    Dim c As Char = tbox.Text.Chars(i)
+                    If Char.IsLetterOrDigit(c) OrElse c = "_" Then
+                        Continue For
+                    End If
+                    If c = "@" Then
+                        startstr = tbox.Text.Substring(i + 1, endidx - i)
+                        main.ShowSuplDialog(tbox, main.AtIdSupl, startstr.Length + 1, startstr)
+                    ElseIf c = "#" Then
+                        startstr = tbox.Text.Substring(i + 1, endidx - i)
+                        main.ShowSuplDialog(tbox, main.HashSupl, startstr.Length + 1, startstr)
+                    Else
+                        Exit For
+                    End If
+                Next
+                e.Handled = True
+            End If
+        End If
+    End Sub
+
+    Private Sub FilterTextBox_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles MSG1.KeyPress, MSG2.KeyPress, ExMSG1.KeyPress, ExMSG2.KeyPress
+        Dim main As TweenMain = DirectCast(Me.Owner, TweenMain)
+        Dim tbox As TextBox = DirectCast(sender, TextBox)
+        If e.KeyChar = "@" Then
+            'If Not SettingDialog.UseAtIdSupplement Then Exit Sub
+            '@マーク
+            main.ShowSuplDialog(tbox, main.AtIdSupl)
+            e.Handled = True
+        ElseIf e.KeyChar = "#" Then
+            'If Not SettingDialog.UseHashSupplement Then Exit Sub
+            main.ShowSuplDialog(tbox, main.HashSupl)
+            e.Handled = True
         End If
     End Sub
 End Class

@@ -85,8 +85,8 @@ Partial Class FilterDialog
         Me.ButtonUp = New System.Windows.Forms.Button()
         Me.ButtonDown = New System.Windows.Forms.Button()
         Me.GroupTab = New System.Windows.Forms.GroupBox()
-        Me.Label13 = New System.Windows.Forms.Label()
         Me.LabelTabType = New System.Windows.Forms.Label()
+        Me.Label13 = New System.Windows.Forms.Label()
         Me.EditFilterGroup.SuspendLayout()
         Me.GroupExclude.SuspendLayout()
         Me.GroupMatch.SuspendLayout()
@@ -217,6 +217,8 @@ Partial Class FilterDialog
         '
         'ExUID
         '
+        Me.ExUID.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend
+        Me.ExUID.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource
         resources.ApplyResources(Me.ExUID, "ExUID")
         Me.ExUID.Name = "ExUID"
         '
@@ -321,6 +323,8 @@ Partial Class FilterDialog
         '
         'UID
         '
+        Me.UID.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend
+        Me.UID.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource
         resources.ApplyResources(Me.UID, "UID")
         Me.UID.Name = "UID"
         '
@@ -509,15 +513,15 @@ Partial Class FilterDialog
         Me.GroupTab.Name = "GroupTab"
         Me.GroupTab.TabStop = False
         '
-        'Label13
-        '
-        resources.ApplyResources(Me.Label13, "Label13")
-        Me.Label13.Name = "Label13"
-        '
         'LabelTabType
         '
         resources.ApplyResources(Me.LabelTabType, "LabelTabType")
         Me.LabelTabType.Name = "LabelTabType"
+        '
+        'Label13
+        '
+        resources.ApplyResources(Me.Label13, "Label13")
+        Me.Label13.Name = "Label13"
         '
         'FilterDialog
         '
