@@ -903,4 +903,7 @@
   <data name="PostButton_Click1" xml:space="preserve">
     <value>要用官方锐推方式发送未修改过的RT锐推吗？{0}[是：改用官方锐推]{0}[否：仍然用RT锐推]{0}[取消：不发送]</value>
   </data>
+  <data name="ApiInfo6" xml:space="preserve">
+    <value>Getting Api Information...</value>
+  </data>
 </root>
