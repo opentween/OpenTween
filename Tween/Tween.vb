@@ -6837,23 +6837,23 @@ RETRY:
 
         If tw.RemainCountApi > -1 AndAlso tw.UpperCountApi > -1 Then
             ' 正常
-            slbl.Append("API: " + tw.RemainCountApi.ToString + "/" + tw.UpperCountApi.ToString)
+            slbl.Append("API " + tw.RemainCountApi.ToString + "/" + tw.UpperCountApi.ToString)
         ElseIf tw.RemainCountApi > -1 Then
             ' uppercount不正
-            slbl.Append("API: " + tw.RemainCountApi.ToString + "/???")
+            slbl.Append("API " + tw.RemainCountApi.ToString + "/???")
         ElseIf tw.UpperCountApi > -1 Then
             ' remaincount不正
-            slbl.Append("API: ???/" + tw.UpperCountApi.ToString)
+            slbl.Append("API ???/" + tw.UpperCountApi.ToString)
         Else
             '両方とも不正
-            slbl.Append("API: ???/???")
+            slbl.Append("API ???/???")
         End If
 
         StatusLabelApi.Text = slbl.ToString()
         If tw.ResetTimeApi >= DateTime.Now Then
-            StatusLabelApi.ToolTipText = "ResetTime: " + tw.ResetTimeApi.ToString
+            StatusLabelApi.ToolTipText = "ResetTime " + tw.ResetTimeApi.ToString
         Else
-            StatusLabelApi.ToolTipText = "ResetTime: ???"
+            StatusLabelApi.ToolTipText = "ResetTime ???"
         End If
     End Sub
 
