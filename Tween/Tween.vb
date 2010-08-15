@@ -495,7 +495,6 @@ Public Class TweenMain
                 c = 7
         End Select
 
-#If 1 Then
         If _iconCol Then
             If _statuses.SortOrder() = SortOrder.Descending Then
                 ' U+25BE BLACK DOWN-POINTING SMALL TRIANGLE
@@ -513,25 +512,6 @@ Public Class TweenMain
                 ColumnText(c) = ColumnOrgText(c) + "▴"
             End If
         End If
-#Else
-        if _iconcol then
-            If _statuses.SortOrder() = SortOrder.Ascending Then
-                ' U+25BC	BLACK DOWN-POINTING TRIANGLE
-                ColumnText(2) = ColumnOrgText(2) + "▼"
-            Else
-                ' U+25B2	BLACK UP-POINTING TRIANGLE
-                ColumnText(2) = ColumnOrgText(2) + "▲"
-            End If
-        else
-            If _statuses.SortOrder() = SortOrder.Ascending Then
-                ' U+25BC	BLACK DOWN-POINTING TRIANGLE
-                ColumnText(c) = ColumnOrgText(c) + "▼"
-            Else
-                ' U+25B2	BLACK UP-POINTING TRIANGLE
-                ColumnText(c) = ColumnOrgText(c) + "▲"
-            End If
-        end if
-#End If
     End Sub
 
     Private Sub InitializeTraceFrag()
@@ -1207,124 +1187,7 @@ Public Class TweenMain
             LoadConfig()
             Exit Sub
         End If
-        If LoadOldConfig() Then Exit Sub
-
-        '_cfg = SettingToConfig.Load()
-        'If _cfg Is Nothing Then Exit Sub
-
-        ''新設定ファイルへ変換
-        ''新しくエントリを増設する場合はここに書く必要はない
-        '_cfgCommon.AlwaysTop = _cfg.AlwaysTop
-        '_cfgCommon.AutoShortUrlFirst = _cfg.AutoShortUrlFirst
-        '_cfgLocal.BrowserPath = _cfg.BrowserPath
-        '_cfgCommon.CheckReply = _cfg.CheckReply
-        '_cfgCommon.CloseToExit = _cfg.CloseToExit
-        '_cfgLocal.ColorAtFromTarget = _cfg.ColorAtFromTarget
-        '_cfgLocal.ColorAtSelf = _cfg.ColorAtSelf
-        '_cfgLocal.ColorAtTarget = _cfg.ColorAtTarget
-        '_cfgLocal.ColorFav = _cfg.ColorFav
-        '_cfgLocal.ColorOWL = _cfg.ColorOWL
-        '_cfgLocal.ColorRead = _cfg.ColorRead
-        '_cfgLocal.ColorSelf = _cfg.ColorSelf
-        '_cfgLocal.ColorTarget = _cfg.ColorTarget
-        '_cfgLocal.ColorUnread = _cfg.ColorUnread
-        '_cfgLocal.ColorInputBackcolor = _cfg.ColorInputBackcolor
-        '_cfgLocal.ColorInputFont = _cfg.ColorInputFont
-        '_cfgCommon.CountApi = _cfg.CountApi
-        '_cfgCommon.CultureCode = _cfg.cultureCode
-        '_cfgCommon.DateTimeFormat = _cfg.DateTimeFormat
-        '_cfgCommon.DefaultTimeOut = _cfg.DefaultTimeOut
-        '_cfgCommon.DispLatestPost = _cfg.DispLatestPost
-        '_cfgLocal.DisplayIndex1 = _cfg.DisplayIndex1
-        '_cfgLocal.DisplayIndex2 = _cfg.DisplayIndex2
-        '_cfgLocal.DisplayIndex3 = _cfg.DisplayIndex3
-        '_cfgLocal.DisplayIndex4 = _cfg.DisplayIndex4
-        '_cfgLocal.DisplayIndex5 = _cfg.DisplayIndex5
-        '_cfgLocal.DisplayIndex6 = _cfg.DisplayIndex6
-        '_cfgLocal.DisplayIndex7 = _cfg.DisplayIndex7
-        '_cfgLocal.DisplayIndex8 = _cfg.DisplayIndex8
-        '_cfgCommon.DispUsername = _cfg.DispUsername
-        '_cfgCommon.DMPeriod = _cfg.DMPeriod
-        '_cfgLocal.FontDetail = _cfg.FontDetail
-        '_cfgLocal.FontRead = _cfg.FontRead
-        '_cfgLocal.FontUnread = _cfg.FontUnread
-        '_cfgLocal.FontInputFont = _cfg.FontInputFont
-        '_cfgLocal.FormLocation = _cfg.FormLocation
-        '_cfgLocal.FormSize = _cfg.FormSize
-        '_cfgCommon.HubServer = _cfg.HubServer
-        '_cfgCommon.IconSize = _cfg.IconSize
-        '_cfgCommon.LimitBalloon = _cfg.LimitBalloon
-        '_cfgCommon.ListLock = _cfg.ListLock
-        '_cfgCommon.MaxPostNum = _cfg.MaxPostNum
-        '_cfgCommon.MinimizeToTray = _cfg.MinimizeToTray
-        '_cfgCommon.NameBalloon = _cfg.NameBalloon
-        '_cfgCommon.NewAllPop = _cfg.NewAllPop
-        '_cfgCommon.NextPages = _cfg.NextPages
-        '_cfgCommon.NextPageThreshold = _cfg.NextPageThreshold
-        '_cfgCommon.OneWayLove = _cfg.OneWayLove
-        '_cfgCommon.Outputz = _cfg.Outputz
-        '_cfgCommon.OutputzKey = _cfg.OutputzKey
-        '_cfgCommon.OutputzUrlMode = _cfg.OutputzUrlmode
-        '_cfgCommon.Password = _cfg.Password
-        '_cfgCommon.PeriodAdjust = _cfg.PeriodAdjust
-        '_cfgCommon.PlaySound = _cfg.PlaySound
-        '_cfgCommon.PostAndGet = _cfg.PostAndGet
-        '_cfgCommon.PostCtrlEnter = _cfg.PostCtrlEnter
-        '_cfgCommon.ProtectNotInclude = _cfg.ProtectNotInclude
-        '_cfgLocal.ProxyAddress = _cfg.ProxyAddress
-        '_cfgLocal.ProxyPassword = _cfg.ProxyPassword
-        '_cfgLocal.ProxyPort = _cfg.ProxyPort
-        '_cfgLocal.ProxyType = _cfg.ProxyType
-        '_cfgLocal.ProxyUser = _cfg.ProxyUser
-        '_cfgCommon.Read = _cfg.Read
-        '_cfgCommon.ReadPages = _cfg.ReadPages
-        '_cfgCommon.ReadPagesDM = _cfg.ReadPagesDM
-        '_cfgCommon.ReadPagesReply = _cfg.ReadPagesReply
-        '_cfgCommon.RestrictFavCheck = _cfg.RestrictFavCheck
-        '_cfgCommon.SortColumn = _cfg.SortColumn
-        '_cfgCommon.SortOrder = _cfg.SortOrder
-        '_cfgCommon.SortOrderLock = _cfg.SortOrderLock
-        '_cfgLocal.SplitterDistance = _cfg.SplitterDistance
-        '_cfgCommon.StartupFollowers = _cfg.StartupFollowers
-        '_cfgCommon.StartupKey = _cfg.StartupKey
-        '_cfgCommon.StartupVersion = _cfg.StartupVersion
-        '_cfgCommon.StartupApiModeNoWarning = _cfg.StartupAPImodeNoWarning
-        '_cfgLocal.StatusMultiline = _cfg.StatusMultiline
-        '_cfgLocal.StatusText = _cfg.StatusText
-        '_cfgLocal.StatusTextHeight = _cfg.StatusTextHeight
-
-        'For Each item As KeyValuePair(Of String, TabClass) In _cfg.Tabs
-        '    Dim tabSetting As New SettingTab
-        '    item.Value.TabName = ReplaceInvalidFilename(item.Value.TabName)
-        '    tabSetting.Tab = item.Value
-        '    tabSetting.Save()
-        '    _cfgCommon.TabList.Add(ReplaceInvalidFilename(item.Key))
-        '    If Not _statuses.Tabs.ContainsKey(tabSetting.Tab.TabName) Then
-        '        _statuses.Tabs.Add(tabSetting.Tab.TabName, tabSetting.Tab)
-        '    ElseIf tabSetting.Tab.TabName = DEFAULTTAB.REPLY Then
-        '        _statuses.Tabs(DEFAULTTAB.REPLY) = tabSetting.Tab
-        '    End If
-        'Next
-        '_cfgCommon.TimelinePeriod = _cfg.TimelinePeriod
-        '_cfgCommon.TinyUrlResolve = _cfg.TinyURLResolve
-        '_cfgCommon.UnreadManage = _cfg.UnreadManage
-        '_cfgCommon.UrlConvertAuto = _cfg.UrlConvertAuto
-        '_cfgCommon.UseApi = _cfg.UseAPI
-        '_cfgCommon.UsePostMethod = _cfg.UsePostMethod
-        '_cfgLocal.UseRecommendStatus = _cfg.UseRecommendStatus
-        '_cfgCommon.UserName = _cfg.UserName
-        '_cfgCommon.UseUnreadStyle = _cfg.UseUnreadStyle
-        '_cfgLocal.Width1 = _cfg.Width1
-        '_cfgLocal.Width2 = _cfg.Width2
-        '_cfgLocal.Width3 = _cfg.Width3
-        '_cfgLocal.Width4 = _cfg.Width4
-        '_cfgLocal.Width5 = _cfg.Width5
-        '_cfgLocal.Width6 = _cfg.Width6
-        '_cfgLocal.Width7 = _cfg.Width7
-        '_cfgLocal.Width8 = _cfg.Width8
-        ''念のため保存
-        '_cfgCommon.Save()
-        '_cfgLocal.Save()
+        LoadOldConfig()
     End Sub
 
     Private Sub TimerTimeline_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TimerTimeline.Tick
@@ -1608,10 +1471,7 @@ Public Class TweenMain
         'ColorizeList(-1)    '全キャッシュ更新（背景色）
         'DispSelectedPost()
         ColorizeList()
-        'TimerColorize.Stop()
-        'TimerColorize.Start()
         _colorize = True
-        'cMode = 1
     End Sub
 
     Private Sub ChangeCacheStyleRead(ByVal Read As Boolean, ByVal Index As Integer, ByVal Tab As TabPage)
@@ -1685,19 +1545,10 @@ Public Class TweenMain
 
         If _itemCache Is Nothing Then Exit Sub
 
-        'For cnt As Integer = 0 To _itemCache.Length - 1
-        '    If Not _postCache(cnt).IsRead AndAlso SettingDialog.UnreadManage AndAlso _statuses.Tabs(_curTab.Text).UnreadManage Then
-        '        _itemCache(cnt).Font = _fntUnread
-        '    Else
-        '        _itemCache(cnt).Font = _fntReaded
-        '    End If
-        'Next
-
         If _post Is Nothing Then Exit Sub
 
         Try
             For cnt As Integer = 0 To _itemCache.Length - 1
-                '_itemCache(cnt).BackColor = JudgeColor(_post, _postCache(cnt))
                 _curList.ChangeItemBackColor(_itemCacheIndex + cnt, JudgeColor(_post, _postCache(cnt)))
             Next
         Catch ex As Exception
@@ -1715,12 +1566,6 @@ Public Class TweenMain
         End If
 
         Dim tPost As PostClass = GetCurTabPost(Index)
-
-        'If Not tPost.IsRead AndAlso SettingDialog.UnreadManage AndAlso _statuses.Tabs(_curTab.Text).UnreadManage Then
-        '    Item.Font = _fntUnread
-        'Else
-        '    Item.Font = _fntReaded
-        'End If
 
         If _post Is Nothing Then Exit Sub
 
@@ -1753,7 +1598,6 @@ Public Class TweenMain
             cl = _clTarget
         Else
             'その他
-            'cl = System.Drawing.SystemColors.Window
             cl = _clListBackcolor
         End If
         Return cl
@@ -1803,7 +1647,6 @@ Public Class TweenMain
         Dim tmpStatus As String = StatusText.Text.Trim
         If ToolStripMenuItemApiCommandEvasion.Checked Then
             ' APIコマンド回避
-            'Dim regex As New Regex("^[+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]*(get|g|fav|follow|f|on|off|stop|quit|leave|l|whois|w|nudge|n|stats|invite|track|untrack|tracks|tracking|\*)([+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]+|$)", RegexOptions.IgnoreCase)
             If Regex.IsMatch(tmpStatus, _
                 "^[+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]*(get|g|fav|follow|f|on|off|stop|quit|leave|l|whois|w|nudge|n|stats|invite|track|untrack|tracks|tracking|\*)([+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]+|$)", _
                 RegexOptions.IgnoreCase) _
@@ -1812,17 +1655,8 @@ Public Class TweenMain
 
         If ToolStripMenuItemUrlMultibyteSplit.Checked Then
             ' URLと全角文字の切り離し
-            'Dim regex2 As New Regex("https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#]+")
             adjustCount += Regex.Matches(tmpStatus, "https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#^]+").Count
         End If
-
-        'If IdeographicSpaceToSpaceToolStripMenuItem.Checked Then
-        '    ' 文中の全角スペースを半角スペース2個にする
-        '    For i As Integer = 0 To tmpStatus.Length - 1
-        '        If tmpStatus.Substring(i, 1) = "　" Then adjustCount += 1
-        '    Next
-        'End If
-
 
         Dim isCutOff As Boolean = False
         Dim isRemoveFooter As Boolean = My.Computer.Keyboard.ShiftKeyDown
@@ -1873,7 +1707,6 @@ Public Class TweenMain
 
         If ToolStripMenuItemApiCommandEvasion.Checked Then
             ' APIコマンド回避
-            'Dim regex As New Regex("^[+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]*(get|g|fav|follow|f|on|off|stop|quit|leave|l|whois|w|nudge|n|stats|invite|track|untrack|tracks|tracking|\*)([+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]+|$)", RegexOptions.IgnoreCase)
             If Regex.IsMatch(args.status.status, _
                 "^[+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]*(get|g|fav|follow|f|on|off|stop|quit|leave|l|whois|w|nudge|n|stats|invite|track|untrack|tracks|tracking|\*)([+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]+|$)", _
                 RegexOptions.IgnoreCase) _
@@ -1882,7 +1715,6 @@ Public Class TweenMain
 
         If ToolStripMenuItemUrlMultibyteSplit.Checked Then
             ' URLと全角文字の切り離し
-            'Dim regex2 As New Regex("https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#]+")
             Dim mc2 As Match = Regex.Match(args.status.status, "https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#^]+")
             If mc2.Success Then args.status.status = Regex.Replace(args.status.status, "https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#^]+", "$& ")
         End If
@@ -1971,9 +1803,6 @@ Public Class TweenMain
             _ignoreConfigSave = True
             _endingFlag = True
             TimerTimeline.Enabled = False
-            'TimerReply.Enabled = False
-            'TimerDM.Enabled = False
-            'TimerColorize.Enabled = False
             TimerRefreshIcon.Enabled = False
         End If
     End Sub
@@ -2157,7 +1986,6 @@ Public Class TweenMain
 
                 Try
                     If SettingDialog.BrowserPath <> "" Then
-                        'Shell(SettingDialog.BrowserPath & " " & myPath)
                         If SettingDialog.BrowserPath.StartsWith("""") AndAlso SettingDialog.BrowserPath.Length > 2 AndAlso SettingDialog.BrowserPath.IndexOf("""", 2) > -1 Then
                             Dim sep As Integer = SettingDialog.BrowserPath.IndexOf("""", 2)
                             Dim browserPath As String = SettingDialog.BrowserPath.Substring(1, sep - 1)
@@ -2330,17 +2158,9 @@ Public Class TweenMain
             '発言投稿
             If e.ProgressPercentage = 200 Then    '開始
                 StatusLabel.Text = "Posting..."
-                'StatusText.Enabled = False
-                'PostButton.Enabled = False
-                'ReplyStripMenuItem.Enabled = False
-                'DMStripMenuItem.Enabled = False
             End If
             If e.ProgressPercentage = 300 Then  '終了
                 StatusLabel.Text = My.Resources.PostWorker_RunWorkerCompletedText4
-                'StatusText.Enabled = True
-                'PostButton.Enabled = True
-                'ReplyStripMenuItem.Enabled = True
-                'DMStripMenuItem.Enabled = True
             End If
         Else
             Dim smsg As String = DirectCast(e.UserState, String)
@@ -3010,7 +2830,6 @@ Public Class TweenMain
                 End Try
                 tw.CountApi = SettingDialog.CountApi
                 tw.CountApiReply = SettingDialog.CountApiReply
-                'Twitter.UsePostMethod = False
                 tw.TinyUrlResolve = SettingDialog.TinyUrlResolve
                 tw.RestrictFavCheck = SettingDialog.RestrictFavCheck
                 tw.ReadOwnPost = SettingDialog.ReadOwnPost
@@ -3284,7 +3103,6 @@ Public Class TweenMain
 
         '新規タブ名チェック
         If tabName = My.Resources.AddNewTabText1 Then Return False
-        'If tabName <> ReplaceInvalidFilename(tabName) Then Return False
 
         'タブタイプ重複チェック
         If Not startup Then
@@ -3295,7 +3113,6 @@ Public Class TweenMain
                 If _statuses.GetTabByType(tabType) IsNot Nothing Then Return False
             End If
         End If
-        'Dim myTab As New TabStructure()
 
         Dim _tabPage As TabPage = New TabPage
         Dim _listCustom As DetailsListView = New DetailsListView
@@ -3307,18 +3124,6 @@ Public Class TweenMain
         Dim _colHd6 As ColumnHeader = New ColumnHeader()   '未読
         Dim _colHd7 As ColumnHeader = New ColumnHeader()   'マーク＆プロテクト
         Dim _colHd8 As ColumnHeader = New ColumnHeader()   'ソース
-        'If Not _iconCol Then
-        '_colHd2 = New ColumnHeader()
-        '_colHd3 = New ColumnHeader()
-        '_colHd4 = New ColumnHeader()
-        '_colHd5 = New ColumnHeader()
-        '_colHd6 = New ColumnHeader()
-        '_colHd7 = New ColumnHeader()
-        '_colHd8 = New ColumnHeader()
-        '_colHd9 = New ColumnHeader()
-        'End If
-
-        'If Not startup Then _section.ListElement.Add(New ListElement(tabName))
 
         Dim cnt As Integer = ListTab.TabPages.Count
 
@@ -3345,7 +3150,6 @@ Public Class TweenMain
             Dim cmbLang As New ComboBox
 
             pnl.SuspendLayout()
-
 
             pnl.Controls.Add(cmb)
             pnl.Controls.Add(cmbLang)
@@ -3399,8 +3203,6 @@ Public Class TweenMain
             cmbLang.Items.Add("sv")
             cmbLang.Items.Add("th")
             If _statuses.ContainsTab(tabName) Then cmbLang.Text = _statuses.Tabs(tabName).SearchLang
-            'AddHandler cmbLang.Enter, AddressOf SearchControls_Enter
-            'AddHandler cmbLang.Leave, AddressOf SearchControls_Leave
 
             lbl.Text = "Search(C-S-f)"
             lbl.Name = "label1"
@@ -3415,8 +3217,6 @@ Public Class TweenMain
             btn.Dock = DockStyle.Right
             btn.TabStop = False
             AddHandler btn.Click, AddressOf SearchButton_Click
-            'AddHandler btn.Enter, AddressOf SearchControls_Enter
-            'AddHandler btn.Leave, AddressOf SearchControls_Leave
 
         End If
 
@@ -3447,7 +3247,6 @@ Public Class TweenMain
         _listCustom.Name = "CList" + Environment.TickCount.ToString()
         _listCustom.ShowItemToolTips = True
         _listCustom.Size = New Size(380, 260)
-        '_listCustom.TabIndex = 4                                   'これ大丈夫？
         _listCustom.UseCompatibleStateImageBehavior = False
         _listCustom.View = View.Details
         _listCustom.OwnerDraw = True
@@ -3472,14 +3271,12 @@ Public Class TweenMain
                 AddHandler _listCustom.DrawItem, AddressOf MyList_DrawItemDefault
         End Select
 
-        'AddHandler _listCustom.Scrolled, AddressOf Mylist_Scrolled
         AddHandler _listCustom.MouseClick, AddressOf MyList_MouseClick
         AddHandler _listCustom.ColumnReordered, AddressOf MyList_ColumnReordered
         AddHandler _listCustom.ColumnWidthChanged, AddressOf MyList_ColumnWidthChanged
         AddHandler _listCustom.CacheVirtualItems, AddressOf MyList_CacheVirtualItems
         AddHandler _listCustom.RetrieveVirtualItem, AddressOf MyList_RetrieveVirtualItem
         AddHandler _listCustom.DrawSubItem, AddressOf MyList_DrawSubItem
-        'AddHandler _listCustom.KeyDown, AddressOf MyList_KeyDown
 
         InitColumnText()
         _colHd1.Text = ColumnText(0)
@@ -3505,7 +3302,6 @@ Public Class TweenMain
         End If
 
         _listCustom.SmallImageList = TIconSmallList
-        '_listCustom.ListViewItemSorter = listViewItemSorter
         Dim dispOrder(7) As Integer
         If Not startup Then
             For i As Integer = 0 To _curList.Columns.Count - 1
@@ -3640,14 +3436,12 @@ Public Class TweenMain
                 RemoveHandler _listCustom.DrawItem, AddressOf MyList_DrawItemDefault
         End Select
 
-        'RemoveHandler _listCustom.Scrolled, AddressOf Mylist_Scrolled
         RemoveHandler _listCustom.MouseClick, AddressOf MyList_MouseClick
         RemoveHandler _listCustom.ColumnReordered, AddressOf MyList_ColumnReordered
         RemoveHandler _listCustom.ColumnWidthChanged, AddressOf MyList_ColumnWidthChanged
         RemoveHandler _listCustom.CacheVirtualItems, AddressOf MyList_CacheVirtualItems
         RemoveHandler _listCustom.RetrieveVirtualItem, AddressOf MyList_RetrieveVirtualItem
         RemoveHandler _listCustom.DrawSubItem, AddressOf MyList_DrawSubItem
-        'RemoveHandler _listCustom.KeyDown, AddressOf MyList_KeyDown
 
         TabDialog.RemoveTab(TabName)
 
@@ -3677,9 +3471,6 @@ Public Class TweenMain
         _tabPage.Dispose()
         _listCustom.Dispose()
         _statuses.RemoveTab(TabName)
-
-        'SaveConfigsCommon()
-        'SaveConfigsTab(False)
 
         For Each tp As TabPage In ListTab.TabPages
             Dim lst As DetailsListView = DirectCast(tp.Tag, DetailsListView)
@@ -4365,13 +4156,9 @@ RETRY:
                         retMsg = tw.GetTweenBinary(strVer)
                         If retMsg.Length = 0 Then
                             RunTweenUp()
-                            'If startup Then
-                            '    Application.Exit()
-                            'Else
                             _endingFlag = True
                             dialogAsShieldicon.Dispose()
                             Me.Close()
-                            'End If
                             Exit Sub
                         Else
                             If Not startup Then MessageBox.Show(My.Resources.CheckNewVersionText5 + System.Environment.NewLine + retMsg, My.Resources.CheckNewVersionText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -4387,13 +4174,9 @@ RETRY:
                             retMsg = tw.GetTweenBinary(strVer)
                             If retMsg.Length = 0 Then
                                 RunTweenUp()
-                                'If startup Then
-                                '    Application.Exit()
-                                'Else
                                 _endingFlag = True
                                 dialogAsShieldicon.Dispose()
                                 Me.Close()
-                                'End If
                                 Exit Sub
                             Else
                                 If Not startup Then MessageBox.Show(My.Resources.CheckNewVersionText5 + System.Environment.NewLine + retMsg, My.Resources.CheckNewVersionText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -4450,17 +4233,14 @@ RETRY:
         End If
         NameLabel.Text += _curPost.Name + "/" + _curPost.Nickname
         NameLabel.Tag = _curPost.Name
-        'ToolTip1.SetToolTip(NameLabel, "http://twitter.com/" + _curPost.Name)
         If Not String.IsNullOrEmpty(_curPost.RetweetedBy) Then
             NameLabel.Text += " (RT:" + _curPost.RetweetedBy + ")"
         End If
-        'If UserPicture.Image IsNot Nothing Then UserPicture.Image.Dispose()
         If _curPost.ImageIndex > -1 Then
             UserPicture.Image = TIconDic(_curPost.ImageUrl)
         Else
             UserPicture.Image = Nothing
         End If
-        'UserPicture.Refresh()
 
         NameLabel.ForeColor = System.Drawing.SystemColors.ControlText
         DateTimeLabel.Text = _curPost.PDate.ToString()
@@ -4513,7 +4293,6 @@ RETRY:
                 If PostBrowser.DocumentText <> dTxt Then
                     PostBrowser.Visible = False
                     PostBrowser.DocumentText = dTxt
-                    'Dim rg As New Regex("<a target=""_self"" href=""(?<url>http[^""]+)""", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
                     Dim lnks As New List(Of String)
                     For Each lnk As Match In Regex.Matches(dTxt, "<a target=""_self"" href=""(?<url>http[^""]+)""", RegexOptions.IgnoreCase)
                         lnks.Add(lnk.Result("${url}"))
@@ -4644,8 +4423,6 @@ RETRY:
         If e.Control AndAlso Not e.Alt AndAlso Not e.Shift Then
             ' CTRLキーが押されている場合
             If e.KeyCode = Keys.Home OrElse e.KeyCode = Keys.End Then
-                'TimerColorize.Stop()
-                'TimerColorize.Start()
                 _colorize = True
             End If
             If e.KeyCode = Keys.N Then GoNextTab(True)
@@ -4653,16 +4430,6 @@ RETRY:
             If e.KeyCode = Keys.I Then doRepliedStatusOpen()
             If e.KeyCode = Keys.D Then doStatusDelete()
             If e.KeyCode = Keys.Q Then doQuote()
-            'If e.KeyCode = Keys.F Then
-            '    e.Handled = True
-            '    e.SuppressKeyPress = True
-            '    MovePageScroll(True)
-            'End If
-            'If e.KeyCode = Keys.B Then
-            '    e.Handled = True
-            '    e.SuppressKeyPress = True
-            '    MovePageScroll(False)
-            'End If
 
             ' タブダイレクト選択(Ctrl+1～8,Ctrl+9)
 
@@ -4750,11 +4517,6 @@ RETRY:
                 e.SuppressKeyPress = True
                 GoFav(False)
             End If
-            'If e.KeyCode = Keys.B Then
-            '    e.Handled = True
-            '    e.SuppressKeyPress = True
-            '    UnreadStripMenuItem_Click(Nothing, Nothing)
-            'End If
             If e.KeyCode = Keys.R Then
                 e.Handled = True
                 e.SuppressKeyPress = True
@@ -4981,8 +4743,6 @@ RETRY:
         Dim found As Boolean = False
         For tabidx As Integer = fIdx To toIdx Step stp
             If _statuses.Tabs(ListTab.TabPages(tabidx).Text).TabType = TabUsageType.DirectMessage Then Continue For ' Directタブは対象外
-            '_itemCache = Nothing
-            '_postCache = Nothing
             For idx As Integer = 0 To DirectCast(ListTab.TabPages(tabidx).Tag, DetailsListView).VirtualListSize - 1
                 If _statuses.Item(ListTab.TabPages(tabidx).Text, idx).Id = targetId Then
                     ListTab.SelectedIndex = tabidx
@@ -4995,8 +4755,6 @@ RETRY:
             Next
             If found Then Exit For
         Next
-        '_itemCache = Nothing
-        '_postCache = Nothing
     End Sub
 
     Private Sub GoPost(ByVal forward As Boolean)
@@ -5236,85 +4994,6 @@ RETRY:
             replyChains = Nothing
         End If
     End Sub
-
-
-    'Private Sub MovePageScroll(ByVal down As Boolean)
-    '    Dim _item As ListViewItem
-    '    Dim idx As Integer
-
-    '    If down Then
-    '        _item = _curList.GetItemAt(0, _curList.ClientSize.Height - 25)
-    '        If _item Is Nothing Then
-    '            If _curList.VirtualListSize > 0 Then
-    '                SelectListItem(_curList, _curList.VirtualListSize - 1)
-    '                _curList.EnsureVisible(_curList.VirtualListSize - 1)
-    '            End If
-    '            Exit Sub
-    '        End If
-
-    '        idx = _item.Index
-    '        Dim idx2 As Integer = -1
-    '        If _curList.Focused Then
-    '            idx2 = _curList.FocusedItem.Index
-    '        End If
-    '        If idx2 >= idx Then
-    '            'スクロール
-    '            Dim idx3 As Integer = 0
-    '            _item = _curList.GetItemAt(0, 25)
-    '            If _item IsNot Nothing Then
-    '                idx3 = _item.Index
-    '            End If
-    '            Dim rowCount As Integer = idx - idx3
-    '            Dim toIndex As Integer = 0
-    '            If idx2 + rowCount > _curList.VirtualListSize - 1 Then
-    '                toIndex = _curList.VirtualListSize - 1
-    '            Else
-    '                toIndex = idx2 + rowCount
-    '            End If
-    '            SelectListItem(_curList, toIndex)
-    '            _curList.EnsureVisible(toIndex)
-    '        Else
-    '            '最下行を選択
-    '            SelectListItem(_curList, idx)
-    '        End If
-    '    Else
-    '        _item = _curList.GetItemAt(0, 25)
-    '        If _item Is Nothing Then
-    '            If _curList.VirtualListSize > 0 Then
-    '                SelectListItem(_curList, 0)
-    '                _curList.EnsureVisible(0)
-    '            End If
-    '            Exit Sub
-    '        End If
-
-    '        idx = _item.Index
-    '        Dim idx2 As Integer = -1
-    '        If _curList.Focused Then
-    '            idx2 = _curList.FocusedItem.Index
-    '        End If
-    '        If idx2 <= idx Then
-    '            'スクロール
-    '            Dim idx3 As Integer = 0
-    '            _item = _curList.GetItemAt(0, _curList.ClientSize.Height - 25)
-    '            If _item IsNot Nothing Then
-    '                idx3 = _item.Index
-    '            End If
-    '            Dim rowCount As Integer = idx3 - idx
-    '            Dim toIndex As Integer = 0
-    '            If idx2 - rowCount < 0 Then
-    '                toIndex = 0
-    '            Else
-    '                toIndex = idx2 - rowCount
-    '            End If
-    '            SelectListItem(_curList, toIndex)
-    '            _curList.EnsureVisible(toIndex)
-    '        Else
-    '            '最上行を選択
-    '            SelectListItem(_curList, idx)
-    '        End If
-    '    End If
-
-    'End Sub
 
     Private Sub MyList_MouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
         _anchorFlag = False
@@ -5740,7 +5419,6 @@ RETRY:
     End Sub
     Public Function TabRename(ByRef tabName As String) As Boolean
         'タブ名変更
-        'If _statuses.IsDefaultTab(tabName) Then Return False
         Dim newTabText As String = Nothing
         Using inputName As New InputTabName()
             inputName.TabName = tabName
@@ -5781,7 +5459,6 @@ RETRY:
                 End If
             Next
             SaveConfigsCommon()
-            'SaveConfigsTab(newTabText)
             SaveConfigsTabs()
             _rclickTabName = newTabText
             tabName = newTabText
@@ -6155,16 +5832,12 @@ RETRY:
 
         Dim tb As TabClass = _statuses.GetTabByType(TabUsageType.Mentions)
         If SettingDialog.ReplyIconState <> REPLY_ICONSTATE.None AndAlso tb IsNot Nothing AndAlso tb.UnreadCount > 0 Then
-            ' TODO: 点滅させるタイミングや回数などを考える
-            'FlashWindow(Me.Handle.ToInt32, 1)
             If blinkCnt > 0 Then Exit Sub
             blink = Not blink
             If blink OrElse SettingDialog.ReplyIconState = REPLY_ICONSTATE.StaticIcon Then
                 NotifyIcon1.Icon = ReplyIcon
-                'FlashWindow(Me.Handle.ToInt32, 1)
             Else
                 NotifyIcon1.Icon = ReplyIconBlink
-                'FlashWindow(Me.Handle.ToInt32, 0)
             End If
             idle = False
             Exit Sub
@@ -6254,7 +5927,6 @@ RETRY:
         If _rclickTabName = "" Then Exit Sub
         ChangeTabUnreadManage(_rclickTabName, UreadManageMenuItem.Checked)
 
-        'SaveConfigsTab(_rclickTabName)
         SaveConfigsTabs()
     End Sub
 
@@ -6293,7 +5965,6 @@ RETRY:
 
         _statuses.Tabs(_rclickTabName).Notify = NotifyDispMenuItem.Checked
 
-        'SaveConfigsTab(_rclickTabName)
         SaveConfigsTabs()
     End Sub
 
@@ -6302,7 +5973,6 @@ RETRY:
 
         _statuses.Tabs(_rclickTabName).SoundFile = DirectCast(DirectCast(sender, ToolStripComboBox).SelectedItem, String)
 
-        'SaveConfigsTab(_rclickTabName)
         SaveConfigsTabs()
     End Sub
 
@@ -6310,15 +5980,10 @@ RETRY:
         If _rclickTabName = "" OrElse sender Is Me.DeleteTbMenuItem Then _rclickTabName = ListTab.SelectedTab.Text
 
         RemoveSpecifiedTab(_rclickTabName)
-        '_rclickTabName = ""
-        'SaveConfigsCommon()
-        'SaveConfigsTab(False)
         SaveConfigsTabs()
     End Sub
 
     Private Sub FilterEditMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FilterEditMenuItem.Click, EditRuleTbMenuItem.Click
-        'If _rclickTabName = "" OrElse _rclickTabName = DEFAULTTAB.RECENT OrElse _rclickTabName = DEFAULTTAB.DM _
-        '        OrElse _rclickTabName = DEFAULTTAB.FAV Then Exit Sub
 
         If _rclickTabName = "" Then _rclickTabName = _statuses.GetTabByType(TabUsageType.Home).TabName
         fDialog.SetCurrent(_rclickTabName)
@@ -6384,8 +6049,6 @@ RETRY:
             Else
                 '成功
                 _statuses.AddTab(tabName, tabUsage, list)
-                'SaveConfigsCommon()
-                'SaveConfigsTab(False)
                 SaveConfigsTabs()
                 If tabUsage = TabUsageType.PublicSearch Then
                     ListTab.SelectedIndex = ListTab.TabPages.Count - 1
@@ -6546,8 +6209,6 @@ RETRY:
         Finally
             Me.Cursor = Cursors.Default
         End Try
-        'SaveConfigsCommon()
-        'SaveConfigsTab(False)
         SaveConfigsTabs()
     End Sub
 
@@ -6887,7 +6548,6 @@ RETRY:
     Friend Sub CheckReplyTo(ByVal StatusText As String)
         Dim m As MatchCollection
         'ハッシュタグの保存
-        'Dim hash As New Regex("(^|[^a-zA-Z0-9_/])[#|＃](?<hash>[a-zA-Z0-9_]+)")
         m = Regex.Matches(StatusText, "(^|[^a-zA-Z0-9_/])[#|＃](?<hash>[a-zA-Z0-9_]+)")
         Dim hstr As String = ""
         For Each hm As Match In m
@@ -6904,8 +6564,6 @@ RETRY:
         If hstr <> "" Then HashMgr.AddHashToHistory(hstr.Trim, False)
 
         ' 本当にリプライ先指定すべきかどうかの判定
-        'Dim id As New Regex("(^|[ -/:-@[-^`{-~])(?<id>@[a-zA-Z0-9_]+)")
-
         m = Regex.Matches(StatusText, "(^|[ -/:-@[-^`{-~])(?<id>@[a-zA-Z0-9_]+)")
 
         If SettingDialog.UseAtIdSupplement Then
@@ -6988,7 +6646,6 @@ RETRY:
             SettingDialog.PlaySound = False
         End If
         modifySettingCommon = True
-        'SaveConfigsCommon()
     End Sub
 
     Private Sub SplitContainer1_SplitterMoved(ByVal sender As Object, ByVal e As System.Windows.Forms.SplitterEventArgs) Handles SplitContainer1.SplitterMoved
@@ -7154,27 +6811,12 @@ RETRY:
     Private Function UrlConvert(ByVal Converter_Type As UrlConverter) As Boolean
         'Converter_Type=Nicomsの場合は、nicovideoのみ短縮する
         Dim result As String = ""
-        'Dim url As Regex = New Regex("(?<before>(?:[^\/""':!=]|^|\:))" + _
-        '                            "(?<url>(?<protocol>https?://|www\.)" + _
-        '                            "(?<domain>(?:[\.-]|[^\p{P}])+\.[a-z]{2,}(?::[0-9]+)?)" + _
-        '                            "(?<path>/[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9)=#/]?)?" + _
-        '                            "(?<query>\?[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9_&=#])?)", RegexOptions.IgnoreCase Or RegexOptions.Compiled)
-        Const url As String = "(?<before>(?:[^\""':!=]|^|\:))" + _
+         Const url As String = "(?<before>(?:[^\""':!=]|^|\:))" + _
                                     "(?<url>(?<protocol>https?://)" + _
                                     "(?<domain>(?:[\.-]|[^\p{P}\s])+\.[a-z]{2,}(?::[0-9]+)?)" + _
                                     "(?<path>/[a-z0-9!*'();:&=+$/%#\[\]\-_.,~@^]*[a-z0-9)=#/]?)?" + _
                                     "(?<query>\?[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9_&=#/])?)"
 
-        'Dim url As Regex = New Regex("(?<![0-9A-Za-z])(?:https?|shttp)://(?:(?:[-_.!~*'()a-zA-Z0-9;:&=+$,]|%[0-9A-Fa-f" + _
-        '                             "][0-9A-Fa-f])*@)?(?:(?:[a-zA-Z0-9](?:[-a-zA-Z0-9]*[a-zA-Z0-9])?\.)" + _
-        '                             "*[a-zA-Z](?:[-a-zA-Z0-9]*[a-zA-Z0-9])?\.?|[0-9]+\.[0-9]+\.[0-9]+\." + _
-        '                             "[0-9]+)(?::[0-9]*)?(?:/(?:[-_.!~*'()a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f]" + _
-        '                             "[0-9A-Fa-f])*(?:;(?:[-_.!~*'()a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-" + _
-        '                             "Fa-f])*)*(?:/(?:[-_.!~*'()a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f" + _
-        '                             "])*(?:;(?:[-_.!~*'()a-zA-Z0-9:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)*)" + _
-        '                             "*)?(?:\?(?:[-_.!~*'()a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])" + _
-        '                             "*)?(?:#(?:[-_.!~*'()a-zA-Z0-9;/?:@&=+$,]|%[0-9A-Fa-f][0-9A-Fa-f])*)?")
-        'Dim nico As Regex = New Regex("^https?://[a-z]+\.(nicovideo|niconicommons|nicolive)\.jp/[a-z]+/[a-z0-9]+$")
         Const nico As String = "^https?://[a-z]+\.(nicovideo|niconicommons|nicolive)\.jp/[a-z]+/[a-z0-9]+$"
 
         If StatusText.SelectionLength > 0 Then
@@ -7388,7 +7030,6 @@ RETRY:
 
     Private Sub MyList_ColumnWidthChanged(ByVal sender As System.Object, ByVal e As ColumnWidthChangedEventArgs)
         Dim lst As DetailsListView = DirectCast(sender, DetailsListView)
-        'Dim changed As Boolean = False
         If _cfgLocal Is Nothing Then Exit Sub
         If _iconCol Then
             If _cfgLocal.Width1 <> lst.Columns(0).Width Then
@@ -7779,9 +7420,6 @@ RETRY:
     End Sub
 
     Private Sub TweenMain_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
-        'If Me.WindowState = FormWindowState.Minimized AndAlso SettingDialog.MinimizeToTray Then
-        '    Me.Visible = False
-        'End If
         Try
             PostBrowser.Url = New Uri("about:blank")
             PostBrowser.DocumentText = ""       '発言詳細部初期化
@@ -7914,7 +7552,6 @@ RETRY:
         '展開しないように変更
         '展開するか判定
         Dim isUrl As Boolean = False
-        'Dim rx As Regex = New Regex("<a target=""_self"" href=""(?<url>[^""]+)""[^>]*>(?<link>(https?|shttp|ftps?)://[^<]+)</a>")
         Dim ms As MatchCollection = Regex.Matches(status, "<a target=""_self"" href=""(?<url>[^""]+)""[^>]*>(?<link>(https?|shttp|ftps?)://[^<]+)</a>")
         For Each m As Match In ms
             If m.Result("${link}").EndsWith("...") Then
@@ -7929,10 +7566,8 @@ RETRY:
         End If
 
         'その他のリンク(@IDなど)を置き換える
-        'rx = New Regex("@<a target=""_self"" href=""https?://twitter.com/(?<url>[^""]+)""[^>]*>(?<link>[^<]+)</a>")
         status = Regex.Replace(status, "@<a target=""_self"" href=""https?://twitter.com/(?<url>[^""]+)""[^>]*>(?<link>[^<]+)</a>", "@${url}")
         'ハッシュタグ
-        'rx = New Regex("<a target=""_self"" href=""(?<url>[^""]+)""[^>]*>(?<link>[^<]+)</a>")
         status = Regex.Replace(status, "<a target=""_self"" href=""(?<url>[^""]+)""[^>]*>(?<link>[^<]+)</a>", "${link}")
         '<br>タグ除去
         If StatusText.Multiline Then
@@ -7964,7 +7599,6 @@ RETRY:
 
     Private Sub ToolStripMenuItemUrlAutoShorten_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItemUrlAutoShorten.CheckedChanged
         SettingDialog.UrlConvertAuto = ToolStripMenuItemUrlAutoShorten.Checked
-        'SaveConfigsCommon()
     End Sub
 
     Private Sub ContextMenuStripPostMode_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStripPostMode.Opening
@@ -9445,14 +9079,6 @@ RETRY:
         End If
     End Sub
 #End Region
-
-    'Private Sub DummyTextBox_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DummyTextBox.Enter
-    '    If Me.StatusText.Enabled Then
-    '        Me.StatusText.Focus()
-    '    Else
-    '        DirectCast(Me.ListTab.SelectedTab.Tag, Control).Focus()
-    '    End If
-    'End Sub
 
     Private Sub SplitContainer3_SplitterMoved(ByVal sender As System.Object, ByVal e As System.Windows.Forms.SplitterEventArgs) Handles SplitContainer3.SplitterMoved
         If Me.WindowState = FormWindowState.Normal AndAlso Not _initialLayout Then
