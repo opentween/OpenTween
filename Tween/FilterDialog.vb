@@ -58,7 +58,6 @@ Public Class FilterDialog
         ListTabs.Enabled = True
         GroupTab.Enabled = True
         ListFilters.Enabled = True
-        'ListFilters.Focus()
         If ListFilters.SelectedIndex <> -1 Then
             ShowDetail()
         End If
@@ -170,7 +169,6 @@ Public Class FilterDialog
         CheckExCaseSensitive.Checked = False
         CheckExRetweet.Checked = False
 
-        'OptNone.Checked = True
         OptCopy.Checked = True
         CheckMark.Checked = True
         UID.Focus()
@@ -221,7 +219,6 @@ Public Class FilterDialog
         CheckExCaseSensitive.Checked = False
         CheckExRetweet.Checked = False
 
-        'OptNone.Checked = True
         OptCopy.Checked = True
         CheckMark.Checked = True
         UID.Focus()
@@ -384,13 +381,6 @@ Public Class FilterDialog
             CheckExCaseSensitive.Checked = fc.ExCaseSensitive
             CheckExRetweet.Checked = fc.IsExRt
 
-            'If fc.moveFrom Then
-            '    OptMove.Checked = True
-            'ElseIf fc.SetMark Then
-            '    OptMark.Checked = True
-            'Else
-            '    OptNone.Checked = True
-            'End If
             If fc.MoveFrom Then
                 OptMove.Checked = True
             Else

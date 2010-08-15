@@ -117,11 +117,6 @@ Public Class Setting
     Private _MyTwitterApiUrl As String
     Private _MyTwitterSearchApiUrl As String
     Private _MyPreviewEnable As Boolean
-    'Private _MyHotkeyEnabled As Boolean
-    'Private _MyHotkeyMod As Keys
-    'Private _MyHotkeyCode As String
-    'Private _MyHotkeyValue As Integer
-    'Private _MyBlinkNewMentions As Boolean
 
     Private _ValidationError As Boolean = False
 
@@ -666,14 +661,9 @@ Public Class Setting
             Case "btnUnread"
                 FontDialog1.Color = lblUnread.ForeColor
                 FontDialog1.Font = lblUnread.Font
-                'Case "btnReaded"
-                '    FontDialog1.Color = lblReaded.ForeColor
-                '    FontDialog1.Font = lblReaded.Font
             Case "btnDetail"
                 FontDialog1.Color = lblDetail.ForeColor
                 FontDialog1.Font = lblDetail.Font
-                'FontDialog1.ShowEffects = False
-                'FontDialog1.ShowColor = False
             Case "btnListFont"
                 FontDialog1.Color = lblListFont.ForeColor
                 FontDialog1.Font = lblListFont.Font
@@ -695,9 +685,6 @@ Public Class Setting
             Case "btnUnread"
                 lblUnread.ForeColor = FontDialog1.Color
                 lblUnread.Font = FontDialog1.Font
-                'Case "btnReaded"
-                '    lblReaded.ForeColor = FontDialog1.Color
-                '    lblReaded.Font = FontDialog1.Font
             Case "btnDetail"
                 lblDetail.ForeColor = FontDialog1.Color
                 lblDetail.Font = FontDialog1.Font
@@ -737,10 +724,6 @@ Public Class Setting
                 ColorDialog1.Color = lblOWL.ForeColor
             Case "btnRetweet"
                 ColorDialog1.Color = lblRetweet.ForeColor
-                'Case "btnUnread"
-                '    'ColorDialog1.Color = lblUnRead.ForeColor
-                'Case "btnReaded"
-                '    'ColorDialog1.Color = lblReaded.ForeColor
             Case "btnInputBackcolor"
                 ColorDialog1.Color = lblInputBackcolor.BackColor
             Case "btnAtTo"
@@ -774,10 +757,6 @@ Public Class Setting
                 lblOWL.ForeColor = ColorDialog1.Color
             Case "btnRetweet"
                 lblRetweet.ForeColor = ColorDialog1.Color
-                'Case "btnUnread"
-                '    'lblUnRead.ForeColor = ColorDialog1.Color
-                'Case "btnReaded"
-                '    'lblReaded.ForeColor = ColorDialog1.Color
             Case "btnInputBackcolor"
                 lblInputBackcolor.BackColor = ColorDialog1.Color
             Case "btnAtTo"
@@ -833,33 +812,6 @@ Public Class Setting
         End Get
         Set(ByVal value As Integer)
             _MyListsPeriod = value
-        End Set
-    End Property
-
-    Public Property MaxPostNum() As Integer
-        Get
-            Return _MyMaxPostNum
-        End Get
-        Set(ByVal value As Integer)
-            _MyMaxPostNum = value
-        End Set
-    End Property
-
-    Public Property LogDays() As Integer
-        Get
-            Return _MyLogDays
-        End Get
-        Set(ByVal value As Integer)
-            _MyLogDays = value
-        End Set
-    End Property
-
-    Public Property LogUnit() As LogUnitEnum
-        Get
-            Return _MyLogUnit
-        End Get
-        Set(ByVal value As LogUnitEnum)
-            _MyLogUnit = value
         End Set
     End Property
 
@@ -1124,15 +1076,6 @@ Public Class Setting
         End Get
         Set(ByVal value As Boolean)
             _MyPostCtrlEnter = value
-        End Set
-    End Property
-
-    Public Property UsePostMethod() As Boolean
-        Get
-            Return _usePostMethod
-        End Get
-        Set(ByVal value As Boolean)
-            _usePostMethod = False
         End Set
     End Property
 
@@ -1591,7 +1534,6 @@ Public Class Setting
 
         If filedlg.ShowDialog() = Windows.Forms.DialogResult.OK Then
             BrowserPathText.Text = filedlg.FileName
-
         End If
     End Sub
 

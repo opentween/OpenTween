@@ -634,7 +634,6 @@ Public Class TweenMain
         SettingDialog.DMPeriodInt = _cfgCommon.DMPeriod
         SettingDialog.PubSearchPeriodInt = _cfgCommon.PubSearchPeriod
         SettingDialog.ListsPeriodInt = _cfgCommon.ListsPeriod
-        SettingDialog.MaxPostNum = _cfgCommon.MaxPostNum
         '不正値チェック
         If Not My.Application.CommandLineArgs.Contains("nolimit") Then
             If SettingDialog.TimelinePeriodInt < 15 AndAlso SettingDialog.TimelinePeriodInt > 0 Then SettingDialog.TimelinePeriodInt = 15
@@ -692,7 +691,6 @@ Public Class TweenMain
         If SettingDialog.CountApi < 20 OrElse SettingDialog.CountApi > 200 Then SettingDialog.CountApi = 60
         If SettingDialog.CountApiReply < 20 OrElse SettingDialog.CountApiReply > 200 Then SettingDialog.CountApiReply = 40
 
-        SettingDialog.UsePostMethod = False
         SettingDialog.BrowserPath = _cfgLocal.BrowserPath
         SettingDialog.PostAndGet = _cfgCommon.PostAndGet
         SettingDialog.UseRecommendStatus = _cfgLocal.UseRecommendStatus
@@ -5138,7 +5136,6 @@ RETRY:
             _cfgCommon.DMPeriod = SettingDialog.DMPeriodInt
             _cfgCommon.PubSearchPeriod = SettingDialog.PubSearchPeriodInt
             _cfgCommon.ListsPeriod = SettingDialog.ListsPeriodInt
-            _cfgCommon.MaxPostNum = SettingDialog.MaxPostNum
             _cfgCommon.Read = SettingDialog.Readed
             _cfgCommon.IconSize = SettingDialog.IconSz
             _cfgCommon.UnreadManage = SettingDialog.UnreadManage
