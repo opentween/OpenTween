@@ -135,9 +135,7 @@ Namespace TweenCustomControl
         End Sub
 
         Public Sub ChangeSubItemStyles(ByVal itemIndex As Integer, ByVal subitemIndex As Integer, ByVal backColor As Color, ByVal foreColor As Color, ByVal fnt As Font)
-            'SetUpdateBounds(itemIndex, subitemIndex)
             Me.Items(itemIndex).SubItems(subitemIndex).BackColor = backColor
-            'SetUpdateBounds(itemIndex, subitemIndex)
             Me.Items(itemIndex).SubItems(subitemIndex).ForeColor = foreColor
             Me.Items(itemIndex).SubItems(subitemIndex).Font = fnt
             SetUpdateBounds(itemIndex, subitemIndex)
@@ -179,9 +177,6 @@ Namespace TweenCustomControl
         Protected Overrides Sub WndProc(ByRef m As System.Windows.Forms.Message)
             Const WM_ERASEBKGND As Integer = &H14
             Const WM_PAINT As Integer = &HF
-            'Const WM_VSCROLL As Integer = &H115
-            'Const WM_MOUSEWHEEL As Integer = &H20A
-            'Const WM_SETFOCUS As Integer = &H7
 
             If m.Msg = WM_ERASEBKGND Then
                 If Me.changeBounds <> Rectangle.Empty Then
@@ -190,19 +185,11 @@ Namespace TweenCustomControl
             End If
             If m.Msg = WM_PAINT Then
                 If Me.changeBounds <> Rectangle.Empty Then
-                    'Dim bounds As Rectangle = Me.changeBounds
-                    'Me.changeBounds = Rectangle.Empty
                     Win32Api.ValidateRect(Me.Handle, IntPtr.Zero)
                     Me.Invalidate(Me.changeBounds)
                     Me.changeBounds = Rectangle.Empty
                 End If
             End If
-            'If m.Msg = WM_VSCROLL OrElse m.Msg = WM_MOUSEWHEEL Then
-            '    RaiseEvent Scrolled(Me, New System.EventArgs)
-            'End If
-            'If m.Msg = WM_SETFOCUS Then
-            '    Return
-            'End If
             Try
                 MyBase.WndProc(m)
             Catch ex As ArgumentOutOfRangeException

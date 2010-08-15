@@ -89,7 +89,6 @@ Public Class SettingCommon
     Public DMPeriod As Integer = 600
     Public PubSearchPeriod As Integer = 180
     Public ListsPeriod As Integer = 180
-    Public MaxPostNum As Integer = 125
     Public Read As Boolean = True
     Public ListLock As Boolean = False
     Public IconSize As IconSizes = IconSizes.Icon16

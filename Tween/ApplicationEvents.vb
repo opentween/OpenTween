@@ -75,7 +75,6 @@ Namespace My
                         Else
                             ' 警告を表示（プロセス見つからない場合）
                             MessageBox.Show(My.Resources.StartupText1, My.Resources.StartupText2, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                            'MessageBox.Show("すでに起動しています。2つ同時には起動できません。", "多重起動禁止")
                         End If
 
                     End If

@@ -66,10 +66,6 @@ Public Class AtIdSupplement
     End Sub
 
     Private Sub TextId_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles TextId.KeyDown
-        'If e.KeyCode = Keys.Enter Then
-        '    inputId = Me.TextId.Text
-        '    Me.Close()
-        'End If
         If e.KeyCode = Keys.Back AndAlso Me.TextId.Text = "" Then
             inputText = ""
             isBack = True
@@ -92,22 +88,16 @@ Public Class AtIdSupplement
     End Sub
 
     Private Sub AtIdSupplement_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        'Me.Height = Me.TextId.Height + SystemInformation.ToolWindowCaptionHeight + Me.TextId.Margin.Top + Me.Label1.Height
         If startChar = "#" Then Me.ClientSize = New Size(Me.TextId.Width, Me.TextId.Height) 'プロパティで切り替えできるように
     End Sub
 
     Private Sub AtIdSupplement_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
-        'TextId.Text = startChar
-        'TextId.SelectionStart = 1
         TextId.Text = startChar
         If Not String.IsNullOrEmpty(_StartsWith) Then
             TextId.Text += _StartsWith.Substring(0, _StartsWith.Length)
         End If
         TextId.SelectionStart = TextId.Text.Length
         TextId.Focus()
-        'My.Application.DoEvents()   '苦し紛れ（ドロップダウンしないので）
-        'My.Application.DoEvents()   '苦し紛れ（ドロップダウンしないので）
-        'SendKeys.Send(startChar)
     End Sub
 
     Public Sub New()

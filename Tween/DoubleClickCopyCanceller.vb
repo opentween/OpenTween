@@ -46,13 +46,6 @@ Public Class DoubleClickCopyCanceller
                 m.Result = CType(0, IntPtr)
                 Exit Sub
             End If
-#If 0 Then
-            If m.Msg = WM_GETTEXT Then
-                _doubleClick = False
-                m.Result = CType(0, IntPtr)
-                Exit Sub
-            End If
-#End If
         End If
         MyBase.WndProc(m)
     End Sub
