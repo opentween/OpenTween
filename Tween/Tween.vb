@@ -9402,13 +9402,15 @@ RETRY:
                     ImageSelectedPicture.Tag = UploadFileType.Invalid
                     ImagefilePathText.Text = ""
                 Case UploadFileType.Picture
+                    Dim img As Image = Nothing
                     Using fs As New FileStream(ImagefilePathText.Text, FileMode.Open, FileAccess.Read)
-                        ImageSelectedPicture.Image = (New HttpVarious).CheckValidImage( _
-                                    Image.FromStream(fs), _
-                                    ImageSelectedPicture.Width, _
-                                    ImageSelectedPicture.Height)
+                        img = Image.FromStream(fs)
                         fs.Close()
                     End Using
+                    ImageSelectedPicture.Image = (New HttpVarious).CheckValidImage( _
+                                img, _
+                                img.Width, _
+                                img.Height)
                     ImageSelectedPicture.Tag = UploadFileType.Picture
                 Case UploadFileType.MultiMedia
                     ImageSelectedPicture.Image = My.Resources.MultiMediaImage
