@@ -7742,7 +7742,7 @@ RETRY:
         ShowFriendship(id)
     End Sub
 
-    Private Sub リスト編集ToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles リスト編集ToolStripMenuItem.Click
+    Private Sub リスト編集ToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Dim rslt As String = tw.GetListsApi()
         If rslt <> "" Then
             MessageBox.Show("Failed to get lists. (" + rslt + ")")
@@ -8152,18 +8152,21 @@ RETRY:
                 Return
             End If
 
-            Using listAvail As New ListAvailable
-                If listAvail.ShowDialog(Me) = Windows.Forms.DialogResult.Cancel Then Exit Sub
-                If listAvail.SelectedList Is Nothing Then Exit Sub
-                list = listAvail.SelectedList
+            'Using listAvail As New ListAvailable
+            '    If listAvail.ShowDialog(Me) = Windows.Forms.DialogResult.Cancel Then Exit Sub
+            '    If listAvail.SelectedList Is Nothing Then Exit Sub
+            '    list = listAvail.SelectedList
+            'End Using
+
+            'res = Me.tw.AddUserToList(list.Id.ToString(), user)
+
+            'If res <> "" Then
+            '    MessageBox.Show("通信エラー (" + res + ")")
+            '    Return
+            'End If
+            Using listSelectForm As New MyLists(user, Me.tw)
+                listSelectForm.ShowDialog()
             End Using
-
-            res = Me.tw.AddUserToList(list.Id.ToString(), user)
-
-            If res <> "" Then
-                MessageBox.Show("通信エラー (" + res + ")")
-                Return
-            End If
         End If
     End Sub
 

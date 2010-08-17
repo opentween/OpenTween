@@ -29,7 +29,6 @@ Partial Class TweenMain
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.StatusLabelUrl = New System.Windows.Forms.ToolStripStatusLabel()
         Me.StatusLabelApi = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.StatusLabel = New Tween.TweenCustomControl.ToolStripLabelHistory()
         Me.HashStripSplitButton = New System.Windows.Forms.ToolStripSplitButton()
         Me.ContextMenuStripPostMode = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItemUrlMultibyteSplit = New System.Windows.Forms.ToolStripMenuItem()
@@ -205,7 +204,6 @@ Partial Class TweenMain
         Me.HashToggleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HashManageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RtCountMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.リスト編集ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuItemHelp = New System.Windows.Forms.ToolStripMenuItem()
         Me.MatomeMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ShortcutKeyListMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -266,6 +264,7 @@ Partial Class TweenMain
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.StatusLabel = New Tween.TweenCustomControl.ToolStripLabelHistory()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -339,14 +338,6 @@ Partial Class TweenMain
         Me.StatusLabelApi.Name = "StatusLabelApi"
         resources.ApplyResources(Me.StatusLabelApi, "StatusLabelApi")
         '
-        'StatusLabel
-        '
-        Me.StatusLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right
-        Me.StatusLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.StatusLabel.DoubleClickEnabled = True
-        Me.StatusLabel.Name = "StatusLabel"
-        resources.ApplyResources(Me.StatusLabel, "StatusLabel")
-        '
         'HashStripSplitButton
         '
         Me.HashStripSplitButton.AutoToolTip = False
@@ -360,7 +351,6 @@ Partial Class TweenMain
         '
         Me.ContextMenuStripPostMode.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItemUrlMultibyteSplit, Me.ToolStripMenuItemApiCommandEvasion, Me.ToolStripMenuItemUrlAutoShorten, Me.IdeographicSpaceToSpaceToolStripMenuItem, Me.MultiLineMenuItem, Me.ToolStripFocusLockMenuItem, Me.ToolStripSeparator35, Me.ImageSelectMenuItem, Me.ToolStripSeparator8, Me.HashToggleMenuItem, Me.HashManageMenuItem})
         Me.ContextMenuStripPostMode.Name = "ContextMenuStripPostMode"
-        Me.ContextMenuStripPostMode.OwnerItem = Me.HashStripSplitButton
         resources.ApplyResources(Me.ContextMenuStripPostMode, "ContextMenuStripPostMode")
         '
         'ToolStripMenuItemUrlMultibyteSplit
@@ -1239,7 +1229,7 @@ Partial Class TweenMain
         '
         'MenuItemCommand
         '
-        Me.MenuItemCommand.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TinyUrlConvertToolStripMenuItem, Me.UpdateFollowersMenuItem1, Me.ToolStripSeparator1, Me.FollowCommandMenuItem, Me.RemoveCommandMenuItem, Me.FriendshipMenuItem, Me.ToolStripSeparator3, Me.OwnStatusMenuItem, Me.UserStatusToolStripMenuItem, Me.ToolStripSeparator34, Me.HashToggleToolStripMenuItem, Me.HashManageToolStripMenuItem, Me.RtCountMenuItem, Me.リスト編集ToolStripMenuItem})
+        Me.MenuItemCommand.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TinyUrlConvertToolStripMenuItem, Me.UpdateFollowersMenuItem1, Me.ToolStripSeparator1, Me.FollowCommandMenuItem, Me.RemoveCommandMenuItem, Me.FriendshipMenuItem, Me.ToolStripSeparator3, Me.OwnStatusMenuItem, Me.UserStatusToolStripMenuItem, Me.ToolStripSeparator34, Me.HashToggleToolStripMenuItem, Me.HashManageToolStripMenuItem, Me.RtCountMenuItem})
         Me.MenuItemCommand.Name = "MenuItemCommand"
         resources.ApplyResources(Me.MenuItemCommand, "MenuItemCommand")
         '
@@ -1349,11 +1339,6 @@ Partial Class TweenMain
         '
         Me.RtCountMenuItem.Name = "RtCountMenuItem"
         resources.ApplyResources(Me.RtCountMenuItem, "RtCountMenuItem")
-        '
-        'リスト編集ToolStripMenuItem
-        '
-        Me.リスト編集ToolStripMenuItem.Name = "リスト編集ToolStripMenuItem"
-        resources.ApplyResources(Me.リスト編集ToolStripMenuItem, "リスト編集ToolStripMenuItem")
         '
         'MenuItemHelp
         '
@@ -1659,6 +1644,14 @@ Partial Class TweenMain
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
+        'StatusLabel
+        '
+        Me.StatusLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right
+        Me.StatusLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.StatusLabel.DoubleClickEnabled = True
+        Me.StatusLabel.Name = "StatusLabel"
+        resources.ApplyResources(Me.StatusLabel, "StatusLabel")
+        '
         'TweenMain
         '
         Me.AllowDrop = True
@@ -1944,7 +1937,6 @@ Partial Class TweenMain
     Friend WithEvents StatusLabelApi As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents ToolStripFocusLockMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents リストに追加LToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents リスト編集ToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator37 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ShortcutKeyListMenuItem As System.Windows.Forms.ToolStripMenuItem
 

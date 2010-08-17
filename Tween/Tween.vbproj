@@ -182,6 +182,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="MyCommon.vb" />
+    <Compile Include="MyLists.Designer.vb">
+      <DependentUpon>MyLists.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MyLists.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="nicoms.vb" />
     <Compile Include="OpenURL.Designer.vb">
       <DependentUpon>OpenURL.vb</DependentUpon>
@@ -331,6 +337,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.zh-CHS.resx">
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyLists.resx">
+      <DependentUpon>MyLists.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OpenURL.en.resx">
       <DependentUpon>OpenURL.vb</DependentUpon>

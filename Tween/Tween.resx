@@ -2013,12 +2013,6 @@
   <data name="RtCountMenuItem.Text" xml:space="preserve">
     <value>この発言のRetweet回数を確認</value>
   </data>
-  <data name="リスト編集ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>237, 22</value>
-  </data>
-  <data name="リスト編集ToolStripMenuItem.Text" xml:space="preserve">
-    <value>リスト編集</value>
-  </data>
   <data name="MenuItemCommand.Size" type="System.Drawing.Size, System.Drawing">
     <value>88, 20</value>
   </data>
@@ -2444,12 +2438,6 @@
   </data>
   <data name="&gt;&gt;StatusLabelApi.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;StatusLabel.Name" xml:space="preserve">
-    <value>StatusLabel</value>
-  </data>
-  <data name="&gt;&gt;StatusLabel.Type" xml:space="preserve">
-    <value>Tween.TweenCustomControl.ToolStripLabelHistory, Tween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;HashStripSplitButton.Name" xml:space="preserve">
     <value>HashStripSplitButton</value>
@@ -3321,12 +3309,6 @@
   <data name="&gt;&gt;RtCountMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;リスト編集ToolStripMenuItem.Name" xml:space="preserve">
-    <value>リスト編集ToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;リスト編集ToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;MenuItemHelp.Name" xml:space="preserve">
     <value>MenuItemHelp</value>
   </data>
@@ -3674,6 +3656,12 @@
   </data>
   <data name="&gt;&gt;ToolTip1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;StatusLabel.Name" xml:space="preserve">
+    <value>StatusLabel</value>
+  </data>
+  <data name="&gt;&gt;StatusLabel.Type" xml:space="preserve">
+    <value>Tween.TweenCustomControl.ToolStripLabelHistory, Tween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>TweenMain</value>
