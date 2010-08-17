@@ -1616,7 +1616,7 @@ Public Class TweenMain
                                                            MessageBoxIcon.Question)
             Select rtResult
                 Case Windows.Forms.DialogResult.Yes
-                    doReTweetOriginal()
+                    doReTweetOriginal(False)
                     StatusText.Text = ""
                     Exit Sub
                 Case Windows.Forms.DialogResult.Cancel
@@ -4461,7 +4461,7 @@ RETRY:
                 e.SuppressKeyPress = True
                 GoSamePostToAnotherTab(True)
             End If
-            If e.KeyCode = Keys.R Then doReTweetOriginal()
+            If e.KeyCode = Keys.R Then doReTweetOriginal(True)
             If e.KeyCode = Keys.P AndAlso _curPost IsNot Nothing Then doShowUserStatus(_curPost.Name, False)
             If e.KeyCode = Keys.Up Then
                 ScrollDownPostBrowser(False)
@@ -7495,14 +7495,14 @@ RETRY:
         doReTweetUnofficial()
     End Sub
 
-    Private Sub doReTweetOriginal()
+    Private Sub doReTweetOriginal(ByVal isConfirm As Boolean)
         '公式RT
         If _curPost IsNot Nothing AndAlso Not _curPost.IsDm AndAlso Not _curPost.IsMe Then
             If SettingDialog.ProtectNotInclude AndAlso _curPost.IsProtect Then
                 MessageBox.Show("Protected.")
                 Exit Sub
             End If
-            If MessageBox.Show(My.Resources.RetweetQuestion1, "Retweet", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
+            If isConfirm AndAlso MessageBox.Show(My.Resources.RetweetQuestion1, "Retweet", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
                 Exit Sub
             End If
             Dim args As New GetWorkerArg
@@ -7517,7 +7517,7 @@ RETRY:
     End Sub
 
     Private Sub ReTweetOriginalStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReTweetOriginalStripMenuItem.Click, RtOpMenuItem.Click
-        doReTweetOriginal()
+        doReTweetOriginal(True)
     End Sub
 
     Private Function CreateRetweet(ByVal status As String) As String
