@@ -2226,11 +2226,17 @@ Public NotInheritable Class FiltersClass
             rgOpt = RegexOptions.IgnoreCase
         End If
         If _searchBoth Then
-            If _name = "" OrElse _
-                post.Name.Equals(_name, compOpt) OrElse _
-                post.RetweetedBy.Equals(_name, compOpt) OrElse _
-                (_useRegex AndAlso (Regex.IsMatch(post.Name, _name, rgOpt) OrElse _
-                                    Regex.IsMatch(post.RetweetedBy, _name, rgOpt))) Then
+            If _name = "" OrElse
+                (Not _useRegex AndAlso
+                 (post.Name.Equals(_name, compOpt) OrElse
+                  post.RetweetedBy.Equals(_name, compOpt)
+                 )
+                ) OrElse
+                (_useRegex AndAlso
+                 (Regex.IsMatch(post.Name, _name, rgOpt) OrElse
+                  (Not String.IsNullOrEmpty(post.RetweetedBy) AndAlso Regex.IsMatch(post.RetweetedBy, _name, rgOpt))
+                 )
+                ) Then
                 For Each fs As String In _body
                     If _useRegex Then
                         If Not Regex.IsMatch(tBody, fs, rgOpt) Then bHit = False
@@ -2249,8 +2255,8 @@ Public NotInheritable Class FiltersClass
         Else
             For Each fs As String In _body
                 If _useRegex Then
-                    If Not (Regex.IsMatch(post.Name, fs, rgOpt) OrElse _
-                            Regex.IsMatch(post.RetweetedBy, fs, rgOpt) OrElse _
+                    If Not (Regex.IsMatch(post.Name, fs, rgOpt) OrElse
+                            (Not String.IsNullOrEmpty(post.RetweetedBy) AndAlso Regex.IsMatch(post.RetweetedBy, fs, rgOpt)) OrElse
                             Regex.IsMatch(tBody, fs, rgOpt)) Then bHit = False
                 Else
                     If _caseSensitive Then
@@ -2298,12 +2304,17 @@ Public NotInheritable Class FiltersClass
                     rgOpt = RegexOptions.IgnoreCase
                 End If
                 If _exsearchBoth Then
-                    If _exname = "" OrElse _
-                        post.Name.Equals(_exname, compOpt) OrElse _
-                        post.RetweetedBy.Equals(_exname, compOpt) OrElse _
+                    If _exname = "" OrElse
+                        (Not _exuseRegex AndAlso
+                         (post.Name.Equals(_exname, compOpt) OrElse
+                          post.RetweetedBy.Equals(_exname, compOpt)
+                         )
+                        ) OrElse
                         (_exuseRegex AndAlso _
                             (Regex.IsMatch(post.Name, _exname, rgOpt) OrElse _
-                             Regex.IsMatch(post.RetweetedBy, _exname, rgOpt))) Then
+                             (Not String.IsNullOrEmpty(post.RetweetedBy) AndAlso Regex.IsMatch(post.RetweetedBy, _exname, rgOpt))
+                            )
+                        ) Then
                         If _exbody.Count > 0 Then
                             For Each fs As String In _exbody
                                 If _exuseRegex Then
@@ -2324,8 +2335,8 @@ Public NotInheritable Class FiltersClass
                 Else
                     For Each fs As String In _exbody
                         If _exuseRegex Then
-                            If Regex.IsMatch(post.Name, fs, rgOpt) OrElse _
-                               Regex.IsMatch(post.RetweetedBy, fs, rgOpt) OrElse _
+                            If Regex.IsMatch(post.Name, fs, rgOpt) OrElse
+                               (Not String.IsNullOrEmpty(post.RetweetedBy) AndAlso Regex.IsMatch(post.RetweetedBy, fs, rgOpt)) OrElse
                                Regex.IsMatch(tBody, fs, rgOpt) Then exFlag = True
                         Else
                             If _excaseSensitive Then
