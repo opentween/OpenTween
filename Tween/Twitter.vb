@@ -2212,7 +2212,7 @@ Public Class Twitter
         Return ""
     End Function
 
-    Public Function GetListNembers(ByVal list_id As String, ByVal lists As List(Of UserInfo)) As String
+    Public Function GetListMembers(ByVal list_id As String, ByVal lists As List(Of UserInfo)) As String
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
         Dim res As HttpStatusCode
@@ -2221,7 +2221,7 @@ Public Class Twitter
 
         Do
             Try
-                res = twCon.GetListNembers(Me.Username, list_id, cursor, content)
+                res = twCon.GetListMembers(Me.Username, list_id, cursor, content)
             Catch ex As Exception
                 Return "Err:" + ex.Message
             End Try

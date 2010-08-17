@@ -559,7 +559,7 @@ Public Class HttpTwitter
                             Nothing)
     End Function
 
-    Public Function GetListNembers(ByVal user As String, ByVal list_id As String, ByVal cursor As Long, ByRef content As String) As HttpStatusCode
+    Public Function GetListMembers(ByVal user As String, ByVal list_id As String, ByVal cursor As Long, ByRef content As String) As HttpStatusCode
         Dim param As New Dictionary(Of String, String)
         param.Add("cursor", cursor.ToString())
         Return httpCon.GetContent(GetMethod, _

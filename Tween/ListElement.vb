@@ -51,7 +51,7 @@ Public Class ListElement
 
     Public Sub RefreshMembers()
         Dim users As New List(Of UserInfo)()
-        Me._tw.GetListNembers(Me.Id.ToString(), users)
+        Me._tw.GetListMembers(Me.Id.ToString(), users)
         Me._members = users
     End Sub
 
