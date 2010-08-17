@@ -6802,7 +6802,6 @@ RETRY:
 
                 'nico.ms使用、nicovideoにマッチしたら変換
                 If SettingDialog.Nicoms AndAlso Regex.IsMatch(tmp, nico) Then
-                    'result = tw.MakeShortNicoms(tmp)
                     result = nicoms.Shorten(tmp)
                 ElseIf Converter_Type <> UrlConverter.Nicoms Then
                     '短縮URL変換 日本語を含むかもしれないのでURLエンコードする
