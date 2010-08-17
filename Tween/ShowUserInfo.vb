@@ -117,7 +117,7 @@ Public Class ShowUserInfo
         Dim webtext As String
         Dim jumpto As String
         webtext = MyOwner.TwitterInstance.PreProcessUrl("<a href=""" + data + """>Dummy</a>")
-        webtext = MyOwner.TwitterInstance.ShortUrlResolve(webtext)
+        webtext = ShortUrl.Resolve(webtext)
         jumpto = Regex.Match(webtext, "<a href=""(?<url>.*?)""").Groups.Item("url").Value
         ToolTip1.SetToolTip(LinkLabelWeb, jumpto)
         LinkLabelWeb.Tag = jumpto

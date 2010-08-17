@@ -892,8 +892,8 @@ Public Class TweenMain
         tw.RestrictFavCheck = SettingDialog.RestrictFavCheck
         tw.ReadOwnPost = SettingDialog.ReadOwnPost
         tw.UseSsl = SettingDialog.UseSsl
-        tw.BitlyId = SettingDialog.BitlyUser
-        tw.BitlyKey = SettingDialog.BitlyPwd
+        ShortUrl.BitlyId = SettingDialog.BitlyUser
+        ShortUrl.BitlyKey = SettingDialog.BitlyPwd
         HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl
         HttpTwitter.TwitterSearchUrl = _cfgCommon.TwitterSearchUrl
 
@@ -2832,8 +2832,8 @@ Public Class TweenMain
                 tw.RestrictFavCheck = SettingDialog.RestrictFavCheck
                 tw.ReadOwnPost = SettingDialog.ReadOwnPost
                 tw.UseSsl = SettingDialog.UseSsl
-                tw.BitlyId = SettingDialog.BitlyUser
-                tw.BitlyKey = SettingDialog.BitlyPwd
+                ShortUrl.BitlyId = SettingDialog.BitlyUser
+                ShortUrl.BitlyKey = SettingDialog.BitlyPwd
                 HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl
                 HttpTwitter.TwitterSearchUrl = _cfgCommon.TwitterSearchUrl
 
@@ -5273,28 +5273,6 @@ RETRY:
         End SyncLock
     End Sub
 
-    'Private Sub SaveConfigsTab(ByVal DeleteBefore As Boolean)
-    '    If _ignoreConfigSave Then Exit Sub
-    '    Dim cnt As Integer = 0
-    '    If ListTab IsNot Nothing AndAlso _
-    '       ListTab.TabPages IsNot Nothing AndAlso _
-    '       ListTab.TabPages.Count > 0 Then
-    '        If DeleteBefore Then SettingTab.DeleteConfigFile() '旧設定ファイル削除
-    '        For cnt = 0 To ListTab.TabPages.Count - 1
-    '            SaveConfigsTab(ListTab.TabPages(cnt).Text)
-    '        Next
-    '    End If
-    'End Sub
-
-    'Private Sub SaveConfigsTab(ByVal tabName As String)
-    '    If _ignoreConfigSave Then Exit Sub
-    '    SyncLock _syncObject
-    '        Dim tabSetting As New SettingTab
-    '        tabSetting.Tab = _statuses.Tabs(tabName)
-    '        tabSetting.Save()
-    '    End SyncLock
-    'End Sub
-
     Private Sub SaveConfigsTabs()
         Dim tabSetting As New SettingTabs
         For i As Integer = 0 To ListTab.TabPages.Count - 1
@@ -6828,7 +6806,7 @@ RETRY:
                     result = nicoms.Shorten(tmp)
                 ElseIf Converter_Type <> UrlConverter.Nicoms Then
                     '短縮URL変換 日本語を含むかもしれないのでURLエンコードする
-                    result = tw.MakeShortUrl(Converter_Type, tmp)
+                    result = ShortUrl.Make(Converter_Type, tmp)
                     If result.Equals("Can't convert") Then
                         StatusLabel.Text = result.Insert(0, Converter_Type.ToString() + ":")
                         Return False
@@ -6871,7 +6849,7 @@ RETRY:
                     result = nicoms.Shorten(tmp)
                 ElseIf Converter_Type <> UrlConverter.Nicoms Then
                     '短縮URL変換 日本語を含むかもしれないのでURLエンコードする
-                    result = tw.MakeShortUrl(Converter_Type, tmp)
+                    result = ShortUrl.Make(Converter_Type, tmp)
                     If result.Equals("Can't convert") Then
                         StatusLabel.Text = result.Insert(0, Converter_Type.ToString() + ":")
                         Continue For
