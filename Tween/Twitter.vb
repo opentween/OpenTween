@@ -2297,6 +2297,47 @@ Public Class Twitter
         Return ""
     End Function
 
+    Public Function ContainsUserAtList(ByVal list_name As String, ByVal user As String, ByRef value As Boolean) As String
+        value = False
+
+        If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
+
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+
+        Try
+            res = Me.twCon.GetListMembersID(Me.Username, list_name, user, content)
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
+
+        Select Case res
+            Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
+            Case HttpStatusCode.Unauthorized
+                Twitter.AccountState = ACCOUNT_STATE.Invalid
+                Return "Check your Username/Password."
+            Case HttpStatusCode.BadRequest
+                Return "Err:API Limits?"
+            Case HttpStatusCode.NotFound
+                value = False
+                Return ""
+            Case Else
+                Return "Err:" + res.ToString()
+        End Select
+
+        Dim xdoc As New XmlDocument
+        Try
+            xdoc.LoadXml(content)
+            value = xdoc.DocumentElement.Name = "user"
+        Catch ex As Exception
+            TraceOut(content)
+            Return "Invalid XML!"
+        End Try
+
+        Return ""
+    End Function
+
     Public Function AddUserToList(ByVal list_name As String, ByVal user As String) As String
         Dim content As String = ""
         Dim res As HttpStatusCode
