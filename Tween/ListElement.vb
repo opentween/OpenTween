@@ -56,6 +56,6 @@ Public Class ListElement
     End Sub
 
     Public Overrides Function ToString() As String
-        Return "@" + Username + "/" + Name
+        Return "@" + Username + "/" + Name + " [" + If(Me.IsPublic, "Public", "Protected") + "]"
     End Function
 End Class
