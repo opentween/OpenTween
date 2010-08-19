@@ -20,10 +20,6 @@
             Dim listPost As New List(Of PostClass)()
             Dim otherPost As New List(Of PostClass)()
 
-            Dim listPostUserIDs As New List(Of Long)()
-            Dim listPostUserNames As New List(Of String)()
-            Dim listOlderPostCreatedAt As DateTime = DateTime.Now
-
             For Each tab As TabClass In TabInformations.GetInstance().Tabs.Values
                 If tab.TabType = TabUsageType.Lists Then
                     If listItem.Id = tab.ListInfo.Id Then
@@ -46,6 +42,11 @@
                 Continue For
             End If
 
+            Dim listPostUserIDs As New List(Of Long)()
+            Dim listPostUserNames As New List(Of String)()
+            Dim listOlderPostCreatedAt As DateTime = DateTime.MaxValue
+            Dim listNewistPostCreatedAt As DateTime = DateTime.MinValue
+
             For Each post As PostClass In listPost
                 If post.Uid > 0 AndAlso Not listPostUserIDs.Contains(post.Uid) Then
                     listPostUserIDs.Add(post.Uid)
@@ -55,6 +56,9 @@
                 End If
                 If post.PDate < listOlderPostCreatedAt Then
                     listOlderPostCreatedAt = post.PDate
+                End If
+                If post.PDate > listNewistPostCreatedAt Then
+                    listNewistPostCreatedAt = post.PDate
                 End If
             Next
 
@@ -67,7 +71,7 @@
             otherPost.AddRange(TabInformations.GetInstance().Posts().Values)
 
             'リストに該当ユーザーのポストが含まれていないのにリスト以外で取得したポストの中にリストに含まれるべきポストがある場合は、リストにユーザーは含まれていないとする。
-            If otherPost.Exists(Function(item) (item.Name = Me.contextUserName) AndAlso (item.PDate > listOlderPostCreatedAt) AndAlso ((Not item.IsReply) OrElse listPostUserNames.Contains(item.InReplyToUser))) Then
+            If otherPost.Exists(Function(item) (item.Name = Me.contextUserName) AndAlso (item.PDate > listOlderPostCreatedAt) AndAlso (item.PDate < listNewistPostCreatedAt) AndAlso ((Not item.IsReply) OrElse listPostUserNames.Contains(item.InReplyToUser))) Then
                 Me.ListsCheckedListBox.SetItemChecked(i, False)
                 Continue For
             End If

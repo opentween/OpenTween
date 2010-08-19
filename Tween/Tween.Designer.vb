@@ -160,6 +160,7 @@ Partial Class TweenMain
         Me.CreateRuleOpMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CreateTabRuleOpMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CreateIdRuleOpMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem9 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator26 = New System.Windows.Forms.ToolStripSeparator()
         Me.ChangeReadOpMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ReadOpMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -239,6 +240,7 @@ Partial Class TweenMain
         Me.ToolStripMenuItem7 = New System.Windows.Forms.ToolStripMenuItem()
         Me.TabMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.IDRuleMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem8 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripMenuItem11 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ReadedStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -265,8 +267,6 @@ Partial Class TweenMain
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.ToolStripMenuItem8 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripMenuItem9 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -361,6 +361,7 @@ Partial Class TweenMain
         '
         Me.ContextMenuStripPostMode.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItemUrlMultibyteSplit, Me.ToolStripMenuItemApiCommandEvasion, Me.ToolStripMenuItemUrlAutoShorten, Me.IdeographicSpaceToSpaceToolStripMenuItem, Me.MultiLineMenuItem, Me.ToolStripFocusLockMenuItem, Me.ToolStripSeparator35, Me.ImageSelectMenuItem, Me.ToolStripSeparator8, Me.HashToggleMenuItem, Me.HashManageMenuItem})
         Me.ContextMenuStripPostMode.Name = "ContextMenuStripPostMode"
+        Me.ContextMenuStripPostMode.OwnerItem = Me.HashStripSplitButton
         resources.ApplyResources(Me.ContextMenuStripPostMode, "ContextMenuStripPostMode")
         '
         'ToolStripMenuItemUrlMultibyteSplit
@@ -1117,6 +1118,11 @@ Partial Class TweenMain
         Me.CreateIdRuleOpMenuItem.Name = "CreateIdRuleOpMenuItem"
         resources.ApplyResources(Me.CreateIdRuleOpMenuItem, "CreateIdRuleOpMenuItem")
         '
+        'ToolStripMenuItem9
+        '
+        Me.ToolStripMenuItem9.Name = "ToolStripMenuItem9"
+        resources.ApplyResources(Me.ToolStripMenuItem9, "ToolStripMenuItem9")
+        '
         'ToolStripSeparator26
         '
         Me.ToolStripSeparator26.Name = "ToolStripSeparator26"
@@ -1528,6 +1534,11 @@ Partial Class TweenMain
         Me.IDRuleMenuItem.Name = "IDRuleMenuItem"
         resources.ApplyResources(Me.IDRuleMenuItem, "IDRuleMenuItem")
         '
+        'ToolStripMenuItem8
+        '
+        Me.ToolStripMenuItem8.Name = "ToolStripMenuItem8"
+        resources.ApplyResources(Me.ToolStripMenuItem8, "ToolStripMenuItem8")
+        '
         'ToolStripSeparator4
         '
         Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
@@ -1653,16 +1664,6 @@ Partial Class TweenMain
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
-        '
-        'ToolStripMenuItem8
-        '
-        Me.ToolStripMenuItem8.Name = "ToolStripMenuItem8"
-        resources.ApplyResources(Me.ToolStripMenuItem8, "ToolStripMenuItem8")
-        '
-        'ToolStripMenuItem9
-        '
-        Me.ToolStripMenuItem9.Name = "ToolStripMenuItem9"
-        resources.ApplyResources(Me.ToolStripMenuItem9, "ToolStripMenuItem9")
         '
         'TweenMain
         '
