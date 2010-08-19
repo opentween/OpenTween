@@ -7,6 +7,8 @@
 
         Me.contextUserName = userName
         Me._tw = tw
+
+        Me.Text = Me.contextUserName + "を含むリストの管理"
     End Sub
 
     Private Sub MyLists_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -14,84 +16,103 @@
 
         For i As Integer = 0 To Me.ListsCheckedListBox.Items.Count - 1
             Dim listItem As ListElement = CType(Me.ListsCheckedListBox.Items(i), ListElement)
-            Dim myTabsPost As New List(Of PostClass)()
-            Dim otherTabsPost As New List(Of PostClass)()
-            Dim myTabsOlderPostCreatedAt As DateTime = DateTime.Now
-            Dim myTabsUserIDs As New List(Of Long)()
-            Dim myTabsUserNames As New List(Of String)()
+
+            Dim listPost As New List(Of PostClass)()
+            Dim otherPost As New List(Of PostClass)()
+
+            Dim listPostUserIDs As New List(Of Long)()
+            Dim listPostUserNames As New List(Of String)()
+            Dim listOlderPostCreatedAt As DateTime = DateTime.Now
 
             For Each tab As TabClass In TabInformations.GetInstance().Tabs.Values
-                If tab.TabType = TabUsageType.Lists AndAlso listItem.Id = tab.ListInfo.Id Then
-                    myTabsPost.AddRange(tab.Posts.Values)
-                    'myTabsPost.AddRange(tab.GetTemporaryPosts())
-                ElseIf tab.TabType = TabUsageType.Home OrElse tab.TabType = TabUsageType.Mentions Then
-                    otherTabsPost.AddRange(TabInformations.GetInstance().Posts().Values)
-                    'otherTabsPost.AddRange(tab.GetTemporaryPosts())
+                If tab.TabType = TabUsageType.Lists Then
+                    If listItem.Id = tab.ListInfo.Id Then
+                        listPost.AddRange(tab.Posts.Values)
+                    Else
+                        otherPost.AddRange(tab.Posts.Values)
+                    End If
                 End If
             Next
 
-            For Each post As PostClass In myTabsPost
-                If Not myTabsUserIDs.Contains(post.Uid) Then
-                    myTabsUserIDs.Add(post.Uid)
-                End If
-                If Not myTabsUserNames.Contains(post.Name) Then
-                    myTabsUserNames.Add(post.Name)
-                End If
-                If post.PDate < myTabsOlderPostCreatedAt Then
-                    myTabsOlderPostCreatedAt = post.PDate
-                End If
-            Next
-
-            'リストが空の場合は推定不能なのでAPIから取得する
-            If myTabsPost.Count = 0 Then
-                Dim ret_ As Boolean
-                Dim rslt_ As String = Me._tw.ContainsUserAtList(listItem.Id.ToString(), contextUserName.ToString(), ret_)
-                If rslt_ <> "" Then
-                    MessageBox.Show("通信エラー (" + rslt_ + ")")
-                End If
+            'リストが空の場合は推定不能
+            If listPost.Count = 0 Then
+                Me.ListsCheckedListBox.SetItemCheckState(i, CheckState.Indeterminate)
                 Continue For
             End If
 
             'リストに該当ユーザーのポストが含まれていれば、リストにユーザーが含まれているとする。
-            If myTabsPost.Exists(Function(item) item.Name = contextUserName) Then
-                Me.ListsCheckedListBox.SetItemChecked(Me.ListsCheckedListBox.Items.IndexOf(listItem), True)
+            If listPost.Exists(Function(item) item.Name = contextUserName) Then
+                Me.ListsCheckedListBox.SetItemChecked(i, True)
                 Continue For
             End If
+
+            For Each post As PostClass In listPost
+                If Not listPostUserIDs.Contains(post.Uid) Then
+                    listPostUserIDs.Add(post.Uid)
+                End If
+                If Not listPostUserNames.Contains(post.Name) Then
+                    listPostUserNames.Add(post.Name)
+                End If
+                If post.PDate < listOlderPostCreatedAt Then
+                    listOlderPostCreatedAt = post.PDate
+                End If
+            Next
 
             'リスト中のユーザーの人数がlistItem.MemberCount以上で、かつ該当のユーザーが含まれていなければ、リストにユーザーは含まれていないとする。
-            If listItem.MemberCount <= myTabsUserIDs.Count AndAlso myTabsUserNames.Contains(contextUserName) Then
-                Me.ListsCheckedListBox.SetItemChecked(Me.ListsCheckedListBox.Items.IndexOf(listItem), False)
+            If listItem.MemberCount <= listPostUserIDs.Count AndAlso (Not listPostUserNames.Contains(contextUserName)) Then
+                Me.ListsCheckedListBox.SetItemChecked(i, False)
                 Continue For
             End If
+
+            otherPost.AddRange(TabInformations.GetInstance().Posts().Values)
 
             'リストに該当ユーザーのポストが含まれていないのにリスト以外で取得したポストの中にリストに含まれるべきポストがある場合は、リストにユーザーは含まれていないとする。
-            If otherTabsPost.FindAll(Function(item) item.PDate > myTabsOlderPostCreatedAt AndAlso (item.InReplyToId = 0 OrElse myTabsUserNames.Contains(item.InReplyToUser))).Count > 0 Then
-                Me.ListsCheckedListBox.SetItemChecked(Me.ListsCheckedListBox.Items.IndexOf(listItem), False)
+            If otherPost.FindAll(Function(item) item.PDate > listOlderPostCreatedAt AndAlso (listPostUserNames.Contains(item.InReplyToUser))).Count > 0 Then
+                Me.ListsCheckedListBox.SetItemChecked(i, False)
                 Continue For
             End If
 
-            'ここまでで推定出来なければAPIから取得する
-            Dim ret As Boolean
-            Dim rslt As String = Me._tw.ContainsUserAtList(listItem.Id.ToString(), contextUserName.ToString(), ret)
-            If rslt <> "" Then
-                MessageBox.Show("通信エラー (" + rslt + ")")
-            End If
+            Me.ListsCheckedListBox.SetItemCheckState(i, CheckState.Indeterminate)
         Next
     End Sub
 
-    Private Sub ListsCheckedListBox_ItemCheck(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ItemCheckEventArgs) Handles ListsCheckedListBox.ItemCheck
-        If e.NewValue = CheckState.Checked Then
-            Dim list As ListElement = CType(Me.ListsCheckedListBox.Items(e.Index), ListElement)
-            Dim rslt As String = Me._tw.AddUserToList(list.Id.ToString(), Me.contextUserName.ToString())
-            If rslt <> "" Then
-                MessageBox.Show("通信エラー (" + rslt + ")")
+    Private Sub ListsCheckedListBox_MouseClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles ListsCheckedListBox.MouseClick
+        If e.X >= 16 Then Return 'チェックボッス部分のみに反応させる。
+
+        For i As Integer = 0 To Me.ListsCheckedListBox.Items.Count - 1
+            If Me.ListsCheckedListBox.GetItemRectangle(i).Contains(e.Location) Then
+                If Me.ListsCheckedListBox.GetItemCheckState(i) = CheckState.Indeterminate Then
+                    Dim listItem As ListElement = CType(Me.ListsCheckedListBox.Items(i), ListElement)
+
+                    Dim ret As Boolean
+                    Dim rslt As String = Me._tw.ContainsUserAtList(listItem.Id.ToString(), contextUserName.ToString(), ret)
+                    If rslt <> "" Then
+                        MessageBox.Show("通信エラー (" + rslt + ")")
+                    Else
+                        Me.ListsCheckedListBox.SetItemChecked(i, ret)
+                    End If
+                Else
+                    If Me.ListsCheckedListBox.GetItemCheckState(i) = CheckState.Unchecked Then
+                        Dim list As ListElement = CType(Me.ListsCheckedListBox.Items(i), ListElement)
+                        Dim rslt As String = Me._tw.AddUserToList(list.Id.ToString(), Me.contextUserName.ToString())
+                        If rslt <> "" Then
+                            MessageBox.Show("通信エラー (" + rslt + ")")
+                        Else
+                            Me.ListsCheckedListBox.SetItemChecked(i, True)
+                        End If
+                    ElseIf Me.ListsCheckedListBox.GetItemCheckState(i) = CheckState.Checked Then
+                        Dim list As ListElement = CType(Me.ListsCheckedListBox.Items(i), ListElement)
+                        Dim rslt As String = Me._tw.RemoveUserToList(list.Id.ToString(), Me.contextUserName.ToString())
+                        If rslt <> "" Then
+                            MessageBox.Show("通信エラー (" + rslt + ")")
+                        Else
+                            Me.ListsCheckedListBox.SetItemChecked(i, False)
+                        End If
+                    End If
+                End If
+
+                Exit For
             End If
-        ElseIf e.NewValue = CheckState.Unchecked Then
-            Dim list As ListElement = CType(Me.ListsCheckedListBox.Items(e.Index), ListElement)
-            Dim rslt As String = Me._tw.RemoveUserToList(list.Id.ToString(), Me.contextUserName.ToString())
-            If rslt <> "" Then
-                MessageBox.Show("通信エラー (" + rslt + ")")
-            End If
-        End If
+        Next
     End Sub
 End Class
