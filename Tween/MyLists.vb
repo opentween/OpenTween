@@ -47,10 +47,10 @@
             End If
 
             For Each post As PostClass In listPost
-                If Not listPostUserIDs.Contains(post.Uid) Then
+                If post.Uid > 0 AndAlso Not listPostUserIDs.Contains(post.Uid) Then
                     listPostUserIDs.Add(post.Uid)
                 End If
-                If Not listPostUserNames.Contains(post.Name) Then
+                If post.Name IsNot Nothing AndAlso Not listPostUserNames.Contains(post.Name) Then
                     listPostUserNames.Add(post.Name)
                 End If
                 If post.PDate < listOlderPostCreatedAt Then
@@ -59,7 +59,7 @@
             Next
 
             'リスト中のユーザーの人数がlistItem.MemberCount以上で、かつ該当のユーザーが含まれていなければ、リストにユーザーは含まれていないとする。
-            If listItem.MemberCount <= listPostUserIDs.Count AndAlso (Not listPostUserNames.Contains(contextUserName)) Then
+            If listItem.MemberCount > 0 AndAlso listItem.MemberCount <= listPostUserIDs.Count AndAlso (Not listPostUserNames.Contains(contextUserName)) Then
                 Me.ListsCheckedListBox.SetItemChecked(i, False)
                 Continue For
             End If
@@ -67,7 +67,7 @@
             otherPost.AddRange(TabInformations.GetInstance().Posts().Values)
 
             'リストに該当ユーザーのポストが含まれていないのにリスト以外で取得したポストの中にリストに含まれるべきポストがある場合は、リストにユーザーは含まれていないとする。
-            If otherPost.FindAll(Function(item) item.PDate > listOlderPostCreatedAt AndAlso (listPostUserNames.Contains(item.InReplyToUser))).Count > 0 Then
+            If otherPost.Exists(Function(item) (item.Name = Me.contextUserName) AndAlso (item.PDate > listOlderPostCreatedAt) AndAlso ((Not item.IsReply) OrElse listPostUserNames.Contains(item.InReplyToUser))) Then
                 Me.ListsCheckedListBox.SetItemChecked(i, False)
                 Continue For
             End If

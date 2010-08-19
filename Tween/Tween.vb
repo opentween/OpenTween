@@ -8139,35 +8139,36 @@ RETRY:
         End If
     End Sub
 
-    Private Sub リストに追加LToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles リストに追加LToolStripMenuItem.Click
-        Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(?<name>[a-zA-Z0-9_]+)$")
-        If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
-            Dim user As String = m.Result("${name}")
+    Private Sub リスト管理LToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles リストに追加LToolStripMenuItem.Click, ToolStripMenuItem9.Click, ToolStripMenuItem8.Click
+        Dim user As String
 
-            Dim list As ListElement = Nothing
+        If sender Is Me.ContextMenuStrip4 Then
+            Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(?<name>[a-zA-Z0-9_]+)$")
+            If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
+                user = m.Result("${name}")
+            Else
+                Return
+            End If
+        ElseIf Me._curPost IsNot Nothing Then
+            user = Me._curPost.Name
+        Else
+            Return
+        End If
+
+        Dim list As ListElement = Nothing
+
+        If TabInformations.GetInstance().SubscribableLists.Count = 0 Then
             Dim res As String = Me.tw.GetListsApi()
 
             If res <> "" Then
                 MessageBox.Show("Failed to get lists. (" + res + ")")
                 Return
             End If
-
-            'Using listAvail As New ListAvailable
-            '    If listAvail.ShowDialog(Me) = Windows.Forms.DialogResult.Cancel Then Exit Sub
-            '    If listAvail.SelectedList Is Nothing Then Exit Sub
-            '    list = listAvail.SelectedList
-            'End Using
-
-            'res = Me.tw.AddUserToList(list.Id.ToString(), user)
-
-            'If res <> "" Then
-            '    MessageBox.Show("通信エラー (" + res + ")")
-            '    Return
-            'End If
-            Using listSelectForm As New MyLists(user, Me.tw)
-                listSelectForm.ShowDialog()
-            End Using
         End If
+
+        Using listSelectForm As New MyLists(user, Me.tw)
+            listSelectForm.ShowDialog()
+        End Using
     End Sub
 
     Private Sub SearchControls_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs)
