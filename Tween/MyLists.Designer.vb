@@ -24,12 +24,13 @@ Partial Class MyLists
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.ListsCheckedListBox = New System.Windows.Forms.CheckedListBox()
-        Me.ListRefreshButton = New System.Windows.Forms.Button()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.追加AToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.削除DToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
         Me.更新RToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ListRefreshButton = New System.Windows.Forms.Button()
+        Me.CloseButton = New System.Windows.Forms.Button()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -47,17 +48,6 @@ Partial Class MyLists
         Me.ListsCheckedListBox.Name = "ListsCheckedListBox"
         Me.ListsCheckedListBox.Size = New System.Drawing.Size(228, 177)
         Me.ListsCheckedListBox.TabIndex = 0
-        '
-        'ListRefreshButton
-        '
-        Me.ListRefreshButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.ListRefreshButton.AutoSize = True
-        Me.ListRefreshButton.Location = New System.Drawing.Point(0, 178)
-        Me.ListRefreshButton.Name = "ListRefreshButton"
-        Me.ListRefreshButton.Size = New System.Drawing.Size(96, 23)
-        Me.ListRefreshButton.TabIndex = 1
-        Me.ListRefreshButton.Text = "リスト一覧を更新"
-        Me.ListRefreshButton.UseVisualStyleBackColor = True
         '
         'ContextMenuStrip1
         '
@@ -88,14 +78,44 @@ Partial Class MyLists
         Me.更新RToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.更新RToolStripMenuItem.Text = "更新(&R)"
         '
+        'ListRefreshButton
+        '
+        Me.ListRefreshButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.ListRefreshButton.AutoSize = True
+        Me.ListRefreshButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.ListRefreshButton.Location = New System.Drawing.Point(0, 179)
+        Me.ListRefreshButton.Name = "ListRefreshButton"
+        Me.ListRefreshButton.Size = New System.Drawing.Size(112, 22)
+        Me.ListRefreshButton.TabIndex = 1
+        Me.ListRefreshButton.Text = "リスト一覧を更新(&R)"
+        Me.ListRefreshButton.UseVisualStyleBackColor = True
+        '
+        'CloseButton
+        '
+        Me.CloseButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.CloseButton.AutoSize = True
+        Me.CloseButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.CloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel
+        Me.CloseButton.Location = New System.Drawing.Point(167, 179)
+        Me.CloseButton.Name = "CloseButton"
+        Me.CloseButton.Size = New System.Drawing.Size(61, 22)
+        Me.CloseButton.TabIndex = 2
+        Me.CloseButton.Text = "閉じる(&C)"
+        Me.CloseButton.UseVisualStyleBackColor = True
+        '
         'MyLists
         '
+        Me.AcceptButton = Me.CloseButton
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.CancelButton = Me.CloseButton
         Me.ClientSize = New System.Drawing.Size(228, 201)
+        Me.Controls.Add(Me.CloseButton)
         Me.Controls.Add(Me.ListRefreshButton)
         Me.Controls.Add(Me.ListsCheckedListBox)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
+        Me.MaximizeBox = False
+        Me.MinimizeBox = False
         Me.Name = "MyLists"
         Me.Text = "MyLists"
         Me.ContextMenuStrip1.ResumeLayout(False)
@@ -110,4 +130,5 @@ Partial Class MyLists
     Friend WithEvents 削除DToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents 更新RToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents CloseButton As System.Windows.Forms.Button
 End Class
