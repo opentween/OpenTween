@@ -8142,7 +8142,9 @@ RETRY:
     Private Sub リスト管理LToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles リストに追加LToolStripMenuItem.Click, ToolStripMenuItem9.Click, ToolStripMenuItem8.Click
         Dim user As String
 
-        If sender Is Me.ContextMenuStrip4 Then
+        Dim menuItem As ToolStripMenuItem = DirectCast(sender, ToolStripMenuItem)
+
+        If menuItem.Owner Is Me.ContextMenuStrip4 Then
             Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(?<name>[a-zA-Z0-9_]+)$")
             If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
                 user = m.Result("${name}")
