@@ -117,6 +117,7 @@ Partial Class MyLists
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "MyLists"
+        Me.ShowInTaskbar = False
         Me.Text = "MyLists"
         Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ResumeLayout(False)
