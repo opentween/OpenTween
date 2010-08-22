@@ -7141,6 +7141,7 @@ RETRY:
                 ShowUserStatusContextMenuItem.Enabled = True
                 SearchPostsDetailToolStripMenuItem.Enabled = True
                 IdFilterAddMenuItem.Enabled = True
+                リストに追加LToolStripMenuItem.Enabled = True
             Else
                 FollowContextMenuItem.Enabled = False
                 RemoveContextMenuItem.Enabled = False
@@ -7148,6 +7149,7 @@ RETRY:
                 ShowUserStatusContextMenuItem.Enabled = False
                 SearchPostsDetailToolStripMenuItem.Enabled = False
                 IdFilterAddMenuItem.Enabled = False
+                リストに追加LToolStripMenuItem.Enabled = False
             End If
 
             If Regex.IsMatch(Me._postBrowserStatusText, "^https?://twitter.com/search\?q=%23") Then
@@ -7165,6 +7167,7 @@ RETRY:
             SearchPostsDetailToolStripMenuItem.Enabled = False
             UseHashtagMenuItem.Enabled = False
             IdFilterAddMenuItem.Enabled = False
+            リストに追加LToolStripMenuItem.Enabled = False
         End If
         ' 文字列選択されていないときは選択文字列関係の項目を非表示に
         Dim _selText As String = WebBrowser_GetSelectionText(PostBrowser)
