@@ -7197,7 +7197,7 @@ RETRY:
                 ShowUserStatusContextMenuItem.Enabled = True
                 SearchPostsDetailToolStripMenuItem.Enabled = True
                 IdFilterAddMenuItem.Enabled = True
-                リストに追加LToolStripMenuItem.Enabled = True
+                ListManageUserContextToolStripMenuItem.Enabled = True
             Else
                 FollowContextMenuItem.Enabled = False
                 RemoveContextMenuItem.Enabled = False
@@ -7205,7 +7205,7 @@ RETRY:
                 ShowUserStatusContextMenuItem.Enabled = False
                 SearchPostsDetailToolStripMenuItem.Enabled = False
                 IdFilterAddMenuItem.Enabled = False
-                リストに追加LToolStripMenuItem.Enabled = False
+                ListManageUserContextToolStripMenuItem.Enabled = False
             End If
 
             If Regex.IsMatch(Me._postBrowserStatusText, "^https?://twitter.com/search\?q=%23") Then
@@ -7223,7 +7223,7 @@ RETRY:
             SearchPostsDetailToolStripMenuItem.Enabled = False
             UseHashtagMenuItem.Enabled = False
             IdFilterAddMenuItem.Enabled = False
-            リストに追加LToolStripMenuItem.Enabled = False
+            ListManageUserContextToolStripMenuItem.Enabled = False
         End If
         ' 文字列選択されていないときは選択文字列関係の項目を非表示に
         Dim _selText As String = WebBrowser_GetSelectionText(PostBrowser)
@@ -8182,7 +8182,7 @@ RETRY:
         End If
     End Sub
 
-    Private Sub リスト管理LToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles リストに追加LToolStripMenuItem.Click, ToolStripMenuItem9.Click, ToolStripMenuItem8.Click
+    Private Sub ListManageUserContextToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListManageUserContextToolStripMenuItem.Click, ToolStripMenuItem9.Click, ListManageUserContextToolStripMenuItem2.Click, ListManageUserContextToolStripMenuItem3.Click
         Dim user As String
 
         Dim menuItem As ToolStripMenuItem = DirectCast(sender, ToolStripMenuItem)
