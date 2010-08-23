@@ -48,6 +48,7 @@ Public Class imgly
                           param, _
                           binary, _
                           content, _
+                          Nothing, _
                           Nothing)
     End Function
 
