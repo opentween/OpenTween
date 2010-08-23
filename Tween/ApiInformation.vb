@@ -26,7 +26,7 @@ Public Class ApiInfo
         Me.RemainCount = _RemainCount
         Me.ResetTime = _ResetTime
         Me.ResetTimeInSeconds = _ResetTimeInSeconds
-        Me.UsingCount = _ResetTimeInSeconds
+        Me.UsingCount = _UsingCount
     End Sub
 End Class
 
@@ -59,7 +59,7 @@ Public Class ApiInformation
         _RemainCount = -1
         _ResetTime = New DateTime
         _ResetTimeInSeconds = -1
-        'UsingCountは初期化対象外
+        '_UsingCount = -1
         RaiseEvent Changed(Me, New ApiInformationChangedEventArgs)
     End Sub
 
@@ -185,6 +185,15 @@ Public Class ApiInformation
         _MaxCount = MaxCountFromHttpHeader
         _RemainCount = RemainCountFromHttpHeader
         _ResetTime = ResetTimeFromHttpHeader
+        Raise_Changed()
+    End Sub
+
+    Public Sub WriteBackEventArgs(ByVal arg As ApiInformationChangedEventArgs)
+        _MaxCount = arg.ApiInfo.MaxCount
+        _RemainCount = arg.ApiInfo.RemainCount
+        _ResetTime = arg.ApiInfo.ResetTime
+        _ResetTimeInSeconds = arg.ApiInfo.ResetTimeInSeconds
+        _UsingCount = arg.ApiInfo.UsingCount
         Raise_Changed()
     End Sub
 End Class
