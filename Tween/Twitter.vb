@@ -2441,6 +2441,7 @@ Public Class Twitter
             arg.ApiInfo.RemainCount = Integer.Parse(xdoc.SelectSingleNode("/hash/remaining-hits").InnerText)
             arg.ApiInfo.ResetTime = DateTime.Parse(xdoc.SelectSingleNode("/hash/reset-time").InnerText)
             arg.ApiInfo.ResetTimeInSeconds = Integer.Parse(xdoc.SelectSingleNode("/hash/reset-time-in-seconds").InnerText)
+            arg.ApiInfo.UsingCount = info.UsingCount
 
             info.MaxCount = arg.ApiInfo.MaxCount
             info.RemainCount = arg.ApiInfo.RemainCount
@@ -2448,6 +2449,7 @@ Public Class Twitter
             info.ResetTimeInSeconds = arg.ApiInfo.ResetTimeInSeconds
 
             RaiseEvent ApiInformationChanged(Me, arg)
+            TwitterApiInfo.WriteBackEventArgs(arg)
             Return True
         Catch ex As Exception
             TwitterApiInfo.Initialize()
