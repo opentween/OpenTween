@@ -5122,11 +5122,11 @@ RETRY:
             End If
         End If
         If e.Modifiers = Keys.None Then
-            If e.KeyCode = Keys.F7 Then
-                GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
-            End If
             If e.KeyCode = Keys.F6 Then
                 GetTimeline(WORKERTYPE.Reply, 1, 0, "")
+            End If
+            If e.KeyCode = Keys.F7 Then
+                GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
             End If
         End If
         If e.Modifiers = Keys.Shift Then
