@@ -634,6 +634,7 @@ Public Class Twitter
 
             post.IsRead = read
             post.IsReply = post.ReplyToList.Contains(_uid)
+            post.IsExcludeReply = False
 
             If post.IsMe Then
                 post.IsOwl = False
@@ -1533,6 +1534,7 @@ Public Class Twitter
                 Else
                     post.IsReply = True
                 End If
+                post.IsExcludeReply = False
 
                 If post.IsMe Then
                     post.IsOwl = False
@@ -1667,6 +1669,7 @@ Public Class Twitter
 
                 post.IsRead = read
                 post.IsReply = post.ReplyToList.Contains(_uid)
+                post.IsExcludeReply = False
 
                 post.IsOwl = False
                 If post.IsMe AndAlso Not read AndAlso _readOwnPost Then post.IsRead = True
@@ -1806,6 +1809,7 @@ Public Class Twitter
 
             post.IsRead = read
             post.IsReply = False
+            post.IsExcludeReply = False
             post.IsDm = True
 
             '非同期アイコン取得＆StatusDictionaryに追加
@@ -1942,6 +1946,7 @@ Public Class Twitter
 
                 post.IsRead = read
                 post.IsReply = post.ReplyToList.Contains(_uid)
+                post.IsExcludeReply = False
 
                 If post.IsMe Then
                     post.IsOwl = False
