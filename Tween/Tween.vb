@@ -530,6 +530,7 @@ Public Class TweenMain
         Me.Visible = False
         SecurityManager = New InternetSecurityManager(PostBrowser)
 
+        AddHandler TwitterApiInfo.Changed, AddressOf SetStatusLabelApiHandler
 
         VerUpMenuItem.Image = shield.Icon
         If Not My.Application.CommandLineArgs.Count = 0 AndAlso My.Application.CommandLineArgs.Contains("/d") Then TraceFlag = True
@@ -1614,7 +1615,7 @@ Public Class TweenMain
                                                            "Retweet",
                                                            MessageBoxButtons.YesNoCancel,
                                                            MessageBoxIcon.Question)
-            Select rtResult
+            Select Case rtResult
                 Case Windows.Forms.DialogResult.Yes
                     doReTweetOriginal(False)
                     StatusText.Text = ""
@@ -2811,8 +2812,6 @@ Public Class TweenMain
             result = SettingDialog.ShowDialog()
         Catch ex As Exception
             Exit Sub
-        Finally
-            SetStatusLabel()
         End Try
 
         If result = Windows.Forms.DialogResult.OK Then
@@ -6512,30 +6511,39 @@ RETRY:
         Else
             slbl.Append((SettingDialog.TimelinePeriodInt - _homeCounterAdjuster).ToString() + My.Resources.SetStatusLabelText3)
         End If
-        SetStatusLabelApi()
         Return slbl.ToString()
     End Function
+
+    Delegate Sub SetStatusLabelApiDelegate()
+
+    Private Sub SetStatusLabelApiHandler(ByVal sender As Object, ByVal e As ApiInformationChangedEventArgs)
+        If InvokeRequired Then
+            Invoke(New SetStatusLabelApiDelegate(AddressOf SetStatusLabelApi))
+        Else
+            SetStatusLabelApi()
+        End If
+    End Sub
 
     Private Sub SetStatusLabelApi()
         Dim slbl As New StringBuilder(256)
 
-        If tw.RemainCountApi > -1 AndAlso tw.UpperCountApi > -1 Then
+        If TwitterApiInfo.RemainCount > -1 AndAlso TwitterApiInfo.MaxCount > -1 Then
             ' 正常
-            slbl.Append("API " + tw.RemainCountApi.ToString + "/" + tw.UpperCountApi.ToString)
-        ElseIf tw.RemainCountApi > -1 Then
+            slbl.Append("API " + TwitterApiInfo.RemainCount.ToString + "/" + TwitterApiInfo.MaxCount.ToString)
+        ElseIf TwitterApiInfo.RemainCount > -1 Then
             ' uppercount不正
-            slbl.Append("API " + tw.RemainCountApi.ToString + "/???")
-        ElseIf tw.UpperCountApi > -1 Then
+            slbl.Append("API " + TwitterApiInfo.RemainCount.ToString + "/???")
+        ElseIf TwitterApiInfo.MaxCount > -1 Then
             ' remaincount不正
-            slbl.Append("API ???/" + tw.UpperCountApi.ToString)
+            slbl.Append("API ???/" + TwitterApiInfo.MaxCount.ToString)
         Else
             '両方とも不正
             slbl.Append("API ???/???")
         End If
 
         StatusLabelApi.Text = slbl.ToString()
-        If tw.ResetTimeApi >= DateTime.Now Then
-            StatusLabelApi.ToolTipText = "ResetTime " + tw.ResetTimeApi.ToString
+        If TwitterApiInfo.ResetTime >= DateTime.Now Then
+            StatusLabelApi.ToolTipText = "ResetTime " + TwitterApiInfo.ResetTime.ToString
         Else
             StatusLabelApi.ToolTipText = "ResetTime ???"
         End If
@@ -6834,11 +6842,11 @@ RETRY:
     Private Function UrlConvert(ByVal Converter_Type As UrlConverter) As Boolean
         'Converter_Type=Nicomsの場合は、nicovideoのみ短縮する
         Dim result As String = ""
-         Const url As String = "(?<before>(?:[^\""':!=]|^|\:))" + _
-                                    "(?<url>(?<protocol>https?://)" + _
-                                    "(?<domain>(?:[\.-]|[^\p{P}\s])+\.[a-z]{2,}(?::[0-9]+)?)" + _
-                                    "(?<path>/[a-z0-9!*'();:&=+$/%#\[\]\-_.,~@^]*[a-z0-9)=#/]?)?" + _
-                                    "(?<query>\?[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9_&=#/])?)"
+        Const url As String = "(?<before>(?:[^\""':!=]|^|\:))" + _
+                                   "(?<url>(?<protocol>https?://)" + _
+                                   "(?<domain>(?:[\.-]|[^\p{P}\s])+\.[a-z]{2,}(?::[0-9]+)?)" + _
+                                   "(?<path>/[a-z0-9!*'();:&=+$/%#\[\]\-_.,~@^]*[a-z0-9)=#/]?)?" + _
+                                   "(?<query>\?[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9_&=#/])?)"
 
         Const nico As String = "^https?://[a-z]+\.(nicovideo|niconicommons|nicolive)\.jp/[a-z]+/[a-z0-9]+$"
 
@@ -7663,7 +7671,7 @@ RETRY:
 
     Private Class GetApiInfoArgs
         Public tw As Twitter
-        Public info As Twitter.ApiInfo
+        Public info As ApiInfo
     End Class
 
     Private Sub GetApiInfo_Dowork(ByVal sender As Object, ByVal e As DoWorkEventArgs)
@@ -7672,7 +7680,7 @@ RETRY:
     End Sub
 
     Private Sub ApiInfoMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ApiInfoMenuItem.Click
-        Dim info As New Twitter.ApiInfo
+        Dim info As New ApiInfo
         Dim tmp As String
         Dim args As New GetApiInfoArgs With {.tw = tw, .info = info}
 
@@ -7703,33 +7711,29 @@ RETRY:
     End Sub
 
     Private Sub FollowCommand(ByVal id As String)
-        Try
-            Using inputName As New InputTabName()
-                inputName.FormTitle = "Follow"
-                inputName.FormDescription = My.Resources.FRMessage1
-                inputName.TabName = id
-                If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
-                   Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
-                    Dim arg As New FollowRemoveCommandArgs
-                    arg.tw = tw
-                    arg.id = inputName.TabName.Trim()
-                    Using _info As New FormInfo(My.Resources.FollowCommandText1, _
-                                                AddressOf FollowCommand_DoWork, _
-                                                Nothing, _
-                                                arg)
-                        _info.ShowDialog()
-                        Dim ret As String = DirectCast(_info.Result, String)
-                        If Not String.IsNullOrEmpty(ret) Then
-                            MessageBox.Show(My.Resources.FRMessage2 + ret)
-                        Else
-                            MessageBox.Show(My.Resources.FRMessage3)
-                        End If
-                    End Using
-                End If
-            End Using
-        Finally
-            SetStatusLabel()
-        End Try
+        Using inputName As New InputTabName()
+            inputName.FormTitle = "Follow"
+            inputName.FormDescription = My.Resources.FRMessage1
+            inputName.TabName = id
+            If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
+               Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
+                Dim arg As New FollowRemoveCommandArgs
+                arg.tw = tw
+                arg.id = inputName.TabName.Trim()
+                Using _info As New FormInfo(My.Resources.FollowCommandText1, _
+                                            AddressOf FollowCommand_DoWork, _
+                                            Nothing, _
+                                            arg)
+                    _info.ShowDialog()
+                    Dim ret As String = DirectCast(_info.Result, String)
+                    If Not String.IsNullOrEmpty(ret) Then
+                        MessageBox.Show(My.Resources.FRMessage2 + ret)
+                    Else
+                        MessageBox.Show(My.Resources.FRMessage3)
+                    End If
+                End Using
+            End If
+        End Using
     End Sub
 
     Private Sub RemoveCommandMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RemoveCommandMenuItem.Click
@@ -7749,40 +7753,36 @@ RETRY:
     End Sub
 
     Private Sub RemoveCommand(ByVal id As String, ByVal skipInput As Boolean)
-        Try
-            Dim arg As New FollowRemoveCommandArgs
-            arg.tw = tw
-            arg.id = id
-            If Not skipInput Then
-                Using inputName As New InputTabName()
-                    inputName.FormTitle = "Unfollow"
-                    inputName.FormDescription = My.Resources.FRMessage1
-                    inputName.TabName = id
-                    If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
-                       Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
-                        arg.tw = tw
-                        arg.id = inputName.TabName.Trim()
-                    Else
-                        Exit Sub
-                    End If
-                End Using
-            End If
-
-            Using _info As New FormInfo(My.Resources.RemoveCommandText1, _
-                                        AddressOf RemoveCommand_DoWork, _
-                                        Nothing, _
-                                        arg)
-                _info.ShowDialog()
-                Dim ret As String = DirectCast(_info.Result, String)
-                If Not String.IsNullOrEmpty(ret) Then
-                    MessageBox.Show(My.Resources.FRMessage2 + ret)
+        Dim arg As New FollowRemoveCommandArgs
+        arg.tw = tw
+        arg.id = id
+        If Not skipInput Then
+            Using inputName As New InputTabName()
+                inputName.FormTitle = "Unfollow"
+                inputName.FormDescription = My.Resources.FRMessage1
+                inputName.TabName = id
+                If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
+                   Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
+                    arg.tw = tw
+                    arg.id = inputName.TabName.Trim()
                 Else
-                    MessageBox.Show(My.Resources.FRMessage3)
+                    Exit Sub
                 End If
             End Using
-        Finally
-            SetStatusLabel()
-        End Try
+        End If
+
+        Using _info As New FormInfo(My.Resources.RemoveCommandText1, _
+                                    AddressOf RemoveCommand_DoWork, _
+                                    Nothing, _
+                                    arg)
+            _info.ShowDialog()
+            Dim ret As String = DirectCast(_info.Result, String)
+            If Not String.IsNullOrEmpty(ret) Then
+                MessageBox.Show(My.Resources.FRMessage2 + ret)
+            Else
+                MessageBox.Show(My.Resources.FRMessage3)
+            End If
+        End Using
     End Sub
 
     Private Sub FriendshipMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FriendshipMenuItem.Click
@@ -7831,55 +7831,16 @@ RETRY:
     End Sub
 
     Private Sub ShowFriendship(ByVal id As String)
-        Try
-            Dim args As New ShowFriendshipArgs
-            args.tw = tw
-            Using inputName As New InputTabName()
-                inputName.FormTitle = "Show Friendships"
-                inputName.FormDescription = My.Resources.FRMessage1
-                inputName.TabName = id
-                If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
-                   Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
-                    Dim ret As String = ""
-                    args.ids.Add(New ShowFriendshipArgs.FriendshipInfo(inputName.TabName.Trim))
-                    Using _info As New FormInfo(My.Resources.ShowFriendshipText1, _
-                                                AddressOf ShowFriendship_DoWork, _
-                                                Nothing, _
-                                                args)
-                        _info.ShowDialog()
-                        ret = DirectCast(_info.Result, String)
-                    End Using
-                    Dim result As String = ""
-                    If String.IsNullOrEmpty(ret) Then
-                        If args.ids(0).isFollowing Then
-                            result = My.Resources.GetFriendshipInfo1 + System.Environment.NewLine
-                        Else
-                            result = My.Resources.GetFriendshipInfo2 + System.Environment.NewLine
-                        End If
-                        If args.ids(0).isFollowed Then
-                            result += My.Resources.GetFriendshipInfo3
-                        Else
-                            result += My.Resources.GetFriendshipInfo4
-                        End If
-                        result = args.ids(0).id + My.Resources.GetFriendshipInfo5 + System.Environment.NewLine + result
-                    Else
-                        result = ret
-                    End If
-                    MessageBox.Show(result)
-                End If
-            End Using
-        Finally
-            SetStatusLabel()
-        End Try
-    End Sub
-
-    Private Sub ShowFriendship(ByVal ids() As String)
-        Try
-            For Each id As String In ids
+        Dim args As New ShowFriendshipArgs
+        args.tw = tw
+        Using inputName As New InputTabName()
+            inputName.FormTitle = "Show Friendships"
+            inputName.FormDescription = My.Resources.FRMessage1
+            inputName.TabName = id
+            If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
+               Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
                 Dim ret As String = ""
-                Dim args As New ShowFriendshipArgs
-                args.tw = tw
-                args.ids.Add(New ShowFriendshipArgs.FriendshipInfo(id.Trim))
+                args.ids.Add(New ShowFriendshipArgs.FriendshipInfo(inputName.TabName.Trim))
                 Using _info As New FormInfo(My.Resources.ShowFriendshipText1, _
                                             AddressOf ShowFriendship_DoWork, _
                                             Nothing, _
@@ -7888,40 +7849,71 @@ RETRY:
                     ret = DirectCast(_info.Result, String)
                 End Using
                 Dim result As String = ""
-                Dim fInfo As ShowFriendshipArgs.FriendshipInfo = args.ids(0)
-                Dim ff As String = ""
                 If String.IsNullOrEmpty(ret) Then
-                    ff = "  "
-                    If fInfo.isFollowing Then
-                        ff += My.Resources.GetFriendshipInfo1
+                    If args.ids(0).isFollowing Then
+                        result = My.Resources.GetFriendshipInfo1 + System.Environment.NewLine
                     Else
-                        ff += My.Resources.GetFriendshipInfo2
+                        result = My.Resources.GetFriendshipInfo2 + System.Environment.NewLine
                     End If
-                    ff += System.Environment.NewLine + "  "
-                    If fInfo.isFollowed Then
-                        ff += My.Resources.GetFriendshipInfo3
+                    If args.ids(0).isFollowed Then
+                        result += My.Resources.GetFriendshipInfo3
                     Else
-                        ff += My.Resources.GetFriendshipInfo4
+                        result += My.Resources.GetFriendshipInfo4
                     End If
-                    result += fInfo.id + My.Resources.GetFriendshipInfo5 + System.Environment.NewLine + ff
-                    If fInfo.isFollowing Then
-                        If MessageBox.Show( _
-                            "フォロー解除しますか？" + System.Environment.NewLine + result, "フォロー解除確認", _
-                            MessageBoxButtons.YesNo, _
-                            MessageBoxIcon.Question, _
-                            MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.Yes Then
-                            RemoveCommand(fInfo.id, True)
-                        End If
-                    Else
-                        MessageBox.Show(result)
+                    result = args.ids(0).id + My.Resources.GetFriendshipInfo5 + System.Environment.NewLine + result
+                Else
+                    result = ret
+                End If
+                MessageBox.Show(result)
+            End If
+        End Using
+    End Sub
+
+    Private Sub ShowFriendship(ByVal ids() As String)
+        For Each id As String In ids
+            Dim ret As String = ""
+            Dim args As New ShowFriendshipArgs
+            args.tw = tw
+            args.ids.Add(New ShowFriendshipArgs.FriendshipInfo(id.Trim))
+            Using _info As New FormInfo(My.Resources.ShowFriendshipText1, _
+                                        AddressOf ShowFriendship_DoWork, _
+                                        Nothing, _
+                                        args)
+                _info.ShowDialog()
+                ret = DirectCast(_info.Result, String)
+            End Using
+            Dim result As String = ""
+            Dim fInfo As ShowFriendshipArgs.FriendshipInfo = args.ids(0)
+            Dim ff As String = ""
+            If String.IsNullOrEmpty(ret) Then
+                ff = "  "
+                If fInfo.isFollowing Then
+                    ff += My.Resources.GetFriendshipInfo1
+                Else
+                    ff += My.Resources.GetFriendshipInfo2
+                End If
+                ff += System.Environment.NewLine + "  "
+                If fInfo.isFollowed Then
+                    ff += My.Resources.GetFriendshipInfo3
+                Else
+                    ff += My.Resources.GetFriendshipInfo4
+                End If
+                result += fInfo.id + My.Resources.GetFriendshipInfo5 + System.Environment.NewLine + ff
+                If fInfo.isFollowing Then
+                    If MessageBox.Show( _
+                        "フォロー解除しますか？" + System.Environment.NewLine + result, "フォロー解除確認", _
+                        MessageBoxButtons.YesNo, _
+                        MessageBoxIcon.Question, _
+                        MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.Yes Then
+                        RemoveCommand(fInfo.id, True)
                     End If
                 Else
-                    MessageBox.Show(ret)
+                    MessageBox.Show(result)
                 End If
-            Next
-        Finally
-            SetStatusLabel()
-        End Try
+            Else
+                MessageBox.Show(ret)
+            End If
+        Next
     End Sub
 
     Private Sub OwnStatusMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OwnStatusMenuItem.Click
@@ -9162,63 +9154,55 @@ RETRY:
         Dim result As String = ""
         Dim xmlbuf As String = ""
         Dim args As New GetUserInfoArgs
-        Try
-            If ShowInputDialog Then
-                Using inputName As New InputTabName()
-                    inputName.FormTitle = "Show UserStatus"
-                    inputName.FormDescription = My.Resources.FRMessage1
-                    inputName.TabName = id
-                    If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
-                       Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
-                        id = inputName.TabName.Trim
-                        args.tw = tw
-                        args.id = id
-                        args.xmlbuf = xmlbuf
-                        Using _info As New FormInfo(My.Resources.doShowUserStatusText1, _
-                                                    AddressOf GetUserInfo_DoWork, _
-                                                    Nothing, _
-                                                    args)
-                            _info.ShowDialog()
-                            Dim ret As String = DirectCast(_info.Result, String)
-                            If String.IsNullOrEmpty(ret) Then
-                                doShowUserStatus(args.xmlbuf)
-                            Else
-                                MessageBox.Show(ret)
-                            End If
-                        End Using
-                    End If
-                End Using
-            Else
-                args.tw = tw
-                args.id = id
-                args.xmlbuf = xmlbuf
-                Using _info As New FormInfo(My.Resources.doShowUserStatusText1, _
-                                            AddressOf GetUserInfo_DoWork, _
-                                            Nothing, _
-                                            args)
-                    _info.ShowDialog()
-                    Dim ret As String = DirectCast(_info.Result, String)
-                    If String.IsNullOrEmpty(ret) Then
-                        doShowUserStatus(args.xmlbuf)
-                    Else
-                        MessageBox.Show(ret)
-                    End If
-                End Using
-            End If
-        Finally
-            SetStatusLabel()
-        End Try
+        If ShowInputDialog Then
+            Using inputName As New InputTabName()
+                inputName.FormTitle = "Show UserStatus"
+                inputName.FormDescription = My.Resources.FRMessage1
+                inputName.TabName = id
+                If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
+                   Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
+                    id = inputName.TabName.Trim
+                    args.tw = tw
+                    args.id = id
+                    args.xmlbuf = xmlbuf
+                    Using _info As New FormInfo(My.Resources.doShowUserStatusText1, _
+                                                AddressOf GetUserInfo_DoWork, _
+                                                Nothing, _
+                                                args)
+                        _info.ShowDialog()
+                        Dim ret As String = DirectCast(_info.Result, String)
+                        If String.IsNullOrEmpty(ret) Then
+                            doShowUserStatus(args.xmlbuf)
+                        Else
+                            MessageBox.Show(ret)
+                        End If
+                    End Using
+                End If
+            End Using
+        Else
+            args.tw = tw
+            args.id = id
+            args.xmlbuf = xmlbuf
+            Using _info As New FormInfo(My.Resources.doShowUserStatusText1, _
+                                        AddressOf GetUserInfo_DoWork, _
+                                        Nothing, _
+                                        args)
+                _info.ShowDialog()
+                Dim ret As String = DirectCast(_info.Result, String)
+                If String.IsNullOrEmpty(ret) Then
+                    doShowUserStatus(args.xmlbuf)
+                Else
+                    MessageBox.Show(ret)
+                End If
+            End Using
+        End If
     End Sub
 
     Private Overloads Sub doShowUserStatus(ByVal xmldata As String)
-        Try
-            Using userinfo As New ShowUserInfo()
-                userinfo.XmlData = xmldata
-                userinfo.ShowDialog(Me)
-            End Using
-        Finally
-            SetStatusLabel()
-        End Try
+        Using userinfo As New ShowUserInfo()
+            userinfo.XmlData = xmldata
+            userinfo.ShowDialog(Me)
+        End Using
     End Sub
 
     Private Overloads Sub ShowUserStatus(ByVal id As String, ByVal ShowInputDialog As Boolean)
@@ -9292,23 +9276,19 @@ RETRY:
 
     Private Sub RtCountMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RtCountMenuItem.Click
         If _curPost IsNot Nothing Then
-            Try
-                Using _info As New FormInfo(My.Resources.RtCountMenuItem_ClickText1, _
+            Using _info As New FormInfo(My.Resources.RtCountMenuItem_ClickText1, _
                             AddressOf GetRetweet_DoWork)
-                    Dim retweet_count As Integer = 0
+                Dim retweet_count As Integer = 0
 
-                    ' ダイアログ表示
-                    _info.ShowDialog()
-                    retweet_count = CType(_info.Result, Integer)
-                    If retweet_count < 0 Then
-                        MessageBox.Show(My.Resources.RtCountText2)
-                    Else
-                        MessageBox.Show(retweet_count.ToString + My.Resources.RtCountText1)
-                    End If
-                End Using
-            Finally
-                SetStatusLabel()
-            End Try
+                ' ダイアログ表示
+                _info.ShowDialog()
+                retweet_count = CType(_info.Result, Integer)
+                If retweet_count < 0 Then
+                    MessageBox.Show(My.Resources.RtCountText2)
+                Else
+                    MessageBox.Show(retweet_count.ToString + My.Resources.RtCountText1)
+                End If
+            End Using
         End If
     End Sub
 

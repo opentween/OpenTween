@@ -50,6 +50,7 @@ Public Class TwitPic
                           param, _
                           binary, _
                           content, _
+                          Nothing, _
                           Nothing)
     End Function
 

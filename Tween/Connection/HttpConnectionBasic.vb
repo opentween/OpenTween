@@ -33,12 +33,14 @@ Public Class HttpConnectionBasic
     '''<param name="param">GET時のクエリ、またはPOST時のエンティティボディ</param>
     '''<param name="content">[OUT]HTTP応答のボディデータ</param>
     '''<param name="headerInfo">[IN/OUT]HTTP応答のヘッダ情報。必要なヘッダ名を事前に設定しておくこと</param>
+    '''<param name="callback">処理終了直前に呼ばれるコールバック関数のデリゲート 不要な場合はNothingを渡すこと</param>
     '''<returns>HTTP応答のステータスコード</returns>
     Public Function GetContent(ByVal method As String, _
             ByVal requestUri As Uri, _
             ByVal param As Dictionary(Of String, String), _
             ByRef content As String, _
-            ByVal headerInfo As Dictionary(Of String, String)) As HttpStatusCode Implements IHttpConnection.GetContent
+            ByVal headerInfo As Dictionary(Of String, String), _
+            ByVal callback As IHttpConnection.CallbackDelegate) As HttpStatusCode Implements IHttpConnection.GetContent
 
         '認証済かチェック
         If String.IsNullOrEmpty(Me.credential) Then Return HttpStatusCode.Unauthorized
@@ -50,11 +52,16 @@ Public Class HttpConnectionBasic
         'BASIC認証用ヘッダを付加
         AppendApiInfo(webReq)
 
+        Dim code As HttpStatusCode
         If content Is Nothing Then
-            Return GetResponse(webReq, headerInfo, False)
+            code = GetResponse(webReq, headerInfo, False)
         Else
-            Return GetResponse(webReq, content, headerInfo, False)
+            code = GetResponse(webReq, content, headerInfo, False)
         End If
+        If callback IsNot Nothing Then
+            callback(Me)
+        End If
+        Return code
     End Function
 
     Public Function GetContent(ByVal method As String, _
@@ -62,7 +69,8 @@ Public Class HttpConnectionBasic
             ByVal param As Dictionary(Of String, String), _
             ByVal binary As List(Of KeyValuePair(Of String, FileInfo)), _
             ByRef content As String, _
-            ByVal headerInfo As Dictionary(Of String, String)) As HttpStatusCode Implements IHttpConnection.GetContent
+            ByVal headerInfo As Dictionary(Of String, String), _
+            ByVal callback As IHttpConnection.CallbackDelegate) As HttpStatusCode Implements IHttpConnection.GetContent
 
         '認証済かチェック
         If String.IsNullOrEmpty(Me.credential) Then Return HttpStatusCode.Unauthorized
@@ -75,12 +83,18 @@ Public Class HttpConnectionBasic
         'BASIC認証用ヘッダを付加
         AppendApiInfo(webReq)
 
+        Dim code As HttpStatusCode
         If content Is Nothing Then
-            Return GetResponse(webReq, headerInfo, False)
+            code = GetResponse(webReq, headerInfo, False)
         Else
-            Return GetResponse(webReq, content, headerInfo, False)
+            code = GetResponse(webReq, content, headerInfo, False)
         End If
+        If callback IsNot Nothing Then
+            callback(Me)
+        End If
+        Return code
     End Function
+
 
     '''<summary>
     '''BASIC認証とREST APIで必要なヘッダを付加
@@ -132,7 +146,7 @@ Public Class HttpConnectionBasic
         Dim orgCre As String = Me.credential
         Me.credential = "Basic " + Convert.ToBase64String(Encoding.ASCII.GetBytes(username + ":" + password))
         Try
-            Dim httpCode As HttpStatusCode = Me.GetContent("GET", url, Nothing, Nothing, Nothing)
+            Dim httpCode As HttpStatusCode = Me.GetContent("GET", url, Nothing, Nothing, Nothing, Nothing)
             If httpCode = HttpStatusCode.OK Then
                 Me._userName = username
                 Me._password = password
