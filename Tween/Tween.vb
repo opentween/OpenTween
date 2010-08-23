@@ -1407,7 +1407,7 @@ Public Class TweenMain
             Dim reply As Boolean = False
             Dim dm As Boolean = False
             For Each post As PostClass In notifyPosts
-                If post.IsReply Then reply = True
+                If post.IsReply AndAlso Not post.IsExcludeReply Then reply = True
                 If post.IsDm Then dm = True
                 If sb.Length > 0 Then sb.Append(System.Environment.NewLine)
                 Select Case SettingDialog.NameBalloon

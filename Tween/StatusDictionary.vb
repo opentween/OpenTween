@@ -38,6 +38,7 @@ Public NotInheritable Class PostClass
     Private _OrgData As String
     Private _IsRead As Boolean
     Private _IsReply As Boolean
+    Private _IsExcludeReply As Boolean
     Private _IsProtect As Boolean
     Private _IsOWL As Boolean
     Private _IsMark As Boolean
@@ -74,6 +75,7 @@ Public NotInheritable Class PostClass
             ByVal IsFav As Boolean, _
             ByVal IsRead As Boolean, _
             ByVal IsReply As Boolean, _
+            ByVal IsExcludeReply As Boolean, _
             ByVal IsProtect As Boolean, _
             ByVal IsOwl As Boolean, _
             ByVal IsMark As Boolean, _
@@ -98,6 +100,7 @@ Public NotInheritable Class PostClass
         _OrgData = OriginalData
         _IsRead = IsRead
         _IsReply = IsReply
+        _IsExcludeReply = IsExcludeReply
         _IsProtect = IsProtect
         _IsOWL = IsOwl
         _IsMark = IsMark
@@ -207,6 +210,14 @@ Public NotInheritable Class PostClass
         End Get
         Set(ByVal value As Boolean)
             _IsReply = value
+        End Set
+    End Property
+    Public Property IsExcludeReply() As Boolean
+        Get
+            Return _IsExcludeReply
+        End Get
+        Set(ByVal value As Boolean)
+            _IsExcludeReply = value
         End Set
     End Property
     Public Property IsProtect() As Boolean
@@ -805,10 +816,11 @@ Public NotInheritable Class TabInformations
             Dim post As PostClass = _statuses(id)
             Dim add As Boolean = False  '通知リスト追加フラグ
             Dim mv As Boolean = False   '移動フラグ（Recent追加有無）
+            Dim rslt As HITRESULT = HITRESULT.None
+            post.IsExcludeReply = False
             For Each tn As String In _tabs.Keys
-                Dim rslt As HITRESULT = HITRESULT.None
                 rslt = _tabs(tn).AddFiltered(post)
-                If rslt <> HITRESULT.None Then
+                If rslt <> HITRESULT.None AndAlso rslt <> HITRESULT.Exclude Then
                     If rslt = HITRESULT.CopyAndMark Then post.IsMark = True 'マークあり
                     If rslt = HITRESULT.Move Then
                         mv = True '移動
@@ -820,6 +832,9 @@ Public NotInheritable Class TabInformations
                     End If
                     post.FilterHit = True
                 Else
+                    If rslt = HITRESULT.Exclude AndAlso _tabs(tn).TabType = TabUsageType.Mentions Then
+                        post.IsExcludeReply = True
+                    End If
                     post.FilterHit = False
                 End If
             Next
@@ -828,7 +843,7 @@ Public NotInheritable Class TabInformations
                 If Not homeTab.SoundFile = "" AndAlso _soundFile = "" Then _soundFile = homeTab.SoundFile
                 If homeTab.Notify Then add = True
             End If
-            If post.IsReply Then    'ReplyだったらReplyタブに追加
+            If post.IsReply AndAlso Not post.IsExcludeReply Then    '除外ルール適用のないReplyならReplyタブに追加
                 replyTab.Add(post.Id, post.IsRead, True)
                 If Not replyTab.SoundFile = "" Then _soundFile = replyTab.SoundFile
                 If replyTab.Notify Then add = True
@@ -930,6 +945,7 @@ Public NotInheritable Class TabInformations
                         item.IsFav, _
                         item.IsRead, _
                         item.IsReply, _
+                        item.IsExcludeReply, _
                         item.IsProtect, _
                         item.IsOwl, _
                         item.IsMark, _
@@ -1156,6 +1172,10 @@ Public NotInheritable Class TabInformations
                             Case HITRESULT.Copy
                                 post.IsMark = False
                                 post.FilterHit = True
+                            Case HITRESULT.Exclude
+                                If key = replyTab.TabName AndAlso post.IsReply Then post.IsExcludeReply = True
+                                If post.IsFav Then GetTabByType(TabUsageType.Favorites).Add(post.Id, post.IsRead, True)
+                                post.FilterHit = False
                             Case HITRESULT.None
                                 If key = replyTab.TabName AndAlso post.IsReply Then replyTab.Add(post.Id, post.IsRead, True)
                                 If post.IsFav Then GetTabByType(TabUsageType.Favorites).Add(post.Id, post.IsRead, True)
@@ -1579,12 +1599,12 @@ Public NotInheritable Class TabClass
                 Case HITRESULT.Move
                     rslt = HITRESULT.Move
                 Case HITRESULT.Exclude
-                    rslt = HITRESULT.None
+                    rslt = HITRESULT.Exclude
                     Exit For
             End Select
         Next
 
-        If rslt <> HITRESULT.None Then
+        If rslt <> HITRESULT.None AndAlso rslt <> HITRESULT.Exclude Then
             _tmpIds.Add(New TemporaryId(post.Id, post.IsRead))
         End If
         'Me.Add(ID, Read)
