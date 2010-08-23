@@ -2536,7 +2536,7 @@ Public Class TweenMain
         End If
     End Sub
 
-    Private Sub ContextMenuStrip2_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip2.Opening
+    Private Sub ContextMenuOperate_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuOperate.Opening
         If ListTab.SelectedTab Is Nothing Then Exit Sub
         If _statuses Is Nothing OrElse _statuses.Tabs Is Nothing OrElse Not _statuses.Tabs.ContainsKey(ListTab.SelectedTab.Text) Then Exit Sub
         If _curPost Is Nothing Then
@@ -3235,7 +3235,7 @@ Public Class TweenMain
         Else
             _listCustom.Columns.AddRange(New ColumnHeader() {_colHd1, _colHd3})
         End If
-        _listCustom.ContextMenuStrip = Me.ContextMenuStrip2
+        _listCustom.ContextMenuStrip = Me.ContextMenuOperate
         _listCustom.Dock = DockStyle.Fill
         _listCustom.FullRowSelect = True
         _listCustom.HideSelection = False
@@ -6712,7 +6712,7 @@ RETRY:
         doRepliedStatusOpen()
     End Sub
 
-    Private Sub ContextMenuStrip3_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip3.Opening
+    Private Sub ContextMenuUserPicture_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuUserPicture.Opening
         '発言詳細のアイコン右クリック時のメニュー制御
         If _curList.SelectedIndices.Count > 0 AndAlso _curPost IsNot Nothing Then
             Dim name As String = _curPost.ImageUrl
@@ -7184,7 +7184,7 @@ RETRY:
         End Try
     End Sub
 
-    Private Sub ContextMenuStrip4_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip4.Opening
+    Private Sub ContextMenuPostBrowser_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuPostBrowser.Opening
         ' URLコピーの項目の表示/非表示
         If PostBrowser.StatusText.StartsWith("http") Then
             Me._postBrowserStatusText = PostBrowser.StatusText
@@ -7634,7 +7634,7 @@ RETRY:
         SettingDialog.UrlConvertAuto = ToolStripMenuItemUrlAutoShorten.Checked
     End Sub
 
-    Private Sub ContextMenuStripPostMode_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStripPostMode.Opening
+    Private Sub ContextMenuPostMode_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuPostMode.Opening
         ToolStripMenuItemUrlAutoShorten.Checked = SettingDialog.UrlConvertAuto
     End Sub
 
@@ -8187,7 +8187,7 @@ RETRY:
 
         Dim menuItem As ToolStripMenuItem = DirectCast(sender, ToolStripMenuItem)
 
-        If menuItem.Owner Is Me.ContextMenuStrip4 Then
+        If menuItem.Owner Is Me.ContextMenuPostBrowser Then
             Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(?<name>[a-zA-Z0-9_]+)$")
             If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
                 user = m.Result("${name}")
