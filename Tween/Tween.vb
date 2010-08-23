@@ -4416,6 +4416,16 @@ RETRY:
                 e.SuppressKeyPress = True
                 GoBackInReplyToPost()
             End If
+            If e.KeyCode = Keys.F6 Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                GetTimeline(WORKERTYPE.Reply, 1, 0, "")
+            End If
+            If e.KeyCode = Keys.F7 Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
+            End If
         End If
         _anchorFlag = False
         If e.Control AndAlso Not e.Alt AndAlso Not e.Shift Then
@@ -4519,6 +4529,16 @@ RETRY:
                 e.Handled = True
                 e.SuppressKeyPress = True
                 DoRefreshMore()
+            End If
+            If e.KeyCode = Keys.F6 Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                GetTimeline(WORKERTYPE.Reply, -1, 0, "")
+            End If
+            If e.KeyCode = Keys.F7 Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                GetTimeline(WORKERTYPE.DirectMessegeRcv, -1, 0, "")
             End If
         End If
         If e.Control AndAlso Not e.Alt AndAlso e.Shift Then
@@ -5101,6 +5121,22 @@ RETRY:
                 End If
             End If
         End If
+        If e.Modifiers = Keys.None Then
+            If e.KeyCode = Keys.F7 Then
+                GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
+            End If
+            If e.KeyCode = Keys.F6 Then
+                GetTimeline(WORKERTYPE.Reply, 1, 0, "")
+            End If
+        End If
+        If e.Modifiers = Keys.Shift Then
+            If e.KeyCode = Keys.F6 Then
+                GetTimeline(WORKERTYPE.Reply, -1, 0, "")
+            End If
+            If e.KeyCode = Keys.F7 Then
+                GetTimeline(WORKERTYPE.DirectMessegeRcv, -1, 0, "")
+            End If
+        End If
         Me.StatusText_TextChanged(Nothing, Nothing)
     End Sub
 
@@ -5346,6 +5382,12 @@ RETRY:
                      Keys.R
                     e.IsInputKey = True
                     DoRefresh()
+                Case Keys.F6
+                    e.IsInputKey = True
+                    GetTimeline(WORKERTYPE.Reply, 1, 0, "")
+                Case Keys.F7
+                    e.IsInputKey = True
+                    GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
                 Case Else
 
             End Select
@@ -5358,6 +5400,12 @@ RETRY:
                      Keys.R
                     e.IsInputKey = True
                     DoRefreshMore()
+                Case Keys.F6
+                    e.IsInputKey = True
+                    GetTimeline(WORKERTYPE.Reply, -1, 0, "")
+                Case Keys.F7
+                    e.IsInputKey = True
+                    GetTimeline(WORKERTYPE.DirectMessegeRcv, -1, 0, "")
                 Case Else
 
             End Select
