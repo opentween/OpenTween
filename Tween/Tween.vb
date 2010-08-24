@@ -8607,6 +8607,12 @@ RETRY:
                 imglist.Add(New KeyValuePair(Of String, String)(url, mc.Value))
                 Continue For
             End If
+            'mypix/shamoji
+            mc = Regex.Match(url, "^http://(www\.mypix\.jp|www\.shamoji\.info)/app\.php/picture/(?<contentId>[0-9a-z]+)", RegexOptions.IgnoreCase)
+            If mc.Success Then
+                imglist.Add(New KeyValuePair(Of String, String)(url, mc.Value + "thumb.jpg"))
+                Continue For
+            End If
         Next
 
         If imglist.Count = 0 Then
