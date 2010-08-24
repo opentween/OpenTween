@@ -6620,16 +6620,15 @@ RETRY:
         ' 2. リプライ先ステータスIDが設定されている(リストをダブルクリックで返信している)
         ' 3. 文中に含まれた@idがリプライ先のポスト者のIDと一致する
 
-        If m IsNot Nothing AndAlso Not StatusText.StartsWith(".") Then
-            For Each mid As Match In m
-                If mid.Result("${id}") = "@" + _reply_to_name Then
-                    Exit Sub
-                End If
-            Next
+        If m IsNot Nothing Then
+            If StatusText.StartsWith("@") Then
+                If StatusText.StartsWith("@" + _reply_to_name) Then Exit Sub
+            Else
+                For Each mid As Match In m
+                    If mid.Result("${id}") = "QT @" + _reply_to_name + ": @" Then Exit Sub
+                Next
+            End If
         End If
-        'If m IsNot Nothing AndAlso m.Count = 1 AndAlso m.Item(0).Value = "@" + _reply_to_name AndAlso Not StatusText.StartsWith(". ") Then
-        '    Exit Sub
-        'End If
 
         _reply_to_id = 0
         _reply_to_name = ""
