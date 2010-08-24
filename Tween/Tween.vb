@@ -7523,6 +7523,7 @@ RETRY:
 
     Private Sub doGetFollowersMenu()
         GetTimeline(WORKERTYPE.Follower, 1, 0, "")
+        DispSelectedPost()
     End Sub
 
     Private Sub GetFollowersAllToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UpdateFollowersMenuItem1.Click

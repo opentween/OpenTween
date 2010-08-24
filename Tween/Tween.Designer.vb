@@ -78,6 +78,7 @@ Partial Class TweenMain
         Me.FollowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UnFollowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ShowFriendShipToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ListManageUserContextToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator37 = New System.Windows.Forms.ToolStripSeparator()
         Me.ShowUserStatusToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SearchPostsDetailNameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -267,7 +268,6 @@ Partial Class TweenMain
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.ListManageUserContextToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -681,6 +681,11 @@ Partial Class TweenMain
         '
         Me.ShowFriendShipToolStripMenuItem.Name = "ShowFriendShipToolStripMenuItem"
         resources.ApplyResources(Me.ShowFriendShipToolStripMenuItem, "ShowFriendShipToolStripMenuItem")
+        '
+        'ListManageUserContextToolStripMenuItem3
+        '
+        Me.ListManageUserContextToolStripMenuItem3.Name = "ListManageUserContextToolStripMenuItem3"
+        resources.ApplyResources(Me.ListManageUserContextToolStripMenuItem3, "ListManageUserContextToolStripMenuItem3")
         '
         'ToolStripSeparator37
         '
@@ -1664,11 +1669,6 @@ Partial Class TweenMain
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
-        '
-        'ListManageUserContextToolStripMenuItem3
-        '
-        Me.ListManageUserContextToolStripMenuItem3.Name = "ListManageUserContextToolStripMenuItem3"
-        resources.ApplyResources(Me.ListManageUserContextToolStripMenuItem3, "ListManageUserContextToolStripMenuItem3")
         '
         'TweenMain
         '
