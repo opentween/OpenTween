@@ -326,7 +326,12 @@ Public Class Twitter
             xd.LoadXml(resMsg)
             _current.CreatedAt = xd.SelectSingleNode("/status/created_at/text()").Value
             _current.Id = xd.SelectSingleNode("/status/id/text()").Value
-            _current.Text = xd.SelectSingleNode("/status/text/text()").Value
+            If xd.SelectSingleNode("/status/text/text()") Is Nothing Then
+                '制御文字のみ投稿した場合はNothing
+                _current.Text = ""
+            Else
+                _current.Text = xd.SelectSingleNode("/status/text/text()").Value
+            End If
             _current.UserId = xd.SelectSingleNode("/status/user/id/text()").Value
 
             If _current.Equals(_prev) Then
