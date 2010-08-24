@@ -31,6 +31,8 @@ Imports System.Globalization
 Imports System.Diagnostics
 Imports System.Net
 Imports System.Reflection
+Imports System.Reflection.MethodBase
+
 
 Public Class Twitter
     Delegate Sub GetIconImageDelegate(ByVal post As PostClass)
@@ -106,7 +108,7 @@ Public Class Twitter
                     Return "Err:Forbidden"
                 End Try
             Case Else
-                Return "Err:" + res.ToString + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                Return "Err:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
         End Select
 
     End Function
@@ -428,12 +430,12 @@ Public Class Twitter
                 HttpStatusCode.RequestTimeout, _
                 HttpStatusCode.RequestUriTooLong
                 '仕様書にない400系エラー。サーバまでは到達しているのでリトライしない
-                Return "Warn:" + res.ToString + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                Return "Warn:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Return "Check your Username/Password."
             Case Else
-                Return "Err:" + res.ToString + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                Return "Err:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
         End Select
     End Function
 
@@ -513,7 +515,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Return "Check your Username/Password."
             Case Else
-                Return "Err:" + res.ToString + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                Return "Err:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
         End Select
     End Function
 
@@ -540,7 +542,7 @@ Public Class Twitter
             Case HttpStatusCode.NotFound
                 Return ""
             Case Else
-                Return "Err:" + res.ToString + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                Return "Err:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
         End Select
 
     End Function
@@ -568,7 +570,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Return "Check your Username/Password."
             Case Is <> HttpStatusCode.OK
-                Return "Err:" + res.ToString() + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
         End Select
 
         Twitter.AccountState = ACCOUNT_STATE.Valid
@@ -695,7 +697,7 @@ Public Class Twitter
             Case HttpStatusCode.NotFound
                 Return ""
             Case Else
-                Return "Err:" + res.ToString + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                Return "Err:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
         End Select
     End Function
 
@@ -727,12 +729,12 @@ Public Class Twitter
                     xd.LoadXml(content)
                     Dim xNode As XmlNode = Nothing
                     xNode = xd.SelectSingleNode("/hash/error")
-                    Return "Err:" + xNode.InnerText + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                    Return "Err:" + xNode.InnerText + "(" + GetCurrentMethod.Name + ")"
                 Catch ex As Exception
-                    Return "Err:Forbidden" + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                    Return "Err:Forbidden" + "(" + GetCurrentMethod.Name + ")"
                 End Try
             Case Else
-                Return "Err:" + res.ToString + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                Return "Err:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
         End Select
     End Function
 
@@ -748,7 +750,7 @@ Public Class Twitter
         Try
             res = twCon.DestroyFriendships(screenName, content)
         Catch ex As Exception
-            Return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+            Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
         End Try
 
         Select Case res
@@ -764,12 +766,12 @@ Public Class Twitter
                     xd.LoadXml(content)
                     Dim xNode As XmlNode = Nothing
                     xNode = xd.SelectSingleNode("/hash/error")
-                    Return "Err:" + xNode.InnerText + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                    Return "Err:" + xNode.InnerText + "(" + GetCurrentMethod.Name + ")"
                 Catch ex As Exception
-                    Return "Err:Forbidden" + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                    Return "Err:Forbidden" + "(" + GetCurrentMethod.Name + ")"
                 End Try
             Case Else
-                Return "Err:" + res.ToString + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                Return "Err:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
         End Select
     End Function
 
@@ -785,7 +787,7 @@ Public Class Twitter
         Try
             res = twCon.CreateBlock(screenName, content)
         Catch ex As Exception
-            Return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+            Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
         End Try
 
         Select Case res
@@ -801,12 +803,12 @@ Public Class Twitter
                     xd.LoadXml(content)
                     Dim xNode As XmlNode = Nothing
                     xNode = xd.SelectSingleNode("/hash/error")
-                    Return "Err:" + xNode.InnerText + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                    Return "Err:" + xNode.InnerText + "(" + GetCurrentMethod.Name + ")"
                 Catch ex As Exception
-                    Return "Err:Forbidden" + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                    Return "Err:Forbidden" + "(" + GetCurrentMethod.Name + ")"
                 End Try
             Case Else
-                Return "Err:" + res.ToString + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                Return "Err:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
         End Select
     End Function
 
@@ -822,7 +824,7 @@ Public Class Twitter
         Try
             res = twCon.DestroyBlock(screenName, content)
         Catch ex As Exception
-            Return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+            Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
         End Try
 
         Select Case res
@@ -838,12 +840,12 @@ Public Class Twitter
                     xd.LoadXml(content)
                     Dim xNode As XmlNode = Nothing
                     xNode = xd.SelectSingleNode("/hash/error")
-                    Return "Err:" + xNode.InnerText + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                    Return "Err:" + xNode.InnerText + "(" + GetCurrentMethod.Name + ")"
                 Catch ex As Exception
-                    Return "Err:Forbidden" + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                    Return "Err:Forbidden" + "(" + GetCurrentMethod.Name + ")"
                 End Try
             Case Else
-                Return "Err:" + res.ToString + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                Return "Err:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
         End Select
     End Function
 
@@ -859,7 +861,7 @@ Public Class Twitter
         Try
             res = twCon.ReportSpam(screenName, content)
         Catch ex As Exception
-            Return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+            Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
         End Try
 
         Select Case res
@@ -875,12 +877,12 @@ Public Class Twitter
                     xd.LoadXml(content)
                     Dim xNode As XmlNode = Nothing
                     xNode = xd.SelectSingleNode("/hash/error")
-                    Return "Err:" + xNode.InnerText + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                    Return "Err:" + xNode.InnerText + "(" + GetCurrentMethod.Name + ")"
                 Catch ex As Exception
-                    Return "Err:Forbidden" + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                    Return "Err:Forbidden" + "(" + GetCurrentMethod.Name + ")"
                 End Try
             Case Else
-                Return "Err:" + res.ToString + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                Return "Err:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
         End Select
     End Function
 
@@ -895,7 +897,7 @@ Public Class Twitter
         Try
             res = twCon.ShowFriendships(_uid, screenName, content)
         Catch ex As Exception
-            Return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+            Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
         End Try
 
         Select Case res
@@ -917,7 +919,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Return "Check your Username/Password."
             Case Else
-                Return "Err:" + res.ToString + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                Return "Err:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
         End Select
     End Function
 
@@ -933,7 +935,7 @@ Public Class Twitter
         Try
             res = twCon.ShowUserInfo(screenName, content)
         Catch ex As Exception
-            Return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+            Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
         End Try
 
         Select Case res
@@ -955,7 +957,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Return "Check your Username/Password."
             Case Else
-                Return "Err:" + res.ToString + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                Return "Err:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
         End Select
     End Function
 
@@ -1005,7 +1007,7 @@ Public Class Twitter
                     Return "Check your Username/Password."
                 Case Else
                     retweeted_count = -1
-                    Return "Err:" + res.ToString + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                    Return "Err:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
             End Select
         Next
         Return ""
@@ -1021,7 +1023,7 @@ Public Class Twitter
         Try
             res = twCon.CreateFavorites(id, content)
         Catch ex As Exception
-            Return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+            Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
         End Try
 
         Select Case res
@@ -1037,12 +1039,12 @@ Public Class Twitter
                     xd.LoadXml(content)
                     Dim xNode As XmlNode = Nothing
                     xNode = xd.SelectSingleNode("/hash/error")
-                    Return "Err:" + xNode.InnerText + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                    Return "Err:" + xNode.InnerText + "(" + GetCurrentMethod.Name + ")"
                 Catch ex As Exception
-                    Return "Err:Forbidden" + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                    Return "Err:Forbidden" + "(" + GetCurrentMethod.Name + ")"
                 End Try
             Case Else
-                Return "Err:" + res.ToString + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                Return "Err:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
         End Select
 
         'http://twitter.com/statuses/show/id.xml APIを発行して本文を取得
@@ -1084,7 +1086,7 @@ Public Class Twitter
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
-                Return "Err:" + res.ToString + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                Return "Err:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
         End Select
 
     End Function
@@ -1120,7 +1122,7 @@ Public Class Twitter
                     Return "Err:Forbidden"
                 End Try
             Case Else
-                Return "Err:" + res.ToString + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                Return "Err:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
         End Select
     End Function
 
@@ -1150,12 +1152,12 @@ Public Class Twitter
                     xd.LoadXml(content)
                     Dim xNode As XmlNode = Nothing
                     xNode = xd.SelectSingleNode("/hash/error")
-                    Return "Err:" + xNode.InnerText + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                    Return "Err:" + xNode.InnerText + "(" + GetCurrentMethod.Name + ")"
                 Catch ex As Exception
-                    Return "Err:Forbidden" + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                    Return "Err:Forbidden" + "(" + GetCurrentMethod.Name + ")"
                 End Try
             Case Else
-                Return "Err:" + res.ToString + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                Return "Err:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
         End Select
     End Function
 
@@ -1169,7 +1171,7 @@ Public Class Twitter
         Try
             res = twCon.UpdateProfileImage(New FileInfo(filename), content)
         Catch ex As Exception
-            Return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+            Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
         End Try
 
         Select Case res
@@ -1185,12 +1187,12 @@ Public Class Twitter
                     xd.LoadXml(content)
                     Dim xNode As XmlNode = Nothing
                     xNode = xd.SelectSingleNode("/hash/error")
-                    Return "Err:" + xNode.InnerText + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                    Return "Err:" + xNode.InnerText + "(" + GetCurrentMethod.Name + ")"
                 Catch ex As Exception
-                    Return "Err:Forbidden" + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                    Return "Err:Forbidden" + "(" + GetCurrentMethod.Name + ")"
                 End Try
             Case Else
-                Return "Err:" + res.ToString + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                Return "Err:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
         End Select
     End Function
 
@@ -1398,7 +1400,7 @@ Public Class Twitter
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
-                Return "Err:" + res.ToString() + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
         End Select
 
         If gType = WORKERTYPE.Timeline Then
@@ -1437,7 +1439,7 @@ Public Class Twitter
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
-                Return "Err:" + res.ToString() + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
         End Select
 
         Return CreatePostsFromXml(content, WORKERTYPE.List, tab, read, countQuery, tab.OldestId)
@@ -1615,7 +1617,7 @@ Public Class Twitter
                 Return "Search API Limit?"
             Case HttpStatusCode.OK
             Case Else
-                Return "Err:" + res.ToString + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                Return "Err:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
         End Select
 
         If Not TabInformations.GetInstance.ContainsTab(tab) Then Return ""
@@ -1747,7 +1749,7 @@ Public Class Twitter
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
-                Return "Err:" + res.ToString() + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
         End Select
 
         Dim arIdx As Integer = -1
@@ -1850,7 +1852,7 @@ Public Class Twitter
         Try
             res = twCon.Favorites(_countApi, content)
         Catch ex As Exception
-            Return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+            Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
         End Try
 
         Select Case res
@@ -1862,7 +1864,7 @@ Public Class Twitter
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
-                Return "Err:" + res.ToString() + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
         End Select
 
         Dim arIdx As Integer = -1
@@ -2023,7 +2025,7 @@ Public Class Twitter
         Try
             res = twCon.FollowerIds(cursor, content)
         Catch ex As Exception
-            Return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+            Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
         End Try
 
         Select Case res
@@ -2035,7 +2037,7 @@ Public Class Twitter
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
-                Return "Err:" + res.ToString() + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
         End Select
 
         Dim xdoc As New XmlDocument
@@ -2072,7 +2074,7 @@ Public Class Twitter
             Try
                 res = twCon.GetLists(Me.Username, cursor, content)
             Catch ex As Exception
-                Return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
             End Try
 
             Select Case res
@@ -2084,7 +2086,7 @@ Public Class Twitter
                 Case HttpStatusCode.BadRequest
                     Return "Err:API Limits?"
                 Case Else
-                    Return "Err:" + res.ToString() + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                    Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
             End Select
 
             Dim xdoc As New XmlDocument
@@ -2112,7 +2114,7 @@ Public Class Twitter
             Try
                 res = twCon.GetListsSubscriptions(Me.Username, cursor, content)
             Catch ex As Exception
-                Return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
             End Try
 
             Select Case res
@@ -2124,7 +2126,7 @@ Public Class Twitter
                 Case HttpStatusCode.BadRequest
                     Return "Err:API Limits?"
                 Case Else
-                    Return "Err:" + res.ToString() + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                    Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
             End Select
 
             Dim xdoc As New XmlDocument
@@ -2157,7 +2159,7 @@ Public Class Twitter
         Try
             res = twCon.DeleteListID(Me.Username, list_id, content)
         Catch ex As Exception
-            Return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+            Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
         End Try
 
         Select Case res
@@ -2169,7 +2171,7 @@ Public Class Twitter
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
-                Return "Err:" + res.ToString() + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
         End Select
 
         Return ""
@@ -2186,7 +2188,7 @@ Public Class Twitter
         Try
             res = twCon.PostListID(Me.Username, list_id, new_name, modeString, description, content)
         Catch ex As Exception
-            Return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+            Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
         End Try
 
         Select Case res
@@ -2198,7 +2200,7 @@ Public Class Twitter
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
-                Return "Err:" + res.ToString() + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
         End Select
 
         Dim xdoc As New XmlDocument
@@ -2246,7 +2248,7 @@ Public Class Twitter
                 Case HttpStatusCode.BadRequest
                     Return "Err:API Limits?"
                 Case Else
-                    Return "Err:" + res.ToString() + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                    Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
             End Select
 
             Dim xdoc As New XmlDocument
@@ -2280,7 +2282,7 @@ Public Class Twitter
         Try
             res = twCon.PostLists(Me.Username, listName, isPrivate, description, content)
         Catch ex As Exception
-            Return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+            Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
         End Try
 
         Select Case res
@@ -2292,7 +2294,7 @@ Public Class Twitter
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
-                Return "Err:" + res.ToString() + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
         End Select
 
         Dim xdoc As New XmlDocument
@@ -2319,7 +2321,7 @@ Public Class Twitter
         Try
             res = Me.twCon.GetListMembersID(Me.Username, list_name, user, content)
         Catch ex As Exception
-            Return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+            Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
         End Try
 
         Select Case res
@@ -2334,7 +2336,7 @@ Public Class Twitter
                 value = False
                 Return ""
             Case Else
-                Return "Err:" + res.ToString() + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+                Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
         End Select
 
         Dim xdoc As New XmlDocument
@@ -2356,7 +2358,7 @@ Public Class Twitter
         Try
             res = twCon.PostListMembers(Me.Username, list_name, user, content)
         Catch ex As Exception
-            Return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+            Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
         End Try
 
         Return ""
@@ -2369,7 +2371,7 @@ Public Class Twitter
         Try
             res = twCon.DeleteListMembers(Me.Username, list_name, user, content)
         Catch ex As Exception
-            Return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod.ToString + ")"
+            Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
         End Try
 
         Return ""
