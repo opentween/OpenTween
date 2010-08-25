@@ -8,7 +8,7 @@
         Me.contextUserName = userName
         Me._tw = tw
 
-        Me.Text = Me.contextUserName + "を含むリストの管理"
+        Me.Text = Me.contextUserName + My.Resources.MyLists1
     End Sub
 
     Private Sub MyLists_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -87,7 +87,7 @@
     Private Sub ListRefreshButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListRefreshButton.Click
         Dim rslt As String = Me._tw.GetListsApi()
         If rslt <> "" Then
-            MessageBox.Show("通信エラー (" + rslt + ")")
+            MessageBox.Show(String.Format(My.Resources.ListsDeleteFailed, rslt))
         Else
             Me.ListsCheckedListBox.Items.Clear()
             Me.MyLists_Load(Me, EventArgs.Empty)
@@ -102,7 +102,7 @@
                 Dim ret As Boolean
                 Dim rslt As String = Me._tw.ContainsUserAtList(listItem.Id.ToString(), contextUserName.ToString(), ret)
                 If rslt <> "" Then
-                    MessageBox.Show("通信エラー (" + rslt + ")")
+                    MessageBox.Show(String.Format(My.Resources.ListManageOKButton2, rslt))
                     e.NewValue = CheckState.Indeterminate
                 Else
                     If ret Then
@@ -115,14 +115,14 @@
                 Dim list As ListElement = CType(Me.ListsCheckedListBox.Items(e.Index), ListElement)
                 Dim rslt As String = Me._tw.AddUserToList(list.Id.ToString(), Me.contextUserName.ToString())
                 If rslt <> "" Then
-                    MessageBox.Show("通信エラー (" + rslt + ")")
+                    MessageBox.Show(String.Format(My.Resources.ListManageOKButton2, rslt))
                     e.NewValue = CheckState.Indeterminate
                 End If
             Case CheckState.Checked
                 Dim list As ListElement = CType(Me.ListsCheckedListBox.Items(e.Index), ListElement)
                 Dim rslt As String = Me._tw.RemoveUserToList(list.Id.ToString(), Me.contextUserName.ToString())
                 If rslt <> "" Then
-                    MessageBox.Show("通信エラー (" + rslt + ")")
+                    MessageBox.Show(String.Format(My.Resources.ListManageOKButton2, rslt))
                     e.NewValue = CheckState.Indeterminate
                 End If
         End Select

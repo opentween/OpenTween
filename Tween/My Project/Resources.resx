@@ -949,4 +949,31 @@
   <data name="BasicAuthWarning" xml:space="preserve">
     <value>認証モードがBASIC認証になっています。{0}BASIC認証の終了後はTwitterへログインすることはできません。{0}xAuthを使用してください。</value>
   </data>
+  <data name="ListManageDeleteLists1" xml:space="preserve">
+    <value>このリストを削除してもよろしいですか？</value>
+  </data>
+  <data name="ListManageDeleteUser1" xml:space="preserve">
+    <value>このユーザーをリストから削除してよろしいですか？</value>
+  </data>
+  <data name="ListManageDeleteUser2" xml:space="preserve">
+    <value>メンバーの削除に失敗しました（{0}）</value>
+  </data>
+  <data name="ListManageGetListMembersCallback1" xml:space="preserve">
+    <value>メンバーの取得に失敗しました（{0}）</value>
+  </data>
+  <data name="ListManageOKButton1" xml:space="preserve">
+    <value>リスト名を入力してください</value>
+  </data>
+  <data name="ListManageOKButton2" xml:space="preserve">
+    <value>リスト情報の反映に失敗しました（{0}）</value>
+  </data>
+  <data name="ListsDeleteFailed" xml:space="preserve">
+    <value>リスト情報の取得に失敗しました（{0}）</value>
+  </data>
+  <data name="ListsGetting" xml:space="preserve">
+    <value>リスト情報を取得しています。しばらくお待ちください...</value>
+  </data>
+  <data name="MyLists1" xml:space="preserve">
+    <value>を含むリストの管理</value>
+  </data>
 </root>

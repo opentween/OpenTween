@@ -178,10 +178,10 @@
   <data name="HashManageMenuItem.Text" xml:space="preserve">
     <value>Hashtag &amp;Manager</value>
   </data>
-  <data name="ContextMenuStripPostMode.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ContextMenuPostMode.Size" type="System.Drawing.Size, System.Drawing">
     <value>371, 214</value>
   </data>
-  <data name="ContextMenuStripPostMode.ToolTip" xml:space="preserve">
+  <data name="ContextMenuPostMode.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="HashStripSplitButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -331,6 +331,12 @@
   <data name="ShowFriendShipToolStripMenuItem.Text" xml:space="preserve">
     <value>Friendship &amp;Relation</value>
   </data>
+  <data name="ListManageUserContextToolStripMenuItem3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>186, 22</value>
+  </data>
+  <data name="ListManageUserContextToolStripMenuItem3.Text" xml:space="preserve">
+    <value>Add to &amp;Lists</value>
+  </data>
   <data name="ToolStripSeparator37.Size" type="System.Drawing.Size, System.Drawing">
     <value>183, 6</value>
   </data>
@@ -358,10 +364,10 @@
   <data name="SaveIconPictureToolStripMenuItem.Text" xml:space="preserve">
     <value>Save &amp;Icon...</value>
   </data>
-  <data name="ContextMenuStrip3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>187, 170</value>
+  <data name="ContextMenuUserPicture.Size" type="System.Drawing.Size, System.Drawing">
+    <value>187, 192</value>
   </data>
-  <data name="ContextMenuStrip3.ToolTip" xml:space="preserve">
+  <data name="ContextMenuUserPicture.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="UserPicture.ToolTip" xml:space="preserve">
@@ -481,6 +487,12 @@
   <data name="IdFilterAddMenuItem.Text" xml:space="preserve">
     <value>Filter by &amp;Id ...</value>
   </data>
+  <data name="ListManageUserContextToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>264, 22</value>
+  </data>
+  <data name="ListManageUserContextToolStripMenuItem.Text" xml:space="preserve">
+    <value>Add to &amp;Lists</value>
+  </data>
   <data name="ToolStripSeparator33.Size" type="System.Drawing.Size, System.Drawing">
     <value>261, 6</value>
   </data>
@@ -490,10 +502,10 @@
   <data name="UseHashtagMenuItem.Text" xml:space="preserve">
     <value>Use this &amp;Hashtag</value>
   </data>
-  <data name="ContextMenuStrip4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>265, 298</value>
+  <data name="ContextMenuPostBrowser.Size" type="System.Drawing.Size, System.Drawing">
+    <value>265, 320</value>
   </data>
-  <data name="ContextMenuStrip4.ToolTip" xml:space="preserve">
+  <data name="ContextMenuPostBrowser.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="PostBrowser.ToolTip" xml:space="preserve">
@@ -739,6 +751,9 @@
   <data name="CreateRuleOpMenuItem.Text" xml:space="preserve">
     <value>Make &amp;Filter as ...</value>
   </data>
+  <data name="ToolStripMenuItem9.Text" xml:space="preserve">
+    <value>Add to &amp;Lists</value>
+  </data>
   <data name="ReadOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>263, 22</value>
   </data>
@@ -934,8 +949,11 @@
   <data name="RtCountMenuItem.Text" xml:space="preserve">
     <value>Retweeted &amp;Count that tweet</value>
   </data>
-  <data name="リスト編集ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ListManageToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>250, 22</value>
+  </data>
+  <data name="ListManageToolStripMenuItem.Text" xml:space="preserve">
+    <value>Edit Lists</value>
   </data>
   <data name="MenuItemCommand.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 22</value>
@@ -945,6 +963,9 @@
   </data>
   <data name="MatomeMenuItem.Text" xml:space="preserve">
     <value>Open Tween &amp;Help Site</value>
+  </data>
+  <data name="ShortcutKeyListMenuItem.Text" xml:space="preserve">
+    <value>Shortcut keys</value>
   </data>
   <data name="VerUpMenuItem.Text" xml:space="preserve">
     <value>Check for Updates (&amp;G)</value>
@@ -1084,6 +1105,12 @@
   <data name="ToolStripMenuItem7.Text" xml:space="preserve">
     <value>Make filter as ...</value>
   </data>
+  <data name="ListManageUserContextToolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>214, 22</value>
+  </data>
+  <data name="ListManageUserContextToolStripMenuItem2.Text" xml:space="preserve">
+    <value>Add to &amp;Lists</value>
+  </data>
   <data name="ToolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
     <value>211, 6</value>
   </data>
@@ -1138,10 +1165,10 @@
   <data name="RefreshMoreStripMenuItem.Text" xml:space="preserve">
     <value>GetMore</value>
   </data>
-  <data name="ContextMenuStrip2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>215, 396</value>
+  <data name="ContextMenuOperate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>215, 418</value>
   </data>
-  <data name="ContextMenuStrip2.ToolTip" xml:space="preserve">
+  <data name="ContextMenuOperate.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="SettingStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
@@ -1189,10 +1216,10 @@
   <data name="EndToolStripMenuItem.Text" xml:space="preserve">
     <value>E&amp;xit</value>
   </data>
-  <data name="ContextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ContextMenuFile.Size" type="System.Drawing.Size, System.Drawing">
     <value>209, 154</value>
   </data>
-  <data name="ContextMenuStrip1.ToolTip" xml:space="preserve">
+  <data name="ContextMenuFile.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="$this.ToolTip" xml:space="preserve">

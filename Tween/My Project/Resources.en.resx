@@ -745,109 +745,109 @@
     <value>Getting Api Information...</value>
   </data>
   <data name="BasicAuthWarning" xml:space="preserve">
-    <value>認証モードがBASIC認証になっています。{0}BASIC認証の終了後はTwitterへログインすることはできません。{0}xAuthを使用してください。</value>
+    <value>The auth mode is BASIC.{0}BASIC auth will terminate in Aug 2010 and will not be able to sign in.{0}Please change to xAuth mode.</value>
   </data>
   <data name="ButtonBlockDestroy_ClickText1" xml:space="preserve">
-    <value> をブロック解除します。よろしいですか？</value>
+    <value> : Unblock this user?</value>
   </data>
   <data name="ButtonBlockDestroy_ClickText2" xml:space="preserve">
-    <value>ブロック解除確認</value>
+    <value>Confirm unblock</value>
   </data>
   <data name="ButtonBlockDestroy_ClickText3" xml:space="preserve">
-    <value>エラーが発生しました。成功しているかどうかWebでご確認ください。</value>
+    <value>Failed to unblock.</value>
   </data>
   <data name="ButtonBlockDestroy_ClickText4" xml:space="preserve">
-    <value>ブロック解除を行いました。成功しているかどうかWebでご確認ください。</value>
+    <value>Unbloked.</value>
   </data>
   <data name="ButtonBlock_ClickText1" xml:space="preserve">
-    <value> をブロックします。よろしいですか？</value>
+    <value> : Block this user?</value>
   </data>
   <data name="ButtonBlock_ClickText2" xml:space="preserve">
-    <value>ブロック確認</value>
+    <value>Confirm block.</value>
   </data>
   <data name="ButtonBlock_ClickText3" xml:space="preserve">
-    <value>エラーが発生しました。成功しているかどうかWebでご確認ください。</value>
+    <value>Failed to block.</value>
   </data>
   <data name="ButtonBlock_ClickText4" xml:space="preserve">
-    <value>ブロックを行いました。成功しているかどうかWebでご確認ください。</value>
+    <value>Success to unblock.</value>
   </data>
   <data name="ButtonOK_ClickText4" xml:space="preserve">
-    <value>既に存在するルールは追加できません</value>
+    <value>Can't add duplicated rule.</value>
   </data>
   <data name="ButtonReportSpam_ClickText1" xml:space="preserve">
-    <value> をブロックしスパム報告を行います。よろしいですか？</value>
+    <value> : Report spam this user?</value>
   </data>
   <data name="ButtonReportSpam_ClickText2" xml:space="preserve">
-    <value>スパム報告確認</value>
+    <value>Confirm Sapm Report</value>
   </data>
   <data name="ButtonReportSpam_ClickText3" xml:space="preserve">
-    <value>エラーが発生しました。成功しているかどうかWebでご確認ください。</value>
+    <value>Failed to report spam.</value>
   </data>
   <data name="ButtonReportSpam_ClickText4" xml:space="preserve">
-    <value>ブロックしスパム報告を行いました。成功しているかどうかWebでご確認ください。</value>
+    <value>Spam reported. Please confirm the result in web.</value>
   </data>
   <data name="ButtonRuleCopy_ClickText1" xml:space="preserve">
-    <value>ルールコピー先タブの選択</value>
+    <value>Select a tab copy to.</value>
   </data>
   <data name="ButtonRuleMove_ClickText1" xml:space="preserve">
-    <value>ルール移動先タブの選択</value>
+    <value>Select a tab move to.</value>
   </data>
   <data name="ButtonUnFollow_ClickText1" xml:space="preserve">
-    <value> をフォロー解除します。よろしいですか？</value>
+    <value> : Unfollow this user?</value>
   </data>
   <data name="ButtonUnFollow_ClickText2" xml:space="preserve">
-    <value>フォロー解除確認</value>
+    <value>Confirm unfollowing</value>
   </data>
   <data name="CalcApiUsingText1" xml:space="preserve">
-    <value>API情報取得中・・・</value>
+    <value>Now getting API informations...</value>
   </data>
   <data name="ChangeIconToolStripMenuItem_ClickText1" xml:space="preserve">
-    <value>画像ファイル(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png</value>
+    <value>Images(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png</value>
   </data>
   <data name="ChangeIconToolStripMenuItem_ClickText2" xml:space="preserve">
-    <value>サイズ700KBまでのアイコン画像ファイルを選択してください</value>
+    <value>The icon file size is limited under 700kb.</value>
   </data>
   <data name="ChangeIconToolStripMenuItem_ClickText3" xml:space="preserve">
-    <value>アイコン設定中・・・</value>
+    <value>Now changing icon...</value>
   </data>
   <data name="ChangeIconToolStripMenuItem_ClickText4" xml:space="preserve">
-    <value>注意：Twitterの仕様により、エラーが発生してもアイコンが変更できている場合があります。次回発言の際にご確認ください。</value>
+    <value>Caution: Please confirm the icon after next tweet, if error was occured but icon was already updated.</value>
   </data>
   <data name="ChangeIconToolStripMenuItem_ClickText5" xml:space="preserve">
-    <value>アイコンを変更しました。 次回発言より反映されます。</value>
+    <value>Success to chage icon.</value>
   </data>
   <data name="CmbDateTimeFormat_Validating" xml:space="preserve">
-    <value>無効な日時書式指定文字列です</value>
+    <value>Invalid datetime format.</value>
   </data>
   <data name="ConnectionTimeOut_ValidatingText1" xml:space="preserve">
-    <value>タイムアウトまでの時間には数値（10～120）を指定してください。</value>
+    <value>The timeout seconds must be between 10 to 120.</value>
   </data>
   <data name="CopyStotText1" xml:space="preserve">
-    <value>警告：Protected発言はコピーされていません。</value>
+    <value>Warning: Haven't copied the tweets of protected users.</value>
   </data>
   <data name="CreateDateTimeFormatSampleText1" xml:space="preserve">
-    <value>無効な日時書式指定文字列です</value>
+    <value>Invalid datetime format.</value>
   </data>
   <data name="doShowUserStatusText1" xml:space="preserve">
-    <value>プロフィール取得中・・・</value>
+    <value>Now getting the profile...</value>
   </data>
   <data name="FollowCommandText1" xml:space="preserve">
-    <value>フォローしています・・・</value>
+    <value>Following...</value>
   </data>
   <data name="RemoveCommandText1" xml:space="preserve">
-    <value>フォローを解除しています・・・</value>
+    <value>Unfollowing...</value>
   </data>
   <data name="RtCountText1" xml:space="preserve">
-    <value>回Retweetされています</value>
+    <value>nums Retweeted.</value>
   </data>
   <data name="RtCountText2" xml:space="preserve">
-    <value>Retweetカウントの取得に失敗しました</value>
+    <value>Failed to get retweeted count.</value>
   </data>
   <data name="ShowFriendshipText1" xml:space="preserve">
-    <value>フォロー状況取得中・・・</value>
+    <value>Now getting relations...</value>
   </data>
   <data name="ShowUserInfo2" xml:space="preserve">
-    <value>最新発言の取得に失敗しました</value>
+    <value>Failed to get latest tweet.</value>
   </data>
   <data name="TabUsageTypeName_DirectMessage" xml:space="preserve">
     <value>DirectMessage</value>
@@ -856,7 +856,7 @@
     <value>Favorites</value>
   </data>
   <data name="TabUsageTypeName_Home" xml:space="preserve">
-    <value>タイムライン</value>
+    <value>Timeline</value>
   </data>
   <data name="TabUsageTypeName_Lists" xml:space="preserve">
     <value>Lists</value>
@@ -868,12 +868,39 @@
     <value>PublicSearch</value>
   </data>
   <data name="TabUsageTypeName_UserDefined" xml:space="preserve">
-    <value>タイムライン振り分け</value>
+    <value>Distributed Timeline</value>
   </data>
   <data name="UserInfoButtonEdit_ClickText1" xml:space="preserve">
-    <value>適用</value>
+    <value>Accept</value>
   </data>
   <data name="UserInfoButtonEdit_ClickText2" xml:space="preserve">
-    <value>プロフィール更新中・・・</value>
+    <value>Updating Profile...</value>
+  </data>
+  <data name="ListManageDeleteLists1" xml:space="preserve">
+    <value>Delete this Lists?</value>
+  </data>
+  <data name="ListManageDeleteUser1" xml:space="preserve">
+    <value>Remove this member from this Lists?</value>
+  </data>
+  <data name="ListManageDeleteUser2" xml:space="preserve">
+    <value>Failed to delete this member from this Lists. ({0})</value>
+  </data>
+  <data name="ListManageGetListMembersCallback1" xml:space="preserve">
+    <value>Failed to get members. ({0})</value>
+  </data>
+  <data name="ListManageOKButton1" xml:space="preserve">
+    <value>Lists name required.</value>
+  </data>
+  <data name="ListManageOKButton2" xml:space="preserve">
+    <value>Failed to update Lists informations. ({0})</value>
+  </data>
+  <data name="ListsDeleteFailed" xml:space="preserve">
+    <value>Failed to get Lists. ({0})</value>
+  </data>
+  <data name="ListsGetting" xml:space="preserve">
+    <value>Getting Lists informations. Please wait...</value>
+  </data>
+  <data name="MyLists1" xml:space="preserve">
+    <value> : Manage Lists</value>
   </data>
 </root>

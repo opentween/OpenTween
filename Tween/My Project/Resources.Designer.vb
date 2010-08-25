@@ -1253,6 +1253,78 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  このリストを削除してもよろしいですか？ に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ListManageDeleteLists1() As String
+            Get
+                Return ResourceManager.GetString("ListManageDeleteLists1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  このユーザーをリストから削除してよろしいですか？ に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ListManageDeleteUser1() As String
+            Get
+                Return ResourceManager.GetString("ListManageDeleteUser1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  メンバーの削除に失敗しました（{0}） に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ListManageDeleteUser2() As String
+            Get
+                Return ResourceManager.GetString("ListManageDeleteUser2", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  メンバーの取得に失敗しました（{0}） に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ListManageGetListMembersCallback1() As String
+            Get
+                Return ResourceManager.GetString("ListManageGetListMembersCallback1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  リスト名を入力してください に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ListManageOKButton1() As String
+            Get
+                Return ResourceManager.GetString("ListManageOKButton1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  リスト情報の反映に失敗しました（{0}） に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ListManageOKButton2() As String
+            Get
+                Return ResourceManager.GetString("ListManageOKButton2", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  リスト情報の取得に失敗しました（{0}） に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ListsDeleteFailed() As String
+            Get
+                Return ResourceManager.GetString("ListsDeleteFailed", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  リスト情報を取得しています。しばらくお待ちください... に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ListsGetting() As String
+            Get
+                Return ResourceManager.GetString("ListsGetting", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  この設定ファイルは Tween により自動生成されました。手動で変更しないでください。 に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property LoadConfigurationText1() As String
@@ -1326,6 +1398,15 @@ Namespace My.Resources
             Get
                 Dim obj As Object = ResourceManager.GetObject("MultiMediaImage", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  を含むリストの管理 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property MyLists1() As String
+            Get
+                Return ResourceManager.GetString("MyLists1", resourceCulture)
             End Get
         End Property
         
