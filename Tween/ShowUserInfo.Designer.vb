@@ -49,13 +49,13 @@ Partial Class ShowUserInfo
         Me.LabelIsFollowing = New System.Windows.Forms.Label()
         Me.LabelIsFollowed = New System.Windows.Forms.Label()
         Me.UserPicture = New System.Windows.Forms.PictureBox()
-        Me.ContextMenuStrip2 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ContextMenuUserPicture = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ChangeIconToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BackgroundWorkerImageLoader = New System.ComponentModel.BackgroundWorker()
         Me.LabelScreenName = New System.Windows.Forms.Label()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.LinkLabel1 = New System.Windows.Forms.LinkLabel()
-        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ContextMenuRecentPostBrowser = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.SelectionCopyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SelectAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.LabelRecentPost = New System.Windows.Forms.Label()
@@ -66,7 +66,7 @@ Partial Class ShowUserInfo
         Me.ButtonEdit = New System.Windows.Forms.Button()
         Me.RecentPostBrowser = New System.Windows.Forms.WebBrowser()
         Me.DescriptionBrowser = New System.Windows.Forms.WebBrowser()
-        Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.OpenFileDialogIcon = New System.Windows.Forms.OpenFileDialog()
         Me.TextBoxName = New System.Windows.Forms.TextBox()
         Me.TextBoxLocation = New System.Windows.Forms.TextBox()
         Me.TextBoxWeb = New System.Windows.Forms.TextBox()
@@ -75,8 +75,8 @@ Partial Class ShowUserInfo
         Me.ButtonReportSpam = New System.Windows.Forms.Button()
         Me.ButtonBlockDestroy = New System.Windows.Forms.Button()
         CType(Me.UserPicture, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.ContextMenuStrip2.SuspendLayout()
-        Me.ContextMenuStrip1.SuspendLayout()
+        Me.ContextMenuUserPicture.SuspendLayout()
+        Me.ContextMenuRecentPostBrowser.SuspendLayout()
         Me.SuspendLayout()
         '
         'ButtonClose
@@ -221,16 +221,16 @@ Partial Class ShowUserInfo
         'UserPicture
         '
         Me.UserPicture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.UserPicture.ContextMenuStrip = Me.ContextMenuStrip2
+        Me.UserPicture.ContextMenuStrip = Me.ContextMenuUserPicture
         resources.ApplyResources(Me.UserPicture, "UserPicture")
         Me.UserPicture.Name = "UserPicture"
         Me.UserPicture.TabStop = False
         '
-        'ContextMenuStrip2
+        'ContextMenuUserPicture
         '
-        Me.ContextMenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ChangeIconToolStripMenuItem})
-        Me.ContextMenuStrip2.Name = "ContextMenuStrip2"
-        resources.ApplyResources(Me.ContextMenuStrip2, "ContextMenuStrip2")
+        Me.ContextMenuUserPicture.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ChangeIconToolStripMenuItem})
+        Me.ContextMenuUserPicture.Name = "ContextMenuStrip2"
+        resources.ApplyResources(Me.ContextMenuUserPicture, "ContextMenuUserPicture")
         '
         'ChangeIconToolStripMenuItem
         '
@@ -258,11 +258,11 @@ Partial Class ShowUserInfo
         Me.LinkLabel1.TabStop = True
         Me.ToolTip1.SetToolTip(Me.LinkLabel1, resources.GetString("LinkLabel1.ToolTip"))
         '
-        'ContextMenuStrip1
+        'ContextMenuRecentPostBrowser
         '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectionCopyToolStripMenuItem, Me.SelectAllToolStripMenuItem})
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        resources.ApplyResources(Me.ContextMenuStrip1, "ContextMenuStrip1")
+        Me.ContextMenuRecentPostBrowser.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectionCopyToolStripMenuItem, Me.SelectAllToolStripMenuItem})
+        Me.ContextMenuRecentPostBrowser.Name = "ContextMenuStrip1"
+        resources.ApplyResources(Me.ContextMenuRecentPostBrowser, "ContextMenuRecentPostBrowser")
         '
         'SelectionCopyToolStripMenuItem
         '
@@ -311,7 +311,7 @@ Partial Class ShowUserInfo
         'RecentPostBrowser
         '
         Me.RecentPostBrowser.AllowWebBrowserDrop = False
-        Me.RecentPostBrowser.ContextMenuStrip = Me.ContextMenuStrip1
+        Me.RecentPostBrowser.ContextMenuStrip = Me.ContextMenuRecentPostBrowser
         Me.RecentPostBrowser.IsWebBrowserContextMenuEnabled = False
         resources.ApplyResources(Me.RecentPostBrowser, "RecentPostBrowser")
         Me.RecentPostBrowser.MinimumSize = New System.Drawing.Size(20, 20)
@@ -323,7 +323,7 @@ Partial Class ShowUserInfo
         'DescriptionBrowser
         '
         Me.DescriptionBrowser.AllowWebBrowserDrop = False
-        Me.DescriptionBrowser.ContextMenuStrip = Me.ContextMenuStrip1
+        Me.DescriptionBrowser.ContextMenuStrip = Me.ContextMenuRecentPostBrowser
         Me.DescriptionBrowser.IsWebBrowserContextMenuEnabled = False
         resources.ApplyResources(Me.DescriptionBrowser, "DescriptionBrowser")
         Me.DescriptionBrowser.MinimumSize = New System.Drawing.Size(20, 20)
@@ -332,9 +332,9 @@ Partial Class ShowUserInfo
         Me.DescriptionBrowser.Url = New System.Uri("about:blank", System.UriKind.Absolute)
         Me.DescriptionBrowser.WebBrowserShortcutsEnabled = False
         '
-        'OpenFileDialog1
+        'OpenFileDialogIcon
         '
-        Me.OpenFileDialog1.FileName = "OpenFileDialog1"
+        Me.OpenFileDialogIcon.FileName = "OpenFileDialog1"
         '
         'TextBoxName
         '
@@ -432,8 +432,8 @@ Partial Class ShowUserInfo
         Me.ShowIcon = False
         Me.TopMost = True
         CType(Me.UserPicture, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.ContextMenuStrip2.ResumeLayout(False)
-        Me.ContextMenuStrip1.ResumeLayout(False)
+        Me.ContextMenuUserPicture.ResumeLayout(False)
+        Me.ContextMenuRecentPostBrowser.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -467,7 +467,7 @@ Partial Class ShowUserInfo
     Friend WithEvents LabelScreenName As System.Windows.Forms.Label
     Friend WithEvents DescriptionBrowser As System.Windows.Forms.WebBrowser
     Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
-    Friend WithEvents ContextMenuStrip1 As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents ContextMenuRecentPostBrowser As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents SelectionCopyToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SelectAllToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents LabelRecentPost As System.Windows.Forms.Label
@@ -478,9 +478,9 @@ Partial Class ShowUserInfo
     Friend WithEvents LabelId As System.Windows.Forms.Label
     Friend WithEvents Label12 As System.Windows.Forms.Label
     Friend WithEvents ButtonEdit As System.Windows.Forms.Button
-    Friend WithEvents ContextMenuStrip2 As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents ContextMenuUserPicture As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents ChangeIconToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents OpenFileDialog1 As System.Windows.Forms.OpenFileDialog
+    Friend WithEvents OpenFileDialogIcon As System.Windows.Forms.OpenFileDialog
     Friend WithEvents TextBoxName As System.Windows.Forms.TextBox
     Friend WithEvents TextBoxLocation As System.Windows.Forms.TextBox
     Friend WithEvents TextBoxWeb As System.Windows.Forms.TextBox

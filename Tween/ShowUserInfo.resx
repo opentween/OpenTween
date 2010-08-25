@@ -834,8 +834,8 @@
   <data name="&gt;&gt;LabelIsFollowed.ZOrder" xml:space="preserve">
     <value>25</value>
   </data>
-  <metadata name="ContextMenuStrip2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>612, 17</value>
+  <metadata name="ContextMenuUserPicture.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>697, 15</value>
   </metadata>
   <data name="ChangeIconToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>139, 22</value>
@@ -843,13 +843,13 @@
   <data name="ChangeIconToolStripMenuItem.Text" xml:space="preserve">
     <value>アイコンの変更</value>
   </data>
-  <data name="ContextMenuStrip2.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ContextMenuUserPicture.Size" type="System.Drawing.Size, System.Drawing">
     <value>140, 26</value>
   </data>
-  <data name="&gt;&gt;ContextMenuStrip2.Name" xml:space="preserve">
-    <value>ContextMenuStrip2</value>
+  <data name="&gt;&gt;ContextMenuUserPicture.Name" xml:space="preserve">
+    <value>ContextMenuUserPicture</value>
   </data>
-  <data name="&gt;&gt;ContextMenuStrip2.Type" xml:space="preserve">
+  <data name="&gt;&gt;ContextMenuUserPicture.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="UserPicture.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
@@ -948,7 +948,7 @@
   <data name="&gt;&gt;LinkLabel1.ZOrder" xml:space="preserve">
     <value>13</value>
   </data>
-  <metadata name="ContextMenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="ContextMenuRecentPostBrowser.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>326, 17</value>
   </metadata>
   <data name="SelectionCopyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
@@ -963,13 +963,13 @@
   <data name="SelectAllToolStripMenuItem.Text" xml:space="preserve">
     <value>すべて選択</value>
   </data>
-  <data name="ContextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ContextMenuRecentPostBrowser.Size" type="System.Drawing.Size, System.Drawing">
     <value>167, 48</value>
   </data>
-  <data name="&gt;&gt;ContextMenuStrip1.Name" xml:space="preserve">
-    <value>ContextMenuStrip1</value>
+  <data name="&gt;&gt;ContextMenuRecentPostBrowser.Name" xml:space="preserve">
+    <value>ContextMenuRecentPostBrowser</value>
   </data>
-  <data name="&gt;&gt;ContextMenuStrip1.Type" xml:space="preserve">
+  <data name="&gt;&gt;ContextMenuRecentPostBrowser.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="LabelRecentPost.AutoSize" type="System.Boolean, mscorlib">
@@ -1194,8 +1194,8 @@
   <data name="&gt;&gt;DescriptionBrowser.ZOrder" xml:space="preserve">
     <value>17</value>
   </data>
-  <metadata name="OpenFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>478, 17</value>
+  <metadata name="OpenFileDialogIcon.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>547, 15</value>
   </metadata>
   <data name="TextBoxName.Location" type="System.Drawing.Point, System.Drawing">
     <value>34, 163</value>
@@ -1413,10 +1413,10 @@
   <data name="&gt;&gt;SelectAllToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;OpenFileDialog1.Name" xml:space="preserve">
-    <value>OpenFileDialog1</value>
+  <data name="&gt;&gt;OpenFileDialogIcon.Name" xml:space="preserve">
+    <value>OpenFileDialogIcon</value>
   </data>
-  <data name="&gt;&gt;OpenFileDialog1.Type" xml:space="preserve">
+  <data name="&gt;&gt;OpenFileDialogIcon.Type" xml:space="preserve">
     <value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
