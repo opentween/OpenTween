@@ -207,6 +207,7 @@ Partial Class TweenMain
         Me.HashToggleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HashManageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RtCountMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ListManageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuItemHelp = New System.Windows.Forms.ToolStripMenuItem()
         Me.MatomeMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ShortcutKeyListMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -362,6 +363,7 @@ Partial Class TweenMain
         '
         Me.ContextMenuPostMode.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItemUrlMultibyteSplit, Me.ToolStripMenuItemApiCommandEvasion, Me.ToolStripMenuItemUrlAutoShorten, Me.IdeographicSpaceToSpaceToolStripMenuItem, Me.MultiLineMenuItem, Me.ToolStripFocusLockMenuItem, Me.ToolStripSeparator35, Me.ImageSelectMenuItem, Me.ToolStripSeparator8, Me.HashToggleMenuItem, Me.HashManageMenuItem})
         Me.ContextMenuPostMode.Name = "ContextMenuStripPostMode"
+        Me.ContextMenuPostMode.OwnerItem = Me.HashStripSplitButton
         resources.ApplyResources(Me.ContextMenuPostMode, "ContextMenuPostMode")
         '
         'ToolStripMenuItemUrlMultibyteSplit
@@ -1250,7 +1252,7 @@ Partial Class TweenMain
         '
         'MenuItemCommand
         '
-        Me.MenuItemCommand.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TinyUrlConvertToolStripMenuItem, Me.UpdateFollowersMenuItem1, Me.ToolStripSeparator1, Me.FollowCommandMenuItem, Me.RemoveCommandMenuItem, Me.FriendshipMenuItem, Me.ToolStripSeparator3, Me.OwnStatusMenuItem, Me.UserStatusToolStripMenuItem, Me.ToolStripSeparator34, Me.HashToggleToolStripMenuItem, Me.HashManageToolStripMenuItem, Me.RtCountMenuItem})
+        Me.MenuItemCommand.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TinyUrlConvertToolStripMenuItem, Me.UpdateFollowersMenuItem1, Me.ToolStripSeparator1, Me.FollowCommandMenuItem, Me.RemoveCommandMenuItem, Me.FriendshipMenuItem, Me.ToolStripSeparator3, Me.OwnStatusMenuItem, Me.UserStatusToolStripMenuItem, Me.ToolStripSeparator34, Me.HashToggleToolStripMenuItem, Me.HashManageToolStripMenuItem, Me.RtCountMenuItem, Me.ListManageToolStripMenuItem})
         Me.MenuItemCommand.Name = "MenuItemCommand"
         resources.ApplyResources(Me.MenuItemCommand, "MenuItemCommand")
         '
@@ -1360,6 +1362,11 @@ Partial Class TweenMain
         '
         Me.RtCountMenuItem.Name = "RtCountMenuItem"
         resources.ApplyResources(Me.RtCountMenuItem, "RtCountMenuItem")
+        '
+        'ListManageToolStripMenuItem
+        '
+        Me.ListManageToolStripMenuItem.Name = "ListManageToolStripMenuItem"
+        resources.ApplyResources(Me.ListManageToolStripMenuItem, "ListManageToolStripMenuItem")
         '
         'MenuItemHelp
         '
@@ -1960,5 +1967,6 @@ Partial Class TweenMain
     Friend WithEvents ToolStripMenuItem9 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ListManageUserContextToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ListManageUserContextToolStripMenuItem3 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ListManageToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

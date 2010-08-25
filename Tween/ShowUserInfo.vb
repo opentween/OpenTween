@@ -277,12 +277,8 @@ Public Class ShowUserInfo
     End Sub
 
     Private Sub BackgroundWorkerImageLoader_DoWork(ByVal sender As System.Object, ByVal e As System.ComponentModel.DoWorkEventArgs) Handles BackgroundWorkerImageLoader.DoWork
-        Try
-            Dim name As String = _info.ImageUrl.ToString
-            icondata = (New HttpVarious).GetImage(name.Replace("_normal", "_bigger"))
-        Catch ex As Exception
-            icondata = Nothing
-        End Try
+        Dim name As String = _info.ImageUrl.ToString
+        icondata = (New HttpVarious).GetImage(name.Replace("_normal", "_bigger"))
         If MyOwner.TwitterInstance.Username = _info.ScreenName Then Exit Sub
 
         _info.isFollowing = False

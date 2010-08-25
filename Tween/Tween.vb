@@ -6055,10 +6055,6 @@ RETRY:
             'List対応
             Dim list As ListElement = Nothing
             If tabUsage = TabUsageType.Lists Then
-                Dim rslt As String = tw.GetListsApi()
-                If rslt <> "" Then
-                    MessageBox.Show("Failed to get lists. (" + rslt + ")")
-                End If
                 Using listAvail As New ListAvailable
                     If listAvail.ShowDialog(Me) = Windows.Forms.DialogResult.Cancel Then Exit Sub
                     If listAvail.SelectedList Is Nothing Then Exit Sub
@@ -7791,16 +7787,6 @@ RETRY:
             id = _curPost.Name
         End If
         ShowFriendship(id)
-    End Sub
-
-    Private Sub リスト編集ToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        Dim rslt As String = tw.GetListsApi()
-        If rslt <> "" Then
-            MessageBox.Show("Failed to get lists. (" + rslt + ")")
-        End If
-
-        Dim form As New ListManage(tw)
-        form.Show()
     End Sub
 
     Private Class ShowFriendshipArgs
@@ -9544,4 +9530,9 @@ RETRY:
     End Sub
 #End Region
 
+    Private Sub ListManageToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListManageToolStripMenuItem.Click
+        Using form As New ListManage(tw)
+            form.ShowDialog(Me)
+        End Using
+    End Sub
 End Class

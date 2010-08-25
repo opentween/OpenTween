@@ -2225,19 +2225,19 @@ Public Class Twitter
         Return ""
     End Function
 
-    Public Function GetListMembers(ByVal list_id As String, ByVal lists As List(Of UserInfo)) As String
+    Public Function GetListMembers(ByVal list_id As String, ByVal lists As List(Of UserInfo), ByRef cursor As Long) As String
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
         Dim res As HttpStatusCode
         Dim content As String = ""
-        Dim cursor As Long = -1
+        'Dim cursor As Long = -1
 
-        Do
-            Try
-                res = twCon.GetListMembers(Me.Username, list_id, cursor, content)
-            Catch ex As Exception
-                Return "Err:" + ex.Message
-            End Try
+        'Do
+        Try
+            res = twCon.GetListMembers(Me.Username, list_id, cursor, content)
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
 
             Select Case res
                 Case HttpStatusCode.OK
@@ -2251,24 +2251,24 @@ Public Class Twitter
                     Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
             End Select
 
-            Dim xdoc As New XmlDocument
-            Try
-                xdoc.LoadXml(content)
-            Catch ex As Exception
-                TraceOut(content)
-                Return "Invalid XML!"
-            End Try
+        Dim xdoc As New XmlDocument
+        Try
+            xdoc.LoadXml(content)
+        Catch ex As Exception
+            TraceOut(content)
+            Return "Invalid XML!"
+        End Try
 
-            Try
-                For Each xentryNode As XmlNode In xdoc.DocumentElement.SelectNodes("/users_list/users/user")
-                    lists.Add(New UserInfo(xentryNode))
-                Next
-                cursor = Long.Parse(xdoc.DocumentElement.SelectSingleNode("/users_list/next_cursor").InnerText)
-            Catch ex As Exception
-                TraceOut(content)
-                Return "Invalid XML!"
-            End Try
-        Loop While cursor <> 0
+        Try
+            For Each xentryNode As XmlNode In xdoc.DocumentElement.SelectNodes("/users_list/users/user")
+                lists.Add(New UserInfo(xentryNode))
+            Next
+            cursor = Long.Parse(xdoc.DocumentElement.SelectSingleNode("/users_list/next_cursor").InnerText)
+        Catch ex As Exception
+            TraceOut(content)
+            Return "Invalid XML!"
+        End Try
+        'Loop While cursor <> 0
 
         Return ""
     End Function
