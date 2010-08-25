@@ -22,6 +22,7 @@
 ' Boston, MA 02110-1301, USA.
 
 Imports System.ComponentModel
+Imports System.Threading
 
 '''<summary>
 '''タスクサービス機能付きプログレスバー
@@ -36,7 +37,6 @@ Imports System.ComponentModel
 ''' 7.Dispose タスクサービスが正常終了した場合は自分自身をCloseするので最後にDisposeすること。
 '''</remarks>
 
-
 Public Class FormInfo
 
     Private Class BackgroundWorkerServicer
@@ -44,7 +44,7 @@ Public Class FormInfo
 
         Public Result As Object = Nothing
 
-        Protected Overrides Sub OnRunWorkerCompleted(ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs)
+        Protected Overrides Sub OnRunWorkerCompleted(ByVal e As RunWorkerCompletedEventArgs)
             Me.Result = e.Result
             MyBase.OnRunWorkerCompleted(e)
         End Sub
@@ -56,10 +56,28 @@ Public Class FormInfo
     Private Servicer As New BackgroundWorkerServicer
 
     Public Sub New(ByVal Message As String, _
-                   ByVal DoWork As System.ComponentModel.DoWorkEventHandler, _
-                   Optional ByVal RunWorkerCompleted As System.ComponentModel.RunWorkerCompletedEventHandler = Nothing, _
-                   Optional ByVal Argument As Object = Nothing)
+                   ByVal DoWork As DoWorkEventHandler)
 
+        doInitialize(Message, DoWork, Nothing, Nothing)
+    End Sub
+
+    Public Sub New(ByVal Message As String, _
+                   ByVal DoWork As DoWorkEventHandler, _
+                   ByVal RunWorkerCompleted As RunWorkerCompletedEventHandler)
+        doInitialize(Message, DoWork, RunWorkerCompleted, Nothing)
+    End Sub
+
+    Public Sub New(ByVal Message As String, _
+                   ByVal DoWork As DoWorkEventHandler, _
+                   ByVal RunWorkerCompleted As RunWorkerCompletedEventHandler, _
+                   ByVal Argument As Object)
+        doInitialize(Message, DoWork, RunWorkerCompleted, Argument)
+    End Sub
+
+    Private Sub doInitialize(ByVal Message As String, _
+                   ByVal DoWork As DoWorkEventHandler, _
+                   ByVal RunWorkerCompleted As RunWorkerCompletedEventHandler, _
+                   ByVal Argument As Object)
         ' この呼び出しはデザイナーで必要です。
         InitializeComponent()
 
@@ -76,8 +94,7 @@ Public Class FormInfo
 
     End Sub
 
-    Private Sub LabelInformation_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LabelInformation.TextChanged
-        'LabelInformation.Left = (Me.ClientSize.Width - LabelInformation.Size.Width) \ 2
+    Private Sub LabelInformation_TextChanged(ByVal sender As System.Object, ByVal e As EventArgs) Handles LabelInformation.TextChanged
         LabelInformation.Refresh()
     End Sub
 
@@ -120,10 +137,10 @@ Public Class FormInfo
         End Get
     End Property
 
-    Private Sub FormInfo_Shown(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Shown
+    Private Sub FormInfo_Shown(ByVal sender As System.Object, ByVal e As EventArgs) Handles MyBase.Shown
         Servicer.RunWorkerAsync(_arg)
         While Servicer.IsBusy
-            Threading.Thread.Sleep(100)
+            Thread.Sleep(100)
             My.Application.DoEvents()
         End While
         Me.Close()

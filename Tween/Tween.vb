@@ -230,7 +230,6 @@ Public Class TweenMain
     'Backgroundworkerの処理結果通知用引数構造体
     Private Class GetWorkerResult
         Public retMsg As String = ""                     '処理結果詳細メッセージ。エラー時に値がセットされる
-        'Public notifyPosts As List(Of PostClass) '取得した発言。Twitter.MyListItem構造体を要素としたジェネリックリスト
         Public page As Integer                      '取得対象ページ番号
         Public endPage As Integer                   '取得終了ページ番号（継続可能ならインクリメントされて返る。pageと比較して継続判定）
         Public type As WORKERTYPE                   '処理種別
@@ -239,7 +238,6 @@ Public Class TweenMain
         Public ids As List(Of Long)               'Fav追加・削除時のID
         Public sIds As List(Of Long)                  'Fav追加・削除成功分のID
         Public newDM As Boolean
-        'Public soundFile As String
         Public addCount As Integer
         Public status As PostingStatus
     End Class
@@ -364,6 +362,16 @@ Public Class TweenMain
         End If
     End Sub
 
+    Private Sub LoadIcon(ByRef IconInstance As Icon, ByVal FileName As String)
+        Dim dir As String = Application.StartupPath
+        If File.Exists(Path.Combine(dir, FileName)) Then
+            Try
+                IconInstance = New Icon(Path.Combine(dir, FileName))
+            Catch ex As Exception
+            End Try
+        End If
+    End Sub
+
     Private Sub LoadIcons()
         '着せ替えアイコン対応
         'タスクトレイ通常時アイコン
@@ -385,80 +393,32 @@ Public Class TweenMain
             Exit Sub
         End If
 
-        If File.Exists(Path.Combine(dir, "Icons\At.ico")) Then
-            Try
-                NIconAt = New Icon(Path.Combine(dir, "Icons\At.ico"))
-            Catch ex As Exception
-            End Try
-        End If
+        LoadIcon(NIconAt, "Icons\At.ico")
+
         'タスクトレイエラー時アイコン
-        If File.Exists(Path.Combine(dir, "Icons\AtRed.ico")) Then
-            Try
-                NIconAtRed = New Icon(Path.Combine(dir, "Icons\AtRed.ico"))
-            Catch ex As Exception
-            End Try
-        End If
+        LoadIcon(NIconAtRed, "Icons\AtRed.ico")
+
         'タスクトレイオフライン時アイコン
-        If File.Exists(Path.Combine(dir, "Icons\AtSmoke.ico")) Then
-            Try
-                NIconAtSmoke = New Icon(Path.Combine(dir, "Icons\AtSmoke.ico"))
-            Catch ex As Exception
-            End Try
-        End If
+        LoadIcon(NIconAtSmoke, "Icons\AtSmoke.ico")
+
         'タスクトレイ更新中アイコン
         'アニメーション対応により4種類読み込み
-        If File.Exists(Path.Combine(dir, "Icons\Refresh.ico")) Then
-            Try
-                NIconRefresh(0) = New Icon(Path.Combine(dir, "Icons\Refresh.ico"))
-            Catch ex As Exception
-            End Try
-        End If
-        If File.Exists(Path.Combine(dir, "Icons\Refresh2.ico")) Then
-            Try
-                NIconRefresh(1) = New Icon(Path.Combine(dir, "Icons\Refresh2.ico"))
-            Catch ex As Exception
-            End Try
-        End If
-        If File.Exists(Path.Combine(dir, "Icons\Refresh3.ico")) Then
-            Try
-                NIconRefresh(2) = New Icon(Path.Combine(dir, "Icons\Refresh3.ico"))
-            Catch ex As Exception
-            End Try
-        End If
-        If File.Exists(Path.Combine(dir, "Icons\Refresh4.ico")) Then
-            Try
-                NIconRefresh(3) = New Icon(Path.Combine(dir, "Icons\Refresh4.ico"))
-            Catch ex As Exception
-            End Try
-        End If
+        LoadIcon(NIconRefresh(0), "Icons\Refresh.ico")
+        LoadIcon(NIconRefresh(1), "Icons\Refresh2.ico")
+        LoadIcon(NIconRefresh(2), "Icons\Refresh3.ico")
+        LoadIcon(NIconRefresh(3), "Icons\Refresh4.ico")
+
         'タブ見出し未読表示アイコン
-        If File.Exists(Path.Combine(dir, "Icons\Tab.ico")) Then
-            Try
-                TabIcon = New Icon(Path.Combine(dir, "Icons\Tab.ico"))
-            Catch ex As Exception
-            End Try
-        End If
+        LoadIcon(TabIcon, "Icons\Tab.ico")
+
         '画面のアイコン
-        If File.Exists(Path.Combine(dir, "Icons\MIcon.ico")) Then
-            Try
-                MainIcon = New Icon(Path.Combine(dir, "Icons\MIcon.ico"))
-            Catch ex As Exception
-            End Try
-        End If
+        LoadIcon(MainIcon, "Icons\MIcon.ico")
+
         'Replyのアイコン
-        If File.Exists(Path.Combine(dir, "Icons\Reply.ico")) Then
-            Try
-                ReplyIcon = New Icon(Path.Combine(dir, "Icons\Reply.ico"))
-            Catch ex As Exception
-            End Try
-        End If
+        LoadIcon(ReplyIcon, "Icons\Reply.ico")
+
         'Reply点滅のアイコン
-        If File.Exists(Path.Combine(dir, "Icons\ReplyBlink.ico")) Then
-            Try
-                ReplyIconBlink = New Icon(Path.Combine(dir, "Icons\ReplyBlink.ico"))
-            Catch ex As Exception
-            End Try
-        End If
+        LoadIcon(ReplyIconBlink, "Icons\ReplyBlink.ico")
     End Sub
 
     Private Sub InitColumnText()
