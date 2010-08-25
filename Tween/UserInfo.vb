@@ -12,7 +12,7 @@
         Me.ImageUrl = New Uri(xmlNode.Item("profile_image_url").InnerText)
         Me.Url = xmlNode.Item("url").InnerText
         Me.Protect = Boolean.Parse(xmlNode.Item("protected").InnerText)
-        'Me.FriendsCount = xmlNode.Item("").InnerText
+        Me.FriendsCount = Integer.Parse(xmlNode.Item("friends_count").InnerText)
         Me.FollowersCount = Integer.Parse(xmlNode.Item("followers_count").InnerText)
         Me.CreatedAt = DateTime.ParseExact(xmlNode.Item("created_at").InnerText, "ddd MMM dd HH:mm:ss zzzz yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None)
         Me.StatusesCount = Integer.Parse(xmlNode.Item("statuses_count").InnerText)

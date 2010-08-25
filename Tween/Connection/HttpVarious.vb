@@ -25,6 +25,10 @@ Public Class HttpVarious
         End Try
     End Function
 
+    Public Overloads Function GetImage(ByVal url As Uri) As Image
+        Return GetImage(url.ToString, "", 10000)
+    End Function
+
     Public Overloads Function GetImage(ByVal url As String) As Image
         Return GetImage(url, "", 10000)
     End Function
@@ -48,6 +52,7 @@ Public Class HttpVarious
             End If
             Dim img As Bitmap = Nothing
             Dim ret As HttpStatusCode = GetResponse(req, img, Nothing, False)
+            If img IsNot Nothing Then img.Tag = url
             If ret = HttpStatusCode.OK Then Return CheckValidImage(img)
             Return Nothing
         Catch ex As Exception
@@ -146,11 +151,13 @@ Public Class HttpVarious
                 Catch ex As Exception
                     '不正な画像の場合は、bitmapに書き直し
                     Dim bmp As New Bitmap(width, height)
+                    Dim tag As Object = img.Tag
                     Using g As Graphics = Graphics.FromImage(bmp)
                         g.InterpolationMode = Drawing2D.InterpolationMode.High
                         g.DrawImage(img, 0, 0, width, height)
                     End Using
                     img.Dispose()
+                    bmp.Tag = tag
                     Return bmp
                 End Try
             Else
