@@ -365,14 +365,14 @@ Public Class ShowUserInfo
     End Sub
 
     Private Sub SelectAllToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SelectAllToolStripMenuItem.Click
-        Dim sc As WebBrowser = TryCast(ContextMenuStrip1.SourceControl, WebBrowser)
+        Dim sc As WebBrowser = TryCast(ContextMenuRecentPostBrowser.SourceControl, WebBrowser)
         If sc IsNot Nothing Then
             sc.Document.ExecCommand("SelectAll", False, Nothing)
         End If
     End Sub
 
     Private Sub SelectionCopyToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SelectionCopyToolStripMenuItem.Click
-        Dim sc As WebBrowser = TryCast(ContextMenuStrip1.SourceControl, WebBrowser)
+        Dim sc As WebBrowser = TryCast(ContextMenuRecentPostBrowser.SourceControl, WebBrowser)
         If sc IsNot Nothing Then
             Dim _selText As String = MyOwner.WebBrowser_GetSelectionText(sc)
             If _selText IsNot Nothing Then
@@ -385,8 +385,8 @@ Public Class ShowUserInfo
         End If
     End Sub
 
-    Private Sub ContextMenuStrip1_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip1.Opening
-        Dim sc As WebBrowser = TryCast(ContextMenuStrip1.SourceControl, WebBrowser)
+    Private Sub ContextMenuStrip1_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuRecentPostBrowser.Opening
+        Dim sc As WebBrowser = TryCast(ContextMenuRecentPostBrowser.SourceControl, WebBrowser)
         If sc IsNot Nothing Then
             Dim _selText As String = MyOwner.WebBrowser_GetSelectionText(sc)
             If _selText Is Nothing Then
@@ -597,18 +597,18 @@ Public Class ShowUserInfo
 #End Region
 
     Private Sub ChangeIconToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChangeIconToolStripMenuItem.Click
-        OpenFileDialog1.Filter = My.Resources.ChangeIconToolStripMenuItem_ClickText1
-        OpenFileDialog1.Title = My.Resources.ChangeIconToolStripMenuItem_ClickText2
-        OpenFileDialog1.FileName = ""
+        OpenFileDialogIcon.Filter = My.Resources.ChangeIconToolStripMenuItem_ClickText1
+        OpenFileDialogIcon.Title = My.Resources.ChangeIconToolStripMenuItem_ClickText2
+        OpenFileDialogIcon.FileName = ""
 
-        Dim rslt As Windows.Forms.DialogResult = OpenFileDialog1.ShowDialog
+        Dim rslt As Windows.Forms.DialogResult = OpenFileDialogIcon.ShowDialog
 
         If rslt <> Windows.Forms.DialogResult.OK Then
             Exit Sub
         End If
 
         Dim res As String = ""
-        Dim arg As New UpdateProfileImageArgs With {.tw = MyOwner.TwitterInstance, .FileName = OpenFileDialog1.FileName}
+        Dim arg As New UpdateProfileImageArgs With {.tw = MyOwner.TwitterInstance, .FileName = OpenFileDialogIcon.FileName}
 
         Using dlg As New FormInfo(My.Resources.ChangeIconToolStripMenuItem_ClickText3, _
                                   AddressOf UpdateProfileImage_Dowork, _

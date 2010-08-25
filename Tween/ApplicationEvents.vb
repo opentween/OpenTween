@@ -24,6 +24,8 @@
 Option Strict On
 
 Imports System.Diagnostics
+Imports System.Threading.Thread
+
 Namespace My
 
     ' 次のイベントは MyApplication に対して利用できます:
@@ -104,16 +106,19 @@ Namespace My
             End If
         End Sub
 
+        Private Function IsEqualCurrentCulture(ByVal CultureName As String) As Boolean
+            Return CurrentThread.CurrentUICulture.Name.StartsWith(CultureName)
+        End Function
+
         Public ReadOnly Property CultureCode() As String
             Get
-                'Static _ccode As String = Nothing
                 If cultureStr Is Nothing Then
                     Dim cfgCommon As SettingCommon = SettingCommon.Load()
                     cultureStr = cfgCommon.Language
                     If cultureStr = "OS" Then
-                        If Not Threading.Thread.CurrentThread.CurrentUICulture.Name.StartsWith("ja") AndAlso _
-                           Not Threading.Thread.CurrentThread.CurrentUICulture.Name.StartsWith("en") AndAlso _
-                           Not Threading.Thread.CurrentThread.CurrentUICulture.Name.StartsWith("zh-CN") Then
+                        If Not IsEqualCurrentCulture("ja") AndAlso _
+                           Not IsEqualCurrentCulture("en") AndAlso _
+                           Not IsEqualCurrentCulture("zh-CN") Then
                             cultureStr = "en"
                         End If
                     End If
