@@ -72,7 +72,7 @@ Public Class ListManage
         Dim listItem As ListElement = DirectCast(Me.ListsList.SelectedItem, ListElement)
 
         If Me.NameTextBox.Text = "" Then
-            MessageBox.Show("リスト名を入力して下さい。")
+            MessageBox.Show(My.Resources.ListManageOKButton1)
             Return
         End If
 
@@ -83,10 +83,8 @@ Public Class ListManage
         Dim rslt As String = listItem.Refresh()
 
         If rslt <> "" Then
-            MessageBox.Show("通信エラー (" + rslt + ")")
-            'Me.ListsList.Items.Clear()
-            'Me.ListManage_Load(Nothing, EventArgs.Empty)
-            Return
+            MessageBox.Show(String.Format(My.Resources.ListManageOKButton2, rslt))
+            Exit Sub
         End If
 
         Me.ListsList.Items.Clear()
@@ -94,19 +92,11 @@ Public Class ListManage
 
         Me.EditCheckBox.AutoCheck = True
         Me.EditCheckBox.Checked = False
-
-        'Me.OKEditButton.Enabled = False
-        'Me.CancelEditButton.Enabled = False
-
-        'Me.ListsList.Refresh()
     End Sub
 
     Private Sub CancelButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CancelEditButton.Click
         Me.EditCheckBox.AutoCheck = True
         Me.EditCheckBox.Checked = False
-
-        'Me.OKEditButton.Enabled = False
-        'Me.CancelEditButton.Enabled = False
 
         For i As Integer = Me.ListsList.Items.Count - 1 To 0 Step -1
             If TypeOf Me.ListsList.Items(i) Is NewListElement Then
@@ -138,7 +128,7 @@ Public Class ListManage
         If result = Me.ListsList.SelectedItem.ToString Then
             Me.ListsList_SelectedIndexChanged(Me.ListsList, EventArgs.Empty)
         Else
-            MessageBox.Show(result)
+            MessageBox.Show(String.Format(My.Resources.ListManageGetListMembersCallback1, result))
         End If
     End Sub
 
@@ -149,11 +139,11 @@ Public Class ListManage
 
         Dim list As ListElement = CType(Me.ListsList.SelectedItem, ListElement)
         Dim user As UserInfo = CType(Me.UserList.SelectedItem, UserInfo)
-        If MessageBox.Show("このユーザーをリストから削除してよろしいですか？", "Tween", MessageBoxButtons.OKCancel) = DialogResult.OK Then
+        If MessageBox.Show(My.Resources.ListManageDeleteUser1, "Tween", MessageBoxButtons.OKCancel) = DialogResult.OK Then
             Dim rslt As String = Me.tw.RemoveUserToList(list.Id.ToString(), user.Id.ToString())
 
             If rslt <> "" Then
-                MessageBox.Show("通信エラー (" + rslt + ")")
+                MessageBox.Show(String.Format(My.Resources.ListManageDeleteUser2, rslt))
                 Exit Sub
             End If
             Dim idx As Integer = ListsList.SelectedIndex
@@ -167,20 +157,20 @@ Public Class ListManage
         If Me.ListsList.SelectedItem Is Nothing Then Return
         Dim list As ListElement = CType(Me.ListsList.SelectedItem, ListElement)
 
-        If MessageBox.Show(list.Name + "リストを削除します。", "Tween", MessageBoxButtons.OKCancel) = DialogResult.OK Then
+        If MessageBox.Show(My.Resources.ListManageDeleteLists1, "Tween", MessageBoxButtons.OKCancel) = DialogResult.OK Then
             Dim rslt As String = ""
 
             rslt = Me.tw.DeleteList(list.Id.ToString())
 
             If rslt <> "" Then
-                MessageBox.Show("通信エラー (" + rslt + ")")
+                MessageBox.Show(My.Resources.ListManageOKButton2, rslt)
                 Return
             End If
 
             rslt = Me.tw.GetListsApi()
 
             If rslt <> "" Then
-                MessageBox.Show("通信エラー (" + rslt + ")")
+                MessageBox.Show(My.Resources.ListsDeleteFailed, rslt)
                 Return
             End If
 
@@ -249,10 +239,10 @@ Public Class ListManage
     End Sub
 
     Private Sub RefreshLists()
-        Using dlg As New FormInfo("Getting Lists...", AddressOf RefreshLists_Dowork)
+        Using dlg As New FormInfo(My.Resources.ListsGetting, AddressOf RefreshLists_Dowork)
             dlg.ShowDialog()
             If Not String.IsNullOrEmpty(DirectCast(dlg.Result, String)) Then
-                MessageBox.Show("Failed to get lists. (" + DirectCast(dlg.Result, String) + ")")
+                MessageBox.Show(String.Format(My.Resources.ListsDeleteFailed, DirectCast(dlg.Result, String)))
                 Exit Sub
             End If
         End Using

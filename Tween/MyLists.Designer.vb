@@ -23,6 +23,7 @@ Partial Class MyLists
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MyLists))
         Me.ListsCheckedListBox = New System.Windows.Forms.CheckedListBox()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.追加AToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -36,80 +37,57 @@ Partial Class MyLists
         '
         'ListsCheckedListBox
         '
-        Me.ListsCheckedListBox.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        resources.ApplyResources(Me.ListsCheckedListBox, "ListsCheckedListBox")
         Me.ListsCheckedListBox.CheckOnClick = True
         Me.ListsCheckedListBox.ContextMenuStrip = Me.ContextMenuStrip1
         Me.ListsCheckedListBox.FormattingEnabled = True
-        Me.ListsCheckedListBox.HorizontalScrollbar = True
-        Me.ListsCheckedListBox.IntegralHeight = False
-        Me.ListsCheckedListBox.Location = New System.Drawing.Point(0, 0)
         Me.ListsCheckedListBox.Name = "ListsCheckedListBox"
-        Me.ListsCheckedListBox.Size = New System.Drawing.Size(228, 177)
-        Me.ListsCheckedListBox.TabIndex = 0
         '
         'ContextMenuStrip1
         '
+        resources.ApplyResources(Me.ContextMenuStrip1, "ContextMenuStrip1")
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.追加AToolStripMenuItem, Me.削除DToolStripMenuItem, Me.ToolStripMenuItem1, Me.更新RToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(111, 76)
         '
         '追加AToolStripMenuItem
         '
+        resources.ApplyResources(Me.追加AToolStripMenuItem, "追加AToolStripMenuItem")
         Me.追加AToolStripMenuItem.Name = "追加AToolStripMenuItem"
-        Me.追加AToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.追加AToolStripMenuItem.Text = "追加(&A)"
         '
         '削除DToolStripMenuItem
         '
+        resources.ApplyResources(Me.削除DToolStripMenuItem, "削除DToolStripMenuItem")
         Me.削除DToolStripMenuItem.Name = "削除DToolStripMenuItem"
-        Me.削除DToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.削除DToolStripMenuItem.Text = "削除(&D)"
         '
         'ToolStripMenuItem1
         '
+        resources.ApplyResources(Me.ToolStripMenuItem1, "ToolStripMenuItem1")
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(149, 6)
         '
         '更新RToolStripMenuItem
         '
+        resources.ApplyResources(Me.更新RToolStripMenuItem, "更新RToolStripMenuItem")
         Me.更新RToolStripMenuItem.Name = "更新RToolStripMenuItem"
-        Me.更新RToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.更新RToolStripMenuItem.Text = "更新(&R)"
         '
         'ListRefreshButton
         '
-        Me.ListRefreshButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.ListRefreshButton.AutoSize = True
-        Me.ListRefreshButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.ListRefreshButton.Location = New System.Drawing.Point(0, 179)
+        resources.ApplyResources(Me.ListRefreshButton, "ListRefreshButton")
         Me.ListRefreshButton.Name = "ListRefreshButton"
-        Me.ListRefreshButton.Size = New System.Drawing.Size(112, 22)
-        Me.ListRefreshButton.TabIndex = 1
-        Me.ListRefreshButton.Text = "リスト一覧を更新(&R)"
         Me.ListRefreshButton.UseVisualStyleBackColor = True
         '
         'CloseButton
         '
-        Me.CloseButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.CloseButton.AutoSize = True
-        Me.CloseButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        resources.ApplyResources(Me.CloseButton, "CloseButton")
         Me.CloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.CloseButton.Location = New System.Drawing.Point(167, 179)
         Me.CloseButton.Name = "CloseButton"
-        Me.CloseButton.Size = New System.Drawing.Size(61, 22)
-        Me.CloseButton.TabIndex = 2
-        Me.CloseButton.Text = "閉じる(&C)"
         Me.CloseButton.UseVisualStyleBackColor = True
         '
         'MyLists
         '
         Me.AcceptButton = Me.CloseButton
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
+        resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.CloseButton
-        Me.ClientSize = New System.Drawing.Size(228, 201)
         Me.Controls.Add(Me.CloseButton)
         Me.Controls.Add(Me.ListRefreshButton)
         Me.Controls.Add(Me.ListsCheckedListBox)
@@ -118,7 +96,6 @@ Partial Class MyLists
         Me.MinimizeBox = False
         Me.Name = "MyLists"
         Me.ShowInTaskbar = False
-        Me.Text = "MyLists"
         Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
