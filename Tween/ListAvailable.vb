@@ -77,7 +77,7 @@ Public Class ListAvailable
     End Sub
 
     Private Sub RefreshLists()
-        Using dlg As New FormInfo("Getting Lists...", AddressOf RefreshLists_DoWork)
+        Using dlg As New FormInfo(Me, "Getting Lists...", AddressOf RefreshLists_DoWork)
             dlg.ShowDialog()
             If Not String.IsNullOrEmpty(DirectCast(dlg.Result, String)) Then
                 MessageBox.Show("Failed to get lists. (" + DirectCast(dlg.Result, String) + ")")

@@ -380,6 +380,7 @@ Partial Class ShowUserInfo
         '
         'ShowUserInfo
         '
+        Me.AllowDrop = True
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.ButtonClose

@@ -55,34 +55,39 @@ Public Class FormInfo
 
     Private Servicer As New BackgroundWorkerServicer
 
-    Public Sub New(ByVal Message As String, _
+    Public Sub New(ByVal owner As System.Windows.Forms.Form, _
+                   ByVal Message As String, _
                    ByVal DoWork As DoWorkEventHandler)
 
-        doInitialize(Message, DoWork, Nothing, Nothing)
+        doInitialize(owner, Message, DoWork, Nothing, Nothing)
     End Sub
 
-    Public Sub New(ByVal Message As String, _
+    Public Sub New(ByVal owner As System.Windows.Forms.Form, _
+                   ByVal Message As String, _
                    ByVal DoWork As DoWorkEventHandler, _
                    ByVal RunWorkerCompleted As RunWorkerCompletedEventHandler)
-        doInitialize(Message, DoWork, RunWorkerCompleted, Nothing)
+        doInitialize(owner, Message, DoWork, RunWorkerCompleted, Nothing)
     End Sub
 
-    Public Sub New(ByVal Message As String, _
+    Public Sub New(ByVal owner As System.Windows.Forms.Form, _
+                   ByVal Message As String, _
                    ByVal DoWork As DoWorkEventHandler, _
                    ByVal RunWorkerCompleted As RunWorkerCompletedEventHandler, _
                    ByVal Argument As Object)
-        doInitialize(Message, DoWork, RunWorkerCompleted, Argument)
+        doInitialize(owner, Message, DoWork, RunWorkerCompleted, Argument)
     End Sub
 
-    Private Sub doInitialize(ByVal Message As String, _
-                   ByVal DoWork As DoWorkEventHandler, _
-                   ByVal RunWorkerCompleted As RunWorkerCompletedEventHandler, _
-                   ByVal Argument As Object)
+    Private Sub doInitialize(ByVal owner As System.Windows.Forms.Form, _
+                             ByVal Message As String, _
+                             ByVal DoWork As DoWorkEventHandler, _
+                             ByVal RunWorkerCompleted As RunWorkerCompletedEventHandler, _
+                             ByVal Argument As Object)
         ' この呼び出しはデザイナーで必要です。
         InitializeComponent()
 
         ' InitializeComponent() 呼び出しの後で初期化を追加します。
 
+        Me.Owner = owner
         Me.InfoMessage = Message
         AddHandler Me.Servicer.DoWork, DoWork
 
@@ -143,9 +148,16 @@ Public Class FormInfo
             Thread.Sleep(100)
             My.Application.DoEvents()
         End While
+        Me.TopMost = False          ' MessageBoxが裏に隠れる問題に対応
         Me.Close()
     End Sub
 
+    ' フォームを閉じたあとに親フォームが最前面にならない問題に対応
+
+    Private Sub FormInfo_FormClosed(ByVal sender As System.Object, ByVal e As System.Windows.Forms.FormClosedEventArgs) Handles MyBase.FormClosed
+        Owner.TopMost = Not Owner.TopMost
+        Owner.TopMost = Not Owner.TopMost
+    End Sub
 End Class
 
 
