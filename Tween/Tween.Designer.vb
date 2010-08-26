@@ -89,16 +89,16 @@ Partial Class TweenMain
         Me.NameLabel = New System.Windows.Forms.Label()
         Me.PostBrowser = New System.Windows.Forms.WebBrowser()
         Me.ContextMenuPostBrowser = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.SearchItem2ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.SearchItem1ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.SearchItem3ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.SearchItem4ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SelectionSearchContextMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SearchGoogleContextMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SearchWikipediaContextMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SearchYatsContextMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SearchPublicSearchContextMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CurrentTabToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator13 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripMenuItem5 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SelectionCopyContextMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.UrlCopyContextMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SelectionAllContextMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator()
         Me.FollowContextMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RemoveContextMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -363,7 +363,6 @@ Partial Class TweenMain
         '
         Me.ContextMenuPostMode.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItemUrlMultibyteSplit, Me.ToolStripMenuItemApiCommandEvasion, Me.ToolStripMenuItemUrlAutoShorten, Me.IdeographicSpaceToSpaceToolStripMenuItem, Me.MultiLineMenuItem, Me.ToolStripFocusLockMenuItem, Me.ToolStripSeparator35, Me.ImageSelectMenuItem, Me.ToolStripSeparator8, Me.HashToggleMenuItem, Me.HashManageMenuItem})
         Me.ContextMenuPostMode.Name = "ContextMenuStripPostMode"
-        Me.ContextMenuPostMode.OwnerItem = Me.HashStripSplitButton
         resources.ApplyResources(Me.ContextMenuPostMode, "ContextMenuPostMode")
         '
         'ToolStripMenuItemUrlMultibyteSplit
@@ -745,35 +744,35 @@ Partial Class TweenMain
         '
         'ContextMenuPostBrowser
         '
-        Me.ContextMenuPostBrowser.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem2, Me.ToolStripSeparator13, Me.ToolStripMenuItem3, Me.ToolStripMenuItem4, Me.ToolStripMenuItem5, Me.ToolStripSeparator5, Me.FollowContextMenuItem, Me.RemoveContextMenuItem, Me.FriendshipContextMenuItem, Me.FriendshipAllMenuItem, Me.ToolStripSeparator36, Me.ShowUserStatusContextMenuItem, Me.SearchPostsDetailToolStripMenuItem, Me.ToolStripSeparator32, Me.IdFilterAddMenuItem, Me.ListManageUserContextToolStripMenuItem, Me.ToolStripSeparator33, Me.UseHashtagMenuItem})
+        Me.ContextMenuPostBrowser.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectionSearchContextMenuItem, Me.ToolStripSeparator13, Me.SelectionCopyContextMenuItem, Me.UrlCopyContextMenuItem, Me.SelectionAllContextMenuItem, Me.ToolStripSeparator5, Me.FollowContextMenuItem, Me.RemoveContextMenuItem, Me.FriendshipContextMenuItem, Me.FriendshipAllMenuItem, Me.ToolStripSeparator36, Me.ShowUserStatusContextMenuItem, Me.SearchPostsDetailToolStripMenuItem, Me.ToolStripSeparator32, Me.IdFilterAddMenuItem, Me.ListManageUserContextToolStripMenuItem, Me.ToolStripSeparator33, Me.UseHashtagMenuItem})
         Me.ContextMenuPostBrowser.Name = "ContextMenuStrip4"
         resources.ApplyResources(Me.ContextMenuPostBrowser, "ContextMenuPostBrowser")
         '
-        'ToolStripMenuItem2
+        'SelectionSearchContextMenuItem
         '
-        Me.ToolStripMenuItem2.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SearchItem2ToolStripMenuItem, Me.SearchItem1ToolStripMenuItem, Me.SearchItem3ToolStripMenuItem, Me.SearchItem4ToolStripMenuItem, Me.CurrentTabToolStripMenuItem})
-        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        resources.ApplyResources(Me.ToolStripMenuItem2, "ToolStripMenuItem2")
+        Me.SelectionSearchContextMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SearchGoogleContextMenuItem, Me.SearchWikipediaContextMenuItem, Me.SearchYatsContextMenuItem, Me.SearchPublicSearchContextMenuItem, Me.CurrentTabToolStripMenuItem})
+        Me.SelectionSearchContextMenuItem.Name = "SelectionSearchContextMenuItem"
+        resources.ApplyResources(Me.SelectionSearchContextMenuItem, "SelectionSearchContextMenuItem")
         '
-        'SearchItem2ToolStripMenuItem
+        'SearchGoogleContextMenuItem
         '
-        Me.SearchItem2ToolStripMenuItem.Name = "SearchItem2ToolStripMenuItem"
-        resources.ApplyResources(Me.SearchItem2ToolStripMenuItem, "SearchItem2ToolStripMenuItem")
+        Me.SearchGoogleContextMenuItem.Name = "SearchGoogleContextMenuItem"
+        resources.ApplyResources(Me.SearchGoogleContextMenuItem, "SearchGoogleContextMenuItem")
         '
-        'SearchItem1ToolStripMenuItem
+        'SearchWikipediaContextMenuItem
         '
-        Me.SearchItem1ToolStripMenuItem.Name = "SearchItem1ToolStripMenuItem"
-        resources.ApplyResources(Me.SearchItem1ToolStripMenuItem, "SearchItem1ToolStripMenuItem")
+        Me.SearchWikipediaContextMenuItem.Name = "SearchWikipediaContextMenuItem"
+        resources.ApplyResources(Me.SearchWikipediaContextMenuItem, "SearchWikipediaContextMenuItem")
         '
-        'SearchItem3ToolStripMenuItem
+        'SearchYatsContextMenuItem
         '
-        Me.SearchItem3ToolStripMenuItem.Name = "SearchItem3ToolStripMenuItem"
-        resources.ApplyResources(Me.SearchItem3ToolStripMenuItem, "SearchItem3ToolStripMenuItem")
+        Me.SearchYatsContextMenuItem.Name = "SearchYatsContextMenuItem"
+        resources.ApplyResources(Me.SearchYatsContextMenuItem, "SearchYatsContextMenuItem")
         '
-        'SearchItem4ToolStripMenuItem
+        'SearchPublicSearchContextMenuItem
         '
-        Me.SearchItem4ToolStripMenuItem.Name = "SearchItem4ToolStripMenuItem"
-        resources.ApplyResources(Me.SearchItem4ToolStripMenuItem, "SearchItem4ToolStripMenuItem")
+        Me.SearchPublicSearchContextMenuItem.Name = "SearchPublicSearchContextMenuItem"
+        resources.ApplyResources(Me.SearchPublicSearchContextMenuItem, "SearchPublicSearchContextMenuItem")
         '
         'CurrentTabToolStripMenuItem
         '
@@ -785,20 +784,20 @@ Partial Class TweenMain
         Me.ToolStripSeparator13.Name = "ToolStripSeparator13"
         resources.ApplyResources(Me.ToolStripSeparator13, "ToolStripSeparator13")
         '
-        'ToolStripMenuItem3
+        'SelectionCopyContextMenuItem
         '
-        Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        resources.ApplyResources(Me.ToolStripMenuItem3, "ToolStripMenuItem3")
+        Me.SelectionCopyContextMenuItem.Name = "SelectionCopyContextMenuItem"
+        resources.ApplyResources(Me.SelectionCopyContextMenuItem, "SelectionCopyContextMenuItem")
         '
-        'ToolStripMenuItem4
+        'UrlCopyContextMenuItem
         '
-        resources.ApplyResources(Me.ToolStripMenuItem4, "ToolStripMenuItem4")
-        Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
+        resources.ApplyResources(Me.UrlCopyContextMenuItem, "UrlCopyContextMenuItem")
+        Me.UrlCopyContextMenuItem.Name = "UrlCopyContextMenuItem"
         '
-        'ToolStripMenuItem5
+        'SelectionAllContextMenuItem
         '
-        Me.ToolStripMenuItem5.Name = "ToolStripMenuItem5"
-        resources.ApplyResources(Me.ToolStripMenuItem5, "ToolStripMenuItem5")
+        Me.SelectionAllContextMenuItem.Name = "SelectionAllContextMenuItem"
+        resources.ApplyResources(Me.SelectionAllContextMenuItem, "SelectionAllContextMenuItem")
         '
         'ToolStripSeparator5
         '
@@ -1804,16 +1803,16 @@ Partial Class TweenMain
     Friend WithEvents UrlConvertAutoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents UrlUndoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ContextMenuPostBrowser As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents ToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SelectionSearchContextMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator13 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents ToolStripMenuItem3 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem5 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents SearchItem1ToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents SearchItem2ToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents SearchItem3ToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents SearchItem4ToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SelectionCopyContextMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SelectionAllContextMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SearchWikipediaContextMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SearchGoogleContextMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SearchYatsContextMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SearchPublicSearchContextMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents CurrentTabToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem4 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents UrlCopyContextMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem6 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MoveToHomeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MoveToFavToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
