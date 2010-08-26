@@ -1866,10 +1866,7 @@ Public Class TweenMain
                                     End If
                                 End If
                                 '検索、リストタブに反映
-                                For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.PublicSearch)
-                                    If tb.Contains(post.Id) Then tb.Posts(post.Id).IsFav = True
-                                Next
-                                For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.Lists)
+                                For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.PublicSearch Or TabUsageType.Lists)
                                     If tb.Contains(post.Id) Then tb.Posts(post.Id).IsFav = True
                                 Next
                             End If
@@ -1901,10 +1898,7 @@ Public Class TweenMain
                                 post.IsFav = False    'リスト再描画必要
                                 If _statuses.ContainsKey(post.Id) Then _statuses.Item(post.Id).IsFav = False
                                 '検索,リストタブに反映
-                                For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.PublicSearch)
-                                    If tb.Contains(post.Id) Then tb.Posts(post.Id).IsFav = False
-                                Next
-                                For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.Lists)
+                                For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.PublicSearch Or TabUsageType.Lists)
                                     If tb.Contains(post.Id) Then tb.Posts(post.Id).IsFav = False
                                 Next
                             End If
@@ -2068,8 +2062,6 @@ Public Class TweenMain
                     smsg = My.Resources.GetTimelineWorker_RunWorkerCompletedText4 + AsyncArg.page.ToString() + My.Resources.GetTimelineWorker_RunWorkerCompletedText6
                 Case WORKERTYPE.DirectMessegeRcv
                     smsg = My.Resources.GetTimelineWorker_RunWorkerCompletedText8 + AsyncArg.page.ToString() + My.Resources.GetTimelineWorker_RunWorkerCompletedText6
-                    'Case WORKERTYPE.DirectMessegeSnt
-                    '    smsg = My.Resources.GetTimelineWorker_RunWorkerCompletedText12 + AsyncArg.page.ToString() + My.Resources.GetTimelineWorker_RunWorkerCompletedText6
                 Case WORKERTYPE.FavAdd
                     smsg = My.Resources.GetTimelineWorker_RunWorkerCompletedText15 + AsyncArg.page.ToString() + "/" + AsyncArg.ids.Count.ToString() + _
                                         My.Resources.GetTimelineWorker_RunWorkerCompletedText16 + (AsyncArg.page - AsyncArg.sIds.Count - 1).ToString()
@@ -6357,7 +6349,7 @@ RETRY:
     End Sub
 
     Private Sub ClearTabMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ClearTabMenuItem.Click, ClearTbMenuItem.Click
-        If _rclickTabName = "" Then Exit Sub
+        If String.IsNullOrEmpty(_rclickTabName) Then Exit Sub
         Dim tmp As String = String.Format(My.Resources.ClearTabMenuItem_ClickText1, Environment.NewLine)
         If MessageBox.Show(tmp, _rclickTabName + " " + My.Resources.ClearTabMenuItem_ClickText2, MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
             Exit Sub
@@ -6595,7 +6587,7 @@ RETRY:
         If Not _initialLayout AndAlso SettingDialog.MinimizeToTray AndAlso WindowState = FormWindowState.Minimized Then
             Me.Visible = False
         End If
-        If _initialLayout AndAlso _cfgLocal IsNot Nothing AndAlso Me.WindowState = FormWindowState.Normal AndAlso Me.Visible = True Then
+        If _initialLayout AndAlso _cfgLocal IsNot Nothing AndAlso Me.WindowState = FormWindowState.Normal AndAlso Me.Visible Then
             Me.ClientSize = _cfgLocal.FormSize
             '_mySize = Me.ClientSize                     'サイズ保持（最小化・最大化されたまま終了した場合の対応用）
             Me.DesktopLocation = _cfgLocal.FormLocation
@@ -7084,7 +7076,7 @@ RETRY:
         Return DirectCast(_objRange.GetType().InvokeMember("text", BindingFlags.GetProperty, Nothing, _objRange, Nothing), String)
     End Function
 
-    Private Sub ToolStripMenuItem3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem3.Click
+    Private Sub SelectionCopyContextMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SelectionCopyContextMenuItem.Click
         '発言詳細で「選択文字列をコピー」
         Dim _selText As String = WebBrowser_GetSelectionText(PostBrowser)
         Try
@@ -7110,28 +7102,28 @@ RETRY:
         End If
     End Sub
 
-    Private Sub ToolStripMenuItem5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem5.Click
+    Private Sub SelectionAllContextMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SelectionAllContextMenuItem.Click
         '発言詳細ですべて選択
         PostBrowser.Document.ExecCommand("SelectAll", False, Nothing)
     End Sub
 
-    Private Sub SearchItem1ToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SearchItem1ToolStripMenuItem.Click
+    Private Sub SearchWikipediaContextMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SearchWikipediaContextMenuItem.Click
         doSearchToolStrip(My.Resources.SearchItem1Url)
     End Sub
 
-    Private Sub SearchItem2ToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SearchItem2ToolStripMenuItem.Click
+    Private Sub SearchGoogleContextMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SearchGoogleContextMenuItem.Click
         doSearchToolStrip(My.Resources.SearchItem2Url)
     End Sub
 
-    Private Sub SearchItem3ToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SearchItem3ToolStripMenuItem.Click
+    Private Sub SearchYatsContextMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SearchYatsContextMenuItem.Click
         doSearchToolStrip(My.Resources.SearchItem3Url)
     End Sub
 
-    Private Sub SearchItem4ToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SearchItem4ToolStripMenuItem.Click
+    Private Sub SearchPublicSearchContextMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SearchPublicSearchContextMenuItem.Click
         doSearchToolStrip(My.Resources.SearchItem4Url)
     End Sub
 
-    Private Sub ToolStripMenuItem4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripMenuItem4.Click
+    Private Sub UrlCopyContextMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UrlCopyContextMenuItem.Click
         Try
             Clipboard.SetDataObject(Me._postBrowserStatusText, False, 5, 100)
         Catch ex As Exception
@@ -7144,7 +7136,7 @@ RETRY:
         If PostBrowser.StatusText.StartsWith("http") Then
             Me._postBrowserStatusText = PostBrowser.StatusText
             Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(?<name>[a-zA-Z0-9_]+)$")
-            ToolStripMenuItem4.Enabled = True
+            UrlCopyContextMenuItem.Enabled = True
             If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
                 FollowContextMenuItem.Enabled = True
                 RemoveContextMenuItem.Enabled = True
@@ -7170,7 +7162,7 @@ RETRY:
             End If
         Else
             Me._postBrowserStatusText = ""
-            ToolStripMenuItem4.Enabled = False
+            UrlCopyContextMenuItem.Enabled = False
             FollowContextMenuItem.Enabled = False
             RemoveContextMenuItem.Enabled = False
             FriendshipContextMenuItem.Enabled = False
@@ -7183,11 +7175,11 @@ RETRY:
         ' 文字列選択されていないときは選択文字列関係の項目を非表示に
         Dim _selText As String = WebBrowser_GetSelectionText(PostBrowser)
         If _selText Is Nothing Then
-            ToolStripMenuItem2.Enabled = False
-            ToolStripMenuItem3.Enabled = False
+            SelectionSearchContextMenuItem.Enabled = False
+            SelectionCopyContextMenuItem.Enabled = False
         Else
-            ToolStripMenuItem2.Enabled = True
-            ToolStripMenuItem3.Enabled = True
+            SelectionSearchContextMenuItem.Enabled = True
+            SelectionCopyContextMenuItem.Enabled = True
         End If
         '発言内に自分以外のユーザーが含まれてればフォロー状態全表示を有効に
         Dim ma As MatchCollection = Regex.Matches(Me.PostBrowser.DocumentText, "href=""https?://twitter.com/(?<name>[a-zA-Z0-9_]+)""")
@@ -7398,13 +7390,6 @@ RETRY:
         If bw Is Nothing Then Exit Sub
 
         bw.RunWorkerAsync(args)
-
-        'Static cnt As Integer = 0
-        'cnt += 1
-        'If cnt > 100 Then
-        '    GC.Collect()
-        '    cnt = 0
-        'End If
     End Sub
 
     Private Sub TweenMain_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
@@ -7460,18 +7445,9 @@ RETRY:
                 GetTimeline(WORKERTYPE.Follower, 0, 0, "")
             End If
 
-
             If Not _cfgCommon.IsOAuth Then
                 MessageBox.Show(String.Format(My.Resources.BasicAuthWarning, Environment.NewLine))
             End If
-        Else
-            PostButton.Enabled = False
-            FavAddToolStripMenuItem.Enabled = False
-            FavRemoveToolStripMenuItem.Enabled = False
-            MoveToHomeToolStripMenuItem.Enabled = False
-            MoveToFavToolStripMenuItem.Enabled = False
-            DeleteStripMenuItem.Enabled = False
-            RefreshStripMenuItem.Enabled = False
         End If
         _initial = False
         TimerTimeline.Enabled = True
@@ -7497,7 +7473,7 @@ RETRY:
                 Exit Sub
             End If
             Dim rtdata As String = _curPost.OriginalData
-            rtdata = CreateRetweet(rtdata)
+            rtdata = CreateRetweetUnofficial(rtdata)
 
             StatusText.Text = "RT @" + _curPost.Name + ": " + HttpUtility.HtmlDecode(rtdata)
 
@@ -7535,7 +7511,7 @@ RETRY:
         doReTweetOriginal(True)
     End Sub
 
-    Private Function CreateRetweet(ByVal status As String) As String
+    Private Function CreateRetweetUnofficial(ByVal status As String) As String
 
         ' Twitterにより省略されているURLを含むaタグをキャプチャしてリンク先URLへ置き換える
         '展開しないように変更
@@ -7863,40 +7839,19 @@ RETRY:
     End Sub
 
     Private Sub OwnStatusMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OwnStatusMenuItem.Click
-#If 0 Then
-        Dim loc As String = ""
-        Dim bio As String = ""
-        If Not String.IsNullOrEmpty(tw.Location) Then
-            loc = tw.Location
-        End If
-        If Not String.IsNullOrEmpty(tw.Bio) Then
-            bio = tw.Bio
-        End If
-        If tw.FriendsCount = 0 AndAlso tw.FollowersCount = 0 AndAlso tw.StatusesCount = 0 AndAlso loc = "" AndAlso bio = "" Then
-            MessageBox.Show(My.Resources.ShowYourProfileText1, "Your status", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Exit Sub
-        End If
-        MessageBox.Show("Following : " + tw.FriendsCount.ToString() + Environment.NewLine + _
-                        "Followers : " + tw.FollowersCount.ToString() + Environment.NewLine + _
-                        "Statuses count : " + tw.StatusesCount.ToString() + Environment.NewLine + _
-                        "Location : " + loc + Environment.NewLine + _
-                        "Bio : " + bio, "Your status")
-#Else
         If Not String.IsNullOrEmpty(tw.UserInfoXml) Then
             doShowUserStatus(tw.UserInfoXml)
         Else
             MessageBox.Show(My.Resources.ShowYourProfileText1, "Your status", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
         End If
-#End If
     End Sub
 
     ' TwitterIDでない固定文字列を調べる（文字列検証のみ　実際に取得はしない）
     ' URLから切り出した文字列を渡す
 
     Private Function IsTwitterId(ByVal name As String) As Boolean
-        Dim m As Match = Regex.Match(name, "^(about|jobs|tos|privacy)$")
-        Return Not m.Success
+        Return Not Regex.Match(name, "^(about|jobs|tos|privacy)$").Success
     End Function
 
     Private Sub FollowContextMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FollowContextMenuItem.Click
@@ -7965,7 +7920,7 @@ RETRY:
                 Exit Sub
             End If
             Dim rtdata As String = _curPost.OriginalData
-            rtdata = CreateRetweet(rtdata)
+            rtdata = CreateRetweetUnofficial(rtdata)
 
             StatusText.Text = " QT @" + _curPost.Name + ": " + HttpUtility.HtmlDecode(rtdata)
             If _curPost.RetweetedId = 0 Then
@@ -8568,15 +8523,12 @@ RETRY:
             Exit Sub
         End If
 
-        're = New Regex("http://.*\.jpg.*|http://.*(\.jpg|\.jpeg|\.gif|\.png|\.bmp)|http://twitpic\.com/show/thumb/.*|http://TweetPhotoAPI\.com/api/TPAPI\.svc/imagefromurl.*", RegexOptions.IgnoreCase)
-        'If re.IsMatch(imglist(0)) = True Then
         ThumbnailProgressChanged(0)
         Dim bgw As BackgroundWorker
         bgw = New BackgroundWorker()
         AddHandler bgw.DoWork, AddressOf bgw_DoWork
         AddHandler bgw.RunWorkerCompleted, AddressOf bgw_Completed
         bgw.RunWorkerAsync(New PreviewData(id, imglist))
-        'End If
 
     End Sub
 
