@@ -25,6 +25,7 @@ Imports System.Xml
 Imports System.Web
 Imports System.Text.RegularExpressions
 Imports System.ComponentModel
+Imports System.IO
 
 Public Class ShowUserInfo
 
@@ -512,7 +513,7 @@ Public Class ShowUserInfo
                 arg.location = TextBoxLocation.Text
                 arg.description = TextBoxDescription.Text
 
-                Using dlg As New FormInfo(My.Resources.UserInfoButtonEdit_ClickText2, _
+                Using dlg As New FormInfo(Me, My.Resources.UserInfoButtonEdit_ClickText2, _
                                             AddressOf UpdateProfile_Dowork, _
                                             Nothing, _
                                             arg)
@@ -565,7 +566,6 @@ Public Class ShowUserInfo
         e.Result = arg.tw.PostUpdateProfileImage(arg.FileName)
     End Sub
 
-#Region "変更後アイコン取得（Twitterの仕様により正常動作しない）"
     Private Sub UpdateProfileImage_RunWorkerCompleted(ByVal sender As Object, ByVal e As RunWorkerCompletedEventArgs)
         Dim res As String = ""
         Dim xdocbuf As String = ""
@@ -594,23 +594,12 @@ Public Class ShowUserInfo
         End Try
 
     End Sub
-#End Region
 
-    Private Sub ChangeIconToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChangeIconToolStripMenuItem.Click
-        OpenFileDialogIcon.Filter = My.Resources.ChangeIconToolStripMenuItem_ClickText1
-        OpenFileDialogIcon.Title = My.Resources.ChangeIconToolStripMenuItem_ClickText2
-        OpenFileDialogIcon.FileName = ""
-
-        Dim rslt As Windows.Forms.DialogResult = OpenFileDialogIcon.ShowDialog
-
-        If rslt <> Windows.Forms.DialogResult.OK Then
-            Exit Sub
-        End If
-
+    Private Sub doChangeIcon(ByVal filename As String)
         Dim res As String = ""
-        Dim arg As New UpdateProfileImageArgs With {.tw = MyOwner.TwitterInstance, .FileName = OpenFileDialogIcon.FileName}
+        Dim arg As New UpdateProfileImageArgs With {.tw = MyOwner.TwitterInstance, .FileName = filename}
 
-        Using dlg As New FormInfo(My.Resources.ChangeIconToolStripMenuItem_ClickText3, _
+        Using dlg As New FormInfo(Me, My.Resources.ChangeIconToolStripMenuItem_ClickText3, _
                                   AddressOf UpdateProfileImage_Dowork, _
                                   AddressOf UpdateProfileImage_RunWorkerCompleted,
                                   arg)
@@ -623,7 +612,25 @@ Public Class ShowUserInfo
                 MessageBox.Show(My.Resources.ChangeIconToolStripMenuItem_ClickText5)
             End If
         End Using
+    End Sub
 
+
+    Private Sub ChangeIconToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChangeIconToolStripMenuItem.Click
+        OpenFileDialogIcon.Filter = My.Resources.ChangeIconToolStripMenuItem_ClickText1
+        OpenFileDialogIcon.Title = My.Resources.ChangeIconToolStripMenuItem_ClickText2
+        OpenFileDialogIcon.FileName = ""
+
+        Dim rslt As Windows.Forms.DialogResult = OpenFileDialogIcon.ShowDialog
+
+        If rslt <> Windows.Forms.DialogResult.OK Then
+            Exit Sub
+        End If
+
+        If isValidIconFile(New FileInfo(OpenFileDialogIcon.FileName)) Then
+            doChangeIcon(OpenFileDialogIcon.FileName)
+        Else
+            MessageBox.Show("ユーザーアイコンとして使用できないファイルです")
+        End If
     End Sub
 
     Private Sub ButtonBlock_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonBlock.Click
@@ -662,6 +669,36 @@ Public Class ShowUserInfo
             Else
                 MessageBox.Show(My.Resources.ButtonBlockDestroy_ClickText4)
             End If
+        End If
+    End Sub
+
+    Private Function isValidExtension(ByVal ext As String) As Boolean
+        Return ext.Equals(".jpg") OrElse ext.Equals(".jpeg") OrElse ext.Equals(".png") OrElse ext.Equals(".gif")
+    End Function
+
+    Private Function isValidIconFile(ByVal info As FileInfo) As Boolean
+        Dim ext As String = info.Extension.ToLower
+        Return isValidExtension(ext) AndAlso info.Length < 700 * 1024
+    End Function
+
+    Private Sub ShowUserInfo_DragOver(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles MyBase.DragOver
+        If e.Data.GetDataPresent(DataFormats.FileDrop) Then
+            Dim filename As String = CType(e.Data.GetData(DataFormats.FileDrop, False), String())(0)
+            Dim fl As New FileInfo(filename)
+
+            e.Effect = DragDropEffects.None
+            If isValidIconFile(fl) Then
+                e.Effect = DragDropEffects.Copy
+            End If
+        Else
+            e.Effect = DragDropEffects.None
+        End If
+    End Sub
+
+    Private Sub ShowUserInfo_DragDrop(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles MyBase.DragDrop
+        If e.Data.GetDataPresent(DataFormats.FileDrop) Then
+            Dim filename As String = CType(e.Data.GetData(DataFormats.FileDrop, False), String())(0)
+            doChangeIcon(filename)
         End If
     End Sub
 End Class

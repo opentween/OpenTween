@@ -837,12 +837,6 @@
   <metadata name="ContextMenuUserPicture.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>697, 15</value>
   </metadata>
-  <data name="ChangeIconToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>139, 22</value>
-  </data>
-  <data name="ChangeIconToolStripMenuItem.Text" xml:space="preserve">
-    <value>アイコンの変更</value>
-  </data>
   <data name="ContextMenuUserPicture.Size" type="System.Drawing.Size, System.Drawing">
     <value>140, 26</value>
   </data>
@@ -878,6 +872,12 @@
   </data>
   <data name="&gt;&gt;UserPicture.ZOrder" xml:space="preserve">
     <value>15</value>
+  </data>
+  <data name="ChangeIconToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>139, 22</value>
+  </data>
+  <data name="ChangeIconToolStripMenuItem.Text" xml:space="preserve">
+    <value>アイコンの変更</value>
   </data>
   <metadata name="BackgroundWorkerImageLoader.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
@@ -951,6 +951,15 @@
   <metadata name="ContextMenuRecentPostBrowser.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>326, 17</value>
   </metadata>
+  <data name="ContextMenuRecentPostBrowser.Size" type="System.Drawing.Size, System.Drawing">
+    <value>167, 48</value>
+  </data>
+  <data name="&gt;&gt;ContextMenuRecentPostBrowser.Name" xml:space="preserve">
+    <value>ContextMenuRecentPostBrowser</value>
+  </data>
+  <data name="&gt;&gt;ContextMenuRecentPostBrowser.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="SelectionCopyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>166, 22</value>
   </data>
@@ -962,15 +971,6 @@
   </data>
   <data name="SelectAllToolStripMenuItem.Text" xml:space="preserve">
     <value>すべて選択</value>
-  </data>
-  <data name="ContextMenuRecentPostBrowser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 48</value>
-  </data>
-  <data name="&gt;&gt;ContextMenuRecentPostBrowser.Name" xml:space="preserve">
-    <value>ContextMenuRecentPostBrowser</value>
-  </data>
-  <data name="&gt;&gt;ContextMenuRecentPostBrowser.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="LabelRecentPost.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>

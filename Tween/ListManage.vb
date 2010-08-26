@@ -239,7 +239,7 @@ Public Class ListManage
     End Sub
 
     Private Sub RefreshLists()
-        Using dlg As New FormInfo(My.Resources.ListsGetting, AddressOf RefreshLists_Dowork)
+        Using dlg As New FormInfo(Me, My.Resources.ListsGetting, AddressOf RefreshLists_Dowork)
             dlg.ShowDialog()
             If Not String.IsNullOrEmpty(DirectCast(dlg.Result, String)) Then
                 MessageBox.Show(String.Format(My.Resources.ListsDeleteFailed, DirectCast(dlg.Result, String)))

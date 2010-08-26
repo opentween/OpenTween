@@ -7616,7 +7616,7 @@ RETRY:
         Dim tmp As String
         Dim args As New GetApiInfoArgs With {.tw = tw, .info = info}
 
-        Using dlg As New FormInfo(My.Resources.ApiInfo6, AddressOf GetApiInfo_Dowork, Nothing, args)
+        Using dlg As New FormInfo(Me, My.Resources.ApiInfo6, AddressOf GetApiInfo_Dowork, Nothing, args)
             dlg.ShowDialog()
             If CBool(dlg.Result) Then
                 tmp = My.Resources.ApiInfo1 + args.info.MaxCount.ToString() + Environment.NewLine + _
@@ -7652,7 +7652,7 @@ RETRY:
                 Dim arg As New FollowRemoveCommandArgs
                 arg.tw = tw
                 arg.id = inputName.TabName.Trim()
-                Using _info As New FormInfo(My.Resources.FollowCommandText1, _
+                Using _info As New FormInfo(Me, My.Resources.FollowCommandText1, _
                                             AddressOf FollowCommand_DoWork, _
                                             Nothing, _
                                             arg)
@@ -7703,7 +7703,7 @@ RETRY:
             End Using
         End If
 
-        Using _info As New FormInfo(My.Resources.RemoveCommandText1, _
+        Using _info As New FormInfo(Me, My.Resources.RemoveCommandText1, _
                                     AddressOf RemoveCommand_DoWork, _
                                     Nothing, _
                                     arg)
@@ -7763,7 +7763,7 @@ RETRY:
                Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
                 Dim ret As String = ""
                 args.ids.Add(New ShowFriendshipArgs.FriendshipInfo(inputName.TabName.Trim))
-                Using _info As New FormInfo(My.Resources.ShowFriendshipText1, _
+                Using _info As New FormInfo(Me, My.Resources.ShowFriendshipText1, _
                                             AddressOf ShowFriendship_DoWork, _
                                             Nothing, _
                                             args)
@@ -7797,7 +7797,7 @@ RETRY:
             Dim args As New ShowFriendshipArgs
             args.tw = tw
             args.ids.Add(New ShowFriendshipArgs.FriendshipInfo(id.Trim))
-            Using _info As New FormInfo(My.Resources.ShowFriendshipText1, _
+            Using _info As New FormInfo(Me, My.Resources.ShowFriendshipText1, _
                                         AddressOf ShowFriendship_DoWork, _
                                         Nothing, _
                                         args)
@@ -9069,7 +9069,7 @@ RETRY:
                     args.tw = tw
                     args.id = id
                     args.xmlbuf = xmlbuf
-                    Using _info As New FormInfo(My.Resources.doShowUserStatusText1, _
+                    Using _info As New FormInfo(Me, My.Resources.doShowUserStatusText1, _
                                                 AddressOf GetUserInfo_DoWork, _
                                                 Nothing, _
                                                 args)
@@ -9087,7 +9087,7 @@ RETRY:
             args.tw = tw
             args.id = id
             args.xmlbuf = xmlbuf
-            Using _info As New FormInfo(My.Resources.doShowUserStatusText1, _
+            Using _info As New FormInfo(Me, My.Resources.doShowUserStatusText1, _
                                         AddressOf GetUserInfo_DoWork, _
                                         Nothing, _
                                         args)
@@ -9180,7 +9180,7 @@ RETRY:
 
     Private Sub RtCountMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RtCountMenuItem.Click
         If _curPost IsNot Nothing Then
-            Using _info As New FormInfo(My.Resources.RtCountMenuItem_ClickText1, _
+            Using _info As New FormInfo(Me, My.Resources.RtCountMenuItem_ClickText1, _
                             AddressOf GetRetweet_DoWork)
                 Dim retweet_count As Integer = 0
 
