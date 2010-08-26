@@ -68,9 +68,8 @@ Public Class Form1
             If Not Directory.Exists(bkDir) Then
                 Directory.CreateDirectory(bkDir)
             End If
-            Dim files As String() = Directory.GetFiles(TWEENEXEPATH, "*.xml")
-            For Each fname As String In files
-                File.Copy(fname, Path.Combine(bkDir, Path.GetFileName(fname)))
+            For Each file As FileInfo In (New DirectoryInfo(TWEENEXEPATH + Path.DirectorySeparatorChar)).GetFiles("*.xml")
+                file.CopyTo(Path.Combine(bkDir, file.Name), True)
             Next
         Catch ex As Exception
 
@@ -85,24 +84,21 @@ Public Class Form1
                 Directory.CreateDirectory(bkDir)
             End If
             'ログファイルの削除
-            Dim filesLog As String() = Directory.GetFiles(TWEENEXEPATH, "Tween*.log")
-            For Each fname As String In filesLog
-                File.Move(fname, Path.Combine(bkDir, Path.GetFileName(fname)))
+            Dim cDir As New DirectoryInfo(TWEENEXEPATH + Path.DirectorySeparatorChar)
+            For Each file As FileInfo In cDir.GetFiles("Tween*.log")
+                file.MoveTo(Path.Combine(bkDir, file.Name))
             Next
             '旧設定ファイルの削除
-            Dim filesConfig As String() = Directory.GetFiles(TWEENEXEPATH, "Tween.exe.config.Backup*")
-            For Each fname As String In filesConfig
-                File.Move(fname, Path.Combine(bkDir, Path.GetFileName(fname)))
+            For Each file As FileInfo In cDir.GetFiles("Tween.exe.config.Backup*")
+                file.MoveTo(Path.Combine(bkDir, file.Name))
             Next
             '旧設定XMLファイルの削除
-            Dim filesXml As String() = Directory.GetFiles(TWEENEXEPATH, "TweenConf.xml.Backup*")
-            For Each fname As String In filesXml
-                File.Move(fname, Path.Combine(bkDir, Path.GetFileName(fname)))
+            For Each file As FileInfo In cDir.GetFiles("TweenConf.xml.Backup*")
+                file.MoveTo(Path.Combine(bkDir, file.Name))
             Next
             '旧設定XMLファイルの削除
-            Dim filesXmlSet As String() = Directory.GetFiles(TWEENEXEPATH, "Setting*.xml.Backup*")
-            For Each fname As String In filesXmlSet
-                File.Move(fname, Path.Combine(bkDir, Path.GetFileName(fname)))
+            For Each file As FileInfo In cDir.GetFiles("Setting*.xml.Backup*")
+                file.MoveTo(Path.Combine(bkDir, file.Name))
             Next
         Catch ex As Exception
 

@@ -695,7 +695,7 @@ Public Class FilterDialog
 
         ComboSound.Items.Clear()
         ComboSound.Items.Add("")
-        Dim oDir As IO.DirectoryInfo = New IO.DirectoryInfo(My.Application.Info.DirectoryPath)
+        Dim oDir As IO.DirectoryInfo = New IO.DirectoryInfo(My.Application.Info.DirectoryPath + IO.Path.DirectorySeparatorChar)
         If IO.Directory.Exists(IO.Path.Combine(My.Application.Info.DirectoryPath, "Sounds")) Then
             oDir = oDir.GetDirectories("Sounds")(0)
         End If

@@ -47,10 +47,9 @@ Public Class SettingTab
 #End Region
 
     Public Shared Sub DeleteConfigFile()
-        For Each FileName As String In System.IO.Directory.GetFiles( _
-                           My.Application.Info.DirectoryPath, "SettingTab*.xml")
+        For Each file As IO.FileInfo In (New IO.DirectoryInfo(My.Application.Info.DirectoryPath + IO.Path.DirectorySeparatorChar)).GetFiles("SettingTab*.xml")
             Try
-                IO.File.Delete(FileName)
+                file.Delete()
             Catch ex As Exception
                 '削除権限がない場合
             End Try
