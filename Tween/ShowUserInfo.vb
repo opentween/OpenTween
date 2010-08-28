@@ -626,8 +626,9 @@ Public Class ShowUserInfo
             Exit Sub
         End If
 
-        If isValidIconFile(New FileInfo(OpenFileDialogIcon.FileName)) AndAlso Not IsAnimatedGif(OpenFileDialogIcon.FileName) Then
-            doChangeIcon(OpenFileDialogIcon.FileName)
+        Dim fn As String = OpenFileDialogIcon.FileName
+        If isValidIconFile(New FileInfo(fn)) Then
+            doChangeIcon(fn)
         Else
             MessageBox.Show("ユーザーアイコンとして使用できないファイルです")
         End If
@@ -678,7 +679,7 @@ Public Class ShowUserInfo
 
     Private Function isValidIconFile(ByVal info As FileInfo) As Boolean
         Dim ext As String = info.Extension.ToLower
-        Return isValidExtension(ext) AndAlso info.Length < 700 * 1024
+        Return isValidExtension(ext) AndAlso info.Length < 700 * 1024 AndAlso Not IsAnimatedGif(info.FullName)
     End Function
 
     Private Sub ShowUserInfo_DragOver(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles MyBase.DragOver
@@ -687,7 +688,7 @@ Public Class ShowUserInfo
             Dim fl As New FileInfo(filename)
 
             e.Effect = DragDropEffects.None
-            If isValidIconFile(fl) AndAlso Not IsAnimatedGif(filename) Then
+            If isValidIconFile(fl) Then
                 e.Effect = DragDropEffects.Copy
             End If
         Else
