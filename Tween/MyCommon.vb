@@ -26,6 +26,7 @@ Imports System.Globalization
 Imports System.Security.Principal
 Imports System.Reflection
 Imports System.Web
+Imports System.IO
 
 Public Module MyCommon
     Private ReadOnly LockObj As New Object
@@ -537,4 +538,36 @@ retry:
     Public fileVersion As String
 
     Public WithEvents TwitterApiInfo As New ApiInformation
+
+    Private Function GetBytesAsString(ByVal array As Byte(), ByVal index As Integer, ByVal length As Integer) As String
+        Dim retval As New StringBuilder
+        For idx As Integer = index To index + length - 1
+            retval.Append(CChar(ChrW(array(idx))))
+        Next
+        Return retval.ToString
+    End Function
+
+
+    Public Function IsAnimatedGif(ByVal filename As String) As Boolean
+        Dim img As Image = Nothing
+        Try
+            img = Image.FromFile(filename)
+            If img Is Nothing Then Return False
+            If img.RawFormat.Guid = Imaging.ImageFormat.Gif.Guid Then
+                Dim fd As New System.Drawing.Imaging.FrameDimension(img.FrameDimensionsList(0))
+                Dim fd_count As Integer = img.GetFrameCount(fd)
+                If fd_count > 1 Then
+                    Return True
+                Else
+                    Return False
+                End If
+            Else
+                Return False
+            End If
+        Catch ex As Exception
+            Return False
+        Finally
+            If img IsNot Nothing Then img.Dispose()
+        End Try
+    End Function
 End Module

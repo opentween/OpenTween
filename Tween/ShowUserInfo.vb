@@ -626,7 +626,7 @@ Public Class ShowUserInfo
             Exit Sub
         End If
 
-        If isValidIconFile(New FileInfo(OpenFileDialogIcon.FileName)) Then
+        If isValidIconFile(New FileInfo(OpenFileDialogIcon.FileName)) AndAlso Not IsAnimatedGif(OpenFileDialogIcon.FileName) Then
             doChangeIcon(OpenFileDialogIcon.FileName)
         Else
             MessageBox.Show("ユーザーアイコンとして使用できないファイルです")
@@ -687,7 +687,7 @@ Public Class ShowUserInfo
             Dim fl As New FileInfo(filename)
 
             e.Effect = DragDropEffects.None
-            If isValidIconFile(fl) Then
+            If isValidIconFile(fl) AndAlso Not IsAnimatedGif(filename) Then
                 e.Effect = DragDropEffects.Copy
             End If
         Else
