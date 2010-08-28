@@ -539,15 +539,6 @@ retry:
 
     Public WithEvents TwitterApiInfo As New ApiInformation
 
-    Private Function GetBytesAsString(ByVal array As Byte(), ByVal index As Integer, ByVal length As Integer) As String
-        Dim retval As New StringBuilder
-        For idx As Integer = index To index + length - 1
-            retval.Append(CChar(ChrW(array(idx))))
-        Next
-        Return retval.ToString
-    End Function
-
-
     Public Function IsAnimatedGif(ByVal filename As String) As Boolean
         Dim img As Image = Nothing
         Try
