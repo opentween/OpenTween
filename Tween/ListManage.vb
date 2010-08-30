@@ -65,6 +65,11 @@ Public Class ListManage
         Me.MemberGroup.Enabled = Not Me.EditCheckBox.Checked
         Me.UserGroup.Enabled = Not Me.EditCheckBox.Checked
         Me.CloseButton.Enabled = Not Me.EditCheckBox.Checked
+
+        Me.UsernameTextBox.TabStop = Not Me.EditCheckBox.Checked
+        Me.MemberCountTextBox.TabStop = Not Me.EditCheckBox.Checked
+        Me.SubscriberCountTextBox.TabStop = Not Me.EditCheckBox.Checked
+        Me.NameTextBox.Focus()
     End Sub
 
     Private Sub OKButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OKEditButton.Click
