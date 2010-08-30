@@ -69,7 +69,7 @@ Public Class ListManage
         Me.UsernameTextBox.TabStop = Not Me.EditCheckBox.Checked
         Me.MemberCountTextBox.TabStop = Not Me.EditCheckBox.Checked
         Me.SubscriberCountTextBox.TabStop = Not Me.EditCheckBox.Checked
-        Me.NameTextBox.Focus()
+        If Me.EditCheckBox.Checked = True Then Me.NameTextBox.Focus()
     End Sub
 
     Private Sub OKButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OKEditButton.Click
