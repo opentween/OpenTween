@@ -634,6 +634,9 @@ Public Class Twitter
             'Source整形
             If post.Source.StartsWith("<") Then
                 'Dim rgS As New Regex(">(?<source>.+)<")
+                If Not post.Source.Contains("</a>") Then
+                    post.Source += "</a>"
+                End If
                 Dim mS As Match = Regex.Match(post.Source, ">(?<source>.+)<")
                 If mS.Success Then
                     post.Source = HttpUtility.HtmlDecode(mS.Result("${source}"))
@@ -1530,6 +1533,9 @@ Public Class Twitter
                 'Source整形
                 If post.Source.StartsWith("<") Then
                     'Dim rgS As New Regex(">(?<source>.+)<")
+                    If Not post.Source.Contains("</a>") Then
+                        post.Source += "</a>"
+                    End If
                     Dim mS As Match = Regex.Match(post.Source, ">(?<source>.+)<")
                     If mS.Success Then
                         post.Source = HttpUtility.HtmlDecode(mS.Result("${source}"))
@@ -1669,6 +1675,9 @@ Public Class Twitter
                 'Source整形
                 If post.Source.StartsWith("<") Then
                     'Dim rgS As New Regex(">(?<source>.+)<")
+                    If Not post.Source.Contains("</a>") Then
+                        post.Source += "</a>"
+                    End If
                     Dim mS As Match = Regex.Match(post.Source, ">(?<source>.+)<")
                     If mS.Success Then
                         post.Source = HttpUtility.HtmlDecode(mS.Result("${source}"))
@@ -1946,6 +1955,9 @@ Public Class Twitter
                 post.Data = post.Data.Replace("<3", "♡")
                 'Source整形
                 If post.Source.StartsWith("<") Then
+                    If Not post.Source.Contains("</a>") Then
+                        post.Source += "</a>"
+                    End If
                     Dim mS As Match = Regex.Match(post.Source, ">(?<source>.+)<")
                     If mS.Success Then
                         post.Source = HttpUtility.HtmlDecode(mS.Result("${source}"))

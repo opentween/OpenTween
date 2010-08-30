@@ -102,6 +102,9 @@ Public Class ShowUserInfo
                     _info.PostCreatedAt = DateTime.ParseExact(xdoc.SelectSingleNode("/status/created_at").InnerText, "ddd MMM dd HH:mm:ss zzzz yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None)
                     _info.PostSource = xdoc.SelectSingleNode("/status/source").InnerText
                 End If
+                If Not _info.PostSource.Contains("</a>") Then
+                    _info.PostSource += "</a>"
+                End If
             Catch ex As Exception
                 _info.RecentPost = Nothing
                 _info.PostCreatedAt = Nothing
