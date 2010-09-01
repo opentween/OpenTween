@@ -88,7 +88,7 @@ Public Class PictureService
         Return ret
     End Function
 
-    Private Function UpToTwitPic(ByVal file As FileInfo, ByRef message As String, ByVal resultUpload As Boolean) As String
+    Private Function UpToTwitPic(ByVal file As FileInfo, ByRef message As String, ByRef resultUpload As Boolean) As String
         Dim content As String = ""
         Dim ret As HttpStatusCode
         'TwitPicへの投稿
@@ -123,7 +123,7 @@ Public Class PictureService
         Return tw.PostStatus(message, 0)
     End Function
 
-    Private Function UpToimgly(ByVal file As FileInfo, ByRef message As String, ByVal resultUpload As Boolean) As String
+    Private Function UpToimgly(ByVal file As FileInfo, ByRef message As String, ByRef resultUpload As Boolean) As String
         Dim content As String = ""
         Dim ret As HttpStatusCode
         'img.lyへの投稿
@@ -158,7 +158,7 @@ Public Class PictureService
         Return tw.PostStatus(message, 0)
     End Function
 
-    Private Function UpToTwitVideo(ByVal file As FileInfo, ByRef message As String, ByVal resultUpload As Boolean) As String
+    Private Function UpToTwitVideo(ByVal file As FileInfo, ByRef message As String, ByRef resultUpload As Boolean) As String
         Dim content As String = ""
         Dim ret As HttpStatusCode
         'TwitVideoへの投稿
