@@ -1240,12 +1240,12 @@ Public Class TweenMain
                         _curList.EnsureVisible(0)
                     Case -2
                         '最下行へ
-                        _curList.EnsureVisible(_curList.VirtualListSize - 1)
+                        If _curList.VirtualListSize > 0 Then _curList.EnsureVisible(_curList.VirtualListSize - 1)
                     Case -1
                         '制御しない
                     Case Else
                         '表示位置キープ
-                        If _curList.VirtualListSize > 0 Then
+                        If _curList.VirtualListSize > 0 AndAlso _statuses.IndexOf(_curTab.Text, topId) > -1 Then
                             _curList.EnsureVisible(_curList.VirtualListSize - 1)
                             _curList.EnsureVisible(_statuses.IndexOf(_curTab.Text, topId))
                         End If
