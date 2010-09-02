@@ -137,16 +137,13 @@
     <value>取消</value>
   </data>
   <data name="Label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 12</value>
+    <value>101, 12</value>
   </data>
   <data name="Label3.Text" xml:space="preserve">
-    <value>Timeline更新间隔(秒)</value>
-  </data>
-  <data name="Label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>89, 12</value>
+    <value>消息更新间隔(秒)</value>
   </data>
   <data name="Label5.Text" xml:space="preserve">
-    <value>DM更新间隔(秒)</value>
+    <value>私信更新间隔(秒)</value>
   </data>
   <data name="Label9.Size" type="System.Drawing.Size, System.Drawing">
     <value>101, 12</value>
@@ -199,8 +196,17 @@
   <data name="Label16.Text" xml:space="preserve">
     <value>用颜色区分单向关注</value>
   </data>
+  <data name="GroupBox1.Text" xml:space="preserve">
+    <value>字体和颜色设置</value>
+  </data>
   <data name="btnRetweet.Text" xml:space="preserve">
     <value>文本色</value>
+  </data>
+  <data name="Label80.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 12</value>
+  </data>
+  <data name="Label80.Text" xml:space="preserve">
+    <value>锐推消息</value>
   </data>
   <data name="ButtonBackToDefaultFontColor.Text" xml:space="preserve">
     <value>恢复默认值</value>
@@ -298,8 +304,11 @@
   <data name="btnFav.Text" xml:space="preserve">
     <value>文本色</value>
   </data>
+  <data name="Label22.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 12</value>
+  </data>
   <data name="Label22.Text" xml:space="preserve">
-    <value>Fav消息</value>
+    <value>收藏消息</value>
   </data>
   <data name="btnListFont.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 22</value>
@@ -312,9 +321,6 @@
   </data>
   <data name="Label61.Text" xml:space="preserve">
     <value>列表字体</value>
-  </data>
-  <data name="GroupBox1.Text" xml:space="preserve">
-    <value>字体和颜色设置</value>
   </data>
   <data name="cmbNameBalloon.Items" xml:space="preserve">
     <value>无</value>
@@ -454,99 +460,6 @@
   <data name="Label47.Text" xml:space="preserve">
     <value>重启之后才生效。</value>
   </data>
-  <data name="ButtonApiCalc.Text" xml:space="preserve">
-    <value>重新计算</value>
-  </data>
-  <data name="LabelPostAndGet.Size" type="System.Drawing.Size, System.Drawing">
-    <value>251, 12</value>
-  </data>
-  <data name="LabelPostAndGet.Text" xml:space="preserve">
-    <value>成功刷新消息、发送消息时都会消耗API配额。</value>
-  </data>
-  <data name="Label33.Size" type="System.Drawing.Size, System.Drawing">
-    <value>107, 12</value>
-  </data>
-  <data name="Label33.Text" xml:space="preserve">
-    <value>Lists更新间隔(秒)</value>
-  </data>
-  <data name="Label6.Text" xml:space="preserve">
-    <value>登录方法</value>
-  </data>
-  <data name="AuthClearButton.Text" xml:space="preserve">
-    <value>清除</value>
-  </data>
-  <data name="AuthUserLabel.Text" xml:space="preserve">
-    <value>已登录</value>
-  </data>
-  <data name="Label4.Text" xml:space="preserve">
-    <value>登录状态</value>
-  </data>
-  <data name="AuthorizeButton.Text" xml:space="preserve">
-    <value>登录</value>
-  </data>
-  <data name="Label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 12</value>
-  </data>
-  <data name="Label7.Text" xml:space="preserve">
-    <value>Twitter搜索更新间隔(秒)</value>
-  </data>
-  <data name="Label69.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 12</value>
-  </data>
-  <data name="Label69.Text" xml:space="preserve">
-    <value>Mentions更新间隔(秒)</value>
-  </data>
-  <data name="CheckPostAndGet.Text" xml:space="preserve">
-    <value>发推时更新</value>
-  </data>
-  <data name="Label67.Text" xml:space="preserve">
-    <value>默认读取推数/Mentions读取推数</value>
-  </data>
-  <data name="Label54.Size" type="System.Drawing.Size, System.Drawing">
-    <value>161, 12</value>
-  </data>
-  <data name="Label54.Text" xml:space="preserve">
-    <value>启动时获取单向关注用户列表</value>
-  </data>
-  <data name="CheckStartupFollowers.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 16</value>
-  </data>
-  <data name="CheckStartupFollowers.Text" xml:space="preserve">
-    <value>获取</value>
-  </data>
-  <data name="Label51.Size" type="System.Drawing.Size, System.Drawing">
-    <value>89, 12</value>
-  </data>
-  <data name="Label51.Text" xml:space="preserve">
-    <value>启动时版本更新</value>
-  </data>
-  <data name="CheckStartupVersion.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 16</value>
-  </data>
-  <data name="CheckStartupVersion.Text" xml:space="preserve">
-    <value>检查</value>
-  </data>
-  <data name="CheckPeriodAdjust.Size" type="System.Drawing.Size, System.Drawing">
-    <value>72, 16</value>
-  </data>
-  <data name="CheckPeriodAdjust.Text" xml:space="preserve">
-    <value>自动调整</value>
-  </data>
-  <data name="Label74.Size" type="System.Drawing.Size, System.Drawing">
-    <value>89, 12</value>
-  </data>
-  <data name="Label74.Text" xml:space="preserve">
-    <value>启动时读取收藏</value>
-  </data>
-  <data name="chkGetFav.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 16</value>
-  </data>
-  <data name="chkGetFav.Text" xml:space="preserve">
-    <value>获取</value>
-  </data>
-  <data name="HotkeyCheck.Text" xml:space="preserve">
-    <value>生效</value>
-  </data>
   <data name="GroupBox3.Text" xml:space="preserve">
     <value>热键</value>
   </data>
@@ -607,8 +520,11 @@
   <data name="Label57.Text" xml:space="preserve">
     <value>会重新读取原消息来验证Fav结果。会增加流量，推荐关闭。</value>
   </data>
+  <data name="Label56.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 12</value>
+  </data>
   <data name="Label56.Text" xml:space="preserve">
-    <value>是否严格检查Fav结果</value>
+    <value>是否严格检查收藏结果</value>
   </data>
   <data name="CheckFavRestrict.Size" type="System.Drawing.Size, System.Drawing">
     <value>48, 16</value>
@@ -664,8 +580,11 @@
   <data name="Label58.Text" xml:space="preserve">
     <value>总在最前面</value>
   </data>
+  <data name="Label21.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 12</value>
+  </data>
   <data name="Label21.Text" xml:space="preserve">
-    <value>列表排序</value>
+    <value>队列排序方式</value>
   </data>
   <data name="CheckSortOrderLock.Size" type="System.Drawing.Size, System.Drawing">
     <value>48, 16</value>
@@ -673,11 +592,8 @@
   <data name="CheckSortOrderLock.Text" xml:space="preserve">
     <value>固定</value>
   </data>
-  <data name="Label78.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 12</value>
-  </data>
   <data name="Label78.Text" xml:space="preserve">
-    <value>列表表格线</value>
+    <value>消息队列表格线</value>
   </data>
   <data name="CheckShowGrid.Size" type="System.Drawing.Size, System.Drawing">
     <value>48, 16</value>
@@ -724,11 +640,23 @@
   <data name="Label72.Text" xml:space="preserve">
     <value>有未读回复时的通知图标</value>
   </data>
+  <data name="Label43.Size" type="System.Drawing.Size, System.Drawing">
+    <value>113, 12</value>
+  </data>
+  <data name="Label43.Text" xml:space="preserve">
+    <value>有新回复时画面闪烁</value>
+  </data>
   <data name="Label48.Size" type="System.Drawing.Size, System.Drawing">
     <value>113, 12</value>
   </data>
   <data name="Label48.Text" xml:space="preserve">
     <value>标签上显示未读图标</value>
+  </data>
+  <data name="ChkNewMentionsBlink.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 16</value>
+  </data>
+  <data name="ChkNewMentionsBlink.Text" xml:space="preserve">
+    <value>闪烁</value>
   </data>
   <data name="chkTabIconDisp.Size" type="System.Drawing.Size, System.Drawing">
     <value>48, 16</value>
@@ -766,6 +694,105 @@
   <data name="TabPage4.Text" xml:space="preserve">
     <value>字体与颜色</value>
   </data>
+  <data name="TabPage6.Text" xml:space="preserve">
+    <value>附加</value>
+  </data>
+  <data name="ButtonApiCalc.Text" xml:space="preserve">
+    <value>重新计算</value>
+  </data>
+  <data name="LabelPostAndGet.Size" type="System.Drawing.Size, System.Drawing">
+    <value>251, 12</value>
+  </data>
+  <data name="LabelPostAndGet.Text" xml:space="preserve">
+    <value>成功刷新消息、发送消息时都会消耗API配额。</value>
+  </data>
+  <data name="Label33.Size" type="System.Drawing.Size, System.Drawing">
+    <value>101, 12</value>
+  </data>
+  <data name="Label33.Text" xml:space="preserve">
+    <value>列表更新间隔(秒)</value>
+  </data>
+  <data name="Label6.Text" xml:space="preserve">
+    <value>登录方法</value>
+  </data>
+  <data name="AuthClearButton.Text" xml:space="preserve">
+    <value>清除</value>
+  </data>
+  <data name="AuthUserLabel.Text" xml:space="preserve">
+    <value>已登录</value>
+  </data>
+  <data name="Label4.Text" xml:space="preserve">
+    <value>登录状态</value>
+  </data>
+  <data name="AuthorizeButton.Text" xml:space="preserve">
+    <value>登录</value>
+  </data>
+  <data name="Label7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>101, 12</value>
+  </data>
+  <data name="Label7.Text" xml:space="preserve">
+    <value>搜索更新间隔(秒)</value>
+  </data>
+  <data name="Label69.Size" type="System.Drawing.Size, System.Drawing">
+    <value>101, 12</value>
+  </data>
+  <data name="Label69.Text" xml:space="preserve">
+    <value>回复更新间隔(秒)</value>
+  </data>
+  <data name="CheckPostAndGet.Text" xml:space="preserve">
+    <value>发推时更新</value>
+  </data>
+  <data name="Label67.Size" type="System.Drawing.Size, System.Drawing">
+    <value>143, 12</value>
+  </data>
+  <data name="Label67.Text" xml:space="preserve">
+    <value>默认读取推数/回复读取数</value>
+  </data>
+  <data name="Label54.Size" type="System.Drawing.Size, System.Drawing">
+    <value>161, 12</value>
+  </data>
+  <data name="Label54.Text" xml:space="preserve">
+    <value>启动时获取单向关注用户列表</value>
+  </data>
+  <data name="CheckStartupFollowers.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 16</value>
+  </data>
+  <data name="CheckStartupFollowers.Text" xml:space="preserve">
+    <value>获取</value>
+  </data>
+  <data name="Label51.Size" type="System.Drawing.Size, System.Drawing">
+    <value>89, 12</value>
+  </data>
+  <data name="Label51.Text" xml:space="preserve">
+    <value>启动时版本更新</value>
+  </data>
+  <data name="CheckStartupVersion.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 16</value>
+  </data>
+  <data name="CheckStartupVersion.Text" xml:space="preserve">
+    <value>检查</value>
+  </data>
+  <data name="CheckPeriodAdjust.Size" type="System.Drawing.Size, System.Drawing">
+    <value>72, 16</value>
+  </data>
+  <data name="CheckPeriodAdjust.Text" xml:space="preserve">
+    <value>自动调整</value>
+  </data>
+  <data name="Label74.Size" type="System.Drawing.Size, System.Drawing">
+    <value>89, 12</value>
+  </data>
+  <data name="Label74.Text" xml:space="preserve">
+    <value>启动时读取收藏</value>
+  </data>
+  <data name="chkGetFav.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 16</value>
+  </data>
+  <data name="chkGetFav.Text" xml:space="preserve">
+    <value>获取</value>
+  </data>
+  <data name="HotkeyCheck.Text" xml:space="preserve">
+    <value>生效</value>
+  </data>
   <data name="TwitterSearchAPIText.Size" type="System.Drawing.Size, System.Drawing">
     <value>143, 21</value>
   </data>
@@ -795,6 +822,9 @@
   </data>
   <data name="Label63.Text" xml:space="preserve">
     <value>超时时间(秒)</value>
+  </data>
+  <data name="GroupBox2.Text" xml:space="preserve">
+    <value>代理设置</value>
   </data>
   <data name="Label55.Size" type="System.Drawing.Size, System.Drawing">
     <value>281, 12</value>
@@ -844,9 +874,6 @@
   <data name="RadioProxyNone.Text" xml:space="preserve">
     <value>不使用</value>
   </data>
-  <data name="GroupBox2.Text" xml:space="preserve">
-    <value>代理设置</value>
-  </data>
   <data name="CheckNicoms.Size" type="System.Drawing.Size, System.Drawing">
     <value>216, 16</value>
   </data>
@@ -870,9 +897,6 @@
   </data>
   <data name="CheckOutputz.Text" xml:space="preserve">
     <value>对应Outputz</value>
-  </data>
-  <data name="TabPage6.Text" xml:space="preserve">
-    <value>附加</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>设置</value>

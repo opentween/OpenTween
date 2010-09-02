@@ -117,119 +117,44 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Label12.Text" xml:space="preserve">
-    <value>关注人数</value>
-  </data>
-  <data name="Label10.Text" xml:space="preserve">
-    <value>登记人数</value>
-  </data>
-  <data name="Label6.Text" xml:space="preserve">
-    <value>描述</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="Label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>41, 12</value>
+  <data name="追加AToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>113, 22</value>
   </data>
-  <data name="Label4.Text" xml:space="preserve">
-    <value>列表名</value>
+  <data name="追加AToolStripMenuItem.Text" xml:space="preserve">
+    <value>添加(&amp;A)</value>
   </data>
-  <data name="Label1.Text" xml:space="preserve">
-    <value>创建人</value>
+  <data name="削除DToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>113, 22</value>
   </data>
-  <data name="Label20.Size" type="System.Drawing.Size, System.Drawing">
-    <value>53, 12</value>
+  <data name="削除DToolStripMenuItem.Text" xml:space="preserve">
+    <value>删除(&amp;D)</value>
   </data>
-  <data name="Label20.Text" xml:space="preserve">
-    <value>最近消息</value>
+  <data name="ToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>110, 6</value>
   </data>
-  <data name="DeleteUserButton.Text" xml:space="preserve">
-    <value>从列表删除</value>
+  <data name="更新RToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>113, 22</value>
   </data>
-  <data name="Label17.Size" type="System.Drawing.Size, System.Drawing">
-    <value>29, 12</value>
-  </data>
-  <data name="Label17.Text" xml:space="preserve">
-    <value>简介</value>
-  </data>
-  <data name="Label15.Size" type="System.Drawing.Size, System.Drawing">
-    <value>29, 12</value>
-  </data>
-  <data name="Label15.Text" xml:space="preserve">
-    <value>消息</value>
-  </data>
-  <data name="Label13.Size" type="System.Drawing.Size, System.Drawing">
-    <value>29, 12</value>
-  </data>
-  <data name="Label13.Text" xml:space="preserve">
-    <value>关注</value>
-  </data>
-  <data name="Label9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>29, 12</value>
-  </data>
-  <data name="Label9.Text" xml:space="preserve">
-    <value>好友</value>
-  </data>
-  <data name="Label5.Text" xml:space="preserve">
-    <value>所在地</value>
-  </data>
-  <data name="UserGroup.Text" xml:space="preserve">
-    <value>用户信息</value>
-  </data>
-  <data name="AddListButton.Text" xml:space="preserve">
-    <value>新增</value>
-  </data>
-  <data name="DeleteListButton.Text" xml:space="preserve">
-    <value>删除</value>
-  </data>
-  <data name="GetMoreUsersButton.Text" xml:space="preserve">
-    <value>读取更多(&amp;M)</value>
-  </data>
-  <data name="EditCheckBox.Text" xml:space="preserve">
-    <value>修改</value>
-  </data>
-  <data name="GroupBox2.Text" xml:space="preserve">
-    <value>类型</value>
-  </data>
-  <data name="PrivateRadioButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 16</value>
-  </data>
-  <data name="PrivateRadioButton.Text" xml:space="preserve">
-    <value>私有</value>
-  </data>
-  <data name="PublicRadioButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 16</value>
-  </data>
-  <data name="PublicRadioButton.Text" xml:space="preserve">
-    <value>公开</value>
-  </data>
-  <data name="OKEditButton.Text" xml:space="preserve">
-    <value>确定</value>
-  </data>
-  <data name="CancelEditButton.Text" xml:space="preserve">
-    <value>取消</value>
-  </data>
-  <data name="ListGroup.Text" xml:space="preserve">
-    <value>详情</value>
-  </data>
-  <data name="RefreshUsersButton.Text" xml:space="preserve">
-    <value>刷新一览</value>
-  </data>
-  <data name="RefreshListsButton.Text" xml:space="preserve">
+  <data name="更新RToolStripMenuItem.Text" xml:space="preserve">
     <value>刷新(&amp;R)</value>
   </data>
-  <data name="Label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>29, 12</value>
+  <data name="ContextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>114, 76</value>
   </data>
-  <data name="Label3.Text" xml:space="preserve">
-    <value>列表</value>
+  <data name="ListRefreshButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>81, 22</value>
+  </data>
+  <data name="ListRefreshButton.Text" xml:space="preserve">
+    <value>刷新列表(&amp;R)</value>
+  </data>
+  <data name="CloseButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>171, 179</value>
+  </data>
+  <data name="CloseButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>57, 22</value>
   </data>
   <data name="CloseButton.Text" xml:space="preserve">
     <value>关闭(&amp;C)</value>
-  </data>
-  <data name="MemberGroup.Text" xml:space="preserve">
-    <value>成员</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>列表(List)管理</value>
   </data>
 </root>
