@@ -898,13 +898,13 @@
     <value>上传图片</value>
   </data>
   <data name="BasicAuthWarning" xml:space="preserve">
-    <value>当前登录认证模式是BASIC模式。{0}Twitter官方BASIC认证停止后将可能无法登录。{0}请尽快改用xAuth模式。</value>
+    <value>当前登录认证模式是BASIC模式。{0}Twitter官方BASIC认证已经关闭。{0}如果无法登录请改用xAuth模式。</value>
   </data>
   <data name="PostButton_Click1" xml:space="preserve">
     <value>要用官方锐推方式发送未修改过的RT锐推吗？{0}[是：改用官方锐推]{0}[否：仍然用RT锐推]{0}[取消：不发送]</value>
   </data>
   <data name="ApiInfo6" xml:space="preserve">
-    <value>Getting Api Information...</value>
+    <value>正在获取API信息…</value>
   </data>
   <data name="ListManageDeleteLists1" xml:space="preserve">
     <value>该列表将被删除，要继续吗？</value>
