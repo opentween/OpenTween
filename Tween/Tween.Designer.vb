@@ -263,7 +263,6 @@ Partial Class TweenMain
         Me.ListLockMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator15 = New System.Windows.Forms.ToolStripSeparator()
         Me.EndToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.TimerTimeline = New System.Windows.Forms.Timer(Me.components)
         Me.NotifyIcon1 = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
@@ -1660,10 +1659,6 @@ Partial Class TweenMain
         Me.EndToolStripMenuItem.Name = "EndToolStripMenuItem"
         resources.ApplyResources(Me.EndToolStripMenuItem, "EndToolStripMenuItem")
         '
-        'TimerTimeline
-        '
-        Me.TimerTimeline.Interval = 60000
-        '
         'NotifyIcon1
         '
         Me.NotifyIcon1.ContextMenuStrip = Me.ContextMenuFile
@@ -1724,7 +1719,6 @@ Partial Class TweenMain
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents TimerTimeline As System.Windows.Forms.Timer
     Friend WithEvents NotifyIcon1 As System.Windows.Forms.NotifyIcon
     Friend WithEvents ContextMenuFile As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents EndToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
