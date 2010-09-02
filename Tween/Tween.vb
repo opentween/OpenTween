@@ -6586,7 +6586,7 @@ RETRY:
                 If StatusText.StartsWith("@" + _reply_to_name) Then Exit Sub
             Else
                 For Each mid As Match In m
-                    If mid.Result("${id}") = "QT @" + _reply_to_name + ": @" Then Exit Sub
+                    If StatusText.Contains("QT " + mid.Result("${id}") + ":") AndAlso mid.Result("${id}") = "@" + _reply_to_name Then Exit Sub
                 Next
             End If
         End If
