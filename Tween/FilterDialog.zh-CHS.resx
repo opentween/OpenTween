@@ -131,10 +131,10 @@
     <value>来源</value>
   </data>
   <data name="CheckExRetweet.Size" type="System.Drawing.Size, System.Drawing">
-    <value>60, 16</value>
+    <value>72, 16</value>
   </data>
   <data name="CheckExRetweet.Text" xml:space="preserve">
-    <value>官方RT</value>
+    <value>官方锐推</value>
   </data>
   <data name="CheckExCaseSensitive.Size" type="System.Drawing.Size, System.Drawing">
     <value>84, 16</value>
@@ -188,10 +188,10 @@
     <value>来源</value>
   </data>
   <data name="CheckRetweet.Size" type="System.Drawing.Size, System.Drawing">
-    <value>60, 16</value>
+    <value>72, 16</value>
   </data>
   <data name="CheckRetweet.Text" xml:space="preserve">
-    <value>官方RT</value>
+    <value>官方锐推</value>
   </data>
   <data name="CheckCaseSensitive.Size" type="System.Drawing.Size, System.Drawing">
     <value>84, 16</value>

@@ -178,7 +178,7 @@
   <data name="HashManageMenuItem.Text" xml:space="preserve">
     <value>设置Hash Tag</value>
   </data>
-  <data name="ContextMenuStripPostMode.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ContextMenuPostMode.Size" type="System.Drawing.Size, System.Drawing">
     <value>236, 214</value>
   </data>
   <data name="AddTabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
@@ -268,6 +268,15 @@
   <data name="ShowFriendShipToolStripMenuItem.Text" xml:space="preserve">
     <value>显示相互关注状态</value>
   </data>
+  <data name="ListManageUserContextToolStripMenuItem3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 22</value>
+  </data>
+  <data name="ListManageUserContextToolStripMenuItem3.Text" xml:space="preserve">
+    <value>列表管理(&amp;L)</value>
+  </data>
+  <data name="ToolStripSeparator37.Size" type="System.Drawing.Size, System.Drawing">
+    <value>167, 6</value>
+  </data>
   <data name="ShowUserStatusToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>170, 22</value>
   </data>
@@ -281,45 +290,51 @@
     <value>搜索该用户的消息</value>
   </data>
   <data name="ToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>119, 6</value>
+    <value>167, 6</value>
   </data>
   <data name="IconNameToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>122, 22</value>
+    <value>170, 22</value>
   </data>
   <data name="SaveIconPictureToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>122, 22</value>
+    <value>170, 22</value>
   </data>
-  <data name="ContextMenuStrip3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 54</value>
+  <data name="ContextMenuUserPicture.Size" type="System.Drawing.Size, System.Drawing">
+    <value>171, 192</value>
   </data>
   <data name="NameLabel.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 9pt, style=Bold</value>
   </data>
-  <data name="ToolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="SearchYatsContextMenuItem.Text" xml:space="preserve">
+    <value>Twitter(&amp;Y)</value>
+  </data>
+  <data name="CurrentTabToolStripMenuItem.Text" xml:space="preserve">
+    <value>当前标签(&amp;L)</value>
+  </data>
+  <data name="SelectionSearchContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>209, 22</value>
   </data>
-  <data name="ToolStripMenuItem2.Text" xml:space="preserve">
-    <value>搜索选中的文本(&amp;S)</value>
+  <data name="SelectionSearchContextMenuItem.Text" xml:space="preserve">
+    <value>搜索选中文本(&amp;S)</value>
   </data>
   <data name="ToolStripSeparator13.Size" type="System.Drawing.Size, System.Drawing">
     <value>206, 6</value>
   </data>
-  <data name="ToolStripMenuItem3.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="SelectionCopyContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>209, 22</value>
   </data>
-  <data name="ToolStripMenuItem3.Text" xml:space="preserve">
-    <value>复制选中的文本(&amp;C)</value>
+  <data name="SelectionCopyContextMenuItem.Text" xml:space="preserve">
+    <value>复制选中文本(&amp;C)</value>
   </data>
-  <data name="ToolStripMenuItem4.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="UrlCopyContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>209, 22</value>
   </data>
-  <data name="ToolStripMenuItem4.Text" xml:space="preserve">
+  <data name="UrlCopyContextMenuItem.Text" xml:space="preserve">
     <value>复制网址(&amp;U)</value>
   </data>
-  <data name="ToolStripMenuItem5.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="SelectionAllContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>209, 22</value>
   </data>
-  <data name="ToolStripMenuItem5.Text" xml:space="preserve">
+  <data name="SelectionAllContextMenuItem.Text" xml:space="preserve">
     <value>选择全部(&amp;A)</value>
   </data>
   <data name="ToolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
@@ -373,11 +388,11 @@
   <data name="IdFilterAddMenuItem.Text" xml:space="preserve">
     <value>新建ID过滤规则(&amp;I)</value>
   </data>
-  <data name="リストに追加LToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ListManageUserContextToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>209, 22</value>
   </data>
-  <data name="リストに追加LToolStripMenuItem.Text" xml:space="preserve">
-    <value>添加到列表(&amp;L)</value>
+  <data name="ListManageUserContextToolStripMenuItem.Text" xml:space="preserve">
+    <value>列表管理(&amp;L)</value>
   </data>
   <data name="ToolStripSeparator33.Size" type="System.Drawing.Size, System.Drawing">
     <value>206, 6</value>
@@ -388,7 +403,7 @@
   <data name="UseHashtagMenuItem.Text" xml:space="preserve">
     <value>固定Hash Tag(&amp;H)</value>
   </data>
-  <data name="ContextMenuStrip4.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ContextMenuPostBrowser.Size" type="System.Drawing.Size, System.Drawing">
     <value>210, 320</value>
   </data>
   <data name="PostButton.Text" xml:space="preserve">
@@ -622,6 +637,12 @@
   <data name="CreateRuleOpMenuItem.Text" xml:space="preserve">
     <value>新建过滤规则(&amp;C)</value>
   </data>
+  <data name="ToolStripMenuItem9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>219, 22</value>
+  </data>
+  <data name="ToolStripMenuItem9.Text" xml:space="preserve">
+    <value>列表管理(&amp;L)</value>
+  </data>
   <data name="ToolStripSeparator26.Size" type="System.Drawing.Size, System.Drawing">
     <value>216, 6</value>
   </data>
@@ -832,11 +853,11 @@
   <data name="RtCountMenuItem.Text" xml:space="preserve">
     <value>显示被锐推次数(&amp;R)</value>
   </data>
-  <data name="リスト編集ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ListManageToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>235, 22</value>
   </data>
-  <data name="リスト編集ToolStripMenuItem.Text" xml:space="preserve">
-    <value>管理列表(List)</value>
+  <data name="ListManageToolStripMenuItem.Text" xml:space="preserve">
+    <value>列表(List)管理器</value>
   </data>
   <data name="MenuItemCommand.Size" type="System.Drawing.Size, System.Drawing">
     <value>58, 20</value>
@@ -849,6 +870,12 @@
   </data>
   <data name="MatomeMenuItem.Text" xml:space="preserve">
     <value>Tween帮助网站(&amp;H)</value>
+  </data>
+  <data name="ShortcutKeyListMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>188, 22</value>
+  </data>
+  <data name="ShortcutKeyListMenuItem.Text" xml:space="preserve">
+    <value>快捷键一览</value>
   </data>
   <data name="ToolStripSeparator16.Size" type="System.Drawing.Size, System.Drawing">
     <value>185, 6</value>
@@ -1024,6 +1051,12 @@
   <data name="ToolStripMenuItem7.Text" xml:space="preserve">
     <value>新建过滤规则(&amp;C)</value>
   </data>
+  <data name="ListManageUserContextToolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>173, 22</value>
+  </data>
+  <data name="ListManageUserContextToolStripMenuItem2.Text" xml:space="preserve">
+    <value>列表管理(&amp;L)</value>
+  </data>
   <data name="ToolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
     <value>170, 6</value>
   </data>
@@ -1078,8 +1111,8 @@
   <data name="RefreshMoreStripMenuItem.Text" xml:space="preserve">
     <value>读取更早的消息(&amp;I)</value>
   </data>
-  <data name="ContextMenuStrip2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>174, 396</value>
+  <data name="ContextMenuOperate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>174, 418</value>
   </data>
   <data name="SettingStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>171, 22</value>
@@ -1126,7 +1159,7 @@
   <data name="EndToolStripMenuItem.Text" xml:space="preserve">
     <value>退出(&amp;X)</value>
   </data>
-  <data name="ContextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ContextMenuFile.Size" type="System.Drawing.Size, System.Drawing">
     <value>172, 154</value>
   </data>
 </root>
