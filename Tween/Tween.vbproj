@@ -330,6 +330,9 @@
     <EmbeddedResource Include="ListManage.resx">
       <DependentUpon>ListManage.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ListManage.zh-CHS.resx">
+      <DependentUpon>ListManage.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.en.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
