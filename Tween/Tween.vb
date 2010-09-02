@@ -8687,7 +8687,9 @@ RETRY:
                 Dim apiurl As String = "http://www.nicovideo.jp/api/getthumbinfo/" + mc.Groups("id").Value
                 Dim src As String = ""
                 Dim imgurl As String = ""
-                If (New HttpVarious).GetData(apiurl, Nothing, src, 5000) Then
+                Dim headers As New Dictionary(Of String, String)
+                headers.Add("User-Agent", "Tween " + fileVersion)
+                If (New HttpVarious).GetData(apiurl, headers, src, 5000) Then
                     Dim sb As New StringBuilder
                     Dim xdoc As New XmlDocument
                     Try
