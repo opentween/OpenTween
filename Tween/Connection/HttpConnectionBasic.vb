@@ -59,7 +59,7 @@ Public Class HttpConnectionBasic
             code = GetResponse(webReq, content, headerInfo, False)
         End If
         If callback IsNot Nothing Then
-            callback(Me)
+            callback(Me, code, content)
         End If
         Return code
     End Function
@@ -90,7 +90,7 @@ Public Class HttpConnectionBasic
             code = GetResponse(webReq, content, headerInfo, False)
         End If
         If callback IsNot Nothing Then
-            callback(Me)
+            callback(Me, code, content)
         End If
         Return code
     End Function

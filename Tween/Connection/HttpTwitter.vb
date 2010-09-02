@@ -646,7 +646,9 @@ Public Class HttpTwitter
     End Property
 #End Region
 
-    Private Sub GetApiCallback(ByVal sender As Object)
-        TwitterApiInfo.ParseHttpHeaders(TwitterApiInfo.HttpHeaders)
+    Private Sub GetApiCallback(ByVal sender As Object, ByRef code As HttpStatusCode, ByRef content As String)
+        If code < HttpStatusCode.InternalServerError Then
+            TwitterApiInfo.ParseHttpHeaders(TwitterApiInfo.HttpHeaders)
+        End If
     End Sub
 End Class
