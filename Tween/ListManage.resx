@@ -877,7 +877,7 @@
     <value>1</value>
   </data>
   <data name="GetMoreUsersButton.Text" xml:space="preserve">
-    <value>さらに取得(&amp;M)</value>
+    <value>取得(&amp;M)</value>
   </data>
   <data name="&gt;&gt;GetMoreUsersButton.Name" xml:space="preserve">
     <value>GetMoreUsersButton</value>
