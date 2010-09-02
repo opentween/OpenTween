@@ -239,6 +239,7 @@
     <Compile Include="TabsDialog.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Thumbnail.vb" />
     <Compile Include="ToolStripLabelHistory.vb">
       <SubType>Component</SubType>
     </Compile>
