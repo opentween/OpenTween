@@ -37,6 +37,8 @@ Imports System.ComponentModel
 Imports System.Diagnostics
 Imports Microsoft.Win32
 Imports System.Xml
+Imports System.Timers
+Imports System.Threading
 
 Public Class TweenMain
 
@@ -186,11 +188,11 @@ Public Class TweenMain
     Private shield As New ShieldIcon
     Private SecurityManager As InternetSecurityManager
 
+
     Private _homeCounter As Integer = 0
     Private _homeCounterAdjuster As Integer = 0
     Private _mentionCounter As Integer = 0
     Private _dmCounter As Integer = 0
-    'Private _favCounter As Integer = 0
     Private _pubSearchCounter As Integer = 0
     Private _listsCounter As Integer = 0
 
@@ -204,6 +206,8 @@ Public Class TweenMain
     Private _postBrowserStatusText As String = ""
 
     Private _colorize As Boolean = False
+
+    Private WithEvents TimerTimeline As New System.Timers.Timer
 
     'URL短縮のUndo用
     Private Structure urlUndo
@@ -917,8 +921,11 @@ Public Class TweenMain
         End If
 
         'タイマー設定
+        TimerTimeline.AutoReset = True
+        TimerTimeline.SynchronizingObject = Me
         'Recent取得間隔
         TimerTimeline.Interval = 1000
+        TimerTimeline.Enabled = True
 
         '更新中アイコンアニメーション間隔
         TimerRefreshIcon.Interval = 200
@@ -1149,30 +1156,46 @@ Public Class TweenMain
         LoadOldConfig()
     End Sub
 
-    Private Sub TimerTimeline_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TimerTimeline.Tick
-        If _homeCounter > 0 Then _homeCounter -= 1
-        If _mentionCounter > 0 Then _mentionCounter -= 1
-        If _dmCounter > 0 Then _dmCounter -= 1
-        If _pubSearchCounter > 0 Then _pubSearchCounter -= 1
-        If _listsCounter > 0 Then _listsCounter -= 1
+    Private Sub TimerTimeline_Elapsed(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TimerTimeline.Elapsed
+#If DEBUG Then
+        Dim sw As Stopwatch = Stopwatch.StartNew()
+#End If
+        If _homeCounter > 0 Then Interlocked.Decrement(_homeCounter)
+        If _mentionCounter > 0 Then Interlocked.Decrement(_mentionCounter)
+        If _dmCounter > 0 Then Interlocked.Decrement(_dmCounter)
+        If _pubSearchCounter > 0 Then Interlocked.Decrement(_pubSearchCounter)
+        If _listsCounter > 0 Then Interlocked.Decrement(_listsCounter)
 
+        ''タイマー初期化
         If _homeCounter <= 0 AndAlso SettingDialog.TimelinePeriodInt > 0 Then
+            Dim period As Integer
+            Interlocked.Exchange(period, 0)
+            Interlocked.Add(period, SettingDialog.TimelinePeriodInt)
+            Interlocked.Add(period, -_homeCounterAdjuster)
+            Interlocked.Exchange(_homeCounter, period)
             GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
         End If
         If _mentionCounter <= 0 AndAlso SettingDialog.ReplyPeriodInt > 0 Then
+            Interlocked.Exchange(_mentionCounter, SettingDialog.ReplyPeriodInt)
             GetTimeline(WORKERTYPE.Reply, 1, 0, "")
         End If
         If _dmCounter <= 0 AndAlso SettingDialog.DMPeriodInt > 0 Then
+            Interlocked.Exchange(_dmCounter, SettingDialog.DMPeriodInt)
             GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
         End If
         If _pubSearchCounter <= 0 AndAlso SettingDialog.PubSearchPeriodInt > 0 Then
-            _pubSearchCounter = SettingDialog.PubSearchPeriodInt
+            Interlocked.Exchange(_pubSearchCounter, SettingDialog.PubSearchPeriodInt)
             GetTimeline(WORKERTYPE.PublicSearch, 1, 0, "")
         End If
         If _listsCounter <= 0 AndAlso SettingDialog.ListsPeriodInt > 0 Then
-            _listsCounter = SettingDialog.ListsPeriodInt
+            Interlocked.Exchange(_listsCounter, SettingDialog.ListsPeriodInt)
             GetTimeline(WORKERTYPE.List, 1, 0, "")
         End If
+#If DEBUG Then
+        sw.Stop()
+        Console.WriteLine("Counter: Home {0} Reply {1} Dm {2} Search {3} Lists {4}", _homeCounter, _mentionCounter, _dmCounter, _pubSearchCounter, _listsCounter)
+        Console.WriteLine(sw.Elapsed)
+#End If
     End Sub
 
     Private Sub RefreshTimeline()
@@ -2288,16 +2311,6 @@ Public Class TweenMain
     End Sub
 
     Private Sub GetTimeline(ByVal WkType As WORKERTYPE, ByVal fromPage As Integer, ByVal toPage As Integer, ByVal tabName As String)
-        ''タイマー初期化
-        If WkType = WORKERTYPE.Timeline AndAlso SettingDialog.TimelinePeriodInt > 0 Then
-            _homeCounter = SettingDialog.TimelinePeriodInt - _homeCounterAdjuster
-        End If
-        If WkType = WORKERTYPE.Reply AndAlso SettingDialog.ReplyPeriodInt > 0 Then
-            _mentionCounter = SettingDialog.ReplyPeriodInt
-        End If
-        If WkType = WORKERTYPE.DirectMessegeRcv AndAlso SettingDialog.DMPeriodInt > 0 Then
-            _dmCounter = SettingDialog.DMPeriodInt
-        End If
 
         If Not IsNetworkAvailable() Then Exit Sub
 
