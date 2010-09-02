@@ -21,5 +21,5 @@ Public Interface IHttpConnection
     Function Authenticate(ByVal url As Uri, ByVal username As String, ByVal password As String) As HttpStatusCode
 
     ReadOnly Property AuthUsername() As String
-    Delegate Sub CallbackDelegate(ByVal sender As Object)
+    Delegate Sub CallbackDelegate(ByVal sender As Object, ByRef code As HttpStatusCode, ByRef content As String)
 End Interface
