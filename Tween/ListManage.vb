@@ -45,6 +45,8 @@ Public Class ListManage
         For Each user As UserInfo In list.Members
             Me.UserList.Items.Add(user)
         Next
+
+        Me.GetMoreUsersButton.Text = IIf(Me.UserList.Items.Count > 0, "さらに取得(&M)", "取得(&M)").ToString()
     End Sub
 
     Private Sub EditCheckBox_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EditCheckBox.CheckedChanged
@@ -132,6 +134,7 @@ Public Class ListManage
     Private Sub GetListMembersCallback(ByVal result As String)
         If result = Me.ListsList.SelectedItem.ToString Then
             Me.ListsList_SelectedIndexChanged(Me.ListsList, EventArgs.Empty)
+            Me.GetMoreUsersButton.Text = "さらに取得(&M)"
         Else
             MessageBox.Show(String.Format(My.Resources.ListManageGetListMembersCallback1, result))
         End If
