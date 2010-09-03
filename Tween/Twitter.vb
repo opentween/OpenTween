@@ -2405,9 +2405,8 @@ Public Class Twitter
 
         Dim m As Match = Regex.Match(retStr, "(^|[^a-zA-Z0-9_])[@＠]([a-zA-Z0-9_]{1,20})")
         While m.Success
-            AtList.Add(m.Result("$2").ToLower)
+            If Not AtList.Contains(m.Result("$2").ToLower) Then AtList.Add(m.Result("$2").ToLower)
             m = m.NextMatch
-
         End While
         '@先をリンクに置換
         retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9_/])([@＠])([a-zA-Z0-9_]{1,20})", "$1$2<a href=""/$3"">$3</a>")

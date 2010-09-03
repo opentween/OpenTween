@@ -5686,7 +5686,12 @@ RETRY:
                                 For Each nm As String In post.ReplyToList
                                     If Not ids.Contains("@" + nm + " ") AndAlso _
                                        Not nm.Equals(tw.Username, StringComparison.CurrentCultureIgnoreCase) Then
-                                        ids += "@" + nm + " "
+                                        Dim m As Match = Regex.Match(post.Data, "[@＠](?<id>" + nm + ")([^a-zA-Z0-9]|$)", RegexOptions.IgnoreCase)
+                                        If m.Success Then
+                                            ids += "@" + m.Result("${id}") + " "
+                                        Else
+                                            ids += "@" + nm + " "
+                                        End If
                                     End If
                                 Next
                             End If
@@ -5728,7 +5733,12 @@ RETRY:
                         For Each nm As String In post.ReplyToList
                             If Not ids.Contains("@" + nm + " ") AndAlso _
                                Not nm.Equals(tw.Username, StringComparison.CurrentCultureIgnoreCase) Then
-                                ids += "@" + nm + " "
+                                Dim m As Match = Regex.Match(post.Data, "[@＠](?<id>" + nm + ")([^a-zA-Z0-9]|$)", RegexOptions.IgnoreCase)
+                                If m.Success Then
+                                    ids += "@" + m.Result("${id}") + " "
+                                Else
+                                    ids += "@" + nm + " "
+                                End If
                             End If
                         Next
                         If Not String.IsNullOrEmpty(post.RetweetedBy) Then
