@@ -352,6 +352,9 @@
     <EmbeddedResource Include="MyLists.resx">
       <DependentUpon>MyLists.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MyLists.zh-CHS.resx">
+      <DependentUpon>MyLists.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="OpenURL.en.resx">
       <DependentUpon>OpenURL.vb</DependentUpon>
       <SubType>Designer</SubType>
