@@ -933,4 +933,7 @@
   <data name="MyLists1" xml:space="preserve">
     <value>所在列表管理</value>
   </data>
+  <data name="RtCountText1" xml:space="preserve">
+    <value>人锐推了该消息</value>
+  </data>
 </root>
