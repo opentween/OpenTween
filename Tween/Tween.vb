@@ -5406,7 +5406,7 @@ RETRY:
             inputName.Dispose()
         End Using
         Me.TopMost = SettingDialog.AlwaysTop
-        If newTabText <> "" Then
+        If Not String.IsNullOrEmpty(newTabText) Then
             '新タブ名存在チェック
             For i As Integer = 0 To ListTab.TabCount - 1
                 If ListTab.TabPages(i).Text = newTabText Then
@@ -5499,7 +5499,7 @@ RETRY:
         Next
 
         'タブのないところにドロップ->最後尾へ移動
-        If tn = "" Then
+        If String.IsNullOrEmpty(tn) Then
             tn = ListTab.TabPages(ListTab.TabPages.Count - 1).Text
             bef = False
             i = ListTab.TabPages.Count - 1
@@ -5565,7 +5565,7 @@ RETRY:
                     _reply_to_name = ""
                     Exit Sub
                 End If
-                If StatusText.Text = "" Then
+                If String.IsNullOrEmpty(StatusText.Text) Then
                     '空の場合
 
                     ' ステータステキストが入力されていない場合先頭に@ユーザー名を追加する
@@ -5730,14 +5730,14 @@ RETRY:
                                 ids += "@" + nm + " "
                             End If
                         Next
-                        If post.RetweetedBy <> "" Then
+                        If Not String.IsNullOrEmpty(post.RetweetedBy) Then
                             If Not ids.Contains("@" + post.RetweetedBy + " ") AndAlso _
                                Not post.RetweetedBy.Equals(tw.Username, StringComparison.CurrentCultureIgnoreCase) Then
                                 ids += "@" + post.RetweetedBy + " "
                             End If
                         End If
                         If ids.Length = 0 Then Exit Sub
-                        If StatusText.Text = "" Then
+                        If String.IsNullOrEmpty(StatusText.Text) Then
                             '未入力の場合のみ返信先付加
                             StatusText.Text = ids
                             StatusText.SelectionStart = ids.Length
@@ -5838,7 +5838,7 @@ RETRY:
 
     Private Sub ContextMenuTabProperty_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuTabProperty.Opening
         '右クリックの場合はタブ名が設定済。アプリケーションキーの場合は現在のタブを対象とする
-        If _rclickTabName = "" OrElse sender IsNot ContextMenuTabProperty Then
+        If String.IsNullOrEmpty(_rclickTabName) OrElse sender IsNot ContextMenuTabProperty Then
             If ListTab IsNot Nothing AndAlso ListTab.SelectedTab IsNot Nothing Then
                 _rclickTabName = ListTab.SelectedTab.Text
             Else
@@ -5902,7 +5902,7 @@ RETRY:
         UreadManageMenuItem.Checked = DirectCast(sender, ToolStripMenuItem).Checked
         Me.UnreadMngTbMenuItem.Checked = UreadManageMenuItem.Checked
 
-        If _rclickTabName = "" Then Exit Sub
+        If String.IsNullOrEmpty(_rclickTabName) Then Exit Sub
         ChangeTabUnreadManage(_rclickTabName, UreadManageMenuItem.Checked)
 
         SaveConfigsTabs()
@@ -5939,7 +5939,7 @@ RETRY:
         NotifyDispMenuItem.Checked = DirectCast(sender, ToolStripMenuItem).Checked
         Me.NotifyTbMenuItem.Checked = NotifyDispMenuItem.Checked
 
-        If _rclickTabName = "" Then Exit Sub
+        If String.IsNullOrEmpty(_rclickTabName) Then Exit Sub
 
         _statuses.Tabs(_rclickTabName).Notify = NotifyDispMenuItem.Checked
 
@@ -5955,7 +5955,7 @@ RETRY:
     End Sub
 
     Private Sub DeleteTabMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles DeleteTabMenuItem.Click, DeleteTbMenuItem.Click
-        If _rclickTabName = "" OrElse sender Is Me.DeleteTbMenuItem Then _rclickTabName = ListTab.SelectedTab.Text
+        If String.IsNullOrEmpty(_rclickTabName) OrElse sender Is Me.DeleteTbMenuItem Then _rclickTabName = ListTab.SelectedTab.Text
 
         RemoveSpecifiedTab(_rclickTabName)
         SaveConfigsTabs()
@@ -5963,7 +5963,7 @@ RETRY:
 
     Private Sub FilterEditMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FilterEditMenuItem.Click, EditRuleTbMenuItem.Click
 
-        If _rclickTabName = "" Then _rclickTabName = _statuses.GetTabByType(TabUsageType.Home).TabName
+        If String.IsNullOrEmpty(_rclickTabName) Then _rclickTabName = _statuses.GetTabByType(TabUsageType.Home).TabName
         fDialog.SetCurrent(_rclickTabName)
         fDialog.ShowDialog()
         Me.TopMost = SettingDialog.AlwaysTop
@@ -6007,7 +6007,7 @@ RETRY:
             inputName.Dispose()
         End Using
         Me.TopMost = SettingDialog.AlwaysTop
-        If tabName <> "" Then
+        If Not String.IsNullOrEmpty(tabName) Then
             'List対応
             Dim list As ListElement = Nothing
             If tabUsage = TabUsageType.Lists Then
@@ -6207,7 +6207,7 @@ RETRY:
                     inputName.Dispose()
                 End Using
                 Me.TopMost = SettingDialog.AlwaysTop
-                If tabName <> "" Then
+                If Not String.IsNullOrEmpty(tabName) Then
                     If Not AddNewTab(tabName, False, TabUsageType.UserDefined) Then
                         Dim tmp As String = String.Format(My.Resources.IDRuleMenuItem_ClickText2, tabName)
                         MessageBox.Show(tmp, My.Resources.IDRuleMenuItem_ClickText3, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -6545,10 +6545,10 @@ RETRY:
                 End If
             End If
         Next
-        If HashMgr.UseHash <> "" AndAlso Not hstr.Contains(HashMgr.UseHash + " ") Then
+        If Not String.IsNullOrEmpty(HashMgr.UseHash) AndAlso Not hstr.Contains(HashMgr.UseHash + " ") Then
             hstr += HashMgr.UseHash
         End If
-        If hstr <> "" Then HashMgr.AddHashToHistory(hstr.Trim, False)
+        If Not String.IsNullOrEmpty(hstr) Then HashMgr.AddHashToHistory(hstr.Trim, False)
 
         ' 本当にリプライ先指定すべきかどうかの判定
         m = Regex.Matches(StatusText, "(^|[ -/:-@[-^`{-~])(?<id>@[a-zA-Z0-9_]+)")
@@ -6565,7 +6565,7 @@ RETRY:
         If _reply_to_id = 0 Then Exit Sub
 
         ' リプライ先ユーザー名がない場合も指定しない
-        If _reply_to_name = "" Then
+        If String.IsNullOrEmpty(_reply_to_name) Then
             _reply_to_id = 0
             Exit Sub
         End If
@@ -6825,7 +6825,7 @@ RETRY:
                     Return True
                 End If
 
-                If Not result = "" Then
+                If Not String.IsNullOrEmpty(result) Then
                     Dim undotmp As New urlUndo
 
                     StatusText.Select(StatusText.Text.IndexOf(tmp, StringComparison.Ordinal), tmp.Length)
@@ -6868,7 +6868,7 @@ RETRY:
                     Continue For
                 End If
 
-                If Not result = "" Then
+                If Not String.IsNullOrEmpty(result) Then
                     StatusText.Select(StatusText.Text.IndexOf(mt.Result("${url}"), StringComparison.Ordinal), mt.Result("${url}").Length)
                     StatusText.SelectedText = result
                     'undoバッファにセット
@@ -7592,7 +7592,7 @@ RETRY:
     End Sub
 
     Private Sub TabRenameMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TabRenameMenuItem.Click, RenameTbMenuItem.Click
-        If _rclickTabName = "" Then Exit Sub
+        If String.IsNullOrEmpty(_rclickTabName) Then Exit Sub
         TabRename(_rclickTabName)
     End Sub
 
