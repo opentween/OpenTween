@@ -1,6 +1,7 @@
 ﻿Imports System.Text
 Imports System.Net
 Imports System.IO
+Imports System.Diagnostics
 
 '''<summary>
 '''BASIC認証を使用するHTTP通信
@@ -59,7 +60,8 @@ Public Class HttpConnectionBasic
             code = GetResponse(webReq, content, headerInfo, False)
         End If
         If callback IsNot Nothing Then
-            callback(Me, code, content)
+            Dim frame As New StackFrame(1)
+            callback(frame.GetMethod.Name, code, content)
         End If
         Return code
     End Function
@@ -90,7 +92,8 @@ Public Class HttpConnectionBasic
             code = GetResponse(webReq, content, headerInfo, False)
         End If
         If callback IsNot Nothing Then
-            callback(Me, code, content)
+            Dim frame As New StackFrame(1)
+            callback(frame.GetMethod.Name, code, content)
         End If
         Return code
     End Function

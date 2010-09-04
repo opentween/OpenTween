@@ -4,6 +4,7 @@ Imports System.Collections.Specialized
 Imports System.IO
 Imports System.Text
 Imports System.Security
+Imports System.Diagnostics
 
 '''<summary>
 '''OAuth認証を使用するHTTP通信。HMAC-SHA1固定
@@ -88,7 +89,8 @@ Public Class HttpConnectionOAuth
             code = GetResponse(webReq, content, headerInfo, False)
         End If
         If callback IsNot Nothing Then
-            callback(Me, code, content)
+            Dim frame As New StackFrame(1)
+            callback(frame.GetMethod.Name, code, content)
         End If
         Return code
     End Function
@@ -121,7 +123,8 @@ Public Class HttpConnectionOAuth
             code = GetResponse(webReq, content, headerInfo, False)
         End If
         If callback IsNot Nothing Then
-            callback(Me, code, content)
+            Dim frame As New StackFrame(1)
+            callback(frame.GetMethod.Name, code, content)
         End If
         Return code
     End Function
