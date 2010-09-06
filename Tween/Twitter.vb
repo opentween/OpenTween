@@ -52,8 +52,7 @@ Public Class Twitter
     Private _uid As String
     Private _iconSz As Integer
     Private _getIcon As Boolean
-    Private _lIcon As ImageList
-    Private _dIcon As Dictionary(Of String, Image)
+    Private _dIcon As IDictionary(Of String, Image)
 
     Private _tinyUrlResolve As Boolean
     Private _restrictFavCheck As Boolean
@@ -234,20 +233,15 @@ Public Class Twitter
 
     Private Sub GetIconImage(ByVal post As PostClass)
         Dim img As Image
-        Dim bmp2 As Bitmap
 
         Try
             If Not _getIcon Then
-                post.ImageIndex = -1
+                post.ImageUrl = Nothing
                 TabInformations.GetInstance.AddPost(post)
                 Exit Sub
             End If
 
-            SyncLock LockObj
-                post.ImageIndex = _lIcon.Images.IndexOfKey(post.ImageUrl)
-            End SyncLock
-
-            If post.ImageIndex > -1 Then
+            If _dIcon.ContainsKey(post.ImageUrl) Then
                 TabInformations.GetInstance.AddPost(post)
                 Exit Sub
             End If
@@ -255,7 +249,7 @@ Public Class Twitter
             Dim httpVar As New HttpVarious
             img = httpVar.GetImage(post.ImageUrl, 10000)
             If img Is Nothing Then
-                post.ImageIndex = -1
+                post.ImageUrl = Nothing
                 TabInformations.GetInstance.AddPost(post)
                 Exit Sub
             End If
@@ -263,28 +257,18 @@ Public Class Twitter
             If _endingFlag Then Exit Sub
 
             SyncLock LockObj
-                post.ImageIndex = _lIcon.Images.IndexOfKey(post.ImageUrl)
-                If post.ImageIndex = -1 Then
+                If Not _dIcon.ContainsKey(post.ImageUrl) Then
                     Try
-                        bmp2 = New Bitmap(_iconSz, _iconSz)
-                        Using g As Graphics = Graphics.FromImage(bmp2)
-                            g.InterpolationMode = Drawing2D.InterpolationMode.High
-                            g.DrawImage(img, 0, 0, _iconSz, _iconSz)
-                            g.Dispose()
-                        End Using
-
                         _dIcon.Add(post.ImageUrl, img)
-                        _lIcon.Images.Add(post.ImageUrl, bmp2)
-                        post.ImageIndex = _lIcon.Images.IndexOfKey(post.ImageUrl)
                     Catch ex As InvalidOperationException
                         'タイミングにより追加できない場合がある？（キー重複ではない）
-                        post.ImageIndex = -1
+                        post.ImageUrl = Nothing
                     Catch ex As System.OverflowException
                         '不正なアイコン？DrawImageに失敗する場合あり
-                        post.ImageIndex = -1
+                        post.ImageUrl = Nothing
                     Catch ex As OutOfMemoryException
                         'DrawImageで発生
-                        post.ImageIndex = -1
+                        post.ImageUrl = Nothing
                     End Try
                 End If
             End SyncLock
@@ -293,7 +277,6 @@ Public Class Twitter
             'タイミングによってはキー重複
         Finally
             img = Nothing
-            bmp2 = Nothing
             post = Nothing
         End Try
     End Sub
@@ -1282,14 +1265,11 @@ Public Class Twitter
     End Function
 #End Region
 
-    Public WriteOnly Property ListIcon() As ImageList
-        Set(ByVal value As ImageList)
-            _lIcon = value
-        End Set
-    End Property
-
-    Public WriteOnly Property DetailIcon() As Dictionary(Of String, Image)
-        Set(ByVal value As Dictionary(Of String, Image))
+    Public Property DetailIcon() As IDictionary(Of String, Image)
+        Get
+            Return _dIcon
+        End Get
+        Set(ByVal value As IDictionary(Of String, Image))
             _dIcon = value
         End Set
     End Property

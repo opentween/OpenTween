@@ -148,6 +148,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="HookGlobalHotkey.vb" />
+    <Compile Include="ImageCacheDictionary.vb" />
     <Compile Include="InputTabName.Designer.vb">
       <DependentUpon>InputTabName.vb</DependentUpon>
     </Compile>
