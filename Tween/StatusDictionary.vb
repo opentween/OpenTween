@@ -48,7 +48,6 @@ Public NotInheritable Class PostClass
     Private _Source As String
     Private _ReplyToList As New List(Of String)
     Private _IsMe As Boolean
-    Private _ImageIndex As Integer
     Private _IsDm As Boolean
     Private _statuses As Statuses = Statuses.None
     Private _Uid As Long
@@ -85,7 +84,6 @@ Public NotInheritable Class PostClass
             ByVal Source As String, _
             ByVal ReplyToList As List(Of String), _
             ByVal IsMe As Boolean, _
-            ByVal ImageIndex As Integer, _
             ByVal IsDm As Boolean, _
             ByVal Uid As Long, _
             ByVal FilterHit As Boolean, _
@@ -110,7 +108,6 @@ Public NotInheritable Class PostClass
         _Source = Source
         _ReplyToList = ReplyToList
         _IsMe = IsMe
-        _ImageIndex = ImageIndex
         _IsDm = IsDm
         _Uid = Uid
         _FilterHit = FilterHit
@@ -293,14 +290,6 @@ Public NotInheritable Class PostClass
         End Get
         Set(ByVal value As Boolean)
             _IsMe = value
-        End Set
-    End Property
-    Public Property ImageIndex() As Integer
-        Get
-            Return _ImageIndex
-        End Get
-        Set(ByVal value As Integer)
-            _ImageIndex = value
         End Set
     End Property
     Public Property IsDm() As Boolean
@@ -955,7 +944,6 @@ Public NotInheritable Class TabInformations
                         item.Source, _
                         item.ReplyToList, _
                         item.IsMe, _
-                        item.ImageIndex, _
                         item.IsDm, _
                         item.Uid, _
                         item.FilterHit, _

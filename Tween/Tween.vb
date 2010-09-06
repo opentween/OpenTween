@@ -119,8 +119,7 @@ Public Class TweenMain
     Private _clInputBackcolor As Color      '入力欄背景色
     Private _clInputFont As Color           '入力欄文字色
     Private _fntInputFont As Font           '入力欄フォント
-    Private TIconDic As Dictionary(Of String, Image)        '発言詳細部用アイコン画像リスト
-    Private TIconSmallList As ImageList   'リスト表示用アイコン画像リスト
+    Private TIconDic As IDictionary(Of String, Image)        'アイコン画像リスト
     Private NIconAt As Icon               'At.ico             タスクトレイアイコン：通常時
     Private NIconAtRed As Icon            'AtRed.ico          タスクトレイアイコン：通信エラー時
     Private NIconAtSmoke As Icon          'AtSmoke.ico        タスクトレイアイコン：オフライン時
@@ -326,7 +325,7 @@ Public Class TweenMain
             Next
             TIconDic.Clear()
         End If
-        If TIconSmallList IsNot Nothing Then TIconSmallList.Dispose()
+        DirectCast(TIconDic, IDisposable).Dispose()
         If NIconAt IsNot Nothing Then NIconAt.Dispose()
         If NIconAtRed IsNot Nothing Then NIconAtRed.Dispose()
         If NIconAtSmoke IsNot Nothing Then NIconAtSmoke.Dispose()
@@ -986,13 +985,10 @@ Public Class TweenMain
         If _iconSz = 0 Then
             sz = 16
         End If
-        TIconSmallList = New ImageList
-        TIconSmallList.ImageSize = New Size(sz, sz)
-        TIconSmallList.ColorDepth = ColorDepth.Depth32Bit
-        '発言詳細部のアイコンリスト作成
-        TIconDic = New Dictionary(Of String, Image)
 
-        tw.ListIcon = TIconSmallList
+        'アイコンリスト作成
+        TIconDic = New ImageCacheDictionary(3000)
+
         tw.DetailIcon = TIconDic
 
         StatusLabel.Text = My.Resources.Form1_LoadText1       '画面右下の状態表示を変更
@@ -3227,14 +3223,7 @@ Public Class TweenMain
         AddHandler _listCustom.DrawColumnHeader, AddressOf MyList_DrawColumnHeader
         AddHandler _listCustom.DragDrop, AddressOf TweenMain_DragDrop
         AddHandler _listCustom.DragOver, AddressOf TweenMain_DragOver
-
-        Select Case _iconSz
-            Case 26, 48
-                AddHandler _listCustom.DrawItem, AddressOf MyList_DrawItem
-            Case Else
-                AddHandler _listCustom.DrawItem, AddressOf MyList_DrawItemDefault
-        End Select
-
+        AddHandler _listCustom.DrawItem, AddressOf MyList_DrawItem
         AddHandler _listCustom.MouseClick, AddressOf MyList_MouseClick
         AddHandler _listCustom.ColumnReordered, AddressOf MyList_ColumnReordered
         AddHandler _listCustom.ColumnWidthChanged, AddressOf MyList_ColumnWidthChanged
@@ -3265,7 +3254,11 @@ Public Class TweenMain
             TabDialog.AddTab(tabName)
         End If
 
-        _listCustom.SmallImageList = TIconSmallList
+        _listCustom.SmallImageList = New ImageList()
+        If _iconSz > 0 Then
+            _listCustom.SmallImageList.ImageSize = New Size(_iconSz, _iconSz)
+        End If
+
         Dim dispOrder(7) As Integer
         If Not startup Then
             For i As Integer = 0 To _curList.Columns.Count - 1
@@ -3392,14 +3385,7 @@ Public Class TweenMain
         RemoveHandler _listCustom.DrawColumnHeader, AddressOf MyList_DrawColumnHeader
         RemoveHandler _listCustom.DragDrop, AddressOf TweenMain_DragDrop
         RemoveHandler _listCustom.DragOver, AddressOf TweenMain_DragOver
-
-        Select Case _iconSz
-            Case 26, 48
-                RemoveHandler _listCustom.DrawItem, AddressOf MyList_DrawItem
-            Case Else
-                RemoveHandler _listCustom.DrawItem, AddressOf MyList_DrawItemDefault
-        End Select
-
+        RemoveHandler _listCustom.DrawItem, AddressOf MyList_DrawItem
         RemoveHandler _listCustom.MouseClick, AddressOf MyList_MouseClick
         RemoveHandler _listCustom.ColumnReordered, AddressOf MyList_ColumnReordered
         RemoveHandler _listCustom.ColumnWidthChanged, AddressOf MyList_ColumnWidthChanged
@@ -3709,10 +3695,10 @@ Public Class TweenMain
         Dim itm As ListViewItem
         If Post.RetweetedId = 0 Then
             Dim sitem() As String = {"", Post.Nickname, Post.Data, Post.PDate.ToString(SettingDialog.DateTimeFormat), Post.Name, "", mk, Post.Source}
-            itm = New ListViewItem(sitem, Post.ImageIndex)
+            itm = New ListViewItem(sitem, Post.ImageUrl)
         Else
             Dim sitem() As String = {"", Post.Nickname, Post.Data, Post.PDate.ToString(SettingDialog.DateTimeFormat), Post.Name + "(RT:" + Post.RetweetedBy + ")", "", mk, Post.Source}
-            itm = New ListViewItem(sitem, Post.ImageIndex)
+            itm = New ListViewItem(sitem, Post.ImageUrl)
         End If
         Dim read As Boolean = Post.IsRead
         '未読管理していなかったら既読として扱う
@@ -3727,12 +3713,7 @@ Public Class TweenMain
         e.DrawDefault = True
     End Sub
 
-    Private Sub MyList_DrawItemDefault(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DrawListViewItemEventArgs)
-        e.DrawDefault = True
-    End Sub
-
     Private Sub MyList_DrawItem(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DrawListViewItemEventArgs)
-        'アイコンサイズ26,48はオーナードロー（DrawSubItem発生させる）
         If e.State = 0 Then Exit Sub
         e.DrawDefault = False
         If Not e.Item.Selected Then     'e.ItemStateでうまく判定できない？？？
@@ -3773,6 +3754,10 @@ Public Class TweenMain
             rct.Width = e.Header.Width
             rctB.Width = e.Header.Width
             If _iconCol Then rct.Height = e.Item.Font.Height
+
+            If _iconSz = 16 Then
+                rct.Inflate(0, (rct.Height - e.Item.Font.Height) / -2)
+            End If
             'アイコン以外の列
             If Not e.Item.Selected Then     'e.ItemStateでうまく判定できない？？？
                 '選択されていない行
@@ -3800,6 +3785,8 @@ Public Class TweenMain
                         e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems(2).Text, e.Item.Font, brs, rctB, sf)
                         e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]", fnt, brs, rct, sf)
                         fnt.Dispose()
+                    ElseIf _iconSz = 16 Then
+                        e.Graphics.DrawString(e.SubItem.Text.Replace(Environment.NewLine, " "), e.Item.Font, brs, rct, sf)
                     Else
                         e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, brs, rct, sf)
                     End If
@@ -3813,6 +3800,8 @@ Public Class TweenMain
                         If _iconCol Then
                             e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems(2).Text, e.Item.Font, _brsHighLightText, rctB, sf)
                             e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]", fnt, _brsHighLightText, rct, sf)
+                        ElseIf _iconSz = 16 Then
+                            e.Graphics.DrawString(e.SubItem.Text.Replace(Environment.NewLine, " "), e.Item.Font, _brsHighLightText, rct, sf)
                         Else
                             e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, _brsHighLightText, rct, sf)
                         End If
@@ -3820,6 +3809,8 @@ Public Class TweenMain
                         If _iconCol Then
                             e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems(2).Text, e.Item.Font, _brsForeColorUnread, rctB, sf)
                             e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]", fnt, _brsForeColorUnread, rct, sf)
+                        ElseIf _iconSz = 16 Then
+                            e.Graphics.DrawString(e.SubItem.Text.Replace(Environment.NewLine, " "), e.Item.Font, _brsForeColorUnread, rct, sf)
                         Else
                             e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, _brsForeColorUnread, rct, sf)
                         End If
@@ -3828,8 +3819,18 @@ Public Class TweenMain
                 End If
             End If
         Else
-            'アイコン列はデフォルト描画
-            e.DrawDefault = True
+            If _iconSz > 0 Then
+                If Not String.IsNullOrEmpty(e.Item.ImageKey) Then
+                    'e.Bounds.Leftが常に0を指すから自前で計算
+                    Dim x As Integer = 0
+                    For Each columns As ColumnHeader In e.Item.ListView.Columns
+                        If columns.DisplayIndex < e.Header.DisplayIndex Then
+                            x += columns.Width
+                        End If
+                    Next
+                    e.Graphics.DrawImage(tw.DetailIcon(e.Item.ImageKey), New Rectangle(x, e.Bounds.Top, Math.Min(_iconSz, e.Bounds.Width), _iconSz))
+                End If
+            End If
         End If
     End Sub
 
@@ -4200,7 +4201,7 @@ RETRY:
         If Not String.IsNullOrEmpty(_curPost.RetweetedBy) Then
             NameLabel.Text += " (RT:" + _curPost.RetweetedBy + ")"
         End If
-        If _curPost.ImageIndex > -1 Then
+        If _curPost.ImageUrl IsNot Nothing Then
             UserPicture.Image = TIconDic(_curPost.ImageUrl)
         Else
             UserPicture.Image = Nothing
@@ -4219,7 +4220,7 @@ RETRY:
             sb.AppendFormat("Data           : {0}<br>", _curPost.Data)
             sb.AppendFormat("(PlainText)    : <xmp>{0}</xmp><br>", _curPost.Data)
             sb.AppendFormat("Id             : {0}<br>", _curPost.Id.ToString)
-            sb.AppendFormat("ImageIndex     : {0}<br>", _curPost.ImageIndex.ToString)
+            'sb.AppendFormat("ImageIndex     : {0}<br>", _curPost.ImageIndex.ToString)
             sb.AppendFormat("ImageUrl       : {0}<br>", _curPost.ImageUrl)
             sb.AppendFormat("InReplyToId    : {0}<br>", _curPost.InReplyToId.ToString)
             sb.AppendFormat("InReplyToUser  : {0}<br>", _curPost.InReplyToUser)
