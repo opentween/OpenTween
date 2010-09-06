@@ -3828,7 +3828,9 @@ Public Class TweenMain
                             x += columns.Width
                         End If
                     Next
-                    e.Graphics.DrawImage(tw.DetailIcon(e.Item.ImageKey), New Rectangle(x, e.Bounds.Top, Math.Min(_iconSz, e.Bounds.Width), _iconSz))
+                    If tw.DetailIcon.ContainsKey(e.Item.ImageKey) Then
+                        e.Graphics.DrawImage(tw.DetailIcon(e.Item.ImageKey), New Rectangle(x, e.Bounds.Top, Math.Min(_iconSz, e.Bounds.Width), _iconSz))
+                    End If
                 End If
             End If
         End If
