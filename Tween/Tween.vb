@@ -3189,6 +3189,7 @@ Public Class TweenMain
         AddHandler _listCustom.CacheVirtualItems, AddressOf MyList_CacheVirtualItems
         AddHandler _listCustom.RetrieveVirtualItem, AddressOf MyList_RetrieveVirtualItem
         AddHandler _listCustom.DrawSubItem, AddressOf MyList_DrawSubItem
+        AddHandler _listCustom.Scrolled, AddressOf MyList_Scrolled
 
         InitColumnText()
         _colHd1.Text = ColumnText(0)
@@ -3351,6 +3352,7 @@ Public Class TweenMain
         RemoveHandler _listCustom.CacheVirtualItems, AddressOf MyList_CacheVirtualItems
         RemoveHandler _listCustom.RetrieveVirtualItem, AddressOf MyList_RetrieveVirtualItem
         RemoveHandler _listCustom.DrawSubItem, AddressOf MyList_DrawSubItem
+        RemoveHandler _listCustom.Scrolled, AddressOf MyList_Scrolled
 
         TabDialog.RemoveTab(TabName)
 
@@ -7038,6 +7040,11 @@ RETRY:
         'If changed Then
         '    SaveConfigsLocal()
         'End If
+    End Sub
+
+    Private Sub MyList_Scrolled(ByVal sender As Object, ByVal e As EventArgs)
+        Dim listView As DetailsListView = DirectCast(sender, DetailsListView)
+        listView.Refresh()
     End Sub
 
     Public Function WebBrowser_GetSelectionText(ByRef ComponentInstance As WebBrowser) As String
