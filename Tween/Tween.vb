@@ -6722,12 +6722,14 @@ RETRY:
                 ShowFriendShipToolStripMenuItem.Enabled = False
                 ShowUserStatusToolStripMenuItem.Enabled = True
                 SearchPostsDetailNameToolStripMenuItem.Enabled = False
+                ListManageUserContextToolStripMenuItem3.Enabled = False
             Else
                 FollowToolStripMenuItem.Enabled = True
                 UnFollowToolStripMenuItem.Enabled = True
                 ShowFriendShipToolStripMenuItem.Enabled = True
                 ShowUserStatusToolStripMenuItem.Enabled = True
                 SearchPostsDetailNameToolStripMenuItem.Enabled = True
+                ListManageUserContextToolStripMenuItem3.Enabled = True
             End If
         Else
             FollowToolStripMenuItem.Enabled = False
@@ -6735,6 +6737,7 @@ RETRY:
             ShowFriendShipToolStripMenuItem.Enabled = False
             ShowUserStatusToolStripMenuItem.Enabled = False
             SearchPostsDetailNameToolStripMenuItem.Enabled = False
+            ListManageUserContextToolStripMenuItem3.Enabled = False
         End If
     End Sub
 
