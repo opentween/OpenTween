@@ -147,6 +147,12 @@ Public Class TweenMain
 
     ' 以下DrawItem関連
     Private _brsHighLight As New SolidBrush(Color.FromKnownColor(KnownColor.Highlight))
+    Private _brsHighLightText As New SolidBrush(Color.FromKnownColor(KnownColor.HighlightText))
+    Private _brsForeColorUnread As SolidBrush
+    Private _brsForeColorReaded As SolidBrush
+    Private _brsForeColorFav As SolidBrush
+    Private _brsForeColorOWL As SolidBrush
+    Private _brsForeColorRetweet As SolidBrush
     Private _brsBackColorMine As SolidBrush
     Private _brsBackColorAt As SolidBrush
     Private _brsBackColorYou As SolidBrush
@@ -155,6 +161,7 @@ Public Class TweenMain
     Private _brsBackColorAtTo As SolidBrush
     Private _brsBackColorNone As SolidBrush
     Private _brsDeactiveSelection As New SolidBrush(Color.FromKnownColor(KnownColor.ButtonFace)) 'Listにフォーカスないときの選択行の背景色
+    Private sf As New StringFormat()
     Private sfTab As New StringFormat()
 
     '''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -331,6 +338,12 @@ Public Class TweenMain
         If ReplyIcon IsNot Nothing Then ReplyIcon.Dispose()
         If ReplyIconBlink IsNot Nothing Then ReplyIconBlink.Dispose()
         _brsHighLight.Dispose()
+        _brsHighLightText.Dispose()
+        If _brsForeColorUnread IsNot Nothing Then _brsForeColorUnread.Dispose()
+        If _brsForeColorReaded IsNot Nothing Then _brsForeColorReaded.Dispose()
+        If _brsForeColorFav IsNot Nothing Then _brsForeColorFav.Dispose()
+        If _brsForeColorOWL IsNot Nothing Then _brsForeColorOWL.Dispose()
+        If _brsForeColorRetweet IsNot Nothing Then _brsForeColorRetweet.Dispose()
         If _brsBackColorMine IsNot Nothing Then _brsBackColorMine.Dispose()
         If _brsBackColorAt IsNot Nothing Then _brsBackColorAt.Dispose()
         If _brsBackColorYou IsNot Nothing Then _brsBackColorYou.Dispose()
@@ -340,6 +353,7 @@ Public Class TweenMain
         If _brsBackColorNone IsNot Nothing Then _brsBackColorNone.Dispose()
         If _brsDeactiveSelection IsNot Nothing Then _brsDeactiveSelection.Dispose()
         shield.Dispose()
+        sf.Dispose()
         sfTab.Dispose()
         For Each bw As BackgroundWorker In _bw
             If bw IsNot Nothing Then
@@ -546,6 +560,11 @@ Public Class TweenMain
         _clInputFont = _cfgLocal.ColorInputFont
         _fntInputFont = _cfgLocal.FontInputFont
 
+        _brsForeColorUnread = New SolidBrush(_clUnread)
+        _brsForeColorReaded = New SolidBrush(_clReaded)
+        _brsForeColorFav = New SolidBrush(_clFav)
+        _brsForeColorOWL = New SolidBrush(_clOWL)
+        _brsForeColorRetweet = New SolidBrush(_clRetweet)
         _brsBackColorMine = New SolidBrush(_clSelf)
         _brsBackColorAt = New SolidBrush(_clAtSelf)
         _brsBackColorYou = New SolidBrush(_clTarget)
@@ -556,6 +575,8 @@ Public Class TweenMain
         _brsBackColorNone = New SolidBrush(_clListBackcolor)
 
         ' StringFormatオブジェクトへの事前設定
+        sf.Alignment = StringAlignment.Near
+        sf.LineAlignment = StringAlignment.Near
         sfTab.Alignment = StringAlignment.Center
         sfTab.LineAlignment = StringAlignment.Center
 
@@ -772,6 +793,16 @@ Public Class TweenMain
             _clInputBackcolor = SettingDialog.ColorInputBackcolor
             _clInputFont = SettingDialog.ColorInputFont
             _fntInputFont = SettingDialog.FontInputFont
+            _brsForeColorUnread.Dispose()
+            _brsForeColorReaded.Dispose()
+            _brsForeColorFav.Dispose()
+            _brsForeColorOWL.Dispose()
+            _brsForeColorRetweet.Dispose()
+            _brsForeColorUnread = New SolidBrush(_clUnread)
+            _brsForeColorReaded = New SolidBrush(_clReaded)
+            _brsForeColorFav = New SolidBrush(_clFav)
+            _brsForeColorOWL = New SolidBrush(_clOWL)
+            _brsForeColorRetweet = New SolidBrush(_clRetweet)
             _brsBackColorMine.Dispose()
             _brsBackColorAt.Dispose()
             _brsBackColorYou.Dispose()
@@ -2852,6 +2883,16 @@ Public Class TweenMain
                     MessageBox.Show(ex.Message)
                 End Try
 
+                _brsForeColorUnread.Dispose()
+                _brsForeColorReaded.Dispose()
+                _brsForeColorFav.Dispose()
+                _brsForeColorOWL.Dispose()
+                _brsForeColorRetweet.Dispose()
+                _brsForeColorUnread = New SolidBrush(_clUnread)
+                _brsForeColorReaded = New SolidBrush(_clReaded)
+                _brsForeColorFav = New SolidBrush(_clFav)
+                _brsForeColorOWL = New SolidBrush(_clOWL)
+                _brsForeColorRetweet = New SolidBrush(_clRetweet)
                 _brsBackColorMine.Dispose()
                 _brsBackColorAt.Dispose()
                 _brsBackColorYou.Dispose()
@@ -3708,77 +3749,81 @@ Public Class TweenMain
     End Sub
 
     Private Sub MyList_DrawSubItem(ByVal sender As Object, ByVal e As DrawListViewSubItemEventArgs)
-        If e.ItemState = 0 OrElse e.Header.Width <= 0 Then Exit Sub
+        If e.ItemState = 0 Then Exit Sub
+        If e.ColumnIndex > 0 Then
+            Dim rct As RectangleF = e.Bounds
+            Dim rctB As RectangleF = e.Bounds
+            rct.Width = e.Header.Width
+            rctB.Width = e.Header.Width
+            If _iconCol Then rctB.Height = e.Item.Font.Height
 
-        If e.ColumnIndex <> 0 Then 'アイコンカラム以外(文字列カラム)
-            Dim rect As RectangleF
-            Dim foreColor As Color
-            Dim drawText As String
-            Dim textFormat As TextFormatFlags
-
-            rect = New RectangleF(e.Bounds.X, e.Bounds.Y, e.Header.Width, e.Bounds.Height)
-            rect.Inflate(0, (rect.Height Mod e.Item.Font.Height) / -2)
-
-            If e.Item.Selected Then
-                If DirectCast(sender, Windows.Forms.Control).Focused Then
-                    foreColor = Color.FromKnownColor(KnownColor.HighlightText)
-                Else
-                    foreColor = _clUnread
+            Dim heightDiff As Integer = CType(rct.Height Mod CType(e.Item.Font.Height, Single), Integer)
+            rct.Inflate(0, CType(heightDiff / -2, Integer))
+            'アイコン以外の列
+            If Not e.Item.Selected Then     'e.ItemStateでうまく判定できない？？？
+                '選択されていない行
+                '文字色
+                Dim brs As SolidBrush = Nothing
+                Dim flg As Boolean = False
+                Select Case e.Item.ForeColor
+                    Case _clUnread
+                        brs = _brsForeColorUnread
+                    Case _clReaded
+                        brs = _brsForeColorReaded
+                    Case _clFav
+                        brs = _brsForeColorFav
+                    Case _clOWL
+                        brs = _brsForeColorOWL
+                    Case _clRetweet
+                        brs = _brsForeColorRetweet
+                    Case Else
+                        brs = New SolidBrush(e.Item.ForeColor)
+                        flg = True
+                End Select
+                If rct.Width > 0 Then
+                    If _iconCol Then
+                        Dim fnt As New Font(e.Item.Font, FontStyle.Bold)
+                        e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems(2).Text, e.Item.Font, brs, rct, sf)
+                        e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]", fnt, brs, rctB, sf)
+                        fnt.Dispose()
+                    ElseIf _iconSz = 16 Then
+                        e.Graphics.DrawString(e.SubItem.Text.Replace(Environment.NewLine, " "), e.Item.Font, brs, rct, sf)
+                    Else
+                        e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, brs, rct, sf)
+                    End If
                 End If
+                If flg Then brs.Dispose()
             Else
-                foreColor = e.Item.ForeColor
-            End If
-
-            drawText = e.SubItem.Text
-
-            If _iconCol Then '2カラム表示のヘッダー描画
-                drawText = e.Item.SubItems(2).Text
-                rect = New RectangleF(rect.X, rect.Y + e.Item.Font.Height, rect.Width, rect.Height - e.Item.Font.Height)
-
-                Dim headerRect As New Rectangle(e.Bounds.X, e.Bounds.Y, e.Header.Width, e.Item.Font.Height)
-                Dim headerFont As New Font(e.Item.Font, FontStyle.Bold)
-                Dim headerText As String = e.Item.SubItems(4).Text + " / " +
-                                            e.Item.SubItems(1).Text +
-                                            " (" + e.Item.SubItems(3).Text + ") " +
-                                            e.Item.SubItems(5).Text +
-                                            e.Item.SubItems(6).Text +
-                                            " [" + e.Item.SubItems(7).Text + "]"
-
-                TextRenderer.DrawText(e.Graphics, headerText, headerFont, headerRect, foreColor, TextFormatFlags.Default)
-            End If
-
-            If Math.Floor(rect.Height / e.Item.Font.Height) <= 1 Then '1行表示
-                textFormat = TextFormatFlags.EndEllipsis Or TextFormatFlags.SingleLine
-            Else '複数行表示
-                textFormat = TextFormatFlags.Default
-
-                '折り返し制御
-                Dim sb As New StringBuilder(drawText.Length + 1)
-                For Each c As Char In drawText
-                    sb.Append(c)
-                    Dim size As Size = TextRenderer.MeasureText(sb.ToString(), e.Item.Font, rect.Size.ToSize(), textFormat)
-
-                    If size.Width > rect.Width Then
-                        sb.Insert(sb.Length - 1, Environment.NewLine)
-                        If size.Height > rect.Height Then
-                            Exit For
+                If rct.Width > 0 Then
+                    '選択中の行
+                    Dim fnt As New Font(e.Item.Font, FontStyle.Bold)
+                    If DirectCast(sender, Windows.Forms.Control).Focused Then
+                        If _iconCol Then
+                            e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems(2).Text, e.Item.Font, _brsHighLightText, rct, sf)
+                            e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]", fnt, _brsHighLightText, rctB, sf)
+                        ElseIf _iconSz = 16 Then
+                            e.Graphics.DrawString(e.SubItem.Text.Replace(Environment.NewLine, " "), e.Item.Font, _brsHighLightText, rct, sf)
+                        Else
+                            e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, _brsHighLightText, rct, sf)
+                        End If
+                    Else
+                        If _iconCol Then
+                            e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems(2).Text, e.Item.Font, _brsForeColorUnread, rct, sf)
+                            e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]", fnt, _brsForeColorUnread, rctB, sf)
+                        ElseIf _iconSz = 16 Then
+                            e.Graphics.DrawString(e.SubItem.Text.Replace(Environment.NewLine, " "), e.Item.Font, _brsForeColorUnread, rct, sf)
+                        Else
+                            e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, _brsForeColorUnread, rct, sf)
                         End If
                     End If
-                Next
-                drawText = sb.ToString()
+                    fnt.Dispose()
+                End If
             End If
-
-            TextRenderer.DrawText(e.Graphics, drawText, e.Item.Font, Rectangle.Round(rect), foreColor, textFormat)
-        Else 'アイコンカラム
+        Else
             If _iconSz > 0 Then
                 If Not String.IsNullOrEmpty(e.Item.ImageKey) Then
                     'e.Bounds.Leftが常に0を指すから自前で計算
-                    Dim x As Integer = 0
-                    For Each columns As ColumnHeader In e.Item.ListView.Columns
-                        If columns.DisplayIndex < e.Header.DisplayIndex Then
-                            x += columns.Width
-                        End If
-                    Next
+                    Dim x As Integer = e.Item.GetBounds(ItemBoundsPortion.Icon).X
 
                     If tw.DetailIcon.ContainsKey(e.Item.ImageKey) Then
                         e.Graphics.InterpolationMode = Drawing2D.InterpolationMode.High
