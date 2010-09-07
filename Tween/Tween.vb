@@ -3821,18 +3821,34 @@ Public Class TweenMain
                     fnt.Dispose()
                 End If
             End If
+
+            If _iconSz > 0 AndAlso Math.Abs(e.Header.DisplayIndex - e.Item.ListView.Columns(0).DisplayIndex) = 1 Then
+                If Not String.IsNullOrEmpty(e.Item.ImageKey) Then
+                    Me.DrawListViewItemIcon(e)
+                End If
+            End If
         Else
             If _iconSz > 0 Then
                 If Not String.IsNullOrEmpty(e.Item.ImageKey) Then
-                    'e.Bounds.Leftが常に0を指すから自前で計算
-                    Dim x As Integer = e.Item.GetBounds(ItemBoundsPortion.Icon).X
-
-                    If tw.DetailIcon.ContainsKey(e.Item.ImageKey) Then
-                        e.Graphics.InterpolationMode = Drawing2D.InterpolationMode.High
-                        e.Graphics.DrawImage(tw.DetailIcon(e.Item.ImageKey), New Rectangle(x, e.Bounds.Top, Math.Min(_iconSz, e.Bounds.Width), _iconSz))
-                    End If
+                    Me.DrawListViewItemIcon(e)
                 End If
             End If
+        End If
+    End Sub
+
+    Private Sub DrawListViewItemIcon(ByVal e As DrawListViewSubItemEventArgs)
+        'e.Bounds.Leftが常に0を指すから自前で計算
+        Dim x As Integer = e.Item.ListView.GetItemRect(e.ItemIndex).X
+
+        For Each clm As ColumnHeader In e.Item.ListView.Columns
+            If clm.DisplayIndex < e.Item.ListView.Columns(0).DisplayIndex Then
+                x += clm.Width
+            End If
+        Next
+
+        If tw.DetailIcon.ContainsKey(e.Item.ImageKey) Then
+            e.Graphics.InterpolationMode = Drawing2D.InterpolationMode.High
+            e.Graphics.DrawImage(tw.DetailIcon(e.Item.ImageKey), New Rectangle(x, e.Bounds.Top, Math.Min(_iconSz, e.Item.ListView.Columns(0).Width), _iconSz))
         End If
     End Sub
 
