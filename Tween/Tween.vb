@@ -2504,8 +2504,10 @@ Public Class TweenMain
         If _statuses Is Nothing OrElse _statuses.Tabs Is Nothing OrElse Not _statuses.Tabs.ContainsKey(ListTab.SelectedTab.Text) Then Exit Sub
         If _curPost Is Nothing Then
             ShowProfileMenuItem.Enabled = False
+            ListManageUserContextToolStripMenuItem2.Enabled = False
         Else
             ShowProfileMenuItem.Enabled = True
+            ListManageUserContextToolStripMenuItem2.Enabled = True
         End If
         If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.DirectMessage Then
             FavAddToolStripMenuItem.Enabled = False
@@ -8290,6 +8292,13 @@ RETRY:
             OpenRterHomeMenuItem.Enabled = False
         Else
             OpenRterHomeMenuItem.Enabled = True
+        End If
+        If _curPost Is Nothing Then
+            ShowProfMenuItem.Enabled = False
+            ToolStripMenuItem9.Enabled = False
+        Else
+            ShowProfMenuItem.Enabled = True
+            ToolStripMenuItem9.Enabled = True
         End If
     End Sub
 
