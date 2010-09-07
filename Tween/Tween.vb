@@ -577,6 +577,7 @@ Public Class TweenMain
         ' StringFormatオブジェクトへの事前設定
         sf.Alignment = StringAlignment.Near
         sf.LineAlignment = StringAlignment.Near
+        sf.Trimming = StringTrimming.EllipsisCharacter
         sfTab.Alignment = StringAlignment.Center
         sfTab.LineAlignment = StringAlignment.Center
 
@@ -3753,11 +3754,10 @@ Public Class TweenMain
             Dim rctB As RectangleF = e.Bounds
             rct.Width = e.Header.Width
             rctB.Width = e.Header.Width
-            If _iconCol Then rct.Height = e.Item.Font.Height
+            If _iconCol Then rctB.Height = e.Item.Font.Height
 
-            If _iconSz = 16 Then
-                rct.Inflate(0, (rct.Height - e.Item.Font.Height) / -2)
-            End If
+            Dim heightDiff As Integer = CType(rct.Height Mod CType(e.Item.Font.Height, Single), Integer)
+            rct.Inflate(0, CType(heightDiff / -2, Integer))
             'アイコン以外の列
             If Not e.Item.Selected Then     'e.ItemStateでうまく判定できない？？？
                 '選択されていない行
@@ -3782,8 +3782,8 @@ Public Class TweenMain
                 If rct.Width > 0 Then
                     If _iconCol Then
                         Dim fnt As New Font(e.Item.Font, FontStyle.Bold)
-                        e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems(2).Text, e.Item.Font, brs, rctB, sf)
-                        e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]", fnt, brs, rct, sf)
+                        e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems(2).Text, e.Item.Font, brs, rct, sf)
+                        e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]", fnt, brs, rctB, sf)
                         fnt.Dispose()
                     ElseIf _iconSz = 16 Then
                         e.Graphics.DrawString(e.SubItem.Text.Replace(Environment.NewLine, " "), e.Item.Font, brs, rct, sf)
@@ -3798,8 +3798,8 @@ Public Class TweenMain
                     Dim fnt As New Font(e.Item.Font, FontStyle.Bold)
                     If DirectCast(sender, Windows.Forms.Control).Focused Then
                         If _iconCol Then
-                            e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems(2).Text, e.Item.Font, _brsHighLightText, rctB, sf)
-                            e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]", fnt, _brsHighLightText, rct, sf)
+                            e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems(2).Text, e.Item.Font, _brsHighLightText, rct, sf)
+                            e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]", fnt, _brsHighLightText, rctB, sf)
                         ElseIf _iconSz = 16 Then
                             e.Graphics.DrawString(e.SubItem.Text.Replace(Environment.NewLine, " "), e.Item.Font, _brsHighLightText, rct, sf)
                         Else
@@ -3807,8 +3807,8 @@ Public Class TweenMain
                         End If
                     Else
                         If _iconCol Then
-                            e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems(2).Text, e.Item.Font, _brsForeColorUnread, rctB, sf)
-                            e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]", fnt, _brsForeColorUnread, rct, sf)
+                            e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems(2).Text, e.Item.Font, _brsForeColorUnread, rct, sf)
+                            e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]", fnt, _brsForeColorUnread, rctB, sf)
                         ElseIf _iconSz = 16 Then
                             e.Graphics.DrawString(e.SubItem.Text.Replace(Environment.NewLine, " "), e.Item.Font, _brsForeColorUnread, rct, sf)
                         Else
