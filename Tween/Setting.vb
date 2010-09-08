@@ -1854,7 +1854,7 @@ Public Class Setting
                     info.UsingCount = UsingApi
                     Dim proc As New Action(Of ApiInfo)(Sub(infoCount)
                                                            tw.GetInfoApi(infoCount) '取得エラー時はinfoCountは初期状態（値：-1）
-                                                           Me.Invoke(New Action(Of ApiInfo)(AddressOf DisplayApiMaxCount), infoCount)
+                                                           If Me.IsHandleCreated Then Me.Invoke(New Action(Of ApiInfo)(AddressOf DisplayApiMaxCount), infoCount)
                                                        End Sub)
                     proc.BeginInvoke(info, Nothing, Nothing)
                 Else

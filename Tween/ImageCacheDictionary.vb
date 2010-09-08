@@ -6,7 +6,7 @@ Public Class ImageCacheDictionary
 
     Dim memoryCacheCount As Integer
     Private innerDictionary As Dictionary(Of String, CachedImage)
-    Private sortedKeyList As List(Of String)
+    Private sortedKeyList As List(Of String)    '古いもの順
 
     Public Sub New(ByVal memoryCacheCount As Integer)
         Me.innerDictionary = New Dictionary(Of String, CachedImage)(memoryCacheCount + 1)
@@ -144,33 +144,35 @@ Public Class ImageCacheDictionary
 
         Private img As Image = Nothing
         Private tmpFilePath As String = Nothing
+        Private Shared lockObject As New Object
 
         Public Sub New(ByVal img As Image)
             Me.img = img
         End Sub
 
-        Public Property Image As Image
+        Public ReadOnly Property Image As Image
             Get
-                If Me.img Is Nothing Then
-                    Me.img = Image.FromFile(Me.tmpFilePath)
-                End If
+                SyncLock lockObject
+                    If Me.img Is Nothing Then
+                        Me.img = Image.FromFile(Me.tmpFilePath)
+                    End If
 
-                Return Me.img
+                    Return Me.img
+                End SyncLock
             End Get
-            Set(ByVal value As Image)
-
-            End Set
         End Property
 
         Public Sub Chache()
-            If Me.tmpFilePath Is Nothing Then
-                Me.tmpFilePath = Path.GetTempFileName()
-                Me.img.Save(Me.tmpFilePath)
-            End If
-            If Me.img IsNot Nothing Then
-                Me.img.Dispose()
-                Me.img = Nothing
-            End If
+            SyncLock lockObject
+                If Me.tmpFilePath Is Nothing Then
+                    Me.tmpFilePath = Path.GetTempFileName()
+                    Me.img.Save(Me.tmpFilePath)
+                End If
+                If Me.img IsNot Nothing Then
+                    Me.img.Dispose()
+                    Me.img = Nothing
+                End If
+            End SyncLock
         End Sub
 
         Public Sub Dispose() Implements IDisposable.Dispose
