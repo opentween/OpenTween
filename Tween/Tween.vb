@@ -3846,7 +3846,7 @@ Public Class TweenMain
             End If
         Next
 
-        If tw.DetailIcon.ContainsKey(e.Item.ImageKey) Then
+        If TIconDic.ContainsKey(e.Item.ImageKey) Then
             e.Graphics.InterpolationMode = Drawing2D.InterpolationMode.High
             e.Graphics.DrawImage(tw.DetailIcon(e.Item.ImageKey), New Rectangle(x, e.Bounds.Top, Math.Min(_iconSz, e.Item.ListView.Columns(0).Width), _iconSz))
         End If
@@ -4219,7 +4219,7 @@ RETRY:
         If Not String.IsNullOrEmpty(_curPost.RetweetedBy) Then
             NameLabel.Text += " (RT:" + _curPost.RetweetedBy + ")"
         End If
-        If _curPost.ImageUrl IsNot Nothing Then
+        If Not String.IsNullOrEmpty(_curPost.ImageUrl) AndAlso TIconDic.ContainsKey(_curPost.ImageUrl) Then
             UserPicture.Image = TIconDic(_curPost.ImageUrl)
         Else
             UserPicture.Image = Nothing
