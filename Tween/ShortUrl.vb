@@ -3,6 +3,7 @@ Imports System.Web
 
 Public Class ShortUrl
     Private Shared _ShortUrlService() As String = { _
+        "http://t.co/", _
         "http://tinyurl.com/", _
         "http://is.gd/", _
         "http://snipurl.com/", _
