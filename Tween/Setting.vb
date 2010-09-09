@@ -223,6 +223,7 @@ Public Class Setting
             End Select
             _MySortOrderLock = CheckSortOrderLock.Checked
             _MyTinyUrlResolve = CheckTinyURL.Checked
+            ShortUrl.IsResolve = _MyTinyUrlResolve
             If RadioProxyNone.Checked Then
                 _MyProxyType = HttpConnection.ProxyType.None
             ElseIf RadioProxyIE.Checked Then
@@ -1175,7 +1176,6 @@ Public Class Setting
         End Get
         Set(ByVal value As Boolean)
             _MyTinyUrlResolve = value
-            ShortUrl.IsResolve = value
         End Set
     End Property
 
