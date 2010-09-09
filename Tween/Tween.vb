@@ -6740,7 +6740,7 @@ RETRY:
                 ShowFriendShipToolStripMenuItem.Enabled = False
                 ShowUserStatusToolStripMenuItem.Enabled = True
                 SearchPostsDetailNameToolStripMenuItem.Enabled = False
-                ListManageUserContextToolStripMenuItem3.Enabled = False
+                ListManageUserContextToolStripMenuItem3.Enabled = True
             Else
                 FollowToolStripMenuItem.Enabled = True
                 UnFollowToolStripMenuItem.Enabled = True
