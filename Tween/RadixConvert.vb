@@ -416,7 +416,7 @@ Public Class RadixConvert
         ElseIf ascNum >= Asc("A") AndAlso ascNum <= Asc("Z") Then
             Return ascNum - Asc("A") + 10
         ElseIf ascNum >= Asc("a") AndAlso ascNum <= Asc("z") Then
-            Return Asc(ascNum.ToString) - Asc("a") + 10
+            Return ascNum - Asc("a") + 10
         Else
             Return -1
         End If

@@ -745,7 +745,7 @@ Public Class Thumbnail
         mc = Regex.Match(args.url, "^http://bctiny\.com/p(\w+)$", RegexOptions.IgnoreCase)
         If mc.Success Then
             Try
-                args.imglist.Add(New KeyValuePair(Of String, String)(args.url, "http://images.bcphotoshare.com/storages/" + RadixConvert.ToInt32(mc.Result("${1}"), 32).ToString + "/thumb180.jpg"))
+                args.imglist.Add(New KeyValuePair(Of String, String)(args.url, "http://images.bcphotoshare.com/storages/" + RadixConvert.ToInt32(mc.Result("${1}"), 36).ToString + "/thumb180.jpg"))
                 Return True
             Catch ex As ArgumentOutOfRangeException
             End Try
