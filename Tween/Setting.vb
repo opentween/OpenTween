@@ -1175,6 +1175,7 @@ Public Class Setting
         End Get
         Set(ByVal value As Boolean)
             _MyTinyUrlResolve = value
+            ShortUrl.IsResolve = value
         End Set
     End Property
 
