@@ -199,6 +199,10 @@ Public Class ImageCacheDictionary
                         Me.img.Save(Me.tmpFilePath)
                     Catch ex As InvalidOperationException
                         err = True
+                    Catch ex As Exception
+                        File.Delete(Me.tmpFilePath)
+                        Me.tmpFilePath = Nothing
+                        Exit Sub
                     End Try
                 Loop While err
 
