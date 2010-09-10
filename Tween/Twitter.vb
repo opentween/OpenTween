@@ -1590,7 +1590,8 @@ Public Class Twitter
         End If
 
         Try
-            res = twCon.Search(tab.SearchWords, tab.SearchLang, 40, page, sinceId, content)
+            ' TODO:一時的に40>100件に 件数変更UI作成の必要あり
+            res = twCon.Search(tab.SearchWords, tab.SearchLang, 100, page, sinceId, content)
         Catch ex As Exception
             Return "Err:" + ex.Message
         End Try
