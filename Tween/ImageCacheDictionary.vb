@@ -4,15 +4,20 @@ Imports System.IO
 Public Class ImageCacheDictionary
     Implements IDictionary(Of String, Image), IDisposable
 
-    Dim memoryCacheCount As Integer
+    Private cacheDiractoryPath As String
+    Private memoryCacheCount As Integer
     Private innerDictionary As Dictionary(Of String, CachedImage)
     Private sortedKeyList As List(Of String)    '古いもの順
 
-    Public Sub New(ByVal memoryCacheCount As Integer)
+    Public Sub New(ByVal cacheDirectory As String, ByVal memoryCacheCount As Integer)
         SyncLock Me
             Me.innerDictionary = New Dictionary(Of String, CachedImage)(memoryCacheCount + 1)
             Me.sortedKeyList = New List(Of String)(memoryCacheCount + 1)
             Me.memoryCacheCount = memoryCacheCount
+            Me.cacheDiractoryPath = cacheDirectory
+            If Not Directory.Exists(Me.cacheDiractoryPath) Then
+                Directory.CreateDirectory(Me.cacheDiractoryPath)
+            End If
         End SyncLock
     End Sub
 
@@ -22,7 +27,7 @@ Public Class ImageCacheDictionary
 
     Public Sub Add(ByVal key As String, ByVal value As Image) Implements System.Collections.Generic.IDictionary(Of String, Image).Add
         SyncLock Me
-            Me.innerDictionary.Add(key, New CachedImage(value))
+            Me.innerDictionary.Add(key, New CachedImage(value, Me.cacheDiractoryPath))
             Me.sortedKeyList.Add(key)
 
             If Me.innerDictionary.Count > Me.memoryCacheCount Then
@@ -62,7 +67,7 @@ Public Class ImageCacheDictionary
                     Me.innerDictionary(Me.sortedKeyList(Me.sortedKeyList.Count - Me.memoryCacheCount - 1)).Chache()
                 End If
                 Me.innerDictionary(key).Dispose()
-                Me.innerDictionary(key) = New CachedImage(value)
+                Me.innerDictionary(key) = New CachedImage(value, Me.cacheDiractoryPath)
             End SyncLock
         End Set
     End Property
@@ -162,6 +167,9 @@ Public Class ImageCacheDictionary
             For Each item As CachedImage In Me.innerDictionary.Values
                 item.Dispose()
             Next
+
+            Dim di As New DirectoryInfo(Me.cacheDiractoryPath)
+            di.Delete(True)
         End SyncLock
     End Sub
 
@@ -170,9 +178,11 @@ Public Class ImageCacheDictionary
 
         Private img As Image = Nothing
         Private tmpFilePath As String = Nothing
+        Private cacheDirectoryPath As String
 
-        Public Sub New(ByVal img As Image)
+        Public Sub New(ByVal img As Image, ByVal cacheDirectory As String)
             Me.img = img
+            Me.cacheDirectoryPath = cacheDirectory
         End Sub
 
         Public ReadOnly Property Image As Image
@@ -197,28 +207,29 @@ Public Class ImageCacheDictionary
 
         Public Sub Chache()
             If Me.tmpFilePath Is Nothing Then
-                Me.tmpFilePath = Path.GetTempFileName()
-
-                While Not File.Exists(Me.tmpFilePath)
-                End While
+                Dim tmpFile As String = Nothing
 
                 Dim err As Boolean = False
                 Do
                     Try
                         err = False
-                        Using fs As New FileStream(Me.tmpFilePath, FileMode.Open, FileAccess.Write)
+                        tmpFile = Path.Combine(Me.cacheDirectoryPath, Path.GetRandomFileName())
+
+                        Using fs As New FileStream(tmpFile, FileMode.CreateNew, FileAccess.Write)
                             Me.img.Save(fs, Imaging.ImageFormat.Bmp)
                             fs.Flush()
                         End Using
                     Catch ex As InvalidOperationException
                         err = True
+                    Catch ex As IOException
+                        err = True
                     Catch ex As Exception
-                        File.Delete(Me.tmpFilePath)
+                        File.Delete(tmpFile)
                         Me.tmpFilePath = Nothing
                         Exit Sub
                     End Try
                 Loop While err
-
+                Me.tmpFilePath = tmpFile
             End If
             If Me.img IsNot Nothing Then
                 Me.img.Dispose()
