@@ -181,7 +181,8 @@ Public Class ImageCacheDictionary
                     Try
                         Me.img = Image.FromFile(Me.tmpFilePath)
                     Catch ex As OutOfMemoryException
-                        File.Copy(Me.tmpFilePath, Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "TweenCache"), Path.GetFileName(Me.tmpFilePath)))
+                        Dim filePath As String = Path.Combine(Application.StartupPath, Path.GetFileName(Me.tmpFilePath))
+                        File.Copy(Me.tmpFilePath, filePath)
                         Throw ex
                     End Try
                 End If
