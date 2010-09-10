@@ -178,7 +178,12 @@ Public Class ImageCacheDictionary
         Public ReadOnly Property Image As Image
             Get
                 If Me.img Is Nothing Then
-                    Me.img = Image.FromFile(Me.tmpFilePath)
+                    Try
+                        Me.img = Image.FromFile(Me.tmpFilePath)
+                    Catch ex As OutOfMemoryException
+                        File.Copy(Me.tmpFilePath, Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "TweenCache"), Path.GetFileName(Me.tmpFilePath)))
+                        Throw ex
+                    End Try
                 End If
 
                 Return Me.img
