@@ -8,6 +8,7 @@ Public Class ImageCacheDictionary
     Private memoryCacheCount As Integer
     Private innerDictionary As Dictionary(Of String, CachedImage)
     Private sortedKeyList As List(Of String)    '古いもの順
+    Private fileCacheProcList As New Queue(Of Threading.ThreadStart)()
 
     Public Sub New(ByVal cacheDirectory As String, ByVal memoryCacheCount As Integer)
         SyncLock Me
@@ -33,6 +34,10 @@ Public Class ImageCacheDictionary
             If Me.innerDictionary.Count > Me.memoryCacheCount Then
                 Me.innerDictionary(Me.sortedKeyList(Me.sortedKeyList.Count - Me.memoryCacheCount - 1)).Chache()
             End If
+
+            While Me.fileCacheProcList.Count > 0
+                Me.fileCacheProcList.Dequeue().Invoke()
+            End While
         End SyncLock
     End Sub
 
@@ -54,7 +59,12 @@ Public Class ImageCacheDictionary
                 Me.sortedKeyList.Remove(key)
                 Me.sortedKeyList.Add(key)
                 If Me.sortedKeyList.Count > Me.memoryCacheCount Then
-                    Me.innerDictionary(Me.sortedKeyList(Me.sortedKeyList.Count - Me.memoryCacheCount - 1)).Chache()
+                    Dim imgObj As CachedImage = Me.innerDictionary(Me.sortedKeyList(Me.sortedKeyList.Count - Me.memoryCacheCount - 1))
+                    Me.fileCacheProcList.Enqueue(Sub()
+                                                     If Me.innerDictionary.ContainsValue(imgObj) Then
+                                                         imgObj.Chache()
+                                                     End If
+                                                 End Sub)
                 End If
                 Return Me.innerDictionary(key).Image
             End SyncLock
