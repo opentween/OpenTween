@@ -179,7 +179,11 @@ Public Class ImageCacheDictionary
             Get
                 If Me.img Is Nothing Then
                     Try
-                        Me.img = Image.FromFile(Me.tmpFilePath)
+                        Dim tempImage As Image = Nothing
+                        Using fs As New FileStream(Me.tmpFilePath, FileMode.Open, FileAccess.Read)
+                            tempImage = Bitmap.FromStream(fs)
+                        End Using
+                        Me.img = New Bitmap(tempImage)
                     Catch ex As OutOfMemoryException
                         Dim filePath As String = Path.Combine(Application.StartupPath, Path.GetFileName(Me.tmpFilePath))
                         File.Copy(Me.tmpFilePath, filePath)
@@ -202,7 +206,10 @@ Public Class ImageCacheDictionary
                 Do
                     Try
                         err = False
-                        Me.img.Save(Me.tmpFilePath)
+                        Using fs As New FileStream(Me.tmpFilePath, FileMode.Open, FileAccess.Write)
+                            Me.img.Save(fs, Imaging.ImageFormat.Bmp)
+                            fs.Flush()
+                        End Using
                     Catch ex As InvalidOperationException
                         err = True
                     Catch ex As Exception
