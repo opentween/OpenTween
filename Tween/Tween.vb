@@ -319,12 +319,6 @@ Public Class TweenMain
         fDialog.Dispose()
         UrlDialog.Dispose()
         _spaceKeyCanceler.Dispose()
-        If TIconDic IsNot Nothing AndAlso TIconDic.Keys.Count > 0 Then
-            For Each key As String In TIconDic.Keys
-                TIconDic(key).Dispose()
-            Next
-            TIconDic.Clear()
-        End If
         DirectCast(TIconDic, IDisposable).Dispose()
         If NIconAt IsNot Nothing Then NIconAt.Dispose()
         If NIconAtRed IsNot Nothing Then NIconAtRed.Dispose()
@@ -987,7 +981,7 @@ Public Class TweenMain
         End If
 
         'アイコンリスト作成
-        TIconDic = New ImageCacheDictionary(3000)
+        TIconDic = New ImageCacheDictionary(50)
 
         tw.DetailIcon = TIconDic
 
