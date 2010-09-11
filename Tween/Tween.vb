@@ -3690,14 +3690,19 @@ Public Class TweenMain
         If Post.IsMark Then mk += "♪"
         If Post.IsProtect Then mk += "Ю"
         If Post.InReplyToId > 0 Then mk += "⇒"
-        Dim itm As ListViewItem
+        Dim itm As ImageListViewItem
         If Post.RetweetedId = 0 Then
             Dim sitem() As String = {"", Post.Nickname, Post.Data, Post.PDate.ToString(SettingDialog.DateTimeFormat), Post.Name, "", mk, Post.Source}
-            itm = New ListViewItem(sitem, Post.ImageUrl)
+            itm = New ImageListViewItem(sitem, Post.ImageUrl)
         Else
             Dim sitem() As String = {"", Post.Nickname, Post.Data, Post.PDate.ToString(SettingDialog.DateTimeFormat), Post.Name + "(RT:" + Post.RetweetedBy + ")", "", mk, Post.Source}
-            itm = New ListViewItem(sitem, Post.ImageUrl)
+            itm = New ImageListViewItem(sitem, Post.ImageUrl)
         End If
+
+        If tw.DetailIcon.ContainsKey(Post.ImageUrl) Then
+            itm.Image = tw.DetailIcon(Post.ImageUrl)
+        End If
+
         Dim read As Boolean = Post.IsRead
         '未読管理していなかったら既読として扱う
         If Not _statuses.Tabs(Tab.Text).UnreadManage OrElse _
@@ -3840,9 +3845,11 @@ Public Class TweenMain
             End If
         Next
 
-        If TIconDic.ContainsKey(e.Item.ImageKey) Then
+        Dim item As ImageListViewItem = DirectCast(e.Item, ImageListViewItem)
+
+        If item.Image IsNot Nothing Then
             e.Graphics.InterpolationMode = Drawing2D.InterpolationMode.High
-            e.Graphics.DrawImage(tw.DetailIcon(e.Item.ImageKey), New Rectangle(x, e.Bounds.Top, Math.Min(_iconSz, e.Item.ListView.Columns(0).Width), _iconSz))
+            e.Graphics.DrawImage(item.Image, New Rectangle(x, e.Bounds.Top, Math.Min(_iconSz, e.Item.ListView.Columns(0).Width), _iconSz))
         End If
     End Sub
 

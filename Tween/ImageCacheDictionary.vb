@@ -60,11 +60,13 @@ Public Class ImageCacheDictionary
                 Me.sortedKeyList.Add(key)
                 If Me.sortedKeyList.Count > Me.memoryCacheCount Then
                     Dim imgObj As CachedImage = Me.innerDictionary(Me.sortedKeyList(Me.sortedKeyList.Count - Me.memoryCacheCount - 1))
-                    Me.fileCacheProcList.Enqueue(Sub()
-                                                     If Me.innerDictionary.ContainsValue(imgObj) Then
-                                                         imgObj.Chache()
-                                                     End If
-                                                 End Sub)
+                    If Not imgObj.Cached Then
+                        Me.fileCacheProcList.Enqueue(Sub()
+                                                         If Me.innerDictionary.ContainsValue(imgObj) Then
+                                                             imgObj.Chache()
+                                                         End If
+                                                     End Sub)
+                    End If
                 End If
                 Return Me.innerDictionary(key).Image
             End SyncLock
@@ -254,6 +256,14 @@ Public Class ImageCacheDictionary
                 End If
             End SyncLock
         End Sub
+
+        Public ReadOnly Property Cached As Boolean
+            Get
+                SyncLock Me
+                    Return Me.tmpFilePath IsNot Nothing
+                End SyncLock
+            End Get
+        End Property
 
         Public Sub Dispose() Implements IDisposable.Dispose
             SyncLock Me
