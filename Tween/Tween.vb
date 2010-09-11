@@ -3751,7 +3751,13 @@ Public Class TweenMain
 
     Private Sub MyList_DrawSubItem(ByVal sender As Object, ByVal e As DrawListViewSubItemEventArgs)
         If e.ItemState = 0 Then Exit Sub
+
+        If e.ColumnIndex = 0 OrElse Math.Abs(e.Header.DisplayIndex - e.Item.ListView.Columns(0).DisplayIndex) = 1 Then
+            Me.DrawListViewItemIcon(e)
+        End If
+
         If e.ColumnIndex > 0 Then
+            'アイコン以外の列
             Dim rct As RectangleF = e.Bounds
             Dim rctB As RectangleF = e.Bounds
             rct.Width = e.Header.Width
@@ -3760,7 +3766,6 @@ Public Class TweenMain
 
             Dim heightDiff As Integer = CType(rct.Height Mod CType(e.Item.Font.Height, Single), Integer)
             rct.Inflate(0, CType(heightDiff / -2, Integer))
-            'アイコン以外の列
             If Not e.Item.Selected Then     'e.ItemStateでうまく判定できない？？？
                 '選択されていない行
                 '文字色
@@ -3787,8 +3792,8 @@ Public Class TweenMain
                         e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems(2).Text, e.Item.Font, brs, rct, sf)
                         e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]", fnt, brs, rctB, sf)
                         fnt.Dispose()
-                    ElseIf _iconSz = 16 Then
-                        e.Graphics.DrawString(e.SubItem.Text.Replace(Environment.NewLine, " "), e.Item.Font, brs, rct, sf)
+                    ElseIf e.Bounds.Height < e.Item.Font.Height * 2 Then
+                        TextRenderer.DrawText(e.Graphics, e.SubItem.Text, e.Item.Font, Rectangle.Round(rct), brs.Color, TextFormatFlags.SingleLine Or TextFormatFlags.EndEllipsis)
                     Else
                         e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, brs, rct, sf)
                     End If
@@ -3802,8 +3807,8 @@ Public Class TweenMain
                         If _iconCol Then
                             e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems(2).Text, e.Item.Font, _brsHighLightText, rct, sf)
                             e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]", fnt, _brsHighLightText, rctB, sf)
-                        ElseIf _iconSz = 16 Then
-                            e.Graphics.DrawString(e.SubItem.Text.Replace(Environment.NewLine, " "), e.Item.Font, _brsHighLightText, rct, sf)
+                        ElseIf e.Bounds.Height < e.Item.Font.Height * 2 Then
+                            TextRenderer.DrawText(e.Graphics, e.SubItem.Text, e.Item.Font, Rectangle.Round(rct), _brsHighLightText.Color, TextFormatFlags.SingleLine Or TextFormatFlags.EndEllipsis)
                         Else
                             e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, _brsHighLightText, rct, sf)
                         End If
@@ -3811,25 +3816,13 @@ Public Class TweenMain
                         If _iconCol Then
                             e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems(2).Text, e.Item.Font, _brsForeColorUnread, rct, sf)
                             e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]", fnt, _brsForeColorUnread, rctB, sf)
-                        ElseIf _iconSz = 16 Then
-                            e.Graphics.DrawString(e.SubItem.Text.Replace(Environment.NewLine, " "), e.Item.Font, _brsForeColorUnread, rct, sf)
+                        ElseIf e.Bounds.Height < e.Item.Font.Height * 2 Then
+                            TextRenderer.DrawText(e.Graphics, e.SubItem.Text, e.Item.Font, Rectangle.Round(rct), _brsForeColorUnread.Color, TextFormatFlags.SingleLine Or TextFormatFlags.EndEllipsis)
                         Else
                             e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, _brsForeColorUnread, rct, sf)
                         End If
                     End If
                     fnt.Dispose()
-                End If
-            End If
-
-            If _iconSz > 0 AndAlso Math.Abs(e.Header.DisplayIndex - e.Item.ListView.Columns(0).DisplayIndex) = 1 Then
-                If Not String.IsNullOrEmpty(e.Item.ImageKey) Then
-                    Me.DrawListViewItemIcon(e)
-                End If
-            End If
-        Else
-            If _iconSz > 0 Then
-                If Not String.IsNullOrEmpty(e.Item.ImageKey) Then
-                    Me.DrawListViewItemIcon(e)
                 End If
             End If
         End If
