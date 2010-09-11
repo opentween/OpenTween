@@ -3836,20 +3836,24 @@ Public Class TweenMain
     End Sub
 
     Private Sub DrawListViewItemIcon(ByVal e As DrawListViewSubItemEventArgs)
-        'e.Bounds.Leftが常に0を指すから自前で計算
-        Dim x As Integer = e.Item.ListView.GetItemRect(e.ItemIndex).X
-
-        For Each clm As ColumnHeader In e.Item.ListView.Columns
-            If clm.DisplayIndex < e.Item.ListView.Columns(0).DisplayIndex Then
-                x += clm.Width
-            End If
-        Next
-
         Dim item As ImageListViewItem = DirectCast(e.Item, ImageListViewItem)
 
         If item.Image IsNot Nothing Then
-            e.Graphics.InterpolationMode = Drawing2D.InterpolationMode.High
-            e.Graphics.DrawImage(item.Image, New Rectangle(x, e.Bounds.Top, Math.Min(_iconSz, e.Item.ListView.Columns(0).Width), _iconSz))
+            'e.Bounds.Leftが常に0を指すから自前で計算
+            Dim itemRect As Rectangle = item.Bounds
+            itemRect.Width = e.Item.ListView.Columns(0).Width
+
+            For Each clm As ColumnHeader In e.Item.ListView.Columns
+                If clm.DisplayIndex < e.Item.ListView.Columns(0).DisplayIndex Then
+                    itemRect.X += clm.Width
+                End If
+            Next
+
+            Dim iconRect As Rectangle = Rectangle.Intersect(item.GetBounds(ItemBoundsPortion.Icon), itemRect)
+            If iconRect.Width > 0 Then
+                e.Graphics.InterpolationMode = Drawing2D.InterpolationMode.High
+                e.Graphics.DrawImage(item.Image, iconRect)
+            End If
         End If
     End Sub
 
