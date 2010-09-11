@@ -34,11 +34,11 @@ Public Class ImageCacheDictionary
             If Me.innerDictionary.Count > Me.memoryCacheCount Then
                 Me.innerDictionary(Me.sortedKeyList(Me.sortedKeyList.Count - Me.memoryCacheCount - 1)).Chache()
             End If
-
-            While Me.fileCacheProcList.Count > 0
-                Me.fileCacheProcList.Dequeue().Invoke()
-            End While
         End SyncLock
+
+        While Me.fileCacheProcList.Count > 0
+            Me.fileCacheProcList.Dequeue().Invoke()
+        End While
     End Sub
 
     Public Function Remove(ByVal item As System.Collections.Generic.KeyValuePair(Of String, Image)) As Boolean Implements System.Collections.Generic.ICollection(Of System.Collections.Generic.KeyValuePair(Of String, Image)).Remove
@@ -175,7 +175,9 @@ Public Class ImageCacheDictionary
     Public Sub Dispose() Implements IDisposable.Dispose
         SyncLock Me
             For Each item As CachedImage In Me.innerDictionary.Values
-                item.Dispose()
+                If item.img IsNot Nothing Then
+                    item.img.Dispose()
+                End If
             Next
 
             Dim di As New DirectoryInfo(Me.cacheDiractoryPath)
@@ -186,75 +188,83 @@ Public Class ImageCacheDictionary
     Private Class CachedImage
         Implements IDisposable
 
-        Private img As Image = Nothing
+        Public img As Image = Nothing
         Private tmpFilePath As String = Nothing
         Private cacheDirectoryPath As String
 
         Public Sub New(ByVal img As Image, ByVal cacheDirectory As String)
-            Me.img = img
-            Me.cacheDirectoryPath = cacheDirectory
+            SyncLock Me
+                Me.img = img
+                Me.cacheDirectoryPath = cacheDirectory
+            End SyncLock
         End Sub
 
         Public ReadOnly Property Image As Image
             Get
-                If Me.img Is Nothing Then
-                    Try
-                        Dim tempImage As Image = Nothing
-                        Using fs As New FileStream(Me.tmpFilePath, FileMode.Open, FileAccess.Read)
-                            tempImage = Bitmap.FromStream(fs)
-                        End Using
-                        Me.img = New Bitmap(tempImage)
-                    Catch ex As OutOfMemoryException
-                        Dim filePath As String = Path.Combine(Application.StartupPath, Path.GetFileName(Me.tmpFilePath))
-                        File.Copy(Me.tmpFilePath, filePath)
-                        Throw ex
-                    End Try
-                End If
+                SyncLock Me
+                    If Me.img Is Nothing Then
+                        Try
+                            Dim tempImage As Image = Nothing
+                            Using fs As New FileStream(Me.tmpFilePath, FileMode.Open, FileAccess.Read)
+                                tempImage = Bitmap.FromStream(fs)
+                            End Using
+                            Me.img = New Bitmap(tempImage)
+                        Catch ex As OutOfMemoryException
+                            Dim filePath As String = Path.Combine(Application.StartupPath, Path.GetFileName(Me.tmpFilePath))
+                            File.Copy(Me.tmpFilePath, filePath)
+                            Throw ex
+                        End Try
+                    End If
 
-                Return Me.img
+                    Return Me.img
+                End SyncLock
             End Get
         End Property
 
         Public Sub Chache()
-            If Me.tmpFilePath Is Nothing Then
-                Dim tmpFile As String = Nothing
+            SyncLock Me
+                If Me.tmpFilePath Is Nothing Then
+                    Dim tmpFile As String = Nothing
 
-                Dim err As Boolean = False
-                Do
-                    Try
-                        err = False
-                        tmpFile = Path.Combine(Me.cacheDirectoryPath, Path.GetRandomFileName())
+                    Dim err As Boolean = False
+                    Do
+                        Try
+                            err = False
+                            tmpFile = Path.Combine(Me.cacheDirectoryPath, Path.GetRandomFileName())
 
-                        Using fs As New FileStream(tmpFile, FileMode.CreateNew, FileAccess.Write)
-                            Me.img.Save(fs, Imaging.ImageFormat.Bmp)
-                            fs.Flush()
-                        End Using
-                    Catch ex As InvalidOperationException
-                        err = True
-                    Catch ex As IOException
-                        err = True
-                    Catch ex As Exception
-                        File.Delete(tmpFile)
-                        Me.tmpFilePath = Nothing
-                        Exit Sub
-                    End Try
-                Loop While err
-                Me.tmpFilePath = tmpFile
-            End If
-            If Me.img IsNot Nothing Then
-                Me.img.Dispose()
-                Me.img = Nothing
-            End If
+                            Using fs As New FileStream(tmpFile, FileMode.CreateNew, FileAccess.Write)
+                                Me.img.Save(fs, Imaging.ImageFormat.Bmp)
+                                fs.Flush()
+                            End Using
+                        Catch ex As InvalidOperationException
+                            err = True
+                        Catch ex As IOException
+                            err = True
+                        Catch ex As Exception
+                            File.Delete(tmpFile)
+                            Me.tmpFilePath = Nothing
+                            Exit Sub
+                        End Try
+                    Loop While err
+                    Me.tmpFilePath = tmpFile
+                End If
+                If Me.img IsNot Nothing Then
+                    Me.img.Dispose()
+                    Me.img = Nothing
+                End If
+            End SyncLock
         End Sub
 
         Public Sub Dispose() Implements IDisposable.Dispose
-            If Me.img IsNot Nothing Then
-                Me.img.Dispose()
-            End If
+            SyncLock Me
+                If Me.img IsNot Nothing Then
+                    Me.img.Dispose()
+                End If
 
-            If Me.tmpFilePath IsNot Nothing Then
-                File.Delete(Me.tmpFilePath)
-            End If
+                If Me.tmpFilePath IsNot Nothing Then
+                    File.Delete(Me.tmpFilePath)
+                End If
+            End SyncLock
         End Sub
     End Class
 End Class
