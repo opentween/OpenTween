@@ -319,7 +319,6 @@ Public Class TweenMain
         fDialog.Dispose()
         UrlDialog.Dispose()
         _spaceKeyCanceler.Dispose()
-        DirectCast(TIconDic, IDisposable).Dispose()
         If NIconAt IsNot Nothing Then NIconAt.Dispose()
         If NIconAtRed IsNot Nothing Then NIconAtRed.Dispose()
         If NIconAtSmoke IsNot Nothing Then NIconAtSmoke.Dispose()
@@ -357,6 +356,7 @@ Public Class TweenMain
         If _bwFollower IsNot Nothing Then
             _bwFollower.Dispose()
         End If
+        DirectCast(TIconDic, IDisposable).Dispose()
     End Sub
 
     Private Sub LoadIcon(ByRef IconInstance As Icon, ByVal FileName As String)
@@ -3659,7 +3659,7 @@ Public Class TweenMain
             Catch ex As Exception
                 '不正な要求に対する間に合わせの応答
                 Dim sitem() As String = {"", "", "", "", "", "", "", ""}
-                e.Item = New ListViewItem(sitem, -1)
+                e.Item = New ImageListViewItem(sitem, "")
             End Try
         End If
     End Sub
