@@ -4,6 +4,8 @@ Imports System.IO
 Public Class ImageCacheDictionary
     Implements IDictionary(Of String, Image), IDisposable
 
+    Private ReadOnly lockObject As New Object()
+
     Private cacheDiractoryPath As String
     Private memoryCacheCount As Integer
     Private innerDictionary As Dictionary(Of String, CachedImage)
@@ -11,7 +13,7 @@ Public Class ImageCacheDictionary
     Private fileCacheProcList As New Queue(Of Threading.ThreadStart)()
 
     Public Sub New(ByVal cacheDirectory As String, ByVal memoryCacheCount As Integer)
-        SyncLock Me
+        SyncLock Me.lockObject
             Me.innerDictionary = New Dictionary(Of String, CachedImage)(memoryCacheCount + 1)
             Me.sortedKeyList = New List(Of String)(memoryCacheCount + 1)
             Me.memoryCacheCount = memoryCacheCount
@@ -27,12 +29,12 @@ Public Class ImageCacheDictionary
     End Sub
 
     Public Sub Add(ByVal key As String, ByVal value As Image) Implements System.Collections.Generic.IDictionary(Of String, Image).Add
-        SyncLock Me
+        SyncLock Me.lockObject
             Me.innerDictionary.Add(key, New CachedImage(value, Me.cacheDiractoryPath))
             Me.sortedKeyList.Add(key)
 
             If Me.innerDictionary.Count > Me.memoryCacheCount Then
-                Me.innerDictionary(Me.sortedKeyList(Me.sortedKeyList.Count - Me.memoryCacheCount - 1)).Chache()
+                Me.innerDictionary(Me.sortedKeyList(Me.sortedKeyList.Count - Me.memoryCacheCount - 1)).Cache()
             End If
         End SyncLock
 
@@ -46,7 +48,7 @@ Public Class ImageCacheDictionary
     End Function
 
     Public Function Remove(ByVal key As String) As Boolean Implements System.Collections.Generic.IDictionary(Of String, Image).Remove
-        SyncLock Me
+        SyncLock Me.lockObject
             Me.sortedKeyList.Remove(key)
             Me.innerDictionary(key).Dispose()
             Return Me.innerDictionary.Remove(key)
@@ -55,7 +57,7 @@ Public Class ImageCacheDictionary
 
     Default Public Property Item(ByVal key As String) As Image Implements System.Collections.Generic.IDictionary(Of String, Image).Item
         Get
-            SyncLock Me
+            SyncLock Me.lockObject
                 Me.sortedKeyList.Remove(key)
                 Me.sortedKeyList.Add(key)
                 If Me.sortedKeyList.Count > Me.memoryCacheCount Then
@@ -63,7 +65,7 @@ Public Class ImageCacheDictionary
                     If Not imgObj.Cached Then
                         Me.fileCacheProcList.Enqueue(Sub()
                                                          If Me.innerDictionary.ContainsValue(imgObj) Then
-                                                             imgObj.Chache()
+                                                             imgObj.Cache()
                                                          End If
                                                      End Sub)
                     End If
@@ -72,11 +74,11 @@ Public Class ImageCacheDictionary
             End SyncLock
         End Get
         Set(ByVal value As Image)
-            SyncLock Me
+            SyncLock Me.lockObject
                 Me.sortedKeyList.Remove(key)
                 Me.sortedKeyList.Add(key)
                 If Me.sortedKeyList.Count > Me.memoryCacheCount Then
-                    Me.innerDictionary(Me.sortedKeyList(Me.sortedKeyList.Count - Me.memoryCacheCount - 1)).Chache()
+                    Me.innerDictionary(Me.sortedKeyList(Me.sortedKeyList.Count - Me.memoryCacheCount - 1)).Cache()
                 End If
                 Me.innerDictionary(key).Dispose()
                 Me.innerDictionary(key) = New CachedImage(value, Me.cacheDiractoryPath)
@@ -85,7 +87,7 @@ Public Class ImageCacheDictionary
     End Property
 
     Public Sub Clear() Implements System.Collections.Generic.ICollection(Of System.Collections.Generic.KeyValuePair(Of String, Image)).Clear
-        SyncLock Me
+        SyncLock Me.lockObject
             For Each value As CachedImage In Me.innerDictionary.Values
                 value.Dispose()
             Next
@@ -96,13 +98,13 @@ Public Class ImageCacheDictionary
     End Sub
 
     Public Function Contains(ByVal item As System.Collections.Generic.KeyValuePair(Of String, Image)) As Boolean Implements System.Collections.Generic.ICollection(Of System.Collections.Generic.KeyValuePair(Of String, Image)).Contains
-        SyncLock Me
+        SyncLock Me.lockObject
             Return Me.innerDictionary.ContainsKey(item.Key) AndAlso Me.innerDictionary(item.Key) Is item.Value
         End SyncLock
     End Function
 
     Public Sub CopyTo(ByVal array() As System.Collections.Generic.KeyValuePair(Of String, Image), ByVal arrayIndex As Integer) Implements System.Collections.Generic.ICollection(Of System.Collections.Generic.KeyValuePair(Of String, Image)).CopyTo
-        SyncLock Me
+        SyncLock Me.lockObject
             Dim index As Integer = arrayIndex
             For Each Item As KeyValuePair(Of String, CachedImage) In Me.innerDictionary
                 If array.Length - 1 < index Then
@@ -117,7 +119,7 @@ Public Class ImageCacheDictionary
 
     Public ReadOnly Property Count As Integer Implements System.Collections.Generic.ICollection(Of System.Collections.Generic.KeyValuePair(Of String, Image)).Count
         Get
-            SyncLock Me
+            SyncLock Me.lockObject
                 Return Me.innerDictionary.Count
             End SyncLock
         End Get
@@ -135,14 +137,14 @@ Public Class ImageCacheDictionary
 
     Public ReadOnly Property Keys As System.Collections.Generic.ICollection(Of String) Implements System.Collections.Generic.IDictionary(Of String, Image).Keys
         Get
-            SyncLock Me
+            SyncLock Me.lockObject
                 Return Me.innerDictionary.Keys
             End SyncLock
         End Get
     End Property
 
     Public Function TryGetValue(ByVal key As String, ByRef value As Image) As Boolean Implements System.Collections.Generic.IDictionary(Of String, Image).TryGetValue
-        SyncLock Me
+        SyncLock Me.lockObject
             If Me.innerDictionary.ContainsKey(key) Then
                 value = Me.innerDictionary(key).Image
                 Return True
@@ -154,7 +156,7 @@ Public Class ImageCacheDictionary
 
     Public ReadOnly Property Values As System.Collections.Generic.ICollection(Of Image) Implements System.Collections.Generic.IDictionary(Of String, Image).Values
         Get
-            SyncLock Me
+            SyncLock Me.lockObject
                 Dim imgList As New List(Of Image)(Me.memoryCacheCount)
                 For Each value As CachedImage In Me.innerDictionary.Values
                     imgList.Add(value.Image)
@@ -166,16 +168,14 @@ Public Class ImageCacheDictionary
 
     Public Function GetEnumerator() As System.Collections.Generic.IEnumerator(Of System.Collections.Generic.KeyValuePair(Of String, Image)) Implements System.Collections.Generic.IEnumerable(Of System.Collections.Generic.KeyValuePair(Of String, Image)).GetEnumerator
         Throw New NotImplementedException()
-        Return Nothing
     End Function
 
     Public Function GetEnumerator1() As System.Collections.IEnumerator Implements System.Collections.IEnumerable.GetEnumerator
         Throw New NotImplementedException()
-        Return Nothing
     End Function
 
     Public Sub Dispose() Implements IDisposable.Dispose
-        SyncLock Me
+        SyncLock Me.lockObject
             For Each item As CachedImage In Me.innerDictionary.Values
                 If item.img IsNot Nothing Then
                     item.img.Dispose()
@@ -190,12 +190,14 @@ Public Class ImageCacheDictionary
     Private Class CachedImage
         Implements IDisposable
 
+        Private lockObject As New Object()
+
         Public img As Image = Nothing
         Private tmpFilePath As String = Nothing
         Private cacheDirectoryPath As String
 
         Public Sub New(ByVal img As Image, ByVal cacheDirectory As String)
-            SyncLock Me
+            SyncLock Me.lockObject
                 Me.img = img
                 Me.cacheDirectoryPath = cacheDirectory
             End SyncLock
@@ -203,7 +205,7 @@ Public Class ImageCacheDictionary
 
         Public ReadOnly Property Image As Image
             Get
-                SyncLock Me
+                SyncLock Me.lockObject
                     If Me.img Is Nothing Then
                         Try
                             Dim tempImage As Image = Nothing
@@ -223,8 +225,8 @@ Public Class ImageCacheDictionary
             End Get
         End Property
 
-        Public Sub Chache()
-            SyncLock Me
+        Public Sub Cache()
+            SyncLock Me.lockObject
                 If Me.tmpFilePath Is Nothing Then
                     Dim tmpFile As String = Nothing
 
@@ -259,14 +261,14 @@ Public Class ImageCacheDictionary
 
         Public ReadOnly Property Cached As Boolean
             Get
-                SyncLock Me
+                SyncLock Me.lockObject
                     Return Me.tmpFilePath IsNot Nothing
                 End SyncLock
             End Get
         End Property
 
         Public Sub Dispose() Implements IDisposable.Dispose
-            SyncLock Me
+            SyncLock Me.lockObject
                 If Me.img IsNot Nothing Then
                     Me.img.Dispose()
                 End If
