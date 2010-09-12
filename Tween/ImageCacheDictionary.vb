@@ -190,7 +190,7 @@ Public Class ImageCacheDictionary
     Private Class CachedImage
         Implements IDisposable
 
-        Private lockObject As New Object()
+        Private ReadOnly lockObject As New Object()
 
         Public img As Image = Nothing
         Private tmpFilePath As String = Nothing
