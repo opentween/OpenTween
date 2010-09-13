@@ -234,7 +234,7 @@ Public Class ImageCacheDictionary
                     Do
                         Try
                             err = False
-                            tmpFile = Path.Combine(Me.cacheDirectoryPath, Path.GetRandomFileName())
+                            tmpFile = Path.Combine(Me.cacheDirectoryPath, Path.GetRandomFileName().Remove(8, 1))
 
                             Using fs As New FileStream(tmpFile, FileMode.CreateNew, FileAccess.Write)
                                 Me.img.Save(fs, Imaging.ImageFormat.Bmp)
