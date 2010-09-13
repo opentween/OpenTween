@@ -1368,6 +1368,8 @@ Public NotInheritable Class TabClass
     Private _oldestId As Long = Long.MaxValue   '古いポスト取得用
     Private _sinceId As Long = 0
 
+    Private ReadOnly _lockObj As New Object
+
 #Region "検索"
     'Search query
     Private _searchLang As String = ""
@@ -1562,20 +1564,22 @@ Public NotInheritable Class TabClass
 
         Dim rslt As HITRESULT = HITRESULT.None
         '全フィルタ評価（優先順位あり）
-        For Each ft As FiltersClass In _filters
-            Select Case ft.IsHit(post)   'フィルタクラスでヒット判定
-                Case HITRESULT.None
-                Case HITRESULT.Copy
-                    If rslt <> HITRESULT.CopyAndMark Then rslt = HITRESULT.Copy
-                Case HITRESULT.CopyAndMark
-                    rslt = HITRESULT.CopyAndMark
-                Case HITRESULT.Move
-                    rslt = HITRESULT.Move
-                Case HITRESULT.Exclude
-                    rslt = HITRESULT.Exclude
-                    Exit For
-            End Select
-        Next
+        SyncLock Me._lockObj
+            For Each ft As FiltersClass In _filters
+                Select Case ft.IsHit(post)   'フィルタクラスでヒット判定
+                    Case HITRESULT.None
+                    Case HITRESULT.Copy
+                        If rslt <> HITRESULT.CopyAndMark Then rslt = HITRESULT.Copy
+                    Case HITRESULT.CopyAndMark
+                        rslt = HITRESULT.CopyAndMark
+                    Case HITRESULT.Move
+                        rslt = HITRESULT.Move
+                    Case HITRESULT.Exclude
+                        rslt = HITRESULT.Exclude
+                        Exit For
+                End Select
+            Next
+        End SyncLock
 
         If rslt <> HITRESULT.None AndAlso rslt <> HITRESULT.Exclude Then
             _tmpIds.Add(New TemporaryId(post.Id, post.IsRead))
@@ -1682,19 +1686,25 @@ Public NotInheritable Class TabClass
     End Property
 
     Public Function GetFilters() As FiltersClass()
-        Return _filters.ToArray()
+        SyncLock Me._lockObj
+            Return _filters.ToArray()
+        End SyncLock
     End Function
 
     Public Sub RemoveFilter(ByVal filter As FiltersClass)
-        _filters.Remove(filter)
-        _filterMod = True
+        SyncLock Me._lockObj
+            _filters.Remove(filter)
+            _filterMod = True
+        End SyncLock
     End Sub
 
     Public Function AddFilter(ByVal filter As FiltersClass) As Boolean
-        If _filters.Contains(filter) Then Return False
-        _filters.Add(filter)
-        _filterMod = True
-        Return True
+        SyncLock Me._lockObj
+            If _filters.Contains(filter) Then Return False
+            _filters.Add(filter)
+            _filterMod = True
+            Return True
+        End SyncLock
     End Function
 
     Public Sub EditFilter(ByVal original As FiltersClass, ByVal modified As FiltersClass)
@@ -1720,24 +1730,12 @@ Public NotInheritable Class TabClass
     End Sub
 
     <Xml.Serialization.XmlIgnore()> _
-    Public Property Filters() As List(Of FiltersClass)
+    Public ReadOnly Property Filters() As List(Of FiltersClass)
         Get
-            Return _filters
+            SyncLock Me._lockObj
+                Return _filters
+            End SyncLock
         End Get
-        Set(ByVal value As List(Of FiltersClass))
-            _filters = value
-        End Set
-    End Property
-
-    Public Property FilterArray() As FiltersClass()
-        Get
-            Return _filters.ToArray
-        End Get
-        Set(ByVal value As FiltersClass())
-            For Each filters As FiltersClass In value
-                _filters.Add(filters)
-            Next
-        End Set
     End Property
 
     Public Function Contains(ByVal ID As Long) As Boolean
