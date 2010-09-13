@@ -981,7 +981,7 @@ Public Class TweenMain
         End If
 
         'アイコンリスト作成
-        TIconDic = New ImageCacheDictionary(Path.Combine(Path.GetTempPath(), "Tween" + Environment.TickCount.ToString()), 300)
+        TIconDic = New ImageCacheDictionary(Path.Combine(Path.GetTempPath(), "Tween" + Environment.TickCount.ToString()), 3000)
 
         tw.DetailIcon = TIconDic
 
