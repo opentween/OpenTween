@@ -1730,14 +1730,33 @@ Public NotInheritable Class TabClass
     End Sub
 
     <Xml.Serialization.XmlIgnore()> _
-    Public ReadOnly Property Filters() As List(Of FiltersClass)
+    Public Property Filters() As List(Of FiltersClass)
         Get
             SyncLock Me._lockObj
                 Return _filters
             End SyncLock
         End Get
+        Set(ByVal value As List(Of FiltersClass))
+            SyncLock Me._lockObj
+                _filters = value
+            End SyncLock
+        End Set
     End Property
 
+    Public Property FilterArray() As FiltersClass()
+        Get
+            SyncLock Me._lockObj
+                Return _filters.ToArray
+            End SyncLock
+        End Get
+        Set(ByVal value As FiltersClass())
+            SyncLock Me._lockObj
+                For Each filters As FiltersClass In value
+                    _filters.Add(filters)
+                Next
+            End SyncLock
+        End Set
+    End Property
     Public Function Contains(ByVal ID As Long) As Boolean
         Return _ids.Contains(ID)
     End Function
