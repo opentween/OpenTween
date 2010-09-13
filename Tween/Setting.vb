@@ -1,4 +1,5 @@
 ﻿Imports System.ComponentModel
+Imports System.Threading
 
 ' Tween - Client of Twitter
 ' Copyright (c) 2007-2010 kiri_feather (@kiri_feather) <kiri_feather@gmail.com>
@@ -1800,7 +1801,7 @@ Public Class Setting
         CalcApiUsing()
     End Sub
 
-    Private Sub DisplayApiMaxCount(ByVal info As ApiInfo)
+    Private Sub DisplayApiMaxCount()
         If TwitterApiInfo.MaxCount > -1 Then
             LabelApiUsing.Text = String.Format(My.Resources.SettingAPIUse1, TwitterApiInfo.UsingCount, TwitterApiInfo.MaxCount)
         Else
@@ -1851,13 +1852,12 @@ Public Class Setting
         If tw IsNot Nothing Then
             If TwitterApiInfo.MaxCount = -1 Then
                 If Twitter.AccountState = ACCOUNT_STATE.Valid Then
-                    Dim info As New ApiInfo
-                    info.UsingCount = UsingApi
-                    Dim proc As New Action(Of ApiInfo)(Sub(infoCount)
-                                                           tw.GetInfoApi(infoCount) '取得エラー時はinfoCountは初期状態（値：-1）
-                                                           If Me.IsHandleCreated Then Me.Invoke(New Action(Of ApiInfo)(AddressOf DisplayApiMaxCount), infoCount)
-                                                       End Sub)
-                    proc.BeginInvoke(info, Nothing, Nothing)
+                    TwitterApiInfo.UsingCount = UsingApi
+                    Dim proc As New Thread(New Threading.ThreadStart(Sub()
+                                                                         tw.GetInfoApi(Nothing) '取得エラー時はinfoCountは初期状態（値：-1）
+                                                                         If Me.IsHandleCreated Then Invoke(New MethodInvoker(AddressOf DisplayApiMaxCount))
+                                                                     End Sub))
+                    proc.Start()
                 Else
                     LabelApiUsing.Text = String.Format(My.Resources.SettingAPIUse1, UsingApi, "???")
                 End If
@@ -1876,6 +1876,10 @@ Public Class Setting
     End Sub
 
     Private Sub Setting_Shown(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Shown
+        Do
+            Thread.Sleep(10)
+            If Me.Disposing OrElse Me.IsDisposed Then Exit Sub
+        Loop Until Me.IsHandleCreated
         CalcApiUsing()
     End Sub
 

@@ -4627,19 +4627,24 @@ RETRY:
                 sb.AppendFormat("{0}:{1} [http://twitter.com/{0}/status/{2}]{3}", post.Name, post.Data, post.Id, Environment.NewLine)
             End If
         Next
+        If IsProtected Then
+            MessageBox.Show(My.Resources.CopyStotText1)
+        End If
         If sb.Length > 0 Then
             clstr = sb.ToString()
             Try
-                Dim proc As New Action(Of String)(Sub(text)
-                                                      Me.Invoke(New Action(Of String)(AddressOf Clipboard.SetText), text)
-                                                  End Sub)
-                proc.BeginInvoke(clstr, Nothing, Nothing)
+                Clipboard.SetDataObject(clstr, False, 5, 100)
             Catch ex As Exception
                 MessageBox.Show(ex.Message)
             End Try
-        End If
-        If IsProtected Then
-            MessageBox.Show(My.Resources.CopyStotText1)
+            'Try
+            '    Dim proc As New Action(Of String)(Sub(text)
+            '                                          Me.Invoke(New Action(Of String)(AddressOf Clipboard.SetText), text)
+            '                                      End Sub)
+            '    proc.BeginInvoke(clstr, Nothing, Nothing)
+            'Catch ex As Exception
+            '    MessageBox.Show(ex.Message)
+            'End Try
         End If
     End Sub
 
@@ -8528,10 +8533,10 @@ RETRY:
     End Sub
 
     Private Sub _hookGlobalHotkey_HotkeyPressed(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles _hookGlobalHotkey.HotkeyPressed
-        If (Me.WindowState = FormWindowState.Normal OrElse Me.WindowState = FormWindowState.Maximized) AndAlso Me.Visible Then
+        If (Me.WindowState = FormWindowState.Normal OrElse Me.WindowState = FormWindowState.Maximized) AndAlso Me.Visible AndAlso Form.ActiveForm Is Me Then
             'アイコン化
             Me.Visible = False
-        Else
+        ElseIf Form.ActiveForm Is Nothing Then
             Me.Visible = True
             If Me.WindowState = FormWindowState.Minimized Then Me.WindowState = FormWindowState.Normal
             Me.Activate()

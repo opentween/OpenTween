@@ -80,7 +80,7 @@ Public Class ApiInformation
         _RemainCount = arg.ApiInfo.RemainCount
         _ResetTime = arg.ApiInfo.ResetTime
         _ResetTimeInSeconds = arg.ApiInfo.ResetTimeInSeconds
-        _UsingCount = arg.ApiInfo.UsingCount
+        '_UsingCount = arg.ApiInfo.UsingCount
     End Sub
 
     Public Property MaxCount As Integer

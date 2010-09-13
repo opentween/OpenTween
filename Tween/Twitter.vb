@@ -2446,12 +2446,14 @@ Public Class Twitter
             arg.ApiInfo.RemainCount = Integer.Parse(xdoc.SelectSingleNode("/hash/remaining-hits").InnerText)
             arg.ApiInfo.ResetTime = DateTime.Parse(xdoc.SelectSingleNode("/hash/reset-time").InnerText)
             arg.ApiInfo.ResetTimeInSeconds = Integer.Parse(xdoc.SelectSingleNode("/hash/reset-time-in-seconds").InnerText)
-            arg.ApiInfo.UsingCount = info.UsingCount
+            If info IsNot Nothing Then
+                arg.ApiInfo.UsingCount = info.UsingCount
 
-            info.MaxCount = arg.ApiInfo.MaxCount
-            info.RemainCount = arg.ApiInfo.RemainCount
-            info.ResetTime = arg.ApiInfo.ResetTime
-            info.ResetTimeInSeconds = arg.ApiInfo.ResetTimeInSeconds
+                info.MaxCount = arg.ApiInfo.MaxCount
+                info.RemainCount = arg.ApiInfo.RemainCount
+                info.ResetTime = arg.ApiInfo.ResetTime
+                info.ResetTimeInSeconds = arg.ApiInfo.ResetTimeInSeconds
+            End If
 
             RaiseEvent ApiInformationChanged(Me, arg)
             TwitterApiInfo.WriteBackEventArgs(arg)
