@@ -1,6 +1,5 @@
 ﻿Public Class ImageListViewItem
     Inherits ListViewItem
-    Implements IDisposable
 
     Public Sub New(ByVal items() As String, ByVal imageKey As String)
         MyBase.New(items, imageKey)
@@ -8,8 +7,11 @@
 
     Public Property Image As Image
 
-    Public Sub Dispose() Implements IDisposable.Dispose
-        Me.Image.Dispose()
-        Me.Image = Nothing
+    Protected Overrides Sub Finalize()
+        If Me.Image IsNot Nothing Then
+            Me.Image.Dispose()
+            Me.Image = Nothing
+        End If
+        MyBase.Finalize()
     End Sub
 End Class
