@@ -249,7 +249,6 @@ Public Class Twitter
             Dim httpVar As New HttpVarious
             img = httpVar.GetImage(post.ImageUrl, 10000)
             If img Is Nothing Then
-                'post.ImageUrl = Nothing
                 TabInformations.GetInstance.AddPost(post)
                 Exit Sub
             End If
@@ -262,13 +261,10 @@ Public Class Twitter
                         _dIcon.Add(post.ImageUrl, img)
                     Catch ex As InvalidOperationException
                         'タイミングにより追加できない場合がある？（キー重複ではない）
-                        'post.ImageUrl = Nothing
                     Catch ex As System.OverflowException
                         '不正なアイコン？DrawImageに失敗する場合あり
-                        'post.ImageUrl = Nothing
                     Catch ex As OutOfMemoryException
                         'DrawImageで発生
-                        'post.ImageUrl = Nothing
                     End Try
                 End If
             End SyncLock

@@ -36,8 +36,6 @@ Namespace TweenCustomControl
         Private multiSelected As Boolean
         Private _handlers As New System.ComponentModel.EventHandlerList()
 
-        Public Event Scrolled As System.EventHandler
-
         Public Sub New()
             View = Windows.Forms.View.Details
             FullRowSelect = True
@@ -163,24 +161,19 @@ Namespace TweenCustomControl
         Protected Overrides Sub WndProc(ByRef m As System.Windows.Forms.Message)
             Const WM_ERASEBKGND As Integer = &H14
             Const WM_PAINT As Integer = &HF
-            Const WM_HSCROLL As Integer = &H114
-            Const WM_VSCROLL As Integer = &H115
 
-            Select Case m.Msg
-                Case WM_ERASEBKGND
-                    If Me.changeBounds <> Rectangle.Empty Then
-                        m.Msg = 0
-                    End If
-                Case WM_PAINT
-                    If Me.changeBounds <> Rectangle.Empty Then
-                        Win32Api.ValidateRect(Me.Handle, IntPtr.Zero)
-                        Me.Invalidate(Me.changeBounds)
-                        Me.changeBounds = Rectangle.Empty
-                    End If
-                Case WM_HSCROLL, WM_VSCROLL
-                    RaiseEvent Scrolled(Me, EventArgs.Empty)
-            End Select
-
+            If m.Msg = WM_ERASEBKGND Then
+                If Me.changeBounds <> Rectangle.Empty Then
+                    m.Msg = 0
+                End If
+            End If
+            If m.Msg = WM_PAINT Then
+                If Me.changeBounds <> Rectangle.Empty Then
+                    Win32Api.ValidateRect(Me.Handle, IntPtr.Zero)
+                    Me.Invalidate(Me.changeBounds)
+                    Me.changeBounds = Rectangle.Empty
+                End If
+            End If
             Try
                 MyBase.WndProc(m)
             Catch ex As ArgumentOutOfRangeException
