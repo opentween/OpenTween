@@ -187,6 +187,29 @@ Public Class ImageCacheDictionary
         End SyncLock
     End Sub
 
+    Public Function GetItemCopy(ByVal key As String) As Image
+        SyncLock Me.lockObject
+            Me.sortedKeyList.Remove(key)
+            Me.sortedKeyList.Add(key)
+            If Me.sortedKeyList.Count > Me.memoryCacheCount Then
+                Dim imgObj As CachedImage = Me.innerDictionary(Me.sortedKeyList(Me.sortedKeyList.Count - Me.memoryCacheCount - 1))
+                If Not imgObj.Cached Then
+                    Me.fileCacheProcList.Enqueue(Sub()
+                                                     If Me.innerDictionary.ContainsValue(imgObj) Then
+                                                         imgObj.Cache()
+                                                     End If
+                                                 End Sub)
+                End If
+            End If
+
+            If Me.innerDictionary(key).Image IsNot Nothing Then
+                Return New Bitmap(Me.innerDictionary(key).Image)
+            Else
+                Return Nothing
+            End If
+        End SyncLock
+    End Function
+
     Private Class CachedImage
         Implements IDisposable
 
@@ -206,7 +229,7 @@ Public Class ImageCacheDictionary
         Public ReadOnly Property Image As Image
             Get
                 SyncLock Me.lockObject
-                    If Me.img Is Nothing Then
+                    If Me.img Is Nothing AndAlso Me.tmpFilePath IsNot Nothing Then
                         Try
                             Dim tempImage As Image = Nothing
                             Using fs As New FileStream(Me.tmpFilePath, FileMode.Open, FileAccess.Read)
@@ -227,7 +250,7 @@ Public Class ImageCacheDictionary
 
         Public Sub Cache()
             SyncLock Me.lockObject
-                If Me.tmpFilePath Is Nothing Then
+                If Me.tmpFilePath Is Nothing AndAlso Me.img IsNot Nothing Then
                     Dim tmpFile As String = Nothing
 
                     Dim err As Boolean = False

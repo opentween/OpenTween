@@ -3700,7 +3700,7 @@ Public Class TweenMain
         End If
 
         If tw.DetailIcon.ContainsKey(Post.ImageUrl) Then
-            itm.Image = New Bitmap(tw.DetailIcon(Post.ImageUrl))
+            itm.Image = DirectCast(tw.DetailIcon, ImageCacheDictionary).GetItemCopy(Post.ImageUrl)
         End If
 
         Dim read As Boolean = Post.IsRead
