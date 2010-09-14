@@ -319,6 +319,11 @@ Public Class TweenMain
         fDialog.Dispose()
         UrlDialog.Dispose()
         _spaceKeyCanceler.Dispose()
+        If TIconDic IsNot Nothing AndAlso TIconDic.Keys.Count > 0 Then
+            For Each value As Image In TIconDic.Values
+                value.Dispose()
+            Next
+        End If
         If NIconAt IsNot Nothing Then NIconAt.Dispose()
         If NIconAtRed IsNot Nothing Then NIconAtRed.Dispose()
         If NIconAtSmoke IsNot Nothing Then NIconAtSmoke.Dispose()
@@ -356,7 +361,6 @@ Public Class TweenMain
         If _bwFollower IsNot Nothing Then
             _bwFollower.Dispose()
         End If
-        DirectCast(TIconDic, IDisposable).Dispose()
     End Sub
 
     Private Sub LoadIcon(ByRef IconInstance As Icon, ByVal FileName As String)
@@ -981,7 +985,7 @@ Public Class TweenMain
         End If
 
         'アイコンリスト作成
-        TIconDic = New ImageCacheDictionary(Path.Combine(Path.GetTempPath(), "Tween" + Environment.TickCount.ToString()), 3000)
+        TIconDic = New Dictionary(Of String, Image)
 
         tw.DetailIcon = TIconDic
 
@@ -3250,7 +3254,6 @@ Public Class TweenMain
         AddHandler _listCustom.CacheVirtualItems, AddressOf MyList_CacheVirtualItems
         AddHandler _listCustom.RetrieveVirtualItem, AddressOf MyList_RetrieveVirtualItem
         AddHandler _listCustom.DrawSubItem, AddressOf MyList_DrawSubItem
-        AddHandler _listCustom.Scrolled, AddressOf MyList_Scrolled
 
         InitColumnText()
         _colHd1.Text = ColumnText(0)
@@ -3413,7 +3416,6 @@ Public Class TweenMain
         RemoveHandler _listCustom.CacheVirtualItems, AddressOf MyList_CacheVirtualItems
         RemoveHandler _listCustom.RetrieveVirtualItem, AddressOf MyList_RetrieveVirtualItem
         RemoveHandler _listCustom.DrawSubItem, AddressOf MyList_DrawSubItem
-        RemoveHandler _listCustom.Scrolled, AddressOf MyList_Scrolled
 
         TabDialog.RemoveTab(TabName)
 
@@ -3683,7 +3685,7 @@ Public Class TweenMain
             Catch ex As Exception
                 '不正な要求に対する間に合わせの応答
                 Dim sitem() As String = {"", "", "", "", "", "", "", ""}
-                e.Item = New ImageListViewItem(sitem, "")
+                e.Item = New ListViewItem(sitem, "")
             End Try
         End If
     End Sub
@@ -3714,17 +3716,13 @@ Public Class TweenMain
         If Post.IsMark Then mk += "♪"
         If Post.IsProtect Then mk += "Ю"
         If Post.InReplyToId > 0 Then mk += "⇒"
-        Dim itm As ImageListViewItem
+        Dim itm As ListViewItem
         If Post.RetweetedId = 0 Then
             Dim sitem() As String = {"", Post.Nickname, Post.Data, Post.PDate.ToString(SettingDialog.DateTimeFormat), Post.Name, "", mk, Post.Source}
-            itm = New ImageListViewItem(sitem, Post.ImageUrl)
+            itm = New ListViewItem(sitem, Post.ImageUrl)
         Else
             Dim sitem() As String = {"", Post.Nickname, Post.Data, Post.PDate.ToString(SettingDialog.DateTimeFormat), Post.Name + "(RT:" + Post.RetweetedBy + ")", "", mk, Post.Source}
-            itm = New ImageListViewItem(sitem, Post.ImageUrl)
-        End If
-
-        If tw.DetailIcon.ContainsKey(Post.ImageUrl) Then
-            itm.Image = DirectCast(tw.DetailIcon, ImageCacheDictionary).GetItemCopy(Post.ImageUrl)
+            itm = New ListViewItem(sitem, Post.ImageUrl)
         End If
 
         Dim read As Boolean = Post.IsRead
@@ -3853,11 +3851,9 @@ Public Class TweenMain
     End Sub
 
     Private Sub DrawListViewItemIcon(ByVal e As DrawListViewSubItemEventArgs)
-        Dim item As ImageListViewItem = DirectCast(e.Item, ImageListViewItem)
-
-        If item.Image IsNot Nothing Then
+        If Not String.IsNullOrEmpty(e.Item.ImageKey) AndAlso Me.TIconDic.ContainsKey(e.Item.ImageKey) Then
             'e.Bounds.Leftが常に0を指すから自前で計算
-            Dim itemRect As Rectangle = item.Bounds
+            Dim itemRect As Rectangle = e.Item.Bounds
             itemRect.Width = e.Item.ListView.Columns(0).Width
 
             For Each clm As ColumnHeader In e.Item.ListView.Columns
@@ -3866,10 +3862,10 @@ Public Class TweenMain
                 End If
             Next
 
-            Dim iconRect As Rectangle = Rectangle.Intersect(item.GetBounds(ItemBoundsPortion.Icon), itemRect)
+            Dim iconRect As Rectangle = Rectangle.Intersect(e.Item.GetBounds(ItemBoundsPortion.Icon), itemRect)
             If iconRect.Width > 0 Then
                 e.Graphics.InterpolationMode = Drawing2D.InterpolationMode.High
-                e.Graphics.DrawImage(item.Image, iconRect)
+                e.Graphics.DrawImage(Me.TIconDic(e.Item.ImageKey), iconRect)
             End If
         End If
     End Sub
@@ -7133,11 +7129,6 @@ RETRY:
         'If changed Then
         '    SaveConfigsLocal()
         'End If
-    End Sub
-
-    Private Sub MyList_Scrolled(ByVal sender As Object, ByVal e As EventArgs)
-        Dim listView As DetailsListView = DirectCast(sender, DetailsListView)
-        listView.Refresh()
     End Sub
 
     Public Function WebBrowser_GetSelectionText(ByRef ComponentInstance As WebBrowser) As String
