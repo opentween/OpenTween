@@ -5397,13 +5397,13 @@ RETRY:
                 Case Keys.C, Keys.Insert
                     e.IsInputKey = True
                     Dim _selText As String = WebBrowser_GetSelectionText(PostBrowser)
-                    Try
-                        Clipboard.SetDataObject(_selText, False, 5, 100)
-                    Catch ex As Exception
-                        MessageBox.Show(ex.Message)
-                    End Try
-                Case Else
-
+                    If Not String.IsNullOrEmpty(_selText) Then
+                        Try
+                            Clipboard.SetDataObject(_selText, False, 5, 100)
+                        Catch ex As Exception
+                            MessageBox.Show(ex.Message)
+                        End Try
+                    End If
             End Select
         End If
 
