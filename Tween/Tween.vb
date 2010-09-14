@@ -2499,11 +2499,25 @@ Public Class TweenMain
         If _curPost Is Nothing Then
             ShowProfileMenuItem.Enabled = False
             ListManageUserContextToolStripMenuItem2.Enabled = False
+            ReplyStripMenuItem.Enabled = False
+            ReplyAllStripMenuItem.Enabled = False
+            DMStripMenuItem.Enabled = False
+            ToolStripMenuItem6.Enabled = False
+            ToolStripMenuItem7.Enabled = False
+            ToolStripMenuItem11.Enabled = False
+            DeleteStripMenuItem.Enabled = False
         Else
             ShowProfileMenuItem.Enabled = True
             ListManageUserContextToolStripMenuItem2.Enabled = True
+            ReplyStripMenuItem.Enabled = True
+            ReplyAllStripMenuItem.Enabled = True
+            DMStripMenuItem.Enabled = True
+            ToolStripMenuItem6.Enabled = True
+            ToolStripMenuItem7.Enabled = True
+            ToolStripMenuItem11.Enabled = True
+            DeleteStripMenuItem.Enabled =true
         End If
-        If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.DirectMessage Then
+        If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.DirectMessage OrElse _curPost Is Nothing Then
             FavAddToolStripMenuItem.Enabled = False
             FavRemoveToolStripMenuItem.Enabled = False
             StatusOpenMenuItem.Enabled = False
@@ -2520,7 +2534,7 @@ Public Class TweenMain
             ReTweetStripMenuItem.Enabled = False
             ReTweetOriginalStripMenuItem.Enabled = False
             QuoteStripMenuItem.Enabled = False
-            DeleteStripMenuItem.Enabled = True
+            If _curPost IsNot Nothing AndAlso _curPost.IsDm Then DeleteStripMenuItem.Enabled = True
         Else
             If _curPost.IsMe Then
                 ReTweetOriginalStripMenuItem.Enabled = False
@@ -8275,7 +8289,7 @@ RETRY:
             Me.RtOpMenuItem.Enabled = False
             Me.RtUnOpMenuItem.Enabled = False
             Me.QtOpMenuItem.Enabled = False
-            Me.DelOpMenuItem.Enabled = True
+            If _curPost IsNot Nothing AndAlso _curPost.IsDm Then Me.DelOpMenuItem.Enabled = True
         Else
             If _curPost.IsProtect = True AndAlso SettingDialog.ProtectNotInclude Then
                 Me.RtOpMenuItem.Enabled = False
@@ -8313,11 +8327,33 @@ RETRY:
             OpenRterHomeMenuItem.Enabled = True
         End If
         If _curPost Is Nothing Then
-            ShowProfMenuItem.Enabled = False
-            ToolStripMenuItem9.Enabled = False
+            Me.CopySTOTMenuItem.Enabled = False
+            Me.CopyURLMenuItem.Enabled = False
+            Me.ReplyOpMenuItem.Enabled = False
+            Me.ReplyAllOpMenuItem.Enabled = False
+            Me.DmOpMenuItem.Enabled = False
+            Me.FavOpMenuItem.Enabled = False
+            Me.UnFavOpMenuItem.Enabled = False
+            Me.OpenOpMenuItem.Enabled = False
+            Me.CreateRuleOpMenuItem.Enabled = False
+            Me.ChangeReadOpMenuItem.Enabled = False
+            Me.ShowProfMenuItem.Enabled = False
+            Me.ToolStripMenuItem9.Enabled = False
+            Me.DelOpMenuItem.Enabled = False
         Else
-            ShowProfMenuItem.Enabled = True
-            ToolStripMenuItem9.Enabled = True
+            Me.CopySTOTMenuItem.Enabled = True
+            Me.CopyURLMenuItem.Enabled = True
+            Me.ReplyOpMenuItem.Enabled = True
+            Me.ReplyAllOpMenuItem.Enabled = True
+            Me.DmOpMenuItem.Enabled = True
+            Me.FavOpMenuItem.Enabled = True
+            Me.UnFavOpMenuItem.Enabled = True
+            Me.OpenOpMenuItem.Enabled = True
+            Me.CreateRuleOpMenuItem.Enabled = True
+            Me.ChangeReadOpMenuItem.Enabled = True
+            Me.ShowProfMenuItem.Enabled = True
+            Me.ToolStripMenuItem9.Enabled = True
+            Me.DelOpMenuItem.Enabled = True
         End If
     End Sub
 
