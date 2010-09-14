@@ -76,6 +76,8 @@ Partial Class OpenURL
         Me.ControlBox = False
         Me.Controls.Add(Me.TableLayoutPanel2)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
+        Me.MaximizeBox = False
+        Me.MinimizeBox = False
         Me.Name = "OpenURL"
         Me.ShowInTaskbar = False
         Me.TopMost = True
