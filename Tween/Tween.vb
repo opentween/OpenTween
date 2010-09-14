@@ -2508,8 +2508,8 @@ Public Class TweenMain
             FavorareMenuItem.Enabled = False
             TabMenuItem.Enabled = False
             IDRuleMenuItem.Enabled = False
-
-            ToolStripMenuItem11.Enabled = False
+            ReadedStripMenuItem.Enabled = False
+            UnreadStripMenuItem.Enabled = False
             DeleteStripMenuItem.Enabled = False
         Else
             ShowProfileMenuItem.Enabled = True
@@ -2517,9 +2517,14 @@ Public Class TweenMain
             ReplyStripMenuItem.Enabled = True
             ReplyAllStripMenuItem.Enabled = True
             DMStripMenuItem.Enabled = True
-            ToolStripMenuItem6.Enabled = True
-            ToolStripMenuItem7.Enabled = True
-            ToolStripMenuItem11.Enabled = True
+            MoveToHomeToolStripMenuItem.Enabled = True
+            MoveToFavToolStripMenuItem.Enabled = True
+            StatusOpenMenuItem.Enabled = True
+            FavorareMenuItem.Enabled = True
+            TabMenuItem.Enabled = True
+            IDRuleMenuItem.Enabled = True
+            ReadedStripMenuItem.Enabled = True
+            UnreadStripMenuItem.Enabled = True
             DeleteStripMenuItem.Enabled =true
         End If
         If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.DirectMessage OrElse _curPost Is Nothing Then
@@ -8332,30 +8337,36 @@ RETRY:
             OpenRterHomeMenuItem.Enabled = True
         End If
         If _curPost Is Nothing Then
-            Me.CopySTOTMenuItem.Enabled = False
-            Me.CopyURLMenuItem.Enabled = False
             Me.ReplyOpMenuItem.Enabled = False
             Me.ReplyAllOpMenuItem.Enabled = False
             Me.DmOpMenuItem.Enabled = False
             Me.FavOpMenuItem.Enabled = False
             Me.UnFavOpMenuItem.Enabled = False
-            Me.OpenOpMenuItem.Enabled = False
-            Me.CreateRuleOpMenuItem.Enabled = False
-            Me.ChangeReadOpMenuItem.Enabled = False
+            Me.OpenHomeOpMenuItem.Enabled = False
+            Me.OpenFavOpMenuItem.Enabled = False
+            Me.OpenStatusOpMenuItem.Enabled = False
+            Me.OpenFavotterOpMenuItem.Enabled = False
+            Me.CreateTabRuleOpMenuItem.Enabled = False
+            Me.CreateIdRuleOpMenuItem.Enabled = False
+            Me.ReadOpMenuItem.Enabled = False
+            Me.UnreadOpMenuItem.Enabled = False
             Me.ShowProfMenuItem.Enabled = False
             Me.ToolStripMenuItem9.Enabled = False
             Me.DelOpMenuItem.Enabled = False
         Else
-            Me.CopySTOTMenuItem.Enabled = True
-            Me.CopyURLMenuItem.Enabled = True
             Me.ReplyOpMenuItem.Enabled = True
             Me.ReplyAllOpMenuItem.Enabled = True
             Me.DmOpMenuItem.Enabled = True
             Me.FavOpMenuItem.Enabled = True
             Me.UnFavOpMenuItem.Enabled = True
-            Me.OpenOpMenuItem.Enabled = True
-            Me.CreateRuleOpMenuItem.Enabled = True
-            Me.ChangeReadOpMenuItem.Enabled = True
+            Me.OpenHomeOpMenuItem.Enabled = True
+            Me.OpenFavOpMenuItem.Enabled = True
+            Me.OpenStatusOpMenuItem.Enabled = True
+            Me.OpenFavotterOpMenuItem.Enabled = True
+            Me.CreateTabRuleOpMenuItem.Enabled = True
+            Me.CreateIdRuleOpMenuItem.Enabled = True
+            Me.ReadOpMenuItem.Enabled = True
+            Me.UnreadOpMenuItem.Enabled = True
             Me.ShowProfMenuItem.Enabled = True
             Me.ToolStripMenuItem9.Enabled = True
             Me.DelOpMenuItem.Enabled = True
@@ -8394,6 +8405,13 @@ RETRY:
             End If
         Else
             PublicSearchQueryMenuItem.Enabled = False
+        End If
+        If _curPost Is Nothing Then
+            Me.CopySTOTMenuItem.Enabled = False
+            Me.CopyURLMenuItem.Enabled = False
+        Else
+            Me.CopySTOTMenuItem.Enabled = True
+            Me.CopyURLMenuItem.Enabled = True
         End If
     End Sub
 
