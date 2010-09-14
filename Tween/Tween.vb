@@ -2502,8 +2502,13 @@ Public Class TweenMain
             ReplyStripMenuItem.Enabled = False
             ReplyAllStripMenuItem.Enabled = False
             DMStripMenuItem.Enabled = False
-            ToolStripMenuItem6.Enabled = False
-            ToolStripMenuItem7.Enabled = False
+            MoveToHomeToolStripMenuItem.Enabled = False
+            MoveToFavToolStripMenuItem.Enabled = False
+            StatusOpenMenuItem.Enabled = False
+            FavorareMenuItem.Enabled = False
+            TabMenuItem.Enabled = False
+            IDRuleMenuItem.Enabled = False
+
             ToolStripMenuItem11.Enabled = False
             DeleteStripMenuItem.Enabled = False
         Else
