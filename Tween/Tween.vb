@@ -2420,6 +2420,8 @@ Public Class TweenMain
     Private Sub MoveToHomeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MoveToHomeToolStripMenuItem.Click, OpenHomeOpMenuItem.Click
         If _curList.SelectedIndices.Count > 0 Then
             OpenUriAsync("http://twitter.com/" + GetCurTabPost(_curList.SelectedIndices(0)).Name)
+        ElseIf _curList.SelectedIndices.Count = 0 Then
+            OpenUriAsync("http://twitter.com/")
         End If
     End Sub
 
@@ -2506,7 +2508,6 @@ Public Class TweenMain
             ReplyStripMenuItem.Enabled = False
             ReplyAllStripMenuItem.Enabled = False
             DMStripMenuItem.Enabled = False
-            MoveToHomeToolStripMenuItem.Enabled = False
             MoveToFavToolStripMenuItem.Enabled = False
             StatusOpenMenuItem.Enabled = False
             FavorareMenuItem.Enabled = False
@@ -2521,7 +2522,6 @@ Public Class TweenMain
             ReplyStripMenuItem.Enabled = True
             ReplyAllStripMenuItem.Enabled = True
             DMStripMenuItem.Enabled = True
-            MoveToHomeToolStripMenuItem.Enabled = True
             MoveToFavToolStripMenuItem.Enabled = True
             StatusOpenMenuItem.Enabled = True
             FavorareMenuItem.Enabled = True
@@ -8333,7 +8333,6 @@ RETRY:
             Me.DmOpMenuItem.Enabled = False
             Me.FavOpMenuItem.Enabled = False
             Me.UnFavOpMenuItem.Enabled = False
-            Me.OpenHomeOpMenuItem.Enabled = False
             Me.OpenFavOpMenuItem.Enabled = False
             Me.OpenStatusOpMenuItem.Enabled = False
             Me.OpenFavotterOpMenuItem.Enabled = False
@@ -8350,7 +8349,6 @@ RETRY:
             Me.DmOpMenuItem.Enabled = True
             Me.FavOpMenuItem.Enabled = True
             Me.UnFavOpMenuItem.Enabled = True
-            Me.OpenHomeOpMenuItem.Enabled = True
             Me.OpenFavOpMenuItem.Enabled = True
             Me.OpenStatusOpMenuItem.Enabled = True
             Me.OpenFavotterOpMenuItem.Enabled = True
