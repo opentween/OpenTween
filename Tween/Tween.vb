@@ -4489,6 +4489,11 @@ RETRY:
                 e.Handled = True
                 e.SuppressKeyPress = True
                 MenuItemSubSearch_Click(Nothing, Nothing)
+            ElseIf e.KeyCode = Keys.C Then
+                Dim clstr As String = ""
+                e.Handled = True
+                e.SuppressKeyPress = True
+                CopyStot()
             End If
             ' Webページを開く動作
 
@@ -4564,118 +4569,114 @@ RETRY:
                     e.Handled = True
                     e.SuppressKeyPress = True
                     GoTopEnd(True)
-                End If
-                If e.KeyCode = Keys.L Then
-                    e.Handled = True
-                    e.SuppressKeyPress = True
-                    GoTopEnd(False)
-                End If
-                If e.KeyCode = Keys.M Then
-                    e.Handled = True
-                    e.SuppressKeyPress = True
-                    GoMiddle()
-                End If
-                If e.KeyCode = Keys.G Then
-                    e.Handled = True
-                    e.SuppressKeyPress = True
-                    GoLast()
-                End If
-                If e.KeyCode = Keys.Z Then
-                    e.Handled = True
-                    e.SuppressKeyPress = True
-                    MoveMiddle()
-                End If
-
-                ' お気に入り前後ジャンプ(SHIFT+N←/P→)
-                If e.KeyCode = Keys.N OrElse e.KeyCode = Keys.Right Then
-                    e.Handled = True
-                    e.SuppressKeyPress = True
-                    GoFav(True)
-                End If
-                If e.KeyCode = Keys.P OrElse e.KeyCode = Keys.Left Then
-                    e.Handled = True
-                    e.SuppressKeyPress = True
-                    GoFav(False)
-                End If
-                If e.KeyCode = Keys.R OrElse e.KeyCode = Keys.F5 Then
-                    e.Handled = True
-                    e.SuppressKeyPress = True
-                    DoRefreshMore()
-                End If
-                If e.KeyCode = Keys.F3 Then
-                    e.Handled = True
-                    e.SuppressKeyPress = True
-                    MenuItemSearchPrev_Click(Nothing, Nothing)
-                End If
-                If e.KeyCode = Keys.F6 Then
-                    e.Handled = True
-                    e.SuppressKeyPress = True
-                    GetTimeline(WORKERTYPE.Reply, -1, 0, "")
-                End If
-                If e.KeyCode = Keys.F7 Then
-                    e.Handled = True
-                    e.SuppressKeyPress = True
-                    GetTimeline(WORKERTYPE.DirectMessegeRcv, -1, 0, "")
-                End If
-            End If
-            If e.Control AndAlso Not e.Alt AndAlso e.Shift Then
-                ' CTRL+SHIFTキーが押されている場合
-                If e.KeyCode = Keys.H Then doMoveToRTHome()
-                If e.KeyCode = Keys.T Then HashToggleMenuItem_Click(Nothing, Nothing)
-                If e.KeyCode = Keys.S Then FavoriteChange(False)
-                If e.KeyCode = Keys.B Then UnreadStripMenuItem_Click(Nothing, Nothing)
-                If e.KeyCode = Keys.G Then FavorareMenuItem_Click(Nothing, Nothing)
-                If e.KeyCode = Keys.P Then ImageSelectMenuItem_Click(Nothing, Nothing)
-                If e.KeyCode = Keys.O Then FavorareMenuItem_Click(Nothing, Nothing)
-            End If
-            If Not e.Control AndAlso e.Alt AndAlso e.Shift Then
-                ' ALT+SHIFTキーが押されている場合
-                If e.KeyCode = Keys.R Then
-                    e.Handled = True
-                    e.SuppressKeyPress = True
-                    doReTweetUnofficial()
-                End If
-                If e.KeyCode = Keys.Up Then
-                    Thumbnail.ScrollThumbnail(False)
-                End If
-                If e.KeyCode = Keys.Down Then
-                    Thumbnail.ScrollThumbnail(True)
-                End If
-                If e.KeyCode = Keys.Enter Then
-                    If Not Me.SplitContainer3.Panel2Collapsed Then
-                        Thumbnail.OpenPicture()
-                    End If
-                    e.Handled = True
-                    e.SuppressKeyPress = True
-                End If
+            ElseIf e.KeyCode = Keys.L Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                GoTopEnd(False)
+            ElseIf e.KeyCode = Keys.M Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                GoMiddle()
+            ElseIf e.KeyCode = Keys.G Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                GoLast()
+            ElseIf e.KeyCode = Keys.Z Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                MoveMiddle()
             End If
 
-            If Not e.Alt Then
-                If e.KeyCode = Keys.J Then
-                    e.Handled = True
-                    e.SuppressKeyPress = True
-                    SendKeys.Send("{DOWN}")
-                End If
-                If e.KeyCode = Keys.K Then
-                    e.Handled = True
-                    e.SuppressKeyPress = True
-                    SendKeys.Send("{UP}")
-                End If
+            ' お気に入り前後ジャンプ(SHIFT+N←/P→)
+            If e.KeyCode = Keys.N OrElse e.KeyCode = Keys.Right Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                GoFav(True)
+            ElseIf e.KeyCode = Keys.P OrElse e.KeyCode = Keys.Left Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                GoFav(False)
+            ElseIf e.KeyCode = Keys.R OrElse e.KeyCode = Keys.F5 Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                DoRefreshMore()
+            ElseIf e.KeyCode = Keys.F3 Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                MenuItemSearchPrev_Click(Nothing, Nothing)
+            ElseIf e.KeyCode = Keys.F6 Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                GetTimeline(WORKERTYPE.Reply, -1, 0, "")
+            ElseIf e.KeyCode = Keys.F7 Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                GetTimeline(WORKERTYPE.DirectMessegeRcv, -1, 0, "")
             End If
+            End If
+        If e.Control AndAlso Not e.Alt AndAlso e.Shift Then
+            ' CTRL+SHIFTキーが押されている場合
+            If e.KeyCode = Keys.H Then
 
-            If e.KeyCode = Keys.C Then
+                doMoveToRTHome()
+            ElseIf e.KeyCode = Keys.T Then
+                HashToggleMenuItem_Click(Nothing, Nothing)
+            ElseIf e.KeyCode = Keys.S Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                FavoriteChange(False)
+            ElseIf e.KeyCode = Keys.B Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                UnreadStripMenuItem_Click(Nothing, Nothing)
+            ElseIf e.KeyCode = Keys.P Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                ImageSelectMenuItem_Click(Nothing, Nothing)
+            ElseIf e.KeyCode = Keys.O Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                FavorareMenuItem_Click(Nothing, Nothing)
+            ElseIf e.KeyCode = Keys.C Then
                 Dim clstr As String = ""
-                If e.Control AndAlso Not e.Alt AndAlso Not e.Shift Then
-                    e.Handled = True
-                    e.SuppressKeyPress = True
-                    CopyStot()
-                End If
-                If e.Control AndAlso e.Shift AndAlso Not e.Alt Then
-                    e.Handled = True
-                    e.SuppressKeyPress = True
-                    CopyIdUri()
-                End If
+                e.Handled = True
+                e.SuppressKeyPress = True
+                CopyIdUri()
             End If
+        End If
+        If Not e.Control AndAlso e.Alt AndAlso e.Shift Then
+            ' ALT+SHIFTキーが押されている場合
+            If e.KeyCode = Keys.R Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                doReTweetUnofficial()
+            ElseIf e.KeyCode = Keys.Up Then
+                Thumbnail.ScrollThumbnail(False)
+            ElseIf e.KeyCode = Keys.Down Then
+                Thumbnail.ScrollThumbnail(True)
+            End If
+            If e.KeyCode = Keys.Enter Then
+                If Not Me.SplitContainer3.Panel2Collapsed Then
+                    Thumbnail.OpenPicture()
+                End If
+                e.Handled = True
+                e.SuppressKeyPress = True
+            End If
+        End If
+
+        If Not e.Alt Then
+            If e.KeyCode = Keys.J Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                SendKeys.Send("{DOWN}")
+            End If
+            If e.KeyCode = Keys.K Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                SendKeys.Send("{UP}")
+            End If
+        End If
+
     End Sub
 
     Private Sub ScrollDownPostBrowser(ByVal forward As Boolean)
