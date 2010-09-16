@@ -2354,6 +2354,15 @@ Public Class TweenMain
     End Sub
 
     Private Sub FavAddToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FavAddToolStripMenuItem.Click, FavOpMenuItem.Click
+        FavoriteChange(True)
+    End Sub
+
+    Private Sub FavRemoveToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FavRemoveToolStripMenuItem.Click, UnFavOpMenuItem.Click
+        FavoriteChange(False)
+    End Sub
+
+    Private Sub FavoriteChange(ByVal FavAdd As Boolean)
+        'TrueでFavAdd,FalseでFavRemove
         If _statuses.Tabs(_curTab.Text).TabType = TabUsageType.DirectMessage OrElse _curList.SelectedIndices.Count = 0 Then Exit Sub
 
         '複数fav確認msg
@@ -2368,40 +2377,25 @@ Public Class TweenMain
         args.ids = New List(Of Long)
         args.sIds = New List(Of Long)
         args.tName = _curTab.Text
-        args.type = WORKERTYPE.FavAdd
+        If FavAdd = True Then
+            args.type = WORKERTYPE.FavAdd
+        Else
+            args.type = WORKERTYPE.FavRemove
+        End If
         For Each idx As Integer In _curList.SelectedIndices
             Dim post As PostClass = GetCurTabPost(idx)
-            If Not post.IsFav Then args.ids.Add(post.Id)
-        Next
-        If args.ids.Count = 0 Then
-            StatusLabel.Text = My.Resources.FavAddToolStripMenuItem_ClickText4
-            Exit Sub
-        End If
-
-        RunAsync(args)
-    End Sub
-
-    Private Sub FavRemoveToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FavRemoveToolStripMenuItem.Click, UnFavOpMenuItem.Click
-        If _statuses.Tabs(_curTab.Text).TabType = TabUsageType.DirectMessage OrElse _curList.SelectedIndices.Count = 0 Then Exit Sub
-
-        If _curList.SelectedIndices.Count > 1 Then
-            If MessageBox.Show(My.Resources.FavRemoveToolStripMenuItem_ClickText1, My.Resources.FavRemoveToolStripMenuItem_ClickText2, _
-                               MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
-                Exit Sub
+            If FavAdd = True Then
+                If Not post.IsFav Then args.ids.Add(post.Id)
+            Else
+                If post.IsFav Then args.ids.Add(post.Id)
             End If
-        End If
-
-        Dim args As New GetWorkerArg()
-        args.ids = New List(Of Long)()
-        args.sIds = New List(Of Long)()
-        args.tName = _curTab.Text
-        args.type = WORKERTYPE.FavRemove
-        For Each idx As Integer In _curList.SelectedIndices
-            Dim post As PostClass = GetCurTabPost(idx)
-            If post.IsFav Then args.ids.Add(post.Id)
         Next
         If args.ids.Count = 0 Then
-            StatusLabel.Text = My.Resources.FavRemoveToolStripMenuItem_ClickText4
+            If FavAdd = True Then
+                StatusLabel.Text = My.Resources.FavAddToolStripMenuItem_ClickText4
+            Else
+                StatusLabel.Text = My.Resources.FavRemoveToolStripMenuItem_ClickText4
+            End If
             Exit Sub
         End If
 
@@ -4372,7 +4366,7 @@ RETRY:
                 e.SuppressKeyPress = True
                 MoveTop()
             End If
-            If e.KeyCode = Keys.R Then
+            If e.KeyCode = Keys.R OrElse e.KeyCode = Keys.F5 Then
                 e.Handled = True
                 e.SuppressKeyPress = True
                 DoRefresh()
@@ -4419,6 +4413,11 @@ RETRY:
                 e.SuppressKeyPress = True
                 GoBackInReplyToPost()
             End If
+            If e.KeyCode = Keys.F1 Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                OpenUriAsync("http://sourceforge.jp/projects/tween/wiki/FrontPage")
+            End If
             If e.KeyCode = Keys.F6 Then
                 e.Handled = True
                 e.SuppressKeyPress = True
@@ -4438,9 +4437,35 @@ RETRY:
             End If
             If e.KeyCode = Keys.N Then GoNextTab(True)
             If e.KeyCode = Keys.P Then GoNextTab(False)
+            If e.KeyCode = Keys.R Then MakeReplyOrDirectStatus(False, True)
+            If e.KeyCode = Keys.M Then MakeReplyOrDirectStatus(False, False)
+            If e.KeyCode = Keys.S Then FavoriteChange(True)
             If e.KeyCode = Keys.I Then doRepliedStatusOpen()
             If e.KeyCode = Keys.D Then doStatusDelete()
             If e.KeyCode = Keys.Q Then doQuote()
+            If e.KeyCode = Keys.B Then ReadedStripMenuItem_Click(Nothing, Nothing)
+            If e.KeyCode = Keys.T Then HashManageMenuItem_Click(Nothing, Nothing)
+            If e.KeyCode = Keys.L Then UrlConvertAutoToolStripMenuItem_Click(Nothing, Nothing)
+            If e.KeyCode = Keys.E Then MultiLineMenuItem_Click(Nothing, Nothing)
+
+            ' Webページを開く動作
+
+            Select Case e.KeyCode
+                Case Keys.H
+                    If _curList.SelectedIndices.Count > 0 Then
+                        OpenUriAsync("http://twitter.com/" + GetCurTabPost(_curList.SelectedIndices(0)).Name)
+                    ElseIf _curList.SelectedIndices.Count = 0 Then
+                        OpenUriAsync("http://twitter.com/")
+                    End If
+                Case Keys.G
+                    If _curList.SelectedIndices.Count > 0 Then
+                        OpenUriAsync("http://twitter.com/" + GetCurTabPost(_curList.SelectedIndices(0)).Name + "/favorites")
+                    End If
+                Case Keys.O
+                    StatusOpenMenuItem_Click(Nothing, Nothing)
+                Case Keys.E
+                    OpenURLMenuItem_Click(Nothing, Nothing)
+            End Select
 
             ' タブダイレクト選択(Ctrl+1～8,Ctrl+9)
 
@@ -4475,7 +4500,11 @@ RETRY:
                 GoSamePostToAnotherTab(True)
             End If
             If e.KeyCode = Keys.R Then doReTweetOriginal(True)
-            If e.KeyCode = Keys.P AndAlso _curPost IsNot Nothing Then doShowUserStatus(_curPost.Name, False)
+            If e.KeyCode = Keys.P AndAlso _curPost IsNot Nothing Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                doShowUserStatus(_curPost.Name, False)
+            End If
             If e.KeyCode = Keys.Up Then
                 ScrollDownPostBrowser(False)
             End If
@@ -4528,7 +4557,7 @@ RETRY:
                 e.SuppressKeyPress = True
                 GoFav(False)
             End If
-            If e.KeyCode = Keys.R Then
+            If e.KeyCode = Keys.R OrElse e.KeyCode = Keys.F5 Then
                 e.Handled = True
                 e.SuppressKeyPress = True
                 DoRefreshMore()
@@ -4547,10 +4576,20 @@ RETRY:
         If e.Control AndAlso Not e.Alt AndAlso e.Shift Then
             ' CTRL+SHIFTキーが押されている場合
             If e.KeyCode = Keys.H Then doMoveToRTHome()
+            If e.KeyCode = Keys.T Then HashToggleMenuItem_Click(Nothing, Nothing)
+            If e.KeyCode = Keys.S Then FavoriteChange(False)
+            If e.KeyCode = Keys.B Then UnreadStripMenuItem_Click(Nothing, Nothing)
+            If e.KeyCode = Keys.G Then FavorareMenuItem_Click(Nothing, Nothing)
+            If e.KeyCode = Keys.P Then ImageSelectMenuItem_Click(Nothing, Nothing)
+            If e.KeyCode = Keys.O Then FavorareMenuItem_Click(Nothing, Nothing)
         End If
         If Not e.Control AndAlso e.Alt AndAlso e.Shift Then
             ' ALT+SHIFTキーが押されている場合
-            If e.KeyCode = Keys.R Then doReTweetUnofficial()
+            If e.KeyCode = Keys.R Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                doReTweetUnofficial()
+            End If
             If e.KeyCode = Keys.Up Then
                 Thumbnail.ScrollThumbnail(False)
             End If
@@ -5072,6 +5111,32 @@ RETRY:
                 e.SuppressKeyPress = True
                 StatusText.Focus()
             End If
+            If e.KeyCode = Keys.N Then GoNextTab(True)
+            If e.KeyCode = Keys.P Then GoNextTab(False)
+            If e.KeyCode = Keys.R Then MakeReplyOrDirectStatus(False, True)
+            If e.KeyCode = Keys.M Then MakeReplyOrDirectStatus(False, False)
+            If e.KeyCode = Keys.S Then FavoriteChange(True)
+            If e.KeyCode = Keys.I Then doRepliedStatusOpen()
+            If e.KeyCode = Keys.D Then doStatusDelete()
+            If e.KeyCode = Keys.Q Then doQuote()
+            If e.KeyCode = Keys.B Then ReadedStripMenuItem_Click(Nothing, Nothing)
+            If e.KeyCode = Keys.T Then HashManageMenuItem_Click(Nothing, Nothing)
+            If e.KeyCode = Keys.L Then UrlConvertAutoToolStripMenuItem_Click(Nothing, Nothing)
+
+            Select Case e.KeyCode
+                Case Keys.H
+                    If _curList.SelectedIndices.Count > 0 Then
+                        OpenUriAsync("http://twitter.com/" + GetCurTabPost(_curList.SelectedIndices(0)).Name)
+                    ElseIf _curList.SelectedIndices.Count = 0 Then
+                        OpenUriAsync("http://twitter.com/")
+                    End If
+                Case Keys.G
+                    If _curList.SelectedIndices.Count > 0 Then
+                        OpenUriAsync("http://twitter.com/" + GetCurTabPost(_curList.SelectedIndices(0)).Name + "/favorites")
+                    End If
+                Case Keys.E
+                    OpenURLMenuItem_Click(Nothing, Nothing)
+            End Select
         End If
         If e.KeyCode = Keys.Space AndAlso e.Modifiers = (Keys.Shift Or Keys.Control) Then
             If StatusText.SelectionStart > 0 Then
@@ -5118,8 +5183,19 @@ RETRY:
                     _curList.EnsureVisible(idx)
                 End If
             End If
+            If e.KeyCode = Keys.H Then doMoveToRTHome()
+            If e.KeyCode = Keys.T Then HashToggleMenuItem_Click(Nothing, Nothing)
+            If e.KeyCode = Keys.S Then FavoriteChange(False)
+            If e.KeyCode = Keys.B Then UnreadStripMenuItem_Click(Nothing, Nothing)
+            If e.KeyCode = Keys.G Then FavorareMenuItem_Click(Nothing, Nothing)
         End If
         If e.Modifiers = Keys.None Then
+            If e.KeyCode = Keys.F1 Then
+                OpenUriAsync("http://sourceforge.jp/projects/tween/wiki/FrontPage")
+            End If
+            If e.KeyCode = Keys.F5 Then
+                DoRefresh()
+            End If
             If e.KeyCode = Keys.F6 Then
                 GetTimeline(WORKERTYPE.Reply, 1, 0, "")
             End If
@@ -5128,11 +5204,34 @@ RETRY:
             End If
         End If
         If e.Modifiers = Keys.Shift Then
+            If e.KeyCode = Keys.F5 Then
+                DoRefreshMore()
+            End If
             If e.KeyCode = Keys.F6 Then
                 GetTimeline(WORKERTYPE.Reply, -1, 0, "")
             End If
             If e.KeyCode = Keys.F7 Then
                 GetTimeline(WORKERTYPE.DirectMessegeRcv, -1, 0, "")
+            End If
+        End If
+        If e.KeyCode = Keys.C Then
+            Dim clstr As String = ""
+            If e.Control AndAlso Not e.Alt AndAlso Not e.Shift Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                CopyStot()
+            End If
+            If e.Control AndAlso e.Shift AndAlso Not e.Alt Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                CopyIdUri()
+            End If
+        End If
+        If e.Alt AndAlso Not e.Control AndAlso e.Shift Then
+            If e.KeyCode = Keys.R Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                doReTweetOriginal(True)
             End If
         End If
         Me.StatusText_TextChanged(Nothing, Nothing)
@@ -5433,10 +5532,12 @@ RETRY:
                 Case Keys.P
                     e.IsInputKey = True
                     ImageSelectMenuItem_Click(Nothing, Nothing)
+
                 Case Else
 
             End Select
         End If
+
     End Sub
     Public Function TabRename(ByRef tabName As String) As Boolean
         'タブ名変更

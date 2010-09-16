@@ -431,6 +431,7 @@ Partial Class ShowUserInfo
         Me.MinimizeBox = False
         Me.Name = "ShowUserInfo"
         Me.ShowIcon = False
+        Me.ShowInTaskbar = False
         Me.TopMost = True
         CType(Me.UserPicture, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ContextMenuUserPicture.ResumeLayout(False)
