@@ -5139,7 +5139,7 @@ RETRY:
                 StatusText.SelectionStart = StatusText.Text.Length
                 e.Handled = True
                 e.SuppressKeyPress = True
-            ElseIf e.KeyCode = Keys.PageUp OrElse e.KeyCode = Keys.P Then
+            ElseIf e.KeyCode = Keys.PageUp Then
                 If ListTab.SelectedIndex = 0 Then
                     ListTab.SelectedIndex = ListTab.TabCount - 1
                 Else
@@ -5148,7 +5148,7 @@ RETRY:
                 e.Handled = True
                 e.SuppressKeyPress = True
                 StatusText.Focus()
-            ElseIf e.KeyCode = Keys.PageDown OrElse e.KeyCode = Keys.N Then
+            ElseIf e.KeyCode = Keys.PageDown Then
                 If ListTab.SelectedIndex = ListTab.TabCount - 1 Then
                     ListTab.SelectedIndex = 0
                 Else
@@ -5157,69 +5157,7 @@ RETRY:
                 e.Handled = True
                 e.SuppressKeyPress = True
                 StatusText.Focus()
-            ElseIf e.KeyCode = Keys.R Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                MakeReplyOrDirectStatus(False, True)
-            ElseIf e.KeyCode = Keys.M Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                MakeReplyOrDirectStatus(False, False)
-            ElseIf e.KeyCode = Keys.S Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                FavoriteChange(True)
-            ElseIf e.KeyCode = Keys.I Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                doRepliedStatusOpen()
-            ElseIf e.KeyCode = Keys.D Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                doStatusDelete()
-            ElseIf e.KeyCode = Keys.Q Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                doQuote()
-            ElseIf e.KeyCode = Keys.B Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                ReadedStripMenuItem_Click(Nothing, Nothing)
-            ElseIf e.KeyCode = Keys.T Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                HashManageMenuItem_Click(Nothing, Nothing)
-            ElseIf e.KeyCode = Keys.L Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                UrlConvertAutoToolStripMenuItem_Click(Nothing, Nothing)
-            ElseIf e.KeyCode = Keys.C Then
-                Dim clstr As String = ""
-                e.Handled = True
-                e.SuppressKeyPress = True
-                CopyStot()
-            ElseIf e.KeyCode = Keys.Y Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                MultiLineMenuItem_Click(Nothing, Nothing)
             End If
-
-            Select Case e.KeyCode
-                Case Keys.H
-                    If _curList.SelectedIndices.Count > 0 Then
-                        OpenUriAsync("http://twitter.com/" + GetCurTabPost(_curList.SelectedIndices(0)).Name)
-                    ElseIf _curList.SelectedIndices.Count = 0 Then
-                        OpenUriAsync("http://twitter.com/")
-                    End If
-                Case Keys.G
-                    If _curList.SelectedIndices.Count > 0 Then
-                        OpenUriAsync("http://twitter.com/" + GetCurTabPost(_curList.SelectedIndices(0)).Name + "/favorites")
-                    End If
-                Case Keys.E
-                    OpenURLMenuItem_Click(Nothing, Nothing)
-                Case Keys.O
-                    StatusOpenMenuItem_Click(Nothing, Nothing)
-            End Select
         End If
 
         If e.KeyCode = Keys.Space AndAlso e.Modifiers = (Keys.Shift Or Keys.Control) Then
