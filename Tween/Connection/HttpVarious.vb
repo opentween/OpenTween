@@ -62,6 +62,11 @@ Public Class HttpVarious
             If img IsNot Nothing Then img.Tag = url
             If ret = HttpStatusCode.OK Then Return CheckValidImage(img)
             Return Nothing
+        Catch ex As WebException
+            If errmsg IsNot Nothing Then
+                errmsg = ex.Message
+            End If
+            Return Nothing
         Catch ex As Exception
             Return Nothing
         End Try
