@@ -73,9 +73,6 @@ Public Class Thumbnail
         Public imageCreator As ImageCreatorDelegate
     End Structure
 
-    ' TODO: 次の動作が未検証なので要検証
-    ' bctiny.com(ShortUrl.vbのバグ修正が必要)
-
     Private ThumbnailServices As ThumbnailService() = {
         New ThumbnailService With {.Name = "ImgUr", .urlCreator = AddressOf ImgUr_GetUrl, .imageCreator = AddressOf ImgUr_CreateImage}, _
         New ThumbnailService With {.Name = "DirectLink", .urlCreator = AddressOf DirectLink_GetUrl, .imageCreator = AddressOf DirectLink_CreateImage}, _
