@@ -5778,7 +5778,7 @@ RETRY:
         If e.Modifiers = (Keys.Alt Or Keys.Shift) Then
             Select Case e.KeyCode
                 Case Keys.R
-                    e.IsInputKey = True
+                    e.IsInputKey = False
                     doReTweetUnofficial()
             End Select
 
