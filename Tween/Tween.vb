@@ -5700,6 +5700,7 @@ RETRY:
                     ReadedStripMenuItem_Click(Nothing, Nothing)
                 Case Keys.Y
                     e.IsInputKey = True
+                    MultiLineMenuItem.Checked = Not MultiLineMenuItem.Checked
                     MultiLineMenuItem_Click(Nothing, Nothing)
                 Case Keys.C
                     e.IsInputKey = True
