@@ -409,6 +409,10 @@ Public Class ShowUserInfo
         MyOwner.OpenUriAsync("http://twitter.com/help/verified")
     End Sub
 
+    Private Sub LinkLabel2_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel2.LinkClicked
+        MyOwner.OpenUriAsync("http://support.twitter.com/groups/31-twitter-basics/topics/107-my-profile-account-settings/articles/243055-x516c-x958b-x3001-x975e-x516c-x958b-x30a2-x30ab-x30a6-x30f3-x30c8-x306b-x3064-x3044-x3066")
+    End Sub
+
     Private Sub ButtonSearchPosts_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonSearchPosts.Click
         MyOwner.AddNewTabForSearch("from:" + _info.ScreenName)
     End Sub

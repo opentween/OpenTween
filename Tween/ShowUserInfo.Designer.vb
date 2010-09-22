@@ -44,7 +44,6 @@ Partial Class ShowUserInfo
         Me.LinkLabelFav = New System.Windows.Forms.LinkLabel()
         Me.ButtonFollow = New System.Windows.Forms.Button()
         Me.ButtonUnFollow = New System.Windows.Forms.Button()
-        Me.Label10 = New System.Windows.Forms.Label()
         Me.LabelIsProtected = New System.Windows.Forms.Label()
         Me.LabelIsFollowing = New System.Windows.Forms.Label()
         Me.LabelIsFollowed = New System.Windows.Forms.Label()
@@ -74,6 +73,7 @@ Partial Class ShowUserInfo
         Me.ButtonBlock = New System.Windows.Forms.Button()
         Me.ButtonReportSpam = New System.Windows.Forms.Button()
         Me.ButtonBlockDestroy = New System.Windows.Forms.Button()
+        Me.LinkLabel2 = New System.Windows.Forms.LinkLabel()
         CType(Me.UserPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ContextMenuUserPicture.SuspendLayout()
         Me.ContextMenuRecentPostBrowser.SuspendLayout()
@@ -196,11 +196,6 @@ Partial Class ShowUserInfo
         resources.ApplyResources(Me.ButtonUnFollow, "ButtonUnFollow")
         Me.ButtonUnFollow.Name = "ButtonUnFollow"
         Me.ButtonUnFollow.UseVisualStyleBackColor = True
-        '
-        'Label10
-        '
-        resources.ApplyResources(Me.Label10, "Label10")
-        Me.Label10.Name = "Label10"
         '
         'LabelIsProtected
         '
@@ -378,12 +373,19 @@ Partial Class ShowUserInfo
         Me.ButtonBlockDestroy.Name = "ButtonBlockDestroy"
         Me.ButtonBlockDestroy.UseVisualStyleBackColor = True
         '
+        'LinkLabel2
+        '
+        resources.ApplyResources(Me.LinkLabel2, "LinkLabel2")
+        Me.LinkLabel2.Name = "LinkLabel2"
+        Me.LinkLabel2.TabStop = True
+        '
         'ShowUserInfo
         '
         Me.AllowDrop = True
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.ButtonClose
+        Me.Controls.Add(Me.LinkLabel2)
         Me.Controls.Add(Me.ButtonBlockDestroy)
         Me.Controls.Add(Me.ButtonReportSpam)
         Me.Controls.Add(Me.ButtonBlock)
@@ -413,7 +415,6 @@ Partial Class ShowUserInfo
         Me.Controls.Add(Me.LinkLabelFollowers)
         Me.Controls.Add(Me.ButtonUnFollow)
         Me.Controls.Add(Me.LinkLabelFollowing)
-        Me.Controls.Add(Me.Label10)
         Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.LabelName)
         Me.Controls.Add(Me.ButtonFollow)
@@ -460,7 +461,6 @@ Partial Class ShowUserInfo
     Friend WithEvents LinkLabelFav As System.Windows.Forms.LinkLabel
     Friend WithEvents ButtonFollow As System.Windows.Forms.Button
     Friend WithEvents ButtonUnFollow As System.Windows.Forms.Button
-    Friend WithEvents Label10 As System.Windows.Forms.Label
     Friend WithEvents LabelIsProtected As System.Windows.Forms.Label
     Friend WithEvents LabelIsFollowing As System.Windows.Forms.Label
     Friend WithEvents LabelIsFollowed As System.Windows.Forms.Label
@@ -490,4 +490,5 @@ Partial Class ShowUserInfo
     Friend WithEvents ButtonBlock As System.Windows.Forms.Button
     Friend WithEvents ButtonReportSpam As System.Windows.Forms.Button
     Friend WithEvents ButtonBlockDestroy As System.Windows.Forms.Button
+    Friend WithEvents LinkLabel2 As System.Windows.Forms.LinkLabel
 End Class
