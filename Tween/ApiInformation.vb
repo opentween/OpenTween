@@ -147,7 +147,7 @@ Public Class ApiInformation
     Private ReadOnly Property RemainCountFromHttpHeader() As Integer
         Get
             Dim result As Integer = 0
-            If HttpHeaders("X-RateLimit-Remaining") = "" Then Return -1
+            If String.IsNullOrEmpty(HttpHeaders("X-RateLimit-Remaining")) Then Return -1
             If Integer.TryParse(HttpHeaders("X-RateLimit-Remaining"), result) Then
                 Return result
             End If
@@ -158,7 +158,7 @@ Public Class ApiInformation
     Private ReadOnly Property MaxCountFromHttpHeader() As Integer
         Get
             Dim result As Integer = 0
-            If HttpHeaders("X-RateLimit-Limit") = "" Then Return -1
+            If String.IsNullOrEmpty(HttpHeaders("X-RateLimit-Limit")) Then Return -1
             If Integer.TryParse(HttpHeaders("X-RateLimit-Limit"), result) Then
                 Return result
             End If
