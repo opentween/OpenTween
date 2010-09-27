@@ -453,6 +453,11 @@ Public Class FilterDialog
         Dim bdy As String = ""
         If RadioAND.Checked Then
             ft.NameFilter = UID.Text
+            Dim cnt As Integer = TweenMain.AtIdSupl.ItemCount
+            TweenMain.AtIdSupl.AddItem("@" + ft.NameFilter)
+            If cnt <> TweenMain.AtIdSupl.ItemCount Then
+                TweenMain.ModifySettingAtId = True
+            End If
             ft.SearchBoth = True
             bdy = MSG1.Text
         Else

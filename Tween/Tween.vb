@@ -79,9 +79,9 @@ Public Class TweenMain
     'Private _cfg As SettingToConfig '旧
     Private _cfgLocal As SettingLocal
     Private _cfgCommon As SettingCommon
-    Private modifySettingLocal As Boolean = False
-    Private modifySettingCommon As Boolean = False
-    Private modifySettingAtId As Boolean = False
+    Private _modifySettingLocal As Boolean = False
+    Private _modifySettingCommon As Boolean = False
+    Private _modifySettingAtId As Boolean = False
 
     'twitter解析部
     Private tw As New Twitter
@@ -2433,7 +2433,7 @@ Public Class TweenMain
                     _mySpDis = Me.SplitContainer1.SplitterDistance
                     _mySpDis3 = Me.SplitContainer3.SplitterDistance
                     If StatusText.Multiline Then _mySpDis2 = Me.StatusText.Height
-                    modifySettingLocal = True
+                    _modifySettingLocal = True
                 End If
             End If
         End If
@@ -2483,13 +2483,13 @@ Public Class TweenMain
             _curList.EnsureVisible(idx)
         End If
         _curList.Refresh()
-        modifySettingCommon = True
+        _modifySettingCommon = True
     End Sub
 
     Private Sub Tween_LocationChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.LocationChanged
         If Me.WindowState = FormWindowState.Normal AndAlso Not _initialLayout Then
             _myLoc = Me.DesktopLocation
-            modifySettingLocal = True
+            _modifySettingLocal = True
         End If
     End Sub
 
@@ -2523,7 +2523,7 @@ Public Class TweenMain
             IDRuleMenuItem.Enabled = True
             ReadedStripMenuItem.Enabled = True
             UnreadStripMenuItem.Enabled = True
-            DeleteStripMenuItem.Enabled =true
+            DeleteStripMenuItem.Enabled = True
         End If
         If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.DirectMessage OrElse _curPost Is Nothing Then
             FavAddToolStripMenuItem.Enabled = False
@@ -5392,10 +5392,10 @@ RETRY:
             'SaveConfigsTab(True)    'True:事前に設定ファイル削除
             SaveConfigsTabs()
         Else
-            If modifySettingCommon Then SaveConfigsCommon()
-            If modifySettingLocal Then SaveConfigsLocal()
-            If modifySettingAtId AndAlso SettingDialog.UseAtIdSupplement AndAlso AtIdSupl IsNot Nothing Then
-                modifySettingAtId = False
+            If _modifySettingCommon Then SaveConfigsCommon()
+            If _modifySettingLocal Then SaveConfigsLocal()
+            If _modifySettingAtId AndAlso SettingDialog.UseAtIdSupplement AndAlso AtIdSupl IsNot Nothing Then
+                _modifySettingAtId = False
                 Dim cfgAtId As New SettingAtIdList(AtIdSupl.GetItemList)
                 cfgAtId.Save()
             End If
@@ -5405,7 +5405,7 @@ RETRY:
     Private Sub SaveConfigsCommon()
         If _ignoreConfigSave Then Exit Sub
 
-        modifySettingCommon = False
+        _modifySettingCommon = False
         SyncLock _syncObject
             _cfgCommon.UserName = tw.Username
             _cfgCommon.Password = tw.Password
@@ -5511,7 +5511,7 @@ RETRY:
     Private Sub SaveConfigsLocal()
         If _ignoreConfigSave Then Exit Sub
         SyncLock _syncObject
-            modifySettingLocal = False
+            _modifySettingLocal = False
             _cfgLocal.FormSize = _mySize
             _cfgLocal.FormLocation = _myLoc
             _cfgLocal.SplitterDistance = _mySpDis
@@ -6558,6 +6558,15 @@ RETRY:
                 _statuses.Tabs(tabName).AddFilter(fc)
             End If
         Next
+        If ids.Count <> 0 Then
+            Dim atids As New List(Of String)
+            For Each id As String In ids
+                atids.Add("@" + id)
+            Next
+            Dim cnt As Integer = AtIdSupl.ItemCount
+            AtIdSupl.AddRangeItem(atids.ToArray)
+            If AtIdSupl.ItemCount <> cnt Then _modifySettingAtId = True
+        End If
 
         Try
             Me.Cursor = Cursors.WaitCursor
@@ -6959,7 +6968,7 @@ RETRY:
             For Each mid As Match In m
                 AtIdSupl.AddItem(mid.Result("${id}"))
             Next
-            If bCnt <> AtIdSupl.ItemCount Then modifySettingAtId = True
+            If bCnt <> AtIdSupl.ItemCount Then _modifySettingAtId = True
         End If
 
         ' リプライ先ステータスIDの指定がない場合は指定しない
@@ -7032,14 +7041,14 @@ RETRY:
         Else
             SettingDialog.PlaySound = False
         End If
-        modifySettingCommon = True
+        _modifySettingCommon = True
     End Sub
 
     Private Sub SplitContainer1_SplitterMoved(ByVal sender As Object, ByVal e As System.Windows.Forms.SplitterEventArgs) Handles SplitContainer1.SplitterMoved
         If Me.WindowState = FormWindowState.Normal AndAlso Not _initialLayout Then
             _mySpDis = SplitContainer1.SplitterDistance
             If StatusText.Multiline Then _mySpDis2 = StatusText.Height
-            modifySettingLocal = True
+            _modifySettingLocal = True
         End If
     End Sub
 
@@ -7170,7 +7179,7 @@ RETRY:
     Private Sub SplitContainer2_Panel2_Resize(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SplitContainer2.Panel2.Resize
         Me.StatusText.Multiline = Me.SplitContainer2.Panel2.Height > Me.SplitContainer2.Panel2MinSize + 2
         MultiLineMenuItem.Checked = Me.StatusText.Multiline
-        modifySettingLocal = True
+        _modifySettingLocal = True
     End Sub
 
     Private Sub StatusText_MultilineChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StatusText.MultilineChanged
@@ -7179,7 +7188,7 @@ RETRY:
         Else
             Me.StatusText.ScrollBars = ScrollBars.None
         End If
-        modifySettingLocal = True
+        _modifySettingLocal = True
     End Sub
 
     Private Sub MultiLineMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MultiLineMenuItem.Click
@@ -7195,7 +7204,7 @@ RETRY:
         Else
             SplitContainer2.SplitterDistance = SplitContainer2.Height - SplitContainer2.Panel2MinSize - SplitContainer2.SplitterWidth
         End If
-        modifySettingLocal = True
+        _modifySettingLocal = True
     End Sub
 
     Private Function UrlConvert(ByVal Converter_Type As UrlConverter) As Boolean
@@ -7337,14 +7346,14 @@ RETRY:
         Me.NotifyFileMenuItem.Checked = DirectCast(sender, ToolStripMenuItem).Checked
         Me.NewPostPopMenuItem.Checked = Me.NotifyFileMenuItem.Checked
         _cfgCommon.NewAllPop = NewPostPopMenuItem.Checked
-        modifySettingCommon = True
+        _modifySettingCommon = True
     End Sub
 
     Private Sub ListLockMenuItem_CheckStateChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ListLockMenuItem.CheckStateChanged, LockListFileMenuItem.CheckStateChanged
         ListLockMenuItem.Checked = DirectCast(sender, ToolStripMenuItem).Checked
         Me.LockListFileMenuItem.Checked = ListLockMenuItem.Checked
         _cfgCommon.ListLock = ListLockMenuItem.Checked
-        modifySettingCommon = True
+        _modifySettingCommon = True
     End Sub
 
     Private Sub MenuStrip1_MenuActivate(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuStrip1.MenuActivate
@@ -7413,7 +7422,7 @@ RETRY:
             _cfgLocal.Width7 = lst.Columns(6).Width
             _cfgLocal.Width8 = lst.Columns(7).Width
         End If
-        modifySettingLocal = True
+        _modifySettingLocal = True
         _isColumnChanged = True
     End Sub
 
@@ -7423,53 +7432,53 @@ RETRY:
         If _iconCol Then
             If _cfgLocal.Width1 <> lst.Columns(0).Width Then
                 _cfgLocal.Width1 = lst.Columns(0).Width
-                modifySettingLocal = True
+                _modifySettingLocal = True
                 _isColumnChanged = True
             End If
             If _cfgLocal.Width3 <> lst.Columns(1).Width Then
                 _cfgLocal.Width3 = lst.Columns(1).Width
-                modifySettingLocal = True
+                _modifySettingLocal = True
                 _isColumnChanged = True
             End If
         Else
             If _cfgLocal.Width1 <> lst.Columns(0).Width Then
                 _cfgLocal.Width1 = lst.Columns(0).Width
-                modifySettingLocal = True
+                _modifySettingLocal = True
                 _isColumnChanged = True
             End If
             If _cfgLocal.Width2 <> lst.Columns(1).Width Then
                 _cfgLocal.Width2 = lst.Columns(1).Width
-                modifySettingLocal = True
+                _modifySettingLocal = True
                 _isColumnChanged = True
             End If
             If _cfgLocal.Width3 <> lst.Columns(2).Width Then
                 _cfgLocal.Width3 = lst.Columns(2).Width
-                modifySettingLocal = True
+                _modifySettingLocal = True
                 _isColumnChanged = True
             End If
             If _cfgLocal.Width4 <> lst.Columns(3).Width Then
                 _cfgLocal.Width4 = lst.Columns(3).Width
-                modifySettingLocal = True
+                _modifySettingLocal = True
                 _isColumnChanged = True
             End If
             If _cfgLocal.Width5 <> lst.Columns(4).Width Then
                 _cfgLocal.Width5 = lst.Columns(4).Width
-                modifySettingLocal = True
+                _modifySettingLocal = True
                 _isColumnChanged = True
             End If
             If _cfgLocal.Width6 <> lst.Columns(5).Width Then
                 _cfgLocal.Width6 = lst.Columns(5).Width
-                modifySettingLocal = True
+                _modifySettingLocal = True
                 _isColumnChanged = True
             End If
             If _cfgLocal.Width7 <> lst.Columns(6).Width Then
                 _cfgLocal.Width7 = lst.Columns(6).Width
-                modifySettingLocal = True
+                _modifySettingLocal = True
                 _isColumnChanged = True
             End If
             If _cfgLocal.Width8 <> lst.Columns(7).Width Then
                 _cfgLocal.Width8 = lst.Columns(7).Width
-                modifySettingLocal = True
+                _modifySettingLocal = True
                 _isColumnChanged = True
             End If
         End If
@@ -7625,7 +7634,7 @@ RETRY:
 
     Private Sub SplitContainer2_SplitterMoved(ByVal sender As Object, ByVal e As System.Windows.Forms.SplitterEventArgs) Handles SplitContainer2.SplitterMoved
         If StatusText.Multiline Then _mySpDis2 = StatusText.Height
-        modifySettingLocal = True
+        _modifySettingLocal = True
     End Sub
 
     Private Sub TweenMain_DragDrop(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles MyBase.DragDrop
@@ -8313,11 +8322,11 @@ RETRY:
     End Sub
 
     Private Sub IdeographicSpaceToSpaceToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles IdeographicSpaceToSpaceToolStripMenuItem.Click
-        modifySettingCommon = True
+        _modifySettingCommon = True
     End Sub
 
     Private Sub ToolStripFocusLockMenuItem_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripFocusLockMenuItem.Click
-        modifySettingCommon = True
+        _modifySettingCommon = True
     End Sub
 
     Private Sub doQuote()
@@ -8558,7 +8567,7 @@ RETRY:
             HashToggleMenuItem.Checked = True
             HashToggleToolStripMenuItem.Checked = True
             '使用ハッシュタグとして設定
-            modifySettingCommon = True
+            _modifySettingCommon = True
         End If
     End Sub
 
@@ -8597,7 +8606,7 @@ RETRY:
         '    StatusText.SelectionStart = sidx
         '    StatusText.Focus()
         'End If
-        modifySettingCommon = True
+        _modifySettingCommon = True
         Me.StatusText_TextChanged(Nothing, Nothing)
     End Sub
 
@@ -8612,7 +8621,7 @@ RETRY:
             HashToggleMenuItem.Checked = False
             HashToggleToolStripMenuItem.Checked = False
         End If
-        modifySettingCommon = True
+        _modifySettingCommon = True
         Me.StatusText_TextChanged(Nothing, Nothing)
     End Sub
 
@@ -8724,7 +8733,7 @@ RETRY:
     Private Sub SplitContainer3_SplitterMoved(ByVal sender As System.Object, ByVal e As System.Windows.Forms.SplitterEventArgs) Handles SplitContainer3.SplitterMoved
         If Me.WindowState = FormWindowState.Normal AndAlso Not _initialLayout Then
             _mySpDis3 = SplitContainer3.SplitterDistance
-            modifySettingLocal = True
+            _modifySettingLocal = True
         End If
     End Sub
 
@@ -9180,4 +9189,22 @@ RETRY:
             form.ShowDialog(Me)
         End Using
     End Sub
+
+    Public WriteOnly Property ModifySettingCommon() As Boolean
+        Set(ByVal value As Boolean)
+            _modifySettingCommon = value
+        End Set
+    End Property
+
+    Public WriteOnly Property ModifySettingLocal() As Boolean
+        Set(ByVal value As Boolean)
+            _modifySettingLocal = value
+        End Set
+    End Property
+
+    Public WriteOnly Property ModifySettingAtId() As Boolean
+        Set(ByVal value As Boolean)
+            _modifySettingAtId = value
+        End Set
+    End Property
 End Class
