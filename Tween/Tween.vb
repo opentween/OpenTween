@@ -300,15 +300,10 @@ Public Class TweenMain
     End Class
 
     Private Sub TweenMain_Activated(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Activated
-        '画面が他画面の裏に隠れると、アイコン画像が再描画されない問題の対応
-        If UserPicture.Image IsNot Nothing Then
-            UserPicture.Invalidate(False)
-        End If
         '画面がアクティブになったら、発言欄の背景色戻す
         If StatusText.Focused Then
             Me.StatusText_Enter(Me.StatusText, System.EventArgs.Empty)
         End If
-        'Diagnostics.Trace.WriteLine(FlashMyWindow(Me.Handle, FlashSpecification.FlashStop, 0))
     End Sub
 
     Private Sub TweenMain_Disposed(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Disposed
