@@ -1067,18 +1067,12 @@ Public Class Thumbnail
                     If _img Is Nothing Then Return False
                     args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, _img))
                     args.tooltiptext.Add(New KeyValuePair(Of String, String)(args.url.Key, sb.ToString.Trim()))
+                    Return True
                 End If
             End If
 
         End If
-        Dim img As Image = (New HttpVarious).GetImage(args.url.Value, args.url.Key, 10000, args.errmsg)
-        If img Is Nothing Then
-            Return False
-        End If
-        ' 成功した場合はURLに対応する画像、ツールチップテキストを登録
-        args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, img))
-        args.tooltiptext.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
-        Return True
+        Return False
     End Function
 
 #End Region
