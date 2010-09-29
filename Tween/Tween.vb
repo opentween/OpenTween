@@ -7077,7 +7077,7 @@ RETRY:
         '発言詳細のアイコン右クリック時のメニュー制御
         If _curList.SelectedIndices.Count > 0 AndAlso _curPost IsNot Nothing Then
             Dim name As String = _curPost.ImageUrl
-            If name.Length > 0 Then
+            If name IsNot Nothing AndAlso name.Length > 0 Then
                 Dim idx As Integer = name.LastIndexOf("/"c)
                 If idx <> -1 Then
                     name = IO.Path.GetFileNameWithoutExtension(name.Substring(idx))
