@@ -42,6 +42,16 @@ Public Class HttpVarious
     End Function
 
     Public Overloads Function GetImage(ByVal url As String, ByVal referer As String, ByVal timeout As Integer, ByRef errmsg As String) As Image
+        Return GetImageInternal(AddressOf CheckValidImage, url, referer, timeout, errmsg)
+    End Function
+
+    Public Function GetIconImage(ByVal url As String, ByVal timeout As Integer) As Image
+        Return GetImageInternal(AddressOf CheckValidIconImage, url, "", timeout, Nothing)
+    End Function
+
+    Private Delegate Function CheckValidImageDelegate(ByVal img As Image, ByVal width As Integer, ByVal height As Integer) As Image
+
+    Private Overloads Function GetImageInternal(ByVal CheckImage As CheckValidImageDelegate, ByVal url As String, ByVal referer As String, ByVal timeout As Integer, ByRef errmsg As String) As Image
         Try
             Dim req As HttpWebRequest = CreateRequest(GetMethod, New Uri(url), Nothing, False)
             If Not String.IsNullOrEmpty(referer) Then req.Referer = referer
@@ -60,7 +70,7 @@ Public Class HttpVarious
                 End If
             End If
             If img IsNot Nothing Then img.Tag = url
-            If ret = HttpStatusCode.OK Then Return CheckValidImage(img, img.Width, img.Height)
+            If ret = HttpStatusCode.OK Then Return CheckImage(img, img.Width, img.Height)
             Return Nothing
         Catch ex As WebException
             If errmsg IsNot Nothing Then
@@ -151,7 +161,7 @@ Public Class HttpVarious
         End Try
     End Function
 
-    Public Overloads Function CheckValidImage(ByVal img As Image) As Image
+    Private Function CheckValidIconImage(ByVal img As Image, ByVal width As Integer, ByVal height As Integer) As Image
         Return CheckValidImage(img, 48, 48)
     End Function
 
@@ -161,7 +171,8 @@ Public Class HttpVarious
         Dim bmp As New Bitmap(width, height)
         Dim tag As Object = img.Tag
         Using g As Graphics = Graphics.FromImage(bmp)
-            g.InterpolationMode = Drawing2D.InterpolationMode.High
+            g.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
+            g.PixelOffsetMode = Drawing2D.PixelOffsetMode.HighQuality
             g.DrawImage(img, 0, 0, width, height)
         End Using
         img.Dispose()
