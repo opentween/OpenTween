@@ -247,7 +247,7 @@ Public Class Twitter
             End If
 
             Dim httpVar As New HttpVarious
-            img = httpVar.GetImage(post.ImageUrl, 10000)
+            img = httpVar.GetIconImage(post.ImageUrl, 10000)
             If img Is Nothing Then
                 TabInformations.GetInstance.AddPost(post)
                 Exit Sub
