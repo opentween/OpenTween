@@ -60,7 +60,7 @@ Public Class HttpVarious
                 End If
             End If
             If img IsNot Nothing Then img.Tag = url
-            If ret = HttpStatusCode.OK Then Return CheckValidImage(img)
+            If ret = HttpStatusCode.OK Then Return CheckValidImage(img, img.Width, img.Height)
             Return Nothing
         Catch ex As WebException
             If errmsg IsNot Nothing Then
