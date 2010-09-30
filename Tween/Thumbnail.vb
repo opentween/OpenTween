@@ -67,40 +67,43 @@ Public Class Thumbnail
         Public errmsg As String
     End Class
 
-    Private Structure ThumbnailService
+    Private Class ThumbnailService
         Public Name As String
         Public urlCreator As UrlCreatorDelegate
         Public imageCreator As ImageCreatorDelegate
-    End Structure
 
-    'test
+        Public Sub New(ByVal name As String, ByVal urlcreator As UrlCreatorDelegate, ByVal imagecreator As ImageCreatorDelegate)
+            Me.Name = name
+            Me.urlCreator = urlcreator
+            Me.imageCreator = imagecreator
+        End Sub
+    End Class
 
     Private ThumbnailServices As ThumbnailService() = {
-        New ThumbnailService With {.Name = "ImgUr", .urlCreator = AddressOf ImgUr_GetUrl, .imageCreator = AddressOf ImgUr_CreateImage}, _
-        New ThumbnailService With {.Name = "DirectLink", .urlCreator = AddressOf DirectLink_GetUrl, .imageCreator = AddressOf DirectLink_CreateImage}, _
-        New ThumbnailService With {.Name = "TwitPic", .urlCreator = AddressOf TwitPic_GetUrl, .imageCreator = AddressOf TwitPic_CreateImage}, _
-        New ThumbnailService With {.Name = "yfrog", .urlCreator = AddressOf yfrog_GetUrl, .imageCreator = AddressOf yfrog_CreateImage}, _
-        New ThumbnailService With {.Name = "Plixi(TweetPhoto)", .urlCreator = AddressOf Plixi_GetUrl, .imageCreator = AddressOf Plixi_CreateImage}, _
-        New ThumbnailService With {.Name = "MobyPicture", .urlCreator = AddressOf MobyPicture_GetUrl, .imageCreator = AddressOf MobyPicture_CreateImage}, _
-        New ThumbnailService With {.Name = "携帯百景", .urlCreator = AddressOf MovaPic_GetUrl, .imageCreator = AddressOf MovaPic_CreateImage}, _
-        New ThumbnailService With {.Name = "はてなフォトライフ", .urlCreator = AddressOf Hatena_GetUrl, .imageCreator = AddressOf Hatena_CreateImage}, _
-        New ThumbnailService With {.Name = "PhotoShare/bctiny", .urlCreator = AddressOf PhotoShare_GetUrl, .imageCreator = AddressOf PhotoShare_CreateImage}, _
-        New ThumbnailService With {.Name = "img.ly", .urlCreator = AddressOf imgly_GetUrl, .imageCreator = AddressOf imgly_CreateImage}, _
-        New ThumbnailService With {.Name = "brightkite", .urlCreator = AddressOf brightkite_GetUrl, .imageCreator = AddressOf brightkite_CreateImage}, _
-        New ThumbnailService With {.Name = "Twitgoo", .urlCreator = AddressOf Twitgoo_GetUrl, .imageCreator = AddressOf Twitgoo_CreateImage}, _
-        New ThumbnailService With {.Name = "youtube", .urlCreator = AddressOf youtube_GetUrl, .imageCreator = AddressOf youtube_CreateImage}, _
-        New ThumbnailService With {.Name = "ニコニコ動画", .urlCreator = AddressOf nicovideo_GetUrl, .imageCreator = AddressOf nicovideo_CreateImage}, _
-        New ThumbnailService With {.Name = "Pixiv", .urlCreator = AddressOf Pixiv_GetUrl, .imageCreator = AddressOf Pixiv_CreateImage}, _
-        New ThumbnailService With {.Name = "flickr", .urlCreator = AddressOf flickr_GetUrl, .imageCreator = AddressOf flickr_CreateImage}, _
-        New ThumbnailService With {.Name = "フォト蔵", .urlCreator = AddressOf Photozou_GetUrl, .imageCreator = AddressOf Photozou_CreateImage}, _
-        New ThumbnailService With {.Name = "TwitVideo", .urlCreator = AddressOf TwitVideo_GetUrl, .imageCreator = AddressOf TwitVideo_CreateImage}, _
-        New ThumbnailService With {.Name = "Piapro", .urlCreator = AddressOf Piapro_GetUrl, .imageCreator = AddressOf Piapro_CreateImage}, _
-        New ThumbnailService With {.Name = "Tumblr", .urlCreator = AddressOf Tumblr_GetUrl, .imageCreator = AddressOf Tumblr_CreateImage}, _
-        New ThumbnailService With {.Name = "ついっぷるフォト", .urlCreator = AddressOf TwipplePhoto_GetUrl, .imageCreator = AddressOf TwipplePhoto_CreateImage}, _
-        New ThumbnailService With {.Name = "mypix/shamoji", .urlCreator = AddressOf mypix_GetUrl, .imageCreator = AddressOf mypix_CreateImage}, _
-        New ThumbnailService With {.Name = "ow.ly", .urlCreator = AddressOf Owly_GetUrl, .imageCreator = AddressOf Owly_CreateImage}
+        New ThumbnailService("ImgUr", AddressOf ImgUr_GetUrl, AddressOf ImgUr_CreateImage), _
+        New ThumbnailService("DirectLink", AddressOf DirectLink_GetUrl, AddressOf DirectLink_CreateImage), _
+        New ThumbnailService("TwitPic", AddressOf TwitPic_GetUrl, AddressOf TwitPic_CreateImage), _
+        New ThumbnailService("yfrog", AddressOf yfrog_GetUrl, AddressOf yfrog_CreateImage), _
+        New ThumbnailService("Plixi(TweetPhoto)", AddressOf Plixi_GetUrl, AddressOf Plixi_CreateImage), _
+        New ThumbnailService("MobyPicture", AddressOf MobyPicture_GetUrl, AddressOf MobyPicture_CreateImage), _
+        New ThumbnailService("携帯百景", AddressOf MovaPic_GetUrl, AddressOf MovaPic_CreateImage), _
+        New ThumbnailService("はてなフォトライフ", AddressOf Hatena_GetUrl, AddressOf Hatena_CreateImage), _
+        New ThumbnailService("PhotoShare/bctiny", AddressOf PhotoShare_GetUrl, AddressOf PhotoShare_CreateImage), _
+        New ThumbnailService("img.ly", AddressOf imgly_GetUrl, AddressOf imgly_CreateImage), _
+        New ThumbnailService("brightkite", AddressOf brightkite_GetUrl, AddressOf brightkite_CreateImage), _
+        New ThumbnailService("Twitgoo", AddressOf Twitgoo_GetUrl, AddressOf Twitgoo_CreateImage), _
+        New ThumbnailService("youtube", AddressOf youtube_GetUrl, AddressOf youtube_CreateImage), _
+        New ThumbnailService("ニコニコ動画", AddressOf nicovideo_GetUrl, AddressOf nicovideo_CreateImage), _
+        New ThumbnailService("Pixiv", AddressOf Pixiv_GetUrl, AddressOf Pixiv_CreateImage), _
+        New ThumbnailService("flickr", AddressOf flickr_GetUrl, AddressOf flickr_CreateImage), _
+        New ThumbnailService("フォト蔵", AddressOf Photozou_GetUrl, AddressOf Photozou_CreateImage), _
+        New ThumbnailService("TwitVideo", AddressOf TwitVideo_GetUrl, AddressOf TwitVideo_CreateImage), _
+        New ThumbnailService("Piapro", AddressOf Piapro_GetUrl, AddressOf Piapro_CreateImage), _
+        New ThumbnailService("Tumblr", AddressOf Tumblr_GetUrl, AddressOf Tumblr_CreateImage), _
+        New ThumbnailService("ついっぷるフォト", AddressOf TwipplePhoto_GetUrl, AddressOf TwipplePhoto_CreateImage), _
+        New ThumbnailService("mypix/shamoji", AddressOf mypix_GetUrl, AddressOf mypix_CreateImage), _
+        New ThumbnailService("ow.ly", AddressOf Owly_GetUrl, AddressOf Owly_CreateImage)
     }
-
 
     Public Sub New(ByVal Owner As TweenMain)
         Me.Owner = Owner
