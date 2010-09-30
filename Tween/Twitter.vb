@@ -1617,6 +1617,7 @@ Public Class Twitter
         End Try
         Dim nsmgr As New XmlNamespaceManager(xdoc.NameTable)
         nsmgr.AddNamespace("search", "http://www.w3.org/2005/Atom")
+        nsmgr.AddNamespace("twitter", "http://api.twitter.com/")
         For Each xentryNode As XmlNode In xdoc.DocumentElement.SelectNodes("/search:feed/search:entry", nsmgr)
             Dim xentry As XmlElement = CType(xentryNode, XmlElement)
             Dim post As New PostClass
@@ -1694,6 +1695,12 @@ Public Class Twitter
                 Throw
             End Try
         Next
+
+        Dim xNode As XmlNode = xdoc.DocumentElement.SelectSingleNode("/search:feed/twitter:warning", nsmgr)
+
+        If xNode IsNot Nothing Then
+            Return "Warn:" + xNode.InnerText + "(" + GetCurrentMethod.Name + ")"
+        End If
 
         Return ""
     End Function
