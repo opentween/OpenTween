@@ -775,7 +775,7 @@ Namespace My.Resources
         '''&lt;Associator developer&gt;
         '''Developer:Takeshi KIRIYA(http://www.takeshik.org/)
         '''Developer:moz
-        '''Developper:sin_sin(http://twitter.com/sinsinpub)
+        '''Developer:sin_sin(http://twitter.com/sinsinpub)
         '''Developer:anis774(http://d.hatena.ne.jp/anis774/)
         '''Tester:fantasticswallow(http://twitter.com/f_swallow)
         '''Icons:Minami(http://www.pi-kun.com/) に類似しているローカライズされた文字列を検索します。
@@ -1515,6 +1515,15 @@ Namespace My.Resources
         Friend ReadOnly Property PostLengthOverMessage2() As String
             Get
                 Return ResourceManager.GetString("PostLengthOverMessage2", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  文末の＠ユーザー名が切り捨てられた可能性があるため、投稿をキャンセルします。 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property PostLengthOverMessage3() As String
+            Get
+                Return ResourceManager.GetString("PostLengthOverMessage3", resourceCulture)
             End Get
         End Property
         
