@@ -936,4 +936,7 @@
   <data name="RtCountText1" xml:space="preserve">
     <value>人锐推了该消息</value>
   </data>
+  <data name="PostLengthOverMessage3" xml:space="preserve">
+    <value>Abort to posting status because @id may be rounded down.</value>
+  </data>
 </root>

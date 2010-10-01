@@ -903,4 +903,7 @@
   <data name="MyLists1" xml:space="preserve">
     <value> : Manage Lists</value>
   </data>
+  <data name="PostLengthOverMessage3" xml:space="preserve">
+    <value>Abort to posting status because @id may be rounded down.</value>
+  </data>
 </root>
