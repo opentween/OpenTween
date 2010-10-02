@@ -1702,6 +1702,7 @@ Public Class TweenMain
             If mc.Success Then
                 'MessageBox.Show(My.Resources.PostLengthOverMessage3 + Environment.NewLine + Environment.NewLine + args.status.status, "Abort", MessageBoxButtons.OK)
                 'Exit Sub
+                'さらに@IDと推測される文字列をカットする
                 args.status.status = args.status.status.Substring(0, 140 - mc.Value.Length)
             End If
             If MessageBox.Show(args.status.status, "Post or Cancel?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then Exit Sub
