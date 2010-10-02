@@ -1698,9 +1698,11 @@ Public Class TweenMain
 
         If isCutOff AndAlso args.status.status.Length > 140 Then
             args.status.status = args.status.status.Substring(0, 140)
-            If Regex.IsMatch(args.status.status, "@[a-zA-Z0-9_/]+$", RegexOptions.IgnoreCase) Then
-                MessageBox.Show(My.Resources.PostLengthOverMessage3 + Environment.NewLine + Environment.NewLine + args.status.status, "Abort", MessageBoxButtons.OK)
-                Exit Sub
+            Dim mc As Match = Regex.Match(args.status.status, "(@|＠)[a-z0-9_/]+$", RegexOptions.IgnoreCase)
+            If mc.Success Then
+                'MessageBox.Show(My.Resources.PostLengthOverMessage3 + Environment.NewLine + Environment.NewLine + args.status.status, "Abort", MessageBoxButtons.OK)
+                'Exit Sub
+                args.status.status = args.status.status.Substring(0, 140 - mc.Value.Length)
             End If
             If MessageBox.Show(args.status.status, "Post or Cancel?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then Exit Sub
         End If
