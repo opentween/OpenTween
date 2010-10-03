@@ -6948,7 +6948,7 @@ RETRY:
     Friend Sub CheckReplyTo(ByVal StatusText As String)
         Dim m As MatchCollection
         'ハッシュタグの保存
-        m = Regex.Matches(StatusText, "(^|[^a-zA-Z0-9_/])[#|＃](?<hash>[a-zA-Z0-9_]+)")
+        m = Regex.Matches(StatusText, "(^|[^a-zA-Z0-9_/])(#|＃)(?<hash>[a-zA-Z0-9_]+)")
         Dim hstr As String = ""
         For Each hm As Match In m
             If Not IsNumeric(hm.Result("${hash}")) Then
