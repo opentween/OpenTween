@@ -7845,10 +7845,13 @@ RETRY:
             _waitLists = True
             GetTimeline(WORKERTYPE.List, 1, 0, "")  'tabname="":全タブ
             Dim i As Integer = 0
+            Dim j As Integer = 0
             Do While (_waitTimeline OrElse _waitReply OrElse _waitDm OrElse _waitFav OrElse _waitPubSearch OrElse _waitLists) AndAlso Not _endingFlag
                 System.Threading.Thread.Sleep(100)
                 My.Application.DoEvents()
                 i += 1
+                j += 1
+                If j > 1200 Then Exit Do ' 120秒間初期処理が終了しなかったら強制的に打ち切る
                 If i > 50 Then
                     If _endingFlag Then
                         Exit Sub
