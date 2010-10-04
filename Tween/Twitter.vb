@@ -1389,6 +1389,56 @@ Public Class Twitter
         End If
     End Function
 
+    Public Function GetTimelineApiAdditional(ByVal read As Boolean, _
+                        ByVal gType As WORKERTYPE, _
+                        ByVal more As Boolean, _
+                        ByVal addcount As Integer) As String
+
+        If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
+
+        If _endingFlag Then Return ""
+
+        Dim countQuery As Integer
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+        Try
+            If gType = WORKERTYPE.Timeline Then
+                If more Then
+                    res = twCon.HomeTimeline(addcount, minHomeTimeline, 0, content)
+                Else
+                    res = twCon.HomeTimeline(addcount, 0, 0, content)
+                End If
+                countQuery = addcount
+            Else
+                If more Then
+                    res = twCon.Mentions(_countApiReply, minMentions, 0, content)
+                Else
+                    res = twCon.Mentions(_countApiReply, 0, 0, content)
+                End If
+                countQuery = _countApiReply
+            End If
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
+        Select Case res
+            Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
+            Case HttpStatusCode.Unauthorized
+                Twitter.AccountState = ACCOUNT_STATE.Invalid
+                Return "Check your Username/Password."
+            Case HttpStatusCode.BadRequest
+                Return "Err:API Limits?"
+            Case Else
+                Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
+        End Select
+
+        If gType = WORKERTYPE.Timeline Then
+            Return CreatePostsFromXml(content, gType, Nothing, read, countQuery, Me.minHomeTimeline)
+        Else
+            Return CreatePostsFromXml(content, gType, Nothing, read, countQuery, Me.minMentions)
+        End If
+    End Function
+
     Public Function GetListStatus(ByVal read As Boolean, _
                             ByVal tab As TabClass, _
                             ByVal more As Boolean) As String
@@ -1406,6 +1456,42 @@ Public Class Twitter
                 res = twCon.GetListsStatuses(tab.ListInfo.UserId.ToString, tab.ListInfo.Id.ToString, _countApi, 0, 0, content)
             End If
             countQuery = _countApi
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
+        Select Case res
+            Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
+            Case HttpStatusCode.Unauthorized
+                Twitter.AccountState = ACCOUNT_STATE.Invalid
+                Return "Check your Username/Password."
+            Case HttpStatusCode.BadRequest
+                Return "Err:API Limits?"
+            Case Else
+                Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
+        End Select
+
+        Return CreatePostsFromXml(content, WORKERTYPE.List, tab, read, countQuery, tab.OldestId)
+    End Function
+
+    Public Function GetListStatusAdditional(ByVal read As Boolean, _
+                            ByVal tab As TabClass, _
+                            ByVal more As Boolean, _
+                            ByVal addcount As Integer) As String
+
+        If _endingFlag Then Return ""
+
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+        Dim page As Integer = 0
+        Dim countQuery As Integer = 0
+        Try
+            If more Then
+                res = twCon.GetListsStatuses(tab.ListInfo.UserId.ToString, tab.ListInfo.Id.ToString, addcount, tab.OldestId, 0, content)
+            Else
+                res = twCon.GetListsStatuses(tab.ListInfo.UserId.ToString, tab.ListInfo.Id.ToString, addcount, 0, 0, content)
+            End If
+            countQuery = addcount
         Catch ex As Exception
             Return "Err:" + ex.Message
         End Try

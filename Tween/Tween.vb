@@ -201,6 +201,10 @@ Public Class TweenMain
     Private ColumnOrgText(8) As String
     Private ColumnText(8) As String
 
+    Private _UseAdditionalFlags As Boolean = False
+    Private _FirstRefreshFlags As Boolean = True
+    Private _FirstListsRefreshFlags As Boolean = True
+
     '''''''''''''''''''''''''''''''''''''''''''''''''''''
     Private _postBrowserStatusText As String = ""
 
@@ -737,6 +741,10 @@ Public Class TweenMain
         SettingDialog.HotkeyValue = _cfgCommon.HotkeyValue
 
         SettingDialog.BlinkNewMentions = _cfgCommon.BlinkNewMentions
+
+        SettingDialog.UseChangeGetCount.Checked = _cfgCommon.UseAdditionalCount
+        SettingDialog.MoreCountApi = _cfgCommon.MoreCountApi
+        SettingDialog.FirstCountApi = _cfgCommon.FirstCountApi
 
         'ハッシュタグ関連
         HashSupl = New AtIdSupplement(_cfgCommon.HashTags, "#")
@@ -1840,7 +1848,15 @@ Public Class TweenMain
         Select Case args.type
             Case WORKERTYPE.Timeline, WORKERTYPE.Reply
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
-                ret = tw.GetTimelineApi(read, args.type, args.page = -1)
+                If _UseAdditionalFlags Then
+                    _UseAdditionalFlags = False
+                    ret = tw.GetTimelineApiAdditional(read, args.type, args.page = -1, SettingDialog.MoreCountApi)
+                ElseIf _FirstRefreshFlags AndAlso SettingDialog.UseChangeGetCount.Checked Then
+                    _FirstRefreshFlags = False
+                    ret = tw.GetTimelineApiAdditional(read, args.type, args.page = -1, SettingDialog.FirstCountApi)
+                Else
+                    ret = tw.GetTimelineApi(read, args.type, args.page = -1)
+                End If
                 '新着時未読クリア
                 If ret = "" AndAlso args.type = WORKERTYPE.Timeline AndAlso SettingDialog.ReadOldPosts Then
                     _statuses.SetRead()
@@ -2002,12 +2018,21 @@ Public Class TweenMain
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
                 If args.tName = "" Then
                     For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.Lists)
-                        If tb.ListInfo IsNot Nothing AndAlso tb.ListInfo.Id <> 0 Then ret = tw.GetListStatus(read, tb, False)
+                        If _FirstListsRefreshFlags Then
+                            If tb.ListInfo IsNot Nothing AndAlso tb.ListInfo.Id <> 0 Then ret = tw.GetListStatusAdditional(read, tb, False, SettingDialog.FirstCountApi)
+                        Else
+                            If tb.ListInfo IsNot Nothing AndAlso tb.ListInfo.Id <> 0 Then ret = tw.GetListStatus(read, tb, False)
+                        End If
                     Next
                 Else
                     Dim tb As TabClass = _statuses.GetTabByName(args.tName)
                     If tb IsNot Nothing Then
-                        ret = tw.GetListStatus(read, tb, args.page = -1)
+                        If _UseAdditionalFlags Then
+                            _UseAdditionalFlags = False
+                            ret = tw.GetListStatusAdditional(read, tb, args.page = -1, SettingDialog.MoreCountApi)
+                        Else
+                            ret = tw.GetListStatus(read, tb, args.page = -1)
+                        End If
                     End If
                 End If
                 '新着時未読クリア
@@ -4500,6 +4525,7 @@ RETRY:
                 e.SuppressKeyPress = True
                 CopyStot()
             End If
+
             ' Webページを開く動作
 
             Select Case e.KeyCode
@@ -4602,6 +4628,9 @@ RETRY:
                 e.SuppressKeyPress = True
                 GoFav(False)
             ElseIf e.KeyCode = Keys.R OrElse e.KeyCode = Keys.F5 Then
+                If SettingDialog.UseChangeGetCount.Checked Then
+                    _UseAdditionalFlags = True
+                End If
                 e.Handled = True
                 e.SuppressKeyPress = True
                 DoRefreshMore()
@@ -5255,6 +5284,9 @@ RETRY:
                 e.SuppressKeyPress = True
                 MenuItemSearchPrev_Click(Nothing, Nothing)
             ElseIf e.KeyCode = Keys.F5 Then
+                If SettingDialog.UseChangeGetCount.Checked Then
+                    _UseAdditionalFlags = True
+                End If
                 e.Handled = True
                 e.SuppressKeyPress = True
                 DoRefreshMore()
@@ -5506,6 +5538,9 @@ RETRY:
                     ToolStripFocusLockMenuItem.IsDisposed = False Then
                 _cfgCommon.FocusLockToStatusText = Me.ToolStripFocusLockMenuItem.Checked
             End If
+            _cfgCommon.UseAdditionalCount = SettingDialog.UseChangeGetCount.Checked
+            _cfgCommon.MoreCountApi = SettingDialog.MoreCountApi
+            _cfgCommon.FirstCountApi = SettingDialog.FirstCountApi
 
             _cfgCommon.Save()
         End SyncLock
@@ -5655,6 +5690,9 @@ RETRY:
                     MenuItemSearchPrev_Click(Nothing, Nothing)
                 Case Keys.F5, _
                      Keys.R
+                    If SettingDialog.UseChangeGetCount.Checked Then
+                        _UseAdditionalFlags = True
+                    End If
                     e.IsInputKey = True
                     DoRefreshMore()
                 Case Keys.F6
@@ -8423,6 +8461,9 @@ RETRY:
 
     Private Sub RefreshMoreStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RefreshMoreStripMenuItem.Click, RefreshPrevOpMenuItem.Click
         'もっと前を取得
+        If SettingDialog.UseChangeGetCount.Checked Then
+            _UseAdditionalFlags = True
+        End If
         DoRefreshMore()
     End Sub
 
