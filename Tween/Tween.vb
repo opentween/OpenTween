@@ -8083,7 +8083,7 @@ RETRY:
         e.Result = tw.GetInfoApi(args.info)
     End Sub
 
-    Private Sub ApiInfoMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ApiInfoMenuItem.Click
+    Private Sub ApiInfoMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ApiInfoMenuItem.Click, StatusLabelApi.DoubleClick
         Dim info As New ApiInfo
         Dim tmp As String
         Dim args As New GetApiInfoArgs With {.tw = tw, .info = info}
