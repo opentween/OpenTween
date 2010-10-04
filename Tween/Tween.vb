@@ -202,8 +202,8 @@ Public Class TweenMain
     Private ColumnText(8) As String
 
     Private _UseAdditionalFlags As Boolean = False
-    Private _FirstRefreshFlags As Boolean = True
-    Private _FirstListsRefreshFlags As Boolean = True
+    Private _FirstRefreshFlags As Boolean = False
+    Private _FirstListsRefreshFlags As Boolean = False
 
     '''''''''''''''''''''''''''''''''''''''''''''''''''''
     Private _postBrowserStatusText As String = ""
@@ -745,7 +745,11 @@ Public Class TweenMain
         SettingDialog.UseChangeGetCount.Checked = _cfgCommon.UseAdditionalCount
         SettingDialog.MoreCountApi = _cfgCommon.MoreCountApi
         SettingDialog.FirstCountApi = _cfgCommon.FirstCountApi
-
+        If _cfgCommon.UseAdditionalCount Then
+            _FirstRefreshFlags = True
+            _FirstListsRefreshFlags = True
+        End If
+        
         'ハッシュタグ関連
         HashSupl = New AtIdSupplement(_cfgCommon.HashTags, "#")
         HashMgr = New HashtagManage(HashSupl, _
