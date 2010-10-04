@@ -2018,7 +2018,8 @@ Public Class TweenMain
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
                 If args.tName = "" Then
                     For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.Lists)
-                        If _FirstListsRefreshFlags Then
+                        If _FirstListsRefreshFlags AndAlso SettingDialog.UseChangeGetCount.Checked Then
+                            _FirstListsRefreshFlags = False
                             If tb.ListInfo IsNot Nothing AndAlso tb.ListInfo.Id <> 0 Then ret = tw.GetListStatusAdditional(read, tb, False, SettingDialog.FirstCountApi)
                         Else
                             If tb.ListInfo IsNot Nothing AndAlso tb.ListInfo.Id <> 0 Then ret = tw.GetListStatus(read, tb, False)
