@@ -3031,6 +3031,12 @@ Public Class TweenMain
                 If uid <> tw.Username Then Me.doGetFollowersMenu()
 
                 SetImageServiceCombo()
+
+                Try
+                    StatusText_TextChanged(Nothing, Nothing)
+                Catch ex As Exception
+
+                End Try
             End SyncLock
         End If
 
