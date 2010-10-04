@@ -118,6 +118,8 @@ Public Class Setting
     Private _MyTwitterApiUrl As String
     Private _MyTwitterSearchApiUrl As String
     Private _MyPreviewEnable As Boolean
+    Private _MoreCountApi As Integer
+    Private _FirstCountApi As Integer
 
     Private _ValidationError As Boolean = False
 
@@ -302,6 +304,8 @@ Public Class Setting
             If IsNumeric(HotkeyCode.Text) Then _HotkeyValue = CInt(HotkeyCode.Text)
             _HotkeyKey = DirectCast(HotkeyText.Tag, Keys)
             _BlinkNewMentions = ChkNewMentionsBlink.Checked
+            _MoreCountApi = CType(GetMoreTextCountApi.Text, Integer)
+            _FirstCountApi = CType(FirstTextCountApi.Text, Integer)
         Catch ex As Exception
             MessageBox.Show(My.Resources.Save_ClickText3)
             Me.DialogResult = Windows.Forms.DialogResult.Cancel
@@ -546,6 +550,11 @@ Public Class Setting
         ActiveControl = Username
 
         CheckOutputz_CheckedChanged(sender, e)
+
+        GetMoreTextCountApi.Text = _MoreCountApi.ToString
+        FirstTextCountApi.Text = _FirstCountApi.ToString
+        GetMoreTextCountApi.ReadOnly = Not UseChangeGetCount.Checked
+        FirstTextCountApi.ReadOnly = Not UseChangeGetCount.Checked
     End Sub
 
     Private Sub TimelinePeriod_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles TimelinePeriod.Validating
@@ -1096,6 +1105,24 @@ Public Class Setting
         End Get
         Set(ByVal value As Integer)
             _countApiReply = value
+        End Set
+    End Property
+
+    Public Property MoreCountApi() As Integer
+        Get
+            Return _MoreCountApi
+        End Get
+        Set(ByVal value As Integer)
+            _MoreCountApi = value
+        End Set
+    End Property
+
+    Public Property FirstCountApi() As Integer
+        Get
+            Return _FirstCountApi
+        End Get
+        Set(ByVal value As Integer)
+            _FirstCountApi = value
         End Set
     End Property
 
@@ -1958,5 +1985,43 @@ Public Class Setting
 
     Public Property BlinkNewMentions As Boolean
 
+    Private Sub GetMoreTextCountApi_Validating(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles GetMoreTextCountApi.Validating
+        Dim cnt As Integer
+        Try
+            cnt = Integer.Parse(GetMoreTextCountApi.Text)
+        Catch ex As Exception
+            MessageBox.Show(My.Resources.TextCountApi_Validating1)
+            e.Cancel = True
+            Exit Sub
+        End Try
+
+        If cnt < 20 OrElse cnt > 200 Then
+            MessageBox.Show(My.Resources.TextCountApi_Validating1)
+            e.Cancel = True
+            Exit Sub
+        End If
+    End Sub
+
+    Private Sub UseChangeGetCount_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles UseChangeGetCount.CheckedChanged
+        GetMoreTextCountApi.ReadOnly = Not UseChangeGetCount.Checked
+        FirstTextCountApi.ReadOnly = Not UseChangeGetCount.Checked
+    End Sub
+
+    Private Sub FirstTextCountApi_Validating(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles FirstTextCountApi.Validating
+        Dim cnt As Integer
+        Try
+            cnt = Integer.Parse(FirstTextCountApi.Text)
+        Catch ex As Exception
+            MessageBox.Show(My.Resources.TextCountApi_Validating1)
+            e.Cancel = True
+            Exit Sub
+        End Try
+
+        If cnt < 20 OrElse cnt > 200 Then
+            MessageBox.Show(My.Resources.TextCountApi_Validating1)
+            e.Cancel = True
+            Exit Sub
+        End If
+    End Sub
 End Class
 

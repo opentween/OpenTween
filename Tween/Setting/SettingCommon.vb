@@ -165,4 +165,7 @@ Public Class SettingCommon
     Public HotkeyValue As Integer = 0
     Public BlinkNewMentions As Boolean = False
     Public FocusLockToStatusText As Boolean = False
+    Public UseAdditionalCount As Boolean = False
+    Public MoreCountApi As Integer = 200
+    Public FirstCountApi As Integer = 100
 End Class
