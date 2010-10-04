@@ -338,6 +338,7 @@ Partial Class TweenMain
         '
         Me.StatusLabelApi.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right
         Me.StatusLabelApi.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.StatusLabelApi.DoubleClickEnabled = True
         Me.StatusLabelApi.Name = "StatusLabelApi"
         resources.ApplyResources(Me.StatusLabelApi, "StatusLabelApi")
         '
