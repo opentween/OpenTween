@@ -979,6 +979,9 @@
   <data name="PostLengthOverMessage3" xml:space="preserve">
     <value>文末の＠ユーザー名が切り捨てられた可能性があるため、投稿をキャンセルします。</value>
   </data>
+  <data name="FavstarUrl" xml:space="preserve">
+    <value>http://ja.favstar.fm/</value>
+  </data>
   <data name="VimeoInfoText1" xml:space="preserve">
     <value>タイトル:</value>
   </data>

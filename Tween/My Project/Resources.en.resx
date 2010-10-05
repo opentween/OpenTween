@@ -906,6 +906,9 @@
   <data name="PostLengthOverMessage3" xml:space="preserve">
     <value>Abort to posting status because @id may be rounded down.</value>
   </data>
+  <data name="FavstarUrl" xml:space="preserve">
+    <value>http://favstar.fm/</value>
+  </data>
   <data name="VimeoInfoText1" xml:space="preserve">
     <value>タイトル:</value>
   </data>

@@ -913,6 +913,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  http://ja.favstar.fm/ に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property FavstarUrl() As String
+            Get
+                Return ResourceManager.GetString("FavstarUrl", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  フォローしています・・・ に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property FollowCommandText1() As String

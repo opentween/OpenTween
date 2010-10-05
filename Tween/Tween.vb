@@ -4143,8 +4143,7 @@ RETRY:
     Private Sub FavorareMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles FavorareMenuItem.Click, OpenFavotterOpMenuItem.Click
         If _curList.SelectedIndices.Count > 0 Then
             Dim post As PostClass = _statuses.Item(_curTab.Text, _curList.SelectedIndices(0))
-            'OpenUriAsync("http://favotter.net/user/" + post.Name)
-            OpenUriAsync("http://favstar.fm/users/" + post.Name + "/recent")
+            OpenUriAsync(My.Resources.FavstarUrl + "users/" + post.Name + "/recent")
         End If
     End Sub
 
