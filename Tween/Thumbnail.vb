@@ -1004,7 +1004,7 @@ Public Class Thumbnail
                     Try
                         tmp = xentry.Item("media:title").InnerText
                         If Not String.IsNullOrEmpty(tmp) Then
-                            sb.Append("タイトル:")
+                            sb.Append(My.Resources.YouTubeInfoText1)
                             sb.Append(tmp)
                             sb.AppendLine()
                         End If
@@ -1014,7 +1014,7 @@ Public Class Thumbnail
                     Try
                         Dim sec As Integer = 0
                         If Integer.TryParse(xentry.Item("yt:duration").Attributes("seconds").Value, sec) Then
-                            sb.Append("再生時間:")
+                            sb.Append(My.Resources.YouTubeInfoText2)
                             sb.AppendFormat("{0:d}:{1:d2}", sec \ 60, sec Mod 60)
                             sb.AppendLine()
                         End If
@@ -1025,7 +1025,7 @@ Public Class Thumbnail
                         Dim tmpdate As New DateTime
                         xentry = CType(xdoc.DocumentElement.SelectSingleNode("/root:entry", nsmgr), XmlElement)
                         If DateTime.TryParse(xentry.Item("published").InnerText, tmpdate) Then
-                            sb.Append("投稿日時:")
+                            sb.Append(My.Resources.YouTubeInfoText3)
                             sb.Append(tmpdate)
                             sb.AppendLine()
                         End If
@@ -1037,7 +1037,7 @@ Public Class Thumbnail
                         xentry = CType(xdoc.DocumentElement.SelectSingleNode("/root:entry", nsmgr), XmlElement)
                         tmp = xentry.Item("yt:statistics").Attributes("viewCount").Value
                         If Integer.TryParse(tmp, count) Then
-                            sb.Append("再生数:")
+                            sb.Append(My.Resources.YouTubeInfoText4)
                             sb.Append(tmp)
                             sb.AppendLine()
                         End If
@@ -1831,7 +1831,7 @@ Public Class Thumbnail
                 Try
                     Dim tmp As String = xdoc.SelectSingleNode("videos/video/title").InnerText
                     If Not String.IsNullOrEmpty(tmp) Then
-                        sb.Append("タイトル:")
+                        sb.Append(My.Resources.VimeoInfoText1)
                         sb.Append(tmp)
                         sb.AppendLine()
                     End If
@@ -1840,7 +1840,7 @@ Public Class Thumbnail
                 Try
                     Dim tmpdate As New DateTime
                     If DateTime.TryParse(xdoc.SelectSingleNode("videos/video/upload_date").InnerText, tmpdate) Then
-                        sb.Append("投稿日時:")
+                        sb.Append(My.Resources.VimeoInfoText2)
                         sb.Append(tmpdate)
                         sb.AppendLine()
                     End If
@@ -1849,7 +1849,7 @@ Public Class Thumbnail
                 Try
                     Dim tmp As String = xdoc.SelectSingleNode("videos/video/stats_number_of_likes").InnerText
                     If Not String.IsNullOrEmpty(tmp) Then
-                        sb.Append("Likes:")
+                        sb.Append(My.Resources.VimeoInfoText3)
                         sb.Append(tmp)
                         sb.AppendLine()
                     End If
@@ -1858,7 +1858,7 @@ Public Class Thumbnail
                 Try
                     Dim tmp As String = xdoc.SelectSingleNode("videos/video/stats_number_of_plays").InnerText
                     If Not String.IsNullOrEmpty(tmp) Then
-                        sb.Append("再生数:")
+                        sb.Append(My.Resources.VimeoInfoText4)
                         sb.Append(tmp)
                         sb.AppendLine()
                     End If
@@ -1867,7 +1867,7 @@ Public Class Thumbnail
                 Try
                     Dim tmp As String = xdoc.SelectSingleNode("videos/video/stats_number_of_comments").InnerText
                     If Not String.IsNullOrEmpty(tmp) Then
-                        sb.Append("コメント数:")
+                        sb.Append(My.Resources.VimeoInfoText5)
                         sb.Append(tmp)
                         sb.AppendLine()
                     End If
@@ -1876,7 +1876,7 @@ Public Class Thumbnail
                 Try
                     Dim sec As Integer = 0
                     If Integer.TryParse(xdoc.SelectSingleNode("videos/video/duration").InnerText, sec) Then
-                        sb.Append("再生時間:")
+                        sb.Append(My.Resources.VimeoInfoText6)
                         sb.AppendFormat("{0:d}:{1:d2}", sec \ 60, sec Mod 60)
                         sb.AppendLine()
                     End If

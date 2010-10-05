@@ -2630,11 +2630,101 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  タイトル: に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property VimeoInfoText1() As String
+            Get
+                Return ResourceManager.GetString("VimeoInfoText1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  投稿日時: に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property VimeoInfoText2() As String
+            Get
+                Return ResourceManager.GetString("VimeoInfoText2", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Likes: に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property VimeoInfoText3() As String
+            Get
+                Return ResourceManager.GetString("VimeoInfoText3", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  再生数: に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property VimeoInfoText4() As String
+            Get
+                Return ResourceManager.GetString("VimeoInfoText4", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  コメント数: に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property VimeoInfoText5() As String
+            Get
+                Return ResourceManager.GetString("VimeoInfoText5", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  再生時間: に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property VimeoInfoText6() As String
+            Get
+                Return ResourceManager.GetString("VimeoInfoText6", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  はい に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property Yes() As String
             Get
                 Return ResourceManager.GetString("Yes", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  タイトル: に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property YouTubeInfoText1() As String
+            Get
+                Return ResourceManager.GetString("YouTubeInfoText1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  再生時間: に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property YouTubeInfoText2() As String
+            Get
+                Return ResourceManager.GetString("YouTubeInfoText2", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  投稿日時: に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property YouTubeInfoText3() As String
+            Get
+                Return ResourceManager.GetString("YouTubeInfoText3", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  再生数: に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property YouTubeInfoText4() As String
+            Get
+                Return ResourceManager.GetString("YouTubeInfoText4", resourceCulture)
             End Get
         End Property
     End Module
