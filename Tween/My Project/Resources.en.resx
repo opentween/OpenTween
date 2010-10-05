@@ -906,4 +906,34 @@
   <data name="PostLengthOverMessage3" xml:space="preserve">
     <value>Abort to posting status because @id may be rounded down.</value>
   </data>
+  <data name="VimeoInfoText1" xml:space="preserve">
+    <value>タイトル:</value>
+  </data>
+  <data name="VimeoInfoText2" xml:space="preserve">
+    <value>投稿日時:</value>
+  </data>
+  <data name="VimeoInfoText3" xml:space="preserve">
+    <value>Likes:</value>
+  </data>
+  <data name="VimeoInfoText4" xml:space="preserve">
+    <value>再生数:</value>
+  </data>
+  <data name="VimeoInfoText5" xml:space="preserve">
+    <value>コメント数:</value>
+  </data>
+  <data name="VimeoInfoText6" xml:space="preserve">
+    <value>再生時間:</value>
+  </data>
+  <data name="YouTubeInfoText1" xml:space="preserve">
+    <value>タイトル:</value>
+  </data>
+  <data name="YouTubeInfoText2" xml:space="preserve">
+    <value>再生時間:</value>
+  </data>
+  <data name="YouTubeInfoText3" xml:space="preserve">
+    <value>投稿日時:</value>
+  </data>
+  <data name="YouTubeInfoText4" xml:space="preserve">
+    <value>再生数:</value>
+  </data>
 </root>
