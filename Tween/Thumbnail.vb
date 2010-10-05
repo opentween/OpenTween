@@ -102,7 +102,8 @@ Public Class Thumbnail
         New ThumbnailService("Tumblr", AddressOf Tumblr_GetUrl, AddressOf Tumblr_CreateImage), _
         New ThumbnailService("ついっぷるフォト", AddressOf TwipplePhoto_GetUrl, AddressOf TwipplePhoto_CreateImage), _
         New ThumbnailService("mypix/shamoji", AddressOf mypix_GetUrl, AddressOf mypix_CreateImage), _
-        New ThumbnailService("ow.ly", AddressOf Owly_GetUrl, AddressOf Owly_CreateImage)
+        New ThumbnailService("ow.ly", AddressOf Owly_GetUrl, AddressOf Owly_CreateImage), _
+        New ThumbnailService("vimeo", AddressOf Vimeo_GetUrl, AddressOf Vimeo_CreateImage)
     }
 
     Public Sub New(ByVal Owner As TweenMain)
@@ -1775,6 +1776,132 @@ Public Class Thumbnail
         args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, img))
         args.tooltiptext.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
         Return True
+    End Function
+
+#End Region
+
+#Region "vimeo"
+    ''' <summary>
+    ''' URL解析部で呼び出されるサムネイル画像URL作成デリゲート
+    ''' </summary>
+    ''' <param name="args">Class GetUrlArgs
+    '''                                 args.url        URL文字列
+    '''                                 args.imglist    解析成功した際にこのリストに元URL、サムネイルURLの形で作成するKeyValuePair
+    ''' </param>
+    ''' <returns>成功した場合True,失敗の場合False</returns>
+    ''' <remarks>args.imglistには呼び出しもとで使用しているimglistをそのまま渡すこと</remarks>
+
+    Private Function Vimeo_GetUrl(ByVal args As GetUrlArgs) As Boolean
+        ' TODO URL判定処理を記述
+        Dim mc As Match = Regex.Match(args.url, "^http://vimeo\.com/[0-9]+", RegexOptions.IgnoreCase)
+        If mc.Success Then
+            ' TODO 成功時はサムネイルURLを作成しimglist.Addする
+            args.imglist.Add(New KeyValuePair(Of String, String)(args.url, mc.Value))
+            Return True
+        Else
+            Return False
+        End If
+    End Function
+
+    ''' <summary>
+    ''' BackgroundWorkerから呼び出されるサムネイル画像作成デリゲート
+    ''' </summary>
+    ''' <param name="args">Class CreateImageArgs
+    '''                                 url As KeyValuePair(Of String, String)                  元URLとサムネイルURLのKeyValuePair
+    '''                                 pics As List(Of KeyValuePair(Of String, Image))         元URLとサムネイル画像のKeyValuePair
+    '''                                 tooltiptext As List(Of KeyValuePair(Of String, String)) 元URLとツールチップテキストのKeyValuePair
+    '''                                 errmsg As String                                        取得に失敗した際のエラーメッセージ
+    ''' </param>
+    ''' <returns>サムネイル画像作成に成功した場合はTrue,失敗した場合はFalse
+    ''' なお失敗した場合はargs.errmsgにエラーを表す文字列がセットされる</returns>
+    ''' <remarks></remarks>
+    Private Function Vimeo_CreateImage(ByVal args As CreateImageArgs) As Boolean
+        ' TODO: サムネイル画像読み込み処理を記述します
+        Dim http As New HttpVarious
+        Dim mc As Match = Regex.Match(args.url.Key, "http://vimeo\.com/(?<postID>[0-9]+)", RegexOptions.IgnoreCase)
+        Dim apiurl As String = "http://vimeo.com/api/v2/video/" + mc.Groups("postID").Value + ".xml"
+        Dim src As String = ""
+        Dim imgurl As String = Nothing
+        If http.GetData(apiurl, Nothing, src, 0, args.errmsg) Then
+            Dim xdoc As New XmlDocument
+            Dim xNode As XmlNode
+            Dim sb As New StringBuilder
+            Try
+                xdoc.LoadXml(src)
+                Try
+                    Dim tmp As String = xdoc.SelectSingleNode("videos/video/title").InnerText
+                    If Not String.IsNullOrEmpty(tmp) Then
+                        sb.Append("タイトル:")
+                        sb.Append(tmp)
+                        sb.AppendLine()
+                    End If
+                Catch ex As Exception
+                End Try
+                Try
+                    Dim tmpdate As New DateTime
+                    If DateTime.TryParse(xdoc.SelectSingleNode("videos/video/upload_date").InnerText, tmpdate) Then
+                        sb.Append("投稿日時:")
+                        sb.Append(tmpdate)
+                        sb.AppendLine()
+                    End If
+                Catch ex As Exception
+                End Try
+                Try
+                    Dim tmp As String = xdoc.SelectSingleNode("videos/video/stats_number_of_likes").InnerText
+                    If Not String.IsNullOrEmpty(tmp) Then
+                        sb.Append("Likes:")
+                        sb.Append(tmp)
+                        sb.AppendLine()
+                    End If
+                Catch ex As Exception
+                End Try
+                Try
+                    Dim tmp As String = xdoc.SelectSingleNode("videos/video/stats_number_of_plays").InnerText
+                    If Not String.IsNullOrEmpty(tmp) Then
+                        sb.Append("再生数:")
+                        sb.Append(tmp)
+                        sb.AppendLine()
+                    End If
+                Catch ex As Exception
+                End Try
+                Try
+                    Dim tmp As String = xdoc.SelectSingleNode("videos/video/stats_number_of_comments").InnerText
+                    If Not String.IsNullOrEmpty(tmp) Then
+                        sb.Append("コメント数:")
+                        sb.Append(tmp)
+                        sb.AppendLine()
+                    End If
+                Catch ex As Exception
+                End Try
+                Try
+                    Dim sec As Integer = 0
+                    If Integer.TryParse(xdoc.SelectSingleNode("videos/video/duration").InnerText, sec) Then
+                        sb.Append("再生時間:")
+                        sb.AppendFormat("{0:d}:{1:d2}", sec \ 60, sec Mod 60)
+                        sb.AppendLine()
+                    End If
+                Catch ex As Exception
+                End Try
+                Try
+                    Dim tmp As String = xdoc.SelectSingleNode("videos/video/thumbnail_medium").InnerText
+                    If Not String.IsNullOrEmpty(tmp) Then
+                        imgurl = tmp
+                    End If
+                Catch ex As Exception
+                End Try
+            Catch ex As Exception
+                imgurl = ""
+            End Try
+
+            If Not String.IsNullOrEmpty(imgurl) Then
+                Dim _img As Image = http.GetImage(imgurl, args.url.Key, 0, args.errmsg)
+                If _img Is Nothing Then Return False
+                args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, _img))
+                args.tooltiptext.Add(New KeyValuePair(Of String, String)(args.url.Key, sb.ToString.Trim()))
+                Return True
+            End If
+        End If
+        Return False
     End Function
 
 #End Region
