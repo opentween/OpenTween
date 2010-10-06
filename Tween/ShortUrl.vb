@@ -28,7 +28,6 @@ Public Class ShortUrl
         "http://tumblr.com/", _
         "http://www.qurl.com/", _
         "http://digg.com/", _
-        "http://u.nu/", _
         "http://ustre.am/", _
         "http://pic.gd/", _
         "http://airme.us/", _
@@ -176,20 +175,6 @@ Public Class ShortUrl
                     End If
                 End If
                 If Not content.StartsWith("http://twurl.nl/") Then
-                    Return "Can't convert"
-                End If
-            Case UrlConverter.Unu
-                If SrcUrl.StartsWith("http") Then
-                    If "http://u.nu/xxxx".Length > src.Length AndAlso Not src.Contains("?") AndAlso Not src.Contains("#") Then
-                        ' 明らかに長くなると推測できる場合は圧縮しない
-                        content = src
-                        Exit Select
-                    End If
-                    If Not (New HttpVarious).PostData("http://u.nu/unu-api-simple?url=" + SrcUrl, Nothing, content) Then
-                        Return "Can't convert"
-                    End If
-                End If
-                If Not content.StartsWith("http://u.nu") Then
                     Return "Can't convert"
                 End If
             Case UrlConverter.Bitly, UrlConverter.Jmp

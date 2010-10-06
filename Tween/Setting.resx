@@ -4105,12 +4105,9 @@
     <value>twurl.nl</value>
   </data>
   <data name="ComboBoxAutoShortUrlFirst.Items3" xml:space="preserve">
-    <value>u.nu</value>
-  </data>
-  <data name="ComboBoxAutoShortUrlFirst.Items4" xml:space="preserve">
     <value>bit.ly</value>
   </data>
-  <data name="ComboBoxAutoShortUrlFirst.Items5" xml:space="preserve">
+  <data name="ComboBoxAutoShortUrlFirst.Items4" xml:space="preserve">
     <value>j.mp</value>
   </data>
   <data name="ComboBoxAutoShortUrlFirst.Location" type="System.Drawing.Point, System.Drawing">

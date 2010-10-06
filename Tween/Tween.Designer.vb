@@ -192,7 +192,6 @@ Partial Class TweenMain
         Me.TinyURLToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.IsgdToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TwurlnlToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.UnuToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BitlyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.JmpStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UpdateFollowersMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
@@ -1258,7 +1257,7 @@ Partial Class TweenMain
         '
         'TinyUrlConvertToolStripMenuItem
         '
-        Me.TinyUrlConvertToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UrlConvertAutoToolStripMenuItem, Me.UrlUndoToolStripMenuItem, Me.TinyURLToolStripMenuItem, Me.IsgdToolStripMenuItem, Me.TwurlnlToolStripMenuItem, Me.UnuToolStripMenuItem, Me.BitlyToolStripMenuItem, Me.JmpStripMenuItem})
+        Me.TinyUrlConvertToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UrlConvertAutoToolStripMenuItem, Me.UrlUndoToolStripMenuItem, Me.TinyURLToolStripMenuItem, Me.IsgdToolStripMenuItem, Me.TwurlnlToolStripMenuItem, Me.BitlyToolStripMenuItem, Me.JmpStripMenuItem})
         Me.TinyUrlConvertToolStripMenuItem.Name = "TinyUrlConvertToolStripMenuItem"
         resources.ApplyResources(Me.TinyUrlConvertToolStripMenuItem, "TinyUrlConvertToolStripMenuItem")
         '
@@ -1286,11 +1285,6 @@ Partial Class TweenMain
         '
         Me.TwurlnlToolStripMenuItem.Name = "TwurlnlToolStripMenuItem"
         resources.ApplyResources(Me.TwurlnlToolStripMenuItem, "TwurlnlToolStripMenuItem")
-        '
-        'UnuToolStripMenuItem
-        '
-        Me.UnuToolStripMenuItem.Name = "UnuToolStripMenuItem"
-        resources.ApplyResources(Me.UnuToolStripMenuItem, "UnuToolStripMenuItem")
         '
         'BitlyToolStripMenuItem
         '
@@ -1836,7 +1830,6 @@ Partial Class TweenMain
     Friend WithEvents TraceOutToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents TwurlnlToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents TabRenameMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents UnuToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents BitlyToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ApiInfoMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents IdeographicSpaceToSpaceToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
