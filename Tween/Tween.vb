@@ -7696,6 +7696,8 @@ RETRY:
             TimelinePanel.Enabled = False
             ImagefilePathText.Text = CType(e.Data.GetData(DataFormats.FileDrop, False), String())(0)
             ImageFromSelectedFile()
+            Me.Activate()
+            StatusText.Focus()
         ElseIf e.Data.GetDataPresent(DataFormats.StringFormat) Then
             Dim data As String = TryCast(e.Data.GetData(DataFormats.StringFormat, True), String)
             If data IsNot Nothing Then StatusText.Text += data
