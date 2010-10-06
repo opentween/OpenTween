@@ -686,6 +686,12 @@ Public Class TweenMain
         SettingDialog.PlaySound = _cfgCommon.PlaySound
         SettingDialog.DateTimeFormat = _cfgCommon.DateTimeFormat
         SettingDialog.LimitBalloon = _cfgCommon.LimitBalloon
+
+        '廃止サービスが選択されていた場合bit.lyへ読み替え
+        If _cfgCommon.AutoShortUrlFirst < 0 Then
+            _cfgCommon.AutoShortUrlFirst = Tween.UrlConverter.Bitly
+        End If
+
         SettingDialog.AutoShortUrlFirst = _cfgCommon.AutoShortUrlFirst
         SettingDialog.TabIconDisp = _cfgCommon.TabIconDisp
         SettingDialog.ReplyIconState = _cfgCommon.ReplyIconState
@@ -749,7 +755,7 @@ Public Class TweenMain
             _FirstRefreshFlags = True
             _FirstListsRefreshFlags = True
         End If
-        
+
         'ハッシュタグ関連
         HashSupl = New AtIdSupplement(_cfgCommon.HashTags, "#")
         HashMgr = New HashtagManage(HashSupl, _
@@ -840,7 +846,7 @@ Public Class TweenMain
         End If
 
         If SettingDialog.HotkeyEnabled Then
-            '''グローバルホットキーの登録。設定で変更可能にするかも
+            '''グローバルホットキーの登録
             Dim modKey As HookGlobalHotkey.ModKeys = HookGlobalHotkey.ModKeys.None
             If (SettingDialog.HotkeyMod And Keys.Alt) = Keys.Alt Then modKey = modKey Or HookGlobalHotkey.ModKeys.Alt
             If (SettingDialog.HotkeyMod And Keys.Control) = Keys.Control Then modKey = modKey Or HookGlobalHotkey.ModKeys.Ctrl
@@ -8063,10 +8069,6 @@ RETRY:
     Private Sub TabRenameMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TabRenameMenuItem.Click, RenameTbMenuItem.Click
         If String.IsNullOrEmpty(_rclickTabName) Then Exit Sub
         TabRename(_rclickTabName)
-    End Sub
-
-    Private Sub UnuToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UnuToolStripMenuItem.Click
-        UrlConvert(UrlConverter.Unu)
     End Sub
 
     Private Sub BitlyToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BitlyToolStripMenuItem.Click

@@ -74,11 +74,12 @@ Public Module MyCommon
         TinyUrl
         Isgd
         Twurl
-        Unu
         Bitly
         Jmp
         '特殊
         Nicoms
+        '廃止
+        Unu = -1
     End Enum
 
     Public Enum OutputzUrlmode
