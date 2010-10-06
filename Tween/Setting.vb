@@ -553,8 +553,8 @@ Public Class Setting
 
         GetMoreTextCountApi.Text = _MoreCountApi.ToString
         FirstTextCountApi.Text = _FirstCountApi.ToString
-        GetMoreTextCountApi.ReadOnly = Not UseChangeGetCount.Checked
-        FirstTextCountApi.ReadOnly = Not UseChangeGetCount.Checked
+        GetMoreTextCountApi.Enabled = UseChangeGetCount.Checked
+        FirstTextCountApi.Enabled = UseChangeGetCount.Checked
     End Sub
 
     Private Sub TimelinePeriod_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles TimelinePeriod.Validating
@@ -1995,7 +1995,7 @@ Public Class Setting
             Exit Sub
         End Try
 
-        If cnt < 20 OrElse cnt > 200 Then
+        If Not cnt = 0 AndAlso (cnt < 20 OrElse cnt > 200) Then
             MessageBox.Show(My.Resources.TextCountApi_Validating1)
             e.Cancel = True
             Exit Sub
@@ -2003,8 +2003,8 @@ Public Class Setting
     End Sub
 
     Private Sub UseChangeGetCount_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles UseChangeGetCount.CheckedChanged
-        GetMoreTextCountApi.ReadOnly = Not UseChangeGetCount.Checked
-        FirstTextCountApi.ReadOnly = Not UseChangeGetCount.Checked
+        GetMoreTextCountApi.Enabled = UseChangeGetCount.Checked
+        FirstTextCountApi.Enabled = UseChangeGetCount.Checked
     End Sub
 
     Private Sub FirstTextCountApi_Validating(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles FirstTextCountApi.Validating
@@ -2017,7 +2017,7 @@ Public Class Setting
             Exit Sub
         End Try
 
-        If cnt < 20 OrElse cnt > 200 Then
+        If Not cnt = 0 AndAlso (cnt < 20 OrElse cnt > 200) Then
             MessageBox.Show(My.Resources.TextCountApi_Validating1)
             e.Cancel = True
             Exit Sub

@@ -1852,10 +1852,10 @@ Public Class TweenMain
         Select Case args.type
             Case WORKERTYPE.Timeline, WORKERTYPE.Reply
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
-                If _UseAdditionalFlags Then
+                If _UseAdditionalFlags AndAlso Not SettingDialog.MoreCountApi = 0 Then
                     _UseAdditionalFlags = False
                     ret = tw.GetTimelineApiAdditional(read, args.type, args.page = -1, SettingDialog.MoreCountApi)
-                ElseIf _FirstRefreshFlags AndAlso SettingDialog.UseChangeGetCount.Checked Then
+                ElseIf _FirstRefreshFlags AndAlso SettingDialog.UseChangeGetCount.Checked AndAlso Not SettingDialog.FirstCountApi = 0 Then
                     _FirstRefreshFlags = False
                     ret = tw.GetTimelineApiAdditional(read, args.type, args.page = -1, SettingDialog.FirstCountApi)
                 Else
@@ -2022,7 +2022,7 @@ Public Class TweenMain
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
                 If args.tName = "" Then
                     For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.Lists)
-                        If _FirstListsRefreshFlags AndAlso SettingDialog.UseChangeGetCount.Checked Then
+                        If _FirstListsRefreshFlags AndAlso SettingDialog.UseChangeGetCount.Checked AndAlso Not SettingDialog.FirstCountApi = 0 Then
                             _FirstListsRefreshFlags = False
                             If tb.ListInfo IsNot Nothing AndAlso tb.ListInfo.Id <> 0 Then ret = tw.GetListStatusAdditional(read, tb, False, SettingDialog.FirstCountApi)
                         Else
@@ -2032,7 +2032,7 @@ Public Class TweenMain
                 Else
                     Dim tb As TabClass = _statuses.GetTabByName(args.tName)
                     If tb IsNot Nothing Then
-                        If _UseAdditionalFlags Then
+                        If _UseAdditionalFlags AndAlso Not SettingDialog.MoreCountApi = 0 Then
                             _UseAdditionalFlags = False
                             ret = tw.GetListStatusAdditional(read, tb, args.page = -1, SettingDialog.MoreCountApi)
                         Else
