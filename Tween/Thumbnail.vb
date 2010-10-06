@@ -1824,7 +1824,6 @@ Public Class Thumbnail
         Dim imgurl As String = Nothing
         If http.GetData(apiurl, Nothing, src, 0, args.errmsg) Then
             Dim xdoc As New XmlDocument
-            Dim xNode As XmlNode
             Dim sb As New StringBuilder
             Try
                 xdoc.LoadXml(src)
