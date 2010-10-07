@@ -95,7 +95,7 @@ Public Class TweenMain
     Private dialogAsShieldicon As DialogAsShieldIcon    ' シールドアイコン付きダイアログ
     Public AtIdSupl As AtIdSupplement    '@id補助
     Public HashSupl As AtIdSupplement    'Hashtag補助
-    Private HashMgr As HashtagManage
+    Public HashMgr As HashtagManage
 
     '表示フォント、色、アイコン
     Private _fntUnread As Font            '未読用フォント
@@ -3077,6 +3077,7 @@ Public Class TweenMain
                 Dim urlStr As String = HttpUtility.UrlDecode(e.Url.AbsoluteUri)
                 Dim hash As String = urlStr.Substring(urlStr.IndexOf("#"))
                 HashSupl.AddItem(hash)
+                HashMgr.AddHashToHistory(hash.Trim, False)
                 AddNewTabForSearch(hash)
                 Exit Sub
             Else
@@ -6814,6 +6815,7 @@ RETRY:
                 Dim urlStr As String = HttpUtility.UrlDecode(openUrlStr)
                 Dim hash As String = urlStr.Substring(urlStr.IndexOf("#"))
                 HashSupl.AddItem(hash)
+                HashMgr.AddHashToHistory(hash.Trim, False)
                 AddNewTabForSearch(hash)
                 Exit Sub
             End If

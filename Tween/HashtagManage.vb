@@ -296,7 +296,7 @@ Public Class HashtagManage
                     Return False
                 End If
                 If hash.Length = 1 Then
-                    If isShowWarn Then MessageBox.Show("emply hashtag.", "Hashtag warning", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
+                    If isShowWarn Then MessageBox.Show("empty hashtag.", "Hashtag warning", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
                     Return False
                 End If
                 '使用不可の文字チェックはしない
