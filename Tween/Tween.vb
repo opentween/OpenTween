@@ -748,7 +748,7 @@ Public Class TweenMain
 
         SettingDialog.BlinkNewMentions = _cfgCommon.BlinkNewMentions
 
-        SettingDialog.UseChangeGetCount.Checked = _cfgCommon.UseAdditionalCount
+        SettingDialog.UseAdditionalCount = _cfgCommon.UseAdditionalCount
         SettingDialog.MoreCountApi = _cfgCommon.MoreCountApi
         SettingDialog.FirstCountApi = _cfgCommon.FirstCountApi
         If _cfgCommon.UseAdditionalCount Then

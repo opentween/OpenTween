@@ -120,6 +120,7 @@ Public Class Setting
     Private _MyPreviewEnable As Boolean
     Private _MoreCountApi As Integer
     Private _FirstCountApi As Integer
+    Private _MyUseAdditonalCount As Boolean
 
     Private _ValidationError As Boolean = False
 
@@ -304,6 +305,7 @@ Public Class Setting
             If IsNumeric(HotkeyCode.Text) Then _HotkeyValue = CInt(HotkeyCode.Text)
             _HotkeyKey = DirectCast(HotkeyText.Tag, Keys)
             _BlinkNewMentions = ChkNewMentionsBlink.Checked
+            _MyUseAdditonalCount = UseChangeGetCount.Checked
             _MoreCountApi = CType(GetMoreTextCountApi.Text, Integer)
             _FirstCountApi = CType(FirstTextCountApi.Text, Integer)
         Catch ex As Exception
@@ -551,6 +553,8 @@ Public Class Setting
 
         CheckOutputz_CheckedChanged(sender, e)
 
+        UseChangeGetCount.Checked = _MyUseAdditonalCount
+        Label53.Enabled = UseChangeGetCount.Checked
         GetMoreTextCountApi.Text = _MoreCountApi.ToString
         FirstTextCountApi.Text = _FirstCountApi.ToString
         GetMoreTextCountApi.Enabled = UseChangeGetCount.Checked
@@ -1517,6 +1521,15 @@ Public Class Setting
         End Set
     End Property
 
+    Public Property UseAdditionalCount() As Boolean
+        Get
+            Return _MyUseAdditonalCount
+        End Get
+        Set(ByVal value As Boolean)
+            _MyUseAdditonalCount = value
+        End Set
+    End Property
+
     Public Property TwitterApiUrl() As String
         Get
             Return _MyTwitterApiUrl
@@ -2005,6 +2018,7 @@ Public Class Setting
     Private Sub UseChangeGetCount_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles UseChangeGetCount.CheckedChanged
         GetMoreTextCountApi.Enabled = UseChangeGetCount.Checked
         FirstTextCountApi.Enabled = UseChangeGetCount.Checked
+        Label53.Enabled = UseChangeGetCount.Checked
     End Sub
 
     Private Sub FirstTextCountApi_Validating(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles FirstTextCountApi.Validating
