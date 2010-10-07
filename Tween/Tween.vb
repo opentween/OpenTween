@@ -1863,7 +1863,7 @@ Public Class TweenMain
                 If _UseAdditionalFlags AndAlso Not SettingDialog.MoreCountApi = 0 Then
                     _UseAdditionalFlags = False
                     ret = tw.GetTimelineApiAdditional(read, args.type, args.page = -1, SettingDialog.MoreCountApi)
-                ElseIf _FirstRefreshFlags AndAlso SettingDialog.UseChangeGetCount.Checked AndAlso Not SettingDialog.FirstCountApi = 0 Then
+                ElseIf _FirstRefreshFlags AndAlso SettingDialog.UseAdditionalCount AndAlso Not SettingDialog.FirstCountApi = 0 Then
                     _FirstRefreshFlags = False
                     ret = tw.GetTimelineApiAdditional(read, args.type, args.page = -1, SettingDialog.FirstCountApi)
                 Else
@@ -2030,7 +2030,7 @@ Public Class TweenMain
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
                 If args.tName = "" Then
                     For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.Lists)
-                        If _FirstListsRefreshFlags AndAlso SettingDialog.UseChangeGetCount.Checked AndAlso Not SettingDialog.FirstCountApi = 0 Then
+                        If _FirstListsRefreshFlags AndAlso SettingDialog.UseAdditionalCount AndAlso Not SettingDialog.FirstCountApi = 0 Then
                             _FirstListsRefreshFlags = False
                             If tb.ListInfo IsNot Nothing AndAlso tb.ListInfo.Id <> 0 Then ret = tw.GetListStatusAdditional(read, tb, False, SettingDialog.FirstCountApi)
                         Else
@@ -4646,7 +4646,7 @@ RETRY:
                 e.SuppressKeyPress = True
                 GoFav(False)
             ElseIf e.KeyCode = Keys.R OrElse e.KeyCode = Keys.F5 Then
-                If SettingDialog.UseChangeGetCount.Checked Then
+                If SettingDialog.UseAdditionalCount Then
                     _UseAdditionalFlags = True
                 End If
                 e.Handled = True
@@ -5302,7 +5302,7 @@ RETRY:
                 e.SuppressKeyPress = True
                 MenuItemSearchPrev_Click(Nothing, Nothing)
             ElseIf e.KeyCode = Keys.F5 Then
-                If SettingDialog.UseChangeGetCount.Checked Then
+                If SettingDialog.UseAdditionalCount Then
                     _UseAdditionalFlags = True
                 End If
                 e.Handled = True
@@ -5556,7 +5556,7 @@ RETRY:
                     ToolStripFocusLockMenuItem.IsDisposed = False Then
                 _cfgCommon.FocusLockToStatusText = Me.ToolStripFocusLockMenuItem.Checked
             End If
-            _cfgCommon.UseAdditionalCount = SettingDialog.UseChangeGetCount.Checked
+            _cfgCommon.UseAdditionalCount = SettingDialog.UseAdditionalCount
             _cfgCommon.MoreCountApi = SettingDialog.MoreCountApi
             _cfgCommon.FirstCountApi = SettingDialog.FirstCountApi
 
@@ -5708,7 +5708,7 @@ RETRY:
                     MenuItemSearchPrev_Click(Nothing, Nothing)
                 Case Keys.F5, _
                      Keys.R
-                    If SettingDialog.UseChangeGetCount.Checked Then
+                    If SettingDialog.UseAdditionalCount Then
                         _UseAdditionalFlags = True
                     End If
                     e.IsInputKey = True
@@ -8477,7 +8477,7 @@ RETRY:
 
     Private Sub RefreshMoreStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RefreshMoreStripMenuItem.Click, RefreshPrevOpMenuItem.Click
         'もっと前を取得
-        If SettingDialog.UseChangeGetCount.Checked Then
+        If SettingDialog.UseAdditionalCount Then
             _UseAdditionalFlags = True
         End If
         DoRefreshMore()
