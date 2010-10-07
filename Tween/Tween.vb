@@ -3076,6 +3076,7 @@ Public Class TweenMain
                 'ハッシュタグの場合は、タブで開く
                 Dim urlStr As String = HttpUtility.UrlDecode(e.Url.AbsoluteUri)
                 Dim hash As String = urlStr.Substring(urlStr.IndexOf("#"))
+                HashSupl.AddItem(hash)
                 AddNewTabForSearch(hash)
                 Exit Sub
             Else
@@ -6812,6 +6813,7 @@ RETRY:
                 'ハッシュタグの場合は、タブで開く
                 Dim urlStr As String = HttpUtility.UrlDecode(openUrlStr)
                 Dim hash As String = urlStr.Substring(urlStr.IndexOf("#"))
+                HashSupl.AddItem(hash)
                 AddNewTabForSearch(hash)
                 Exit Sub
             End If
