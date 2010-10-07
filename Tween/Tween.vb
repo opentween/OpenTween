@@ -1862,10 +1862,10 @@ Public Class TweenMain
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
                 If _UseAdditionalFlags AndAlso Not SettingDialog.MoreCountApi = 0 Then
                     _UseAdditionalFlags = False
-                    ret = tw.GetTimelineApiAdditional(read, args.type, args.page = -1, SettingDialog.MoreCountApi)
+                    ret = tw.GetTimelineApi(read, args.type, args.page = -1, SettingDialog.MoreCountApi)
                 ElseIf _FirstRefreshFlags AndAlso SettingDialog.UseAdditionalCount AndAlso Not SettingDialog.FirstCountApi = 0 Then
                     _FirstRefreshFlags = False
-                    ret = tw.GetTimelineApiAdditional(read, args.type, args.page = -1, SettingDialog.FirstCountApi)
+                    ret = tw.GetTimelineApi(read, args.type, args.page = -1, SettingDialog.FirstCountApi)
                 Else
                     ret = tw.GetTimelineApi(read, args.type, args.page = -1)
                 End If

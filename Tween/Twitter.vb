@@ -1340,59 +1340,18 @@ Public Class Twitter
         End Set
     End Property
 
-    Public Function GetTimelineApi(ByVal read As Boolean, _
-                            ByVal gType As WORKERTYPE, _
-                            ByVal more As Boolean) As String
+    Public Overloads Function GetTimelineApi(ByVal read As Boolean, _
+                    ByVal gType As WORKERTYPE, _
+                    ByVal more As Boolean) As String
 
-        If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
-
-        If _endingFlag Then Return ""
-
-        Dim countQuery As Integer
-        Dim res As HttpStatusCode
-        Dim content As String = ""
-        Try
-            If gType = WORKERTYPE.Timeline Then
-                If more Then
-                    res = twCon.HomeTimeline(_countApi, minHomeTimeline, 0, content)
-                Else
-                    res = twCon.HomeTimeline(_countApi, 0, 0, content)
-                End If
-                countQuery = _countApi
-            Else
-                If more Then
-                    res = twCon.Mentions(_countApiReply, minMentions, 0, content)
-                Else
-                    res = twCon.Mentions(_countApiReply, 0, 0, content)
-                End If
-                countQuery = _countApiReply
-            End If
-        Catch ex As Exception
-            Return "Err:" + ex.Message
-        End Try
-        Select Case res
-            Case HttpStatusCode.OK
-                Twitter.AccountState = ACCOUNT_STATE.Valid
-            Case HttpStatusCode.Unauthorized
-                Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
-            Case HttpStatusCode.BadRequest
-                Return "Err:API Limits?"
-            Case Else
-                Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
-        End Select
-
-        If gType = WORKERTYPE.Timeline Then
-            Return CreatePostsFromXml(content, gType, Nothing, read, countQuery, Me.minHomeTimeline)
-        Else
-            Return CreatePostsFromXml(content, gType, Nothing, read, countQuery, Me.minMentions)
-        End If
+        Return GetTimelineApi(read, gType, more, -1)
     End Function
 
-    Public Function GetTimelineApiAdditional(ByVal read As Boolean, _
-                        ByVal gType As WORKERTYPE, _
-                        ByVal more As Boolean, _
-                        ByVal addcount As Integer) As String
+
+    Public Overloads Function GetTimelineApi(ByVal read As Boolean, _
+                            ByVal gType As WORKERTYPE, _
+                            ByVal more As Boolean, _
+                            ByVal count As Integer) As String
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
@@ -1402,20 +1361,31 @@ Public Class Twitter
         Dim res As HttpStatusCode
         Dim content As String = ""
         Try
+            Dim cnt As Integer = 0
             If gType = WORKERTYPE.Timeline Then
-                If more Then
-                    res = twCon.HomeTimeline(addcount, minHomeTimeline, 0, content)
+                If count < 0 Then
+                    cnt = _countApi
                 Else
-                    res = twCon.HomeTimeline(addcount, 0, 0, content)
+                    cnt = count
                 End If
-                countQuery = addcount
+                If more Then
+                    res = twCon.HomeTimeline(cnt, minHomeTimeline, 0, content)
+                Else
+                    res = twCon.HomeTimeline(cnt, 0, 0, content)
+                End If
+                countQuery = cnt
             Else
-                If more Then
-                    res = twCon.Mentions(_countApiReply, minMentions, 0, content)
+                If count < 0 Then
+                    cnt = _countApiReply
                 Else
-                    res = twCon.Mentions(_countApiReply, 0, 0, content)
+                    cnt = count
                 End If
-                countQuery = _countApiReply
+                If more Then
+                    res = twCon.Mentions(cnt, minMentions, 0, content)
+                Else
+                    res = twCon.Mentions(cnt, 0, 0, content)
+                End If
+                countQuery = cnt
             End If
         Catch ex As Exception
             Return "Err:" + ex.Message
@@ -1562,7 +1532,7 @@ Public Class Twitter
                     post.ImageUrl = xRUentry.Item("profile_image_url").InnerText
                     post.IsProtect = Boolean.Parse(xRUentry.Item("protected").InnerText)
                     post.IsMe = post.Name.ToLower.Equals(_uid)
-                    If post.IsMe Then _userIdNo = post.Uid.ToString()
+                    If post.IsMe Then _UserIdNo = post.Uid.ToString()
 
                     'Retweetした人
                     Dim xUentry As XmlElement = CType(xentry.SelectSingleNode("./user"), XmlElement)
@@ -1586,7 +1556,7 @@ Public Class Twitter
                     post.ImageUrl = xUentry.Item("profile_image_url").InnerText
                     post.IsProtect = Boolean.Parse(xUentry.Item("protected").InnerText)
                     post.IsMe = post.Name.ToLower.Equals(_uid)
-                    If post.IsMe Then _userIdNo = post.Uid.ToString()
+                    If post.IsMe Then _UserIdNo = post.Uid.ToString()
                 End If
                 'HTMLに整形
                 post.OriginalData = CreateHtmlAnchor(post.Data, post.ReplyToList)
@@ -1993,7 +1963,7 @@ Public Class Twitter
                     post.ImageUrl = xRUentry.Item("profile_image_url").InnerText
                     post.IsProtect = Boolean.Parse(xRUentry.Item("protected").InnerText)
                     post.IsMe = post.Name.ToLower.Equals(_uid)
-                    If post.IsMe Then _userIdNo = post.Uid.ToString()
+                    If post.IsMe Then _UserIdNo = post.Uid.ToString()
 
                     'Retweetした人
                     Dim xUentry As XmlElement = CType(xentry.SelectSingleNode("./user"), XmlElement)
@@ -2017,7 +1987,7 @@ Public Class Twitter
                     post.ImageUrl = xUentry.Item("profile_image_url").InnerText
                     post.IsProtect = Boolean.Parse(xUentry.Item("protected").InnerText)
                     post.IsMe = post.Name.ToLower.Equals(_uid)
-                    If post.IsMe Then _userIdNo = post.Uid.ToString()
+                    If post.IsMe Then _UserIdNo = post.Uid.ToString()
                 End If
                 'HTMLに整形
                 post.OriginalData = CreateHtmlAnchor(post.Data, post.ReplyToList)
@@ -2321,17 +2291,17 @@ Public Class Twitter
             Return "Err:" + ex.Message
         End Try
 
-            Select Case res
-                Case HttpStatusCode.OK
-                    Twitter.AccountState = ACCOUNT_STATE.Valid
-                Case HttpStatusCode.Unauthorized
-                    Twitter.AccountState = ACCOUNT_STATE.Invalid
-                    Return "Check your Username/Password."
-                Case HttpStatusCode.BadRequest
-                    Return "Err:API Limits?"
-                Case Else
-                    Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
-            End Select
+        Select Case res
+            Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
+            Case HttpStatusCode.Unauthorized
+                Twitter.AccountState = ACCOUNT_STATE.Invalid
+                Return "Check your Username/Password."
+            Case HttpStatusCode.BadRequest
+                Return "Err:API Limits?"
+            Case Else
+                Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
+        End Select
 
         Dim xdoc As New XmlDocument
         Try
