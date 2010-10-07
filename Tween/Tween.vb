@@ -1716,11 +1716,13 @@ Public Class TweenMain
 
         If isCutOff AndAlso args.status.status.Length > 140 Then
             args.status.status = args.status.status.Substring(0, 140)
-            Dim mc As Match = Regex.Match(args.status.status, "(@|＠)[a-z0-9_/]+$", RegexOptions.IgnoreCase)
+            Dim AtId As String = "(@|＠)[a-z0-9_/]+$"
+            Dim HashTag As String = "(^|[^0-9A-Z&\/\?]+)(#|＃)([0-9A-Z_]*[A-Z_]+)$"
+            Dim Url As String = "https?:\/\/[a-z0-9!\*'\(\);:&=\+\$\/%#\[\]\-_\.,~?]+$" '簡易判定
+            Dim pattern As String = String.Format("({0})|({1})|({2})", AtId, HashTag, Url)
+            Dim mc As Match = Regex.Match(args.status.status, pattern, RegexOptions.IgnoreCase)
             If mc.Success Then
-                'MessageBox.Show(My.Resources.PostLengthOverMessage3 + Environment.NewLine + Environment.NewLine + args.status.status, "Abort", MessageBoxButtons.OK)
-                'Exit Sub
-                'さらに@IDと推測される文字列をカットする
+                'さらに@ID、ハッシュタグ、URLと推測される文字列をカットする
                 args.status.status = args.status.status.Substring(0, 140 - mc.Value.Length)
             End If
             If MessageBox.Show(args.status.status, "Post or Cancel?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then Exit Sub
