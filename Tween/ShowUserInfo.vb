@@ -351,6 +351,8 @@ Public Class ShowUserInfo
                 'ハッシュタグの場合は、タブで開く
                 Dim urlStr As String = HttpUtility.UrlDecode(e.Url.AbsoluteUri)
                 Dim hash As String = urlStr.Substring(urlStr.IndexOf("#"))
+                MyOwner.HashSupl.AddItem(hash)
+                MyOwner.HashMgr.AddHashToHistory(hash.Trim, False)
                 MyOwner.AddNewTabForSearch(hash)
                 Exit Sub
             Else
