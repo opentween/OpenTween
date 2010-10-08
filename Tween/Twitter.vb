@@ -2429,19 +2429,53 @@ Public Class Twitter
         Return ""
     End Function
 
+    Private Class range
+        Public Property fromIndex As Integer
+        Public Property toIndex As Integer
+        Public Sub New(ByVal fromIndex As Integer, ByVal toIndex As Integer)
+            Me.fromIndex = fromIndex
+            Me.toIndex = toIndex
+        End Sub
+    End Class
     Public Function CreateHtmlAnchor(ByVal Text As String, ByVal AtList As List(Of String)) As String
         Dim retStr As String = Text.Replace("&gt;", "<<<<<tweenだいなり>>>>>").Replace("&lt;", "<<<<<tweenしょうなり>>>>>")
         'uriの正規表現
-        Const rgUrl As String = "(?<before>(?:[^\""':!=]|^|\:))" + _
-                                    "(?<url>(?<protocol>https?://|www\.)" + _
-                                    "(?<domain>(?:[\.-]|[^\p{P}\s])+\.[a-z]{2,}(?::[0-9]+)?)" + _
-                                    "(?<path>/[a-z0-9!*'();:&=+$/%#\[\]\-_.,~@^]*[a-z0-9)=#/]?)?" + _
-                                    "(?<query>\?[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9_&=#])?)"
+        'Const rgUrl As String = "(?<before>(?:[^\""':!=]|^|\:))" + _
+        '                            "(?<url>(?<protocol>https?://|www\.)" + _
+        '                            "(?<domain>(?:[\.-]|[^\p{P}\s])+\.[a-z]{2,}(?::[0-9]+)?)" + _
+        '                            "(?<path>/[a-z0-9!*'();:&=+$/%#\[\]\-_.,~@^]*[a-z0-9)=#/]?)?" + _
+        '                            "(?<query>\?[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9_&=#])?)"
+        Const url_valid_general_path_chars As String = "[a-z0-9!*';:=+$/%#\[\]\-_,~]"
+        Const url_valid_url_path_ending_chars As String = "[a-z0-9=#/]"
+        Const pth As String = "(?<path>/(?:(?:\(" + url_valid_general_path_chars + "+\))" +
+            "|@" + url_valid_general_path_chars + "+/" +
+            "|[.,]?" + url_valid_general_path_chars +
+            ")*" +
+            url_valid_url_path_ending_chars + "?)?"
+        Const qry As String = "(?<query>\?[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9_&=#])?"
+        Const rgUrl As String = "(?<before>(?:[^\""':!=]|^|\:))" +
+                                    "(?<url>(?<protocol>https?://|www\.)" +
+                                    "(?<domain>(?:[\.-]|[^\p{P}\s])+\.[a-z]{2,}(?::[0-9]+)?)" +
+                                    pth +
+                                    qry +
+                                    ")"
         '絶対パス表現のUriをリンクに置換
-        retStr = Regex.Replace(retStr, rgUrl, New MatchEvaluator(AddressOf AutoLinkUrl), RegexOptions.IgnoreCase)
+        retStr = Regex.Replace(retStr,
+                               rgUrl,
+                               New MatchEvaluator(Function(mu As Match)
+                                                      Dim sb As New StringBuilder(mu.Result("${before}<a href="""))
+                                                      If mu.Result("${protocol}").StartsWith("w", StringComparison.OrdinalIgnoreCase) Then
+                                                          sb.Append("http://")
+                                                      End If
+                                                      sb.Append(mu.Result("${url}"">")).Append(mu.Result("${url}")).Append("</a>")
+                                                      Return sb.ToString
+                                                  End Function),
+                               RegexOptions.IgnoreCase)
 
         '@先をリンクに置換（リスト）
-        retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9_/])([@＠]+)([a-zA-Z0-9_]{1,20}/[a-zA-Z][a-zA-Z0-9\p{IsLatin-1Supplement}\-]{0,79})", "$1$2<a href=""/$3"">$3</a>")
+        retStr = Regex.Replace(retStr,
+                               "(^|[^a-zA-Z0-9_/])([@＠]+)([a-zA-Z0-9_]{1,20}/[a-zA-Z][a-zA-Z0-9\p{IsLatin-1Supplement}\-]{0,79})",
+                               "$1$2<a href=""/$3"">$3</a>")
 
         Dim m As Match = Regex.Match(retStr, "(^|[^a-zA-Z0-9_])[@＠]([a-zA-Z0-9_]{1,20})")
         While m.Success
@@ -2449,19 +2483,48 @@ Public Class Twitter
             m = m.NextMatch
         End While
         '@先をリンクに置換
-        retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9_/])([@＠])([a-zA-Z0-9_]{1,20})", "$1$2<a href=""/$3"">$3</a>")
+        retStr = Regex.Replace(retStr,
+                               "(^|[^a-zA-Z0-9_/])([@＠])([a-zA-Z0-9_]{1,20})",
+                               "$1$2<a href=""/$3"">$3</a>")
 
         'ハッシュタグを抽出し、リンクに置換
-        Dim mhs As MatchCollection = Regex.Matches(retStr, "(^|[^a-zA-Z0-9/&])[#＃]([0-9a-zA-Z_]*[a-zA-Z_]+[a-zA-Z_\xc0-\xd6\xd8-\xf6\xf8-\xff]*)")
-        For Each mt As Match In mhs
-            If Not IsNumeric(mt.Result("$2")) Then
-                'retStr = retStr.Replace(mt.Result("$1") + mt.Result("$2"), "<a href=""" + _protocol + "twitter.com/search?q=%23" + mt.Result("$2") + """>#" + mt.Result("$2") + "</a>")
-                SyncLock LockObj
-                    _hashList.Add("#" + mt.Result("$2"))
-                End SyncLock
+        Dim anchorRange As New List(Of range)
+        For i As Integer = 0 To retStr.Length - 1
+            Dim index As Integer = retStr.IndexOf("<a ", i)
+            If index > -1 AndAlso index < retStr.Length Then
+                i = index
+                Dim toIndex As Integer = retStr.IndexOf("</a>", index)
+                If toIndex > -1 Then
+                    anchorRange.Add(New range(index, toIndex + 4))
+                    i = toIndex
+                End If
             End If
         Next
-        retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9/&])([#＃])([0-9a-zA-Z_]*[a-zA-Z_]+[a-zA-Z0-9_\xc0-\xd6\xd8-\xf6\xf8-\xff]*)", "$1<a href=""" & _protocol & "twitter.com/search?q=%23$3"">$2$3</a>")
+        retStr = Regex.Replace(retStr,
+                               "(^|[^a-zA-Z0-9/&])([#＃])([0-9a-zA-Z_]*[a-zA-Z_]+[a-zA-Z0-9_\xc0-\xd6\xd8-\xf6\xf8-\xff]*)",
+                               New MatchEvaluator(Function(mh As Match)
+                                                      For Each rng As range In anchorRange
+                                                          If mh.Index >= rng.fromIndex AndAlso
+                                                           mh.Index <= rng.toIndex Then Return mh.Result("$0")
+                                                      Next
+                                                      If IsNumeric(mh.Result("$3")) Then Return mh.Result("$0")
+                                                      SyncLock LockObj
+                                                          _hashList.Add("#" + mh.Result("$3"))
+                                                      End SyncLock
+                                                      Return mh.Result("$1") + "<a href=""" & _protocol & "twitter.com/search?q=%23" + mh.Result("$3") + """>" + mh.Result("$2$3") + "</a>"
+                                                  End Function),
+                                              RegexOptions.IgnoreCase)
+
+        'Dim mhs As MatchCollection = Regex.Matches(retStr, "(^|[^a-zA-Z0-9/&])[#＃]([0-9a-zA-Z_]*[a-zA-Z_]+[a-zA-Z_\xc0-\xd6\xd8-\xf6\xf8-\xff]*)")
+        'For Each mt As Match In mhs
+        '    If Not IsNumeric(mt.Result("$2")) Then
+        '        'retStr = retStr.Replace(mt.Result("$1") + mt.Result("$2"), "<a href=""" + _protocol + "twitter.com/search?q=%23" + mt.Result("$2") + """>#" + mt.Result("$2") + "</a>")
+        '        SyncLock LockObj
+        '            _hashList.Add("#" + mt.Result("$2"))
+        '        End SyncLock
+        '    End If
+        'Next
+        'retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9/&])([#＃])([0-9a-zA-Z_]*[a-zA-Z_]+[a-zA-Z0-9_\xc0-\xd6\xd8-\xf6\xf8-\xff]*)", "$1<a href=""" & _protocol & "twitter.com/search?q=%23$3"">$2$3</a>")
 
         retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9_/&#＃@＠>=.])(sm|nm)([0-9]{1,10})", "$1<a href=""http://www.nicovideo.jp/watch/$2$3"">$2$3</a>")
 
@@ -2469,15 +2532,6 @@ Public Class Twitter
 
         retStr = AdjustHtml(ShortUrl.Resolve(PreProcessUrl(retStr))) 'IDN置換、短縮Uri解決、@リンクを相対→絶対にしてtarget属性付与
         Return retStr
-    End Function
-
-    Private Function AutoLinkUrl(ByVal m As Match) As String
-        Dim sb As New StringBuilder(m.Result("${before}<a href="""))
-        If m.Result("${protocol}").StartsWith("w", StringComparison.OrdinalIgnoreCase) Then
-            sb.Append("http://")
-        End If
-        sb.Append(m.Result("${url}"">")).Append(m.Result("${url}")).Append("</a>")
-        Return sb.ToString
     End Function
 
     Public Function GetInfoApi(ByVal info As ApiInfo) As Boolean
