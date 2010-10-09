@@ -1728,11 +1728,13 @@ Public Class Twitter
             End Try
         Next
 
+#If 0 Then
         Dim xNode As XmlNode = xdoc.DocumentElement.SelectSingleNode("/search:feed/twitter:warning", nsmgr)
 
         If xNode IsNot Nothing Then
             Return "Warn:" + xNode.InnerText + "(" + GetCurrentMethod.Name + ")"
         End If
+#End If
 
         Return ""
     End Function
