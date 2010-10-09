@@ -1409,45 +1409,17 @@ Public Class Twitter
         End If
     End Function
 
-    Public Function GetListStatus(ByVal read As Boolean, _
+    Public Overloads Function GetListStatus(ByVal read As Boolean, _
                             ByVal tab As TabClass, _
                             ByVal more As Boolean) As String
 
-        If _endingFlag Then Return ""
-
-        Dim res As HttpStatusCode
-        Dim content As String = ""
-        Dim page As Integer = 0
-        Dim countQuery As Integer = 0
-        Try
-            If more Then
-                res = twCon.GetListsStatuses(tab.ListInfo.UserId.ToString, tab.ListInfo.Id.ToString, _countApi, tab.OldestId, 0, content)
-            Else
-                res = twCon.GetListsStatuses(tab.ListInfo.UserId.ToString, tab.ListInfo.Id.ToString, _countApi, 0, 0, content)
-            End If
-            countQuery = _countApi
-        Catch ex As Exception
-            Return "Err:" + ex.Message
-        End Try
-        Select Case res
-            Case HttpStatusCode.OK
-                Twitter.AccountState = ACCOUNT_STATE.Valid
-            Case HttpStatusCode.Unauthorized
-                Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
-            Case HttpStatusCode.BadRequest
-                Return "Err:API Limits?"
-            Case Else
-                Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
-        End Select
-
-        Return CreatePostsFromXml(content, WORKERTYPE.List, tab, read, countQuery, tab.OldestId)
+        Return GetListStatus(read, tab, more, -1)
     End Function
 
-    Public Function GetListStatusAdditional(ByVal read As Boolean, _
+    Public Overloads Function GetListStatus(ByVal read As Boolean, _
                             ByVal tab As TabClass, _
                             ByVal more As Boolean, _
-                            ByVal addcount As Integer) As String
+                            ByVal count As Integer) As String
 
         If _endingFlag Then Return ""
 
@@ -1456,12 +1428,18 @@ Public Class Twitter
         Dim page As Integer = 0
         Dim countQuery As Integer = 0
         Try
-            If more Then
-                res = twCon.GetListsStatuses(tab.ListInfo.UserId.ToString, tab.ListInfo.Id.ToString, addcount, tab.OldestId, 0, content)
+            Dim cnt As Integer = 0
+            If count < 0 Then
+                cnt = _countApi
             Else
-                res = twCon.GetListsStatuses(tab.ListInfo.UserId.ToString, tab.ListInfo.Id.ToString, addcount, 0, 0, content)
+                cnt = count
             End If
-            countQuery = addcount
+            If more Then
+                res = twCon.GetListsStatuses(tab.ListInfo.UserId.ToString, tab.ListInfo.Id.ToString, cnt, tab.OldestId, 0, content)
+            Else
+                res = twCon.GetListsStatuses(tab.ListInfo.UserId.ToString, tab.ListInfo.Id.ToString, cnt, 0, 0, content)
+            End If
+            countQuery = cnt
         Catch ex As Exception
             Return "Err:" + ex.Message
         End Try
@@ -1619,8 +1597,6 @@ Public Class Twitter
                 Throw
             End Try
         Next
-
-        'If _ApiMethod = MySocket.REQ_TYPE.ReqGetAPI Then _remainCountApi = sck.RemainCountApi
 
         Return ""
     End Function

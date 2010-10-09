@@ -2032,7 +2032,7 @@ Public Class TweenMain
                     If _FirstListsRefreshFlags AndAlso SettingDialog.UseAdditionalCount AndAlso Not SettingDialog.FirstCountApi = 0 Then
                         _FirstListsRefreshFlags = False
                         For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.Lists)
-                            If tb.ListInfo IsNot Nothing AndAlso tb.ListInfo.Id <> 0 Then ret = tw.GetListStatusAdditional(read, tb, False, SettingDialog.FirstCountApi)
+                            If tb.ListInfo IsNot Nothing AndAlso tb.ListInfo.Id <> 0 Then ret = tw.GetListStatus(read, tb, False, SettingDialog.FirstCountApi)
                         Next
                     Else
                         For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.Lists)
@@ -2044,7 +2044,7 @@ Public Class TweenMain
                     If tb IsNot Nothing Then
                         If _UseAdditionalFlags AndAlso Not SettingDialog.MoreCountApi = 0 Then
                             _UseAdditionalFlags = False
-                            ret = tw.GetListStatusAdditional(read, tb, args.page = -1, SettingDialog.MoreCountApi)
+                            ret = tw.GetListStatus(read, tb, args.page = -1, SettingDialog.MoreCountApi)
                         Else
                             ret = tw.GetListStatus(read, tb, args.page = -1)
                         End If
