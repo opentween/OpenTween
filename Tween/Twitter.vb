@@ -72,7 +72,6 @@ Public Class Twitter
     Private minMentions As Long = Long.MaxValue
     Private minDirectmessage As Long = Long.MaxValue
     Private minDirectmessageSent As Long = Long.MaxValue
-    Private minFavorites As Long = Long.MaxValue
 
     Private twCon As New HttpTwitter
 
@@ -1911,10 +1910,10 @@ Public Class Twitter
             Dim post As New PostClass
             Try
                 post.Id = Long.Parse(xentry.Item("id").InnerText)
-                If minFavorites > post.Id Then minFavorites = post.Id
                 '二重取得回避
                 SyncLock LockObj
-                    If TabInformations.GetInstance.ContainsKey(post.Id) Then Continue For
+                    'If TabInformations.GetInstance.ContainsKey(post.Id) Then Continue For
+                    If TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites).Posts.ContainsKey(post.Id) Then Continue For
                 End SyncLock
                 'Retweet判定
                 Dim xRnode As XmlNode = xentry.SelectSingleNode("./retweeted_status")
