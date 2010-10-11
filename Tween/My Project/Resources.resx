@@ -946,9 +946,6 @@
   <data name="Description" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\description.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="BasicAuthWarning" xml:space="preserve">
-    <value>認証モードがBASIC認証になっています。{0}BASIC認証の終了後はTwitterへログインすることはできません。{0}xAuthを使用してください。</value>
-  </data>
   <data name="ListManageDeleteLists1" xml:space="preserve">
     <value>このリストを削除してもよろしいですか？</value>
   </data>

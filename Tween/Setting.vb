@@ -1829,7 +1829,6 @@ Public Class Setting
             Me.AuthStateLabel.Enabled = False
             Me.AuthUserLabel.Enabled = False
             Me.AuthClearButton.Enabled = False
-            MessageBox.Show(String.Format(My.Resources.BasicAuthWarning, Environment.NewLine))
         Else
             tw.Initialize("", "", "")
             Me.AuthStateLabel.Enabled = True
@@ -2036,6 +2035,10 @@ Public Class Setting
             e.Cancel = True
             Exit Sub
         End If
+    End Sub
+
+    Private Sub CheckEnaleBasicAuth_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckEnaleBasicAuth.CheckedChanged
+        AuthBasicRadio.Enabled = CheckEnaleBasicAuth.Checked
     End Sub
 End Class
 
