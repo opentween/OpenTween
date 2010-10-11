@@ -246,6 +246,7 @@ Partial Class Setting
         Me.Label59 = New System.Windows.Forms.Label()
         Me.TextBoxOutputzKey = New System.Windows.Forms.TextBox()
         Me.CheckOutputz = New System.Windows.Forms.CheckBox()
+        Me.CheckEnaleBasicAuth = New System.Windows.Forms.CheckBox()
         Me.GroupBox1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
@@ -1505,6 +1506,7 @@ Partial Class Setting
         '
         'TabPage5
         '
+        Me.TabPage5.Controls.Add(Me.CheckEnaleBasicAuth)
         Me.TabPage5.Controls.Add(Me.TwitterSearchAPIText)
         Me.TabPage5.Controls.Add(Me.Label31)
         Me.TabPage5.Controls.Add(Me.TwitterAPIText)
@@ -1718,6 +1720,12 @@ Partial Class Setting
         resources.ApplyResources(Me.CheckOutputz, "CheckOutputz")
         Me.CheckOutputz.Name = "CheckOutputz"
         Me.CheckOutputz.UseVisualStyleBackColor = True
+        '
+        'CheckEnaleBasicAuth
+        '
+        resources.ApplyResources(Me.CheckEnaleBasicAuth, "CheckEnaleBasicAuth")
+        Me.CheckEnaleBasicAuth.Name = "CheckEnaleBasicAuth"
+        Me.CheckEnaleBasicAuth.UseVisualStyleBackColor = True
         '
         'Setting
         '
@@ -1977,4 +1985,5 @@ Partial Class Setting
     Friend WithEvents GetMoreTextCountApi As System.Windows.Forms.TextBox
     Friend WithEvents Label53 As System.Windows.Forms.Label
     Friend WithEvents FirstTextCountApi As System.Windows.Forms.TextBox
+    Friend WithEvents CheckEnaleBasicAuth As System.Windows.Forms.CheckBox
 End Class

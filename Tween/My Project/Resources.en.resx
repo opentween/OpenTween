@@ -744,9 +744,6 @@
   <data name="ApiInfo6" xml:space="preserve">
     <value>Getting Api Information...</value>
   </data>
-  <data name="BasicAuthWarning" xml:space="preserve">
-    <value>The auth mode is BASIC.{0}BASIC auth will terminate in Aug 2010 and will not be able to sign in.{0}Please change to xAuth mode.</value>
-  </data>
   <data name="ButtonBlockDestroy_ClickText1" xml:space="preserve">
     <value> : Unblock this user?</value>
   </data>

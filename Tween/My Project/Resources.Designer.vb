@@ -251,15 +251,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  認証モードがBASIC認証になっています。{0}BASIC認証の終了後はTwitterへログインすることはできません。{0}xAuthを使用してください。 に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property BasicAuthWarning() As String
-            Get
-                Return ResourceManager.GetString("BasicAuthWarning", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  実行形式ファイル(*.exe)|*.exe|すべてのファイル(*.*)|*.* に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property Button3_ClickText1() As String
