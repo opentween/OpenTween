@@ -2409,9 +2409,16 @@ Public Class TweenMain
 
         '複数fav確認msg
         If _curList.SelectedIndices.Count > 1 Then
-            If MessageBox.Show(My.Resources.FavAddToolStripMenuItem_ClickText1, My.Resources.FavAddToolStripMenuItem_ClickText2, _
-                               MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
-                Exit Sub
+            If FavAdd Then
+                If MessageBox.Show(My.Resources.FavAddToolStripMenuItem_ClickText1, My.Resources.FavAddToolStripMenuItem_ClickText2, _
+                                   MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
+                    Exit Sub
+                End If
+            Else
+                If MessageBox.Show(My.Resources.FavRemoveToolStripMenuItem_ClickText1, My.Resources.FavRemoveToolStripMenuItem_ClickText2, _
+                                MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
+                    Exit Sub
+                End If
             End If
         End If
 
@@ -2419,21 +2426,21 @@ Public Class TweenMain
         args.ids = New List(Of Long)
         args.sIds = New List(Of Long)
         args.tName = _curTab.Text
-        If FavAdd = True Then
+        If FavAdd Then
             args.type = WORKERTYPE.FavAdd
         Else
             args.type = WORKERTYPE.FavRemove
         End If
         For Each idx As Integer In _curList.SelectedIndices
             Dim post As PostClass = GetCurTabPost(idx)
-            If FavAdd = True Then
+            If FavAdd Then
                 If Not post.IsFav Then args.ids.Add(post.Id)
             Else
                 If post.IsFav Then args.ids.Add(post.Id)
             End If
         Next
         If args.ids.Count = 0 Then
-            If FavAdd = True Then
+            If FavAdd Then
                 StatusLabel.Text = My.Resources.FavAddToolStripMenuItem_ClickText4
             Else
                 StatusLabel.Text = My.Resources.FavRemoveToolStripMenuItem_ClickText4
