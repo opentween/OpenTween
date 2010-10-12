@@ -2472,7 +2472,7 @@ Public Class Twitter
                 i = index
                 Dim toIndex As Integer = retStr.IndexOf("</a>", index)
                 If toIndex > -1 Then
-                    anchorRange.Add(New range(index, toIndex + 4))
+                    anchorRange.Add(New range(index, toIndex + 3))
                     i = toIndex
                 End If
             End If
