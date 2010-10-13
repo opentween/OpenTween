@@ -4560,6 +4560,14 @@ RETRY:
                 e.Handled = True
                 e.SuppressKeyPress = True
                 CopyStot()
+            ElseIf e.KeyCode = Keys.J AndAlso Not e.Alt Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                SendKeys.Send("{DOWN}")
+            ElseIf e.KeyCode = Keys.K AndAlso Not e.Alt Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                SendKeys.Send("{UP}")
             End If
 
             ' Webページを開く動作
@@ -4652,6 +4660,14 @@ RETRY:
                 e.Handled = True
                 e.SuppressKeyPress = True
                 MoveMiddle()
+            ElseIf e.KeyCode = Keys.J AndAlso Not e.Alt Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                SendKeys.Send("{DOWN}")
+            ElseIf e.KeyCode = Keys.K AndAlso Not e.Alt Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                SendKeys.Send("{UP}")
             End If
 
             ' お気に入り前後ジャンプ(SHIFT+N←/P→)
