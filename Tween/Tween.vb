@@ -3920,7 +3920,7 @@ Public Class TweenMain
                 End If
             Next
 
-            Dim iconRect As Rectangle = Rectangle.Intersect(e.Item.GetBounds(ItemBoundsPortion.Icon), itemRect)
+            Dim iconRect As Rectangle = Rectangle.Intersect(New Rectangle(e.Item.GetBounds(ItemBoundsPortion.Icon).Location, New Size(_iconSz, _iconSz)), itemRect)
             If iconRect.Width > 0 Then
                 e.Graphics.InterpolationMode = Drawing2D.InterpolationMode.High
                 e.Graphics.DrawImage(Me.TIconDic(e.Item.ImageKey), iconRect)
