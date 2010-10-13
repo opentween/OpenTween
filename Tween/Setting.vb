@@ -121,6 +121,7 @@ Public Class Setting
     Private _MoreCountApi As Integer
     Private _FirstCountApi As Integer
     Private _MyUseAdditonalCount As Boolean
+    Private _SearchCountApi As Integer
 
     Private _ValidationError As Boolean = False
 
@@ -308,6 +309,7 @@ Public Class Setting
             _MyUseAdditonalCount = UseChangeGetCount.Checked
             _MoreCountApi = CType(GetMoreTextCountApi.Text, Integer)
             _FirstCountApi = CType(FirstTextCountApi.Text, Integer)
+            _SearchCountApi = CType(SearchTextCountApi.Text, Integer)
         Catch ex As Exception
             MessageBox.Show(My.Resources.Save_ClickText3)
             Me.DialogResult = Windows.Forms.DialogResult.Cancel
@@ -555,10 +557,13 @@ Public Class Setting
 
         UseChangeGetCount.Checked = _MyUseAdditonalCount
         Label53.Enabled = UseChangeGetCount.Checked
+        Label66.Enabled = UseChangeGetCount.Checked
         GetMoreTextCountApi.Text = _MoreCountApi.ToString
         FirstTextCountApi.Text = _FirstCountApi.ToString
+        SearchTextCountApi.Text = _SearchCountApi.ToString
         GetMoreTextCountApi.Enabled = UseChangeGetCount.Checked
         FirstTextCountApi.Enabled = UseChangeGetCount.Checked
+        SearchTextCountApi.Enabled = UseChangeGetCount.Checked
     End Sub
 
     Private Sub TimelinePeriod_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles TimelinePeriod.Validating
@@ -1127,6 +1132,15 @@ Public Class Setting
         End Get
         Set(ByVal value As Integer)
             _FirstCountApi = value
+        End Set
+    End Property
+
+    Public Property SearchCountApi() As Integer
+        Get
+            Return _SearchCountApi
+        End Get
+        Set(ByVal value As Integer)
+            _SearchCountApi = value
         End Set
     End Property
 
@@ -2018,6 +2032,8 @@ Public Class Setting
         GetMoreTextCountApi.Enabled = UseChangeGetCount.Checked
         FirstTextCountApi.Enabled = UseChangeGetCount.Checked
         Label53.Enabled = UseChangeGetCount.Checked
+        Label66.Enabled = UseChangeGetCount.Checked
+        SearchTextCountApi.Enabled = UseChangeGetCount.Checked
     End Sub
 
     Private Sub FirstTextCountApi_Validating(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles FirstTextCountApi.Validating
@@ -2039,6 +2055,23 @@ Public Class Setting
 
     Private Sub CheckEnaleBasicAuth_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckEnaleBasicAuth.CheckedChanged
         AuthBasicRadio.Enabled = CheckEnaleBasicAuth.Checked
+    End Sub
+
+    Private Sub SearchTextCountApi_Validating(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles SearchTextCountApi.Validating
+        Dim cnt As Integer
+        Try
+            cnt = Integer.Parse(FirstTextCountApi.Text)
+        Catch ex As Exception
+            MessageBox.Show(My.Resources.TextCountApi_Validating1)
+            e.Cancel = True
+            Exit Sub
+        End Try
+
+        If Not cnt = 0 AndAlso (cnt < 20 OrElse cnt > 200) Then
+            MessageBox.Show(My.Resources.TextCountApi_Validating1)
+            e.Cancel = True
+            Exit Sub
+        End If
     End Sub
 End Class
 

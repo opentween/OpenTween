@@ -1602,7 +1602,8 @@ Public Class Twitter
 
     Public Function GetSearch(ByVal read As Boolean, _
                             ByVal tab As TabClass, _
-                            ByVal more As Boolean) As String
+                            ByVal more As Boolean, _
+                            ByVal count As Integer) As String
 
         If _endingFlag Then Return ""
 
@@ -1618,7 +1619,7 @@ Public Class Twitter
 
         Try
             ' TODO:一時的に40>100件に 件数変更UI作成の必要あり
-            res = twCon.Search(tab.SearchWords, tab.SearchLang, 100, page, sinceId, content)
+            res = twCon.Search(tab.SearchWords, tab.SearchLang, count, page, sinceId, content)
         Catch ex As Exception
             Return "Err:" + ex.Message
         End Try

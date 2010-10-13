@@ -168,4 +168,5 @@ Public Class SettingCommon
     Public UseAdditionalCount As Boolean = False
     Public MoreCountApi As Integer = 200
     Public FirstCountApi As Integer = 100
+    Public SearchCountApi As Integer = 100
 End Class
