@@ -214,6 +214,7 @@ Partial Class Setting
         Me.chkUnreadStyle = New System.Windows.Forms.CheckBox()
         Me.TabPage4 = New System.Windows.Forms.TabPage()
         Me.TabPage5 = New System.Windows.Forms.TabPage()
+        Me.CheckEnaleBasicAuth = New System.Windows.Forms.CheckBox()
         Me.TwitterSearchAPIText = New System.Windows.Forms.TextBox()
         Me.Label31 = New System.Windows.Forms.Label()
         Me.TwitterAPIText = New System.Windows.Forms.TextBox()
@@ -246,7 +247,8 @@ Partial Class Setting
         Me.Label59 = New System.Windows.Forms.Label()
         Me.TextBoxOutputzKey = New System.Windows.Forms.TextBox()
         Me.CheckOutputz = New System.Windows.Forms.CheckBox()
-        Me.CheckEnaleBasicAuth = New System.Windows.Forms.CheckBox()
+        Me.Label66 = New System.Windows.Forms.Label()
+        Me.SearchTextCountApi = New System.Windows.Forms.TextBox()
         Me.GroupBox1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
@@ -1520,6 +1522,12 @@ Partial Class Setting
         Me.TabPage5.Name = "TabPage5"
         Me.TabPage5.UseVisualStyleBackColor = True
         '
+        'CheckEnaleBasicAuth
+        '
+        resources.ApplyResources(Me.CheckEnaleBasicAuth, "CheckEnaleBasicAuth")
+        Me.CheckEnaleBasicAuth.Name = "CheckEnaleBasicAuth"
+        Me.CheckEnaleBasicAuth.UseVisualStyleBackColor = True
+        '
         'TwitterSearchAPIText
         '
         resources.ApplyResources(Me.TwitterSearchAPIText, "TwitterSearchAPIText")
@@ -1651,6 +1659,8 @@ Partial Class Setting
         '
         'TabPage6
         '
+        Me.TabPage6.Controls.Add(Me.SearchTextCountApi)
+        Me.TabPage6.Controls.Add(Me.Label66)
         Me.TabPage6.Controls.Add(Me.FirstTextCountApi)
         Me.TabPage6.Controls.Add(Me.GetMoreTextCountApi)
         Me.TabPage6.Controls.Add(Me.Label53)
@@ -1721,11 +1731,15 @@ Partial Class Setting
         Me.CheckOutputz.Name = "CheckOutputz"
         Me.CheckOutputz.UseVisualStyleBackColor = True
         '
-        'CheckEnaleBasicAuth
+        'Label66
         '
-        resources.ApplyResources(Me.CheckEnaleBasicAuth, "CheckEnaleBasicAuth")
-        Me.CheckEnaleBasicAuth.Name = "CheckEnaleBasicAuth"
-        Me.CheckEnaleBasicAuth.UseVisualStyleBackColor = True
+        resources.ApplyResources(Me.Label66, "Label66")
+        Me.Label66.Name = "Label66"
+        '
+        'SearchTextCountApi
+        '
+        resources.ApplyResources(Me.SearchTextCountApi, "SearchTextCountApi")
+        Me.SearchTextCountApi.Name = "SearchTextCountApi"
         '
         'Setting
         '
@@ -1986,4 +2000,6 @@ Partial Class Setting
     Friend WithEvents Label53 As System.Windows.Forms.Label
     Friend WithEvents FirstTextCountApi As System.Windows.Forms.TextBox
     Friend WithEvents CheckEnaleBasicAuth As System.Windows.Forms.CheckBox
+    Friend WithEvents SearchTextCountApi As System.Windows.Forms.TextBox
+    Friend WithEvents Label66 As System.Windows.Forms.Label
 End Class

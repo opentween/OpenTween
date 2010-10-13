@@ -751,6 +751,7 @@ Public Class TweenMain
         SettingDialog.UseAdditionalCount = _cfgCommon.UseAdditionalCount
         SettingDialog.MoreCountApi = _cfgCommon.MoreCountApi
         SettingDialog.FirstCountApi = _cfgCommon.FirstCountApi
+        SettingDialog.SearchCountApi = _cfgCommon.SearchCountApi
         If _cfgCommon.UseAdditionalCount Then
             _FirstRefreshFlags = True
             _FirstListsRefreshFlags = True
@@ -2010,17 +2011,23 @@ Public Class TweenMain
                 ret = tw.GetFavoritesApi(read, args.type)
                 rslt.addCount = _statuses.DistributePosts()
             Case WORKERTYPE.PublicSearch
+                Dim GetCount As Integer
+                If SettingDialog.UseAdditionalCount Then
+                    GetCount = SettingDialog.SearchCountApi
+                Else
+                    GetCount = 100
+                End If
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
                 If args.tName = "" Then
                     For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.PublicSearch)
-                        If tb.SearchWords <> "" Then ret = tw.GetSearch(read, tb, False)
+                        If tb.SearchWords <> "" Then ret = tw.GetSearch(read, tb, False, GetCount)
                     Next
                 Else
                     Dim tb As TabClass = _statuses.GetTabByName(args.tName)
                     If tb IsNot Nothing Then
-                        ret = tw.GetSearch(read, tb, False)
+                        ret = tw.GetSearch(read, tb, False, GetCount)
                         If ret = "" AndAlso args.page = -1 Then
-                            ret = tw.GetSearch(read, tb, True)
+                            ret = tw.GetSearch(read, tb, True, GetCount)
                         End If
                     End If
                 End If
@@ -5570,6 +5577,7 @@ RETRY:
             _cfgCommon.UseAdditionalCount = SettingDialog.UseAdditionalCount
             _cfgCommon.MoreCountApi = SettingDialog.MoreCountApi
             _cfgCommon.FirstCountApi = SettingDialog.FirstCountApi
+            _cfgCommon.SearchCountApi = SettingDialog.SearchCountApi
 
             _cfgCommon.Save()
         End SyncLock
