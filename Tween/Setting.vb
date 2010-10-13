@@ -2067,7 +2067,7 @@ Public Class Setting
             Exit Sub
         End Try
 
-        If Not cnt = 0 AndAlso (cnt < 20 OrElse cnt > 200) Then
+        If cnt < 20 OrElse cnt > 200 Then
             MessageBox.Show(My.Resources.TextCountApi_Validating1)
             e.Cancel = True
             Exit Sub
