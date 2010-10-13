@@ -574,6 +574,7 @@ Public Class TweenMain
         ' StringFormatオブジェクトへの事前設定
         sf.Alignment = StringAlignment.Near
         sf.LineAlignment = StringAlignment.Near
+        sf.FormatFlags = StringFormatFlags.LineLimit
         sfTab.Alignment = StringAlignment.Center
         sfTab.LineAlignment = StringAlignment.Center
 
@@ -3844,8 +3845,17 @@ Public Class TweenMain
             rctB.Width = e.Header.Width
             If _iconCol Then rctB.Height = e.Item.Font.Height
 
-            Dim heightDiff As Integer = CType(rct.Height Mod CType(e.Item.Font.Height, Single), Integer)
-            rct.Inflate(0, CType(heightDiff / -2, Integer))
+            Dim heightDiff As Integer
+            Dim drawLineCount As Integer = Math.Max(1, Math.DivRem(CType(rct.Height, Integer), e.Item.Font.Height, heightDiff))
+
+            'フォントの高さの半分を足してるのは保険。無くてもいいかも。
+            If Not _iconCol AndAlso drawLineCount <= 1 Then
+                rct.Inflate(0, CType(heightDiff / -2, Integer))
+                rct.Height += CType(e.Item.Font.Height / 2, Integer)
+            Else
+                rct.Height = CType((e.Item.Font.Height * drawLineCount) + (e.Item.Font.Height / 2), Single)
+            End If
+
             If Not e.Item.Selected Then     'e.ItemStateでうまく判定できない？？？
                 '選択されていない行
                 '文字色
