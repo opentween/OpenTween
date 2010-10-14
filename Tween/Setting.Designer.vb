@@ -249,8 +249,6 @@ Partial Class Setting
         Me.Label59 = New System.Windows.Forms.Label()
         Me.TextBoxOutputzKey = New System.Windows.Forms.TextBox()
         Me.CheckOutputz = New System.Windows.Forms.CheckBox()
-        Me.Label70 = New System.Windows.Forms.Label()
-        Me.FavorareUrlText = New System.Windows.Forms.TextBox()
         Me.GroupBox1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
@@ -1510,8 +1508,6 @@ Partial Class Setting
         '
         'TabPage5
         '
-        Me.TabPage5.Controls.Add(Me.FavorareUrlText)
-        Me.TabPage5.Controls.Add(Me.Label70)
         Me.TabPage5.Controls.Add(Me.CheckEnaleBasicAuth)
         Me.TabPage5.Controls.Add(Me.TwitterSearchAPIText)
         Me.TabPage5.Controls.Add(Me.Label31)
@@ -1744,16 +1740,6 @@ Partial Class Setting
         resources.ApplyResources(Me.CheckOutputz, "CheckOutputz")
         Me.CheckOutputz.Name = "CheckOutputz"
         Me.CheckOutputz.UseVisualStyleBackColor = True
-        '
-        'Label70
-        '
-        resources.ApplyResources(Me.Label70, "Label70")
-        Me.Label70.Name = "Label70"
-        '
-        'FavorareUrlText
-        '
-        resources.ApplyResources(Me.FavorareUrlText, "FavorareUrlText")
-        Me.FavorareUrlText.Name = "FavorareUrlText"
         '
         'Setting
         '
@@ -2016,6 +2002,4 @@ Partial Class Setting
     Friend WithEvents CheckEnaleBasicAuth As System.Windows.Forms.CheckBox
     Friend WithEvents SearchTextCountApi As System.Windows.Forms.TextBox
     Friend WithEvents Label66 As System.Windows.Forms.Label
-    Friend WithEvents FavorareUrlText As System.Windows.Forms.TextBox
-    Friend WithEvents Label70 As System.Windows.Forms.Label
 End Class

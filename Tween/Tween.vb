@@ -753,7 +753,6 @@ Public Class TweenMain
         SettingDialog.MoreCountApi = _cfgCommon.MoreCountApi
         SettingDialog.FirstCountApi = _cfgCommon.FirstCountApi
         SettingDialog.SearchCountApi = _cfgCommon.SearchCountApi
-        SettingDialog.FavorareUrl = _cfgCommon.FavorareUrl
         If _cfgCommon.UseAdditionalCount Then
             _FirstRefreshFlags = True
             _FirstListsRefreshFlags = True
@@ -4184,13 +4183,7 @@ RETRY:
     Private Sub FavorareMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles FavorareMenuItem.Click, OpenFavotterOpMenuItem.Click
         If _curList.SelectedIndices.Count > 0 Then
             Dim post As PostClass = _statuses.Item(_curTab.Text, _curList.SelectedIndices(0))
-            Dim UrlData As String = SettingDialog.FavorareUrl
-            If UrlData <> "" OrElse UrlData IsNot Nothing Then
-                UrlData = UrlData.Replace("{ID}", post.Name)
-                OpenUriAsync(UrlData)
-            Else
                 OpenUriAsync(My.Resources.FavstarUrl + "users/" + post.Name + "/recent")
-            End If
         End If
     End Sub
 
@@ -5615,7 +5608,6 @@ RETRY:
             _cfgCommon.MoreCountApi = SettingDialog.MoreCountApi
             _cfgCommon.FirstCountApi = SettingDialog.FirstCountApi
             _cfgCommon.SearchCountApi = SettingDialog.SearchCountApi
-            _cfgCommon.FavorareUrl = SettingDialog.FavorareUrl
 
             _cfgCommon.Save()
         End SyncLock
