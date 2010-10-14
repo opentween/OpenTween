@@ -3941,6 +3941,7 @@ Public Class TweenMain
 
             Dim iconRect As Rectangle = Rectangle.Intersect(New Rectangle(e.Item.GetBounds(ItemBoundsPortion.Icon).Location, New Size(_iconSz, _iconSz)), itemRect)
             If iconRect.Width > 0 Then
+                e.Graphics.FillRectangle(Brushes.White, iconRect)
                 e.Graphics.InterpolationMode = Drawing2D.InterpolationMode.High
                 e.Graphics.DrawImage(Me.TIconDic(e.Item.ImageKey), iconRect)
             End If

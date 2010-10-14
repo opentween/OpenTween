@@ -149,6 +149,7 @@ Partial Class ListManage
         '
         'UserIcon
         '
+        Me.UserIcon.BackColor = System.Drawing.Color.White
         Me.UserIcon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         resources.ApplyResources(Me.UserIcon, "UserIcon")
         Me.UserIcon.Name = "UserIcon"
