@@ -976,6 +976,6 @@
     <value>前データの更新/初回の更新</value>
   </data>
   <data name="UseChangeGetCount.Text" xml:space="preserve">
-    <value>前データ、並びに初回の更新の取得数を個別に設定する</value>
+    <value>次の項目の更新時の取得数を個別に設定する</value>
   </data>
 </root>

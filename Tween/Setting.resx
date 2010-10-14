@@ -5325,54 +5325,6 @@
   <data name="&gt;&gt;TabPage4.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="FavorareUrlText.Location" type="System.Drawing.Point, System.Drawing">
-    <value>153, 365</value>
-  </data>
-  <data name="FavorareUrlText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>224, 19</value>
-  </data>
-  <data name="FavorareUrlText.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="&gt;&gt;FavorareUrlText.Name" xml:space="preserve">
-    <value>FavorareUrlText</value>
-  </data>
-  <data name="&gt;&gt;FavorareUrlText.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;FavorareUrlText.Parent" xml:space="preserve">
-    <value>TabPage5</value>
-  </data>
-  <data name="&gt;&gt;FavorareUrlText.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="Label70.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label70.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 350</value>
-  </data>
-  <data name="Label70.Size" type="System.Drawing.Size, System.Drawing">
-    <value>291, 12</value>
-  </data>
-  <data name="Label70.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="Label70.Text" xml:space="preserve">
-    <value>ふぁぼられのURL先（ユーザーIDの部分に{ID}を入れてください)</value>
-  </data>
-  <data name="&gt;&gt;Label70.Name" xml:space="preserve">
-    <value>Label70</value>
-  </data>
-  <data name="&gt;&gt;Label70.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label70.Parent" xml:space="preserve">
-    <value>TabPage5</value>
-  </data>
-  <data name="&gt;&gt;Label70.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="CheckEnaleBasicAuth.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -5398,7 +5350,7 @@
     <value>TabPage5</value>
   </data>
   <data name="&gt;&gt;CheckEnaleBasicAuth.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>0</value>
   </data>
   <data name="TwitterSearchAPIText.Location" type="System.Drawing.Point, System.Drawing">
     <value>252, 293</value>
@@ -5422,7 +5374,7 @@
     <value>TabPage5</value>
   </data>
   <data name="&gt;&gt;TwitterSearchAPIText.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>1</value>
   </data>
   <data name="Label31.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -5452,7 +5404,7 @@
     <value>TabPage5</value>
   </data>
   <data name="&gt;&gt;Label31.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>2</value>
   </data>
   <data name="TwitterAPIText.Location" type="System.Drawing.Point, System.Drawing">
     <value>252, 268</value>
@@ -5476,7 +5428,7 @@
     <value>TabPage5</value>
   </data>
   <data name="&gt;&gt;TwitterAPIText.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>3</value>
   </data>
   <data name="Label8.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -5506,7 +5458,7 @@
     <value>TabPage5</value>
   </data>
   <data name="&gt;&gt;Label8.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>4</value>
   </data>
   <data name="CheckUseSsl.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -5533,7 +5485,7 @@
     <value>TabPage5</value>
   </data>
   <data name="&gt;&gt;CheckUseSsl.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>5</value>
   </data>
   <data name="Label64.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -5563,7 +5515,7 @@
     <value>TabPage5</value>
   </data>
   <data name="&gt;&gt;Label64.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>6</value>
   </data>
   <data name="ConnectionTimeOut.Location" type="System.Drawing.Point, System.Drawing">
     <value>234, 186</value>
@@ -5584,7 +5536,7 @@
     <value>TabPage5</value>
   </data>
   <data name="&gt;&gt;ConnectionTimeOut.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>7</value>
   </data>
   <data name="Label63.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -5611,7 +5563,7 @@
     <value>TabPage5</value>
   </data>
   <data name="&gt;&gt;Label63.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>8</value>
   </data>
   <data name="Label55.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -5935,7 +5887,7 @@
     <value>TabPage5</value>
   </data>
   <data name="&gt;&gt;GroupBox2.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>9</value>
   </data>
   <data name="TabPage5.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
@@ -6088,13 +6040,13 @@
     <value>15, 183</value>
   </data>
   <data name="UseChangeGetCount.Size" type="System.Drawing.Size, System.Drawing">
-    <value>292, 16</value>
+    <value>247, 16</value>
   </data>
   <data name="UseChangeGetCount.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
   </data>
   <data name="UseChangeGetCount.Text" xml:space="preserve">
-    <value>前データ、並びに初回の更新の取得数を個別に設定する</value>
+    <value>次の項目の更新時の取得数を個別に設定する</value>
   </data>
   <data name="&gt;&gt;UseChangeGetCount.Name" xml:space="preserve">
     <value>UseChangeGetCount</value>

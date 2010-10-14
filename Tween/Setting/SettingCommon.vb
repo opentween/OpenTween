@@ -169,5 +169,4 @@ Public Class SettingCommon
     Public MoreCountApi As Integer = 200
     Public FirstCountApi As Integer = 100
     Public SearchCountApi As Integer = 100
-    Public FavorareUrl As String = "http://favstar.fm/users/{ID}/recent"
 End Class
