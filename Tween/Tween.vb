@@ -3852,6 +3852,11 @@ Public Class TweenMain
             Dim heightDiff As Integer
             Dim drawLineCount As Integer = Math.Max(1, Math.DivRem(CType(rct.Height, Integer), e.Item.Font.Height, heightDiff))
 
+            If heightDiff > e.Item.Font.Height * 0.7 Then
+                rct.Height += e.Item.Font.Height
+                drawLineCount += 1
+            End If
+
             'フォントの高さの半分を足してるのは保険。無くてもいいかも。
             If Not _iconCol AndAlso drawLineCount <= 1 Then
                 rct.Inflate(0, CType(heightDiff / -2, Integer))
