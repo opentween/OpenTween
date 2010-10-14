@@ -122,6 +122,7 @@ Public Class Setting
     Private _FirstCountApi As Integer
     Private _MyUseAdditonalCount As Boolean
     Private _SearchCountApi As Integer
+    Private _FavorareUrl As String
 
     Private _ValidationError As Boolean = False
 
@@ -310,6 +311,7 @@ Public Class Setting
             _MoreCountApi = CType(GetMoreTextCountApi.Text, Integer)
             _FirstCountApi = CType(FirstTextCountApi.Text, Integer)
             _SearchCountApi = CType(SearchTextCountApi.Text, Integer)
+            _FavorareUrl = FavorareUrlText.Text
         Catch ex As Exception
             MessageBox.Show(My.Resources.Save_ClickText3)
             Me.DialogResult = Windows.Forms.DialogResult.Cancel
@@ -564,6 +566,8 @@ Public Class Setting
         GetMoreTextCountApi.Enabled = UseChangeGetCount.Checked
         FirstTextCountApi.Enabled = UseChangeGetCount.Checked
         SearchTextCountApi.Enabled = UseChangeGetCount.Checked
+
+        FavorareUrlText.Text = _FavorareUrl.ToString
     End Sub
 
     Private Sub TimelinePeriod_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles TimelinePeriod.Validating
@@ -1532,6 +1536,15 @@ Public Class Setting
         End Get
         Set(ByVal value As Boolean)
             _MyPreviewEnable = value
+        End Set
+    End Property
+
+    Public Property FavorareUrl() As String
+        Get
+            Return _FavorareUrl
+        End Get
+        Set(ByVal value As String)
+            _FavorareUrl = value
         End Set
     End Property
 

@@ -237,6 +237,8 @@ Partial Class Setting
         Me.RadioProxyIE = New System.Windows.Forms.RadioButton()
         Me.RadioProxyNone = New System.Windows.Forms.RadioButton()
         Me.TabPage6 = New System.Windows.Forms.TabPage()
+        Me.SearchTextCountApi = New System.Windows.Forms.TextBox()
+        Me.Label66 = New System.Windows.Forms.Label()
         Me.FirstTextCountApi = New System.Windows.Forms.TextBox()
         Me.GetMoreTextCountApi = New System.Windows.Forms.TextBox()
         Me.Label53 = New System.Windows.Forms.Label()
@@ -247,8 +249,8 @@ Partial Class Setting
         Me.Label59 = New System.Windows.Forms.Label()
         Me.TextBoxOutputzKey = New System.Windows.Forms.TextBox()
         Me.CheckOutputz = New System.Windows.Forms.CheckBox()
-        Me.Label66 = New System.Windows.Forms.Label()
-        Me.SearchTextCountApi = New System.Windows.Forms.TextBox()
+        Me.Label70 = New System.Windows.Forms.Label()
+        Me.FavorareUrlText = New System.Windows.Forms.TextBox()
         Me.GroupBox1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
@@ -1508,6 +1510,8 @@ Partial Class Setting
         '
         'TabPage5
         '
+        Me.TabPage5.Controls.Add(Me.FavorareUrlText)
+        Me.TabPage5.Controls.Add(Me.Label70)
         Me.TabPage5.Controls.Add(Me.CheckEnaleBasicAuth)
         Me.TabPage5.Controls.Add(Me.TwitterSearchAPIText)
         Me.TabPage5.Controls.Add(Me.Label31)
@@ -1675,6 +1679,16 @@ Partial Class Setting
         Me.TabPage6.Name = "TabPage6"
         Me.TabPage6.UseVisualStyleBackColor = True
         '
+        'SearchTextCountApi
+        '
+        resources.ApplyResources(Me.SearchTextCountApi, "SearchTextCountApi")
+        Me.SearchTextCountApi.Name = "SearchTextCountApi"
+        '
+        'Label66
+        '
+        resources.ApplyResources(Me.Label66, "Label66")
+        Me.Label66.Name = "Label66"
+        '
         'FirstTextCountApi
         '
         resources.ApplyResources(Me.FirstTextCountApi, "FirstTextCountApi")
@@ -1731,15 +1745,15 @@ Partial Class Setting
         Me.CheckOutputz.Name = "CheckOutputz"
         Me.CheckOutputz.UseVisualStyleBackColor = True
         '
-        'Label66
+        'Label70
         '
-        resources.ApplyResources(Me.Label66, "Label66")
-        Me.Label66.Name = "Label66"
+        resources.ApplyResources(Me.Label70, "Label70")
+        Me.Label70.Name = "Label70"
         '
-        'SearchTextCountApi
+        'FavorareUrlText
         '
-        resources.ApplyResources(Me.SearchTextCountApi, "SearchTextCountApi")
-        Me.SearchTextCountApi.Name = "SearchTextCountApi"
+        resources.ApplyResources(Me.FavorareUrlText, "FavorareUrlText")
+        Me.FavorareUrlText.Name = "FavorareUrlText"
         '
         'Setting
         '
@@ -2002,4 +2016,6 @@ Partial Class Setting
     Friend WithEvents CheckEnaleBasicAuth As System.Windows.Forms.CheckBox
     Friend WithEvents SearchTextCountApi As System.Windows.Forms.TextBox
     Friend WithEvents Label66 As System.Windows.Forms.Label
+    Friend WithEvents FavorareUrlText As System.Windows.Forms.TextBox
+    Friend WithEvents Label70 As System.Windows.Forms.Label
 End Class

@@ -753,6 +753,7 @@ Public Class TweenMain
         SettingDialog.MoreCountApi = _cfgCommon.MoreCountApi
         SettingDialog.FirstCountApi = _cfgCommon.FirstCountApi
         SettingDialog.SearchCountApi = _cfgCommon.SearchCountApi
+        SettingDialog.FavorareUrl = _cfgCommon.FavorareUrl
         If _cfgCommon.UseAdditionalCount Then
             _FirstRefreshFlags = True
             _FirstListsRefreshFlags = True
@@ -1865,7 +1866,8 @@ Public Class TweenMain
                 If _UseAdditionalFlags AndAlso Not SettingDialog.MoreCountApi = 0 Then
                     _UseAdditionalFlags = False
                     ret = tw.GetTimelineApi(read, args.type, args.page = -1, SettingDialog.MoreCountApi)
-                ElseIf _FirstRefreshFlags AndAlso SettingDialog.UseAdditionalCount AndAlso Not SettingDialog.FirstCountApi = 0 Then
+                ElseIf _FirstRefreshFlags AndAlso SettingDialog.UseAdditionalCount _
+                    AndAlso Not SettingDialog.FirstCountApi = 0 AndAlso args.type = WORKERTYPE.Timeline Then
                     _FirstRefreshFlags = False
                     ret = tw.GetTimelineApi(read, args.type, args.page = -1, SettingDialog.FirstCountApi)
                 Else
@@ -2416,7 +2418,10 @@ Public Class TweenMain
         If _statuses.Tabs(_curTab.Text).TabType = TabUsageType.DirectMessage OrElse _curList.SelectedIndices.Count = 0 Then Exit Sub
 
         '複数fav確認msg
-        If _curList.SelectedIndices.Count > 1 Then
+        If _curList.SelectedIndices.Count > 250 AndAlso FavAdd Then
+            MessageBox.Show("一度にふぁぼ追加が実行できるのは250件までです")
+            Exit Sub
+        ElseIf _curList.SelectedIndices.Count > 1 Then
             If FavAdd Then
                 If MessageBox.Show(My.Resources.FavAddToolStripMenuItem_ClickText1, My.Resources.FavAddToolStripMenuItem_ClickText2, _
                                    MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
@@ -4179,7 +4184,13 @@ RETRY:
     Private Sub FavorareMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles FavorareMenuItem.Click, OpenFavotterOpMenuItem.Click
         If _curList.SelectedIndices.Count > 0 Then
             Dim post As PostClass = _statuses.Item(_curTab.Text, _curList.SelectedIndices(0))
-            OpenUriAsync(My.Resources.FavstarUrl + "users/" + post.Name + "/recent")
+            Dim UrlData As String = SettingDialog.FavorareUrl
+            If UrlData <> "" OrElse UrlData IsNot Nothing Then
+                UrlData = UrlData.Replace("{ID}", post.Name)
+                OpenUriAsync(UrlData)
+            Else
+                OpenUriAsync(My.Resources.FavstarUrl + "users/" + post.Name + "/recent")
+            End If
         End If
     End Sub
 
@@ -4196,7 +4207,7 @@ RETRY:
         Try
             Process.Start(pinfo)
         Catch ex As Exception
-            MsgBox("Failed to execute TweenUp.exe.")
+            MessageBox.Show("Failed to execute TweenUp.exe.")
         End Try
     End Sub
 
@@ -5604,6 +5615,7 @@ RETRY:
             _cfgCommon.MoreCountApi = SettingDialog.MoreCountApi
             _cfgCommon.FirstCountApi = SettingDialog.FirstCountApi
             _cfgCommon.SearchCountApi = SettingDialog.SearchCountApi
+            _cfgCommon.FavorareUrl = SettingDialog.FavorareUrl
 
             _cfgCommon.Save()
         End SyncLock
