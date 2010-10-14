@@ -4189,7 +4189,7 @@ RETRY:
     Private Sub FavorareMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles FavorareMenuItem.Click, OpenFavotterOpMenuItem.Click
         If _curList.SelectedIndices.Count > 0 Then
             Dim post As PostClass = _statuses.Item(_curTab.Text, _curList.SelectedIndices(0))
-                OpenUriAsync(My.Resources.FavstarUrl + "users/" + post.Name + "/recent")
+            OpenUriAsync(My.Resources.FavstarUrl + "users/" + post.Name + "/recent")
         End If
     End Sub
 
@@ -8069,7 +8069,7 @@ RETRY:
         End If
 
         'その他のリンク(@IDなど)を置き換える
-        status = Regex.Replace(status, "@<a target=""_self"" href=""https?://twitter.com/(?<url>[^""]+)""[^>]*>(?<link>[^<]+)</a>", "@${url}")
+        status = Regex.Replace(status, "@<a target=""_self"" href=""https?://twitter.com/(?<url>[^""]+)""[^>]*>(?<link>[^<]+)</a>", "${url}")
         'ハッシュタグ
         status = Regex.Replace(status, "<a target=""_self"" href=""(?<url>[^""]+)""[^>]*>(?<link>[^<]+)</a>", "${link}")
         '<br>タグ除去
