@@ -215,6 +215,7 @@ Partial Class ShowUserInfo
         '
         'UserPicture
         '
+        Me.UserPicture.BackColor = System.Drawing.Color.White
         Me.UserPicture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.UserPicture.ContextMenuStrip = Me.ContextMenuUserPicture
         resources.ApplyResources(Me.UserPicture, "UserPicture")
