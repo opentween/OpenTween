@@ -870,6 +870,7 @@ Public Class TweenMain
         tw.RestrictFavCheck = SettingDialog.RestrictFavCheck
         tw.ReadOwnPost = SettingDialog.ReadOwnPost
         tw.UseSsl = SettingDialog.UseSsl
+        ShortUrl.IsResolve = SettingDialog.TinyUrlResolve
         ShortUrl.BitlyId = SettingDialog.BitlyUser
         ShortUrl.BitlyKey = SettingDialog.BitlyPwd
         HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl
@@ -2849,6 +2850,7 @@ Public Class TweenMain
                 tw.RestrictFavCheck = SettingDialog.RestrictFavCheck
                 tw.ReadOwnPost = SettingDialog.ReadOwnPost
                 tw.UseSsl = SettingDialog.UseSsl
+                ShortUrl.IsResolve = SettingDialog.TinyUrlResolve
                 ShortUrl.BitlyId = SettingDialog.BitlyUser
                 ShortUrl.BitlyKey = SettingDialog.BitlyPwd
                 HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl
