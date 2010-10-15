@@ -58,8 +58,8 @@ Public Class Twitter
     Private _restrictFavCheck As Boolean
 
     Private _hubServer As String
-    Private _countApi As Integer
-    Private _countApiReply As Integer
+    'Private _countApi As Integer
+    'Private _countApiReply As Integer
     Private _readOwnPost As Boolean
     Private _hashList As New List(Of String)
 
@@ -1269,19 +1269,19 @@ Public Class Twitter
         End Set
     End Property
 
-    Public WriteOnly Property CountApi() As Integer
-        'API時の取得件数
-        Set(ByVal value As Integer)
-            _countApi = value
-        End Set
-    End Property
+    'Public WriteOnly Property CountApi() As Integer
+    '    'API時の取得件数
+    '    Set(ByVal value As Integer)
+    '        _countApi = value
+    '    End Set
+    'End Property
 
-    Public WriteOnly Property CountApiReply() As Integer
-        'API時のMentions取得件数
-        Set(ByVal value As Integer)
-            _countApiReply = value
-        End Set
-    End Property
+    'Public WriteOnly Property CountApiReply() As Integer
+    '    'API時のMentions取得件数
+    '    Set(ByVal value As Integer)
+    '        _countApiReply = value
+    '    End Set
+    'End Property
 
     Public Property ReadOwnPost() As Boolean
         Get
@@ -1339,52 +1339,47 @@ Public Class Twitter
         End Set
     End Property
 
-    Public Overloads Function GetTimelineApi(ByVal read As Boolean, _
-                    ByVal gType As WORKERTYPE, _
-                    ByVal more As Boolean) As String
+    'Public Overloads Function GetTimelineApi(ByVal read As Boolean, _
+    '                ByVal gType As WORKERTYPE, _
+    '                ByVal more As Boolean) As String
 
-        Return GetTimelineApi(read, gType, more, -1)
-    End Function
+    '    Return GetTimelineApi(read, gType, more, -1)
+    'End Function
 
 
     Public Overloads Function GetTimelineApi(ByVal read As Boolean, _
                             ByVal gType As WORKERTYPE, _
                             ByVal more As Boolean, _
-                            ByVal count As Integer) As String
+                            ByVal startup As Boolean) As String
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
         If _endingFlag Then Return ""
 
-        Dim countQuery As Integer
         Dim res As HttpStatusCode
         Dim content As String = ""
+        Dim count As Integer = Setting.Instance.CountApi
+        If gType = WORKERTYPE.Reply Then count = Setting.Instance.CountApiReply
+        If Setting.Instance.UseAdditionalCount Then
+            If more AndAlso Setting.Instance.MoreCountApi <> 0 Then
+                count = Setting.Instance.MoreCountApi
+            ElseIf startup AndAlso Setting.Instance.FirstCountApi <> 0 AndAlso gType = WORKERTYPE.Timeline Then
+                count = Setting.Instance.FirstCountApi
+            End If
+        End If
         Try
-            Dim cnt As Integer = 0
             If gType = WORKERTYPE.Timeline Then
-                If count < 0 Then
-                    cnt = _countApi
-                Else
-                    cnt = count
-                End If
                 If more Then
-                    res = twCon.HomeTimeline(cnt, minHomeTimeline, 0, content)
+                    res = twCon.HomeTimeline(count, Me.minHomeTimeline, 0, content)
                 Else
-                    res = twCon.HomeTimeline(cnt, 0, 0, content)
+                    res = twCon.HomeTimeline(count, 0, 0, content)
                 End If
-                countQuery = cnt
             Else
-                If count < 0 Then
-                    cnt = _countApiReply
-                Else
-                    cnt = count
-                End If
                 If more Then
-                    res = twCon.Mentions(cnt, minMentions, 0, content)
+                    res = twCon.Mentions(count, Me.minMentions, 0, content)
                 Else
-                    res = twCon.Mentions(cnt, 0, 0, content)
+                    res = twCon.Mentions(count, 0, 0, content)
                 End If
-                countQuery = cnt
             End If
         Catch ex As Exception
             Return "Err:" + ex.Message
@@ -1402,43 +1397,43 @@ Public Class Twitter
         End Select
 
         If gType = WORKERTYPE.Timeline Then
-            Return CreatePostsFromXml(content, gType, Nothing, read, countQuery, Me.minHomeTimeline)
+            Return CreatePostsFromXml(content, gType, Nothing, read, count, Me.minHomeTimeline)
         Else
-            Return CreatePostsFromXml(content, gType, Nothing, read, countQuery, Me.minMentions)
+            Return CreatePostsFromXml(content, gType, Nothing, read, count, Me.minMentions)
         End If
     End Function
 
-    Public Overloads Function GetListStatus(ByVal read As Boolean, _
-                            ByVal tab As TabClass, _
-                            ByVal more As Boolean) As String
+    'Public Overloads Function GetListStatus(ByVal read As Boolean, _
+    '                        ByVal tab As TabClass, _
+    '                        ByVal more As Boolean) As String
 
-        Return GetListStatus(read, tab, more, -1)
-    End Function
+    '    Return GetListStatus(read, tab, more, -1)
+    'End Function
 
     Public Overloads Function GetListStatus(ByVal read As Boolean, _
                             ByVal tab As TabClass, _
                             ByVal more As Boolean, _
-                            ByVal count As Integer) As String
+                            ByVal startup As Boolean) As String
 
         If _endingFlag Then Return ""
 
         Dim res As HttpStatusCode
         Dim content As String = ""
         Dim page As Integer = 0
-        Dim countQuery As Integer = 0
+        Dim count As Integer = Setting.Instance.CountApi
+        If Setting.Instance.UseAdditionalCount Then
+            If more AndAlso Setting.Instance.MoreCountApi <> 0 Then
+                count = Setting.Instance.MoreCountApi
+            ElseIf startup AndAlso Setting.Instance.FirstCountApi <> 0 Then
+                count = Setting.Instance.FirstCountApi
+            End If
+        End If
         Try
-            Dim cnt As Integer = 0
-            If count < 0 Then
-                cnt = _countApi
-            Else
-                cnt = count
-            End If
             If more Then
-                res = twCon.GetListsStatuses(tab.ListInfo.UserId.ToString, tab.ListInfo.Id.ToString, cnt, tab.OldestId, 0, content)
+                res = twCon.GetListsStatuses(tab.ListInfo.UserId.ToString, tab.ListInfo.Id.ToString, count, tab.OldestId, 0, content)
             Else
-                res = twCon.GetListsStatuses(tab.ListInfo.UserId.ToString, tab.ListInfo.Id.ToString, cnt, 0, 0, content)
+                res = twCon.GetListsStatuses(tab.ListInfo.UserId.ToString, tab.ListInfo.Id.ToString, count, 0, 0, content)
             End If
-            countQuery = cnt
         Catch ex As Exception
             Return "Err:" + ex.Message
         End Try
@@ -1454,7 +1449,7 @@ Public Class Twitter
                 Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
         End Select
 
-        Return CreatePostsFromXml(content, WORKERTYPE.List, tab, read, countQuery, tab.OldestId)
+        Return CreatePostsFromXml(content, WORKERTYPE.List, tab, read, count, tab.OldestId)
     End Function
 
     Private Function CreatePostsFromXml(ByVal content As String, ByVal gType As WORKERTYPE, ByVal tab As TabClass, ByVal read As Boolean, ByVal count As Integer, ByRef minimumId As Long) As String
@@ -1602,8 +1597,7 @@ Public Class Twitter
 
     Public Function GetSearch(ByVal read As Boolean, _
                             ByVal tab As TabClass, _
-                            ByVal more As Boolean, _
-                            ByVal count As Integer) As String
+                            ByVal more As Boolean) As String
 
         If _endingFlag Then Return ""
 
@@ -1611,8 +1605,13 @@ Public Class Twitter
         Dim content As String = ""
         Dim page As Integer = 0
         Dim sinceId As Long = 0
+        Dim count As Integer = 100
+        If Setting.Instance.UseAdditionalCount AndAlso
+            Setting.Instance.SearchCountApi <> 0 Then
+            count = Setting.Instance.SearchCountApi
+        End If
         If more Then
-            page = tab.SearchPage
+            page = tab.GetSearchPage(count)
         Else
             sinceId = tab.SinceId
         End If
@@ -1876,8 +1875,9 @@ Public Class Twitter
 
         Dim res As HttpStatusCode
         Dim content As String = ""
+        Dim count As Integer = Setting.Instance.CountApi
         Try
-            res = twCon.Favorites(_countApi, content)
+            res = twCon.Favorites(count, content)
         Catch ex As Exception
             Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
         End Try
