@@ -201,9 +201,9 @@ Public Class TweenMain
     Private ColumnOrgText(8) As String
     Private ColumnText(8) As String
 
-    Private _UseAdditionalFlags As Boolean = False
-    Private _FirstRefreshFlags As Boolean = False
-    Private _FirstListsRefreshFlags As Boolean = False
+    'Private _UseAdditionalFlags As Boolean = False
+    'Private _FirstRefreshFlags As Boolean = False
+    'Private _FirstListsRefreshFlags As Boolean = False
 
     '''''''''''''''''''''''''''''''''''''''''''''''''''''
     Private _postBrowserStatusText As String = ""
@@ -753,10 +753,10 @@ Public Class TweenMain
         SettingDialog.MoreCountApi = _cfgCommon.MoreCountApi
         SettingDialog.FirstCountApi = _cfgCommon.FirstCountApi
         SettingDialog.SearchCountApi = _cfgCommon.SearchCountApi
-        If _cfgCommon.UseAdditionalCount Then
-            _FirstRefreshFlags = True
-            _FirstListsRefreshFlags = True
-        End If
+        'If _cfgCommon.UseAdditionalCount Then
+        '    _FirstRefreshFlags = True
+        '    _FirstListsRefreshFlags = True
+        'End If
 
         'ハッシュタグ関連
         HashSupl = New AtIdSupplement(_cfgCommon.HashTags, "#")
@@ -865,8 +865,8 @@ Public Class TweenMain
                                             SettingDialog.ProxyPort, _
                                             SettingDialog.ProxyUser, _
                                             SettingDialog.ProxyPassword)
-        tw.CountApi = SettingDialog.CountApi
-        tw.CountApiReply = SettingDialog.CountApiReply
+        'tw.CountApi = SettingDialog.CountApi
+        'tw.CountApiReply = SettingDialog.CountApiReply
         tw.RestrictFavCheck = SettingDialog.RestrictFavCheck
         tw.ReadOwnPost = SettingDialog.ReadOwnPost
         tw.UseSsl = SettingDialog.UseSsl
@@ -1861,21 +1861,12 @@ Public Class TweenMain
         If args.type <> WORKERTYPE.OpenUri Then bw.ReportProgress(0, "") 'Notifyアイコンアニメーション開始
         Select Case args.type
             Case WORKERTYPE.Timeline, WORKERTYPE.Reply
-                bw.ReportProgress(50, MakeStatusMessage(args, False))
-                If _UseAdditionalFlags AndAlso Not SettingDialog.MoreCountApi = 0 Then
-                    _UseAdditionalFlags = False
-                    ret = tw.GetTimelineApi(read, args.type, args.page = -1, SettingDialog.MoreCountApi)
-                ElseIf _FirstRefreshFlags AndAlso SettingDialog.UseAdditionalCount _
-                    AndAlso Not SettingDialog.FirstCountApi = 0 AndAlso args.type = WORKERTYPE.Timeline Then
-                    _FirstRefreshFlags = False
-                    ret = tw.GetTimelineApi(read, args.type, args.page = -1, SettingDialog.FirstCountApi)
-                Else
-                    ret = tw.GetTimelineApi(read, args.type, args.page = -1)
-                End If
+                ret = tw.GetTimelineApi(read, args.type, args.page = -1, _initial)
                 '新着時未読クリア
                 If ret = "" AndAlso args.type = WORKERTYPE.Timeline AndAlso SettingDialog.ReadOldPosts Then
                     _statuses.SetRead()
                 End If
+                '振り分け
                 rslt.addCount = _statuses.DistributePosts()
             Case WORKERTYPE.DirectMessegeRcv    '送信分もまとめて取得
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
@@ -2013,53 +2004,37 @@ Public Class TweenMain
                 ret = tw.GetFavoritesApi(read, args.type)
                 rslt.addCount = _statuses.DistributePosts()
             Case WORKERTYPE.PublicSearch
-                Dim GetCount As Integer
-                If SettingDialog.UseAdditionalCount Then
-                    GetCount = SettingDialog.SearchCountApi
-                Else
-                    GetCount = 100
-                End If
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
                 If args.tName = "" Then
                     For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.PublicSearch)
-                        If tb.SearchWords <> "" Then ret = tw.GetSearch(read, tb, False, GetCount)
+                        If tb.SearchWords <> "" Then ret = tw.GetSearch(read, tb, False)
                     Next
                 Else
                     Dim tb As TabClass = _statuses.GetTabByName(args.tName)
                     If tb IsNot Nothing Then
-                        ret = tw.GetSearch(read, tb, False, GetCount)
+                        ret = tw.GetSearch(read, tb, False)
                         If ret = "" AndAlso args.page = -1 Then
-                            ret = tw.GetSearch(read, tb, True, GetCount)
+                            ret = tw.GetSearch(read, tb, True)
                         End If
                     End If
                 End If
-                '新着時未読クリア
+                '振り分け
                 rslt.addCount = _statuses.DistributePosts()
             Case WORKERTYPE.List
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
                 If args.tName = "" Then
-                    If _FirstListsRefreshFlags AndAlso SettingDialog.UseAdditionalCount AndAlso Not SettingDialog.FirstCountApi = 0 Then
-                        _FirstListsRefreshFlags = False
-                        For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.Lists)
-                            If tb.ListInfo IsNot Nothing AndAlso tb.ListInfo.Id <> 0 Then ret = tw.GetListStatus(read, tb, False, SettingDialog.FirstCountApi)
-                        Next
-                    Else
-                        For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.Lists)
-                            If tb.ListInfo IsNot Nothing AndAlso tb.ListInfo.Id <> 0 Then ret = tw.GetListStatus(read, tb, False)
-                        Next
-                    End If
+                    '定期更新
+                    For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.Lists)
+                        If tb.ListInfo IsNot Nothing AndAlso tb.ListInfo.Id <> 0 Then ret = tw.GetListStatus(read, tb, False, _initial)
+                    Next
                 Else
+                    '手動更新（特定タブのみ更新）
                     Dim tb As TabClass = _statuses.GetTabByName(args.tName)
                     If tb IsNot Nothing Then
-                        If _UseAdditionalFlags AndAlso Not SettingDialog.MoreCountApi = 0 Then
-                            _UseAdditionalFlags = False
-                            ret = tw.GetListStatus(read, tb, args.page = -1, SettingDialog.MoreCountApi)
-                        Else
-                            ret = tw.GetListStatus(read, tb, args.page = -1)
-                        End If
+                        ret = tw.GetListStatus(read, tb, args.page = -1, _initial)
                     End If
                 End If
-                '新着時未読クリア
+                '振り分け
                 rslt.addCount = _statuses.DistributePosts()
         End Select
         'キャンセル要求
@@ -2818,6 +2793,7 @@ Public Class TweenMain
     End Sub
 
     Private Sub DoRefreshMore()
+        'ページ指定をマイナス1に
         If _curTab IsNot Nothing Then
             Select Case _statuses.Tabs(_curTab.Text).TabType
                 Case TabUsageType.Mentions
@@ -2867,8 +2843,8 @@ Public Class TweenMain
                     ex.Data("IsTerminatePermission") = False
                     Throw
                 End Try
-                tw.CountApi = SettingDialog.CountApi
-                tw.CountApiReply = SettingDialog.CountApiReply
+                'tw.CountApi = SettingDialog.CountApi
+                'tw.CountApiReply = SettingDialog.CountApiReply
                 tw.TinyUrlResolve = SettingDialog.TinyUrlResolve
                 tw.RestrictFavCheck = SettingDialog.RestrictFavCheck
                 tw.ReadOwnPost = SettingDialog.ReadOwnPost
@@ -4700,9 +4676,6 @@ RETRY:
                 e.SuppressKeyPress = True
                 GoFav(False)
             ElseIf e.KeyCode = Keys.R OrElse e.KeyCode = Keys.F5 Then
-                If SettingDialog.UseAdditionalCount Then
-                    _UseAdditionalFlags = True
-                End If
                 e.Handled = True
                 e.SuppressKeyPress = True
                 DoRefreshMore()
@@ -5356,9 +5329,6 @@ RETRY:
                 e.SuppressKeyPress = True
                 MenuItemSearchPrev_Click(Nothing, Nothing)
             ElseIf e.KeyCode = Keys.F5 Then
-                If SettingDialog.UseAdditionalCount Then
-                    _UseAdditionalFlags = True
-                End If
                 e.Handled = True
                 e.SuppressKeyPress = True
                 DoRefreshMore()
@@ -5763,9 +5733,6 @@ RETRY:
                     MenuItemSearchPrev_Click(Nothing, Nothing)
                 Case Keys.F5, _
                      Keys.R
-                    If SettingDialog.UseAdditionalCount Then
-                        _UseAdditionalFlags = True
-                    End If
                     e.IsInputKey = True
                     DoRefreshMore()
                 Case Keys.F6
@@ -8530,9 +8497,6 @@ RETRY:
 
     Private Sub RefreshMoreStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RefreshMoreStripMenuItem.Click, RefreshPrevOpMenuItem.Click
         'もっと前を取得
-        If SettingDialog.UseAdditionalCount Then
-            _UseAdditionalFlags = True
-        End If
         DoRefreshMore()
     End Sub
 

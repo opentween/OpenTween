@@ -5325,31 +5325,31 @@
   <data name="&gt;&gt;TabPage4.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="CheckEnaleBasicAuth.AutoSize" type="System.Boolean, mscorlib">
+  <data name="CheckEnableBasicAuth.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="CheckEnaleBasicAuth.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="CheckEnableBasicAuth.Location" type="System.Drawing.Point, System.Drawing">
     <value>13, 322</value>
   </data>
-  <data name="CheckEnaleBasicAuth.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="CheckEnableBasicAuth.Size" type="System.Drawing.Size, System.Drawing">
     <value>178, 16</value>
   </data>
-  <data name="CheckEnaleBasicAuth.TabIndex" type="System.Int32, mscorlib">
+  <data name="CheckEnableBasicAuth.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
   </data>
-  <data name="CheckEnaleBasicAuth.Text" xml:space="preserve">
+  <data name="CheckEnableBasicAuth.Text" xml:space="preserve">
     <value>BASIC認証への変更を許可する</value>
   </data>
-  <data name="&gt;&gt;CheckEnaleBasicAuth.Name" xml:space="preserve">
-    <value>CheckEnaleBasicAuth</value>
+  <data name="&gt;&gt;CheckEnableBasicAuth.Name" xml:space="preserve">
+    <value>CheckEnableBasicAuth</value>
   </data>
-  <data name="&gt;&gt;CheckEnaleBasicAuth.Type" xml:space="preserve">
+  <data name="&gt;&gt;CheckEnableBasicAuth.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;CheckEnaleBasicAuth.Parent" xml:space="preserve">
+  <data name="&gt;&gt;CheckEnableBasicAuth.Parent" xml:space="preserve">
     <value>TabPage5</value>
   </data>
-  <data name="&gt;&gt;CheckEnaleBasicAuth.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;CheckEnableBasicAuth.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="TwitterSearchAPIText.Location" type="System.Drawing.Point, System.Drawing">

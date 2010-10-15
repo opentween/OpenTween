@@ -214,7 +214,7 @@ Partial Class Setting
         Me.chkUnreadStyle = New System.Windows.Forms.CheckBox()
         Me.TabPage4 = New System.Windows.Forms.TabPage()
         Me.TabPage5 = New System.Windows.Forms.TabPage()
-        Me.CheckEnaleBasicAuth = New System.Windows.Forms.CheckBox()
+        Me.CheckEnableBasicAuth = New System.Windows.Forms.CheckBox()
         Me.TwitterSearchAPIText = New System.Windows.Forms.TextBox()
         Me.Label31 = New System.Windows.Forms.Label()
         Me.TwitterAPIText = New System.Windows.Forms.TextBox()
@@ -1508,7 +1508,7 @@ Partial Class Setting
         '
         'TabPage5
         '
-        Me.TabPage5.Controls.Add(Me.CheckEnaleBasicAuth)
+        Me.TabPage5.Controls.Add(Me.CheckEnableBasicAuth)
         Me.TabPage5.Controls.Add(Me.TwitterSearchAPIText)
         Me.TabPage5.Controls.Add(Me.Label31)
         Me.TabPage5.Controls.Add(Me.TwitterAPIText)
@@ -1522,11 +1522,11 @@ Partial Class Setting
         Me.TabPage5.Name = "TabPage5"
         Me.TabPage5.UseVisualStyleBackColor = True
         '
-        'CheckEnaleBasicAuth
+        'CheckEnableBasicAuth
         '
-        resources.ApplyResources(Me.CheckEnaleBasicAuth, "CheckEnaleBasicAuth")
-        Me.CheckEnaleBasicAuth.Name = "CheckEnaleBasicAuth"
-        Me.CheckEnaleBasicAuth.UseVisualStyleBackColor = True
+        resources.ApplyResources(Me.CheckEnableBasicAuth, "CheckEnableBasicAuth")
+        Me.CheckEnableBasicAuth.Name = "CheckEnableBasicAuth"
+        Me.CheckEnableBasicAuth.UseVisualStyleBackColor = True
         '
         'TwitterSearchAPIText
         '
@@ -1999,7 +1999,7 @@ Partial Class Setting
     Friend WithEvents GetMoreTextCountApi As System.Windows.Forms.TextBox
     Friend WithEvents Label53 As System.Windows.Forms.Label
     Friend WithEvents FirstTextCountApi As System.Windows.Forms.TextBox
-    Friend WithEvents CheckEnaleBasicAuth As System.Windows.Forms.CheckBox
+    Friend WithEvents CheckEnableBasicAuth As System.Windows.Forms.CheckBox
     Friend WithEvents SearchTextCountApi As System.Windows.Forms.TextBox
     Friend WithEvents Label66 As System.Windows.Forms.Label
 End Class

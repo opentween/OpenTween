@@ -1393,11 +1393,9 @@ Public NotInheritable Class TabClass
             _searchWords = value.Trim
         End Set
     End Property
-    Public ReadOnly Property SearchPage() As Integer
-        Get
-            Return ((_ids.Count \ 40) + 1)
-        End Get
-    End Property
+    Public Function GetSearchPage(ByVal count As Integer) As Integer
+        Return ((_ids.Count \ count) + 1)
+    End Function
     Private _beforeQuery As New Dictionary(Of String, String)
     Public Sub SaveQuery(ByVal more As Boolean)
         Dim qry As New Dictionary(Of String, String)

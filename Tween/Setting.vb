@@ -2053,8 +2053,8 @@ Public Class Setting
         End If
     End Sub
 
-    Private Sub CheckEnaleBasicAuth_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckEnaleBasicAuth.CheckedChanged
-        AuthBasicRadio.Enabled = CheckEnaleBasicAuth.Checked
+    Private Sub CheckEnableBasicAuth_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckEnableBasicAuth.CheckedChanged
+        AuthBasicRadio.Enabled = CheckEnableBasicAuth.Checked
     End Sub
 
     Private Sub SearchTextCountApi_Validating(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles SearchTextCountApi.Validating
