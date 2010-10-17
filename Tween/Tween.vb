@@ -5400,6 +5400,8 @@ RETRY:
                 e.Handled = True
                 e.SuppressKeyPress = True
                 Dim idx As Integer = 0
+                _anchorPost = Nothing
+                _anchorFlag = False
                 If _curList IsNot Nothing AndAlso _curList.Items.Count <> 0 AndAlso _
                             _curList.SelectedIndices.Count > 0 AndAlso _curList.SelectedIndices(0) > 0 Then
                     idx = _curList.SelectedIndices(0) - 1
@@ -5410,6 +5412,8 @@ RETRY:
                 e.Handled = True
                 e.SuppressKeyPress = True
                 Dim idx As Integer = 0
+                _anchorPost = Nothing
+                _anchorFlag = False
                 If _curList IsNot Nothing AndAlso _curList.Items.Count <> 0 AndAlso _curList.SelectedIndices.Count > 0 _
                             AndAlso _curList.SelectedIndices(0) < _curList.Items.Count - 1 Then
                     idx = _curList.SelectedIndices(0) + 1
