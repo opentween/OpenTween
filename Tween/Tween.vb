@@ -5417,6 +5417,17 @@ RETRY:
                     _curList.EnsureVisible(idx)
                 End If
             End If
+            If e.KeyCode = Keys.Right Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                GoRelPost(True)
+                Exit Sub
+            ElseIf e.KeyCode = Keys.Left Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                GoRelPost(False)
+                Exit Sub
+            End If
             If e.KeyCode = Keys.R Then
                 e.Handled = True
                 e.SuppressKeyPress = True
@@ -5464,26 +5475,19 @@ RETRY:
             End If
         End If
 
-        'Alt+Shiftキー
-        If e.Alt AndAlso e.Shift Then
-            If e.KeyCode = Keys.R Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                doReTweetUnofficial()
-            ElseIf e.KeyCode = Keys.Up Then
-                Thumbnail.ScrollThumbnail(False)
-            ElseIf e.KeyCode = Keys.Down Then
-                Thumbnail.ScrollThumbnail(True)
-            End If
-            If e.KeyCode = Keys.Enter Then
-                If Not Me.SplitContainer3.Panel2Collapsed Then
-                    Thumbnail.OpenPicture()
+            'Alt+Shiftキー
+            If e.Alt AndAlso e.Shift Then
+                If e.KeyCode = Keys.R Then
+                    e.Handled = True
+                    e.SuppressKeyPress = True
+                    doReTweetUnofficial()
+                ElseIf e.KeyCode = Keys.Up Then
+                    Thumbnail.ScrollThumbnail(False)
+                ElseIf e.KeyCode = Keys.Down Then
+                    Thumbnail.ScrollThumbnail(True)
                 End If
-                e.Handled = True
-                e.SuppressKeyPress = True
             End If
-        End If
-        Me.StatusText_TextChanged(Nothing, Nothing)
+            Me.StatusText_TextChanged(Nothing, Nothing)
     End Sub
 
     Private Sub SaveConfigsAll(ByVal ifModified As Boolean)
