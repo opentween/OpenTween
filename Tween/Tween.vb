@@ -5304,6 +5304,10 @@ RETRY:
                 e.Handled = True
                 e.SuppressKeyPress = True
                 MultiLineMenuItem_Click(Nothing, Nothing)
+            ElseIf e.KeyCode = Keys.F Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                MenuItemSubSearch_Click(Nothing, Nothing)
             End If
 
             Select Case e.KeyCode
@@ -5446,6 +5450,17 @@ RETRY:
                 e.Handled = True
                 e.SuppressKeyPress = True
                 FavorareMenuItem_Click(Nothing, Nothing)
+            ElseIf e.KeyCode = Keys.P Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                ImageSelectMenuItem_Click(Nothing, Nothing)
+            ElseIf e.KeyCode = Keys.F Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                If ListTab.SelectedTab IsNot Nothing Then
+                    If _statuses.Tabs(ListTab.SelectedTab.Text).TabType <> TabUsageType.PublicSearch Then Exit Sub
+                    ListTab.SelectedTab.Controls("panelSearch").Controls("comboSearch").Focus()
+                End If
             End If
         End If
 
@@ -5459,6 +5474,13 @@ RETRY:
                 Thumbnail.ScrollThumbnail(False)
             ElseIf e.KeyCode = Keys.Down Then
                 Thumbnail.ScrollThumbnail(True)
+            End If
+            If e.KeyCode = Keys.Enter Then
+                If Not Me.SplitContainer3.Panel2Collapsed Then
+                    Thumbnail.OpenPicture()
+                End If
+                e.Handled = True
+                e.SuppressKeyPress = True
             End If
         End If
         Me.StatusText_TextChanged(Nothing, Nothing)
