@@ -3295,6 +3295,7 @@ Public Class TweenMain
         AddHandler _listCustom.CacheVirtualItems, AddressOf MyList_CacheVirtualItems
         AddHandler _listCustom.RetrieveVirtualItem, AddressOf MyList_RetrieveVirtualItem
         AddHandler _listCustom.DrawSubItem, AddressOf MyList_DrawSubItem
+        AddHandler _listCustom.HScrolled, AddressOf MyList_HScrolled
 
         InitColumnText()
         _colHd1.Text = ColumnText(0)
@@ -3457,6 +3458,7 @@ Public Class TweenMain
         RemoveHandler _listCustom.CacheVirtualItems, AddressOf MyList_CacheVirtualItems
         RemoveHandler _listCustom.RetrieveVirtualItem, AddressOf MyList_RetrieveVirtualItem
         RemoveHandler _listCustom.DrawSubItem, AddressOf MyList_DrawSubItem
+        RemoveHandler _listCustom.HScrolled, AddressOf MyList_HScrolled
 
         TabDialog.RemoveTab(TabName)
 
@@ -3779,6 +3781,11 @@ Public Class TweenMain
         e.DrawDefault = True
     End Sub
 
+    Private Sub MyList_HScrolled(ByVal sender As Object, ByVal e As EventArgs)
+        Dim listView As DetailsListView = DirectCast(sender, DetailsListView)
+        listView.Refresh()
+    End Sub
+
     Private Sub MyList_DrawItem(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DrawListViewItemEventArgs)
         If e.State = 0 Then Exit Sub
         e.DrawDefault = False
@@ -3815,7 +3822,7 @@ Public Class TweenMain
     Private Sub MyList_DrawSubItem(ByVal sender As Object, ByVal e As DrawListViewSubItemEventArgs)
         If e.ItemState = 0 Then Exit Sub
 
-        If e.ColumnIndex = 0 OrElse Math.Abs(e.Header.DisplayIndex - e.Item.ListView.Columns(0).DisplayIndex) = 1 Then
+        If e.ColumnIndex = 0 Then
             Me.DrawListViewItemIcon(e)
         End If
 
