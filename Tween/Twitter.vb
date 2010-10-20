@@ -1877,6 +1877,10 @@ Public Class Twitter
         Dim res As HttpStatusCode
         Dim content As String = ""
         Dim count As Integer = Setting.Instance.CountApi
+        If Setting.Instance.UseAdditionalCount AndAlso
+            Setting.Instance.FavoritesCountApi <> 0 Then
+            count = Setting.Instance.FavoritesCountApi
+        End If
         Try
             res = twCon.Favorites(count, content)
         Catch ex As Exception

@@ -753,6 +753,7 @@ Public Class TweenMain
         SettingDialog.MoreCountApi = _cfgCommon.MoreCountApi
         SettingDialog.FirstCountApi = _cfgCommon.FirstCountApi
         SettingDialog.SearchCountApi = _cfgCommon.SearchCountApi
+        SettingDialog.FavoritesCountApi = _cfgCommon.FavoritesCountApi
         'If _cfgCommon.UseAdditionalCount Then
         '    _FirstRefreshFlags = True
         '    _FirstListsRefreshFlags = True
@@ -5623,6 +5624,7 @@ RETRY:
             _cfgCommon.MoreCountApi = SettingDialog.MoreCountApi
             _cfgCommon.FirstCountApi = SettingDialog.FirstCountApi
             _cfgCommon.SearchCountApi = SettingDialog.SearchCountApi
+            _cfgCommon.FavoritesCountApi = SettingDialog.FavoritesCountApi
 
             _cfgCommon.Save()
         End SyncLock

@@ -249,6 +249,7 @@ Partial Class Setting
         Me.Label59 = New System.Windows.Forms.Label()
         Me.TextBoxOutputzKey = New System.Windows.Forms.TextBox()
         Me.CheckOutputz = New System.Windows.Forms.CheckBox()
+        Me.FavoritesTextCountApi = New System.Windows.Forms.TextBox()
         Me.GroupBox1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
@@ -1659,6 +1660,7 @@ Partial Class Setting
         '
         'TabPage6
         '
+        Me.TabPage6.Controls.Add(Me.FavoritesTextCountApi)
         Me.TabPage6.Controls.Add(Me.SearchTextCountApi)
         Me.TabPage6.Controls.Add(Me.Label66)
         Me.TabPage6.Controls.Add(Me.FirstTextCountApi)
@@ -1740,6 +1742,11 @@ Partial Class Setting
         resources.ApplyResources(Me.CheckOutputz, "CheckOutputz")
         Me.CheckOutputz.Name = "CheckOutputz"
         Me.CheckOutputz.UseVisualStyleBackColor = True
+        '
+        'FavoritesTextCountApi
+        '
+        resources.ApplyResources(Me.FavoritesTextCountApi, "FavoritesTextCountApi")
+        Me.FavoritesTextCountApi.Name = "FavoritesTextCountApi"
         '
         'Setting
         '
@@ -2002,4 +2009,5 @@ Partial Class Setting
     Friend WithEvents CheckEnableBasicAuth As System.Windows.Forms.CheckBox
     Friend WithEvents SearchTextCountApi As System.Windows.Forms.TextBox
     Friend WithEvents Label66 As System.Windows.Forms.Label
+    Friend WithEvents FavoritesTextCountApi As System.Windows.Forms.TextBox
 End Class

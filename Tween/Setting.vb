@@ -122,6 +122,7 @@ Public Class Setting
     Private _FirstCountApi As Integer
     Private _MyUseAdditonalCount As Boolean
     Private _SearchCountApi As Integer
+    Private _FavoritesCountApi As Integer
 
     Private _ValidationError As Boolean = False
 
@@ -310,6 +311,7 @@ Public Class Setting
             _MoreCountApi = CType(GetMoreTextCountApi.Text, Integer)
             _FirstCountApi = CType(FirstTextCountApi.Text, Integer)
             _SearchCountApi = CType(SearchTextCountApi.Text, Integer)
+            _FavoritesCountApi = CType(FavoritesTextCountApi.Text, Integer)
         Catch ex As Exception
             MessageBox.Show(My.Resources.Save_ClickText3)
             Me.DialogResult = Windows.Forms.DialogResult.Cancel
@@ -555,15 +557,17 @@ Public Class Setting
 
         CheckOutputz_CheckedChanged(sender, e)
 
-        UseChangeGetCount.Checked = _MyUseAdditonalCount
-        Label53.Enabled = UseChangeGetCount.Checked
-        Label66.Enabled = UseChangeGetCount.Checked
         GetMoreTextCountApi.Text = _MoreCountApi.ToString
         FirstTextCountApi.Text = _FirstCountApi.ToString
         SearchTextCountApi.Text = _SearchCountApi.ToString
+        FavoritesTextCountApi.Text = _FavoritesCountApi.ToString
+        UseChangeGetCount.Checked = _MyUseAdditonalCount
+        Label53.Enabled = UseChangeGetCount.Checked
+        Label66.Enabled = UseChangeGetCount.Checked
         GetMoreTextCountApi.Enabled = UseChangeGetCount.Checked
         FirstTextCountApi.Enabled = UseChangeGetCount.Checked
         SearchTextCountApi.Enabled = UseChangeGetCount.Checked
+        FavoritesTextCountApi.Enabled = UseChangeGetCount.Checked
     End Sub
 
     Private Sub TimelinePeriod_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles TimelinePeriod.Validating
@@ -1141,6 +1145,15 @@ Public Class Setting
         End Get
         Set(ByVal value As Integer)
             _SearchCountApi = value
+        End Set
+    End Property
+
+    Public Property FavoritesCountApi() As Integer
+        Get
+            Return _FavoritesCountApi
+        End Get
+        Set(ByVal value As Integer)
+            _FavoritesCountApi = value
         End Set
     End Property
 
@@ -2034,6 +2047,7 @@ Public Class Setting
         Label53.Enabled = UseChangeGetCount.Checked
         Label66.Enabled = UseChangeGetCount.Checked
         SearchTextCountApi.Enabled = UseChangeGetCount.Checked
+        FavoritesTextCountApi.Enabled = UseChangeGetCount.Checked
     End Sub
 
     Private Sub FirstTextCountApi_Validating(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles FirstTextCountApi.Validating
@@ -2060,14 +2074,31 @@ Public Class Setting
     Private Sub SearchTextCountApi_Validating(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles SearchTextCountApi.Validating
         Dim cnt As Integer
         Try
-            cnt = Integer.Parse(FirstTextCountApi.Text)
+            cnt = Integer.Parse(SearchTextCountApi.Text)
         Catch ex As Exception
             MessageBox.Show(My.Resources.TextCountApi_Validating1)
             e.Cancel = True
             Exit Sub
         End Try
 
-        If cnt < 20 OrElse cnt > 200 Then
+        If Not cnt = 0 AndAlso (cnt < 20 OrElse cnt > 100) Then
+            MessageBox.Show(My.Resources.TextCountApi_Validating1)
+            e.Cancel = True
+            Exit Sub
+        End If
+    End Sub
+
+    Private Sub FavoritesTextCountApi_Validating(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles FavoritesTextCountApi.Validating
+        Dim cnt As Integer
+        Try
+            cnt = Integer.Parse(FavoritesTextCountApi.Text)
+        Catch ex As Exception
+            MessageBox.Show(My.Resources.TextCountApi_Validating1)
+            e.Cancel = True
+            Exit Sub
+        End Try
+
+        If Not cnt = 0 AndAlso (cnt < 20 OrElse cnt > 200) Then
             MessageBox.Show(My.Resources.TextCountApi_Validating1)
             e.Cancel = True
             Exit Sub
