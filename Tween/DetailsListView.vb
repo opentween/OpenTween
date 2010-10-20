@@ -182,7 +182,7 @@ Namespace TweenCustomControl
             Const WM_NOTIFY As Integer = &H4E
             Const WM_REFLECTNOTIFY As Integer = WM_REFLECT + WM_NOTIFY
             Const LVN_FIRST As Integer = -100
-            'Const LVN_BEGINSCROLL As Integer = LVN_FIRST - 80
+            Const LVN_BEGINSCROLL As Integer = LVN_FIRST - 80
             Const LVN_ENDSCROLL As Integer = LVN_FIRST - 81
 
             Select Case m.Msg
@@ -199,9 +199,7 @@ Namespace TweenCustomControl
                 Case WM_REFLECTNOTIFY
                     Dim nmlv As NMLVSCROLL = DirectCast(Marshal.PtrToStructure(m.LParam, GetType(NMLVSCROLL)), NMLVSCROLL)
                     Select Case nmlv.hdr.code
-                        'Case LVN_BEGINSCROLL
-                        '    RaiseEvent HScrolled(Me, EventArgs.Empty)
-                        Case LVN_ENDSCROLL
+                        Case LVN_BEGINSCROLL, LVN_ENDSCROLL
                             If nmlv.dx <> 0 Then
                                 RaiseEvent HScrolled(Me, EventArgs.Empty)
                             ElseIf nmlv.dy <> 0 Then
