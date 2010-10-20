@@ -202,8 +202,11 @@ Namespace TweenCustomControl
                         'Case LVN_BEGINSCROLL
                         '    RaiseEvent HScrolled(Me, EventArgs.Empty)
                         Case LVN_ENDSCROLL
-                            RaiseEvent HScrolled(Me, EventArgs.Empty)
-
+                            If nmlv.dx <> 0 Then
+                                RaiseEvent HScrolled(Me, EventArgs.Empty)
+                            ElseIf nmlv.dy <> 0 Then
+                                RaiseEvent VScrolled(Me, EventArgs.Empty)
+                            End If
                     End Select
             End Select
 
