@@ -5916,6 +5916,27 @@
   <data name="&gt;&gt;TabPage5.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
+  <data name="FavoritesTextCountApi.Location" type="System.Drawing.Point, System.Drawing">
+    <value>267, 233</value>
+  </data>
+  <data name="FavoritesTextCountApi.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 19</value>
+  </data>
+  <data name="FavoritesTextCountApi.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="&gt;&gt;FavoritesTextCountApi.Name" xml:space="preserve">
+    <value>FavoritesTextCountApi</value>
+  </data>
+  <data name="&gt;&gt;FavoritesTextCountApi.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FavoritesTextCountApi.Parent" xml:space="preserve">
+    <value>TabPage6</value>
+  </data>
+  <data name="&gt;&gt;FavoritesTextCountApi.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="SearchTextCountApi.Location" type="System.Drawing.Point, System.Drawing">
     <value>324, 234</value>
   </data>
@@ -5935,7 +5956,7 @@
     <value>TabPage6</value>
   </data>
   <data name="&gt;&gt;SearchTextCountApi.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="Label66.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -5944,13 +5965,13 @@
     <value>13, 234</value>
   </data>
   <data name="Label66.Size" type="System.Drawing.Size, System.Drawing">
-    <value>117, 12</value>
+    <value>171, 12</value>
   </data>
   <data name="Label66.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
   </data>
   <data name="Label66.Text" xml:space="preserve">
-    <value>PublicSearchの取得数</value>
+    <value>Favorites/PublicSearchの取得数</value>
   </data>
   <data name="&gt;&gt;Label66.Name" xml:space="preserve">
     <value>Label66</value>
@@ -5962,7 +5983,7 @@
     <value>TabPage6</value>
   </data>
   <data name="&gt;&gt;Label66.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="FirstTextCountApi.Location" type="System.Drawing.Point, System.Drawing">
     <value>324, 209</value>
@@ -5983,7 +6004,7 @@
     <value>TabPage6</value>
   </data>
   <data name="&gt;&gt;FirstTextCountApi.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="GetMoreTextCountApi.Location" type="System.Drawing.Point, System.Drawing">
     <value>266, 209</value>
@@ -6004,7 +6025,7 @@
     <value>TabPage6</value>
   </data>
   <data name="&gt;&gt;GetMoreTextCountApi.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="Label53.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -6031,7 +6052,7 @@
     <value>TabPage6</value>
   </data>
   <data name="&gt;&gt;Label53.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="UseChangeGetCount.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -6058,7 +6079,7 @@
     <value>TabPage6</value>
   </data>
   <data name="&gt;&gt;UseChangeGetCount.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="CheckNicoms.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -6088,7 +6109,7 @@
     <value>TabPage6</value>
   </data>
   <data name="&gt;&gt;CheckNicoms.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="Label60.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -6115,7 +6136,7 @@
     <value>TabPage6</value>
   </data>
   <data name="&gt;&gt;Label60.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="ComboBoxOutputzUrlmode.Items" xml:space="preserve">
     <value>twitter.com</value>
@@ -6142,7 +6163,7 @@
     <value>TabPage6</value>
   </data>
   <data name="&gt;&gt;ComboBoxOutputzUrlmode.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="Label59.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -6169,7 +6190,7 @@
     <value>TabPage6</value>
   </data>
   <data name="&gt;&gt;Label59.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="TextBoxOutputzKey.Location" type="System.Drawing.Point, System.Drawing">
     <value>197, 62</value>
@@ -6190,7 +6211,7 @@
     <value>TabPage6</value>
   </data>
   <data name="&gt;&gt;TextBoxOutputzKey.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="CheckOutputz.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -6217,7 +6238,7 @@
     <value>TabPage6</value>
   </data>
   <data name="&gt;&gt;CheckOutputz.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="TabPage6.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>

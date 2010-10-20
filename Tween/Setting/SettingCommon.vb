@@ -169,4 +169,5 @@ Public Class SettingCommon
     Public MoreCountApi As Integer = 200
     Public FirstCountApi As Integer = 100
     Public SearchCountApi As Integer = 100
+    Public FavoritesCountApi As Integer = 40
 End Class
