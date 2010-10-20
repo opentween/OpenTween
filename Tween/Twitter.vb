@@ -1842,6 +1842,7 @@ Public Class Twitter
             End Try
 
             post.IsRead = read
+            If gType = WORKERTYPE.DirectMessegeSnt AndAlso Not read AndAlso _readOwnPost Then post.IsRead = True
             post.IsReply = False
             post.IsExcludeReply = False
             post.IsDm = True
