@@ -160,12 +160,30 @@ Namespace TweenCustomControl
             End If
         End Function
 
+        <StructLayout(LayoutKind.Sequential)> _
+        Private Structure NMHDR
+            Public hwndFrom As Integer
+            Public idFrom As Integer
+            Public code As Integer
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
+        Private Structure NMLVSCROLL
+            Public hdr As NMHDR
+            Public dx As Integer
+            Public dy As Integer
+        End Structure
+
         <DebuggerStepThrough()> _
         Protected Overrides Sub WndProc(ByRef m As System.Windows.Forms.Message)
             Const WM_ERASEBKGND As Integer = &H14
             Const WM_PAINT As Integer = &HF
-            Const WM_HSCROLL As Integer = &H114
-            Const WM_VSCROLL As Integer = &H115
+            Const WM_REFLECT As Integer = &H2000
+            Const WM_NOTIFY As Integer = &H4E
+            Const WM_REFLECTNOTIFY As Integer = WM_REFLECT + WM_NOTIFY
+            Const LVN_FIRST As Integer = -100
+            'Const LVN_BEGINSCROLL As Integer = LVN_FIRST - 80
+            Const LVN_ENDSCROLL As Integer = LVN_FIRST - 81
 
             Select Case m.Msg
                 Case WM_ERASEBKGND
@@ -178,10 +196,15 @@ Namespace TweenCustomControl
                         Me.Invalidate(Me.changeBounds)
                         Me.changeBounds = Rectangle.Empty
                     End If
-                Case WM_VSCROLL
-                    RaiseEvent VScrolled(Me, EventArgs.Empty)
-                Case WM_HSCROLL
-                    RaiseEvent HScrolled(Me, EventArgs.Empty)
+                Case WM_REFLECTNOTIFY
+                    Dim nmlv As NMLVSCROLL = DirectCast(Marshal.PtrToStructure(m.LParam, GetType(NMLVSCROLL)), NMLVSCROLL)
+                    Select Case nmlv.hdr.code
+                        'Case LVN_BEGINSCROLL
+                        '    RaiseEvent HScrolled(Me, EventArgs.Empty)
+                        Case LVN_ENDSCROLL
+                            RaiseEvent HScrolled(Me, EventArgs.Empty)
+
+                    End Select
             End Select
 
             Try
