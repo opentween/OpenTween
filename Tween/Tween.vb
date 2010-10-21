@@ -3825,9 +3825,7 @@ Public Class TweenMain
 
         If e.ColumnIndex = 0 Then
             Me.DrawListViewItemIcon(e)
-        End If
-
-        If e.ColumnIndex > 0 Then
+        Else
             'アイコン以外の列
             Dim rct As RectangleF = e.Bounds
             Dim rctB As RectangleF = e.Bounds
@@ -3892,8 +3890,6 @@ Public Class TweenMain
                         If _iconCol Then
                             e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems(2).Text, e.Item.Font, _brsHighLightText, rct, sf)
                             e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]", fnt, _brsHighLightText, rctB, sf)
-                            'ElseIf e.Bounds.Height < e.Item.Font.Height * 2 Then
-                            '    TextRenderer.DrawText(e.Graphics, e.SubItem.Text, e.Item.Font, Rectangle.Round(rct), _brsHighLightText.Color, TextFormatFlags.SingleLine Or TextFormatFlags.EndEllipsis Or TextFormatFlags.LeftAndRightPadding Or TextFormatFlags.NoPrefix)
                         Else
                             e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, _brsHighLightText, rct, sf)
                         End If
@@ -3901,8 +3897,6 @@ Public Class TweenMain
                         If _iconCol Then
                             e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems(2).Text, e.Item.Font, _brsForeColorUnread, rct, sf)
                             e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]", fnt, _brsForeColorUnread, rctB, sf)
-                            'ElseIf e.Bounds.Height < e.Item.Font.Height * 2 Then
-                            '    TextRenderer.DrawText(e.Graphics, e.SubItem.Text, e.Item.Font, Rectangle.Round(rct), _brsForeColorUnread.Color, TextFormatFlags.SingleLine Or TextFormatFlags.EndEllipsis Or TextFormatFlags.LeftAndRightPadding Or TextFormatFlags.NoPrefix)
                         Else
                             e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, _brsForeColorUnread, rct, sf)
                         End If
@@ -5487,19 +5481,19 @@ RETRY:
             End If
         End If
 
-            'Alt+Shiftキー
-            If e.Alt AndAlso e.Shift Then
-                If e.KeyCode = Keys.R Then
-                    e.Handled = True
-                    e.SuppressKeyPress = True
-                    doReTweetUnofficial()
-                ElseIf e.KeyCode = Keys.Up Then
-                    Thumbnail.ScrollThumbnail(False)
-                ElseIf e.KeyCode = Keys.Down Then
-                    Thumbnail.ScrollThumbnail(True)
-                End If
+        'Alt+Shiftキー
+        If e.Alt AndAlso e.Shift Then
+            If e.KeyCode = Keys.R Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                doReTweetUnofficial()
+            ElseIf e.KeyCode = Keys.Up Then
+                Thumbnail.ScrollThumbnail(False)
+            ElseIf e.KeyCode = Keys.Down Then
+                Thumbnail.ScrollThumbnail(True)
             End If
-            Me.StatusText_TextChanged(Nothing, Nothing)
+        End If
+        Me.StatusText_TextChanged(Nothing, Nothing)
     End Sub
 
     Private Sub SaveConfigsAll(ByVal ifModified As Boolean)
