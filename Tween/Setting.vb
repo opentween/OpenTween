@@ -343,6 +343,8 @@ Public Class Setting
             Me.AuthClearButton.Enabled = False
             Me.AuthOAuthRadio.Checked = False
             Me.AuthBasicRadio.Checked = True
+            Me.CheckEnableBasicAuth.Checked = True
+            Me.AuthBasicRadio.Enabled = True
             tw.Initialize(uname, pw)
         Else
             Me.AuthStateLabel.Enabled = True
