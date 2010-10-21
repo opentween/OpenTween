@@ -261,7 +261,7 @@ Namespace TweenCustomControl
             End If
             If hScrollBarPreProcess Then
                 hPos = GetScrollBarPosition(ScrollBarDirection.SB_HORZ)
-                If hPos <> -1 Then
+                If hPos <> oldhPos Then
                     RaiseEvent HScrolled(Me, EventArgs.Empty)
                 End If
             End If
