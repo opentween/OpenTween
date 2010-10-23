@@ -969,4 +969,10 @@
   <data name="YouTubeInfoText4" xml:space="preserve">
     <value>再生数:</value>
   </data>
+  <data name="FavoriteLimitCountText" xml:space="preserve">
+    <value>一度にふぁぼ追加が実行できるのは250件までです</value>
+  </data>
+  <data name="TextSearchCountApi_Validating1" xml:space="preserve">
+    <value>取得発言数は20～100件を指定してください。</value>
+  </data>
 </root>
