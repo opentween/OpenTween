@@ -2078,13 +2078,13 @@ Public Class Setting
         Try
             cnt = Integer.Parse(SearchTextCountApi.Text)
         Catch ex As Exception
-            MessageBox.Show(My.Resources.TextCountApi_Validating1)
+            MessageBox.Show(My.Resources.TextsearchCountApi_Validating1)
             e.Cancel = True
             Exit Sub
         End Try
 
         If Not cnt = 0 AndAlso (cnt < 20 OrElse cnt > 100) Then
-            MessageBox.Show(My.Resources.TextCountApi_Validating1)
+            MessageBox.Show(My.Resources.TextSearchCountApi_Validating1)
             e.Cancel = True
             Exit Sub
         End If

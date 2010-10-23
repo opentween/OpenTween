@@ -532,18 +532,22 @@ Namespace My.Resources
         '''<summary>
         '''  更新履歴
         '''
-        '''==== Ver 0.9.5.1(2010/08/**)
-        ''' * 公式RT化確認メッセージを丁寧にし、投稿をキャンセルすることができるようにした
-        ''' * ダイレクトメッセージの色分けを、送信DMを片思い表示色にしていたのを変更し、受信DMを片思い表示色とするようにした
-        ''' * 設定画面を開く際のAPIカウント取得処理をバックグラウンドで行うように修正
-        ''' * POSTMODE切り替えメニューに「フォーカスを発言欄へロック」を追加。有効にした場合投稿後にリストへ移動せず投稿欄のままになります。
-        ''' * 発言欄にフォーカスがある場合にCTRL+SHIFT+カーソルキー上下でリストを移動できるようにした
-        ''' * Fav削除の際に例外が発生することがあったバグを修正
-        ''' * 通信エラーの際にAPIカウントを取得していなかったバグを修正
-        ''' * 発言詳細の名前部分を右クリックした際のメニューを、発言詳細のアイコン右クリックメニューへ統合した
-        ''' * 英語、中国語リソースでの翻訳が漏れていた部分を修正
-        ''' * ヘルプメニューにショートカットキー一覧を追加。Wikiの該当ページをブラウザで開きます。
-        ''' * [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        '''==== Ver 0.9.6.1(2010/10/**)
+        ''' * URL直後のハッシュタグがリンク化されないバグを修正
+        ''' * PublicSearchの取得数を変更可能にした
+        ''' * Ctrl+J/K,SHIFT+J/Kが効かなくなっていたバグを修正
+        ''' * リストビューでのアイコンが縦長に描画されるバグを修正
+        ''' * リストビューでの文字列の描画位置を上寄せに変更
+        ''' * 非公式RTの際に元ツイートに@IDが含まれていた場合@を含めないようにした
+        ''' * アイコンの背景を白く塗るようにした
+        ''' * リスト部分で表示し切れない行は表示していなかったのを、読めそうな範囲で描画出来そうな行は表示するように変更
+        ''' * 入力欄でCtrl+Shift+←→　を動作するようにした
+        ''' * 短縮URL解決の設定が正しく動作しておらずオフにできなかったバグを修正
+        ''' * yfrogへの画像投稿に対応
+        ''' * 取得時の自ポスト既読化をDMにも適用するようにした
+        ''' * Favorites取得数を設定できるようにした。０で標準取得数に合わせる
+        ''' * リストビューの描画を若干高速化した
+        '''==== Ver 0 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property ChangeLog() As String
             Get
@@ -864,6 +868,15 @@ Namespace My.Resources
         Friend ReadOnly Property FavAddToolStripMenuItem_ClickText4() As String
             Get
                 Return ResourceManager.GetString("FavAddToolStripMenuItem_ClickText4", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  一度にふぁぼ追加が実行できるのは250件までです に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property FavoriteLimitCountText() As String
+            Get
+                Return ResourceManager.GetString("FavoriteLimitCountText", resourceCulture)
             End Get
         End Property
         
@@ -2365,6 +2378,15 @@ Namespace My.Resources
         Friend ReadOnly Property TextProxyPort_ValidatingText2() As String
             Get
                 Return ResourceManager.GetString("TextProxyPort_ValidatingText2", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  取得発言数は20～100件を指定してください。 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property TextSearchCountApi_Validating1() As String
+            Get
+                Return ResourceManager.GetString("TextSearchCountApi_Validating1", resourceCulture)
             End Get
         End Property
         

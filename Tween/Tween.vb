@@ -2395,7 +2395,7 @@ Public Class TweenMain
 
         '複数fav確認msg
         If _curList.SelectedIndices.Count > 250 AndAlso FavAdd Then
-            MessageBox.Show("一度にふぁぼ追加が実行できるのは250件までです")
+            MessageBox.Show(My.Resources.FavoriteLimitCountText)
             Exit Sub
         ElseIf _curList.SelectedIndices.Count > 1 Then
             If FavAdd Then
@@ -5402,8 +5402,6 @@ RETRY:
                 e.Handled = True
                 e.SuppressKeyPress = True
                 Dim idx As Integer = 0
-                _anchorPost = Nothing
-                _anchorFlag = False
                 If _curList IsNot Nothing AndAlso _curList.Items.Count <> 0 AndAlso _
                             _curList.SelectedIndices.Count > 0 AndAlso _curList.SelectedIndices(0) > 0 Then
                     idx = _curList.SelectedIndices(0) - 1
@@ -5414,25 +5412,12 @@ RETRY:
                 e.Handled = True
                 e.SuppressKeyPress = True
                 Dim idx As Integer = 0
-                _anchorPost = Nothing
-                _anchorFlag = False
                 If _curList IsNot Nothing AndAlso _curList.Items.Count <> 0 AndAlso _curList.SelectedIndices.Count > 0 _
                             AndAlso _curList.SelectedIndices(0) < _curList.Items.Count - 1 Then
                     idx = _curList.SelectedIndices(0) + 1
                     SelectListItem(_curList, idx)
                     _curList.EnsureVisible(idx)
                 End If
-            End If
-            If e.KeyCode = Keys.Right Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                GoRelPost(True)
-                Exit Sub
-            ElseIf e.KeyCode = Keys.Left Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                GoRelPost(False)
-                Exit Sub
             End If
             If e.KeyCode = Keys.R Then
                 e.Handled = True

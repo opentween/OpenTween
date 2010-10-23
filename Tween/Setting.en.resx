@@ -978,4 +978,7 @@
   <data name="UseChangeGetCount.Text" xml:space="preserve">
     <value>次の項目の更新時の取得数を個別に設定する</value>
   </data>
+  <data name="Label66.Text" xml:space="preserve">
+    <value>Favorites/PublicSearchの取得数</value>
+  </data>
 </root>
