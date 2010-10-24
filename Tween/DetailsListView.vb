@@ -160,7 +160,8 @@ Namespace TweenCustomControl
             End If
         End Function
 
-        <StructLayout(LayoutKind.Sequential)> Private Structure SCROLLINFO
+        <StructLayout(LayoutKind.Sequential)>
+        Private Structure SCROLLINFO
             Public cbSize As Integer
             Public fMask As Integer
             Public nMin As Integer
@@ -190,16 +191,10 @@ Namespace TweenCustomControl
         Private Shared Function GetScrollInfo(ByVal hWnd As IntPtr, ByVal fnBar As ScrollBarDirection, ByRef lpsi As SCROLLINFO) As Integer
         End Function
 
-        Private Function GetScrollBarPosition(ByVal dir As ScrollBarDirection) As Integer
-            Static si As SCROLLINFO
-            si.cbSize = Len(si)
-            si.fMask = ScrollInfoMask.SIF_POS
-            If GetScrollInfo(Me.Handle, dir, si) <> 0 Then
-                Return si.nPos
-            Else
-                Return -1
-            End If
-        End Function
+        Private si As New SCROLLINFO With { _
+            .cbSize = Len(si), _
+            .fMask = ScrollInfoMask.SIF_POS
+        }
 
         <DebuggerStepThrough()> _
         Protected Overrides Sub WndProc(ByRef m As System.Windows.Forms.Message)
@@ -211,13 +206,8 @@ Namespace TweenCustomControl
             Const WM_VSCROLL As Integer = &H115
             Const WM_KEYDOWN As Integer = &H100
 
-            Static oldhPos As Integer = 0
-            Static oldvPos As Integer = 0
-            Static hPos As Integer = 0
-            Static vPos As Integer = 0
-
-            Dim hScrollBarPreProcess As Boolean = False
-            Dim vScrollBarPreProcess As Boolean = False
+            Dim hPos As Integer = -1
+            Dim vPos As Integer = -1
 
             Select Case m.Msg
                 Case WM_ERASEBKGND
@@ -235,13 +225,11 @@ Namespace TweenCustomControl
                 Case WM_VSCROLL
                     RaiseEvent VScrolled(Me, EventArgs.Empty)
                 Case WM_MOUSEWHEEL, WM_MOUSEHWHEEL, WM_KEYDOWN
-                    oldvPos = GetScrollBarPosition(ScrollBarDirection.SB_VERT)
-                    If oldvPos <> -1 Then
-                        vScrollBarPreProcess = True
+                    If GetScrollInfo(Me.Handle, ScrollBarDirection.SB_VERT, si) <> 0 Then
+                        vPos = si.nPos
                     End If
-                    oldhPos = GetScrollBarPosition(ScrollBarDirection.SB_HORZ)
-                    If oldhPos <> -1 Then
-                        hScrollBarPreProcess = True
+                    If GetScrollInfo(Me.Handle, ScrollBarDirection.SB_HORZ, si) <> 0 Then
+                        hPos = si.nPos
                     End If
             End Select
 
@@ -253,19 +241,17 @@ Namespace TweenCustomControl
                 'WndProcのさらに先で発生する。
             End Try
             If Me.IsDisposed Then Exit Sub
-            If vScrollBarPreProcess Then
-                vPos = GetScrollBarPosition(ScrollBarDirection.SB_VERT)
-                If vPos <> oldvPos Then
+
+            If vPos <> -1 Then
+                If GetScrollInfo(Me.Handle, ScrollBarDirection.SB_VERT, si) <> 0 AndAlso vPos <> si.nPos Then
                     RaiseEvent VScrolled(Me, EventArgs.Empty)
                 End If
             End If
-            If hScrollBarPreProcess Then
-                hPos = GetScrollBarPosition(ScrollBarDirection.SB_HORZ)
-                If hPos <> oldhPos Then
+            If hPos <> -1 Then
+                If GetScrollInfo(Me.Handle, ScrollBarDirection.SB_HORZ, si) <> 0 AndAlso hPos <> si.nPos Then
                     RaiseEvent HScrolled(Me, EventArgs.Empty)
                 End If
             End If
         End Sub
-
     End Class
 End Namespace
