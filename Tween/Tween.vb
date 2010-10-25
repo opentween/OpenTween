@@ -3825,11 +3825,8 @@ Public Class TweenMain
 
         If e.ColumnIndex = 0 Then
             Me.DrawListViewItemIcon(e)
-        ElseIf _iconSz <> 24 OrElse _iconSz <> 48 Then
-            'アイコン以外の列(24x24,48x48以外)
-            e.DrawDefault = True
         Else
-            'アイコン以外の列(24x24,48x48以外)
+            'アイコン以外の列
             Dim rct As RectangleF = e.Bounds
             Dim rctB As RectangleF = e.Bounds
             rct.Width = e.Header.Width
