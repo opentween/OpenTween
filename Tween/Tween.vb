@@ -3833,6 +3833,7 @@ Public Class TweenMain
             rctB.Width = e.Header.Width
             If _iconCol Then
                 rct.Y += e.Item.Font.Height
+                rct.Height -= e.Item.Font.Height
                 rctB.Height = e.Item.Font.Height
             End If
 
@@ -3840,16 +3841,17 @@ Public Class TweenMain
             Dim heightDiff As Integer
             Dim drawLineCount As Integer = Math.Max(1, Math.DivRem(CType(rct.Height, Integer), e.Item.Font.Height, heightDiff))
 
-            If heightDiff > e.Item.Font.Height * 0.7 Then
-                rct.Height += e.Item.Font.Height
-                drawLineCount += 1
-            End If
+            'If heightDiff > e.Item.Font.Height * 0.7 Then
+            '    rct.Height += e.Item.Font.Height
+            '    drawLineCount += 1
+            'End If
 
             'フォントの高さの半分を足してるのは保険。無くてもいいかも。
             If Not _iconCol AndAlso drawLineCount <= 1 Then
-                rct.Inflate(0, CType(heightDiff / -2, Integer))
+                'rct.Inflate(0, CType(heightDiff / -2, Integer))
                 'rct.Height += CType(e.Item.Font.Height / 2, Integer)
-            Else
+            ElseIf heightDiff < e.Item.Font.Height * 0.7 Then
+                '最終行が70%以上欠けていたら、最終行は表示しない
                 'rct.Height = CType((e.Item.Font.Height * drawLineCount) + (e.Item.Font.Height / 2), Single)
                 rct.Height = CType((e.Item.Font.Height * drawLineCount), Single)
             End If
@@ -3879,14 +3881,46 @@ Public Class TweenMain
                         Dim fnt As New Font(e.Item.Font, FontStyle.Bold)
                         'e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems(2).Text, e.Item.Font, brs, rct, sf)
                         'e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]", fnt, brs, rctB, sf)
-                        TextRenderer.DrawText(e.Graphics, e.Item.SubItems(2).Text, e.Item.Font, Rectangle.Round(rct), brs.Color, TextFormatFlags.SingleLine Or TextFormatFlags.EndEllipsis Or TextFormatFlags.NoPadding Or TextFormatFlags.NoPrefix)
-                        TextRenderer.DrawText(e.Graphics, e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]", fnt, Rectangle.Round(rctB), brs.Color, TextFormatFlags.SingleLine Or TextFormatFlags.EndEllipsis Or TextFormatFlags.NoPadding Or TextFormatFlags.NoPrefix)
+                        TextRenderer.DrawText(e.Graphics,
+                                              e.Item.SubItems(2).Text,
+                                              e.Item.Font,
+                                              Rectangle.Round(rct),
+                                              brs.Color,
+                                              TextFormatFlags.WordBreak Or
+                                              TextFormatFlags.EndEllipsis Or
+                                              TextFormatFlags.LeftAndRightPadding Or
+                                              TextFormatFlags.NoPrefix)
+                        TextRenderer.DrawText(e.Graphics,
+                                              e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]",
+                                              fnt,
+                                              Rectangle.Round(rctB),
+                                              brs.Color,
+                                              TextFormatFlags.SingleLine Or
+                                              TextFormatFlags.EndEllipsis Or
+                                              TextFormatFlags.LeftAndRightPadding Or
+                                              TextFormatFlags.NoPrefix)
                         fnt.Dispose()
                     ElseIf e.Bounds.Height < e.Item.Font.Height * 2 Then
-                        TextRenderer.DrawText(e.Graphics, e.SubItem.Text, e.Item.Font, Rectangle.Round(rct), brs.Color, TextFormatFlags.SingleLine Or TextFormatFlags.EndEllipsis Or TextFormatFlags.NoPadding Or TextFormatFlags.NoPrefix)
+                        TextRenderer.DrawText(e.Graphics,
+                                              e.SubItem.Text,
+                                              e.Item.Font,
+                                              Rectangle.Round(rct),
+                                              brs.Color,
+                                              TextFormatFlags.SingleLine Or
+                                              TextFormatFlags.EndEllipsis Or
+                                              TextFormatFlags.LeftAndRightPadding Or
+                                              TextFormatFlags.NoPrefix)
                     Else
                         'e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, brs, rct, sf)
-                        TextRenderer.DrawText(e.Graphics, e.SubItem.Text, e.Item.Font, Rectangle.Round(rct), brs.Color, TextFormatFlags.WordBreak Or TextFormatFlags.EndEllipsis Or TextFormatFlags.NoPadding Or TextFormatFlags.NoPrefix)
+                        TextRenderer.DrawText(e.Graphics,
+                                              e.SubItem.Text,
+                                              e.Item.Font,
+                                              Rectangle.Round(rct),
+                                              brs.Color,
+                                              TextFormatFlags.WordBreak Or
+                                              TextFormatFlags.EndEllipsis Or
+                                              TextFormatFlags.LeftAndRightPadding Or
+                                              TextFormatFlags.NoPrefix)
                     End If
                 End If
                 If flg Then brs.Dispose()
@@ -3898,25 +3932,89 @@ Public Class TweenMain
                         If _iconCol Then
                             'e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems(2).Text, e.Item.Font, _brsHighLightText, rct, sf)
                             'e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]", fnt, _brsHighLightText, rctB, sf)
-                            TextRenderer.DrawText(e.Graphics, e.Item.SubItems(2).Text, e.Item.Font, Rectangle.Round(rct), _brsHighLightText.Color, TextFormatFlags.SingleLine Or TextFormatFlags.EndEllipsis Or TextFormatFlags.NoPadding Or TextFormatFlags.NoPrefix)
-                            TextRenderer.DrawText(e.Graphics, e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]", fnt, Rectangle.Round(rctB), _brsHighLightText.Color, TextFormatFlags.SingleLine Or TextFormatFlags.EndEllipsis Or TextFormatFlags.NoPadding Or TextFormatFlags.NoPrefix)
+                            TextRenderer.DrawText(e.Graphics,
+                                                  e.Item.SubItems(2).Text,
+                                                  e.Item.Font,
+                                                  Rectangle.Round(rct),
+                                                  _brsHighLightText.Color,
+                                                  TextFormatFlags.WordBreak Or
+                                                  TextFormatFlags.EndEllipsis Or
+                                                  TextFormatFlags.LeftAndRightPadding Or
+                                                  TextFormatFlags.NoPrefix)
+                            TextRenderer.DrawText(e.Graphics,
+                                                  e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]",
+                                                  fnt,
+                                                  Rectangle.Round(rctB),
+                                                  _brsHighLightText.Color,
+                                                  TextFormatFlags.SingleLine Or
+                                                  TextFormatFlags.EndEllipsis Or
+                                                  TextFormatFlags.LeftAndRightPadding Or
+                                                  TextFormatFlags.NoPrefix)
                         ElseIf e.Bounds.Height < e.Item.Font.Height * 2 Then
-                            TextRenderer.DrawText(e.Graphics, e.SubItem.Text, e.Item.Font, Rectangle.Round(rct), _brsHighLightText.Color, TextFormatFlags.SingleLine Or TextFormatFlags.EndEllipsis Or TextFormatFlags.NoPadding Or TextFormatFlags.NoPrefix)
+                            TextRenderer.DrawText(e.Graphics,
+                                                  e.SubItem.Text,
+                                                  e.Item.Font,
+                                                  Rectangle.Round(rct),
+                                                  _brsHighLightText.Color,
+                                                  TextFormatFlags.SingleLine Or
+                                                  TextFormatFlags.EndEllipsis Or
+                                                  TextFormatFlags.LeftAndRightPadding Or
+                                                  TextFormatFlags.NoPrefix)
                         Else
                             'e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, _brsHighLightText, rct, sf)
-                            TextRenderer.DrawText(e.Graphics, e.SubItem.Text, e.Item.Font, Rectangle.Round(rct), _brsHighLightText.Color, TextFormatFlags.WordBreak Or TextFormatFlags.EndEllipsis Or TextFormatFlags.NoPadding Or TextFormatFlags.NoPrefix)
+                            TextRenderer.DrawText(e.Graphics,
+                                                  e.SubItem.Text,
+                                                  e.Item.Font,
+                                                  Rectangle.Round(rct),
+                                                  _brsHighLightText.Color,
+                                                  TextFormatFlags.WordBreak Or
+                                                  TextFormatFlags.EndEllipsis Or
+                                                  TextFormatFlags.LeftAndRightPadding Or
+                                                  TextFormatFlags.NoPrefix)
                         End If
                     Else
                         If _iconCol Then
                             'e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems(2).Text, e.Item.Font, _brsForeColorUnread, rct, sf)
                             'e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]", fnt, _brsForeColorUnread, rctB, sf)
-                            TextRenderer.DrawText(e.Graphics, e.Item.SubItems(2).Text, e.Item.Font, Rectangle.Round(rct), _brsForeColorUnread.Color, TextFormatFlags.SingleLine Or TextFormatFlags.EndEllipsis Or TextFormatFlags.NoPadding Or TextFormatFlags.NoPrefix)
-                            TextRenderer.DrawText(e.Graphics, e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]", fnt, Rectangle.Round(rctB), _brsForeColorUnread.Color, TextFormatFlags.SingleLine Or TextFormatFlags.EndEllipsis Or TextFormatFlags.NoPadding Or TextFormatFlags.NoPrefix)
+                            TextRenderer.DrawText(e.Graphics,
+                                                  e.Item.SubItems(2).Text,
+                                                  e.Item.Font,
+                                                  Rectangle.Round(rct),
+                                                  _brsForeColorUnread.Color,
+                                                  TextFormatFlags.WordBreak Or
+                                                  TextFormatFlags.EndEllipsis Or
+                                                  TextFormatFlags.LeftAndRightPadding Or
+                                                  TextFormatFlags.NoPrefix)
+                            TextRenderer.DrawText(e.Graphics,
+                                                  e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]",
+                                                  fnt,
+                                                  Rectangle.Round(rctB),
+                                                  _brsForeColorUnread.Color,
+                                                  TextFormatFlags.SingleLine Or
+                                                  TextFormatFlags.EndEllipsis Or
+                                                  TextFormatFlags.LeftAndRightPadding Or
+                                                  TextFormatFlags.NoPrefix)
                         ElseIf e.Bounds.Height < e.Item.Font.Height * 2 Then
-                            TextRenderer.DrawText(e.Graphics, e.SubItem.Text, e.Item.Font, Rectangle.Round(rct), _brsForeColorUnread.Color, TextFormatFlags.SingleLine Or TextFormatFlags.EndEllipsis Or TextFormatFlags.NoPadding Or TextFormatFlags.NoPrefix)
+                            TextRenderer.DrawText(e.Graphics,
+                                                  e.SubItem.Text,
+                                                  e.Item.Font,
+                                                  Rectangle.Round(rct),
+                                                  _brsForeColorUnread.Color,
+                                                  TextFormatFlags.SingleLine Or
+                                                  TextFormatFlags.EndEllipsis Or
+                                                  TextFormatFlags.LeftAndRightPadding Or
+                                                  TextFormatFlags.NoPrefix)
                         Else
                             'e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, _brsForeColorUnread, rct, sf)
-                            TextRenderer.DrawText(e.Graphics, e.SubItem.Text, e.Item.Font, Rectangle.Round(rct), _brsForeColorUnread.Color, TextFormatFlags.WordBreak Or TextFormatFlags.EndEllipsis Or TextFormatFlags.NoPadding Or TextFormatFlags.NoPrefix)
+                            TextRenderer.DrawText(e.Graphics,
+                                                  e.SubItem.Text,
+                                                  e.Item.Font,
+                                                  Rectangle.Round(rct),
+                                                  _brsForeColorUnread.Color,
+                                                  TextFormatFlags.WordBreak Or
+                                                  TextFormatFlags.EndEllipsis Or
+                                                  TextFormatFlags.LeftAndRightPadding Or
+                                                  TextFormatFlags.NoPrefix)
                         End If
                     End If
                     fnt.Dispose()
