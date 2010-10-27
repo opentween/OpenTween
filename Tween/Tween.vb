@@ -161,7 +161,7 @@ Public Class TweenMain
     Private _brsBackColorAtTo As SolidBrush
     Private _brsBackColorNone As SolidBrush
     Private _brsDeactiveSelection As New SolidBrush(Color.FromKnownColor(KnownColor.ButtonFace)) 'Listにフォーカスないときの選択行の背景色
-    Private sf As New StringFormat()
+    'Private sf As New StringFormat()
     Private sfTab As New StringFormat()
 
     '''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -350,7 +350,7 @@ Public Class TweenMain
         If _brsBackColorNone IsNot Nothing Then _brsBackColorNone.Dispose()
         If _brsDeactiveSelection IsNot Nothing Then _brsDeactiveSelection.Dispose()
         shield.Dispose()
-        sf.Dispose()
+        'sf.Dispose()
         sfTab.Dispose()
         For Each bw As BackgroundWorker In _bw
             If bw IsNot Nothing Then
@@ -572,9 +572,9 @@ Public Class TweenMain
         _brsBackColorNone = New SolidBrush(_clListBackcolor)
 
         ' StringFormatオブジェクトへの事前設定
-        sf.Alignment = StringAlignment.Near             ' Textを近くへ配置（左から右の場合は左寄せ）
-        sf.LineAlignment = StringAlignment.Near         ' Textを近くへ配置（上寄せ）
-        sf.FormatFlags = StringFormatFlags.LineLimit    ' 
+        'sf.Alignment = StringAlignment.Near             ' Textを近くへ配置（左から右の場合は左寄せ）
+        'sf.LineAlignment = StringAlignment.Near         ' Textを近くへ配置（上寄せ）
+        'sf.FormatFlags = StringFormatFlags.LineLimit    ' 
         sfTab.Alignment = StringAlignment.Center
         sfTab.LineAlignment = StringAlignment.Center
 
