@@ -241,6 +241,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Thumbnail.vb" />
+    <Compile Include="ToolStripAPIGauge.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ToolStripLabelHistory.vb">
       <SubType>Component</SubType>
     </Compile>
