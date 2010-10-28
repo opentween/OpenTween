@@ -3897,6 +3897,7 @@ Public Class TweenMain
                                               TextFormatFlags.WordBreak Or
                                               TextFormatFlags.EndEllipsis Or
                                               TextFormatFlags.GlyphOverhangPadding Or
+                                              TextFormatFlags.TextBoxControl Or
                                               TextFormatFlags.NoPrefix)
                         TextRenderer.DrawText(e.Graphics,
                                               e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]",
@@ -3929,6 +3930,7 @@ Public Class TweenMain
                                               TextFormatFlags.WordBreak Or
                                               TextFormatFlags.EndEllipsis Or
                                               TextFormatFlags.GlyphOverhangPadding Or
+                                              TextFormatFlags.TextBoxControl Or
                                               TextFormatFlags.NoPrefix)
                     End If
                 End If
@@ -3949,6 +3951,7 @@ Public Class TweenMain
                                                   TextFormatFlags.WordBreak Or
                                                   TextFormatFlags.EndEllipsis Or
                                                   TextFormatFlags.GlyphOverhangPadding Or
+                                                  TextFormatFlags.TextBoxControl Or
                                                   TextFormatFlags.NoPrefix)
                             TextRenderer.DrawText(e.Graphics,
                                                   e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]",
@@ -3980,6 +3983,7 @@ Public Class TweenMain
                                                   TextFormatFlags.WordBreak Or
                                                   TextFormatFlags.EndEllipsis Or
                                                   TextFormatFlags.GlyphOverhangPadding Or
+                                                  TextFormatFlags.TextBoxControl Or
                                                   TextFormatFlags.NoPrefix)
                         End If
                     Else
@@ -3994,6 +3998,7 @@ Public Class TweenMain
                                                   TextFormatFlags.WordBreak Or
                                                   TextFormatFlags.EndEllipsis Or
                                                   TextFormatFlags.GlyphOverhangPadding Or
+                                                  TextFormatFlags.TextBoxControl Or
                                                   TextFormatFlags.NoPrefix)
                             TextRenderer.DrawText(e.Graphics,
                                                   e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]",
@@ -4025,6 +4030,7 @@ Public Class TweenMain
                                                   TextFormatFlags.WordBreak Or
                                                   TextFormatFlags.EndEllipsis Or
                                                   TextFormatFlags.GlyphOverhangPadding Or
+                                                  TextFormatFlags.TextBoxControl Or
                                                   TextFormatFlags.NoPrefix)
                         End If
                     End If
