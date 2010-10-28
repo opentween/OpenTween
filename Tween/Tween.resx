@@ -130,19 +130,13 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="StatusLabelUrl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>277, 22</value>
+    <value>313, 22</value>
   </data>
   <data name="StatusLabelUrl.Text" xml:space="preserve">
     <value>ToolStripStatusLabel1</value>
   </data>
   <data name="StatusLabelUrl.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
-  </data>
-  <data name="StatusLabelApi.Size" type="System.Drawing.Size, System.Drawing">
-    <value>67, 22</value>
-  </data>
-  <data name="StatusLabelApi.Text" xml:space="preserve">
-    <value>API ???/???</value>
   </data>
   <data name="StatusLabel.Size" type="System.Drawing.Size, System.Drawing">
     <value>55, 22</value>
@@ -229,7 +223,7 @@
     <value>ハッシュタグ設定</value>
   </data>
   <data name="ContextMenuPostMode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>281, 214</value>
+    <value>238, 214</value>
   </data>
   <data name="&gt;&gt;ContextMenuPostMode.Name" xml:space="preserve">
     <value>ContextMenuPostMode</value>
@@ -2448,18 +2442,6 @@
   <data name="&gt;&gt;StatusLabelUrl.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;StatusLabelApi.Name" xml:space="preserve">
-    <value>StatusLabelApi</value>
-  </data>
-  <data name="&gt;&gt;StatusLabelApi.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;StatusLabel.Name" xml:space="preserve">
-    <value>StatusLabel</value>
-  </data>
-  <data name="&gt;&gt;StatusLabel.Type" xml:space="preserve">
-    <value>Tween.TweenCustomControl.ToolStripLabelHistory, Tween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
   <data name="&gt;&gt;HashStripSplitButton.Name" xml:space="preserve">
     <value>HashStripSplitButton</value>
   </data>
@@ -3689,6 +3671,12 @@
   </data>
   <data name="&gt;&gt;ToolTip1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;StatusLabel.Name" xml:space="preserve">
+    <value>StatusLabel</value>
+  </data>
+  <data name="&gt;&gt;StatusLabel.Type" xml:space="preserve">
+    <value>Tween.TweenCustomControl.ToolStripLabelHistory, Tween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>TweenMain</value>

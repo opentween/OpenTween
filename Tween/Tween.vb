@@ -165,6 +165,7 @@ Public Class TweenMain
     Private sfTab As New StringFormat()
 
     '''''''''''''''''''''''''''''''''''''''''''''''''''''
+    Private _apiGauge As New ToolStripAPIGauge()
     Private _statuses As TabInformations
     Private _itemCache() As ListViewItem
     Private _itemCacheIndex As Integer
@@ -360,6 +361,7 @@ Public Class TweenMain
         If _bwFollower IsNot Nothing Then
             _bwFollower.Dispose()
         End If
+        Me._apiGauge.Dispose()
     End Sub
 
     Private Sub LoadIcon(ByRef IconInstance As Icon, ByVal FileName As String)
@@ -7115,28 +7117,9 @@ RETRY:
     End Sub
 
     Private Sub SetStatusLabelApi()
-        Dim slbl As New StringBuilder(256)
-
-        If TwitterApiInfo.RemainCount > -1 AndAlso TwitterApiInfo.MaxCount > -1 Then
-            ' 正常
-            slbl.Append("API " + TwitterApiInfo.RemainCount.ToString + "/" + TwitterApiInfo.MaxCount.ToString)
-        ElseIf TwitterApiInfo.RemainCount > -1 Then
-            ' uppercount不正
-            slbl.Append("API " + TwitterApiInfo.RemainCount.ToString + "/???")
-        ElseIf TwitterApiInfo.MaxCount > -1 Then
-            ' remaincount不正
-            slbl.Append("API ???/" + TwitterApiInfo.MaxCount.ToString)
-        Else
-            '両方とも不正
-            slbl.Append("API ???/???")
-        End If
-
-        StatusLabelApi.Text = slbl.ToString()
-        If TwitterApiInfo.ResetTime >= DateTime.Now Then
-            StatusLabelApi.ToolTipText = "ResetTime " + TwitterApiInfo.ResetTime.ToString
-        Else
-            StatusLabelApi.ToolTipText = "ResetTime ???"
-        End If
+        Me._apiGauge.RemainCount = TwitterApiInfo.RemainCount
+        Me._apiGauge.MaxCount = TwitterApiInfo.MaxCount
+        Me._apiGauge.ResetTime = TwitterApiInfo.ResetTime
     End Sub
 
     Private Sub SetStatusLabelUrl()
@@ -8257,7 +8240,7 @@ RETRY:
         e.Result = tw.GetInfoApi(args.info)
     End Sub
 
-    Private Sub ApiInfoMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ApiInfoMenuItem.Click, StatusLabelApi.DoubleClick
+    Private Sub ApiInfoMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ApiInfoMenuItem.Click
         Dim info As New ApiInfo
         Dim tmp As String
         Dim args As New GetApiInfoArgs With {.tw = tw, .info = info}
@@ -9160,6 +9143,11 @@ RETRY:
 
         ' InitializeComponent() 呼び出しの後で初期化を追加します。
 
+        Me._apiGauge.Control.Size = New Size(70, 22)
+        Me._apiGauge.Control.Margin = New Padding(0, 3, 0, 2)
+        Me._apiGauge.GaugeHeight = 8
+        AddHandler Me._apiGauge.Control.DoubleClick, AddressOf Me.ApiInfoMenuItem_Click
+        Me.StatusStrip1.Items.Insert(1, Me._apiGauge)
     End Sub
 
     Private Sub _hookGlobalHotkey_HotkeyPressed(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles _hookGlobalHotkey.HotkeyPressed
