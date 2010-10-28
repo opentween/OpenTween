@@ -3898,6 +3898,7 @@ Public Class TweenMain
                                               TextFormatFlags.EndEllipsis Or
                                               TextFormatFlags.GlyphOverhangPadding Or
                                               TextFormatFlags.TextBoxControl Or
+                                              TextFormatFlags.NoClipping Or
                                               TextFormatFlags.NoPrefix)
                         TextRenderer.DrawText(e.Graphics,
                                               e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]",
@@ -3919,6 +3920,7 @@ Public Class TweenMain
                                               TextFormatFlags.EndEllipsis Or
                                               TextFormatFlags.GlyphOverhangPadding Or
                                               TextFormatFlags.NoPrefix Or
+                                              TextFormatFlags.NoClipping Or
                                               TextFormatFlags.VerticalCenter)
                     Else
                         'e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, brs, rct, sf)
@@ -3931,6 +3933,7 @@ Public Class TweenMain
                                               TextFormatFlags.EndEllipsis Or
                                               TextFormatFlags.GlyphOverhangPadding Or
                                               TextFormatFlags.TextBoxControl Or
+                                              TextFormatFlags.NoClipping Or
                                               TextFormatFlags.NoPrefix)
                     End If
                 End If
@@ -3952,6 +3955,7 @@ Public Class TweenMain
                                                   TextFormatFlags.EndEllipsis Or
                                                   TextFormatFlags.GlyphOverhangPadding Or
                                                   TextFormatFlags.TextBoxControl Or
+                                                  TextFormatFlags.NoClipping Or
                                                   TextFormatFlags.NoPrefix)
                             TextRenderer.DrawText(e.Graphics,
                                                   e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]",
@@ -3972,6 +3976,7 @@ Public Class TweenMain
                                                   TextFormatFlags.EndEllipsis Or
                                                   TextFormatFlags.GlyphOverhangPadding Or
                                                   TextFormatFlags.NoPrefix Or
+                                                  TextFormatFlags.NoClipping Or
                                                   TextFormatFlags.VerticalCenter)
                         Else
                             'e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, _brsHighLightText, rct, sf)
@@ -3984,6 +3989,7 @@ Public Class TweenMain
                                                   TextFormatFlags.EndEllipsis Or
                                                   TextFormatFlags.GlyphOverhangPadding Or
                                                   TextFormatFlags.TextBoxControl Or
+                                                  TextFormatFlags.NoClipping Or
                                                   TextFormatFlags.NoPrefix)
                         End If
                     Else
@@ -3999,6 +4005,7 @@ Public Class TweenMain
                                                   TextFormatFlags.EndEllipsis Or
                                                   TextFormatFlags.GlyphOverhangPadding Or
                                                   TextFormatFlags.TextBoxControl Or
+                                                  TextFormatFlags.NoClipping Or
                                                   TextFormatFlags.NoPrefix)
                             TextRenderer.DrawText(e.Graphics,
                                                   e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]",
@@ -4019,6 +4026,7 @@ Public Class TweenMain
                                                   TextFormatFlags.EndEllipsis Or
                                                   TextFormatFlags.GlyphOverhangPadding Or
                                                   TextFormatFlags.NoPrefix Or
+                                                  TextFormatFlags.NoClipping Or
                                                   TextFormatFlags.VerticalCenter)
                         Else
                             'e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, _brsForeColorUnread, rct, sf)
@@ -4031,6 +4039,7 @@ Public Class TweenMain
                                                   TextFormatFlags.EndEllipsis Or
                                                   TextFormatFlags.GlyphOverhangPadding Or
                                                   TextFormatFlags.TextBoxControl Or
+                                                  TextFormatFlags.NoClipping Or
                                                   TextFormatFlags.NoPrefix)
                         End If
                     End If
