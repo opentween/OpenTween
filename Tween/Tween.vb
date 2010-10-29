@@ -3887,7 +3887,7 @@ Public Class TweenMain
                 If rct.Width > 0 Then
                     If _iconCol Then
                         Dim fnt As New Font(e.Item.Font, FontStyle.Bold)
-                        ''e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems(2).Text, e.Item.Font, brs, rct, sf)
+                        'e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems(2).Text, e.Item.Font, brs, rct, sf)
                         'e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]", fnt, brs, rctB, sf)
                         TextRenderer.DrawText(e.Graphics,
                                               e.Item.SubItems(2).Text,
