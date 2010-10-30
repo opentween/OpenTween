@@ -103,7 +103,8 @@ Public Class Thumbnail
         New ThumbnailService("ついっぷるフォト", AddressOf TwipplePhoto_GetUrl, AddressOf TwipplePhoto_CreateImage), _
         New ThumbnailService("mypix/shamoji", AddressOf mypix_GetUrl, AddressOf mypix_CreateImage), _
         New ThumbnailService("ow.ly", AddressOf Owly_GetUrl, AddressOf Owly_CreateImage), _
-        New ThumbnailService("vimeo", AddressOf Vimeo_GetUrl, AddressOf Vimeo_CreateImage)
+        New ThumbnailService("vimeo", AddressOf Vimeo_GetUrl, AddressOf Vimeo_CreateImage), _
+        New ThumbnailService("cloudfiles", AddressOf CloudFiles_GetUrl, AddressOf CloudFiles_CreateImage)
     }
 
     Public Sub New(ByVal Owner As TweenMain)
@@ -1903,6 +1904,54 @@ Public Class Thumbnail
         Return False
     End Function
 
+#End Region
+
+#Region "cloudfiles"
+    ''' <summary>
+    ''' URL解析部で呼び出されるサムネイル画像URL作成デリゲート
+    ''' </summary>
+    ''' <param name="args">Class GetUrlArgs
+    '''                                 args.url        URL文字列
+    '''                                 args.imglist    解析成功した際にこのリストに元URL、サムネイルURLの形で作成するKeyValuePair
+    ''' </param>
+    ''' <returns>成功した場合True,失敗の場合False</returns>
+    ''' <remarks>args.imglistには呼び出しもとで使用しているimglistをそのまま渡すこと</remarks>
+
+    Private Function CloudFiles_GetUrl(ByVal args As GetUrlArgs) As Boolean
+        ' TODO URL判定処理を記述
+        Dim mc As Match = Regex.Match(args.url, "^http://c[0-9]+\.cdn[0-9]+\.cloudfiles\.rackspacecloud\.com/[a-z_0-9]+", RegexOptions.IgnoreCase)
+        If mc.Success Then
+            ' TODO 成功時はサムネイルURLを作成しimglist.Addする
+            args.imglist.Add(New KeyValuePair(Of String, String)(args.url, mc.Value))
+            Return True
+        Else
+            Return False
+        End If
+    End Function
+
+    ''' <summary>
+    ''' BackgroundWorkerから呼び出されるサムネイル画像作成デリゲート
+    ''' </summary>
+    ''' <param name="args">Class CreateImageArgs
+    '''                                 url As KeyValuePair(Of String, String)                  元URLとサムネイルURLのKeyValuePair
+    '''                                 pics As List(Of KeyValuePair(Of String, Image))         元URLとサムネイル画像のKeyValuePair
+    '''                                 tooltiptext As List(Of KeyValuePair(Of String, String)) 元URLとツールチップテキストのKeyValuePair
+    '''                                 errmsg As String                                        取得に失敗した際のエラーメッセージ
+    ''' </param>
+    ''' <returns>サムネイル画像作成に成功した場合はTrue,失敗した場合はFalse
+    ''' なお失敗した場合はargs.errmsgにエラーを表す文字列がセットされる</returns>
+    ''' <remarks></remarks>
+    Private Function CloudFiles_CreateImage(ByVal args As CreateImageArgs) As Boolean
+        ' TODO: サムネイル画像読み込み処理を記述します
+        Dim img As Image = (New HttpVarious).GetImage(args.url.Value, args.url.Key, 0, args.errmsg)
+        If img Is Nothing Then
+            Return False
+        End If
+        ' 成功した場合はURLに対応する画像、ツールチップテキストを登録
+        args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, img))
+        args.tooltiptext.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
+        Return True
+    End Function
 #End Region
 
 End Class
