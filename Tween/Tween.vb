@@ -6672,7 +6672,7 @@ RETRY:
         For Each idx As Integer In _curList.SelectedIndices
             Dim tabName As String = ""
             'タブ選択（or追加）
-            If Not SelectTab(tabName) Then Exit For
+            If Not SelectTab(tabName) Then Exit Sub
 
             fDialog.SetCurrent(tabName)
             If _statuses.Item(_curTab.Text, idx).RetweetedId = 0 Then
