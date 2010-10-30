@@ -19,7 +19,7 @@ Public Class ToolStripAPIGauge
     Public Property GaugeHeight As Integer
         Set(ByVal value As Integer)
             Me._gaugeHeight = value
-            Me.Control.Refresh()
+            If Not Me.Control.IsDisposed Then Me.Control.Refresh()
         End Set
         Get
             Return _gaugeHeight
@@ -30,8 +30,10 @@ Public Class ToolStripAPIGauge
     Public Property MaxCount As Integer
         Set(ByVal value As Integer)
             Me._maxCount = value
-            Me.SetText(Me._remainCount, Me._maxCount)
-            Me.Control.Refresh()
+            If Not Me.Control.IsDisposed Then
+                Me.SetText(Me._remainCount, Me._maxCount)
+                Me.Control.Refresh()
+            End If
         End Set
         Get
             Return Me._maxCount
@@ -42,8 +44,10 @@ Public Class ToolStripAPIGauge
     Public Property RemainCount As Integer
         Set(ByVal value As Integer)
             Me._remainCount = value
-            Me.SetText(Me._remainCount, Me._maxCount)
-            Me.Control.Refresh()
+            If Not Me.Control.IsDisposed Then
+                Me.SetText(Me._remainCount, Me._maxCount)
+                Me.Control.Refresh()
+            End If
         End Set
         Get
             Return Me._remainCount
@@ -54,12 +58,14 @@ Public Class ToolStripAPIGauge
     Public Property ResetTime As DateTime
         Set(ByVal value As DateTime)
             Me._resetTime = value
-            If Me._resetTime >= DateTime.Now Then
-                Me.ToolTipText = "ResetTime " + Me._resetTime.ToString()
-            Else
-                Me.ToolTipText = "ResetTime ???"
+            If Not Me.Control.IsDisposed Then
+                If Me._resetTime >= DateTime.Now Then
+                    Me.ToolTipText = "ResetTime " + Me._resetTime.ToString()
+                Else
+                    Me.ToolTipText = "ResetTime ???"
+                End If
+                Me.Control.Refresh()
             End If
-            Me.Control.Refresh()
         End Set
         Get
             Return Me._resetTime
