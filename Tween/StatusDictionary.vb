@@ -46,6 +46,7 @@ Public NotInheritable Class PostClass
     Private _InReplyToUser As String
     Private _InReplyToId As Long
     Private _Source As String
+    Private _SourceHtml As String
     Private _ReplyToList As New List(Of String)
     Private _IsMe As Boolean
     Private _IsDm As Boolean
@@ -82,6 +83,7 @@ Public NotInheritable Class PostClass
             ByVal InReplyToUser As String, _
             ByVal InReplyToId As Long, _
             ByVal Source As String, _
+            ByVal SourceHtml As String, _
             ByVal ReplyToList As List(Of String), _
             ByVal IsMe As Boolean, _
             ByVal IsDm As Boolean, _
@@ -106,6 +108,7 @@ Public NotInheritable Class PostClass
         _InReplyToUser = InReplyToUser
         _InReplyToId = InReplyToId
         _Source = Source
+        _SourceHtml = SourceHtml
         _ReplyToList = ReplyToList
         _IsMe = IsMe
         _IsDm = IsDm
@@ -274,6 +277,14 @@ Public NotInheritable Class PostClass
         End Get
         Set(ByVal value As String)
             _Source = value
+        End Set
+    End Property
+    Public Property SourceHtml() As String
+        Get
+            Return _SourceHtml
+        End Get
+        Set(ByVal value As String)
+            _SourceHtml = value
         End Set
     End Property
     Public Property ReplyToList() As List(Of String)
@@ -942,6 +953,7 @@ Public NotInheritable Class TabInformations
                         item.InReplyToUser, _
                         item.InReplyToId, _
                         item.Source, _
+                        item.SourceHtml, _
                         item.ReplyToList, _
                         item.IsMe, _
                         item.IsDm, _

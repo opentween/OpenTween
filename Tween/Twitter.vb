@@ -615,10 +615,13 @@ Public Class Twitter
                 If Not post.Source.Contains("</a>") Then
                     post.Source += "</a>"
                 End If
+                post.SourceHtml = String.Copy(post.Source)
                 Dim mS As Match = Regex.Match(post.Source, ">(?<source>.+)<")
                 If mS.Success Then
                     post.Source = HttpUtility.HtmlDecode(mS.Result("${source}"))
                 End If
+            Else
+                post.SourceHtml = String.Copy(post.Source)
             End If
 
             post.IsRead = read
@@ -1540,10 +1543,13 @@ Public Class Twitter
                     If Not post.Source.Contains("</a>") Then
                         post.Source += "</a>"
                     End If
+                    post.SourceHtml = String.Copy(post.Source)
                     Dim mS As Match = Regex.Match(post.Source, ">(?<source>.+)<")
                     If mS.Success Then
                         post.Source = HttpUtility.HtmlDecode(mS.Result("${source}"))
                     End If
+                Else
+                    post.SourceHtml = String.Copy(post.Source)
                 End If
 
                 post.IsRead = read
@@ -1687,10 +1693,13 @@ Public Class Twitter
                     If Not post.Source.Contains("</a>") Then
                         post.Source += "</a>"
                     End If
+                    post.SourceHtml = String.Copy(post.Source)
                     Dim mS As Match = Regex.Match(post.Source, ">(?<source>.+)<")
                     If mS.Success Then
                         post.Source = HttpUtility.HtmlDecode(mS.Result("${source}"))
                     End If
+                Else
+                    post.SourceHtml = String.Copy(post.Source)
                 End If
 
                 post.IsRead = read
@@ -1981,10 +1990,13 @@ Public Class Twitter
                     If Not post.Source.Contains("</a>") Then
                         post.Source += "</a>"
                     End If
+                    post.SourceHtml = String.Copy(post.Source)
                     Dim mS As Match = Regex.Match(post.Source, ">(?<source>.+)<")
                     If mS.Success Then
                         post.Source = HttpUtility.HtmlDecode(mS.Result("${source}"))
                     End If
+                Else
+                    post.SourceHtml = String.Copy(post.Source)
                 End If
 
                 post.IsRead = read
