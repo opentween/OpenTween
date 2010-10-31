@@ -59,11 +59,7 @@ Public Class ToolStripAPIGauge
         Set(ByVal value As DateTime)
             Me._resetTime = value
             If Not Me.Control.IsDisposed Then
-                If Me._resetTime >= DateTime.Now Then
-                    Me.ToolTipText = "ResetTime " + Me._resetTime.ToString()
-                Else
-                    Me.ToolTipText = "ResetTime ???"
-                End If
+                Me.SetText(Me._remainCount, Me._maxCount)
                 Me.Control.Refresh()
             End If
         End Set
@@ -103,6 +99,9 @@ Public Class ToolStripAPIGauge
 
     Private Sub SetText(ByVal remain As Integer, ByVal max As Integer)
         Dim textFormat As String = "API {0}/{1}"
+        Dim toolTipTextFormat As String = _
+            "API rest {0}/{1}" + Environment.NewLine + _
+            "(reset after {2} minutes)"
 
         If Me._remainCount > -1 AndAlso Me._maxCount > -1 Then
             ' 正常
@@ -117,5 +116,15 @@ Public Class ToolStripAPIGauge
             ' 両方とも不正
             Me.Control.Text = String.Format(textFormat, "???", "???")
         End If
+
+        Dim minute As Double = Math.Ceiling((Me.ResetTime - DateTime.Now).TotalMinutes)
+        Dim minuteText As String
+        If minute >= 0 Then
+            minuteText = minute.ToString()
+        Else
+            minuteText = "???"
+        End If
+
+        Me.ToolTipText = String.Format(toolTipTextFormat, Me._remainCount, Me._maxCount, minuteText)
     End Sub
 End Class
