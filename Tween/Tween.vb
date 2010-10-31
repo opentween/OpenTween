@@ -2198,6 +2198,17 @@ Public Class TweenMain
         If rslt.type = WORKERTYPE.FavRemove Then
             DispSelectedPost()          ' 詳細画面書き直し
             Dim favTabName As String = _statuses.GetTabByType(TabUsageType.Favorites).TabName
+            Dim fidx As Integer
+            If _curTab.Text.Equals(favTabName) Then
+                If _curList.FocusedItem IsNot Nothing Then
+                    fidx = _curList.FocusedItem.Index
+                ElseIf _curList.TopItem IsNot Nothing Then
+                    fidx = _curList.TopItem.Index
+                Else
+                    fidx = 0
+                End If
+            End If
+
             For Each i As Long In rslt.sIds
                 _statuses.RemoveFavPost(i)
             Next
@@ -2205,7 +2216,7 @@ Public Class TweenMain
                 _itemCache = Nothing    'キャッシュ破棄
                 _postCache = Nothing
                 _curPost = Nothing
-                _curItemIndex = -1
+                '_curItemIndex = -1
             End If
             For Each tp As TabPage In ListTab.TabPages
                 If tp.Text = favTabName Then
@@ -2213,6 +2224,20 @@ Public Class TweenMain
                     Exit For
                 End If
             Next
+            If _curTab.Text.Equals(favTabName) Then
+                _curList.SelectedIndices.Clear()
+                If _statuses.Tabs(favTabName).AllCount > 0 Then
+                    If _statuses.Tabs(favTabName).AllCount - 1 > fidx AndAlso fidx > -1 Then
+                        _curList.SelectedIndices.Add(fidx)
+                    Else
+                        _curList.SelectedIndices.Add(_statuses.Tabs(favTabName).AllCount - 1)
+                    End If
+                    If _curList.SelectedIndices.Count > 0 Then
+                        _curList.EnsureVisible(_curList.SelectedIndices(0))
+                        _curList.FocusedItem = _curList.Items(_curList.SelectedIndices(0))
+                    End If
+                End If
+            End If
         End If
 
         'リストに反映
@@ -3767,7 +3792,7 @@ Public Class TweenMain
             Dim sitem() As String = {"", Post.Nickname, Post.Data, Post.PDate.ToString(SettingDialog.DateTimeFormat), Post.Name, "", mk, Post.Source}
             itm = New ListViewItem(sitem, Post.ImageUrl)
         Else
-            Dim sitem() As String = {"", Post.Nickname, Post.Data, Post.PDate.ToString(SettingDialog.DateTimeFormat), Post.Name + Environment.NewLine + "(RT:" + Post.RetweetedBy + ")", "", mk, Post.Source}
+            Dim sitem() As String = {"", Post.Nickname, Post.Data, Post.PDate.ToString(SettingDialog.DateTimeFormat), Post.Name + "(RT:" + Post.RetweetedBy + ")", "", mk, Post.Source}
             itm = New ListViewItem(sitem, Post.ImageUrl)
         End If
 
@@ -3897,6 +3922,8 @@ Public Class TweenMain
                                               TextFormatFlags.WordBreak Or
                                               TextFormatFlags.EndEllipsis Or
                                               TextFormatFlags.GlyphOverhangPadding Or
+                                              TextFormatFlags.TextBoxControl Or
+                                              TextFormatFlags.NoClipping Or
                                               TextFormatFlags.NoPrefix)
                         TextRenderer.DrawText(e.Graphics,
                                               e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]",
@@ -3918,6 +3945,7 @@ Public Class TweenMain
                                               TextFormatFlags.EndEllipsis Or
                                               TextFormatFlags.GlyphOverhangPadding Or
                                               TextFormatFlags.NoPrefix Or
+                                              TextFormatFlags.NoClipping Or
                                               TextFormatFlags.VerticalCenter)
                     Else
                         'e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, brs, rct, sf)
@@ -3929,6 +3957,8 @@ Public Class TweenMain
                                               TextFormatFlags.WordBreak Or
                                               TextFormatFlags.EndEllipsis Or
                                               TextFormatFlags.GlyphOverhangPadding Or
+                                              TextFormatFlags.TextBoxControl Or
+                                              TextFormatFlags.NoClipping Or
                                               TextFormatFlags.NoPrefix)
                     End If
                 End If
@@ -3949,6 +3979,8 @@ Public Class TweenMain
                                                   TextFormatFlags.WordBreak Or
                                                   TextFormatFlags.EndEllipsis Or
                                                   TextFormatFlags.GlyphOverhangPadding Or
+                                                  TextFormatFlags.TextBoxControl Or
+                                                  TextFormatFlags.NoClipping Or
                                                   TextFormatFlags.NoPrefix)
                             TextRenderer.DrawText(e.Graphics,
                                                   e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]",
@@ -3969,6 +4001,7 @@ Public Class TweenMain
                                                   TextFormatFlags.EndEllipsis Or
                                                   TextFormatFlags.GlyphOverhangPadding Or
                                                   TextFormatFlags.NoPrefix Or
+                                                  TextFormatFlags.NoClipping Or
                                                   TextFormatFlags.VerticalCenter)
                         Else
                             'e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, _brsHighLightText, rct, sf)
@@ -3980,6 +4013,8 @@ Public Class TweenMain
                                                   TextFormatFlags.WordBreak Or
                                                   TextFormatFlags.EndEllipsis Or
                                                   TextFormatFlags.GlyphOverhangPadding Or
+                                                  TextFormatFlags.TextBoxControl Or
+                                                  TextFormatFlags.NoClipping Or
                                                   TextFormatFlags.NoPrefix)
                         End If
                     Else
@@ -3994,6 +4029,8 @@ Public Class TweenMain
                                                   TextFormatFlags.WordBreak Or
                                                   TextFormatFlags.EndEllipsis Or
                                                   TextFormatFlags.GlyphOverhangPadding Or
+                                                  TextFormatFlags.TextBoxControl Or
+                                                  TextFormatFlags.NoClipping Or
                                                   TextFormatFlags.NoPrefix)
                             TextRenderer.DrawText(e.Graphics,
                                                   e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]",
@@ -4014,6 +4051,7 @@ Public Class TweenMain
                                                   TextFormatFlags.EndEllipsis Or
                                                   TextFormatFlags.GlyphOverhangPadding Or
                                                   TextFormatFlags.NoPrefix Or
+                                                  TextFormatFlags.NoClipping Or
                                                   TextFormatFlags.VerticalCenter)
                         Else
                             'e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, _brsForeColorUnread, rct, sf)
@@ -4025,6 +4063,8 @@ Public Class TweenMain
                                                   TextFormatFlags.WordBreak Or
                                                   TextFormatFlags.EndEllipsis Or
                                                   TextFormatFlags.GlyphOverhangPadding Or
+                                                  TextFormatFlags.TextBoxControl Or
+                                                  TextFormatFlags.NoClipping Or
                                                   TextFormatFlags.NoPrefix)
                         End If
                     End If
