@@ -610,25 +610,7 @@ Public Class Twitter
             post.Data = HttpUtility.HtmlDecode(post.Data)
             post.Data = post.Data.Replace("<3", "♡")
             'Source整形
-            If post.Source.StartsWith("<") Then
-                'Dim rgS As New Regex(">(?<source>.+)<")
-                If Not post.Source.Contains("</a>") Then
-                    post.Source += "</a>"
-                End If
-                post.SourceHtml = String.Copy(post.Source)
-                Dim mS As Match = Regex.Match(post.Source, ">(?<source>.+)<")
-                If mS.Success Then
-                    post.Source = HttpUtility.HtmlDecode(mS.Result("${source}"))
-                End If
-            Else
-                If post.Source = "web" Then
-                    post.SourceHtml = My.Resources.WebSourceString
-                ElseIf post.Source = "Keitai Mail" Then
-                    post.SourceHtml = My.Resources.KeitaiMailSourceString
-                Else
-                    post.SourceHtml = String.Copy(post.Source)
-                End If
-            End If
+            CreateSource(post)
 
             post.IsRead = read
             post.IsReply = post.ReplyToList.Contains(_uid)
@@ -1544,25 +1526,7 @@ Public Class Twitter
                 post.Data = HttpUtility.HtmlDecode(post.Data)
                 post.Data = post.Data.Replace("<3", "♡")
                 'Source整形
-                If post.Source.StartsWith("<") Then
-                    'Dim rgS As New Regex(">(?<source>.+)<")
-                    If Not post.Source.Contains("</a>") Then
-                        post.Source += "</a>"
-                    End If
-                    post.SourceHtml = String.Copy(post.Source)
-                    Dim mS As Match = Regex.Match(post.Source, ">(?<source>.+)<")
-                    If mS.Success Then
-                        post.Source = HttpUtility.HtmlDecode(mS.Result("${source}"))
-                    End If
-                Else
-                    If post.Source = "web" Then
-                        post.SourceHtml = My.Resources.WebSourceString
-                    ElseIf post.Source = "Keitai Mail" Then
-                        post.SourceHtml = My.Resources.KeitaiMailSourceString
-                    Else
-                        post.SourceHtml = String.Copy(post.Source)
-                    End If
-                End If
+                CreateSource(post)
 
                 post.IsRead = read
                 If gType = WORKERTYPE.Timeline OrElse tab IsNot Nothing Then
@@ -1700,25 +1664,7 @@ Public Class Twitter
                 post.OriginalData = CreateHtmlAnchor(HttpUtility.HtmlEncode(post.Data), post.ReplyToList)
                 post.Data = HttpUtility.HtmlDecode(post.Data)
                 'Source整形
-                If post.Source.StartsWith("<") Then
-                    'Dim rgS As New Regex(">(?<source>.+)<")
-                    If Not post.Source.Contains("</a>") Then
-                        post.Source += "</a>"
-                    End If
-                    post.SourceHtml = String.Copy(post.Source)
-                    Dim mS As Match = Regex.Match(post.Source, ">(?<source>.+)<")
-                    If mS.Success Then
-                        post.Source = HttpUtility.HtmlDecode(mS.Result("${source}"))
-                    End If
-                Else
-                    If post.Source = "web" Then
-                        post.SourceHtml = My.Resources.WebSourceString
-                    ElseIf post.Source = "Keitai Mail" Then
-                        post.SourceHtml = My.Resources.KeitaiMailSourceString
-                    Else
-                        post.SourceHtml = String.Copy(post.Source)
-                    End If
-                End If
+                CreateSource(post)
 
                 post.IsRead = read
                 post.IsReply = post.ReplyToList.Contains(_uid)
@@ -2004,24 +1950,7 @@ Public Class Twitter
                 post.Data = HttpUtility.HtmlDecode(post.Data)
                 post.Data = post.Data.Replace("<3", "♡")
                 'Source整形
-                If post.Source.StartsWith("<") Then
-                    If Not post.Source.Contains("</a>") Then
-                        post.Source += "</a>"
-                    End If
-                    post.SourceHtml = String.Copy(post.Source)
-                    Dim mS As Match = Regex.Match(post.Source, ">(?<source>.+)<")
-                    If mS.Success Then
-                        post.Source = HttpUtility.HtmlDecode(mS.Result("${source}"))
-                    End If
-                Else
-                    If post.Source = "web" Then
-                        post.SourceHtml = My.Resources.WebSourceString
-                    ElseIf post.Source = "Keitai Mail" Then
-                        post.SourceHtml = My.Resources.KeitaiMailSourceString 
-                    Else
-                        post.SourceHtml = String.Copy(post.Source)
-                    End If
-                End If
+                CreateSource(post)
 
                 post.IsRead = read
                 post.IsReply = post.ReplyToList.Contains(_uid)
@@ -2552,6 +2481,28 @@ Public Class Twitter
         retStr = AdjustHtml(ShortUrl.Resolve(PreProcessUrl(retStr))) 'IDN置換、短縮Uri解決、@リンクを相対→絶対にしてtarget属性付与
         Return retStr
     End Function
+
+    'Source整形
+    Private Sub CreateSource(ByRef post As PostClass)
+        If post.Source.StartsWith("<") Then
+            If Not post.Source.Contains("</a>") Then
+                post.Source += "</a>"
+            End If
+            post.SourceHtml = String.Copy(post.Source)
+            Dim mS As Match = Regex.Match(post.Source, ">(?<source>.+)<")
+            If mS.Success Then
+                post.Source = HttpUtility.HtmlDecode(mS.Result("${source}"))
+            End If
+        Else
+            If post.Source = "web" Then
+                post.SourceHtml = My.Resources.WebSourceString
+            ElseIf post.Source = "Keitai Mail" Then
+                post.SourceHtml = My.Resources.KeitaiMailSourceString
+            Else
+                post.SourceHtml = String.Copy(post.Source)
+            End If
+        End If
+    End Sub
 
     Public Function GetInfoApi(ByVal info As ApiInfo) As Boolean
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return True
