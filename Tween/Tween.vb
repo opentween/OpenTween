@@ -4087,6 +4087,8 @@ Public Class TweenMain
             Next
 
             Dim iconRect As Rectangle = Rectangle.Intersect(New Rectangle(e.Item.GetBounds(ItemBoundsPortion.Icon).Location, New Size(_iconSz, _iconSz)), itemRect)
+            iconRect.Offset(0, CType(Math.Max(0, (itemRect.Height - _iconSz) / 2), Integer))
+
             If iconRect.Width > 0 Then
                 e.Graphics.FillRectangle(Brushes.White, iconRect)
                 e.Graphics.InterpolationMode = Drawing2D.InterpolationMode.High
