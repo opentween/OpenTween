@@ -621,7 +621,13 @@ Public Class Twitter
                     post.Source = HttpUtility.HtmlDecode(mS.Result("${source}"))
                 End If
             Else
-                post.SourceHtml = String.Copy(post.Source)
+                If post.Source = "web" Then
+                    post.SourceHtml = My.Resources.WebSourceString
+                ElseIf post.Source = "Keitai Mail" Then
+                    post.SourceHtml = My.Resources.KeitaiMailSourceString
+                Else
+                    post.SourceHtml = String.Copy(post.Source)
+                End If
             End If
 
             post.IsRead = read
@@ -1549,7 +1555,13 @@ Public Class Twitter
                         post.Source = HttpUtility.HtmlDecode(mS.Result("${source}"))
                     End If
                 Else
-                    post.SourceHtml = String.Copy(post.Source)
+                    If post.Source = "web" Then
+                        post.SourceHtml = My.Resources.WebSourceString
+                    ElseIf post.Source = "Keitai Mail" Then
+                        post.SourceHtml = My.Resources.KeitaiMailSourceString
+                    Else
+                        post.SourceHtml = String.Copy(post.Source)
+                    End If
                 End If
 
                 post.IsRead = read
@@ -1699,7 +1711,13 @@ Public Class Twitter
                         post.Source = HttpUtility.HtmlDecode(mS.Result("${source}"))
                     End If
                 Else
-                    post.SourceHtml = String.Copy(post.Source)
+                    If post.Source = "web" Then
+                        post.SourceHtml = My.Resources.WebSourceString
+                    ElseIf post.Source = "Keitai Mail" Then
+                        post.SourceHtml = My.Resources.KeitaiMailSourceString
+                    Else
+                        post.SourceHtml = String.Copy(post.Source)
+                    End If
                 End If
 
                 post.IsRead = read
@@ -1996,7 +2014,13 @@ Public Class Twitter
                         post.Source = HttpUtility.HtmlDecode(mS.Result("${source}"))
                     End If
                 Else
-                    post.SourceHtml = String.Copy(post.Source)
+                    If post.Source = "web" Then
+                        post.SourceHtml = My.Resources.WebSourceString
+                    ElseIf post.Source = "Keitai Mail" Then
+                        post.SourceHtml = My.Resources.KeitaiMailSourceString 
+                    Else
+                        post.SourceHtml = String.Copy(post.Source)
+                    End If
                 End If
 
                 post.IsRead = read

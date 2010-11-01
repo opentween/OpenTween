@@ -532,7 +532,7 @@ Namespace My.Resources
         '''<summary>
         '''  更新履歴
         '''
-        '''==== Ver 0.9.6.1(2010/10/**)
+        '''==== Ver 0.9.6.1(2010/10/22)
         ''' * URL直後のハッシュタグがリンク化されないバグを修正
         ''' * PublicSearchの取得数を変更可能にした
         ''' * Ctrl+J/K,SHIFT+J/Kが効かなくなっていたバグを修正
@@ -547,7 +547,7 @@ Namespace My.Resources
         ''' * 取得時の自ポスト既読化をDMにも適用するようにした
         ''' * Favorites取得数を設定できるようにした。０で標準取得数に合わせる
         ''' * リストビューの描画を若干高速化した
-        '''==== Ver 0 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ''' * BASIC認証 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property ChangeLog() As String
             Get
@@ -1262,6 +1262,15 @@ Namespace My.Resources
         Friend ReadOnly Property InputTabName_Load1() As String
             Get
                 Return ResourceManager.GetString("InputTabName_Load1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  &lt;a href=&quot;http://twitter.com/&quot; rel=&quot;nofollow&quot;&gt;Keitai Mail&lt;/a&gt; に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property KeitaiMailSourceString() As String
+            Get
+                Return ResourceManager.GetString("KeitaiMailSourceString", resourceCulture)
             End Get
         End Property
         
@@ -2702,6 +2711,15 @@ Namespace My.Resources
         Friend ReadOnly Property VimeoInfoText6() As String
             Get
                 Return ResourceManager.GetString("VimeoInfoText6", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  &lt;a href=&quot;http://twitter.com/&quot; rel=&quot;nofollow&quot;&gt;web&lt;/a&gt; に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property WebSourceString() As String
+            Get
+                Return ResourceManager.GetString("WebSourceString", resourceCulture)
             End Get
         End Property
         
