@@ -126,6 +126,7 @@ Partial Class ListAvailable
         resources.ApplyResources(Me.DescriptionText, "DescriptionText")
         Me.DescriptionText.Name = "DescriptionText"
         Me.DescriptionText.ReadOnly = True
+        Me.DescriptionText.TabStop = False
         '
         'RefreshButton
         '

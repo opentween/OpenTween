@@ -190,7 +190,7 @@
     <value>146, 27</value>
   </data>
   <data name="TableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="&gt;&gt;TableLayoutPanel1.Name" xml:space="preserve">
     <value>TableLayoutPanel1</value>
@@ -217,7 +217,7 @@
     <value>41, 12</value>
   </data>
   <data name="Label1.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="Label1.Text" xml:space="preserve">
     <value>作成者</value>
@@ -241,7 +241,7 @@
     <value>174, 14</value>
   </data>
   <data name="UsernameLabel.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="UsernameLabel.Text" xml:space="preserve">
     <value>Label2</value>
@@ -265,7 +265,7 @@
     <value>174, 14</value>
   </data>
   <data name="NameLabel.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="NameLabel.Text" xml:space="preserve">
     <value>Label3</value>
@@ -292,7 +292,7 @@
     <value>41, 12</value>
   </data>
   <data name="Label4.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="Label4.Text" xml:space="preserve">
     <value>リスト名</value>
@@ -319,7 +319,7 @@
     <value>29, 12</value>
   </data>
   <data name="Label6.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+    <value>13</value>
   </data>
   <data name="Label6.Text" xml:space="preserve">
     <value>説明</value>
@@ -343,7 +343,7 @@
     <value>174, 14</value>
   </data>
   <data name="StatusLabel.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
+    <value>8</value>
   </data>
   <data name="StatusLabel.Text" xml:space="preserve">
     <value>Label7</value>
@@ -370,7 +370,7 @@
     <value>29, 12</value>
   </data>
   <data name="Label8.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
+    <value>7</value>
   </data>
   <data name="Label8.Text" xml:space="preserve">
     <value>種別</value>
@@ -394,7 +394,7 @@
     <value>46, 14</value>
   </data>
   <data name="MemberCountLabel.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
+    <value>10</value>
   </data>
   <data name="MemberCountLabel.Text" xml:space="preserve">
     <value>Label9</value>
@@ -424,7 +424,7 @@
     <value>53, 12</value>
   </data>
   <data name="Label10.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
+    <value>9</value>
   </data>
   <data name="Label10.Text" xml:space="preserve">
     <value>登録者数</value>
@@ -448,7 +448,7 @@
     <value>46, 14</value>
   </data>
   <data name="SubscriberCountLabel.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
+    <value>12</value>
   </data>
   <data name="SubscriberCountLabel.Text" xml:space="preserve">
     <value>Label11</value>
@@ -478,7 +478,7 @@
     <value>53, 12</value>
   </data>
   <data name="Label12.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
+    <value>11</value>
   </data>
   <data name="Label12.Text" xml:space="preserve">
     <value>購読者数</value>
@@ -532,7 +532,7 @@
     <value>67, 21</value>
   </data>
   <data name="RefreshButton.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
+    <value>2</value>
   </data>
   <data name="RefreshButton.Text" xml:space="preserve">
     <value>Refresh</value>
@@ -559,7 +559,7 @@
     <value>284, 232</value>
   </data>
   <data name="ListsList.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
+    <value>0</value>
   </data>
   <data name="&gt;&gt;ListsList.Name" xml:space="preserve">
     <value>ListsList</value>
