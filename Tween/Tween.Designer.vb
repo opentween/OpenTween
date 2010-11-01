@@ -28,7 +28,6 @@ Partial Class TweenMain
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.StatusLabelUrl = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.StatusLabel = New Tween.TweenCustomControl.ToolStripLabelHistory()
         Me.HashStripSplitButton = New System.Windows.Forms.ToolStripSplitButton()
         Me.ContextMenuPostMode = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItemUrlMultibyteSplit = New System.Windows.Forms.ToolStripMenuItem()
@@ -84,7 +83,6 @@ Partial Class TweenMain
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
         Me.IconNameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveIconPictureToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.DateTimeLabel = New System.Windows.Forms.Label()
         Me.NameLabel = New System.Windows.Forms.Label()
         Me.PostBrowser = New System.Windows.Forms.WebBrowser()
         Me.ContextMenuPostBrowser = New System.Windows.Forms.ContextMenuStrip(Me.components)
@@ -111,6 +109,8 @@ Partial Class TweenMain
         Me.ListManageUserContextToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator33 = New System.Windows.Forms.ToolStripSeparator()
         Me.UseHashtagMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SourceLinkLabel = New System.Windows.Forms.LinkLabel()
+        Me.DateTimeLabel = New System.Windows.Forms.Label()
         Me.StatusText = New System.Windows.Forms.TextBox()
         Me.lblLen = New System.Windows.Forms.Label()
         Me.PostButton = New System.Windows.Forms.Button()
@@ -266,6 +266,7 @@ Partial Class TweenMain
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.StatusLabel = New Tween.TweenCustomControl.ToolStripLabelHistory()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -331,14 +332,6 @@ Partial Class TweenMain
         Me.StatusLabelUrl.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
         Me.StatusLabelUrl.Name = "StatusLabelUrl"
         Me.StatusLabelUrl.Spring = True
-        '
-        'StatusLabel
-        '
-        Me.StatusLabel.BorderSides = CType((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right), System.Windows.Forms.ToolStripStatusLabelBorderSides)
-        Me.StatusLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.StatusLabel.DoubleClickEnabled = True
-        Me.StatusLabel.Name = "StatusLabel"
-        resources.ApplyResources(Me.StatusLabel, "StatusLabel")
         '
         'HashStripSplitButton
         '
@@ -638,9 +631,10 @@ Partial Class TweenMain
         '
         resources.ApplyResources(Me.TableLayoutPanel1, "TableLayoutPanel1")
         Me.TableLayoutPanel1.Controls.Add(Me.UserPicture, 0, 0)
-        Me.TableLayoutPanel1.Controls.Add(Me.DateTimeLabel, 2, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.NameLabel, 1, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.PostBrowser, 1, 1)
+        Me.TableLayoutPanel1.Controls.Add(Me.DateTimeLabel, 2, 0)
+        Me.TableLayoutPanel1.Controls.Add(Me.SourceLinkLabel, 3, 0)
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
         '
         'UserPicture
@@ -710,11 +704,6 @@ Partial Class TweenMain
         Me.SaveIconPictureToolStripMenuItem.Name = "SaveIconPictureToolStripMenuItem"
         resources.ApplyResources(Me.SaveIconPictureToolStripMenuItem, "SaveIconPictureToolStripMenuItem")
         '
-        'DateTimeLabel
-        '
-        resources.ApplyResources(Me.DateTimeLabel, "DateTimeLabel")
-        Me.DateTimeLabel.Name = "DateTimeLabel"
-        '
         'NameLabel
         '
         Me.NameLabel.AutoEllipsis = True
@@ -725,7 +714,7 @@ Partial Class TweenMain
         'PostBrowser
         '
         Me.PostBrowser.AllowWebBrowserDrop = False
-        Me.TableLayoutPanel1.SetColumnSpan(Me.PostBrowser, 2)
+        Me.TableLayoutPanel1.SetColumnSpan(Me.PostBrowser, 3)
         Me.PostBrowser.ContextMenuStrip = Me.ContextMenuPostBrowser
         resources.ApplyResources(Me.PostBrowser, "PostBrowser")
         Me.PostBrowser.IsWebBrowserContextMenuEnabled = False
@@ -855,6 +844,19 @@ Partial Class TweenMain
         '
         Me.UseHashtagMenuItem.Name = "UseHashtagMenuItem"
         resources.ApplyResources(Me.UseHashtagMenuItem, "UseHashtagMenuItem")
+        '
+        'SourceLinkLabel
+        '
+        resources.ApplyResources(Me.SourceLinkLabel, "SourceLinkLabel")
+        Me.SourceLinkLabel.AutoEllipsis = True
+        Me.SourceLinkLabel.Name = "SourceLinkLabel"
+        Me.SourceLinkLabel.TabStop = True
+        '
+        'DateTimeLabel
+        '
+        resources.ApplyResources(Me.DateTimeLabel, "DateTimeLabel")
+        Me.DateTimeLabel.AutoEllipsis = True
+        Me.DateTimeLabel.Name = "DateTimeLabel"
         '
         'StatusText
         '
@@ -1659,6 +1661,14 @@ Partial Class TweenMain
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
+        'StatusLabel
+        '
+        Me.StatusLabel.BorderSides = CType((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right), System.Windows.Forms.ToolStripStatusLabelBorderSides)
+        Me.StatusLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.StatusLabel.DoubleClickEnabled = True
+        Me.StatusLabel.Name = "StatusLabel"
+        resources.ApplyResources(Me.StatusLabel, "StatusLabel")
+        '
         'TweenMain
         '
         Me.AllowDrop = True
@@ -1947,5 +1957,6 @@ Partial Class TweenMain
     Friend WithEvents ListManageUserContextToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ListManageUserContextToolStripMenuItem3 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ListManageToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SourceLinkLabel As System.Windows.Forms.LinkLabel
 
 End Class

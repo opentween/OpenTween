@@ -1012,6 +1012,7 @@ Public Class TweenMain
         StatusLabelUrl.Text = ""            '画面左下のリンク先URL表示部を初期化
         NameLabel.Text = ""                 '発言詳細部名前ラベル初期化
         DateTimeLabel.Text = ""             '発言詳細部日時ラベル初期化
+        SourceLinkLabel.Text = ""           'Source部分初期化
 
         '<<<<<<<<タブ関連>>>>>>>
         'デフォルトタブの存在チェック、ない場合には追加
@@ -4451,11 +4452,20 @@ RETRY:
 
         If _curList.SelectedIndices.Count = 0 OrElse _curPost Is Nothing Then Exit Sub
 
-        Dim dTxt As String
+        Dim dTxt As String = createDetailHtml(_curPost.OriginalData)
         If _curPost.IsDm Then
-            dTxt = createDetailHtml(_curPost.OriginalData)
+            SourceLinkLabel.Tag = Nothing
+            SourceLinkLabel.Text = ""
+            SourceLinkLabel.Visible = False
         Else
-            dTxt = createDetailHtml(_curPost.OriginalData + " via " + _curPost.SourceHtml)
+            Dim mc As Match = Regex.Match(_curPost.SourceHtml, "<a href=""(?<sourceurl>.+)"" rel=""nofollow"">")
+            If mc.Success Then
+                SourceLinkLabel.Tag = mc.Groups("sourceurl").Value
+            Else
+                SourceLinkLabel.Tag = Nothing
+            End If
+            SourceLinkLabel.Text = "via " + _curPost.Source
+            SourceLinkLabel.Visible = True
         End If
 
         If _statuses.Tabs(_curTab.Text).TabType = TabUsageType.DirectMessage AndAlso Not _curPost.IsOwl Then
@@ -9469,4 +9479,26 @@ RETRY:
             _modifySettingAtId = value
         End Set
     End Property
+
+    Private Sub SourceLinkLabel_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles SourceLinkLabel.LinkClicked
+        Dim link As String = CType(SourceLinkLabel.Tag, String)
+        If Not String.IsNullOrEmpty(link) Then
+            OpenUriAsync(link)
+        End If
+    End Sub
+
+    Private Sub SourceLinkLabel_MouseEnter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SourceLinkLabel.MouseEnter
+        Dim link As String = CType(SourceLinkLabel.Tag, String)
+        If Not String.IsNullOrEmpty(link) Then
+            StatusLabelUrl.Text = link
+        End If
+    End Sub
+
+    Private Sub SourceLinkLabel_MouseLeave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SourceLinkLabel.MouseLeave
+        SetStatusLabelUrl()
+    End Sub
+
+    Private Sub SourceLinkLabel_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SourceLinkLabel.Enter
+        StatusText.Focus()
+    End Sub
 End Class
