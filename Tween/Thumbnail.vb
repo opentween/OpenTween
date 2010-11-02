@@ -1285,14 +1285,14 @@ Public Class Thumbnail
         Else
             Dim http As New HttpVarious
             If http.GetData(Regex.Replace(mc.Groups(0).Value, "amp;", ""), Nothing, src, 0, args.errmsg) Then
-                Dim _mc As Match = Regex.Match(src, mc.Result("http://img([0-9]+)\.pixiv\.net/img/.+/${illustId}_s\.([a-zA-Z]+)"))
+                Dim _mc As Match = Regex.Match(src, mc.Result("http://img([0-9]+)\.pixiv\.net/img/.+/${illustId}_[ms]\.([a-zA-Z]+)"))
                 If _mc.Success Then
                     Dim _img As Image = http.GetImage(_mc.Value, args.url.Key, 0, args.errmsg)
                     If _img Is Nothing Then Return False
                     args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, _img))
                     args.tooltiptext.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
                     Return True
-                ElseIf Regex.Match(src, "メール認証が必要です").Success Then
+                ElseIf Regex.Match(src, "<span class='error'>ログインしてください</span>").Success Then
                     args.errmsg = "NotSupported"
                 Else
                     args.errmsg = "Pattern NotFound"
