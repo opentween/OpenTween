@@ -104,7 +104,8 @@ Public Class Thumbnail
         New ThumbnailService("mypix/shamoji", AddressOf mypix_GetUrl, AddressOf mypix_CreateImage), _
         New ThumbnailService("ow.ly", AddressOf Owly_GetUrl, AddressOf Owly_CreateImage), _
         New ThumbnailService("vimeo", AddressOf Vimeo_GetUrl, AddressOf Vimeo_CreateImage), _
-        New ThumbnailService("cloudfiles", AddressOf CloudFiles_GetUrl, AddressOf CloudFiles_CreateImage)
+        New ThumbnailService("cloudfiles", AddressOf CloudFiles_GetUrl, AddressOf CloudFiles_CreateImage), _
+        New ThumbnailService("instagram", AddressOf instagram_GetUrl, AddressOf instagram_CreateImage)
     }
 
     Public Sub New(ByVal Owner As TweenMain)
@@ -1952,6 +1953,64 @@ Public Class Thumbnail
         args.tooltiptext.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
         Return True
     End Function
+#End Region
+
+#Region "Instagram"
+    ''' <summary>
+    ''' URL解析部で呼び出されるサムネイル画像URL作成デリゲート
+    ''' </summary>
+    ''' <param name="args">Class GetUrlArgs
+    '''                                 args.url        URL文字列
+    '''                                 args.imglist    解析成功した際にこのリストに元URL、サムネイルURLの形で作成するKeyValuePair
+    ''' </param>
+    ''' <returns>成功した場合True,失敗の場合False</returns>
+    ''' <remarks>args.imglistには呼び出しもとで使用しているimglistをそのまま渡すこと</remarks>
+
+    Private Function instagram_GetUrl(ByVal args As GetUrlArgs) As Boolean
+        ' TODO URL判定処理を記述
+        Dim mc As Match = Regex.Match(args.url, "^http://instagr.am/p/.+/", RegexOptions.IgnoreCase)
+        If mc.Success Then
+            ' TODO 成功時はサムネイルURLを作成しimglist.Addする
+            args.imglist.Add(New KeyValuePair(Of String, String)(args.url, mc.Value))
+            Return True
+        Else
+            Return False
+        End If
+    End Function
+
+    ''' <summary>
+    ''' BackgroundWorkerから呼び出されるサムネイル画像作成デリゲート
+    ''' </summary>
+    ''' <param name="args">Class CreateImageArgs
+    '''                                 url As KeyValuePair(Of String, String)                  元URLとサムネイルURLのKeyValuePair
+    '''                                 pics As List(Of KeyValuePair(Of String, Image))         元URLとサムネイル画像のKeyValuePair
+    '''                                 tooltiptext As List(Of KeyValuePair(Of String, String)) 元URLとツールチップテキストのKeyValuePair
+    '''                                 errmsg As String                                        取得に失敗した際のエラーメッセージ
+    ''' </param>
+    ''' <returns>サムネイル画像作成に成功した場合はTrue,失敗した場合はFalse
+    ''' なお失敗した場合はargs.errmsgにエラーを表す文字列がセットされる</returns>
+    ''' <remarks></remarks>
+    Private Function instagram_CreateImage(ByVal args As CreateImageArgs) As Boolean
+        ' TODO: サムネイル画像読み込み処理を記述します
+
+        Dim src As String = ""
+        Dim http As New HttpVarious
+        If http.GetData(args.url.Key, Nothing, src, 0, args.errmsg) Then
+            Dim mc As Match = Regex.Match(src, "<meta property=""og:image"" content=""(?<url>.+)""/>")
+            '二つ以上キャプチャした場合先頭の一つだけ 一つだけの場合はユーザーアイコンしか取れなかった
+            If mc.success Then
+                Dim _img As Image = http.GetImage(mc.Groups("url").Value, args.url.Key, 0, args.errmsg)
+                If _img Is Nothing Then Return False
+                args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, _img))
+                args.tooltiptext.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
+                Return True
+            Else
+                args.errmsg = "Pattern NotFound"
+            End If
+        End If
+        Return False
+    End Function
+
 #End Region
 
 End Class
