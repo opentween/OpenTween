@@ -109,8 +109,8 @@ Partial Class TweenMain
         Me.ListManageUserContextToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator33 = New System.Windows.Forms.ToolStripSeparator()
         Me.UseHashtagMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.SourceLinkLabel = New System.Windows.Forms.LinkLabel()
         Me.DateTimeLabel = New System.Windows.Forms.Label()
+        Me.SourceLinkLabel = New System.Windows.Forms.LinkLabel()
         Me.StatusText = New System.Windows.Forms.TextBox()
         Me.lblLen = New System.Windows.Forms.Label()
         Me.PostButton = New System.Windows.Forms.Button()
@@ -845,18 +845,19 @@ Partial Class TweenMain
         Me.UseHashtagMenuItem.Name = "UseHashtagMenuItem"
         resources.ApplyResources(Me.UseHashtagMenuItem, "UseHashtagMenuItem")
         '
-        'SourceLinkLabel
-        '
-        resources.ApplyResources(Me.SourceLinkLabel, "SourceLinkLabel")
-        Me.SourceLinkLabel.AutoEllipsis = True
-        Me.SourceLinkLabel.Name = "SourceLinkLabel"
-        Me.SourceLinkLabel.TabStop = True
-        '
         'DateTimeLabel
         '
         resources.ApplyResources(Me.DateTimeLabel, "DateTimeLabel")
         Me.DateTimeLabel.AutoEllipsis = True
         Me.DateTimeLabel.Name = "DateTimeLabel"
+        '
+        'SourceLinkLabel
+        '
+        resources.ApplyResources(Me.SourceLinkLabel, "SourceLinkLabel")
+        Me.SourceLinkLabel.AutoEllipsis = True
+        Me.SourceLinkLabel.MaximumSize = New System.Drawing.Size(130, 0)
+        Me.SourceLinkLabel.Name = "SourceLinkLabel"
+        Me.SourceLinkLabel.TabStop = True
         '
         'StatusText
         '
