@@ -4443,7 +4443,7 @@ RETRY:
             SourceLinkLabel.Text = ""
             SourceLinkLabel.Visible = False
         Else
-            Dim mc As Match = Regex.Match(_curPost.SourceHtml, "<a href=""(?<sourceurl>.+)("" rel=""nofollow)?"">")
+            Dim mc As Match = Regex.Match(_curPost.SourceHtml, "<a href=""(?<sourceurl>.+?)""")
             If mc.Success Then
                 SourceLinkLabel.Tag = mc.Groups("sourceurl").Value
             Else
