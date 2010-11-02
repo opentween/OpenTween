@@ -4445,7 +4445,13 @@ RETRY:
         Else
             Dim mc As Match = Regex.Match(_curPost.SourceHtml, "<a href=""(?<sourceurl>.+?)""")
             If mc.Success Then
+                Dim src As String = mc.Groups("sourceurl").Value
                 SourceLinkLabel.Tag = mc.Groups("sourceurl").Value
+                mc = Regex.Match(src, "^https?://")
+                If Not mc.Success Then
+                    src = src.Insert(0, "http://twitter.com")
+                End If
+                SourceLinkLabel.Tag = src
             Else
                 SourceLinkLabel.Tag = Nothing
             End If
