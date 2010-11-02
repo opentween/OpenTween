@@ -6751,6 +6751,10 @@ RETRY:
             Me.Cursor = Cursors.Default
         End Try
         SaveConfigsTabs()
+        If Me.ListTab.SelectedTab IsNot Nothing AndAlso
+            DirectCast(Me.ListTab.SelectedTab.Tag, DetailsListView).SelectedIndices.Count > 0 Then
+            _curPost = _statuses.Item(Me.ListTab.SelectedTab.Text, DirectCast(Me.ListTab.SelectedTab.Tag, DetailsListView).SelectedIndices(0))
+        End If
     End Sub
 
     Protected Overrides Function ProcessDialogKey( _
