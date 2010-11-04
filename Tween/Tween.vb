@@ -9205,7 +9205,7 @@ RETRY:
         Me._apiGauge.Control.Margin = New Padding(0, 3, 0, 2)
         Me._apiGauge.GaugeHeight = 8
         AddHandler Me._apiGauge.Control.DoubleClick, AddressOf Me.ApiInfoMenuItem_Click
-        Me.StatusStrip1.Items.Insert(1, Me._apiGauge)
+        Me.StatusStrip1.Items.Insert(2, Me._apiGauge)
     End Sub
 
     Private Sub _hookGlobalHotkey_HotkeyPressed(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles _hookGlobalHotkey.HotkeyPressed
