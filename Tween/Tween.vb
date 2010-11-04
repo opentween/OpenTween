@@ -3793,7 +3793,7 @@ Public Class TweenMain
             Dim sitem() As String = {"", Post.Nickname, Post.Data, Post.PDate.ToString(SettingDialog.DateTimeFormat), Post.Name, "", mk, Post.Source}
             itm = New ListViewItem(sitem, Post.ImageUrl)
         Else
-            Dim sitem() As String = {"", Post.Nickname, Post.Data, Post.PDate.ToString(SettingDialog.DateTimeFormat), Post.Name + "(RT:" + Post.RetweetedBy + ")", "", mk, Post.Source}
+            Dim sitem() As String = {"", Post.Nickname, Post.Data, Post.PDate.ToString(SettingDialog.DateTimeFormat), Post.Name + Environment.NewLine + "(RT:" + Post.RetweetedBy + ")", "", mk, Post.Source}
             itm = New ListViewItem(sitem, Post.ImageUrl)
         End If
 
