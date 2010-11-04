@@ -2334,6 +2334,11 @@ Public Class TweenMain
                         args.type = WORKERTYPE.PostMessage
                         args.status = rslt.status
                         RunAsync(args)
+                    Else
+                        If ToolStripFocusLockMenuItem.Checked Then
+                            '連投モードのときだけEnterイベントが起きないので強制的に背景色を戻す
+                            StatusText_Enter(StatusText, New EventArgs)
+                        End If
                     End If
                 End If
                 If rslt.retMsg.Length = 0 AndAlso SettingDialog.PostAndGet Then GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
