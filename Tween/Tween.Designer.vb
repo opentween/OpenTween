@@ -633,8 +633,8 @@ Partial Class TweenMain
         Me.TableLayoutPanel1.Controls.Add(Me.UserPicture, 0, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.NameLabel, 1, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.PostBrowser, 1, 1)
-        Me.TableLayoutPanel1.Controls.Add(Me.DateTimeLabel, 2, 0)
-        Me.TableLayoutPanel1.Controls.Add(Me.SourceLinkLabel, 3, 0)
+        Me.TableLayoutPanel1.Controls.Add(Me.DateTimeLabel, 3, 0)
+        Me.TableLayoutPanel1.Controls.Add(Me.SourceLinkLabel, 2, 0)
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
         '
         'UserPicture
