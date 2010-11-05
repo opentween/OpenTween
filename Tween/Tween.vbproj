@@ -477,6 +477,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\1o.ico" />
+    <Content Include="tips.txt" />
     <None Include="Resources\5g.ico" />
     <Content Include="Resources\5o.ico" />
     <Content Include="Resources\6b.ico" />
