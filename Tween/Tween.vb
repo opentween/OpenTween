@@ -1866,6 +1866,7 @@ Public Class TweenMain
         If args.type <> WORKERTYPE.OpenUri Then bw.ReportProgress(0, "") 'Notifyアイコンアニメーション開始
         Select Case args.type
             Case WORKERTYPE.Timeline, WORKERTYPE.Reply
+                bw.ReportProgress(50, MakeStatusMessage(args, False))
                 ret = tw.GetTimelineApi(read, args.type, args.page = -1, _initial)
                 '新着時未読クリア
                 If ret = "" AndAlso args.type = WORKERTYPE.Timeline AndAlso SettingDialog.ReadOldPosts Then
