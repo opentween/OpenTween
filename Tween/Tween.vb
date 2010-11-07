@@ -7826,9 +7826,9 @@ RETRY:
         ' URLコピーの項目の表示/非表示
         If PostBrowser.StatusText.StartsWith("http") Then
             Me._postBrowserStatusText = PostBrowser.StatusText
-            Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)$")
+            Dim name As String = GetUserId()
             UrlCopyContextMenuItem.Enabled = True
-            If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
+            If name IsNot Nothing Then
                 FollowContextMenuItem.Enabled = True
                 RemoveContextMenuItem.Enabled = True
                 FriendshipContextMenuItem.Enabled = True
@@ -8223,7 +8223,7 @@ RETRY:
         End If
 
         'その他のリンク(@IDなど)を置き換える
-        status = Regex.Replace(status, "@<a target=""_self"" href=""https?://twitter.com/(?<url>[^""]+)""[^>]*>(?<link>[^<]+)</a>", "${url}")
+        status = Regex.Replace(status, "@<a target=""_self"" href=""https?://twitter.com/(#!/)?(?<url>[^""]+)""[^>]*>(?<link>[^<]+)</a>", "${url}")
         'ハッシュタグ
         status = Regex.Replace(status, "<a target=""_self"" href=""(?<url>[^""]+)""[^>]*>(?<link>[^<]+)</a>", "${link}")
         '<br>タグ除去
@@ -8542,29 +8542,32 @@ RETRY:
         Return Not Regex.Match(name, "^(about|jobs|tos|privacy)$").Success
     End Function
 
-    Private Sub FollowContextMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FollowContextMenuItem.Click
+    Private Function GetUserId() As String
         Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)$")
         If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
-            FollowCommand(m.Result("${name}"))
+            Return m.Result("${name}")
+        Else
+            Return Nothing
         End If
+    End Function
+
+    Private Sub FollowContextMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FollowContextMenuItem.Click
+        Dim name As String = GetUserId()
+        If name IsNot Nothing Then FollowCommand(name)
     End Sub
 
     Private Sub RemoveContextMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RemoveContextMenuItem.Click
-        Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)$")
-        If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
-            RemoveCommand(m.Result("${name}"), False)
-        End If
+        Dim name As String = GetUserId()
+        If name IsNot Nothing Then RemoveCommand(name, False)
     End Sub
 
     Private Sub FriendshipContextMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FriendshipContextMenuItem.Click
-        Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)$")
-        If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
-            ShowFriendship(m.Result("${name}"))
-        End If
+        Dim name As String = GetUserId()
+        If name IsNot Nothing Then ShowFriendship(name)
     End Sub
 
     Private Sub FriendshipAllMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FriendshipAllMenuItem.Click
-        Dim ma As MatchCollection = Regex.Matches(Me.PostBrowser.DocumentText, "href=""https?://twitter.com/(?<name>[a-zA-Z0-9_]+)""")
+        Dim ma As MatchCollection = Regex.Matches(Me.PostBrowser.DocumentText, "href=""https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)""")
         Dim ids As New List(Of String)
         For Each mu As Match In ma
             If mu.Result("${name}").ToLower <> tw.Username.ToLower Then
@@ -8575,17 +8578,13 @@ RETRY:
     End Sub
 
     Private Sub ShowUserStatusContextMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowUserStatusContextMenuItem.Click
-        Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)$")
-        If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
-            ShowUserStatus(m.Result("${name}"))
-        End If
+        Dim name As String = GetUserId()
+        If name IsNot Nothing Then ShowUserStatus(name)
     End Sub
 
     Private Sub SearchPostsDetailToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SearchPostsDetailToolStripMenuItem.Click
-        Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)$")
-        If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
-            AddNewTabForSearch("from:" + m.Result("${name}"))
-        End If
+        Dim name As String = GetUserId()
+        If name IsNot Nothing Then AddNewTabForSearch("from:" + name)
     End Sub
 
     Private Sub IdeographicSpaceToSpaceToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles IdeographicSpaceToSpaceToolStripMenuItem.Click
@@ -8721,8 +8720,8 @@ RETRY:
     End Sub
 
     Private Sub IdFilterAddMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles IdFilterAddMenuItem.Click
-        Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)$")
-        If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
+        Dim name As String = GetUserId()
+        If name IsNot Nothing Then
             Dim tabName As String = ""
 
             '未選択なら処理終了
@@ -8736,7 +8735,7 @@ RETRY:
             MoveOrCopy(mv, mk)
 
             Dim fc As New FiltersClass
-            fc.NameFilter = m.Result("${name}")
+            fc.NameFilter = name
             fc.SearchBoth = True
             fc.MoveFrom = mv
             fc.SetMark = mk
@@ -8777,16 +8776,12 @@ RETRY:
         Dim menuItem As ToolStripMenuItem = DirectCast(sender, ToolStripMenuItem)
 
         If menuItem.Owner Is Me.ContextMenuPostBrowser Then
-            Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)$")
-            If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
-                user = m.Result("${name}")
-            Else
-                Return
-            End If
+            user = GetUserId()
+            If user Is Nothing Then Return
         ElseIf Me._curPost IsNot Nothing Then
-            user = Me._curPost.Name
+        user = Me._curPost.Name
         Else
-            Return
+        Return
         End If
 
         Dim list As ListElement = Nothing
