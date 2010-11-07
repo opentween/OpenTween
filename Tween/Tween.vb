@@ -7826,7 +7826,7 @@ RETRY:
         ' URLコピーの項目の表示/非表示
         If PostBrowser.StatusText.StartsWith("http") Then
             Me._postBrowserStatusText = PostBrowser.StatusText
-            Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(?<name>[a-zA-Z0-9_]+)$")
+            Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)$")
             UrlCopyContextMenuItem.Enabled = True
             If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
                 FollowContextMenuItem.Enabled = True
@@ -7873,7 +7873,7 @@ RETRY:
             SelectionCopyContextMenuItem.Enabled = True
         End If
         '発言内に自分以外のユーザーが含まれてればフォロー状態全表示を有効に
-        Dim ma As MatchCollection = Regex.Matches(Me.PostBrowser.DocumentText, "href=""https?://twitter.com/(?<name>[a-zA-Z0-9_]+)""")
+        Dim ma As MatchCollection = Regex.Matches(Me.PostBrowser.DocumentText, "href=""https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)""")
         Dim fAllFlag As Boolean = False
         For Each mu As Match In ma
             If mu.Result("${name}").ToLower <> tw.Username.ToLower Then
@@ -8543,21 +8543,21 @@ RETRY:
     End Function
 
     Private Sub FollowContextMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FollowContextMenuItem.Click
-        Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(?<name>[a-zA-Z0-9_]+)$")
+        Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)$")
         If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
             FollowCommand(m.Result("${name}"))
         End If
     End Sub
 
     Private Sub RemoveContextMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RemoveContextMenuItem.Click
-        Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(?<name>[a-zA-Z0-9_]+)$")
+        Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)$")
         If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
             RemoveCommand(m.Result("${name}"), False)
         End If
     End Sub
 
     Private Sub FriendshipContextMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FriendshipContextMenuItem.Click
-        Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(?<name>[a-zA-Z0-9_]+)$")
+        Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)$")
         If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
             ShowFriendship(m.Result("${name}"))
         End If
@@ -8575,14 +8575,14 @@ RETRY:
     End Sub
 
     Private Sub ShowUserStatusContextMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowUserStatusContextMenuItem.Click
-        Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(?<name>[a-zA-Z0-9_]+)$")
+        Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)$")
         If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
             ShowUserStatus(m.Result("${name}"))
         End If
     End Sub
 
     Private Sub SearchPostsDetailToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SearchPostsDetailToolStripMenuItem.Click
-        Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(?<name>[a-zA-Z0-9_]+)$")
+        Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)$")
         If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
             AddNewTabForSearch("from:" + m.Result("${name}"))
         End If
@@ -8721,7 +8721,7 @@ RETRY:
     End Sub
 
     Private Sub IdFilterAddMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles IdFilterAddMenuItem.Click
-        Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(?<name>[a-zA-Z0-9_]+)$")
+        Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)$")
         If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
             Dim tabName As String = ""
 
@@ -8777,7 +8777,7 @@ RETRY:
         Dim menuItem As ToolStripMenuItem = DirectCast(sender, ToolStripMenuItem)
 
         If menuItem.Owner Is Me.ContextMenuPostBrowser Then
-            Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(?<name>[a-zA-Z0-9_]+)$")
+            Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)$")
             If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
                 user = m.Result("${name}")
             Else
@@ -8966,7 +8966,7 @@ RETRY:
             Me.UnreadOpMenuItem.Enabled = False
             Me.ShowProfMenuItem.Enabled = False
             Me.ToolStripMenuItem9.Enabled = False
-            Me.DelOpMenuItem.Enabled = False
+            Me.RtCountMenuItem.Enabled = False
         Else
             Me.ReplyOpMenuItem.Enabled = True
             Me.ReplyAllOpMenuItem.Enabled = True
@@ -8982,7 +8982,7 @@ RETRY:
             Me.UnreadOpMenuItem.Enabled = True
             Me.ShowProfMenuItem.Enabled = True
             Me.ToolStripMenuItem9.Enabled = True
-            Me.DelOpMenuItem.Enabled = True
+            Me.RtCountMenuItem.Enabled = True
         End If
     End Sub
 
