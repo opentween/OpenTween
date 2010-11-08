@@ -450,6 +450,13 @@ Public Class ShowUserInfo
                                             arg.description)
     End Sub
 
+    Private Sub UpddateProfile_RunWorkerCompleted(ByVal sender As Object, ByVal e As RunWorkerCompletedEventArgs)
+        Dim res As String = DirectCast(e.Result, String)
+        If res.StartsWith("err:", StringComparison.CurrentCultureIgnoreCase) Then
+            MessageBox.Show(res)
+        End If
+    End Sub
+
     Private Sub ButtonEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonEdit.Click
         Static IsEditing As Boolean = False
         Static ButtonEditText As String = ""
@@ -517,14 +524,14 @@ Public Class ShowUserInfo
                 TextBoxDescription.Modified Then
 
                 arg.tw = MyOwner.TwitterInstance
-                arg.name = TextBoxName.Text
-                arg.url = TextBoxWeb.Text
-                arg.location = TextBoxLocation.Text
-                arg.description = TextBoxDescription.Text
+                arg.name = TextBoxName.Text.Trim()
+                arg.url = TextBoxWeb.Text.Trim()
+                arg.location = TextBoxLocation.Text.Trim()
+                arg.description = TextBoxDescription.Text.Trim()
 
                 Using dlg As New FormInfo(Me, My.Resources.UserInfoButtonEdit_ClickText2, _
                                             AddressOf UpdateProfile_Dowork, _
-                                            Nothing, _
+                                            AddressOf UpddateProfile_RunWorkerCompleted, _
                                             arg)
                     dlg.ShowDialog()
                     If Not String.IsNullOrEmpty(dlg.Result.ToString) Then
@@ -710,5 +717,9 @@ Public Class ShowUserInfo
             Dim filename As String = CType(e.Data.GetData(DataFormats.FileDrop, False), String())(0)
             doChangeIcon(filename)
         End If
+    End Sub
+
+    Private Sub TextBoxWeb_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles TextBoxWeb.Validating
+
     End Sub
 End Class

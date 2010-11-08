@@ -463,11 +463,7 @@ Public Class HttpConnection
 
         Dim query As New StringBuilder
         For Each key As String In param.Keys
-            If String.IsNullOrEmpty(param(key)) Then
-                query.AppendFormat("{0}&", UrlEncode(key))
-            Else
-                query.AppendFormat("{0}={1}&", UrlEncode(key), UrlEncode(param(key)))
-            End If
+            query.AppendFormat("{0}={1}&", UrlEncode(key), UrlEncode(param(key)))
         Next
         Return query.ToString(0, query.Length - 1)
     End Function
