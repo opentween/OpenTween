@@ -1892,7 +1892,7 @@ Public Class Twitter
                 '二重取得回避
                 SyncLock LockObj
                     'If TabInformations.GetInstance.ContainsKey(post.Id) Then Continue For
-                    If TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites).Posts.ContainsKey(post.Id) Then Continue For
+                    If TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites).Contains(post.Id) Then Continue For
                 End SyncLock
                 'Retweet判定
                 Dim xRnode As XmlNode = xentry.SelectSingleNode("./retweeted_status")
