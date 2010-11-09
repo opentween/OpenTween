@@ -9497,4 +9497,8 @@ RETRY:
     Private Sub SourceLinkLabel_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SourceLinkLabel.Enter
         StatusText.Focus()
     End Sub
+
+    Private Sub ToolStripContainer1_Enter(ByVal sender As Object, ByVal e As System.EventArgs) Handles ToolStripContainer1.Enter
+        ListTab.Select()
+    End Sub
 End Class
