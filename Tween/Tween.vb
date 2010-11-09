@@ -8961,7 +8961,6 @@ RETRY:
             Me.UnreadOpMenuItem.Enabled = False
             Me.ShowProfMenuItem.Enabled = False
             Me.ToolStripMenuItem9.Enabled = False
-            Me.RtCountMenuItem.Enabled = False
         Else
             Me.ReplyOpMenuItem.Enabled = True
             Me.ReplyAllOpMenuItem.Enabled = True
@@ -8977,7 +8976,6 @@ RETRY:
             Me.UnreadOpMenuItem.Enabled = True
             Me.ShowProfMenuItem.Enabled = True
             Me.ToolStripMenuItem9.Enabled = True
-            Me.RtCountMenuItem.Enabled = True
         End If
     End Sub
 
@@ -9496,5 +9494,13 @@ RETRY:
 
     Private Sub SourceLinkLabel_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SourceLinkLabel.Enter
         StatusText.Focus()
+    End Sub
+
+    Private Sub MenuItemCommand_DropDownOpening(ByVal sender As Object, ByVal e As System.EventArgs) Handles MenuItemCommand.DropDownOpening
+        If _curPost Is Nothing Then
+            RtCountMenuItem.Enabled = False
+        Else
+            RtCountMenuItem.Enabled = True
+        End If
     End Sub
 End Class
