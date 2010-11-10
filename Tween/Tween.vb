@@ -7484,7 +7484,7 @@ RETRY:
                                    "(?<url>(?<protocol>https?://)" + _
                                    "(?<domain>(?:[\.-]|[^\p{P}\s])+\.[a-z]{2,}(?::[0-9]+)?)" + _
                                    "(?<path>/[a-z0-9!*'();:&=+$/%#\[\]\-_.,~@^]*[a-z0-9)=#/]?)?" + _
-                                   "(?<query>\?[a-z0-9!*'();:&=+$/%#\[\]\-_.,~@]*[a-z0-9_&=#/])?)"
+                                   "(?<query>\?[a-z0-9!*'();:&=+$/%#\[\]\-_.,~@?]*[a-z0-9_&=#/])?)"
 
         Const nico As String = "^https?://[a-z]+\.(nicovideo|niconicommons|nicolive)\.jp/[a-z]+/[a-z0-9]+$"
 
@@ -8779,9 +8779,9 @@ RETRY:
             user = GetUserId()
             If user Is Nothing Then Return
         ElseIf Me._curPost IsNot Nothing Then
-        user = Me._curPost.Name
+            user = Me._curPost.Name
         Else
-        Return
+            Return
         End If
 
         Dim list As ListElement = Nothing
