@@ -897,9 +897,6 @@
   <data name="LinkLabel1.Text" xml:space="preserve">
     <value>認証済み(Verified)</value>
   </data>
-  <data name="LinkLabel1.ToolTip" xml:space="preserve">
-    <value>http://twitter.com/help/verified</value>
-  </data>
   <data name="&gt;&gt;LinkLabel1.Name" xml:space="preserve">
     <value>LinkLabel1</value>
   </data>
