@@ -718,8 +718,4 @@ Public Class ShowUserInfo
             doChangeIcon(filename)
         End If
     End Sub
-
-    Private Sub TextBoxWeb_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles TextBoxWeb.Validating
-
-    End Sub
 End Class
