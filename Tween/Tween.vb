@@ -685,7 +685,7 @@ Public Class TweenMain
 
         SettingDialog.UseUnreadStyle = _cfgCommon.UseUnreadStyle
         SettingDialog.DefaultTimeOut = _cfgCommon.DefaultTimeOut
-        SettingDialog.ProtectNotInclude = _cfgCommon.ProtectNotInclude
+        'SettingDialog.ProtectNotInclude = _cfgCommon.ProtectNotInclude
         SettingDialog.PlaySound = _cfgCommon.PlaySound
         SettingDialog.DateTimeFormat = _cfgCommon.DateTimeFormat
         SettingDialog.LimitBalloon = _cfgCommon.LimitBalloon
@@ -5731,7 +5731,7 @@ RETRY:
             _cfgCommon.UseUnreadStyle = SettingDialog.UseUnreadStyle
             _cfgCommon.DateTimeFormat = SettingDialog.DateTimeFormat
             _cfgCommon.DefaultTimeOut = SettingDialog.DefaultTimeOut
-            _cfgCommon.ProtectNotInclude = SettingDialog.ProtectNotInclude
+            '_cfgCommon.ProtectNotInclude = SettingDialog.ProtectNotInclude
             _cfgCommon.LimitBalloon = SettingDialog.LimitBalloon
             _cfgCommon.AutoShortUrlFirst = SettingDialog.AutoShortUrlFirst
             _cfgCommon.TabIconDisp = SettingDialog.TabIconDisp
@@ -8921,7 +8921,6 @@ RETRY:
                 Me.RtOpMenuItem.Enabled = False
                 Me.RtUnOpMenuItem.Enabled = False
                 Me.QtOpMenuItem.Enabled = False
-                Me.QuoteStripMenuItem.Enabled = False
                 If _curPost.IsMe Then
                     Me.DelOpMenuItem.Enabled = True
                 Else
@@ -8931,7 +8930,6 @@ RETRY:
                 Me.RtOpMenuItem.Enabled = True
                 Me.RtUnOpMenuItem.Enabled = True
                 Me.QtOpMenuItem.Enabled = True
-                Me.QuoteStripMenuItem.Enabled = True
                 If _curPost.IsMe Then
                     Me.RtOpMenuItem.Enabled = False
                     Me.DelOpMenuItem.Enabled = True

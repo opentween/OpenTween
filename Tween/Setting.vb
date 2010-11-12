@@ -96,7 +96,7 @@ Public Class Setting
     Private _MyUnreadStyle As Boolean
     Private _MyDateTimeFormat As String
     Private _MyDefaultTimeOut As Integer
-    Private _MyProtectNotInclude As Boolean
+    'Private _MyProtectNotInclude As Boolean
     Private _MyLimitBalloon As Boolean
     Private _MyPostAndGet As Boolean
     Private _MyReplyPeriod As Integer
@@ -261,7 +261,7 @@ Public Class Setting
             _MyUnreadStyle = chkUnreadStyle.Checked
             _MyDateTimeFormat = CmbDateTimeFormat.Text
             _MyDefaultTimeOut = CType(ConnectionTimeOut.Text, Integer)
-            _MyProtectNotInclude = CheckProtectNotInclude.Checked
+            '_MyProtectNotInclude = CheckProtectNotInclude.Checked
             _MyLimitBalloon = CheckBalloonLimit.Checked
             _MyAutoShortUrlFirst = CType(ComboBoxAutoShortUrlFirst.SelectedIndex, UrlConverter)
             _MyTabIconDisp = chkTabIconDisp.Checked
@@ -499,7 +499,7 @@ Public Class Setting
         chkUnreadStyle.Checked = _MyUnreadStyle
         CmbDateTimeFormat.Text = _MyDateTimeFormat
         ConnectionTimeOut.Text = _MyDefaultTimeOut.ToString
-        CheckProtectNotInclude.Checked = _MyProtectNotInclude
+        'CheckProtectNotInclude.Checked = _MyProtectNotInclude
         CheckBalloonLimit.Checked = _MyLimitBalloon
         ComboBoxAutoShortUrlFirst.SelectedIndex = _MyAutoShortUrlFirst
         chkTabIconDisp.Checked = _MyTabIconDisp
@@ -1424,14 +1424,14 @@ Public Class Setting
         End Set
     End Property
 
-    Public Property ProtectNotInclude() As Boolean
-        Get
-            Return _MyProtectNotInclude
-        End Get
-        Set(ByVal value As Boolean)
-            _MyProtectNotInclude = value
-        End Set
-    End Property
+    'Public Property ProtectNotInclude() As Boolean
+    '    Get
+    '        Return _MyProtectNotInclude
+    '    End Get
+    '    Set(ByVal value As Boolean)
+    '        _MyProtectNotInclude = value
+    '    End Set
+    'End Property
 
     Public Property TabIconDisp() As Boolean
         Get

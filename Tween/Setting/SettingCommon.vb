@@ -144,7 +144,7 @@ Public Class SettingCommon
     Public UseUnreadStyle As Boolean = True
     Public DateTimeFormat As String = "yyyy/MM/dd H:mm:ss"
     Public DefaultTimeOut As Integer = 20
-    Public ProtectNotInclude As Boolean = True
+    'Public ProtectNotInclude As Boolean = True
     Public LimitBalloon As Boolean = False
     Public TabIconDisp As Boolean = True
     Public ReplyIconState As REPLY_ICONSTATE = REPLY_ICONSTATE.StaticIcon
