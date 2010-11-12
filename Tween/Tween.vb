@@ -2620,11 +2620,17 @@ Public Class TweenMain
                 ReTweetOriginalStripMenuItem.Enabled = False
                 DeleteStripMenuItem.Enabled = True
             Else
-                ReTweetOriginalStripMenuItem.Enabled = True
                 DeleteStripMenuItem.Enabled = False
+                If _curPost.IsProtect Then
+                    ReTweetOriginalStripMenuItem.Enabled = False
+                    ReTweetStripMenuItem.Enabled = False
+                    QuoteStripMenuItem.Enabled = False
+                Else
+                    ReTweetOriginalStripMenuItem.Enabled = True
+                    ReTweetStripMenuItem.Enabled = True
+                    QuoteStripMenuItem.Enabled = True
+                End If
             End If
-            ReTweetStripMenuItem.Enabled = True
-            QuoteStripMenuItem.Enabled = True
         End If
         If _statuses.Tabs(ListTab.SelectedTab.Text).TabType <> TabUsageType.Favorites Then
             RefreshMoreStripMenuItem.Enabled = True
@@ -4992,7 +4998,7 @@ RETRY:
         Dim IsProtected As Boolean = False
         For Each idx As Integer In _curList.SelectedIndices
             Dim post As PostClass = _statuses.Item(_curTab.Text, idx)
-            If post.IsProtect AndAlso SettingDialog.ProtectNotInclude Then
+            If post.IsProtect Then
                 IsProtected = True
                 Continue For
             End If
@@ -8160,7 +8166,7 @@ RETRY:
             If _curPost.IsDm OrElse _
                Not StatusText.Enabled Then Exit Sub
 
-            If SettingDialog.ProtectNotInclude AndAlso _curPost.IsProtect Then
+            If _curPost.IsProtect Then
                 MessageBox.Show("Protected.")
                 Exit Sub
             End If
@@ -8181,7 +8187,7 @@ RETRY:
     Private Sub doReTweetOriginal(ByVal isConfirm As Boolean)
         '公式RT
         If _curPost IsNot Nothing AndAlso Not _curPost.IsDm AndAlso Not _curPost.IsMe Then
-            If SettingDialog.ProtectNotInclude AndAlso _curPost.IsProtect Then
+            If _curPost.IsProtect Then
                 MessageBox.Show("Protected.")
                 Exit Sub
             End If
@@ -8602,7 +8608,7 @@ RETRY:
             If _curPost.IsDm OrElse _
                Not StatusText.Enabled Then Exit Sub
 
-            If SettingDialog.ProtectNotInclude AndAlso _curPost.IsProtect Then
+            If _curPost.IsProtect Then
                 MessageBox.Show("Protected.")
                 Exit Sub
             End If
@@ -8911,21 +8917,27 @@ RETRY:
             Me.QtOpMenuItem.Enabled = False
             If _curPost IsNot Nothing AndAlso _curPost.IsDm Then Me.DelOpMenuItem.Enabled = True
         Else
-            If _curPost.IsProtect = True AndAlso SettingDialog.ProtectNotInclude Then
+            If _curPost.IsProtect Then
                 Me.RtOpMenuItem.Enabled = False
                 Me.RtUnOpMenuItem.Enabled = False
                 Me.QtOpMenuItem.Enabled = False
+                Me.QuoteStripMenuItem.Enabled = False
+                If _curPost.IsMe Then
+                    Me.DelOpMenuItem.Enabled = True
+                Else
+                    Me.DelOpMenuItem.Enabled = False
+                End If
             Else
                 Me.RtOpMenuItem.Enabled = True
                 Me.RtUnOpMenuItem.Enabled = True
                 Me.QtOpMenuItem.Enabled = True
-            End If
-            If _curPost.IsMe Then
-                Me.RtOpMenuItem.Enabled = False
-                Me.DelOpMenuItem.Enabled = True
-            Else
-                Me.RtOpMenuItem.Enabled = True
-                Me.DelOpMenuItem.Enabled = False
+                Me.QuoteStripMenuItem.Enabled = True
+                If _curPost.IsMe Then
+                    Me.RtOpMenuItem.Enabled = False
+                    Me.DelOpMenuItem.Enabled = True
+                Else
+                    Me.DelOpMenuItem.Enabled = False
+                End If
             End If
         End If
 
@@ -9018,6 +9030,7 @@ RETRY:
         Else
             Me.CopySTOTMenuItem.Enabled = True
             Me.CopyURLMenuItem.Enabled = True
+            If _curPost.IsProtect Then Me.CopySTOTMenuItem.Enabled = False
         End If
     End Sub
 
