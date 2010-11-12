@@ -52,6 +52,8 @@ Public Class ShortUrl
     Private Shared _bitlyKey As String = ""
     Private Shared _isresolve As Boolean = True
 
+    Private Shared ReadOnly _lockObj As New Object
+
     Public Shared WriteOnly Property BitlyId() As String
         Set(ByVal value As String)
             _bitlyId = value
@@ -76,7 +78,11 @@ Public Class ShortUrl
     Public Shared Function Resolve(ByVal orgData As String) As String
         If _isresolve Then
             Static urlCache As New Dictionary(Of String, String)
-            If urlCache.Count > 500 Then urlCache.Clear() '定期的にリセット
+            SyncLock _lockObj
+                If urlCache.Count > 500 Then
+                    urlCache.Clear() '定期的にリセット
+                End If
+            End SyncLock
 
             Dim m As MatchCollection = Regex.Matches(orgData, "<a href=""(?<svc>http://.+?/)(?<path>[^""]+)""", RegexOptions.IgnoreCase)
             Dim urlList As New List(Of String)
@@ -85,7 +91,9 @@ Public Class ShortUrl
                 Dim orgUrlPath As String = orgUrlMatch.Result("${path}")
                 If Array.IndexOf(_ShortUrlService, orgUrl) > -1 AndAlso _
                    Not urlList.Contains(orgUrl + orgUrlPath) Then
-                    urlList.Add(orgUrl + orgUrlPath)
+                    SyncLock _lockObj
+                        urlList.Add(orgUrl + orgUrlPath)
+                    End SyncLock
                 End If
             Next
             For Each orgUrl As String In urlList
@@ -106,7 +114,9 @@ Public Class ShortUrl
                         If retUrlStr.StartsWith("http") Then
                             retUrlStr = retUrlStr.Replace("""", "%22")  'ダブルコーテーションがあるとURL終端と判断されるため、これだけ再エンコード
                             orgData = orgData.Replace("<a href=""" + orgUrl + """", "<a href=""" + retUrlStr + """")
-                            urlCache.Add(orgUrl, retUrlStr)
+                            SyncLock _lockObj
+                                urlCache.Add(orgUrl, retUrlStr)
+                            End SyncLock
                         End If
                     Catch ex As Exception
                         'Through
