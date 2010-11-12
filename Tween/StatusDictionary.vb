@@ -2154,10 +2154,13 @@ Public NotInheritable Class FiltersClass
     Public Function IsHit(ByVal post As PostClass) As HITRESULT
         Dim bHit As Boolean = True
         Dim tBody As String
+        Dim tSource As String
         If _searchUrl Then
             tBody = post.OriginalData
+            tSource = post.SourceHtml
         Else
             tBody = post.Data
+            tSource = post.Source
         End If
         '検索オプション
         Dim compOpt As System.StringComparison
@@ -2221,17 +2224,19 @@ Public NotInheritable Class FiltersClass
         End If
         If Not String.IsNullOrEmpty(_source) Then
             If _useRegex Then
-                If Not Regex.IsMatch(post.Source, _source, rgOpt) Then bHit = False
+                If Not Regex.IsMatch(tSource, _source, rgOpt) Then bHit = False
             Else
-                If Not post.Source.Equals(_source, compOpt) Then bHit = False
+                If Not tSource.Equals(_source, compOpt) Then bHit = False
             End If
         End If
         If bHit Then
             '除外判定
             If _exsearchUrl Then
                 tBody = post.OriginalData
+                tSource = post.SourceHtml
             Else
                 tBody = post.Data
+                tSource = post.Source
             End If
 
             Dim exFlag As Boolean = False
@@ -2298,9 +2303,9 @@ Public NotInheritable Class FiltersClass
             End If
             If Not String.IsNullOrEmpty(_exSource) Then
                 If _exuseRegex Then
-                    If Regex.IsMatch(post.Source, _exSource, rgOpt) Then exFlag = True
+                    If Regex.IsMatch(tSource, _exSource, rgOpt) Then exFlag = True
                 Else
-                    If post.Source.Equals(_exSource, compOpt) Then exFlag = True
+                    If tSource.Equals(_exSource, compOpt) Then exFlag = True
                 End If
             End If
 
