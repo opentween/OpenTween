@@ -22,6 +22,7 @@
 ' Boston, MA 02110-1301, USA.
 
 Imports System.Runtime.InteropServices
+Imports System.Threading
 
 
 Public Class InternetSecurityManager
@@ -271,7 +272,13 @@ Public Class InternetSecurityManager
 
     Public Sub New(ByVal _WebBrowser As System.Windows.Forms.WebBrowser)
         ' ActiveXコントロール取得
-        _WebBrowser.DocumentText = "" 'ActiveXを初期化する 
+        _WebBrowser.DocumentText = "about:blank" 'ActiveXを初期化する
+
+        Do
+            Thread.Sleep(100)
+            Application.DoEvents()
+        Loop Until _WebBrowser.ReadyState = WebBrowserReadyState.Complete
+
         ocx = _WebBrowser.ActiveXInstance
 
         ' IServiceProvider.QueryService() を使って IProfferService を取得
