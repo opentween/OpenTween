@@ -9025,9 +9025,11 @@ RETRY:
         If _curPost Is Nothing Then
             Me.CopySTOTMenuItem.Enabled = False
             Me.CopyURLMenuItem.Enabled = False
+            Me.CopyUserIdStripMenuItem.Enabled = False
         Else
             Me.CopySTOTMenuItem.Enabled = True
             Me.CopyURLMenuItem.Enabled = True
+            Me.CopyUserIdStripMenuItem.Enabled = True
             If _curPost.IsProtect Then Me.CopySTOTMenuItem.Enabled = False
         End If
     End Sub
@@ -9513,5 +9515,18 @@ RETRY:
         Else
             RtCountMenuItem.Enabled = True
         End If
+    End Sub
+
+    Private Sub CopyUserIdStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CopyUserIdStripMenuItem.Click
+        CopyUserId()
+    End Sub
+    Private Sub CopyUserId()
+        If _curPost Is Nothing Then Exit Sub
+        Dim clstr As String = _curPost.Name
+        Try
+            Clipboard.SetDataObject(clstr, False, 5, 100)
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
     End Sub
 End Class

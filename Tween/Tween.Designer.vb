@@ -28,6 +28,8 @@ Partial Class TweenMain
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.StatusLabelUrl = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.StatusLabel = New Tween.TweenCustomControl.ToolStripLabelHistory()
+        Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.HashStripSplitButton = New System.Windows.Forms.ToolStripSplitButton()
         Me.ContextMenuPostMode = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItemUrlMultibyteSplit = New System.Windows.Forms.ToolStripMenuItem()
@@ -266,8 +268,7 @@ Partial Class TweenMain
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.StatusLabel = New Tween.TweenCustomControl.ToolStripLabelHistory()
+        Me.CopyUserIdStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -333,6 +334,20 @@ Partial Class TweenMain
         Me.StatusLabelUrl.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
         Me.StatusLabelUrl.Name = "StatusLabelUrl"
         Me.StatusLabelUrl.Spring = True
+        '
+        'StatusLabel
+        '
+        Me.StatusLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right
+        Me.StatusLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.StatusLabel.DoubleClickEnabled = True
+        Me.StatusLabel.Name = "StatusLabel"
+        resources.ApplyResources(Me.StatusLabel, "StatusLabel")
+        '
+        'ToolStripStatusLabel1
+        '
+        resources.ApplyResources(Me.ToolStripStatusLabel1, "ToolStripStatusLabel1")
+        Me.ToolStripStatusLabel1.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right
+        Me.ToolStripStatusLabel1.Name = "ToolStripStatusLabel1"
         '
         'HashStripSplitButton
         '
@@ -953,7 +968,7 @@ Partial Class TweenMain
         '
         'MenuItemEdit
         '
-        Me.MenuItemEdit.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UndoRemoveTabMenuItem, Me.ToolStripSeparator12, Me.CopySTOTMenuItem, Me.CopyURLMenuItem, Me.ToolStripSeparator6, Me.MenuItemSubSearch, Me.MenuItemSearchNext, Me.MenuItemSearchPrev, Me.ToolStripSeparator22, Me.PublicSearchQueryMenuItem})
+        Me.MenuItemEdit.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UndoRemoveTabMenuItem, Me.ToolStripSeparator12, Me.CopySTOTMenuItem, Me.CopyURLMenuItem, Me.CopyUserIdStripMenuItem, Me.ToolStripSeparator6, Me.MenuItemSubSearch, Me.MenuItemSearchNext, Me.MenuItemSearchPrev, Me.ToolStripSeparator22, Me.PublicSearchQueryMenuItem})
         Me.MenuItemEdit.Name = "MenuItemEdit"
         resources.ApplyResources(Me.MenuItemEdit, "MenuItemEdit")
         '
@@ -1663,19 +1678,10 @@ Partial Class TweenMain
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'ToolStripStatusLabel1
+        'CopyUserIdStripMenuItem
         '
-        resources.ApplyResources(Me.ToolStripStatusLabel1, "ToolStripStatusLabel1")
-        Me.ToolStripStatusLabel1.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right
-        Me.ToolStripStatusLabel1.Name = "ToolStripStatusLabel1"
-        '
-        'StatusLabel
-        '
-        Me.StatusLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right
-        Me.StatusLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.StatusLabel.DoubleClickEnabled = True
-        Me.StatusLabel.Name = "StatusLabel"
-        resources.ApplyResources(Me.StatusLabel, "StatusLabel")
+        Me.CopyUserIdStripMenuItem.Name = "CopyUserIdStripMenuItem"
+        resources.ApplyResources(Me.CopyUserIdStripMenuItem, "CopyUserIdStripMenuItem")
         '
         'TweenMain
         '
@@ -1967,5 +1973,6 @@ Partial Class TweenMain
     Friend WithEvents ListManageToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SourceLinkLabel As System.Windows.Forms.LinkLabel
     Friend WithEvents ToolStripStatusLabel1 As System.Windows.Forms.ToolStripStatusLabel
+    Friend WithEvents CopyUserIdStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class
