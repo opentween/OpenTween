@@ -123,6 +123,7 @@ Public Class Setting
     Private _MyUseAdditonalCount As Boolean
     Private _SearchCountApi As Integer
     Private _FavoritesCountApi As Integer
+    Private _MyRetweetNoConfirm As Boolean
 
     Private _ValidationError As Boolean = False
 
@@ -262,6 +263,7 @@ Public Class Setting
             _MyDateTimeFormat = CmbDateTimeFormat.Text
             _MyDefaultTimeOut = CType(ConnectionTimeOut.Text, Integer)
             '_MyProtectNotInclude = CheckProtectNotInclude.Checked
+            _MyRetweetNoConfirm = CheckRetweetNoConfirm.Checked
             _MyLimitBalloon = CheckBalloonLimit.Checked
             _MyAutoShortUrlFirst = CType(ComboBoxAutoShortUrlFirst.SelectedIndex, UrlConverter)
             _MyTabIconDisp = chkTabIconDisp.Checked
@@ -500,6 +502,7 @@ Public Class Setting
         CmbDateTimeFormat.Text = _MyDateTimeFormat
         ConnectionTimeOut.Text = _MyDefaultTimeOut.ToString
         'CheckProtectNotInclude.Checked = _MyProtectNotInclude
+        CheckRetweetNoConfirm.Checked = _MyRetweetNoConfirm
         CheckBalloonLimit.Checked = _MyLimitBalloon
         ComboBoxAutoShortUrlFirst.SelectedIndex = _MyAutoShortUrlFirst
         chkTabIconDisp.Checked = _MyTabIconDisp
@@ -1432,6 +1435,15 @@ Public Class Setting
     '        _MyProtectNotInclude = value
     '    End Set
     'End Property
+
+    Public Property RetweetNoConfirm() As Boolean
+        Get
+            Return _MyRetweetNoConfirm
+        End Get
+        Set(ByVal value As Boolean)
+            _MyRetweetNoConfirm = value
+        End Set
+    End Property
 
     Public Property TabIconDisp() As Boolean
         Get
