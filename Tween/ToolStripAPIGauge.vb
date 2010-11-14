@@ -96,10 +96,6 @@ Public Class ToolStripAPIGauge
         Me.originalSize = Me.Control.Size
     End Sub
 
-    Private Sub Control_Invalidated(ByVal sender As Object, ByVal e As EventArgs)
-        Me.Control.Refresh()
-    End Sub
-
     Private Sub SetText(ByVal remain As Integer, ByVal max As Integer)
         Dim textFormat As String = "API {0}/{1}"
         Dim toolTipTextFormat As String = _
