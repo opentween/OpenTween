@@ -134,6 +134,7 @@ Partial Class TweenMain
         Me.ToolStripSeparator12 = New System.Windows.Forms.ToolStripSeparator()
         Me.CopySTOTMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CopyURLMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CopyUserIdStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator()
         Me.MenuItemSubSearch = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuItemSearchNext = New System.Windows.Forms.ToolStripMenuItem()
@@ -268,7 +269,6 @@ Partial Class TweenMain
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.CopyUserIdStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -992,6 +992,11 @@ Partial Class TweenMain
         Me.CopyURLMenuItem.Name = "CopyURLMenuItem"
         resources.ApplyResources(Me.CopyURLMenuItem, "CopyURLMenuItem")
         '
+        'CopyUserIdStripMenuItem
+        '
+        Me.CopyUserIdStripMenuItem.Name = "CopyUserIdStripMenuItem"
+        resources.ApplyResources(Me.CopyUserIdStripMenuItem, "CopyUserIdStripMenuItem")
+        '
         'ToolStripSeparator6
         '
         Me.ToolStripSeparator6.Name = "ToolStripSeparator6"
@@ -1677,11 +1682,6 @@ Partial Class TweenMain
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
-        '
-        'CopyUserIdStripMenuItem
-        '
-        Me.CopyUserIdStripMenuItem.Name = "CopyUserIdStripMenuItem"
-        resources.ApplyResources(Me.CopyUserIdStripMenuItem, "CopyUserIdStripMenuItem")
         '
         'TweenMain
         '

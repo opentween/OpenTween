@@ -4939,6 +4939,10 @@ RETRY:
                 e.Handled = True
                 e.SuppressKeyPress = True
                 doReTweetUnofficial()
+            ElseIf e.KeyCode = Keys.C Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                CopyUserId()
             ElseIf e.KeyCode = Keys.Up Then
                 Thumbnail.ScrollThumbnail(False)
             ElseIf e.KeyCode = Keys.Down Then
@@ -5660,6 +5664,10 @@ RETRY:
                 e.Handled = True
                 e.SuppressKeyPress = True
                 doReTweetUnofficial()
+            ElseIf e.KeyCode = Keys.C Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                CopyUserId()
             ElseIf e.KeyCode = Keys.Up Then
                 Thumbnail.ScrollThumbnail(False)
             ElseIf e.KeyCode = Keys.Down Then
@@ -6070,6 +6078,9 @@ RETRY:
                 Case Keys.R
                     e.IsInputKey = False
                     doReTweetUnofficial()
+                Case Keys.C
+                    e.IsInputKey = False
+                    CopyUserId()
             End Select
 
         End If

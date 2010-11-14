@@ -1570,7 +1570,7 @@
     <value>259, 22</value>
   </data>
   <data name="CopyUserIdStripMenuItem.Text" xml:space="preserve">
-    <value>コピー（ユーザーID）</value>
+    <value>コピー（ユーザーID）(&amp;A)</value>
   </data>
   <data name="ToolStripSeparator6.Size" type="System.Drawing.Size, System.Drawing">
     <value>256, 6</value>
@@ -2946,6 +2946,12 @@
   <data name="&gt;&gt;CopyURLMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;CopyUserIdStripMenuItem.Name" xml:space="preserve">
+    <value>CopyUserIdStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;CopyUserIdStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;ToolStripSeparator6.Name" xml:space="preserve">
     <value>ToolStripSeparator6</value>
   </data>
@@ -3737,12 +3743,6 @@
   </data>
   <data name="&gt;&gt;ToolTip1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CopyUserIdStripMenuItem.Name" xml:space="preserve">
-    <value>CopyUserIdStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;CopyUserIdStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>TweenMain</value>
