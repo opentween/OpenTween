@@ -1055,6 +1055,7 @@ Public Class TweenMain
         Me.JumpReadOpMenuItem.ShortcutKeyDisplayString = "Space"
         CopySTOTMenuItem.ShortcutKeyDisplayString = "Ctrl+C"
         CopyURLMenuItem.ShortcutKeyDisplayString = "Ctrl+Shift+C"
+        CopyUserIdStripMenuItem.ShortcutKeyDisplayString = "Shift+Alt+C"
 
         If SettingDialog.MinimizeToTray = False OrElse Me.WindowState <> FormWindowState.Minimized Then
             Me.Visible = True
