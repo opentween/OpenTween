@@ -72,13 +72,12 @@ Public Class ToolStripAPIGauge
         Dim minute As Double = (Me.ResetTime - DateTime.Now).TotalMinutes
         Dim apiGaugeBounds As New Rectangle(0, _
                                             CType((Me.Control.Height - (Me._gaugeHeight * 2)) / 2, Integer), _
-                                            CType(e.ClipRectangle.Width * (Me.RemainCount / Me._maxCount), Integer), _
+                                            CType(Me.Control.Width * (Me.RemainCount / Me._maxCount), Integer), _
                                             Me._gaugeHeight)
         Dim timeGaugeBounds As New Rectangle(0, _
                                              apiGaugeBounds.Top + Me._gaugeHeight, _
-                                             CType(e.ClipRectangle.Width * (minute / 60), Integer), _
+                                             CType(Me.Control.Width * (minute / 60), Integer), _
                                              Me._gaugeHeight)
-
         e.Graphics.FillRectangle(Brushes.LightBlue, apiGaugeBounds)
         e.Graphics.FillRectangle(Brushes.LightPink, timeGaugeBounds)
         e.Graphics.DrawString(Me.Control.Text, Me.Control.Font, SystemBrushes.ControlText, 0, CType(timeGaugeBounds.Top - (Me.Control.Font.Height / 2), Single))
@@ -95,6 +94,10 @@ Public Class ToolStripAPIGauge
 
     Private Sub Control_SizeChanged(ByVal sender As Object, ByVal e As EventArgs)
         Me.originalSize = Me.Control.Size
+    End Sub
+
+    Private Sub Control_Invalidated(ByVal sender As Object, ByVal e As EventArgs)
+        Me.Control.Refresh()
     End Sub
 
     Private Sub SetText(ByVal remain As Integer, ByVal max As Integer)
