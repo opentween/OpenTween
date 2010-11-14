@@ -686,6 +686,7 @@ Public Class TweenMain
         SettingDialog.UseUnreadStyle = _cfgCommon.UseUnreadStyle
         SettingDialog.DefaultTimeOut = _cfgCommon.DefaultTimeOut
         'SettingDialog.ProtectNotInclude = _cfgCommon.ProtectNotInclude
+        SettingDialog.RetweetNoConfirm = _cfgCommon.RetweetNoConfirm
         SettingDialog.PlaySound = _cfgCommon.PlaySound
         SettingDialog.DateTimeFormat = _cfgCommon.DateTimeFormat
         SettingDialog.LimitBalloon = _cfgCommon.LimitBalloon
@@ -1615,7 +1616,7 @@ Public Class TweenMain
                                                            MessageBoxIcon.Question)
             Select Case rtResult
                 Case Windows.Forms.DialogResult.Yes
-                    doReTweetOriginal(False)
+                    doReTweetOfficial(False)
                     StatusText.Text = ""
                     Exit Sub
                 Case Windows.Forms.DialogResult.Cancel
@@ -4809,7 +4810,7 @@ RETRY:
             ElseIf e.KeyCode = Keys.R Then
                 e.Handled = True
                 e.SuppressKeyPress = True
-                doReTweetOriginal(True)
+                doReTweetOfficial(True)
             ElseIf e.KeyCode = Keys.P AndAlso _curPost IsNot Nothing Then
                 e.Handled = True
                 e.SuppressKeyPress = True
@@ -5548,7 +5549,7 @@ RETRY:
             If e.KeyCode = Keys.R Then
                 e.Handled = True
                 e.SuppressKeyPress = True
-                doReTweetOriginal(True)
+                doReTweetOfficial(True)
             ElseIf e.KeyCode = Keys.P AndAlso _curPost IsNot Nothing Then
                 e.Handled = True
                 e.SuppressKeyPress = True
@@ -5740,6 +5741,7 @@ RETRY:
             _cfgCommon.DateTimeFormat = SettingDialog.DateTimeFormat
             _cfgCommon.DefaultTimeOut = SettingDialog.DefaultTimeOut
             '_cfgCommon.ProtectNotInclude = SettingDialog.ProtectNotInclude
+            _cfgCommon.RetweetNoConfirm = SettingDialog.RetweetNoConfirm
             _cfgCommon.LimitBalloon = SettingDialog.LimitBalloon
             _cfgCommon.AutoShortUrlFirst = SettingDialog.AutoShortUrlFirst
             _cfgCommon.TabIconDisp = SettingDialog.TabIconDisp
@@ -5985,7 +5987,7 @@ RETRY:
                     MakeReplyOrDirectStatus(False, False)
                 Case Keys.R
                     e.IsInputKey = True
-                    doReTweetOriginal(True)
+                    doReTweetOfficial(True)
                 Case Keys.Q
                     e.IsInputKey = True
                     doQuote()
@@ -6030,7 +6032,7 @@ RETRY:
         If e.Modifiers = Keys.Alt Then
             If e.KeyCode = Keys.R Then
                 e.IsInputKey = True
-                doReTweetOriginal(True)
+                doReTweetOfficial(True)
             ElseIf e.KeyCode = Keys.P AndAlso _curPost IsNot Nothing Then
                 e.IsInputKey = True
                 doShowUserStatus(_curPost.Name, False)
@@ -8195,15 +8197,17 @@ RETRY:
         doReTweetUnofficial()
     End Sub
 
-    Private Sub doReTweetOriginal(ByVal isConfirm As Boolean)
+    Private Sub doReTweetOfficial(ByVal isConfirm As Boolean)
         '公式RT
         If _curPost IsNot Nothing AndAlso Not _curPost.IsDm AndAlso Not _curPost.IsMe Then
             If _curPost.IsProtect Then
                 MessageBox.Show("Protected.")
                 Exit Sub
             End If
-            If isConfirm AndAlso MessageBox.Show(My.Resources.RetweetQuestion1, "Retweet", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
-                Exit Sub
+            If Not SettingDialog.RetweetNoConfirm Then
+                If isConfirm AndAlso MessageBox.Show(My.Resources.RetweetQuestion1, "Retweet", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
+                    Exit Sub
+                End If
             End If
             Dim args As New GetWorkerArg
             args.ids = New List(Of Long)
@@ -8217,7 +8221,7 @@ RETRY:
     End Sub
 
     Private Sub ReTweetOriginalStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReTweetOriginalStripMenuItem.Click, RtOpMenuItem.Click
-        doReTweetOriginal(True)
+        doReTweetOfficial(True)
     End Sub
 
     Private Function CreateRetweetUnofficial(ByVal status As String) As String

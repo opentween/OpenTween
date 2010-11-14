@@ -174,8 +174,6 @@ Partial Class Setting
         Me.Label76 = New System.Windows.Forms.Label()
         Me.ComboBoxAutoShortUrlFirst = New System.Windows.Forms.ComboBox()
         Me.Label71 = New System.Windows.Forms.Label()
-        Me.CheckProtectNotInclude = New System.Windows.Forms.CheckBox()
-        Me.Label42 = New System.Windows.Forms.Label()
         Me.CheckAutoConvertUrl = New System.Windows.Forms.CheckBox()
         Me.Label29 = New System.Windows.Forms.Label()
         Me.Label57 = New System.Windows.Forms.Label()
@@ -237,6 +235,7 @@ Partial Class Setting
         Me.RadioProxyIE = New System.Windows.Forms.RadioButton()
         Me.RadioProxyNone = New System.Windows.Forms.RadioButton()
         Me.TabPage6 = New System.Windows.Forms.TabPage()
+        Me.FavoritesTextCountApi = New System.Windows.Forms.TextBox()
         Me.SearchTextCountApi = New System.Windows.Forms.TextBox()
         Me.Label66 = New System.Windows.Forms.Label()
         Me.FirstTextCountApi = New System.Windows.Forms.TextBox()
@@ -249,7 +248,8 @@ Partial Class Setting
         Me.Label59 = New System.Windows.Forms.Label()
         Me.TextBoxOutputzKey = New System.Windows.Forms.TextBox()
         Me.CheckOutputz = New System.Windows.Forms.CheckBox()
-        Me.FavoritesTextCountApi = New System.Windows.Forms.TextBox()
+        Me.Label42 = New System.Windows.Forms.Label()
+        Me.CheckRetweetNoConfirm = New System.Windows.Forms.CheckBox()
         Me.GroupBox1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
@@ -1088,6 +1088,8 @@ Partial Class Setting
         '
         'TabPage2
         '
+        Me.TabPage2.Controls.Add(Me.CheckRetweetNoConfirm)
+        Me.TabPage2.Controls.Add(Me.Label42)
         Me.TabPage2.Controls.Add(Me.GroupBox3)
         Me.TabPage2.Controls.Add(Me.Label82)
         Me.TabPage2.Controls.Add(Me.CheckHashSupple)
@@ -1099,8 +1101,6 @@ Partial Class Setting
         Me.TabPage2.Controls.Add(Me.Label76)
         Me.TabPage2.Controls.Add(Me.ComboBoxAutoShortUrlFirst)
         Me.TabPage2.Controls.Add(Me.Label71)
-        Me.TabPage2.Controls.Add(Me.CheckProtectNotInclude)
-        Me.TabPage2.Controls.Add(Me.Label42)
         Me.TabPage2.Controls.Add(Me.CheckAutoConvertUrl)
         Me.TabPage2.Controls.Add(Me.Label29)
         Me.TabPage2.Controls.Add(Me.Label57)
@@ -1240,17 +1240,6 @@ Partial Class Setting
         '
         resources.ApplyResources(Me.Label71, "Label71")
         Me.Label71.Name = "Label71"
-        '
-        'CheckProtectNotInclude
-        '
-        resources.ApplyResources(Me.CheckProtectNotInclude, "CheckProtectNotInclude")
-        Me.CheckProtectNotInclude.Name = "CheckProtectNotInclude"
-        Me.CheckProtectNotInclude.UseVisualStyleBackColor = True
-        '
-        'Label42
-        '
-        resources.ApplyResources(Me.Label42, "Label42")
-        Me.Label42.Name = "Label42"
         '
         'CheckAutoConvertUrl
         '
@@ -1677,6 +1666,11 @@ Partial Class Setting
         Me.TabPage6.Name = "TabPage6"
         Me.TabPage6.UseVisualStyleBackColor = True
         '
+        'FavoritesTextCountApi
+        '
+        resources.ApplyResources(Me.FavoritesTextCountApi, "FavoritesTextCountApi")
+        Me.FavoritesTextCountApi.Name = "FavoritesTextCountApi"
+        '
         'SearchTextCountApi
         '
         resources.ApplyResources(Me.SearchTextCountApi, "SearchTextCountApi")
@@ -1743,10 +1737,16 @@ Partial Class Setting
         Me.CheckOutputz.Name = "CheckOutputz"
         Me.CheckOutputz.UseVisualStyleBackColor = True
         '
-        'FavoritesTextCountApi
+        'Label42
         '
-        resources.ApplyResources(Me.FavoritesTextCountApi, "FavoritesTextCountApi")
-        Me.FavoritesTextCountApi.Name = "FavoritesTextCountApi"
+        resources.ApplyResources(Me.Label42, "Label42")
+        Me.Label42.Name = "Label42"
+        '
+        'CheckRetweetNoConfirm
+        '
+        resources.ApplyResources(Me.CheckRetweetNoConfirm, "CheckRetweetNoConfirm")
+        Me.CheckRetweetNoConfirm.Name = "CheckRetweetNoConfirm"
+        Me.CheckRetweetNoConfirm.UseVisualStyleBackColor = True
         '
         'Setting
         '
@@ -1917,8 +1917,6 @@ Partial Class Setting
     Friend WithEvents Label63 As System.Windows.Forms.Label
     Friend WithEvents Label64 As System.Windows.Forms.Label
     Friend WithEvents ConnectionTimeOut As System.Windows.Forms.TextBox
-    Friend WithEvents CheckProtectNotInclude As System.Windows.Forms.CheckBox
-    Friend WithEvents Label42 As System.Windows.Forms.Label
     Friend WithEvents btnInputBackcolor As System.Windows.Forms.Button
     Friend WithEvents lblInputBackcolor As System.Windows.Forms.Label
     Friend WithEvents Label52 As System.Windows.Forms.Label
@@ -2010,4 +2008,6 @@ Partial Class Setting
     Friend WithEvents SearchTextCountApi As System.Windows.Forms.TextBox
     Friend WithEvents Label66 As System.Windows.Forms.Label
     Friend WithEvents FavoritesTextCountApi As System.Windows.Forms.TextBox
+    Friend WithEvents CheckRetweetNoConfirm As System.Windows.Forms.CheckBox
+    Friend WithEvents Label42 As System.Windows.Forms.Label
 End Class
