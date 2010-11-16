@@ -7499,12 +7499,16 @@ RETRY:
 
     Private Function UrlConvert(ByVal Converter_Type As UrlConverter) As Boolean
         'Converter_Type=Nicomsの場合は、nicovideoのみ短縮する
+        '参考資料 RFC3986 Uniform Resource Identifier (URI): Generic Syntax
+        'Appendix A.  Collected ABNF for URI
+        'http://www.ietf.org/rfc/rfc3986.txt
+
         Dim result As String = ""
         Const url As String = "(?<before>(?:[^\""':!=]|^|\:))" + _
                                    "(?<url>(?<protocol>https?://)" + _
                                    "(?<domain>(?:[\.-]|[^\p{P}\s])+\.[a-z]{2,}(?::[0-9]+)?)" + _
-                                   "(?<path>/[a-z0-9!*'();:&=+$/%#\[\]\-_.,~@^]*[a-z0-9)=#/]?)?" + _
-                                   "(?<query>\?[a-z0-9!*'();:&=+$/%#\[\]\-_.,~@?]*[a-z0-9_&=#/])?)"
+                                   "(?<path>/[a-z0-9!*'();:&=+$/%#\-_.,~@]*[a-z0-9)=#/]?)?" + _
+                                   "(?<query>\?[a-z0-9!*'();:&=+$/%#\-_.,~@?]*[a-z0-9_&=#/])?)"
 
         Const nico As String = "^https?://[a-z]+\.(nicovideo|niconicommons|nicolive)\.jp/[a-z]+/[a-z0-9]+$"
 
