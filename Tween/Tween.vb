@@ -1979,7 +1979,9 @@ Public Class TweenMain
                 rslt.status = args.status
             Case WORKERTYPE.Retweet
                 bw.ReportProgress(200)
-                ret = tw.PostRetweet(args.ids(0), read)
+                For i As Integer = 0 To args.ids.Count - 1
+                    ret = tw.PostRetweet(args.ids(i), read)
+                Next
                 bw.ReportProgress(300)
             Case WORKERTYPE.Follower
                 bw.ReportProgress(50, My.Resources.UpdateFollowersMenuItem1_ClickText1)
@@ -8214,13 +8216,19 @@ RETRY:
                     Exit Sub
                 End If
             End If
+            If _curList.SelectedIndices.Count > 10 Then
+                MessageBox.Show("一度にReTweetできるのは10までです")
+                Exit Sub
+            End If
             Dim args As New GetWorkerArg
             args.ids = New List(Of Long)
             args.sIds = New List(Of Long)
             args.tName = _curTab.Text
             args.type = WORKERTYPE.Retweet
-            args.ids.Add(_curPost.Id)
-
+            For Each idx As Integer In _curList.SelectedIndices
+                Dim post As PostClass = GetCurTabPost(idx)
+                If Not post.IsMe Then args.ids.Add(post.Id)
+            Next
             RunAsync(args)
         End If
     End Sub
