@@ -532,22 +532,18 @@ Namespace My.Resources
         '''<summary>
         '''  更新履歴
         '''
-        '''==== Ver 0.9.6.1(2010/10/22)
-        ''' * URL直後のハッシュタグがリンク化されないバグを修正
-        ''' * PublicSearchの取得数を変更可能にした
-        ''' * Ctrl+J/K,SHIFT+J/Kが効かなくなっていたバグを修正
-        ''' * リストビューでのアイコンが縦長に描画されるバグを修正
-        ''' * リストビューでの文字列の描画位置を上寄せに変更
-        ''' * 非公式RTの際に元ツイートに@IDが含まれていた場合@を含めないようにした
-        ''' * アイコンの背景を白く塗るようにした
-        ''' * リスト部分で表示し切れない行は表示していなかったのを、読めそうな範囲で描画出来そうな行は表示するように変更
-        ''' * 入力欄でCtrl+Shift+←→　を動作するようにした
-        ''' * 短縮URL解決の設定が正しく動作しておらずオフにできなかったバグを修正
-        ''' * yfrogへの画像投稿に対応
-        ''' * 取得時の自ポスト既読化をDMにも適用するようにした
-        ''' * Favorites取得数を設定できるようにした。０で標準取得数に合わせる
-        ''' * リストビューの描画を若干高速化した
-        ''' * BASIC認証 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        '''==== Ver 0.9.7.0(2010/11/14)
+        ''' * 描画周りの高速化と調整を行った
+        ''' * リスト表示が真っ白になる現象の対策を行った　まだ発生する方はご連絡ください。
+        ''' * 連投モードで投稿失敗ダイアログをキャンセルした場合にStatusTextの背景色が戻らないのを修正
+        ''' * Protect発言をRT/STOTコピー許可するかの設定を廃止し公式RTの際に確認しない設定を追加した
+        ''' * Alt+Shift+CでユーザーIDをコピーするようにした 編集メニューにもあります。
+        ''' * Sourceのリンク部分においてもフィルタが効くようにした（URL検索にチェックを入れる必要があります)
+        ''' * WebBrowserコンポーネントの初期化完了を待つようにした
+        ''' * 移動や削除などでフィルタ選択が解除された場合にボタンの有効状態が切り替わっていなかったのを修正
+        ''' * ObjectDisposedExceptionが起きることがあったのを修正
+        ''' * 短縮URL解決で例外が発生することがあったのを(多分)修正
+        ''' * クエリまたはフラグメント部分に？を含むURLの認識に失敗す [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property ChangeLog() As String
             Get
@@ -1772,11 +1768,29 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  一度にRetweetできるのは60件までです に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property RetweetLimitText() As String
+            Get
+                Return ResourceManager.GetString("RetweetLimitText", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Retweetしてもよろしいですか？ に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property RetweetQuestion1() As String
             Get
                 Return ResourceManager.GetString("RetweetQuestion1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  選択された発言をRetweetしてもよろしいですか？ に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property RetweetQuestion2() As String
+            Get
+                Return ResourceManager.GetString("RetweetQuestion2", resourceCulture)
             End Get
         End Property
         
