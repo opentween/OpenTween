@@ -942,4 +942,10 @@
   <data name="TextSearchCountApi_Validating1" xml:space="preserve">
     <value>取得発言数は20～100件を指定してください。</value>
   </data>
+  <data name="RetweetLimitText" xml:space="preserve">
+    <value>一度にRetweetできるのは60件までです</value>
+  </data>
+  <data name="RetweetQuestion2" xml:space="preserve">
+    <value>選択された発言をRetweetしてもよろしいですか？</value>
+  </data>
 </root>

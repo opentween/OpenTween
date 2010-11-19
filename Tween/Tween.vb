@@ -8233,7 +8233,7 @@ RETRY:
             args.type = WORKERTYPE.Retweet
             For Each idx As Integer In _curList.SelectedIndices
                 Dim post As PostClass = GetCurTabPost(idx)
-                If Not post.IsMe Then args.ids.Add(post.Id)
+                If Not post.IsMe AndAlso Not post.IsProtect Then args.ids.Add(post.Id)
             Next
             RunAsync(args)
         End If
