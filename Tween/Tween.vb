@@ -8211,14 +8211,20 @@ RETRY:
                 MessageBox.Show("Protected.")
                 Exit Sub
             End If
-            If Not SettingDialog.RetweetNoConfirm Then
-                If isConfirm AndAlso MessageBox.Show(My.Resources.RetweetQuestion1, "Retweet", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
-                    Exit Sub
-                End If
-            End If
-            If _curList.SelectedIndices.Count > 10 Then
-                MessageBox.Show("一度にReTweetできるのは10までです")
+            If _curList.SelectedIndices.Count > 60 Then
+                MessageBox.Show(My.Resources.RetweetLimitText)
                 Exit Sub
+            ElseIf _curList.SelectedIndices.Count > 1 Then
+                Select Case MessageBox.Show(My.Resources.RetweetQuestion2, "Retweet", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
+                    Case Windows.Forms.DialogResult.Cancel, Windows.Forms.DialogResult.No
+                        Exit Sub
+                End Select
+            Else
+                If Not SettingDialog.RetweetNoConfirm Then
+                    If isConfirm AndAlso MessageBox.Show(My.Resources.RetweetQuestion1, "Retweet", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
+                        Exit Sub
+                    End If
+                End If
             End If
             Dim args As New GetWorkerArg
             args.ids = New List(Of Long)
