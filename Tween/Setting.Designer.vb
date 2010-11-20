@@ -156,6 +156,8 @@ Partial Class Setting
         Me.Label74 = New System.Windows.Forms.Label()
         Me.chkGetFav = New System.Windows.Forms.CheckBox()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
+        Me.CheckRetweetNoConfirm = New System.Windows.Forms.CheckBox()
+        Me.Label42 = New System.Windows.Forms.Label()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.HotkeyCheck = New System.Windows.Forms.CheckBox()
         Me.HotkeyCode = New System.Windows.Forms.Label()
@@ -248,8 +250,7 @@ Partial Class Setting
         Me.Label59 = New System.Windows.Forms.Label()
         Me.TextBoxOutputzKey = New System.Windows.Forms.TextBox()
         Me.CheckOutputz = New System.Windows.Forms.CheckBox()
-        Me.Label42 = New System.Windows.Forms.Label()
-        Me.CheckRetweetNoConfirm = New System.Windows.Forms.CheckBox()
+        Me.CheckPostShiftEnter = New System.Windows.Forms.CheckBox()
         Me.GroupBox1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
@@ -1088,6 +1089,7 @@ Partial Class Setting
         '
         'TabPage2
         '
+        Me.TabPage2.Controls.Add(Me.CheckPostShiftEnter)
         Me.TabPage2.Controls.Add(Me.CheckRetweetNoConfirm)
         Me.TabPage2.Controls.Add(Me.Label42)
         Me.TabPage2.Controls.Add(Me.GroupBox3)
@@ -1130,6 +1132,17 @@ Partial Class Setting
         resources.ApplyResources(Me.TabPage2, "TabPage2")
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.UseVisualStyleBackColor = True
+        '
+        'CheckRetweetNoConfirm
+        '
+        resources.ApplyResources(Me.CheckRetweetNoConfirm, "CheckRetweetNoConfirm")
+        Me.CheckRetweetNoConfirm.Name = "CheckRetweetNoConfirm"
+        Me.CheckRetweetNoConfirm.UseVisualStyleBackColor = True
+        '
+        'Label42
+        '
+        resources.ApplyResources(Me.Label42, "Label42")
+        Me.Label42.Name = "Label42"
         '
         'GroupBox3
         '
@@ -1737,16 +1750,11 @@ Partial Class Setting
         Me.CheckOutputz.Name = "CheckOutputz"
         Me.CheckOutputz.UseVisualStyleBackColor = True
         '
-        'Label42
+        'CheckPostShiftEnter
         '
-        resources.ApplyResources(Me.Label42, "Label42")
-        Me.Label42.Name = "Label42"
-        '
-        'CheckRetweetNoConfirm
-        '
-        resources.ApplyResources(Me.CheckRetweetNoConfirm, "CheckRetweetNoConfirm")
-        Me.CheckRetweetNoConfirm.Name = "CheckRetweetNoConfirm"
-        Me.CheckRetweetNoConfirm.UseVisualStyleBackColor = True
+        resources.ApplyResources(Me.CheckPostShiftEnter, "CheckPostShiftEnter")
+        Me.CheckPostShiftEnter.Name = "CheckPostShiftEnter"
+        Me.CheckPostShiftEnter.UseVisualStyleBackColor = True
         '
         'Setting
         '
@@ -2010,4 +2018,5 @@ Partial Class Setting
     Friend WithEvents FavoritesTextCountApi As System.Windows.Forms.TextBox
     Friend WithEvents CheckRetweetNoConfirm As System.Windows.Forms.CheckBox
     Friend WithEvents Label42 As System.Windows.Forms.Label
+    Friend WithEvents CheckPostShiftEnter As System.Windows.Forms.CheckBox
 End Class

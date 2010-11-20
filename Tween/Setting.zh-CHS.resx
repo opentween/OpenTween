@@ -913,4 +913,7 @@
   <data name="Label66.Text" xml:space="preserve">
     <value>Favorites/PublicSearchの取得数</value>
   </data>
+  <data name="CheckPostShiftEnter.Text" xml:space="preserve">
+    <value>Shift+Enterにする</value>
+  </data>
 </root>

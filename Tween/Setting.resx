@@ -465,7 +465,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;Label12.ZOrder" xml:space="preserve">
-    <value>36</value>
+    <value>37</value>
   </data>
   <data name="StatusText.Location" type="System.Drawing.Point, System.Drawing">
     <value>173, 332</value>
@@ -486,7 +486,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;StatusText.ZOrder" xml:space="preserve">
-    <value>37</value>
+    <value>38</value>
   </data>
   <data name="PlaySnd.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -513,7 +513,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;PlaySnd.ZOrder" xml:space="preserve">
-    <value>21</value>
+    <value>22</value>
   </data>
   <data name="Label14.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -540,7 +540,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;Label14.ZOrder" xml:space="preserve">
-    <value>22</value>
+    <value>23</value>
   </data>
   <data name="Label15.Location" type="System.Drawing.Point, System.Drawing">
     <value>11, 25</value>
@@ -564,7 +564,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;Label15.ZOrder" xml:space="preserve">
-    <value>23</value>
+    <value>24</value>
   </data>
   <data name="OneWayLv.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2197,7 +2197,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;CheckUseRecommendStatus.ZOrder" xml:space="preserve">
-    <value>38</value>
+    <value>39</value>
   </data>
   <data name="CmbDateTimeFormat.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
@@ -2368,7 +2368,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;CheckPostCtrlEnter.ZOrder" xml:space="preserve">
-    <value>34</value>
+    <value>35</value>
   </data>
   <data name="Label27.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2395,7 +2395,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;Label27.ZOrder" xml:space="preserve">
-    <value>32</value>
+    <value>33</value>
   </data>
   <data name="TextBox3.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -2482,7 +2482,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;Label38.ZOrder" xml:space="preserve">
-    <value>24</value>
+    <value>25</value>
   </data>
   <data name="UReadMng.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2509,7 +2509,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;UReadMng.ZOrder" xml:space="preserve">
-    <value>26</value>
+    <value>27</value>
   </data>
   <data name="Label39.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2536,7 +2536,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;Label39.ZOrder" xml:space="preserve">
-    <value>33</value>
+    <value>34</value>
   </data>
   <data name="CheckReadOldPosts.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2563,7 +2563,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;CheckReadOldPosts.ZOrder" xml:space="preserve">
-    <value>35</value>
+    <value>36</value>
   </data>
   <data name="Label40.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2590,7 +2590,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;Label40.ZOrder" xml:space="preserve">
-    <value>29</value>
+    <value>30</value>
   </data>
   <data name="CheckCloseToExit.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2617,7 +2617,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;CheckCloseToExit.ZOrder" xml:space="preserve">
-    <value>28</value>
+    <value>29</value>
   </data>
   <data name="Label41.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2644,7 +2644,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;Label41.ZOrder" xml:space="preserve">
-    <value>31</value>
+    <value>32</value>
   </data>
   <data name="CheckMinimizeToTray.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2671,7 +2671,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;CheckMinimizeToTray.ZOrder" xml:space="preserve">
-    <value>30</value>
+    <value>31</value>
   </data>
   <data name="BrowserPathText.Location" type="System.Drawing.Point, System.Drawing">
     <value>173, 283</value>
@@ -2692,7 +2692,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;BrowserPathText.ZOrder" xml:space="preserve">
-    <value>25</value>
+    <value>26</value>
   </data>
   <data name="Label44.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2719,7 +2719,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;Label44.ZOrder" xml:space="preserve">
-    <value>27</value>
+    <value>28</value>
   </data>
   <data name="CheckDispUsername.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3660,6 +3660,33 @@
   <data name="&gt;&gt;TabPage1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="CheckPostShiftEnter.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckPostShiftEnter.Location" type="System.Drawing.Point, System.Drawing">
+    <value>283, 238</value>
+  </data>
+  <data name="CheckPostShiftEnter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>109, 16</value>
+  </data>
+  <data name="CheckPostShiftEnter.TabIndex" type="System.Int32, mscorlib">
+    <value>41</value>
+  </data>
+  <data name="CheckPostShiftEnter.Text" xml:space="preserve">
+    <value>Shift+Enterにする</value>
+  </data>
+  <data name="&gt;&gt;CheckPostShiftEnter.Name" xml:space="preserve">
+    <value>CheckPostShiftEnter</value>
+  </data>
+  <data name="&gt;&gt;CheckPostShiftEnter.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckPostShiftEnter.Parent" xml:space="preserve">
+    <value>TabPage2</value>
+  </data>
+  <data name="&gt;&gt;CheckPostShiftEnter.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="CheckRetweetNoConfirm.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -3685,7 +3712,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;CheckRetweetNoConfirm.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="Label42.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3712,7 +3739,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;Label42.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="HotkeyCheck.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3934,7 +3961,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;GroupBox3.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="Label82.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3964,7 +3991,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;Label82.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="CheckHashSupple.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3994,7 +4021,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;CheckHashSupple.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="Label79.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4024,7 +4051,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;Label79.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="CheckAtIdSupple.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4054,7 +4081,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;CheckAtIdSupple.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="TextBitlyPw.Location" type="System.Drawing.Point, System.Drawing">
     <value>318, 213</value>
@@ -4075,7 +4102,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;TextBitlyPw.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="Label77.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4102,7 +4129,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;Label77.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="TextBitlyId.Location" type="System.Drawing.Point, System.Drawing">
     <value>194, 213</value>
@@ -4123,7 +4150,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;TextBitlyId.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="Label76.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4150,7 +4177,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;Label76.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="ComboBoxAutoShortUrlFirst.Items" xml:space="preserve">
     <value>tinyurl</value>
@@ -4186,7 +4213,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;ComboBoxAutoShortUrlFirst.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="Label71.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4216,7 +4243,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;Label71.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>13</value>
   </data>
   <data name="CheckAutoConvertUrl.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4246,7 +4273,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;CheckAutoConvertUrl.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>14</value>
   </data>
   <data name="Label29.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4276,7 +4303,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;Label29.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>15</value>
   </data>
   <data name="Label57.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4303,7 +4330,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;Label57.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>16</value>
   </data>
   <data name="Label56.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4330,7 +4357,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;Label56.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>17</value>
   </data>
   <data name="CheckFavRestrict.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4357,7 +4384,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;CheckFavRestrict.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>18</value>
   </data>
   <data name="CheckTinyURL.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4384,7 +4411,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;CheckTinyURL.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>19</value>
   </data>
   <data name="Label50.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4411,7 +4438,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;Label50.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>20</value>
   </data>
   <data name="Button3.Location" type="System.Drawing.Point, System.Drawing">
     <value>301, 281</value>
@@ -4435,7 +4462,7 @@
     <value>TabPage2</value>
   </data>
   <data name="&gt;&gt;Button3.ZOrder" xml:space="preserve">
-    <value>20</value>
+    <value>21</value>
   </data>
   <data name="TabPage2.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
