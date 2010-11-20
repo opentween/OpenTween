@@ -65,6 +65,7 @@ Public Class Setting
     Private _clDetailLink As Color
     Private _MyNameBalloon As NameBalloonEnum
     Private _MyPostCtrlEnter As Boolean
+    Private _MyPostShiftEnter As Boolean
     Private _usePostMethod As Boolean
     Private _countApi As Integer
     Private _countApiReply As Integer
@@ -200,6 +201,7 @@ Public Class Setting
                     _MyNameBalloon = NameBalloonEnum.NickName
             End Select
             _MyPostCtrlEnter = CheckPostCtrlEnter.Checked
+            _MyPostShiftEnter = CheckPostShiftEnter.Checked
             _usePostMethod = False
             _countApi = CType(TextCountApi.Text, Integer)
             _countApiReply = CType(TextCountApiReply.Text, Integer)
@@ -428,6 +430,7 @@ Public Class Setting
         End Select
 
         CheckPostCtrlEnter.Checked = _MyPostCtrlEnter
+        CheckPostShiftEnter.Checked = _MyPostShiftEnter
 
         TextCountApi.Text = _countApi.ToString
         TextCountApiReply.Text = _countApiReply.ToString
@@ -1105,6 +1108,15 @@ Public Class Setting
         End Get
         Set(ByVal value As Boolean)
             _MyPostCtrlEnter = value
+        End Set
+    End Property
+
+    Public Property PostShiftEnter() As Boolean
+        Get
+            Return _MyPostShiftEnter
+        End Get
+        Set(ByVal value As Boolean)
+            _MyPostShiftEnter = value
         End Set
     End Property
 
@@ -2116,6 +2128,18 @@ Public Class Setting
             MessageBox.Show(My.Resources.TextCountApi_Validating1)
             e.Cancel = True
             Exit Sub
+        End If
+    End Sub
+
+    Private Sub CheckPostCtrlEnter_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles CheckPostCtrlEnter.CheckedChanged
+        If CheckPostShiftEnter.Checked AndAlso CheckPostCtrlEnter.Checked Then
+            CheckPostShiftEnter.Checked = False
+        End If
+    End Sub
+
+    Private Sub CheckPostShiftEnter_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles CheckPostShiftEnter.CheckedChanged
+        If CheckPostShiftEnter.Checked AndAlso CheckPostCtrlEnter.Checked Then
+            CheckPostCtrlEnter.Checked = False
         End If
     End Sub
 End Class

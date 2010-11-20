@@ -98,6 +98,7 @@ Public Class SettingCommon
     Public OneWayLove As Boolean = True
     Public NameBalloon As NameBalloonEnum = NameBalloonEnum.NickName
     Public PostCtrlEnter As Boolean = False
+    Public PostShiftEnter As Boolean = False
     Public CountApi As Integer = 60
     Public CountApiReply As Integer = 40
     Public PostAndGet As Boolean = True

@@ -649,7 +649,7 @@ Public Class TweenMain
 
         SettingDialog.NameBalloon = _cfgCommon.NameBalloon
         SettingDialog.PostCtrlEnter = _cfgCommon.PostCtrlEnter
-
+        SettingDialog.PostShiftEnter = _cfgCommon.PostShiftEnter
 
         SettingDialog.CountApi = _cfgCommon.CountApi
         SettingDialog.CountApiReply = _cfgCommon.CountApiReply
@@ -1661,6 +1661,9 @@ Public Class TweenMain
         Dim isRemoveFooter As Boolean = My.Computer.Keyboard.ShiftKeyDown
         If StatusText.Multiline AndAlso Not SettingDialog.PostCtrlEnter Then
             '複数行でEnter投稿の場合、Ctrlも押されていたらフッタ付加しない
+            isRemoveFooter = My.Computer.Keyboard.CtrlKeyDown
+        End If
+        If SettingDialog.PostShiftEnter Then
             isRemoveFooter = My.Computer.Keyboard.CtrlKeyDown
         End If
         If Not isRemoveFooter AndAlso (StatusText.Text.Contains("RT @") OrElse StatusText.Text.Contains("QT @")) Then
@@ -5721,6 +5724,7 @@ RETRY:
 
             _cfgCommon.NameBalloon = SettingDialog.NameBalloon
             _cfgCommon.PostCtrlEnter = SettingDialog.PostCtrlEnter
+            _cfgCommon.PostShiftEnter = SettingDialog.PostShiftEnter
             _cfgCommon.CountApi = SettingDialog.CountApi
             _cfgCommon.CountApiReply = SettingDialog.CountApiReply
             '_cfgCommon.CheckReply = SettingDialog.CheckReply
@@ -6798,8 +6802,10 @@ RETRY:
             If StatusText.Focused Then
                 '改行
                 If StatusText.Multiline AndAlso _
-                   (keyData And Keys.Shift) = Keys.Shift AndAlso _
-                   (keyData And Keys.Control) <> Keys.Control Then
+                   (Not SettingDialog.PostShiftEnter AndAlso (keyData And Keys.Shift) = Keys.Shift AndAlso _
+                   (keyData And Keys.Control) <> Keys.Control) OrElse _
+                   (SettingDialog.PostShiftEnter AndAlso (keyData And Keys.Control) = Keys.Control AndAlso _
+                   (keyData And Keys.Shift) <> Keys.Shift) Then
                     Dim pos1 As Integer = StatusText.SelectionStart
                     If StatusText.SelectionLength > 0 Then
                         StatusText.Text = StatusText.Text.Remove(pos1, StatusText.SelectionLength)  '選択状態文字列削除
@@ -6811,12 +6817,15 @@ RETRY:
                 '投稿
                 If (Not StatusText.Multiline AndAlso _
                         ((keyData And Keys.Control) = Keys.Control AndAlso SettingDialog.PostCtrlEnter) OrElse _
-                        ((keyData And Keys.Control) <> Keys.Control AndAlso Not SettingDialog.PostCtrlEnter)) OrElse _
+                        ((keyData And Keys.Shift) = Keys.Shift AndAlso SettingDialog.PostShiftEnter) OrElse _
+                        (((keyData And Keys.Control) <> Keys.Control AndAlso Not SettingDialog.PostCtrlEnter) AndAlso _
+                         ((keyData And Keys.Shift) <> Keys.Shift AndAlso Not SettingDialog.PostShiftEnter))) OrElse _
                    (StatusText.Multiline AndAlso _
-                        (Not SettingDialog.PostCtrlEnter AndAlso _
+                        (Not SettingDialog.PostCtrlEnter AndAlso Not SettingDialog.PostShiftEnter AndAlso _
                             ((keyData And Keys.Control) <> Keys.Control AndAlso (keyData And Keys.Shift) <> Keys.Shift) OrElse _
                             ((keyData And Keys.Control) = Keys.Control AndAlso (keyData And Keys.Shift) = Keys.Shift)) OrElse _
-                        (SettingDialog.PostCtrlEnter AndAlso (keyData And Keys.Control) = Keys.Control)) Then
+                        (SettingDialog.PostCtrlEnter AndAlso (keyData And Keys.Control) = Keys.Control) OrElse _
+                        (SettingDialog.PostShiftEnter AndAlso (keyData And Keys.Shift) = Keys.Shift)) Then
                     PostButton_Click(Nothing, Nothing)
                     Return True
                 End If
