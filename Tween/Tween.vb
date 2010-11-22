@@ -2105,7 +2105,6 @@ Public Class TweenMain
         End If
 
         e.Result = rslt
-
     End Sub
 
     Private Function MakeStatusMessage(ByVal AsyncArg As GetWorkerArg, ByVal Finish As Boolean) As String
@@ -2428,6 +2427,17 @@ Public Class TweenMain
 
     Private Sub FavRemoveToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FavRemoveToolStripMenuItem.Click, UnFavOpMenuItem.Click
         FavoriteChange(False)
+    End Sub
+
+
+    Private Sub FavoriteRetweetMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FavoriteRetweetMenuItem.Click, FavoriteRetweetContextMenu.Click
+        FavoriteChange(True)
+        doReTweetOfficial(True)
+    End Sub
+
+    Private Sub FavoriteRetweetUnofficialMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FavoriteRetweetUnofficialMenuItem.Click, FavoriteRetweetUnofficialContextMenu.Click
+        FavoriteChange(True)
+        doReTweetUnofficial()
     End Sub
 
     Private Sub FavoriteChange(ByVal FavAdd As Boolean)
