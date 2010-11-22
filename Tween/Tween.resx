@@ -1624,7 +1624,7 @@
     <value>Ctrl+R</value>
   </data>
   <data name="ReplyOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 22</value>
+    <value>316, 22</value>
   </data>
   <data name="ReplyOpMenuItem.Text" xml:space="preserve">
     <value>＠返信(&amp;R)</value>
@@ -1633,7 +1633,7 @@
     <value>Ctrl+Shift+R</value>
   </data>
   <data name="ReplyAllOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 22</value>
+    <value>316, 22</value>
   </data>
   <data name="ReplyAllOpMenuItem.Text" xml:space="preserve">
     <value>＠返信ALL(&amp;E)</value>
@@ -1642,7 +1642,7 @@
     <value>Ctrl+M</value>
   </data>
   <data name="DmOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 22</value>
+    <value>316, 22</value>
   </data>
   <data name="DmOpMenuItem.Text" xml:space="preserve">
     <value>DM送信(&amp;M)</value>
@@ -1651,7 +1651,7 @@
     <value>Alt+R</value>
   </data>
   <data name="RtOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 22</value>
+    <value>316, 22</value>
   </data>
   <data name="RtOpMenuItem.Text" xml:space="preserve">
     <value>Re&amp;tweet</value>
@@ -1660,7 +1660,7 @@
     <value>Alt+Shift+R</value>
   </data>
   <data name="RtUnOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 22</value>
+    <value>316, 22</value>
   </data>
   <data name="RtUnOpMenuItem.Text" xml:space="preserve">
     <value>Retweet(U&amp;nofficial)</value>
@@ -1669,19 +1669,40 @@
     <value>Ctrl+Q</value>
   </data>
   <data name="QtOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 22</value>
+    <value>316, 22</value>
   </data>
   <data name="QtOpMenuItem.Text" xml:space="preserve">
     <value>&amp;Quote</value>
   </data>
   <data name="ToolStripSeparator25.Size" type="System.Drawing.Size, System.Drawing">
-    <value>264, 6</value>
+    <value>313, 6</value>
+  </data>
+  <data name="FavoriteRetweetMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+Alt+S</value>
+  </data>
+  <data name="FavoriteRetweetMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>316, 22</value>
+  </data>
+  <data name="FavoriteRetweetMenuItem.Text" xml:space="preserve">
+    <value>Fav追加+Retweet</value>
+  </data>
+  <data name="FavoriteRetweetUnofficialMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+Alt+R</value>
+  </data>
+  <data name="FavoriteRetweetUnofficialMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>316, 22</value>
+  </data>
+  <data name="FavoriteRetweetUnofficialMenuItem.Text" xml:space="preserve">
+    <value>Fav追加+Retweet(Unofficial)</value>
+  </data>
+  <data name="ToolStripSeparator38.Size" type="System.Drawing.Size, System.Drawing">
+    <value>313, 6</value>
   </data>
   <data name="FavOpMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+S</value>
   </data>
   <data name="FavOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 22</value>
+    <value>316, 22</value>
   </data>
   <data name="FavOpMenuItem.Text" xml:space="preserve">
     <value>Fav追加(&amp;F)</value>
@@ -1690,7 +1711,7 @@
     <value>Ctrl+Shift+S</value>
   </data>
   <data name="UnFavOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 22</value>
+    <value>316, 22</value>
   </data>
   <data name="UnFavOpMenuItem.Text" xml:space="preserve">
     <value>Fav削除(&amp;V)</value>
@@ -1702,7 +1723,7 @@
     <value>Alt+P</value>
   </data>
   <data name="ShowProfMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 22</value>
+    <value>316, 22</value>
   </data>
   <data name="ShowProfMenuItem.Text" xml:space="preserve">
     <value>プロフィール表示</value>
@@ -1771,7 +1792,7 @@
     <value>RTした人のホームを開く(&amp;R)</value>
   </data>
   <data name="OpenOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 22</value>
+    <value>316, 22</value>
   </data>
   <data name="OpenOpMenuItem.Text" xml:space="preserve">
     <value>開く(&amp;O)</value>
@@ -1789,19 +1810,19 @@
     <value>ID振り分けルール作成(&amp;I)</value>
   </data>
   <data name="CreateRuleOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 22</value>
+    <value>316, 22</value>
   </data>
   <data name="CreateRuleOpMenuItem.Text" xml:space="preserve">
     <value>振り分けルール作成(&amp;C)</value>
   </data>
   <data name="ToolStripMenuItem9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 22</value>
+    <value>316, 22</value>
   </data>
   <data name="ToolStripMenuItem9.Text" xml:space="preserve">
     <value>リスト管理(&amp;L)</value>
   </data>
   <data name="ToolStripSeparator26.Size" type="System.Drawing.Size, System.Drawing">
-    <value>264, 6</value>
+    <value>313, 6</value>
   </data>
   <data name="ReadOpMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+B</value>
@@ -1822,25 +1843,25 @@
     <value>未読にする(&amp;U)</value>
   </data>
   <data name="ChangeReadOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 22</value>
+    <value>316, 22</value>
   </data>
   <data name="ChangeReadOpMenuItem.Text" xml:space="preserve">
     <value>未読状態変更(&amp;H)</value>
   </data>
   <data name="JumpReadOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 22</value>
+    <value>316, 22</value>
   </data>
   <data name="JumpReadOpMenuItem.Text" xml:space="preserve">
     <value>未読へジャンプ(&amp;J)</value>
   </data>
   <data name="ToolStripSeparator27.Size" type="System.Drawing.Size, System.Drawing">
-    <value>264, 6</value>
+    <value>313, 6</value>
   </data>
   <data name="SelAllOpMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+A</value>
   </data>
   <data name="SelAllOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 22</value>
+    <value>316, 22</value>
   </data>
   <data name="SelAllOpMenuItem.Text" xml:space="preserve">
     <value>全て選択(&amp;A)</value>
@@ -1849,7 +1870,7 @@
     <value>Ctrl+D</value>
   </data>
   <data name="DelOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 22</value>
+    <value>316, 22</value>
   </data>
   <data name="DelOpMenuItem.Text" xml:space="preserve">
     <value>削除(&amp;D)</value>
@@ -1858,7 +1879,7 @@
     <value>F5</value>
   </data>
   <data name="RefreshOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 22</value>
+    <value>316, 22</value>
   </data>
   <data name="RefreshOpMenuItem.Text" xml:space="preserve">
     <value>更新(&amp;U)</value>
@@ -1867,7 +1888,7 @@
     <value>Shift+F5</value>
   </data>
   <data name="RefreshPrevOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 22</value>
+    <value>316, 22</value>
   </data>
   <data name="RefreshPrevOpMenuItem.Text" xml:space="preserve">
     <value>前データを取得(&amp;I)</value>
@@ -2200,58 +2221,73 @@
     <value>443, 58</value>
   </metadata>
   <data name="ReplyStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="ReplyStripMenuItem.Text" xml:space="preserve">
     <value>@返信(&amp;R)</value>
   </data>
   <data name="ReplyAllStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="ReplyAllStripMenuItem.Text" xml:space="preserve">
     <value>@返信ALL(&amp;E)</value>
   </data>
   <data name="DMStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="DMStripMenuItem.Text" xml:space="preserve">
     <value>DM送信(&amp;M)</value>
   </data>
   <data name="ReTweetOriginalStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="ReTweetOriginalStripMenuItem.Text" xml:space="preserve">
     <value>Re&amp;tweet</value>
   </data>
   <data name="ReTweetStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="ReTweetStripMenuItem.Text" xml:space="preserve">
     <value>Retweet(U&amp;nofficial)</value>
   </data>
   <data name="QuoteStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="QuoteStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Quote</value>
   </data>
+  <data name="ToolStripSeparator39.Size" type="System.Drawing.Size, System.Drawing">
+    <value>240, 6</value>
+  </data>
+  <data name="FavoriteRetweetContextMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>243, 22</value>
+  </data>
+  <data name="FavoriteRetweetContextMenu.Text" xml:space="preserve">
+    <value>Fav追加+Retweet</value>
+  </data>
+  <data name="FavoriteRetweetUnofficialContextMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>243, 22</value>
+  </data>
+  <data name="FavoriteRetweetUnofficialContextMenu.Text" xml:space="preserve">
+    <value>Fav追加+Retweet(Unofficial)</value>
+  </data>
   <data name="ToolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 6</value>
+    <value>240, 6</value>
   </data>
   <data name="FavAddToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="FavAddToolStripMenuItem.Text" xml:space="preserve">
     <value>Fav追加(&amp;F)</value>
   </data>
   <data name="FavRemoveToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="FavRemoveToolStripMenuItem.Text" xml:space="preserve">
     <value>Fav削除(&amp;V)</value>
   </data>
   <data name="ShowProfileMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="ShowProfileMenuItem.Text" xml:space="preserve">
     <value>プロフィール表示</value>
@@ -2299,7 +2335,7 @@
     <value>RTした人のホームを開く(&amp;R)</value>
   </data>
   <data name="ToolStripMenuItem6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="ToolStripMenuItem6.Text" xml:space="preserve">
     <value>開く(&amp;O)</value>
@@ -2317,19 +2353,19 @@
     <value>ID振り分けルール作成...</value>
   </data>
   <data name="ToolStripMenuItem7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="ToolStripMenuItem7.Text" xml:space="preserve">
     <value>振り分けルール作成(&amp;C)</value>
   </data>
   <data name="ListManageUserContextToolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="ListManageUserContextToolStripMenuItem2.Text" xml:space="preserve">
     <value>リスト管理(&amp;L)</value>
   </data>
   <data name="ToolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 6</value>
+    <value>240, 6</value>
   </data>
   <data name="ReadedStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>154, 22</value>
@@ -2344,46 +2380,46 @@
     <value>未読にする</value>
   </data>
   <data name="ToolStripMenuItem11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="ToolStripMenuItem11.Text" xml:space="preserve">
     <value>未読状態変更(&amp;H)</value>
   </data>
   <data name="JumpUnreadMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="JumpUnreadMenuItem.Text" xml:space="preserve">
     <value>未読へジャンプ(&amp;J)</value>
   </data>
   <data name="ToolStripSeparator10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 6</value>
+    <value>240, 6</value>
   </data>
   <data name="SelectAllMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="SelectAllMenuItem.Text" xml:space="preserve">
     <value>全て選択(&amp;A)</value>
   </data>
   <data name="DeleteStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="DeleteStripMenuItem.Text" xml:space="preserve">
     <value>削除(&amp;D)</value>
   </data>
   <data name="RefreshStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="RefreshStripMenuItem.Text" xml:space="preserve">
     <value>更新(&amp;U)</value>
   </data>
   <data name="RefreshMoreStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="RefreshMoreStripMenuItem.Text" xml:space="preserve">
     <value>前データを取得(&amp;I)</value>
   </data>
   <data name="ContextMenuOperate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>203, 418</value>
+    <value>244, 490</value>
   </data>
   <data name="&gt;&gt;ContextMenuOperate.Name" xml:space="preserve">
     <value>ContextMenuOperate</value>
@@ -2495,12 +2531,6 @@
   </data>
   <data name="&gt;&gt;StatusLabelUrl.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;StatusLabel.Name" xml:space="preserve">
-    <value>StatusLabel</value>
-  </data>
-  <data name="&gt;&gt;StatusLabel.Type" xml:space="preserve">
-    <value>Tween.TweenCustomControl.ToolStripLabelHistory, Tween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;ToolStripStatusLabel1.Name" xml:space="preserve">
     <value>ToolStripStatusLabel1</value>
@@ -3036,6 +3066,24 @@
   <data name="&gt;&gt;ToolStripSeparator25.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;FavoriteRetweetMenuItem.Name" xml:space="preserve">
+    <value>FavoriteRetweetMenuItem</value>
+  </data>
+  <data name="&gt;&gt;FavoriteRetweetMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FavoriteRetweetUnofficialMenuItem.Name" xml:space="preserve">
+    <value>FavoriteRetweetUnofficialMenuItem</value>
+  </data>
+  <data name="&gt;&gt;FavoriteRetweetUnofficialMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripSeparator38.Name" xml:space="preserve">
+    <value>ToolStripSeparator38</value>
+  </data>
+  <data name="&gt;&gt;ToolStripSeparator38.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;FavOpMenuItem.Name" xml:space="preserve">
     <value>FavOpMenuItem</value>
   </data>
@@ -3504,6 +3552,24 @@
   <data name="&gt;&gt;QuoteStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;ToolStripSeparator39.Name" xml:space="preserve">
+    <value>ToolStripSeparator39</value>
+  </data>
+  <data name="&gt;&gt;ToolStripSeparator39.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FavoriteRetweetContextMenu.Name" xml:space="preserve">
+    <value>FavoriteRetweetContextMenu</value>
+  </data>
+  <data name="&gt;&gt;FavoriteRetweetContextMenu.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FavoriteRetweetUnofficialContextMenu.Name" xml:space="preserve">
+    <value>FavoriteRetweetUnofficialContextMenu</value>
+  </data>
+  <data name="&gt;&gt;FavoriteRetweetUnofficialContextMenu.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;ToolStripSeparator2.Name" xml:space="preserve">
     <value>ToolStripSeparator2</value>
   </data>
@@ -3743,6 +3809,12 @@
   </data>
   <data name="&gt;&gt;ToolTip1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;StatusLabel.Name" xml:space="preserve">
+    <value>StatusLabel</value>
+  </data>
+  <data name="&gt;&gt;StatusLabel.Type" xml:space="preserve">
+    <value>Tween.TweenCustomControl.ToolStripLabelHistory, Tween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>TweenMain</value>

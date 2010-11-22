@@ -28,7 +28,6 @@ Partial Class TweenMain
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.StatusLabelUrl = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.StatusLabel = New Tween.TweenCustomControl.ToolStripLabelHistory()
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.HashStripSplitButton = New System.Windows.Forms.ToolStripSplitButton()
         Me.ContextMenuPostMode = New System.Windows.Forms.ContextMenuStrip(Me.components)
@@ -149,6 +148,9 @@ Partial Class TweenMain
         Me.RtUnOpMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.QtOpMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator25 = New System.Windows.Forms.ToolStripSeparator()
+        Me.FavoriteRetweetMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.FavoriteRetweetUnofficialMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator38 = New System.Windows.Forms.ToolStripSeparator()
         Me.FavOpMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UnFavOpMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ShowProfMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -228,6 +230,9 @@ Partial Class TweenMain
         Me.ReTweetOriginalStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ReTweetStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.QuoteStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator39 = New System.Windows.Forms.ToolStripSeparator()
+        Me.FavoriteRetweetContextMenu = New System.Windows.Forms.ToolStripMenuItem()
+        Me.FavoriteRetweetUnofficialContextMenu = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.FavAddToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FavRemoveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -269,6 +274,7 @@ Partial Class TweenMain
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.StatusLabel = New Tween.TweenCustomControl.ToolStripLabelHistory()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -335,14 +341,6 @@ Partial Class TweenMain
         Me.StatusLabelUrl.Name = "StatusLabelUrl"
         Me.StatusLabelUrl.Spring = True
         '
-        'StatusLabel
-        '
-        Me.StatusLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right
-        Me.StatusLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.StatusLabel.DoubleClickEnabled = True
-        Me.StatusLabel.Name = "StatusLabel"
-        resources.ApplyResources(Me.StatusLabel, "StatusLabel")
-        '
         'ToolStripStatusLabel1
         '
         resources.ApplyResources(Me.ToolStripStatusLabel1, "ToolStripStatusLabel1")
@@ -362,7 +360,6 @@ Partial Class TweenMain
         '
         Me.ContextMenuPostMode.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItemUrlMultibyteSplit, Me.ToolStripMenuItemApiCommandEvasion, Me.ToolStripMenuItemUrlAutoShorten, Me.IdeographicSpaceToSpaceToolStripMenuItem, Me.MultiLineMenuItem, Me.ToolStripFocusLockMenuItem, Me.ToolStripSeparator35, Me.ImageSelectMenuItem, Me.ToolStripSeparator8, Me.HashToggleMenuItem, Me.HashManageMenuItem})
         Me.ContextMenuPostMode.Name = "ContextMenuStripPostMode"
-        Me.ContextMenuPostMode.OwnerItem = Me.HashStripSplitButton
         resources.ApplyResources(Me.ContextMenuPostMode, "ContextMenuPostMode")
         '
         'ToolStripMenuItemUrlMultibyteSplit
@@ -1029,7 +1026,7 @@ Partial Class TweenMain
         '
         'MenuItemOperate
         '
-        Me.MenuItemOperate.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ReplyOpMenuItem, Me.ReplyAllOpMenuItem, Me.DmOpMenuItem, Me.RtOpMenuItem, Me.RtUnOpMenuItem, Me.QtOpMenuItem, Me.ToolStripSeparator25, Me.FavOpMenuItem, Me.UnFavOpMenuItem, Me.ShowProfMenuItem, Me.OpenOpMenuItem, Me.CreateRuleOpMenuItem, Me.ToolStripMenuItem9, Me.ToolStripSeparator26, Me.ChangeReadOpMenuItem, Me.JumpReadOpMenuItem, Me.ToolStripSeparator27, Me.SelAllOpMenuItem, Me.DelOpMenuItem, Me.RefreshOpMenuItem, Me.RefreshPrevOpMenuItem})
+        Me.MenuItemOperate.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ReplyOpMenuItem, Me.ReplyAllOpMenuItem, Me.DmOpMenuItem, Me.RtOpMenuItem, Me.RtUnOpMenuItem, Me.QtOpMenuItem, Me.ToolStripSeparator25, Me.FavoriteRetweetMenuItem, Me.FavoriteRetweetUnofficialMenuItem, Me.ToolStripSeparator38, Me.FavOpMenuItem, Me.UnFavOpMenuItem, Me.ShowProfMenuItem, Me.OpenOpMenuItem, Me.CreateRuleOpMenuItem, Me.ToolStripMenuItem9, Me.ToolStripSeparator26, Me.ChangeReadOpMenuItem, Me.JumpReadOpMenuItem, Me.ToolStripSeparator27, Me.SelAllOpMenuItem, Me.DelOpMenuItem, Me.RefreshOpMenuItem, Me.RefreshPrevOpMenuItem})
         Me.MenuItemOperate.Name = "MenuItemOperate"
         resources.ApplyResources(Me.MenuItemOperate, "MenuItemOperate")
         '
@@ -1067,6 +1064,21 @@ Partial Class TweenMain
         '
         Me.ToolStripSeparator25.Name = "ToolStripSeparator25"
         resources.ApplyResources(Me.ToolStripSeparator25, "ToolStripSeparator25")
+        '
+        'FavoriteRetweetMenuItem
+        '
+        Me.FavoriteRetweetMenuItem.Name = "FavoriteRetweetMenuItem"
+        resources.ApplyResources(Me.FavoriteRetweetMenuItem, "FavoriteRetweetMenuItem")
+        '
+        'FavoriteRetweetUnofficialMenuItem
+        '
+        Me.FavoriteRetweetUnofficialMenuItem.Name = "FavoriteRetweetUnofficialMenuItem"
+        resources.ApplyResources(Me.FavoriteRetweetUnofficialMenuItem, "FavoriteRetweetUnofficialMenuItem")
+        '
+        'ToolStripSeparator38
+        '
+        Me.ToolStripSeparator38.Name = "ToolStripSeparator38"
+        resources.ApplyResources(Me.ToolStripSeparator38, "ToolStripSeparator38")
         '
         'FavOpMenuItem
         '
@@ -1444,7 +1456,7 @@ Partial Class TweenMain
         '
         'ContextMenuOperate
         '
-        Me.ContextMenuOperate.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ReplyStripMenuItem, Me.ReplyAllStripMenuItem, Me.DMStripMenuItem, Me.ReTweetOriginalStripMenuItem, Me.ReTweetStripMenuItem, Me.QuoteStripMenuItem, Me.ToolStripSeparator2, Me.FavAddToolStripMenuItem, Me.FavRemoveToolStripMenuItem, Me.ShowProfileMenuItem, Me.ToolStripMenuItem6, Me.ToolStripMenuItem7, Me.ListManageUserContextToolStripMenuItem2, Me.ToolStripSeparator4, Me.ToolStripMenuItem11, Me.JumpUnreadMenuItem, Me.ToolStripSeparator10, Me.SelectAllMenuItem, Me.DeleteStripMenuItem, Me.RefreshStripMenuItem, Me.RefreshMoreStripMenuItem})
+        Me.ContextMenuOperate.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ReplyStripMenuItem, Me.ReplyAllStripMenuItem, Me.DMStripMenuItem, Me.ReTweetOriginalStripMenuItem, Me.ReTweetStripMenuItem, Me.QuoteStripMenuItem, Me.ToolStripSeparator39, Me.FavoriteRetweetContextMenu, Me.FavoriteRetweetUnofficialContextMenu, Me.ToolStripSeparator2, Me.FavAddToolStripMenuItem, Me.FavRemoveToolStripMenuItem, Me.ShowProfileMenuItem, Me.ToolStripMenuItem6, Me.ToolStripMenuItem7, Me.ListManageUserContextToolStripMenuItem2, Me.ToolStripSeparator4, Me.ToolStripMenuItem11, Me.JumpUnreadMenuItem, Me.ToolStripSeparator10, Me.SelectAllMenuItem, Me.DeleteStripMenuItem, Me.RefreshStripMenuItem, Me.RefreshMoreStripMenuItem})
         Me.ContextMenuOperate.Name = "ContextMenuStrip2"
         Me.ContextMenuOperate.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional
         resources.ApplyResources(Me.ContextMenuOperate, "ContextMenuOperate")
@@ -1478,6 +1490,21 @@ Partial Class TweenMain
         '
         Me.QuoteStripMenuItem.Name = "QuoteStripMenuItem"
         resources.ApplyResources(Me.QuoteStripMenuItem, "QuoteStripMenuItem")
+        '
+        'ToolStripSeparator39
+        '
+        Me.ToolStripSeparator39.Name = "ToolStripSeparator39"
+        resources.ApplyResources(Me.ToolStripSeparator39, "ToolStripSeparator39")
+        '
+        'FavoriteRetweetContextMenu
+        '
+        Me.FavoriteRetweetContextMenu.Name = "FavoriteRetweetContextMenu"
+        resources.ApplyResources(Me.FavoriteRetweetContextMenu, "FavoriteRetweetContextMenu")
+        '
+        'FavoriteRetweetUnofficialContextMenu
+        '
+        Me.FavoriteRetweetUnofficialContextMenu.Name = "FavoriteRetweetUnofficialContextMenu"
+        resources.ApplyResources(Me.FavoriteRetweetUnofficialContextMenu, "FavoriteRetweetUnofficialContextMenu")
         '
         'ToolStripSeparator2
         '
@@ -1683,6 +1710,14 @@ Partial Class TweenMain
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
+        'StatusLabel
+        '
+        Me.StatusLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right
+        Me.StatusLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.StatusLabel.DoubleClickEnabled = True
+        Me.StatusLabel.Name = "StatusLabel"
+        resources.ApplyResources(Me.StatusLabel, "StatusLabel")
+        '
         'TweenMain
         '
         Me.AllowDrop = True
@@ -1734,7 +1769,6 @@ Partial Class TweenMain
     Friend WithEvents ContextMenuFile As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents EndToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ContextMenuOperate As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents DMStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents DeleteStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RefreshStripMenuItem As System.Windows.Forms.ToolStripMenuItem
@@ -1974,5 +2008,12 @@ Partial Class TweenMain
     Friend WithEvents SourceLinkLabel As System.Windows.Forms.LinkLabel
     Friend WithEvents ToolStripStatusLabel1 As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents CopyUserIdStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents FavoriteRetweetMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents FavoriteRetweetUnofficialMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator38 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripSeparator39 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents FavoriteRetweetContextMenu As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents FavoriteRetweetUnofficialContextMenu As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
 
 End Class
