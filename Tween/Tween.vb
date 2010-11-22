@@ -2431,18 +2431,11 @@ Public Class TweenMain
 
 
     Private Sub FavoriteRetweetMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FavoriteRetweetMenuItem.Click, FavoriteRetweetContextMenu.Click
-        If _curList.SelectedIndices.Count > 1 AndAlso
-        MessageBox.Show(My.Resources.FavoriteRetweetQuestionText1, "Fav&Retweet", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) <> DialogResult.Yes Then
-            Exit Sub
-        End If
-
-        FavoriteChange(True, False)
-        doReTweetOfficial(False, False)
+        FavoritesRetweetOriginal()
     End Sub
 
     Private Sub FavoriteRetweetUnofficialMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FavoriteRetweetUnofficialMenuItem.Click, FavoriteRetweetUnofficialContextMenu.Click
-        FavoriteChange(True)
-        doReTweetUnofficial()
+        FavoritesRetweetUnofficial()
     End Sub
 
     Private Sub FavoriteChange(ByVal FavAdd As Boolean, Optional ByVal multiFavoriteChangeDialogEnable As Boolean = True)
@@ -2636,10 +2629,13 @@ Public Class TweenMain
             ReTweetStripMenuItem.Enabled = False
             ReTweetOriginalStripMenuItem.Enabled = False
             QuoteStripMenuItem.Enabled = False
+            FavoriteRetweetContextMenu.Enabled = False
+            FavoriteRetweetUnofficialContextMenu.Enabled = False
             If _curPost IsNot Nothing AndAlso _curPost.IsDm Then DeleteStripMenuItem.Enabled = True
         Else
             If _curPost.IsMe Then
                 ReTweetOriginalStripMenuItem.Enabled = False
+                FavoriteRetweetContextMenu.Enabled = False
                 DeleteStripMenuItem.Enabled = True
             Else
                 DeleteStripMenuItem.Enabled = False
@@ -2647,10 +2643,14 @@ Public Class TweenMain
                     ReTweetOriginalStripMenuItem.Enabled = False
                     ReTweetStripMenuItem.Enabled = False
                     QuoteStripMenuItem.Enabled = False
+                    FavoriteRetweetContextMenu.Enabled = False
+                    FavoriteRetweetUnofficialContextMenu.Enabled = False
                 Else
                     ReTweetOriginalStripMenuItem.Enabled = True
                     ReTweetStripMenuItem.Enabled = True
                     QuoteStripMenuItem.Enabled = True
+                    FavoriteRetweetContextMenu.Enabled = True
+                    FavoriteRetweetUnofficialContextMenu.Enabled = True
                 End If
             End If
         End If
@@ -4979,6 +4979,19 @@ RETRY:
             End If
         End If
 
+        If e.Alt AndAlso e.Control Then
+            ' CTRL+ALTキーが押されている場合
+            If e.KeyCode = Keys.S Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                FavoritesRetweetOriginal()
+            ElseIf e.KeyCode = Keys.R Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                FavoritesRetweetUnofficial()
+            End If
+        End If
+
     End Sub
 
     Private Sub ScrollDownPostBrowser(ByVal forward As Boolean)
@@ -5696,6 +5709,20 @@ RETRY:
                 Thumbnail.ScrollThumbnail(True)
             End If
         End If
+
+        ' Alt + Control キー
+        If e.Alt AndAlso e.Control Then
+            If e.KeyCode = Keys.S Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                FavoritesRetweetOriginal()
+            ElseIf e.KeyCode = Keys.R Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                FavoritesRetweetUnofficial()
+            End If
+        End If
+
         Me.StatusText_TextChanged(Nothing, Nothing)
     End Sub
 
@@ -6107,6 +6134,18 @@ RETRY:
                     CopyUserId()
             End Select
 
+        End If
+
+        'CtrlKey + AltKey + 何か
+        If e.Modifiers = (Keys.Control Or Keys.Alt) Then
+            Select Case e.KeyCode
+                Case Keys.R
+                    e.IsInputKey = True
+                    FavoritesRetweetUnofficial()
+                Case Keys.S
+                    e.IsInputKey = True
+                    FavoritesRetweetOriginal()
+            End Select
         End If
 
     End Sub
@@ -8245,7 +8284,9 @@ RETRY:
                 End Select
             Else
                 If Not SettingDialog.RetweetNoConfirm Then
-                    If isConfirm AndAlso MessageBox.Show(My.Resources.RetweetQuestion1, "Retweet", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
+                    Dim Questiontext As String = My.Resources.RetweetQuestion1
+                    If Not multiReTweetDialogEnable Then Questiontext = My.Resources.FavoritesRetweetQuestionText2
+                    If isConfirm AndAlso MessageBox.Show(Questiontext, "Retweet", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
                         Exit Sub
                     End If
                 End If
@@ -8265,6 +8306,22 @@ RETRY:
 
     Private Sub ReTweetOriginalStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReTweetOriginalStripMenuItem.Click, RtOpMenuItem.Click
         doReTweetOfficial(True)
+    End Sub
+
+    Private Sub FavoritesRetweetOriginal()
+        If _curList.SelectedIndices.Count > 1 AndAlso
+        MessageBox.Show(My.Resources.FavoriteRetweetQuestionText1, "Fav&Retweet", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) <> DialogResult.Yes Then
+            Exit Sub
+        End If
+        doReTweetOfficial(False, False)
+        FavoriteChange(True, False)
+    End Sub
+
+    Private Sub FavoritesRetweetUnofficial()
+        If _curPost IsNot Nothing AndAlso Not _curPost.IsDm Then
+            FavoriteChange(True)
+            If Not _curPost.IsProtect Then doReTweetUnofficial()
+        End If
     End Sub
 
     Private Function CreateRetweetUnofficial(ByVal status As String) As String
@@ -8973,12 +9030,16 @@ RETRY:
             Me.RtOpMenuItem.Enabled = False
             Me.RtUnOpMenuItem.Enabled = False
             Me.QtOpMenuItem.Enabled = False
+            Me.FavoriteRetweetMenuItem.Enabled = False
+            Me.FavoriteRetweetUnofficialMenuItem.Enabled = False
             If _curPost IsNot Nothing AndAlso _curPost.IsDm Then Me.DelOpMenuItem.Enabled = True
         Else
             If _curPost.IsProtect Then
                 Me.RtOpMenuItem.Enabled = False
                 Me.RtUnOpMenuItem.Enabled = False
                 Me.QtOpMenuItem.Enabled = False
+                Me.FavoriteRetweetMenuItem.Enabled = False
+                Me.FavoriteRetweetUnofficialMenuItem.Enabled = False
                 If _curPost.IsMe Then
                     Me.DelOpMenuItem.Enabled = True
                 Else
@@ -8988,8 +9049,11 @@ RETRY:
                 Me.RtOpMenuItem.Enabled = True
                 Me.RtUnOpMenuItem.Enabled = True
                 Me.QtOpMenuItem.Enabled = True
+                Me.FavoriteRetweetMenuItem.Enabled = True
+                Me.FavoriteRetweetUnofficialMenuItem.Enabled = True
                 If _curPost.IsMe Then
                     Me.RtOpMenuItem.Enabled = False
+                    Me.FavoriteRetweetMenuItem.Enabled = False
                     Me.DelOpMenuItem.Enabled = True
                 Else
                     Me.DelOpMenuItem.Enabled = False

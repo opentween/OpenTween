@@ -886,6 +886,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Favoriteに追加してRetweetします。よろしいですか？ に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property FavoritesRetweetQuestionText2() As String
+            Get
+                Return ResourceManager.GetString("FavoritesRetweetQuestionText2", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  選択された発言をFavoritesから削除します。よろしいですか？ に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property FavRemoveToolStripMenuItem_ClickText1() As String
