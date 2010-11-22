@@ -2431,8 +2431,13 @@ Public Class TweenMain
 
 
     Private Sub FavoriteRetweetMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FavoriteRetweetMenuItem.Click, FavoriteRetweetContextMenu.Click
-        FavoriteChange(True)
-        doReTweetOfficial(True)
+        If _curList.SelectedIndices.Count > 1 AndAlso
+            MessageBox.Show("たくさんファボしてリツイートするがよいな？", "Fav&Retweet", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) <> DialogResult.Yes Then
+            Exit Sub
+        End If
+
+        FavoriteChange(True, False)
+        doReTweetOfficial(False, False)
     End Sub
 
     Private Sub FavoriteRetweetUnofficialMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FavoriteRetweetUnofficialMenuItem.Click, FavoriteRetweetUnofficialContextMenu.Click
@@ -2440,7 +2445,7 @@ Public Class TweenMain
         doReTweetUnofficial()
     End Sub
 
-    Private Sub FavoriteChange(ByVal FavAdd As Boolean)
+    Private Sub FavoriteChange(ByVal FavAdd As Boolean, Optional ByVal multiFavoriteChangeDialogEnable As Boolean = True)
         'TrueでFavAdd,FalseでFavRemove
         If _statuses.Tabs(_curTab.Text).TabType = TabUsageType.DirectMessage OrElse _curList.SelectedIndices.Count = 0 Then Exit Sub
 
@@ -2448,7 +2453,7 @@ Public Class TweenMain
         If _curList.SelectedIndices.Count > 250 AndAlso FavAdd Then
             MessageBox.Show(My.Resources.FavoriteLimitCountText)
             Exit Sub
-        ElseIf _curList.SelectedIndices.Count > 1 Then
+        ElseIf multiFavoriteChangeDialogEnable AndAlso _curList.SelectedIndices.Count > 1 Then
             If FavAdd Then
                 If MessageBox.Show(My.Resources.FavAddToolStripMenuItem_ClickText1, My.Resources.FavAddToolStripMenuItem_ClickText2, _
                                    MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
@@ -8223,7 +8228,7 @@ RETRY:
         doReTweetUnofficial()
     End Sub
 
-    Private Sub doReTweetOfficial(ByVal isConfirm As Boolean)
+    Private Sub doReTweetOfficial(ByVal isConfirm As Boolean, Optional ByVal multiReTweetDialogEnable As Boolean = True)
         '公式RT
         If _curPost IsNot Nothing AndAlso Not _curPost.IsDm AndAlso Not _curPost.IsMe Then
             If _curPost.IsProtect Then
@@ -8233,7 +8238,7 @@ RETRY:
             If _curList.SelectedIndices.Count > 60 Then
                 MessageBox.Show(My.Resources.RetweetLimitText)
                 Exit Sub
-            ElseIf _curList.SelectedIndices.Count > 1 Then
+            ElseIf multiReTweetDialogEnable AndAlso _curList.SelectedIndices.Count > 1 Then
                 Select Case MessageBox.Show(My.Resources.RetweetQuestion2, "Retweet", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
                     Case Windows.Forms.DialogResult.Cancel, Windows.Forms.DialogResult.No
                         Exit Sub
