@@ -155,8 +155,10 @@ Public Class FormInfo
     ' フォームを閉じたあとに親フォームが最前面にならない問題に対応
 
     Private Sub FormInfo_FormClosed(ByVal sender As System.Object, ByVal e As System.Windows.Forms.FormClosedEventArgs) Handles MyBase.FormClosed
-        Owner.TopMost = Not Owner.TopMost
-        Owner.TopMost = Not Owner.TopMost
+        If Owner IsNot Nothing AndAlso Owner.Created Then
+            Owner.TopMost = Not Owner.TopMost
+            Owner.TopMost = Not Owner.TopMost
+        End If
     End Sub
 End Class
 
