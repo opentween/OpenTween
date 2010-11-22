@@ -877,6 +877,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  選択された発言をFavoriteに追加してRetweetします。よろしいですか？ に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property FavoriteRetweetQuestionText1() As String
+            Get
+                Return ResourceManager.GetString("FavoriteRetweetQuestionText1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  選択された発言をFavoritesから削除します。よろしいですか？ に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property FavRemoveToolStripMenuItem_ClickText1() As String
@@ -1768,7 +1777,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  一度にRetweetできるのは60件までです に類似しているローカライズされた文字列を検索します。
+        '''  一度にRetweetできるのは15件までです に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property RetweetLimitText() As String
             Get
