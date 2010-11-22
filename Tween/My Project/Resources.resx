@@ -1022,9 +1022,12 @@
     <value>&lt;a href="http://twitter.com/" rel="nofollow"&gt;web&lt;/a&gt;</value>
   </data>
   <data name="RetweetLimitText" xml:space="preserve">
-    <value>一度にRetweetできるのは60件までです</value>
+    <value>一度にRetweetできるのは15件までです</value>
   </data>
   <data name="RetweetQuestion2" xml:space="preserve">
     <value>選択された発言をRetweetしてもよろしいですか？</value>
+  </data>
+  <data name="FavoriteRetweetQuestionText1" xml:space="preserve">
+    <value>選択された発言をFavoriteに追加してRetweetします。よろしいですか？</value>
   </data>
 </root>

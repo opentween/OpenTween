@@ -2432,7 +2432,7 @@ Public Class TweenMain
 
     Private Sub FavoriteRetweetMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FavoriteRetweetMenuItem.Click, FavoriteRetweetContextMenu.Click
         If _curList.SelectedIndices.Count > 1 AndAlso
-            MessageBox.Show("たくさんファボしてリツイートするがよいな？", "Fav&Retweet", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) <> DialogResult.Yes Then
+        MessageBox.Show(My.Resources.FavoriteRetweetQuestionText1, "Fav&Retweet", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) <> DialogResult.Yes Then
             Exit Sub
         End If
 
@@ -8235,7 +8235,7 @@ RETRY:
                 MessageBox.Show("Protected.")
                 Exit Sub
             End If
-            If _curList.SelectedIndices.Count > 60 Then
+            If _curList.SelectedIndices.Count > 15 Then
                 MessageBox.Show(My.Resources.RetweetLimitText)
                 Exit Sub
             ElseIf multiReTweetDialogEnable AndAlso _curList.SelectedIndices.Count > 1 Then
