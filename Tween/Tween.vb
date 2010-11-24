@@ -206,6 +206,8 @@ Public Class TweenMain
     'Private _FirstRefreshFlags As Boolean = False
     'Private _FirstListsRefreshFlags As Boolean = False
 
+    Private _DoFavRetweetFlags As Boolean = False
+
     '''''''''''''''''''''''''''''''''''''''''''''''''''''
     Private _postBrowserStatusText As String = ""
 
@@ -8291,6 +8293,7 @@ RETRY:
                     Dim Questiontext As String = My.Resources.RetweetQuestion1
                     If Not multiReTweetDialogEnable Then Questiontext = My.Resources.FavoritesRetweetQuestionText2
                     If isConfirm AndAlso MessageBox.Show(Questiontext, "Retweet", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
+                        _DoFavRetweetFlags = False
                         Exit Sub
                     End If
                 End If
@@ -8317,8 +8320,12 @@ RETRY:
         MessageBox.Show(My.Resources.FavoriteRetweetQuestionText1, "Fav&Retweet", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) <> DialogResult.Yes Then
             Exit Sub
         End If
-        doReTweetOfficial(False, False)
-        FavoriteChange(True, False)
+        _DoFavRetweetFlags = True
+        doReTweetOfficial(True, False)
+        If _DoFavRetweetFlags Then
+            _DoFavRetweetFlags = False
+            FavoriteChange(True, False)
+        End If
     End Sub
 
     Private Sub FavoritesRetweetUnofficial()
