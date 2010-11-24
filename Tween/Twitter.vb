@@ -1779,7 +1779,7 @@ Public Class Twitter
                 End SyncLock
                 'sender_id
                 'recipient_id
-                post.PDate = DateTime.ParseExact(xentry.Item("created_at").InnerText.Replace("UTC", "+0000"), "ddd MMM dd HH:mm:ss zzzz yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None)
+                post.PDate = DateTime.ParseExact(xentry.Item("created_at").InnerText, "ddd MMM dd HH:mm:ss zzzz yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None)
                 '本文
                 post.Data = xentry.Item("text").InnerText
                 'HTMLに整形
