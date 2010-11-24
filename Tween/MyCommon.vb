@@ -116,6 +116,7 @@ Public Module MyCommon
         Retweet                 'Retweetする
         PublicSearch            '公式検索
         List                    'Lists
+        Related                 '関連発言
         '''
         ErrorState              'エラー表示のみで後処理終了(認証エラー時など)
     End Enum
@@ -531,6 +532,7 @@ retry:
         Profile = 64         'Pin(save/no distribute/manual update)
         PublicSearch = 128    'Pin(save/no distribute/auto update)
         Lists = 256
+        Related = 512
         'RTMyTweet
         'RTByOthers
         'RTByMe

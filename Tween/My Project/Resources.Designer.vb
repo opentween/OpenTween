@@ -2378,6 +2378,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  RelatedTweets に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property TabUsageTypeName_Related() As String
+            Get
+                Return ResourceManager.GetString("TabUsageTypeName_Related", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  タイムライン振り分け に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property TabUsageTypeName_UserDefined() As String

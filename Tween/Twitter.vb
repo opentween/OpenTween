@@ -1443,6 +1443,44 @@ Public Class Twitter
         Return CreatePostsFromXml(content, WORKERTYPE.List, tab, read, count, tab.OldestId)
     End Function
 
+    Public Function GetRelatedResultsApi(ByVal read As Boolean, _
+                            ByVal tab As TabClass) As String
+
+        If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
+
+        If _endingFlag Then Return ""
+
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+        'Dim count As Integer = Setting.Instance.CountApi
+        'If gType = WORKERTYPE.Reply Then count = Setting.Instance.CountApiReply
+        'If Setting.Instance.UseAdditionalCount Then
+        '    If more AndAlso Setting.Instance.MoreCountApi <> 0 Then
+        '        count = Setting.Instance.MoreCountApi
+        '    ElseIf startup AndAlso Setting.Instance.FirstCountApi <> 0 AndAlso gType = WORKERTYPE.Timeline Then
+        '        count = Setting.Instance.FirstCountApi
+        '    End If
+        'End If
+        Try
+            res = twCon.GetRelatedResults(tab.RelationTargetId, content)
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
+        Select Case res
+            Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
+            Case HttpStatusCode.Unauthorized
+                Twitter.AccountState = ACCOUNT_STATE.Invalid
+                Return "Check your Username/Password."
+            Case HttpStatusCode.BadRequest
+                Return "Err:API Limits?"
+            Case Else
+                Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
+        End Select
+        Dim min As Long = 0
+        Return CreatePostsFromXml(content, WORKERTYPE.Related, tab, read, 0, min)
+    End Function
+
     Private Function CreatePostsFromXml(ByVal content As String, ByVal gType As WORKERTYPE, ByVal tab As TabClass, ByVal read As Boolean, ByVal count As Integer, ByRef minimumId As Long) As String
         Dim arIdx As Integer = -1
         Dim dlgt(300) As GetIconImageDelegate    'countQueryに合わせる

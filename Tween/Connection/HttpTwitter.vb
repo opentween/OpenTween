@@ -618,6 +618,18 @@ Public Class HttpTwitter
                             Nothing)
     End Function
 
+    Public Function GetRelatedResults(ByVal id As Long, ByRef content As String) As HttpStatusCode
+        '認証なくても取得できるが、protectedユーザー分が抜ける
+
+        Return httpCon.GetContent(GetMethod, _
+                            CreateTwitterUri("/1/related_results/show/" + id.ToString + ".xml"), _
+                            Nothing, _
+                            content, _
+                            TwitterApiInfo.HttpHeaders, _
+                            AddressOf GetApiCallback)
+    End Function
+
+
 #Region "Proxy API"
     Private Shared _twitterUrl As String = "api.twitter.com"
     'Private TwitterUrl As String = "sorayukigtap.appspot.com/api"
