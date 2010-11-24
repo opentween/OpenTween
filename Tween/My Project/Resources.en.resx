@@ -954,4 +954,7 @@
   <data name="FavoritesRetweetQuestionText2" xml:space="preserve">
     <value>Favoriteに追加してRetweetします。よろしいですか？</value>
   </data>
+  <data name="FavoriteRetweetQuestionText3" xml:space="preserve">
+    <value>選択された発言をFavoritesに追加して非公式RTを実行します。よろしいですか？</value>
+  </data>
 </root>

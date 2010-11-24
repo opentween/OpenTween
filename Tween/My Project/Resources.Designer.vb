@@ -886,6 +886,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  選択された発言をFavoritesに追加して非公式RTを実行します。よろしいですか？ に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property FavoriteRetweetQuestionText3() As String
+            Get
+                Return ResourceManager.GetString("FavoriteRetweetQuestionText3", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Favoriteに追加してRetweetします。よろしいですか？ に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property FavoritesRetweetQuestionText2() As String

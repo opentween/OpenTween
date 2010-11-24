@@ -2457,11 +2457,15 @@ Public Class TweenMain
         '複数fav確認msg
         If _curList.SelectedIndices.Count > 250 AndAlso FavAdd Then
             MessageBox.Show(My.Resources.FavoriteLimitCountText)
+            _DoFavRetweetFlags = False
             Exit Sub
         ElseIf multiFavoriteChangeDialogEnable AndAlso _curList.SelectedIndices.Count > 1 Then
             If FavAdd Then
-                If MessageBox.Show(My.Resources.FavAddToolStripMenuItem_ClickText1, My.Resources.FavAddToolStripMenuItem_ClickText2, _
+                Dim QuestionText As String = My.Resources.FavAddToolStripMenuItem_ClickText1
+                If _DoFavRetweetFlags Then QuestionText = My.Resources.FavoriteRetweetQuestionText3
+                If MessageBox.Show(QuestionText, My.Resources.FavAddToolStripMenuItem_ClickText2, _
                                    MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
+                    _DoFavRetweetFlags = False
                     Exit Sub
                 End If
             Else
@@ -8330,8 +8334,12 @@ RETRY:
 
     Private Sub FavoritesRetweetUnofficial()
         If _curPost IsNot Nothing AndAlso Not _curPost.IsDm Then
+            _DoFavRetweetFlags = True
             FavoriteChange(True)
-            If Not _curPost.IsProtect Then doReTweetUnofficial()
+            If Not _curPost.IsProtect AndAlso _DoFavRetweetFlags Then
+                _DoFavRetweetFlags = False
+                doReTweetUnofficial()
+            End If
         End If
     End Sub
 
