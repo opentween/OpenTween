@@ -1033,4 +1033,7 @@
   <data name="FavoritesRetweetQuestionText2" xml:space="preserve">
     <value>Favoriteに追加してRetweetします。よろしいですか？</value>
   </data>
+  <data name="TabUsageTypeName_Related" xml:space="preserve">
+    <value>RelatedTweets</value>
+  </data>
 </root>

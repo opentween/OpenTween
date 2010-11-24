@@ -63,7 +63,7 @@ Public Class FilterDialog
         End If
         EditFilterGroup.Enabled = False
         Select Case TabInformations.GetInstance.Tabs(tabName).TabType
-            Case TabUsageType.Home, TabUsageType.DirectMessage, TabUsageType.Favorites, TabUsageType.PublicSearch, TabUsageType.Lists
+            Case TabUsageType.Home, TabUsageType.DirectMessage, TabUsageType.Favorites, TabUsageType.PublicSearch, TabUsageType.Lists, TabUsageType.Related
                 ButtonNew.Enabled = False
                 ButtonEdit.Enabled = False
                 ButtonDelete.Enabled = False
@@ -104,6 +104,8 @@ Public Class FilterDialog
                 LabelTabType.Text = My.Resources.TabUsageTypeName_PublicSearch
             Case TabUsageType.Lists
                 LabelTabType.Text = My.Resources.TabUsageTypeName_Lists
+            Case TabUsageType.Related
+                LabelTabType.Text = My.Resources.TabUsageTypeName_Related
             Case Else
                 LabelTabType.Text = "UNKNOWN"
         End Select
@@ -750,7 +752,7 @@ Public Class FilterDialog
         tabdialog.ClearTab()
         For Each key As String In _sts.Tabs.Keys
             Select Case TabInformations.GetInstance.Tabs(key).TabType
-                Case TabUsageType.Home, TabUsageType.DirectMessage, TabUsageType.Favorites, TabUsageType.PublicSearch, TabUsageType.Lists
+                Case TabUsageType.Home, TabUsageType.DirectMessage, TabUsageType.Favorites, TabUsageType.PublicSearch, TabUsageType.Lists, TabUsageType.Related
                     Exit Select
                 Case Else
                     tabdialog.AddTab(key)

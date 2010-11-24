@@ -2049,6 +2049,11 @@ Public Class TweenMain
                 End If
                 '振り分け
                 rslt.addCount = _statuses.DistributePosts()
+            Case WORKERTYPE.Related
+                bw.ReportProgress(50, MakeStatusMessage(args, False))
+                Dim tb As TabClass = _statuses.GetTabByName(args.tName)
+                ret = tw.GetRelatedResultsApi(read, tb)
+                rslt.addCount = _statuses.DistributePosts()
         End Select
         'キャンセル要求
         If bw.CancellationPending Then
@@ -2130,6 +2135,8 @@ Public Class TweenMain
                     smsg = "Search refreshing..."
                 Case WORKERTYPE.List
                     smsg = "List refreshing..."
+                Case WORKERTYPE.Related
+                    smsg = "Related refreshing..."
             End Select
         Else
             '完了メッセージ
@@ -2154,6 +2161,8 @@ Public Class TweenMain
                     smsg = "Search refreshed"
                 Case WORKERTYPE.List
                     smsg = "List refreshed"
+                Case WORKERTYPE.Related
+                    smsg = "Related refreshed"
             End Select
         End If
         Return smsg
@@ -2266,7 +2275,8 @@ Public Class TweenMain
            rslt.type = WORKERTYPE.Favorites OrElse _
            rslt.type = WORKERTYPE.Follower OrElse _
            rslt.type = WORKERTYPE.FavAdd OrElse _
-           rslt.type = WORKERTYPE.FavRemove Then
+           rslt.type = WORKERTYPE.FavRemove OrElse _
+           rslt.type = WORKERTYPE.Related Then
             RefreshTimeline() 'リスト反映
         End If
 
@@ -2584,19 +2594,16 @@ Public Class TweenMain
         If ListTab.SelectedTab Is Nothing Then Exit Sub
         If _statuses Is Nothing OrElse _statuses.Tabs Is Nothing OrElse Not _statuses.Tabs.ContainsKey(ListTab.SelectedTab.Text) Then Exit Sub
         If _curPost Is Nothing Then
-            ShowProfileMenuItem.Enabled = False
-            ListManageUserContextToolStripMenuItem2.Enabled = False
             ReplyStripMenuItem.Enabled = False
             ReplyAllStripMenuItem.Enabled = False
             DMStripMenuItem.Enabled = False
+            ShowProfileMenuItem.Enabled = False
+            ListManageUserContextToolStripMenuItem2.Enabled = False
             MoveToFavToolStripMenuItem.Enabled = False
-            StatusOpenMenuItem.Enabled = False
-            FavorareMenuItem.Enabled = False
             TabMenuItem.Enabled = False
             IDRuleMenuItem.Enabled = False
             ReadedStripMenuItem.Enabled = False
             UnreadStripMenuItem.Enabled = False
-            DeleteStripMenuItem.Enabled = False
         Else
             ShowProfileMenuItem.Enabled = True
             ListManageUserContextToolStripMenuItem2.Enabled = True
@@ -2604,28 +2611,18 @@ Public Class TweenMain
             ReplyAllStripMenuItem.Enabled = True
             DMStripMenuItem.Enabled = True
             MoveToFavToolStripMenuItem.Enabled = True
-            StatusOpenMenuItem.Enabled = True
-            FavorareMenuItem.Enabled = True
             TabMenuItem.Enabled = True
             IDRuleMenuItem.Enabled = True
             ReadedStripMenuItem.Enabled = True
             UnreadStripMenuItem.Enabled = True
-            DeleteStripMenuItem.Enabled = True
         End If
-        If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.DirectMessage OrElse _curPost Is Nothing Then
+        If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.DirectMessage OrElse _curPost Is Nothing OrElse _curPost.IsDm Then
             FavAddToolStripMenuItem.Enabled = False
             FavRemoveToolStripMenuItem.Enabled = False
             StatusOpenMenuItem.Enabled = False
             FavorareMenuItem.Enabled = False
-        Else
-            If IsNetworkAvailable() Then
-                FavAddToolStripMenuItem.Enabled = True
-                FavRemoveToolStripMenuItem.Enabled = True
-                StatusOpenMenuItem.Enabled = True
-                FavorareMenuItem.Enabled = True
-            End If
-        End If
-        If _curPost Is Nothing OrElse _curPost.IsDm Then
+            ShowRelatedStatusesMenuItem.Enabled = False
+
             ReTweetStripMenuItem.Enabled = False
             ReTweetOriginalStripMenuItem.Enabled = False
             QuoteStripMenuItem.Enabled = False
@@ -2633,6 +2630,12 @@ Public Class TweenMain
             FavoriteRetweetUnofficialContextMenu.Enabled = False
             If _curPost IsNot Nothing AndAlso _curPost.IsDm Then DeleteStripMenuItem.Enabled = True
         Else
+            FavAddToolStripMenuItem.Enabled = True
+            FavRemoveToolStripMenuItem.Enabled = True
+            StatusOpenMenuItem.Enabled = True
+            FavorareMenuItem.Enabled = True
+            ShowRelatedStatusesMenuItem.Enabled = True  'PublicSearchの時問題出るかも
+
             If _curPost.IsMe Then
                 ReTweetOriginalStripMenuItem.Enabled = False
                 FavoriteRetweetContextMenu.Enabled = False
@@ -3197,7 +3200,8 @@ Public Class TweenMain
             If tabType = TabUsageType.DirectMessage OrElse _
                tabType = TabUsageType.Favorites OrElse _
                tabType = TabUsageType.Home OrElse _
-               tabType = TabUsageType.Mentions Then
+               tabType = TabUsageType.Mentions OrElse _
+               tabType = TabUsageType.Related Then
                 If _statuses.GetTabByType(tabType) IsNot Nothing Then Return False
             End If
         End If
@@ -3379,7 +3383,7 @@ Public Class TweenMain
         _colHd8.Width = 50
 
         If (_statuses.Tabs.ContainsKey(tabName) AndAlso _statuses.Tabs(tabName).TabType = TabUsageType.Mentions) _
-           OrElse (Not _statuses.IsDefaultTab(tabName) AndAlso tabType <> TabUsageType.PublicSearch AndAlso tabType <> TabUsageType.Lists) Then
+           OrElse (Not _statuses.IsDefaultTab(tabName) AndAlso tabType <> TabUsageType.PublicSearch AndAlso tabType <> TabUsageType.Lists AndAlso tabType <> TabUsageType.Related) Then
             TabDialog.AddTab(tabName)
         End If
 
@@ -5905,7 +5909,7 @@ RETRY:
     Private Sub SaveConfigsTabs()
         Dim tabSetting As New SettingTabs
         For i As Integer = 0 To ListTab.TabPages.Count - 1
-            tabSetting.Tabs.Add(_statuses.Tabs(ListTab.TabPages(i).Text))
+            If _statuses.Tabs(ListTab.TabPages(i).Text).TabType <> TabUsageType.Related Then tabSetting.Tabs.Add(_statuses.Tabs(ListTab.TabPages(i).Text))
         Next
         tabSetting.Save()
     End Sub
@@ -6172,7 +6176,7 @@ RETRY:
             'タブ名のリスト作り直し（デフォルトタブ以外は再作成）
             For i As Integer = 0 To ListTab.TabCount - 1
                 If _statuses.Tabs(ListTab.TabPages(i).Text).TabType = TabUsageType.Mentions OrElse _
-                   (Not _statuses.IsDefaultTab(ListTab.TabPages(i).Text) AndAlso _statuses.Tabs(ListTab.TabPages(i).Text).TabType <> TabUsageType.PublicSearch AndAlso _statuses.Tabs(ListTab.TabPages(i).Text).TabType <> TabUsageType.Lists) Then
+                   (Not _statuses.IsDefaultTab(ListTab.TabPages(i).Text) AndAlso _statuses.Tabs(ListTab.TabPages(i).Text).TabType <> TabUsageType.PublicSearch AndAlso _statuses.Tabs(ListTab.TabPages(i).Text).TabType <> TabUsageType.Lists AndAlso _statuses.Tabs(ListTab.TabPages(i).Text).TabType <> TabUsageType.Related) Then
                     TabDialog.RemoveTab(ListTab.TabPages(i).Text)
                 End If
                 If ListTab.TabPages(i).Text = tabName Then
@@ -6183,7 +6187,7 @@ RETRY:
 
             For i As Integer = 0 To ListTab.TabCount - 1
                 If _statuses.Tabs(ListTab.TabPages(i).Text).TabType = TabUsageType.Mentions OrElse _
-                   (Not _statuses.IsDefaultTab(ListTab.TabPages(i).Text) AndAlso _statuses.Tabs(ListTab.TabPages(i).Text).TabType <> TabUsageType.PublicSearch AndAlso _statuses.Tabs(ListTab.TabPages(i).Text).TabType <> TabUsageType.Lists) Then
+                   (Not _statuses.IsDefaultTab(ListTab.TabPages(i).Text) AndAlso _statuses.Tabs(ListTab.TabPages(i).Text).TabType <> TabUsageType.PublicSearch AndAlso _statuses.Tabs(ListTab.TabPages(i).Text).TabType <> TabUsageType.Lists AndAlso _statuses.Tabs(ListTab.TabPages(i).Text).TabType <> TabUsageType.Related) Then
                     If ListTab.TabPages(i).Text = tabName Then
                         ListTab.TabPages(i).Text = newTabText
                     End If
@@ -8891,7 +8895,7 @@ RETRY:
         End If
     End Sub
 
-    Private Sub ListManageUserContextToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListManageUserContextToolStripMenuItem.Click, ToolStripMenuItem9.Click, ListManageUserContextToolStripMenuItem2.Click, ListManageUserContextToolStripMenuItem3.Click
+    Private Sub ListManageUserContextToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListManageUserContextToolStripMenuItem.Click, ListManageMenuItem.Click, ListManageUserContextToolStripMenuItem2.Click, ListManageUserContextToolStripMenuItem3.Click
         Dim user As String
 
         Dim menuItem As ToolStripMenuItem = DirectCast(sender, ToolStripMenuItem)
@@ -9015,18 +9019,36 @@ RETRY:
     Private Sub MenuItemOperate_DropDownOpening(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemOperate.DropDownOpening
         If ListTab.SelectedTab Is Nothing Then Exit Sub
         If _statuses Is Nothing OrElse _statuses.Tabs Is Nothing OrElse Not _statuses.Tabs.ContainsKey(ListTab.SelectedTab.Text) Then Exit Sub
-        If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.DirectMessage Then
+        If _curPost Is Nothing Then
+            Me.ReplyOpMenuItem.Enabled = False
+            Me.ReplyAllOpMenuItem.Enabled = False
+            Me.DmOpMenuItem.Enabled = False
+            Me.ShowProfMenuItem.Enabled = False
+            Me.ListManageMenuItem.Enabled = False
+            Me.OpenFavOpMenuItem.Enabled = False
+            Me.CreateTabRuleOpMenuItem.Enabled = False
+            Me.CreateIdRuleOpMenuItem.Enabled = False
+            Me.ReadOpMenuItem.Enabled = False
+            Me.UnreadOpMenuItem.Enabled = False
+        Else
+            Me.ReplyOpMenuItem.Enabled = True
+            Me.ReplyAllOpMenuItem.Enabled = True
+            Me.DmOpMenuItem.Enabled = True
+            Me.ShowProfMenuItem.Enabled = True
+            Me.ListManageMenuItem.Enabled = True
+            Me.OpenFavOpMenuItem.Enabled = True
+            Me.CreateTabRuleOpMenuItem.Enabled = True
+            Me.CreateIdRuleOpMenuItem.Enabled = True
+            Me.ReadOpMenuItem.Enabled = True
+            Me.UnreadOpMenuItem.Enabled = True
+        End If
+
+        If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.DirectMessage OrElse _curPost Is Nothing OrElse _curPost.IsDm Then
             Me.FavOpMenuItem.Enabled = False
             Me.UnFavOpMenuItem.Enabled = False
             Me.OpenStatusOpMenuItem.Enabled = False
             Me.OpenFavotterOpMenuItem.Enabled = False
-        Else
-            Me.FavOpMenuItem.Enabled = True
-            Me.UnFavOpMenuItem.Enabled = True
-            Me.OpenStatusOpMenuItem.Enabled = True
-            Me.OpenFavotterOpMenuItem.Enabled = True
-        End If
-        If _curPost Is Nothing OrElse _curPost.IsDm Then
+            Me.ShowRelatedStatusesMenuItem2.Enabled = False
             Me.RtOpMenuItem.Enabled = False
             Me.RtUnOpMenuItem.Enabled = False
             Me.QtOpMenuItem.Enabled = False
@@ -9034,29 +9056,30 @@ RETRY:
             Me.FavoriteRetweetUnofficialMenuItem.Enabled = False
             If _curPost IsNot Nothing AndAlso _curPost.IsDm Then Me.DelOpMenuItem.Enabled = True
         Else
-            If _curPost.IsProtect Then
+            Me.FavOpMenuItem.Enabled = True
+            Me.UnFavOpMenuItem.Enabled = True
+            Me.OpenStatusOpMenuItem.Enabled = True
+            Me.OpenFavotterOpMenuItem.Enabled = True
+            Me.ShowRelatedStatusesMenuItem2.Enabled = True  'PublicSearchの時問題出るかも
+
+            If _curPost.IsMe Then
                 Me.RtOpMenuItem.Enabled = False
-                Me.RtUnOpMenuItem.Enabled = False
-                Me.QtOpMenuItem.Enabled = False
                 Me.FavoriteRetweetMenuItem.Enabled = False
-                Me.FavoriteRetweetUnofficialMenuItem.Enabled = False
-                If _curPost.IsMe Then
-                    Me.DelOpMenuItem.Enabled = True
-                Else
-                    Me.DelOpMenuItem.Enabled = False
-                End If
+                Me.DelOpMenuItem.Enabled = True
             Else
-                Me.RtOpMenuItem.Enabled = True
-                Me.RtUnOpMenuItem.Enabled = True
-                Me.QtOpMenuItem.Enabled = True
-                Me.FavoriteRetweetMenuItem.Enabled = True
-                Me.FavoriteRetweetUnofficialMenuItem.Enabled = True
-                If _curPost.IsMe Then
+                Me.DelOpMenuItem.Enabled = False
+                If _curPost.IsProtect Then
                     Me.RtOpMenuItem.Enabled = False
+                    Me.RtUnOpMenuItem.Enabled = False
+                    Me.QtOpMenuItem.Enabled = False
                     Me.FavoriteRetweetMenuItem.Enabled = False
-                    Me.DelOpMenuItem.Enabled = True
+                    Me.FavoriteRetweetUnofficialMenuItem.Enabled = False
                 Else
-                    Me.DelOpMenuItem.Enabled = False
+                    Me.RtOpMenuItem.Enabled = True
+                    Me.RtUnOpMenuItem.Enabled = True
+                    Me.QtOpMenuItem.Enabled = True
+                    Me.FavoriteRetweetMenuItem.Enabled = True
+                    Me.FavoriteRetweetUnofficialMenuItem.Enabled = True
                 End If
             End If
         End If
@@ -9067,8 +9090,8 @@ RETRY:
             Me.RefreshPrevOpMenuItem.Enabled = False
         End If
         If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.PublicSearch _
-            OrElse _curPost Is Nothing _
-            OrElse Not _curPost.InReplyToId > 0 Then
+                            OrElse _curPost Is Nothing _
+                            OrElse Not _curPost.InReplyToId > 0 Then
             OpenRepSourceOpMenuItem.Enabled = False
         Else
             OpenRepSourceOpMenuItem.Enabled = True
@@ -9077,37 +9100,6 @@ RETRY:
             OpenRterHomeMenuItem.Enabled = False
         Else
             OpenRterHomeMenuItem.Enabled = True
-        End If
-        If _curPost Is Nothing Then
-            Me.ReplyOpMenuItem.Enabled = False
-            Me.ReplyAllOpMenuItem.Enabled = False
-            Me.DmOpMenuItem.Enabled = False
-            Me.FavOpMenuItem.Enabled = False
-            Me.UnFavOpMenuItem.Enabled = False
-            Me.OpenFavOpMenuItem.Enabled = False
-            Me.OpenStatusOpMenuItem.Enabled = False
-            Me.OpenFavotterOpMenuItem.Enabled = False
-            Me.CreateTabRuleOpMenuItem.Enabled = False
-            Me.CreateIdRuleOpMenuItem.Enabled = False
-            Me.ReadOpMenuItem.Enabled = False
-            Me.UnreadOpMenuItem.Enabled = False
-            Me.ShowProfMenuItem.Enabled = False
-            Me.ToolStripMenuItem9.Enabled = False
-        Else
-            Me.ReplyOpMenuItem.Enabled = True
-            Me.ReplyAllOpMenuItem.Enabled = True
-            Me.DmOpMenuItem.Enabled = True
-            Me.FavOpMenuItem.Enabled = True
-            Me.UnFavOpMenuItem.Enabled = True
-            Me.OpenFavOpMenuItem.Enabled = True
-            Me.OpenStatusOpMenuItem.Enabled = True
-            Me.OpenFavotterOpMenuItem.Enabled = True
-            Me.CreateTabRuleOpMenuItem.Enabled = True
-            Me.CreateIdRuleOpMenuItem.Enabled = True
-            Me.ReadOpMenuItem.Enabled = True
-            Me.UnreadOpMenuItem.Enabled = True
-            Me.ShowProfMenuItem.Enabled = True
-            Me.ToolStripMenuItem9.Enabled = True
         End If
     End Sub
 
@@ -9650,5 +9642,38 @@ RETRY:
         Catch ex As Exception
             MessageBox.Show(ex.Message)
         End Try
+    End Sub
+
+    Private Sub ShowRelatedStatusesMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowRelatedStatusesMenuItem.Click, ShowRelatedStatusesMenuItem2.Click
+        If _curPost IsNot Nothing AndAlso Not _curPost.IsDm Then
+            'PublicSearchも除外した方がよい？
+            If _statuses.GetTabByType(TabUsageType.Related) Is Nothing Then
+                Const TabName As String = "Related Tweets"
+                Dim tName As String = TabName
+                If Not Me.AddNewTab(tName, False, TabUsageType.Related) Then
+                    For i As Integer = 2 To 100
+                        tName = TabName + i.ToString()
+                        If Me.AddNewTab(tName, False, TabUsageType.Related) Then
+                            _statuses.AddTab(tName, TabUsageType.Related, Nothing)
+                            Exit For
+                        End If
+                    Next
+                Else
+                    _statuses.AddTab(tName, TabUsageType.Related, Nothing)
+                End If
+            End If
+
+            Dim tb As TabClass = _statuses.GetTabByType(TabUsageType.Related)
+            tb.RelationTargetId = _curPost.Id
+            For i As Integer = 0 To ListTab.TabPages.Count - 1
+                If tb.TabName = ListTab.TabPages(i).Text Then
+                    ListTab.SelectedIndex = i
+                    ListTabSelect(ListTab.TabPages(i))
+                    Exit For
+                End If
+            Next
+
+            GetTimeline(WORKERTYPE.Related, 1, 1, tb.TabName)
+        End If
     End Sub
 End Class
