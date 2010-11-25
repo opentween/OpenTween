@@ -8277,25 +8277,34 @@ RETRY:
         doReTweetUnofficial()
     End Sub
 
-    Private Sub doReTweetOfficial(ByVal isConfirm As Boolean, Optional ByVal multiReTweetDialogEnable As Boolean = True)
+    Private Sub doReTweetOfficial(ByVal isConfirm As Boolean)
         '公式RT
-        If _curPost IsNot Nothing AndAlso Not _curPost.IsDm AndAlso Not _curPost.IsMe Then
+        If _curPost IsNot Nothing Then
             If _curPost.IsProtect Then
                 MessageBox.Show("Protected.")
+                _DoFavRetweetFlags = False
                 Exit Sub
             End If
             If _curList.SelectedIndices.Count > 15 Then
                 MessageBox.Show(My.Resources.RetweetLimitText)
+                _DoFavRetweetFlags = False
                 Exit Sub
-            ElseIf multiReTweetDialogEnable AndAlso _curList.SelectedIndices.Count > 1 Then
-                Select Case MessageBox.Show(My.Resources.RetweetQuestion2, "Retweet", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
+            ElseIf _curList.SelectedIndices.Count > 1 Then
+                Dim QuestionText As String = My.Resources.RetweetQuestion2
+                If _DoFavRetweetFlags Then QuestionText = My.Resources.FavoriteRetweetQuestionText1
+                Select Case MessageBox.Show(QuestionText, "Retweet", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
                     Case Windows.Forms.DialogResult.Cancel, Windows.Forms.DialogResult.No
+                        _DoFavRetweetFlags = False
                         Exit Sub
                 End Select
             Else
+                If _curPost.IsDm OrElse _curPost.IsMe Then
+                    _DoFavRetweetFlags = False
+                    Exit Sub
+                End If
                 If Not SettingDialog.RetweetNoConfirm Then
                     Dim Questiontext As String = My.Resources.RetweetQuestion1
-                    If Not multiReTweetDialogEnable Then Questiontext = My.Resources.FavoritesRetweetQuestionText2
+                    If _DoFavRetweetFlags Then Questiontext = My.Resources.FavoritesRetweetQuestionText2
                     If isConfirm AndAlso MessageBox.Show(Questiontext, "Retweet", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
                         _DoFavRetweetFlags = False
                         Exit Sub
@@ -8320,12 +8329,9 @@ RETRY:
     End Sub
 
     Private Sub FavoritesRetweetOriginal()
-        If _curList.SelectedIndices.Count > 1 AndAlso
-        MessageBox.Show(My.Resources.FavoriteRetweetQuestionText1, "Fav&Retweet", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) <> DialogResult.Yes Then
-            Exit Sub
-        End If
+        If _curPost Is Nothing Then Exit Sub
         _DoFavRetweetFlags = True
-        doReTweetOfficial(True, False)
+        doReTweetOfficial(True)
         If _DoFavRetweetFlags Then
             _DoFavRetweetFlags = False
             FavoriteChange(True, False)
