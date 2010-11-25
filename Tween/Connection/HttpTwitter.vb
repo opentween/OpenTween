@@ -622,7 +622,7 @@ Public Class HttpTwitter
         '認証なくても取得できるが、protectedユーザー分が抜ける
 
         Return httpCon.GetContent(GetMethod, _
-                            CreateTwitterUri("/1/related_results/show/" + id.ToString + ".xml"), _
+                            CreateTwitterUri("/1/related_results/show/" + id.ToString + ".json"), _
                             Nothing, _
                             content, _
                             TwitterApiInfo.HttpHeaders, _
