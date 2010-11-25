@@ -9645,10 +9645,10 @@ RETRY:
     End Sub
 
     Private Sub MenuItemCommand_DropDownOpening(ByVal sender As Object, ByVal e As System.EventArgs) Handles MenuItemCommand.DropDownOpening
-        If _curPost Is Nothing Then
-            RtCountMenuItem.Enabled = False
-        Else
+        If _curPost IsNot Nothing AndAlso Not _curPost.IsDm Then
             RtCountMenuItem.Enabled = True
+        Else
+            RtCountMenuItem.Enabled = False
         End If
     End Sub
 
