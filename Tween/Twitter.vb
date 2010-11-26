@@ -1522,7 +1522,7 @@ Public Class Twitter
                 item.Data = item.Data.Replace("<3", "♡")
                 CreateSource(item)
                 item.IsRead = read
-                item.IsRead = item.ReplyToList.Contains(_uid)
+                item.IsReply = item.ReplyToList.Contains(_uid)
                 If item.IsMe Then
                     item.IsOwl = False
                 Else
@@ -1530,14 +1530,6 @@ Public Class Twitter
                 End If
                 If item.IsMe AndAlso Not read AndAlso _readOwnPost Then item.IsRead = True
                 If tab IsNot Nothing Then item.RelTabName = tab.TabName
-                ''二重取得回避
-                'SyncLock LockObj
-                '    If tab Is Nothing Then
-                '        If TabInformations.GetInstance.ContainsKey(item.Id) Then Continue For
-                '    Else
-                '        If TabInformations.GetInstance.ContainsKey(item.Id, tab.TabName) Then Continue For
-                '    End If
-                'End SyncLock
                 '非同期アイコン取得＆StatusDictionaryに追加
                 arIdx += 1
                 dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
