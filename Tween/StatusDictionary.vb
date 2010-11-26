@@ -29,6 +29,7 @@ Imports System.Web.HttpUtility
 Imports System.Text
 
 Public NotInheritable Class PostClass
+    Implements ICloneable
     Private _Nick As String
     Private _Data As String
     Private _ImageUrl As String
@@ -356,6 +357,18 @@ Public NotInheritable Class PostClass
             _searchTabName = value
         End Set
     End Property
+
+    Public Function Copy() As PostClass
+        Dim post As PostClass = DirectCast(Me.Clone, PostClass)
+        post.ReplyToList = New List(Of String)(Me.ReplyToList)
+        Return post
+    End Function
+
+#Region "IClonable.Clone"
+    Private Function Clone() As Object Implements ICloneable.Clone
+        Return Me.MemberwiseClone()
+    End Function
+#End Region
 End Class
 
 Public NotInheritable Class TabInformations

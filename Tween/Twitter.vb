@@ -32,7 +32,9 @@ Imports System.Diagnostics
 Imports System.Net
 Imports System.Reflection
 Imports System.Reflection.MethodBase
-
+Imports System.Runtime.Serialization.Json
+Imports System.Linq
+Imports System.Xml.Linq
 
 Public Class Twitter
     Delegate Sub GetIconImageDelegate(ByVal post As PostClass)
@@ -1477,8 +1479,91 @@ Public Class Twitter
             Case Else
                 Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
         End Select
-        Dim min As Long = 0
-        Return CreatePostsFromXml(content, WORKERTYPE.Related, tab, read, 0, min)
+
+        Using jsonReader As XmlDictionaryReader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(content), XmlDictionaryReaderQuotas.Max)
+            Dim xElm As XElement = XElement.Load(jsonReader)
+            Dim query As IEnumerable(Of PostClass) = From item In xElm.Descendants("value")
+                        Select New PostClass(
+                            Id:=Long.Parse(item.Element("id").Value),
+                            PDate:=DateTime.ParseExact(item.Element("created_at").Value, "ddd MMM dd HH:mm:ss zzzz yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None),
+                            Data:=item.Element("text").Value,
+                            Source:=item.Element("source").Value,
+                            InReplyToId:=If(item.Element("in_reply_to_status_id").Attribute("type").Value = "null", 0, Long.Parse(item.Element("in_reply_to_status_id").Value)),
+                            InReplyToUser:=item.Element("in_reply_to_screen_name").Value,
+                            IsFav:=Boolean.Parse(item.Element("favorited").Value),
+                            Uid:=Long.Parse(CType(item.Element("user"), XElement).Element("id").Value),
+                            Name:=CType(item.Element("user"), XElement).Element("screen_name").Value,
+                            Nickname:=CType(item.Element("user"), XElement).Element("name").Value,
+                            imageurl:=CType(item.Element("user"), XElement).Element("profile_image_url").Value,
+                            IsProtect:=Boolean.Parse(CType(item.Element("user"), XElement).Element("protected").Value),
+                            IsMe:=_UserIdNo.Equals(Long.Parse(CType(item.Element("user"), XElement).Element("id").Value)),
+                            FilterHit:=False,
+                            IsDm:=False,
+                            IsExcludeReply:=False,
+                            IsMark:=False,
+                            IsOwl:=False,
+                            IsRead:=False,
+                            IsReply:=False,
+                            OriginalData:="",
+                            ReplyToList:=New List(Of String),
+                            RetweetedBy:="",
+                            RetweetedId:=0,
+                            SourceHtml:="")
+
+            Dim arIdx As Integer = -1
+            Dim dlgt(300) As GetIconImageDelegate    'countQueryに合わせる
+            Dim ar(300) As IAsyncResult              'countQueryに合わせる
+
+            For Each item As PostClass In query
+                item.IsMe = item.Name.ToLower.Equals(_uid)
+                If item.IsMe Then _UserIdNo = item.Uid.ToString()
+                item.OriginalData = CreateHtmlAnchor(item.Data, item.ReplyToList)
+                item.Data = HttpUtility.HtmlDecode(item.Data)
+                item.Data = item.Data.Replace("<3", "♡")
+                CreateSource(item)
+                item.IsRead = read
+                item.IsRead = item.ReplyToList.Contains(_uid)
+                If item.IsMe Then
+                    item.IsOwl = False
+                Else
+                    If followerId.Count > 0 Then item.IsOwl = Not followerId.Contains(item.Uid)
+                End If
+                If item.IsMe AndAlso Not read AndAlso _readOwnPost Then item.IsRead = True
+                If tab IsNot Nothing Then item.RelTabName = tab.TabName
+                ''二重取得回避
+                'SyncLock LockObj
+                '    If tab Is Nothing Then
+                '        If TabInformations.GetInstance.ContainsKey(item.Id) Then Continue For
+                '    Else
+                '        If TabInformations.GetInstance.ContainsKey(item.Id, tab.TabName) Then Continue For
+                '    End If
+                'End SyncLock
+                '非同期アイコン取得＆StatusDictionaryに追加
+                arIdx += 1
+                dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
+                ar(arIdx) = dlgt(arIdx).BeginInvoke(item, Nothing, Nothing)
+            Next
+            Dim targetItem As PostClass = TabInformations.GetInstance.Item(tab.RelationTargetId).Copy()
+            targetItem.RelTabName = tab.TabName
+            arIdx += 1
+            dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
+            ar(arIdx) = dlgt(arIdx).BeginInvoke(targetItem, Nothing, Nothing)
+
+            'アイコン取得完了待ち
+            For i As Integer = 0 To arIdx
+                Try
+                    dlgt(i).EndInvoke(ar(i))
+                Catch ex As IndexOutOfRangeException
+                    Throw New IndexOutOfRangeException(String.Format("i={0},dlgt.Length={1},ar.Length={2},arIdx={3}", i, dlgt.Length, ar.Length, arIdx))
+                Catch ex As Exception
+                    '最後までendinvoke回す（ゾンビ化回避）
+                    ex.Data("IsTerminatePermission") = False
+                    Throw
+                End Try
+            Next
+        End Using
+
+        Return ""
     End Function
 
     Private Function CreatePostsFromXml(ByVal content As String, ByVal gType As WORKERTYPE, ByVal tab As TabClass, ByVal read As Boolean, ByVal count As Integer, ByRef minimumId As Long) As String
