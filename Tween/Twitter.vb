@@ -1514,7 +1514,19 @@ Public Class Twitter
             Dim dlgt(300) As GetIconImageDelegate    'countQueryに合わせる
             Dim ar(300) As IAsyncResult              'countQueryに合わせる
 
+            Dim targetItem As PostClass = TabInformations.GetInstance.Item(tab.RelationTargetId).Copy()
+            targetItem.RelTabName = tab.TabName
+            arIdx += 1
+            dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
+            ar(arIdx) = dlgt(arIdx).BeginInvoke(targetItem, Nothing, Nothing)
+            Dim replyToItem As PostClass = Nothing
+            If targetItem.InReplyToId > 0 AndAlso TabInformations.GetInstance.Item(targetItem.InReplyToId) IsNot Nothing Then
+                replyToItem = TabInformations.GetInstance.Item(targetItem.InReplyToId).Copy
+                replyToItem.RelTabName = tab.TabName
+            End If
+
             For Each item As PostClass In query
+                If targetItem.InReplyToId = item.Id Then replyToItem = Nothing
                 item.IsMe = item.Name.ToLower.Equals(_uid)
                 If item.IsMe Then _UserIdNo = item.Uid.ToString()
                 item.OriginalData = CreateHtmlAnchor(item.Data, item.ReplyToList)
@@ -1535,12 +1547,14 @@ Public Class Twitter
                 dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
                 ar(arIdx) = dlgt(arIdx).BeginInvoke(item, Nothing, Nothing)
             Next
-            Dim targetItem As PostClass = TabInformations.GetInstance.Item(tab.RelationTargetId).Copy()
-            targetItem.RelTabName = tab.TabName
             arIdx += 1
             dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
             ar(arIdx) = dlgt(arIdx).BeginInvoke(targetItem, Nothing, Nothing)
-
+            If replyToItem IsNot Nothing Then
+                arIdx += 1
+                dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
+                ar(arIdx) = dlgt(arIdx).BeginInvoke(replyToItem, Nothing, Nothing)
+            End If
             'アイコン取得完了待ち
             For i As Integer = 0 To arIdx
                 Try
