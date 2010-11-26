@@ -7148,13 +7148,19 @@ RETRY:
 
     Private Sub ClearTabMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ClearTabMenuItem.Click, ClearTbMenuItem.Click
         If String.IsNullOrEmpty(_rclickTabName) Then Exit Sub
-        Dim tmp As String = String.Format(My.Resources.ClearTabMenuItem_ClickText1, Environment.NewLine)
-        If MessageBox.Show(tmp, _rclickTabName + " " + My.Resources.ClearTabMenuItem_ClickText2, MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
-            Exit Sub
+        ClearTab(_rclickTabName, True)
+    End Sub
+
+    Private Sub ClearTab(ByVal tabName As String, ByVal showWarning As Boolean)
+        If showWarning Then
+            Dim tmp As String = String.Format(My.Resources.ClearTabMenuItem_ClickText1, Environment.NewLine)
+            If MessageBox.Show(tmp, tabName + " " + My.Resources.ClearTabMenuItem_ClickText2, MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
+                Exit Sub
+            End If
         End If
 
-        _statuses.ClearTabIds(_rclickTabName)
-        If ListTab.SelectedTab.Text = _rclickTabName Then
+        _statuses.ClearTabIds(tabName)
+        If ListTab.SelectedTab.Text = tabName Then
             _anchorPost = Nothing
             _anchorFlag = False
             _itemCache = Nothing
@@ -7164,7 +7170,7 @@ RETRY:
             _curPost = Nothing
         End If
         For Each tb As TabPage In ListTab.TabPages
-            If tb.Text = _rclickTabName Then
+            If tb.Text = tabName Then
                 tb.ImageIndex = -1
                 DirectCast(tb.Tag, DetailsListView).VirtualListSize = 0
                 Exit For
@@ -9686,6 +9692,7 @@ RETRY:
 
             Dim tb As TabClass = _statuses.GetTabByType(TabUsageType.Related)
             tb.RelationTargetId = _curPost.Id
+            Me.ClearTab(tb.TabName, False)
             For i As Integer = 0 To ListTab.TabPages.Count - 1
                 If tb.TabName = ListTab.TabPages(i).Text Then
                     ListTab.SelectedIndex = i
