@@ -132,7 +132,7 @@ Public Class TweenMain
     Private _anchorPost As PostClass
     Private _anchorFlag As Boolean        'True:関連発言移動中（関連移動以外のオペレーションをするとFalseへ。Trueだとリスト背景色をアンカー発言選択中として描画）
 
-    Private _history As New List(Of String)   '発言履歴
+    Private _history As New List(Of PostingStatus)   '発言履歴
     Private _hisIdx As Integer                  '発言履歴カレントインデックス
 
     '発言投稿時のAPI引数（発言編集時に設定。手書きreplyでは設定されない）
@@ -277,6 +277,14 @@ Public Class TweenMain
         Public inReplyToName As String = ""
         Public imageService As String = ""      '画像投稿サービス名
         Public imagePath As String = ""
+        Public Sub New()
+
+        End Sub
+        Public Sub New(ByVal status As String, ByVal replyToId As Long, ByVal replyToName As String)
+            Me.status = status
+            Me.inReplyToId = replyToId
+            Me.inReplyToName = replyToName
+        End Sub
     End Class
 
     Private Class SpaceKeyCanceler
@@ -523,7 +531,7 @@ Public Class TweenMain
         TabDialog.Owner = Me
         UrlDialog.Owner = Me
 
-        _history.Add("")
+        _history.Add(New PostingStatus)
         _hisIdx = 0
         _reply_to_id = 0
         _reply_to_name = ""
@@ -1627,7 +1635,7 @@ Public Class TweenMain
             End Select
         End If
 
-        _history(_history.Count - 1) = StatusText.Text.Trim
+        _history(_history.Count - 1) = New PostingStatus(StatusText.Text.Trim, _reply_to_id, _reply_to_name)
 
         If SettingDialog.UrlConvertAuto Then
             StatusText.SelectionStart = StatusText.Text.Length
@@ -1792,7 +1800,7 @@ Public Class TweenMain
         _reply_to_id = 0
         _reply_to_name = ""
         StatusText.Text = ""
-        _history.Add("")
+        _history.Add(New PostingStatus)
         _hisIdx = _history.Count - 1
         If Not ToolStripFocusLockMenuItem.Checked Then
             DirectCast(ListTab.SelectedTab.Tag, Control).Focus()
@@ -5477,7 +5485,9 @@ RETRY:
             If e.KeyCode = Keys.A Then
                 StatusText.SelectAll()
             ElseIf e.KeyCode = Keys.Up OrElse e.KeyCode = Keys.Down Then
-                If StatusText.Text.Trim() <> "" Then _history(_hisIdx) = StatusText.Text
+                If StatusText.Text.Trim() <> "" Then
+                    _history(_hisIdx) = New PostingStatus(StatusText.Text, _reply_to_id, _reply_to_name)
+                End If
                 If e.KeyCode = Keys.Up Then
                     _hisIdx -= 1
                     If _hisIdx < 0 Then _hisIdx = 0
@@ -5485,7 +5495,9 @@ RETRY:
                     _hisIdx += 1
                     If _hisIdx > _history.Count - 1 Then _hisIdx = _history.Count - 1
                 End If
-                StatusText.Text = _history(_hisIdx)
+                StatusText.Text = _history(_hisIdx).status
+                _reply_to_id = _history(_hisIdx).inReplyToId
+                _reply_to_name = _history(_hisIdx).inReplyToName
                 StatusText.SelectionStart = StatusText.Text.Length
                 e.Handled = True
                 e.SuppressKeyPress = True
@@ -7206,7 +7218,7 @@ RETRY:
                 ttl.Append("Ver:").Append(myVer)
             Case DispTitleEnum.Post
                 If _history IsNot Nothing AndAlso _history.Count > 1 Then
-                    ttl.Append(_history(_history.Count - 2).Replace(vbCrLf, ""))
+                    ttl.Append(_history(_history.Count - 2).status.Replace(vbCrLf, ""))
                 End If
             Case DispTitleEnum.UnreadRepCount
                 ttl.AppendFormat(My.Resources.SetMainWindowTitleText1, _statuses.GetTabByType(TabUsageType.Mentions).UnreadCount + _statuses.GetTabByType(TabUsageType.DirectMessage).UnreadCount)
