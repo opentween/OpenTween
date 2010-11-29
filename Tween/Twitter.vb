@@ -232,51 +232,55 @@ Public Class Twitter
         Return True
     End Function
 
-    Private Sub GetIconImage(ByVal post As PostClass)
-        Dim img As Image
+    'Private Sub GetIconImage(ByVal post As PostClass)
+    '    Dim img As Image
 
-        Try
-            If Not _getIcon Then
-                post.ImageUrl = Nothing
-                TabInformations.GetInstance.AddPost(post)
-                Exit Sub
-            End If
+    '    Try
+    '        If Not _getIcon Then
+    '            post.ImageUrl = Nothing
+    '            TabInformations.GetInstance.AddPost(post)
+    '            Exit Sub
+    '        End If
 
-            If _dIcon.ContainsKey(post.ImageUrl) Then
-                TabInformations.GetInstance.AddPost(post)
-                Exit Sub
-            End If
+    '        If _dIcon.ContainsKey(post.ImageUrl) AndAlso _dIcon(post.ImageUrl) IsNot Nothing Then
+    '            TabInformations.GetInstance.AddPost(post)
+    '            Exit Sub
+    '        End If
 
-            Dim httpVar As New HttpVarious
-            img = httpVar.GetIconImage(post.ImageUrl, 10000)
-            If img Is Nothing Then
-                TabInformations.GetInstance.AddPost(post)
-                Exit Sub
-            End If
+    '        Dim httpVar As New HttpVarious
+    '        img = httpVar.GetImage(post.ImageUrl, 10000)
+    '        If img Is Nothing Then
+    '            _dIcon.Add(post.ImageUrl, Nothing)
+    '            TabInformations.GetInstance.AddPost(post)
+    '            Exit Sub
+    '        End If
 
-            If _endingFlag Then Exit Sub
+    '        If _endingFlag Then Exit Sub
 
-            SyncLock LockObj
-                If Not _dIcon.ContainsKey(post.ImageUrl) Then
-                    Try
-                        _dIcon.Add(post.ImageUrl, img)
-                    Catch ex As InvalidOperationException
-                        'タイミングにより追加できない場合がある？（キー重複ではない）
-                    Catch ex As System.OverflowException
-                        '不正なアイコン？DrawImageに失敗する場合あり
-                    Catch ex As OutOfMemoryException
-                        'DrawImageで発生
-                    End Try
-                End If
-            End SyncLock
-            TabInformations.GetInstance.AddPost(post)
-        Catch ex As ArgumentException
-            'タイミングによってはキー重複
-        Finally
-            img = Nothing
-            post = Nothing
-        End Try
-    End Sub
+    '        SyncLock LockObj
+    '            If Not _dIcon.ContainsKey(post.ImageUrl) Then
+    '                Try
+    '                    _dIcon.Add(post.ImageUrl, img)
+    '                Catch ex As InvalidOperationException
+    '                    'タイミングにより追加できない場合がある？（キー重複ではない）
+    '                    post.ImageUrl = Nothing
+    '                Catch ex As System.OverflowException
+    '                    '不正なアイコン？DrawImageに失敗する場合あり
+    '                    post.ImageUrl = Nothing
+    '                Catch ex As OutOfMemoryException
+    '                    'DrawImageで発生
+    '                    post.ImageUrl = Nothing
+    '                End Try
+    '            End If
+    '        End SyncLock
+    '        TabInformations.GetInstance.AddPost(post)
+    '    Catch ex As ArgumentException
+    '        'タイミングによってはキー重複
+    '    Finally
+    '        img = Nothing
+    '        post = Nothing
+    '    End Try
+    'End Sub
 
     Private Structure PostInfo
         Public CreatedAt As String
@@ -555,8 +559,8 @@ Public Class Twitter
 
         Twitter.AccountState = ACCOUNT_STATE.Valid
 
-        Dim dlgt As GetIconImageDelegate    'countQueryに合わせる
-        Dim ar As IAsyncResult              'countQueryに合わせる
+        'Dim dlgt As GetIconImageDelegate    'countQueryに合わせる
+        'Dim ar As IAsyncResult              'countQueryに合わせる
         Dim xdoc As New XmlDocument
         Try
             xdoc.LoadXml(content)
@@ -632,18 +636,21 @@ Public Class Twitter
             Return "Invalid XML!"
         End Try
 
-        '非同期アイコン取得＆StatusDictionaryに追加
-        dlgt = New GetIconImageDelegate(AddressOf GetIconImage)
-        ar = dlgt.BeginInvoke(post, Nothing, Nothing)
+        'Me._dIcon.Add(post.ImageUrl, Nothing)
+        TabInformations.GetInstance.AddPost(post)
 
-        'アイコン取得完了待ち
-        Try
-            dlgt.EndInvoke(ar)
-        Catch ex As Exception
-            '最後までendinvoke回す（ゾンビ化回避）
-            ex.Data("IsTerminatePermission") = False
-            Throw
-        End Try
+        ''非同期アイコン取得＆StatusDictionaryに追加
+        'dlgt = New GetIconImageDelegate(AddressOf GetIconImage)
+        'ar = dlgt.BeginInvoke(post, Nothing, Nothing)
+
+        ''アイコン取得完了待ち
+        'Try
+        '    dlgt.EndInvoke(ar)
+        'Catch ex As Exception
+        '    '最後までendinvoke回す（ゾンビ化回避）
+        '    ex.Data("IsTerminatePermission") = False
+        '    Throw
+        'End Try
 
         Return ""
     End Function
@@ -1510,15 +1517,17 @@ Public Class Twitter
                             RetweetedId:=0,
                             SourceHtml:="")
 
-            Dim arIdx As Integer = -1
-            Dim dlgt(300) As GetIconImageDelegate    'countQueryに合わせる
-            Dim ar(300) As IAsyncResult              'countQueryに合わせる
+            'Dim arIdx As Integer = -1
+            'Dim dlgt(300) As GetIconImageDelegate    'countQueryに合わせる
+            'Dim ar(300) As IAsyncResult              'countQueryに合わせる
 
             Dim targetItem As PostClass = TabInformations.GetInstance.Item(tab.RelationTargetId).Copy()
             targetItem.RelTabName = tab.TabName
-            arIdx += 1
-            dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
-            ar(arIdx) = dlgt(arIdx).BeginInvoke(targetItem, Nothing, Nothing)
+            TabInformations.GetInstance.AddPost(targetItem)
+            'arIdx += 1
+            'dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
+            'ar(arIdx) = dlgt(arIdx).BeginInvoke(targetItem, Nothing, Nothing)
+
             Dim replyToItem As PostClass = Nothing
             If targetItem.InReplyToId > 0 AndAlso TabInformations.GetInstance.Item(targetItem.InReplyToId) IsNot Nothing Then
                 replyToItem = TabInformations.GetInstance.Item(targetItem.InReplyToId).Copy
@@ -1543,39 +1552,41 @@ Public Class Twitter
                 If item.IsMe AndAlso Not read AndAlso _readOwnPost Then item.IsRead = True
                 If tab IsNot Nothing Then item.RelTabName = tab.TabName
                 '非同期アイコン取得＆StatusDictionaryに追加
-                arIdx += 1
-                dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
-                ar(arIdx) = dlgt(arIdx).BeginInvoke(item, Nothing, Nothing)
+                TabInformations.GetInstance.AddPost(item)
+                'arIdx += 1
+                'dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
+                'ar(arIdx) = dlgt(arIdx).BeginInvoke(item, Nothing, Nothing)
             Next
-            arIdx += 1
-            dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
-            ar(arIdx) = dlgt(arIdx).BeginInvoke(targetItem, Nothing, Nothing)
+            'arIdx += 1
+            'dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
+            'ar(arIdx) = dlgt(arIdx).BeginInvoke(targetItem, Nothing, Nothing)
             If replyToItem IsNot Nothing Then
-                arIdx += 1
-                dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
-                ar(arIdx) = dlgt(arIdx).BeginInvoke(replyToItem, Nothing, Nothing)
+                'arIdx += 1
+                'dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
+                'ar(arIdx) = dlgt(arIdx).BeginInvoke(replyToItem, Nothing, Nothing)
+                TabInformations.GetInstance.AddPost(replyToItem)
             End If
-            'アイコン取得完了待ち
-            For i As Integer = 0 To arIdx
-                Try
-                    dlgt(i).EndInvoke(ar(i))
-                Catch ex As IndexOutOfRangeException
-                    Throw New IndexOutOfRangeException(String.Format("i={0},dlgt.Length={1},ar.Length={2},arIdx={3}", i, dlgt.Length, ar.Length, arIdx))
-                Catch ex As Exception
-                    '最後までendinvoke回す（ゾンビ化回避）
-                    ex.Data("IsTerminatePermission") = False
-                    Throw
-                End Try
-            Next
+            ''アイコン取得完了待ち
+            'For i As Integer = 0 To arIdx
+            '    Try
+            '        dlgt(i).EndInvoke(ar(i))
+            '    Catch ex As IndexOutOfRangeException
+            '        Throw New IndexOutOfRangeException(String.Format("i={0},dlgt.Length={1},ar.Length={2},arIdx={3}", i, dlgt.Length, ar.Length, arIdx))
+            '    Catch ex As Exception
+            '        '最後までendinvoke回す（ゾンビ化回避）
+            '        ex.Data("IsTerminatePermission") = False
+            '        Throw
+            '    End Try
+            'Next
         End Using
 
         Return ""
     End Function
 
     Private Function CreatePostsFromXml(ByVal content As String, ByVal gType As WORKERTYPE, ByVal tab As TabClass, ByVal read As Boolean, ByVal count As Integer, ByRef minimumId As Long) As String
-        Dim arIdx As Integer = -1
-        Dim dlgt(300) As GetIconImageDelegate    'countQueryに合わせる
-        Dim ar(300) As IAsyncResult              'countQueryに合わせる
+        'Dim arIdx As Integer = -1
+        'Dim dlgt(300) As GetIconImageDelegate    'countQueryに合わせる
+        'Dim ar(300) As IAsyncResult              'countQueryに合わせる
         Dim xdoc As New XmlDocument
         Try
             xdoc.LoadXml(content)
@@ -1680,28 +1691,33 @@ Public Class Twitter
                 Continue For
             End Try
 
-            '非同期アイコン取得＆StatusDictionaryに追加
-            arIdx += 1
-            If arIdx > dlgt.Length - 1 Then
-                arIdx -= 1
-                Exit For
-            End If
-            dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
-            ar(arIdx) = dlgt(arIdx).BeginInvoke(post, Nothing, Nothing)
+            'Me._dIcon.Add(post.ImageUrl, Nothing)
+            TabInformations.GetInstance.AddPost(post)
+
+            ''非同期アイコン取得＆StatusDictionaryに追加
+            'arIdx += 1
+            'If arIdx > dlgt.Length - 1 Then
+            '    arIdx -= 1
+            '    Exit For
+            'End If
+            'dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
+            'ar(arIdx) = dlgt(arIdx).BeginInvoke(post, Nothing, Nothing)
         Next
 
-        'アイコン取得完了待ち
-        For i As Integer = 0 To arIdx
-            Try
-                dlgt(i).EndInvoke(ar(i))
-            Catch ex As IndexOutOfRangeException
-                Throw New IndexOutOfRangeException(String.Format("i={0},dlgt.Length={1},ar.Length={2},arIdx={3}", i, dlgt.Length, ar.Length, arIdx))
-            Catch ex As Exception
-                '最後までendinvoke回す（ゾンビ化回避）
-                ex.Data("IsTerminatePermission") = False
-                Throw
-            End Try
-        Next
+        ''アイコン取得完了待ち
+        'For i As Integer = 0 To arIdx
+        '    Try
+        '        dlgt(i).EndInvoke(ar(i))
+        '    Catch ex As IndexOutOfRangeException
+        '        Throw New IndexOutOfRangeException(String.Format("i={0},dlgt.Length={1},ar.Length={2},arIdx={3}", i, dlgt.Length, ar.Length, arIdx))
+        '    Catch ex As Exception
+        '        '最後までendinvoke回す（ゾンビ化回避）
+        '        ex.Data("IsTerminatePermission") = False
+        '        Throw
+        '    End Try
+        'Next
+
+        'If _ApiMethod = MySocket.REQ_TYPE.ReqGetAPI Then _remainCountApi = sck.RemainCountApi
 
         Return ""
     End Function
@@ -1747,9 +1763,9 @@ Public Class Twitter
 
         If Not TabInformations.GetInstance.ContainsTab(tab) Then Return ""
 
-        Dim arIdx As Integer = -1
-        Dim dlgt(300) As GetIconImageDelegate    'countQueryに合わせる
-        Dim ar(300) As IAsyncResult              'countQueryに合わせる
+        'Dim arIdx As Integer = -1
+        'Dim dlgt(300) As GetIconImageDelegate    'countQueryに合わせる
+        'Dim ar(300) As IAsyncResult              'countQueryに合わせる
         Dim xdoc As New XmlDocument
         Try
             xdoc.LoadXml(content)
@@ -1809,25 +1825,28 @@ Public Class Twitter
                 Continue For
             End Try
 
-            '非同期アイコン取得＆StatusDictionaryに追加
-            arIdx += 1
-            dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
-            ar(arIdx) = dlgt(arIdx).BeginInvoke(post, Nothing, Nothing)
+            'Me._dIcon.Add(post.ImageUrl, Nothing)
+            TabInformations.GetInstance.AddPost(post)
+
+            ''非同期アイコン取得＆StatusDictionaryに追加
+            'arIdx += 1
+            'dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
+            'ar(arIdx) = dlgt(arIdx).BeginInvoke(post, Nothing, Nothing)
         Next
 
         '' TODO
         '' 遡るための情報max_idやnext_pageの情報を保持する
 
-        'アイコン取得完了待ち
-        For i As Integer = 0 To arIdx
-            Try
-                dlgt(i).EndInvoke(ar(i))
-            Catch ex As Exception
-                '最後までendinvoke回す（ゾンビ化回避）
-                ex.Data("IsTerminatePermission") = False
-                Throw
-            End Try
-        Next
+        ''アイコン取得完了待ち
+        'For i As Integer = 0 To arIdx
+        '    Try
+        '        dlgt(i).EndInvoke(ar(i))
+        '    Catch ex As Exception
+        '        '最後までendinvoke回す（ゾンビ化回避）
+        '        ex.Data("IsTerminatePermission") = False
+        '        Throw
+        '    End Try
+        'Next
 
 #If 0 Then
         Dim xNode As XmlNode = xdoc.DocumentElement.SelectSingleNode("/search:feed/twitter:warning", nsmgr)
@@ -1880,9 +1899,9 @@ Public Class Twitter
                 Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
         End Select
 
-        Dim arIdx As Integer = -1
-        Dim dlgt(300) As GetIconImageDelegate    'countQueryに合わせる
-        Dim ar(300) As IAsyncResult              'countQueryに合わせる
+        'Dim arIdx As Integer = -1
+        'Dim dlgt(300) As GetIconImageDelegate    'countQueryに合わせる
+        'Dim ar(300) As IAsyncResult              'countQueryに合わせる
         Dim xdoc As New XmlDocument
         Try
             xdoc.LoadXml(content)
@@ -1949,22 +1968,25 @@ Public Class Twitter
             post.IsExcludeReply = False
             post.IsDm = True
 
-            '非同期アイコン取得＆StatusDictionaryに追加
-            arIdx += 1
-            dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
-            ar(arIdx) = dlgt(arIdx).BeginInvoke(post, Nothing, Nothing)
+            'Me._dIcon.Add(post.ImageUrl, Nothing)
+            TabInformations.GetInstance.AddPost(post)
+
+            ''非同期アイコン取得＆StatusDictionaryに追加
+            'arIdx += 1
+            'dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
+            'ar(arIdx) = dlgt(arIdx).BeginInvoke(post, Nothing, Nothing)
         Next
 
-        'アイコン取得完了待ち
-        For i As Integer = 0 To arIdx
-            Try
-                dlgt(i).EndInvoke(ar(i))
-            Catch ex As Exception
-                '最後までendinvoke回す（ゾンビ化回避）
-                ex.Data("IsTerminatePermission") = False
-                Throw
-            End Try
-        Next
+        ''アイコン取得完了待ち
+        'For i As Integer = 0 To arIdx
+        '    Try
+        '        dlgt(i).EndInvoke(ar(i))
+        '    Catch ex As Exception
+        '        '最後までendinvoke回す（ゾンビ化回避）
+        '        ex.Data("IsTerminatePermission") = False
+        '        Throw
+        '    End Try
+        'Next
 
         Return ""
     End Function
@@ -2001,9 +2023,9 @@ Public Class Twitter
                 Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
         End Select
 
-        Dim arIdx As Integer = -1
-        Dim dlgt(300) As GetIconImageDelegate    'countQueryに合わせる
-        Dim ar(300) As IAsyncResult              'countQueryに合わせる
+        'Dim arIdx As Integer = -1
+        'Dim dlgt(300) As GetIconImageDelegate    'countQueryに合わせる
+        'Dim ar(300) As IAsyncResult              'countQueryに合わせる
         Dim xdoc As New XmlDocument
         Try
             xdoc.LoadXml(content)
@@ -2098,22 +2120,25 @@ Public Class Twitter
                 Continue For
             End Try
 
-            '非同期アイコン取得＆StatusDictionaryに追加
-            arIdx += 1
-            dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
-            ar(arIdx) = dlgt(arIdx).BeginInvoke(post, Nothing, Nothing)
+            'Me._dIcon.Add(post.ImageUrl, Nothing)
+            TabInformations.GetInstance.AddPost(post)
+
+            ''非同期アイコン取得＆StatusDictionaryに追加
+            'arIdx += 1
+            'dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
+            'ar(arIdx) = dlgt(arIdx).BeginInvoke(post, Nothing, Nothing)
         Next
 
-        'アイコン取得完了待ち
-        For i As Integer = 0 To arIdx
-            Try
-                dlgt(i).EndInvoke(ar(i))
-            Catch ex As Exception
-                '最後までendinvoke回す（ゾンビ化回避）
-                ex.Data("IsTerminatePermission") = False
-                Throw
-            End Try
-        Next
+        ''アイコン取得完了待ち
+        'For i As Integer = 0 To arIdx
+        '    Try
+        '        dlgt(i).EndInvoke(ar(i))
+        '    Catch ex As Exception
+        '        '最後までendinvoke回す（ゾンビ化回避）
+        '        ex.Data("IsTerminatePermission") = False
+        '        Throw
+        '    End Try
+        'Next
 
         Return ""
     End Function

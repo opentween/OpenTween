@@ -329,11 +329,6 @@ Public Class TweenMain
         fDialog.Dispose()
         UrlDialog.Dispose()
         _spaceKeyCanceler.Dispose()
-        If TIconDic IsNot Nothing AndAlso TIconDic.Keys.Count > 0 Then
-            For Each value As Image In TIconDic.Values
-                value.Dispose()
-            Next
-        End If
         If NIconAt IsNot Nothing Then NIconAt.Dispose()
         If NIconAtRed IsNot Nothing Then NIconAtRed.Dispose()
         If NIconAtSmoke IsNot Nothing Then NIconAtSmoke.Dispose()
@@ -372,6 +367,7 @@ Public Class TweenMain
             _bwFollower.Dispose()
         End If
         Me._apiGauge.Dispose()
+        If TIconDic IsNot Nothing Then DirectCast(TIconDic, IDisposable).Dispose()
     End Sub
 
     Private Sub LoadIcon(ByRef IconInstance As Icon, ByVal FileName As String)
@@ -1015,7 +1011,7 @@ Public Class TweenMain
         End If
 
         'アイコンリスト作成
-        TIconDic = New Dictionary(Of String, Image)
+        TIconDic = New ImageDictionary(3000)
 
         tw.DetailIcon = TIconDic
 
@@ -3809,7 +3805,7 @@ Public Class TweenMain
             Catch ex As Exception
                 '不正な要求に対する間に合わせの応答
                 Dim sitem() As String = {"", "", "", "", "", "", "", ""}
-                e.Item = New ListViewItem(sitem, "")
+                e.Item = New ImageListViewItem(sitem, "")
             End Try
         End If
     End Sub
@@ -3840,13 +3836,13 @@ Public Class TweenMain
         If Post.IsMark Then mk += "♪"
         If Post.IsProtect Then mk += "Ю"
         If Post.InReplyToId > 0 Then mk += "⇒"
-        Dim itm As ListViewItem
+        Dim itm As ImageListViewItem
         If Post.RetweetedId = 0 Then
             Dim sitem() As String = {"", Post.Nickname, Post.Data, Post.PDate.ToString(SettingDialog.DateTimeFormat), Post.Name, "", mk, Post.Source}
-            itm = New ListViewItem(sitem, Post.ImageUrl)
+            itm = New ImageListViewItem(sitem, DirectCast(Me.TIconDic, ImageDictionary), Post.ImageUrl)
         Else
             Dim sitem() As String = {"", Post.Nickname, Post.Data, Post.PDate.ToString(SettingDialog.DateTimeFormat), Post.Name + Environment.NewLine + "(RT:" + Post.RetweetedBy + ")", "", mk, Post.Source}
-            itm = New ListViewItem(sitem, Post.ImageUrl)
+            itm = New ImageListViewItem(sitem, DirectCast(Me.TIconDic, ImageDictionary), Post.ImageUrl)
         End If
 
         Dim read As Boolean = Post.IsRead
@@ -4113,9 +4109,10 @@ Public Class TweenMain
     End Sub
 
     Private Sub DrawListViewItemIcon(ByVal e As DrawListViewSubItemEventArgs)
-        If Not String.IsNullOrEmpty(e.Item.ImageKey) AndAlso Me.TIconDic.ContainsKey(e.Item.ImageKey) Then
+        Dim item As ImageListViewItem = DirectCast(e.Item, ImageListViewItem)
+        If item.Image IsNot Nothing Then
             'e.Bounds.Leftが常に0を指すから自前で計算
-            Dim itemRect As Rectangle = e.Item.Bounds
+            Dim itemRect As Rectangle = item.Bounds
             itemRect.Width = e.Item.ListView.Columns(0).Width
 
             For Each clm As ColumnHeader In e.Item.ListView.Columns
@@ -4130,7 +4127,7 @@ Public Class TweenMain
             If iconRect.Width > 0 Then
                 e.Graphics.FillRectangle(Brushes.White, iconRect)
                 e.Graphics.InterpolationMode = Drawing2D.InterpolationMode.High
-                e.Graphics.DrawImage(Me.TIconDic(e.Item.ImageKey), iconRect)
+                e.Graphics.DrawImage(item.Image, iconRect)
             End If
         End If
     End Sub
@@ -4523,8 +4520,18 @@ RETRY:
         If Not String.IsNullOrEmpty(_curPost.RetweetedBy) Then
             NameLabel.Text += " (RT:" + _curPost.RetweetedBy + ")"
         End If
+        If UserPicture.Image IsNot Nothing Then UserPicture.Image.Dispose()
         If Not String.IsNullOrEmpty(_curPost.ImageUrl) AndAlso TIconDic.ContainsKey(_curPost.ImageUrl) Then
             UserPicture.Image = TIconDic(_curPost.ImageUrl)
+
+            'Dim dummy As Image = DirectCast(TIconDic, ImageDictionary)(_curPost.ImageUrl, Sub(getImg)
+            '                                                                                  If img IsNot Nothing Then img.Dispose()
+            '                                                                                  If getImg Is Nothing Then Exit Sub
+            '                                                                                  img = DirectCast(getImg.Clone(), Image)
+            '                                                                                  Me.Invoke(Sub()
+            '                                                                                                Me.UserPicture.Image = img
+            '                                                                                            End Sub)
+            '                                                                              End Sub)
         Else
             UserPicture.Image = Nothing
         End If
@@ -6566,6 +6573,14 @@ RETRY:
         Static blinkCnt As Integer = 0
         Static blink As Boolean = False
         Static idle As Boolean = False
+
+        Static iconDlListTopItem As ListViewItem = Nothing
+        If DirectCast(ListTab.SelectedTab.Tag, ListView).TopItem Is iconDlListTopItem Then
+            DirectCast(Me.TIconDic, ImageDictionary).PauseGetImage = False
+        Else
+            DirectCast(Me.TIconDic, ImageDictionary).PauseGetImage = True
+        End If
+        iconDlListTopItem = DirectCast(ListTab.SelectedTab.Tag, ListView).TopItem
 
         iconCnt += 1
         blinkCnt += 1
@@ -9715,5 +9730,14 @@ RETRY:
 
             GetTimeline(WORKERTYPE.Related, 1, 1, tb.TabName)
         End If
+    End Sub
+
+    Private Sub CacheInfoMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CacheInfoMenuItem.Click
+        Dim buf As New StringBuilder
+        buf.AppendFormat("キャッシュメモリ容量         : {0}bytes({1}MB)" + vbCrLf, DirectCast(TIconDic, ImageDictionary).CacheMemoryLimit, DirectCast(TIconDic, ImageDictionary).CacheMemoryLimit / 1048576)
+        buf.AppendFormat("物理メモリ使用割合           : {0}%" + vbCrLf, DirectCast(TIconDic, ImageDictionary).PhysicalMemoryLimit)
+        buf.AppendFormat("キャッシュエントリ保持数     : {0}" + vbCrLf, DirectCast(TIconDic, ImageDictionary).CacheCount)
+        buf.AppendFormat("キャッシュエントリ破棄数     : {0}" + vbCrLf, DirectCast(TIconDic, ImageDictionary).CacheRemoveCount)
+        MessageBox.Show(buf.ToString, "アイコンキャッシュ使用状況")
     End Sub
 End Class
