@@ -276,6 +276,7 @@ Partial Class TweenMain
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.ShowRelatedStatusesMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CacheInfoMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ShowRelatedStatusesMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
@@ -283,6 +284,7 @@ Partial Class TweenMain
         Me.ToolStripContainer1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.ContextMenuPostMode.SuspendLayout()
+        CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -291,9 +293,11 @@ Partial Class TweenMain
         Me.ImageSelectionPanel.SuspendLayout()
         CType(Me.ImageSelectedPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ImagePathPanel.SuspendLayout()
+        CType(Me.SplitContainer3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer3.Panel1.SuspendLayout()
         Me.SplitContainer3.Panel2.SuspendLayout()
         Me.SplitContainer3.SuspendLayout()
+        CType(Me.SplitContainer2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
@@ -1448,7 +1452,7 @@ Partial Class TweenMain
         '
         'DebugModeToolStripMenuItem
         '
-        Me.DebugModeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DumpPostClassToolStripMenuItem, Me.TraceOutToolStripMenuItem})
+        Me.DebugModeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DumpPostClassToolStripMenuItem, Me.TraceOutToolStripMenuItem, Me.CacheInfoMenuItem})
         Me.DebugModeToolStripMenuItem.Name = "DebugModeToolStripMenuItem"
         resources.ApplyResources(Me.DebugModeToolStripMenuItem, "DebugModeToolStripMenuItem")
         '
@@ -1725,6 +1729,11 @@ Partial Class TweenMain
         Me.ShowRelatedStatusesMenuItem.Name = "ShowRelatedStatusesMenuItem"
         resources.ApplyResources(Me.ShowRelatedStatusesMenuItem, "ShowRelatedStatusesMenuItem")
         '
+        'CacheInfoMenuItem
+        '
+        Me.CacheInfoMenuItem.Name = "CacheInfoMenuItem"
+        resources.ApplyResources(Me.CacheInfoMenuItem, "CacheInfoMenuItem")
+        '
         'ShowRelatedStatusesMenuItem2
         '
         Me.ShowRelatedStatusesMenuItem2.Name = "ShowRelatedStatusesMenuItem2"
@@ -1750,6 +1759,7 @@ Partial Class TweenMain
         Me.ContextMenuPostMode.ResumeLayout(False)
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
+        CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.ResumeLayout(False)
         Me.TimelinePanel.ResumeLayout(False)
         Me.ContextMenuTabProperty.ResumeLayout(False)
@@ -1759,10 +1769,12 @@ Partial Class TweenMain
         Me.ImagePathPanel.PerformLayout()
         Me.SplitContainer3.Panel1.ResumeLayout(False)
         Me.SplitContainer3.Panel2.ResumeLayout(False)
+        CType(Me.SplitContainer3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer3.ResumeLayout(False)
         Me.SplitContainer2.Panel1.ResumeLayout(False)
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.Panel2.PerformLayout()
+        CType(Me.SplitContainer2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer2.ResumeLayout(False)
         Me.TableLayoutPanel1.ResumeLayout(False)
         Me.TableLayoutPanel1.PerformLayout()
@@ -2017,6 +2029,7 @@ Partial Class TweenMain
     Friend WithEvents ListManageUserContextToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ListManageUserContextToolStripMenuItem3 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ListManageToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents CacheInfoMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SourceLinkLabel As System.Windows.Forms.LinkLabel
     Friend WithEvents ToolStripStatusLabel1 As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents CopyUserIdStripMenuItem As System.Windows.Forms.ToolStripMenuItem
