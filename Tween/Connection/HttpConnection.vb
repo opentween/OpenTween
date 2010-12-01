@@ -66,6 +66,8 @@ Public Class HttpConnection
 
         Dim webReq As HttpWebRequest = DirectCast(WebRequest.Create(ub.Uri), HttpWebRequest)
 
+        webReq.ReadWriteTimeout = 90 * 1000 'Streamの読み込みは90秒でタイムアウト（デフォルト5分）
+
         'プロキシ設定
         If proxyKind <> ProxyType.IE Then webReq.Proxy = proxy
 
