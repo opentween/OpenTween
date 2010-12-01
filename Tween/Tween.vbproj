@@ -89,6 +89,9 @@
     <PlatformTarget>x86</PlatformTarget>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
   </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
@@ -128,6 +131,7 @@
     <Compile Include="Connection\TwitVideo.vb" />
     <Compile Include="Connection\imgly.vb" />
     <Compile Include="Connection\yfrog.vb" />
+    <Compile Include="DataModel.vb" />
     <Compile Include="DetailsListView.vb">
       <SubType>Component</SubType>
     </Compile>
@@ -530,6 +534,9 @@
       <ProductName>Windows インストーラー 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -35,8 +35,11 @@ Imports System.Reflection.MethodBase
 Imports System.Runtime.Serialization.Json
 Imports System.Linq
 Imports System.Xml.Linq
+Imports System.Runtime.Serialization
 
 Public Class Twitter
+    Implements IDisposable
+
     Delegate Sub GetIconImageDelegate(ByVal post As PostClass)
     Private ReadOnly LockObj As New Object
     Private followerId As New List(Of Long)
@@ -93,6 +96,7 @@ Public Class Twitter
             Case HttpStatusCode.OK
                 Twitter.AccountState = ACCOUNT_STATE.Valid
                 _uid = username.ToLower
+                Me.ReconnectUserStream()
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
@@ -115,6 +119,7 @@ Public Class Twitter
 
     Public Sub ClearAuthInfo()
         Twitter.AccountState = ACCOUNT_STATE.Invalid
+        TwitterApiInfo.Initialize()
         twCon.ClearAuthInfo()
         _UserIdNo = ""
     End Sub
@@ -460,7 +465,7 @@ Public Class Twitter
                     xNode = xd.SelectSingleNode("/status/user/description/text()")
                     If xNode IsNot Nothing Then _bio = xNode.Value
                     xNode = xd.SelectSingleNode("/status/user/id/text()")
-                    If xNode IsNot Nothing Then _userIdNo = xNode.Value
+                    If xNode IsNot Nothing Then _UserIdNo = xNode.Value
                 Catch ex As Exception
                     Return ""
                 End Try
@@ -1397,18 +1402,142 @@ Public Class Twitter
         End Select
 
         If gType = WORKERTYPE.Timeline Then
-            Return CreatePostsFromXml(content, gType, Nothing, read, count, Me.minHomeTimeline)
+            Return CreatePostsFromJson(content, gType, Nothing, read, count, Me.minHomeTimeline)
+            'Return CreatePostsFromXml(content, gType, Nothing, read, count, Me.minHomeTimeline)
         Else
-            Return CreatePostsFromXml(content, gType, Nothing, read, count, Me.minMentions)
+            'Return CreatePostsFromXml(content, gType, Nothing, read, count, Me.minMentions)
+            Return CreatePostsFromJson(content, gType, Nothing, read, count, Me.minMentions)
         End If
     End Function
 
-    'Public Overloads Function GetListStatus(ByVal read As Boolean, _
-    '                        ByVal tab As TabClass, _
-    '                        ByVal more As Boolean) As String
+    Private Function DateTimeParse(ByVal input As String) As Date
+        Dim rslt As Date
+        Dim format() As String = {
+            "ddd MMM dd HH:mm:ss zzzz yyyy"
+        }
+        For Each fmt As String In format
+            If DateTime.TryParseExact(input, _
+                                      fmt, _
+                                      System.Globalization.DateTimeFormatInfo.InvariantInfo, _
+                                      System.Globalization.DateTimeStyles.None, _
+                                      rslt) Then
+                Return rslt
+            Else
+                Continue For
+            End If
+        Next
+        TraceOut("Parse Error(DateTimeFormat) : " + input)
+        Return New Date
+    End Function
 
-    '    Return GetListStatus(read, tab, more, -1)
-    'End Function
+    Private Function CreatePostsFromJson(ByVal content As String, ByVal gType As WORKERTYPE, ByVal tab As TabClass, ByVal read As Boolean, ByVal count As Integer, ByRef minimumId As Long) As String
+        Dim items As List(Of TwitterDataModel.Status)
+        Try
+            items = CreateDataFromJson(Of List(Of TwitterDataModel.Status))(content)
+        Catch ex As SerializationException
+            TraceOut(ex.Message + Environment.NewLine + content)
+            Return "Json Parse Error(DataContractJsonSerializer)"
+        Catch ex As Exception
+            TraceOut(content)
+            Return "Invalid Json!"
+        End Try
+
+        For Each status As TwitterDataModel.Status In items
+            Dim post As New PostClass
+            Try
+                post.Id = status.Id
+                If minimumId > post.Id Then minimumId = post.Id
+                '二重取得回避
+                SyncLock LockObj
+                    If tab Is Nothing Then
+                        If TabInformations.GetInstance.ContainsKey(post.Id) Then Continue For
+                    Else
+                        If TabInformations.GetInstance.ContainsKey(post.Id, tab.TabName) Then Continue For
+                    End If
+                End SyncLock
+                If status.RetweetedStatus IsNot Nothing Then
+                    Dim retweeted As TwitterDataModel.RetweetedStatus = status.RetweetedStatus
+
+                    post.PDate = DateTimeParse(retweeted.CreatedAt)
+
+                    'Id
+                    post.RetweetedId = retweeted.Id
+                    '本文
+                    post.Data = retweeted.Text
+                    'Source取得（htmlの場合は、中身を取り出し）
+                    post.Source = retweeted.Source
+                    'Reply先
+                    Long.TryParse(retweeted.InReplyToStatusId, post.InReplyToId)
+                    post.InReplyToUser = retweeted.InReplyToScreenName
+                    post.IsFav = TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites).Contains(post.RetweetedId)
+
+                    '以下、ユーザー情報
+                    Dim user As TwitterDataModel.User = retweeted.User
+                    post.Uid = user.Id
+                    post.Name = user.ScreenName
+                    post.Nickname = user.Name
+                    post.ImageUrl = user.ProfileImageUrl
+                    post.IsProtect = user.Protected
+                    If post.IsMe Then _UserIdNo = post.Uid.ToString()
+
+                    'Retweetした人
+                    post.RetweetedBy = status.User.ScreenName
+                Else
+                    post.PDate = DateTimeParse(status.CreatedAt)
+                    '本文
+                    post.Data = status.Text
+                    'Source取得（htmlの場合は、中身を取り出し）
+                    post.Source = status.Source
+                    Long.TryParse(status.InReplyToStatusId, post.InReplyToId)
+                    post.InReplyToUser = status.InReplyToScreenName
+
+                    post.IsFav = status.Favorited
+
+                    '以下、ユーザー情報
+                    Dim user As TwitterDataModel.User = status.User
+                    post.Uid = user.Id
+                    post.Name = user.ScreenName
+                    post.Nickname = user.Name
+                    post.ImageUrl = user.ProfileImageUrl
+                    post.IsProtect = user.Protected
+                    post.IsMe = post.Name.ToLower.Equals(_uid)
+                    If post.IsMe Then _UserIdNo = post.Uid.ToString
+                End If
+                'HTMLに整形
+                post.OriginalData = CreateHtmlAnchor(post.Data, post.ReplyToList)
+                post.Data = HttpUtility.HtmlDecode(post.Data)
+                post.Data = post.Data.Replace("<3", "♡")
+                'Source整形
+                CreateSource(post)
+
+                post.IsRead = read
+                If gType = WORKERTYPE.Timeline OrElse tab IsNot Nothing Then
+                    post.IsReply = post.ReplyToList.Contains(_uid)
+                Else
+                    post.IsReply = True
+                End If
+                post.IsExcludeReply = False
+
+                If post.IsMe Then
+                    post.IsOwl = False
+                Else
+                    If followerId.Count > 0 Then post.IsOwl = Not followerId.Contains(post.Uid)
+                End If
+                If post.IsMe AndAlso Not read AndAlso _readOwnPost Then post.IsRead = True
+
+                post.IsDm = False
+                If tab IsNot Nothing Then post.RelTabName = tab.TabName
+            Catch ex As Exception
+                TraceOut(content)
+                MessageBox.Show("Parse Error(CreatePostsFromJson)")
+                Continue For
+            End Try
+            '非同期アイコン取得＆StatusDictionaryに追加
+            TabInformations.GetInstance.AddPost(post)
+        Next
+
+        Return ""
+    End Function
 
     Public Overloads Function GetListStatus(ByVal read As Boolean, _
                             ByVal tab As TabClass, _
@@ -1461,15 +1590,6 @@ Public Class Twitter
 
         Dim res As HttpStatusCode
         Dim content As String = ""
-        'Dim count As Integer = Setting.Instance.CountApi
-        'If gType = WORKERTYPE.Reply Then count = Setting.Instance.CountApiReply
-        'If Setting.Instance.UseAdditionalCount Then
-        '    If more AndAlso Setting.Instance.MoreCountApi <> 0 Then
-        '        count = Setting.Instance.MoreCountApi
-        '    ElseIf startup AndAlso Setting.Instance.FirstCountApi <> 0 AndAlso gType = WORKERTYPE.Timeline Then
-        '        count = Setting.Instance.FirstCountApi
-        '    End If
-        'End If
         Try
             res = twCon.GetRelatedResults(tab.RelationTargetId, content)
         Catch ex As Exception
@@ -1517,16 +1637,9 @@ Public Class Twitter
                             RetweetedId:=0,
                             SourceHtml:="")
 
-            'Dim arIdx As Integer = -1
-            'Dim dlgt(300) As GetIconImageDelegate    'countQueryに合わせる
-            'Dim ar(300) As IAsyncResult              'countQueryに合わせる
-
             Dim targetItem As PostClass = TabInformations.GetInstance.Item(tab.RelationTargetId).Copy()
             targetItem.RelTabName = tab.TabName
             TabInformations.GetInstance.AddPost(targetItem)
-            'arIdx += 1
-            'dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
-            'ar(arIdx) = dlgt(arIdx).BeginInvoke(targetItem, Nothing, Nothing)
 
             Dim replyToItem As PostClass = Nothing
             If targetItem.InReplyToId > 0 AndAlso TabInformations.GetInstance.Item(targetItem.InReplyToId) IsNot Nothing Then
@@ -1553,40 +1666,16 @@ Public Class Twitter
                 If tab IsNot Nothing Then item.RelTabName = tab.TabName
                 '非同期アイコン取得＆StatusDictionaryに追加
                 TabInformations.GetInstance.AddPost(item)
-                'arIdx += 1
-                'dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
-                'ar(arIdx) = dlgt(arIdx).BeginInvoke(item, Nothing, Nothing)
             Next
-            'arIdx += 1
-            'dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
-            'ar(arIdx) = dlgt(arIdx).BeginInvoke(targetItem, Nothing, Nothing)
             If replyToItem IsNot Nothing Then
-                'arIdx += 1
-                'dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
-                'ar(arIdx) = dlgt(arIdx).BeginInvoke(replyToItem, Nothing, Nothing)
                 TabInformations.GetInstance.AddPost(replyToItem)
             End If
-            ''アイコン取得完了待ち
-            'For i As Integer = 0 To arIdx
-            '    Try
-            '        dlgt(i).EndInvoke(ar(i))
-            '    Catch ex As IndexOutOfRangeException
-            '        Throw New IndexOutOfRangeException(String.Format("i={0},dlgt.Length={1},ar.Length={2},arIdx={3}", i, dlgt.Length, ar.Length, arIdx))
-            '    Catch ex As Exception
-            '        '最後までendinvoke回す（ゾンビ化回避）
-            '        ex.Data("IsTerminatePermission") = False
-            '        Throw
-            '    End Try
-            'Next
         End Using
 
         Return ""
     End Function
 
     Private Function CreatePostsFromXml(ByVal content As String, ByVal gType As WORKERTYPE, ByVal tab As TabClass, ByVal read As Boolean, ByVal count As Integer, ByRef minimumId As Long) As String
-        'Dim arIdx As Integer = -1
-        'Dim dlgt(300) As GetIconImageDelegate    'countQueryに合わせる
-        'Dim ar(300) As IAsyncResult              'countQueryに合わせる
         Dim xdoc As New XmlDocument
         Try
             xdoc.LoadXml(content)
@@ -1691,33 +1780,9 @@ Public Class Twitter
                 Continue For
             End Try
 
-            'Me._dIcon.Add(post.ImageUrl, Nothing)
             TabInformations.GetInstance.AddPost(post)
 
-            ''非同期アイコン取得＆StatusDictionaryに追加
-            'arIdx += 1
-            'If arIdx > dlgt.Length - 1 Then
-            '    arIdx -= 1
-            '    Exit For
-            'End If
-            'dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
-            'ar(arIdx) = dlgt(arIdx).BeginInvoke(post, Nothing, Nothing)
         Next
-
-        ''アイコン取得完了待ち
-        'For i As Integer = 0 To arIdx
-        '    Try
-        '        dlgt(i).EndInvoke(ar(i))
-        '    Catch ex As IndexOutOfRangeException
-        '        Throw New IndexOutOfRangeException(String.Format("i={0},dlgt.Length={1},ar.Length={2},arIdx={3}", i, dlgt.Length, ar.Length, arIdx))
-        '    Catch ex As Exception
-        '        '最後までendinvoke回す（ゾンビ化回避）
-        '        ex.Data("IsTerminatePermission") = False
-        '        Throw
-        '    End Try
-        'Next
-
-        'If _ApiMethod = MySocket.REQ_TYPE.ReqGetAPI Then _remainCountApi = sck.RemainCountApi
 
         Return ""
     End Function
@@ -1763,9 +1828,6 @@ Public Class Twitter
 
         If Not TabInformations.GetInstance.ContainsTab(tab) Then Return ""
 
-        'Dim arIdx As Integer = -1
-        'Dim dlgt(300) As GetIconImageDelegate    'countQueryに合わせる
-        'Dim ar(300) As IAsyncResult              'countQueryに合わせる
         Dim xdoc As New XmlDocument
         Try
             xdoc.LoadXml(content)
@@ -1828,25 +1890,10 @@ Public Class Twitter
             'Me._dIcon.Add(post.ImageUrl, Nothing)
             TabInformations.GetInstance.AddPost(post)
 
-            ''非同期アイコン取得＆StatusDictionaryに追加
-            'arIdx += 1
-            'dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
-            'ar(arIdx) = dlgt(arIdx).BeginInvoke(post, Nothing, Nothing)
         Next
 
         '' TODO
         '' 遡るための情報max_idやnext_pageの情報を保持する
-
-        ''アイコン取得完了待ち
-        'For i As Integer = 0 To arIdx
-        '    Try
-        '        dlgt(i).EndInvoke(ar(i))
-        '    Catch ex As Exception
-        '        '最後までendinvoke回す（ゾンビ化回避）
-        '        ex.Data("IsTerminatePermission") = False
-        '        Throw
-        '    End Try
-        'Next
 
 #If 0 Then
         Dim xNode As XmlNode = xdoc.DocumentElement.SelectSingleNode("/search:feed/twitter:warning", nsmgr)
@@ -1857,6 +1904,101 @@ Public Class Twitter
 #End If
 
         Return ""
+    End Function
+
+    Private Function CreateDirectMessagesFromJson(ByVal content As String, ByVal gType As WORKERTYPE, ByVal read As Boolean) As String
+        Dim item As List(Of TwitterDataModel.Directmessage)
+        Try
+            If gType = WORKERTYPE.UserStream Then
+                Dim itm As List(Of TwitterDataModel.DirectmessageEvent) = CreateDataFromJson(Of List(Of TwitterDataModel.DirectmessageEvent))(content)
+                item = New List(Of TwitterDataModel.Directmessage)
+                For Each dat As TwitterDataModel.DirectmessageEvent In itm
+                    item.Add(dat.Directmessage)
+                Next
+            Else
+                item = CreateDataFromJson(Of List(Of TwitterDataModel.Directmessage))(content)
+            End If
+        Catch ex As SerializationException
+            TraceOut(ex.Message + Environment.NewLine + content)
+            Return "Json Parse Error(DataContractJsonSerializer)"
+        Catch ex As Exception
+            TraceOut(content)
+            Return "Invalid Json!"
+        End Try
+
+        For Each message As TwitterDataModel.Directmessage In item
+            Dim post As New PostClass
+            Try
+                post.Id = message.Id
+                If gType <> WORKERTYPE.UserStream Then
+                    If gType = WORKERTYPE.DirectMessegeRcv Then
+                        If minDirectmessage > post.Id Then minDirectmessage = post.Id
+                    Else
+                        If minDirectmessageSent > post.Id Then minDirectmessageSent = post.Id
+                    End If
+                End If
+
+                '二重取得回避
+                SyncLock LockObj
+                    If TabInformations.GetInstance.GetTabByType(TabUsageType.DirectMessage).Contains(post.Id) Then Continue For
+                End SyncLock
+                'sender_id
+                'recipient_id
+                post.PDate = DateTimeParse(message.CreatedAt)
+                '本文
+                post.Data = message.Text
+                'HTMLに整形
+                post.OriginalData = CreateHtmlAnchor(post.Data, post.ReplyToList)
+                post.Data = HttpUtility.HtmlDecode(post.Data)
+                post.Data = post.Data.Replace("<3", "♡")
+                post.IsFav = False
+
+                '以下、ユーザー情報
+                Dim user As TwitterDataModel.User
+                If gType = WORKERTYPE.UserStream Then
+                    If twCon.AuthenticatedUsername.Equals(message.Recipient.ScreenName, StringComparison.CurrentCultureIgnoreCase) Then
+                        user = message.Sender
+                        post.IsMe = False
+                        post.IsOwl = True
+                    Else
+                        user = message.Recipient
+                        post.IsMe = True
+                        post.IsOwl = False
+                    End If
+                Else
+                    If gType = WORKERTYPE.DirectMessegeRcv Then
+                        user = message.Sender
+                        post.IsMe = False
+                        post.IsOwl = True
+                    Else
+                        user = message.Recipient
+                        post.IsMe = True
+                        post.IsOwl = False
+                    End If
+                End If
+
+                post.Uid = user.id
+                post.Name = user.ScreenName
+                post.Nickname = user.Name
+                post.ImageUrl = user.ProfileImageUrl
+                post.IsProtect = user.protected
+            Catch ex As Exception
+                TraceOut(content)
+                MessageBox.Show("Parse Error(CreateDirectMessagesFromJson)")
+                Continue For
+            End Try
+
+            post.IsRead = read
+            If post.IsMe AndAlso Not read AndAlso _readOwnPost Then post.IsRead = True
+            post.IsReply = False
+            post.IsExcludeReply = False
+            post.IsDm = True
+
+            TabInformations.GetInstance.AddPost(post)
+        Next
+
+        Return ""
+
     End Function
 
     Public Function GetDirectMessageApi(ByVal read As Boolean, _
@@ -1899,96 +2041,7 @@ Public Class Twitter
                 Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
         End Select
 
-        'Dim arIdx As Integer = -1
-        'Dim dlgt(300) As GetIconImageDelegate    'countQueryに合わせる
-        'Dim ar(300) As IAsyncResult              'countQueryに合わせる
-        Dim xdoc As New XmlDocument
-        Try
-            xdoc.LoadXml(content)
-        Catch ex As Exception
-            TraceOut(content)
-            'MessageBox.Show("不正なXMLです。(DM-LoadXml)")
-            Return "Invalid XML!"
-        End Try
-
-        For Each xentryNode As XmlNode In xdoc.DocumentElement.SelectNodes("./direct_message")
-            Dim xentry As XmlElement = CType(xentryNode, XmlElement)
-            Dim post As New PostClass
-            Try
-                post.Id = Long.Parse(xentry.Item("id").InnerText)
-                If gType = WORKERTYPE.DirectMessegeRcv Then
-                    If minDirectmessage > post.Id Then minDirectmessage = post.Id
-                Else
-                    If minDirectmessageSent > post.Id Then minDirectmessageSent = post.Id
-                End If
-                '二重取得回避
-                SyncLock LockObj
-                    If TabInformations.GetInstance.GetTabByType(TabUsageType.DirectMessage).Contains(post.Id) Then Continue For
-                End SyncLock
-                'sender_id
-                'recipient_id
-                post.PDate = DateTime.ParseExact(xentry.Item("created_at").InnerText, "ddd MMM dd HH:mm:ss zzzz yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None)
-                '本文
-                post.Data = xentry.Item("text").InnerText
-                'HTMLに整形
-                post.OriginalData = CreateHtmlAnchor(post.Data, post.ReplyToList)
-                post.Data = HttpUtility.HtmlDecode(post.Data)
-                post.Data = post.Data.Replace("<3", "♡")
-                post.IsFav = False
-                '受信ＤＭかの判定で使用
-                If gType = WORKERTYPE.DirectMessegeRcv Then
-                    post.IsOwl = True
-                Else
-                    post.IsOwl = False
-                End If
-
-                '以下、ユーザー情報
-                Dim xUentry As XmlElement
-                If gType = WORKERTYPE.DirectMessegeRcv Then
-                    xUentry = CType(xentry.SelectSingleNode("./sender"), XmlElement)
-                    post.IsMe = False
-                Else
-                    xUentry = CType(xentry.SelectSingleNode("./recipient"), XmlElement)
-                    post.IsMe = True
-                End If
-                post.Uid = Long.Parse(xUentry.Item("id").InnerText)
-                post.Name = xUentry.Item("screen_name").InnerText
-                post.Nickname = xUentry.Item("name").InnerText
-                post.ImageUrl = xUentry.Item("profile_image_url").InnerText
-                post.IsProtect = Boolean.Parse(xUentry.Item("protected").InnerText)
-            Catch ex As Exception
-                TraceOut(content)
-                'MessageBox.Show("不正なXMLです。(DM-Parse)")
-                Continue For
-            End Try
-
-            post.IsRead = read
-            If gType = WORKERTYPE.DirectMessegeSnt AndAlso Not read AndAlso _readOwnPost Then post.IsRead = True
-            post.IsReply = False
-            post.IsExcludeReply = False
-            post.IsDm = True
-
-            'Me._dIcon.Add(post.ImageUrl, Nothing)
-            TabInformations.GetInstance.AddPost(post)
-
-            ''非同期アイコン取得＆StatusDictionaryに追加
-            'arIdx += 1
-            'dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
-            'ar(arIdx) = dlgt(arIdx).BeginInvoke(post, Nothing, Nothing)
-        Next
-
-        ''アイコン取得完了待ち
-        'For i As Integer = 0 To arIdx
-        '    Try
-        '        dlgt(i).EndInvoke(ar(i))
-        '    Catch ex As Exception
-        '        '最後までendinvoke回す（ゾンビ化回避）
-        '        ex.Data("IsTerminatePermission") = False
-        '        Throw
-        '    End Try
-        'Next
-
-        Return ""
+        Return CreateDirectMessagesFromJson(content, gType, read)
     End Function
 
     Public Function GetFavoritesApi(ByVal read As Boolean, _
@@ -2023,78 +2076,81 @@ Public Class Twitter
                 Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
         End Select
 
-        'Dim arIdx As Integer = -1
-        'Dim dlgt(300) As GetIconImageDelegate    'countQueryに合わせる
-        'Dim ar(300) As IAsyncResult              'countQueryに合わせる
-        Dim xdoc As New XmlDocument
+        Dim serializer As New DataContractJsonSerializer(GetType(List(Of TwitterDataModel.Status)))
+        Dim item As List(Of TwitterDataModel.Status)
+
         Try
-            xdoc.LoadXml(content)
+            Using stream As New MemoryStream()
+                Dim buf As Byte() = Encoding.Unicode.GetBytes(content)
+                stream.Write(buf, 0, buf.Length)
+                stream.Seek(offset:=0, loc:=SeekOrigin.Begin)
+                item = DirectCast(serializer.ReadObject(stream), List(Of TwitterDataModel.Status))
+            End Using
+        Catch ex As SerializationException
+            TraceOut(ex.Message + Environment.NewLine + content)
+            Return "Json Parse Error(DataContractJsonSerializer)"
         Catch ex As Exception
             TraceOut(content)
-            'MessageBox.Show("不正なXMLです。(TL-LoadXml)")
-            Return "Invalid XML!"
+            Return "Invalid Json!"
         End Try
 
-        For Each xentryNode As XmlNode In xdoc.DocumentElement.SelectNodes("./status")
-            Dim xentry As XmlElement = CType(xentryNode, XmlElement)
+        For Each status As TwitterDataModel.Status In item
             Dim post As New PostClass
             Try
-                post.Id = Long.Parse(xentry.Item("id").InnerText)
+                post.Id = status.Id
                 '二重取得回避
                 SyncLock LockObj
-                    'If TabInformations.GetInstance.ContainsKey(post.Id) Then Continue For
                     If TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites).Contains(post.Id) Then Continue For
                 End SyncLock
                 'Retweet判定
-                Dim xRnode As XmlNode = xentry.SelectSingleNode("./retweeted_status")
-                If xRnode IsNot Nothing Then
-                    Dim xRentry As XmlElement = CType(xRnode, XmlElement)
-                    post.PDate = DateTime.ParseExact(xRentry.Item("created_at").InnerText, "ddd MMM dd HH:mm:ss zzzz yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None)
+                If status.RetweetedStatus IsNot Nothing Then
+                    Dim retweeted As TwitterDataModel.RetweetedStatus = status.RetweetedStatus
+                    post.PDate = DateTimeParse(retweeted.CreatedAt)
+
                     'Id
-                    post.RetweetedId = Long.Parse(xRentry.Item("id").InnerText)
+                    post.RetweetedId = post.Id
                     '本文
-                    post.Data = xRentry.Item("text").InnerText
+                    post.Data = retweeted.text
                     'Source取得（htmlの場合は、中身を取り出し）
-                    post.Source = xRentry.Item("source").InnerText
+                    post.Source = retweeted.source
                     'Reply先
-                    Long.TryParse(xRentry.Item("in_reply_to_status_id").InnerText, post.InReplyToId)
-                    post.InReplyToUser = xRentry.Item("in_reply_to_screen_name").InnerText
-                    'in_reply_to_user_idを使うか？
-                    post.IsFav = Boolean.Parse(xRentry.Item("favorited").InnerText)
+                    Long.TryParse(retweeted.InReplyToStatusId, post.InReplyToId)
+                    post.InReplyToUser = retweeted.InReplyToScreenName
+                    post.IsFav = retweeted.favorited
 
                     '以下、ユーザー情報
-                    Dim xRUentry As XmlElement = CType(xRentry.SelectSingleNode("./user"), XmlElement)
-                    post.Uid = Long.Parse(xRUentry.Item("id").InnerText)
-                    post.Name = xRUentry.Item("screen_name").InnerText
-                    post.Nickname = xRUentry.Item("name").InnerText
-                    post.ImageUrl = xRUentry.Item("profile_image_url").InnerText
-                    post.IsProtect = Boolean.Parse(xRUentry.Item("protected").InnerText)
+                    Dim user As TwitterDataModel.User = retweeted.User
+                    post.Uid = user.Id
+                    post.Name = user.ScreenName
+                    post.Nickname = user.Name
+                    post.ImageUrl = user.ProfileImageUrl
+                    post.IsProtect = user.Protected
                     post.IsMe = post.Name.ToLower.Equals(_uid)
                     If post.IsMe Then _UserIdNo = post.Uid.ToString()
 
                     'Retweetした人
-                    Dim xUentry As XmlElement = CType(xentry.SelectSingleNode("./user"), XmlElement)
-                    post.RetweetedBy = xUentry.Item("screen_name").InnerText
+                    post.RetweetedBy = status.User.ScreenName
                 Else
-                    post.PDate = DateTime.ParseExact(xentry.Item("created_at").InnerText, "ddd MMM dd HH:mm:ss zzzz yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None)
+                    post.PDate = DateTimeParse(status.CreatedAt)
+
                     '本文
-                    post.Data = xentry.Item("text").InnerText
+                    post.Data = status.Text
                     'Source取得（htmlの場合は、中身を取り出し）
-                    post.Source = xentry.Item("source").InnerText
-                    Long.TryParse(xentry.Item("in_reply_to_status_id").InnerText, post.InReplyToId)
-                    post.InReplyToUser = xentry.Item("in_reply_to_screen_name").InnerText
-                    'in_reply_to_user_idを使うか？
-                    post.IsFav = Boolean.Parse(xentry.Item("favorited").InnerText)
+                    post.Source = status.Source
+                    Long.TryParse(status.InReplyToStatusId, post.InReplyToId)
+                    post.InReplyToUser = status.InReplyToScreenName
+
+                    post.IsFav = status.Favorited
 
                     '以下、ユーザー情報
-                    Dim xUentry As XmlElement = CType(xentry.SelectSingleNode("./user"), XmlElement)
-                    post.Uid = Long.Parse(xUentry.Item("id").InnerText)
-                    post.Name = xUentry.Item("screen_name").InnerText
-                    post.Nickname = xUentry.Item("name").InnerText
-                    post.ImageUrl = xUentry.Item("profile_image_url").InnerText
-                    post.IsProtect = Boolean.Parse(xUentry.Item("protected").InnerText)
+                    Dim user As TwitterDataModel.User = status.User
+                    post.Uid = user.Id
+                    post.Name = user.ScreenName
+                    post.Nickname = user.Name
+                    post.ImageUrl = user.ProfileImageUrl
+                    post.IsProtect = user.Protected
                     post.IsMe = post.Name.ToLower.Equals(_uid)
-                    If post.IsMe Then _UserIdNo = post.Uid.ToString()
+                    If post.IsMe Then _UserIdNo = post.Uid.ToString
                 End If
                 'HTMLに整形
                 post.OriginalData = CreateHtmlAnchor(post.Data, post.ReplyToList)
@@ -2116,29 +2172,12 @@ Public Class Twitter
                 post.IsDm = False
             Catch ex As Exception
                 TraceOut(content)
-                'MessageBox.Show("不正なXMLです。(TL-Parse)")
                 Continue For
             End Try
 
-            'Me._dIcon.Add(post.ImageUrl, Nothing)
             TabInformations.GetInstance.AddPost(post)
 
-            ''非同期アイコン取得＆StatusDictionaryに追加
-            'arIdx += 1
-            'dlgt(arIdx) = New GetIconImageDelegate(AddressOf GetIconImage)
-            'ar(arIdx) = dlgt(arIdx).BeginInvoke(post, Nothing, Nothing)
         Next
-
-        ''アイコン取得完了待ち
-        'For i As Integer = 0 To arIdx
-        '    Try
-        '        dlgt(i).EndInvoke(ar(i))
-        '    Catch ex As Exception
-        '        '最後までendinvoke回す（ゾンビ化回避）
-        '        ex.Data("IsTerminatePermission") = False
-        '        Throw
-        '    End Try
-        'Next
 
         Return ""
     End Function
@@ -2728,4 +2767,331 @@ Public Class Twitter
 
     Private Sub Twitter_ApiInformationChanged(ByVal sender As Object, ByVal e As ApiInformationChangedEventArgs) Handles Me.ApiInformationChanged
     End Sub
+
+
+
+    Public Event NewPostFromStream()
+    Public Event UserStreamStarted()
+    Public Event UserStreamStopped()
+    Public Event UserStreamPaused()
+    Public Event UserStreamGetFriendsList()
+    Public Event PostDeleted(ByVal id As Long)
+    Private WithEvents userStream As TwitterUserstream
+
+    Private _streamBypass As Boolean
+    Private EventNameTable() As String = {
+        "favorite",
+        "unfavorite",
+        "follow",
+        "list_member_added",
+        "list_member_removed"
+    }
+
+    Private Sub userStream_StatusArrived(ByVal line As String) Handles userStream.StatusArrived
+        If _streamBypass OrElse String.IsNullOrEmpty(line) Then Exit Sub
+
+        Dim idx As Integer = line.IndexOf("{""")
+        Dim idx2 As Integer = line.IndexOf(""":")
+        If idx = 0 AndAlso idx2 > 0 Then
+            Try
+                Dim eventname As String = line.Substring(idx + 2, idx2 - 2)
+                If eventname.Equals("friends") Then
+                    Debug.Print("friends")
+                    Exit Sub
+                ElseIf eventname.Equals("delete") Then
+                    Debug.Print("delete")
+                    If line.Contains("direct_message") Then
+                        Dim data As TwitterDataModel.DeleteDirectmessageEvent = CreateDataFromJson(Of TwitterDataModel.DeleteDirectmessageEvent)(line)
+                        RaiseEvent PostDeleted(data.Event.Directmessage.Id)
+                    Else
+                        Dim data As TwitterDataModel.DeleteEvent = CreateDataFromJson(Of TwitterDataModel.DeleteEvent)(line)
+                        RaiseEvent PostDeleted(data.Event.Status.Id)
+                    End If
+                    Exit Sub
+                ElseIf eventname.Equals("limit") Then
+                    Debug.Print("limit")
+                    Exit Sub
+                ElseIf eventname.Equals("target") Then
+                    Dim data As TwitterDataModel.EventData = CreateDataFromJson(Of TwitterDataModel.EventData)(line)
+                    Select Case Array.IndexOf(EventNameTable, data.Event)
+                        Case 0  ' favorite
+                            Debug.Print("Event:favorite")
+                        Case 1  ' unfavorite
+                            Debug.Print("Event:unfavorite")
+                        Case 2  ' follow
+                            Debug.Print("Event:follow")
+                        Case 3  ' list_member_added
+                            Debug.Print("Event:list_member_added")
+                        Case 4  ' list_member_removed
+                            Debug.Print("Event:list_member_removed")
+                        Case Else ' その他イベント
+                            TraceOut("Unknown Event:" + data.Event + Environment.NewLine + line)
+                    End Select
+                    Exit Sub
+                ElseIf Not eventname.Equals("place") AndAlso Not eventname.Equals("in_reply_to_status_id_str") Then
+                    Debug.Print(eventname)
+                End If
+            Catch ex As SerializationException
+                TraceOut(ex.Message + Environment.NewLine + line)
+            Catch ex As Exception
+                TraceOut(line)
+            End Try
+
+        End If
+
+        Dim res As New StringBuilder
+        res.Length = 0
+        res.Append("[")
+        res.Append(line)
+        res.Append("]")
+
+        Try
+            If line.StartsWith("{""direct_message"":") Then
+                CreateDirectMessagesFromJson(res.ToString, WORKERTYPE.UserStream, False)
+            Else
+                CreatePostsFromJson(res.ToString, WORKERTYPE.Timeline, Nothing, False, Nothing, Nothing)
+            End If
+        Catch ex As SerializationException
+            TraceOut(ex.Message + Environment.NewLine + line)
+        Catch ex As Exception
+            TraceOut(line)
+        End Try
+
+        RaiseEvent NewPostFromStream()
+    End Sub
+
+    Private Function CreateDataFromJson(Of T)(ByVal content As String) As T
+        Dim data As T
+        Using stream As New MemoryStream()
+            Dim buf As Byte() = Encoding.Unicode.GetBytes(content)
+            stream.Write(Encoding.Unicode.GetBytes(content), offset:=0, count:=buf.Length)
+            stream.Seek(offset:=0, loc:=SeekOrigin.Begin)
+            data = DirectCast((New DataContractJsonSerializer(GetType(T))).ReadObject(stream), T)
+        End Using
+        Return data
+    End Function
+
+    Private Sub userStream_Started() Handles userStream.Started
+        RaiseEvent UserStreamStarted()
+    End Sub
+
+    Private Sub userStream_Stopped() Handles userStream.Stopped
+        RaiseEvent UserStreamStopped()
+    End Sub
+
+    Public ReadOnly Property UserStreamEnabled As Boolean
+        Get
+            Return If(userStream Is Nothing, False, userStream.Enabled)
+        End Get
+    End Property
+
+    Public Overloads Sub StartUserStream()
+        StartUserStream(False, "")
+    End Sub
+
+    Public Overloads Sub StartUserStream(ByVal allAtReplies As Boolean, ByVal trackWords As String)
+        If userStream IsNot Nothing Then
+            StopUserStream()
+        Else
+            Me._streamBypass = False
+            userStream = New TwitterUserstream(twCon)
+            userStream.Start(allAtReplies, trackWords)
+        End If
+    End Sub
+
+    Public Sub StopUserStream()
+        Me._streamBypass = True
+        If userStream IsNot Nothing Then userStream.Dispose()
+        userStream = Nothing
+        If Not _endingFlag Then RaiseEvent UserStreamStopped()
+    End Sub
+
+    Private Sub ReconnectUserStream()
+        If userStream IsNot Nothing Then
+            Me.StopUserStream()
+            Me.StartUserStream()
+        End If
+    End Sub
+
+    Public Sub PauseUserStream()
+        If _streamBypass Then
+            _streamBypass = False
+            RaiseEvent UserStreamStarted()
+        Else
+            _streamBypass = True
+            RaiseEvent UserStreamPaused()
+        End If
+    End Sub
+
+    Private Class TwitterUserstream
+        Implements IDisposable
+
+        Public Event StatusArrived(ByVal status As String)
+        Public Event Stopped()
+        Public Event Started()
+        Private twCon As HttpTwitter
+
+        Private _streamThread As Thread
+        Private _streamActive As Boolean
+
+        Private _allAtreplies As Boolean = False
+        Private _trackwords As String = ""
+
+        Public Sub New(ByVal twitterConnection As HttpTwitter)
+            twCon = DirectCast(twitterConnection.Clone(), HttpTwitter)
+        End Sub
+
+        Public Overloads Sub Start(ByVal allAtReplies As Boolean, ByVal trackwords As String)
+            Me.AllAtReplies = allAtReplies
+            Me.TrackWords = trackwords
+            Me.Start()
+        End Sub
+
+        Public Overloads Sub Start()
+            _streamActive = True
+            If _streamThread IsNot Nothing AndAlso _streamThread.IsAlive Then Exit Sub
+            _streamThread = New Thread(AddressOf UserStreamLoop)
+            _streamThread.Name = "UserStreamReceiver"
+            _streamThread.IsBackground = True
+            _streamThread.Start()
+        End Sub
+
+        Public ReadOnly Property Enabled() As Boolean
+            Get
+                Return _streamActive
+            End Get
+        End Property
+
+        Public Property AllAtReplies As Boolean
+            Get
+                Return _allAtreplies
+            End Get
+            Set(ByVal value As Boolean)
+                _allAtreplies = value
+            End Set
+        End Property
+
+        Public Property TrackWords As String
+            Get
+                Return _trackwords
+            End Get
+            Set(ByVal value As String)
+                _trackwords = value
+            End Set
+        End Property
+
+        Private Sub UserStreamLoop()
+            Dim st As Stream = Nothing
+            Dim sr As StreamReader = Nothing
+            Do
+                Try
+                    RaiseEvent Started()
+
+                    twCon.UserStream(st, _allAtreplies, _trackwords)
+                    sr = New StreamReader(st)
+
+                    Do While _streamActive
+                        RaiseEvent StatusArrived(sr.ReadLine())
+                    Loop
+
+                    RaiseEvent Stopped()
+                    Exit Do
+                Catch ex As WebException
+                    If Not Me._streamActive Then
+                        Exit Do
+                    ElseIf ex.Status = WebExceptionStatus.Timeout Then
+                        RaiseEvent Stopped()
+                        Thread.Sleep(10 * 1000)
+                    Else
+                        ExceptionOut(ex)
+                    End If
+                Catch ex As ThreadAbortException
+                    Exit Do
+                Catch ex As IOException
+                    If Not Me._streamActive Then
+                        Exit Do
+                    Else
+                        ExceptionOut(ex)
+                    End If
+                Catch ex As Exception
+                    ExceptionOut(ex)
+                Finally
+                    If sr IsNot Nothing Then
+                        twCon.RequestAbort()
+                        sr.BaseStream.Close()
+                    End If
+                End Try
+            Loop While True
+        End Sub
+
+#Region "IDisposable Support"
+        Private disposedValue As Boolean ' 重複する呼び出しを検出するには
+
+        ' IDisposable
+        Protected Overridable Sub Dispose(ByVal disposing As Boolean)
+            If Not Me.disposedValue Then
+                If disposing Then
+                    ' TODO: マネージ状態を破棄します (マネージ オブジェクト)。
+                    _streamActive = False
+                    If _streamThread IsNot Nothing AndAlso _streamThread.IsAlive Then
+                        _streamThread.Abort()
+                        _streamThread.Join(1000)
+                    End If
+                End If
+
+                ' TODO: アンマネージ リソース (アンマネージ オブジェクト) を解放し、下の Finalize() をオーバーライドします。
+                ' TODO: 大きなフィールドを null に設定します。
+            End If
+            Me.disposedValue = True
+        End Sub
+
+        ' TODO: 上の Dispose(ByVal disposing As Boolean) にアンマネージ リソースを解放するコードがある場合にのみ、Finalize() をオーバーライドします。
+        'Protected Overrides Sub Finalize()
+        '    ' このコードを変更しないでください。クリーンアップ コードを上の Dispose(ByVal disposing As Boolean) に記述します。
+        '    Dispose(False)
+        '    MyBase.Finalize()
+        'End Sub
+
+        ' このコードは、破棄可能なパターンを正しく実装できるように Visual Basic によって追加されました。
+        Public Sub Dispose() Implements IDisposable.Dispose
+            ' このコードを変更しないでください。クリーンアップ コードを上の Dispose(ByVal disposing As Boolean) に記述します。
+            Dispose(True)
+            GC.SuppressFinalize(Me)
+        End Sub
+#End Region
+
+    End Class
+
+#Region "IDisposable Support"
+    Private disposedValue As Boolean ' 重複する呼び出しを検出するには
+
+    ' IDisposable
+    Protected Overridable Sub Dispose(ByVal disposing As Boolean)
+        If Not Me.disposedValue Then
+            If disposing Then
+                ' TODO: マネージ状態を破棄します (マネージ オブジェクト)。
+                Me.StopUserStream()
+            End If
+
+            ' TODO: アンマネージ リソース (アンマネージ オブジェクト) を解放し、下の Finalize() をオーバーライドします。
+            ' TODO: 大きなフィールドを null に設定します。
+        End If
+        Me.disposedValue = True
+    End Sub
+
+    ' TODO: 上の Dispose(ByVal disposing As Boolean) にアンマネージ リソースを解放するコードがある場合にのみ、Finalize() をオーバーライドします。
+    'Protected Overrides Sub Finalize()
+    '    ' このコードを変更しないでください。クリーンアップ コードを上の Dispose(ByVal disposing As Boolean) に記述します。
+    '    Dispose(False)
+    '    MyBase.Finalize()
+    'End Sub
+
+    ' このコードは、破棄可能なパターンを正しく実装できるように Visual Basic によって追加されました。
+    Public Sub Dispose() Implements IDisposable.Dispose
+        ' このコードを変更しないでください。クリーンアップ コードを上の Dispose(ByVal disposing As Boolean) に記述します。
+        Dispose(True)
+        GC.SuppressFinalize(Me)
+    End Sub
+#End Region
+
 End Class
