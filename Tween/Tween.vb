@@ -3763,7 +3763,8 @@ Public Class TweenMain
     Private Function GetRestStatusCount(ByVal isAuto As Boolean, ByVal isAddFooter As Boolean) As Integer
         '文字数カウント
         Dim pLen As Integer = 140 - StatusText.Text.Length
-        If (isAuto AndAlso Not My.Computer.Keyboard.ShiftKeyDown) OrElse _
+        If (isAuto AndAlso Not My.Computer.Keyboard.CtrlKeyDown AndAlso SettingDialog.PostShiftEnter) OrElse _
+           (isAuto AndAlso Not My.Computer.Keyboard.ShiftKeyDown AndAlso Not SettingDialog.PostShiftEnter) OrElse _
            (Not isAuto AndAlso isAddFooter) Then
             If SettingDialog.UseRecommendStatus Then
                 pLen -= SettingDialog.RecommendStatusText.Length
