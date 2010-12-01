@@ -2787,6 +2787,16 @@ Public Class Twitter
         "list_member_removed"
     }
 
+    Public ReadOnly Property LastReceivedUserStream As DateTime
+        Get
+            If userStream IsNot Nothing Then
+                Return userStream.LastTime
+            Else
+                Return Now
+            End If
+        End Get
+    End Property
+
     Private Sub userStream_StatusArrived(ByVal line As String) Handles userStream.StatusArrived
         If _streamBypass OrElse String.IsNullOrEmpty(line) Then Exit Sub
 
@@ -2906,7 +2916,7 @@ Public Class Twitter
         If Not _endingFlag Then RaiseEvent UserStreamStopped()
     End Sub
 
-    Private Sub ReconnectUserStream()
+    Public Sub ReconnectUserStream()
         If userStream IsNot Nothing Then
             Me.StopUserStream()
             Me.StartUserStream()
@@ -2954,6 +2964,7 @@ Public Class Twitter
             _streamThread.Name = "UserStreamReceiver"
             _streamThread.IsBackground = True
             _streamThread.Start()
+            Me.LastTime = Now
         End Sub
 
         Public ReadOnly Property Enabled() As Boolean
@@ -2980,6 +2991,8 @@ Public Class Twitter
             End Set
         End Property
 
+        Public Property LastTime As DateTime
+
         Private Sub UserStreamLoop()
             Dim st As Stream = Nothing
             Dim sr As StreamReader = Nothing
@@ -2992,28 +3005,37 @@ Public Class Twitter
 
                     Do While _streamActive
                         RaiseEvent StatusArrived(sr.ReadLine())
+                        Me.LastTime = Now
                     Loop
 
-                    RaiseEvent Stopped()
                     Exit Do
                 Catch ex As WebException
                     If Not Me._streamActive Then
+                        TraceOut("Stop:WebException with Inactive." + Environment.NewLine + ex.Message)
                         Exit Do
                     ElseIf ex.Status = WebExceptionStatus.Timeout Then
                         RaiseEvent Stopped()
+                        TraceOut("Stop:Timeout")
                         Thread.Sleep(10 * 1000)
                     Else
-                        ExceptionOut(ex)
+                        RaiseEvent Stopped()
+                        TraceOut("Stop:WebException " & ex.Status.ToString)
+                        Thread.Sleep(10 * 1000)
                     End If
                 Catch ex As ThreadAbortException
+                    TraceOut("Stop:ThreadAbordException.")
                     Exit Do
                 Catch ex As IOException
                     If Not Me._streamActive Then
+                        TraceOut("Stop:IOException with Inactive." + Environment.NewLine + ex.Message)
                         Exit Do
                     Else
-                        ExceptionOut(ex)
+                        RaiseEvent Stopped()
+                        TraceOut("Stop:IOException with Active." + Environment.NewLine + ex.Message)
+                        Thread.Sleep(10 * 1000)
                     End If
                 Catch ex As Exception
+                    TraceOut("Stop:Exception." + Environment.NewLine + ex.Message)
                     ExceptionOut(ex)
                 Finally
                     If sr IsNot Nothing Then
@@ -3022,6 +3044,9 @@ Public Class Twitter
                     End If
                 End Try
             Loop While True
+
+            If _streamActive Then RaiseEvent Stopped()
+            TraceOut("Stop:EndLoop")
         End Sub
 
 #Region "IDisposable Support"

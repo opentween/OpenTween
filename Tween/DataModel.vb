@@ -210,7 +210,7 @@ Public Class TwitterDataModel
     <DataContract()> _
     Public Class EventData
         <DataMember(Name:="target")> Public Target As User
-        <DataMember(Name:="target_object")> Public TargetObject As Status
+        <DataMember(Name:="target_object", isRequired:=False)> Public TargetObject As Status
         <DataMember(Name:="created_at")> Public CreatedAt As String
         <DataMember(Name:="event")> Public [Event] As String
         <DataMember(Name:="source")> Public Source As User

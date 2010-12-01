@@ -6567,12 +6567,14 @@ RETRY:
     End Sub
 
     Private Sub TimerRefreshIcon_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TimerRefreshIcon.Tick
+        '200ms
         If _colorize Then Colorize()
         If Not TimerRefreshIcon.Enabled Then Exit Sub
         Static iconCnt As Integer = 0
         Static blinkCnt As Integer = 0
         Static blink As Boolean = False
         Static idle As Boolean = False
+        Static usCheckCnt As Integer = 0
 
         Static iconDlListTopItem As ListViewItem = Nothing
         If DirectCast(ListTab.SelectedTab.Tag, ListView).TopItem Is iconDlListTopItem Then
@@ -6584,6 +6586,15 @@ RETRY:
 
         iconCnt += 1
         blinkCnt += 1
+        usCheckCnt += 1
+
+        If usCheckCnt > 600 Then    '2min
+            usCheckCnt = 0
+            If Not Me.IsReceivedUserStream Then
+                TraceOut("ReconnectUserStream")
+                tw.ReconnectUserStream()
+            End If
+        End If
 
         Dim busy As Boolean = False
         For Each bw As BackgroundWorker In Me._bw
@@ -9892,6 +9903,15 @@ RETRY:
 
         StatusLabel.Text = "UserStream Paused."
     End Sub
+
+    Private ReadOnly Property IsReceivedUserStream As Boolean
+        Get
+            Static lastTime As DateTime = Now
+            Dim changed As Boolean = (lastTime.CompareTo(tw.LastReceivedUserStream) < 0)
+            lastTime = tw.LastReceivedUserStream
+            Return changed
+        End Get
+    End Property
 
     Private Sub PauseToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PauseToolStripMenuItem.Click
         MenuItemUserStream.Enabled = False
