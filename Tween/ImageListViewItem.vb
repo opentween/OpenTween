@@ -14,7 +14,7 @@
                                                                 If getImg Is Nothing Then Exit Sub
                                                                 Me.img = getImg
                                                                 If Me.ListView IsNot Nothing Then Me.ListView.Invoke(Sub()
-                                                                                                                         Me.ListView.RedrawItems(Me.Index, Me.Index, False)
+                                                                                                                         If Me.Index < Me.ListView.VirtualListSize Then Me.ListView.RedrawItems(Me.Index, Me.Index, False)
                                                                                                                      End Sub)
                                                             End Sub)
 
