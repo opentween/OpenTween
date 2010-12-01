@@ -1,7 +1,10 @@
 ﻿Imports System.Net
 Imports System.IO
+Imports System.Web
+Imports System.Threading
 
 Public Class HttpTwitter
+    Implements ICloneable
 
     'OAuth関連
     '''<summary>
@@ -33,10 +36,6 @@ Public Class HttpTwitter
     End Enum
     Private connectionType As AuthMethod = AuthMethod.Basic
 
-    Public Sub New()
-        TwitterApiInfo.Initialize()
-    End Sub
-
     Public Sub Initialize(ByVal accessToken As String, _
                                     ByVal accessTokenSecret As String, _
                                     ByVal username As String)
@@ -51,7 +50,6 @@ Public Class HttpTwitter
             tk = accessToken
             tks = accessTokenSecret
             un = username
-            TwitterApiInfo.Initialize()
         End If
         con.Initialize(ConsumerKey, ConsumerSecret, accessToken, accessTokenSecret, username, "screen_name")
         httpCon = con
@@ -68,7 +66,6 @@ Public Class HttpTwitter
             ' 以前の認証状態よりひとつでも変化があったらhttpヘッダより読み取ったカウントは初期化
             un = username
             pw = password
-            TwitterApiInfo.Initialize()
         End If
         con.Initialize(username, password)
         httpCon = con
@@ -321,8 +318,32 @@ Public Class HttpTwitter
             param.Add("since_id", since_id.ToString())
         End If
 
+        param.Add("include_entities", "true")
+
         Return httpCon.GetContent(GetMethod, _
-                            CreateTwitterUri("/1/statuses/home_timeline.xml"), _
+                            CreateTwitterUri("/1/statuses/home_timeline.json"), _
+                            param, _
+                            content, _
+                            TwitterApiInfo.HttpHeaders, _
+                            AddressOf GetApiCallback)
+    End Function
+
+    Public Function PublicTimeline(ByVal count As Integer, ByVal max_id As Long, ByVal since_id As Long, ByRef content As String) As HttpStatusCode
+        Dim param As New Dictionary(Of String, String)
+        If count > 0 Then
+            param.Add("count", count.ToString())
+        End If
+        If max_id > 0 Then
+            param.Add("max_id", max_id.ToString())
+        End If
+        If since_id > 0 Then
+            param.Add("since_id", since_id.ToString())
+        End If
+
+        param.Add("include_entities", "true")
+
+        Return httpCon.GetContent(GetMethod, _
+                            CreateTwitterUri("/1/statuses/public_timeline.json"), _
                             param, _
                             content, _
                             TwitterApiInfo.HttpHeaders, _
@@ -341,8 +362,10 @@ Public Class HttpTwitter
             param.Add("since_id", since_id.ToString())
         End If
 
+        param.Add("include_entities", "true")
+
         Return httpCon.GetContent(GetMethod, _
-                            CreateTwitterUri("/1/statuses/mentions.xml"), _
+                            CreateTwitterUri("/1/statuses/mentions.json"), _
                             param, _
                             content, _
                             TwitterApiInfo.HttpHeaders, _
@@ -362,7 +385,7 @@ Public Class HttpTwitter
         End If
 
         Return httpCon.GetContent(GetMethod, _
-                            CreateTwitterUri("/1/direct_messages.xml"), _
+                            CreateTwitterUri("/1/direct_messages.json"), _
                             Nothing, _
                             content, _
                             TwitterApiInfo.HttpHeaders, _
@@ -382,7 +405,7 @@ Public Class HttpTwitter
         End If
 
         Return httpCon.GetContent(GetMethod, _
-                            CreateTwitterUri("/1/direct_messages/sent.xml"), _
+                            CreateTwitterUri("/1/direct_messages/sent.json"), _
                             Nothing, _
                             content, _
                             TwitterApiInfo.HttpHeaders, _
@@ -394,7 +417,7 @@ Public Class HttpTwitter
         If count <> 20 Then param.Add("count", count.ToString())
 
         Return httpCon.GetContent(GetMethod, _
-                            CreateTwitterUri("/1/favorites.xml"), _
+                            CreateTwitterUri("/1/favorites.json"), _
                             param, _
                             content, _
                             TwitterApiInfo.HttpHeaders, _
@@ -632,9 +655,8 @@ Public Class HttpTwitter
 
 #Region "Proxy API"
     Private Shared _twitterUrl As String = "api.twitter.com"
-    'Private TwitterUrl As String = "sorayukigtap.appspot.com/api"
     Private Shared _TwitterSearchUrl As String = "search.twitter.com"
-    'Private TwitterSearchUrl As String = "sorayukigtap.appspot.com/search"
+    Private Shared _twitterStreamUrl As String = "userstream.twitter.com"
 
     Private Function CreateTwitterUri(ByVal path As String) As Uri
         Return New Uri(String.Format("{0}{1}{2}", _protocol, _twitterUrl, path))
@@ -642,6 +664,10 @@ Public Class HttpTwitter
 
     Private Function CreateTwitterSearchUri(ByVal path As String) As Uri
         Return New Uri(String.Format("{0}{1}{2}", _protocol, _TwitterSearchUrl, path))
+    End Function
+
+    Private Function CreateTwitterStreamUri(ByVal path As String) As Uri
+        Return New Uri(String.Format("{0}{1}{2}", "https://", _twitterStreamUrl, path))
     End Function
 
     Public Shared WriteOnly Property TwitterUrl() As String
@@ -663,4 +689,35 @@ Public Class HttpTwitter
             TwitterApiInfo.ParseHttpHeaders(TwitterApiInfo.HttpHeaders)
         End If
     End Sub
+
+    Public Function UserStream(ByRef content As Stream, ByVal allAtReplies As Boolean, ByVal trackwords As String) As HttpStatusCode
+        Dim param As New Dictionary(Of String, String)
+
+        If allAtReplies Then
+            param.Add("replies", "all")
+        End If
+
+        If Not String.IsNullOrEmpty(trackwords) Then
+            param.Add("track", trackwords)
+        End If
+
+        Return httpCon.GetContent(GetMethod, _
+                            CreateTwitterStreamUri("/2/user.json"), _
+                            param, _
+                            content)
+    End Function
+
+    Public Sub RequestAbort()
+        httpCon.RequestAbort()
+    End Sub
+
+    Public Function Clone() As Object Implements System.ICloneable.Clone
+        Dim myCopy As New HttpTwitter
+        If Me.connectionType = AuthMethod.Basic Then
+            myCopy.Initialize(Me.AuthenticatedUsername, Me.Password)
+        Else
+            myCopy.Initialize(Me.AccessToken, Me.AccessTokenSecret, Me.AuthenticatedUsername)
+        End If
+        Return myCopy
+    End Function
 End Class

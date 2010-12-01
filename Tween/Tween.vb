@@ -8274,6 +8274,16 @@ RETRY:
             End If
         End If
         _initial = False
+        AddHandler tw.NewPostFromStream, AddressOf tw_NewPostFromStream
+        AddHandler tw.UserStreamStarted, AddressOf tw_UserStreamStarted
+        AddHandler tw.UserStreamStopped, AddressOf tw_UserStreamStopped
+        AddHandler tw.UserStreamPaused, AddressOf tw_UserStreamPaused
+        AddHandler tw.PostDeleted, AddressOf tw_PostDeleted
+        PauseToolStripMenuItem.Text = "&Pause"
+        PauseToolStripMenuItem.Enabled = False
+        StopToolStripMenuItem.Text = "&Start"
+        StopToolStripMenuItem.Enabled = True
+        tw.StartUserStream()
         TimerTimeline.Enabled = True
     End Sub
 
@@ -9739,5 +9749,170 @@ RETRY:
         buf.AppendFormat("キャッシュエントリ保持数     : {0}" + vbCrLf, DirectCast(TIconDic, ImageDictionary).CacheCount)
         buf.AppendFormat("キャッシュエントリ破棄数     : {0}" + vbCrLf, DirectCast(TIconDic, ImageDictionary).CacheRemoveCount)
         MessageBox.Show(buf.ToString, "アイコンキャッシュ使用状況")
+    End Sub
+
+    Private Sub tw_PostDeleted(ByVal id As Long)
+        Try
+            If InvokeRequired Then
+                Invoke(New Action(Of Long)(AddressOf tw_PostDeleted), id)
+                Exit Sub
+            End If
+        Catch ex As ObjectDisposedException
+            Exit Sub
+        End Try
+
+        _statuses.RemovePost(id)
+
+        If _curTab Is Nothing OrElse _curList Is Nothing Then Exit Sub
+
+        Dim fidx As Integer
+        If _curList.FocusedItem IsNot Nothing Then
+            fidx = _curList.FocusedItem.Index
+        ElseIf _curList.TopItem IsNot Nothing Then
+            fidx = _curList.TopItem.Index
+        Else
+            fidx = 0
+        End If
+
+        _itemCache = Nothing    'キャッシュ破棄
+        _postCache = Nothing
+        _curPost = Nothing
+        _curItemIndex = -1
+        For Each tb As TabPage In ListTab.TabPages
+            DirectCast(tb.Tag, DetailsListView).VirtualListSize = _statuses.Tabs(tb.Text).AllCount
+            If _curTab.Equals(tb) Then
+                _curList.SelectedIndices.Clear()
+                If _statuses.Tabs(tb.Text).AllCount > 0 Then
+                    If _statuses.Tabs(tb.Text).AllCount - 1 > fidx AndAlso fidx > -1 Then
+                        _curList.SelectedIndices.Add(fidx)
+                    Else
+                        _curList.SelectedIndices.Add(_statuses.Tabs(tb.Text).AllCount - 1)
+                    End If
+                    'If _curList.SelectedIndices.Count > 0 Then
+                    '    _curList.EnsureVisible(_curList.SelectedIndices(0))
+                    '    _curList.FocusedItem = _curList.Items(_curList.SelectedIndices(0))
+                    'End If
+                End If
+            End If
+            If _statuses.Tabs(tb.Text).UnreadCount = 0 Then
+                If SettingDialog.TabIconDisp Then
+                    If tb.ImageIndex = 0 Then tb.ImageIndex = -1 'タブアイコン
+                End If
+            End If
+        Next
+        If Not SettingDialog.TabIconDisp Then ListTab.Refresh()
+    End Sub
+
+    Private Sub tw_NewPostFromStream()
+        If SettingDialog.ReadOldPosts Then
+            _statuses.SetRead() '新着時未読クリア
+        End If
+
+        Dim rsltAddCount As Integer = _statuses.DistributePosts()
+        SyncLock _syncObject
+            Dim tm As Date = Now
+            If _tlTimestamps.ContainsKey(tm) Then
+                _tlTimestamps(tm) += rsltAddCount
+            Else
+                _tlTimestamps.Add(Now, rsltAddCount)
+            End If
+            Dim oneHour As Date = Now.Subtract(New TimeSpan(1, 0, 0))
+            Dim keys As New List(Of Date)
+            _tlCount = 0
+            For Each key As Date In _tlTimestamps.Keys
+                If key.CompareTo(oneHour) < 0 Then
+                    keys.Add(key)
+                Else
+                    _tlCount += _tlTimestamps(key)
+                End If
+            Next
+            For Each key As Date In keys
+                _tlTimestamps.Remove(key)
+            Next
+            keys.Clear()
+
+            'Static before As DateTime = Now
+            'If before.Subtract(Now).Seconds > -5 Then Exit Sub
+            'before = Now
+        End SyncLock
+
+        Try
+            If InvokeRequired AndAlso Not IsDisposed Then
+                Invoke(New MethodInvoker(AddressOf RefreshTimeline))
+                Exit Sub
+            End If
+        Catch ex As ObjectDisposedException
+            Exit Sub
+        End Try
+    End Sub
+    Private Sub tw_UserStreamStarted()
+        If InvokeRequired Then
+            Invoke(New MethodInvoker(AddressOf tw_UserStreamStarted))
+            Exit Sub
+        End If
+
+        MenuItemUserStream.Text = "&UserStream ▶"
+        MenuItemUserStream.Enabled = True
+        PauseToolStripMenuItem.Text = "&Pause"
+        PauseToolStripMenuItem.Enabled = True
+        StopToolStripMenuItem.Text = "&Stop"
+        StopToolStripMenuItem.Enabled = True
+
+        StatusLabel.Text = "UserStream Started."
+    End Sub
+
+    Private Sub tw_UserStreamStopped()
+        If InvokeRequired Then
+            Invoke(New MethodInvoker(AddressOf tw_UserStreamStopped))
+            Exit Sub
+        End If
+
+        MenuItemUserStream.Text = "&UserStream ■"
+        MenuItemUserStream.Enabled = True
+        PauseToolStripMenuItem.Text = "&Pause"
+        PauseToolStripMenuItem.Enabled = False
+        StopToolStripMenuItem.Text = "&Start"
+        StopToolStripMenuItem.Enabled = True
+
+        StatusLabel.Text = "UserStream Stopped."
+    End Sub
+
+    Private Sub tw_UserStreamPaused()
+        If InvokeRequired Then
+            Invoke(New MethodInvoker(AddressOf tw_UserStreamPaused))
+            Exit Sub
+        End If
+
+        MenuItemUserStream.Text = "&UserStream ||"
+        MenuItemUserStream.Enabled = True
+        PauseToolStripMenuItem.Text = "&Resume"
+        PauseToolStripMenuItem.Enabled = True
+        StopToolStripMenuItem.Text = "&Stop"
+        StopToolStripMenuItem.Enabled = True
+
+        StatusLabel.Text = "UserStream Paused."
+    End Sub
+
+    Private Sub PauseToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PauseToolStripMenuItem.Click
+        MenuItemUserStream.Enabled = False
+        tw.PauseUserStream()
+    End Sub
+
+    Private Sub StopToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StopToolStripMenuItem.Click
+        MenuItemUserStream.Enabled = False
+        tw.StartUserStream()
+    End Sub
+
+    Private Sub TrackToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TrackToolStripMenuItem.Click
+        Static track As String
+        track = InputBox("追跡するキーワードを入力してください")
+        tw.StopUserStream()
+        tw.StartUserStream(AllrepliesToolStripMenuItem.Checked, track)
+        TrackToolStripMenuItem.Checked = Not String.IsNullOrEmpty(track)
+    End Sub
+
+    Private Sub AllrepliesToolStripMenuItem_CheckStateChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AllrepliesToolStripMenuItem.CheckStateChanged
+        tw.StopUserStream()
+        tw.StartUserStream(AllrepliesToolStripMenuItem.Checked, "")
     End Sub
 End Class

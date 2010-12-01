@@ -117,6 +117,7 @@ Public Module MyCommon
         PublicSearch            '公式検索
         List                    'Lists
         Related                 '関連発言
+        UserStream              'UserStream
         '''
         ErrorState              'エラー表示のみで後処理終了(認証エラー時など)
     End Enum
