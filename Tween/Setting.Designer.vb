@@ -106,7 +106,6 @@ Partial Class Setting
         Me.Label23 = New System.Windows.Forms.Label()
         Me.CheckBox3 = New System.Windows.Forms.CheckBox()
         Me.Label25 = New System.Windows.Forms.Label()
-        Me.CheckPostCtrlEnter = New System.Windows.Forms.CheckBox()
         Me.Label27 = New System.Windows.Forms.Label()
         Me.TextBox3 = New System.Windows.Forms.TextBox()
         Me.IconSize = New System.Windows.Forms.ComboBox()
@@ -156,6 +155,7 @@ Partial Class Setting
         Me.Label74 = New System.Windows.Forms.Label()
         Me.chkGetFav = New System.Windows.Forms.CheckBox()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
+        Me.ComboBoxPostKeySelect = New System.Windows.Forms.ComboBox()
         Me.CheckRetweetNoConfirm = New System.Windows.Forms.CheckBox()
         Me.Label42 = New System.Windows.Forms.Label()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
@@ -250,7 +250,6 @@ Partial Class Setting
         Me.Label59 = New System.Windows.Forms.Label()
         Me.TextBoxOutputzKey = New System.Windows.Forms.TextBox()
         Me.CheckOutputz = New System.Windows.Forms.CheckBox()
-        Me.CheckPostShiftEnter = New System.Windows.Forms.CheckBox()
         Me.GroupBox1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
@@ -768,12 +767,6 @@ Partial Class Setting
         resources.ApplyResources(Me.Label25, "Label25")
         Me.Label25.Name = "Label25"
         '
-        'CheckPostCtrlEnter
-        '
-        resources.ApplyResources(Me.CheckPostCtrlEnter, "CheckPostCtrlEnter")
-        Me.CheckPostCtrlEnter.Name = "CheckPostCtrlEnter"
-        Me.CheckPostCtrlEnter.UseVisualStyleBackColor = True
-        '
         'Label27
         '
         resources.ApplyResources(Me.Label27, "Label27")
@@ -1089,7 +1082,7 @@ Partial Class Setting
         '
         'TabPage2
         '
-        Me.TabPage2.Controls.Add(Me.CheckPostShiftEnter)
+        Me.TabPage2.Controls.Add(Me.ComboBoxPostKeySelect)
         Me.TabPage2.Controls.Add(Me.CheckRetweetNoConfirm)
         Me.TabPage2.Controls.Add(Me.Label42)
         Me.TabPage2.Controls.Add(Me.GroupBox3)
@@ -1124,7 +1117,6 @@ Partial Class Setting
         Me.TabPage2.Controls.Add(Me.Label41)
         Me.TabPage2.Controls.Add(Me.Label27)
         Me.TabPage2.Controls.Add(Me.Label39)
-        Me.TabPage2.Controls.Add(Me.CheckPostCtrlEnter)
         Me.TabPage2.Controls.Add(Me.CheckReadOldPosts)
         Me.TabPage2.Controls.Add(Me.Label12)
         Me.TabPage2.Controls.Add(Me.StatusText)
@@ -1132,6 +1124,14 @@ Partial Class Setting
         resources.ApplyResources(Me.TabPage2, "TabPage2")
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.UseVisualStyleBackColor = True
+        '
+        'ComboBoxPostKeySelect
+        '
+        Me.ComboBoxPostKeySelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboBoxPostKeySelect.FormattingEnabled = True
+        Me.ComboBoxPostKeySelect.Items.AddRange(New Object() {resources.GetString("ComboBoxPostKeySelect.Items"), resources.GetString("ComboBoxPostKeySelect.Items1"), resources.GetString("ComboBoxPostKeySelect.Items2")})
+        resources.ApplyResources(Me.ComboBoxPostKeySelect, "ComboBoxPostKeySelect")
+        Me.ComboBoxPostKeySelect.Name = "ComboBoxPostKeySelect"
         '
         'CheckRetweetNoConfirm
         '
@@ -1750,12 +1750,6 @@ Partial Class Setting
         Me.CheckOutputz.Name = "CheckOutputz"
         Me.CheckOutputz.UseVisualStyleBackColor = True
         '
-        'CheckPostShiftEnter
-        '
-        resources.ApplyResources(Me.CheckPostShiftEnter, "CheckPostShiftEnter")
-        Me.CheckPostShiftEnter.Name = "CheckPostShiftEnter"
-        Me.CheckPostShiftEnter.UseVisualStyleBackColor = True
-        '
         'Setting
         '
         Me.AcceptButton = Me.Save
@@ -1849,7 +1843,6 @@ Partial Class Setting
     Friend WithEvents Label23 As System.Windows.Forms.Label
     Friend WithEvents CheckBox3 As System.Windows.Forms.CheckBox
     Friend WithEvents Label25 As System.Windows.Forms.Label
-    Friend WithEvents CheckPostCtrlEnter As System.Windows.Forms.CheckBox
     Friend WithEvents Label27 As System.Windows.Forms.Label
     Friend WithEvents TextBox3 As System.Windows.Forms.TextBox
     Friend WithEvents IconSize As System.Windows.Forms.ComboBox
@@ -2018,5 +2011,5 @@ Partial Class Setting
     Friend WithEvents FavoritesTextCountApi As System.Windows.Forms.TextBox
     Friend WithEvents CheckRetweetNoConfirm As System.Windows.Forms.CheckBox
     Friend WithEvents Label42 As System.Windows.Forms.Label
-    Friend WithEvents CheckPostShiftEnter As System.Windows.Forms.CheckBox
+    Friend WithEvents ComboBoxPostKeySelect As System.Windows.Forms.ComboBox
 End Class
