@@ -1011,7 +1011,7 @@ Public Class TweenMain
         End If
 
         'アイコンリスト作成
-        TIconDic = New ImageDictionary(3000)
+        TIconDic = New ImageDictionary(5000)
 
         tw.DetailIcon = TIconDic
 
@@ -9774,44 +9774,7 @@ RETRY:
 
         _statuses.RemovePost(id)
 
-        If _curTab Is Nothing OrElse _curList Is Nothing Then Exit Sub
-
-        Dim fidx As Integer
-        If _curList.FocusedItem IsNot Nothing Then
-            fidx = _curList.FocusedItem.Index
-        ElseIf _curList.TopItem IsNot Nothing Then
-            fidx = _curList.TopItem.Index
-        Else
-            fidx = 0
-        End If
-
-        _itemCache = Nothing    'キャッシュ破棄
-        _postCache = Nothing
-        _curPost = Nothing
-        _curItemIndex = -1
-        For Each tb As TabPage In ListTab.TabPages
-            DirectCast(tb.Tag, DetailsListView).VirtualListSize = _statuses.Tabs(tb.Text).AllCount
-            If _curTab.Equals(tb) Then
-                _curList.SelectedIndices.Clear()
-                If _statuses.Tabs(tb.Text).AllCount > 0 Then
-                    If _statuses.Tabs(tb.Text).AllCount - 1 > fidx AndAlso fidx > -1 Then
-                        _curList.SelectedIndices.Add(fidx)
-                    Else
-                        _curList.SelectedIndices.Add(_statuses.Tabs(tb.Text).AllCount - 1)
-                    End If
-                    'If _curList.SelectedIndices.Count > 0 Then
-                    '    _curList.EnsureVisible(_curList.SelectedIndices(0))
-                    '    _curList.FocusedItem = _curList.Items(_curList.SelectedIndices(0))
-                    'End If
-                End If
-            End If
-            If _statuses.Tabs(tb.Text).UnreadCount = 0 Then
-                If SettingDialog.TabIconDisp Then
-                    If tb.ImageIndex = 0 Then tb.ImageIndex = -1 'タブアイコン
-                End If
-            End If
-        Next
-        If Not SettingDialog.TabIconDisp Then ListTab.Refresh()
+        Me.RefreshTimeline()
     End Sub
 
     Private Sub tw_NewPostFromStream()
