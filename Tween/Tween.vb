@@ -8430,7 +8430,7 @@ RETRY:
         End If
 
         'その他のリンク(@IDなど)を置き換える
-        status = Regex.Replace(status, "@<a target=""_self"" href=""https?://twitter.com/(#!/)?(?<url>[^""]+)""[^>]*>(?<link>[^<]+)</a>", "${url}")
+        status = Regex.Replace(status, "@<a target=""_self"" href=""https?://twitter.com/(#!/)?(?<url>[^""]+)""[^>]*>(?<link>[^<]+)</a>", "@${url}")
         'ハッシュタグ
         status = Regex.Replace(status, "<a target=""_self"" href=""(?<url>[^""]+)""[^>]*>(?<link>[^<]+)</a>", "${link}")
         '<br>タグ除去
