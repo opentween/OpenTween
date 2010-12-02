@@ -4706,6 +4706,11 @@ RETRY:
                 e.SuppressKeyPress = True
                 SendKeys.Send("{TAB}")
             End If
+            If e.KeyCode = Keys.G Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                ShowRelatedStatusesMenuItem_Click(Nothing, Nothing)
+            End If
             ' ] in_reply_to参照元へ戻る
             If e.KeyCode = Keys.Oem4 Then
                 e.Handled = True
@@ -6008,6 +6013,9 @@ RETRY:
                      Keys.ProcessKey
                     e.IsInputKey = True
                     JumpUnreadMenuItem_Click(Nothing, Nothing)
+                Case Keys.G
+                    e.IsInputKey = True
+                    ShowRelatedStatusesMenuItem_Click(Nothing, Nothing)
                 Case Keys.F1
                     e.IsInputKey = True
                     OpenUriAsync("http://sourceforge.jp/projects/tween/wiki/FrontPage")
