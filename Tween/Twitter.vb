@@ -2792,7 +2792,7 @@ Public Class Twitter
             If userStream IsNot Nothing Then
                 Return userStream.LastTime
             Else
-                Return Now
+                Return New DateTime
             End If
         End Get
     End Property
@@ -2964,7 +2964,6 @@ Public Class Twitter
             _streamThread.Name = "UserStreamReceiver"
             _streamThread.IsBackground = True
             _streamThread.Start()
-            Me.LastTime = Now
         End Sub
 
         Public ReadOnly Property Enabled() As Boolean

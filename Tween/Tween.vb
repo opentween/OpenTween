@@ -6589,7 +6589,7 @@ RETRY:
         blinkCnt += 1
         usCheckCnt += 1
 
-        If usCheckCnt > 600 Then    '2min
+        If usCheckCnt > 300 Then    '1min
             usCheckCnt = 0
             If Not Me.IsReceivedUserStream Then
                 TraceOut("ReconnectUserStream")
