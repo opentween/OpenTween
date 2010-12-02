@@ -1616,8 +1616,8 @@ Public Class TweenMain
         If StatusText.Text.Trim.Length = 0 Then
             If Not ImageSelectionPanel.Enabled Then
                 DoRefresh()
+                Exit Sub
             End If
-            Exit Sub
         End If
 
         If _curPost IsNot Nothing AndAlso StatusText.Text.Trim() = String.Format("RT @{0}: {1}", _curPost.Name, _curPost.Data) Then
@@ -1986,6 +1986,7 @@ Public Class TweenMain
                     Next
                 Else
                     Dim picSvc As New PictureService(tw)
+                    If String.IsNullOrEmpty(args.status.status) Then args.status.status = ""
                     ret = picSvc.Upload(args.status.imagePath, args.status.status, args.status.imageService)
                 End If
                 bw.ReportProgress(300)
