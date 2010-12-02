@@ -1637,7 +1637,12 @@ Public Class Twitter
                             RetweetedId:=0,
                             SourceHtml:="")
 
-            Dim targetItem As PostClass = TabInformations.GetInstance.Item(tab.RelationTargetId).Copy()
+            Dim targetItem As PostClass = TabInformations.GetInstance.Item(tab.RelationTargetId)
+            If targetItem Is Nothing Then
+                Return ""
+            Else
+                targetItem = targetItem.Copy()
+            End If
             targetItem.RelTabName = tab.TabName
             TabInformations.GetInstance.AddPost(targetItem)
 
