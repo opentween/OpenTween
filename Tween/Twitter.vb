@@ -2821,8 +2821,8 @@ Public Class Twitter
                 Exit Sub
             ElseIf xElm.Element("event") IsNot Nothing Then
                 Debug.Print("event: " + xElm.Element("event").Value)
-                If Array.IndexOf(EventNameTable, xElm.Element("event").Name.LocalName) = -1 Then
-                    TraceOut("Unknown Event:" + xElm.Element("event").Name.LocalName + Environment.NewLine + line)
+                If Array.IndexOf(EventNameTable, xElm.Element("event").Value) = -1 Then
+                    TraceOut("Unknown Event:" + xElm.Element("event").Value + Environment.NewLine + line)
                 End If
                 Exit Sub
             ElseIf xElm.Element("direct_message") IsNot Nothing Then
