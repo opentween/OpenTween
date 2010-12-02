@@ -885,6 +885,10 @@ Public Class TweenMain
         ShortUrl.BitlyKey = SettingDialog.BitlyPwd
         HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl
         HttpTwitter.TwitterSearchUrl = _cfgCommon.TwitterSearchUrl
+        tw.TrackWord = _cfgCommon.TrackWord
+        TrackToolStripMenuItem.Checked = Not String.IsNullOrEmpty(tw.TrackWord)
+        tw.AllAtReply = _cfgCommon.AllAtReply
+        AllrepliesToolStripMenuItem.Checked = tw.AllAtReply
 
         Outputz.Key = SettingDialog.OutputzKey
         Outputz.Enabled = SettingDialog.OutputzEnabled
@@ -5881,6 +5885,8 @@ RETRY:
             _cfgCommon.FirstCountApi = SettingDialog.FirstCountApi
             _cfgCommon.SearchCountApi = SettingDialog.SearchCountApi
             _cfgCommon.FavoritesCountApi = SettingDialog.FavoritesCountApi
+            _cfgCommon.TrackWord = tw.TrackWord
+            _cfgCommon.AllAtReply = tw.AllAtReply
 
             _cfgCommon.Save()
         End SyncLock
@@ -9870,7 +9876,7 @@ RETRY:
 
     Private ReadOnly Property IsReceivedUserStream As Boolean
         Get
-            Static lastTime As DateTime = Now
+            Static lastTime As DateTime
             Dim changed As Boolean = (lastTime.CompareTo(tw.LastReceivedUserStream) < 0)
             lastTime = tw.LastReceivedUserStream
             Return changed
@@ -9888,15 +9894,33 @@ RETRY:
     End Sub
 
     Private Sub TrackToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TrackToolStripMenuItem.Click
-        Static track As String
-        track = InputBox("追跡するキーワードを入力してください")
-        tw.StopUserStream()
-        tw.StartUserStream(AllrepliesToolStripMenuItem.Checked, track)
-        TrackToolStripMenuItem.Checked = Not String.IsNullOrEmpty(track)
+        Static inputTrack As String = ""
+        If TrackToolStripMenuItem.Checked Then
+            Using inputForm As New InputTabName
+                inputForm.TabName = inputTrack
+                inputForm.FormTitle = "Input track word"
+                inputForm.FormDescription = "Track word"
+                If inputForm.ShowDialog() <> Windows.Forms.DialogResult.OK Then
+                    TrackToolStripMenuItem.Checked = False
+                    Exit Sub
+                End If
+                inputTrack = inputForm.TabName.Trim()
+            End Using
+            If Not inputTrack.Equals(tw.TrackWord) Then
+                tw.TrackWord = inputTrack
+                Me._modifySettingCommon = True
+                TrackToolStripMenuItem.Checked = Not String.IsNullOrEmpty(inputTrack)
+                tw.ReconnectUserStream()
+            End If
+        Else
+            tw.TrackWord = ""
+            tw.ReconnectUserStream()
+        End If
     End Sub
 
-    Private Sub AllrepliesToolStripMenuItem_CheckStateChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AllrepliesToolStripMenuItem.CheckStateChanged
-        tw.StopUserStream()
-        tw.StartUserStream(AllrepliesToolStripMenuItem.Checked, "")
+    Private Sub AllrepliesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AllrepliesToolStripMenuItem.Click
+        tw.AllAtReply = AllrepliesToolStripMenuItem.Checked
+        Me._modifySettingCommon = True
+        tw.ReconnectUserStream()
     End Sub
 End Class

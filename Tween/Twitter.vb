@@ -2768,7 +2768,8 @@ Public Class Twitter
     Private Sub Twitter_ApiInformationChanged(ByVal sender As Object, ByVal e As ApiInformationChangedEventArgs) Handles Me.ApiInformationChanged
     End Sub
 
-
+    Public Property TrackWord As String = ""
+    Public Property AllAtReply As Boolean = False
 
     Public Event NewPostFromStream()
     Public Event UserStreamStarted()
@@ -2792,7 +2793,7 @@ Public Class Twitter
             If userStream IsNot Nothing Then
                 Return userStream.LastTime
             Else
-                Return New DateTime
+                Return Now
             End If
         End Get
     End Property
@@ -2800,54 +2801,35 @@ Public Class Twitter
     Private Sub userStream_StatusArrived(ByVal line As String) Handles userStream.StatusArrived
         If _streamBypass OrElse String.IsNullOrEmpty(line) Then Exit Sub
 
-        Dim idx As Integer = line.IndexOf("{""")
-        Dim idx2 As Integer = line.IndexOf(""":")
-        If idx = 0 AndAlso idx2 > 0 Then
-            Try
-                Dim eventname As String = line.Substring(idx + 2, idx2 - 2)
-                If eventname.Equals("friends") Then
-                    Debug.Print("friends")
-                    Exit Sub
-                ElseIf eventname.Equals("delete") Then
-                    Debug.Print("delete")
-                    If line.Contains("direct_message") Then
-                        Dim data As TwitterDataModel.DeleteDirectmessageEvent = CreateDataFromJson(Of TwitterDataModel.DeleteDirectmessageEvent)(line)
-                        RaiseEvent PostDeleted(data.Event.Directmessage.Id)
-                    Else
-                        Dim data As TwitterDataModel.DeleteEvent = CreateDataFromJson(Of TwitterDataModel.DeleteEvent)(line)
-                        RaiseEvent PostDeleted(data.Event.Status.Id)
-                    End If
-                    Exit Sub
-                ElseIf eventname.Equals("limit") Then
-                    Debug.Print("limit")
-                    Exit Sub
-                ElseIf eventname.Equals("target") Then
-                    Dim data As TwitterDataModel.EventData = CreateDataFromJson(Of TwitterDataModel.EventData)(line)
-                    Select Case Array.IndexOf(EventNameTable, data.Event)
-                        Case 0  ' favorite
-                            Debug.Print("Event:favorite")
-                        Case 1  ' unfavorite
-                            Debug.Print("Event:unfavorite")
-                        Case 2  ' follow
-                            Debug.Print("Event:follow")
-                        Case 3  ' list_member_added
-                            Debug.Print("Event:list_member_added")
-                        Case 4  ' list_member_removed
-                            Debug.Print("Event:list_member_removed")
-                        Case Else ' その他イベント
-                            TraceOut("Unknown Event:" + data.Event + Environment.NewLine + line)
-                    End Select
-                    Exit Sub
-                ElseIf Not eventname.Equals("place") AndAlso Not eventname.Equals("in_reply_to_status_id_str") Then
-                    Debug.Print(eventname)
-                End If
-            Catch ex As SerializationException
-                TraceOut(ex.Message + Environment.NewLine + line)
-            Catch ex As Exception
-                TraceOut(line)
-            End Try
+        Dim isDm As Boolean = False
 
-        End If
+        Using jsonReader As XmlDictionaryReader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(line), XmlDictionaryReaderQuotas.Max)
+            Dim xElm As XElement = XElement.Load(jsonReader)
+            If xElm.Element("friends") IsNot Nothing Then
+                Debug.Print("friends")
+                Exit Sub
+            ElseIf xElm.Element("delete") IsNot Nothing Then
+                Debug.Print("delete")
+                If xElm.Element("delete").Element("direct_message") IsNot Nothing Then
+                    RaiseEvent PostDeleted(CLng(xElm.Element("delete").Element("direct_message").Element("id").Value))
+                Else
+                    RaiseEvent PostDeleted(CLng(xElm.Element("delete").Element("status").Element("id").Value))
+                End If
+                Exit Sub
+            ElseIf xElm.Element("limit") IsNot Nothing Then
+                Debug.Print("limit")
+                Exit Sub
+            ElseIf xElm.Element("event") IsNot Nothing Then
+                Debug.Print("event: " + xElm.Element("event").Value)
+                If Array.IndexOf(EventNameTable, xElm.Element("event").Name.LocalName) = -1 Then
+                    TraceOut("Unknown Event:" + xElm.Element("event").Name.LocalName + Environment.NewLine + line)
+                End If
+                Exit Sub
+            ElseIf xElm.Element("direct_message") IsNot Nothing Then
+                Debug.Print("direct_message")
+                isDm = True
+            End If
+        End Using
 
         Dim res As New StringBuilder
         res.Length = 0
@@ -2855,17 +2837,11 @@ Public Class Twitter
         res.Append(line)
         res.Append("]")
 
-        Try
-            If line.StartsWith("{""direct_message"":") Then
-                CreateDirectMessagesFromJson(res.ToString, WORKERTYPE.UserStream, False)
-            Else
-                CreatePostsFromJson(res.ToString, WORKERTYPE.Timeline, Nothing, False, Nothing, Nothing)
-            End If
-        Catch ex As SerializationException
-            TraceOut(ex.Message + Environment.NewLine + line)
-        Catch ex As Exception
-            TraceOut(line)
-        End Try
+        If isDm Then
+            CreateDirectMessagesFromJson(res.ToString, WORKERTYPE.UserStream, False)
+        Else
+            CreatePostsFromJson(res.ToString, WORKERTYPE.Timeline, Nothing, False, Nothing, Nothing)
+        End If
 
         RaiseEvent NewPostFromStream()
     End Sub
@@ -2896,16 +2872,12 @@ Public Class Twitter
     End Property
 
     Public Overloads Sub StartUserStream()
-        StartUserStream(False, "")
-    End Sub
-
-    Public Overloads Sub StartUserStream(ByVal allAtReplies As Boolean, ByVal trackWords As String)
         If userStream IsNot Nothing Then
             StopUserStream()
         Else
             Me._streamBypass = False
             userStream = New TwitterUserstream(twCon)
-            userStream.Start(allAtReplies, trackWords)
+            userStream.Start(Me.AllAtReply, Me.TrackWord)
         End If
     End Sub
 
@@ -2951,13 +2923,9 @@ Public Class Twitter
             twCon = DirectCast(twitterConnection.Clone(), HttpTwitter)
         End Sub
 
-        Public Overloads Sub Start(ByVal allAtReplies As Boolean, ByVal trackwords As String)
+        Public Sub Start(ByVal allAtReplies As Boolean, ByVal trackwords As String)
             Me.AllAtReplies = allAtReplies
             Me.TrackWords = trackwords
-            Me.Start()
-        End Sub
-
-        Public Overloads Sub Start()
             _streamActive = True
             If _streamThread IsNot Nothing AndAlso _streamThread.IsAlive Then Exit Sub
             _streamThread = New Thread(AddressOf UserStreamLoop)
@@ -2990,7 +2958,7 @@ Public Class Twitter
             End Set
         End Property
 
-        Public Property LastTime As DateTime
+        Public Property LastTime As DateTime = Now
 
         Private Sub UserStreamLoop()
             Dim st As Stream = Nothing

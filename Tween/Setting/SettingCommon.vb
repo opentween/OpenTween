@@ -172,4 +172,6 @@ Public Class SettingCommon
     Public FirstCountApi As Integer = 100
     Public SearchCountApi As Integer = 100
     Public FavoritesCountApi As Integer = 40
+    Public TrackWord As String = ""
+    Public AllAtReply As Boolean = False
 End Class
