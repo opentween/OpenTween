@@ -9789,7 +9789,9 @@ RETRY:
         End Try
 
         _statuses.RemovePost(id)
-
+        For Each tb As TabPage In ListTab.TabPages
+            DirectCast(tb.Tag, DetailsListView).VirtualListSize = _statuses.Tabs(tb.Text).AllCount
+        Next
         Me.RefreshTimeline()
     End Sub
 
