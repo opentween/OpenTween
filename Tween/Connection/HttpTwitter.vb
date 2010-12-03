@@ -327,6 +327,39 @@ Public Class HttpTwitter
                             AddressOf GetApiCallback)
     End Function
 
+    Public Function UserTimeline(ByVal user_id As Long, ByVal screen_name As String, ByVal count As Integer, ByVal max_id As Long, ByVal since_id As Long, ByRef content As String) As HttpStatusCode
+        Dim param As New Dictionary(Of String, String)
+
+        If (user_id = 0 AndAlso String.IsNullOrEmpty(screen_name)) OrElse
+            (user_id <> 0 AndAlso Not String.IsNullOrEmpty(screen_name)) Then Return HttpStatusCode.BadRequest
+
+        If user_id > 0 Then
+            param.Add("user_id", user_id.ToString())
+        End If
+        If Not String.IsNullOrEmpty(screen_name) Then
+            param.Add("screen_name", screen_name)
+        End If
+        If count > 0 Then
+            param.Add("count", count.ToString())
+        End If
+        If max_id > 0 Then
+            param.Add("max_id", max_id.ToString())
+        End If
+        If since_id > 0 Then
+            param.Add("since_id", since_id.ToString())
+        End If
+
+        param.Add("include_rts", "true")
+        param.Add("include_entities", "true")
+
+        Return httpCon.GetContent(GetMethod, _
+                            CreateTwitterUri("/1/statuses/user_timeline.json"), _
+                            param, _
+                            content, _
+                            TwitterApiInfo.HttpHeaders, _
+                            AddressOf GetApiCallback)
+    End Function
+
     Public Function PublicTimeline(ByVal count As Integer, ByVal max_id As Long, ByVal since_id As Long, ByRef content As String) As HttpStatusCode
         Dim param As New Dictionary(Of String, String)
         If count > 0 Then

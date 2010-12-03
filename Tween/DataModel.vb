@@ -4,6 +4,12 @@ Imports System.Runtime.Serialization
 Public Class TwitterDataModel
 
     <DataContract()> _
+    Public Class Annotations
+        <DataMember(Name:="ConversationRole", IsRequired:=False)> Public ConversationRole As String
+        <DataMember(Name:="FromUser", IsRequired:=False)> Public FromUser As String
+    End Class
+
+    <DataContract()> _
     Public Class Urls
         <DataMember(Name:="urls")> Public Urls As String
         <DataMember(Name:="indices")> Public Indices(2) As Integer
@@ -118,7 +124,7 @@ Public Class TwitterDataModel
         <DataMember(Name:="favorited")> Public Favorited As Boolean
         <DataMember(Name:="truncated")> Public Truncated As Boolean
         <DataMember(Name:="id")> Public Id As Int64
-        <DataMember(Name:="annotations", IsRequired:=False)> Public Annotations As String
+        <DataMember(Name:="annotations", IsRequired:=False)> Public Annotations As Annotations
         <DataMember(Name:="place", IsRequired:=False)> Public Place As Place
         <DataMember(Name:="in_reply_to_status_id")> Public InReplyToStatusId As String
         <DataMember(Name:="text")> Public Text As String
@@ -214,5 +220,22 @@ Public Class TwitterDataModel
         <DataMember(Name:="created_at")> Public CreatedAt As String
         <DataMember(Name:="event")> Public [Event] As String
         <DataMember(Name:="source")> Public Source As User
+    End Class
+
+    <DataContract()> _
+    Public Class RelatedTweet
+        <DataMember(Name:="annotations")> Public Annotations As Annotations
+        <DataMember(Name:="kind")> Public Kind As String
+        <DataMember(Name:="score")> Public Score As Double
+        <DataMember(Name:="value")> Public Status As Status
+    End Class
+
+    <DataContract()> _
+    Public Class RelatedResult
+        <DataMember(Name:="annotations")> Public Annotations As Annotations
+        <DataMember(Name:="groupName")> Public GroupName As String
+        <DataMember(Name:="resultType")> Public ResultType As String
+        <DataMember(Name:="results")> Public Results As RelatedTweet()
+        <DataMember(Name:="score")> Public Score As Double
     End Class
 End Class
