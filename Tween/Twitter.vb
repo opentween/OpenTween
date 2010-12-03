@@ -1344,15 +1344,7 @@ Public Class Twitter
         End Set
     End Property
 
-    'Public Overloads Function GetTimelineApi(ByVal read As Boolean, _
-    '                ByVal gType As WORKERTYPE, _
-    '                ByVal more As Boolean) As String
-
-    '    Return GetTimelineApi(read, gType, more, -1)
-    'End Function
-
-
-    Public Overloads Function GetTimelineApi(ByVal read As Boolean, _
+    Public Function GetTimelineApi(ByVal read As Boolean, _
                             ByVal gType As WORKERTYPE, _
                             ByVal more As Boolean, _
                             ByVal startup As Boolean) As String
@@ -1403,11 +1395,69 @@ Public Class Twitter
 
         If gType = WORKERTYPE.Timeline Then
             Return CreatePostsFromJson(content, gType, Nothing, read, count, Me.minHomeTimeline)
-            'Return CreatePostsFromXml(content, gType, Nothing, read, count, Me.minHomeTimeline)
         Else
-            'Return CreatePostsFromXml(content, gType, Nothing, read, count, Me.minMentions)
             Return CreatePostsFromJson(content, gType, Nothing, read, count, Me.minMentions)
         End If
+    End Function
+
+    Public Function GetUserTimelineApi(ByVal read As Boolean,
+                                       ByVal count As Integer,
+                                       ByVal userName As String,
+                                       ByVal tab As TabClass) As String
+
+        If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
+
+        If _endingFlag Then Return ""
+
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+
+        If count = 0 Then count = 20
+        Try
+            If String.IsNullOrEmpty(userName) Then
+                Dim target As PostClass = TabInformations.GetInstance.Item(tab.RelationTargetId)
+                If target Is Nothing Then Return ""
+                res = twCon.UserTimeline(target.Uid, "", count, 0, 0, content)
+            Else
+                res = twCon.UserTimeline(0, userName, count, 0, 0, content)
+            End If
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
+        Select Case res
+            Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
+            Case HttpStatusCode.Unauthorized
+                Twitter.AccountState = ACCOUNT_STATE.Invalid
+                Return "Check your Username/Password."
+            Case HttpStatusCode.BadRequest
+                Return "Err:API Limits?"
+            Case Else
+                Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
+        End Select
+
+        Dim items As List(Of TwitterDataModel.Status)
+        Try
+            items = CreateDataFromJson(Of List(Of TwitterDataModel.Status))(content)
+        Catch ex As SerializationException
+            TraceOut(ex.Message + Environment.NewLine + content)
+            Return "Json Parse Error(DataContractJsonSerializer)"
+        Catch ex As Exception
+            TraceOut(content)
+            Return "Invalid Json!"
+        End Try
+
+        For Each status As TwitterDataModel.Status In items
+            Dim item As PostClass = CreatePostsFromStatusData(status)
+            If item Is Nothing Then Continue For
+            item.IsRead = read
+            If item.IsMe AndAlso Not read AndAlso _readOwnPost Then item.IsRead = True
+            If tab IsNot Nothing Then item.RelTabName = tab.TabName
+            '非同期アイコン取得＆StatusDictionaryに追加
+            TabInformations.GetInstance.AddPost(item)
+        Next
+
+        Return ""
     End Function
 
     Private Function DateTimeParse(ByVal input As String) As Date
@@ -1430,6 +1480,78 @@ Public Class Twitter
         Return New Date
     End Function
 
+    Private Function CreatePostsFromStatusData(ByVal status As TwitterDataModel.Status) As PostClass
+        Dim post As New PostClass
+
+        post.Id = status.Id
+        If status.RetweetedStatus IsNot Nothing Then
+            Dim retweeted As TwitterDataModel.RetweetedStatus = status.RetweetedStatus
+
+            post.PDate = DateTimeParse(retweeted.CreatedAt)
+
+            'Id
+            post.RetweetedId = retweeted.Id
+            '本文
+            post.Data = retweeted.Text
+            'Source取得（htmlの場合は、中身を取り出し）
+            post.Source = retweeted.Source
+            'Reply先
+            Long.TryParse(retweeted.InReplyToStatusId, post.InReplyToId)
+            post.InReplyToUser = retweeted.InReplyToScreenName
+            post.IsFav = TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites).Contains(post.RetweetedId)
+
+            '以下、ユーザー情報
+            Dim user As TwitterDataModel.User = retweeted.User
+            post.Uid = user.Id
+            post.Name = user.ScreenName
+            post.Nickname = user.Name
+            post.ImageUrl = user.ProfileImageUrl
+            post.IsProtect = user.Protected
+            If post.IsMe Then _UserIdNo = post.Uid.ToString()
+
+            'Retweetした人
+            post.RetweetedBy = status.User.ScreenName
+        Else
+            post.PDate = DateTimeParse(status.CreatedAt)
+            '本文
+            post.Data = status.Text
+            'Source取得（htmlの場合は、中身を取り出し）
+            post.Source = status.Source
+            Long.TryParse(status.InReplyToStatusId, post.InReplyToId)
+            post.InReplyToUser = status.InReplyToScreenName
+
+            post.IsFav = status.Favorited
+
+            '以下、ユーザー情報
+            Dim user As TwitterDataModel.User = status.User
+            post.Uid = user.Id
+            post.Name = user.ScreenName
+            post.Nickname = user.Name
+            post.ImageUrl = user.ProfileImageUrl
+            post.IsProtect = user.Protected
+            post.IsMe = post.Name.ToLower.Equals(_uid)
+            If post.IsMe Then _UserIdNo = post.Uid.ToString
+        End If
+        'HTMLに整形
+        post.OriginalData = CreateHtmlAnchor(post.Data, post.ReplyToList)
+        post.Data = HttpUtility.HtmlDecode(post.Data)
+        post.Data = post.Data.Replace("<3", "♡")
+        'Source整形
+        CreateSource(post)
+
+        post.IsReply = post.ReplyToList.Contains(_uid)
+        post.IsExcludeReply = False
+
+        If post.IsMe Then
+            post.IsOwl = False
+        Else
+            If followerId.Count > 0 Then post.IsOwl = Not followerId.Contains(post.Uid)
+        End If
+
+        post.IsDm = False
+        Return post
+    End Function
+
     Private Function CreatePostsFromJson(ByVal content As String, ByVal gType As WORKERTYPE, ByVal tab As TabClass, ByVal read As Boolean, ByVal count As Integer, ByRef minimumId As Long) As String
         Dim items As List(Of TwitterDataModel.Status)
         Try
@@ -1443,95 +1565,23 @@ Public Class Twitter
         End Try
 
         For Each status As TwitterDataModel.Status In items
-            Dim post As New PostClass
-            Try
-                post.Id = status.Id
-                If minimumId > post.Id Then minimumId = post.Id
-                '二重取得回避
-                SyncLock LockObj
-                    If tab Is Nothing Then
-                        If TabInformations.GetInstance.ContainsKey(post.Id) Then Continue For
-                    Else
-                        If TabInformations.GetInstance.ContainsKey(post.Id, tab.TabName) Then Continue For
-                    End If
-                End SyncLock
-                If status.RetweetedStatus IsNot Nothing Then
-                    Dim retweeted As TwitterDataModel.RetweetedStatus = status.RetweetedStatus
+            Dim post As PostClass = CreatePostsFromStatusData(status)
+            If post Is Nothing Then Continue For '解析失敗
 
-                    post.PDate = DateTimeParse(retweeted.CreatedAt)
-
-                    'Id
-                    post.RetweetedId = retweeted.Id
-                    '本文
-                    post.Data = retweeted.Text
-                    'Source取得（htmlの場合は、中身を取り出し）
-                    post.Source = retweeted.Source
-                    'Reply先
-                    Long.TryParse(retweeted.InReplyToStatusId, post.InReplyToId)
-                    post.InReplyToUser = retweeted.InReplyToScreenName
-                    post.IsFav = TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites).Contains(post.RetweetedId)
-
-                    '以下、ユーザー情報
-                    Dim user As TwitterDataModel.User = retweeted.User
-                    post.Uid = user.Id
-                    post.Name = user.ScreenName
-                    post.Nickname = user.Name
-                    post.ImageUrl = user.ProfileImageUrl
-                    post.IsProtect = user.Protected
-                    If post.IsMe Then _UserIdNo = post.Uid.ToString()
-
-                    'Retweetした人
-                    post.RetweetedBy = status.User.ScreenName
+            If minimumId > post.Id Then minimumId = post.Id
+            '二重取得回避
+            SyncLock LockObj
+                If tab Is Nothing Then
+                    If TabInformations.GetInstance.ContainsKey(post.Id) Then Continue For
                 Else
-                    post.PDate = DateTimeParse(status.CreatedAt)
-                    '本文
-                    post.Data = status.Text
-                    'Source取得（htmlの場合は、中身を取り出し）
-                    post.Source = status.Source
-                    Long.TryParse(status.InReplyToStatusId, post.InReplyToId)
-                    post.InReplyToUser = status.InReplyToScreenName
-
-                    post.IsFav = status.Favorited
-
-                    '以下、ユーザー情報
-                    Dim user As TwitterDataModel.User = status.User
-                    post.Uid = user.Id
-                    post.Name = user.ScreenName
-                    post.Nickname = user.Name
-                    post.ImageUrl = user.ProfileImageUrl
-                    post.IsProtect = user.Protected
-                    post.IsMe = post.Name.ToLower.Equals(_uid)
-                    If post.IsMe Then _UserIdNo = post.Uid.ToString
+                    If TabInformations.GetInstance.ContainsKey(post.Id, tab.TabName) Then Continue For
                 End If
-                'HTMLに整形
-                post.OriginalData = CreateHtmlAnchor(post.Data, post.ReplyToList)
-                post.Data = HttpUtility.HtmlDecode(post.Data)
-                post.Data = post.Data.Replace("<3", "♡")
-                'Source整形
-                CreateSource(post)
+            End SyncLock
 
-                post.IsRead = read
-                If gType = WORKERTYPE.Timeline OrElse tab IsNot Nothing Then
-                    post.IsReply = post.ReplyToList.Contains(_uid)
-                Else
-                    post.IsReply = True
-                End If
-                post.IsExcludeReply = False
+            post.IsRead = read
+            If post.IsMe AndAlso Not read AndAlso _readOwnPost Then post.IsRead = True
 
-                If post.IsMe Then
-                    post.IsOwl = False
-                Else
-                    If followerId.Count > 0 Then post.IsOwl = Not followerId.Contains(post.Uid)
-                End If
-                If post.IsMe AndAlso Not read AndAlso _readOwnPost Then post.IsRead = True
-
-                post.IsDm = False
-                If tab IsNot Nothing Then post.RelTabName = tab.TabName
-            Catch ex As Exception
-                TraceOut(content)
-                MessageBox.Show("Parse Error(CreatePostsFromJson)")
-                Continue For
-            End Try
+            If tab IsNot Nothing Then post.RelTabName = tab.TabName
             '非同期アイコン取得＆StatusDictionaryに追加
             TabInformations.GetInstance.AddPost(post)
         Next
@@ -1607,77 +1657,52 @@ Public Class Twitter
                 Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
         End Select
 
-        Using jsonReader As XmlDictionaryReader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(content), XmlDictionaryReaderQuotas.Max)
-            Dim xElm As XElement = XElement.Load(jsonReader)
-            Dim query As IEnumerable(Of PostClass) = From item In xElm.Descendants("value")
-                        Select New PostClass(
-                            Id:=Long.Parse(item.Element("id").Value),
-                            PDate:=DateTime.ParseExact(item.Element("created_at").Value, "ddd MMM dd HH:mm:ss zzzz yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None),
-                            Data:=item.Element("text").Value,
-                            Source:=item.Element("source").Value,
-                            InReplyToId:=If(item.Element("in_reply_to_status_id").Attribute("type").Value = "null", 0, Long.Parse(item.Element("in_reply_to_status_id").Value)),
-                            InReplyToUser:=item.Element("in_reply_to_screen_name").Value,
-                            IsFav:=Boolean.Parse(item.Element("favorited").Value),
-                            Uid:=Long.Parse(CType(item.Element("user"), XElement).Element("id").Value),
-                            Name:=CType(item.Element("user"), XElement).Element("screen_name").Value,
-                            Nickname:=CType(item.Element("user"), XElement).Element("name").Value,
-                            imageurl:=CType(item.Element("user"), XElement).Element("profile_image_url").Value,
-                            IsProtect:=Boolean.Parse(CType(item.Element("user"), XElement).Element("protected").Value),
-                            IsMe:=_UserIdNo.Equals(Long.Parse(CType(item.Element("user"), XElement).Element("id").Value)),
-                            FilterHit:=False,
-                            IsDm:=False,
-                            IsExcludeReply:=False,
-                            IsMark:=False,
-                            IsOwl:=False,
-                            IsRead:=False,
-                            IsReply:=False,
-                            OriginalData:="",
-                            ReplyToList:=New List(Of String),
-                            RetweetedBy:="",
-                            RetweetedId:=0,
-                            SourceHtml:="")
+        Dim targetItem As PostClass = TabInformations.GetInstance.Item(tab.RelationTargetId)
+        If targetItem Is Nothing Then
+            Return ""
+        Else
+            targetItem = targetItem.Copy()
+        End If
+        targetItem.RelTabName = tab.TabName
+        TabInformations.GetInstance.AddPost(targetItem)
 
-            Dim targetItem As PostClass = TabInformations.GetInstance.Item(tab.RelationTargetId)
-            If targetItem Is Nothing Then
-                Return ""
-            Else
-                targetItem = targetItem.Copy()
-            End If
-            targetItem.RelTabName = tab.TabName
-            TabInformations.GetInstance.AddPost(targetItem)
+        Dim replyToItem As PostClass = Nothing
+        Dim replyToUserName As String = targetItem.InReplyToUser
+        If targetItem.InReplyToId > 0 AndAlso TabInformations.GetInstance.Item(targetItem.InReplyToId) IsNot Nothing Then
+            replyToItem = TabInformations.GetInstance.Item(targetItem.InReplyToId).Copy
+            replyToItem.RelTabName = tab.TabName
+        End If
 
-            Dim replyToItem As PostClass = Nothing
-            If targetItem.InReplyToId > 0 AndAlso TabInformations.GetInstance.Item(targetItem.InReplyToId) IsNot Nothing Then
-                replyToItem = TabInformations.GetInstance.Item(targetItem.InReplyToId).Copy
-                replyToItem.RelTabName = tab.TabName
-            End If
+        Dim items As List(Of TwitterDataModel.RelatedResult)
+        Try
+            items = CreateDataFromJson(Of List(Of TwitterDataModel.RelatedResult))(content)
+        Catch ex As SerializationException
+            TraceOut(ex.Message + Environment.NewLine + content)
+            Return "Json Parse Error(DataContractJsonSerializer)"
+        Catch ex As Exception
+            TraceOut(content)
+            Return "Invalid Json!"
+        End Try
 
-            For Each item As PostClass In query
+        For Each relatedData As TwitterDataModel.RelatedResult In items
+            For Each result As TwitterDataModel.RelatedTweet In relatedData.Results
+                Dim item As PostClass = CreatePostsFromStatusData(result.Status)
+                If item Is Nothing Then Continue For
                 If targetItem.InReplyToId = item.Id Then replyToItem = Nothing
-                item.IsMe = item.Name.ToLower.Equals(_uid)
-                If item.IsMe Then _UserIdNo = item.Uid.ToString()
-                item.OriginalData = CreateHtmlAnchor(item.Data, item.ReplyToList)
-                item.Data = HttpUtility.HtmlDecode(item.Data)
-                item.Data = item.Data.Replace("<3", "♡")
-                CreateSource(item)
                 item.IsRead = read
-                item.IsReply = item.ReplyToList.Contains(_uid)
-                If item.IsMe Then
-                    item.IsOwl = False
-                Else
-                    If followerId.Count > 0 Then item.IsOwl = Not followerId.Contains(item.Uid)
-                End If
                 If item.IsMe AndAlso Not read AndAlso _readOwnPost Then item.IsRead = True
                 If tab IsNot Nothing Then item.RelTabName = tab.TabName
                 '非同期アイコン取得＆StatusDictionaryに追加
                 TabInformations.GetInstance.AddPost(item)
             Next
-            If replyToItem IsNot Nothing Then
-                TabInformations.GetInstance.AddPost(replyToItem)
-            End If
-        End Using
+        Next
 
-        Return ""
+        Dim rslt As String = Me.GetUserTimelineApi(read, 10, "", tab)
+        If Not String.IsNullOrEmpty(rslt) Then Return rslt
+        If Not String.IsNullOrEmpty(replyToUserName) Then
+            rslt = Me.GetUserTimelineApi(read, 10, replyToUserName, tab)
+        End If
+        Return rslt
     End Function
 
     Private Function CreatePostsFromXml(ByVal content As String, ByVal gType As WORKERTYPE, ByVal tab As TabClass, ByVal read As Boolean, ByVal count As Integer, ByRef minimumId As Long) As String
