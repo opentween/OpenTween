@@ -1415,7 +1415,7 @@ Public Class Twitter
         If count = 0 Then count = 20
         Try
             If String.IsNullOrEmpty(userName) Then
-                Dim target As PostClass = TabInformations.GetInstance.Item(tab.RelationTargetId)
+                Dim target As PostClass = tab.RelationTargetPost
                 If target Is Nothing Then Return ""
                 res = twCon.UserTimeline(target.Uid, "", count, 0, 0, content)
             Else
@@ -1641,7 +1641,7 @@ Public Class Twitter
         Dim res As HttpStatusCode
         Dim content As String = ""
         Try
-            res = twCon.GetRelatedResults(tab.RelationTargetId, content)
+            res = twCon.GetRelatedResults(tab.RelationTargetPost.Id, content)
         Catch ex As Exception
             Return "Err:" + ex.Message
         End Try
@@ -1657,7 +1657,7 @@ Public Class Twitter
                 Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
         End Select
 
-        Dim targetItem As PostClass = TabInformations.GetInstance.Item(tab.RelationTargetId)
+        Dim targetItem As PostClass = tab.RelationTargetPost
         If targetItem Is Nothing Then
             Return ""
         Else

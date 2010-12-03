@@ -9755,7 +9755,7 @@ RETRY:
             End If
 
             Dim tb As TabClass = _statuses.GetTabByType(TabUsageType.Related)
-            tb.RelationTargetId = _curPost.Id
+            tb.RelationTargetPost = _curPost
             Me.ClearTab(tb.TabName, False)
             For i As Integer = 0 To ListTab.TabPages.Count - 1
                 If tb.TabName = ListTab.TabPages(i).Text Then

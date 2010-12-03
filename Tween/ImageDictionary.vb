@@ -16,12 +16,12 @@ Public Class ImageDictionary
 
     Public Sub New(ByVal memoryCacheCount As Integer)
         SyncLock Me.lockObject
-            '10Mb,50%
+            '10Mb,80%
             Me.innerDictionary = New MemoryCache("imageCache",
                                                  New NameValueCollection() From
                                                  {
                                                      {"CacheMemoryLimitMegabytes", "10"},
-                                                     {"PhysicalMemoryLimitPercentage", "50"}
+                                                     {"PhysicalMemoryLimitPercentage", "80"}
                                                  })
             Me.waitStack = New Stack(Of KeyValuePair(Of String, Action(Of Image)))
             Me.cachePolicy.RemovedCallback = AddressOf CacheRemoved
