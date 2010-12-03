@@ -1225,7 +1225,7 @@ Public Class TweenMain
 #End If
     End Sub
 
-    Private Sub RefreshTimeline()
+    Private Sub RefreshTimeline(ByVal isUserStream As Boolean)
         'スクロール制御準備
         Dim smode As Integer = -1    '-1:制御しない,-2:最新へ,その他:topitem使用
         Dim topId As Long = GetScrollPos(smode)
@@ -1244,7 +1244,7 @@ Public Class TweenMain
         Dim soundFile As String = ""
         Dim addCount As Integer = 0
         Dim isMention As Boolean = False
-        addCount = _statuses.SubmitUpdate(soundFile, notifyPosts, isMention)
+        addCount = _statuses.SubmitUpdate(soundFile, notifyPosts, isMention, isUserStream)
 
         If _endingFlag Then Exit Sub
 
@@ -2288,7 +2288,7 @@ Public Class TweenMain
            rslt.type = WORKERTYPE.FavAdd OrElse _
            rslt.type = WORKERTYPE.FavRemove OrElse _
            rslt.type = WORKERTYPE.Related Then
-            RefreshTimeline() 'リスト反映
+            RefreshTimeline(False) 'リスト反映
         End If
 
         Select Case rslt.type
@@ -9792,7 +9792,7 @@ RETRY:
         For Each tb As TabPage In ListTab.TabPages
             DirectCast(tb.Tag, DetailsListView).VirtualListSize = _statuses.Tabs(tb.Text).AllCount
         Next
-        Me.RefreshTimeline()
+        Me.RefreshTimeline(True)
     End Sub
 
     Private Sub tw_NewPostFromStream()
@@ -9830,7 +9830,7 @@ RETRY:
 
         Try
             If InvokeRequired AndAlso Not IsDisposed Then
-                Invoke(New MethodInvoker(AddressOf RefreshTimeline))
+                Invoke(New Action(Of Boolean)(AddressOf RefreshTimeline), True)
                 Exit Sub
             End If
         Catch ex As ObjectDisposedException
