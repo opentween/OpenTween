@@ -9934,4 +9934,9 @@ RETRY:
         Me._modifySettingCommon = True
         tw.ReconnectUserStream()
     End Sub
+
+    Private Sub TweenRestartMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles TweenRestartMenuItem.Click
+        _endingFlag = True
+        Application.Restart()
+    End Sub
 End Class

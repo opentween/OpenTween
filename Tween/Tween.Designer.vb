@@ -284,6 +284,7 @@ Partial Class TweenMain
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.TweenRestartMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -932,7 +933,7 @@ Partial Class TweenMain
         '
         'MenuItemFile
         '
-        Me.MenuItemFile.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SettingFileMenuItem, Me.ToolStripSeparator21, Me.SaveFileMenuItem, Me.ToolStripSeparator23, Me.NotifyFileMenuItem, Me.PlaySoundFileMenuItem, Me.LockListFileMenuItem, Me.ToolStripSeparator24, Me.EndFileMenuItem})
+        Me.MenuItemFile.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SettingFileMenuItem, Me.ToolStripSeparator21, Me.SaveFileMenuItem, Me.ToolStripSeparator23, Me.NotifyFileMenuItem, Me.PlaySoundFileMenuItem, Me.LockListFileMenuItem, Me.ToolStripSeparator24, Me.TweenRestartMenuItem, Me.EndFileMenuItem})
         Me.MenuItemFile.Name = "MenuItemFile"
         resources.ApplyResources(Me.MenuItemFile, "MenuItemFile")
         '
@@ -1779,6 +1780,11 @@ Partial Class TweenMain
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
+        'TweenRestartMenuItem
+        '
+        Me.TweenRestartMenuItem.Name = "TweenRestartMenuItem"
+        resources.ApplyResources(Me.TweenRestartMenuItem, "TweenRestartMenuItem")
+        '
         'TweenMain
         '
         Me.AllowDrop = True
@@ -2088,5 +2094,6 @@ Partial Class TweenMain
     Friend WithEvents ToolStripSeparator40 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents TrackToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents AllrepliesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents TweenRestartMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class
