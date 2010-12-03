@@ -52,7 +52,7 @@ Public Class TwitterDataModel
         <DataMember(Name:="favourites_count")> Public FavouritesCount As Integer
         <DataMember(Name:="created_at")> Public CreatedAt As String
         <DataMember(Name:="profile_background_color")> Public ProfileBackgroundColor As String
-        <DataMember(Name:="follow_request_sent")> Public FollowRequestSent As Boolean
+        <DataMember(Name:="follow_request_sent")> Public FollowRequestSent As String                'nullの場合があるのでboolean不可
         <DataMember(Name:="time_zone")> Public TimeZone As String
         <DataMember(Name:="followers_count")> Public FollowersCount As Integer
         <DataMember(Name:="url")> Public Url As String
