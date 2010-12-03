@@ -804,7 +804,7 @@ Public NotInheritable Class TabInformations
                 End If
                 tb.AddSubmit(isMentionIncluded)  '振分確定（各タブに反映）
             Next
-            If Me.SortMode <> IdComparerClass.ComparerMode.Id Then Me.SortPosts()
+            Me.SortPosts()
 
             soundFile = _soundFile
             _soundFile = ""
@@ -1519,7 +1519,7 @@ Public NotInheritable Class TabClass
         Return _tmpIds.Count
     End Function
 
-    Private Class TemporaryId
+    Private Structure TemporaryId
         Public Id As Long
         Public Read As Boolean
 
@@ -1527,7 +1527,7 @@ Public NotInheritable Class TabClass
             Id = argId
             Read = argRead
         End Sub
-    End Class
+    End Structure
 
     Public Sub New()
         _filters = New List(Of FiltersClass)
@@ -1571,15 +1571,7 @@ Public NotInheritable Class TabClass
     Private Sub Add(ByVal ID As Long, ByVal Read As Boolean)
         If Me._ids.Contains(ID) Then Exit Sub
 
-        If Me.Sorter.Mode = IdComparerClass.ComparerMode.Id Then
-            If Me.Sorter.Order = SortOrder.Ascending Then
-                Me._ids.Add(ID)
-            Else
-                Me._ids.Insert(0, ID)
-            End If
-        Else
-            Me._ids.Add(ID)
-        End If
+        Me._ids.Add(ID)
 
         If Not Read AndAlso Me._unreadManage Then
             Me._unreadCount += 1
@@ -1638,7 +1630,6 @@ Public NotInheritable Class TabClass
 
     Public Sub AddSubmit(ByRef isMentionIncluded As Boolean)
         If _tmpIds.Count = 0 Then Exit Sub
-        _tmpIds.Sort(Function(x As TemporaryId, y As TemporaryId) x.Id.CompareTo(y.Id))
         For Each tId As TemporaryId In _tmpIds
             If Me.TabType = TabUsageType.Mentions AndAlso TabInformations.GetInstance.Item(tId.Id).IsReply Then isMentionIncluded = True
             Me.Add(tId.Id, tId.Read)
