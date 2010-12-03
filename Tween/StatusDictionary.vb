@@ -1393,7 +1393,7 @@ Public NotInheritable Class TabClass
     Private _sorter As New IdComparerClass
     Private _oldestId As Long = Long.MaxValue   '古いポスト取得用
     Private _sinceId As Long = 0
-    Private _relationTargetId As Long = 0
+    Private _relationTargetPost As PostClass = Nothing
 
     Private ReadOnly _lockObj As New Object
 
@@ -1464,12 +1464,12 @@ Public NotInheritable Class TabClass
 #End Region
 
     <Xml.Serialization.XmlIgnore()> _
-    Public Property RelationTargetId() As Long
+    Public Property RelationTargetPost() As PostClass
         Get
-            Return _relationTargetId
+            Return _relationTargetPost
         End Get
-        Set(ByVal value As Long)
-            _relationTargetId = value
+        Set(ByVal value As PostClass)
+            _relationTargetPost = value
         End Set
     End Property
 
