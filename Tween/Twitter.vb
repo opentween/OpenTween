@@ -3000,11 +3000,17 @@ Public Class Twitter
                     twCon.UserStream(st, _allAtreplies, _trackwords)
                     sr = New StreamReader(st)
 
-                    Do While _streamActive
+                    Do While _streamActive AndAlso Not sr.EndOfStream
                         RaiseEvent StatusArrived(sr.ReadLine())
                         Me.LastTime = Now
                     Loop
 
+                    If sr.EndOfStream Then
+                        RaiseEvent Stopped()
+                        TraceOut("Stop:EndOfStream")
+                        Thread.Sleep(10 * 1000)
+                        Continue Do
+                    End If
                     Exit Do
                 Catch ex As WebException
                     If Not Me._streamActive Then
