@@ -3696,7 +3696,11 @@ Public Class TweenMain
 
     Public Overloads Sub ShowSuplDialog(ByVal owner As TextBox, ByVal dialog As AtIdSupplement, ByVal offset As Integer, ByVal startswith As String)
         dialog.StartsWith = startswith
-        dialog.ShowDialog()
+        If dialog.Visible Then
+            dialog.Focus()
+        Else
+            dialog.ShowDialog()
+        End If
         Me.TopMost = SettingDialog.AlwaysTop
         Dim selStart As Integer = owner.SelectionStart
         Dim fHalf As String = ""
