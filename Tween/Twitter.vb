@@ -2707,24 +2707,31 @@ Public Class Twitter
 
     'Source整形
     Private Sub CreateSource(ByRef post As PostClass)
-        If post.Source.StartsWith("<") Then
-            If Not post.Source.Contains("</a>") Then
-                post.Source += "</a>"
-            End If
-            post.SourceHtml = String.Copy(ShortUrl.Resolve(PreProcessUrl(post.Source)))
-            Dim mS As Match = Regex.Match(post.Source, ">(?<source>.+)<")
-            If mS.Success Then
-                post.Source = HttpUtility.HtmlDecode(mS.Result("${source}"))
-            End If
-        Else
-            If post.Source = "web" Then
-                post.SourceHtml = My.Resources.WebSourceString
-            ElseIf post.Source = "Keitai Mail" Then
-                post.SourceHtml = My.Resources.KeitaiMailSourceString
+        Try
+            If post.Source.StartsWith("<") Then
+                If Not post.Source.Contains("</a>") Then
+                    post.Source += "</a>"
+                End If
+                Dim mS As Match = Regex.Match(post.Source, ">(?<source>.+)<")
+                If mS.Success Then
+                    post.SourceHtml = String.Copy(ShortUrl.Resolve(PreProcessUrl(post.Source)))
+                    post.Source = HttpUtility.HtmlDecode(mS.Result("${source}"))
+                Else
+                    post.Source = ""
+                    post.SourceHtml = ""
+                End If
             Else
-                post.SourceHtml = String.Copy(post.Source)
+                If post.Source = "web" Then
+                    post.SourceHtml = My.Resources.WebSourceString
+                ElseIf post.Source = "Keitai Mail" Then
+                    post.SourceHtml = My.Resources.KeitaiMailSourceString
+                Else
+                    post.SourceHtml = String.Copy(post.Source)
+                End If
             End If
-        End If
+        Catch ex As Exception
+            TraceOut(post.Source)
+        End Try
     End Sub
 
     Public Function GetInfoApi(ByVal info As ApiInfo) As Boolean
@@ -2847,7 +2854,7 @@ Public Class Twitter
                 End If
                 Exit Sub
             ElseIf xElm.Element("limit") IsNot Nothing Then
-                Debug.Print("limit")
+                Debug.Print(line)
                 Exit Sub
             ElseIf xElm.Element("event") IsNot Nothing Then
                 Debug.Print("event: " + xElm.Element("event").Value)

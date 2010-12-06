@@ -4500,7 +4500,7 @@ RETRY:
         If _curPost.IsDm Then
             SourceLinkLabel.Tag = Nothing
             SourceLinkLabel.Text = ""
-            SourceLinkLabel.Visible = False
+            'SourceLinkLabel.Visible = False
         Else
             Dim mc As Match = Regex.Match(_curPost.SourceHtml, "<a href=""(?<sourceurl>.+?)""")
             If mc.Success Then
@@ -4514,8 +4514,13 @@ RETRY:
             Else
                 SourceLinkLabel.Tag = Nothing
             End If
-            SourceLinkLabel.Text = "via " + _curPost.Source
-            SourceLinkLabel.Visible = True
+            If String.IsNullOrEmpty(_curPost.Source) Then
+                SourceLinkLabel.Text = ""
+                'SourceLinkLabel.Visible = False
+            Else
+                SourceLinkLabel.Text = "via " + _curPost.Source
+                'SourceLinkLabel.Visible = True
+            End If
         End If
 
         If _statuses.Tabs(_curTab.Text).TabType = TabUsageType.DirectMessage AndAlso Not _curPost.IsOwl Then
