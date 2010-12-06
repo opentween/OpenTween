@@ -159,6 +159,12 @@ Public Module MyCommon
         BlinkIcon
     End Enum
 
+    Public Sub TraceOut(ByVal ex As Exception, ByVal Message As String)
+        Dim buf As String = ""
+        ExceptionOut(ex, buf)
+        TraceOut(TraceFlag, Message + Environment.NewLine + buf)
+    End Sub
+
     Public Sub TraceOut(ByVal Message As String)
         TraceOut(TraceFlag, Message)
     End Sub
