@@ -2707,31 +2707,27 @@ Public Class Twitter
 
     'Source整形
     Private Sub CreateSource(ByRef post As PostClass)
-        Try
-            If post.Source.StartsWith("<") Then
-                If Not post.Source.Contains("</a>") Then
-                    post.Source += "</a>"
-                End If
-                Dim mS As Match = Regex.Match(post.Source, ">(?<source>.+)<")
-                If mS.Success Then
-                    post.SourceHtml = String.Copy(ShortUrl.Resolve(PreProcessUrl(post.Source)))
-                    post.Source = HttpUtility.HtmlDecode(mS.Result("${source}"))
-                Else
-                    post.Source = ""
-                    post.SourceHtml = ""
-                End If
-            Else
-                If post.Source = "web" Then
-                    post.SourceHtml = My.Resources.WebSourceString
-                ElseIf post.Source = "Keitai Mail" Then
-                    post.SourceHtml = My.Resources.KeitaiMailSourceString
-                Else
-                    post.SourceHtml = String.Copy(post.Source)
-                End If
+        If post.Source.StartsWith("<") Then
+            If Not post.Source.Contains("</a>") Then
+                post.Source += "</a>"
             End If
-        Catch ex As Exception
-            TraceOut(post.Source)
-        End Try
+            Dim mS As Match = Regex.Match(post.Source, ">(?<source>.+)<")
+            If mS.Success Then
+                post.SourceHtml = String.Copy(ShortUrl.Resolve(PreProcessUrl(post.Source)))
+                post.Source = HttpUtility.HtmlDecode(mS.Result("${source}"))
+            Else
+                post.Source = ""
+                post.SourceHtml = ""
+            End If
+        Else
+            If post.Source = "web" Then
+                post.SourceHtml = My.Resources.WebSourceString
+            ElseIf post.Source = "Keitai Mail" Then
+                post.SourceHtml = My.Resources.KeitaiMailSourceString
+            Else
+                post.SourceHtml = String.Copy(post.Source)
+            End If
+        End If
     End Sub
 
     Public Function GetInfoApi(ByVal info As ApiInfo) As Boolean
@@ -3021,7 +3017,6 @@ Public Class Twitter
                     Exit Do
                 Catch ex As WebException
                     If Not Me._streamActive Then
-                        TraceOut("Stop:WebException with Inactive." + Environment.NewLine + ex.Message)
                         Exit Do
                     ElseIf ex.Status = WebExceptionStatus.Timeout Then
                         RaiseEvent Stopped()
@@ -3033,11 +3028,9 @@ Public Class Twitter
                         Thread.Sleep(10 * 1000)
                     End If
                 Catch ex As ThreadAbortException
-                    TraceOut("Stop:ThreadAbordException.")
                     Exit Do
                 Catch ex As IOException
                     If Not Me._streamActive Then
-                        TraceOut("Stop:IOException with Inactive." + Environment.NewLine + ex.Message)
                         Exit Do
                     Else
                         RaiseEvent Stopped()
