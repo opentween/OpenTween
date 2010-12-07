@@ -160,8 +160,7 @@ Public Module MyCommon
     End Enum
 
     Public Sub TraceOut(ByVal ex As Exception, ByVal Message As String)
-        Dim buf As String = ""
-        ExceptionOut(ex, buf)
+        Dim buf As String = ExceptionOutMessage(ex)
         TraceOut(TraceFlag, Message + Environment.NewLine + buf)
     End Sub
 
@@ -195,8 +194,10 @@ Public Module MyCommon
     ' 文頭メッセージ、権限、動作環境
     ' Dataプロパティにある終了許可フラグのパースもここで行う
 
-    Public Function ExceptionOut(ByVal ex As Exception, ByVal buffer As String, _
+    Public Function ExceptionOutMessage(ByVal ex As Exception, _
                                  Optional ByRef IsTerminatePermission As Boolean = True) As String
+        If ex Is Nothing Then Return ""
+
         Dim buf As New StringBuilder
 
         buf.AppendFormat(My.Resources.UnhandledExceptionText8, ex.GetType().FullName, ex.Message)
@@ -253,8 +254,7 @@ Public Module MyCommon
             nesting += 1
             _ex = _ex.InnerException
         End While
-        buffer = buf.ToString()
-        Return buffer
+        Return buf.ToString()
     End Function
 
     Public Function ExceptionOut(ByVal ex As Exception) As Boolean
@@ -280,8 +280,7 @@ Public Module MyCommon
                 writer.WriteLine(My.Resources.UnhandledExceptionText6, Environment.Version.ToString())
                 writer.WriteLine(My.Resources.UnhandledExceptionText7, fileVersion)
 
-                Dim buffer As String = Nothing
-                writer.Write(ExceptionOut(ex, buffer, IsTerminatePermission))
+                writer.Write(ExceptionOutMessage(ex, IsTerminatePermission))
                 writer.Flush()
             End Using
 
