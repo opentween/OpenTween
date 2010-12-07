@@ -8772,8 +8772,12 @@ RETRY:
         If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
             Return m.Result("${name}")
         Else
+            Dim ma As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)(/status/[0-9]+)$")
+            If ma.Success AndAlso IsTwitterId(ma.Result("${name}")) Then
+                Return ma.Result("${name}")
+            End If
             Return Nothing
-        End If
+            End If
     End Function
 
     Private Sub FollowContextMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FollowContextMenuItem.Click
