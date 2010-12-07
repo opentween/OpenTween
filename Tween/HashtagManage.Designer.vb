@@ -23,25 +23,25 @@ Partial Class HashtagManage
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(HashtagManage))
-        Me.TableLayoutButtons = New System.Windows.Forms.TableLayoutPanel
-        Me.Cancel_Button = New System.Windows.Forms.Button
-        Me.OK_Button = New System.Windows.Forms.Button
-        Me.DeleteButton = New System.Windows.Forms.Button
-        Me.EditButton = New System.Windows.Forms.Button
-        Me.AddButton = New System.Windows.Forms.Button
-        Me.HistoryHashList = New System.Windows.Forms.ListBox
-        Me.UseHashText = New System.Windows.Forms.TextBox
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.CheckPermanent = New System.Windows.Forms.CheckBox
-        Me.GroupDetail = New System.Windows.Forms.GroupBox
-        Me.TableLayoutPanel2 = New System.Windows.Forms.TableLayoutPanel
-        Me.PermOK_Button = New System.Windows.Forms.Button
-        Me.PermCancel_Button = New System.Windows.Forms.Button
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.RadioLast = New System.Windows.Forms.RadioButton
-        Me.RadioHead = New System.Windows.Forms.RadioButton
-        Me.UnSelectButton = New System.Windows.Forms.Button
-        Me.GroupHashtag = New System.Windows.Forms.GroupBox
+        Me.TableLayoutButtons = New System.Windows.Forms.TableLayoutPanel()
+        Me.Cancel_Button = New System.Windows.Forms.Button()
+        Me.OK_Button = New System.Windows.Forms.Button()
+        Me.DeleteButton = New System.Windows.Forms.Button()
+        Me.EditButton = New System.Windows.Forms.Button()
+        Me.AddButton = New System.Windows.Forms.Button()
+        Me.HistoryHashList = New System.Windows.Forms.ListBox()
+        Me.UseHashText = New System.Windows.Forms.TextBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.CheckPermanent = New System.Windows.Forms.CheckBox()
+        Me.GroupDetail = New System.Windows.Forms.GroupBox()
+        Me.TableLayoutPanel2 = New System.Windows.Forms.TableLayoutPanel()
+        Me.PermOK_Button = New System.Windows.Forms.Button()
+        Me.PermCancel_Button = New System.Windows.Forms.Button()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.RadioLast = New System.Windows.Forms.RadioButton()
+        Me.RadioHead = New System.Windows.Forms.RadioButton()
+        Me.UnSelectButton = New System.Windows.Forms.Button()
+        Me.GroupHashtag = New System.Windows.Forms.GroupBox()
         Me.TableLayoutButtons.SuspendLayout()
         Me.GroupDetail.SuspendLayout()
         Me.TableLayoutPanel2.SuspendLayout()
@@ -87,8 +87,8 @@ Partial Class HashtagManage
         '
         'HistoryHashList
         '
-        Me.HistoryHashList.FormattingEnabled = True
         resources.ApplyResources(Me.HistoryHashList, "HistoryHashList")
+        Me.HistoryHashList.FormattingEnabled = True
         Me.HistoryHashList.Name = "HistoryHashList"
         Me.HistoryHashList.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
         '
@@ -110,10 +110,10 @@ Partial Class HashtagManage
         '
         'GroupDetail
         '
+        resources.ApplyResources(Me.GroupDetail, "GroupDetail")
         Me.GroupDetail.Controls.Add(Me.TableLayoutPanel2)
         Me.GroupDetail.Controls.Add(Me.UseHashText)
         Me.GroupDetail.Controls.Add(Me.Label1)
-        resources.ApplyResources(Me.GroupDetail, "GroupDetail")
         Me.GroupDetail.Name = "GroupDetail"
         Me.GroupDetail.TabStop = False
         '
@@ -161,6 +161,7 @@ Partial Class HashtagManage
         '
         'GroupHashtag
         '
+        resources.ApplyResources(Me.GroupHashtag, "GroupHashtag")
         Me.GroupHashtag.Controls.Add(Me.HistoryHashList)
         Me.GroupHashtag.Controls.Add(Me.Label3)
         Me.GroupHashtag.Controls.Add(Me.UnSelectButton)
@@ -170,7 +171,6 @@ Partial Class HashtagManage
         Me.GroupHashtag.Controls.Add(Me.EditButton)
         Me.GroupHashtag.Controls.Add(Me.AddButton)
         Me.GroupHashtag.Controls.Add(Me.CheckPermanent)
-        resources.ApplyResources(Me.GroupHashtag, "GroupHashtag")
         Me.GroupHashtag.Name = "GroupHashtag"
         Me.GroupHashtag.TabStop = False
         '

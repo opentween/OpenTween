@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddNewTabText1" xml:space="preserve">
     <value>(New Tab)</value>
@@ -907,54 +907,60 @@
     <value>http://favstar.fm/</value>
   </data>
   <data name="VimeoInfoText1" xml:space="preserve">
-    <value>タイトル:</value>
+    <value>Title:</value>
   </data>
   <data name="VimeoInfoText2" xml:space="preserve">
-    <value>投稿日時:</value>
+    <value>Posted at:</value>
   </data>
   <data name="VimeoInfoText3" xml:space="preserve">
     <value>Likes:</value>
   </data>
   <data name="VimeoInfoText4" xml:space="preserve">
-    <value>再生数:</value>
+    <value>Views:</value>
   </data>
   <data name="VimeoInfoText5" xml:space="preserve">
-    <value>コメント数:</value>
+    <value>Comments:</value>
   </data>
   <data name="VimeoInfoText6" xml:space="preserve">
-    <value>再生時間:</value>
+    <value>Length:</value>
   </data>
   <data name="YouTubeInfoText1" xml:space="preserve">
-    <value>タイトル:</value>
+    <value>Title:</value>
   </data>
   <data name="YouTubeInfoText2" xml:space="preserve">
-    <value>再生時間:</value>
+    <value>Length:</value>
   </data>
   <data name="YouTubeInfoText3" xml:space="preserve">
-    <value>投稿日時:</value>
+    <value>Posted at:</value>
   </data>
   <data name="YouTubeInfoText4" xml:space="preserve">
-    <value>再生数:</value>
+    <value>Views:</value>
   </data>
   <data name="FavoriteLimitCountText" xml:space="preserve">
-    <value>一度にふぁぼ追加が実行できるのは250件までです</value>
+    <value>Adding to favorites being able to do at a time is up to 250.</value>
   </data>
   <data name="TextSearchCountApi_Validating1" xml:space="preserve">
-    <value>取得発言数は20～100件を指定してください。</value>
+    <value>Getting number of tweet in Api-mode must be 20 to 200.</value>
   </data>
   <data name="RetweetLimitText" xml:space="preserve">
-    <value>一度にRetweetできるのは15件までです</value>
+    <value>Retweet being able to do at a time is up to 15.</value>
   </data>
   <data name="RetweetQuestion2" xml:space="preserve">
-    <value>選択された発言をRetweetしてもよろしいですか？</value>
+    <value>Retweet this tweet?</value>
   </data>
   <data name="FavoriteRetweetQuestionText1" xml:space="preserve">
-    <value>選択された発言をFavoriteに追加してRetweetします。よろしいですか？</value>
+    <value>Mark favorite and retweet those selected tweets?</value>
   </data>
   <data name="FavoritesRetweetQuestionText2" xml:space="preserve">
     <value>Favoriteに追加してRetweetします。よろしいですか？</value>
   </data>
   <data name="FavoriteRetweetQuestionText3" xml:space="preserve">
-    <value>選択された発言をFavoritesに追加して非公式RTを実行します。よろしいですか？</value>
+    <value>Mark favorite and retweet(unofficial) those selected tweets?</value>
+  </data>
+  <data name="GetFriendshipInfo7" xml:space="preserve">
+    <value>Really Unfollow?</value>
+  </data>
+  <data name="GetFriendshipInfo8" xml:space="preserve">
+    <value>Confirm Unfollow</value>
   </data>
 </root>

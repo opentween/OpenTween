@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Cancel_Button.Text" xml:space="preserve">
     <value>取消</value>
@@ -132,12 +132,15 @@
   <data name="AddButton.Text" xml:space="preserve">
     <value>新建(&amp;N)</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="Label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 12</value>
+    <value>44, 12</value>
   </data>
   <data name="Label1.Text" xml:space="preserve">
     <value>标签(&amp;T)</value>
+  </data>
+  <data name="CheckPermanent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 16</value>
   </data>
   <data name="CheckPermanent.Text" xml:space="preserve">
     <value>总是附加(&amp;P)</value>
@@ -161,6 +164,6 @@
     <value>禁用(&amp;U)</value>
   </data>
   <data name="GroupHashtag.Text" xml:space="preserve">
-    <value>Hash Tag</value>
+    <value>&amp;Hash Tag</value>
   </data>
 </root>

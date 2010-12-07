@@ -1483,10 +1483,6 @@ Public Class Twitter
     Private Function CreatePostsFromStatusData(ByVal status As TwitterDataModel.Status) As PostClass
         Dim post As New PostClass
 
-        If status Is Nothing Then
-            TraceOut("CreatePostsFromStatusData:status is Nothing.")
-            Return Nothing
-        End If
         post.Id = status.Id
         If status.RetweetedStatus IsNot Nothing Then
             Dim retweeted As TwitterDataModel.RetweetedStatus = status.RetweetedStatus
@@ -1506,11 +1502,6 @@ Public Class Twitter
 
             '以下、ユーザー情報
             Dim user As TwitterDataModel.User = retweeted.User
-
-            If status Is Nothing Then
-                TraceOut("CreatePostsFromStatusData:retweeted.user is Nothing.")
-                Return Nothing
-            End If
 
             post.Uid = user.Id
             post.Name = user.ScreenName
@@ -1534,11 +1525,6 @@ Public Class Twitter
 
             '以下、ユーザー情報
             Dim user As TwitterDataModel.User = status.User
-
-            If status Is Nothing Then
-                TraceOut("CreatePostsFromStatusData:status.user is Nothing.")
-                Return Nothing
-            End If
 
             post.Uid = user.Id
             post.Name = user.ScreenName
@@ -1580,29 +1566,10 @@ Public Class Twitter
             Return "Invalid Json!"
         End Try
 
-        Dim cnt As Integer = -1
         For Each status As TwitterDataModel.Status In items
             Dim post As PostClass = Nothing
-            cnt += 1
 
-            Try
-                post = CreatePostsFromStatusData(status)
-            Catch ex As Exception
-                TraceOut(ex, "CreatePostsFromStatusData:Exceptional Abort." + Environment.NewLine +
-                         "data offset:" + cnt.ToString + Environment.NewLine +
-                         "----------json data----------" + Environment.NewLine +
-                         content + Environment.NewLine +
-                         "----------end of json data----------" + Environment.NewLine)
-            End Try
-
-            If post Is Nothing Then
-                TraceOut("CreatePostsFromStatusData:Analyze failed." + Environment.NewLine +
-                            "data offset:" + cnt.ToString + Environment.NewLine +
-                            "----------json data----------" + Environment.NewLine +
-                            content + Environment.NewLine +
-                            "----------end of json data----------" + Environment.NewLine)
-                Continue For '解析失敗
-            End If
+            post = CreatePostsFromStatusData(status)
 
             If minimumId > post.Id Then minimumId = post.Id
             '二重取得回避
@@ -3047,7 +3014,7 @@ Public Class Twitter
 
                     If sr.EndOfStream Then
                         RaiseEvent Stopped()
-                        TraceOut("Stop:EndOfStream")
+                        'TraceOut("Stop:EndOfStream")
                         Thread.Sleep(10 * 1000)
                         Continue Do
                     End If

@@ -1048,6 +1048,24 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  フォロー解除しますか？ に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property GetFriendshipInfo7() As String
+            Get
+                Return ResourceManager.GetString("GetFriendshipInfo7", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  フォロー解除確認 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property GetFriendshipInfo8() As String
+            Get
+                Return ResourceManager.GetString("GetFriendshipInfo8", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Recent更新完了 に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property GetTimelineWorker_RunWorkerCompletedText1() As String

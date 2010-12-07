@@ -8736,7 +8736,7 @@ RETRY:
                 result += fInfo.id + My.Resources.GetFriendshipInfo5 + System.Environment.NewLine + ff
                 If fInfo.isFollowing Then
                     If MessageBox.Show( _
-                        "フォロー解除しますか？" + System.Environment.NewLine + result, "フォロー解除確認", _
+                        My.Resources.GetFriendshipInfo7 + System.Environment.NewLine + result, My.Resources.GetFriendshipInfo8, _
                         MessageBoxButtons.YesNo, _
                         MessageBoxIcon.Question, _
                         MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.Yes Then
