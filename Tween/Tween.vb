@@ -9955,4 +9955,12 @@ RETRY:
         _endingFlag = True
         Application.Restart()
     End Sub
+
+    Private Sub OpenOwnFavedMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles OpenOwnFavedMenuItem.Click
+        If Not tw.Username = "" Then OpenUriAsync(My.Resources.FavstarUrl + "users/" + tw.Username + "/recent")
+    End Sub
+
+    Private Sub OpenOwnHomeMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles OpenOwnHomeMenuItem.Click
+        OpenUriAsync("http://twitter.com/" + tw.Username)
+    End Sub
 End Class

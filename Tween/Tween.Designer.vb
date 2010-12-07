@@ -211,6 +211,9 @@ Partial Class TweenMain
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.OwnStatusMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UserStatusToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator41 = New System.Windows.Forms.ToolStripSeparator()
+        Me.OpenOwnHomeMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OpenOwnFavedMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator34 = New System.Windows.Forms.ToolStripSeparator()
         Me.HashToggleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HashManageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -1323,7 +1326,7 @@ Partial Class TweenMain
         '
         'MenuItemCommand
         '
-        Me.MenuItemCommand.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TinyUrlConvertToolStripMenuItem, Me.UpdateFollowersMenuItem1, Me.ToolStripSeparator1, Me.FollowCommandMenuItem, Me.RemoveCommandMenuItem, Me.FriendshipMenuItem, Me.ToolStripSeparator3, Me.OwnStatusMenuItem, Me.UserStatusToolStripMenuItem, Me.ToolStripSeparator34, Me.HashToggleToolStripMenuItem, Me.HashManageToolStripMenuItem, Me.RtCountMenuItem, Me.ListManageToolStripMenuItem})
+        Me.MenuItemCommand.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TinyUrlConvertToolStripMenuItem, Me.UpdateFollowersMenuItem1, Me.ToolStripSeparator1, Me.FollowCommandMenuItem, Me.RemoveCommandMenuItem, Me.FriendshipMenuItem, Me.ToolStripSeparator3, Me.OwnStatusMenuItem, Me.UserStatusToolStripMenuItem, Me.ToolStripSeparator41, Me.OpenOwnHomeMenuItem, Me.OpenOwnFavedMenuItem, Me.ToolStripSeparator34, Me.HashToggleToolStripMenuItem, Me.HashManageToolStripMenuItem, Me.RtCountMenuItem, Me.ListManageToolStripMenuItem})
         Me.MenuItemCommand.Name = "MenuItemCommand"
         resources.ApplyResources(Me.MenuItemCommand, "MenuItemCommand")
         '
@@ -1407,6 +1410,21 @@ Partial Class TweenMain
         '
         Me.UserStatusToolStripMenuItem.Name = "UserStatusToolStripMenuItem"
         resources.ApplyResources(Me.UserStatusToolStripMenuItem, "UserStatusToolStripMenuItem")
+        '
+        'ToolStripSeparator41
+        '
+        Me.ToolStripSeparator41.Name = "ToolStripSeparator41"
+        resources.ApplyResources(Me.ToolStripSeparator41, "ToolStripSeparator41")
+        '
+        'OpenOwnHomeMenuItem
+        '
+        Me.OpenOwnHomeMenuItem.Name = "OpenOwnHomeMenuItem"
+        resources.ApplyResources(Me.OpenOwnHomeMenuItem, "OpenOwnHomeMenuItem")
+        '
+        'OpenOwnFavedMenuItem
+        '
+        Me.OpenOwnFavedMenuItem.Name = "OpenOwnFavedMenuItem"
+        resources.ApplyResources(Me.OpenOwnFavedMenuItem, "OpenOwnFavedMenuItem")
         '
         'ToolStripSeparator34
         '
@@ -2109,5 +2127,8 @@ Partial Class TweenMain
     Friend WithEvents TweenRestartMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SearchPostsDetailNameToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SearchAtPostsDetailToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator41 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents OpenOwnHomeMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents OpenOwnFavedMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class
