@@ -7553,14 +7553,14 @@ RETRY:
                 UnFollowToolStripMenuItem.Enabled = False
                 ShowFriendShipToolStripMenuItem.Enabled = False
                 ShowUserStatusToolStripMenuItem.Enabled = True
-                SearchPostsDetailNameToolStripMenuItem.Enabled = False
+                SearchAtPostsDetailNameToolStripMenuItem.Enabled = False
                 ListManageUserContextToolStripMenuItem3.Enabled = True
             Else
                 FollowToolStripMenuItem.Enabled = True
                 UnFollowToolStripMenuItem.Enabled = True
                 ShowFriendShipToolStripMenuItem.Enabled = True
                 ShowUserStatusToolStripMenuItem.Enabled = True
-                SearchPostsDetailNameToolStripMenuItem.Enabled = True
+                SearchAtPostsDetailNameToolStripMenuItem.Enabled = True
                 ListManageUserContextToolStripMenuItem3.Enabled = True
             End If
         Else
@@ -7568,7 +7568,7 @@ RETRY:
             UnFollowToolStripMenuItem.Enabled = False
             ShowFriendShipToolStripMenuItem.Enabled = False
             ShowUserStatusToolStripMenuItem.Enabled = False
-            SearchPostsDetailNameToolStripMenuItem.Enabled = False
+            SearchAtPostsDetailNameToolStripMenuItem.Enabled = False
             ListManageUserContextToolStripMenuItem3.Enabled = False
         End If
     End Sub
@@ -9372,6 +9372,13 @@ RETRY:
         If NameLabel.Tag IsNot Nothing Then
             Dim id As String = DirectCast(NameLabel.Tag, String)
             AddNewTabForSearch("from:" + id)
+        End If
+    End Sub
+
+    Private Sub SearchAtPostsDetailNameToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SearchAtPostsDetailNameToolStripMenuItem.Click, SearchAtPostsDetailToolStripMenuItem.Click
+        If NameLabel.Tag IsNot Nothing Then
+            Dim id As String = DirectCast(NameLabel.Tag, String)
+            AddNewTabForSearch("@" + id)
         End If
     End Sub
 
