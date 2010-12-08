@@ -4538,6 +4538,7 @@ RETRY:
                 'SourceLinkLabel.Visible = True
             End If
         End If
+        SourceLinkLabel.TabStop = False
 
         If _statuses.Tabs(_curTab.Text).TabType = TabUsageType.DirectMessage AndAlso Not _curPost.IsOwl Then
             NameLabel.Text = "DM TO -> "
@@ -9749,10 +9750,6 @@ RETRY:
 
     Private Sub SourceLinkLabel_MouseLeave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SourceLinkLabel.MouseLeave
         SetStatusLabelUrl()
-    End Sub
-
-    Private Sub SourceLinkLabel_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SourceLinkLabel.Enter
-        StatusText.Focus()
     End Sub
 
     Private Sub MenuItemCommand_DropDownOpening(ByVal sender As Object, ByVal e As System.EventArgs) Handles MenuItemCommand.DropDownOpening
