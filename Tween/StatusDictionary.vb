@@ -818,6 +818,7 @@ Public NotInheritable Class TabInformations
                 For Each id As Long In Me._deletedIds
                     Me.RemovePost(id)
                 Next
+                Me._deletedIds.Clear()
             End If
 
             soundFile = _soundFile
