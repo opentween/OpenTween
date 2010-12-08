@@ -9820,25 +9820,7 @@ RETRY:
     End Sub
 
     Private Sub tw_PostDeleted(ByVal id As Long)
-        If SettingDialog.UserstreamPeriodInt > 0 Then
-            _statuses.RemovePostReserve(id)
-            Exit Sub
-        End If
-
-        Try
-            If InvokeRequired Then
-                Invoke(New Action(Of Long)(AddressOf tw_PostDeleted), id)
-                Exit Sub
-            End If
-        Catch ex As ObjectDisposedException
-            Exit Sub
-        End Try
-
-        _statuses.RemovePost(id)
-        For Each tb As TabPage In ListTab.TabPages
-            DirectCast(tb.Tag, DetailsListView).VirtualListSize = _statuses.Tabs(tb.Text).AllCount
-        Next
-        Me.RefreshTimeline(True)
+        _statuses.RemovePostReserve(id)
     End Sub
 
     Private Sub tw_NewPostFromStream()
