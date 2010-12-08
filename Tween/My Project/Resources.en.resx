@@ -963,4 +963,7 @@
   <data name="GetFriendshipInfo8" xml:space="preserve">
     <value>Confirm Unfollow</value>
   </data>
+  <data name="UserstreamPeriod_ValidatingText1" xml:space="preserve">
+    <value>Refresh interval must be number 0 to 60</value>
+  </data>
 </root>

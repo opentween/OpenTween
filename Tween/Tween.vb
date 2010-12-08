@@ -189,12 +189,12 @@ Public Class TweenMain
     Private SecurityManager As InternetSecurityManager
     Private Thumbnail As Thumbnail
 
-    Private _homeCounter As Integer = 0
-    Private _homeCounterAdjuster As Integer = 0
-    Private _mentionCounter As Integer = 0
-    Private _dmCounter As Integer = 0
-    Private _pubSearchCounter As Integer = 0
-    Private _listsCounter As Integer = 0
+    'Private _homeCounter As Integer = 0
+    'Private _homeCounterAdjuster As Integer = 0
+    'Private _mentionCounter As Integer = 0
+    'Private _dmCounter As Integer = 0
+    'Private _pubSearchCounter As Integer = 0
+    'Private _listsCounter As Integer = 0
 
     Private UnreadCounter As Integer = -1
     Private UnreadAtCounter As Integer = -1
@@ -767,6 +767,8 @@ Public Class TweenMain
         '    _FirstRefreshFlags = True
         '    _FirstListsRefreshFlags = True
         'End If
+        SettingDialog.UserstreamStartup = _cfgCommon.UserstreamStartup
+        SettingDialog.UserstreamPeriodInt = _cfgCommon.UserstreamPeriod
 
         'ハッシュタグ関連
         HashSupl = New AtIdSupplement(_cfgCommon.HashTags, "#")
@@ -1187,40 +1189,54 @@ Public Class TweenMain
 #If DEBUG Then
         Dim sw As Stopwatch = Stopwatch.StartNew()
 #End If
-        If _homeCounter > 0 Then Interlocked.Decrement(_homeCounter)
-        If _mentionCounter > 0 Then Interlocked.Decrement(_mentionCounter)
-        If _dmCounter > 0 Then Interlocked.Decrement(_dmCounter)
-        If _pubSearchCounter > 0 Then Interlocked.Decrement(_pubSearchCounter)
-        If _listsCounter > 0 Then Interlocked.Decrement(_listsCounter)
+        Static homeCounter As Integer = 0
+        Static mentionCounter As Integer = 0
+        Static dmCounter As Integer = 0
+        Static pubSearchCounter As Integer = 0
+        Static listsCounter As Integer = 0
+        Static usCounter As Integer = 0
+
+        If homeCounter > 0 Then Interlocked.Decrement(homeCounter)
+        If mentionCounter > 0 Then Interlocked.Decrement(mentionCounter)
+        If dmCounter > 0 Then Interlocked.Decrement(dmCounter)
+        If pubSearchCounter > 0 Then Interlocked.Decrement(pubSearchCounter)
+        If listsCounter > 0 Then Interlocked.Decrement(listsCounter)
+        If usCounter > 0 Then Interlocked.Decrement(usCounter)
 
         ''タイマー初期化
-        If _homeCounter <= 0 AndAlso SettingDialog.TimelinePeriodInt > 0 Then
-            Dim period As Integer
-            Interlocked.Exchange(period, 0)
-            Interlocked.Add(period, SettingDialog.TimelinePeriodInt)
-            Interlocked.Add(period, -_homeCounterAdjuster)
-            Interlocked.Exchange(_homeCounter, period)
+        If homeCounter <= 0 AndAlso SettingDialog.TimelinePeriodInt > 0 Then
+            'Dim period As Integer
+            'Interlocked.Exchange(period, 0)
+            'Interlocked.Add(period, SettingDialog.TimelinePeriodInt)
+            'Interlocked.Add(period, -_homeCounterAdjuster)
+            'Interlocked.Exchange(_homeCounter, period)
+            Interlocked.Exchange(homeCounter, SettingDialog.TimelinePeriodInt)
             GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
         End If
-        If _mentionCounter <= 0 AndAlso SettingDialog.ReplyPeriodInt > 0 Then
-            Interlocked.Exchange(_mentionCounter, SettingDialog.ReplyPeriodInt)
+        If mentionCounter <= 0 AndAlso SettingDialog.ReplyPeriodInt > 0 Then
+            Interlocked.Exchange(mentionCounter, SettingDialog.ReplyPeriodInt)
             GetTimeline(WORKERTYPE.Reply, 1, 0, "")
         End If
-        If _dmCounter <= 0 AndAlso SettingDialog.DMPeriodInt > 0 Then
-            Interlocked.Exchange(_dmCounter, SettingDialog.DMPeriodInt)
+        If dmCounter <= 0 AndAlso SettingDialog.DMPeriodInt > 0 Then
+            Interlocked.Exchange(dmCounter, SettingDialog.DMPeriodInt)
             GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
         End If
-        If _pubSearchCounter <= 0 AndAlso SettingDialog.PubSearchPeriodInt > 0 Then
-            Interlocked.Exchange(_pubSearchCounter, SettingDialog.PubSearchPeriodInt)
+        If pubSearchCounter <= 0 AndAlso SettingDialog.PubSearchPeriodInt > 0 Then
+            Interlocked.Exchange(pubSearchCounter, SettingDialog.PubSearchPeriodInt)
             GetTimeline(WORKERTYPE.PublicSearch, 1, 0, "")
         End If
-        If _listsCounter <= 0 AndAlso SettingDialog.ListsPeriodInt > 0 Then
-            Interlocked.Exchange(_listsCounter, SettingDialog.ListsPeriodInt)
+        If listsCounter <= 0 AndAlso SettingDialog.ListsPeriodInt > 0 Then
+            Interlocked.Exchange(listsCounter, SettingDialog.ListsPeriodInt)
             GetTimeline(WORKERTYPE.List, 1, 0, "")
         End If
+        If usCounter <= 0 AndAlso SettingDialog.UserstreamPeriodInt > 0 Then
+            Interlocked.Exchange(usCounter, SettingDialog.UserstreamPeriodInt)
+            RefreshTimeline(True)
+        End If
+
 #If DEBUG Then
         sw.Stop()
-        Console.WriteLine("Counter: Home {0} Reply {1} Dm {2} Search {3} Lists {4}", _homeCounter, _mentionCounter, _dmCounter, _pubSearchCounter, _listsCounter)
+        Console.WriteLine("Counter: Home {0} Reply {1} Dm {2} Search {3} Lists {4}", homeCounter, mentionCounter, dmCounter, pubSearchCounter, listsCounter)
         Console.WriteLine(sw.Elapsed)
 #End If
     End Sub
@@ -2916,15 +2932,15 @@ Public Class TweenMain
 
         If result = Windows.Forms.DialogResult.OK Then
             SyncLock _syncObject
-                Try
-                    If SettingDialog.TimelinePeriodInt > 0 Then
-                        _homeCounterAdjuster = 0
-                    End If
-                Catch ex As Exception
-                    ex.Data("Instance") = "Set Timers"
-                    ex.Data("IsTerminatePermission") = False
-                    Throw
-                End Try
+                'Try
+                '    If SettingDialog.TimelinePeriodInt > 0 Then
+                '        _homeCounterAdjuster = 0
+                '    End If
+                'Catch ex As Exception
+                '    ex.Data("Instance") = "Set Timers"
+                '    ex.Data("IsTerminatePermission") = False
+                '    Throw
+                'End Try
                 'tw.CountApi = SettingDialog.CountApi
                 'tw.CountApiReply = SettingDialog.CountApiReply
                 tw.TinyUrlResolve = SettingDialog.TinyUrlResolve
@@ -5802,6 +5818,8 @@ RETRY:
             _cfgCommon.IsOAuth = SettingDialog.IsOAuth
             _cfgCommon.Token = tw.AccessToken
             _cfgCommon.TokenSecret = tw.AccessTokenSecret
+            _cfgCommon.UserstreamStartup = SettingDialog.UserstreamStartup
+            _cfgCommon.UserstreamPeriod = SettingDialog.UserstreamPeriodInt
             _cfgCommon.TimelinePeriod = SettingDialog.TimelinePeriodInt
             _cfgCommon.ReplyPeriod = SettingDialog.ReplyPeriodInt
             _cfgCommon.DMPeriod = SettingDialog.DMPeriodInt
@@ -6599,7 +6617,7 @@ RETRY:
         Static blinkCnt As Integer = 0
         Static blink As Boolean = False
         Static idle As Boolean = False
-        Static usCheckCnt As Integer = 0
+        'Static usCheckCnt As Integer = 0
 
         Static iconDlListTopItem As ListViewItem = Nothing
         If DirectCast(ListTab.SelectedTab.Tag, ListView).TopItem Is iconDlListTopItem Then
@@ -6611,15 +6629,15 @@ RETRY:
 
         iconCnt += 1
         blinkCnt += 1
-        usCheckCnt += 1
+        'usCheckCnt += 1
 
-        If usCheckCnt > 300 Then    '1min
-            usCheckCnt = 0
-            If Not Me.IsReceivedUserStream Then
-                TraceOut("ReconnectUserStream")
-                tw.ReconnectUserStream()
-            End If
-        End If
+        'If usCheckCnt > 300 Then    '1min
+        '    usCheckCnt = 0
+        '    If Not Me.IsReceivedUserStream Then
+        '        TraceOut("ReconnectUserStream")
+        '        tw.ReconnectUserStream()
+        '    End If
+        'End If
 
         Dim busy As Boolean = False
         For Each bw As BackgroundWorker In Me._bw
@@ -7324,7 +7342,7 @@ RETRY:
         If SettingDialog.TimelinePeriodInt = 0 Then
             slbl.Append(My.Resources.SetStatusLabelText2)
         Else
-            slbl.Append((SettingDialog.TimelinePeriodInt - _homeCounterAdjuster).ToString() + My.Resources.SetStatusLabelText3)
+            slbl.Append(SettingDialog.TimelinePeriodInt.ToString() + My.Resources.SetStatusLabelText3)
         End If
         Return slbl.ToString()
     End Function
@@ -8315,11 +8333,14 @@ RETRY:
         AddHandler tw.UserStreamStopped, AddressOf tw_UserStreamStopped
         AddHandler tw.UserStreamPaused, AddressOf tw_UserStreamPaused
         AddHandler tw.PostDeleted, AddressOf tw_PostDeleted
+
+        MenuItemUserStream.Text = "&UserStream ■"
+        MenuItemUserStream.Enabled = True
         PauseToolStripMenuItem.Text = "&Pause"
         PauseToolStripMenuItem.Enabled = False
         StopToolStripMenuItem.Text = "&Start"
         StopToolStripMenuItem.Enabled = True
-        tw.StartUserStream()
+        If SettingDialog.UserstreamStartup Then tw.StartUserStream()
         TimerTimeline.Enabled = True
     End Sub
 
@@ -9799,6 +9820,11 @@ RETRY:
     End Sub
 
     Private Sub tw_PostDeleted(ByVal id As Long)
+        If SettingDialog.UserstreamPeriodInt > 0 Then
+            _statuses.RemovePostReserve(id)
+            Exit Sub
+        End If
+
         Try
             If InvokeRequired Then
                 Invoke(New Action(Of Long)(AddressOf tw_PostDeleted), id)
@@ -9847,6 +9873,8 @@ RETRY:
             'If before.Subtract(Now).Seconds > -5 Then Exit Sub
             'before = Now
         End SyncLock
+
+        If SettingDialog.UserstreamPeriodInt > 0 Then Exit Sub
 
         Try
             If InvokeRequired AndAlso Not IsDisposed Then
@@ -9905,14 +9933,14 @@ RETRY:
         StatusLabel.Text = "UserStream Paused."
     End Sub
 
-    Private ReadOnly Property IsReceivedUserStream As Boolean
-        Get
-            Static lastTime As DateTime
-            Dim changed As Boolean = (lastTime.CompareTo(tw.LastReceivedUserStream) < 0)
-            lastTime = tw.LastReceivedUserStream
-            Return changed
-        End Get
-    End Property
+    'Private ReadOnly Property IsReceivedUserStream As Boolean
+    '    Get
+    '        Static lastTime As DateTime
+    '        Dim changed As Boolean = (lastTime.CompareTo(tw.LastReceivedUserStream) < 0)
+    '        lastTime = tw.LastReceivedUserStream
+    '        Return changed
+    '    End Get
+    'End Property
 
     Private Sub PauseToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PauseToolStripMenuItem.Click
         MenuItemUserStream.Enabled = False

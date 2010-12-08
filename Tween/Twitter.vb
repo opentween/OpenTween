@@ -2825,15 +2825,15 @@ Public Class Twitter
         "block"
     }
 
-    Public ReadOnly Property LastReceivedUserStream As DateTime
-        Get
-            If userStream IsNot Nothing Then
-                Return userStream.LastTime
-            Else
-                Return Now
-            End If
-        End Get
-    End Property
+    'Public ReadOnly Property LastReceivedUserStream As DateTime
+    '    Get
+    '        If userStream IsNot Nothing Then
+    '            Return userStream.LastTime
+    '        Else
+    '            Return Now
+    '        End If
+    '    End Get
+    'End Property
 
     Private Sub userStream_StatusArrived(ByVal line As String) Handles userStream.StatusArrived
         If _streamBypass OrElse String.IsNullOrEmpty(line) Then Exit Sub
@@ -2995,7 +2995,7 @@ Public Class Twitter
             End Set
         End Property
 
-        Public Property LastTime As DateTime = Now
+        'Public Property LastTime As DateTime = Now
 
         Private Sub UserStreamLoop()
             Dim st As Stream = Nothing
@@ -3009,7 +3009,7 @@ Public Class Twitter
 
                     Do While _streamActive AndAlso Not sr.EndOfStream
                         RaiseEvent StatusArrived(sr.ReadLine())
-                        Me.LastTime = Now
+                        'Me.LastTime = Now
                     Loop
 
                     If sr.EndOfStream Then
