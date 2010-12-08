@@ -907,7 +907,6 @@ Partial Class TweenMain
         Me.SourceLinkLabel.AutoEllipsis = True
         Me.SourceLinkLabel.MaximumSize = New System.Drawing.Size(130, 0)
         Me.SourceLinkLabel.Name = "SourceLinkLabel"
-        Me.SourceLinkLabel.TabStop = True
         '
         'StatusText
         '
