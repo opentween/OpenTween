@@ -125,6 +125,8 @@ Public Class Setting
     Private _SearchCountApi As Integer
     Private _FavoritesCountApi As Integer
     Private _MyRetweetNoConfirm As Boolean
+    Private _MyUserstreamStartup As Boolean
+    Private _MyUserstreamPeriod As Integer
 
     Private _ValidationError As Boolean = False
 
@@ -145,6 +147,8 @@ Public Class Setting
             _ValidationError = False
         End If
         Try
+            _MyUserstreamPeriod = CType(Me.UserstreamPeriod.Text, Integer)
+            _MyUserstreamStartup = Me.StartupUserstreamCheck.Checked
             _MyIsOAuth = AuthOAuthRadio.Checked
             _MytimelinePeriod = CType(TimelinePeriod.Text, Integer)
             _MyDMPeriod = CType(DMPeriod.Text, Integer)
@@ -379,6 +383,8 @@ Public Class Setting
             Me.AuthUserLabel.Text = tw.Username
         End If
 
+        Me.StartupUserstreamCheck.Checked = _MyUserstreamStartup
+        Me.UserstreamPeriod.Text = _MyUserstreamPeriod.ToString()
         TimelinePeriod.Text = _MytimelinePeriod.ToString()
         ReplyPeriod.Text = _MyReplyPeriod.ToString()
         DMPeriod.Text = _MyDMPeriod.ToString()
@@ -593,6 +599,24 @@ Public Class Setting
         FirstTextCountApi.Enabled = UseChangeGetCount.Checked
         SearchTextCountApi.Enabled = UseChangeGetCount.Checked
         FavoritesTextCountApi.Enabled = UseChangeGetCount.Checked
+    End Sub
+
+    Private Sub UserstreamPeriod_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles UserstreamPeriod.Validating
+        Dim prd As Integer
+        Try
+            prd = CType(TimelinePeriod.Text, Integer)
+        Catch ex As Exception
+            MessageBox.Show(My.Resources.UserstreamPeriod_ValidatingText1)
+            e.Cancel = True
+            Exit Sub
+        End Try
+
+        If prd < 0 OrElse prd > 60 Then
+            MessageBox.Show(My.Resources.UserstreamPeriod_ValidatingText1)
+            e.Cancel = True
+            Exit Sub
+        End If
+        CalcApiUsing()
     End Sub
 
     Private Sub TimelinePeriod_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles TimelinePeriod.Validating
@@ -818,6 +842,24 @@ Public Class Setting
                 lblDetailLink.ForeColor = ColorDialog1.Color
         End Select
     End Sub
+
+    Public Property UserstreamPeriodInt() As Integer
+        Get
+            Return _MyUserstreamPeriod
+        End Get
+        Set(ByVal value As Integer)
+            _MyUserstreamPeriod = value
+        End Set
+    End Property
+
+    Public Property UserstreamStartup() As Boolean
+        Get
+            Return Me._MyUserstreamStartup
+        End Get
+        Set(ByVal value As Boolean)
+            Me._MyUserstreamStartup = value
+        End Set
+    End Property
 
     Public Property TimelinePeriodInt() As Integer
         Get

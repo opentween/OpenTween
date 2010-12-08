@@ -1045,4 +1045,7 @@
   <data name="GetFriendshipInfo8" xml:space="preserve">
     <value>フォロー解除確認</value>
   </data>
+  <data name="UserstreamPeriod_ValidatingText1" xml:space="preserve">
+    <value>反映間隔には数値（0～60）を指定してください。</value>
+  </data>
 </root>

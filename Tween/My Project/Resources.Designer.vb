@@ -2729,6 +2729,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  反映間隔には数値（0～60）を指定してください。 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property UserstreamPeriod_ValidatingText1() As String
+            Get
+                Return ResourceManager.GetString("UserstreamPeriod_ValidatingText1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  タイトル: に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property VimeoInfoText1() As String

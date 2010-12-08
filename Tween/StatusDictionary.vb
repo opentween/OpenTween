@@ -377,6 +377,7 @@ Public NotInheritable Class TabInformations
     Private _tabs As New Dictionary(Of String, TabClass)
     Private _statuses As New Dictionary(Of Long, PostClass)
     Private _addedIds As List(Of Long)
+    Private _deletedIds As New List(Of Long)
     Private _retweets As New Dictionary(Of Long, PostClass)
     Private _removedTab As TabClass = Nothing
 
@@ -607,6 +608,12 @@ Public NotInheritable Class TabInformations
         End SyncLock
     End Sub
 
+    Public Sub RemovePostReserve(ByVal id As Long)
+        SyncLock LockObj
+            Me._deletedIds.Add(id)
+        End SyncLock
+    End Sub
+
     Public Sub RemovePost(ByVal Id As Long)
         SyncLock LockObj
             Dim post As PostClass = Nothing
@@ -806,6 +813,11 @@ Public NotInheritable Class TabInformations
             Next
             If Not isUserStream OrElse Me.SortMode <> IdComparerClass.ComparerMode.Id Then
                 Me.SortPosts()
+            End If
+            If isUserStream Then
+                For Each id As Long In Me._deletedIds
+                    Me.RemovePost(id)
+                Next
             End If
 
             soundFile = _soundFile

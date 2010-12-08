@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ButtonClose.Text" xml:space="preserve">
     <value>&amp;Close</value>
@@ -123,9 +123,9 @@
   <data name="Label11.Text" xml:space="preserve">
     <value>If only the [ExcludingRule] is set, it becomes excluding set to the this tab. </value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="CheckExRetweet.Size" type="System.Drawing.Size, System.Drawing">
-    <value>69, 16</value>
+    <value>96, 16</value>
   </data>
   <data name="CheckExRetweet.Text" xml:space="preserve">
     <value>ReTweet Only</value>
@@ -182,7 +182,7 @@
     <value>ExcludingRule</value>
   </data>
   <data name="CheckRetweet.Size" type="System.Drawing.Size, System.Drawing">
-    <value>69, 16</value>
+    <value>96, 16</value>
   </data>
   <data name="CheckRetweet.Text" xml:space="preserve">
     <value>ReTweet Only</value>
@@ -280,6 +280,12 @@
   <data name="ButtonEdit.Text" xml:space="preserve">
     <value>&amp;Edit</value>
   </data>
+  <data name="ButtonRuleMove.Text" xml:space="preserve">
+    <value>Move</value>
+  </data>
+  <data name="ButtonRuleCopy.Text" xml:space="preserve">
+    <value>Copy</value>
+  </data>
   <data name="GroupBox2.Text" xml:space="preserve">
     <value>Distribution Rules</value>
   </data>
@@ -298,6 +304,9 @@
   <data name="CheckManageRead.Text" xml:space="preserve">
     <value>Manage reading</value>
   </data>
+  <data name="CheckNotifyNew.Size" type="System.Drawing.Size, System.Drawing">
+    <value>90, 16</value>
+  </data>
   <data name="CheckNotifyNew.Text" xml:space="preserve">
     <value>Alert Popups</value>
   </data>
@@ -306,6 +315,12 @@
   </data>
   <data name="Label10.Text" xml:space="preserve">
     <value>Notify sound</value>
+  </data>
+  <data name="Label13.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 12</value>
+  </data>
+  <data name="Label13.Text" xml:space="preserve">
+    <value>Kind of tab</value>
   </data>
   <data name="GroupTab.Text" xml:space="preserve">
     <value>Tabs</value>
