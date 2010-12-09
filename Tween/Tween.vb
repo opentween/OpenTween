@@ -8837,6 +8837,11 @@ RETRY:
         If name IsNot Nothing Then AddNewTabForSearch("from:" + name)
     End Sub
 
+    Private Sub SearchAtPostsDetailToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SearchAtPostsDetailToolStripMenuItem.Click
+        Dim name As String = GetUserId()
+        If name IsNot Nothing Then AddNewTabForSearch("@" + name)
+    End Sub
+
     Private Sub IdeographicSpaceToSpaceToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles IdeographicSpaceToSpaceToolStripMenuItem.Click
         _modifySettingCommon = True
     End Sub
@@ -9400,7 +9405,7 @@ RETRY:
         End If
     End Sub
 
-    Private Sub SearchAtPostsDetailNameToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SearchAtPostsDetailNameToolStripMenuItem.Click, SearchAtPostsDetailToolStripMenuItem.Click
+    Private Sub SearchAtPostsDetailNameToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SearchAtPostsDetailNameToolStripMenuItem.Click
         If NameLabel.Tag IsNot Nothing Then
             Dim id As String = DirectCast(NameLabel.Tag, String)
             AddNewTabForSearch("@" + id)
