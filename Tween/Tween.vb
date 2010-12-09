@@ -8076,7 +8076,7 @@ RETRY:
             SelectionCopyContextMenuItem.Enabled = True
         End If
         '発言内に自分以外のユーザーが含まれてればフォロー状態全表示を有効に
-        Dim ma As MatchCollection = Regex.Matches(Me.PostBrowser.DocumentText, "href=""https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)""")
+        Dim ma As MatchCollection = Regex.Matches(Me.PostBrowser.DocumentText, "href=""https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)(/status(es)?/[0-9]+)?""")
         Dim fAllFlag As Boolean = False
         For Each mu As Match In ma
             If mu.Result("${name}").ToLower <> tw.Username.ToLower Then
@@ -8803,14 +8803,10 @@ RETRY:
     End Function
 
     Private Function GetUserId() As String
-        Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)$")
+        Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)(/status(es)?/[0-9]+)?$")
         If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
             Return m.Result("${name}")
         Else
-            Dim ma As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)(/(status|statuses)/[0-9]+)$")
-            If ma.Success AndAlso IsTwitterId(ma.Result("${name}")) Then
-                Return ma.Result("${name}")
-            End If
             Return Nothing
         End If
     End Function
@@ -8831,7 +8827,7 @@ RETRY:
     End Sub
 
     Private Sub FriendshipAllMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FriendshipAllMenuItem.Click
-        Dim ma As MatchCollection = Regex.Matches(Me.PostBrowser.DocumentText, "href=""https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)""")
+        Dim ma As MatchCollection = Regex.Matches(Me.PostBrowser.DocumentText, "href=""https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)(/status(es)?/[0-9]+)?""")
         Dim ids As New List(Of String)
         For Each mu As Match In ma
             If mu.Result("${name}").ToLower <> tw.Username.ToLower Then
