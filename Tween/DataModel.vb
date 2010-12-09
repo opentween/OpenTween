@@ -155,6 +155,20 @@ Public Class TwitterDataModel
     End Class
 
     <DataContract()> _
+    Public Class TargetObject
+        Inherits Status
+        <DataMember(Name:="mode")> Public Mode As String
+        <DataMember(Name:="description")> Public Description As String
+        <DataMember(Name:="slug")> Public Slug As String
+        <DataMember(Name:="uri")> Public Uri As String
+        <DataMember(Name:="member_count")> Public MemberCount As Integer
+        <DataMember(Name:="full_name")> Public FullName As String
+        <DataMember(Name:="subscriber_count")> Public SubscriberCount As Integer
+        <DataMember(Name:="name")> Public Name As String
+        <DataMember(Name:="following")> Public Following As Boolean
+    End Class
+
+    <DataContract()> _
     Public Class Directmessage
         <DataMember(Name:="created_at")> Public CreatedAt As String
         <DataMember(Name:="sender_id")> Public SenderId As Int64
@@ -216,7 +230,7 @@ Public Class TwitterDataModel
     <DataContract()> _
     Public Class EventData
         <DataMember(Name:="target")> Public Target As User
-        <DataMember(Name:="target_object", isRequired:=False)> Public TargetObject As Status
+        <DataMember(Name:="target_object", isRequired:=False)> Public TargetObject As TargetObject
         <DataMember(Name:="created_at")> Public CreatedAt As String
         <DataMember(Name:="event")> Public [Event] As String
         <DataMember(Name:="source")> Public Source As User

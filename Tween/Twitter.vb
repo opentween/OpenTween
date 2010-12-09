@@ -2113,12 +2113,7 @@ Public Class Twitter
         Dim item As List(Of TwitterDataModel.Status)
 
         Try
-            Using stream As New MemoryStream()
-                Dim buf As Byte() = Encoding.Unicode.GetBytes(content)
-                stream.Write(buf, 0, buf.Length)
-                stream.Seek(offset:=0, loc:=SeekOrigin.Begin)
-                item = DirectCast(serializer.ReadObject(stream), List(Of TwitterDataModel.Status))
-            End Using
+            item = CreateDataFromJson(Of List(Of TwitterDataModel.Status))(content)
         Catch ex As SerializationException
             TraceOut(ex.Message + Environment.NewLine + content)
             Return "Json Parse Error(DataContractJsonSerializer)"
@@ -2813,7 +2808,24 @@ Public Class Twitter
     Public Event UserStreamStopped()
     Public Event UserStreamGetFriendsList()
     Public Event PostDeleted(ByVal id As Long)
+    Public Event UserStreamEventReceived(ByVal eventType As String)
     Private WithEvents userStream As TwitterUserstream
+
+    Public Class FormattedEvent
+        Public Property CreatedAt As DateTime
+        Public Property [Event] As String
+        Public Property Username As String
+        Public Property Target As String
+
+        Public Overrides Function ToString() As String
+            Return (Me.CreatedAt.ToString() + "                    ").Substring(0, 20) +
+                ("[" + Me.Event.ToUpper + "]                   ").Substring(0, 20) +
+                (Me.Username + "                    ").Substring(0, 20) +
+                Me.Target
+        End Function
+    End Class
+
+    Public Property StoredEvent As New List(Of FormattedEvent)
 
     Private EventNameTable() As String = {
         "favorite",
@@ -2847,9 +2859,7 @@ Public Class Twitter
                 Exit Sub
             ElseIf xElm.Element("event") IsNot Nothing Then
                 Debug.Print("event: " + xElm.Element("event").Value)
-                If Array.IndexOf(EventNameTable, xElm.Element("event").Value) = -1 Then
-                    TraceOut("Unknown Event:" + xElm.Element("event").Value + Environment.NewLine + line)
-                End If
+                CreateEventFromJson(line)
                 Exit Sub
             ElseIf xElm.Element("direct_message") IsNot Nothing Then
                 Debug.Print("direct_message")
@@ -2870,6 +2880,41 @@ Public Class Twitter
         End If
 
         RaiseEvent NewPostFromStream()
+    End Sub
+
+    Private Sub CreateEventFromJson(ByVal content As String)
+        Dim eventData As TwitterDataModel.EventData = Nothing
+        Try
+            eventData = CreateDataFromJson(Of TwitterDataModel.EventData)(content)
+        Catch ex As SerializationException
+            TraceOut(ex, "Event Serialize Exception!" + Environment.NewLine + content)
+        Catch ex As Exception
+            TraceOut(ex, "Event Exception!" + Environment.NewLine + content)
+        End Try
+
+        Dim evt As New FormattedEvent
+        evt.CreatedAt = Me.DateTimeParse(eventData.CreatedAt)
+        evt.Event = eventData.Event
+        evt.Username = eventData.Source.ScreenName
+        Select Case eventData.Event
+            Case "follow"
+                If eventData.Target.ScreenName.ToLower.Equals(_uid) Then
+                    If Not Me.followerId.Contains(eventData.Source.Id) Then Me.followerId.Add(eventData.Source.Id)
+                Else
+                    Exit Sub    'Block後のUndoをすると、SourceとTargetが逆転したfollowイベントが帰ってくるため。
+                End If
+                evt.Target = ""
+            Case "favorite", "unfavorite"
+                evt.Target = eventData.TargetObject.Text
+            Case "list_member_added", "list_member_removed"
+                evt.Target = eventData.TargetObject.Name
+            Case "block"
+                evt.Target = ""
+            Case Else
+                TraceOut("Unknown Event:" + evt.Event + Environment.NewLine + content)
+        End Select
+        Me.StoredEvent.Insert(0, evt)
+        RaiseEvent UserStreamEventReceived(evt.Event)
     End Sub
 
     Private Function CreateDataFromJson(Of T)(ByVal content As String) As T
