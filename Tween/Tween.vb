@@ -7586,6 +7586,7 @@ RETRY:
                 UnFollowToolStripMenuItem.Enabled = False
                 ShowFriendShipToolStripMenuItem.Enabled = False
                 ShowUserStatusToolStripMenuItem.Enabled = True
+                SearchPostsDetailNameToolStripMenuItem.Enabled = True
                 SearchAtPostsDetailNameToolStripMenuItem.Enabled = False
                 ListManageUserContextToolStripMenuItem3.Enabled = True
             Else
@@ -7593,6 +7594,7 @@ RETRY:
                 UnFollowToolStripMenuItem.Enabled = True
                 ShowFriendShipToolStripMenuItem.Enabled = True
                 ShowUserStatusToolStripMenuItem.Enabled = True
+                SearchPostsDetailNameToolStripMenuItem.Enabled = True
                 SearchAtPostsDetailNameToolStripMenuItem.Enabled = True
                 ListManageUserContextToolStripMenuItem3.Enabled = True
             End If
@@ -7601,6 +7603,7 @@ RETRY:
             UnFollowToolStripMenuItem.Enabled = False
             ShowFriendShipToolStripMenuItem.Enabled = False
             ShowUserStatusToolStripMenuItem.Enabled = False
+            SearchPostsDetailNameToolStripMenuItem.Enabled = False
             SearchAtPostsDetailNameToolStripMenuItem.Enabled = False
             ListManageUserContextToolStripMenuItem3.Enabled = False
         End If
@@ -8062,6 +8065,7 @@ RETRY:
             FriendshipContextMenuItem.Enabled = False
             ShowUserStatusContextMenuItem.Enabled = False
             SearchPostsDetailToolStripMenuItem.Enabled = False
+            SearchAtPostsDetailToolStripMenuItem.Enabled = False
             UseHashtagMenuItem.Enabled = False
             IdFilterAddMenuItem.Enabled = False
             ListManageUserContextToolStripMenuItem.Enabled = False
