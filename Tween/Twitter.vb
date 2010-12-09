@@ -3041,6 +3041,12 @@ Public Class Twitter
                         TraceOut("Stop:IOException with Active." + Environment.NewLine + ex.Message)
                         Thread.Sleep(10 * 1000)
                     End If
+                Catch ex As ArgumentException
+                    'System.ArgumentException: ストリームを読み取れませんでした。
+                    'サーバー側もしくは通信経路上で切断された場合？タイムアウト頻発後発生
+                    RaiseEvent Stopped()
+                    TraceOut(ex, "Stop:ArgumentException")
+                    Thread.Sleep(10 * 1000)
                 Catch ex As Exception
                     TraceOut("Stop:Exception." + Environment.NewLine + ex.Message)
                     ExceptionOut(ex)
