@@ -8023,6 +8023,7 @@ RETRY:
                 SearchPostsDetailToolStripMenuItem.Enabled = True
                 IdFilterAddMenuItem.Enabled = True
                 ListManageUserContextToolStripMenuItem.Enabled = True
+                SearchAtPostsDetailToolStripMenuItem.Enabled = True
             Else
                 FollowContextMenuItem.Enabled = False
                 RemoveContextMenuItem.Enabled = False
@@ -8031,6 +8032,7 @@ RETRY:
                 SearchPostsDetailToolStripMenuItem.Enabled = False
                 IdFilterAddMenuItem.Enabled = False
                 ListManageUserContextToolStripMenuItem.Enabled = False
+                SearchAtPostsDetailToolStripMenuItem.Enabled = False
             End If
 
             If Regex.IsMatch(Me._postBrowserStatusText, "^https?://twitter.com/search\?q=%23") Then
