@@ -3864,10 +3864,24 @@ Public Class TweenMain
         If Post.InReplyToId > 0 Then mk += "⇒"
         Dim itm As ImageListViewItem
         If Post.RetweetedId = 0 Then
-            Dim sitem() As String = {"", Post.Nickname, Post.Data, Post.PDate.ToString(SettingDialog.DateTimeFormat), Post.Name, "", mk, Post.Source}
+            Dim sitem() As String = {"",
+                                     Post.Nickname,
+                                     Post.Data,
+                                     Post.PDate.ToString(SettingDialog.DateTimeFormat),
+                                     Post.Name,
+                                     "",
+                                     mk,
+                                     Post.Source}
             itm = New ImageListViewItem(sitem, DirectCast(Me.TIconDic, ImageDictionary), Post.ImageUrl)
         Else
-            Dim sitem() As String = {"", Post.Nickname, Post.Data, Post.PDate.ToString(SettingDialog.DateTimeFormat), Post.Name + Environment.NewLine + "(RT:" + Post.RetweetedBy + ")", "", mk, Post.Source}
+            Dim sitem() As String = {"",
+                                     Post.Nickname,
+                                     Post.Data,
+                                     Post.PDate.ToString(SettingDialog.DateTimeFormat),
+                                     Post.Name + Environment.NewLine + "(RT:" + Post.RetweetedBy + ")",
+                                     "",
+                                     mk,
+                                     Post.Source}
             itm = New ImageListViewItem(sitem, DirectCast(Me.TIconDic, ImageDictionary), Post.ImageUrl)
         End If
 
