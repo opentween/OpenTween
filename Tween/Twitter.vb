@@ -36,6 +36,7 @@ Imports System.Runtime.Serialization.Json
 Imports System.Linq
 Imports System.Xml.Linq
 Imports System.Runtime.Serialization
+Imports System.Net.NetworkInformation
 
 Public Class Twitter
     Implements IDisposable
@@ -3022,6 +3023,11 @@ Public Class Twitter
             Dim sr As StreamReader = Nothing
             Do
                 Try
+                    If Not NetworkInterface.GetIsNetworkAvailable Then
+                        Thread.Sleep(30 * 1000)
+                        Continue Do
+                    End If
+
                     RaiseEvent Started()
 
                     twCon.UserStream(st, _allAtreplies, _trackwords)
