@@ -38,7 +38,7 @@ Public Class TwitterDataModel
 
     <DataContract()> _
     Public Class User
-        <DataMember(Name:="statuses_count")> Public StatusesCount As Int64
+        <DataMember(Name:="statuses_count")> Public StatusesCount As Integer
         <DataMember(Name:="profile_sidebar_fill_color")> Public ProfileSidebarFillColor As String
         <DataMember(Name:="show_all_inline_media")> Public ShowAllInlineMedia As Boolean
         <DataMember(Name:="profile_use_background_image")> Public ProfileUseBackgroundImage As Boolean
@@ -72,6 +72,7 @@ Public Class TwitterDataModel
         <DataMember(Name:="profile_background_tile")> Public ProfileBackgroundTile As Boolean
         <DataMember(Name:="utc_offset")> Public UtcOffset As String
         <DataMember(Name:="place", IsRequired:=False)> Public Place As Place
+        <DataMember(Name:="status", IsRequired:=False)> Public Status As Status
     End Class
 
     <DataContract()> _

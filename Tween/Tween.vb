@@ -8792,12 +8792,13 @@ RETRY:
     End Sub
 
     Private Sub OwnStatusMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OwnStatusMenuItem.Click
-        If Not String.IsNullOrEmpty(tw.UserInfoXml) Then
-            doShowUserStatus(tw.UserInfoXml)
-        Else
-            MessageBox.Show(My.Resources.ShowYourProfileText1, "Your status", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Exit Sub
-        End If
+        doShowUserStatus(tw.Username, False)
+        'If Not String.IsNullOrEmpty(tw.UserInfoXml) Then
+        '    doShowUserStatus(tw.Username, False)
+        'Else
+        '    MessageBox.Show(My.Resources.ShowYourProfileText1, "Your status", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        '    Exit Sub
+        'End If
     End Sub
 
     ' TwitterIDでない固定文字列を調べる（文字列検証のみ　実際に取得はしない）
@@ -9308,17 +9309,17 @@ RETRY:
     Private Class GetUserInfoArgs
         Public tw As Tween.Twitter
         Public id As String
-        Public xmlbuf As String
+        Public user As TwitterDataModel.User
     End Class
 
     Private Sub GetUserInfo_DoWork(ByVal sender As Object, ByVal e As DoWorkEventArgs)
         Dim args As GetUserInfoArgs = DirectCast(e.Argument, GetUserInfoArgs)
-        e.Result = args.tw.GetUserInfo(args.id, args.xmlbuf)
+        e.Result = args.tw.GetUserInfo(args.id, args.user)
     End Sub
 
     Private Overloads Sub doShowUserStatus(ByVal id As String, ByVal ShowInputDialog As Boolean)
         Dim result As String = ""
-        Dim xmlbuf As String = ""
+        Dim user As TwitterDataModel.User = Nothing
         Dim args As New GetUserInfoArgs
         If ShowInputDialog Then
             Using inputName As New InputTabName()
@@ -9330,7 +9331,7 @@ RETRY:
                     id = inputName.TabName.Trim
                     args.tw = tw
                     args.id = id
-                    args.xmlbuf = xmlbuf
+                    args.user = user
                     Using _info As New FormInfo(Me, My.Resources.doShowUserStatusText1, _
                                                 AddressOf GetUserInfo_DoWork, _
                                                 Nothing, _
@@ -9338,7 +9339,7 @@ RETRY:
                         _info.ShowDialog()
                         Dim ret As String = DirectCast(_info.Result, String)
                         If String.IsNullOrEmpty(ret) Then
-                            doShowUserStatus(args.xmlbuf)
+                            doShowUserStatus(args.user)
                         Else
                             MessageBox.Show(ret)
                         End If
@@ -9348,7 +9349,7 @@ RETRY:
         Else
             args.tw = tw
             args.id = id
-            args.xmlbuf = xmlbuf
+            args.user = user
             Using _info As New FormInfo(Me, My.Resources.doShowUserStatusText1, _
                                         AddressOf GetUserInfo_DoWork, _
                                         Nothing, _
@@ -9356,7 +9357,7 @@ RETRY:
                 _info.ShowDialog()
                 Dim ret As String = DirectCast(_info.Result, String)
                 If String.IsNullOrEmpty(ret) Then
-                    doShowUserStatus(args.xmlbuf)
+                    doShowUserStatus(args.user)
                 Else
                     MessageBox.Show(ret)
                 End If
@@ -9364,9 +9365,9 @@ RETRY:
         End If
     End Sub
 
-    Private Overloads Sub doShowUserStatus(ByVal xmldata As String)
+    Private Overloads Sub doShowUserStatus(ByVal user As TwitterDataModel.User)
         Using userinfo As New ShowUserInfo()
-            userinfo.XmlData = xmldata
+            userinfo.User = user
             userinfo.ShowDialog(Me)
         End Using
     End Sub

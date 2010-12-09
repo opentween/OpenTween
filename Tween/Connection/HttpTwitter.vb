@@ -117,7 +117,7 @@ Public Class HttpTwitter
 
     Public Function AuthUserAndPass(ByVal username As String, ByVal password As String) As HttpStatusCode
         If connectionType = AuthMethod.Basic Then
-            Return httpCon.Authenticate(CreateTwitterUri("/1/account/verify_credentials.xml"), username, password)
+            Return httpCon.Authenticate(CreateTwitterUri("/1/account/verify_credentials.json"), username, password)
         Else
             Return httpCon.Authenticate(New Uri(AccessTokenUrlXAuth), username, password)
         End If
@@ -148,7 +148,7 @@ Public Class HttpTwitter
         If replyToId > 0 Then param.Add("in_reply_to_status_id", replyToId.ToString)
 
         Return httpCon.GetContent(PostMethod, _
-                            CreateTwitterUri("/1/statuses/update.xml"), _
+                            CreateTwitterUri("/1/statuses/update.json"), _
                             param, _
                             content, _
                             Nothing, _
@@ -170,7 +170,7 @@ Public Class HttpTwitter
         param.Add("screen_name", sendto)
 
         Return httpCon.GetContent(PostMethod, _
-                            CreateTwitterUri("/1/direct_messages/new.xml"), _
+                            CreateTwitterUri("/1/direct_messages/new.json"), _
                             param, _
                             content, _
                             Nothing, _
@@ -199,7 +199,7 @@ Public Class HttpTwitter
         Dim param As New Dictionary(Of String, String)
         param.Add("screen_name", screenName)
         Return httpCon.GetContent(GetMethod, _
-                            CreateTwitterUri("/1/users/show.xml"), _
+                            CreateTwitterUri("/1/users/show.json"), _
                             param, _
                             content, _
                             TwitterApiInfo.HttpHeaders, _
