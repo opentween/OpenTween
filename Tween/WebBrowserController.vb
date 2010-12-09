@@ -284,9 +284,16 @@ Public Class InternetSecurityManager
         ' IServiceProvider.QueryService() を使って IProfferService を取得
         ocxServiceProvider = DirectCast(ocx, WebBrowserAPI.IServiceProvider)
 
-        ocxServiceProvider.QueryService( _
+        Try
+            ocxServiceProvider.QueryService( _
             WebBrowserAPI.SID_SProfferService, _
             WebBrowserAPI.IID_IProfferService, profferServicePtr)
+        Catch ex As SEHException
+        Catch ex As ExternalException
+            TraceOut(ex, "HRESULT:" + ex.ErrorCode.ToString("X8") + Environment.NewLine)
+            Exit Sub
+        End Try
+
 
         profferService = DirectCast(Marshal.GetObjectForIUnknown(profferServicePtr),  _
             WebBrowserAPI.IProfferService)
