@@ -8332,13 +8332,10 @@ RETRY:
         AddHandler tw.NewPostFromStream, AddressOf tw_NewPostFromStream
         AddHandler tw.UserStreamStarted, AddressOf tw_UserStreamStarted
         AddHandler tw.UserStreamStopped, AddressOf tw_UserStreamStopped
-        AddHandler tw.UserStreamPaused, AddressOf tw_UserStreamPaused
         AddHandler tw.PostDeleted, AddressOf tw_PostDeleted
 
         MenuItemUserStream.Text = "&UserStream ■"
         MenuItemUserStream.Enabled = True
-        PauseToolStripMenuItem.Text = "&Pause"
-        PauseToolStripMenuItem.Enabled = False
         StopToolStripMenuItem.Text = "&Start"
         StopToolStripMenuItem.Enabled = True
         If SettingDialog.UserstreamStartup Then tw.StartUserStream()
@@ -9872,8 +9869,6 @@ RETRY:
 
         MenuItemUserStream.Text = "&UserStream ▶"
         MenuItemUserStream.Enabled = True
-        PauseToolStripMenuItem.Text = "&Pause"
-        PauseToolStripMenuItem.Enabled = True
         StopToolStripMenuItem.Text = "&Stop"
         StopToolStripMenuItem.Enabled = True
 
@@ -9888,42 +9883,10 @@ RETRY:
 
         MenuItemUserStream.Text = "&UserStream ■"
         MenuItemUserStream.Enabled = True
-        PauseToolStripMenuItem.Text = "&Pause"
-        PauseToolStripMenuItem.Enabled = False
         StopToolStripMenuItem.Text = "&Start"
         StopToolStripMenuItem.Enabled = True
 
         StatusLabel.Text = "UserStream Stopped."
-    End Sub
-
-    Private Sub tw_UserStreamPaused()
-        If InvokeRequired Then
-            Invoke(New MethodInvoker(AddressOf tw_UserStreamPaused))
-            Exit Sub
-        End If
-
-        MenuItemUserStream.Text = "&UserStream ||"
-        MenuItemUserStream.Enabled = True
-        PauseToolStripMenuItem.Text = "&Resume"
-        PauseToolStripMenuItem.Enabled = True
-        StopToolStripMenuItem.Text = "&Stop"
-        StopToolStripMenuItem.Enabled = True
-
-        StatusLabel.Text = "UserStream Paused."
-    End Sub
-
-    'Private ReadOnly Property IsReceivedUserStream As Boolean
-    '    Get
-    '        Static lastTime As DateTime
-    '        Dim changed As Boolean = (lastTime.CompareTo(tw.LastReceivedUserStream) < 0)
-    '        lastTime = tw.LastReceivedUserStream
-    '        Return changed
-    '    End Get
-    'End Property
-
-    Private Sub PauseToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PauseToolStripMenuItem.Click
-        MenuItemUserStream.Enabled = False
-        tw.PauseUserStream()
     End Sub
 
     Private Sub StopToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StopToolStripMenuItem.Click
