@@ -232,7 +232,6 @@
     <Compile Include="Setting\SettingBase.vb" />
     <Compile Include="Setting\SettingCommon.vb" />
     <Compile Include="Setting\SettingLocal.vb" />
-    <Compile Include="Setting\SettingTab.vb" />
     <Compile Include="Setting\SettingFollower.vb" />
     <Compile Include="Setting\SettingTabs.vb" />
     <Compile Include="ShieldIcon.vb" />
