@@ -29,7 +29,7 @@ Imports System.IO
 
 Public Class ShowUserInfo
 
-    Private userInfoXml As String = ""
+    Private userInfo As TwitterDataModel.User = Nothing
     Private _info As New UserInfo
     Private icondata As Image = Nothing
     Private atlist As New Generic.List(Of String)
@@ -63,57 +63,39 @@ Public Class ShowUserInfo
         ToolTip1.SetToolTip(LinkLabelFav, Favorites)
     End Sub
 
-    Private Function AnalizeUserInfo(ByVal xmlData As String) As Boolean
-        If xmlData Is Nothing Then Return False
-        Dim xdoc As New XmlDocument
+    Private Function AnalizeUserInfo(ByVal user As TwitterDataModel.User) As Boolean
+        If user Is Nothing Then Return False
+
         Try
-            xdoc.LoadXml(xmlData)
-            Dim nd As String = "/user"
-
-            If xdoc.SelectSingleNode(nd) Is Nothing Then
-                nd = "/status/user"
-            End If
-
-            _info.Id = Int64.Parse(xdoc.SelectSingleNode(nd + "/id").InnerText)
-            _info.Name = xdoc.SelectSingleNode(nd + "/name").InnerText
-            _info.ScreenName = xdoc.SelectSingleNode(nd + "/screen_name").InnerText
-            _info.Location = xdoc.SelectSingleNode(nd + "/location").InnerText
-            _info.Description = xdoc.SelectSingleNode(nd + "/description").InnerText
-            _info.ImageUrl = New Uri(xdoc.SelectSingleNode(nd + "/profile_image_url").InnerText)
-
-            _info.Url = xdoc.SelectSingleNode(nd + "/url").InnerText
-
-            _info.Protect = Boolean.Parse(xdoc.SelectSingleNode(nd + "/protected").InnerText)
-            _info.FriendsCount = Integer.Parse(xdoc.SelectSingleNode(nd + "/friends_count").InnerText)
-            _info.FollowersCount = Integer.Parse(xdoc.SelectSingleNode(nd + "/followers_count").InnerText)
-            _info.FavoriteCount = Integer.Parse(xdoc.SelectSingleNode(nd + "/favourites_count").InnerText)
-            _info.CreatedAt = DateTime.ParseExact(xdoc.SelectSingleNode(nd + "/created_at").InnerText, "ddd MMM dd HH:mm:ss zzzz yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None)
-            _info.StatusesCount = Integer.Parse(xdoc.SelectSingleNode(nd + "/statuses_count").InnerText)
-            _info.Verified = Boolean.Parse(xdoc.SelectSingleNode(nd + "/verified").InnerText)
-
-            ' 最終発言が取れないことがある
+            _info.Id = user.Id
+            _info.Name = user.Name
+            _info.ScreenName = user.ScreenName
+            _info.Location = user.Location
+            _info.Description = user.Description
+            _info.ImageUrl = New Uri(user.ProfileImageUrl)
+            _info.Url = user.Url
+            _info.Protect = user.Protected
+            _info.FriendsCount = user.FriendsCount
+            _info.FollowersCount = user.FollowersCount
+            _info.FavoriteCount = user.FavouritesCount
+            _info.CreatedAt = DateTimeParse(user.CreatedAt)
+            _info.StatusesCount = user.StatusesCount
+            _info.Verified = user.Verified
             Try
-                If nd = "/user" Then
-                    _info.RecentPost = xdoc.SelectSingleNode(nd + "/status/text").InnerText
-                    _info.PostCreatedAt = DateTime.ParseExact(xdoc.SelectSingleNode(nd + "/status/created_at").InnerText, "ddd MMM dd HH:mm:ss zzzz yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None)
-                    _info.PostSource = xdoc.SelectSingleNode(nd + "/status/source").InnerText
-                Else
-                    _info.RecentPost = xdoc.SelectSingleNode("/status/text").InnerText
-                    _info.PostCreatedAt = DateTime.ParseExact(xdoc.SelectSingleNode("/status/created_at").InnerText, "ddd MMM dd HH:mm:ss zzzz yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None)
-                    _info.PostSource = xdoc.SelectSingleNode("/status/source").InnerText
-                End If
-                If Not _info.PostSource.Contains("</a>") Then
-                    _info.PostSource += "</a>"
-                End If
+                _info.RecentPost = user.Status.Text
+                _info.PostCreatedAt = DateTimeParse(user.Status.CreatedAt)
+                _info.PostSource = user.Status.Source
             Catch ex As Exception
                 _info.RecentPost = Nothing
                 _info.PostCreatedAt = Nothing
                 _info.PostSource = Nothing
             End Try
+            If Not _info.PostSource.Contains("</a>") Then
+                _info.PostSource += "</a>"
+            End If
         Catch ex As Exception
             Return False
         End Try
-
         Return True
     End Function
 
@@ -141,7 +123,7 @@ Public Class ShowUserInfo
 
     Private Sub ShowUserInfo_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         MyOwner = DirectCast(Me.Owner, TweenMain)
-        If Not AnalizeUserInfo(userInfoXml) Then
+        If Not AnalizeUserInfo(userInfo) Then
             MessageBox.Show(My.Resources.ShowUserInfo1)
             Me.Close()
             Exit Sub
@@ -210,9 +192,9 @@ Public Class ShowUserInfo
         Me.Close()
     End Sub
 
-    Public WriteOnly Property XmlData() As String
-        Set(ByVal value As String)
-            userInfoXml = value
+    Public WriteOnly Property User() As TwitterDataModel.User
+        Set(ByVal value As TwitterDataModel.User)
+            Me.userInfo = value
         End Set
     End Property
 
@@ -584,7 +566,7 @@ Public Class ShowUserInfo
 
     Private Sub UpdateProfileImage_RunWorkerCompleted(ByVal sender As Object, ByVal e As RunWorkerCompletedEventArgs)
         Dim res As String = ""
-        Dim xdocbuf As String = ""
+        Dim user As TwitterDataModel.User = Nothing
 
         If e.Result Is Nothing Then
             Exit Sub
@@ -594,21 +576,15 @@ Public Class ShowUserInfo
         ' アイコンを取得してみる
         ' が、古いアイコンのユーザーデータが返ってくるため反映/判断できない
 
-        res = MyOwner.TwitterInstance.GetUserInfo(_info.ScreenName, xdocbuf)
-
-        Dim xdoc As New XmlDocument
-        Dim img As Image
         Try
-            xdoc.LoadXml(xdocbuf)
-            _info.ImageUrl = New Uri(xdoc.SelectSingleNode("/user/profile_image_url").InnerText)
-            img = (New HttpVarious).GetImage(_info.ImageUrl.ToString)
+            res = MyOwner.TwitterInstance.GetUserInfo(_info.ScreenName, user)
+            Dim img As Image = (New HttpVarious).GetImage(user.ProfileImageUrl)
             If img IsNot Nothing Then
                 UserPicture.Image = img
             End If
         Catch ex As Exception
 
         End Try
-
     End Sub
 
     Private Sub doChangeIcon(ByVal filename As String)

@@ -570,4 +570,24 @@ retry:
             If img IsNot Nothing Then img.Dispose()
         End Try
     End Function
+
+    Public Function DateTimeParse(ByVal input As String) As Date
+        Dim rslt As Date
+        Dim format() As String = {
+            "ddd MMM dd HH:mm:ss zzzz yyyy"
+        }
+        For Each fmt As String In format
+            If DateTime.TryParseExact(input, _
+                                      fmt, _
+                                      System.Globalization.DateTimeFormatInfo.InvariantInfo, _
+                                      System.Globalization.DateTimeStyles.None, _
+                                      rslt) Then
+                Return rslt
+            Else
+                Continue For
+            End If
+        Next
+        TraceOut("Parse Error(DateTimeFormat) : " + input)
+        Return New Date
+    End Function
 End Module
