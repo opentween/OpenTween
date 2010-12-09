@@ -443,6 +443,7 @@ Public NotInheritable Class TabInformations
                 For idx As Integer = 0 To _tabs(TabName).AllCount - 1
                     Dim exist As Boolean = False
                     Dim Id As Long = _tabs(TabName).GetId(idx)
+                    If Id < 0 Then Continue For
                     For Each key As String In _tabs.Keys
                         If Not key = TabName AndAlso key <> dmName Then
                             If _tabs(key).Contains(Id) Then
@@ -998,8 +999,8 @@ Public NotInheritable Class TabInformations
 
         If tb.UnreadManage = False Then Exit Sub '未読管理していなければ終了
 
-        If Not tb.Contains(Index) Then Exit Sub
         Dim Id As Long = tb.GetId(Index)
+        If Id < 0 Then Exit Sub
         Dim post As PostClass
         If Not tb.IsInnerStorageTabType Then
             post = _statuses(Id)
@@ -1050,6 +1051,7 @@ Public NotInheritable Class TabInformations
         SyncLock LockObj
             For i As Integer = 0 To tb.AllCount - 1
                 Dim id As Long = tb.GetId(i)
+                If id < 0 Then Exit Sub
                 If Not _statuses(id).IsReply AndAlso _
                    Not _statuses(id).IsRead AndAlso _
                    Not _statuses(id).FilterHit Then
@@ -1833,7 +1835,7 @@ Public NotInheritable Class TabClass
     End Sub
 
     Public Function GetId(ByVal Index As Integer) As Long
-        Return _ids(Index)
+        Return If(Index < _ids.Count, _ids(Index), -1)
     End Function
 
     Public Function IndexOf(ByVal ID As Long) As Integer
