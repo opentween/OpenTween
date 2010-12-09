@@ -220,7 +220,6 @@ Partial Class TweenMain
         Me.RtCountMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ListManageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuItemUserStream = New System.Windows.Forms.ToolStripMenuItem()
-        Me.PauseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StopToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator40 = New System.Windows.Forms.ToolStripSeparator()
         Me.TrackToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -907,6 +906,7 @@ Partial Class TweenMain
         Me.SourceLinkLabel.AutoEllipsis = True
         Me.SourceLinkLabel.MaximumSize = New System.Drawing.Size(130, 0)
         Me.SourceLinkLabel.Name = "SourceLinkLabel"
+        Me.SourceLinkLabel.TabStop = True
         '
         'StatusText
         '
@@ -1453,14 +1453,9 @@ Partial Class TweenMain
         '
         'MenuItemUserStream
         '
-        Me.MenuItemUserStream.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PauseToolStripMenuItem, Me.StopToolStripMenuItem, Me.ToolStripSeparator40, Me.TrackToolStripMenuItem, Me.AllrepliesToolStripMenuItem})
+        Me.MenuItemUserStream.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.StopToolStripMenuItem, Me.ToolStripSeparator40, Me.TrackToolStripMenuItem, Me.AllrepliesToolStripMenuItem})
         resources.ApplyResources(Me.MenuItemUserStream, "MenuItemUserStream")
         Me.MenuItemUserStream.Name = "MenuItemUserStream"
-        '
-        'PauseToolStripMenuItem
-        '
-        resources.ApplyResources(Me.PauseToolStripMenuItem, "PauseToolStripMenuItem")
-        Me.PauseToolStripMenuItem.Name = "PauseToolStripMenuItem"
         '
         'StopToolStripMenuItem
         '
@@ -2118,7 +2113,6 @@ Partial Class TweenMain
     Friend WithEvents ShowRelatedStatusesMenuItem2 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ShowRelatedStatusesMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MenuItemUserStream As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents PauseToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents StopToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator40 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents TrackToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem

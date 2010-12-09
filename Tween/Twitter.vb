@@ -2804,18 +2804,17 @@ Public Class Twitter
     Private Sub Twitter_ApiInformationChanged(ByVal sender As Object, ByVal e As ApiInformationChangedEventArgs) Handles Me.ApiInformationChanged
     End Sub
 
+#Region "UserStream"
     Public Property TrackWord As String = ""
     Public Property AllAtReply As Boolean = False
 
     Public Event NewPostFromStream()
     Public Event UserStreamStarted()
     Public Event UserStreamStopped()
-    Public Event UserStreamPaused()
     Public Event UserStreamGetFriendsList()
     Public Event PostDeleted(ByVal id As Long)
     Private WithEvents userStream As TwitterUserstream
 
-    Private _streamBypass As Boolean
     Private EventNameTable() As String = {
         "favorite",
         "unfavorite",
@@ -2825,18 +2824,8 @@ Public Class Twitter
         "block"
     }
 
-    'Public ReadOnly Property LastReceivedUserStream As DateTime
-    '    Get
-    '        If userStream IsNot Nothing Then
-    '            Return userStream.LastTime
-    '        Else
-    '            Return Now
-    '        End If
-    '    End Get
-    'End Property
-
     Private Sub userStream_StatusArrived(ByVal line As String) Handles userStream.StatusArrived
-        If _streamBypass OrElse String.IsNullOrEmpty(line) Then Exit Sub
+        If String.IsNullOrEmpty(line) Then Exit Sub
 
         Dim isDm As Boolean = False
 
@@ -2912,14 +2901,12 @@ Public Class Twitter
         If userStream IsNot Nothing Then
             StopUserStream()
         Else
-            Me._streamBypass = False
             userStream = New TwitterUserstream(twCon)
             userStream.Start(Me.AllAtReply, Me.TrackWord)
         End If
     End Sub
 
     Public Sub StopUserStream()
-        Me._streamBypass = True
         If userStream IsNot Nothing Then userStream.Dispose()
         userStream = Nothing
         If Not _endingFlag Then RaiseEvent UserStreamStopped()
@@ -2929,16 +2916,6 @@ Public Class Twitter
         If userStream IsNot Nothing Then
             Me.StopUserStream()
             Me.StartUserStream()
-        End If
-    End Sub
-
-    Public Sub PauseUserStream()
-        If _streamBypass Then
-            _streamBypass = False
-            RaiseEvent UserStreamStarted()
-        Else
-            _streamBypass = True
-            RaiseEvent UserStreamPaused()
         End If
     End Sub
 
@@ -2994,8 +2971,6 @@ Public Class Twitter
                 _trackwords = value
             End Set
         End Property
-
-        'Public Property LastTime As DateTime = Now
 
         Private Sub UserStreamLoop()
             Dim st As Stream = Nothing
@@ -3099,6 +3074,7 @@ Public Class Twitter
 #End Region
 
     End Class
+#End Region
 
 #Region "IDisposable Support"
     Private disposedValue As Boolean ' 重複する呼び出しを検出するには
