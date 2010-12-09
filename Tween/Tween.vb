@@ -1121,44 +1121,44 @@ Public Class TweenMain
         e.Graphics.DrawString(txt, e.Font, fore, e.Bounds, sfTab)
     End Sub
 
-    Private Function LoadOldConfig() As Boolean
-        Dim needToSave As Boolean = False
-        _cfgCommon = SettingCommon.Load()
-        _cfgLocal = SettingLocal.Load()
-        If _cfgCommon.TabList.Count > 0 Then
-            For Each tabName As String In _cfgCommon.TabList
-                _statuses.Tabs.Add(tabName, SettingTab.Load(tabName).Tab)
-                If tabName <> ReplaceInvalidFilename(tabName) Then
-                    Dim tb As TabClass = _statuses.Tabs(tabName)
-                    _statuses.RemoveTab(tabName)
-                    tb.TabName = ReplaceInvalidFilename(tabName)
-                    _statuses.Tabs.Add(ReplaceInvalidFilename(tabName), tb)
-                    Dim tabSetting As New SettingTab
-                    tabSetting.Tab = tb
-                    tabSetting.Save()
-                    needToSave = True
-                End If
-            Next
-        Else
-            _statuses.AddTab(DEFAULTTAB.RECENT, TabUsageType.Home, Nothing)
-            _statuses.AddTab(DEFAULTTAB.REPLY, TabUsageType.Mentions, Nothing)
-            _statuses.AddTab(DEFAULTTAB.DM, TabUsageType.DirectMessage, Nothing)
-            _statuses.AddTab(DEFAULTTAB.FAV, TabUsageType.Favorites, Nothing)
-        End If
-        If needToSave Then
-            _cfgCommon.TabList.Clear()
-            For Each tabName As String In _statuses.Tabs.Keys
-                _cfgCommon.TabList.Add(tabName)
-            Next
-            _cfgCommon.Save()
-        End If
+    'Private Function LoadOldConfig() As Boolean
+    '    Dim needToSave As Boolean = False
+    '    _cfgCommon = SettingCommon.Load()
+    '    _cfgLocal = SettingLocal.Load()
+    '    If _cfgCommon.TabList.Count > 0 Then
+    '        For Each tabName As String In _cfgCommon.TabList
+    '            _statuses.Tabs.Add(tabName, SettingTab.Load(tabName).Tab)
+    '            If tabName <> ReplaceInvalidFilename(tabName) Then
+    '                Dim tb As TabClass = _statuses.Tabs(tabName)
+    '                _statuses.RemoveTab(tabName)
+    '                tb.TabName = ReplaceInvalidFilename(tabName)
+    '                _statuses.Tabs.Add(ReplaceInvalidFilename(tabName), tb)
+    '                Dim tabSetting As New SettingTab
+    '                tabSetting.Tab = tb
+    '                tabSetting.Save()
+    '                needToSave = True
+    '            End If
+    '        Next
+    '    Else
+    '        _statuses.AddTab(DEFAULTTAB.RECENT, TabUsageType.Home, Nothing)
+    '        _statuses.AddTab(DEFAULTTAB.REPLY, TabUsageType.Mentions, Nothing)
+    '        _statuses.AddTab(DEFAULTTAB.DM, TabUsageType.DirectMessage, Nothing)
+    '        _statuses.AddTab(DEFAULTTAB.FAV, TabUsageType.Favorites, Nothing)
+    '    End If
+    '    If needToSave Then
+    '        _cfgCommon.TabList.Clear()
+    '        For Each tabName As String In _statuses.Tabs.Keys
+    '            _cfgCommon.TabList.Add(tabName)
+    '        Next
+    '        _cfgCommon.Save()
+    '    End If
 
-        If System.IO.File.Exists(SettingCommon.GetSettingFilePath("")) Then
-            Return True
-        Else
-            Return False
-        End If
-    End Function
+    '    If System.IO.File.Exists(SettingCommon.GetSettingFilePath("")) Then
+    '        Return True
+    '    Else
+    '        Return False
+    '    End If
+    'End Function
 
     Private Sub LoadConfig()
         Dim needToSave As Boolean = False
@@ -1182,7 +1182,7 @@ Public Class TweenMain
             LoadConfig()
             Exit Sub
         End If
-        LoadOldConfig()
+        'LoadOldConfig()
     End Sub
 
     Private Sub TimerTimeline_Elapsed(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TimerTimeline.Elapsed
