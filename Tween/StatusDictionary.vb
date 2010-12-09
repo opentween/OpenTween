@@ -998,6 +998,7 @@ Public NotInheritable Class TabInformations
 
         If tb.UnreadManage = False Then Exit Sub '未読管理していなければ終了
 
+        If Not tb.Contains(Index) Then Exit Sub
         Dim Id As Long = tb.GetId(Index)
         Dim post As PostClass
         If Not tb.IsInnerStorageTabType Then
@@ -1005,6 +1006,7 @@ Public NotInheritable Class TabInformations
         Else
             post = tb.Posts(Id)
         End If
+
         If post.IsRead = Read Then Exit Sub '状態変更なければ終了
 
         post.IsRead = Read '指定の状態に変更
@@ -1045,22 +1047,24 @@ Public NotInheritable Class TabInformations
         Dim tb As TabClass = GetTabByType(TabUsageType.Home)
         If tb.UnreadManage = False Then Exit Sub
 
-        For i As Integer = 0 To tb.AllCount - 1
-            Dim id As Long = tb.GetId(i)
-            If Not _statuses(id).IsReply AndAlso _
-               Not _statuses(id).IsRead AndAlso _
-               Not _statuses(id).FilterHit Then
-                _statuses(id).IsRead = True
-                Me.SetNextUnreadId(id, tb)  '次の未読セット
-                For Each key As String In _tabs.Keys
-                    If _tabs(key).UnreadManage AndAlso _
-                       _tabs(key).Contains(id) Then
-                        _tabs(key).UnreadCount -= 1
-                        If _tabs(key).OldestUnreadId = id Then _tabs(key).OldestUnreadId = -1
-                    End If
-                Next
-            End If
-        Next
+        SyncLock LockObj
+            For i As Integer = 0 To tb.AllCount - 1
+                Dim id As Long = tb.GetId(i)
+                If Not _statuses(id).IsReply AndAlso _
+                   Not _statuses(id).IsRead AndAlso _
+                   Not _statuses(id).FilterHit Then
+                    _statuses(id).IsRead = True
+                    Me.SetNextUnreadId(id, tb)  '次の未読セット
+                    For Each key As String In _tabs.Keys
+                        If _tabs(key).UnreadManage AndAlso _
+                           _tabs(key).Contains(id) Then
+                            _tabs(key).UnreadCount -= 1
+                            If _tabs(key).OldestUnreadId = id Then _tabs(key).OldestUnreadId = -1
+                        End If
+                    Next
+                End If
+            Next
+        End SyncLock
     End Sub
 
     Public ReadOnly Property Item(ByVal ID As Long) As PostClass

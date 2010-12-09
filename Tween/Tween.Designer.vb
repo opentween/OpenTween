@@ -289,6 +289,8 @@ Partial Class TweenMain
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.ToolStripSeparator42 = New System.Windows.Forms.ToolStripSeparator()
+        Me.EventViewerMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -1453,7 +1455,7 @@ Partial Class TweenMain
         '
         'MenuItemUserStream
         '
-        Me.MenuItemUserStream.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.StopToolStripMenuItem, Me.ToolStripSeparator40, Me.TrackToolStripMenuItem, Me.AllrepliesToolStripMenuItem})
+        Me.MenuItemUserStream.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.StopToolStripMenuItem, Me.ToolStripSeparator40, Me.TrackToolStripMenuItem, Me.AllrepliesToolStripMenuItem, Me.ToolStripSeparator42, Me.EventViewerMenuItem})
         resources.ApplyResources(Me.MenuItemUserStream, "MenuItemUserStream")
         Me.MenuItemUserStream.Name = "MenuItemUserStream"
         '
@@ -1809,6 +1811,16 @@ Partial Class TweenMain
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
+        'ToolStripSeparator42
+        '
+        Me.ToolStripSeparator42.Name = "ToolStripSeparator42"
+        resources.ApplyResources(Me.ToolStripSeparator42, "ToolStripSeparator42")
+        '
+        'EventViewerMenuItem
+        '
+        Me.EventViewerMenuItem.Name = "EventViewerMenuItem"
+        resources.ApplyResources(Me.EventViewerMenuItem, "EventViewerMenuItem")
+        '
         'TweenMain
         '
         Me.AllowDrop = True
@@ -2123,5 +2135,7 @@ Partial Class TweenMain
     Friend WithEvents ToolStripSeparator41 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents OpenOwnHomeMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents OpenOwnFavedMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator42 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents EventViewerMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

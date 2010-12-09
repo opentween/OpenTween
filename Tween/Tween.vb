@@ -8353,6 +8353,7 @@ RETRY:
         AddHandler tw.UserStreamStarted, AddressOf tw_UserStreamStarted
         AddHandler tw.UserStreamStopped, AddressOf tw_UserStreamStopped
         AddHandler tw.PostDeleted, AddressOf tw_PostDeleted
+        AddHandler tw.UserStreamEventReceived, AddressOf tw_UserStreamEventArrived
 
         MenuItemUserStream.Text = "&UserStream ■"
         MenuItemUserStream.Enabled = True
@@ -9910,6 +9911,14 @@ RETRY:
         StatusLabel.Text = "UserStream Stopped."
     End Sub
 
+    Private Sub tw_UserStreamEventArrived(ByVal eventType As String)
+        If InvokeRequired Then
+            Invoke(New Action(Of String)(AddressOf tw_UserStreamEventArrived), eventType)
+            Exit Sub
+        End If
+        StatusLabel.Text = "Event: " + eventType
+    End Sub
+
     Private Sub StopToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StopToolStripMenuItem.Click
         MenuItemUserStream.Enabled = False
         tw.StartUserStream()
@@ -9957,5 +9966,14 @@ RETRY:
 
     Private Sub OpenOwnHomeMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles OpenOwnHomeMenuItem.Click
         OpenUriAsync("http://twitter.com/" + tw.Username)
+    End Sub
+
+    Private Sub EventViewerMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EventViewerMenuItem.Click
+        Using dlg As New EventViewerDialog
+            dlg.Owner = Me
+            dlg.EventSource = tw.StoredEvent
+            dlg.ShowDialog()
+            Me.TopMost = SettingDialog.AlwaysTop
+        End Using
     End Sub
 End Class
