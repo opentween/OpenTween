@@ -4,7 +4,7 @@
     Private img As Image = Nothing
 
     Public Sub New(ByVal items() As String, ByVal imageKey As String)
-
+        MyBase.New(items, imageKey)
     End Sub
 
     Public Sub New(ByVal items() As String, ByVal imageDictionary As ImageDictionary, ByVal imageKey As String)
