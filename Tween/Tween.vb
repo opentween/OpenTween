@@ -7552,9 +7552,9 @@ RETRY:
             If name IsNot Nothing AndAlso name.Length > 0 Then
                 Dim idx As Integer = name.LastIndexOf("/"c)
                 If idx <> -1 Then
-                    name = IO.Path.GetFileNameWithoutExtension(name.Substring(idx))
-                    If name.EndsWith("_normal", StringComparison.OrdinalIgnoreCase) Then
-                        name = name.Substring(0, name.Length - 7) ' "_normal".Length
+                    name = IO.Path.GetFileName(name.Substring(idx))
+                    If name.Contains("_normal.") Then
+                        name = name.Replace("_normal", "")
                         Me.IconNameToolStripMenuItem.Text = name
                         Me.IconNameToolStripMenuItem.Enabled = True
                     Else
