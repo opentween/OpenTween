@@ -87,7 +87,7 @@ Public Class Twitter
 
         TwitterApiInfo.Initialize()
         Try
-            res = twCon.AuthUserAndPass(username, password)
+            res = twCon.AuthUserAndPass(username, password, content)
         Catch ex As Exception
             Return "Err:" + ex.Message
         End Try
@@ -102,7 +102,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Dim errMsg As String = GetErrorMessageJson(content)
                 If String.IsNullOrEmpty(errMsg) Then
-                    Return "Check your Username/Password."
+                    Return "Check your Username/Password." + Environment.NewLine + content
                 Else
                     Return "Auth error:" + errMsg
                 End If
