@@ -604,7 +604,7 @@ Public Class Setting
     Private Sub UserstreamPeriod_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles UserstreamPeriod.Validating
         Dim prd As Integer
         Try
-            prd = CType(TimelinePeriod.Text, Integer)
+            prd = CType(UserstreamPeriod.Text, Integer)
         Catch ex As Exception
             MessageBox.Show(My.Resources.UserstreamPeriod_ValidatingText1)
             e.Cancel = True
