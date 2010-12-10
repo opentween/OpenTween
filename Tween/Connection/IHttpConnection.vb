@@ -25,7 +25,7 @@ Public Interface IHttpConnection
 
     Sub RequestAbort()
 
-    Function Authenticate(ByVal url As Uri, ByVal username As String, ByVal password As String) As HttpStatusCode
+    Function Authenticate(ByVal url As Uri, ByVal username As String, ByVal password As String, ByRef content As String) As HttpStatusCode
 
 ReadOnly Property AuthUsername() As String
     ''' <summary>

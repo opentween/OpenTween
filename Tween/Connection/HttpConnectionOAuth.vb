@@ -245,7 +245,7 @@ Public Class HttpConnectionOAuth
     '''<param name="username">認証用ユーザー名</param>
     '''<param name="password">認証用パスワード</param>
     '''<returns>取得結果真偽値</returns>
-    Public Function AuthenticateXAuth(ByVal accessTokenUrl As Uri, ByVal username As String, ByVal password As String) As HttpStatusCode Implements IHttpConnection.Authenticate
+    Public Function AuthenticateXAuth(ByVal accessTokenUrl As Uri, ByVal username As String, ByVal password As String, ByRef content As String) As HttpStatusCode Implements IHttpConnection.Authenticate
         'ユーザー・パスワードチェック
         If String.IsNullOrEmpty(username) OrElse String.IsNullOrEmpty(password) Then
             Throw New Exception("Sequence error.(username or password is blank)")
@@ -257,7 +257,6 @@ Public Class HttpConnectionOAuth
         parameter.Add("x_auth_password", password)
 
         'アクセストークン取得
-        Dim content As String = ""
         Dim httpCode As HttpStatusCode = GetOAuthToken(accessTokenUrl, "", "", parameter, content)
         If httpCode <> HttpStatusCode.OK Then Return httpCode
         Dim accessTokenData As NameValueCollection = ParseQueryString(content)
@@ -335,7 +334,11 @@ Public Class HttpConnectionOAuth
         'OAuth関連情報をHTTPリクエストに追加
         AppendOAuthInfo(webReq, query, requestToken, "")
         'HTTP応答取得
-        Return GetResponse(webReq, content, Nothing, False)
+        Dim header As New Dictionary(Of String, String) From {{"Date", ""}}
+        Dim responceCode As HttpStatusCode = GetResponse(webReq, content, header, False)
+        If responceCode = HttpStatusCode.OK Then Return responceCode
+        If Not String.IsNullOrEmpty(header("Date")) Then content += Environment.NewLine + "Check the Date & Time of this computer." + Environment.NewLine + "Server:" + CDate(header("Date")).ToString + "  PC:" + Now.ToString
+        Return responceCode
     End Function
 #End Region
 

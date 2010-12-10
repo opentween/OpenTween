@@ -1996,7 +1996,8 @@ Public Class TweenMain
                            ret.StartsWith("Warn:") OrElse _
                            ret = "Err:Status is a duplicate." OrElse _
                            args.status.status.StartsWith("D", StringComparison.OrdinalIgnoreCase) OrElse _
-                           args.status.status.StartsWith("DM", StringComparison.OrdinalIgnoreCase) Then
+                           args.status.status.StartsWith("DM", StringComparison.OrdinalIgnoreCase) OrElse _
+                           Twitter.AccountState <> ACCOUNT_STATE.Valid Then
                             Exit For
                         End If
                     Next
