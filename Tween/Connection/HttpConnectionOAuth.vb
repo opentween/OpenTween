@@ -335,10 +335,10 @@ Public Class HttpConnectionOAuth
         AppendOAuthInfo(webReq, query, requestToken, "")
         'HTTP応答取得
         Dim header As New Dictionary(Of String, String) From {{"Date", ""}}
-        Dim responceCode As HttpStatusCode = GetResponse(webReq, content, header, False)
-        If responceCode = HttpStatusCode.OK Then Return responceCode
+        Dim responseCode As HttpStatusCode = GetResponse(webReq, content, header, False)
+        If responseCode = HttpStatusCode.OK Then Return responseCode
         If Not String.IsNullOrEmpty(header("Date")) Then content += Environment.NewLine + "Check the Date & Time of this computer." + Environment.NewLine + "Server:" + CDate(header("Date")).ToString + "  PC:" + Now.ToString
-        Return responceCode
+        Return responseCode
     End Function
 #End Region
 
