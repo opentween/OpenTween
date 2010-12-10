@@ -2792,7 +2792,7 @@ Public Class Twitter
     Public Event UserStreamStarted()
     Public Event UserStreamStopped()
     Public Event UserStreamGetFriendsList()
-    Public Event PostDeleted(ByVal id As Long)
+    Public Event PostDeleted(ByVal id As Long, ByRef post As PostClass)
     Public Event UserStreamEventReceived(ByVal eventType As String)
     Private WithEvents userStream As TwitterUserstream
 
@@ -2833,11 +2833,13 @@ Public Class Twitter
                 Exit Sub
             ElseIf xElm.Element("delete") IsNot Nothing Then
                 Debug.Print("delete")
+                Dim post As PostClass = Nothing
                 If xElm.Element("delete").Element("direct_message") IsNot Nothing Then
-                    RaiseEvent PostDeleted(CLng(xElm.Element("delete").Element("direct_message").Element("id").Value))
+                    RaiseEvent PostDeleted(CLng(xElm.Element("delete").Element("direct_message").Element("id").Value), post)
                 Else
-                    RaiseEvent PostDeleted(CLng(xElm.Element("delete").Element("status").Element("id").Value))
+                    RaiseEvent PostDeleted(CLng(xElm.Element("delete").Element("status").Element("id").Value), post)
                 End If
+                CreateDeleteEvent(DateTime.Now, post)
                 Exit Sub
             ElseIf xElm.Element("limit") IsNot Nothing Then
                 Debug.Print(line)
@@ -2865,6 +2867,26 @@ Public Class Twitter
         End If
 
         RaiseEvent NewPostFromStream()
+    End Sub
+
+    Private Sub CreateDeleteEvent(ByVal createdat As DateTime, ByVal post As PostClass)
+        Dim evt As New FormattedEvent
+        evt.CreatedAt = createdat
+        If post Is Nothing Then
+            evt.Event = "DELETE(UNKNOWN)"
+            evt.Username = "--UNKNOWN--"
+            evt.Target = "--UNKNOWN--"
+        Else
+            If post.IsDm Then
+                evt.Event = "DELETE(DM)"
+            Else
+                evt.Event = "DELETE(Post)"
+            End If
+            evt.Username = post.Name
+            evt.Target = post.Data
+        End If
+        Me.StoredEvent.Insert(0, evt)
+        RaiseEvent UserStreamEventReceived(evt.Event)
     End Sub
 
     Private Sub CreateEventFromJson(ByVal content As String)
