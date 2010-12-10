@@ -1186,9 +1186,6 @@ Public Class TweenMain
     End Sub
 
     Private Sub TimerTimeline_Elapsed(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TimerTimeline.Elapsed
-#If DEBUG Then
-        Dim sw As Stopwatch = Stopwatch.StartNew()
-#End If
         Static homeCounter As Integer = 0
         Static mentionCounter As Integer = 0
         Static dmCounter As Integer = 0
@@ -1234,11 +1231,6 @@ Public Class TweenMain
             RefreshTimeline(True)
         End If
 
-#If DEBUG Then
-        sw.Stop()
-        Console.WriteLine("Counter: Home {0} Reply {1} Dm {2} Search {3} Lists {4}", homeCounter, mentionCounter, dmCounter, pubSearchCounter, listsCounter)
-        Console.WriteLine(sw.Elapsed)
-#End If
     End Sub
 
     Private Sub RefreshTimeline(ByVal isUserStream As Boolean)
