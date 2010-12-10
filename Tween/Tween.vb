@@ -9836,8 +9836,8 @@ RETRY:
         MessageBox.Show(buf.ToString, "アイコンキャッシュ使用状況")
     End Sub
 
-    Private Sub tw_PostDeleted(ByVal id As Long)
-        _statuses.RemovePostReserve(id)
+    Private Sub tw_PostDeleted(ByVal id As Long, ByRef post As PostClass)
+        _statuses.RemovePostReserve(id, post)
     End Sub
 
     Private Sub tw_NewPostFromStream()
