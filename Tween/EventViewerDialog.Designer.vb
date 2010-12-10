@@ -70,6 +70,9 @@ Partial Class EventViewerDialog
         '
         'EventList
         '
+        Me.EventList.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.EventList.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader3, Me.ColumnHeader4})
         Me.EventList.FullRowSelect = True
         Me.EventList.Location = New System.Drawing.Point(12, 12)
@@ -108,7 +111,8 @@ Partial Class EventViewerDialog
         Me.ClientSize = New System.Drawing.Size(689, 291)
         Me.Controls.Add(Me.EventList)
         Me.Controls.Add(Me.TableLayoutPanel1)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
+        Me.DoubleBuffered = True
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "EventViewerDialog"
