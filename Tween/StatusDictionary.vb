@@ -612,15 +612,8 @@ Public NotInheritable Class TabInformations
     Public Sub RemovePostReserve(ByVal id As Long, ByRef post As PostClass)
         SyncLock LockObj
             post = Nothing
-            If _statuses.ContainsKey(id) Then
-                post = _statuses(id).Copy
-            Else
-                'DM
-                Dim tb As TabClass = Me.GetTabByType(TabUsageType.DirectMessage)
-                If tb.Contains(id) Then
-                    post = tb.Posts(id).Copy
-                End If
-            End If
+            Dim tmp As PostClass = Me.Item(id)
+            If tmp IsNot Nothing Then post = tmp.Copy
             Me._deletedIds.Add(id)
         End SyncLock
     End Sub
