@@ -2881,7 +2881,7 @@ Public Class Twitter
         Dim evt As New FormattedEvent
         evt.CreatedAt = createdat
         If post Is Nothing Then
-            Dim tmp As PostClass = (From p In _deletemessages Where p.Id = id).First
+            Dim tmp As PostClass = (From p In _deletemessages Where p.Id = id).FirstOrDefault
             If tmp IsNot Nothing Then
                 post = tmp
                 _deletemessages.Remove(post)
