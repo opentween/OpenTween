@@ -92,6 +92,10 @@ Public Class OpenURL
             e.SuppressKeyPress = True
             UrlList.SelectedIndex -= 1
         End If
+        If e.Control AndAlso e.KeyCode = Keys.Oem4 Then
+            e.SuppressKeyPress = True
+            Cancel_Button_Click(Nothing, Nothing)
+        End If
     End Sub
 End Class
 
