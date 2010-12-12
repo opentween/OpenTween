@@ -80,6 +80,8 @@ Public Class Twitter
 
     Private twCon As New HttpTwitter
 
+    Private _deletemessages As New List(Of PostClass)
+
     Public Function Authenticate(ByVal username As String, ByVal password As String) As String
 
         Dim res As HttpStatusCode
@@ -457,9 +459,9 @@ Public Class Twitter
         Select Case res
             Case HttpStatusCode.OK
                 Twitter.AccountState = ACCOUNT_STATE.Valid
-                Dim status As TwitterDataModel.Status
+                Dim status As TwitterDataModel.Directmessage
                 Try
-                    status = CreateDataFromJson(Of TwitterDataModel.Status)(content)
+                    status = CreateDataFromJson(Of TwitterDataModel.Directmessage)(content)
                 Catch ex As SerializationException
                     TraceOut(ex.Message + Environment.NewLine + content)
                     Return "Err:Json Parse Error(DataContractJsonSerializer)"
@@ -467,12 +469,12 @@ Public Class Twitter
                     TraceOut(content)
                     Return "Err:Invalid Json!"
                 End Try
-                _followersCount = status.User.FollowersCount
-                _friendsCount = status.User.FriendsCount
-                _statusesCount = status.User.StatusesCount
-                _location = status.User.Location
-                _bio = status.User.Description
-                _UserIdNo = status.User.IdStr
+                _followersCount = status.Sender.FollowersCount
+                _friendsCount = status.Sender.FriendsCount
+                _statusesCount = status.Sender.StatusesCount
+                _location = status.Sender.Location
+                _bio = status.Sender.Description
+                _UserIdNo = status.Sender.IdStr
 
                 If op.Post(postStr.Length) Then
                     Return ""
@@ -666,13 +668,16 @@ Public Class Twitter
         Return ""
     End Function
 
-    Public Function RemoveDirectMessage(ByVal id As Long) As String
+    Public Function RemoveDirectMessage(ByVal id As Long, ByVal post As PostClass) As String
         If _endingFlag Then Return ""
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
         Dim res As HttpStatusCode
 
+        If post.IsMe Then
+            _deletemessages.Add(post)
+        End If
         Try
             res = twCon.DestroyDirectMessage(id)
         Catch ex As Exception
@@ -2834,12 +2839,15 @@ Public Class Twitter
             ElseIf xElm.Element("delete") IsNot Nothing Then
                 Debug.Print("delete")
                 Dim post As PostClass = Nothing
+                Dim id As Int64
                 If xElm.Element("delete").Element("direct_message") IsNot Nothing Then
-                    RaiseEvent PostDeleted(CLng(xElm.Element("delete").Element("direct_message").Element("id").Value), post)
+                    id = CLng(xElm.Element("delete").Element("direct_message").Element("id").Value)
+                    RaiseEvent PostDeleted(id, post)
                 Else
-                    RaiseEvent PostDeleted(CLng(xElm.Element("delete").Element("status").Element("id").Value), post)
+                    id = CLng(xElm.Element("delete").Element("status").Element("id").Value)
+                    RaiseEvent PostDeleted(id, post)
                 End If
-                CreateDeleteEvent(DateTime.Now, post)
+                CreateDeleteEvent(DateTime.Now, id, post)
                 Exit Sub
             ElseIf xElm.Element("limit") IsNot Nothing Then
                 Debug.Print(line)
@@ -2869,9 +2877,16 @@ Public Class Twitter
         RaiseEvent NewPostFromStream()
     End Sub
 
-    Private Sub CreateDeleteEvent(ByVal createdat As DateTime, ByVal post As PostClass)
+    Private Sub CreateDeleteEvent(ByVal createdat As DateTime, ByVal id As Int64, ByVal post As PostClass)
         Dim evt As New FormattedEvent
         evt.CreatedAt = createdat
+        If post Is Nothing Then
+            Dim tmp As PostClass = (From p In _deletemessages Where p.Id = id).First
+            If tmp IsNot Nothing Then
+                post = tmp
+                _deletemessages.Remove(post)
+            End If
+        End If
         If post Is Nothing Then
             evt.Event = "DELETE(UNKNOWN)"
             evt.Username = "--UNKNOWN--"

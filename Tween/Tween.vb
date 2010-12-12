@@ -2748,7 +2748,7 @@ Public Class TweenMain
             For Each Id As Long In _statuses.GetId(_curTab.Text, _curList.SelectedIndices)
                 Dim rtn As String = ""
                 If _statuses.Tabs(_curTab.Text).TabType = TabUsageType.DirectMessage Then
-                    rtn = tw.RemoveDirectMessage(Id)
+                    rtn = tw.RemoveDirectMessage(Id, _statuses.Item(Id))
                 Else
                     If _statuses.Item(Id).IsMe OrElse _statuses.Item(Id).RetweetedBy.ToLower = tw.Username.ToLower Then
                         rtn = tw.RemoveStatus(Id)
