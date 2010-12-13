@@ -534,9 +534,10 @@ Public Class TweenMain
 
         '<<<<<<<<<設定関連>>>>>>>>>
         '設定コンバージョン
-        ConvertConfig()
+        'ConvertConfig()
 
         ''設定読み出し
+        LoadConfig()
 
         '新着バルーン通知のチェック状態設定
         NewPostPopMenuItem.Checked = _cfgCommon.NewAllPop
@@ -1176,14 +1177,14 @@ Public Class TweenMain
         End If
     End Sub
 
-    Private Sub ConvertConfig()
-        '新タブ設定ファイル存在チェック
-        If System.IO.File.Exists(SettingTabs.GetSettingFilePath("")) Then
-            LoadConfig()
-            Exit Sub
-        End If
-        'LoadOldConfig()
-    End Sub
+    'Private Sub ConvertConfig()
+    '    '新タブ設定ファイル存在チェック
+    '    If System.IO.File.Exists(SettingTabs.GetSettingFilePath("")) Then
+    '        LoadConfig()
+    '        Exit Sub
+    '    End If
+    '    'LoadOldConfig()
+    'End Sub
 
     Private Sub TimerTimeline_Elapsed(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TimerTimeline.Elapsed
         Static homeCounter As Integer = 0
