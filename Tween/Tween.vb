@@ -9676,7 +9676,7 @@ RETRY:
             ImageServiceCombo.Items.Add("img.ly")
             ImageServiceCombo.Items.Add("yfrog")
         End If
-        ImageServiceCombo.Items.Add("TwitVideo")
+        'ImageServiceCombo.Items.Add("TwitVideo")
         If svc = "" Then
             ImageServiceCombo.SelectedIndex = 0
         Else

@@ -130,7 +130,6 @@
     <Compile Include="Connection\HttpVarious.vb" />
     <Compile Include="Connection\IHttpConnection.vb" />
     <Compile Include="Connection\TwitPic.vb" />
-    <Compile Include="Connection\TwitVideo.vb" />
     <Compile Include="Connection\imgly.vb" />
     <Compile Include="Connection\yfrog.vb" />
     <Compile Include="DataModel.vb" />
