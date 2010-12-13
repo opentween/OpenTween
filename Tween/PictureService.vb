@@ -6,7 +6,12 @@ Public Class PictureService
     Private tw As Twitter
 
     Public Function Upload(ByRef filePath As String, ByRef message As String, ByVal service As String) As String
-        Dim file As New FileInfo(filePath)
+        Dim file As FileInfo
+        Try
+            file = New FileInfo(filePath)
+        Catch ex As NotSupportedException
+            Return "Err:" + ex.Message
+        End Try
         If Not file.Exists Then Return "Err:File isn't exists."
         Dim st As Setting = Setting.Instance
         Dim ret As String = ""
@@ -16,8 +21,8 @@ Public Class PictureService
                 ret = UpToTwitPic(file, message, upResult)
             Case "img.ly"
                 ret = UpToimgly(file, message, upResult)
-            Case "TwitVideo"
-                ret = UpToTwitVideo(file, message, upResult)
+                'Case "TwitVideo"
+                '    ret = UpToTwitVideo(file, message, upResult)
             Case "yfrog"
                 ret = UpToyfrog(file, message, upResult)
         End Select
@@ -32,8 +37,8 @@ Public Class PictureService
                 ret = (New TwitPic(tw.AccessToken, tw.AccessTokenSecret)).CheckValidExtension(ext)
             Case "img.ly"
                 ret = (New imgly(tw.AccessToken, tw.AccessTokenSecret)).CheckValidExtension(ext)
-            Case "TwitVideo"
-                ret = (New TwitVideo).CheckValidExtension(ext)
+                'Case "TwitVideo"
+                '    ret = (New TwitVideo).CheckValidExtension(ext)
             Case "yfrog"
                 ret = (New yfrog(tw.AccessToken, tw.AccessTokenSecret)).CheckValidExtension(ext)
         End Select
@@ -47,8 +52,8 @@ Public Class PictureService
                 ret = (New TwitPic(tw.AccessToken, tw.AccessTokenSecret)).GetFileOpenDialogFilter
             Case "img.ly"
                 ret = (New imgly(tw.AccessToken, tw.AccessTokenSecret)).GetFileOpenDialogFilter
-            Case "TwitVideo"
-                ret = (New TwitVideo).GetFileOpenDialogFilter
+                'Case "TwitVideo"
+                '    ret = (New TwitVideo).GetFileOpenDialogFilter
             Case "yfrog"
                 ret = (New yfrog(tw.AccessToken, tw.AccessTokenSecret)).GetFileOpenDialogFilter
         End Select
@@ -62,8 +67,8 @@ Public Class PictureService
                 ret = (New TwitPic(tw.AccessToken, tw.AccessTokenSecret)).GetFileType(ext)
             Case "img.ly"
                 ret = (New imgly(tw.AccessToken, tw.AccessTokenSecret)).GetFileType(ext)
-            Case "TwitVideo"
-                ret = (New TwitVideo).GetFileType(ext)
+                'Case "TwitVideo"
+                '    ret = (New TwitVideo).GetFileType(ext)
             Case "yfrog"
                 ret = (New yfrog(tw.AccessToken, tw.AccessTokenSecret)).GetFileType(ext)
         End Select
@@ -77,8 +82,8 @@ Public Class PictureService
                 ret = (New TwitPic(tw.AccessToken, tw.AccessTokenSecret)).IsSupportedFileType(type)
             Case "img.ly"
                 ret = (New imgly(tw.AccessToken, tw.AccessTokenSecret)).IsSupportedFileType(type)
-            Case "TwitVideo"
-                ret = (New TwitVideo).IsSupportedFileType(type)
+                'Case "TwitVideo"
+                '    ret = (New TwitVideo).IsSupportedFileType(type)
             Case "yfrog"
                 ret = (New yfrog(tw.AccessToken, tw.AccessTokenSecret)).IsSupportedFileType(type)
         End Select
@@ -92,8 +97,8 @@ Public Class PictureService
                 ret = (New TwitPic(tw.AccessToken, tw.AccessTokenSecret)).GetMaxFileSize(ext)
             Case "img.ly"
                 ret = (New imgly(tw.AccessToken, tw.AccessTokenSecret)).GetMaxFileSize(ext)
-            Case "TwitVideo"
-                ret = (New TwitVideo).GetMaxFileSize(ext)
+                'Case "TwitVideo"
+                '    ret = (New TwitVideo).GetMaxFileSize(ext)
             Case "yfrog"
                 ret = (New yfrog(tw.AccessToken, tw.AccessTokenSecret)).GetMaxFileSize(ext)
         End Select
@@ -205,45 +210,45 @@ Public Class PictureService
         Return tw.PostStatus(message, 0)
     End Function
 
-    Private Function UpToTwitVideo(ByVal file As FileInfo, ByRef message As String, ByRef resultUpload As Boolean) As String
-        Dim content As String = ""
-        Dim ret As HttpStatusCode
-        'TwitVideoへの投稿
-        Dim svc As New TwitVideo
-        Try
-            ret = svc.Upload(file, message, "", tw.Username, tw.UserIdNo, content)
-        Catch ex As Exception
-            Return "Err:" + ex.Message
-        End Try
-        Dim url As String = ""
-        If ret = HttpStatusCode.OK Then
-            Dim xd As XmlDocument = New XmlDocument()
-            Try
-                xd.LoadXml(content)
-                Dim rslt As String = xd.SelectSingleNode("/rsp/@status").Value
-                If rslt = "ok" Then
-                    'URLの取得
-                    url = xd.SelectSingleNode("/rsp/mediaurl").InnerText
-                Else
-                    Return "Err:" + xd.SelectSingleNode("/rsp/err/@msg").Value
-                End If
-            Catch ex As XmlException
-                Return "Err:" + ex.Message
-            End Try
-        Else
-            Return "Err:" + ret.ToString
-        End If
-        'アップロードまでは成功
-        resultUpload = True
-        'Twitterへの投稿
-        '投稿メッセージの再構成
-        If message.Length + url.Length + 1 > 140 Then
-            message = message.Substring(0, 140 - url.Length - 1) + " " + url
-        Else
-            message += " " + url
-        End If
-        Return tw.PostStatus(message, 0)
-    End Function
+    'Private Function UpToTwitVideo(ByVal file As FileInfo, ByRef message As String, ByRef resultUpload As Boolean) As String
+    '    Dim content As String = ""
+    '    Dim ret As HttpStatusCode
+    '    'TwitVideoへの投稿
+    '    Dim svc As New TwitVideo
+    '    Try
+    '        ret = svc.Upload(file, message, "", tw.Username, tw.UserIdNo, content)
+    '    Catch ex As Exception
+    '        Return "Err:" + ex.Message
+    '    End Try
+    '    Dim url As String = ""
+    '    If ret = HttpStatusCode.OK Then
+    '        Dim xd As XmlDocument = New XmlDocument()
+    '        Try
+    '            xd.LoadXml(content)
+    '            Dim rslt As String = xd.SelectSingleNode("/rsp/@status").Value
+    '            If rslt = "ok" Then
+    '                'URLの取得
+    '                url = xd.SelectSingleNode("/rsp/mediaurl").InnerText
+    '            Else
+    '                Return "Err:" + xd.SelectSingleNode("/rsp/err/@msg").Value
+    '            End If
+    '        Catch ex As XmlException
+    '            Return "Err:" + ex.Message
+    '        End Try
+    '    Else
+    '        Return "Err:" + ret.ToString
+    '    End If
+    '    'アップロードまでは成功
+    '    resultUpload = True
+    '    'Twitterへの投稿
+    '    '投稿メッセージの再構成
+    '    If message.Length + url.Length + 1 > 140 Then
+    '        message = message.Substring(0, 140 - url.Length - 1) + " " + url
+    '    Else
+    '        message += " " + url
+    '    End If
+    '    Return tw.PostStatus(message, 0)
+    'End Function
 
     Public Sub New(ByVal twInstance As Twitter)
         tw = twInstance
