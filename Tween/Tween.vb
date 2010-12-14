@@ -1209,15 +1209,15 @@ Public Class TweenMain
             'Interlocked.Add(period, -_homeCounterAdjuster)
             'Interlocked.Exchange(_homeCounter, period)
             Interlocked.Exchange(homeCounter, SettingDialog.TimelinePeriodInt)
-            GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
+            If Not Me._isActiveUserstream Then GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
         End If
         If mentionCounter <= 0 AndAlso SettingDialog.ReplyPeriodInt > 0 Then
             Interlocked.Exchange(mentionCounter, SettingDialog.ReplyPeriodInt)
-            GetTimeline(WORKERTYPE.Reply, 1, 0, "")
+            If Not Me._isActiveUserstream Then GetTimeline(WORKERTYPE.Reply, 1, 0, "")
         End If
         If dmCounter <= 0 AndAlso SettingDialog.DMPeriodInt > 0 Then
             Interlocked.Exchange(dmCounter, SettingDialog.DMPeriodInt)
-            GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
+            If Not Me._isActiveUserstream Then GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
         End If
         If pubSearchCounter <= 0 AndAlso SettingDialog.PubSearchPeriodInt > 0 Then
             Interlocked.Exchange(pubSearchCounter, SettingDialog.PubSearchPeriodInt)
@@ -1229,7 +1229,7 @@ Public Class TweenMain
         End If
         If usCounter <= 0 AndAlso SettingDialog.UserstreamPeriodInt > 0 Then
             Interlocked.Exchange(usCounter, SettingDialog.UserstreamPeriodInt)
-            RefreshTimeline(True)
+            If Me._isActiveUserstream Then RefreshTimeline(True)
         End If
 
     End Sub
@@ -9830,6 +9830,9 @@ RETRY:
         MessageBox.Show(buf.ToString, "アイコンキャッシュ使用状況")
     End Sub
 
+#Region "Userstream"
+    Private _isActiveUserstream As Boolean = False
+
     Private Sub tw_PostDeleted(ByVal id As Long, ByRef post As PostClass)
         _statuses.RemovePostReserve(id, post)
     End Sub
@@ -9878,7 +9881,9 @@ RETRY:
             Exit Sub
         End Try
     End Sub
+
     Private Sub tw_UserStreamStarted()
+        Me._isActiveUserstream = True
         If InvokeRequired Then
             Invoke(New MethodInvoker(AddressOf tw_UserStreamStarted))
             Exit Sub
@@ -9893,6 +9898,7 @@ RETRY:
     End Sub
 
     Private Sub tw_UserStreamStopped()
+        Me._isActiveUserstream = False
         If InvokeRequired Then
             Invoke(New MethodInvoker(AddressOf tw_UserStreamStopped))
             Exit Sub
@@ -9916,7 +9922,11 @@ RETRY:
 
     Private Sub StopToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StopToolStripMenuItem.Click
         MenuItemUserStream.Enabled = False
-        tw.StartUserStream()
+        If Me._isActiveUserstream Then
+            tw.StopUserStream()
+        Else
+            tw.StartUserStream()
+        End If
     End Sub
 
     Private Sub TrackToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TrackToolStripMenuItem.Click
@@ -9955,14 +9965,6 @@ RETRY:
         Application.Restart()
     End Sub
 
-    Private Sub OpenOwnFavedMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles OpenOwnFavedMenuItem.Click
-        If Not tw.Username = "" Then OpenUriAsync(My.Resources.FavstarUrl + "users/" + tw.Username + "/recent")
-    End Sub
-
-    Private Sub OpenOwnHomeMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles OpenOwnHomeMenuItem.Click
-        OpenUriAsync("http://twitter.com/" + tw.Username)
-    End Sub
-
     Private Sub EventViewerMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EventViewerMenuItem.Click
         Using dlg As New EventViewerDialog
             dlg.Owner = Me
@@ -9971,4 +9973,14 @@ RETRY:
             Me.TopMost = SettingDialog.AlwaysTop
         End Using
     End Sub
+#End Region
+
+    Private Sub OpenOwnFavedMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles OpenOwnFavedMenuItem.Click
+        If Not tw.Username = "" Then OpenUriAsync(My.Resources.FavstarUrl + "users/" + tw.Username + "/recent")
+    End Sub
+
+    Private Sub OpenOwnHomeMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles OpenOwnHomeMenuItem.Click
+        OpenUriAsync("http://twitter.com/" + tw.Username)
+    End Sub
+
 End Class
