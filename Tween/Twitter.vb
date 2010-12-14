@@ -2807,12 +2807,6 @@ Public Class Twitter
         Public Property Username As String
         Public Property Target As String
 
-        Public Overrides Function ToString() As String
-            Return (Me.CreatedAt.ToString() + "                    ").Substring(0, 20) +
-                ("[" + Me.Event.ToUpper + "]                   ").Substring(0, 20) +
-                (Me.Username + "                    ").Substring(0, 20) +
-                Me.Target
-        End Function
     End Class
 
     Public Property StoredEvent As New List(Of FormattedEvent)
@@ -2898,7 +2892,7 @@ Public Class Twitter
                 evt.Event = "DELETE(Post)"
             End If
             evt.Username = post.Name
-            evt.Target = post.Data
+            evt.Target = If(post.Data.Length > 5, post.Data.Substring(0, 5) + "...", post.Data) + " [" + post.PDate.ToString + "]"
         End If
         Me.StoredEvent.Insert(0, evt)
         RaiseEvent UserStreamEventReceived(evt.Event)
