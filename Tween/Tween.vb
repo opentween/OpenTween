@@ -1402,56 +1402,64 @@ Public Class TweenMain
 
     End Sub
 
+    Private Function BalloonRequired() As Boolean
+        If (
+            NewPostPopMenuItem.Checked AndAlso
+            Not _initial AndAlso
+            (
+                (
+                    SettingDialog.LimitBalloon AndAlso
+                    (
+                        Me.WindowState = FormWindowState.Minimized OrElse
+                        Not Me.Visible OrElse
+                        Form.ActiveForm Is Nothing
+                        )
+                    ) OrElse
+                Not SettingDialog.LimitBalloon
+                )
+            ) AndAlso
+        Not IsScreenSaverRunning() Then
+            Return True
+        Else
+            Return False
+        End If
+    End Function
+
     Private Sub NotifyNewPosts(ByVal notifyPosts() As PostClass, ByVal soundFile As String, ByVal addCount As Integer, ByVal newMentions As Boolean)
         '新着通知
-        If ( _
-                NewPostPopMenuItem.Checked AndAlso _
-                notifyPosts IsNot Nothing AndAlso _
-                notifyPosts.Length > 0 AndAlso _
-                Not _initial AndAlso _
-                ( _
-                    ( _
-                        SettingDialog.LimitBalloon AndAlso _
-                        ( _
-                            Me.WindowState = FormWindowState.Minimized OrElse _
-                            Not Me.Visible OrElse _
-                            Form.ActiveForm Is Nothing _
-                        ) _
-                    ) OrElse _
-                    Not SettingDialog.LimitBalloon _
-                ) _
-            ) AndAlso _
-            Not IsScreenSaverRunning() Then
-            Dim sb As New StringBuilder
-            Dim reply As Boolean = False
-            Dim dm As Boolean = False
-            For Each post As PostClass In notifyPosts
-                If post.IsReply AndAlso Not post.IsExcludeReply Then reply = True
-                If post.IsDm Then dm = True
-                If sb.Length > 0 Then sb.Append(System.Environment.NewLine)
-                Select Case SettingDialog.NameBalloon
-                    Case NameBalloonEnum.UserID
-                        sb.Append(post.Name).Append(" : ")
-                    Case NameBalloonEnum.NickName
-                        sb.Append(post.Nickname).Append(" : ")
-                End Select
-                sb.Append(post.Data)
-            Next
-            If SettingDialog.DispUsername Then NotifyIcon1.BalloonTipTitle = tw.Username + " - " Else NotifyIcon1.BalloonTipTitle = ""
-            If dm Then
-                NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning
-                NotifyIcon1.BalloonTipTitle += "Tween [DM] " + My.Resources.RefreshDirectMessageText1 + " " + addCount.ToString() + My.Resources.RefreshDirectMessageText2
-            ElseIf reply Then
-                NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning
-                NotifyIcon1.BalloonTipTitle += "Tween [Reply!] " + My.Resources.RefreshTimelineText1 + " " + addCount.ToString() + My.Resources.RefreshTimelineText2
-            Else
-                NotifyIcon1.BalloonTipIcon = ToolTipIcon.Info
-                NotifyIcon1.BalloonTipTitle += "Tween " + My.Resources.RefreshTimelineText1 + " " + addCount.ToString() + My.Resources.RefreshTimelineText2
+        If BalloonRequired() Then
+            If notifyPosts IsNot Nothing AndAlso notifyPosts.Length > 0 Then
+                Dim sb As New StringBuilder
+                Dim reply As Boolean = False
+                Dim dm As Boolean = False
+                For Each post As PostClass In notifyPosts
+                    If post.IsReply AndAlso Not post.IsExcludeReply Then reply = True
+                    If post.IsDm Then dm = True
+                    If sb.Length > 0 Then sb.Append(System.Environment.NewLine)
+                    Select Case SettingDialog.NameBalloon
+                        Case NameBalloonEnum.UserID
+                            sb.Append(post.Name).Append(" : ")
+                        Case NameBalloonEnum.NickName
+                            sb.Append(post.Nickname).Append(" : ")
+                    End Select
+                    sb.Append(post.Data)
+                Next
+                If SettingDialog.DispUsername Then NotifyIcon1.BalloonTipTitle = tw.Username + " - " Else NotifyIcon1.BalloonTipTitle = ""
+                If dm Then
+                    NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning
+                    NotifyIcon1.BalloonTipTitle += "Tween [DM] " + My.Resources.RefreshDirectMessageText1 + " " + addCount.ToString() + My.Resources.RefreshDirectMessageText2
+                ElseIf reply Then
+                    NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning
+                    NotifyIcon1.BalloonTipTitle += "Tween [Reply!] " + My.Resources.RefreshTimelineText1 + " " + addCount.ToString() + My.Resources.RefreshTimelineText2
+                Else
+                    NotifyIcon1.BalloonTipIcon = ToolTipIcon.Info
+                    NotifyIcon1.BalloonTipTitle += "Tween " + My.Resources.RefreshTimelineText1 + " " + addCount.ToString() + My.Resources.RefreshTimelineText2
+                End If
+                Dim bText As String = sb.ToString
+                If String.IsNullOrEmpty(bText) Then Exit Sub
+                NotifyIcon1.BalloonTipText = sb.ToString()
+                NotifyIcon1.ShowBalloonTip(500)
             End If
-            Dim bText As String = sb.ToString
-            If String.IsNullOrEmpty(bText) Then Exit Sub
-            NotifyIcon1.BalloonTipText = sb.ToString()
-            NotifyIcon1.ShowBalloonTip(500)
         End If
 
         'サウンド再生
@@ -1472,7 +1480,6 @@ Public Class TweenMain
             FlashMyWindow(Me.Handle, FlashSpecification.FlashTray, 3)
         End If
     End Sub
-
 
     Private Sub MyList_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If _curList.SelectedIndices.Count <> 1 Then Exit Sub
@@ -9913,12 +9920,26 @@ RETRY:
         StatusLabel.Text = "UserStream Stopped."
     End Sub
 
-    Private Sub tw_UserStreamEventArrived(ByVal eventType As String)
+    Private Sub tw_UserStreamEventArrived(ByVal ev As Twitter.FormattedEvent)
         If InvokeRequired Then
-            Invoke(New Action(Of String)(AddressOf tw_UserStreamEventArrived), eventType)
+            Invoke(New Action(Of Twitter.FormattedEvent)(AddressOf tw_UserStreamEventArrived), ev)
             Exit Sub
         End If
-        StatusLabel.Text = "Event: " + eventType
+        StatusLabel.Text = "Event: " + ev.Event
+        If ev.Event = "favorite" Then
+            NotifyFavorite(ev)
+        End If
+    End Sub
+
+    Private Sub NotifyFavorite(ByVal ev As Twitter.FormattedEvent)
+        '新着通知
+        If BalloonRequired() Then
+            NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning
+            If SettingDialog.DispUsername Then NotifyIcon1.BalloonTipTitle = tw.Username + " - " Else NotifyIcon1.BalloonTipTitle = ""
+            NotifyIcon1.BalloonTipTitle += "Tween [FAVORITE] by " + ev.Username
+            NotifyIcon1.BalloonTipText = ev.Target
+            NotifyIcon1.ShowBalloonTip(500)
+        End If
     End Sub
 
     Private Sub StopToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StopToolStripMenuItem.Click

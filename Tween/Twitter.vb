@@ -2800,7 +2800,7 @@ Public Class Twitter
     Public Event UserStreamStopped()
     Public Event UserStreamGetFriendsList()
     Public Event PostDeleted(ByVal id As Long, ByRef post As PostClass)
-    Public Event UserStreamEventReceived(ByVal eventType As String)
+    Public Event UserStreamEventReceived(ByVal eventType As FormattedEvent)
     Private WithEvents userStream As TwitterUserstream
 
     Public Class FormattedEvent
@@ -2899,7 +2899,7 @@ Public Class Twitter
             evt.Target = If(post.Data.Length > 5, post.Data.Substring(0, 5) + "...", post.Data) + " [" + post.PDate.ToString + "]"
         End If
         Me.StoredEvent.Insert(0, evt)
-        RaiseEvent UserStreamEventReceived(evt.Event)
+        RaiseEvent UserStreamEventReceived(evt)
     End Sub
 
     Private Sub CreateEventFromJson(ByVal content As String)
@@ -2934,7 +2934,7 @@ Public Class Twitter
                 TraceOut("Unknown Event:" + evt.Event + Environment.NewLine + content)
         End Select
         Me.StoredEvent.Insert(0, evt)
-        RaiseEvent UserStreamEventReceived(evt.Event)
+        RaiseEvent UserStreamEventReceived(evt)
     End Sub
 
     Private Function CreateDataFromJson(Of T)(ByVal content As String) As T
