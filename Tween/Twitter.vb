@@ -2958,13 +2958,12 @@ Public Class Twitter
         End Get
     End Property
 
-    Public Overloads Sub StartUserStream()
+    Public Sub StartUserStream()
         If userStream IsNot Nothing Then
             StopUserStream()
-        Else
-            userStream = New TwitterUserstream(twCon)
-            userStream.Start(Me.AllAtReply, Me.TrackWord)
         End If
+        userStream = New TwitterUserstream(twCon)
+        userStream.Start(Me.AllAtReply, Me.TrackWord)
     End Sub
 
     Public Sub StopUserStream()
@@ -2975,7 +2974,6 @@ Public Class Twitter
 
     Public Sub ReconnectUserStream()
         If userStream IsNot Nothing Then
-            Me.StopUserStream()
             Me.StartUserStream()
         End If
     End Sub

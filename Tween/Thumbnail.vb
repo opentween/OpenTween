@@ -184,9 +184,9 @@ Public Class Thumbnail
 
     Private Sub ThumbnailProgressChanged(ByVal ProgressPercentage As Integer, Optional ByVal AddMsg As String = "")
         If ProgressPercentage = 0 Then    '開始
-            Owner.SetStatusLabel("Thumbnail generating...")
+            'Owner.SetStatusLabel("Thumbnail generating...")
         ElseIf ProgressPercentage = 100 Then '正常終了
-            Owner.SetStatusLabel("Thumbnail generated.")
+            'Owner.SetStatusLabel("Thumbnail generated.")
         Else ' エラー
             If String.IsNullOrEmpty(AddMsg) Then
                 Owner.SetStatusLabel("can't get Thumbnail.")
