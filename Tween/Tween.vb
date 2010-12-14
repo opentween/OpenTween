@@ -9804,6 +9804,7 @@ RETRY:
                 Else
                     _statuses.AddTab(tName, TabUsageType.Related, Nothing)
                 End If
+                _statuses.GetTabByName(tName).UnreadManage = False
             End If
 
             Dim tb As TabClass = _statuses.GetTabByType(TabUsageType.Related)

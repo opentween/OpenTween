@@ -1690,12 +1690,14 @@ Public Class Twitter
             Next
         Next
 
-        Dim rslt As String = Me.GetUserTimelineApi(read, 10, "", tab)
-        If Not String.IsNullOrEmpty(rslt) Then Return rslt
-        If Not String.IsNullOrEmpty(replyToUserName) Then
-            rslt = Me.GetUserTimelineApi(read, 10, replyToUserName, tab)
-        End If
-        Return rslt
+        '発言者・返信先ユーザーの直近10発言取得
+        'Dim rslt As String = Me.GetUserTimelineApi(read, 10, "", tab)
+        'If Not String.IsNullOrEmpty(rslt) Then Return rslt
+        'If Not String.IsNullOrEmpty(replyToUserName) Then
+        '    rslt = Me.GetUserTimelineApi(read, 10, replyToUserName, tab)
+        'End If
+        'Return rslt
+        Return ""
     End Function
 
     Private Function CreatePostsFromXml(ByVal content As String, ByVal gType As WORKERTYPE, ByVal tab As TabClass, ByVal read As Boolean, ByVal count As Integer, ByRef minimumId As Long) As String
@@ -2882,9 +2884,11 @@ Public Class Twitter
             End If
         End If
         If post Is Nothing Then
-            evt.Event = "DELETE(UNKNOWN)"
-            evt.Username = "--UNKNOWN--"
-            evt.Target = "--UNKNOWN--"
+            'evt.Event = "DELETE(UNKNOWN)"
+            'evt.Username = "--UNKNOWN--"
+            'evt.Target = "--UNKNOWN--"
+            '保持していない発言に対しての削除イベントは無視
+            Exit Sub
         Else
             If post.IsDm Then
                 evt.Event = "DELETE(DM)"
