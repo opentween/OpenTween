@@ -3942,15 +3942,13 @@ Public Class TweenMain
             End If
         End If
         If (e.State And ListViewItemStates.Focused) = ListViewItemStates.Focused Then e.DrawFocusRectangle()
+        Me.DrawListViewItemIcon(e)
     End Sub
 
     Private Sub MyList_DrawSubItem(ByVal sender As Object, ByVal e As DrawListViewSubItemEventArgs)
         If e.ItemState = 0 Then Exit Sub
 
-        Me.DrawListViewItemIcon(e)
-        If e.ColumnIndex = 0 Then
-            'Me.DrawListViewItemIcon(e)
-        Else
+        If e.ColumnIndex > 0 Then
             'アイコン以外の列
             Dim rct As RectangleF = e.Bounds
             Dim rctB As RectangleF = e.Bounds
@@ -4157,7 +4155,7 @@ Public Class TweenMain
         End If
     End Sub
 
-    Private Sub DrawListViewItemIcon(ByVal e As DrawListViewSubItemEventArgs)
+    Private Sub DrawListViewItemIcon(ByVal e As DrawListViewItemEventArgs)
         Dim item As ImageListViewItem = DirectCast(e.Item, ImageListViewItem)
         If item.Image IsNot Nothing Then
             'e.Bounds.Leftが常に0を指すから自前で計算
@@ -4753,7 +4751,8 @@ RETRY:
             If e.KeyCode = Keys.I Then
                 e.Handled = True
                 e.SuppressKeyPress = True
-                SendKeys.Send("{TAB}")
+                'SendKeys.Send("{TAB}")
+                If Me.StatusText.Enabled Then Me.StatusText.Focus()
             End If
             If e.KeyCode = Keys.G Then
                 e.Handled = True
