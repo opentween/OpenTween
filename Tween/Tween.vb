@@ -2559,11 +2559,13 @@ Public Class TweenMain
             Me.Visible AndAlso _
             Me.WindowState = FormWindowState.Normal Then
 
+            Dim colNo As Integer = 2
+            If _iconCol Then colNo = 1
             Dim widthDiff As Integer = Me.ClientSize.Width - Me._mySize.Width
             Dim listView As DetailsListView = CType(Me._curTab.Tag, DetailsListView)
-            Dim column As ColumnHeader = listView.Columns(2)
+            Dim column As ColumnHeader = listView.Columns(colNo)
             column.Width += widthDiff
-            Me.MyList_ColumnWidthChanged(listView, New ColumnWidthChangedEventArgs(2))
+            Me.MyList_ColumnWidthChanged(listView, New ColumnWidthChangedEventArgs(colNo))
 
             _mySize = Me.ClientSize
             _mySpDis = Me.SplitContainer1.SplitterDistance
@@ -3945,8 +3947,9 @@ Public Class TweenMain
     Private Sub MyList_DrawSubItem(ByVal sender As Object, ByVal e As DrawListViewSubItemEventArgs)
         If e.ItemState = 0 Then Exit Sub
 
+        Me.DrawListViewItemIcon(e)
         If e.ColumnIndex = 0 Then
-            Me.DrawListViewItemIcon(e)
+            'Me.DrawListViewItemIcon(e)
         Else
             'アイコン以外の列
             Dim rct As RectangleF = e.Bounds
