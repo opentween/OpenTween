@@ -2555,16 +2555,21 @@ Public Class TweenMain
     End Sub
 
     Private Sub Tween_ClientSizeChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.ClientSizeChanged
-        If Me.WindowState <> FormWindowState.Minimized Then
-            If Not _initialLayout AndAlso Me.Visible = True Then
-                If Me.WindowState = FormWindowState.Normal Then
-                    _mySize = Me.ClientSize
-                    _mySpDis = Me.SplitContainer1.SplitterDistance
-                    _mySpDis3 = Me.SplitContainer3.SplitterDistance
-                    If StatusText.Multiline Then _mySpDis2 = Me.StatusText.Height
-                    _modifySettingLocal = True
-                End If
-            End If
+        If (Not _initialLayout) AndAlso _
+            Me.Visible AndAlso _
+            Me.WindowState = FormWindowState.Normal Then
+
+            Dim widthDiff As Integer = Me.ClientSize.Width - Me._mySize.Width
+            Dim listView As DetailsListView = CType(Me._curTab.Tag, DetailsListView)
+            Dim column As ColumnHeader = listView.Columns(2)
+            column.Width += widthDiff
+            Me.MyList_ColumnWidthChanged(listView, New ColumnWidthChangedEventArgs(2))
+
+            _mySize = Me.ClientSize
+            _mySpDis = Me.SplitContainer1.SplitterDistance
+            _mySpDis3 = Me.SplitContainer3.SplitterDistance
+            If StatusText.Multiline Then _mySpDis2 = Me.StatusText.Height
+            _modifySettingLocal = True
         End If
     End Sub
 
