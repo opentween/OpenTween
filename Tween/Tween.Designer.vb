@@ -224,6 +224,8 @@ Partial Class TweenMain
         Me.ToolStripSeparator40 = New System.Windows.Forms.ToolStripSeparator()
         Me.TrackToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AllrepliesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator42 = New System.Windows.Forms.ToolStripSeparator()
+        Me.EventViewerMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuItemHelp = New System.Windows.Forms.ToolStripMenuItem()
         Me.MatomeMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ShortcutKeyListMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -289,8 +291,6 @@ Partial Class TweenMain
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.ToolStripSeparator42 = New System.Windows.Forms.ToolStripSeparator()
-        Me.EventViewerMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -1481,6 +1481,16 @@ Partial Class TweenMain
         Me.AllrepliesToolStripMenuItem.Name = "AllrepliesToolStripMenuItem"
         resources.ApplyResources(Me.AllrepliesToolStripMenuItem, "AllrepliesToolStripMenuItem")
         '
+        'ToolStripSeparator42
+        '
+        Me.ToolStripSeparator42.Name = "ToolStripSeparator42"
+        resources.ApplyResources(Me.ToolStripSeparator42, "ToolStripSeparator42")
+        '
+        'EventViewerMenuItem
+        '
+        Me.EventViewerMenuItem.Name = "EventViewerMenuItem"
+        resources.ApplyResources(Me.EventViewerMenuItem, "EventViewerMenuItem")
+        '
         'MenuItemHelp
         '
         Me.MenuItemHelp.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MatomeMenuItem, Me.ShortcutKeyListMenuItem, Me.ToolStripSeparator16, Me.VerUpMenuItem, Me.ToolStripSeparator14, Me.ApiInfoMenuItem, Me.ToolStripSeparator7, Me.AboutMenuItem, Me.DebugModeToolStripMenuItem})
@@ -1810,16 +1820,6 @@ Partial Class TweenMain
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
-        '
-        'ToolStripSeparator42
-        '
-        Me.ToolStripSeparator42.Name = "ToolStripSeparator42"
-        resources.ApplyResources(Me.ToolStripSeparator42, "ToolStripSeparator42")
-        '
-        'EventViewerMenuItem
-        '
-        Me.EventViewerMenuItem.Name = "EventViewerMenuItem"
-        resources.ApplyResources(Me.EventViewerMenuItem, "EventViewerMenuItem")
         '
         'TweenMain
         '
