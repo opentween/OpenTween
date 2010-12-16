@@ -6,7 +6,8 @@ Public Interface IHttpConnection
     Function GetContent(ByVal method As String, _
             ByVal requestUri As Uri, _
             ByVal param As Dictionary(Of String, String), _
-            ByRef content As Stream) As HttpStatusCode
+            ByRef content As Stream,
+            ByVal userAgent As String) As HttpStatusCode
 
     Function GetContent(ByVal method As String, _
             ByVal requestUri As Uri, _

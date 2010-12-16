@@ -722,7 +722,10 @@ Public Class HttpTwitter
         End If
     End Sub
 
-    Public Function UserStream(ByRef content As Stream, ByVal allAtReplies As Boolean, ByVal trackwords As String) As HttpStatusCode
+    Public Function UserStream(ByRef content As Stream,
+                               ByVal allAtReplies As Boolean,
+                               ByVal trackwords As String,
+                               ByVal userAgent As String) As HttpStatusCode
         Dim param As New Dictionary(Of String, String)
 
         If allAtReplies Then
@@ -736,7 +739,8 @@ Public Class HttpTwitter
         Return httpCon.GetContent(GetMethod, _
                             CreateTwitterStreamUri("/2/user.json"), _
                             param, _
-                            content)
+                            content,
+                            userAgent)
     End Function
 
     Public Sub RequestAbort()

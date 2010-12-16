@@ -2930,6 +2930,8 @@ Public Class Twitter
                 evt.Target = eventData.TargetObject.Name
             Case "block"
                 evt.Target = ""
+            Case "user_update"
+                evt.Target = ""
             Case Else
                 TraceOut("Unknown Event:" + evt.Event + Environment.NewLine + content)
         End Select
@@ -3047,7 +3049,7 @@ Public Class Twitter
 
                     RaiseEvent Started()
 
-                    twCon.UserStream(st, _allAtreplies, _trackwords)
+                    twCon.UserStream(st, _allAtreplies, _trackwords, My.Application.Info.ProductName + " v" + fileVersion)
                     sr = New StreamReader(st)
 
                     Do While _streamActive AndAlso Not sr.EndOfStream
@@ -3069,6 +3071,9 @@ Public Class Twitter
                         RaiseEvent Stopped()
                         TraceOut("Stop:Timeout")
                         Thread.Sleep(10 * 1000)
+                    ElseIf CType(ex.Response, HttpWebResponse).StatusCode = 420 Then
+                        TraceOut("Stop:Connection Limit")
+                        Exit Do
                     Else
                         RaiseEvent Stopped()
                         TraceOut("Stop:WebException " & ex.Status.ToString)

@@ -116,11 +116,14 @@ Public Class HttpConnectionBasic
     Public Function GetContent(ByVal method As String, _
             ByVal requestUri As Uri, _
             ByVal param As Dictionary(Of String, String), _
-            ByRef content As Stream) As HttpStatusCode Implements IHttpConnection.GetContent
+            ByRef content As Stream,
+            ByVal userAgent As String) As HttpStatusCode Implements IHttpConnection.GetContent
         '認証済かチェック
         If String.IsNullOrEmpty(Me.credential) Then Return HttpStatusCode.Unauthorized
 
         streamReq = CreateRequest(method, requestUri, param, False)
+        'User-Agent指定がある場合は付加
+        If Not String.IsNullOrEmpty(userAgent) Then streamReq.UserAgent = userAgent
 
         'BASIC認証用ヘッダを付加
         AppendApiInfo(streamReq)
