@@ -3071,7 +3071,7 @@ Public Class Twitter
                         RaiseEvent Stopped()
                         TraceOut("Stop:Timeout")
                         Thread.Sleep(10 * 1000)
-                    ElseIf CType(ex.Response, HttpWebResponse).StatusCode = 420 Then
+                    ElseIf ex.Response IsNot Nothing AndAlso CType(ex.Response, HttpWebResponse).StatusCode = 420 Then
                         TraceOut("Stop:Connection Limit")
                         Exit Do
                     Else
