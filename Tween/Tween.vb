@@ -2559,13 +2559,13 @@ Public Class TweenMain
             Me.Visible AndAlso _
             Me.WindowState = FormWindowState.Normal Then
 
-            Dim colNo As Integer = 2
-            If _iconCol Then colNo = 1
-            Dim widthDiff As Integer = Me.ClientSize.Width - Me._mySize.Width
-            Dim listView As DetailsListView = CType(Me._curTab.Tag, DetailsListView)
-            Dim column As ColumnHeader = listView.Columns(colNo)
-            column.Width += widthDiff
-            Me.MyList_ColumnWidthChanged(listView, New ColumnWidthChangedEventArgs(colNo))
+            'Dim colNo As Integer = 2
+            'If _iconCol Then colNo = 1
+            'Dim widthDiff As Integer = Me.ClientSize.Width - Me._mySize.Width
+            'Dim listView As DetailsListView = CType(Me._curTab.Tag, DetailsListView)
+            'Dim column As ColumnHeader = listView.Columns(colNo)
+            'column.Width += widthDiff
+            'Me.MyList_ColumnWidthChanged(listView, New ColumnWidthChangedEventArgs(colNo))
 
             _mySize = Me.ClientSize
             _mySpDis = Me.SplitContainer1.SplitterDistance
