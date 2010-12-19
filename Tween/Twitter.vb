@@ -1559,7 +1559,12 @@ Public Class Twitter
         For Each status As TwitterDataModel.Status In items
             Dim post As PostClass = Nothing
 
-            post = CreatePostsFromStatusData(status)
+            Try
+                post = CreatePostsFromStatusData(status)
+            Catch ex As NullReferenceException
+                TraceOut(ex.Message + Environment.NewLine + content)
+                Return "Invalid Json ?"
+            End Try
 
             If minimumId > post.Id Then minimumId = post.Id
             '二重取得回避
@@ -2929,6 +2934,8 @@ Public Class Twitter
             Case "list_member_added", "list_member_removed"
                 evt.Target = eventData.TargetObject.Name
             Case "block"
+                evt.Target = ""
+            Case "unblock"
                 evt.Target = ""
             Case "user_update"
                 evt.Target = ""
