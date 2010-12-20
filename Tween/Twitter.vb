@@ -2879,8 +2879,6 @@ Public Class Twitter
             End If
         Catch ex As NullReferenceException
             TraceOut("NullRef StatusArrived: " + line)
-        Catch ex As Exception
-            TraceOut(ex.Message + ": " + line)
         End Try
 
         RaiseEvent NewPostFromStream()
