@@ -1209,15 +1209,15 @@ Public Class TweenMain
             'Interlocked.Add(period, -_homeCounterAdjuster)
             'Interlocked.Exchange(_homeCounter, period)
             Interlocked.Exchange(homeCounter, SettingDialog.TimelinePeriodInt)
-            If Not Me._isActiveUserstream Then GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
+            If Not tw.IsUserstreamDataReceived Then GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
         End If
         If mentionCounter <= 0 AndAlso SettingDialog.ReplyPeriodInt > 0 Then
             Interlocked.Exchange(mentionCounter, SettingDialog.ReplyPeriodInt)
-            If Not Me._isActiveUserstream Then GetTimeline(WORKERTYPE.Reply, 1, 0, "")
+            If Not tw.IsUserstreamDataReceived Then GetTimeline(WORKERTYPE.Reply, 1, 0, "")
         End If
         If dmCounter <= 0 AndAlso SettingDialog.DMPeriodInt > 0 Then
             Interlocked.Exchange(dmCounter, SettingDialog.DMPeriodInt)
-            If Not Me._isActiveUserstream Then GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
+            If Not tw.IsUserstreamDataReceived Then GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
         End If
         If pubSearchCounter <= 0 AndAlso SettingDialog.PubSearchPeriodInt > 0 Then
             Interlocked.Exchange(pubSearchCounter, SettingDialog.PubSearchPeriodInt)
@@ -9989,11 +9989,6 @@ RETRY:
         tw.ReconnectUserStream()
     End Sub
 
-    Private Sub TweenRestartMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles TweenRestartMenuItem.Click
-        _endingFlag = True
-        Application.Restart()
-    End Sub
-
     Private Sub EventViewerMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EventViewerMenuItem.Click
         Using dlg As New EventViewerDialog
             dlg.Owner = Me
@@ -10003,6 +9998,11 @@ RETRY:
         End Using
     End Sub
 #End Region
+
+    Private Sub TweenRestartMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles TweenRestartMenuItem.Click
+        _endingFlag = True
+        Application.Restart()
+    End Sub
 
     Private Sub OpenOwnFavedMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles OpenOwnFavedMenuItem.Click
         If Not tw.Username = "" Then OpenUriAsync(My.Resources.FavstarUrl + "users/" + tw.Username + "/recent")
