@@ -1018,11 +1018,12 @@ Public NotInheritable Class TabInformations
         SyncLock LockUnread
             If tb.IsInnerStorageTabType Then
                 If _statuses.ContainsKey(Id) Then _statuses(Id).IsRead = Read
-            Else
-                For Each tbInnerStorage In Me.GetTabsInnerStorageType
-                    If tbInnerStorage.Contains(Id) Then tbInnerStorage.Posts(Id).IsRead = Read
-                Next
             End If
+            For Each tbInnerStorage In Me.GetTabsInnerStorageType
+                If tb.TabName <> tbInnerStorage.TabName AndAlso tbInnerStorage.Contains(Id) Then
+                    tbInnerStorage.Posts(Id).IsRead = Read
+                End If
+            Next
             If Read Then
                 tb.UnreadCount -= 1
                 Me.SetNextUnreadId(Id, tb)  '次の未読セット
