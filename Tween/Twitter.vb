@@ -1365,13 +1365,13 @@ Public Class Twitter
 
         Dim res As HttpStatusCode
         Dim content As String = ""
-        Dim count As Integer = Setting.Instance.CountApi
-        If gType = WORKERTYPE.Reply Then count = Setting.Instance.CountApiReply
-        If Setting.Instance.UseAdditionalCount Then
-            If more AndAlso Setting.Instance.MoreCountApi <> 0 Then
-                count = Setting.Instance.MoreCountApi
-            ElseIf startup AndAlso Setting.Instance.FirstCountApi <> 0 AndAlso gType = WORKERTYPE.Timeline Then
-                count = Setting.Instance.FirstCountApi
+        Dim count As Integer = AppendSettingDialog.Instance.CountApi
+        If gType = WORKERTYPE.Reply Then count = AppendSettingDialog.Instance.CountApiReply()
+        If AppendSettingDialog.Instance.UseAdditionalCount Then
+            If more AndAlso AppendSettingDialog.Instance.MoreCountApi <> 0 Then
+                count = AppendSettingDialog.Instance.MoreCountApi
+            ElseIf startup AndAlso AppendSettingDialog.Instance.FirstCountApi <> 0 AndAlso gType = WORKERTYPE.Timeline Then
+                count = AppendSettingDialog.Instance.FirstCountApi
             End If
         End If
         Try
@@ -1591,12 +1591,12 @@ Public Class Twitter
         Dim res As HttpStatusCode
         Dim content As String = ""
         Dim page As Integer = 0
-        Dim count As Integer = Setting.Instance.CountApi
-        If Setting.Instance.UseAdditionalCount Then
-            If more AndAlso Setting.Instance.MoreCountApi <> 0 Then
-                count = Setting.Instance.MoreCountApi
-            ElseIf startup AndAlso Setting.Instance.FirstCountApi <> 0 Then
-                count = Setting.Instance.FirstCountApi
+        Dim count As Integer = AppendSettingDialog.Instance.CountApi
+        If AppendSettingDialog.Instance.UseAdditionalCount Then
+            If more AndAlso AppendSettingDialog.Instance.MoreCountApi <> 0 Then
+                count = AppendSettingDialog.Instance.MoreCountApi
+            ElseIf startup AndAlso AppendSettingDialog.Instance.FirstCountApi <> 0 Then
+                count = AppendSettingDialog.Instance.FirstCountApi
             End If
         End If
         Try
@@ -1822,9 +1822,9 @@ Public Class Twitter
         Dim page As Integer = 0
         Dim sinceId As Long = 0
         Dim count As Integer = 100
-        If Setting.Instance.UseAdditionalCount AndAlso
-            Setting.Instance.SearchCountApi <> 0 Then
-            count = Setting.Instance.SearchCountApi
+        If AppendSettingDialog.Instance.UseAdditionalCount AndAlso
+            AppendSettingDialog.Instance.SearchCountApi <> 0 Then
+            count = AppendSettingDialog.Instance.SearchCountApi
         End If
         If more Then
             page = tab.GetSearchPage(count)
@@ -2077,10 +2077,10 @@ Public Class Twitter
 
         Dim res As HttpStatusCode
         Dim content As String = ""
-        Dim count As Integer = Setting.Instance.CountApi
-        If Setting.Instance.UseAdditionalCount AndAlso
-            Setting.Instance.FavoritesCountApi <> 0 Then
-            count = Setting.Instance.FavoritesCountApi
+        Dim count As Integer = AppendSettingDialog.Instance.CountApi
+        If AppendSettingDialog.Instance.UseAdditionalCount AndAlso
+            AppendSettingDialog.Instance.FavoritesCountApi <> 0 Then
+            count = AppendSettingDialog.Instance.FavoritesCountApi
         End If
         Try
             res = twCon.Favorites(count, content)

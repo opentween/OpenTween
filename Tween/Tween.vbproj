@@ -48,6 +48,7 @@
     <NoWarn>42353,42354,42355</NoWarn>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -114,6 +115,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiInformation.vb" />
+    <Compile Include="AppendSettingDialog.Designer.vb">
+      <DependentUpon>AppendSettingDialog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AppendSettingDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ApplicationEvents.vb" />
     <Compile Include="AtIdSupplement.Designer.vb">
       <DependentUpon>AtIdSupplement.vb</DependentUpon>
@@ -221,12 +228,6 @@
     <Compile Include="SearchWord.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Setting.Designer.vb">
-      <DependentUpon>Setting.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Setting.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Setting\SettingAtIdList.vb" />
     <Compile Include="Setting\SettingBase.vb" />
     <Compile Include="Setting\SettingCommon.vb" />
@@ -279,6 +280,16 @@
     <Compile Include="Win32Api.vb" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AppendSettingDialog.en.resx">
+      <DependentUpon>AppendSettingDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AppendSettingDialog.resx">
+      <DependentUpon>AppendSettingDialog.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AppendSettingDialog.zh-CHS.resx">
+      <DependentUpon>AppendSettingDialog.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AtIdSupplement.en.resx">
       <SubType>Designer</SubType>
       <DependentUpon>AtIdSupplement.vb</DependentUpon>
@@ -400,24 +411,12 @@
       <DependentUpon>SearchWord.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Setting.en.resx">
-      <DependentUpon>Setting.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Setting.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>Setting.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FilterDialog.en.resx">
       <DependentUpon>FilterDialog.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="FilterDialog.resx">
       <DependentUpon>FilterDialog.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Setting.zh-CHS.resx">
-      <DependentUpon>Setting.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ShowUserInfo.en.resx">

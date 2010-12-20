@@ -87,7 +87,7 @@ Public Class TweenMain
     Private tw As New Twitter
 
     'サブ画面インスタンス
-    Private SettingDialog As Setting = Setting.Instance       '設定画面インスタンス
+    Private SettingDialog As AppendSettingDialog = AppendSettingDialog.Instance       '設定画面インスタンス
     Private TabDialog As New TabsDialog        'タブ選択ダイアログインスタンス
     Private SearchDialog As New SearchWord     '検索画面インスタンス
     Private fDialog As New FilterDialog 'フィルター編集画面
