@@ -2800,6 +2800,7 @@ Public Class Twitter
     Public Event UserStreamGetFriendsList()
     Public Event PostDeleted(ByVal id As Long, ByRef post As PostClass)
     Public Event UserStreamEventReceived(ByVal eventType As FormattedEvent)
+    Private _lastUserstreamDataReceived As DateTime
     Private WithEvents userStream As TwitterUserstream
 
     Public Class FormattedEvent
@@ -2821,7 +2822,14 @@ Public Class Twitter
         "block"
     }
 
+    Public ReadOnly Property IsUserstreamDataReceived As Boolean
+        Get
+            Return Now.Subtract(Me._lastUserstreamDataReceived).Seconds < 31
+        End Get
+    End Property
+
     Private Sub userStream_StatusArrived(ByVal line As String) Handles userStream.StatusArrived
+        Me._lastUserstreamDataReceived = Now
         If String.IsNullOrEmpty(line) Then Exit Sub
 
         Dim isDm As Boolean = False
