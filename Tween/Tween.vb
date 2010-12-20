@@ -1488,7 +1488,7 @@ Public Class TweenMain
         _curItemIndex = _curList.SelectedIndices(0)
         'If _curPost Is GetCurTabPost(_curItemIndex) Then Exit Sub 'refreshで既読化されるのを防ぐため追加
         _curPost = GetCurTabPost(_curItemIndex)
-        If SettingDialog.UnreadManage Then _statuses.SetRead(True, _curTab.Text, _curItemIndex)
+        If SettingDialog.UnreadManage Then _statuses.SetReadAllTab(True, _curTab.Text, _curItemIndex)
         'MyList.RedrawItems(MyList.SelectedIndices(0), MyList.SelectedIndices(0), False)   'RetrieveVirtualItemが発生することを期待
         'キャッシュの書き換え
         ChangeCacheStyleRead(True, _curItemIndex, _curTab)   '既読へ（フォント、文字色）
@@ -2825,7 +2825,7 @@ Public Class TweenMain
         _curList.BeginUpdate()
         If SettingDialog.UnreadManage Then
             For Each idx As Integer In _curList.SelectedIndices
-                _statuses.SetRead(True, _curTab.Text, idx)
+                _statuses.SetReadAllTab(True, _curTab.Text, idx)
             Next
         End If
         For Each idx As Integer In _curList.SelectedIndices
@@ -2847,7 +2847,7 @@ Public Class TweenMain
         _curList.BeginUpdate()
         If SettingDialog.UnreadManage Then
             For Each idx As Integer In _curList.SelectedIndices
-                _statuses.SetRead(False, _curTab.Text, idx)
+                _statuses.SetReadAllTab(False, _curTab.Text, idx)
             Next
         End If
         For Each idx As Integer In _curList.SelectedIndices
