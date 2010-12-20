@@ -113,6 +113,7 @@ Partial Class TweenMain
         Me.ListManageUserContextToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator33 = New System.Windows.Forms.ToolStripSeparator()
         Me.UseHashtagMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TranslationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DateTimeLabel = New System.Windows.Forms.Label()
         Me.SourceLinkLabel = New System.Windows.Forms.LinkLabel()
         Me.StatusText = New System.Windows.Forms.TextBox()
@@ -771,7 +772,7 @@ Partial Class TweenMain
         '
         'ContextMenuPostBrowser
         '
-        Me.ContextMenuPostBrowser.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectionSearchContextMenuItem, Me.ToolStripSeparator13, Me.SelectionCopyContextMenuItem, Me.UrlCopyContextMenuItem, Me.SelectionAllContextMenuItem, Me.ToolStripSeparator5, Me.FollowContextMenuItem, Me.RemoveContextMenuItem, Me.FriendshipContextMenuItem, Me.FriendshipAllMenuItem, Me.ToolStripSeparator36, Me.ShowUserStatusContextMenuItem, Me.SearchPostsDetailToolStripMenuItem, Me.SearchAtPostsDetailToolStripMenuItem, Me.ToolStripSeparator32, Me.IdFilterAddMenuItem, Me.ListManageUserContextToolStripMenuItem, Me.ToolStripSeparator33, Me.UseHashtagMenuItem})
+        Me.ContextMenuPostBrowser.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectionSearchContextMenuItem, Me.ToolStripSeparator13, Me.SelectionCopyContextMenuItem, Me.UrlCopyContextMenuItem, Me.SelectionAllContextMenuItem, Me.ToolStripSeparator5, Me.FollowContextMenuItem, Me.RemoveContextMenuItem, Me.FriendshipContextMenuItem, Me.FriendshipAllMenuItem, Me.ToolStripSeparator36, Me.ShowUserStatusContextMenuItem, Me.SearchPostsDetailToolStripMenuItem, Me.SearchAtPostsDetailToolStripMenuItem, Me.ToolStripSeparator32, Me.IdFilterAddMenuItem, Me.ListManageUserContextToolStripMenuItem, Me.ToolStripSeparator33, Me.UseHashtagMenuItem, Me.TranslationToolStripMenuItem})
         Me.ContextMenuPostBrowser.Name = "ContextMenuStrip4"
         resources.ApplyResources(Me.ContextMenuPostBrowser, "ContextMenuPostBrowser")
         '
@@ -895,6 +896,11 @@ Partial Class TweenMain
         '
         Me.UseHashtagMenuItem.Name = "UseHashtagMenuItem"
         resources.ApplyResources(Me.UseHashtagMenuItem, "UseHashtagMenuItem")
+        '
+        'TranslationToolStripMenuItem
+        '
+        Me.TranslationToolStripMenuItem.Name = "TranslationToolStripMenuItem"
+        resources.ApplyResources(Me.TranslationToolStripMenuItem, "TranslationToolStripMenuItem")
         '
         'DateTimeLabel
         '
@@ -2137,5 +2143,6 @@ Partial Class TweenMain
     Friend WithEvents OpenOwnFavedMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator42 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents EventViewerMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents TranslationToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

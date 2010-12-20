@@ -2954,17 +2954,6 @@ Public Class Twitter
         RaiseEvent UserStreamEventReceived(evt)
     End Sub
 
-    Private Function CreateDataFromJson(Of T)(ByVal content As String) As T
-        Dim data As T
-        Using stream As New MemoryStream()
-            Dim buf As Byte() = Encoding.Unicode.GetBytes(content)
-            stream.Write(Encoding.Unicode.GetBytes(content), offset:=0, count:=buf.Length)
-            stream.Seek(offset:=0, loc:=SeekOrigin.Begin)
-            data = DirectCast((New DataContractJsonSerializer(GetType(T))).ReadObject(stream), T)
-        End Using
-        Return data
-    End Function
-
     Private Sub userStream_Started() Handles userStream.Started
         RaiseEvent UserStreamStarted()
     End Sub
