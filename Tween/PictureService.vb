@@ -13,7 +13,7 @@ Public Class PictureService
             Return "Err:" + ex.Message
         End Try
         If Not file.Exists Then Return "Err:File isn't exists."
-        Dim st As Setting = Setting.Instance
+        Dim st As AppendSettingDialog = AppendSettingDialog.Instance
         Dim ret As String = ""
         Dim upResult As Boolean = False
         Select Case service

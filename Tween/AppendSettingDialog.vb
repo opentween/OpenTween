@@ -1,31 +1,9 @@
-﻿Imports System.ComponentModel
+﻿
 Imports System.Threading
 
-' Tween - Client of Twitter
-' Copyright (c) 2007-2010 kiri_feather (@kiri_feather) <kiri_feather@gmail.com>
-'           (c) 2008-2010 Moz (@syo68k) <http://iddy.jp/profile/moz/>
-'           (c) 2008-2010 takeshik (@takeshik) <http://www.takeshik.org/>
-' All rights reserved.
-' 
-' This file is part of Tween.
-' 
-' This program is free software; you can redistribute it and/or modify it
-' under the terms of the GNU General Public License as published by the Free
-' Software Foundation; either version 3 of the License, or (at your option)
-' any later version.
-' 
-' This program is distributed in the hope that it will be useful, but
-' WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-' or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-' for more details. 
-' 
-' You should have received a copy of the GNU General Public License along
-' with this program. If not, see <http://www.gnu.org/licenses/>, or write to
-' the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
-' Boston, MA 02110-1301, USA.
+Public Class AppendSettingDialog
 
-Public Class Setting
-    Private Shared _instance As New Setting
+    Private Shared _instance As New AppendSettingDialog
     Private tw As Twitter
     'Private _MyuserID As String
     'Private _Mypassword As String
@@ -130,6 +108,46 @@ Public Class Setting
 
     Private _ValidationError As Boolean = False
 
+    Private _curPanel As Panel = Nothing
+    Private Sub TreeView1_AfterSelect(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles TreeView1.AfterSelect
+        Dim NodeName As String = TreeView1.SelectedNode.Name
+        If _curPanel IsNot Nothing Then
+            _curPanel.Enabled = False
+            _curPanel.Visible = False
+            _curPanel = Nothing
+        End If
+        Select Case NodeName
+            Case "BasedNode"
+                _curPanel = BasedPanel
+            Case "PeriodNode"
+                _curPanel = GetPeriodPanel
+            Case "StartUpNode"
+                _curPanel = StartupPanel
+            Case "GetCountNode"
+                _curPanel = GetCountPanel
+            Case "UserStreamNode"
+                _curPanel = UserStreamPanel
+            Case "ActionNode"
+                _curPanel = ActionPanel
+            Case "TweetActNode"
+                _curPanel = TweetActPanel
+            Case "PreviewNode"
+                _curPanel = PreviewPanel
+            Case "TweetPrvNode"
+                _curPanel = TweetPrvPanel
+            Case "FontNode"
+                _curPanel = FontPanel
+            Case "FontNode2"
+                _curPanel = FontPanel2
+            Case "ConnectionNode"
+                _curPanel = ConnectionPanel
+            Case "ProxyNode"
+                _curPanel = ProxyPanel
+        End Select
+        _curPanel.Enabled = True
+        _curPanel.Visible = True
+    End Sub
+
     Private Sub Save_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Save.Click
         If TweenMain.IsNetworkAvailable() AndAlso _
             (ComboBoxAutoShortUrlFirst.SelectedIndex = UrlConverter.Bitly OrElse ComboBoxAutoShortUrlFirst.SelectedIndex = UrlConverter.Jmp) AndAlso _
@@ -137,7 +155,7 @@ Public Class Setting
             If Not BitlyValidation(TextBitlyId.Text, TextBitlyPw.Text) Then
                 MessageBox.Show(My.Resources.SettingSave_ClickText1)
                 _ValidationError = True
-                TabControl1.SelectTab(1) ' 動作タブを選択
+                TreeView1.SelectedNode.Name = "TweetActNode" ' 動作タブを選択
                 TextBitlyId.Focus()
                 Exit Sub
             Else
@@ -348,7 +366,7 @@ Public Class Setting
         End If
     End Sub
 
-    Private Sub Setting_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+    Private Sub Setting_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Me.Load
         tw = DirectCast(Me.Owner, TweenMain).TwitterInstance
         Dim uname As String = tw.Username
         Dim pw As String = tw.Password
@@ -583,7 +601,7 @@ Public Class Setting
         HotkeyCode.Enabled = HotkeyEnabled
         ChkNewMentionsBlink.Checked = _BlinkNewMentions
 
-        TabControl1.SelectedIndex = 0
+        TreeView1.SelectedNode = TreeView1.Nodes(0)
         ActiveControl = Username
 
         CheckOutputz_CheckedChanged(sender, e)
@@ -593,6 +611,8 @@ Public Class Setting
         SearchTextCountApi.Text = _SearchCountApi.ToString
         FavoritesTextCountApi.Text = _FavoritesCountApi.ToString
         UseChangeGetCount.Checked = _MyUseAdditonalCount
+        Label28.Enabled = UseChangeGetCount.Checked
+        Label30.Enabled = UseChangeGetCount.Checked
         Label53.Enabled = UseChangeGetCount.Checked
         Label66.Enabled = UseChangeGetCount.Checked
         GetMoreTextCountApi.Enabled = UseChangeGetCount.Checked
@@ -707,7 +727,7 @@ Public Class Setting
         CalcApiUsing()
     End Sub
 
-    Private Sub UReadMng_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    Private Sub UReadMng_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UReadMng.CheckedChanged
         If UReadMng.Checked = True Then
             StartupReaded.Enabled = True
         Else
@@ -715,7 +735,7 @@ Public Class Setting
         End If
     End Sub
 
-    Private Sub btnFontAndColor_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDetail.Click, btnListFont.Click, btnUnread.Click, btnInputFont.Click
+    Private Sub btnFontAndColor_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnInputFont.Click
         Dim Btn As Button = CType(sender, Button)
         Dim rtn As DialogResult
 
@@ -1842,7 +1862,7 @@ Public Class Setting
         End If
     End Sub
 
-    Private Sub ButtonBackToDefaultFontColor_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonBackToDefaultFontColor.Click
+    Private Sub ButtonBackToDefaultFontColor_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonBackToDefaultFontColor.Click, ButtonBackToDefaultFontColor2.Click
         lblUnread.ForeColor = System.Drawing.SystemColors.ControlText
         lblUnread.Font = New Font(SystemFonts.DefaultFont, FontStyle.Bold Or FontStyle.Underline)
 
@@ -2047,7 +2067,7 @@ Public Class Setting
 
     End Sub
 
-    Public Shared ReadOnly Property Instance As Setting
+    Public Shared ReadOnly Property Instance As AppendSettingDialog
         Get
             Return _instance
         End Get
@@ -2129,6 +2149,8 @@ Public Class Setting
     Private Sub UseChangeGetCount_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles UseChangeGetCount.CheckedChanged
         GetMoreTextCountApi.Enabled = UseChangeGetCount.Checked
         FirstTextCountApi.Enabled = UseChangeGetCount.Checked
+        Label28.Enabled = UseChangeGetCount.Checked
+        Label30.Enabled = UseChangeGetCount.Checked
         Label53.Enabled = UseChangeGetCount.Checked
         Label66.Enabled = UseChangeGetCount.Checked
         SearchTextCountApi.Enabled = UseChangeGetCount.Checked
@@ -2190,4 +2212,3 @@ Public Class Setting
         End If
     End Sub
 End Class
-
