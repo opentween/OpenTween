@@ -996,6 +996,61 @@ Public NotInheritable Class TabInformations
                 )
     End Sub
 
+    Public Sub SetReadAllTab(ByVal Read As Boolean, ByVal TabName As String, ByVal Index As Integer)
+        'Read:True=既読へ　False=未読へ
+        Dim tb As TabClass = _tabs(TabName)
+
+        If tb.UnreadManage = False Then Exit Sub '未読管理していなければ終了
+
+        Dim Id As Long = tb.GetId(Index)
+        If Id < 0 Then Exit Sub
+        Dim post As PostClass
+        If Not tb.IsInnerStorageTabType Then
+            post = _statuses(Id)
+        Else
+            post = tb.Posts(Id)
+        End If
+
+        If post.IsRead = Read Then Exit Sub '状態変更なければ終了
+
+        post.IsRead = Read '指定の状態に変更
+
+        SyncLock LockUnread
+            If tb.IsInnerStorageTabType Then
+                If _statuses.ContainsKey(Id) Then _statuses(Id).IsRead = Read
+            Else
+                For Each tbInnerStorage In Me.GetTabsInnerStorageType
+                    If tbInnerStorage.Contains(Id) Then tbInnerStorage.Posts(Id).IsRead = Read
+                Next
+            End If
+            If Read Then
+                tb.UnreadCount -= 1
+                Me.SetNextUnreadId(Id, tb)  '次の未読セット
+                '他タブの最古未読ＩＤはタブ切り替え時に。
+                For Each key As String In _tabs.Keys
+                    If key <> TabName AndAlso _
+                       _tabs(key).UnreadManage AndAlso _
+                       _tabs(key).Contains(Id) Then
+                        _tabs(key).UnreadCount -= 1
+                        If _tabs(key).OldestUnreadId = Id Then _tabs(key).OldestUnreadId = -1
+                    End If
+                Next
+            Else
+                tb.UnreadCount += 1
+                If tb.OldestUnreadId > Id OrElse tb.OldestUnreadId = -1 Then tb.OldestUnreadId = Id
+                For Each key As String In _tabs.Keys
+                    If Not key = TabName AndAlso _
+                       _tabs(key).UnreadManage AndAlso _
+                       _tabs(key).Contains(Id) Then
+                        _tabs(key).UnreadCount += 1
+                        If _tabs(key).OldestUnreadId > Id Then _tabs(key).OldestUnreadId = Id
+                    End If
+                Next
+            End If
+        End SyncLock
+    End Sub
+
+    ''' TODO: パフォーマンスを勘案して、戻すか決める
     Public Sub SetRead(ByVal Read As Boolean, ByVal TabName As String, ByVal Index As Integer)
         'Read:True=既読へ　False=未読へ
         Dim tb As TabClass = _tabs(TabName)
@@ -1353,6 +1408,18 @@ Public NotInheritable Class TabInformations
             Dim tbs As New List(Of TabClass)
             For Each tb As TabClass In _tabs.Values
                 If (tabType And tb.TabType) = tb.TabType Then tbs.Add(tb)
+            Next
+            Return tbs
+        End SyncLock
+    End Function
+
+    Public Function GetTabsInnerStorageType() As List(Of TabClass)
+        '合致したタブをListで返す
+        '合致しなければ空のListを返す
+        SyncLock LockObj
+            Dim tbs As New List(Of TabClass)
+            For Each tb As TabClass In _tabs.Values
+                If tb.IsInnerStorageTabType Then tbs.Add(tb)
             Next
             Return tbs
         End SyncLock

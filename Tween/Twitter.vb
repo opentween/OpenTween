@@ -1558,13 +1558,7 @@ Public Class Twitter
 
         For Each status As TwitterDataModel.Status In items
             Dim post As PostClass = Nothing
-
-            Try
-                post = CreatePostsFromStatusData(status)
-            Catch ex As NullReferenceException
-                TraceOut(ex.Message + Environment.NewLine + content)
-                Return "Invalid Json ?"
-            End Try
+            post = CreatePostsFromStatusData(status)
 
             If minimumId > post.Id Then minimumId = post.Id
             '二重取得回避
@@ -2869,11 +2863,17 @@ Public Class Twitter
         res.Append(line)
         res.Append("]")
 
-        If isDm Then
-            CreateDirectMessagesFromJson(res.ToString, WORKERTYPE.UserStream, False)
-        Else
-            CreatePostsFromJson(res.ToString, WORKERTYPE.Timeline, Nothing, False, Nothing, Nothing)
-        End If
+        Try
+            If isDm Then
+                CreateDirectMessagesFromJson(res.ToString, WORKERTYPE.UserStream, False)
+            Else
+                CreatePostsFromJson(res.ToString, WORKERTYPE.Timeline, Nothing, False, Nothing, Nothing)
+            End If
+        Catch ex As NullReferenceException
+            TraceOut("NullRef StatusArrived: " + line)
+        Catch ex As Exception
+            TraceOut(ex.Message + ": " + line)
+        End Try
 
         RaiseEvent NewPostFromStream()
     End Sub
