@@ -10012,4 +10012,13 @@ RETRY:
         OpenUriAsync("http://twitter.com/" + tw.Username)
     End Sub
 
+    Private Sub TranslationToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TranslationToolStripMenuItem.Click
+        Dim g As New Google
+        Dim buf As String = ""
+        If _curPost Is Nothing Then Exit Sub
+        Dim lng As String = g.LanguageDetect(_curPost.Data)
+        If lng <> "ja" AndAlso g.Translate(True, PostBrowser.DocumentText, buf) Then
+            PostBrowser.DocumentText = buf
+        End If
+    End Sub
 End Class

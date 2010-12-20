@@ -162,6 +162,7 @@
     <Compile Include="FormInfo.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Google.vb" />
     <Compile Include="HashtagManage.Designer.vb">
       <DependentUpon>HashtagManage.vb</DependentUpon>
     </Compile>
