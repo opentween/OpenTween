@@ -108,44 +108,20 @@ Public Class AppendSettingDialog
 
     Private _ValidationError As Boolean = False
 
-    Private _curPanel As Panel = Nothing
+    Private Sub TreeView1_BeforeSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewCancelEventArgs) Handles TreeView1.BeforeSelect
+        If Me.TreeView1.SelectedNode Is Nothing Then Exit Sub
+        Dim pnl = DirectCast(Me.TreeView1.SelectedNode.Tag, Panel)
+        If pnl Is Nothing Then Exit Sub
+        pnl.Enabled = False
+        pnl.Visible = False
+    End Sub
+
     Private Sub TreeView1_AfterSelect(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles TreeView1.AfterSelect
-        Dim NodeName As String = TreeView1.SelectedNode.Name
-        If _curPanel IsNot Nothing Then
-            _curPanel.Enabled = False
-            _curPanel.Visible = False
-            _curPanel = Nothing
-        End If
-        Select Case NodeName
-            Case "BasedNode"
-                _curPanel = BasedPanel
-            Case "PeriodNode"
-                _curPanel = GetPeriodPanel
-            Case "StartUpNode"
-                _curPanel = StartupPanel
-            Case "GetCountNode"
-                _curPanel = GetCountPanel
-            Case "UserStreamNode"
-                _curPanel = UserStreamPanel
-            Case "ActionNode"
-                _curPanel = ActionPanel
-            Case "TweetActNode"
-                _curPanel = TweetActPanel
-            Case "PreviewNode"
-                _curPanel = PreviewPanel
-            Case "TweetPrvNode"
-                _curPanel = TweetPrvPanel
-            Case "FontNode"
-                _curPanel = FontPanel
-            Case "FontNode2"
-                _curPanel = FontPanel2
-            Case "ConnectionNode"
-                _curPanel = ConnectionPanel
-            Case "ProxyNode"
-                _curPanel = ProxyPanel
-        End Select
-        _curPanel.Enabled = True
-        _curPanel.Visible = True
+        If e.Node Is Nothing Then Exit Sub
+        Dim pnl = DirectCast(e.Node.Tag, Panel)
+        If pnl Is Nothing Then Exit Sub
+        pnl.Enabled = True
+        pnl.Visible = True
     End Sub
 
     Private Sub Save_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Save.Click
@@ -601,9 +577,6 @@ Public Class AppendSettingDialog
         HotkeyCode.Enabled = HotkeyEnabled
         ChkNewMentionsBlink.Checked = _BlinkNewMentions
 
-        TreeView1.SelectedNode = TreeView1.Nodes(0)
-        ActiveControl = Username
-
         CheckOutputz_CheckedChanged(sender, e)
 
         GetMoreTextCountApi.Text = _MoreCountApi.ToString
@@ -619,6 +592,26 @@ Public Class AppendSettingDialog
         FirstTextCountApi.Enabled = UseChangeGetCount.Checked
         SearchTextCountApi.Enabled = UseChangeGetCount.Checked
         FavoritesTextCountApi.Enabled = UseChangeGetCount.Checked
+
+        With Me.TreeView1
+            .Nodes("BasedNode").Tag = BasedPanel
+            .Nodes("BasedNode").Nodes("PeriodNode").Tag = GetPeriodPanel
+            .Nodes("BasedNode").Nodes("StartUpNode").Tag = StartupPanel
+            .Nodes("BasedNode").Nodes("GetCountNode").Tag = GetCountPanel
+            .Nodes("BasedNode").Nodes("UserStreamNode").Tag = UserStreamPanel
+            .Nodes("ActionNode").Tag = ActionPanel
+            .Nodes("ActionNode").Nodes("TweetActNode").Tag = TweetActPanel
+            .Nodes("PreviewNode").Tag = PreviewPanel
+            .Nodes("PreviewNode").Nodes("TweetPrvNode").Tag = TweetPrvPanel
+            .Nodes("FontNode").Tag = FontPanel
+            .Nodes("FontNode").Nodes("FontNode2").Tag = FontPanel2
+            .Nodes("ConnectionNode").Tag = ConnectionPanel
+            .Nodes("ConnectionNode").Nodes("ProxyNode").Tag = ProxyPanel
+
+            .SelectedNode = .Nodes(0)
+        End With
+
+        ActiveControl = Username
     End Sub
 
     Private Sub UserstreamPeriod_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles UserstreamPeriod.Validating
@@ -2211,4 +2204,5 @@ Public Class AppendSettingDialog
             Exit Sub
         End If
     End Sub
+
 End Class
