@@ -1062,26 +1062,21 @@ Public Class Twitter
         Select Case res
             Case HttpStatusCode.OK
                 Twitter.AccountState = ACCOUNT_STATE.Valid
+                Dim status As TwitterDataModel.Status
                 Try
-                    Using rd As Xml.XmlTextReader = New Xml.XmlTextReader(New System.IO.StringReader(content))
-                        rd.Read()
-                        While rd.EOF = False
-                            If rd.IsStartElement("favorited") Then
-                                If rd.ReadElementContentAsBoolean() = True Then
-                                    Return ""  '正常にふぁぼれている
-                                Else
-                                    Return "NG(Restricted?)"  '正常応答なのにふぁぼれてないので制限っぽい
-                                End If
-                            Else
-                                rd.Read()
-                            End If
-                        End While
-                        rd.Close()
-                        Return "Err:Invalid XML!"
-                    End Using
-                Catch ex As XmlException
-                    Return ""
+                    status = CreateDataFromJson(Of TwitterDataModel.Status)(content)
+                Catch ex As SerializationException
+                    TraceOut(ex.Message + Environment.NewLine + content)
+                    Return "Err:Json Parse Error(DataContractJsonSerializer)"
+                Catch ex As Exception
+                    TraceOut(content)
+                    Return "Err:Invalid Json!"
                 End Try
+                If status.Favorited Then
+                    Return ""
+                Else
+                    Return "NG(Restricted?)"
+                End If
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Return "Check your Username/Password."
@@ -1470,6 +1465,56 @@ Public Class Twitter
         Return ""
     End Function
 
+    Public Function GetStatusApi(ByVal read As Boolean,
+                                       ByVal id As Int64,
+                                       ByVal tab As TabClass) As String
+
+        If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
+
+        If _endingFlag Then Return ""
+
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+
+        Try
+            res = twCon.ShowStatuses(id, content)
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
+        Select Case res
+            Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
+            Case HttpStatusCode.Unauthorized
+                Twitter.AccountState = ACCOUNT_STATE.Invalid
+                Return "Check your Username/Password."
+            Case HttpStatusCode.BadRequest
+                Return "Err:API Limits?"
+            Case Else
+                Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
+        End Select
+
+        Dim status As TwitterDataModel.Status
+        Try
+            status = CreateDataFromJson(Of TwitterDataModel.Status)(content)
+        Catch ex As SerializationException
+            TraceOut(ex.Message + Environment.NewLine + content)
+            Return "Json Parse Error(DataContractJsonSerializer)"
+        Catch ex As Exception
+            TraceOut(content)
+            Return "Invalid Json!"
+        End Try
+
+        Dim item As PostClass = CreatePostsFromStatusData(status)
+        If item Is Nothing Then Return "Err:Can't create post"
+        item.IsRead = read
+        If item.IsMe AndAlso Not read AndAlso _readOwnPost Then item.IsRead = True
+        If tab IsNot Nothing Then item.RelTabName = tab.TabName
+        '非同期アイコン取得＆StatusDictionaryに追加
+        TabInformations.GetInstance.AddPost(item)
+
+        Return ""
+    End Function
+
     Private Function CreatePostsFromStatusData(ByVal status As TwitterDataModel.Status) As PostClass
         Dim post As New PostClass
 
@@ -1662,6 +1707,8 @@ Public Class Twitter
         Dim replyToUserName As String = targetItem.InReplyToUser
         If targetItem.InReplyToId > 0 AndAlso TabInformations.GetInstance.Item(targetItem.InReplyToId) IsNot Nothing Then
             replyToItem = TabInformations.GetInstance.Item(targetItem.InReplyToId).Copy
+            replyToItem.IsRead = read
+            If replyToItem.IsMe AndAlso Not read AndAlso _readOwnPost Then replyToItem.IsRead = True
             replyToItem.RelTabName = tab.TabName
         End If
 
@@ -1676,11 +1723,15 @@ Public Class Twitter
             Return "Invalid Json!"
         End Try
 
+        Dim replyAdded As Boolean = False
         For Each relatedData As TwitterDataModel.RelatedResult In items
             For Each result As TwitterDataModel.RelatedTweet In relatedData.Results
                 Dim item As PostClass = CreatePostsFromStatusData(result.Status)
                 If item Is Nothing Then Continue For
-                If targetItem.InReplyToId = item.Id Then replyToItem = Nothing
+                If targetItem.InReplyToId = item.Id Then
+                    replyToItem = Nothing
+                    replyAdded = True
+                End If
                 item.IsRead = read
                 If item.IsMe AndAlso Not read AndAlso _readOwnPost Then item.IsRead = True
                 If tab IsNot Nothing Then item.RelTabName = tab.TabName
@@ -1688,6 +1739,11 @@ Public Class Twitter
                 TabInformations.GetInstance.AddPost(item)
             Next
         Next
+        If replyToItem IsNot Nothing Then
+            TabInformations.GetInstance.AddPost(replyToItem)
+        ElseIf targetItem.InReplyToId > 0 AndAlso Not replyAdded Then
+            Return GetStatusApi(read, targetItem.InReplyToId, tab)
+        End If
 
         '発言者・返信先ユーザーの直近10発言取得
         'Dim rslt As String = Me.GetUserTimelineApi(read, 10, "", tab)
