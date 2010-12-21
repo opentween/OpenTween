@@ -25,6 +25,48 @@ Partial Class AppendSettingDialog
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AppendSettingDialog))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.TreeView1 = New System.Windows.Forms.TreeView()
+        Me.TweetActPanel = New System.Windows.Forms.Panel()
+        Me.TextBitlyPw = New System.Windows.Forms.TextBox()
+        Me.ComboBoxPostKeySelect = New System.Windows.Forms.ComboBox()
+        Me.Label27 = New System.Windows.Forms.Label()
+        Me.CheckRetweetNoConfirm = New System.Windows.Forms.CheckBox()
+        Me.TextBitlyId = New System.Windows.Forms.TextBox()
+        Me.Label12 = New System.Windows.Forms.Label()
+        Me.Label77 = New System.Windows.Forms.Label()
+        Me.CheckUseRecommendStatus = New System.Windows.Forms.CheckBox()
+        Me.Label76 = New System.Windows.Forms.Label()
+        Me.StatusText = New System.Windows.Forms.TextBox()
+        Me.ComboBoxAutoShortUrlFirst = New System.Windows.Forms.ComboBox()
+        Me.Label71 = New System.Windows.Forms.Label()
+        Me.CheckTinyURL = New System.Windows.Forms.CheckBox()
+        Me.CheckAutoConvertUrl = New System.Windows.Forms.CheckBox()
+        Me.FontPanel = New System.Windows.Forms.Panel()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.btnRetweet = New System.Windows.Forms.Button()
+        Me.lblRetweet = New System.Windows.Forms.Label()
+        Me.Label80 = New System.Windows.Forms.Label()
+        Me.ButtonBackToDefaultFontColor = New System.Windows.Forms.Button()
+        Me.btnDetailLink = New System.Windows.Forms.Button()
+        Me.lblDetailLink = New System.Windows.Forms.Label()
+        Me.Label18 = New System.Windows.Forms.Label()
+        Me.btnUnread = New System.Windows.Forms.Button()
+        Me.lblUnread = New System.Windows.Forms.Label()
+        Me.Label20 = New System.Windows.Forms.Label()
+        Me.btnDetailBack = New System.Windows.Forms.Button()
+        Me.lblDetailBackcolor = New System.Windows.Forms.Label()
+        Me.Label37 = New System.Windows.Forms.Label()
+        Me.btnDetail = New System.Windows.Forms.Button()
+        Me.lblDetail = New System.Windows.Forms.Label()
+        Me.Label26 = New System.Windows.Forms.Label()
+        Me.btnOWL = New System.Windows.Forms.Button()
+        Me.lblOWL = New System.Windows.Forms.Label()
+        Me.Label24 = New System.Windows.Forms.Label()
+        Me.btnFav = New System.Windows.Forms.Button()
+        Me.lblFav = New System.Windows.Forms.Label()
+        Me.Label22 = New System.Windows.Forms.Label()
+        Me.btnListFont = New System.Windows.Forms.Button()
+        Me.lblListFont = New System.Windows.Forms.Label()
+        Me.Label61 = New System.Windows.Forms.Label()
         Me.GetPeriodPanel = New System.Windows.Forms.Panel()
         Me.TimelinePeriod = New System.Windows.Forms.TextBox()
         Me.Label3 = New System.Windows.Forms.Label()
@@ -190,48 +232,6 @@ Partial Class AppendSettingDialog
         Me.cmbNameBalloon = New System.Windows.Forms.ComboBox()
         Me.CheckDispUsername = New System.Windows.Forms.CheckBox()
         Me.CheckBox3 = New System.Windows.Forms.CheckBox()
-        Me.TweetActPanel = New System.Windows.Forms.Panel()
-        Me.TextBitlyPw = New System.Windows.Forms.TextBox()
-        Me.ComboBoxPostKeySelect = New System.Windows.Forms.ComboBox()
-        Me.Label27 = New System.Windows.Forms.Label()
-        Me.CheckRetweetNoConfirm = New System.Windows.Forms.CheckBox()
-        Me.TextBitlyId = New System.Windows.Forms.TextBox()
-        Me.Label12 = New System.Windows.Forms.Label()
-        Me.Label77 = New System.Windows.Forms.Label()
-        Me.CheckUseRecommendStatus = New System.Windows.Forms.CheckBox()
-        Me.Label76 = New System.Windows.Forms.Label()
-        Me.StatusText = New System.Windows.Forms.TextBox()
-        Me.ComboBoxAutoShortUrlFirst = New System.Windows.Forms.ComboBox()
-        Me.Label71 = New System.Windows.Forms.Label()
-        Me.CheckTinyURL = New System.Windows.Forms.CheckBox()
-        Me.CheckAutoConvertUrl = New System.Windows.Forms.CheckBox()
-        Me.FontPanel = New System.Windows.Forms.Panel()
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.btnRetweet = New System.Windows.Forms.Button()
-        Me.lblRetweet = New System.Windows.Forms.Label()
-        Me.Label80 = New System.Windows.Forms.Label()
-        Me.ButtonBackToDefaultFontColor = New System.Windows.Forms.Button()
-        Me.btnDetailLink = New System.Windows.Forms.Button()
-        Me.lblDetailLink = New System.Windows.Forms.Label()
-        Me.Label18 = New System.Windows.Forms.Label()
-        Me.btnUnread = New System.Windows.Forms.Button()
-        Me.lblUnread = New System.Windows.Forms.Label()
-        Me.Label20 = New System.Windows.Forms.Label()
-        Me.btnDetailBack = New System.Windows.Forms.Button()
-        Me.lblDetailBackcolor = New System.Windows.Forms.Label()
-        Me.Label37 = New System.Windows.Forms.Label()
-        Me.btnDetail = New System.Windows.Forms.Button()
-        Me.lblDetail = New System.Windows.Forms.Label()
-        Me.Label26 = New System.Windows.Forms.Label()
-        Me.btnOWL = New System.Windows.Forms.Button()
-        Me.lblOWL = New System.Windows.Forms.Label()
-        Me.Label24 = New System.Windows.Forms.Label()
-        Me.btnFav = New System.Windows.Forms.Button()
-        Me.lblFav = New System.Windows.Forms.Label()
-        Me.Label22 = New System.Windows.Forms.Label()
-        Me.btnListFont = New System.Windows.Forms.Button()
-        Me.lblListFont = New System.Windows.Forms.Label()
-        Me.Label61 = New System.Windows.Forms.Label()
         Me.FontDialog1 = New System.Windows.Forms.FontDialog()
         Me.ColorDialog1 = New System.Windows.Forms.ColorDialog()
         Me.Cancel = New System.Windows.Forms.Button()
@@ -240,6 +240,9 @@ Partial Class AppendSettingDialog
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        Me.TweetActPanel.SuspendLayout()
+        Me.FontPanel.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
         Me.GetPeriodPanel.SuspendLayout()
         Me.GetCountPanel.SuspendLayout()
         Me.FontPanel2.SuspendLayout()
@@ -253,9 +256,6 @@ Partial Class AppendSettingDialog
         Me.ActionPanel.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.PreviewPanel.SuspendLayout()
-        Me.TweetActPanel.SuspendLayout()
-        Me.FontPanel.SuspendLayout()
-        Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
         '
         'SplitContainer1
@@ -269,7 +269,7 @@ Partial Class AppendSettingDialog
         '
         'SplitContainer1.Panel2
         '
-        Me.SplitContainer1.Panel2.BackColor = System.Drawing.SystemColors.Window
+        Me.SplitContainer1.Panel2.BackColor = System.Drawing.SystemColors.Control
         Me.SplitContainer1.Panel2.Controls.Add(Me.TweetActPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.FontPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.GetPeriodPanel)
@@ -291,9 +291,286 @@ Partial Class AppendSettingDialog
         Me.TreeView1.Name = "TreeView1"
         Me.TreeView1.Nodes.AddRange(New System.Windows.Forms.TreeNode() {CType(resources.GetObject("TreeView1.Nodes"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeView1.Nodes1"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeView1.Nodes2"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeView1.Nodes3"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeView1.Nodes4"), System.Windows.Forms.TreeNode)})
         '
+        'TweetActPanel
+        '
+        Me.TweetActPanel.Controls.Add(Me.TextBitlyPw)
+        Me.TweetActPanel.Controls.Add(Me.ComboBoxPostKeySelect)
+        Me.TweetActPanel.Controls.Add(Me.Label27)
+        Me.TweetActPanel.Controls.Add(Me.CheckRetweetNoConfirm)
+        Me.TweetActPanel.Controls.Add(Me.TextBitlyId)
+        Me.TweetActPanel.Controls.Add(Me.Label12)
+        Me.TweetActPanel.Controls.Add(Me.Label77)
+        Me.TweetActPanel.Controls.Add(Me.CheckUseRecommendStatus)
+        Me.TweetActPanel.Controls.Add(Me.Label76)
+        Me.TweetActPanel.Controls.Add(Me.StatusText)
+        Me.TweetActPanel.Controls.Add(Me.ComboBoxAutoShortUrlFirst)
+        Me.TweetActPanel.Controls.Add(Me.Label71)
+        Me.TweetActPanel.Controls.Add(Me.CheckTinyURL)
+        Me.TweetActPanel.Controls.Add(Me.CheckAutoConvertUrl)
+        resources.ApplyResources(Me.TweetActPanel, "TweetActPanel")
+        Me.TweetActPanel.Name = "TweetActPanel"
+        '
+        'TextBitlyPw
+        '
+        resources.ApplyResources(Me.TextBitlyPw, "TextBitlyPw")
+        Me.TextBitlyPw.Name = "TextBitlyPw"
+        '
+        'ComboBoxPostKeySelect
+        '
+        Me.ComboBoxPostKeySelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboBoxPostKeySelect.FormattingEnabled = True
+        Me.ComboBoxPostKeySelect.Items.AddRange(New Object() {resources.GetString("ComboBoxPostKeySelect.Items"), resources.GetString("ComboBoxPostKeySelect.Items1"), resources.GetString("ComboBoxPostKeySelect.Items2")})
+        resources.ApplyResources(Me.ComboBoxPostKeySelect, "ComboBoxPostKeySelect")
+        Me.ComboBoxPostKeySelect.Name = "ComboBoxPostKeySelect"
+        '
+        'Label27
+        '
+        resources.ApplyResources(Me.Label27, "Label27")
+        Me.Label27.Name = "Label27"
+        '
+        'CheckRetweetNoConfirm
+        '
+        resources.ApplyResources(Me.CheckRetweetNoConfirm, "CheckRetweetNoConfirm")
+        Me.CheckRetweetNoConfirm.Name = "CheckRetweetNoConfirm"
+        Me.CheckRetweetNoConfirm.UseVisualStyleBackColor = True
+        '
+        'TextBitlyId
+        '
+        resources.ApplyResources(Me.TextBitlyId, "TextBitlyId")
+        Me.TextBitlyId.Name = "TextBitlyId"
+        '
+        'Label12
+        '
+        resources.ApplyResources(Me.Label12, "Label12")
+        Me.Label12.Name = "Label12"
+        '
+        'Label77
+        '
+        resources.ApplyResources(Me.Label77, "Label77")
+        Me.Label77.Name = "Label77"
+        '
+        'CheckUseRecommendStatus
+        '
+        resources.ApplyResources(Me.CheckUseRecommendStatus, "CheckUseRecommendStatus")
+        Me.CheckUseRecommendStatus.Name = "CheckUseRecommendStatus"
+        Me.CheckUseRecommendStatus.UseVisualStyleBackColor = True
+        '
+        'Label76
+        '
+        resources.ApplyResources(Me.Label76, "Label76")
+        Me.Label76.Name = "Label76"
+        '
+        'StatusText
+        '
+        resources.ApplyResources(Me.StatusText, "StatusText")
+        Me.StatusText.Name = "StatusText"
+        '
+        'ComboBoxAutoShortUrlFirst
+        '
+        Me.ComboBoxAutoShortUrlFirst.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboBoxAutoShortUrlFirst.FormattingEnabled = True
+        Me.ComboBoxAutoShortUrlFirst.Items.AddRange(New Object() {resources.GetString("ComboBoxAutoShortUrlFirst.Items"), resources.GetString("ComboBoxAutoShortUrlFirst.Items1"), resources.GetString("ComboBoxAutoShortUrlFirst.Items2"), resources.GetString("ComboBoxAutoShortUrlFirst.Items3"), resources.GetString("ComboBoxAutoShortUrlFirst.Items4")})
+        resources.ApplyResources(Me.ComboBoxAutoShortUrlFirst, "ComboBoxAutoShortUrlFirst")
+        Me.ComboBoxAutoShortUrlFirst.Name = "ComboBoxAutoShortUrlFirst"
+        '
+        'Label71
+        '
+        resources.ApplyResources(Me.Label71, "Label71")
+        Me.Label71.Name = "Label71"
+        '
+        'CheckTinyURL
+        '
+        resources.ApplyResources(Me.CheckTinyURL, "CheckTinyURL")
+        Me.CheckTinyURL.Name = "CheckTinyURL"
+        Me.CheckTinyURL.UseVisualStyleBackColor = True
+        '
+        'CheckAutoConvertUrl
+        '
+        resources.ApplyResources(Me.CheckAutoConvertUrl, "CheckAutoConvertUrl")
+        Me.CheckAutoConvertUrl.Name = "CheckAutoConvertUrl"
+        Me.CheckAutoConvertUrl.UseVisualStyleBackColor = True
+        '
+        'FontPanel
+        '
+        Me.FontPanel.Controls.Add(Me.GroupBox1)
+        resources.ApplyResources(Me.FontPanel, "FontPanel")
+        Me.FontPanel.Name = "FontPanel"
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.btnRetweet)
+        Me.GroupBox1.Controls.Add(Me.lblRetweet)
+        Me.GroupBox1.Controls.Add(Me.Label80)
+        Me.GroupBox1.Controls.Add(Me.ButtonBackToDefaultFontColor)
+        Me.GroupBox1.Controls.Add(Me.btnDetailLink)
+        Me.GroupBox1.Controls.Add(Me.lblDetailLink)
+        Me.GroupBox1.Controls.Add(Me.Label18)
+        Me.GroupBox1.Controls.Add(Me.btnUnread)
+        Me.GroupBox1.Controls.Add(Me.lblUnread)
+        Me.GroupBox1.Controls.Add(Me.Label20)
+        Me.GroupBox1.Controls.Add(Me.btnDetailBack)
+        Me.GroupBox1.Controls.Add(Me.lblDetailBackcolor)
+        Me.GroupBox1.Controls.Add(Me.Label37)
+        Me.GroupBox1.Controls.Add(Me.btnDetail)
+        Me.GroupBox1.Controls.Add(Me.lblDetail)
+        Me.GroupBox1.Controls.Add(Me.Label26)
+        Me.GroupBox1.Controls.Add(Me.btnOWL)
+        Me.GroupBox1.Controls.Add(Me.lblOWL)
+        Me.GroupBox1.Controls.Add(Me.Label24)
+        Me.GroupBox1.Controls.Add(Me.btnFav)
+        Me.GroupBox1.Controls.Add(Me.lblFav)
+        Me.GroupBox1.Controls.Add(Me.Label22)
+        Me.GroupBox1.Controls.Add(Me.btnListFont)
+        Me.GroupBox1.Controls.Add(Me.lblListFont)
+        Me.GroupBox1.Controls.Add(Me.Label61)
+        resources.ApplyResources(Me.GroupBox1, "GroupBox1")
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.TabStop = False
+        '
+        'btnRetweet
+        '
+        resources.ApplyResources(Me.btnRetweet, "btnRetweet")
+        Me.btnRetweet.Name = "btnRetweet"
+        Me.btnRetweet.UseVisualStyleBackColor = True
+        '
+        'lblRetweet
+        '
+        Me.lblRetweet.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        resources.ApplyResources(Me.lblRetweet, "lblRetweet")
+        Me.lblRetweet.Name = "lblRetweet"
+        '
+        'Label80
+        '
+        resources.ApplyResources(Me.Label80, "Label80")
+        Me.Label80.Name = "Label80"
+        '
+        'ButtonBackToDefaultFontColor
+        '
+        resources.ApplyResources(Me.ButtonBackToDefaultFontColor, "ButtonBackToDefaultFontColor")
+        Me.ButtonBackToDefaultFontColor.Name = "ButtonBackToDefaultFontColor"
+        Me.ButtonBackToDefaultFontColor.UseVisualStyleBackColor = True
+        '
+        'btnDetailLink
+        '
+        resources.ApplyResources(Me.btnDetailLink, "btnDetailLink")
+        Me.btnDetailLink.Name = "btnDetailLink"
+        Me.btnDetailLink.UseVisualStyleBackColor = True
+        '
+        'lblDetailLink
+        '
+        Me.lblDetailLink.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        resources.ApplyResources(Me.lblDetailLink, "lblDetailLink")
+        Me.lblDetailLink.Name = "lblDetailLink"
+        '
+        'Label18
+        '
+        resources.ApplyResources(Me.Label18, "Label18")
+        Me.Label18.Name = "Label18"
+        '
+        'btnUnread
+        '
+        resources.ApplyResources(Me.btnUnread, "btnUnread")
+        Me.btnUnread.Name = "btnUnread"
+        Me.btnUnread.UseVisualStyleBackColor = True
+        '
+        'lblUnread
+        '
+        Me.lblUnread.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        resources.ApplyResources(Me.lblUnread, "lblUnread")
+        Me.lblUnread.Name = "lblUnread"
+        '
+        'Label20
+        '
+        resources.ApplyResources(Me.Label20, "Label20")
+        Me.Label20.Name = "Label20"
+        '
+        'btnDetailBack
+        '
+        resources.ApplyResources(Me.btnDetailBack, "btnDetailBack")
+        Me.btnDetailBack.Name = "btnDetailBack"
+        Me.btnDetailBack.UseVisualStyleBackColor = True
+        '
+        'lblDetailBackcolor
+        '
+        Me.lblDetailBackcolor.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        resources.ApplyResources(Me.lblDetailBackcolor, "lblDetailBackcolor")
+        Me.lblDetailBackcolor.Name = "lblDetailBackcolor"
+        '
+        'Label37
+        '
+        resources.ApplyResources(Me.Label37, "Label37")
+        Me.Label37.Name = "Label37"
+        '
+        'btnDetail
+        '
+        resources.ApplyResources(Me.btnDetail, "btnDetail")
+        Me.btnDetail.Name = "btnDetail"
+        Me.btnDetail.UseVisualStyleBackColor = True
+        '
+        'lblDetail
+        '
+        Me.lblDetail.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        resources.ApplyResources(Me.lblDetail, "lblDetail")
+        Me.lblDetail.Name = "lblDetail"
+        '
+        'Label26
+        '
+        resources.ApplyResources(Me.Label26, "Label26")
+        Me.Label26.Name = "Label26"
+        '
+        'btnOWL
+        '
+        resources.ApplyResources(Me.btnOWL, "btnOWL")
+        Me.btnOWL.Name = "btnOWL"
+        Me.btnOWL.UseVisualStyleBackColor = True
+        '
+        'lblOWL
+        '
+        Me.lblOWL.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        resources.ApplyResources(Me.lblOWL, "lblOWL")
+        Me.lblOWL.Name = "lblOWL"
+        '
+        'Label24
+        '
+        resources.ApplyResources(Me.Label24, "Label24")
+        Me.Label24.Name = "Label24"
+        '
+        'btnFav
+        '
+        resources.ApplyResources(Me.btnFav, "btnFav")
+        Me.btnFav.Name = "btnFav"
+        Me.btnFav.UseVisualStyleBackColor = True
+        '
+        'lblFav
+        '
+        Me.lblFav.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        resources.ApplyResources(Me.lblFav, "lblFav")
+        Me.lblFav.Name = "lblFav"
+        '
+        'Label22
+        '
+        resources.ApplyResources(Me.Label22, "Label22")
+        Me.Label22.Name = "Label22"
+        '
+        'btnListFont
+        '
+        resources.ApplyResources(Me.btnListFont, "btnListFont")
+        Me.btnListFont.Name = "btnListFont"
+        Me.btnListFont.UseVisualStyleBackColor = True
+        '
+        'lblListFont
+        '
+        Me.lblListFont.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        resources.ApplyResources(Me.lblListFont, "lblListFont")
+        Me.lblListFont.Name = "lblListFont"
+        '
+        'Label61
+        '
+        resources.ApplyResources(Me.Label61, "Label61")
+        Me.Label61.Name = "Label61"
+        '
         'GetPeriodPanel
         '
-        Me.GetPeriodPanel.BackColor = System.Drawing.SystemColors.Window
         Me.GetPeriodPanel.Controls.Add(Me.TimelinePeriod)
         Me.GetPeriodPanel.Controls.Add(Me.Label3)
         Me.GetPeriodPanel.Controls.Add(Me.ButtonApiCalc)
@@ -392,7 +669,6 @@ Partial Class AppendSettingDialog
         '
         'GetCountPanel
         '
-        Me.GetCountPanel.BackColor = System.Drawing.SystemColors.Window
         Me.GetCountPanel.Controls.Add(Me.Label30)
         Me.GetCountPanel.Controls.Add(Me.Label28)
         Me.GetCountPanel.Controls.Add(Me.Label19)
@@ -676,7 +952,6 @@ Partial Class AppendSettingDialog
         '
         'BasedPanel
         '
-        Me.BasedPanel.BackColor = System.Drawing.SystemColors.Window
         Me.BasedPanel.Controls.Add(Me.AuthBasicRadio)
         Me.BasedPanel.Controls.Add(Me.AuthOAuthRadio)
         Me.BasedPanel.Controls.Add(Me.Label6)
@@ -976,7 +1251,6 @@ Partial Class AppendSettingDialog
         '
         'StartupPanel
         '
-        Me.StartupPanel.BackColor = System.Drawing.SystemColors.Window
         Me.StartupPanel.Controls.Add(Me.StartupReaded)
         Me.StartupPanel.Controls.Add(Me.CheckStartupFollowers)
         Me.StartupPanel.Controls.Add(Me.CheckStartupVersion)
@@ -1104,7 +1378,6 @@ Partial Class AppendSettingDialog
         '
         'ActionPanel
         '
-        Me.ActionPanel.BackColor = System.Drawing.SystemColors.Window
         Me.ActionPanel.Controls.Add(Me.GroupBox3)
         Me.ActionPanel.Controls.Add(Me.CheckHashSupple)
         Me.ActionPanel.Controls.Add(Me.CheckAtIdSupple)
@@ -1384,285 +1657,6 @@ Partial Class AppendSettingDialog
         Me.CheckBox3.Name = "CheckBox3"
         Me.CheckBox3.UseVisualStyleBackColor = True
         '
-        'TweetActPanel
-        '
-        Me.TweetActPanel.BackColor = System.Drawing.SystemColors.Window
-        Me.TweetActPanel.Controls.Add(Me.TextBitlyPw)
-        Me.TweetActPanel.Controls.Add(Me.ComboBoxPostKeySelect)
-        Me.TweetActPanel.Controls.Add(Me.Label27)
-        Me.TweetActPanel.Controls.Add(Me.CheckRetweetNoConfirm)
-        Me.TweetActPanel.Controls.Add(Me.TextBitlyId)
-        Me.TweetActPanel.Controls.Add(Me.Label12)
-        Me.TweetActPanel.Controls.Add(Me.Label77)
-        Me.TweetActPanel.Controls.Add(Me.CheckUseRecommendStatus)
-        Me.TweetActPanel.Controls.Add(Me.Label76)
-        Me.TweetActPanel.Controls.Add(Me.StatusText)
-        Me.TweetActPanel.Controls.Add(Me.ComboBoxAutoShortUrlFirst)
-        Me.TweetActPanel.Controls.Add(Me.Label71)
-        Me.TweetActPanel.Controls.Add(Me.CheckTinyURL)
-        Me.TweetActPanel.Controls.Add(Me.CheckAutoConvertUrl)
-        resources.ApplyResources(Me.TweetActPanel, "TweetActPanel")
-        Me.TweetActPanel.Name = "TweetActPanel"
-        '
-        'TextBitlyPw
-        '
-        resources.ApplyResources(Me.TextBitlyPw, "TextBitlyPw")
-        Me.TextBitlyPw.Name = "TextBitlyPw"
-        '
-        'ComboBoxPostKeySelect
-        '
-        Me.ComboBoxPostKeySelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.ComboBoxPostKeySelect.FormattingEnabled = True
-        Me.ComboBoxPostKeySelect.Items.AddRange(New Object() {resources.GetString("ComboBoxPostKeySelect.Items"), resources.GetString("ComboBoxPostKeySelect.Items1"), resources.GetString("ComboBoxPostKeySelect.Items2")})
-        resources.ApplyResources(Me.ComboBoxPostKeySelect, "ComboBoxPostKeySelect")
-        Me.ComboBoxPostKeySelect.Name = "ComboBoxPostKeySelect"
-        '
-        'Label27
-        '
-        resources.ApplyResources(Me.Label27, "Label27")
-        Me.Label27.Name = "Label27"
-        '
-        'CheckRetweetNoConfirm
-        '
-        resources.ApplyResources(Me.CheckRetweetNoConfirm, "CheckRetweetNoConfirm")
-        Me.CheckRetweetNoConfirm.Name = "CheckRetweetNoConfirm"
-        Me.CheckRetweetNoConfirm.UseVisualStyleBackColor = True
-        '
-        'TextBitlyId
-        '
-        resources.ApplyResources(Me.TextBitlyId, "TextBitlyId")
-        Me.TextBitlyId.Name = "TextBitlyId"
-        '
-        'Label12
-        '
-        resources.ApplyResources(Me.Label12, "Label12")
-        Me.Label12.Name = "Label12"
-        '
-        'Label77
-        '
-        resources.ApplyResources(Me.Label77, "Label77")
-        Me.Label77.Name = "Label77"
-        '
-        'CheckUseRecommendStatus
-        '
-        resources.ApplyResources(Me.CheckUseRecommendStatus, "CheckUseRecommendStatus")
-        Me.CheckUseRecommendStatus.Name = "CheckUseRecommendStatus"
-        Me.CheckUseRecommendStatus.UseVisualStyleBackColor = True
-        '
-        'Label76
-        '
-        resources.ApplyResources(Me.Label76, "Label76")
-        Me.Label76.Name = "Label76"
-        '
-        'StatusText
-        '
-        resources.ApplyResources(Me.StatusText, "StatusText")
-        Me.StatusText.Name = "StatusText"
-        '
-        'ComboBoxAutoShortUrlFirst
-        '
-        Me.ComboBoxAutoShortUrlFirst.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.ComboBoxAutoShortUrlFirst.FormattingEnabled = True
-        Me.ComboBoxAutoShortUrlFirst.Items.AddRange(New Object() {resources.GetString("ComboBoxAutoShortUrlFirst.Items"), resources.GetString("ComboBoxAutoShortUrlFirst.Items1"), resources.GetString("ComboBoxAutoShortUrlFirst.Items2"), resources.GetString("ComboBoxAutoShortUrlFirst.Items3"), resources.GetString("ComboBoxAutoShortUrlFirst.Items4")})
-        resources.ApplyResources(Me.ComboBoxAutoShortUrlFirst, "ComboBoxAutoShortUrlFirst")
-        Me.ComboBoxAutoShortUrlFirst.Name = "ComboBoxAutoShortUrlFirst"
-        '
-        'Label71
-        '
-        resources.ApplyResources(Me.Label71, "Label71")
-        Me.Label71.Name = "Label71"
-        '
-        'CheckTinyURL
-        '
-        resources.ApplyResources(Me.CheckTinyURL, "CheckTinyURL")
-        Me.CheckTinyURL.Name = "CheckTinyURL"
-        Me.CheckTinyURL.UseVisualStyleBackColor = True
-        '
-        'CheckAutoConvertUrl
-        '
-        resources.ApplyResources(Me.CheckAutoConvertUrl, "CheckAutoConvertUrl")
-        Me.CheckAutoConvertUrl.Name = "CheckAutoConvertUrl"
-        Me.CheckAutoConvertUrl.UseVisualStyleBackColor = True
-        '
-        'FontPanel
-        '
-        Me.FontPanel.Controls.Add(Me.GroupBox1)
-        resources.ApplyResources(Me.FontPanel, "FontPanel")
-        Me.FontPanel.Name = "FontPanel"
-        '
-        'GroupBox1
-        '
-        Me.GroupBox1.Controls.Add(Me.btnRetweet)
-        Me.GroupBox1.Controls.Add(Me.lblRetweet)
-        Me.GroupBox1.Controls.Add(Me.Label80)
-        Me.GroupBox1.Controls.Add(Me.ButtonBackToDefaultFontColor)
-        Me.GroupBox1.Controls.Add(Me.btnDetailLink)
-        Me.GroupBox1.Controls.Add(Me.lblDetailLink)
-        Me.GroupBox1.Controls.Add(Me.Label18)
-        Me.GroupBox1.Controls.Add(Me.btnUnread)
-        Me.GroupBox1.Controls.Add(Me.lblUnread)
-        Me.GroupBox1.Controls.Add(Me.Label20)
-        Me.GroupBox1.Controls.Add(Me.btnDetailBack)
-        Me.GroupBox1.Controls.Add(Me.lblDetailBackcolor)
-        Me.GroupBox1.Controls.Add(Me.Label37)
-        Me.GroupBox1.Controls.Add(Me.btnDetail)
-        Me.GroupBox1.Controls.Add(Me.lblDetail)
-        Me.GroupBox1.Controls.Add(Me.Label26)
-        Me.GroupBox1.Controls.Add(Me.btnOWL)
-        Me.GroupBox1.Controls.Add(Me.lblOWL)
-        Me.GroupBox1.Controls.Add(Me.Label24)
-        Me.GroupBox1.Controls.Add(Me.btnFav)
-        Me.GroupBox1.Controls.Add(Me.lblFav)
-        Me.GroupBox1.Controls.Add(Me.Label22)
-        Me.GroupBox1.Controls.Add(Me.btnListFont)
-        Me.GroupBox1.Controls.Add(Me.lblListFont)
-        Me.GroupBox1.Controls.Add(Me.Label61)
-        resources.ApplyResources(Me.GroupBox1, "GroupBox1")
-        Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.TabStop = False
-        '
-        'btnRetweet
-        '
-        resources.ApplyResources(Me.btnRetweet, "btnRetweet")
-        Me.btnRetweet.Name = "btnRetweet"
-        Me.btnRetweet.UseVisualStyleBackColor = True
-        '
-        'lblRetweet
-        '
-        Me.lblRetweet.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        resources.ApplyResources(Me.lblRetweet, "lblRetweet")
-        Me.lblRetweet.Name = "lblRetweet"
-        '
-        'Label80
-        '
-        resources.ApplyResources(Me.Label80, "Label80")
-        Me.Label80.Name = "Label80"
-        '
-        'ButtonBackToDefaultFontColor
-        '
-        resources.ApplyResources(Me.ButtonBackToDefaultFontColor, "ButtonBackToDefaultFontColor")
-        Me.ButtonBackToDefaultFontColor.Name = "ButtonBackToDefaultFontColor"
-        Me.ButtonBackToDefaultFontColor.UseVisualStyleBackColor = True
-        '
-        'btnDetailLink
-        '
-        resources.ApplyResources(Me.btnDetailLink, "btnDetailLink")
-        Me.btnDetailLink.Name = "btnDetailLink"
-        Me.btnDetailLink.UseVisualStyleBackColor = True
-        '
-        'lblDetailLink
-        '
-        Me.lblDetailLink.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        resources.ApplyResources(Me.lblDetailLink, "lblDetailLink")
-        Me.lblDetailLink.Name = "lblDetailLink"
-        '
-        'Label18
-        '
-        resources.ApplyResources(Me.Label18, "Label18")
-        Me.Label18.Name = "Label18"
-        '
-        'btnUnread
-        '
-        resources.ApplyResources(Me.btnUnread, "btnUnread")
-        Me.btnUnread.Name = "btnUnread"
-        Me.btnUnread.UseVisualStyleBackColor = True
-        '
-        'lblUnread
-        '
-        Me.lblUnread.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        resources.ApplyResources(Me.lblUnread, "lblUnread")
-        Me.lblUnread.Name = "lblUnread"
-        '
-        'Label20
-        '
-        resources.ApplyResources(Me.Label20, "Label20")
-        Me.Label20.Name = "Label20"
-        '
-        'btnDetailBack
-        '
-        resources.ApplyResources(Me.btnDetailBack, "btnDetailBack")
-        Me.btnDetailBack.Name = "btnDetailBack"
-        Me.btnDetailBack.UseVisualStyleBackColor = True
-        '
-        'lblDetailBackcolor
-        '
-        Me.lblDetailBackcolor.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        resources.ApplyResources(Me.lblDetailBackcolor, "lblDetailBackcolor")
-        Me.lblDetailBackcolor.Name = "lblDetailBackcolor"
-        '
-        'Label37
-        '
-        resources.ApplyResources(Me.Label37, "Label37")
-        Me.Label37.Name = "Label37"
-        '
-        'btnDetail
-        '
-        resources.ApplyResources(Me.btnDetail, "btnDetail")
-        Me.btnDetail.Name = "btnDetail"
-        Me.btnDetail.UseVisualStyleBackColor = True
-        '
-        'lblDetail
-        '
-        Me.lblDetail.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        resources.ApplyResources(Me.lblDetail, "lblDetail")
-        Me.lblDetail.Name = "lblDetail"
-        '
-        'Label26
-        '
-        resources.ApplyResources(Me.Label26, "Label26")
-        Me.Label26.Name = "Label26"
-        '
-        'btnOWL
-        '
-        resources.ApplyResources(Me.btnOWL, "btnOWL")
-        Me.btnOWL.Name = "btnOWL"
-        Me.btnOWL.UseVisualStyleBackColor = True
-        '
-        'lblOWL
-        '
-        Me.lblOWL.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        resources.ApplyResources(Me.lblOWL, "lblOWL")
-        Me.lblOWL.Name = "lblOWL"
-        '
-        'Label24
-        '
-        resources.ApplyResources(Me.Label24, "Label24")
-        Me.Label24.Name = "Label24"
-        '
-        'btnFav
-        '
-        resources.ApplyResources(Me.btnFav, "btnFav")
-        Me.btnFav.Name = "btnFav"
-        Me.btnFav.UseVisualStyleBackColor = True
-        '
-        'lblFav
-        '
-        Me.lblFav.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        resources.ApplyResources(Me.lblFav, "lblFav")
-        Me.lblFav.Name = "lblFav"
-        '
-        'Label22
-        '
-        resources.ApplyResources(Me.Label22, "Label22")
-        Me.Label22.Name = "Label22"
-        '
-        'btnListFont
-        '
-        resources.ApplyResources(Me.btnListFont, "btnListFont")
-        Me.btnListFont.Name = "btnListFont"
-        Me.btnListFont.UseVisualStyleBackColor = True
-        '
-        'lblListFont
-        '
-        Me.lblListFont.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        resources.ApplyResources(Me.lblListFont, "lblListFont")
-        Me.lblListFont.Name = "lblListFont"
-        '
-        'Label61
-        '
-        resources.ApplyResources(Me.Label61, "Label61")
-        Me.Label61.Name = "Label61"
-        '
         'Cancel
         '
         Me.Cancel.CausesValidation = False
@@ -1698,6 +1692,11 @@ Partial Class AppendSettingDialog
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.ResumeLayout(False)
+        Me.TweetActPanel.ResumeLayout(False)
+        Me.TweetActPanel.PerformLayout()
+        Me.FontPanel.ResumeLayout(False)
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
         Me.GetPeriodPanel.ResumeLayout(False)
         Me.GetPeriodPanel.PerformLayout()
         Me.GetCountPanel.ResumeLayout(False)
@@ -1723,11 +1722,6 @@ Partial Class AppendSettingDialog
         Me.GroupBox3.PerformLayout()
         Me.PreviewPanel.ResumeLayout(False)
         Me.PreviewPanel.PerformLayout()
-        Me.TweetActPanel.ResumeLayout(False)
-        Me.TweetActPanel.PerformLayout()
-        Me.FontPanel.ResumeLayout(False)
-        Me.GroupBox1.ResumeLayout(False)
-        Me.GroupBox1.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
