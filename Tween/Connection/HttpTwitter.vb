@@ -280,7 +280,7 @@ Public Class HttpTwitter
 
     Public Function ShowStatuses(ByVal id As Long, ByRef content As String) As HttpStatusCode
         Return httpCon.GetContent(GetMethod, _
-                            CreateTwitterUri("/1/statuses/show/" + id.ToString() + ".xml"), _
+                            CreateTwitterUri("/1/statuses/show/" + id.ToString() + ".json"), _
                             Nothing, _
                             content, _
                             TwitterApiInfo.HttpHeaders, _
