@@ -1013,38 +1013,90 @@ Public NotInheritable Class TabInformations
 
         If post.IsRead = Read Then Exit Sub '状態変更なければ終了
 
-        post.IsRead = Read '指定の状態に変更
+        post.IsRead = Read
 
         SyncLock LockUnread
-            If tb.IsInnerStorageTabType Then
-                If _statuses.ContainsKey(Id) Then _statuses(Id).IsRead = Read
-            End If
-            For Each tbInnerStorage In Me.GetTabsInnerStorageType
-                If tb.TabName <> tbInnerStorage.TabName AndAlso tbInnerStorage.Contains(Id) Then
-                    tbInnerStorage.Posts(Id).IsRead = Read
-                End If
-            Next
             If Read Then
                 tb.UnreadCount -= 1
                 Me.SetNextUnreadId(Id, tb)  '次の未読セット
                 '他タブの最古未読ＩＤはタブ切り替え時に。
+                If tb.IsInnerStorageTabType Then
+                    '一般タブ
+                    If _statuses.ContainsKey(Id) AndAlso Not _statuses(Id).IsRead Then
+                        For Each key As String In _tabs.Keys
+                            If _tabs(key).UnreadManage AndAlso _
+                               _tabs(key).Contains(Id) AndAlso _
+                               Not _tabs(key).IsInnerStorageTabType Then
+                                _tabs(key).UnreadCount -= 1
+                                If _tabs(key).OldestUnreadId = Id Then _tabs(key).OldestUnreadId = -1
+                            End If
+                        Next
+                        _statuses(Id).IsRead = True
+                    End If
+                Else
+                    '一般タブ
+                    For Each key As String In _tabs.Keys
+                        If key <> TabName AndAlso _
+                           _tabs(key).UnreadManage AndAlso _
+                           _tabs(key).Contains(Id) AndAlso _
+                           Not _tabs(key).IsInnerStorageTabType Then
+                            _tabs(key).UnreadCount -= 1
+                            If _tabs(key).OldestUnreadId = Id Then _tabs(key).OldestUnreadId = -1
+                        End If
+                    Next
+                End If
+                '内部保存タブ
                 For Each key As String In _tabs.Keys
-                    If key <> TabName AndAlso _
-                       _tabs(key).UnreadManage AndAlso _
-                       _tabs(key).Contains(Id) Then
-                        _tabs(key).UnreadCount -= 1
-                        If _tabs(key).OldestUnreadId = Id Then _tabs(key).OldestUnreadId = -1
+                    If key <> TabName AndAlso
+                        _tabs(key).Contains(Id) AndAlso
+                        _tabs(key).IsInnerStorageTabType AndAlso
+                        Not _tabs(key).Posts(Id).IsRead Then
+                        If _tabs(key).UnreadManage Then
+                            _tabs(key).UnreadCount -= 1
+                            If _tabs(key).OldestUnreadId = Id Then _tabs(key).OldestUnreadId = -1
+                        End If
+                        _tabs(key).Posts(Id).IsRead = True
                     End If
                 Next
             Else
                 tb.UnreadCount += 1
                 If tb.OldestUnreadId > Id OrElse tb.OldestUnreadId = -1 Then tb.OldestUnreadId = Id
+                If tb.IsInnerStorageTabType Then
+                    '一般タブ
+                    If _statuses.ContainsKey(Id) AndAlso _statuses(Id).IsRead Then
+                        For Each key As String In _tabs.Keys
+                            If _tabs(key).UnreadManage AndAlso _
+                               _tabs(key).Contains(Id) AndAlso _
+                               Not _tabs(key).IsInnerStorageTabType Then
+                                _tabs(key).UnreadCount += 1
+                                If _tabs(key).OldestUnreadId > Id Then _tabs(key).OldestUnreadId = Id
+                            End If
+                        Next
+                        _statuses(Id).IsRead = False
+                    End If
+                Else
+                    '一般タブ
+                    For Each key As String In _tabs.Keys
+                        If key <> TabName AndAlso _
+                           _tabs(key).UnreadManage AndAlso _
+                           _tabs(key).Contains(Id) AndAlso _
+                           Not _tabs(key).IsInnerStorageTabType Then
+                            _tabs(key).UnreadCount += 1
+                            If _tabs(key).OldestUnreadId > Id Then _tabs(key).OldestUnreadId = Id
+                        End If
+                    Next
+                End If
+                '内部保存タブ
                 For Each key As String In _tabs.Keys
-                    If Not key = TabName AndAlso _
-                       _tabs(key).UnreadManage AndAlso _
-                       _tabs(key).Contains(Id) Then
-                        _tabs(key).UnreadCount += 1
-                        If _tabs(key).OldestUnreadId > Id Then _tabs(key).OldestUnreadId = Id
+                    If key <> TabName AndAlso
+                        _tabs(key).Contains(Id) AndAlso
+                        _tabs(key).IsInnerStorageTabType AndAlso
+                        _tabs(key).Posts(Id).IsRead Then
+                        If _tabs(key).UnreadManage Then
+                            _tabs(key).UnreadCount += 1
+                            If _tabs(key).OldestUnreadId > Id Then _tabs(key).OldestUnreadId = Id
+                        End If
+                        _tabs(key).Posts(Id).IsRead = False
                     End If
                 Next
             End If
