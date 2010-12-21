@@ -269,19 +269,19 @@
     <value />
   </data>
   <data name="ListTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 242</value>
+    <value>570, 244</value>
   </data>
   <data name="ListTab.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="TimelinePanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 242</value>
+    <value>570, 244</value>
   </data>
   <data name="TimelinePanel.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="ImageSelectedPicture.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 214</value>
+    <value>570, 216</value>
   </data>
   <data name="ImageSelectedPicture.ToolTip" xml:space="preserve">
     <value />
@@ -311,19 +311,19 @@
     <value />
   </data>
   <data name="ImagePathPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 214</value>
+    <value>0, 216</value>
   </data>
   <data name="ImagePathPanel.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="ImageSelectionPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 242</value>
+    <value>570, 244</value>
   </data>
   <data name="ImageSelectionPanel.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="ProfilePanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 242</value>
+    <value>570, 244</value>
   </data>
   <data name="ProfilePanel.ToolTip" xml:space="preserve">
     <value />
@@ -401,19 +401,22 @@
     <value />
   </data>
   <data name="SearchGoogleContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 22</value>
+    <value>201, 22</value>
   </data>
   <data name="SearchWikipediaContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 22</value>
+    <value>201, 22</value>
   </data>
   <data name="SearchYatsContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 22</value>
+    <value>201, 22</value>
+  </data>
+  <data name="SearchYatsContextMenuItem.Text" xml:space="preserve">
+    <value>TwitterYatsSearch(&amp;Y)</value>
   </data>
   <data name="SearchPublicSearchContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 22</value>
+    <value>201, 22</value>
   </data>
   <data name="CurrentTabToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 22</value>
+    <value>201, 22</value>
   </data>
   <data name="CurrentTabToolStripMenuItem.Text" xml:space="preserve">
     <value>Current Tab(&amp;Local)</value>
@@ -517,14 +520,20 @@
   <data name="UseHashtagMenuItem.Text" xml:space="preserve">
     <value>Use this &amp;Hashtag</value>
   </data>
+  <data name="TranslationToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>263, 22</value>
+  </data>
+  <data name="TranslationToolStripMenuItem.Text" xml:space="preserve">
+    <value>Translate</value>
+  </data>
   <data name="ContextMenuPostBrowser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>264, 342</value>
+    <value>264, 364</value>
   </data>
   <data name="ContextMenuPostBrowser.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="PostBrowser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>508, 46</value>
+    <value>508, 44</value>
   </data>
   <data name="PostBrowser.ToolTip" xml:space="preserve">
     <value />
@@ -536,7 +545,7 @@
     <value />
   </data>
   <data name="TableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 69</value>
+    <value>570, 67</value>
   </data>
   <data name="TableLayoutPanel1.ToolTip" xml:space="preserve">
     <value />
@@ -557,11 +566,11 @@
     <value />
   </data>
   <data name="SplitContainer2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 96</value>
+    <value>570, 94</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="SplitContainer2.SplitterDistance" type="System.Int32, mscorlib">
-    <value>69</value>
+    <value>67</value>
   </data>
   <data name="SplitContainer2.ToolTip" xml:space="preserve">
     <value />
@@ -570,13 +579,13 @@
     <value />
   </data>
   <data name="PreviewPicture.Size" type="System.Drawing.Size, System.Drawing">
-    <value>194, 98</value>
+    <value>194, 96</value>
   </data>
   <data name="PreviewPicture.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="PreviewScrollBar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>17, 98</value>
+    <value>17, 96</value>
   </data>
   <data name="PreviewScrollBar.ToolTip" xml:space="preserve">
     <value />
@@ -585,7 +594,7 @@
     <value />
   </data>
   <data name="SplitContainer3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 96</value>
+    <value>570, 94</value>
   </data>
   <data name="SplitContainer3.ToolTip" xml:space="preserve">
     <value />
@@ -594,7 +603,7 @@
     <value />
   </data>
   <data name="SplitContainer1.SplitterDistance" type="System.Int32, mscorlib">
-    <value>246</value>
+    <value>248</value>
   </data>
   <data name="SplitContainer1.ToolTip" xml:space="preserve">
     <value />
@@ -731,23 +740,71 @@
   <data name="MenuItemEdit.Text" xml:space="preserve">
     <value>&amp;Edit</value>
   </data>
+  <data name="ReplyOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>292, 22</value>
+  </data>
   <data name="ReplyOpMenuItem.Text" xml:space="preserve">
     <value>@&amp;Reply</value>
+  </data>
+  <data name="ReplyAllOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>292, 22</value>
   </data>
   <data name="ReplyAllOpMenuItem.Text" xml:space="preserve">
     <value>@R&amp;eply All</value>
   </data>
+  <data name="DmOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>292, 22</value>
+  </data>
   <data name="DmOpMenuItem.Text" xml:space="preserve">
     <value>Send D&amp;M</value>
+  </data>
+  <data name="RtOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>292, 22</value>
+  </data>
+  <data name="RtUnOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>292, 22</value>
+  </data>
+  <data name="QtOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>292, 22</value>
+  </data>
+  <data name="ToolStripSeparator25.Size" type="System.Drawing.Size, System.Drawing">
+    <value>289, 6</value>
+  </data>
+  <data name="FavOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>292, 22</value>
   </data>
   <data name="FavOpMenuItem.Text" xml:space="preserve">
     <value>Favorite(&amp;S)</value>
   </data>
+  <data name="FavoriteRetweetMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>292, 22</value>
+  </data>
+  <data name="FavoriteRetweetMenuItem.Text" xml:space="preserve">
+    <value>Fav+Retweet</value>
+  </data>
+  <data name="FavoriteRetweetUnofficialMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>292, 22</value>
+  </data>
+  <data name="FavoriteRetweetUnofficialMenuItem.Text" xml:space="preserve">
+    <value>Fav+Retweet(Unofficial)</value>
+  </data>
+  <data name="UnFavOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>292, 22</value>
+  </data>
   <data name="UnFavOpMenuItem.Text" xml:space="preserve">
     <value>Unfavorite(&amp;V)</value>
   </data>
+  <data name="ToolStripSeparator38.Size" type="System.Drawing.Size, System.Drawing">
+    <value>289, 6</value>
+  </data>
+  <data name="ShowProfMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>292, 22</value>
+  </data>
   <data name="ShowProfMenuItem.Text" xml:space="preserve">
     <value>User &amp;Profile</value>
+  </data>
+  <data name="ShowRelatedStatusesMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>292, 22</value>
   </data>
   <data name="ShowRelatedStatusesMenuItem2.Text" xml:space="preserve">
     <value>Related Posts (&amp;G)</value>
@@ -794,6 +851,9 @@
   <data name="OpenRterHomeMenuItem.Text" xml:space="preserve">
     <value>&amp;Retweeter Home</value>
   </data>
+  <data name="OpenOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>292, 22</value>
+  </data>
   <data name="OpenOpMenuItem.Text" xml:space="preserve">
     <value>&amp;Open as ...</value>
   </data>
@@ -809,11 +869,20 @@
   <data name="CreateIdRuleOpMenuItem.Text" xml:space="preserve">
     <value>Filter by &amp;ID</value>
   </data>
+  <data name="CreateRuleOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>292, 22</value>
+  </data>
   <data name="CreateRuleOpMenuItem.Text" xml:space="preserve">
     <value>Make &amp;Filter as ...</value>
   </data>
+  <data name="ListManageMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>292, 22</value>
+  </data>
   <data name="ListManageMenuItem.Text" xml:space="preserve">
     <value>Manage &amp;Lists</value>
+  </data>
+  <data name="ToolStripSeparator26.Size" type="System.Drawing.Size, System.Drawing">
+    <value>289, 6</value>
   </data>
   <data name="ReadOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>263, 22</value>
@@ -827,20 +896,41 @@
   <data name="UnreadOpMenuItem.Text" xml:space="preserve">
     <value>Make not read(&amp;U)</value>
   </data>
+  <data name="ChangeReadOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>292, 22</value>
+  </data>
   <data name="ChangeReadOpMenuItem.Text" xml:space="preserve">
     <value>Change Unread state ...</value>
+  </data>
+  <data name="JumpReadOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>292, 22</value>
   </data>
   <data name="JumpReadOpMenuItem.Text" xml:space="preserve">
     <value>Jump next to read tweet</value>
   </data>
+  <data name="ToolStripSeparator27.Size" type="System.Drawing.Size, System.Drawing">
+    <value>289, 6</value>
+  </data>
+  <data name="SelAllOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>292, 22</value>
+  </data>
   <data name="SelAllOpMenuItem.Text" xml:space="preserve">
     <value>Select &amp;All</value>
+  </data>
+  <data name="DelOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>292, 22</value>
   </data>
   <data name="DelOpMenuItem.Text" xml:space="preserve">
     <value>&amp;Delete your tweet/DM</value>
   </data>
+  <data name="RefreshOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>292, 22</value>
+  </data>
   <data name="RefreshOpMenuItem.Text" xml:space="preserve">
     <value>Refresh(&amp;U)</value>
+  </data>
+  <data name="RefreshPrevOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>292, 22</value>
   </data>
   <data name="RefreshPrevOpMenuItem.Text" xml:space="preserve">
     <value>Get More(&amp;I)...</value>
@@ -1062,67 +1152,73 @@
     <value />
   </data>
   <data name="ReplyStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>243, 22</value>
+    <value>219, 22</value>
   </data>
   <data name="ReplyStripMenuItem.Text" xml:space="preserve">
     <value>@ &amp;Reply</value>
   </data>
   <data name="ReplyAllStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>243, 22</value>
+    <value>219, 22</value>
   </data>
   <data name="ReplyAllStripMenuItem.Text" xml:space="preserve">
     <value>@ Reply ALL</value>
   </data>
   <data name="DMStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>243, 22</value>
+    <value>219, 22</value>
   </data>
   <data name="DMStripMenuItem.Text" xml:space="preserve">
     <value>Send D&amp;M</value>
   </data>
   <data name="ReTweetOriginalStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>243, 22</value>
+    <value>219, 22</value>
   </data>
   <data name="ReTweetOriginalStripMenuItem.Text" xml:space="preserve">
     <value>RT OriginalPost</value>
   </data>
   <data name="ReTweetStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>243, 22</value>
+    <value>219, 22</value>
   </data>
   <data name="QuoteStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>243, 22</value>
+    <value>219, 22</value>
   </data>
   <data name="ToolStripSeparator39.Size" type="System.Drawing.Size, System.Drawing">
-    <value>240, 6</value>
+    <value>216, 6</value>
   </data>
   <data name="FavAddToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>243, 22</value>
+    <value>219, 22</value>
   </data>
   <data name="FavAddToolStripMenuItem.Text" xml:space="preserve">
     <value>Mark &amp;Favorite</value>
   </data>
   <data name="FavoriteRetweetContextMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>243, 22</value>
+    <value>219, 22</value>
+  </data>
+  <data name="FavoriteRetweetContextMenu.Text" xml:space="preserve">
+    <value>Fav+Retweet</value>
   </data>
   <data name="FavoriteRetweetUnofficialContextMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>243, 22</value>
+    <value>219, 22</value>
+  </data>
+  <data name="FavoriteRetweetUnofficialContextMenu.Text" xml:space="preserve">
+    <value>Fav+Retweet(Unofficial)</value>
   </data>
   <data name="FavRemoveToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>243, 22</value>
+    <value>219, 22</value>
   </data>
   <data name="FavRemoveToolStripMenuItem.Text" xml:space="preserve">
     <value>Unmark Favorite</value>
   </data>
   <data name="ToolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>240, 6</value>
+    <value>216, 6</value>
   </data>
   <data name="ShowProfileMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>243, 22</value>
+    <value>219, 22</value>
   </data>
   <data name="ShowProfileMenuItem.Text" xml:space="preserve">
     <value>User &amp;Profile</value>
   </data>
   <data name="ShowRelatedStatusesMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>243, 22</value>
+    <value>219, 22</value>
   </data>
   <data name="ShowRelatedStatusesMenuItem.Text" xml:space="preserve">
     <value>Related Posts (&amp;G)</value>
@@ -1170,7 +1266,7 @@
     <value>Open &amp;Retweeter Home</value>
   </data>
   <data name="ToolStripMenuItem6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>243, 22</value>
+    <value>219, 22</value>
   </data>
   <data name="ToolStripMenuItem6.Text" xml:space="preserve">
     <value>Open as ...</value>
@@ -1188,19 +1284,19 @@
     <value>Filter by ID...</value>
   </data>
   <data name="ToolStripMenuItem7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>243, 22</value>
+    <value>219, 22</value>
   </data>
   <data name="ToolStripMenuItem7.Text" xml:space="preserve">
     <value>Make filter as ...</value>
   </data>
   <data name="ListManageUserContextToolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>243, 22</value>
+    <value>219, 22</value>
   </data>
   <data name="ListManageUserContextToolStripMenuItem2.Text" xml:space="preserve">
     <value>Add to &amp;Lists</value>
   </data>
   <data name="ToolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>240, 6</value>
+    <value>216, 6</value>
   </data>
   <data name="ReadedStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>165, 22</value>
@@ -1215,46 +1311,46 @@
     <value>Make Not Read</value>
   </data>
   <data name="ToolStripMenuItem11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>243, 22</value>
+    <value>219, 22</value>
   </data>
   <data name="ToolStripMenuItem11.Text" xml:space="preserve">
     <value>Change unread state</value>
   </data>
   <data name="JumpUnreadMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>243, 22</value>
+    <value>219, 22</value>
   </data>
   <data name="JumpUnreadMenuItem.Text" xml:space="preserve">
     <value>Jump Next to read post</value>
   </data>
   <data name="ToolStripSeparator10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>240, 6</value>
+    <value>216, 6</value>
   </data>
   <data name="SelectAllMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>243, 22</value>
+    <value>219, 22</value>
   </data>
   <data name="SelectAllMenuItem.Text" xml:space="preserve">
     <value>Select &amp;All</value>
   </data>
   <data name="DeleteStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>243, 22</value>
+    <value>219, 22</value>
   </data>
   <data name="DeleteStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Delete</value>
   </data>
   <data name="RefreshStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>243, 22</value>
+    <value>219, 22</value>
   </data>
   <data name="RefreshStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Update</value>
   </data>
   <data name="RefreshMoreStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>243, 22</value>
+    <value>219, 22</value>
   </data>
   <data name="RefreshMoreStripMenuItem.Text" xml:space="preserve">
     <value>GetMore</value>
   </data>
   <data name="ContextMenuOperate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 490</value>
+    <value>220, 490</value>
   </data>
   <data name="ContextMenuOperate.ToolTip" xml:space="preserve">
     <value />
