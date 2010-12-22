@@ -157,7 +157,7 @@ Public Class HttpTwitter
 
     Public Function DestroyStatus(ByVal id As Long) As HttpStatusCode
         Return httpCon.GetContent(PostMethod, _
-                            CreateTwitterUri("/1/statuses/destroy/" + id.ToString + ".xml"), _
+                            CreateTwitterUri("/1/statuses/destroy/" + id.ToString + ".json"), _
                             Nothing, _
                             Nothing, _
                             Nothing, _
@@ -179,7 +179,7 @@ Public Class HttpTwitter
 
     Public Function DestroyDirectMessage(ByVal id As Long) As HttpStatusCode
         Return httpCon.GetContent(PostMethod, _
-                            CreateTwitterUri("/1/direct_messages/destroy/" + id.ToString + ".xml"), _
+                            CreateTwitterUri("/1/direct_messages/destroy/" + id.ToString + ".json"), _
                             Nothing, _
                             Nothing, _
                             Nothing, _
@@ -188,7 +188,7 @@ Public Class HttpTwitter
 
     Public Function RetweetStatus(ByVal id As Long, ByRef content As String) As HttpStatusCode
         Return httpCon.GetContent(PostMethod, _
-                            CreateTwitterUri("/1/statuses/retweet/" + id.ToString() + ".xml"), _
+                            CreateTwitterUri("/1/statuses/retweet/" + id.ToString() + ".json"), _
                             Nothing, _
                             content, _
                             Nothing, _
@@ -205,12 +205,13 @@ Public Class HttpTwitter
                             TwitterApiInfo.HttpHeaders, _
                             AddressOf GetApiCallback)
     End Function
+
     Public Function CreateFriendships(ByVal screenName As String, ByRef content As String) As HttpStatusCode
         Dim param As New Dictionary(Of String, String)
         param.Add("screen_name", screenName)
 
         Return httpCon.GetContent(PostMethod, _
-                            CreateTwitterUri("/1/friendships/create.xml"), _
+                            CreateTwitterUri("/1/friendships/create.json"), _
                             param, _
                             content, _
                             Nothing, _
@@ -222,7 +223,7 @@ Public Class HttpTwitter
         param.Add("screen_name", screenName)
 
         Return httpCon.GetContent(PostMethod, _
-                            CreateTwitterUri("/1/friendships/destroy.xml"), _
+                            CreateTwitterUri("/1/friendships/destroy.json"), _
                             param, _
                             content, _
                             Nothing, _
@@ -234,7 +235,7 @@ Public Class HttpTwitter
         param.Add("screen_name", screenName)
 
         Return httpCon.GetContent(PostMethod, _
-                            CreateTwitterUri("/1/blocks/create.xml"), _
+                            CreateTwitterUri("/1/blocks/create.json"), _
                             param, _
                             content, _
                             Nothing, _
@@ -246,7 +247,7 @@ Public Class HttpTwitter
         param.Add("screen_name", screenName)
 
         Return httpCon.GetContent(PostMethod, _
-                            CreateTwitterUri("/1/blocks/destroy.xml"), _
+                            CreateTwitterUri("/1/blocks/destroy.json"), _
                             param, _
                             content, _
                             Nothing, _
@@ -258,7 +259,7 @@ Public Class HttpTwitter
         param.Add("screen_name", screenName)
 
         Return httpCon.GetContent(PostMethod, _
-                            CreateTwitterUri("/1/report_spam.xml"), _
+                            CreateTwitterUri("/1/report_spam.json"), _
                             param, _
                             content, _
                             Nothing, _
@@ -271,7 +272,7 @@ Public Class HttpTwitter
         param.Add("target_screen_name", targetScreenName)
 
         Return httpCon.GetContent(GetMethod, _
-                            CreateTwitterUri("/1/friendships/show.xml"), _
+                            CreateTwitterUri("/1/friendships/show.json"), _
                             param, _
                             content, _
                             TwitterApiInfo.HttpHeaders, _
@@ -289,7 +290,7 @@ Public Class HttpTwitter
 
     Public Function CreateFavorites(ByVal id As Long, ByRef content As String) As HttpStatusCode
         Return httpCon.GetContent(PostMethod, _
-                            CreateTwitterUri("/1/favorites/create/" + id.ToString() + ".xml"), _
+                            CreateTwitterUri("/1/favorites/create/" + id.ToString() + ".json"), _
                             Nothing, _
                             content, _
                             Nothing, _
@@ -298,7 +299,7 @@ Public Class HttpTwitter
 
     Public Function DestroyFavorites(ByVal id As Long, ByRef content As String) As HttpStatusCode
         Return httpCon.GetContent(PostMethod, _
-                            CreateTwitterUri("/1/favorites/destroy/" + id.ToString() + ".xml"), _
+                            CreateTwitterUri("/1/favorites/destroy/" + id.ToString() + ".json"), _
                             Nothing, _
                             content, _
                             Nothing, _
@@ -479,7 +480,7 @@ Public Class HttpTwitter
         param.Add("cursor", cursor.ToString())
 
         Return httpCon.GetContent(GetMethod, _
-                            CreateTwitterUri("/1/followers/ids.xml"), _
+                            CreateTwitterUri("/1/followers/ids.json"), _
                             param, _
                             content, _
                             TwitterApiInfo.HttpHeaders, _
@@ -488,7 +489,7 @@ Public Class HttpTwitter
 
     Public Function RateLimitStatus(ByRef content As String) As HttpStatusCode
         Return httpCon.GetContent(GetMethod, _
-                            CreateTwitterUri("/1/account/rate_limit_status.xml"), _
+                            CreateTwitterUri("/1/account/rate_limit_status.json"), _
                             Nothing, _
                             content, _
                             Nothing, _
@@ -499,7 +500,7 @@ Public Class HttpTwitter
         Dim param As New Dictionary(Of String, String)
         param.Add("cursor", cursor.ToString)
         Return httpCon.GetContent(GetMethod, _
-                            CreateTwitterUri("/1/" + user + "/lists.xml"), _
+                            CreateTwitterUri("/1/" + user + "/lists.json"), _
                             param, _
                             content, _
                             TwitterApiInfo.HttpHeaders, _
@@ -513,7 +514,7 @@ Public Class HttpTwitter
         If description IsNot Nothing Then param.Add("description", description)
 
         Return httpCon.GetContent(PostMethod, _
-                                  CreateTwitterUri("/1/" + user + "/lists/" + list_id + ".xml"), _
+                                  CreateTwitterUri("/1/" + user + "/lists/" + list_id + ".json"), _
                                   param, _
                                   content, _
                                   Nothing, _
@@ -525,7 +526,7 @@ Public Class HttpTwitter
         param.Add("_method", "DELETE")
 
         Return httpCon.GetContent(PostMethod, _
-                                  CreateTwitterUri("/1/" + user + "/lists/" + list_id + ".xml"), _
+                                  CreateTwitterUri("/1/" + user + "/lists/" + list_id + ".json"), _
                                   param, _
                                   content, _
                                   Nothing, _
@@ -536,7 +537,7 @@ Public Class HttpTwitter
         Dim param As New Dictionary(Of String, String)
         param.Add("cursor", cursor.ToString)
         Return httpCon.GetContent(GetMethod, _
-                            CreateTwitterUri("/1/" + user + "/lists/subscriptions.xml"), _
+                            CreateTwitterUri("/1/" + user + "/lists/subscriptions.json"), _
                             param, _
                             content, _
                             TwitterApiInfo.HttpHeaders, _
@@ -557,7 +558,7 @@ Public Class HttpTwitter
         End If
 
         Return httpCon.GetContent(GetMethod, _
-                            CreateTwitterUri("/1/" + user + "/lists/" + list_id + "/statuses.xml"), _
+                            CreateTwitterUri("/1/" + user + "/lists/" + list_id + "/statuses.json"), _
                             param, _
                             content, _
                             TwitterApiInfo.HttpHeaders, _
@@ -577,7 +578,7 @@ Public Class HttpTwitter
             param.Add("description", description)
         End If
         Return httpCon.GetContent(PostMethod, _
-                            CreateTwitterUri("/1/" + user + "/lists.xml"), _
+                            CreateTwitterUri("/1/" + user + "/lists.json"), _
                             param, _
                             content, _
                             Nothing,

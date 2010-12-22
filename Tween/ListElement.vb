@@ -19,18 +19,17 @@
 
     End Sub
 
-    Public Sub New(ByVal xmlNode As Xml.XmlNode, ByVal tw As Twitter)
-        Me.Description = xmlNode.Item("description").InnerText
-        Me.Id = Long.Parse(xmlNode.Item("id").InnerText)
-        Me.IsPublic = (xmlNode.Item("mode").InnerText = "public")
-        Me.MemberCount = Integer.Parse(xmlNode.Item("member_count").InnerText)
-        Me.Name = xmlNode.Item("name").InnerText
-        Me.SubscriberCount = Integer.Parse(xmlNode.Item("subscriber_count").InnerText)
-        Me.Slug = xmlNode.Item("slug").InnerText
-        Dim xUserEntry As Xml.XmlElement = CType(xmlNode.SelectSingleNode("./user"), Xml.XmlElement)
-        Me.Nickname = xUserEntry.Item("name").InnerText
-        Me.Username = xUserEntry.Item("screen_name").InnerText
-        Me.UserId = Long.Parse(xUserEntry.Item("id").InnerText)
+    Public Sub New(ByVal listElementData As TwitterDataModel.ListElementData, ByVal tw As Twitter)
+        Me.Description = listElementData.Description
+        Me.Id = listElementData.Id
+        Me.IsPublic = (listElementData.Mode = "public")
+        Me.MemberCount = listElementData.MemberCount
+        Me.Name = listElementData.Name
+        Me.SubscriberCount = listElementData.MemberCount
+        Me.Slug = listElementData.Slug
+        Me.Nickname = listElementData.User.Name
+        Me.Username = listElementData.User.ScreenName
+        Me.UserId = listElementData.User.Id
 
         Me._tw = tw
     End Sub
