@@ -253,4 +253,58 @@ Public Class TwitterDataModel
         <DataMember(Name:="results")> Public Results As RelatedTweet()
         <DataMember(Name:="score")> Public Score As Double
     End Class
+
+    <DataContract()> _
+    Public Class RelationshipResult
+        <DataMember(Name:="followed_by")> Public FollowedBy As Boolean
+        <DataMember(Name:="following")> Public Following As Boolean
+    End Class
+
+    <DataContract()> _
+    Public Class RelationshipUsers
+        <DataMember(Name:="target")> Public Target As RelationshipResult
+        <DataMember(Name:="source")> Public Source As RelationshipResult
+    End Class
+
+    <DataContract()> _
+    Public Class Relationship
+        <DataMember(Name:="relationship")> Public Relationship As RelationshipUsers
+    End Class
+
+    <DataContract()> _
+    Public Class Followers
+        <DataMember(Name:="ids")> Public Id As Long()
+        <DataMember(Name:="next_cursor")> Public NextCursor As Long
+        <DataMember(Name:="previous_cursor")> Public PreviousCursor As Long
+    End Class
+
+    <DataContract()> _
+    Public Class RateLimitStatus
+        <DataMember(Name:="reset_time_in_seconds")> Public RestTimeInSeconds As Integer
+        <DataMember(Name:="remaining_hits")> Public RemainingHits As Integer
+        <DataMember(Name:="reset_time")> Public RestTime As String
+        <DataMember(Name:="hourly_limit")> Public HourlyLimit As Integer
+    End Class
+
+    <DataContract()> _
+    Public Class ListElementData
+        <DataMember(Name:="mode")> Public Mode As String
+        <DataMember(Name:="uri")> Public Uri As String
+        <DataMember(Name:="member_count")> Public MemberCount As Integer
+        <DataMember(Name:="slug")> Public Slug As String
+        <DataMember(Name:="full_name")> Public FullName As String
+        <DataMember(Name:="user")> Public User As User
+        <DataMember(Name:="following")> Public Following As Boolean
+        <DataMember(Name:="subscriber_count")> Public SubscriberCount As Integer
+        <DataMember(Name:="description")> Public Description As String
+        <DataMember(Name:="name")> Public Name As String
+        <DataMember(Name:="id")> Public Id As Long
+    End Class
+
+    <DataContract()> _
+    Public Class Lists
+        <DataMember(Name:="lists")> Public Lists As ListElementData()
+        <DataMember(Name:="next_cursor")> Public NextCursor As Long
+        <DataMember(Name:="previous_cursor")> Public PreviousCursor As Long
+    End Class
 End Class
