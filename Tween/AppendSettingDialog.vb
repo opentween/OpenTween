@@ -630,8 +630,8 @@ Public Class AppendSettingDialog
         _curPanel = BasedPanel
         _curPanel.Enabled = True
         _curPanel.Visible = True
-        ActiveControl = Username
         TreeView1.SelectedNode = Nothing
+        ActiveControl = Username
     End Sub
 
     Private Sub UserstreamPeriod_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles UserstreamPeriod.Validating

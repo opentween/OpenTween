@@ -218,7 +218,7 @@
 </value>
   </data>
   <data name="TreeView1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>172, 368</value>
+    <value>165, 368</value>
   </data>
   <data name="TreeView1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -590,7 +590,7 @@
     <value>0, 0</value>
   </data>
   <data name="BasedPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>525, 368</value>
+    <value>505, 368</value>
   </data>
   <data name="BasedPanel.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1028,7 +1028,7 @@
     <value>0, 0</value>
   </data>
   <data name="GetPeriodPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>525, 368</value>
+    <value>505, 368</value>
   </data>
   <data name="GetPeriodPanel.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1178,7 +1178,7 @@
     <value>0, 0</value>
   </data>
   <data name="StartupPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>525, 368</value>
+    <value>505, 368</value>
   </data>
   <data name="StartupPanel.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -1535,7 +1535,7 @@
     <value>0, 0</value>
   </data>
   <data name="GetCountPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>525, 368</value>
+    <value>505, 368</value>
   </data>
   <data name="GetCountPanel.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -1646,7 +1646,7 @@
     <value>0, 0</value>
   </data>
   <data name="UserStreamPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>525, 368</value>
+    <value>505, 368</value>
   </data>
   <data name="UserStreamPanel.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -2018,7 +2018,7 @@
     <value>NoControl</value>
   </data>
   <data name="Button3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>418, 157</value>
+    <value>418, 158</value>
   </data>
   <data name="Button3.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 21</value>
@@ -2309,7 +2309,7 @@
     <value>0, 0</value>
   </data>
   <data name="ActionPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>525, 368</value>
+    <value>505, 368</value>
   </data>
   <data name="ActionPanel.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -2738,7 +2738,7 @@
     <value>0, 0</value>
   </data>
   <data name="TweetActPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>525, 368</value>
+    <value>505, 368</value>
   </data>
   <data name="TweetActPanel.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -3299,7 +3299,7 @@
     <value>0, 0</value>
   </data>
   <data name="PreviewPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>525, 368</value>
+    <value>505, 368</value>
   </data>
   <data name="PreviewPanel.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -3449,7 +3449,7 @@
     <value>216, 67</value>
   </data>
   <data name="CmbDateTimeFormat.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 20</value>
+    <value>179, 20</value>
   </data>
   <data name="CmbDateTimeFormat.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -3716,7 +3716,7 @@
     <value>0, 0</value>
   </data>
   <data name="TweetPrvPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>525, 368</value>
+    <value>505, 368</value>
   </data>
   <data name="TweetPrvPanel.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -3743,7 +3743,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnRetweet.Location" type="System.Drawing.Point, System.Drawing">
-    <value>396, 119</value>
+    <value>331, 121</value>
   </data>
   <data name="btnRetweet.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 22</value>
@@ -3770,7 +3770,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblRetweet.Location" type="System.Drawing.Point, System.Drawing">
-    <value>214, 120</value>
+    <value>173, 121</value>
   </data>
   <data name="lblRetweet.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 19</value>
@@ -3833,7 +3833,7 @@
     <value>NoControl</value>
   </data>
   <data name="ButtonBackToDefaultFontColor.Location" type="System.Drawing.Point, System.Drawing">
-    <value>194, 236</value>
+    <value>175, 235</value>
   </data>
   <data name="ButtonBackToDefaultFontColor.Size" type="System.Drawing.Size, System.Drawing">
     <value>90, 22</value>
@@ -3863,7 +3863,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnDetailLink.Location" type="System.Drawing.Point, System.Drawing">
-    <value>396, 169</value>
+    <value>331, 171</value>
   </data>
   <data name="btnDetailLink.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 22</value>
@@ -3890,7 +3890,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblDetailLink.Location" type="System.Drawing.Point, System.Drawing">
-    <value>214, 170</value>
+    <value>173, 171</value>
   </data>
   <data name="lblDetailLink.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 19</value>
@@ -3953,7 +3953,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnUnread.Location" type="System.Drawing.Point, System.Drawing">
-    <value>396, 44</value>
+    <value>331, 46</value>
   </data>
   <data name="btnUnread.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 22</value>
@@ -3980,7 +3980,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblUnread.Location" type="System.Drawing.Point, System.Drawing">
-    <value>214, 45</value>
+    <value>173, 46</value>
   </data>
   <data name="lblUnread.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 19</value>
@@ -4043,7 +4043,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnDetailBack.Location" type="System.Drawing.Point, System.Drawing">
-    <value>396, 194</value>
+    <value>331, 196</value>
   </data>
   <data name="btnDetailBack.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 22</value>
@@ -4070,7 +4070,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblDetailBackcolor.Location" type="System.Drawing.Point, System.Drawing">
-    <value>214, 195</value>
+    <value>173, 196</value>
   </data>
   <data name="lblDetailBackcolor.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 19</value>
@@ -4133,7 +4133,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnDetail.Location" type="System.Drawing.Point, System.Drawing">
-    <value>396, 144</value>
+    <value>331, 146</value>
   </data>
   <data name="btnDetail.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 22</value>
@@ -4160,7 +4160,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblDetail.Location" type="System.Drawing.Point, System.Drawing">
-    <value>214, 145</value>
+    <value>173, 146</value>
   </data>
   <data name="lblDetail.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 19</value>
@@ -4223,7 +4223,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnOWL.Location" type="System.Drawing.Point, System.Drawing">
-    <value>396, 94</value>
+    <value>331, 96</value>
   </data>
   <data name="btnOWL.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 22</value>
@@ -4250,7 +4250,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblOWL.Location" type="System.Drawing.Point, System.Drawing">
-    <value>214, 95</value>
+    <value>173, 96</value>
   </data>
   <data name="lblOWL.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 19</value>
@@ -4313,7 +4313,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnFav.Location" type="System.Drawing.Point, System.Drawing">
-    <value>396, 69</value>
+    <value>331, 71</value>
   </data>
   <data name="btnFav.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 22</value>
@@ -4340,7 +4340,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblFav.Location" type="System.Drawing.Point, System.Drawing">
-    <value>214, 70</value>
+    <value>173, 71</value>
   </data>
   <data name="lblFav.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 19</value>
@@ -4403,7 +4403,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnListFont.Location" type="System.Drawing.Point, System.Drawing">
-    <value>396, 19</value>
+    <value>331, 21</value>
   </data>
   <data name="btnListFont.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 22</value>
@@ -4430,7 +4430,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblListFont.Location" type="System.Drawing.Point, System.Drawing">
-    <value>214, 20</value>
+    <value>173, 21</value>
   </data>
   <data name="lblListFont.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 19</value>
@@ -4490,7 +4490,7 @@
     <value>22, 18</value>
   </data>
   <data name="GroupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>484, 267</value>
+    <value>429, 267</value>
   </data>
   <data name="GroupBox1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -4520,7 +4520,7 @@
     <value>0, 0</value>
   </data>
   <data name="FontPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>525, 368</value>
+    <value>505, 368</value>
   </data>
   <data name="FontPanel.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -4817,7 +4817,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnInputFont.Location" type="System.Drawing.Point, System.Drawing">
-    <value>398, 216</value>
+    <value>339, 215</value>
   </data>
   <data name="btnInputFont.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 22</value>
@@ -4847,7 +4847,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnInputBackcolor.Location" type="System.Drawing.Point, System.Drawing">
-    <value>398, 191</value>
+    <value>339, 190</value>
   </data>
   <data name="btnInputBackcolor.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 22</value>
@@ -4877,7 +4877,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnAtTo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>398, 141</value>
+    <value>339, 140</value>
   </data>
   <data name="btnAtTo.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 22</value>
@@ -4907,7 +4907,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnListBack.Location" type="System.Drawing.Point, System.Drawing">
-    <value>398, 166</value>
+    <value>339, 165</value>
   </data>
   <data name="btnListBack.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 22</value>
@@ -4937,7 +4937,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnAtFromTarget.Location" type="System.Drawing.Point, System.Drawing">
-    <value>398, 116</value>
+    <value>339, 115</value>
   </data>
   <data name="btnAtFromTarget.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 22</value>
@@ -4967,7 +4967,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnAtTarget.Location" type="System.Drawing.Point, System.Drawing">
-    <value>398, 91</value>
+    <value>339, 90</value>
   </data>
   <data name="btnAtTarget.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 22</value>
@@ -4997,7 +4997,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnTarget.Location" type="System.Drawing.Point, System.Drawing">
-    <value>398, 66</value>
+    <value>339, 65</value>
   </data>
   <data name="btnTarget.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 22</value>
@@ -5027,7 +5027,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnAtSelf.Location" type="System.Drawing.Point, System.Drawing">
-    <value>398, 41</value>
+    <value>339, 40</value>
   </data>
   <data name="btnAtSelf.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 22</value>
@@ -5057,7 +5057,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnSelf.Location" type="System.Drawing.Point, System.Drawing">
-    <value>398, 16</value>
+    <value>339, 15</value>
   </data>
   <data name="btnSelf.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 22</value>
@@ -5084,7 +5084,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblInputFont.Location" type="System.Drawing.Point, System.Drawing">
-    <value>214, 220</value>
+    <value>175, 218</value>
   </data>
   <data name="lblInputFont.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 19</value>
@@ -5114,7 +5114,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblInputBackcolor.Location" type="System.Drawing.Point, System.Drawing">
-    <value>214, 195</value>
+    <value>175, 193</value>
   </data>
   <data name="lblInputBackcolor.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 19</value>
@@ -5144,7 +5144,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblAtTo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>214, 145</value>
+    <value>175, 143</value>
   </data>
   <data name="lblAtTo.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 19</value>
@@ -5174,7 +5174,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblListBackcolor.Location" type="System.Drawing.Point, System.Drawing">
-    <value>214, 170</value>
+    <value>175, 168</value>
   </data>
   <data name="lblListBackcolor.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 19</value>
@@ -5204,7 +5204,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblAtFromTarget.Location" type="System.Drawing.Point, System.Drawing">
-    <value>214, 120</value>
+    <value>175, 118</value>
   </data>
   <data name="lblAtFromTarget.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 19</value>
@@ -5234,7 +5234,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblAtTarget.Location" type="System.Drawing.Point, System.Drawing">
-    <value>214, 95</value>
+    <value>175, 93</value>
   </data>
   <data name="lblAtTarget.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 19</value>
@@ -5264,7 +5264,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblTarget.Location" type="System.Drawing.Point, System.Drawing">
-    <value>214, 70</value>
+    <value>175, 68</value>
   </data>
   <data name="lblTarget.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 19</value>
@@ -5294,7 +5294,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblAtSelf.Location" type="System.Drawing.Point, System.Drawing">
-    <value>214, 45</value>
+    <value>175, 43</value>
   </data>
   <data name="lblAtSelf.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 19</value>
@@ -5324,7 +5324,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblSelf.Location" type="System.Drawing.Point, System.Drawing">
-    <value>214, 19</value>
+    <value>175, 17</value>
   </data>
   <data name="lblSelf.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 19</value>
@@ -5384,7 +5384,7 @@
     <value>22, 18</value>
   </data>
   <data name="GroupBox5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>489, 290</value>
+    <value>429, 290</value>
   </data>
   <data name="GroupBox5.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -5414,7 +5414,7 @@
     <value>0, 0</value>
   </data>
   <data name="FontPanel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>525, 368</value>
+    <value>505, 368</value>
   </data>
   <data name="FontPanel2.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -5861,7 +5861,7 @@
     <value>0, 0</value>
   </data>
   <data name="ConnectionPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>525, 368</value>
+    <value>505, 368</value>
   </data>
   <data name="ConnectionPanel.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -6215,7 +6215,7 @@
     <value>0, 0</value>
   </data>
   <data name="ProxyPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>525, 368</value>
+    <value>505, 368</value>
   </data>
   <data name="ProxyPanel.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -6248,10 +6248,10 @@
     <value>1</value>
   </data>
   <data name="SplitContainer1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>701, 368</value>
+    <value>674, 368</value>
   </data>
   <data name="SplitContainer1.SplitterDistance" type="System.Int32, mscorlib">
-    <value>172</value>
+    <value>165</value>
   </data>
   <data name="SplitContainer1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -6278,7 +6278,7 @@
     <value>NoControl</value>
   </data>
   <data name="Cancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>623, 374</value>
+    <value>587, 374</value>
   </data>
   <data name="Cancel.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -6305,7 +6305,7 @@
     <value>NoControl</value>
   </data>
   <data name="Save.Location" type="System.Drawing.Point, System.Drawing">
-    <value>541, 374</value>
+    <value>504, 374</value>
   </data>
   <data name="Save.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -6338,7 +6338,7 @@
     <value>6, 12</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>701, 403</value>
+    <value>674, 403</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterParent</value>
