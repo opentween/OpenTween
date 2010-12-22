@@ -107,8 +107,15 @@ Public Class AppendSettingDialog
     Private _MyUserstreamPeriod As Integer
 
     Private _ValidationError As Boolean = False
+    Private FirstExpandNode As Boolean = True
+    Private _curPanel As Panel = Nothing
 
     Private Sub TreeView1_BeforeSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewCancelEventArgs) Handles TreeView1.BeforeSelect
+        If _curPanel IsNot Nothing Then
+            _curPanel.Enabled = False
+            _curPanel.Visible = False
+            _curPanel = Nothing
+        End If
         If Me.TreeView1.SelectedNode Is Nothing Then Exit Sub
         Dim pnl = DirectCast(Me.TreeView1.SelectedNode.Tag, Panel)
         If pnl Is Nothing Then Exit Sub
@@ -118,6 +125,11 @@ Public Class AppendSettingDialog
 
     Private Sub TreeView1_AfterSelect(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles TreeView1.AfterSelect
         If e.Node Is Nothing Then Exit Sub
+        If FirstExpandNode Then
+            FirstExpandNode = False
+        Else
+            e.Node.Expand()
+        End If
         Dim pnl = DirectCast(e.Node.Tag, Panel)
         If pnl Is Nothing Then Exit Sub
         pnl.Enabled = True
@@ -332,6 +344,7 @@ Public Class AppendSettingDialog
     End Sub
 
     Private Sub Setting_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+        If TreeView1.SelectedNode IsNot Nothing Then _curPanel = CType(TreeView1.SelectedNode.Tag, Panel)
         If tw IsNot Nothing AndAlso tw.Username = "" AndAlso e.CloseReason = CloseReason.None Then
             If MessageBox.Show(My.Resources.Setting_FormClosing1, "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
                 e.Cancel = True
@@ -610,8 +623,15 @@ Public Class AppendSettingDialog
 
             .SelectedNode = .Nodes(0)
         End With
-
+        If _curPanel IsNot Nothing Then
+            _curPanel.Enabled = False
+            _curPanel.Visible = False
+        End If
+        _curPanel = BasedPanel
+        _curPanel.Enabled = True
+        _curPanel.Visible = True
         ActiveControl = Username
+        TreeView1.SelectedNode = Nothing
     End Sub
 
     Private Sub UserstreamPeriod_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles UserstreamPeriod.Validating
