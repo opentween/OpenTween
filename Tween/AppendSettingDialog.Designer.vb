@@ -92,6 +92,7 @@ Partial Class AppendSettingDialog
         Me.CheckFavRestrict = New System.Windows.Forms.CheckBox()
         Me.Button3 = New System.Windows.Forms.Button()
         Me.PlaySnd = New System.Windows.Forms.CheckBox()
+        Me.chkReadOwnPost = New System.Windows.Forms.CheckBox()
         Me.Label15 = New System.Windows.Forms.Label()
         Me.BrowserPathText = New System.Windows.Forms.TextBox()
         Me.UReadMng = New System.Windows.Forms.CheckBox()
@@ -143,7 +144,6 @@ Partial Class AppendSettingDialog
         Me.TextBox3 = New System.Windows.Forms.TextBox()
         Me.CheckSortOrderLock = New System.Windows.Forms.CheckBox()
         Me.CheckShowGrid = New System.Windows.Forms.CheckBox()
-        Me.chkReadOwnPost = New System.Windows.Forms.CheckBox()
         Me.chkUnreadStyle = New System.Windows.Forms.CheckBox()
         Me.OneWayLv = New System.Windows.Forms.CheckBox()
         Me.FontPanel = New System.Windows.Forms.Panel()
@@ -731,6 +731,12 @@ Partial Class AppendSettingDialog
         Me.PlaySnd.Name = "PlaySnd"
         Me.PlaySnd.UseVisualStyleBackColor = True
         '
+        'chkReadOwnPost
+        '
+        resources.ApplyResources(Me.chkReadOwnPost, "chkReadOwnPost")
+        Me.chkReadOwnPost.Name = "chkReadOwnPost"
+        Me.chkReadOwnPost.UseVisualStyleBackColor = True
+        '
         'Label15
         '
         Me.Label15.BackColor = System.Drawing.SystemColors.ActiveCaption
@@ -1074,12 +1080,6 @@ Partial Class AppendSettingDialog
         resources.ApplyResources(Me.CheckShowGrid, "CheckShowGrid")
         Me.CheckShowGrid.Name = "CheckShowGrid"
         Me.CheckShowGrid.UseVisualStyleBackColor = True
-        '
-        'chkReadOwnPost
-        '
-        resources.ApplyResources(Me.chkReadOwnPost, "chkReadOwnPost")
-        Me.chkReadOwnPost.Name = "chkReadOwnPost"
-        Me.chkReadOwnPost.UseVisualStyleBackColor = True
         '
         'chkUnreadStyle
         '
