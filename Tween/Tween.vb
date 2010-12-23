@@ -39,6 +39,7 @@ Imports Microsoft.Win32
 Imports System.Xml
 Imports System.Timers
 Imports System.Threading
+Imports System.Linq
 
 Public Class TweenMain
 
@@ -5420,6 +5421,28 @@ RETRY:
 
     Private Sub GoInReplyToPost()
         If _curPost IsNot Nothing AndAlso _curPost.InReplyToUser IsNot Nothing AndAlso _curPost.InReplyToId > 0 Then
+            Dim searchInReplyToPostFromAllTab = Sub()
+                                                    Dim inReplyToPosts = From tab In _statuses.Tabs.Values
+                                                                         From post In DirectCast(IIf(tab.IsInnerStorageTabType, tab.Posts, _statuses.Posts), Dictionary(Of Long, PostClass)).Values
+                                                                         Where post.Id = _curPost.InReplyToId
+
+                                                    Try
+                                                        Dim r = inReplyToPosts.First()
+                                                        If replyChains Is Nothing OrElse (replyChains.Count > 0 AndAlso replyChains.Peek().InReplyToId <> _curPost.Id) Then
+                                                            replyChains = New Stack(Of ReplyChain)
+                                                        End If
+                                                        replyChains.Push(New ReplyChain(_curPost.Id, _curPost.InReplyToId, _curTab))
+                                                        Dim tabPage As TabPage = Me.ListTab.TabPages.Cast(Of TabPage).First(Function(tp) tp.Text = r.tab.TabName)
+                                                        Dim listView = DirectCast(tabPage.Tag, DetailsListView)
+                                                        Dim idx = r.tab.IndexOf(r.post.Id)
+                                                        Me.ListTab.SelectedTab = tabPage
+                                                        SelectListItem(listView, idx)
+                                                        listView.EnsureVisible(idx)
+                                                    Catch ex As InvalidOperationException
+                                                        OpenUriAsync("http://twitter.com/" + _curPost.InReplyToUser + "/statuses/" + _curPost.InReplyToId.ToString())
+                                                    End Try
+                                                End Sub
+
             If _statuses.Tabs(_curTab.Text).TabType = TabUsageType.Lists Then
                 If _statuses.Tabs(_curTab.Text).Posts.ContainsKey(_curPost.InReplyToId) Then
                     Dim idx As Integer = _statuses.Tabs(_curTab.Text).IndexOf(_curPost.InReplyToId)
@@ -5435,7 +5458,7 @@ RETRY:
                         _curList.EnsureVisible(idx)
                     End If
                 Else
-                    OpenUriAsync("http://twitter.com/" + _curPost.InReplyToUser + "/statuses/" + _curPost.InReplyToId.ToString())
+                    searchInReplyToPostFromAllTab()
                 End If
             Else
                 If _statuses.ContainsKey(_curPost.InReplyToId) Then
@@ -5465,7 +5488,7 @@ RETRY:
                         _curList.EnsureVisible(idx)
                     End If
                 Else
-                    OpenUriAsync("http://twitter.com/" + _curPost.InReplyToUser + "/statuses/" + _curPost.InReplyToId.ToString())
+                    searchInReplyToPostFromAllTab()
                 End If
             End If
         End If
