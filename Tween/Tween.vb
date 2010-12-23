@@ -5420,78 +5420,51 @@ RETRY:
     End Sub
 
     Private Sub GoInReplyToPost()
-        If _curPost IsNot Nothing AndAlso _curPost.InReplyToUser IsNot Nothing AndAlso _curPost.InReplyToId > 0 Then
-            Dim searchInReplyToPostFromAllTab = Sub()
-                                                    Dim inReplyToPosts = From tab In _statuses.Tabs.Values
-                                                                         From post In DirectCast(IIf(tab.IsInnerStorageTabType, tab.Posts, _statuses.Posts), Dictionary(Of Long, PostClass)).Values
-                                                                         Where post.Id = _curPost.InReplyToId
+        If Not (_curPost IsNot Nothing AndAlso _curPost.InReplyToUser IsNot Nothing AndAlso _curPost.InReplyToId > 0) Then Return
 
-                                                    Try
-                                                        Dim r = inReplyToPosts.First()
-                                                        If replyChains Is Nothing OrElse (replyChains.Count > 0 AndAlso replyChains.Peek().InReplyToId <> _curPost.Id) Then
-                                                            replyChains = New Stack(Of ReplyChain)
-                                                        End If
-                                                        replyChains.Push(New ReplyChain(_curPost.Id, _curPost.InReplyToId, _curTab))
-                                                        Dim tabPage As TabPage = Me.ListTab.TabPages.Cast(Of TabPage).First(Function(tp) tp.Text = r.tab.TabName)
-                                                        Dim listView = DirectCast(tabPage.Tag, DetailsListView)
-                                                        Dim idx = r.tab.IndexOf(r.post.Id)
-                                                        Me.ListTab.SelectedTab = tabPage
-                                                        SelectListItem(listView, idx)
-                                                        listView.EnsureVisible(idx)
-                                                    Catch ex As InvalidOperationException
-                                                        OpenUriAsync("http://twitter.com/" + _curPost.InReplyToUser + "/statuses/" + _curPost.InReplyToId.ToString())
-                                                    End Try
-                                                End Sub
+        Dim inReplyToIndex As Integer
+        Dim inReplyToTabName As String
+        Dim curTabClass As TabClass = _statuses.Tabs(_curTab.Text)
+        Dim curTabPosts As Dictionary(Of Long, PostClass)
 
-            If _statuses.Tabs(_curTab.Text).TabType = TabUsageType.Lists Then
-                If _statuses.Tabs(_curTab.Text).Posts.ContainsKey(_curPost.InReplyToId) Then
-                    Dim idx As Integer = _statuses.Tabs(_curTab.Text).IndexOf(_curPost.InReplyToId)
-                    If idx = -1 Then
-                        Dim repPost As PostClass = _statuses.Item(_curPost.InReplyToId)
-                        MessageBox.Show(repPost.Name + " / " + repPost.Nickname + "   (" + repPost.PDate.ToString() + ")" + Environment.NewLine + repPost.Data)
-                    Else
-                        If replyChains Is Nothing OrElse (replyChains.Count > 0 AndAlso replyChains.Peek().InReplyToId <> _curPost.Id) Then
-                            replyChains = New Stack(Of ReplyChain)
-                        End If
-                        replyChains.Push(New ReplyChain(_curPost.Id, _curPost.InReplyToId, _curTab))
-                        SelectListItem(_curList, idx)
-                        _curList.EnsureVisible(idx)
-                    End If
-                Else
-                    searchInReplyToPostFromAllTab()
-                End If
-            Else
-                If _statuses.ContainsKey(_curPost.InReplyToId) Then
-                    Dim tab As TabPage = _curTab
-                    Dim idx As Integer = _statuses.Tabs(_curTab.Text).IndexOf(_curPost.InReplyToId)
-                    If idx = -1 Then
-                        For Each tab In ListTab.TabPages
-                            idx = _statuses.Tabs(tab.Text).IndexOf(_curPost.InReplyToId)
-                            If idx <> -1 Then
-                                Exit For
-                            End If
-                        Next
-                    End If
-                    If idx = -1 Then
-                        Dim repPost As PostClass = _statuses.Item(_curPost.InReplyToId)
-                        MessageBox.Show(repPost.Name + " / " + repPost.Nickname + "   (" + repPost.PDate.ToString() + ")" + Environment.NewLine + repPost.Data)
-                    Else
-                        If replyChains Is Nothing OrElse (replyChains.Count > 0 AndAlso replyChains.Peek().InReplyToId <> _curPost.Id) Then
-                            replyChains = New Stack(Of ReplyChain)
-                        End If
-                        replyChains.Push(New ReplyChain(_curPost.Id, _curPost.InReplyToId, _curTab))
-
-                        If tab IsNot _curTab Then
-                            ListTab.SelectTab(tab)
-                        End If
-                        SelectListItem(_curList, idx)
-                        _curList.EnsureVisible(idx)
-                    End If
-                Else
-                    searchInReplyToPostFromAllTab()
-                End If
-            End If
+        If _statuses.Tabs(_curTab.Text).IsInnerStorageTabType Then
+            curTabPosts = curTabClass.Posts
+        Else
+            curTabPosts = _statuses.Posts
         End If
+
+        inReplyToIndex = curTabClass.IndexOf(_curPost.InReplyToId)
+        If inReplyToIndex <> -1 Then
+            inReplyToTabName = _curTab.Text
+        Else
+            Dim inReplyToPosts = From tab In _statuses.Tabs.Values
+                                 From post In DirectCast(IIf(tab.IsInnerStorageTabType, tab.Posts, _statuses.Posts), Dictionary(Of Long, PostClass)).Values
+                                 Where post.Id = _curPost.InReplyToId
+
+            Try
+                Dim inReplyPost = inReplyToPosts.First()
+                inReplyToTabName = inReplyPost.tab.TabName
+                inReplyToIndex = inReplyPost.tab.IndexOf(inReplyPost.post.Id)
+            Catch ex As InvalidOperationException
+                OpenUriAsync("http://twitter.com/" + _curPost.InReplyToUser + "/statuses/" + _curPost.InReplyToId.ToString())
+                Exit Sub
+            End Try
+        End If
+
+        If replyChains Is Nothing OrElse (replyChains.Count > 0 AndAlso replyChains.Peek().InReplyToId <> _curPost.Id) Then
+            replyChains = New Stack(Of ReplyChain)
+        End If
+        replyChains.Push(New ReplyChain(_curPost.Id, _curPost.InReplyToId, _curTab))
+
+        Dim tabPage = Me.ListTab.TabPages.Cast(Of TabPage).First(Function(tp) tp.Text = inReplyToTabName)
+        Dim listView = DirectCast(tabPage.Tag, DetailsListView)
+
+        If _curTab IsNot tabPage Then
+            Me.ListTab.SelectTab(tabPage)
+        End If
+
+        Me.SelectListItem(listView, inReplyToIndex)
+        listView.EnsureVisible(inReplyToIndex)
     End Sub
 
     Private Sub GoBackInReplyToPost()
