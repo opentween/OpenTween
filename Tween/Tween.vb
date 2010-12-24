@@ -5440,11 +5440,14 @@ RETRY:
             Dim inReplyToPosts = From tab In _statuses.Tabs.Values
                                  From post In DirectCast(IIf(tab.IsInnerStorageTabType, tab.Posts, _statuses.Posts), Dictionary(Of Long, PostClass)).Values
                                  Where post.Id = _curPost.InReplyToId
+                                 Let index = tab.IndexOf(post.Id)
+                                 Where index <> -1
+                                 Select New With {.Tab = tab, .Post = post, .Index = index}
 
             Try
                 Dim inReplyPost = inReplyToPosts.First()
-                inReplyToTabName = inReplyPost.tab.TabName
-                inReplyToIndex = inReplyPost.tab.IndexOf(inReplyPost.post.Id)
+                inReplyToTabName = inReplyPost.Tab.TabName
+                inReplyToIndex = inReplyPost.Index
             Catch ex As InvalidOperationException
                 OpenUriAsync("http://twitter.com/" + _curPost.InReplyToUser + "/statuses/" + _curPost.InReplyToId.ToString())
                 Exit Sub
