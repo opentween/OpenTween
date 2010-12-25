@@ -1637,7 +1637,7 @@ Public Class TweenMain
             End If
         End If
 
-        If _curPost IsNot Nothing AndAlso StatusText.Text.Trim() = String.Format("RT @{0}: {1}", _curPost.Name, _curPost.Data) Then
+        If Me.ExistCurrentPost AndAlso StatusText.Text.Trim() = String.Format("RT @{0}: {1}", _curPost.Name, _curPost.Data) Then
             Dim rtResult As DialogResult = MessageBox.Show(String.Format(My.Resources.PostButton_Click1, Environment.NewLine),
                                                            "Retweet",
                                                            MessageBoxButtons.YesNoCancel,
@@ -1917,7 +1917,7 @@ Public Class TweenMain
                     Dim tbc As TabClass = _statuses.Tabs(args.tName)
                     For i As Integer = 0 To args.ids.Count - 1
                         Dim post As PostClass = Nothing
-                        If tbc.TabType = TabUsageType.Lists OrElse tbc.TabType = TabUsageType.PublicSearch Then
+                        If tbc.IsInnerStorageTabType Then
                             post = tbc.Posts(args.ids(i))
                         Else
                             post = _statuses.Item(args.ids(i))
@@ -1960,7 +1960,7 @@ Public Class TweenMain
                     Dim tbc As TabClass = _statuses.Tabs(args.tName)
                     For i As Integer = 0 To args.ids.Count - 1
                         Dim post As PostClass = Nothing
-                        If tbc.TabType = TabUsageType.Lists OrElse tbc.TabType = TabUsageType.PublicSearch Then
+                        If tbc.IsInnerStorageTabType Then
                             post = tbc.Posts(args.ids(i))
                         Else
                             post = _statuses.Item(args.ids(i))
@@ -2644,7 +2644,7 @@ Public Class TweenMain
     Private Sub ContextMenuOperate_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuOperate.Opening
         If ListTab.SelectedTab Is Nothing Then Exit Sub
         If _statuses Is Nothing OrElse _statuses.Tabs Is Nothing OrElse Not _statuses.Tabs.ContainsKey(ListTab.SelectedTab.Text) Then Exit Sub
-        If _curPost Is Nothing Then
+        If Not Me.ExistCurrentPost Then
             ReplyStripMenuItem.Enabled = False
             ReplyAllStripMenuItem.Enabled = False
             DMStripMenuItem.Enabled = False
@@ -2667,7 +2667,7 @@ Public Class TweenMain
             ReadedStripMenuItem.Enabled = True
             UnreadStripMenuItem.Enabled = True
         End If
-        If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.DirectMessage OrElse _curPost Is Nothing OrElse _curPost.IsDm Then
+        If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.DirectMessage OrElse Not Me.ExistCurrentPost OrElse _curPost.IsDm Then
             FavAddToolStripMenuItem.Enabled = False
             FavRemoveToolStripMenuItem.Enabled = False
             StatusOpenMenuItem.Enabled = False
@@ -2679,7 +2679,7 @@ Public Class TweenMain
             QuoteStripMenuItem.Enabled = False
             FavoriteRetweetContextMenu.Enabled = False
             FavoriteRetweetUnofficialContextMenu.Enabled = False
-            If _curPost IsNot Nothing AndAlso _curPost.IsDm Then DeleteStripMenuItem.Enabled = True
+            If Me.ExistCurrentPost AndAlso _curPost.IsDm Then DeleteStripMenuItem.Enabled = True
         Else
             FavAddToolStripMenuItem.Enabled = True
             FavRemoveToolStripMenuItem.Enabled = True
@@ -2714,13 +2714,13 @@ Public Class TweenMain
             RefreshMoreStripMenuItem.Enabled = False
         End If
         If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.PublicSearch _
-                            OrElse _curPost Is Nothing _
+                            OrElse Not Me.ExistCurrentPost _
                             OrElse Not _curPost.InReplyToId > 0 Then
             RepliedStatusOpenMenuItem.Enabled = False
         Else
             RepliedStatusOpenMenuItem.Enabled = True
         End If
-        If _curPost Is Nothing OrElse _curPost.RetweetedBy = "" Then
+        If Not Me.ExistCurrentPost OrElse _curPost.RetweetedBy = "" Then
             MoveToRTHomeMenuItem.Enabled = False
         Else
             MoveToRTHomeMenuItem.Enabled = True
@@ -3882,11 +3882,12 @@ Public Class TweenMain
         If Post.IsMark Then mk += "♪"
         If Post.IsProtect Then mk += "Ю"
         If Post.InReplyToId > 0 Then mk += "⇒"
+        If Post.FavoritedCount > 0 Then mk += "+" + Post.FavoritedCount.ToString
         Dim itm As ImageListViewItem
         If Post.RetweetedId = 0 Then
             Dim sitem() As String = {"",
                                      Post.Nickname,
-                                     Post.Data,
+                                     If(Post.IsDeleted, "(DELETED)", Post.Data),
                                      Post.PDate.ToString(SettingDialog.DateTimeFormat),
                                      Post.Name,
                                      "",
@@ -3896,7 +3897,7 @@ Public Class TweenMain
         Else
             Dim sitem() As String = {"",
                                      Post.Nickname,
-                                     Post.Data,
+                                     If(Post.IsDeleted, "(DELETED)", Post.Data),
                                      Post.PDate.ToString(SettingDialog.DateTimeFormat),
                                      Post.Name + Environment.NewLine + "(RT:" + Post.RetweetedBy + ")",
                                      "",
@@ -4545,7 +4546,7 @@ RETRY:
 
         If _curList.SelectedIndices.Count = 0 OrElse _curPost Is Nothing Then Exit Sub
 
-        Dim dTxt As String = createDetailHtml(_curPost.OriginalData)
+        Dim dTxt As String = createDetailHtml(If(_curPost.IsDeleted, "(DELETED)", _curPost.OriginalData))
         If _curPost.IsDm Then
             SourceLinkLabel.Tag = Nothing
             SourceLinkLabel.Text = ""
@@ -5270,7 +5271,7 @@ RETRY:
     End Sub
 
     Private Sub GoPost(ByVal forward As Boolean)
-        If _curList.SelectedIndices.Count = 0 OrElse _curPost Is Nothing Then Exit Sub
+        If _curList.SelectedIndices.Count = 0 OrElse Not Me.ExistCurrentPost Then Exit Sub
         Dim fIdx As Integer = 0
         Dim toIdx As Integer = 0
         Dim stp As Integer = 1
@@ -5329,7 +5330,7 @@ RETRY:
         End If
 
         If Not _anchorFlag Then
-            If _curPost Is Nothing Then Exit Sub
+            If Not Me.ExistCurrentPost Then Exit Sub
             _anchorPost = _curPost
             _anchorFlag = True
         Else
@@ -5431,7 +5432,7 @@ RETRY:
     End Sub
 
     Private Sub GoInReplyToPost()
-        If Not (_curPost IsNot Nothing AndAlso _curPost.InReplyToUser IsNot Nothing AndAlso _curPost.InReplyToId > 0) Then Return
+        If Not (Me.ExistCurrentPost AndAlso _curPost.InReplyToUser IsNot Nothing AndAlso _curPost.InReplyToId > 0) Then Return
 
         Dim inReplyToIndex As Integer
         Dim inReplyToTabName As String
@@ -6404,7 +6405,7 @@ RETRY:
         If Not StatusText.Enabled Then Exit Sub
         If _curList Is Nothing Then Exit Sub
         If _curTab Is Nothing Then Exit Sub
-        If _curPost Is Nothing Then Exit Sub
+        If Not Me.ExistCurrentPost Then Exit Sub
 
         ' 複数あてリプライはReplyではなく通常ポスト
         '↑仕様変更で全部リプライ扱いでＯＫ（先頭ドット付加しない）
@@ -6413,7 +6414,7 @@ RETRY:
 
         If _curList.SelectedIndices.Count > 0 Then
             ' アイテムが1件以上選択されている
-            If _curList.SelectedIndices.Count = 1 AndAlso Not isAll AndAlso _curPost IsNot Nothing Then
+            If _curList.SelectedIndices.Count = 1 AndAlso Not isAll AndAlso Me.ExistCurrentPost Then
                 ' 単独ユーザー宛リプライまたはDM
                 If (_statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.DirectMessage AndAlso isAuto) OrElse (Not isAuto AndAlso Not isReply) Then
                     ' ダイレクトメッセージ
@@ -7538,7 +7539,7 @@ RETRY:
     End Sub
 
     Private Sub doRepliedStatusOpen()
-        If _curPost IsNot Nothing AndAlso _curPost.InReplyToUser IsNot Nothing AndAlso _curPost.InReplyToId > 0 Then
+        If Me.ExistCurrentPost AndAlso _curPost.InReplyToUser IsNot Nothing AndAlso _curPost.InReplyToId > 0 Then
             If My.Computer.Keyboard.ShiftKeyDown Then
                 OpenUriAsync("http://twitter.com/" + _curPost.InReplyToUser + "/status/" + _curPost.InReplyToId.ToString())
                 Exit Sub
@@ -8392,7 +8393,7 @@ RETRY:
 
     Private Sub doReTweetUnofficial()
         'RT @id:内容
-        If _curPost IsNot Nothing Then
+        If Me.ExistCurrentPost Then
             If _curPost.IsDm OrElse _
                Not StatusText.Enabled Then Exit Sub
 
@@ -8416,7 +8417,7 @@ RETRY:
 
     Private Sub doReTweetOfficial(ByVal isConfirm As Boolean)
         '公式RT
-        If _curPost IsNot Nothing Then
+        If Me.ExistCurrentPost Then
             If _curPost.IsProtect Then
                 MessageBox.Show("Protected.")
                 _DoFavRetweetFlags = False
@@ -8466,7 +8467,7 @@ RETRY:
     End Sub
 
     Private Sub FavoritesRetweetOriginal()
-        If _curPost Is Nothing Then Exit Sub
+        If Not Me.ExistCurrentPost Then Exit Sub
         _DoFavRetweetFlags = True
         doReTweetOfficial(True)
         If _DoFavRetweetFlags Then
@@ -8476,7 +8477,7 @@ RETRY:
     End Sub
 
     Private Sub FavoritesRetweetUnofficial()
-        If _curPost IsNot Nothing AndAlso Not _curPost.IsDm Then
+        If Me.ExistCurrentPost AndAlso Not _curPost.IsDm Then
             _DoFavRetweetFlags = True
             FavoriteChange(True)
             If Not _curPost.IsProtect AndAlso _DoFavRetweetFlags Then
@@ -8887,7 +8888,7 @@ RETRY:
     Private Sub doQuote()
         'QT @id:内容
         '返信先情報付加
-        If _curPost IsNot Nothing Then
+        If Me.ExistCurrentPost Then
             If _curPost.IsDm OrElse _
                Not StatusText.Enabled Then Exit Sub
 
@@ -9183,7 +9184,7 @@ RETRY:
     Private Sub MenuItemOperate_DropDownOpening(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemOperate.DropDownOpening
         If ListTab.SelectedTab Is Nothing Then Exit Sub
         If _statuses Is Nothing OrElse _statuses.Tabs Is Nothing OrElse Not _statuses.Tabs.ContainsKey(ListTab.SelectedTab.Text) Then Exit Sub
-        If _curPost Is Nothing Then
+        If Not Me.ExistCurrentPost Then
             Me.ReplyOpMenuItem.Enabled = False
             Me.ReplyAllOpMenuItem.Enabled = False
             Me.DmOpMenuItem.Enabled = False
@@ -9207,7 +9208,7 @@ RETRY:
             Me.UnreadOpMenuItem.Enabled = True
         End If
 
-        If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.DirectMessage OrElse _curPost Is Nothing OrElse _curPost.IsDm Then
+        If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.DirectMessage OrElse Not Me.ExistCurrentPost OrElse _curPost.IsDm Then
             Me.FavOpMenuItem.Enabled = False
             Me.UnFavOpMenuItem.Enabled = False
             Me.OpenStatusOpMenuItem.Enabled = False
@@ -9218,7 +9219,7 @@ RETRY:
             Me.QtOpMenuItem.Enabled = False
             Me.FavoriteRetweetMenuItem.Enabled = False
             Me.FavoriteRetweetUnofficialMenuItem.Enabled = False
-            If _curPost IsNot Nothing AndAlso _curPost.IsDm Then Me.DelOpMenuItem.Enabled = True
+            If Me.ExistCurrentPost AndAlso _curPost.IsDm Then Me.DelOpMenuItem.Enabled = True
         Else
             Me.FavOpMenuItem.Enabled = True
             Me.UnFavOpMenuItem.Enabled = True
@@ -9254,13 +9255,13 @@ RETRY:
             Me.RefreshPrevOpMenuItem.Enabled = False
         End If
         If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.PublicSearch _
-                            OrElse _curPost Is Nothing _
+                            OrElse Not Me.ExistCurrentPost _
                             OrElse Not _curPost.InReplyToId > 0 Then
             OpenRepSourceOpMenuItem.Enabled = False
         Else
             OpenRepSourceOpMenuItem.Enabled = True
         End If
-        If _curPost Is Nothing OrElse _curPost.RetweetedBy = "" Then
+        If Not Me.ExistCurrentPost OrElse _curPost.RetweetedBy = "" Then
             OpenRterHomeMenuItem.Enabled = False
         Else
             OpenRterHomeMenuItem.Enabled = True
@@ -9300,7 +9301,7 @@ RETRY:
         Else
             PublicSearchQueryMenuItem.Enabled = False
         End If
-        If _curPost Is Nothing Then
+        If Not Me.ExistCurrentPost Then
             Me.CopySTOTMenuItem.Enabled = False
             Me.CopyURLMenuItem.Enabled = False
             Me.CopyUserIdStripMenuItem.Enabled = False
@@ -9467,7 +9468,7 @@ RETRY:
     End Sub
 
     Private Sub RtCountMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RtCountMenuItem.Click
-        If _curPost IsNot Nothing Then
+        If Me.ExistCurrentPost Then
             Using _info As New FormInfo(Me, My.Resources.RtCountMenuItem_ClickText1, _
                             AddressOf GetRetweet_DoWork)
                 Dim retweet_count As Integer = 0
@@ -9791,7 +9792,7 @@ RETRY:
     End Sub
 
     Private Sub MenuItemCommand_DropDownOpening(ByVal sender As Object, ByVal e As System.EventArgs) Handles MenuItemCommand.DropDownOpening
-        If _curPost IsNot Nothing AndAlso Not _curPost.IsDm Then
+        If Me.ExistCurrentPost AndAlso Not _curPost.IsDm Then
             RtCountMenuItem.Enabled = True
         Else
             RtCountMenuItem.Enabled = False
@@ -9812,7 +9813,7 @@ RETRY:
     End Sub
 
     Private Sub ShowRelatedStatusesMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowRelatedStatusesMenuItem.Click, ShowRelatedStatusesMenuItem2.Click
-        If _curPost IsNot Nothing AndAlso Not _curPost.IsDm Then
+        If Me.ExistCurrentPost AndAlso Not _curPost.IsDm Then
             'PublicSearchも除外した方がよい？
             If _statuses.GetTabByType(TabUsageType.Related) Is Nothing Then
                 Const TabName As String = "Related Tweets"
@@ -10025,10 +10026,18 @@ RETRY:
     Private Sub TranslationToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TranslationToolStripMenuItem.Click
         Dim g As New Google
         Dim buf As String = ""
-        If _curPost Is Nothing Then Exit Sub
+        If Not Me.ExistCurrentPost Then Exit Sub
         Dim lng As String = g.LanguageDetect(_curPost.Data)
         If lng <> "ja" AndAlso g.Translate(True, PostBrowser.DocumentText, buf) Then
             PostBrowser.DocumentText = buf
         End If
     End Sub
+
+    Private ReadOnly Property ExistCurrentPost As Boolean
+        Get
+            If _curPost Is Nothing Then Return False
+            If _curPost.IsDeleted Then Return False
+            Return True
+        End Get
+    End Property
 End Class

@@ -2898,6 +2898,21 @@ Public Class Twitter
                 evt.Target = ""
             Case "favorite", "unfavorite"
                 evt.Target = eventData.TargetObject.Text
+                If TabInformations.GetInstance.ContainsKey(eventData.TargetObject.Id) Then
+                    Dim post As PostClass = TabInformations.GetInstance.Item(eventData.TargetObject.Id)
+                    If eventData.Event = "favorite" Then
+                        post.FavoritedCount += 1
+                        If Not TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites).Contains(post.Id) Then
+                            post.IsRead = False
+                            TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites).Add(post.Id, post.IsRead, False)
+                        Else
+                            TabInformations.GetInstance.SetRead(False, TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites).TabName, TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites).IndexOf(post.Id))
+                        End If
+                    Else
+                        post.FavoritedCount -= 1
+                        If post.FavoritedCount < 0 Then post.FavoritedCount = 0
+                    End If
+                End If
             Case "list_member_added", "list_member_removed"
                 evt.Target = eventData.TargetObject.Name
             Case "block"

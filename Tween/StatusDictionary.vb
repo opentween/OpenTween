@@ -57,6 +57,7 @@ Public NotInheritable Class PostClass
     Private _RetweetedBy As String = ""
     Private _RetweetedId As Long = 0
     Private _searchTabName As String = ""
+    Private _isDeleted As Boolean = False
 
     <FlagsAttribute()> _
     Private Enum Statuses
@@ -357,6 +358,21 @@ Public NotInheritable Class PostClass
             _searchTabName = value
         End Set
     End Property
+    Public Property IsDeleted As Boolean
+        Get
+            Return _isDeleted
+        End Get
+        Set(ByVal value As Boolean)
+            If value Then
+                Me.InReplyToId = 0
+                Me.InReplyToUser = ""
+                Me.IsReply = False
+                Me.ReplyToList = New List(Of String)
+            End If
+            _isDeleted = value
+        End Set
+    End Property
+    Public Property FavoritedCount As Integer
 
     Public Function Copy() As PostClass
         Dim post As PostClass = DirectCast(Me.Clone, PostClass)
@@ -653,6 +669,22 @@ Public NotInheritable Class TabInformations
         End SyncLock
     End Sub
 
+    Private Sub DeletePost(ByVal Id As Long)
+        SyncLock LockObj
+            Dim post As PostClass = Nothing
+            If _statuses.ContainsKey(Id) Then
+                post = _statuses(Id)
+                post.IsDeleted = True
+            End If
+            For Each tb As TabClass In Me.GetTabsInnerStorageType
+                If tb.Contains(Id) Then
+                    post = tb.Posts(Id)
+                    post.IsDeleted = True
+                End If
+            Next
+        End SyncLock
+    End Sub
+
     Public Function GetOldestUnreadId(ByVal TabName As String) As Integer
         Dim tb As TabClass = _tabs(TabName)
         If tb.OldestUnreadId > -1 AndAlso _
@@ -820,7 +852,7 @@ Public NotInheritable Class TabInformations
             End If
             If isUserStream Then
                 For Each id As Long In Me._deletedIds
-                    Me.RemovePost(id)
+                    Me.DeletePost(id)
                 Next
                 Me._deletedIds.Clear()
             End If
