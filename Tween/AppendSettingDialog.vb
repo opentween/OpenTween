@@ -152,6 +152,12 @@ Public Class AppendSettingDialog
         Else
             _ValidationError = False
         End If
+        If Me.Username.Focused OrElse Me.Password.Focused Then
+            If Not Authorize() Then
+                _ValidationError = True
+                Exit Sub
+            End If
+        End If
         Try
             _MyUserstreamPeriod = CType(Me.UserstreamPeriod.Text, Integer)
             _MyUserstreamStartup = Me.StartupUserstreamCheck.Checked
@@ -1914,12 +1920,12 @@ Public Class AppendSettingDialog
         lblRetweet.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Green)
     End Sub
 
-    Private Sub AuthorizeButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AuthorizeButton.Click
+    Private Function Authorize() As Boolean
         Dim user As String = Me.Username.Text.Trim
         Dim pwd As String = Me.Password.Text.Trim
         If String.IsNullOrEmpty(user) OrElse String.IsNullOrEmpty(pwd) Then
             MessageBox.Show(My.Resources.Save_ClickText1)
-            Exit Sub
+            Return False
         End If
 
         '現在の設定内容で通信
@@ -1950,12 +1956,17 @@ Public Class AppendSettingDialog
             MessageBox.Show(My.Resources.AuthorizeButton_Click1, "Authenticate", MessageBoxButtons.OK)
             Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
             Me.AuthUserLabel.Text = tw.Username
+            Return True
         Else
             MessageBox.Show(My.Resources.AuthorizeButton_Click2 + Environment.NewLine + rslt, "Authenticate", MessageBoxButtons.OK)
             Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
             Me.AuthUserLabel.Text = ""
+            Return False
         End If
-        CalcApiUsing()
+    End Function
+
+    Private Sub AuthorizeButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AuthorizeButton.Click
+        If Authorize() Then CalcApiUsing()
     End Sub
 
     Private Sub AuthClearButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AuthClearButton.Click

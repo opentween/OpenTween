@@ -393,7 +393,7 @@ Public NotInheritable Class TabInformations
     Private _tabs As New Dictionary(Of String, TabClass)
     Private _statuses As New Dictionary(Of Long, PostClass)
     Private _addedIds As List(Of Long)
-    Private _deletedIds As New List(Of Long)
+    'Private _deletedIds As New List(Of Long)
     Private _retweets As New Dictionary(Of Long, PostClass)
     Private _removedTab As TabClass = Nothing
 
@@ -630,7 +630,8 @@ Public NotInheritable Class TabInformations
             post = Nothing
             Dim tmp As PostClass = Me.Item(id)
             If tmp IsNot Nothing Then post = tmp.Copy
-            Me._deletedIds.Add(id)
+            'Me._deletedIds.Add(id)
+            Me.DeletePost(id)
         End SyncLock
     End Sub
 
@@ -850,12 +851,12 @@ Public NotInheritable Class TabInformations
             If Not isUserStream OrElse Me.SortMode <> IdComparerClass.ComparerMode.Id Then
                 Me.SortPosts()
             End If
-            If isUserStream Then
-                For Each id As Long In Me._deletedIds
-                    Me.DeletePost(id)
-                Next
-                Me._deletedIds.Clear()
-            End If
+            'If isUserStream Then
+            '    For Each id As Long In Me._deletedIds
+            '        Me.DeletePost(id)
+            '    Next
+            '    Me._deletedIds.Clear()
+            'End If
 
             soundFile = _soundFile
             _soundFile = ""
@@ -956,11 +957,16 @@ Public NotInheritable Class TabInformations
                 If Not Item.IsDm Then
                     If _statuses.ContainsKey(Item.Id) Then
                         If Item.IsFav Then
-                            _statuses.Item(Item.Id).IsFav = True
+                            If Item.RetweetedId = 0 Then
+                                _statuses.Item(Item.Id).IsFav = True
+                            Else
+                                Item.IsFav = False
+                            End If
                         Else
                             Exit Sub        '追加済みなら何もしない
                         End If
                     Else
+                        If Item.IsFav AndAlso Item.RetweetedId > 0 Then Item.IsFav = False
                         _statuses.Add(Item.Id, Item)
                     End If
                     If Item.RetweetedId > 0 Then

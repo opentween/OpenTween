@@ -2766,7 +2766,7 @@ Public Class Twitter
         Public Property [Event] As String
         Public Property Username As String
         Public Property Target As String
-
+        Public Property Id As Int64
     End Class
 
     Public Property StoredEvent As New List(Of FormattedEvent)
@@ -2864,6 +2864,8 @@ Public Class Twitter
         Else
             If post.IsDm Then
                 evt.Event = "DELETE(DM)"
+            ElseIf post.RetweetedId > 0 Then
+                evt.Event = "DELETE(RT)"
             Else
                 evt.Event = "DELETE(Post)"
             End If
@@ -2897,7 +2899,9 @@ Public Class Twitter
                 End If
                 evt.Target = ""
             Case "favorite", "unfavorite"
+                If evt.Username.ToLower.Equals(_uid) Then Exit Sub
                 evt.Target = eventData.TargetObject.Text
+                evt.Id = eventData.TargetObject.Id
                 If TabInformations.GetInstance.ContainsKey(eventData.TargetObject.Id) Then
                     Dim post As PostClass = TabInformations.GetInstance.Item(eventData.TargetObject.Id)
                     If eventData.Event = "favorite" Then
