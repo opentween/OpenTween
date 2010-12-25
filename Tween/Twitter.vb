@@ -2820,6 +2820,9 @@ Public Class Twitter
             ElseIf xElm.Element("direct_message") IsNot Nothing Then
                 Debug.Print("direct_message")
                 isDm = True
+            ElseIf xElm.Element("scrub_geo") IsNot Nothing Then
+                Debug.Print("scrub_geo: user_id=" + xElm.Element("user_id").Value.ToString + " up_to_status_id=" + xElm.Element("up_to_status_id").Value.ToString)
+                Exit Sub
             End If
         End Using
 
