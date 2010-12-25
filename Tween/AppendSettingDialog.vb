@@ -212,16 +212,17 @@ Public Class AppendSettingDialog
             End Select
             '_MyPostCtrlEnter = CheckPostCtrlEnter.Checked
             '_MyPostShiftEnter = CheckPostShiftEnter.Checked
-            If ComboBoxPostKeySelect.SelectedIndex = 2 Then
-                _MyPostShiftEnter = True
-                _MyPostCtrlEnter = False
-            ElseIf ComboBoxPostKeySelect.SelectedIndex = 1 Then
-                _MyPostCtrlEnter = True
-                _MyPostShiftEnter = False
-            Else
-                _MyPostCtrlEnter = False
-                _MyPostShiftEnter = False
-            End If
+            Select Case ComboBoxPostKeySelect.SelectedIndex
+                Case 2
+                    _MyPostShiftEnter = True
+                    _MyPostCtrlEnter = False
+                Case 1
+                    _MyPostCtrlEnter = True
+                    _MyPostShiftEnter = False
+                Case 0
+                    _MyPostCtrlEnter = False
+                    _MyPostShiftEnter = False
+            End Select
             _usePostMethod = False
             _countApi = CType(TextCountApi.Text, Integer)
             _countApiReply = CType(TextCountApiReply.Text, Integer)
@@ -454,12 +455,10 @@ Public Class AppendSettingDialog
 
         If _MyPostCtrlEnter Then
             ComboBoxPostKeySelect.SelectedIndex = 1
+        ElseIf _MyPostShiftEnter Then
+            ComboBoxPostKeySelect.SelectedIndex = 2
         Else
-            If _MyPostShiftEnter Then
-                ComboBoxPostKeySelect.SelectedIndex = 2
-            Else
-                ComboBoxPostKeySelect.SelectedIndex = 0
-            End If
+            ComboBoxPostKeySelect.SelectedIndex = 0
         End If
 
         TextCountApi.Text = _countApi.ToString

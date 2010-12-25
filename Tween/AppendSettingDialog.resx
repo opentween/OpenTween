@@ -218,7 +218,7 @@
 </value>
   </data>
   <data name="TreeView1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 368</value>
+    <value>169, 368</value>
   </data>
   <data name="TreeView1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -590,7 +590,7 @@
     <value>0, 0</value>
   </data>
   <data name="BasedPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>505, 368</value>
+    <value>518, 368</value>
   </data>
   <data name="BasedPanel.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1028,7 +1028,7 @@
     <value>0, 0</value>
   </data>
   <data name="GetPeriodPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>505, 368</value>
+    <value>518, 368</value>
   </data>
   <data name="GetPeriodPanel.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1178,7 +1178,7 @@
     <value>0, 0</value>
   </data>
   <data name="StartupPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>505, 368</value>
+    <value>518, 368</value>
   </data>
   <data name="StartupPanel.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -1535,7 +1535,7 @@
     <value>0, 0</value>
   </data>
   <data name="GetCountPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>505, 368</value>
+    <value>518, 368</value>
   </data>
   <data name="GetCountPanel.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -1646,7 +1646,7 @@
     <value>0, 0</value>
   </data>
   <data name="UserStreamPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>505, 368</value>
+    <value>518, 368</value>
   </data>
   <data name="UserStreamPanel.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -2309,7 +2309,7 @@
     <value>0, 0</value>
   </data>
   <data name="ActionPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>505, 368</value>
+    <value>518, 368</value>
   </data>
   <data name="ActionPanel.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -2738,7 +2738,7 @@
     <value>0, 0</value>
   </data>
   <data name="TweetActPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>505, 368</value>
+    <value>518, 368</value>
   </data>
   <data name="TweetActPanel.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -3299,7 +3299,7 @@
     <value>0, 0</value>
   </data>
   <data name="PreviewPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>505, 368</value>
+    <value>518, 368</value>
   </data>
   <data name="PreviewPanel.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -3449,7 +3449,7 @@
     <value>216, 67</value>
   </data>
   <data name="CmbDateTimeFormat.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 20</value>
+    <value>192, 20</value>
   </data>
   <data name="CmbDateTimeFormat.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -3716,7 +3716,7 @@
     <value>0, 0</value>
   </data>
   <data name="TweetPrvPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>505, 368</value>
+    <value>518, 368</value>
   </data>
   <data name="TweetPrvPanel.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -4520,7 +4520,7 @@
     <value>0, 0</value>
   </data>
   <data name="FontPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>505, 368</value>
+    <value>518, 368</value>
   </data>
   <data name="FontPanel.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -5414,7 +5414,7 @@
     <value>0, 0</value>
   </data>
   <data name="FontPanel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>505, 368</value>
+    <value>518, 368</value>
   </data>
   <data name="FontPanel2.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -5861,7 +5861,7 @@
     <value>0, 0</value>
   </data>
   <data name="ConnectionPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>505, 368</value>
+    <value>518, 368</value>
   </data>
   <data name="ConnectionPanel.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -6215,7 +6215,7 @@
     <value>0, 0</value>
   </data>
   <data name="ProxyPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>505, 368</value>
+    <value>518, 368</value>
   </data>
   <data name="ProxyPanel.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -6248,10 +6248,10 @@
     <value>1</value>
   </data>
   <data name="SplitContainer1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>674, 368</value>
+    <value>691, 368</value>
   </data>
   <data name="SplitContainer1.SplitterDistance" type="System.Int32, mscorlib">
-    <value>165</value>
+    <value>169</value>
   </data>
   <data name="SplitContainer1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -6278,7 +6278,7 @@
     <value>NoControl</value>
   </data>
   <data name="Cancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>587, 374</value>
+    <value>604, 374</value>
   </data>
   <data name="Cancel.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -6305,7 +6305,7 @@
     <value>NoControl</value>
   </data>
   <data name="Save.Location" type="System.Drawing.Point, System.Drawing">
-    <value>504, 374</value>
+    <value>521, 374</value>
   </data>
   <data name="Save.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -6338,7 +6338,7 @@
     <value>6, 12</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>674, 403</value>
+    <value>691, 403</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterParent</value>
