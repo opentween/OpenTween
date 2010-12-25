@@ -2490,7 +2490,8 @@ Public Class TweenMain
 
     Private Sub FavoriteChange(ByVal FavAdd As Boolean, Optional ByVal multiFavoriteChangeDialogEnable As Boolean = True)
         'TrueでFavAdd,FalseでFavRemove
-        If _statuses.Tabs(_curTab.Text).TabType = TabUsageType.DirectMessage OrElse _curList.SelectedIndices.Count = 0 Then Exit Sub
+        If _statuses.Tabs(_curTab.Text).TabType = TabUsageType.DirectMessage OrElse _curList.SelectedIndices.Count = 0 _
+            OrElse Not Me.ExistCurrentPost Then Exit Sub
 
         '複数fav確認msg
         If _curList.SelectedIndices.Count > 250 AndAlso FavAdd Then
