@@ -2242,48 +2242,7 @@ Public Class TweenMain
         If rslt.type = WORKERTYPE.ErrorState Then Exit Sub
 
         If rslt.type = WORKERTYPE.FavRemove Then
-            DispSelectedPost()          ' 詳細画面書き直し
-            Dim favTabName As String = _statuses.GetTabByType(TabUsageType.Favorites).TabName
-            Dim fidx As Integer
-            If _curTab.Text.Equals(favTabName) Then
-                If _curList.FocusedItem IsNot Nothing Then
-                    fidx = _curList.FocusedItem.Index
-                ElseIf _curList.TopItem IsNot Nothing Then
-                    fidx = _curList.TopItem.Index
-                Else
-                    fidx = 0
-                End If
-            End If
-
-            For Each i As Long In rslt.sIds
-                _statuses.RemoveFavPost(i)
-            Next
-            If _curTab IsNot Nothing AndAlso _curTab.Text.Equals(favTabName) Then
-                _itemCache = Nothing    'キャッシュ破棄
-                _postCache = Nothing
-                _curPost = Nothing
-                '_curItemIndex = -1
-            End If
-            For Each tp As TabPage In ListTab.TabPages
-                If tp.Text = favTabName Then
-                    DirectCast(tp.Tag, DetailsListView).VirtualListSize = _statuses.Tabs(favTabName).AllCount
-                    Exit For
-                End If
-            Next
-            If _curTab.Text.Equals(favTabName) Then
-                _curList.SelectedIndices.Clear()
-                If _statuses.Tabs(favTabName).AllCount > 0 Then
-                    If _statuses.Tabs(favTabName).AllCount - 1 > fidx AndAlso fidx > -1 Then
-                        _curList.SelectedIndices.Add(fidx)
-                    Else
-                        _curList.SelectedIndices.Add(_statuses.Tabs(favTabName).AllCount - 1)
-                    End If
-                    If _curList.SelectedIndices.Count > 0 Then
-                        _curList.EnsureVisible(_curList.SelectedIndices(0))
-                        _curList.FocusedItem = _curList.Items(_curList.SelectedIndices(0))
-                    End If
-                End If
-            End If
+            Me.RemovePostFromFavTab(rslt.sIds.ToArray)
         End If
 
         'リストに反映
@@ -2434,6 +2393,50 @@ Public Class TweenMain
 
     End Sub
 
+    Private Sub RemovePostFromFavTab(ByVal ids As Int64())
+        Dim favTabName As String = _statuses.GetTabByType(TabUsageType.Favorites).TabName
+        Dim fidx As Integer
+        If _curTab.Text.Equals(favTabName) Then
+            If _curList.FocusedItem IsNot Nothing Then
+                fidx = _curList.FocusedItem.Index
+            ElseIf _curList.TopItem IsNot Nothing Then
+                fidx = _curList.TopItem.Index
+            Else
+                fidx = 0
+            End If
+        End If
+
+        For Each i As Long In ids
+            _statuses.RemoveFavPost(i)
+        Next
+        If _curTab IsNot Nothing AndAlso _curTab.Text.Equals(favTabName) Then
+            _itemCache = Nothing    'キャッシュ破棄
+            _postCache = Nothing
+            _curPost = Nothing
+            '_curItemIndex = -1
+        End If
+        For Each tp As TabPage In ListTab.TabPages
+            If tp.Text = favTabName Then
+                DirectCast(tp.Tag, DetailsListView).VirtualListSize = _statuses.Tabs(favTabName).AllCount
+                Exit For
+            End If
+        Next
+        If _curTab.Text.Equals(favTabName) Then
+            _curList.SelectedIndices.Clear()
+            If _statuses.Tabs(favTabName).AllCount > 0 Then
+                If _statuses.Tabs(favTabName).AllCount - 1 > fidx AndAlso fidx > -1 Then
+                    _curList.SelectedIndices.Add(fidx)
+                Else
+                    _curList.SelectedIndices.Add(_statuses.Tabs(favTabName).AllCount - 1)
+                End If
+                If _curList.SelectedIndices.Count > 0 Then
+                    _curList.EnsureVisible(_curList.SelectedIndices(0))
+                    _curList.FocusedItem = _curList.Items(_curList.SelectedIndices(0))
+                End If
+            End If
+        End If
+
+    End Sub
     Private Sub GetTimeline(ByVal WkType As WORKERTYPE, ByVal fromPage As Integer, ByVal toPage As Integer, ByVal tabName As String)
 
         If Not IsNetworkAvailable() Then Exit Sub
@@ -9980,6 +9983,9 @@ RETRY:
                 _itemCacheIndex = -1
                 _postCache = Nothing
                 DirectCast(_curTab.Tag, DetailsListView).Update()
+            End If
+            If ev.Event = "unfavorite" AndAlso ev.Username.ToLower.Equals(tw.Username.ToLower) Then
+                RemovePostFromFavTab(New Int64() {ev.Id})
             End If
         End If
     End Sub
