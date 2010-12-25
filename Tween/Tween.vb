@@ -2419,6 +2419,17 @@ Public Class TweenMain
                 _waitPubSearch = False
             Case WORKERTYPE.List
                 _waitLists = False
+            Case WORKERTYPE.Related
+                Dim tb As TabClass = _statuses.GetTabByType(TabUsageType.Related)
+                If tb IsNot Nothing AndAlso tb.RelationTargetPost IsNot Nothing AndAlso tb.Contains(tb.RelationTargetPost.Id) Then
+                    For Each tp As TabPage In ListTab.TabPages
+                        If tp.Text = tb.TabName Then
+                            DirectCast(tp.Tag, DetailsListView).SelectedIndices.Add(tb.IndexOf(tb.RelationTargetPost.Id))
+                            DirectCast(tp.Tag, DetailsListView).Items(tb.IndexOf(tb.RelationTargetPost.Id)).Focused = True
+                            Exit For
+                        End If
+                    Next
+                End If
         End Select
 
     End Sub
@@ -9862,6 +9873,21 @@ RETRY:
 
     Private Sub tw_PostDeleted(ByVal id As Long, ByRef post As PostClass)
         _statuses.RemovePostReserve(id, post)
+        Try
+            If InvokeRequired AndAlso Not IsDisposed Then
+                Invoke(Sub()
+                           If _curTab IsNot Nothing AndAlso _statuses.Tabs(_curTab.Text).Contains(id) Then
+                               _itemCache = Nothing
+                               _itemCacheIndex = -1
+                               _postCache = Nothing
+                               DirectCast(_curTab.Tag, DetailsListView).Update()
+                           End If
+                       End Sub)
+                Exit Sub
+            End If
+        Catch ex As ObjectDisposedException
+            Exit Sub
+        End Try
     End Sub
 
     Private Sub tw_NewPostFromStream()
@@ -9947,6 +9973,14 @@ RETRY:
         StatusLabel.Text = "Event: " + ev.Event
         If ev.Event = "favorite" Then
             NotifyFavorite(ev)
+        End If
+        If ev.Event = "favorite" OrElse ev.Event = "unfavorite" Then
+            If _curTab IsNot Nothing AndAlso _statuses.Tabs(_curTab.Text).Contains(ev.Id) Then
+                _itemCache = Nothing
+                _itemCacheIndex = -1
+                _postCache = Nothing
+                DirectCast(_curTab.Tag, DetailsListView).Update()
+            End If
         End If
     End Sub
 
