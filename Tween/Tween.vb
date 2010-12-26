@@ -5447,12 +5447,27 @@ RETRY:
     End Sub
 
     Private Sub GoInReplyToPost()
+        Dim curTabClass As TabClass = _statuses.Tabs(_curTab.Text)
+
+        If curTabClass.TabType = TabUsageType.PublicSearch AndAlso _curPost.InReplyToId = 0 Then
+            Dim post As PostClass = Nothing
+            Dim r As String = tw.GetStatusApi(False, _curPost.Id, post)
+            If r = "" AndAlso post IsNot Nothing Then
+                _curPost.InReplyToId = post.InReplyToId
+                _curPost.InReplyToUser = post.InReplyToUser
+                _curPost.IsReply = post.IsReply
+            Else
+                Me.StatusLabelUrl.Text = r
+            End If
+        End If
+
         If Not (Me.ExistCurrentPost AndAlso _curPost.InReplyToUser IsNot Nothing AndAlso _curPost.InReplyToId > 0) Then Return
 
         Dim inReplyToIndex As Integer
         Dim inReplyToTabName As String
-        Dim curTabClass As TabClass = _statuses.Tabs(_curTab.Text)
         Dim curTabPosts As Dictionary(Of Long, PostClass)
+
+
 
         If _statuses.Tabs(_curTab.Text).IsInnerStorageTabType Then
             curTabPosts = curTabClass.Posts
