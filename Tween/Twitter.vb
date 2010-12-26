@@ -1384,8 +1384,7 @@ Public Class Twitter
 
     Public Function GetStatusApi(ByVal read As Boolean,
                                        ByVal id As Int64,
-                                       ByVal tab As TabClass) As String
-
+                                       ByRef post As PostClass) As String
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
         If _endingFlag Then Return ""
@@ -1425,11 +1424,24 @@ Public Class Twitter
         If item Is Nothing Then Return "Err:Can't create post"
         item.IsRead = read
         If item.IsMe AndAlso Not read AndAlso _readOwnPost Then item.IsRead = True
-        If tab IsNot Nothing Then item.RelTabName = tab.TabName
-        '非同期アイコン取得＆StatusDictionaryに追加
-        TabInformations.GetInstance.AddPost(item)
 
+        post = item
         Return ""
+    End Function
+
+    Public Function GetStatusApi(ByVal read As Boolean,
+                                       ByVal id As Int64,
+                                       ByVal tab As TabClass) As String
+        Dim post As PostClass = Nothing
+        Dim r As String = Me.GetStatusApi(read, id, post)
+
+        If r = "" Then
+            If tab IsNot Nothing Then post.RelTabName = tab.TabName
+            '非同期アイコン取得＆StatusDictionaryに追加
+            TabInformations.GetInstance.AddPost(post)
+        End If
+
+        Return r
     End Function
 
     Private Function CreatePostsFromStatusData(ByVal status As TwitterDataModel.Status) As PostClass
@@ -1974,11 +1986,11 @@ Public Class Twitter
                     End If
                 End If
 
-                post.Uid = user.id
+                post.Uid = user.Id
                 post.Name = user.ScreenName
                 post.Nickname = user.Name
                 post.ImageUrl = user.ProfileImageUrl
-                post.IsProtect = user.protected
+                post.IsProtect = user.Protected
             Catch ex As Exception
                 TraceOut(content)
                 MessageBox.Show("Parse Error(CreateDirectMessagesFromJson)")
@@ -2102,13 +2114,13 @@ Public Class Twitter
                     'Id
                     post.RetweetedId = post.Id
                     '本文
-                    post.Data = retweeted.text
+                    post.Data = retweeted.Text
                     'Source取得（htmlの場合は、中身を取り出し）
-                    post.Source = retweeted.source
+                    post.Source = retweeted.Source
                     'Reply先
                     Long.TryParse(retweeted.InReplyToStatusId, post.InReplyToId)
                     post.InReplyToUser = retweeted.InReplyToScreenName
-                    post.IsFav = retweeted.favorited
+                    post.IsFav = retweeted.Favorited
 
                     '以下、ユーザー情報
                     Dim user As TwitterDataModel.User = retweeted.User
