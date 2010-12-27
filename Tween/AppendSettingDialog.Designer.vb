@@ -101,20 +101,12 @@ Partial Class AppendSettingDialog
         Me.CheckMinimizeToTray = New System.Windows.Forms.CheckBox()
         Me.CheckReadOldPosts = New System.Windows.Forms.CheckBox()
         Me.TweetActPanel = New System.Windows.Forms.Panel()
-        Me.TextBitlyPw = New System.Windows.Forms.TextBox()
         Me.ComboBoxPostKeySelect = New System.Windows.Forms.ComboBox()
         Me.Label27 = New System.Windows.Forms.Label()
         Me.CheckRetweetNoConfirm = New System.Windows.Forms.CheckBox()
-        Me.TextBitlyId = New System.Windows.Forms.TextBox()
         Me.Label12 = New System.Windows.Forms.Label()
-        Me.Label77 = New System.Windows.Forms.Label()
         Me.CheckUseRecommendStatus = New System.Windows.Forms.CheckBox()
-        Me.Label76 = New System.Windows.Forms.Label()
         Me.StatusText = New System.Windows.Forms.TextBox()
-        Me.ComboBoxAutoShortUrlFirst = New System.Windows.Forms.ComboBox()
-        Me.Label71 = New System.Windows.Forms.Label()
-        Me.CheckTinyURL = New System.Windows.Forms.CheckBox()
-        Me.CheckAutoConvertUrl = New System.Windows.Forms.CheckBox()
         Me.PreviewPanel = New System.Windows.Forms.Panel()
         Me.ReplyIconStateCombo = New System.Windows.Forms.ComboBox()
         Me.Label72 = New System.Windows.Forms.Label()
@@ -204,12 +196,6 @@ Partial Class AppendSettingDialog
         Me.lblSelf = New System.Windows.Forms.Label()
         Me.ButtonBackToDefaultFontColor2 = New System.Windows.Forms.Button()
         Me.ConnectionPanel = New System.Windows.Forms.Panel()
-        Me.CheckNicoms = New System.Windows.Forms.CheckBox()
-        Me.Label60 = New System.Windows.Forms.Label()
-        Me.ComboBoxOutputzUrlmode = New System.Windows.Forms.ComboBox()
-        Me.Label59 = New System.Windows.Forms.Label()
-        Me.TextBoxOutputzKey = New System.Windows.Forms.TextBox()
-        Me.CheckOutputz = New System.Windows.Forms.CheckBox()
         Me.CheckEnableBasicAuth = New System.Windows.Forms.CheckBox()
         Me.TwitterSearchAPIText = New System.Windows.Forms.TextBox()
         Me.Label31 = New System.Windows.Forms.Label()
@@ -232,12 +218,26 @@ Partial Class AppendSettingDialog
         Me.TextProxyPort = New System.Windows.Forms.TextBox()
         Me.TextProxyAddress = New System.Windows.Forms.TextBox()
         Me.LabelProxyPort = New System.Windows.Forms.Label()
+        Me.CooperatePanel = New System.Windows.Forms.Panel()
+        Me.CheckOutputz = New System.Windows.Forms.CheckBox()
+        Me.CheckNicoms = New System.Windows.Forms.CheckBox()
+        Me.TextBoxOutputzKey = New System.Windows.Forms.TextBox()
+        Me.Label60 = New System.Windows.Forms.Label()
+        Me.Label59 = New System.Windows.Forms.Label()
+        Me.ComboBoxOutputzUrlmode = New System.Windows.Forms.ComboBox()
+        Me.ShortUrlPanel = New System.Windows.Forms.Panel()
+        Me.CheckTinyURL = New System.Windows.Forms.CheckBox()
+        Me.TextBitlyPw = New System.Windows.Forms.TextBox()
+        Me.CheckAutoConvertUrl = New System.Windows.Forms.CheckBox()
+        Me.Label71 = New System.Windows.Forms.Label()
+        Me.ComboBoxAutoShortUrlFirst = New System.Windows.Forms.ComboBox()
+        Me.Label76 = New System.Windows.Forms.Label()
+        Me.Label77 = New System.Windows.Forms.Label()
+        Me.TextBitlyId = New System.Windows.Forms.TextBox()
         Me.FontDialog1 = New System.Windows.Forms.FontDialog()
         Me.ColorDialog1 = New System.Windows.Forms.ColorDialog()
         Me.Cancel = New System.Windows.Forms.Button()
         Me.Save = New System.Windows.Forms.Button()
-        Me.CooperatePanel = New System.Windows.Forms.Panel()
-        Me.ShortUrlPanel = New System.Windows.Forms.Panel()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -269,10 +269,12 @@ Partial Class AppendSettingDialog
         '
         'SplitContainer1.Panel1
         '
+        resources.ApplyResources(Me.SplitContainer1.Panel1, "SplitContainer1.Panel1")
         Me.SplitContainer1.Panel1.Controls.Add(Me.TreeView1)
         '
         'SplitContainer1.Panel2
         '
+        resources.ApplyResources(Me.SplitContainer1.Panel2, "SplitContainer1.Panel2")
         Me.SplitContainer1.Panel2.BackColor = System.Drawing.SystemColors.Control
         Me.SplitContainer1.Panel2.Controls.Add(Me.BasedPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.GetPeriodPanel)
@@ -293,8 +295,8 @@ Partial Class AppendSettingDialog
         '
         'TreeView1
         '
-        Me.TreeView1.Cursor = System.Windows.Forms.Cursors.Hand
         resources.ApplyResources(Me.TreeView1, "TreeView1")
+        Me.TreeView1.Cursor = System.Windows.Forms.Cursors.Hand
         Me.TreeView1.HideSelection = False
         Me.TreeView1.Name = "TreeView1"
         Me.TreeView1.Nodes.AddRange(New System.Windows.Forms.TreeNode() {CType(resources.GetObject("TreeView1.Nodes"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeView1.Nodes1"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeView1.Nodes2"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeView1.Nodes3"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeView1.Nodes4"), System.Windows.Forms.TreeNode)})
@@ -302,6 +304,7 @@ Partial Class AppendSettingDialog
         '
         'BasedPanel
         '
+        resources.ApplyResources(Me.BasedPanel, "BasedPanel")
         Me.BasedPanel.Controls.Add(Me.AuthBasicRadio)
         Me.BasedPanel.Controls.Add(Me.AuthOAuthRadio)
         Me.BasedPanel.Controls.Add(Me.Label6)
@@ -314,7 +317,6 @@ Partial Class AppendSettingDialog
         Me.BasedPanel.Controls.Add(Me.Label2)
         Me.BasedPanel.Controls.Add(Me.Username)
         Me.BasedPanel.Controls.Add(Me.Password)
-        resources.ApplyResources(Me.BasedPanel, "BasedPanel")
         Me.BasedPanel.Name = "BasedPanel"
         '
         'AuthBasicRadio
@@ -344,14 +346,14 @@ Partial Class AppendSettingDialog
         '
         'AuthUserLabel
         '
-        Me.AuthUserLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         resources.ApplyResources(Me.AuthUserLabel, "AuthUserLabel")
+        Me.AuthUserLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.AuthUserLabel.Name = "AuthUserLabel"
         '
         'AuthStateLabel
         '
-        Me.AuthStateLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         resources.ApplyResources(Me.AuthStateLabel, "AuthStateLabel")
+        Me.AuthStateLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.AuthStateLabel.Name = "AuthStateLabel"
         '
         'Label4
@@ -388,6 +390,7 @@ Partial Class AppendSettingDialog
         '
         'GetPeriodPanel
         '
+        resources.ApplyResources(Me.GetPeriodPanel, "GetPeriodPanel")
         Me.GetPeriodPanel.Controls.Add(Me.TimelinePeriod)
         Me.GetPeriodPanel.Controls.Add(Me.Label3)
         Me.GetPeriodPanel.Controls.Add(Me.ButtonApiCalc)
@@ -403,7 +406,6 @@ Partial Class AppendSettingDialog
         Me.GetPeriodPanel.Controls.Add(Me.CheckPeriodAdjust)
         Me.GetPeriodPanel.Controls.Add(Me.Label5)
         Me.GetPeriodPanel.Controls.Add(Me.DMPeriod)
-        resources.ApplyResources(Me.GetPeriodPanel, "GetPeriodPanel")
         Me.GetPeriodPanel.Name = "GetPeriodPanel"
         '
         'TimelinePeriod
@@ -486,11 +488,11 @@ Partial Class AppendSettingDialog
         '
         'StartupPanel
         '
+        resources.ApplyResources(Me.StartupPanel, "StartupPanel")
         Me.StartupPanel.Controls.Add(Me.StartupReaded)
         Me.StartupPanel.Controls.Add(Me.CheckStartupFollowers)
         Me.StartupPanel.Controls.Add(Me.CheckStartupVersion)
         Me.StartupPanel.Controls.Add(Me.chkGetFav)
-        resources.ApplyResources(Me.StartupPanel, "StartupPanel")
         Me.StartupPanel.Name = "StartupPanel"
         '
         'StartupReaded
@@ -519,6 +521,7 @@ Partial Class AppendSettingDialog
         '
         'GetCountPanel
         '
+        resources.ApplyResources(Me.GetCountPanel, "GetCountPanel")
         Me.GetCountPanel.Controls.Add(Me.Label30)
         Me.GetCountPanel.Controls.Add(Me.Label28)
         Me.GetCountPanel.Controls.Add(Me.Label19)
@@ -532,7 +535,6 @@ Partial Class AppendSettingDialog
         Me.GetCountPanel.Controls.Add(Me.TextCountApiReply)
         Me.GetCountPanel.Controls.Add(Me.Label67)
         Me.GetCountPanel.Controls.Add(Me.TextCountApi)
-        resources.ApplyResources(Me.GetCountPanel, "GetCountPanel")
         Me.GetCountPanel.Name = "GetCountPanel"
         '
         'Label30
@@ -603,10 +605,10 @@ Partial Class AppendSettingDialog
         '
         'UserStreamPanel
         '
+        resources.ApplyResources(Me.UserStreamPanel, "UserStreamPanel")
         Me.UserStreamPanel.Controls.Add(Me.UserstreamPeriod)
         Me.UserStreamPanel.Controls.Add(Me.StartupUserstreamCheck)
         Me.UserStreamPanel.Controls.Add(Me.Label83)
-        resources.ApplyResources(Me.UserStreamPanel, "UserStreamPanel")
         Me.UserStreamPanel.Name = "UserStreamPanel"
         '
         'UserstreamPeriod
@@ -627,6 +629,7 @@ Partial Class AppendSettingDialog
         '
         'ActionPanel
         '
+        resources.ApplyResources(Me.ActionPanel, "ActionPanel")
         Me.ActionPanel.Controls.Add(Me.GroupBox3)
         Me.ActionPanel.Controls.Add(Me.CheckHashSupple)
         Me.ActionPanel.Controls.Add(Me.CheckAtIdSupple)
@@ -642,11 +645,11 @@ Partial Class AppendSettingDialog
         Me.ActionPanel.Controls.Add(Me.CheckCloseToExit)
         Me.ActionPanel.Controls.Add(Me.CheckMinimizeToTray)
         Me.ActionPanel.Controls.Add(Me.CheckReadOldPosts)
-        resources.ApplyResources(Me.ActionPanel, "ActionPanel")
         Me.ActionPanel.Name = "ActionPanel"
         '
         'GroupBox3
         '
+        resources.ApplyResources(Me.GroupBox3, "GroupBox3")
         Me.GroupBox3.Controls.Add(Me.HotkeyCheck)
         Me.GroupBox3.Controls.Add(Me.HotkeyCode)
         Me.GroupBox3.Controls.Add(Me.HotkeyText)
@@ -654,7 +657,6 @@ Partial Class AppendSettingDialog
         Me.GroupBox3.Controls.Add(Me.HotkeyAlt)
         Me.GroupBox3.Controls.Add(Me.HotkeyShift)
         Me.GroupBox3.Controls.Add(Me.HotkeyCtrl)
-        resources.ApplyResources(Me.GroupBox3, "GroupBox3")
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.TabStop = False
         '
@@ -745,9 +747,9 @@ Partial Class AppendSettingDialog
         '
         'Label15
         '
+        resources.ApplyResources(Me.Label15, "Label15")
         Me.Label15.BackColor = System.Drawing.SystemColors.ActiveCaption
         Me.Label15.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        resources.ApplyResources(Me.Label15, "Label15")
         Me.Label15.Name = "Label15"
         '
         'BrowserPathText
@@ -786,26 +788,21 @@ Partial Class AppendSettingDialog
         '
         'TweetActPanel
         '
+        resources.ApplyResources(Me.TweetActPanel, "TweetActPanel")
         Me.TweetActPanel.Controls.Add(Me.ComboBoxPostKeySelect)
         Me.TweetActPanel.Controls.Add(Me.Label27)
         Me.TweetActPanel.Controls.Add(Me.CheckRetweetNoConfirm)
         Me.TweetActPanel.Controls.Add(Me.Label12)
         Me.TweetActPanel.Controls.Add(Me.CheckUseRecommendStatus)
         Me.TweetActPanel.Controls.Add(Me.StatusText)
-        resources.ApplyResources(Me.TweetActPanel, "TweetActPanel")
         Me.TweetActPanel.Name = "TweetActPanel"
-        '
-        'TextBitlyPw
-        '
-        resources.ApplyResources(Me.TextBitlyPw, "TextBitlyPw")
-        Me.TextBitlyPw.Name = "TextBitlyPw"
         '
         'ComboBoxPostKeySelect
         '
+        resources.ApplyResources(Me.ComboBoxPostKeySelect, "ComboBoxPostKeySelect")
         Me.ComboBoxPostKeySelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBoxPostKeySelect.FormattingEnabled = True
         Me.ComboBoxPostKeySelect.Items.AddRange(New Object() {resources.GetString("ComboBoxPostKeySelect.Items"), resources.GetString("ComboBoxPostKeySelect.Items1"), resources.GetString("ComboBoxPostKeySelect.Items2")})
-        resources.ApplyResources(Me.ComboBoxPostKeySelect, "ComboBoxPostKeySelect")
         Me.ComboBoxPostKeySelect.Name = "ComboBoxPostKeySelect"
         '
         'Label27
@@ -819,20 +816,10 @@ Partial Class AppendSettingDialog
         Me.CheckRetweetNoConfirm.Name = "CheckRetweetNoConfirm"
         Me.CheckRetweetNoConfirm.UseVisualStyleBackColor = True
         '
-        'TextBitlyId
-        '
-        resources.ApplyResources(Me.TextBitlyId, "TextBitlyId")
-        Me.TextBitlyId.Name = "TextBitlyId"
-        '
         'Label12
         '
         resources.ApplyResources(Me.Label12, "Label12")
         Me.Label12.Name = "Label12"
-        '
-        'Label77
-        '
-        resources.ApplyResources(Me.Label77, "Label77")
-        Me.Label77.Name = "Label77"
         '
         'CheckUseRecommendStatus
         '
@@ -840,43 +827,14 @@ Partial Class AppendSettingDialog
         Me.CheckUseRecommendStatus.Name = "CheckUseRecommendStatus"
         Me.CheckUseRecommendStatus.UseVisualStyleBackColor = True
         '
-        'Label76
-        '
-        resources.ApplyResources(Me.Label76, "Label76")
-        Me.Label76.Name = "Label76"
-        '
         'StatusText
         '
         resources.ApplyResources(Me.StatusText, "StatusText")
         Me.StatusText.Name = "StatusText"
         '
-        'ComboBoxAutoShortUrlFirst
-        '
-        Me.ComboBoxAutoShortUrlFirst.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.ComboBoxAutoShortUrlFirst.FormattingEnabled = True
-        Me.ComboBoxAutoShortUrlFirst.Items.AddRange(New Object() {resources.GetString("ComboBoxAutoShortUrlFirst.Items"), resources.GetString("ComboBoxAutoShortUrlFirst.Items1"), resources.GetString("ComboBoxAutoShortUrlFirst.Items2"), resources.GetString("ComboBoxAutoShortUrlFirst.Items3"), resources.GetString("ComboBoxAutoShortUrlFirst.Items4"), resources.GetString("ComboBoxAutoShortUrlFirst.Items5")})
-        resources.ApplyResources(Me.ComboBoxAutoShortUrlFirst, "ComboBoxAutoShortUrlFirst")
-        Me.ComboBoxAutoShortUrlFirst.Name = "ComboBoxAutoShortUrlFirst"
-        '
-        'Label71
-        '
-        resources.ApplyResources(Me.Label71, "Label71")
-        Me.Label71.Name = "Label71"
-        '
-        'CheckTinyURL
-        '
-        resources.ApplyResources(Me.CheckTinyURL, "CheckTinyURL")
-        Me.CheckTinyURL.Name = "CheckTinyURL"
-        Me.CheckTinyURL.UseVisualStyleBackColor = True
-        '
-        'CheckAutoConvertUrl
-        '
-        resources.ApplyResources(Me.CheckAutoConvertUrl, "CheckAutoConvertUrl")
-        Me.CheckAutoConvertUrl.Name = "CheckAutoConvertUrl"
-        Me.CheckAutoConvertUrl.UseVisualStyleBackColor = True
-        '
         'PreviewPanel
         '
+        resources.ApplyResources(Me.PreviewPanel, "PreviewPanel")
         Me.PreviewPanel.Controls.Add(Me.ReplyIconStateCombo)
         Me.PreviewPanel.Controls.Add(Me.Label72)
         Me.PreviewPanel.Controls.Add(Me.ChkNewMentionsBlink)
@@ -894,15 +852,14 @@ Partial Class AppendSettingDialog
         Me.PreviewPanel.Controls.Add(Me.cmbNameBalloon)
         Me.PreviewPanel.Controls.Add(Me.CheckDispUsername)
         Me.PreviewPanel.Controls.Add(Me.CheckBox3)
-        resources.ApplyResources(Me.PreviewPanel, "PreviewPanel")
         Me.PreviewPanel.Name = "PreviewPanel"
         '
         'ReplyIconStateCombo
         '
+        resources.ApplyResources(Me.ReplyIconStateCombo, "ReplyIconStateCombo")
         Me.ReplyIconStateCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ReplyIconStateCombo.FormattingEnabled = True
         Me.ReplyIconStateCombo.Items.AddRange(New Object() {resources.GetString("ReplyIconStateCombo.Items"), resources.GetString("ReplyIconStateCombo.Items1"), resources.GetString("ReplyIconStateCombo.Items2")})
-        resources.ApplyResources(Me.ReplyIconStateCombo, "ReplyIconStateCombo")
         Me.ReplyIconStateCombo.Name = "ReplyIconStateCombo"
         '
         'Label72
@@ -937,10 +894,10 @@ Partial Class AppendSettingDialog
         '
         'LanguageCombo
         '
+        resources.ApplyResources(Me.LanguageCombo, "LanguageCombo")
         Me.LanguageCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.LanguageCombo.FormattingEnabled = True
         Me.LanguageCombo.Items.AddRange(New Object() {resources.GetString("LanguageCombo.Items"), resources.GetString("LanguageCombo.Items1"), resources.GetString("LanguageCombo.Items2"), resources.GetString("LanguageCombo.Items3")})
-        resources.ApplyResources(Me.LanguageCombo, "LanguageCombo")
         Me.LanguageCombo.Name = "LanguageCombo"
         '
         'Label13
@@ -973,10 +930,10 @@ Partial Class AppendSettingDialog
         '
         'ComboDispTitle
         '
+        resources.ApplyResources(Me.ComboDispTitle, "ComboDispTitle")
         Me.ComboDispTitle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboDispTitle.FormattingEnabled = True
         Me.ComboDispTitle.Items.AddRange(New Object() {resources.GetString("ComboDispTitle.Items"), resources.GetString("ComboDispTitle.Items1"), resources.GetString("ComboDispTitle.Items2"), resources.GetString("ComboDispTitle.Items3"), resources.GetString("ComboDispTitle.Items4"), resources.GetString("ComboDispTitle.Items5"), resources.GetString("ComboDispTitle.Items6"), resources.GetString("ComboDispTitle.Items7")})
-        resources.ApplyResources(Me.ComboDispTitle, "ComboDispTitle")
         Me.ComboDispTitle.Name = "ComboDispTitle"
         '
         'Label45
@@ -986,10 +943,10 @@ Partial Class AppendSettingDialog
         '
         'cmbNameBalloon
         '
+        resources.ApplyResources(Me.cmbNameBalloon, "cmbNameBalloon")
         Me.cmbNameBalloon.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cmbNameBalloon.FormattingEnabled = True
         Me.cmbNameBalloon.Items.AddRange(New Object() {resources.GetString("cmbNameBalloon.Items"), resources.GetString("cmbNameBalloon.Items1"), resources.GetString("cmbNameBalloon.Items2")})
-        resources.ApplyResources(Me.cmbNameBalloon, "cmbNameBalloon")
         Me.cmbNameBalloon.Name = "cmbNameBalloon"
         '
         'CheckDispUsername
@@ -1006,6 +963,7 @@ Partial Class AppendSettingDialog
         '
         'TweetPrvPanel
         '
+        resources.ApplyResources(Me.TweetPrvPanel, "TweetPrvPanel")
         Me.TweetPrvPanel.Controls.Add(Me.Label47)
         Me.TweetPrvPanel.Controls.Add(Me.LabelDateTimeFormatApplied)
         Me.TweetPrvPanel.Controls.Add(Me.Label62)
@@ -1018,7 +976,6 @@ Partial Class AppendSettingDialog
         Me.TweetPrvPanel.Controls.Add(Me.CheckShowGrid)
         Me.TweetPrvPanel.Controls.Add(Me.chkUnreadStyle)
         Me.TweetPrvPanel.Controls.Add(Me.OneWayLv)
-        resources.ApplyResources(Me.TweetPrvPanel, "TweetPrvPanel")
         Me.TweetPrvPanel.Name = "TweetPrvPanel"
         '
         'Label47
@@ -1056,10 +1013,10 @@ Partial Class AppendSettingDialog
         '
         'IconSize
         '
+        resources.ApplyResources(Me.IconSize, "IconSize")
         Me.IconSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.IconSize.FormattingEnabled = True
         Me.IconSize.Items.AddRange(New Object() {resources.GetString("IconSize.Items"), resources.GetString("IconSize.Items1"), resources.GetString("IconSize.Items2"), resources.GetString("IconSize.Items3"), resources.GetString("IconSize.Items4")})
-        resources.ApplyResources(Me.IconSize, "IconSize")
         Me.IconSize.Name = "IconSize"
         '
         'TextBox3
@@ -1093,12 +1050,13 @@ Partial Class AppendSettingDialog
         '
         'FontPanel
         '
-        Me.FontPanel.Controls.Add(Me.GroupBox1)
         resources.ApplyResources(Me.FontPanel, "FontPanel")
+        Me.FontPanel.Controls.Add(Me.GroupBox1)
         Me.FontPanel.Name = "FontPanel"
         '
         'GroupBox1
         '
+        resources.ApplyResources(Me.GroupBox1, "GroupBox1")
         Me.GroupBox1.Controls.Add(Me.btnRetweet)
         Me.GroupBox1.Controls.Add(Me.lblRetweet)
         Me.GroupBox1.Controls.Add(Me.Label80)
@@ -1124,7 +1082,6 @@ Partial Class AppendSettingDialog
         Me.GroupBox1.Controls.Add(Me.btnListFont)
         Me.GroupBox1.Controls.Add(Me.lblListFont)
         Me.GroupBox1.Controls.Add(Me.Label61)
-        resources.ApplyResources(Me.GroupBox1, "GroupBox1")
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.TabStop = False
         '
@@ -1136,8 +1093,8 @@ Partial Class AppendSettingDialog
         '
         'lblRetweet
         '
-        Me.lblRetweet.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         resources.ApplyResources(Me.lblRetweet, "lblRetweet")
+        Me.lblRetweet.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblRetweet.Name = "lblRetweet"
         '
         'Label80
@@ -1159,8 +1116,8 @@ Partial Class AppendSettingDialog
         '
         'lblDetailLink
         '
-        Me.lblDetailLink.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         resources.ApplyResources(Me.lblDetailLink, "lblDetailLink")
+        Me.lblDetailLink.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblDetailLink.Name = "lblDetailLink"
         '
         'Label18
@@ -1176,8 +1133,8 @@ Partial Class AppendSettingDialog
         '
         'lblUnread
         '
-        Me.lblUnread.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         resources.ApplyResources(Me.lblUnread, "lblUnread")
+        Me.lblUnread.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblUnread.Name = "lblUnread"
         '
         'Label20
@@ -1193,8 +1150,8 @@ Partial Class AppendSettingDialog
         '
         'lblDetailBackcolor
         '
-        Me.lblDetailBackcolor.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         resources.ApplyResources(Me.lblDetailBackcolor, "lblDetailBackcolor")
+        Me.lblDetailBackcolor.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblDetailBackcolor.Name = "lblDetailBackcolor"
         '
         'Label37
@@ -1210,8 +1167,8 @@ Partial Class AppendSettingDialog
         '
         'lblDetail
         '
-        Me.lblDetail.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         resources.ApplyResources(Me.lblDetail, "lblDetail")
+        Me.lblDetail.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblDetail.Name = "lblDetail"
         '
         'Label26
@@ -1227,8 +1184,8 @@ Partial Class AppendSettingDialog
         '
         'lblOWL
         '
-        Me.lblOWL.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         resources.ApplyResources(Me.lblOWL, "lblOWL")
+        Me.lblOWL.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblOWL.Name = "lblOWL"
         '
         'Label24
@@ -1244,8 +1201,8 @@ Partial Class AppendSettingDialog
         '
         'lblFav
         '
-        Me.lblFav.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         resources.ApplyResources(Me.lblFav, "lblFav")
+        Me.lblFav.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblFav.Name = "lblFav"
         '
         'Label22
@@ -1261,8 +1218,8 @@ Partial Class AppendSettingDialog
         '
         'lblListFont
         '
-        Me.lblListFont.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         resources.ApplyResources(Me.lblListFont, "lblListFont")
+        Me.lblListFont.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblListFont.Name = "lblListFont"
         '
         'Label61
@@ -1272,12 +1229,13 @@ Partial Class AppendSettingDialog
         '
         'FontPanel2
         '
-        Me.FontPanel2.Controls.Add(Me.GroupBox5)
         resources.ApplyResources(Me.FontPanel2, "FontPanel2")
+        Me.FontPanel2.Controls.Add(Me.GroupBox5)
         Me.FontPanel2.Name = "FontPanel2"
         '
         'GroupBox5
         '
+        resources.ApplyResources(Me.GroupBox5, "GroupBox5")
         Me.GroupBox5.Controls.Add(Me.Label65)
         Me.GroupBox5.Controls.Add(Me.Label52)
         Me.GroupBox5.Controls.Add(Me.Label49)
@@ -1306,7 +1264,6 @@ Partial Class AppendSettingDialog
         Me.GroupBox5.Controls.Add(Me.lblAtSelf)
         Me.GroupBox5.Controls.Add(Me.lblSelf)
         Me.GroupBox5.Controls.Add(Me.ButtonBackToDefaultFontColor2)
-        resources.ApplyResources(Me.GroupBox5, "GroupBox5")
         Me.GroupBox5.Name = "GroupBox5"
         Me.GroupBox5.TabStop = False
         '
@@ -1411,56 +1368,56 @@ Partial Class AppendSettingDialog
         '
         'lblInputFont
         '
-        Me.lblInputFont.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         resources.ApplyResources(Me.lblInputFont, "lblInputFont")
+        Me.lblInputFont.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblInputFont.Name = "lblInputFont"
         '
         'lblInputBackcolor
         '
-        Me.lblInputBackcolor.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         resources.ApplyResources(Me.lblInputBackcolor, "lblInputBackcolor")
+        Me.lblInputBackcolor.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblInputBackcolor.Name = "lblInputBackcolor"
         '
         'lblAtTo
         '
-        Me.lblAtTo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         resources.ApplyResources(Me.lblAtTo, "lblAtTo")
+        Me.lblAtTo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblAtTo.Name = "lblAtTo"
         '
         'lblListBackcolor
         '
-        Me.lblListBackcolor.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         resources.ApplyResources(Me.lblListBackcolor, "lblListBackcolor")
+        Me.lblListBackcolor.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblListBackcolor.Name = "lblListBackcolor"
         '
         'lblAtFromTarget
         '
-        Me.lblAtFromTarget.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         resources.ApplyResources(Me.lblAtFromTarget, "lblAtFromTarget")
+        Me.lblAtFromTarget.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblAtFromTarget.Name = "lblAtFromTarget"
         '
         'lblAtTarget
         '
-        Me.lblAtTarget.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         resources.ApplyResources(Me.lblAtTarget, "lblAtTarget")
+        Me.lblAtTarget.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblAtTarget.Name = "lblAtTarget"
         '
         'lblTarget
         '
-        Me.lblTarget.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         resources.ApplyResources(Me.lblTarget, "lblTarget")
+        Me.lblTarget.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblTarget.Name = "lblTarget"
         '
         'lblAtSelf
         '
-        Me.lblAtSelf.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         resources.ApplyResources(Me.lblAtSelf, "lblAtSelf")
+        Me.lblAtSelf.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblAtSelf.Name = "lblAtSelf"
         '
         'lblSelf
         '
-        Me.lblSelf.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         resources.ApplyResources(Me.lblSelf, "lblSelf")
+        Me.lblSelf.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblSelf.Name = "lblSelf"
         '
         'ButtonBackToDefaultFontColor2
@@ -1471,6 +1428,7 @@ Partial Class AppendSettingDialog
         '
         'ConnectionPanel
         '
+        resources.ApplyResources(Me.ConnectionPanel, "ConnectionPanel")
         Me.ConnectionPanel.Controls.Add(Me.CheckEnableBasicAuth)
         Me.ConnectionPanel.Controls.Add(Me.TwitterSearchAPIText)
         Me.ConnectionPanel.Controls.Add(Me.Label31)
@@ -1480,43 +1438,7 @@ Partial Class AppendSettingDialog
         Me.ConnectionPanel.Controls.Add(Me.Label64)
         Me.ConnectionPanel.Controls.Add(Me.ConnectionTimeOut)
         Me.ConnectionPanel.Controls.Add(Me.Label63)
-        resources.ApplyResources(Me.ConnectionPanel, "ConnectionPanel")
         Me.ConnectionPanel.Name = "ConnectionPanel"
-        '
-        'CheckNicoms
-        '
-        resources.ApplyResources(Me.CheckNicoms, "CheckNicoms")
-        Me.CheckNicoms.Name = "CheckNicoms"
-        Me.CheckNicoms.UseVisualStyleBackColor = True
-        '
-        'Label60
-        '
-        resources.ApplyResources(Me.Label60, "Label60")
-        Me.Label60.Name = "Label60"
-        '
-        'ComboBoxOutputzUrlmode
-        '
-        Me.ComboBoxOutputzUrlmode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.ComboBoxOutputzUrlmode.FormattingEnabled = True
-        Me.ComboBoxOutputzUrlmode.Items.AddRange(New Object() {resources.GetString("ComboBoxOutputzUrlmode.Items"), resources.GetString("ComboBoxOutputzUrlmode.Items1")})
-        resources.ApplyResources(Me.ComboBoxOutputzUrlmode, "ComboBoxOutputzUrlmode")
-        Me.ComboBoxOutputzUrlmode.Name = "ComboBoxOutputzUrlmode"
-        '
-        'Label59
-        '
-        resources.ApplyResources(Me.Label59, "Label59")
-        Me.Label59.Name = "Label59"
-        '
-        'TextBoxOutputzKey
-        '
-        resources.ApplyResources(Me.TextBoxOutputzKey, "TextBoxOutputzKey")
-        Me.TextBoxOutputzKey.Name = "TextBoxOutputzKey"
-        '
-        'CheckOutputz
-        '
-        resources.ApplyResources(Me.CheckOutputz, "CheckOutputz")
-        Me.CheckOutputz.Name = "CheckOutputz"
-        Me.CheckOutputz.UseVisualStyleBackColor = True
         '
         'CheckEnableBasicAuth
         '
@@ -1569,6 +1491,7 @@ Partial Class AppendSettingDialog
         '
         'ProxyPanel
         '
+        resources.ApplyResources(Me.ProxyPanel, "ProxyPanel")
         Me.ProxyPanel.Controls.Add(Me.Label55)
         Me.ProxyPanel.Controls.Add(Me.TextProxyPassword)
         Me.ProxyPanel.Controls.Add(Me.RadioProxyNone)
@@ -1581,7 +1504,6 @@ Partial Class AppendSettingDialog
         Me.ProxyPanel.Controls.Add(Me.TextProxyPort)
         Me.ProxyPanel.Controls.Add(Me.TextProxyAddress)
         Me.ProxyPanel.Controls.Add(Me.LabelProxyPort)
-        resources.ApplyResources(Me.ProxyPanel, "ProxyPanel")
         Me.ProxyPanel.Name = "ProxyPanel"
         '
         'Label55
@@ -1652,34 +1574,55 @@ Partial Class AppendSettingDialog
         resources.ApplyResources(Me.LabelProxyPort, "LabelProxyPort")
         Me.LabelProxyPort.Name = "LabelProxyPort"
         '
-        'Cancel
-        '
-        Me.Cancel.CausesValidation = False
-        Me.Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        resources.ApplyResources(Me.Cancel, "Cancel")
-        Me.Cancel.Name = "Cancel"
-        Me.Cancel.UseVisualStyleBackColor = True
-        '
-        'Save
-        '
-        Me.Save.DialogResult = System.Windows.Forms.DialogResult.OK
-        resources.ApplyResources(Me.Save, "Save")
-        Me.Save.Name = "Save"
-        Me.Save.UseVisualStyleBackColor = True
-        '
         'CooperatePanel
         '
+        resources.ApplyResources(Me.CooperatePanel, "CooperatePanel")
         Me.CooperatePanel.Controls.Add(Me.CheckOutputz)
         Me.CooperatePanel.Controls.Add(Me.CheckNicoms)
         Me.CooperatePanel.Controls.Add(Me.TextBoxOutputzKey)
         Me.CooperatePanel.Controls.Add(Me.Label60)
         Me.CooperatePanel.Controls.Add(Me.Label59)
         Me.CooperatePanel.Controls.Add(Me.ComboBoxOutputzUrlmode)
-        resources.ApplyResources(Me.CooperatePanel, "CooperatePanel")
         Me.CooperatePanel.Name = "CooperatePanel"
+        '
+        'CheckOutputz
+        '
+        resources.ApplyResources(Me.CheckOutputz, "CheckOutputz")
+        Me.CheckOutputz.Name = "CheckOutputz"
+        Me.CheckOutputz.UseVisualStyleBackColor = True
+        '
+        'CheckNicoms
+        '
+        resources.ApplyResources(Me.CheckNicoms, "CheckNicoms")
+        Me.CheckNicoms.Name = "CheckNicoms"
+        Me.CheckNicoms.UseVisualStyleBackColor = True
+        '
+        'TextBoxOutputzKey
+        '
+        resources.ApplyResources(Me.TextBoxOutputzKey, "TextBoxOutputzKey")
+        Me.TextBoxOutputzKey.Name = "TextBoxOutputzKey"
+        '
+        'Label60
+        '
+        resources.ApplyResources(Me.Label60, "Label60")
+        Me.Label60.Name = "Label60"
+        '
+        'Label59
+        '
+        resources.ApplyResources(Me.Label59, "Label59")
+        Me.Label59.Name = "Label59"
+        '
+        'ComboBoxOutputzUrlmode
+        '
+        resources.ApplyResources(Me.ComboBoxOutputzUrlmode, "ComboBoxOutputzUrlmode")
+        Me.ComboBoxOutputzUrlmode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboBoxOutputzUrlmode.FormattingEnabled = True
+        Me.ComboBoxOutputzUrlmode.Items.AddRange(New Object() {resources.GetString("ComboBoxOutputzUrlmode.Items"), resources.GetString("ComboBoxOutputzUrlmode.Items1")})
+        Me.ComboBoxOutputzUrlmode.Name = "ComboBoxOutputzUrlmode"
         '
         'ShortUrlPanel
         '
+        resources.ApplyResources(Me.ShortUrlPanel, "ShortUrlPanel")
         Me.ShortUrlPanel.Controls.Add(Me.CheckTinyURL)
         Me.ShortUrlPanel.Controls.Add(Me.TextBitlyPw)
         Me.ShortUrlPanel.Controls.Add(Me.CheckAutoConvertUrl)
@@ -1688,8 +1631,67 @@ Partial Class AppendSettingDialog
         Me.ShortUrlPanel.Controls.Add(Me.Label76)
         Me.ShortUrlPanel.Controls.Add(Me.Label77)
         Me.ShortUrlPanel.Controls.Add(Me.TextBitlyId)
-        resources.ApplyResources(Me.ShortUrlPanel, "ShortUrlPanel")
         Me.ShortUrlPanel.Name = "ShortUrlPanel"
+        '
+        'CheckTinyURL
+        '
+        resources.ApplyResources(Me.CheckTinyURL, "CheckTinyURL")
+        Me.CheckTinyURL.Name = "CheckTinyURL"
+        Me.CheckTinyURL.UseVisualStyleBackColor = True
+        '
+        'TextBitlyPw
+        '
+        resources.ApplyResources(Me.TextBitlyPw, "TextBitlyPw")
+        Me.TextBitlyPw.Name = "TextBitlyPw"
+        '
+        'CheckAutoConvertUrl
+        '
+        resources.ApplyResources(Me.CheckAutoConvertUrl, "CheckAutoConvertUrl")
+        Me.CheckAutoConvertUrl.Name = "CheckAutoConvertUrl"
+        Me.CheckAutoConvertUrl.UseVisualStyleBackColor = True
+        '
+        'Label71
+        '
+        resources.ApplyResources(Me.Label71, "Label71")
+        Me.Label71.Name = "Label71"
+        '
+        'ComboBoxAutoShortUrlFirst
+        '
+        resources.ApplyResources(Me.ComboBoxAutoShortUrlFirst, "ComboBoxAutoShortUrlFirst")
+        Me.ComboBoxAutoShortUrlFirst.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboBoxAutoShortUrlFirst.FormattingEnabled = True
+        Me.ComboBoxAutoShortUrlFirst.Items.AddRange(New Object() {resources.GetString("ComboBoxAutoShortUrlFirst.Items"), resources.GetString("ComboBoxAutoShortUrlFirst.Items1"), resources.GetString("ComboBoxAutoShortUrlFirst.Items2"), resources.GetString("ComboBoxAutoShortUrlFirst.Items3"), resources.GetString("ComboBoxAutoShortUrlFirst.Items4"), resources.GetString("ComboBoxAutoShortUrlFirst.Items5")})
+        Me.ComboBoxAutoShortUrlFirst.Name = "ComboBoxAutoShortUrlFirst"
+        '
+        'Label76
+        '
+        resources.ApplyResources(Me.Label76, "Label76")
+        Me.Label76.Name = "Label76"
+        '
+        'Label77
+        '
+        resources.ApplyResources(Me.Label77, "Label77")
+        Me.Label77.Name = "Label77"
+        '
+        'TextBitlyId
+        '
+        resources.ApplyResources(Me.TextBitlyId, "TextBitlyId")
+        Me.TextBitlyId.Name = "TextBitlyId"
+        '
+        'Cancel
+        '
+        resources.ApplyResources(Me.Cancel, "Cancel")
+        Me.Cancel.CausesValidation = False
+        Me.Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
+        Me.Cancel.Name = "Cancel"
+        Me.Cancel.UseVisualStyleBackColor = True
+        '
+        'Save
+        '
+        resources.ApplyResources(Me.Save, "Save")
+        Me.Save.DialogResult = System.Windows.Forms.DialogResult.OK
+        Me.Save.Name = "Save"
+        Me.Save.UseVisualStyleBackColor = True
         '
         'AppendSettingDialog
         '
