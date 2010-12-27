@@ -1612,10 +1612,21 @@ Public Class Twitter
     End Function
 
     Public Function GetRelatedResult(ByVal read As Boolean, ByVal tab As TabClass) As String
+        Dim rslt As String = ""
         Dim relPosts As New List(Of PostClass)
+        If tab.RelationTargetPost.Data.Contains("@") AndAlso tab.RelationTargetPost.InReplyToId = 0 Then
+            '検索結果対応
+            Dim p As PostClass = TabInformations.GetInstance.Item(tab.RelationTargetPost.Id)
+            If p IsNot Nothing AndAlso p.InReplyToId > 0 Then
+                tab.RelationTargetPost = p
+            Else
+                rslt = Me.GetStatusApi(read, tab.RelationTargetPost.Id, p)
+                If Not String.IsNullOrEmpty(rslt) Then Return rslt
+                tab.RelationTargetPost = p
+            End If
+        End If
         relPosts.Add(tab.RelationTargetPost.Copy)
         Dim tmpPost As PostClass = relPosts(0)
-        Dim rslt As String = ""
         Do
             rslt = Me.GetRelatedResultsApi(read, tmpPost, tab, relPosts)
             If Not String.IsNullOrEmpty(rslt) Then Exit Do

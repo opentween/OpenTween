@@ -810,7 +810,7 @@ Public Class FilterDialog
         If ListTabs.SelectedIndex > -1 AndAlso ListTabs.SelectedItem.ToString <> "" Then
             Dim tb As String = ListTabs.SelectedItem.ToString
             Dim idx As Integer = ListTabs.SelectedIndex
-            If DirectCast(Me.Owner, TweenMain).RemoveSpecifiedTab(tb) Then
+            If DirectCast(Me.Owner, TweenMain).RemoveSpecifiedTab(tb, True) Then
                 ListTabs.Items.RemoveAt(idx)
                 idx -= 1
                 If idx < 0 Then idx = 0

@@ -3526,7 +3526,7 @@ Public Class TweenMain
         Return True
     End Function
 
-    Public Function RemoveSpecifiedTab(ByVal TabName As String) As Boolean
+    Public Function RemoveSpecifiedTab(ByVal TabName As String, ByVal confirm As Boolean) As Boolean
         Dim idx As Integer = 0
         For idx = 0 To ListTab.TabPages.Count - 1
             If ListTab.TabPages(idx).Text = TabName Then Exit For
@@ -3534,10 +3534,12 @@ Public Class TweenMain
 
         If _statuses.IsDefaultTab(TabName) Then Return False
 
-        Dim tmp As String = String.Format(My.Resources.RemoveSpecifiedTabText1, Environment.NewLine)
-        If MessageBox.Show(tmp, TabName + " " + My.Resources.RemoveSpecifiedTabText2, _
-                         MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.Cancel Then
-            Return False
+        If confirm Then
+            Dim tmp As String = String.Format(My.Resources.RemoveSpecifiedTabText1, Environment.NewLine)
+            If MessageBox.Show(tmp, TabName + " " + My.Resources.RemoveSpecifiedTabText2, _
+                             MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.Cancel Then
+                Return False
+            End If
         End If
 
         SetListProperty()   '他のタブに列幅等を反映
@@ -4815,6 +4817,25 @@ RETRY:
                 e.Handled = True
                 e.SuppressKeyPress = True
                 GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
+            ElseIf e.KeyCode = Keys.Escape Then
+                If ListTab.SelectedTab IsNot Nothing AndAlso _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.Related Then
+                    Dim relTp As TabPage = ListTab.SelectedTab
+                    Dim backToTab As TabClass = _statuses.Tabs(relTp.Text).BackToTab
+                    If backToTab IsNot Nothing Then
+                        Try
+                            For Each tp As TabPage In ListTab.TabPages
+                                If tp.Text = backToTab.TabName Then
+                                    ListTab.SelectTab(tp)
+                                    Exit For
+                                End If
+                            Next
+                        Catch ex As Exception
+
+                        End Try
+                    End If
+                    RemoveSpecifiedTab(relTp.Text, False)
+                    SaveConfigsTabs()
+                End If
             End If
         End If
 
@@ -6898,7 +6919,7 @@ RETRY:
     Private Sub DeleteTabMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles DeleteTabMenuItem.Click, DeleteTbMenuItem.Click
         If String.IsNullOrEmpty(_rclickTabName) OrElse sender Is Me.DeleteTbMenuItem Then _rclickTabName = ListTab.SelectedTab.Text
 
-        RemoveSpecifiedTab(_rclickTabName)
+        RemoveSpecifiedTab(_rclickTabName, True)
         SaveConfigsTabs()
     End Sub
 
@@ -9858,6 +9879,7 @@ RETRY:
     Private Sub CopyUserIdStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CopyUserIdStripMenuItem.Click
         CopyUserId()
     End Sub
+
     Private Sub CopyUserId()
         If _curPost Is Nothing Then Exit Sub
         Dim clstr As String = _curPost.Name
@@ -9869,6 +9891,7 @@ RETRY:
     End Sub
 
     Private Sub ShowRelatedStatusesMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowRelatedStatusesMenuItem.Click, ShowRelatedStatusesMenuItem2.Click
+        Dim backToTab As TabClass = If(_curTab Is Nothing, _statuses.Tabs(ListTab.SelectedTab.Text), _statuses.Tabs(_curTab.Text))
         If Me.ExistCurrentPost AndAlso Not _curPost.IsDm Then
             'PublicSearchも除外した方がよい？
             If _statuses.GetTabByType(TabUsageType.Related) Is Nothing Then
@@ -9886,10 +9909,12 @@ RETRY:
                     _statuses.AddTab(tName, TabUsageType.Related, Nothing)
                 End If
                 _statuses.GetTabByName(tName).UnreadManage = False
+                _statuses.GetTabByName(tName).Notify = False
             End If
 
             Dim tb As TabClass = _statuses.GetTabByType(TabUsageType.Related)
             tb.RelationTargetPost = _curPost
+            tb.BackToTab = backToTab
             Me.ClearTab(tb.TabName, False)
             For i As Integer = 0 To ListTab.TabPages.Count - 1
                 If tb.TabName = ListTab.TabPages(i).Text Then
