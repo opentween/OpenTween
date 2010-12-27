@@ -5463,11 +5463,16 @@ RETRY:
 
         If Not (Me.ExistCurrentPost AndAlso _curPost.InReplyToUser IsNot Nothing AndAlso _curPost.InReplyToId > 0) Then Return
 
+        If replyChains Is Nothing OrElse (replyChains.Count > 0 AndAlso replyChains.Peek().InReplyToId <> _curPost.Id) Then
+            replyChains = New Stack(Of ReplyChain)
+        End If
+        replyChains.Push(New ReplyChain(_curPost.Id, _curPost.InReplyToId, _curTab))
+
         Dim inReplyToIndex As Integer
         Dim inReplyToTabName As String
+        Dim inReplyToId As Long = _curPost.InReplyToId
+        Dim inReplyToUser As String = _curPost.InReplyToUser
         Dim curTabPosts As Dictionary(Of Long, PostClass)
-
-
 
         If _statuses.Tabs(_curTab.Text).IsInnerStorageTabType Then
             curTabPosts = curTabClass.Posts
@@ -5481,7 +5486,7 @@ RETRY:
         Else
             Dim inReplyToPosts = From tab In _statuses.Tabs.Values
                                  From post In DirectCast(IIf(tab.IsInnerStorageTabType, tab.Posts, _statuses.Posts), Dictionary(Of Long, PostClass)).Values
-                                 Where post.Id = _curPost.InReplyToId
+                                 Where post.Id = inReplyToId
                                  Let index = tab.IndexOf(post.Id)
                                  Where index <> -1
                                  Select New With {.Tab = tab, .Post = post, .Index = index}
@@ -5491,15 +5496,28 @@ RETRY:
                 inReplyToTabName = inReplyPost.Tab.TabName
                 inReplyToIndex = inReplyPost.Index
             Catch ex As InvalidOperationException
-                OpenUriAsync("http://twitter.com/" + _curPost.InReplyToUser + "/statuses/" + _curPost.InReplyToId.ToString())
-                Exit Sub
+                Dim post As PostClass = Nothing
+                Dim r As String = tw.GetStatusApi(False, _curPost.InReplyToId, post)
+                If r = "" AndAlso post IsNot Nothing Then
+                    _statuses.AddPost(post)
+                    _statuses.DistributePosts()
+                    _statuses.SubmitUpdate(Nothing, Nothing, Nothing, False)
+                    Me.RefreshTimeline(False)
+                    Try
+                        Dim inReplyPost = inReplyToPosts.First()
+                        inReplyToTabName = inReplyPost.Tab.TabName
+                        inReplyToIndex = inReplyPost.Index
+                    Catch ex2 As InvalidOperationException
+                        OpenUriAsync("http://twitter.com/" + inReplyToUser + "/statuses/" + inReplyToId.ToString())
+                        Exit Sub
+                    End Try
+                Else
+                    Me.StatusLabelUrl.Text = r
+                    OpenUriAsync("http://twitter.com/" + inReplyToUser + "/statuses/" + inReplyToId.ToString())
+                    Exit Sub
+                End If
             End Try
         End If
-
-        If replyChains Is Nothing OrElse (replyChains.Count > 0 AndAlso replyChains.Peek().InReplyToId <> _curPost.Id) Then
-            replyChains = New Stack(Of ReplyChain)
-        End If
-        replyChains.Push(New ReplyChain(_curPost.Id, _curPost.InReplyToId, _curTab))
 
         Dim tabPage = Me.ListTab.TabPages.Cast(Of TabPage).First(Function(tp) tp.Text = inReplyToTabName)
         Dim listView = DirectCast(tabPage.Tag, DetailsListView)
