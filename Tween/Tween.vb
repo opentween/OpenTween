@@ -5447,15 +5447,19 @@ RETRY:
     End Sub
 
     Private Sub GoInReplyToPost()
+        If _curPost Is Nothing Then Return
+
         Dim curTabClass As TabClass = _statuses.Tabs(_curTab.Text)
 
-        If curTabClass.TabType = TabUsageType.PublicSearch AndAlso _curPost.InReplyToId = 0 Then
+        If curTabClass.TabType = TabUsageType.PublicSearch AndAlso _curPost.InReplyToId = 0 AndAlso _curPost.Data.Contains("@") Then
             Dim post As PostClass = Nothing
             Dim r As String = tw.GetStatusApi(False, _curPost.Id, post)
             If r = "" AndAlso post IsNot Nothing Then
                 _curPost.InReplyToId = post.InReplyToId
                 _curPost.InReplyToUser = post.InReplyToUser
                 _curPost.IsReply = post.IsReply
+                _itemCache = Nothing
+                _curList.RedrawItems(_curItemIndex, _curItemIndex, False)
             Else
                 Me.StatusLabelUrl.Text = r
             End If
