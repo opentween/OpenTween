@@ -6380,6 +6380,18 @@ RETRY:
         End If
     End Function
 
+    Private Sub ListTab_MouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles ListTab.MouseClick
+        If e.Button = Windows.Forms.MouseButtons.Middle Then
+            For i As Integer = 0 To Me.ListTab.TabPages.Count - 1
+                If Me.ListTab.GetTabRect(i).Contains(e.Location) Then
+                    Me.RemoveSpecifiedTab(Me.ListTab.TabPages(i).Text, True)
+                    Me.SaveConfigsTabs()
+                    Exit For
+                End If
+            Next
+        End If
+    End Sub
+
     Private Sub Tabs_DoubleClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles ListTab.MouseDoubleClick
         Dim tn As String = ListTab.SelectedTab.Text
         TabRename(tn)
@@ -6389,9 +6401,7 @@ RETRY:
         Dim cpos As New Point(e.X, e.Y)
         If e.Button = Windows.Forms.MouseButtons.Left Then
             For i As Integer = 0 To ListTab.TabPages.Count - 1
-                Dim rect As Rectangle = ListTab.GetTabRect(i)
-                If rect.Left <= cpos.X AndAlso cpos.X <= rect.Right AndAlso _
-                   rect.Top <= cpos.Y AndAlso cpos.Y <= rect.Bottom Then
+                If Me.ListTab.GetTabRect(i).Contains(e.Location) Then
                     _tabDrag = True
                     Exit For
                 End If
@@ -10148,5 +10158,4 @@ RETRY:
             Return True
         End Get
     End Property
-
 End Class
