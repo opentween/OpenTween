@@ -5524,6 +5524,7 @@ RETRY:
                 Dim post As PostClass = Nothing
                 Dim r As String = tw.GetStatusApi(False, _curPost.InReplyToId, post)
                 If r = "" AndAlso post IsNot Nothing Then
+                    post.IsRead = True
                     _statuses.AddPost(post)
                     _statuses.DistributePosts()
                     _statuses.SubmitUpdate(Nothing, Nothing, Nothing, False)
