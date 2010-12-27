@@ -2617,6 +2617,9 @@
   <data name="ComboBoxAutoShortUrlFirst.Items4" xml:space="preserve">
     <value>j.mp</value>
   </data>
+  <data name="ComboBoxAutoShortUrlFirst.Items5" xml:space="preserve">
+    <value>ux.nu</value>
+  </data>
   <data name="ComboBoxAutoShortUrlFirst.Location" type="System.Drawing.Point, System.Drawing">
     <value>181, 71</value>
   </data>

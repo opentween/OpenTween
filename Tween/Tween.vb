@@ -7867,6 +7867,10 @@ RETRY:
         UrlConvert(UrlConverter.Twurl)
     End Sub
 
+    Private Sub UxnuMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UxnuMenuItem.Click
+        UrlConvert(UrlConverter.Uxnu)
+    End Sub
+
     Private Sub UrlConvertAutoToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UrlConvertAutoToolStripMenuItem.Click
         If Not UrlConvert(SettingDialog.AutoShortUrlFirst) Then
             Dim svc As UrlConverter = SettingDialog.AutoShortUrlFirst
@@ -7874,7 +7878,7 @@ RETRY:
             ' 前回使用した短縮URLサービス以外を選択する
             Do
                 svc = CType(rnd.Next(System.Enum.GetNames(GetType(UrlConverter)).Length), UrlConverter)
-            Loop Until svc <> SettingDialog.AutoShortUrlFirst
+            Loop Until svc <> SettingDialog.AutoShortUrlFirst AndAlso svc <> UrlConverter.Nicoms AndAlso svc <> UrlConverter.Unu
             UrlConvert(svc)
         End If
     End Sub
@@ -10114,4 +10118,5 @@ RETRY:
             Return True
         End Get
     End Property
+
 End Class

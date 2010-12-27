@@ -77,6 +77,7 @@ Public Module MyCommon
         Twurl
         Bitly
         Jmp
+        Uxnu
         '特殊
         Nicoms
         '廃止
