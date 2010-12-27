@@ -4585,7 +4585,7 @@ RETRY:
                 SourceLinkLabel.Text = ""
                 'SourceLinkLabel.Visible = False
             Else
-                SourceLinkLabel.Text = "via " + _curPost.Source
+                SourceLinkLabel.Text = _curPost.Source
                 'SourceLinkLabel.Visible = True
             End If
         End If
