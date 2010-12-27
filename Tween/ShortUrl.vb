@@ -221,6 +221,20 @@ Public Class ShortUrl
                         End If
                     End If
                 End If
+            Case UrlConverter.Uxnu
+                If SrcUrl.StartsWith("http") Then
+                    If "http://ux.nx/xxxxxx".Length > src.Length AndAlso Not src.Contains("?") AndAlso Not src.Contains("#") Then
+                        ' 明らかに長くなると推測できる場合は圧縮しない
+                        content = src
+                        Exit Select
+                    End If
+                    If Not (New HttpVarious).PostData("http://ux.nu/api/short?url=" + SrcUrl + "&format=plain", Nothing, content) Then
+                        Return "Can't convert"
+                    End If
+                End If
+                If Not content.StartsWith("http://ux.nu/") Then
+                    Return "Can't convert"
+                End If
         End Select
         '変換結果から改行を除去
         Dim ch As Char() = {ControlChars.Cr, ControlChars.Lf}
