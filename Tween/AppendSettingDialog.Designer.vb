@@ -236,6 +236,8 @@ Partial Class AppendSettingDialog
         Me.ColorDialog1 = New System.Windows.Forms.ColorDialog()
         Me.Cancel = New System.Windows.Forms.Button()
         Me.Save = New System.Windows.Forms.Button()
+        Me.CooperatePanel = New System.Windows.Forms.Panel()
+        Me.ShortUrlPanel = New System.Windows.Forms.Panel()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -256,6 +258,8 @@ Partial Class AppendSettingDialog
         Me.GroupBox5.SuspendLayout()
         Me.ConnectionPanel.SuspendLayout()
         Me.ProxyPanel.SuspendLayout()
+        Me.CooperatePanel.SuspendLayout()
+        Me.ShortUrlPanel.SuspendLayout()
         Me.SuspendLayout()
         '
         'SplitContainer1
@@ -283,6 +287,8 @@ Partial Class AppendSettingDialog
         Me.SplitContainer1.Panel2.Controls.Add(Me.FontPanel2)
         Me.SplitContainer1.Panel2.Controls.Add(Me.ConnectionPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.ProxyPanel)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.CooperatePanel)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.ShortUrlPanel)
         Me.SplitContainer1.TabStop = False
         '
         'TreeView1
@@ -780,20 +786,12 @@ Partial Class AppendSettingDialog
         '
         'TweetActPanel
         '
-        Me.TweetActPanel.Controls.Add(Me.TextBitlyPw)
         Me.TweetActPanel.Controls.Add(Me.ComboBoxPostKeySelect)
         Me.TweetActPanel.Controls.Add(Me.Label27)
         Me.TweetActPanel.Controls.Add(Me.CheckRetweetNoConfirm)
-        Me.TweetActPanel.Controls.Add(Me.TextBitlyId)
         Me.TweetActPanel.Controls.Add(Me.Label12)
-        Me.TweetActPanel.Controls.Add(Me.Label77)
         Me.TweetActPanel.Controls.Add(Me.CheckUseRecommendStatus)
-        Me.TweetActPanel.Controls.Add(Me.Label76)
         Me.TweetActPanel.Controls.Add(Me.StatusText)
-        Me.TweetActPanel.Controls.Add(Me.ComboBoxAutoShortUrlFirst)
-        Me.TweetActPanel.Controls.Add(Me.Label71)
-        Me.TweetActPanel.Controls.Add(Me.CheckTinyURL)
-        Me.TweetActPanel.Controls.Add(Me.CheckAutoConvertUrl)
         resources.ApplyResources(Me.TweetActPanel, "TweetActPanel")
         Me.TweetActPanel.Name = "TweetActPanel"
         '
@@ -1473,12 +1471,6 @@ Partial Class AppendSettingDialog
         '
         'ConnectionPanel
         '
-        Me.ConnectionPanel.Controls.Add(Me.CheckNicoms)
-        Me.ConnectionPanel.Controls.Add(Me.Label60)
-        Me.ConnectionPanel.Controls.Add(Me.ComboBoxOutputzUrlmode)
-        Me.ConnectionPanel.Controls.Add(Me.Label59)
-        Me.ConnectionPanel.Controls.Add(Me.TextBoxOutputzKey)
-        Me.ConnectionPanel.Controls.Add(Me.CheckOutputz)
         Me.ConnectionPanel.Controls.Add(Me.CheckEnableBasicAuth)
         Me.ConnectionPanel.Controls.Add(Me.TwitterSearchAPIText)
         Me.ConnectionPanel.Controls.Add(Me.Label31)
@@ -1675,6 +1667,30 @@ Partial Class AppendSettingDialog
         Me.Save.Name = "Save"
         Me.Save.UseVisualStyleBackColor = True
         '
+        'CooperatePanel
+        '
+        Me.CooperatePanel.Controls.Add(Me.CheckOutputz)
+        Me.CooperatePanel.Controls.Add(Me.CheckNicoms)
+        Me.CooperatePanel.Controls.Add(Me.TextBoxOutputzKey)
+        Me.CooperatePanel.Controls.Add(Me.Label60)
+        Me.CooperatePanel.Controls.Add(Me.Label59)
+        Me.CooperatePanel.Controls.Add(Me.ComboBoxOutputzUrlmode)
+        resources.ApplyResources(Me.CooperatePanel, "CooperatePanel")
+        Me.CooperatePanel.Name = "CooperatePanel"
+        '
+        'ShortUrlPanel
+        '
+        Me.ShortUrlPanel.Controls.Add(Me.CheckTinyURL)
+        Me.ShortUrlPanel.Controls.Add(Me.TextBitlyPw)
+        Me.ShortUrlPanel.Controls.Add(Me.CheckAutoConvertUrl)
+        Me.ShortUrlPanel.Controls.Add(Me.Label71)
+        Me.ShortUrlPanel.Controls.Add(Me.ComboBoxAutoShortUrlFirst)
+        Me.ShortUrlPanel.Controls.Add(Me.Label76)
+        Me.ShortUrlPanel.Controls.Add(Me.Label77)
+        Me.ShortUrlPanel.Controls.Add(Me.TextBitlyId)
+        resources.ApplyResources(Me.ShortUrlPanel, "ShortUrlPanel")
+        Me.ShortUrlPanel.Name = "ShortUrlPanel"
+        '
         'AppendSettingDialog
         '
         Me.AcceptButton = Me.Save
@@ -1725,6 +1741,10 @@ Partial Class AppendSettingDialog
         Me.ConnectionPanel.PerformLayout()
         Me.ProxyPanel.ResumeLayout(False)
         Me.ProxyPanel.PerformLayout()
+        Me.CooperatePanel.ResumeLayout(False)
+        Me.CooperatePanel.PerformLayout()
+        Me.ShortUrlPanel.ResumeLayout(False)
+        Me.ShortUrlPanel.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1941,4 +1961,6 @@ Partial Class AppendSettingDialog
     Friend WithEvents Label32 As System.Windows.Forms.Label
     Friend WithEvents Label34 As System.Windows.Forms.Label
     Friend WithEvents Label36 As System.Windows.Forms.Label
+    Friend WithEvents CooperatePanel As System.Windows.Forms.Panel
+    Friend WithEvents ShortUrlPanel As System.Windows.Forms.Panel
 End Class
