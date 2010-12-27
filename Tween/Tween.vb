@@ -2081,7 +2081,7 @@ Public Class TweenMain
             Case WORKERTYPE.Related
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
                 Dim tb As TabClass = _statuses.GetTabByName(args.tName)
-                ret = tw.GetRelatedResultsApi(read, tb)
+                ret = tw.GetRelatedResult(read, tb)
                 rslt.addCount = _statuses.DistributePosts()
         End Select
         'キャンセル要求
