@@ -1597,8 +1597,38 @@ Public Class Twitter
         Return CreatePostsFromJson(content, WORKERTYPE.List, tab, read, count, tab.OldestId)
     End Function
 
-    Public Function GetRelatedResultsApi(ByVal read As Boolean, _
-                            ByVal tab As TabClass) As String
+    Private Function CheckReplyToPost(ByVal relPosts As List(Of PostClass)) As PostClass
+        Dim tmpPost As PostClass = relPosts(0)
+        Dim lastPost As PostClass = Nothing
+        Do While tmpPost IsNot Nothing
+            If tmpPost.InReplyToId = 0 Then Return Nothing
+            lastPost = tmpPost
+            Dim replyToPost = From p In relPosts
+                             Where p.Id = tmpPost.InReplyToId
+                             Select p
+            tmpPost = replyToPost.FirstOrDefault()
+        Loop
+        Return lastPost
+    End Function
+
+    Public Function GetRelatedResult(ByVal read As Boolean, ByVal tab As TabClass) As String
+        Dim relPosts As New List(Of PostClass)
+        relPosts.Add(tab.RelationTargetPost.Copy)
+        Dim tmpPost As PostClass = relPosts(0)
+        Dim rslt As String = ""
+        Do
+            rslt = Me.GetRelatedResultsApi(read, tmpPost, tab, relPosts)
+            If Not String.IsNullOrEmpty(rslt) Then Exit Do
+            tmpPost = CheckReplyToPost(relPosts)
+        Loop While tmpPost IsNot Nothing
+        relPosts.ForEach(New Action(Of PostClass)(Sub(p) TabInformations.GetInstance.AddPost(p)))
+        Return rslt
+    End Function
+
+    Public Function GetRelatedResultsApi(ByVal read As Boolean,
+                                         ByVal post As PostClass,
+                                         ByVal tab As TabClass,
+                                         ByVal relatedPosts As List(Of PostClass)) As String
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
@@ -1607,7 +1637,7 @@ Public Class Twitter
         Dim res As HttpStatusCode
         Dim content As String = ""
         Try
-            res = twCon.GetRelatedResults(tab.RelationTargetPost.Id, content)
+            res = twCon.GetRelatedResults(post.Id, content)
         Catch ex As Exception
             Return "Err:" + ex.Message
         End Try
@@ -1623,7 +1653,18 @@ Public Class Twitter
                 Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
         End Select
 
-        Dim targetItem As PostClass = tab.RelationTargetPost
+        Dim items As List(Of TwitterDataModel.RelatedResult)
+        Try
+            items = CreateDataFromJson(Of List(Of TwitterDataModel.RelatedResult))(content)
+        Catch ex As SerializationException
+            TraceOut(ex.Message + Environment.NewLine + content)
+            Return "Json Parse Error(DataContractJsonSerializer)"
+        Catch ex As Exception
+            TraceOut(content)
+            Return "Invalid Json!"
+        End Try
+
+        Dim targetItem As PostClass = post
         If targetItem Is Nothing Then
             Return ""
         Else
@@ -1641,17 +1682,6 @@ Public Class Twitter
             replyToItem.RelTabName = tab.TabName
         End If
 
-        Dim items As List(Of TwitterDataModel.RelatedResult)
-        Try
-            items = CreateDataFromJson(Of List(Of TwitterDataModel.RelatedResult))(content)
-        Catch ex As SerializationException
-            TraceOut(ex.Message + Environment.NewLine + content)
-            Return "Json Parse Error(DataContractJsonSerializer)"
-        Catch ex As Exception
-            TraceOut(content)
-            Return "Invalid Json!"
-        End Try
-
         Dim replyAdded As Boolean = False
         For Each relatedData As TwitterDataModel.RelatedResult In items
             For Each result As TwitterDataModel.RelatedTweet In relatedData.Results
@@ -1665,13 +1695,21 @@ Public Class Twitter
                 If item.IsMe AndAlso Not read AndAlso _readOwnPost Then item.IsRead = True
                 If tab IsNot Nothing Then item.RelTabName = tab.TabName
                 '非同期アイコン取得＆StatusDictionaryに追加
-                TabInformations.GetInstance.AddPost(item)
+                relatedPosts.Add(item)
             Next
         Next
         If replyToItem IsNot Nothing Then
-            TabInformations.GetInstance.AddPost(replyToItem)
+            relatedPosts.Add(replyToItem)
         ElseIf targetItem.InReplyToId > 0 AndAlso Not replyAdded Then
-            Return GetStatusApi(read, targetItem.InReplyToId, tab)
+            Dim p As PostClass = Nothing
+            Dim rslt As String = ""
+            rslt = GetStatusApi(read, targetItem.InReplyToId, p)
+            If String.IsNullOrEmpty(rslt) Then
+                p.IsRead = read
+                p.RelTabName = tab.TabName
+                relatedPosts.Add(p)
+            End If
+            Return rslt
         End If
 
         '発言者・返信先ユーザーの直近10発言取得
