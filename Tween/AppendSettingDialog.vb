@@ -625,6 +625,8 @@ Public Class AppendSettingDialog
             .Nodes("FontNode").Nodes("FontNode2").Tag = FontPanel2
             .Nodes("ConnectionNode").Tag = ConnectionPanel
             .Nodes("ConnectionNode").Nodes("ProxyNode").Tag = ProxyPanel
+            .Nodes("ConnectionNode").Nodes("CooperateNode").Tag = CooperatePanel
+            .Nodes("ConnectionNode").Nodes("ShortUrlNode").Tag = ShortUrlPanel
 
             .SelectedNode = .Nodes(0)
         End With
