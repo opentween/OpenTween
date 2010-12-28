@@ -120,6 +120,7 @@ Public Module MyCommon
         List                    'Lists
         Related                 '関連発言
         UserStream              'UserStream
+        UserTimeline            'UserTimeline
         '''
         ErrorState              'エラー表示のみで後処理終了(認証エラー時など)
     End Enum
@@ -541,6 +542,7 @@ retry:
         PublicSearch = 128    'Pin(save/no distribute/auto update)
         Lists = 256
         Related = 512
+        UserTimeline = 1024
         'RTMyTweet
         'RTByOthers
         'RTByMe

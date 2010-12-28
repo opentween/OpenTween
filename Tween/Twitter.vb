@@ -1325,7 +1325,8 @@ Public Class Twitter
     Public Function GetUserTimelineApi(ByVal read As Boolean,
                                        ByVal count As Integer,
                                        ByVal userName As String,
-                                       ByVal tab As TabClass) As String
+                                       ByVal tab As TabClass,
+                                       ByVal more As Boolean) As String
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
@@ -1341,7 +1342,11 @@ Public Class Twitter
                 If target Is Nothing Then Return ""
                 res = twCon.UserTimeline(target.Uid, "", count, 0, 0, content)
             Else
-                res = twCon.UserTimeline(0, userName, count, 0, 0, content)
+                If more Then
+                    res = twCon.UserTimeline(0, userName, count, tab.OldestId, 0, content)
+                Else
+                    res = twCon.UserTimeline(0, userName, count, 0, 0, content)
+                End If
             End If
         Catch ex As Exception
             Return "Err:" + ex.Message

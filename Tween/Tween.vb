@@ -765,6 +765,7 @@ Public Class TweenMain
         SettingDialog.FirstCountApi = _cfgCommon.FirstCountApi
         SettingDialog.SearchCountApi = _cfgCommon.SearchCountApi
         SettingDialog.FavoritesCountApi = _cfgCommon.FavoritesCountApi
+        SettingDialog.UserTimelineCountApi = _cfgCommon.UserTimelineCountApi
         'If _cfgCommon.UseAdditionalCount Then
         '    _FirstRefreshFlags = True
         '    _FirstListsRefreshFlags = True
@@ -1223,6 +1224,7 @@ Public Class TweenMain
         If pubSearchCounter <= 0 AndAlso SettingDialog.PubSearchPeriodInt > 0 Then
             Interlocked.Exchange(pubSearchCounter, SettingDialog.PubSearchPeriodInt)
             GetTimeline(WORKERTYPE.PublicSearch, 1, 0, "")
+            GetTimeline(WORKERTYPE.UserTimeline, 1, 0, "")
         End If
         If listsCounter <= 0 AndAlso SettingDialog.ListsPeriodInt > 0 Then
             Interlocked.Exchange(listsCounter, SettingDialog.ListsPeriodInt)
@@ -2062,6 +2064,26 @@ Public Class TweenMain
                 End If
                 '振り分け
                 rslt.addCount = _statuses.DistributePosts()
+            Case WORKERTYPE.UserTimeline
+                bw.ReportProgress(50, MakeStatusMessage(args, False))
+                Dim count As Integer = 20
+                If SettingDialog.UseAdditionalCount Then count = SettingDialog.UserTimelineCountApi
+                If args.tName = "" Then
+                    For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.PublicSearch)
+                        If tb.SearchWords <> "" AndAlso tb.UseSearch = 1 Then ret = tw.GetUserTimelineApi(read, count, tb.SearchWords, tb, False)
+                    Next
+                Else
+                    Dim tb As TabClass = _statuses.GetTabByName(args.tName)
+                    If tb IsNot Nothing Then
+                        If args.page = -1 Then
+                            ret = tw.GetUserTimelineApi(read, count, tb.SearchWords, tb, True)
+                        Else
+                            ret = tw.GetUserTimelineApi(read, count, tb.SearchWords, tb, False)
+                        End If
+                    End If
+                End If
+                '振り分け
+                rslt.addCount = _statuses.DistributePosts()
             Case WORKERTYPE.List
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
                 If args.tName = "" Then
@@ -2166,6 +2188,8 @@ Public Class TweenMain
                     smsg = "List refreshing..."
                 Case WORKERTYPE.Related
                     smsg = "Related refreshing..."
+                Case WORKERTYPE.UserTimeline
+                    smsg = "UserTimeline refreshing..."
             End Select
         Else
             '完了メッセージ
@@ -2192,6 +2216,8 @@ Public Class TweenMain
                     smsg = "List refreshed"
                 Case WORKERTYPE.Related
                     smsg = "Related refreshed"
+                Case WORKERTYPE.UserTimeline
+                    smsg = "UserTimeline refreshed"
             End Select
         End If
         Return smsg
@@ -2264,7 +2290,8 @@ Public Class TweenMain
            rslt.type = WORKERTYPE.Follower OrElse _
            rslt.type = WORKERTYPE.FavAdd OrElse _
            rslt.type = WORKERTYPE.FavRemove OrElse _
-           rslt.type = WORKERTYPE.Related Then
+           rslt.type = WORKERTYPE.Related OrElse _
+           rslt.type = WORKERTYPE.UserTimeline Then
             RefreshTimeline(False) 'リスト反映
         End If
 
@@ -2374,7 +2401,7 @@ Public Class TweenMain
                 _itemCache = Nothing
                 _postCache = Nothing
                 If _curList IsNot Nothing Then _curList.Refresh()
-            Case WORKERTYPE.PublicSearch
+            Case WORKERTYPE.PublicSearch, WORKERTYPE.UserTimeline
                 _waitPubSearch = False
             Case WORKERTYPE.List
                 _waitLists = False
@@ -2911,7 +2938,11 @@ Public Class TweenMain
                     '' TODO
                     Dim tb As TabClass = _statuses.Tabs(_curTab.Text)
                     If tb.SearchWords = "" Then Exit Sub
-                    GetTimeline(WORKERTYPE.PublicSearch, 1, 0, _curTab.Text)
+                    If tb.UseSearch = 0 Then
+                        GetTimeline(WORKERTYPE.PublicSearch, 1, 0, _curTab.Text)
+                    ElseIf tb.UseSearch = 1 Then
+                        GetTimeline(WORKERTYPE.UserTimeline, 1, 0, _curTab.Text)
+                    End If
                 Case TabUsageType.Lists
                     '' TODO
                     Dim tb As TabClass = _statuses.Tabs(_curTab.Text)
@@ -2941,7 +2972,11 @@ Public Class TweenMain
                     ' TODO
                     Dim tb As TabClass = _statuses.Tabs(_curTab.Text)
                     If tb.SearchWords = "" Then Exit Sub
-                    GetTimeline(WORKERTYPE.PublicSearch, -1, 0, _curTab.Text)
+                    If tb.UseSearch = 0 Then
+                        GetTimeline(WORKERTYPE.PublicSearch, -1, 0, _curTab.Text)
+                    ElseIf tb.UseSearch = 1 Then
+                        GetTimeline(WORKERTYPE.UserTimeline, -1, 0, _curTab.Text)
+                    End If
                 Case TabUsageType.Lists
                     '' TODO
                     Dim tb As TabClass = _statuses.Tabs(_curTab.Text)
@@ -3306,11 +3341,13 @@ Public Class TweenMain
             Dim cmb As New ComboBox
             Dim btn As New Button
             Dim cmbLang As New ComboBox
+            Dim cmbushome As New ComboBox
 
             pnl.SuspendLayout()
 
             pnl.Controls.Add(cmb)
             pnl.Controls.Add(cmbLang)
+            pnl.Controls.Add(cmbushome)
             pnl.Controls.Add(btn)
             pnl.Controls.Add(lbl)
             pnl.Name = "panelSearch"
@@ -3331,6 +3368,21 @@ Public Class TweenMain
             If _statuses.ContainsTab(tabName) Then
                 cmb.Items.Add(_statuses.Tabs(tabName).SearchWords)
                 cmb.Text = _statuses.Tabs(tabName).SearchWords
+            End If
+
+            cmbushome.Text = "Search"
+            cmbushome.Anchor = AnchorStyles.Left Or AnchorStyles.Right
+            cmbushome.Dock = DockStyle.Right
+            cmbushome.Width = 50
+            cmbushome.Name = "comboUserLine"
+            cmbushome.DropDownStyle = ComboBoxStyle.DropDownList
+            cmbushome.TabStop = False
+            cmbushome.Items.Add("Search")
+            cmbushome.Items.Add("User")
+            If _statuses.ContainsTab(tabName) Then
+                Dim SearchText As String = "Search"
+                If _statuses.Tabs(tabName).UseSearch = 1 Then SearchText = "User"
+                cmbushome.Text = SearchText
             End If
 
             cmbLang.Text = ""
@@ -6103,6 +6155,7 @@ RETRY:
             _cfgCommon.FirstCountApi = SettingDialog.FirstCountApi
             _cfgCommon.SearchCountApi = SettingDialog.SearchCountApi
             _cfgCommon.FavoritesCountApi = SettingDialog.FavoritesCountApi
+            _cfgCommon.UserTimelineCountApi = SettingDialog.UserTimelineCountApi
             _cfgCommon.TrackWord = tw.TrackWord
             _cfgCommon.AllAtReply = tw.AllAtReply
 
@@ -9089,6 +9142,7 @@ RETRY:
         Dim tb As TabClass = _statuses.Tabs(tbName)
         Dim cmb As ComboBox = DirectCast(pnl.Controls("comboSearch"), ComboBox)
         Dim cmbLang As ComboBox = DirectCast(pnl.Controls("comboLang"), ComboBox)
+        Dim cmbusline As ComboBox = DirectCast(pnl.Controls("comboUserline"), ComboBox)
         cmb.Text = cmb.Text.Trim
         ' 検索式演算子 OR についてのみ大文字しか認識しないので強制的に大文字とする
         Dim Quote As Boolean = False
@@ -9114,6 +9168,11 @@ RETRY:
 
         tb.SearchWords = cmb.Text
         tb.SearchLang = cmbLang.Text
+        If cmbusline.Text = "User" Then
+            tb.UseSearch = 1
+        Else
+            tb.UseSearch = 0
+        End If
         If cmb.Text = "" Then
             DirectCast(ListTab.SelectedTab.Tag, DetailsListView).Focus()
             SaveConfigsTabs()
@@ -9132,7 +9191,11 @@ RETRY:
             SaveConfigsTabs()   '検索条件の保存
         End If
 
-        GetTimeline(WORKERTYPE.PublicSearch, 1, 0, tbName)
+        If tb.UseSearch = 0 Then
+            GetTimeline(WORKERTYPE.PublicSearch, 1, 0, tbName)
+        ElseIf tb.UseSearch = 1 Then
+            GetTimeline(WORKERTYPE.UserTimeline, 1, 0, tbName)
+        End If
         DirectCast(ListTab.SelectedTab.Tag, DetailsListView).Focus()
     End Sub
 
