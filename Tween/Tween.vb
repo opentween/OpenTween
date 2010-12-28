@@ -5614,69 +5614,73 @@ RETRY:
         Dim curTabClass As TabClass = _statuses.Tabs(_curTab.Text)
         Dim curTabPosts As Dictionary(Of Long, PostClass) = DirectCast(IIf(curTabClass.IsInnerStorageTabType, curTabClass.Posts, _statuses.Posts), Dictionary(Of Long, PostClass))
 
-        If isShiftKeyPress AndAlso _curPost.InReplyToId <> 0 Then
-            Dim posts = From t In _statuses.Tabs
-                        From p In DirectCast(IIf(t.Value.IsInnerStorageTabType, t.Value.Posts, _statuses.Posts), Dictionary(Of Long, PostClass))
-                        Where p.Value.Id <> _curPost.Id AndAlso p.Value.InReplyToId = _curPost.InReplyToId
-                        Let indexOf = t.Value.IndexOf(p.Value.Id)
-                        Where indexOf > -1
-                        Order By indexOf
-                        Order By t.Value IsNot curTabClass
-                        Select New With {.Tab = t.Value, .Post = p.Value, .Index = indexOf}
-            Try
-                Dim postList = posts.ToList()
-                For i As Integer = postList.Count - 1 To 0 Step -1
-                    Dim index As Integer = i
-                    If postList.FindIndex(Function(pst) pst.Post.Id = postList(index).Post.Id) <> index Then
-                        postList.RemoveAt(index)
-                    End If
-                Next
-                Dim post = postList.FirstOrDefault(Function(pst) pst.Tab Is curTabClass AndAlso pst.Index > _curItemIndex)
-                If post Is Nothing Then post = postList.FirstOrDefault(Function(pst) pst.Tab IsNot curTabClass)
-                If post Is Nothing Then post = postList.First()
-                Me.ListTab.SelectTab(Me.ListTab.TabPages.Cast(Of TabPage).First(Function(tp) tp.Text = post.Tab.TabName))
-                Dim listView = DirectCast(Me.ListTab.SelectedTab.Tag, DetailsListView)
-                SelectListItem(listView, post.Index)
-                listView.EnsureVisible(post.Index)
-            Catch ex As InvalidOperationException
-                Exit Sub
-            End Try
-        ElseIf replyChains Is Nothing OrElse replyChains.Count < 1 Then
-            Dim posts = From t In _statuses.Tabs
-                        From p In DirectCast(IIf(t.Value.IsInnerStorageTabType, t.Value.Posts, _statuses.Posts), Dictionary(Of Long, PostClass))
-                        Where p.Value.InReplyToId = _curPost.Id
-                        Let indexOf = t.Value.IndexOf(p.Value.Id)
-                        Where indexOf > -1
-                        Order By indexOf
-                        Order By t.Value IsNot curTabClass
-                        Select New With {.Tab = t.Value, .Index = indexOf}
-            Try
-                Dim post = posts.First()
-                Me.ListTab.SelectTab(Me.ListTab.TabPages.Cast(Of TabPage).First(Function(tp) tp.Text = post.Tab.TabName))
-                Dim listView = DirectCast(Me.ListTab.SelectedTab.Tag, DetailsListView)
-                SelectListItem(listView, post.Index)
-                listView.EnsureVisible(post.Index)
-            Catch ex As InvalidOperationException
-                Exit Sub
-            End Try
+        If isShiftKeyPress Then
+            If _curPost.InReplyToId <> 0 Then
+                Dim posts = From t In _statuses.Tabs
+                            From p In DirectCast(IIf(t.Value.IsInnerStorageTabType, t.Value.Posts, _statuses.Posts), Dictionary(Of Long, PostClass))
+                            Where p.Value.Id <> _curPost.Id AndAlso p.Value.InReplyToId = _curPost.InReplyToId
+                            Let indexOf = t.Value.IndexOf(p.Value.Id)
+                            Where indexOf > -1
+                            Order By indexOf
+                            Order By t.Value IsNot curTabClass
+                            Select New With {.Tab = t.Value, .Post = p.Value, .Index = indexOf}
+                Try
+                    Dim postList = posts.ToList()
+                    For i As Integer = postList.Count - 1 To 0 Step -1
+                        Dim index As Integer = i
+                        If postList.FindIndex(Function(pst) pst.Post.Id = postList(index).Post.Id) <> index Then
+                            postList.RemoveAt(index)
+                        End If
+                    Next
+                    Dim post = postList.FirstOrDefault(Function(pst) pst.Tab Is curTabClass AndAlso pst.Index > _curItemIndex)
+                    If post Is Nothing Then post = postList.FirstOrDefault(Function(pst) pst.Tab IsNot curTabClass)
+                    If post Is Nothing Then post = postList.First()
+                    Me.ListTab.SelectTab(Me.ListTab.TabPages.Cast(Of TabPage).First(Function(tp) tp.Text = post.Tab.TabName))
+                    Dim listView = DirectCast(Me.ListTab.SelectedTab.Tag, DetailsListView)
+                    SelectListItem(listView, post.Index)
+                    listView.EnsureVisible(post.Index)
+                Catch ex As InvalidOperationException
+                    Exit Sub
+                End Try
+            End If
         Else
-            Dim chainHead As ReplyChain = replyChains.Pop()
-            If chainHead.InReplyToId = _curPost.Id Then
-                Dim idx As Integer = _statuses.Tabs(chainHead.OriginalTab.Text).IndexOf(chainHead.OriginalId)
-                If idx = -1 Then
-                    replyChains = Nothing
-                Else
-                    Try
-                        ListTab.SelectTab(chainHead.OriginalTab)
-                    Catch ex As Exception
-                        replyChains = Nothing
-                    End Try
-                    SelectListItem(_curList, idx)
-                    _curList.EnsureVisible(idx)
-                End If
+            If replyChains Is Nothing OrElse replyChains.Count < 1 Then
+                Dim posts = From t In _statuses.Tabs
+                            From p In DirectCast(IIf(t.Value.IsInnerStorageTabType, t.Value.Posts, _statuses.Posts), Dictionary(Of Long, PostClass))
+                            Where p.Value.InReplyToId = _curPost.Id
+                            Let indexOf = t.Value.IndexOf(p.Value.Id)
+                            Where indexOf > -1
+                            Order By indexOf
+                            Order By t.Value IsNot curTabClass
+                            Select New With {.Tab = t.Value, .Index = indexOf}
+                Try
+                    Dim post = posts.First()
+                    Me.ListTab.SelectTab(Me.ListTab.TabPages.Cast(Of TabPage).First(Function(tp) tp.Text = post.Tab.TabName))
+                    Dim listView = DirectCast(Me.ListTab.SelectedTab.Tag, DetailsListView)
+                    SelectListItem(listView, post.Index)
+                    listView.EnsureVisible(post.Index)
+                Catch ex As InvalidOperationException
+                    Exit Sub
+                End Try
             Else
-                replyChains = Nothing
-                Me.GoBackInReplyToPost(isShiftKeyPress)
+                Dim chainHead As ReplyChain = replyChains.Pop()
+                If chainHead.InReplyToId = _curPost.Id Then
+                    Dim idx As Integer = _statuses.Tabs(chainHead.OriginalTab.Text).IndexOf(chainHead.OriginalId)
+                    If idx = -1 Then
+                        replyChains = Nothing
+                    Else
+                        Try
+                            ListTab.SelectTab(chainHead.OriginalTab)
+                        Catch ex As Exception
+                            replyChains = Nothing
+                        End Try
+                        SelectListItem(_curList, idx)
+                        _curList.EnsureVisible(idx)
+                    End If
+                Else
+                    replyChains = Nothing
+                    Me.GoBackInReplyToPost(isShiftKeyPress)
+                End If
             End If
         End If
     End Sub
