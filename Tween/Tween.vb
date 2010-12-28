@@ -2075,10 +2075,9 @@ Public Class TweenMain
                 Else
                     Dim tb As TabClass = _statuses.GetTabByName(args.tName)
                     If tb IsNot Nothing Then
-                        If args.page = -1 Then
+                        ret = tw.GetUserTimelineApi(read, count, tb.SearchWords, tb, False)
+                        If ret = "" AndAlso args.page = -1 Then
                             ret = tw.GetUserTimelineApi(read, count, tb.SearchWords, tb, True)
-                        Else
-                            ret = tw.GetUserTimelineApi(read, count, tb.SearchWords, tb, False)
                         End If
                     End If
                 End If
@@ -3282,6 +3281,43 @@ Public Class TweenMain
         Dim cmb As ComboBox = DirectCast(ListTab.SelectedTab.Controls("panelSearch").Controls("comboSearch"), ComboBox)
         cmb.Items.Add(searchWord)
         cmb.Text = searchWord
+        SaveConfigsTabs()
+        '検索実行
+        Me.SearchButton_Click(ListTab.SelectedTab.Controls("panelSearch").Controls("comboSearch"), Nothing)
+    End Sub
+
+    Public Sub AddNewTabForUserTimeline(ByVal searchWord As String)
+        '同一検索条件のタブが既に存在すれば、そのタブアクティブにして終了
+        For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.PublicSearch)
+            If tb.SearchWords = searchWord AndAlso tb.SearchLang = "" Then
+                For Each tp As TabPage In ListTab.TabPages
+                    If tb.TabName = tp.Text Then
+                        ListTab.SelectedTab = tp
+                        Exit Sub
+                    End If
+                Next
+            End If
+        Next
+        'ユニークなタブ名生成
+        Dim tabName As String = "user:" + searchWord
+        For i As Integer = 0 To 100
+            If _statuses.ContainsTab(tabName) Then
+                tabName += "_"
+            Else
+                Exit For
+            End If
+        Next
+        'タブ追加
+        AddNewTab(tabName, False, TabUsageType.PublicSearch)
+        _statuses.AddTab(tabName, TabUsageType.PublicSearch, Nothing)
+        '追加したタブをアクティブに
+        ListTab.SelectedIndex = ListTab.TabPages.Count - 1
+        '検索条件の設定
+        Dim cmb As ComboBox = DirectCast(ListTab.SelectedTab.Controls("panelSearch").Controls("comboSearch"), ComboBox)
+        cmb.Items.Add(searchWord)
+        cmb.Text = searchWord
+        Dim cmbus As ComboBox = DirectCast(ListTab.SelectedTab.Controls("panelSearch").Controls("comboUserLine"), ComboBox)
+        cmbus.Text = "User"
         SaveConfigsTabs()
         '検索実行
         Me.SearchButton_Click(ListTab.SelectedTab.Controls("panelSearch").Controls("comboSearch"), Nothing)
@@ -9063,7 +9099,7 @@ RETRY:
 
     Private Sub SearchPostsDetailToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SearchPostsDetailToolStripMenuItem.Click
         Dim name As String = GetUserId()
-        If name IsNot Nothing Then AddNewTabForSearch("from:" + name)
+        If name IsNot Nothing Then AddNewTabForUserTimeline(name)
     End Sub
 
     Private Sub SearchAtPostsDetailToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SearchAtPostsDetailToolStripMenuItem.Click
@@ -9640,7 +9676,7 @@ RETRY:
     Private Sub SearchPostsDetailNameToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SearchPostsDetailNameToolStripMenuItem.Click
         If NameLabel.Tag IsNot Nothing Then
             Dim id As String = DirectCast(NameLabel.Tag, String)
-            AddNewTabForSearch("from:" + id)
+            AddNewTabForUserTimeline(id)
         End If
     End Sub
 
