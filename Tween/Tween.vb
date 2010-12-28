@@ -5566,7 +5566,7 @@ RETRY:
         Dim curTabClass As TabClass = _statuses.Tabs(_curTab.Text)
         Dim curTabPosts As Dictionary(Of Long, PostClass) = DirectCast(IIf(curTabClass.IsInnerStorageTabType, curTabClass.Posts, _statuses.Posts), Dictionary(Of Long, PostClass))
 
-        If isShiftKeyPress Then
+        If isShiftKeyPress AndAlso _curPost.InReplyToId <> 0 Then
             Dim posts = From p In curTabPosts
                         Where p.Value.Id <> _curPost.Id AndAlso p.Value.InReplyToId = _curPost.InReplyToId
                         Let indexOf = curTabClass.IndexOf(p.Value.Id)
