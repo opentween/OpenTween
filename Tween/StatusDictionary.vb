@@ -1572,6 +1572,7 @@ Public NotInheritable Class TabClass
     'Search query
     Private _searchLang As String = ""
     Private _searchWords As String = ""
+    Private _UseSearch As Integer = 0
 
     Public Property SearchLang() As String
         Get
@@ -1589,6 +1590,14 @@ Public NotInheritable Class TabClass
         Set(ByVal value As String)
             _sinceId = 0
             _searchWords = value.Trim
+        End Set
+    End Property
+    Public Property UseSearch As Integer
+        Get
+            Return _UseSearch
+        End Get
+        Set(ByVal value As Integer)
+            _UseSearch = value
         End Set
     End Property
     Public Function GetSearchPage(ByVal count As Integer) As Integer

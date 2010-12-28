@@ -176,4 +176,5 @@ Public Class SettingCommon
     Public AllAtReply As Boolean = False
     Public UserstreamPeriod As Integer = 3
     Public UserstreamStartup As Boolean = True
+    Public UserTimelineCountApi As Integer = 20
 End Class
