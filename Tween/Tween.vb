@@ -2051,7 +2051,7 @@ Public Class TweenMain
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
                 If args.tName = "" Then
                     For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.PublicSearch)
-                        If tb.SearchWords <> "" Then ret = tw.GetSearch(read, tb, False)
+                        If tb.SearchWords <> "" AndAlso tb.UseSearch = 0 Then ret = tw.GetSearch(read, tb, False)
                     Next
                 Else
                     Dim tb As TabClass = _statuses.GetTabByName(args.tName)
