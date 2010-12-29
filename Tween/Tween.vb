@@ -4881,13 +4881,13 @@ RETRY:
             If e.KeyCode = Keys.Oem4 Then
                 e.Handled = True
                 e.SuppressKeyPress = True
-                GoInReplyToPost()
+                GoInReplyToPostTree()
             End If
             ' [ in_reply_toへジャンプ
             If e.KeyCode = Keys.Oem6 Then
                 e.Handled = True
                 e.SuppressKeyPress = True
-                GoBackInReplyToPost()
+                GoBackInReplyToPostTree()
             End If
             If e.KeyCode = Keys.F1 Then
                 e.Handled = True
@@ -5099,10 +5099,14 @@ RETRY:
                 e.Handled = True
                 e.SuppressKeyPress = True
                 SendKeys.Send("{UP}")
+            ElseIf e.KeyCode = Keys.Oem4 AndAlso Not e.Alt Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                GoBackInReplyToPostTree(True, False)
             ElseIf e.KeyCode = Keys.Oem6 AndAlso Not e.Alt Then
                 e.Handled = True
                 e.SuppressKeyPress = True
-                GoBackInReplyToPost(True)
+                GoBackInReplyToPostTree(True, True)
             End If
 
             ' お気に入り前後ジャンプ(SHIFT+N←/P→)
@@ -5559,7 +5563,7 @@ RETRY:
         _curList.EnsureVisible(idx)
     End Sub
 
-    Private Sub GoInReplyToPost()
+    Private Sub GoInReplyToPostTree()
         If _curPost Is Nothing Then Return
 
         Dim curTabClass As TabClass = _statuses.Tabs(_curTab.Text)
@@ -5644,20 +5648,20 @@ RETRY:
         listView.EnsureVisible(inReplyToIndex)
     End Sub
 
-    Private Sub GoBackInReplyToPost(Optional ByVal isShiftKeyPress As Boolean = False)
+    Private Sub GoBackInReplyToPostTree(Optional ByVal parallel As Boolean = False, Optional ByVal isForward As Boolean = True)
         If _curPost Is Nothing Then Return
 
         Dim curTabClass As TabClass = _statuses.Tabs(_curTab.Text)
         Dim curTabPosts As Dictionary(Of Long, PostClass) = DirectCast(IIf(curTabClass.IsInnerStorageTabType, curTabClass.Posts, _statuses.Posts), Dictionary(Of Long, PostClass))
 
-        If isShiftKeyPress Then
+        If parallel Then
             If _curPost.InReplyToId <> 0 Then
                 Dim posts = From t In _statuses.Tabs
                             From p In DirectCast(IIf(t.Value.IsInnerStorageTabType, t.Value.Posts, _statuses.Posts), Dictionary(Of Long, PostClass))
                             Where p.Value.Id <> _curPost.Id AndAlso p.Value.InReplyToId = _curPost.InReplyToId
                             Let indexOf = t.Value.IndexOf(p.Value.Id)
                             Where indexOf > -1
-                            Order By indexOf
+                            Order By IIf(isForward, indexOf, indexOf * -1)
                             Order By t.Value IsNot curTabClass
                             Select New With {.Tab = t.Value, .Post = p.Value, .Index = indexOf}
                 Try
@@ -5668,7 +5672,7 @@ RETRY:
                             postList.RemoveAt(index)
                         End If
                     Next
-                    Dim post = postList.FirstOrDefault(Function(pst) pst.Tab Is curTabClass AndAlso pst.Index > _curItemIndex)
+                    Dim post = postList.FirstOrDefault(Function(pst) pst.Tab Is curTabClass AndAlso DirectCast(IIf(isForward, pst.Index > _curItemIndex, pst.Index < _curItemIndex), Boolean))
                     If post Is Nothing Then post = postList.FirstOrDefault(Function(pst) pst.Tab IsNot curTabClass)
                     If post Is Nothing Then post = postList.First()
                     Me.ListTab.SelectTab(Me.ListTab.TabPages.Cast(Of TabPage).First(Function(tp) tp.Text = post.Tab.TabName))
@@ -5715,7 +5719,7 @@ RETRY:
                     End If
                 Else
                     replyChains = Nothing
-                    Me.GoBackInReplyToPost(isShiftKeyPress)
+                    Me.GoBackInReplyToPostTree(parallel)
                 End If
             End If
         End If
