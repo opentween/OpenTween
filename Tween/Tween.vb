@@ -5270,6 +5270,7 @@ RETRY:
                 IsProtected = True
                 Continue For
             End If
+            If post.IsDeleted Then Continue For
             If post.RetweetedId > 0 Then
                 sb.AppendFormat("{0}:{1} [http://twitter.com/{0}/status/{2}]{3}", post.Name, post.Data, post.RetweetedId, Environment.NewLine)
             Else
