@@ -760,7 +760,7 @@ Public Class AppendSettingDialog
         End If
     End Sub
 
-    Private Sub btnFontAndColor_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnInputFont.Click
+    Private Sub btnFontAndColor_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUnread.Click, btnDetail.Click, btnListFont.Click, btnInputFont.Click
         Dim Btn As Button = CType(sender, Button)
         Dim rtn As DialogResult
 
