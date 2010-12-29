@@ -909,19 +909,18 @@ Public Class Twitter
 
             Select Case res
                 Case HttpStatusCode.OK
-                    Dim xdoc As New XmlDocument
-                    Dim xnode As XmlNodeList
-                    Dim result As String = ""
-                    Twitter.AccountState = ACCOUNT_STATE.Valid
                     Try
-                        xdoc.LoadXml(content)
-                        xnode = xdoc.GetElementsByTagName("ids")
-                        retweeted_count += xnode.ItemOf(0).ChildNodes.Count
-                        If xnode.ItemOf(0).ChildNodes.Count < 100 Then Exit For
+                        Dim ids As Int64() = CreateDataFromJson(Of Int64())(content)
+                        retweeted_count += ids.Length
+                        If ids.Length < 100 Then Exit For
+                    Catch ex As SerializationException
+                        retweeted_count = -1
+                        TraceOut(ex.Message + Environment.NewLine + content)
+                        Return "Err:Json Parse Error(DataContractJsonSerializer)"
                     Catch ex As Exception
                         retweeted_count = -1
-                        result = "Err:Invalid XML."
-                        xmlBuf = Nothing
+                        TraceOut(content)
+                        Return "Err:Invalid Json!"
                     End Try
                 Case HttpStatusCode.BadRequest
                     retweeted_count = -1
@@ -1061,15 +1060,12 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Return "Check your Username/Password."
             Case HttpStatusCode.Forbidden
-                Dim xd As XmlDocument = New XmlDocument
-                Try
-                    xd.LoadXml(content)
-                    Dim xNode As XmlNode = Nothing
-                    xNode = xd.SelectSingleNode("/hash/error")
-                    Return "Err:" + xNode.InnerText + "(" + GetCurrentMethod.Name + ")"
-                Catch ex As Exception
-                    Return "Err:Forbidden" + "(" + GetCurrentMethod.Name + ")"
-                End Try
+                Dim errMsg As String = GetErrorMessageJson(content)
+                If String.IsNullOrEmpty(errMsg) Then
+                    Return "Err:Forbidden(" + GetCurrentMethod.Name + ")"
+                Else
+                    Return "Err:" + errMsg
+                End If
             Case Else
                 Return "Err:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
         End Select
@@ -1096,15 +1092,12 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Return "Check your Username/Password."
             Case HttpStatusCode.Forbidden
-                Dim xd As XmlDocument = New XmlDocument
-                Try
-                    xd.LoadXml(content)
-                    Dim xNode As XmlNode = Nothing
-                    xNode = xd.SelectSingleNode("/hash/error")
-                    Return "Err:" + xNode.InnerText + "(" + GetCurrentMethod.Name + ")"
-                Catch ex As Exception
-                    Return "Err:Forbidden" + "(" + GetCurrentMethod.Name + ")"
-                End Try
+                Dim errMsg As String = GetErrorMessageJson(content)
+                If String.IsNullOrEmpty(errMsg) Then
+                    Return "Err:Forbidden(" + GetCurrentMethod.Name + ")"
+                Else
+                    Return "Err:" + errMsg
+                End If
             Case Else
                 Return "Err:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
         End Select
@@ -2467,7 +2460,6 @@ Public Class Twitter
 
         Dim res As HttpStatusCode
         Dim content As String = ""
-        'Dim cursor As Long = -1
 
         'Do
         Try
@@ -2488,24 +2480,22 @@ Public Class Twitter
                 Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
         End Select
 
-        Dim xdoc As New XmlDocument
         Try
-            xdoc.LoadXml(content)
+            Dim users = CreateDataFromJson(Of TwitterDataModel.Users)(content)
+            Array.ForEach(Of TwitterDataModel.User)(
+                users.users,
+                New Action(Of TwitterDataModel.User)(Sub(u)
+                                                         lists.Add(New UserInfo(u))
+                                                     End Sub))
+            cursor = users.NextCursor
+            Return ""
+        Catch ex As SerializationException
+            TraceOut(ex.Message + Environment.NewLine + content)
+            Return "Err:Json Parse Error(DataContractJsonSerializer)"
         Catch ex As Exception
             TraceOut(content)
-            Return "Invalid XML!"
+            Return "Err:Invalid Json!"
         End Try
-
-        Try
-            For Each xentryNode As XmlNode In xdoc.DocumentElement.SelectNodes("/users_list/users/user")
-                lists.Add(New UserInfo(xentryNode))
-            Next
-            cursor = Long.Parse(xdoc.DocumentElement.SelectSingleNode("/users_list/next_cursor").InnerText)
-        Catch ex As Exception
-            TraceOut(content)
-            Return "Invalid XML!"
-        End Try
-        'Loop While cursor <> 0
 
         Return ""
     End Function
@@ -2576,16 +2566,14 @@ Public Class Twitter
                 Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
         End Select
 
-        Dim xdoc As New XmlDocument
         Try
-            xdoc.LoadXml(content)
-            value = xdoc.DocumentElement.Name = "user"
+            Dim u = CreateDataFromJson(Of TwitterDataModel.User)(content)
+            value = True
+            Return ""
         Catch ex As Exception
-            TraceOut(content)
-            Return "Invalid XML!"
+            value = False
+            Return ""
         End Try
-
-        Return ""
     End Function
 
     Public Function AddUserToList(ByVal list_name As String, ByVal user As String) As String
@@ -2597,6 +2585,18 @@ Public Class Twitter
         Catch ex As Exception
             Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
         End Try
+
+        Select Case res
+            Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
+            Case HttpStatusCode.Unauthorized
+                Twitter.AccountState = ACCOUNT_STATE.Invalid
+                Return "Check your Username/Password."
+            Case HttpStatusCode.BadRequest
+                Return "Err:API Limits?"
+            Case Else
+                Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
+        End Select
 
         Return ""
     End Function
@@ -2610,6 +2610,18 @@ Public Class Twitter
         Catch ex As Exception
             Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
         End Try
+
+        Select Case res
+            Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
+            Case HttpStatusCode.Unauthorized
+                Twitter.AccountState = ACCOUNT_STATE.Invalid
+                Return "Check your Username/Password."
+            Case HttpStatusCode.BadRequest
+                Return "Err:API Limits?"
+            Case Else
+                Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
+        End Select
 
         Return ""
     End Function
@@ -2867,12 +2879,17 @@ Public Class Twitter
                 Debug.Print("delete")
                 Dim post As PostClass = Nothing
                 Dim id As Int64
-                If xElm.Element("delete").Element("direct_message") IsNot Nothing Then
+                If xElm.Element("delete").Element("direct_message") IsNot Nothing AndAlso
+                    xElm.Element("delete").Element("direct_message").Element("id") IsNot Nothing Then
                     id = CLng(xElm.Element("delete").Element("direct_message").Element("id").Value)
                     RaiseEvent PostDeleted(id, post)
-                Else
+                ElseIf xElm.Element("delete").Element("status") IsNot Nothing AndAlso
+                    xElm.Element("delete").Element("status").Element("id") IsNot Nothing Then
                     id = CLng(xElm.Element("delete").Element("status").Element("id").Value)
                     RaiseEvent PostDeleted(id, post)
+                Else
+                    TraceOut("delete:" + line)
+                    Exit Sub
                 End If
                 CreateDeleteEvent(DateTime.Now, id, post)
                 Exit Sub
@@ -2887,7 +2904,11 @@ Public Class Twitter
                 Debug.Print("direct_message")
                 isDm = True
             ElseIf xElm.Element("scrub_geo") IsNot Nothing Then
-                Debug.Print("scrub_geo: user_id=" + xElm.Element("user_id").Value.ToString + " up_to_status_id=" + xElm.Element("up_to_status_id").Value.ToString)
+                Try
+                    Debug.Print("scrub_geo: user_id=" + xElm.Element("user_id").Value.ToString + " up_to_status_id=" + xElm.Element("up_to_status_id").Value.ToString)
+                Catch ex As Exception
+                    TraceOut("scrub_geo:" + line)
+                End Try
                 Exit Sub
             End If
         End Using

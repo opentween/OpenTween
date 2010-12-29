@@ -589,7 +589,7 @@ Public Class HttpTwitter
         Dim param As New Dictionary(Of String, String)
         param.Add("cursor", cursor.ToString())
         Return httpCon.GetContent(GetMethod, _
-                            CreateTwitterUri("/1/" + user + "/" + list_id + "/members.xml"), _
+                            CreateTwitterUri("/1/" + user + "/" + list_id + "/members.json"), _
                             param, _
                             content, _
                             TwitterApiInfo.HttpHeaders, _
@@ -600,7 +600,7 @@ Public Class HttpTwitter
         Dim param As New Dictionary(Of String, String)
         param.Add("id", id)
         Return httpCon.GetContent(PostMethod, _
-                            CreateTwitterUri("/1/" + user + "/" + list_id + "/members.xml"), _
+                            CreateTwitterUri("/1/" + user + "/" + list_id + "/members.json"), _
                             param, _
                             content, _
                             Nothing, _
@@ -612,7 +612,7 @@ Public Class HttpTwitter
         param.Add("id", id)
         param.Add("_method", "DELETE")
         Return httpCon.GetContent(PostMethod, _
-                            CreateTwitterUri("/1/" + user + "/" + list_id + "/members.xml"), _
+                            CreateTwitterUri("/1/" + user + "/" + list_id + "/members.json"), _
                             param, _
                             content, _
                             Nothing, _
@@ -621,7 +621,7 @@ Public Class HttpTwitter
 
     Public Function GetListMembersID(ByVal user As String, ByVal list_id As String, ByVal id As String, ByRef content As String) As HttpStatusCode
         Return httpCon.GetContent(GetMethod, _
-                            CreateTwitterUri("/1/" + user + "/" + list_id + "/members/" + id + ".xml"), _
+                            CreateTwitterUri("/1/" + user + "/" + list_id + "/members/" + id + ".json"), _
                             Nothing, _
                             content, _
                             TwitterApiInfo.HttpHeaders, _
@@ -638,7 +638,7 @@ Public Class HttpTwitter
         End If
 
         Return httpCon.GetContent(GetMethod, _
-                            CreateTwitterUri("/1/statuses/" + statusid.ToString + "/retweeted_by/ids.xml"), _
+                            CreateTwitterUri("/1/statuses/" + statusid.ToString + "/retweeted_by/ids.json"), _
                             param, _
                             content, _
                             TwitterApiInfo.HttpHeaders, _
@@ -654,7 +654,7 @@ Public Class HttpTwitter
         param.Add("description", description)
 
         Return httpCon.GetContent(PostMethod, _
-                    CreateTwitterUri("/1/account/update_profile.xml"), _
+                    CreateTwitterUri("/1/account/update_profile.json"), _
                     param, _
                     content, _
                     Nothing, _
@@ -666,7 +666,7 @@ Public Class HttpTwitter
         binary.Add(New KeyValuePair(Of String, FileInfo)("image", imageFile))
 
         Return httpCon.GetContent(PostMethod, _
-                            CreateTwitterUri("/1/account/update_profile_image.xml"), _
+                            CreateTwitterUri("/1/account/update_profile_image.json"), _
                             Nothing, _
                             binary, _
                             content, _
