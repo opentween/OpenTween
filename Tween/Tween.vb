@@ -1606,7 +1606,7 @@ Public Class TweenMain
 
     Private Function JudgeColor(ByVal BasePost As PostClass, ByVal TargetPost As PostClass) As Color
         Dim cl As Color
-        If TargetPost.Id = BasePost.InReplyToId OrElse BasePost.Id = TargetPost.InReplyToId Then
+        If TargetPost.Id = BasePost.InReplyToId Then
             '@先
             cl = _clAtTo
         ElseIf TargetPost.IsMe Then
