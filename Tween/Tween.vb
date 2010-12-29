@@ -7226,6 +7226,7 @@ RETRY:
                 End If
                 '投稿
                 If (Not StatusText.Multiline AndAlso _
+                        ((keyData And Keys.Shift) = Keys.Shift AndAlso (Not SettingDialog.PostCtrlEnter AndAlso Not SettingDialog.PostShiftEnter)) OrElse _
                         ((keyData And Keys.Control) = Keys.Control AndAlso SettingDialog.PostCtrlEnter) OrElse _
                         ((keyData And Keys.Shift) = Keys.Shift AndAlso SettingDialog.PostShiftEnter) OrElse _
                         (((keyData And Keys.Control) <> Keys.Control AndAlso Not SettingDialog.PostCtrlEnter) AndAlso _
