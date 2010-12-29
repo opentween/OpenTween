@@ -45,6 +45,7 @@ Public Class ShortUrl
         "http://htn.to/", _
         "http://amzn.to/", _
         "http://flic.kr/", _
+        "http://ux.nu/", _
         "http://moi.st/" _
     }
 
