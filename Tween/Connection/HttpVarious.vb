@@ -6,10 +6,11 @@ Public Class HttpVarious
 
     Private Const PostMethod As String = "POST"
     Private Const GetMethod As String = "GET"
+    Private Const HeadMethod As String = "HEAD"
 
     Public Function GetRedirectTo(ByVal url As String) As String
         Try
-            Dim req As HttpWebRequest = CreateRequest(GetMethod, New Uri(url), Nothing, False)
+            Dim req As HttpWebRequest = CreateRequest(HeadMethod, New Uri(url), Nothing, False)
             req.Timeout = 5000
             req.AllowAutoRedirect = False
             Dim data As String = ""
