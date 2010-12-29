@@ -3,25 +3,30 @@
 
     End Sub
 
-    Public Sub New(ByVal xmlNode As Xml.XmlNode)
-        Me.Id = Long.Parse(xmlNode.Item("id").InnerText)
-        Me.Name = xmlNode.Item("name").InnerText
-        Me.ScreenName = xmlNode.Item("screen_name").InnerText
-        Me.Location = xmlNode.Item("location").InnerText
-        Me.Description = xmlNode.Item("description").InnerText
-        Me.ImageUrl = New Uri(xmlNode.Item("profile_image_url").InnerText)
-        Me.Url = xmlNode.Item("url").InnerText
-        Me.Protect = Boolean.Parse(xmlNode.Item("protected").InnerText)
-        Me.FriendsCount = Integer.Parse(xmlNode.Item("friends_count").InnerText)
-        Me.FollowersCount = Integer.Parse(xmlNode.Item("followers_count").InnerText)
-        Me.CreatedAt = DateTime.ParseExact(xmlNode.Item("created_at").InnerText, "ddd MMM dd HH:mm:ss zzzz yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None)
-        Me.StatusesCount = Integer.Parse(xmlNode.Item("statuses_count").InnerText)
-        Me.Verified = Boolean.Parse(xmlNode.Item("verified").InnerText)
-        Me.isFollowing = Boolean.Parse(xmlNode.Item("following").InnerText)
-        Dim postNode As Xml.XmlNode = xmlNode.Item("status")
-        Me.RecentPost = postNode.Item("text").InnerText
-        Me.PostCreatedAt = DateTime.ParseExact(postNode.Item("created_at").InnerText, "ddd MMM dd HH:mm:ss zzzz yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None)
-        Me.PostSource = postNode.Item("source").InnerText
+    Public Sub New(ByVal user As TwitterDataModel.User)
+        Me.Id = user.Id
+        Me.Name = user.Name
+        Me.ScreenName = user.ScreenName
+        Me.Location = user.Location
+        Me.Description = user.Description
+        Try
+            Me.ImageUrl = New Uri(user.ProfileImageUrl)
+        Catch ex As Exception
+            Me.ImageUrl = Nothing
+        End Try
+        Me.Url = user.Url
+        Me.Protect = user.Protected
+        Me.FriendsCount = user.FriendsCount
+        Me.FollowersCount = user.FollowersCount
+        Me.CreatedAt = DateTimeParse(user.CreatedAt)
+        Me.StatusesCount = user.StatusesCount
+        Me.Verified = user.Verified
+        Me.isFollowing = Me.isFollowing
+        If user.Status IsNot Nothing Then
+            Me.RecentPost = user.Status.Text
+            Me.PostCreatedAt = DateTimeParse(user.Status.CreatedAt)
+            Me.PostSource = user.Status.Source
+        End If
     End Sub
 
     Public Id As Int64 = 0

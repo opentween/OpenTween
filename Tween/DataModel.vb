@@ -307,4 +307,12 @@ Public Class TwitterDataModel
         <DataMember(Name:="next_cursor")> Public NextCursor As Long
         <DataMember(Name:="previous_cursor")> Public PreviousCursor As Long
     End Class
+
+    <DataContract()> _
+    Public Class Users
+        <DataMember(Name:="users")> Public users As User()
+        <DataMember(Name:="next_cursor")> Public NextCursor As Long
+        <DataMember(Name:="previous_cursor")> Public PreviousCursor As Long
+    End Class
+
 End Class
