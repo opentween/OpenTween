@@ -2052,7 +2052,7 @@ Public Class TweenMain
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
                 If args.tName = "" Then
                     For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.PublicSearch)
-                        If tb.SearchWords <> "" AndAlso tb.UseSearch = 0 Then ret = tw.GetSearch(read, tb, False)
+                        If tb.SearchWords <> "" Then ret = tw.GetSearch(read, tb, False)
                     Next
                 Else
                     Dim tb As TabClass = _statuses.GetTabByName(args.tName)
@@ -2070,16 +2070,13 @@ Public Class TweenMain
                 Dim count As Integer = 20
                 If SettingDialog.UseAdditionalCount Then count = SettingDialog.UserTimelineCountApi
                 If args.tName = "" Then
-                    For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.PublicSearch)
-                        If tb.SearchWords <> "" AndAlso tb.UseSearch = 1 Then ret = tw.GetUserTimelineApi(read, count, tb.SearchWords, tb, False)
+                    For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.UserTimeline)
+                        If tb.User <> "" Then ret = tw.GetUserTimelineApi(read, count, tb.User, tb, False)
                     Next
                 Else
                     Dim tb As TabClass = _statuses.GetTabByName(args.tName)
                     If tb IsNot Nothing Then
-                        ret = tw.GetUserTimelineApi(read, count, tb.SearchWords, tb, False)
-                        If ret = "" AndAlso args.page = -1 Then
-                            ret = tw.GetUserTimelineApi(read, count, tb.SearchWords, tb, True)
-                        End If
+                        ret = tw.GetUserTimelineApi(read, count, tb.User, tb, args.page = -1)
                     End If
                 End If
                 '振り分け
@@ -2938,11 +2935,9 @@ Public Class TweenMain
                     '' TODO
                     Dim tb As TabClass = _statuses.Tabs(_curTab.Text)
                     If tb.SearchWords = "" Then Exit Sub
-                    If tb.UseSearch = 0 Then
-                        GetTimeline(WORKERTYPE.PublicSearch, 1, 0, _curTab.Text)
-                    ElseIf tb.UseSearch = 1 Then
-                        GetTimeline(WORKERTYPE.UserTimeline, 1, 0, _curTab.Text)
-                    End If
+                    GetTimeline(WORKERTYPE.PublicSearch, 1, 0, _curTab.Text)
+                Case TabUsageType.UserTimeline
+                    GetTimeline(WORKERTYPE.UserTimeline, 1, 0, _curTab.Text)
                 Case TabUsageType.Lists
                     '' TODO
                     Dim tb As TabClass = _statuses.Tabs(_curTab.Text)
@@ -2972,11 +2967,9 @@ Public Class TweenMain
                     ' TODO
                     Dim tb As TabClass = _statuses.Tabs(_curTab.Text)
                     If tb.SearchWords = "" Then Exit Sub
-                    If tb.UseSearch = 0 Then
-                        GetTimeline(WORKERTYPE.PublicSearch, -1, 0, _curTab.Text)
-                    ElseIf tb.UseSearch = 1 Then
-                        GetTimeline(WORKERTYPE.UserTimeline, -1, 0, _curTab.Text)
-                    End If
+                    GetTimeline(WORKERTYPE.PublicSearch, -1, 0, _curTab.Text)
+                Case TabUsageType.UserTimeline
+                    GetTimeline(WORKERTYPE.UserTimeline, -1, 0, _curTab.Text)
                 Case TabUsageType.Lists
                     '' TODO
                     Dim tb As TabClass = _statuses.Tabs(_curTab.Text)
@@ -3287,10 +3280,10 @@ Public Class TweenMain
         Me.SearchButton_Click(ListTab.SelectedTab.Controls("panelSearch").Controls("comboSearch"), Nothing)
     End Sub
 
-    Public Sub AddNewTabForUserTimeline(ByVal searchWord As String)
+    Public Sub AddNewTabForUserTimeline(ByVal user As String)
         '同一検索条件のタブが既に存在すれば、そのタブアクティブにして終了
-        For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.PublicSearch)
-            If tb.SearchWords = searchWord AndAlso tb.SearchLang = "" Then
+        For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.UserTimeline)
+            If tb.User = user Then
                 For Each tp As TabPage In ListTab.TabPages
                     If tb.TabName = tp.Text Then
                         ListTab.SelectedTab = tp
@@ -3300,28 +3293,20 @@ Public Class TweenMain
             End If
         Next
         'ユニークなタブ名生成
-        Dim tabName As String = "user:" + searchWord
-        For i As Integer = 0 To 100
-            If _statuses.ContainsTab(tabName) Then
-                tabName += "_"
-            Else
-                Exit For
-            End If
-        Next
+        Dim tabName As String = "user:" + user
+        While _statuses.ContainsTab(tabName)
+            tabName += "_"
+        End While
         'タブ追加
-        AddNewTab(tabName, False, TabUsageType.PublicSearch)
-        _statuses.AddTab(tabName, TabUsageType.PublicSearch, Nothing)
+        _statuses.AddTab(tabName, TabUsageType.UserTimeline, Nothing)
+        _statuses.Tabs(tabName).User = user
+        AddNewTab(tabName, False, TabUsageType.UserTimeline)
         '追加したタブをアクティブに
         ListTab.SelectedIndex = ListTab.TabPages.Count - 1
-        '検索条件の設定
-        Dim cmb As ComboBox = DirectCast(ListTab.SelectedTab.Controls("panelSearch").Controls("comboSearch"), ComboBox)
-        cmb.Items.Add(searchWord)
-        cmb.Text = searchWord
-        Dim cmbus As ComboBox = DirectCast(ListTab.SelectedTab.Controls("panelSearch").Controls("comboUserLine"), ComboBox)
-        cmbus.Text = "User"
         SaveConfigsTabs()
         '検索実行
-        Me.SearchButton_Click(ListTab.SelectedTab.Controls("panelSearch").Controls("comboSearch"), Nothing)
+
+        GetTimeline(WORKERTYPE.UserTimeline, 1, 0, tabName)
     End Sub
 
     Public Function AddNewTab(ByVal tabName As String, ByVal startup As Boolean, ByVal tabType As TabUsageType) As Boolean
@@ -3367,7 +3352,23 @@ Public Class TweenMain
 
         _tabPage.SuspendLayout()
 
-
+        ''' UserTimeline関連
+        Dim label As Label = Nothing
+        If tabType = TabUsageType.UserTimeline OrElse tabType = TabUsageType.Lists Then
+            label = New Label()
+            label.Dock = DockStyle.Top
+            label.Name = "labelUser"
+            If tabType = TabUsageType.Lists Then
+                label.Text = _statuses.Tabs(tabName).ListInfo.ToString()
+            Else
+                label.Text = _statuses.Tabs(tabName).User + "'s Timeline"
+            End If
+            label.TextAlign = ContentAlignment.MiddleLeft
+            Using tmpComboBox As New ComboBox()
+                label.Height = tmpComboBox.Height
+            End Using
+            _tabPage.Controls.Add(label)
+        End If
 
         ''' 検索関連の準備
         Dim pnl As Panel = Nothing
@@ -3378,13 +3379,11 @@ Public Class TweenMain
             Dim cmb As New ComboBox
             Dim btn As New Button
             Dim cmbLang As New ComboBox
-            Dim cmbushome As New ComboBox
 
             pnl.SuspendLayout()
 
             pnl.Controls.Add(cmb)
             pnl.Controls.Add(cmbLang)
-            pnl.Controls.Add(cmbushome)
             pnl.Controls.Add(btn)
             pnl.Controls.Add(lbl)
             pnl.Name = "panelSearch"
@@ -3405,21 +3404,6 @@ Public Class TweenMain
             If _statuses.ContainsTab(tabName) Then
                 cmb.Items.Add(_statuses.Tabs(tabName).SearchWords)
                 cmb.Text = _statuses.Tabs(tabName).SearchWords
-            End If
-
-            cmbushome.Text = "Search"
-            cmbushome.Anchor = AnchorStyles.Left Or AnchorStyles.Right
-            cmbushome.Dock = DockStyle.Right
-            cmbushome.Width = 50
-            cmbushome.Name = "comboUserLine"
-            cmbushome.DropDownStyle = ComboBoxStyle.DropDownList
-            cmbushome.TabStop = False
-            cmbushome.Items.Add("Search")
-            cmbushome.Items.Add("User")
-            If _statuses.ContainsTab(tabName) Then
-                Dim SearchText As String = "Search"
-                If _statuses.Tabs(tabName).UseSearch = 1 Then SearchText = "User"
-                cmbushome.Text = SearchText
             End If
 
             cmbLang.Text = ""
@@ -3464,13 +3448,13 @@ Public Class TweenMain
             btn.Dock = DockStyle.Right
             btn.TabStop = False
             AddHandler btn.Click, AddressOf SearchButton_Click
-
         End If
 
         Me.ListTab.Controls.Add(_tabPage)
         _tabPage.Controls.Add(_listCustom)
 
         If tabType = TabUsageType.PublicSearch Then _tabPage.Controls.Add(pnl)
+        If tabType = TabUsageType.UserTimeline OrElse tabType = TabUsageType.Lists Then _tabPage.Controls.Add(label)
 
         _tabPage.Location = New Point(4, 4)
         _tabPage.Name = "CTab" + cnt.ToString()
@@ -9185,11 +9169,6 @@ RETRY:
 
         tb.SearchWords = cmb.Text
         tb.SearchLang = cmbLang.Text
-        If cmbusline.Text = "User" Then
-            tb.UseSearch = 1
-        Else
-            tb.UseSearch = 0
-        End If
         If cmb.Text = "" Then
             DirectCast(ListTab.SelectedTab.Tag, DetailsListView).Focus()
             SaveConfigsTabs()
@@ -9208,11 +9187,7 @@ RETRY:
             SaveConfigsTabs()   '検索条件の保存
         End If
 
-        If tb.UseSearch = 0 Then
-            GetTimeline(WORKERTYPE.PublicSearch, 1, 0, tbName)
-        ElseIf tb.UseSearch = 1 Then
-            GetTimeline(WORKERTYPE.UserTimeline, 1, 0, tbName)
-        End If
+        GetTimeline(WORKERTYPE.PublicSearch, 1, 0, tbName)
         DirectCast(ListTab.SelectedTab.Tag, DetailsListView).Focus()
     End Sub
 
@@ -10315,4 +10290,8 @@ RETRY:
             Return True
         End Get
     End Property
+
+    Protected Overrides Sub Finalize()
+        MyBase.Finalize()
+    End Sub
 End Class
