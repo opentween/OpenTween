@@ -1331,9 +1331,9 @@ Public Class Twitter
         If count = 0 Then count = 20
         Try
             If String.IsNullOrEmpty(userName) Then
-                Dim target As PostClass = tab.RelationTargetPost
+                Dim target As String = tab.User
                 If target Is Nothing Then Return ""
-                res = twCon.UserTimeline(target.Uid, "", count, 0, 0, content)
+                res = twCon.UserTimeline(0, target, count, 0, 0, content)
             Else
                 If more Then
                     res = twCon.UserTimeline(0, userName, count, tab.OldestId, 0, content)
