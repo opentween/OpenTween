@@ -57,6 +57,7 @@ Public Class TweenMain
     Private _initialLayout As Boolean = True
     Private _ignoreConfigSave As Boolean         'True:起動時処理中
     Private _tabDrag As Boolean           'タブドラッグ中フラグ（DoDragDropを実行するかの判定用）
+    Private _tabMouseDownPoint As Point
     Private _rclickTabName As String      '右クリックしたタブの名前（Tabコントロール機能不足対応）
     Private ReadOnly _syncObject As New Object()    'ロック用
     Private Const detailHtmlFormatMono1 As String = "<html><head><style type=""text/css""><!-- pre {font-family: """
@@ -3733,14 +3734,11 @@ Public Class TweenMain
 
         If e.Button = Windows.Forms.MouseButtons.Left AndAlso _tabDrag Then
             Dim tn As String = ""
-            For i As Integer = 0 To ListTab.TabPages.Count - 1
-                Dim rect As Rectangle = ListTab.GetTabRect(i)
-                If rect.Left <= cpos.X AndAlso cpos.X <= rect.Right AndAlso _
-                   rect.Top <= cpos.Y AndAlso cpos.Y <= rect.Bottom Then
-                    tn = ListTab.TabPages(i).Text
-                    Exit For
-                End If
-            Next
+            Dim dragEnableRectangle As New Rectangle(CInt(_tabMouseDownPoint.X - (SystemInformation.DragSize.Width / 2)), CInt(_tabMouseDownPoint.Y - (SystemInformation.DragSize.Height / 2)), SystemInformation.DragSize.Width, SystemInformation.DragSize.Height)
+            If Not dragEnableRectangle.Contains(e.Location) Then
+                'タブが多段の場合にはMouseDownの前の段階で選択されたタブの段が変わっているので、このタイミングでカーソルの位置からタブを判定出来ない。
+                tn = ListTab.SelectedTab.Text
+            End If
 
             If tn = "" Then Exit Sub
 
@@ -6550,6 +6548,7 @@ RETRY:
             For i As Integer = 0 To ListTab.TabPages.Count - 1
                 If Me.ListTab.GetTabRect(i).Contains(e.Location) Then
                     _tabDrag = True
+                    _tabMouseDownPoint = e.Location
                     Exit For
                 End If
             Next
