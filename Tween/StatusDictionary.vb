@@ -686,7 +686,7 @@ Public NotInheritable Class TabInformations
         End SyncLock
     End Sub
 
-    Public Function GetOldestUnreadId(ByVal TabName As String) As Integer
+    Public Function GetOldestUnreadIndex(ByVal TabName As String) As Integer
         Dim tb As TabClass = _tabs(TabName)
         If tb.OldestUnreadId > -1 AndAlso _
            tb.Contains(tb.OldestUnreadId) AndAlso _

@@ -4467,7 +4467,7 @@ RETRY:
         '現在タブから最終タブまで探索
         For i As Integer = bgnIdx To ListTab.TabPages.Count - 1
             '未読Index取得
-            idx = _statuses.GetOldestUnreadId(ListTab.TabPages(i).Text)
+            idx = _statuses.GetOldestUnreadIndex(ListTab.TabPages(i).Text)
             If idx > -1 Then
                 ListTab.SelectedIndex = i
                 lst = DirectCast(ListTab.TabPages(i).Tag, DetailsListView)
@@ -4479,7 +4479,7 @@ RETRY:
         '未読みつからず＆現在タブが先頭ではなかったら、先頭タブから現在タブの手前まで探索
         If idx = -1 AndAlso bgnIdx > 0 Then
             For i As Integer = 0 To bgnIdx - 1
-                idx = _statuses.GetOldestUnreadId(ListTab.TabPages(i).Text)
+                idx = _statuses.GetOldestUnreadIndex(ListTab.TabPages(i).Text)
                 If idx > -1 Then
                     ListTab.SelectedIndex = i
                     lst = DirectCast(ListTab.TabPages(i).Tag, DetailsListView)
