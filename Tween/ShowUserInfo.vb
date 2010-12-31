@@ -398,7 +398,7 @@ Public Class ShowUserInfo
     End Sub
 
     Private Sub ButtonSearchPosts_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonSearchPosts.Click
-        MyOwner.AddNewTabForSearch("from:" + _info.ScreenName)
+        MyOwner.AddNewTabForUserTimeline(_info.ScreenName)
     End Sub
 
     Private Sub UserPicture_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UserPicture.DoubleClick
