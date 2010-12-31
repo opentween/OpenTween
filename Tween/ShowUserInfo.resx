@@ -877,7 +877,7 @@
     <value>75, 23</value>
   </data>
   <data name="ButtonSearchPosts.Text" xml:space="preserve">
-    <value>発言を検索</value>
+    <value>TLを取得</value>
   </data>
   <data name="&gt;&gt;LinkLabelWeb.Parent" xml:space="preserve">
     <value>$this</value>

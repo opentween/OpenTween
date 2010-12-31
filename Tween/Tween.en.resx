@@ -269,19 +269,19 @@
     <value />
   </data>
   <data name="ListTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 244</value>
+    <value>570, 246</value>
   </data>
   <data name="ListTab.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="TimelinePanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 244</value>
+    <value>570, 246</value>
   </data>
   <data name="TimelinePanel.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="ImageSelectedPicture.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 216</value>
+    <value>570, 218</value>
   </data>
   <data name="ImageSelectedPicture.ToolTip" xml:space="preserve">
     <value />
@@ -311,19 +311,19 @@
     <value />
   </data>
   <data name="ImagePathPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 216</value>
+    <value>0, 218</value>
   </data>
   <data name="ImagePathPanel.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="ImageSelectionPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 244</value>
+    <value>570, 246</value>
   </data>
   <data name="ImageSelectionPanel.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="ProfilePanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 244</value>
+    <value>570, 246</value>
   </data>
   <data name="ProfilePanel.ToolTip" xml:space="preserve">
     <value />
@@ -368,7 +368,7 @@
     <value>242, 22</value>
   </data>
   <data name="SearchPostsDetailNameToolStripMenuItem.Text" xml:space="preserve">
-    <value>Search this user</value>
+    <value>User Timeline</value>
   </data>
   <data name="SearchAtPostsDetailNameToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>242, 22</value>
@@ -488,7 +488,7 @@
     <value>263, 22</value>
   </data>
   <data name="SearchPostsDetailToolStripMenuItem.Text" xml:space="preserve">
-    <value>Search this user(&amp;F)</value>
+    <value>User Timeline(&amp;F)</value>
   </data>
   <data name="SearchAtPostsDetailToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>263, 22</value>
@@ -533,7 +533,7 @@
     <value />
   </data>
   <data name="PostBrowser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>508, 44</value>
+    <value>508, 42</value>
   </data>
   <data name="PostBrowser.ToolTip" xml:space="preserve">
     <value />
@@ -545,7 +545,7 @@
     <value />
   </data>
   <data name="TableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 67</value>
+    <value>570, 65</value>
   </data>
   <data name="TableLayoutPanel1.ToolTip" xml:space="preserve">
     <value />
@@ -566,11 +566,11 @@
     <value />
   </data>
   <data name="SplitContainer2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 94</value>
+    <value>570, 92</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="SplitContainer2.SplitterDistance" type="System.Int32, mscorlib">
-    <value>67</value>
+    <value>65</value>
   </data>
   <data name="SplitContainer2.ToolTip" xml:space="preserve">
     <value />
@@ -579,13 +579,13 @@
     <value />
   </data>
   <data name="PreviewPicture.Size" type="System.Drawing.Size, System.Drawing">
-    <value>194, 96</value>
+    <value>194, 94</value>
   </data>
   <data name="PreviewPicture.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="PreviewScrollBar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>17, 96</value>
+    <value>17, 94</value>
   </data>
   <data name="PreviewScrollBar.ToolTip" xml:space="preserve">
     <value />
@@ -594,7 +594,7 @@
     <value />
   </data>
   <data name="SplitContainer3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 94</value>
+    <value>570, 92</value>
   </data>
   <data name="SplitContainer3.ToolTip" xml:space="preserve">
     <value />
@@ -603,7 +603,7 @@
     <value />
   </data>
   <data name="SplitContainer1.SplitterDistance" type="System.Int32, mscorlib">
-    <value>248</value>
+    <value>250</value>
   </data>
   <data name="SplitContainer1.ToolTip" xml:space="preserve">
     <value />
@@ -1028,6 +1028,9 @@
   <data name="JmpStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>189, 22</value>
   </data>
+  <data name="UxnuMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>189, 22</value>
+  </data>
   <data name="TinyUrlConvertToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>250, 22</value>
   </data>
@@ -1123,6 +1126,24 @@
   </data>
   <data name="MenuItemCommand.Text" xml:space="preserve">
     <value>&amp;Command</value>
+  </data>
+  <data name="StopToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 22</value>
+  </data>
+  <data name="ToolStripSeparator40.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 6</value>
+  </data>
+  <data name="TrackToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 22</value>
+  </data>
+  <data name="AllrepliesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 22</value>
+  </data>
+  <data name="ToolStripSeparator42.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 6</value>
+  </data>
+  <data name="EventViewerMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 22</value>
   </data>
   <data name="MatomeMenuItem.Text" xml:space="preserve">
     <value>Open Tween &amp;Help Site</value>

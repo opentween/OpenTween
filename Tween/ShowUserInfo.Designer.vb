@@ -65,7 +65,6 @@ Partial Class ShowUserInfo
         Me.ButtonEdit = New System.Windows.Forms.Button()
         Me.RecentPostBrowser = New System.Windows.Forms.WebBrowser()
         Me.DescriptionBrowser = New System.Windows.Forms.WebBrowser()
-        Me.OpenFileDialogIcon = New System.Windows.Forms.OpenFileDialog()
         Me.TextBoxName = New System.Windows.Forms.TextBox()
         Me.TextBoxLocation = New System.Windows.Forms.TextBox()
         Me.TextBoxWeb = New System.Windows.Forms.TextBox()
@@ -74,6 +73,7 @@ Partial Class ShowUserInfo
         Me.ButtonReportSpam = New System.Windows.Forms.Button()
         Me.ButtonBlockDestroy = New System.Windows.Forms.Button()
         Me.LinkLabel2 = New System.Windows.Forms.LinkLabel()
+        Me.OpenFileDialogIcon = New System.Windows.Forms.OpenFileDialog()
         CType(Me.UserPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ContextMenuUserPicture.SuspendLayout()
         Me.ContextMenuRecentPostBrowser.SuspendLayout()
@@ -363,11 +363,6 @@ Partial Class ShowUserInfo
         Me.DescriptionBrowser.Url = New System.Uri("about:blank", System.UriKind.Absolute)
         Me.DescriptionBrowser.WebBrowserShortcutsEnabled = False
         '
-        'OpenFileDialogIcon
-        '
-        Me.OpenFileDialogIcon.FileName = "OpenFileDialog1"
-        resources.ApplyResources(Me.OpenFileDialogIcon, "OpenFileDialogIcon")
-        '
         'TextBoxName
         '
         resources.ApplyResources(Me.TextBoxName, "TextBoxName")
@@ -423,6 +418,11 @@ Partial Class ShowUserInfo
         Me.LinkLabel2.Name = "LinkLabel2"
         Me.LinkLabel2.TabStop = True
         Me.ToolTip1.SetToolTip(Me.LinkLabel2, resources.GetString("LinkLabel2.ToolTip"))
+        '
+        'OpenFileDialogIcon
+        '
+        Me.OpenFileDialogIcon.FileName = "OpenFileDialog1"
+        resources.ApplyResources(Me.OpenFileDialogIcon, "OpenFileDialogIcon")
         '
         'ShowUserInfo
         '
