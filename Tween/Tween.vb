@@ -1438,6 +1438,11 @@ Public Class TweenMain
     End Function
 
     Private Sub NotifyNewPosts(ByVal notifyPosts() As PostClass, ByVal soundFile As String, ByVal addCount As Integer, ByVal newMentions As Boolean)
+        If notifyPosts IsNot Nothing AndAlso _
+            notifyPosts.All(Function(post) post.Uid.ToString() = tw.UserIdNo OrElse post.Name = tw.Username) Then
+            Exit Sub
+        End If
+
         '新着通知
         If BalloonRequired() Then
             If notifyPosts IsNot Nothing AndAlso notifyPosts.Length > 0 Then
