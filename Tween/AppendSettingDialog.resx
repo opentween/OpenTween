@@ -625,13 +625,13 @@
     <value>22, 167</value>
   </data>
   <data name="Label21.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 12</value>
+    <value>144, 12</value>
   </data>
   <data name="Label21.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
+    <value>12</value>
   </data>
   <data name="Label21.Text" xml:space="preserve">
-    <value>UserTimeline更新間隔</value>
+    <value>UserTimeline更新間隔（秒）</value>
   </data>
   <data name="&gt;&gt;Label21.Name" xml:space="preserve">
     <value>Label21</value>
@@ -652,7 +652,7 @@
     <value>65, 19</value>
   </data>
   <data name="UserTimelinePeriod.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
+    <value>13</value>
   </data>
   <data name="&gt;&gt;UserTimelinePeriod.Name" xml:space="preserve">
     <value>UserTimelinePeriod</value>
@@ -727,7 +727,7 @@
     <value>108, 23</value>
   </data>
   <data name="ButtonApiCalc.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
+    <value>16</value>
   </data>
   <data name="ButtonApiCalc.Text" xml:space="preserve">
     <value>再計算</value>
@@ -757,7 +757,7 @@
     <value>285, 12</value>
   </data>
   <data name="LabelPostAndGet.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
+    <value>15</value>
   </data>
   <data name="LabelPostAndGet.Text" xml:space="preserve">
     <value>投稿時取得が有効のため、投稿のたびにAPIを消費します。</value>
@@ -787,7 +787,7 @@
     <value>23, 12</value>
   </data>
   <data name="LabelApiUsing.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
+    <value>14</value>
   </data>
   <data name="LabelApiUsing.Text" xml:space="preserve">
     <value>999</value>
