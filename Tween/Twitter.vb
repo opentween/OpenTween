@@ -1370,6 +1370,7 @@ Public Class Twitter
         For Each status As TwitterDataModel.Status In items
             Dim item As PostClass = CreatePostsFromStatusData(status)
             If item Is Nothing Then Continue For
+            If item.Id < tab.OldestId Then tab.OldestId = item.Id
             item.IsRead = read
             If item.IsMe AndAlso Not read AndAlso _readOwnPost Then item.IsRead = True
             If tab IsNot Nothing Then item.RelTabName = tab.TabName
