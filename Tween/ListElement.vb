@@ -25,7 +25,7 @@
         Me.IsPublic = (listElementData.Mode = "public")
         Me.MemberCount = listElementData.MemberCount
         Me.Name = listElementData.Name
-        Me.SubscriberCount = listElementData.MemberCount
+        Me.SubscriberCount = listElementData.SubscriberCount
         Me.Slug = listElementData.Slug
         Me.Nickname = listElementData.User.Name
         Me.Username = listElementData.User.ScreenName
