@@ -7481,6 +7481,12 @@ RETRY:
                 HashMgr.AddHashToHistory(hash.Trim, False)
                 AddNewTabForSearch(hash)
                 Exit Sub
+            ElseIf openUrlStr.StartsWith("http://twitter.com/") Then
+                Me.AddNewTabForUserTimeline(openUrlStr.Remove(0, "http://twitter.com/".Length))
+                Exit Sub
+            ElseIf openUrlStr.StartsWith("https://twitter.com/") Then
+                Me.AddNewTabForUserTimeline(openUrlStr.Remove(0, "https://twitter.com/".Length))
+                Exit Sub
             End If
 
             openUrlStr = openUrlStr.Replace("://twitter.com/search?q=#", "://twitter.com/search?q=%23")
