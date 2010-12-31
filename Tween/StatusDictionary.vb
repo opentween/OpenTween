@@ -1637,9 +1637,6 @@ Public NotInheritable Class TabClass
 #End Region
 
     <Xml.Serialization.XmlIgnore()> _
-    Public Property BackToTab() As TabClass
-
-    <Xml.Serialization.XmlIgnore()> _
     Public Property RelationTargetPost() As PostClass
 
     <Xml.Serialization.XmlIgnore()> _
