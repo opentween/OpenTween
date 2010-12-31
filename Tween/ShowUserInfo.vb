@@ -337,6 +337,12 @@ Public Class ShowUserInfo
                 MyOwner.HashMgr.AddHashToHistory(hash.Trim, False)
                 MyOwner.AddNewTabForSearch(hash)
                 Exit Sub
+            ElseIf e.Url.AbsoluteUri.StartsWith("http://twitter.com/") Then
+                MyOwner.AddNewTabForUserTimeline(e.Url.AbsoluteUri.Remove(0, "http://twitter.com/".Length))
+                Exit Sub
+            ElseIf e.Url.AbsoluteUri.StartsWith("https://twitter.com/") Then
+                MyOwner.AddNewTabForUserTimeline(e.Url.AbsoluteUri.Remove(0, "https://twitter.com/".Length))
+                Exit Sub
             Else
                 MyOwner.OpenUriAsync(e.Url.OriginalString)
             End If
