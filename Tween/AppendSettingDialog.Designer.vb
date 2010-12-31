@@ -25,6 +25,42 @@ Partial Class AppendSettingDialog
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AppendSettingDialog))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.TreeView1 = New System.Windows.Forms.TreeView()
+        Me.GetPeriodPanel = New System.Windows.Forms.Panel()
+        Me.Label21 = New System.Windows.Forms.Label()
+        Me.UserTimelinePeriod = New System.Windows.Forms.TextBox()
+        Me.TimelinePeriod = New System.Windows.Forms.TextBox()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.ButtonApiCalc = New System.Windows.Forms.Button()
+        Me.LabelPostAndGet = New System.Windows.Forms.Label()
+        Me.LabelApiUsing = New System.Windows.Forms.Label()
+        Me.Label33 = New System.Windows.Forms.Label()
+        Me.ListsPeriod = New System.Windows.Forms.TextBox()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.PubSearchPeriod = New System.Windows.Forms.TextBox()
+        Me.Label69 = New System.Windows.Forms.Label()
+        Me.ReplyPeriod = New System.Windows.Forms.TextBox()
+        Me.CheckPostAndGet = New System.Windows.Forms.CheckBox()
+        Me.CheckPeriodAdjust = New System.Windows.Forms.CheckBox()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.DMPeriod = New System.Windows.Forms.TextBox()
+        Me.BasedPanel = New System.Windows.Forms.Panel()
+        Me.AuthBasicRadio = New System.Windows.Forms.RadioButton()
+        Me.AuthOAuthRadio = New System.Windows.Forms.RadioButton()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.AuthClearButton = New System.Windows.Forms.Button()
+        Me.AuthUserLabel = New System.Windows.Forms.Label()
+        Me.AuthStateLabel = New System.Windows.Forms.Label()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.AuthorizeButton = New System.Windows.Forms.Button()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Username = New System.Windows.Forms.TextBox()
+        Me.Password = New System.Windows.Forms.TextBox()
+        Me.StartupPanel = New System.Windows.Forms.Panel()
+        Me.StartupReaded = New System.Windows.Forms.CheckBox()
+        Me.CheckStartupFollowers = New System.Windows.Forms.CheckBox()
+        Me.CheckStartupVersion = New System.Windows.Forms.CheckBox()
+        Me.chkGetFav = New System.Windows.Forms.CheckBox()
         Me.GetCountPanel = New System.Windows.Forms.Panel()
         Me.UserTimelineTextCountApi = New System.Windows.Forms.TextBox()
         Me.Label17 = New System.Windows.Forms.Label()
@@ -41,40 +77,6 @@ Partial Class AppendSettingDialog
         Me.TextCountApiReply = New System.Windows.Forms.TextBox()
         Me.Label67 = New System.Windows.Forms.Label()
         Me.TextCountApi = New System.Windows.Forms.TextBox()
-        Me.BasedPanel = New System.Windows.Forms.Panel()
-        Me.AuthBasicRadio = New System.Windows.Forms.RadioButton()
-        Me.AuthOAuthRadio = New System.Windows.Forms.RadioButton()
-        Me.Label6 = New System.Windows.Forms.Label()
-        Me.AuthClearButton = New System.Windows.Forms.Button()
-        Me.AuthUserLabel = New System.Windows.Forms.Label()
-        Me.AuthStateLabel = New System.Windows.Forms.Label()
-        Me.Label4 = New System.Windows.Forms.Label()
-        Me.AuthorizeButton = New System.Windows.Forms.Button()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.Username = New System.Windows.Forms.TextBox()
-        Me.Password = New System.Windows.Forms.TextBox()
-        Me.GetPeriodPanel = New System.Windows.Forms.Panel()
-        Me.TimelinePeriod = New System.Windows.Forms.TextBox()
-        Me.Label3 = New System.Windows.Forms.Label()
-        Me.ButtonApiCalc = New System.Windows.Forms.Button()
-        Me.LabelPostAndGet = New System.Windows.Forms.Label()
-        Me.LabelApiUsing = New System.Windows.Forms.Label()
-        Me.Label33 = New System.Windows.Forms.Label()
-        Me.ListsPeriod = New System.Windows.Forms.TextBox()
-        Me.Label7 = New System.Windows.Forms.Label()
-        Me.PubSearchPeriod = New System.Windows.Forms.TextBox()
-        Me.Label69 = New System.Windows.Forms.Label()
-        Me.ReplyPeriod = New System.Windows.Forms.TextBox()
-        Me.CheckPostAndGet = New System.Windows.Forms.CheckBox()
-        Me.CheckPeriodAdjust = New System.Windows.Forms.CheckBox()
-        Me.Label5 = New System.Windows.Forms.Label()
-        Me.DMPeriod = New System.Windows.Forms.TextBox()
-        Me.StartupPanel = New System.Windows.Forms.Panel()
-        Me.StartupReaded = New System.Windows.Forms.CheckBox()
-        Me.CheckStartupFollowers = New System.Windows.Forms.CheckBox()
-        Me.CheckStartupVersion = New System.Windows.Forms.CheckBox()
-        Me.chkGetFav = New System.Windows.Forms.CheckBox()
         Me.UserStreamPanel = New System.Windows.Forms.Panel()
         Me.UserstreamPeriod = New System.Windows.Forms.TextBox()
         Me.StartupUserstreamCheck = New System.Windows.Forms.CheckBox()
@@ -244,10 +246,10 @@ Partial Class AppendSettingDialog
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        Me.GetCountPanel.SuspendLayout()
-        Me.BasedPanel.SuspendLayout()
         Me.GetPeriodPanel.SuspendLayout()
+        Me.BasedPanel.SuspendLayout()
         Me.StartupPanel.SuspendLayout()
+        Me.GetCountPanel.SuspendLayout()
         Me.UserStreamPanel.SuspendLayout()
         Me.ActionPanel.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -301,6 +303,235 @@ Partial Class AppendSettingDialog
         Me.TreeView1.Name = "TreeView1"
         Me.TreeView1.Nodes.AddRange(New System.Windows.Forms.TreeNode() {CType(resources.GetObject("TreeView1.Nodes"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeView1.Nodes1"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeView1.Nodes2"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeView1.Nodes3"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeView1.Nodes4"), System.Windows.Forms.TreeNode)})
         Me.TreeView1.ShowLines = False
+        '
+        'GetPeriodPanel
+        '
+        Me.GetPeriodPanel.Controls.Add(Me.Label21)
+        Me.GetPeriodPanel.Controls.Add(Me.UserTimelinePeriod)
+        Me.GetPeriodPanel.Controls.Add(Me.TimelinePeriod)
+        Me.GetPeriodPanel.Controls.Add(Me.Label3)
+        Me.GetPeriodPanel.Controls.Add(Me.ButtonApiCalc)
+        Me.GetPeriodPanel.Controls.Add(Me.LabelPostAndGet)
+        Me.GetPeriodPanel.Controls.Add(Me.LabelApiUsing)
+        Me.GetPeriodPanel.Controls.Add(Me.Label33)
+        Me.GetPeriodPanel.Controls.Add(Me.ListsPeriod)
+        Me.GetPeriodPanel.Controls.Add(Me.Label7)
+        Me.GetPeriodPanel.Controls.Add(Me.PubSearchPeriod)
+        Me.GetPeriodPanel.Controls.Add(Me.Label69)
+        Me.GetPeriodPanel.Controls.Add(Me.ReplyPeriod)
+        Me.GetPeriodPanel.Controls.Add(Me.CheckPostAndGet)
+        Me.GetPeriodPanel.Controls.Add(Me.CheckPeriodAdjust)
+        Me.GetPeriodPanel.Controls.Add(Me.Label5)
+        Me.GetPeriodPanel.Controls.Add(Me.DMPeriod)
+        resources.ApplyResources(Me.GetPeriodPanel, "GetPeriodPanel")
+        Me.GetPeriodPanel.Name = "GetPeriodPanel"
+        '
+        'Label21
+        '
+        resources.ApplyResources(Me.Label21, "Label21")
+        Me.Label21.Name = "Label21"
+        '
+        'UserTimelinePeriod
+        '
+        resources.ApplyResources(Me.UserTimelinePeriod, "UserTimelinePeriod")
+        Me.UserTimelinePeriod.Name = "UserTimelinePeriod"
+        '
+        'TimelinePeriod
+        '
+        resources.ApplyResources(Me.TimelinePeriod, "TimelinePeriod")
+        Me.TimelinePeriod.Name = "TimelinePeriod"
+        '
+        'Label3
+        '
+        resources.ApplyResources(Me.Label3, "Label3")
+        Me.Label3.Name = "Label3"
+        '
+        'ButtonApiCalc
+        '
+        resources.ApplyResources(Me.ButtonApiCalc, "ButtonApiCalc")
+        Me.ButtonApiCalc.Name = "ButtonApiCalc"
+        Me.ButtonApiCalc.UseVisualStyleBackColor = True
+        '
+        'LabelPostAndGet
+        '
+        resources.ApplyResources(Me.LabelPostAndGet, "LabelPostAndGet")
+        Me.LabelPostAndGet.Name = "LabelPostAndGet"
+        '
+        'LabelApiUsing
+        '
+        resources.ApplyResources(Me.LabelApiUsing, "LabelApiUsing")
+        Me.LabelApiUsing.Name = "LabelApiUsing"
+        '
+        'Label33
+        '
+        resources.ApplyResources(Me.Label33, "Label33")
+        Me.Label33.Name = "Label33"
+        '
+        'ListsPeriod
+        '
+        resources.ApplyResources(Me.ListsPeriod, "ListsPeriod")
+        Me.ListsPeriod.Name = "ListsPeriod"
+        '
+        'Label7
+        '
+        resources.ApplyResources(Me.Label7, "Label7")
+        Me.Label7.Name = "Label7"
+        '
+        'PubSearchPeriod
+        '
+        resources.ApplyResources(Me.PubSearchPeriod, "PubSearchPeriod")
+        Me.PubSearchPeriod.Name = "PubSearchPeriod"
+        '
+        'Label69
+        '
+        resources.ApplyResources(Me.Label69, "Label69")
+        Me.Label69.Name = "Label69"
+        '
+        'ReplyPeriod
+        '
+        resources.ApplyResources(Me.ReplyPeriod, "ReplyPeriod")
+        Me.ReplyPeriod.Name = "ReplyPeriod"
+        '
+        'CheckPostAndGet
+        '
+        resources.ApplyResources(Me.CheckPostAndGet, "CheckPostAndGet")
+        Me.CheckPostAndGet.Name = "CheckPostAndGet"
+        Me.CheckPostAndGet.UseVisualStyleBackColor = True
+        '
+        'CheckPeriodAdjust
+        '
+        resources.ApplyResources(Me.CheckPeriodAdjust, "CheckPeriodAdjust")
+        Me.CheckPeriodAdjust.Name = "CheckPeriodAdjust"
+        Me.CheckPeriodAdjust.UseVisualStyleBackColor = True
+        '
+        'Label5
+        '
+        resources.ApplyResources(Me.Label5, "Label5")
+        Me.Label5.Name = "Label5"
+        '
+        'DMPeriod
+        '
+        resources.ApplyResources(Me.DMPeriod, "DMPeriod")
+        Me.DMPeriod.Name = "DMPeriod"
+        '
+        'BasedPanel
+        '
+        Me.BasedPanel.Controls.Add(Me.AuthBasicRadio)
+        Me.BasedPanel.Controls.Add(Me.AuthOAuthRadio)
+        Me.BasedPanel.Controls.Add(Me.Label6)
+        Me.BasedPanel.Controls.Add(Me.AuthClearButton)
+        Me.BasedPanel.Controls.Add(Me.AuthUserLabel)
+        Me.BasedPanel.Controls.Add(Me.AuthStateLabel)
+        Me.BasedPanel.Controls.Add(Me.Label4)
+        Me.BasedPanel.Controls.Add(Me.AuthorizeButton)
+        Me.BasedPanel.Controls.Add(Me.Label1)
+        Me.BasedPanel.Controls.Add(Me.Label2)
+        Me.BasedPanel.Controls.Add(Me.Username)
+        Me.BasedPanel.Controls.Add(Me.Password)
+        resources.ApplyResources(Me.BasedPanel, "BasedPanel")
+        Me.BasedPanel.Name = "BasedPanel"
+        '
+        'AuthBasicRadio
+        '
+        resources.ApplyResources(Me.AuthBasicRadio, "AuthBasicRadio")
+        Me.AuthBasicRadio.Name = "AuthBasicRadio"
+        Me.AuthBasicRadio.UseVisualStyleBackColor = True
+        '
+        'AuthOAuthRadio
+        '
+        resources.ApplyResources(Me.AuthOAuthRadio, "AuthOAuthRadio")
+        Me.AuthOAuthRadio.Checked = True
+        Me.AuthOAuthRadio.Name = "AuthOAuthRadio"
+        Me.AuthOAuthRadio.TabStop = True
+        Me.AuthOAuthRadio.UseVisualStyleBackColor = True
+        '
+        'Label6
+        '
+        resources.ApplyResources(Me.Label6, "Label6")
+        Me.Label6.Name = "Label6"
+        '
+        'AuthClearButton
+        '
+        resources.ApplyResources(Me.AuthClearButton, "AuthClearButton")
+        Me.AuthClearButton.Name = "AuthClearButton"
+        Me.AuthClearButton.UseVisualStyleBackColor = True
+        '
+        'AuthUserLabel
+        '
+        Me.AuthUserLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        resources.ApplyResources(Me.AuthUserLabel, "AuthUserLabel")
+        Me.AuthUserLabel.Name = "AuthUserLabel"
+        '
+        'AuthStateLabel
+        '
+        Me.AuthStateLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        resources.ApplyResources(Me.AuthStateLabel, "AuthStateLabel")
+        Me.AuthStateLabel.Name = "AuthStateLabel"
+        '
+        'Label4
+        '
+        resources.ApplyResources(Me.Label4, "Label4")
+        Me.Label4.Name = "Label4"
+        '
+        'AuthorizeButton
+        '
+        resources.ApplyResources(Me.AuthorizeButton, "AuthorizeButton")
+        Me.AuthorizeButton.Name = "AuthorizeButton"
+        Me.AuthorizeButton.UseVisualStyleBackColor = True
+        '
+        'Label1
+        '
+        resources.ApplyResources(Me.Label1, "Label1")
+        Me.Label1.Name = "Label1"
+        '
+        'Label2
+        '
+        resources.ApplyResources(Me.Label2, "Label2")
+        Me.Label2.Name = "Label2"
+        '
+        'Username
+        '
+        resources.ApplyResources(Me.Username, "Username")
+        Me.Username.Name = "Username"
+        '
+        'Password
+        '
+        resources.ApplyResources(Me.Password, "Password")
+        Me.Password.Name = "Password"
+        Me.Password.UseSystemPasswordChar = True
+        '
+        'StartupPanel
+        '
+        Me.StartupPanel.Controls.Add(Me.StartupReaded)
+        Me.StartupPanel.Controls.Add(Me.CheckStartupFollowers)
+        Me.StartupPanel.Controls.Add(Me.CheckStartupVersion)
+        Me.StartupPanel.Controls.Add(Me.chkGetFav)
+        resources.ApplyResources(Me.StartupPanel, "StartupPanel")
+        Me.StartupPanel.Name = "StartupPanel"
+        '
+        'StartupReaded
+        '
+        resources.ApplyResources(Me.StartupReaded, "StartupReaded")
+        Me.StartupReaded.Name = "StartupReaded"
+        Me.StartupReaded.UseVisualStyleBackColor = True
+        '
+        'CheckStartupFollowers
+        '
+        resources.ApplyResources(Me.CheckStartupFollowers, "CheckStartupFollowers")
+        Me.CheckStartupFollowers.Name = "CheckStartupFollowers"
+        Me.CheckStartupFollowers.UseVisualStyleBackColor = True
+        '
+        'CheckStartupVersion
+        '
+        resources.ApplyResources(Me.CheckStartupVersion, "CheckStartupVersion")
+        Me.CheckStartupVersion.Name = "CheckStartupVersion"
+        Me.CheckStartupVersion.UseVisualStyleBackColor = True
+        '
+        'chkGetFav
+        '
+        resources.ApplyResources(Me.chkGetFav, "chkGetFav")
+        Me.chkGetFav.Name = "chkGetFav"
+        Me.chkGetFav.UseVisualStyleBackColor = True
         '
         'GetCountPanel
         '
@@ -397,223 +628,6 @@ Partial Class AppendSettingDialog
         '
         resources.ApplyResources(Me.TextCountApi, "TextCountApi")
         Me.TextCountApi.Name = "TextCountApi"
-        '
-        'BasedPanel
-        '
-        Me.BasedPanel.Controls.Add(Me.AuthBasicRadio)
-        Me.BasedPanel.Controls.Add(Me.AuthOAuthRadio)
-        Me.BasedPanel.Controls.Add(Me.Label6)
-        Me.BasedPanel.Controls.Add(Me.AuthClearButton)
-        Me.BasedPanel.Controls.Add(Me.AuthUserLabel)
-        Me.BasedPanel.Controls.Add(Me.AuthStateLabel)
-        Me.BasedPanel.Controls.Add(Me.Label4)
-        Me.BasedPanel.Controls.Add(Me.AuthorizeButton)
-        Me.BasedPanel.Controls.Add(Me.Label1)
-        Me.BasedPanel.Controls.Add(Me.Label2)
-        Me.BasedPanel.Controls.Add(Me.Username)
-        Me.BasedPanel.Controls.Add(Me.Password)
-        resources.ApplyResources(Me.BasedPanel, "BasedPanel")
-        Me.BasedPanel.Name = "BasedPanel"
-        '
-        'AuthBasicRadio
-        '
-        resources.ApplyResources(Me.AuthBasicRadio, "AuthBasicRadio")
-        Me.AuthBasicRadio.Name = "AuthBasicRadio"
-        Me.AuthBasicRadio.UseVisualStyleBackColor = True
-        '
-        'AuthOAuthRadio
-        '
-        resources.ApplyResources(Me.AuthOAuthRadio, "AuthOAuthRadio")
-        Me.AuthOAuthRadio.Checked = True
-        Me.AuthOAuthRadio.Name = "AuthOAuthRadio"
-        Me.AuthOAuthRadio.TabStop = True
-        Me.AuthOAuthRadio.UseVisualStyleBackColor = True
-        '
-        'Label6
-        '
-        resources.ApplyResources(Me.Label6, "Label6")
-        Me.Label6.Name = "Label6"
-        '
-        'AuthClearButton
-        '
-        resources.ApplyResources(Me.AuthClearButton, "AuthClearButton")
-        Me.AuthClearButton.Name = "AuthClearButton"
-        Me.AuthClearButton.UseVisualStyleBackColor = True
-        '
-        'AuthUserLabel
-        '
-        Me.AuthUserLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        resources.ApplyResources(Me.AuthUserLabel, "AuthUserLabel")
-        Me.AuthUserLabel.Name = "AuthUserLabel"
-        '
-        'AuthStateLabel
-        '
-        Me.AuthStateLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        resources.ApplyResources(Me.AuthStateLabel, "AuthStateLabel")
-        Me.AuthStateLabel.Name = "AuthStateLabel"
-        '
-        'Label4
-        '
-        resources.ApplyResources(Me.Label4, "Label4")
-        Me.Label4.Name = "Label4"
-        '
-        'AuthorizeButton
-        '
-        resources.ApplyResources(Me.AuthorizeButton, "AuthorizeButton")
-        Me.AuthorizeButton.Name = "AuthorizeButton"
-        Me.AuthorizeButton.UseVisualStyleBackColor = True
-        '
-        'Label1
-        '
-        resources.ApplyResources(Me.Label1, "Label1")
-        Me.Label1.Name = "Label1"
-        '
-        'Label2
-        '
-        resources.ApplyResources(Me.Label2, "Label2")
-        Me.Label2.Name = "Label2"
-        '
-        'Username
-        '
-        resources.ApplyResources(Me.Username, "Username")
-        Me.Username.Name = "Username"
-        '
-        'Password
-        '
-        resources.ApplyResources(Me.Password, "Password")
-        Me.Password.Name = "Password"
-        Me.Password.UseSystemPasswordChar = True
-        '
-        'GetPeriodPanel
-        '
-        Me.GetPeriodPanel.Controls.Add(Me.TimelinePeriod)
-        Me.GetPeriodPanel.Controls.Add(Me.Label3)
-        Me.GetPeriodPanel.Controls.Add(Me.ButtonApiCalc)
-        Me.GetPeriodPanel.Controls.Add(Me.LabelPostAndGet)
-        Me.GetPeriodPanel.Controls.Add(Me.LabelApiUsing)
-        Me.GetPeriodPanel.Controls.Add(Me.Label33)
-        Me.GetPeriodPanel.Controls.Add(Me.ListsPeriod)
-        Me.GetPeriodPanel.Controls.Add(Me.Label7)
-        Me.GetPeriodPanel.Controls.Add(Me.PubSearchPeriod)
-        Me.GetPeriodPanel.Controls.Add(Me.Label69)
-        Me.GetPeriodPanel.Controls.Add(Me.ReplyPeriod)
-        Me.GetPeriodPanel.Controls.Add(Me.CheckPostAndGet)
-        Me.GetPeriodPanel.Controls.Add(Me.CheckPeriodAdjust)
-        Me.GetPeriodPanel.Controls.Add(Me.Label5)
-        Me.GetPeriodPanel.Controls.Add(Me.DMPeriod)
-        resources.ApplyResources(Me.GetPeriodPanel, "GetPeriodPanel")
-        Me.GetPeriodPanel.Name = "GetPeriodPanel"
-        '
-        'TimelinePeriod
-        '
-        resources.ApplyResources(Me.TimelinePeriod, "TimelinePeriod")
-        Me.TimelinePeriod.Name = "TimelinePeriod"
-        '
-        'Label3
-        '
-        resources.ApplyResources(Me.Label3, "Label3")
-        Me.Label3.Name = "Label3"
-        '
-        'ButtonApiCalc
-        '
-        resources.ApplyResources(Me.ButtonApiCalc, "ButtonApiCalc")
-        Me.ButtonApiCalc.Name = "ButtonApiCalc"
-        Me.ButtonApiCalc.UseVisualStyleBackColor = True
-        '
-        'LabelPostAndGet
-        '
-        resources.ApplyResources(Me.LabelPostAndGet, "LabelPostAndGet")
-        Me.LabelPostAndGet.Name = "LabelPostAndGet"
-        '
-        'LabelApiUsing
-        '
-        resources.ApplyResources(Me.LabelApiUsing, "LabelApiUsing")
-        Me.LabelApiUsing.Name = "LabelApiUsing"
-        '
-        'Label33
-        '
-        resources.ApplyResources(Me.Label33, "Label33")
-        Me.Label33.Name = "Label33"
-        '
-        'ListsPeriod
-        '
-        resources.ApplyResources(Me.ListsPeriod, "ListsPeriod")
-        Me.ListsPeriod.Name = "ListsPeriod"
-        '
-        'Label7
-        '
-        resources.ApplyResources(Me.Label7, "Label7")
-        Me.Label7.Name = "Label7"
-        '
-        'PubSearchPeriod
-        '
-        resources.ApplyResources(Me.PubSearchPeriod, "PubSearchPeriod")
-        Me.PubSearchPeriod.Name = "PubSearchPeriod"
-        '
-        'Label69
-        '
-        resources.ApplyResources(Me.Label69, "Label69")
-        Me.Label69.Name = "Label69"
-        '
-        'ReplyPeriod
-        '
-        resources.ApplyResources(Me.ReplyPeriod, "ReplyPeriod")
-        Me.ReplyPeriod.Name = "ReplyPeriod"
-        '
-        'CheckPostAndGet
-        '
-        resources.ApplyResources(Me.CheckPostAndGet, "CheckPostAndGet")
-        Me.CheckPostAndGet.Name = "CheckPostAndGet"
-        Me.CheckPostAndGet.UseVisualStyleBackColor = True
-        '
-        'CheckPeriodAdjust
-        '
-        resources.ApplyResources(Me.CheckPeriodAdjust, "CheckPeriodAdjust")
-        Me.CheckPeriodAdjust.Name = "CheckPeriodAdjust"
-        Me.CheckPeriodAdjust.UseVisualStyleBackColor = True
-        '
-        'Label5
-        '
-        resources.ApplyResources(Me.Label5, "Label5")
-        Me.Label5.Name = "Label5"
-        '
-        'DMPeriod
-        '
-        resources.ApplyResources(Me.DMPeriod, "DMPeriod")
-        Me.DMPeriod.Name = "DMPeriod"
-        '
-        'StartupPanel
-        '
-        Me.StartupPanel.Controls.Add(Me.StartupReaded)
-        Me.StartupPanel.Controls.Add(Me.CheckStartupFollowers)
-        Me.StartupPanel.Controls.Add(Me.CheckStartupVersion)
-        Me.StartupPanel.Controls.Add(Me.chkGetFav)
-        resources.ApplyResources(Me.StartupPanel, "StartupPanel")
-        Me.StartupPanel.Name = "StartupPanel"
-        '
-        'StartupReaded
-        '
-        resources.ApplyResources(Me.StartupReaded, "StartupReaded")
-        Me.StartupReaded.Name = "StartupReaded"
-        Me.StartupReaded.UseVisualStyleBackColor = True
-        '
-        'CheckStartupFollowers
-        '
-        resources.ApplyResources(Me.CheckStartupFollowers, "CheckStartupFollowers")
-        Me.CheckStartupFollowers.Name = "CheckStartupFollowers"
-        Me.CheckStartupFollowers.UseVisualStyleBackColor = True
-        '
-        'CheckStartupVersion
-        '
-        resources.ApplyResources(Me.CheckStartupVersion, "CheckStartupVersion")
-        Me.CheckStartupVersion.Name = "CheckStartupVersion"
-        Me.CheckStartupVersion.UseVisualStyleBackColor = True
-        '
-        'chkGetFav
-        '
-        resources.ApplyResources(Me.chkGetFav, "chkGetFav")
-        Me.chkGetFav.Name = "chkGetFav"
-        Me.chkGetFav.UseVisualStyleBackColor = True
         '
         'UserStreamPanel
         '
@@ -1725,14 +1739,14 @@ Partial Class AppendSettingDialog
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.ResumeLayout(False)
-        Me.GetCountPanel.ResumeLayout(False)
-        Me.GetCountPanel.PerformLayout()
-        Me.BasedPanel.ResumeLayout(False)
-        Me.BasedPanel.PerformLayout()
         Me.GetPeriodPanel.ResumeLayout(False)
         Me.GetPeriodPanel.PerformLayout()
+        Me.BasedPanel.ResumeLayout(False)
+        Me.BasedPanel.PerformLayout()
         Me.StartupPanel.ResumeLayout(False)
         Me.StartupPanel.PerformLayout()
+        Me.GetCountPanel.ResumeLayout(False)
+        Me.GetCountPanel.PerformLayout()
         Me.UserStreamPanel.ResumeLayout(False)
         Me.UserStreamPanel.PerformLayout()
         Me.ActionPanel.ResumeLayout(False)
@@ -1979,4 +1993,6 @@ Partial Class AppendSettingDialog
     Friend WithEvents ShortUrlPanel As System.Windows.Forms.Panel
     Friend WithEvents UserTimelineTextCountApi As System.Windows.Forms.TextBox
     Friend WithEvents Label17 As System.Windows.Forms.Label
+    Friend WithEvents Label21 As System.Windows.Forms.Label
+    Friend WithEvents UserTimelinePeriod As System.Windows.Forms.TextBox
 End Class
