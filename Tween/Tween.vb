@@ -3239,6 +3239,10 @@ Public Class TweenMain
                 HashMgr.AddHashToHistory(hash.Trim, False)
                 AddNewTabForSearch(hash)
                 Exit Sub
+            ElseIf e.Url.AbsoluteUri.StartsWith("http://twitter.com/") Then
+                Me.AddNewTabForUserTimeline(e.Url.AbsoluteUri.Remove(0, "http://twitter.com/".Length))
+            ElseIf e.Url.AbsoluteUri.StartsWith("https://twitter.com/") Then
+                Me.AddNewTabForUserTimeline(e.Url.AbsoluteUri.Remove(0, "https://twitter.com/".Length))
             Else
                 OpenUriAsync(e.Url.OriginalString)
             End If
