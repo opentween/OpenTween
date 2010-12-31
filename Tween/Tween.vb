@@ -607,6 +607,7 @@ Public Class TweenMain
         SettingDialog.ReplyPeriodInt = _cfgCommon.ReplyPeriod
         SettingDialog.DMPeriodInt = _cfgCommon.DMPeriod
         SettingDialog.PubSearchPeriodInt = _cfgCommon.PubSearchPeriod
+        SettingDialog.UserTimelinePeriodInt = _cfgCommon.UserTimelinePeriod
         SettingDialog.ListsPeriodInt = _cfgCommon.ListsPeriod
         '不正値チェック
         If Not My.Application.CommandLineArgs.Contains("nolimit") Then
@@ -614,6 +615,7 @@ Public Class TweenMain
             If SettingDialog.ReplyPeriodInt < 15 AndAlso SettingDialog.ReplyPeriodInt > 0 Then SettingDialog.ReplyPeriodInt = 15
             If SettingDialog.DMPeriodInt < 15 AndAlso SettingDialog.DMPeriodInt > 0 Then SettingDialog.DMPeriodInt = 15
             If SettingDialog.PubSearchPeriodInt < 30 AndAlso SettingDialog.PubSearchPeriodInt > 0 Then SettingDialog.PubSearchPeriodInt = 30
+            If SettingDialog.UserTimelinePeriodInt < 15 AndAlso SettingDialog.UserTimelinePeriodInt > 0 Then SettingDialog.UserTimelinePeriodInt = 15
             If SettingDialog.ListsPeriodInt < 15 AndAlso SettingDialog.ListsPeriodInt > 0 Then SettingDialog.ListsPeriodInt = 15
         End If
 
@@ -1194,6 +1196,7 @@ Public Class TweenMain
         Static mentionCounter As Integer = 0
         Static dmCounter As Integer = 0
         Static pubSearchCounter As Integer = 0
+        Static userTimelineCounter As Integer = 0
         Static listsCounter As Integer = 0
         Static usCounter As Integer = 0
 
@@ -1201,6 +1204,7 @@ Public Class TweenMain
         If mentionCounter > 0 Then Interlocked.Decrement(mentionCounter)
         If dmCounter > 0 Then Interlocked.Decrement(dmCounter)
         If pubSearchCounter > 0 Then Interlocked.Decrement(pubSearchCounter)
+        If userTimelineCounter > 0 Then Interlocked.Decrement(userTimelineCounter)
         If listsCounter > 0 Then Interlocked.Decrement(listsCounter)
         If usCounter > 0 Then Interlocked.Decrement(usCounter)
 
@@ -1225,6 +1229,9 @@ Public Class TweenMain
         If pubSearchCounter <= 0 AndAlso SettingDialog.PubSearchPeriodInt > 0 Then
             Interlocked.Exchange(pubSearchCounter, SettingDialog.PubSearchPeriodInt)
             GetTimeline(WORKERTYPE.PublicSearch, 1, 0, "")
+        End If
+        If userTimelineCounter <= 0 AndAlso SettingDialog.UserTimelinePeriodInt > 0 Then
+            Interlocked.Exchange(userTimelineCounter, SettingDialog.UserTimelinePeriodInt)
             GetTimeline(WORKERTYPE.UserTimeline, 1, 0, "")
         End If
         If listsCounter <= 0 AndAlso SettingDialog.ListsPeriodInt > 0 Then
@@ -6065,6 +6072,7 @@ RETRY:
             _cfgCommon.DMPeriod = SettingDialog.DMPeriodInt
             _cfgCommon.PubSearchPeriod = SettingDialog.PubSearchPeriodInt
             _cfgCommon.ListsPeriod = SettingDialog.ListsPeriodInt
+            _cfgCommon.UserTimelineCountApi = SettingDialog.UserTimelinePeriodInt
             _cfgCommon.Read = SettingDialog.Readed
             _cfgCommon.IconSize = SettingDialog.IconSz
             _cfgCommon.UnreadManage = SettingDialog.UnreadManage

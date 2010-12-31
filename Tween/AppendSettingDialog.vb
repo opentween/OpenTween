@@ -11,6 +11,7 @@ Public Class AppendSettingDialog
     Private _MyDMPeriod As Integer
     Private _MyPubSearchPeriod As Integer
     Private _MyListsPeriod As Integer
+    Private _MyUserTimelinePeriod As Integer
     Private _MyLogDays As Integer
     Private _MyLogUnit As LogUnitEnum
     Private _MyReaded As Boolean
@@ -168,6 +169,7 @@ Public Class AppendSettingDialog
             _MyPubSearchPeriod = CType(PubSearchPeriod.Text, Integer)
             _MyListsPeriod = CType(ListsPeriod.Text, Integer)
             _MyReplyPeriod = CType(ReplyPeriod.Text, Integer)
+            _MyUserTimelinePeriod = CType(UserTimelinePeriod.Text, Integer)
             _MyMaxPostNum = 125
 
             _MyReaded = StartupReaded.Checked
@@ -406,6 +408,7 @@ Public Class AppendSettingDialog
         DMPeriod.Text = _MyDMPeriod.ToString()
         PubSearchPeriod.Text = _MyPubSearchPeriod.ToString()
         ListsPeriod.Text = _MyListsPeriod.ToString()
+        UserTimelinePeriod.Text = _MyUserTimelinePeriod.ToString
 
         StartupReaded.Checked = _MyReaded
         Select Case _MyIconSize
@@ -752,6 +755,24 @@ Public Class AppendSettingDialog
         CalcApiUsing()
     End Sub
 
+    Private Sub UserTimeline_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles UserTimelinePeriod.Validating
+        Dim prd As Integer
+        Try
+            prd = CType(UserTimelinePeriod.Text, Integer)
+        Catch ex As Exception
+            MessageBox.Show(My.Resources.DMPeriod_ValidatingText1)
+            e.Cancel = True
+            Exit Sub
+        End Try
+
+        If prd <> 0 AndAlso (prd < 15 OrElse prd > 6000) Then
+            MessageBox.Show(My.Resources.DMPeriod_ValidatingText2)
+            e.Cancel = True
+            Exit Sub
+        End If
+        CalcApiUsing()
+    End Sub
+
     Private Sub UReadMng_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UReadMng.CheckedChanged
         If UReadMng.Checked = True Then
             StartupReaded.Enabled = True
@@ -948,6 +969,15 @@ Public Class AppendSettingDialog
         End Get
         Set(ByVal value As Integer)
             _MyListsPeriod = value
+        End Set
+    End Property
+
+    Public Property UserTimelinePeriodInt() As Integer
+        Get
+            Return _MyUserTimelinePeriod
+        End Get
+        Set(ByVal value As Integer)
+            _MyUserTimelinePeriod = value
         End Set
     End Property
 
@@ -2023,10 +2053,18 @@ Public Class AppendSettingDialog
         Dim UsingApi As Integer = 0
         Dim tmp As Integer
         Dim ListsTabNum As Integer = 0
+        Dim UserTimelineTabNum As Integer = 0
 
         Try
             ' 初回起動時などにNothingの場合あり
             ListsTabNum = TabInformations.GetInstance.GetTabsByType(TabUsageType.Lists).Count
+        Catch ex As Exception
+            Exit Sub
+        End Try
+
+        Try
+            ' 初回起動時などにNothingの場合あり
+            UserTimelineTabNum = TabInformations.GetInstance.GetTabsByType(TabUsageType.UserTimeline).Count
         Catch ex As Exception
             Exit Sub
         End Try
@@ -2056,6 +2094,13 @@ Public Class AppendSettingDialog
         If Integer.TryParse(ListsPeriod.Text, tmp) Then
             If tmp <> 0 Then
                 UsingApi += (3600 \ tmp) * ListsTabNum
+            End If
+        End If
+
+        ' Listsタブ計算 0は手動更新
+        If Integer.TryParse(UserTimelinePeriod.Text, tmp) Then
+            If tmp <> 0 Then
+                UsingApi += (3600 \ tmp) * UserTimelineTabNum
             End If
         End If
 
