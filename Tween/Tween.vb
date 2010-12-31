@@ -57,6 +57,7 @@ Public Class TweenMain
     Private _initialLayout As Boolean = True
     Private _ignoreConfigSave As Boolean         'True:起動時処理中
     Private _tabDrag As Boolean           'タブドラッグ中フラグ（DoDragDropを実行するかの判定用）
+    Private _beforeSelectedTab As TabPage 'タブが削除されたときに前回選択されていたときのタブを選択する為に保持
     Private _tabMouseDownPoint As Point
     Private _rclickTabName As String      '右クリックしたタブの名前（Tabコントロール機能不足対応）
     Private ReadOnly _syncObject As New Object()    'ロック用
@@ -3643,6 +3644,9 @@ Public Class TweenMain
 
         _tabPage.SuspendLayout()
 
+        If Me.ListTab.SelectedTab Is Me.ListTab.TabPages(idx) Then
+            Me.ListTab.SelectedTab = If(Me._beforeSelectedTab, Me.ListTab.TabPages(0))
+        End If
         Me.ListTab.Controls.Remove(_tabPage)
 
         Dim pnl As Control = Nothing
@@ -3714,6 +3718,7 @@ Public Class TweenMain
                 lst.VirtualListSize = _statuses.Tabs(tp.Text).AllCount
             End If
         Next
+
         Return True
     End Function
 
@@ -3721,6 +3726,7 @@ Public Class TweenMain
         _itemCache = Nothing
         _itemCacheIndex = -1
         _postCache = Nothing
+        _beforeSelectedTab = e.TabPage
     End Sub
 
     Private Sub ListTab_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles ListTab.MouseMove
@@ -4901,19 +4907,6 @@ RETRY:
             ElseIf e.KeyCode = Keys.Escape Then
                 If ListTab.SelectedTab IsNot Nothing AndAlso _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.Related Then
                     Dim relTp As TabPage = ListTab.SelectedTab
-                    Dim backToTab As TabClass = _statuses.Tabs(relTp.Text).BackToTab
-                    If backToTab IsNot Nothing Then
-                        Try
-                            For Each tp As TabPage In ListTab.TabPages
-                                If tp.Text = backToTab.TabName Then
-                                    ListTab.SelectTab(tp)
-                                    Exit For
-                                End If
-                            Next
-                        Catch ex As Exception
-
-                        End Try
-                    End If
                     RemoveSpecifiedTab(relTp.Text, False)
                     SaveConfigsTabs()
                 End If
@@ -10075,7 +10068,6 @@ RETRY:
 
             Dim tb As TabClass = _statuses.GetTabByType(TabUsageType.Related)
             tb.RelationTargetPost = _curPost
-            tb.BackToTab = backToTab
             Me.ClearTab(tb.TabName, False)
             For i As Integer = 0 To ListTab.TabPages.Count - 1
                 If tb.TabName = ListTab.TabPages(i).Text Then
