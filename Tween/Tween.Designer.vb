@@ -204,6 +204,7 @@ Partial Class TweenMain
         Me.TwurlnlToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BitlyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.JmpStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.UxnuMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UpdateFollowersMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.FollowCommandMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -292,7 +293,6 @@ Partial Class TweenMain
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.UxnuMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -1379,6 +1379,11 @@ Partial Class TweenMain
         Me.JmpStripMenuItem.Name = "JmpStripMenuItem"
         resources.ApplyResources(Me.JmpStripMenuItem, "JmpStripMenuItem")
         '
+        'UxnuMenuItem
+        '
+        Me.UxnuMenuItem.Name = "UxnuMenuItem"
+        resources.ApplyResources(Me.UxnuMenuItem, "UxnuMenuItem")
+        '
         'UpdateFollowersMenuItem1
         '
         Me.UpdateFollowersMenuItem1.Name = "UpdateFollowersMenuItem1"
@@ -1827,11 +1832,6 @@ Partial Class TweenMain
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
-        '
-        'UxnuMenuItem
-        '
-        Me.UxnuMenuItem.Name = "UxnuMenuItem"
-        resources.ApplyResources(Me.UxnuMenuItem, "UxnuMenuItem")
         '
         'TweenMain
         '
