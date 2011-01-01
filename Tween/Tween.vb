@@ -9059,7 +9059,7 @@ RETRY:
     ' TwitterIDでない固定文字列を調べる（文字列検証のみ　実際に取得はしない）
     ' URLから切り出した文字列を渡す
 
-    Private Function IsTwitterId(ByVal name As String) As Boolean
+    Public Function IsTwitterId(ByVal name As String) As Boolean
         Return Not Regex.Match(name, "^(about|jobs|tos|privacy)$").Success
     End Function
 

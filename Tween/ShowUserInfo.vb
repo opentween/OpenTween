@@ -337,14 +337,13 @@ Public Class ShowUserInfo
                 MyOwner.HashMgr.AddHashToHistory(hash.Trim, False)
                 MyOwner.AddNewTabForSearch(hash)
                 Exit Sub
-            ElseIf e.Url.AbsoluteUri.StartsWith("http://twitter.com/") Then
-                MyOwner.AddNewTabForUserTimeline(e.Url.AbsoluteUri.Remove(0, "http://twitter.com/".Length))
-                Exit Sub
-            ElseIf e.Url.AbsoluteUri.StartsWith("https://twitter.com/") Then
-                MyOwner.AddNewTabForUserTimeline(e.Url.AbsoluteUri.Remove(0, "https://twitter.com/".Length))
-                Exit Sub
             Else
-                MyOwner.OpenUriAsync(e.Url.OriginalString)
+                Dim m As Match = Regex.Match(e.Url.AbsoluteUri, "^https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)$")
+                If m.Success AndAlso MyOwner.IsTwitterId(m.Result("${name}")) Then
+                    MyOwner.AddNewTabForUserTimeline(m.Result("${name}"))
+                Else
+                    MyOwner.OpenUriAsync(e.Url.OriginalString)
+                End If
             End If
         End If
     End Sub
