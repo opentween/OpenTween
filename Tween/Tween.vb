@@ -2701,6 +2701,7 @@ Public Class TweenMain
             ReplyAllStripMenuItem.Enabled = False
             DMStripMenuItem.Enabled = False
             ShowProfileMenuItem.Enabled = False
+            ShowUserTimelineContextMenuItem.Enabled = False
             ListManageUserContextToolStripMenuItem2.Enabled = False
             MoveToFavToolStripMenuItem.Enabled = False
             TabMenuItem.Enabled = False
@@ -2713,6 +2714,7 @@ Public Class TweenMain
             ReplyStripMenuItem.Enabled = True
             ReplyAllStripMenuItem.Enabled = True
             DMStripMenuItem.Enabled = True
+            ShowUserTimelineContextMenuItem.Enabled = True
             MoveToFavToolStripMenuItem.Enabled = True
             TabMenuItem.Enabled = True
             IDRuleMenuItem.Enabled = True
@@ -3296,6 +3298,11 @@ Public Class TweenMain
         SaveConfigsTabs()
         '検索実行
         Me.SearchButton_Click(ListTab.SelectedTab.Controls("panelSearch").Controls("comboSearch"), Nothing)
+    End Sub
+
+    Private Sub ShowUserTimeline()
+        If Not Me.ExistCurrentPost Then Exit Sub
+        AddNewTabForUserTimeline(_curPost.Name)
     End Sub
 
     Public Sub AddNewTabForUserTimeline(ByVal user As String)
@@ -9426,6 +9433,7 @@ RETRY:
             Me.ReplyAllOpMenuItem.Enabled = False
             Me.DmOpMenuItem.Enabled = False
             Me.ShowProfMenuItem.Enabled = False
+            Me.ShowUserTimelineToolStripMenuItem.Enabled = False
             Me.ListManageMenuItem.Enabled = False
             Me.OpenFavOpMenuItem.Enabled = False
             Me.CreateTabRuleOpMenuItem.Enabled = False
@@ -9437,6 +9445,7 @@ RETRY:
             Me.ReplyAllOpMenuItem.Enabled = True
             Me.DmOpMenuItem.Enabled = True
             Me.ShowProfMenuItem.Enabled = True
+            Me.ShowUserTimelineToolStripMenuItem.Enabled = True
             Me.ListManageMenuItem.Enabled = True
             Me.OpenFavOpMenuItem.Enabled = True
             Me.CreateTabRuleOpMenuItem.Enabled = True
@@ -10309,5 +10318,9 @@ RETRY:
 
     Protected Overrides Sub Finalize()
         MyBase.Finalize()
+    End Sub
+
+    Private Sub ShowUserTimelineToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ShowUserTimelineToolStripMenuItem.Click, ShowUserTimelineContextMenuItem.Click
+        ShowUserTimeline()
     End Sub
 End Class
