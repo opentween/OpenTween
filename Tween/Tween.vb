@@ -3651,7 +3651,7 @@ Public Class TweenMain
         _tabPage.SuspendLayout()
 
         If Me.ListTab.SelectedTab Is Me.ListTab.TabPages(idx) Then
-            Me.ListTab.SelectedTab = If(Me._beforeSelectedTab, Me.ListTab.TabPages(0))
+            Me.ListTab.SelectTab(If(Me._beforeSelectedTab IsNot Nothing AndAlso Me.ListTab.TabPages.Contains(Me._beforeSelectedTab), Me._beforeSelectedTab, Me.ListTab.TabPages(0)))
         End If
         Me.ListTab.Controls.Remove(_tabPage)
 
