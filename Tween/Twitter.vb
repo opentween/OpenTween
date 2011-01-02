@@ -1545,16 +1545,6 @@ Public Class Twitter
 
             post.IsRead = read
             If post.IsMe AndAlso Not read AndAlso _readOwnPost Then post.IsRead = True
-            If Not post.IsRead Then
-                Dim posts = From tab_ In TabInformations.GetInstance().Tabs
-                            Where tab_.Value.UnreadManage
-                            From post_ In DirectCast(IIf(tab_.Value.IsInnerStorageTabType, tab_.Value.Posts, TabInformations.GetInstance().Posts), Dictionary(Of Long, PostClass))
-                            Where post_.Value.Id = post.Id
-                            Where post_.Value.IsRead
-                            Where tab_.Value.Contains(post_.Value.Id)
-
-                post.IsRead = posts.Any()
-            End If
 
             If tab IsNot Nothing Then post.RelTabName = tab.TabName
             '非同期アイコン取得＆StatusDictionaryに追加
