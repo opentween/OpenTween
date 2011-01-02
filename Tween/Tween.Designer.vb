@@ -160,6 +160,7 @@ Partial Class TweenMain
         Me.ToolStripSeparator38 = New System.Windows.Forms.ToolStripSeparator()
         Me.ShowProfMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ShowRelatedStatusesMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ShowUserTimelineToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenOpMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenHomeOpMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenFavOpMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -293,6 +294,7 @@ Partial Class TweenMain
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.ShowUserTimelineContextMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -1076,7 +1078,7 @@ Partial Class TweenMain
         '
         'MenuItemOperate
         '
-        Me.MenuItemOperate.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ReplyOpMenuItem, Me.ReplyAllOpMenuItem, Me.DmOpMenuItem, Me.RtOpMenuItem, Me.RtUnOpMenuItem, Me.QtOpMenuItem, Me.ToolStripSeparator25, Me.FavOpMenuItem, Me.FavoriteRetweetMenuItem, Me.FavoriteRetweetUnofficialMenuItem, Me.UnFavOpMenuItem, Me.ToolStripSeparator38, Me.ShowProfMenuItem, Me.ShowRelatedStatusesMenuItem2, Me.OpenOpMenuItem, Me.CreateRuleOpMenuItem, Me.ListManageMenuItem, Me.ToolStripSeparator26, Me.ChangeReadOpMenuItem, Me.JumpReadOpMenuItem, Me.ToolStripSeparator27, Me.SelAllOpMenuItem, Me.DelOpMenuItem, Me.RefreshOpMenuItem, Me.RefreshPrevOpMenuItem})
+        Me.MenuItemOperate.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ReplyOpMenuItem, Me.ReplyAllOpMenuItem, Me.DmOpMenuItem, Me.RtOpMenuItem, Me.RtUnOpMenuItem, Me.QtOpMenuItem, Me.ToolStripSeparator25, Me.FavOpMenuItem, Me.FavoriteRetweetMenuItem, Me.FavoriteRetweetUnofficialMenuItem, Me.UnFavOpMenuItem, Me.ToolStripSeparator38, Me.ShowProfMenuItem, Me.ShowRelatedStatusesMenuItem2, Me.ShowUserTimelineToolStripMenuItem, Me.OpenOpMenuItem, Me.CreateRuleOpMenuItem, Me.ListManageMenuItem, Me.ToolStripSeparator26, Me.ChangeReadOpMenuItem, Me.JumpReadOpMenuItem, Me.ToolStripSeparator27, Me.SelAllOpMenuItem, Me.DelOpMenuItem, Me.RefreshOpMenuItem, Me.RefreshPrevOpMenuItem})
         Me.MenuItemOperate.Name = "MenuItemOperate"
         resources.ApplyResources(Me.MenuItemOperate, "MenuItemOperate")
         '
@@ -1149,6 +1151,11 @@ Partial Class TweenMain
         '
         Me.ShowRelatedStatusesMenuItem2.Name = "ShowRelatedStatusesMenuItem2"
         resources.ApplyResources(Me.ShowRelatedStatusesMenuItem2, "ShowRelatedStatusesMenuItem2")
+        '
+        'ShowUserTimelineToolStripMenuItem
+        '
+        Me.ShowUserTimelineToolStripMenuItem.Name = "ShowUserTimelineToolStripMenuItem"
+        resources.ApplyResources(Me.ShowUserTimelineToolStripMenuItem, "ShowUserTimelineToolStripMenuItem")
         '
         'OpenOpMenuItem
         '
@@ -1574,7 +1581,7 @@ Partial Class TweenMain
         '
         'ContextMenuOperate
         '
-        Me.ContextMenuOperate.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ReplyStripMenuItem, Me.ReplyAllStripMenuItem, Me.DMStripMenuItem, Me.ReTweetOriginalStripMenuItem, Me.ReTweetStripMenuItem, Me.QuoteStripMenuItem, Me.ToolStripSeparator39, Me.FavAddToolStripMenuItem, Me.FavoriteRetweetContextMenu, Me.FavoriteRetweetUnofficialContextMenu, Me.FavRemoveToolStripMenuItem, Me.ToolStripSeparator2, Me.ShowProfileMenuItem, Me.ShowRelatedStatusesMenuItem, Me.ToolStripMenuItem6, Me.ToolStripMenuItem7, Me.ListManageUserContextToolStripMenuItem2, Me.ToolStripSeparator4, Me.ToolStripMenuItem11, Me.JumpUnreadMenuItem, Me.ToolStripSeparator10, Me.SelectAllMenuItem, Me.DeleteStripMenuItem, Me.RefreshStripMenuItem, Me.RefreshMoreStripMenuItem})
+        Me.ContextMenuOperate.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ReplyStripMenuItem, Me.ReplyAllStripMenuItem, Me.DMStripMenuItem, Me.ReTweetOriginalStripMenuItem, Me.ReTweetStripMenuItem, Me.QuoteStripMenuItem, Me.ToolStripSeparator39, Me.FavAddToolStripMenuItem, Me.FavoriteRetweetContextMenu, Me.FavoriteRetweetUnofficialContextMenu, Me.FavRemoveToolStripMenuItem, Me.ToolStripSeparator2, Me.ShowProfileMenuItem, Me.ShowRelatedStatusesMenuItem, Me.ShowUserTimelineContextMenuItem, Me.ToolStripMenuItem6, Me.ToolStripMenuItem7, Me.ListManageUserContextToolStripMenuItem2, Me.ToolStripSeparator4, Me.ToolStripMenuItem11, Me.JumpUnreadMenuItem, Me.ToolStripSeparator10, Me.SelectAllMenuItem, Me.DeleteStripMenuItem, Me.RefreshStripMenuItem, Me.RefreshMoreStripMenuItem})
         Me.ContextMenuOperate.Name = "ContextMenuStrip2"
         Me.ContextMenuOperate.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional
         resources.ApplyResources(Me.ContextMenuOperate, "ContextMenuOperate")
@@ -1832,6 +1839,11 @@ Partial Class TweenMain
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
+        '
+        'ShowUserTimelineContextMenuItem
+        '
+        Me.ShowUserTimelineContextMenuItem.Name = "ShowUserTimelineContextMenuItem"
+        resources.ApplyResources(Me.ShowUserTimelineContextMenuItem, "ShowUserTimelineContextMenuItem")
         '
         'TweenMain
         '
@@ -2151,5 +2163,7 @@ Partial Class TweenMain
     Friend WithEvents EventViewerMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents TranslationToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents UxnuMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ShowUserTimelineToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ShowUserTimelineContextMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class
