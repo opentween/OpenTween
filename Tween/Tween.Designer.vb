@@ -257,6 +257,7 @@ Partial Class TweenMain
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.ShowProfileMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ShowRelatedStatusesMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ShowUserTimelineContextMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem6 = New System.Windows.Forms.ToolStripMenuItem()
         Me.MoveToHomeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MoveToFavToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -294,7 +295,6 @@ Partial Class TweenMain
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.ShowUserTimelineContextMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -1656,6 +1656,11 @@ Partial Class TweenMain
         Me.ShowRelatedStatusesMenuItem.Name = "ShowRelatedStatusesMenuItem"
         resources.ApplyResources(Me.ShowRelatedStatusesMenuItem, "ShowRelatedStatusesMenuItem")
         '
+        'ShowUserTimelineContextMenuItem
+        '
+        Me.ShowUserTimelineContextMenuItem.Name = "ShowUserTimelineContextMenuItem"
+        resources.ApplyResources(Me.ShowUserTimelineContextMenuItem, "ShowUserTimelineContextMenuItem")
+        '
         'ToolStripMenuItem6
         '
         Me.ToolStripMenuItem6.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MoveToHomeToolStripMenuItem, Me.MoveToFavToolStripMenuItem, Me.StatusOpenMenuItem, Me.RepliedStatusOpenMenuItem, Me.FavorareMenuItem, Me.OpenURLMenuItem, Me.MoveToRTHomeMenuItem})
@@ -1839,11 +1844,6 @@ Partial Class TweenMain
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
-        '
-        'ShowUserTimelineContextMenuItem
-        '
-        Me.ShowUserTimelineContextMenuItem.Name = "ShowUserTimelineContextMenuItem"
-        resources.ApplyResources(Me.ShowUserTimelineContextMenuItem, "ShowUserTimelineContextMenuItem")
         '
         'TweenMain
         '

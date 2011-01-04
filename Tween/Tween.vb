@@ -4998,6 +4998,10 @@ RETRY:
                 e.Handled = True
                 e.SuppressKeyPress = True
                 SendKeys.Send("{UP}")
+            ElseIf e.KeyCode = Keys.U Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                ShowUserTimeline()
             End If
 
             ' Webページを開く動作
@@ -5855,6 +5859,10 @@ RETRY:
                 e.Handled = True
                 e.SuppressKeyPress = True
                 MenuItemSubSearch_Click(Nothing, Nothing)
+            ElseIf e.KeyCode = Keys.U Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                ShowUserTimeline()
             End If
 
             Select Case e.KeyCode
@@ -6401,6 +6409,9 @@ RETRY:
                 Case Keys.E
                     e.IsInputKey = True
                     OpenURLMenuItem_Click(Nothing, Nothing)
+                Case Keys.U
+                    e.IsInputKey = True
+                    ShowUserTimeline()
             End Select
         End If
 
