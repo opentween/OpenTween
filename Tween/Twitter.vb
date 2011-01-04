@@ -2524,6 +2524,7 @@ Public Class Twitter
         End Sub
     End Class
     Public Function CreateHtmlAnchor(ByVal Text As String, ByVal AtList As List(Of String)) As String
+        If Text Is Nothing Then Return Nothing
         Dim retStr As String = Text.Replace("&gt;", "<<<<<tweenだいなり>>>>>").Replace("&lt;", "<<<<<tweenしょうなり>>>>>")
         'uriの正規表現
         'Const rgUrl As String = "(?<before>(?:[^\""':!=]|^|\:))" + _
