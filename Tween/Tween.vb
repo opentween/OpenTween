@@ -7211,12 +7211,41 @@ RETRY:
         'TextBox1でEnterを押してもビープ音が鳴らないようにする
         If (keyData And Keys.KeyCode) = Keys.Enter Then
             If StatusText.Focused Then
-                '改行
-                If StatusText.Multiline AndAlso _
-                   (Not SettingDialog.PostShiftEnter AndAlso (keyData And Keys.Shift) = Keys.Shift AndAlso _
-                   (keyData And Keys.Control) <> Keys.Control) OrElse _
-                   (SettingDialog.PostShiftEnter AndAlso (keyData And Keys.Control) = Keys.Control AndAlso _
-                   (keyData And Keys.Shift) <> Keys.Shift) Then
+                Dim _NewLine As Boolean = False
+                Dim _Post As Boolean = False
+
+                If SettingDialog.PostCtrlEnter Then 'Ctrl+Enter投稿時
+                    If StatusText.Multiline Then
+                        If (keyData And Keys.Shift) = Keys.Shift AndAlso (keyData And Keys.Control) <> Keys.Control Then _NewLine = True
+
+                        If (keyData And Keys.Control) = Keys.Control Then _Post = True
+                    Else
+                        If ((keyData And Keys.Control) = Keys.Control) Then _Post = True
+                    End If
+
+                ElseIf SettingDialog.PostShiftEnter Then 'SHift+Enter投稿時
+                    If StatusText.Multiline Then
+                        If (keyData And Keys.Control) = Keys.Control AndAlso (keyData And Keys.Shift) <> Keys.Shift Then _NewLine = True
+
+                        If (keyData And Keys.Shift) = Keys.Shift Then _Post = True
+                    Else
+                        If ((keyData And Keys.Shift) = Keys.Shift) Then _Post = True
+                    End If
+
+                Else 'Enter投稿時
+                    If StatusText.Multiline Then
+                        If (keyData And Keys.Shift) = Keys.Shift AndAlso (keyData And Keys.Control) <> Keys.Control Then _NewLine = True
+
+                        If ((keyData And Keys.Control) <> Keys.Control AndAlso (keyData And Keys.Shift) <> Keys.Shift) OrElse _
+                            ((keyData And Keys.Control) = Keys.Control AndAlso (keyData And Keys.Shift) = Keys.Shift) Then _Post = True
+                    Else
+                        If ((keyData And Keys.Shift) = Keys.Shift) OrElse _
+                           (((keyData And Keys.Control) <> Keys.Control) AndAlso _
+                            ((keyData And Keys.Shift) <> Keys.Shift)) Then _Post = True
+                    End If
+                End If
+
+                If _NewLine Then
                     Dim pos1 As Integer = StatusText.SelectionStart
                     If StatusText.SelectionLength > 0 Then
                         StatusText.Text = StatusText.Text.Remove(pos1, StatusText.SelectionLength)  '選択状態文字列削除
@@ -7224,26 +7253,13 @@ RETRY:
                     StatusText.Text = StatusText.Text.Insert(pos1, Environment.NewLine)  '改行挿入
                     StatusText.SelectionStart = pos1 + Environment.NewLine.Length    'カーソルを改行の次の文字へ移動
                     Return True
-                End If
-                '投稿
-                If (Not StatusText.Multiline AndAlso _
-                        ((keyData And Keys.Shift) = Keys.Shift AndAlso (Not SettingDialog.PostCtrlEnter AndAlso Not SettingDialog.PostShiftEnter)) OrElse _
-                        ((keyData And Keys.Control) = Keys.Control AndAlso SettingDialog.PostCtrlEnter) OrElse _
-                        ((keyData And Keys.Shift) = Keys.Shift AndAlso SettingDialog.PostShiftEnter) OrElse _
-                        (((keyData And Keys.Control) <> Keys.Control AndAlso Not SettingDialog.PostCtrlEnter) AndAlso _
-                         ((keyData And Keys.Shift) <> Keys.Shift AndAlso Not SettingDialog.PostShiftEnter))) OrElse _
-                   (StatusText.Multiline AndAlso _
-                        (Not SettingDialog.PostCtrlEnter AndAlso Not SettingDialog.PostShiftEnter AndAlso _
-                            ((keyData And Keys.Control) <> Keys.Control AndAlso (keyData And Keys.Shift) <> Keys.Shift) OrElse _
-                            ((keyData And Keys.Control) = Keys.Control AndAlso (keyData And Keys.Shift) = Keys.Shift)) OrElse _
-                        (SettingDialog.PostCtrlEnter AndAlso (keyData And Keys.Control) = Keys.Control) OrElse _
-                        (SettingDialog.PostShiftEnter AndAlso (keyData And Keys.Shift) = Keys.Shift)) Then
+                ElseIf _Post Then
                     PostButton_Click(Nothing, Nothing)
                     Return True
                 End If
             ElseIf _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.PublicSearch AndAlso _
-                (ListTab.SelectedTab.Controls("panelSearch").Controls("comboSearch").Focused OrElse _
-                 ListTab.SelectedTab.Controls("panelSearch").Controls("comboLang").Focused) Then
+                    (ListTab.SelectedTab.Controls("panelSearch").Controls("comboSearch").Focused OrElse _
+                    ListTab.SelectedTab.Controls("panelSearch").Controls("comboLang").Focused) Then
                 Me.SearchButton_Click(ListTab.SelectedTab.Controls("panelSearch").Controls("comboSearch"), Nothing)
                 Return True
             End If
