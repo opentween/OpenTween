@@ -1948,7 +1948,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  http://pcod.no-ip.org/yats/search?query={0} に類似しているローカライズされた文字列を検索します。
+        '''  http://yats-data.com/yats/search?query={0} に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property SearchItem3Url() As String
             Get
