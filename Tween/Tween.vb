@@ -5053,10 +5053,10 @@ RETRY:
                     If KeyCode = Keys.Home OrElse KeyCode = Keys.End Then
                         _colorize = True
                     End If
-                    If KeyCode = Keys.N OrElse KeyCode = Keys.PageUp Then
+                    If KeyCode = Keys.N Then
                         Pressed = True
                         GoNextTab(True)
-                    ElseIf KeyCode = Keys.P OrElse KeyCode = Keys.PageDown Then
+                    ElseIf KeyCode = Keys.P Then
                         Pressed = True
                         GoNextTab(False)
                     ElseIf KeyCode = Keys.C Then
