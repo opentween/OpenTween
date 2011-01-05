@@ -4800,7 +4800,7 @@ RETRY:
                    pnl.Controls("comboLang").Focused OrElse _
                    pnl.Controls("buttonSearch").Focused Then Exit Sub
             End If
-            Dim State As Integer = GetModifierState(e)
+            Dim State As Integer = GetModifierState(e.Control, e.Shift, e.Alt)
             If State = ModifierState.NotFlags Then Exit Sub
             If State <> ModifierState.Non Then _anchorFlag = False
             If CommonKeyDown(e.KeyCode, ModifierState.ListTab, State) Then
@@ -4811,24 +4811,24 @@ RETRY:
 
     End Sub
 
-    Public Function GetModifierState(ByVal e As KeyEventArgs) As Integer
-        If e.Modifiers = Keys.None Then Return ModifierState.Non
-        If e.Control Then
-            If e.Shift AndAlso Not e.Alt Then
+    Public Function GetModifierState(ByVal sControl As Boolean, ByVal sShift As Boolean, ByVal sAlt As Boolean) As Integer
+        If Not sAlt AndAlso Not sControl AndAlso Not sShift Then Return ModifierState.Non
+        If sControl Then
+            If sShift AndAlso Not sAlt Then
                 Return ModifierState.CShift
-            ElseIf e.Alt AndAlso Not e.Shift Then
+            ElseIf sAlt AndAlso Not sShift Then
                 Return ModifierState.CAlt
-            ElseIf Not e.Alt AndAlso Not e.Shift Then
+            ElseIf Not sAlt AndAlso Not sShift Then
                 Return ModifierState.Ctrl
             End If
-        ElseIf e.Shift Then
-            If e.Alt AndAlso Not e.Control Then
+        ElseIf sShift Then
+            If sAlt AndAlso Not sControl Then
                 Return ModifierState.AShift
-            ElseIf Not e.Alt AndAlso Not e.Control Then
+            ElseIf Not sAlt AndAlso Not sControl Then
                 Return ModifierState.Shift
             End If
-        ElseIf e.Alt Then
-            If Not e.Control AndAlso Not e.Shift Then Return ModifierState.Alt
+        ElseIf sAlt Then
+            If Not sControl AndAlso Not sShift Then Return ModifierState.Alt
         End If
         Return ModifierState.NotFlags
     End Function
@@ -5253,7 +5253,7 @@ RETRY:
             ElseIf KeyCode = Keys.F Then
                 Pressed = True
                 If ListTab.SelectedTab IsNot Nothing Then
-                    If _statuses.Tabs(ListTab.SelectedTab.Text).TabType <> TabUsageType.PublicSearch Then Exit Function
+                    If _statuses.Tabs(ListTab.SelectedTab.Text).TabType <> TabUsageType.PublicSearch Then Return Pressed
                     ListTab.SelectedTab.Controls("panelSearch").Controls("comboSearch").Focus()
                 End If
             ElseIf KeyCode = Keys.S Then
@@ -5342,8 +5342,7 @@ RETRY:
                 Return Pressed
             End If
         End If
-
-
+        Return Pressed
     End Function
 
     Private Sub ScrollDownPostBrowser(ByVal forward As Boolean)
@@ -6129,25 +6128,7 @@ RETRY:
     End Sub
 
     Private Sub PostBrowser_PreviewKeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.PreviewKeyDownEventArgs) Handles PostBrowser.PreviewKeyDown
-        Dim State As Integer = ModifierState.NotFlags
-        If e.Modifiers = Keys.None Then State = ModifierState.Non
-        If e.Control Then
-            If e.Shift AndAlso Not e.Alt Then
-                State= ModifierState.CShift
-            ElseIf e.Alt AndAlso Not e.Shift Then
-                State = ModifierState.CAlt
-            ElseIf Not e.Alt AndAlso Not e.Shift Then
-                State = ModifierState.Ctrl
-            End If
-        ElseIf e.Shift Then
-            If e.Alt AndAlso Not e.Control Then
-                State = ModifierState.AShift
-            ElseIf Not e.Alt AndAlso Not e.Control Then
-                State = ModifierState.Shift
-            End If
-        ElseIf e.Alt Then
-            If Not e.Control AndAlso Not e.Shift Then State = ModifierState.Alt
-        End If
+        Dim State As Integer = GetModifierState(e.Control, e.Shift, e.Alt)
         If State = ModifierState.NotFlags Then Exit Sub
         Dim KeyRes As Boolean = CommonKeyDown(e.KeyCode, ModifierState.PostBrowser, State)
         If KeyRes Then
