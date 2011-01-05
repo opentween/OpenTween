@@ -4800,213 +4800,239 @@ RETRY:
                    pnl.Controls("comboLang").Focused OrElse _
                    pnl.Controls("buttonSearch").Focused Then Exit Sub
             End If
+            Dim State As Integer = GetModifierState(e)
+            If State = ModifierState.NotFlags Then Exit Sub
+            If State <> ModifierState.Non Then _anchorFlag = False
+            If CommonKeyDown(e.KeyCode, ModifierState.ListTab, State) Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+            End If
         End If
 
-        If e.Modifiers = Keys.None Then
-            ' ModifierKeyが押されていない場合
-            If e.KeyCode = Keys.N OrElse e.KeyCode = Keys.Right Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                GoRelPost(True)
-                Exit Sub
-            ElseIf e.KeyCode = Keys.P OrElse e.KeyCode = Keys.Left Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                GoRelPost(False)
-                Exit Sub
-            ElseIf e.KeyCode = Keys.OemPeriod Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                GoAnchor()
-                Exit Sub
+    End Sub
+
+    Public Function GetModifierState(ByVal e As KeyEventArgs) As Integer
+        If e.Modifiers = Keys.None Then Return ModifierState.Non
+        If e.Control Then
+            If e.Shift AndAlso Not e.Alt Then
+                Return ModifierState.CShift
+            ElseIf e.Alt AndAlso Not e.Shift Then
+                Return ModifierState.CAlt
+            ElseIf Not e.Alt AndAlso Not e.Shift Then
+                Return ModifierState.Ctrl
             End If
-            _anchorFlag = False
-            If e.KeyCode = Keys.Space OrElse e.KeyCode = Keys.ProcessKey Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                JumpUnreadMenuItem_Click(Nothing, Nothing)
-            ElseIf e.KeyCode = Keys.Enter OrElse e.KeyCode = Keys.Return Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                MakeReplyOrDirectStatus()
-            ElseIf e.KeyCode = Keys.L Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                GoPost(True)
-            ElseIf e.KeyCode = Keys.H Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                GoPost(False)
-            ElseIf e.KeyCode = Keys.J AndAlso Not e.Alt Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                SendKeys.Send("{DOWN}")
-            ElseIf e.KeyCode = Keys.K AndAlso Not e.Alt Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                SendKeys.Send("{UP}")
+        ElseIf e.Shift Then
+            If e.Alt AndAlso Not e.Control Then
+                Return ModifierState.AShift
+            ElseIf Not e.Alt AndAlso Not e.Control Then
+                Return ModifierState.Shift
             End If
-            If e.KeyCode = Keys.Z Or e.KeyCode = Keys.Oemcomma Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                MoveTop()
-            ElseIf e.KeyCode = Keys.R OrElse e.KeyCode = Keys.F5 Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                DoRefresh()
-            ElseIf e.KeyCode = Keys.S Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                GoNextTab(True)
-            ElseIf e.KeyCode = Keys.A Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                GoNextTab(False)
-            End If
-            'If e.KeyCode = Keys.OemQuestion Then
-            '    e.Handled = True
-            '    e.SuppressKeyPress = True
-            '    MenuItemSubSearch_Click(Nothing, Nothing)   '/検索
-            'End If
-            If e.KeyCode = Keys.F Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                SendKeys.Send("{PGDN}")
-            End If
-            If e.KeyCode = Keys.B Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                SendKeys.Send("{PGUP}")
-            End If
-            If e.KeyCode = Keys.I Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                'SendKeys.Send("{TAB}")
-                If Me.StatusText.Enabled Then Me.StatusText.Focus()
-            End If
-            If e.KeyCode = Keys.G Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                ShowRelatedStatusesMenuItem_Click(Nothing, Nothing)
-            End If
-            ' ] in_reply_to参照元へ戻る
-            If e.KeyCode = Keys.Oem4 Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                GoInReplyToPostTree()
-            End If
-            ' [ in_reply_toへジャンプ
-            If e.KeyCode = Keys.Oem6 Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                GoBackInReplyToPostTree()
-            End If
-            If e.KeyCode = Keys.F1 Then
-                e.Handled = True
-                e.SuppressKeyPress = True
+        ElseIf e.Alt Then
+            If Not e.Control AndAlso Not e.Shift Then Return ModifierState.Alt
+        End If
+        Return ModifierState.NotFlags
+    End Function
+
+    Public Enum ModifierState As Integer
+        Non = 0
+        Alt = 1
+        Shift = 2
+        Ctrl = 3
+        CShift = 11
+        CAlt = 12
+        AShift = 13
+        NotFlags = 20
+
+        ListTab = 101
+        PostBrowser = 102
+        StatusText = 103
+    End Enum
+
+    Public Function CommonKeyDown(ByVal KeyCode As System.Windows.Forms.Keys, ByVal Focused As Integer, ByVal Modifier As Integer) As Boolean
+        Dim Pressed As Boolean = False
+
+        '修飾キーなし
+        If Modifier = ModifierState.Non Then
+            If KeyCode = Keys.F1 Then
+                Pressed = True
                 OpenUriAsync("http://sourceforge.jp/projects/tween/wiki/FrontPage")
-            ElseIf e.KeyCode = Keys.F3 Then
-                e.Handled = True
-                e.SuppressKeyPress = True
+            ElseIf KeyCode = Keys.F3 Then
+                Pressed = True
                 MenuItemSearchNext_Click(Nothing, Nothing)
-            ElseIf e.KeyCode = Keys.F6 Then
-                e.Handled = True
-                e.SuppressKeyPress = True
+            ElseIf KeyCode = Keys.F5 Then
+                Pressed = True
+                DoRefresh()
+            ElseIf KeyCode = Keys.F6 Then
+                Pressed = True
                 GetTimeline(WORKERTYPE.Reply, 1, 0, "")
-            ElseIf e.KeyCode = Keys.F7 Then
-                e.Handled = True
-                e.SuppressKeyPress = True
+            ElseIf KeyCode = Keys.F7 Then
+                Pressed = True
                 GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
-            ElseIf e.KeyCode = Keys.Escape Then
-                If ListTab.SelectedTab IsNot Nothing AndAlso _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.Related Then
-                    Dim relTp As TabPage = ListTab.SelectedTab
-                    RemoveSpecifiedTab(relTp.Text, False)
-                    SaveConfigsTabs()
+            End If
+            If Focused <> ModifierState.StatusText AndAlso Not Pressed Then
+                If KeyCode = Keys.Space OrElse KeyCode = Keys.ProcessKey Then
+                    Pressed = True
+                    JumpUnreadMenuItem_Click(Nothing, Nothing)
+                ElseIf KeyCode = Keys.G Then
+                    Pressed = True
+                    ShowRelatedStatusesMenuItem_Click(Nothing, Nothing)
+                End If
+            End If
+            If Focused = ModifierState.ListTab AndAlso Not Pressed Then
+                If KeyCode = Keys.N OrElse KeyCode = Keys.Right Then
+                    Pressed = True
+                    GoRelPost(True)
+                    Return Pressed
+                ElseIf KeyCode = Keys.P OrElse KeyCode = Keys.Left Then
+                    Pressed = True
+                    GoRelPost(False)
+                    Return Pressed
+                ElseIf KeyCode = Keys.OemPeriod Then
+                    Pressed = True
+                    GoAnchor()
+                    Return Pressed
+                End If
+                _anchorFlag = False
+                If KeyCode = Keys.Space OrElse KeyCode = Keys.ProcessKey Then
+                    Pressed = True
+                    JumpUnreadMenuItem_Click(Nothing, Nothing)
+                ElseIf KeyCode = Keys.Enter OrElse KeyCode = Keys.Return Then
+                    Pressed = True
+                    MakeReplyOrDirectStatus()
+                ElseIf KeyCode = Keys.L Then
+                    Pressed = True
+                    GoPost(True)
+                ElseIf KeyCode = Keys.H Then
+                    Pressed = True
+                    GoPost(False)
+                ElseIf KeyCode = Keys.J Then
+                    Pressed = True
+                    SendKeys.Send("{DOWN}")
+                ElseIf KeyCode = Keys.K Then
+                    Pressed = True
+                    SendKeys.Send("{UP}")
+                End If
+                If KeyCode = Keys.Z Or KeyCode = Keys.Oemcomma Then
+                    Pressed = True
+                    MoveTop()
+                ElseIf KeyCode = Keys.R Then
+                    Pressed = True
+                    DoRefresh()
+                ElseIf KeyCode = Keys.S Then
+                    Pressed = True
+                    GoNextTab(True)
+                ElseIf KeyCode = Keys.A Then
+                    Pressed = True
+                    GoNextTab(False)
+                End If
+                'If keycode = Keys.OemQuestion Then
+                '    Pressed=true    
+                '    MenuItemSubSearch_Click(Nothing, Nothing)   '/検索
+                'End If
+                If KeyCode = Keys.F Then
+                    Pressed = True
+                    SendKeys.Send("{PGDN}")
+                End If
+                If KeyCode = Keys.B Then
+                    Pressed = True
+                    SendKeys.Send("{PGUP}")
+                End If
+                If KeyCode = Keys.I Then
+                    Pressed = True
+                    'SendKeys.Send("{TAB}")
+                    If Me.StatusText.Enabled Then Me.StatusText.Focus()
+                End If
+                ' ] in_reply_to参照元へ戻る
+                If KeyCode = Keys.Oem4 Then
+                    Pressed = True
+                    GoInReplyToPostTree()
+                End If
+                ' [ in_reply_toへジャンプ
+                If KeyCode = Keys.Oem6 Then
+                    Pressed = True
+                    GoBackInReplyToPostTree()
+                End If
+                If KeyCode = Keys.Escape Then
+                    If ListTab.SelectedTab IsNot Nothing AndAlso _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.Related Then
+                        Dim relTp As TabPage = ListTab.SelectedTab
+                        RemoveSpecifiedTab(relTp.Text, False)
+                        SaveConfigsTabs()
+                    End If
+                End If
+            End If
+            Return Pressed
+        End If
+
+        If Focused = ModifierState.StatusText AndAlso Not Pressed Then
+            If KeyCode = Keys.Space AndAlso (Modifier = ModifierState.Ctrl OrElse Modifier = ModifierState.Shift) Then
+                If StatusText.SelectionStart > 0 Then
+                    Dim endidx As Integer = StatusText.SelectionStart - 1
+                    Dim startstr As String = ""
+                    For i As Integer = StatusText.SelectionStart - 1 To 0 Step -1
+                        Dim c As Char = StatusText.Text.Chars(i)
+                        If Char.IsLetterOrDigit(c) OrElse c = "_" Then
+                            Continue For
+                        End If
+                        If c = "@" Then
+                            startstr = StatusText.Text.Substring(i + 1, endidx - i)
+                            ShowSuplDialog(StatusText, AtIdSupl, startstr.Length + 1, startstr)
+                        ElseIf c = "#" Then
+                            startstr = StatusText.Text.Substring(i + 1, endidx - i)
+                            ShowSuplDialog(StatusText, HashSupl, startstr.Length + 1, startstr)
+                        Else
+                            Exit For
+                        End If
+                    Next
+                    Pressed = True
+                    Return True
                 End If
             End If
         End If
 
-        _anchorFlag = False
-
-        If e.Control AndAlso Not e.Alt AndAlso Not e.Shift Then
-            ' CTRLキーが押されている場合
-            If e.KeyCode = Keys.Home OrElse e.KeyCode = Keys.End Then
-                _colorize = True
-            End If
-            If e.KeyCode = Keys.N Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                GoNextTab(True)
-            ElseIf e.KeyCode = Keys.P Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                GoNextTab(False)
-            ElseIf e.KeyCode = Keys.R Then
-                e.Handled = True
-                e.SuppressKeyPress = True
+        'Ctrl+何か
+        If Modifier = ModifierState.Ctrl Then
+            If KeyCode = Keys.R Then
+                Pressed = True
                 MakeReplyOrDirectStatus(False, True)
-            ElseIf e.KeyCode = Keys.M Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                MakeReplyOrDirectStatus(False, False)
-            ElseIf e.KeyCode = Keys.S Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                FavoriteChange(True)
-            ElseIf e.KeyCode = Keys.I Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                doRepliedStatusOpen()
-            ElseIf e.KeyCode = Keys.D Then
-                e.Handled = True
-                e.SuppressKeyPress = True
+            ElseIf KeyCode = Keys.D Then
+                Pressed = True
                 doStatusDelete()
-            ElseIf e.KeyCode = Keys.Q Then
-                e.Handled = True
-                e.SuppressKeyPress = True
+            ElseIf KeyCode = Keys.M Then
+                Pressed = True
+                MakeReplyOrDirectStatus(False, False)
+            ElseIf KeyCode = Keys.S Then
+                Pressed = True
+                FavoriteChange(True)
+            ElseIf KeyCode = Keys.I Then
+                Pressed = True
+                doRepliedStatusOpen()
+            ElseIf KeyCode = Keys.Q Then
+                Pressed = True
                 doQuote()
-            ElseIf e.KeyCode = Keys.B Then
-                e.Handled = True
-                e.SuppressKeyPress = True
+            ElseIf KeyCode = Keys.B Then
+                Pressed = True
                 ReadedStripMenuItem_Click(Nothing, Nothing)
-            ElseIf e.KeyCode = Keys.T Then
-                e.Handled = True
-                e.SuppressKeyPress = True
+            ElseIf KeyCode = Keys.T Then
+                Pressed = True
                 HashManageMenuItem_Click(Nothing, Nothing)
-            ElseIf e.KeyCode = Keys.L Then
-                e.Handled = True
-                e.SuppressKeyPress = True
+            ElseIf KeyCode = Keys.L Then
+                Pressed = True
                 UrlConvertAutoToolStripMenuItem_Click(Nothing, Nothing)
-            ElseIf e.KeyCode = Keys.Y Then
-                e.Handled = True
-                e.SuppressKeyPress = True
+            ElseIf KeyCode = Keys.Y AndAlso Not Focused = ModifierState.PostBrowser Then
+                Pressed = True
                 MultiLineMenuItem_Click(Nothing, Nothing)
-            ElseIf e.KeyCode = Keys.F Then
-                e.Handled = True
-                e.SuppressKeyPress = True
+            ElseIf KeyCode = Keys.F Then
+                Pressed = True
                 MenuItemSubSearch_Click(Nothing, Nothing)
-            ElseIf e.KeyCode = Keys.C Then
-                Dim clstr As String = ""
-                e.Handled = True
-                e.SuppressKeyPress = True
-                CopyStot()
-            ElseIf e.KeyCode = Keys.J AndAlso Not e.Alt Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                SendKeys.Send("{DOWN}")
-            ElseIf e.KeyCode = Keys.K AndAlso Not e.Alt Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                SendKeys.Send("{UP}")
-            ElseIf e.KeyCode = Keys.U Then
-                e.Handled = True
-                e.SuppressKeyPress = True
+            ElseIf KeyCode = Keys.U Then
+                Pressed = True
                 ShowUserTimeline()
             End If
 
+
             ' Webページを開く動作
 
-            Select Case e.KeyCode
+            Select Case KeyCode
                 Case Keys.H
                     If _curList.SelectedIndices.Count > 0 Then
                         OpenUriAsync("http://twitter.com/" + GetCurTabPost(_curList.SelectedIndices(0)).Name)
@@ -5022,209 +5048,303 @@ RETRY:
                 Case Keys.E
                     OpenURLMenuItem_Click(Nothing, Nothing)
             End Select
-
-            ' タブダイレクト選択(Ctrl+1～8,Ctrl+9)
-
-            Select Case e.KeyCode
-                Case Keys.D1, Keys.D2, Keys.D3, Keys.D4, Keys.D5, Keys.D6, Keys.D7, Keys.D8
-                    Dim tabNo As Integer = e.KeyCode - Keys.D1
-                    If ListTab.TabPages.Count < tabNo Then
-                        Exit Sub
+            If Not Pressed Then
+                If Focused = ModifierState.ListTab Then
+                    If KeyCode = Keys.Home OrElse KeyCode = Keys.End Then
+                        _colorize = True
                     End If
-                    ListTab.SelectedIndex = tabNo
-                    ListTabSelect(ListTab.TabPages(tabNo))
-                Case Keys.D9
-                    ListTab.SelectedIndex = ListTab.TabPages.Count - 1
-                    ListTabSelect(ListTab.TabPages(ListTab.TabPages.Count - 1))
-                Case Else
-            End Select
+                    If KeyCode = Keys.N OrElse KeyCode = Keys.PageUp Then
+                        Pressed = True
+                        GoNextTab(True)
+                    ElseIf KeyCode = Keys.P OrElse KeyCode = Keys.PageDown Then
+                        Pressed = True
+                        GoNextTab(False)
+                    ElseIf KeyCode = Keys.C Then
+                        Dim clstr As String = ""
+                        Pressed = True
+                        CopyStot()
+                    End If
 
+
+                    ' タブダイレクト選択(Ctrl+1～8,Ctrl+9)
+
+                    Select Case KeyCode
+                        Case Keys.D1, Keys.D2, Keys.D3, Keys.D4, Keys.D5, Keys.D6, Keys.D7, Keys.D8
+                            Dim tabNo As Integer = KeyCode - Keys.D1
+                            If ListTab.TabPages.Count < tabNo Then
+                                Exit Function
+                            End If
+                            ListTab.SelectedIndex = tabNo
+                            ListTabSelect(ListTab.TabPages(tabNo))
+                            Return Pressed
+                        Case Keys.D9
+                            ListTab.SelectedIndex = ListTab.TabPages.Count - 1
+                            ListTabSelect(ListTab.TabPages(ListTab.TabPages.Count - 1))
+                            Return Pressed
+                        Case Else
+                    End Select
+                ElseIf Focused = ModifierState.StatusText Then
+                    If KeyCode = Keys.A Then
+                        StatusText.SelectAll()
+                        Return Pressed
+                    ElseIf KeyCode = Keys.Up OrElse KeyCode = Keys.Down Then
+                        If StatusText.Text.Trim() <> "" Then
+                            _history(_hisIdx) = New PostingStatus(StatusText.Text, _reply_to_id, _reply_to_name)
+                        End If
+                        If KeyCode = Keys.Up Then
+                            _hisIdx -= 1
+                            If _hisIdx < 0 Then _hisIdx = 0
+                        Else
+                            _hisIdx += 1
+                            If _hisIdx > _history.Count - 1 Then _hisIdx = _history.Count - 1
+                        End If
+                        StatusText.Text = _history(_hisIdx).status
+                        _reply_to_id = _history(_hisIdx).inReplyToId
+                        _reply_to_name = _history(_hisIdx).inReplyToName
+                        StatusText.SelectionStart = StatusText.Text.Length
+                        Pressed = True
+                        Return Pressed
+                    End If
+                    If KeyCode = Keys.PageUp OrElse KeyCode = Keys.P Then
+                        If ListTab.SelectedIndex = 0 Then
+                            ListTab.SelectedIndex = ListTab.TabCount - 1
+                        Else
+                            ListTab.SelectedIndex -= 1
+                        End If
+                        Pressed = True
+                        StatusText.Focus()
+                    ElseIf KeyCode = Keys.PageDown OrElse KeyCode = Keys.N Then
+                        If ListTab.SelectedIndex = ListTab.TabCount - 1 Then
+                            ListTab.SelectedIndex = 0
+                        Else
+                            ListTab.SelectedIndex += 1
+                        End If
+                        Pressed = True
+                        StatusText.Focus()
+                    End If
+                Else
+                    If KeyCode = Keys.A Then
+                        Pressed = True
+                        PostBrowser.Document.ExecCommand("SelectAll", False, Nothing)
+                    ElseIf KeyCode = Keys.C OrElse KeyCode = Keys.Insert Then
+                        Pressed = True
+                        Dim _selText As String = WebBrowser_GetSelectionText(PostBrowser)
+                        If Not String.IsNullOrEmpty(_selText) Then
+                            Try
+                                Clipboard.SetDataObject(_selText, False, 5, 100)
+                            Catch ex As Exception
+                                MessageBox.Show(ex.Message)
+                            End Try
+                        End If
+                    ElseIf KeyCode = Keys.Y Then
+                        Pressed = True
+                        MultiLineMenuItem.Checked = Not MultiLineMenuItem.Checked
+                        MultiLineMenuItem_Click(Nothing, Nothing)
+                    End If
+                End If
+
+            End If
+            Return Pressed
         End If
 
-        If Not e.Control AndAlso e.Alt AndAlso Not e.Shift Then
-            ' ALTキーが押されている場合
-            ' 別タブの同じ書き込みへ(ALT+←/→)
-            If e.KeyCode = Keys.Right Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                GoSamePostToAnotherTab(False)
-            ElseIf e.KeyCode = Keys.Left Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                GoSamePostToAnotherTab(True)
-            ElseIf e.KeyCode = Keys.R Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                doReTweetOfficial(True)
-            ElseIf e.KeyCode = Keys.P AndAlso _curPost IsNot Nothing Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                doShowUserStatus(_curPost.Name, False)
-            End If
-            If e.KeyCode = Keys.Up Then
-                ScrollDownPostBrowser(False)
-            ElseIf e.KeyCode = Keys.Down Then
-                ScrollDownPostBrowser(True)
-            ElseIf e.KeyCode = Keys.PageUp Then
-                PageDownPostBrowser(False)
-            ElseIf e.KeyCode = Keys.PageDown Then
-                PageDownPostBrowser(True)
-            End If
-        End If
-
-        If e.Shift AndAlso Not e.Control AndAlso Not e.Alt Then
-            ' SHIFTキーが押されている場合
-            If e.KeyCode = Keys.H Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                GoTopEnd(True)
-            ElseIf e.KeyCode = Keys.L Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                GoTopEnd(False)
-            ElseIf e.KeyCode = Keys.M Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                GoMiddle()
-            ElseIf e.KeyCode = Keys.G Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                GoLast()
-            ElseIf e.KeyCode = Keys.Z Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                MoveMiddle()
-            ElseIf e.KeyCode = Keys.J AndAlso Not e.Alt Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                SendKeys.Send("{DOWN}")
-            ElseIf e.KeyCode = Keys.K AndAlso Not e.Alt Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                SendKeys.Send("{UP}")
-            ElseIf e.KeyCode = Keys.Oem4 AndAlso Not e.Alt Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                GoBackInReplyToPostTree(True, False)
-            ElseIf e.KeyCode = Keys.Oem6 AndAlso Not e.Alt Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                GoBackInReplyToPostTree(True, True)
-            End If
-
-            ' お気に入り前後ジャンプ(SHIFT+N←/P→)
-            If e.KeyCode = Keys.N OrElse e.KeyCode = Keys.Right Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                GoFav(True)
-            ElseIf e.KeyCode = Keys.P OrElse e.KeyCode = Keys.Left Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                GoFav(False)
-            ElseIf e.KeyCode = Keys.R OrElse e.KeyCode = Keys.F5 Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                DoRefreshMore()
-            End If
-            If e.KeyCode = Keys.F3 Then
-                e.Handled = True
-                e.SuppressKeyPress = True
+        'SHift+何か
+        If Modifier = ModifierState.Shift Then
+            If KeyCode = Keys.F3 Then
+                Pressed = True
                 MenuItemSearchPrev_Click(Nothing, Nothing)
-            ElseIf e.KeyCode = Keys.F6 Then
-                e.Handled = True
-                e.SuppressKeyPress = True
+            ElseIf KeyCode = Keys.F5 Then
+                Pressed = True
+                DoRefreshMore()
+            ElseIf KeyCode = Keys.F6 Then
+                Pressed = True
                 GetTimeline(WORKERTYPE.Reply, -1, 0, "")
-            ElseIf e.KeyCode = Keys.F7 Then
-                e.Handled = True
-                e.SuppressKeyPress = True
+            ElseIf KeyCode = Keys.F7 Then
+                Pressed = True
                 GetTimeline(WORKERTYPE.DirectMessegeRcv, -1, 0, "")
             End If
+            If Focused <> ModifierState.StatusText Then
+                If KeyCode = Keys.R AndAlso Not Pressed Then
+                    DoRefreshMore()
+                    Return True
+                End If
+                If Focused = ModifierState.ListTab Then
+                    If KeyCode = Keys.H Then
+                        Pressed = True
+                        GoTopEnd(True)
+                    ElseIf KeyCode = Keys.L Then
+                        Pressed = True
+                        GoTopEnd(False)
+                    ElseIf KeyCode = Keys.M Then
+                        Pressed = True
+                        GoMiddle()
+                    ElseIf KeyCode = Keys.G Then
+                        Pressed = True
+                        GoLast()
+                    ElseIf KeyCode = Keys.Z Then
+                        Pressed = True
+                        MoveMiddle()
+                    ElseIf KeyCode = Keys.J Then
+                        Pressed = True
+                        SendKeys.Send("{DOWN}")
+                    ElseIf KeyCode = Keys.K Then
+                        Pressed = True
+                        SendKeys.Send("{UP}")
+                    ElseIf KeyCode = Keys.Oem4 Then
+                        Pressed = True
+                        GoBackInReplyToPostTree(True, False)
+                    ElseIf KeyCode = Keys.Oem6 Then
+                        Pressed = True
+                        GoBackInReplyToPostTree(True, True)
+                    End If
+
+                    ' お気に入り前後ジャンプ(SHIFT+N←/P→)
+                    If KeyCode = Keys.N OrElse KeyCode = Keys.Right Then
+                        Pressed = True
+                        GoFav(True)
+                    ElseIf KeyCode = Keys.P OrElse KeyCode = Keys.Left Then
+                        Pressed = True
+                        GoFav(False)
+                    End If
+                End If
+            End If
+            Return Pressed
         End If
 
-        If e.Control AndAlso Not e.Alt AndAlso e.Shift Then
-            ' CTRL+SHIFTキーが押されている場合
-            If e.KeyCode = Keys.R Then
-                e.Handled = True
-                e.SuppressKeyPress = True
+        'Alt+何か
+        If Modifier = ModifierState.Alt Then
+            If KeyCode = Keys.R Then
+                Pressed = True
+                doReTweetOfficial(True)
+            ElseIf KeyCode = Keys.P AndAlso _curPost IsNot Nothing Then
+                Pressed = True
+                doShowUserStatus(_curPost.Name, False)
+            End If
+            If KeyCode = Keys.Up Then
+                ScrollDownPostBrowser(False)
+            ElseIf KeyCode = Keys.Down Then
+                ScrollDownPostBrowser(True)
+            ElseIf KeyCode = Keys.PageUp Then
+                PageDownPostBrowser(False)
+            ElseIf KeyCode = Keys.PageDown Then
+                PageDownPostBrowser(True)
+            End If
+            If Focused = ModifierState.ListTab AndAlso Not Pressed Then
+                ' 別タブの同じ書き込みへ(ALT+←/→)
+                If KeyCode = Keys.Right Then
+                    Pressed = True
+                    GoSamePostToAnotherTab(False)
+                ElseIf KeyCode = Keys.Left Then
+                    Pressed = True
+                    GoSamePostToAnotherTab(True)
+                End If
+            End If
+            Return Pressed
+        End If
+
+        'Ctrl+Shift+何か
+        If Modifier = ModifierState.CShift Then
+            If KeyCode = Keys.R Then
+                Pressed = True
                 MakeReplyOrDirectStatus(False, True, True)
-            ElseIf e.KeyCode = Keys.C Then
+            ElseIf KeyCode = Keys.C Then
                 Dim clstr As String = ""
-                e.Handled = True
-                e.SuppressKeyPress = True
+                Pressed = True
                 CopyIdUri()
-            ElseIf e.KeyCode = Keys.F Then
-                e.Handled = True
-                e.SuppressKeyPress = True
+            ElseIf KeyCode = Keys.F Then
+                Pressed = True
                 If ListTab.SelectedTab IsNot Nothing Then
-                    If _statuses.Tabs(ListTab.SelectedTab.Text).TabType <> TabUsageType.PublicSearch Then Exit Sub
+                    If _statuses.Tabs(ListTab.SelectedTab.Text).TabType <> TabUsageType.PublicSearch Then Exit Function
                     ListTab.SelectedTab.Controls("panelSearch").Controls("comboSearch").Focus()
                 End If
-            ElseIf e.KeyCode = Keys.S Then
-                e.Handled = True
-                e.SuppressKeyPress = True
+            ElseIf KeyCode = Keys.S Then
+                Pressed = True
                 FavoriteChange(False)
-            ElseIf e.KeyCode = Keys.B Then
-                e.Handled = True
-                e.SuppressKeyPress = True
+            ElseIf KeyCode = Keys.B Then
+                Pressed = True
                 UnreadStripMenuItem_Click(Nothing, Nothing)
             End If
-            If e.KeyCode = Keys.T Then
-                e.Handled = True
-                e.SuppressKeyPress = True
+            If KeyCode = Keys.T Then
+                Pressed = True
                 HashToggleMenuItem_Click(Nothing, Nothing)
-            ElseIf e.KeyCode = Keys.P Then
-                e.Handled = True
-                e.SuppressKeyPress = True
+            ElseIf KeyCode = Keys.P Then
+                Pressed = True
                 ImageSelectMenuItem_Click(Nothing, Nothing)
-            ElseIf e.KeyCode = Keys.H Then
-                e.Handled = True
-                e.SuppressKeyPress = True
+            ElseIf KeyCode = Keys.H Then
+                Pressed = True
                 doMoveToRTHome()
-            ElseIf e.KeyCode = Keys.O Then
-                e.Handled = True
-                e.SuppressKeyPress = True
+            ElseIf KeyCode = Keys.O Then
+                Pressed = True
                 FavorareMenuItem_Click(Nothing, Nothing)
             End If
-        End If
-
-        If Not e.Control AndAlso e.Alt AndAlso e.Shift Then
-            ' ALT+SHIFTキーが押されている場合
-            If e.KeyCode = Keys.R Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                doReTweetUnofficial()
-            ElseIf e.KeyCode = Keys.C Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                CopyUserId()
-            ElseIf e.KeyCode = Keys.Up Then
-                Thumbnail.ScrollThumbnail(False)
-            ElseIf e.KeyCode = Keys.Down Then
-                Thumbnail.ScrollThumbnail(True)
-            End If
-            If e.KeyCode = Keys.Enter Then
-                If Not Me.SplitContainer3.Panel2Collapsed Then
-                    Thumbnail.OpenPicture()
+            If Not Pressed AndAlso Focused = ModifierState.StatusText Then
+                If KeyCode = Keys.Up Then
+                    Pressed = True
+                    Dim idx As Integer = 0
+                    If _curList IsNot Nothing AndAlso _curList.Items.Count <> 0 AndAlso _
+                                _curList.SelectedIndices.Count > 0 AndAlso _curList.SelectedIndices(0) > 0 Then
+                        idx = _curList.SelectedIndices(0) - 1
+                        SelectListItem(_curList, idx)
+                        _curList.EnsureVisible(idx)
+                    End If
+                ElseIf KeyCode = Keys.Down Then
+                    Pressed = True
+                    Dim idx As Integer = 0
+                    If _curList IsNot Nothing AndAlso _curList.Items.Count <> 0 AndAlso _curList.SelectedIndices.Count > 0 _
+                                AndAlso _curList.SelectedIndices(0) < _curList.Items.Count - 1 Then
+                        idx = _curList.SelectedIndices(0) + 1
+                        SelectListItem(_curList, idx)
+                        _curList.EnsureVisible(idx)
+                    End If
                 End If
-                e.Handled = True
-                e.SuppressKeyPress = True
             End If
+            Return Pressed
         End If
 
-        If e.Alt AndAlso e.Control Then
-            ' CTRL+ALTキーが押されている場合
-            If e.KeyCode = Keys.S Then
-                e.Handled = True
-                e.SuppressKeyPress = True
+        'Ctrl+Alt+何か
+        If Modifier = ModifierState.CAlt Then
+            If KeyCode = Keys.S Then
+                Pressed = True
                 FavoritesRetweetOriginal()
-            ElseIf e.KeyCode = Keys.R Then
-                e.Handled = True
-                e.SuppressKeyPress = True
+            ElseIf KeyCode = Keys.R Then
+                Pressed = True
                 FavoritesRetweetUnofficial()
             End If
+            Return Pressed
         End If
 
-    End Sub
+        'Alt+Shift+何か
+        If Modifier = ModifierState.AShift Then
+            If Focused = ModifierState.PostBrowser Then
+                If KeyCode = Keys.R Then
+                    doReTweetUnofficial()
+                ElseIf KeyCode = Keys.C Then
+                    CopyUserId()
+                End If
+                Return Pressed
+            Else
+                If KeyCode = Keys.R Then
+                    Pressed = True
+                    doReTweetUnofficial()
+                ElseIf KeyCode = Keys.C Then
+                    Pressed = True
+                    CopyUserId()
+                ElseIf KeyCode = Keys.Up Then
+                    Thumbnail.ScrollThumbnail(False)
+                ElseIf KeyCode = Keys.Down Then
+                    Thumbnail.ScrollThumbnail(True)
+                End If
+                If Focused = ModifierState.ListTab AndAlso KeyCode = Keys.Enter Then
+                    If Not Me.SplitContainer3.Panel2Collapsed Then
+                        Thumbnail.OpenPicture()
+                    End If
+                    Pressed = True
+                End If
+                Return Pressed
+            End If
+        End If
+
+
+    End Function
 
     Private Sub ScrollDownPostBrowser(ByVal forward As Boolean)
         Dim doc As HtmlDocument = PostBrowser.Document
@@ -5755,298 +5875,11 @@ RETRY:
     End Sub
 
     Private Sub StatusText_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles StatusText.KeyDown
-        'Modifierキーなし
-        If e.Modifiers = Keys.None Then
-            If e.KeyCode = Keys.F1 Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                OpenUriAsync("http://sourceforge.jp/projects/tween/wiki/FrontPage")
-            ElseIf e.KeyCode = Keys.F3 Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                MenuItemSearchNext_Click(Nothing, Nothing)
-            ElseIf e.KeyCode = Keys.F5 Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                DoRefresh()
-            ElseIf e.KeyCode = Keys.F6 Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                GetTimeline(WORKERTYPE.Reply, 1, 0, "")
-            ElseIf e.KeyCode = Keys.F7 Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
-            End If
-        End If
-
-        'Controlキー
-        If e.Control AndAlso Not e.Alt AndAlso Not e.Shift Then
-            If e.KeyCode = Keys.A Then
-                StatusText.SelectAll()
-            ElseIf e.KeyCode = Keys.Up OrElse e.KeyCode = Keys.Down Then
-                If StatusText.Text.Trim() <> "" Then
-                    _history(_hisIdx) = New PostingStatus(StatusText.Text, _reply_to_id, _reply_to_name)
-                End If
-                If e.KeyCode = Keys.Up Then
-                    _hisIdx -= 1
-                    If _hisIdx < 0 Then _hisIdx = 0
-                Else
-                    _hisIdx += 1
-                    If _hisIdx > _history.Count - 1 Then _hisIdx = _history.Count - 1
-                End If
-                StatusText.Text = _history(_hisIdx).status
-                _reply_to_id = _history(_hisIdx).inReplyToId
-                _reply_to_name = _history(_hisIdx).inReplyToName
-                StatusText.SelectionStart = StatusText.Text.Length
-                e.Handled = True
-                e.SuppressKeyPress = True
-            ElseIf e.KeyCode = Keys.PageUp OrElse e.KeyCode = Keys.P Then
-                If ListTab.SelectedIndex = 0 Then
-                    ListTab.SelectedIndex = ListTab.TabCount - 1
-                Else
-                    ListTab.SelectedIndex -= 1
-                End If
-                e.Handled = True
-                e.SuppressKeyPress = True
-                StatusText.Focus()
-            ElseIf e.KeyCode = Keys.PageDown OrElse e.KeyCode = Keys.N Then
-                If ListTab.SelectedIndex = ListTab.TabCount - 1 Then
-                    ListTab.SelectedIndex = 0
-                Else
-                    ListTab.SelectedIndex += 1
-                End If
-                e.Handled = True
-                e.SuppressKeyPress = True
-                StatusText.Focus()
-            ElseIf e.KeyCode = Keys.R Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                MakeReplyOrDirectStatus(False, True)
-            ElseIf e.KeyCode = Keys.M Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                MakeReplyOrDirectStatus(False, False)
-            ElseIf e.KeyCode = Keys.S Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                FavoriteChange(True)
-            ElseIf e.KeyCode = Keys.I Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                doRepliedStatusOpen()
-            ElseIf e.KeyCode = Keys.Q Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                doQuote()
-            ElseIf e.KeyCode = Keys.B Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                ReadedStripMenuItem_Click(Nothing, Nothing)
-            ElseIf e.KeyCode = Keys.T Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                HashManageMenuItem_Click(Nothing, Nothing)
-            ElseIf e.KeyCode = Keys.L Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                UrlConvertAutoToolStripMenuItem_Click(Nothing, Nothing)
-            ElseIf e.KeyCode = Keys.Y Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                MultiLineMenuItem_Click(Nothing, Nothing)
-            ElseIf e.KeyCode = Keys.F Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                MenuItemSubSearch_Click(Nothing, Nothing)
-            ElseIf e.KeyCode = Keys.U Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                ShowUserTimeline()
-            End If
-
-            Select Case e.KeyCode
-                Case Keys.H
-                    If _curList.SelectedIndices.Count > 0 Then
-                        OpenUriAsync("http://twitter.com/" + GetCurTabPost(_curList.SelectedIndices(0)).Name)
-                    ElseIf _curList.SelectedIndices.Count = 0 Then
-                        OpenUriAsync("http://twitter.com/")
-                    End If
-                Case Keys.G
-                    If _curList.SelectedIndices.Count > 0 Then
-                        OpenUriAsync("http://twitter.com/" + GetCurTabPost(_curList.SelectedIndices(0)).Name + "/favorites")
-                    End If
-                Case Keys.E
-                    OpenURLMenuItem_Click(Nothing, Nothing)
-                Case Keys.O
-                    StatusOpenMenuItem_Click(Nothing, Nothing)
-            End Select
-        End If
-
-        'Shiftキー
-        If e.Shift Then
-            If e.KeyCode = Keys.F3 Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                MenuItemSearchPrev_Click(Nothing, Nothing)
-            ElseIf e.KeyCode = Keys.F5 Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                DoRefreshMore()
-            ElseIf e.KeyCode = Keys.F6 Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                GetTimeline(WORKERTYPE.Reply, -1, 0, "")
-            ElseIf e.KeyCode = Keys.F7 Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                GetTimeline(WORKERTYPE.DirectMessegeRcv, -1, 0, "")
-            End If
-        End If
-
-        'Altキー
-        If e.Alt AndAlso Not e.Control AndAlso e.Shift Then
-            If e.KeyCode = Keys.R Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                doReTweetOfficial(True)
-            ElseIf e.KeyCode = Keys.P AndAlso _curPost IsNot Nothing Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                doShowUserStatus(_curPost.Name, False)
-            End If
-            If e.KeyCode = Keys.Up Then
-                ScrollDownPostBrowser(False)
-            ElseIf e.KeyCode = Keys.Down Then
-                ScrollDownPostBrowser(True)
-            ElseIf e.KeyCode = Keys.PageUp Then
-                PageDownPostBrowser(False)
-            ElseIf e.KeyCode = Keys.PageDown Then
-                PageDownPostBrowser(True)
-            End If
-        End If
-
-        If e.KeyCode = Keys.Space AndAlso e.Modifiers = (Keys.Shift Or Keys.Control) Then
-            If StatusText.SelectionStart > 0 Then
-                Dim endidx As Integer = StatusText.SelectionStart - 1
-                Dim startstr As String = ""
-                For i As Integer = StatusText.SelectionStart - 1 To 0 Step -1
-                    Dim c As Char = StatusText.Text.Chars(i)
-                    If Char.IsLetterOrDigit(c) OrElse c = "_" Then
-                        Continue For
-                    End If
-                    If c = "@" Then
-                        startstr = StatusText.Text.Substring(i + 1, endidx - i)
-                        ShowSuplDialog(StatusText, AtIdSupl, startstr.Length + 1, startstr)
-                    ElseIf c = "#" Then
-                        startstr = StatusText.Text.Substring(i + 1, endidx - i)
-                        ShowSuplDialog(StatusText, HashSupl, startstr.Length + 1, startstr)
-                    Else
-                        Exit For
-                    End If
-                Next
-                e.Handled = True
-            End If
-        End If
-
-        'Shift+Controlキー
-        If e.Shift AndAlso e.Control Then
-            If e.KeyCode = Keys.Up Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                Dim idx As Integer = 0
-                If _curList IsNot Nothing AndAlso _curList.Items.Count <> 0 AndAlso _
-                            _curList.SelectedIndices.Count > 0 AndAlso _curList.SelectedIndices(0) > 0 Then
-                    idx = _curList.SelectedIndices(0) - 1
-                    SelectListItem(_curList, idx)
-                    _curList.EnsureVisible(idx)
-                End If
-            ElseIf e.KeyCode = Keys.Down Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                Dim idx As Integer = 0
-                If _curList IsNot Nothing AndAlso _curList.Items.Count <> 0 AndAlso _curList.SelectedIndices.Count > 0 _
-                            AndAlso _curList.SelectedIndices(0) < _curList.Items.Count - 1 Then
-                    idx = _curList.SelectedIndices(0) + 1
-                    SelectListItem(_curList, idx)
-                    _curList.EnsureVisible(idx)
-                End If
-            End If
-            If e.KeyCode = Keys.R Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                MakeReplyOrDirectStatus(False, True, True)
-            ElseIf e.KeyCode = Keys.H Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                doMoveToRTHome()
-            ElseIf e.KeyCode = Keys.T Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                HashToggleMenuItem_Click(Nothing, Nothing)
-            ElseIf e.KeyCode = Keys.S Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                FavoriteChange(False)
-            ElseIf e.KeyCode = Keys.B Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                UnreadStripMenuItem_Click(Nothing, Nothing)
-            ElseIf e.KeyCode = Keys.G Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                FavorareMenuItem_Click(Nothing, Nothing)
-            ElseIf e.KeyCode = Keys.C Then
-                Dim clstr As String = ""
-                e.Handled = True
-                e.SuppressKeyPress = True
-                CopyIdUri()
-            ElseIf e.KeyCode = Keys.O Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                FavorareMenuItem_Click(Nothing, Nothing)
-            ElseIf e.KeyCode = Keys.P Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                ImageSelectMenuItem_Click(Nothing, Nothing)
-            ElseIf e.KeyCode = Keys.F Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                If ListTab.SelectedTab IsNot Nothing Then
-                    If _statuses.Tabs(ListTab.SelectedTab.Text).TabType <> TabUsageType.PublicSearch Then Exit Sub
-                    ListTab.SelectedTab.Controls("panelSearch").Controls("comboSearch").Focus()
-                End If
-            End If
-        End If
-
-        'Alt+Shiftキー
-        If e.Alt AndAlso e.Shift Then
-            If e.KeyCode = Keys.R Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                doReTweetUnofficial()
-            ElseIf e.KeyCode = Keys.C Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                CopyUserId()
-            ElseIf e.KeyCode = Keys.Up Then
-                Thumbnail.ScrollThumbnail(False)
-            ElseIf e.KeyCode = Keys.Down Then
-                Thumbnail.ScrollThumbnail(True)
-            End If
-        End If
-
-        ' Alt + Control キー
-        If e.Alt AndAlso e.Control Then
-            If e.KeyCode = Keys.S Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                FavoritesRetweetOriginal()
-            ElseIf e.KeyCode = Keys.R Then
-                e.Handled = True
-                e.SuppressKeyPress = True
-                FavoritesRetweetUnofficial()
-            End If
+        Dim State As Integer = GetModifierState(e)
+        If State = ModifierState.NotFlags Then Exit Sub
+        If CommonKeyDown(e.KeyCode, ModifierState.StatusText, State) Then
+            e.Handled = True
+            e.SuppressKeyPress = True
         End If
 
         Me.StatusText_TextChanged(Nothing, Nothing)
@@ -6296,196 +6129,30 @@ RETRY:
     End Sub
 
     Private Sub PostBrowser_PreviewKeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.PreviewKeyDownEventArgs) Handles PostBrowser.PreviewKeyDown
-        ' ModifiersKeyなし
-        If e.Modifiers = Keys.None Then
-            Select Case e.KeyCode
-                Case Keys.Space, _
-                     Keys.ProcessKey
-                    e.IsInputKey = True
-                    JumpUnreadMenuItem_Click(Nothing, Nothing)
-                Case Keys.G
-                    e.IsInputKey = True
-                    ShowRelatedStatusesMenuItem_Click(Nothing, Nothing)
-                Case Keys.F1
-                    e.IsInputKey = True
-                    OpenUriAsync("http://sourceforge.jp/projects/tween/wiki/FrontPage")
-                Case Keys.F3
-                    e.IsInputKey = True
-                    MenuItemSearchNext_Click(Nothing, Nothing)
-                Case Keys.F5, _
-                     Keys.R
-                    e.IsInputKey = True
-                    DoRefresh()
-                Case Keys.F6
-                    e.IsInputKey = True
-                    GetTimeline(WORKERTYPE.Reply, 1, 0, "")
-                Case Keys.F7
-                    e.IsInputKey = True
-                    GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
-                Case Else
-
-            End Select
-        End If
-
-        ' ShiftKey + 何か
-        If e.Modifiers = Keys.Shift Then
-            Select Case e.KeyCode
-                Case Keys.F3
-                    e.IsInputKey = True
-                    MenuItemSearchPrev_Click(Nothing, Nothing)
-                Case Keys.F5, _
-                     Keys.R
-                    e.IsInputKey = True
-                    DoRefreshMore()
-                Case Keys.F6
-                    e.IsInputKey = True
-                    GetTimeline(WORKERTYPE.Reply, -1, 0, "")
-                Case Keys.F7
-                    e.IsInputKey = True
-                    GetTimeline(WORKERTYPE.DirectMessegeRcv, -1, 0, "")
-                Case Else
-
-            End Select
-        End If
-        ' ControlKey + 何か
-        If e.Modifiers = Keys.Control Then
-            Select Case e.KeyCode
-                Case Keys.A
-                    e.IsInputKey = True
-                    PostBrowser.Document.ExecCommand("SelectAll", False, Nothing)
-                Case Keys.C, Keys.Insert
-                    e.IsInputKey = True
-                    Dim _selText As String = WebBrowser_GetSelectionText(PostBrowser)
-                    If Not String.IsNullOrEmpty(_selText) Then
-                        Try
-                            Clipboard.SetDataObject(_selText, False, 5, 100)
-                        Catch ex As Exception
-                            MessageBox.Show(ex.Message)
-                        End Try
-                    End If
-                Case Keys.R
-                    e.IsInputKey = True
-                    MakeReplyOrDirectStatus(False, True)
-                Case Keys.M
-                    e.IsInputKey = True
-                    MakeReplyOrDirectStatus(False, False)
-                Case Keys.R
-                    e.IsInputKey = True
-                    doReTweetOfficial(True)
-                Case Keys.Q
-                    e.IsInputKey = True
-                    doQuote()
-                Case Keys.S
-                    e.IsInputKey = True
-                    FavoriteChange(True)
-                Case Keys.B
-                    e.IsInputKey = True
-                    ReadedStripMenuItem_Click(Nothing, Nothing)
-                Case Keys.Y
-                    e.IsInputKey = True
-                    MultiLineMenuItem.Checked = Not MultiLineMenuItem.Checked
-                    MultiLineMenuItem_Click(Nothing, Nothing)
-                Case Keys.C
-                    e.IsInputKey = True
-                    CopyStot()
-                Case Keys.F
-                    e.IsInputKey = True
-                    MenuItemSubSearch_Click(Nothing, Nothing)
-                Case Keys.H
-                    e.IsInputKey = True
-                    If _curList.SelectedIndices.Count > 0 Then
-                        OpenUriAsync("http://twitter.com/" + GetCurTabPost(_curList.SelectedIndices(0)).Name)
-                    ElseIf _curList.SelectedIndices.Count = 0 Then
-                        OpenUriAsync("http://twitter.com/")
-                    End If
-                Case Keys.G
-                    e.IsInputKey = True
-                    If _curList.SelectedIndices.Count > 0 Then
-                        OpenUriAsync("http://twitter.com/" + GetCurTabPost(_curList.SelectedIndices(0)).Name + "/favorites")
-                    End If
-                Case Keys.O
-                    e.IsInputKey = True
-                    MoveToFavToolStripMenuItem_Click(Nothing, Nothing)
-                Case Keys.E
-                    e.IsInputKey = True
-                    OpenURLMenuItem_Click(Nothing, Nothing)
-                Case Keys.U
-                    e.IsInputKey = True
-                    ShowUserTimeline()
-            End Select
-        End If
-
-        'AltKey + 何か
-        If e.Modifiers = Keys.Alt Then
-            If e.KeyCode = Keys.R Then
-                e.IsInputKey = True
-                doReTweetOfficial(True)
-            ElseIf e.KeyCode = Keys.P AndAlso _curPost IsNot Nothing Then
-                e.IsInputKey = True
-                doShowUserStatus(_curPost.Name, False)
+        Dim State As Integer = ModifierState.NotFlags
+        If e.Modifiers = Keys.None Then State = ModifierState.Non
+        If e.Control Then
+            If e.Shift AndAlso Not e.Alt Then
+                State= ModifierState.CShift
+            ElseIf e.Alt AndAlso Not e.Shift Then
+                State = ModifierState.CAlt
+            ElseIf Not e.Alt AndAlso Not e.Shift Then
+                State = ModifierState.Ctrl
             End If
+        ElseIf e.Shift Then
+            If e.Alt AndAlso Not e.Control Then
+                State = ModifierState.AShift
+            ElseIf Not e.Alt AndAlso Not e.Control Then
+                State = ModifierState.Shift
+            End If
+        ElseIf e.Alt Then
+            If Not e.Control AndAlso Not e.Shift Then State = ModifierState.Alt
         End If
-
-        ' ControlKey + ShiftKey + 何か
-        If e.Modifiers = (Keys.Control Or Keys.Shift) Then
-            Select Case e.KeyCode
-                Case Keys.R
-                    e.IsInputKey = True
-                    MakeReplyOrDirectStatus(False, True, True)
-                Case Keys.F
-                    e.IsInputKey = True
-                    If ListTab.SelectedTab IsNot Nothing Then
-                        If _statuses.Tabs(ListTab.SelectedTab.Text).TabType <> TabUsageType.PublicSearch Then Exit Sub
-                        ListTab.SelectedTab.Controls("panelSearch").Controls("comboSearch").Focus()
-                    End If
-                Case Keys.S
-                    e.IsInputKey = True
-                    FavoriteChange(False)
-                Case Keys.B
-                    e.IsInputKey = True
-                    UnreadStripMenuItem_Click(Nothing, Nothing)
-                Case Keys.T
-                    e.IsInputKey = True
-                    HashToggleMenuItem_Click(Nothing, Nothing)
-                Case Keys.P
-                    e.IsInputKey = True
-                    ImageSelectMenuItem_Click(Nothing, Nothing)
-                Case Keys.O
-                    e.IsInputKey = True
-                    FavorareMenuItem_Click(Nothing, Nothing)
-                Case Keys.H
-                    e.IsInputKey = True
-                    doMoveToRTHome()
-                Case Else
-
-            End Select
+        If State = ModifierState.NotFlags Then Exit Sub
+        Dim KeyRes As Boolean = CommonKeyDown(e.KeyCode, ModifierState.PostBrowser, State)
+        If KeyRes Then
+            e.IsInputKey = True
         End If
-
-        'AltKey + ShiftKey + 何か
-        If e.Modifiers = (Keys.Alt Or Keys.Shift) Then
-            Select Case e.KeyCode
-                Case Keys.R
-                    e.IsInputKey = False
-                    doReTweetUnofficial()
-                Case Keys.C
-                    e.IsInputKey = False
-                    CopyUserId()
-            End Select
-
-        End If
-
-        'CtrlKey + AltKey + 何か
-        If e.Modifiers = (Keys.Control Or Keys.Alt) Then
-            Select Case e.KeyCode
-                Case Keys.R
-                    e.IsInputKey = True
-                    FavoritesRetweetUnofficial()
-                Case Keys.S
-                    e.IsInputKey = True
-                    FavoritesRetweetOriginal()
-            End Select
-        End If
-
     End Sub
     Public Function TabRename(ByRef tabName As String) As Boolean
         'タブ名変更
