@@ -5874,7 +5874,7 @@ RETRY:
     End Sub
 
     Private Sub StatusText_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles StatusText.KeyDown
-        Dim State As Integer = GetModifierState(e)
+        Dim State As Integer = GetModifierState(e.Control, e.Shift, e.Alt)
         If State = ModifierState.NotFlags Then Exit Sub
         If CommonKeyDown(e.KeyCode, ModifierState.StatusText, State) Then
             e.Handled = True
