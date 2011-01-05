@@ -2760,56 +2760,56 @@ Public Class Twitter
 
         Dim isDm As Boolean = False
 
-        Using jsonReader As XmlDictionaryReader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(line), XmlDictionaryReaderQuotas.Max)
-            Dim xElm As XElement = XElement.Load(jsonReader)
-            If xElm.Element("friends") IsNot Nothing Then
-                Debug.Print("friends")
-                Exit Sub
-            ElseIf xElm.Element("delete") IsNot Nothing Then
-                Debug.Print("delete")
-                Dim post As PostClass = Nothing
-                Dim id As Int64
-                If xElm.Element("delete").Element("direct_message") IsNot Nothing AndAlso
-                    xElm.Element("delete").Element("direct_message").Element("id") IsNot Nothing Then
-                    id = CLng(xElm.Element("delete").Element("direct_message").Element("id").Value)
-                    RaiseEvent PostDeleted(id, post)
-                ElseIf xElm.Element("delete").Element("status") IsNot Nothing AndAlso
-                    xElm.Element("delete").Element("status").Element("id") IsNot Nothing Then
-                    id = CLng(xElm.Element("delete").Element("status").Element("id").Value)
-                    RaiseEvent PostDeleted(id, post)
-                Else
-                    TraceOut("delete:" + line)
+        Try
+            Using jsonReader As XmlDictionaryReader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(line), XmlDictionaryReaderQuotas.Max)
+                Dim xElm As XElement = XElement.Load(jsonReader)
+                If xElm.Element("friends") IsNot Nothing Then
+                    Debug.Print("friends")
+                    Exit Sub
+                ElseIf xElm.Element("delete") IsNot Nothing Then
+                    Debug.Print("delete")
+                    Dim post As PostClass = Nothing
+                    Dim id As Int64
+                    If xElm.Element("delete").Element("direct_message") IsNot Nothing AndAlso
+                        xElm.Element("delete").Element("direct_message").Element("id") IsNot Nothing Then
+                        id = CLng(xElm.Element("delete").Element("direct_message").Element("id").Value)
+                        RaiseEvent PostDeleted(id, post)
+                    ElseIf xElm.Element("delete").Element("status") IsNot Nothing AndAlso
+                        xElm.Element("delete").Element("status").Element("id") IsNot Nothing Then
+                        id = CLng(xElm.Element("delete").Element("status").Element("id").Value)
+                        RaiseEvent PostDeleted(id, post)
+                    Else
+                        TraceOut("delete:" + line)
+                        Exit Sub
+                    End If
+                    CreateDeleteEvent(DateTime.Now, id, post)
+                    Exit Sub
+                ElseIf xElm.Element("limit") IsNot Nothing Then
+                    Debug.Print(line)
+                    Exit Sub
+                ElseIf xElm.Element("event") IsNot Nothing Then
+                    Debug.Print("event: " + xElm.Element("event").Value)
+                    CreateEventFromJson(line)
+                    Exit Sub
+                ElseIf xElm.Element("direct_message") IsNot Nothing Then
+                    Debug.Print("direct_message")
+                    isDm = True
+                ElseIf xElm.Element("scrub_geo") IsNot Nothing Then
+                    Try
+                        Debug.Print("scrub_geo: user_id=" + xElm.Element("user_id").Value.ToString + " up_to_status_id=" + xElm.Element("up_to_status_id").Value.ToString)
+                    Catch ex As Exception
+                        TraceOut("scrub_geo:" + line)
+                    End Try
                     Exit Sub
                 End If
-                CreateDeleteEvent(DateTime.Now, id, post)
-                Exit Sub
-            ElseIf xElm.Element("limit") IsNot Nothing Then
-                Debug.Print(line)
-                Exit Sub
-            ElseIf xElm.Element("event") IsNot Nothing Then
-                Debug.Print("event: " + xElm.Element("event").Value)
-                CreateEventFromJson(line)
-                Exit Sub
-            ElseIf xElm.Element("direct_message") IsNot Nothing Then
-                Debug.Print("direct_message")
-                isDm = True
-            ElseIf xElm.Element("scrub_geo") IsNot Nothing Then
-                Try
-                    Debug.Print("scrub_geo: user_id=" + xElm.Element("user_id").Value.ToString + " up_to_status_id=" + xElm.Element("up_to_status_id").Value.ToString)
-                Catch ex As Exception
-                    TraceOut("scrub_geo:" + line)
-                End Try
-                Exit Sub
-            End If
-        End Using
+            End Using
 
-        Dim res As New StringBuilder
-        res.Length = 0
-        res.Append("[")
-        res.Append(line)
-        res.Append("]")
+            Dim res As New StringBuilder
+            res.Length = 0
+            res.Append("[")
+            res.Append(line)
+            res.Append("]")
 
-        Try
             If isDm Then
                 CreateDirectMessagesFromJson(res.ToString, WORKERTYPE.UserStream, False)
             Else
@@ -2825,6 +2825,7 @@ Public Class Twitter
     Private Sub CreateDeleteEvent(ByVal createdat As DateTime, ByVal id As Int64, ByVal post As PostClass)
         Dim evt As New FormattedEvent
         evt.CreatedAt = createdat
+        evt.Id = id
         If post Is Nothing Then
             Dim tmp As PostClass = (From p In _deletemessages Where p.Id = id).FirstOrDefault
             If tmp IsNot Nothing Then
@@ -2849,7 +2850,13 @@ Public Class Twitter
             evt.Username = post.Name
             evt.Target = If(post.Data.Length > 5, post.Data.Substring(0, 5) + "...", post.Data) + " [" + post.PDate.ToString + "]"
         End If
-        Me.StoredEvent.Insert(0, evt)
+        For i As Integer = Me.StoredEvent.Count - 1 To 0 Step -1
+            Dim sEvt As FormattedEvent = Me.StoredEvent(i)
+            If sEvt.Id = id AndAlso (sEvt.Event = "favorite" OrElse sEvt.Event = "unfavorite") Then
+                Me.StoredEvent.RemoveAt(i)
+            End If
+        Next
+        'Me.StoredEvent.Insert(0, evt)
         RaiseEvent UserStreamEventReceived(evt)
     End Sub
 
