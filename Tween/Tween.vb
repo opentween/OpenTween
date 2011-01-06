@@ -5386,6 +5386,8 @@ RETRY:
         Dim clstr As String = ""
         Dim sb As New StringBuilder()
         Dim IsProtected As Boolean = False
+        Dim isDm As Boolean = False
+        If Me._curTab IsNot Nothing AndAlso Me._statuses.GetTabByName(Me._curTab.Text) IsNot Nothing Then isDm = Me._statuses.GetTabByName(Me._curTab.Text).TabType = TabUsageType.DirectMessage
         For Each idx As Integer In _curList.SelectedIndices
             Dim post As PostClass = _statuses.Item(_curTab.Text, idx)
             If post.IsProtect Then
@@ -5393,10 +5395,14 @@ RETRY:
                 Continue For
             End If
             If post.IsDeleted Then Continue For
-            If post.RetweetedId > 0 Then
-                sb.AppendFormat("{0}:{1} [http://twitter.com/{0}/status/{2}]{3}", post.Name, post.Data, post.RetweetedId, Environment.NewLine)
+            If Not isDm Then
+                If post.RetweetedId > 0 Then
+                    sb.AppendFormat("{0}:{1} [http://twitter.com/{0}/status/{2}]{3}", post.Name, post.Data, post.RetweetedId, Environment.NewLine)
+                Else
+                    sb.AppendFormat("{0}:{1} [http://twitter.com/{0}/status/{2}]{3}", post.Name, post.Data, post.Id, Environment.NewLine)
+                End If
             Else
-                sb.AppendFormat("{0}:{1} [http://twitter.com/{0}/status/{2}]{3}", post.Name, post.Data, post.Id, Environment.NewLine)
+                sb.AppendFormat("{0}:{1} [{2}]{3}", post.Name, post.Data, post.Id, Environment.NewLine)
             End If
         Next
         If IsProtected Then
@@ -5409,20 +5415,15 @@ RETRY:
             Catch ex As Exception
                 MessageBox.Show(ex.Message)
             End Try
-            'Try
-            '    Dim proc As New Action(Of String)(Sub(text)
-            '                                          Me.Invoke(New Action(Of String)(AddressOf Clipboard.SetText), text)
-            '                                      End Sub)
-            '    proc.BeginInvoke(clstr, Nothing, Nothing)
-            'Catch ex As Exception
-            '    MessageBox.Show(ex.Message)
-            'End Try
         End If
     End Sub
 
     Private Sub CopyIdUri()
         Dim clstr As String = ""
         Dim sb As New StringBuilder()
+        If Me._curTab Is Nothing Then Exit Sub
+        If Me._statuses.GetTabByName(Me._curTab.Text) Is Nothing Then Exit Sub
+        If Me._statuses.GetTabByName(Me._curTab.Text).TabType = TabUsageType.DirectMessage Then Exit Sub
         For Each idx As Integer In _curList.SelectedIndices
             Dim post As PostClass = _statuses.Item(_curTab.Text, idx)
             If post.RetweetedId > 0 Then
@@ -9230,6 +9231,7 @@ RETRY:
             Me.CopySTOTMenuItem.Enabled = True
             Me.CopyURLMenuItem.Enabled = True
             Me.CopyUserIdStripMenuItem.Enabled = True
+            If _curPost.IsDm Then Me.CopyURLMenuItem.Enabled = False
             If _curPost.IsProtect Then Me.CopySTOTMenuItem.Enabled = False
         End If
     End Sub
