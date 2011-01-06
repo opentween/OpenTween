@@ -4800,7 +4800,7 @@ RETRY:
                    pnl.Controls("comboLang").Focused OrElse _
                    pnl.Controls("buttonSearch").Focused Then Exit Sub
             End If
-            Dim State As Integer = GetModifierState(e.Control, e.Shift, e.Alt)
+            Dim State As ModifierState = GetModifierState(e.Control, e.Shift, e.Alt)
             If State = ModifierState.NotFlags Then Exit Sub
             If State <> ModifierState.Non Then _anchorFlag = False
             If CommonKeyDown(e.KeyCode, ModifierState.ListTab, State) Then
@@ -4811,7 +4811,7 @@ RETRY:
 
     End Sub
 
-    Public Function GetModifierState(ByVal sControl As Boolean, ByVal sShift As Boolean, ByVal sAlt As Boolean) As Integer
+    Public Function GetModifierState(ByVal sControl As Boolean, ByVal sShift As Boolean, ByVal sAlt As Boolean) As ModifierState
         If Not sAlt AndAlso Not sControl AndAlso Not sShift Then Return ModifierState.Non
         If sControl Then
             If sShift AndAlso Not sAlt Then
@@ -4848,7 +4848,7 @@ RETRY:
         StatusText = 103
     End Enum
 
-    Public Function CommonKeyDown(ByVal KeyCode As System.Windows.Forms.Keys, ByVal Focused As Integer, ByVal Modifier As Integer) As Boolean
+    Public Function CommonKeyDown(ByVal KeyCode As System.Windows.Forms.Keys, ByVal Focused As ModifierState, ByVal Modifier As ModifierState) As Boolean
         Dim Pressed As Boolean = False
 
         '修飾キーなし
@@ -5874,7 +5874,7 @@ RETRY:
     End Sub
 
     Private Sub StatusText_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles StatusText.KeyDown
-        Dim State As Integer = GetModifierState(e.Control, e.Shift, e.Alt)
+        Dim State As ModifierState = GetModifierState(e.Control, e.Shift, e.Alt)
         If State = ModifierState.NotFlags Then Exit Sub
         If CommonKeyDown(e.KeyCode, ModifierState.StatusText, State) Then
             e.Handled = True
@@ -6128,7 +6128,7 @@ RETRY:
     End Sub
 
     Private Sub PostBrowser_PreviewKeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.PreviewKeyDownEventArgs) Handles PostBrowser.PreviewKeyDown
-        Dim State As Integer = GetModifierState(e.Control, e.Shift, e.Alt)
+        Dim State As ModifierState = GetModifierState(e.Control, e.Shift, e.Alt)
         If State = ModifierState.NotFlags Then Exit Sub
         Dim KeyRes As Boolean = CommonKeyDown(e.KeyCode, ModifierState.PostBrowser, State)
         If KeyRes Then
