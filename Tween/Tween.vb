@@ -3334,7 +3334,7 @@ Public Class TweenMain
         GetTimeline(WORKERTYPE.UserTimeline, 1, 0, tabName)
     End Sub
 
-    Public Function AddNewTab(ByVal tabName As String, ByVal startup As Boolean, ByVal tabType As TabUsageType) As Boolean
+    Public Function AddNewTab(ByVal tabName As String, ByVal startup As Boolean, ByVal tabType As TabUsageType, Optional ByVal listInfo As ListElement = Nothing) As Boolean
         '重複チェック
         For Each tb As TabPage In ListTab.TabPages
             If tb.Text = tabName Then Return False
@@ -3384,7 +3384,7 @@ Public Class TweenMain
             label.Dock = DockStyle.Top
             label.Name = "labelUser"
             If tabType = TabUsageType.Lists Then
-                label.Text = _statuses.Tabs(tabName).ListInfo.ToString()
+                label.Text = listInfo.ToString()
             Else
                 label.Text = _statuses.Tabs(tabName).User + "'s Timeline"
             End If
@@ -6798,7 +6798,7 @@ RETRY:
                     list = listAvail.SelectedList
                 End Using
             End If
-            If Not AddNewTab(tabName, False, tabUsage) Then
+            If Not AddNewTab(tabName, False, tabUsage, list) Then
                 Dim tmp As String = String.Format(My.Resources.AddTabMenuItem_ClickText1, tabName)
                 MessageBox.Show(tmp, My.Resources.AddTabMenuItem_ClickText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Else
@@ -8910,7 +8910,7 @@ RETRY:
             Next
             tb.TabName = renamed
             _statuses.Tabs.Add(renamed, tb)
-            AddNewTab(renamed, False, tb.TabType)
+            AddNewTab(renamed, False, tb.TabType, tb.ListInfo)
             ListTab.SelectedIndex = ListTab.TabPages.Count - 1
             SaveConfigsTabs()
         End If
