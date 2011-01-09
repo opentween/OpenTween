@@ -1068,7 +1068,7 @@ Public Class TweenMain
             If _statuses.Tabs(tn).TabType = TabUsageType.Undefined Then
                 _statuses.Tabs(tn).TabType = TabUsageType.UserDefined
             End If
-            If Not AddNewTab(tn, True, _statuses.Tabs(tn).TabType) Then Throw New Exception("タブ作成エラー")
+            If Not AddNewTab(tn, True, _statuses.Tabs(tn).TabType, _statuses.Tabs(tn).ListInfo) Then Throw New Exception("タブ作成エラー")
         Next
 
         Me.JumpReadOpMenuItem.ShortcutKeyDisplayString = "Space"
