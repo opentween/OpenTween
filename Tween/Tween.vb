@@ -3995,11 +3995,12 @@ Public Class TweenMain
     End Sub
 
     Private Function CreateItem(ByVal Tab As TabPage, ByVal Post As PostClass, ByVal Index As Integer) As ListViewItem
-        Dim mk As String = ""
-        If Post.IsMark Then mk += "♪"
-        If Post.IsProtect Then mk += "Ю"
-        If Post.InReplyToId > 0 Then mk += "⇒"
-        If Post.FavoritedCount > 0 Then mk += "+" + Post.FavoritedCount.ToString
+        Dim mk As New StringBuilder
+        If Post.IsDeleted Then mk.Append("×")
+        If Post.IsMark Then mk.Append("♪")
+        If Post.IsProtect Then mk.Append("Ю")
+        If Post.InReplyToId > 0 Then mk.Append("⇒")
+        If Post.FavoritedCount > 0 Then mk.Append("+" + Post.FavoritedCount.ToString)
         Dim itm As ImageListViewItem
         If Post.RetweetedId = 0 Then
             Dim sitem() As String = {"",
@@ -4008,7 +4009,7 @@ Public Class TweenMain
                                      Post.PDate.ToString(SettingDialog.DateTimeFormat),
                                      Post.Name,
                                      "",
-                                     mk,
+                                     mk.ToString(),
                                      Post.Source}
             itm = New ImageListViewItem(sitem, DirectCast(Me.TIconDic, ImageDictionary), Post.ImageUrl)
         Else
@@ -4018,7 +4019,7 @@ Public Class TweenMain
                                      Post.PDate.ToString(SettingDialog.DateTimeFormat),
                                      Post.Name + Environment.NewLine + "(RT:" + Post.RetweetedBy + ")",
                                      "",
-                                     mk,
+                                     mk.ToString(),
                                      Post.Source}
             itm = New ImageListViewItem(sitem, DirectCast(Me.TIconDic, ImageDictionary), Post.ImageUrl)
         End If
