@@ -106,6 +106,8 @@ Public Class FilterDialog
                 LabelTabType.Text = My.Resources.TabUsageTypeName_Lists
             Case TabUsageType.Related
                 LabelTabType.Text = My.Resources.TabUsageTypeName_Related
+            Case TabUsageType.UserTimeline
+                LabelTabType.Text = My.Resources.TabUsageTypeName_UserTimeline
             Case Else
                 LabelTabType.Text = "UNKNOWN"
         End Select

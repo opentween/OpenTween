@@ -966,4 +966,7 @@
   <data name="UserstreamPeriod_ValidatingText1" xml:space="preserve">
     <value>Refresh interval must be number 0 to 60</value>
   </data>
+  <data name="TabUsageTypeName_UserTimeline" xml:space="preserve">
+    <value>UserTimeline</value>
+  </data>
 </root>

@@ -2423,6 +2423,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  UserTimeline に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property TabUsageTypeName_UserTimeline() As String
+            Get
+                Return ResourceManager.GetString("TabUsageTypeName_UserTimeline", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  復活の呪文を指定してください。 に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property TextBoxOutputzKey_Validating() As String
