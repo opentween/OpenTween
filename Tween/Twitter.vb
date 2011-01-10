@@ -1471,10 +1471,10 @@ Public Class Twitter
             post.Nickname = user.Name
             post.ImageUrl = user.ProfileImageUrl
             post.IsProtect = user.Protected
-            post.IsMe = post.Name.ToLower.Equals(_uid)
 
             'Retweetした人
             post.RetweetedBy = status.User.ScreenName
+            post.IsMe = post.RetweetedBy.ToLower.Equals(_uid)
         Else
             post.PDate = DateTimeParse(status.CreatedAt)
             '本文
@@ -2065,11 +2065,11 @@ Public Class Twitter
                     post.Nickname = user.Name
                     post.ImageUrl = user.ProfileImageUrl
                     post.IsProtect = user.Protected
-                    post.IsMe = post.Name.ToLower.Equals(_uid)
-                    If post.IsMe Then _UserIdNo = post.Uid.ToString()
 
                     'Retweetした人
                     post.RetweetedBy = status.User.ScreenName
+                    post.IsMe = post.RetweetedBy.ToLower.Equals(_uid)
+                    If post.IsMe Then _UserIdNo = post.Uid.ToString()
                 Else
                     post.PDate = DateTimeParse(status.CreatedAt)
 
