@@ -5526,7 +5526,7 @@ RETRY:
     End Sub
 
     Private Sub GoPost(ByVal forward As Boolean)
-        If _curList.SelectedIndices.Count = 0 OrElse Not Me.ExistCurrentPost Then Exit Sub
+        If _curList.SelectedIndices.Count = 0 OrElse _curPost Is Nothing Then Exit Sub
         Dim fIdx As Integer = 0
         Dim toIdx As Integer = 0
         Dim stp As Integer = 1
@@ -5585,7 +5585,7 @@ RETRY:
         End If
 
         If Not _anchorFlag Then
-            If Not Me.ExistCurrentPost Then Exit Sub
+            If _curPost Is Nothing Then Exit Sub
             _anchorPost = _curPost
             _anchorFlag = True
         Else
