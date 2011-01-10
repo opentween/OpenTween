@@ -4872,9 +4872,11 @@ RETRY:
             If Focused <> ModifierState.StatusText AndAlso Not Pressed Then
                 If KeyCode = Keys.Space OrElse KeyCode = Keys.ProcessKey Then
                     Pressed = True
+                    If Focused = ModifierState.ListTab Then _anchorFlag = False
                     JumpUnreadMenuItem_Click(Nothing, Nothing)
                 ElseIf KeyCode = Keys.G Then
                     Pressed = True
+                    If Focused = ModifierState.ListTab Then _anchorFlag = False
                     ShowRelatedStatusesMenuItem_Click(Nothing, Nothing)
                 End If
             End If
@@ -4893,10 +4895,7 @@ RETRY:
                     Return Pressed
                 End If
                 _anchorFlag = False
-                If KeyCode = Keys.Space OrElse KeyCode = Keys.ProcessKey Then
-                    Pressed = True
-                    JumpUnreadMenuItem_Click(Nothing, Nothing)
-                ElseIf KeyCode = Keys.Enter OrElse KeyCode = Keys.Return Then
+                If KeyCode = Keys.Enter OrElse KeyCode = Keys.Return Then
                     Pressed = True
                     MakeReplyOrDirectStatus()
                 ElseIf KeyCode = Keys.L Then
