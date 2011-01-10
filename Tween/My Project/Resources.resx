@@ -1048,4 +1048,7 @@
   <data name="UserstreamPeriod_ValidatingText1" xml:space="preserve">
     <value>反映間隔には数値（0～60）を指定してください。</value>
   </data>
+  <data name="TabUsageTypeName_UserTimeline" xml:space="preserve">
+    <value>UserTimeline</value>
+  </data>
 </root>
