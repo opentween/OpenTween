@@ -7299,7 +7299,7 @@ RETRY:
     Delegate Sub SetStatusLabelApiDelegate()
 
     Private Sub SetStatusLabelApiHandler(ByVal sender As Object, ByVal e As ApiInformationChangedEventArgs)
-        If InvokeRequired Then
+        If InvokeRequired AndAlso Not IsDisposed Then
             Invoke(New SetStatusLabelApiDelegate(AddressOf SetStatusLabelApi))
         Else
             SetStatusLabelApi()
@@ -9851,7 +9851,7 @@ RETRY:
 
     Private Sub tw_UserStreamStarted()
         Me._isActiveUserstream = True
-        If InvokeRequired Then
+        If InvokeRequired AndAlso Not IsDisposed Then
             Invoke(New MethodInvoker(AddressOf tw_UserStreamStarted))
             Exit Sub
         End If
@@ -9866,7 +9866,7 @@ RETRY:
 
     Private Sub tw_UserStreamStopped()
         Me._isActiveUserstream = False
-        If InvokeRequired Then
+        If InvokeRequired AndAlso Not IsDisposed Then
             Invoke(New MethodInvoker(AddressOf tw_UserStreamStopped))
             Exit Sub
         End If
@@ -9880,7 +9880,7 @@ RETRY:
     End Sub
 
     Private Sub tw_UserStreamEventArrived(ByVal ev As Twitter.FormattedEvent)
-        If InvokeRequired Then
+        If InvokeRequired AndAlso Not IsDisposed Then
             Invoke(New Action(Of Twitter.FormattedEvent)(AddressOf tw_UserStreamEventArrived), ev)
             Exit Sub
         End If

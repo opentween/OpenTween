@@ -2110,7 +2110,7 @@ Public Class AppendSettingDialog
                     TwitterApiInfo.UsingCount = UsingApi
                     Dim proc As New Thread(New Threading.ThreadStart(Sub()
                                                                          tw.GetInfoApi(Nothing) '取得エラー時はinfoCountは初期状態（値：-1）
-                                                                         If Me.IsHandleCreated Then Invoke(New MethodInvoker(AddressOf DisplayApiMaxCount))
+                                                                         If Me.IsHandleCreated AndAlso Not Me.IsDisposed Then Invoke(New MethodInvoker(AddressOf DisplayApiMaxCount))
                                                                      End Sub))
                     proc.Start()
                 Else

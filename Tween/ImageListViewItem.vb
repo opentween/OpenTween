@@ -13,9 +13,11 @@
         Dim dummy As Image = imageDictionary.Item(imageKey, Sub(getImg)
                                                                 If getImg Is Nothing Then Exit Sub
                                                                 Me.img = getImg
-                                                                If Me.ListView IsNot Nothing AndAlso Me.ListView.Created Then Me.ListView.Invoke(Sub()
-                                                                                                                                                     If Me.Index < Me.ListView.VirtualListSize Then Me.ListView.RedrawItems(Me.Index, Me.Index, False)
-                                                                                                                                                 End Sub)
+                                                                If Me.ListView IsNot Nothing AndAlso
+                                                                    Me.ListView.Created AndAlso
+                                                                    Not Me.ListView.IsDisposed Then Me.ListView.Invoke(Sub()
+                                                                                                                           If Me.Index < Me.ListView.VirtualListSize Then Me.ListView.RedrawItems(Me.Index, Me.Index, False)
+                                                                                                                       End Sub)
                                                             End Sub)
 
     End Sub
