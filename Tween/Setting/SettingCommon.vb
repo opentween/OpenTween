@@ -178,4 +178,5 @@ Public Class SettingCommon
     Public UserstreamStartup As Boolean = True
     Public UserTimelineCountApi As Integer = 20
     Public UserTimelinePeriod As Integer = 180
+    Public OpenUserTimeline As Boolean = True
 End Class

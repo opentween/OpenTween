@@ -107,6 +107,7 @@ Public Class AppendSettingDialog
     Private _MyRetweetNoConfirm As Boolean
     Private _MyUserstreamStartup As Boolean
     Private _MyUserstreamPeriod As Integer
+    Private _MyOpenUserTimeline As Boolean
 
     Private _ValidationError As Boolean = False
     Private FirstExpandNode As Boolean = True
@@ -353,6 +354,7 @@ Public Class AppendSettingDialog
             _SearchCountApi = CType(SearchTextCountApi.Text, Integer)
             _FavoritesCountApi = CType(FavoritesTextCountApi.Text, Integer)
             _UserTimelineCountApi = CType(UserTimelineTextCountApi.Text, Integer)
+            _MyOpenUserTimeline = CheckOpenUserTimeline.Checked
         Catch ex As Exception
             MessageBox.Show(My.Resources.Save_ClickText3)
             Me.DialogResult = Windows.Forms.DialogResult.Cancel
@@ -624,6 +626,7 @@ Public Class AppendSettingDialog
         SearchTextCountApi.Enabled = UseChangeGetCount.Checked
         FavoritesTextCountApi.Enabled = UseChangeGetCount.Checked
         UserTimelineTextCountApi.Enabled = UseChangeGetCount.Checked
+        CheckOpenUserTimeline.Checked = _MyOpenUserTimeline
 
         With Me.TreeView1
             .Nodes("BasedNode").Tag = BasedPanel
@@ -641,6 +644,7 @@ Public Class AppendSettingDialog
             .Nodes("ConnectionNode").Nodes("ProxyNode").Tag = ProxyPanel
             .Nodes("ConnectionNode").Nodes("CooperateNode").Tag = CooperatePanel
             .Nodes("ConnectionNode").Nodes("ShortUrlNode").Tag = ShortUrlPanel
+            .Nodes("NotifyNode").Tag = NotifyPanel
 
             .SelectedNode = .Nodes(0)
         End With
@@ -1730,6 +1734,15 @@ Public Class AppendSettingDialog
         Set(ByVal value As Boolean)
             _MyUseAdditonalCount = value
         End Set
+    End Property
+
+    Public Property OpenUserTimeline() As Boolean
+        Set(ByVal value As Boolean)
+            _MyOpenUserTimeline = value
+        End Set
+        Get
+            Return _MyOpenUserTimeline
+        End Get
     End Property
 
     Public Property TwitterApiUrl() As String
