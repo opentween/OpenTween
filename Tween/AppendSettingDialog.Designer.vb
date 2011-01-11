@@ -240,18 +240,18 @@ Partial Class AppendSettingDialog
         Me.Label77 = New System.Windows.Forms.Label()
         Me.TextBitlyId = New System.Windows.Forms.TextBox()
         Me.NotifyPanel = New System.Windows.Forms.Panel()
+        Me.CheckBlockEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckEventAlwaysNotify = New System.Windows.Forms.CheckBox()
+        Me.CheckListMemberRemovedEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckListMemberAddedEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
+        Me.CheckFollowEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckFavEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckEventRecievedBalloon = New System.Windows.Forms.CheckBox()
         Me.FontDialog1 = New System.Windows.Forms.FontDialog()
         Me.ColorDialog1 = New System.Windows.Forms.ColorDialog()
         Me.Cancel = New System.Windows.Forms.Button()
         Me.Save = New System.Windows.Forms.Button()
-        Me.CheckEventRecievedBalloon = New System.Windows.Forms.CheckBox()
-        Me.CheckFavEvent = New System.Windows.Forms.CheckBox()
-        Me.CheckFollowEvent = New System.Windows.Forms.CheckBox()
-        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
-        Me.CheckListMemberAddedEvent = New System.Windows.Forms.CheckBox()
-        Me.CheckListMemberRemovedEvent = New System.Windows.Forms.CheckBox()
-        Me.CheckEventAlwaysNotify = New System.Windows.Forms.CheckBox()
-        Me.CheckBlockEvent = New System.Windows.Forms.CheckBox()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -1736,6 +1736,70 @@ Partial Class AppendSettingDialog
         resources.ApplyResources(Me.NotifyPanel, "NotifyPanel")
         Me.NotifyPanel.Name = "NotifyPanel"
         '
+        'CheckBlockEvent
+        '
+        resources.ApplyResources(Me.CheckBlockEvent, "CheckBlockEvent")
+        Me.CheckBlockEvent.Checked = True
+        Me.CheckBlockEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBlockEvent.Name = "CheckBlockEvent"
+        Me.CheckBlockEvent.UseVisualStyleBackColor = True
+        '
+        'CheckEventAlwaysNotify
+        '
+        resources.ApplyResources(Me.CheckEventAlwaysNotify, "CheckEventAlwaysNotify")
+        Me.CheckEventAlwaysNotify.Checked = True
+        Me.CheckEventAlwaysNotify.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckEventAlwaysNotify.Name = "CheckEventAlwaysNotify"
+        Me.CheckEventAlwaysNotify.UseVisualStyleBackColor = True
+        '
+        'CheckListMemberRemovedEvent
+        '
+        resources.ApplyResources(Me.CheckListMemberRemovedEvent, "CheckListMemberRemovedEvent")
+        Me.CheckListMemberRemovedEvent.Checked = True
+        Me.CheckListMemberRemovedEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckListMemberRemovedEvent.Name = "CheckListMemberRemovedEvent"
+        Me.CheckListMemberRemovedEvent.UseVisualStyleBackColor = True
+        '
+        'CheckListMemberAddedEvent
+        '
+        resources.ApplyResources(Me.CheckListMemberAddedEvent, "CheckListMemberAddedEvent")
+        Me.CheckListMemberAddedEvent.Checked = True
+        Me.CheckListMemberAddedEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckListMemberAddedEvent.Name = "CheckListMemberAddedEvent"
+        Me.CheckListMemberAddedEvent.UseVisualStyleBackColor = True
+        '
+        'CheckBox1
+        '
+        resources.ApplyResources(Me.CheckBox1, "CheckBox1")
+        Me.CheckBox1.Checked = True
+        Me.CheckBox1.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBox1.Name = "CheckBox1"
+        Me.CheckBox1.UseVisualStyleBackColor = True
+        '
+        'CheckFollowEvent
+        '
+        resources.ApplyResources(Me.CheckFollowEvent, "CheckFollowEvent")
+        Me.CheckFollowEvent.Checked = True
+        Me.CheckFollowEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckFollowEvent.Name = "CheckFollowEvent"
+        Me.CheckFollowEvent.UseVisualStyleBackColor = True
+        '
+        'CheckFavEvent
+        '
+        resources.ApplyResources(Me.CheckFavEvent, "CheckFavEvent")
+        Me.CheckFavEvent.Checked = True
+        Me.CheckFavEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckFavEvent.Name = "CheckFavEvent"
+        Me.CheckFavEvent.UseVisualStyleBackColor = True
+        '
+        'CheckEventRecievedBalloon
+        '
+        resources.ApplyResources(Me.CheckEventRecievedBalloon, "CheckEventRecievedBalloon")
+        Me.CheckEventRecievedBalloon.Checked = True
+        Me.CheckEventRecievedBalloon.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckEventRecievedBalloon.Name = "CheckEventRecievedBalloon"
+        Me.CheckEventRecievedBalloon.UseVisualStyleBackColor = True
+        '
         'Cancel
         '
         Me.Cancel.CausesValidation = False
@@ -1750,70 +1814,6 @@ Partial Class AppendSettingDialog
         resources.ApplyResources(Me.Save, "Save")
         Me.Save.Name = "Save"
         Me.Save.UseVisualStyleBackColor = True
-        '
-        'CheckEventRecievedBalloon
-        '
-        resources.ApplyResources(Me.CheckEventRecievedBalloon, "CheckEventRecievedBalloon")
-        Me.CheckEventRecievedBalloon.Checked = True
-        Me.CheckEventRecievedBalloon.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckEventRecievedBalloon.Name = "CheckEventRecievedBalloon"
-        Me.CheckEventRecievedBalloon.UseVisualStyleBackColor = True
-        '
-        'CheckFavEvent
-        '
-        resources.ApplyResources(Me.CheckFavEvent, "CheckFavEvent")
-        Me.CheckFavEvent.Checked = True
-        Me.CheckFavEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckFavEvent.Name = "CheckFavEvent"
-        Me.CheckFavEvent.UseVisualStyleBackColor = True
-        '
-        'CheckFollowEvent
-        '
-        resources.ApplyResources(Me.CheckFollowEvent, "CheckFollowEvent")
-        Me.CheckFollowEvent.Checked = True
-        Me.CheckFollowEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckFollowEvent.Name = "CheckFollowEvent"
-        Me.CheckFollowEvent.UseVisualStyleBackColor = True
-        '
-        'CheckBox1
-        '
-        resources.ApplyResources(Me.CheckBox1, "CheckBox1")
-        Me.CheckBox1.Checked = True
-        Me.CheckBox1.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox1.Name = "CheckBox1"
-        Me.CheckBox1.UseVisualStyleBackColor = True
-        '
-        'CheckListMemberAddedEvent
-        '
-        resources.ApplyResources(Me.CheckListMemberAddedEvent, "CheckListMemberAddedEvent")
-        Me.CheckListMemberAddedEvent.Checked = True
-        Me.CheckListMemberAddedEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckListMemberAddedEvent.Name = "CheckListMemberAddedEvent"
-        Me.CheckListMemberAddedEvent.UseVisualStyleBackColor = True
-        '
-        'CheckListMemberRemovedEvent
-        '
-        resources.ApplyResources(Me.CheckListMemberRemovedEvent, "CheckListMemberRemovedEvent")
-        Me.CheckListMemberRemovedEvent.Checked = True
-        Me.CheckListMemberRemovedEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckListMemberRemovedEvent.Name = "CheckListMemberRemovedEvent"
-        Me.CheckListMemberRemovedEvent.UseVisualStyleBackColor = True
-        '
-        'CheckEventAlwaysNotify
-        '
-        resources.ApplyResources(Me.CheckEventAlwaysNotify, "CheckEventAlwaysNotify")
-        Me.CheckEventAlwaysNotify.Checked = True
-        Me.CheckEventAlwaysNotify.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckEventAlwaysNotify.Name = "CheckEventAlwaysNotify"
-        Me.CheckEventAlwaysNotify.UseVisualStyleBackColor = True
-        '
-        'CheckBlockEvent
-        '
-        resources.ApplyResources(Me.CheckBlockEvent, "CheckBlockEvent")
-        Me.CheckBlockEvent.Checked = True
-        Me.CheckBlockEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBlockEvent.Name = "CheckBlockEvent"
-        Me.CheckBlockEvent.UseVisualStyleBackColor = True
         '
         'AppendSettingDialog
         '
