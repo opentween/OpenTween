@@ -138,6 +138,12 @@ Public Class AppendSettingDialog
         pnl.Visible = True
     End Sub
 
+    Private Sub TreeView1_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles TreeView1.KeyDown
+        If e.KeyCode = Keys.Down OrElse e.KeyCode = Keys.Up Then
+            FirstExpandNode = True
+        End If
+    End Sub
+
     Private Sub Save_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Save.Click
         If TweenMain.IsNetworkAvailable() AndAlso _
             (ComboBoxAutoShortUrlFirst.SelectedIndex = UrlConverter.Bitly OrElse ComboBoxAutoShortUrlFirst.SelectedIndex = UrlConverter.Jmp) AndAlso _
