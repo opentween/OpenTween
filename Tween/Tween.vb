@@ -776,6 +776,7 @@ Public Class TweenMain
         'End If
         SettingDialog.UserstreamStartup = _cfgCommon.UserstreamStartup
         SettingDialog.UserstreamPeriodInt = _cfgCommon.UserstreamPeriod
+        SettingDialog.OpenUserTimeline = _cfgCommon.OpenUserTimeline
 
         'ハッシュタグ関連
         HashSupl = New AtIdSupplement(_cfgCommon.HashTags, "#")
@@ -3256,7 +3257,7 @@ Public Class TweenMain
                 Exit Sub
             Else
                 Dim m As Match = Regex.Match(e.Url.AbsoluteUri, "^https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)$")
-                If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
+                If SettingDialog.OpenUserTimeline AndAlso m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
                     Me.AddNewTabForUserTimeline(m.Result("${name}"))
                 Else
                     OpenUriAsync(e.Url.OriginalString)
@@ -6016,6 +6017,7 @@ RETRY:
             _cfgCommon.UserTimelineCountApi = SettingDialog.UserTimelineCountApi
             _cfgCommon.TrackWord = tw.TrackWord
             _cfgCommon.AllAtReply = tw.AllAtReply
+            _cfgCommon.OpenUserTimeline = SettingDialog.OpenUserTimeline
 
             _cfgCommon.Save()
         End SyncLock
