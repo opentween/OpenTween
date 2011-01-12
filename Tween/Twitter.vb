@@ -1564,13 +1564,20 @@ Public Class Twitter
         Dim res As HttpStatusCode
         Dim content As String = ""
         Dim page As Integer = 0
-        Dim count As Integer = AppendSettingDialog.Instance.ListCountApi
+        Dim count As Integer
         If AppendSettingDialog.Instance.UseAdditionalCount Then
-            If more AndAlso AppendSettingDialog.Instance.MoreCountApi <> 0 Then
-                count = AppendSettingDialog.Instance.MoreCountApi
-            ElseIf startup AndAlso AppendSettingDialog.Instance.FirstCountApi <> 0 Then
-                count = AppendSettingDialog.Instance.FirstCountApi
+            count = AppendSettingDialog.Instance.ListCountApi
+            If count = 0 Then
+                If more AndAlso AppendSettingDialog.Instance.MoreCountApi <> 0 Then
+                    count = AppendSettingDialog.Instance.MoreCountApi
+                ElseIf startup AndAlso AppendSettingDialog.Instance.FirstCountApi <> 0 Then
+                    count = AppendSettingDialog.Instance.FirstCountApi
+                Else
+                    count = AppendSettingDialog.Instance.CountApi
+                End If
             End If
+        Else
+            count = AppendSettingDialog.Instance.CountApi
         End If
         Try
             If more Then
