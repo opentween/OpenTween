@@ -104,6 +104,7 @@ Public Class AppendSettingDialog
     Private _SearchCountApi As Integer
     Private _FavoritesCountApi As Integer
     Private _UserTimelineCountApi As Integer
+    Private _ListCountApi As Integer
     Private _MyRetweetNoConfirm As Boolean
     Private _MyUserstreamStartup As Boolean
     Private _MyUserstreamPeriod As Integer
@@ -354,6 +355,7 @@ Public Class AppendSettingDialog
             _SearchCountApi = CType(SearchTextCountApi.Text, Integer)
             _FavoritesCountApi = CType(FavoritesTextCountApi.Text, Integer)
             _UserTimelineCountApi = CType(UserTimelineTextCountApi.Text, Integer)
+            _ListCountApi = CType(ListTextCountApi.Text, Integer)
             _MyOpenUserTimeline = CheckOpenUserTimeline.Checked
         Catch ex As Exception
             MessageBox.Show(My.Resources.Save_ClickText3)
@@ -615,17 +617,20 @@ Public Class AppendSettingDialog
         SearchTextCountApi.Text = _SearchCountApi.ToString
         FavoritesTextCountApi.Text = _FavoritesCountApi.ToString
         UserTimelineTextCountApi.Text = _UserTimelineCountApi.ToString
+        ListTextCountApi.Text = _ListCountApi.ToString
         UseChangeGetCount.Checked = _MyUseAdditonalCount
         Label28.Enabled = UseChangeGetCount.Checked
         Label30.Enabled = UseChangeGetCount.Checked
         Label53.Enabled = UseChangeGetCount.Checked
         Label66.Enabled = UseChangeGetCount.Checked
         Label17.Enabled = UseChangeGetCount.Checked
+        Label25.Enabled = UseChangeGetCount.Checked
         GetMoreTextCountApi.Enabled = UseChangeGetCount.Checked
         FirstTextCountApi.Enabled = UseChangeGetCount.Checked
         SearchTextCountApi.Enabled = UseChangeGetCount.Checked
         FavoritesTextCountApi.Enabled = UseChangeGetCount.Checked
         UserTimelineTextCountApi.Enabled = UseChangeGetCount.Checked
+        ListTextCountApi.Enabled = UseChangeGetCount.Checked
         CheckOpenUserTimeline.Checked = _MyOpenUserTimeline
 
         With Me.TreeView1
@@ -1324,6 +1329,15 @@ Public Class AppendSettingDialog
         End Get
         Set(ByVal value As Integer)
             _UserTimelineCountApi = value
+        End Set
+    End Property
+
+    Public Property ListCountApi() As Integer
+        Get
+            Return _ListCountApi
+        End Get
+        Set(ByVal value As Integer)
+            _ListCountApi = value
         End Set
     End Property
 
@@ -2257,9 +2271,11 @@ Public Class AppendSettingDialog
         Label53.Enabled = UseChangeGetCount.Checked
         Label66.Enabled = UseChangeGetCount.Checked
         Label17.Enabled = UseChangeGetCount.Checked
+        Label25.Enabled = UseChangeGetCount.Checked
         SearchTextCountApi.Enabled = UseChangeGetCount.Checked
         FavoritesTextCountApi.Enabled = UseChangeGetCount.Checked
         UserTimelineTextCountApi.Enabled = UseChangeGetCount.Checked
+        ListTextCountApi.Enabled = UseChangeGetCount.Checked
     End Sub
 
     Private Sub FirstTextCountApi_Validating(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles FirstTextCountApi.Validating
@@ -2321,6 +2337,23 @@ Public Class AppendSettingDialog
         Dim cnt As Integer
         Try
             cnt = Integer.Parse(UserTimelineTextCountApi.Text)
+        Catch ex As Exception
+            MessageBox.Show(My.Resources.TextCountApi_Validating1)
+            e.Cancel = True
+            Exit Sub
+        End Try
+
+        If Not cnt = 0 AndAlso (cnt < 20 OrElse cnt > 200) Then
+            MessageBox.Show(My.Resources.TextCountApi_Validating1)
+            e.Cancel = True
+            Exit Sub
+        End If
+    End Sub
+
+    Private Sub ListTextCountApi_Validating(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ListTextCountApi.Validating
+        Dim cnt As Integer
+        Try
+            cnt = Integer.Parse(ListTextCountApi.Text)
         Catch ex As Exception
             MessageBox.Show(My.Resources.TextCountApi_Validating1)
             e.Cancel = True
