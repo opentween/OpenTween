@@ -252,6 +252,8 @@ Partial Class AppendSettingDialog
         Me.ColorDialog1 = New System.Windows.Forms.ColorDialog()
         Me.Cancel = New System.Windows.Forms.Button()
         Me.Save = New System.Windows.Forms.Button()
+        Me.Label25 = New System.Windows.Forms.Label()
+        Me.ListTextCountApi = New System.Windows.Forms.TextBox()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -289,10 +291,10 @@ Partial Class AppendSettingDialog
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.BackColor = System.Drawing.SystemColors.Control
+        Me.SplitContainer1.Panel2.Controls.Add(Me.GetCountPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.BasedPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.GetPeriodPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.StartupPanel)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.GetCountPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.UserStreamPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.ActionPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.TweetActPanel)
@@ -547,6 +549,8 @@ Partial Class AppendSettingDialog
         '
         'GetCountPanel
         '
+        Me.GetCountPanel.Controls.Add(Me.ListTextCountApi)
+        Me.GetCountPanel.Controls.Add(Me.Label25)
         Me.GetCountPanel.Controls.Add(Me.UserTimelineTextCountApi)
         Me.GetCountPanel.Controls.Add(Me.Label17)
         Me.GetCountPanel.Controls.Add(Me.Label30)
@@ -1815,6 +1819,16 @@ Partial Class AppendSettingDialog
         Me.Save.Name = "Save"
         Me.Save.UseVisualStyleBackColor = True
         '
+        'Label25
+        '
+        resources.ApplyResources(Me.Label25, "Label25")
+        Me.Label25.Name = "Label25"
+        '
+        'ListTextCountApi
+        '
+        resources.ApplyResources(Me.ListTextCountApi, "ListTextCountApi")
+        Me.ListTextCountApi.Name = "ListTextCountApi"
+        '
         'AppendSettingDialog
         '
         Me.AcceptButton = Me.Save
@@ -2103,4 +2117,6 @@ Partial Class AppendSettingDialog
     Friend WithEvents CheckListMemberAddedEvent As System.Windows.Forms.CheckBox
     Friend WithEvents CheckEventAlwaysNotify As System.Windows.Forms.CheckBox
     Friend WithEvents CheckBlockEvent As System.Windows.Forms.CheckBox
+    Friend WithEvents ListTextCountApi As System.Windows.Forms.TextBox
+    Friend WithEvents Label25 As System.Windows.Forms.Label
 End Class

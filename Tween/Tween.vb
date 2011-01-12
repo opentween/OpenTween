@@ -770,6 +770,7 @@ Public Class TweenMain
         SettingDialog.SearchCountApi = _cfgCommon.SearchCountApi
         SettingDialog.FavoritesCountApi = _cfgCommon.FavoritesCountApi
         SettingDialog.UserTimelineCountApi = _cfgCommon.UserTimelineCountApi
+        SettingDialog.ListCountApi = _cfgCommon.ListCountApi
         'If _cfgCommon.UseAdditionalCount Then
         '    _FirstRefreshFlags = True
         '    _FirstListsRefreshFlags = True
@@ -6018,6 +6019,7 @@ RETRY:
             _cfgCommon.TrackWord = tw.TrackWord
             _cfgCommon.AllAtReply = tw.AllAtReply
             _cfgCommon.OpenUserTimeline = SettingDialog.OpenUserTimeline
+            _cfgCommon.ListCountApi = SettingDialog.ListCountApi
 
             _cfgCommon.Save()
         End SyncLock
