@@ -9889,9 +9889,10 @@ RETRY:
             Exit Sub
         End If
         StatusLabel.Text = "Event: " + ev.Event
-        If ev.Event = "favorite" Then
-            NotifyFavorite(ev)
-        End If
+        'If ev.Event = "favorite" Then
+        '    NotifyFavorite(ev)
+        'End If
+        NotifyEvent(ev)
         If ev.Event = "favorite" OrElse ev.Event = "unfavorite" Then
             If _curTab IsNot Nothing AndAlso _statuses.Tabs(_curTab.Text).Contains(ev.Id) Then
                 _itemCache = Nothing
@@ -9905,13 +9906,28 @@ RETRY:
         End If
     End Sub
 
-    Private Sub NotifyFavorite(ByVal ev As Twitter.FormattedEvent)
+    'Private Sub NotifyFavorite(ByVal ev As Twitter.FormattedEvent)
+    '    '新着通知
+    '    If BalloonRequired() Then
+    '        NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning
+    '        If SettingDialog.DispUsername Then NotifyIcon1.BalloonTipTitle = tw.Username + " - " Else NotifyIcon1.BalloonTipTitle = ""
+    '        NotifyIcon1.BalloonTipTitle += "Tween [FAVORITE] by " + ev.Username
+    '        NotifyIcon1.BalloonTipText = ev.Target
+    '        NotifyIcon1.ShowBalloonTip(500)
+    '    End If
+    'End Sub
+
+    Private Sub NotifyEvent(ByVal ev As Twitter.FormattedEvent)
         '新着通知
         If BalloonRequired() Then
             NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning
             If SettingDialog.DispUsername Then NotifyIcon1.BalloonTipTitle = tw.Username + " - " Else NotifyIcon1.BalloonTipTitle = ""
-            NotifyIcon1.BalloonTipTitle += "Tween [FAVORITE] by " + ev.Username
-            NotifyIcon1.BalloonTipText = ev.Target
+            NotifyIcon1.BalloonTipTitle += "Tween [" + ev.Event.ToUpper() + "] by " + DirectCast(IIf(Not String.IsNullOrEmpty(ev.Username), ev.Username, ""), String)
+            If Not String.IsNullOrEmpty(ev.Target) Then
+                NotifyIcon1.BalloonTipText = ev.Target
+            Else
+                NotifyIcon1.BalloonTipText = " "
+            End If
             NotifyIcon1.ShowBalloonTip(500)
         End If
     End Sub
