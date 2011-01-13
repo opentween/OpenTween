@@ -50,8 +50,8 @@
             Dim listNewistPostCreatedAt As DateTime = DateTime.MinValue
 
             For Each post As PostClass In listPost
-                If post.Uid > 0 AndAlso Not listPostUserIDs.Contains(post.Uid) Then
-                    listPostUserIDs.Add(post.Uid)
+                If post.UserId > 0 AndAlso Not listPostUserIDs.Contains(post.UserId) Then
+                    listPostUserIDs.Add(post.UserId)
                 End If
                 If post.Name IsNot Nothing AndAlso Not listPostUserNames.Contains(post.Name) Then
                     listPostUserNames.Add(post.Name)

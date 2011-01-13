@@ -23,10 +23,13 @@
 
 Imports System.Collections.Generic
 Imports System.Collections.ObjectModel
+Imports System.Linq.Expressions
 Imports Tween.TweenCustomControl
 Imports System.Text.RegularExpressions
 Imports System.Web.HttpUtility
 Imports System.Text
+Imports System.Linq
+Imports System.Linq.Expressions.DynamicExpression
 
 Public NotInheritable Class PostClass
     Implements ICloneable
@@ -45,19 +48,20 @@ Public NotInheritable Class PostClass
     Private _IsOWL As Boolean
     Private _IsMark As Boolean
     Private _InReplyToUser As String
-    Private _InReplyToId As Long
+    Private _InReplyToStatusId As Long
     Private _Source As String
     Private _SourceHtml As String
     Private _ReplyToList As New List(Of String)
     Private _IsMe As Boolean
     Private _IsDm As Boolean
     Private _statuses As Statuses = Statuses.None
-    Private _Uid As Long
+    Private _UserId As Long
     Private _FilterHit As Boolean
     Private _RetweetedBy As String = ""
     Private _RetweetedId As Long = 0
-    Private _searchTabName As String = ""
-    Private _isDeleted As Boolean = False
+    Private _SearchTabName As String = ""
+    Private _IsDeleted As Boolean = False
+    Private _InReplyToUserId As Long = 0
 
     <FlagsAttribute()> _
     Private Enum Statuses
@@ -83,13 +87,13 @@ Public NotInheritable Class PostClass
             ByVal IsOwl As Boolean, _
             ByVal IsMark As Boolean, _
             ByVal InReplyToUser As String, _
-            ByVal InReplyToId As Long, _
+            ByVal InReplyToStatusId As Long, _
             ByVal Source As String, _
             ByVal SourceHtml As String, _
             ByVal ReplyToList As List(Of String), _
             ByVal IsMe As Boolean, _
             ByVal IsDm As Boolean, _
-            ByVal Uid As Long, _
+            ByVal userId As Long, _
             ByVal FilterHit As Boolean, _
             ByVal RetweetedBy As String, _
             ByVal RetweetedId As Long)
@@ -108,13 +112,13 @@ Public NotInheritable Class PostClass
         _IsOWL = IsOwl
         _IsMark = IsMark
         _InReplyToUser = InReplyToUser
-        _InReplyToId = InReplyToId
+        _InReplyToStatusId = InReplyToStatusId
         _Source = Source
         _SourceHtml = SourceHtml
         _ReplyToList = ReplyToList
         _IsMe = IsMe
         _IsDm = IsDm
-        _Uid = Uid
+        _UserId = userId
         _FilterHit = FilterHit
         _RetweetedBy = RetweetedBy
         _RetweetedId = RetweetedId
@@ -265,12 +269,21 @@ Public NotInheritable Class PostClass
             _InReplyToUser = value
         End Set
     End Property
-    Public Property InReplyToId() As Long
+    Public Property InReplyToStatusId() As Long
         Get
-            Return _InReplyToId
+            Return _InReplyToStatusId
         End Get
         Set(ByVal value As Long)
-            _InReplyToId = value
+            _InReplyToStatusId = value
+        End Set
+    End Property
+
+    Public Property InReplyToUserId() As Long
+        Get
+            Return _inReplyToUserId
+        End Get
+        Set(ByVal value As Long)
+            _inReplyToUserId = value
         End Set
     End Property
     Public Property Source() As String
@@ -313,17 +326,17 @@ Public NotInheritable Class PostClass
             _IsDm = value
         End Set
     End Property
-    Public ReadOnly Property StatusIndex() As Integer
+    'Public ReadOnly Property StatusIndex() As Integer
+    '    Get
+    '        Return _statuses
+    '    End Get
+    'End Property
+    Public Property UserId() As Long
         Get
-            Return _statuses
-        End Get
-    End Property
-    Public Property Uid() As Long
-        Get
-            Return _Uid
+            Return _UserId
         End Get
         Set(ByVal value As Long)
-            _Uid = value
+            _UserId = value
         End Set
     End Property
     Public Property FilterHit() As Boolean
@@ -352,24 +365,25 @@ Public NotInheritable Class PostClass
     End Property
     Public Property RelTabName() As String
         Get
-            Return _searchTabName
+            Return _SearchTabName
         End Get
         Set(ByVal value As String)
-            _searchTabName = value
+            _SearchTabName = value
         End Set
     End Property
     Public Property IsDeleted As Boolean
         Get
-            Return _isDeleted
+            Return _IsDeleted
         End Get
         Set(ByVal value As Boolean)
             If value Then
-                Me.InReplyToId = 0
+                Me.InReplyToStatusId = 0
                 Me.InReplyToUser = ""
+                Me.InReplyToUserId = 0
                 Me.IsReply = False
                 Me.ReplyToList = New List(Of String)
             End If
-            _isDeleted = value
+            _IsDeleted = value
         End Set
     End Property
     Public Property FavoritedCount As Integer
@@ -1020,13 +1034,13 @@ Public NotInheritable Class TabInformations
                         item.IsOwl, _
                         item.IsMark, _
                         item.InReplyToUser, _
-                        item.InReplyToId, _
+                        item.InReplyToStatusId, _
                         item.Source, _
                         item.SourceHtml, _
                         item.ReplyToList, _
                         item.IsMe, _
                         item.IsDm, _
-                        item.Uid, _
+                        item.UserId, _
                         item.FilterHit, _
                         "", _
                         0 _
@@ -1465,11 +1479,11 @@ Public NotInheritable Class TabInformations
         SyncLock LockObj
             If follower.Count > 0 Then
                 For Each post As PostClass In _statuses.Values
-                    'If post.Uid = 0 OrElse post.IsDm Then Continue For
+                    'If post.UserId = 0 OrElse post.IsDm Then Continue For
                     If post.IsMe Then
                         post.IsOwl = False
                     Else
-                        post.IsOwl = Not follower.Contains(post.Uid)
+                        post.IsOwl = Not follower.Contains(post.UserId)
                     End If
                 Next
             Else
@@ -1878,6 +1892,7 @@ Public NotInheritable Class TabClass
         original.UseRegex = modified.UseRegex
         original.CaseSensitive = modified.CaseSensitive
         original.IsRt = modified.IsRt
+        original.UseLambda = modified.UseLambda
         original.Source = modified.Source
         original.ExBodyFilter = modified.ExBodyFilter
         original.ExNameFilter = modified.ExNameFilter
@@ -1886,6 +1901,7 @@ Public NotInheritable Class TabClass
         original.ExUseRegex = modified.ExUseRegex
         original.ExCaseSensitive = modified.ExCaseSensitive
         original.IsExRt = modified.IsExRt
+        original.ExUseLambda = modified.ExUseLambda
         original.ExSource = modified.ExSource
         original.MoveFrom = modified.MoveFrom
         original.SetMark = modified.SetMark
@@ -2001,6 +2017,8 @@ Public NotInheritable Class FiltersClass
     Private _exSource As String = ""
     Private _moveFrom As Boolean = False
     Private _setMark As Boolean = True
+    Private _useLambda As Boolean = False
+    Private _exuseLambda As Boolean = False
 
     Public Sub New()
 
@@ -2044,6 +2062,9 @@ Public NotInheritable Class FiltersClass
             If _isRt Then
                 fs.Append("RT/")
             End If
+            If _useLambda Then
+                fs.Append("LambdaExp/")
+            End If
             If Not String.IsNullOrEmpty(_source) Then
                 fs.AppendFormat("Src…{0}/", _source)
             End If
@@ -2086,6 +2107,9 @@ Public NotInheritable Class FiltersClass
             End If
             If _isExRt Then
                 fs.Append("RT/")
+            End If
+            If _exuseLambda Then
+                fs.Append("LambdaExp/")
             End If
             If Not String.IsNullOrEmpty(_exSource) Then
                 fs.AppendFormat("Src…{0}/", _exSource)
@@ -2245,6 +2269,24 @@ Public NotInheritable Class FiltersClass
         End Set
     End Property
 
+    Public Property UseLambda() As Boolean
+        Get
+            Return _useLambda
+        End Get
+        Set(ByVal value As Boolean)
+            _useLambda = value
+        End Set
+    End Property
+
+    Public Property ExUseLambda() As Boolean
+        Get
+            Return _exuseLambda
+        End Get
+        Set(ByVal value As Boolean)
+            _exuseLambda = value
+        End Set
+    End Property
+
     Public Property UseRegex() As Boolean
         Get
             Return _useRegex
@@ -2303,6 +2345,14 @@ Public NotInheritable Class FiltersClass
         Return MakeSummary()
     End Function
 
+    Public Function ExecuteLambdaExpression(ByVal expr As String, ByVal post As PostClass) As Boolean
+        Dim dlg As [Delegate]
+        Dim exp As LambdaExpression
+        exp = ParseLambda(Of PostClass, Boolean)(expr, post)
+        dlg = exp.Compile()
+        Return DirectCast(dlg.DynamicInvoke(post), Boolean)
+    End Function
+
     Public Function IsHit(ByVal post As PostClass) As HITRESULT
         Dim bHit As Boolean = True
         Dim tBody As String
@@ -2336,40 +2386,48 @@ Public NotInheritable Class FiltersClass
                   (Not String.IsNullOrEmpty(post.RetweetedBy) AndAlso Regex.IsMatch(post.RetweetedBy, _name, rgOpt))
                  )
                 ) Then
-                For Each fs As String In _body
-                    If _useRegex Then
-                        If Not Regex.IsMatch(tBody, fs, rgOpt) Then bHit = False
-                    Else
-                        If _caseSensitive Then
-                            If Not tBody.Contains(fs) Then bHit = False
+                If _useLambda Then
+                    If Not ExecuteLambdaExpression(_body.Item(0), post) Then bHit = False
+                Else
+                    For Each fs As String In _body
+                        If _useRegex Then
+                            If Not Regex.IsMatch(tBody, fs, rgOpt) Then bHit = False
                         Else
-                            If Not tBody.ToLower().Contains(fs.ToLower()) Then bHit = False
+                            If _caseSensitive Then
+                                If Not tBody.Contains(fs) Then bHit = False
+                            Else
+                                If Not tBody.ToLower().Contains(fs.ToLower()) Then bHit = False
+                            End If
                         End If
-                    End If
-                    If Not bHit Then Exit For
-                Next
+                        If Not bHit Then Exit For
+                    Next
+                End If
             Else
                 bHit = False
             End If
         Else
-            For Each fs As String In _body
-                If _useRegex Then
-                    If Not (Regex.IsMatch(post.Name, fs, rgOpt) OrElse
-                            (Not String.IsNullOrEmpty(post.RetweetedBy) AndAlso Regex.IsMatch(post.RetweetedBy, fs, rgOpt)) OrElse
-                            Regex.IsMatch(tBody, fs, rgOpt)) Then bHit = False
-                Else
-                    If _caseSensitive Then
-                        If Not (post.Name.Contains(fs) OrElse _
-                                post.RetweetedBy.Contains(fs) OrElse _
-                                tBody.Contains(fs)) Then bHit = False
+            If _useLambda Then
+                If Not ExecuteLambdaExpression(_body.Item(0), post) Then bHit = False
+            Else
+                For Each fs As String In _body
+                    If _useRegex Then
+                        If Not (Regex.IsMatch(post.Name, fs, rgOpt) OrElse
+                                (Not String.IsNullOrEmpty(post.RetweetedBy) AndAlso Regex.IsMatch(post.RetweetedBy, fs, rgOpt)) OrElse
+                                Regex.IsMatch(tBody, fs, rgOpt)) Then bHit = False
                     Else
-                        If Not (post.Name.ToLower().Contains(fs.ToLower()) OrElse _
-                                post.RetweetedBy.ToLower().Contains(fs.ToLower()) OrElse _
-                                tBody.ToLower().Contains(fs.ToLower())) Then bHit = False
+                        If _caseSensitive Then
+                            If Not (post.Name.Contains(fs) OrElse _
+                                    post.RetweetedBy.Contains(fs) OrElse _
+                                    tBody.Contains(fs)) Then bHit = False
+                        Else
+                            If Not (post.Name.ToLower().Contains(fs.ToLower()) OrElse _
+                                    post.RetweetedBy.ToLower().Contains(fs.ToLower()) OrElse _
+                                    tBody.ToLower().Contains(fs.ToLower())) Then bHit = False
+                        End If
                     End If
-                End If
-                If Not bHit Then Exit For
-            Next
+                    If Not bHit Then Exit For
+                Next
+            End If
         End If
         If _isRt Then
             If post.RetweetedId = 0 Then bHit = False
@@ -2413,41 +2471,49 @@ Public NotInheritable Class FiltersClass
                             )
                         ) Then
                         If _exbody.Count > 0 Then
-                            For Each fs As String In _exbody
-                                If _exuseRegex Then
-                                    If Regex.IsMatch(tBody, fs, rgOpt) Then exFlag = True
-                                Else
-                                    If _excaseSensitive Then
-                                        If tBody.Contains(fs) Then exFlag = True
+                            If _exuseLambda Then
+                                If ExecuteLambdaExpression(_exbody.Item(0), post) Then exFlag = True
+                            Else
+                                For Each fs As String In _exbody
+                                    If _exuseRegex Then
+                                        If Regex.IsMatch(tBody, fs, rgOpt) Then exFlag = True
                                     Else
-                                        If tBody.ToLower().Contains(fs.ToLower()) Then exFlag = True
+                                        If _excaseSensitive Then
+                                            If tBody.Contains(fs) Then exFlag = True
+                                        Else
+                                            If tBody.ToLower().Contains(fs.ToLower()) Then exFlag = True
+                                        End If
                                     End If
-                                End If
-                                If exFlag Then Exit For
-                            Next
+                                    If exFlag Then Exit For
+                                Next
+                            End If
                         Else
                             exFlag = True
                         End If
                     End If
                 Else
-                    For Each fs As String In _exbody
-                        If _exuseRegex Then
-                            If Regex.IsMatch(post.Name, fs, rgOpt) OrElse
-                               (Not String.IsNullOrEmpty(post.RetweetedBy) AndAlso Regex.IsMatch(post.RetweetedBy, fs, rgOpt)) OrElse
-                               Regex.IsMatch(tBody, fs, rgOpt) Then exFlag = True
-                        Else
-                            If _excaseSensitive Then
-                                If post.Name.Contains(fs) OrElse _
-                                   post.RetweetedBy.Contains(fs) OrElse _
-                                   tBody.Contains(fs) Then exFlag = True
+                    If _exuseLambda Then
+                        If ExecuteLambdaExpression(_exbody.Item(0), post) Then exFlag = True
+                    Else
+                        For Each fs As String In _exbody
+                            If _exuseRegex Then
+                                If Regex.IsMatch(post.Name, fs, rgOpt) OrElse
+                                   (Not String.IsNullOrEmpty(post.RetweetedBy) AndAlso Regex.IsMatch(post.RetweetedBy, fs, rgOpt)) OrElse
+                                   Regex.IsMatch(tBody, fs, rgOpt) Then exFlag = True
                             Else
-                                If post.Name.ToLower().Contains(fs.ToLower()) OrElse _
-                                   post.RetweetedBy.ToLower().Contains(fs.ToLower()) OrElse _
-                                   tBody.ToLower().Contains(fs.ToLower()) Then exFlag = True
+                                If _excaseSensitive Then
+                                    If post.Name.Contains(fs) OrElse _
+                                       post.RetweetedBy.Contains(fs) OrElse _
+                                       tBody.Contains(fs) Then exFlag = True
+                                Else
+                                    If post.Name.ToLower().Contains(fs.ToLower()) OrElse _
+                                       post.RetweetedBy.ToLower().Contains(fs.ToLower()) OrElse _
+                                       tBody.ToLower().Contains(fs.ToLower()) Then exFlag = True
+                                End If
                             End If
-                        End If
-                        If exFlag Then Exit For
-                    Next
+                            If exFlag Then Exit For
+                        Next
+                    End If
                 End If
             End If
             If _isExRt Then
@@ -2501,20 +2567,22 @@ Public NotInheritable Class FiltersClass
             If Me.ExBodyFilter(i) <> other.ExBodyFilter(i) Then Return False
         Next
 
-        Return (Me.MoveFrom = other.MoveFrom) And _
-               (Me.SetMark = other.SetMark) And _
-               (Me.NameFilter = other.NameFilter) And _
-               (Me.SearchBoth = other.SearchBoth) And _
-               (Me.SearchUrl = other.SearchUrl) And _
-               (Me.UseRegex = other.UseRegex) And _
-               (Me.ExNameFilter = other.ExNameFilter) And _
-               (Me.ExSearchBoth = other.ExSearchBoth) And _
-               (Me.ExSearchUrl = other.ExSearchUrl) And _
-               (Me.ExUseRegex = other.ExUseRegex) And _
-               (Me.IsRt = other.IsRt) And _
-               (Me.Source = other.Source) And _
-               (Me.IsExRt = other.IsExRt) And _
-               (Me.ExSource = other.ExSource)
+        Return (Me.MoveFrom = other.MoveFrom) And
+               (Me.SetMark = other.SetMark) And
+               (Me.NameFilter = other.NameFilter) And
+               (Me.SearchBoth = other.SearchBoth) And
+               (Me.SearchUrl = other.SearchUrl) And
+               (Me.UseRegex = other.UseRegex) And
+               (Me.ExNameFilter = other.ExNameFilter) And
+               (Me.ExSearchBoth = other.ExSearchBoth) And
+               (Me.ExSearchUrl = other.ExSearchUrl) And
+               (Me.ExUseRegex = other.ExUseRegex) And
+               (Me.IsRt = other.IsRt) And
+               (Me.Source = other.Source) And
+               (Me.IsExRt = other.IsExRt) And
+               (Me.ExSource = other.ExSource) And
+               (Me.UseLambda = other.UseLambda) And
+               (Me.ExUseLambda = other.ExUseLambda)
     End Function
 
     Public Function CopyTo(ByVal destination As FiltersClass) As FiltersClass
@@ -2545,6 +2613,8 @@ Public NotInheritable Class FiltersClass
         destination.Source = Me.Source
         destination.IsExRt = Me.IsExRt
         destination.ExSource = Me.ExSource
+        destination.UseLambda = Me.UseLambda
+        destination.ExUseLambda = Me.ExUseLambda
         Return destination
     End Function
 
@@ -2554,22 +2624,24 @@ Public NotInheritable Class FiltersClass
     End Function
 
     Public Overrides Function GetHashCode() As Integer
-        Return Me.MoveFrom.GetHashCode Xor _
-               Me.SetMark.GetHashCode Xor _
-               Me.BodyFilter.GetHashCode Xor _
-               Me.NameFilter.GetHashCode Xor _
-               Me.SearchBoth.GetHashCode Xor _
-               Me.SearchUrl.GetHashCode Xor _
-               Me.UseRegex.GetHashCode Xor _
-               Me.ExBodyFilter.GetHashCode Xor _
-               Me.ExNameFilter.GetHashCode Xor _
-               Me.ExSearchBoth.GetHashCode Xor _
-               Me.ExSearchUrl.GetHashCode Xor _
-               Me.ExUseRegex.GetHashCode Xor _
-               Me.IsRt.GetHashCode Xor _
-               Me.Source.GetHashCode Xor _
-               Me.IsExRt.GetHashCode Xor _
-               Me.ExSource.GetHashCode
+        Return Me.MoveFrom.GetHashCode Xor
+               Me.SetMark.GetHashCode Xor
+               Me.BodyFilter.GetHashCode Xor
+               Me.NameFilter.GetHashCode Xor
+               Me.SearchBoth.GetHashCode Xor
+               Me.SearchUrl.GetHashCode Xor
+               Me.UseRegex.GetHashCode Xor
+               Me.ExBodyFilter.GetHashCode Xor
+               Me.ExNameFilter.GetHashCode Xor
+               Me.ExSearchBoth.GetHashCode Xor
+               Me.ExSearchUrl.GetHashCode Xor
+               Me.ExUseRegex.GetHashCode Xor
+               Me.IsRt.GetHashCode Xor
+               Me.Source.GetHashCode Xor
+               Me.IsExRt.GetHashCode Xor
+               Me.ExSource.GetHashCode Xor
+               Me.UseLambda.GetHashCode Xor
+               Me.ExUseLambda.GetHashCode
     End Function
 End Class
 

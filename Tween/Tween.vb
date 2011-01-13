@@ -1441,7 +1441,7 @@ Public Class TweenMain
 
     Private Sub NotifyNewPosts(ByVal notifyPosts() As PostClass, ByVal soundFile As String, ByVal addCount As Integer, ByVal newMentions As Boolean)
         If notifyPosts IsNot Nothing AndAlso _
-            notifyPosts.All(Function(post) post.Uid.ToString() = tw.UserIdNo OrElse post.Name = tw.Username) Then
+            notifyPosts.All(Function(post) post.UserId.ToString() = tw.UserIdNo OrElse post.Name = tw.Username) Then
             Exit Sub
         End If
 
@@ -1622,7 +1622,7 @@ Public Class TweenMain
 
     Private Function JudgeColor(ByVal BasePost As PostClass, ByVal TargetPost As PostClass) As Color
         Dim cl As Color
-        If TargetPost.Id = BasePost.InReplyToId Then
+        If TargetPost.Id = BasePost.InReplyToStatusId Then
             '@先
             cl = _clAtTo
         ElseIf TargetPost.IsMe Then
@@ -2771,7 +2771,7 @@ Public Class TweenMain
         End If
         If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.PublicSearch _
                             OrElse Not Me.ExistCurrentPost _
-                            OrElse Not _curPost.InReplyToId > 0 Then
+                            OrElse Not _curPost.InReplyToStatusId > 0 Then
             RepliedStatusOpenMenuItem.Enabled = False
         Else
             RepliedStatusOpenMenuItem.Enabled = True
@@ -4737,7 +4737,7 @@ RETRY:
             sb.AppendFormat("Id             : {0}<br>", _curPost.Id.ToString)
             'sb.AppendFormat("ImageIndex     : {0}<br>", _curPost.ImageIndex.ToString)
             sb.AppendFormat("ImageUrl       : {0}<br>", _curPost.ImageUrl)
-            sb.AppendFormat("InReplyToId    : {0}<br>", _curPost.InReplyToId.ToString)
+            sb.AppendFormat("InReplyToStatusId    : {0}<br>", _curPost.InReplyToStatusId.ToString)
             sb.AppendFormat("InReplyToUser  : {0}<br>", _curPost.InReplyToUser)
             sb.AppendFormat("IsDM           : {0}<br>", _curPost.IsDm.ToString)
             sb.AppendFormat("IsFav          : {0}<br>", _curPost.IsFav.ToString)
@@ -4758,7 +4758,7 @@ RETRY:
             sb.AppendFormat("(PlainText)    : <xmp>{0}</xmp><br>", _curPost.OriginalData)
             sb.AppendFormat("PDate          : {0}<br>", _curPost.PDate.ToString)
             sb.AppendFormat("Source         : {0}<br>", _curPost.Source)
-            sb.AppendFormat("Uid            : {0}<br>", _curPost.Uid)
+            sb.AppendFormat("UserId            : {0}<br>", _curPost.UserId)
             sb.AppendFormat("FilterHit      : {0}<br>", _curPost.FilterHit)
             sb.AppendFormat("RetweetedBy    : {0}<br>", _curPost.RetweetedBy)
             sb.AppendFormat("RetweetedId    : {0}<br>", _curPost.RetweetedId)
@@ -5694,11 +5694,11 @@ RETRY:
 
         Dim curTabClass As TabClass = _statuses.Tabs(_curTab.Text)
 
-        If curTabClass.TabType = TabUsageType.PublicSearch AndAlso _curPost.InReplyToId = 0 AndAlso _curPost.Data.Contains("@") Then
+        If curTabClass.TabType = TabUsageType.PublicSearch AndAlso _curPost.InReplyToStatusId = 0 AndAlso _curPost.Data.Contains("@") Then
             Dim post As PostClass = Nothing
             Dim r As String = tw.GetStatusApi(False, _curPost.Id, post)
             If r = "" AndAlso post IsNot Nothing Then
-                _curPost.InReplyToId = post.InReplyToId
+                _curPost.InReplyToStatusId = post.InReplyToStatusId
                 _curPost.InReplyToUser = post.InReplyToUser
                 _curPost.IsReply = post.IsReply
                 _itemCache = Nothing
@@ -5708,16 +5708,16 @@ RETRY:
             End If
         End If
 
-        If Not (Me.ExistCurrentPost AndAlso _curPost.InReplyToUser IsNot Nothing AndAlso _curPost.InReplyToId > 0) Then Return
+        If Not (Me.ExistCurrentPost AndAlso _curPost.InReplyToUser IsNot Nothing AndAlso _curPost.InReplyToStatusId > 0) Then Return
 
         If replyChains Is Nothing OrElse (replyChains.Count > 0 AndAlso replyChains.Peek().InReplyToId <> _curPost.Id) Then
             replyChains = New Stack(Of ReplyChain)
         End If
-        replyChains.Push(New ReplyChain(_curPost.Id, _curPost.InReplyToId, _curTab))
+        replyChains.Push(New ReplyChain(_curPost.Id, _curPost.InReplyToStatusId, _curTab))
 
         Dim inReplyToIndex As Integer
         Dim inReplyToTabName As String
-        Dim inReplyToId As Long = _curPost.InReplyToId
+        Dim inReplyToId As Long = _curPost.InReplyToStatusId
         Dim inReplyToUser As String = _curPost.InReplyToUser
         Dim curTabPosts As Dictionary(Of Long, PostClass)
 
@@ -5741,7 +5741,7 @@ RETRY:
             inReplyToIndex = inReplyPost.Index
         Catch ex As InvalidOperationException
             Dim post As PostClass = Nothing
-            Dim r As String = tw.GetStatusApi(False, _curPost.InReplyToId, post)
+            Dim r As String = tw.GetStatusApi(False, _curPost.InReplyToStatusId, post)
             If r = "" AndAlso post IsNot Nothing Then
                 post.IsRead = True
                 _statuses.AddPost(post)
@@ -5781,10 +5781,10 @@ RETRY:
         Dim curTabPosts As Dictionary(Of Long, PostClass) = DirectCast(IIf(curTabClass.IsInnerStorageTabType, curTabClass.Posts, _statuses.Posts), Dictionary(Of Long, PostClass))
 
         If parallel Then
-            If _curPost.InReplyToId <> 0 Then
+            If _curPost.InReplyToStatusId <> 0 Then
                 Dim posts = From t In _statuses.Tabs
                             From p In DirectCast(IIf(t.Value.IsInnerStorageTabType, t.Value.Posts, _statuses.Posts), Dictionary(Of Long, PostClass))
-                            Where p.Value.Id <> _curPost.Id AndAlso p.Value.InReplyToId = _curPost.InReplyToId
+                            Where p.Value.Id <> _curPost.Id AndAlso p.Value.InReplyToStatusId = _curPost.InReplyToStatusId
                             Let indexOf = t.Value.IndexOf(p.Value.Id)
                             Where indexOf > -1
                             Order By IIf(isForward, indexOf, indexOf * -1)
@@ -5813,7 +5813,7 @@ RETRY:
             If replyChains Is Nothing OrElse replyChains.Count < 1 Then
                 Dim posts = From t In _statuses.Tabs
                             From p In DirectCast(IIf(t.Value.IsInnerStorageTabType, t.Value.Posts, _statuses.Posts), Dictionary(Of Long, PostClass))
-                            Where p.Value.InReplyToId = _curPost.Id
+                            Where p.Value.InReplyToStatusId = _curPost.Id
                             Let indexOf = t.Value.IndexOf(p.Value.Id)
                             Where indexOf > -1
                             Order By indexOf
@@ -7458,22 +7458,22 @@ RETRY:
     End Sub
 
     Private Sub doRepliedStatusOpen()
-        If Me.ExistCurrentPost AndAlso _curPost.InReplyToUser IsNot Nothing AndAlso _curPost.InReplyToId > 0 Then
+        If Me.ExistCurrentPost AndAlso _curPost.InReplyToUser IsNot Nothing AndAlso _curPost.InReplyToStatusId > 0 Then
             If My.Computer.Keyboard.ShiftKeyDown Then
-                OpenUriAsync("http://twitter.com/" + _curPost.InReplyToUser + "/status/" + _curPost.InReplyToId.ToString())
+                OpenUriAsync("http://twitter.com/" + _curPost.InReplyToUser + "/status/" + _curPost.InReplyToStatusId.ToString())
                 Exit Sub
             End If
-            If _statuses.ContainsKey(_curPost.InReplyToId) Then
-                Dim repPost As PostClass = _statuses.Item(_curPost.InReplyToId)
+            If _statuses.ContainsKey(_curPost.InReplyToStatusId) Then
+                Dim repPost As PostClass = _statuses.Item(_curPost.InReplyToStatusId)
                 MessageBox.Show(repPost.Name + " / " + repPost.Nickname + "   (" + repPost.PDate.ToString() + ")" + Environment.NewLine + repPost.Data)
             Else
                 For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.Lists Or TabUsageType.PublicSearch)
-                    If tb Is Nothing OrElse Not tb.Contains(_curPost.InReplyToId) Then Exit For
-                    Dim repPost As PostClass = _statuses.Item(_curPost.InReplyToId)
+                    If tb Is Nothing OrElse Not tb.Contains(_curPost.InReplyToStatusId) Then Exit For
+                    Dim repPost As PostClass = _statuses.Item(_curPost.InReplyToStatusId)
                     MessageBox.Show(repPost.Name + " / " + repPost.Nickname + "   (" + repPost.PDate.ToString() + ")" + Environment.NewLine + repPost.Data)
                     Exit Sub
                 Next
-                OpenUriAsync("http://twitter.com/" + _curPost.InReplyToUser + "/status/" + _curPost.InReplyToId.ToString())
+                OpenUriAsync("http://twitter.com/" + _curPost.InReplyToUser + "/status/" + _curPost.InReplyToStatusId.ToString())
             End If
         End If
     End Sub
@@ -9182,7 +9182,7 @@ RETRY:
         End If
         If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.PublicSearch _
                             OrElse Not Me.ExistCurrentPost _
-                            OrElse Not _curPost.InReplyToId > 0 Then
+                            OrElse Not _curPost.InReplyToStatusId > 0 Then
             OpenRepSourceOpMenuItem.Enabled = False
         Else
             OpenRepSourceOpMenuItem.Enabled = True

@@ -1459,14 +1459,15 @@ Public Class Twitter
             'Source取得（htmlの場合は、中身を取り出し）
             post.Source = retweeted.Source
             'Reply先
-            Long.TryParse(retweeted.InReplyToStatusId, post.InReplyToId)
+            Long.TryParse(retweeted.InReplyToStatusId, post.InReplyToStatusId)
             post.InReplyToUser = retweeted.InReplyToScreenName
+            Long.TryParse(status.InReplyToUserId, post.InReplyToUserId)
             post.IsFav = TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites).Contains(post.RetweetedId)
 
             '以下、ユーザー情報
             Dim user As TwitterDataModel.User = retweeted.User
 
-            post.Uid = user.Id
+            post.UserId = user.Id
             post.Name = user.ScreenName
             post.Nickname = user.Name
             post.ImageUrl = user.ProfileImageUrl
@@ -1481,21 +1482,22 @@ Public Class Twitter
             post.Data = status.Text
             'Source取得（htmlの場合は、中身を取り出し）
             post.Source = status.Source
-            Long.TryParse(status.InReplyToStatusId, post.InReplyToId)
+            Long.TryParse(status.InReplyToStatusId, post.InReplyToStatusId)
             post.InReplyToUser = status.InReplyToScreenName
+            Long.TryParse(status.InReplyToUserId, post.InReplyToUserId)
 
             post.IsFav = status.Favorited
 
             '以下、ユーザー情報
             Dim user As TwitterDataModel.User = status.User
 
-            post.Uid = user.Id
+            post.UserId = user.Id
             post.Name = user.ScreenName
             post.Nickname = user.Name
             post.ImageUrl = user.ProfileImageUrl
             post.IsProtect = user.Protected
             post.IsMe = post.Name.ToLower.Equals(_uid)
-            If post.IsMe Then _UserIdNo = post.Uid.ToString
+            If post.IsMe Then _UserIdNo = post.UserId.ToString
         End If
         'HTMLに整形
         post.OriginalData = CreateHtmlAnchor(post.Data, post.ReplyToList)
@@ -1510,7 +1512,7 @@ Public Class Twitter
         If post.IsMe Then
             post.IsOwl = False
         Else
-            If followerId.Count > 0 Then post.IsOwl = Not followerId.Contains(post.Uid)
+            If followerId.Count > 0 Then post.IsOwl = Not followerId.Contains(post.UserId)
         End If
 
         post.IsDm = False
@@ -1564,8 +1566,13 @@ Public Class Twitter
         Dim res As HttpStatusCode
         Dim content As String = ""
         Dim page As Integer = 0
+        Dim count As Integer = AppendSettingDialog.Instance.CountApi
         Dim count As Integer
         If AppendSettingDialog.Instance.UseAdditionalCount Then
+            If more AndAlso AppendSettingDialog.Instance.MoreCountApi <> 0 Then
+                count = AppendSettingDialog.Instance.MoreCountApi
+            ElseIf startup AndAlso AppendSettingDialog.Instance.FirstCountApi <> 0 Then
+                count = AppendSettingDialog.Instance.FirstCountApi
             count = AppendSettingDialog.Instance.ListCountApi
             If count = 0 Then
                 If more AndAlso AppendSettingDialog.Instance.MoreCountApi <> 0 Then
@@ -1607,10 +1614,10 @@ Public Class Twitter
         Dim tmpPost As PostClass = relPosts(0)
         Dim lastPost As PostClass = Nothing
         Do While tmpPost IsNot Nothing
-            If tmpPost.InReplyToId = 0 Then Return Nothing
+            If tmpPost.InReplyToStatusId = 0 Then Return Nothing
             lastPost = tmpPost
             Dim replyToPost = From p In relPosts
-                             Where p.Id = tmpPost.InReplyToId
+                             Where p.Id = tmpPost.InReplyToStatusId
                              Select p
             tmpPost = replyToPost.FirstOrDefault()
         Loop
@@ -1620,10 +1627,10 @@ Public Class Twitter
     Public Function GetRelatedResult(ByVal read As Boolean, ByVal tab As TabClass) As String
         Dim rslt As String = ""
         Dim relPosts As New List(Of PostClass)
-        If tab.RelationTargetPost.Data.Contains("@") AndAlso tab.RelationTargetPost.InReplyToId = 0 Then
+        If tab.RelationTargetPost.Data.Contains("@") AndAlso tab.RelationTargetPost.InReplyToStatusId = 0 Then
             '検索結果対応
             Dim p As PostClass = TabInformations.GetInstance.Item(tab.RelationTargetPost.Id)
-            If p IsNot Nothing AndAlso p.InReplyToId > 0 Then
+            If p IsNot Nothing AndAlso p.InReplyToStatusId > 0 Then
                 tab.RelationTargetPost = p
             Else
                 rslt = Me.GetStatusApi(read, tab.RelationTargetPost.Id, p)
@@ -1692,8 +1699,8 @@ Public Class Twitter
 
         Dim replyToItem As PostClass = Nothing
         Dim replyToUserName As String = targetItem.InReplyToUser
-        If targetItem.InReplyToId > 0 AndAlso TabInformations.GetInstance.Item(targetItem.InReplyToId) IsNot Nothing Then
-            replyToItem = TabInformations.GetInstance.Item(targetItem.InReplyToId).Copy
+        If targetItem.InReplyToStatusId > 0 AndAlso TabInformations.GetInstance.Item(targetItem.InReplyToStatusId) IsNot Nothing Then
+            replyToItem = TabInformations.GetInstance.Item(targetItem.InReplyToStatusId).Copy
             replyToItem.IsRead = read
             If replyToItem.IsMe AndAlso Not read AndAlso _readOwnPost Then replyToItem.IsRead = True
             replyToItem.RelTabName = tab.TabName
@@ -1704,7 +1711,7 @@ Public Class Twitter
             For Each result As TwitterDataModel.RelatedTweet In relatedData.Results
                 Dim item As PostClass = CreatePostsFromStatusData(result.Status)
                 If item Is Nothing Then Continue For
-                If targetItem.InReplyToId = item.Id Then
+                If targetItem.InReplyToStatusId = item.Id Then
                     replyToItem = Nothing
                     replyAdded = True
                 End If
@@ -1717,10 +1724,10 @@ Public Class Twitter
         Next
         If replyToItem IsNot Nothing Then
             relatedPosts.Add(replyToItem)
-        ElseIf targetItem.InReplyToId > 0 AndAlso Not replyAdded Then
+        ElseIf targetItem.InReplyToStatusId > 0 AndAlso Not replyAdded Then
             Dim p As PostClass = Nothing
             Dim rslt As String = ""
-            rslt = GetStatusApi(read, targetItem.InReplyToId, p)
+            rslt = GetStatusApi(read, targetItem.InReplyToStatusId, p)
             If String.IsNullOrEmpty(rslt) Then
                 p.IsRead = read
                 p.RelTabName = tab.TabName
@@ -1801,13 +1808,14 @@ Public Class Twitter
                 post.Data = xentry.Item("title").InnerText
                 'Source取得（htmlの場合は、中身を取り出し）
                 post.Source = xentry.Item("twitter:source").InnerText
-                post.InReplyToId = 0
+                post.InReplyToStatusId = 0
                 post.InReplyToUser = ""
+                post.InReplyToUserId = 0
                 post.IsFav = False
 
                 '以下、ユーザー情報
                 Dim xUentry As XmlElement = CType(xentry.SelectSingleNode("./search:author", nsmgr), XmlElement)
-                post.Uid = 0
+                post.UserId = 0
                 post.Name = xUentry.Item("name").InnerText.Split(" "c)(0).Trim
                 post.Nickname = xUentry.Item("name").InnerText.Substring(post.Name.Length).Trim
                 If post.Nickname.Length > 2 Then
@@ -1929,7 +1937,7 @@ Public Class Twitter
                     End If
                 End If
 
-                post.Uid = user.Id
+                post.UserId = user.Id
                 post.Name = user.ScreenName
                 post.Nickname = user.Name
                 post.ImageUrl = user.ProfileImageUrl
@@ -2061,13 +2069,14 @@ Public Class Twitter
                     'Source取得（htmlの場合は、中身を取り出し）
                     post.Source = retweeted.Source
                     'Reply先
-                    Long.TryParse(retweeted.InReplyToStatusId, post.InReplyToId)
+                    Long.TryParse(retweeted.InReplyToStatusId, post.InReplyToStatusId)
                     post.InReplyToUser = retweeted.InReplyToScreenName
+                    Long.TryParse(retweeted.InReplyToUserId, post.InReplyToUserId)
                     post.IsFav = retweeted.Favorited
 
                     '以下、ユーザー情報
                     Dim user As TwitterDataModel.User = retweeted.User
-                    post.Uid = user.Id
+                    post.UserId = user.Id
                     post.Name = user.ScreenName
                     post.Nickname = user.Name
                     post.ImageUrl = user.ProfileImageUrl
@@ -2084,20 +2093,21 @@ Public Class Twitter
                     post.Data = status.Text
                     'Source取得（htmlの場合は、中身を取り出し）
                     post.Source = status.Source
-                    Long.TryParse(status.InReplyToStatusId, post.InReplyToId)
+                    Long.TryParse(status.InReplyToStatusId, post.InReplyToStatusId)
                     post.InReplyToUser = status.InReplyToScreenName
+                    Long.TryParse(status.InReplyToUserId, post.InReplyToUserId)
 
                     post.IsFav = status.Favorited
 
                     '以下、ユーザー情報
                     Dim user As TwitterDataModel.User = status.User
-                    post.Uid = user.Id
+                    post.UserId = user.Id
                     post.Name = user.ScreenName
                     post.Nickname = user.Name
                     post.ImageUrl = user.ProfileImageUrl
                     post.IsProtect = user.Protected
                     post.IsMe = post.Name.ToLower.Equals(_uid)
-                    If post.IsMe Then _UserIdNo = post.Uid.ToString
+                    If post.IsMe Then _UserIdNo = post.UserId.ToString
                 End If
                 'HTMLに整形
                 post.OriginalData = CreateHtmlAnchor(post.Data, post.ReplyToList)
@@ -2113,7 +2123,7 @@ Public Class Twitter
                 If post.IsMe Then
                     post.IsOwl = False
                 Else
-                    If followerId.Count > 0 Then post.IsOwl = Not followerId.Contains(post.Uid)
+                    If followerId.Count > 0 Then post.IsOwl = Not followerId.Contains(post.UserId)
                 End If
 
                 post.IsDm = False
