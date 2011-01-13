@@ -22,6 +22,7 @@
 ' Boston, MA 02110-1301, USA.
 
 Imports System.Collections.Specialized
+Imports System.Linq.Expressions
 
 Public Class FilterDialog
 
@@ -155,6 +156,7 @@ Public Class FilterDialog
         CheckURL.Checked = False
         CheckCaseSensitive.Checked = False
         CheckRetweet.Checked = False
+        CheckLambda.Checked = False
 
         RadioExAnd.Checked = True
         RadioExPLUS.Checked = False
@@ -172,6 +174,7 @@ Public Class FilterDialog
         CheckExURL.Checked = False
         CheckExCaseSensitive.Checked = False
         CheckExRetweet.Checked = False
+        CheckExLambDa.Checked = False
 
         OptCopy.Checked = True
         CheckMark.Checked = True
@@ -208,6 +211,7 @@ Public Class FilterDialog
         CheckURL.Checked = False
         CheckCaseSensitive.Checked = False
         CheckRetweet.Checked = False
+        CheckLambda.Checked = False
 
         RadioExAnd.Checked = True
         RadioExPLUS.Checked = False
@@ -222,6 +226,7 @@ Public Class FilterDialog
         CheckExURL.Checked = False
         CheckExCaseSensitive.Checked = False
         CheckExRetweet.Checked = False
+        CheckExLambDa.Checked = False
 
         OptCopy.Checked = True
         CheckMark.Checked = True
@@ -348,6 +353,7 @@ Public Class FilterDialog
             CheckURL.Checked = fc.SearchUrl
             CheckCaseSensitive.Checked = fc.CaseSensitive
             CheckRetweet.Checked = fc.IsRt
+            CheckLambda.Checked = fc.UseLambda
 
             If fc.ExSearchBoth Then
                 RadioExAnd.Checked = True
@@ -384,6 +390,7 @@ Public Class FilterDialog
             CheckExURL.Checked = fc.ExSearchUrl
             CheckExCaseSensitive.Checked = fc.ExCaseSensitive
             CheckExRetweet.Checked = fc.IsExRt
+            CheckExLambDa.Checked = fc.ExUseLambda
 
             If fc.MoveFrom Then
                 OptMove.Checked = True
@@ -412,6 +419,7 @@ Public Class FilterDialog
             CheckURL.Checked = False
             CheckCaseSensitive.Checked = False
             CheckRetweet.Checked = False
+            CheckLambda.Checked = False
 
             RadioExAnd.Checked = True
             RadioExPLUS.Checked = False
@@ -426,6 +434,7 @@ Public Class FilterDialog
             CheckExURL.Checked = False
             CheckExCaseSensitive.Checked = False
             CheckExRetweet.Checked = False
+            CheckExLambDa.Checked = False
 
             OptCopy.Checked = True
             CheckMark.Checked = True
@@ -485,7 +494,7 @@ Public Class FilterDialog
         End If
         ft.Source = TextSource.Text.Trim
 
-        If CheckRegex.Checked Then
+        If CheckRegex.Checked OrElse CheckLambda.Checked Then
             ft.BodyFilter.Add(bdy)
         Else
             Dim bf() As String = bdy.Trim.Split(Chr(32))
@@ -498,6 +507,7 @@ Public Class FilterDialog
         ft.SearchUrl = CheckURL.Checked
         ft.CaseSensitive = CheckCaseSensitive.Checked
         ft.IsRt = CheckRetweet.Checked
+        ft.UseLambda = CheckLambda.Checked
 
         bdy = ""
         If RadioExAnd.Checked Then
@@ -511,7 +521,7 @@ Public Class FilterDialog
         End If
         ft.ExSource = TextExSource.Text.Trim
 
-        If CheckExRegex.Checked Then
+        If CheckExRegex.Checked OrElse CheckExLambDa.Checked Then
             ft.ExBodyFilter.Add(bdy)
         Else
             Dim bf() As String = bdy.Trim.Split(Chr(32))
@@ -524,6 +534,7 @@ Public Class FilterDialog
         ft.ExSearchUrl = CheckExURL.Checked
         ft.ExCaseSensitive = CheckExCaseSensitive.Checked
         ft.IsExRt = CheckExRetweet.Checked
+        ft.ExUseLambda = CheckExLambDa.Checked
 
         If _mode = EDITMODE.AddNew Then
             If Not _sts.Tabs(ListTabs.SelectedItem.ToString()).AddFilter(ft) Then
@@ -548,60 +559,71 @@ Public Class FilterDialog
         End If
     End Sub
 
+    Private Function IsValidLambdaExp(ByVal text As String) As Boolean
+        If text = "" Then Return True
+        Try
+            Dim expr As LambdaExpression
+            expr = ParseLambda(Of PostClass, Boolean)(text, New PostClass)
+        Catch ex As ParseException
+            MessageBox.Show("構文エラー：" + ex.Message, "ラムダ式構文チェック", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Return False
+        End Try
+        Return True
+    End Function
+
+    Private Function IsValidRegexp(ByVal text As String) As Boolean
+        Try
+            Dim rgx As New System.Text.RegularExpressions.Regex(text)
+        Catch ex As Exception
+            MessageBox.Show(My.Resources.ButtonOK_ClickText3 + ex.Message, My.Resources.ButtonOK_ClickText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Return False
+        End Try
+        Return True
+    End Function
+
     Private Function CheckMatchRule(ByRef isBlank As Boolean) As Boolean
         isBlank = False
         TextSource.Text = TextSource.Text.Trim()
         If RadioAND.Checked Then
             MSG1.Text = MSG1.Text.Trim
             UID.Text = UID.Text.Trim()
-            If Not CheckRegex.Checked Then MSG1.Text = MSG1.Text.Replace("　", " ")
+            If Not CheckRegex.Checked AndAlso Not CheckLambda.Checked Then MSG1.Text = MSG1.Text.Replace("　", " ")
 
             If UID.Text = "" AndAlso MSG1.Text = "" AndAlso TextSource.Text = "" AndAlso CheckRetweet.Checked = False Then
                 isBlank = True
                 Return True
             End If
-            If CheckRegex.Checked Then
-                If UID.Text <> "" Then
-                    Try
-                        Dim rgx As New System.Text.RegularExpressions.Regex(UID.Text)
-                    Catch ex As Exception
-                        MessageBox.Show(My.Resources.ButtonOK_ClickText3 + ex.Message, My.Resources.ButtonOK_ClickText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Return False
-                    End Try
+            If CheckLambda.Checked Then
+                If Not IsValidLambdaExp(UID.Text) Then
+                    Return False
                 End If
-                If MSG1.Text <> "" Then
-                    Try
-                        Dim rgx As New System.Text.RegularExpressions.Regex(MSG1.Text)
-                    Catch ex As Exception
-                        MessageBox.Show(My.Resources.ButtonOK_ClickText3 + ex.Message, My.Resources.ButtonOK_ClickText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Return False
-                    End Try
+                If Not IsValidLambdaExp(MSG1.Text) Then
+                    Return False
+                End If
+            ElseIf CheckRegex.Checked Then
+                If Not IsValidRegexp(UID.Text) Then
+                    Return False
+                End If
+                If Not IsValidRegexp(MSG1.Text) Then
+                    Return False
                 End If
             End If
         Else
             MSG2.Text = MSG2.Text.Trim
-            If Not CheckRegex.Checked Then MSG2.Text = MSG2.Text.Replace("　", " ")
+            If Not CheckRegex.Checked AndAlso Not CheckLambda.Checked Then MSG2.Text = MSG2.Text.Replace("　", " ")
             If MSG2.Text = "" AndAlso TextSource.Text = "" AndAlso CheckRetweet.Checked = False Then
                 isBlank = True
                 Return True
             End If
-            If CheckRegex.Checked AndAlso MSG2.Text <> "" Then
-                Try
-                    Dim rgx As New System.Text.RegularExpressions.Regex(MSG2.Text)
-                Catch ex As Exception
-                    MessageBox.Show(My.Resources.ButtonOK_ClickText3 + ex.Message, My.Resources.ButtonOK_ClickText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    Return False
-                End Try
+            If CheckLambda.Checked AndAlso Not IsValidLambdaExp(MSG2.Text) Then
+                Return False
+            ElseIf CheckRegex.Checked AndAlso Not IsValidRegexp(MSG2.Text) Then
+                Return False
             End If
         End If
 
-        If CheckRegex.Checked AndAlso TextSource.Text <> "" Then
-            Try
-                Dim rgx As New System.Text.RegularExpressions.Regex(TextSource.Text)
-            Catch ex As Exception
-                MessageBox.Show(My.Resources.ButtonOK_ClickText3 + ex.Message, My.Resources.ButtonOK_ClickText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Return False
-            End Try
+        If CheckRegex.Checked AndAlso Not IsValidRegexp(TextSource.Text) Then
+            Return False
         End If
         Return True
     End Function
@@ -611,54 +633,43 @@ Public Class FilterDialog
         TextExSource.Text = TextExSource.Text.Trim
         If RadioExAnd.Checked Then
             ExMSG1.Text = ExMSG1.Text.Trim
-            If Not CheckExRegex.Checked Then ExMSG1.Text = ExMSG1.Text.Replace("　", " ")
+            If Not CheckExRegex.Checked AndAlso Not CheckExLambDa.Checked Then ExMSG1.Text = ExMSG1.Text.Replace("　", " ")
             ExUID.Text = ExUID.Text.Trim()
             If ExUID.Text = "" AndAlso ExMSG1.Text = "" AndAlso TextExSource.Text = "" AndAlso CheckExRetweet.Checked = False Then
                 isBlank = True
                 Return True
             End If
-            If CheckExRegex.Checked Then
-                If ExUID.Text <> "" Then
-                    Try
-                        Dim rgx As New System.Text.RegularExpressions.Regex(ExUID.Text)
-                    Catch ex As Exception
-                        MessageBox.Show(My.Resources.ButtonOK_ClickText3 + ex.Message, My.Resources.ButtonOK_ClickText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Return False
-                    End Try
+            If CheckExLambDa.Checked Then
+                If Not IsValidLambdaExp(ExUID.Text) Then
+                    Return False
                 End If
-                If ExMSG1.Text <> "" Then
-                    Try
-                        Dim rgx As New System.Text.RegularExpressions.Regex(ExMSG1.Text)
-                    Catch ex As Exception
-                        MessageBox.Show(My.Resources.ButtonOK_ClickText3 + ex.Message, My.Resources.ButtonOK_ClickText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                        Return False
-                    End Try
+                If Not IsValidLambdaExp(ExMSG1.Text) Then
+                    Return False
+                End If
+            ElseIf CheckExRegex.Checked Then
+                If Not IsValidRegexp(ExUID.Text) Then
+                    Return False
+                End If
+                If Not IsValidRegexp(ExMSG1.Text) Then
+                    Return False
                 End If
             End If
         Else
             ExMSG2.Text = ExMSG2.Text.Trim
-            If Not CheckExRegex.Checked Then ExMSG2.Text = ExMSG2.Text.Replace("　", " ")
+            If Not CheckExRegex.Checked AndAlso Not CheckExLambDa.Checked Then ExMSG2.Text = ExMSG2.Text.Replace("　", " ")
             If ExMSG2.Text = "" AndAlso TextExSource.Text = "" AndAlso CheckExRetweet.Checked = False Then
                 isBlank = True
                 Return True
             End If
-            If CheckExRegex.Checked AndAlso ExMSG2.Text <> "" Then
-                Try
-                    Dim rgx As New System.Text.RegularExpressions.Regex(ExMSG2.Text)
-                Catch ex As Exception
-                    MessageBox.Show(My.Resources.ButtonOK_ClickText3 + ex.Message, My.Resources.ButtonOK_ClickText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    Return False
-                End Try
+            If CheckExLambDa.Checked AndAlso Not IsValidLambdaExp(ExMSG2.Text) Then
+                Return False
+            ElseIf CheckExRegex.Checked AndAlso Not IsValidRegexp(ExMSG2.Text) Then
+                Return False
             End If
         End If
 
-        If CheckExRegex.Checked AndAlso TextExSource.Text <> "" Then
-            Try
-                Dim rgx As New System.Text.RegularExpressions.Regex(TextExSource.Text)
-            Catch ex As Exception
-                MessageBox.Show(My.Resources.ButtonOK_ClickText3 + ex.Message, My.Resources.ButtonOK_ClickText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Return False
-            End Try
+        If CheckExRegex.Checked AndAlso Not IsValidRegexp(TextExSource.Text) Then
+            Return False
         End If
 
         Return True
@@ -677,13 +688,6 @@ Public Class FilterDialog
     End Sub
 
     Private Sub FilterDialog_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
-#If 0 Then
-        If e.KeyCode = Keys.Enter Then
-            If EditFilterGroup.Enabled Then
-                ButtonOK_Click(Nothing, Nothing)
-            End If
-        End If
-#End If
         If e.KeyCode = Keys.Escape Then
             If EditFilterGroup.Enabled Then
                 ButtonCancel_Click(Nothing, Nothing)
