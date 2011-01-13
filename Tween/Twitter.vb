@@ -1566,13 +1566,8 @@ Public Class Twitter
         Dim res As HttpStatusCode
         Dim content As String = ""
         Dim page As Integer = 0
-        Dim count As Integer = AppendSettingDialog.Instance.CountApi
         Dim count As Integer
         If AppendSettingDialog.Instance.UseAdditionalCount Then
-            If more AndAlso AppendSettingDialog.Instance.MoreCountApi <> 0 Then
-                count = AppendSettingDialog.Instance.MoreCountApi
-            ElseIf startup AndAlso AppendSettingDialog.Instance.FirstCountApi <> 0 Then
-                count = AppendSettingDialog.Instance.FirstCountApi
             count = AppendSettingDialog.Instance.ListCountApi
             If count = 0 Then
                 If more AndAlso AppendSettingDialog.Instance.MoreCountApi <> 0 Then
@@ -1609,6 +1604,7 @@ Public Class Twitter
 
         Return CreatePostsFromJson(content, WORKERTYPE.List, tab, read, count, tab.OldestId)
     End Function
+
 
     Private Function CheckReplyToPost(ByVal relPosts As List(Of PostClass)) As PostClass
         Dim tmpPost As PostClass = relPosts(0)
@@ -2085,7 +2081,7 @@ Public Class Twitter
                     'Retweetした人
                     post.RetweetedBy = status.User.ScreenName
                     post.IsMe = post.RetweetedBy.ToLower.Equals(_uid)
-                    If post.IsMe Then _UserIdNo = post.Uid.ToString()
+                    If post.IsMe Then _UserIdNo = post.UserId.ToString()
                 Else
                     post.PDate = DateTimeParse(status.CreatedAt)
 
