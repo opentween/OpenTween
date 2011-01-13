@@ -4001,7 +4001,7 @@ Public Class TweenMain
         If Post.IsDeleted Then mk.Append("×")
         If Post.IsMark Then mk.Append("♪")
         If Post.IsProtect Then mk.Append("Ю")
-        If Post.InReplyToId > 0 Then mk.Append("⇒")
+        If Post.InReplyToStatusId > 0 Then mk.Append("⇒")
         If Post.FavoritedCount > 0 Then mk.Append("+" + Post.FavoritedCount.ToString)
         Dim itm As ImageListViewItem
         If Post.RetweetedId = 0 Then
