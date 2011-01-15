@@ -339,7 +339,7 @@ Public Class ShowUserInfo
                 Exit Sub
             Else
                 Dim m As Match = Regex.Match(e.Url.AbsoluteUri, "^https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)$")
-                If m.Success AndAlso MyOwner.IsTwitterId(m.Result("${name}")) Then
+                If AppendSettingDialog.Instance.OpenUserTimeline AndAlso m.Success AndAlso MyOwner.IsTwitterId(m.Result("${name}")) Then
                     MyOwner.AddNewTabForUserTimeline(m.Result("${name}"))
                 Else
                     MyOwner.OpenUriAsync(e.Url.OriginalString)
