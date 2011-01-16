@@ -87,6 +87,10 @@ Public Class ListAvailable
     End Sub
 
     Private Sub RefreshLists_DoWork(ByVal sender As Object, ByVal e As DoWorkEventArgs)
-        e.Result = DirectCast(Me.Owner, TweenMain).TwitterInstance.GetListsApi()
+        Try
+            e.Result = DirectCast(Me.Owner, TweenMain).TwitterInstance.GetListsApi()
+        Catch ex As InvalidCastException
+            Exit Sub
+        End Try
     End Sub
 End Class
