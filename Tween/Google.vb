@@ -40,21 +40,28 @@ Public Class Google
         <DataMember(Name:="responseStatus")> Public ResponseStatus As HttpStatusCode
     End Class
 
-    Public Function Translate(ByVal isHtml As Boolean, ByVal source As String, ByRef destination As String) As Boolean
+    Public Function Translate(ByVal srclng As String, ByVal dstlng As String, ByVal source As String, ByRef destination As String) As Boolean
         Dim http As New HttpVarious()
         Dim apiurl As String = TranslateEndPoint
         Dim headers As New Dictionary(Of String, String)
         headers.Add("v", "1.0")
-        headers.Add("hl", "ja")             ' TODO:現在のcultureを反映させる
-        headers.Add("langpair", "|ja")      ' TODO:現在のcultureを反映させる
-        headers.Add("format", "html")
 
-        headers.Add("q", HttpUtility.UrlPathEncode(source))
+        If String.IsNullOrEmpty(srclng) OrElse String.IsNullOrEmpty(dstlng) Then
+            Return False
+        End If
+        headers.Add("User-Agent", "Tween/" + fileVersion)
+        headers.Add("langpair", srclng + "|" + dstlng)
+
+        headers.Add("q", source)
 
         Dim content As String = ""
         If http.GetData(apiurl, headers, content) Then
             Dim serializer As New DataContractJsonSerializer(GetType(TranslateResponse))
             Dim res As TranslateResponse = CreateDataFromJson(Of TranslateResponse)(content)
+
+            If res.ResponseData Is Nothing Then
+                Return False
+            End If
             Dim _body As String = res.ResponseData.TranslatedText
             Dim buf As String = HttpUtility.UrlDecode(_body)
 
@@ -68,8 +75,9 @@ Public Class Google
         Dim http As New HttpVarious()
         Dim apiurl As String = LanguageDetectEndPoint
         Dim headers As New Dictionary(Of String, String)
+        headers.Add("User-Agent", "Tween/" + fileVersion)
         headers.Add("v", "1.0")
-        headers.Add("q", HttpUtility.UrlPathEncode(source))
+        headers.Add("q", source)
         Dim content As String = ""
         If http.GetData(apiurl, headers, content) Then
             Dim serializer As New DataContractJsonSerializer(GetType(LanguageDetectResponse))
