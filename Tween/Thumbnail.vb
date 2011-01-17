@@ -1494,7 +1494,7 @@ Public Class Thumbnail
 
     Private Function Piapro_GetUrl(ByVal args As GetUrlArgs) As Boolean
         ' TODO URL判定処理を記述
-        Dim mc As Match = Regex.Match(args.url, "^http://piapro\.jp/content/(?<contentId>[0-9a-z]+)", RegexOptions.IgnoreCase)
+        Dim mc As Match = Regex.Match(args.url, "^http://piapro\.jp/(?:content|t)/[0-9a-z]+", RegexOptions.IgnoreCase)
         If mc.Success Then
             ' TODO 成功時はサムネイルURLを作成しimglist.Addする
             args.imglist.Add(New KeyValuePair(Of String, String)(args.url, mc.Value))
@@ -1519,15 +1519,15 @@ Public Class Thumbnail
     Private Function Piapro_CreateImage(ByVal args As CreateImageArgs) As Boolean
         ' TODO: サムネイル画像読み込み処理を記述します
         Dim http As New HttpVarious
-        Dim mc As Match = Regex.Match(args.url.Key, "^http://piapro\.jp/content/(?<contentId>[0-9a-z]+)", RegexOptions.IgnoreCase)
+        Dim mc As Match = Regex.Match(args.url.Key, "^http://piapro\.jp/(?:content|t)/[0-9a-z]+", RegexOptions.IgnoreCase)
         If mc.Success Then
             Dim src As String = ""
             If http.GetData(args.url.Key, Nothing, src, 0, args.errmsg) Then
-                Dim _mc As Match = Regex.Match(src, mc.Result("http://c1\.piapro\.jp/timg/${contentId}_\d{14}_\d{4}_\d{4}\.(jpg|png|gif)"))
+                Dim _mc As Match = Regex.Match(src, "<meta property=""og:image"" content=""(?<big_img>http://c1\.piapro\.jp/timg/[0-9a-z]+_\d{14}_0500_0500\.(?:jpg|png|gif)?)"" />")
                 If _mc.Success Then
                     '各画像には120x120のサムネイルがある（多分）ので、URLを置き換える。元々ページに埋め込まれている画像は500x500
                     Dim r As New System.Text.RegularExpressions.Regex("_\d{4}_\d{4}")
-                    Dim min_img_url As String = r.Replace(_mc.Value, "_0120_0120")
+                    Dim min_img_url As String = r.Replace(_mc.Groups("big_img").Value, "_0120_0120")
                     Dim _img As Image = http.GetImage(min_img_url, args.url.Key, 0, args.errmsg)
                     If _img Is Nothing Then Return False
                     args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, _img))
