@@ -5,8 +5,6 @@ Public Class AppendSettingDialog
 
     Private Shared _instance As New AppendSettingDialog
     Private tw As Twitter
-    'Private _MyuserID As String
-    'Private _Mypassword As String
     Private _MytimelinePeriod As Integer
     Private _MyDMPeriod As Integer
     Private _MyPubSearchPeriod As Integer
@@ -49,7 +47,6 @@ Public Class AppendSettingDialog
     Private _countApi As Integer
     Private _countApiReply As Integer
     Private _browserpath As String
-    'Private _MyCheckReply As Boolean
     Private _MyUseRecommendStatus As Boolean
     Private _MyDispUsername As Boolean
     Private _MyDispLatestPost As DispTitleEnum
@@ -62,7 +59,6 @@ Public Class AppendSettingDialog
     Private _MyProxyPort As Integer
     Private _MyProxyUser As String
     Private _MyProxyPassword As String
-    Private _MyMaxPostNum As Integer
     Private _MyPeriodAdjust As Boolean
     Private _MyStartupVersion As Boolean
     Private _MyStartupFollowers As Boolean
@@ -76,7 +72,6 @@ Public Class AppendSettingDialog
     Private _MyUnreadStyle As Boolean
     Private _MyDateTimeFormat As String
     Private _MyDefaultTimeOut As Integer
-    'Private _MyProtectNotInclude As Boolean
     Private _MyLimitBalloon As Boolean
     Private _MyPostAndGet As Boolean
     Private _MyReplyPeriod As Integer
@@ -113,6 +108,9 @@ Public Class AppendSettingDialog
     Private _ValidationError As Boolean = False
     Private FirstExpandNode As Boolean = True
     Private _curPanel As Panel = Nothing
+    Private _MyEventNotifyEnabled As Boolean = True
+    Private _MyEventNotifyFlag As EVENTTYPE = EVENTTYPE.ALL
+    Private _MyForceEventNotify As Boolean
 
     Private Sub TreeView1_BeforeSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewCancelEventArgs) Handles TreeView1.BeforeSelect
         If _curPanel IsNot Nothing Then
@@ -178,7 +176,6 @@ Public Class AppendSettingDialog
             _MyListsPeriod = CType(ListsPeriod.Text, Integer)
             _MyReplyPeriod = CType(ReplyPeriod.Text, Integer)
             _MyUserTimelinePeriod = CType(UserTimelinePeriod.Text, Integer)
-            _MyMaxPostNum = 125
 
             _MyReaded = StartupReaded.Checked
             Select Case IconSize.SelectedIndex
@@ -227,8 +224,7 @@ Public Class AppendSettingDialog
                 Case 2
                     _MyNameBalloon = NameBalloonEnum.NickName
             End Select
-            '_MyPostCtrlEnter = CheckPostCtrlEnter.Checked
-            '_MyPostShiftEnter = CheckPostShiftEnter.Checked
+
             Select Case ComboBoxPostKeySelect.SelectedIndex
                 Case 2
                     _MyPostShiftEnter = True
@@ -244,7 +240,6 @@ Public Class AppendSettingDialog
             _countApi = CType(TextCountApi.Text, Integer)
             _countApiReply = CType(TextCountApiReply.Text, Integer)
             _browserpath = BrowserPathText.Text.Trim
-            '_MyCheckReply = CheckboxReply.Checked
             _MyPostAndGet = CheckPostAndGet.Checked
             _MyUseRecommendStatus = CheckUseRecommendStatus.Checked
             _MyDispUsername = CheckDispUsername.Checked
@@ -302,9 +297,11 @@ Public Class AppendSettingDialog
             _MyUnreadStyle = chkUnreadStyle.Checked
             _MyDateTimeFormat = CmbDateTimeFormat.Text
             _MyDefaultTimeOut = CType(ConnectionTimeOut.Text, Integer)
-            '_MyProtectNotInclude = CheckProtectNotInclude.Checked
             _MyRetweetNoConfirm = CheckRetweetNoConfirm.Checked
             _MyLimitBalloon = CheckBalloonLimit.Checked
+            _MyEventNotifyEnabled = CheckEventNotify.Checked
+            _MyEventNotifyFlag = GetEventNotifyFlag()
+            _MyForceEventNotify = CheckForceEventNotify.Checked
             _MyAutoShortUrlFirst = CType(ComboBoxAutoShortUrlFirst.SelectedIndex, UrlConverter)
             _MyTabIconDisp = chkTabIconDisp.Checked
             _MyReadOwnPost = chkReadOwnPost.Checked
@@ -485,7 +482,6 @@ Public Class AppendSettingDialog
         TextCountApi.Text = _countApi.ToString
         TextCountApiReply.Text = _countApiReply.ToString
         BrowserPathText.Text = _browserpath
-        'CheckboxReply.Checked = _MyCheckReply
         CheckPostAndGet.Checked = _MyPostAndGet
         CheckUseRecommendStatus.Checked = _MyUseRecommendStatus
         CheckDispUsername.Checked = _MyDispUsername
@@ -554,9 +550,12 @@ Public Class AppendSettingDialog
         chkUnreadStyle.Checked = _MyUnreadStyle
         CmbDateTimeFormat.Text = _MyDateTimeFormat
         ConnectionTimeOut.Text = _MyDefaultTimeOut.ToString
-        'CheckProtectNotInclude.Checked = _MyProtectNotInclude
         CheckRetweetNoConfirm.Checked = _MyRetweetNoConfirm
         CheckBalloonLimit.Checked = _MyLimitBalloon
+
+        ApplyEventNotifyFlag(_MyEventNotifyEnabled, _MyEventNotifyFlag)
+        CheckForceEventNotify.Checked = _MyForceEventNotify
+
         ComboBoxAutoShortUrlFirst.SelectedIndex = _MyAutoShortUrlFirst
         chkTabIconDisp.Checked = _MyTabIconDisp
         chkReadOwnPost.Checked = _MyReadOwnPost
@@ -1606,15 +1605,6 @@ Public Class AppendSettingDialog
         End Set
     End Property
 
-    'Public Property ProtectNotInclude() As Boolean
-    '    Get
-    '        Return _MyProtectNotInclude
-    '    End Get
-    '    Set(ByVal value As Boolean)
-    '        _MyProtectNotInclude = value
-    '    End Set
-    'End Property
-
     Public Property RetweetNoConfirm() As Boolean
         Get
             Return _MyRetweetNoConfirm
@@ -1945,6 +1935,33 @@ Public Class AppendSettingDialog
         End Get
         Set(ByVal value As Boolean)
             _MyLimitBalloon = value
+        End Set
+    End Property
+
+    Public Property EventNotifyEnabled As Boolean
+        Get
+            Return _MyEventNotifyEnabled
+        End Get
+        Set(ByVal value As Boolean)
+            _MyEventNotifyEnabled = value
+        End Set
+    End Property
+
+    Public Property EventNotifyFlag As EVENTTYPE
+        Get
+            Return _MyEventNotifyFlag
+        End Get
+        Set(ByVal value As EVENTTYPE)
+            _MyEventNotifyFlag = value
+        End Set
+    End Property
+
+    Public Property ForceEventNotify As Boolean
+        Get
+            Return _MyForceEventNotify
+        End Get
+        Set(ByVal value As Boolean)
+            _MyForceEventNotify = value
         End Set
     End Property
 
@@ -2304,7 +2321,7 @@ Public Class AppendSettingDialog
         Try
             cnt = Integer.Parse(SearchTextCountApi.Text)
         Catch ex As Exception
-            MessageBox.Show(My.Resources.TextsearchCountApi_Validating1)
+            MessageBox.Show(My.Resources.TextSearchCountApi_Validating1)
             e.Cancel = True
             Exit Sub
         End Try
@@ -2365,5 +2382,81 @@ Public Class AppendSettingDialog
             e.Cancel = True
             Exit Sub
         End If
+    End Sub
+
+    Private Sub CheckEventNotify_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckEventNotify.CheckedChanged
+        _MyEventNotifyEnabled = CheckEventNotify.Checked
+        _MyEventNotifyFlag = GetEventNotifyFlag()
+        ApplyEventNotifyFlag(_MyEventNotifyEnabled, _MyEventNotifyFlag)
+    End Sub
+
+    Private Function GetEventNotifyFlag() As EVENTTYPE
+        Dim evt As EVENTTYPE = EVENTTYPE.None
+
+        If CheckFavoritesEvent.Checked Then
+            evt = evt Or EVENTTYPE.Favorite
+        End If
+
+        If CheckUnfavoritesEvent.Checked Then
+            evt = evt Or EVENTTYPE.Unfavorite
+        End If
+
+        If CheckFollowEvent.Checked Then
+            evt = evt Or EVENTTYPE.Follow
+        End If
+
+        If CheckListMemberAddedEvent.Checked Then
+            evt = evt Or EVENTTYPE.ListMemberAdded
+        End If
+
+        If CheckListMemberRemovedEvent.Checked Then
+            evt = evt Or EVENTTYPE.ListMemberRemoved
+        End If
+
+        If CheckBlockEvent.Checked Then
+            evt = evt Or EVENTTYPE.Block
+        End If
+
+        If CheckDeleteEvent.Checked Then
+            evt = evt Or EVENTTYPE.Deleted
+        End If
+
+        If CheckListCreatedEvent.Checked Then
+            evt = evt Or EVENTTYPE.ListCreated
+        End If
+
+        Return evt
+    End Function
+
+    Private Sub ApplyEventNotifyFlag(ByVal rootEnabled As Boolean, ByVal evt As EVENTTYPE)
+        CheckEventNotify.Checked = rootEnabled
+
+        CheckFavoritesEvent.Checked = CBool(evt And EVENTTYPE.Favorite)
+        CheckFavoritesEvent.Enabled = rootEnabled
+
+        CheckUnfavoritesEvent.Checked = CBool(evt And EVENTTYPE.Unfavorite)
+        CheckUnfavoritesEvent.Enabled = rootEnabled
+
+        CheckFollowEvent.Checked = CBool(evt And EVENTTYPE.Follow)
+        CheckFollowEvent.Enabled = rootEnabled
+
+        CheckListMemberAddedEvent.Checked = CBool(evt And EVENTTYPE.ListMemberAdded)
+        CheckListMemberAddedEvent.Enabled = rootEnabled
+
+        CheckListMemberRemovedEvent.Checked = CBool(evt And EVENTTYPE.ListMemberRemoved)
+        CheckListMemberRemovedEvent.Enabled = rootEnabled
+
+        CheckBlockEvent.Checked = CBool(evt And EVENTTYPE.Block)
+        CheckBlockEvent.Enabled = rootEnabled
+
+        CheckDeleteEvent.Checked = CBool(evt And EVENTTYPE.Deleted)
+        CheckDeleteEvent.Enabled = rootEnabled
+
+        CheckListCreatedEvent.Checked = CBool(evt And EVENTTYPE.ListCreated)
+        CheckListCreatedEvent.Enabled = rootEnabled
+    End Sub
+
+    Private Sub CheckForceEventNotify_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckForceEventNotify.CheckedChanged
+        _MyForceEventNotify = CheckEventNotify.Checked
     End Sub
 End Class

@@ -697,11 +697,13 @@ Public Class TweenMain
 
         SettingDialog.UseUnreadStyle = _cfgCommon.UseUnreadStyle
         SettingDialog.DefaultTimeOut = _cfgCommon.DefaultTimeOut
-        'SettingDialog.ProtectNotInclude = _cfgCommon.ProtectNotInclude
         SettingDialog.RetweetNoConfirm = _cfgCommon.RetweetNoConfirm
         SettingDialog.PlaySound = _cfgCommon.PlaySound
         SettingDialog.DateTimeFormat = _cfgCommon.DateTimeFormat
         SettingDialog.LimitBalloon = _cfgCommon.LimitBalloon
+        SettingDialog.EventNotifyEnabled = _cfgCommon.EventNotifyEnabled
+        SettingDialog.EventNotifyFlag = _cfgCommon.EventNotifyFlag
+        SettingDialog.ForceEventNotify = _cfgCommon.ForceEventNotify
 
         '廃止サービスが選択されていた場合bit.lyへ読み替え
         If _cfgCommon.AutoShortUrlFirst < 0 Then
@@ -771,10 +773,7 @@ Public Class TweenMain
         SettingDialog.FavoritesCountApi = _cfgCommon.FavoritesCountApi
         SettingDialog.UserTimelineCountApi = _cfgCommon.UserTimelineCountApi
         SettingDialog.ListCountApi = _cfgCommon.ListCountApi
-        'If _cfgCommon.UseAdditionalCount Then
-        '    _FirstRefreshFlags = True
-        '    _FirstListsRefreshFlags = True
-        'End If
+
         SettingDialog.UserstreamStartup = _cfgCommon.UserstreamStartup
         SettingDialog.UserstreamPeriodInt = _cfgCommon.UserstreamPeriod
         SettingDialog.OpenUserTimeline = _cfgCommon.OpenUserTimeline
@@ -886,8 +885,7 @@ Public Class TweenMain
                                             SettingDialog.ProxyPort, _
                                             SettingDialog.ProxyUser, _
                                             SettingDialog.ProxyPassword)
-        'tw.CountApi = SettingDialog.CountApi
-        'tw.CountApiReply = SettingDialog.CountApiReply
+
         tw.RestrictFavCheck = SettingDialog.RestrictFavCheck
         tw.ReadOwnPost = SettingDialog.ReadOwnPost
         tw.UseSsl = SettingDialog.UseSsl
@@ -1129,45 +1127,6 @@ Public Class TweenMain
         End Try
         e.Graphics.DrawString(txt, e.Font, fore, e.Bounds, sfTab)
     End Sub
-
-    'Private Function LoadOldConfig() As Boolean
-    '    Dim needToSave As Boolean = False
-    '    _cfgCommon = SettingCommon.Load()
-    '    _cfgLocal = SettingLocal.Load()
-    '    If _cfgCommon.TabList.Count > 0 Then
-    '        For Each tabName As String In _cfgCommon.TabList
-    '            _statuses.Tabs.Add(tabName, SettingTab.Load(tabName).Tab)
-    '            If tabName <> ReplaceInvalidFilename(tabName) Then
-    '                Dim tb As TabClass = _statuses.Tabs(tabName)
-    '                _statuses.RemoveTab(tabName)
-    '                tb.TabName = ReplaceInvalidFilename(tabName)
-    '                _statuses.Tabs.Add(ReplaceInvalidFilename(tabName), tb)
-    '                Dim tabSetting As New SettingTab
-    '                tabSetting.Tab = tb
-    '                tabSetting.Save()
-    '                needToSave = True
-    '            End If
-    '        Next
-    '    Else
-    '        _statuses.AddTab(DEFAULTTAB.RECENT, TabUsageType.Home, Nothing)
-    '        _statuses.AddTab(DEFAULTTAB.REPLY, TabUsageType.Mentions, Nothing)
-    '        _statuses.AddTab(DEFAULTTAB.DM, TabUsageType.DirectMessage, Nothing)
-    '        _statuses.AddTab(DEFAULTTAB.FAV, TabUsageType.Favorites, Nothing)
-    '    End If
-    '    If needToSave Then
-    '        _cfgCommon.TabList.Clear()
-    '        For Each tabName As String In _statuses.Tabs.Keys
-    '            _cfgCommon.TabList.Add(tabName)
-    '        Next
-    '        _cfgCommon.Save()
-    '    End If
-
-    '    If System.IO.File.Exists(SettingCommon.GetSettingFilePath("")) Then
-    '        Return True
-    '    Else
-    '        Return False
-    '    End If
-    'End Function
 
     Private Sub LoadConfig()
         Dim needToSave As Boolean = False
@@ -1416,9 +1375,14 @@ Public Class TweenMain
 
     End Sub
 
-    Private Function BalloonRequired() As Boolean
+    Private Overloads Function BalloonRequired() As Boolean
+        BalloonRequired(New Twitter.FormattedEvent With {.Eventtype = EVENTTYPE.None})
+    End Function
+
+    Private Overloads Function BalloonRequired(ByVal ev As Twitter.FormattedEvent) As Boolean
         If (
-            NewPostPopMenuItem.Checked AndAlso
+            (SettingDialog.EventNotifyEnabled AndAlso CBool(ev.Eventtype And SettingDialog.EventNotifyFlag) OrElse ev.Eventtype = EVENTTYPE.None) AndAlso
+            (NewPostPopMenuItem.Checked OrElse (SettingDialog.ForceEventNotify AndAlso ev.Eventtype <> EVENTTYPE.None)) AndAlso
             Not _initial AndAlso
             (
                 (
@@ -5953,9 +5917,11 @@ RETRY:
             _cfgCommon.UseUnreadStyle = SettingDialog.UseUnreadStyle
             _cfgCommon.DateTimeFormat = SettingDialog.DateTimeFormat
             _cfgCommon.DefaultTimeOut = SettingDialog.DefaultTimeOut
-            '_cfgCommon.ProtectNotInclude = SettingDialog.ProtectNotInclude
             _cfgCommon.RetweetNoConfirm = SettingDialog.RetweetNoConfirm
             _cfgCommon.LimitBalloon = SettingDialog.LimitBalloon
+            _cfgCommon.EventNotifyEnabled = SettingDialog.EventNotifyEnabled
+            _cfgCommon.EventNotifyFlag = SettingDialog.EventNotifyFlag
+            _cfgCommon.ForceEventNotify = SettingDialog.ForceEventNotify
             _cfgCommon.AutoShortUrlFirst = SettingDialog.AutoShortUrlFirst
             _cfgCommon.TabIconDisp = SettingDialog.TabIconDisp
             _cfgCommon.ReplyIconState = SettingDialog.ReplyIconState
@@ -9918,8 +9884,8 @@ RETRY:
     'End Sub
 
     Private Sub NotifyEvent(ByVal ev As Twitter.FormattedEvent)
-        '新着通知
-        If BalloonRequired() Then
+        '新着通知 
+        If BalloonRequired(ev) Then
             NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning
             If SettingDialog.DispUsername Then NotifyIcon1.BalloonTipTitle = tw.Username + " - " Else NotifyIcon1.BalloonTipTitle = ""
             NotifyIcon1.BalloonTipTitle += "Tween [" + ev.Event.ToUpper() + "] by " + DirectCast(IIf(Not String.IsNullOrEmpty(ev.Username), ev.Username, ""), String)
