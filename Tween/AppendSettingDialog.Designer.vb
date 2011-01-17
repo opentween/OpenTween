@@ -25,6 +25,35 @@ Partial Class AppendSettingDialog
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AppendSettingDialog))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.TreeView1 = New System.Windows.Forms.TreeView()
+        Me.NotifyPanel = New System.Windows.Forms.Panel()
+        Me.CheckListCreatedEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckDeleteEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckBlockEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckForceEventNotify = New System.Windows.Forms.CheckBox()
+        Me.CheckListMemberRemovedEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckListMemberAddedEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckFollowEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckUnfavoritesEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckFavoritesEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckEventNotify = New System.Windows.Forms.CheckBox()
+        Me.GetCountPanel = New System.Windows.Forms.Panel()
+        Me.ListTextCountApi = New System.Windows.Forms.TextBox()
+        Me.Label25 = New System.Windows.Forms.Label()
+        Me.UserTimelineTextCountApi = New System.Windows.Forms.TextBox()
+        Me.Label17 = New System.Windows.Forms.Label()
+        Me.Label30 = New System.Windows.Forms.Label()
+        Me.Label28 = New System.Windows.Forms.Label()
+        Me.Label19 = New System.Windows.Forms.Label()
+        Me.FavoritesTextCountApi = New System.Windows.Forms.TextBox()
+        Me.SearchTextCountApi = New System.Windows.Forms.TextBox()
+        Me.Label66 = New System.Windows.Forms.Label()
+        Me.FirstTextCountApi = New System.Windows.Forms.TextBox()
+        Me.GetMoreTextCountApi = New System.Windows.Forms.TextBox()
+        Me.Label53 = New System.Windows.Forms.Label()
+        Me.UseChangeGetCount = New System.Windows.Forms.CheckBox()
+        Me.TextCountApiReply = New System.Windows.Forms.TextBox()
+        Me.Label67 = New System.Windows.Forms.Label()
+        Me.TextCountApi = New System.Windows.Forms.TextBox()
         Me.BasedPanel = New System.Windows.Forms.Panel()
         Me.AuthBasicRadio = New System.Windows.Forms.RadioButton()
         Me.AuthOAuthRadio = New System.Windows.Forms.RadioButton()
@@ -61,22 +90,6 @@ Partial Class AppendSettingDialog
         Me.CheckStartupFollowers = New System.Windows.Forms.CheckBox()
         Me.CheckStartupVersion = New System.Windows.Forms.CheckBox()
         Me.chkGetFav = New System.Windows.Forms.CheckBox()
-        Me.GetCountPanel = New System.Windows.Forms.Panel()
-        Me.UserTimelineTextCountApi = New System.Windows.Forms.TextBox()
-        Me.Label17 = New System.Windows.Forms.Label()
-        Me.Label30 = New System.Windows.Forms.Label()
-        Me.Label28 = New System.Windows.Forms.Label()
-        Me.Label19 = New System.Windows.Forms.Label()
-        Me.FavoritesTextCountApi = New System.Windows.Forms.TextBox()
-        Me.SearchTextCountApi = New System.Windows.Forms.TextBox()
-        Me.Label66 = New System.Windows.Forms.Label()
-        Me.FirstTextCountApi = New System.Windows.Forms.TextBox()
-        Me.GetMoreTextCountApi = New System.Windows.Forms.TextBox()
-        Me.Label53 = New System.Windows.Forms.Label()
-        Me.UseChangeGetCount = New System.Windows.Forms.CheckBox()
-        Me.TextCountApiReply = New System.Windows.Forms.TextBox()
-        Me.Label67 = New System.Windows.Forms.Label()
-        Me.TextCountApi = New System.Windows.Forms.TextBox()
         Me.UserStreamPanel = New System.Windows.Forms.Panel()
         Me.UserstreamPeriod = New System.Windows.Forms.TextBox()
         Me.StartupUserstreamCheck = New System.Windows.Forms.CheckBox()
@@ -239,29 +252,19 @@ Partial Class AppendSettingDialog
         Me.Label76 = New System.Windows.Forms.Label()
         Me.Label77 = New System.Windows.Forms.Label()
         Me.TextBitlyId = New System.Windows.Forms.TextBox()
-        Me.NotifyPanel = New System.Windows.Forms.Panel()
-        Me.CheckBlockEvent = New System.Windows.Forms.CheckBox()
-        Me.CheckEventAlwaysNotify = New System.Windows.Forms.CheckBox()
-        Me.CheckListMemberRemovedEvent = New System.Windows.Forms.CheckBox()
-        Me.CheckListMemberAddedEvent = New System.Windows.Forms.CheckBox()
-        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
-        Me.CheckFollowEvent = New System.Windows.Forms.CheckBox()
-        Me.CheckFavEvent = New System.Windows.Forms.CheckBox()
-        Me.CheckEventRecievedBalloon = New System.Windows.Forms.CheckBox()
         Me.FontDialog1 = New System.Windows.Forms.FontDialog()
         Me.ColorDialog1 = New System.Windows.Forms.ColorDialog()
         Me.Cancel = New System.Windows.Forms.Button()
         Me.Save = New System.Windows.Forms.Button()
-        Me.Label25 = New System.Windows.Forms.Label()
-        Me.ListTextCountApi = New System.Windows.Forms.TextBox()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        Me.NotifyPanel.SuspendLayout()
+        Me.GetCountPanel.SuspendLayout()
         Me.BasedPanel.SuspendLayout()
         Me.GetPeriodPanel.SuspendLayout()
         Me.StartupPanel.SuspendLayout()
-        Me.GetCountPanel.SuspendLayout()
         Me.UserStreamPanel.SuspendLayout()
         Me.ActionPanel.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -276,7 +279,6 @@ Partial Class AppendSettingDialog
         Me.ProxyPanel.SuspendLayout()
         Me.CooperatePanel.SuspendLayout()
         Me.ShortUrlPanel.SuspendLayout()
-        Me.NotifyPanel.SuspendLayout()
         Me.SuspendLayout()
         '
         'SplitContainer1
@@ -291,7 +293,6 @@ Partial Class AppendSettingDialog
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.BackColor = System.Drawing.SystemColors.Control
-        Me.SplitContainer1.Panel2.Controls.Add(Me.GetCountPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.BasedPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.GetPeriodPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.StartupPanel)
@@ -307,6 +308,7 @@ Partial Class AppendSettingDialog
         Me.SplitContainer1.Panel2.Controls.Add(Me.CooperatePanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.ShortUrlPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.NotifyPanel)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.GetCountPanel)
         Me.SplitContainer1.TabStop = False
         '
         'TreeView1
@@ -317,6 +319,209 @@ Partial Class AppendSettingDialog
         Me.TreeView1.Name = "TreeView1"
         Me.TreeView1.Nodes.AddRange(New System.Windows.Forms.TreeNode() {CType(resources.GetObject("TreeView1.Nodes"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeView1.Nodes1"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeView1.Nodes2"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeView1.Nodes3"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeView1.Nodes4"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeView1.Nodes5"), System.Windows.Forms.TreeNode)})
         Me.TreeView1.ShowLines = False
+        '
+        'NotifyPanel
+        '
+        Me.NotifyPanel.Controls.Add(Me.CheckListCreatedEvent)
+        Me.NotifyPanel.Controls.Add(Me.CheckDeleteEvent)
+        Me.NotifyPanel.Controls.Add(Me.CheckBlockEvent)
+        Me.NotifyPanel.Controls.Add(Me.CheckForceEventNotify)
+        Me.NotifyPanel.Controls.Add(Me.CheckListMemberRemovedEvent)
+        Me.NotifyPanel.Controls.Add(Me.CheckListMemberAddedEvent)
+        Me.NotifyPanel.Controls.Add(Me.CheckFollowEvent)
+        Me.NotifyPanel.Controls.Add(Me.CheckUnfavoritesEvent)
+        Me.NotifyPanel.Controls.Add(Me.CheckFavoritesEvent)
+        Me.NotifyPanel.Controls.Add(Me.CheckEventNotify)
+        resources.ApplyResources(Me.NotifyPanel, "NotifyPanel")
+        Me.NotifyPanel.Name = "NotifyPanel"
+        '
+        'CheckListCreatedEvent
+        '
+        resources.ApplyResources(Me.CheckListCreatedEvent, "CheckListCreatedEvent")
+        Me.CheckListCreatedEvent.Checked = True
+        Me.CheckListCreatedEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckListCreatedEvent.Name = "CheckListCreatedEvent"
+        Me.CheckListCreatedEvent.UseVisualStyleBackColor = True
+        '
+        'CheckDeleteEvent
+        '
+        resources.ApplyResources(Me.CheckDeleteEvent, "CheckDeleteEvent")
+        Me.CheckDeleteEvent.Checked = True
+        Me.CheckDeleteEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckDeleteEvent.Name = "CheckDeleteEvent"
+        Me.CheckDeleteEvent.UseVisualStyleBackColor = True
+        '
+        'CheckBlockEvent
+        '
+        resources.ApplyResources(Me.CheckBlockEvent, "CheckBlockEvent")
+        Me.CheckBlockEvent.Checked = True
+        Me.CheckBlockEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBlockEvent.Name = "CheckBlockEvent"
+        Me.CheckBlockEvent.UseVisualStyleBackColor = True
+        '
+        'CheckForceEventNotify
+        '
+        resources.ApplyResources(Me.CheckForceEventNotify, "CheckForceEventNotify")
+        Me.CheckForceEventNotify.Checked = True
+        Me.CheckForceEventNotify.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckForceEventNotify.Name = "CheckForceEventNotify"
+        Me.CheckForceEventNotify.UseVisualStyleBackColor = True
+        '
+        'CheckListMemberRemovedEvent
+        '
+        resources.ApplyResources(Me.CheckListMemberRemovedEvent, "CheckListMemberRemovedEvent")
+        Me.CheckListMemberRemovedEvent.Checked = True
+        Me.CheckListMemberRemovedEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckListMemberRemovedEvent.Name = "CheckListMemberRemovedEvent"
+        Me.CheckListMemberRemovedEvent.UseVisualStyleBackColor = True
+        '
+        'CheckListMemberAddedEvent
+        '
+        resources.ApplyResources(Me.CheckListMemberAddedEvent, "CheckListMemberAddedEvent")
+        Me.CheckListMemberAddedEvent.Checked = True
+        Me.CheckListMemberAddedEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckListMemberAddedEvent.Name = "CheckListMemberAddedEvent"
+        Me.CheckListMemberAddedEvent.UseVisualStyleBackColor = True
+        '
+        'CheckFollowEvent
+        '
+        resources.ApplyResources(Me.CheckFollowEvent, "CheckFollowEvent")
+        Me.CheckFollowEvent.Checked = True
+        Me.CheckFollowEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckFollowEvent.Name = "CheckFollowEvent"
+        Me.CheckFollowEvent.UseVisualStyleBackColor = True
+        '
+        'CheckUnfavoritesEvent
+        '
+        resources.ApplyResources(Me.CheckUnfavoritesEvent, "CheckUnfavoritesEvent")
+        Me.CheckUnfavoritesEvent.Checked = True
+        Me.CheckUnfavoritesEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckUnfavoritesEvent.Name = "CheckUnfavoritesEvent"
+        Me.CheckUnfavoritesEvent.UseVisualStyleBackColor = True
+        '
+        'CheckFavoritesEvent
+        '
+        resources.ApplyResources(Me.CheckFavoritesEvent, "CheckFavoritesEvent")
+        Me.CheckFavoritesEvent.Checked = True
+        Me.CheckFavoritesEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckFavoritesEvent.Name = "CheckFavoritesEvent"
+        Me.CheckFavoritesEvent.UseVisualStyleBackColor = True
+        '
+        'CheckEventNotify
+        '
+        resources.ApplyResources(Me.CheckEventNotify, "CheckEventNotify")
+        Me.CheckEventNotify.Checked = True
+        Me.CheckEventNotify.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckEventNotify.Name = "CheckEventNotify"
+        Me.CheckEventNotify.UseVisualStyleBackColor = True
+        '
+        'GetCountPanel
+        '
+        Me.GetCountPanel.Controls.Add(Me.ListTextCountApi)
+        Me.GetCountPanel.Controls.Add(Me.Label25)
+        Me.GetCountPanel.Controls.Add(Me.UserTimelineTextCountApi)
+        Me.GetCountPanel.Controls.Add(Me.Label17)
+        Me.GetCountPanel.Controls.Add(Me.Label30)
+        Me.GetCountPanel.Controls.Add(Me.Label28)
+        Me.GetCountPanel.Controls.Add(Me.Label19)
+        Me.GetCountPanel.Controls.Add(Me.FavoritesTextCountApi)
+        Me.GetCountPanel.Controls.Add(Me.SearchTextCountApi)
+        Me.GetCountPanel.Controls.Add(Me.Label66)
+        Me.GetCountPanel.Controls.Add(Me.FirstTextCountApi)
+        Me.GetCountPanel.Controls.Add(Me.GetMoreTextCountApi)
+        Me.GetCountPanel.Controls.Add(Me.Label53)
+        Me.GetCountPanel.Controls.Add(Me.UseChangeGetCount)
+        Me.GetCountPanel.Controls.Add(Me.TextCountApiReply)
+        Me.GetCountPanel.Controls.Add(Me.Label67)
+        Me.GetCountPanel.Controls.Add(Me.TextCountApi)
+        resources.ApplyResources(Me.GetCountPanel, "GetCountPanel")
+        Me.GetCountPanel.Name = "GetCountPanel"
+        '
+        'ListTextCountApi
+        '
+        resources.ApplyResources(Me.ListTextCountApi, "ListTextCountApi")
+        Me.ListTextCountApi.Name = "ListTextCountApi"
+        '
+        'Label25
+        '
+        resources.ApplyResources(Me.Label25, "Label25")
+        Me.Label25.Name = "Label25"
+        '
+        'UserTimelineTextCountApi
+        '
+        resources.ApplyResources(Me.UserTimelineTextCountApi, "UserTimelineTextCountApi")
+        Me.UserTimelineTextCountApi.Name = "UserTimelineTextCountApi"
+        '
+        'Label17
+        '
+        resources.ApplyResources(Me.Label17, "Label17")
+        Me.Label17.Name = "Label17"
+        '
+        'Label30
+        '
+        resources.ApplyResources(Me.Label30, "Label30")
+        Me.Label30.Name = "Label30"
+        '
+        'Label28
+        '
+        resources.ApplyResources(Me.Label28, "Label28")
+        Me.Label28.Name = "Label28"
+        '
+        'Label19
+        '
+        resources.ApplyResources(Me.Label19, "Label19")
+        Me.Label19.Name = "Label19"
+        '
+        'FavoritesTextCountApi
+        '
+        resources.ApplyResources(Me.FavoritesTextCountApi, "FavoritesTextCountApi")
+        Me.FavoritesTextCountApi.Name = "FavoritesTextCountApi"
+        '
+        'SearchTextCountApi
+        '
+        resources.ApplyResources(Me.SearchTextCountApi, "SearchTextCountApi")
+        Me.SearchTextCountApi.Name = "SearchTextCountApi"
+        '
+        'Label66
+        '
+        resources.ApplyResources(Me.Label66, "Label66")
+        Me.Label66.Name = "Label66"
+        '
+        'FirstTextCountApi
+        '
+        resources.ApplyResources(Me.FirstTextCountApi, "FirstTextCountApi")
+        Me.FirstTextCountApi.Name = "FirstTextCountApi"
+        '
+        'GetMoreTextCountApi
+        '
+        resources.ApplyResources(Me.GetMoreTextCountApi, "GetMoreTextCountApi")
+        Me.GetMoreTextCountApi.Name = "GetMoreTextCountApi"
+        '
+        'Label53
+        '
+        resources.ApplyResources(Me.Label53, "Label53")
+        Me.Label53.Name = "Label53"
+        '
+        'UseChangeGetCount
+        '
+        resources.ApplyResources(Me.UseChangeGetCount, "UseChangeGetCount")
+        Me.UseChangeGetCount.Name = "UseChangeGetCount"
+        Me.UseChangeGetCount.UseVisualStyleBackColor = True
+        '
+        'TextCountApiReply
+        '
+        resources.ApplyResources(Me.TextCountApiReply, "TextCountApiReply")
+        Me.TextCountApiReply.Name = "TextCountApiReply"
+        '
+        'Label67
+        '
+        resources.ApplyResources(Me.Label67, "Label67")
+        Me.Label67.Name = "Label67"
+        '
+        'TextCountApi
+        '
+        resources.ApplyResources(Me.TextCountApi, "TextCountApi")
+        Me.TextCountApi.Name = "TextCountApi"
         '
         'BasedPanel
         '
@@ -546,104 +751,6 @@ Partial Class AppendSettingDialog
         resources.ApplyResources(Me.chkGetFav, "chkGetFav")
         Me.chkGetFav.Name = "chkGetFav"
         Me.chkGetFav.UseVisualStyleBackColor = True
-        '
-        'GetCountPanel
-        '
-        Me.GetCountPanel.Controls.Add(Me.ListTextCountApi)
-        Me.GetCountPanel.Controls.Add(Me.Label25)
-        Me.GetCountPanel.Controls.Add(Me.UserTimelineTextCountApi)
-        Me.GetCountPanel.Controls.Add(Me.Label17)
-        Me.GetCountPanel.Controls.Add(Me.Label30)
-        Me.GetCountPanel.Controls.Add(Me.Label28)
-        Me.GetCountPanel.Controls.Add(Me.Label19)
-        Me.GetCountPanel.Controls.Add(Me.FavoritesTextCountApi)
-        Me.GetCountPanel.Controls.Add(Me.SearchTextCountApi)
-        Me.GetCountPanel.Controls.Add(Me.Label66)
-        Me.GetCountPanel.Controls.Add(Me.FirstTextCountApi)
-        Me.GetCountPanel.Controls.Add(Me.GetMoreTextCountApi)
-        Me.GetCountPanel.Controls.Add(Me.Label53)
-        Me.GetCountPanel.Controls.Add(Me.UseChangeGetCount)
-        Me.GetCountPanel.Controls.Add(Me.TextCountApiReply)
-        Me.GetCountPanel.Controls.Add(Me.Label67)
-        Me.GetCountPanel.Controls.Add(Me.TextCountApi)
-        resources.ApplyResources(Me.GetCountPanel, "GetCountPanel")
-        Me.GetCountPanel.Name = "GetCountPanel"
-        '
-        'UserTimelineTextCountApi
-        '
-        resources.ApplyResources(Me.UserTimelineTextCountApi, "UserTimelineTextCountApi")
-        Me.UserTimelineTextCountApi.Name = "UserTimelineTextCountApi"
-        '
-        'Label17
-        '
-        resources.ApplyResources(Me.Label17, "Label17")
-        Me.Label17.Name = "Label17"
-        '
-        'Label30
-        '
-        resources.ApplyResources(Me.Label30, "Label30")
-        Me.Label30.Name = "Label30"
-        '
-        'Label28
-        '
-        resources.ApplyResources(Me.Label28, "Label28")
-        Me.Label28.Name = "Label28"
-        '
-        'Label19
-        '
-        resources.ApplyResources(Me.Label19, "Label19")
-        Me.Label19.Name = "Label19"
-        '
-        'FavoritesTextCountApi
-        '
-        resources.ApplyResources(Me.FavoritesTextCountApi, "FavoritesTextCountApi")
-        Me.FavoritesTextCountApi.Name = "FavoritesTextCountApi"
-        '
-        'SearchTextCountApi
-        '
-        resources.ApplyResources(Me.SearchTextCountApi, "SearchTextCountApi")
-        Me.SearchTextCountApi.Name = "SearchTextCountApi"
-        '
-        'Label66
-        '
-        resources.ApplyResources(Me.Label66, "Label66")
-        Me.Label66.Name = "Label66"
-        '
-        'FirstTextCountApi
-        '
-        resources.ApplyResources(Me.FirstTextCountApi, "FirstTextCountApi")
-        Me.FirstTextCountApi.Name = "FirstTextCountApi"
-        '
-        'GetMoreTextCountApi
-        '
-        resources.ApplyResources(Me.GetMoreTextCountApi, "GetMoreTextCountApi")
-        Me.GetMoreTextCountApi.Name = "GetMoreTextCountApi"
-        '
-        'Label53
-        '
-        resources.ApplyResources(Me.Label53, "Label53")
-        Me.Label53.Name = "Label53"
-        '
-        'UseChangeGetCount
-        '
-        resources.ApplyResources(Me.UseChangeGetCount, "UseChangeGetCount")
-        Me.UseChangeGetCount.Name = "UseChangeGetCount"
-        Me.UseChangeGetCount.UseVisualStyleBackColor = True
-        '
-        'TextCountApiReply
-        '
-        resources.ApplyResources(Me.TextCountApiReply, "TextCountApiReply")
-        Me.TextCountApiReply.Name = "TextCountApiReply"
-        '
-        'Label67
-        '
-        resources.ApplyResources(Me.Label67, "Label67")
-        Me.Label67.Name = "Label67"
-        '
-        'TextCountApi
-        '
-        resources.ApplyResources(Me.TextCountApi, "TextCountApi")
-        Me.TextCountApi.Name = "TextCountApi"
         '
         'UserStreamPanel
         '
@@ -1727,83 +1834,6 @@ Partial Class AppendSettingDialog
         resources.ApplyResources(Me.TextBitlyId, "TextBitlyId")
         Me.TextBitlyId.Name = "TextBitlyId"
         '
-        'NotifyPanel
-        '
-        Me.NotifyPanel.Controls.Add(Me.CheckBlockEvent)
-        Me.NotifyPanel.Controls.Add(Me.CheckEventAlwaysNotify)
-        Me.NotifyPanel.Controls.Add(Me.CheckListMemberRemovedEvent)
-        Me.NotifyPanel.Controls.Add(Me.CheckListMemberAddedEvent)
-        Me.NotifyPanel.Controls.Add(Me.CheckBox1)
-        Me.NotifyPanel.Controls.Add(Me.CheckFollowEvent)
-        Me.NotifyPanel.Controls.Add(Me.CheckFavEvent)
-        Me.NotifyPanel.Controls.Add(Me.CheckEventRecievedBalloon)
-        resources.ApplyResources(Me.NotifyPanel, "NotifyPanel")
-        Me.NotifyPanel.Name = "NotifyPanel"
-        '
-        'CheckBlockEvent
-        '
-        resources.ApplyResources(Me.CheckBlockEvent, "CheckBlockEvent")
-        Me.CheckBlockEvent.Checked = True
-        Me.CheckBlockEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBlockEvent.Name = "CheckBlockEvent"
-        Me.CheckBlockEvent.UseVisualStyleBackColor = True
-        '
-        'CheckEventAlwaysNotify
-        '
-        resources.ApplyResources(Me.CheckEventAlwaysNotify, "CheckEventAlwaysNotify")
-        Me.CheckEventAlwaysNotify.Checked = True
-        Me.CheckEventAlwaysNotify.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckEventAlwaysNotify.Name = "CheckEventAlwaysNotify"
-        Me.CheckEventAlwaysNotify.UseVisualStyleBackColor = True
-        '
-        'CheckListMemberRemovedEvent
-        '
-        resources.ApplyResources(Me.CheckListMemberRemovedEvent, "CheckListMemberRemovedEvent")
-        Me.CheckListMemberRemovedEvent.Checked = True
-        Me.CheckListMemberRemovedEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckListMemberRemovedEvent.Name = "CheckListMemberRemovedEvent"
-        Me.CheckListMemberRemovedEvent.UseVisualStyleBackColor = True
-        '
-        'CheckListMemberAddedEvent
-        '
-        resources.ApplyResources(Me.CheckListMemberAddedEvent, "CheckListMemberAddedEvent")
-        Me.CheckListMemberAddedEvent.Checked = True
-        Me.CheckListMemberAddedEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckListMemberAddedEvent.Name = "CheckListMemberAddedEvent"
-        Me.CheckListMemberAddedEvent.UseVisualStyleBackColor = True
-        '
-        'CheckBox1
-        '
-        resources.ApplyResources(Me.CheckBox1, "CheckBox1")
-        Me.CheckBox1.Checked = True
-        Me.CheckBox1.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox1.Name = "CheckBox1"
-        Me.CheckBox1.UseVisualStyleBackColor = True
-        '
-        'CheckFollowEvent
-        '
-        resources.ApplyResources(Me.CheckFollowEvent, "CheckFollowEvent")
-        Me.CheckFollowEvent.Checked = True
-        Me.CheckFollowEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckFollowEvent.Name = "CheckFollowEvent"
-        Me.CheckFollowEvent.UseVisualStyleBackColor = True
-        '
-        'CheckFavEvent
-        '
-        resources.ApplyResources(Me.CheckFavEvent, "CheckFavEvent")
-        Me.CheckFavEvent.Checked = True
-        Me.CheckFavEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckFavEvent.Name = "CheckFavEvent"
-        Me.CheckFavEvent.UseVisualStyleBackColor = True
-        '
-        'CheckEventRecievedBalloon
-        '
-        resources.ApplyResources(Me.CheckEventRecievedBalloon, "CheckEventRecievedBalloon")
-        Me.CheckEventRecievedBalloon.Checked = True
-        Me.CheckEventRecievedBalloon.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckEventRecievedBalloon.Name = "CheckEventRecievedBalloon"
-        Me.CheckEventRecievedBalloon.UseVisualStyleBackColor = True
-        '
         'Cancel
         '
         Me.Cancel.CausesValidation = False
@@ -1818,16 +1848,6 @@ Partial Class AppendSettingDialog
         resources.ApplyResources(Me.Save, "Save")
         Me.Save.Name = "Save"
         Me.Save.UseVisualStyleBackColor = True
-        '
-        'Label25
-        '
-        resources.ApplyResources(Me.Label25, "Label25")
-        Me.Label25.Name = "Label25"
-        '
-        'ListTextCountApi
-        '
-        resources.ApplyResources(Me.ListTextCountApi, "ListTextCountApi")
-        Me.ListTextCountApi.Name = "ListTextCountApi"
         '
         'AppendSettingDialog
         '
@@ -1849,14 +1869,16 @@ Partial Class AppendSettingDialog
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.ResumeLayout(False)
+        Me.NotifyPanel.ResumeLayout(False)
+        Me.NotifyPanel.PerformLayout()
+        Me.GetCountPanel.ResumeLayout(False)
+        Me.GetCountPanel.PerformLayout()
         Me.BasedPanel.ResumeLayout(False)
         Me.BasedPanel.PerformLayout()
         Me.GetPeriodPanel.ResumeLayout(False)
         Me.GetPeriodPanel.PerformLayout()
         Me.StartupPanel.ResumeLayout(False)
         Me.StartupPanel.PerformLayout()
-        Me.GetCountPanel.ResumeLayout(False)
-        Me.GetCountPanel.PerformLayout()
         Me.UserStreamPanel.ResumeLayout(False)
         Me.UserStreamPanel.PerformLayout()
         Me.ActionPanel.ResumeLayout(False)
@@ -1883,8 +1905,6 @@ Partial Class AppendSettingDialog
         Me.CooperatePanel.PerformLayout()
         Me.ShortUrlPanel.ResumeLayout(False)
         Me.ShortUrlPanel.PerformLayout()
-        Me.NotifyPanel.ResumeLayout(False)
-        Me.NotifyPanel.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -2109,14 +2129,16 @@ Partial Class AppendSettingDialog
     Friend WithEvents CheckHashSupple As System.Windows.Forms.CheckBox
     Friend WithEvents CheckAtIdSupple As System.Windows.Forms.CheckBox
     Friend WithEvents NotifyPanel As System.Windows.Forms.Panel
-    Friend WithEvents CheckEventRecievedBalloon As System.Windows.Forms.CheckBox
+    Friend WithEvents CheckEventNotify As System.Windows.Forms.CheckBox
+    Friend WithEvents CheckUnfavoritesEvent As System.Windows.Forms.CheckBox
+    Friend WithEvents CheckFavoritesEvent As System.Windows.Forms.CheckBox
     Friend WithEvents CheckFollowEvent As System.Windows.Forms.CheckBox
-    Friend WithEvents CheckFavEvent As System.Windows.Forms.CheckBox
-    Friend WithEvents CheckBox1 As System.Windows.Forms.CheckBox
     Friend WithEvents CheckListMemberRemovedEvent As System.Windows.Forms.CheckBox
     Friend WithEvents CheckListMemberAddedEvent As System.Windows.Forms.CheckBox
-    Friend WithEvents CheckEventAlwaysNotify As System.Windows.Forms.CheckBox
+    Friend WithEvents CheckForceEventNotify As System.Windows.Forms.CheckBox
     Friend WithEvents CheckBlockEvent As System.Windows.Forms.CheckBox
     Friend WithEvents ListTextCountApi As System.Windows.Forms.TextBox
     Friend WithEvents Label25 As System.Windows.Forms.Label
+    Friend WithEvents CheckListCreatedEvent As System.Windows.Forms.CheckBox
+    Friend WithEvents CheckDeleteEvent As System.Windows.Forms.CheckBox
 End Class

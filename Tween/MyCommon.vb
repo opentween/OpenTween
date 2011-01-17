@@ -162,6 +162,24 @@ Public Module MyCommon
         BlinkIcon
     End Enum
 
+    <FlagsAttribute()> _
+    Public Enum EVENTTYPE
+        None = 0
+        Favorite = 1
+        Unfavorite = 2
+        Follow = 4
+        ListMemberAdded = 8
+        ListMemberRemoved = 16
+        Block = 32
+        Unblock = 64
+        UserUpdate = 128
+        Deleted = 256
+        ListCreated = 512
+
+        ALL = (None Or Favorite Or Unfavorite Or Follow Or ListMemberAdded Or ListMemberRemoved Or _
+               Block Or Unblock Or UserUpdate Or Deleted Or ListCreated)
+    End Enum
+
     Public Sub TraceOut(ByVal ex As Exception, ByVal Message As String)
         Dim buf As String = ExceptionOutMessage(ex)
         TraceOut(TraceFlag, Message + Environment.NewLine + buf)
@@ -512,21 +530,6 @@ retry:
     Public Function IsNT6() As Boolean
         'NT6 kernelかどうか検査
         Return Environment.OSVersion.Platform = PlatformID.Win32NT AndAlso Environment.OSVersion.Version.Major = 6
-    End Function
-
-    Public Function ReplaceInvalidFilename(ByVal name As String) As String
-        name = name.Replace("\", "[en]")
-        name = name.Replace(":", "[c]")
-        name = name.Replace("/", "[bs]")
-        name = name.Replace("?", "[q]")
-        name = name.Replace("*", "[a]")
-        name = name.Replace("<", "[lt]")
-        name = name.Replace(">", "[gt]")
-        name = name.Replace("|", "[p]")
-        name = name.Replace(ChrW(&H201D), "[wdq]")
-        name = name.Replace("""", "[dq]")
-
-        Return name
     End Function
 
     <FlagsAttribute()> _

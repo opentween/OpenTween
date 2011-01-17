@@ -2743,6 +2743,7 @@ Public Class Twitter
     Private WithEvents userStream As TwitterUserstream
 
     Public Class FormattedEvent
+        Public Property Eventtype As EVENTTYPE
         Public Property CreatedAt As DateTime
         Public Property [Event] As String
         Public Property Username As String
@@ -2752,14 +2753,32 @@ Public Class Twitter
 
     Public Property StoredEvent As New List(Of FormattedEvent)
 
-    Private EventNameTable() As String = {
-        "favorite",
-        "unfavorite",
-        "follow",
-        "list_member_added",
-        "list_member_removed",
-        "block"
+    Private Class EventTypeTableElement
+        Public Name As String
+        Public Type As EVENTTYPE
+
+        Public Sub New(ByVal name As String, ByVal type As EVENTTYPE)
+            Me.Name = name
+            Me.Type = type
+        End Sub
+    End Class
+
+    Private EventTable As EventTypeTableElement() = {
+        New EventTypeTableElement("favorite", EVENTTYPE.Favorite), _
+        New EventTypeTableElement("unfavorite", EVENTTYPE.Unfavorite), _
+        New EventTypeTableElement("follow", EVENTTYPE.Follow), _
+        New EventTypeTableElement("list_member_added", EVENTTYPE.ListMemberAdded), _
+        New EventTypeTableElement("list_memver_removed", EVENTTYPE.ListMemberRemoved), _
+        New EventTypeTableElement("block", EVENTTYPE.Block), _
+        New EventTypeTableElement("unblock", EVENTTYPE.Unblock), _
+        New EventTypeTableElement("user_update", EVENTTYPE.UserUpdate), _
+        New EventTypeTableElement("deleted", EVENTTYPE.Deleted), _
+        New EventTypeTableElement("list_created", EVENTTYPE.ListCreated)
     }
+
+    Public Function EventNameToEventType(ByVal EventName As String) As EVENTTYPE
+        Return (From tbl In EventTable Where tbl.Name.Equals(EventName) Select tbl.Type).FirstOrDefault()
+    End Function
 
     Public ReadOnly Property IsUserstreamDataReceived As Boolean
         Get
@@ -2839,6 +2858,7 @@ Public Class Twitter
         Dim evt As New FormattedEvent
         evt.CreatedAt = createdat
         evt.Id = id
+        evt.Eventtype = EventNameToEventType("deleted")
         If post Is Nothing Then
             Dim tmp As PostClass = (From p In _deletemessages Where p.Id = id).FirstOrDefault
             If tmp IsNot Nothing Then
@@ -2887,6 +2907,7 @@ Public Class Twitter
         evt.CreatedAt = DateTimeParse(eventData.CreatedAt)
         evt.Event = eventData.Event
         evt.Username = eventData.Source.ScreenName
+        evt.Eventtype = EventNameToEventType(evt.Event)
         Select Case eventData.Event
             Case "follow"
                 If eventData.Target.ScreenName.ToLower.Equals(_uid) Then
@@ -2929,6 +2950,8 @@ Public Class Twitter
             Case "unblock"
                 evt.Target = ""
             Case "user_update"
+                evt.Target = ""
+            Case "list_created"
                 evt.Target = ""
             Case Else
                 TraceOut("Unknown Event:" + evt.Event + Environment.NewLine + content)

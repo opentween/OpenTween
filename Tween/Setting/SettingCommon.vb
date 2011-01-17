@@ -93,6 +93,9 @@ Public Class SettingCommon
     Public ListLock As Boolean = False
     Public IconSize As IconSizes = IconSizes.Icon16
     Public NewAllPop As Boolean = True
+    Public EventNotifyEnabled As Boolean = True
+    Public EventNotifyFlag As EVENTTYPE = EVENTTYPE.ALL
+    Public ForceEventNotify As Boolean = True
     Public PlaySound As Boolean = False
     Public UnreadManage As Boolean = True
     Public OneWayLove As Boolean = True
@@ -145,7 +148,6 @@ Public Class SettingCommon
     Public UseUnreadStyle As Boolean = True
     Public DateTimeFormat As String = "yyyy/MM/dd H:mm:ss"
     Public DefaultTimeOut As Integer = 20
-    'Public ProtectNotInclude As Boolean = True
     Public RetweetNoConfirm As Boolean = False
     Public LimitBalloon As Boolean = False
     Public TabIconDisp As Boolean = True
