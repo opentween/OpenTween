@@ -1472,6 +1472,7 @@ Public Class Twitter
             post.Nickname = user.Name
             post.ImageUrl = user.ProfileImageUrl
             post.IsProtect = user.Protected
+            post.Language = user.Lang
 
             'Retweetした人
             post.RetweetedBy = status.User.ScreenName
@@ -1496,6 +1497,7 @@ Public Class Twitter
             post.Nickname = user.Name
             post.ImageUrl = user.ProfileImageUrl
             post.IsProtect = user.Protected
+            post.Language = user.Lang
             post.IsMe = post.Name.ToLower.Equals(_uid)
             If post.IsMe Then _UserIdNo = post.UserId.ToString
         End If
@@ -1832,6 +1834,7 @@ Public Class Twitter
                 post.IsRead = read
                 post.IsReply = post.ReplyToList.Contains(_uid)
                 post.IsExcludeReply = False
+                post.Language = xentryNode.Item("twitter:lang").InnerText
 
                 post.IsOwl = False
                 If post.IsMe AndAlso Not read AndAlso _readOwnPost Then post.IsRead = True
@@ -1938,6 +1941,7 @@ Public Class Twitter
                 post.Nickname = user.Name
                 post.ImageUrl = user.ProfileImageUrl
                 post.IsProtect = user.Protected
+                post.Language = user.Lang
             Catch ex As Exception
                 TraceOut(content)
                 MessageBox.Show("Parse Error(CreateDirectMessagesFromJson)")
@@ -2077,6 +2081,7 @@ Public Class Twitter
                     post.Nickname = user.Name
                     post.ImageUrl = user.ProfileImageUrl
                     post.IsProtect = user.Protected
+                    post.Language = user.Lang
 
                     'Retweetした人
                     post.RetweetedBy = status.User.ScreenName
@@ -2102,6 +2107,7 @@ Public Class Twitter
                     post.Nickname = user.Name
                     post.ImageUrl = user.ProfileImageUrl
                     post.IsProtect = user.Protected
+                    post.Language = user.Lang
                     post.IsMe = post.Name.ToLower.Equals(_uid)
                     If post.IsMe Then _UserIdNo = post.UserId.ToString
                 End If
@@ -2540,11 +2546,6 @@ Public Class Twitter
         If Text Is Nothing Then Return Nothing
         Dim retStr As String = Text.Replace("&gt;", "<<<<<tweenだいなり>>>>>").Replace("&lt;", "<<<<<tweenしょうなり>>>>>")
         'uriの正規表現
-        'Const rgUrl As String = "(?<before>(?:[^\""':!=]|^|\:))" + _
-        '                            "(?<url>(?<protocol>https?://|www\.)" + _
-        '                            "(?<domain>(?:[\.-]|[^\p{P}\s])+\.[a-z]{2,}(?::[0-9]+)?)" + _
-        '                            "(?<path>/[a-z0-9!*'();:&=+$/%#\[\]\-_.,~@^]*[a-z0-9)=#/]?)?" + _
-        '                            "(?<query>\?[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9_&=#])?)"
         Const url_valid_general_path_chars As String = "[a-z0-9!*';:=+$/%#\[\]\-_,~]"
         Const url_valid_url_path_ending_chars As String = "[a-z0-9=#/]"
         Const pth As String = "(?<path>/(?:(?:\(" + url_valid_general_path_chars + "+\))" +
@@ -2615,16 +2616,6 @@ Public Class Twitter
                                                   End Function),
                                               RegexOptions.IgnoreCase)
 
-        'Dim mhs As MatchCollection = Regex.Matches(retStr, "(^|[^a-zA-Z0-9/&])[#＃]([0-9a-zA-Z_]*[a-zA-Z_]+[a-zA-Z_\xc0-\xd6\xd8-\xf6\xf8-\xff]*)")
-        'For Each mt As Match In mhs
-        '    If Not IsNumeric(mt.Result("$2")) Then
-        '        'retStr = retStr.Replace(mt.Result("$1") + mt.Result("$2"), "<a href=""" + _protocol + "twitter.com/search?q=%23" + mt.Result("$2") + """>#" + mt.Result("$2") + "</a>")
-        '        SyncLock LockObj
-        '            _hashList.Add("#" + mt.Result("$2"))
-        '        End SyncLock
-        '    End If
-        'Next
-        'retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9/&])([#＃])([0-9a-zA-Z_]*[a-zA-Z_]+[a-zA-Z0-9_\xc0-\xd6\xd8-\xf6\xf8-\xff]*)", "$1<a href=""" & _protocol & "twitter.com/search?q=%23$3"">$2$3</a>")
 
         retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9_/&#＃@＠>=.])(sm|nm)([0-9]{1,10})", "$1<a href=""http://www.nicovideo.jp/watch/$2$3"">$2$3</a>")
 

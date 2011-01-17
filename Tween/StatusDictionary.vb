@@ -62,6 +62,7 @@ Public NotInheritable Class PostClass
     Private _SearchTabName As String = ""
     Private _IsDeleted As Boolean = False
     Private _InReplyToUserId As Long = 0
+    Private _langauge As String = ""
 
     <FlagsAttribute()> _
     Private Enum Statuses
@@ -386,6 +387,16 @@ Public NotInheritable Class PostClass
             _IsDeleted = value
         End Set
     End Property
+
+    Public Property Language As String
+        Get
+            Return _langauge
+        End Get
+        Set(ByVal value As String)
+            _langauge = value
+        End Set
+    End Property
+
     Public Property FavoritedCount As Integer
 
     Public Function Copy() As PostClass

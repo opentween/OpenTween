@@ -9966,9 +9966,9 @@ RETRY:
         Dim g As New Google
         Dim buf As String = ""
         If Not Me.ExistCurrentPost Then Exit Sub
-        Dim lng As String = g.LanguageDetect(_curPost.Data)
-        If lng <> "ja" AndAlso g.Translate(True, PostBrowser.DocumentText, buf) Then
-            PostBrowser.DocumentText = buf
+        Dim srclng As String = g.LanguageDetect(_curPost.Data)
+        If srclng <> "ja" AndAlso g.Translate(srclng, "ja", _curPost.Data, buf) Then
+            PostBrowser.DocumentText = createDetailHtml(buf)
         End If
     End Sub
 
