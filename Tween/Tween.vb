@@ -4940,16 +4940,18 @@ RETRY:
                             Continue For
                         End If
                         If c = "@" Then
+                            Pressed = True
                             startstr = StatusText.Text.Substring(i + 1, endidx - i)
                             ShowSuplDialog(StatusText, AtIdSupl, startstr.Length + 1, startstr)
                         ElseIf c = "#" Then
+                            Pressed = True
                             startstr = StatusText.Text.Substring(i + 1, endidx - i)
                             ShowSuplDialog(StatusText, HashSupl, startstr.Length + 1, startstr)
                         Else
-                            Return False
+                            Exit For
                         End If
                     Next
-                    Return True
+                    Return Pressed
                 End If
             End If
         End If
