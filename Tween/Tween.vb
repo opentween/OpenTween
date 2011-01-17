@@ -4946,10 +4946,9 @@ RETRY:
                             startstr = StatusText.Text.Substring(i + 1, endidx - i)
                             ShowSuplDialog(StatusText, HashSupl, startstr.Length + 1, startstr)
                         Else
-                            Exit For
+                            Return False
                         End If
                     Next
-                    Pressed = True
                     Return True
                 End If
             End If
