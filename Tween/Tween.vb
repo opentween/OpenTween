@@ -177,7 +177,6 @@ Public Class TweenMain
     Private _curList As DetailsListView
     Private _curPost As PostClass
     Private _isColumnChanged As Boolean = False
-    'Private _waitFollower As Boolean = False
     Private _waitTimeline As Boolean = False
     Private _waitReply As Boolean = False
     Private _waitDm As Boolean = False
@@ -694,6 +693,7 @@ Public Class TweenMain
         SettingDialog.ForceEventNotify = _cfgCommon.ForceEventNotify
         SettingDialog.FavEventUnread = _cfgCommon.FavEventUnread
         SettingDialog.TranslateLanguage = _cfgCommon.TranslateLanguage
+        SettingDialog.EventSoundFile = _cfgCommon.EventSoundFile
 
         '廃止サービスが選択されていた場合bit.lyへ読み替え
         If _cfgCommon.AutoShortUrlFirst < 0 Then
@@ -5891,7 +5891,6 @@ RETRY:
             _cfgCommon.PostShiftEnter = SettingDialog.PostShiftEnter
             _cfgCommon.CountApi = SettingDialog.CountApi
             _cfgCommon.CountApiReply = SettingDialog.CountApiReply
-            '_cfgCommon.CheckReply = SettingDialog.CheckReply
             _cfgCommon.PostAndGet = SettingDialog.PostAndGet
             _cfgCommon.DispUsername = SettingDialog.DispUsername
             _cfgCommon.MinimizeToTray = SettingDialog.MinimizeToTray
@@ -5918,6 +5917,7 @@ RETRY:
             _cfgCommon.ForceEventNotify = SettingDialog.ForceEventNotify
             _cfgCommon.FavEventUnread = SettingDialog.FavEventUnread
             _cfgCommon.TranslateLanguage = SettingDialog.TranslateLanguage
+            _cfgCommon.EventSoundFile = SettingDialog.EventSoundFile
             _cfgCommon.AutoShortUrlFirst = SettingDialog.AutoShortUrlFirst
             _cfgCommon.TabIconDisp = SettingDialog.TabIconDisp
             _cfgCommon.ReplyIconState = SettingDialog.ReplyIconState
@@ -9888,6 +9888,20 @@ RETRY:
                 NotifyIcon1.BalloonTipText = " "
             End If
             NotifyIcon1.ShowBalloonTip(500)
+        End If
+
+        'サウンド再生
+        Dim snd As String = SettingDialog.EventSoundFile
+        If Not _initial AndAlso SettingDialog.PlaySound AndAlso snd <> "" Then
+            Try
+                Dim dir As String = My.Application.Info.DirectoryPath
+                If Directory.Exists(Path.Combine(dir, "Sounds")) Then
+                    dir = Path.Combine(dir, "Sounds")
+                End If
+                My.Computer.Audio.Play(Path.Combine(dir, snd), AudioPlayMode.Background)
+            Catch ex As Exception
+
+            End Try
         End If
     End Sub
 

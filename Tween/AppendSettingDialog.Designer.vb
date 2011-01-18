@@ -259,6 +259,8 @@ Partial Class AppendSettingDialog
         Me.ColorDialog1 = New System.Windows.Forms.ColorDialog()
         Me.Cancel = New System.Windows.Forms.Button()
         Me.Save = New System.Windows.Forms.Button()
+        Me.ComboBoxEventNotifySound = New System.Windows.Forms.ComboBox()
+        Me.Label35 = New System.Windows.Forms.Label()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -296,8 +298,6 @@ Partial Class AppendSettingDialog
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.BackColor = System.Drawing.SystemColors.Control
-        Me.SplitContainer1.Panel2.Controls.Add(Me.CooperatePanel)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.ShortUrlPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.NotifyPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.GetCountPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.BasedPanel)
@@ -312,6 +312,8 @@ Partial Class AppendSettingDialog
         Me.SplitContainer1.Panel2.Controls.Add(Me.FontPanel2)
         Me.SplitContainer1.Panel2.Controls.Add(Me.ConnectionPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.ProxyPanel)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.CooperatePanel)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.ShortUrlPanel)
         Me.SplitContainer1.TabStop = False
         '
         'TreeView1
@@ -444,6 +446,8 @@ Partial Class AppendSettingDialog
         '
         'NotifyPanel
         '
+        Me.NotifyPanel.Controls.Add(Me.Label35)
+        Me.NotifyPanel.Controls.Add(Me.ComboBoxEventNotifySound)
         Me.NotifyPanel.Controls.Add(Me.CheckFavEventUnread)
         Me.NotifyPanel.Controls.Add(Me.CheckListCreatedEvent)
         Me.NotifyPanel.Controls.Add(Me.CheckDeleteEvent)
@@ -1874,6 +1878,17 @@ Partial Class AppendSettingDialog
         Me.Save.Name = "Save"
         Me.Save.UseVisualStyleBackColor = True
         '
+        'ComboBoxEventNotifySound
+        '
+        Me.ComboBoxEventNotifySound.FormattingEnabled = True
+        resources.ApplyResources(Me.ComboBoxEventNotifySound, "ComboBoxEventNotifySound")
+        Me.ComboBoxEventNotifySound.Name = "ComboBoxEventNotifySound"
+        '
+        'Label35
+        '
+        resources.ApplyResources(Me.Label35, "Label35")
+        Me.Label35.Name = "Label35"
+        '
         'AppendSettingDialog
         '
         Me.AcceptButton = Me.Save
@@ -2169,4 +2184,6 @@ Partial Class AppendSettingDialog
     Friend WithEvents CheckFavEventUnread As System.Windows.Forms.CheckBox
     Friend WithEvents ComboBoxTranslateLanguage As System.Windows.Forms.ComboBox
     Friend WithEvents Label29 As System.Windows.Forms.Label
+    Friend WithEvents ComboBoxEventNotifySound As System.Windows.Forms.ComboBox
+    Friend WithEvents Label35 As System.Windows.Forms.Label
 End Class
