@@ -63,8 +63,6 @@ Public Class Twitter
     Private _restrictFavCheck As Boolean
 
     Private _hubServer As String
-    'Private _countApi As Integer
-    'Private _countApiReply As Integer
     Private _readOwnPost As Boolean
     Private _hashList As New List(Of String)
 
@@ -2919,10 +2917,14 @@ Public Class Twitter
                         Else
                             post.FavoritedCount += 1
                             If Not TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites).Contains(post.Id) Then
-                                post.IsRead = False
+                                If TweenMain.GetInstance().FavEventChangeUnread AndAlso post.IsRead Then
+                                    post.IsRead = False
+                                End If
                                 TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites).Add(post.Id, post.IsRead, False)
                             Else
-                                TabInformations.GetInstance.SetRead(False, TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites).TabName, TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites).IndexOf(post.Id))
+                                If TweenMain.GetInstance().FavEventChangeUnread Then
+                                    TabInformations.GetInstance.SetRead(False, TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites).TabName, TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites).IndexOf(post.Id))
+                                End If
                             End If
                         End If
                     Else
