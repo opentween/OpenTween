@@ -532,18 +532,19 @@ Namespace My.Resources
         '''<summary>
         '''  更新履歴
         '''
-        '''==== Ver 0.9.7.0(2010/11/14)
-        ''' * 描画周りの高速化と調整を行った
-        ''' * リスト表示が真っ白になる現象の対策を行った　まだ発生する方はご連絡ください。
-        ''' * 連投モードで投稿失敗ダイアログをキャンセルした場合にStatusTextの背景色が戻らないのを修正
-        ''' * Protect発言をRT/STOTコピー許可するかの設定を廃止し公式RTの際に確認しない設定を追加した
-        ''' * Alt+Shift+CでユーザーIDをコピーするようにした 編集メニューにもあります。
-        ''' * Sourceのリンク部分においてもフィルタが効くようにした（URL検索にチェックを入れる必要があります)
-        ''' * WebBrowserコンポーネントの初期化完了を待つようにした
-        ''' * 移動や削除などでフィルタ選択が解除された場合にボタンの有効状態が切り替わっていなかったのを修正
-        ''' * ObjectDisposedExceptionが起きることがあったのを修正
-        ''' * 短縮URL解決で例外が発生することがあったのを(多分)修正
-        ''' * クエリまたはフラグメント部分に？を含むURLの認識に失敗す [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        '''==== Ver 0.9.7.1(****/**/**)
+        ''' * .netFramework4ベースに変更。.netFramework4がインストールされていない環境では動作しませんのでご注意ください。
+        ''' * URL圧縮の際のURL認識を修正
+        ''' * 一度に複数のツイートを公式RTできるようにした
+        ''' * 投稿をShift+Enterからできるようにした。Ctrl+EnterのShift版。フッタはCtrl+Shift+Enterで付与しない
+        ''' * Fav&amp;Retweetを追加。一度の操作でFavとRTをまとめて行える。
+        ''' * FormInfo.FormInfo_FormClosedにてSystem.NullReferenceExceptionが発生する問題に対応。
+        ''' * DMの際にRTされた回数のメニューを選択できないように
+        ''' * 発言履歴にも返信先情報を持たせるように変更
+        ''' * 関連発言表示を実装。gキーまたはメニューから。
+        ''' * アイコンを随時スワップアウト、あるいは表示の際に読み込むようにしてメモリ消費量を削減した
+        ''' * UserStream対応
+        ''' * リストアイテム [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property ChangeLog() As String
             Get
@@ -2563,6 +2564,15 @@ Namespace My.Resources
         Friend ReadOnly Property TraceOutText6() As String
             Get
                 Return ResourceManager.GetString("TraceOutText6", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  ja に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property TranslateDefaultLanguage() As String
+            Get
+                Return ResourceManager.GetString("TranslateDefaultLanguage", resourceCulture)
             End Get
         End Property
         
