@@ -98,6 +98,7 @@ Public Class SettingCommon
     Public ForceEventNotify As Boolean = True
     Public FavEventUnread As Boolean = True
     Public TranslateLanguage As String = "ja"
+    Public EventSoundFile As String = ""
     Public PlaySound As Boolean = False
     Public UnreadManage As Boolean = True
     Public OneWayLove As Boolean = True

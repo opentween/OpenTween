@@ -113,6 +113,8 @@ Public Class AppendSettingDialog
     Private _MyForceEventNotify As Boolean
     Private _MyFavEventUnread As Boolean
     Private _MyTranslateLanguage As String
+    Private _soundfileListup As Boolean = False
+    Private _MyEventSoundFile As String
 
     Private Sub TreeView1_BeforeSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewCancelEventArgs) Handles TreeView1.BeforeSelect
         If _curPanel IsNot Nothing Then
@@ -306,6 +308,7 @@ Public Class AppendSettingDialog
             _MyForceEventNotify = CheckForceEventNotify.Checked
             _MyFavEventUnread = CheckFavEventUnread.Checked
             _MyTranslateLanguage = (New Google).GetLanguageEnumFromIndex(ComboBoxTranslateLanguage.SelectedIndex)
+            _MyEventSoundFile = CStr(ComboBoxEventNotifySound.SelectedItem)
             _MyAutoShortUrlFirst = CType(ComboBoxAutoShortUrlFirst.SelectedIndex, UrlConverter)
             _MyTabIconDisp = chkTabIconDisp.Checked
             _MyReadOwnPost = chkReadOwnPost.Checked
@@ -561,7 +564,7 @@ Public Class AppendSettingDialog
         CheckForceEventNotify.Checked = _MyForceEventNotify
         CheckFavEventUnread.Checked = _MyFavEventUnread
         ComboBoxTranslateLanguage.SelectedIndex = (New Google).GetIndexFromLanguageEnum(_MyTranslateLanguage)
-
+        SoundFileListup()
         ComboBoxAutoShortUrlFirst.SelectedIndex = _MyAutoShortUrlFirst
         chkTabIconDisp.Checked = _MyTabIconDisp
         chkReadOwnPost.Checked = _MyReadOwnPost
@@ -1990,6 +1993,14 @@ Public Class AppendSettingDialog
         End Set
     End Property
 
+    Public Property EventSoundFile As String
+        Get
+            Return _MyEventSoundFile
+        End Get
+        Set(ByVal value As String)
+            _MyEventSoundFile = value
+        End Set
+    End Property
 
     Private Sub ComboBoxAutoShortUrlFirst_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboBoxAutoShortUrlFirst.SelectedIndexChanged
         If ComboBoxAutoShortUrlFirst.SelectedIndex = UrlConverter.Bitly OrElse _
@@ -2493,5 +2504,32 @@ Public Class AppendSettingDialog
 
     Private Sub ComboBoxTranslateLanguage_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboBoxTranslateLanguage.SelectedIndexChanged
         _MyTranslateLanguage = (New Google).GetLanguageEnumFromIndex(ComboBoxTranslateLanguage.SelectedIndex)
+    End Sub
+
+    Private Sub SoundFileListup()
+        _soundfileListup = True
+        ComboBoxEventNotifySound.Items.Clear()
+        ComboBoxEventNotifySound.Items.Add("")
+        Dim oDir As IO.DirectoryInfo = New IO.DirectoryInfo(My.Application.Info.DirectoryPath + IO.Path.DirectorySeparatorChar)
+        If IO.Directory.Exists(IO.Path.Combine(My.Application.Info.DirectoryPath, "Sounds")) Then
+            oDir = oDir.GetDirectories("Sounds")(0)
+        End If
+        For Each oFile As IO.FileInfo In oDir.GetFiles("*.wav")
+            ComboBoxEventNotifySound.Items.Add(oFile.Name)
+        Next
+        Dim idx As Integer = ComboBoxEventNotifySound.Items.IndexOf(_MyEventSoundFile)
+        If idx = -1 Then idx = 0
+        ComboBoxEventNotifySound.SelectedIndex = idx
+        _soundfileListup = False
+    End Sub
+
+    Private Sub ComboBoxEventNotifySound_VisibleChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboBoxEventNotifySound.VisibleChanged
+        SoundFileListup()
+    End Sub
+
+    Private Sub ComboBoxEventNotifySound_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboBoxEventNotifySound.SelectedIndexChanged
+        If _soundfileListup Then Exit Sub
+
+        _MyEventSoundFile = DirectCast(ComboBoxEventNotifySound.SelectedItem, String)
     End Sub
 End Class
