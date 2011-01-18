@@ -3,6 +3,7 @@ Imports System.Text.RegularExpressions
 Imports System.Runtime.Serialization.Json
 Imports System.Net
 Imports System.Runtime.Serialization
+Imports System.Linq
 
 ' http://code.google.com/intl/ja/apis/ajaxlanguage/documentation/#fonje
 ' デベロッパー ガイド - Google AJAX Language API - Google Code
@@ -11,6 +12,118 @@ Public Class Google
 
     Private Const TranslateEndPoint As String = "http://ajax.googleapis.com/ajax/services/language/translate"
     Private Const LanguageDetectEndPoint As String = "https://ajax.googleapis.com/ajax/services/language/detect"
+
+#Region "言語テーブル定義"
+    Private Shared LanguageTable As New List(Of String) From {
+        "af",
+        "sq",
+        "am",
+        "ar",
+        "hy",
+        "az",
+        "eu",
+        "be",
+        "bn",
+        "bh",
+        "br",
+        "bg",
+        "my",
+        "ca",
+        "chr",
+        "zh",
+        "zh-CN",
+        "zh-TW",
+        "co",
+        "hr",
+        "cs",
+        "da",
+        "dv",
+        "nl",
+        "en",
+        "eo",
+        "et",
+        "fo",
+        "tl",
+        "fi",
+        "fr",
+        "fy",
+        "gl",
+        "ka",
+        "de",
+        "el",
+        "gu",
+        "ht",
+        "iw",
+        "hi",
+        "hu",
+        "is",
+        "id",
+        "iu",
+        "ga",
+        "it",
+        "ja",
+        "jw",
+        "kn",
+        "kk",
+        "km",
+        "ko",
+        "ku",
+        "ky",
+        "lo",
+        "la",
+        "lv",
+        "lt",
+        "lb",
+        "mk",
+        "ms",
+        "ml",
+        "mt",
+        "mi",
+        "mr",
+        "mn",
+        "ne",
+        "no",
+        "oc",
+        "or",
+        "ps",
+        "fa",
+        "pl",
+        "pt",
+        "pt-PT",
+        "pa",
+        "qu",
+        "ro",
+        "ru",
+        "sa",
+        "gd",
+        "sr",
+        "sd",
+        "si",
+        "sk",
+        "sl",
+        "es",
+        "su",
+        "sw",
+        "sv",
+        "syr",
+        "tg",
+        "ta",
+        "tt",
+        "te",
+        "th",
+        "bo",
+        "to",
+        "tr",
+        "uk",
+        "ur",
+        "uz",
+        "ug",
+        "vi",
+        "cy",
+        "yi",
+        "yo"
+    }
+#End Region
 
     <DataContract()> _
     Public Class TranslateResponseData
@@ -87,4 +200,11 @@ Public Class Google
         Return ""
     End Function
 
+    Public Function GetLanguageEnumFromIndex(ByVal index As Integer) As String
+        Return LanguageTable(index)
+    End Function
+
+    Public Function GetIndexFromLanguageEnum(ByVal lang As String) As Integer
+        Return LanguageTable.IndexOf(lang)
+    End Function
 End Class

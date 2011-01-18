@@ -693,6 +693,7 @@ Public Class TweenMain
         SettingDialog.EventNotifyFlag = _cfgCommon.EventNotifyFlag
         SettingDialog.ForceEventNotify = _cfgCommon.ForceEventNotify
         SettingDialog.FavEventUnread = _cfgCommon.FavEventUnread
+        SettingDialog.TranslateLanguage = _cfgCommon.TranslateLanguage
 
         '廃止サービスが選択されていた場合bit.lyへ読み替え
         If _cfgCommon.AutoShortUrlFirst < 0 Then
@@ -4616,9 +4617,12 @@ RETRY:
     End Function
 
     Private Sub DispSelectedPost()
+        Static displaypost As New PostClass
+        If _curList.SelectedIndices.Count = 0 OrElse _
+            _curPost Is Nothing OrElse _
+            _curPost.Equals(displaypost) Then Exit Sub
 
-        If _curList.SelectedIndices.Count = 0 OrElse _curPost Is Nothing Then Exit Sub
-
+        displaypost = _curPost
         Dim dTxt As String = createDetailHtml(If(_curPost.IsDeleted, "(DELETED)", _curPost.OriginalData))
         If _curPost.IsDm Then
             SourceLinkLabel.Tag = Nothing
@@ -5913,6 +5917,7 @@ RETRY:
             _cfgCommon.EventNotifyFlag = SettingDialog.EventNotifyFlag
             _cfgCommon.ForceEventNotify = SettingDialog.ForceEventNotify
             _cfgCommon.FavEventUnread = SettingDialog.FavEventUnread
+            _cfgCommon.TranslateLanguage = SettingDialog.TranslateLanguage
             _cfgCommon.AutoShortUrlFirst = SettingDialog.AutoShortUrlFirst
             _cfgCommon.TabIconDisp = SettingDialog.TabIconDisp
             _cfgCommon.ReplyIconState = SettingDialog.ReplyIconState
@@ -7991,6 +7996,12 @@ RETRY:
         Next
         Me.FriendshipAllMenuItem.Enabled = fAllFlag
 
+        If _curPost Is Nothing Then
+            TranslationToolStripMenuItem.Enabled = False
+        Else
+            TranslationToolStripMenuItem.Enabled = True
+        End If
+
         e.Cancel = False
     End Sub
 
@@ -9948,7 +9959,8 @@ RETRY:
         Dim buf As String = ""
         If Not Me.ExistCurrentPost Then Exit Sub
         Dim srclng As String = g.LanguageDetect(_curPost.Data)
-        If srclng <> "ja" AndAlso g.Translate(srclng, "ja", _curPost.Data, buf) Then
+        Dim dstlng As String = SettingDialog.TranslateLanguage
+        If srclng <> dstlng AndAlso g.Translate(srclng, dstlng, _curPost.Data, buf) Then
             PostBrowser.DocumentText = createDetailHtml(buf)
         End If
     End Sub

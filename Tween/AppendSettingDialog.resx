@@ -265,6 +265,834 @@
   <data name="&gt;&gt;SplitContainer1.Panel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="ComboBoxTranslateLanguage.Items" xml:space="preserve">
+    <value>AFRIKAANS</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items1" xml:space="preserve">
+    <value>ALBANIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items2" xml:space="preserve">
+    <value>AMHARIC</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items3" xml:space="preserve">
+    <value>ARABIC</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items4" xml:space="preserve">
+    <value>ARMENIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items5" xml:space="preserve">
+    <value>AZERBAIJANI</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items6" xml:space="preserve">
+    <value>BASQUE</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items7" xml:space="preserve">
+    <value>BELARUSIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items8" xml:space="preserve">
+    <value>BENGALI</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items9" xml:space="preserve">
+    <value>BIHARI</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items10" xml:space="preserve">
+    <value>BRETON</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items11" xml:space="preserve">
+    <value>BULGARIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items12" xml:space="preserve">
+    <value>BURMESE</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items13" xml:space="preserve">
+    <value>CATALAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items14" xml:space="preserve">
+    <value>CHEROKEE</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items15" xml:space="preserve">
+    <value>CHINESE</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items16" xml:space="preserve">
+    <value>CHINESE_SIMPLIFIED</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items17" xml:space="preserve">
+    <value>CHINESE_TRADITIONAL</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items18" xml:space="preserve">
+    <value>CORSICAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items19" xml:space="preserve">
+    <value>CROATIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items20" xml:space="preserve">
+    <value>CZECH</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items21" xml:space="preserve">
+    <value>DANISH</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items22" xml:space="preserve">
+    <value>DHIVEHI</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items23" xml:space="preserve">
+    <value>DUTCH</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items24" xml:space="preserve">
+    <value>ENGLISH</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items25" xml:space="preserve">
+    <value>ESPERANTO</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items26" xml:space="preserve">
+    <value>ESTONIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items27" xml:space="preserve">
+    <value>FAROESE</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items28" xml:space="preserve">
+    <value>FILIPINO</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items29" xml:space="preserve">
+    <value>FINNISH</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items30" xml:space="preserve">
+    <value>FRENCH</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items31" xml:space="preserve">
+    <value>FRISIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items32" xml:space="preserve">
+    <value>GALICIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items33" xml:space="preserve">
+    <value>GEORGIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items34" xml:space="preserve">
+    <value>GERMAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items35" xml:space="preserve">
+    <value>GREEK</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items36" xml:space="preserve">
+    <value>GUJARATI</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items37" xml:space="preserve">
+    <value>HAITIAN_CREOLE</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items38" xml:space="preserve">
+    <value>HEBREW</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items39" xml:space="preserve">
+    <value>HINDI</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items40" xml:space="preserve">
+    <value>HUNGARIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items41" xml:space="preserve">
+    <value>ICELANDIC</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items42" xml:space="preserve">
+    <value>INDONESIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items43" xml:space="preserve">
+    <value>INUKTITUT</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items44" xml:space="preserve">
+    <value>IRISH</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items45" xml:space="preserve">
+    <value>ITALIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items46" xml:space="preserve">
+    <value>JAPANESE</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items47" xml:space="preserve">
+    <value>JAVANESE</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items48" xml:space="preserve">
+    <value>KANNADA</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items49" xml:space="preserve">
+    <value>KAZAKH</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items50" xml:space="preserve">
+    <value>KHMER</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items51" xml:space="preserve">
+    <value>KOREAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items52" xml:space="preserve">
+    <value>KURDISH</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items53" xml:space="preserve">
+    <value>KYRGYZ</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items54" xml:space="preserve">
+    <value>LAO</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items55" xml:space="preserve">
+    <value>LATIN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items56" xml:space="preserve">
+    <value>LATVIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items57" xml:space="preserve">
+    <value>LITHUANIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items58" xml:space="preserve">
+    <value>LUXEMBOURGISH</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items59" xml:space="preserve">
+    <value>MACEDONIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items60" xml:space="preserve">
+    <value>MALAY</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items61" xml:space="preserve">
+    <value>MALAYALAM</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items62" xml:space="preserve">
+    <value>MALTESE</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items63" xml:space="preserve">
+    <value>MAORI</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items64" xml:space="preserve">
+    <value>MARATHI</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items65" xml:space="preserve">
+    <value>MONGOLIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items66" xml:space="preserve">
+    <value>NEPALI</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items67" xml:space="preserve">
+    <value>NORWEGIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items68" xml:space="preserve">
+    <value>OCCITAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items69" xml:space="preserve">
+    <value>ORIYA</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items70" xml:space="preserve">
+    <value>PASHTO</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items71" xml:space="preserve">
+    <value>PERSIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items72" xml:space="preserve">
+    <value>POLISH</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items73" xml:space="preserve">
+    <value>PORTUGUESE</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items74" xml:space="preserve">
+    <value>PORTUGUESE_PORTUGAL</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items75" xml:space="preserve">
+    <value>PUNJABI</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items76" xml:space="preserve">
+    <value>QUECHUA</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items77" xml:space="preserve">
+    <value>ROMANIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items78" xml:space="preserve">
+    <value>RUSSIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items79" xml:space="preserve">
+    <value>SANSKRIT</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items80" xml:space="preserve">
+    <value>SCOTS_GAELIC</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items81" xml:space="preserve">
+    <value>SERBIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items82" xml:space="preserve">
+    <value>SINDHI</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items83" xml:space="preserve">
+    <value>SINHALESE</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items84" xml:space="preserve">
+    <value>SLOVAK</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items85" xml:space="preserve">
+    <value>SLOVENIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items86" xml:space="preserve">
+    <value>SPANISH</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items87" xml:space="preserve">
+    <value>SUNDANESE</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items88" xml:space="preserve">
+    <value>SWAHILI</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items89" xml:space="preserve">
+    <value>SWEDISH</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items90" xml:space="preserve">
+    <value>SYRIAC</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items91" xml:space="preserve">
+    <value>TAJIK</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items92" xml:space="preserve">
+    <value>TAMIL</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items93" xml:space="preserve">
+    <value>TATAR</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items94" xml:space="preserve">
+    <value>TELUGU</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items95" xml:space="preserve">
+    <value>THAI</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items96" xml:space="preserve">
+    <value>TIBETAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items97" xml:space="preserve">
+    <value>TONGA</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items98" xml:space="preserve">
+    <value>TURKISH</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items99" xml:space="preserve">
+    <value>UKRAINIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items100" xml:space="preserve">
+    <value>URDU</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items101" xml:space="preserve">
+    <value>UZBEK</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items102" xml:space="preserve">
+    <value>UIGHUR</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items103" xml:space="preserve">
+    <value>VIETNAMESE</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items104" xml:space="preserve">
+    <value>WELSH</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items105" xml:space="preserve">
+    <value>YIDDISH</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items106" xml:space="preserve">
+    <value>YORUBA</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>205, 189</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>182, 20</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxTranslateLanguage.Name" xml:space="preserve">
+    <value>ComboBoxTranslateLanguage</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxTranslateLanguage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxTranslateLanguage.Parent" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxTranslateLanguage.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="Label29.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Label29.Location" type="System.Drawing.Point, System.Drawing">
+    <value>38, 192</value>
+  </data>
+  <data name="Label29.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 12</value>
+  </data>
+  <data name="Label29.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="Label29.Text" xml:space="preserve">
+    <value>発言翻訳先の言語</value>
+  </data>
+  <data name="&gt;&gt;Label29.Name" xml:space="preserve">
+    <value>Label29</value>
+  </data>
+  <data name="&gt;&gt;Label29.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label29.Parent" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;Label29.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="CheckOutputz.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckOutputz.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CheckOutputz.Location" type="System.Drawing.Point, System.Drawing">
+    <value>22, 22</value>
+  </data>
+  <data name="CheckOutputz.Size" type="System.Drawing.Size, System.Drawing">
+    <value>115, 16</value>
+  </data>
+  <data name="CheckOutputz.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="CheckOutputz.Text" xml:space="preserve">
+    <value>Outputzに対応する</value>
+  </data>
+  <data name="&gt;&gt;CheckOutputz.Name" xml:space="preserve">
+    <value>CheckOutputz</value>
+  </data>
+  <data name="&gt;&gt;CheckOutputz.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckOutputz.Parent" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;CheckOutputz.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="CheckNicoms.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckNicoms.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CheckNicoms.Location" type="System.Drawing.Point, System.Drawing">
+    <value>22, 154</value>
+  </data>
+  <data name="CheckNicoms.Size" type="System.Drawing.Size, System.Drawing">
+    <value>237, 16</value>
+  </data>
+  <data name="CheckNicoms.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="CheckNicoms.Text" xml:space="preserve">
+    <value>ニコニコ動画のURLをnico.msで短縮して送信</value>
+  </data>
+  <data name="&gt;&gt;CheckNicoms.Name" xml:space="preserve">
+    <value>CheckNicoms</value>
+  </data>
+  <data name="&gt;&gt;CheckNicoms.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckNicoms.Parent" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;CheckNicoms.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="TextBoxOutputzKey.Location" type="System.Drawing.Point, System.Drawing">
+    <value>205, 57</value>
+  </data>
+  <data name="TextBoxOutputzKey.Size" type="System.Drawing.Size, System.Drawing">
+    <value>182, 19</value>
+  </data>
+  <data name="TextBoxOutputzKey.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;TextBoxOutputzKey.Name" xml:space="preserve">
+    <value>TextBoxOutputzKey</value>
+  </data>
+  <data name="&gt;&gt;TextBoxOutputzKey.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextBoxOutputzKey.Parent" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;TextBoxOutputzKey.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="Label60.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Label60.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Label60.Location" type="System.Drawing.Point, System.Drawing">
+    <value>36, 106</value>
+  </data>
+  <data name="Label60.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 12</value>
+  </data>
+  <data name="Label60.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="Label60.Text" xml:space="preserve">
+    <value>アウトプット先のURL</value>
+  </data>
+  <data name="&gt;&gt;Label60.Name" xml:space="preserve">
+    <value>Label60</value>
+  </data>
+  <data name="&gt;&gt;Label60.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label60.Parent" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;Label60.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="Label59.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Label59.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Label59.Location" type="System.Drawing.Point, System.Drawing">
+    <value>36, 60</value>
+  </data>
+  <data name="Label59.Size" type="System.Drawing.Size, System.Drawing">
+    <value>63, 12</value>
+  </data>
+  <data name="Label59.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="Label59.Text" xml:space="preserve">
+    <value>復活の呪文</value>
+  </data>
+  <data name="&gt;&gt;Label59.Name" xml:space="preserve">
+    <value>Label59</value>
+  </data>
+  <data name="&gt;&gt;Label59.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label59.Parent" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;Label59.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="ComboBoxOutputzUrlmode.Items" xml:space="preserve">
+    <value>twitter.com</value>
+  </data>
+  <data name="ComboBoxOutputzUrlmode.Items1" xml:space="preserve">
+    <value>twitter.com/username</value>
+  </data>
+  <data name="ComboBoxOutputzUrlmode.Location" type="System.Drawing.Point, System.Drawing">
+    <value>205, 103</value>
+  </data>
+  <data name="ComboBoxOutputzUrlmode.Size" type="System.Drawing.Size, System.Drawing">
+    <value>182, 20</value>
+  </data>
+  <data name="ComboBoxOutputzUrlmode.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxOutputzUrlmode.Name" xml:space="preserve">
+    <value>ComboBoxOutputzUrlmode</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxOutputzUrlmode.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxOutputzUrlmode.Parent" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxOutputzUrlmode.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="CooperatePanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="CooperatePanel.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CooperatePanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="CooperatePanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>518, 368</value>
+  </data>
+  <data name="CooperatePanel.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="CooperatePanel.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;CooperatePanel.Name" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;CooperatePanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CooperatePanel.Parent" xml:space="preserve">
+    <value>SplitContainer1.Panel2</value>
+  </data>
+  <data name="&gt;&gt;CooperatePanel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="CheckTinyURL.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckTinyURL.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CheckTinyURL.Location" type="System.Drawing.Point, System.Drawing">
+    <value>22, 22</value>
+  </data>
+  <data name="CheckTinyURL.Size" type="System.Drawing.Size, System.Drawing">
+    <value>122, 16</value>
+  </data>
+  <data name="CheckTinyURL.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="CheckTinyURL.Text" xml:space="preserve">
+    <value>短縮URLを解決する</value>
+  </data>
+  <data name="&gt;&gt;CheckTinyURL.Name" xml:space="preserve">
+    <value>CheckTinyURL</value>
+  </data>
+  <data name="&gt;&gt;CheckTinyURL.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckTinyURL.Parent" xml:space="preserve">
+    <value>ShortUrlPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckTinyURL.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="TextBitlyPw.Location" type="System.Drawing.Point, System.Drawing">
+    <value>343, 101</value>
+  </data>
+  <data name="TextBitlyPw.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 19</value>
+  </data>
+  <data name="TextBitlyPw.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;TextBitlyPw.Name" xml:space="preserve">
+    <value>TextBitlyPw</value>
+  </data>
+  <data name="&gt;&gt;TextBitlyPw.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextBitlyPw.Parent" xml:space="preserve">
+    <value>ShortUrlPanel</value>
+  </data>
+  <data name="&gt;&gt;TextBitlyPw.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="CheckAutoConvertUrl.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckAutoConvertUrl.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CheckAutoConvertUrl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>22, 49</value>
+  </data>
+  <data name="CheckAutoConvertUrl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>242, 16</value>
+  </data>
+  <data name="CheckAutoConvertUrl.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="CheckAutoConvertUrl.Text" xml:space="preserve">
+    <value>入力欄のURLを投稿する際に自動で短縮する</value>
+  </data>
+  <data name="&gt;&gt;CheckAutoConvertUrl.Name" xml:space="preserve">
+    <value>CheckAutoConvertUrl</value>
+  </data>
+  <data name="&gt;&gt;CheckAutoConvertUrl.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckAutoConvertUrl.Parent" xml:space="preserve">
+    <value>ShortUrlPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckAutoConvertUrl.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="Label71.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Label71.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Label71.Location" type="System.Drawing.Point, System.Drawing">
+    <value>19, 81</value>
+  </data>
+  <data name="Label71.Size" type="System.Drawing.Size, System.Drawing">
+    <value>154, 12</value>
+  </data>
+  <data name="Label71.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="Label71.Text" xml:space="preserve">
+    <value>URL自動短縮で優先的に使用</value>
+  </data>
+  <data name="&gt;&gt;Label71.Name" xml:space="preserve">
+    <value>Label71</value>
+  </data>
+  <data name="&gt;&gt;Label71.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label71.Parent" xml:space="preserve">
+    <value>ShortUrlPanel</value>
+  </data>
+  <data name="&gt;&gt;Label71.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="ComboBoxAutoShortUrlFirst.Items" xml:space="preserve">
+    <value>tinyurl</value>
+  </data>
+  <data name="ComboBoxAutoShortUrlFirst.Items1" xml:space="preserve">
+    <value>is.gd</value>
+  </data>
+  <data name="ComboBoxAutoShortUrlFirst.Items2" xml:space="preserve">
+    <value>twurl.nl</value>
+  </data>
+  <data name="ComboBoxAutoShortUrlFirst.Items3" xml:space="preserve">
+    <value>bit.ly</value>
+  </data>
+  <data name="ComboBoxAutoShortUrlFirst.Items4" xml:space="preserve">
+    <value>j.mp</value>
+  </data>
+  <data name="ComboBoxAutoShortUrlFirst.Items5" xml:space="preserve">
+    <value>ux.nu</value>
+  </data>
+  <data name="ComboBoxAutoShortUrlFirst.Location" type="System.Drawing.Point, System.Drawing">
+    <value>181, 78</value>
+  </data>
+  <data name="ComboBoxAutoShortUrlFirst.Size" type="System.Drawing.Size, System.Drawing">
+    <value>246, 20</value>
+  </data>
+  <data name="ComboBoxAutoShortUrlFirst.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxAutoShortUrlFirst.Name" xml:space="preserve">
+    <value>ComboBoxAutoShortUrlFirst</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxAutoShortUrlFirst.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxAutoShortUrlFirst.Parent" xml:space="preserve">
+    <value>ShortUrlPanel</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxAutoShortUrlFirst.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="Label76.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Label76.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Label76.Location" type="System.Drawing.Point, System.Drawing">
+    <value>179, 104</value>
+  </data>
+  <data name="Label76.Size" type="System.Drawing.Size, System.Drawing">
+    <value>16, 12</value>
+  </data>
+  <data name="Label76.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="Label76.Text" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="&gt;&gt;Label76.Name" xml:space="preserve">
+    <value>Label76</value>
+  </data>
+  <data name="&gt;&gt;Label76.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label76.Parent" xml:space="preserve">
+    <value>ShortUrlPanel</value>
+  </data>
+  <data name="&gt;&gt;Label76.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="Label77.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Label77.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Label77.Location" type="System.Drawing.Point, System.Drawing">
+    <value>278, 104</value>
+  </data>
+  <data name="Label77.Size" type="System.Drawing.Size, System.Drawing">
+    <value>42, 12</value>
+  </data>
+  <data name="Label77.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="Label77.Text" xml:space="preserve">
+    <value>APIKey</value>
+  </data>
+  <data name="&gt;&gt;Label77.Name" xml:space="preserve">
+    <value>Label77</value>
+  </data>
+  <data name="&gt;&gt;Label77.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label77.Parent" xml:space="preserve">
+    <value>ShortUrlPanel</value>
+  </data>
+  <data name="&gt;&gt;Label77.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="TextBitlyId.Location" type="System.Drawing.Point, System.Drawing">
+    <value>201, 102</value>
+  </data>
+  <data name="TextBitlyId.Size" type="System.Drawing.Size, System.Drawing">
+    <value>71, 19</value>
+  </data>
+  <data name="TextBitlyId.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;TextBitlyId.Name" xml:space="preserve">
+    <value>TextBitlyId</value>
+  </data>
+  <data name="&gt;&gt;TextBitlyId.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextBitlyId.Parent" xml:space="preserve">
+    <value>ShortUrlPanel</value>
+  </data>
+  <data name="&gt;&gt;TextBitlyId.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="ShortUrlPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="ShortUrlPanel.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="ShortUrlPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="ShortUrlPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>518, 368</value>
+  </data>
+  <data name="ShortUrlPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="ShortUrlPanel.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;ShortUrlPanel.Name" xml:space="preserve">
+    <value>ShortUrlPanel</value>
+  </data>
+  <data name="&gt;&gt;ShortUrlPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ShortUrlPanel.Parent" xml:space="preserve">
+    <value>SplitContainer1.Panel2</value>
+  </data>
+  <data name="&gt;&gt;ShortUrlPanel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="CheckFavEventUnread.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -593,7 +1421,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;NotifyPanel.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>2</value>
   </data>
   <data name="ListTextCountApi.Location" type="System.Drawing.Point, System.Drawing">
     <value>259, 183</value>
@@ -1046,7 +1874,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;GetCountPanel.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="AuthBasicRadio.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1409,7 +2237,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;BasedPanel.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="Label21.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1895,7 +2723,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;GetPeriodPanel.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>5</value>
   </data>
   <data name="StartupReaded.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2045,7 +2873,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;StartupPanel.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>6</value>
   </data>
   <data name="UserstreamPeriod.Location" type="System.Drawing.Point, System.Drawing">
     <value>227, 41</value>
@@ -2156,7 +2984,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;UserStreamPanel.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>7</value>
   </data>
   <data name="CheckOpenUserTimeline.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2786,7 +3614,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;ActionPanel.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>8</value>
   </data>
   <data name="CheckHashSupple.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3047,7 +3875,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;TweetActPanel.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>9</value>
   </data>
   <data name="ReplyIconStateCombo.Items" xml:space="preserve">
     <value>通知なし</value>
@@ -3608,7 +4436,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;PreviewPanel.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>10</value>
   </data>
   <data name="Label47.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4025,7 +4853,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;TweetPrvPanel.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>11</value>
   </data>
   <data name="btnRetweet.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4829,7 +5657,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;FontPanel.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>12</value>
   </data>
   <data name="Label65.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -5723,7 +6551,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;FontPanel2.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>13</value>
   </data>
   <data name="CheckEnableBasicAuth.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -6002,7 +6830,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;ConnectionPanel.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>14</value>
   </data>
   <data name="Label55.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -6356,465 +7184,6 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;ProxyPanel.ZOrder" xml:space="preserve">
-    <value>13</value>
-  </data>
-  <data name="CheckOutputz.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CheckOutputz.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CheckOutputz.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 22</value>
-  </data>
-  <data name="CheckOutputz.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 16</value>
-  </data>
-  <data name="CheckOutputz.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="CheckOutputz.Text" xml:space="preserve">
-    <value>Outputzに対応する</value>
-  </data>
-  <data name="&gt;&gt;CheckOutputz.Name" xml:space="preserve">
-    <value>CheckOutputz</value>
-  </data>
-  <data name="&gt;&gt;CheckOutputz.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckOutputz.Parent" xml:space="preserve">
-    <value>CooperatePanel</value>
-  </data>
-  <data name="&gt;&gt;CheckOutputz.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="CheckNicoms.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CheckNicoms.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CheckNicoms.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 154</value>
-  </data>
-  <data name="CheckNicoms.Size" type="System.Drawing.Size, System.Drawing">
-    <value>237, 16</value>
-  </data>
-  <data name="CheckNicoms.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="CheckNicoms.Text" xml:space="preserve">
-    <value>ニコニコ動画のURLをnico.msで短縮して送信</value>
-  </data>
-  <data name="&gt;&gt;CheckNicoms.Name" xml:space="preserve">
-    <value>CheckNicoms</value>
-  </data>
-  <data name="&gt;&gt;CheckNicoms.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckNicoms.Parent" xml:space="preserve">
-    <value>CooperatePanel</value>
-  </data>
-  <data name="&gt;&gt;CheckNicoms.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="TextBoxOutputzKey.Location" type="System.Drawing.Point, System.Drawing">
-    <value>205, 57</value>
-  </data>
-  <data name="TextBoxOutputzKey.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 19</value>
-  </data>
-  <data name="TextBoxOutputzKey.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="&gt;&gt;TextBoxOutputzKey.Name" xml:space="preserve">
-    <value>TextBoxOutputzKey</value>
-  </data>
-  <data name="&gt;&gt;TextBoxOutputzKey.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TextBoxOutputzKey.Parent" xml:space="preserve">
-    <value>CooperatePanel</value>
-  </data>
-  <data name="&gt;&gt;TextBoxOutputzKey.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="Label60.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label60.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label60.Location" type="System.Drawing.Point, System.Drawing">
-    <value>36, 106</value>
-  </data>
-  <data name="Label60.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 12</value>
-  </data>
-  <data name="Label60.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="Label60.Text" xml:space="preserve">
-    <value>アウトプット先のURL</value>
-  </data>
-  <data name="&gt;&gt;Label60.Name" xml:space="preserve">
-    <value>Label60</value>
-  </data>
-  <data name="&gt;&gt;Label60.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label60.Parent" xml:space="preserve">
-    <value>CooperatePanel</value>
-  </data>
-  <data name="&gt;&gt;Label60.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="Label59.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label59.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label59.Location" type="System.Drawing.Point, System.Drawing">
-    <value>36, 60</value>
-  </data>
-  <data name="Label59.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 12</value>
-  </data>
-  <data name="Label59.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="Label59.Text" xml:space="preserve">
-    <value>復活の呪文</value>
-  </data>
-  <data name="&gt;&gt;Label59.Name" xml:space="preserve">
-    <value>Label59</value>
-  </data>
-  <data name="&gt;&gt;Label59.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label59.Parent" xml:space="preserve">
-    <value>CooperatePanel</value>
-  </data>
-  <data name="&gt;&gt;Label59.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="ComboBoxOutputzUrlmode.Items" xml:space="preserve">
-    <value>twitter.com</value>
-  </data>
-  <data name="ComboBoxOutputzUrlmode.Items1" xml:space="preserve">
-    <value>twitter.com/username</value>
-  </data>
-  <data name="ComboBoxOutputzUrlmode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>205, 103</value>
-  </data>
-  <data name="ComboBoxOutputzUrlmode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 20</value>
-  </data>
-  <data name="ComboBoxOutputzUrlmode.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxOutputzUrlmode.Name" xml:space="preserve">
-    <value>ComboBoxOutputzUrlmode</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxOutputzUrlmode.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxOutputzUrlmode.Parent" xml:space="preserve">
-    <value>CooperatePanel</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxOutputzUrlmode.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="CooperatePanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="CooperatePanel.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="CooperatePanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="CooperatePanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>518, 368</value>
-  </data>
-  <data name="CooperatePanel.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="CooperatePanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;CooperatePanel.Name" xml:space="preserve">
-    <value>CooperatePanel</value>
-  </data>
-  <data name="&gt;&gt;CooperatePanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CooperatePanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;CooperatePanel.ZOrder" xml:space="preserve">
-    <value>14</value>
-  </data>
-  <data name="CheckTinyURL.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CheckTinyURL.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CheckTinyURL.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 22</value>
-  </data>
-  <data name="CheckTinyURL.Size" type="System.Drawing.Size, System.Drawing">
-    <value>122, 16</value>
-  </data>
-  <data name="CheckTinyURL.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="CheckTinyURL.Text" xml:space="preserve">
-    <value>短縮URLを解決する</value>
-  </data>
-  <data name="&gt;&gt;CheckTinyURL.Name" xml:space="preserve">
-    <value>CheckTinyURL</value>
-  </data>
-  <data name="&gt;&gt;CheckTinyURL.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckTinyURL.Parent" xml:space="preserve">
-    <value>ShortUrlPanel</value>
-  </data>
-  <data name="&gt;&gt;CheckTinyURL.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="TextBitlyPw.Location" type="System.Drawing.Point, System.Drawing">
-    <value>343, 101</value>
-  </data>
-  <data name="TextBitlyPw.Size" type="System.Drawing.Size, System.Drawing">
-    <value>70, 19</value>
-  </data>
-  <data name="TextBitlyPw.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;TextBitlyPw.Name" xml:space="preserve">
-    <value>TextBitlyPw</value>
-  </data>
-  <data name="&gt;&gt;TextBitlyPw.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TextBitlyPw.Parent" xml:space="preserve">
-    <value>ShortUrlPanel</value>
-  </data>
-  <data name="&gt;&gt;TextBitlyPw.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="CheckAutoConvertUrl.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CheckAutoConvertUrl.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CheckAutoConvertUrl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 49</value>
-  </data>
-  <data name="CheckAutoConvertUrl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>242, 16</value>
-  </data>
-  <data name="CheckAutoConvertUrl.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="CheckAutoConvertUrl.Text" xml:space="preserve">
-    <value>入力欄のURLを投稿する際に自動で短縮する</value>
-  </data>
-  <data name="&gt;&gt;CheckAutoConvertUrl.Name" xml:space="preserve">
-    <value>CheckAutoConvertUrl</value>
-  </data>
-  <data name="&gt;&gt;CheckAutoConvertUrl.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckAutoConvertUrl.Parent" xml:space="preserve">
-    <value>ShortUrlPanel</value>
-  </data>
-  <data name="&gt;&gt;CheckAutoConvertUrl.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="Label71.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label71.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label71.Location" type="System.Drawing.Point, System.Drawing">
-    <value>19, 81</value>
-  </data>
-  <data name="Label71.Size" type="System.Drawing.Size, System.Drawing">
-    <value>154, 12</value>
-  </data>
-  <data name="Label71.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="Label71.Text" xml:space="preserve">
-    <value>URL自動短縮で優先的に使用</value>
-  </data>
-  <data name="&gt;&gt;Label71.Name" xml:space="preserve">
-    <value>Label71</value>
-  </data>
-  <data name="&gt;&gt;Label71.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label71.Parent" xml:space="preserve">
-    <value>ShortUrlPanel</value>
-  </data>
-  <data name="&gt;&gt;Label71.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="ComboBoxAutoShortUrlFirst.Items" xml:space="preserve">
-    <value>tinyurl</value>
-  </data>
-  <data name="ComboBoxAutoShortUrlFirst.Items1" xml:space="preserve">
-    <value>is.gd</value>
-  </data>
-  <data name="ComboBoxAutoShortUrlFirst.Items2" xml:space="preserve">
-    <value>twurl.nl</value>
-  </data>
-  <data name="ComboBoxAutoShortUrlFirst.Items3" xml:space="preserve">
-    <value>bit.ly</value>
-  </data>
-  <data name="ComboBoxAutoShortUrlFirst.Items4" xml:space="preserve">
-    <value>j.mp</value>
-  </data>
-  <data name="ComboBoxAutoShortUrlFirst.Items5" xml:space="preserve">
-    <value>ux.nu</value>
-  </data>
-  <data name="ComboBoxAutoShortUrlFirst.Location" type="System.Drawing.Point, System.Drawing">
-    <value>181, 78</value>
-  </data>
-  <data name="ComboBoxAutoShortUrlFirst.Size" type="System.Drawing.Size, System.Drawing">
-    <value>246, 20</value>
-  </data>
-  <data name="ComboBoxAutoShortUrlFirst.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxAutoShortUrlFirst.Name" xml:space="preserve">
-    <value>ComboBoxAutoShortUrlFirst</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxAutoShortUrlFirst.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxAutoShortUrlFirst.Parent" xml:space="preserve">
-    <value>ShortUrlPanel</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxAutoShortUrlFirst.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="Label76.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label76.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label76.Location" type="System.Drawing.Point, System.Drawing">
-    <value>179, 104</value>
-  </data>
-  <data name="Label76.Size" type="System.Drawing.Size, System.Drawing">
-    <value>16, 12</value>
-  </data>
-  <data name="Label76.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="Label76.Text" xml:space="preserve">
-    <value>ID</value>
-  </data>
-  <data name="&gt;&gt;Label76.Name" xml:space="preserve">
-    <value>Label76</value>
-  </data>
-  <data name="&gt;&gt;Label76.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label76.Parent" xml:space="preserve">
-    <value>ShortUrlPanel</value>
-  </data>
-  <data name="&gt;&gt;Label76.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="Label77.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label77.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label77.Location" type="System.Drawing.Point, System.Drawing">
-    <value>278, 104</value>
-  </data>
-  <data name="Label77.Size" type="System.Drawing.Size, System.Drawing">
-    <value>42, 12</value>
-  </data>
-  <data name="Label77.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="Label77.Text" xml:space="preserve">
-    <value>APIKey</value>
-  </data>
-  <data name="&gt;&gt;Label77.Name" xml:space="preserve">
-    <value>Label77</value>
-  </data>
-  <data name="&gt;&gt;Label77.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label77.Parent" xml:space="preserve">
-    <value>ShortUrlPanel</value>
-  </data>
-  <data name="&gt;&gt;Label77.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="TextBitlyId.Location" type="System.Drawing.Point, System.Drawing">
-    <value>201, 102</value>
-  </data>
-  <data name="TextBitlyId.Size" type="System.Drawing.Size, System.Drawing">
-    <value>71, 19</value>
-  </data>
-  <data name="TextBitlyId.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;TextBitlyId.Name" xml:space="preserve">
-    <value>TextBitlyId</value>
-  </data>
-  <data name="&gt;&gt;TextBitlyId.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TextBitlyId.Parent" xml:space="preserve">
-    <value>ShortUrlPanel</value>
-  </data>
-  <data name="&gt;&gt;TextBitlyId.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="ShortUrlPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="ShortUrlPanel.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="ShortUrlPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="ShortUrlPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>518, 368</value>
-  </data>
-  <data name="ShortUrlPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="ShortUrlPanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;ShortUrlPanel.Name" xml:space="preserve">
-    <value>ShortUrlPanel</value>
-  </data>
-  <data name="&gt;&gt;ShortUrlPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ShortUrlPanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;ShortUrlPanel.ZOrder" xml:space="preserve">
     <value>15</value>
   </data>
   <data name="&gt;&gt;SplitContainer1.Panel2.Name" xml:space="preserve">

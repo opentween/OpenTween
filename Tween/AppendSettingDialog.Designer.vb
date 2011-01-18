@@ -25,6 +25,54 @@ Partial Class AppendSettingDialog
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AppendSettingDialog))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.TreeView1 = New System.Windows.Forms.TreeView()
+        Me.CooperatePanel = New System.Windows.Forms.Panel()
+        Me.ComboBoxTranslateLanguage = New System.Windows.Forms.ComboBox()
+        Me.Label29 = New System.Windows.Forms.Label()
+        Me.CheckOutputz = New System.Windows.Forms.CheckBox()
+        Me.CheckNicoms = New System.Windows.Forms.CheckBox()
+        Me.TextBoxOutputzKey = New System.Windows.Forms.TextBox()
+        Me.Label60 = New System.Windows.Forms.Label()
+        Me.Label59 = New System.Windows.Forms.Label()
+        Me.ComboBoxOutputzUrlmode = New System.Windows.Forms.ComboBox()
+        Me.ShortUrlPanel = New System.Windows.Forms.Panel()
+        Me.CheckTinyURL = New System.Windows.Forms.CheckBox()
+        Me.TextBitlyPw = New System.Windows.Forms.TextBox()
+        Me.CheckAutoConvertUrl = New System.Windows.Forms.CheckBox()
+        Me.Label71 = New System.Windows.Forms.Label()
+        Me.ComboBoxAutoShortUrlFirst = New System.Windows.Forms.ComboBox()
+        Me.Label76 = New System.Windows.Forms.Label()
+        Me.Label77 = New System.Windows.Forms.Label()
+        Me.TextBitlyId = New System.Windows.Forms.TextBox()
+        Me.NotifyPanel = New System.Windows.Forms.Panel()
+        Me.CheckFavEventUnread = New System.Windows.Forms.CheckBox()
+        Me.CheckListCreatedEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckDeleteEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckBlockEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckForceEventNotify = New System.Windows.Forms.CheckBox()
+        Me.CheckListMemberRemovedEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckListMemberAddedEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckFollowEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckUnfavoritesEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckFavoritesEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckEventNotify = New System.Windows.Forms.CheckBox()
+        Me.GetCountPanel = New System.Windows.Forms.Panel()
+        Me.ListTextCountApi = New System.Windows.Forms.TextBox()
+        Me.Label25 = New System.Windows.Forms.Label()
+        Me.UserTimelineTextCountApi = New System.Windows.Forms.TextBox()
+        Me.Label17 = New System.Windows.Forms.Label()
+        Me.Label30 = New System.Windows.Forms.Label()
+        Me.Label28 = New System.Windows.Forms.Label()
+        Me.Label19 = New System.Windows.Forms.Label()
+        Me.FavoritesTextCountApi = New System.Windows.Forms.TextBox()
+        Me.SearchTextCountApi = New System.Windows.Forms.TextBox()
+        Me.Label66 = New System.Windows.Forms.Label()
+        Me.FirstTextCountApi = New System.Windows.Forms.TextBox()
+        Me.GetMoreTextCountApi = New System.Windows.Forms.TextBox()
+        Me.Label53 = New System.Windows.Forms.Label()
+        Me.UseChangeGetCount = New System.Windows.Forms.CheckBox()
+        Me.TextCountApiReply = New System.Windows.Forms.TextBox()
+        Me.Label67 = New System.Windows.Forms.Label()
+        Me.TextCountApi = New System.Windows.Forms.TextBox()
         Me.BasedPanel = New System.Windows.Forms.Panel()
         Me.AuthBasicRadio = New System.Windows.Forms.RadioButton()
         Me.AuthOAuthRadio = New System.Windows.Forms.RadioButton()
@@ -207,60 +255,18 @@ Partial Class AppendSettingDialog
         Me.TextProxyPort = New System.Windows.Forms.TextBox()
         Me.TextProxyAddress = New System.Windows.Forms.TextBox()
         Me.LabelProxyPort = New System.Windows.Forms.Label()
-        Me.CooperatePanel = New System.Windows.Forms.Panel()
-        Me.CheckOutputz = New System.Windows.Forms.CheckBox()
-        Me.CheckNicoms = New System.Windows.Forms.CheckBox()
-        Me.TextBoxOutputzKey = New System.Windows.Forms.TextBox()
-        Me.Label60 = New System.Windows.Forms.Label()
-        Me.Label59 = New System.Windows.Forms.Label()
-        Me.ComboBoxOutputzUrlmode = New System.Windows.Forms.ComboBox()
-        Me.ShortUrlPanel = New System.Windows.Forms.Panel()
-        Me.CheckTinyURL = New System.Windows.Forms.CheckBox()
-        Me.TextBitlyPw = New System.Windows.Forms.TextBox()
-        Me.CheckAutoConvertUrl = New System.Windows.Forms.CheckBox()
-        Me.Label71 = New System.Windows.Forms.Label()
-        Me.ComboBoxAutoShortUrlFirst = New System.Windows.Forms.ComboBox()
-        Me.Label76 = New System.Windows.Forms.Label()
-        Me.Label77 = New System.Windows.Forms.Label()
-        Me.TextBitlyId = New System.Windows.Forms.TextBox()
-        Me.NotifyPanel = New System.Windows.Forms.Panel()
-        Me.CheckListCreatedEvent = New System.Windows.Forms.CheckBox()
-        Me.CheckDeleteEvent = New System.Windows.Forms.CheckBox()
-        Me.CheckBlockEvent = New System.Windows.Forms.CheckBox()
-        Me.CheckForceEventNotify = New System.Windows.Forms.CheckBox()
-        Me.CheckListMemberRemovedEvent = New System.Windows.Forms.CheckBox()
-        Me.CheckListMemberAddedEvent = New System.Windows.Forms.CheckBox()
-        Me.CheckFollowEvent = New System.Windows.Forms.CheckBox()
-        Me.CheckUnfavoritesEvent = New System.Windows.Forms.CheckBox()
-        Me.CheckFavoritesEvent = New System.Windows.Forms.CheckBox()
-        Me.CheckEventNotify = New System.Windows.Forms.CheckBox()
-        Me.GetCountPanel = New System.Windows.Forms.Panel()
-        Me.ListTextCountApi = New System.Windows.Forms.TextBox()
-        Me.Label25 = New System.Windows.Forms.Label()
-        Me.UserTimelineTextCountApi = New System.Windows.Forms.TextBox()
-        Me.Label17 = New System.Windows.Forms.Label()
-        Me.Label30 = New System.Windows.Forms.Label()
-        Me.Label28 = New System.Windows.Forms.Label()
-        Me.Label19 = New System.Windows.Forms.Label()
-        Me.FavoritesTextCountApi = New System.Windows.Forms.TextBox()
-        Me.SearchTextCountApi = New System.Windows.Forms.TextBox()
-        Me.Label66 = New System.Windows.Forms.Label()
-        Me.FirstTextCountApi = New System.Windows.Forms.TextBox()
-        Me.GetMoreTextCountApi = New System.Windows.Forms.TextBox()
-        Me.Label53 = New System.Windows.Forms.Label()
-        Me.UseChangeGetCount = New System.Windows.Forms.CheckBox()
-        Me.TextCountApiReply = New System.Windows.Forms.TextBox()
-        Me.Label67 = New System.Windows.Forms.Label()
-        Me.TextCountApi = New System.Windows.Forms.TextBox()
         Me.FontDialog1 = New System.Windows.Forms.FontDialog()
         Me.ColorDialog1 = New System.Windows.Forms.ColorDialog()
         Me.Cancel = New System.Windows.Forms.Button()
         Me.Save = New System.Windows.Forms.Button()
-        Me.CheckFavEventUnread = New System.Windows.Forms.CheckBox()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        Me.CooperatePanel.SuspendLayout()
+        Me.ShortUrlPanel.SuspendLayout()
+        Me.NotifyPanel.SuspendLayout()
+        Me.GetCountPanel.SuspendLayout()
         Me.BasedPanel.SuspendLayout()
         Me.GetPeriodPanel.SuspendLayout()
         Me.StartupPanel.SuspendLayout()
@@ -276,10 +282,6 @@ Partial Class AppendSettingDialog
         Me.GroupBox5.SuspendLayout()
         Me.ConnectionPanel.SuspendLayout()
         Me.ProxyPanel.SuspendLayout()
-        Me.CooperatePanel.SuspendLayout()
-        Me.ShortUrlPanel.SuspendLayout()
-        Me.NotifyPanel.SuspendLayout()
-        Me.GetCountPanel.SuspendLayout()
         Me.SuspendLayout()
         '
         'SplitContainer1
@@ -294,6 +296,8 @@ Partial Class AppendSettingDialog
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.BackColor = System.Drawing.SystemColors.Control
+        Me.SplitContainer1.Panel2.Controls.Add(Me.CooperatePanel)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.ShortUrlPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.NotifyPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.GetCountPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.BasedPanel)
@@ -308,8 +312,6 @@ Partial Class AppendSettingDialog
         Me.SplitContainer1.Panel2.Controls.Add(Me.FontPanel2)
         Me.SplitContainer1.Panel2.Controls.Add(Me.ConnectionPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.ProxyPanel)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.CooperatePanel)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.ShortUrlPanel)
         Me.SplitContainer1.TabStop = False
         '
         'TreeView1
@@ -320,6 +322,335 @@ Partial Class AppendSettingDialog
         Me.TreeView1.Name = "TreeView1"
         Me.TreeView1.Nodes.AddRange(New System.Windows.Forms.TreeNode() {CType(resources.GetObject("TreeView1.Nodes"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeView1.Nodes1"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeView1.Nodes2"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeView1.Nodes3"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeView1.Nodes4"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeView1.Nodes5"), System.Windows.Forms.TreeNode)})
         Me.TreeView1.ShowLines = False
+        '
+        'CooperatePanel
+        '
+        Me.CooperatePanel.Controls.Add(Me.ComboBoxTranslateLanguage)
+        Me.CooperatePanel.Controls.Add(Me.Label29)
+        Me.CooperatePanel.Controls.Add(Me.CheckOutputz)
+        Me.CooperatePanel.Controls.Add(Me.CheckNicoms)
+        Me.CooperatePanel.Controls.Add(Me.TextBoxOutputzKey)
+        Me.CooperatePanel.Controls.Add(Me.Label60)
+        Me.CooperatePanel.Controls.Add(Me.Label59)
+        Me.CooperatePanel.Controls.Add(Me.ComboBoxOutputzUrlmode)
+        resources.ApplyResources(Me.CooperatePanel, "CooperatePanel")
+        Me.CooperatePanel.Name = "CooperatePanel"
+        '
+        'ComboBoxTranslateLanguage
+        '
+        Me.ComboBoxTranslateLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboBoxTranslateLanguage.FormattingEnabled = True
+        Me.ComboBoxTranslateLanguage.Items.AddRange(New Object() {resources.GetString("ComboBoxTranslateLanguage.Items"), resources.GetString("ComboBoxTranslateLanguage.Items1"), resources.GetString("ComboBoxTranslateLanguage.Items2"), resources.GetString("ComboBoxTranslateLanguage.Items3"), resources.GetString("ComboBoxTranslateLanguage.Items4"), resources.GetString("ComboBoxTranslateLanguage.Items5"), resources.GetString("ComboBoxTranslateLanguage.Items6"), resources.GetString("ComboBoxTranslateLanguage.Items7"), resources.GetString("ComboBoxTranslateLanguage.Items8"), resources.GetString("ComboBoxTranslateLanguage.Items9"), resources.GetString("ComboBoxTranslateLanguage.Items10"), resources.GetString("ComboBoxTranslateLanguage.Items11"), resources.GetString("ComboBoxTranslateLanguage.Items12"), resources.GetString("ComboBoxTranslateLanguage.Items13"), resources.GetString("ComboBoxTranslateLanguage.Items14"), resources.GetString("ComboBoxTranslateLanguage.Items15"), resources.GetString("ComboBoxTranslateLanguage.Items16"), resources.GetString("ComboBoxTranslateLanguage.Items17"), resources.GetString("ComboBoxTranslateLanguage.Items18"), resources.GetString("ComboBoxTranslateLanguage.Items19"), resources.GetString("ComboBoxTranslateLanguage.Items20"), resources.GetString("ComboBoxTranslateLanguage.Items21"), resources.GetString("ComboBoxTranslateLanguage.Items22"), resources.GetString("ComboBoxTranslateLanguage.Items23"), resources.GetString("ComboBoxTranslateLanguage.Items24"), resources.GetString("ComboBoxTranslateLanguage.Items25"), resources.GetString("ComboBoxTranslateLanguage.Items26"), resources.GetString("ComboBoxTranslateLanguage.Items27"), resources.GetString("ComboBoxTranslateLanguage.Items28"), resources.GetString("ComboBoxTranslateLanguage.Items29"), resources.GetString("ComboBoxTranslateLanguage.Items30"), resources.GetString("ComboBoxTranslateLanguage.Items31"), resources.GetString("ComboBoxTranslateLanguage.Items32"), resources.GetString("ComboBoxTranslateLanguage.Items33"), resources.GetString("ComboBoxTranslateLanguage.Items34"), resources.GetString("ComboBoxTranslateLanguage.Items35"), resources.GetString("ComboBoxTranslateLanguage.Items36"), resources.GetString("ComboBoxTranslateLanguage.Items37"), resources.GetString("ComboBoxTranslateLanguage.Items38"), resources.GetString("ComboBoxTranslateLanguage.Items39"), resources.GetString("ComboBoxTranslateLanguage.Items40"), resources.GetString("ComboBoxTranslateLanguage.Items41"), resources.GetString("ComboBoxTranslateLanguage.Items42"), resources.GetString("ComboBoxTranslateLanguage.Items43"), resources.GetString("ComboBoxTranslateLanguage.Items44"), resources.GetString("ComboBoxTranslateLanguage.Items45"), resources.GetString("ComboBoxTranslateLanguage.Items46"), resources.GetString("ComboBoxTranslateLanguage.Items47"), resources.GetString("ComboBoxTranslateLanguage.Items48"), resources.GetString("ComboBoxTranslateLanguage.Items49"), resources.GetString("ComboBoxTranslateLanguage.Items50"), resources.GetString("ComboBoxTranslateLanguage.Items51"), resources.GetString("ComboBoxTranslateLanguage.Items52"), resources.GetString("ComboBoxTranslateLanguage.Items53"), resources.GetString("ComboBoxTranslateLanguage.Items54"), resources.GetString("ComboBoxTranslateLanguage.Items55"), resources.GetString("ComboBoxTranslateLanguage.Items56"), resources.GetString("ComboBoxTranslateLanguage.Items57"), resources.GetString("ComboBoxTranslateLanguage.Items58"), resources.GetString("ComboBoxTranslateLanguage.Items59"), resources.GetString("ComboBoxTranslateLanguage.Items60"), resources.GetString("ComboBoxTranslateLanguage.Items61"), resources.GetString("ComboBoxTranslateLanguage.Items62"), resources.GetString("ComboBoxTranslateLanguage.Items63"), resources.GetString("ComboBoxTranslateLanguage.Items64"), resources.GetString("ComboBoxTranslateLanguage.Items65"), resources.GetString("ComboBoxTranslateLanguage.Items66"), resources.GetString("ComboBoxTranslateLanguage.Items67"), resources.GetString("ComboBoxTranslateLanguage.Items68"), resources.GetString("ComboBoxTranslateLanguage.Items69"), resources.GetString("ComboBoxTranslateLanguage.Items70"), resources.GetString("ComboBoxTranslateLanguage.Items71"), resources.GetString("ComboBoxTranslateLanguage.Items72"), resources.GetString("ComboBoxTranslateLanguage.Items73"), resources.GetString("ComboBoxTranslateLanguage.Items74"), resources.GetString("ComboBoxTranslateLanguage.Items75"), resources.GetString("ComboBoxTranslateLanguage.Items76"), resources.GetString("ComboBoxTranslateLanguage.Items77"), resources.GetString("ComboBoxTranslateLanguage.Items78"), resources.GetString("ComboBoxTranslateLanguage.Items79"), resources.GetString("ComboBoxTranslateLanguage.Items80"), resources.GetString("ComboBoxTranslateLanguage.Items81"), resources.GetString("ComboBoxTranslateLanguage.Items82"), resources.GetString("ComboBoxTranslateLanguage.Items83"), resources.GetString("ComboBoxTranslateLanguage.Items84"), resources.GetString("ComboBoxTranslateLanguage.Items85"), resources.GetString("ComboBoxTranslateLanguage.Items86"), resources.GetString("ComboBoxTranslateLanguage.Items87"), resources.GetString("ComboBoxTranslateLanguage.Items88"), resources.GetString("ComboBoxTranslateLanguage.Items89"), resources.GetString("ComboBoxTranslateLanguage.Items90"), resources.GetString("ComboBoxTranslateLanguage.Items91"), resources.GetString("ComboBoxTranslateLanguage.Items92"), resources.GetString("ComboBoxTranslateLanguage.Items93"), resources.GetString("ComboBoxTranslateLanguage.Items94"), resources.GetString("ComboBoxTranslateLanguage.Items95"), resources.GetString("ComboBoxTranslateLanguage.Items96"), resources.GetString("ComboBoxTranslateLanguage.Items97"), resources.GetString("ComboBoxTranslateLanguage.Items98"), resources.GetString("ComboBoxTranslateLanguage.Items99"), resources.GetString("ComboBoxTranslateLanguage.Items100"), resources.GetString("ComboBoxTranslateLanguage.Items101"), resources.GetString("ComboBoxTranslateLanguage.Items102"), resources.GetString("ComboBoxTranslateLanguage.Items103"), resources.GetString("ComboBoxTranslateLanguage.Items104"), resources.GetString("ComboBoxTranslateLanguage.Items105"), resources.GetString("ComboBoxTranslateLanguage.Items106")})
+        resources.ApplyResources(Me.ComboBoxTranslateLanguage, "ComboBoxTranslateLanguage")
+        Me.ComboBoxTranslateLanguage.Name = "ComboBoxTranslateLanguage"
+        '
+        'Label29
+        '
+        resources.ApplyResources(Me.Label29, "Label29")
+        Me.Label29.Name = "Label29"
+        '
+        'CheckOutputz
+        '
+        resources.ApplyResources(Me.CheckOutputz, "CheckOutputz")
+        Me.CheckOutputz.Name = "CheckOutputz"
+        Me.CheckOutputz.UseVisualStyleBackColor = True
+        '
+        'CheckNicoms
+        '
+        resources.ApplyResources(Me.CheckNicoms, "CheckNicoms")
+        Me.CheckNicoms.Name = "CheckNicoms"
+        Me.CheckNicoms.UseVisualStyleBackColor = True
+        '
+        'TextBoxOutputzKey
+        '
+        resources.ApplyResources(Me.TextBoxOutputzKey, "TextBoxOutputzKey")
+        Me.TextBoxOutputzKey.Name = "TextBoxOutputzKey"
+        '
+        'Label60
+        '
+        resources.ApplyResources(Me.Label60, "Label60")
+        Me.Label60.Name = "Label60"
+        '
+        'Label59
+        '
+        resources.ApplyResources(Me.Label59, "Label59")
+        Me.Label59.Name = "Label59"
+        '
+        'ComboBoxOutputzUrlmode
+        '
+        Me.ComboBoxOutputzUrlmode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboBoxOutputzUrlmode.FormattingEnabled = True
+        Me.ComboBoxOutputzUrlmode.Items.AddRange(New Object() {resources.GetString("ComboBoxOutputzUrlmode.Items"), resources.GetString("ComboBoxOutputzUrlmode.Items1")})
+        resources.ApplyResources(Me.ComboBoxOutputzUrlmode, "ComboBoxOutputzUrlmode")
+        Me.ComboBoxOutputzUrlmode.Name = "ComboBoxOutputzUrlmode"
+        '
+        'ShortUrlPanel
+        '
+        Me.ShortUrlPanel.Controls.Add(Me.CheckTinyURL)
+        Me.ShortUrlPanel.Controls.Add(Me.TextBitlyPw)
+        Me.ShortUrlPanel.Controls.Add(Me.CheckAutoConvertUrl)
+        Me.ShortUrlPanel.Controls.Add(Me.Label71)
+        Me.ShortUrlPanel.Controls.Add(Me.ComboBoxAutoShortUrlFirst)
+        Me.ShortUrlPanel.Controls.Add(Me.Label76)
+        Me.ShortUrlPanel.Controls.Add(Me.Label77)
+        Me.ShortUrlPanel.Controls.Add(Me.TextBitlyId)
+        resources.ApplyResources(Me.ShortUrlPanel, "ShortUrlPanel")
+        Me.ShortUrlPanel.Name = "ShortUrlPanel"
+        '
+        'CheckTinyURL
+        '
+        resources.ApplyResources(Me.CheckTinyURL, "CheckTinyURL")
+        Me.CheckTinyURL.Name = "CheckTinyURL"
+        Me.CheckTinyURL.UseVisualStyleBackColor = True
+        '
+        'TextBitlyPw
+        '
+        resources.ApplyResources(Me.TextBitlyPw, "TextBitlyPw")
+        Me.TextBitlyPw.Name = "TextBitlyPw"
+        '
+        'CheckAutoConvertUrl
+        '
+        resources.ApplyResources(Me.CheckAutoConvertUrl, "CheckAutoConvertUrl")
+        Me.CheckAutoConvertUrl.Name = "CheckAutoConvertUrl"
+        Me.CheckAutoConvertUrl.UseVisualStyleBackColor = True
+        '
+        'Label71
+        '
+        resources.ApplyResources(Me.Label71, "Label71")
+        Me.Label71.Name = "Label71"
+        '
+        'ComboBoxAutoShortUrlFirst
+        '
+        Me.ComboBoxAutoShortUrlFirst.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboBoxAutoShortUrlFirst.FormattingEnabled = True
+        Me.ComboBoxAutoShortUrlFirst.Items.AddRange(New Object() {resources.GetString("ComboBoxAutoShortUrlFirst.Items"), resources.GetString("ComboBoxAutoShortUrlFirst.Items1"), resources.GetString("ComboBoxAutoShortUrlFirst.Items2"), resources.GetString("ComboBoxAutoShortUrlFirst.Items3"), resources.GetString("ComboBoxAutoShortUrlFirst.Items4"), resources.GetString("ComboBoxAutoShortUrlFirst.Items5")})
+        resources.ApplyResources(Me.ComboBoxAutoShortUrlFirst, "ComboBoxAutoShortUrlFirst")
+        Me.ComboBoxAutoShortUrlFirst.Name = "ComboBoxAutoShortUrlFirst"
+        '
+        'Label76
+        '
+        resources.ApplyResources(Me.Label76, "Label76")
+        Me.Label76.Name = "Label76"
+        '
+        'Label77
+        '
+        resources.ApplyResources(Me.Label77, "Label77")
+        Me.Label77.Name = "Label77"
+        '
+        'TextBitlyId
+        '
+        resources.ApplyResources(Me.TextBitlyId, "TextBitlyId")
+        Me.TextBitlyId.Name = "TextBitlyId"
+        '
+        'NotifyPanel
+        '
+        Me.NotifyPanel.Controls.Add(Me.CheckFavEventUnread)
+        Me.NotifyPanel.Controls.Add(Me.CheckListCreatedEvent)
+        Me.NotifyPanel.Controls.Add(Me.CheckDeleteEvent)
+        Me.NotifyPanel.Controls.Add(Me.CheckBlockEvent)
+        Me.NotifyPanel.Controls.Add(Me.CheckForceEventNotify)
+        Me.NotifyPanel.Controls.Add(Me.CheckListMemberRemovedEvent)
+        Me.NotifyPanel.Controls.Add(Me.CheckListMemberAddedEvent)
+        Me.NotifyPanel.Controls.Add(Me.CheckFollowEvent)
+        Me.NotifyPanel.Controls.Add(Me.CheckUnfavoritesEvent)
+        Me.NotifyPanel.Controls.Add(Me.CheckFavoritesEvent)
+        Me.NotifyPanel.Controls.Add(Me.CheckEventNotify)
+        resources.ApplyResources(Me.NotifyPanel, "NotifyPanel")
+        Me.NotifyPanel.Name = "NotifyPanel"
+        '
+        'CheckFavEventUnread
+        '
+        resources.ApplyResources(Me.CheckFavEventUnread, "CheckFavEventUnread")
+        Me.CheckFavEventUnread.Name = "CheckFavEventUnread"
+        Me.CheckFavEventUnread.UseVisualStyleBackColor = True
+        '
+        'CheckListCreatedEvent
+        '
+        resources.ApplyResources(Me.CheckListCreatedEvent, "CheckListCreatedEvent")
+        Me.CheckListCreatedEvent.Checked = True
+        Me.CheckListCreatedEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckListCreatedEvent.Name = "CheckListCreatedEvent"
+        Me.CheckListCreatedEvent.UseVisualStyleBackColor = True
+        '
+        'CheckDeleteEvent
+        '
+        resources.ApplyResources(Me.CheckDeleteEvent, "CheckDeleteEvent")
+        Me.CheckDeleteEvent.Checked = True
+        Me.CheckDeleteEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckDeleteEvent.Name = "CheckDeleteEvent"
+        Me.CheckDeleteEvent.UseVisualStyleBackColor = True
+        '
+        'CheckBlockEvent
+        '
+        resources.ApplyResources(Me.CheckBlockEvent, "CheckBlockEvent")
+        Me.CheckBlockEvent.Checked = True
+        Me.CheckBlockEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBlockEvent.Name = "CheckBlockEvent"
+        Me.CheckBlockEvent.UseVisualStyleBackColor = True
+        '
+        'CheckForceEventNotify
+        '
+        resources.ApplyResources(Me.CheckForceEventNotify, "CheckForceEventNotify")
+        Me.CheckForceEventNotify.Checked = True
+        Me.CheckForceEventNotify.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckForceEventNotify.Name = "CheckForceEventNotify"
+        Me.CheckForceEventNotify.UseVisualStyleBackColor = True
+        '
+        'CheckListMemberRemovedEvent
+        '
+        resources.ApplyResources(Me.CheckListMemberRemovedEvent, "CheckListMemberRemovedEvent")
+        Me.CheckListMemberRemovedEvent.Checked = True
+        Me.CheckListMemberRemovedEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckListMemberRemovedEvent.Name = "CheckListMemberRemovedEvent"
+        Me.CheckListMemberRemovedEvent.UseVisualStyleBackColor = True
+        '
+        'CheckListMemberAddedEvent
+        '
+        resources.ApplyResources(Me.CheckListMemberAddedEvent, "CheckListMemberAddedEvent")
+        Me.CheckListMemberAddedEvent.Checked = True
+        Me.CheckListMemberAddedEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckListMemberAddedEvent.Name = "CheckListMemberAddedEvent"
+        Me.CheckListMemberAddedEvent.UseVisualStyleBackColor = True
+        '
+        'CheckFollowEvent
+        '
+        resources.ApplyResources(Me.CheckFollowEvent, "CheckFollowEvent")
+        Me.CheckFollowEvent.Checked = True
+        Me.CheckFollowEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckFollowEvent.Name = "CheckFollowEvent"
+        Me.CheckFollowEvent.UseVisualStyleBackColor = True
+        '
+        'CheckUnfavoritesEvent
+        '
+        resources.ApplyResources(Me.CheckUnfavoritesEvent, "CheckUnfavoritesEvent")
+        Me.CheckUnfavoritesEvent.Checked = True
+        Me.CheckUnfavoritesEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckUnfavoritesEvent.Name = "CheckUnfavoritesEvent"
+        Me.CheckUnfavoritesEvent.UseVisualStyleBackColor = True
+        '
+        'CheckFavoritesEvent
+        '
+        resources.ApplyResources(Me.CheckFavoritesEvent, "CheckFavoritesEvent")
+        Me.CheckFavoritesEvent.Checked = True
+        Me.CheckFavoritesEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckFavoritesEvent.Name = "CheckFavoritesEvent"
+        Me.CheckFavoritesEvent.UseVisualStyleBackColor = True
+        '
+        'CheckEventNotify
+        '
+        resources.ApplyResources(Me.CheckEventNotify, "CheckEventNotify")
+        Me.CheckEventNotify.Checked = True
+        Me.CheckEventNotify.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckEventNotify.Name = "CheckEventNotify"
+        Me.CheckEventNotify.UseVisualStyleBackColor = True
+        '
+        'GetCountPanel
+        '
+        Me.GetCountPanel.Controls.Add(Me.ListTextCountApi)
+        Me.GetCountPanel.Controls.Add(Me.Label25)
+        Me.GetCountPanel.Controls.Add(Me.UserTimelineTextCountApi)
+        Me.GetCountPanel.Controls.Add(Me.Label17)
+        Me.GetCountPanel.Controls.Add(Me.Label30)
+        Me.GetCountPanel.Controls.Add(Me.Label28)
+        Me.GetCountPanel.Controls.Add(Me.Label19)
+        Me.GetCountPanel.Controls.Add(Me.FavoritesTextCountApi)
+        Me.GetCountPanel.Controls.Add(Me.SearchTextCountApi)
+        Me.GetCountPanel.Controls.Add(Me.Label66)
+        Me.GetCountPanel.Controls.Add(Me.FirstTextCountApi)
+        Me.GetCountPanel.Controls.Add(Me.GetMoreTextCountApi)
+        Me.GetCountPanel.Controls.Add(Me.Label53)
+        Me.GetCountPanel.Controls.Add(Me.UseChangeGetCount)
+        Me.GetCountPanel.Controls.Add(Me.TextCountApiReply)
+        Me.GetCountPanel.Controls.Add(Me.Label67)
+        Me.GetCountPanel.Controls.Add(Me.TextCountApi)
+        resources.ApplyResources(Me.GetCountPanel, "GetCountPanel")
+        Me.GetCountPanel.Name = "GetCountPanel"
+        '
+        'ListTextCountApi
+        '
+        resources.ApplyResources(Me.ListTextCountApi, "ListTextCountApi")
+        Me.ListTextCountApi.Name = "ListTextCountApi"
+        '
+        'Label25
+        '
+        resources.ApplyResources(Me.Label25, "Label25")
+        Me.Label25.Name = "Label25"
+        '
+        'UserTimelineTextCountApi
+        '
+        resources.ApplyResources(Me.UserTimelineTextCountApi, "UserTimelineTextCountApi")
+        Me.UserTimelineTextCountApi.Name = "UserTimelineTextCountApi"
+        '
+        'Label17
+        '
+        resources.ApplyResources(Me.Label17, "Label17")
+        Me.Label17.Name = "Label17"
+        '
+        'Label30
+        '
+        resources.ApplyResources(Me.Label30, "Label30")
+        Me.Label30.Name = "Label30"
+        '
+        'Label28
+        '
+        resources.ApplyResources(Me.Label28, "Label28")
+        Me.Label28.Name = "Label28"
+        '
+        'Label19
+        '
+        resources.ApplyResources(Me.Label19, "Label19")
+        Me.Label19.Name = "Label19"
+        '
+        'FavoritesTextCountApi
+        '
+        resources.ApplyResources(Me.FavoritesTextCountApi, "FavoritesTextCountApi")
+        Me.FavoritesTextCountApi.Name = "FavoritesTextCountApi"
+        '
+        'SearchTextCountApi
+        '
+        resources.ApplyResources(Me.SearchTextCountApi, "SearchTextCountApi")
+        Me.SearchTextCountApi.Name = "SearchTextCountApi"
+        '
+        'Label66
+        '
+        resources.ApplyResources(Me.Label66, "Label66")
+        Me.Label66.Name = "Label66"
+        '
+        'FirstTextCountApi
+        '
+        resources.ApplyResources(Me.FirstTextCountApi, "FirstTextCountApi")
+        Me.FirstTextCountApi.Name = "FirstTextCountApi"
+        '
+        'GetMoreTextCountApi
+        '
+        resources.ApplyResources(Me.GetMoreTextCountApi, "GetMoreTextCountApi")
+        Me.GetMoreTextCountApi.Name = "GetMoreTextCountApi"
+        '
+        'Label53
+        '
+        resources.ApplyResources(Me.Label53, "Label53")
+        Me.Label53.Name = "Label53"
+        '
+        'UseChangeGetCount
+        '
+        resources.ApplyResources(Me.UseChangeGetCount, "UseChangeGetCount")
+        Me.UseChangeGetCount.Name = "UseChangeGetCount"
+        Me.UseChangeGetCount.UseVisualStyleBackColor = True
+        '
+        'TextCountApiReply
+        '
+        resources.ApplyResources(Me.TextCountApiReply, "TextCountApiReply")
+        Me.TextCountApiReply.Name = "TextCountApiReply"
+        '
+        'Label67
+        '
+        resources.ApplyResources(Me.Label67, "Label67")
+        Me.Label67.Name = "Label67"
+        '
+        'TextCountApi
+        '
+        resources.ApplyResources(Me.TextCountApi, "TextCountApi")
+        Me.TextCountApi.Name = "TextCountApi"
         '
         'BasedPanel
         '
@@ -1528,314 +1859,6 @@ Partial Class AppendSettingDialog
         resources.ApplyResources(Me.LabelProxyPort, "LabelProxyPort")
         Me.LabelProxyPort.Name = "LabelProxyPort"
         '
-        'CooperatePanel
-        '
-        Me.CooperatePanel.Controls.Add(Me.CheckOutputz)
-        Me.CooperatePanel.Controls.Add(Me.CheckNicoms)
-        Me.CooperatePanel.Controls.Add(Me.TextBoxOutputzKey)
-        Me.CooperatePanel.Controls.Add(Me.Label60)
-        Me.CooperatePanel.Controls.Add(Me.Label59)
-        Me.CooperatePanel.Controls.Add(Me.ComboBoxOutputzUrlmode)
-        resources.ApplyResources(Me.CooperatePanel, "CooperatePanel")
-        Me.CooperatePanel.Name = "CooperatePanel"
-        '
-        'CheckOutputz
-        '
-        resources.ApplyResources(Me.CheckOutputz, "CheckOutputz")
-        Me.CheckOutputz.Name = "CheckOutputz"
-        Me.CheckOutputz.UseVisualStyleBackColor = True
-        '
-        'CheckNicoms
-        '
-        resources.ApplyResources(Me.CheckNicoms, "CheckNicoms")
-        Me.CheckNicoms.Name = "CheckNicoms"
-        Me.CheckNicoms.UseVisualStyleBackColor = True
-        '
-        'TextBoxOutputzKey
-        '
-        resources.ApplyResources(Me.TextBoxOutputzKey, "TextBoxOutputzKey")
-        Me.TextBoxOutputzKey.Name = "TextBoxOutputzKey"
-        '
-        'Label60
-        '
-        resources.ApplyResources(Me.Label60, "Label60")
-        Me.Label60.Name = "Label60"
-        '
-        'Label59
-        '
-        resources.ApplyResources(Me.Label59, "Label59")
-        Me.Label59.Name = "Label59"
-        '
-        'ComboBoxOutputzUrlmode
-        '
-        Me.ComboBoxOutputzUrlmode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.ComboBoxOutputzUrlmode.FormattingEnabled = True
-        Me.ComboBoxOutputzUrlmode.Items.AddRange(New Object() {resources.GetString("ComboBoxOutputzUrlmode.Items"), resources.GetString("ComboBoxOutputzUrlmode.Items1")})
-        resources.ApplyResources(Me.ComboBoxOutputzUrlmode, "ComboBoxOutputzUrlmode")
-        Me.ComboBoxOutputzUrlmode.Name = "ComboBoxOutputzUrlmode"
-        '
-        'ShortUrlPanel
-        '
-        Me.ShortUrlPanel.Controls.Add(Me.CheckTinyURL)
-        Me.ShortUrlPanel.Controls.Add(Me.TextBitlyPw)
-        Me.ShortUrlPanel.Controls.Add(Me.CheckAutoConvertUrl)
-        Me.ShortUrlPanel.Controls.Add(Me.Label71)
-        Me.ShortUrlPanel.Controls.Add(Me.ComboBoxAutoShortUrlFirst)
-        Me.ShortUrlPanel.Controls.Add(Me.Label76)
-        Me.ShortUrlPanel.Controls.Add(Me.Label77)
-        Me.ShortUrlPanel.Controls.Add(Me.TextBitlyId)
-        resources.ApplyResources(Me.ShortUrlPanel, "ShortUrlPanel")
-        Me.ShortUrlPanel.Name = "ShortUrlPanel"
-        '
-        'CheckTinyURL
-        '
-        resources.ApplyResources(Me.CheckTinyURL, "CheckTinyURL")
-        Me.CheckTinyURL.Name = "CheckTinyURL"
-        Me.CheckTinyURL.UseVisualStyleBackColor = True
-        '
-        'TextBitlyPw
-        '
-        resources.ApplyResources(Me.TextBitlyPw, "TextBitlyPw")
-        Me.TextBitlyPw.Name = "TextBitlyPw"
-        '
-        'CheckAutoConvertUrl
-        '
-        resources.ApplyResources(Me.CheckAutoConvertUrl, "CheckAutoConvertUrl")
-        Me.CheckAutoConvertUrl.Name = "CheckAutoConvertUrl"
-        Me.CheckAutoConvertUrl.UseVisualStyleBackColor = True
-        '
-        'Label71
-        '
-        resources.ApplyResources(Me.Label71, "Label71")
-        Me.Label71.Name = "Label71"
-        '
-        'ComboBoxAutoShortUrlFirst
-        '
-        Me.ComboBoxAutoShortUrlFirst.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.ComboBoxAutoShortUrlFirst.FormattingEnabled = True
-        Me.ComboBoxAutoShortUrlFirst.Items.AddRange(New Object() {resources.GetString("ComboBoxAutoShortUrlFirst.Items"), resources.GetString("ComboBoxAutoShortUrlFirst.Items1"), resources.GetString("ComboBoxAutoShortUrlFirst.Items2"), resources.GetString("ComboBoxAutoShortUrlFirst.Items3"), resources.GetString("ComboBoxAutoShortUrlFirst.Items4"), resources.GetString("ComboBoxAutoShortUrlFirst.Items5")})
-        resources.ApplyResources(Me.ComboBoxAutoShortUrlFirst, "ComboBoxAutoShortUrlFirst")
-        Me.ComboBoxAutoShortUrlFirst.Name = "ComboBoxAutoShortUrlFirst"
-        '
-        'Label76
-        '
-        resources.ApplyResources(Me.Label76, "Label76")
-        Me.Label76.Name = "Label76"
-        '
-        'Label77
-        '
-        resources.ApplyResources(Me.Label77, "Label77")
-        Me.Label77.Name = "Label77"
-        '
-        'TextBitlyId
-        '
-        resources.ApplyResources(Me.TextBitlyId, "TextBitlyId")
-        Me.TextBitlyId.Name = "TextBitlyId"
-        '
-        'NotifyPanel
-        '
-        Me.NotifyPanel.Controls.Add(Me.CheckFavEventUnread)
-        Me.NotifyPanel.Controls.Add(Me.CheckListCreatedEvent)
-        Me.NotifyPanel.Controls.Add(Me.CheckDeleteEvent)
-        Me.NotifyPanel.Controls.Add(Me.CheckBlockEvent)
-        Me.NotifyPanel.Controls.Add(Me.CheckForceEventNotify)
-        Me.NotifyPanel.Controls.Add(Me.CheckListMemberRemovedEvent)
-        Me.NotifyPanel.Controls.Add(Me.CheckListMemberAddedEvent)
-        Me.NotifyPanel.Controls.Add(Me.CheckFollowEvent)
-        Me.NotifyPanel.Controls.Add(Me.CheckUnfavoritesEvent)
-        Me.NotifyPanel.Controls.Add(Me.CheckFavoritesEvent)
-        Me.NotifyPanel.Controls.Add(Me.CheckEventNotify)
-        resources.ApplyResources(Me.NotifyPanel, "NotifyPanel")
-        Me.NotifyPanel.Name = "NotifyPanel"
-        '
-        'CheckListCreatedEvent
-        '
-        resources.ApplyResources(Me.CheckListCreatedEvent, "CheckListCreatedEvent")
-        Me.CheckListCreatedEvent.Checked = True
-        Me.CheckListCreatedEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckListCreatedEvent.Name = "CheckListCreatedEvent"
-        Me.CheckListCreatedEvent.UseVisualStyleBackColor = True
-        '
-        'CheckDeleteEvent
-        '
-        resources.ApplyResources(Me.CheckDeleteEvent, "CheckDeleteEvent")
-        Me.CheckDeleteEvent.Checked = True
-        Me.CheckDeleteEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckDeleteEvent.Name = "CheckDeleteEvent"
-        Me.CheckDeleteEvent.UseVisualStyleBackColor = True
-        '
-        'CheckBlockEvent
-        '
-        resources.ApplyResources(Me.CheckBlockEvent, "CheckBlockEvent")
-        Me.CheckBlockEvent.Checked = True
-        Me.CheckBlockEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBlockEvent.Name = "CheckBlockEvent"
-        Me.CheckBlockEvent.UseVisualStyleBackColor = True
-        '
-        'CheckForceEventNotify
-        '
-        resources.ApplyResources(Me.CheckForceEventNotify, "CheckForceEventNotify")
-        Me.CheckForceEventNotify.Checked = True
-        Me.CheckForceEventNotify.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckForceEventNotify.Name = "CheckForceEventNotify"
-        Me.CheckForceEventNotify.UseVisualStyleBackColor = True
-        '
-        'CheckListMemberRemovedEvent
-        '
-        resources.ApplyResources(Me.CheckListMemberRemovedEvent, "CheckListMemberRemovedEvent")
-        Me.CheckListMemberRemovedEvent.Checked = True
-        Me.CheckListMemberRemovedEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckListMemberRemovedEvent.Name = "CheckListMemberRemovedEvent"
-        Me.CheckListMemberRemovedEvent.UseVisualStyleBackColor = True
-        '
-        'CheckListMemberAddedEvent
-        '
-        resources.ApplyResources(Me.CheckListMemberAddedEvent, "CheckListMemberAddedEvent")
-        Me.CheckListMemberAddedEvent.Checked = True
-        Me.CheckListMemberAddedEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckListMemberAddedEvent.Name = "CheckListMemberAddedEvent"
-        Me.CheckListMemberAddedEvent.UseVisualStyleBackColor = True
-        '
-        'CheckFollowEvent
-        '
-        resources.ApplyResources(Me.CheckFollowEvent, "CheckFollowEvent")
-        Me.CheckFollowEvent.Checked = True
-        Me.CheckFollowEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckFollowEvent.Name = "CheckFollowEvent"
-        Me.CheckFollowEvent.UseVisualStyleBackColor = True
-        '
-        'CheckUnfavoritesEvent
-        '
-        resources.ApplyResources(Me.CheckUnfavoritesEvent, "CheckUnfavoritesEvent")
-        Me.CheckUnfavoritesEvent.Checked = True
-        Me.CheckUnfavoritesEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckUnfavoritesEvent.Name = "CheckUnfavoritesEvent"
-        Me.CheckUnfavoritesEvent.UseVisualStyleBackColor = True
-        '
-        'CheckFavoritesEvent
-        '
-        resources.ApplyResources(Me.CheckFavoritesEvent, "CheckFavoritesEvent")
-        Me.CheckFavoritesEvent.Checked = True
-        Me.CheckFavoritesEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckFavoritesEvent.Name = "CheckFavoritesEvent"
-        Me.CheckFavoritesEvent.UseVisualStyleBackColor = True
-        '
-        'CheckEventNotify
-        '
-        resources.ApplyResources(Me.CheckEventNotify, "CheckEventNotify")
-        Me.CheckEventNotify.Checked = True
-        Me.CheckEventNotify.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckEventNotify.Name = "CheckEventNotify"
-        Me.CheckEventNotify.UseVisualStyleBackColor = True
-        '
-        'GetCountPanel
-        '
-        Me.GetCountPanel.Controls.Add(Me.ListTextCountApi)
-        Me.GetCountPanel.Controls.Add(Me.Label25)
-        Me.GetCountPanel.Controls.Add(Me.UserTimelineTextCountApi)
-        Me.GetCountPanel.Controls.Add(Me.Label17)
-        Me.GetCountPanel.Controls.Add(Me.Label30)
-        Me.GetCountPanel.Controls.Add(Me.Label28)
-        Me.GetCountPanel.Controls.Add(Me.Label19)
-        Me.GetCountPanel.Controls.Add(Me.FavoritesTextCountApi)
-        Me.GetCountPanel.Controls.Add(Me.SearchTextCountApi)
-        Me.GetCountPanel.Controls.Add(Me.Label66)
-        Me.GetCountPanel.Controls.Add(Me.FirstTextCountApi)
-        Me.GetCountPanel.Controls.Add(Me.GetMoreTextCountApi)
-        Me.GetCountPanel.Controls.Add(Me.Label53)
-        Me.GetCountPanel.Controls.Add(Me.UseChangeGetCount)
-        Me.GetCountPanel.Controls.Add(Me.TextCountApiReply)
-        Me.GetCountPanel.Controls.Add(Me.Label67)
-        Me.GetCountPanel.Controls.Add(Me.TextCountApi)
-        resources.ApplyResources(Me.GetCountPanel, "GetCountPanel")
-        Me.GetCountPanel.Name = "GetCountPanel"
-        '
-        'ListTextCountApi
-        '
-        resources.ApplyResources(Me.ListTextCountApi, "ListTextCountApi")
-        Me.ListTextCountApi.Name = "ListTextCountApi"
-        '
-        'Label25
-        '
-        resources.ApplyResources(Me.Label25, "Label25")
-        Me.Label25.Name = "Label25"
-        '
-        'UserTimelineTextCountApi
-        '
-        resources.ApplyResources(Me.UserTimelineTextCountApi, "UserTimelineTextCountApi")
-        Me.UserTimelineTextCountApi.Name = "UserTimelineTextCountApi"
-        '
-        'Label17
-        '
-        resources.ApplyResources(Me.Label17, "Label17")
-        Me.Label17.Name = "Label17"
-        '
-        'Label30
-        '
-        resources.ApplyResources(Me.Label30, "Label30")
-        Me.Label30.Name = "Label30"
-        '
-        'Label28
-        '
-        resources.ApplyResources(Me.Label28, "Label28")
-        Me.Label28.Name = "Label28"
-        '
-        'Label19
-        '
-        resources.ApplyResources(Me.Label19, "Label19")
-        Me.Label19.Name = "Label19"
-        '
-        'FavoritesTextCountApi
-        '
-        resources.ApplyResources(Me.FavoritesTextCountApi, "FavoritesTextCountApi")
-        Me.FavoritesTextCountApi.Name = "FavoritesTextCountApi"
-        '
-        'SearchTextCountApi
-        '
-        resources.ApplyResources(Me.SearchTextCountApi, "SearchTextCountApi")
-        Me.SearchTextCountApi.Name = "SearchTextCountApi"
-        '
-        'Label66
-        '
-        resources.ApplyResources(Me.Label66, "Label66")
-        Me.Label66.Name = "Label66"
-        '
-        'FirstTextCountApi
-        '
-        resources.ApplyResources(Me.FirstTextCountApi, "FirstTextCountApi")
-        Me.FirstTextCountApi.Name = "FirstTextCountApi"
-        '
-        'GetMoreTextCountApi
-        '
-        resources.ApplyResources(Me.GetMoreTextCountApi, "GetMoreTextCountApi")
-        Me.GetMoreTextCountApi.Name = "GetMoreTextCountApi"
-        '
-        'Label53
-        '
-        resources.ApplyResources(Me.Label53, "Label53")
-        Me.Label53.Name = "Label53"
-        '
-        'UseChangeGetCount
-        '
-        resources.ApplyResources(Me.UseChangeGetCount, "UseChangeGetCount")
-        Me.UseChangeGetCount.Name = "UseChangeGetCount"
-        Me.UseChangeGetCount.UseVisualStyleBackColor = True
-        '
-        'TextCountApiReply
-        '
-        resources.ApplyResources(Me.TextCountApiReply, "TextCountApiReply")
-        Me.TextCountApiReply.Name = "TextCountApiReply"
-        '
-        'Label67
-        '
-        resources.ApplyResources(Me.Label67, "Label67")
-        Me.Label67.Name = "Label67"
-        '
-        'TextCountApi
-        '
-        resources.ApplyResources(Me.TextCountApi, "TextCountApi")
-        Me.TextCountApi.Name = "TextCountApi"
-        '
         'Cancel
         '
         Me.Cancel.CausesValidation = False
@@ -1850,12 +1873,6 @@ Partial Class AppendSettingDialog
         resources.ApplyResources(Me.Save, "Save")
         Me.Save.Name = "Save"
         Me.Save.UseVisualStyleBackColor = True
-        '
-        'CheckFavEventUnread
-        '
-        resources.ApplyResources(Me.CheckFavEventUnread, "CheckFavEventUnread")
-        Me.CheckFavEventUnread.Name = "CheckFavEventUnread"
-        Me.CheckFavEventUnread.UseVisualStyleBackColor = True
         '
         'AppendSettingDialog
         '
@@ -1877,6 +1894,14 @@ Partial Class AppendSettingDialog
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.ResumeLayout(False)
+        Me.CooperatePanel.ResumeLayout(False)
+        Me.CooperatePanel.PerformLayout()
+        Me.ShortUrlPanel.ResumeLayout(False)
+        Me.ShortUrlPanel.PerformLayout()
+        Me.NotifyPanel.ResumeLayout(False)
+        Me.NotifyPanel.PerformLayout()
+        Me.GetCountPanel.ResumeLayout(False)
+        Me.GetCountPanel.PerformLayout()
         Me.BasedPanel.ResumeLayout(False)
         Me.BasedPanel.PerformLayout()
         Me.GetPeriodPanel.ResumeLayout(False)
@@ -1905,14 +1930,6 @@ Partial Class AppendSettingDialog
         Me.ConnectionPanel.PerformLayout()
         Me.ProxyPanel.ResumeLayout(False)
         Me.ProxyPanel.PerformLayout()
-        Me.CooperatePanel.ResumeLayout(False)
-        Me.CooperatePanel.PerformLayout()
-        Me.ShortUrlPanel.ResumeLayout(False)
-        Me.ShortUrlPanel.PerformLayout()
-        Me.NotifyPanel.ResumeLayout(False)
-        Me.NotifyPanel.PerformLayout()
-        Me.GetCountPanel.ResumeLayout(False)
-        Me.GetCountPanel.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -2150,4 +2167,6 @@ Partial Class AppendSettingDialog
     Friend WithEvents CheckListCreatedEvent As System.Windows.Forms.CheckBox
     Friend WithEvents CheckDeleteEvent As System.Windows.Forms.CheckBox
     Friend WithEvents CheckFavEventUnread As System.Windows.Forms.CheckBox
+    Friend WithEvents ComboBoxTranslateLanguage As System.Windows.Forms.ComboBox
+    Friend WithEvents Label29 As System.Windows.Forms.Label
 End Class

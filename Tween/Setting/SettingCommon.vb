@@ -97,6 +97,7 @@ Public Class SettingCommon
     Public EventNotifyFlag As EVENTTYPE = EVENTTYPE.ALL
     Public ForceEventNotify As Boolean = True
     Public FavEventUnread As Boolean = True
+    Public TranslateLanguage As String = "ja"
     Public PlaySound As Boolean = False
     Public UnreadManage As Boolean = True
     Public OneWayLove As Boolean = True
