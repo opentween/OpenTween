@@ -7134,11 +7134,13 @@ RETRY:
                 HashMgr.AddHashToHistory(hash.Trim, False)
                 AddNewTabForSearch(hash)
                 Exit Sub
-            ElseIf openUrlStr.StartsWith("http://twitter.com/") Then
-                Me.AddNewTabForUserTimeline(openUrlStr.Remove(0, "http://twitter.com/".Length))
-                Exit Sub
-            ElseIf openUrlStr.StartsWith("https://twitter.com/") Then
-                Me.AddNewTabForUserTimeline(openUrlStr.Remove(0, "https://twitter.com/".Length))
+            Else
+                Dim m As Match = Regex.Match(openUrlStr, "^https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)$")
+                If SettingDialog.OpenUserTimeline AndAlso m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
+                    Me.AddNewTabForUserTimeline(m.Result("${name}"))
+                Else
+                    OpenUriAsync(openUrlStr)
+                End If
                 Exit Sub
             End If
 
