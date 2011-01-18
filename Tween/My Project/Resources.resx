@@ -1051,4 +1051,7 @@
   <data name="TabUsageTypeName_UserTimeline" xml:space="preserve">
     <value>UserTimeline</value>
   </data>
+  <data name="TranslateDefaultLanguage" xml:space="preserve">
+    <value>ja</value>
+  </data>
 </root>
