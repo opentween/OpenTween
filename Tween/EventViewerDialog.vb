@@ -22,4 +22,14 @@ Public Class EventViewerDialog
             Me.EventList.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent)
         End If
     End Sub
+
+    Private Sub EventList_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EventList.DoubleClick
+        If EventSource IsNot Nothing AndAlso EventSource.Count > 0 Then
+            If EventSource(EventList.SelectedIndices(0)) IsNot Nothing Then
+                If Me.Owner IsNot Nothing Then
+                    DirectCast(Me.Owner, TweenMain).OpenUriAsync("http://twitter.com/" + EventSource(EventList.SelectedIndices(0)).Username)
+                End If
+            End If
+        End If
+    End Sub
 End Class
