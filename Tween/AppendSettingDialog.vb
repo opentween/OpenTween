@@ -112,6 +112,7 @@ Public Class AppendSettingDialog
     Private _MyEventNotifyFlag As EVENTTYPE
     Private _MyForceEventNotify As Boolean
     Private _MyFavEventUnread As Boolean
+    Private _MyTranslateLanguage As String
 
     Private Sub TreeView1_BeforeSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewCancelEventArgs) Handles TreeView1.BeforeSelect
         If _curPanel IsNot Nothing Then
@@ -304,6 +305,7 @@ Public Class AppendSettingDialog
             _MyEventNotifyFlag = GetEventNotifyFlag()
             _MyForceEventNotify = CheckForceEventNotify.Checked
             _MyFavEventUnread = CheckFavEventUnread.Checked
+            _MyTranslateLanguage = (New Google).GetLanguageEnumFromIndex(ComboBoxTranslateLanguage.SelectedIndex)
             _MyAutoShortUrlFirst = CType(ComboBoxAutoShortUrlFirst.SelectedIndex, UrlConverter)
             _MyTabIconDisp = chkTabIconDisp.Checked
             _MyReadOwnPost = chkReadOwnPost.Checked
@@ -558,6 +560,7 @@ Public Class AppendSettingDialog
         ApplyEventNotifyFlag(_MyEventNotifyEnabled, _MyEventNotifyFlag)
         CheckForceEventNotify.Checked = _MyForceEventNotify
         CheckFavEventUnread.Checked = _MyFavEventUnread
+        ComboBoxTranslateLanguage.SelectedIndex = (New Google).GetIndexFromLanguageEnum(_MyTranslateLanguage)
 
         ComboBoxAutoShortUrlFirst.SelectedIndex = _MyAutoShortUrlFirst
         chkTabIconDisp.Checked = _MyTabIconDisp
@@ -1977,6 +1980,17 @@ Public Class AppendSettingDialog
         End Set
     End Property
 
+    Public Property TranslateLanguage As String
+        Get
+            Return _MyTranslateLanguage
+        End Get
+        Set(ByVal value As String)
+            _MyTranslateLanguage = value
+            ComboBoxTranslateLanguage.SelectedIndex = (New Google).GetIndexFromLanguageEnum(value)
+        End Set
+    End Property
+
+
     Private Sub ComboBoxAutoShortUrlFirst_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboBoxAutoShortUrlFirst.SelectedIndexChanged
         If ComboBoxAutoShortUrlFirst.SelectedIndex = UrlConverter.Bitly OrElse _
            ComboBoxAutoShortUrlFirst.SelectedIndex = UrlConverter.Jmp Then
@@ -2475,5 +2489,9 @@ Public Class AppendSettingDialog
     Private Sub CheckFavEventUnread_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckFavEventUnread.CheckedChanged
         _MyFavEventUnread = CheckFavEventUnread.Checked
         _MyFavEventUnread = Not _MyFavEventUnread
+    End Sub
+
+    Private Sub ComboBoxTranslateLanguage_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboBoxTranslateLanguage.SelectedIndexChanged
+        _MyTranslateLanguage = (New Google).GetLanguageEnumFromIndex(ComboBoxTranslateLanguage.SelectedIndex)
     End Sub
 End Class
