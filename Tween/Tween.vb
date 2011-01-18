@@ -164,7 +164,6 @@ Public Class TweenMain
     Private _brsBackColorAtTo As SolidBrush
     Private _brsBackColorNone As SolidBrush
     Private _brsDeactiveSelection As New SolidBrush(Color.FromKnownColor(KnownColor.ButtonFace)) 'Listにフォーカスないときの選択行の背景色
-    'Private sf As New StringFormat()
     Private sfTab As New StringFormat()
 
     '''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -192,22 +191,11 @@ Public Class TweenMain
     Private SecurityManager As InternetSecurityManager
     Private Thumbnail As Thumbnail
 
-    'Private _homeCounter As Integer = 0
-    'Private _homeCounterAdjuster As Integer = 0
-    'Private _mentionCounter As Integer = 0
-    'Private _dmCounter As Integer = 0
-    'Private _pubSearchCounter As Integer = 0
-    'Private _listsCounter As Integer = 0
-
     Private UnreadCounter As Integer = -1
     Private UnreadAtCounter As Integer = -1
 
     Private ColumnOrgText(8) As String
     Private ColumnText(8) As String
-
-    'Private _UseAdditionalFlags As Boolean = False
-    'Private _FirstRefreshFlags As Boolean = False
-    'Private _FirstListsRefreshFlags As Boolean = False
 
     Private _DoFavRetweetFlags As Boolean = False
 
@@ -704,6 +692,7 @@ Public Class TweenMain
         SettingDialog.EventNotifyEnabled = _cfgCommon.EventNotifyEnabled
         SettingDialog.EventNotifyFlag = _cfgCommon.EventNotifyFlag
         SettingDialog.ForceEventNotify = _cfgCommon.ForceEventNotify
+        SettingDialog.FavEventUnread = _cfgCommon.FavEventUnread
 
         '廃止サービスが選択されていた場合bit.lyへ読み替え
         If _cfgCommon.AutoShortUrlFirst < 0 Then
@@ -5923,6 +5912,7 @@ RETRY:
             _cfgCommon.EventNotifyEnabled = SettingDialog.EventNotifyEnabled
             _cfgCommon.EventNotifyFlag = SettingDialog.EventNotifyFlag
             _cfgCommon.ForceEventNotify = SettingDialog.ForceEventNotify
+            _cfgCommon.FavEventUnread = SettingDialog.FavEventUnread
             _cfgCommon.AutoShortUrlFirst = SettingDialog.AutoShortUrlFirst
             _cfgCommon.TabIconDisp = SettingDialog.TabIconDisp
             _cfgCommon.ReplyIconState = SettingDialog.ReplyIconState
@@ -9383,7 +9373,7 @@ RETRY:
 
     Private WithEvents _hookGlobalHotkey As HookGlobalHotkey
     Public Sub New()
-
+        _instance = Me
         _hookGlobalHotkey = New HookGlobalHotkey(Me)
         ' この呼び出しは、Windows フォーム デザイナで必要です。
         InitializeComponent()
@@ -9875,17 +9865,6 @@ RETRY:
         End If
     End Sub
 
-    'Private Sub NotifyFavorite(ByVal ev As Twitter.FormattedEvent)
-    '    '新着通知
-    '    If BalloonRequired() Then
-    '        NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning
-    '        If SettingDialog.DispUsername Then NotifyIcon1.BalloonTipTitle = tw.Username + " - " Else NotifyIcon1.BalloonTipTitle = ""
-    '        NotifyIcon1.BalloonTipTitle += "Tween [FAVORITE] by " + ev.Username
-    '        NotifyIcon1.BalloonTipText = ev.Target
-    '        NotifyIcon1.ShowBalloonTip(500)
-    '    End If
-    'End Sub
-
     Private Sub NotifyEvent(ByVal ev As Twitter.FormattedEvent)
         '新着通知 
         If BalloonRequired(ev) Then
@@ -9989,4 +9968,16 @@ RETRY:
     Private Sub ShowUserTimelineToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ShowUserTimelineToolStripMenuItem.Click, ShowUserTimelineContextMenuItem.Click
         ShowUserTimeline()
     End Sub
+
+    Private Shared _instance As TweenMain
+
+    Public Shared Function GetInstance() As TweenMain
+        Return _instance
+    End Function
+
+    Public ReadOnly Property FavEventChangeUnread As Boolean
+        Get
+            Return SettingDialog.FavEventUnread
+        End Get
+    End Property
 End Class

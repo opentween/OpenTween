@@ -108,9 +108,10 @@ Public Class AppendSettingDialog
     Private _ValidationError As Boolean = False
     Private FirstExpandNode As Boolean = True
     Private _curPanel As Panel = Nothing
-    Private _MyEventNotifyEnabled As Boolean = True
-    Private _MyEventNotifyFlag As EVENTTYPE = EVENTTYPE.ALL
+    Private _MyEventNotifyEnabled As Boolean
+    Private _MyEventNotifyFlag As EVENTTYPE
     Private _MyForceEventNotify As Boolean
+    Private _MyFavEventUnread As Boolean
 
     Private Sub TreeView1_BeforeSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewCancelEventArgs) Handles TreeView1.BeforeSelect
         If _curPanel IsNot Nothing Then
@@ -302,6 +303,7 @@ Public Class AppendSettingDialog
             _MyEventNotifyEnabled = CheckEventNotify.Checked
             _MyEventNotifyFlag = GetEventNotifyFlag()
             _MyForceEventNotify = CheckForceEventNotify.Checked
+            _MyFavEventUnread = CheckFavEventUnread.Checked
             _MyAutoShortUrlFirst = CType(ComboBoxAutoShortUrlFirst.SelectedIndex, UrlConverter)
             _MyTabIconDisp = chkTabIconDisp.Checked
             _MyReadOwnPost = chkReadOwnPost.Checked
@@ -555,6 +557,7 @@ Public Class AppendSettingDialog
 
         ApplyEventNotifyFlag(_MyEventNotifyEnabled, _MyEventNotifyFlag)
         CheckForceEventNotify.Checked = _MyForceEventNotify
+        CheckFavEventUnread.Checked = _MyFavEventUnread
 
         ComboBoxAutoShortUrlFirst.SelectedIndex = _MyAutoShortUrlFirst
         chkTabIconDisp.Checked = _MyTabIconDisp
@@ -1965,6 +1968,15 @@ Public Class AppendSettingDialog
         End Set
     End Property
 
+    Public Property FavEventUnread As Boolean
+        Get
+            Return _MyFavEventUnread
+        End Get
+        Set(ByVal value As Boolean)
+            _MyFavEventUnread = value
+        End Set
+    End Property
+
     Private Sub ComboBoxAutoShortUrlFirst_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboBoxAutoShortUrlFirst.SelectedIndexChanged
         If ComboBoxAutoShortUrlFirst.SelectedIndex = UrlConverter.Bitly OrElse _
            ComboBoxAutoShortUrlFirst.SelectedIndex = UrlConverter.Jmp Then
@@ -2458,5 +2470,10 @@ Public Class AppendSettingDialog
 
     Private Sub CheckForceEventNotify_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckForceEventNotify.CheckedChanged
         _MyForceEventNotify = CheckEventNotify.Checked
+    End Sub
+
+    Private Sub CheckFavEventUnread_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckFavEventUnread.CheckedChanged
+        _MyFavEventUnread = CheckFavEventUnread.Checked
+        _MyFavEventUnread = Not _MyFavEventUnread
     End Sub
 End Class
