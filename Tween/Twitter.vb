@@ -2906,7 +2906,7 @@ Public Class Twitter
                 End If
                 evt.Target = ""
             Case "favorite", "unfavorite"
-                evt.Target = eventData.TargetObject.Text
+                evt.Target = HttpUtility.HtmlDecode(eventData.TargetObject.Text)
                 evt.Id = eventData.TargetObject.Id
                 If TabInformations.GetInstance.ContainsKey(eventData.TargetObject.Id) Then
                     Dim post As PostClass = TabInformations.GetInstance.Item(eventData.TargetObject.Id)
