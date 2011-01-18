@@ -9779,6 +9779,9 @@ RETRY:
     End Sub
 
     Private Sub tw_NewPostFromStream()
+        'Tasktray icon clear
+        _myStatusError = False
+
         If SettingDialog.ReadOldPosts Then
             _statuses.SetRead() '新着時未読クリア
         End If
