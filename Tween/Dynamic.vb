@@ -1468,7 +1468,11 @@ amphersand:
                         Case TypeCode.String
                             value = ParseEnum(text, target)
                     End Select
-                    If value IsNot Nothing Then Return Expression.Constant(value, type)
+                    Try
+                        If value IsNot Nothing Then Return Expression.Constant(value, type)
+                    Catch ex As Exception
+                        Throw ParseError(Res.ExpressionExpected)
+                    End Try
                 End If
             End If
         End If
