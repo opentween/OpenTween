@@ -382,7 +382,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="ListTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 246</value>
+    <value>570, 248</value>
   </data>
   <data name="ListTab.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -406,7 +406,7 @@
     <value>0, 0</value>
   </data>
   <data name="TimelinePanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 246</value>
+    <value>570, 248</value>
   </data>
   <data name="TimelinePanel.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -436,7 +436,7 @@
     <value>0, 0</value>
   </data>
   <data name="ImageSelectedPicture.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 218</value>
+    <value>570, 220</value>
   </data>
   <data name="ImageSelectedPicture.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>Zoom</value>
@@ -640,7 +640,7 @@
     <value>Bottom</value>
   </data>
   <data name="ImagePathPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 218</value>
+    <value>0, 220</value>
   </data>
   <data name="ImagePathPanel.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
@@ -670,7 +670,7 @@
     <value>0, 0</value>
   </data>
   <data name="ImageSelectionPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 246</value>
+    <value>570, 248</value>
   </data>
   <data name="ImageSelectionPanel.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -697,7 +697,7 @@
     <value>0, 0</value>
   </data>
   <data name="ProfilePanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 246</value>
+    <value>570, 248</value>
   </data>
   <data name="ProfilePanel.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -787,7 +787,7 @@
     <value>262, 22</value>
   </data>
   <data name="SearchPostsDetailNameToolStripMenuItem.Text" xml:space="preserve">
-    <value>このユーザーのTLを取得(&amp;S)</value>
+    <value>ユーザーのタイムラインを表示(&amp;T)</value>
   </data>
   <data name="SearchAtPostsDetailNameToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>262, 22</value>
@@ -811,7 +811,7 @@
     <value>保存(&amp;I)...</value>
   </data>
   <data name="ContextMenuUserPicture.Size" type="System.Drawing.Size, System.Drawing">
-    <value>263, 214</value>
+    <value>263, 236</value>
   </data>
   <data name="&gt;&gt;ContextMenuUserPicture.Name" xml:space="preserve">
     <value>ContextMenuUserPicture</value>
@@ -1045,7 +1045,7 @@
     <value>59, 20</value>
   </data>
   <data name="PostBrowser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>508, 46</value>
+    <value>508, 44</value>
   </data>
   <data name="PostBrowser.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -1150,7 +1150,7 @@
     <value>2</value>
   </data>
   <data name="TableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 69</value>
+    <value>570, 67</value>
   </data>
   <data name="TableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1288,10 +1288,10 @@
     <value>19</value>
   </data>
   <data name="SplitContainer2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 96</value>
+    <value>570, 94</value>
   </data>
   <data name="SplitContainer2.SplitterDistance" type="System.Int32, mscorlib">
-    <value>69</value>
+    <value>67</value>
   </data>
   <data name="SplitContainer2.SplitterWidth" type="System.Int32, mscorlib">
     <value>2</value>
@@ -1333,7 +1333,7 @@
     <value>0, 0</value>
   </data>
   <data name="PreviewPicture.Size" type="System.Drawing.Size, System.Drawing">
-    <value>194, 98</value>
+    <value>194, 96</value>
   </data>
   <data name="PreviewPicture.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>Zoom</value>
@@ -1363,7 +1363,7 @@
     <value>194, 0</value>
   </data>
   <data name="PreviewScrollBar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>17, 98</value>
+    <value>17, 96</value>
   </data>
   <data name="PreviewScrollBar.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1393,7 +1393,7 @@
     <value>1</value>
   </data>
   <data name="SplitContainer3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 96</value>
+    <value>570, 94</value>
   </data>
   <data name="SplitContainer3.SplitterDistance" type="System.Int32, mscorlib">
     <value>355</value>
@@ -1432,7 +1432,7 @@
     <value>574, 352</value>
   </data>
   <data name="SplitContainer1.SplitterDistance" type="System.Int32, mscorlib">
-    <value>250</value>
+    <value>252</value>
   </data>
   <data name="SplitContainer1.SplitterWidth" type="System.Int32, mscorlib">
     <value>2</value>
@@ -2161,31 +2161,31 @@
     <value>その他機能(&amp;C)</value>
   </data>
   <data name="StopToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="StopToolStripMenuItem.Text" xml:space="preserve">
     <value>Stop</value>
   </data>
   <data name="ToolStripSeparator40.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 6</value>
+    <value>149, 6</value>
   </data>
   <data name="TrackToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="TrackToolStripMenuItem.Text" xml:space="preserve">
     <value>Track</value>
   </data>
   <data name="AllrepliesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="AllrepliesToolStripMenuItem.Text" xml:space="preserve">
     <value>All @replies</value>
   </data>
   <data name="ToolStripSeparator42.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 6</value>
+    <value>149, 6</value>
   </data>
   <data name="EventViewerMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="EventViewerMenuItem.Text" xml:space="preserve">
     <value>View Events</value>
@@ -2536,7 +2536,7 @@
     <value>前データを取得(&amp;I)</value>
   </data>
   <data name="ContextMenuOperate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>245, 534</value>
+    <value>245, 512</value>
   </data>
   <data name="&gt;&gt;ContextMenuOperate.Name" xml:space="preserve">
     <value>ContextMenuOperate</value>
