@@ -85,14 +85,15 @@ Public Class ShowUserInfo
                 _info.RecentPost = user.Status.Text
                 _info.PostCreatedAt = DateTimeParse(user.Status.CreatedAt)
                 _info.PostSource = user.Status.Source
+                If Not _info.PostSource.Contains("</a>") Then
+                    _info.PostSource += "</a>"
+                End If
             Catch ex As Exception
                 _info.RecentPost = Nothing
                 _info.PostCreatedAt = Nothing
                 _info.PostSource = Nothing
             End Try
-            If Not _info.PostSource.Contains("</a>") Then
-                _info.PostSource += "</a>"
-            End If
+
         Catch ex As Exception
             Return False
         End Try
