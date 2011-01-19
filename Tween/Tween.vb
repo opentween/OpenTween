@@ -1366,7 +1366,7 @@ Public Class TweenMain
     End Sub
 
     Private Overloads Function BalloonRequired() As Boolean
-        BalloonRequired(New Twitter.FormattedEvent With {.Eventtype = EVENTTYPE.None})
+        Return BalloonRequired(New Twitter.FormattedEvent With {.Eventtype = EVENTTYPE.None})
     End Function
 
     Private Overloads Function BalloonRequired(ByVal ev As Twitter.FormattedEvent) As Boolean
