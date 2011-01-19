@@ -15,10 +15,12 @@ Public Class EventViewerDialog
 
     Private Sub EventViewerDialog_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
         If EventSource IsNot Nothing AndAlso EventSource.Count > 0 Then
+            Dim items As New Generic.List(Of ListViewItem)
             For Each x As Twitter.FormattedEvent In EventSource
                 Dim s() As String = {x.CreatedAt.ToString, x.Event.ToUpper, x.Username, x.Target}
-                Me.EventList.Items.Add(New ListViewItem(s))
+                items.Add(New ListViewItem(s))
             Next
+            EventList.Items.AddRange(items.ToArray())
             Me.EventList.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent)
         End If
     End Sub
