@@ -2296,7 +2296,7 @@ Public Class TweenMain
                                         End If
                                         ChangeCacheStyleRead(post.IsRead, idx, _curTab)
                                     End If
-                                    If idx = _curItemIndex Then DispSelectedPost() '選択アイテム再表示
+                                    If idx = _curItemIndex Then DispSelectedPost(True) '選択アイテム再表示
                                 End If
                             End If
                         Next
@@ -4616,18 +4616,24 @@ RETRY:
         Return detailHtmlFormatHeader + orgdata + detailHtmlFormatFooter
     End Function
 
-    Private Sub DispSelectedPost()
+    Private Overloads Sub DispSelectedPost()
+        DispSelectedPost(False)
+    End Sub
+
+    Private Overloads Sub DispSelectedPost(ByVal forceupdate As Boolean)
         Static displaypost As New PostClass
         If _curList.SelectedIndices.Count = 0 OrElse _
-            _curPost Is Nothing OrElse _
-            _curPost.Equals(displaypost) Then Exit Sub
+            _curPost Is Nothing Then Exit Sub
+
+        If Not forceupdate AndAlso _curPost.Equals(displaypost) Then
+            Exit Sub
+        End If
 
         displaypost = _curPost
         Dim dTxt As String = createDetailHtml(If(_curPost.IsDeleted, "(DELETED)", _curPost.OriginalData))
         If _curPost.IsDm Then
             SourceLinkLabel.Tag = Nothing
             SourceLinkLabel.Text = ""
-            'SourceLinkLabel.Visible = False
         Else
             Dim mc As Match = Regex.Match(_curPost.SourceHtml, "<a href=""(?<sourceurl>.+?)""")
             If mc.Success Then
@@ -8277,7 +8283,7 @@ RETRY:
 
     Private Sub doGetFollowersMenu()
         GetTimeline(WORKERTYPE.Follower, 1, 0, "")
-        DispSelectedPost()
+        DispSelectedPost(True)
     End Sub
 
     Private Sub GetFollowersAllToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UpdateFollowersMenuItem1.Click
@@ -8419,7 +8425,7 @@ RETRY:
 
     Private Sub DumpPostClassToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DumpPostClassToolStripMenuItem.Click
         If _curPost IsNot Nothing Then
-            DispSelectedPost()
+            DispSelectedPost(True)
         End If
     End Sub
 
