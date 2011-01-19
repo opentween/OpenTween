@@ -405,6 +405,43 @@ Public NotInheritable Class PostClass
         Return post
     End Function
 
+    Public Overrides Function Equals(ByVal obj As Object) As Boolean
+        If (obj Is Nothing) OrElse Not (Me.GetType() Is obj.GetType()) Then Return False
+        Return Me.Equals(CType(obj, PostClass))
+    End Function
+
+    Public Overloads Function Equals(ByVal other As PostClass) As Boolean
+        Return (Me.Nickname = other.Nickname) AndAlso
+                (Me.Data = other.Data) AndAlso
+                (Me.ImageUrl = other.ImageUrl) AndAlso
+                (Me.Name = other.Name) AndAlso
+                (Me.PDate = other.PDate) AndAlso
+                (Me.Id = other.Id) AndAlso
+                (Me.IsFav = other.IsFav) AndAlso
+                (Me.OriginalData = other.OriginalData) AndAlso
+                (Me.IsRead = other.IsRead) AndAlso
+                (Me.IsReply = other.IsReply) AndAlso
+                (Me.IsExcludeReply = other.IsExcludeReply) AndAlso
+                (Me.IsProtect = other.IsProtect) AndAlso
+                (Me.IsOwl = other.IsOwl) AndAlso
+                (Me.IsMark = other.IsMark) AndAlso
+                (Me.InReplyToUser = other.InReplyToUser) AndAlso
+                (Me.InReplyToStatusId = other.InReplyToStatusId) AndAlso
+                (Me.Source = other.Source) AndAlso
+                (Me.SourceHtml = other.SourceHtml) AndAlso
+                (Me.ReplyToList.Equals(other.ReplyToList)) AndAlso
+                (Me.IsMe = other.IsMe) AndAlso
+                (Me.IsDm = other.IsDm) AndAlso
+                (Me.UserId = other.UserId) AndAlso
+                (Me.FilterHit = other.FilterHit) AndAlso
+                (Me.RetweetedBy = other.RetweetedBy) AndAlso
+                (Me.RetweetedId = other.RetweetedId) AndAlso
+                (Me.RelTabName = other.RelTabName) AndAlso
+                (Me.IsDeleted = other.IsDeleted) AndAlso
+                (Me.InReplyToUserId = other.InReplyToUserId) AndAlso
+                (Me.Language = other.Language)
+
+    End Function
 #Region "IClonable.Clone"
     Private Function Clone() As Object Implements ICloneable.Clone
         Return Me.MemberwiseClone()
