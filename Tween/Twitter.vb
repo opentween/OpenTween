@@ -2870,7 +2870,7 @@ Public Class Twitter
                 evt.Event = "DELETE(Post)"
             End If
             evt.Username = post.Name
-            evt.Target = If(post.Data.Length > 5, post.Data.Substring(0, 5) + "...", post.Data) + " [" + post.PDate.ToString + "]"
+            evt.Target = If(post.Data.Length > 10, post.Data.Substring(0, 10) + "...", post.Data) + " [" + post.PDate.ToString + "]"
         End If
         For i As Integer = Me.StoredEvent.Count - 1 To 0 Step -1
             Dim sEvt As FormattedEvent = Me.StoredEvent(i)
