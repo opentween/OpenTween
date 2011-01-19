@@ -1198,6 +1198,7 @@ Public Class TweenMain
     End Sub
 
     Private Sub RefreshTimeline(ByVal isUserStream As Boolean)
+        If isUserStream Then NotifyIcon1.Icon = NIconAt
         'スクロール制御準備
         Dim smode As Integer = -1    '-1:制御しない,-2:最新へ,その他:topitem使用
         Dim topId As Long = GetScrollPos(smode)
@@ -1457,22 +1458,14 @@ Public Class TweenMain
     Private Sub MyList_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If _curList.SelectedIndices.Count <> 1 Then Exit Sub
 
-        Static beforePost As PostClass = Nothing
-
         _curItemIndex = _curList.SelectedIndices(0)
 
         _curPost = GetCurTabPost(_curItemIndex)
 
-        If _curPost IsNot Nothing AndAlso Not _curPost.Equals(beforePost) Then
-            beforePost = _curPost
-            If SettingDialog.UnreadManage Then _statuses.SetReadAllTab(True, _curTab.Text, _curItemIndex)
-            'MyList.RedrawItems(MyList.SelectedIndices(0), MyList.SelectedIndices(0), False)   'RetrieveVirtualItemが発生することを期待
-            'キャッシュの書き換え
-            ChangeCacheStyleRead(True, _curItemIndex, _curTab)   '既読へ（フォント、文字色）
-        End If
+        If SettingDialog.UnreadManage Then _statuses.SetReadAllTab(True, _curTab.Text, _curItemIndex)
+        'キャッシュの書き換え
+        ChangeCacheStyleRead(True, _curItemIndex, _curTab)   '既読へ（フォント、文字色）
 
-        'ColorizeList(-1)    '全キャッシュ更新（背景色）
-        'DispSelectedPost()
         ColorizeList()
         _colorize = True
     End Sub
@@ -9790,9 +9783,6 @@ RETRY:
     End Sub
 
     Private Sub tw_NewPostFromStream()
-        'Tasktray icon clear
-        _myStatusError = False
-
         If SettingDialog.ReadOldPosts Then
             _statuses.SetRead() '新着時未読クリア
         End If
