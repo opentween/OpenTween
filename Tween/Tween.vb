@@ -9891,10 +9891,12 @@ RETRY:
                 NotifyIcon1.BalloonTipText = " "
             End If
             NotifyIcon1.ShowBalloonTip(500)
+        End If
 
-            'サウンド再生
-            Dim snd As String = SettingDialog.EventSoundFile
-            If Not _initial AndAlso SettingDialog.PlaySound AndAlso snd <> "" Then
+        'サウンド再生
+        Dim snd As String = SettingDialog.EventSoundFile
+        If Not _initial AndAlso SettingDialog.PlaySound AndAlso snd <> "" Then
+            If CBool(ev.Eventtype And SettingDialog.EventNotifyFlag) Then
                 Try
                     Dim dir As String = My.Application.Info.DirectoryPath
                     If Directory.Exists(Path.Combine(dir, "Sounds")) Then
