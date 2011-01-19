@@ -9891,20 +9891,20 @@ RETRY:
                 NotifyIcon1.BalloonTipText = " "
             End If
             NotifyIcon1.ShowBalloonTip(500)
-        End If
 
-        'サウンド再生
-        Dim snd As String = SettingDialog.EventSoundFile
-        If Not _initial AndAlso SettingDialog.PlaySound AndAlso snd <> "" Then
-            Try
-                Dim dir As String = My.Application.Info.DirectoryPath
-                If Directory.Exists(Path.Combine(dir, "Sounds")) Then
-                    dir = Path.Combine(dir, "Sounds")
-                End If
-                My.Computer.Audio.Play(Path.Combine(dir, snd), AudioPlayMode.Background)
-            Catch ex As Exception
+            'サウンド再生
+            Dim snd As String = SettingDialog.EventSoundFile
+            If Not _initial AndAlso SettingDialog.PlaySound AndAlso snd <> "" Then
+                Try
+                    Dim dir As String = My.Application.Info.DirectoryPath
+                    If Directory.Exists(Path.Combine(dir, "Sounds")) Then
+                        dir = Path.Combine(dir, "Sounds")
+                    End If
+                    My.Computer.Audio.Play(Path.Combine(dir, snd), AudioPlayMode.Background)
+                Catch ex As Exception
 
-            End Try
+                End Try
+            End If
         End If
     End Sub
 
