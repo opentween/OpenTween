@@ -411,6 +411,7 @@ Public NotInheritable Class PostClass
     End Function
 
     Public Overloads Function Equals(ByVal other As PostClass) As Boolean
+        If other Is Nothing Then Return False
         Return (Me.Nickname = other.Nickname) AndAlso
                 (Me.Data = other.Data) AndAlso
                 (Me.ImageUrl = other.ImageUrl) AndAlso
@@ -455,7 +456,7 @@ Public NotInheritable Class TabInformations
     Private _tabs As New Dictionary(Of String, TabClass)
     Private _statuses As New Dictionary(Of Long, PostClass)
     Private _addedIds As List(Of Long)
-    'Private _deletedIds As New List(Of Long)
+    Private _deletedIds As New List(Of Long)
     Private _retweets As New Dictionary(Of Long, PostClass)
     Private _removedTab As TabClass = Nothing
 
@@ -692,7 +693,7 @@ Public NotInheritable Class TabInformations
             post = Nothing
             Dim tmp As PostClass = Me.Item(id)
             If tmp IsNot Nothing Then post = tmp.Copy
-            'Me._deletedIds.Add(id)
+            Me._deletedIds.Add(id)
             Me.DeletePost(id)
         End SyncLock
     End Sub
@@ -913,12 +914,13 @@ Public NotInheritable Class TabInformations
             If Not isUserStream OrElse Me.SortMode <> IdComparerClass.ComparerMode.Id Then
                 Me.SortPosts()
             End If
-            'If isUserStream Then
-            '    For Each id As Long In Me._deletedIds
-            '        Me.DeletePost(id)
-            '    Next
-            '    Me._deletedIds.Clear()
-            'End If
+            If isUserStream Then
+                For Each id As Long In Me._deletedIds
+                    'Me.DeletePost(id)
+                    Me.RemovePost(id)
+                Next
+                Me._deletedIds.Clear()
+            End If
 
             soundFile = _soundFile
             _soundFile = ""

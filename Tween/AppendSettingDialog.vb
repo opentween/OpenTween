@@ -648,6 +648,7 @@ Public Class AppendSettingDialog
             .Nodes("BasedNode").Nodes("GetCountNode").Tag = GetCountPanel
             .Nodes("BasedNode").Nodes("UserStreamNode").Tag = UserStreamPanel
             .Nodes("ActionNode").Tag = ActionPanel
+            .Nodes("ActionNode").Nodes("NotifyNode").Tag = NotifyPanel
             .Nodes("ActionNode").Nodes("TweetActNode").Tag = TweetActPanel
             .Nodes("PreviewNode").Tag = PreviewPanel
             .Nodes("PreviewNode").Nodes("TweetPrvNode").Tag = TweetPrvPanel
@@ -657,7 +658,6 @@ Public Class AppendSettingDialog
             .Nodes("ConnectionNode").Nodes("ProxyNode").Tag = ProxyPanel
             .Nodes("ConnectionNode").Nodes("CooperateNode").Tag = CooperatePanel
             .Nodes("ConnectionNode").Nodes("ShortUrlNode").Tag = ShortUrlPanel
-            .Nodes("NotifyNode").Tag = NotifyPanel
 
             .SelectedNode = .Nodes(0)
         End With

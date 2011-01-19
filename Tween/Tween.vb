@@ -1456,15 +1456,20 @@ Public Class TweenMain
 
     Private Sub MyList_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If _curList.SelectedIndices.Count <> 1 Then Exit Sub
-        'If _curList.SelectedIndices.Count = 0 Then Exit Sub
+
+        Static beforePost As PostClass = Nothing
 
         _curItemIndex = _curList.SelectedIndices(0)
-        'If _curPost Is GetCurTabPost(_curItemIndex) Then Exit Sub 'refreshで既読化されるのを防ぐため追加
+
         _curPost = GetCurTabPost(_curItemIndex)
-        If SettingDialog.UnreadManage Then _statuses.SetReadAllTab(True, _curTab.Text, _curItemIndex)
-        'MyList.RedrawItems(MyList.SelectedIndices(0), MyList.SelectedIndices(0), False)   'RetrieveVirtualItemが発生することを期待
-        'キャッシュの書き換え
-        ChangeCacheStyleRead(True, _curItemIndex, _curTab)   '既読へ（フォント、文字色）
+
+        If _curPost IsNot Nothing AndAlso Not _curPost.Equals(beforePost) Then
+            beforePost = _curPost
+            If SettingDialog.UnreadManage Then _statuses.SetReadAllTab(True, _curTab.Text, _curItemIndex)
+            'MyList.RedrawItems(MyList.SelectedIndices(0), MyList.SelectedIndices(0), False)   'RetrieveVirtualItemが発生することを期待
+            'キャッシュの書き換え
+            ChangeCacheStyleRead(True, _curItemIndex, _curTab)   '既読へ（フォント、文字色）
+        End If
 
         'ColorizeList(-1)    '全キャッシュ更新（背景色）
         'DispSelectedPost()
