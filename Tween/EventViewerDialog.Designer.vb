@@ -33,6 +33,7 @@ Partial Class EventViewerDialog
         'OK_Button
         '
         Me.OK_Button.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.OK_Button.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.OK_Button.Location = New System.Drawing.Point(612, 258)
         Me.OK_Button.Name = "OK_Button"
         Me.OK_Button.Size = New System.Drawing.Size(67, 21)
@@ -75,9 +76,9 @@ Partial Class EventViewerDialog
         '
         'EventViewerDialog
         '
-        Me.AcceptButton = Me.OK_Button
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.CancelButton = Me.OK_Button
         Me.ClientSize = New System.Drawing.Size(691, 291)
         Me.Controls.Add(Me.OK_Button)
         Me.Controls.Add(Me.EventList)
