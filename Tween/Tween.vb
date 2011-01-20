@@ -8251,7 +8251,7 @@ RETRY:
             GetTimeline(WORKERTYPE.List, 1, 0, "")  'tabname="":全タブ
             Dim i As Integer = 0
             Dim j As Integer = 0
-            Do While (_waitTimeline OrElse _waitReply OrElse _waitDm OrElse _waitFav OrElse _waitPubSearch OrElse _waitLists) AndAlso Not _endingFlag
+            Do While (IsInitialRead()) AndAlso Not _endingFlag
                 System.Threading.Thread.Sleep(100)
                 My.Application.DoEvents()
                 i += 1
@@ -8291,6 +8291,10 @@ RETRY:
         If SettingDialog.UserstreamStartup Then tw.StartUserStream()
         TimerTimeline.Enabled = True
     End Sub
+
+    Private Function IsInitialRead() As Boolean
+        Return _waitTimeline OrElse _waitReply OrElse _waitDm OrElse _waitFav OrElse _waitPubSearch OrElse _waitUserTimeline OrElse _waitLists
+    End Function
 
     Private Sub doGetFollowersMenu()
         GetTimeline(WORKERTYPE.Follower, 1, 0, "")
