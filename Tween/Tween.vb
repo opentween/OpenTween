@@ -1198,7 +1198,7 @@ Public Class TweenMain
     End Sub
 
     Private Sub RefreshTimeline(ByVal isUserStream As Boolean)
-        If isUserStream Then NotifyIcon1.Icon = NIconAt
+        If isUserStream Then Me.RefreshTasktrayIcon(True)
         'スクロール制御準備
         Dim smode As Integer = -1    '-1:制御しない,-2:最新へ,その他:topitem使用
         Dim topId As Long = GetScrollPos(smode)
@@ -6505,8 +6505,7 @@ RETRY:
         _tabDrag = False
     End Sub
 
-    Private Sub TimerRefreshIcon_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TimerRefreshIcon.Tick
-        '200ms
+    Private Sub RefreshTasktrayIcon(ByVal forceRefresh As Boolean)
         If _colorize Then Colorize()
         If Not TimerRefreshIcon.Enabled Then Exit Sub
         Static iconCnt As Integer = 0
@@ -6516,6 +6515,9 @@ RETRY:
         'Static usCheckCnt As Integer = 0
 
         Static iconDlListTopItem As ListViewItem = Nothing
+
+        If forceRefresh Then idle = False
+
         If DirectCast(ListTab.SelectedTab.Tag, ListView).TopItem Is iconDlListTopItem Then
             DirectCast(Me.TIconDic, ImageDictionary).PauseGetImage = False
         Else
@@ -6585,6 +6587,11 @@ RETRY:
         Else
             NotifyIcon1.Icon = NIconAtSmoke
         End If
+    End Sub
+
+    Private Sub TimerRefreshIcon_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TimerRefreshIcon.Tick
+        '200ms
+        Me.RefreshTasktrayIcon(False)
     End Sub
 
     Private Sub ContextMenuTabProperty_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ContextMenuTabProperty.Opening
