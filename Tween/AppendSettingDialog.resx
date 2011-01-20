@@ -259,636 +259,6 @@
   <data name="&gt;&gt;SplitContainer1.Panel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="CheckOpenUserTimeline.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CheckOpenUserTimeline.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 245</value>
-  </data>
-  <data name="CheckOpenUserTimeline.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 16</value>
-  </data>
-  <data name="CheckOpenUserTimeline.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="CheckOpenUserTimeline.Text" xml:space="preserve">
-    <value>ユーザーのホームURLをタブで開く</value>
-  </data>
-  <data name="&gt;&gt;CheckOpenUserTimeline.Name" xml:space="preserve">
-    <value>CheckOpenUserTimeline</value>
-  </data>
-  <data name="&gt;&gt;CheckOpenUserTimeline.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckOpenUserTimeline.Parent" xml:space="preserve">
-    <value>ActionPanel</value>
-  </data>
-  <data name="&gt;&gt;CheckOpenUserTimeline.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="HotkeyCheck.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="HotkeyCheck.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="HotkeyCheck.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 15</value>
-  </data>
-  <data name="HotkeyCheck.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 16</value>
-  </data>
-  <data name="HotkeyCheck.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="HotkeyCheck.Text" xml:space="preserve">
-    <value>有効</value>
-  </data>
-  <data name="&gt;&gt;HotkeyCheck.Name" xml:space="preserve">
-    <value>HotkeyCheck</value>
-  </data>
-  <data name="&gt;&gt;HotkeyCheck.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;HotkeyCheck.Parent" xml:space="preserve">
-    <value>GroupBox3</value>
-  </data>
-  <data name="&gt;&gt;HotkeyCheck.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="HotkeyCode.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="HotkeyCode.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="HotkeyCode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>340, 16</value>
-  </data>
-  <data name="HotkeyCode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>13, 14</value>
-  </data>
-  <data name="HotkeyCode.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="HotkeyCode.Text" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;HotkeyCode.Name" xml:space="preserve">
-    <value>HotkeyCode</value>
-  </data>
-  <data name="&gt;&gt;HotkeyCode.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;HotkeyCode.Parent" xml:space="preserve">
-    <value>GroupBox3</value>
-  </data>
-  <data name="&gt;&gt;HotkeyCode.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="HotkeyText.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Disable</value>
-  </data>
-  <data name="HotkeyText.Location" type="System.Drawing.Point, System.Drawing">
-    <value>257, 13</value>
-  </data>
-  <data name="HotkeyText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>77, 19</value>
-  </data>
-  <data name="HotkeyText.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;HotkeyText.Name" xml:space="preserve">
-    <value>HotkeyText</value>
-  </data>
-  <data name="&gt;&gt;HotkeyText.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;HotkeyText.Parent" xml:space="preserve">
-    <value>GroupBox3</value>
-  </data>
-  <data name="&gt;&gt;HotkeyText.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="HotkeyWin.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="HotkeyWin.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="HotkeyWin.Location" type="System.Drawing.Point, System.Drawing">
-    <value>211, 15</value>
-  </data>
-  <data name="HotkeyWin.Size" type="System.Drawing.Size, System.Drawing">
-    <value>42, 16</value>
-  </data>
-  <data name="HotkeyWin.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="HotkeyWin.Text" xml:space="preserve">
-    <value>Win</value>
-  </data>
-  <data name="&gt;&gt;HotkeyWin.Name" xml:space="preserve">
-    <value>HotkeyWin</value>
-  </data>
-  <data name="&gt;&gt;HotkeyWin.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;HotkeyWin.Parent" xml:space="preserve">
-    <value>GroupBox3</value>
-  </data>
-  <data name="&gt;&gt;HotkeyWin.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="HotkeyAlt.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="HotkeyAlt.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="HotkeyAlt.Location" type="System.Drawing.Point, System.Drawing">
-    <value>168, 15</value>
-  </data>
-  <data name="HotkeyAlt.Size" type="System.Drawing.Size, System.Drawing">
-    <value>39, 16</value>
-  </data>
-  <data name="HotkeyAlt.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="HotkeyAlt.Text" xml:space="preserve">
-    <value>Alt</value>
-  </data>
-  <data name="&gt;&gt;HotkeyAlt.Name" xml:space="preserve">
-    <value>HotkeyAlt</value>
-  </data>
-  <data name="&gt;&gt;HotkeyAlt.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;HotkeyAlt.Parent" xml:space="preserve">
-    <value>GroupBox3</value>
-  </data>
-  <data name="&gt;&gt;HotkeyAlt.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="HotkeyShift.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="HotkeyShift.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="HotkeyShift.Location" type="System.Drawing.Point, System.Drawing">
-    <value>116, 15</value>
-  </data>
-  <data name="HotkeyShift.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 16</value>
-  </data>
-  <data name="HotkeyShift.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="HotkeyShift.Text" xml:space="preserve">
-    <value>Shift</value>
-  </data>
-  <data name="&gt;&gt;HotkeyShift.Name" xml:space="preserve">
-    <value>HotkeyShift</value>
-  </data>
-  <data name="&gt;&gt;HotkeyShift.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;HotkeyShift.Parent" xml:space="preserve">
-    <value>GroupBox3</value>
-  </data>
-  <data name="&gt;&gt;HotkeyShift.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="HotkeyCtrl.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="HotkeyCtrl.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="HotkeyCtrl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>69, 15</value>
-  </data>
-  <data name="HotkeyCtrl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>43, 16</value>
-  </data>
-  <data name="HotkeyCtrl.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="HotkeyCtrl.Text" xml:space="preserve">
-    <value>Ctrl</value>
-  </data>
-  <data name="&gt;&gt;HotkeyCtrl.Name" xml:space="preserve">
-    <value>HotkeyCtrl</value>
-  </data>
-  <data name="&gt;&gt;HotkeyCtrl.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;HotkeyCtrl.Parent" xml:space="preserve">
-    <value>GroupBox3</value>
-  </data>
-  <data name="&gt;&gt;HotkeyCtrl.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="GroupBox3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>21, 305</value>
-  </data>
-  <data name="GroupBox3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>474, 41</value>
-  </data>
-  <data name="GroupBox3.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="GroupBox3.Text" xml:space="preserve">
-    <value>ホットキー</value>
-  </data>
-  <data name="&gt;&gt;GroupBox3.Name" xml:space="preserve">
-    <value>GroupBox3</value>
-  </data>
-  <data name="&gt;&gt;GroupBox3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GroupBox3.Parent" xml:space="preserve">
-    <value>ActionPanel</value>
-  </data>
-  <data name="&gt;&gt;GroupBox3.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="Label57.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label57.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label57.Location" type="System.Drawing.Point, System.Drawing">
-    <value>26, 210</value>
-  </data>
-  <data name="Label57.Size" type="System.Drawing.Size, System.Drawing">
-    <value>340, 12</value>
-  </data>
-  <data name="Label57.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="Label57.Text" xml:space="preserve">
-    <value>発言を再取得してFav結果を検証します。通信量が増えるのでOff推奨</value>
-  </data>
-  <data name="&gt;&gt;Label57.Name" xml:space="preserve">
-    <value>Label57</value>
-  </data>
-  <data name="&gt;&gt;Label57.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label57.Parent" xml:space="preserve">
-    <value>ActionPanel</value>
-  </data>
-  <data name="&gt;&gt;Label57.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="CheckFavRestrict.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CheckFavRestrict.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CheckFavRestrict.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 188</value>
-  </data>
-  <data name="CheckFavRestrict.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 16</value>
-  </data>
-  <data name="CheckFavRestrict.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="CheckFavRestrict.Text" xml:space="preserve">
-    <value>Fav操作結果を厳密にチェックする</value>
-  </data>
-  <data name="&gt;&gt;CheckFavRestrict.Name" xml:space="preserve">
-    <value>CheckFavRestrict</value>
-  </data>
-  <data name="&gt;&gt;CheckFavRestrict.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckFavRestrict.Parent" xml:space="preserve">
-    <value>ActionPanel</value>
-  </data>
-  <data name="&gt;&gt;CheckFavRestrict.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="Button3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Button3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>418, 158</value>
-  </data>
-  <data name="Button3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 21</value>
-  </data>
-  <data name="Button3.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="Button3.Text" xml:space="preserve">
-    <value>参照</value>
-  </data>
-  <data name="&gt;&gt;Button3.Name" xml:space="preserve">
-    <value>Button3</value>
-  </data>
-  <data name="&gt;&gt;Button3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Button3.Parent" xml:space="preserve">
-    <value>ActionPanel</value>
-  </data>
-  <data name="&gt;&gt;Button3.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="PlaySnd.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="PlaySnd.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="PlaySnd.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 20</value>
-  </data>
-  <data name="PlaySnd.Size" type="System.Drawing.Size, System.Drawing">
-    <value>113, 16</value>
-  </data>
-  <data name="PlaySnd.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="PlaySnd.Text" xml:space="preserve">
-    <value>サウンドを再生する</value>
-  </data>
-  <data name="&gt;&gt;PlaySnd.Name" xml:space="preserve">
-    <value>PlaySnd</value>
-  </data>
-  <data name="&gt;&gt;PlaySnd.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;PlaySnd.Parent" xml:space="preserve">
-    <value>ActionPanel</value>
-  </data>
-  <data name="&gt;&gt;PlaySnd.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="chkReadOwnPost.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="chkReadOwnPost.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="chkReadOwnPost.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 275</value>
-  </data>
-  <data name="chkReadOwnPost.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 16</value>
-  </data>
-  <data name="chkReadOwnPost.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="chkReadOwnPost.Text" xml:space="preserve">
-    <value>自分の発言を既読にする</value>
-  </data>
-  <data name="&gt;&gt;chkReadOwnPost.Name" xml:space="preserve">
-    <value>chkReadOwnPost</value>
-  </data>
-  <data name="&gt;&gt;chkReadOwnPost.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;chkReadOwnPost.Parent" xml:space="preserve">
-    <value>ActionPanel</value>
-  </data>
-  <data name="&gt;&gt;chkReadOwnPost.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="Label15.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label15.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 42</value>
-  </data>
-  <data name="Label15.Size" type="System.Drawing.Size, System.Drawing">
-    <value>408, 22</value>
-  </data>
-  <data name="Label15.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="Label15.Text" xml:space="preserve">
-    <value>タブのサウンドを設定した上で、「再生する」を選ぶとサウンドが再生されます。</value>
-  </data>
-  <data name="&gt;&gt;Label15.Name" xml:space="preserve">
-    <value>Label15</value>
-  </data>
-  <data name="&gt;&gt;Label15.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label15.Parent" xml:space="preserve">
-    <value>ActionPanel</value>
-  </data>
-  <data name="&gt;&gt;Label15.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="BrowserPathText.Location" type="System.Drawing.Point, System.Drawing">
-    <value>184, 160</value>
-  </data>
-  <data name="BrowserPathText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>228, 19</value>
-  </data>
-  <data name="BrowserPathText.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;BrowserPathText.Name" xml:space="preserve">
-    <value>BrowserPathText</value>
-  </data>
-  <data name="&gt;&gt;BrowserPathText.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;BrowserPathText.Parent" xml:space="preserve">
-    <value>ActionPanel</value>
-  </data>
-  <data name="&gt;&gt;BrowserPathText.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="UReadMng.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="UReadMng.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="UReadMng.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 71</value>
-  </data>
-  <data name="UReadMng.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 16</value>
-  </data>
-  <data name="UReadMng.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="UReadMng.Text" xml:space="preserve">
-    <value>未読管理を行う</value>
-  </data>
-  <data name="&gt;&gt;UReadMng.Name" xml:space="preserve">
-    <value>UReadMng</value>
-  </data>
-  <data name="&gt;&gt;UReadMng.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;UReadMng.Parent" xml:space="preserve">
-    <value>ActionPanel</value>
-  </data>
-  <data name="&gt;&gt;UReadMng.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="Label44.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label44.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label44.Location" type="System.Drawing.Point, System.Drawing">
-    <value>21, 164</value>
-  </data>
-  <data name="Label44.Size" type="System.Drawing.Size, System.Drawing">
-    <value>60, 12</value>
-  </data>
-  <data name="Label44.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="Label44.Text" xml:space="preserve">
-    <value>ブラウザパス</value>
-  </data>
-  <data name="&gt;&gt;Label44.Name" xml:space="preserve">
-    <value>Label44</value>
-  </data>
-  <data name="&gt;&gt;Label44.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label44.Parent" xml:space="preserve">
-    <value>ActionPanel</value>
-  </data>
-  <data name="&gt;&gt;Label44.ZOrder" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="CheckCloseToExit.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CheckCloseToExit.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CheckCloseToExit.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 114</value>
-  </data>
-  <data name="CheckCloseToExit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>171, 16</value>
-  </data>
-  <data name="CheckCloseToExit.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="CheckCloseToExit.Text" xml:space="preserve">
-    <value>×ボタンを押したときに終了する</value>
-  </data>
-  <data name="&gt;&gt;CheckCloseToExit.Name" xml:space="preserve">
-    <value>CheckCloseToExit</value>
-  </data>
-  <data name="&gt;&gt;CheckCloseToExit.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckCloseToExit.Parent" xml:space="preserve">
-    <value>ActionPanel</value>
-  </data>
-  <data name="&gt;&gt;CheckCloseToExit.ZOrder" xml:space="preserve">
-    <value>11</value>
-  </data>
-  <data name="CheckMinimizeToTray.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CheckMinimizeToTray.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CheckMinimizeToTray.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 137</value>
-  </data>
-  <data name="CheckMinimizeToTray.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 16</value>
-  </data>
-  <data name="CheckMinimizeToTray.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="CheckMinimizeToTray.Text" xml:space="preserve">
-    <value>最小化したときにアイコン化する</value>
-  </data>
-  <data name="&gt;&gt;CheckMinimizeToTray.Name" xml:space="preserve">
-    <value>CheckMinimizeToTray</value>
-  </data>
-  <data name="&gt;&gt;CheckMinimizeToTray.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckMinimizeToTray.Parent" xml:space="preserve">
-    <value>ActionPanel</value>
-  </data>
-  <data name="&gt;&gt;CheckMinimizeToTray.ZOrder" xml:space="preserve">
-    <value>12</value>
-  </data>
-  <data name="CheckReadOldPosts.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CheckReadOldPosts.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CheckReadOldPosts.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 92</value>
-  </data>
-  <data name="CheckReadOldPosts.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 16</value>
-  </data>
-  <data name="CheckReadOldPosts.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="CheckReadOldPosts.Text" xml:space="preserve">
-    <value>新着時に未読をクリアする</value>
-  </data>
-  <data name="&gt;&gt;CheckReadOldPosts.Name" xml:space="preserve">
-    <value>CheckReadOldPosts</value>
-  </data>
-  <data name="&gt;&gt;CheckReadOldPosts.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckReadOldPosts.Parent" xml:space="preserve">
-    <value>ActionPanel</value>
-  </data>
-  <data name="&gt;&gt;CheckReadOldPosts.ZOrder" xml:space="preserve">
-    <value>13</value>
-  </data>
-  <data name="ActionPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="ActionPanel.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="ActionPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="ActionPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>518, 368</value>
-  </data>
-  <data name="ActionPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="ActionPanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;ActionPanel.Name" xml:space="preserve">
-    <value>ActionPanel</value>
-  </data>
-  <data name="&gt;&gt;ActionPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ActionPanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;ActionPanel.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="Label35.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -971,13 +341,13 @@
     <value>40, 145</value>
   </data>
   <data name="CheckListCreatedEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>85, 16</value>
+    <value>134, 16</value>
   </data>
   <data name="CheckListCreatedEvent.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
   </data>
   <data name="CheckListCreatedEvent.Text" xml:space="preserve">
-    <value>List_created</value>
+    <value>Listsの作成に成功した</value>
   </data>
   <data name="&gt;&gt;CheckListCreatedEvent.Name" xml:space="preserve">
     <value>CheckListCreatedEvent</value>
@@ -998,13 +368,13 @@
     <value>40, 162</value>
   </data>
   <data name="CheckDeleteEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>57, 16</value>
+    <value>252, 16</value>
   </data>
   <data name="CheckDeleteEvent.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
   </data>
   <data name="CheckDeleteEvent.Text" xml:space="preserve">
-    <value>Delete</value>
+    <value>発言または自分宛に送信されたDMが削除された</value>
   </data>
   <data name="CheckDeleteEvent.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1028,13 +398,13 @@
     <value>40, 128</value>
   </data>
   <data name="CheckBlockEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>53, 16</value>
+    <value>211, 16</value>
   </data>
   <data name="CheckBlockEvent.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
   </data>
   <data name="CheckBlockEvent.Text" xml:space="preserve">
-    <value>Block</value>
+    <value>他のユーザーに対するブロックが成功した</value>
   </data>
   <data name="&gt;&gt;CheckBlockEvent.Name" xml:space="preserve">
     <value>CheckBlockEvent</value>
@@ -1082,13 +452,13 @@
     <value>40, 111</value>
   </data>
   <data name="CheckListMemberRemovedEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>134, 16</value>
+    <value>166, 16</value>
   </data>
   <data name="CheckListMemberRemovedEvent.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
   <data name="CheckListMemberRemovedEvent.Text" xml:space="preserve">
-    <value>List_member_removed</value>
+    <value>Listsのメンバーから削除された</value>
   </data>
   <data name="&gt;&gt;CheckListMemberRemovedEvent.Name" xml:space="preserve">
     <value>CheckListMemberRemovedEvent</value>
@@ -1109,13 +479,13 @@
     <value>40, 94</value>
   </data>
   <data name="CheckListMemberAddedEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 16</value>
+    <value>157, 16</value>
   </data>
   <data name="CheckListMemberAddedEvent.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
   <data name="CheckListMemberAddedEvent.Text" xml:space="preserve">
-    <value>List_member_added</value>
+    <value>Listsのメンバーに追加された</value>
   </data>
   <data name="&gt;&gt;CheckListMemberAddedEvent.Name" xml:space="preserve">
     <value>CheckListMemberAddedEvent</value>
@@ -1136,13 +506,13 @@
     <value>40, 77</value>
   </data>
   <data name="CheckFollowEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>57, 16</value>
+    <value>87, 16</value>
   </data>
   <data name="CheckFollowEvent.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
   <data name="CheckFollowEvent.Text" xml:space="preserve">
-    <value>Follow</value>
+    <value>フォローされた</value>
   </data>
   <data name="&gt;&gt;CheckFollowEvent.Name" xml:space="preserve">
     <value>CheckFollowEvent</value>
@@ -1163,13 +533,13 @@
     <value>40, 60</value>
   </data>
   <data name="CheckUnfavoritesEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>83, 16</value>
+    <value>192, 16</value>
   </data>
   <data name="CheckUnfavoritesEvent.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
   <data name="CheckUnfavoritesEvent.Text" xml:space="preserve">
-    <value>Unfavorites</value>
+    <value>Fav削除した、またはFav削除された</value>
   </data>
   <data name="&gt;&gt;CheckUnfavoritesEvent.Name" xml:space="preserve">
     <value>CheckUnfavoritesEvent</value>
@@ -1190,13 +560,13 @@
     <value>40, 43</value>
   </data>
   <data name="CheckFavoritesEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>72, 16</value>
+    <value>192, 16</value>
   </data>
   <data name="CheckFavoritesEvent.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
   <data name="CheckFavoritesEvent.Text" xml:space="preserve">
-    <value>Favorites</value>
+    <value>Fav追加した、またはFav追加された</value>
   </data>
   <data name="&gt;&gt;CheckFavoritesEvent.Name" xml:space="preserve">
     <value>CheckFavoritesEvent</value>
@@ -1268,7 +638,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;NotifyPanel.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="Label21.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1754,7 +1124,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;GetPeriodPanel.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>1</value>
   </data>
   <data name="ListTextCountApi.Location" type="System.Drawing.Point, System.Drawing">
     <value>259, 183</value>
@@ -2207,7 +1577,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;GetCountPanel.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>2</value>
   </data>
   <data name="AuthBasicRadio.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2570,7 +1940,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;BasedPanel.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>3</value>
   </data>
   <data name="StartupReaded.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2720,7 +2090,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;StartupPanel.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>4</value>
   </data>
   <data name="UserstreamPeriod.Location" type="System.Drawing.Point, System.Drawing">
     <value>227, 41</value>
@@ -2831,7 +2201,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;UserStreamPanel.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>5</value>
   </data>
   <data name="CheckHashSupple.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3092,7 +2462,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;TweetActPanel.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>6</value>
   </data>
   <data name="ReplyIconStateCombo.Items" xml:space="preserve">
     <value>通知なし</value>
@@ -3653,7 +3023,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;PreviewPanel.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>7</value>
   </data>
   <data name="Label47.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4070,7 +3440,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;TweetPrvPanel.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>8</value>
   </data>
   <data name="btnRetweet.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4874,7 +4244,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;FontPanel.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>9</value>
   </data>
   <data name="Label65.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -5768,7 +5138,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;FontPanel2.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>10</value>
   </data>
   <data name="CheckEnableBasicAuth.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -6047,7 +5417,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;ConnectionPanel.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>11</value>
   </data>
   <data name="Label55.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -6401,7 +5771,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;ProxyPanel.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>12</value>
   </data>
   <data name="ComboBoxTranslateLanguage.Items" xml:space="preserve">
     <value>AFRIKAANS</value>
@@ -6968,7 +6338,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;CooperatePanel.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>13</value>
   </data>
   <data name="CheckTinyURL.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -7229,6 +6599,636 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;ShortUrlPanel.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="CheckOpenUserTimeline.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckOpenUserTimeline.Location" type="System.Drawing.Point, System.Drawing">
+    <value>22, 245</value>
+  </data>
+  <data name="CheckOpenUserTimeline.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 16</value>
+  </data>
+  <data name="CheckOpenUserTimeline.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="CheckOpenUserTimeline.Text" xml:space="preserve">
+    <value>ユーザーのホームURLをタブで開く</value>
+  </data>
+  <data name="&gt;&gt;CheckOpenUserTimeline.Name" xml:space="preserve">
+    <value>CheckOpenUserTimeline</value>
+  </data>
+  <data name="&gt;&gt;CheckOpenUserTimeline.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckOpenUserTimeline.Parent" xml:space="preserve">
+    <value>ActionPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckOpenUserTimeline.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="HotkeyCheck.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="HotkeyCheck.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="HotkeyCheck.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 15</value>
+  </data>
+  <data name="HotkeyCheck.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 16</value>
+  </data>
+  <data name="HotkeyCheck.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="HotkeyCheck.Text" xml:space="preserve">
+    <value>有効</value>
+  </data>
+  <data name="&gt;&gt;HotkeyCheck.Name" xml:space="preserve">
+    <value>HotkeyCheck</value>
+  </data>
+  <data name="&gt;&gt;HotkeyCheck.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;HotkeyCheck.Parent" xml:space="preserve">
+    <value>GroupBox3</value>
+  </data>
+  <data name="&gt;&gt;HotkeyCheck.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="HotkeyCode.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="HotkeyCode.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="HotkeyCode.Location" type="System.Drawing.Point, System.Drawing">
+    <value>340, 16</value>
+  </data>
+  <data name="HotkeyCode.Size" type="System.Drawing.Size, System.Drawing">
+    <value>13, 14</value>
+  </data>
+  <data name="HotkeyCode.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="HotkeyCode.Text" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;HotkeyCode.Name" xml:space="preserve">
+    <value>HotkeyCode</value>
+  </data>
+  <data name="&gt;&gt;HotkeyCode.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;HotkeyCode.Parent" xml:space="preserve">
+    <value>GroupBox3</value>
+  </data>
+  <data name="&gt;&gt;HotkeyCode.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="HotkeyText.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Disable</value>
+  </data>
+  <data name="HotkeyText.Location" type="System.Drawing.Point, System.Drawing">
+    <value>257, 13</value>
+  </data>
+  <data name="HotkeyText.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 19</value>
+  </data>
+  <data name="HotkeyText.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;HotkeyText.Name" xml:space="preserve">
+    <value>HotkeyText</value>
+  </data>
+  <data name="&gt;&gt;HotkeyText.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;HotkeyText.Parent" xml:space="preserve">
+    <value>GroupBox3</value>
+  </data>
+  <data name="&gt;&gt;HotkeyText.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="HotkeyWin.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="HotkeyWin.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="HotkeyWin.Location" type="System.Drawing.Point, System.Drawing">
+    <value>211, 15</value>
+  </data>
+  <data name="HotkeyWin.Size" type="System.Drawing.Size, System.Drawing">
+    <value>42, 16</value>
+  </data>
+  <data name="HotkeyWin.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="HotkeyWin.Text" xml:space="preserve">
+    <value>Win</value>
+  </data>
+  <data name="&gt;&gt;HotkeyWin.Name" xml:space="preserve">
+    <value>HotkeyWin</value>
+  </data>
+  <data name="&gt;&gt;HotkeyWin.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;HotkeyWin.Parent" xml:space="preserve">
+    <value>GroupBox3</value>
+  </data>
+  <data name="&gt;&gt;HotkeyWin.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="HotkeyAlt.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="HotkeyAlt.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="HotkeyAlt.Location" type="System.Drawing.Point, System.Drawing">
+    <value>168, 15</value>
+  </data>
+  <data name="HotkeyAlt.Size" type="System.Drawing.Size, System.Drawing">
+    <value>39, 16</value>
+  </data>
+  <data name="HotkeyAlt.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="HotkeyAlt.Text" xml:space="preserve">
+    <value>Alt</value>
+  </data>
+  <data name="&gt;&gt;HotkeyAlt.Name" xml:space="preserve">
+    <value>HotkeyAlt</value>
+  </data>
+  <data name="&gt;&gt;HotkeyAlt.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;HotkeyAlt.Parent" xml:space="preserve">
+    <value>GroupBox3</value>
+  </data>
+  <data name="&gt;&gt;HotkeyAlt.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="HotkeyShift.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="HotkeyShift.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="HotkeyShift.Location" type="System.Drawing.Point, System.Drawing">
+    <value>116, 15</value>
+  </data>
+  <data name="HotkeyShift.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 16</value>
+  </data>
+  <data name="HotkeyShift.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="HotkeyShift.Text" xml:space="preserve">
+    <value>Shift</value>
+  </data>
+  <data name="&gt;&gt;HotkeyShift.Name" xml:space="preserve">
+    <value>HotkeyShift</value>
+  </data>
+  <data name="&gt;&gt;HotkeyShift.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;HotkeyShift.Parent" xml:space="preserve">
+    <value>GroupBox3</value>
+  </data>
+  <data name="&gt;&gt;HotkeyShift.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="HotkeyCtrl.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="HotkeyCtrl.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="HotkeyCtrl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>69, 15</value>
+  </data>
+  <data name="HotkeyCtrl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>43, 16</value>
+  </data>
+  <data name="HotkeyCtrl.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="HotkeyCtrl.Text" xml:space="preserve">
+    <value>Ctrl</value>
+  </data>
+  <data name="&gt;&gt;HotkeyCtrl.Name" xml:space="preserve">
+    <value>HotkeyCtrl</value>
+  </data>
+  <data name="&gt;&gt;HotkeyCtrl.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;HotkeyCtrl.Parent" xml:space="preserve">
+    <value>GroupBox3</value>
+  </data>
+  <data name="&gt;&gt;HotkeyCtrl.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="GroupBox3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>21, 305</value>
+  </data>
+  <data name="GroupBox3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>474, 41</value>
+  </data>
+  <data name="GroupBox3.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="GroupBox3.Text" xml:space="preserve">
+    <value>ホットキー</value>
+  </data>
+  <data name="&gt;&gt;GroupBox3.Name" xml:space="preserve">
+    <value>GroupBox3</value>
+  </data>
+  <data name="&gt;&gt;GroupBox3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GroupBox3.Parent" xml:space="preserve">
+    <value>ActionPanel</value>
+  </data>
+  <data name="&gt;&gt;GroupBox3.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="Label57.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Label57.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Label57.Location" type="System.Drawing.Point, System.Drawing">
+    <value>26, 210</value>
+  </data>
+  <data name="Label57.Size" type="System.Drawing.Size, System.Drawing">
+    <value>340, 12</value>
+  </data>
+  <data name="Label57.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="Label57.Text" xml:space="preserve">
+    <value>発言を再取得してFav結果を検証します。通信量が増えるのでOff推奨</value>
+  </data>
+  <data name="&gt;&gt;Label57.Name" xml:space="preserve">
+    <value>Label57</value>
+  </data>
+  <data name="&gt;&gt;Label57.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label57.Parent" xml:space="preserve">
+    <value>ActionPanel</value>
+  </data>
+  <data name="&gt;&gt;Label57.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="CheckFavRestrict.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckFavRestrict.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CheckFavRestrict.Location" type="System.Drawing.Point, System.Drawing">
+    <value>22, 188</value>
+  </data>
+  <data name="CheckFavRestrict.Size" type="System.Drawing.Size, System.Drawing">
+    <value>183, 16</value>
+  </data>
+  <data name="CheckFavRestrict.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="CheckFavRestrict.Text" xml:space="preserve">
+    <value>Fav操作結果を厳密にチェックする</value>
+  </data>
+  <data name="&gt;&gt;CheckFavRestrict.Name" xml:space="preserve">
+    <value>CheckFavRestrict</value>
+  </data>
+  <data name="&gt;&gt;CheckFavRestrict.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckFavRestrict.Parent" xml:space="preserve">
+    <value>ActionPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckFavRestrict.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="Button3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Button3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>418, 158</value>
+  </data>
+  <data name="Button3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 21</value>
+  </data>
+  <data name="Button3.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="Button3.Text" xml:space="preserve">
+    <value>参照</value>
+  </data>
+  <data name="&gt;&gt;Button3.Name" xml:space="preserve">
+    <value>Button3</value>
+  </data>
+  <data name="&gt;&gt;Button3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Button3.Parent" xml:space="preserve">
+    <value>ActionPanel</value>
+  </data>
+  <data name="&gt;&gt;Button3.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="PlaySnd.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="PlaySnd.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="PlaySnd.Location" type="System.Drawing.Point, System.Drawing">
+    <value>22, 20</value>
+  </data>
+  <data name="PlaySnd.Size" type="System.Drawing.Size, System.Drawing">
+    <value>113, 16</value>
+  </data>
+  <data name="PlaySnd.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="PlaySnd.Text" xml:space="preserve">
+    <value>サウンドを再生する</value>
+  </data>
+  <data name="&gt;&gt;PlaySnd.Name" xml:space="preserve">
+    <value>PlaySnd</value>
+  </data>
+  <data name="&gt;&gt;PlaySnd.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PlaySnd.Parent" xml:space="preserve">
+    <value>ActionPanel</value>
+  </data>
+  <data name="&gt;&gt;PlaySnd.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="chkReadOwnPost.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chkReadOwnPost.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chkReadOwnPost.Location" type="System.Drawing.Point, System.Drawing">
+    <value>22, 275</value>
+  </data>
+  <data name="chkReadOwnPost.Size" type="System.Drawing.Size, System.Drawing">
+    <value>143, 16</value>
+  </data>
+  <data name="chkReadOwnPost.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="chkReadOwnPost.Text" xml:space="preserve">
+    <value>自分の発言を既読にする</value>
+  </data>
+  <data name="&gt;&gt;chkReadOwnPost.Name" xml:space="preserve">
+    <value>chkReadOwnPost</value>
+  </data>
+  <data name="&gt;&gt;chkReadOwnPost.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chkReadOwnPost.Parent" xml:space="preserve">
+    <value>ActionPanel</value>
+  </data>
+  <data name="&gt;&gt;chkReadOwnPost.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="Label15.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Label15.Location" type="System.Drawing.Point, System.Drawing">
+    <value>22, 42</value>
+  </data>
+  <data name="Label15.Size" type="System.Drawing.Size, System.Drawing">
+    <value>408, 22</value>
+  </data>
+  <data name="Label15.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="Label15.Text" xml:space="preserve">
+    <value>タブのサウンドを設定した上で、「再生する」を選ぶとサウンドが再生されます。</value>
+  </data>
+  <data name="&gt;&gt;Label15.Name" xml:space="preserve">
+    <value>Label15</value>
+  </data>
+  <data name="&gt;&gt;Label15.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label15.Parent" xml:space="preserve">
+    <value>ActionPanel</value>
+  </data>
+  <data name="&gt;&gt;Label15.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="BrowserPathText.Location" type="System.Drawing.Point, System.Drawing">
+    <value>184, 160</value>
+  </data>
+  <data name="BrowserPathText.Size" type="System.Drawing.Size, System.Drawing">
+    <value>228, 19</value>
+  </data>
+  <data name="BrowserPathText.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;BrowserPathText.Name" xml:space="preserve">
+    <value>BrowserPathText</value>
+  </data>
+  <data name="&gt;&gt;BrowserPathText.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BrowserPathText.Parent" xml:space="preserve">
+    <value>ActionPanel</value>
+  </data>
+  <data name="&gt;&gt;BrowserPathText.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="UReadMng.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="UReadMng.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="UReadMng.Location" type="System.Drawing.Point, System.Drawing">
+    <value>22, 71</value>
+  </data>
+  <data name="UReadMng.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 16</value>
+  </data>
+  <data name="UReadMng.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="UReadMng.Text" xml:space="preserve">
+    <value>未読管理を行う</value>
+  </data>
+  <data name="&gt;&gt;UReadMng.Name" xml:space="preserve">
+    <value>UReadMng</value>
+  </data>
+  <data name="&gt;&gt;UReadMng.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;UReadMng.Parent" xml:space="preserve">
+    <value>ActionPanel</value>
+  </data>
+  <data name="&gt;&gt;UReadMng.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="Label44.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Label44.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Label44.Location" type="System.Drawing.Point, System.Drawing">
+    <value>21, 164</value>
+  </data>
+  <data name="Label44.Size" type="System.Drawing.Size, System.Drawing">
+    <value>60, 12</value>
+  </data>
+  <data name="Label44.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="Label44.Text" xml:space="preserve">
+    <value>ブラウザパス</value>
+  </data>
+  <data name="&gt;&gt;Label44.Name" xml:space="preserve">
+    <value>Label44</value>
+  </data>
+  <data name="&gt;&gt;Label44.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label44.Parent" xml:space="preserve">
+    <value>ActionPanel</value>
+  </data>
+  <data name="&gt;&gt;Label44.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="CheckCloseToExit.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckCloseToExit.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CheckCloseToExit.Location" type="System.Drawing.Point, System.Drawing">
+    <value>22, 114</value>
+  </data>
+  <data name="CheckCloseToExit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>171, 16</value>
+  </data>
+  <data name="CheckCloseToExit.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="CheckCloseToExit.Text" xml:space="preserve">
+    <value>×ボタンを押したときに終了する</value>
+  </data>
+  <data name="&gt;&gt;CheckCloseToExit.Name" xml:space="preserve">
+    <value>CheckCloseToExit</value>
+  </data>
+  <data name="&gt;&gt;CheckCloseToExit.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckCloseToExit.Parent" xml:space="preserve">
+    <value>ActionPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckCloseToExit.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="CheckMinimizeToTray.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckMinimizeToTray.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CheckMinimizeToTray.Location" type="System.Drawing.Point, System.Drawing">
+    <value>22, 137</value>
+  </data>
+  <data name="CheckMinimizeToTray.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 16</value>
+  </data>
+  <data name="CheckMinimizeToTray.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="CheckMinimizeToTray.Text" xml:space="preserve">
+    <value>最小化したときにアイコン化する</value>
+  </data>
+  <data name="&gt;&gt;CheckMinimizeToTray.Name" xml:space="preserve">
+    <value>CheckMinimizeToTray</value>
+  </data>
+  <data name="&gt;&gt;CheckMinimizeToTray.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckMinimizeToTray.Parent" xml:space="preserve">
+    <value>ActionPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckMinimizeToTray.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="CheckReadOldPosts.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckReadOldPosts.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CheckReadOldPosts.Location" type="System.Drawing.Point, System.Drawing">
+    <value>22, 92</value>
+  </data>
+  <data name="CheckReadOldPosts.Size" type="System.Drawing.Size, System.Drawing">
+    <value>145, 16</value>
+  </data>
+  <data name="CheckReadOldPosts.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="CheckReadOldPosts.Text" xml:space="preserve">
+    <value>新着時に未読をクリアする</value>
+  </data>
+  <data name="&gt;&gt;CheckReadOldPosts.Name" xml:space="preserve">
+    <value>CheckReadOldPosts</value>
+  </data>
+  <data name="&gt;&gt;CheckReadOldPosts.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckReadOldPosts.Parent" xml:space="preserve">
+    <value>ActionPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckReadOldPosts.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="ActionPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="ActionPanel.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="ActionPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="ActionPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>518, 368</value>
+  </data>
+  <data name="ActionPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="ActionPanel.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;ActionPanel.Name" xml:space="preserve">
+    <value>ActionPanel</value>
+  </data>
+  <data name="&gt;&gt;ActionPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ActionPanel.Parent" xml:space="preserve">
+    <value>SplitContainer1.Panel2</value>
+  </data>
+  <data name="&gt;&gt;ActionPanel.ZOrder" xml:space="preserve">
     <value>15</value>
   </data>
   <data name="&gt;&gt;SplitContainer1.Panel2.Name" xml:space="preserve">
