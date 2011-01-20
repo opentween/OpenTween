@@ -4620,6 +4620,13 @@ RETRY:
         Return detailHtmlFormatHeader + orgdata + detailHtmlFormatFooter
     End Function
 
+    Private Sub SetUserPicture()
+        Thread.Sleep(1000)       ' 要調整
+        If Not String.IsNullOrEmpty(_curPost.ImageUrl) AndAlso TIconDic.ContainsKey(_curPost.ImageUrl) Then
+            UserPicture.Image = TIconDic(_curPost.ImageUrl)
+        End If
+    End Sub
+
     Private Overloads Sub DispSelectedPost()
         DispSelectedPost(False)
     End Sub
@@ -4676,17 +4683,13 @@ RETRY:
         If UserPicture.Image IsNot Nothing Then UserPicture.Image.Dispose()
         If Not String.IsNullOrEmpty(_curPost.ImageUrl) AndAlso TIconDic.ContainsKey(_curPost.ImageUrl) Then
             UserPicture.Image = TIconDic(_curPost.ImageUrl)
-
-            'Dim dummy As Image = DirectCast(TIconDic, ImageDictionary)(_curPost.ImageUrl, Sub(getImg)
-            '                                                                                  If img IsNot Nothing Then img.Dispose()
-            '                                                                                  If getImg Is Nothing Then Exit Sub
-            '                                                                                  img = DirectCast(getImg.Clone(), Image)
-            '                                                                                  Me.Invoke(Sub()
-            '                                                                                                Me.UserPicture.Image = img
-            '                                                                                            End Sub)
-            '                                                                              End Sub)
         Else
             UserPicture.Image = Nothing
+
+            Dim proc As New Thread(New Threading.ThreadStart(Sub()
+                                                                 If Me.IsHandleCreated AndAlso Not Me.IsDisposed Then Invoke(New MethodInvoker(AddressOf SetUserPicture))
+                                                             End Sub))
+            proc.Start()
         End If
 
         NameLabel.ForeColor = System.Drawing.SystemColors.ControlText
