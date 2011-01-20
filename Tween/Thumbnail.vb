@@ -1494,7 +1494,7 @@ Public Class Thumbnail
 
     Private Function Piapro_GetUrl(ByVal args As GetUrlArgs) As Boolean
         ' TODO URL判定処理を記述
-        Dim mc As Match = Regex.Match(args.url, "^http://piapro\.jp/(?:content|t)/[0-9a-z]+", RegexOptions.IgnoreCase)
+        Dim mc As Match = Regex.Match(args.url, "^http://piapro\.jp/(?:content/[0-9a-z]+|t/[0-9a-zA-Z_\-]+)$")
         If mc.Success Then
             ' TODO 成功時はサムネイルURLを作成しimglist.Addする
             args.imglist.Add(New KeyValuePair(Of String, String)(args.url, mc.Value))
@@ -1519,7 +1519,7 @@ Public Class Thumbnail
     Private Function Piapro_CreateImage(ByVal args As CreateImageArgs) As Boolean
         ' TODO: サムネイル画像読み込み処理を記述します
         Dim http As New HttpVarious
-        Dim mc As Match = Regex.Match(args.url.Key, "^http://piapro\.jp/(?:content|t)/[0-9a-z]+", RegexOptions.IgnoreCase)
+        Dim mc As Match = Regex.Match(args.url.Key, "^http://piapro\.jp/(?:content/[0-9a-z]+|t/[0-9a-zA-Z_\-]+)$")
         If mc.Success Then
             Dim src As String = ""
             If http.GetData(args.url.Key, Nothing, src, 0, args.errmsg) Then
