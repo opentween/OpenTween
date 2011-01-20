@@ -1,7 +1,20 @@
-﻿' Copyright © Microsoft Corporation.  All Rights Reserved.
+﻿' Tween - Client of Twitter
+' Copyright (c) 2007-2011 kiri_feather (@kiri_feather) <kiri_feather@gmail.com>
+'           (c) 2008-2011 Moz (@syo68k)
+'           (c) 2008-2011 takeshik (@takeshik) <http://www.takeshik.org/>
+'           (c) 2010-2011 anis774 (@anis774) <http://d.hatena.ne.jp/anis774/>
+'           (c) 2010-2011 fantasticswallow (@f_swallow) <http://twitter.com/f_swallow>
+' All rights reserved.
+' 
+' This file is part of Tween.
+' 
+' This program is free software; 
+'
+' Copyright © Microsoft Corporation.  All Rights Reserved.
 ' This code released under the terms of the 
 ' Microsoft Public License (MS-PL, http://opensource.org/licenses/ms-pl.html.)
 '
+
 Option Strict On
 Option Explicit On
 
