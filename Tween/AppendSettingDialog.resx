@@ -314,13 +314,13 @@
     <value>22, 218</value>
   </data>
   <data name="CheckFavEventUnread.Size" type="System.Drawing.Size, System.Drawing">
-    <value>289, 16</value>
+    <value>271, 16</value>
   </data>
   <data name="CheckFavEventUnread.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
   </data>
   <data name="CheckFavEventUnread.Text" xml:space="preserve">
-    <value>Favoritesイベント受信の際に書き込みを未読に戻さない</value>
+    <value>Favoritesイベント受信の際に書き込みを未読に戻す</value>
   </data>
   <data name="&gt;&gt;CheckFavEventUnread.Name" xml:space="preserve">
     <value>CheckFavEventUnread</value>
@@ -452,13 +452,13 @@
     <value>40, 111</value>
   </data>
   <data name="CheckListMemberRemovedEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 16</value>
+    <value>119, 16</value>
   </data>
   <data name="CheckListMemberRemovedEvent.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
   <data name="CheckListMemberRemovedEvent.Text" xml:space="preserve">
-    <value>Listsのメンバーから削除された</value>
+    <value>Listsから削除された</value>
   </data>
   <data name="&gt;&gt;CheckListMemberRemovedEvent.Name" xml:space="preserve">
     <value>CheckListMemberRemovedEvent</value>
@@ -479,13 +479,13 @@
     <value>40, 94</value>
   </data>
   <data name="CheckListMemberAddedEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>157, 16</value>
+    <value>110, 16</value>
   </data>
   <data name="CheckListMemberAddedEvent.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
   <data name="CheckListMemberAddedEvent.Text" xml:space="preserve">
-    <value>Listsのメンバーに追加された</value>
+    <value>Listsに追加された</value>
   </data>
   <data name="&gt;&gt;CheckListMemberAddedEvent.Name" xml:space="preserve">
     <value>CheckListMemberAddedEvent</value>

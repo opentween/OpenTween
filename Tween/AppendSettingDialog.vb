@@ -2499,7 +2499,6 @@ Public Class AppendSettingDialog
 
     Private Sub CheckFavEventUnread_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckFavEventUnread.CheckedChanged
         _MyFavEventUnread = CheckFavEventUnread.Checked
-        _MyFavEventUnread = Not _MyFavEventUnread
     End Sub
 
     Private Sub ComboBoxTranslateLanguage_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboBoxTranslateLanguage.SelectedIndexChanged
