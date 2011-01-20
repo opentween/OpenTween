@@ -10031,4 +10031,37 @@ RETRY:
             Return SettingDialog.FavEventUnread
         End Get
     End Property
+
+    Private Function GetUserIdFromCurPostOrInput() As String
+        Dim id As String = ""
+        If _curPost IsNot Nothing Then
+            id = _curPost.Name
+        End If
+        Using inputName As New InputTabName()
+            inputName.FormTitle = "Show UserTimeline"
+            inputName.FormDescription = My.Resources.FRMessage1
+            inputName.TabName = id
+            If inputName.ShowDialog() = Windows.Forms.DialogResult.OK AndAlso _
+               Not String.IsNullOrEmpty(inputName.TabName.Trim()) Then
+                id = inputName.TabName.Trim
+            Else
+                id = ""
+            End If
+        End Using
+        Return id
+    End Function
+
+    Private Sub UserTimelineToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UserTimelineToolStripMenuItem.Click
+        Dim id As String = GetUserIdFromCurPostOrInput()
+        If Not String.IsNullOrEmpty(id) Then
+            AddNewTabForUserTimeline(id)
+        End If
+    End Sub
+
+    Private Sub UserFavorareToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UserFavorareToolStripMenuItem.Click
+        Dim id As String = GetUserIdFromCurPostOrInput()
+        If Not String.IsNullOrEmpty(id) Then
+            OpenUriAsync(My.Resources.FavstarUrl + "users/" + id + "/recent")
+        End If
+    End Sub
 End Class
