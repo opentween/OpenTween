@@ -20,8 +20,10 @@ Public Class EventViewerDialog
                 Dim s() As String = {x.CreatedAt.ToString, x.Event.ToUpper, x.Username, x.Target}
                 items.Add(New ListViewItem(s))
             Next
+            EventList.BeginUpdate()
             EventList.Items.AddRange(items.ToArray())
             Me.EventList.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent)
+            EventList.EndUpdate()
         End If
     End Sub
 
