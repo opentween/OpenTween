@@ -509,6 +509,8 @@ Partial Class AppendSettingDialog
         'CheckFavEventUnread
         '
         resources.ApplyResources(Me.CheckFavEventUnread, "CheckFavEventUnread")
+        Me.CheckFavEventUnread.Checked = True
+        Me.CheckFavEventUnread.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CheckFavEventUnread.Name = "CheckFavEventUnread"
         Me.CheckFavEventUnread.UseVisualStyleBackColor = True
         '
