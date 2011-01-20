@@ -182,6 +182,7 @@ Public Class TweenMain
     Private _waitDm As Boolean = False
     Private _waitFav As Boolean = False
     Private _waitPubSearch As Boolean = False
+    Private _waitUserTimeline As Boolean = False
     Private _waitLists As Boolean = False
     Private _bw(18) As BackgroundWorker
     Private _bwFollower As BackgroundWorker
@@ -2214,6 +2215,7 @@ Public Class TweenMain
             _waitDm = False
             _waitFav = False
             _waitPubSearch = False
+            _waitUserTimeline = False
             _waitLists = False
             Throw New Exception("BackgroundWorker Exception", e.Error)
             Exit Sub
@@ -2365,8 +2367,10 @@ Public Class TweenMain
                 _itemCache = Nothing
                 _postCache = Nothing
                 If _curList IsNot Nothing Then _curList.Refresh()
-            Case WORKERTYPE.PublicSearch, WORKERTYPE.UserTimeline
+            Case WORKERTYPE.PublicSearch
                 _waitPubSearch = False
+            Case WORKERTYPE.UserTimeline
+                _waitUserTimeline = False
             Case WORKERTYPE.List
                 _waitLists = False
             Case WORKERTYPE.Related
@@ -8241,6 +8245,8 @@ RETRY:
             End If
             _waitPubSearch = True
             GetTimeline(WORKERTYPE.PublicSearch, 1, 0, "")  'tabname="":全タブ
+            _waitUserTimeline = True
+            GetTimeline(WORKERTYPE.UserTimeline, 1, 0, "")  'tabname="":全タブ
             _waitLists = True
             GetTimeline(WORKERTYPE.List, 1, 0, "")  'tabname="":全タブ
             Dim i As Integer = 0
