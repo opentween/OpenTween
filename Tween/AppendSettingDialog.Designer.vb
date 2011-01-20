@@ -25,6 +25,28 @@ Partial Class AppendSettingDialog
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AppendSettingDialog))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.TreeView1 = New System.Windows.Forms.TreeView()
+        Me.ActionPanel = New System.Windows.Forms.Panel()
+        Me.CheckOpenUserTimeline = New System.Windows.Forms.CheckBox()
+        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.HotkeyCheck = New System.Windows.Forms.CheckBox()
+        Me.HotkeyCode = New System.Windows.Forms.Label()
+        Me.HotkeyText = New System.Windows.Forms.TextBox()
+        Me.HotkeyWin = New System.Windows.Forms.CheckBox()
+        Me.HotkeyAlt = New System.Windows.Forms.CheckBox()
+        Me.HotkeyShift = New System.Windows.Forms.CheckBox()
+        Me.HotkeyCtrl = New System.Windows.Forms.CheckBox()
+        Me.Label57 = New System.Windows.Forms.Label()
+        Me.CheckFavRestrict = New System.Windows.Forms.CheckBox()
+        Me.Button3 = New System.Windows.Forms.Button()
+        Me.PlaySnd = New System.Windows.Forms.CheckBox()
+        Me.chkReadOwnPost = New System.Windows.Forms.CheckBox()
+        Me.Label15 = New System.Windows.Forms.Label()
+        Me.BrowserPathText = New System.Windows.Forms.TextBox()
+        Me.UReadMng = New System.Windows.Forms.CheckBox()
+        Me.Label44 = New System.Windows.Forms.Label()
+        Me.CheckCloseToExit = New System.Windows.Forms.CheckBox()
+        Me.CheckMinimizeToTray = New System.Windows.Forms.CheckBox()
+        Me.CheckReadOldPosts = New System.Windows.Forms.CheckBox()
         Me.NotifyPanel = New System.Windows.Forms.Panel()
         Me.Label35 = New System.Windows.Forms.Label()
         Me.ComboBoxEventNotifySound = New System.Windows.Forms.ComboBox()
@@ -39,6 +61,24 @@ Partial Class AppendSettingDialog
         Me.CheckUnfavoritesEvent = New System.Windows.Forms.CheckBox()
         Me.CheckFavoritesEvent = New System.Windows.Forms.CheckBox()
         Me.CheckEventNotify = New System.Windows.Forms.CheckBox()
+        Me.GetPeriodPanel = New System.Windows.Forms.Panel()
+        Me.Label21 = New System.Windows.Forms.Label()
+        Me.UserTimelinePeriod = New System.Windows.Forms.TextBox()
+        Me.TimelinePeriod = New System.Windows.Forms.TextBox()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.ButtonApiCalc = New System.Windows.Forms.Button()
+        Me.LabelPostAndGet = New System.Windows.Forms.Label()
+        Me.LabelApiUsing = New System.Windows.Forms.Label()
+        Me.Label33 = New System.Windows.Forms.Label()
+        Me.ListsPeriod = New System.Windows.Forms.TextBox()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.PubSearchPeriod = New System.Windows.Forms.TextBox()
+        Me.Label69 = New System.Windows.Forms.Label()
+        Me.ReplyPeriod = New System.Windows.Forms.TextBox()
+        Me.CheckPostAndGet = New System.Windows.Forms.CheckBox()
+        Me.CheckPeriodAdjust = New System.Windows.Forms.CheckBox()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.DMPeriod = New System.Windows.Forms.TextBox()
         Me.GetCountPanel = New System.Windows.Forms.Panel()
         Me.ListTextCountApi = New System.Windows.Forms.TextBox()
         Me.Label25 = New System.Windows.Forms.Label()
@@ -70,24 +110,6 @@ Partial Class AppendSettingDialog
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Username = New System.Windows.Forms.TextBox()
         Me.Password = New System.Windows.Forms.TextBox()
-        Me.GetPeriodPanel = New System.Windows.Forms.Panel()
-        Me.Label21 = New System.Windows.Forms.Label()
-        Me.UserTimelinePeriod = New System.Windows.Forms.TextBox()
-        Me.TimelinePeriod = New System.Windows.Forms.TextBox()
-        Me.Label3 = New System.Windows.Forms.Label()
-        Me.ButtonApiCalc = New System.Windows.Forms.Button()
-        Me.LabelPostAndGet = New System.Windows.Forms.Label()
-        Me.LabelApiUsing = New System.Windows.Forms.Label()
-        Me.Label33 = New System.Windows.Forms.Label()
-        Me.ListsPeriod = New System.Windows.Forms.TextBox()
-        Me.Label7 = New System.Windows.Forms.Label()
-        Me.PubSearchPeriod = New System.Windows.Forms.TextBox()
-        Me.Label69 = New System.Windows.Forms.Label()
-        Me.ReplyPeriod = New System.Windows.Forms.TextBox()
-        Me.CheckPostAndGet = New System.Windows.Forms.CheckBox()
-        Me.CheckPeriodAdjust = New System.Windows.Forms.CheckBox()
-        Me.Label5 = New System.Windows.Forms.Label()
-        Me.DMPeriod = New System.Windows.Forms.TextBox()
         Me.StartupPanel = New System.Windows.Forms.Panel()
         Me.StartupReaded = New System.Windows.Forms.CheckBox()
         Me.CheckStartupFollowers = New System.Windows.Forms.CheckBox()
@@ -97,28 +119,6 @@ Partial Class AppendSettingDialog
         Me.UserstreamPeriod = New System.Windows.Forms.TextBox()
         Me.StartupUserstreamCheck = New System.Windows.Forms.CheckBox()
         Me.Label83 = New System.Windows.Forms.Label()
-        Me.ActionPanel = New System.Windows.Forms.Panel()
-        Me.CheckOpenUserTimeline = New System.Windows.Forms.CheckBox()
-        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
-        Me.HotkeyCheck = New System.Windows.Forms.CheckBox()
-        Me.HotkeyCode = New System.Windows.Forms.Label()
-        Me.HotkeyText = New System.Windows.Forms.TextBox()
-        Me.HotkeyWin = New System.Windows.Forms.CheckBox()
-        Me.HotkeyAlt = New System.Windows.Forms.CheckBox()
-        Me.HotkeyShift = New System.Windows.Forms.CheckBox()
-        Me.HotkeyCtrl = New System.Windows.Forms.CheckBox()
-        Me.Label57 = New System.Windows.Forms.Label()
-        Me.CheckFavRestrict = New System.Windows.Forms.CheckBox()
-        Me.Button3 = New System.Windows.Forms.Button()
-        Me.PlaySnd = New System.Windows.Forms.CheckBox()
-        Me.chkReadOwnPost = New System.Windows.Forms.CheckBox()
-        Me.Label15 = New System.Windows.Forms.Label()
-        Me.BrowserPathText = New System.Windows.Forms.TextBox()
-        Me.UReadMng = New System.Windows.Forms.CheckBox()
-        Me.Label44 = New System.Windows.Forms.Label()
-        Me.CheckCloseToExit = New System.Windows.Forms.CheckBox()
-        Me.CheckMinimizeToTray = New System.Windows.Forms.CheckBox()
-        Me.CheckReadOldPosts = New System.Windows.Forms.CheckBox()
         Me.TweetActPanel = New System.Windows.Forms.Panel()
         Me.CheckHashSupple = New System.Windows.Forms.CheckBox()
         Me.CheckAtIdSupple = New System.Windows.Forms.CheckBox()
@@ -265,14 +265,14 @@ Partial Class AppendSettingDialog
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        Me.NotifyPanel.SuspendLayout()
-        Me.GetCountPanel.SuspendLayout()
-        Me.BasedPanel.SuspendLayout()
-        Me.GetPeriodPanel.SuspendLayout()
-        Me.StartupPanel.SuspendLayout()
-        Me.UserStreamPanel.SuspendLayout()
         Me.ActionPanel.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
+        Me.NotifyPanel.SuspendLayout()
+        Me.GetPeriodPanel.SuspendLayout()
+        Me.GetCountPanel.SuspendLayout()
+        Me.BasedPanel.SuspendLayout()
+        Me.StartupPanel.SuspendLayout()
+        Me.UserStreamPanel.SuspendLayout()
         Me.TweetActPanel.SuspendLayout()
         Me.PreviewPanel.SuspendLayout()
         Me.TweetPrvPanel.SuspendLayout()
@@ -298,7 +298,6 @@ Partial Class AppendSettingDialog
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.BackColor = System.Drawing.SystemColors.Control
-        Me.SplitContainer1.Panel2.Controls.Add(Me.ActionPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.NotifyPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.GetPeriodPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.GetCountPanel)
@@ -314,6 +313,7 @@ Partial Class AppendSettingDialog
         Me.SplitContainer1.Panel2.Controls.Add(Me.ProxyPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.CooperatePanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.ShortUrlPanel)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.ActionPanel)
         Me.SplitContainer1.TabStop = False
         '
         'TreeView1
@@ -324,6 +324,158 @@ Partial Class AppendSettingDialog
         Me.TreeView1.Name = "TreeView1"
         Me.TreeView1.Nodes.AddRange(New System.Windows.Forms.TreeNode() {CType(resources.GetObject("TreeView1.Nodes"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeView1.Nodes1"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeView1.Nodes2"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeView1.Nodes3"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeView1.Nodes4"), System.Windows.Forms.TreeNode)})
         Me.TreeView1.ShowLines = False
+        '
+        'ActionPanel
+        '
+        Me.ActionPanel.Controls.Add(Me.CheckOpenUserTimeline)
+        Me.ActionPanel.Controls.Add(Me.GroupBox3)
+        Me.ActionPanel.Controls.Add(Me.Label57)
+        Me.ActionPanel.Controls.Add(Me.CheckFavRestrict)
+        Me.ActionPanel.Controls.Add(Me.Button3)
+        Me.ActionPanel.Controls.Add(Me.PlaySnd)
+        Me.ActionPanel.Controls.Add(Me.chkReadOwnPost)
+        Me.ActionPanel.Controls.Add(Me.Label15)
+        Me.ActionPanel.Controls.Add(Me.BrowserPathText)
+        Me.ActionPanel.Controls.Add(Me.UReadMng)
+        Me.ActionPanel.Controls.Add(Me.Label44)
+        Me.ActionPanel.Controls.Add(Me.CheckCloseToExit)
+        Me.ActionPanel.Controls.Add(Me.CheckMinimizeToTray)
+        Me.ActionPanel.Controls.Add(Me.CheckReadOldPosts)
+        resources.ApplyResources(Me.ActionPanel, "ActionPanel")
+        Me.ActionPanel.Name = "ActionPanel"
+        '
+        'CheckOpenUserTimeline
+        '
+        resources.ApplyResources(Me.CheckOpenUserTimeline, "CheckOpenUserTimeline")
+        Me.CheckOpenUserTimeline.Name = "CheckOpenUserTimeline"
+        Me.CheckOpenUserTimeline.UseVisualStyleBackColor = True
+        '
+        'GroupBox3
+        '
+        Me.GroupBox3.Controls.Add(Me.HotkeyCheck)
+        Me.GroupBox3.Controls.Add(Me.HotkeyCode)
+        Me.GroupBox3.Controls.Add(Me.HotkeyText)
+        Me.GroupBox3.Controls.Add(Me.HotkeyWin)
+        Me.GroupBox3.Controls.Add(Me.HotkeyAlt)
+        Me.GroupBox3.Controls.Add(Me.HotkeyShift)
+        Me.GroupBox3.Controls.Add(Me.HotkeyCtrl)
+        resources.ApplyResources(Me.GroupBox3, "GroupBox3")
+        Me.GroupBox3.Name = "GroupBox3"
+        Me.GroupBox3.TabStop = False
+        '
+        'HotkeyCheck
+        '
+        resources.ApplyResources(Me.HotkeyCheck, "HotkeyCheck")
+        Me.HotkeyCheck.Name = "HotkeyCheck"
+        Me.HotkeyCheck.UseVisualStyleBackColor = True
+        '
+        'HotkeyCode
+        '
+        resources.ApplyResources(Me.HotkeyCode, "HotkeyCode")
+        Me.HotkeyCode.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.HotkeyCode.Name = "HotkeyCode"
+        '
+        'HotkeyText
+        '
+        resources.ApplyResources(Me.HotkeyText, "HotkeyText")
+        Me.HotkeyText.Name = "HotkeyText"
+        Me.HotkeyText.ReadOnly = True
+        '
+        'HotkeyWin
+        '
+        resources.ApplyResources(Me.HotkeyWin, "HotkeyWin")
+        Me.HotkeyWin.Name = "HotkeyWin"
+        Me.HotkeyWin.UseVisualStyleBackColor = True
+        '
+        'HotkeyAlt
+        '
+        resources.ApplyResources(Me.HotkeyAlt, "HotkeyAlt")
+        Me.HotkeyAlt.Name = "HotkeyAlt"
+        Me.HotkeyAlt.UseVisualStyleBackColor = True
+        '
+        'HotkeyShift
+        '
+        resources.ApplyResources(Me.HotkeyShift, "HotkeyShift")
+        Me.HotkeyShift.Name = "HotkeyShift"
+        Me.HotkeyShift.UseVisualStyleBackColor = True
+        '
+        'HotkeyCtrl
+        '
+        resources.ApplyResources(Me.HotkeyCtrl, "HotkeyCtrl")
+        Me.HotkeyCtrl.Name = "HotkeyCtrl"
+        Me.HotkeyCtrl.UseVisualStyleBackColor = True
+        '
+        'Label57
+        '
+        resources.ApplyResources(Me.Label57, "Label57")
+        Me.Label57.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Label57.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label57.Name = "Label57"
+        '
+        'CheckFavRestrict
+        '
+        resources.ApplyResources(Me.CheckFavRestrict, "CheckFavRestrict")
+        Me.CheckFavRestrict.Name = "CheckFavRestrict"
+        Me.CheckFavRestrict.UseVisualStyleBackColor = True
+        '
+        'Button3
+        '
+        resources.ApplyResources(Me.Button3, "Button3")
+        Me.Button3.Name = "Button3"
+        Me.Button3.UseVisualStyleBackColor = True
+        '
+        'PlaySnd
+        '
+        resources.ApplyResources(Me.PlaySnd, "PlaySnd")
+        Me.PlaySnd.Name = "PlaySnd"
+        Me.PlaySnd.UseVisualStyleBackColor = True
+        '
+        'chkReadOwnPost
+        '
+        resources.ApplyResources(Me.chkReadOwnPost, "chkReadOwnPost")
+        Me.chkReadOwnPost.Name = "chkReadOwnPost"
+        Me.chkReadOwnPost.UseVisualStyleBackColor = True
+        '
+        'Label15
+        '
+        Me.Label15.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Label15.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        resources.ApplyResources(Me.Label15, "Label15")
+        Me.Label15.Name = "Label15"
+        '
+        'BrowserPathText
+        '
+        resources.ApplyResources(Me.BrowserPathText, "BrowserPathText")
+        Me.BrowserPathText.Name = "BrowserPathText"
+        '
+        'UReadMng
+        '
+        resources.ApplyResources(Me.UReadMng, "UReadMng")
+        Me.UReadMng.Name = "UReadMng"
+        Me.UReadMng.UseVisualStyleBackColor = True
+        '
+        'Label44
+        '
+        resources.ApplyResources(Me.Label44, "Label44")
+        Me.Label44.Name = "Label44"
+        '
+        'CheckCloseToExit
+        '
+        resources.ApplyResources(Me.CheckCloseToExit, "CheckCloseToExit")
+        Me.CheckCloseToExit.Name = "CheckCloseToExit"
+        Me.CheckCloseToExit.UseVisualStyleBackColor = True
+        '
+        'CheckMinimizeToTray
+        '
+        resources.ApplyResources(Me.CheckMinimizeToTray, "CheckMinimizeToTray")
+        Me.CheckMinimizeToTray.Name = "CheckMinimizeToTray"
+        Me.CheckMinimizeToTray.UseVisualStyleBackColor = True
+        '
+        'CheckReadOldPosts
+        '
+        resources.ApplyResources(Me.CheckReadOldPosts, "CheckReadOldPosts")
+        Me.CheckReadOldPosts.Name = "CheckReadOldPosts"
+        Me.CheckReadOldPosts.UseVisualStyleBackColor = True
         '
         'NotifyPanel
         '
@@ -439,6 +591,116 @@ Partial Class AppendSettingDialog
         Me.CheckEventNotify.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CheckEventNotify.Name = "CheckEventNotify"
         Me.CheckEventNotify.UseVisualStyleBackColor = True
+        '
+        'GetPeriodPanel
+        '
+        Me.GetPeriodPanel.Controls.Add(Me.Label21)
+        Me.GetPeriodPanel.Controls.Add(Me.UserTimelinePeriod)
+        Me.GetPeriodPanel.Controls.Add(Me.TimelinePeriod)
+        Me.GetPeriodPanel.Controls.Add(Me.Label3)
+        Me.GetPeriodPanel.Controls.Add(Me.ButtonApiCalc)
+        Me.GetPeriodPanel.Controls.Add(Me.LabelPostAndGet)
+        Me.GetPeriodPanel.Controls.Add(Me.LabelApiUsing)
+        Me.GetPeriodPanel.Controls.Add(Me.Label33)
+        Me.GetPeriodPanel.Controls.Add(Me.ListsPeriod)
+        Me.GetPeriodPanel.Controls.Add(Me.Label7)
+        Me.GetPeriodPanel.Controls.Add(Me.PubSearchPeriod)
+        Me.GetPeriodPanel.Controls.Add(Me.Label69)
+        Me.GetPeriodPanel.Controls.Add(Me.ReplyPeriod)
+        Me.GetPeriodPanel.Controls.Add(Me.CheckPostAndGet)
+        Me.GetPeriodPanel.Controls.Add(Me.CheckPeriodAdjust)
+        Me.GetPeriodPanel.Controls.Add(Me.Label5)
+        Me.GetPeriodPanel.Controls.Add(Me.DMPeriod)
+        resources.ApplyResources(Me.GetPeriodPanel, "GetPeriodPanel")
+        Me.GetPeriodPanel.Name = "GetPeriodPanel"
+        '
+        'Label21
+        '
+        resources.ApplyResources(Me.Label21, "Label21")
+        Me.Label21.Name = "Label21"
+        '
+        'UserTimelinePeriod
+        '
+        resources.ApplyResources(Me.UserTimelinePeriod, "UserTimelinePeriod")
+        Me.UserTimelinePeriod.Name = "UserTimelinePeriod"
+        '
+        'TimelinePeriod
+        '
+        resources.ApplyResources(Me.TimelinePeriod, "TimelinePeriod")
+        Me.TimelinePeriod.Name = "TimelinePeriod"
+        '
+        'Label3
+        '
+        resources.ApplyResources(Me.Label3, "Label3")
+        Me.Label3.Name = "Label3"
+        '
+        'ButtonApiCalc
+        '
+        resources.ApplyResources(Me.ButtonApiCalc, "ButtonApiCalc")
+        Me.ButtonApiCalc.Name = "ButtonApiCalc"
+        Me.ButtonApiCalc.UseVisualStyleBackColor = True
+        '
+        'LabelPostAndGet
+        '
+        resources.ApplyResources(Me.LabelPostAndGet, "LabelPostAndGet")
+        Me.LabelPostAndGet.Name = "LabelPostAndGet"
+        '
+        'LabelApiUsing
+        '
+        resources.ApplyResources(Me.LabelApiUsing, "LabelApiUsing")
+        Me.LabelApiUsing.Name = "LabelApiUsing"
+        '
+        'Label33
+        '
+        resources.ApplyResources(Me.Label33, "Label33")
+        Me.Label33.Name = "Label33"
+        '
+        'ListsPeriod
+        '
+        resources.ApplyResources(Me.ListsPeriod, "ListsPeriod")
+        Me.ListsPeriod.Name = "ListsPeriod"
+        '
+        'Label7
+        '
+        resources.ApplyResources(Me.Label7, "Label7")
+        Me.Label7.Name = "Label7"
+        '
+        'PubSearchPeriod
+        '
+        resources.ApplyResources(Me.PubSearchPeriod, "PubSearchPeriod")
+        Me.PubSearchPeriod.Name = "PubSearchPeriod"
+        '
+        'Label69
+        '
+        resources.ApplyResources(Me.Label69, "Label69")
+        Me.Label69.Name = "Label69"
+        '
+        'ReplyPeriod
+        '
+        resources.ApplyResources(Me.ReplyPeriod, "ReplyPeriod")
+        Me.ReplyPeriod.Name = "ReplyPeriod"
+        '
+        'CheckPostAndGet
+        '
+        resources.ApplyResources(Me.CheckPostAndGet, "CheckPostAndGet")
+        Me.CheckPostAndGet.Name = "CheckPostAndGet"
+        Me.CheckPostAndGet.UseVisualStyleBackColor = True
+        '
+        'CheckPeriodAdjust
+        '
+        resources.ApplyResources(Me.CheckPeriodAdjust, "CheckPeriodAdjust")
+        Me.CheckPeriodAdjust.Name = "CheckPeriodAdjust"
+        Me.CheckPeriodAdjust.UseVisualStyleBackColor = True
+        '
+        'Label5
+        '
+        resources.ApplyResources(Me.Label5, "Label5")
+        Me.Label5.Name = "Label5"
+        '
+        'DMPeriod
+        '
+        resources.ApplyResources(Me.DMPeriod, "DMPeriod")
+        Me.DMPeriod.Name = "DMPeriod"
         '
         'GetCountPanel
         '
@@ -634,116 +896,6 @@ Partial Class AppendSettingDialog
         Me.Password.Name = "Password"
         Me.Password.UseSystemPasswordChar = True
         '
-        'GetPeriodPanel
-        '
-        Me.GetPeriodPanel.Controls.Add(Me.Label21)
-        Me.GetPeriodPanel.Controls.Add(Me.UserTimelinePeriod)
-        Me.GetPeriodPanel.Controls.Add(Me.TimelinePeriod)
-        Me.GetPeriodPanel.Controls.Add(Me.Label3)
-        Me.GetPeriodPanel.Controls.Add(Me.ButtonApiCalc)
-        Me.GetPeriodPanel.Controls.Add(Me.LabelPostAndGet)
-        Me.GetPeriodPanel.Controls.Add(Me.LabelApiUsing)
-        Me.GetPeriodPanel.Controls.Add(Me.Label33)
-        Me.GetPeriodPanel.Controls.Add(Me.ListsPeriod)
-        Me.GetPeriodPanel.Controls.Add(Me.Label7)
-        Me.GetPeriodPanel.Controls.Add(Me.PubSearchPeriod)
-        Me.GetPeriodPanel.Controls.Add(Me.Label69)
-        Me.GetPeriodPanel.Controls.Add(Me.ReplyPeriod)
-        Me.GetPeriodPanel.Controls.Add(Me.CheckPostAndGet)
-        Me.GetPeriodPanel.Controls.Add(Me.CheckPeriodAdjust)
-        Me.GetPeriodPanel.Controls.Add(Me.Label5)
-        Me.GetPeriodPanel.Controls.Add(Me.DMPeriod)
-        resources.ApplyResources(Me.GetPeriodPanel, "GetPeriodPanel")
-        Me.GetPeriodPanel.Name = "GetPeriodPanel"
-        '
-        'Label21
-        '
-        resources.ApplyResources(Me.Label21, "Label21")
-        Me.Label21.Name = "Label21"
-        '
-        'UserTimelinePeriod
-        '
-        resources.ApplyResources(Me.UserTimelinePeriod, "UserTimelinePeriod")
-        Me.UserTimelinePeriod.Name = "UserTimelinePeriod"
-        '
-        'TimelinePeriod
-        '
-        resources.ApplyResources(Me.TimelinePeriod, "TimelinePeriod")
-        Me.TimelinePeriod.Name = "TimelinePeriod"
-        '
-        'Label3
-        '
-        resources.ApplyResources(Me.Label3, "Label3")
-        Me.Label3.Name = "Label3"
-        '
-        'ButtonApiCalc
-        '
-        resources.ApplyResources(Me.ButtonApiCalc, "ButtonApiCalc")
-        Me.ButtonApiCalc.Name = "ButtonApiCalc"
-        Me.ButtonApiCalc.UseVisualStyleBackColor = True
-        '
-        'LabelPostAndGet
-        '
-        resources.ApplyResources(Me.LabelPostAndGet, "LabelPostAndGet")
-        Me.LabelPostAndGet.Name = "LabelPostAndGet"
-        '
-        'LabelApiUsing
-        '
-        resources.ApplyResources(Me.LabelApiUsing, "LabelApiUsing")
-        Me.LabelApiUsing.Name = "LabelApiUsing"
-        '
-        'Label33
-        '
-        resources.ApplyResources(Me.Label33, "Label33")
-        Me.Label33.Name = "Label33"
-        '
-        'ListsPeriod
-        '
-        resources.ApplyResources(Me.ListsPeriod, "ListsPeriod")
-        Me.ListsPeriod.Name = "ListsPeriod"
-        '
-        'Label7
-        '
-        resources.ApplyResources(Me.Label7, "Label7")
-        Me.Label7.Name = "Label7"
-        '
-        'PubSearchPeriod
-        '
-        resources.ApplyResources(Me.PubSearchPeriod, "PubSearchPeriod")
-        Me.PubSearchPeriod.Name = "PubSearchPeriod"
-        '
-        'Label69
-        '
-        resources.ApplyResources(Me.Label69, "Label69")
-        Me.Label69.Name = "Label69"
-        '
-        'ReplyPeriod
-        '
-        resources.ApplyResources(Me.ReplyPeriod, "ReplyPeriod")
-        Me.ReplyPeriod.Name = "ReplyPeriod"
-        '
-        'CheckPostAndGet
-        '
-        resources.ApplyResources(Me.CheckPostAndGet, "CheckPostAndGet")
-        Me.CheckPostAndGet.Name = "CheckPostAndGet"
-        Me.CheckPostAndGet.UseVisualStyleBackColor = True
-        '
-        'CheckPeriodAdjust
-        '
-        resources.ApplyResources(Me.CheckPeriodAdjust, "CheckPeriodAdjust")
-        Me.CheckPeriodAdjust.Name = "CheckPeriodAdjust"
-        Me.CheckPeriodAdjust.UseVisualStyleBackColor = True
-        '
-        'Label5
-        '
-        resources.ApplyResources(Me.Label5, "Label5")
-        Me.Label5.Name = "Label5"
-        '
-        'DMPeriod
-        '
-        resources.ApplyResources(Me.DMPeriod, "DMPeriod")
-        Me.DMPeriod.Name = "DMPeriod"
-        '
         'StartupPanel
         '
         Me.StartupPanel.Controls.Add(Me.StartupReaded)
@@ -800,158 +952,6 @@ Partial Class AppendSettingDialog
         '
         resources.ApplyResources(Me.Label83, "Label83")
         Me.Label83.Name = "Label83"
-        '
-        'ActionPanel
-        '
-        Me.ActionPanel.Controls.Add(Me.CheckOpenUserTimeline)
-        Me.ActionPanel.Controls.Add(Me.GroupBox3)
-        Me.ActionPanel.Controls.Add(Me.Label57)
-        Me.ActionPanel.Controls.Add(Me.CheckFavRestrict)
-        Me.ActionPanel.Controls.Add(Me.Button3)
-        Me.ActionPanel.Controls.Add(Me.PlaySnd)
-        Me.ActionPanel.Controls.Add(Me.chkReadOwnPost)
-        Me.ActionPanel.Controls.Add(Me.Label15)
-        Me.ActionPanel.Controls.Add(Me.BrowserPathText)
-        Me.ActionPanel.Controls.Add(Me.UReadMng)
-        Me.ActionPanel.Controls.Add(Me.Label44)
-        Me.ActionPanel.Controls.Add(Me.CheckCloseToExit)
-        Me.ActionPanel.Controls.Add(Me.CheckMinimizeToTray)
-        Me.ActionPanel.Controls.Add(Me.CheckReadOldPosts)
-        resources.ApplyResources(Me.ActionPanel, "ActionPanel")
-        Me.ActionPanel.Name = "ActionPanel"
-        '
-        'CheckOpenUserTimeline
-        '
-        resources.ApplyResources(Me.CheckOpenUserTimeline, "CheckOpenUserTimeline")
-        Me.CheckOpenUserTimeline.Name = "CheckOpenUserTimeline"
-        Me.CheckOpenUserTimeline.UseVisualStyleBackColor = True
-        '
-        'GroupBox3
-        '
-        Me.GroupBox3.Controls.Add(Me.HotkeyCheck)
-        Me.GroupBox3.Controls.Add(Me.HotkeyCode)
-        Me.GroupBox3.Controls.Add(Me.HotkeyText)
-        Me.GroupBox3.Controls.Add(Me.HotkeyWin)
-        Me.GroupBox3.Controls.Add(Me.HotkeyAlt)
-        Me.GroupBox3.Controls.Add(Me.HotkeyShift)
-        Me.GroupBox3.Controls.Add(Me.HotkeyCtrl)
-        resources.ApplyResources(Me.GroupBox3, "GroupBox3")
-        Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.TabStop = False
-        '
-        'HotkeyCheck
-        '
-        resources.ApplyResources(Me.HotkeyCheck, "HotkeyCheck")
-        Me.HotkeyCheck.Name = "HotkeyCheck"
-        Me.HotkeyCheck.UseVisualStyleBackColor = True
-        '
-        'HotkeyCode
-        '
-        resources.ApplyResources(Me.HotkeyCode, "HotkeyCode")
-        Me.HotkeyCode.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.HotkeyCode.Name = "HotkeyCode"
-        '
-        'HotkeyText
-        '
-        resources.ApplyResources(Me.HotkeyText, "HotkeyText")
-        Me.HotkeyText.Name = "HotkeyText"
-        Me.HotkeyText.ReadOnly = True
-        '
-        'HotkeyWin
-        '
-        resources.ApplyResources(Me.HotkeyWin, "HotkeyWin")
-        Me.HotkeyWin.Name = "HotkeyWin"
-        Me.HotkeyWin.UseVisualStyleBackColor = True
-        '
-        'HotkeyAlt
-        '
-        resources.ApplyResources(Me.HotkeyAlt, "HotkeyAlt")
-        Me.HotkeyAlt.Name = "HotkeyAlt"
-        Me.HotkeyAlt.UseVisualStyleBackColor = True
-        '
-        'HotkeyShift
-        '
-        resources.ApplyResources(Me.HotkeyShift, "HotkeyShift")
-        Me.HotkeyShift.Name = "HotkeyShift"
-        Me.HotkeyShift.UseVisualStyleBackColor = True
-        '
-        'HotkeyCtrl
-        '
-        resources.ApplyResources(Me.HotkeyCtrl, "HotkeyCtrl")
-        Me.HotkeyCtrl.Name = "HotkeyCtrl"
-        Me.HotkeyCtrl.UseVisualStyleBackColor = True
-        '
-        'Label57
-        '
-        resources.ApplyResources(Me.Label57, "Label57")
-        Me.Label57.BackColor = System.Drawing.SystemColors.ActiveCaption
-        Me.Label57.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.Label57.Name = "Label57"
-        '
-        'CheckFavRestrict
-        '
-        resources.ApplyResources(Me.CheckFavRestrict, "CheckFavRestrict")
-        Me.CheckFavRestrict.Name = "CheckFavRestrict"
-        Me.CheckFavRestrict.UseVisualStyleBackColor = True
-        '
-        'Button3
-        '
-        resources.ApplyResources(Me.Button3, "Button3")
-        Me.Button3.Name = "Button3"
-        Me.Button3.UseVisualStyleBackColor = True
-        '
-        'PlaySnd
-        '
-        resources.ApplyResources(Me.PlaySnd, "PlaySnd")
-        Me.PlaySnd.Name = "PlaySnd"
-        Me.PlaySnd.UseVisualStyleBackColor = True
-        '
-        'chkReadOwnPost
-        '
-        resources.ApplyResources(Me.chkReadOwnPost, "chkReadOwnPost")
-        Me.chkReadOwnPost.Name = "chkReadOwnPost"
-        Me.chkReadOwnPost.UseVisualStyleBackColor = True
-        '
-        'Label15
-        '
-        Me.Label15.BackColor = System.Drawing.SystemColors.ActiveCaption
-        Me.Label15.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        resources.ApplyResources(Me.Label15, "Label15")
-        Me.Label15.Name = "Label15"
-        '
-        'BrowserPathText
-        '
-        resources.ApplyResources(Me.BrowserPathText, "BrowserPathText")
-        Me.BrowserPathText.Name = "BrowserPathText"
-        '
-        'UReadMng
-        '
-        resources.ApplyResources(Me.UReadMng, "UReadMng")
-        Me.UReadMng.Name = "UReadMng"
-        Me.UReadMng.UseVisualStyleBackColor = True
-        '
-        'Label44
-        '
-        resources.ApplyResources(Me.Label44, "Label44")
-        Me.Label44.Name = "Label44"
-        '
-        'CheckCloseToExit
-        '
-        resources.ApplyResources(Me.CheckCloseToExit, "CheckCloseToExit")
-        Me.CheckCloseToExit.Name = "CheckCloseToExit"
-        Me.CheckCloseToExit.UseVisualStyleBackColor = True
-        '
-        'CheckMinimizeToTray
-        '
-        resources.ApplyResources(Me.CheckMinimizeToTray, "CheckMinimizeToTray")
-        Me.CheckMinimizeToTray.Name = "CheckMinimizeToTray"
-        Me.CheckMinimizeToTray.UseVisualStyleBackColor = True
-        '
-        'CheckReadOldPosts
-        '
-        resources.ApplyResources(Me.CheckReadOldPosts, "CheckReadOldPosts")
-        Me.CheckReadOldPosts.Name = "CheckReadOldPosts"
-        Me.CheckReadOldPosts.UseVisualStyleBackColor = True
         '
         'TweetActPanel
         '
@@ -1909,22 +1909,22 @@ Partial Class AppendSettingDialog
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.ResumeLayout(False)
-        Me.NotifyPanel.ResumeLayout(False)
-        Me.NotifyPanel.PerformLayout()
-        Me.GetCountPanel.ResumeLayout(False)
-        Me.GetCountPanel.PerformLayout()
-        Me.BasedPanel.ResumeLayout(False)
-        Me.BasedPanel.PerformLayout()
-        Me.GetPeriodPanel.ResumeLayout(False)
-        Me.GetPeriodPanel.PerformLayout()
-        Me.StartupPanel.ResumeLayout(False)
-        Me.StartupPanel.PerformLayout()
-        Me.UserStreamPanel.ResumeLayout(False)
-        Me.UserStreamPanel.PerformLayout()
         Me.ActionPanel.ResumeLayout(False)
         Me.ActionPanel.PerformLayout()
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox3.PerformLayout()
+        Me.NotifyPanel.ResumeLayout(False)
+        Me.NotifyPanel.PerformLayout()
+        Me.GetPeriodPanel.ResumeLayout(False)
+        Me.GetPeriodPanel.PerformLayout()
+        Me.GetCountPanel.ResumeLayout(False)
+        Me.GetCountPanel.PerformLayout()
+        Me.BasedPanel.ResumeLayout(False)
+        Me.BasedPanel.PerformLayout()
+        Me.StartupPanel.ResumeLayout(False)
+        Me.StartupPanel.PerformLayout()
+        Me.UserStreamPanel.ResumeLayout(False)
+        Me.UserStreamPanel.PerformLayout()
         Me.TweetActPanel.ResumeLayout(False)
         Me.TweetActPanel.PerformLayout()
         Me.PreviewPanel.ResumeLayout(False)
