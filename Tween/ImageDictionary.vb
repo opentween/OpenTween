@@ -39,18 +39,19 @@ Public Class ImageDictionary
     Private cachePolicy As New CacheItemPolicy()
     Private removedCount As Long = 0
 
-    Public Sub New(ByVal memoryCacheCount As Integer)
+    Public Sub New(ByVal cacheMemoryLimit As Integer)
         SyncLock Me.lockObject
             '10Mb,80%
+            'キャッシュチェック間隔はデフォルト値（2分毎）
             Me.innerDictionary = New MemoryCache("imageCache",
                                                  New NameValueCollection() From
                                                  {
-                                                     {"CacheMemoryLimitMegabytes", "10"},
+                                                     {"CacheMemoryLimitMegabytes", cacheMemoryLimit.ToString},
                                                      {"PhysicalMemoryLimitPercentage", "80"}
                                                  })
             Me.waitStack = New Stack(Of KeyValuePair(Of String, Action(Of Image)))
             Me.cachePolicy.RemovedCallback = AddressOf CacheRemoved
-            Me.cachePolicy.SlidingExpiration = TimeSpan.FromMinutes(30)
+            Me.cachePolicy.SlidingExpiration = TimeSpan.FromMinutes(30)     '30分参照されなかったら削除
         End SyncLock
     End Sub
 

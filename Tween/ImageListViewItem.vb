@@ -27,6 +27,7 @@ Public Class ImageListViewItem
     Inherits ListViewItem
 
     Private img As Image = Nothing
+    Public Event ImageDownloaded(ByVal sender As Object, ByVal e As EventArgs)
 
     Public Sub New(ByVal items() As String, ByVal imageKey As String)
         MyBase.New(items, imageKey)
@@ -42,6 +43,7 @@ Public Class ImageListViewItem
                                                                     Me.ListView.Created AndAlso
                                                                     Not Me.ListView.IsDisposed Then Me.ListView.Invoke(Sub()
                                                                                                                            If Me.Index < Me.ListView.VirtualListSize Then Me.ListView.RedrawItems(Me.Index, Me.Index, False)
+                                                                                                                           RaiseEvent ImageDownloaded(Me, EventArgs.Empty)
                                                                                                                        End Sub)
                                                             End Sub)
 
