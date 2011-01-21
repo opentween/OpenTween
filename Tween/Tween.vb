@@ -208,6 +208,8 @@ Public Class TweenMain
 
     Private WithEvents TimerTimeline As New System.Timers.Timer
 
+    Private WithEvents displayItem As ImageListViewItem
+
     'URL短縮のUndo用
     Private Structure urlUndo
         Public Before As String
@@ -1017,7 +1019,7 @@ Public Class TweenMain
         End If
 
         'アイコンリスト作成
-        TIconDic = New ImageDictionary(5000)
+        TIconDic = New ImageDictionary(50)
 
         tw.DetailIcon = TIconDic
 
@@ -4620,11 +4622,8 @@ RETRY:
         Return detailHtmlFormatHeader + orgdata + detailHtmlFormatFooter
     End Function
 
-    Private Sub SetUserPicture()
-        Thread.Sleep(1000)       ' 要調整
-        If Not String.IsNullOrEmpty(_curPost.ImageUrl) AndAlso TIconDic.ContainsKey(_curPost.ImageUrl) Then
-            UserPicture.Image = TIconDic(_curPost.ImageUrl)
-        End If
+    Private Sub DisplayItemImage_Downloaded(ByVal sender As Object, ByVal e As EventArgs) Handles displayItem.ImageDownloaded
+        If sender.Equals(displayItem) AndAlso displayItem.Image IsNot Nothing Then UserPicture.Image = displayItem.Image
     End Sub
 
     Private Overloads Sub DispSelectedPost()
@@ -4641,6 +4640,8 @@ RETRY:
         End If
 
         displaypost = _curPost
+        displayItem = DirectCast(_curList.Items(_curList.SelectedIndices(0)), ImageListViewItem)
+
         Dim dTxt As String = createDetailHtml(If(_curPost.IsDeleted, "(DELETED)", _curPost.OriginalData))
         If _curPost.IsDm Then
             SourceLinkLabel.Tag = Nothing
@@ -4685,11 +4686,6 @@ RETRY:
             UserPicture.Image = TIconDic(_curPost.ImageUrl)
         Else
             UserPicture.Image = Nothing
-
-            Dim proc As New Thread(New Threading.ThreadStart(Sub()
-                                                                 If Me.IsHandleCreated AndAlso Not Me.IsDisposed Then Invoke(New MethodInvoker(AddressOf SetUserPicture))
-                                                             End Sub))
-            proc.Start()
         End If
 
         NameLabel.ForeColor = System.Drawing.SystemColors.ControlText
