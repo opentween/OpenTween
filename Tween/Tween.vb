@@ -5671,7 +5671,7 @@ RETRY:
                 _itemCache = Nothing
                 _curList.RedrawItems(_curItemIndex, _curItemIndex, False)
             Else
-                Me.StatusLabelUrl.Text = r
+                Me.StatusLabel.Text = r
             End If
         End If
 
@@ -5724,7 +5724,7 @@ RETRY:
                     Exit Sub
                 End Try
             Else
-                Me.StatusLabelUrl.Text = r
+                Me.StatusLabel.Text = r
                 OpenUriAsync("http://twitter.com/" + inReplyToUser + "/statuses/" + inReplyToId.ToString())
                 Exit Sub
             End If
