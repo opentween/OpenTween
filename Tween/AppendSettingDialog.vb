@@ -140,41 +140,90 @@ Public Class AppendSettingDialog
     Private _soundfileListup As Boolean = False
     Private _MyEventSoundFile As String
 
-    Private Sub TreeView1_BeforeSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewCancelEventArgs) Handles TreeView1.BeforeSelect
-        If _curPanel IsNot Nothing Then Exit Sub
-        If Me.TreeView1.SelectedNode Is Nothing Then Exit Sub
-        Dim pnl = DirectCast(Me.TreeView1.SelectedNode.Tag, Panel)
-        If pnl Is Nothing Then Exit Sub
-        pnl.Enabled = False
-        pnl.Visible = False
-    End Sub
 
-    Private Sub TreeView1_AfterSelect(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles TreeView1.AfterSelect
-        If e.Node Is Nothing Then Exit Sub
-        Dim pnl = DirectCast(e.Node.Tag, Panel)
+    Private Sub TreeView1_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles TreeView1.MouseDown
+        Dim Node As TreeNode = TreeView1.GetNodeAt(e.X, e.Y)
+        If Node Is Nothing Then Exit Sub
+        Dim pnl = DirectCast(Node.Tag, Panel)
         If pnl Is Nothing Then Exit Sub
         If _curPanel IsNot Nothing Then
-            If pnl.Name = _curPanel.Name Then Exit Sub
-            _curPanel.Enabled = False
-            _curPanel.Visible = False
-            _curPanel = Nothing
+            If pnl.Name <> _curPanel.Name Then
+                _curPanel.Enabled = False
+                _curPanel.Visible = False
+                _curPanel = Nothing
+            End If
         End If
-        If FirstExpandNode Then
-            FirstExpandNode = False
+
+        If Node.IsExpanded Then
+            Node.Collapse()
         Else
-            e.Node.Expand()
-            _curPanel = pnl
-            TreeView1.SelectedNode = Nothing
+            Node.Expand()
         End If
-        pnl.Enabled = True
-        pnl.Visible = True
+        If _curPanel Is Nothing Then
+            _curPanel = pnl
+            pnl.Enabled = True
+            pnl.Visible = True
+        End If
     End Sub
 
-    Private Sub TreeView1_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles TreeView1.KeyDown
-        If e.KeyCode = Keys.Down OrElse e.KeyCode = Keys.Up OrElse e.KeyCode = Keys.Left OrElse e.KeyCode = Keys.Right Then
-            FirstExpandNode = True
-        End If
-    End Sub
+    'Private Sub TreeView1_BeforeSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewCancelEventArgs) Handles TreeView1.BeforeSelect
+    '    If e.Node Is Nothing Then Exit Sub
+    '    Dim pnl = DirectCast(e.Node.Tag, Panel)
+    '    If pnl Is Nothing Then Exit Sub
+    '    If _curPanel IsNot Nothing Then
+    '        If pnl.Name = _curPanel.Name Then Exit Sub
+    '        _curPanel.Enabled = False
+    '        _curPanel.Visible = False
+    '        _curPanel = Nothing
+    '    End If
+    '    If e.Action = TreeViewAction.ByMouse Then
+    '        If e.Node.IsExpanded Then
+    '            e.Node.Collapse()
+    '        Else
+    '            e.Node.Expand()
+    '        End If
+    '        TreeView1.SelectedNode = Nothing
+    '    End If
+    '    _curPanel = pnl
+    '    pnl.Enabled = True
+    '    pnl.Visible = True
+    'End Sub
+
+    'Private Sub TreeView1_BeforeSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewCancelEventArgs) Handles TreeView1.BeforeSelect
+    '    If _curPanel IsNot Nothing Then Exit Sub
+    '    If Me.TreeView1.SelectedNode Is Nothing Then Exit Sub
+    '    Dim pnl = DirectCast(Me.TreeView1.SelectedNode.Tag, Panel)
+    '    If pnl Is Nothing Then Exit Sub
+    '    pnl.Enabled = False
+    '    pnl.Visible = False
+    'End Sub
+
+    'Private Sub TreeView1_AfterSelect(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles TreeView1.AfterSelect
+    '    If e.Node Is Nothing Then Exit Sub
+    '    Dim pnl = DirectCast(e.Node.Tag, Panel)
+    '    If pnl Is Nothing Then Exit Sub
+    '    If _curPanel IsNot Nothing Then
+    '        If pnl.Name = _curPanel.Name Then Exit Sub
+    '        _curPanel.Enabled = False
+    '        _curPanel.Visible = False
+    '        _curPanel = Nothing
+    '    End If
+    '    If FirstExpandNode Then
+    '        FirstExpandNode = False
+    '    Else
+    '        e.Node.Expand()
+    '        _curPanel = pnl
+    '        TreeView1.SelectedNode = Nothing
+    '    End If
+    '    pnl.Enabled = True
+    '    pnl.Visible = True
+    'End Sub
+
+    'Private Sub TreeView1_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles TreeView1.KeyDown
+    '    If e.KeyCode = Keys.Down OrElse e.KeyCode = Keys.Up OrElse e.KeyCode = Keys.Left OrElse e.KeyCode = Keys.Right Then
+    '        FirstExpandNode = True
+    '    End If
+    'End Sub
 
     Private Sub Save_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Save.Click
         If TweenMain.IsNetworkAvailable() AndAlso _
@@ -2559,4 +2608,5 @@ Public Class AppendSettingDialog
 
         _MyEventSoundFile = DirectCast(ComboBoxEventNotifySound.SelectedItem, String)
     End Sub
+
 End Class
