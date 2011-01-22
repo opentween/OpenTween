@@ -283,7 +283,6 @@
   <ItemGroup>
     <EmbeddedResource Include="AppendSettingDialog.en.resx">
       <DependentUpon>AppendSettingDialog.vb</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="AppendSettingDialog.resx">
       <DependentUpon>AppendSettingDialog.vb</DependentUpon>
