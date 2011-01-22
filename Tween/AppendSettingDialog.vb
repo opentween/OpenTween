@@ -130,7 +130,6 @@ Public Class AppendSettingDialog
     Private _MyOpenUserTimeline As Boolean
 
     Private _ValidationError As Boolean = False
-    Private FirstExpandNode As Boolean = True
     Private _curPanel As Panel = Nothing
     Private _MyEventNotifyEnabled As Boolean
     Private _MyEventNotifyFlag As EVENTTYPE
@@ -140,9 +139,8 @@ Public Class AppendSettingDialog
     Private _soundfileListup As Boolean = False
     Private _MyEventSoundFile As String
 
-
-    Private Sub TreeView1_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles TreeView1.MouseDown
-        Dim Node As TreeNode = TreeView1.GetNodeAt(e.X, e.Y)
+    Private Sub TreeViewSetting_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles TreeViewSetting.MouseDown
+        Dim Node As TreeNode = TreeViewSetting.GetNodeAt(e.X, e.Y)
         If Node Is Nothing Then Exit Sub
         Dim pnl = DirectCast(Node.Tag, Panel)
         If pnl Is Nothing Then Exit Sub
@@ -150,7 +148,10 @@ Public Class AppendSettingDialog
             If pnl.Name <> _curPanel.Name Then
                 _curPanel.Enabled = False
                 _curPanel.Visible = False
-                _curPanel = Nothing
+
+                _curPanel = pnl
+                pnl.Enabled = True
+                pnl.Visible = True
             End If
         End If
 
@@ -159,71 +160,7 @@ Public Class AppendSettingDialog
         Else
             Node.Expand()
         End If
-        If _curPanel Is Nothing Then
-            _curPanel = pnl
-            pnl.Enabled = True
-            pnl.Visible = True
-        End If
     End Sub
-
-    'Private Sub TreeView1_BeforeSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewCancelEventArgs) Handles TreeView1.BeforeSelect
-    '    If e.Node Is Nothing Then Exit Sub
-    '    Dim pnl = DirectCast(e.Node.Tag, Panel)
-    '    If pnl Is Nothing Then Exit Sub
-    '    If _curPanel IsNot Nothing Then
-    '        If pnl.Name = _curPanel.Name Then Exit Sub
-    '        _curPanel.Enabled = False
-    '        _curPanel.Visible = False
-    '        _curPanel = Nothing
-    '    End If
-    '    If e.Action = TreeViewAction.ByMouse Then
-    '        If e.Node.IsExpanded Then
-    '            e.Node.Collapse()
-    '        Else
-    '            e.Node.Expand()
-    '        End If
-    '        TreeView1.SelectedNode = Nothing
-    '    End If
-    '    _curPanel = pnl
-    '    pnl.Enabled = True
-    '    pnl.Visible = True
-    'End Sub
-
-    'Private Sub TreeView1_BeforeSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewCancelEventArgs) Handles TreeView1.BeforeSelect
-    '    If _curPanel IsNot Nothing Then Exit Sub
-    '    If Me.TreeView1.SelectedNode Is Nothing Then Exit Sub
-    '    Dim pnl = DirectCast(Me.TreeView1.SelectedNode.Tag, Panel)
-    '    If pnl Is Nothing Then Exit Sub
-    '    pnl.Enabled = False
-    '    pnl.Visible = False
-    'End Sub
-
-    'Private Sub TreeView1_AfterSelect(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles TreeView1.AfterSelect
-    '    If e.Node Is Nothing Then Exit Sub
-    '    Dim pnl = DirectCast(e.Node.Tag, Panel)
-    '    If pnl Is Nothing Then Exit Sub
-    '    If _curPanel IsNot Nothing Then
-    '        If pnl.Name = _curPanel.Name Then Exit Sub
-    '        _curPanel.Enabled = False
-    '        _curPanel.Visible = False
-    '        _curPanel = Nothing
-    '    End If
-    '    If FirstExpandNode Then
-    '        FirstExpandNode = False
-    '    Else
-    '        e.Node.Expand()
-    '        _curPanel = pnl
-    '        TreeView1.SelectedNode = Nothing
-    '    End If
-    '    pnl.Enabled = True
-    '    pnl.Visible = True
-    'End Sub
-
-    'Private Sub TreeView1_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles TreeView1.KeyDown
-    '    If e.KeyCode = Keys.Down OrElse e.KeyCode = Keys.Up OrElse e.KeyCode = Keys.Left OrElse e.KeyCode = Keys.Right Then
-    '        FirstExpandNode = True
-    '    End If
-    'End Sub
 
     Private Sub Save_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Save.Click
         If TweenMain.IsNetworkAvailable() AndAlso _
@@ -232,7 +169,7 @@ Public Class AppendSettingDialog
             If Not BitlyValidation(TextBitlyId.Text, TextBitlyPw.Text) Then
                 MessageBox.Show(My.Resources.SettingSave_ClickText1)
                 _ValidationError = True
-                TreeView1.SelectedNode.Name = "TweetActNode" ' 動作タブを選択
+                TreeViewSetting.SelectedNode.Name = "TweetActNode" ' 動作タブを選択
                 TextBitlyId.Focus()
                 Exit Sub
             Else
@@ -446,7 +383,7 @@ Public Class AppendSettingDialog
     End Sub
 
     Private Sub Setting_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
-        If TreeView1.SelectedNode IsNot Nothing Then _curPanel = CType(TreeView1.SelectedNode.Tag, Panel)
+        If TreeViewSetting.SelectedNode IsNot Nothing Then _curPanel = CType(TreeViewSetting.SelectedNode.Tag, Panel)
         If tw IsNot Nothing AndAlso tw.Username = "" AndAlso e.CloseReason = CloseReason.None Then
             If MessageBox.Show(My.Resources.Setting_FormClosing1, "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
                 e.Cancel = True
@@ -718,7 +655,7 @@ Public Class AppendSettingDialog
         ListTextCountApi.Enabled = UseChangeGetCount.Checked
         CheckOpenUserTimeline.Checked = _MyOpenUserTimeline
 
-        With Me.TreeView1
+        With Me.TreeViewSetting
             .Nodes("BasedNode").Tag = BasedPanel
             .Nodes("BasedNode").Nodes("PeriodNode").Tag = GetPeriodPanel
             .Nodes("BasedNode").Nodes("StartUpNode").Tag = StartupPanel
@@ -745,7 +682,7 @@ Public Class AppendSettingDialog
         _curPanel = BasedPanel
         _curPanel.Enabled = True
         _curPanel.Visible = True
-        TreeView1.SelectedNode = Nothing
+        TreeViewSetting.SelectedNode = Nothing
         ActiveControl = Username
     End Sub
 

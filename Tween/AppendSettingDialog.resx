@@ -129,13 +129,13 @@
   <data name="SplitContainer1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
-  <data name="TreeView1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+  <data name="TreeViewSetting.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <data name="TreeView1.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="TreeViewSetting.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
-  <data name="TreeView1.Nodes" mimetype="application/x-microsoft.net.object.binary.base64">
+  <data name="TreeViewSetting.Nodes" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAAB1TeXN0
@@ -161,7 +161,7 @@
         clN0cmVhbQYUAAAADlVzZXJTdHJlYW1Ob2RlAP////8JBQAAAP////8JBQAAAAAAAAAL
 </value>
   </data>
-  <data name="TreeView1.Nodes1" mimetype="application/x-microsoft.net.object.binary.base64">
+  <data name="TreeViewSetting.Nodes1" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAAB1TeXN0
@@ -179,7 +179,7 @@
         DFR3ZWV0QWN0Tm9kZQD/////CQUAAAD/////CQUAAAAAAAAACw==
 </value>
   </data>
-  <data name="TreeView1.Nodes2" mimetype="application/x-microsoft.net.object.binary.base64">
+  <data name="TreeViewSetting.Nodes2" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAAB1TeXN0
@@ -193,7 +193,7 @@
         /////wkFAAAA/////wkFAAAAAAAAAAs=
 </value>
   </data>
-  <data name="TreeView1.Nodes3" mimetype="application/x-microsoft.net.object.binary.base64">
+  <data name="TreeViewSetting.Nodes3" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAAB1TeXN0
@@ -207,7 +207,7 @@
         BQAAAP////8JBQAAAAAAAAAL
 </value>
   </data>
-  <data name="TreeView1.Nodes4" mimetype="application/x-microsoft.net.object.binary.base64">
+  <data name="TreeViewSetting.Nodes4" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAAB1TeXN0
@@ -229,22 +229,22 @@
         TAYQAAAADFNob3J0VXJsTm9kZQD/////CQUAAAD/////CQUAAAAAAAAACw==
 </value>
   </data>
-  <data name="TreeView1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="TreeViewSetting.Size" type="System.Drawing.Size, System.Drawing">
     <value>169, 368</value>
   </data>
-  <data name="TreeView1.TabIndex" type="System.Int32, mscorlib">
+  <data name="TreeViewSetting.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;TreeView1.Name" xml:space="preserve">
-    <value>TreeView1</value>
+  <data name="&gt;&gt;TreeViewSetting.Name" xml:space="preserve">
+    <value>TreeViewSetting</value>
   </data>
-  <data name="&gt;&gt;TreeView1.Type" xml:space="preserve">
+  <data name="&gt;&gt;TreeViewSetting.Type" xml:space="preserve">
     <value>System.Windows.Forms.TreeView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;TreeView1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;TreeViewSetting.Parent" xml:space="preserve">
     <value>SplitContainer1.Panel1</value>
   </data>
-  <data name="&gt;&gt;TreeView1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;TreeViewSetting.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="&gt;&gt;SplitContainer1.Panel1.Name" xml:space="preserve">

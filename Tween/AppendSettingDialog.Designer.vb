@@ -24,7 +24,7 @@ Partial Class AppendSettingDialog
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AppendSettingDialog))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.TreeView1 = New System.Windows.Forms.TreeView()
+        Me.TreeViewSetting = New System.Windows.Forms.TreeView()
         Me.ActionPanel = New System.Windows.Forms.Panel()
         Me.CheckOpenUserTimeline = New System.Windows.Forms.CheckBox()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
@@ -293,7 +293,7 @@ Partial Class AppendSettingDialog
         '
         'SplitContainer1.Panel1
         '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.TreeView1)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.TreeViewSetting)
         '
         'SplitContainer1.Panel2
         '
@@ -316,14 +316,14 @@ Partial Class AppendSettingDialog
         Me.SplitContainer1.Panel2.Controls.Add(Me.ActionPanel)
         Me.SplitContainer1.TabStop = False
         '
-        'TreeView1
+        'TreeViewSetting
         '
-        Me.TreeView1.Cursor = System.Windows.Forms.Cursors.Hand
-        resources.ApplyResources(Me.TreeView1, "TreeView1")
-        Me.TreeView1.HideSelection = False
-        Me.TreeView1.Name = "TreeView1"
-        Me.TreeView1.Nodes.AddRange(New System.Windows.Forms.TreeNode() {CType(resources.GetObject("TreeView1.Nodes"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeView1.Nodes1"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeView1.Nodes2"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeView1.Nodes3"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeView1.Nodes4"), System.Windows.Forms.TreeNode)})
-        Me.TreeView1.ShowLines = False
+        Me.TreeViewSetting.Cursor = System.Windows.Forms.Cursors.Hand
+        resources.ApplyResources(Me.TreeViewSetting, "TreeViewSetting")
+        Me.TreeViewSetting.HideSelection = False
+        Me.TreeViewSetting.Name = "TreeViewSetting"
+        Me.TreeViewSetting.Nodes.AddRange(New System.Windows.Forms.TreeNode() {CType(resources.GetObject("TreeViewSetting.Nodes"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeViewSetting.Nodes1"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeViewSetting.Nodes2"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeViewSetting.Nodes3"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeViewSetting.Nodes4"), System.Windows.Forms.TreeNode)})
+        Me.TreeViewSetting.ShowLines = False
         '
         'ActionPanel
         '
@@ -1951,7 +1951,7 @@ Partial Class AppendSettingDialog
 
     End Sub
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
-    Friend WithEvents TreeView1 As System.Windows.Forms.TreeView
+    Friend WithEvents TreeViewSetting As System.Windows.Forms.TreeView
     Friend WithEvents BasedPanel As System.Windows.Forms.Panel
     Friend WithEvents AuthBasicRadio As System.Windows.Forms.RadioButton
     Friend WithEvents AuthOAuthRadio As System.Windows.Forms.RadioButton
