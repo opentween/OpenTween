@@ -907,6 +907,8 @@ Public Class TweenMain
         SetImageServiceCombo()
         ImageSelectionPanel.Enabled = False
 
+        ImageServiceCombo.SelectedIndex = _cfgCommon.UseImageSurvice
+
         'ウィンドウ設定
         Me.ClientSize = _cfgLocal.FormSize
         _mySize = _cfgLocal.FormSize                     'サイズ保持（最小化・最大化されたまま終了した場合の対応用）
@@ -5991,6 +5993,7 @@ RETRY:
             _cfgCommon.AllAtReply = tw.AllAtReply
             _cfgCommon.OpenUserTimeline = SettingDialog.OpenUserTimeline
             _cfgCommon.ListCountApi = SettingDialog.ListCountApi
+            _cfgCommon.UseImageSurvice = ImageServiceCombo.SelectedIndex
 
             _cfgCommon.Save()
         End SyncLock
@@ -9664,6 +9667,8 @@ RETRY:
             Catch ex As Exception
 
             End Try
+            _modifySettingCommon = True
+            SaveConfigsAll(False)
         End If
     End Sub
 #End Region
