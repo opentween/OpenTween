@@ -188,4 +188,5 @@ Public Class SettingCommon
     Public UserTimelinePeriod As Integer = 600
     Public OpenUserTimeline As Boolean = True
     Public ListCountApi As Integer = 100
+    Public UseImageSurvice As Integer = 0
 End Class
