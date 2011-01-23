@@ -1,5 +1,5 @@
 ﻿' Tween - Client of Twitter
-' Copyright (c) 2007-2011 kiri_feather (@kiri_feather) <kiri_feather@gmail.com>
+' Copyright (c) 2007-2011 kiri_feather (@kiri_feather) <kiri.feather@gmail.com>
 '           (c) 2008-2011 Moz (@syo68k)
 '           (c) 2008-2011 takeshik (@takeshik) <http://www.takeshik.org/>
 '           (c) 2010-2011 anis774 (@anis774) <http://d.hatena.ne.jp/anis774/>
@@ -38,7 +38,7 @@ Public Class Thumbnail
         Public statusId As Long
         Public urls As List(Of KeyValuePair(Of String, String))
         Public pics As New List(Of KeyValuePair(Of String, Image))
-        Public tooltiptext As New List(Of KeyValuePair(Of String, String))
+        Public tooltipText As New List(Of KeyValuePair(Of String, String))
         Public imageCreators As New List(Of KeyValuePair(Of String, ImageCreatorDelegate))
         Public Sub New(ByVal id As Long, ByVal urlList As List(Of KeyValuePair(Of String, String)), ByVal imageCreatorList As List(Of KeyValuePair(Of String, ImageCreatorDelegate)))
             statusId = id
@@ -88,7 +88,7 @@ Public Class Thumbnail
     Private Class CreateImageArgs
         Public url As KeyValuePair(Of String, String)
         Public pics As List(Of KeyValuePair(Of String, Image))
-        Public tooltiptext As List(Of KeyValuePair(Of String, String))
+        Public tooltipText As List(Of KeyValuePair(Of String, String))
         Public errmsg As String
     End Class
 
@@ -156,7 +156,7 @@ Public Class Thumbnail
             Owner.SplitContainer3.Panel2Collapsed = True
             Exit Sub
         End If
-        If Not Owner.PreviewPicture.Image Is Nothing Then
+        If Owner.PreviewPicture.Image IsNot Nothing Then
             Owner.PreviewPicture.Image.Dispose()
             Owner.PreviewPicture.Image = Nothing
             Owner.SplitContainer3.Panel2Collapsed = True
