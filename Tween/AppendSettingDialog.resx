@@ -139,26 +139,27 @@
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAAB1TeXN0
-        ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQwAAAAEVGV4dAROYW1lCUlzQ2hlY2tlZApJbWFnZUluZGV4
+        ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQ0AAAAEVGV4dAROYW1lCUlzQ2hlY2tlZApJbWFnZUluZGV4
         CEltYWdlS2V5ElNlbGVjdGVkSW1hZ2VJbmRleBBTZWxlY3RlZEltYWdlS2V5CkNoaWxkQ291bnQJY2hp
-        bGRyZW4wCWNoaWxkcmVuMQljaGlsZHJlbjIJY2hpbGRyZW4zAQEAAAEAAQAEBAQEAQgICB1TeXN0ZW0u
-        V2luZG93cy5Gb3Jtcy5UcmVlTm9kZQIAAAAdU3lzdGVtLldpbmRvd3MuRm9ybXMuVHJlZU5vZGUCAAAA
-        HVN5c3RlbS5XaW5kb3dzLkZvcm1zLlRyZWVOb2RlAgAAAB1TeXN0ZW0uV2luZG93cy5Gb3Jtcy5UcmVl
-        Tm9kZQIAAAACAAAABgMAAAAG5Z+65pysBgQAAAAJQmFzZWROb2RlAP////8GBQAAAAD/////CQUAAAAE
-        AAAACQYAAAAJBwAAAAkIAAAACQkAAAAFBgAAAB1TeXN0ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQgA
+        bGRyZW4wCWNoaWxkcmVuMQljaGlsZHJlbjIJY2hpbGRyZW4zCFVzZXJEYXRhAQEAAAEAAQAEBAQEAQEI
+        CAgdU3lzdGVtLldpbmRvd3MuRm9ybXMuVHJlZU5vZGUCAAAAHVN5c3RlbS5XaW5kb3dzLkZvcm1zLlRy
+        ZWVOb2RlAgAAAB1TeXN0ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQIAAAAdU3lzdGVtLldpbmRvd3Mu
+        Rm9ybXMuVHJlZU5vZGUCAAAAAgAAAAYDAAAABuWfuuacrAYEAAAACUJhc2VkTm9kZQD/////BgUAAAAA
+        /////wkFAAAABAAAAAkGAAAACQcAAAAJCAAAAAkJAAAACQUAAAAFBgAAAB1TeXN0ZW0uV2luZG93cy5G
+        b3Jtcy5UcmVlTm9kZQgAAAAEVGV4dAROYW1lCUlzQ2hlY2tlZApJbWFnZUluZGV4CEltYWdlS2V5ElNl
+        bGVjdGVkSW1hZ2VJbmRleBBTZWxlY3RlZEltYWdlS2V5CkNoaWxkQ291bnQBAQAAAQABAAEICAgCAAAA
+        BgsAAAAM5pu05paw6ZaT6ZqUBgwAAAAKUGVyaW9kTm9kZQD/////CQUAAAD/////CQUAAAAAAAAABQcA
+        AAAdU3lzdGVtLldpbmRvd3MuRm9ybXMuVHJlZU5vZGUIAAAABFRleHQETmFtZQlJc0NoZWNrZWQKSW1h
+        Z2VJbmRleAhJbWFnZUtleRJTZWxlY3RlZEltYWdlSW5kZXgQU2VsZWN0ZWRJbWFnZUtleQpDaGlsZENv
+        dW50AQEAAAEAAQABCAgIAgAAAAYOAAAAEui1t+WLleaZguOBruWLleS9nAYPAAAAC1N0YXJ0VXBOb2Rl
+        AP////8JBQAAAP////8JBQAAAAAAAAAFCAAAAB1TeXN0ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQgA
         AAAEVGV4dAROYW1lCUlzQ2hlY2tlZApJbWFnZUluZGV4CEltYWdlS2V5ElNlbGVjdGVkSW1hZ2VJbmRl
-        eBBTZWxlY3RlZEltYWdlS2V5CkNoaWxkQ291bnQBAQAAAQABAAEICAgCAAAABgoAAAAM5pu05paw6ZaT
-        6ZqUBgsAAAAKUGVyaW9kTm9kZQD/////CQUAAAD/////CQUAAAAAAAAABQcAAAAdU3lzdGVtLldpbmRv
-        d3MuRm9ybXMuVHJlZU5vZGUIAAAABFRleHQETmFtZQlJc0NoZWNrZWQKSW1hZ2VJbmRleAhJbWFnZUtl
-        eRJTZWxlY3RlZEltYWdlSW5kZXgQU2VsZWN0ZWRJbWFnZUtleQpDaGlsZENvdW50AQEAAAEAAQABCAgI
-        AgAAAAYNAAAAEui1t+WLleaZguOBruWLleS9nAYOAAAAC1N0YXJ0VXBOb2RlAP////8JBQAAAP////8J
-        BQAAAAAAAAAFCAAAAB1TeXN0ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQgAAAAEVGV4dAROYW1lCUlz
-        Q2hlY2tlZApJbWFnZUluZGV4CEltYWdlS2V5ElNlbGVjdGVkSW1hZ2VJbmRleBBTZWxlY3RlZEltYWdl
-        S2V5CkNoaWxkQ291bnQBAQAAAQABAAEICAgCAAAABhAAAAAM5Y+W5b6X5Lu25pWwBhEAAAAMR2V0Q291
-        bnROb2RlAP////8JBQAAAP////8JBQAAAAAAAAAFCQAAAB1TeXN0ZW0uV2luZG93cy5Gb3Jtcy5UcmVl
-        Tm9kZQgAAAAEVGV4dAROYW1lCUlzQ2hlY2tlZApJbWFnZUluZGV4CEltYWdlS2V5ElNlbGVjdGVkSW1h
-        Z2VJbmRleBBTZWxlY3RlZEltYWdlS2V5CkNoaWxkQ291bnQBAQAAAQABAAEICAgCAAAABhMAAAAKVXNl
-        clN0cmVhbQYUAAAADlVzZXJTdHJlYW1Ob2RlAP////8JBQAAAP////8JBQAAAAAAAAAL
+        eBBTZWxlY3RlZEltYWdlS2V5CkNoaWxkQ291bnQBAQAAAQABAAEICAgCAAAABhEAAAAM5Y+W5b6X5Lu2
+        5pWwBhIAAAAMR2V0Q291bnROb2RlAP////8JBQAAAP////8JBQAAAAAAAAAFCQAAAB1TeXN0ZW0uV2lu
+        ZG93cy5Gb3Jtcy5UcmVlTm9kZQgAAAAEVGV4dAROYW1lCUlzQ2hlY2tlZApJbWFnZUluZGV4CEltYWdl
+        S2V5ElNlbGVjdGVkSW1hZ2VJbmRleBBTZWxlY3RlZEltYWdlS2V5CkNoaWxkQ291bnQBAQAAAQABAAEI
+        CAgCAAAABhQAAAAKVXNlclN0cmVhbQYVAAAADlVzZXJTdHJlYW1Ob2RlAP////8JBQAAAP////8JBQAA
+        AAAAAAAL
 </value>
   </data>
   <data name="TreeViewSetting.Nodes1" mimetype="application/x-microsoft.net.object.binary.base64">
@@ -257,387 +258,6 @@
     <value>SplitContainer1</value>
   </data>
   <data name="&gt;&gt;SplitContainer1.Panel1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="Label35.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label35.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 251</value>
-  </data>
-  <data name="Label35.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 12</value>
-  </data>
-  <data name="Label35.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="Label35.Text" xml:space="preserve">
-    <value>イベント通知の際に再生するサウンド</value>
-  </data>
-  <data name="&gt;&gt;Label35.Name" xml:space="preserve">
-    <value>Label35</value>
-  </data>
-  <data name="&gt;&gt;Label35.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label35.Parent" xml:space="preserve">
-    <value>NotifyPanel</value>
-  </data>
-  <data name="&gt;&gt;Label35.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="ComboBoxEventNotifySound.Location" type="System.Drawing.Point, System.Drawing">
-    <value>286, 248</value>
-  </data>
-  <data name="ComboBoxEventNotifySound.Size" type="System.Drawing.Size, System.Drawing">
-    <value>188, 20</value>
-  </data>
-  <data name="ComboBoxEventNotifySound.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxEventNotifySound.Name" xml:space="preserve">
-    <value>ComboBoxEventNotifySound</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxEventNotifySound.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxEventNotifySound.Parent" xml:space="preserve">
-    <value>NotifyPanel</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxEventNotifySound.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="CheckFavEventUnread.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CheckFavEventUnread.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 218</value>
-  </data>
-  <data name="CheckFavEventUnread.Size" type="System.Drawing.Size, System.Drawing">
-    <value>271, 16</value>
-  </data>
-  <data name="CheckFavEventUnread.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="CheckFavEventUnread.Text" xml:space="preserve">
-    <value>Favoritesイベント受信の際に書き込みを未読に戻す</value>
-  </data>
-  <data name="&gt;&gt;CheckFavEventUnread.Name" xml:space="preserve">
-    <value>CheckFavEventUnread</value>
-  </data>
-  <data name="&gt;&gt;CheckFavEventUnread.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckFavEventUnread.Parent" xml:space="preserve">
-    <value>NotifyPanel</value>
-  </data>
-  <data name="&gt;&gt;CheckFavEventUnread.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="CheckListCreatedEvent.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CheckListCreatedEvent.Location" type="System.Drawing.Point, System.Drawing">
-    <value>40, 145</value>
-  </data>
-  <data name="CheckListCreatedEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>134, 16</value>
-  </data>
-  <data name="CheckListCreatedEvent.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="CheckListCreatedEvent.Text" xml:space="preserve">
-    <value>Listsの作成に成功した</value>
-  </data>
-  <data name="&gt;&gt;CheckListCreatedEvent.Name" xml:space="preserve">
-    <value>CheckListCreatedEvent</value>
-  </data>
-  <data name="&gt;&gt;CheckListCreatedEvent.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckListCreatedEvent.Parent" xml:space="preserve">
-    <value>NotifyPanel</value>
-  </data>
-  <data name="&gt;&gt;CheckListCreatedEvent.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="CheckDeleteEvent.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CheckDeleteEvent.Location" type="System.Drawing.Point, System.Drawing">
-    <value>40, 162</value>
-  </data>
-  <data name="CheckDeleteEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>252, 16</value>
-  </data>
-  <data name="CheckDeleteEvent.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="CheckDeleteEvent.Text" xml:space="preserve">
-    <value>発言または自分宛に送信されたDMが削除された</value>
-  </data>
-  <data name="CheckDeleteEvent.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;CheckDeleteEvent.Name" xml:space="preserve">
-    <value>CheckDeleteEvent</value>
-  </data>
-  <data name="&gt;&gt;CheckDeleteEvent.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckDeleteEvent.Parent" xml:space="preserve">
-    <value>NotifyPanel</value>
-  </data>
-  <data name="&gt;&gt;CheckDeleteEvent.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="CheckBlockEvent.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CheckBlockEvent.Location" type="System.Drawing.Point, System.Drawing">
-    <value>40, 128</value>
-  </data>
-  <data name="CheckBlockEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>211, 16</value>
-  </data>
-  <data name="CheckBlockEvent.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="CheckBlockEvent.Text" xml:space="preserve">
-    <value>他のユーザーに対するブロックが成功した</value>
-  </data>
-  <data name="&gt;&gt;CheckBlockEvent.Name" xml:space="preserve">
-    <value>CheckBlockEvent</value>
-  </data>
-  <data name="&gt;&gt;CheckBlockEvent.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckBlockEvent.Parent" xml:space="preserve">
-    <value>NotifyPanel</value>
-  </data>
-  <data name="&gt;&gt;CheckBlockEvent.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="CheckForceEventNotify.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CheckForceEventNotify.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 200</value>
-  </data>
-  <data name="CheckForceEventNotify.Size" type="System.Drawing.Size, System.Drawing">
-    <value>213, 16</value>
-  </data>
-  <data name="CheckForceEventNotify.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="CheckForceEventNotify.Text" xml:space="preserve">
-    <value>新着通知が無効でもイベントを通知する</value>
-  </data>
-  <data name="&gt;&gt;CheckForceEventNotify.Name" xml:space="preserve">
-    <value>CheckForceEventNotify</value>
-  </data>
-  <data name="&gt;&gt;CheckForceEventNotify.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckForceEventNotify.Parent" xml:space="preserve">
-    <value>NotifyPanel</value>
-  </data>
-  <data name="&gt;&gt;CheckForceEventNotify.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="CheckListMemberRemovedEvent.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CheckListMemberRemovedEvent.Location" type="System.Drawing.Point, System.Drawing">
-    <value>40, 111</value>
-  </data>
-  <data name="CheckListMemberRemovedEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>119, 16</value>
-  </data>
-  <data name="CheckListMemberRemovedEvent.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="CheckListMemberRemovedEvent.Text" xml:space="preserve">
-    <value>Listsから削除された</value>
-  </data>
-  <data name="&gt;&gt;CheckListMemberRemovedEvent.Name" xml:space="preserve">
-    <value>CheckListMemberRemovedEvent</value>
-  </data>
-  <data name="&gt;&gt;CheckListMemberRemovedEvent.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckListMemberRemovedEvent.Parent" xml:space="preserve">
-    <value>NotifyPanel</value>
-  </data>
-  <data name="&gt;&gt;CheckListMemberRemovedEvent.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="CheckListMemberAddedEvent.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CheckListMemberAddedEvent.Location" type="System.Drawing.Point, System.Drawing">
-    <value>40, 94</value>
-  </data>
-  <data name="CheckListMemberAddedEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>110, 16</value>
-  </data>
-  <data name="CheckListMemberAddedEvent.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="CheckListMemberAddedEvent.Text" xml:space="preserve">
-    <value>Listsに追加された</value>
-  </data>
-  <data name="&gt;&gt;CheckListMemberAddedEvent.Name" xml:space="preserve">
-    <value>CheckListMemberAddedEvent</value>
-  </data>
-  <data name="&gt;&gt;CheckListMemberAddedEvent.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckListMemberAddedEvent.Parent" xml:space="preserve">
-    <value>NotifyPanel</value>
-  </data>
-  <data name="&gt;&gt;CheckListMemberAddedEvent.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="CheckFollowEvent.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CheckFollowEvent.Location" type="System.Drawing.Point, System.Drawing">
-    <value>40, 77</value>
-  </data>
-  <data name="CheckFollowEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 16</value>
-  </data>
-  <data name="CheckFollowEvent.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="CheckFollowEvent.Text" xml:space="preserve">
-    <value>フォローされた</value>
-  </data>
-  <data name="&gt;&gt;CheckFollowEvent.Name" xml:space="preserve">
-    <value>CheckFollowEvent</value>
-  </data>
-  <data name="&gt;&gt;CheckFollowEvent.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckFollowEvent.Parent" xml:space="preserve">
-    <value>NotifyPanel</value>
-  </data>
-  <data name="&gt;&gt;CheckFollowEvent.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="CheckUnfavoritesEvent.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CheckUnfavoritesEvent.Location" type="System.Drawing.Point, System.Drawing">
-    <value>40, 60</value>
-  </data>
-  <data name="CheckUnfavoritesEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>192, 16</value>
-  </data>
-  <data name="CheckUnfavoritesEvent.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="CheckUnfavoritesEvent.Text" xml:space="preserve">
-    <value>Fav削除した、またはFav削除された</value>
-  </data>
-  <data name="&gt;&gt;CheckUnfavoritesEvent.Name" xml:space="preserve">
-    <value>CheckUnfavoritesEvent</value>
-  </data>
-  <data name="&gt;&gt;CheckUnfavoritesEvent.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckUnfavoritesEvent.Parent" xml:space="preserve">
-    <value>NotifyPanel</value>
-  </data>
-  <data name="&gt;&gt;CheckUnfavoritesEvent.ZOrder" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="CheckFavoritesEvent.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CheckFavoritesEvent.Location" type="System.Drawing.Point, System.Drawing">
-    <value>40, 43</value>
-  </data>
-  <data name="CheckFavoritesEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>192, 16</value>
-  </data>
-  <data name="CheckFavoritesEvent.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="CheckFavoritesEvent.Text" xml:space="preserve">
-    <value>Fav追加した、またはFav追加された</value>
-  </data>
-  <data name="&gt;&gt;CheckFavoritesEvent.Name" xml:space="preserve">
-    <value>CheckFavoritesEvent</value>
-  </data>
-  <data name="&gt;&gt;CheckFavoritesEvent.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckFavoritesEvent.Parent" xml:space="preserve">
-    <value>NotifyPanel</value>
-  </data>
-  <data name="&gt;&gt;CheckFavoritesEvent.ZOrder" xml:space="preserve">
-    <value>11</value>
-  </data>
-  <data name="CheckEventNotify.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CheckEventNotify.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CheckEventNotify.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 22</value>
-  </data>
-  <data name="CheckEventNotify.Size" type="System.Drawing.Size, System.Drawing">
-    <value>376, 16</value>
-  </data>
-  <data name="CheckEventNotify.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="CheckEventNotify.Text" xml:space="preserve">
-    <value>次のイベントを受信したときにバルーンで通知する(UserStream有効時のみ)</value>
-  </data>
-  <data name="&gt;&gt;CheckEventNotify.Name" xml:space="preserve">
-    <value>CheckEventNotify</value>
-  </data>
-  <data name="&gt;&gt;CheckEventNotify.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckEventNotify.Parent" xml:space="preserve">
-    <value>NotifyPanel</value>
-  </data>
-  <data name="&gt;&gt;CheckEventNotify.ZOrder" xml:space="preserve">
-    <value>12</value>
-  </data>
-  <data name="NotifyPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="NotifyPanel.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="NotifyPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="NotifyPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>518, 368</value>
-  </data>
-  <data name="NotifyPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="NotifyPanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;NotifyPanel.Name" xml:space="preserve">
-    <value>NotifyPanel</value>
-  </data>
-  <data name="&gt;&gt;NotifyPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;NotifyPanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;NotifyPanel.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="Label21.AutoSize" type="System.Boolean, mscorlib">
@@ -1124,7 +744,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;GetPeriodPanel.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="ListTextCountApi.Location" type="System.Drawing.Point, System.Drawing">
     <value>259, 183</value>
@@ -1577,7 +1197,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;GetCountPanel.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>1</value>
   </data>
   <data name="AuthBasicRadio.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1940,7 +1560,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;BasedPanel.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>2</value>
   </data>
   <data name="StartupReaded.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2090,7 +1710,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;StartupPanel.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>3</value>
   </data>
   <data name="UserstreamPeriod.Location" type="System.Drawing.Point, System.Drawing">
     <value>227, 41</value>
@@ -2201,7 +1821,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;UserStreamPanel.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>4</value>
   </data>
   <data name="CheckHashSupple.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2462,7 +2082,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;TweetActPanel.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>5</value>
   </data>
   <data name="ReplyIconStateCombo.Items" xml:space="preserve">
     <value>通知なし</value>
@@ -3023,7 +2643,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;PreviewPanel.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>6</value>
   </data>
   <data name="Label47.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3440,7 +3060,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;TweetPrvPanel.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>7</value>
   </data>
   <data name="btnRetweet.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4244,7 +3864,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;FontPanel.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>8</value>
   </data>
   <data name="Label65.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -5138,7 +4758,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;FontPanel2.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>9</value>
   </data>
   <data name="CheckEnableBasicAuth.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -5417,7 +5037,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;ConnectionPanel.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>10</value>
   </data>
   <data name="Label55.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -5771,7 +5391,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;ProxyPanel.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>11</value>
   </data>
   <data name="ComboBoxTranslateLanguage.Items" xml:space="preserve">
     <value>AFRIKAANS</value>
@@ -6338,7 +5958,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;CooperatePanel.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>12</value>
   </data>
   <data name="CheckTinyURL.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -6599,7 +6219,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;ShortUrlPanel.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>13</value>
   </data>
   <data name="CheckOpenUserTimeline.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -7229,6 +6849,387 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;ActionPanel.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="Label35.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Label35.Location" type="System.Drawing.Point, System.Drawing">
+    <value>23, 251</value>
+  </data>
+  <data name="Label35.Size" type="System.Drawing.Size, System.Drawing">
+    <value>176, 12</value>
+  </data>
+  <data name="Label35.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="Label35.Text" xml:space="preserve">
+    <value>イベント通知の際に再生するサウンド</value>
+  </data>
+  <data name="&gt;&gt;Label35.Name" xml:space="preserve">
+    <value>Label35</value>
+  </data>
+  <data name="&gt;&gt;Label35.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label35.Parent" xml:space="preserve">
+    <value>NotifyPanel</value>
+  </data>
+  <data name="&gt;&gt;Label35.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="ComboBoxEventNotifySound.Location" type="System.Drawing.Point, System.Drawing">
+    <value>286, 248</value>
+  </data>
+  <data name="ComboBoxEventNotifySound.Size" type="System.Drawing.Size, System.Drawing">
+    <value>188, 20</value>
+  </data>
+  <data name="ComboBoxEventNotifySound.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxEventNotifySound.Name" xml:space="preserve">
+    <value>ComboBoxEventNotifySound</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxEventNotifySound.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxEventNotifySound.Parent" xml:space="preserve">
+    <value>NotifyPanel</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxEventNotifySound.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="CheckFavEventUnread.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckFavEventUnread.Location" type="System.Drawing.Point, System.Drawing">
+    <value>22, 218</value>
+  </data>
+  <data name="CheckFavEventUnread.Size" type="System.Drawing.Size, System.Drawing">
+    <value>271, 16</value>
+  </data>
+  <data name="CheckFavEventUnread.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="CheckFavEventUnread.Text" xml:space="preserve">
+    <value>Favoritesイベント受信の際に書き込みを未読に戻す</value>
+  </data>
+  <data name="&gt;&gt;CheckFavEventUnread.Name" xml:space="preserve">
+    <value>CheckFavEventUnread</value>
+  </data>
+  <data name="&gt;&gt;CheckFavEventUnread.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckFavEventUnread.Parent" xml:space="preserve">
+    <value>NotifyPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckFavEventUnread.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="CheckListCreatedEvent.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckListCreatedEvent.Location" type="System.Drawing.Point, System.Drawing">
+    <value>40, 145</value>
+  </data>
+  <data name="CheckListCreatedEvent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>134, 16</value>
+  </data>
+  <data name="CheckListCreatedEvent.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="CheckListCreatedEvent.Text" xml:space="preserve">
+    <value>Listsの作成に成功した</value>
+  </data>
+  <data name="&gt;&gt;CheckListCreatedEvent.Name" xml:space="preserve">
+    <value>CheckListCreatedEvent</value>
+  </data>
+  <data name="&gt;&gt;CheckListCreatedEvent.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckListCreatedEvent.Parent" xml:space="preserve">
+    <value>NotifyPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckListCreatedEvent.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="CheckDeleteEvent.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckDeleteEvent.Location" type="System.Drawing.Point, System.Drawing">
+    <value>40, 162</value>
+  </data>
+  <data name="CheckDeleteEvent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>252, 16</value>
+  </data>
+  <data name="CheckDeleteEvent.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="CheckDeleteEvent.Text" xml:space="preserve">
+    <value>発言または自分宛に送信されたDMが削除された</value>
+  </data>
+  <data name="CheckDeleteEvent.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;CheckDeleteEvent.Name" xml:space="preserve">
+    <value>CheckDeleteEvent</value>
+  </data>
+  <data name="&gt;&gt;CheckDeleteEvent.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckDeleteEvent.Parent" xml:space="preserve">
+    <value>NotifyPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckDeleteEvent.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="CheckBlockEvent.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckBlockEvent.Location" type="System.Drawing.Point, System.Drawing">
+    <value>40, 128</value>
+  </data>
+  <data name="CheckBlockEvent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>211, 16</value>
+  </data>
+  <data name="CheckBlockEvent.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="CheckBlockEvent.Text" xml:space="preserve">
+    <value>他のユーザーに対するブロックが成功した</value>
+  </data>
+  <data name="&gt;&gt;CheckBlockEvent.Name" xml:space="preserve">
+    <value>CheckBlockEvent</value>
+  </data>
+  <data name="&gt;&gt;CheckBlockEvent.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckBlockEvent.Parent" xml:space="preserve">
+    <value>NotifyPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckBlockEvent.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="CheckForceEventNotify.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckForceEventNotify.Location" type="System.Drawing.Point, System.Drawing">
+    <value>22, 200</value>
+  </data>
+  <data name="CheckForceEventNotify.Size" type="System.Drawing.Size, System.Drawing">
+    <value>213, 16</value>
+  </data>
+  <data name="CheckForceEventNotify.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="CheckForceEventNotify.Text" xml:space="preserve">
+    <value>新着通知が無効でもイベントを通知する</value>
+  </data>
+  <data name="&gt;&gt;CheckForceEventNotify.Name" xml:space="preserve">
+    <value>CheckForceEventNotify</value>
+  </data>
+  <data name="&gt;&gt;CheckForceEventNotify.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckForceEventNotify.Parent" xml:space="preserve">
+    <value>NotifyPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckForceEventNotify.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="CheckListMemberRemovedEvent.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckListMemberRemovedEvent.Location" type="System.Drawing.Point, System.Drawing">
+    <value>40, 111</value>
+  </data>
+  <data name="CheckListMemberRemovedEvent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 16</value>
+  </data>
+  <data name="CheckListMemberRemovedEvent.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="CheckListMemberRemovedEvent.Text" xml:space="preserve">
+    <value>Listsから削除された</value>
+  </data>
+  <data name="&gt;&gt;CheckListMemberRemovedEvent.Name" xml:space="preserve">
+    <value>CheckListMemberRemovedEvent</value>
+  </data>
+  <data name="&gt;&gt;CheckListMemberRemovedEvent.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckListMemberRemovedEvent.Parent" xml:space="preserve">
+    <value>NotifyPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckListMemberRemovedEvent.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="CheckListMemberAddedEvent.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckListMemberAddedEvent.Location" type="System.Drawing.Point, System.Drawing">
+    <value>40, 94</value>
+  </data>
+  <data name="CheckListMemberAddedEvent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>110, 16</value>
+  </data>
+  <data name="CheckListMemberAddedEvent.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="CheckListMemberAddedEvent.Text" xml:space="preserve">
+    <value>Listsに追加された</value>
+  </data>
+  <data name="&gt;&gt;CheckListMemberAddedEvent.Name" xml:space="preserve">
+    <value>CheckListMemberAddedEvent</value>
+  </data>
+  <data name="&gt;&gt;CheckListMemberAddedEvent.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckListMemberAddedEvent.Parent" xml:space="preserve">
+    <value>NotifyPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckListMemberAddedEvent.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="CheckFollowEvent.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckFollowEvent.Location" type="System.Drawing.Point, System.Drawing">
+    <value>40, 77</value>
+  </data>
+  <data name="CheckFollowEvent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 16</value>
+  </data>
+  <data name="CheckFollowEvent.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="CheckFollowEvent.Text" xml:space="preserve">
+    <value>フォローされた</value>
+  </data>
+  <data name="&gt;&gt;CheckFollowEvent.Name" xml:space="preserve">
+    <value>CheckFollowEvent</value>
+  </data>
+  <data name="&gt;&gt;CheckFollowEvent.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckFollowEvent.Parent" xml:space="preserve">
+    <value>NotifyPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckFollowEvent.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="CheckUnfavoritesEvent.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckUnfavoritesEvent.Location" type="System.Drawing.Point, System.Drawing">
+    <value>40, 60</value>
+  </data>
+  <data name="CheckUnfavoritesEvent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>192, 16</value>
+  </data>
+  <data name="CheckUnfavoritesEvent.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="CheckUnfavoritesEvent.Text" xml:space="preserve">
+    <value>Fav削除した、またはFav削除された</value>
+  </data>
+  <data name="&gt;&gt;CheckUnfavoritesEvent.Name" xml:space="preserve">
+    <value>CheckUnfavoritesEvent</value>
+  </data>
+  <data name="&gt;&gt;CheckUnfavoritesEvent.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckUnfavoritesEvent.Parent" xml:space="preserve">
+    <value>NotifyPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckUnfavoritesEvent.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="CheckFavoritesEvent.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckFavoritesEvent.Location" type="System.Drawing.Point, System.Drawing">
+    <value>40, 43</value>
+  </data>
+  <data name="CheckFavoritesEvent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>192, 16</value>
+  </data>
+  <data name="CheckFavoritesEvent.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="CheckFavoritesEvent.Text" xml:space="preserve">
+    <value>Fav追加した、またはFav追加された</value>
+  </data>
+  <data name="&gt;&gt;CheckFavoritesEvent.Name" xml:space="preserve">
+    <value>CheckFavoritesEvent</value>
+  </data>
+  <data name="&gt;&gt;CheckFavoritesEvent.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckFavoritesEvent.Parent" xml:space="preserve">
+    <value>NotifyPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckFavoritesEvent.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="CheckEventNotify.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckEventNotify.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CheckEventNotify.Location" type="System.Drawing.Point, System.Drawing">
+    <value>22, 22</value>
+  </data>
+  <data name="CheckEventNotify.Size" type="System.Drawing.Size, System.Drawing">
+    <value>376, 16</value>
+  </data>
+  <data name="CheckEventNotify.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="CheckEventNotify.Text" xml:space="preserve">
+    <value>次のイベントを受信したときにバルーンで通知する(UserStream有効時のみ)</value>
+  </data>
+  <data name="&gt;&gt;CheckEventNotify.Name" xml:space="preserve">
+    <value>CheckEventNotify</value>
+  </data>
+  <data name="&gt;&gt;CheckEventNotify.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckEventNotify.Parent" xml:space="preserve">
+    <value>NotifyPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckEventNotify.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="NotifyPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="NotifyPanel.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="NotifyPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="NotifyPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>518, 368</value>
+  </data>
+  <data name="NotifyPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="NotifyPanel.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;NotifyPanel.Name" xml:space="preserve">
+    <value>NotifyPanel</value>
+  </data>
+  <data name="&gt;&gt;NotifyPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NotifyPanel.Parent" xml:space="preserve">
+    <value>SplitContainer1.Panel2</value>
+  </data>
+  <data name="&gt;&gt;NotifyPanel.ZOrder" xml:space="preserve">
     <value>15</value>
   </data>
   <data name="&gt;&gt;SplitContainer1.Panel2.Name" xml:space="preserve">

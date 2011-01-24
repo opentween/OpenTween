@@ -139,27 +139,36 @@ Public Class AppendSettingDialog
     Private _soundfileListup As Boolean = False
     Private _MyEventSoundFile As String
 
-    Private Sub TreeViewSetting_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles TreeViewSetting.MouseDown
-        Dim Node As TreeNode = TreeViewSetting.GetNodeAt(e.X, e.Y)
-        If Node Is Nothing Then Exit Sub
-        Dim pnl = DirectCast(Node.Tag, Panel)
-        If pnl Is Nothing Then Exit Sub
-        If _curPanel IsNot Nothing Then
-            If pnl.Name <> _curPanel.Name Then
-                _curPanel.Enabled = False
-                _curPanel.Visible = False
+    Private Sub ToggleNodeChange(ByVal node As TreeNode)
+        If node Is Nothing Then Exit Sub
+        If node.IsExpanded Then
+            node.Collapse()
+        Else
+            node.Expand()
+        End If
+    End Sub
 
-                _curPanel = pnl
-                pnl.Enabled = True
-                pnl.Visible = True
+    Private Sub TreeViewSetting_DrawNode(ByVal sender As Object, ByVal e As System.Windows.Forms.DrawTreeNodeEventArgs) Handles TreeViewSetting.DrawNode
+        e.DrawDefault = True
+        If (e.State And TreeNodeStates.Selected) = TreeNodeStates.Selected Then
+            Dim pnl = DirectCast(e.Node.Tag, Panel)
+            If pnl Is Nothing Then Exit Sub
+            If _curPanel IsNot Nothing Then
+                If pnl.Name <> _curPanel.Name Then
+                    _curPanel.Enabled = False
+                    _curPanel.Visible = False
+
+                    _curPanel = pnl
+                    pnl.Enabled = True
+                    pnl.Visible = True
+                End If
             End If
         End If
+    End Sub
 
-        If Node.IsExpanded Then
-            Node.Collapse()
-        Else
-            Node.Expand()
-        End If
+    Private Sub TreeViewSetting_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles TreeViewSetting.MouseDown
+        Dim Node As TreeNode = TreeViewSetting.GetNodeAt(e.X, e.Y)
+        ToggleNodeChange(Node)
     End Sub
 
     Private Sub Save_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Save.Click
@@ -682,7 +691,7 @@ Public Class AppendSettingDialog
         _curPanel = BasedPanel
         _curPanel.Enabled = True
         _curPanel.Visible = True
-        TreeViewSetting.SelectedNode = Nothing
+        TreeViewSetting.SelectedNode = TreeViewSetting.TopNode
         ActiveControl = Username
     End Sub
 

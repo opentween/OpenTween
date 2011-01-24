@@ -25,42 +25,6 @@ Partial Class AppendSettingDialog
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AppendSettingDialog))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.TreeViewSetting = New System.Windows.Forms.TreeView()
-        Me.ActionPanel = New System.Windows.Forms.Panel()
-        Me.CheckOpenUserTimeline = New System.Windows.Forms.CheckBox()
-        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
-        Me.HotkeyCheck = New System.Windows.Forms.CheckBox()
-        Me.HotkeyCode = New System.Windows.Forms.Label()
-        Me.HotkeyText = New System.Windows.Forms.TextBox()
-        Me.HotkeyWin = New System.Windows.Forms.CheckBox()
-        Me.HotkeyAlt = New System.Windows.Forms.CheckBox()
-        Me.HotkeyShift = New System.Windows.Forms.CheckBox()
-        Me.HotkeyCtrl = New System.Windows.Forms.CheckBox()
-        Me.Label57 = New System.Windows.Forms.Label()
-        Me.CheckFavRestrict = New System.Windows.Forms.CheckBox()
-        Me.Button3 = New System.Windows.Forms.Button()
-        Me.PlaySnd = New System.Windows.Forms.CheckBox()
-        Me.chkReadOwnPost = New System.Windows.Forms.CheckBox()
-        Me.Label15 = New System.Windows.Forms.Label()
-        Me.BrowserPathText = New System.Windows.Forms.TextBox()
-        Me.UReadMng = New System.Windows.Forms.CheckBox()
-        Me.Label44 = New System.Windows.Forms.Label()
-        Me.CheckCloseToExit = New System.Windows.Forms.CheckBox()
-        Me.CheckMinimizeToTray = New System.Windows.Forms.CheckBox()
-        Me.CheckReadOldPosts = New System.Windows.Forms.CheckBox()
-        Me.NotifyPanel = New System.Windows.Forms.Panel()
-        Me.Label35 = New System.Windows.Forms.Label()
-        Me.ComboBoxEventNotifySound = New System.Windows.Forms.ComboBox()
-        Me.CheckFavEventUnread = New System.Windows.Forms.CheckBox()
-        Me.CheckListCreatedEvent = New System.Windows.Forms.CheckBox()
-        Me.CheckDeleteEvent = New System.Windows.Forms.CheckBox()
-        Me.CheckBlockEvent = New System.Windows.Forms.CheckBox()
-        Me.CheckForceEventNotify = New System.Windows.Forms.CheckBox()
-        Me.CheckListMemberRemovedEvent = New System.Windows.Forms.CheckBox()
-        Me.CheckListMemberAddedEvent = New System.Windows.Forms.CheckBox()
-        Me.CheckFollowEvent = New System.Windows.Forms.CheckBox()
-        Me.CheckUnfavoritesEvent = New System.Windows.Forms.CheckBox()
-        Me.CheckFavoritesEvent = New System.Windows.Forms.CheckBox()
-        Me.CheckEventNotify = New System.Windows.Forms.CheckBox()
         Me.GetPeriodPanel = New System.Windows.Forms.Panel()
         Me.Label21 = New System.Windows.Forms.Label()
         Me.UserTimelinePeriod = New System.Windows.Forms.TextBox()
@@ -257,6 +221,42 @@ Partial Class AppendSettingDialog
         Me.Label76 = New System.Windows.Forms.Label()
         Me.Label77 = New System.Windows.Forms.Label()
         Me.TextBitlyId = New System.Windows.Forms.TextBox()
+        Me.ActionPanel = New System.Windows.Forms.Panel()
+        Me.CheckOpenUserTimeline = New System.Windows.Forms.CheckBox()
+        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.HotkeyCheck = New System.Windows.Forms.CheckBox()
+        Me.HotkeyCode = New System.Windows.Forms.Label()
+        Me.HotkeyText = New System.Windows.Forms.TextBox()
+        Me.HotkeyWin = New System.Windows.Forms.CheckBox()
+        Me.HotkeyAlt = New System.Windows.Forms.CheckBox()
+        Me.HotkeyShift = New System.Windows.Forms.CheckBox()
+        Me.HotkeyCtrl = New System.Windows.Forms.CheckBox()
+        Me.Label57 = New System.Windows.Forms.Label()
+        Me.CheckFavRestrict = New System.Windows.Forms.CheckBox()
+        Me.Button3 = New System.Windows.Forms.Button()
+        Me.PlaySnd = New System.Windows.Forms.CheckBox()
+        Me.chkReadOwnPost = New System.Windows.Forms.CheckBox()
+        Me.Label15 = New System.Windows.Forms.Label()
+        Me.BrowserPathText = New System.Windows.Forms.TextBox()
+        Me.UReadMng = New System.Windows.Forms.CheckBox()
+        Me.Label44 = New System.Windows.Forms.Label()
+        Me.CheckCloseToExit = New System.Windows.Forms.CheckBox()
+        Me.CheckMinimizeToTray = New System.Windows.Forms.CheckBox()
+        Me.CheckReadOldPosts = New System.Windows.Forms.CheckBox()
+        Me.NotifyPanel = New System.Windows.Forms.Panel()
+        Me.Label35 = New System.Windows.Forms.Label()
+        Me.ComboBoxEventNotifySound = New System.Windows.Forms.ComboBox()
+        Me.CheckFavEventUnread = New System.Windows.Forms.CheckBox()
+        Me.CheckListCreatedEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckDeleteEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckBlockEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckForceEventNotify = New System.Windows.Forms.CheckBox()
+        Me.CheckListMemberRemovedEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckListMemberAddedEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckFollowEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckUnfavoritesEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckFavoritesEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckEventNotify = New System.Windows.Forms.CheckBox()
         Me.FontDialog1 = New System.Windows.Forms.FontDialog()
         Me.ColorDialog1 = New System.Windows.Forms.ColorDialog()
         Me.Cancel = New System.Windows.Forms.Button()
@@ -265,9 +265,6 @@ Partial Class AppendSettingDialog
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        Me.ActionPanel.SuspendLayout()
-        Me.GroupBox3.SuspendLayout()
-        Me.NotifyPanel.SuspendLayout()
         Me.GetPeriodPanel.SuspendLayout()
         Me.GetCountPanel.SuspendLayout()
         Me.BasedPanel.SuspendLayout()
@@ -284,6 +281,9 @@ Partial Class AppendSettingDialog
         Me.ProxyPanel.SuspendLayout()
         Me.CooperatePanel.SuspendLayout()
         Me.ShortUrlPanel.SuspendLayout()
+        Me.ActionPanel.SuspendLayout()
+        Me.GroupBox3.SuspendLayout()
+        Me.NotifyPanel.SuspendLayout()
         Me.SuspendLayout()
         '
         'SplitContainer1
@@ -298,7 +298,6 @@ Partial Class AppendSettingDialog
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.BackColor = System.Drawing.SystemColors.Control
-        Me.SplitContainer1.Panel2.Controls.Add(Me.NotifyPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.GetPeriodPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.GetCountPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.BasedPanel)
@@ -314,285 +313,18 @@ Partial Class AppendSettingDialog
         Me.SplitContainer1.Panel2.Controls.Add(Me.CooperatePanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.ShortUrlPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.ActionPanel)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.NotifyPanel)
         Me.SplitContainer1.TabStop = False
         '
         'TreeViewSetting
         '
         Me.TreeViewSetting.Cursor = System.Windows.Forms.Cursors.Hand
         resources.ApplyResources(Me.TreeViewSetting, "TreeViewSetting")
+        Me.TreeViewSetting.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText
         Me.TreeViewSetting.HideSelection = False
         Me.TreeViewSetting.Name = "TreeViewSetting"
         Me.TreeViewSetting.Nodes.AddRange(New System.Windows.Forms.TreeNode() {CType(resources.GetObject("TreeViewSetting.Nodes"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeViewSetting.Nodes1"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeViewSetting.Nodes2"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeViewSetting.Nodes3"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeViewSetting.Nodes4"), System.Windows.Forms.TreeNode)})
         Me.TreeViewSetting.ShowLines = False
-        '
-        'ActionPanel
-        '
-        Me.ActionPanel.Controls.Add(Me.CheckOpenUserTimeline)
-        Me.ActionPanel.Controls.Add(Me.GroupBox3)
-        Me.ActionPanel.Controls.Add(Me.Label57)
-        Me.ActionPanel.Controls.Add(Me.CheckFavRestrict)
-        Me.ActionPanel.Controls.Add(Me.Button3)
-        Me.ActionPanel.Controls.Add(Me.PlaySnd)
-        Me.ActionPanel.Controls.Add(Me.chkReadOwnPost)
-        Me.ActionPanel.Controls.Add(Me.Label15)
-        Me.ActionPanel.Controls.Add(Me.BrowserPathText)
-        Me.ActionPanel.Controls.Add(Me.UReadMng)
-        Me.ActionPanel.Controls.Add(Me.Label44)
-        Me.ActionPanel.Controls.Add(Me.CheckCloseToExit)
-        Me.ActionPanel.Controls.Add(Me.CheckMinimizeToTray)
-        Me.ActionPanel.Controls.Add(Me.CheckReadOldPosts)
-        resources.ApplyResources(Me.ActionPanel, "ActionPanel")
-        Me.ActionPanel.Name = "ActionPanel"
-        '
-        'CheckOpenUserTimeline
-        '
-        resources.ApplyResources(Me.CheckOpenUserTimeline, "CheckOpenUserTimeline")
-        Me.CheckOpenUserTimeline.Name = "CheckOpenUserTimeline"
-        Me.CheckOpenUserTimeline.UseVisualStyleBackColor = True
-        '
-        'GroupBox3
-        '
-        Me.GroupBox3.Controls.Add(Me.HotkeyCheck)
-        Me.GroupBox3.Controls.Add(Me.HotkeyCode)
-        Me.GroupBox3.Controls.Add(Me.HotkeyText)
-        Me.GroupBox3.Controls.Add(Me.HotkeyWin)
-        Me.GroupBox3.Controls.Add(Me.HotkeyAlt)
-        Me.GroupBox3.Controls.Add(Me.HotkeyShift)
-        Me.GroupBox3.Controls.Add(Me.HotkeyCtrl)
-        resources.ApplyResources(Me.GroupBox3, "GroupBox3")
-        Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.TabStop = False
-        '
-        'HotkeyCheck
-        '
-        resources.ApplyResources(Me.HotkeyCheck, "HotkeyCheck")
-        Me.HotkeyCheck.Name = "HotkeyCheck"
-        Me.HotkeyCheck.UseVisualStyleBackColor = True
-        '
-        'HotkeyCode
-        '
-        resources.ApplyResources(Me.HotkeyCode, "HotkeyCode")
-        Me.HotkeyCode.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.HotkeyCode.Name = "HotkeyCode"
-        '
-        'HotkeyText
-        '
-        resources.ApplyResources(Me.HotkeyText, "HotkeyText")
-        Me.HotkeyText.Name = "HotkeyText"
-        Me.HotkeyText.ReadOnly = True
-        '
-        'HotkeyWin
-        '
-        resources.ApplyResources(Me.HotkeyWin, "HotkeyWin")
-        Me.HotkeyWin.Name = "HotkeyWin"
-        Me.HotkeyWin.UseVisualStyleBackColor = True
-        '
-        'HotkeyAlt
-        '
-        resources.ApplyResources(Me.HotkeyAlt, "HotkeyAlt")
-        Me.HotkeyAlt.Name = "HotkeyAlt"
-        Me.HotkeyAlt.UseVisualStyleBackColor = True
-        '
-        'HotkeyShift
-        '
-        resources.ApplyResources(Me.HotkeyShift, "HotkeyShift")
-        Me.HotkeyShift.Name = "HotkeyShift"
-        Me.HotkeyShift.UseVisualStyleBackColor = True
-        '
-        'HotkeyCtrl
-        '
-        resources.ApplyResources(Me.HotkeyCtrl, "HotkeyCtrl")
-        Me.HotkeyCtrl.Name = "HotkeyCtrl"
-        Me.HotkeyCtrl.UseVisualStyleBackColor = True
-        '
-        'Label57
-        '
-        resources.ApplyResources(Me.Label57, "Label57")
-        Me.Label57.BackColor = System.Drawing.SystemColors.ActiveCaption
-        Me.Label57.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.Label57.Name = "Label57"
-        '
-        'CheckFavRestrict
-        '
-        resources.ApplyResources(Me.CheckFavRestrict, "CheckFavRestrict")
-        Me.CheckFavRestrict.Name = "CheckFavRestrict"
-        Me.CheckFavRestrict.UseVisualStyleBackColor = True
-        '
-        'Button3
-        '
-        resources.ApplyResources(Me.Button3, "Button3")
-        Me.Button3.Name = "Button3"
-        Me.Button3.UseVisualStyleBackColor = True
-        '
-        'PlaySnd
-        '
-        resources.ApplyResources(Me.PlaySnd, "PlaySnd")
-        Me.PlaySnd.Name = "PlaySnd"
-        Me.PlaySnd.UseVisualStyleBackColor = True
-        '
-        'chkReadOwnPost
-        '
-        resources.ApplyResources(Me.chkReadOwnPost, "chkReadOwnPost")
-        Me.chkReadOwnPost.Name = "chkReadOwnPost"
-        Me.chkReadOwnPost.UseVisualStyleBackColor = True
-        '
-        'Label15
-        '
-        Me.Label15.BackColor = System.Drawing.SystemColors.ActiveCaption
-        Me.Label15.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        resources.ApplyResources(Me.Label15, "Label15")
-        Me.Label15.Name = "Label15"
-        '
-        'BrowserPathText
-        '
-        resources.ApplyResources(Me.BrowserPathText, "BrowserPathText")
-        Me.BrowserPathText.Name = "BrowserPathText"
-        '
-        'UReadMng
-        '
-        resources.ApplyResources(Me.UReadMng, "UReadMng")
-        Me.UReadMng.Name = "UReadMng"
-        Me.UReadMng.UseVisualStyleBackColor = True
-        '
-        'Label44
-        '
-        resources.ApplyResources(Me.Label44, "Label44")
-        Me.Label44.Name = "Label44"
-        '
-        'CheckCloseToExit
-        '
-        resources.ApplyResources(Me.CheckCloseToExit, "CheckCloseToExit")
-        Me.CheckCloseToExit.Name = "CheckCloseToExit"
-        Me.CheckCloseToExit.UseVisualStyleBackColor = True
-        '
-        'CheckMinimizeToTray
-        '
-        resources.ApplyResources(Me.CheckMinimizeToTray, "CheckMinimizeToTray")
-        Me.CheckMinimizeToTray.Name = "CheckMinimizeToTray"
-        Me.CheckMinimizeToTray.UseVisualStyleBackColor = True
-        '
-        'CheckReadOldPosts
-        '
-        resources.ApplyResources(Me.CheckReadOldPosts, "CheckReadOldPosts")
-        Me.CheckReadOldPosts.Name = "CheckReadOldPosts"
-        Me.CheckReadOldPosts.UseVisualStyleBackColor = True
-        '
-        'NotifyPanel
-        '
-        Me.NotifyPanel.Controls.Add(Me.Label35)
-        Me.NotifyPanel.Controls.Add(Me.ComboBoxEventNotifySound)
-        Me.NotifyPanel.Controls.Add(Me.CheckFavEventUnread)
-        Me.NotifyPanel.Controls.Add(Me.CheckListCreatedEvent)
-        Me.NotifyPanel.Controls.Add(Me.CheckDeleteEvent)
-        Me.NotifyPanel.Controls.Add(Me.CheckBlockEvent)
-        Me.NotifyPanel.Controls.Add(Me.CheckForceEventNotify)
-        Me.NotifyPanel.Controls.Add(Me.CheckListMemberRemovedEvent)
-        Me.NotifyPanel.Controls.Add(Me.CheckListMemberAddedEvent)
-        Me.NotifyPanel.Controls.Add(Me.CheckFollowEvent)
-        Me.NotifyPanel.Controls.Add(Me.CheckUnfavoritesEvent)
-        Me.NotifyPanel.Controls.Add(Me.CheckFavoritesEvent)
-        Me.NotifyPanel.Controls.Add(Me.CheckEventNotify)
-        resources.ApplyResources(Me.NotifyPanel, "NotifyPanel")
-        Me.NotifyPanel.Name = "NotifyPanel"
-        '
-        'Label35
-        '
-        resources.ApplyResources(Me.Label35, "Label35")
-        Me.Label35.Name = "Label35"
-        '
-        'ComboBoxEventNotifySound
-        '
-        Me.ComboBoxEventNotifySound.FormattingEnabled = True
-        resources.ApplyResources(Me.ComboBoxEventNotifySound, "ComboBoxEventNotifySound")
-        Me.ComboBoxEventNotifySound.Name = "ComboBoxEventNotifySound"
-        '
-        'CheckFavEventUnread
-        '
-        resources.ApplyResources(Me.CheckFavEventUnread, "CheckFavEventUnread")
-        Me.CheckFavEventUnread.Checked = True
-        Me.CheckFavEventUnread.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckFavEventUnread.Name = "CheckFavEventUnread"
-        Me.CheckFavEventUnread.UseVisualStyleBackColor = True
-        '
-        'CheckListCreatedEvent
-        '
-        resources.ApplyResources(Me.CheckListCreatedEvent, "CheckListCreatedEvent")
-        Me.CheckListCreatedEvent.Checked = True
-        Me.CheckListCreatedEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckListCreatedEvent.Name = "CheckListCreatedEvent"
-        Me.CheckListCreatedEvent.UseVisualStyleBackColor = True
-        '
-        'CheckDeleteEvent
-        '
-        resources.ApplyResources(Me.CheckDeleteEvent, "CheckDeleteEvent")
-        Me.CheckDeleteEvent.Checked = True
-        Me.CheckDeleteEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckDeleteEvent.Name = "CheckDeleteEvent"
-        Me.CheckDeleteEvent.UseVisualStyleBackColor = True
-        '
-        'CheckBlockEvent
-        '
-        resources.ApplyResources(Me.CheckBlockEvent, "CheckBlockEvent")
-        Me.CheckBlockEvent.Checked = True
-        Me.CheckBlockEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBlockEvent.Name = "CheckBlockEvent"
-        Me.CheckBlockEvent.UseVisualStyleBackColor = True
-        '
-        'CheckForceEventNotify
-        '
-        resources.ApplyResources(Me.CheckForceEventNotify, "CheckForceEventNotify")
-        Me.CheckForceEventNotify.Checked = True
-        Me.CheckForceEventNotify.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckForceEventNotify.Name = "CheckForceEventNotify"
-        Me.CheckForceEventNotify.UseVisualStyleBackColor = True
-        '
-        'CheckListMemberRemovedEvent
-        '
-        resources.ApplyResources(Me.CheckListMemberRemovedEvent, "CheckListMemberRemovedEvent")
-        Me.CheckListMemberRemovedEvent.Checked = True
-        Me.CheckListMemberRemovedEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckListMemberRemovedEvent.Name = "CheckListMemberRemovedEvent"
-        Me.CheckListMemberRemovedEvent.UseVisualStyleBackColor = True
-        '
-        'CheckListMemberAddedEvent
-        '
-        resources.ApplyResources(Me.CheckListMemberAddedEvent, "CheckListMemberAddedEvent")
-        Me.CheckListMemberAddedEvent.Checked = True
-        Me.CheckListMemberAddedEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckListMemberAddedEvent.Name = "CheckListMemberAddedEvent"
-        Me.CheckListMemberAddedEvent.UseVisualStyleBackColor = True
-        '
-        'CheckFollowEvent
-        '
-        resources.ApplyResources(Me.CheckFollowEvent, "CheckFollowEvent")
-        Me.CheckFollowEvent.Checked = True
-        Me.CheckFollowEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckFollowEvent.Name = "CheckFollowEvent"
-        Me.CheckFollowEvent.UseVisualStyleBackColor = True
-        '
-        'CheckUnfavoritesEvent
-        '
-        resources.ApplyResources(Me.CheckUnfavoritesEvent, "CheckUnfavoritesEvent")
-        Me.CheckUnfavoritesEvent.Checked = True
-        Me.CheckUnfavoritesEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckUnfavoritesEvent.Name = "CheckUnfavoritesEvent"
-        Me.CheckUnfavoritesEvent.UseVisualStyleBackColor = True
-        '
-        'CheckFavoritesEvent
-        '
-        resources.ApplyResources(Me.CheckFavoritesEvent, "CheckFavoritesEvent")
-        Me.CheckFavoritesEvent.Checked = True
-        Me.CheckFavoritesEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckFavoritesEvent.Name = "CheckFavoritesEvent"
-        Me.CheckFavoritesEvent.UseVisualStyleBackColor = True
-        '
-        'CheckEventNotify
-        '
-        resources.ApplyResources(Me.CheckEventNotify, "CheckEventNotify")
-        Me.CheckEventNotify.Checked = True
-        Me.CheckEventNotify.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckEventNotify.Name = "CheckEventNotify"
-        Me.CheckEventNotify.UseVisualStyleBackColor = True
         '
         'GetPeriodPanel
         '
@@ -1876,6 +1608,275 @@ Partial Class AppendSettingDialog
         resources.ApplyResources(Me.TextBitlyId, "TextBitlyId")
         Me.TextBitlyId.Name = "TextBitlyId"
         '
+        'ActionPanel
+        '
+        Me.ActionPanel.Controls.Add(Me.CheckOpenUserTimeline)
+        Me.ActionPanel.Controls.Add(Me.GroupBox3)
+        Me.ActionPanel.Controls.Add(Me.Label57)
+        Me.ActionPanel.Controls.Add(Me.CheckFavRestrict)
+        Me.ActionPanel.Controls.Add(Me.Button3)
+        Me.ActionPanel.Controls.Add(Me.PlaySnd)
+        Me.ActionPanel.Controls.Add(Me.chkReadOwnPost)
+        Me.ActionPanel.Controls.Add(Me.Label15)
+        Me.ActionPanel.Controls.Add(Me.BrowserPathText)
+        Me.ActionPanel.Controls.Add(Me.UReadMng)
+        Me.ActionPanel.Controls.Add(Me.Label44)
+        Me.ActionPanel.Controls.Add(Me.CheckCloseToExit)
+        Me.ActionPanel.Controls.Add(Me.CheckMinimizeToTray)
+        Me.ActionPanel.Controls.Add(Me.CheckReadOldPosts)
+        resources.ApplyResources(Me.ActionPanel, "ActionPanel")
+        Me.ActionPanel.Name = "ActionPanel"
+        '
+        'CheckOpenUserTimeline
+        '
+        resources.ApplyResources(Me.CheckOpenUserTimeline, "CheckOpenUserTimeline")
+        Me.CheckOpenUserTimeline.Name = "CheckOpenUserTimeline"
+        Me.CheckOpenUserTimeline.UseVisualStyleBackColor = True
+        '
+        'GroupBox3
+        '
+        Me.GroupBox3.Controls.Add(Me.HotkeyCheck)
+        Me.GroupBox3.Controls.Add(Me.HotkeyCode)
+        Me.GroupBox3.Controls.Add(Me.HotkeyText)
+        Me.GroupBox3.Controls.Add(Me.HotkeyWin)
+        Me.GroupBox3.Controls.Add(Me.HotkeyAlt)
+        Me.GroupBox3.Controls.Add(Me.HotkeyShift)
+        Me.GroupBox3.Controls.Add(Me.HotkeyCtrl)
+        resources.ApplyResources(Me.GroupBox3, "GroupBox3")
+        Me.GroupBox3.Name = "GroupBox3"
+        Me.GroupBox3.TabStop = False
+        '
+        'HotkeyCheck
+        '
+        resources.ApplyResources(Me.HotkeyCheck, "HotkeyCheck")
+        Me.HotkeyCheck.Name = "HotkeyCheck"
+        Me.HotkeyCheck.UseVisualStyleBackColor = True
+        '
+        'HotkeyCode
+        '
+        resources.ApplyResources(Me.HotkeyCode, "HotkeyCode")
+        Me.HotkeyCode.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.HotkeyCode.Name = "HotkeyCode"
+        '
+        'HotkeyText
+        '
+        resources.ApplyResources(Me.HotkeyText, "HotkeyText")
+        Me.HotkeyText.Name = "HotkeyText"
+        Me.HotkeyText.ReadOnly = True
+        '
+        'HotkeyWin
+        '
+        resources.ApplyResources(Me.HotkeyWin, "HotkeyWin")
+        Me.HotkeyWin.Name = "HotkeyWin"
+        Me.HotkeyWin.UseVisualStyleBackColor = True
+        '
+        'HotkeyAlt
+        '
+        resources.ApplyResources(Me.HotkeyAlt, "HotkeyAlt")
+        Me.HotkeyAlt.Name = "HotkeyAlt"
+        Me.HotkeyAlt.UseVisualStyleBackColor = True
+        '
+        'HotkeyShift
+        '
+        resources.ApplyResources(Me.HotkeyShift, "HotkeyShift")
+        Me.HotkeyShift.Name = "HotkeyShift"
+        Me.HotkeyShift.UseVisualStyleBackColor = True
+        '
+        'HotkeyCtrl
+        '
+        resources.ApplyResources(Me.HotkeyCtrl, "HotkeyCtrl")
+        Me.HotkeyCtrl.Name = "HotkeyCtrl"
+        Me.HotkeyCtrl.UseVisualStyleBackColor = True
+        '
+        'Label57
+        '
+        resources.ApplyResources(Me.Label57, "Label57")
+        Me.Label57.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Label57.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label57.Name = "Label57"
+        '
+        'CheckFavRestrict
+        '
+        resources.ApplyResources(Me.CheckFavRestrict, "CheckFavRestrict")
+        Me.CheckFavRestrict.Name = "CheckFavRestrict"
+        Me.CheckFavRestrict.UseVisualStyleBackColor = True
+        '
+        'Button3
+        '
+        resources.ApplyResources(Me.Button3, "Button3")
+        Me.Button3.Name = "Button3"
+        Me.Button3.UseVisualStyleBackColor = True
+        '
+        'PlaySnd
+        '
+        resources.ApplyResources(Me.PlaySnd, "PlaySnd")
+        Me.PlaySnd.Name = "PlaySnd"
+        Me.PlaySnd.UseVisualStyleBackColor = True
+        '
+        'chkReadOwnPost
+        '
+        resources.ApplyResources(Me.chkReadOwnPost, "chkReadOwnPost")
+        Me.chkReadOwnPost.Name = "chkReadOwnPost"
+        Me.chkReadOwnPost.UseVisualStyleBackColor = True
+        '
+        'Label15
+        '
+        Me.Label15.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Label15.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        resources.ApplyResources(Me.Label15, "Label15")
+        Me.Label15.Name = "Label15"
+        '
+        'BrowserPathText
+        '
+        resources.ApplyResources(Me.BrowserPathText, "BrowserPathText")
+        Me.BrowserPathText.Name = "BrowserPathText"
+        '
+        'UReadMng
+        '
+        resources.ApplyResources(Me.UReadMng, "UReadMng")
+        Me.UReadMng.Name = "UReadMng"
+        Me.UReadMng.UseVisualStyleBackColor = True
+        '
+        'Label44
+        '
+        resources.ApplyResources(Me.Label44, "Label44")
+        Me.Label44.Name = "Label44"
+        '
+        'CheckCloseToExit
+        '
+        resources.ApplyResources(Me.CheckCloseToExit, "CheckCloseToExit")
+        Me.CheckCloseToExit.Name = "CheckCloseToExit"
+        Me.CheckCloseToExit.UseVisualStyleBackColor = True
+        '
+        'CheckMinimizeToTray
+        '
+        resources.ApplyResources(Me.CheckMinimizeToTray, "CheckMinimizeToTray")
+        Me.CheckMinimizeToTray.Name = "CheckMinimizeToTray"
+        Me.CheckMinimizeToTray.UseVisualStyleBackColor = True
+        '
+        'CheckReadOldPosts
+        '
+        resources.ApplyResources(Me.CheckReadOldPosts, "CheckReadOldPosts")
+        Me.CheckReadOldPosts.Name = "CheckReadOldPosts"
+        Me.CheckReadOldPosts.UseVisualStyleBackColor = True
+        '
+        'NotifyPanel
+        '
+        Me.NotifyPanel.Controls.Add(Me.Label35)
+        Me.NotifyPanel.Controls.Add(Me.ComboBoxEventNotifySound)
+        Me.NotifyPanel.Controls.Add(Me.CheckFavEventUnread)
+        Me.NotifyPanel.Controls.Add(Me.CheckListCreatedEvent)
+        Me.NotifyPanel.Controls.Add(Me.CheckDeleteEvent)
+        Me.NotifyPanel.Controls.Add(Me.CheckBlockEvent)
+        Me.NotifyPanel.Controls.Add(Me.CheckForceEventNotify)
+        Me.NotifyPanel.Controls.Add(Me.CheckListMemberRemovedEvent)
+        Me.NotifyPanel.Controls.Add(Me.CheckListMemberAddedEvent)
+        Me.NotifyPanel.Controls.Add(Me.CheckFollowEvent)
+        Me.NotifyPanel.Controls.Add(Me.CheckUnfavoritesEvent)
+        Me.NotifyPanel.Controls.Add(Me.CheckFavoritesEvent)
+        Me.NotifyPanel.Controls.Add(Me.CheckEventNotify)
+        resources.ApplyResources(Me.NotifyPanel, "NotifyPanel")
+        Me.NotifyPanel.Name = "NotifyPanel"
+        '
+        'Label35
+        '
+        resources.ApplyResources(Me.Label35, "Label35")
+        Me.Label35.Name = "Label35"
+        '
+        'ComboBoxEventNotifySound
+        '
+        Me.ComboBoxEventNotifySound.FormattingEnabled = True
+        resources.ApplyResources(Me.ComboBoxEventNotifySound, "ComboBoxEventNotifySound")
+        Me.ComboBoxEventNotifySound.Name = "ComboBoxEventNotifySound"
+        '
+        'CheckFavEventUnread
+        '
+        resources.ApplyResources(Me.CheckFavEventUnread, "CheckFavEventUnread")
+        Me.CheckFavEventUnread.Checked = True
+        Me.CheckFavEventUnread.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckFavEventUnread.Name = "CheckFavEventUnread"
+        Me.CheckFavEventUnread.UseVisualStyleBackColor = True
+        '
+        'CheckListCreatedEvent
+        '
+        resources.ApplyResources(Me.CheckListCreatedEvent, "CheckListCreatedEvent")
+        Me.CheckListCreatedEvent.Checked = True
+        Me.CheckListCreatedEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckListCreatedEvent.Name = "CheckListCreatedEvent"
+        Me.CheckListCreatedEvent.UseVisualStyleBackColor = True
+        '
+        'CheckDeleteEvent
+        '
+        resources.ApplyResources(Me.CheckDeleteEvent, "CheckDeleteEvent")
+        Me.CheckDeleteEvent.Checked = True
+        Me.CheckDeleteEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckDeleteEvent.Name = "CheckDeleteEvent"
+        Me.CheckDeleteEvent.UseVisualStyleBackColor = True
+        '
+        'CheckBlockEvent
+        '
+        resources.ApplyResources(Me.CheckBlockEvent, "CheckBlockEvent")
+        Me.CheckBlockEvent.Checked = True
+        Me.CheckBlockEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBlockEvent.Name = "CheckBlockEvent"
+        Me.CheckBlockEvent.UseVisualStyleBackColor = True
+        '
+        'CheckForceEventNotify
+        '
+        resources.ApplyResources(Me.CheckForceEventNotify, "CheckForceEventNotify")
+        Me.CheckForceEventNotify.Checked = True
+        Me.CheckForceEventNotify.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckForceEventNotify.Name = "CheckForceEventNotify"
+        Me.CheckForceEventNotify.UseVisualStyleBackColor = True
+        '
+        'CheckListMemberRemovedEvent
+        '
+        resources.ApplyResources(Me.CheckListMemberRemovedEvent, "CheckListMemberRemovedEvent")
+        Me.CheckListMemberRemovedEvent.Checked = True
+        Me.CheckListMemberRemovedEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckListMemberRemovedEvent.Name = "CheckListMemberRemovedEvent"
+        Me.CheckListMemberRemovedEvent.UseVisualStyleBackColor = True
+        '
+        'CheckListMemberAddedEvent
+        '
+        resources.ApplyResources(Me.CheckListMemberAddedEvent, "CheckListMemberAddedEvent")
+        Me.CheckListMemberAddedEvent.Checked = True
+        Me.CheckListMemberAddedEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckListMemberAddedEvent.Name = "CheckListMemberAddedEvent"
+        Me.CheckListMemberAddedEvent.UseVisualStyleBackColor = True
+        '
+        'CheckFollowEvent
+        '
+        resources.ApplyResources(Me.CheckFollowEvent, "CheckFollowEvent")
+        Me.CheckFollowEvent.Checked = True
+        Me.CheckFollowEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckFollowEvent.Name = "CheckFollowEvent"
+        Me.CheckFollowEvent.UseVisualStyleBackColor = True
+        '
+        'CheckUnfavoritesEvent
+        '
+        resources.ApplyResources(Me.CheckUnfavoritesEvent, "CheckUnfavoritesEvent")
+        Me.CheckUnfavoritesEvent.Checked = True
+        Me.CheckUnfavoritesEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckUnfavoritesEvent.Name = "CheckUnfavoritesEvent"
+        Me.CheckUnfavoritesEvent.UseVisualStyleBackColor = True
+        '
+        'CheckFavoritesEvent
+        '
+        resources.ApplyResources(Me.CheckFavoritesEvent, "CheckFavoritesEvent")
+        Me.CheckFavoritesEvent.Checked = True
+        Me.CheckFavoritesEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckFavoritesEvent.Name = "CheckFavoritesEvent"
+        Me.CheckFavoritesEvent.UseVisualStyleBackColor = True
+        '
+        'CheckEventNotify
+        '
+        resources.ApplyResources(Me.CheckEventNotify, "CheckEventNotify")
+        Me.CheckEventNotify.Checked = True
+        Me.CheckEventNotify.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckEventNotify.Name = "CheckEventNotify"
+        Me.CheckEventNotify.UseVisualStyleBackColor = True
+        '
         'Cancel
         '
         Me.Cancel.CausesValidation = False
@@ -1911,12 +1912,6 @@ Partial Class AppendSettingDialog
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.ResumeLayout(False)
-        Me.ActionPanel.ResumeLayout(False)
-        Me.ActionPanel.PerformLayout()
-        Me.GroupBox3.ResumeLayout(False)
-        Me.GroupBox3.PerformLayout()
-        Me.NotifyPanel.ResumeLayout(False)
-        Me.NotifyPanel.PerformLayout()
         Me.GetPeriodPanel.ResumeLayout(False)
         Me.GetPeriodPanel.PerformLayout()
         Me.GetCountPanel.ResumeLayout(False)
@@ -1947,6 +1942,12 @@ Partial Class AppendSettingDialog
         Me.CooperatePanel.PerformLayout()
         Me.ShortUrlPanel.ResumeLayout(False)
         Me.ShortUrlPanel.PerformLayout()
+        Me.ActionPanel.ResumeLayout(False)
+        Me.ActionPanel.PerformLayout()
+        Me.GroupBox3.ResumeLayout(False)
+        Me.GroupBox3.PerformLayout()
+        Me.NotifyPanel.ResumeLayout(False)
+        Me.NotifyPanel.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
