@@ -1169,11 +1169,6 @@ Public Class TweenMain
 
         ''タイマー初期化
         If homeCounter <= 0 AndAlso SettingDialog.TimelinePeriodInt > 0 Then
-            'Dim period As Integer
-            'Interlocked.Exchange(period, 0)
-            'Interlocked.Add(period, SettingDialog.TimelinePeriodInt)
-            'Interlocked.Add(period, -_homeCounterAdjuster)
-            'Interlocked.Exchange(_homeCounter, period)
             Interlocked.Exchange(homeCounter, SettingDialog.TimelinePeriodInt)
             If Not tw.IsUserstreamDataReceived Then GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
         End If
@@ -2366,7 +2361,7 @@ Public Class TweenMain
                             _postTimestamps.RemoveAt(i)
                         End If
                     Next
-                    If SettingDialog.PostAndGet Then GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
+                    If Not _isActiveUserstream AndAlso SettingDialog.PostAndGet Then GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
                 End If
             Case WORKERTYPE.Follower
                 '_waitFollower = False
