@@ -8218,6 +8218,20 @@ RETRY:
         bw.RunWorkerAsync(args)
     End Sub
 
+    Private Sub StartUserStream()
+        AddHandler tw.NewPostFromStream, AddressOf tw_NewPostFromStream
+        AddHandler tw.UserStreamStarted, AddressOf tw_UserStreamStarted
+        AddHandler tw.UserStreamStopped, AddressOf tw_UserStreamStopped
+        AddHandler tw.PostDeleted, AddressOf tw_PostDeleted
+        AddHandler tw.UserStreamEventReceived, AddressOf tw_UserStreamEventArrived
+
+        MenuItemUserStream.Text = "&UserStream ■"
+        MenuItemUserStream.Enabled = True
+        StopToolStripMenuItem.Text = "&Start"
+        StopToolStripMenuItem.Enabled = True
+        If SettingDialog.UserstreamStartup Then tw.StartUserStream()
+    End Sub
+
     Private Sub TweenMain_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
         Try
             PostBrowser.Url = New Uri("about:blank")
@@ -8232,6 +8246,7 @@ RETRY:
             If SettingDialog.StartupFollowers Then
                 GetTimeline(WORKERTYPE.Follower, 0, 0, "")
             End If
+            StartUserStream()
             _waitTimeline = True
             GetTimeline(WORKERTYPE.Timeline, 1, 1, "")
             _waitReply = True
@@ -8277,17 +8292,7 @@ RETRY:
             End If
         End If
         _initial = False
-        AddHandler tw.NewPostFromStream, AddressOf tw_NewPostFromStream
-        AddHandler tw.UserStreamStarted, AddressOf tw_UserStreamStarted
-        AddHandler tw.UserStreamStopped, AddressOf tw_UserStreamStopped
-        AddHandler tw.PostDeleted, AddressOf tw_PostDeleted
-        AddHandler tw.UserStreamEventReceived, AddressOf tw_UserStreamEventArrived
 
-        MenuItemUserStream.Text = "&UserStream ■"
-        MenuItemUserStream.Enabled = True
-        StopToolStripMenuItem.Text = "&Start"
-        StopToolStripMenuItem.Enabled = True
-        If SettingDialog.UserstreamStartup Then tw.StartUserStream()
         TimerTimeline.Enabled = True
     End Sub
 
