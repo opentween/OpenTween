@@ -265,7 +265,7 @@ Public Class Thumbnail
             Exit Sub
         End If
         SyncLock lckPrev
-            If prv IsNot Nothing AndAlso _curPost IsNot Nothing AndAlso prv.statusId = _curPost.Id Then
+            If prv IsNot Nothing AndAlso _curPost IsNot Nothing AndAlso prv.statusId = _curPost.StatusId Then
                 _prev = prv
                 Owner.SplitContainer3.Panel2Collapsed = False
                 Owner.PreviewScrollBar.Maximum = _prev.pics.Count - 1
@@ -281,7 +281,7 @@ Public Class Thumbnail
                 Else
                     Owner.ToolTip1.SetToolTip(Owner.PreviewPicture, "")
                 End If
-            ElseIf _curPost Is Nothing OrElse (_prev IsNot Nothing AndAlso _curPost.Id <> _prev.statusId) Then
+            ElseIf _curPost Is Nothing OrElse (_prev IsNot Nothing AndAlso _curPost.StatusId <> _prev.statusId) Then
                 Owner.PreviewScrollBar.Maximum = 0
                 Owner.PreviewScrollBar.Enabled = False
                 Owner.SplitContainer3.Panel2Collapsed = True
@@ -302,7 +302,7 @@ Public Class Thumbnail
 
     Private Sub PreviewScrollBar_Scroll(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ScrollEventArgs)
         SyncLock lckPrev
-            If _prev IsNot Nothing AndAlso _curPost IsNot Nothing AndAlso _prev.statusId = _curPost.Id Then
+            If _prev IsNot Nothing AndAlso _curPost IsNot Nothing AndAlso _prev.statusId = _curPost.StatusId Then
                 If _prev.pics.Count > e.NewValue Then
                     Owner.PreviewPicture.Image = _prev.pics(e.NewValue).Value
                     If Not String.IsNullOrEmpty(_prev.tooltiptext(e.NewValue).Value) Then

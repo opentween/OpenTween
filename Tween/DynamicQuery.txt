@@ -11,7 +11,7 @@ DynamicQuery[1]を使用した、ラムダ式による振り分けを実装し�
 ラムダ式は、式評価の結果Booleanを返す必要があり、その評価結果がTrueであった場合該当のタブへ振り分けされます。
 
 * 正規表現のチェックは無視されますので、ラムダ式で正規表現を使用する場合はRegexクラスを使用してください。
-　例：Regex.Match(Name,"hoge|fuga").Success
+　例：Regex.Match(ScreenName,"hoge|fuga").Success
 
 * キーワード it でPostClassのオブジェクトを取得でき、そのプロパティにアクセスできます。
 　例：it.IsReply == True
@@ -23,7 +23,7 @@ DynamicQuery[1]を使用した、ラムダ式による振り分けを実装し�
 　例：IsReply
 
 * 参照したオブジェクトの下位にあるメソッドを呼び出すことも可能です。
-　例：it.Data.Contains("未読")		' String.Containsメソッドを呼び出している
+　例：it.Text.Contains("未読")		' String.Containsメソッドを呼び出している
 
 * 使用可能な型は次の通りです。
 
@@ -94,13 +94,13 @@ PostClass構造について
 
 Public Class PostClass
 	Public NickName As String					' 名前
-	Public Data As String						' API経由で取得した生の本文
+	Public TextFromApi As String				' API経由で取得した生の本文
 	Public ImageUrl As String					' アイコンイメージのURL
-	Public Name As String						' スクリーンネーム
-	Public PDate As DateTime					' 投稿日時
-	Public Id As Long							' ステータスID
+	Public ScreenName As String					' スクリーンネーム
+	Public CreatedAt As DateTime				' 投稿日時
+	Public StatusId As Long						' ステータスID
 	Public IsFav As Boolean						' Favしているかどうか
-	Public OriginalData As String				' aタグ変換済み本文
+	Public Text As String						' aタグ変換済み本文
 	Public IsRead As Boolean					' 既読かどうか
 	Public IsReply As Boolean					' Replyかどうか
 	Public IsExcludeReply As Boolean			' 除外ルールにより弾かれたReplyかどうか

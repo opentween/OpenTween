@@ -64,7 +64,7 @@ Public Class MyLists
             End If
 
             'リストに該当ユーザーのポストが含まれていれば、リストにユーザーが含まれているとする。
-            If listPost.Exists(Function(item) item.Name = contextUserName) Then
+            If listPost.Exists(Function(item) item.ScreenName = contextUserName) Then
                 Me.ListsCheckedListBox.SetItemChecked(i, True)
                 Continue For
             End If
@@ -78,14 +78,14 @@ Public Class MyLists
                 If post.UserId > 0 AndAlso Not listPostUserIDs.Contains(post.UserId) Then
                     listPostUserIDs.Add(post.UserId)
                 End If
-                If post.Name IsNot Nothing AndAlso Not listPostUserNames.Contains(post.Name) Then
-                    listPostUserNames.Add(post.Name)
+                If post.ScreenName IsNot Nothing AndAlso Not listPostUserNames.Contains(post.ScreenName) Then
+                    listPostUserNames.Add(post.ScreenName)
                 End If
-                If post.PDate < listOlderPostCreatedAt Then
-                    listOlderPostCreatedAt = post.PDate
+                If post.CreatedAt < listOlderPostCreatedAt Then
+                    listOlderPostCreatedAt = post.CreatedAt
                 End If
-                If post.PDate > listNewistPostCreatedAt Then
-                    listNewistPostCreatedAt = post.PDate
+                If post.CreatedAt > listNewistPostCreatedAt Then
+                    listNewistPostCreatedAt = post.CreatedAt
                 End If
             Next
 
@@ -98,7 +98,7 @@ Public Class MyLists
             otherPost.AddRange(TabInformations.GetInstance().Posts().Values)
 
             'リストに該当ユーザーのポストが含まれていないのにリスト以外で取得したポストの中にリストに含まれるべきポストがある場合は、リストにユーザーは含まれていないとする。
-            If otherPost.Exists(Function(item) (item.Name = Me.contextUserName) AndAlso (item.PDate > listOlderPostCreatedAt) AndAlso (item.PDate < listNewistPostCreatedAt) AndAlso ((Not item.IsReply) OrElse listPostUserNames.Contains(item.InReplyToUser))) Then
+            If otherPost.Exists(Function(item) (item.ScreenName = Me.contextUserName) AndAlso (item.CreatedAt > listOlderPostCreatedAt) AndAlso (item.CreatedAt < listNewistPostCreatedAt) AndAlso ((Not item.IsReply) OrElse listPostUserNames.Contains(item.InReplyToUser))) Then
                 Me.ListsCheckedListBox.SetItemChecked(i, False)
                 Continue For
             End If
