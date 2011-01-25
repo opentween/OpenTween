@@ -341,9 +341,9 @@ Public Class ShowUserInfo
                 MyOwner.AddNewTabForSearch(hash)
                 Exit Sub
             Else
-                Dim m As Match = Regex.Match(e.Url.AbsoluteUri, "^https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)$")
-                If AppendSettingDialog.Instance.OpenUserTimeline AndAlso m.Success AndAlso MyOwner.IsTwitterId(m.Result("${name}")) Then
-                    MyOwner.AddNewTabForUserTimeline(m.Result("${name}"))
+                Dim m As Match = Regex.Match(e.Url.AbsoluteUri, "^https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)$")
+                If AppendSettingDialog.Instance.OpenUserTimeline AndAlso m.Success AndAlso MyOwner.IsTwitterId(m.Result("${ScreenName}")) Then
+                    MyOwner.AddNewTabForUserTimeline(m.Result("${ScreenName}"))
                 Else
                     MyOwner.OpenUriAsync(e.Url.OriginalString)
                 End If

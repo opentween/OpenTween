@@ -1398,7 +1398,7 @@ Public Class TweenMain
 
     Private Sub NotifyNewPosts(ByVal notifyPosts() As PostClass, ByVal soundFile As String, ByVal addCount As Integer, ByVal newMentions As Boolean)
         If notifyPosts IsNot Nothing AndAlso _
-            notifyPosts.All(Function(post) post.UserId.ToString() = tw.UserIdNo OrElse post.Name = tw.Username) Then
+            notifyPosts.All(Function(post) post.UserId.ToString() = tw.UserIdNo OrElse post.ScreenName = tw.Username) Then
             Exit Sub
         End If
 
@@ -1414,11 +1414,11 @@ Public Class TweenMain
                     If sb.Length > 0 Then sb.Append(System.Environment.NewLine)
                     Select Case SettingDialog.NameBalloon
                         Case NameBalloonEnum.UserID
-                            sb.Append(post.Name).Append(" : ")
+                            sb.Append(post.ScreenName).Append(" : ")
                         Case NameBalloonEnum.NickName
                             sb.Append(post.Nickname).Append(" : ")
                     End Select
-                    sb.Append(post.Data)
+                    sb.Append(post.TextFromApi)
                 Next
                 If SettingDialog.DispUsername Then NotifyIcon1.BalloonTipTitle = tw.Username + " - " Else NotifyIcon1.BalloonTipTitle = ""
                 If dm Then
@@ -1576,7 +1576,7 @@ Public Class TweenMain
 
     Private Function JudgeColor(ByVal BasePost As PostClass, ByVal TargetPost As PostClass) As Color
         Dim cl As Color
-        If TargetPost.Id = BasePost.InReplyToStatusId Then
+        If TargetPost.StatusId = BasePost.InReplyToStatusId Then
             '@先
             cl = _clAtTo
         ElseIf TargetPost.IsMe Then
@@ -1585,13 +1585,13 @@ Public Class TweenMain
         ElseIf TargetPost.IsReply Then
             '自分宛返信
             cl = _clAtSelf
-        ElseIf BasePost.ReplyToList.Contains(TargetPost.Name.ToLower()) Then
+        ElseIf BasePost.ReplyToList.Contains(TargetPost.ScreenName.ToLower()) Then
             '返信先
             cl = _clAtFromTarget
-        ElseIf TargetPost.ReplyToList.Contains(BasePost.Name.ToLower()) Then
+        ElseIf TargetPost.ReplyToList.Contains(BasePost.ScreenName.ToLower()) Then
             'その人への返信
             cl = _clAtTarget
-        ElseIf TargetPost.Name.Equals(BasePost.Name, StringComparison.OrdinalIgnoreCase) Then
+        ElseIf TargetPost.ScreenName.Equals(BasePost.ScreenName, StringComparison.OrdinalIgnoreCase) Then
             '発言者
             cl = _clTarget
         Else
@@ -1609,7 +1609,7 @@ Public Class TweenMain
             End If
         End If
 
-        If Me.ExistCurrentPost AndAlso StatusText.Text.Trim() = String.Format("RT @{0}: {1}", _curPost.Name, _curPost.Data) Then
+        If Me.ExistCurrentPost AndAlso StatusText.Text.Trim() = String.Format("RT @{0}: {1}", _curPost.ScreenName, _curPost.TextFromApi) Then
             Dim rtResult As DialogResult = MessageBox.Show(String.Format(My.Resources.PostButton_Click1, Environment.NewLine),
                                                            "Retweet",
                                                            MessageBoxButtons.YesNoCancel,
@@ -1898,28 +1898,28 @@ Public Class TweenMain
                         bw.ReportProgress(50, MakeStatusMessage(args, False))
                         If Not post.IsFav Then
                             If post.RetweetedId = 0 Then
-                                ret = tw.PostFavAdd(post.Id)
+                                ret = tw.PostFavAdd(post.StatusId)
                             Else
                                 ret = tw.PostFavAdd(post.RetweetedId)
                             End If
                             If ret.Length = 0 Then
-                                args.sIds.Add(post.Id)
+                                args.sIds.Add(post.StatusId)
                                 post.IsFav = True    'リスト再描画必要
                                 _favTimestamps.Add(Now)
                                 If post.RelTabName = "" Then
                                     '検索,リストタブからのfavは、favタブへ追加せず。それ以外は追加
-                                    _statuses.GetTabByType(TabUsageType.Favorites).Add(post.Id, post.IsRead, False)
+                                    _statuses.GetTabByType(TabUsageType.Favorites).Add(post.StatusId, post.IsRead, False)
                                 Else
                                     '検索・リストタブからのfavで、TLでも取得済みならfav反映
-                                    If _statuses.ContainsKey(post.Id) Then
-                                        Dim postTl As PostClass = _statuses.Item(post.Id)
+                                    If _statuses.ContainsKey(post.StatusId) Then
+                                        Dim postTl As PostClass = _statuses.Item(post.StatusId)
                                         postTl.IsFav = True
-                                        _statuses.GetTabByType(TabUsageType.Favorites).Add(postTl.Id, postTl.IsRead, False)
+                                        _statuses.GetTabByType(TabUsageType.Favorites).Add(postTl.StatusId, postTl.IsRead, False)
                                     End If
                                 End If
                                 '検索、リストタブに反映
                                 For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.PublicSearch Or TabUsageType.Lists)
-                                    If tb.Contains(post.Id) Then tb.Posts(post.Id).IsFav = True
+                                    If tb.Contains(post.StatusId) Then tb.Posts(post.StatusId).IsFav = True
                                 Next
                             End If
                         End If
@@ -1941,17 +1941,17 @@ Public Class TweenMain
                         bw.ReportProgress(50, MakeStatusMessage(args, False))
                         If post.IsFav Then
                             If post.RetweetedId = 0 Then
-                                ret = tw.PostFavRemove(post.Id)
+                                ret = tw.PostFavRemove(post.StatusId)
                             Else
                                 ret = tw.PostFavRemove(post.RetweetedId)
                             End If
                             If ret.Length = 0 Then
-                                args.sIds.Add(post.Id)
+                                args.sIds.Add(post.StatusId)
                                 post.IsFav = False    'リスト再描画必要
-                                If _statuses.ContainsKey(post.Id) Then _statuses.Item(post.Id).IsFav = False
+                                If _statuses.ContainsKey(post.StatusId) Then _statuses.Item(post.StatusId).IsFav = False
                                 '検索,リストタブに反映
                                 For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.PublicSearch Or TabUsageType.Lists)
-                                    If tb.Contains(post.Id) Then tb.Posts(post.Id).IsFav = False
+                                    If tb.Contains(post.StatusId) Then tb.Posts(post.StatusId).IsFav = False
                                 Next
                             End If
                         End If
@@ -2376,11 +2376,11 @@ Public Class TweenMain
                 _waitLists = False
             Case WORKERTYPE.Related
                 Dim tb As TabClass = _statuses.GetTabByType(TabUsageType.Related)
-                If tb IsNot Nothing AndAlso tb.RelationTargetPost IsNot Nothing AndAlso tb.Contains(tb.RelationTargetPost.Id) Then
+                If tb IsNot Nothing AndAlso tb.RelationTargetPost IsNot Nothing AndAlso tb.Contains(tb.RelationTargetPost.StatusId) Then
                     For Each tp As TabPage In ListTab.TabPages
                         If tp.Text = tb.TabName Then
-                            DirectCast(tp.Tag, DetailsListView).SelectedIndices.Add(tb.IndexOf(tb.RelationTargetPost.Id))
-                            DirectCast(tp.Tag, DetailsListView).Items(tb.IndexOf(tb.RelationTargetPost.Id)).Focused = True
+                            DirectCast(tp.Tag, DetailsListView).SelectedIndices.Add(tb.IndexOf(tb.RelationTargetPost.StatusId))
+                            DirectCast(tp.Tag, DetailsListView).Items(tb.IndexOf(tb.RelationTargetPost.StatusId)).Focused = True
                             Exit For
                         End If
                     Next
@@ -2537,9 +2537,9 @@ Public Class TweenMain
         For Each idx As Integer In _curList.SelectedIndices
             Dim post As PostClass = GetCurTabPost(idx)
             If FavAdd Then
-                If Not post.IsFav Then args.ids.Add(post.Id)
+                If Not post.IsFav Then args.ids.Add(post.StatusId)
             Else
-                If post.IsFav Then args.ids.Add(post.Id)
+                If post.IsFav Then args.ids.Add(post.StatusId)
             End If
         Next
         If args.ids.Count = 0 Then
@@ -2565,7 +2565,7 @@ Public Class TweenMain
 
     Private Sub MoveToHomeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MoveToHomeToolStripMenuItem.Click, OpenHomeOpMenuItem.Click
         If _curList.SelectedIndices.Count > 0 Then
-            OpenUriAsync("http://twitter.com/" + GetCurTabPost(_curList.SelectedIndices(0)).Name)
+            OpenUriAsync("http://twitter.com/" + GetCurTabPost(_curList.SelectedIndices(0)).ScreenName)
         ElseIf _curList.SelectedIndices.Count = 0 Then
             OpenUriAsync("http://twitter.com/")
         End If
@@ -2573,7 +2573,7 @@ Public Class TweenMain
 
     Private Sub MoveToFavToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MoveToFavToolStripMenuItem.Click, OpenFavOpMenuItem.Click
         If _curList.SelectedIndices.Count > 0 Then
-            OpenUriAsync("http://twitter.com/" + GetCurTabPost(_curList.SelectedIndices(0)).Name + "/favorites")
+            OpenUriAsync("http://twitter.com/" + GetCurTabPost(_curList.SelectedIndices(0)).ScreenName + "/favorites")
         End If
     End Sub
 
@@ -2637,7 +2637,7 @@ Public Class TweenMain
         _postCache = Nothing
 
         If _statuses.Tabs(_curTab.Text).AllCount > 0 AndAlso _curPost IsNot Nothing Then
-            Dim idx As Integer = _statuses.Tabs(_curTab.Text).IndexOf(_curPost.Id)
+            Dim idx As Integer = _statuses.Tabs(_curTab.Text).IndexOf(_curPost.StatusId)
             SelectListItem(_curList, idx)
             _curList.EnsureVisible(idx)
         End If
@@ -3214,9 +3214,9 @@ Public Class TweenMain
                 AddNewTabForSearch(hash)
                 Exit Sub
             Else
-                Dim m As Match = Regex.Match(e.Url.AbsoluteUri, "^https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)$")
-                If SettingDialog.OpenUserTimeline AndAlso m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
-                    Me.AddNewTabForUserTimeline(m.Result("${name}"))
+                Dim m As Match = Regex.Match(e.Url.AbsoluteUri, "^https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)$")
+                If SettingDialog.OpenUserTimeline AndAlso m.Success AndAlso IsTwitterId(m.Result("${ScreenName}")) Then
+                    Me.AddNewTabForUserTimeline(m.Result("${ScreenName}"))
                 Else
                     OpenUriAsync(e.Url.OriginalString)
                 End If
@@ -3261,7 +3261,7 @@ Public Class TweenMain
 
     Private Sub ShowUserTimeline()
         If Not Me.ExistCurrentPost Then Exit Sub
-        AddNewTabForUserTimeline(_curPost.Name)
+        AddNewTabForUserTimeline(_curPost.ScreenName)
     End Sub
 
     Public Sub AddNewTabForUserTimeline(ByVal user As String)
@@ -3964,9 +3964,9 @@ Public Class TweenMain
         If Post.RetweetedId = 0 Then
             Dim sitem() As String = {"",
                                      Post.Nickname,
-                                     If(Post.IsDeleted, "(DELETED)", Post.Data),
-                                     Post.PDate.ToString(SettingDialog.DateTimeFormat),
-                                     Post.Name,
+                                     If(Post.IsDeleted, "(DELETED)", Post.TextFromApi),
+                                     Post.CreatedAt.ToString(SettingDialog.DateTimeFormat),
+                                     Post.ScreenName,
                                      "",
                                      mk.ToString(),
                                      Post.Source}
@@ -3974,9 +3974,9 @@ Public Class TweenMain
         Else
             Dim sitem() As String = {"",
                                      Post.Nickname,
-                                     If(Post.IsDeleted, "(DELETED)", Post.Data),
-                                     Post.PDate.ToString(SettingDialog.DateTimeFormat),
-                                     Post.Name + Environment.NewLine + "(RT:" + Post.RetweetedBy + ")",
+                                     If(Post.IsDeleted, "(DELETED)", Post.TextFromApi),
+                                     Post.CreatedAt.ToString(SettingDialog.DateTimeFormat),
+                                     Post.ScreenName + Environment.NewLine + "(RT:" + Post.RetweetedBy + ")",
                                      "",
                                      mk.ToString(),
                                      Post.Source}
@@ -4328,8 +4328,8 @@ RETRY:
                     For idx As Integer = cidx To toIdx Step stp
                         Dim post As PostClass = _statuses.Item(_curTab.Text, idx)
                         If _search.IsMatch(post.Nickname, regOpt) _
-                            OrElse _search.IsMatch(post.Data, regOpt) _
-                            OrElse _search.IsMatch(post.Name, regOpt) _
+                            OrElse _search.IsMatch(post.TextFromApi, regOpt) _
+                            OrElse _search.IsMatch(post.ScreenName, regOpt) _
                         Then
                             SelectListItem(_curList, idx)
                             _curList.EnsureVisible(idx)
@@ -4345,8 +4345,8 @@ RETRY:
                 For idx As Integer = cidx To toIdx Step stp
                     Dim post As PostClass = _statuses.Item(_curTab.Text, idx)
                     If post.Nickname.IndexOf(_word, fndOpt) > -1 _
-                        OrElse post.Data.IndexOf(_word, fndOpt) > -1 _
-                        OrElse post.Name.IndexOf(_word, fndOpt) > -1 _
+                        OrElse post.TextFromApi.IndexOf(_word, fndOpt) > -1 _
+                        OrElse post.ScreenName.IndexOf(_word, fndOpt) > -1 _
                     Then
                         SelectListItem(_curList, idx)
                         _curList.EnsureVisible(idx)
@@ -4500,9 +4500,9 @@ RETRY:
         If _curList.SelectedIndices.Count > 0 AndAlso _statuses.Tabs(_curTab.Text).TabType <> TabUsageType.DirectMessage Then
             Dim post As PostClass = _statuses.Item(_curTab.Text, _curList.SelectedIndices(0))
             If post.RetweetedId = 0 Then
-                OpenUriAsync("http://twitter.com/" + post.Name + "/status/" + post.Id.ToString)
+                OpenUriAsync("http://twitter.com/" + post.ScreenName + "/status/" + post.StatusId.ToString)
             Else
-                OpenUriAsync("http://twitter.com/" + post.Name + "/status/" + post.RetweetedId.ToString)
+                OpenUriAsync("http://twitter.com/" + post.ScreenName + "/status/" + post.RetweetedId.ToString)
             End If
         End If
     End Sub
@@ -4510,7 +4510,7 @@ RETRY:
     Private Sub FavorareMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles FavorareMenuItem.Click, OpenFavotterOpMenuItem.Click
         If _curList.SelectedIndices.Count > 0 Then
             Dim post As PostClass = _statuses.Item(_curTab.Text, _curList.SelectedIndices(0))
-            OpenUriAsync(My.Resources.FavstarUrl + "users/" + post.Name + "/recent")
+            OpenUriAsync(My.Resources.FavstarUrl + "users/" + post.ScreenName + "/recent")
         End If
     End Sub
 
@@ -4639,7 +4639,7 @@ RETRY:
         displaypost = _curPost
         displayItem = DirectCast(_curList.Items(_curList.SelectedIndices(0)), ImageListViewItem)
 
-        Dim dTxt As String = createDetailHtml(If(_curPost.IsDeleted, "(DELETED)", _curPost.OriginalData))
+        Dim dTxt As String = createDetailHtml(If(_curPost.IsDeleted, "(DELETED)", _curPost.Text))
         If _curPost.IsDm Then
             SourceLinkLabel.Tag = Nothing
             SourceLinkLabel.Text = ""
@@ -4673,8 +4673,8 @@ RETRY:
         Else
             NameLabel.Text = ""
         End If
-        NameLabel.Text += _curPost.Name + "/" + _curPost.Nickname
-        NameLabel.Tag = _curPost.Name
+        NameLabel.Text += _curPost.ScreenName + "/" + _curPost.Nickname
+        NameLabel.Tag = _curPost.ScreenName
         If Not String.IsNullOrEmpty(_curPost.RetweetedBy) Then
             NameLabel.Text += " (RT:" + _curPost.RetweetedBy + ")"
         End If
@@ -4686,7 +4686,7 @@ RETRY:
         End If
 
         NameLabel.ForeColor = System.Drawing.SystemColors.ControlText
-        DateTimeLabel.Text = _curPost.PDate.ToString()
+        DateTimeLabel.Text = _curPost.CreatedAt.ToString()
         If _curPost.IsOwl AndAlso (SettingDialog.OneWayLove OrElse _statuses.Tabs(_curTab.Text).TabType = TabUsageType.DirectMessage) Then NameLabel.ForeColor = _clOWL
         If _curPost.RetweetedId > 0 Then NameLabel.ForeColor = _clRetweet
         If _curPost.IsFav Then NameLabel.ForeColor = _clFav
@@ -4695,9 +4695,9 @@ RETRY:
             Dim sb As New StringBuilder(512)
 
             sb.Append("-----Start PostClass Dump<br>")
-            sb.AppendFormat("Data           : {0}<br>", _curPost.Data)
-            sb.AppendFormat("(PlainText)    : <xmp>{0}</xmp><br>", _curPost.Data)
-            sb.AppendFormat("Id             : {0}<br>", _curPost.Id.ToString)
+            sb.AppendFormat("TextFromApi           : {0}<br>", _curPost.TextFromApi)
+            sb.AppendFormat("(PlainText)    : <xmp>{0}</xmp><br>", _curPost.TextFromApi)
+            sb.AppendFormat("StatusId             : {0}<br>", _curPost.StatusId.ToString)
             'sb.AppendFormat("ImageIndex     : {0}<br>", _curPost.ImageIndex.ToString)
             sb.AppendFormat("ImageUrl       : {0}<br>", _curPost.ImageUrl)
             sb.AppendFormat("InReplyToStatusId    : {0}<br>", _curPost.InReplyToStatusId.ToString)
@@ -4715,11 +4715,11 @@ RETRY:
                 sb.AppendFormat("ReplyToList    : {0}<br>", nm)
             Next
 
-            sb.AppendFormat("Name           : {0}<br>", _curPost.Name)
+            sb.AppendFormat("ScreenName           : {0}<br>", _curPost.ScreenName)
             sb.AppendFormat("NickName       : {0}<br>", _curPost.Nickname)
-            sb.AppendFormat("OriginalData   : {0}<br>", _curPost.OriginalData)
-            sb.AppendFormat("(PlainText)    : <xmp>{0}</xmp><br>", _curPost.OriginalData)
-            sb.AppendFormat("PDate          : {0}<br>", _curPost.PDate.ToString)
+            sb.AppendFormat("Text   : {0}<br>", _curPost.Text)
+            sb.AppendFormat("(PlainText)    : <xmp>{0}</xmp><br>", _curPost.Text)
+            sb.AppendFormat("CreatedAt          : {0}<br>", _curPost.CreatedAt.ToString)
             sb.AppendFormat("Source         : {0}<br>", _curPost.Source)
             sb.AppendFormat("UserId            : {0}<br>", _curPost.UserId)
             sb.AppendFormat("FilterHit      : {0}<br>", _curPost.FilterHit)
@@ -4740,7 +4740,7 @@ RETRY:
                     For Each lnk As Match In Regex.Matches(dTxt, "<a target=""_self"" href=""(?<url>http[^""]+)""", RegexOptions.IgnoreCase)
                         lnks.Add(lnk.Result("${url}"))
                     Next
-                    Thumbnail.thumbnail(_curPost.Id, lnks)
+                    Thumbnail.thumbnail(_curPost.StatusId, lnks)
                 End If
             Catch ex As System.Runtime.InteropServices.COMException
                 '原因不明
@@ -5001,13 +5001,13 @@ RETRY:
             Select Case KeyCode
                 Case Keys.H
                     If _curList.SelectedIndices.Count > 0 Then
-                        OpenUriAsync("http://twitter.com/" + GetCurTabPost(_curList.SelectedIndices(0)).Name)
+                        OpenUriAsync("http://twitter.com/" + GetCurTabPost(_curList.SelectedIndices(0)).ScreenName)
                     ElseIf _curList.SelectedIndices.Count = 0 Then
                         OpenUriAsync("http://twitter.com/")
                     End If
                 Case Keys.G
                     If _curList.SelectedIndices.Count > 0 Then
-                        OpenUriAsync("http://twitter.com/" + GetCurTabPost(_curList.SelectedIndices(0)).Name + "/favorites")
+                        OpenUriAsync("http://twitter.com/" + GetCurTabPost(_curList.SelectedIndices(0)).ScreenName + "/favorites")
                     End If
                 Case Keys.O
                     StatusOpenMenuItem_Click(Nothing, Nothing)
@@ -5183,7 +5183,7 @@ RETRY:
                 doReTweetOfficial(True)
             ElseIf KeyCode = Keys.P AndAlso _curPost IsNot Nothing Then
                 Pressed = True
-                doShowUserStatus(_curPost.Name, False)
+                doShowUserStatus(_curPost.ScreenName, False)
             End If
             If KeyCode = Keys.Up Then
                 ScrollDownPostBrowser(False)
@@ -5363,12 +5363,12 @@ RETRY:
             If post.IsDeleted Then Continue For
             If Not isDm Then
                 If post.RetweetedId > 0 Then
-                    sb.AppendFormat("{0}:{1} [http://twitter.com/{0}/status/{2}]{3}", post.Name, post.Data, post.RetweetedId, Environment.NewLine)
+                    sb.AppendFormat("{0}:{1} [http://twitter.com/{0}/status/{2}]{3}", post.ScreenName, post.TextFromApi, post.RetweetedId, Environment.NewLine)
                 Else
-                    sb.AppendFormat("{0}:{1} [http://twitter.com/{0}/status/{2}]{3}", post.Name, post.Data, post.Id, Environment.NewLine)
+                    sb.AppendFormat("{0}:{1} [http://twitter.com/{0}/status/{2}]{3}", post.ScreenName, post.TextFromApi, post.StatusId, Environment.NewLine)
                 End If
             Else
-                sb.AppendFormat("{0}:{1} [{2}]{3}", post.Name, post.Data, post.Id, Environment.NewLine)
+                sb.AppendFormat("{0}:{1} [{2}]{3}", post.ScreenName, post.TextFromApi, post.StatusId, Environment.NewLine)
             End If
         Next
         If IsProtected Then
@@ -5393,9 +5393,9 @@ RETRY:
         For Each idx As Integer In _curList.SelectedIndices
             Dim post As PostClass = _statuses.Item(_curTab.Text, idx)
             If post.RetweetedId > 0 Then
-                sb.AppendFormat("http://twitter.com/{0}/status/{1}{2}", post.Name, post.RetweetedId, Environment.NewLine)
+                sb.AppendFormat("http://twitter.com/{0}/status/{1}{2}", post.ScreenName, post.RetweetedId, Environment.NewLine)
             Else
-                sb.AppendFormat("http://twitter.com/{0}/status/{1}{2}", post.Name, post.Id, Environment.NewLine)
+                sb.AppendFormat("http://twitter.com/{0}/status/{1}{2}", post.ScreenName, post.StatusId, Environment.NewLine)
             End If
         Next
         If sb.Length > 0 Then
@@ -5453,7 +5453,7 @@ RETRY:
         If _statuses.Tabs(_curTab.Text).TabType = TabUsageType.DirectMessage Then Exit Sub ' Directタブは対象外（見つかるはずがない）
         If _curList.SelectedIndices.Count = 0 Then Exit Sub '未選択も処理しない
 
-        targetId = GetCurTabPost(_curList.SelectedIndices(0)).Id
+        targetId = GetCurTabPost(_curList.SelectedIndices(0)).StatusId
 
         If left Then
             ' 左のタブへ
@@ -5479,7 +5479,7 @@ RETRY:
         For tabidx As Integer = fIdx To toIdx Step stp
             If _statuses.Tabs(ListTab.TabPages(tabidx).Text).TabType = TabUsageType.DirectMessage Then Continue For ' Directタブは対象外
             For idx As Integer = 0 To DirectCast(ListTab.TabPages(tabidx).Tag, DetailsListView).VirtualListSize - 1
-                If _statuses.Item(ListTab.TabPages(tabidx).Text, idx).Id = targetId Then
+                If _statuses.Item(ListTab.TabPages(tabidx).Text, idx).StatusId = targetId Then
                     ListTab.SelectedIndex = tabidx
                     ListTabSelect(ListTab.TabPages(tabidx))
                     SelectListItem(_curList, idx)
@@ -5512,13 +5512,13 @@ RETRY:
 
         Dim name As String = ""
         If _curPost.RetweetedId = 0 Then
-            name = _curPost.Name
+            name = _curPost.ScreenName
         Else
             name = _curPost.RetweetedBy
         End If
         For idx As Integer = fIdx To toIdx Step stp
             If _statuses.Item(_curTab.Text, idx).RetweetedId = 0 Then
-                If _statuses.Item(_curTab.Text, idx).Name = name Then
+                If _statuses.Item(_curTab.Text, idx).ScreenName = name Then
                     SelectListItem(_curList, idx)
                     _curList.EnsureVisible(idx)
                     Exit For
@@ -5561,13 +5561,13 @@ RETRY:
 
         For idx As Integer = fIdx To toIdx Step stp
             Dim post As PostClass = _statuses.Item(_curTab.Text, idx)
-            If post.Name = _anchorPost.Name OrElse _
-               post.RetweetedBy = _anchorPost.Name OrElse _
-               post.Name = _anchorPost.RetweetedBy OrElse _
+            If post.ScreenName = _anchorPost.ScreenName OrElse _
+               post.RetweetedBy = _anchorPost.ScreenName OrElse _
+               post.ScreenName = _anchorPost.RetweetedBy OrElse _
                (Not String.IsNullOrEmpty(post.RetweetedBy) AndAlso post.RetweetedBy = _anchorPost.RetweetedBy) OrElse _
-               _anchorPost.ReplyToList.Contains(post.Name.ToLower()) OrElse _
+               _anchorPost.ReplyToList.Contains(post.ScreenName.ToLower()) OrElse _
                _anchorPost.ReplyToList.Contains(post.RetweetedBy.ToLower()) OrElse _
-               post.ReplyToList.Contains(_anchorPost.Name.ToLower()) OrElse _
+               post.ReplyToList.Contains(_anchorPost.ScreenName.ToLower()) OrElse _
                post.ReplyToList.Contains(_anchorPost.RetweetedBy.ToLower()) Then
                 SelectListItem(_curList, idx)
                 _curList.EnsureVisible(idx)
@@ -5578,7 +5578,7 @@ RETRY:
 
     Private Sub GoAnchor()
         If _anchorPost Is Nothing Then Exit Sub
-        Dim idx As Integer = _statuses.Tabs(_curTab.Text).IndexOf(_anchorPost.Id)
+        Dim idx As Integer = _statuses.Tabs(_curTab.Text).IndexOf(_anchorPost.StatusId)
         If idx = -1 Then Exit Sub
 
         SelectListItem(_curList, idx)
@@ -5658,9 +5658,9 @@ RETRY:
 
         Dim curTabClass As TabClass = _statuses.Tabs(_curTab.Text)
 
-        If curTabClass.TabType = TabUsageType.PublicSearch AndAlso _curPost.InReplyToStatusId = 0 AndAlso _curPost.Data.Contains("@") Then
+        If curTabClass.TabType = TabUsageType.PublicSearch AndAlso _curPost.InReplyToStatusId = 0 AndAlso _curPost.TextFromApi.Contains("@") Then
             Dim post As PostClass = Nothing
-            Dim r As String = tw.GetStatusApi(False, _curPost.Id, post)
+            Dim r As String = tw.GetStatusApi(False, _curPost.StatusId, post)
             If r = "" AndAlso post IsNot Nothing Then
                 _curPost.InReplyToStatusId = post.InReplyToStatusId
                 _curPost.InReplyToUser = post.InReplyToUser
@@ -5674,10 +5674,10 @@ RETRY:
 
         If Not (Me.ExistCurrentPost AndAlso _curPost.InReplyToUser IsNot Nothing AndAlso _curPost.InReplyToStatusId > 0) Then Return
 
-        If replyChains Is Nothing OrElse (replyChains.Count > 0 AndAlso replyChains.Peek().InReplyToId <> _curPost.Id) Then
+        If replyChains Is Nothing OrElse (replyChains.Count > 0 AndAlso replyChains.Peek().InReplyToId <> _curPost.StatusId) Then
             replyChains = New Stack(Of ReplyChain)
         End If
-        replyChains.Push(New ReplyChain(_curPost.Id, _curPost.InReplyToStatusId, _curTab))
+        replyChains.Push(New ReplyChain(_curPost.StatusId, _curPost.InReplyToStatusId, _curTab))
 
         Dim inReplyToIndex As Integer
         Dim inReplyToTabName As String
@@ -5694,8 +5694,8 @@ RETRY:
         Dim inReplyToPosts = From tab In _statuses.Tabs.Values
                              Order By tab IsNot curTabClass
                              From post In DirectCast(IIf(tab.IsInnerStorageTabType, tab.Posts, _statuses.Posts), Dictionary(Of Long, PostClass)).Values
-                             Where post.Id = inReplyToId
-                             Let index = tab.IndexOf(post.Id)
+                             Where post.StatusId = inReplyToId
+                             Let index = tab.IndexOf(post.StatusId)
                              Where index <> -1
                              Select New With {.Tab = tab, .Index = index}
 
@@ -5748,8 +5748,8 @@ RETRY:
             If _curPost.InReplyToStatusId <> 0 Then
                 Dim posts = From t In _statuses.Tabs
                             From p In DirectCast(IIf(t.Value.IsInnerStorageTabType, t.Value.Posts, _statuses.Posts), Dictionary(Of Long, PostClass))
-                            Where p.Value.Id <> _curPost.Id AndAlso p.Value.InReplyToStatusId = _curPost.InReplyToStatusId
-                            Let indexOf = t.Value.IndexOf(p.Value.Id)
+                            Where p.Value.StatusId <> _curPost.StatusId AndAlso p.Value.InReplyToStatusId = _curPost.InReplyToStatusId
+                            Let indexOf = t.Value.IndexOf(p.Value.StatusId)
                             Where indexOf > -1
                             Order By IIf(isForward, indexOf, indexOf * -1)
                             Order By t.Value IsNot curTabClass
@@ -5758,7 +5758,7 @@ RETRY:
                     Dim postList = posts.ToList()
                     For i As Integer = postList.Count - 1 To 0 Step -1
                         Dim index As Integer = i
-                        If postList.FindIndex(Function(pst) pst.Post.Id = postList(index).Post.Id) <> index Then
+                        If postList.FindIndex(Function(pst) pst.Post.StatusId = postList(index).Post.StatusId) <> index Then
                             postList.RemoveAt(index)
                         End If
                     Next
@@ -5777,8 +5777,8 @@ RETRY:
             If replyChains Is Nothing OrElse replyChains.Count < 1 Then
                 Dim posts = From t In _statuses.Tabs
                             From p In DirectCast(IIf(t.Value.IsInnerStorageTabType, t.Value.Posts, _statuses.Posts), Dictionary(Of Long, PostClass))
-                            Where p.Value.InReplyToStatusId = _curPost.Id
-                            Let indexOf = t.Value.IndexOf(p.Value.Id)
+                            Where p.Value.InReplyToStatusId = _curPost.StatusId
+                            Let indexOf = t.Value.IndexOf(p.Value.StatusId)
                             Where indexOf > -1
                             Order By indexOf
                             Order By t.Value IsNot curTabClass
@@ -5794,7 +5794,7 @@ RETRY:
                 End Try
             Else
                 Dim chainHead As ReplyChain = replyChains.Pop()
-                If chainHead.InReplyToId = _curPost.Id Then
+                If chainHead.InReplyToId = _curPost.StatusId Then
                     Dim idx As Integer = _statuses.Tabs(chainHead.OriginalTab.Text).IndexOf(chainHead.OriginalId)
                     If idx = -1 Then
                         replyChains = Nothing
@@ -6071,12 +6071,12 @@ RETRY:
                         Dim protect As String = ""
                         If post.IsProtect Then protect = "Protect"
                         sw.WriteLine(post.Nickname & vbTab & _
-                                 """" & post.Data.Replace(vbLf, "").Replace("""", """""") + """" & vbTab & _
-                                 post.PDate.ToString() & vbTab & _
-                                 post.Name & vbTab & _
-                                 post.Id.ToString() & vbTab & _
+                                 """" & post.TextFromApi.Replace(vbLf, "").Replace("""", """""") + """" & vbTab & _
+                                 post.CreatedAt.ToString() & vbTab & _
+                                 post.ScreenName & vbTab & _
+                                 post.StatusId.ToString() & vbTab & _
                                  post.ImageUrl & vbTab & _
-                                 """" & post.OriginalData.Replace(vbLf, "").Replace("""", """""") + """" & vbTab & _
+                                 """" & post.Text.Replace(vbLf, "").Replace("""", """""") + """" & vbTab & _
                                  protect)
                     Next
                 Else
@@ -6085,12 +6085,12 @@ RETRY:
                         Dim protect As String = ""
                         If post.IsProtect Then protect = "Protect"
                         sw.WriteLine(post.Nickname & vbTab & _
-                                 """" & post.Data.Replace(vbLf, "").Replace("""", """""") + """" & vbTab & _
-                                 post.PDate.ToString() & vbTab & _
-                                 post.Name & vbTab & _
-                                 post.Id.ToString() & vbTab & _
+                                 """" & post.TextFromApi.Replace(vbLf, "").Replace("""", """""") + """" & vbTab & _
+                                 post.CreatedAt.ToString() & vbTab & _
+                                 post.ScreenName & vbTab & _
+                                 post.StatusId.ToString() & vbTab & _
                                  post.ImageUrl & vbTab & _
-                                 """" & post.OriginalData.Replace(vbLf, "").Replace("""", """""") + """" & vbTab & _
+                                 """" & post.Text.Replace(vbLf, "").Replace("""", """""") + """" & vbTab & _
                                  protect)
                     Next
                 End If
@@ -6283,7 +6283,7 @@ RETRY:
                 ' 単独ユーザー宛リプライまたはDM
                 If (_statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.DirectMessage AndAlso isAuto) OrElse (Not isAuto AndAlso Not isReply) Then
                     ' ダイレクトメッセージ
-                    StatusText.Text = "D " + _curPost.Name + " " + StatusText.Text
+                    StatusText.Text = "D " + _curPost.ScreenName + " " + StatusText.Text
                     StatusText.SelectionStart = StatusText.Text.Length
                     StatusText.Focus()
                     _reply_to_id = 0
@@ -6294,27 +6294,27 @@ RETRY:
                     '空の場合
 
                     ' ステータステキストが入力されていない場合先頭に@ユーザー名を追加する
-                    StatusText.Text = "@" + _curPost.Name + " "
+                    StatusText.Text = "@" + _curPost.ScreenName + " "
                     If _curPost.RetweetedId > 0 Then
                         _reply_to_id = _curPost.RetweetedId
                     Else
-                        _reply_to_id = _curPost.Id
+                        _reply_to_id = _curPost.StatusId
                     End If
-                    _reply_to_name = _curPost.Name
+                    _reply_to_name = _curPost.ScreenName
                 Else
                     '何か入力済の場合
 
                     If isAuto Then
                         '1件選んでEnter or DoubleClick
-                        If StatusText.Text.Contains("@" + _curPost.Name + " ") Then
-                            If _reply_to_id > 0 AndAlso _reply_to_name = _curPost.Name Then
+                        If StatusText.Text.Contains("@" + _curPost.ScreenName + " ") Then
+                            If _reply_to_id > 0 AndAlso _reply_to_name = _curPost.ScreenName Then
                                 '返信先書き換え
                                 If _curPost.RetweetedId > 0 Then
                                     _reply_to_id = _curPost.RetweetedId
                                 Else
-                                    _reply_to_id = _curPost.Id
+                                    _reply_to_id = _curPost.StatusId
                                 End If
-                                _reply_to_name = _curPost.Name
+                                _reply_to_name = _curPost.ScreenName
                             End If
                             Exit Sub
                         End If
@@ -6322,31 +6322,31 @@ RETRY:
                             '文頭＠以外
                             If StatusText.Text.StartsWith(". ") Then
                                 ' 複数リプライ
-                                StatusText.Text = StatusText.Text.Insert(2, "@" + _curPost.Name + " ")
+                                StatusText.Text = StatusText.Text.Insert(2, "@" + _curPost.ScreenName + " ")
                                 _reply_to_id = 0
                                 _reply_to_name = ""
                             Else
                                 ' 単独リプライ
-                                StatusText.Text = "@" + _curPost.Name + " " + StatusText.Text
+                                StatusText.Text = "@" + _curPost.ScreenName + " " + StatusText.Text
                                 If _curPost.RetweetedId > 0 Then
                                     _reply_to_id = _curPost.RetweetedId
                                 Else
-                                    _reply_to_id = _curPost.Id
+                                    _reply_to_id = _curPost.StatusId
                                 End If
-                                _reply_to_name = _curPost.Name
+                                _reply_to_name = _curPost.ScreenName
                             End If
                         Else
                             '文頭＠
                             ' 複数リプライ
-                            StatusText.Text = ". @" + _curPost.Name + " " + StatusText.Text
-                            'StatusText.Text = "@" + _curPost.Name + " " + StatusText.Text
+                            StatusText.Text = ". @" + _curPost.ScreenName + " " + StatusText.Text
+                            'StatusText.Text = "@" + _curPost.ScreenName + " " + StatusText.Text
                             _reply_to_id = 0
                             _reply_to_name = ""
                         End If
                     Else
                         '1件選んでCtrl-Rの場合（返信先操作せず）
                         Dim sidx As Integer = StatusText.SelectionStart
-                        Dim id As String = "@" + _curPost.Name + " "
+                        Dim id As String = "@" + _curPost.ScreenName + " "
                         If sidx > 0 Then
                             If StatusText.Text.Substring(sidx - 1, 1) <> " " Then
                                 id = " " + id
@@ -6356,12 +6356,12 @@ RETRY:
                         sidx += id.Length
                         'If StatusText.Text.StartsWith("@") Then
                         '    '複数リプライ
-                        '    StatusText.Text = ". " + StatusText.Text.Insert(sidx, " @" + _curPost.Name + " ")
-                        '    sidx += 5 + _curPost.Name.Length
+                        '    StatusText.Text = ". " + StatusText.Text.Insert(sidx, " @" + _curPost.ScreenName + " ")
+                        '    sidx += 5 + _curPost.ScreenName.Length
                         'Else
                         '    ' 複数リプライ
-                        '    StatusText.Text = StatusText.Text.Insert(sidx, " @" + _curPost.Name + " ")
-                        '    sidx += 3 + _curPost.Name.Length
+                        '    StatusText.Text = StatusText.Text.Insert(sidx, " @" + _curPost.ScreenName + " ")
+                        '    sidx += 3 + _curPost.ScreenName.Length
                         'End If
                         StatusText.SelectionStart = sidx
                         StatusText.Focus()
@@ -6387,9 +6387,9 @@ RETRY:
                     End If
                     For cnt As Integer = 0 To _curList.SelectedIndices.Count - 1
                         Dim post As PostClass = _statuses.Item(_curTab.Text, _curList.SelectedIndices(cnt))
-                        If Not sTxt.Contains("@" + post.Name + " ") Then
-                            sTxt = sTxt.Insert(2, "@" + post.Name + " ")
-                            'sTxt = "@" + post.Name + " " + sTxt
+                        If Not sTxt.Contains("@" + post.ScreenName + " ") Then
+                            sTxt = sTxt.Insert(2, "@" + post.ScreenName + " ")
+                            'sTxt = "@" + post.ScreenName + " " + sTxt
                         End If
                     Next
                     StatusText.Text = sTxt
@@ -6402,15 +6402,15 @@ RETRY:
                         Dim sidx As Integer = StatusText.SelectionStart
                         For cnt As Integer = 0 To _curList.SelectedIndices.Count - 1
                             Dim post As PostClass = _statuses.Item(_curTab.Text, _curList.SelectedIndices(cnt))
-                            If Not ids.Contains("@" + post.Name + " ") AndAlso _
-                               Not post.Name.Equals(tw.Username, StringComparison.CurrentCultureIgnoreCase) Then
-                                ids += "@" + post.Name + " "
+                            If Not ids.Contains("@" + post.ScreenName + " ") AndAlso _
+                               Not post.ScreenName.Equals(tw.Username, StringComparison.CurrentCultureIgnoreCase) Then
+                                ids += "@" + post.ScreenName + " "
                             End If
                             If isAll Then
                                 For Each nm As String In post.ReplyToList
                                     If Not ids.Contains("@" + nm + " ") AndAlso _
                                        Not nm.Equals(tw.Username, StringComparison.CurrentCultureIgnoreCase) Then
-                                        Dim m As Match = Regex.Match(post.Data, "[@＠](?<id>" + nm + ")([^a-zA-Z0-9]|$)", RegexOptions.IgnoreCase)
+                                        Dim m As Match = Regex.Match(post.TextFromApi, "[@＠](?<id>" + nm + ")([^a-zA-Z0-9]|$)", RegexOptions.IgnoreCase)
                                         If m.Success Then
                                             ids += "@" + m.Result("${id}") + " "
                                         Else
@@ -6450,14 +6450,14 @@ RETRY:
                         Dim ids As String = ""
                         Dim sidx As Integer = StatusText.SelectionStart
                         Dim post As PostClass = _curPost
-                        If Not ids.Contains("@" + post.Name + " ") AndAlso _
-                           Not post.Name.Equals(tw.Username, StringComparison.CurrentCultureIgnoreCase) Then
-                            ids += "@" + post.Name + " "
+                        If Not ids.Contains("@" + post.ScreenName + " ") AndAlso _
+                           Not post.ScreenName.Equals(tw.Username, StringComparison.CurrentCultureIgnoreCase) Then
+                            ids += "@" + post.ScreenName + " "
                         End If
                         For Each nm As String In post.ReplyToList
                             If Not ids.Contains("@" + nm + " ") AndAlso _
                                Not nm.Equals(tw.Username, StringComparison.CurrentCultureIgnoreCase) Then
-                                Dim m As Match = Regex.Match(post.Data, "[@＠](?<id>" + nm + ")([^a-zA-Z0-9]|$)", RegexOptions.IgnoreCase)
+                                Dim m As Match = Regex.Match(post.TextFromApi, "[@＠](?<id>" + nm + ")([^a-zA-Z0-9]|$)", RegexOptions.IgnoreCase)
                                 If m.Success Then
                                     ids += "@" + m.Result("${id}") + " "
                                 Else
@@ -6480,9 +6480,9 @@ RETRY:
                             If post.RetweetedId > 0 Then
                                 _reply_to_id = post.RetweetedId
                             Else
-                                _reply_to_id = post.Id
+                                _reply_to_id = post.StatusId
                             End If
-                            _reply_to_name = post.Name
+                            _reply_to_name = post.ScreenName
                             Exit Sub
                         End If
 
@@ -6808,9 +6808,9 @@ RETRY:
 
             fDialog.SetCurrent(tabName)
             If _statuses.Item(_curTab.Text, idx).RetweetedId = 0 Then
-                fDialog.AddNewFilter(_statuses.Item(_curTab.Text, idx).Name, _statuses.Item(_curTab.Text, idx).Data)
+                fDialog.AddNewFilter(_statuses.Item(_curTab.Text, idx).ScreenName, _statuses.Item(_curTab.Text, idx).TextFromApi)
             Else
-                fDialog.AddNewFilter(_statuses.Item(_curTab.Text, idx).RetweetedBy, _statuses.Item(_curTab.Text, idx).Data)
+                fDialog.AddNewFilter(_statuses.Item(_curTab.Text, idx).RetweetedBy, _statuses.Item(_curTab.Text, idx).TextFromApi)
             End If
             fDialog.ShowDialog()
             Me.TopMost = SettingDialog.AlwaysTop
@@ -6928,11 +6928,11 @@ RETRY:
         Dim ids As New List(Of String)
         For Each idx As Integer In _curList.SelectedIndices
             Dim post As PostClass = _statuses.Item(_curTab.Text, idx)
-            If Not ids.Contains(post.Name) Then
+            If Not ids.Contains(post.ScreenName) Then
                 Dim fc As New FiltersClass
-                ids.Add(post.Name)
+                ids.Add(post.ScreenName)
                 If post.RetweetedId = 0 Then
-                    fc.NameFilter = post.Name
+                    fc.NameFilter = post.ScreenName
                 Else
                     fc.NameFilter = post.RetweetedBy
                 End If
@@ -7144,9 +7144,9 @@ RETRY:
                 AddNewTabForSearch(hash)
                 Exit Sub
             Else
-                Dim m As Match = Regex.Match(openUrlStr, "^https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)$")
-                If SettingDialog.OpenUserTimeline AndAlso m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
-                    Me.AddNewTabForUserTimeline(m.Result("${name}"))
+                Dim m As Match = Regex.Match(openUrlStr, "^https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)$")
+                If SettingDialog.OpenUserTimeline AndAlso m.Success AndAlso IsTwitterId(m.Result("${ScreenName}")) Then
+                    Me.AddNewTabForUserTimeline(m.Result("${ScreenName}"))
                 Else
                     OpenUriAsync(openUrlStr)
                 End If
@@ -7443,12 +7443,12 @@ RETRY:
             End If
             If _statuses.ContainsKey(_curPost.InReplyToStatusId) Then
                 Dim repPost As PostClass = _statuses.Item(_curPost.InReplyToStatusId)
-                MessageBox.Show(repPost.Name + " / " + repPost.Nickname + "   (" + repPost.PDate.ToString() + ")" + Environment.NewLine + repPost.Data)
+                MessageBox.Show(repPost.ScreenName + " / " + repPost.Nickname + "   (" + repPost.CreatedAt.ToString() + ")" + Environment.NewLine + repPost.TextFromApi)
             Else
                 For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.Lists Or TabUsageType.PublicSearch)
                     If tb Is Nothing OrElse Not tb.Contains(_curPost.InReplyToStatusId) Then Exit For
                     Dim repPost As PostClass = _statuses.Item(_curPost.InReplyToStatusId)
-                    MessageBox.Show(repPost.Name + " / " + repPost.Nickname + "   (" + repPost.PDate.ToString() + ")" + Environment.NewLine + repPost.Data)
+                    MessageBox.Show(repPost.ScreenName + " / " + repPost.Nickname + "   (" + repPost.CreatedAt.ToString() + ")" + Environment.NewLine + repPost.TextFromApi)
                     Exit Sub
                 Next
                 OpenUriAsync("http://twitter.com/" + _curPost.InReplyToUser + "/status/" + _curPost.InReplyToStatusId.ToString())
@@ -8000,10 +8000,10 @@ RETRY:
             SelectionCopyContextMenuItem.Enabled = True
         End If
         '発言内に自分以外のユーザーが含まれてればフォロー状態全表示を有効に
-        Dim ma As MatchCollection = Regex.Matches(Me.PostBrowser.DocumentText, "href=""https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)(/status(es)?/[0-9]+)?""")
+        Dim ma As MatchCollection = Regex.Matches(Me.PostBrowser.DocumentText, "href=""https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)(/status(es)?/[0-9]+)?""")
         Dim fAllFlag As Boolean = False
         For Each mu As Match In ma
-            If mu.Result("${name}").ToLower <> tw.Username.ToLower Then
+            If mu.Result("${ScreenName}").ToLower <> tw.Username.ToLower Then
                 fAllFlag = True
                 Exit For
             End If
@@ -8314,10 +8314,10 @@ RETRY:
                 MessageBox.Show("Protected.")
                 Exit Sub
             End If
-            Dim rtdata As String = _curPost.OriginalData
+            Dim rtdata As String = _curPost.Text
             rtdata = CreateRetweetUnofficial(rtdata)
 
-            StatusText.Text = "RT @" + _curPost.Name + ": " + HttpUtility.HtmlDecode(rtdata)
+            StatusText.Text = "RT @" + _curPost.ScreenName + ": " + HttpUtility.HtmlDecode(rtdata)
 
             StatusText.SelectionStart = 0
             StatusText.Focus()
@@ -8369,7 +8369,7 @@ RETRY:
             args.type = WORKERTYPE.Retweet
             For Each idx As Integer In _curList.SelectedIndices
                 Dim post As PostClass = GetCurTabPost(idx)
-                If Not post.IsMe AndAlso Not post.IsProtect AndAlso Not post.IsDm Then args.ids.Add(post.Id)
+                If Not post.IsMe AndAlso Not post.IsProtect AndAlso Not post.IsDm Then args.ids.Add(post.StatusId)
             Next
             RunAsync(args)
         End If
@@ -8518,7 +8518,7 @@ RETRY:
 
     Private Sub FollowCommandMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FollowCommandMenuItem.Click
         Dim id As String = ""
-        If _curPost IsNot Nothing Then id = _curPost.Name
+        If _curPost IsNot Nothing Then id = _curPost.ScreenName
         FollowCommand(id)
     End Sub
 
@@ -8555,7 +8555,7 @@ RETRY:
 
     Private Sub RemoveCommandMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RemoveCommandMenuItem.Click
         Dim id As String = ""
-        If _curPost IsNot Nothing Then id = _curPost.Name
+        If _curPost IsNot Nothing Then id = _curPost.ScreenName
         RemoveCommand(id, False)
     End Sub
 
@@ -8605,7 +8605,7 @@ RETRY:
     Private Sub FriendshipMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FriendshipMenuItem.Click
         Dim id As String = ""
         If _curPost IsNot Nothing Then
-            id = _curPost.Name
+            id = _curPost.ScreenName
         End If
         ShowFriendship(id)
     End Sub
@@ -8741,9 +8741,9 @@ RETRY:
     End Function
 
     Private Function GetUserId() As String
-        Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)(/status(es)?/[0-9]+)?$")
-        If m.Success AndAlso IsTwitterId(m.Result("${name}")) Then
-            Return m.Result("${name}")
+        Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)(/status(es)?/[0-9]+)?$")
+        If m.Success AndAlso IsTwitterId(m.Result("${ScreenName}")) Then
+            Return m.Result("${ScreenName}")
         Else
             Return Nothing
         End If
@@ -8765,11 +8765,11 @@ RETRY:
     End Sub
 
     Private Sub FriendshipAllMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FriendshipAllMenuItem.Click
-        Dim ma As MatchCollection = Regex.Matches(Me.PostBrowser.DocumentText, "href=""https?://twitter.com/(#!/)?(?<name>[a-zA-Z0-9_]+)(/status(es)?/[0-9]+)?""")
+        Dim ma As MatchCollection = Regex.Matches(Me.PostBrowser.DocumentText, "href=""https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)(/status(es)?/[0-9]+)?""")
         Dim ids As New List(Of String)
         For Each mu As Match In ma
-            If mu.Result("${name}").ToLower <> tw.Username.ToLower Then
-                ids.Add(mu.Result("${name}"))
+            If mu.Result("${ScreenName}").ToLower <> tw.Username.ToLower Then
+                ids.Add(mu.Result("${ScreenName}"))
             End If
         Next
         ShowFriendship(ids.ToArray)
@@ -8809,16 +8809,16 @@ RETRY:
                 MessageBox.Show("Protected.")
                 Exit Sub
             End If
-            Dim rtdata As String = _curPost.OriginalData
+            Dim rtdata As String = _curPost.Text
             rtdata = CreateRetweetUnofficial(rtdata)
 
-            StatusText.Text = " QT @" + _curPost.Name + ": " + HttpUtility.HtmlDecode(rtdata)
+            StatusText.Text = " QT @" + _curPost.ScreenName + ": " + HttpUtility.HtmlDecode(rtdata)
             If _curPost.RetweetedId = 0 Then
-                _reply_to_id = _curPost.Id
+                _reply_to_id = _curPost.StatusId
             Else
                 _reply_to_id = _curPost.RetweetedId
             End If
-            _reply_to_name = _curPost.Name
+            _reply_to_name = _curPost.ScreenName
 
             StatusText.SelectionStart = 0
             StatusText.Focus()
@@ -8983,7 +8983,7 @@ RETRY:
             user = GetUserId()
             If user Is Nothing Then Return
         ElseIf Me._curPost IsNot Nothing Then
-            user = Me._curPost.Name
+            user = Me._curPost.ScreenName
         Else
             Return
         End If
@@ -9237,7 +9237,7 @@ RETRY:
     Private Sub UserStatusToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UserStatusToolStripMenuItem.Click
         Dim id As String = ""
         If _curPost IsNot Nothing Then
-            id = _curPost.Name
+            id = _curPost.ScreenName
         End If
         ShowUserStatus(id)
     End Sub
@@ -9366,7 +9366,7 @@ RETRY:
 
     Private Sub ShowProfileMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowProfileMenuItem.Click, ShowProfMenuItem.Click
         If _curPost IsNot Nothing Then
-            ShowUserStatus(_curPost.Name, False)
+            ShowUserStatus(_curPost.ScreenName, False)
         End If
     End Sub
 
@@ -9377,7 +9377,7 @@ RETRY:
         If _curPost.RetweetedId > 0 Then
             statusid = _curPost.RetweetedId
         Else
-            statusid = _curPost.Id
+            statusid = _curPost.StatusId
         End If
         tw.GetStatus_Retweeted_Count(statusid, counter)
 
@@ -9724,7 +9724,7 @@ RETRY:
 
     Private Sub CopyUserId()
         If _curPost Is Nothing Then Exit Sub
-        Dim clstr As String = _curPost.Name
+        Dim clstr As String = _curPost.ScreenName
         Try
             Clipboard.SetDataObject(clstr, False, 5, 100)
         Catch ex As Exception
@@ -9996,9 +9996,9 @@ RETRY:
         Dim g As New Google
         Dim buf As String = ""
         If Not Me.ExistCurrentPost Then Exit Sub
-        Dim srclng As String = g.LanguageDetect(_curPost.Data)
+        Dim srclng As String = g.LanguageDetect(_curPost.TextFromApi)
         Dim dstlng As String = SettingDialog.TranslateLanguage
-        If srclng <> dstlng AndAlso g.Translate(srclng, dstlng, _curPost.Data, buf) Then
+        If srclng <> dstlng AndAlso g.Translate(srclng, dstlng, _curPost.TextFromApi, buf) Then
             PostBrowser.DocumentText = createDetailHtml(buf)
         End If
     End Sub
@@ -10034,7 +10034,7 @@ RETRY:
     Private Function GetUserIdFromCurPostOrInput(ByVal caption As String) As String
         Dim id As String = ""
         If _curPost IsNot Nothing Then
-            id = _curPost.Name
+            id = _curPost.ScreenName
         End If
         Using inputName As New InputTabName()
             inputName.FormTitle = caption
