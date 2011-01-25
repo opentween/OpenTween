@@ -141,11 +141,13 @@ Public Class AppendSettingDialog
 
     Private Sub ToggleNodeChange(ByVal node As TreeNode)
         If node Is Nothing Then Exit Sub
+        TreeViewSetting.BeginUpdate()
         If node.IsExpanded Then
             node.Collapse()
         Else
             node.Expand()
         End If
+        TreeViewSetting.EndUpdate()
     End Sub
 
     Private Sub TreeViewSetting_DrawNode(ByVal sender As Object, ByVal e As System.Windows.Forms.DrawTreeNodeEventArgs) Handles TreeViewSetting.DrawNode
@@ -167,8 +169,10 @@ Public Class AppendSettingDialog
     End Sub
 
     Private Sub TreeViewSetting_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles TreeViewSetting.MouseDown
-        Dim Node As TreeNode = TreeViewSetting.GetNodeAt(e.X, e.Y)
-        ToggleNodeChange(Node)
+        Dim info As TreeViewHitTestInfo = TreeViewSetting.HitTest(e.X, e.Y)
+        If CBool((info.Location And TreeViewHitTestLocations.Label)) Then
+            ToggleNodeChange(info.Node)
+        End If
     End Sub
 
     Private Sub Save_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Save.Click
