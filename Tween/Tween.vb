@@ -8510,8 +8510,9 @@ RETRY:
             dlg.ShowDialog()
             If CBool(dlg.Result) Then
                 tmp = My.Resources.ApiInfo1 + args.info.MaxCount.ToString() + Environment.NewLine + _
-                    My.Resources.ApiInfo2 + args.info.RemainCount.ToString + Environment.NewLine + _
-                    My.Resources.ApiInfo3 + args.info.ResetTime.ToString()
+                    My.Resources.ApiInfo2 + args.info.RemainCount.ToString() + Environment.NewLine + _
+                    My.Resources.ApiInfo3 + args.info.ResetTime.ToString() + Environment.NewLine + _
+                    My.Resources.ApiInfo7 + IIf(tw.UserStreamEnabled, My.Resources.Enable, My.Resources.Disable).ToString()
                 SetStatusLabelUrl()
             Else
                 tmp = My.Resources.ApiInfo5

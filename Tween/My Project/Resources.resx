@@ -1057,4 +1057,13 @@
   <data name="SettingAPIUse2" xml:space="preserve">
     <value>UserStream有効時の消費API数 :  {0} / h</value>
   </data>
+  <data name="ApiInfo7" xml:space="preserve">
+    <value>UserStream接続 : </value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>無効</value>
+  </data>
+  <data name="Enable" xml:space="preserve">
+    <value>有効</value>
+  </data>
 </root>
