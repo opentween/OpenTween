@@ -7995,9 +7995,11 @@ RETRY:
         If _selText Is Nothing Then
             SelectionSearchContextMenuItem.Enabled = False
             SelectionCopyContextMenuItem.Enabled = False
+            SelectionTranslationToolStripMenuItem.Enabled = False
         Else
             SelectionSearchContextMenuItem.Enabled = True
             SelectionCopyContextMenuItem.Enabled = True
+            SelectionTranslationToolStripMenuItem.Enabled = True
         End If
         '発言内に自分以外のユーザーが含まれてればフォロー状態全表示を有効に
         Dim ma As MatchCollection = Regex.Matches(Me.PostBrowser.DocumentText, "href=""https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)(/status(es)?/[0-9]+)?""")
@@ -9998,15 +10000,24 @@ RETRY:
         OpenUriAsync("http://twitter.com/" + tw.Username)
     End Sub
 
-    Private Sub TranslationToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TranslationToolStripMenuItem.Click
+    Private Sub doTranslation(ByVal str As String)
         Dim g As New Google
         Dim buf As String = ""
-        If Not Me.ExistCurrentPost Then Exit Sub
-        Dim srclng As String = g.LanguageDetect(_curPost.TextFromApi)
+        If String.IsNullOrEmpty(str) Then Exit Sub
+        Dim srclng As String = g.LanguageDetect(str)
         Dim dstlng As String = SettingDialog.TranslateLanguage
-        If srclng <> dstlng AndAlso g.Translate(srclng, dstlng, _curPost.TextFromApi, buf) Then
+        If srclng <> dstlng AndAlso g.Translate(srclng, dstlng, str, buf) Then
             PostBrowser.DocumentText = createDetailHtml(buf)
         End If
+    End Sub
+
+    Private Sub TranslationToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TranslationToolStripMenuItem.Click
+        If Not Me.ExistCurrentPost Then Exit Sub
+        doTranslation(_curPost.TextFromApi)
+    End Sub
+
+    Private Sub SelectionTranslationToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SelectionTranslationToolStripMenuItem.Click
+        doTranslation(WebBrowser_GetSelectionText(PostBrowser))
     End Sub
 
     Private ReadOnly Property ExistCurrentPost As Boolean
@@ -10069,4 +10080,5 @@ RETRY:
             OpenUriAsync(My.Resources.FavstarUrl + "users/" + id + "/recent")
         End If
     End Sub
+
 End Class

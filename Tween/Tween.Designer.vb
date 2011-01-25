@@ -28,6 +28,7 @@ Partial Class TweenMain
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.StatusLabelUrl = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.StatusLabel = New Tween.TweenCustomControl.ToolStripLabelHistory()
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.HashStripSplitButton = New System.Windows.Forms.ToolStripSplitButton()
         Me.ContextMenuPostMode = New System.Windows.Forms.ContextMenuStrip(Me.components)
@@ -212,10 +213,12 @@ Partial Class TweenMain
         Me.FriendshipMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.OwnStatusMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.UserStatusToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripSeparator41 = New System.Windows.Forms.ToolStripSeparator()
         Me.OpenOwnHomeMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenOwnFavedMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator41 = New System.Windows.Forms.ToolStripSeparator()
+        Me.UserStatusToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.UserTimelineToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.UserFavorareToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator34 = New System.Windows.Forms.ToolStripSeparator()
         Me.HashToggleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HashManageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -294,9 +297,7 @@ Partial Class TweenMain
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.UserTimelineToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.StatusLabel = New Tween.TweenCustomControl.ToolStripLabelHistory()
-        Me.UserFavorareToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SelectionTranslationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -365,6 +366,14 @@ Partial Class TweenMain
         Me.StatusLabelUrl.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
         Me.StatusLabelUrl.Name = "StatusLabelUrl"
         Me.StatusLabelUrl.Spring = True
+        '
+        'StatusLabel
+        '
+        Me.StatusLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right
+        Me.StatusLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.StatusLabel.DoubleClickEnabled = True
+        Me.StatusLabel.Name = "StatusLabel"
+        resources.ApplyResources(Me.StatusLabel, "StatusLabel")
         '
         'ToolStripStatusLabel1
         '
@@ -769,7 +778,7 @@ Partial Class TweenMain
         '
         'ContextMenuPostBrowser
         '
-        Me.ContextMenuPostBrowser.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectionSearchContextMenuItem, Me.ToolStripSeparator13, Me.SelectionCopyContextMenuItem, Me.UrlCopyContextMenuItem, Me.SelectionAllContextMenuItem, Me.ToolStripSeparator5, Me.FollowContextMenuItem, Me.RemoveContextMenuItem, Me.FriendshipContextMenuItem, Me.FriendshipAllMenuItem, Me.ToolStripSeparator36, Me.ShowUserStatusContextMenuItem, Me.SearchPostsDetailToolStripMenuItem, Me.SearchAtPostsDetailToolStripMenuItem, Me.ToolStripSeparator32, Me.IdFilterAddMenuItem, Me.ListManageUserContextToolStripMenuItem, Me.ToolStripSeparator33, Me.UseHashtagMenuItem, Me.TranslationToolStripMenuItem})
+        Me.ContextMenuPostBrowser.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectionSearchContextMenuItem, Me.ToolStripSeparator13, Me.SelectionCopyContextMenuItem, Me.UrlCopyContextMenuItem, Me.SelectionAllContextMenuItem, Me.ToolStripSeparator5, Me.FollowContextMenuItem, Me.RemoveContextMenuItem, Me.FriendshipContextMenuItem, Me.FriendshipAllMenuItem, Me.ToolStripSeparator36, Me.ShowUserStatusContextMenuItem, Me.SearchPostsDetailToolStripMenuItem, Me.SearchAtPostsDetailToolStripMenuItem, Me.ToolStripSeparator32, Me.IdFilterAddMenuItem, Me.ListManageUserContextToolStripMenuItem, Me.ToolStripSeparator33, Me.UseHashtagMenuItem, Me.SelectionTranslationToolStripMenuItem, Me.TranslationToolStripMenuItem})
         Me.ContextMenuPostBrowser.Name = "ContextMenuStrip4"
         resources.ApplyResources(Me.ContextMenuPostBrowser, "ContextMenuPostBrowser")
         '
@@ -1420,16 +1429,6 @@ Partial Class TweenMain
         Me.OwnStatusMenuItem.Name = "OwnStatusMenuItem"
         resources.ApplyResources(Me.OwnStatusMenuItem, "OwnStatusMenuItem")
         '
-        'UserStatusToolStripMenuItem
-        '
-        Me.UserStatusToolStripMenuItem.Name = "UserStatusToolStripMenuItem"
-        resources.ApplyResources(Me.UserStatusToolStripMenuItem, "UserStatusToolStripMenuItem")
-        '
-        'ToolStripSeparator41
-        '
-        Me.ToolStripSeparator41.Name = "ToolStripSeparator41"
-        resources.ApplyResources(Me.ToolStripSeparator41, "ToolStripSeparator41")
-        '
         'OpenOwnHomeMenuItem
         '
         Me.OpenOwnHomeMenuItem.Name = "OpenOwnHomeMenuItem"
@@ -1439,6 +1438,26 @@ Partial Class TweenMain
         '
         Me.OpenOwnFavedMenuItem.Name = "OpenOwnFavedMenuItem"
         resources.ApplyResources(Me.OpenOwnFavedMenuItem, "OpenOwnFavedMenuItem")
+        '
+        'ToolStripSeparator41
+        '
+        Me.ToolStripSeparator41.Name = "ToolStripSeparator41"
+        resources.ApplyResources(Me.ToolStripSeparator41, "ToolStripSeparator41")
+        '
+        'UserStatusToolStripMenuItem
+        '
+        Me.UserStatusToolStripMenuItem.Name = "UserStatusToolStripMenuItem"
+        resources.ApplyResources(Me.UserStatusToolStripMenuItem, "UserStatusToolStripMenuItem")
+        '
+        'UserTimelineToolStripMenuItem
+        '
+        Me.UserTimelineToolStripMenuItem.Name = "UserTimelineToolStripMenuItem"
+        resources.ApplyResources(Me.UserTimelineToolStripMenuItem, "UserTimelineToolStripMenuItem")
+        '
+        'UserFavorareToolStripMenuItem
+        '
+        Me.UserFavorareToolStripMenuItem.Name = "UserFavorareToolStripMenuItem"
+        resources.ApplyResources(Me.UserFavorareToolStripMenuItem, "UserFavorareToolStripMenuItem")
         '
         'ToolStripSeparator34
         '
@@ -1839,23 +1858,10 @@ Partial Class TweenMain
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'UserTimelineToolStripMenuItem
+        'SelectionTranslationToolStripMenuItem
         '
-        Me.UserTimelineToolStripMenuItem.Name = "UserTimelineToolStripMenuItem"
-        resources.ApplyResources(Me.UserTimelineToolStripMenuItem, "UserTimelineToolStripMenuItem")
-        '
-        'StatusLabel
-        '
-        Me.StatusLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right
-        Me.StatusLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.StatusLabel.DoubleClickEnabled = True
-        Me.StatusLabel.Name = "StatusLabel"
-        resources.ApplyResources(Me.StatusLabel, "StatusLabel")
-        '
-        'UserFavorareToolStripMenuItem
-        '
-        Me.UserFavorareToolStripMenuItem.Name = "UserFavorareToolStripMenuItem"
-        resources.ApplyResources(Me.UserFavorareToolStripMenuItem, "UserFavorareToolStripMenuItem")
+        Me.SelectionTranslationToolStripMenuItem.Name = "SelectionTranslationToolStripMenuItem"
+        resources.ApplyResources(Me.SelectionTranslationToolStripMenuItem, "SelectionTranslationToolStripMenuItem")
         '
         'TweenMain
         '
@@ -2179,5 +2185,6 @@ Partial Class TweenMain
     Friend WithEvents ShowUserTimelineContextMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents UserTimelineToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents UserFavorareToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SelectionTranslationToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class
