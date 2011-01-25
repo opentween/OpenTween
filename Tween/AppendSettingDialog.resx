@@ -260,6 +260,62 @@
   <data name="&gt;&gt;SplitContainer1.Panel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="LabelApiUsingUserStreamEnabled.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LabelApiUsingUserStreamEnabled.Location" type="System.Drawing.Point, System.Drawing">
+    <value>22, 292</value>
+  </data>
+  <data name="LabelApiUsingUserStreamEnabled.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 12</value>
+  </data>
+  <data name="LabelApiUsingUserStreamEnabled.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="LabelApiUsingUserStreamEnabled.Text" xml:space="preserve">
+    <value>999</value>
+  </data>
+  <data name="&gt;&gt;LabelApiUsingUserStreamEnabled.Name" xml:space="preserve">
+    <value>LabelApiUsingUserStreamEnabled</value>
+  </data>
+  <data name="&gt;&gt;LabelApiUsingUserStreamEnabled.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LabelApiUsingUserStreamEnabled.Parent" xml:space="preserve">
+    <value>GetPeriodPanel</value>
+  </data>
+  <data name="&gt;&gt;LabelApiUsingUserStreamEnabled.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="LabelUserStreamActive.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LabelUserStreamActive.Location" type="System.Drawing.Point, System.Drawing">
+    <value>22, 245</value>
+  </data>
+  <data name="LabelUserStreamActive.Size" type="System.Drawing.Size, System.Drawing">
+    <value>348, 36</value>
+  </data>
+  <data name="LabelUserStreamActive.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="LabelUserStreamActive.Text" xml:space="preserve">
+    <value>UserStreamが有効です。
+タイムライン/Mentions/DMの定期更新、投稿時取得は停止しています。
+これらはUserStreamによりリアルタイム更新されます。</value>
+  </data>
+  <data name="&gt;&gt;LabelUserStreamActive.Name" xml:space="preserve">
+    <value>LabelUserStreamActive</value>
+  </data>
+  <data name="&gt;&gt;LabelUserStreamActive.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LabelUserStreamActive.Parent" xml:space="preserve">
+    <value>GetPeriodPanel</value>
+  </data>
+  <data name="&gt;&gt;LabelUserStreamActive.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="Label21.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -285,7 +341,7 @@
     <value>GetPeriodPanel</value>
   </data>
   <data name="&gt;&gt;Label21.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>2</value>
   </data>
   <data name="UserTimelinePeriod.Location" type="System.Drawing.Point, System.Drawing">
     <value>258, 163</value>
@@ -306,7 +362,7 @@
     <value>GetPeriodPanel</value>
   </data>
   <data name="&gt;&gt;UserTimelinePeriod.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="TimelinePeriod.Location" type="System.Drawing.Point, System.Drawing">
     <value>258, 21</value>
@@ -327,7 +383,7 @@
     <value>GetPeriodPanel</value>
   </data>
   <data name="&gt;&gt;TimelinePeriod.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="Label3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -357,13 +413,13 @@
     <value>GetPeriodPanel</value>
   </data>
   <data name="&gt;&gt;Label3.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>5</value>
   </data>
   <data name="ButtonApiCalc.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="ButtonApiCalc.Location" type="System.Drawing.Point, System.Drawing">
-    <value>120, 241</value>
+    <value>205, 323</value>
   </data>
   <data name="ButtonApiCalc.Size" type="System.Drawing.Size, System.Drawing">
     <value>108, 23</value>
@@ -384,7 +440,7 @@
     <value>GetPeriodPanel</value>
   </data>
   <data name="&gt;&gt;ButtonApiCalc.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>6</value>
   </data>
   <data name="LabelPostAndGet.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -393,7 +449,7 @@
     <value>NoControl</value>
   </data>
   <data name="LabelPostAndGet.Location" type="System.Drawing.Point, System.Drawing">
-    <value>27, 220</value>
+    <value>22, 220</value>
   </data>
   <data name="LabelPostAndGet.Size" type="System.Drawing.Size, System.Drawing">
     <value>285, 12</value>
@@ -414,7 +470,7 @@
     <value>GetPeriodPanel</value>
   </data>
   <data name="&gt;&gt;LabelPostAndGet.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>7</value>
   </data>
   <data name="LabelApiUsing.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -447,7 +503,7 @@
     <value>GetPeriodPanel</value>
   </data>
   <data name="&gt;&gt;LabelApiUsing.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>8</value>
   </data>
   <data name="Label33.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -456,7 +512,7 @@
     <value>NoControl</value>
   </data>
   <data name="Label33.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 138</value>
+    <value>22, 142</value>
   </data>
   <data name="Label33.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 12</value>
@@ -477,7 +533,7 @@
     <value>GetPeriodPanel</value>
   </data>
   <data name="&gt;&gt;Label33.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>9</value>
   </data>
   <data name="ListsPeriod.Location" type="System.Drawing.Point, System.Drawing">
     <value>258, 135</value>
@@ -498,7 +554,7 @@
     <value>GetPeriodPanel</value>
   </data>
   <data name="&gt;&gt;ListsPeriod.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>10</value>
   </data>
   <data name="Label7.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -507,7 +563,7 @@
     <value>NoControl</value>
   </data>
   <data name="Label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 114</value>
+    <value>22, 117</value>
   </data>
   <data name="Label7.Size" type="System.Drawing.Size, System.Drawing">
     <value>137, 12</value>
@@ -528,7 +584,7 @@
     <value>GetPeriodPanel</value>
   </data>
   <data name="&gt;&gt;Label7.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>11</value>
   </data>
   <data name="PubSearchPeriod.Location" type="System.Drawing.Point, System.Drawing">
     <value>258, 111</value>
@@ -549,7 +605,7 @@
     <value>GetPeriodPanel</value>
   </data>
   <data name="&gt;&gt;PubSearchPeriod.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>12</value>
   </data>
   <data name="Label69.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -558,7 +614,7 @@
     <value>NoControl</value>
   </data>
   <data name="Label69.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 66</value>
+    <value>22, 67</value>
   </data>
   <data name="Label69.Size" type="System.Drawing.Size, System.Drawing">
     <value>123, 12</value>
@@ -579,7 +635,7 @@
     <value>GetPeriodPanel</value>
   </data>
   <data name="&gt;&gt;Label69.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>13</value>
   </data>
   <data name="ReplyPeriod.Location" type="System.Drawing.Point, System.Drawing">
     <value>258, 63</value>
@@ -600,7 +656,7 @@
     <value>GetPeriodPanel</value>
   </data>
   <data name="&gt;&gt;ReplyPeriod.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>14</value>
   </data>
   <data name="CheckPostAndGet.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -630,7 +686,7 @@
     <value>GetPeriodPanel</value>
   </data>
   <data name="&gt;&gt;CheckPostAndGet.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>15</value>
   </data>
   <data name="CheckPeriodAdjust.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -663,7 +719,7 @@
     <value>GetPeriodPanel</value>
   </data>
   <data name="&gt;&gt;CheckPeriodAdjust.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>16</value>
   </data>
   <data name="Label5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -672,7 +728,7 @@
     <value>NoControl</value>
   </data>
   <data name="Label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 90</value>
+    <value>22, 92</value>
   </data>
   <data name="Label5.Size" type="System.Drawing.Size, System.Drawing">
     <value>94, 12</value>
@@ -693,7 +749,7 @@
     <value>GetPeriodPanel</value>
   </data>
   <data name="&gt;&gt;Label5.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>17</value>
   </data>
   <data name="DMPeriod.Location" type="System.Drawing.Point, System.Drawing">
     <value>258, 87</value>
@@ -714,7 +770,7 @@
     <value>GetPeriodPanel</value>
   </data>
   <data name="&gt;&gt;DMPeriod.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>18</value>
   </data>
   <data name="GetPeriodPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>

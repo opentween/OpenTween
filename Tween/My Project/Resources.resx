@@ -1054,4 +1054,7 @@
   <data name="TranslateDefaultLanguage" xml:space="preserve">
     <value>ja</value>
   </data>
+  <data name="SettingAPIUse2" xml:space="preserve">
+    <value>UserStream有効時の消費API数 :  {0} / h</value>
+  </data>
 </root>

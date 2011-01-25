@@ -26,6 +26,8 @@ Partial Class AppendSettingDialog
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.TreeViewSetting = New System.Windows.Forms.TreeView()
         Me.GetPeriodPanel = New System.Windows.Forms.Panel()
+        Me.LabelApiUsingUserStreamEnabled = New System.Windows.Forms.Label()
+        Me.LabelUserStreamActive = New System.Windows.Forms.Label()
         Me.Label21 = New System.Windows.Forms.Label()
         Me.UserTimelinePeriod = New System.Windows.Forms.TextBox()
         Me.TimelinePeriod = New System.Windows.Forms.TextBox()
@@ -328,6 +330,8 @@ Partial Class AppendSettingDialog
         '
         'GetPeriodPanel
         '
+        Me.GetPeriodPanel.Controls.Add(Me.LabelApiUsingUserStreamEnabled)
+        Me.GetPeriodPanel.Controls.Add(Me.LabelUserStreamActive)
         Me.GetPeriodPanel.Controls.Add(Me.Label21)
         Me.GetPeriodPanel.Controls.Add(Me.UserTimelinePeriod)
         Me.GetPeriodPanel.Controls.Add(Me.TimelinePeriod)
@@ -347,6 +351,16 @@ Partial Class AppendSettingDialog
         Me.GetPeriodPanel.Controls.Add(Me.DMPeriod)
         resources.ApplyResources(Me.GetPeriodPanel, "GetPeriodPanel")
         Me.GetPeriodPanel.Name = "GetPeriodPanel"
+        '
+        'LabelApiUsingUserStreamEnabled
+        '
+        resources.ApplyResources(Me.LabelApiUsingUserStreamEnabled, "LabelApiUsingUserStreamEnabled")
+        Me.LabelApiUsingUserStreamEnabled.Name = "LabelApiUsingUserStreamEnabled"
+        '
+        'LabelUserStreamActive
+        '
+        resources.ApplyResources(Me.LabelUserStreamActive, "LabelUserStreamActive")
+        Me.LabelUserStreamActive.Name = "LabelUserStreamActive"
         '
         'Label21
         '
@@ -2189,4 +2203,6 @@ Partial Class AppendSettingDialog
     Friend WithEvents Label29 As System.Windows.Forms.Label
     Friend WithEvents ComboBoxEventNotifySound As System.Windows.Forms.ComboBox
     Friend WithEvents Label35 As System.Windows.Forms.Label
+    Friend WithEvents LabelUserStreamActive As System.Windows.Forms.Label
+    Friend WithEvents LabelApiUsingUserStreamEnabled As System.Windows.Forms.Label
 End Class

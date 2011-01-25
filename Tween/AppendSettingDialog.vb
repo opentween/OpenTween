@@ -2168,6 +2168,9 @@ Public Class AppendSettingDialog
         Dim tmp As Integer
         Dim ListsTabNum As Integer = 0
         Dim UserTimelineTabNum As Integer = 0
+        Dim ApiLists As Integer = 0
+        Dim ApiUserTimeline As Integer = 0
+        Dim UsingApiUserStream As Integer = 0
 
         Try
             ' 初回起動時などにNothingの場合あり
@@ -2207,14 +2210,16 @@ Public Class AppendSettingDialog
         ' Listsタブ計算 0は手動更新
         If Integer.TryParse(ListsPeriod.Text, tmp) Then
             If tmp <> 0 Then
-                UsingApi += (3600 \ tmp) * ListsTabNum
+                ApiLists = (3600 \ tmp) * ListsTabNum
+                UsingApi += ApiLists
             End If
         End If
 
-        ' Listsタブ計算 0は手動更新
+        ' UserTimelineタブ計算 0は手動更新
         If Integer.TryParse(UserTimelinePeriod.Text, tmp) Then
             If tmp <> 0 Then
-                UsingApi += (3600 \ tmp) * UserTimelineTabNum
+                ApiUserTimeline = (3600 \ tmp) * UserTimelineTabNum
+                UsingApi += ApiUserTimeline
             End If
         End If
 
@@ -2236,8 +2241,11 @@ Public Class AppendSettingDialog
         End If
 
 
-        LabelPostAndGet.Visible = CheckPostAndGet.Checked
+        LabelPostAndGet.Visible = CheckPostAndGet.Checked AndAlso Not tw.UserStreamEnabled
+        LabelUserStreamActive.Visible = tw.UserStreamEnabled
 
+        LabelApiUsingUserStreamEnabled.Text = String.Format(My.Resources.SettingAPIUse2, (ApiLists + ApiUserTimeline).ToString)
+        LabelApiUsingUserStreamEnabled.Visible = tw.UserStreamEnabled
     End Sub
 
     Private Sub CheckPostAndGet_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckPostAndGet.CheckedChanged
