@@ -186,6 +186,15 @@ Namespace My.Resources
             End Get
         End Property
         
+        '''<summary>
+        '''  UserStream接続 :  に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ApiInfo7() As String
+            Get
+                Return ResourceManager.GetString("ApiInfo7", resourceCulture)
+            End Get
+        End Property
+        
         Friend ReadOnly Property At() As System.Drawing.Icon
             Get
                 Dim obj As Object = ResourceManager.GetObject("At", resourceCulture)
@@ -779,6 +788,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  無効 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property Disable() As String
+            Get
+                Return ResourceManager.GetString("Disable", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  更新間隔には数値（0または15～6000）を指定してください。 に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property DMPeriod_ValidatingText1() As String
@@ -829,6 +847,15 @@ Namespace My.Resources
         Friend ReadOnly Property DoTabSearchText3() As String
             Get
                 Return ResourceManager.GetString("DoTabSearchText3", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  有効 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property Enable() As String
+            Get
+                Return ResourceManager.GetString("Enable", resourceCulture)
             End Get
         End Property
         
