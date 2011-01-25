@@ -2165,6 +2165,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  UserStream有効時の消費API数 :  {0} / h に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property SettingAPIUse2() As String
+            Get
+                Return ResourceManager.GetString("SettingAPIUse2", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  IDとAPIキーの組み合わせが違います。IDと同時に設定するのはパスワードではなくAPIキーです。ご確認ください。 に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property SettingSave_ClickText1() As String
