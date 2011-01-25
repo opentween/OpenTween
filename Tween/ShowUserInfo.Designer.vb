@@ -81,140 +81,120 @@ Partial Class ShowUserInfo
         '
         'ButtonClose
         '
-        resources.ApplyResources(Me.ButtonClose, "ButtonClose")
         Me.ButtonClose.DialogResult = System.Windows.Forms.DialogResult.Cancel
+        resources.ApplyResources(Me.ButtonClose, "ButtonClose")
         Me.ButtonClose.Name = "ButtonClose"
-        Me.ToolTip1.SetToolTip(Me.ButtonClose, resources.GetString("ButtonClose.ToolTip"))
         Me.ButtonClose.UseVisualStyleBackColor = True
         '
         'Label1
         '
         resources.ApplyResources(Me.Label1, "Label1")
         Me.Label1.Name = "Label1"
-        Me.ToolTip1.SetToolTip(Me.Label1, resources.GetString("Label1.ToolTip"))
         Me.Label1.UseMnemonic = False
         '
         'Label2
         '
         resources.ApplyResources(Me.Label2, "Label2")
         Me.Label2.Name = "Label2"
-        Me.ToolTip1.SetToolTip(Me.Label2, resources.GetString("Label2.ToolTip"))
         '
         'Label3
         '
         resources.ApplyResources(Me.Label3, "Label3")
         Me.Label3.Name = "Label3"
-        Me.ToolTip1.SetToolTip(Me.Label3, resources.GetString("Label3.ToolTip"))
         '
         'Label4
         '
         resources.ApplyResources(Me.Label4, "Label4")
         Me.Label4.Name = "Label4"
-        Me.ToolTip1.SetToolTip(Me.Label4, resources.GetString("Label4.ToolTip"))
         '
         'LinkLabelWeb
         '
-        resources.ApplyResources(Me.LinkLabelWeb, "LinkLabelWeb")
         Me.LinkLabelWeb.AutoEllipsis = True
         Me.LinkLabelWeb.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        resources.ApplyResources(Me.LinkLabelWeb, "LinkLabelWeb")
         Me.LinkLabelWeb.Name = "LinkLabelWeb"
         Me.LinkLabelWeb.TabStop = True
-        Me.ToolTip1.SetToolTip(Me.LinkLabelWeb, resources.GetString("LinkLabelWeb.ToolTip"))
         Me.LinkLabelWeb.UseMnemonic = False
         '
         'LabelLocation
         '
-        resources.ApplyResources(Me.LabelLocation, "LabelLocation")
         Me.LabelLocation.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        resources.ApplyResources(Me.LabelLocation, "LabelLocation")
         Me.LabelLocation.Name = "LabelLocation"
-        Me.ToolTip1.SetToolTip(Me.LabelLocation, resources.GetString("LabelLocation.ToolTip"))
         Me.LabelLocation.UseMnemonic = False
         '
         'LabelName
         '
-        resources.ApplyResources(Me.LabelName, "LabelName")
         Me.LabelName.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        resources.ApplyResources(Me.LabelName, "LabelName")
         Me.LabelName.Name = "LabelName"
-        Me.ToolTip1.SetToolTip(Me.LabelName, resources.GetString("LabelName.ToolTip"))
         Me.LabelName.UseMnemonic = False
         '
         'Label5
         '
         resources.ApplyResources(Me.Label5, "Label5")
         Me.Label5.Name = "Label5"
-        Me.ToolTip1.SetToolTip(Me.Label5, resources.GetString("Label5.ToolTip"))
         '
         'Label6
         '
         resources.ApplyResources(Me.Label6, "Label6")
         Me.Label6.Name = "Label6"
-        Me.ToolTip1.SetToolTip(Me.Label6, resources.GetString("Label6.ToolTip"))
         '
         'LinkLabelFollowing
         '
         resources.ApplyResources(Me.LinkLabelFollowing, "LinkLabelFollowing")
         Me.LinkLabelFollowing.Name = "LinkLabelFollowing"
         Me.LinkLabelFollowing.TabStop = True
-        Me.ToolTip1.SetToolTip(Me.LinkLabelFollowing, resources.GetString("LinkLabelFollowing.ToolTip"))
         '
         'LinkLabelFollowers
         '
         resources.ApplyResources(Me.LinkLabelFollowers, "LinkLabelFollowers")
         Me.LinkLabelFollowers.Name = "LinkLabelFollowers"
         Me.LinkLabelFollowers.TabStop = True
-        Me.ToolTip1.SetToolTip(Me.LinkLabelFollowers, resources.GetString("LinkLabelFollowers.ToolTip"))
         '
         'Label7
         '
         resources.ApplyResources(Me.Label7, "Label7")
         Me.Label7.Name = "Label7"
-        Me.ToolTip1.SetToolTip(Me.Label7, resources.GetString("Label7.ToolTip"))
         '
         'LabelCreatedAt
         '
         resources.ApplyResources(Me.LabelCreatedAt, "LabelCreatedAt")
         Me.LabelCreatedAt.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.LabelCreatedAt.Name = "LabelCreatedAt"
-        Me.ToolTip1.SetToolTip(Me.LabelCreatedAt, resources.GetString("LabelCreatedAt.ToolTip"))
         '
         'Label8
         '
         resources.ApplyResources(Me.Label8, "Label8")
         Me.Label8.Name = "Label8"
-        Me.ToolTip1.SetToolTip(Me.Label8, resources.GetString("Label8.ToolTip"))
         '
         'LinkLabelTweet
         '
         resources.ApplyResources(Me.LinkLabelTweet, "LinkLabelTweet")
         Me.LinkLabelTweet.Name = "LinkLabelTweet"
         Me.LinkLabelTweet.TabStop = True
-        Me.ToolTip1.SetToolTip(Me.LinkLabelTweet, resources.GetString("LinkLabelTweet.ToolTip"))
         '
         'Label9
         '
         resources.ApplyResources(Me.Label9, "Label9")
         Me.Label9.Name = "Label9"
-        Me.ToolTip1.SetToolTip(Me.Label9, resources.GetString("Label9.ToolTip"))
         '
         'LinkLabelFav
         '
         resources.ApplyResources(Me.LinkLabelFav, "LinkLabelFav")
         Me.LinkLabelFav.Name = "LinkLabelFav"
         Me.LinkLabelFav.TabStop = True
-        Me.ToolTip1.SetToolTip(Me.LinkLabelFav, resources.GetString("LinkLabelFav.ToolTip"))
         '
         'ButtonFollow
         '
         resources.ApplyResources(Me.ButtonFollow, "ButtonFollow")
         Me.ButtonFollow.Name = "ButtonFollow"
-        Me.ToolTip1.SetToolTip(Me.ButtonFollow, resources.GetString("ButtonFollow.ToolTip"))
         Me.ButtonFollow.UseVisualStyleBackColor = True
         '
         'ButtonUnFollow
         '
         resources.ApplyResources(Me.ButtonUnFollow, "ButtonUnFollow")
         Me.ButtonUnFollow.Name = "ButtonUnFollow"
-        Me.ToolTip1.SetToolTip(Me.ButtonUnFollow, resources.GetString("ButtonUnFollow.ToolTip"))
         Me.ButtonUnFollow.UseVisualStyleBackColor = True
         '
         'LabelIsProtected
@@ -222,52 +202,46 @@ Partial Class ShowUserInfo
         resources.ApplyResources(Me.LabelIsProtected, "LabelIsProtected")
         Me.LabelIsProtected.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.LabelIsProtected.Name = "LabelIsProtected"
-        Me.ToolTip1.SetToolTip(Me.LabelIsProtected, resources.GetString("LabelIsProtected.ToolTip"))
         '
         'LabelIsFollowing
         '
         resources.ApplyResources(Me.LabelIsFollowing, "LabelIsFollowing")
         Me.LabelIsFollowing.Name = "LabelIsFollowing"
-        Me.ToolTip1.SetToolTip(Me.LabelIsFollowing, resources.GetString("LabelIsFollowing.ToolTip"))
         '
         'LabelIsFollowed
         '
         resources.ApplyResources(Me.LabelIsFollowed, "LabelIsFollowed")
         Me.LabelIsFollowed.Name = "LabelIsFollowed"
-        Me.ToolTip1.SetToolTip(Me.LabelIsFollowed, resources.GetString("LabelIsFollowed.ToolTip"))
         '
         'UserPicture
         '
-        resources.ApplyResources(Me.UserPicture, "UserPicture")
         Me.UserPicture.BackColor = System.Drawing.Color.White
         Me.UserPicture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.UserPicture.ContextMenuStrip = Me.ContextMenuUserPicture
+        resources.ApplyResources(Me.UserPicture, "UserPicture")
         Me.UserPicture.Name = "UserPicture"
         Me.UserPicture.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.UserPicture, resources.GetString("UserPicture.ToolTip"))
         '
         'ContextMenuUserPicture
         '
-        resources.ApplyResources(Me.ContextMenuUserPicture, "ContextMenuUserPicture")
         Me.ContextMenuUserPicture.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ChangeIconToolStripMenuItem})
         Me.ContextMenuUserPicture.Name = "ContextMenuStrip2"
-        Me.ToolTip1.SetToolTip(Me.ContextMenuUserPicture, resources.GetString("ContextMenuUserPicture.ToolTip"))
+        resources.ApplyResources(Me.ContextMenuUserPicture, "ContextMenuUserPicture")
         '
         'ChangeIconToolStripMenuItem
         '
-        resources.ApplyResources(Me.ChangeIconToolStripMenuItem, "ChangeIconToolStripMenuItem")
         Me.ChangeIconToolStripMenuItem.Name = "ChangeIconToolStripMenuItem"
+        resources.ApplyResources(Me.ChangeIconToolStripMenuItem, "ChangeIconToolStripMenuItem")
         '
         'BackgroundWorkerImageLoader
         '
         '
         'LabelScreenName
         '
-        resources.ApplyResources(Me.LabelScreenName, "LabelScreenName")
         Me.LabelScreenName.BackColor = System.Drawing.SystemColors.ButtonHighlight
         Me.LabelScreenName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        resources.ApplyResources(Me.LabelScreenName, "LabelScreenName")
         Me.LabelScreenName.Name = "LabelScreenName"
-        Me.ToolTip1.SetToolTip(Me.LabelScreenName, resources.GetString("LabelScreenName.ToolTip"))
         '
         'ToolTip1
         '
@@ -278,43 +252,38 @@ Partial Class ShowUserInfo
         resources.ApplyResources(Me.LinkLabel1, "LinkLabel1")
         Me.LinkLabel1.Name = "LinkLabel1"
         Me.LinkLabel1.TabStop = True
-        Me.ToolTip1.SetToolTip(Me.LinkLabel1, resources.GetString("LinkLabel1.ToolTip"))
         '
         'ContextMenuRecentPostBrowser
         '
-        resources.ApplyResources(Me.ContextMenuRecentPostBrowser, "ContextMenuRecentPostBrowser")
         Me.ContextMenuRecentPostBrowser.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectionCopyToolStripMenuItem, Me.SelectAllToolStripMenuItem})
         Me.ContextMenuRecentPostBrowser.Name = "ContextMenuStrip1"
-        Me.ToolTip1.SetToolTip(Me.ContextMenuRecentPostBrowser, resources.GetString("ContextMenuRecentPostBrowser.ToolTip"))
+        resources.ApplyResources(Me.ContextMenuRecentPostBrowser, "ContextMenuRecentPostBrowser")
         '
         'SelectionCopyToolStripMenuItem
         '
-        resources.ApplyResources(Me.SelectionCopyToolStripMenuItem, "SelectionCopyToolStripMenuItem")
         Me.SelectionCopyToolStripMenuItem.Name = "SelectionCopyToolStripMenuItem"
+        resources.ApplyResources(Me.SelectionCopyToolStripMenuItem, "SelectionCopyToolStripMenuItem")
         '
         'SelectAllToolStripMenuItem
         '
-        resources.ApplyResources(Me.SelectAllToolStripMenuItem, "SelectAllToolStripMenuItem")
         Me.SelectAllToolStripMenuItem.Name = "SelectAllToolStripMenuItem"
+        resources.ApplyResources(Me.SelectAllToolStripMenuItem, "SelectAllToolStripMenuItem")
         '
         'LabelRecentPost
         '
         resources.ApplyResources(Me.LabelRecentPost, "LabelRecentPost")
         Me.LabelRecentPost.Name = "LabelRecentPost"
-        Me.ToolTip1.SetToolTip(Me.LabelRecentPost, resources.GetString("LabelRecentPost.ToolTip"))
         '
         'LabelIsVerified
         '
         resources.ApplyResources(Me.LabelIsVerified, "LabelIsVerified")
         Me.LabelIsVerified.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.LabelIsVerified.Name = "LabelIsVerified"
-        Me.ToolTip1.SetToolTip(Me.LabelIsVerified, resources.GetString("LabelIsVerified.ToolTip"))
         '
         'ButtonSearchPosts
         '
         resources.ApplyResources(Me.ButtonSearchPosts, "ButtonSearchPosts")
         Me.ButtonSearchPosts.Name = "ButtonSearchPosts"
-        Me.ToolTip1.SetToolTip(Me.ButtonSearchPosts, resources.GetString("ButtonSearchPosts.ToolTip"))
         Me.ButtonSearchPosts.UseVisualStyleBackColor = True
         '
         'LabelId
@@ -322,44 +291,39 @@ Partial Class ShowUserInfo
         resources.ApplyResources(Me.LabelId, "LabelId")
         Me.LabelId.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.LabelId.Name = "LabelId"
-        Me.ToolTip1.SetToolTip(Me.LabelId, resources.GetString("LabelId.ToolTip"))
         '
         'Label12
         '
         resources.ApplyResources(Me.Label12, "Label12")
         Me.Label12.Name = "Label12"
-        Me.ToolTip1.SetToolTip(Me.Label12, resources.GetString("Label12.ToolTip"))
         '
         'ButtonEdit
         '
         resources.ApplyResources(Me.ButtonEdit, "ButtonEdit")
         Me.ButtonEdit.Name = "ButtonEdit"
-        Me.ToolTip1.SetToolTip(Me.ButtonEdit, resources.GetString("ButtonEdit.ToolTip"))
         Me.ButtonEdit.UseVisualStyleBackColor = True
         '
         'RecentPostBrowser
         '
-        resources.ApplyResources(Me.RecentPostBrowser, "RecentPostBrowser")
         Me.RecentPostBrowser.AllowWebBrowserDrop = False
         Me.RecentPostBrowser.ContextMenuStrip = Me.ContextMenuRecentPostBrowser
         Me.RecentPostBrowser.IsWebBrowserContextMenuEnabled = False
+        resources.ApplyResources(Me.RecentPostBrowser, "RecentPostBrowser")
         Me.RecentPostBrowser.MinimumSize = New System.Drawing.Size(20, 20)
         Me.RecentPostBrowser.Name = "RecentPostBrowser"
         Me.RecentPostBrowser.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.RecentPostBrowser, resources.GetString("RecentPostBrowser.ToolTip"))
         Me.RecentPostBrowser.Url = New System.Uri("about:blank", System.UriKind.Absolute)
         Me.RecentPostBrowser.WebBrowserShortcutsEnabled = False
         '
         'DescriptionBrowser
         '
-        resources.ApplyResources(Me.DescriptionBrowser, "DescriptionBrowser")
         Me.DescriptionBrowser.AllowWebBrowserDrop = False
         Me.DescriptionBrowser.ContextMenuStrip = Me.ContextMenuRecentPostBrowser
         Me.DescriptionBrowser.IsWebBrowserContextMenuEnabled = False
+        resources.ApplyResources(Me.DescriptionBrowser, "DescriptionBrowser")
         Me.DescriptionBrowser.MinimumSize = New System.Drawing.Size(20, 20)
         Me.DescriptionBrowser.Name = "DescriptionBrowser"
         Me.DescriptionBrowser.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.DescriptionBrowser, resources.GetString("DescriptionBrowser.ToolTip"))
         Me.DescriptionBrowser.Url = New System.Uri("about:blank", System.UriKind.Absolute)
         Me.DescriptionBrowser.WebBrowserShortcutsEnabled = False
         '
@@ -368,48 +332,41 @@ Partial Class ShowUserInfo
         resources.ApplyResources(Me.TextBoxName, "TextBoxName")
         Me.TextBoxName.Name = "TextBoxName"
         Me.TextBoxName.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.TextBoxName, resources.GetString("TextBoxName.ToolTip"))
         '
         'TextBoxLocation
         '
         resources.ApplyResources(Me.TextBoxLocation, "TextBoxLocation")
         Me.TextBoxLocation.Name = "TextBoxLocation"
         Me.TextBoxLocation.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.TextBoxLocation, resources.GetString("TextBoxLocation.ToolTip"))
         '
         'TextBoxWeb
         '
         resources.ApplyResources(Me.TextBoxWeb, "TextBoxWeb")
         Me.TextBoxWeb.Name = "TextBoxWeb"
         Me.TextBoxWeb.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.TextBoxWeb, resources.GetString("TextBoxWeb.ToolTip"))
         '
         'TextBoxDescription
         '
         resources.ApplyResources(Me.TextBoxDescription, "TextBoxDescription")
         Me.TextBoxDescription.Name = "TextBoxDescription"
         Me.TextBoxDescription.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.TextBoxDescription, resources.GetString("TextBoxDescription.ToolTip"))
         '
         'ButtonBlock
         '
         resources.ApplyResources(Me.ButtonBlock, "ButtonBlock")
         Me.ButtonBlock.Name = "ButtonBlock"
-        Me.ToolTip1.SetToolTip(Me.ButtonBlock, resources.GetString("ButtonBlock.ToolTip"))
         Me.ButtonBlock.UseVisualStyleBackColor = True
         '
         'ButtonReportSpam
         '
         resources.ApplyResources(Me.ButtonReportSpam, "ButtonReportSpam")
         Me.ButtonReportSpam.Name = "ButtonReportSpam"
-        Me.ToolTip1.SetToolTip(Me.ButtonReportSpam, resources.GetString("ButtonReportSpam.ToolTip"))
         Me.ButtonReportSpam.UseVisualStyleBackColor = True
         '
         'ButtonBlockDestroy
         '
         resources.ApplyResources(Me.ButtonBlockDestroy, "ButtonBlockDestroy")
         Me.ButtonBlockDestroy.Name = "ButtonBlockDestroy"
-        Me.ToolTip1.SetToolTip(Me.ButtonBlockDestroy, resources.GetString("ButtonBlockDestroy.ToolTip"))
         Me.ButtonBlockDestroy.UseVisualStyleBackColor = True
         '
         'LinkLabel2
@@ -417,17 +374,15 @@ Partial Class ShowUserInfo
         resources.ApplyResources(Me.LinkLabel2, "LinkLabel2")
         Me.LinkLabel2.Name = "LinkLabel2"
         Me.LinkLabel2.TabStop = True
-        Me.ToolTip1.SetToolTip(Me.LinkLabel2, resources.GetString("LinkLabel2.ToolTip"))
         '
         'OpenFileDialogIcon
         '
         Me.OpenFileDialogIcon.FileName = "OpenFileDialog1"
-        resources.ApplyResources(Me.OpenFileDialogIcon, "OpenFileDialogIcon")
         '
         'ShowUserInfo
         '
-        resources.ApplyResources(Me, "$this")
         Me.AllowDrop = True
+        resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.ButtonClose
         Me.Controls.Add(Me.LinkLabel2)
@@ -478,7 +433,6 @@ Partial Class ShowUserInfo
         Me.Name = "ShowUserInfo"
         Me.ShowIcon = False
         Me.ShowInTaskbar = False
-        Me.ToolTip1.SetToolTip(Me, resources.GetString("$this.ToolTip"))
         Me.TopMost = True
         CType(Me.UserPicture, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ContextMenuUserPicture.ResumeLayout(False)
