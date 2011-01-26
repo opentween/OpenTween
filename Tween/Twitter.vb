@@ -1348,8 +1348,8 @@ Public Class Twitter
             Case HttpStatusCode.OK
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
-                Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Twitter.AccountState = ACCOUNT_STATE.Valid
+                Return "Err:@" + userName + "'s Tweets are protected."
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
