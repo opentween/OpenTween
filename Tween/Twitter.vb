@@ -2740,6 +2740,7 @@ Public Class Twitter
         Public Property Username As String
         Public Property Target As String
         Public Property Id As Int64
+        Public Property IsMe As Boolean
     End Class
 
     Public Property StoredEvent As New List(Of FormattedEvent)
@@ -2904,6 +2905,7 @@ Public Class Twitter
         evt.CreatedAt = DateTimeParse(eventData.CreatedAt)
         evt.Event = eventData.Event
         evt.Username = eventData.Source.ScreenName
+        evt.IsMe = evt.Username.ToLower().Equals(Me.Username.ToLower())
         evt.Eventtype = EventNameToEventType(evt.Event)
         Select Case eventData.Event
             Case "follow"

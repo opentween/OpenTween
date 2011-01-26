@@ -28,6 +28,7 @@ Partial Class EventViewerDialog
         Me.ColumnHeader2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ColumnHeader3 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ColumnHeader4 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.CheckExcludeMyEvent = New System.Windows.Forms.CheckBox()
         Me.SuspendLayout()
         '
         'OK_Button
@@ -74,12 +75,23 @@ Partial Class EventViewerDialog
         Me.ColumnHeader4.Text = "Target"
         Me.ColumnHeader4.Width = 360
         '
+        'CheckExcludeMyEvent
+        '
+        Me.CheckExcludeMyEvent.AutoSize = True
+        Me.CheckExcludeMyEvent.Location = New System.Drawing.Point(12, 261)
+        Me.CheckExcludeMyEvent.Name = "CheckExcludeMyEvent"
+        Me.CheckExcludeMyEvent.Size = New System.Drawing.Size(178, 16)
+        Me.CheckExcludeMyEvent.TabIndex = 2
+        Me.CheckExcludeMyEvent.Text = "自分で発生させたイベントを除外"
+        Me.CheckExcludeMyEvent.UseVisualStyleBackColor = True
+        '
         'EventViewerDialog
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.OK_Button
         Me.ClientSize = New System.Drawing.Size(691, 291)
+        Me.Controls.Add(Me.CheckExcludeMyEvent)
         Me.Controls.Add(Me.OK_Button)
         Me.Controls.Add(Me.EventList)
         Me.DoubleBuffered = True
@@ -91,6 +103,7 @@ Partial Class EventViewerDialog
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Events"
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
     Friend WithEvents OK_Button As System.Windows.Forms.Button
@@ -99,5 +112,6 @@ Partial Class EventViewerDialog
     Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader4 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents CheckExcludeMyEvent As System.Windows.Forms.CheckBox
 
 End Class

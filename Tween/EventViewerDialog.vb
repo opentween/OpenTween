@@ -24,6 +24,7 @@
 ' Boston, MA 02110-1301, USA.
 
 Imports System.Windows.Forms
+Imports System.Linq
 
 Public Class EventViewerDialog
     Public Property EventSource As List(Of Twitter.FormattedEvent)
@@ -38,15 +39,19 @@ Public Class EventViewerDialog
         Me.Close()
     End Sub
 
+    Private Function CreateListViewItemArray(ByVal source As Generic.List(Of Twitter.FormattedEvent)) As ListViewItem()
+        Dim items As New Generic.List(Of ListViewItem)
+        For Each x As Twitter.FormattedEvent In source
+            Dim s() As String = {x.CreatedAt.ToString, x.Event.ToUpper, x.Username, x.Target}
+            items.Add(New ListViewItem(s))
+        Next
+        Return items.ToArray()
+    End Function
+
     Private Sub EventViewerDialog_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
         If EventSource IsNot Nothing AndAlso EventSource.Count > 0 Then
-            Dim items As New Generic.List(Of ListViewItem)
-            For Each x As Twitter.FormattedEvent In EventSource
-                Dim s() As String = {x.CreatedAt.ToString, x.Event.ToUpper, x.Username, x.Target}
-                items.Add(New ListViewItem(s))
-            Next
             EventList.BeginUpdate()
-            EventList.Items.AddRange(items.ToArray())
+            EventList.Items.AddRange(CreateListViewItemArray(EventSource))
             Me.EventList.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent)
             EventList.EndUpdate()
         End If
@@ -60,5 +65,16 @@ Public Class EventViewerDialog
                 End If
             End If
         End If
+    End Sub
+
+    Private Sub CheckExcludeMyEvent_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckExcludeMyEvent.CheckedChanged
+        EventList.BeginUpdate()
+        EventList.Items.Clear()
+        If EventSource IsNot Nothing AndAlso EventSource.Count > 0 Then
+            EventList.Items.AddRange(
+                CreateListViewItemArray((From x As Twitter.FormattedEvent In EventSource
+                                        Where If(CheckExcludeMyEvent.Checked, Not x.IsMe, True) Select x).ToList()))
+        End If
+        EventList.EndUpdate()
     End Sub
 End Class
