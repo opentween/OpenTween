@@ -2456,7 +2456,11 @@ Public Class AppendSettingDialog
         End If
     End Sub
 
-    Private Sub CheckEventNotify_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckEventNotify.CheckedChanged
+    Private Sub CheckEventNotify_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) _
+                    Handles CheckEventNotify.CheckedChanged, CheckFavoritesEvent.CheckedChanged, _
+                            CheckUnfavoritesEvent.CheckedChanged, CheckFollowEvent.CheckedChanged, _
+                            CheckListMemberAddedEvent.CheckedChanged, CheckListMemberRemovedEvent.CheckedChanged, _
+                            CheckListCreatedEvent.CheckedChanged, CheckUserUpdateEvent.CheckedChanged
         _MyEventNotifyEnabled = CheckEventNotify.Checked
         _MyEventNotifyFlag = GetEventNotifyFlag()
         ApplyEventNotifyFlag(_MyEventNotifyEnabled, _MyEventNotifyFlag)
@@ -2487,6 +2491,10 @@ Public Class AppendSettingDialog
 
         If CheckBlockEvent.Checked Then
             evt = evt Or EVENTTYPE.Block
+        End If
+
+        If CheckUserUpdateEvent.Checked Then
+            evt = evt Or EVENTTYPE.UserUpdate
         End If
 
         If CheckDeleteEvent.Checked Then
