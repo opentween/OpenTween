@@ -29,6 +29,7 @@ Partial Class EventViewerDialog
         Me.ColumnHeader3 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ColumnHeader4 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.CheckExcludeMyEvent = New System.Windows.Forms.CheckBox()
+        Me.ButtonRefresh = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'OK_Button
@@ -85,12 +86,22 @@ Partial Class EventViewerDialog
         Me.CheckExcludeMyEvent.Text = "自分で発生させたイベントを除外"
         Me.CheckExcludeMyEvent.UseVisualStyleBackColor = True
         '
+        'ButtonRefresh
+        '
+        Me.ButtonRefresh.Location = New System.Drawing.Point(472, 258)
+        Me.ButtonRefresh.Name = "ButtonRefresh"
+        Me.ButtonRefresh.Size = New System.Drawing.Size(134, 21)
+        Me.ButtonRefresh.TabIndex = 3
+        Me.ButtonRefresh.Text = "最新の情報に更新"
+        Me.ButtonRefresh.UseVisualStyleBackColor = True
+        '
         'EventViewerDialog
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.OK_Button
         Me.ClientSize = New System.Drawing.Size(691, 291)
+        Me.Controls.Add(Me.ButtonRefresh)
         Me.Controls.Add(Me.CheckExcludeMyEvent)
         Me.Controls.Add(Me.OK_Button)
         Me.Controls.Add(Me.EventList)
@@ -113,5 +124,6 @@ Partial Class EventViewerDialog
     Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader4 As System.Windows.Forms.ColumnHeader
     Friend WithEvents CheckExcludeMyEvent As System.Windows.Forms.CheckBox
+    Friend WithEvents ButtonRefresh As System.Windows.Forms.Button
 
 End Class

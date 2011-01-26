@@ -68,13 +68,22 @@ Public Class EventViewerDialog
     End Sub
 
     Private Sub CheckExcludeMyEvent_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckExcludeMyEvent.CheckedChanged
-        EventList.BeginUpdate()
-        EventList.Items.Clear()
         If EventSource IsNot Nothing AndAlso EventSource.Count > 0 Then
+            EventList.BeginUpdate()
+            EventList.Items.Clear()
             EventList.Items.AddRange(
                 CreateListViewItemArray((From x As Twitter.FormattedEvent In EventSource
                                         Where If(CheckExcludeMyEvent.Checked, Not x.IsMe, True) Select x).ToList()))
+            EventList.EndUpdate()
         End If
-        EventList.EndUpdate()
+    End Sub
+
+    Private Sub ButtonRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonRefresh.Click
+        If EventSource IsNot Nothing AndAlso EventSource.Count > 0 Then
+            EventList.BeginUpdate()
+            EventList.Items.Clear()
+            EventList.Items.AddRange(CreateListViewItemArray(EventSource))
+            EventList.EndUpdate()
+        End If
     End Sub
 End Class
