@@ -25,6 +25,8 @@
 
 Imports System.Windows.Forms
 Imports System.Linq
+Imports System.Text.RegularExpressions
+Imports System
 
 Public Class EventViewerDialog
     Public Property EventSource As List(Of Twitter.FormattedEvent)
@@ -68,13 +70,37 @@ Public Class EventViewerDialog
         End If
     End Sub
 
+    Private Function ParseEventTypeFromTag() As EVENTTYPE
+        Return DirectCast([Enum].Parse(GetType(EVENTTYPE), _curTab.Tag.ToString()), EVENTTYPE)
+    End Function
+
+    Private Function IsFilterMatch(ByVal x As Twitter.FormattedEvent) As Boolean
+        If Not CheckBoxFilter.Checked OrElse String.IsNullOrEmpty(TextBoxKeyword.Text) Then
+            Return True
+        Else
+            If CheckRegex.Checked Then
+                Try
+                    Dim rx As New Regex(TextBoxKeyword.Text)
+                    Return rx.Match(x.Username).Success OrElse rx.Match(x.Target).Success
+                Catch ex As Exception
+                    Return False
+                End Try
+            Else
+                Return x.Username.Contains(TextBoxKeyword.Text) OrElse x.Target.Contains(TextBoxKeyword.Text)
+            End If
+        End If
+    End Function
+
     Private Sub EventListUpdate()
         If EventSource IsNot Nothing AndAlso EventSource.Count > 0 Then
+            Dim matchDelegate As New Func(Of Twitter.FormattedEvent, Boolean)(AddressOf IsFilterMatch)
             EventList.BeginUpdate()
             EventList.Items.Clear()
             EventList.Items.AddRange(
                 CreateListViewItemArray((From x As Twitter.FormattedEvent In EventSource
-                                        Where If(CheckExcludeMyEvent.Checked, Not x.IsMe, True) AndAlso CBool((x.Eventtype And DirectCast([Enum].Parse(GetType(EVENTTYPE), _curTab.Tag.ToString()), EVENTTYPE)))
+                                        Where If(CheckExcludeMyEvent.Checked, Not x.IsMe, True)
+                                        Where CBool(x.Eventtype And ParseEventTypeFromTag())
+                                        Where matchDelegate(x)
                                         Select x).ToList()))
             EventList.EndUpdate()
         End If
@@ -96,7 +122,7 @@ Public Class EventViewerDialog
 
     Private _curTab As TabPage = Nothing
 
-    Private Sub TabEventType_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TabEventType.SelectedIndexChanged
+    Private Sub TabEventType_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TabEventType.SelectedIndexChanged, CheckBoxFilter.CheckedChanged
         EventListUpdate()
     End Sub
 
@@ -104,6 +130,13 @@ Public Class EventViewerDialog
         _curTab = e.TabPage
         If Not e.TabPage.Controls.Contains(EventList) Then
             e.TabPage.Controls.Add(EventList)
+        End If
+    End Sub
+
+    Private Sub TextBoxKeyword_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TextBoxKeyword.KeyPress
+        If e.KeyChar = ChrW(Keys.Enter) Then
+            EventListUpdate()
+            e.Handled = True
         End If
     End Sub
 End Class
