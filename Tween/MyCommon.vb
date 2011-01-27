@@ -178,7 +178,7 @@ Public Module MyCommon
         Deleted = 256
         ListCreated = 512
 
-        ALL = (None Or Favorite Or Unfavorite Or Follow Or ListMemberAdded Or ListMemberRemoved Or _
+        All = (None Or Favorite Or Unfavorite Or Follow Or ListMemberAdded Or ListMemberRemoved Or _
                Block Or Unblock Or UserUpdate Or Deleted Or ListCreated)
     End Enum
 
