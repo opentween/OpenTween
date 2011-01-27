@@ -57,7 +57,7 @@ Public Class EventViewerDialog
         End If
     End Sub
 
-    Private Sub EventList_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EventList.DoubleClick
+    Private Sub EventList_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If EventSource IsNot Nothing AndAlso EventSource.Count > 0 Then
             If EventSource(EventList.SelectedIndices(0)) IsNot Nothing Then
                 If Me.Owner IsNot Nothing Then
@@ -67,15 +67,21 @@ Public Class EventViewerDialog
         End If
     End Sub
 
-    Private Sub CheckExcludeMyEvent_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckExcludeMyEvent.CheckedChanged
+    Private Sub EventListUpdate()
         If EventSource IsNot Nothing AndAlso EventSource.Count > 0 Then
             EventList.BeginUpdate()
             EventList.Items.Clear()
             EventList.Items.AddRange(
                 CreateListViewItemArray((From x As Twitter.FormattedEvent In EventSource
-                                        Where If(CheckExcludeMyEvent.Checked, Not x.IsMe, True) Select x).ToList()))
+                                        Where If(CheckExcludeMyEvent.Checked, Not x.IsMe, True) AndAlso CBool((x.Eventtype And DirectCast([Enum].Parse(GetType(EVENTTYPE), _curTab.Tag.ToString()), EVENTTYPE)))
+                                        Select x).ToList()))
             EventList.EndUpdate()
         End If
+    End Sub
+
+
+    Private Sub CheckExcludeMyEvent_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckExcludeMyEvent.CheckedChanged
+        EventListUpdate()
     End Sub
 
     Private Sub ButtonRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonRefresh.Click
@@ -84,6 +90,19 @@ Public Class EventViewerDialog
             EventList.Items.Clear()
             EventList.Items.AddRange(CreateListViewItemArray(EventSource))
             EventList.EndUpdate()
+        End If
+    End Sub
+
+    Private _curTab As TabPage = Nothing
+
+    Private Sub TabEventType_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TabEventType.SelectedIndexChanged
+        EventListUpdate()
+    End Sub
+
+    Private Sub TabEventType_Selecting(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TabControlCancelEventArgs) Handles TabEventType.Selecting
+        _curTab = e.TabPage
+        If Not e.TabPage.Controls.Contains(EventList) Then
+            e.TabPage.Controls.Add(EventList)
         End If
     End Sub
 End Class
