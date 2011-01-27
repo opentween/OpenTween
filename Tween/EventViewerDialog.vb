@@ -55,6 +55,7 @@ Public Class EventViewerDialog
             Me.EventList.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent)
             EventList.EndUpdate()
         End If
+        _curTab = TabEventType.SelectedTab
     End Sub
 
     Private Sub EventList_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs)
