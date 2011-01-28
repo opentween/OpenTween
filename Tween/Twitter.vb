@@ -3082,14 +3082,14 @@ Public Class Twitter
                         Exit Do
                     ElseIf ex.Status = WebExceptionStatus.Timeout Then
                         RaiseEvent Stopped()
-                        TraceOut("Stop:Timeout")
+                        'TraceOut("Stop:Timeout")
                         Thread.Sleep(10 * 1000)
                     ElseIf ex.Response IsNot Nothing AndAlso CType(ex.Response, HttpWebResponse).StatusCode = 420 Then
-                        TraceOut("Stop:Connection Limit")
+                        'TraceOut("Stop:Connection Limit")
                         Exit Do
                     Else
                         RaiseEvent Stopped()
-                        TraceOut("Stop:WebException " & ex.Status.ToString)
+                        'TraceOut("Stop:WebException " & ex.Status.ToString)
                         Thread.Sleep(10 * 1000)
                     End If
                 Catch ex As ThreadAbortException
@@ -3099,7 +3099,7 @@ Public Class Twitter
                         Exit Do
                     Else
                         RaiseEvent Stopped()
-                        TraceOut("Stop:IOException with Active." + Environment.NewLine + ex.Message)
+                        'TraceOut("Stop:IOException with Active." + Environment.NewLine + ex.Message)
                         Thread.Sleep(10 * 1000)
                     End If
                 Catch ex As ArgumentException
