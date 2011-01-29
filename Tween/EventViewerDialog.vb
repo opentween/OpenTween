@@ -113,12 +113,7 @@ Public Class EventViewerDialog
     End Sub
 
     Private Sub ButtonRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonRefresh.Click
-        If EventSource IsNot Nothing AndAlso EventSource.Count > 0 Then
-            EventList.BeginUpdate()
-            EventList.Items.Clear()
-            EventList.Items.AddRange(CreateListViewItemArray(EventSource))
-            EventList.EndUpdate()
-        End If
+        EventListUpdate()
     End Sub
 
     Private _curTab As TabPage = Nothing
