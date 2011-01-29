@@ -31,6 +31,13 @@ Imports System
 Public Class EventViewerDialog
     Public Property EventSource As List(Of Twitter.FormattedEvent)
 
+    Private _filterdEventSource() As Twitter.FormattedEvent
+
+    Private _ItemCache() As ListViewItem = Nothing
+    Private _itemCacheIndex As Integer
+
+    Private _curTab As TabPage = Nothing
+
     Private Sub OK_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OK_Button.Click
         Me.DialogResult = System.Windows.Forms.DialogResult.OK
         Me.Close()
@@ -41,19 +48,16 @@ Public Class EventViewerDialog
         Me.Close()
     End Sub
 
-    Private Function CreateListViewItemArray(ByVal source As Generic.List(Of Twitter.FormattedEvent)) As ListViewItem()
-        Dim items As New Generic.List(Of ListViewItem)
-        For Each x As Twitter.FormattedEvent In source
-            Dim s() As String = {x.CreatedAt.ToString, x.Event.ToUpper, x.Username, x.Target}
-            items.Add(New ListViewItem(s))
-        Next
-        Return items.ToArray()
+    Private Function CreateListViewItem(ByVal source As Twitter.FormattedEvent) As ListViewItem
+        Dim s() As String = {source.CreatedAt.ToString, source.Event.ToUpper, source.Username, source.Target}
+        Return New ListViewItem(s)
     End Function
 
     Private Sub EventViewerDialog_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
         If EventSource IsNot Nothing AndAlso EventSource.Count > 0 Then
             EventList.BeginUpdate()
-            EventList.Items.AddRange(CreateListViewItemArray(EventSource))
+            _curTab = TabPageAll
+            CreateFilterdEventSource()
             Me.EventList.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent)
             EventList.EndUpdate()
         End If
@@ -92,34 +96,30 @@ Public Class EventViewerDialog
         End If
     End Function
 
-    Private Sub EventListUpdate()
+    Private Sub CreateFilterdEventSource()
         If EventSource IsNot Nothing AndAlso EventSource.Count > 0 Then
             Dim matchDelegate As New Func(Of Twitter.FormattedEvent, Boolean)(AddressOf IsFilterMatch)
-            EventList.BeginUpdate()
-            EventList.Items.Clear()
-            EventList.Items.AddRange(
-                CreateListViewItemArray((From x As Twitter.FormattedEvent In EventSource
-                                        Where If(CheckExcludeMyEvent.Checked, Not x.IsMe, True)
-                                        Where CBool(x.Eventtype And ParseEventTypeFromTag())
-                                        Where matchDelegate(x)
-                                        Select x).ToList()))
-            EventList.EndUpdate()
+            _filterdEventSource = (From x As Twitter.FormattedEvent In EventSource
+                                    Where If(CheckExcludeMyEvent.Checked, Not x.IsMe, True)
+                                    Where CBool(x.Eventtype And ParseEventTypeFromTag())
+                                    Where matchDelegate(x)
+                                    Order By x.CreatedAt Descending
+                                    Select x).AsParallel.ToArray()
+            _ItemCache = Nothing
+            EventList.VirtualListSize = _filterdEventSource.Count
         End If
     End Sub
 
-
     Private Sub CheckExcludeMyEvent_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckExcludeMyEvent.CheckedChanged
-        EventListUpdate()
+        CreateFilterdEventSource()
     End Sub
 
     Private Sub ButtonRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonRefresh.Click
-        EventListUpdate()
+        CreateFilterdEventSource()
     End Sub
 
-    Private _curTab As TabPage = Nothing
-
     Private Sub TabEventType_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TabEventType.SelectedIndexChanged, CheckBoxFilter.CheckedChanged
-        EventListUpdate()
+        CreateFilterdEventSource()
     End Sub
 
     Private Sub TabEventType_Selecting(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TabControlCancelEventArgs) Handles TabEventType.Selecting
@@ -131,8 +131,37 @@ Public Class EventViewerDialog
 
     Private Sub TextBoxKeyword_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TextBoxKeyword.KeyPress
         If e.KeyChar = ChrW(Keys.Enter) Then
-            EventListUpdate()
+            CreateFilterdEventSource()
             e.Handled = True
         End If
+    End Sub
+
+    Private Sub EventList_RetrieveVirtualItem(ByVal sender As System.Object, ByVal e As System.Windows.Forms.RetrieveVirtualItemEventArgs) Handles EventList.RetrieveVirtualItem
+        If _ItemCache IsNot Nothing AndAlso e.ItemIndex >= _itemCacheIndex AndAlso e.ItemIndex < _itemCacheIndex + _ItemCache.Length Then
+            'キャッシュヒット
+            e.Item = _ItemCache(e.ItemIndex - _itemCacheIndex)
+        Else
+            'キャッシュミス
+            e.Item = CreateListViewItem(_filterdEventSource(e.ItemIndex))
+        End If
+    End Sub
+
+    Private Sub EventList_CacheVirtualItems(ByVal sender As System.Object, ByVal e As System.Windows.Forms.CacheVirtualItemsEventArgs) Handles EventList.CacheVirtualItems
+        CreateCache(e.StartIndex, e.EndIndex)
+    End Sub
+
+    Private Sub CreateCache(ByVal StartIndex As Integer, ByVal EndIndex As Integer)
+        'キャッシュ要求（要求範囲±30を作成）
+        StartIndex -= 30
+        If StartIndex < 0 Then StartIndex = 0
+        EndIndex += 30
+        If EndIndex > _filterdEventSource.Count() - 1 Then
+            EndIndex = _filterdEventSource.Count() - 1
+        End If
+        _ItemCache = New ListViewItem(EndIndex - StartIndex) {}
+        _itemCacheIndex = StartIndex
+        For i As Integer = 0 To EndIndex - StartIndex
+            _ItemCache(i) = CreateListViewItem(_filterdEventSource(StartIndex + i))
+        Next
     End Sub
 End Class

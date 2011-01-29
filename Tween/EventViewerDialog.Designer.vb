@@ -97,6 +97,7 @@ Partial Class EventViewerDialog
         Me.EventList.Name = "EventList"
         Me.EventList.UseCompatibleStateImageBehavior = False
         Me.EventList.View = System.Windows.Forms.View.Details
+        Me.EventList.VirtualMode = True
         '
         'ColumnHeader1
         '
