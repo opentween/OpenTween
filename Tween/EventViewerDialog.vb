@@ -83,6 +83,7 @@ Public Class EventViewerDialog
                     Dim rx As New Regex(TextBoxKeyword.Text)
                     Return rx.Match(x.Username).Success OrElse rx.Match(x.Target).Success
                 Catch ex As Exception
+                    MessageBox.Show(My.Resources.ButtonOK_ClickText3 + ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Return False
                 End Try
             Else
