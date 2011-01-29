@@ -22,6 +22,7 @@ Partial Class EventViewerDialog
     'コード エディターを使って変更しないでください。
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(EventViewerDialog))
         Me.OK_Button = New System.Windows.Forms.Button()
         Me.CheckExcludeMyEvent = New System.Windows.Forms.CheckBox()
         Me.ButtonRefresh = New System.Windows.Forms.Button()
@@ -49,39 +50,25 @@ Partial Class EventViewerDialog
         '
         'OK_Button
         '
-        Me.OK_Button.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        resources.ApplyResources(Me.OK_Button, "OK_Button")
         Me.OK_Button.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.OK_Button.Location = New System.Drawing.Point(659, 301)
         Me.OK_Button.Name = "OK_Button"
-        Me.OK_Button.Size = New System.Drawing.Size(67, 21)
-        Me.OK_Button.TabIndex = 0
-        Me.OK_Button.Text = "OK"
         '
         'CheckExcludeMyEvent
         '
-        Me.CheckExcludeMyEvent.AutoSize = True
-        Me.CheckExcludeMyEvent.Location = New System.Drawing.Point(12, 249)
+        resources.ApplyResources(Me.CheckExcludeMyEvent, "CheckExcludeMyEvent")
         Me.CheckExcludeMyEvent.Name = "CheckExcludeMyEvent"
-        Me.CheckExcludeMyEvent.Size = New System.Drawing.Size(197, 16)
-        Me.CheckExcludeMyEvent.TabIndex = 2
-        Me.CheckExcludeMyEvent.Text = "自分が発生させたイベントを除外する"
         Me.CheckExcludeMyEvent.UseVisualStyleBackColor = True
         '
         'ButtonRefresh
         '
-        Me.ButtonRefresh.Location = New System.Drawing.Point(600, 261)
+        resources.ApplyResources(Me.ButtonRefresh, "ButtonRefresh")
         Me.ButtonRefresh.Name = "ButtonRefresh"
-        Me.ButtonRefresh.Size = New System.Drawing.Size(126, 21)
-        Me.ButtonRefresh.TabIndex = 3
-        Me.ButtonRefresh.Text = "最新の情報に更新"
         Me.ButtonRefresh.UseVisualStyleBackColor = True
         '
         'TabEventType
         '
-        Me.TabEventType.Alignment = System.Windows.Forms.TabAlignment.Bottom
-        Me.TabEventType.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        resources.ApplyResources(Me.TabEventType, "TabEventType")
         Me.TabEventType.Controls.Add(Me.TabPageAll)
         Me.TabEventType.Controls.Add(Me.TabPageFav)
         Me.TabEventType.Controls.Add(Me.TabPageUnfav)
@@ -91,177 +78,120 @@ Partial Class EventViewerDialog
         Me.TabEventType.Controls.Add(Me.TabPageListsCreated)
         Me.TabEventType.Controls.Add(Me.TabPageBlock)
         Me.TabEventType.Controls.Add(Me.TabPageUserUpdate)
-        Me.TabEventType.Location = New System.Drawing.Point(12, 12)
         Me.TabEventType.Name = "TabEventType"
         Me.TabEventType.SelectedIndex = 0
-        Me.TabEventType.Size = New System.Drawing.Size(714, 221)
-        Me.TabEventType.TabIndex = 4
         '
         'TabPageAll
         '
         Me.TabPageAll.Controls.Add(Me.EventList)
-        Me.TabPageAll.Location = New System.Drawing.Point(4, 4)
+        resources.ApplyResources(Me.TabPageAll, "TabPageAll")
         Me.TabPageAll.Name = "TabPageAll"
-        Me.TabPageAll.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPageAll.Size = New System.Drawing.Size(706, 195)
-        Me.TabPageAll.TabIndex = 0
         Me.TabPageAll.Tag = "All"
-        Me.TabPageAll.Text = "全て"
         Me.TabPageAll.UseVisualStyleBackColor = True
         '
         'EventList
         '
         Me.EventList.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader3, Me.ColumnHeader4})
-        Me.EventList.Dock = System.Windows.Forms.DockStyle.Fill
+        resources.ApplyResources(Me.EventList, "EventList")
         Me.EventList.FullRowSelect = True
-        Me.EventList.Location = New System.Drawing.Point(3, 3)
         Me.EventList.Name = "EventList"
-        Me.EventList.Size = New System.Drawing.Size(700, 189)
-        Me.EventList.TabIndex = 3
         Me.EventList.UseCompatibleStateImageBehavior = False
         Me.EventList.View = System.Windows.Forms.View.Details
         '
         'ColumnHeader1
         '
-        Me.ColumnHeader1.Text = "Datetime"
-        Me.ColumnHeader1.Width = 86
+        resources.ApplyResources(Me.ColumnHeader1, "ColumnHeader1")
         '
         'ColumnHeader2
         '
-        Me.ColumnHeader2.Text = "Type"
-        Me.ColumnHeader2.Width = 90
+        resources.ApplyResources(Me.ColumnHeader2, "ColumnHeader2")
         '
         'ColumnHeader3
         '
-        Me.ColumnHeader3.Text = "Username"
-        Me.ColumnHeader3.Width = 106
+        resources.ApplyResources(Me.ColumnHeader3, "ColumnHeader3")
         '
         'ColumnHeader4
         '
-        Me.ColumnHeader4.Text = "Target"
-        Me.ColumnHeader4.Width = 360
+        resources.ApplyResources(Me.ColumnHeader4, "ColumnHeader4")
         '
         'TabPageFav
         '
-        Me.TabPageFav.Location = New System.Drawing.Point(4, 4)
+        resources.ApplyResources(Me.TabPageFav, "TabPageFav")
         Me.TabPageFav.Name = "TabPageFav"
-        Me.TabPageFav.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPageFav.Size = New System.Drawing.Size(706, 195)
-        Me.TabPageFav.TabIndex = 1
         Me.TabPageFav.Tag = "Favorite"
-        Me.TabPageFav.Text = "Favorite"
         Me.TabPageFav.UseVisualStyleBackColor = True
         '
         'TabPageUnfav
         '
-        Me.TabPageUnfav.Location = New System.Drawing.Point(4, 4)
+        resources.ApplyResources(Me.TabPageUnfav, "TabPageUnfav")
         Me.TabPageUnfav.Name = "TabPageUnfav"
-        Me.TabPageUnfav.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPageUnfav.Size = New System.Drawing.Size(706, 195)
-        Me.TabPageUnfav.TabIndex = 2
         Me.TabPageUnfav.Tag = "Unfavorite"
-        Me.TabPageUnfav.Text = "Unfavorite"
         Me.TabPageUnfav.UseVisualStyleBackColor = True
         '
         'TabPageFollow
         '
-        Me.TabPageFollow.Location = New System.Drawing.Point(4, 4)
+        resources.ApplyResources(Me.TabPageFollow, "TabPageFollow")
         Me.TabPageFollow.Name = "TabPageFollow"
-        Me.TabPageFollow.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPageFollow.Size = New System.Drawing.Size(706, 195)
-        Me.TabPageFollow.TabIndex = 3
         Me.TabPageFollow.Tag = "Follow"
-        Me.TabPageFollow.Text = "Follow"
         Me.TabPageFollow.UseVisualStyleBackColor = True
         '
         'TabPageAddLists
         '
-        Me.TabPageAddLists.Location = New System.Drawing.Point(4, 4)
+        resources.ApplyResources(Me.TabPageAddLists, "TabPageAddLists")
         Me.TabPageAddLists.Name = "TabPageAddLists"
-        Me.TabPageAddLists.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPageAddLists.Size = New System.Drawing.Size(706, 195)
-        Me.TabPageAddLists.TabIndex = 4
         Me.TabPageAddLists.Tag = "ListMemberAdded"
-        Me.TabPageAddLists.Text = "ListsMemberAdded"
         Me.TabPageAddLists.UseVisualStyleBackColor = True
         '
         'TabPageRemoveLists
         '
-        Me.TabPageRemoveLists.Location = New System.Drawing.Point(4, 4)
+        resources.ApplyResources(Me.TabPageRemoveLists, "TabPageRemoveLists")
         Me.TabPageRemoveLists.Name = "TabPageRemoveLists"
-        Me.TabPageRemoveLists.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPageRemoveLists.Size = New System.Drawing.Size(706, 195)
-        Me.TabPageRemoveLists.TabIndex = 5
         Me.TabPageRemoveLists.Tag = "ListMemberRemoved"
-        Me.TabPageRemoveLists.Text = "ListsMemberRemoved"
         Me.TabPageRemoveLists.UseVisualStyleBackColor = True
         '
         'TabPageListsCreated
         '
-        Me.TabPageListsCreated.Location = New System.Drawing.Point(4, 4)
+        resources.ApplyResources(Me.TabPageListsCreated, "TabPageListsCreated")
         Me.TabPageListsCreated.Name = "TabPageListsCreated"
-        Me.TabPageListsCreated.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPageListsCreated.Size = New System.Drawing.Size(706, 195)
-        Me.TabPageListsCreated.TabIndex = 6
         Me.TabPageListsCreated.Tag = "ListCreated"
-        Me.TabPageListsCreated.Text = "ListsCreated"
         Me.TabPageListsCreated.UseVisualStyleBackColor = True
         '
         'TabPageBlock
         '
-        Me.TabPageBlock.Location = New System.Drawing.Point(4, 4)
+        resources.ApplyResources(Me.TabPageBlock, "TabPageBlock")
         Me.TabPageBlock.Name = "TabPageBlock"
-        Me.TabPageBlock.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPageBlock.Size = New System.Drawing.Size(706, 195)
-        Me.TabPageBlock.TabIndex = 7
         Me.TabPageBlock.Tag = "Block"
-        Me.TabPageBlock.Text = "Block"
         Me.TabPageBlock.UseVisualStyleBackColor = True
         '
         'TabPageUserUpdate
         '
-        Me.TabPageUserUpdate.Location = New System.Drawing.Point(4, 4)
+        resources.ApplyResources(Me.TabPageUserUpdate, "TabPageUserUpdate")
         Me.TabPageUserUpdate.Name = "TabPageUserUpdate"
-        Me.TabPageUserUpdate.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPageUserUpdate.Size = New System.Drawing.Size(706, 195)
-        Me.TabPageUserUpdate.TabIndex = 8
         Me.TabPageUserUpdate.Tag = "UserUpdate"
-        Me.TabPageUserUpdate.Text = "UserUpdate"
         Me.TabPageUserUpdate.UseVisualStyleBackColor = True
         '
         'TextBoxKeyword
         '
-        Me.TextBoxKeyword.Location = New System.Drawing.Point(142, 278)
+        resources.ApplyResources(Me.TextBoxKeyword, "TextBoxKeyword")
         Me.TextBoxKeyword.Name = "TextBoxKeyword"
-        Me.TextBoxKeyword.Size = New System.Drawing.Size(231, 19)
-        Me.TextBoxKeyword.TabIndex = 5
         '
         'CheckRegex
         '
-        Me.CheckRegex.AutoSize = True
-        Me.CheckRegex.Location = New System.Drawing.Point(12, 304)
+        resources.ApplyResources(Me.CheckRegex, "CheckRegex")
         Me.CheckRegex.Name = "CheckRegex"
-        Me.CheckRegex.Size = New System.Drawing.Size(72, 16)
-        Me.CheckRegex.TabIndex = 6
-        Me.CheckRegex.Text = "正規表現"
         Me.CheckRegex.UseVisualStyleBackColor = True
         '
         'CheckBoxFilter
         '
-        Me.CheckBoxFilter.AutoSize = True
-        Me.CheckBoxFilter.Location = New System.Drawing.Point(12, 280)
+        resources.ApplyResources(Me.CheckBoxFilter, "CheckBoxFilter")
         Me.CheckBoxFilter.Name = "CheckBoxFilter"
-        Me.CheckBoxFilter.Size = New System.Drawing.Size(124, 16)
-        Me.CheckBoxFilter.TabIndex = 7
-        Me.CheckBoxFilter.Text = "キーワードで絞り込む"
         Me.CheckBoxFilter.UseVisualStyleBackColor = True
         '
         'EventViewerDialog
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
+        resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.OK_Button
-        Me.ClientSize = New System.Drawing.Size(738, 334)
         Me.Controls.Add(Me.CheckBoxFilter)
         Me.Controls.Add(Me.CheckRegex)
         Me.Controls.Add(Me.TextBoxKeyword)
@@ -270,13 +200,8 @@ Partial Class EventViewerDialog
         Me.Controls.Add(Me.CheckExcludeMyEvent)
         Me.Controls.Add(Me.OK_Button)
         Me.DoubleBuffered = True
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow
-        Me.MaximizeBox = False
-        Me.MinimizeBox = False
         Me.Name = "EventViewerDialog"
         Me.ShowInTaskbar = False
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
-        Me.Text = "Events"
         Me.TabEventType.ResumeLayout(False)
         Me.TabPageAll.ResumeLayout(False)
         Me.ResumeLayout(False)

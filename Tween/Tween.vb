@@ -95,12 +95,13 @@ Public Class TweenMain
     Private SettingDialog As AppendSettingDialog = AppendSettingDialog.Instance       '設定画面インスタンス
     Private TabDialog As New TabsDialog        'タブ選択ダイアログインスタンス
     Private SearchDialog As New SearchWord     '検索画面インスタンス
-    Private fDialog As New FilterDialog 'フィルター編集画面
+    Private fltDialog As New FilterDialog 'フィルター編集画面
     Private UrlDialog As New OpenURL
     Private dialogAsShieldicon As DialogAsShieldIcon    ' シールドアイコン付きダイアログ
     Public AtIdSupl As AtIdSupplement    '@id補助
     Public HashSupl As AtIdSupplement    'Hashtag補助
     Public HashMgr As HashtagManage
+    Private evtDialog As New EventViewerDialog
 
     '表示フォント、色、アイコン
     Private _fntUnread As Font            '未読用フォント
@@ -321,7 +322,7 @@ Public Class TweenMain
         SettingDialog.Dispose()
         TabDialog.Dispose()
         SearchDialog.Dispose()
-        fDialog.Dispose()
+        fltDialog.Dispose()
         UrlDialog.Dispose()
         _spaceKeyCanceler.Dispose()
         If NIconAt IsNot Nothing Then NIconAt.Dispose()
@@ -518,7 +519,7 @@ Public Class TweenMain
 
         SettingDialog.Owner = Me
         SearchDialog.Owner = Me
-        fDialog.Owner = Me
+        fltDialog.Owner = Me
         TabDialog.Owner = Me
         UrlDialog.Owner = Me
 
@@ -6725,8 +6726,8 @@ RETRY:
     Private Sub FilterEditMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FilterEditMenuItem.Click, EditRuleTbMenuItem.Click
 
         If String.IsNullOrEmpty(_rclickTabName) Then _rclickTabName = _statuses.GetTabByType(TabUsageType.Home).TabName
-        fDialog.SetCurrent(_rclickTabName)
-        fDialog.ShowDialog()
+        fltDialog.SetCurrent(_rclickTabName)
+        fltDialog.ShowDialog()
         Me.TopMost = SettingDialog.AlwaysTop
 
         Try
@@ -6806,13 +6807,13 @@ RETRY:
             'タブ選択（or追加）
             If Not SelectTab(tabName) Then Exit Sub
 
-            fDialog.SetCurrent(tabName)
+            fltDialog.SetCurrent(tabName)
             If _statuses.Item(_curTab.Text, idx).RetweetedId = 0 Then
-                fDialog.AddNewFilter(_statuses.Item(_curTab.Text, idx).ScreenName, _statuses.Item(_curTab.Text, idx).TextFromApi)
+                fltDialog.AddNewFilter(_statuses.Item(_curTab.Text, idx).ScreenName, _statuses.Item(_curTab.Text, idx).TextFromApi)
             Else
-                fDialog.AddNewFilter(_statuses.Item(_curTab.Text, idx).RetweetedBy, _statuses.Item(_curTab.Text, idx).TextFromApi)
+                fltDialog.AddNewFilter(_statuses.Item(_curTab.Text, idx).RetweetedBy, _statuses.Item(_curTab.Text, idx).TextFromApi)
             End If
-            fDialog.ShowDialog()
+            fltDialog.ShowDialog()
             Me.TopMost = SettingDialog.AlwaysTop
         Next
 
@@ -9978,12 +9979,15 @@ RETRY:
     End Sub
 
     Private Sub EventViewerMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EventViewerMenuItem.Click
-        Using dlg As New EventViewerDialog
-            dlg.Owner = Me
-            dlg.EventSource = tw.StoredEvent
-            dlg.ShowDialog()
-            Me.TopMost = SettingDialog.AlwaysTop
-        End Using
+        If evtDialog.IsDisposed Then
+            evtDialog = New EventViewerDialog
+        End If
+        evtDialog.EventSource = tw.StoredEvent
+        If Not evtDialog.Visible Then
+            evtDialog.Show()
+        Else
+            evtDialog.Activate()
+        End If
     End Sub
 #End Region
 
