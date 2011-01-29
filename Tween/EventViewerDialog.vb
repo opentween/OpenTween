@@ -27,6 +27,7 @@ Imports System.Windows.Forms
 Imports System.Linq
 Imports System.Text.RegularExpressions
 Imports System
+Imports System.Runtime.CompilerServices
 
 Public Class EventViewerDialog
     Public Property EventSource As List(Of Twitter.FormattedEvent)
@@ -64,13 +65,9 @@ Public Class EventViewerDialog
         _curTab = TabEventType.SelectedTab
     End Sub
 
-    Private Sub EventList_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        If EventSource IsNot Nothing AndAlso EventSource.Count > 0 Then
-            If EventSource(EventList.SelectedIndices(0)) IsNot Nothing Then
-                If Me.Owner IsNot Nothing Then
-                    DirectCast(Me.Owner, TweenMain).OpenUriAsync("http://twitter.com/" + EventSource(EventList.SelectedIndices(0)).Username)
-                End If
-            End If
+    Private Sub EventList_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EventList.DoubleClick
+        If _filterdEventSource(EventList.SelectedIndices(0)) IsNot Nothing Then
+            TweenMain.OpenUriAsync("http://twitter.com/" + EventSource(EventList.SelectedIndices(0)).Username)
         End If
     End Sub
 
