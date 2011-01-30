@@ -56,10 +56,10 @@ Public Class ImageListViewItem
     End Property
 
     Protected Overrides Sub Finalize()
-        If Me.img IsNot Nothing Then
-            Me.img.Dispose()
-            Me.img = Nothing
-        End If
+        'If Me.img IsNot Nothing Then
+        '    Me.img.Dispose()
+        '    Me.img = Nothing
+        'End If
         MyBase.Finalize()
     End Sub
 End Class
