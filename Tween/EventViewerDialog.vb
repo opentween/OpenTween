@@ -55,14 +55,10 @@ Public Class EventViewerDialog
     End Function
 
     Private Sub EventViewerDialog_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
-        If EventSource IsNot Nothing AndAlso EventSource.Count > 0 Then
-            EventList.BeginUpdate()
-            _curTab = TabPageAll
-            CreateFilterdEventSource()
-            Me.EventList.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent)
-            EventList.EndUpdate()
-        End If
+        EventList.BeginUpdate()
         _curTab = TabEventType.SelectedTab
+        CreateFilterdEventSource()
+        EventList.EndUpdate()
     End Sub
 
     Private Sub EventList_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EventList.DoubleClick
@@ -104,6 +100,9 @@ Public Class EventViewerDialog
                                     Select x).ToArray()
             _ItemCache = Nothing
             EventList.VirtualListSize = _filterdEventSource.Count
+            StatusLabelCount.Text = String.Format("{0} / {1}", _filterdEventSource.Count, EventSource.Count)
+        Else
+            StatusLabelCount.Text = "0 / 0"
         End If
     End Sub
 

@@ -44,8 +44,11 @@ Partial Class EventViewerDialog
         Me.TextBoxKeyword = New System.Windows.Forms.TextBox()
         Me.CheckRegex = New System.Windows.Forms.CheckBox()
         Me.CheckBoxFilter = New System.Windows.Forms.CheckBox()
+        Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
+        Me.StatusLabelCount = New System.Windows.Forms.ToolStripStatusLabel()
         Me.TabEventType.SuspendLayout()
         Me.TabPageAll.SuspendLayout()
+        Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'OK_Button
@@ -189,6 +192,17 @@ Partial Class EventViewerDialog
         Me.CheckBoxFilter.Name = "CheckBoxFilter"
         Me.CheckBoxFilter.UseVisualStyleBackColor = True
         '
+        'StatusStrip1
+        '
+        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.StatusLabelCount})
+        resources.ApplyResources(Me.StatusStrip1, "StatusStrip1")
+        Me.StatusStrip1.Name = "StatusStrip1"
+        '
+        'StatusLabelCount
+        '
+        Me.StatusLabelCount.Name = "StatusLabelCount"
+        resources.ApplyResources(Me.StatusLabelCount, "StatusLabelCount")
+        '
         'EventViewerDialog
         '
         resources.ApplyResources(Me, "$this")
@@ -201,11 +215,14 @@ Partial Class EventViewerDialog
         Me.Controls.Add(Me.ButtonRefresh)
         Me.Controls.Add(Me.CheckExcludeMyEvent)
         Me.Controls.Add(Me.OK_Button)
+        Me.Controls.Add(Me.StatusStrip1)
         Me.DoubleBuffered = True
         Me.Name = "EventViewerDialog"
         Me.ShowInTaskbar = False
         Me.TabEventType.ResumeLayout(False)
         Me.TabPageAll.ResumeLayout(False)
+        Me.StatusStrip1.ResumeLayout(False)
+        Me.StatusStrip1.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -231,5 +248,7 @@ Partial Class EventViewerDialog
     Friend WithEvents TextBoxKeyword As System.Windows.Forms.TextBox
     Friend WithEvents CheckRegex As System.Windows.Forms.CheckBox
     Friend WithEvents CheckBoxFilter As System.Windows.Forms.CheckBox
+    Friend WithEvents StatusStrip1 As System.Windows.Forms.StatusStrip
+    Friend WithEvents StatusLabelCount As System.Windows.Forms.ToolStripStatusLabel
 
 End Class

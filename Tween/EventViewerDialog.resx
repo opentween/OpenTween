@@ -123,7 +123,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="OK_Button.Location" type="System.Drawing.Point, System.Drawing">
-    <value>659, 301</value>
+    <value>659, 298</value>
   </data>
   <data name="OK_Button.Size" type="System.Drawing.Size, System.Drawing">
     <value>67, 21</value>
@@ -154,7 +154,7 @@
     <value>True</value>
   </data>
   <data name="CheckExcludeMyEvent.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 249</value>
+    <value>12, 246</value>
   </data>
   <data name="CheckExcludeMyEvent.Size" type="System.Drawing.Size, System.Drawing">
     <value>197, 16</value>
@@ -181,7 +181,7 @@
     <value>Bottom, Right</value>
   </data>
   <data name="ButtonRefresh.Location" type="System.Drawing.Point, System.Drawing">
-    <value>600, 261</value>
+    <value>600, 258</value>
   </data>
   <data name="ButtonRefresh.Size" type="System.Drawing.Size, System.Drawing">
     <value>126, 21</value>
@@ -241,7 +241,7 @@
     <value>3, 3</value>
   </data>
   <data name="EventList.Size" type="System.Drawing.Size, System.Drawing">
-    <value>700, 189</value>
+    <value>700, 186</value>
   </data>
   <data name="EventList.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -265,7 +265,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="TabPageAll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>706, 195</value>
+    <value>706, 192</value>
   </data>
   <data name="TabPageAll.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -505,7 +505,7 @@
     <value>12, 12</value>
   </data>
   <data name="TabEventType.Size" type="System.Drawing.Size, System.Drawing">
-    <value>714, 221</value>
+    <value>714, 218</value>
   </data>
   <data name="TabEventType.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -526,7 +526,7 @@
     <value>Bottom, Left</value>
   </data>
   <data name="TextBoxKeyword.Location" type="System.Drawing.Point, System.Drawing">
-    <value>142, 278</value>
+    <value>142, 275</value>
   </data>
   <data name="TextBoxKeyword.Size" type="System.Drawing.Size, System.Drawing">
     <value>231, 19</value>
@@ -553,7 +553,7 @@
     <value>True</value>
   </data>
   <data name="CheckRegex.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 304</value>
+    <value>12, 301</value>
   </data>
   <data name="CheckRegex.Size" type="System.Drawing.Size, System.Drawing">
     <value>72, 16</value>
@@ -583,7 +583,7 @@
     <value>True</value>
   </data>
   <data name="CheckBoxFilter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 280</value>
+    <value>12, 277</value>
   </data>
   <data name="CheckBoxFilter.Size" type="System.Drawing.Size, System.Drawing">
     <value>124, 16</value>
@@ -606,14 +606,50 @@
   <data name="&gt;&gt;CheckBoxFilter.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <metadata name="StatusStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>24, 10</value>
+  </metadata>
+  <data name="StatusLabelCount.Size" type="System.Drawing.Size, System.Drawing">
+    <value>111, 18</value>
+  </data>
+  <data name="StatusLabelCount.Text" xml:space="preserve">
+    <value>StatusLabelCount</value>
+  </data>
+  <data name="StatusStrip1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 339</value>
+  </data>
+  <data name="StatusStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>738, 23</value>
+  </data>
+  <data name="StatusStrip1.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="StatusStrip1.Text" xml:space="preserve">
+    <value>StatusStrip1</value>
+  </data>
+  <data name="&gt;&gt;StatusStrip1.Name" xml:space="preserve">
+    <value>StatusStrip1</value>
+  </data>
+  <data name="&gt;&gt;StatusStrip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.StatusStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;StatusStrip1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;StatusStrip1.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
+  </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>39</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 12</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>738, 334</value>
+    <value>738, 362</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterParent</value>
@@ -644,6 +680,12 @@
   </data>
   <data name="&gt;&gt;ColumnHeader4.Type" xml:space="preserve">
     <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;StatusLabelCount.Name" xml:space="preserve">
+    <value>StatusLabelCount</value>
+  </data>
+  <data name="&gt;&gt;StatusLabelCount.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>EventViewerDialog</value>
