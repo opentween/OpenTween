@@ -96,12 +96,12 @@ Public Class EventViewerDialog
     Private Sub CreateFilterdEventSource()
         If EventSource IsNot Nothing AndAlso EventSource.Count > 0 Then
             Dim matchDelegate As New Func(Of Twitter.FormattedEvent, Boolean)(AddressOf IsFilterMatch)
-            _filterdEventSource = (From x As Twitter.FormattedEvent In EventSource
+            _filterdEventSource = (From x As Twitter.FormattedEvent In EventSource.AsParallel
                                     Where If(CheckExcludeMyEvent.Checked, Not x.IsMe, True)
                                     Where CBool(x.Eventtype And ParseEventTypeFromTag())
                                     Where matchDelegate(x)
                                     Order By x.CreatedAt Descending
-                                    Select x).AsParallel.ToArray()
+                                    Select x).ToArray()
             _ItemCache = Nothing
             EventList.VirtualListSize = _filterdEventSource.Count
         End If
