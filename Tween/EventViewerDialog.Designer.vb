@@ -44,15 +44,8 @@ Partial Class EventViewerDialog
         Me.TextBoxKeyword = New System.Windows.Forms.TextBox()
         Me.CheckRegex = New System.Windows.Forms.CheckBox()
         Me.CheckBoxFilter = New System.Windows.Forms.CheckBox()
-        Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
-        Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
-        Me.StatusLabelCount = New System.Windows.Forms.ToolStripStatusLabel()
         Me.TabEventType.SuspendLayout()
         Me.TabPageAll.SuspendLayout()
-        Me.StatusStrip1.SuspendLayout()
-        Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
-        Me.ToolStripContainer1.ContentPanel.SuspendLayout()
-        Me.ToolStripContainer1.SuspendLayout()
         Me.SuspendLayout()
         '
         'OK_Button
@@ -102,6 +95,7 @@ Partial Class EventViewerDialog
         resources.ApplyResources(Me.EventList, "EventList")
         Me.EventList.FullRowSelect = True
         Me.EventList.Name = "EventList"
+        Me.EventList.ShowItemToolTips = True
         Me.EventList.UseCompatibleStateImageBehavior = False
         Me.EventList.View = System.Windows.Forms.View.Details
         Me.EventList.VirtualMode = True
@@ -195,60 +189,25 @@ Partial Class EventViewerDialog
         Me.CheckBoxFilter.Name = "CheckBoxFilter"
         Me.CheckBoxFilter.UseVisualStyleBackColor = True
         '
-        'StatusStrip1
-        '
-        resources.ApplyResources(Me.StatusStrip1, "StatusStrip1")
-        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.StatusLabelCount})
-        Me.StatusStrip1.Name = "StatusStrip1"
-        '
-        'ToolStripContainer1
-        '
-        '
-        'ToolStripContainer1.BottomToolStripPanel
-        '
-        Me.ToolStripContainer1.BottomToolStripPanel.Controls.Add(Me.StatusStrip1)
-        '
-        'ToolStripContainer1.ContentPanel
-        '
-        resources.ApplyResources(Me.ToolStripContainer1.ContentPanel, "ToolStripContainer1.ContentPanel")
-        Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.CheckBoxFilter)
-        Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.CheckRegex)
-        Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.TextBoxKeyword)
-        Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.TabEventType)
-        Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.ButtonRefresh)
-        Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.CheckExcludeMyEvent)
-        Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.OK_Button)
-        resources.ApplyResources(Me.ToolStripContainer1, "ToolStripContainer1")
-        Me.ToolStripContainer1.LeftToolStripPanelVisible = False
-        Me.ToolStripContainer1.Name = "ToolStripContainer1"
-        Me.ToolStripContainer1.RightToolStripPanelVisible = False
-        Me.ToolStripContainer1.TopToolStripPanelVisible = False
-        '
-        'StatusLabelCount
-        '
-        Me.StatusLabelCount.Name = "StatusLabelCount"
-        resources.ApplyResources(Me.StatusLabelCount, "StatusLabelCount")
-        '
         'EventViewerDialog
         '
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.OK_Button
-        Me.Controls.Add(Me.ToolStripContainer1)
+        Me.Controls.Add(Me.CheckBoxFilter)
+        Me.Controls.Add(Me.CheckRegex)
+        Me.Controls.Add(Me.TextBoxKeyword)
+        Me.Controls.Add(Me.TabEventType)
+        Me.Controls.Add(Me.ButtonRefresh)
+        Me.Controls.Add(Me.CheckExcludeMyEvent)
+        Me.Controls.Add(Me.OK_Button)
         Me.DoubleBuffered = True
         Me.Name = "EventViewerDialog"
         Me.ShowInTaskbar = False
         Me.TabEventType.ResumeLayout(False)
         Me.TabPageAll.ResumeLayout(False)
-        Me.StatusStrip1.ResumeLayout(False)
-        Me.StatusStrip1.PerformLayout()
-        Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)
-        Me.ToolStripContainer1.BottomToolStripPanel.PerformLayout()
-        Me.ToolStripContainer1.ContentPanel.ResumeLayout(False)
-        Me.ToolStripContainer1.ContentPanel.PerformLayout()
-        Me.ToolStripContainer1.ResumeLayout(False)
-        Me.ToolStripContainer1.PerformLayout()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
     Friend WithEvents OK_Button As System.Windows.Forms.Button
@@ -272,8 +231,5 @@ Partial Class EventViewerDialog
     Friend WithEvents TextBoxKeyword As System.Windows.Forms.TextBox
     Friend WithEvents CheckRegex As System.Windows.Forms.CheckBox
     Friend WithEvents CheckBoxFilter As System.Windows.Forms.CheckBox
-    Friend WithEvents StatusStrip1 As System.Windows.Forms.StatusStrip
-    Friend WithEvents StatusLabelCount As System.Windows.Forms.ToolStripStatusLabel
-    Friend WithEvents ToolStripContainer1 As System.Windows.Forms.ToolStripContainer
 
 End Class
