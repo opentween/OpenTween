@@ -539,6 +539,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  ユーザーアイコンとして使用できないファイルです に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ChangeIconToolStripMenuItem_ClickText6() As String
+            Get
+                Return ResourceManager.GetString("ChangeIconToolStripMenuItem_ClickText6", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  更新履歴
         '''
         '''==== Ver 0.9.7.1(****/**/**)
@@ -1331,6 +1340,24 @@ Namespace My.Resources
         Friend ReadOnly Property InputTabName_Load1() As String
             Get
                 Return ResourceManager.GetString("InputTabName_Load1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  構文エラー： に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property IsValidLambdaExpText1() As String
+            Get
+                Return ResourceManager.GetString("IsValidLambdaExpText1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  ラムダ式構文チェック に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property IsValidLambdaExpText2() As String
+            Get
+                Return ResourceManager.GetString("IsValidLambdaExpText2", resourceCulture)
             End Get
         End Property
         
@@ -2627,6 +2654,15 @@ Namespace My.Resources
         Friend ReadOnly Property TweenAboutBox_LoadText2() As String
             Get
                 Return ResourceManager.GetString("TweenAboutBox_LoadText2", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  タブ作成エラー に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property TweenMain_LoadText1() As String
+            Get
+                Return ResourceManager.GetString("TweenMain_LoadText1", resourceCulture)
             End Get
         End Property
         

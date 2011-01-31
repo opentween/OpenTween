@@ -567,7 +567,8 @@ Public Class FilterDialog
             Dim expr As LambdaExpression
             expr = ParseLambda(Of PostClass, Boolean)(text, New PostClass)
         Catch ex As ParseException
-            MessageBox.Show("構文エラー：" + ex.Message, "ラムダ式構文チェック", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            MessageBox.Show(My.Resources.IsValidLambdaExpText1 + ex.Message,
+                            My.Resources.IsValidLambdaExpText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return False
         End Try
         Return True
