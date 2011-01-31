@@ -50,6 +50,8 @@ Public Class PictureService
                 '    ret = UpToTwitVideo(file, message, upResult)
             Case "yfrog"
                 ret = UpToyfrog(file, message, upResult)
+            Case "Plixi"
+                ret = UpToPlixi(file, message, upResult)
         End Select
         If upResult Then filePath = ""
         Return ret
@@ -66,6 +68,8 @@ Public Class PictureService
                 '    ret = (New TwitVideo).CheckValidExtension(ext)
             Case "yfrog"
                 ret = (New yfrog(tw.AccessToken, tw.AccessTokenSecret)).CheckValidExtension(ext)
+            Case "Plixi"
+                ret = (New Plixi(tw.AccessToken, tw.AccessTokenSecret)).CheckValidExtension(ext)
         End Select
         Return ret
     End Function
@@ -81,6 +85,8 @@ Public Class PictureService
                 '    ret = (New TwitVideo).GetFileOpenDialogFilter
             Case "yfrog"
                 ret = (New yfrog(tw.AccessToken, tw.AccessTokenSecret)).GetFileOpenDialogFilter
+            Case "Plixi"
+                ret = (New Plixi(tw.AccessToken, tw.AccessTokenSecret)).GetFileOpenDialogFilter
         End Select
         Return ret
     End Function
@@ -96,6 +102,8 @@ Public Class PictureService
                 '    ret = (New TwitVideo).GetFileType(ext)
             Case "yfrog"
                 ret = (New yfrog(tw.AccessToken, tw.AccessTokenSecret)).GetFileType(ext)
+            Case "Plixi"
+                ret = (New Plixi(tw.AccessToken, tw.AccessTokenSecret)).GetFileType(ext)
         End Select
         Return ret
     End Function
@@ -111,6 +119,8 @@ Public Class PictureService
                 '    ret = (New TwitVideo).IsSupportedFileType(type)
             Case "yfrog"
                 ret = (New yfrog(tw.AccessToken, tw.AccessTokenSecret)).IsSupportedFileType(type)
+            Case "Plixi"
+                ret = (New Plixi(tw.AccessToken, tw.AccessTokenSecret)).IsSupportedFileType(type)
         End Select
         Return ret
     End Function
@@ -126,6 +136,8 @@ Public Class PictureService
                 '    ret = (New TwitVideo).GetMaxFileSize(ext)
             Case "yfrog"
                 ret = (New yfrog(tw.AccessToken, tw.AccessTokenSecret)).GetMaxFileSize(ext)
+            Case "Plixi"
+                ret = (New TwitPic(tw.AccessToken, tw.AccessTokenSecret)).GetMaxFileSize(ext)
         End Select
         Return ret
     End Function
@@ -217,6 +229,41 @@ Public Class PictureService
                 xd.LoadXml(content)
                 'URLの取得
                 url = xd.SelectSingleNode("/image/url").InnerText
+            Catch ex As XmlException
+                Return "Err:" + ex.Message
+            End Try
+        Else
+            Return "Err:" + ret.ToString
+        End If
+        'アップロードまでは成功
+        resultUpload = True
+        'Twitterへの投稿
+        '投稿メッセージの再構成
+        If message.Length + url.Length + 1 > 140 Then
+            message = message.Substring(0, 140 - url.Length - 1) + " " + url
+        Else
+            message += " " + url
+        End If
+        Return tw.PostStatus(message, 0)
+    End Function
+
+    Private Function UpToPlixi(ByVal file As FileInfo, ByRef message As String, ByRef resultUpload As Boolean) As String
+        Dim content As String = ""
+        Dim ret As HttpStatusCode
+        'Plixiへの投稿
+        Dim svc As New Plixi(tw.AccessToken, tw.AccessTokenSecret)
+        Try
+            ret = svc.Upload(file, message, content)
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
+        Dim url As String = ""
+        If ret = HttpStatusCode.Created Then
+            Dim xd As XmlDocument = New XmlDocument()
+            Try
+                xd.LoadXml(content)
+                'MediaUrlの取得
+                url = xd.ChildNodes().Item(0).ChildNodes(2).InnerText
             Catch ex As XmlException
                 Return "Err:" + ex.Message
             End Try
