@@ -1066,4 +1066,16 @@
   <data name="Enable" xml:space="preserve">
     <value>有効</value>
   </data>
+  <data name="ChangeIconToolStripMenuItem_ClickText6" xml:space="preserve">
+    <value>ユーザーアイコンとして使用できないファイルです</value>
+  </data>
+  <data name="IsValidLambdaExpText1" xml:space="preserve">
+    <value>構文エラー：</value>
+  </data>
+  <data name="IsValidLambdaExpText2" xml:space="preserve">
+    <value>ラムダ式構文チェック</value>
+  </data>
+  <data name="TweenMain_LoadText1" xml:space="preserve">
+    <value>タブ作成エラー</value>
+  </data>
 </root>

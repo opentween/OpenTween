@@ -614,7 +614,6 @@ Public Class ShowUserInfo
         End Using
     End Sub
 
-
     Private Sub ChangeIconToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChangeIconToolStripMenuItem.Click
         OpenFileDialogIcon.Filter = My.Resources.ChangeIconToolStripMenuItem_ClickText1
         OpenFileDialogIcon.Title = My.Resources.ChangeIconToolStripMenuItem_ClickText2
@@ -630,7 +629,7 @@ Public Class ShowUserInfo
         If isValidIconFile(New FileInfo(fn)) Then
             doChangeIcon(fn)
         Else
-            MessageBox.Show("ユーザーアイコンとして使用できないファイルです")
+            MessageBox.Show(My.Resources.ChangeIconToolStripMenuItem_ClickText6)
         End If
     End Sub
 

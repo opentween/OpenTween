@@ -1195,20 +1195,6 @@ Public Class Twitter
         End Set
     End Property
 
-    'Public WriteOnly Property CountApi() As Integer
-    '    'API時の取得件数
-    '    Set(ByVal value As Integer)
-    '        _countApi = value
-    '    End Set
-    'End Property
-
-    'Public WriteOnly Property CountApiReply() As Integer
-    '    'API時のMentions取得件数
-    '    Set(ByVal value As Integer)
-    '        _countApiReply = value
-    '    End Set
-    'End Property
-
     Public Property ReadOwnPost() As Boolean
         Get
             Return _readOwnPost
