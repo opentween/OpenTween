@@ -9627,6 +9627,7 @@ RETRY:
             ImageServiceCombo.Items.Add("TwitPic")
             ImageServiceCombo.Items.Add("img.ly")
             ImageServiceCombo.Items.Add("yfrog")
+            ImageServiceCombo.Items.Add("Plixi")
         End If
         'ImageServiceCombo.Items.Add("TwitVideo")
         If svc = "" Then
