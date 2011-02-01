@@ -37,9 +37,6 @@ Imports System.Web
 Imports System.Reflection
 Imports System.ComponentModel
 Imports System.Diagnostics
-Imports Microsoft.Win32
-Imports System.Xml
-Imports System.Timers
 Imports System.Threading
 Imports System.Linq
 
