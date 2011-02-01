@@ -29,10 +29,8 @@ Imports System.Text
 Imports System.Threading
 Imports System.IO
 Imports System.Text.RegularExpressions
-Imports System.Globalization
 Imports System.Diagnostics
 Imports System.Net
-Imports System.Reflection
 Imports System.Reflection.MethodBase
 Imports System.Runtime.Serialization.Json
 Imports System.Linq
@@ -2746,7 +2744,7 @@ Public Class Twitter
         New EventTypeTableElement("unfavorite", EVENTTYPE.Unfavorite), _
         New EventTypeTableElement("follow", EVENTTYPE.Follow), _
         New EventTypeTableElement("list_member_added", EVENTTYPE.ListMemberAdded), _
-        New EventTypeTableElement("list_memver_removed", EVENTTYPE.ListMemberRemoved), _
+        New EventTypeTableElement("list_member_removed", EVENTTYPE.ListMemberRemoved), _
         New EventTypeTableElement("block", EVENTTYPE.Block), _
         New EventTypeTableElement("unblock", EVENTTYPE.Unblock), _
         New EventTypeTableElement("user_update", EVENTTYPE.UserUpdate), _
