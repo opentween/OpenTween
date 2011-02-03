@@ -2497,10 +2497,6 @@ Public Class AppendSettingDialog
             evt = evt Or EVENTTYPE.UserUpdate
         End If
 
-        If CheckDeleteEvent.Checked Then
-            evt = evt Or EVENTTYPE.Deleted
-        End If
-
         If CheckListCreatedEvent.Checked Then
             evt = evt Or EVENTTYPE.ListCreated
         End If
@@ -2529,11 +2525,11 @@ Public Class AppendSettingDialog
         CheckBlockEvent.Checked = CBool(evt And EVENTTYPE.Block)
         CheckBlockEvent.Enabled = rootEnabled
 
-        CheckDeleteEvent.Checked = CBool(evt And EVENTTYPE.Deleted)
-        CheckDeleteEvent.Enabled = rootEnabled
-
         CheckListCreatedEvent.Checked = CBool(evt And EVENTTYPE.ListCreated)
         CheckListCreatedEvent.Enabled = rootEnabled
+
+        CheckUserUpdateEvent.Checked = CBool(evt And EVENTTYPE.UserUpdate)
+        CheckUserUpdateEvent.Enabled = rootEnabled
     End Sub
 
     Private Sub CheckForceEventNotify_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckForceEventNotify.CheckedChanged
