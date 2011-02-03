@@ -389,36 +389,6 @@
   <data name="&gt;&gt;CheckListCreatedEvent.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="CheckDeleteEvent.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CheckDeleteEvent.Location" type="System.Drawing.Point, System.Drawing">
-    <value>40, 197</value>
-  </data>
-  <data name="CheckDeleteEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>252, 16</value>
-  </data>
-  <data name="CheckDeleteEvent.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="CheckDeleteEvent.Text" xml:space="preserve">
-    <value>発言または自分宛に送信されたDMが削除された</value>
-  </data>
-  <data name="CheckDeleteEvent.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;CheckDeleteEvent.Name" xml:space="preserve">
-    <value>CheckDeleteEvent</value>
-  </data>
-  <data name="&gt;&gt;CheckDeleteEvent.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckDeleteEvent.Parent" xml:space="preserve">
-    <value>NotifyPanel</value>
-  </data>
-  <data name="&gt;&gt;CheckDeleteEvent.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
   <data name="CheckBlockEvent.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -444,7 +414,7 @@
     <value>NotifyPanel</value>
   </data>
   <data name="&gt;&gt;CheckBlockEvent.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>5</value>
   </data>
   <data name="CheckForceEventNotify.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -471,7 +441,7 @@
     <value>NotifyPanel</value>
   </data>
   <data name="&gt;&gt;CheckForceEventNotify.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>6</value>
   </data>
   <data name="CheckListMemberRemovedEvent.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -498,7 +468,7 @@
     <value>NotifyPanel</value>
   </data>
   <data name="&gt;&gt;CheckListMemberRemovedEvent.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>7</value>
   </data>
   <data name="CheckListMemberAddedEvent.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -525,7 +495,7 @@
     <value>NotifyPanel</value>
   </data>
   <data name="&gt;&gt;CheckListMemberAddedEvent.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>8</value>
   </data>
   <data name="CheckFollowEvent.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -552,7 +522,7 @@
     <value>NotifyPanel</value>
   </data>
   <data name="&gt;&gt;CheckFollowEvent.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>9</value>
   </data>
   <data name="CheckUnfavoritesEvent.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -579,7 +549,7 @@
     <value>NotifyPanel</value>
   </data>
   <data name="&gt;&gt;CheckUnfavoritesEvent.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>10</value>
   </data>
   <data name="CheckFavoritesEvent.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -606,7 +576,7 @@
     <value>NotifyPanel</value>
   </data>
   <data name="&gt;&gt;CheckFavoritesEvent.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>11</value>
   </data>
   <data name="CheckEventNotify.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -636,7 +606,7 @@
     <value>NotifyPanel</value>
   </data>
   <data name="&gt;&gt;CheckEventNotify.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>12</value>
   </data>
   <data name="NotifyPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>

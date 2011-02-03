@@ -31,7 +31,6 @@ Partial Class AppendSettingDialog
         Me.ComboBoxEventNotifySound = New System.Windows.Forms.ComboBox()
         Me.CheckFavEventUnread = New System.Windows.Forms.CheckBox()
         Me.CheckListCreatedEvent = New System.Windows.Forms.CheckBox()
-        Me.CheckDeleteEvent = New System.Windows.Forms.CheckBox()
         Me.CheckBlockEvent = New System.Windows.Forms.CheckBox()
         Me.CheckForceEventNotify = New System.Windows.Forms.CheckBox()
         Me.CheckListMemberRemovedEvent = New System.Windows.Forms.CheckBox()
@@ -336,7 +335,6 @@ Partial Class AppendSettingDialog
         Me.NotifyPanel.Controls.Add(Me.ComboBoxEventNotifySound)
         Me.NotifyPanel.Controls.Add(Me.CheckFavEventUnread)
         Me.NotifyPanel.Controls.Add(Me.CheckListCreatedEvent)
-        Me.NotifyPanel.Controls.Add(Me.CheckDeleteEvent)
         Me.NotifyPanel.Controls.Add(Me.CheckBlockEvent)
         Me.NotifyPanel.Controls.Add(Me.CheckForceEventNotify)
         Me.NotifyPanel.Controls.Add(Me.CheckListMemberRemovedEvent)
@@ -382,14 +380,6 @@ Partial Class AppendSettingDialog
         Me.CheckListCreatedEvent.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CheckListCreatedEvent.Name = "CheckListCreatedEvent"
         Me.CheckListCreatedEvent.UseVisualStyleBackColor = True
-        '
-        'CheckDeleteEvent
-        '
-        resources.ApplyResources(Me.CheckDeleteEvent, "CheckDeleteEvent")
-        Me.CheckDeleteEvent.Checked = True
-        Me.CheckDeleteEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckDeleteEvent.Name = "CheckDeleteEvent"
-        Me.CheckDeleteEvent.UseVisualStyleBackColor = True
         '
         'CheckBlockEvent
         '
@@ -2207,7 +2197,6 @@ Partial Class AppendSettingDialog
     Friend WithEvents ListTextCountApi As System.Windows.Forms.TextBox
     Friend WithEvents Label25 As System.Windows.Forms.Label
     Friend WithEvents CheckListCreatedEvent As System.Windows.Forms.CheckBox
-    Friend WithEvents CheckDeleteEvent As System.Windows.Forms.CheckBox
     Friend WithEvents CheckFavEventUnread As System.Windows.Forms.CheckBox
     Friend WithEvents ComboBoxTranslateLanguage As System.Windows.Forms.ComboBox
     Friend WithEvents Label29 As System.Windows.Forms.Label
