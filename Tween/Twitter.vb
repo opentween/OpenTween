@@ -2487,7 +2487,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Return "Check your Username/Password."
             Case HttpStatusCode.BadRequest
-                Return "Err:API Limits?"
+                Return "Err:" + GetErrorMessageJson(content)
             Case Else
                 Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
         End Select
@@ -2512,7 +2512,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Return "Check your Username/Password."
             Case HttpStatusCode.BadRequest
-                Return "Err:API Limits?"
+                Return "Err:" + GetErrorMessageJson(content)
             Case Else
                 Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
         End Select
