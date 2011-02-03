@@ -133,6 +133,7 @@ Public Class AppendSettingDialog
     Private _curPanel As Panel = Nothing
     Private _MyEventNotifyEnabled As Boolean
     Private _MyEventNotifyFlag As EVENTTYPE
+    Private _isMyEventNotifyFlag As EVENTTYPE
     Private _MyForceEventNotify As Boolean
     Private _MyFavEventUnread As Boolean
     Private _MyTranslateLanguage As String
@@ -331,7 +332,7 @@ Public Class AppendSettingDialog
             _MyRetweetNoConfirm = CheckRetweetNoConfirm.Checked
             _MyLimitBalloon = CheckBalloonLimit.Checked
             _MyEventNotifyEnabled = CheckEventNotify.Checked
-            _MyEventNotifyFlag = GetEventNotifyFlag()
+            GetEventNotifyFlag(_MyEventNotifyFlag, _isMyEventNotifyFlag)
             _MyForceEventNotify = CheckForceEventNotify.Checked
             _MyFavEventUnread = CheckFavEventUnread.Checked
             _MyTranslateLanguage = (New Google).GetLanguageEnumFromIndex(ComboBoxTranslateLanguage.SelectedIndex)
@@ -587,7 +588,7 @@ Public Class AppendSettingDialog
         CheckRetweetNoConfirm.Checked = _MyRetweetNoConfirm
         CheckBalloonLimit.Checked = _MyLimitBalloon
 
-        ApplyEventNotifyFlag(_MyEventNotifyEnabled, _MyEventNotifyFlag)
+        ApplyEventNotifyFlag(_MyEventNotifyEnabled, _MyEventNotifyFlag, _isMyEventNotifyFlag)
         CheckForceEventNotify.Checked = _MyForceEventNotify
         CheckFavEventUnread.Checked = _MyFavEventUnread
         ComboBoxTranslateLanguage.SelectedIndex = (New Google).GetIndexFromLanguageEnum(_MyTranslateLanguage)
@@ -1992,6 +1993,15 @@ Public Class AppendSettingDialog
         End Set
     End Property
 
+    Public Property IsMyEventNotifyFlag As EVENTTYPE
+        Get
+            Return _isMyEventNotifyFlag
+        End Get
+        Set(ByVal value As EVENTTYPE)
+            _isMyEventNotifyFlag = value
+        End Set
+    End Property
+
     Public Property ForceEventNotify As Boolean
         Get
             Return _MyForceEventNotify
@@ -2457,79 +2467,74 @@ Public Class AppendSettingDialog
     End Sub
 
     Private Sub CheckEventNotify_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) _
-                    Handles CheckEventNotify.CheckedChanged, CheckFavoritesEvent.CheckedChanged, _
-                            CheckUnfavoritesEvent.CheckedChanged, CheckFollowEvent.CheckedChanged, _
-                            CheckListMemberAddedEvent.CheckedChanged, CheckListMemberRemovedEvent.CheckedChanged, _
-                            CheckListCreatedEvent.CheckedChanged, CheckUserUpdateEvent.CheckedChanged
+                    Handles CheckEventNotify.CheckedChanged, CheckFavoritesEvent.CheckStateChanged, _
+                            CheckUnfavoritesEvent.CheckStateChanged, CheckFollowEvent.CheckStateChanged, _
+                            CheckListMemberAddedEvent.CheckStateChanged, CheckListMemberRemovedEvent.CheckStateChanged, _
+                            CheckListCreatedEvent.CheckStateChanged, CheckUserUpdateEvent.CheckStateChanged
         _MyEventNotifyEnabled = CheckEventNotify.Checked
-        _MyEventNotifyFlag = GetEventNotifyFlag()
-        ApplyEventNotifyFlag(_MyEventNotifyEnabled, _MyEventNotifyFlag)
+        GetEventNotifyFlag(_MyEventNotifyFlag, _isMyEventNotifyFlag)
+        ApplyEventNotifyFlag(_MyEventNotifyEnabled, _MyEventNotifyFlag, _isMyEventNotifyFlag)
     End Sub
 
-    Private Function GetEventNotifyFlag() As EVENTTYPE
-        Dim evt As EVENTTYPE = EVENTTYPE.None
+    Private Class EventCheckboxTblElement
+        Public CheckBox As CheckBox
+        Public Type As EVENTTYPE
+    End Class
 
-        If CheckFavoritesEvent.Checked Then
-            evt = evt Or EVENTTYPE.Favorite
-        End If
+    Private Function GetEventCheckboxTable() As EventCheckboxTblElement()
 
-        If CheckUnfavoritesEvent.Checked Then
-            evt = evt Or EVENTTYPE.Unfavorite
-        End If
+        Static _eventCheckboxTable As EventCheckboxTblElement() = {
+            New EventCheckboxTblElement With {.CheckBox = CheckFavoritesEvent, .Type = EVENTTYPE.Favorite},
+            New EventCheckboxTblElement With {.CheckBox = CheckUnfavoritesEvent, .Type = EVENTTYPE.Unfavorite},
+            New EventCheckboxTblElement With {.CheckBox = CheckFollowEvent, .Type = EVENTTYPE.Follow},
+            New EventCheckboxTblElement With {.CheckBox = CheckListMemberAddedEvent, .Type = EVENTTYPE.ListMemberAdded},
+            New EventCheckboxTblElement With {.CheckBox = CheckListMemberRemovedEvent, .Type = EVENTTYPE.ListMemberRemoved},
+            New EventCheckboxTblElement With {.CheckBox = CheckBlockEvent, .Type = EVENTTYPE.Block},
+            New EventCheckboxTblElement With {.CheckBox = CheckUserUpdateEvent, .Type = EVENTTYPE.UserUpdate},
+            New EventCheckboxTblElement With {.CheckBox = CheckListCreatedEvent, .Type = EVENTTYPE.ListCreated}
+        }
 
-        If CheckFollowEvent.Checked Then
-            evt = evt Or EVENTTYPE.Follow
-        End If
-
-        If CheckListMemberAddedEvent.Checked Then
-            evt = evt Or EVENTTYPE.ListMemberAdded
-        End If
-
-        If CheckListMemberRemovedEvent.Checked Then
-            evt = evt Or EVENTTYPE.ListMemberRemoved
-        End If
-
-        If CheckBlockEvent.Checked Then
-            evt = evt Or EVENTTYPE.Block
-        End If
-
-        If CheckUserUpdateEvent.Checked Then
-            evt = evt Or EVENTTYPE.UserUpdate
-        End If
-
-        If CheckListCreatedEvent.Checked Then
-            evt = evt Or EVENTTYPE.ListCreated
-        End If
-
-        Return evt
+        Return _eventCheckboxTable
     End Function
+    
+    Private Sub GetEventNotifyFlag(ByRef eventnotifyflag As EVENTTYPE, ByRef isMyeventnotifyflag As EVENTTYPE)
+        Dim evt As EVENTTYPE = EVENTTYPE.None
+        Dim myevt As EVENTTYPE = EVENTTYPE.None
 
-    Private Sub ApplyEventNotifyFlag(ByVal rootEnabled As Boolean, ByVal evt As EVENTTYPE)
+        For Each tbl As EventCheckboxTblElement In GetEventCheckboxTable()
+            Select Case tbl.CheckBox.CheckState
+                Case CheckState.Checked
+                    evt = evt Or tbl.Type
+                    myevt = myevt Or tbl.Type
+                Case CheckState.Indeterminate
+                    evt = evt Or tbl.Type
+                Case CheckState.Unchecked
+                    '
+            End Select
+        Next
+        eventnotifyflag = evt
+        isMyeventnotifyflag = myevt
+    End Sub
+
+    Private Sub ApplyEventNotifyFlag(ByVal rootEnabled As Boolean, ByVal eventnotifyflag As EVENTTYPE, ByVal isMyeventnotifyflag As EVENTTYPE)
+        Dim evt = eventnotifyflag
+        Dim myevt = isMyeventnotifyflag
+
         CheckEventNotify.Checked = rootEnabled
 
-        CheckFavoritesEvent.Checked = CBool(evt And EVENTTYPE.Favorite)
-        CheckFavoritesEvent.Enabled = rootEnabled
+        For Each tbl As EventCheckboxTblElement In GetEventCheckboxTable()
+            If CBool(evt And tbl.Type) Then
+                If CBool(myevt And tbl.Type) Then
+                    tbl.CheckBox.CheckState = CheckState.Checked
+                Else
+                    tbl.CheckBox.CheckState = CheckState.Indeterminate
+                End If
+            Else
+                tbl.CheckBox.CheckState = CheckState.Unchecked
+            End If
+            tbl.CheckBox.Enabled = rootEnabled
+        Next
 
-        CheckUnfavoritesEvent.Checked = CBool(evt And EVENTTYPE.Unfavorite)
-        CheckUnfavoritesEvent.Enabled = rootEnabled
-
-        CheckFollowEvent.Checked = CBool(evt And EVENTTYPE.Follow)
-        CheckFollowEvent.Enabled = rootEnabled
-
-        CheckListMemberAddedEvent.Checked = CBool(evt And EVENTTYPE.ListMemberAdded)
-        CheckListMemberAddedEvent.Enabled = rootEnabled
-
-        CheckListMemberRemovedEvent.Checked = CBool(evt And EVENTTYPE.ListMemberRemoved)
-        CheckListMemberRemovedEvent.Enabled = rootEnabled
-
-        CheckBlockEvent.Checked = CBool(evt And EVENTTYPE.Block)
-        CheckBlockEvent.Enabled = rootEnabled
-
-        CheckListCreatedEvent.Checked = CBool(evt And EVENTTYPE.ListCreated)
-        CheckListCreatedEvent.Enabled = rootEnabled
-
-        CheckUserUpdateEvent.Checked = CBool(evt And EVENTTYPE.UserUpdate)
-        CheckUserUpdateEvent.Enabled = rootEnabled
     End Sub
 
     Private Sub CheckForceEventNotify_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckForceEventNotify.CheckedChanged
