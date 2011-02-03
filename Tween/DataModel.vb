@@ -340,4 +340,10 @@ Public Class TwitterDataModel
         <DataMember(Name:="previous_cursor")> Public PreviousCursor As Long
     End Class
 
+    <DataContract()> _
+    Public Class ErrorResponse
+        <DataMember(Name:="request")> Public Request As String
+        <DataMember(Name:="error")> Public ErrMsg As String
+    End Class
+
 End Class

@@ -30,7 +30,7 @@ Public Class UserInfo
 
     Public Sub New(ByVal user As TwitterDataModel.User)
         Me.Id = user.Id
-        Me.Name = user.Name
+        Me.Name = user.Name.Trim()
         Me.ScreenName = user.ScreenName
         Me.Location = user.Location
         Me.Description = user.Description

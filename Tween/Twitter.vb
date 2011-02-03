@@ -1388,6 +1388,8 @@ Public Class Twitter
                 Return "Check your Username/Password."
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
+            Case HttpStatusCode.Forbidden
+                Return "Err:You are not authorized to see this status"
             Case Else
                 Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
         End Select
@@ -1453,7 +1455,7 @@ Public Class Twitter
 
             post.UserId = user.Id
             post.ScreenName = user.ScreenName
-            post.Nickname = user.Name
+            post.Nickname = user.Name.Trim()
             post.ImageUrl = user.ProfileImageUrl
             post.IsProtect = user.Protected
             post.Language = user.Lang
@@ -1478,7 +1480,7 @@ Public Class Twitter
 
             post.UserId = user.Id
             post.ScreenName = user.ScreenName
-            post.Nickname = user.Name
+            post.Nickname = user.Name.Trim()
             post.ImageUrl = user.ProfileImageUrl
             post.IsProtect = user.Protected
             post.Language = user.Lang
@@ -1922,7 +1924,7 @@ Public Class Twitter
 
                 post.UserId = user.Id
                 post.ScreenName = user.ScreenName
-                post.Nickname = user.Name
+                post.Nickname = user.Name.Trim()
                 post.ImageUrl = user.ProfileImageUrl
                 post.IsProtect = user.Protected
                 post.Language = user.Lang
@@ -2062,7 +2064,7 @@ Public Class Twitter
                     Dim user As TwitterDataModel.User = retweeted.User
                     post.UserId = user.Id
                     post.ScreenName = user.ScreenName
-                    post.Nickname = user.Name
+                    post.Nickname = user.Name.Trim()
                     post.ImageUrl = user.ProfileImageUrl
                     post.IsProtect = user.Protected
                     post.Language = user.Lang
@@ -2088,7 +2090,7 @@ Public Class Twitter
                     Dim user As TwitterDataModel.User = status.User
                     post.UserId = user.Id
                     post.ScreenName = user.ScreenName
-                    post.Nickname = user.Name
+                    post.Nickname = user.Name.Trim()
                     post.ImageUrl = user.ProfileImageUrl
                     post.IsProtect = user.Protected
                     post.Language = user.Lang

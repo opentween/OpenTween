@@ -52,7 +52,7 @@ Public Class ListElement
         Me.Name = listElementData.Name
         Me.SubscriberCount = listElementData.SubscriberCount
         Me.Slug = listElementData.Slug
-        Me.Nickname = listElementData.User.Name
+        Me.Nickname = listElementData.User.Name.Trim()
         Me.Username = listElementData.User.ScreenName
         Me.UserId = listElementData.User.Id
 
