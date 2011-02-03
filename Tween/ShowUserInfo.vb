@@ -70,7 +70,7 @@ Public Class ShowUserInfo
 
         Try
             _info.Id = user.Id
-            _info.Name = user.Name
+            _info.Name = user.Name.Trim()
             _info.ScreenName = user.ScreenName
             _info.Location = user.Location
             _info.Description = user.Description
