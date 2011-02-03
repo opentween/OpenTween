@@ -693,6 +693,7 @@ Public Class TweenMain
         SettingDialog.LimitBalloon = _cfgCommon.LimitBalloon
         SettingDialog.EventNotifyEnabled = _cfgCommon.EventNotifyEnabled
         SettingDialog.EventNotifyFlag = _cfgCommon.EventNotifyFlag
+        SettingDialog.IsMyEventNotifyFlag = _cfgCommon.IsMyEventNotifyFlag
         SettingDialog.ForceEventNotify = _cfgCommon.ForceEventNotify
         SettingDialog.FavEventUnread = _cfgCommon.FavEventUnread
         SettingDialog.TranslateLanguage = _cfgCommon.TranslateLanguage
@@ -1370,9 +1371,17 @@ Public Class TweenMain
         Return BalloonRequired(New Twitter.FormattedEvent With {.Eventtype = EVENTTYPE.None})
     End Function
 
+    Private Function IsEventNotifyAsEventType(ByVal type As EVENTTYPE) As Boolean
+        Return SettingDialog.EventNotifyEnabled AndAlso CBool(type And SettingDialog.EventNotifyFlag) OrElse type = EVENTTYPE.None
+    End Function
+
+    Private Function IsMyEventNotityAsEventType(ByVal ev As Twitter.FormattedEvent) As Boolean
+        Return If(CBool(ev.Eventtype And SettingDialog.IsMyEventNotifyFlag), True, Not ev.IsMe)
+    End Function
+
     Private Overloads Function BalloonRequired(ByVal ev As Twitter.FormattedEvent) As Boolean
         If (
-            (SettingDialog.EventNotifyEnabled AndAlso CBool(ev.Eventtype And SettingDialog.EventNotifyFlag) OrElse ev.Eventtype = EVENTTYPE.None) AndAlso
+            IsEventNotifyAsEventType(ev.Eventtype) AndAlso IsMyEventNotityAsEventType(ev) AndAlso
             (NewPostPopMenuItem.Checked OrElse (SettingDialog.ForceEventNotify AndAlso ev.Eventtype <> EVENTTYPE.None)) AndAlso
             Not _initial AndAlso
             (
@@ -5918,6 +5927,7 @@ RETRY:
             _cfgCommon.LimitBalloon = SettingDialog.LimitBalloon
             _cfgCommon.EventNotifyEnabled = SettingDialog.EventNotifyEnabled
             _cfgCommon.EventNotifyFlag = SettingDialog.EventNotifyFlag
+            _cfgCommon.IsMyEventNotifyFlag = SettingDialog.IsMyEventNotifyFlag
             _cfgCommon.ForceEventNotify = SettingDialog.ForceEventNotify
             _cfgCommon.FavEventUnread = SettingDialog.FavEventUnread
             _cfgCommon.TranslateLanguage = SettingDialog.TranslateLanguage
@@ -9922,7 +9932,7 @@ RETRY:
         'サウンド再生
         Dim snd As String = SettingDialog.EventSoundFile
         If Not _initial AndAlso SettingDialog.PlaySound AndAlso snd <> "" Then
-            If CBool(ev.Eventtype And SettingDialog.EventNotifyFlag) Then
+            If CBool(ev.Eventtype And SettingDialog.EventNotifyFlag) AndAlso IsMyEventNotityAsEventType(ev) Then
                 Try
                     Dim dir As String = My.Application.Info.DirectoryPath
                     If Directory.Exists(Path.Combine(dir, "Sounds")) Then

@@ -352,6 +352,7 @@ Partial Class AppendSettingDialog
         Me.CheckUserUpdateEvent.Checked = True
         Me.CheckUserUpdateEvent.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CheckUserUpdateEvent.Name = "CheckUserUpdateEvent"
+        Me.CheckUserUpdateEvent.ThreeState = True
         Me.CheckUserUpdateEvent.UseVisualStyleBackColor = True
         '
         'Label35
@@ -379,6 +380,7 @@ Partial Class AppendSettingDialog
         Me.CheckListCreatedEvent.Checked = True
         Me.CheckListCreatedEvent.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CheckListCreatedEvent.Name = "CheckListCreatedEvent"
+        Me.CheckListCreatedEvent.ThreeState = True
         Me.CheckListCreatedEvent.UseVisualStyleBackColor = True
         '
         'CheckBlockEvent
@@ -387,6 +389,7 @@ Partial Class AppendSettingDialog
         Me.CheckBlockEvent.Checked = True
         Me.CheckBlockEvent.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CheckBlockEvent.Name = "CheckBlockEvent"
+        Me.CheckBlockEvent.ThreeState = True
         Me.CheckBlockEvent.UseVisualStyleBackColor = True
         '
         'CheckForceEventNotify
@@ -403,6 +406,7 @@ Partial Class AppendSettingDialog
         Me.CheckListMemberRemovedEvent.Checked = True
         Me.CheckListMemberRemovedEvent.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CheckListMemberRemovedEvent.Name = "CheckListMemberRemovedEvent"
+        Me.CheckListMemberRemovedEvent.ThreeState = True
         Me.CheckListMemberRemovedEvent.UseVisualStyleBackColor = True
         '
         'CheckListMemberAddedEvent
@@ -411,6 +415,7 @@ Partial Class AppendSettingDialog
         Me.CheckListMemberAddedEvent.Checked = True
         Me.CheckListMemberAddedEvent.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CheckListMemberAddedEvent.Name = "CheckListMemberAddedEvent"
+        Me.CheckListMemberAddedEvent.ThreeState = True
         Me.CheckListMemberAddedEvent.UseVisualStyleBackColor = True
         '
         'CheckFollowEvent
@@ -419,6 +424,7 @@ Partial Class AppendSettingDialog
         Me.CheckFollowEvent.Checked = True
         Me.CheckFollowEvent.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CheckFollowEvent.Name = "CheckFollowEvent"
+        Me.CheckFollowEvent.ThreeState = True
         Me.CheckFollowEvent.UseVisualStyleBackColor = True
         '
         'CheckUnfavoritesEvent
@@ -427,6 +433,7 @@ Partial Class AppendSettingDialog
         Me.CheckUnfavoritesEvent.Checked = True
         Me.CheckUnfavoritesEvent.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CheckUnfavoritesEvent.Name = "CheckUnfavoritesEvent"
+        Me.CheckUnfavoritesEvent.ThreeState = True
         Me.CheckUnfavoritesEvent.UseVisualStyleBackColor = True
         '
         'CheckFavoritesEvent
@@ -435,6 +442,7 @@ Partial Class AppendSettingDialog
         Me.CheckFavoritesEvent.Checked = True
         Me.CheckFavoritesEvent.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CheckFavoritesEvent.Name = "CheckFavoritesEvent"
+        Me.CheckFavoritesEvent.ThreeState = True
         Me.CheckFavoritesEvent.UseVisualStyleBackColor = True
         '
         'CheckEventNotify

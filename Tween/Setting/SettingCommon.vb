@@ -97,7 +97,8 @@ Public Class SettingCommon
     Public IconSize As IconSizes = IconSizes.Icon16
     Public NewAllPop As Boolean = True
     Public EventNotifyEnabled As Boolean = True
-    Public EventNotifyFlag As EVENTTYPE = EVENTTYPE.ALL
+    Public EventNotifyFlag As EVENTTYPE = EVENTTYPE.All
+    Public IsMyEventNotifyFlag As EVENTTYPE = EVENTTYPE.All
     Public ForceEventNotify As Boolean = True
     Public FavEventUnread As Boolean = True
     Public TranslateLanguage As String = My.Resources.TranslateDefaultLanguage
