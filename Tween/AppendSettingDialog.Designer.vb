@@ -322,7 +322,6 @@ Partial Class AppendSettingDialog
         '
         Me.TreeViewSetting.Cursor = System.Windows.Forms.Cursors.Hand
         resources.ApplyResources(Me.TreeViewSetting, "TreeViewSetting")
-        Me.TreeViewSetting.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText
         Me.TreeViewSetting.HideSelection = False
         Me.TreeViewSetting.Name = "TreeViewSetting"
         Me.TreeViewSetting.Nodes.AddRange(New System.Windows.Forms.TreeNode() {CType(resources.GetObject("TreeViewSetting.Nodes"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeViewSetting.Nodes1"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeViewSetting.Nodes2"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeViewSetting.Nodes3"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeViewSetting.Nodes4"), System.Windows.Forms.TreeNode)})
@@ -1974,7 +1973,6 @@ Partial Class AppendSettingDialog
 
     End Sub
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
-    Friend WithEvents TreeViewSetting As System.Windows.Forms.TreeView
     Friend WithEvents BasedPanel As System.Windows.Forms.Panel
     Friend WithEvents AuthBasicRadio As System.Windows.Forms.RadioButton
     Friend WithEvents AuthOAuthRadio As System.Windows.Forms.RadioButton
@@ -2213,4 +2211,5 @@ Partial Class AppendSettingDialog
     Friend WithEvents LabelUserStreamActive As System.Windows.Forms.Label
     Friend WithEvents LabelApiUsingUserStreamEnabled As System.Windows.Forms.Label
     Friend WithEvents CheckUserUpdateEvent As System.Windows.Forms.CheckBox
+    Private WithEvents TreeViewSetting As System.Windows.Forms.TreeView
 End Class
