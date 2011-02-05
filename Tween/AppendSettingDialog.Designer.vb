@@ -22,6 +22,7 @@ Partial Class AppendSettingDialog
     'コード エディターを使って変更しないでください。
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AppendSettingDialog))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.TreeViewSetting = New System.Windows.Forms.TreeView()
@@ -263,6 +264,7 @@ Partial Class AppendSettingDialog
         Me.ColorDialog1 = New System.Windows.Forms.ColorDialog()
         Me.Cancel = New System.Windows.Forms.Button()
         Me.Save = New System.Windows.Forms.Button()
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -352,6 +354,7 @@ Partial Class AppendSettingDialog
         Me.CheckUserUpdateEvent.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CheckUserUpdateEvent.Name = "CheckUserUpdateEvent"
         Me.CheckUserUpdateEvent.ThreeState = True
+        Me.ToolTip1.SetToolTip(Me.CheckUserUpdateEvent, resources.GetString("CheckUserUpdateEvent.ToolTip"))
         Me.CheckUserUpdateEvent.UseVisualStyleBackColor = True
         '
         'Label35
@@ -380,6 +383,7 @@ Partial Class AppendSettingDialog
         Me.CheckListCreatedEvent.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CheckListCreatedEvent.Name = "CheckListCreatedEvent"
         Me.CheckListCreatedEvent.ThreeState = True
+        Me.ToolTip1.SetToolTip(Me.CheckListCreatedEvent, resources.GetString("CheckListCreatedEvent.ToolTip"))
         Me.CheckListCreatedEvent.UseVisualStyleBackColor = True
         '
         'CheckBlockEvent
@@ -389,6 +393,7 @@ Partial Class AppendSettingDialog
         Me.CheckBlockEvent.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CheckBlockEvent.Name = "CheckBlockEvent"
         Me.CheckBlockEvent.ThreeState = True
+        Me.ToolTip1.SetToolTip(Me.CheckBlockEvent, resources.GetString("CheckBlockEvent.ToolTip"))
         Me.CheckBlockEvent.UseVisualStyleBackColor = True
         '
         'CheckForceEventNotify
@@ -406,6 +411,7 @@ Partial Class AppendSettingDialog
         Me.CheckListMemberRemovedEvent.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CheckListMemberRemovedEvent.Name = "CheckListMemberRemovedEvent"
         Me.CheckListMemberRemovedEvent.ThreeState = True
+        Me.ToolTip1.SetToolTip(Me.CheckListMemberRemovedEvent, resources.GetString("CheckListMemberRemovedEvent.ToolTip"))
         Me.CheckListMemberRemovedEvent.UseVisualStyleBackColor = True
         '
         'CheckListMemberAddedEvent
@@ -415,6 +421,7 @@ Partial Class AppendSettingDialog
         Me.CheckListMemberAddedEvent.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CheckListMemberAddedEvent.Name = "CheckListMemberAddedEvent"
         Me.CheckListMemberAddedEvent.ThreeState = True
+        Me.ToolTip1.SetToolTip(Me.CheckListMemberAddedEvent, resources.GetString("CheckListMemberAddedEvent.ToolTip"))
         Me.CheckListMemberAddedEvent.UseVisualStyleBackColor = True
         '
         'CheckFollowEvent
@@ -424,6 +431,7 @@ Partial Class AppendSettingDialog
         Me.CheckFollowEvent.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CheckFollowEvent.Name = "CheckFollowEvent"
         Me.CheckFollowEvent.ThreeState = True
+        Me.ToolTip1.SetToolTip(Me.CheckFollowEvent, resources.GetString("CheckFollowEvent.ToolTip"))
         Me.CheckFollowEvent.UseVisualStyleBackColor = True
         '
         'CheckUnfavoritesEvent
@@ -433,6 +441,7 @@ Partial Class AppendSettingDialog
         Me.CheckUnfavoritesEvent.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CheckUnfavoritesEvent.Name = "CheckUnfavoritesEvent"
         Me.CheckUnfavoritesEvent.ThreeState = True
+        Me.ToolTip1.SetToolTip(Me.CheckUnfavoritesEvent, resources.GetString("CheckUnfavoritesEvent.ToolTip"))
         Me.CheckUnfavoritesEvent.UseVisualStyleBackColor = True
         '
         'CheckFavoritesEvent
@@ -442,6 +451,7 @@ Partial Class AppendSettingDialog
         Me.CheckFavoritesEvent.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CheckFavoritesEvent.Name = "CheckFavoritesEvent"
         Me.CheckFavoritesEvent.ThreeState = True
+        Me.ToolTip1.SetToolTip(Me.CheckFavoritesEvent, resources.GetString("CheckFavoritesEvent.ToolTip"))
         Me.CheckFavoritesEvent.UseVisualStyleBackColor = True
         '
         'CheckEventNotify
@@ -2212,4 +2222,5 @@ Partial Class AppendSettingDialog
     Friend WithEvents LabelApiUsingUserStreamEnabled As System.Windows.Forms.Label
     Friend WithEvents CheckUserUpdateEvent As System.Windows.Forms.CheckBox
     Private WithEvents TreeViewSetting As System.Windows.Forms.TreeView
+    Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
 End Class
