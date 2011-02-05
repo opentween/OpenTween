@@ -275,6 +275,12 @@
   <data name="CheckUserUpdateEvent.Text" xml:space="preserve">
     <value>ユーザーのプロフィールが更新された</value>
   </data>
+  <metadata name="ToolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>268, 17</value>
+  </metadata>
+  <data name="CheckUserUpdateEvent.ToolTip" xml:space="preserve">
+    <value>チェックを不確定状態にすると他者が発生させたイベントのみ通知します</value>
+  </data>
   <data name="&gt;&gt;CheckUserUpdateEvent.Name" xml:space="preserve">
     <value>CheckUserUpdateEvent</value>
   </data>
@@ -377,6 +383,9 @@
   <data name="CheckListCreatedEvent.Text" xml:space="preserve">
     <value>Listsの作成に成功した</value>
   </data>
+  <data name="CheckListCreatedEvent.ToolTip" xml:space="preserve">
+    <value>チェックを不確定状態にすると他者が発生させたイベントのみ通知します</value>
+  </data>
   <data name="&gt;&gt;CheckListCreatedEvent.Name" xml:space="preserve">
     <value>CheckListCreatedEvent</value>
   </data>
@@ -403,6 +412,9 @@
   </data>
   <data name="CheckBlockEvent.Text" xml:space="preserve">
     <value>他のユーザーに対するブロックが成功した</value>
+  </data>
+  <data name="CheckBlockEvent.ToolTip" xml:space="preserve">
+    <value>チェックを不確定状態にすると他者が発生させたイベントのみ通知します</value>
   </data>
   <data name="&gt;&gt;CheckBlockEvent.Name" xml:space="preserve">
     <value>CheckBlockEvent</value>
@@ -458,6 +470,9 @@
   <data name="CheckListMemberRemovedEvent.Text" xml:space="preserve">
     <value>Listsから削除された</value>
   </data>
+  <data name="CheckListMemberRemovedEvent.ToolTip" xml:space="preserve">
+    <value>チェックを不確定状態にすると他者が発生させたイベントのみ通知します</value>
+  </data>
   <data name="&gt;&gt;CheckListMemberRemovedEvent.Name" xml:space="preserve">
     <value>CheckListMemberRemovedEvent</value>
   </data>
@@ -484,6 +499,9 @@
   </data>
   <data name="CheckListMemberAddedEvent.Text" xml:space="preserve">
     <value>Listsに追加された</value>
+  </data>
+  <data name="CheckListMemberAddedEvent.ToolTip" xml:space="preserve">
+    <value>チェックを不確定状態にすると他者が発生させたイベントのみ通知します</value>
   </data>
   <data name="&gt;&gt;CheckListMemberAddedEvent.Name" xml:space="preserve">
     <value>CheckListMemberAddedEvent</value>
@@ -512,6 +530,9 @@
   <data name="CheckFollowEvent.Text" xml:space="preserve">
     <value>フォローされた</value>
   </data>
+  <data name="CheckFollowEvent.ToolTip" xml:space="preserve">
+    <value>チェックを不確定状態にすると他者が発生させたイベントのみ通知します</value>
+  </data>
   <data name="&gt;&gt;CheckFollowEvent.Name" xml:space="preserve">
     <value>CheckFollowEvent</value>
   </data>
@@ -539,6 +560,9 @@
   <data name="CheckUnfavoritesEvent.Text" xml:space="preserve">
     <value>Fav削除した、またはFav削除された</value>
   </data>
+  <data name="CheckUnfavoritesEvent.ToolTip" xml:space="preserve">
+    <value>チェックを不確定状態にすると他者が発生させたイベントのみ通知します</value>
+  </data>
   <data name="&gt;&gt;CheckUnfavoritesEvent.Name" xml:space="preserve">
     <value>CheckUnfavoritesEvent</value>
   </data>
@@ -565,6 +589,9 @@
   </data>
   <data name="CheckFavoritesEvent.Text" xml:space="preserve">
     <value>Fav追加した、またはFav追加された</value>
+  </data>
+  <data name="CheckFavoritesEvent.ToolTip" xml:space="preserve">
+    <value>チェックを不確定状態にすると他者が発生させたイベントのみ通知します</value>
   </data>
   <data name="&gt;&gt;CheckFavoritesEvent.Name" xml:space="preserve">
     <value>CheckFavoritesEvent</value>
@@ -7461,6 +7488,12 @@
   </data>
   <data name="&gt;&gt;ColorDialog1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ColorDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolTip1.Name" xml:space="preserve">
+    <value>ToolTip1</value>
+  </data>
+  <data name="&gt;&gt;ToolTip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>AppendSettingDialog</value>
