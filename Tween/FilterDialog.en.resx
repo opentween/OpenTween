@@ -124,6 +124,12 @@
     <value>If only the [ExcludingRule] is set, it becomes excluding set to the this tab. </value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="CheckExLambDa.Size" type="System.Drawing.Size, System.Drawing">
+    <value>122, 16</value>
+  </data>
+  <data name="CheckExLambDa.Text" xml:space="preserve">
+    <value>Lambda expression</value>
+  </data>
   <data name="CheckExRetweet.Size" type="System.Drawing.Size, System.Drawing">
     <value>96, 16</value>
   </data>
@@ -180,6 +186,12 @@
   </data>
   <data name="GroupExclude.Text" xml:space="preserve">
     <value>ExcludingRule</value>
+  </data>
+  <data name="CheckLambda.Size" type="System.Drawing.Size, System.Drawing">
+    <value>122, 16</value>
+  </data>
+  <data name="CheckLambda.Text" xml:space="preserve">
+    <value>Lambda expression</value>
   </data>
   <data name="CheckRetweet.Size" type="System.Drawing.Size, System.Drawing">
     <value>96, 16</value>

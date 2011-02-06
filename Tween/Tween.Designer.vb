@@ -113,6 +113,7 @@ Partial Class TweenMain
         Me.ListManageUserContextToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator33 = New System.Windows.Forms.ToolStripSeparator()
         Me.UseHashtagMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SelectionTranslationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TranslationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DateTimeLabel = New System.Windows.Forms.Label()
         Me.SourceLinkLabel = New System.Windows.Forms.LinkLabel()
@@ -297,7 +298,6 @@ Partial Class TweenMain
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.SelectionTranslationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -902,6 +902,11 @@ Partial Class TweenMain
         '
         Me.UseHashtagMenuItem.Name = "UseHashtagMenuItem"
         resources.ApplyResources(Me.UseHashtagMenuItem, "UseHashtagMenuItem")
+        '
+        'SelectionTranslationToolStripMenuItem
+        '
+        Me.SelectionTranslationToolStripMenuItem.Name = "SelectionTranslationToolStripMenuItem"
+        resources.ApplyResources(Me.SelectionTranslationToolStripMenuItem, "SelectionTranslationToolStripMenuItem")
         '
         'TranslationToolStripMenuItem
         '
@@ -1857,11 +1862,6 @@ Partial Class TweenMain
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
-        '
-        'SelectionTranslationToolStripMenuItem
-        '
-        Me.SelectionTranslationToolStripMenuItem.Name = "SelectionTranslationToolStripMenuItem"
-        resources.ApplyResources(Me.SelectionTranslationToolStripMenuItem, "SelectionTranslationToolStripMenuItem")
         '
         'TweenMain
         '
