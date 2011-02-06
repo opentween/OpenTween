@@ -1150,7 +1150,7 @@ Public Class Twitter
 #Region "バージョンアップ"
     Public Function GetVersionInfo() As String
         Dim content As String = ""
-        If Not (New HttpVarious).GetData("http://tween.sourceforge.jp/version2.txt?" + Now.ToString("yyMMddHHmmss") + Environment.TickCount.ToString(), Nothing, content) Then
+        If Not (New HttpVarious).GetData("http://tween.sourceforge.jp/version.txt?" + Now.ToString("yyMMddHHmmss") + Environment.TickCount.ToString(), Nothing, content) Then
             Throw New Exception("GetVersionInfo Failed")
         End If
         Return content
