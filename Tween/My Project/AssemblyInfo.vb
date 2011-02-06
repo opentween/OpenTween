@@ -35,7 +35,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("Client of Twitter. Free software(GPL3)")> 
 <Assembly: AssemblyCompany("")> 
 <Assembly: AssemblyProduct("Tween")> 
-<Assembly: AssemblyCopyright("(C)kiri_feather 2007-2010 All Rights Reserved.")> 
+<Assembly: AssemblyCopyright("(C)kiri_feather 2007-2011 All Rights Reserved.")> 
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>
