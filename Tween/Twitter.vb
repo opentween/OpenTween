@@ -2933,7 +2933,7 @@ Public Class Twitter
                     End If
                 End If
             Case "list_member_added", "list_member_removed"
-                evt.Target = eventData.TargetObject.Name
+                evt.Target = eventData.TargetObject.FullName
             Case "block"
                 evt.Target = ""
             Case "unblock"
