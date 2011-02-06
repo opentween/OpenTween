@@ -2562,6 +2562,7 @@ Public Class AppendSettingDialog
     End Sub
 
     Private Sub SoundFileListup()
+        If _MyEventSoundFile Is Nothing Then Exit Sub
         _soundfileListup = True
         ComboBoxEventNotifySound.Items.Clear()
         ComboBoxEventNotifySound.Items.Add("")
