@@ -708,7 +708,7 @@ Public Class AppendSettingDialog
 
             .SelectedNode = .Nodes(0)
         End With
-        TreeViewSetting.SelectedNode = TreeViewSetting.TopNode
+        'TreeViewSetting.SelectedNode = TreeViewSetting.TopNode
         ActiveControl = Username
     End Sub
 
