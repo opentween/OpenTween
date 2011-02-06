@@ -304,6 +304,9 @@
       <DependentUpon>AtIdSupplement.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="EventViewerDialog.en.resx">
+      <DependentUpon>EventViewerDialog.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EventViewerDialog.resx">
       <DependentUpon>EventViewerDialog.vb</DependentUpon>
     </EmbeddedResource>

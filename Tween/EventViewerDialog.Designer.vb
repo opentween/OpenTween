@@ -86,16 +86,16 @@ Partial Class EventViewerDialog
         '
         'TabPageAll
         '
-        Me.TabPageAll.Controls.Add(Me.EventList)
         resources.ApplyResources(Me.TabPageAll, "TabPageAll")
+        Me.TabPageAll.Controls.Add(Me.EventList)
         Me.TabPageAll.Name = "TabPageAll"
         Me.TabPageAll.Tag = "All"
         Me.TabPageAll.UseVisualStyleBackColor = True
         '
         'EventList
         '
-        Me.EventList.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader3, Me.ColumnHeader4})
         resources.ApplyResources(Me.EventList, "EventList")
+        Me.EventList.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader3, Me.ColumnHeader4})
         Me.EventList.FullRowSelect = True
         Me.EventList.Name = "EventList"
         Me.EventList.ShowItemToolTips = True
@@ -194,14 +194,14 @@ Partial Class EventViewerDialog
         '
         'StatusStrip1
         '
-        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.StatusLabelCount})
         resources.ApplyResources(Me.StatusStrip1, "StatusStrip1")
+        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.StatusLabelCount})
         Me.StatusStrip1.Name = "StatusStrip1"
         '
         'StatusLabelCount
         '
-        Me.StatusLabelCount.Name = "StatusLabelCount"
         resources.ApplyResources(Me.StatusLabelCount, "StatusLabelCount")
+        Me.StatusLabelCount.Name = "StatusLabelCount"
         '
         'EventViewerDialog
         '
