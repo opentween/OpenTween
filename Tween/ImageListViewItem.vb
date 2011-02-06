@@ -38,7 +38,7 @@ Public Class ImageListViewItem
 
         Dim dummy As Image = imageDictionary.Item(imageKey, Sub(getImg)
                                                                 If getImg Is Nothing Then Exit Sub
-                                                                Me.img = getImg
+                                                                Me.img = DirectCast(getImg.Clone(), Image)
                                                                 If Me.ListView IsNot Nothing AndAlso
                                                                     Me.ListView.Created AndAlso
                                                                     Not Me.ListView.IsDisposed Then Me.ListView.Invoke(Sub()
@@ -56,10 +56,10 @@ Public Class ImageListViewItem
     End Property
 
     Protected Overrides Sub Finalize()
-        'If Me.img IsNot Nothing Then
-        '    Me.img.Dispose()
-        '    Me.img = Nothing
-        'End If
+        If Me.img IsNot Nothing Then
+            Me.img.Dispose()
+            Me.img = Nothing
+        End If
         MyBase.Finalize()
     End Sub
 End Class
