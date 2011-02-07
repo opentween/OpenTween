@@ -1405,6 +1405,7 @@ Public Class TweenMain
 
     Private Sub NotifyNewPosts(ByVal notifyPosts() As PostClass, ByVal soundFile As String, ByVal addCount As Integer, ByVal newMentions As Boolean)
         If notifyPosts IsNot Nothing AndAlso _
+            Me.SettingDialog.ReadOwnPost AndAlso _
             notifyPosts.All(Function(post) post.UserId.ToString() = tw.UserIdNo OrElse post.ScreenName = tw.Username) Then
             Exit Sub
         End If
