@@ -2358,7 +2358,7 @@ Public Class TweenMain
                         End If
                     End If
                 End If
-                If rslt.retMsg.Length = 0 AndAlso SettingDialog.PostAndGet Then GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
+                If Not _isActiveUserstream AndAlso rslt.retMsg.Length = 0 AndAlso SettingDialog.PostAndGet Then GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
             Case WORKERTYPE.Retweet
                 If rslt.retMsg.Length = 0 Then
                     _postTimestamps.Add(Now)
