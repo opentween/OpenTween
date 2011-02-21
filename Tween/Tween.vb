@@ -1307,10 +1307,10 @@ Public Class TweenMain
                         '制御しない
                     Case Else
                         '表示位置キープ
-                        'If _curList.VirtualListSize > 0 AndAlso _statuses.IndexOf(_curTab.Text, topId) > -1 Then
-                        '    _curList.EnsureVisible(_curList.VirtualListSize - 1)
-                        '    _curList.EnsureVisible(_statuses.IndexOf(_curTab.Text, topId))
-                        'End If
+                        If _curList.VirtualListSize > 0 AndAlso _statuses.IndexOf(_curTab.Text, topId) > -1 Then
+                            _curList.EnsureVisible(_curList.VirtualListSize - 1)
+                            _curList.EnsureVisible(_statuses.IndexOf(_curTab.Text, topId))
+                        End If
                 End Select
             End If
         Catch ex As Exception
@@ -1339,10 +1339,10 @@ Public Class TweenMain
                     'Id昇順
                     If ListLockMenuItem.Checked Then
                         '制御しない
-                        'smode = -1
-                        '現在表示位置へ強制スクロール
-                        If _curList.TopItem IsNot Nothing Then topId = _statuses.GetId(_curTab.Text, _curList.TopItem.Index)
-                        smode = 0
+                        smode = -1
+                        ''現在表示位置へ強制スクロール
+                        'If _curList.TopItem IsNot Nothing Then topId = _statuses.GetId(_curTab.Text, _curList.TopItem.Index)
+                        'smode = 0
                     Else
                         '最下行が表示されていたら、最下行へ強制スクロール。最下行が表示されていなかったら制御しない
                         Dim _item As ListViewItem
@@ -1351,9 +1351,9 @@ Public Class TweenMain
                         If _item.Index = _curList.Items.Count - 1 Then
                             smode = -2
                         Else
-                            'smode = -1
-                            If _curList.TopItem IsNot Nothing Then topId = _statuses.GetId(_curTab.Text, _curList.TopItem.Index)
-                            smode = 0
+                            smode = -1
+                            'If _curList.TopItem IsNot Nothing Then topId = _statuses.GetId(_curTab.Text, _curList.TopItem.Index)
+                            'smode = 0
                         End If
                     End If
                 Else
