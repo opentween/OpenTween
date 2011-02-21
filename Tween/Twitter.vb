@@ -382,7 +382,7 @@ Public Class Twitter
                     TraceOut(ex.Message + Environment.NewLine + content)
                     Return "Err:Json Parse Error(DataContractJsonSerializer)"
                 Catch ex As Exception
-                    TraceOut(content)
+                    TraceOut(ex, GetCurrentMethod.Name & " " & content)
                     Return "Err:Invalid Json!"
                 End Try
                 _followersCount = status.User.FollowersCount
@@ -464,7 +464,7 @@ Public Class Twitter
                     TraceOut(ex.Message + Environment.NewLine + content)
                     Return "Err:Json Parse Error(DataContractJsonSerializer)"
                 Catch ex As Exception
-                    TraceOut(content)
+                    TraceOut(ex, GetCurrentMethod.Name & " " & content)
                     Return "Err:Invalid Json!"
                 End Try
                 _followersCount = status.Sender.FollowersCount
@@ -577,7 +577,7 @@ Public Class Twitter
             TraceOut(ex.Message + Environment.NewLine + content)
             Return "Err:Json Parse Error(DataContractJsonSerializer)"
         Catch ex As Exception
-            TraceOut(content)
+            TraceOut(ex, GetCurrentMethod.Name & " " & content)
             Return "Err:Invalid Json!"
         End Try
 
@@ -828,7 +828,7 @@ Public Class Twitter
                     TraceOut(ex.Message + Environment.NewLine + content)
                     Return "Err:Json Parse Error(DataContractJsonSerializer)"
                 Catch ex As Exception
-                    TraceOut(content)
+                    TraceOut(ex, GetCurrentMethod.Name & " " & content)
                     Return "Err:Invalid Json!"
                 End Try
             Case HttpStatusCode.BadRequest
@@ -865,7 +865,7 @@ Public Class Twitter
                     TraceOut(ex.Message + Environment.NewLine + content)
                     Return "Err:Json Parse Error(DataContractJsonSerializer)"
                 Catch ex As Exception
-                    TraceOut(content)
+                    TraceOut(ex, GetCurrentMethod.Name & " " & content)
                     Return "Err:Invalid Json!"
                 End Try
                 Return ""
@@ -917,7 +917,7 @@ Public Class Twitter
                         Return "Err:Json Parse Error(DataContractJsonSerializer)"
                     Catch ex As Exception
                         retweeted_count = -1
-                        TraceOut(content)
+                        TraceOut(ex, GetCurrentMethod.Name & " " & content)
                         Return "Err:Invalid Json!"
                     End Try
                 Case HttpStatusCode.BadRequest
@@ -986,7 +986,7 @@ Public Class Twitter
                     TraceOut(ex.Message + Environment.NewLine + content)
                     Return "Err:Json Parse Error(DataContractJsonSerializer)"
                 Catch ex As Exception
-                    TraceOut(content)
+                    TraceOut(ex, GetCurrentMethod.Name & " " & content)
                     Return "Err:Invalid Json!"
                 End Try
                 If status.Favorited Then
@@ -1169,8 +1169,8 @@ Public Class Twitter
                                                 Path.Combine(Application.StartupPath(), "en\Tween.resourcesNew.dll")) Then
                 Return "Err:Download failed"
             End If
-            If Not (New HttpVarious).GetDataToFile("http://tween.sourceforge.jp/TweenUp.gz?" + Now.ToString("yyMMddHHmmss") + Environment.TickCount.ToString(), _
-                                                Path.Combine(Application.StartupPath(), "TweenUp.exe")) Then
+            If Not (New HttpVarious).GetDataToFile("http://tween.sourceforge.jp/TweenUp2.gz?" + Now.ToString("yyMMddHHmmss") + Environment.TickCount.ToString(), _
+                                                Path.Combine(Application.StartupPath(), "TweenUp2.exe")) Then
                 Return "Err:Download failed"
             End If
             If Not (New HttpVarious).GetDataToFile("http://tween.sourceforge.jp/TweenDll" + strVer + ".gz?" + Now.ToString("yyMMddHHmmss") + Environment.TickCount.ToString(), _
@@ -1347,7 +1347,7 @@ Public Class Twitter
             TraceOut(ex.Message + Environment.NewLine + content)
             Return "Json Parse Error(DataContractJsonSerializer)"
         Catch ex As Exception
-            TraceOut(content)
+            TraceOut(ex, GetCurrentMethod.Name & " " & content)
             Return "Invalid Json!"
         End Try
 
@@ -1401,7 +1401,7 @@ Public Class Twitter
             TraceOut(ex.Message + Environment.NewLine + content)
             Return "Json Parse Error(DataContractJsonSerializer)"
         Catch ex As Exception
-            TraceOut(content)
+            TraceOut(ex, GetCurrentMethod.Name & " " & content)
             Return "Invalid Json!"
         End Try
 
@@ -1515,7 +1515,7 @@ Public Class Twitter
             TraceOut(ex.Message + Environment.NewLine + content)
             Return "Json Parse Error(DataContractJsonSerializer)"
         Catch ex As Exception
-            TraceOut(content)
+            TraceOut(ex, GetCurrentMethod.Name & " " & content)
             Return "Invalid Json!"
         End Try
 
@@ -1668,7 +1668,7 @@ Public Class Twitter
             TraceOut(ex.Message + Environment.NewLine + content)
             Return "Json Parse Error(DataContractJsonSerializer)"
         Catch ex As Exception
-            TraceOut(content)
+            TraceOut(ex, GetCurrentMethod.Name & " " & content)
             Return "Invalid Json!"
         End Try
 
@@ -1775,7 +1775,7 @@ Public Class Twitter
         Try
             xdoc.LoadXml(content)
         Catch ex As Exception
-            TraceOut(content)
+            TraceOut(ex, GetCurrentMethod.Name & " " & content)
             Return "Invalid ATOM!"
         End Try
         Dim nsmgr As New XmlNamespaceManager(xdoc.NameTable)
@@ -1828,7 +1828,7 @@ Public Class Twitter
                 post.RelTabName = tab.TabName
                 If Not more AndAlso post.StatusId > tab.SinceId Then tab.SinceId = post.StatusId
             Catch ex As Exception
-                TraceOut(content)
+                TraceOut(ex, GetCurrentMethod.Name & " " & content)
                 Continue For
             End Try
 
@@ -1867,7 +1867,7 @@ Public Class Twitter
             TraceOut(ex.Message + Environment.NewLine + content)
             Return "Json Parse Error(DataContractJsonSerializer)"
         Catch ex As Exception
-            TraceOut(content)
+            TraceOut(ex, GetCurrentMethod.Name & " " & content)
             Return "Invalid Json!"
         End Try
 
@@ -1929,7 +1929,7 @@ Public Class Twitter
                 post.IsProtect = user.Protected
                 post.Language = user.Lang
             Catch ex As Exception
-                TraceOut(content)
+                TraceOut(ex, GetCurrentMethod.Name & " " & content)
                 MessageBox.Show("Parse Error(CreateDirectMessagesFromJson)")
                 Continue For
             End Try
@@ -2031,7 +2031,7 @@ Public Class Twitter
             TraceOut(ex.Message + Environment.NewLine + content)
             Return "Json Parse Error(DataContractJsonSerializer)"
         Catch ex As Exception
-            TraceOut(content)
+            TraceOut(ex, GetCurrentMethod.Name & " " & content)
             Return "Invalid Json!"
         End Try
 
@@ -2116,7 +2116,7 @@ Public Class Twitter
 
                 post.IsDm = False
             Catch ex As Exception
-                TraceOut(content)
+                TraceOut(ex, GetCurrentMethod.Name & " " & content)
                 Continue For
             End Try
 
@@ -2187,7 +2187,7 @@ Public Class Twitter
             TraceOut(ex.Message + Environment.NewLine + content)
             Return "Err:Json Parse Error(DataContractJsonSerializer)"
         Catch ex As Exception
-            TraceOut(content)
+            TraceOut(ex, GetCurrentMethod.Name & " " & content)
             Return "Err:Invalid Json!"
         End Try
     End Function
@@ -2229,7 +2229,7 @@ Public Class Twitter
                 TraceOut(ex.Message + Environment.NewLine + content)
                 Return "Err:Json Parse Error(DataContractJsonSerializer)"
             Catch ex As Exception
-                TraceOut(content)
+                TraceOut(ex, GetCurrentMethod.Name & " " & content)
                 Return "Err:Invalid Json!"
             End Try
         Loop While cursor <> 0
@@ -2265,7 +2265,7 @@ Public Class Twitter
                 TraceOut(ex.Message + Environment.NewLine + content)
                 Return "Err:Json Parse Error(DataContractJsonSerializer)"
             Catch ex As Exception
-                TraceOut(content)
+                TraceOut(ex, GetCurrentMethod.Name & " " & content)
                 Return "Err:Invalid Json!"
             End Try
         Loop While cursor <> 0
@@ -2343,7 +2343,7 @@ Public Class Twitter
             TraceOut(ex.Message + Environment.NewLine + content)
             Return "Err:Json Parse Error(DataContractJsonSerializer)"
         Catch ex As Exception
-            TraceOut(content)
+            TraceOut(ex, GetCurrentMethod.Name & " " & content)
             Return "Err:Invalid Json!"
         End Try
 
@@ -2387,7 +2387,7 @@ Public Class Twitter
             TraceOut(ex.Message + Environment.NewLine + content)
             Return "Err:Json Parse Error(DataContractJsonSerializer)"
         Catch ex As Exception
-            TraceOut(content)
+            TraceOut(ex, GetCurrentMethod.Name & " " & content)
             Return "Err:Invalid Json!"
         End Try
 
@@ -2426,7 +2426,7 @@ Public Class Twitter
             TraceOut(ex.Message + Environment.NewLine + content)
             Return "Err:Json Parse Error(DataContractJsonSerializer)"
         Catch ex As Exception
-            TraceOut(content)
+            TraceOut(ex, GetCurrentMethod.Name & " " & content)
             Return "Err:Invalid Json!"
         End Try
     End Function
@@ -2672,7 +2672,7 @@ Public Class Twitter
             TwitterApiInfo.WriteBackEventArgs(arg)
             Return True
         Catch ex As Exception
-            TraceOut(content)
+            TraceOut(ex, GetCurrentMethod.Name & " " & content)
             TwitterApiInfo.Initialize()
             Return False
         End Try
@@ -2760,7 +2760,7 @@ Public Class Twitter
 
     Public ReadOnly Property IsUserstreamDataReceived As Boolean
         Get
-            Return Now.Subtract(Me._lastUserstreamDataReceived).Seconds < 31
+            Return Now.Subtract(Me._lastUserstreamDataReceived).TotalSeconds < 31
         End Get
     End Property
 

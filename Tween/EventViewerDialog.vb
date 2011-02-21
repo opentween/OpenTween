@@ -59,11 +59,12 @@ Public Class EventViewerDialog
         _curTab = TabEventType.SelectedTab
         CreateFilterdEventSource()
         EventList.EndUpdate()
+        Me.TopMost = AppendSettingDialog.Instance.AlwaysTop
     End Sub
 
     Private Sub EventList_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EventList.DoubleClick
         If _filterdEventSource(EventList.SelectedIndices(0)) IsNot Nothing Then
-            TweenMain.OpenUriAsync("http://twitter.com/" + EventSource(EventList.SelectedIndices(0)).Username)
+            TweenMain.OpenUriAsync("http://twitter.com/" + _filterdEventSource(EventList.SelectedIndices(0)).Username)
         End If
     End Sub
 
@@ -91,13 +92,9 @@ Public Class EventViewerDialog
 
     Private Sub CreateFilterdEventSource()
         If EventSource IsNot Nothing AndAlso EventSource.Count > 0 Then
-            Dim matchDelegate As New Func(Of Twitter.FormattedEvent, Boolean)(AddressOf IsFilterMatch)
-            _filterdEventSource = (From x As Twitter.FormattedEvent In EventSource.AsParallel
-                                    Where If(CheckExcludeMyEvent.Checked, Not x.IsMe, True)
-                                    Where CBool(x.Eventtype And ParseEventTypeFromTag())
-                                    Where matchDelegate(x)
-                                    Order By x.CreatedAt Descending
-                                    Select x).ToArray()
+            _filterdEventSource = EventSource.FindAll(Function(x) If(CheckExcludeMyEvent.Checked, Not x.IsMe, True) AndAlso
+                                                              CBool(x.Eventtype And ParseEventTypeFromTag()) AndAlso
+                                                              IsFilterMatch(x)).ToArray
             _ItemCache = Nothing
             EventList.VirtualListSize = _filterdEventSource.Count
             StatusLabelCount.Text = String.Format("{0} / {1}", _filterdEventSource.Count, EventSource.Count)

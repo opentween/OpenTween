@@ -98,7 +98,7 @@ Public Class TweenMain
     Public AtIdSupl As AtIdSupplement    '@id補助
     Public HashSupl As AtIdSupplement    'Hashtag補助
     Public HashMgr As HashtagManage
-    Private evtDialog As New EventViewerDialog
+    Private evtDialog As EventViewerDialog
 
     '表示フォント、色、アイコン
     Private _fntUnread As Font            '未読用フォント
@@ -783,6 +783,15 @@ Public Class TweenMain
 
         _initial = True
 
+        'アイコンリスト作成
+        Try
+            TIconDic = New ImageDictionary(50)
+        Catch ex As Exception
+            MessageBox.Show("Please install [.NET Framework 4 (Full)].")
+            Application.Exit()
+            Exit Sub
+        End Try
+
         Dim saveRequired As Boolean = False
         'ユーザー名、パスワードが未設定なら設定画面を表示（初回起動時など）
         If tw.Username = "" Then
@@ -1019,9 +1028,6 @@ Public Class TweenMain
             sz = 16
         End If
 
-        'アイコンリスト作成
-        TIconDic = New ImageDictionary(50)
-
         tw.DetailIcon = TIconDic
 
         StatusLabel.Text = My.Resources.Form1_LoadText1       '画面右下の状態表示を変更
@@ -1157,6 +1163,7 @@ Public Class TweenMain
         Static userTimelineCounter As Integer = 0
         Static listsCounter As Integer = 0
         Static usCounter As Integer = 0
+        Static lastGetTime As DateTime = Now
 
         If homeCounter > 0 Then Interlocked.Decrement(homeCounter)
         If mentionCounter > 0 Then Interlocked.Decrement(mentionCounter)
@@ -1169,15 +1176,24 @@ Public Class TweenMain
         ''タイマー初期化
         If homeCounter <= 0 AndAlso SettingDialog.TimelinePeriodInt > 0 Then
             Interlocked.Exchange(homeCounter, SettingDialog.TimelinePeriodInt)
-            If Not tw.IsUserstreamDataReceived Then GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
+            If Not tw.IsUserstreamDataReceived Then
+                lastGetTime = Now
+                GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
+            End If
         End If
         If mentionCounter <= 0 AndAlso SettingDialog.ReplyPeriodInt > 0 Then
             Interlocked.Exchange(mentionCounter, SettingDialog.ReplyPeriodInt)
-            If Not tw.IsUserstreamDataReceived Then GetTimeline(WORKERTYPE.Reply, 1, 0, "")
+            If Not tw.IsUserstreamDataReceived Then
+                lastGetTime = Now
+                GetTimeline(WORKERTYPE.Reply, 1, 0, "")
+            End If
         End If
         If dmCounter <= 0 AndAlso SettingDialog.DMPeriodInt > 0 Then
             Interlocked.Exchange(dmCounter, SettingDialog.DMPeriodInt)
-            If Not tw.IsUserstreamDataReceived Then GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
+            If Not tw.IsUserstreamDataReceived Then
+                lastGetTime = Now
+                GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
+            End If
         End If
         If pubSearchCounter <= 0 AndAlso SettingDialog.PubSearchPeriodInt > 0 Then
             Interlocked.Exchange(pubSearchCounter, SettingDialog.PubSearchPeriodInt)
@@ -1195,7 +1211,12 @@ Public Class TweenMain
             Interlocked.Exchange(usCounter, SettingDialog.UserstreamPeriodInt)
             If Me._isActiveUserstream Then RefreshTimeline(True)
         End If
-
+        If Not tw.IsUserstreamDataReceived AndAlso Now.Subtract(lastGetTime).TotalMinutes > 10 Then
+            lastGetTime = Now
+            GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
+            GetTimeline(WORKERTYPE.Reply, 1, 0, "")
+            GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
+        End If
     End Sub
 
     Private Sub RefreshTimeline(ByVal isUserStream As Boolean)
@@ -1405,6 +1426,7 @@ Public Class TweenMain
 
     Private Sub NotifyNewPosts(ByVal notifyPosts() As PostClass, ByVal soundFile As String, ByVal addCount As Integer, ByVal newMentions As Boolean)
         If notifyPosts IsNot Nothing AndAlso _
+            notifyPosts.Count > 0 AndAlso _
             Me.SettingDialog.ReadOwnPost AndAlso _
             notifyPosts.All(Function(post) post.UserId.ToString() = tw.UserIdNo OrElse post.ScreenName = tw.Username) Then
             Exit Sub
@@ -4272,7 +4294,11 @@ Public Class TweenMain
             If iconRect.Width > 0 Then
                 e.Graphics.FillRectangle(Brushes.White, iconRect)
                 e.Graphics.InterpolationMode = Drawing2D.InterpolationMode.High
-                e.Graphics.DrawImage(item.Image, iconRect)
+                Try
+                    e.Graphics.DrawImage(item.Image, iconRect)
+                Catch ex As ArgumentException
+                    item.RegetImage()
+                End Try
             End If
         End If
     End Sub
@@ -4531,11 +4557,11 @@ RETRY:
         Dim pinfo As New ProcessStartInfo
         pinfo.UseShellExecute = True
         pinfo.WorkingDirectory = Application.StartupPath
-        pinfo.FileName = Path.Combine(Application.StartupPath(), "TweenUp.exe")
+        pinfo.FileName = Path.Combine(Application.StartupPath(), "TweenUp2.exe")
         Try
             Process.Start(pinfo)
         Catch ex As Exception
-            MessageBox.Show("Failed to execute TweenUp.exe.")
+            MessageBox.Show("Failed to execute TweenUp2.exe.")
         End Try
     End Sub
 
@@ -4926,10 +4952,13 @@ RETRY:
                     GoBackInReplyToPostTree()
                 End If
                 If KeyCode = Keys.Escape Then
-                    If ListTab.SelectedTab IsNot Nothing AndAlso _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.Related Then
-                        Dim relTp As TabPage = ListTab.SelectedTab
-                        RemoveSpecifiedTab(relTp.Text, False)
-                        SaveConfigsTabs()
+                    If ListTab.SelectedTab IsNot Nothing Then
+                        Dim tabtype As TabUsageType = _statuses.Tabs(ListTab.SelectedTab.Text).TabType
+                        If tabtype = TabUsageType.Related OrElse tabtype = TabUsageType.UserTimeline Then
+                            Dim relTp As TabPage = ListTab.SelectedTab
+                            RemoveSpecifiedTab(relTp.Text, False)
+                            SaveConfigsTabs()
+                        End If
                     End If
                 End If
             End If
@@ -4937,7 +4966,7 @@ RETRY:
         End If
 
         If Focused = ModifierState.StatusText AndAlso Not Pressed Then
-            If KeyCode = Keys.Space AndAlso (Modifier = ModifierState.Ctrl OrElse Modifier = ModifierState.Shift) Then
+            If KeyCode = Keys.Space AndAlso Modifier = ModifierState.CShift Then
                 If StatusText.SelectionStart > 0 Then
                     Dim endidx As Integer = StatusText.SelectionStart - 1
                     Dim startstr As String = ""
@@ -5893,7 +5922,7 @@ RETRY:
             _cfgCommon.DMPeriod = SettingDialog.DMPeriodInt
             _cfgCommon.PubSearchPeriod = SettingDialog.PubSearchPeriodInt
             _cfgCommon.ListsPeriod = SettingDialog.ListsPeriodInt
-            _cfgCommon.UserTimelineCountApi = SettingDialog.UserTimelinePeriodInt
+            _cfgCommon.UserTimelinePeriod = SettingDialog.UserTimelinePeriodInt
             _cfgCommon.Read = SettingDialog.Readed
             _cfgCommon.IconSize = SettingDialog.IconSz
             _cfgCommon.UnreadManage = SettingDialog.UnreadManage
@@ -9636,6 +9665,8 @@ RETRY:
             ImageServiceCombo.Items.Add("img.ly")
             ImageServiceCombo.Items.Add("yfrog")
             ImageServiceCombo.Items.Add("Plixi")
+        Else
+            Exit Sub
         End If
         'ImageServiceCombo.Items.Add("TwitVideo")
         If svc = "" Then
@@ -9979,6 +10010,7 @@ RETRY:
             tw.TrackWord = ""
             tw.ReconnectUserStream()
         End If
+        Me._modifySettingCommon = True
     End Sub
 
     Private Sub AllrepliesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AllrepliesToolStripMenuItem.Click
@@ -9988,21 +10020,34 @@ RETRY:
     End Sub
 
     Private Sub EventViewerMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EventViewerMenuItem.Click
-        If evtDialog.IsDisposed Then
+        If evtDialog Is Nothing OrElse evtDialog.IsDisposed Then
+            evtDialog = Nothing
             evtDialog = New EventViewerDialog
+            evtDialog.Owner = Me
+            '親の中央に表示
+            Dim pos As Point = evtDialog.Location
+            pos.X = Convert.ToInt32(Me.Location.X + Me.Size.Width / 2 - evtDialog.Size.Width / 2)
+            pos.Y = Convert.ToInt32(Me.Location.Y + Me.Size.Height / 2 - evtDialog.Size.Height / 2)
+            evtDialog.Location = pos
         End If
         evtDialog.EventSource = tw.StoredEvent
         If Not evtDialog.Visible Then
-            evtDialog.Show()
+            evtDialog.Show(Me)
         Else
             evtDialog.Activate()
         End If
+        Me.TopMost = Me.SettingDialog.AlwaysTop
     End Sub
 #End Region
 
     Private Sub TweenRestartMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles TweenRestartMenuItem.Click
         _endingFlag = True
-        Application.Restart()
+        Try
+            Application.Restart()
+        Catch ex As NullReferenceException
+            MessageBox.Show("Failed to restart. Please run Tween manually.")
+            Application.Exit()
+        End Try
     End Sub
 
     Private Sub OpenOwnFavedMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles OpenOwnFavedMenuItem.Click

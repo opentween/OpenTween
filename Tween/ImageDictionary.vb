@@ -129,7 +129,13 @@ Public Class ImageDictionary
         Get
             SyncLock Me.lockObject
                 If Me.innerDictionary(key) IsNot Nothing Then
-                    Return New Bitmap(DirectCast(Me.innerDictionary(key), Image))
+                    Try
+                        Return New Bitmap(DirectCast(Me.innerDictionary(key), Image))
+                    Catch ex As ArgumentException
+                        DirectCast(Me.innerDictionary(key), Image).Dispose()
+                        Me.innerDictionary(key) = Nothing
+                        Return Nothing
+                    End Try
                 Else
                     Return Nothing
                 End If

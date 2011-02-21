@@ -26,8 +26,10 @@
 Public Class ImageListViewItem
     Inherits ListViewItem
 
-    Private img As Image = Nothing
+    Public Property Image As Image = Nothing
     Public Event ImageDownloaded(ByVal sender As Object, ByVal e As EventArgs)
+    Private imageDict As ImageDictionary = Nothing
+    Private imageUrl As String
 
     Public Sub New(ByVal items() As String, ByVal imageKey As String)
         MyBase.New(items, imageKey)
@@ -35,31 +37,42 @@ Public Class ImageListViewItem
 
     Public Sub New(ByVal items() As String, ByVal imageDictionary As ImageDictionary, ByVal imageKey As String)
         MyBase.New(items, imageKey)
-
-        Dim dummy As Image = imageDictionary.Item(imageKey, Sub(getImg)
-                                                                If getImg Is Nothing Then Exit Sub
-                                                                Me.img = DirectCast(getImg.Clone(), Image)
-                                                                If Me.ListView IsNot Nothing AndAlso
-                                                                    Me.ListView.Created AndAlso
-                                                                    Not Me.ListView.IsDisposed Then Me.ListView.Invoke(Sub()
-                                                                                                                           If Me.Index < Me.ListView.VirtualListSize Then Me.ListView.RedrawItems(Me.Index, Me.Index, False)
-                                                                                                                           RaiseEvent ImageDownloaded(Me, EventArgs.Empty)
-                                                                                                                       End Sub)
-                                                            End Sub)
-
+        Me.imageDict = imageDictionary
+        Me.imageUrl = imageKey
+        Dim dummy As Image = Me.GetImage()
     End Sub
 
-    Public ReadOnly Property Image As Image
-        Get
-            Return Me.img
-        End Get
-    End Property
+    Private Function GetImage() As Image
+        Return Me.imageDict.Item(Me.imageUrl, Sub(getImg)
+                                                  If getImg Is Nothing Then Exit Sub
+                                                  Me.Image = getImg
+                                                  If Me.ListView IsNot Nothing AndAlso
+                                                     Me.ListView.Created AndAlso
+                                                     Not Me.ListView.IsDisposed Then
+                                                      Me.ListView.Invoke(Sub()
+                                                                             If Me.Index < Me.ListView.VirtualListSize Then
+                                                                                 Me.ListView.RedrawItems(Me.Index, Me.Index, True)
+                                                                                 RaiseEvent ImageDownloaded(Me, EventArgs.Empty)
+                                                                             End If
+                                                                         End Sub)
+                                                  End If
+                                              End Sub)
 
-    Protected Overrides Sub Finalize()
-        If Me.img IsNot Nothing Then
-            Me.img.Dispose()
-            Me.img = Nothing
+    End Function
+
+    Public Sub RegetImage()
+        If Me.Image IsNot Nothing Then
+            Me.Image.Dispose()
+            Me.Image = Nothing
         End If
-        MyBase.Finalize()
+        Dim dummy As Image = GetImage()
     End Sub
+
+    'Protected Overrides Sub Finalize()
+    '    If Me.Image IsNot Nothing Then
+    '        Me.Image.Dispose()
+    '        Me.Image = Nothing
+    '    End If
+    '    MyBase.Finalize()
+    'End Sub
 End Class
