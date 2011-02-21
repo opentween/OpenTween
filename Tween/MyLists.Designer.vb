@@ -45,29 +45,29 @@ Partial Class MyLists
         '
         'ContextMenuStrip1
         '
-        resources.ApplyResources(Me.ContextMenuStrip1, "ContextMenuStrip1")
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.追加AToolStripMenuItem, Me.削除DToolStripMenuItem, Me.ToolStripMenuItem1, Me.更新RToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        resources.ApplyResources(Me.ContextMenuStrip1, "ContextMenuStrip1")
         '
         '追加AToolStripMenuItem
         '
-        resources.ApplyResources(Me.追加AToolStripMenuItem, "追加AToolStripMenuItem")
         Me.追加AToolStripMenuItem.Name = "追加AToolStripMenuItem"
+        resources.ApplyResources(Me.追加AToolStripMenuItem, "追加AToolStripMenuItem")
         '
         '削除DToolStripMenuItem
         '
-        resources.ApplyResources(Me.削除DToolStripMenuItem, "削除DToolStripMenuItem")
         Me.削除DToolStripMenuItem.Name = "削除DToolStripMenuItem"
+        resources.ApplyResources(Me.削除DToolStripMenuItem, "削除DToolStripMenuItem")
         '
         'ToolStripMenuItem1
         '
-        resources.ApplyResources(Me.ToolStripMenuItem1, "ToolStripMenuItem1")
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        resources.ApplyResources(Me.ToolStripMenuItem1, "ToolStripMenuItem1")
         '
         '更新RToolStripMenuItem
         '
-        resources.ApplyResources(Me.更新RToolStripMenuItem, "更新RToolStripMenuItem")
         Me.更新RToolStripMenuItem.Name = "更新RToolStripMenuItem"
+        resources.ApplyResources(Me.更新RToolStripMenuItem, "更新RToolStripMenuItem")
         '
         'ListRefreshButton
         '

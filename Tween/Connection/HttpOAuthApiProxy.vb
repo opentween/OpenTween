@@ -63,9 +63,10 @@ Public Class HttpOAuthApiProxy
         Dim key As String = UrlEncode(consumerSecret) + "&"
         If Not String.IsNullOrEmpty(tokenSecret) Then key += UrlEncode(tokenSecret)
         '鍵生成＆署名生成
-        Dim hmac As New Cryptography.HMACSHA1(Encoding.ASCII.GetBytes(key))
-        Dim hash As Byte() = hmac.ComputeHash(Encoding.ASCII.GetBytes(signatureBase))
-        Return Convert.ToBase64String(hash)
+        Using hmac As New Cryptography.HMACSHA1(Encoding.ASCII.GetBytes(key))
+            Dim hash As Byte() = hmac.ComputeHash(Encoding.ASCII.GetBytes(signatureBase))
+            Return Convert.ToBase64String(hash)
+        End Using
     End Function
 
 End Class

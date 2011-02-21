@@ -482,6 +482,46 @@ Public Class HttpTwitter
                             AddressOf GetApiCallback)
     End Function
 
+    Public Overloads Function PhoenixSearch(ByVal querystr As String, ByRef content As String) As HttpStatusCode
+        Dim param As New Dictionary(Of String, String)
+        Dim tmp() As String
+        Dim paramstr() As String
+        If String.IsNullOrEmpty(querystr) Then Return HttpStatusCode.BadRequest
+
+        tmp = querystr.Split(New Char() {"?"c, "&"c}, StringSplitOptions.RemoveEmptyEntries)
+        For Each tmp2 As String In tmp
+            paramstr = tmp2.Split(New Char() {"="c})
+            param.Add(paramstr(0), paramstr(1))
+        Next
+
+        Return httpConVar.GetContent(GetMethod, _
+                                CreateTwitterUri("/phoenix_search.phoenix"), _
+                                param, _
+                                content, _
+                                Nothing, _
+                                "Tween")
+    End Function
+
+    Public Overloads Function PhoenixSearch(ByVal words As String, ByVal lang As String, ByVal rpp As Integer, ByVal page As Integer, ByVal sinceId As Long, ByRef content As String) As HttpStatusCode
+        Dim param As New Dictionary(Of String, String)
+        If Not String.IsNullOrEmpty(words) Then param.Add("q", words)
+        param.Add("include_entities", "1")
+        param.Add("contributor_details", "true")
+        If Not String.IsNullOrEmpty(lang) Then param.Add("lang", lang)
+        If rpp > 0 Then param.Add("rpp", rpp.ToString())
+        If page > 0 Then param.Add("page", page.ToString())
+        If sinceId > 0 Then param.Add("since_id", sinceId.ToString)
+
+        If param.Count = 0 Then Return HttpStatusCode.BadRequest
+
+        Return httpConVar.GetContent(GetMethod, _
+                                        CreateTwitterUri("/phoenix_search.phoenix"), _
+                                        param, _
+                                        content, _
+                                        Nothing, _
+                                        "Tween")
+    End Function
+
     Public Function Search(ByVal words As String, ByVal lang As String, ByVal rpp As Integer, ByVal page As Integer, ByVal sinceId As Long, ByRef content As String) As HttpStatusCode
         Dim param As New Dictionary(Of String, String)
         If Not String.IsNullOrEmpty(words) Then param.Add("q", words)

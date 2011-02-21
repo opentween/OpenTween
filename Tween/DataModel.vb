@@ -346,4 +346,10 @@ Public Class TwitterDataModel
         <DataMember(Name:="error")> Public ErrMsg As String
     End Class
 
+    <DataContract()> _
+    Public Class SearchResult
+        <DataMember(Name:="statuses")> Public Statuses As List(Of Status)
+        <DataMember(Name:="next_page")> Public NextPage As String
+        <DataMember(Name:="error")> Public ErrMsg As String
+    End Class
 End Class

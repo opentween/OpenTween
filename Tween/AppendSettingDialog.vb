@@ -693,12 +693,12 @@ Public Class AppendSettingDialog
             .Nodes("BasedNode").Nodes("PeriodNode").Tag = GetPeriodPanel
             .Nodes("BasedNode").Nodes("StartUpNode").Tag = StartupPanel
             .Nodes("BasedNode").Nodes("GetCountNode").Tag = GetCountPanel
-            .Nodes("BasedNode").Nodes("UserStreamNode").Tag = UserStreamPanel
+            '.Nodes("BasedNode").Nodes("UserStreamNode").Tag = UserStreamPanel
             .Nodes("ActionNode").Tag = ActionPanel
-            .Nodes("ActionNode").Nodes("NotifyNode").Tag = NotifyPanel
             .Nodes("ActionNode").Nodes("TweetActNode").Tag = TweetActPanel
             .Nodes("PreviewNode").Tag = PreviewPanel
             .Nodes("PreviewNode").Nodes("TweetPrvNode").Tag = TweetPrvPanel
+            .Nodes("PreviewNode").Nodes("NotifyNode").Tag = NotifyPanel
             .Nodes("FontNode").Tag = FontPanel
             .Nodes("FontNode").Nodes("FontNode2").Tag = FontPanel2
             .Nodes("ConnectionNode").Tag = ConnectionPanel
@@ -707,6 +707,7 @@ Public Class AppendSettingDialog
             .Nodes("ConnectionNode").Nodes("ShortUrlNode").Tag = ShortUrlPanel
 
             .SelectedNode = .Nodes(0)
+            .ExpandAll()
         End With
         'TreeViewSetting.SelectedNode = TreeViewSetting.TopNode
         ActiveControl = Username
@@ -1835,16 +1836,17 @@ Public Class AppendSettingDialog
     End Property
 
     Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
-        Dim filedlg As New OpenFileDialog()
+        Using filedlg As New OpenFileDialog()
 
-        filedlg.Filter = My.Resources.Button3_ClickText1
-        filedlg.FilterIndex = 1
-        filedlg.Title = My.Resources.Button3_ClickText2
-        filedlg.RestoreDirectory = True
+            filedlg.Filter = My.Resources.Button3_ClickText1
+            filedlg.FilterIndex = 1
+            filedlg.Title = My.Resources.Button3_ClickText2
+            filedlg.RestoreDirectory = True
 
-        If filedlg.ShowDialog() = Windows.Forms.DialogResult.OK Then
-            BrowserPathText.Text = filedlg.FileName
-        End If
+            If filedlg.ShowDialog() = Windows.Forms.DialogResult.OK Then
+                BrowserPathText.Text = filedlg.FileName
+            End If
+        End Using
     End Sub
 
     Private Sub RadioProxySpecified_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadioProxySpecified.CheckedChanged

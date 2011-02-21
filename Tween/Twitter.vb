@@ -1458,7 +1458,6 @@ Public Class Twitter
             post.Nickname = user.Name.Trim()
             post.ImageUrl = user.ProfileImageUrl
             post.IsProtect = user.Protected
-            post.Language = user.Lang
 
             'Retweetした人
             post.RetweetedBy = status.User.ScreenName
@@ -1483,7 +1482,6 @@ Public Class Twitter
             post.Nickname = user.Name.Trim()
             post.ImageUrl = user.ProfileImageUrl
             post.IsProtect = user.Protected
-            post.Language = user.Lang
             post.IsMe = post.ScreenName.ToLower.Equals(_uid)
             If post.IsMe Then _UserIdNo = post.UserId.ToString
         End If
@@ -1542,6 +1540,45 @@ Public Class Twitter
         Next
 
         Return ""
+    End Function
+
+    Private Function CreatePostsFromPhoenixSearch(ByVal content As String, ByVal gType As WORKERTYPE, ByVal tab As TabClass, ByVal read As Boolean, ByVal count As Integer, ByRef minimumId As Long, ByRef nextPageQuery As String) As String
+        Dim items As TwitterDataModel.SearchResult
+        Try
+            items = CreateDataFromJson(Of TwitterDataModel.SearchResult)(content)
+        Catch ex As SerializationException
+            TraceOut(ex.Message + Environment.NewLine + content)
+            Return "Json Parse Error(DataContractJsonSerializer)"
+        Catch ex As Exception
+            TraceOut(ex, GetCurrentMethod.Name & " " & content)
+            Return "Invalid Json!"
+        End Try
+
+        nextPageQuery = items.NextPage
+
+        For Each status As TwitterDataModel.Status In items.Statuses
+            Dim post As PostClass = Nothing
+            post = CreatePostsFromStatusData(status)
+
+            If minimumId > post.StatusId Then minimumId = post.StatusId
+            '二重取得回避
+            SyncLock LockObj
+                If tab Is Nothing Then
+                    If TabInformations.GetInstance.ContainsKey(post.StatusId) Then Continue For
+                Else
+                    If TabInformations.GetInstance.ContainsKey(post.StatusId, tab.TabName) Then Continue For
+                End If
+            End SyncLock
+
+            post.IsRead = read
+            If post.IsMe AndAlso Not read AndAlso _readOwnPost Then post.IsRead = True
+
+            If tab IsNot Nothing Then post.RelTabName = tab.TabName
+            '非同期アイコン取得＆StatusDictionaryに追加
+            TabInformations.GetInstance.AddPost(post)
+        Next
+
+        Return If(String.IsNullOrEmpty(items.ErrMsg), "", "Err:" + items.ErrMsg)
     End Function
 
     Public Overloads Function GetListStatus(ByVal read As Boolean, _
@@ -1629,7 +1666,8 @@ Public Class Twitter
             If Not String.IsNullOrEmpty(rslt) Then Exit Do
             tmpPost = CheckReplyToPost(relPosts)
         Loop While tmpPost IsNot Nothing
-        relPosts.ForEach(New Action(Of PostClass)(Sub(p) TabInformations.GetInstance.AddPost(p)))
+
+        relPosts.ForEach(Sub(p) TabInformations.GetInstance.AddPost(p))
         Return rslt
     End Function
 
@@ -1727,12 +1765,33 @@ Public Class Twitter
         '    rslt = Me.GetUserTimelineApi(read, 10, replyToUserName, tab)
         'End If
         'Return rslt
+
+
+        'MRTとかに対応のためツイート内にあるツイートを指すURLを取り込む
+        Dim ma As MatchCollection = Regex.Matches(tab.RelationTargetPost.Text, "href=""https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)(/status(es)?/(?<StatusId>[0-9]+))""")
+        For Each _match As Match In ma
+            Dim _statusId As Int64
+            If Int64.TryParse(_match.Groups("StatusId").Value, _statusId) Then
+                Dim p As PostClass = Nothing
+                Dim _post As PostClass = TabInformations.GetInstance.Item(_statusId)
+                If _post Is Nothing Then
+                    Dim rslt = Me.GetStatusApi(read, _statusId, p)
+                Else
+                    p = _post.Copy
+                End If
+                If p IsNot Nothing Then
+                    p.IsRead = read
+                    p.RelTabName = tab.TabName
+                    relatedPosts.Add(p)
+                End If
+            End If
+        Next
         Return ""
     End Function
 
     Public Function GetSearch(ByVal read As Boolean, _
-                            ByVal tab As TabClass, _
-                            ByVal more As Boolean) As String
+                        ByVal tab As TabClass, _
+                        ByVal more As Boolean) As String
 
         If _endingFlag Then Return ""
 
@@ -1820,7 +1879,6 @@ Public Class Twitter
                 post.IsRead = read
                 post.IsReply = post.ReplyToList.Contains(_uid)
                 post.IsExcludeReply = False
-                post.Language = xentryNode.Item("twitter:lang").InnerText
 
                 post.IsOwl = False
                 If post.IsMe AndAlso Not read AndAlso _readOwnPost Then post.IsRead = True
@@ -1849,6 +1907,60 @@ Public Class Twitter
 #End If
 
         Return ""
+    End Function
+
+    Public Function GetPhoenixSearch(ByVal read As Boolean, _
+                            ByVal tab As TabClass, _
+                            ByVal more As Boolean) As String
+
+        If _endingFlag Then Return ""
+
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+        Dim page As Integer = 0
+        Dim sinceId As Long = 0
+        Dim count As Integer = 100
+        Dim querystr As String = ""
+        If AppendSettingDialog.Instance.UseAdditionalCount AndAlso
+            AppendSettingDialog.Instance.SearchCountApi <> 0 Then
+            count = AppendSettingDialog.Instance.SearchCountApi
+        End If
+        If more Then
+            page = tab.GetSearchPage(count)
+            If Not String.IsNullOrEmpty(tab.NextPageQuery) Then
+                querystr = tab.NextPageQuery
+            End If
+        Else
+            sinceId = tab.SinceId
+        End If
+
+        Try
+            If String.IsNullOrEmpty(querystr) Then
+                res = twCon.PhoenixSearch(tab.SearchWords, tab.SearchLang, count, page, sinceId, content)
+            Else
+                res = twCon.PhoenixSearch(querystr, content)
+            End If
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
+        Select Case res
+            Case HttpStatusCode.BadRequest
+                Return "Invalid query"
+            Case HttpStatusCode.NotFound
+                Return "Invalid query"
+            Case HttpStatusCode.PaymentRequired 'API Documentには420と書いてあるが、該当コードがないので402にしてある
+                Return "Search API Limit?"
+            Case HttpStatusCode.OK
+            Case Else
+                Return "Err:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
+        End Select
+
+        If Not TabInformations.GetInstance.ContainsTab(tab) Then Return ""
+
+        '' TODO
+        '' 遡るための情報max_idやnext_pageの情報を保持する
+
+        Return CreatePostsFromPhoenixSearch(content, WORKERTYPE.PublicSearch, tab, read, count, tab.OldestId, tab.NextPageQuery)
     End Function
 
     Private Function CreateDirectMessagesFromJson(ByVal content As String, ByVal gType As WORKERTYPE, ByVal read As Boolean) As String
@@ -1927,7 +2039,6 @@ Public Class Twitter
                 post.Nickname = user.Name.Trim()
                 post.ImageUrl = user.ProfileImageUrl
                 post.IsProtect = user.Protected
-                post.Language = user.Lang
             Catch ex As Exception
                 TraceOut(ex, GetCurrentMethod.Name & " " & content)
                 MessageBox.Show("Parse Error(CreateDirectMessagesFromJson)")
@@ -2067,7 +2178,6 @@ Public Class Twitter
                     post.Nickname = user.Name.Trim()
                     post.ImageUrl = user.ProfileImageUrl
                     post.IsProtect = user.Protected
-                    post.Language = user.Lang
 
                     'Retweetした人
                     post.RetweetedBy = status.User.ScreenName
@@ -2093,7 +2203,6 @@ Public Class Twitter
                     post.Nickname = user.Name.Trim()
                     post.ImageUrl = user.ProfileImageUrl
                     post.IsProtect = user.Protected
-                    post.Language = user.Lang
                     post.IsMe = post.ScreenName.ToLower.Equals(_uid)
                     If post.IsMe Then _UserIdNo = post.UserId.ToString
                 End If

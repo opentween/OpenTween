@@ -24,12 +24,12 @@
 ' Boston, MA 02110-1301, USA.
 
 Imports System.IO
-Imports System.Text
 Imports System.Net
-Imports System.Windows.Forms
+Imports System.Xml
 
 Public Class yfrog
     Inherits HttpConnectionOAuthEcho
+    Implements IMultimediaShareService
 
     'OAuth関連
     '''<summary>
@@ -52,18 +52,61 @@ Public Class yfrog
 
     Private Const MaxFileSize As Long = 5 * 1024 * 1024
 
+    Private tw As Twitter
 
-    Public Function Upload(ByVal mediaFile As FileInfo, _
+    Public Function Upload(ByRef filePath As String,
+               ByRef message As String) As String Implements IMultimediaShareService.Upload
+        'FileInfo作成
+        Dim mediaFile As FileInfo
+        Try
+            mediaFile = New FileInfo(filePath)
+        Catch ex As NotSupportedException
+            Return "Err:" + ex.Message
+        End Try
+        If Not mediaFile.Exists Then Return "Err:File isn't exists."
+
+        Dim content As String = ""
+        Dim ret As HttpStatusCode
+        'yfrogへの投稿
+        Try
+            ret = UploadFile(mediaFile, message, content)
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
+        Dim url As String = ""
+        If ret = HttpStatusCode.OK Then
+            Dim xd As XmlDocument = New XmlDocument()
+            Try
+                xd.LoadXml(content)
+                'URLの取得
+                url = xd.SelectSingleNode("/rsp/mediaurl").InnerText
+            Catch ex As XmlException
+                Return "Err:" + ex.Message
+            End Try
+        Else
+            Return "Err:" + ret.ToString
+        End If
+
+        'アップロードまでは成功
+        filePath = ""
+        'Twitterへの投稿
+        '投稿メッセージの再構成
+        If message.Length + url.Length + 1 > 140 Then
+            message = message.Substring(0, 140 - url.Length - 1) + " " + url
+        Else
+            message += " " + url
+        End If
+        Return tw.PostStatus(message, 0)
+    End Function
+
+    Private Function UploadFile(ByVal mediaFile As FileInfo, _
                        ByVal message As String, _
                        ByRef content As String) As HttpStatusCode
         'Message必須
         If String.IsNullOrEmpty(message) Then message = ""
         'Check filetype and size(Max 5MB)
-        If Array.IndexOf(pictureExt, mediaFile.Extension.ToLower) > -1 Then
-            If mediaFile.Length > MaxFileSize Then Throw New ArgumentException("File is too large.")
-        Else
-            Throw New ArgumentException("Service don't support this filetype.")
-        End If
+        If Not Me.CheckValidExtension(mediaFile.Extension) Then Throw New ArgumentException("Service don't support this filetype.")
+        If Not Me.CheckValidFilesize(mediaFile.Extension, mediaFile.Length) Then Throw New ArgumentException("File is too large.")
 
         Dim param As New Dictionary(Of String, String)
         param.Add("key", ApiKey)
@@ -81,38 +124,39 @@ Public Class yfrog
                           Nothing)
     End Function
 
-    Public Function CheckValidExtension(ByVal ext As String) As Boolean
+    Public Function CheckValidExtension(ByVal ext As String) As Boolean Implements IMultimediaShareService.CheckValidExtension
         If Array.IndexOf(pictureExt, ext.ToLower) > -1 Then
             Return True
         End If
         Return False
     End Function
 
-    Public Function GetFileOpenDialogFilter() As String
+    Public Function GetFileOpenDialogFilter() As String Implements IMultimediaShareService.GetFileOpenDialogFilter
         Return "Image Files(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png"
     End Function
 
-    Public Function GetFileType(ByVal ext As String) As UploadFileType
-        If Array.IndexOf(pictureExt, ext.ToLower) > -1 Then
+    Public Function GetFileType(ByVal ext As String) As UploadFileType Implements IMultimediaShareService.GetFileType
+        If Me.CheckValidExtension(ext) Then
             Return UploadFileType.Picture
         End If
         Return UploadFileType.Invalid
     End Function
 
-    Public Function IsSupportedFileType(ByVal type As UploadFileType) As Boolean
+    Public Function IsSupportedFileType(ByVal type As UploadFileType) As Boolean Implements IMultimediaShareService.IsSupportedFileType
         Return type.Equals(UploadFileType.Picture)
     End Function
 
-    Public Function GetMaxFileSize(ByVal ext As String) As Long
-        If Array.IndexOf(pictureExt, ext.ToLower) > -1 Then
-            Return MaxFileSize
+    Public Function CheckValidFilesize(ByVal ext As String, ByVal fileSize As Long) As Boolean Implements IMultimediaShareService.CheckValidFilesize
+        If Me.CheckValidExtension(ext) Then
+            Return fileSize <= MaxFileSize
         End If
-        Return -1
+        Return False
     End Function
 
-    Public Sub New(ByVal accessToken As String, ByVal accessTokenSecret As String)
+    Public Sub New(ByVal twitter As Twitter)
         MyBase.New(New Uri("http://api.twitter.com/"), _
                    New Uri("https://api.twitter.com/1/account/verify_credentials.xml"))
-        Initialize(DecryptString(ConsumerKey), DecryptString(ConsumerSecretKey), accessToken, accessTokenSecret, "")
+        tw = twitter
+        Initialize(DecryptString(ConsumerKey), DecryptString(ConsumerSecretKey), tw.AccessToken, tw.AccessTokenSecret, "")
     End Sub
 End Class

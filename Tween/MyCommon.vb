@@ -428,37 +428,38 @@ retry:
         Dim bytesIn As Byte() = System.Text.Encoding.UTF8.GetBytes(str)
 
         'DESCryptoServiceProviderオブジェクトの作成
-        Dim des As New System.Security.Cryptography.DESCryptoServiceProvider
+        Using des As New System.Security.Cryptography.DESCryptoServiceProvider
 
-        '共有キーと初期化ベクタを決定
-        'パスワードをバイト配列にする
-        Dim bytesKey As Byte() = System.Text.Encoding.UTF8.GetBytes("_tween_encrypt_key_")
-        '共有キーと初期化ベクタを設定
-        des.Key = ResizeBytesArray(bytesKey, des.Key.Length)
-        des.IV = ResizeBytesArray(bytesKey, des.IV.Length)
+            '共有キーと初期化ベクタを決定
+            'パスワードをバイト配列にする
+            Dim bytesKey As Byte() = System.Text.Encoding.UTF8.GetBytes("_tween_encrypt_key_")
+            '共有キーと初期化ベクタを設定
+            des.Key = ResizeBytesArray(bytesKey, des.Key.Length)
+            des.IV = ResizeBytesArray(bytesKey, des.IV.Length)
 
-        '暗号化されたデータを書き出すためのMemoryStream
-        Using msOut As New System.IO.MemoryStream
-            'DES暗号化オブジェクトの作成
-            Using desdecrypt As System.Security.Cryptography.ICryptoTransform = _
-                des.CreateEncryptor()
+            '暗号化されたデータを書き出すためのMemoryStream
+            Using msOut As New System.IO.MemoryStream
+                'DES暗号化オブジェクトの作成
+                Using desdecrypt As System.Security.Cryptography.ICryptoTransform = _
+                    des.CreateEncryptor()
 
-                '書き込むためのCryptoStreamの作成
-                Using cryptStream As New System.Security.Cryptography.CryptoStream( _
-                    msOut, desdecrypt, _
-                    System.Security.Cryptography.CryptoStreamMode.Write)
-                    '書き込む
-                    cryptStream.Write(bytesIn, 0, bytesIn.Length)
-                    cryptStream.FlushFinalBlock()
-                    '暗号化されたデータを取得
-                    Dim bytesOut As Byte() = msOut.ToArray()
+                    '書き込むためのCryptoStreamの作成
+                    Using cryptStream As New System.Security.Cryptography.CryptoStream( _
+                        msOut, desdecrypt, _
+                        System.Security.Cryptography.CryptoStreamMode.Write)
+                        '書き込む
+                        cryptStream.Write(bytesIn, 0, bytesIn.Length)
+                        cryptStream.FlushFinalBlock()
+                        '暗号化されたデータを取得
+                        Dim bytesOut As Byte() = msOut.ToArray()
 
-                    '閉じる
-                    cryptStream.Close()
-                    msOut.Close()
+                        '閉じる
+                        cryptStream.Close()
+                        msOut.Close()
 
-                    'Base64で文字列に変更して結果を返す
-                    Return System.Convert.ToBase64String(bytesOut)
+                        'Base64で文字列に変更して結果を返す
+                        Return System.Convert.ToBase64String(bytesOut)
+                    End Using
                 End Using
             End Using
         End Using
@@ -468,39 +469,40 @@ retry:
         If String.IsNullOrEmpty(str) Then Return ""
 
         'DESCryptoServiceProviderオブジェクトの作成
-        Dim des As New System.Security.Cryptography.DESCryptoServiceProvider
+        Using des As New System.Security.Cryptography.DESCryptoServiceProvider
 
-        '共有キーと初期化ベクタを決定
-        'パスワードをバイト配列にする
-        Dim bytesKey As Byte() = System.Text.Encoding.UTF8.GetBytes("_tween_encrypt_key_")
-        '共有キーと初期化ベクタを設定
-        des.Key = ResizeBytesArray(bytesKey, des.Key.Length)
-        des.IV = ResizeBytesArray(bytesKey, des.IV.Length)
+            '共有キーと初期化ベクタを決定
+            'パスワードをバイト配列にする
+            Dim bytesKey As Byte() = System.Text.Encoding.UTF8.GetBytes("_tween_encrypt_key_")
+            '共有キーと初期化ベクタを設定
+            des.Key = ResizeBytesArray(bytesKey, des.Key.Length)
+            des.IV = ResizeBytesArray(bytesKey, des.IV.Length)
 
-        'Base64で文字列をバイト配列に戻す
-        Dim bytesIn As Byte() = System.Convert.FromBase64String(str)
-        '暗号化されたデータを読み込むためのMemoryStream
-        Using msIn As New System.IO.MemoryStream(bytesIn)
-            'DES復号化オブジェクトの作成
-            Using desdecrypt As System.Security.Cryptography.ICryptoTransform = _
-                des.CreateDecryptor()
-                '読み込むためのCryptoStreamの作成
-                Using cryptStreem As New System.Security.Cryptography.CryptoStream( _
-                    msIn, desdecrypt, _
-                    System.Security.Cryptography.CryptoStreamMode.Read)
+            'Base64で文字列をバイト配列に戻す
+            Dim bytesIn As Byte() = System.Convert.FromBase64String(str)
+            '暗号化されたデータを読み込むためのMemoryStream
+            Using msIn As New System.IO.MemoryStream(bytesIn)
+                'DES復号化オブジェクトの作成
+                Using desdecrypt As System.Security.Cryptography.ICryptoTransform = _
+                    des.CreateDecryptor()
+                    '読み込むためのCryptoStreamの作成
+                    Using cryptStreem As New System.Security.Cryptography.CryptoStream( _
+                        msIn, desdecrypt, _
+                        System.Security.Cryptography.CryptoStreamMode.Read)
 
-                    '復号化されたデータを取得するためのStreamReader
-                    Using srOut As New System.IO.StreamReader( _
-                        cryptStreem, System.Text.Encoding.UTF8)
-                        '復号化されたデータを取得する
-                        Dim result As String = srOut.ReadToEnd()
+                        '復号化されたデータを取得するためのStreamReader
+                        Using srOut As New System.IO.StreamReader( _
+                            cryptStreem, System.Text.Encoding.UTF8)
+                            '復号化されたデータを取得する
+                            Dim result As String = srOut.ReadToEnd()
 
-                        '閉じる
-                        srOut.Close()
-                        cryptStreem.Close()
-                        msIn.Close()
+                            '閉じる
+                            srOut.Close()
+                            cryptStreem.Close()
+                            msIn.Close()
 
-                        Return result
+                            Return result
+                        End Using
                     End Using
                 End Using
             End Using

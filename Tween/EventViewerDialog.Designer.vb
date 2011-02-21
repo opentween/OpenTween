@@ -218,6 +218,7 @@ Partial Class EventViewerDialog
         Me.Controls.Add(Me.StatusStrip1)
         Me.DoubleBuffered = True
         Me.Name = "EventViewerDialog"
+        Me.ShowIcon = False
         Me.ShowInTaskbar = False
         Me.TabEventType.ResumeLayout(False)
         Me.TabPageAll.ResumeLayout(False)

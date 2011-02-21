@@ -52,5 +52,6 @@ Public Class DoubleClickCopyCanceller
 
     Public Sub Dispose() Implements IDisposable.Dispose
         Me.ReleaseHandle()
+        GC.SuppressFinalize(Me)
     End Sub
 End Class

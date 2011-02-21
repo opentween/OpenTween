@@ -99,7 +99,7 @@ Public Class SettingCommon
     Public EventNotifyEnabled As Boolean = True
     Public EventNotifyFlag As EVENTTYPE = EVENTTYPE.All
     Public IsMyEventNotifyFlag As EVENTTYPE = EVENTTYPE.All
-    Public ForceEventNotify As Boolean = True
+    Public ForceEventNotify As Boolean = False
     Public FavEventUnread As Boolean = True
     Public TranslateLanguage As String = My.Resources.TranslateDefaultLanguage
     Public EventSoundFile As String = ""
@@ -189,5 +189,5 @@ Public Class SettingCommon
     Public UserTimelinePeriod As Integer = 600
     Public OpenUserTimeline As Boolean = True
     Public ListCountApi As Integer = 100
-    Public UseImageSurvice As Integer = 0
+    Public UseImageService As Integer = 0
 End Class
