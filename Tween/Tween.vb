@@ -198,6 +198,8 @@ Public Class TweenMain
     Private ColumnText(8) As String
 
     Private _DoFavRetweetFlags As Boolean = False
+    Private osResumed As Boolean = False
+    Private pictureService As Dictionary(Of String, IMultimediaShareService)
 
     '''''''''''''''''''''''''''''''''''''''''''''''''''''
     Private _postBrowserStatusText As String = ""
@@ -360,7 +362,13 @@ Public Class TweenMain
             _bwFollower.Dispose()
         End If
         Me._apiGauge.Dispose()
-        If TIconDic IsNot Nothing Then DirectCast(TIconDic, IDisposable).Dispose()
+        If TIconDic IsNot Nothing Then
+            DirectCast(Me.TIconDic, ImageDictionary).PauseGetImage = True
+            DirectCast(TIconDic, IDisposable).Dispose()
+        End If
+        ' 終了時にRemoveHandlerしておかないとメモリリークする
+        ' http://msdn.microsoft.com/ja-jp/library/microsoft.win32.systemevents.powermodechanged.aspx
+        RemoveHandler Microsoft.Win32.SystemEvents.PowerModeChanged, AddressOf SystemEvents_PowerModeChanged
     End Sub
 
     Private Sub LoadIcon(ByRef IconInstance As Icon, ByVal FileName As String)
@@ -493,6 +501,7 @@ Public Class TweenMain
         Thumbnail = New Thumbnail(Me)
 
         AddHandler TwitterApiInfo.Changed, AddressOf SetStatusLabelApiHandler
+        AddHandler Microsoft.Win32.SystemEvents.PowerModeChanged, AddressOf SystemEvents_PowerModeChanged
 
         VerUpMenuItem.Image = shield.Icon
         If Not My.Application.CommandLineArgs.Count = 0 AndAlso My.Application.CommandLineArgs.Contains("/d") Then TraceFlag = True
@@ -785,12 +794,13 @@ Public Class TweenMain
 
         'アイコンリスト作成
         Try
-            TIconDic = New ImageDictionary(50)
+            TIconDic = New ImageDictionary(5)
         Catch ex As Exception
             MessageBox.Show("Please install [.NET Framework 4 (Full)].")
             Application.Exit()
             Exit Sub
         End Try
+        DirectCast(Me.TIconDic, ImageDictionary).PauseGetImage = False
 
         Dim saveRequired As Boolean = False
         'ユーザー名、パスワードが未設定なら設定画面を表示（初回起動時など）
@@ -912,10 +922,15 @@ Public Class TweenMain
         End Select
 
         '画像投稿サービス
+        Me.pictureService = New Dictionary(Of String, IMultimediaShareService) From {
+            {"TwitPic", New TwitPic(tw)},
+            {"img.ly", New imgly(tw)},
+            {"yfrog", New yfrog(tw)},
+            {"Plixi", New Plixi(tw)}}
         SetImageServiceCombo()
         ImageSelectionPanel.Enabled = False
 
-        ImageServiceCombo.SelectedIndex = _cfgCommon.UseImageSurvice
+        ImageServiceCombo.SelectedIndex = _cfgCommon.UseImageService
 
         'ウィンドウ設定
         Me.ClientSize = _cfgLocal.FormSize
@@ -1163,7 +1178,8 @@ Public Class TweenMain
         Static userTimelineCounter As Integer = 0
         Static listsCounter As Integer = 0
         Static usCounter As Integer = 0
-        Static lastGetTime As DateTime = Now
+        Static ResumeWait As Integer = 0
+        Static refreshFollowers As Integer = 0
 
         If homeCounter > 0 Then Interlocked.Decrement(homeCounter)
         If mentionCounter > 0 Then Interlocked.Decrement(mentionCounter)
@@ -1172,28 +1188,20 @@ Public Class TweenMain
         If userTimelineCounter > 0 Then Interlocked.Decrement(userTimelineCounter)
         If listsCounter > 0 Then Interlocked.Decrement(listsCounter)
         If usCounter > 0 Then Interlocked.Decrement(usCounter)
+        Interlocked.Increment(refreshFollowers)
 
         ''タイマー初期化
         If homeCounter <= 0 AndAlso SettingDialog.TimelinePeriodInt > 0 Then
             Interlocked.Exchange(homeCounter, SettingDialog.TimelinePeriodInt)
-            If Not tw.IsUserstreamDataReceived Then
-                lastGetTime = Now
-                GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
-            End If
+            If Not tw.IsUserstreamDataReceived Then GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
         End If
         If mentionCounter <= 0 AndAlso SettingDialog.ReplyPeriodInt > 0 Then
             Interlocked.Exchange(mentionCounter, SettingDialog.ReplyPeriodInt)
-            If Not tw.IsUserstreamDataReceived Then
-                lastGetTime = Now
-                GetTimeline(WORKERTYPE.Reply, 1, 0, "")
-            End If
+            If Not tw.IsUserstreamDataReceived Then GetTimeline(WORKERTYPE.Reply, 1, 0, "")
         End If
         If dmCounter <= 0 AndAlso SettingDialog.DMPeriodInt > 0 Then
             Interlocked.Exchange(dmCounter, SettingDialog.DMPeriodInt)
-            If Not tw.IsUserstreamDataReceived Then
-                lastGetTime = Now
-                GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
-            End If
+            If Not tw.IsUserstreamDataReceived Then GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
         End If
         If pubSearchCounter <= 0 AndAlso SettingDialog.PubSearchPeriodInt > 0 Then
             Interlocked.Exchange(pubSearchCounter, SettingDialog.PubSearchPeriodInt)
@@ -1211,11 +1219,19 @@ Public Class TweenMain
             Interlocked.Exchange(usCounter, SettingDialog.UserstreamPeriodInt)
             If Me._isActiveUserstream Then RefreshTimeline(True)
         End If
-        If Not tw.IsUserstreamDataReceived AndAlso Now.Subtract(lastGetTime).TotalMinutes > 10 Then
-            lastGetTime = Now
-            GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
-            GetTimeline(WORKERTYPE.Reply, 1, 0, "")
-            GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
+        If refreshFollowers > 3600 Then
+            Interlocked.Exchange(refreshFollowers, 0)
+            doGetFollowersMenu()
+        End If
+        If osResumed Then
+            Interlocked.Increment(ResumeWait)
+            If ResumeWait > 30 Then
+                osResumed = False
+                Interlocked.Exchange(ResumeWait, 0)
+                GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
+                GetTimeline(WORKERTYPE.Reply, 1, 0, "")
+                GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
+            End If
         End If
     End Sub
 
@@ -1290,10 +1306,10 @@ Public Class TweenMain
                         '制御しない
                     Case Else
                         '表示位置キープ
-                        If _curList.VirtualListSize > 0 AndAlso _statuses.IndexOf(_curTab.Text, topId) > -1 Then
-                            _curList.EnsureVisible(_curList.VirtualListSize - 1)
-                            _curList.EnsureVisible(_statuses.IndexOf(_curTab.Text, topId))
-                        End If
+                        'If _curList.VirtualListSize > 0 AndAlso _statuses.IndexOf(_curTab.Text, topId) > -1 Then
+                        '    _curList.EnsureVisible(_curList.VirtualListSize - 1)
+                        '    _curList.EnsureVisible(_statuses.IndexOf(_curTab.Text, topId))
+                        'End If
                 End Select
             End If
         Catch ex As Exception
@@ -1374,15 +1390,15 @@ Public Class TweenMain
         If _endingFlag Then Exit Sub
         For Each tab As TabPage In ListTab.TabPages
             Dim lst As DetailsListView = DirectCast(tab.Tag, DetailsListView)
-            If lst.SelectedIndices.Count > 0 AndAlso lst.SelectedIndices.Count < 31 Then
+            If lst.SelectedIndices.Count > 0 Then
                 selId.Add(tab.Text, _statuses.GetId(tab.Text, lst.SelectedIndices))
             Else
-                selId.Add(tab.Text, New Long(0) {-1})
+                selId.Add(tab.Text, New Long(0) {-2})
             End If
             If lst.FocusedItem IsNot Nothing Then
                 focusedId.Add(tab.Text, _statuses.GetId(tab.Text, lst.FocusedItem.Index))
             Else
-                focusedId.Add(tab.Text, -1)
+                focusedId.Add(tab.Text, -2)
             End If
         Next
 
@@ -1491,6 +1507,7 @@ Public Class TweenMain
         If _curList.SelectedIndices.Count <> 1 Then Exit Sub
 
         _curItemIndex = _curList.SelectedIndices(0)
+        If _curItemIndex > _curList.VirtualListSize - 1 Then Exit Sub
 
         _curPost = GetCurTabPost(_curItemIndex)
 
@@ -2005,9 +2022,8 @@ Public Class TweenMain
                         End If
                     Next
                 Else
-                    Dim picSvc As New PictureService(tw)
-                    If String.IsNullOrEmpty(args.status.status) Then args.status.status = ""
-                    ret = picSvc.Upload(args.status.imagePath, args.status.status, args.status.imageService)
+                    ret = Me.pictureService(args.status.imageService).Upload(args.status.imagePath,
+                                                                           args.status.status)
                 End If
                 bw.ReportProgress(300)
                 rslt.status = args.status
@@ -2051,13 +2067,16 @@ Public Class TweenMain
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
                 If args.tName = "" Then
                     For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.PublicSearch)
+                        'If tb.SearchWords <> "" Then ret = tw.GetPhoenixSearch(read, tb, False)
                         If tb.SearchWords <> "" Then ret = tw.GetSearch(read, tb, False)
                     Next
                 Else
                     Dim tb As TabClass = _statuses.GetTabByName(args.tName)
                     If tb IsNot Nothing Then
+                        'ret = tw.GetPhoenixSearch(read, tb, False)
                         ret = tw.GetSearch(read, tb, False)
                         If ret = "" AndAlso args.page = -1 Then
+                            'ret = tw.GetPhoenixSearch(read, tb, True)
                             ret = tw.GetSearch(read, tb, True)
                         End If
                     End If
@@ -2381,7 +2400,7 @@ Public Class TweenMain
                         End If
                     End If
                 End If
-                If Not _isActiveUserstream AndAlso rslt.retMsg.Length = 0 AndAlso SettingDialog.PostAndGet Then GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
+                If rslt.retMsg.Length = 0 AndAlso SettingDialog.PostAndGet Then GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
             Case WORKERTYPE.Retweet
                 If rslt.retMsg.Length = 0 Then
                     _postTimestamps.Add(Now)
@@ -4127,28 +4146,28 @@ Public Class TweenMain
                 End Select
                 If rct.Width > 0 Then
                     If _iconCol Then
-                        Dim fnt As New Font(e.Item.Font, FontStyle.Bold)
-                        'e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems(2).Text, e.Item.Font, brs, rct, sf)
-                        'e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]", fnt, brs, rctB, sf)
-                        TextRenderer.DrawText(e.Graphics,
-                                              e.Item.SubItems(2).Text,
-                                              e.Item.Font,
-                                              Rectangle.Round(rct),
-                                              brs.Color,
-                                              TextFormatFlags.WordBreak Or
-                                              TextFormatFlags.EndEllipsis Or
-                                              TextFormatFlags.GlyphOverhangPadding Or
-                                              TextFormatFlags.NoPrefix)
-                        TextRenderer.DrawText(e.Graphics,
-                                              e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]",
-                                              fnt,
-                                              Rectangle.Round(rctB),
-                                              brs.Color,
-                                              TextFormatFlags.SingleLine Or
-                                              TextFormatFlags.EndEllipsis Or
-                                              TextFormatFlags.GlyphOverhangPadding Or
-                                              TextFormatFlags.NoPrefix)
-                        fnt.Dispose()
+                        Using fnt As New Font(e.Item.Font, FontStyle.Bold)
+                            'e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems(2).Text, e.Item.Font, brs, rct, sf)
+                            'e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]", fnt, brs, rctB, sf)
+                            TextRenderer.DrawText(e.Graphics,
+                                                  e.Item.SubItems(2).Text,
+                                                  e.Item.Font,
+                                                  Rectangle.Round(rct),
+                                                  brs.Color,
+                                                  TextFormatFlags.WordBreak Or
+                                                  TextFormatFlags.EndEllipsis Or
+                                                  TextFormatFlags.GlyphOverhangPadding Or
+                                                  TextFormatFlags.NoPrefix)
+                            TextRenderer.DrawText(e.Graphics,
+                                                  e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]",
+                                                  fnt,
+                                                  Rectangle.Round(rctB),
+                                                  brs.Color,
+                                                  TextFormatFlags.SingleLine Or
+                                                  TextFormatFlags.EndEllipsis Or
+                                                  TextFormatFlags.GlyphOverhangPadding Or
+                                                  TextFormatFlags.NoPrefix)
+                        End Using
                     ElseIf drawLineCount = 1 Then
                         TextRenderer.DrawText(e.Graphics,
                                               e.SubItem.Text,
@@ -4177,99 +4196,99 @@ Public Class TweenMain
             Else
                 If rct.Width > 0 Then
                     '選択中の行
-                    Dim fnt As New Font(e.Item.Font, FontStyle.Bold)
-                    If DirectCast(sender, Windows.Forms.Control).Focused Then
-                        If _iconCol Then
-                            'e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems(2).Text, e.Item.Font, _brsHighLightText, rct, sf)
-                            'e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]", fnt, _brsHighLightText, rctB, sf)
-                            TextRenderer.DrawText(e.Graphics,
-                                                  e.Item.SubItems(2).Text,
-                                                  e.Item.Font,
-                                                  Rectangle.Round(rct),
-                                                  _brsHighLightText.Color,
-                                                  TextFormatFlags.WordBreak Or
-                                                  TextFormatFlags.EndEllipsis Or
-                                                  TextFormatFlags.GlyphOverhangPadding Or
-                                                  TextFormatFlags.NoPrefix)
-                            TextRenderer.DrawText(e.Graphics,
-                                                  e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]",
-                                                  fnt,
-                                                  Rectangle.Round(rctB),
-                                                  _brsHighLightText.Color,
-                                                  TextFormatFlags.SingleLine Or
-                                                  TextFormatFlags.EndEllipsis Or
-                                                  TextFormatFlags.GlyphOverhangPadding Or
-                                                  TextFormatFlags.NoPrefix)
-                        ElseIf drawLineCount = 1 Then
-                            TextRenderer.DrawText(e.Graphics,
-                                                  e.SubItem.Text,
-                                                  e.Item.Font,
-                                                  Rectangle.Round(rct),
-                                                  _brsHighLightText.Color,
-                                                  TextFormatFlags.SingleLine Or
-                                                  TextFormatFlags.EndEllipsis Or
-                                                  TextFormatFlags.GlyphOverhangPadding Or
-                                                  TextFormatFlags.NoPrefix Or
-                                                  TextFormatFlags.VerticalCenter)
+                    Using fnt As New Font(e.Item.Font, FontStyle.Bold)
+                        If DirectCast(sender, Windows.Forms.Control).Focused Then
+                            If _iconCol Then
+                                'e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems(2).Text, e.Item.Font, _brsHighLightText, rct, sf)
+                                'e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]", fnt, _brsHighLightText, rctB, sf)
+                                TextRenderer.DrawText(e.Graphics,
+                                                      e.Item.SubItems(2).Text,
+                                                      e.Item.Font,
+                                                      Rectangle.Round(rct),
+                                                      _brsHighLightText.Color,
+                                                      TextFormatFlags.WordBreak Or
+                                                      TextFormatFlags.EndEllipsis Or
+                                                      TextFormatFlags.GlyphOverhangPadding Or
+                                                      TextFormatFlags.NoPrefix)
+                                TextRenderer.DrawText(e.Graphics,
+                                                      e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]",
+                                                      fnt,
+                                                      Rectangle.Round(rctB),
+                                                      _brsHighLightText.Color,
+                                                      TextFormatFlags.SingleLine Or
+                                                      TextFormatFlags.EndEllipsis Or
+                                                      TextFormatFlags.GlyphOverhangPadding Or
+                                                      TextFormatFlags.NoPrefix)
+                            ElseIf drawLineCount = 1 Then
+                                TextRenderer.DrawText(e.Graphics,
+                                                      e.SubItem.Text,
+                                                      e.Item.Font,
+                                                      Rectangle.Round(rct),
+                                                      _brsHighLightText.Color,
+                                                      TextFormatFlags.SingleLine Or
+                                                      TextFormatFlags.EndEllipsis Or
+                                                      TextFormatFlags.GlyphOverhangPadding Or
+                                                      TextFormatFlags.NoPrefix Or
+                                                      TextFormatFlags.VerticalCenter)
+                            Else
+                                'e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, _brsHighLightText, rct, sf)
+                                TextRenderer.DrawText(e.Graphics,
+                                                      e.SubItem.Text,
+                                                      e.Item.Font,
+                                                      Rectangle.Round(rct),
+                                                      _brsHighLightText.Color,
+                                                      TextFormatFlags.WordBreak Or
+                                                      TextFormatFlags.EndEllipsis Or
+                                                      TextFormatFlags.GlyphOverhangPadding Or
+                                                      TextFormatFlags.NoPrefix)
+                            End If
                         Else
-                            'e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, _brsHighLightText, rct, sf)
-                            TextRenderer.DrawText(e.Graphics,
-                                                  e.SubItem.Text,
-                                                  e.Item.Font,
-                                                  Rectangle.Round(rct),
-                                                  _brsHighLightText.Color,
-                                                  TextFormatFlags.WordBreak Or
-                                                  TextFormatFlags.EndEllipsis Or
-                                                  TextFormatFlags.GlyphOverhangPadding Or
-                                                  TextFormatFlags.NoPrefix)
+                            If _iconCol Then
+                                'e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems(2).Text, e.Item.Font, _brsForeColorUnread, rct, sf)
+                                'e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]", fnt, _brsForeColorUnread, rctB, sf)
+                                TextRenderer.DrawText(e.Graphics,
+                                                      e.Item.SubItems(2).Text,
+                                                      e.Item.Font,
+                                                      Rectangle.Round(rct),
+                                                      _brsForeColorUnread.Color,
+                                                      TextFormatFlags.WordBreak Or
+                                                      TextFormatFlags.EndEllipsis Or
+                                                      TextFormatFlags.GlyphOverhangPadding Or
+                                                      TextFormatFlags.NoPrefix)
+                                TextRenderer.DrawText(e.Graphics,
+                                                      e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]",
+                                                      fnt,
+                                                      Rectangle.Round(rctB),
+                                                      _brsForeColorUnread.Color,
+                                                      TextFormatFlags.SingleLine Or
+                                                      TextFormatFlags.EndEllipsis Or
+                                                      TextFormatFlags.GlyphOverhangPadding Or
+                                                      TextFormatFlags.NoPrefix)
+                            ElseIf drawLineCount = 1 Then
+                                TextRenderer.DrawText(e.Graphics,
+                                                      e.SubItem.Text,
+                                                      e.Item.Font,
+                                                      Rectangle.Round(rct),
+                                                      _brsForeColorUnread.Color,
+                                                      TextFormatFlags.SingleLine Or
+                                                      TextFormatFlags.EndEllipsis Or
+                                                      TextFormatFlags.GlyphOverhangPadding Or
+                                                      TextFormatFlags.NoPrefix Or
+                                                      TextFormatFlags.VerticalCenter)
+                            Else
+                                'e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, _brsForeColorUnread, rct, sf)
+                                TextRenderer.DrawText(e.Graphics,
+                                                      e.SubItem.Text,
+                                                      e.Item.Font,
+                                                      Rectangle.Round(rct),
+                                                      _brsForeColorUnread.Color,
+                                                      TextFormatFlags.WordBreak Or
+                                                      TextFormatFlags.EndEllipsis Or
+                                                      TextFormatFlags.GlyphOverhangPadding Or
+                                                      TextFormatFlags.NoPrefix)
+                            End If
                         End If
-                    Else
-                        If _iconCol Then
-                            'e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems(2).Text, e.Item.Font, _brsForeColorUnread, rct, sf)
-                            'e.Graphics.DrawString(e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]", fnt, _brsForeColorUnread, rctB, sf)
-                            TextRenderer.DrawText(e.Graphics,
-                                                  e.Item.SubItems(2).Text,
-                                                  e.Item.Font,
-                                                  Rectangle.Round(rct),
-                                                  _brsForeColorUnread.Color,
-                                                  TextFormatFlags.WordBreak Or
-                                                  TextFormatFlags.EndEllipsis Or
-                                                  TextFormatFlags.GlyphOverhangPadding Or
-                                                  TextFormatFlags.NoPrefix)
-                            TextRenderer.DrawText(e.Graphics,
-                                                  e.Item.SubItems(4).Text + " / " + e.Item.SubItems(1).Text + " (" + e.Item.SubItems(3).Text + ") " + e.Item.SubItems(5).Text + e.Item.SubItems(6).Text + " [" + e.Item.SubItems(7).Text + "]",
-                                                  fnt,
-                                                  Rectangle.Round(rctB),
-                                                  _brsForeColorUnread.Color,
-                                                  TextFormatFlags.SingleLine Or
-                                                  TextFormatFlags.EndEllipsis Or
-                                                  TextFormatFlags.GlyphOverhangPadding Or
-                                                  TextFormatFlags.NoPrefix)
-                        ElseIf drawLineCount = 1 Then
-                            TextRenderer.DrawText(e.Graphics,
-                                                  e.SubItem.Text,
-                                                  e.Item.Font,
-                                                  Rectangle.Round(rct),
-                                                  _brsForeColorUnread.Color,
-                                                  TextFormatFlags.SingleLine Or
-                                                  TextFormatFlags.EndEllipsis Or
-                                                  TextFormatFlags.GlyphOverhangPadding Or
-                                                  TextFormatFlags.NoPrefix Or
-                                                  TextFormatFlags.VerticalCenter)
-                        Else
-                            'e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, _brsForeColorUnread, rct, sf)
-                            TextRenderer.DrawText(e.Graphics,
-                                                  e.SubItem.Text,
-                                                  e.Item.Font,
-                                                  Rectangle.Round(rct),
-                                                  _brsForeColorUnread.Color,
-                                                  TextFormatFlags.WordBreak Or
-                                                  TextFormatFlags.EndEllipsis Or
-                                                  TextFormatFlags.GlyphOverhangPadding Or
-                                                  TextFormatFlags.NoPrefix)
-                        End If
-                    End If
-                    fnt.Dispose()
+                    End Using
                 End If
             End If
         End If
@@ -4654,7 +4673,18 @@ RETRY:
     End Function
 
     Private Sub DisplayItemImage_Downloaded(ByVal sender As Object, ByVal e As EventArgs) Handles displayItem.ImageDownloaded
-        If sender.Equals(displayItem) AndAlso displayItem.Image IsNot Nothing Then UserPicture.Image = displayItem.Image
+        If sender.Equals(displayItem) Then
+            If UserPicture.Image IsNot Nothing Then UserPicture.Image.Dispose()
+            If displayItem.Image IsNot Nothing Then
+                Try
+                    UserPicture.Image = New Bitmap(displayItem.Image)
+                Catch ex As Exception
+                    UserPicture.Image = Nothing
+                End Try
+            Else
+                UserPicture.Image = Nothing
+            End If
+        End If
     End Sub
 
     Private Overloads Sub DispSelectedPost()
@@ -4713,8 +4743,12 @@ RETRY:
             NameLabel.Text += " (RT:" + _curPost.RetweetedBy + ")"
         End If
         If UserPicture.Image IsNot Nothing Then UserPicture.Image.Dispose()
-        If Not String.IsNullOrEmpty(_curPost.ImageUrl) AndAlso TIconDic.ContainsKey(_curPost.ImageUrl) Then
-            UserPicture.Image = TIconDic(_curPost.ImageUrl)
+        If Not String.IsNullOrEmpty(_curPost.ImageUrl) AndAlso TIconDic(_curPost.ImageUrl) IsNot Nothing Then
+            Try
+                UserPicture.Image = New Bitmap(TIconDic(_curPost.ImageUrl))
+            Catch ex As Exception
+                UserPicture.Image = Nothing
+            End Try
         Else
             UserPicture.Image = Nothing
         End If
@@ -4963,33 +4997,6 @@ RETRY:
                 End If
             End If
             Return Pressed
-        End If
-
-        If Focused = ModifierState.StatusText AndAlso Not Pressed Then
-            If KeyCode = Keys.Space AndAlso Modifier = ModifierState.CShift Then
-                If StatusText.SelectionStart > 0 Then
-                    Dim endidx As Integer = StatusText.SelectionStart - 1
-                    Dim startstr As String = ""
-                    For i As Integer = StatusText.SelectionStart - 1 To 0 Step -1
-                        Dim c As Char = StatusText.Text.Chars(i)
-                        If Char.IsLetterOrDigit(c) OrElse c = "_" Then
-                            Continue For
-                        End If
-                        If c = "@" Then
-                            Pressed = True
-                            startstr = StatusText.Text.Substring(i + 1, endidx - i)
-                            ShowSuplDialog(StatusText, AtIdSupl, startstr.Length + 1, startstr)
-                        ElseIf c = "#" Then
-                            Pressed = True
-                            startstr = StatusText.Text.Substring(i + 1, endidx - i)
-                            ShowSuplDialog(StatusText, HashSupl, startstr.Length + 1, startstr)
-                        Else
-                            Exit For
-                        End If
-                    Next
-                    Return Pressed
-                End If
-            End If
         End If
 
         'Ctrl+何か
@@ -5297,6 +5304,29 @@ RETRY:
                         idx = _curList.SelectedIndices(0) + 1
                         SelectListItem(_curList, idx)
                         _curList.EnsureVisible(idx)
+                    End If
+                ElseIf KeyCode = Keys.Space Then
+                    If StatusText.SelectionStart > 0 Then
+                        Dim endidx As Integer = StatusText.SelectionStart - 1
+                        Dim startstr As String = ""
+                        For i As Integer = StatusText.SelectionStart - 1 To 0 Step -1
+                            Dim c As Char = StatusText.Text.Chars(i)
+                            If Char.IsLetterOrDigit(c) OrElse c = "_" Then
+                                Continue For
+                            End If
+                            If c = "@" Then
+                                Pressed = True
+                                startstr = StatusText.Text.Substring(i + 1, endidx - i)
+                                ShowSuplDialog(StatusText, AtIdSupl, startstr.Length + 1, startstr)
+                            ElseIf c = "#" Then
+                                Pressed = True
+                                startstr = StatusText.Text.Substring(i + 1, endidx - i)
+                                ShowSuplDialog(StatusText, HashSupl, startstr.Length + 1, startstr)
+                            Else
+                                Exit For
+                            End If
+                        Next
+                        Return Pressed
                     End If
                 End If
             End If
@@ -5747,7 +5777,7 @@ RETRY:
                 post.IsRead = True
                 _statuses.AddPost(post)
                 _statuses.DistributePosts()
-                _statuses.SubmitUpdate(Nothing, Nothing, Nothing, False)
+                '_statuses.SubmitUpdate(Nothing, Nothing, Nothing, False)
                 Me.RefreshTimeline(False)
                 Try
                     Dim inReplyPost = inReplyToPosts.First()
@@ -6026,7 +6056,7 @@ RETRY:
             _cfgCommon.AllAtReply = tw.AllAtReply
             _cfgCommon.OpenUserTimeline = SettingDialog.OpenUserTimeline
             _cfgCommon.ListCountApi = SettingDialog.ListCountApi
-            _cfgCommon.UseImageSurvice = ImageServiceCombo.SelectedIndex
+            _cfgCommon.UseImageService = ImageServiceCombo.SelectedIndex
 
             _cfgCommon.Save()
         End SyncLock
@@ -6555,16 +6585,16 @@ RETRY:
         Static idle As Boolean = False
         'Static usCheckCnt As Integer = 0
 
-        Static iconDlListTopItem As ListViewItem = Nothing
+        'Static iconDlListTopItem As ListViewItem = Nothing
 
         If forceRefresh Then idle = False
 
-        If DirectCast(ListTab.SelectedTab.Tag, ListView).TopItem Is iconDlListTopItem Then
-            DirectCast(Me.TIconDic, ImageDictionary).PauseGetImage = False
-        Else
-            DirectCast(Me.TIconDic, ImageDictionary).PauseGetImage = True
-        End If
-        iconDlListTopItem = DirectCast(ListTab.SelectedTab.Tag, ListView).TopItem
+        'If DirectCast(ListTab.SelectedTab.Tag, ListView).TopItem Is iconDlListTopItem Then
+        '    DirectCast(Me.TIconDic, ImageDictionary).PauseGetImage = False
+        'Else
+        '    DirectCast(Me.TIconDic, ImageDictionary).PauseGetImage = True
+        'End If
+        'iconDlListTopItem = DirectCast(ListTab.SelectedTab.Tag, ListView).TopItem
 
         iconCnt += 1
         blinkCnt += 1
@@ -7518,7 +7548,7 @@ RETRY:
                     Me.IconNameToolStripMenuItem.Enabled = False
                     Me.IconNameToolStripMenuItem.Text = My.Resources.ContextMenuStrip3_OpeningText1
                 End If
-                If Me.TIconDic.ContainsKey(_curPost.ImageUrl) AndAlso Me.TIconDic(_curPost.ImageUrl) IsNot Nothing Then
+                If Me.TIconDic(_curPost.ImageUrl) IsNot Nothing Then
                     Me.SaveIconPictureToolStripMenuItem.Enabled = True
                 Else
                     Me.SaveIconPictureToolStripMenuItem.Enabled = False
@@ -7588,15 +7618,22 @@ RETRY:
         Me.SaveFileDialog1.FileName = name.Substring(name.LastIndexOf("/"c) + 1)
 
         If Me.SaveFileDialog1.ShowDialog() = Windows.Forms.DialogResult.OK Then
-            Using bmp2 As New Bitmap(TIconDic(name).Size.Width, TIconDic(name).Size.Height)
-                Using g As Graphics = Graphics.FromImage(bmp2)
-                    g.InterpolationMode = Drawing2D.InterpolationMode.High
-                    g.DrawImage(TIconDic(name), 0, 0, TIconDic(name).Size.Width, TIconDic(name).Size.Height)
-                    g.Dispose()
+            Try
+                Using orgBmp As Image = New Bitmap(TIconDic(name))
+                    Using bmp2 As New Bitmap(orgBmp.Size.Width, orgBmp.Size.Height)
+                        Using g As Graphics = Graphics.FromImage(bmp2)
+                            g.InterpolationMode = Drawing2D.InterpolationMode.High
+                            g.DrawImage(orgBmp, 0, 0, orgBmp.Size.Width, orgBmp.Size.Height)
+                            g.Dispose()
+                        End Using
+                        bmp2.Save(Me.SaveFileDialog1.FileName)
+                        bmp2.Dispose()
+                    End Using
+                    orgBmp.Dispose()
                 End Using
-                bmp2.Save(Me.SaveFileDialog1.FileName)
-                bmp2.Dispose()
-            End Using
+            Catch ex As Exception
+                '処理中にキャッシュアウトする可能性あり
+            End Try
         End If
     End Sub
 
@@ -8101,21 +8138,17 @@ RETRY:
             Dim filename As String = CType(e.Data.GetData(DataFormats.FileDrop, False), String())(0)
             Dim fl As New FileInfo(filename)
             Dim ext As String = fl.Extension
-            Dim picsvc As New PictureService(tw)
 
-            If picsvc.IsValidExtension(ext, ImageService) AndAlso _
-                    picsvc.GetMaxFileSize(ext, ImageService) >= fl.Length Then
+            If Not String.IsNullOrEmpty(Me.ImageService) AndAlso Me.pictureService(Me.ImageService).CheckValidFilesize(ext, fl.Length) Then
                 e.Effect = DragDropEffects.Copy
                 Exit Sub
             End If
             For Each svc As String In ImageServiceCombo.Items
-                If picsvc.IsValidExtension(ext, svc) AndAlso _
-                        picsvc.GetMaxFileSize(ext, svc) >= fl.Length Then
+                If String.IsNullOrEmpty(svc) Then Continue For
+                If Me.pictureService(svc).CheckValidFilesize(ext, fl.Length) Then
                     ImageServiceCombo.SelectedItem = svc
                     e.Effect = DragDropEffects.Copy
                     Exit Sub
-                Else
-                    Continue For
                 End If
             Next
             e.Effect = DragDropEffects.None
@@ -8203,14 +8236,20 @@ RETRY:
             flg = True
         End If
 
-        If Index IsNot Nothing AndAlso Index(0) > -1 Then
+        Dim fIdx As Integer = -1
+        If Index IsNot Nothing Then
             LView.SelectedIndices.Clear()
             For Each idx As Integer In Index
-                LView.SelectedIndices.Add(idx)
+                If idx > -1 AndAlso LView.VirtualListSize > idx Then
+                    LView.SelectedIndices.Add(idx)
+                    If fIdx = -1 Then fIdx = idx
+                End If
             Next
         End If
-        If FocusedIndex > -1 Then
+        If FocusedIndex > -1 AndAlso LView.VirtualListSize > FocusedIndex Then
             LView.Items(FocusedIndex).Focused = True
+        ElseIf fIdx > -1 Then
+            LView.Items(fIdx).Focused = True
         End If
         If flg Then LView.Invalidate(bnd)
     End Sub
@@ -9046,7 +9085,7 @@ RETRY:
         End If
 
         Using listSelectForm As New MyLists(user, Me.tw)
-            listSelectForm.ShowDialog()
+            listSelectForm.ShowDialog(Me)
         End Using
     End Sub
 
@@ -9526,7 +9565,8 @@ RETRY:
     End Sub
 
     Private Sub FilePickButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FilePickButton.Click
-        OpenFileDialog1.Filter = (New PictureService(tw)).GetFileOpenDialogFilter(ImageService)
+        If String.IsNullOrEmpty(Me.ImageService) Then Exit Sub
+        OpenFileDialog1.Filter = Me.pictureService(Me.ImageService).GetFileOpenDialogFilter()
         OpenFileDialog1.Title = My.Resources.PickPictureDialog1
         OpenFileDialog1.FileName = ""
 
@@ -9557,8 +9597,7 @@ RETRY:
 
     Private Sub ImageFromSelectedFile()
         Try
-            Dim svc As New PictureService(tw)
-            If String.IsNullOrEmpty(Trim(ImagefilePathText.Text)) Then
+            If String.IsNullOrEmpty(Trim(ImagefilePathText.Text)) OrElse String.IsNullOrEmpty(Me.ImageService) Then
                 ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
                 ImageSelectedPicture.Tag = UploadFileType.Invalid
                 ImagefilePathText.Text = ""
@@ -9566,7 +9605,7 @@ RETRY:
             End If
 
             Dim fl As New FileInfo(Trim(ImagefilePathText.Text))
-            If Not svc.IsValidExtension(fl.Extension.ToLower, ImageService) Then
+            If Not Me.pictureService(Me.ImageService).CheckValidExtension(fl.Extension) Then
                 '画像以外の形式
                 ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
                 ImageSelectedPicture.Tag = UploadFileType.Invalid
@@ -9574,7 +9613,7 @@ RETRY:
                 Exit Sub
             End If
 
-            If svc.GetMaxFileSize(fl.Extension, ImageService) < fl.Length Then
+            If Not Me.pictureService(Me.ImageService).CheckValidFilesize(fl.Extension, fl.Length) Then
                 ' ファイルサイズが大きすぎる
                 ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
                 ImageSelectedPicture.Tag = UploadFileType.Invalid
@@ -9583,7 +9622,7 @@ RETRY:
                 Exit Sub
             End If
 
-            Select Case svc.GetFileType(fl.Extension.ToLower, ImageService)
+            Select Case Me.pictureService(Me.ImageService).GetFileType(fl.Extension)
                 Case UploadFileType.Invalid
                     ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
                     ImageSelectedPicture.Tag = UploadFileType.Invalid
@@ -9666,6 +9705,7 @@ RETRY:
             ImageServiceCombo.Items.Add("yfrog")
             ImageServiceCombo.Items.Add("Plixi")
         Else
+            ImageServiceCombo.Items.Add("")
             Exit Sub
         End If
         'ImageServiceCombo.Items.Add("TwitVideo")
@@ -9698,12 +9738,10 @@ RETRY:
     End Sub
 
     Private Sub ImageServiceCombo_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ImageServiceCombo.SelectedIndexChanged
-        If ImageSelectedPicture.Tag IsNot Nothing Then
-            Dim svc As New PictureService(tw)
+        If ImageSelectedPicture.Tag IsNot Nothing AndAlso Not String.IsNullOrEmpty(Me.ImageService) Then
             Try
                 Dim fi As New FileInfo(ImagefilePathText.Text.Trim)
-                If Not (svc.IsValidExtension(fi.Extension, ImageService) AndAlso _
-                        svc.GetMaxFileSize(fi.Extension, ImageService) >= fi.Length) Then
+                If Not Me.pictureService(Me.ImageService).CheckValidFilesize(fi.Extension, fi.Length) Then
                     ImagefilePathText.Text = ""
                     ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage
                     ImageSelectedPicture.Tag = UploadFileType.Invalid
@@ -10044,7 +10082,7 @@ RETRY:
         _endingFlag = True
         Try
             Application.Restart()
-        Catch ex As NullReferenceException
+        Catch ex As Exception
             MessageBox.Show("Failed to restart. Please run Tween manually.")
             Application.Exit()
         End Try
@@ -10137,6 +10175,10 @@ RETRY:
         If Not String.IsNullOrEmpty(id) Then
             OpenUriAsync(My.Resources.FavstarUrl + "users/" + id + "/recent")
         End If
+    End Sub
+
+    Private Sub SystemEvents_PowerModeChanged(ByVal sender As Object, ByVal e As Microsoft.Win32.PowerModeChangedEventArgs)
+        If e.Mode = Microsoft.Win32.PowerModes.Resume Then osResumed = True
     End Sub
 
 End Class

@@ -61,7 +61,7 @@ Partial Class TweenMain
         Me.DeleteTabMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TabImage = New System.Windows.Forms.ImageList(Me.components)
         Me.ImageSelectionPanel = New System.Windows.Forms.Panel()
-        Me.ImageSelectedPicture = New System.Windows.Forms.PictureBox()
+        Me.ImageSelectedPicture = New TweenCustomControl.PictureBoxEx()
         Me.ImagePathPanel = New System.Windows.Forms.Panel()
         Me.ImagefilePathText = New System.Windows.Forms.TextBox()
         Me.FilePickButton = New System.Windows.Forms.Button()
@@ -73,7 +73,7 @@ Partial Class TweenMain
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
-        Me.UserPicture = New System.Windows.Forms.PictureBox()
+        Me.UserPicture = New TweenCustomControl.PictureBoxEx()
         Me.ContextMenuUserPicture = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.FollowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UnFollowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -120,7 +120,7 @@ Partial Class TweenMain
         Me.StatusText = New System.Windows.Forms.TextBox()
         Me.lblLen = New System.Windows.Forms.Label()
         Me.PostButton = New System.Windows.Forms.Button()
-        Me.PreviewPicture = New System.Windows.Forms.PictureBox()
+        Me.PreviewPicture = New TweenCustomControl.PictureBoxEx()
         Me.PreviewScrollBar = New System.Windows.Forms.VScrollBar()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.MenuItemFile = New System.Windows.Forms.ToolStripMenuItem()
@@ -1978,7 +1978,7 @@ Partial Class TweenMain
     Friend WithEvents AboutMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SplitContainer2 As System.Windows.Forms.SplitContainer
     Friend WithEvents TableLayoutPanel1 As System.Windows.Forms.TableLayoutPanel
-    Friend WithEvents UserPicture As System.Windows.Forms.PictureBox
+    Friend WithEvents UserPicture As TweenCustomControl.PictureBoxEx
     Friend WithEvents NameLabel As System.Windows.Forms.Label
     Friend WithEvents DateTimeLabel As System.Windows.Forms.Label
     Friend WithEvents StatusText As System.Windows.Forms.TextBox
@@ -2113,7 +2113,7 @@ Partial Class TweenMain
     Friend WithEvents ToolStripSeparator33 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents PostBrowser As System.Windows.Forms.WebBrowser
     Friend WithEvents SplitContainer3 As System.Windows.Forms.SplitContainer
-    Friend WithEvents PreviewPicture As System.Windows.Forms.PictureBox
+    Friend WithEvents PreviewPicture As TweenCustomControl.PictureBoxEx
     Friend WithEvents PreviewScrollBar As System.Windows.Forms.VScrollBar
     Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
     Friend WithEvents FollowToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
@@ -2135,7 +2135,7 @@ Partial Class TweenMain
     Friend WithEvents FilePickButton As System.Windows.Forms.Button
     Friend WithEvents ImagefilePathText As System.Windows.Forms.TextBox
     Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents ImageSelectedPicture As System.Windows.Forms.PictureBox
+    Friend WithEvents ImageSelectedPicture As TweenCustomControl.PictureBoxEx
     Friend WithEvents ImageSelectionPanel As System.Windows.Forms.Panel
     Friend WithEvents ImagePathPanel As System.Windows.Forms.Panel
     Friend WithEvents ImageServiceCombo As System.Windows.Forms.ComboBox

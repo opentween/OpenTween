@@ -214,6 +214,9 @@ Namespace TweenCustomControl
             Const WM_HSCROLL As Integer = &H114
             Const WM_VSCROLL As Integer = &H115
             Const WM_KEYDOWN As Integer = &H100
+            Const LVM_SETITEMCOUNT As Integer = &H102F
+            Const LVSICF_NOSCROLL As Long = &H2
+            Const LVSICF_NOINVALIDATEALL As Long = &H1
 
             Dim hPos As Integer = -1
             Dim vPos As Integer = -1
@@ -240,6 +243,8 @@ Namespace TweenCustomControl
                     If GetScrollInfo(Me.Handle, ScrollBarDirection.SB_HORZ, si) <> 0 Then
                         hPos = si.nPos
                     End If
+                Case LVM_SETITEMCOUNT
+                    m.LParam = New IntPtr(LVSICF_NOSCROLL Or LVSICF_NOINVALIDATEALL)
             End Select
 
             Try

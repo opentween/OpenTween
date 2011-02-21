@@ -291,7 +291,7 @@ Public Class HttpConnection
                 GetHeaderInfo(res, headerInfo)
                 Return res.StatusCode
             End If
-            Throw ex
+            Throw
         End Try
     End Function
 
@@ -336,7 +336,7 @@ Public Class HttpConnection
                 End Using
                 Return res.StatusCode
             End If
-            Throw ex
+            Throw
         End Try
     End Function
 
@@ -370,7 +370,7 @@ Public Class HttpConnection
                 GetHeaderInfo(res, headerInfo)
                 Return res.StatusCode
             End If
-            Throw ex
+            Throw
         End Try
     End Function
 
@@ -409,7 +409,7 @@ Public Class HttpConnection
                 GetHeaderInfo(res, headerInfo)
                 Return res.StatusCode
             End If
-            Throw ex
+            Throw
         End Try
     End Function
 
@@ -550,10 +550,8 @@ Public Class HttpConnection
         Set(ByVal value As Integer)
             Const TimeoutMinValue As Integer = 10000
             Const TimeoutMaxValue As Integer = 120000
-            Const TimeoutDefaultValue As Integer = 0
             If value < TimeoutMinValue OrElse value > TimeoutMaxValue Then
-                ' 範囲外ならデフォルト値設定
-                _timeout = TimeoutDefaultValue
+                Throw New ArgumentOutOfRangeException("Set " + TimeoutMinValue.ToString + "-" + TimeoutMaxValue.ToString + ": Value=" + value.ToString)
             Else
                 _timeout = value
             End If

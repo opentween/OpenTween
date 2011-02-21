@@ -64,7 +64,6 @@ Public NotInheritable Class PostClass
     Private _SearchTabName As String = ""
     Private _IsDeleted As Boolean = False
     Private _InReplyToUserId As Long = 0
-    Private _langauge As String = ""
 
     <FlagsAttribute()> _
     Private Enum Statuses
@@ -390,15 +389,6 @@ Public NotInheritable Class PostClass
         End Set
     End Property
 
-    Public Property Language As String
-        Get
-            Return _langauge
-        End Get
-        Set(ByVal value As String)
-            _langauge = value
-        End Set
-    End Property
-
     Public Property FavoritedCount As Integer
 
     Public Function Copy() As PostClass
@@ -441,8 +431,7 @@ Public NotInheritable Class PostClass
                 (Me.RetweetedId = other.RetweetedId) AndAlso
                 (Me.RelTabName = other.RelTabName) AndAlso
                 (Me.IsDeleted = other.IsDeleted) AndAlso
-                (Me.InReplyToUserId = other.InReplyToUserId) AndAlso
-                (Me.Language = other.Language)
+                (Me.InReplyToUserId = other.InReplyToUserId)
 
     End Function
 #Region "IClonable.Clone"
@@ -1164,7 +1153,8 @@ Public NotInheritable Class TabInformations
                 Next
             Else
                 tb.UnreadCount += 1
-                If tb.OldestUnreadId > Id OrElse tb.OldestUnreadId = -1 Then tb.OldestUnreadId = Id
+                'If tb.OldestUnreadId > Id OrElse tb.OldestUnreadId = -1 Then tb.OldestUnreadId = Id
+                If tb.OldestUnreadId > Id Then tb.OldestUnreadId = Id
                 If tb.IsInnerStorageTabType Then
                     '一般タブ
                     If _statuses.ContainsKey(Id) AndAlso _statuses(Id).IsRead Then
@@ -1244,7 +1234,8 @@ Public NotInheritable Class TabInformations
                 Next
             Else
                 tb.UnreadCount += 1
-                If tb.OldestUnreadId > Id OrElse tb.OldestUnreadId = -1 Then tb.OldestUnreadId = Id
+                'If tb.OldestUnreadId > Id OrElse tb.OldestUnreadId = -1 Then tb.OldestUnreadId = Id
+                If tb.OldestUnreadId > Id Then tb.OldestUnreadId = Id
                 If tb.IsInnerStorageTabType Then Exit Sub
                 For Each key As String In _tabs.Keys
                     If Not key = TabName AndAlso _
@@ -1287,9 +1278,8 @@ Public NotInheritable Class TabInformations
     Public ReadOnly Property Item(ByVal ID As Long) As PostClass
         Get
             If _statuses.ContainsKey(ID) Then Return _statuses(ID)
-            For Each tb As TabClass In _tabs.Values
-                If tb.IsInnerStorageTabType AndAlso _
-                   tb.Contains(ID) Then
+            For Each tb As TabClass In Me.GetTabsInnerStorageType
+                If tb.Contains(ID) Then
                     Return tb.Posts(ID)
                 End If
             Next
@@ -1299,12 +1289,18 @@ Public NotInheritable Class TabInformations
 
     Public ReadOnly Property Item(ByVal TabName As String, ByVal Index As Integer) As PostClass
         Get
-            'If Not _tabs.ContainsKey(TabName) Then Return Nothing
-            If _tabs(TabName).IsInnerStorageTabType Then
-                Return _tabs(TabName).Posts(_tabs(TabName).GetId(Index))
-            Else
-                Return _statuses(_tabs(TabName).GetId(Index))
-            End If
+            If Not _tabs.ContainsKey(TabName) Then Throw New ArgumentException("TabName=" + TabName + " is not contained.")
+            Dim id As Long = _tabs(TabName).GetId(Index)
+            If id < 0 Then Throw New ArgumentException("Index can't find. Index=" + Index.ToString + "/TabName=" + TabName)
+            Try
+                If _tabs(TabName).IsInnerStorageTabType Then
+                    Return _tabs(TabName).Posts(_tabs(TabName).GetId(Index))
+                Else
+                    Return _statuses(_tabs(TabName).GetId(Index))
+                End If
+            Catch ex As Exception
+                Throw New Exception("Index=" + Index.ToString + "/TabName=" + TabName, ex)
+            End Try
         End Get
     End Property
 
@@ -1644,6 +1640,7 @@ Public NotInheritable Class TabClass
     'Search query
     Private _searchLang As String = ""
     Private _searchWords As String = ""
+    Private _nextPageQuery As String = ""
 
     Public Property SearchLang() As String
         Get
@@ -1663,6 +1660,16 @@ Public NotInheritable Class TabClass
             _searchWords = value.Trim
         End Set
     End Property
+
+    Public Property NextPageQuery() As String
+        Get
+            Return _nextPageQuery
+        End Get
+        Set(ByVal value As String)
+            _nextPageQuery = value
+        End Set
+    End Property
+
     Public Function GetSearchPage(ByVal count As Integer) As Integer
         Return ((_ids.Count \ count) + 1)
     End Function
@@ -1770,7 +1777,35 @@ Public NotInheritable Class TabClass
     End Sub
 
     Public Sub Sort()
-        _ids.Sort(_sorter.CmpMethod)
+        If _sorter.Mode = IdComparerClass.ComparerMode.Id Then
+            _ids.Sort(_sorter.CmpMethod)
+            Exit Sub
+        End If
+        Dim ar() As Long = Nothing
+        If _sorter.Order = SortOrder.Ascending Then
+            Select Case _sorter.Mode
+                Case IdComparerClass.ComparerMode.Data
+                    ar = _ids.OrderBy(Function(n) _sorter.posts(n).TextFromApi).ToArray
+                Case IdComparerClass.ComparerMode.Name
+                    ar = _ids.OrderBy(Function(n) _sorter.posts(n).ScreenName).ToArray
+                Case IdComparerClass.ComparerMode.Nickname
+                    ar = _ids.OrderBy(Function(n) _sorter.posts(n).Nickname).ToArray
+                Case IdComparerClass.ComparerMode.Source
+                    ar = _ids.OrderBy(Function(n) _sorter.posts(n).Source).ToArray
+            End Select
+        Else
+            Select Case _sorter.Mode
+                Case IdComparerClass.ComparerMode.Data
+                    ar = _ids.OrderByDescending(Function(n) _sorter.posts(n).TextFromApi).ToArray
+                Case IdComparerClass.ComparerMode.Name
+                    ar = _ids.OrderByDescending(Function(n) _sorter.posts(n).ScreenName).ToArray
+                Case IdComparerClass.ComparerMode.Nickname
+                    ar = _ids.OrderByDescending(Function(n) _sorter.posts(n).Nickname).ToArray
+                Case IdComparerClass.ComparerMode.Source
+                    ar = _ids.OrderByDescending(Function(n) _sorter.posts(n).Source).ToArray
+            End Select
+        End If
+        _ids = New List(Of Long)(ar)
     End Sub
 
     Public ReadOnly Property Sorter() As IdComparerClass
@@ -1795,11 +1830,12 @@ Public NotInheritable Class TabClass
 
         If Not Read AndAlso Me._unreadManage Then
             Me._unreadCount += 1
-            If Me.OldestUnreadId = -1 Then
-                Me.OldestUnreadId = ID
-            Else
-                If ID < Me.OldestUnreadId Then Me.OldestUnreadId = ID
-            End If
+            If ID < Me.OldestUnreadId Then Me.OldestUnreadId = ID
+            'If Me.OldestUnreadId = -1 Then
+            '    Me.OldestUnreadId = ID
+            'Else
+            '    If ID < Me.OldestUnreadId Then Me.OldestUnreadId = ID
+            'End If
         End If
     End Sub
 
@@ -2076,6 +2112,12 @@ Public NotInheritable Class FiltersClass
     Private _useLambda As Boolean = False
     Private _exuseLambda As Boolean = False
 
+    ' ラムダ式コンパイルキャッシュ
+    Private _lambdaExp As LambdaExpression = Nothing
+    Private _lambdaExpDelegate As [Delegate] = Nothing
+    Private _exlambdaExp As LambdaExpression = Nothing
+    Private _exlambdaExpDelegate As [Delegate] = Nothing
+
     Public Sub New()
 
     End Sub
@@ -2215,6 +2257,8 @@ Public NotInheritable Class FiltersClass
             Return _body
         End Get
         Set(ByVal value As List(Of String))
+            _lambdaExp = Nothing
+            _lambdaExpDelegate = Nothing
             _body = value
         End Set
     End Property
@@ -2237,6 +2281,8 @@ Public NotInheritable Class FiltersClass
             Return _exbody
         End Get
         Set(ByVal value As List(Of String))
+            _exlambdaExp = Nothing
+            _exlambdaExpDelegate = Nothing
             _exbody = value
         End Set
     End Property
@@ -2330,6 +2376,8 @@ Public NotInheritable Class FiltersClass
             Return _useLambda
         End Get
         Set(ByVal value As Boolean)
+            _lambdaExp = Nothing
+            _lambdaExpDelegate = Nothing
             _useLambda = value
         End Set
     End Property
@@ -2339,6 +2387,8 @@ Public NotInheritable Class FiltersClass
             Return _exuseLambda
         End Get
         Set(ByVal value As Boolean)
+            _exlambdaExp = Nothing
+            _exlambdaExpDelegate = Nothing
             _exuseLambda = value
         End Set
     End Property
@@ -2402,11 +2452,19 @@ Public NotInheritable Class FiltersClass
     End Function
 
     Public Function ExecuteLambdaExpression(ByVal expr As String, ByVal post As PostClass) As Boolean
-        Dim dlg As [Delegate]
-        Dim exp As LambdaExpression
-        exp = ParseLambda(Of PostClass, Boolean)(expr, post)
-        dlg = exp.Compile()
-        Return DirectCast(dlg.DynamicInvoke(post), Boolean)
+        If _lambdaExp Is Nothing OrElse _lambdaExpDelegate Is Nothing Then
+            _lambdaExp = ParseLambda(Of PostClass, Boolean)(expr, post)
+            _lambdaExpDelegate = _lambdaExp.Compile()
+        End If
+        Return (DirectCast(_lambdaExpDelegate.DynamicInvoke(post), Boolean))
+    End Function
+
+    Public Function ExecuteExLambdaExpression(ByVal expr As String, ByVal post As PostClass) As Boolean
+        If _exlambdaExp Is Nothing OrElse _exlambdaExpDelegate Is Nothing Then
+            _exlambdaExp = ParseLambda(Of PostClass, Boolean)(expr, post)
+            _exlambdaExpDelegate = _exlambdaExp.Compile()
+        End If
+        Return (DirectCast(_exlambdaExpDelegate.DynamicInvoke(post), Boolean))
     End Function
 
     Public Function IsHit(ByVal post As PostClass) As HITRESULT
@@ -2528,7 +2586,7 @@ Public NotInheritable Class FiltersClass
                         ) Then
                         If _exbody.Count > 0 Then
                             If _exuseLambda Then
-                                If ExecuteLambdaExpression(_exbody.Item(0), post) Then exFlag = True
+                                If ExecuteExLambdaExpression(_exbody.Item(0), post) Then exFlag = True
                             Else
                                 For Each fs As String In _exbody
                                     If _exuseRegex Then
@@ -2549,7 +2607,7 @@ Public NotInheritable Class FiltersClass
                     End If
                 Else
                     If _exuseLambda Then
-                        If ExecuteLambdaExpression(_exbody.Item(0), post) Then exFlag = True
+                        If ExecuteExLambdaExpression(_exbody.Item(0), post) Then exFlag = True
                     Else
                         For Each fs As String In _exbody
                             If _exuseRegex Then
@@ -2760,10 +2818,13 @@ Public NotInheritable Class IdComparerClass
         SetCmpMethod(_mode, _order)
     End Sub
 
-    Public WriteOnly Property posts() As Dictionary(Of Long, PostClass)
+    Public Property posts() As Dictionary(Of Long, PostClass)
         Set(ByVal value As Dictionary(Of Long, PostClass))
             _statuses = value
         End Set
+        Get
+            Return _statuses
+        End Get
     End Property
 
     ' 指定したソートモードとソートオーダーに従い使用する比較関数のアドレスを返す

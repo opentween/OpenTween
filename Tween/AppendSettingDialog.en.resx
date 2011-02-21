@@ -121,58 +121,54 @@
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAAB1TeXN0
-        ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQwAAAAEVGV4dAROYW1lCUlzQ2hlY2tlZApJbWFnZUluZGV4
+        ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQsAAAAEVGV4dAROYW1lCUlzQ2hlY2tlZApJbWFnZUluZGV4
         CEltYWdlS2V5ElNlbGVjdGVkSW1hZ2VJbmRleBBTZWxlY3RlZEltYWdlS2V5CkNoaWxkQ291bnQJY2hp
-        bGRyZW4wCWNoaWxkcmVuMQljaGlsZHJlbjIJY2hpbGRyZW4zAQEAAAEAAQAEBAQEAQgICB1TeXN0ZW0u
-        V2luZG93cy5Gb3Jtcy5UcmVlTm9kZQIAAAAdU3lzdGVtLldpbmRvd3MuRm9ybXMuVHJlZU5vZGUCAAAA
-        HVN5c3RlbS5XaW5kb3dzLkZvcm1zLlRyZWVOb2RlAgAAAB1TeXN0ZW0uV2luZG93cy5Gb3Jtcy5UcmVl
-        Tm9kZQIAAAACAAAABgMAAAAHR2VuZXJhbAYEAAAACUJhc2VkTm9kZQD/////BgUAAAAA/////wkFAAAA
-        BAAAAAkGAAAACQcAAAAJCAAAAAkJAAAABQYAAAAdU3lzdGVtLldpbmRvd3MuRm9ybXMuVHJlZU5vZGUI
-        AAAABFRleHQETmFtZQlJc0NoZWNrZWQKSW1hZ2VJbmRleAhJbWFnZUtleRJTZWxlY3RlZEltYWdlSW5k
-        ZXgQU2VsZWN0ZWRJbWFnZUtleQpDaGlsZENvdW50AQEAAAEAAQABCAgIAgAAAAYKAAAACEludGVydmFs
-        BgsAAAAKUGVyaW9kTm9kZQD/////CQUAAAD/////CQUAAAAAAAAABQcAAAAdU3lzdGVtLldpbmRvd3Mu
-        Rm9ybXMuVHJlZU5vZGUIAAAABFRleHQETmFtZQlJc0NoZWNrZWQKSW1hZ2VJbmRleAhJbWFnZUtleRJT
-        ZWxlY3RlZEltYWdlSW5kZXgQU2VsZWN0ZWRJbWFnZUtleQpDaGlsZENvdW50AQEAAAEAAQABCAgIAgAA
-        AAYNAAAAB1N0YXJ0dXAGDgAAAAtTdGFydFVwTm9kZQD/////CQUAAAD/////CQUAAAAAAAAABQgAAAAd
-        U3lzdGVtLldpbmRvd3MuRm9ybXMuVHJlZU5vZGUIAAAABFRleHQETmFtZQlJc0NoZWNrZWQKSW1hZ2VJ
-        bmRleAhJbWFnZUtleRJTZWxlY3RlZEltYWdlSW5kZXgQU2VsZWN0ZWRJbWFnZUtleQpDaGlsZENvdW50
-        AQEAAAEAAQABCAgIAgAAAAYQAAAABkNvdW50cwYRAAAADEdldENvdW50Tm9kZQD/////CQUAAAD/////
-        CQUAAAAAAAAABQkAAAAdU3lzdGVtLldpbmRvd3MuRm9ybXMuVHJlZU5vZGUIAAAABFRleHQETmFtZQlJ
-        c0NoZWNrZWQKSW1hZ2VJbmRleAhJbWFnZUtleRJTZWxlY3RlZEltYWdlSW5kZXgQU2VsZWN0ZWRJbWFn
-        ZUtleQpDaGlsZENvdW50AQEAAAEAAQABCAgIAgAAAAYTAAAAClVzZXJTdHJlYW0GFAAAAA5Vc2VyU3Ry
-        ZWFtTm9kZQD/////CQUAAAD/////CQUAAAAAAAAACw==
+        bGRyZW4wCWNoaWxkcmVuMQljaGlsZHJlbjIBAQAAAQABAAQEBAEICAgdU3lzdGVtLldpbmRvd3MuRm9y
+        bXMuVHJlZU5vZGUCAAAAHVN5c3RlbS5XaW5kb3dzLkZvcm1zLlRyZWVOb2RlAgAAAB1TeXN0ZW0uV2lu
+        ZG93cy5Gb3Jtcy5UcmVlTm9kZQIAAAACAAAABgMAAAAHR2VuZXJhbAYEAAAACUJhc2VkTm9kZQD/////
+        BgUAAAAA/////wkFAAAAAwAAAAkGAAAACQcAAAAJCAAAAAUGAAAAHVN5c3RlbS5XaW5kb3dzLkZvcm1z
+        LlRyZWVOb2RlCAAAAARUZXh0BE5hbWUJSXNDaGVja2VkCkltYWdlSW5kZXgISW1hZ2VLZXkSU2VsZWN0
+        ZWRJbWFnZUluZGV4EFNlbGVjdGVkSW1hZ2VLZXkKQ2hpbGRDb3VudAEBAAABAAEAAQgICAIAAAAGCQAA
+        AAhJbnRlcnZhbAYKAAAAClBlcmlvZE5vZGUA/////wkFAAAA/////wkFAAAAAAAAAAUHAAAAHVN5c3Rl
+        bS5XaW5kb3dzLkZvcm1zLlRyZWVOb2RlCAAAAARUZXh0BE5hbWUJSXNDaGVja2VkCkltYWdlSW5kZXgI
+        SW1hZ2VLZXkSU2VsZWN0ZWRJbWFnZUluZGV4EFNlbGVjdGVkSW1hZ2VLZXkKQ2hpbGRDb3VudAEBAAAB
+        AAEAAQgICAIAAAAGDAAAAAdTdGFydHVwBg0AAAALU3RhcnRVcE5vZGUA/////wkFAAAA/////wkFAAAA
+        AAAAAAUIAAAAHVN5c3RlbS5XaW5kb3dzLkZvcm1zLlRyZWVOb2RlCAAAAARUZXh0BE5hbWUJSXNDaGVj
+        a2VkCkltYWdlSW5kZXgISW1hZ2VLZXkSU2VsZWN0ZWRJbWFnZUluZGV4EFNlbGVjdGVkSW1hZ2VLZXkK
+        Q2hpbGRDb3VudAEBAAABAAEAAQgICAIAAAAGDwAAAAZDb3VudHMGEAAAAAxHZXRDb3VudE5vZGUA////
+        /wkFAAAA/////wkFAAAAAAAAAAs=
 </value>
   </data>
   <data name="TreeViewSetting.Nodes1" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAAB1TeXN0
-        ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQoAAAAEVGV4dAROYW1lCUlzQ2hlY2tlZApJbWFnZUluZGV4
+        ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQkAAAAEVGV4dAROYW1lCUlzQ2hlY2tlZApJbWFnZUluZGV4
         CEltYWdlS2V5ElNlbGVjdGVkSW1hZ2VJbmRleBBTZWxlY3RlZEltYWdlS2V5CkNoaWxkQ291bnQJY2hp
-        bGRyZW4wCWNoaWxkcmVuMQEBAAABAAEABAQBCAgIHVN5c3RlbS5XaW5kb3dzLkZvcm1zLlRyZWVOb2Rl
-        AgAAAB1TeXN0ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQIAAAACAAAABgMAAAAIQmVoYXZpb3IGBAAA
-        AApBY3Rpb25Ob2RlAP////8GBQAAAAD/////CQUAAAACAAAACQYAAAAJBwAAAAUGAAAAHVN5c3RlbS5X
-        aW5kb3dzLkZvcm1zLlRyZWVOb2RlCAAAAARUZXh0BE5hbWUJSXNDaGVja2VkCkltYWdlSW5kZXgISW1h
-        Z2VLZXkSU2VsZWN0ZWRJbWFnZUluZGV4EFNlbGVjdGVkSW1hZ2VLZXkKQ2hpbGRDb3VudAEBAAABAAEA
-        AQgICAIAAAAGCAAAAAxFdmVudHNOb3RpZnkGCQAAAApOb3RpZnlOb2RlAP////8JBQAAAP////8JBQAA
-        AAAAAAAFBwAAAB1TeXN0ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQgAAAAEVGV4dAROYW1lCUlzQ2hl
-        Y2tlZApJbWFnZUluZGV4CEltYWdlS2V5ElNlbGVjdGVkSW1hZ2VJbmRleBBTZWxlY3RlZEltYWdlS2V5
-        CkNoaWxkQ291bnQBAQAAAQABAAEICAgCAAAABgsAAAAKUG9zdCB0d2VldAYMAAAADFR3ZWV0QWN0Tm9k
-        ZQD/////CQUAAAD/////CQUAAAAAAAAACw==
+        bGRyZW4wAQEAAAEAAQAEAQgICB1TeXN0ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQIAAAACAAAABgMA
+        AAAIQmVoYXZpb3IGBAAAAApBY3Rpb25Ob2RlAP////8GBQAAAAD/////CQUAAAABAAAACQYAAAAFBgAA
+        AB1TeXN0ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQgAAAAEVGV4dAROYW1lCUlzQ2hlY2tlZApJbWFn
+        ZUluZGV4CEltYWdlS2V5ElNlbGVjdGVkSW1hZ2VJbmRleBBTZWxlY3RlZEltYWdlS2V5CkNoaWxkQ291
+        bnQBAQAAAQABAAEICAgCAAAABgcAAAAKUG9zdCB0d2VldAYIAAAADFR3ZWV0QWN0Tm9kZQD/////CQUA
+        AAD/////CQUAAAAAAAAACw==
 </value>
   </data>
   <data name="TreeViewSetting.Nodes2" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAAB1TeXN0
-        ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQkAAAAEVGV4dAROYW1lCUlzQ2hlY2tlZApJbWFnZUluZGV4
+        ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQoAAAAEVGV4dAROYW1lCUlzQ2hlY2tlZApJbWFnZUluZGV4
         CEltYWdlS2V5ElNlbGVjdGVkSW1hZ2VJbmRleBBTZWxlY3RlZEltYWdlS2V5CkNoaWxkQ291bnQJY2hp
-        bGRyZW4wAQEAAAEAAQAEAQgICB1TeXN0ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQIAAAACAAAABgMA
-        AAAHRGlzcGxheQYEAAAAC1ByZXZpZXdOb2RlAP////8GBQAAAAD/////CQUAAAABAAAACQYAAAAFBgAA
-        AB1TeXN0ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQgAAAAEVGV4dAROYW1lCUlzQ2hlY2tlZApJbWFn
-        ZUluZGV4CEltYWdlS2V5ElNlbGVjdGVkSW1hZ2VJbmRleBBTZWxlY3RlZEltYWdlS2V5CkNoaWxkQ291
-        bnQBAQAAAQABAAEICAgCAAAABgcAAAAFTGlzdHMGCAAAAAxUd2VldFBydk5vZGUA/////wkFAAAA////
-        /wkFAAAAAAAAAAs=
+        bGRyZW4wCWNoaWxkcmVuMQEBAAABAAEABAQBCAgIHVN5c3RlbS5XaW5kb3dzLkZvcm1zLlRyZWVOb2Rl
+        AgAAAB1TeXN0ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQIAAAACAAAABgMAAAAHRGlzcGxheQYEAAAA
+        C1ByZXZpZXdOb2RlAP////8GBQAAAAD/////CQUAAAACAAAACQYAAAAJBwAAAAUGAAAAHVN5c3RlbS5X
+        aW5kb3dzLkZvcm1zLlRyZWVOb2RlCAAAAARUZXh0BE5hbWUJSXNDaGVja2VkCkltYWdlSW5kZXgISW1h
+        Z2VLZXkSU2VsZWN0ZWRJbWFnZUluZGV4EFNlbGVjdGVkSW1hZ2VLZXkKQ2hpbGRDb3VudAEBAAABAAEA
+        AQgICAIAAAAGCAAAAAVMaXN0cwYJAAAADFR3ZWV0UHJ2Tm9kZQD/////CQUAAAD/////CQUAAAAAAAAA
+        BQcAAAAdU3lzdGVtLldpbmRvd3MuRm9ybXMuVHJlZU5vZGUIAAAABFRleHQETmFtZQlJc0NoZWNrZWQK
+        SW1hZ2VJbmRleAhJbWFnZUtleRJTZWxlY3RlZEltYWdlSW5kZXgQU2VsZWN0ZWRJbWFnZUtleQpDaGls
+        ZENvdW50AQEAAAEAAQABCAgIAgAAAAYLAAAADEV2ZW50c05vdGlmeQYMAAAACk5vdGlmeU5vZGUA////
+        /wkFAAAA/////wkFAAAAAAAAAAs=
 </value>
   </data>
   <data name="TreeViewSetting.Nodes3" mimetype="application/x-microsoft.net.object.binary.base64">
@@ -217,6 +213,218 @@
   <data name="SplitContainer1.Panel1.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="LabelApiUsingUserStreamEnabled.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="LabelUserStreamActive.Size" type="System.Drawing.Size, System.Drawing">
+    <value>395, 24</value>
+  </data>
+  <data name="LabelUserStreamActive.Text" xml:space="preserve">
+    <value>UserStream is enable.
+Periodic fetching, Timeline/Mentions/DM, and Post&amp;Fetch function is disable.</value>
+  </data>
+  <data name="LabelUserStreamActive.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label21.Text" xml:space="preserve">
+    <value>UserTimeline Interval (sec)</value>
+  </data>
+  <data name="Label21.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="UserTimelinePeriod.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TimelinePeriod.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 12</value>
+  </data>
+  <data name="Label3.Text" xml:space="preserve">
+    <value>Timeline Fetching Interval (sec.)</value>
+  </data>
+  <data name="Label3.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ButtonApiCalc.Text" xml:space="preserve">
+    <value>Recalculation</value>
+  </data>
+  <data name="ButtonApiCalc.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LabelPostAndGet.Size" type="System.Drawing.Size, System.Drawing">
+    <value>358, 12</value>
+  </data>
+  <data name="LabelPostAndGet.Text" xml:space="preserve">
+    <value>Because "Post &amp;&amp; fetch" is enabled, the API for each post consumed.</value>
+  </data>
+  <data name="LabelPostAndGet.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LabelApiUsing.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label33.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 12</value>
+  </data>
+  <data name="Label33.Text" xml:space="preserve">
+    <value>Lists Fetching Interval (sec)</value>
+  </data>
+  <data name="Label33.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListsPeriod.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 12</value>
+  </data>
+  <data name="Label7.Text" xml:space="preserve">
+    <value>Public Search Interval (sec.)</value>
+  </data>
+  <data name="Label7.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PubSearchPeriod.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label69.Size" type="System.Drawing.Size, System.Drawing">
+    <value>156, 12</value>
+  </data>
+  <data name="Label69.Text" xml:space="preserve">
+    <value>Reply Fetching Interval (sec.)</value>
+  </data>
+  <data name="Label69.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ReplyPeriod.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckPostAndGet.Size" type="System.Drawing.Size, System.Drawing">
+    <value>88, 16</value>
+  </data>
+  <data name="CheckPostAndGet.Text" xml:space="preserve">
+    <value>Post &amp;&amp; fetch</value>
+  </data>
+  <data name="CheckPostAndGet.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckPeriodAdjust.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 16</value>
+  </data>
+  <data name="CheckPeriodAdjust.Text" xml:space="preserve">
+    <value>Enable Auto-Adjustment</value>
+  </data>
+  <data name="CheckPeriodAdjust.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 12</value>
+  </data>
+  <data name="Label5.Text" xml:space="preserve">
+    <value>DM Fetching Interval (sec.)</value>
+  </data>
+  <data name="Label5.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DMPeriod.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="UserstreamPeriod.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="StartupUserstreamCheck.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 16</value>
+  </data>
+  <data name="StartupUserstreamCheck.Text" xml:space="preserve">
+    <value>Auto connect at starting</value>
+  </data>
+  <data name="StartupUserstreamCheck.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label83.Size" type="System.Drawing.Size, System.Drawing">
+    <value>191, 12</value>
+  </data>
+  <data name="Label83.Text" xml:space="preserve">
+    <value>User Streams Refresh Interval (sec)</value>
+  </data>
+  <data name="Label83.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="GetPeriodPanel.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AuthBasicRadio.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AuthOAuthRadio.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 12</value>
+  </data>
+  <data name="Label6.Text" xml:space="preserve">
+    <value>Auth method</value>
+  </data>
+  <data name="Label6.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AuthClearButton.Text" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="AuthClearButton.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AuthUserLabel.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AuthStateLabel.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>65, 12</value>
+  </data>
+  <data name="Label4.Text" xml:space="preserve">
+    <value>Auth status</value>
+  </data>
+  <data name="Label4.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AuthorizeButton.Text" xml:space="preserve">
+    <value>Auth</value>
+  </data>
+  <data name="AuthorizeButton.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 12</value>
+  </data>
+  <data name="Label1.Text" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="Label1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 12</value>
+  </data>
+  <data name="Label2.Text" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Label2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Username.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Password.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BasedPanel.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="btnRetweet.Text" xml:space="preserve">
     <value>Fore...</value>
   </data>
@@ -229,7 +437,6 @@
   <data name="Label80.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="ButtonBackToDefaultFontColor.Size" type="System.Drawing.Size, System.Drawing">
     <value>96, 22</value>
   </data>
@@ -1251,30 +1458,6 @@
   <data name="TweetActPanel.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="UserstreamPeriod.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="StartupUserstreamCheck.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 16</value>
-  </data>
-  <data name="StartupUserstreamCheck.Text" xml:space="preserve">
-    <value>Auto connect at starting</value>
-  </data>
-  <data name="StartupUserstreamCheck.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label83.Size" type="System.Drawing.Size, System.Drawing">
-    <value>117, 12</value>
-  </data>
-  <data name="Label83.Text" xml:space="preserve">
-    <value>Refresh Interval (sec)</value>
-  </data>
-  <data name="Label83.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="UserStreamPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="StartupReaded.Size" type="System.Drawing.Size, System.Drawing">
     <value>81, 16</value>
   </data>
@@ -1312,75 +1495,6 @@
     <value />
   </data>
   <data name="StartupPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="AuthBasicRadio.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="AuthOAuthRadio.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>70, 12</value>
-  </data>
-  <data name="Label6.Text" xml:space="preserve">
-    <value>Auth method</value>
-  </data>
-  <data name="Label6.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="AuthClearButton.Text" xml:space="preserve">
-    <value>Clear</value>
-  </data>
-  <data name="AuthClearButton.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="AuthUserLabel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="AuthStateLabel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 12</value>
-  </data>
-  <data name="Label4.Text" xml:space="preserve">
-    <value>Auth status</value>
-  </data>
-  <data name="Label4.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="AuthorizeButton.Text" xml:space="preserve">
-    <value>Auth</value>
-  </data>
-  <data name="AuthorizeButton.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 12</value>
-  </data>
-  <data name="Label1.Text" xml:space="preserve">
-    <value>Username</value>
-  </data>
-  <data name="Label1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 12</value>
-  </data>
-  <data name="Label2.Text" xml:space="preserve">
-    <value>Password</value>
-  </data>
-  <data name="Label2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Username.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Password.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="BasedPanel.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="ListTextCountApi.ToolTip" xml:space="preserve">
@@ -1489,127 +1603,6 @@
     <value />
   </data>
   <data name="GetCountPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="LabelApiUsingUserStreamEnabled.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="LabelUserStreamActive.Size" type="System.Drawing.Size, System.Drawing">
-    <value>395, 24</value>
-  </data>
-  <data name="LabelUserStreamActive.Text" xml:space="preserve">
-    <value>UserStream is enable.
-Periodic fetching, Timeline/Mentions/DM, and Post&amp;Fetch function is disable.</value>
-  </data>
-  <data name="LabelUserStreamActive.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label21.Text" xml:space="preserve">
-    <value>UserTimeline Interval (sec)</value>
-  </data>
-  <data name="Label21.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="UserTimelinePeriod.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="TimelinePeriod.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 12</value>
-  </data>
-  <data name="Label3.Text" xml:space="preserve">
-    <value>Timeline Fetching Interval (sec.)</value>
-  </data>
-  <data name="Label3.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ButtonApiCalc.Text" xml:space="preserve">
-    <value>Recalculation</value>
-  </data>
-  <data name="ButtonApiCalc.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="LabelPostAndGet.Size" type="System.Drawing.Size, System.Drawing">
-    <value>358, 12</value>
-  </data>
-  <data name="LabelPostAndGet.Text" xml:space="preserve">
-    <value>Because "Post &amp;&amp; fetch" is enabled, the API for each post consumed.</value>
-  </data>
-  <data name="LabelPostAndGet.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="LabelApiUsing.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label33.Size" type="System.Drawing.Size, System.Drawing">
-    <value>150, 12</value>
-  </data>
-  <data name="Label33.Text" xml:space="preserve">
-    <value>Lists Fetching Interval (sec)</value>
-  </data>
-  <data name="Label33.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ListsPeriod.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 12</value>
-  </data>
-  <data name="Label7.Text" xml:space="preserve">
-    <value>Public Search Interval (sec.)</value>
-  </data>
-  <data name="Label7.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="PubSearchPeriod.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label69.Size" type="System.Drawing.Size, System.Drawing">
-    <value>156, 12</value>
-  </data>
-  <data name="Label69.Text" xml:space="preserve">
-    <value>Reply Fetching Interval (sec.)</value>
-  </data>
-  <data name="Label69.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ReplyPeriod.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckPostAndGet.Size" type="System.Drawing.Size, System.Drawing">
-    <value>88, 16</value>
-  </data>
-  <data name="CheckPostAndGet.Text" xml:space="preserve">
-    <value>Post &amp;&amp; fetch</value>
-  </data>
-  <data name="CheckPostAndGet.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckPeriodAdjust.Size" type="System.Drawing.Size, System.Drawing">
-    <value>150, 16</value>
-  </data>
-  <data name="CheckPeriodAdjust.Text" xml:space="preserve">
-    <value>Enable Auto-Adjustment</value>
-  </data>
-  <data name="CheckPeriodAdjust.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 12</value>
-  </data>
-  <data name="Label5.Text" xml:space="preserve">
-    <value>DM Fetching Interval (sec.)</value>
-  </data>
-  <data name="Label5.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="DMPeriod.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="GetPeriodPanel.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="CheckUserUpdateEvent.Size" type="System.Drawing.Size, System.Drawing">

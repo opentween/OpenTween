@@ -162,7 +162,7 @@ Public Class HttpConnectionBasic
                 Dim res As HttpWebResponse = DirectCast(ex.Response, HttpWebResponse)
                 Return res.StatusCode
             End If
-            Throw ex
+            Throw
         End Try
 
     End Function
