@@ -779,7 +779,7 @@ Public NotInheritable Class TabInformations
         Else
             '一見未読なさそうだが、未読カウントはあるので探索
             'If tb.UnreadCount > 0 Then
-            If Not tb.UnreadManage Then Return -1
+            If Not (tb.UnreadManage AndAlso AppendSettingDialog.Instance.UnreadManage) Then Return -1
             SyncLock LockUnread
                 Me.SetNextUnreadId(-1, tb)
             End SyncLock
@@ -1343,7 +1343,11 @@ Public NotInheritable Class TabInformations
     Public Function ContainsKey(ByVal Id As Long, ByVal TabName As String) As Boolean
         'DM,公式検索は対応版
         SyncLock LockObj
-            Return _tabs(TabName).Contains(Id)
+            If _tabs.ContainsKey(TabName) Then
+                Return _tabs(TabName).Contains(Id)
+            Else
+                Return False
+            End If
         End SyncLock
     End Function
 
@@ -1900,7 +1904,7 @@ Public NotInheritable Class TabClass
     <Xml.Serialization.XmlIgnore()> _
     Public Property UnreadCount() As Integer
         Get
-            Return _unreadCount
+            Return If(Me.UnreadManage AndAlso AppendSettingDialog.Instance.UnreadManage, _unreadCount, 0)
         End Get
         Set(ByVal value As Integer)
             If value < 0 Then value = 0
