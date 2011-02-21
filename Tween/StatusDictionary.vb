@@ -887,7 +887,11 @@ Public NotInheritable Class TabInformations
         End SyncLock
     End Function
 
-    Public Function SubmitUpdate(ByRef soundFile As String, ByRef notifyPosts As PostClass(), ByRef isMentionIncluded As Boolean, ByVal isUserStream As Boolean) As Integer
+    Public Function SubmitUpdate(ByRef soundFile As String,
+                                 ByRef notifyPosts As PostClass(),
+                                 ByRef isMentionIncluded As Boolean,
+                                 ByRef isDeletePost As Boolean,
+                                 ByVal isUserStream As Boolean) As Integer
         '注：メインスレッドから呼ぶこと
         SyncLock LockObj
             If _notifyPosts Is Nothing Then
@@ -906,6 +910,7 @@ Public NotInheritable Class TabInformations
                 Me.SortPosts()
             End If
             If isUserStream Then
+                isDeletePost = Me._deletedIds.Count > 0
                 For Each id As Long In Me._deletedIds
                     'Me.DeletePost(StatusId)
                     Me.RemovePost(id)

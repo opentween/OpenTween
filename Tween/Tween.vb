@@ -1255,7 +1255,8 @@ Public Class TweenMain
         Dim soundFile As String = ""
         Dim addCount As Integer = 0
         Dim isMention As Boolean = False
-        addCount = _statuses.SubmitUpdate(soundFile, notifyPosts, isMention, isUserStream)
+        Dim isDelete As Boolean = False
+        addCount = _statuses.SubmitUpdate(soundFile, notifyPosts, isMention, isDelete, isUserStream)
 
         If _endingFlag Then Exit Sub
 
@@ -1265,7 +1266,7 @@ Public Class TweenMain
                 Dim lst As DetailsListView = DirectCast(tab.Tag, DetailsListView)
                 Dim tabInfo As TabClass = _statuses.Tabs(tab.Text)
                 lst.BeginUpdate()
-                If lst.VirtualListSize <> tabInfo.AllCount Then
+                If isDelete OrElse lst.VirtualListSize <> tabInfo.AllCount Then
                     If lst.Equals(_curList) Then
                         _itemCache = Nothing
                         _postCache = Nothing
