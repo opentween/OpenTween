@@ -2823,7 +2823,7 @@ Public Class Twitter
     Public Event UserStreamStarted()
     Public Event UserStreamStopped()
     Public Event UserStreamGetFriendsList()
-    Public Event PostDeleted(ByVal id As Long, ByRef post As PostClass)
+    Public Event PostDeleted(ByVal id As Long)
     Public Event UserStreamEventReceived(ByVal eventType As FormattedEvent)
     Private _lastUserstreamDataReceived As DateTime
     Private WithEvents userStream As TwitterUserstream
@@ -2887,16 +2887,15 @@ Public Class Twitter
                     Exit Sub
                 ElseIf xElm.Element("delete") IsNot Nothing Then
                     Debug.Print("delete")
-                    Dim post As PostClass = Nothing
                     Dim id As Int64
                     If xElm.Element("delete").Element("direct_message") IsNot Nothing AndAlso
                         xElm.Element("delete").Element("direct_message").Element("id") IsNot Nothing Then
                         id = CLng(xElm.Element("delete").Element("direct_message").Element("id").Value)
-                        RaiseEvent PostDeleted(id, post)
+                        RaiseEvent PostDeleted(id)
                     ElseIf xElm.Element("delete").Element("status") IsNot Nothing AndAlso
                         xElm.Element("delete").Element("status").Element("id") IsNot Nothing Then
                         id = CLng(xElm.Element("delete").Element("status").Element("id").Value)
-                        RaiseEvent PostDeleted(id, post)
+                        RaiseEvent PostDeleted(id)
                     Else
                         TraceOut("delete:" + line)
                         Exit Sub

@@ -679,11 +679,8 @@ Public NotInheritable Class TabInformations
         End SyncLock
     End Sub
 
-    Public Sub RemovePostReserve(ByVal id As Long, ByRef post As PostClass)
+    Public Sub RemovePostReserve(ByVal id As Long)
         SyncLock LockObj
-            post = Nothing
-            Dim tmp As PostClass = Me.Item(id)
-            If tmp IsNot Nothing Then post = tmp.Copy
             Me._deletedIds.Add(id)
             Me.DeletePost(id)
         End SyncLock
