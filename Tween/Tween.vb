@@ -1294,29 +1294,31 @@ Public Class TweenMain
         End Try
 
         'スクロール制御後処理
-        Try
-            If befCnt <> _curList.VirtualListSize Then
-                Select Case smode
-                    Case -3
-                        '最上行
-                        _curList.EnsureVisible(0)
-                    Case -2
-                        '最下行へ
-                        If _curList.VirtualListSize > 0 Then _curList.EnsureVisible(_curList.VirtualListSize - 1)
-                    Case -1
-                        '制御しない
-                    Case Else
-                        '表示位置キープ
-                        If _curList.VirtualListSize > 0 AndAlso _statuses.IndexOf(_curTab.Text, topId) > -1 Then
-                            _curList.EnsureVisible(_curList.VirtualListSize - 1)
-                            _curList.EnsureVisible(_statuses.IndexOf(_curTab.Text, topId))
-                        End If
-                End Select
-            End If
-        Catch ex As Exception
-            ex.Data("Msg") = "Ref2"
-            Throw
-        End Try
+        If smode <> -1 Then
+            Try
+                If befCnt <> _curList.VirtualListSize Then
+                    Select Case smode
+                        Case -3
+                            '最上行
+                            If _curList.VirtualListSize > 0 Then _curList.EnsureVisible(0)
+                        Case -2
+                            '最下行へ
+                            If _curList.VirtualListSize > 0 Then _curList.EnsureVisible(_curList.VirtualListSize - 1)
+                        Case -1
+                            '制御しない
+                        Case Else
+                            '表示位置キープ
+                            If _curList.VirtualListSize > 0 AndAlso _statuses.IndexOf(_curTab.Text, topId) > -1 Then
+                                _curList.EnsureVisible(_curList.VirtualListSize - 1)
+                                _curList.EnsureVisible(_statuses.IndexOf(_curTab.Text, topId))
+                            End If
+                    End Select
+                End If
+            Catch ex As Exception
+                ex.Data("Msg") = "Ref2"
+                Throw
+            End Try
+        End If
 
         '新着通知
         NotifyNewPosts(notifyPosts,
@@ -1391,7 +1393,7 @@ Public Class TweenMain
         If _endingFlag Then Exit Sub
         For Each tab As TabPage In ListTab.TabPages
             Dim lst As DetailsListView = DirectCast(tab.Tag, DetailsListView)
-            If lst.SelectedIndices.Count > 0 Then
+            If lst.SelectedIndices.Count > 0 AndAlso lst.SelectedIndices.Count < 61 Then
                 selId.Add(tab.Text, _statuses.GetId(tab.Text, lst.SelectedIndices))
             Else
                 selId.Add(tab.Text, New Long(0) {-2})
@@ -1508,7 +1510,7 @@ Public Class TweenMain
         If _curList.SelectedIndices.Count <> 1 Then Exit Sub
 
         _curItemIndex = _curList.SelectedIndices(0)
-        If _curItemIndex > _curList.VirtualListSize - 1 Then Exit Sub
+        'If _curItemIndex > _curList.VirtualListSize - 1 Then Exit Sub
 
         _curPost = GetCurTabPost(_curItemIndex)
 
@@ -2688,8 +2690,10 @@ Public Class TweenMain
 
         If _statuses.Tabs(_curTab.Text).AllCount > 0 AndAlso _curPost IsNot Nothing Then
             Dim idx As Integer = _statuses.Tabs(_curTab.Text).IndexOf(_curPost.StatusId)
-            SelectListItem(_curList, idx)
-            _curList.EnsureVisible(idx)
+            If idx > -1 Then
+                SelectListItem(_curList, idx)
+                _curList.EnsureVisible(idx)
+            End If
         End If
         _curList.Refresh()
         _modifySettingCommon = True
@@ -8238,7 +8242,7 @@ RETRY:
         End If
 
         Dim fIdx As Integer = -1
-        If Index IsNot Nothing Then
+        If Index IsNot Nothing AndAlso Not (Index.Count = 1 AndAlso Index(0) = -1) Then
             LView.SelectedIndices.Clear()
             For Each idx As Integer In Index
                 If idx > -1 AndAlso LView.VirtualListSize > idx Then
@@ -9869,11 +9873,11 @@ RETRY:
 #Region "Userstream"
     Private _isActiveUserstream As Boolean = False
 
-    Private Sub tw_PostDeleted(ByVal id As Long, ByRef post As PostClass)
-        _statuses.RemovePostReserve(id, post)
+    Private Sub tw_PostDeleted(ByVal id As Long)
         Try
             If InvokeRequired AndAlso Not IsDisposed Then
                 Invoke(Sub()
+                           _statuses.RemovePostReserve(id)
                            If _curTab IsNot Nothing AndAlso _statuses.Tabs(_curTab.Text).Contains(id) Then
                                _itemCache = Nothing
                                _itemCacheIndex = -1
@@ -10082,10 +10086,10 @@ RETRY:
     Private Sub TweenRestartMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles TweenRestartMenuItem.Click
         _endingFlag = True
         Try
+            Me.Close()
             Application.Restart()
         Catch ex As Exception
             MessageBox.Show("Failed to restart. Please run Tween manually.")
-            Application.Exit()
         End Try
     End Sub
 
