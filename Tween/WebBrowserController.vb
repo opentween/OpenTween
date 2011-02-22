@@ -275,6 +275,7 @@ Public Class InternetSecurityManager
     Public Sub New(ByVal _WebBrowser As System.Windows.Forms.WebBrowser)
         ' ActiveXコントロール取得
         _WebBrowser.DocumentText = "about:blank" 'ActiveXを初期化する
+        Dim hresult As Integer = 0
 
         Do
             Thread.Sleep(100)
@@ -287,12 +288,12 @@ Public Class InternetSecurityManager
         ocxServiceProvider = DirectCast(ocx, WebBrowserAPI.IServiceProvider)
 
         Try
-            ocxServiceProvider.QueryService( _
-            WebBrowserAPI.SID_SProfferService, _
-            WebBrowserAPI.IID_IProfferService, profferServicePtr)
+            hresult = ocxServiceProvider.QueryService( _
+                            WebBrowserAPI.SID_SProfferService, _
+                            WebBrowserAPI.IID_IProfferService, profferServicePtr)
         Catch ex As SEHException
         Catch ex As ExternalException
-            TraceOut(ex, "HRESULT:" + ex.ErrorCode.ToString("X8") + Environment.NewLine)
+            TraceOut(ex, "ocxServiceProvider.QueryService() HRESULT:" + ex.ErrorCode.ToString("X8") + Environment.NewLine)
             Exit Sub
         End Try
 
@@ -302,8 +303,14 @@ Public Class InternetSecurityManager
 
         ' IProfferService.ProfferService() を使って
         ' 自分を IInternetSecurityManager として提供
-        profferService.ProfferService( _
-            WebBrowserAPI.IID_IInternetSecurityManager, Me, cookie:=0)
+        Try
+            hresult = profferService.ProfferService( _
+                            WebBrowserAPI.IID_IInternetSecurityManager, Me, cookie:=0)
+        Catch ex As SEHException
+        Catch ex As ExternalException
+            TraceOut(ex, "IProfferSerive.ProfferService() HRESULT:" + ex.ErrorCode.ToString("X8") + Environment.NewLine)
+            Exit Sub
+        End Try
 
     End Sub
 
