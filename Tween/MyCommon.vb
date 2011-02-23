@@ -555,7 +555,14 @@ retry:
         'RTByMe
     End Enum
 
-    Public fileVersion As String
+    Public fileVersion As String = ""
+
+    Public Function GetUserAgentString() As String
+        If String.IsNullOrEmpty(fileVersion) Then
+            Throw New Exception("fileversion is not Initialized.")
+        End If
+        Return "Tween/" + fileVersion
+    End Function
 
     Public WithEvents TwitterApiInfo As New ApiInformation
 

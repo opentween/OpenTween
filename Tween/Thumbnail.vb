@@ -1153,7 +1153,7 @@ Public Class Thumbnail
         Dim src As String = ""
         Dim imgurl As String = ""
         Dim headers As New Dictionary(Of String, String)
-        headers.Add("User-Agent", "Tween/" + fileVersion)
+        headers.Add("User-Agent", GetUserAgentString())
         If (New HttpVarious).GetData(apiurl, headers, src, 0, args.errmsg) Then
             Dim sb As New StringBuilder
             Dim xdoc As New XmlDocument

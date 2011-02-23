@@ -187,7 +187,7 @@ Public Class Google
         If String.IsNullOrEmpty(srclng) OrElse String.IsNullOrEmpty(dstlng) Then
             Return False
         End If
-        headers.Add("User-Agent", "Tween/" + fileVersion)
+        headers.Add("User-Agent", GetUserAgentString())
         headers.Add("langpair", srclng + "|" + dstlng)
 
         headers.Add("q", source)
@@ -213,7 +213,7 @@ Public Class Google
         Dim http As New HttpVarious()
         Dim apiurl As String = LanguageDetectEndPoint
         Dim headers As New Dictionary(Of String, String)
-        headers.Add("User-Agent", "Tween/" + fileVersion)
+        headers.Add("User-Agent", GetUserAgentString())
         headers.Add("v", "1.0")
         headers.Add("q", source)
         Dim content As String = ""
