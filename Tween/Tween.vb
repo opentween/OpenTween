@@ -10107,8 +10107,13 @@ RETRY:
         If String.IsNullOrEmpty(str) Then Exit Sub
         Dim srclng As String = g.LanguageDetect(str)
         Dim dstlng As String = SettingDialog.TranslateLanguage
-        If srclng <> dstlng AndAlso g.Translate(srclng, dstlng, str, buf) Then
+        Dim msg As String = ""
+        If srclng <> dstlng AndAlso g.Translate(srclng, dstlng, str, buf, msg) Then
             PostBrowser.DocumentText = createDetailHtml(buf)
+        Else
+            If msg.StartsWith("Err:") Then
+                StatusLabel.Text = msg
+            End If
         End If
     End Sub
 

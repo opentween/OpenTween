@@ -178,12 +178,13 @@ Public Class Google
         <DataMember(Name:="responseStatus")> Public ResponseStatus As HttpStatusCode
     End Class
 
-    Public Function Translate(ByVal srclng As String, ByVal dstlng As String, ByVal source As String, ByRef destination As String) As Boolean
+    Public Function Translate(ByVal srclng As String, ByVal dstlng As String, ByVal source As String, ByRef destination As String, ByRef ErrMsg As String) As Boolean
         Dim http As New HttpVarious()
         Dim apiurl As String = TranslateEndPoint
         Dim headers As New Dictionary(Of String, String)
         headers.Add("v", "1.0")
 
+        ErrMsg = ""
         If String.IsNullOrEmpty(srclng) OrElse String.IsNullOrEmpty(dstlng) Then
             Return False
         End If
@@ -198,6 +199,7 @@ Public Class Google
             Dim res As TranslateResponse = CreateDataFromJson(Of TranslateResponse)(content)
 
             If res.ResponseData Is Nothing Then
+                ErrMsg = "Err:" + res.ResponseDetails
                 Return False
             End If
             Dim _body As String = res.ResponseData.TranslatedText
