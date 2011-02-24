@@ -214,13 +214,9 @@ Public Class ShortUrl
                     Return "Can't convert"
                 End If
             Case UrlConverter.Bitly, UrlConverter.Jmp
-                Dim BitlyLogin As String = "tweenapi"
-                Dim BitlyApiKey As String = "R_c5ee0e30bdfff88723c4457cc331886b"
-                If _bitlyId <> "" AndAlso BitlyApiKey <> "" Then
-                    BitlyLogin = _bitlyId
-                    BitlyApiKey = _bitlyKey
-                End If
-                Const BitlyApiVersion As String = "2.0.1"
+                Const BitlyLogin As String = "tweenapi"
+                Const BitlyApiKey As String = "R_c5ee0e30bdfff88723c4457cc331886b"
+                Const BitlyApiVersion As String = "3"
                 If SrcUrl.StartsWith("http") Then
                     If "http://bit.ly/xxxx".Length > src.Length AndAlso Not src.Contains("?") AndAlso Not src.Contains("#") Then
                         ' 明らかに長くなると推測できる場合は圧縮しない
@@ -228,23 +224,15 @@ Public Class ShortUrl
                         Exit Select
                     End If
                     Dim req As String = ""
-                    If ConverterType = UrlConverter.Bitly Then
-                        req = "http://api.bit.ly/shorten?version="
-                    Else
-                        req = "http://api.j.mp/shorten?version="
-                    End If
-                    req += BitlyApiVersion + _
-                        "&login=" + BitlyLogin + _
+                    req = "http://api.bitly.com/v" + BitlyApiVersion + "/shorten?"
+                    req += "login=" + BitlyLogin + _
                         "&apiKey=" + BitlyApiKey + _
+                        "&format=txt" + _
                         "&longUrl=" + SrcUrl
-                    If BitlyLogin <> "tweenapi" Then req += "&history=1"
-                    If Not (New HttpVarious).PostData(req, Nothing, content) Then
+                    If _bitlyId <> "" AndAlso _bitlyKey <> "" Then req += "&x_login=" + _bitlyId + "&x_apiKey=" & _bitlyKey
+                    If ConverterType = UrlConverter.Jmp Then req += "&domain=j.mp"
+                    If Not (New HttpVarious).GetData(req, Nothing, content) Then
                         Return "Can't convert"
-                    Else
-                        'Dim rx As Regex = New Regex("""shortUrl"": ""(?<ShortUrl>.*?)""")
-                        If Regex.Match(content, """shortUrl"": ""(?<ShortUrl>.*?)""").Success Then
-                            content = Regex.Match(content, """shortUrl"": ""(?<ShortUrl>.*?)""").Groups("ShortUrl").Value
-                        End If
                     End If
                 End If
             Case UrlConverter.Uxnu
