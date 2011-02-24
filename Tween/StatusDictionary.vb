@@ -674,7 +674,7 @@ Public NotInheritable Class TabInformations
     Public Sub RemovePostReserve(ByVal id As Long)
         SyncLock LockObj
             Me._deletedIds.Add(id)
-            Me.DeletePost(id)
+            Me.RemovePost(id)
         End SyncLock
     End Sub
 

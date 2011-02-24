@@ -2906,7 +2906,6 @@ Public Class Twitter
                             Me.StoredEvent.RemoveAt(i)
                         End If
                     Next
-                    'CreateDeleteEvent(DateTime.Now, id, post)
                     Exit Sub
                 ElseIf xElm.Element("limit") IsNot Nothing Then
                     Debug.Print(line)
@@ -2945,45 +2944,6 @@ Public Class Twitter
 
         RaiseEvent NewPostFromStream()
     End Sub
-
-    'Private Sub CreateDeleteEvent(ByVal createdat As DateTime, ByVal id As Int64, ByVal post As PostClass)
-    '    Dim evt As New FormattedEvent
-    '    evt.CreatedAt = createdat
-    '    evt.Id = id
-    '    evt.Eventtype = EventNameToEventType("deleted")
-    '    If post Is Nothing Then
-    '        Dim tmp As PostClass = (From p In _deletemessages Where p.Id = id).FirstOrDefault
-    '        If tmp IsNot Nothing Then
-    '            post = tmp
-    '            _deletemessages.Remove(post)
-    '        End If
-    '    End If
-    '    If post Is Nothing Then
-    '        'evt.Event = "DELETE(UNKNOWN)"
-    '        'evt.Username = "--UNKNOWN--"
-    '        'evt.Target = "--UNKNOWN--"
-    '        '保持していない発言に対しての削除イベントは無視
-    '        Exit Sub
-    '    Else
-    '        If post.IsDm Then
-    '            evt.Event = "DELETE(DM)"
-    '        ElseIf post.RetweetedId > 0 Then
-    '            evt.Event = "DELETE(RT)"
-    '        Else
-    '            evt.Event = "DELETE(Post)"
-    '        End If
-    '        evt.Username = post.ScreenName
-    '        evt.Target = If(post.TextFromApi.Length > 10, post.TextFromApi.Substring(0, 10) + "...", post.TextFromApi) + " [" + post.CreatedAt.ToString + "]"
-    '    End If
-    '    For i As Integer = Me.StoredEvent.Count - 1 To 0 Step -1
-    '        Dim sEvt As FormattedEvent = Me.StoredEvent(i)
-    '        If sEvt.Id = id AndAlso (sEvt.Event = "favorite" OrElse sEvt.Event = "unfavorite") Then
-    '            Me.StoredEvent.RemoveAt(i)
-    '        End If
-    '    Next
-    '    'Me.StoredEvent.Insert(0, evt)
-    '    RaiseEvent UserStreamEventReceived(evt)
-    'End Sub
 
     Private Sub CreateEventFromJson(ByVal content As String)
         Dim eventData As TwitterDataModel.EventData = Nothing
