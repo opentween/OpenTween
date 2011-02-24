@@ -1151,7 +1151,12 @@ Public Class TweenMain
         _cfgLocal = SettingLocal.Load()
         Dim tabs As List(Of TabClass) = SettingTabs.Load().Tabs
         For Each tb As TabClass In tabs
-            _statuses.Tabs.Add(tb.TabName, tb)
+            Try
+                _statuses.Tabs.Add(tb.TabName, tb)
+            Catch ex As Exception
+                tb.TabName = _statuses.GetUniqueTabName()
+                _statuses.Tabs.Add(tb.TabName, tb)
+            End Try
         Next
         If _statuses.Tabs.Count = 0 Then
             _statuses.AddTab(DEFAULTTAB.RECENT, TabUsageType.Home, Nothing)
@@ -8981,12 +8986,11 @@ RETRY:
     End Sub
 
     Private Sub UndoRemoveTabMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UndoRemoveTabMenuItem.Click
-        If _statuses.RemovedTab Is Nothing Then
+        If _statuses.RemovedTab.Count = 0 Then
             MessageBox.Show("There isn't removed tab.", "Undo", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
         Else
-            Dim tb As TabClass = _statuses.RemovedTab
-            _statuses.RemovedTab = Nothing
+            Dim tb As TabClass = _statuses.RemovedTab.Pop()
             Dim renamed As String = tb.TabName
             For i As Integer = 1 To Integer.MaxValue
                 If Not _statuses.ContainsTab(renamed) Then Exit For
@@ -9293,7 +9297,7 @@ RETRY:
     End Sub
 
     Private Sub MenuItemEdit_DropDownOpening(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemEdit.DropDownOpening
-        If _statuses.RemovedTab Is Nothing Then
+        If _statuses.RemovedTab.Count = 0 Then
             UndoRemoveTabMenuItem.Enabled = False
         Else
             UndoRemoveTabMenuItem.Enabled = True
