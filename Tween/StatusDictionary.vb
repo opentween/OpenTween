@@ -674,7 +674,7 @@ Public NotInheritable Class TabInformations
     Public Sub RemovePostReserve(ByVal id As Long)
         SyncLock LockObj
             Me._deletedIds.Add(id)
-            Me.RemovePost(id)
+            Me.DeletePost(id)   'UI選択行がずれるため、RemovePostは使用しない
         End SyncLock
     End Sub
 
@@ -895,6 +895,17 @@ Public NotInheritable Class TabInformations
                 End If
                 tb.AddSubmit(isMentionIncluded)  '振分確定（各タブに反映）
             Next
+            ''UserStreamで反映間隔10秒以下だったら、30秒ごとにソートする
+            ''10秒以上だったら毎回ソート
+            'Static lastSort As DateTime = Now
+            'If AppendSettingDialog.Instance.UserstreamPeriodInt < 10 AndAlso isUserStream Then
+            '    If Now.Subtract(lastSort) > TimeSpan.FromSeconds(30) Then
+            '        lastSort = Now
+            '        isUserStream = False
+            '    End If
+            'Else
+            '    isUserStream = False
+            'End If
             If Not isUserStream OrElse Me.SortMode <> IdComparerClass.ComparerMode.Id Then
                 Me.SortPosts()
             End If
