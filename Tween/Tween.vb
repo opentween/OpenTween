@@ -8231,7 +8231,8 @@ RETRY:
         End If
 
         LView.SelectedIndices.Clear()
-        LView.Items(Index).Selected = True
+        'LView.Items(Index).Selected = True
+        LView.SelectedIndices.Add(Index)
         LView.Items(Index).Focused = True
 
         If flg Then LView.Invalidate(bnd)
@@ -9397,8 +9398,10 @@ RETRY:
 
     Private Overloads Sub doShowUserStatus(ByVal user As TwitterDataModel.User)
         Using userinfo As New ShowUserInfo()
+            userinfo.Owner = Me
             userinfo.User = user
             userinfo.ShowDialog(Me)
+            Me.Activate()
         End Using
     End Sub
 

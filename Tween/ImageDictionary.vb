@@ -38,6 +38,7 @@ Public Class ImageDictionary
     Private waitStack As Stack(Of KeyValuePair(Of String, Action(Of Image)))
     Private cachePolicy As New CacheItemPolicy()
     Private removedCount As Long = 0
+    Private netSemaphore As Semaphore
 
     Public Sub New(ByVal cacheMemoryLimit As Integer)
         SyncLock Me.lockObject
@@ -52,6 +53,7 @@ Public Class ImageDictionary
             Me.waitStack = New Stack(Of KeyValuePair(Of String, Action(Of Image)))
             Me.cachePolicy.RemovedCallback = AddressOf CacheRemoved
             Me.cachePolicy.SlidingExpiration = TimeSpan.FromMinutes(30)     '30分参照されなかったら削除
+            Me.netSemaphore = New Semaphore(5, 5)
         End SyncLock
     End Sub
 
@@ -222,6 +224,7 @@ Public Class ImageDictionary
 
     Public Sub Dispose() Implements IDisposable.Dispose
         SyncLock Me.lockObject
+            Me.netSemaphore.Dispose()
             Me.innerDictionary.Dispose()
             GC.SuppressFinalize(Me)
         End SyncLock
@@ -251,6 +254,11 @@ Public Class ImageDictionary
                                         End SyncLock
                                         If AppendSettingDialog.Instance.IconSz = IconSizes.IconNone Then Continue While
                                         Dim proc As New GetImageDelegate(AddressOf GetImage)
+                                        Try
+                                            Me.netSemaphore.WaitOne()
+                                        Catch ex As Exception
+                                            'Disposed,Release漏れ
+                                        End Try
                                         proc.BeginInvoke(req, Nothing, Nothing)
                                     Else
                                         Thread.Sleep(100)
@@ -273,6 +281,7 @@ Public Class ImageDictionary
         End SyncLock
         If callbackImage IsNot Nothing Then
             If downloadAsyncInfo.Value IsNot Nothing Then downloadAsyncInfo.Value.Invoke(callbackImage)
+            Me.netSemaphore.Release()
             Exit Sub
         End If
         Dim hv As New HttpVarious()
@@ -290,5 +299,6 @@ Public Class ImageDictionary
             End If
         End SyncLock
         If downloadAsyncInfo.Value IsNot Nothing Then downloadAsyncInfo.Value.Invoke(callbackImage)
+        Me.netSemaphore.Release()
     End Sub
 End Class
