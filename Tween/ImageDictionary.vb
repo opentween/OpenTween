@@ -292,6 +292,8 @@ Public Class ImageDictionary
                     Me.innerDictionary.Add(downloadAsyncInfo.Key, dlImage, Me.cachePolicy)
                     'callbackImage = New Bitmap(dlImage)
                     callbackImage = dlImage
+                Else
+                    Me.innerDictionary.Add(downloadAsyncInfo.Key, New Bitmap(16, 16), Me.cachePolicy)
                 End If
             Else
                 'callbackImage = New Bitmap(DirectCast(Me.innerDictionary(downloadAsyncInfo.Key), Image))

@@ -1512,10 +1512,10 @@ Public Class TweenMain
     End Sub
 
     Private Sub MyList_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        If _curList.SelectedIndices.Count <> 1 Then Exit Sub
+        If _curList Is Nothing OrElse _curList.SelectedIndices.Count <> 1 Then Exit Sub
 
         _curItemIndex = _curList.SelectedIndices(0)
-        'If _curItemIndex > _curList.VirtualListSize - 1 Then Exit Sub
+        If _curItemIndex > _curList.VirtualListSize - 1 Then Exit Sub
 
         _curPost = GetCurTabPost(_curItemIndex)
 
