@@ -687,11 +687,21 @@ Public NotInheritable Class TabInformations
                 For Each key As String In _tabs.Keys
                     Dim tab As TabClass = _tabs(key)
                     If tab.Contains(Id) Then
-                        If tab.UnreadManage AndAlso Not post.IsRead Then    '未読管理
-                            SyncLock LockUnread
-                                tab.UnreadCount -= 1
-                                Me.SetNextUnreadId(Id, tab)
-                            End SyncLock
+                        If tab.Posts.Count = 0 Then
+                            If tab.UnreadManage AndAlso Not post.IsRead Then    '未読管理
+                                SyncLock LockUnread
+                                    tab.UnreadCount -= 1
+                                    Me.SetNextUnreadId(Id, tab)
+                                End SyncLock
+                            End If
+                        Else '未読数がずれる可能性があるためtab.Postsの未読も確認する
+                            Dim tabPost As PostClass = tab.Posts(Id)
+                            If tab.UnreadManage AndAlso Not tabPost.IsRead Then    '未読管理
+                                SyncLock LockUnread
+                                    tab.UnreadCount -= 1
+                                    Me.SetNextUnreadId(Id, tab)
+                                End SyncLock
+                            End If
                         End If
                         tab.Remove(Id)
                     End If
