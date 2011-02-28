@@ -1962,18 +1962,18 @@ Public Class TweenMain
                                 post.IsFav = True    'リスト再描画必要
                                 _favTimestamps.Add(Now)
                                 If post.RelTabName = "" Then
-                                    '検索,リストタブからのfavは、favタブへ追加せず。それ以外は追加
+                                    '検索,リストUserTimeline.Relatedタブからのfavは、favタブへ追加せず。それ以外は追加
                                     _statuses.GetTabByType(TabUsageType.Favorites).Add(post.StatusId, post.IsRead, False)
                                 Else
-                                    '検索・リストタブからのfavで、TLでも取得済みならfav反映
+                                    '検索,リスト,UserTimeline.Relatedタブからのfavで、TLでも取得済みならfav反映
                                     If _statuses.ContainsKey(post.StatusId) Then
                                         Dim postTl As PostClass = _statuses.Item(post.StatusId)
                                         postTl.IsFav = True
                                         _statuses.GetTabByType(TabUsageType.Favorites).Add(postTl.StatusId, postTl.IsRead, False)
                                     End If
                                 End If
-                                '検索、リストタブに反映
-                                For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.PublicSearch Or TabUsageType.Lists)
+                                '検索,リスト,UserTimeline,Relatedの各タブに反映
+                                For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.PublicSearch Or TabUsageType.Lists Or TabUsageType.UserTimeline Or TabUsageType.Related)
                                     If tb.Contains(post.StatusId) Then tb.Posts(post.StatusId).IsFav = True
                                 Next
                             End If
@@ -2004,8 +2004,8 @@ Public Class TweenMain
                                 args.sIds.Add(post.StatusId)
                                 post.IsFav = False    'リスト再描画必要
                                 If _statuses.ContainsKey(post.StatusId) Then _statuses.Item(post.StatusId).IsFav = False
-                                '検索,リストタブに反映
-                                For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.PublicSearch Or TabUsageType.Lists)
+                                '検索,リスト,UserTimeline,Relatedの各タブに反映
+                                For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.PublicSearch Or TabUsageType.Lists Or TabUsageType.UserTimeline Or TabUsageType.Related)
                                     If tb.Contains(post.StatusId) Then tb.Posts(post.StatusId).IsFav = False
                                 Next
                             End If
