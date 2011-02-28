@@ -66,7 +66,7 @@ Public Class FilterDialog
         End If
         EditFilterGroup.Enabled = False
         Select Case TabInformations.GetInstance.Tabs(tabName).TabType
-            Case TabUsageType.Home, TabUsageType.DirectMessage, TabUsageType.Favorites, TabUsageType.PublicSearch, TabUsageType.Lists, TabUsageType.Related
+            Case TabUsageType.Home, TabUsageType.DirectMessage, TabUsageType.Favorites, TabUsageType.PublicSearch, TabUsageType.Lists, TabUsageType.Related, TabUsageType.UserTimeline
                 ButtonNew.Enabled = False
                 ButtonEdit.Enabled = False
                 ButtonDelete.Enabled = False
