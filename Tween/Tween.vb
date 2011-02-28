@@ -9898,6 +9898,7 @@ RETRY:
                                _itemCacheIndex = -1
                                _postCache = Nothing
                                DirectCast(_curTab.Tag, DetailsListView).Update()
+                               If _curPost.StatusId = id Then DispSelectedPost(True)
                            End If
                        End Sub)
                 Exit Sub
