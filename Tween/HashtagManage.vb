@@ -82,7 +82,9 @@ Public Class HashtagManage
     End Sub
 
     Private Sub UnSelectButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UnSelectButton.Click
-        HistoryHashList.SelectedIndices.Clear()
+        Do
+            HistoryHashList.SelectedIndices.Clear()
+        Loop While HistoryHashList.SelectedIndices.Count > 0
     End Sub
 
     Private Function GetIndexOf(ByVal list As ListBox.ObjectCollection, ByVal value As String) As Integer
@@ -252,12 +254,16 @@ Public Class HashtagManage
         If Not Me._isAdd AndAlso Me.HistoryHashList.SelectedIndices.Count > 0 Then
             idx = Me.HistoryHashList.SelectedIndices(0)
             Me.HistoryHashList.Items.RemoveAt(idx)
-            Me.HistoryHashList.SelectedIndices.Clear()
+            Do
+                Me.HistoryHashList.SelectedIndices.Clear()
+            Loop While Me.HistoryHashList.SelectedIndices.Count > 0
             Me.HistoryHashList.Items.Insert(idx, hashStr)
             Me.HistoryHashList.SelectedIndex = idx
         Else
             Me.AddHashToHistory(hashStr, False)
-            Me.HistoryHashList.SelectedIndices.Clear()
+            Do
+                Me.HistoryHashList.SelectedIndices.Clear()
+            Loop While Me.HistoryHashList.SelectedIndices.Count > 0
             Me.HistoryHashList.SelectedIndex = Me.HistoryHashList.Items.IndexOf(hashStr)
         End If
 
