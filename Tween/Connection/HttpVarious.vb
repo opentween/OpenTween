@@ -193,17 +193,23 @@ Public Class HttpVarious
 
     Public Overloads Function CheckValidImage(ByVal img As Image, ByVal width As Integer, ByVal height As Integer) As Image
         If img Is Nothing Then Return Nothing
-
         Dim bmp As New Bitmap(width, height)
-        Dim tag As Object = img.Tag
-        Using g As Graphics = Graphics.FromImage(bmp)
-            g.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
-            g.PixelOffsetMode = Drawing2D.PixelOffsetMode.HighQuality
-            g.DrawImage(img, 0, 0, width, height)
-        End Using
-        img.Dispose()
-        bmp.Tag = tag
-        Return bmp
+        Try
+            Using g As Graphics = Graphics.FromImage(bmp)
+                g.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
+                g.PixelOffsetMode = Drawing2D.PixelOffsetMode.HighQuality
+                g.DrawImage(img, 0, 0, width, height)
+            End Using
+            bmp.Tag = img.Tag
+            Return bmp
+        Catch ex As Exception
+            bmp.Dispose()
+            bmp = New Bitmap(width, height)
+            bmp.Tag = img.Tag
+            Return bmp
+        Finally
+            img.Dispose()
+        End Try
     End Function
 
 End Class

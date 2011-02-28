@@ -275,7 +275,6 @@ Public Class ImageDictionary
         Dim callbackImage As Image = Nothing
         SyncLock lockObject
             If Me.innerDictionary(downloadAsyncInfo.Key) IsNot Nothing Then
-                'callbackImage = New Bitmap(DirectCast(Me.innerDictionary(downloadAsyncInfo.Key), Image))
                 callbackImage = DirectCast(Me.innerDictionary(downloadAsyncInfo.Key), Image)
             End If
         End SyncLock
@@ -290,13 +289,9 @@ Public Class ImageDictionary
             If Me.innerDictionary(downloadAsyncInfo.Key) Is Nothing Then
                 If dlImage IsNot Nothing Then
                     Me.innerDictionary.Add(downloadAsyncInfo.Key, dlImage, Me.cachePolicy)
-                    'callbackImage = New Bitmap(dlImage)
                     callbackImage = dlImage
-                Else
-                    Me.innerDictionary.Add(downloadAsyncInfo.Key, New Bitmap(16, 16), Me.cachePolicy)
                 End If
             Else
-                'callbackImage = New Bitmap(DirectCast(Me.innerDictionary(downloadAsyncInfo.Key), Image))
                 callbackImage = DirectCast(Me.innerDictionary(downloadAsyncInfo.Key), Image)
             End If
         End SyncLock

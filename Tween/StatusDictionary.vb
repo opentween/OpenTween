@@ -687,7 +687,7 @@ Public NotInheritable Class TabInformations
                 For Each key As String In _tabs.Keys
                     Dim tab As TabClass = _tabs(key)
                     If tab.Contains(Id) Then
-                        If tab.Posts.Count = 0 Then
+                        If Not tab.IsInnerStorageTabType Then
                             If tab.UnreadManage AndAlso Not post.IsRead Then    '未読管理
                                 SyncLock LockUnread
                                     tab.UnreadCount -= 1
@@ -695,8 +695,7 @@ Public NotInheritable Class TabInformations
                                 End SyncLock
                             End If
                         Else '未読数がずれる可能性があるためtab.Postsの未読も確認する
-                            Dim tabPost As PostClass = tab.Posts(Id)
-                            If tab.UnreadManage AndAlso Not tabPost.IsRead Then    '未読管理
+                            If tab.UnreadManage AndAlso Not tab.Posts(Id).IsRead Then    '未読管理
                                 SyncLock LockUnread
                                     tab.UnreadCount -= 1
                                     Me.SetNextUnreadId(Id, tab)
@@ -708,18 +707,6 @@ Public NotInheritable Class TabInformations
                 Next
                 _statuses.Remove(Id)
             End If
-            For Each tb As TabClass In _tabs.Values
-                If tb.IsInnerStorageTabType AndAlso tb.Contains(Id) Then
-                    post = tb.Posts(Id)
-                    If tb.UnreadManage AndAlso Not post.IsRead Then
-                        SyncLock LockUnread
-                            tb.UnreadCount -= 1
-                            Me.SetNextUnreadId(Id, tb)
-                        End SyncLock
-                    End If
-                    tb.Remove(Id)
-                End If
-            Next
         End SyncLock
     End Sub
 

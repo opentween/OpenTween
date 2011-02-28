@@ -2475,7 +2475,9 @@ Public Class TweenMain
             End If
         Next
         If _curTab.Text.Equals(favTabName) Then
-            _curList.SelectedIndices.Clear()
+            Do
+                _curList.SelectedIndices.Clear()
+            Loop While _curList.SelectedIndices.Count > 0
             If _statuses.Tabs(favTabName).AllCount > 0 Then
                 If _statuses.Tabs(favTabName).AllCount - 1 > fidx AndAlso fidx > -1 Then
                     _curList.SelectedIndices.Add(fidx)
@@ -2876,7 +2878,9 @@ Public Class TweenMain
             For Each tb As TabPage In ListTab.TabPages
                 DirectCast(tb.Tag, DetailsListView).VirtualListSize = _statuses.Tabs(tb.Text).AllCount
                 If _curTab.Equals(tb) Then
-                    _curList.SelectedIndices.Clear()
+                    Do
+                        _curList.SelectedIndices.Clear()
+                    Loop While _curList.SelectedIndices.Count > 0
                     If _statuses.Tabs(tb.Text).AllCount > 0 Then
                         If _statuses.Tabs(tb.Text).AllCount - 1 > fidx AndAlso fidx > -1 Then
                             _curList.SelectedIndices.Add(fidx)
@@ -8230,9 +8234,11 @@ RETRY:
             flg = True
         End If
 
-        LView.SelectedIndices.Clear()
-        'LView.Items(Index).Selected = True
-        LView.SelectedIndices.Add(Index)
+        Do
+            LView.SelectedIndices.Clear()
+        Loop While LView.SelectedIndices.Count > 0
+        LView.Items(Index).Selected = True
+        'LView.SelectedIndices.Add(Index)
         LView.Items(Index).Focused = True
 
         If flg Then LView.Invalidate(bnd)
@@ -8249,7 +8255,9 @@ RETRY:
 
         Dim fIdx As Integer = -1
         If Index IsNot Nothing AndAlso Not (Index.Count = 1 AndAlso Index(0) = -1) Then
-            LView.SelectedIndices.Clear()
+            Do
+                LView.SelectedIndices.Clear()
+            Loop While LView.SelectedIndices.Count > 0
             For Each idx As Integer In Index
                 If idx > -1 AndAlso LView.VirtualListSize > idx Then
                     LView.SelectedIndices.Add(idx)
