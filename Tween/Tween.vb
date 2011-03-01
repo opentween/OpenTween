@@ -3581,12 +3581,7 @@ Public Class TweenMain
         _colHd8.Text = ColumnText(7)
         _colHd8.Width = 50
 
-        If (_statuses.Tabs.ContainsKey(tabName) AndAlso _statuses.Tabs(tabName).TabType = TabUsageType.Mentions) _
-           OrElse (Not _statuses.IsDefaultTab(tabName) AndAlso tabType <> TabUsageType.PublicSearch _
-                   AndAlso tabType <> TabUsageType.Lists AndAlso tabType <> TabUsageType.Related _
-                   AndAlso tabType <> TabUsageType.UserTimeline) Then
-            TabDialog.AddTab(tabName)
-        End If
+        If _statuses.IsDistributableTab(tabName) Then TabDialog.AddTab(tabName)
 
         _listCustom.SmallImageList = New ImageList()
         If _iconSz > 0 Then
@@ -6228,8 +6223,7 @@ RETRY:
             Next
             'タブ名のリスト作り直し（デフォルトタブ以外は再作成）
             For i As Integer = 0 To ListTab.TabCount - 1
-                If _statuses.Tabs(ListTab.TabPages(i).Text).TabType = TabUsageType.Mentions OrElse _
-                   (Not _statuses.IsDefaultTab(ListTab.TabPages(i).Text) AndAlso _statuses.Tabs(ListTab.TabPages(i).Text).TabType <> TabUsageType.PublicSearch AndAlso _statuses.Tabs(ListTab.TabPages(i).Text).TabType <> TabUsageType.Lists AndAlso _statuses.Tabs(ListTab.TabPages(i).Text).TabType <> TabUsageType.Related) Then
+                If _statuses.IsDistributableTab(ListTab.TabPages(i).Text) Then
                     TabDialog.RemoveTab(ListTab.TabPages(i).Text)
                 End If
                 If ListTab.TabPages(i).Text = tabName Then
@@ -6239,10 +6233,7 @@ RETRY:
             _statuses.RenameTab(tabName, newTabText)
 
             For i As Integer = 0 To ListTab.TabCount - 1
-                Dim tabUsageType As TabUsageType = _statuses.Tabs(ListTab.TabPages(i).Text).TabType
-                If tabUsageType = tabUsageType.Mentions OrElse (Not _statuses.IsDefaultTab(ListTab.TabPages(i).Text) _
-                                AndAlso tabUsageType <> tabUsageType.PublicSearch AndAlso tabUsageType <> tabUsageType.Lists _
-                                AndAlso tabUsageType <> tabUsageType.Related AndAlso tabUsageType <> tabUsageType.UserTimeline) Then
+                If _statuses.IsDistributableTab(ListTab.TabPages(i).Text) Then
                     If ListTab.TabPages(i).Text = tabName Then
                         ListTab.TabPages(i).Text = newTabText
                     End If
