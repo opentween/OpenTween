@@ -760,12 +760,7 @@ Public Class FilterDialog
     Private Sub SetTabnamesToDialog()
         tabdialog.ClearTab()
         For Each key As String In _sts.Tabs.Keys
-            Select Case TabInformations.GetInstance.Tabs(key).TabType
-                Case TabUsageType.Home, TabUsageType.DirectMessage, TabUsageType.Favorites, TabUsageType.PublicSearch, TabUsageType.Lists, TabUsageType.Related, TabUsageType.UserTimeline
-                    Exit Select
-                Case Else
-                    tabdialog.AddTab(key)
-            End Select
+            If TabInformations.GetInstance.IsDistributableTab(key) Then tabdialog.AddTab(key)
         Next
     End Sub
 

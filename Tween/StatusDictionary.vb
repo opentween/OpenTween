@@ -1605,6 +1605,14 @@ Public NotInheritable Class TabInformations
         End If
     End Function
 
+    '振り分け可能タブの判定処理
+    Public Function IsDistributableTab(ByVal tabName As String) As Boolean
+        Return tabName IsNot Nothing AndAlso
+            _tabs.ContainsKey(tabName) AndAlso
+            (_tabs(tabName).TabType = TabUsageType.Mentions OrElse
+             _tabs(tabName).TabType = TabUsageType.UserDefined)
+    End Function
+
     Public Function GetUniqueTabName() As String
         Dim tabNameTemp As String = "MyTab" + (_tabs.Count + 1).ToString
         For i As Integer = 2 To 100
