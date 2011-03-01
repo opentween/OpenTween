@@ -3278,8 +3278,21 @@ Public Class TweenMain
                 Exit Sub
             Else
                 Dim m As Match = Regex.Match(e.Url.AbsoluteUri, "^https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)$")
-                If SettingDialog.OpenUserTimeline AndAlso m.Success AndAlso IsTwitterId(m.Result("${ScreenName}")) Then
-                    Me.AddNewTabForUserTimeline(m.Result("${ScreenName}"))
+                If m.Success AndAlso IsTwitterId(m.Result("${ScreenName}")) Then
+                    ' Ctrlを押しながらリンクをクリックした場合は設定と逆の動作をする
+                    If SettingDialog.OpenUserTimeline Then
+                        If My.Computer.Keyboard.CtrlKeyDown Then
+                            OpenUriAsync(e.Url.OriginalString)
+                        Else
+                            Me.AddNewTabForUserTimeline(m.Result("${ScreenName}"))
+                        End If
+                    Else
+                        If My.Computer.Keyboard.CtrlKeyDown Then
+                            Me.AddNewTabForUserTimeline(m.Result("${ScreenName}"))
+                        Else
+                            OpenUriAsync(e.Url.OriginalString)
+                        End If
+                    End If
                 Else
                     OpenUriAsync(e.Url.OriginalString)
                 End If
