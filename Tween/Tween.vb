@@ -208,7 +208,7 @@ Public Class TweenMain
 
     Private WithEvents TimerTimeline As New System.Timers.Timer
 
-    Private WithEvents displayItem As ImageListViewItem
+    Private displayItem As ImageListViewItem
 
     'URL短縮のUndo用
     Private Structure urlUndo
@@ -4696,7 +4696,7 @@ RETRY:
         Return detailHtmlFormatHeader + orgdata + detailHtmlFormatFooter
     End Function
 
-    Private Sub DisplayItemImage_Downloaded(ByVal sender As Object, ByVal e As EventArgs) Handles displayItem.ImageDownloaded
+    Private Sub DisplayItemImage_Downloaded(ByVal sender As Object, ByVal e As EventArgs)
         If sender.Equals(displayItem) Then
             If UserPicture.Image IsNot Nothing Then UserPicture.Image.Dispose()
             If displayItem.Image IsNot Nothing Then
@@ -4725,7 +4725,12 @@ RETRY:
         End If
 
         displaypost = _curPost
+        If displayItem IsNot Nothing Then
+            RemoveHandler displayItem.ImageDownloaded, AddressOf Me.DisplayItemImage_Downloaded
+            displayItem = Nothing
+        End If
         displayItem = DirectCast(_curList.Items(_curList.SelectedIndices(0)), ImageListViewItem)
+        AddHandler displayItem.ImageDownloaded, AddressOf Me.DisplayItemImage_Downloaded
 
         Dim dTxt As String = createDetailHtml(If(_curPost.IsDeleted, "(DELETED)", _curPost.Text))
         If _curPost.IsDm Then
