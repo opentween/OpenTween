@@ -130,7 +130,8 @@ Public Class Thumbnail
         New ThumbnailService("ow.ly", AddressOf Owly_GetUrl, AddressOf Owly_CreateImage), _
         New ThumbnailService("vimeo", AddressOf Vimeo_GetUrl, AddressOf Vimeo_CreateImage), _
         New ThumbnailService("cloudfiles", AddressOf CloudFiles_GetUrl, AddressOf CloudFiles_CreateImage), _
-        New ThumbnailService("instagram", AddressOf instagram_GetUrl, AddressOf instagram_CreateImage)
+        New ThumbnailService("instagram", AddressOf instagram_GetUrl, AddressOf instagram_CreateImage), _
+        New ThumbnailService("pikubo", AddressOf pikubo_GetUrl, AddressOf pikubo_CreateImage)
     }
 
     Public Sub New(ByVal Owner As TweenMain)
@@ -2034,6 +2035,53 @@ Public Class Thumbnail
             End If
         End If
         Return False
+    End Function
+
+#End Region
+
+#Region "pikubo"
+    ''' <summary>
+    ''' URL解析部で呼び出されるサムネイル画像URL作成デリゲート
+    ''' </summary>
+    ''' <param name="args">Class GetUrlArgs
+    '''                                 args.url        URL文字列
+    '''                                 args.imglist    解析成功した際にこのリストに元URL、サムネイルURLの形で作成するKeyValuePair
+    ''' </param>
+    ''' <returns>成功した場合True,失敗の場合False</returns>
+    ''' <remarks>args.imglistには呼び出しもとで使用しているimglistをそのまま渡すこと</remarks>
+
+    Private Function pikubo_GetUrl(ByVal args As GetUrlArgs) As Boolean
+        ' TODO URL判定処理を記述
+        Dim mc As Match = Regex.Match(args.url, "^http://pikubo\.me/([a-z0-9-_]+)", RegexOptions.IgnoreCase)
+        If mc.Success Then
+            ' TODO 成功時はサムネイルURLを作成しimglist.Addする
+            args.imglist.Add(New KeyValuePair(Of String, String)(args.url, mc.Result("http://pikubo.me/q/${1}")))
+            Return True
+        Else
+            Return False
+        End If
+    End Function
+
+    ''' <summary>
+    ''' BackgroundWorkerから呼び出されるサムネイル画像作成デリゲート
+    ''' </summary>
+    ''' <param name="args">Class CreateImageArgs
+    '''                                 url As KeyValuePair(Of String, String)                  元URLとサムネイルURLのKeyValuePair
+    '''                                 pics As List(Of KeyValuePair(Of String, Image))         元URLとサムネイル画像のKeyValuePair
+    '''                                 tooltiptext As List(Of KeyValuePair(Of String, String)) 元URLとツールチップテキストのKeyValuePair
+    '''                                 errmsg As String                                        取得に失敗した際のエラーメッセージ
+    ''' </param>
+    ''' <returns>サムネイル画像作成に成功した場合はTrue,失敗した場合はFalse
+    ''' なお失敗した場合はargs.errmsgにエラーを表す文字列がセットされる</returns>
+    ''' <remarks></remarks>
+    Private Function pikubo_CreateImage(ByVal args As CreateImageArgs) As Boolean
+        ' TODO: サムネイル画像読み込み処理を記述します
+
+        Dim img As Image = (New HttpVarious).GetImage(args.url.Value, args.url.Key, 0, args.errmsg)
+        If img Is Nothing Then Return False
+        args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, img))
+        args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
+        Return True
     End Function
 
 #End Region
