@@ -550,19 +550,22 @@ Namespace My.Resources
         '''<summary>
         '''  更新履歴
         '''
-        '''==== Ver 0.9.7.1(****/**/**)
-        ''' * .netFramework4ベースに変更。.netFramework4がインストールされていない環境では動作しませんのでご注意ください。
-        ''' * URL圧縮の際のURL認識を修正
-        ''' * 一度に複数のツイートを公式RTできるようにした
-        ''' * 投稿をShift+Enterからできるようにした。Ctrl+EnterのShift版。フッタはCtrl+Shift+Enterで付与しない
-        ''' * Fav&amp;Retweetを追加。一度の操作でFavとRTをまとめて行える。
-        ''' * FormInfo.FormInfo_FormClosedにてSystem.NullReferenceExceptionが発生する問題に対応。
-        ''' * DMの際にRTされた回数のメニューを選択できないように
-        ''' * 発言履歴にも返信先情報を持たせるように変更
-        ''' * 関連発言表示を実装。gキーまたはメニューから。
-        ''' * アイコンを随時スワップアウト、あるいは表示の際に読み込むようにしてメモリ消費量を削減した
-        ''' * UserStream対応
-        ''' * リストアイテム [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        '''==== Ver 1.0.0.0(2011/02/26)
+        ''' * ListView追加時の画面ちらつき対処
+        ''' * OS復帰時30秒経過後にREST取得を走らせるように
+        ''' * OutOfMemoryが発生する問題に対処
+        ''' * 再起動時に例外が発生する問題に対処（したつもり）
+        ''' * メモリを食いつぶす問題に対処
+        ''' * しばらく応答しなくなる問題に対処
+        ''' * bit.ly/j.mpでのURL短縮が出来なくなった問題に対処
+        ''' * タブ削除のUndo（編集メニュー）が直前のものしか出来なかったが、複数Undo出来るように変更
+        ''' * 1時間ごとにフォロワー情報再取得
+        ''' * 発言ソートで、ソートキーが日時以外の場合にstable sortに
+        ''' * 新着通知オフ時の強制イベント通知の初期設定値をFalseへ
+        ''' * 設定画面の動作→イベント受信時、を表示下へ移動
+        ''' * 設定画面のUserStreamパネルの内容を基本→更新間隔へ移動、パネル削除
+        ''' * 投稿時取得をUserStream有効時でも効くように戻し
+        ''' * gキーの関連発言表示でツイートのURLが含まれている場合に関連発言タブ [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property ChangeLog() As String
             Get
@@ -1981,6 +1984,15 @@ Namespace My.Resources
         Friend ReadOnly Property SaveLogMenuItem_ClickText4() As String
             Get
                 Return ResourceManager.GetString("SaveLogMenuItem_ClickText4", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  全項目を保存しますか？{0}　「はい」　　　：全項目を保存する{0}　「いいえ」　　：保存処理をキャンセル{0}（タブ区切りのテキストファイル形式で保存します） に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property SaveLogMenuItem_ClickText5() As String
+            Get
+                Return ResourceManager.GetString("SaveLogMenuItem_ClickText5", resourceCulture)
             End Get
         End Property
         
