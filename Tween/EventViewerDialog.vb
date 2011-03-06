@@ -28,6 +28,8 @@ Imports System.Linq
 Imports System.Text.RegularExpressions
 Imports System
 Imports System.Runtime.CompilerServices
+Imports System.IO
+Imports System.Text
 
 Public Class EventViewerDialog
     Public Property EventSource As List(Of Twitter.FormattedEvent)
@@ -156,5 +158,49 @@ Public Class EventViewerDialog
         For i As Integer = 0 To EndIndex - StartIndex
             _ItemCache(i) = CreateListViewItem(_filterdEventSource(StartIndex + i))
         Next
+    End Sub
+
+    Private Sub SaveLogButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SaveLogButton.Click
+        Dim rslt As DialogResult = MessageBox.Show(String.Format(My.Resources.SaveLogMenuItem_ClickText5, Environment.NewLine), _
+                My.Resources.SaveLogMenuItem_ClickText2, _
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        If rslt = Windows.Forms.DialogResult.No Then Exit Sub
+
+        SaveFileDialog1.FileName = "TweenEvents" + Format(Now, "yyMMdd-HHmmss") + ".tsv"
+        SaveFileDialog1.InitialDirectory = My.Application.Info.DirectoryPath
+        SaveFileDialog1.Filter = My.Resources.SaveLogMenuItem_ClickText3
+        SaveFileDialog1.FilterIndex = 0
+        SaveFileDialog1.Title = My.Resources.SaveLogMenuItem_ClickText4
+        SaveFileDialog1.RestoreDirectory = True
+
+        If SaveFileDialog1.ShowDialog = Windows.Forms.DialogResult.OK Then
+            If Not SaveFileDialog1.ValidateNames Then Exit Sub
+            Using sw As StreamWriter = New StreamWriter(SaveFileDialog1.FileName, False, Encoding.UTF8)
+                If rslt = Windows.Forms.DialogResult.Yes Then
+                    'All
+                    For Each _event As Twitter.FormattedEvent In EventSource
+                        sw.WriteLine(_event.Eventtype.ToString & vbTab & _
+                                 """" & _event.CreatedAt.ToString + """" & vbTab & _
+                                 _event.Event & vbTab & _
+                                 _event.Username & vbTab & _
+                                 _event.Target & vbTab & _
+                                 _event.Id.ToString)
+                    Next
+                    'Else
+                    '    For Each idx As Integer In _curList.SelectedIndices
+                    '        Dim post As PostClass = _statuses.Item(_curTab.Text, idx)
+                    '        sw.WriteLine(_event.Eventtype.ToString & vbTab & _
+                    '             """" & _event.CreatedAt.ToString + """" & vbTab & _
+                    '             _event.Event & vbTab & _
+                    '             _event.Username & vbTab & _
+                    '             _event.Target & vbTab & _
+                    '             _event.Id.ToString)
+                    '    Next
+                End If
+                sw.Close()
+                sw.Dispose()
+            End Using
+        End If
+        Me.TopMost = AppendSettingDialog.Instance.AlwaysTop
     End Sub
 End Class

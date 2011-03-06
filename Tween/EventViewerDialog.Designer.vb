@@ -46,6 +46,8 @@ Partial Class EventViewerDialog
         Me.CheckBoxFilter = New System.Windows.Forms.CheckBox()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.StatusLabelCount = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.SaveLogButton = New System.Windows.Forms.Button()
+        Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.TabEventType.SuspendLayout()
         Me.TabPageAll.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
@@ -203,11 +205,18 @@ Partial Class EventViewerDialog
         Me.StatusLabelCount.Name = "StatusLabelCount"
         resources.ApplyResources(Me.StatusLabelCount, "StatusLabelCount")
         '
+        'SaveLogButton
+        '
+        resources.ApplyResources(Me.SaveLogButton, "SaveLogButton")
+        Me.SaveLogButton.Name = "SaveLogButton"
+        Me.SaveLogButton.UseVisualStyleBackColor = True
+        '
         'EventViewerDialog
         '
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.OK_Button
+        Me.Controls.Add(Me.SaveLogButton)
         Me.Controls.Add(Me.CheckBoxFilter)
         Me.Controls.Add(Me.CheckRegex)
         Me.Controls.Add(Me.TextBoxKeyword)
@@ -251,5 +260,7 @@ Partial Class EventViewerDialog
     Friend WithEvents CheckBoxFilter As System.Windows.Forms.CheckBox
     Friend WithEvents StatusStrip1 As System.Windows.Forms.StatusStrip
     Friend WithEvents StatusLabelCount As System.Windows.Forms.ToolStripStatusLabel
+    Friend WithEvents SaveLogButton As System.Windows.Forms.Button
+    Friend WithEvents SaveFileDialog1 As System.Windows.Forms.SaveFileDialog
 
 End Class

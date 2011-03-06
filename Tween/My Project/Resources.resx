@@ -1078,4 +1078,7 @@
   <data name="TweenMain_LoadText1" xml:space="preserve">
     <value>タブ作成エラー</value>
   </data>
+  <data name="SaveLogMenuItem_ClickText5" xml:space="preserve">
+    <value>全項目を保存しますか？{0}　「はい」　　　：全項目を保存する{0}　「いいえ」　　：保存処理をキャンセル{0}（タブ区切りのテキストファイル形式で保存します）</value>
+  </data>
 </root>

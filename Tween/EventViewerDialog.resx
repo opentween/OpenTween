@@ -145,7 +145,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;OK_Button.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="CheckExcludeMyEvent.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
@@ -175,13 +175,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CheckExcludeMyEvent.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="ButtonRefresh.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
   <data name="ButtonRefresh.Location" type="System.Drawing.Point, System.Drawing">
-    <value>600, 258</value>
+    <value>600, 269</value>
   </data>
   <data name="ButtonRefresh.Size" type="System.Drawing.Size, System.Drawing">
     <value>126, 21</value>
@@ -202,7 +202,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;ButtonRefresh.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="TabEventType.Alignment" type="System.Windows.Forms.TabAlignment, System.Windows.Forms">
     <value>Bottom</value>
@@ -210,41 +210,134 @@
   <data name="TabEventType.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
-  <data name="ColumnHeader1.Text" xml:space="preserve">
-    <value>Datetime</value>
+  <data name="&gt;&gt;TabPageAll.Name" xml:space="preserve">
+    <value>TabPageAll</value>
   </data>
-  <data name="ColumnHeader1.Width" type="System.Int32, mscorlib">
-    <value>86</value>
+  <data name="&gt;&gt;TabPageAll.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="ColumnHeader2.Text" xml:space="preserve">
-    <value>Type</value>
+  <data name="&gt;&gt;TabPageAll.Parent" xml:space="preserve">
+    <value>TabEventType</value>
   </data>
-  <data name="ColumnHeader2.Width" type="System.Int32, mscorlib">
-    <value>90</value>
-  </data>
-  <data name="ColumnHeader3.Text" xml:space="preserve">
-    <value>Username</value>
-  </data>
-  <data name="ColumnHeader3.Width" type="System.Int32, mscorlib">
-    <value>106</value>
-  </data>
-  <data name="ColumnHeader4.Text" xml:space="preserve">
-    <value>Target</value>
-  </data>
-  <data name="ColumnHeader4.Width" type="System.Int32, mscorlib">
-    <value>360</value>
-  </data>
-  <data name="EventList.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="EventList.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="EventList.Size" type="System.Drawing.Size, System.Drawing">
-    <value>700, 186</value>
-  </data>
-  <data name="EventList.TabIndex" type="System.Int32, mscorlib">
+  <data name="&gt;&gt;TabPageAll.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="&gt;&gt;TabPageFav.Name" xml:space="preserve">
+    <value>TabPageFav</value>
+  </data>
+  <data name="&gt;&gt;TabPageFav.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPageFav.Parent" xml:space="preserve">
+    <value>TabEventType</value>
+  </data>
+  <data name="&gt;&gt;TabPageFav.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;TabPageUnfav.Name" xml:space="preserve">
+    <value>TabPageUnfav</value>
+  </data>
+  <data name="&gt;&gt;TabPageUnfav.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPageUnfav.Parent" xml:space="preserve">
+    <value>TabEventType</value>
+  </data>
+  <data name="&gt;&gt;TabPageUnfav.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;TabPageFollow.Name" xml:space="preserve">
+    <value>TabPageFollow</value>
+  </data>
+  <data name="&gt;&gt;TabPageFollow.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPageFollow.Parent" xml:space="preserve">
+    <value>TabEventType</value>
+  </data>
+  <data name="&gt;&gt;TabPageFollow.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;TabPageAddLists.Name" xml:space="preserve">
+    <value>TabPageAddLists</value>
+  </data>
+  <data name="&gt;&gt;TabPageAddLists.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPageAddLists.Parent" xml:space="preserve">
+    <value>TabEventType</value>
+  </data>
+  <data name="&gt;&gt;TabPageAddLists.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;TabPageRemoveLists.Name" xml:space="preserve">
+    <value>TabPageRemoveLists</value>
+  </data>
+  <data name="&gt;&gt;TabPageRemoveLists.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPageRemoveLists.Parent" xml:space="preserve">
+    <value>TabEventType</value>
+  </data>
+  <data name="&gt;&gt;TabPageRemoveLists.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;TabPageListsCreated.Name" xml:space="preserve">
+    <value>TabPageListsCreated</value>
+  </data>
+  <data name="&gt;&gt;TabPageListsCreated.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPageListsCreated.Parent" xml:space="preserve">
+    <value>TabEventType</value>
+  </data>
+  <data name="&gt;&gt;TabPageListsCreated.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;TabPageBlock.Name" xml:space="preserve">
+    <value>TabPageBlock</value>
+  </data>
+  <data name="&gt;&gt;TabPageBlock.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPageBlock.Parent" xml:space="preserve">
+    <value>TabEventType</value>
+  </data>
+  <data name="&gt;&gt;TabPageBlock.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;TabPageUserUpdate.Name" xml:space="preserve">
+    <value>TabPageUserUpdate</value>
+  </data>
+  <data name="&gt;&gt;TabPageUserUpdate.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPageUserUpdate.Parent" xml:space="preserve">
+    <value>TabEventType</value>
+  </data>
+  <data name="&gt;&gt;TabPageUserUpdate.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="TabEventType.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="TabEventType.Size" type="System.Drawing.Size, System.Drawing">
+    <value>714, 218</value>
+  </data>
+  <data name="TabEventType.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;TabEventType.Name" xml:space="preserve">
+    <value>TabEventType</value>
+  </data>
+  <data name="&gt;&gt;TabEventType.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabEventType.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;TabEventType.ZOrder" xml:space="preserve">
+    <value>4</value>
   </data>
   <data name="&gt;&gt;EventList.Name" xml:space="preserve">
     <value>EventList</value>
@@ -284,6 +377,54 @@
   </data>
   <data name="&gt;&gt;TabPageAll.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="EventList.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="EventList.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="EventList.Size" type="System.Drawing.Size, System.Drawing">
+    <value>700, 186</value>
+  </data>
+  <data name="EventList.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;EventList.Name" xml:space="preserve">
+    <value>EventList</value>
+  </data>
+  <data name="&gt;&gt;EventList.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ListView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;EventList.Parent" xml:space="preserve">
+    <value>TabPageAll</value>
+  </data>
+  <data name="&gt;&gt;EventList.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="ColumnHeader1.Text" xml:space="preserve">
+    <value>Datetime</value>
+  </data>
+  <data name="ColumnHeader1.Width" type="System.Int32, mscorlib">
+    <value>86</value>
+  </data>
+  <data name="ColumnHeader2.Text" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="ColumnHeader2.Width" type="System.Int32, mscorlib">
+    <value>90</value>
+  </data>
+  <data name="ColumnHeader3.Text" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="ColumnHeader3.Width" type="System.Int32, mscorlib">
+    <value>106</value>
+  </data>
+  <data name="ColumnHeader4.Text" xml:space="preserve">
+    <value>Target</value>
+  </data>
+  <data name="ColumnHeader4.Width" type="System.Int32, mscorlib">
+    <value>360</value>
   </data>
   <data name="TabPageFav.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 4</value>
@@ -501,27 +642,6 @@
   <data name="&gt;&gt;TabPageUserUpdate.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
-  <data name="TabEventType.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
-  </data>
-  <data name="TabEventType.Size" type="System.Drawing.Size, System.Drawing">
-    <value>714, 218</value>
-  </data>
-  <data name="TabEventType.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;TabEventType.Name" xml:space="preserve">
-    <value>TabEventType</value>
-  </data>
-  <data name="&gt;&gt;TabEventType.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TabEventType.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;TabEventType.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
   <data name="TextBoxKeyword.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
   </data>
@@ -544,7 +664,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;TextBoxKeyword.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="CheckRegex.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
@@ -574,7 +694,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CheckRegex.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="CheckBoxFilter.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
@@ -604,17 +724,11 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CheckBoxFilter.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <metadata name="StatusStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>24, 10</value>
   </metadata>
-  <data name="StatusLabelCount.Size" type="System.Drawing.Size, System.Drawing">
-    <value>111, 18</value>
-  </data>
-  <data name="StatusLabelCount.Text" xml:space="preserve">
-    <value>StatusLabelCount</value>
-  </data>
   <data name="StatusStrip1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 339</value>
   </data>
@@ -637,8 +751,41 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;StatusStrip1.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
+  <data name="StatusLabelCount.Size" type="System.Drawing.Size, System.Drawing">
+    <value>111, 18</value>
+  </data>
+  <data name="StatusLabelCount.Text" xml:space="preserve">
+    <value>StatusLabelCount</value>
+  </data>
+  <data name="SaveLogButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>599, 239</value>
+  </data>
+  <data name="SaveLogButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>126, 22</value>
+  </data>
+  <data name="SaveLogButton.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="SaveLogButton.Text" xml:space="preserve">
+    <value>ファイル保存</value>
+  </data>
+  <data name="&gt;&gt;SaveLogButton.Name" xml:space="preserve">
+    <value>SaveLogButton</value>
+  </data>
+  <data name="&gt;&gt;SaveLogButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SaveLogButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;SaveLogButton.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="SaveFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>150, 10</value>
+  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -686,6 +833,12 @@
   </data>
   <data name="&gt;&gt;StatusLabelCount.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SaveFileDialog1.Name" xml:space="preserve">
+    <value>SaveFileDialog1</value>
+  </data>
+  <data name="&gt;&gt;SaveFileDialog1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SaveFileDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>EventViewerDialog</value>
