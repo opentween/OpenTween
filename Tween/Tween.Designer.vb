@@ -61,7 +61,7 @@ Partial Class TweenMain
         Me.DeleteTabMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TabImage = New System.Windows.Forms.ImageList(Me.components)
         Me.ImageSelectionPanel = New System.Windows.Forms.Panel()
-        Me.ImageSelectedPicture = New TweenCustomControl.PictureBoxEx()
+        Me.ImageSelectedPicture = New Tween.TweenCustomControl.PictureBoxEx()
         Me.ImagePathPanel = New System.Windows.Forms.Panel()
         Me.ImagefilePathText = New System.Windows.Forms.TextBox()
         Me.FilePickButton = New System.Windows.Forms.Button()
@@ -73,7 +73,7 @@ Partial Class TweenMain
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
-        Me.UserPicture = New TweenCustomControl.PictureBoxEx()
+        Me.UserPicture = New Tween.TweenCustomControl.PictureBoxEx()
         Me.ContextMenuUserPicture = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.FollowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UnFollowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -120,7 +120,7 @@ Partial Class TweenMain
         Me.StatusText = New System.Windows.Forms.TextBox()
         Me.lblLen = New System.Windows.Forms.Label()
         Me.PostButton = New System.Windows.Forms.Button()
-        Me.PreviewPicture = New TweenCustomControl.PictureBoxEx()
+        Me.PreviewPicture = New Tween.TweenCustomControl.PictureBoxEx()
         Me.PreviewScrollBar = New System.Windows.Forms.VScrollBar()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.MenuItemFile = New System.Windows.Forms.ToolStripMenuItem()
@@ -298,6 +298,7 @@ Partial Class TweenMain
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.StopRefreshAllMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -1492,7 +1493,7 @@ Partial Class TweenMain
         '
         'MenuItemUserStream
         '
-        Me.MenuItemUserStream.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.StopToolStripMenuItem, Me.ToolStripSeparator40, Me.TrackToolStripMenuItem, Me.AllrepliesToolStripMenuItem, Me.ToolStripSeparator42, Me.EventViewerMenuItem})
+        Me.MenuItemUserStream.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.StopToolStripMenuItem, Me.ToolStripSeparator40, Me.TrackToolStripMenuItem, Me.AllrepliesToolStripMenuItem, Me.ToolStripSeparator42, Me.EventViewerMenuItem, Me.StopRefreshAllMenuItem})
         resources.ApplyResources(Me.MenuItemUserStream, "MenuItemUserStream")
         Me.MenuItemUserStream.Name = "MenuItemUserStream"
         '
@@ -1863,6 +1864,12 @@ Partial Class TweenMain
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
+        'StopRefreshAllMenuItem
+        '
+        Me.StopRefreshAllMenuItem.CheckOnClick = True
+        Me.StopRefreshAllMenuItem.Name = "StopRefreshAllMenuItem"
+        resources.ApplyResources(Me.StopRefreshAllMenuItem, "StopRefreshAllMenuItem")
+        '
         'TweenMain
         '
         Me.AllowDrop = True
@@ -2186,5 +2193,6 @@ Partial Class TweenMain
     Friend WithEvents UserTimelineToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents UserFavorareToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SelectionTranslationToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents StopRefreshAllMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

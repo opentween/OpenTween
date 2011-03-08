@@ -10203,4 +10203,16 @@ RETRY:
         If e.Mode = Microsoft.Win32.PowerModes.Resume Then osResumed = True
     End Sub
 
+    Private Sub TimelineRefreshEnableChange(ByVal isEnable As Boolean)
+        If isEnable Then
+            tw_UserStreamStarted()
+        Else
+            tw_UserStreamStopped()
+        End If
+        TimerTimeline.Enabled = isEnable
+    End Sub
+
+    Private Sub StopRefreshAllMenuItem_CheckedChanged(sender As Object, e As System.EventArgs) Handles StopRefreshAllMenuItem.CheckedChanged
+        TimelineRefreshEnableChange(Not StopRefreshAllMenuItem.Checked)
+    End Sub
 End Class
