@@ -5357,6 +5357,9 @@ RETRY:
                 ElseIf KeyCode = Keys.R Then
                     FavoritesRetweetUnofficial()
                     Return True
+                ElseIf KeyCode = Keys.H Then
+                    OpenUserAppointUrl()
+                    Return True
                 End If
             Case ModifierState.Alt Or ModifierState.Shift
                 If Focused = FocusedControl.PostBrowser Then
@@ -10214,5 +10217,13 @@ RETRY:
 
     Private Sub StopRefreshAllMenuItem_CheckedChanged(sender As Object, e As System.EventArgs) Handles StopRefreshAllMenuItem.CheckedChanged
         TimelineRefreshEnableChange(Not StopRefreshAllMenuItem.Checked)
+    End Sub
+
+    Private Sub OpenUserAppointUrl()
+        If SettingDialog.UserAppointUrl IsNot Nothing AndAlso _curPost IsNot Nothing Then
+            Dim xUrl As String = SettingDialog.UserAppointUrl
+            xUrl = xUrl.Replace("{ID}", _curPost.ScreenName)
+            OpenUriAsync(xUrl)
+        End If
     End Sub
 End Class

@@ -26,6 +26,41 @@ Partial Class AppendSettingDialog
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AppendSettingDialog))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.TreeViewSetting = New System.Windows.Forms.TreeView()
+        Me.CooperatePanel = New System.Windows.Forms.Panel()
+        Me.Label39 = New System.Windows.Forms.Label()
+        Me.UserAppointUrlText = New System.Windows.Forms.TextBox()
+        Me.ComboBoxTranslateLanguage = New System.Windows.Forms.ComboBox()
+        Me.Label29 = New System.Windows.Forms.Label()
+        Me.CheckOutputz = New System.Windows.Forms.CheckBox()
+        Me.CheckNicoms = New System.Windows.Forms.CheckBox()
+        Me.TextBoxOutputzKey = New System.Windows.Forms.TextBox()
+        Me.Label60 = New System.Windows.Forms.Label()
+        Me.Label59 = New System.Windows.Forms.Label()
+        Me.ComboBoxOutputzUrlmode = New System.Windows.Forms.ComboBox()
+        Me.ActionPanel = New System.Windows.Forms.Panel()
+        Me.Label38 = New System.Windows.Forms.Label()
+        Me.ListDoubleClickActionComboBox = New System.Windows.Forms.ComboBox()
+        Me.CheckOpenUserTimeline = New System.Windows.Forms.CheckBox()
+        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.HotkeyCheck = New System.Windows.Forms.CheckBox()
+        Me.HotkeyCode = New System.Windows.Forms.Label()
+        Me.HotkeyText = New System.Windows.Forms.TextBox()
+        Me.HotkeyWin = New System.Windows.Forms.CheckBox()
+        Me.HotkeyAlt = New System.Windows.Forms.CheckBox()
+        Me.HotkeyShift = New System.Windows.Forms.CheckBox()
+        Me.HotkeyCtrl = New System.Windows.Forms.CheckBox()
+        Me.Label57 = New System.Windows.Forms.Label()
+        Me.CheckFavRestrict = New System.Windows.Forms.CheckBox()
+        Me.Button3 = New System.Windows.Forms.Button()
+        Me.PlaySnd = New System.Windows.Forms.CheckBox()
+        Me.chkReadOwnPost = New System.Windows.Forms.CheckBox()
+        Me.Label15 = New System.Windows.Forms.Label()
+        Me.BrowserPathText = New System.Windows.Forms.TextBox()
+        Me.UReadMng = New System.Windows.Forms.CheckBox()
+        Me.Label44 = New System.Windows.Forms.Label()
+        Me.CheckCloseToExit = New System.Windows.Forms.CheckBox()
+        Me.CheckMinimizeToTray = New System.Windows.Forms.CheckBox()
+        Me.CheckReadOldPosts = New System.Windows.Forms.CheckBox()
         Me.GetPeriodPanel = New System.Windows.Forms.Panel()
         Me.LabelApiUsingUserStreamEnabled = New System.Windows.Forms.Label()
         Me.LabelUserStreamActive = New System.Windows.Forms.Label()
@@ -89,15 +124,6 @@ Partial Class AppendSettingDialog
         Me.btnListFont = New System.Windows.Forms.Button()
         Me.lblListFont = New System.Windows.Forms.Label()
         Me.Label61 = New System.Windows.Forms.Label()
-        Me.CooperatePanel = New System.Windows.Forms.Panel()
-        Me.ComboBoxTranslateLanguage = New System.Windows.Forms.ComboBox()
-        Me.Label29 = New System.Windows.Forms.Label()
-        Me.CheckOutputz = New System.Windows.Forms.CheckBox()
-        Me.CheckNicoms = New System.Windows.Forms.CheckBox()
-        Me.TextBoxOutputzKey = New System.Windows.Forms.TextBox()
-        Me.Label60 = New System.Windows.Forms.Label()
-        Me.Label59 = New System.Windows.Forms.Label()
-        Me.ComboBoxOutputzUrlmode = New System.Windows.Forms.ComboBox()
         Me.ShortUrlPanel = New System.Windows.Forms.Panel()
         Me.CheckTinyURL = New System.Windows.Forms.CheckBox()
         Me.TextBitlyPw = New System.Windows.Forms.TextBox()
@@ -107,28 +133,6 @@ Partial Class AppendSettingDialog
         Me.Label76 = New System.Windows.Forms.Label()
         Me.Label77 = New System.Windows.Forms.Label()
         Me.TextBitlyId = New System.Windows.Forms.TextBox()
-        Me.ActionPanel = New System.Windows.Forms.Panel()
-        Me.CheckOpenUserTimeline = New System.Windows.Forms.CheckBox()
-        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
-        Me.HotkeyCheck = New System.Windows.Forms.CheckBox()
-        Me.HotkeyCode = New System.Windows.Forms.Label()
-        Me.HotkeyText = New System.Windows.Forms.TextBox()
-        Me.HotkeyWin = New System.Windows.Forms.CheckBox()
-        Me.HotkeyAlt = New System.Windows.Forms.CheckBox()
-        Me.HotkeyShift = New System.Windows.Forms.CheckBox()
-        Me.HotkeyCtrl = New System.Windows.Forms.CheckBox()
-        Me.Label57 = New System.Windows.Forms.Label()
-        Me.CheckFavRestrict = New System.Windows.Forms.CheckBox()
-        Me.Button3 = New System.Windows.Forms.Button()
-        Me.PlaySnd = New System.Windows.Forms.CheckBox()
-        Me.chkReadOwnPost = New System.Windows.Forms.CheckBox()
-        Me.Label15 = New System.Windows.Forms.Label()
-        Me.BrowserPathText = New System.Windows.Forms.TextBox()
-        Me.UReadMng = New System.Windows.Forms.CheckBox()
-        Me.Label44 = New System.Windows.Forms.Label()
-        Me.CheckCloseToExit = New System.Windows.Forms.CheckBox()
-        Me.CheckMinimizeToTray = New System.Windows.Forms.CheckBox()
-        Me.CheckReadOldPosts = New System.Windows.Forms.CheckBox()
         Me.ProxyPanel = New System.Windows.Forms.Panel()
         Me.Label55 = New System.Windows.Forms.Label()
         Me.TextProxyPassword = New System.Windows.Forms.TextBox()
@@ -268,14 +272,14 @@ Partial Class AppendSettingDialog
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        Me.CooperatePanel.SuspendLayout()
+        Me.ActionPanel.SuspendLayout()
+        Me.GroupBox3.SuspendLayout()
         Me.GetPeriodPanel.SuspendLayout()
         Me.BasedPanel.SuspendLayout()
         Me.FontPanel.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
-        Me.CooperatePanel.SuspendLayout()
         Me.ShortUrlPanel.SuspendLayout()
-        Me.ActionPanel.SuspendLayout()
-        Me.GroupBox3.SuspendLayout()
         Me.ProxyPanel.SuspendLayout()
         Me.ConnectionPanel.SuspendLayout()
         Me.FontPanel2.SuspendLayout()
@@ -300,12 +304,12 @@ Partial Class AppendSettingDialog
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.BackColor = System.Drawing.SystemColors.Control
+        Me.SplitContainer1.Panel2.Controls.Add(Me.ActionPanel)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.CooperatePanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.GetPeriodPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.BasedPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.FontPanel)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.CooperatePanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.ShortUrlPanel)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.ActionPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.ProxyPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.ConnectionPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.FontPanel2)
@@ -325,6 +329,246 @@ Partial Class AppendSettingDialog
         Me.TreeViewSetting.Name = "TreeViewSetting"
         Me.TreeViewSetting.Nodes.AddRange(New System.Windows.Forms.TreeNode() {CType(resources.GetObject("TreeViewSetting.Nodes"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeViewSetting.Nodes1"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeViewSetting.Nodes2"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeViewSetting.Nodes3"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeViewSetting.Nodes4"), System.Windows.Forms.TreeNode)})
         Me.TreeViewSetting.ShowLines = False
+        '
+        'CooperatePanel
+        '
+        Me.CooperatePanel.Controls.Add(Me.Label39)
+        Me.CooperatePanel.Controls.Add(Me.UserAppointUrlText)
+        Me.CooperatePanel.Controls.Add(Me.ComboBoxTranslateLanguage)
+        Me.CooperatePanel.Controls.Add(Me.Label29)
+        Me.CooperatePanel.Controls.Add(Me.CheckOutputz)
+        Me.CooperatePanel.Controls.Add(Me.CheckNicoms)
+        Me.CooperatePanel.Controls.Add(Me.TextBoxOutputzKey)
+        Me.CooperatePanel.Controls.Add(Me.Label60)
+        Me.CooperatePanel.Controls.Add(Me.Label59)
+        Me.CooperatePanel.Controls.Add(Me.ComboBoxOutputzUrlmode)
+        resources.ApplyResources(Me.CooperatePanel, "CooperatePanel")
+        Me.CooperatePanel.Name = "CooperatePanel"
+        '
+        'Label39
+        '
+        resources.ApplyResources(Me.Label39, "Label39")
+        Me.Label39.Name = "Label39"
+        '
+        'UserAppointUrlText
+        '
+        resources.ApplyResources(Me.UserAppointUrlText, "UserAppointUrlText")
+        Me.UserAppointUrlText.Name = "UserAppointUrlText"
+        '
+        'ComboBoxTranslateLanguage
+        '
+        Me.ComboBoxTranslateLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboBoxTranslateLanguage.FormattingEnabled = True
+        Me.ComboBoxTranslateLanguage.Items.AddRange(New Object() {resources.GetString("ComboBoxTranslateLanguage.Items"), resources.GetString("ComboBoxTranslateLanguage.Items1"), resources.GetString("ComboBoxTranslateLanguage.Items2"), resources.GetString("ComboBoxTranslateLanguage.Items3"), resources.GetString("ComboBoxTranslateLanguage.Items4"), resources.GetString("ComboBoxTranslateLanguage.Items5"), resources.GetString("ComboBoxTranslateLanguage.Items6"), resources.GetString("ComboBoxTranslateLanguage.Items7"), resources.GetString("ComboBoxTranslateLanguage.Items8"), resources.GetString("ComboBoxTranslateLanguage.Items9"), resources.GetString("ComboBoxTranslateLanguage.Items10"), resources.GetString("ComboBoxTranslateLanguage.Items11"), resources.GetString("ComboBoxTranslateLanguage.Items12"), resources.GetString("ComboBoxTranslateLanguage.Items13"), resources.GetString("ComboBoxTranslateLanguage.Items14"), resources.GetString("ComboBoxTranslateLanguage.Items15"), resources.GetString("ComboBoxTranslateLanguage.Items16"), resources.GetString("ComboBoxTranslateLanguage.Items17"), resources.GetString("ComboBoxTranslateLanguage.Items18"), resources.GetString("ComboBoxTranslateLanguage.Items19"), resources.GetString("ComboBoxTranslateLanguage.Items20"), resources.GetString("ComboBoxTranslateLanguage.Items21"), resources.GetString("ComboBoxTranslateLanguage.Items22"), resources.GetString("ComboBoxTranslateLanguage.Items23"), resources.GetString("ComboBoxTranslateLanguage.Items24"), resources.GetString("ComboBoxTranslateLanguage.Items25"), resources.GetString("ComboBoxTranslateLanguage.Items26"), resources.GetString("ComboBoxTranslateLanguage.Items27"), resources.GetString("ComboBoxTranslateLanguage.Items28"), resources.GetString("ComboBoxTranslateLanguage.Items29"), resources.GetString("ComboBoxTranslateLanguage.Items30"), resources.GetString("ComboBoxTranslateLanguage.Items31"), resources.GetString("ComboBoxTranslateLanguage.Items32"), resources.GetString("ComboBoxTranslateLanguage.Items33"), resources.GetString("ComboBoxTranslateLanguage.Items34"), resources.GetString("ComboBoxTranslateLanguage.Items35"), resources.GetString("ComboBoxTranslateLanguage.Items36"), resources.GetString("ComboBoxTranslateLanguage.Items37"), resources.GetString("ComboBoxTranslateLanguage.Items38"), resources.GetString("ComboBoxTranslateLanguage.Items39"), resources.GetString("ComboBoxTranslateLanguage.Items40"), resources.GetString("ComboBoxTranslateLanguage.Items41"), resources.GetString("ComboBoxTranslateLanguage.Items42"), resources.GetString("ComboBoxTranslateLanguage.Items43"), resources.GetString("ComboBoxTranslateLanguage.Items44"), resources.GetString("ComboBoxTranslateLanguage.Items45"), resources.GetString("ComboBoxTranslateLanguage.Items46"), resources.GetString("ComboBoxTranslateLanguage.Items47"), resources.GetString("ComboBoxTranslateLanguage.Items48"), resources.GetString("ComboBoxTranslateLanguage.Items49"), resources.GetString("ComboBoxTranslateLanguage.Items50"), resources.GetString("ComboBoxTranslateLanguage.Items51"), resources.GetString("ComboBoxTranslateLanguage.Items52"), resources.GetString("ComboBoxTranslateLanguage.Items53"), resources.GetString("ComboBoxTranslateLanguage.Items54"), resources.GetString("ComboBoxTranslateLanguage.Items55"), resources.GetString("ComboBoxTranslateLanguage.Items56"), resources.GetString("ComboBoxTranslateLanguage.Items57"), resources.GetString("ComboBoxTranslateLanguage.Items58"), resources.GetString("ComboBoxTranslateLanguage.Items59"), resources.GetString("ComboBoxTranslateLanguage.Items60"), resources.GetString("ComboBoxTranslateLanguage.Items61"), resources.GetString("ComboBoxTranslateLanguage.Items62"), resources.GetString("ComboBoxTranslateLanguage.Items63"), resources.GetString("ComboBoxTranslateLanguage.Items64"), resources.GetString("ComboBoxTranslateLanguage.Items65"), resources.GetString("ComboBoxTranslateLanguage.Items66"), resources.GetString("ComboBoxTranslateLanguage.Items67"), resources.GetString("ComboBoxTranslateLanguage.Items68"), resources.GetString("ComboBoxTranslateLanguage.Items69"), resources.GetString("ComboBoxTranslateLanguage.Items70"), resources.GetString("ComboBoxTranslateLanguage.Items71"), resources.GetString("ComboBoxTranslateLanguage.Items72"), resources.GetString("ComboBoxTranslateLanguage.Items73"), resources.GetString("ComboBoxTranslateLanguage.Items74"), resources.GetString("ComboBoxTranslateLanguage.Items75"), resources.GetString("ComboBoxTranslateLanguage.Items76"), resources.GetString("ComboBoxTranslateLanguage.Items77"), resources.GetString("ComboBoxTranslateLanguage.Items78"), resources.GetString("ComboBoxTranslateLanguage.Items79"), resources.GetString("ComboBoxTranslateLanguage.Items80"), resources.GetString("ComboBoxTranslateLanguage.Items81"), resources.GetString("ComboBoxTranslateLanguage.Items82"), resources.GetString("ComboBoxTranslateLanguage.Items83"), resources.GetString("ComboBoxTranslateLanguage.Items84"), resources.GetString("ComboBoxTranslateLanguage.Items85"), resources.GetString("ComboBoxTranslateLanguage.Items86"), resources.GetString("ComboBoxTranslateLanguage.Items87"), resources.GetString("ComboBoxTranslateLanguage.Items88"), resources.GetString("ComboBoxTranslateLanguage.Items89"), resources.GetString("ComboBoxTranslateLanguage.Items90"), resources.GetString("ComboBoxTranslateLanguage.Items91"), resources.GetString("ComboBoxTranslateLanguage.Items92"), resources.GetString("ComboBoxTranslateLanguage.Items93"), resources.GetString("ComboBoxTranslateLanguage.Items94"), resources.GetString("ComboBoxTranslateLanguage.Items95"), resources.GetString("ComboBoxTranslateLanguage.Items96"), resources.GetString("ComboBoxTranslateLanguage.Items97"), resources.GetString("ComboBoxTranslateLanguage.Items98"), resources.GetString("ComboBoxTranslateLanguage.Items99"), resources.GetString("ComboBoxTranslateLanguage.Items100"), resources.GetString("ComboBoxTranslateLanguage.Items101"), resources.GetString("ComboBoxTranslateLanguage.Items102"), resources.GetString("ComboBoxTranslateLanguage.Items103"), resources.GetString("ComboBoxTranslateLanguage.Items104"), resources.GetString("ComboBoxTranslateLanguage.Items105"), resources.GetString("ComboBoxTranslateLanguage.Items106")})
+        resources.ApplyResources(Me.ComboBoxTranslateLanguage, "ComboBoxTranslateLanguage")
+        Me.ComboBoxTranslateLanguage.Name = "ComboBoxTranslateLanguage"
+        '
+        'Label29
+        '
+        resources.ApplyResources(Me.Label29, "Label29")
+        Me.Label29.Name = "Label29"
+        '
+        'CheckOutputz
+        '
+        resources.ApplyResources(Me.CheckOutputz, "CheckOutputz")
+        Me.CheckOutputz.Name = "CheckOutputz"
+        Me.CheckOutputz.UseVisualStyleBackColor = True
+        '
+        'CheckNicoms
+        '
+        resources.ApplyResources(Me.CheckNicoms, "CheckNicoms")
+        Me.CheckNicoms.Name = "CheckNicoms"
+        Me.CheckNicoms.UseVisualStyleBackColor = True
+        '
+        'TextBoxOutputzKey
+        '
+        resources.ApplyResources(Me.TextBoxOutputzKey, "TextBoxOutputzKey")
+        Me.TextBoxOutputzKey.Name = "TextBoxOutputzKey"
+        '
+        'Label60
+        '
+        resources.ApplyResources(Me.Label60, "Label60")
+        Me.Label60.Name = "Label60"
+        '
+        'Label59
+        '
+        resources.ApplyResources(Me.Label59, "Label59")
+        Me.Label59.Name = "Label59"
+        '
+        'ComboBoxOutputzUrlmode
+        '
+        Me.ComboBoxOutputzUrlmode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboBoxOutputzUrlmode.FormattingEnabled = True
+        Me.ComboBoxOutputzUrlmode.Items.AddRange(New Object() {resources.GetString("ComboBoxOutputzUrlmode.Items"), resources.GetString("ComboBoxOutputzUrlmode.Items1")})
+        resources.ApplyResources(Me.ComboBoxOutputzUrlmode, "ComboBoxOutputzUrlmode")
+        Me.ComboBoxOutputzUrlmode.Name = "ComboBoxOutputzUrlmode"
+        '
+        'ActionPanel
+        '
+        Me.ActionPanel.Controls.Add(Me.Label38)
+        Me.ActionPanel.Controls.Add(Me.ListDoubleClickActionComboBox)
+        Me.ActionPanel.Controls.Add(Me.CheckOpenUserTimeline)
+        Me.ActionPanel.Controls.Add(Me.GroupBox3)
+        Me.ActionPanel.Controls.Add(Me.Label57)
+        Me.ActionPanel.Controls.Add(Me.CheckFavRestrict)
+        Me.ActionPanel.Controls.Add(Me.Button3)
+        Me.ActionPanel.Controls.Add(Me.PlaySnd)
+        Me.ActionPanel.Controls.Add(Me.chkReadOwnPost)
+        Me.ActionPanel.Controls.Add(Me.Label15)
+        Me.ActionPanel.Controls.Add(Me.BrowserPathText)
+        Me.ActionPanel.Controls.Add(Me.UReadMng)
+        Me.ActionPanel.Controls.Add(Me.Label44)
+        Me.ActionPanel.Controls.Add(Me.CheckCloseToExit)
+        Me.ActionPanel.Controls.Add(Me.CheckMinimizeToTray)
+        Me.ActionPanel.Controls.Add(Me.CheckReadOldPosts)
+        resources.ApplyResources(Me.ActionPanel, "ActionPanel")
+        Me.ActionPanel.Name = "ActionPanel"
+        '
+        'Label38
+        '
+        resources.ApplyResources(Me.Label38, "Label38")
+        Me.Label38.Name = "Label38"
+        '
+        'ListDoubleClickActionComboBox
+        '
+        Me.ListDoubleClickActionComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ListDoubleClickActionComboBox.FormattingEnabled = True
+        Me.ListDoubleClickActionComboBox.Items.AddRange(New Object() {resources.GetString("ListDoubleClickActionComboBox.Items"), resources.GetString("ListDoubleClickActionComboBox.Items1"), resources.GetString("ListDoubleClickActionComboBox.Items2"), resources.GetString("ListDoubleClickActionComboBox.Items3"), resources.GetString("ListDoubleClickActionComboBox.Items4"), resources.GetString("ListDoubleClickActionComboBox.Items5"), resources.GetString("ListDoubleClickActionComboBox.Items6"), resources.GetString("ListDoubleClickActionComboBox.Items7")})
+        resources.ApplyResources(Me.ListDoubleClickActionComboBox, "ListDoubleClickActionComboBox")
+        Me.ListDoubleClickActionComboBox.Name = "ListDoubleClickActionComboBox"
+        '
+        'CheckOpenUserTimeline
+        '
+        resources.ApplyResources(Me.CheckOpenUserTimeline, "CheckOpenUserTimeline")
+        Me.CheckOpenUserTimeline.Name = "CheckOpenUserTimeline"
+        Me.CheckOpenUserTimeline.UseVisualStyleBackColor = True
+        '
+        'GroupBox3
+        '
+        Me.GroupBox3.Controls.Add(Me.HotkeyCheck)
+        Me.GroupBox3.Controls.Add(Me.HotkeyCode)
+        Me.GroupBox3.Controls.Add(Me.HotkeyText)
+        Me.GroupBox3.Controls.Add(Me.HotkeyWin)
+        Me.GroupBox3.Controls.Add(Me.HotkeyAlt)
+        Me.GroupBox3.Controls.Add(Me.HotkeyShift)
+        Me.GroupBox3.Controls.Add(Me.HotkeyCtrl)
+        resources.ApplyResources(Me.GroupBox3, "GroupBox3")
+        Me.GroupBox3.Name = "GroupBox3"
+        Me.GroupBox3.TabStop = False
+        '
+        'HotkeyCheck
+        '
+        resources.ApplyResources(Me.HotkeyCheck, "HotkeyCheck")
+        Me.HotkeyCheck.Name = "HotkeyCheck"
+        Me.HotkeyCheck.UseVisualStyleBackColor = True
+        '
+        'HotkeyCode
+        '
+        resources.ApplyResources(Me.HotkeyCode, "HotkeyCode")
+        Me.HotkeyCode.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.HotkeyCode.Name = "HotkeyCode"
+        '
+        'HotkeyText
+        '
+        resources.ApplyResources(Me.HotkeyText, "HotkeyText")
+        Me.HotkeyText.Name = "HotkeyText"
+        Me.HotkeyText.ReadOnly = True
+        '
+        'HotkeyWin
+        '
+        resources.ApplyResources(Me.HotkeyWin, "HotkeyWin")
+        Me.HotkeyWin.Name = "HotkeyWin"
+        Me.HotkeyWin.UseVisualStyleBackColor = True
+        '
+        'HotkeyAlt
+        '
+        resources.ApplyResources(Me.HotkeyAlt, "HotkeyAlt")
+        Me.HotkeyAlt.Name = "HotkeyAlt"
+        Me.HotkeyAlt.UseVisualStyleBackColor = True
+        '
+        'HotkeyShift
+        '
+        resources.ApplyResources(Me.HotkeyShift, "HotkeyShift")
+        Me.HotkeyShift.Name = "HotkeyShift"
+        Me.HotkeyShift.UseVisualStyleBackColor = True
+        '
+        'HotkeyCtrl
+        '
+        resources.ApplyResources(Me.HotkeyCtrl, "HotkeyCtrl")
+        Me.HotkeyCtrl.Name = "HotkeyCtrl"
+        Me.HotkeyCtrl.UseVisualStyleBackColor = True
+        '
+        'Label57
+        '
+        resources.ApplyResources(Me.Label57, "Label57")
+        Me.Label57.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Label57.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Label57.Name = "Label57"
+        '
+        'CheckFavRestrict
+        '
+        resources.ApplyResources(Me.CheckFavRestrict, "CheckFavRestrict")
+        Me.CheckFavRestrict.Name = "CheckFavRestrict"
+        Me.CheckFavRestrict.UseVisualStyleBackColor = True
+        '
+        'Button3
+        '
+        resources.ApplyResources(Me.Button3, "Button3")
+        Me.Button3.Name = "Button3"
+        Me.Button3.UseVisualStyleBackColor = True
+        '
+        'PlaySnd
+        '
+        resources.ApplyResources(Me.PlaySnd, "PlaySnd")
+        Me.PlaySnd.Name = "PlaySnd"
+        Me.PlaySnd.UseVisualStyleBackColor = True
+        '
+        'chkReadOwnPost
+        '
+        resources.ApplyResources(Me.chkReadOwnPost, "chkReadOwnPost")
+        Me.chkReadOwnPost.Name = "chkReadOwnPost"
+        Me.chkReadOwnPost.UseVisualStyleBackColor = True
+        '
+        'Label15
+        '
+        Me.Label15.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Label15.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        resources.ApplyResources(Me.Label15, "Label15")
+        Me.Label15.Name = "Label15"
+        '
+        'BrowserPathText
+        '
+        resources.ApplyResources(Me.BrowserPathText, "BrowserPathText")
+        Me.BrowserPathText.Name = "BrowserPathText"
+        '
+        'UReadMng
+        '
+        resources.ApplyResources(Me.UReadMng, "UReadMng")
+        Me.UReadMng.Name = "UReadMng"
+        Me.UReadMng.UseVisualStyleBackColor = True
+        '
+        'Label44
+        '
+        resources.ApplyResources(Me.Label44, "Label44")
+        Me.Label44.Name = "Label44"
+        '
+        'CheckCloseToExit
+        '
+        resources.ApplyResources(Me.CheckCloseToExit, "CheckCloseToExit")
+        Me.CheckCloseToExit.Name = "CheckCloseToExit"
+        Me.CheckCloseToExit.UseVisualStyleBackColor = True
+        '
+        'CheckMinimizeToTray
+        '
+        resources.ApplyResources(Me.CheckMinimizeToTray, "CheckMinimizeToTray")
+        Me.CheckMinimizeToTray.Name = "CheckMinimizeToTray"
+        Me.CheckMinimizeToTray.UseVisualStyleBackColor = True
+        '
+        'CheckReadOldPosts
+        '
+        resources.ApplyResources(Me.CheckReadOldPosts, "CheckReadOldPosts")
+        Me.CheckReadOldPosts.Name = "CheckReadOldPosts"
+        Me.CheckReadOldPosts.UseVisualStyleBackColor = True
         '
         'GetPeriodPanel
         '
@@ -732,67 +976,6 @@ Partial Class AppendSettingDialog
         resources.ApplyResources(Me.Label61, "Label61")
         Me.Label61.Name = "Label61"
         '
-        'CooperatePanel
-        '
-        Me.CooperatePanel.Controls.Add(Me.ComboBoxTranslateLanguage)
-        Me.CooperatePanel.Controls.Add(Me.Label29)
-        Me.CooperatePanel.Controls.Add(Me.CheckOutputz)
-        Me.CooperatePanel.Controls.Add(Me.CheckNicoms)
-        Me.CooperatePanel.Controls.Add(Me.TextBoxOutputzKey)
-        Me.CooperatePanel.Controls.Add(Me.Label60)
-        Me.CooperatePanel.Controls.Add(Me.Label59)
-        Me.CooperatePanel.Controls.Add(Me.ComboBoxOutputzUrlmode)
-        resources.ApplyResources(Me.CooperatePanel, "CooperatePanel")
-        Me.CooperatePanel.Name = "CooperatePanel"
-        '
-        'ComboBoxTranslateLanguage
-        '
-        Me.ComboBoxTranslateLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.ComboBoxTranslateLanguage.FormattingEnabled = True
-        Me.ComboBoxTranslateLanguage.Items.AddRange(New Object() {resources.GetString("ComboBoxTranslateLanguage.Items"), resources.GetString("ComboBoxTranslateLanguage.Items1"), resources.GetString("ComboBoxTranslateLanguage.Items2"), resources.GetString("ComboBoxTranslateLanguage.Items3"), resources.GetString("ComboBoxTranslateLanguage.Items4"), resources.GetString("ComboBoxTranslateLanguage.Items5"), resources.GetString("ComboBoxTranslateLanguage.Items6"), resources.GetString("ComboBoxTranslateLanguage.Items7"), resources.GetString("ComboBoxTranslateLanguage.Items8"), resources.GetString("ComboBoxTranslateLanguage.Items9"), resources.GetString("ComboBoxTranslateLanguage.Items10"), resources.GetString("ComboBoxTranslateLanguage.Items11"), resources.GetString("ComboBoxTranslateLanguage.Items12"), resources.GetString("ComboBoxTranslateLanguage.Items13"), resources.GetString("ComboBoxTranslateLanguage.Items14"), resources.GetString("ComboBoxTranslateLanguage.Items15"), resources.GetString("ComboBoxTranslateLanguage.Items16"), resources.GetString("ComboBoxTranslateLanguage.Items17"), resources.GetString("ComboBoxTranslateLanguage.Items18"), resources.GetString("ComboBoxTranslateLanguage.Items19"), resources.GetString("ComboBoxTranslateLanguage.Items20"), resources.GetString("ComboBoxTranslateLanguage.Items21"), resources.GetString("ComboBoxTranslateLanguage.Items22"), resources.GetString("ComboBoxTranslateLanguage.Items23"), resources.GetString("ComboBoxTranslateLanguage.Items24"), resources.GetString("ComboBoxTranslateLanguage.Items25"), resources.GetString("ComboBoxTranslateLanguage.Items26"), resources.GetString("ComboBoxTranslateLanguage.Items27"), resources.GetString("ComboBoxTranslateLanguage.Items28"), resources.GetString("ComboBoxTranslateLanguage.Items29"), resources.GetString("ComboBoxTranslateLanguage.Items30"), resources.GetString("ComboBoxTranslateLanguage.Items31"), resources.GetString("ComboBoxTranslateLanguage.Items32"), resources.GetString("ComboBoxTranslateLanguage.Items33"), resources.GetString("ComboBoxTranslateLanguage.Items34"), resources.GetString("ComboBoxTranslateLanguage.Items35"), resources.GetString("ComboBoxTranslateLanguage.Items36"), resources.GetString("ComboBoxTranslateLanguage.Items37"), resources.GetString("ComboBoxTranslateLanguage.Items38"), resources.GetString("ComboBoxTranslateLanguage.Items39"), resources.GetString("ComboBoxTranslateLanguage.Items40"), resources.GetString("ComboBoxTranslateLanguage.Items41"), resources.GetString("ComboBoxTranslateLanguage.Items42"), resources.GetString("ComboBoxTranslateLanguage.Items43"), resources.GetString("ComboBoxTranslateLanguage.Items44"), resources.GetString("ComboBoxTranslateLanguage.Items45"), resources.GetString("ComboBoxTranslateLanguage.Items46"), resources.GetString("ComboBoxTranslateLanguage.Items47"), resources.GetString("ComboBoxTranslateLanguage.Items48"), resources.GetString("ComboBoxTranslateLanguage.Items49"), resources.GetString("ComboBoxTranslateLanguage.Items50"), resources.GetString("ComboBoxTranslateLanguage.Items51"), resources.GetString("ComboBoxTranslateLanguage.Items52"), resources.GetString("ComboBoxTranslateLanguage.Items53"), resources.GetString("ComboBoxTranslateLanguage.Items54"), resources.GetString("ComboBoxTranslateLanguage.Items55"), resources.GetString("ComboBoxTranslateLanguage.Items56"), resources.GetString("ComboBoxTranslateLanguage.Items57"), resources.GetString("ComboBoxTranslateLanguage.Items58"), resources.GetString("ComboBoxTranslateLanguage.Items59"), resources.GetString("ComboBoxTranslateLanguage.Items60"), resources.GetString("ComboBoxTranslateLanguage.Items61"), resources.GetString("ComboBoxTranslateLanguage.Items62"), resources.GetString("ComboBoxTranslateLanguage.Items63"), resources.GetString("ComboBoxTranslateLanguage.Items64"), resources.GetString("ComboBoxTranslateLanguage.Items65"), resources.GetString("ComboBoxTranslateLanguage.Items66"), resources.GetString("ComboBoxTranslateLanguage.Items67"), resources.GetString("ComboBoxTranslateLanguage.Items68"), resources.GetString("ComboBoxTranslateLanguage.Items69"), resources.GetString("ComboBoxTranslateLanguage.Items70"), resources.GetString("ComboBoxTranslateLanguage.Items71"), resources.GetString("ComboBoxTranslateLanguage.Items72"), resources.GetString("ComboBoxTranslateLanguage.Items73"), resources.GetString("ComboBoxTranslateLanguage.Items74"), resources.GetString("ComboBoxTranslateLanguage.Items75"), resources.GetString("ComboBoxTranslateLanguage.Items76"), resources.GetString("ComboBoxTranslateLanguage.Items77"), resources.GetString("ComboBoxTranslateLanguage.Items78"), resources.GetString("ComboBoxTranslateLanguage.Items79"), resources.GetString("ComboBoxTranslateLanguage.Items80"), resources.GetString("ComboBoxTranslateLanguage.Items81"), resources.GetString("ComboBoxTranslateLanguage.Items82"), resources.GetString("ComboBoxTranslateLanguage.Items83"), resources.GetString("ComboBoxTranslateLanguage.Items84"), resources.GetString("ComboBoxTranslateLanguage.Items85"), resources.GetString("ComboBoxTranslateLanguage.Items86"), resources.GetString("ComboBoxTranslateLanguage.Items87"), resources.GetString("ComboBoxTranslateLanguage.Items88"), resources.GetString("ComboBoxTranslateLanguage.Items89"), resources.GetString("ComboBoxTranslateLanguage.Items90"), resources.GetString("ComboBoxTranslateLanguage.Items91"), resources.GetString("ComboBoxTranslateLanguage.Items92"), resources.GetString("ComboBoxTranslateLanguage.Items93"), resources.GetString("ComboBoxTranslateLanguage.Items94"), resources.GetString("ComboBoxTranslateLanguage.Items95"), resources.GetString("ComboBoxTranslateLanguage.Items96"), resources.GetString("ComboBoxTranslateLanguage.Items97"), resources.GetString("ComboBoxTranslateLanguage.Items98"), resources.GetString("ComboBoxTranslateLanguage.Items99"), resources.GetString("ComboBoxTranslateLanguage.Items100"), resources.GetString("ComboBoxTranslateLanguage.Items101"), resources.GetString("ComboBoxTranslateLanguage.Items102"), resources.GetString("ComboBoxTranslateLanguage.Items103"), resources.GetString("ComboBoxTranslateLanguage.Items104"), resources.GetString("ComboBoxTranslateLanguage.Items105"), resources.GetString("ComboBoxTranslateLanguage.Items106")})
-        resources.ApplyResources(Me.ComboBoxTranslateLanguage, "ComboBoxTranslateLanguage")
-        Me.ComboBoxTranslateLanguage.Name = "ComboBoxTranslateLanguage"
-        '
-        'Label29
-        '
-        resources.ApplyResources(Me.Label29, "Label29")
-        Me.Label29.Name = "Label29"
-        '
-        'CheckOutputz
-        '
-        resources.ApplyResources(Me.CheckOutputz, "CheckOutputz")
-        Me.CheckOutputz.Name = "CheckOutputz"
-        Me.CheckOutputz.UseVisualStyleBackColor = True
-        '
-        'CheckNicoms
-        '
-        resources.ApplyResources(Me.CheckNicoms, "CheckNicoms")
-        Me.CheckNicoms.Name = "CheckNicoms"
-        Me.CheckNicoms.UseVisualStyleBackColor = True
-        '
-        'TextBoxOutputzKey
-        '
-        resources.ApplyResources(Me.TextBoxOutputzKey, "TextBoxOutputzKey")
-        Me.TextBoxOutputzKey.Name = "TextBoxOutputzKey"
-        '
-        'Label60
-        '
-        resources.ApplyResources(Me.Label60, "Label60")
-        Me.Label60.Name = "Label60"
-        '
-        'Label59
-        '
-        resources.ApplyResources(Me.Label59, "Label59")
-        Me.Label59.Name = "Label59"
-        '
-        'ComboBoxOutputzUrlmode
-        '
-        Me.ComboBoxOutputzUrlmode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.ComboBoxOutputzUrlmode.FormattingEnabled = True
-        Me.ComboBoxOutputzUrlmode.Items.AddRange(New Object() {resources.GetString("ComboBoxOutputzUrlmode.Items"), resources.GetString("ComboBoxOutputzUrlmode.Items1")})
-        resources.ApplyResources(Me.ComboBoxOutputzUrlmode, "ComboBoxOutputzUrlmode")
-        Me.ComboBoxOutputzUrlmode.Name = "ComboBoxOutputzUrlmode"
-        '
         'ShortUrlPanel
         '
         Me.ShortUrlPanel.Controls.Add(Me.CheckTinyURL)
@@ -850,158 +1033,6 @@ Partial Class AppendSettingDialog
         '
         resources.ApplyResources(Me.TextBitlyId, "TextBitlyId")
         Me.TextBitlyId.Name = "TextBitlyId"
-        '
-        'ActionPanel
-        '
-        Me.ActionPanel.Controls.Add(Me.CheckOpenUserTimeline)
-        Me.ActionPanel.Controls.Add(Me.GroupBox3)
-        Me.ActionPanel.Controls.Add(Me.Label57)
-        Me.ActionPanel.Controls.Add(Me.CheckFavRestrict)
-        Me.ActionPanel.Controls.Add(Me.Button3)
-        Me.ActionPanel.Controls.Add(Me.PlaySnd)
-        Me.ActionPanel.Controls.Add(Me.chkReadOwnPost)
-        Me.ActionPanel.Controls.Add(Me.Label15)
-        Me.ActionPanel.Controls.Add(Me.BrowserPathText)
-        Me.ActionPanel.Controls.Add(Me.UReadMng)
-        Me.ActionPanel.Controls.Add(Me.Label44)
-        Me.ActionPanel.Controls.Add(Me.CheckCloseToExit)
-        Me.ActionPanel.Controls.Add(Me.CheckMinimizeToTray)
-        Me.ActionPanel.Controls.Add(Me.CheckReadOldPosts)
-        resources.ApplyResources(Me.ActionPanel, "ActionPanel")
-        Me.ActionPanel.Name = "ActionPanel"
-        '
-        'CheckOpenUserTimeline
-        '
-        resources.ApplyResources(Me.CheckOpenUserTimeline, "CheckOpenUserTimeline")
-        Me.CheckOpenUserTimeline.Name = "CheckOpenUserTimeline"
-        Me.CheckOpenUserTimeline.UseVisualStyleBackColor = True
-        '
-        'GroupBox3
-        '
-        Me.GroupBox3.Controls.Add(Me.HotkeyCheck)
-        Me.GroupBox3.Controls.Add(Me.HotkeyCode)
-        Me.GroupBox3.Controls.Add(Me.HotkeyText)
-        Me.GroupBox3.Controls.Add(Me.HotkeyWin)
-        Me.GroupBox3.Controls.Add(Me.HotkeyAlt)
-        Me.GroupBox3.Controls.Add(Me.HotkeyShift)
-        Me.GroupBox3.Controls.Add(Me.HotkeyCtrl)
-        resources.ApplyResources(Me.GroupBox3, "GroupBox3")
-        Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.TabStop = False
-        '
-        'HotkeyCheck
-        '
-        resources.ApplyResources(Me.HotkeyCheck, "HotkeyCheck")
-        Me.HotkeyCheck.Name = "HotkeyCheck"
-        Me.HotkeyCheck.UseVisualStyleBackColor = True
-        '
-        'HotkeyCode
-        '
-        resources.ApplyResources(Me.HotkeyCode, "HotkeyCode")
-        Me.HotkeyCode.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.HotkeyCode.Name = "HotkeyCode"
-        '
-        'HotkeyText
-        '
-        resources.ApplyResources(Me.HotkeyText, "HotkeyText")
-        Me.HotkeyText.Name = "HotkeyText"
-        Me.HotkeyText.ReadOnly = True
-        '
-        'HotkeyWin
-        '
-        resources.ApplyResources(Me.HotkeyWin, "HotkeyWin")
-        Me.HotkeyWin.Name = "HotkeyWin"
-        Me.HotkeyWin.UseVisualStyleBackColor = True
-        '
-        'HotkeyAlt
-        '
-        resources.ApplyResources(Me.HotkeyAlt, "HotkeyAlt")
-        Me.HotkeyAlt.Name = "HotkeyAlt"
-        Me.HotkeyAlt.UseVisualStyleBackColor = True
-        '
-        'HotkeyShift
-        '
-        resources.ApplyResources(Me.HotkeyShift, "HotkeyShift")
-        Me.HotkeyShift.Name = "HotkeyShift"
-        Me.HotkeyShift.UseVisualStyleBackColor = True
-        '
-        'HotkeyCtrl
-        '
-        resources.ApplyResources(Me.HotkeyCtrl, "HotkeyCtrl")
-        Me.HotkeyCtrl.Name = "HotkeyCtrl"
-        Me.HotkeyCtrl.UseVisualStyleBackColor = True
-        '
-        'Label57
-        '
-        resources.ApplyResources(Me.Label57, "Label57")
-        Me.Label57.BackColor = System.Drawing.SystemColors.ActiveCaption
-        Me.Label57.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.Label57.Name = "Label57"
-        '
-        'CheckFavRestrict
-        '
-        resources.ApplyResources(Me.CheckFavRestrict, "CheckFavRestrict")
-        Me.CheckFavRestrict.Name = "CheckFavRestrict"
-        Me.CheckFavRestrict.UseVisualStyleBackColor = True
-        '
-        'Button3
-        '
-        resources.ApplyResources(Me.Button3, "Button3")
-        Me.Button3.Name = "Button3"
-        Me.Button3.UseVisualStyleBackColor = True
-        '
-        'PlaySnd
-        '
-        resources.ApplyResources(Me.PlaySnd, "PlaySnd")
-        Me.PlaySnd.Name = "PlaySnd"
-        Me.PlaySnd.UseVisualStyleBackColor = True
-        '
-        'chkReadOwnPost
-        '
-        resources.ApplyResources(Me.chkReadOwnPost, "chkReadOwnPost")
-        Me.chkReadOwnPost.Name = "chkReadOwnPost"
-        Me.chkReadOwnPost.UseVisualStyleBackColor = True
-        '
-        'Label15
-        '
-        Me.Label15.BackColor = System.Drawing.SystemColors.ActiveCaption
-        Me.Label15.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        resources.ApplyResources(Me.Label15, "Label15")
-        Me.Label15.Name = "Label15"
-        '
-        'BrowserPathText
-        '
-        resources.ApplyResources(Me.BrowserPathText, "BrowserPathText")
-        Me.BrowserPathText.Name = "BrowserPathText"
-        '
-        'UReadMng
-        '
-        resources.ApplyResources(Me.UReadMng, "UReadMng")
-        Me.UReadMng.Name = "UReadMng"
-        Me.UReadMng.UseVisualStyleBackColor = True
-        '
-        'Label44
-        '
-        resources.ApplyResources(Me.Label44, "Label44")
-        Me.Label44.Name = "Label44"
-        '
-        'CheckCloseToExit
-        '
-        resources.ApplyResources(Me.CheckCloseToExit, "CheckCloseToExit")
-        Me.CheckCloseToExit.Name = "CheckCloseToExit"
-        Me.CheckCloseToExit.UseVisualStyleBackColor = True
-        '
-        'CheckMinimizeToTray
-        '
-        resources.ApplyResources(Me.CheckMinimizeToTray, "CheckMinimizeToTray")
-        Me.CheckMinimizeToTray.Name = "CheckMinimizeToTray"
-        Me.CheckMinimizeToTray.UseVisualStyleBackColor = True
-        '
-        'CheckReadOldPosts
-        '
-        resources.ApplyResources(Me.CheckReadOldPosts, "CheckReadOldPosts")
-        Me.CheckReadOldPosts.Name = "CheckReadOldPosts"
-        Me.CheckReadOldPosts.UseVisualStyleBackColor = True
         '
         'ProxyPanel
         '
@@ -1935,6 +1966,12 @@ Partial Class AppendSettingDialog
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.ResumeLayout(False)
+        Me.CooperatePanel.ResumeLayout(False)
+        Me.CooperatePanel.PerformLayout()
+        Me.ActionPanel.ResumeLayout(False)
+        Me.ActionPanel.PerformLayout()
+        Me.GroupBox3.ResumeLayout(False)
+        Me.GroupBox3.PerformLayout()
         Me.GetPeriodPanel.ResumeLayout(False)
         Me.GetPeriodPanel.PerformLayout()
         Me.BasedPanel.ResumeLayout(False)
@@ -1942,14 +1979,8 @@ Partial Class AppendSettingDialog
         Me.FontPanel.ResumeLayout(False)
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
-        Me.CooperatePanel.ResumeLayout(False)
-        Me.CooperatePanel.PerformLayout()
         Me.ShortUrlPanel.ResumeLayout(False)
         Me.ShortUrlPanel.PerformLayout()
-        Me.ActionPanel.ResumeLayout(False)
-        Me.ActionPanel.PerformLayout()
-        Me.GroupBox3.ResumeLayout(False)
-        Me.GroupBox3.PerformLayout()
         Me.ProxyPanel.ResumeLayout(False)
         Me.ProxyPanel.PerformLayout()
         Me.ConnectionPanel.ResumeLayout(False)
@@ -2212,4 +2243,8 @@ Partial Class AppendSettingDialog
     Friend WithEvents CheckUserUpdateEvent As System.Windows.Forms.CheckBox
     Private WithEvents TreeViewSetting As System.Windows.Forms.TreeView
     Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
+    Friend WithEvents Label38 As System.Windows.Forms.Label
+    Friend WithEvents ListDoubleClickActionComboBox As System.Windows.Forms.ComboBox
+    Friend WithEvents Label39 As System.Windows.Forms.Label
+    Friend WithEvents UserAppointUrlText As System.Windows.Forms.TextBox
 End Class

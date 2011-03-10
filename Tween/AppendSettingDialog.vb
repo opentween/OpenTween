@@ -139,6 +139,9 @@ Public Class AppendSettingDialog
     Private _soundfileListup As Boolean = False
     Private _MyEventSoundFile As String
 
+    Private _MyDoubleClickAction As Integer
+    Private _UserAppointUrl As String
+
     Private Sub TreeViewSetting_BeforeSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewCancelEventArgs) Handles TreeViewSetting.BeforeSelect
         If Me.TreeViewSetting.SelectedNode Is Nothing Then Exit Sub
         Dim pnl = DirectCast(Me.TreeViewSetting.SelectedNode.Tag, Panel)
@@ -404,6 +407,8 @@ Public Class AppendSettingDialog
             _UserTimelineCountApi = CType(UserTimelineTextCountApi.Text, Integer)
             _ListCountApi = CType(ListTextCountApi.Text, Integer)
             _MyOpenUserTimeline = CheckOpenUserTimeline.Checked
+            _MyDoubleClickAction = ListDoubleClickActionComboBox.SelectedIndex
+            _UserAppointUrl = UserAppointUrlText.Text
         Catch ex As Exception
             MessageBox.Show(My.Resources.Save_ClickText3)
             Me.DialogResult = Windows.Forms.DialogResult.Cancel
@@ -687,6 +692,8 @@ Public Class AppendSettingDialog
         UserTimelineTextCountApi.Enabled = UseChangeGetCount.Checked
         ListTextCountApi.Enabled = UseChangeGetCount.Checked
         CheckOpenUserTimeline.Checked = _MyOpenUserTimeline
+        ListDoubleClickActionComboBox.SelectedIndex = _MyDoubleClickAction
+        UserAppointUrlText.Text = _UserAppointUrl
 
         With Me.TreeViewSetting
             .Nodes("BasedNode").Tag = BasedPanel
@@ -2053,6 +2060,24 @@ Public Class AppendSettingDialog
         End Set
     End Property
 
+    Public Property ListDoubleClickAction As Integer
+        Get
+            Return _MyDoubleClickAction
+        End Get
+        Set(ByVal value As Integer)
+            _MyDoubleClickAction = value
+        End Set
+    End Property
+
+    Public Property UserAppointUrl As String
+        Get
+            Return _UserAppointUrl
+        End Get
+        Set(ByVal value As String)
+            _UserAppointUrl = value
+        End Set
+    End Property
+
     Private Sub ComboBoxAutoShortUrlFirst_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboBoxAutoShortUrlFirst.SelectedIndexChanged
         If ComboBoxAutoShortUrlFirst.SelectedIndex = UrlConverter.Bitly OrElse _
            ComboBoxAutoShortUrlFirst.SelectedIndex = UrlConverter.Jmp Then
@@ -2591,4 +2616,9 @@ Public Class AppendSettingDialog
         _MyEventSoundFile = DirectCast(ComboBoxEventNotifySound.SelectedItem, String)
     End Sub
 
+    Private Sub UserAppointUrlText_Validating(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles UserAppointUrlText.Validating
+        If Not UserAppointUrlText.Text.StartsWith("http") AndAlso Not UserAppointUrlText.Text = "" Then
+            MessageBox.Show("Text Error:正しいURLではありません")
+        End If
+    End Sub
 End Class

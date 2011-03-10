@@ -190,4 +190,6 @@ Public Class SettingCommon
     Public OpenUserTimeline As Boolean = True
     Public ListCountApi As Integer = 100
     Public UseImageService As Integer = 0
+    Public ListDoubleClickAction As Integer = 0
+    Public UserAppointUrl As String = ""
 End Class
