@@ -780,6 +780,8 @@ Public Class TweenMain
         SettingDialog.UserstreamStartup = _cfgCommon.UserstreamStartup
         SettingDialog.UserstreamPeriodInt = _cfgCommon.UserstreamPeriod
         SettingDialog.OpenUserTimeline = _cfgCommon.OpenUserTimeline
+        SettingDialog.ListDoubleClickAction = _cfgCommon.ListDoubleClickAction
+        SettingDialog.UserAppointUrl = _cfgCommon.UserAppointUrl
 
         'ハッシュタグ関連
         HashSupl = New AtIdSupplement(_cfgCommon.HashTags, "#")
@@ -2537,7 +2539,26 @@ Public Class TweenMain
     End Sub
 
     Private Sub MyList_MouseDoubleClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs)
-        MakeReplyOrDirectStatus()
+        Select Case SettingDialog.ListDoubleClickAction
+            Case 0
+                MakeReplyOrDirectStatus()
+            Case 1
+                FavoriteChange(True)
+            Case 2
+                If _curPost IsNot Nothing Then
+                    ShowUserStatus(_curPost.ScreenName, False)
+                End If
+            Case 3
+                ShowUserTimeline()
+            Case 4
+                ShowRelatedStatusesMenuItem_Click(Nothing, Nothing)
+            Case 5
+                MoveToHomeToolStripMenuItem_Click(Nothing, Nothing)
+            Case 6
+                StatusOpenMenuItem_Click(Nothing, Nothing)
+            Case 7
+                '動作なし
+        End Select
     End Sub
 
     Private Sub FavAddToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FavAddToolStripMenuItem.Click, FavOpMenuItem.Click
@@ -6072,6 +6093,8 @@ RETRY:
             _cfgCommon.OpenUserTimeline = SettingDialog.OpenUserTimeline
             _cfgCommon.ListCountApi = SettingDialog.ListCountApi
             _cfgCommon.UseImageService = ImageServiceCombo.SelectedIndex
+            _cfgCommon.ListDoubleClickAction = SettingDialog.ListDoubleClickAction
+            _cfgCommon.UserAppointUrl = SettingDialog.UserAppointUrl
 
             _cfgCommon.Save()
         End SyncLock
