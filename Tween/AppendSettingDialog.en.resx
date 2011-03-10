@@ -213,10 +213,260 @@
   <data name="SplitContainer1.Panel1.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="Label38.Location" type="System.Drawing.Point, System.Drawing">
+    <value>20, 282</value>
+  </data>
+  <data name="Label38.Size" type="System.Drawing.Size, System.Drawing">
+    <value>173, 12</value>
+  </data>
+  <data name="Label38.Text" xml:space="preserve">
+    <value>Behavier on doubleclick of tweet</value>
+  </data>
+  <data name="Label38.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListDoubleClickActionComboBox.Items2" xml:space="preserve">
+    <value>Show user's profile</value>
+  </data>
+  <data name="ListDoubleClickActionComboBox.Items3" xml:space="preserve">
+    <value>Show user's timeline</value>
+  </data>
+  <data name="ListDoubleClickActionComboBox.Items4" xml:space="preserve">
+    <value>Show Relational tweet</value>
+  </data>
+  <data name="ListDoubleClickActionComboBox.Items5" xml:space="preserve">
+    <value>Open user's home of twitter.com</value>
+  </data>
+  <data name="ListDoubleClickActionComboBox.Items6" xml:space="preserve">
+    <value>Open status of twitter.com</value>
+  </data>
+  <data name="ListDoubleClickActionComboBox.Items7" xml:space="preserve">
+    <value>Not bihavier</value>
+  </data>
+  <data name="ListDoubleClickActionComboBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>199, 277</value>
+  </data>
+  <data name="ListDoubleClickActionComboBox.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckOpenUserTimeline.Size" type="System.Drawing.Size, System.Drawing">
+    <value>189, 16</value>
+  </data>
+  <data name="CheckOpenUserTimeline.Text" xml:space="preserve">
+    <value>Open user's home URL with Tab</value>
+  </data>
+  <data name="CheckOpenUserTimeline.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="HotkeyCheck.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 16</value>
+  </data>
+  <data name="HotkeyCheck.Text" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="HotkeyCheck.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="HotkeyCode.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="HotkeyText.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="HotkeyWin.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="HotkeyAlt.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="HotkeyShift.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="HotkeyCtrl.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="GroupBox3.Text" xml:space="preserve">
+    <value>Hotkey</value>
+  </data>
+  <data name="GroupBox3.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Label57.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="Label57.Size" type="System.Drawing.Size, System.Drawing">
+    <value>496, 17</value>
+  </data>
+  <data name="Label57.Text" xml:space="preserve">
+    <value>Refetch tweets and verify whether marked favorites. This option causes traffic increasement.</value>
+  </data>
+  <data name="Label57.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckFavRestrict.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 16</value>
+  </data>
+  <data name="CheckFavRestrict.Text" xml:space="preserve">
+    <value>Check fav result strictly</value>
+  </data>
+  <data name="CheckFavRestrict.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Button3.Text" xml:space="preserve">
+    <value>Open...</value>
+  </data>
+  <data name="Button3.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PlaySnd.Size" type="System.Drawing.Size, System.Drawing">
+    <value>215, 16</value>
+  </data>
+  <data name="PlaySnd.Text" xml:space="preserve">
+    <value>Play sounds when new status arrived</value>
+  </data>
+  <data name="PlaySnd.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="chkReadOwnPost.Size" type="System.Drawing.Size, System.Drawing">
+    <value>133, 16</value>
+  </data>
+  <data name="chkReadOwnPost.Text" xml:space="preserve">
+    <value>Make read own tweet</value>
+  </data>
+  <data name="chkReadOwnPost.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label15.Text" xml:space="preserve">
+    <value>Sounds will play when you enable this option and set sound file for each tabs.</value>
+  </data>
+  <data name="Label15.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BrowserPathText.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="UReadMng.Size" type="System.Drawing.Size, System.Drawing">
+    <value>126, 16</value>
+  </data>
+  <data name="UReadMng.Text" xml:space="preserve">
+    <value>Enable unread state</value>
+  </data>
+  <data name="UReadMng.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label44.Size" type="System.Drawing.Size, System.Drawing">
+    <value>88, 12</value>
+  </data>
+  <data name="Label44.Text" xml:space="preserve">
+    <value>Path to Browser</value>
+  </data>
+  <data name="Label44.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckCloseToExit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 16</value>
+  </data>
+  <data name="CheckCloseToExit.Text" xml:space="preserve">
+    <value>Close to Exit application</value>
+  </data>
+  <data name="CheckCloseToExit.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckMinimizeToTray.Size" type="System.Drawing.Size, System.Drawing">
+    <value>106, 16</value>
+  </data>
+  <data name="CheckMinimizeToTray.Text" xml:space="preserve">
+    <value>Minimize to tray</value>
+  </data>
+  <data name="CheckMinimizeToTray.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckReadOldPosts.Size" type="System.Drawing.Size, System.Drawing">
+    <value>265, 16</value>
+  </data>
+  <data name="CheckReadOldPosts.Text" xml:space="preserve">
+    <value>Make read old tweets when new tweets arrived</value>
+  </data>
+  <data name="CheckReadOldPosts.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ActionPanel.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label39.Size" type="System.Drawing.Size, System.Drawing">
+    <value>299, 12</value>
+  </data>
+  <data name="Label39.Text" xml:space="preserve">
+    <value>Your appoint URL(Replace "{ID}" to tweet's ScreenName)</value>
+  </data>
+  <data name="Label39.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="UserAppointUrlText.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ComboBoxTranslateLanguage.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label29.Size" type="System.Drawing.Size, System.Drawing">
+    <value>185, 12</value>
+  </data>
+  <data name="Label29.Text" xml:space="preserve">
+    <value>Language at translation destination</value>
+  </data>
+  <data name="Label29.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckOutputz.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 16</value>
+  </data>
+  <data name="CheckOutputz.Text" xml:space="preserve">
+    <value>Use Outputz</value>
+  </data>
+  <data name="CheckOutputz.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckNicoms.Size" type="System.Drawing.Size, System.Drawing">
+    <value>196, 16</value>
+  </data>
+  <data name="CheckNicoms.Text" xml:space="preserve">
+    <value>Shorten nicovideo urls by nico.ms</value>
+  </data>
+  <data name="CheckNicoms.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TextBoxOutputzKey.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label60.Size" type="System.Drawing.Size, System.Drawing">
+    <value>107, 12</value>
+  </data>
+  <data name="Label60.Text" xml:space="preserve">
+    <value>URI of your Outputz</value>
+  </data>
+  <data name="Label60.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label59.Size" type="System.Drawing.Size, System.Drawing">
+    <value>86, 12</value>
+  </data>
+  <data name="Label59.Text" xml:space="preserve">
+    <value>Your secret key</value>
+  </data>
+  <data name="Label59.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ComboBoxOutputzUrlmode.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CooperatePanel.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="LabelApiUsingUserStreamEnabled.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="LabelUserStreamActive.Size" type="System.Drawing.Size, System.Drawing">
     <value>395, 24</value>
   </data>
@@ -581,63 +831,6 @@ Periodic fetching, Timeline/Mentions/DM, and Post&amp;Fetch function is disable.
   <data name="FontPanel.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="ComboBoxTranslateLanguage.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label29.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 12</value>
-  </data>
-  <data name="Label29.Text" xml:space="preserve">
-    <value>Language at translation destination</value>
-  </data>
-  <data name="Label29.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckOutputz.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 16</value>
-  </data>
-  <data name="CheckOutputz.Text" xml:space="preserve">
-    <value>Use Outputz</value>
-  </data>
-  <data name="CheckOutputz.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckNicoms.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 16</value>
-  </data>
-  <data name="CheckNicoms.Text" xml:space="preserve">
-    <value>Shorten nicovideo urls by nico.ms</value>
-  </data>
-  <data name="CheckNicoms.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="TextBoxOutputzKey.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label60.Size" type="System.Drawing.Size, System.Drawing">
-    <value>107, 12</value>
-  </data>
-  <data name="Label60.Text" xml:space="preserve">
-    <value>URI of your Outputz</value>
-  </data>
-  <data name="Label60.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label59.Size" type="System.Drawing.Size, System.Drawing">
-    <value>86, 12</value>
-  </data>
-  <data name="Label59.Text" xml:space="preserve">
-    <value>Your secret key</value>
-  </data>
-  <data name="Label59.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ComboBoxOutputzUrlmode.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CooperatePanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="CheckTinyURL.Size" type="System.Drawing.Size, System.Drawing">
     <value>145, 16</value>
   </data>
@@ -681,151 +874,6 @@ Periodic fetching, Timeline/Mentions/DM, and Post&amp;Fetch function is disable.
     <value />
   </data>
   <data name="ShortUrlPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckOpenUserTimeline.Size" type="System.Drawing.Size, System.Drawing">
-    <value>189, 16</value>
-  </data>
-  <data name="CheckOpenUserTimeline.Text" xml:space="preserve">
-    <value>Open user's home URL with Tab</value>
-  </data>
-  <data name="CheckOpenUserTimeline.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="HotkeyCheck.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 16</value>
-  </data>
-  <data name="HotkeyCheck.Text" xml:space="preserve">
-    <value>Enable</value>
-  </data>
-  <data name="HotkeyCheck.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="HotkeyCode.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="HotkeyText.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="HotkeyWin.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="HotkeyAlt.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="HotkeyShift.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="HotkeyCtrl.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="GroupBox3.Text" xml:space="preserve">
-    <value>Hotkey</value>
-  </data>
-  <data name="GroupBox3.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Label57.AutoSize" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="Label57.Size" type="System.Drawing.Size, System.Drawing">
-    <value>496, 17</value>
-  </data>
-  <data name="Label57.Text" xml:space="preserve">
-    <value>Refetch tweets and verify whether marked favorites. This option causes traffic increasement.</value>
-  </data>
-  <data name="Label57.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckFavRestrict.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 16</value>
-  </data>
-  <data name="CheckFavRestrict.Text" xml:space="preserve">
-    <value>Check fav result strictly</value>
-  </data>
-  <data name="CheckFavRestrict.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Button3.Text" xml:space="preserve">
-    <value>Open...</value>
-  </data>
-  <data name="Button3.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="PlaySnd.Size" type="System.Drawing.Size, System.Drawing">
-    <value>215, 16</value>
-  </data>
-  <data name="PlaySnd.Text" xml:space="preserve">
-    <value>Play sounds when new status arrived</value>
-  </data>
-  <data name="PlaySnd.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="chkReadOwnPost.Size" type="System.Drawing.Size, System.Drawing">
-    <value>133, 16</value>
-  </data>
-  <data name="chkReadOwnPost.Text" xml:space="preserve">
-    <value>Make read own tweet</value>
-  </data>
-  <data name="chkReadOwnPost.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label15.Text" xml:space="preserve">
-    <value>Sounds will play when you enable this option and set sound file for each tabs.</value>
-  </data>
-  <data name="Label15.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="BrowserPathText.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="UReadMng.Size" type="System.Drawing.Size, System.Drawing">
-    <value>126, 16</value>
-  </data>
-  <data name="UReadMng.Text" xml:space="preserve">
-    <value>Enable unread state</value>
-  </data>
-  <data name="UReadMng.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label44.Size" type="System.Drawing.Size, System.Drawing">
-    <value>88, 12</value>
-  </data>
-  <data name="Label44.Text" xml:space="preserve">
-    <value>Path to Browser</value>
-  </data>
-  <data name="Label44.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckCloseToExit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>150, 16</value>
-  </data>
-  <data name="CheckCloseToExit.Text" xml:space="preserve">
-    <value>Close to Exit application</value>
-  </data>
-  <data name="CheckCloseToExit.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckMinimizeToTray.Size" type="System.Drawing.Size, System.Drawing">
-    <value>106, 16</value>
-  </data>
-  <data name="CheckMinimizeToTray.Text" xml:space="preserve">
-    <value>Minimize to tray</value>
-  </data>
-  <data name="CheckMinimizeToTray.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckReadOldPosts.Size" type="System.Drawing.Size, System.Drawing">
-    <value>265, 16</value>
-  </data>
-  <data name="CheckReadOldPosts.Text" xml:space="preserve">
-    <value>Make read old tweets when new tweets arrived</value>
-  </data>
-  <data name="CheckReadOldPosts.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ActionPanel.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="Label55.Size" type="System.Drawing.Size, System.Drawing">
