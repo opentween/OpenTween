@@ -7560,7 +7560,7 @@
     <value>CenterParent</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>設定</value>
+    <value>            </value>
   </data>
   <data name="&gt;&gt;FontDialog1.Name" xml:space="preserve">
     <value>FontDialog1</value>
