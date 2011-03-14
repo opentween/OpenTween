@@ -1519,7 +1519,11 @@ Public Class TweenMain
         _curItemIndex = _curList.SelectedIndices(0)
         If _curItemIndex > _curList.VirtualListSize - 1 Then Exit Sub
 
-        _curPost = GetCurTabPost(_curItemIndex)
+        Try
+            _curPost = GetCurTabPost(_curItemIndex)
+        Catch ex As ArgumentException
+            Exit Sub
+        End Try
 
         If SettingDialog.UnreadManage Then _statuses.SetReadAllTab(True, _curTab.Text, _curItemIndex)
         'キャッシュの書き換え
