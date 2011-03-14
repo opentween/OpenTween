@@ -232,6 +232,7 @@ Partial Class TweenMain
         Me.AllrepliesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator42 = New System.Windows.Forms.ToolStripSeparator()
         Me.EventViewerMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.StopRefreshAllMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuItemHelp = New System.Windows.Forms.ToolStripMenuItem()
         Me.MatomeMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ShortcutKeyListMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -298,7 +299,6 @@ Partial Class TweenMain
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.StopRefreshAllMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -1529,6 +1529,12 @@ Partial Class TweenMain
         Me.EventViewerMenuItem.Name = "EventViewerMenuItem"
         resources.ApplyResources(Me.EventViewerMenuItem, "EventViewerMenuItem")
         '
+        'StopRefreshAllMenuItem
+        '
+        Me.StopRefreshAllMenuItem.CheckOnClick = True
+        Me.StopRefreshAllMenuItem.Name = "StopRefreshAllMenuItem"
+        resources.ApplyResources(Me.StopRefreshAllMenuItem, "StopRefreshAllMenuItem")
+        '
         'MenuItemHelp
         '
         Me.MenuItemHelp.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MatomeMenuItem, Me.ShortcutKeyListMenuItem, Me.ToolStripSeparator16, Me.VerUpMenuItem, Me.ToolStripSeparator14, Me.ApiInfoMenuItem, Me.ToolStripSeparator7, Me.AboutMenuItem, Me.DebugModeToolStripMenuItem})
@@ -1863,12 +1869,6 @@ Partial Class TweenMain
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
-        '
-        'StopRefreshAllMenuItem
-        '
-        Me.StopRefreshAllMenuItem.CheckOnClick = True
-        Me.StopRefreshAllMenuItem.Name = "StopRefreshAllMenuItem"
-        resources.ApplyResources(Me.StopRefreshAllMenuItem, "StopRefreshAllMenuItem")
         '
         'TweenMain
         '
