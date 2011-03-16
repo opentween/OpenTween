@@ -382,7 +382,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="ListTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 205</value>
+    <value>570, 207</value>
   </data>
   <data name="ListTab.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -406,7 +406,7 @@
     <value>0, 0</value>
   </data>
   <data name="TimelinePanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 205</value>
+    <value>570, 207</value>
   </data>
   <data name="TimelinePanel.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -436,7 +436,7 @@
     <value>0, 0</value>
   </data>
   <data name="ImageSelectedPicture.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 177</value>
+    <value>570, 179</value>
   </data>
   <data name="ImageSelectedPicture.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>Zoom</value>
@@ -640,7 +640,7 @@
     <value>Bottom</value>
   </data>
   <data name="ImagePathPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 177</value>
+    <value>0, 179</value>
   </data>
   <data name="ImagePathPanel.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
@@ -670,7 +670,7 @@
     <value>0, 0</value>
   </data>
   <data name="ImageSelectionPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 205</value>
+    <value>570, 207</value>
   </data>
   <data name="ImageSelectionPanel.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -697,7 +697,7 @@
     <value>0, 0</value>
   </data>
   <data name="ProfilePanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 205</value>
+    <value>570, 207</value>
   </data>
   <data name="ProfilePanel.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -1051,7 +1051,7 @@
     <value>59, 20</value>
   </data>
   <data name="PostBrowser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>508, 42</value>
+    <value>508, 40</value>
   </data>
   <data name="PostBrowser.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -1156,7 +1156,7 @@
     <value>2</value>
   </data>
   <data name="TableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 65</value>
+    <value>570, 63</value>
   </data>
   <data name="TableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1294,10 +1294,10 @@
     <value>19</value>
   </data>
   <data name="SplitContainer2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 92</value>
+    <value>570, 90</value>
   </data>
   <data name="SplitContainer2.SplitterDistance" type="System.Int32, mscorlib">
-    <value>65</value>
+    <value>63</value>
   </data>
   <data name="SplitContainer2.SplitterWidth" type="System.Int32, mscorlib">
     <value>2</value>
@@ -1339,7 +1339,7 @@
     <value>0, 0</value>
   </data>
   <data name="PreviewPicture.Size" type="System.Drawing.Size, System.Drawing">
-    <value>194, 82</value>
+    <value>194, 92</value>
   </data>
   <data name="PreviewPicture.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>Zoom</value>
@@ -1369,7 +1369,7 @@
     <value>194, 0</value>
   </data>
   <data name="PreviewScrollBar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>17, 82</value>
+    <value>17, 92</value>
   </data>
   <data name="PreviewScrollBar.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1399,7 +1399,7 @@
     <value>1</value>
   </data>
   <data name="SplitContainer3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 92</value>
+    <value>570, 90</value>
   </data>
   <data name="SplitContainer3.SplitterDistance" type="System.Int32, mscorlib">
     <value>355</value>
@@ -1438,7 +1438,7 @@
     <value>574, 307</value>
   </data>
   <data name="SplitContainer1.SplitterDistance" type="System.Int32, mscorlib">
-    <value>209</value>
+    <value>211</value>
   </data>
   <data name="SplitContainer1.SplitterWidth" type="System.Int32, mscorlib">
     <value>2</value>

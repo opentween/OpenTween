@@ -141,7 +141,7 @@ Public Class HttpVarious
     Public Overloads Function GetData(ByVal Url As String, ByVal param As Dictionary(Of String, String), ByRef content As String, ByVal timeout As Integer, ByRef errmsg As String) As Boolean
         Try
             Dim req As HttpWebRequest = CreateRequest(GetMethod, New Uri(Url), param, False)
-            If timeout < 3000 OrElse timeout > 30000 Then
+            If timeout < 3000 OrElse timeout > 100000 Then
                 req.Timeout = 10000
             Else
                 req.Timeout = timeout
@@ -171,6 +171,7 @@ Public Class HttpVarious
         Try
             Dim req As HttpWebRequest = CreateRequest(GetMethod, New Uri(Url), Nothing, False)
             req.AutomaticDecompression = DecompressionMethods.Deflate Or DecompressionMethods.GZip
+            req.UserAgent = GetUserAgentString()
             Using strm As New System.IO.FileStream(savePath, IO.FileMode.Create, IO.FileAccess.Write)
                 Try
                     Dim res As HttpStatusCode = Me.GetResponse(req, strm, Nothing, False)
