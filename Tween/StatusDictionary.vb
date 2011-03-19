@@ -1025,7 +1025,7 @@ Public NotInheritable Class TabInformations
                     Else
                         If Item.IsFav AndAlso Item.RetweetedId > 0 Then Item.IsFav = False
                         '既に持っている公式RTは捨てる
-                        If Me._retweets.ContainsKey(Item.RetweetedId) Then Exit Sub
+                        If Not Item.IsMe AndAlso Me._retweets.ContainsKey(Item.RetweetedId) Then Exit Sub
                         _statuses.Add(Item.StatusId, Item)
                     End If
                     If Item.RetweetedId > 0 Then
