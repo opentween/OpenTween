@@ -170,6 +170,7 @@ Partial Class TweenMain
         Me.OpenFavotterOpMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenUrlOpMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenRterHomeMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OpenUserSpecifiedUrlMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CreateRuleOpMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CreateTabRuleOpMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CreateIdRuleOpMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -270,6 +271,7 @@ Partial Class TweenMain
         Me.FavorareMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenURLMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MoveToRTHomeMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OpenUserSpecifiedUrlMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem7 = New System.Windows.Forms.ToolStripMenuItem()
         Me.TabMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.IDRuleMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -586,8 +588,6 @@ Partial Class TweenMain
         'ImageSelectedPicture
         '
         resources.ApplyResources(Me.ImageSelectedPicture, "ImageSelectedPicture")
-        Me.ImageSelectedPicture.Image = Global.Tween.My.Resources.Resources.InitialImage
-        Me.ImageSelectedPicture.InitialImage = Global.Tween.My.Resources.Resources.InitialImage
         Me.ImageSelectedPicture.Name = "ImageSelectedPicture"
         Me.ImageSelectedPicture.TabStop = False
         '
@@ -1168,7 +1168,7 @@ Partial Class TweenMain
         '
         'OpenOpMenuItem
         '
-        Me.OpenOpMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenHomeOpMenuItem, Me.OpenFavOpMenuItem, Me.OpenStatusOpMenuItem, Me.OpenRepSourceOpMenuItem, Me.OpenFavotterOpMenuItem, Me.OpenUrlOpMenuItem, Me.OpenRterHomeMenuItem})
+        Me.OpenOpMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenHomeOpMenuItem, Me.OpenFavOpMenuItem, Me.OpenStatusOpMenuItem, Me.OpenRepSourceOpMenuItem, Me.OpenFavotterOpMenuItem, Me.OpenUrlOpMenuItem, Me.OpenRterHomeMenuItem, Me.OpenUserSpecifiedUrlMenuItem})
         Me.OpenOpMenuItem.Name = "OpenOpMenuItem"
         resources.ApplyResources(Me.OpenOpMenuItem, "OpenOpMenuItem")
         '
@@ -1206,6 +1206,11 @@ Partial Class TweenMain
         '
         Me.OpenRterHomeMenuItem.Name = "OpenRterHomeMenuItem"
         resources.ApplyResources(Me.OpenRterHomeMenuItem, "OpenRterHomeMenuItem")
+        '
+        'OpenUserSpecifiedUrlMenuItem
+        '
+        Me.OpenUserSpecifiedUrlMenuItem.Name = "OpenUserSpecifiedUrlMenuItem"
+        resources.ApplyResources(Me.OpenUserSpecifiedUrlMenuItem, "OpenUserSpecifiedUrlMenuItem")
         '
         'CreateRuleOpMenuItem
         '
@@ -1688,7 +1693,7 @@ Partial Class TweenMain
         '
         'ToolStripMenuItem6
         '
-        Me.ToolStripMenuItem6.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MoveToHomeToolStripMenuItem, Me.MoveToFavToolStripMenuItem, Me.StatusOpenMenuItem, Me.RepliedStatusOpenMenuItem, Me.FavorareMenuItem, Me.OpenURLMenuItem, Me.MoveToRTHomeMenuItem})
+        Me.ToolStripMenuItem6.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MoveToHomeToolStripMenuItem, Me.MoveToFavToolStripMenuItem, Me.StatusOpenMenuItem, Me.RepliedStatusOpenMenuItem, Me.FavorareMenuItem, Me.OpenURLMenuItem, Me.MoveToRTHomeMenuItem, Me.OpenUserSpecifiedUrlMenuItem2})
         Me.ToolStripMenuItem6.Name = "ToolStripMenuItem6"
         resources.ApplyResources(Me.ToolStripMenuItem6, "ToolStripMenuItem6")
         '
@@ -1726,6 +1731,11 @@ Partial Class TweenMain
         '
         Me.MoveToRTHomeMenuItem.Name = "MoveToRTHomeMenuItem"
         resources.ApplyResources(Me.MoveToRTHomeMenuItem, "MoveToRTHomeMenuItem")
+        '
+        'OpenUserSpecifiedUrlMenuItem2
+        '
+        Me.OpenUserSpecifiedUrlMenuItem2.Name = "OpenUserSpecifiedUrlMenuItem2"
+        resources.ApplyResources(Me.OpenUserSpecifiedUrlMenuItem2, "OpenUserSpecifiedUrlMenuItem2")
         '
         'ToolStripMenuItem7
         '
@@ -2194,5 +2204,7 @@ Partial Class TweenMain
     Friend WithEvents UserFavorareToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SelectionTranslationToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents StopRefreshAllMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents OpenUserSpecifiedUrlMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents OpenUserSpecifiedUrlMenuItem2 As System.Windows.Forms.ToolStripMenuItem
 
 End Class

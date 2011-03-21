@@ -269,19 +269,19 @@
     <value />
   </data>
   <data name="ListTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 248</value>
+    <value>570, 216</value>
   </data>
   <data name="ListTab.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="TimelinePanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 248</value>
+    <value>570, 216</value>
   </data>
   <data name="TimelinePanel.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="ImageSelectedPicture.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 220</value>
+    <value>570, 188</value>
   </data>
   <data name="ImageSelectedPicture.ToolTip" xml:space="preserve">
     <value />
@@ -311,19 +311,19 @@
     <value />
   </data>
   <data name="ImagePathPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 220</value>
+    <value>0, 188</value>
   </data>
   <data name="ImagePathPanel.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="ImageSelectionPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 248</value>
+    <value>570, 216</value>
   </data>
   <data name="ImageSelectionPanel.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="ProfilePanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 248</value>
+    <value>570, 216</value>
   </data>
   <data name="ProfilePanel.ToolTip" xml:space="preserve">
     <value />
@@ -539,7 +539,7 @@
     <value />
   </data>
   <data name="PostBrowser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>508, 44</value>
+    <value>508, 53</value>
   </data>
   <data name="PostBrowser.ToolTip" xml:space="preserve">
     <value />
@@ -551,7 +551,7 @@
     <value />
   </data>
   <data name="TableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 67</value>
+    <value>570, 76</value>
   </data>
   <data name="TableLayoutPanel1.ToolTip" xml:space="preserve">
     <value />
@@ -572,11 +572,11 @@
     <value />
   </data>
   <data name="SplitContainer2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 94</value>
+    <value>570, 103</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="SplitContainer2.SplitterDistance" type="System.Int32, mscorlib">
-    <value>67</value>
+    <value>76</value>
   </data>
   <data name="SplitContainer2.ToolTip" xml:space="preserve">
     <value />
@@ -585,13 +585,13 @@
     <value />
   </data>
   <data name="PreviewPicture.Size" type="System.Drawing.Size, System.Drawing">
-    <value>194, 92</value>
+    <value>194, 47</value>
   </data>
   <data name="PreviewPicture.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="PreviewScrollBar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>17, 92</value>
+    <value>17, 47</value>
   </data>
   <data name="PreviewScrollBar.ToolTip" xml:space="preserve">
     <value />
@@ -600,7 +600,7 @@
     <value />
   </data>
   <data name="SplitContainer3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 94</value>
+    <value>570, 103</value>
   </data>
   <data name="SplitContainer3.ToolTip" xml:space="preserve">
     <value />
@@ -608,11 +608,17 @@
   <data name="SplitContainer1.Panel2.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="SplitContainer1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>574, 329</value>
+  </data>
   <data name="SplitContainer1.SplitterDistance" type="System.Int32, mscorlib">
-    <value>252</value>
+    <value>220</value>
   </data>
   <data name="SplitContainer1.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="ToolStripContainer1.ContentPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>574, 329</value>
   </data>
   <data name="ToolStripContainer1.ContentPanel.ToolTip" xml:space="preserve">
     <value />
@@ -622,6 +628,9 @@
   </data>
   <data name="ToolStripContainer1.RightToolStripPanel.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="ToolStripContainer1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>574, 382</value>
   </data>
   <data name="ToolStripContainer1.ToolTip" xml:space="preserve">
     <value />
@@ -863,6 +872,12 @@
   <data name="OpenRterHomeMenuItem.Text" xml:space="preserve">
     <value>&amp;Retweeter Home</value>
   </data>
+  <data name="OpenUserSpecifiedUrlMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>261, 22</value>
+  </data>
+  <data name="OpenUserSpecifiedUrlMenuItem.Text" xml:space="preserve">
+    <value>User defined URL</value>
+  </data>
   <data name="OpenOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>292, 22</value>
   </data>
@@ -1095,7 +1110,7 @@
     <value>250, 22</value>
   </data>
   <data name="OpenOwnFavedMenuItem.Text" xml:space="preserve">
-    <value>Open your Favstart page</value>
+    <value>Open your Favstar page</value>
   </data>
   <data name="ToolStripSeparator41.Size" type="System.Drawing.Size, System.Drawing">
     <value>247, 6</value>
@@ -1150,24 +1165,6 @@
   </data>
   <data name="MenuItemCommand.Text" xml:space="preserve">
     <value>&amp;Command</value>
-  </data>
-  <data name="StopToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
-  </data>
-  <data name="ToolStripSeparator40.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 6</value>
-  </data>
-  <data name="TrackToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
-  </data>
-  <data name="AllrepliesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
-  </data>
-  <data name="ToolStripSeparator42.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 6</value>
-  </data>
-  <data name="EventViewerMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
   </data>
   <data name="MatomeMenuItem.Text" xml:space="preserve">
     <value>Open Tween &amp;Help Site</value>
@@ -1316,6 +1313,12 @@
   <data name="MoveToRTHomeMenuItem.Text" xml:space="preserve">
     <value>Open &amp;Retweeter Home</value>
   </data>
+  <data name="OpenUserSpecifiedUrlMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>210, 22</value>
+  </data>
+  <data name="OpenUserSpecifiedUrlMenuItem2.Text" xml:space="preserve">
+    <value>User defined URL</value>
+  </data>
   <data name="ToolStripMenuItem6.Size" type="System.Drawing.Size, System.Drawing">
     <value>219, 22</value>
   </data>
@@ -1456,6 +1459,9 @@
   </data>
   <data name="ContextMenuFile.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>574, 382</value>
   </data>
   <data name="$this.ToolTip" xml:space="preserve">
     <value />

@@ -141,6 +141,7 @@ Public Class AppendSettingDialog
 
     Private _MyDoubleClickAction As Integer
     Private _UserAppointUrl As String
+    Public Property HideDuplicatedRetweets As Boolean
 
     Private Sub TreeViewSetting_BeforeSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewCancelEventArgs) Handles TreeViewSetting.BeforeSelect
         If Me.TreeViewSetting.SelectedNode Is Nothing Then Exit Sub
@@ -409,6 +410,7 @@ Public Class AppendSettingDialog
             _MyOpenUserTimeline = CheckOpenUserTimeline.Checked
             _MyDoubleClickAction = ListDoubleClickActionComboBox.SelectedIndex
             _UserAppointUrl = UserAppointUrlText.Text
+            Me.HideDuplicatedRetweets = Me.HideDuplicatedRetweetsCheck.Checked
         Catch ex As Exception
             MessageBox.Show(My.Resources.Save_ClickText3)
             Me.DialogResult = Windows.Forms.DialogResult.Cancel
@@ -694,6 +696,7 @@ Public Class AppendSettingDialog
         CheckOpenUserTimeline.Checked = _MyOpenUserTimeline
         ListDoubleClickActionComboBox.SelectedIndex = _MyDoubleClickAction
         UserAppointUrlText.Text = _UserAppointUrl
+        Me.HideDuplicatedRetweetsCheck.Checked = Me.HideDuplicatedRetweets
 
         With Me.TreeViewSetting
             .Nodes("BasedNode").Tag = BasedPanel
@@ -2621,4 +2624,5 @@ Public Class AppendSettingDialog
             MessageBox.Show("Text Error:正しいURLではありません")
         End If
     End Sub
+
 End Class
