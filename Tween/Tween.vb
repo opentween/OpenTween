@@ -2466,7 +2466,11 @@ Public Class TweenMain
         End If
 
         For Each i As Long In ids
-            _statuses.RemoveFavPost(i)
+            Try
+                _statuses.RemoveFavPost(i)
+            Catch ex As Exception
+                Continue For
+            End Try
         Next
         If _curTab IsNot Nothing AndAlso _curTab.Text.Equals(favTabName) Then
             _itemCache = Nothing    'キャッシュ破棄
@@ -4428,7 +4432,12 @@ RETRY:
                 Try
                     _search = New Regex(_word)
                     For idx As Integer = cidx To toIdx Step stp
-                        Dim post As PostClass = _statuses.Item(_curTab.Text, idx)
+                        Dim post As PostClass
+                        Try
+                            post = _statuses.Item(_curTab.Text, idx)
+                        Catch ex As Exception
+                            Continue For
+                        End Try
                         If _search.IsMatch(post.Nickname, regOpt) _
                             OrElse _search.IsMatch(post.TextFromApi, regOpt) _
                             OrElse _search.IsMatch(post.ScreenName, regOpt) _
@@ -4445,7 +4454,12 @@ RETRY:
             Else
                 ' 通常検索
                 For idx As Integer = cidx To toIdx Step stp
-                    Dim post As PostClass = _statuses.Item(_curTab.Text, idx)
+                    Dim post As PostClass
+                    Try
+                        post = _statuses.Item(_curTab.Text, idx)
+                    Catch ex As Exception
+                        Continue For
+                    End Try
                     If post.Nickname.IndexOf(_word, fndOpt) > -1 _
                         OrElse post.TextFromApi.IndexOf(_word, fndOpt) > -1 _
                         OrElse post.ScreenName.IndexOf(_word, fndOpt) > -1 _
@@ -6099,6 +6113,7 @@ RETRY:
             _cfgCommon.UseImageService = ImageServiceCombo.SelectedIndex
             _cfgCommon.ListDoubleClickAction = SettingDialog.ListDoubleClickAction
             _cfgCommon.UserAppointUrl = SettingDialog.UserAppointUrl
+            _cfgCommon.HideDuplicatedRetweets = SettingDialog.HideDuplicatedRetweets
 
             _cfgCommon.Save()
         End SyncLock
@@ -10247,10 +10262,21 @@ RETRY:
     End Sub
 
     Private Sub OpenUserAppointUrl()
-        If SettingDialog.UserAppointUrl IsNot Nothing AndAlso _curPost IsNot Nothing Then
-            Dim xUrl As String = SettingDialog.UserAppointUrl
-            xUrl = xUrl.Replace("{ID}", _curPost.ScreenName)
-            OpenUriAsync(xUrl)
+        If SettingDialog.UserAppointUrl IsNot Nothing Then
+            If SettingDialog.UserAppointUrl.Contains("{ID}") Then
+                If _curPost IsNot Nothing Then
+                    Dim xUrl As String = SettingDialog.UserAppointUrl
+                    xUrl = xUrl.Replace("{ID}", _curPost.ScreenName)
+                    OpenUriAsync(xUrl)
+                End If
+            Else
+                OpenUriAsync(SettingDialog.UserAppointUrl)
+            End If
         End If
     End Sub
+
+    Private Sub OpenUserSpecifiedUrlMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OpenUserSpecifiedUrlMenuItem.Click, OpenUserSpecifiedUrlMenuItem2.Click
+        OpenUserAppointUrl()
+    End Sub
+
 End Class

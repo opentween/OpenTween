@@ -142,4 +142,7 @@
   <data name="CheckBoxFilter.Text" xml:space="preserve">
     <value>Keyword search</value>
   </data>
+  <data name="SaveLogButton.Text" xml:space="preserve">
+    <value>Save...</value>
+  </data>
 </root>

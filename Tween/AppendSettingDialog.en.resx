@@ -242,7 +242,7 @@
     <value>Open status of twitter.com</value>
   </data>
   <data name="ListDoubleClickActionComboBox.Items7" xml:space="preserve">
-    <value>Not bihavier</value>
+    <value>None</value>
   </data>
   <data name="ListDoubleClickActionComboBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>199, 277</value>
@@ -464,6 +464,189 @@
   <data name="CooperatePanel.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="CheckUserUpdateEvent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>85, 16</value>
+  </data>
+  <data name="CheckUserUpdateEvent.Text" xml:space="preserve">
+    <value>Bio updated</value>
+  </data>
+  <data name="Label35.Size" type="System.Drawing.Size, System.Drawing">
+    <value>132, 12</value>
+  </data>
+  <data name="Label35.Text" xml:space="preserve">
+    <value>Play sound notify events</value>
+  </data>
+  <data name="Label35.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ComboBoxEventNotifySound.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckFavEventUnread.Size" type="System.Drawing.Size, System.Drawing">
+    <value>247, 16</value>
+  </data>
+  <data name="CheckFavEventUnread.Text" xml:space="preserve">
+    <value>Make to unread the post someone favorited</value>
+  </data>
+  <data name="CheckFavEventUnread.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckListCreatedEvent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>91, 16</value>
+  </data>
+  <data name="CheckListCreatedEvent.Text" xml:space="preserve">
+    <value>Lists created</value>
+  </data>
+  <data name="CheckBlockEvent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>68, 16</value>
+  </data>
+  <data name="CheckBlockEvent.Text" xml:space="preserve">
+    <value>Blocking</value>
+  </data>
+  <data name="CheckForceEventNotify.Size" type="System.Drawing.Size, System.Drawing">
+    <value>294, 16</value>
+  </data>
+  <data name="CheckForceEventNotify.Text" xml:space="preserve">
+    <value>Notify Events even if disable new post arrival notify.</value>
+  </data>
+  <data name="CheckForceEventNotify.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckListMemberRemovedEvent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 16</value>
+  </data>
+  <data name="CheckListMemberRemovedEvent.Text" xml:space="preserve">
+    <value>Removed from the Lists</value>
+  </data>
+  <data name="CheckListMemberAddedEvent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 16</value>
+  </data>
+  <data name="CheckListMemberAddedEvent.Text" xml:space="preserve">
+    <value>Added to the Lists</value>
+  </data>
+  <data name="CheckFollowEvent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>69, 16</value>
+  </data>
+  <data name="CheckFollowEvent.Text" xml:space="preserve">
+    <value>Followed</value>
+  </data>
+  <data name="CheckUnfavoritesEvent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>94, 16</value>
+  </data>
+  <data name="CheckUnfavoritesEvent.Text" xml:space="preserve">
+    <value>Fav Removed</value>
+  </data>
+  <data name="CheckFavoritesEvent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>79, 16</value>
+  </data>
+  <data name="CheckFavoritesEvent.Text" xml:space="preserve">
+    <value>Fav Added</value>
+  </data>
+  <data name="CheckEventNotify.Size" type="System.Drawing.Size, System.Drawing">
+    <value>189, 16</value>
+  </data>
+  <data name="CheckEventNotify.Text" xml:space="preserve">
+    <value>Notify Events(Only UserStream)</value>
+  </data>
+  <data name="CheckEventNotify.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NotifyPanel.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="HideDuplicatedRetweetsCheck.Size" type="System.Drawing.Size, System.Drawing">
+    <value>151, 16</value>
+  </data>
+  <data name="HideDuplicatedRetweetsCheck.Text" xml:space="preserve">
+    <value>Hide duplicated retweets</value>
+  </data>
+  <data name="HideDuplicatedRetweetsCheck.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label47.Size" type="System.Drawing.Size, System.Drawing">
+    <value>115, 12</value>
+  </data>
+  <data name="Label47.Text" xml:space="preserve">
+    <value>Apply after restarting</value>
+  </data>
+  <data name="Label47.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LabelDateTimeFormatApplied.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label62.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CmbDateTimeFormat.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label23.Size" type="System.Drawing.Size, System.Drawing">
+    <value>105, 12</value>
+  </data>
+  <data name="Label23.Text" xml:space="preserve">
+    <value>Date Format in List</value>
+  </data>
+  <data name="Label23.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label11.Size" type="System.Drawing.Size, System.Drawing">
+    <value>162, 12</value>
+  </data>
+  <data name="Label11.Text" xml:space="preserve">
+    <value>Icon size in List (16 in default)</value>
+  </data>
+  <data name="Label11.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="IconSize.Items" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="IconSize.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TextBox3.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckSortOrderLock.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 16</value>
+  </data>
+  <data name="CheckSortOrderLock.Text" xml:space="preserve">
+    <value>Lock sort order</value>
+  </data>
+  <data name="CheckSortOrderLock.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckShowGrid.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 16</value>
+  </data>
+  <data name="CheckShowGrid.Text" xml:space="preserve">
+    <value>Show separator line</value>
+  </data>
+  <data name="CheckShowGrid.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="chkUnreadStyle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>393, 16</value>
+  </data>
+  <data name="chkUnreadStyle.Text" xml:space="preserve">
+    <value>Enable unread style(font and color). (Unread can be found by star mark)</value>
+  </data>
+  <data name="chkUnreadStyle.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="OneWayLv.Size" type="System.Drawing.Size, System.Drawing">
+    <value>136, 16</value>
+  </data>
+  <data name="OneWayLv.Text" xml:space="preserve">
+    <value>Colorize one way love</value>
+  </data>
+  <data name="OneWayLv.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TweetPrvPanel.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="LabelApiUsingUserStreamEnabled.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -604,6 +787,168 @@ Periodic fetching, Timeline/Mentions/DM, and Post&amp;Fetch function is disable.
     <value />
   </data>
   <data name="GetPeriodPanel.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ReplyIconStateCombo.Items" xml:space="preserve">
+    <value>Don't notify</value>
+  </data>
+  <data name="ReplyIconStateCombo.Items1" xml:space="preserve">
+    <value>Change icon</value>
+  </data>
+  <data name="ReplyIconStateCombo.Items2" xml:space="preserve">
+    <value>Change icon&amp;blink</value>
+  </data>
+  <data name="ReplyIconStateCombo.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label72.Size" type="System.Drawing.Size, System.Drawing">
+    <value>188, 12</value>
+  </data>
+  <data name="Label72.Text" xml:space="preserve">
+    <value>Tasktray icon with unread mentions</value>
+  </data>
+  <data name="Label72.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ChkNewMentionsBlink.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 16</value>
+  </data>
+  <data name="ChkNewMentionsBlink.Text" xml:space="preserve">
+    <value>Blink window mentions arrived</value>
+  </data>
+  <data name="ChkNewMentionsBlink.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="chkTabIconDisp.Size" type="System.Drawing.Size, System.Drawing">
+    <value>210, 16</value>
+  </data>
+  <data name="chkTabIconDisp.Text" xml:space="preserve">
+    <value>Show icon on tab has unread tweets</value>
+  </data>
+  <data name="chkTabIconDisp.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckPreviewEnable.Size" type="System.Drawing.Size, System.Drawing">
+    <value>138, 16</value>
+  </data>
+  <data name="CheckPreviewEnable.Text" xml:space="preserve">
+    <value>Show image thumbnail</value>
+  </data>
+  <data name="CheckPreviewEnable.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label81.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LanguageCombo.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label13.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckAlwaysTop.Size" type="System.Drawing.Size, System.Drawing">
+    <value>110, 16</value>
+  </data>
+  <data name="CheckAlwaysTop.Text" xml:space="preserve">
+    <value>Always top most</value>
+  </data>
+  <data name="CheckAlwaysTop.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckMonospace.Size" type="System.Drawing.Size, System.Drawing">
+    <value>177, 16</value>
+  </data>
+  <data name="CheckMonospace.Text" xml:space="preserve">
+    <value>Monospace font in detail view</value>
+  </data>
+  <data name="CheckMonospace.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckBalloonLimit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>293, 16</value>
+  </data>
+  <data name="CheckBalloonLimit.Text" xml:space="preserve">
+    <value>Popup balloon only at the minimization or iconization</value>
+  </data>
+  <data name="CheckBalloonLimit.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>103, 12</value>
+  </data>
+  <data name="Label10.Text" xml:space="preserve">
+    <value>Username in popup</value>
+  </data>
+  <data name="Label10.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ComboDispTitle.Items" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="ComboDispTitle.Items1" xml:space="preserve">
+    <value>Program Version</value>
+  </data>
+  <data name="ComboDispTitle.Items2" xml:space="preserve">
+    <value>Latest your post</value>
+  </data>
+  <data name="ComboDispTitle.Items3" xml:space="preserve">
+    <value>unread @reply items</value>
+  </data>
+  <data name="ComboDispTitle.Items4" xml:space="preserve">
+    <value>unread items</value>
+  </data>
+  <data name="ComboDispTitle.Items5" xml:space="preserve">
+    <value>unread items(unread @reply items)</value>
+  </data>
+  <data name="ComboDispTitle.Items6" xml:space="preserve">
+    <value>unread items/all items</value>
+  </data>
+  <data name="ComboDispTitle.Items7" xml:space="preserve">
+    <value>Count of Status/Follow/Follower</value>
+  </data>
+  <data name="ComboDispTitle.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label45.Size" type="System.Drawing.Size, System.Drawing">
+    <value>65, 12</value>
+  </data>
+  <data name="Label45.Text" xml:space="preserve">
+    <value>Title format</value>
+  </data>
+  <data name="Label45.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="cmbNameBalloon.Items" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="cmbNameBalloon.Items1" xml:space="preserve">
+    <value>User ID</value>
+  </data>
+  <data name="cmbNameBalloon.Items2" xml:space="preserve">
+    <value>Nickname</value>
+  </data>
+  <data name="cmbNameBalloon.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckDispUsername.Size" type="System.Drawing.Size, System.Drawing">
+    <value>278, 16</value>
+  </data>
+  <data name="CheckDispUsername.Text" xml:space="preserve">
+    <value>Show username in application titlebar and balloon</value>
+  </data>
+  <data name="CheckDispUsername.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckBox3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>148, 16</value>
+  </data>
+  <data name="CheckBox3.Text" xml:space="preserve">
+    <value>Show icon in detail view</value>
+  </data>
+  <data name="CheckBox3.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PreviewPanel.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="AuthBasicRadio.ToolTip" xml:space="preserve">
@@ -1197,252 +1542,6 @@ Periodic fetching, Timeline/Mentions/DM, and Post&amp;Fetch function is disable.
   <data name="FontPanel2.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="Label47.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 12</value>
-  </data>
-  <data name="Label47.Text" xml:space="preserve">
-    <value>Apply after restarting</value>
-  </data>
-  <data name="Label47.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="LabelDateTimeFormatApplied.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label62.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CmbDateTimeFormat.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label23.Size" type="System.Drawing.Size, System.Drawing">
-    <value>105, 12</value>
-  </data>
-  <data name="Label23.Text" xml:space="preserve">
-    <value>Date Format in List</value>
-  </data>
-  <data name="Label23.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>162, 12</value>
-  </data>
-  <data name="Label11.Text" xml:space="preserve">
-    <value>Icon size in List (16 in default)</value>
-  </data>
-  <data name="Label11.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="IconSize.Items" xml:space="preserve">
-    <value>None</value>
-  </data>
-  <data name="IconSize.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="TextBox3.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckSortOrderLock.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 16</value>
-  </data>
-  <data name="CheckSortOrderLock.Text" xml:space="preserve">
-    <value>Lock sort order</value>
-  </data>
-  <data name="CheckSortOrderLock.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckShowGrid.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 16</value>
-  </data>
-  <data name="CheckShowGrid.Text" xml:space="preserve">
-    <value>Show separator line</value>
-  </data>
-  <data name="CheckShowGrid.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="chkUnreadStyle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>393, 16</value>
-  </data>
-  <data name="chkUnreadStyle.Text" xml:space="preserve">
-    <value>Enable unread style(font and color). (Unread can be found by star mark)</value>
-  </data>
-  <data name="chkUnreadStyle.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="OneWayLv.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 16</value>
-  </data>
-  <data name="OneWayLv.Text" xml:space="preserve">
-    <value>Colorize one way love</value>
-  </data>
-  <data name="OneWayLv.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="TweetPrvPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ReplyIconStateCombo.Items" xml:space="preserve">
-    <value>Don't notify</value>
-  </data>
-  <data name="ReplyIconStateCombo.Items1" xml:space="preserve">
-    <value>Change icon</value>
-  </data>
-  <data name="ReplyIconStateCombo.Items2" xml:space="preserve">
-    <value>Change icon&amp;blink</value>
-  </data>
-  <data name="ReplyIconStateCombo.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label72.Size" type="System.Drawing.Size, System.Drawing">
-    <value>188, 12</value>
-  </data>
-  <data name="Label72.Text" xml:space="preserve">
-    <value>Tasktray icon with unread mentions</value>
-  </data>
-  <data name="Label72.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ChkNewMentionsBlink.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 16</value>
-  </data>
-  <data name="ChkNewMentionsBlink.Text" xml:space="preserve">
-    <value>Blink window mentions arrived</value>
-  </data>
-  <data name="ChkNewMentionsBlink.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="chkTabIconDisp.Size" type="System.Drawing.Size, System.Drawing">
-    <value>210, 16</value>
-  </data>
-  <data name="chkTabIconDisp.Text" xml:space="preserve">
-    <value>Show icon on tab has unread tweets</value>
-  </data>
-  <data name="chkTabIconDisp.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckPreviewEnable.Size" type="System.Drawing.Size, System.Drawing">
-    <value>138, 16</value>
-  </data>
-  <data name="CheckPreviewEnable.Text" xml:space="preserve">
-    <value>Show image thumbnail</value>
-  </data>
-  <data name="CheckPreviewEnable.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label81.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="LanguageCombo.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label13.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckAlwaysTop.Size" type="System.Drawing.Size, System.Drawing">
-    <value>110, 16</value>
-  </data>
-  <data name="CheckAlwaysTop.Text" xml:space="preserve">
-    <value>Always top most</value>
-  </data>
-  <data name="CheckAlwaysTop.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckMonospace.Size" type="System.Drawing.Size, System.Drawing">
-    <value>177, 16</value>
-  </data>
-  <data name="CheckMonospace.Text" xml:space="preserve">
-    <value>Monospace font in detail view</value>
-  </data>
-  <data name="CheckMonospace.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckBalloonLimit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>293, 16</value>
-  </data>
-  <data name="CheckBalloonLimit.Text" xml:space="preserve">
-    <value>Popup balloon only at the minimization or iconization</value>
-  </data>
-  <data name="CheckBalloonLimit.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 12</value>
-  </data>
-  <data name="Label10.Text" xml:space="preserve">
-    <value>Username in popup</value>
-  </data>
-  <data name="Label10.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ComboDispTitle.Items" xml:space="preserve">
-    <value>None</value>
-  </data>
-  <data name="ComboDispTitle.Items1" xml:space="preserve">
-    <value>Program Version</value>
-  </data>
-  <data name="ComboDispTitle.Items2" xml:space="preserve">
-    <value>Latest your post</value>
-  </data>
-  <data name="ComboDispTitle.Items3" xml:space="preserve">
-    <value>unread @reply items</value>
-  </data>
-  <data name="ComboDispTitle.Items4" xml:space="preserve">
-    <value>unread items</value>
-  </data>
-  <data name="ComboDispTitle.Items5" xml:space="preserve">
-    <value>unread items(unread @reply items)</value>
-  </data>
-  <data name="ComboDispTitle.Items6" xml:space="preserve">
-    <value>unread items/all items</value>
-  </data>
-  <data name="ComboDispTitle.Items7" xml:space="preserve">
-    <value>Count of Status/Follow/Follower</value>
-  </data>
-  <data name="ComboDispTitle.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label45.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 12</value>
-  </data>
-  <data name="Label45.Text" xml:space="preserve">
-    <value>Title format</value>
-  </data>
-  <data name="Label45.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="cmbNameBalloon.Items" xml:space="preserve">
-    <value>None</value>
-  </data>
-  <data name="cmbNameBalloon.Items1" xml:space="preserve">
-    <value>User ID</value>
-  </data>
-  <data name="cmbNameBalloon.Items2" xml:space="preserve">
-    <value>Nickname</value>
-  </data>
-  <data name="cmbNameBalloon.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckDispUsername.Size" type="System.Drawing.Size, System.Drawing">
-    <value>278, 16</value>
-  </data>
-  <data name="CheckDispUsername.Text" xml:space="preserve">
-    <value>Show username in application titlebar and balloon</value>
-  </data>
-  <data name="CheckDispUsername.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckBox3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>148, 16</value>
-  </data>
-  <data name="CheckBox3.Text" xml:space="preserve">
-    <value>Show icon in detail view</value>
-  </data>
-  <data name="CheckBox3.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="PreviewPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="CheckHashSupple.Size" type="System.Drawing.Size, System.Drawing">
     <value>213, 16</value>
   </data>
@@ -1651,96 +1750,6 @@ Periodic fetching, Timeline/Mentions/DM, and Post&amp;Fetch function is disable.
     <value />
   </data>
   <data name="GetCountPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckUserUpdateEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>85, 16</value>
-  </data>
-  <data name="CheckUserUpdateEvent.Text" xml:space="preserve">
-    <value>Bio updated</value>
-  </data>
-  <data name="Label35.Size" type="System.Drawing.Size, System.Drawing">
-    <value>132, 12</value>
-  </data>
-  <data name="Label35.Text" xml:space="preserve">
-    <value>Play sound notify events</value>
-  </data>
-  <data name="Label35.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ComboBoxEventNotifySound.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckFavEventUnread.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 16</value>
-  </data>
-  <data name="CheckFavEventUnread.Text" xml:space="preserve">
-    <value>Make to unread the post someone favorited</value>
-  </data>
-  <data name="CheckFavEventUnread.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckListCreatedEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>91, 16</value>
-  </data>
-  <data name="CheckListCreatedEvent.Text" xml:space="preserve">
-    <value>Lists created</value>
-  </data>
-  <data name="CheckBlockEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>68, 16</value>
-  </data>
-  <data name="CheckBlockEvent.Text" xml:space="preserve">
-    <value>Blocking</value>
-  </data>
-  <data name="CheckForceEventNotify.Size" type="System.Drawing.Size, System.Drawing">
-    <value>294, 16</value>
-  </data>
-  <data name="CheckForceEventNotify.Text" xml:space="preserve">
-    <value>Notify Events even if disable new post arrival notify.</value>
-  </data>
-  <data name="CheckForceEventNotify.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckListMemberRemovedEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 16</value>
-  </data>
-  <data name="CheckListMemberRemovedEvent.Text" xml:space="preserve">
-    <value>Removed from the Lists</value>
-  </data>
-  <data name="CheckListMemberAddedEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>119, 16</value>
-  </data>
-  <data name="CheckListMemberAddedEvent.Text" xml:space="preserve">
-    <value>Added to the Lists</value>
-  </data>
-  <data name="CheckFollowEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>69, 16</value>
-  </data>
-  <data name="CheckFollowEvent.Text" xml:space="preserve">
-    <value>Followed</value>
-  </data>
-  <data name="CheckUnfavoritesEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>94, 16</value>
-  </data>
-  <data name="CheckUnfavoritesEvent.Text" xml:space="preserve">
-    <value>Fav Removed</value>
-  </data>
-  <data name="CheckFavoritesEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>79, 16</value>
-  </data>
-  <data name="CheckFavoritesEvent.Text" xml:space="preserve">
-    <value>Fav Added</value>
-  </data>
-  <data name="CheckEventNotify.Size" type="System.Drawing.Size, System.Drawing">
-    <value>189, 16</value>
-  </data>
-  <data name="CheckEventNotify.Text" xml:space="preserve">
-    <value>Notify Events(Only UserStream)</value>
-  </data>
-  <data name="CheckEventNotify.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="NotifyPanel.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="SplitContainer1.Panel2.ToolTip" xml:space="preserve">

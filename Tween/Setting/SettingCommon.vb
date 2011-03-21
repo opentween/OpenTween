@@ -192,4 +192,5 @@ Public Class SettingCommon
     Public UseImageService As Integer = 0
     Public ListDoubleClickAction As Integer = 0
     Public UserAppointUrl As String = ""
+    Public HideDuplicatedRetweets As Boolean = False
 End Class

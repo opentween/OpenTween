@@ -969,4 +969,7 @@
   <data name="TabUsageTypeName_UserTimeline" xml:space="preserve">
     <value>UserTimeline</value>
   </data>
+  <data name="SettingAPIUse2" xml:space="preserve">
+    <value>Consumption API count if using Users Streams :  {0} / h</value>
+  </data>
 </root>

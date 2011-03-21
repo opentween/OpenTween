@@ -64,6 +64,7 @@ Public NotInheritable Class PostClass
     Private _SearchTabName As String = ""
     Private _IsDeleted As Boolean = False
     Private _InReplyToUserId As Long = 0
+    Public Property RetweetedCount As Integer = 0
 
     <FlagsAttribute()> _
     Private Enum Statuses
@@ -864,7 +865,11 @@ Public NotInheritable Class TabInformations
 
             If _addedIds Is Nothing Then _addedIds = New List(Of Long)
             If _notifyPosts Is Nothing Then _notifyPosts = New List(Of PostClass)
-            Me.Distribute()    'タブに仮振分
+            Try
+                Me.Distribute()    'タブに仮振分
+            Catch ex As KeyNotFoundException
+                'タブ変更により振分が失敗した場合
+            End Try
             Dim retCnt As Integer = _addedIds.Count
             _addCount += retCnt
             _addedIds.Clear()
@@ -1025,7 +1030,10 @@ Public NotInheritable Class TabInformations
                     Else
                         If Item.IsFav AndAlso Item.RetweetedId > 0 Then Item.IsFav = False
                         '既に持っている公式RTは捨てる
-                        If Not Item.IsMe AndAlso Me._retweets.ContainsKey(Item.RetweetedId) Then Exit Sub
+                        If AppendSettingDialog.Instance.HideDuplicatedRetweets AndAlso
+                            Not Item.IsMe AndAlso
+                            Me._retweets.ContainsKey(Item.RetweetedId) AndAlso
+                            Me._retweets(Item.RetweetedId).RetweetedCount > 0 Then Exit Sub
                         _statuses.Add(Item.StatusId, Item)
                     End If
                     If Item.RetweetedId > 0 Then
@@ -1059,7 +1067,14 @@ Public NotInheritable Class TabInformations
     End Sub
 
     Private Sub AddRetweet(ByVal item As PostClass)
-        If _retweets.ContainsKey(item.RetweetedId) Then Exit Sub
+        'True:追加、False:保持済み
+        If _retweets.ContainsKey(item.RetweetedId) Then
+            _retweets(item.RetweetedId).RetweetedCount += 1
+            If _retweets(item.RetweetedId).RetweetedCount > 10 Then
+                _retweets(item.RetweetedId).RetweetedCount = 0
+            End If
+            Exit Sub
+        End If
 
         _retweets.Add( _
                     item.RetweetedId, _
@@ -1091,6 +1106,7 @@ Public NotInheritable Class TabInformations
                         0 _
                     ) _
                 )
+        _retweets(item.RetweetedId).RetweetedCount += 1
     End Sub
 
     Public Sub SetReadAllTab(ByVal Read As Boolean, ByVal TabName As String, ByVal Index As Integer)
@@ -1401,8 +1417,7 @@ Public NotInheritable Class TabInformations
         SyncLock LockObj
             Dim tbr As TabClass = GetTabByType(TabUsageType.Home)
             Dim replyTab As TabClass = GetTabByType(TabUsageType.Mentions)
-            For Each key As String In _tabs.Keys
-                Dim tb As TabClass = _tabs(key)
+            For Each tb As TabClass In _tabs.Values.ToArray
                 If tb.FilterModified Then
                     tb.FilterModified = False
                     Dim orgIds() As Long = tb.BackupIds()
@@ -1426,11 +1441,11 @@ Public NotInheritable Class TabInformations
                                 post.IsMark = False
                                 post.FilterHit = True
                             Case HITRESULT.Exclude
-                                If key = replyTab.TabName AndAlso post.IsReply Then post.IsExcludeReply = True
+                                If tb.TabName = replyTab.TabName AndAlso post.IsReply Then post.IsExcludeReply = True
                                 If post.IsFav Then GetTabByType(TabUsageType.Favorites).Add(post.StatusId, post.IsRead, True)
                                 post.FilterHit = False
                             Case HITRESULT.None
-                                If key = replyTab.TabName AndAlso post.IsReply Then replyTab.Add(post.StatusId, post.IsRead, True)
+                                If tb.TabName = replyTab.TabName AndAlso post.IsReply Then replyTab.Add(post.StatusId, post.IsRead, True)
                                 If post.IsFav Then GetTabByType(TabUsageType.Favorites).Add(post.StatusId, post.IsRead, True)
                                 post.FilterHit = False
                         End Select
@@ -1438,8 +1453,8 @@ Public NotInheritable Class TabInformations
                     tb.AddSubmit()  '振分確定
                     For Each id As Long In orgIds
                         Dim hit As Boolean = False
-                        For Each tkey As String In _tabs.Keys
-                            If _tabs(tkey).Contains(id) Then
+                        For Each tbTemp As TabClass In _tabs.Values.ToArray
+                            If tbTemp.Contains(id) Then
                                 hit = True
                                 Exit For
                             End If
