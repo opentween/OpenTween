@@ -10235,9 +10235,9 @@ RETRY:
 
     Private Sub TimelineRefreshEnableChange(ByVal isEnable As Boolean)
         If isEnable Then
-            tw_UserStreamStarted()
+            tw.StartUserStream()
         Else
-            tw_UserStreamStopped()
+            tw.StopUserStream()
         End If
         TimerTimeline.Enabled = isEnable
     End Sub
