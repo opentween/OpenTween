@@ -307,10 +307,10 @@
     <value>なし</value>
   </data>
   <data name="ListDoubleClickActionComboBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>185, 277</value>
+    <value>187, 277</value>
   </data>
   <data name="ListDoubleClickActionComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 20</value>
+    <value>231, 20</value>
   </data>
   <data name="ListDoubleClickActionComboBox.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
