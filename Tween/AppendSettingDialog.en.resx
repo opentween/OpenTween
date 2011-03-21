@@ -1764,4 +1764,25 @@ Periodic fetching, Timeline/Mentions/DM, and Post&amp;Fetch function is disable.
   <data name="$this.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="Lavel38.Text" xml:space="preserve">
+    <value>Behavier on doubleclick of tweet</value>
+  </data>
+  <data name="ListDoubleClickActionComboBox.Items2" xml:space="preserve">
+    <value>Show user's profile</value>
+  </data>
+  <data name="ListDoubleClickActionComboBox.Items3" xml:space="preserve">
+    <value>Show user's timeline</value>
+  </data>
+  <data name="ListDoubleClickActionComboBox.Items4" xml:space="preserve">
+    <value>Show Relational tweet</value>
+  </data>
+  <data name="ListDoubleClickActionComboBox.Items5" xml:space="preserve">
+    <value>Open user's home of twitter.com</value>
+  </data>
+  <data name="ListDoubleClickActionComboBox.Items6" xml:space="preserve">
+    <value>Open status of twitter.com</value>
+  </data>
+  <data name="ListDoubleClickActionComboBox.Items7" xml:space="preserve">
+    <value>Not bihavier</value>
+  </data>
 </root>
