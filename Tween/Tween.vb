@@ -10080,6 +10080,10 @@ RETRY:
 
     Private Sub StopToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StopToolStripMenuItem.Click
         MenuItemUserStream.Enabled = False
+        If StopRefreshAllMenuItem.Checked Then
+            StopRefreshAllMenuItem.Checked = False
+            Exit Sub
+        End If
         If Me._isActiveUserstream Then
             tw.StopUserStream()
         Else
@@ -10257,7 +10261,7 @@ RETRY:
         TimerTimeline.Enabled = isEnable
     End Sub
 
-    Private Sub StopRefreshAllMenuItem_CheckedChanged(sender As Object, e As System.EventArgs) Handles StopRefreshAllMenuItem.CheckedChanged
+    Private Sub StopRefreshAllMenuItem_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles StopRefreshAllMenuItem.CheckedChanged
         TimelineRefreshEnableChange(Not StopRefreshAllMenuItem.Checked)
     End Sub
 
