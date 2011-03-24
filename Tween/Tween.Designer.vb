@@ -233,7 +233,6 @@ Partial Class TweenMain
         Me.AllrepliesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator42 = New System.Windows.Forms.ToolStripSeparator()
         Me.EventViewerMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.StopRefreshAllMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuItemHelp = New System.Windows.Forms.ToolStripMenuItem()
         Me.MatomeMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ShortcutKeyListMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -301,6 +300,8 @@ Partial Class TweenMain
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.StopRefreshAllMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator43 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -967,7 +968,7 @@ Partial Class TweenMain
         '
         'MenuItemFile
         '
-        Me.MenuItemFile.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SettingFileMenuItem, Me.ToolStripSeparator21, Me.SaveFileMenuItem, Me.ToolStripSeparator23, Me.NotifyFileMenuItem, Me.PlaySoundFileMenuItem, Me.LockListFileMenuItem, Me.ToolStripSeparator24, Me.TweenRestartMenuItem, Me.EndFileMenuItem})
+        Me.MenuItemFile.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SettingFileMenuItem, Me.ToolStripSeparator21, Me.SaveFileMenuItem, Me.ToolStripSeparator23, Me.NotifyFileMenuItem, Me.PlaySoundFileMenuItem, Me.LockListFileMenuItem, Me.ToolStripSeparator43, Me.StopRefreshAllMenuItem, Me.ToolStripSeparator24, Me.TweenRestartMenuItem, Me.EndFileMenuItem})
         Me.MenuItemFile.Name = "MenuItemFile"
         resources.ApplyResources(Me.MenuItemFile, "MenuItemFile")
         '
@@ -1498,7 +1499,7 @@ Partial Class TweenMain
         '
         'MenuItemUserStream
         '
-        Me.MenuItemUserStream.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.StopToolStripMenuItem, Me.ToolStripSeparator40, Me.TrackToolStripMenuItem, Me.AllrepliesToolStripMenuItem, Me.ToolStripSeparator42, Me.EventViewerMenuItem, Me.StopRefreshAllMenuItem})
+        Me.MenuItemUserStream.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.StopToolStripMenuItem, Me.ToolStripSeparator40, Me.TrackToolStripMenuItem, Me.AllrepliesToolStripMenuItem, Me.ToolStripSeparator42, Me.EventViewerMenuItem})
         resources.ApplyResources(Me.MenuItemUserStream, "MenuItemUserStream")
         Me.MenuItemUserStream.Name = "MenuItemUserStream"
         '
@@ -1533,12 +1534,6 @@ Partial Class TweenMain
         '
         Me.EventViewerMenuItem.Name = "EventViewerMenuItem"
         resources.ApplyResources(Me.EventViewerMenuItem, "EventViewerMenuItem")
-        '
-        'StopRefreshAllMenuItem
-        '
-        Me.StopRefreshAllMenuItem.CheckOnClick = True
-        Me.StopRefreshAllMenuItem.Name = "StopRefreshAllMenuItem"
-        resources.ApplyResources(Me.StopRefreshAllMenuItem, "StopRefreshAllMenuItem")
         '
         'MenuItemHelp
         '
@@ -1880,6 +1875,17 @@ Partial Class TweenMain
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
+        'StopRefreshAllMenuItem
+        '
+        Me.StopRefreshAllMenuItem.CheckOnClick = True
+        Me.StopRefreshAllMenuItem.Name = "StopRefreshAllMenuItem"
+        resources.ApplyResources(Me.StopRefreshAllMenuItem, "StopRefreshAllMenuItem")
+        '
+        'ToolStripSeparator43
+        '
+        Me.ToolStripSeparator43.Name = "ToolStripSeparator43"
+        resources.ApplyResources(Me.ToolStripSeparator43, "ToolStripSeparator43")
+        '
         'TweenMain
         '
         Me.AllowDrop = True
@@ -2203,6 +2209,7 @@ Partial Class TweenMain
     Friend WithEvents UserTimelineToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents UserFavorareToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SelectionTranslationToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator43 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents StopRefreshAllMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents OpenUserSpecifiedUrlMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents OpenUserSpecifiedUrlMenuItem2 As System.Windows.Forms.ToolStripMenuItem
