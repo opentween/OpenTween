@@ -2050,6 +2050,9 @@ Public Class TweenMain
             Case WORKERTYPE.Follower
                 bw.ReportProgress(50, My.Resources.UpdateFollowersMenuItem1_ClickText1)
                 ret = tw.GetFollowersApi()
+                If String.IsNullOrEmpty(ret) Then
+                    ret = tw.GetNoRetweetIdsApi()
+                End If
             Case WORKERTYPE.OpenUri
                 Dim myPath As String = Convert.ToString(args.url)
 
@@ -3351,8 +3354,8 @@ Public Class TweenMain
             End If
         Next
         'タブ追加
-        AddNewTab(tabName, False, TabUsageType.PublicSearch)
         _statuses.AddTab(tabName, TabUsageType.PublicSearch, Nothing)
+        AddNewTab(tabName, False, TabUsageType.PublicSearch)
         '追加したタブをアクティブに
         ListTab.SelectedIndex = ListTab.TabPages.Count - 1
         '検索条件の設定
@@ -6901,12 +6904,11 @@ RETRY:
                     list = listAvail.SelectedList
                 End Using
             End If
-            If Not AddNewTab(tabName, False, tabUsage, list) Then
+            If Not _statuses.AddTab(tabName, tabUsage, list) OrElse Not AddNewTab(tabName, False, tabUsage, list) Then
                 Dim tmp As String = String.Format(My.Resources.AddTabMenuItem_ClickText1, tabName)
                 MessageBox.Show(tmp, My.Resources.AddTabMenuItem_ClickText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Else
                 '成功
-                _statuses.AddTab(tabName, tabUsage, list)
                 SaveConfigsTabs()
                 If tabUsage = TabUsageType.PublicSearch Then
                     ListTab.SelectedIndex = ListTab.TabPages.Count - 1
@@ -7127,12 +7129,11 @@ RETRY:
                 End Using
                 Me.TopMost = SettingDialog.AlwaysTop
                 If Not String.IsNullOrEmpty(tabName) Then
-                    If Not AddNewTab(tabName, False, TabUsageType.UserDefined) Then
+                    If Not _statuses.AddTab(tabName, TabUsageType.UserDefined, Nothing) OrElse Not AddNewTab(tabName, False, TabUsageType.UserDefined) Then
                         Dim tmp As String = String.Format(My.Resources.IDRuleMenuItem_ClickText2, tabName)
                         MessageBox.Show(tmp, My.Resources.IDRuleMenuItem_ClickText3, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         'もう一度タブ名入力
                     Else
-                        _statuses.AddTab(tabName, TabUsageType.UserDefined, Nothing)
                         Return True
                     End If
                 End If

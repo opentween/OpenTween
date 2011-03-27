@@ -540,12 +540,33 @@ Public Class HttpTwitter
                                         "Tween")
     End Function
 
+    Public Function SavedSearches(ByRef content As String) As HttpStatusCode
+        Return httpCon.GetContent(GetMethod, _
+                                        CreateTwitterUri("/1/saved_searches.json"), _
+                                        Nothing, _
+                                        content, _
+                                        Nothing, _
+                                        AddressOf GetApiCallback)
+    End Function
+
     Public Function FollowerIds(ByVal cursor As Long, ByRef content As String) As HttpStatusCode
         Dim param As New Dictionary(Of String, String)
         param.Add("cursor", cursor.ToString())
 
         Return httpCon.GetContent(GetMethod, _
                             CreateTwitterUri("/1/followers/ids.json"), _
+                            param, _
+                            content, _
+                            TwitterApiInfo.HttpHeaders, _
+                            AddressOf GetApiCallback)
+    End Function
+
+    Public Function NoRetweetIds(ByVal cursor As Long, ByRef content As String) As HttpStatusCode
+        Dim param As New Dictionary(Of String, String)
+        param.Add("cursor", cursor.ToString())
+
+        Return httpCon.GetContent(GetMethod, _
+                            CreateTwitterUri("/1/friendships/no_retweet_ids.json"), _
                             param, _
                             content, _
                             TwitterApiInfo.HttpHeaders, _

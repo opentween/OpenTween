@@ -45,6 +45,8 @@ Public Class Twitter
     Private ReadOnly LockObj As New Object
     Private followerId As New List(Of Long)
     Private _GetFollowerResult As Boolean = False
+    Private noRTId As New List(Of Long)
+    Private _GetNoRetweetResult As Boolean = False
 
     Private _followersCount As Integer = 0
     Private _friendsCount As Integer = 0
@@ -1463,6 +1465,7 @@ Public Class Twitter
 
             'Retweetした人
             post.RetweetedBy = status.User.ScreenName
+            post.RetweetedByUserId = status.User.Id
             post.IsMe = post.RetweetedBy.ToLower.Equals(_uid)
         Else
             post.CreatedAt = DateTimeParse(status.CreatedAt)
@@ -1532,6 +1535,9 @@ Public Class Twitter
                     If TabInformations.GetInstance.ContainsKey(post.StatusId, tab.TabName) Then Continue For
                 End If
             End SyncLock
+
+            'RT禁止ユーザーによるもの
+            If post.RetweetedId > 0 AndAlso Me.noRTId.Contains(post.RetweetedByUserId) Then Continue For
 
             post.IsRead = read
             If post.IsMe AndAlso Not read AndAlso _readOwnPost Then post.IsRead = True
@@ -2290,7 +2296,7 @@ Public Class Twitter
         End Select
 
         Try
-            Dim followers = CreateDataFromJson(Of TwitterDataModel.Followers)(content)
+            Dim followers = CreateDataFromJson(Of TwitterDataModel.Ids)(content)
             followerId.AddRange(followers.Id)
             cursor = followers.NextCursor
             Return ""
@@ -2302,6 +2308,69 @@ Public Class Twitter
             Return "Err:Invalid Json!"
         End Try
     End Function
+
+    Public Function GetNoRetweetIdsApi() As String
+        If _endingFlag Then Return ""
+        Dim cursor As Long = -1
+        Dim tmpIds As New List(Of Long)(noRTId)
+
+        noRTId.Clear()
+        Do
+            Dim ret As String = NoRetweetApi(cursor)
+            If Not String.IsNullOrEmpty(ret) Then
+                noRTId.Clear()
+                noRTId.AddRange(tmpIds)
+                _GetNoRetweetResult = False
+                Return ret
+            End If
+        Loop While cursor > 0
+
+        _GetNoRetweetResult = True
+        Return ""
+    End Function
+
+    Private Function NoRetweetApi(ByRef cursor As Long) As String
+        If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
+
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+        Try
+            res = twCon.NoRetweetIds(cursor, content)
+        Catch ex As Exception
+            Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
+        End Try
+
+        Select Case res
+            Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
+            Case HttpStatusCode.Unauthorized
+                Twitter.AccountState = ACCOUNT_STATE.Invalid
+                Return "Check your Username/Password."
+            Case HttpStatusCode.BadRequest
+                Return "Err:API Limits?"
+            Case Else
+                Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
+        End Select
+
+        Try
+            Dim ids = CreateDataFromJson(Of Long())(content)
+            noRTId.AddRange(ids)
+            cursor = 1  '0より大きければ何でも良い。
+            Return ""
+        Catch ex As SerializationException
+            TraceOut(ex.Message + Environment.NewLine + content)
+            Return "Err:Json Parse Error(DataContractJsonSerializer)"
+        Catch ex As Exception
+            TraceOut(ex, GetCurrentMethod.Name & " " & content)
+            Return "Err:Invalid Json!"
+        End Try
+    End Function
+
+    Public ReadOnly Property GetNoRetweetSuccess() As Boolean
+        Get
+            Return _GetNoRetweetResult
+        End Get
+    End Property
 
     Public Function GetListsApi() As String
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""

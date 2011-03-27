@@ -65,6 +65,7 @@ Public NotInheritable Class PostClass
     Private _IsDeleted As Boolean = False
     Private _InReplyToUserId As Long = 0
     Public Property RetweetedCount As Integer = 0
+    Public Property RetweetedByUserId As Long = 0
 
     <FlagsAttribute()> _
     Private Enum Statuses
@@ -494,11 +495,13 @@ Public NotInheritable Class TabInformations
         End Set
     End Property
 
-    Public Sub AddTab(ByVal TabName As String, ByVal TabType As TabUsageType, ByVal List As ListElement)
+    Public Function AddTab(ByVal TabName As String, ByVal TabType As TabUsageType, ByVal List As ListElement) As Boolean
+        If _tabs.ContainsKey(TabName) Then Return False
         _tabs.Add(TabName, New TabClass(TabName, TabType, List))
         _tabs(TabName).Sorter.Mode = _sorter.Mode
         _tabs(TabName).Sorter.Order = _sorter.Order
-    End Sub
+        Return True
+    End Function
 
     'Public Sub AddTab(ByVal TabName As String, ByVal Tab As TabClass)
     '    _tabs.Add(TabName, Tab)
@@ -1625,7 +1628,7 @@ Public NotInheritable Class TabInformations
     '振り分け可能タブの判定処理
     Public Function IsDistributableTab(ByVal tabName As String) As Boolean
         Return tabName IsNot Nothing AndAlso
-            _tabs.ContainsKey(tabName) AndAlso
+            Me._tabs.ContainsKey(tabName) AndAlso
             (_tabs(tabName).TabType = TabUsageType.Mentions OrElse
              _tabs(tabName).TabType = TabUsageType.UserDefined)
     End Function
