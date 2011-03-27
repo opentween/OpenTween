@@ -797,13 +797,12 @@ Public Class FilterDialog
                     list = listAvail.SelectedList
                 End Using
             End If
-            If Not DirectCast(Me.Owner, TweenMain).AddNewTab(tabName, False, tabType, list) Then
+            If Not _sts.AddTab(tabName, tabType, list) OrElse Not DirectCast(Me.Owner, TweenMain).AddNewTab(tabName, False, tabType, list) Then
                 Dim tmp As String = String.Format(My.Resources.AddTabMenuItem_ClickText1, tabName)
                 MessageBox.Show(tmp, My.Resources.AddTabMenuItem_ClickText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Exit Sub
             Else
                 '成功
-                _sts.AddTab(tabName, tabType, list)
                 ListTabs.Items.Add(tabName)
                 SetTabnamesToDialog()
             End If

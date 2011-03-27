@@ -297,7 +297,7 @@ Public Class TwitterDataModel
     End Class
 
     <DataContract()> _
-    Public Class Followers
+    Public Class Ids
         <DataMember(Name:="ids")> Public Id As Long()
         <DataMember(Name:="next_cursor")> Public NextCursor As Long
         <DataMember(Name:="previous_cursor")> Public PreviousCursor As Long

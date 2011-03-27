@@ -639,6 +639,9 @@
   <data name="&gt;&gt;StatusStrip1.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
+  <data name="SaveLogButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
   <data name="SaveLogButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>599, 239</value>
   </data>

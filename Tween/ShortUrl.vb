@@ -141,7 +141,7 @@ Public Class ShortUrl
                             retUrlStr = retUrlStr.Replace("""", "%22")  'ダブルコーテーションがあるとURL終端と判断されるため、これだけ再エンコード
                             orgData = orgData.Replace("<a href=""" + orgUrl + """", "<a href=""" + retUrlStr + """")
                             SyncLock _lockObj
-                                urlCache.Add(orgUrl, retUrlStr)
+                                If Not urlCache.ContainsKey(orgUrl) Then urlCache.Add(orgUrl, retUrlStr)
                             End SyncLock
                         End If
                     Catch ex As Exception
