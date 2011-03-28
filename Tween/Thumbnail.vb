@@ -1153,9 +1153,7 @@ Public Class Thumbnail
         Dim apiurl As String = "http://www.nicovideo.jp/api/getthumbinfo/" + mc.Groups("id").Value
         Dim src As String = ""
         Dim imgurl As String = ""
-        Dim headers As New Dictionary(Of String, String)
-        headers.Add("User-Agent", GetUserAgentString())
-        If (New HttpVarious).GetData(apiurl, headers, src, 0, args.errmsg) Then
+        If (New HttpVarious).GetData(apiurl, Nothing, src, 0, args.errmsg, GetUserAgentString()) Then
             Dim sb As New StringBuilder
             Dim xdoc As New XmlDocument
             Try
@@ -1251,7 +1249,7 @@ Public Class Thumbnail
                 Dim _img As Image = http.GetImage(imgurl, args.url.Key, 0, args.errmsg)
                 If _img Is Nothing Then Return False
                 args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, _img))
-                args.tooltiptext.Add(New KeyValuePair(Of String, String)(args.url.Key, sb.ToString.Trim()))
+                args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, sb.ToString.Trim()))
                 Return True
             End If
         End If
@@ -1310,13 +1308,13 @@ Public Class Thumbnail
             Return False
         Else
             Dim http As New HttpVarious
-            If http.GetData(Regex.Replace(mc.Groups(0).Value, "amp;", ""), Nothing, src, 0, args.errmsg) Then
+            If http.GetData(Regex.Replace(mc.Groups(0).Value, "amp;", ""), Nothing, src, 0, args.errmsg, "") Then
                 Dim _mc As Match = Regex.Match(src, mc.Result("http://img([0-9]+)\.pixiv\.net/img/.+/${illustId}_[ms]\.([a-zA-Z]+)"))
                 If _mc.Success Then
                     Dim _img As Image = http.GetImage(_mc.Value, args.url.Key, 0, args.errmsg)
                     If _img Is Nothing Then Return False
                     args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, _img))
-                    args.tooltiptext.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
+                    args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
                     Return True
                 ElseIf Regex.Match(src, "<span class='error'>ログインしてください</span>").Success Then
                     args.errmsg = "NotSupported"
@@ -1375,14 +1373,14 @@ Public Class Thumbnail
         Dim src As String = ""
         Dim mc As Match = Regex.Match(args.url.Key, "^http://www.flickr.com/", RegexOptions.IgnoreCase)
         Dim http As New HttpVarious
-        If http.GetData(args.url.Key, Nothing, src, 0, args.errmsg) Then
+        If http.GetData(args.url.Key, Nothing, src, 0, args.errmsg, "") Then
             Dim _mc As MatchCollection = Regex.Matches(src, mc.Result("http://farm[0-9]+\.static\.flickr\.com/[0-9]+/.+?\.([a-zA-Z]+)"))
             '二つ以上キャプチャした場合先頭の一つだけ 一つだけの場合はユーザーアイコンしか取れなかった
             If _mc.Count > 1 Then
                 Dim _img As Image = http.GetImage(_mc.Item(1).Value, args.url.Key, 0, args.errmsg)
                 If _img Is Nothing Then Return False
                 args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, _img))
-                args.tooltiptext.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
+                args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
                 Return True
             Else
                 args.errmsg = "Pattern NotFound"
@@ -1435,7 +1433,7 @@ Public Class Thumbnail
         If mc.Success Then
             Dim src As String = ""
             Dim show_info As String = mc.Result("http://api.photozou.jp/rest/photo_info?photo_id=${photoId}")
-            If http.GetData(show_info, Nothing, src, 0, args.errmsg) Then
+            If http.GetData(show_info, Nothing, src, 0, args.errmsg, "") Then
                 Dim xdoc As New XmlDocument
                 Dim thumbnail_url As String = ""
                 Try
@@ -1449,7 +1447,7 @@ Public Class Thumbnail
                 Dim _img As Image = http.GetImage(thumbnail_url, args.url.Key)
                 If _img Is Nothing Then Return False
                 args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, _img))
-                args.tooltiptext.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
+                args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
                 Return True
             End If
         End If
@@ -1548,7 +1546,7 @@ Public Class Thumbnail
         Dim mc As Match = Regex.Match(args.url.Key, "^http://piapro\.jp/(?:content/[0-9a-z]+|t/[0-9a-zA-Z_\-]+)$")
         If mc.Success Then
             Dim src As String = ""
-            If http.GetData(args.url.Key, Nothing, src, 0, args.errmsg) Then
+            If http.GetData(args.url.Key, Nothing, src, 0, args.errmsg, "") Then
                 Dim _mc As Match = Regex.Match(src, "<meta property=""og:image"" content=""(?<big_img>http://c1\.piapro\.jp/timg/[0-9a-z]+_\d{14}_0500_0500\.(?:jpg|png|gif)?)"" />")
                 If _mc.Success Then
                     '各画像には120x120のサムネイルがある（多分）ので、URLを置き換える。元々ページに埋め込まれている画像は500x500
@@ -1557,7 +1555,7 @@ Public Class Thumbnail
                     Dim _img As Image = http.GetImage(min_img_url, args.url.Key, 0, args.errmsg)
                     If _img Is Nothing Then Return False
                     args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, _img))
-                    args.tooltiptext.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
+                    args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
                     Return True
                 Else
                     args.errmsg = "Pattern NotFound"
@@ -1612,7 +1610,7 @@ Public Class Thumbnail
         Dim apiurl As String = mc.Groups("base").Value + "api/read?id=" + mc.Groups("postID").Value
         Dim src As String = ""
         Dim imgurl As String = Nothing
-        If http.GetData(apiurl, Nothing, src, 0, args.errmsg) Then
+        If http.GetData(apiurl, Nothing, src, 0, args.errmsg, "") Then
             Dim xdoc As New XmlDocument
             Try
                 xdoc.LoadXml(src)
@@ -1632,7 +1630,7 @@ Public Class Thumbnail
                 Dim _img As Image = http.GetImage(imgurl, args.url.Key, 0, args.errmsg)
                 If _img Is Nothing Then Return False
                 args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, _img))
-                args.tooltiptext.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
+                args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
                 Return True
             End If
         End If
@@ -1682,7 +1680,7 @@ Public Class Thumbnail
         Dim mc As Match = Regex.Match(args.url.Key, "^http://p.twipple.jp/(?<contentId>[0-9a-z]+)", RegexOptions.IgnoreCase)
         If mc.Success Then
             Dim src As String = ""
-            If http.GetData(args.url.Key, Nothing, src, 0, args.errmsg) Then
+            If http.GetData(args.url.Key, Nothing, src, 0, args.errmsg, "") Then
                 Dim thumbnail_url As String = ""
                 Dim ContentId As String = mc.Groups("contentId").Value
                 Dim DataDir As New StringBuilder
@@ -1701,7 +1699,7 @@ Public Class Thumbnail
                 Dim _img As Image = http.GetImage(thumbnail_url, args.url.Key, 0, args.errmsg)
                 If _img Is Nothing Then Return False
                 args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, _img))
-                args.tooltiptext.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
+                args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
                 Return True
             End If
         End If
@@ -1850,7 +1848,7 @@ Public Class Thumbnail
         Dim apiurl As String = "http://vimeo.com/api/v2/video/" + mc.Groups("postID").Value + ".xml"
         Dim src As String = ""
         Dim imgurl As String = Nothing
-        If http.GetData(apiurl, Nothing, src, 0, args.errmsg) Then
+        If http.GetData(apiurl, Nothing, src, 0, args.errmsg, "") Then
             Dim xdoc As New XmlDocument
             Dim sb As New StringBuilder
             Try
@@ -1924,7 +1922,7 @@ Public Class Thumbnail
                 Dim _img As Image = http.GetImage(imgurl, args.url.Key, 0, args.errmsg)
                 If _img Is Nothing Then Return False
                 args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, _img))
-                args.tooltiptext.Add(New KeyValuePair(Of String, String)(args.url.Key, sb.ToString.Trim()))
+                args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, sb.ToString.Trim()))
                 Return True
             End If
         End If
@@ -2021,14 +2019,14 @@ Public Class Thumbnail
 
         Dim src As String = ""
         Dim http As New HttpVarious
-        If http.GetData(args.url.Key, Nothing, src, 0, args.errmsg) Then
+        If http.GetData(args.url.Key, Nothing, src, 0, args.errmsg, "") Then
             Dim mc As Match = Regex.Match(src, "<meta property=""og:image"" content=""(?<url>.+)""/>")
             '二つ以上キャプチャした場合先頭の一つだけ 一つだけの場合はユーザーアイコンしか取れなかった
-            If mc.success Then
+            If mc.Success Then
                 Dim _img As Image = http.GetImage(mc.Groups("url").Value, args.url.Key, 0, args.errmsg)
                 If _img Is Nothing Then Return False
                 args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, _img))
-                args.tooltiptext.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
+                args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
                 Return True
             Else
                 args.errmsg = "Pattern NotFound"
