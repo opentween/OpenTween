@@ -130,15 +130,19 @@ Public Class HttpVarious
         End Try
     End Function
 
+    Public Overloads Function GetData(ByVal Url As String, ByVal param As Dictionary(Of String, String), ByRef content As String, ByVal userAgent As String) As Boolean
+        Return GetData(Url, param, content, 100000, Nothing, userAgent)
+    End Function
+
     Public Overloads Function GetData(ByVal Url As String, ByVal param As Dictionary(Of String, String), ByRef content As String) As Boolean
-        Return GetData(Url, param, content, 100000, Nothing)
+        Return GetData(Url, param, content, 100000, Nothing, "")
     End Function
 
     Public Overloads Function GetData(ByVal Url As String, ByVal param As Dictionary(Of String, String), ByRef content As String, ByVal timeout As Integer) As Boolean
-        Return GetData(Url, param, content, 100000, Nothing)
+        Return GetData(Url, param, content, timeout, Nothing, "")
     End Function
 
-    Public Overloads Function GetData(ByVal Url As String, ByVal param As Dictionary(Of String, String), ByRef content As String, ByVal timeout As Integer, ByRef errmsg As String) As Boolean
+    Public Overloads Function GetData(ByVal Url As String, ByVal param As Dictionary(Of String, String), ByRef content As String, ByVal timeout As Integer, ByRef errmsg As String, ByVal userAgent As String) As Boolean
         Try
             Dim req As HttpWebRequest = CreateRequest(GetMethod, New Uri(Url), param, False)
             If timeout < 3000 OrElse timeout > 100000 Then
@@ -146,6 +150,7 @@ Public Class HttpVarious
             Else
                 req.Timeout = timeout
             End If
+            If Not String.IsNullOrEmpty(userAgent) Then req.UserAgent = userAgent
             Dim res As HttpStatusCode = Me.GetResponse(req, content, Nothing, False)
             If res = HttpStatusCode.OK Then Return True
             If errmsg IsNot Nothing Then
