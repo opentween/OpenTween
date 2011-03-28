@@ -2355,7 +2355,7 @@ Public Class Twitter
         Try
             Dim ids = CreateDataFromJson(Of Long())(content)
             noRTId.AddRange(ids)
-            cursor = 1  '0より大きければ何でも良い。
+            cursor = 0  '0より小さければ何でも良い。
             Return ""
         Catch ex As SerializationException
             TraceOut(ex.Message + Environment.NewLine + content)
