@@ -782,6 +782,7 @@ Public Class TweenMain
         SettingDialog.OpenUserTimeline = _cfgCommon.OpenUserTimeline
         SettingDialog.ListDoubleClickAction = _cfgCommon.ListDoubleClickAction
         SettingDialog.UserAppointUrl = _cfgCommon.UserAppointUrl
+        SettingDialog.HideDuplicatedRetweets = _cfgCommon.HideDuplicatedRetweets
 
         'ハッシュタグ関連
         HashSupl = New AtIdSupplement(_cfgCommon.HashTags, "#")
