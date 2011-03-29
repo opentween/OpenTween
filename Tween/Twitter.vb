@@ -2480,13 +2480,9 @@ Public Class Twitter
     Public Function EditList(ByVal list_id As String, ByVal new_name As String, ByVal isPrivate As Boolean, ByVal description As String, ByRef list As ListElement) As String
         Dim res As HttpStatusCode
         Dim content As String = ""
-        Dim modeString As String = "public"
-        If isPrivate Then
-            modeString = "private"
-        End If
 
         Try
-            res = twCon.PostListID(Me.Username, list_id, new_name, modeString, description, content)
+            res = twCon.UpdateListID(Me.Username, list_id, new_name, isPrivate, description, content)
         Catch ex As Exception
             Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
         End Try
@@ -2579,7 +2575,7 @@ Public Class Twitter
         Dim content As String = ""
 
         Try
-            res = twCon.PostLists(Me.Username, listName, isPrivate, description, content)
+            res = twCon.CreateLists(listName, isPrivate, description, content)
         Catch ex As Exception
             Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
         End Try
@@ -2618,7 +2614,7 @@ Public Class Twitter
         Dim content As String = ""
 
         Try
-            res = Me.twCon.GetListMembersID(Me.Username, list_name, user, content)
+            res = Me.twCon.ShowListMember(Me.Username, list_name, user, content)
         Catch ex As Exception
             Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
         End Try
@@ -2653,7 +2649,7 @@ Public Class Twitter
         Dim res As HttpStatusCode
 
         Try
-            res = twCon.PostListMembers(Me.Username, list_name, user, content)
+            res = twCon.CreateListMembers(Me.Username, list_name, user, content)
         Catch ex As Exception
             Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
         End Try
