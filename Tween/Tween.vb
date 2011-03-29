@@ -925,11 +925,7 @@ Public Class TweenMain
         End Select
 
         '画像投稿サービス
-        Me.pictureService = New Dictionary(Of String, IMultimediaShareService) From {
-            {"TwitPic", New TwitPic(tw)},
-            {"img.ly", New imgly(tw)},
-            {"yfrog", New yfrog(tw)},
-            {"Plixi", New Plixi(tw)}}
+        Me.CreatePictureServices()
         SetImageServiceCombo()
         ImageSelectionPanel.Enabled = False
 
@@ -1116,6 +1112,16 @@ Public Class TweenMain
         _ignoreConfigSave = False
         Me.TweenMain_Resize(Nothing, Nothing)
         If saveRequired Then SaveConfigsAll(False)
+    End Sub
+
+    Private Sub CreatePictureServices()
+        If Me.pictureService IsNot Nothing Then Me.pictureService.Clear()
+        Me.pictureService = Nothing
+        Me.pictureService = New Dictionary(Of String, IMultimediaShareService) From {
+            {"TwitPic", New TwitPic(tw)},
+            {"img.ly", New imgly(tw)},
+            {"yfrog", New yfrog(tw)},
+            {"Plixi", New Plixi(tw)}}
     End Sub
 
     Private Sub spaceKeyCanceler_SpaceCancel(ByVal sender As Object, ByVal e As EventArgs)
@@ -3092,6 +3098,7 @@ Public Class TweenMain
                                                     SettingDialog.ProxyPort, _
                                                     SettingDialog.ProxyUser, _
                                                     SettingDialog.ProxyPassword)
+                Me.CreatePictureServices()
                 Try
                     If SettingDialog.TabIconDisp Then
                         RemoveHandler ListTab.DrawItem, AddressOf ListTab_DrawItem
