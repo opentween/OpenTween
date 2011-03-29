@@ -119,6 +119,7 @@ Public Class Thumbnail
         New ThumbnailService("Twitgoo", AddressOf Twitgoo_GetUrl, AddressOf Twitgoo_CreateImage), _
         New ThumbnailService("youtube", AddressOf youtube_GetUrl, AddressOf youtube_CreateImage), _
         New ThumbnailService("ニコニコ動画", AddressOf nicovideo_GetUrl, AddressOf nicovideo_CreateImage), _
+        New ThumbnailService("ニコニコ静画", AddressOf nicoseiga_GetUrl, AddressOf nicoseiga_CreateImage), _
         New ThumbnailService("Pixiv", AddressOf Pixiv_GetUrl, AddressOf Pixiv_CreateImage), _
         New ThumbnailService("flickr", AddressOf flickr_GetUrl, AddressOf flickr_CreateImage), _
         New ThumbnailService("フォト蔵", AddressOf Photozou_GetUrl, AddressOf Photozou_CreateImage), _
@@ -1252,6 +1253,57 @@ Public Class Thumbnail
                 args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, sb.ToString.Trim()))
                 Return True
             End If
+        End If
+        Return False
+    End Function
+
+#End Region
+
+#Region "ニコニコ静画"
+    ''' <summary>
+    ''' URL解析部で呼び出されるサムネイル画像URL作成デリゲート
+    ''' </summary>
+    ''' <param name="args">Class GetUrlArgs
+    '''                                 args.url        URL文字列
+    '''                                 args.imglist    解析成功した際にこのリストに元URL、サムネイルURLの形で作成するKeyValuePair
+    ''' </param>
+    ''' <returns>成功した場合True,失敗の場合False</returns>
+    ''' <remarks>args.imglistには呼び出しもとで使用しているimglistをそのまま渡すこと</remarks>
+
+    Private Function nicoseiga_GetUrl(ByVal args As GetUrlArgs) As Boolean
+        ' TODO URL判定処理を記述
+        Dim mc As Match = Regex.Match(args.url, "^http://(?:seiga\.nicovideo\.jp/seiga/|nico\.ms/)im\d+")
+        If mc.Success Then
+            ' TODO 成功時はサムネイルURLを作成しimglist.Addする
+            args.imglist.Add(New KeyValuePair(Of String, String)(args.url, mc.Value))
+            Return True
+        Else
+            Return False
+        End If
+    End Function
+
+    ''' <summary>
+    ''' BackgroundWorkerから呼び出されるサムネイル画像作成デリゲート
+    ''' </summary>
+    ''' <param name="args">Class CreateImageArgs
+    '''                                 url As KeyValuePair(Of String, String)                  元URLとサムネイルURLのKeyValuePair
+    '''                                 pics As List(Of KeyValuePair(Of String, Image))         元URLとサムネイル画像のKeyValuePair
+    '''                                 tooltiptext As List(Of KeyValuePair(Of String, String)) 元URLとツールチップテキストのKeyValuePair
+    '''                                 errmsg As String                                        取得に失敗した際のエラーメッセージ
+    ''' </param>
+    ''' <returns>サムネイル画像作成に成功した場合はTrue,失敗した場合はFalse
+    ''' なお失敗した場合はargs.errmsgにエラーを表す文字列がセットされる</returns>
+    ''' <remarks></remarks>
+    Private Function nicoseiga_CreateImage(ByVal args As CreateImageArgs) As Boolean
+        ' TODO: サムネイル画像読み込み処理を記述します
+        Dim http As New HttpVarious
+        Dim mc As Match = Regex.Match(args.url.Key, "^http://(?:seiga\.nicovideo\.jp/seiga/|nico\.ms/)im(?<id>\d+)")
+        If mc.Success Then
+            Dim _img As Image = http.GetImage("http://lohas.nicoseiga.jp/thumb/" + mc.Groups("id").Value + "q?", args.url.Key, 0, args.errmsg)
+            If _img Is Nothing Then Return False
+            args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, _img))
+            args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
+            Return True
         End If
         Return False
     End Function
