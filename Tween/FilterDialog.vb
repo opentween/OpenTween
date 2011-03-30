@@ -275,6 +275,8 @@ Public Class FilterDialog
         End If
         If rslt = Windows.Forms.DialogResult.Cancel Then Exit Sub
 
+        If _mode = EDITMODE.Edit Then ButtonCancel_Click(Nothing, Nothing)
+
         For idx As Integer = ListFilters.Items.Count - 1 To 0 Step -1
             If ListFilters.GetSelected(idx) Then
                 _sts.Tabs(ListTabs.SelectedItem.ToString()).RemoveFilter(DirectCast(ListFilters.Items(idx), FiltersClass))
