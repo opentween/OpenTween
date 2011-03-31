@@ -794,6 +794,14 @@ Public Class HttpTwitter
                             AddressOf GetApiCallback)
     End Function
 
+    Public Function GetBlockUserIds(ByRef content As String) As HttpStatusCode
+        Return httpCon.GetContent(GetMethod, _
+                            CreateTwitterUri("/1/blocks/blocking/ids.json"), _
+                            Nothing, _
+                            content, _
+                            TwitterApiInfo.HttpHeaders, _
+                            AddressOf GetApiCallback)
+    End Function
 
 #Region "Proxy API"
     Private Shared _twitterUrl As String = "api.twitter.com"

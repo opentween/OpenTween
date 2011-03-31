@@ -2144,6 +2144,12 @@ Public Class TweenMain
                 Dim tb As TabClass = _statuses.GetTabByName(args.tName)
                 ret = tw.GetRelatedResult(read, tb)
                 rslt.addCount = _statuses.DistributePosts()
+            Case WORKERTYPE.BlockIds
+                bw.ReportProgress(50, My.Resources.UpdateBlockUserText1)
+                ret = tw.GetBlockUserIds()
+                If TabInformations.GetInstance.BlockIds.Count = 0 Then
+                    tw.GetBlockUserIds()
+                End If
         End Select
         'キャンセル要求
         If bw.CancellationPending Then
@@ -2257,6 +2263,8 @@ Public Class TweenMain
                     smsg = "Related refreshed"
                 Case WORKERTYPE.UserTimeline
                     smsg = "UserTimeline refreshed"
+                Case WORKERTYPE.BlockIds
+                    smsg = My.Resources.UpdateBlockUserText3
             End Select
         End If
         Return smsg
@@ -2331,7 +2339,8 @@ Public Class TweenMain
            rslt.type = WORKERTYPE.FavAdd OrElse _
            rslt.type = WORKERTYPE.FavRemove OrElse _
            rslt.type = WORKERTYPE.Related OrElse _
-           rslt.type = WORKERTYPE.UserTimeline Then
+           rslt.type = WORKERTYPE.UserTimeline OrElse _
+           rslt.type = WORKERTYPE.BlockIds Then
             RefreshTimeline(False) 'リスト反映
         End If
 
@@ -8391,6 +8400,7 @@ RETRY:
         NotifyIcon1.Visible = True
 
         If IsNetworkAvailable() Then
+            GetTimeline(WORKERTYPE.BlockIds, 0, 0, "")
             If SettingDialog.StartupFollowers Then
                 GetTimeline(WORKERTYPE.Follower, 0, 0, "")
             End If

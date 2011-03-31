@@ -123,6 +123,7 @@ Public Module MyCommon
         Related                 '関連発言
         UserStream              'UserStream
         UserTimeline            'UserTimeline
+        BlockIds                'Blocking/ids
         '''
         ErrorState              'エラー表示のみで後処理終了(認証エラー時など)
     End Enum
