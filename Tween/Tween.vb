@@ -676,6 +676,7 @@ Public Class TweenMain
         SettingDialog.DispLatestPost = _cfgCommon.DispLatestPost
         SettingDialog.SortOrderLock = _cfgCommon.SortOrderLock
         SettingDialog.TinyUrlResolve = _cfgCommon.TinyUrlResolve
+        SettingDialog.ShortUrlForceResolve = _cfgCommon.ShortUrlForceResolve
 
         SettingDialog.SelectedProxyType = _cfgLocal.ProxyType
         SettingDialog.ProxyAddress = _cfgLocal.ProxyAddress
@@ -906,6 +907,7 @@ Public Class TweenMain
         tw.ReadOwnPost = SettingDialog.ReadOwnPost
         tw.UseSsl = SettingDialog.UseSsl
         ShortUrl.IsResolve = SettingDialog.TinyUrlResolve
+        ShortUrl.IsForceResolve = SettingDialog.ShortUrlForceResolve
         ShortUrl.BitlyId = SettingDialog.BitlyUser
         ShortUrl.BitlyKey = SettingDialog.BitlyPwd
         HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl
@@ -1035,6 +1037,7 @@ Public Class TweenMain
             tw.IconSize = _iconSz
         End If
         tw.TinyUrlResolve = SettingDialog.TinyUrlResolve
+        ShortUrl.IsForceResolve = SettingDialog.ShortUrlForceResolve
 
         '発言詳細部アイコンをリストアイコンにサイズ変更
         Dim sz As Integer = _iconSz
@@ -3080,22 +3083,12 @@ Public Class TweenMain
 
         If result = Windows.Forms.DialogResult.OK Then
             SyncLock _syncObject
-                'Try
-                '    If SettingDialog.TimelinePeriodInt > 0 Then
-                '        _homeCounterAdjuster = 0
-                '    End If
-                'Catch ex As Exception
-                '    ex.Data("Instance") = "Set Timers"
-                '    ex.Data("IsTerminatePermission") = False
-                '    Throw
-                'End Try
-                'tw.CountApi = SettingDialog.CountApi
-                'tw.CountApiReply = SettingDialog.CountApiReply
                 tw.TinyUrlResolve = SettingDialog.TinyUrlResolve
                 tw.RestrictFavCheck = SettingDialog.RestrictFavCheck
                 tw.ReadOwnPost = SettingDialog.ReadOwnPost
                 tw.UseSsl = SettingDialog.UseSsl
                 ShortUrl.IsResolve = SettingDialog.TinyUrlResolve
+                ShortUrl.IsForceResolve = SettingDialog.ShortUrlForceResolve
                 ShortUrl.BitlyId = SettingDialog.BitlyUser
                 ShortUrl.BitlyKey = SettingDialog.BitlyPwd
                 HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl
@@ -6045,6 +6038,7 @@ RETRY:
             _cfgCommon.DispLatestPost = SettingDialog.DispLatestPost
             _cfgCommon.SortOrderLock = SettingDialog.SortOrderLock
             _cfgCommon.TinyUrlResolve = SettingDialog.TinyUrlResolve
+            _cfgCommon.ShortUrlForceResolve = SettingDialog.ShortUrlForceResolve
             _cfgCommon.PeriodAdjust = SettingDialog.PeriodAdjust
             _cfgCommon.StartupVersion = SettingDialog.StartupVersion
             _cfgCommon.StartupFollowers = SettingDialog.StartupFollowers
