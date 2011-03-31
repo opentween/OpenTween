@@ -118,6 +118,7 @@ Public Class SettingCommon
     Public DispLatestPost As DispTitleEnum = DispTitleEnum.Post
     Public SortOrderLock As Boolean = False
     Public TinyUrlResolve As Boolean = True
+    Public ShortUrlForceResolve As Boolean = True
     Public PeriodAdjust As Boolean = True
     Public StartupVersion As Boolean = True
     Public StartupFollowers As Boolean = True

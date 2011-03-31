@@ -78,6 +78,7 @@ Public Class AppendSettingDialog
     Private _MyMinimizeToTray As Boolean
     Private _MyCloseToExit As Boolean
     Private _MyTinyUrlResolve As Boolean
+    Private _MyShortUrlForceResolve As Boolean
     Private _MyProxyType As HttpConnection.ProxyType
     Private _MyProxyAddress As String
     Private _MyProxyPort As Integer
@@ -316,7 +317,9 @@ Public Class AppendSettingDialog
             End Select
             _MySortOrderLock = CheckSortOrderLock.Checked
             _MyTinyUrlResolve = CheckTinyURL.Checked
+            _MyShortUrlForceResolve = CheckForceResolve.Checked
             ShortUrl.IsResolve = _MyTinyUrlResolve
+            ShortUrl.IsForceResolve = _MyShortUrlForceResolve
             If RadioProxyNone.Checked Then
                 _MyProxyType = HttpConnection.ProxyType.None
             ElseIf RadioProxyIE.Checked Then
@@ -568,6 +571,7 @@ Public Class AppendSettingDialog
         End Select
         CheckSortOrderLock.Checked = _MySortOrderLock
         CheckTinyURL.Checked = _MyTinyUrlResolve
+        CheckForceResolve.Checked = _MyShortUrlForceResolve
         Select Case _MyProxyType
             Case HttpConnection.ProxyType.None
                 RadioProxyNone.Checked = True
@@ -1478,6 +1482,15 @@ Public Class AppendSettingDialog
         End Get
         Set(ByVal value As Boolean)
             _MyTinyUrlResolve = value
+        End Set
+    End Property
+
+    Public Property ShortUrlForceResolve() As Boolean
+        Get
+            Return _MyShortUrlForceResolve
+        End Get
+        Set(ByVal value As Boolean)
+            _MyShortUrlForceResolve = value
         End Set
     End Property
 

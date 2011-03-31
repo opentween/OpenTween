@@ -77,6 +77,7 @@ Public Class ShortUrl
     Private Shared _bitlyId As String = ""
     Private Shared _bitlyKey As String = ""
     Private Shared _isresolve As Boolean = True
+    Private Shared _isForceResolve As Boolean = True
 
     Private Shared ReadOnly _lockObj As New Object
 
@@ -101,6 +102,15 @@ Public Class ShortUrl
         End Set
     End Property
 
+    Public Shared Property IsForceResolve As Boolean
+        Get
+            Return _isForceResolve
+        End Get
+        Set(ByVal value As Boolean)
+            _isForceResolve = value
+        End Set
+    End Property
+
     Public Shared Function Resolve(ByVal orgData As String) As String
         If _isresolve Then
             Static urlCache As New Dictionary(Of String, String)
@@ -115,7 +125,7 @@ Public Class ShortUrl
             For Each orgUrlMatch As Match In m
                 Dim orgUrl As String = orgUrlMatch.Result("${svc}")
                 Dim orgUrlPath As String = orgUrlMatch.Result("${path}")
-                If Array.IndexOf(_ShortUrlService, orgUrl) > -1 AndAlso _
+                If (_isForceResolve OrElse Array.IndexOf(_ShortUrlService, orgUrl) > -1) AndAlso _
                    Not urlList.Contains(orgUrl + orgUrlPath) Then
                     SyncLock _lockObj
                         urlList.Add(orgUrl + orgUrlPath)
