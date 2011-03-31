@@ -2851,6 +2851,43 @@ Public Class Twitter
             Return False
         End Try
     End Function
+    Public Function GetBlockUserIds() As String
+        If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
+
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+
+        Try
+            res = twCon.GetBlockUserIds(content)
+        Catch ex As Exception
+            Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
+        End Try
+
+        Select Case res
+            Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
+            Case HttpStatusCode.Unauthorized
+                Twitter.AccountState = ACCOUNT_STATE.Invalid
+                Return "Check your Username/Password."
+            Case HttpStatusCode.BadRequest
+                Return "Err:API Limits?"
+            Case Else
+                Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
+        End Select
+
+        Try
+            Dim Ids = CreateDataFromJson(Of Long())(content)
+            TabInformations.GetInstance.BlockIds.AddRange(Ids)
+            Return ("")
+        Catch ex As SerializationException
+            TraceOut(ex.Message + Environment.NewLine + content)
+            Return "Err:Json Parse Error(DataContractJsonSerializer)"
+        Catch ex As Exception
+            TraceOut(ex, GetCurrentMethod.Name & " " & content)
+            Return "Err:Invalid Json!"
+        End Try
+
+    End Function
 
     Public Function GetHashList() As String()
         Dim hashArray As String()

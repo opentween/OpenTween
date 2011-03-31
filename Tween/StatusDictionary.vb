@@ -453,6 +453,8 @@ Public NotInheritable Class TabInformations
     Private _retweets As New Dictionary(Of Long, PostClass)
     Private _removedTab As New Stack(Of TabClass)
 
+    Public BlockIds As New List(Of Long)
+
     '発言の追加
     'AddPost(複数回) -> DistributePosts          -> SubmitUpdate
 
@@ -1037,6 +1039,7 @@ Public NotInheritable Class TabInformations
                             Not Item.IsMe AndAlso
                             Me._retweets.ContainsKey(Item.RetweetedId) AndAlso
                             Me._retweets(Item.RetweetedId).RetweetedCount > 0 Then Exit Sub
+                        If BlockIds.Contains(Item.UserId) Then Exit Sub
                         _statuses.Add(Item.StatusId, Item)
                     End If
                     If Item.RetweetedId > 0 Then

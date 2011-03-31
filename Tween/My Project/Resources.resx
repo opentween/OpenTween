@@ -1081,4 +1081,13 @@
   <data name="SaveLogMenuItem_ClickText5" xml:space="preserve">
     <value>現在のタブに表示されているイベントログを保存しますか？{0}　「はい」　　：現在タブに表示されているイベントログを保存する{0}　「いいえ」　：全てのイベントログを保存する{0}「キャンセル」：保存処理をキャンセル{0}（タブ区切りのテキストファイル形式で保存します）</value>
   </data>
+  <data name="UpdateBlockUserText1" xml:space="preserve">
+    <value>BlockIds取得中...</value>
+  </data>
+  <data name="UpdateBlockUserText2" xml:space="preserve">
+    <value>BlockIds取得エラー :</value>
+  </data>
+  <data name="UpdateBlockUserText3" xml:space="preserve">
+    <value>BlockIds取得完了</value>
+  </data>
 </root>
