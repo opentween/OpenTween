@@ -1614,9 +1614,9 @@ Public Class Twitter
         End If
         Try
             If more Then
-                res = twCon.GetListsStatuses(tab.ListInfo.UserId.ToString, tab.ListInfo.Id.ToString, count, tab.OldestId, 0, content)
+                res = twCon.GetListsStatuses(tab.ListInfo.UserId, tab.ListInfo.Id, count, tab.OldestId, 0, content)
             Else
-                res = twCon.GetListsStatuses(tab.ListInfo.UserId.ToString, tab.ListInfo.Id.ToString, count, 0, 0, content)
+                res = twCon.GetListsStatuses(tab.ListInfo.UserId, tab.ListInfo.Id, count, 0, 0, content)
             End If
         Catch ex As Exception
             Return "Err:" + ex.Message
