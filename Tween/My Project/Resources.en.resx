@@ -972,4 +972,10 @@
   <data name="SettingAPIUse2" xml:space="preserve">
     <value>Consumption API count if using Users Streams :  {0} / h</value>
   </data>
+  <data name="ListManageGetMoreUsers1" xml:space="preserve">
+    <value>Get members(&amp;M)</value>
+  </data>
+  <data name="ListManageGetMoreUsers2" xml:space="preserve">
+    <value>Get more(&amp;M)</value>
+  </data>
 </root>

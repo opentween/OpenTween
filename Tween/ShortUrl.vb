@@ -120,13 +120,13 @@ Public Class ShortUrl
                 End If
             End SyncLock
 
-            Dim m As MatchCollection = Regex.Matches(orgData, "<a href=""(?<svc>http://.+?/)(?<path>[^""]+)""", RegexOptions.IgnoreCase)
+            Dim m As MatchCollection = Regex.Matches(orgData, "<a href=""(?<svc>http://.+?/)(?<path>[^""]+)?""", RegexOptions.IgnoreCase)
             Dim urlList As New List(Of String)
             For Each orgUrlMatch As Match In m
                 Dim orgUrl As String = orgUrlMatch.Result("${svc}")
                 Dim orgUrlPath As String = orgUrlMatch.Result("${path}")
                 If (_isForceResolve OrElse Array.IndexOf(_ShortUrlService, orgUrl) > -1) AndAlso _
-                   Not urlList.Contains(orgUrl + orgUrlPath) Then
+                   Not urlList.Contains(orgUrl + orgUrlPath) AndAlso orgUrl <> "http://twitter.com/" Then
                     SyncLock _lockObj
                         urlList.Add(orgUrl + orgUrlPath)
                     End SyncLock

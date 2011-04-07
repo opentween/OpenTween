@@ -993,4 +993,10 @@
   <data name="TabUsageTypeName_UserTimeline" xml:space="preserve">
     <value>UserTimeline</value>
   </data>
+  <data name="ListManageGetMoreUsers1" xml:space="preserve">
+    <value>Get members(&amp;M)</value>
+  </data>
+  <data name="ListManageGetMoreUsers2" xml:space="preserve">
+    <value>Get more(&amp;M)</value>
+  </data>
 </root>
