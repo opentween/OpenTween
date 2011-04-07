@@ -2706,17 +2706,19 @@ Public Class Twitter
         If Text Is Nothing Then Return Nothing
         Dim retStr As String = Text.Replace("&gt;", "<<<<<tweenだいなり>>>>>").Replace("&lt;", "<<<<<tweenしょうなり>>>>>")
         'uriの正規表現
+        Const url_valid_domain As String = "(?<domain>(?:[\.-]|[^\p{P}\s])+\.[a-z]{2,}(?::[0-9]+)?)"
         Const url_valid_general_path_chars As String = "[a-z0-9!*';:=+$/%#\[\]\-_,~]"
-        Const url_valid_url_path_ending_chars As String = "[a-z0-9=#/]"
-        Const pth As String = "(?<path>/(?:(?:\(" + url_valid_general_path_chars + "+\))" +
+        Const url_balance_parens As String = "(?:\(" + url_valid_general_path_chars + "+\))"
+        Const url_valid_url_path_ending_chars As String = "(?:[a-z0-9=_#/\-\+]+|" + url_balance_parens + ")"
+        Const pth As String = "(?<path>(/(?:" + url_balance_parens +
             "|@" + url_valid_general_path_chars + "+/" +
-            "|[.,]?" + url_valid_general_path_chars +
-            ")*" +
-            url_valid_url_path_ending_chars + "?)?"
+            "|[.,]?" + url_valid_general_path_chars + "+" +
+            ")?" +
+            url_valid_url_path_ending_chars + "?)?)"
         Const qry As String = "(?<query>\?[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9_&=#])?"
         Const rgUrl As String = "(?<before>(?:[^\""':!=]|^|\:))" +
                                     "(?<url>(?<protocol>https?://|www\.)" +
-                                    "(?<domain>(?:[\.-]|[^\p{P}\s])+\.[a-z]{2,}(?::[0-9]+)?)" +
+                                    url_valid_domain +
                                     pth +
                                     qry +
                                     ")"

@@ -1090,4 +1090,10 @@
   <data name="UpdateBlockUserText3" xml:space="preserve">
     <value>BlockIds取得完了</value>
   </data>
+  <data name="ListManageGetMoreUsers1" xml:space="preserve">
+    <value>取得(&amp;M)</value>
+  </data>
+  <data name="ListManageGetMoreUsers2" xml:space="preserve">
+    <value>さらに取得(&amp;M)</value>
+  </data>
 </root>

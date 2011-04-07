@@ -550,22 +550,21 @@ Namespace My.Resources
         '''<summary>
         '''  更新履歴
         '''
-        '''==== Ver 1.0.0.0(2011/02/26)
-        ''' * ListView追加時の画面ちらつき対処
-        ''' * OS復帰時30秒経過後にREST取得を走らせるように
-        ''' * OutOfMemoryが発生する問題に対処
-        ''' * 再起動時に例外が発生する問題に対処（したつもり）
-        ''' * メモリを食いつぶす問題に対処
-        ''' * しばらく応答しなくなる問題に対処
-        ''' * bit.ly/j.mpでのURL短縮が出来なくなった問題に対処
-        ''' * タブ削除のUndo（編集メニュー）が直前のものしか出来なかったが、複数Undo出来るように変更
-        ''' * 1時間ごとにフォロワー情報再取得
-        ''' * 発言ソートで、ソートキーが日時以外の場合にstable sortに
-        ''' * 新着通知オフ時の強制イベント通知の初期設定値をFalseへ
-        ''' * 設定画面の動作→イベント受信時、を表示下へ移動
-        ''' * 設定画面のUserStreamパネルの内容を基本→更新間隔へ移動、パネル削除
-        ''' * 投稿時取得をUserStream有効時でも効くように戻し
-        ''' * gキーの関連発言表示でツイートのURLが含まれている場合に関連発言タブ [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        '''==== Ver 1.0.0.2(2011/03/29)
+        ''' * 発言削除時に未読数がずれるバグ修正
+        ''' * Favorite追加・削除時の発言色が反映されないバグ修正
+        ''' * 不正画像対策強化
+        ''' * 発言リストの選択状態がずれる問題に対処
+        ''' * ユーザー発言タブで振分条件が追加できるバグ修正
+        ''' * タブ選択画面にユーザー発言タブが表示されるバグ修正
+        ''' * TwitterのユーザープロフィールURLをCtrl+クリック時は、設定の「Tweenタブ表示orWeb表示の設定」と逆の動作をするよう変更
+        ''' * ユーザーのアイコン画像が表示されないバグ修正
+        ''' * 画像サムネイル表示サービスにpikubo、ニコニコ静画を追加
+        ''' * User Streams有効時のイベント一覧をCSVファイル保存できるように
+        ''' * Ctrl-j/kでのカーソル移動が出来ないバグ修正
+        ''' * 全取得停止機能追加（ファイル→「All Refresh Stop」）
+        ''' * 発言リストで発言をダブルクリックした際の動作を設定で変更可能に
+        ''' * ユーザー定義のURLを開く機能を追加。設定画面のURL指定に{ID}を [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property ChangeLog() As String
             Get
@@ -1406,6 +1405,24 @@ Namespace My.Resources
         Friend ReadOnly Property ListManageGetListMembersCallback1() As String
             Get
                 Return ResourceManager.GetString("ListManageGetListMembersCallback1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  取得(&amp;M) に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ListManageGetMoreUsers1() As String
+            Get
+                Return ResourceManager.GetString("ListManageGetMoreUsers1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  さらに取得(&amp;M) に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ListManageGetMoreUsers2() As String
+            Get
+                Return ResourceManager.GetString("ListManageGetMoreUsers2", resourceCulture)
             End Get
         End Property
         
