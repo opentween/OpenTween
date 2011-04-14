@@ -2710,16 +2710,20 @@ Public Class Twitter
         Const url_valid_general_path_chars As String = "[a-z0-9!*';:=+$/%#\[\]\-_,~]"
         Const url_balance_parens As String = "(?:\(" + url_valid_general_path_chars + "+\))"
         Const url_valid_url_path_ending_chars As String = "(?:[a-z0-9=_#/\-\+]+|" + url_balance_parens + ")"
-        Const pth As String = "(?<path>(/(?:" + url_balance_parens +
+        Const pth As String = "(?:" + url_balance_parens +
             "|@" + url_valid_general_path_chars + "+/" +
             "|[.,]?" + url_valid_general_path_chars + "+" +
-            ")?" +
-            url_valid_url_path_ending_chars + "?)?)"
+            ")"
+        Const pth2 As String = "(/(?:" +
+            pth + "+" + url_valid_url_path_ending_chars + "|" +
+            pth + "+" + url_valid_url_path_ending_chars + "?|" +
+            url_valid_url_path_ending_chars +
+            ")?)?"
         Const qry As String = "(?<query>\?[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9_&=#])?"
         Const rgUrl As String = "(?<before>(?:[^\""':!=]|^|\:))" +
                                     "(?<url>(?<protocol>https?://|www\.)" +
                                     url_valid_domain +
-                                    pth +
+                                    pth2 +
                                     qry +
                                     ")"
         '絶対パス表現のUriをリンクに置換
