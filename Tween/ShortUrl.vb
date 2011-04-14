@@ -149,7 +149,7 @@ Public Class ShortUrl
                         retUrlStr = urlEncodeMultibyteChar(httpVar.GetRedirectTo(tmpurlStr))
                         If retUrlStr.StartsWith("http") Then
                             retUrlStr = retUrlStr.Replace("""", "%22")  'ダブルコーテーションがあるとURL終端と判断されるため、これだけ再エンコード
-                            orgData = orgData.Replace("<a href=""" + orgUrl + """", "<a href=""" + retUrlStr + """")
+                            orgData = orgData.Replace("<a href=""" + tmpurlStr, "<a href=""" + retUrlStr)
                             SyncLock _lockObj
                                 If Not urlCache.ContainsKey(orgUrl) Then urlCache.Add(orgUrl, retUrlStr)
                             End SyncLock
