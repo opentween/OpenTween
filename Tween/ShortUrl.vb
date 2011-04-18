@@ -27,51 +27,49 @@ Imports System.Text.RegularExpressions
 Imports System.Web
 
 Public Class ShortUrl
-    Private Shared _ShortUrlService() As String = { _
-        "http://t.co/", _
-        "http://tinyurl.com/", _
-        "http://is.gd/", _
-        "http://snipurl.com/", _
-        "http://snurl.com/", _
-        "http://nsfw.in/", _
-        "http://qurlyq.com/", _
-        "http://dwarfurl.com/", _
-        "http://icanhaz.com/", _
-        "http://tiny.cc/", _
-        "http://urlenco.de/", _
-        "http://bit.ly/", _
-        "http://piurl.com/", _
-        "http://linkbee.com/", _
-        "http://traceurl.com/", _
-        "http://twurl.nl/", _
-        "http://cli.gs/", _
-        "http://rubyurl.com/", _
-        "http://budurl.com/", _
-        "http://ff.im/", _
-        "http://twitthis.com/", _
-        "http://blip.fm/", _
-        "http://tumblr.com/", _
-        "http://www.qurl.com/", _
-        "http://digg.com/", _
-        "http://ustre.am/", _
-        "http://pic.gd/", _
-        "http://airme.us/", _
-        "http://qurl.com/", _
-        "http://bctiny.com/", _
-        "http://j.mp/", _
-        "http://goo.gl/", _
-        "http://ow.ly/", _
-        "http://bkite.com/", _
-        "http://youtu.be/", _
-        "http://dlvr.it/", _
-        "http://p.tl/", _
-        "http://ht.ly/", _
-        "http://tl.gd/", _
-        "http://htn.to/", _
-        "http://amzn.to/", _
-        "http://flic.kr/", _
-        "http://ux.nu/", _
-        "http://moi.st/" _
+    Private Shared _ShortUrlService() As String = {
+        "http://t.co/",
+        "http://tinyurl.com/",
+        "http://is.gd/",
+        "http://bit.ly/",
+        "http://j.mp/",
+        "http://goo.gl/",
+        "http://htn.to/",
+        "http://amzn.to/",
+        "http://flic.kr/",
+        "http://ux.nu/",
+        "http://youtu.be/",
+        "http://p.tl/",
+        "http://nico.ms",
+        "http://moi.st/",
+        "http://snipurl.com/",
+        "http://snurl.com/",
+        "http://nsfw.in/",
+        "http://icanhaz.com/",
+        "http://tiny.cc/",
+        "http://urlenco.de/",
+        "http://linkbee.com/",
+        "http://traceurl.com/",
+        "http://twurl.nl/",
+        "http://cli.gs/",
+        "http://rubyurl.com/",
+        "http://budurl.com/",
+        "http://ff.im/",
+        "http://twitthis.com/",
+        "http://blip.fm/",
+        "http://tumblr.com/",
+        "http://www.qurl.com/",
+        "http://digg.com/",
+        "http://ustre.am/",
+        "http://pic.gd/",
+        "http://airme.us/",
+        "http://qurl.com/",
+        "http://bctiny.com/",
+        "http://ow.ly/",
+        "http://bkite.com/",
+        "http://dlvr.it/",
+        "http://ht.ly/",
+        "http://tl.gd/"
     }
 
     Private Shared _bitlyId As String = ""
