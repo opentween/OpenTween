@@ -27,6 +27,8 @@ Imports System.Text.RegularExpressions
 Imports System.ComponentModel
 Imports System.Text
 Imports System.Xml
+Imports System.Runtime.Serialization
+Imports System.Runtime.Serialization.Json
 
 Public Class Thumbnail
 
@@ -105,34 +107,35 @@ Public Class Thumbnail
     End Class
 
     Private ThumbnailServices As ThumbnailService() = {
-        New ThumbnailService("ImgUr", AddressOf ImgUr_GetUrl, AddressOf ImgUr_CreateImage), _
-        New ThumbnailService("DirectLink", AddressOf DirectLink_GetUrl, AddressOf DirectLink_CreateImage), _
-        New ThumbnailService("TwitPic", AddressOf TwitPic_GetUrl, AddressOf TwitPic_CreateImage), _
-        New ThumbnailService("yfrog", AddressOf yfrog_GetUrl, AddressOf yfrog_CreateImage), _
-        New ThumbnailService("Plixi(TweetPhoto)", AddressOf Plixi_GetUrl, AddressOf Plixi_CreateImage), _
-        New ThumbnailService("MobyPicture", AddressOf MobyPicture_GetUrl, AddressOf MobyPicture_CreateImage), _
-        New ThumbnailService("携帯百景", AddressOf MovaPic_GetUrl, AddressOf MovaPic_CreateImage), _
-        New ThumbnailService("はてなフォトライフ", AddressOf Hatena_GetUrl, AddressOf Hatena_CreateImage), _
-        New ThumbnailService("PhotoShare/bctiny", AddressOf PhotoShare_GetUrl, AddressOf PhotoShare_CreateImage), _
-        New ThumbnailService("img.ly", AddressOf imgly_GetUrl, AddressOf imgly_CreateImage), _
-        New ThumbnailService("brightkite", AddressOf brightkite_GetUrl, AddressOf brightkite_CreateImage), _
-        New ThumbnailService("Twitgoo", AddressOf Twitgoo_GetUrl, AddressOf Twitgoo_CreateImage), _
-        New ThumbnailService("youtube", AddressOf youtube_GetUrl, AddressOf youtube_CreateImage), _
-        New ThumbnailService("ニコニコ動画", AddressOf nicovideo_GetUrl, AddressOf nicovideo_CreateImage), _
-        New ThumbnailService("ニコニコ静画", AddressOf nicoseiga_GetUrl, AddressOf nicoseiga_CreateImage), _
-        New ThumbnailService("Pixiv", AddressOf Pixiv_GetUrl, AddressOf Pixiv_CreateImage), _
-        New ThumbnailService("flickr", AddressOf flickr_GetUrl, AddressOf flickr_CreateImage), _
-        New ThumbnailService("フォト蔵", AddressOf Photozou_GetUrl, AddressOf Photozou_CreateImage), _
-        New ThumbnailService("TwitVideo", AddressOf TwitVideo_GetUrl, AddressOf TwitVideo_CreateImage), _
-        New ThumbnailService("Piapro", AddressOf Piapro_GetUrl, AddressOf Piapro_CreateImage), _
-        New ThumbnailService("Tumblr", AddressOf Tumblr_GetUrl, AddressOf Tumblr_CreateImage), _
-        New ThumbnailService("ついっぷるフォト", AddressOf TwipplePhoto_GetUrl, AddressOf TwipplePhoto_CreateImage), _
-        New ThumbnailService("mypix/shamoji", AddressOf mypix_GetUrl, AddressOf mypix_CreateImage), _
-        New ThumbnailService("ow.ly", AddressOf Owly_GetUrl, AddressOf Owly_CreateImage), _
-        New ThumbnailService("vimeo", AddressOf Vimeo_GetUrl, AddressOf Vimeo_CreateImage), _
-        New ThumbnailService("cloudfiles", AddressOf CloudFiles_GetUrl, AddressOf CloudFiles_CreateImage), _
-        New ThumbnailService("instagram", AddressOf instagram_GetUrl, AddressOf instagram_CreateImage), _
-        New ThumbnailService("pikubo", AddressOf pikubo_GetUrl, AddressOf pikubo_CreateImage)
+        New ThumbnailService("ImgUr", AddressOf ImgUr_GetUrl, AddressOf ImgUr_CreateImage),
+        New ThumbnailService("DirectLink", AddressOf DirectLink_GetUrl, AddressOf DirectLink_CreateImage),
+        New ThumbnailService("TwitPic", AddressOf TwitPic_GetUrl, AddressOf TwitPic_CreateImage),
+        New ThumbnailService("yfrog", AddressOf yfrog_GetUrl, AddressOf yfrog_CreateImage),
+        New ThumbnailService("Plixi(TweetPhoto)", AddressOf Plixi_GetUrl, AddressOf Plixi_CreateImage),
+        New ThumbnailService("MobyPicture", AddressOf MobyPicture_GetUrl, AddressOf MobyPicture_CreateImage),
+        New ThumbnailService("携帯百景", AddressOf MovaPic_GetUrl, AddressOf MovaPic_CreateImage),
+        New ThumbnailService("はてなフォトライフ", AddressOf Hatena_GetUrl, AddressOf Hatena_CreateImage),
+        New ThumbnailService("PhotoShare/bctiny", AddressOf PhotoShare_GetUrl, AddressOf PhotoShare_CreateImage),
+        New ThumbnailService("img.ly", AddressOf imgly_GetUrl, AddressOf imgly_CreateImage),
+        New ThumbnailService("brightkite", AddressOf brightkite_GetUrl, AddressOf brightkite_CreateImage),
+        New ThumbnailService("Twitgoo", AddressOf Twitgoo_GetUrl, AddressOf Twitgoo_CreateImage),
+        New ThumbnailService("youtube", AddressOf youtube_GetUrl, AddressOf youtube_CreateImage),
+        New ThumbnailService("ニコニコ動画", AddressOf nicovideo_GetUrl, AddressOf nicovideo_CreateImage),
+        New ThumbnailService("ニコニコ静画", AddressOf nicoseiga_GetUrl, AddressOf nicoseiga_CreateImage),
+        New ThumbnailService("Pixiv", AddressOf Pixiv_GetUrl, AddressOf Pixiv_CreateImage),
+        New ThumbnailService("flickr", AddressOf flickr_GetUrl, AddressOf flickr_CreateImage),
+        New ThumbnailService("フォト蔵", AddressOf Photozou_GetUrl, AddressOf Photozou_CreateImage),
+        New ThumbnailService("TwitVideo", AddressOf TwitVideo_GetUrl, AddressOf TwitVideo_CreateImage),
+        New ThumbnailService("Piapro", AddressOf Piapro_GetUrl, AddressOf Piapro_CreateImage),
+        New ThumbnailService("Tumblr", AddressOf Tumblr_GetUrl, AddressOf Tumblr_CreateImage),
+        New ThumbnailService("ついっぷるフォト", AddressOf TwipplePhoto_GetUrl, AddressOf TwipplePhoto_CreateImage),
+        New ThumbnailService("mypix/shamoji", AddressOf mypix_GetUrl, AddressOf mypix_CreateImage),
+        New ThumbnailService("ow.ly", AddressOf Owly_GetUrl, AddressOf Owly_CreateImage),
+        New ThumbnailService("vimeo", AddressOf Vimeo_GetUrl, AddressOf Vimeo_CreateImage),
+        New ThumbnailService("cloudfiles", AddressOf CloudFiles_GetUrl, AddressOf CloudFiles_CreateImage),
+        New ThumbnailService("instagram", AddressOf instagram_GetUrl, AddressOf instagram_CreateImage),
+        New ThumbnailService("pikubo", AddressOf pikubo_GetUrl, AddressOf pikubo_CreateImage),
+        New ThumbnailService("PicPlz", AddressOf PicPlz_GetUrl, AddressOf PicPlz_CreateImage)
     }
 
     Public Sub New(ByVal Owner As TweenMain)
@@ -233,7 +236,7 @@ Public Class Thumbnail
                 Dim args As New CreateImageArgs
                 args.url = url
                 args.pics = arg.pics
-                args.tooltiptext = arg.tooltiptext
+                args.tooltipText = arg.tooltipText
                 args.errmsg = ""
                 If arg.imageCreators.Item(arg.urls.IndexOf(url)).Value(args) Then
                     Exit For
@@ -278,8 +281,8 @@ Public Class Thumbnail
                 End If
                 Owner.PreviewScrollBar.Value = 0
                 Owner.PreviewPicture.Image = _prev.pics(0).Value
-                If Not String.IsNullOrEmpty(_prev.tooltiptext(0).Value) Then
-                    Owner.ToolTip1.SetToolTip(Owner.PreviewPicture, _prev.tooltiptext(0).Value)
+                If Not String.IsNullOrEmpty(_prev.tooltipText(0).Value) Then
+                    Owner.ToolTip1.SetToolTip(Owner.PreviewPicture, _prev.tooltipText(0).Value)
                 Else
                     Owner.ToolTip1.SetToolTip(Owner.PreviewPicture, "")
                 End If
@@ -307,9 +310,9 @@ Public Class Thumbnail
             If _prev IsNot Nothing AndAlso _curPost IsNot Nothing AndAlso _prev.statusId = _curPost.StatusId Then
                 If _prev.pics.Count > e.NewValue Then
                     Owner.PreviewPicture.Image = _prev.pics(e.NewValue).Value
-                    If Not String.IsNullOrEmpty(_prev.tooltiptext(e.NewValue).Value) Then
+                    If Not String.IsNullOrEmpty(_prev.tooltipText(e.NewValue).Value) Then
                         Owner.ToolTip1.Hide(Owner.PreviewPicture)
-                        Owner.ToolTip1.SetToolTip(Owner.PreviewPicture, _prev.tooltiptext(e.NewValue).Value)
+                        Owner.ToolTip1.SetToolTip(Owner.PreviewPicture, _prev.tooltipText(e.NewValue).Value)
                     Else
                         Owner.ToolTip1.SetToolTip(Owner.PreviewPicture, "")
                         Owner.ToolTip1.Hide(Owner.PreviewPicture)
@@ -423,7 +426,7 @@ Public Class Thumbnail
             Return False
         End If
         args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, img))
-        args.tooltiptext.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
+        args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
         Return True
     End Function
 #End Region
@@ -455,7 +458,7 @@ Public Class Thumbnail
         Dim img As Image = (New HttpVarious).GetImage(args.url.Value, args.url.Key, 10000, args.errmsg)
         If img Is Nothing Then Return False
         args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, img))
-        args.tooltiptext.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
+        args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
         Return True
     End Function
 #End Region
@@ -503,7 +506,7 @@ Public Class Thumbnail
         End If
         ' 成功した場合はURLに対応する画像、ツールチップテキストを登録
         args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, img))
-        args.tooltiptext.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
+        args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
         Return True
     End Function
 
@@ -552,7 +555,7 @@ Public Class Thumbnail
         End If
         ' 成功した場合はURLに対応する画像、ツールチップテキストを登録
         args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, img))
-        args.tooltiptext.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
+        args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
         Return True
     End Function
 
@@ -602,7 +605,7 @@ Public Class Thumbnail
         End If
         ' 成功した場合はURLに対応する画像、ツールチップテキストを登録
         args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, img))
-        args.tooltiptext.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
+        args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
         Return True
     End Function
 
@@ -651,7 +654,7 @@ Public Class Thumbnail
         End If
         ' 成功した場合はURLに対応する画像、ツールチップテキストを登録
         args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, img))
-        args.tooltiptext.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
+        args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
         Return True
     End Function
 
@@ -700,7 +703,7 @@ Public Class Thumbnail
         End If
         ' 成功した場合はURLに対応する画像、ツールチップテキストを登録
         args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, img))
-        args.tooltiptext.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
+        args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
         Return True
     End Function
 
@@ -749,7 +752,7 @@ Public Class Thumbnail
         End If
         ' 成功した場合はURLに対応する画像、ツールチップテキストを登録
         args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, img))
-        args.tooltiptext.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
+        args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
         Return True
     End Function
 
@@ -806,7 +809,7 @@ Public Class Thumbnail
         End If
         ' 成功した場合はURLに対応する画像、ツールチップテキストを登録
         args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, img))
-        args.tooltiptext.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
+        args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
         Return True
     End Function
 
@@ -855,7 +858,7 @@ Public Class Thumbnail
         End If
         ' 成功した場合はURLに対応する画像、ツールチップテキストを登録
         args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, img))
-        args.tooltiptext.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
+        args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
         Return True
     End Function
 
@@ -904,7 +907,7 @@ Public Class Thumbnail
         End If
         ' 成功した場合はURLに対応する画像、ツールチップテキストを登録
         args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, img))
-        args.tooltiptext.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
+        args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
         Return True
     End Function
 
@@ -953,7 +956,7 @@ Public Class Thumbnail
         End If
         ' 成功した場合はURLに対応する画像、ツールチップテキストを登録
         args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, img))
-        args.tooltiptext.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
+        args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
         Return True
     End Function
 
@@ -1101,7 +1104,7 @@ Public Class Thumbnail
                     Dim _img As Image = http.GetImage(imgurl, videourl, 10000, args.errmsg)
                     If _img Is Nothing Then Return False
                     args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, _img))
-                    args.tooltiptext.Add(New KeyValuePair(Of String, String)(args.url.Key, sb.ToString.Trim()))
+                    args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, sb.ToString.Trim()))
                     Return True
                 End If
             End If
@@ -1551,7 +1554,7 @@ Public Class Thumbnail
         End If
         ' 成功した場合はURLに対応する画像、ツールチップテキストを登録
         args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, img))
-        args.tooltiptext.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
+        args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
         Return True
     End Function
 
@@ -1803,7 +1806,7 @@ Public Class Thumbnail
         End If
         ' 成功した場合はURLに対応する画像、ツールチップテキストを登録
         args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, img))
-        args.tooltiptext.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
+        args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
         Return True
     End Function
 
@@ -1852,7 +1855,7 @@ Public Class Thumbnail
         End If
         ' 成功した場合はURLに対応する画像、ツールチップテキストを登録
         args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, img))
-        args.tooltiptext.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
+        args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
         Return True
     End Function
 
@@ -2026,7 +2029,7 @@ Public Class Thumbnail
         End If
         ' 成功した場合はURLに対応する画像、ツールチップテキストを登録
         args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, img))
-        args.tooltiptext.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
+        args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
         Return True
     End Function
 #End Region
@@ -2132,6 +2135,157 @@ Public Class Thumbnail
         args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, img))
         args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
         Return True
+    End Function
+
+#End Region
+
+#Region "PicPlz"
+    ''' <summary>
+    ''' URL解析部で呼び出されるサムネイル画像URL作成デリゲート
+    ''' </summary>
+    ''' <param name="args">Class GetUrlArgs
+    '''                                 args.url        URL文字列
+    '''                                 args.imglist    解析成功した際にこのリストに元URL、サムネイルURLの形で作成するKeyValuePair
+    ''' </param>
+    ''' <returns>成功した場合True,失敗の場合False</returns>
+    ''' <remarks>args.imglistには呼び出しもとで使用しているimglistをそのまま渡すこと</remarks>
+
+    Private Function PicPlz_GetUrl(ByVal args As GetUrlArgs) As Boolean
+        ' TODO URL判定処理を記述
+        Dim mc As Match = Regex.Match(args.url, "^http://picplz\.com/user/\w+/pic/(?<longurl_ids>\w+)/?$", RegexOptions.IgnoreCase)
+        If mc.Success Then
+            ' TODO 成功時はサムネイルURLを作成しimglist.Addする
+            args.imglist.Add(New KeyValuePair(Of String, String)(args.url, mc.Value))
+            Return True
+        End If
+        mc = Regex.Match(args.url, "^http://picplz\.com/(?<shorturl_ids>\w+)?$", RegexOptions.IgnoreCase)
+        If mc.Success Then
+            ' TODO 成功時はサムネイルURLを作成しimglist.Addする
+            args.imglist.Add(New KeyValuePair(Of String, String)(args.url, mc.Value))
+            Return True
+        End If
+        Return False
+    End Function
+
+    ''' <summary>
+    ''' BackgroundWorkerから呼び出されるサムネイル画像作成デリゲート
+    ''' </summary>
+    ''' <param name="args">Class CreateImageArgs
+    '''                                 url As KeyValuePair(Of String, String)                  元URLとサムネイルURLのKeyValuePair
+    '''                                 pics As List(Of KeyValuePair(Of String, Image))         元URLとサムネイル画像のKeyValuePair
+    '''                                 tooltiptext As List(Of KeyValuePair(Of String, String)) 元URLとツールチップテキストのKeyValuePair
+    '''                                 errmsg As String                                        取得に失敗した際のエラーメッセージ
+    ''' </param>
+    ''' <returns>サムネイル画像作成に成功した場合はTrue,失敗した場合はFalse
+    ''' なお失敗した場合はargs.errmsgにエラーを表す文字列がセットされる</returns>
+    ''' <remarks></remarks>
+
+    Private Class PicPlzDataModel
+        <DataContract()>
+        Public Class Icon
+            <DataMember(Name:="url")> Public Url As String
+            <DataMember(Name:="width")> Public Width As Integer
+            <DataMember(Name:="height")> Public Height As Integer
+        End Class
+
+        <DataContract()>
+        Public Class Creator
+            <DataMember(Name:="username")> Public Username As String
+            <DataMember(Name:="display_name")> Public DisplayName As String
+            <DataMember(Name:="following_count")> Public FollowingCount As Int32
+            <DataMember(Name:="follower_count")> Public FollowerCount As Int32
+            <DataMember(Name:="id")> Public Id As Int32
+            <DataMember(Name:="icon")> Public Icon As PicPlzDataModel.Icon
+        End Class
+
+        <DataContract()>
+        Public Class PicFileInfo
+            <DataMember(Name:="width")> Public Width As Integer
+            <DataMember(Name:="img_url")> Public ImgUrl As String
+            <DataMember(Name:="height")> Public Height As Integer
+        End Class
+
+
+        <DataContract()>
+        Public Class PicFiles
+            <DataMember(Name:="640r")> Public Pic640r As PicFileInfo
+            <DataMember(Name:="100sh")> Public Pic100sh As PicFileInfo
+            <DataMember(Name:="320rh")> Public Pic320rh As PicFileInfo
+        End Class
+
+        <DataContract()>
+        Public Class Pics
+            <DataMember(Name:="view_count")> Public ViewCount As Integer
+            <DataMember(Name:="creator")> Public Creator As Creator
+            <DataMember(Name:="url")> Public Url As String
+            <DataMember(Name:="pic_files")> Public PicFiles As PicFiles
+            <DataMember(Name:="caption")> Public Caption As String
+            <DataMember(Name:="comment_count")> Public CommentCount As Integer
+            <DataMember(Name:="like_count")> Public LikeCount As Integer
+            <DataMember(Name:="date")> Public _Date As Int64
+            <DataMember(Name:="id")> Public Id As Integer
+        End Class
+
+        <DataContract()>
+        Public Class Value
+            <DataMember(Name:="pics")> Public Pics As Pics()
+        End Class
+
+        <DataContract()>
+        Public Class ResultData
+            <DataMember(Name:="result")> Public Result As String
+            <DataMember(Name:="value")> Public Value As Value
+        End Class
+    End Class
+
+    Private Function PicPlz_CreateImage(ByVal args As CreateImageArgs) As Boolean
+        ' TODO: サムネイル画像読み込み処理を記述します
+        Dim http As New HttpVarious
+        Dim mc As Match
+        Dim apiurl As String = "http://api.picplz.com/api/v2/pic.json?"
+        mc = Regex.Match(args.url.Value, "^http://picplz\.com/user/\w+/pic/(?<longurl_ids>\w+)/?$", RegexOptions.IgnoreCase)
+        If mc.Success Then
+            apiurl += "longurl_ids=" + mc.Groups("longurl_ids").Value
+        Else
+            mc = Regex.Match(args.url.Value, "^http://picplz\.com/(?<shorturl_ids>\w+)?$", RegexOptions.IgnoreCase)
+            If mc.Success Then
+                apiurl += "shorturl_ids=" + mc.Groups("shorturl_ids").Value
+            Else
+                Return False
+            End If
+        End If
+        Dim src As String = ""
+        Dim imgurl As String = ""
+        If (New HttpVarious).GetData(apiurl, Nothing, src, 0, args.errmsg, GetUserAgentString()) Then
+            Dim sb As New StringBuilder
+            Dim serializer As New DataContractJsonSerializer(GetType(PicPlzDataModel.ResultData))
+            Dim res As PicPlzDataModel.ResultData = CreateDataFromJson(Of PicPlzDataModel.ResultData)(src)
+
+            If res.Result = "ok" Then
+                Try
+                    imgurl = res.Value.Pics(0).PicFiles.Pic320rh.ImgUrl
+                Catch ex As Exception
+
+                End Try
+
+                Try
+                    sb.Append(res.Value.Pics(0).Caption)
+                Catch ex As Exception
+
+                End Try
+            Else
+                Return False
+            End If
+
+            If Not String.IsNullOrEmpty(imgurl) Then
+                Dim _img As Image = http.GetImage(imgurl, args.url.Key, 0, args.errmsg)
+                If _img Is Nothing Then Return False
+                args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, _img))
+                args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, sb.ToString.Trim()))
+                Return True
+            End If
+        End If
+        Return False
     End Function
 
 #End Region
