@@ -30,10 +30,11 @@ Imports System.Net
 Imports System.Runtime.Serialization
 Imports System.Linq
 
-' http://code.google.com/intl/ja/apis/ajaxlanguage/documentation/#fonje
-' デベロッパー ガイド - Google AJAX Language API - Google Code
-
 Public Class Google
+
+#Region "Translation"
+    ' http://code.google.com/intl/ja/apis/ajaxlanguage/documentation/#fonje
+    ' デベロッパー ガイド - Google AJAX Language API - Google Code
 
     Private Const TranslateEndPoint As String = "http://ajax.googleapis.com/ajax/services/language/translate"
     Private Const LanguageDetectEndPoint As String = "https://ajax.googleapis.com/ajax/services/language/detect"
@@ -245,4 +246,31 @@ Public Class Google
     Public Function GetIndexFromLanguageEnum(ByVal lang As String) As Integer
         Return LanguageTable.IndexOf(lang)
     End Function
+#End Region
+
+#Region "UrlShortener"
+    ' http://code.google.com/intl/ja/apis/urlshortener/v1/getting_started.html
+    ' Google URL Shortener API
+
+    <DataContract()>
+    Private Class UrlShortenerParameter
+        <DataMember(Name:="longUrl")> Dim LongUrl As String
+    End Class
+
+    <DataContract()>
+    Private Class UrlShortenerResponse
+
+    End Class
+
+    Public Function Shorten(ByVal source As String) As String
+        Dim http As New HttpVarious
+        Dim apiurl As String = "https://www.googleapis.com/urlshortener/v1/url"
+        Dim headers As New Dictionary(Of String, String)
+        headers.Add("User-Agent", GetUserAgentString())
+        headers.Add("Content-Type", "application/json")
+
+        http.PostData(apiurl, headers)
+        Return ""
+    End Function
+#End Region
 End Class
