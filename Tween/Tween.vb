@@ -5332,7 +5332,7 @@ RETRY:
                         Return True
                     Case Keys.F
                         If ListTab.SelectedTab IsNot Nothing Then
-                            If _statuses.Tabs(ListTab.SelectedTab.Text).TabType <> TabUsageType.PublicSearch Then
+                            If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.PublicSearch Then
                                 ListTab.SelectedTab.Controls("panelSearch").Controls("comboSearch").Focus()
                                 Return True
                             End If
