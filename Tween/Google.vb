@@ -196,7 +196,14 @@ Public Class Google
         Dim content As String = ""
         If http.GetData(apiurl, headers, content) Then
             Dim serializer As New DataContractJsonSerializer(GetType(TranslateResponse))
-            Dim res As TranslateResponse = CreateDataFromJson(Of TranslateResponse)(content)
+            Dim res As TranslateResponse
+
+            Try
+                res = CreateDataFromJson(Of TranslateResponse)(content)
+            Catch ex As Exception
+                ErrMsg = "Err:Invalid JSON"
+                Return False
+            End Try
 
             If res.ResponseData Is Nothing Then
                 ErrMsg = "Err:" + res.ResponseDetails
@@ -221,8 +228,12 @@ Public Class Google
         Dim content As String = ""
         If http.GetData(apiurl, headers, content) Then
             Dim serializer As New DataContractJsonSerializer(GetType(LanguageDetectResponse))
-            Dim res As LanguageDetectResponse = CreateDataFromJson(Of LanguageDetectResponse)(content)
-            Return res.ResponseData.Language
+            Try
+                Dim res As LanguageDetectResponse = CreateDataFromJson(Of LanguageDetectResponse)(content)
+                Return res.ResponseData.Language
+            Catch ex As Exception
+                Return ""
+            End Try
         End If
         Return ""
     End Function

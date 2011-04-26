@@ -2259,7 +2259,13 @@ Public Class Thumbnail
         If (New HttpVarious).GetData(apiurl, Nothing, src, 0, args.errmsg, GetUserAgentString()) Then
             Dim sb As New StringBuilder
             Dim serializer As New DataContractJsonSerializer(GetType(PicPlzDataModel.ResultData))
-            Dim res As PicPlzDataModel.ResultData = CreateDataFromJson(Of PicPlzDataModel.ResultData)(src)
+            Dim res As PicPlzDataModel.ResultData
+
+            Try
+                res = CreateDataFromJson(Of PicPlzDataModel.ResultData)(src)
+            Catch ex As Exception
+                Return False
+            End Try
 
             If res.Result = "ok" Then
                 Try
