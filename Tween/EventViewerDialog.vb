@@ -65,7 +65,7 @@ Public Class EventViewerDialog
     End Sub
 
     Private Sub EventList_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EventList.DoubleClick
-        If _filterdEventSource(EventList.SelectedIndices(0)) IsNot Nothing Then
+        If Not EventList.SelectedIndices.Count = 0 AndAlso _filterdEventSource(EventList.SelectedIndices(0)) IsNot Nothing Then
             TweenMain.OpenUriAsync("http://twitter.com/" + _filterdEventSource(EventList.SelectedIndices(0)).Username)
         End If
     End Sub
