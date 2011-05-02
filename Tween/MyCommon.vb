@@ -178,9 +178,10 @@ Public Module MyCommon
         UserUpdate = 128
         Deleted = 256
         ListCreated = 512
+        ListUpdated = 1024
 
         All = (None Or Favorite Or Unfavorite Or Follow Or ListMemberAdded Or ListMemberRemoved Or _
-               Block Or Unblock Or UserUpdate Or Deleted Or ListCreated)
+               Block Or Unblock Or UserUpdate Or Deleted Or ListCreated Or ListUpdated)
     End Enum
 
     Public Sub TraceOut(ByVal ex As Exception, ByVal Message As String)

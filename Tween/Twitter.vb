@@ -2968,7 +2968,8 @@ Public Class Twitter
         New EventTypeTableElement("unblock", EVENTTYPE.Unblock), _
         New EventTypeTableElement("user_update", EVENTTYPE.UserUpdate), _
         New EventTypeTableElement("deleted", EVENTTYPE.Deleted), _
-        New EventTypeTableElement("list_created", EVENTTYPE.ListCreated)
+        New EventTypeTableElement("list_created", EVENTTYPE.ListCreated), _
+        New EventTypeTableElement("list_updated", EVENTTYPE.ListUpdated)
     }
 
     Public Function EventNameToEventType(ByVal EventName As String) As EVENTTYPE
@@ -3108,7 +3109,7 @@ Public Class Twitter
                         End If
                     End If
                 End If
-            Case "list_member_added", "list_member_removed"
+            Case "list_member_added", "list_member_removed", "list_updated"
                 evt.Target = eventData.TargetObject.FullName
             Case "block"
                 evt.Target = ""
