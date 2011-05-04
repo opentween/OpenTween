@@ -574,7 +574,7 @@ Public Class Thumbnail
 
     Private Function Plixi_GetUrl(ByVal args As GetUrlArgs) As Boolean
         ' TODO URL判定処理を記述
-        Dim mc As Match = Regex.Match(args.url, "^(http://tweetphoto\.com/[0-9]+|http://pic\.gd/[a-z0-9]+|http://plixi\.com/p/[0-9]+)$", RegexOptions.IgnoreCase)
+        Dim mc As Match = Regex.Match(args.url, "^(http://tweetphoto\.com/[0-9]+|http://pic\.gd/[a-z0-9]+|http://(lockerz|plixi)\.com/[ps]/[0-9]+)$", RegexOptions.IgnoreCase)
         If mc.Success Then
             ' TODO 成功時はサムネイルURLを作成しimglist.Addする
             Const comp As String = "http://api.plixi.com/api/tpapi.svc/imagefromurl?size=thumbnail&url="
