@@ -1124,7 +1124,7 @@ Public Class TweenMain
             {"TwitPic", New TwitPic(tw)},
             {"img.ly", New imgly(tw)},
             {"yfrog", New yfrog(tw)},
-            {"Plixi", New Plixi(tw)}}
+            {"lockerz", New Plixi(tw)}}
     End Sub
 
     Private Sub spaceKeyCanceler_SpaceCancel(ByVal sender As Object, ByVal e As EventArgs)
@@ -9777,7 +9777,7 @@ RETRY:
             ImageServiceCombo.Items.Add("TwitPic")
             ImageServiceCombo.Items.Add("img.ly")
             ImageServiceCombo.Items.Add("yfrog")
-            ImageServiceCombo.Items.Add("Plixi")
+            ImageServiceCombo.Items.Add("lockerz")
         Else
             ImageServiceCombo.Items.Add("")
             Exit Sub
