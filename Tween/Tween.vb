@@ -3891,13 +3891,16 @@ Public Class TweenMain
     End Sub
 
     Private Sub PostBrowser_StatusTextChanged(ByVal sender As Object, ByVal e As EventArgs) Handles PostBrowser.StatusTextChanged
-        If PostBrowser.StatusText.StartsWith("http") OrElse PostBrowser.StatusText.StartsWith("ftp") _
-                OrElse PostBrowser.StatusText.StartsWith("data") Then
-            StatusLabelUrl.Text = PostBrowser.StatusText.Replace("&", "&&")
-        End If
-        If PostBrowser.StatusText = "" Then
-            SetStatusLabelUrl()
-        End If
+        Try
+            If PostBrowser.StatusText.StartsWith("http") OrElse PostBrowser.StatusText.StartsWith("ftp") _
+                    OrElse PostBrowser.StatusText.StartsWith("data") Then
+                StatusLabelUrl.Text = PostBrowser.StatusText.Replace("&", "&&")
+            End If
+            If PostBrowser.StatusText = "" Then
+                SetStatusLabelUrl()
+            End If
+        Catch ex As Exception
+        End Try
     End Sub
 
     Private Sub StatusText_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles StatusText.KeyPress
@@ -4893,6 +4896,8 @@ RETRY:
                 End If
             Catch ex As System.Runtime.InteropServices.COMException
                 '原因不明
+            Catch ex As UriFormatException
+                PostBrowser.DocumentText = dTxt
             Finally
                 PostBrowser.Visible = True
             End Try

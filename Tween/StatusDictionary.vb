@@ -845,21 +845,21 @@ Public NotInheritable Class TabInformations
             toIdx = 0
             stp = -1
         End If
+
+        Dim posts As Dictionary(Of Long, PostClass)
         If Not Tab.IsInnerStorageTabType Then
-            For i As Integer = StartIdx To toIdx Step stp
-                If Not _statuses(Tab.GetId(i)).IsRead Then
-                    Tab.OldestUnreadId = Tab.GetId(i)
-                    Exit For
-                End If
-            Next
+            posts = _statuses
         Else
-            For i As Integer = StartIdx To toIdx Step stp
-                If Not Tab.Posts(Tab.GetId(i)).IsRead Then
-                    Tab.OldestUnreadId = Tab.GetId(i)
-                    Exit For
-                End If
-            Next
+            posts = Tab.Posts
         End If
+
+        For i As Integer = StartIdx To toIdx Step stp
+            Dim id As Long = Tab.GetId(i)
+            If id > -1 AndAlso Not posts(id).IsRead Then
+                Tab.OldestUnreadId = id
+                Exit For
+            End If
+        Next
     End Sub
 
     Public Function DistributePosts() As Integer
