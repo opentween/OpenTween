@@ -687,32 +687,32 @@ Public NotInheritable Class TabInformations
     Public Sub RemovePost(ByVal Id As Long)
         SyncLock LockObj
             Dim post As PostClass = Nothing
-            If _statuses.ContainsKey(Id) Then
-                post = _statuses(Id)
-                '各タブから該当ID削除
-                For Each key As String In _tabs.Keys
-                    Dim tab As TabClass = _tabs(key)
-                    If tab.Contains(Id) Then
-                        If Not tab.IsInnerStorageTabType Then
-                            If tab.UnreadManage AndAlso Not post.IsRead Then    '未読管理
-                                SyncLock LockUnread
-                                    tab.UnreadCount -= 1
-                                    Me.SetNextUnreadId(Id, tab)
-                                End SyncLock
-                            End If
-                        Else '未読数がずれる可能性があるためtab.Postsの未読も確認する
-                            If tab.UnreadManage AndAlso Not tab.Posts(Id).IsRead Then    '未読管理
-                                SyncLock LockUnread
-                                    tab.UnreadCount -= 1
-                                    Me.SetNextUnreadId(Id, tab)
-                                End SyncLock
-                            End If
+            'If _statuses.ContainsKey(Id) Then
+            '各タブから該当ID削除
+            For Each key As String In _tabs.Keys
+                Dim tab As TabClass = _tabs(key)
+                If tab.Contains(Id) Then
+                    If Not tab.IsInnerStorageTabType Then
+                        post = _statuses(Id)
+                        If tab.UnreadManage AndAlso Not post.IsRead Then    '未読管理
+                            SyncLock LockUnread
+                                tab.UnreadCount -= 1
+                                Me.SetNextUnreadId(Id, tab)
+                            End SyncLock
                         End If
-                        tab.Remove(Id)
+                    Else '未読数がずれる可能性があるためtab.Postsの未読も確認する
+                        If tab.UnreadManage AndAlso Not tab.Posts(Id).IsRead Then    '未読管理
+                            SyncLock LockUnread
+                                tab.UnreadCount -= 1
+                                Me.SetNextUnreadId(Id, tab)
+                            End SyncLock
+                        End If
                     End If
-                Next
-                _statuses.Remove(Id)
-            End If
+                    tab.Remove(Id)
+                End If
+            Next
+            If _statuses.ContainsKey(Id) Then _statuses.Remove(Id)
+            'End If
         End SyncLock
     End Sub
 
