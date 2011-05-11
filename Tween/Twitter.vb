@@ -3218,7 +3218,7 @@ Public Class Twitter
             Dim sr As StreamReader = Nothing
             Do
                 Try
-                    If Not NetworkInterface.GetIsNetworkAvailable Then
+                    If Not MyCommon.IsNetworkAvailable() Then
                         Thread.Sleep(30 * 1000)
                         Continue Do
                     End If

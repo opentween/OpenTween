@@ -2526,7 +2526,7 @@ Public Class TweenMain
     End Sub
     Private Sub GetTimeline(ByVal WkType As WORKERTYPE, ByVal fromPage As Integer, ByVal toPage As Integer, ByVal tabName As String)
 
-        If Not IsNetworkAvailable() Then Exit Sub
+        If Not Me.IsNetworkAvailable() Then Exit Sub
 
         '非同期実行引数設定
         Dim args As New GetWorkerArg
@@ -8233,11 +8233,7 @@ RETRY:
 
     Public Function IsNetworkAvailable() As Boolean
         Dim nw As Boolean = True
-        Try
-            nw = My.Computer.Network.IsAvailable
-        Catch ex As Exception
-            nw = False
-        End Try
+        nw = MyCommon.IsNetworkAvailable
         _myStatusOnline = nw
         Return nw
     End Function
@@ -8398,7 +8394,7 @@ RETRY:
 
         NotifyIcon1.Visible = True
 
-        If IsNetworkAvailable() Then
+        If Me.IsNetworkAvailable() Then
             GetTimeline(WORKERTYPE.BlockIds, 0, 0, "")
             If SettingDialog.StartupFollowers Then
                 GetTimeline(WORKERTYPE.Follower, 0, 0, "")
