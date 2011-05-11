@@ -30,6 +30,7 @@ Imports System.Reflection
 Imports System.Web
 Imports System.IO
 Imports System.Runtime.Serialization.Json
+Imports System.Net.NetworkInformation
 
 Public Module MyCommon
     Private ReadOnly LockObj As New Object
@@ -620,5 +621,13 @@ retry:
             data = DirectCast((New DataContractJsonSerializer(GetType(T))).ReadObject(stream), T)
         End Using
         Return data
+    End Function
+
+    Public Function IsNetworkAvailable() As Boolean
+        Try
+            Return NetworkInterface.GetIsNetworkAvailable
+        Catch ex As Exception
+            Return False
+        End Try
     End Function
 End Module
