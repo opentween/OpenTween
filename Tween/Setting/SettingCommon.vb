@@ -194,4 +194,8 @@ Public Class SettingCommon
     Public ListDoubleClickAction As Integer = 0
     Public UserAppointUrl As String = ""
     Public HideDuplicatedRetweets As Boolean = False
+    Public IsPreviewFoursquare As Boolean = False
+    Public FoursquarePreviewHeight As Integer = 300
+    Public FoursquarePreviewWidth As Integer = 300
+    Public FoursquarePreviewZoom As Integer = 15
 End Class

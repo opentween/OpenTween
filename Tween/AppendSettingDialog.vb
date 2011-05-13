@@ -144,6 +144,11 @@ Public Class AppendSettingDialog
     Private _UserAppointUrl As String
     Public Property HideDuplicatedRetweets As Boolean
 
+    Public Property IsPreviewFoursquare As Boolean
+    Public Property FoursquarePreviewHeight As Integer
+    Public Property FoursquarePreviewWidth As Integer
+    Public Property FoursquarePreviewZoom As Integer
+
     Private Sub TreeViewSetting_BeforeSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewCancelEventArgs) Handles TreeViewSetting.BeforeSelect
         If Me.TreeViewSetting.SelectedNode Is Nothing Then Exit Sub
         Dim pnl = DirectCast(Me.TreeViewSetting.SelectedNode.Tag, Panel)
@@ -414,6 +419,10 @@ Public Class AppendSettingDialog
             _MyDoubleClickAction = ListDoubleClickActionComboBox.SelectedIndex
             _UserAppointUrl = UserAppointUrlText.Text
             Me.HideDuplicatedRetweets = Me.HideDuplicatedRetweetsCheck.Checked
+            Me.IsPreviewFoursquare = Me.IsPreviewFoursquareCheckBox.Checked
+            Me.FoursquarePreviewHeight = CInt(Me.FoursquarePreviewHeightTextBox.Text)
+            Me.FoursquarePreviewWidth = CInt(Me.FoursquarePreviewWidthTextBox.Text)
+            Me.FoursquarePreviewZoom = CInt(Me.FoursquarePreviewZoomTextBox.Text)
         Catch ex As Exception
             MessageBox.Show(My.Resources.Save_ClickText3)
             Me.DialogResult = Windows.Forms.DialogResult.Cancel
@@ -701,6 +710,10 @@ Public Class AppendSettingDialog
         ListDoubleClickActionComboBox.SelectedIndex = _MyDoubleClickAction
         UserAppointUrlText.Text = _UserAppointUrl
         Me.HideDuplicatedRetweetsCheck.Checked = Me.HideDuplicatedRetweets
+        Me.IsPreviewFoursquareCheckBox.Checked = Me.IsPreviewFoursquare
+        Me.FoursquarePreviewHeightTextBox.Text = Me.FoursquarePreviewHeight.ToString
+        Me.FoursquarePreviewWidthTextBox.Text = Me.FoursquarePreviewWidth.ToString
+        Me.FoursquarePreviewZoomTextBox.Text = Me.FoursquarePreviewZoom.ToString
 
         With Me.TreeViewSetting
             .Nodes("BasedNode").Tag = BasedPanel
@@ -2638,4 +2651,7 @@ Public Class AppendSettingDialog
         End If
     End Sub
 
+    Private Sub IsPreviewFoursquareCheckBox_CheckedChanged(sender As Object, e As System.EventArgs) Handles IsPreviewFoursquareCheckBox.CheckedChanged
+        FoursquareGroupBox.Enabled = IsPreviewFoursquareCheckBox.Checked
+    End Sub
 End Class

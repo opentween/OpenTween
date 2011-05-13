@@ -785,6 +785,11 @@ Public Class TweenMain
         SettingDialog.UserAppointUrl = _cfgCommon.UserAppointUrl
         SettingDialog.HideDuplicatedRetweets = _cfgCommon.HideDuplicatedRetweets
 
+        SettingDialog.IsPreviewFoursquare = _cfgCommon.IsPreviewFoursquare
+        SettingDialog.FoursquarePreviewHeight = _cfgCommon.FoursquarePreviewHeight
+        SettingDialog.FoursquarePreviewWidth = _cfgCommon.FoursquarePreviewWidth
+        SettingDialog.FoursquarePreviewZoom = _cfgCommon.FoursquarePreviewZoom
+
         'ハッシュタグ関連
         HashSupl = New AtIdSupplement(_cfgCommon.HashTags, "#")
         HashMgr = New HashtagManage(HashSupl, _
@@ -6133,6 +6138,10 @@ RETRY:
             _cfgCommon.ListDoubleClickAction = SettingDialog.ListDoubleClickAction
             _cfgCommon.UserAppointUrl = SettingDialog.UserAppointUrl
             _cfgCommon.HideDuplicatedRetweets = SettingDialog.HideDuplicatedRetweets
+            _cfgCommon.IsPreviewFoursquare = SettingDialog.IsPreviewFoursquare
+            _cfgCommon.FoursquarePreviewHeight = SettingDialog.FoursquarePreviewHeight
+            _cfgCommon.FoursquarePreviewWidth = SettingDialog.FoursquarePreviewWidth
+            _cfgCommon.FoursquarePreviewZoom = SettingDialog.FoursquarePreviewZoom
 
             _cfgCommon.Save()
         End SyncLock

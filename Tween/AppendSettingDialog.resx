@@ -255,6 +255,819 @@
   <data name="&gt;&gt;SplitContainer1.Panel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="IsPreviewFoursquareCheckBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="IsPreviewFoursquareCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>24, 254</value>
+  </data>
+  <data name="IsPreviewFoursquareCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>327, 16</value>
+  </data>
+  <data name="IsPreviewFoursquareCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="IsPreviewFoursquareCheckBox.Text" xml:space="preserve">
+    <value>FoursquareのURLからプレビューを表示する（非常に重くなります）</value>
+  </data>
+  <data name="&gt;&gt;IsPreviewFoursquareCheckBox.Name" xml:space="preserve">
+    <value>IsPreviewFoursquareCheckBox</value>
+  </data>
+  <data name="&gt;&gt;IsPreviewFoursquareCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;IsPreviewFoursquareCheckBox.Parent" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;IsPreviewFoursquareCheckBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="Label42.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Label42.Location" type="System.Drawing.Point, System.Drawing">
+    <value>169, 17</value>
+  </data>
+  <data name="Label42.Size" type="System.Drawing.Size, System.Drawing">
+    <value>11, 12</value>
+  </data>
+  <data name="Label42.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="Label42.Text" xml:space="preserve">
+    <value>x</value>
+  </data>
+  <data name="&gt;&gt;Label42.Name" xml:space="preserve">
+    <value>Label42</value>
+  </data>
+  <data name="&gt;&gt;Label42.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label42.Parent" xml:space="preserve">
+    <value>FoursquareGroupBox</value>
+  </data>
+  <data name="&gt;&gt;Label42.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="FoursquarePreviewWidthTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>185, 15</value>
+  </data>
+  <data name="FoursquarePreviewWidthTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 19</value>
+  </data>
+  <data name="FoursquarePreviewWidthTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;FoursquarePreviewWidthTextBox.Name" xml:space="preserve">
+    <value>FoursquarePreviewWidthTextBox</value>
+  </data>
+  <data name="&gt;&gt;FoursquarePreviewWidthTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FoursquarePreviewWidthTextBox.Parent" xml:space="preserve">
+    <value>FoursquareGroupBox</value>
+  </data>
+  <data name="&gt;&gt;FoursquarePreviewWidthTextBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="FoursquarePreviewZoomTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>352, 16</value>
+  </data>
+  <data name="FoursquarePreviewZoomTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>63, 19</value>
+  </data>
+  <data name="FoursquarePreviewZoomTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;FoursquarePreviewZoomTextBox.Name" xml:space="preserve">
+    <value>FoursquarePreviewZoomTextBox</value>
+  </data>
+  <data name="&gt;&gt;FoursquarePreviewZoomTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FoursquarePreviewZoomTextBox.Parent" xml:space="preserve">
+    <value>FoursquareGroupBox</value>
+  </data>
+  <data name="&gt;&gt;FoursquarePreviewZoomTextBox.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="FoursquarePreviewHeightTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>102, 15</value>
+  </data>
+  <data name="FoursquarePreviewHeightTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 19</value>
+  </data>
+  <data name="FoursquarePreviewHeightTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;FoursquarePreviewHeightTextBox.Name" xml:space="preserve">
+    <value>FoursquarePreviewHeightTextBox</value>
+  </data>
+  <data name="&gt;&gt;FoursquarePreviewHeightTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FoursquarePreviewHeightTextBox.Parent" xml:space="preserve">
+    <value>FoursquareGroupBox</value>
+  </data>
+  <data name="&gt;&gt;FoursquarePreviewHeightTextBox.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="Label41.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Label41.Location" type="System.Drawing.Point, System.Drawing">
+    <value>241, 21</value>
+  </data>
+  <data name="Label41.Size" type="System.Drawing.Size, System.Drawing">
+    <value>79, 12</value>
+  </data>
+  <data name="Label41.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="Label41.Text" xml:space="preserve">
+    <value>プレビューズーム</value>
+  </data>
+  <data name="&gt;&gt;Label41.Name" xml:space="preserve">
+    <value>Label41</value>
+  </data>
+  <data name="&gt;&gt;Label41.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label41.Parent" xml:space="preserve">
+    <value>FoursquareGroupBox</value>
+  </data>
+  <data name="&gt;&gt;Label41.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="Label40.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Label40.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 21</value>
+  </data>
+  <data name="Label40.Size" type="System.Drawing.Size, System.Drawing">
+    <value>78, 12</value>
+  </data>
+  <data name="Label40.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="Label40.Text" xml:space="preserve">
+    <value>プレビューサイズ</value>
+  </data>
+  <data name="&gt;&gt;Label40.Name" xml:space="preserve">
+    <value>Label40</value>
+  </data>
+  <data name="&gt;&gt;Label40.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label40.Parent" xml:space="preserve">
+    <value>FoursquareGroupBox</value>
+  </data>
+  <data name="&gt;&gt;Label40.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="FoursquareGroupBox.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="FoursquareGroupBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>21, 277</value>
+  </data>
+  <data name="FoursquareGroupBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>485, 71</value>
+  </data>
+  <data name="FoursquareGroupBox.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="FoursquareGroupBox.Text" xml:space="preserve">
+    <value>FourSquare</value>
+  </data>
+  <data name="&gt;&gt;FoursquareGroupBox.Name" xml:space="preserve">
+    <value>FoursquareGroupBox</value>
+  </data>
+  <data name="&gt;&gt;FoursquareGroupBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FoursquareGroupBox.Parent" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;FoursquareGroupBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="Label39.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Label39.Location" type="System.Drawing.Point, System.Drawing">
+    <value>22, 203</value>
+  </data>
+  <data name="Label39.Size" type="System.Drawing.Size, System.Drawing">
+    <value>196, 12</value>
+  </data>
+  <data name="Label39.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="Label39.Text" xml:space="preserve">
+    <value>ユーザー指定のURL({ID}を置き換えます)</value>
+  </data>
+  <data name="&gt;&gt;Label39.Name" xml:space="preserve">
+    <value>Label39</value>
+  </data>
+  <data name="&gt;&gt;Label39.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label39.Parent" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;Label39.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="UserAppointUrlText.Location" type="System.Drawing.Point, System.Drawing">
+    <value>205, 220</value>
+  </data>
+  <data name="UserAppointUrlText.Size" type="System.Drawing.Size, System.Drawing">
+    <value>301, 19</value>
+  </data>
+  <data name="UserAppointUrlText.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="&gt;&gt;UserAppointUrlText.Name" xml:space="preserve">
+    <value>UserAppointUrlText</value>
+  </data>
+  <data name="&gt;&gt;UserAppointUrlText.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;UserAppointUrlText.Parent" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;UserAppointUrlText.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items" xml:space="preserve">
+    <value>AFRIKAANS</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items1" xml:space="preserve">
+    <value>ALBANIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items2" xml:space="preserve">
+    <value>AMHARIC</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items3" xml:space="preserve">
+    <value>ARABIC</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items4" xml:space="preserve">
+    <value>ARMENIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items5" xml:space="preserve">
+    <value>AZERBAIJANI</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items6" xml:space="preserve">
+    <value>BASQUE</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items7" xml:space="preserve">
+    <value>BELARUSIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items8" xml:space="preserve">
+    <value>BENGALI</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items9" xml:space="preserve">
+    <value>BIHARI</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items10" xml:space="preserve">
+    <value>BRETON</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items11" xml:space="preserve">
+    <value>BULGARIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items12" xml:space="preserve">
+    <value>BURMESE</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items13" xml:space="preserve">
+    <value>CATALAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items14" xml:space="preserve">
+    <value>CHEROKEE</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items15" xml:space="preserve">
+    <value>CHINESE</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items16" xml:space="preserve">
+    <value>CHINESE_SIMPLIFIED</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items17" xml:space="preserve">
+    <value>CHINESE_TRADITIONAL</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items18" xml:space="preserve">
+    <value>CORSICAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items19" xml:space="preserve">
+    <value>CROATIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items20" xml:space="preserve">
+    <value>CZECH</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items21" xml:space="preserve">
+    <value>DANISH</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items22" xml:space="preserve">
+    <value>DHIVEHI</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items23" xml:space="preserve">
+    <value>DUTCH</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items24" xml:space="preserve">
+    <value>ENGLISH</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items25" xml:space="preserve">
+    <value>ESPERANTO</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items26" xml:space="preserve">
+    <value>ESTONIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items27" xml:space="preserve">
+    <value>FAROESE</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items28" xml:space="preserve">
+    <value>FILIPINO</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items29" xml:space="preserve">
+    <value>FINNISH</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items30" xml:space="preserve">
+    <value>FRENCH</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items31" xml:space="preserve">
+    <value>FRISIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items32" xml:space="preserve">
+    <value>GALICIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items33" xml:space="preserve">
+    <value>GEORGIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items34" xml:space="preserve">
+    <value>GERMAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items35" xml:space="preserve">
+    <value>GREEK</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items36" xml:space="preserve">
+    <value>GUJARATI</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items37" xml:space="preserve">
+    <value>HAITIAN_CREOLE</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items38" xml:space="preserve">
+    <value>HEBREW</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items39" xml:space="preserve">
+    <value>HINDI</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items40" xml:space="preserve">
+    <value>HUNGARIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items41" xml:space="preserve">
+    <value>ICELANDIC</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items42" xml:space="preserve">
+    <value>INDONESIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items43" xml:space="preserve">
+    <value>INUKTITUT</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items44" xml:space="preserve">
+    <value>IRISH</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items45" xml:space="preserve">
+    <value>ITALIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items46" xml:space="preserve">
+    <value>JAPANESE</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items47" xml:space="preserve">
+    <value>JAVANESE</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items48" xml:space="preserve">
+    <value>KANNADA</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items49" xml:space="preserve">
+    <value>KAZAKH</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items50" xml:space="preserve">
+    <value>KHMER</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items51" xml:space="preserve">
+    <value>KOREAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items52" xml:space="preserve">
+    <value>KURDISH</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items53" xml:space="preserve">
+    <value>KYRGYZ</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items54" xml:space="preserve">
+    <value>LAO</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items55" xml:space="preserve">
+    <value>LATIN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items56" xml:space="preserve">
+    <value>LATVIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items57" xml:space="preserve">
+    <value>LITHUANIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items58" xml:space="preserve">
+    <value>LUXEMBOURGISH</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items59" xml:space="preserve">
+    <value>MACEDONIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items60" xml:space="preserve">
+    <value>MALAY</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items61" xml:space="preserve">
+    <value>MALAYALAM</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items62" xml:space="preserve">
+    <value>MALTESE</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items63" xml:space="preserve">
+    <value>MAORI</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items64" xml:space="preserve">
+    <value>MARATHI</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items65" xml:space="preserve">
+    <value>MONGOLIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items66" xml:space="preserve">
+    <value>NEPALI</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items67" xml:space="preserve">
+    <value>NORWEGIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items68" xml:space="preserve">
+    <value>OCCITAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items69" xml:space="preserve">
+    <value>ORIYA</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items70" xml:space="preserve">
+    <value>PASHTO</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items71" xml:space="preserve">
+    <value>PERSIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items72" xml:space="preserve">
+    <value>POLISH</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items73" xml:space="preserve">
+    <value>PORTUGUESE</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items74" xml:space="preserve">
+    <value>PORTUGUESE_PORTUGAL</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items75" xml:space="preserve">
+    <value>PUNJABI</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items76" xml:space="preserve">
+    <value>QUECHUA</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items77" xml:space="preserve">
+    <value>ROMANIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items78" xml:space="preserve">
+    <value>RUSSIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items79" xml:space="preserve">
+    <value>SANSKRIT</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items80" xml:space="preserve">
+    <value>SCOTS_GAELIC</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items81" xml:space="preserve">
+    <value>SERBIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items82" xml:space="preserve">
+    <value>SINDHI</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items83" xml:space="preserve">
+    <value>SINHALESE</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items84" xml:space="preserve">
+    <value>SLOVAK</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items85" xml:space="preserve">
+    <value>SLOVENIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items86" xml:space="preserve">
+    <value>SPANISH</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items87" xml:space="preserve">
+    <value>SUNDANESE</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items88" xml:space="preserve">
+    <value>SWAHILI</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items89" xml:space="preserve">
+    <value>SWEDISH</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items90" xml:space="preserve">
+    <value>SYRIAC</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items91" xml:space="preserve">
+    <value>TAJIK</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items92" xml:space="preserve">
+    <value>TAMIL</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items93" xml:space="preserve">
+    <value>TATAR</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items94" xml:space="preserve">
+    <value>TELUGU</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items95" xml:space="preserve">
+    <value>THAI</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items96" xml:space="preserve">
+    <value>TIBETAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items97" xml:space="preserve">
+    <value>TONGA</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items98" xml:space="preserve">
+    <value>TURKISH</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items99" xml:space="preserve">
+    <value>UKRAINIAN</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items100" xml:space="preserve">
+    <value>URDU</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items101" xml:space="preserve">
+    <value>UZBEK</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items102" xml:space="preserve">
+    <value>UIGHUR</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items103" xml:space="preserve">
+    <value>VIETNAMESE</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items104" xml:space="preserve">
+    <value>WELSH</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items105" xml:space="preserve">
+    <value>YIDDISH</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Items106" xml:space="preserve">
+    <value>YORUBA</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>205, 156</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>182, 20</value>
+  </data>
+  <data name="ComboBoxTranslateLanguage.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxTranslateLanguage.Name" xml:space="preserve">
+    <value>ComboBoxTranslateLanguage</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxTranslateLanguage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxTranslateLanguage.Parent" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxTranslateLanguage.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="Label29.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Label29.Location" type="System.Drawing.Point, System.Drawing">
+    <value>20, 160</value>
+  </data>
+  <data name="Label29.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 12</value>
+  </data>
+  <data name="Label29.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="Label29.Text" xml:space="preserve">
+    <value>発言翻訳先の言語</value>
+  </data>
+  <data name="&gt;&gt;Label29.Name" xml:space="preserve">
+    <value>Label29</value>
+  </data>
+  <data name="&gt;&gt;Label29.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label29.Parent" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;Label29.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="CheckOutputz.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckOutputz.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CheckOutputz.Location" type="System.Drawing.Point, System.Drawing">
+    <value>22, 22</value>
+  </data>
+  <data name="CheckOutputz.Size" type="System.Drawing.Size, System.Drawing">
+    <value>115, 16</value>
+  </data>
+  <data name="CheckOutputz.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="CheckOutputz.Text" xml:space="preserve">
+    <value>Outputzに対応する</value>
+  </data>
+  <data name="&gt;&gt;CheckOutputz.Name" xml:space="preserve">
+    <value>CheckOutputz</value>
+  </data>
+  <data name="&gt;&gt;CheckOutputz.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckOutputz.Parent" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;CheckOutputz.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="CheckNicoms.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckNicoms.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CheckNicoms.Location" type="System.Drawing.Point, System.Drawing">
+    <value>22, 120</value>
+  </data>
+  <data name="CheckNicoms.Size" type="System.Drawing.Size, System.Drawing">
+    <value>237, 16</value>
+  </data>
+  <data name="CheckNicoms.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="CheckNicoms.Text" xml:space="preserve">
+    <value>ニコニコ動画のURLをnico.msで短縮して送信</value>
+  </data>
+  <data name="&gt;&gt;CheckNicoms.Name" xml:space="preserve">
+    <value>CheckNicoms</value>
+  </data>
+  <data name="&gt;&gt;CheckNicoms.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckNicoms.Parent" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;CheckNicoms.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="TextBoxOutputzKey.Location" type="System.Drawing.Point, System.Drawing">
+    <value>205, 44</value>
+  </data>
+  <data name="TextBoxOutputzKey.Size" type="System.Drawing.Size, System.Drawing">
+    <value>182, 19</value>
+  </data>
+  <data name="TextBoxOutputzKey.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;TextBoxOutputzKey.Name" xml:space="preserve">
+    <value>TextBoxOutputzKey</value>
+  </data>
+  <data name="&gt;&gt;TextBoxOutputzKey.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextBoxOutputzKey.Parent" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;TextBoxOutputzKey.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="Label60.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Label60.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Label60.Location" type="System.Drawing.Point, System.Drawing">
+    <value>36, 75</value>
+  </data>
+  <data name="Label60.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 12</value>
+  </data>
+  <data name="Label60.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="Label60.Text" xml:space="preserve">
+    <value>アウトプット先のURL</value>
+  </data>
+  <data name="&gt;&gt;Label60.Name" xml:space="preserve">
+    <value>Label60</value>
+  </data>
+  <data name="&gt;&gt;Label60.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label60.Parent" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;Label60.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="Label59.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Label59.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Label59.Location" type="System.Drawing.Point, System.Drawing">
+    <value>36, 47</value>
+  </data>
+  <data name="Label59.Size" type="System.Drawing.Size, System.Drawing">
+    <value>63, 12</value>
+  </data>
+  <data name="Label59.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="Label59.Text" xml:space="preserve">
+    <value>復活の呪文</value>
+  </data>
+  <data name="&gt;&gt;Label59.Name" xml:space="preserve">
+    <value>Label59</value>
+  </data>
+  <data name="&gt;&gt;Label59.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label59.Parent" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;Label59.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="ComboBoxOutputzUrlmode.Items" xml:space="preserve">
+    <value>twitter.com</value>
+  </data>
+  <data name="ComboBoxOutputzUrlmode.Items1" xml:space="preserve">
+    <value>twitter.com/username</value>
+  </data>
+  <data name="ComboBoxOutputzUrlmode.Location" type="System.Drawing.Point, System.Drawing">
+    <value>205, 72</value>
+  </data>
+  <data name="ComboBoxOutputzUrlmode.Size" type="System.Drawing.Size, System.Drawing">
+    <value>182, 20</value>
+  </data>
+  <data name="ComboBoxOutputzUrlmode.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxOutputzUrlmode.Name" xml:space="preserve">
+    <value>ComboBoxOutputzUrlmode</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxOutputzUrlmode.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxOutputzUrlmode.Parent" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxOutputzUrlmode.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="CooperatePanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="CooperatePanel.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CooperatePanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="CooperatePanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>518, 368</value>
+  </data>
+  <data name="CooperatePanel.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="CooperatePanel.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;CooperatePanel.Name" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;CooperatePanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CooperatePanel.Parent" xml:space="preserve">
+    <value>SplitContainer1.Panel2</value>
+  </data>
+  <data name="&gt;&gt;CooperatePanel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="CheckForceResolve.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -544,7 +1357,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;ShortUrlPanel.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="Label55.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -901,7 +1714,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;ProxyPanel.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="CheckEnableBasicAuth.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1183,7 +1996,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;ConnectionPanel.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="Label65.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2077,7 +2890,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;FontPanel2.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="CheckHashSupple.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2338,7 +3151,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;TweetActPanel.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="StartupReaded.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2488,7 +3301,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;StartupPanel.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="ListTextCountApi.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>Disable</value>
@@ -2965,7 +3778,7 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;GetCountPanel.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="Label38.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3667,621 +4480,6 @@
     <value>SplitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;ActionPanel.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="Label39.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label39.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 274</value>
-  </data>
-  <data name="Label39.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 12</value>
-  </data>
-  <data name="Label39.TabIndex" type="System.Int32, mscorlib">
-    <value>17</value>
-  </data>
-  <data name="Label39.Text" xml:space="preserve">
-    <value>ユーザー指定のURL({ID}を置き換えます)</value>
-  </data>
-  <data name="&gt;&gt;Label39.Name" xml:space="preserve">
-    <value>Label39</value>
-  </data>
-  <data name="&gt;&gt;Label39.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label39.Parent" xml:space="preserve">
-    <value>CooperatePanel</value>
-  </data>
-  <data name="&gt;&gt;Label39.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="UserAppointUrlText.Location" type="System.Drawing.Point, System.Drawing">
-    <value>205, 291</value>
-  </data>
-  <data name="UserAppointUrlText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>301, 19</value>
-  </data>
-  <data name="UserAppointUrlText.TabIndex" type="System.Int32, mscorlib">
-    <value>18</value>
-  </data>
-  <data name="&gt;&gt;UserAppointUrlText.Name" xml:space="preserve">
-    <value>UserAppointUrlText</value>
-  </data>
-  <data name="&gt;&gt;UserAppointUrlText.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;UserAppointUrlText.Parent" xml:space="preserve">
-    <value>CooperatePanel</value>
-  </data>
-  <data name="&gt;&gt;UserAppointUrlText.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items" xml:space="preserve">
-    <value>AFRIKAANS</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items1" xml:space="preserve">
-    <value>ALBANIAN</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items2" xml:space="preserve">
-    <value>AMHARIC</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items3" xml:space="preserve">
-    <value>ARABIC</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items4" xml:space="preserve">
-    <value>ARMENIAN</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items5" xml:space="preserve">
-    <value>AZERBAIJANI</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items6" xml:space="preserve">
-    <value>BASQUE</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items7" xml:space="preserve">
-    <value>BELARUSIAN</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items8" xml:space="preserve">
-    <value>BENGALI</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items9" xml:space="preserve">
-    <value>BIHARI</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items10" xml:space="preserve">
-    <value>BRETON</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items11" xml:space="preserve">
-    <value>BULGARIAN</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items12" xml:space="preserve">
-    <value>BURMESE</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items13" xml:space="preserve">
-    <value>CATALAN</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items14" xml:space="preserve">
-    <value>CHEROKEE</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items15" xml:space="preserve">
-    <value>CHINESE</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items16" xml:space="preserve">
-    <value>CHINESE_SIMPLIFIED</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items17" xml:space="preserve">
-    <value>CHINESE_TRADITIONAL</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items18" xml:space="preserve">
-    <value>CORSICAN</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items19" xml:space="preserve">
-    <value>CROATIAN</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items20" xml:space="preserve">
-    <value>CZECH</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items21" xml:space="preserve">
-    <value>DANISH</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items22" xml:space="preserve">
-    <value>DHIVEHI</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items23" xml:space="preserve">
-    <value>DUTCH</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items24" xml:space="preserve">
-    <value>ENGLISH</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items25" xml:space="preserve">
-    <value>ESPERANTO</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items26" xml:space="preserve">
-    <value>ESTONIAN</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items27" xml:space="preserve">
-    <value>FAROESE</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items28" xml:space="preserve">
-    <value>FILIPINO</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items29" xml:space="preserve">
-    <value>FINNISH</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items30" xml:space="preserve">
-    <value>FRENCH</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items31" xml:space="preserve">
-    <value>FRISIAN</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items32" xml:space="preserve">
-    <value>GALICIAN</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items33" xml:space="preserve">
-    <value>GEORGIAN</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items34" xml:space="preserve">
-    <value>GERMAN</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items35" xml:space="preserve">
-    <value>GREEK</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items36" xml:space="preserve">
-    <value>GUJARATI</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items37" xml:space="preserve">
-    <value>HAITIAN_CREOLE</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items38" xml:space="preserve">
-    <value>HEBREW</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items39" xml:space="preserve">
-    <value>HINDI</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items40" xml:space="preserve">
-    <value>HUNGARIAN</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items41" xml:space="preserve">
-    <value>ICELANDIC</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items42" xml:space="preserve">
-    <value>INDONESIAN</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items43" xml:space="preserve">
-    <value>INUKTITUT</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items44" xml:space="preserve">
-    <value>IRISH</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items45" xml:space="preserve">
-    <value>ITALIAN</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items46" xml:space="preserve">
-    <value>JAPANESE</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items47" xml:space="preserve">
-    <value>JAVANESE</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items48" xml:space="preserve">
-    <value>KANNADA</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items49" xml:space="preserve">
-    <value>KAZAKH</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items50" xml:space="preserve">
-    <value>KHMER</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items51" xml:space="preserve">
-    <value>KOREAN</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items52" xml:space="preserve">
-    <value>KURDISH</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items53" xml:space="preserve">
-    <value>KYRGYZ</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items54" xml:space="preserve">
-    <value>LAO</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items55" xml:space="preserve">
-    <value>LATIN</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items56" xml:space="preserve">
-    <value>LATVIAN</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items57" xml:space="preserve">
-    <value>LITHUANIAN</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items58" xml:space="preserve">
-    <value>LUXEMBOURGISH</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items59" xml:space="preserve">
-    <value>MACEDONIAN</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items60" xml:space="preserve">
-    <value>MALAY</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items61" xml:space="preserve">
-    <value>MALAYALAM</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items62" xml:space="preserve">
-    <value>MALTESE</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items63" xml:space="preserve">
-    <value>MAORI</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items64" xml:space="preserve">
-    <value>MARATHI</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items65" xml:space="preserve">
-    <value>MONGOLIAN</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items66" xml:space="preserve">
-    <value>NEPALI</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items67" xml:space="preserve">
-    <value>NORWEGIAN</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items68" xml:space="preserve">
-    <value>OCCITAN</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items69" xml:space="preserve">
-    <value>ORIYA</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items70" xml:space="preserve">
-    <value>PASHTO</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items71" xml:space="preserve">
-    <value>PERSIAN</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items72" xml:space="preserve">
-    <value>POLISH</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items73" xml:space="preserve">
-    <value>PORTUGUESE</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items74" xml:space="preserve">
-    <value>PORTUGUESE_PORTUGAL</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items75" xml:space="preserve">
-    <value>PUNJABI</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items76" xml:space="preserve">
-    <value>QUECHUA</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items77" xml:space="preserve">
-    <value>ROMANIAN</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items78" xml:space="preserve">
-    <value>RUSSIAN</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items79" xml:space="preserve">
-    <value>SANSKRIT</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items80" xml:space="preserve">
-    <value>SCOTS_GAELIC</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items81" xml:space="preserve">
-    <value>SERBIAN</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items82" xml:space="preserve">
-    <value>SINDHI</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items83" xml:space="preserve">
-    <value>SINHALESE</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items84" xml:space="preserve">
-    <value>SLOVAK</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items85" xml:space="preserve">
-    <value>SLOVENIAN</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items86" xml:space="preserve">
-    <value>SPANISH</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items87" xml:space="preserve">
-    <value>SUNDANESE</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items88" xml:space="preserve">
-    <value>SWAHILI</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items89" xml:space="preserve">
-    <value>SWEDISH</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items90" xml:space="preserve">
-    <value>SYRIAC</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items91" xml:space="preserve">
-    <value>TAJIK</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items92" xml:space="preserve">
-    <value>TAMIL</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items93" xml:space="preserve">
-    <value>TATAR</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items94" xml:space="preserve">
-    <value>TELUGU</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items95" xml:space="preserve">
-    <value>THAI</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items96" xml:space="preserve">
-    <value>TIBETAN</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items97" xml:space="preserve">
-    <value>TONGA</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items98" xml:space="preserve">
-    <value>TURKISH</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items99" xml:space="preserve">
-    <value>UKRAINIAN</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items100" xml:space="preserve">
-    <value>URDU</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items101" xml:space="preserve">
-    <value>UZBEK</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items102" xml:space="preserve">
-    <value>UIGHUR</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items103" xml:space="preserve">
-    <value>VIETNAMESE</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items104" xml:space="preserve">
-    <value>WELSH</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items105" xml:space="preserve">
-    <value>YIDDISH</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items106" xml:space="preserve">
-    <value>YORUBA</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>205, 202</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 20</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxTranslateLanguage.Name" xml:space="preserve">
-    <value>ComboBoxTranslateLanguage</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxTranslateLanguage.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxTranslateLanguage.Parent" xml:space="preserve">
-    <value>CooperatePanel</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxTranslateLanguage.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="Label29.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label29.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 206</value>
-  </data>
-  <data name="Label29.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 12</value>
-  </data>
-  <data name="Label29.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
-  </data>
-  <data name="Label29.Text" xml:space="preserve">
-    <value>発言翻訳先の言語</value>
-  </data>
-  <data name="&gt;&gt;Label29.Name" xml:space="preserve">
-    <value>Label29</value>
-  </data>
-  <data name="&gt;&gt;Label29.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label29.Parent" xml:space="preserve">
-    <value>CooperatePanel</value>
-  </data>
-  <data name="&gt;&gt;Label29.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="CheckOutputz.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CheckOutputz.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CheckOutputz.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 22</value>
-  </data>
-  <data name="CheckOutputz.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 16</value>
-  </data>
-  <data name="CheckOutputz.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="CheckOutputz.Text" xml:space="preserve">
-    <value>Outputzに対応する</value>
-  </data>
-  <data name="&gt;&gt;CheckOutputz.Name" xml:space="preserve">
-    <value>CheckOutputz</value>
-  </data>
-  <data name="&gt;&gt;CheckOutputz.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckOutputz.Parent" xml:space="preserve">
-    <value>CooperatePanel</value>
-  </data>
-  <data name="&gt;&gt;CheckOutputz.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="CheckNicoms.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CheckNicoms.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CheckNicoms.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 154</value>
-  </data>
-  <data name="CheckNicoms.Size" type="System.Drawing.Size, System.Drawing">
-    <value>237, 16</value>
-  </data>
-  <data name="CheckNicoms.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="CheckNicoms.Text" xml:space="preserve">
-    <value>ニコニコ動画のURLをnico.msで短縮して送信</value>
-  </data>
-  <data name="&gt;&gt;CheckNicoms.Name" xml:space="preserve">
-    <value>CheckNicoms</value>
-  </data>
-  <data name="&gt;&gt;CheckNicoms.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckNicoms.Parent" xml:space="preserve">
-    <value>CooperatePanel</value>
-  </data>
-  <data name="&gt;&gt;CheckNicoms.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="TextBoxOutputzKey.Location" type="System.Drawing.Point, System.Drawing">
-    <value>205, 57</value>
-  </data>
-  <data name="TextBoxOutputzKey.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 19</value>
-  </data>
-  <data name="TextBoxOutputzKey.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="&gt;&gt;TextBoxOutputzKey.Name" xml:space="preserve">
-    <value>TextBoxOutputzKey</value>
-  </data>
-  <data name="&gt;&gt;TextBoxOutputzKey.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TextBoxOutputzKey.Parent" xml:space="preserve">
-    <value>CooperatePanel</value>
-  </data>
-  <data name="&gt;&gt;TextBoxOutputzKey.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="Label60.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label60.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label60.Location" type="System.Drawing.Point, System.Drawing">
-    <value>36, 106</value>
-  </data>
-  <data name="Label60.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 12</value>
-  </data>
-  <data name="Label60.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="Label60.Text" xml:space="preserve">
-    <value>アウトプット先のURL</value>
-  </data>
-  <data name="&gt;&gt;Label60.Name" xml:space="preserve">
-    <value>Label60</value>
-  </data>
-  <data name="&gt;&gt;Label60.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label60.Parent" xml:space="preserve">
-    <value>CooperatePanel</value>
-  </data>
-  <data name="&gt;&gt;Label60.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="Label59.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label59.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label59.Location" type="System.Drawing.Point, System.Drawing">
-    <value>36, 60</value>
-  </data>
-  <data name="Label59.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 12</value>
-  </data>
-  <data name="Label59.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="Label59.Text" xml:space="preserve">
-    <value>復活の呪文</value>
-  </data>
-  <data name="&gt;&gt;Label59.Name" xml:space="preserve">
-    <value>Label59</value>
-  </data>
-  <data name="&gt;&gt;Label59.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label59.Parent" xml:space="preserve">
-    <value>CooperatePanel</value>
-  </data>
-  <data name="&gt;&gt;Label59.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="ComboBoxOutputzUrlmode.Items" xml:space="preserve">
-    <value>twitter.com</value>
-  </data>
-  <data name="ComboBoxOutputzUrlmode.Items1" xml:space="preserve">
-    <value>twitter.com/username</value>
-  </data>
-  <data name="ComboBoxOutputzUrlmode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>205, 103</value>
-  </data>
-  <data name="ComboBoxOutputzUrlmode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 20</value>
-  </data>
-  <data name="ComboBoxOutputzUrlmode.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxOutputzUrlmode.Name" xml:space="preserve">
-    <value>ComboBoxOutputzUrlmode</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxOutputzUrlmode.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxOutputzUrlmode.Parent" xml:space="preserve">
-    <value>CooperatePanel</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxOutputzUrlmode.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="CooperatePanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="CooperatePanel.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="CooperatePanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="CooperatePanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>518, 368</value>
-  </data>
-  <data name="CooperatePanel.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="CooperatePanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;CooperatePanel.Name" xml:space="preserve">
-    <value>CooperatePanel</value>
-  </data>
-  <data name="&gt;&gt;CooperatePanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CooperatePanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;CooperatePanel.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
   <data name="CheckUserUpdateEvent.AutoSize" type="System.Boolean, mscorlib">
