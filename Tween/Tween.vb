@@ -10296,6 +10296,12 @@ RETRY:
                     xUrl = xUrl.Replace("{ID}", _curPost.ScreenName)
                     OpenUriAsync(xUrl)
                 End If
+            ElseIf SettingDialog.UserAppointUrl.Contains("{STATUS}") Then
+                If _curPost IsNot Nothing Then
+                    Dim xUrl As String = SettingDialog.UserAppointUrl
+                    xUrl = xUrl.Replace("{STATUS}", _curPost.StatusId.ToString)
+                    OpenUriAsync(xUrl)
+                End If
             Else
                 OpenUriAsync(SettingDialog.UserAppointUrl)
             End If
