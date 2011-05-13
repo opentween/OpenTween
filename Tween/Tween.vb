@@ -10294,7 +10294,11 @@ RETRY:
                 If _curPost IsNot Nothing Then
                     Dim xUrl As String = SettingDialog.UserAppointUrl
                     xUrl = xUrl.Replace("{ID}", _curPost.ScreenName)
-                    xUrl = xUrl.Replace("{STATUS}", _curPost.StatusId.ToString)
+                    If _curPost.RetweetedId <> 0 Then
+                        xUrl = xUrl.Replace("{STATUS}", _curPost.RetweetedId.ToString)
+                    Else
+                        xUrl = xUrl.Replace("{STATUS}", _curPost.StatusId.ToString)
+                    End If
                     OpenUriAsync(xUrl)
                 End If
             Else
