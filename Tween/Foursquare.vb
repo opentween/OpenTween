@@ -137,11 +137,11 @@ Public Class Foursquare
         <DataContract()>
         Public Class Mayor
             <DataMember(Name:="count")> Public Count As Integer
-            <DataMember(Name:="user", isrequired:=False)> Public User As User
+            <DataMember(Name:="user", isrequired:=False)> Public User As FoursquareUser
         End Class
 
         <DataContract()>
-        Public Class User
+        Public Class FoursquareUser
             <DataMember(Name:="id")> Public Id As Integer
             <DataMember(Name:="firstName")> Public FirstName As String
             <DataMember(Name:="photo")> Public Photo As String
