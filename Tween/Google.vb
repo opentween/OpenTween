@@ -286,6 +286,7 @@ Public Class Google
     Public Class GlobalLocation
         Public Property Latitude As Double
         Public Property Longitude As Double
+        Public Property LocateInfo As String
     End Class
 
 #End Region

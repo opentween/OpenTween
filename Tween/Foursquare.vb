@@ -63,12 +63,15 @@ Public Class Foursquare
         End If
     End Function
 
-    Public Function GetMapsUri(ByVal url As String) As String
+    Public Function GetMapsUri(ByVal url As String, ByRef refText As String) As String
         If Not AppendSettingDialog.Instance.IsPreviewFoursquare Then Return Nothing
 
         Dim urlId As String = Regex.Replace(url, "https?://(4sq|foursquare)\.com/", "")
 
-        If CheckInUrlsVenueCollection.ContainsKey(urlId) Then Return (New Google).CreateGoogleMapsUri(CheckInUrlsVenueCollection(urlId))
+        If CheckInUrlsVenueCollection.ContainsKey(urlId) Then
+            refText = CheckInUrlsVenueCollection(urlId).LocateInfo
+            Return (New Google).CreateGoogleMapsUri(CheckInUrlsVenueCollection(urlId))
+        End If
 
         Dim curVenue As FourSquareDataModel.Venue = Nothing
         Dim venueId As String = GetVenueId(url)
@@ -77,11 +80,17 @@ Public Class Foursquare
         curVenue = GetVenueInfo(venueId)
         If curVenue Is Nothing Then Return Nothing
 
-        Dim curLocation As New Google.GlobalLocation With {.Latitude = curVenue.Location.Latitude, .Longitude = curVenue.Location.Longitude}
+        Dim curLocation As New Google.GlobalLocation With {.Latitude = curVenue.Location.Latitude, .Longitude = curVenue.Location.Longitude, .LocateInfo = CreateVenueInfoText(curVenue)}
         CheckInUrlsVenueCollection.Add(urlId, curLocation)
+        refText = curLocation.LocateInfo
         Return (New Google).CreateGoogleMapsUri(curLocation)
     End Function
 
+    Private ReadOnly Property CreateVenueInfoText(ByVal info As FourSquareDataModel.Venue) As String
+        Get
+            Return info.Name + Environment.NewLine + info.Stats.UsersCount.ToString + "/" + info.Stats.CheckinsCount.ToString + Environment.NewLine + info.Location.Address + Environment.NewLine + info.Location.City + info.Location.State + Environment.NewLine + info.Location.Latitude.ToString + Environment.NewLine + info.Location.Longitude.ToString
+        End Get
+    End Property
     Public Function GetContent(ByVal method As String, _
                 ByVal requestUri As Uri, _
                 ByVal param As Dictionary(Of String, String), _

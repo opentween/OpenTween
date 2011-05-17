@@ -2341,7 +2341,8 @@ Public Class Thumbnail
     ''' <remarks></remarks>
     Private Function Foursquare_CreateImage(ByVal args As CreateImageArgs) As Boolean
         ' TODO: サムネイル画像読み込み処理を記述します
-        Dim mapsUrl As String = Foursquare.GetInstance.GetMapsUri(args.url.Key)
+        Dim tipsText As String = ""
+        Dim mapsUrl As String = Foursquare.GetInstance.GetMapsUri(args.url.Key, tipsText)
         If mapsUrl Is Nothing Then Return False
         Dim img As Image = (New HttpVarious).GetImage(mapsUrl, args.url.Key, 10000, args.errmsg)
         If img Is Nothing Then
@@ -2349,7 +2350,7 @@ Public Class Thumbnail
         End If
         ' 成功した場合はURLに対応する画像、ツールチップテキストを登録
         args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, img))
-        args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
+        args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, tipsText))
         Return True
     End Function
 #End Region
