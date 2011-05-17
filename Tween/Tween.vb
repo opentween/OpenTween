@@ -4105,6 +4105,7 @@ Public Class TweenMain
                                      Post.Source}
             itm = New ImageListViewItem(sitem, DirectCast(Me.TIconDic, ImageDictionary), Post.ImageUrl)
         End If
+        itm.StateImageIndex = Post.StateIndex
 
         Dim read As Boolean = Post.IsRead
         '未読管理していなかったら既読として扱う
@@ -4365,6 +4366,7 @@ Public Class TweenMain
                     End Using
                 End If
             End If
+            If e.ColumnIndex = 6 Then Me.DrawListViewItemStateIcon(e, rct)
         End If
     End Sub
 
@@ -4392,6 +4394,30 @@ Public Class TweenMain
                 Catch ex As ArgumentException
                     item.RegetImage()
                 End Try
+            End If
+        End If
+    End Sub
+
+    Private Sub DrawListViewItemStateIcon(ByVal e As DrawListViewSubItemEventArgs, ByVal rct As RectangleF)
+        Dim item As ImageListViewItem = DirectCast(e.Item, ImageListViewItem)
+        If item.StateImageIndex > -1 Then
+            ''e.Bounds.Leftが常に0を指すから自前で計算
+            'Dim itemRect As Rectangle = item.Bounds
+            'itemRect.Width = e.Item.ListView.Columns(4).Width
+
+            'For Each clm As ColumnHeader In e.Item.ListView.Columns
+            '    If clm.DisplayIndex < e.Item.ListView.Columns(4).DisplayIndex Then
+            '        itemRect.X += clm.Width
+            '    End If
+            'Next
+
+            'Dim iconRect As Rectangle = Rectangle.Intersect(New Rectangle(e.Item.GetBounds(ItemBoundsPortion.Icon).Location, New Size(_iconSz, _iconSz)), itemRect)
+            'iconRect.Offset(0, CType(Math.Max(0, (itemRect.Height - _iconSz) / 2), Integer))
+
+            If rct.Width > 0 Then
+                e.Graphics.FillRectangle(Brushes.White, rct)
+                'e.Graphics.InterpolationMode = Drawing2D.InterpolationMode.High
+                e.Graphics.DrawImage(Me.PostStateImageList.Images(item.StateImageIndex), rct)
             End If
         End If
     End Sub

@@ -131,6 +131,8 @@ Partial Class TweenMain
         Me.NotifyFileMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PlaySoundFileMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.LockListFileMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator43 = New System.Windows.Forms.ToolStripSeparator()
+        Me.StopRefreshAllMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator24 = New System.Windows.Forms.ToolStripSeparator()
         Me.TweenRestartMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.EndFileMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -300,8 +302,7 @@ Partial Class TweenMain
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.StopRefreshAllMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripSeparator43 = New System.Windows.Forms.ToolStripSeparator()
+        Me.PostStateImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -1009,6 +1010,17 @@ Partial Class TweenMain
         Me.LockListFileMenuItem.CheckOnClick = True
         Me.LockListFileMenuItem.Name = "LockListFileMenuItem"
         resources.ApplyResources(Me.LockListFileMenuItem, "LockListFileMenuItem")
+        '
+        'ToolStripSeparator43
+        '
+        Me.ToolStripSeparator43.Name = "ToolStripSeparator43"
+        resources.ApplyResources(Me.ToolStripSeparator43, "ToolStripSeparator43")
+        '
+        'StopRefreshAllMenuItem
+        '
+        Me.StopRefreshAllMenuItem.CheckOnClick = True
+        Me.StopRefreshAllMenuItem.Name = "StopRefreshAllMenuItem"
+        resources.ApplyResources(Me.StopRefreshAllMenuItem, "StopRefreshAllMenuItem")
         '
         'ToolStripSeparator24
         '
@@ -1875,16 +1887,25 @@ Partial Class TweenMain
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'StopRefreshAllMenuItem
+        'PostStateImageList
         '
-        Me.StopRefreshAllMenuItem.CheckOnClick = True
-        Me.StopRefreshAllMenuItem.Name = "StopRefreshAllMenuItem"
-        resources.ApplyResources(Me.StopRefreshAllMenuItem, "StopRefreshAllMenuItem")
-        '
-        'ToolStripSeparator43
-        '
-        Me.ToolStripSeparator43.Name = "ToolStripSeparator43"
-        resources.ApplyResources(Me.ToolStripSeparator43, "ToolStripSeparator43")
+        Me.PostStateImageList.ImageStream = CType(resources.GetObject("PostStateImageList.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.PostStateImageList.TransparentColor = System.Drawing.Color.Transparent
+        Me.PostStateImageList.Images.SetKeyName(0, "S0.ico")
+        Me.PostStateImageList.Images.SetKeyName(1, "S1.ico")
+        Me.PostStateImageList.Images.SetKeyName(2, "S2.ico")
+        Me.PostStateImageList.Images.SetKeyName(3, "S3.ico")
+        Me.PostStateImageList.Images.SetKeyName(4, "S4.ico")
+        Me.PostStateImageList.Images.SetKeyName(5, "S5.ico")
+        Me.PostStateImageList.Images.SetKeyName(6, "S6.ico")
+        Me.PostStateImageList.Images.SetKeyName(7, "S7.ico")
+        Me.PostStateImageList.Images.SetKeyName(8, "S8.ico")
+        Me.PostStateImageList.Images.SetKeyName(9, "S9.ico")
+        Me.PostStateImageList.Images.SetKeyName(10, "S10.ico")
+        Me.PostStateImageList.Images.SetKeyName(11, "S11.ico")
+        Me.PostStateImageList.Images.SetKeyName(12, "S12.ico")
+        Me.PostStateImageList.Images.SetKeyName(13, "S13.ico")
+        Me.PostStateImageList.Images.SetKeyName(14, "S14.ico")
         '
         'TweenMain
         '
@@ -2213,5 +2234,6 @@ Partial Class TweenMain
     Friend WithEvents StopRefreshAllMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents OpenUserSpecifiedUrlMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents OpenUserSpecifiedUrlMenuItem2 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PostStateImageList As System.Windows.Forms.ImageList
 
 End Class

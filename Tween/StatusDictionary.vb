@@ -60,7 +60,7 @@ Public NotInheritable Class PostClass
     Private _ReplyToList As New List(Of String)
     Private _IsMe As Boolean
     Private _IsDm As Boolean
-    Private _statuses As Statuses = Statuses.None
+    Private _states As States = States.None
     Private _UserId As Long
     Private _FilterHit As Boolean
     Private _RetweetedBy As String = ""
@@ -68,17 +68,17 @@ Public NotInheritable Class PostClass
     Private _SearchTabName As String = ""
     Private _IsDeleted As Boolean = False
     Private _InReplyToUserId As Long = 0
-    Public Property PostGeo As New StatusGeo
+    Private _postGeo As New StatusGeo
     Public Property RetweetedCount As Integer = 0
     Public Property RetweetedByUserId As Long = 0
 
     <FlagsAttribute()> _
-    Private Enum Statuses
+    Private Enum States
         None = 0
         Protect = 1
         Mark = 2
-        Read = 4
-        Reply = 8
+        Reply = 4
+        Geo = 8
     End Enum
 
     Public Sub New(ByVal Nickname As String, _
@@ -214,11 +214,6 @@ Public NotInheritable Class PostClass
             Return _IsRead
         End Get
         Set(ByVal value As Boolean)
-            If value Then
-                _statuses = _statuses Or Statuses.Read
-            Else
-                _statuses = _statuses And Not Statuses.Read
-            End If
             _IsRead = value
         End Set
     End Property
@@ -244,9 +239,9 @@ Public NotInheritable Class PostClass
         End Get
         Set(ByVal value As Boolean)
             If value Then
-                _statuses = _statuses Or Statuses.Protect
+                _states = _states Or States.Protect
             Else
-                _statuses = _statuses And Not Statuses.Protect
+                _states = _states And Not States.Protect
             End If
             _IsProtect = value
         End Set
@@ -265,9 +260,9 @@ Public NotInheritable Class PostClass
         End Get
         Set(ByVal value As Boolean)
             If value Then
-                _statuses = _statuses Or Statuses.Mark
+                _states = _states Or States.Mark
             Else
-                _statuses = _statuses And Not Statuses.Mark
+                _states = _states And Not States.Mark
             End If
             _IsMark = value
         End Set
@@ -285,6 +280,11 @@ Public NotInheritable Class PostClass
             Return _InReplyToStatusId
         End Get
         Set(ByVal value As Long)
+            If value > 0 Then
+                _states = _states Or States.Reply
+            Else
+                _states = _states And Not States.Reply
+            End If
             _InReplyToStatusId = value
         End Set
     End Property
@@ -393,12 +393,33 @@ Public NotInheritable Class PostClass
                 Me.InReplyToUserId = 0
                 Me.IsReply = False
                 Me.ReplyToList = New List(Of String)
+                Me._states = States.None
             End If
             _IsDeleted = value
         End Set
     End Property
 
     Public Property FavoritedCount As Integer
+
+    Public Property PostGeo As StatusGeo
+        Get
+            Return _postGeo
+        End Get
+        Set(ByVal value As StatusGeo)
+            If value IsNot Nothing AndAlso (value.Lat <> 0 OrElse value.Lng <> 0) Then
+                _states = _states Or States.Geo
+            Else
+                _states = _states And Not States.Geo
+            End If
+            _postGeo = value
+        End Set
+    End Property
+
+    Public ReadOnly Property StateIndex As Integer
+        Get
+            Return CType(_states, Integer) - 1
+        End Get
+    End Property
 
     Public Function Copy() As PostClass
         Dim post As PostClass = DirectCast(Me.Clone, PostClass)
