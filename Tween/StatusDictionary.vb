@@ -35,6 +35,10 @@ Imports System.Linq.Expressions.DynamicExpression
 
 Public NotInheritable Class PostClass
     Implements ICloneable
+    Public Class StatusGeo
+        Public Property Lng As Double
+        Public Property Lat As Double
+    End Class
     Private _Nick As String
     Private _textFromApi As String
     Private _ImageUrl As String
@@ -64,6 +68,7 @@ Public NotInheritable Class PostClass
     Private _SearchTabName As String = ""
     Private _IsDeleted As Boolean = False
     Private _InReplyToUserId As Long = 0
+    Public Property PostGeo As New StatusGeo
     Public Property RetweetedCount As Integer = 0
     Public Property RetweetedByUserId As Long = 0
 
@@ -100,7 +105,8 @@ Public NotInheritable Class PostClass
             ByVal userId As Long, _
             ByVal FilterHit As Boolean, _
             ByVal RetweetedBy As String, _
-            ByVal RetweetedId As Long)
+            ByVal RetweetedId As Long, _
+            ByVal Geo As StatusGeo)
         _Nick = Nickname
         _textFromApi = textFromApi
         _ImageUrl = ImageUrl
@@ -108,7 +114,7 @@ Public NotInheritable Class PostClass
         _createdAt = createdAt
         _statusId = statusId
         _IsFav = IsFav
-        _text = Text
+        _text = text
         _IsRead = IsRead
         _IsReply = IsReply
         _IsExcludeReply = IsExcludeReply
@@ -126,6 +132,7 @@ Public NotInheritable Class PostClass
         _FilterHit = FilterHit
         _RetweetedBy = RetweetedBy
         _RetweetedId = RetweetedId
+        _PostGeo = Geo
     End Sub
 
     Public Sub New()
@@ -1109,7 +1116,8 @@ Public NotInheritable Class TabInformations
                         item.UserId, _
                         item.FilterHit, _
                         "", _
-                        0 _
+                        0, _
+                        item.PostGeo _
                     ) _
                 )
         _retweets(item.RetweetedId).RetweetedCount += 1

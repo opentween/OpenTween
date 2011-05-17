@@ -1391,7 +1391,7 @@ Public Class Twitter
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case HttpStatusCode.Forbidden
-                Return "Err:You are not authorized to see this status"
+                Return "Err:Protected user's tweet"
             Case Else
                 Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
         End Select
@@ -1451,6 +1451,7 @@ Public Class Twitter
             post.InReplyToUser = retweeted.InReplyToScreenName
             Long.TryParse(status.InReplyToUserId, post.InReplyToUserId)
             post.IsFav = TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites).Contains(post.RetweetedId)
+            If retweeted.Geo IsNot Nothing Then post.PostGeo = New PostClass.StatusGeo() With {.Lat = retweeted.Geo.Coordinates(0), .Lng = retweeted.Geo.Coordinates(1)}
 
             '以下、ユーザー情報
             Dim user As TwitterDataModel.User = retweeted.User
@@ -1476,6 +1477,7 @@ Public Class Twitter
             Long.TryParse(status.InReplyToUserId, post.InReplyToUserId)
 
             post.IsFav = status.Favorited
+            If status.Geo IsNot Nothing Then post.PostGeo = New PostClass.StatusGeo() With {.Lat = status.Geo.Coordinates(0), .Lng = status.Geo.Coordinates(1)}
 
             '以下、ユーザー情報
             Dim user As TwitterDataModel.User = status.User
@@ -1846,6 +1848,7 @@ Public Class Twitter
         Dim nsmgr As New XmlNamespaceManager(xdoc.NameTable)
         nsmgr.AddNamespace("search", "http://www.w3.org/2005/Atom")
         nsmgr.AddNamespace("twitter", "http://api.twitter.com/")
+        nsmgr.AddNamespace("georss", "http://www.georss.org/georss")
         For Each xentryNode As XmlNode In xdoc.DocumentElement.SelectNodes("/search:feed/search:entry", nsmgr)
             Dim xentry As XmlElement = CType(xentryNode, XmlElement)
             Dim post As New PostClass
@@ -1861,6 +1864,10 @@ Public Class Twitter
                 post.InReplyToUser = ""
                 post.InReplyToUserId = 0
                 post.IsFav = False
+                If xentry.Item("twitter:geo").HasChildNodes Then
+                    Dim pnt As String() = CType(xentry.SelectSingleNode("twitter:geo/georss:point", nsmgr), XmlElement).InnerText.Split(" "c)
+                    post.PostGeo = New PostClass.StatusGeo With {.Lat = Double.Parse(pnt(0)), .Lng = Double.Parse(pnt(1))}
+                End If
 
                 '以下、ユーザー情報
                 Dim xUentry As XmlElement = CType(xentry.SelectSingleNode("./search:author", nsmgr), XmlElement)

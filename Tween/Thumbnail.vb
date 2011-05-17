@@ -85,6 +85,7 @@ Public Class Thumbnail
     Private Class GetUrlArgs
         Public url As String
         Public imglist As List(Of KeyValuePair(Of String, String))
+        Public geoInfo As Google.GlobalLocation
     End Class
 
     Private Class CreateImageArgs
@@ -136,8 +137,8 @@ Public Class Thumbnail
         New ThumbnailService("instagram", AddressOf instagram_GetUrl, AddressOf instagram_CreateImage),
         New ThumbnailService("pikubo", AddressOf pikubo_GetUrl, AddressOf pikubo_CreateImage),
         New ThumbnailService("PicPlz", AddressOf PicPlz_GetUrl, AddressOf PicPlz_CreateImage),
-        New ThumbnailService("GoogleMap", AddressOf GoogleMaps_GetUrl, AddressOf GoogleMaps_CreateImage)
-    }
+        New ThumbnailService("FourSquare", AddressOf Foursquare_GetUrl, AddressOf Foursquare_CreateImage)
+        }
 
     Public Sub New(ByVal Owner As TweenMain)
         Me.Owner = Owner
@@ -157,7 +158,7 @@ Public Class Thumbnail
         Return Regex.Match(url, "^http://.*(\.jpg|\.jpeg|\.gif|\.png|\.bmp)$", RegexOptions.IgnoreCase).Success
     End Function
 
-    Public Sub thumbnail(ByVal id As Long, ByVal links As List(Of String))
+    Public Sub thumbnail(ByVal id As Long, ByVal links As List(Of String), ByVal geo As PostClass.StatusGeo)
         If Not Owner.IsPreviewEnable Then
             Owner.SplitContainer3.Panel2Collapsed = True
             Exit Sub
@@ -174,7 +175,7 @@ Public Class Thumbnail
         '    End If
         'End SyncLock
 
-        If links.Count = 0 Then
+        If links.Count = 0 AndAlso geo Is Nothing Then
             Owner.PreviewScrollBar.Maximum = 0
             Owner.PreviewScrollBar.Enabled = False
             Owner.SplitContainer3.Panel2Collapsed = True
@@ -196,7 +197,16 @@ Public Class Thumbnail
                 End If
             Next
         Next
-
+        If geo IsNot Nothing Then
+            Dim args As New GetUrlArgs
+            args.url = ""
+            args.imglist = imglist
+            args.geoInfo = New Google.GlobalLocation() With {.Latitude = geo.Lat, .Longitude = geo.Lng}
+            If TwitterGeo_GetUrl(args) Then
+                ' URLに対応したサムネイル作成処理デリゲートをリストに登録
+                dlg.Add(New KeyValuePair(Of String, ImageCreatorDelegate)(args.url, New ImageCreatorDelegate(AddressOf TwitterGeo_CreateImage)))
+            End If
+        End If
         If imglist.Count = 0 Then
             Owner.PreviewScrollBar.Maximum = 0
             Owner.PreviewScrollBar.Enabled = False
@@ -233,20 +243,15 @@ Public Class Thumbnail
         arg.AdditionalErrorMessage = ""
 
         For Each url As KeyValuePair(Of String, String) In arg.urls
-            For Each svc As ThumbnailService In ThumbnailServices
-                Dim args As New CreateImageArgs
-                args.url = url
-                args.pics = arg.pics
-                args.tooltipText = arg.tooltipText
-                args.errmsg = ""
-                If arg.imageCreators.Item(arg.urls.IndexOf(url)).Value(args) Then
-                    Exit For
-                Else
-                    arg.AdditionalErrorMessage = args.errmsg
-                    arg.IsError = True
-                End If
-                Exit For
-            Next
+            Dim args As New CreateImageArgs
+            args.url = url
+            args.pics = arg.pics
+            args.tooltipText = arg.tooltipText
+            args.errmsg = ""
+            If Not arg.imageCreators.Item(arg.urls.IndexOf(url)).Value(args) Then
+                arg.AdditionalErrorMessage = args.errmsg
+                arg.IsError = True
+            End If
         Next
 
         If arg.pics.Count = 0 Then
@@ -2297,7 +2302,7 @@ Public Class Thumbnail
 
 #End Region
 
-#Region "Google Maps"
+#Region "Foursquare"
     ''' <summary>
     ''' URL解析部で呼び出されるサムネイル画像URL作成デリゲート
     ''' </summary>
@@ -2308,14 +2313,14 @@ Public Class Thumbnail
     ''' <returns>成功した場合True,失敗の場合False</returns>
     ''' <remarks>args.imglistには呼び出しもとで使用しているimglistをそのまま渡すこと</remarks>
 
-    Private Function GoogleMaps_GetUrl(ByVal args As GetUrlArgs) As Boolean
+    Private Function Foursquare_GetUrl(ByVal args As GetUrlArgs) As Boolean
         ' TODO URL判定処理を記述
         Dim mc As Match = Regex.Match(args.url, "^https?://(4sq|foursquare).com/", RegexOptions.IgnoreCase)
         If mc.Success Then
             ' TODO 成功時はサムネイルURLを作成しimglist.Addする
-            Dim mapsUrl As String = Foursquare.GetInstance.GetMapsUri(args.url)
-            If mapsUrl Is Nothing Then Return False
-            args.imglist.Add(New KeyValuePair(Of String, String)(args.url, mapsUrl))
+            'Dim mapsUrl As String = Foursquare.GetInstance.GetMapsUri(args.url)
+            'If mapsUrl Is Nothing Then Return False
+            args.imglist.Add(New KeyValuePair(Of String, String)(args.url, ""))
             Return True
         Else
             Return False
@@ -2334,7 +2339,55 @@ Public Class Thumbnail
     ''' <returns>サムネイル画像作成に成功した場合はTrue,失敗した場合はFalse
     ''' なお失敗した場合はargs.errmsgにエラーを表す文字列がセットされる</returns>
     ''' <remarks></remarks>
-    Private Function GoogleMaps_CreateImage(ByVal args As CreateImageArgs) As Boolean
+    Private Function Foursquare_CreateImage(ByVal args As CreateImageArgs) As Boolean
+        ' TODO: サムネイル画像読み込み処理を記述します
+        Dim mapsUrl As String = Foursquare.GetInstance.GetMapsUri(args.url.Key)
+        If mapsUrl Is Nothing Then Return False
+        Dim img As Image = (New HttpVarious).GetImage(mapsUrl, args.url.Key, 10000, args.errmsg)
+        If img Is Nothing Then
+            Return False
+        End If
+        ' 成功した場合はURLに対応する画像、ツールチップテキストを登録
+        args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, img))
+        args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
+        Return True
+    End Function
+#End Region
+
+#Region "Twitter Geo"
+    ''' <summary>
+    ''' URL解析部で呼び出されるサムネイル画像URL作成デリゲート
+    ''' </summary>
+    ''' <param name="args">Class GetUrlArgs
+    '''                                 args.url        URL文字列
+    '''                                 args.imglist    解析成功した際にこのリストに元URL、サムネイルURLの形で作成するKeyValuePair
+    ''' </param>
+    ''' <returns>成功した場合True,失敗の場合False</returns>
+    ''' <remarks>args.imglistには呼び出しもとで使用しているimglistをそのまま渡すこと</remarks>
+
+    Private Function TwitterGeo_GetUrl(ByVal args As GetUrlArgs) As Boolean
+        ' TODO URL判定処理を記述
+        If args.geoInfo IsNot Nothing AndAlso (args.geoInfo.Latitude <> 0 OrElse args.geoInfo.Longitude <> 0) Then
+            Dim url As String = (New Google).CreateGoogleMapsUri(args.geoInfo)
+            args.imglist.Add(New KeyValuePair(Of String, String)(url, url))
+            Return True
+        End If
+        Return False
+    End Function
+
+    ''' <summary>
+    ''' BackgroundWorkerから呼び出されるサムネイル画像作成デリゲート
+    ''' </summary>
+    ''' <param name="args">Class CreateImageArgs
+    '''                                 url As KeyValuePair(Of String, String)                  元URLとサムネイルURLのKeyValuePair
+    '''                                 pics As List(Of KeyValuePair(Of String, Image))         元URLとサムネイル画像のKeyValuePair
+    '''                                 tooltiptext As List(Of KeyValuePair(Of String, String)) 元URLとツールチップテキストのKeyValuePair
+    '''                                 errmsg As String                                        取得に失敗した際のエラーメッセージ
+    ''' </param>
+    ''' <returns>サムネイル画像作成に成功した場合はTrue,失敗した場合はFalse
+    ''' なお失敗した場合はargs.errmsgにエラーを表す文字列がセットされる</returns>
+    ''' <remarks></remarks>
+    Private Function TwitterGeo_CreateImage(ByVal args As CreateImageArgs) As Boolean
         ' TODO: サムネイル画像読み込み処理を記述します
         Dim img As Image = (New HttpVarious).GetImage(args.url.Value, args.url.Key, 10000, args.errmsg)
         If img Is Nothing Then
@@ -2346,5 +2399,4 @@ Public Class Thumbnail
         Return True
     End Function
 #End Region
-
 End Class

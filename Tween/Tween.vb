@@ -4897,7 +4897,7 @@ RETRY:
                     For Each lnk As Match In Regex.Matches(dTxt, "<a target=""_self"" href=""(?<url>http[^""]+)""", RegexOptions.IgnoreCase)
                         lnks.Add(lnk.Result("${url}"))
                     Next
-                    Thumbnail.thumbnail(_curPost.StatusId, lnks)
+                    Thumbnail.thumbnail(_curPost.StatusId, lnks, _curPost.PostGeo)
                 End If
             Catch ex As System.Runtime.InteropServices.COMException
                 '原因不明

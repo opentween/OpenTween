@@ -15,14 +15,17 @@ Public Class Foursquare
         End Get
     End Property
 
-    Private CheckInUrlsVenueCollection As New Dictionary(Of String, GlobalLocation)
-    Public Function GetVenueId(ByVal url As String) As String
+    Private _authKey As New Dictionary(Of String, String) From {
+        {"client_id", "VWVC5NMXB1T5HKOYAKARCXKZDOHDNYSRLEMDDQYJNSJL2SUU"},
+        {"client_secret", DecryptString("eXXMGYXZyuDxz/lJ9nLApihoUeEGXNLEO0ZDCAczvwdKgGRExZl1Xyac/ezNTwHFOLUZqaA8tbA=")}
+    }
+
+    Private CheckInUrlsVenueCollection As New Dictionary(Of String, Google.GlobalLocation)
+
+    Private Function GetVenueId(ByVal url As String) As String
         Dim content As String = ""
-
-        If content = "" Then Return "" 'ClientIdを設定するまで無効にします。設定後は外してください
-
         Dim res As HttpStatusCode = GetContent("GET", New Uri(url), Nothing, content)
-        If res <> HttpStatusCode.OK Then MessageBox.Show(res.ToString)
+        If res <> HttpStatusCode.OK Then Return ""
         Dim mc As Match = Regex.Match(content, "/venue/(?<venueId>[0-9]+)", RegexOptions.IgnoreCase)
         If mc.Success Then
             Dim vId As String = mc.Result("${venueId}")
@@ -32,50 +35,52 @@ Public Class Foursquare
         End If
     End Function
 
-    Public Function GetVenueInfo(ByVal venueId As String) As FourSquareDataModel.Venue
+    Private Function GetVenueInfo(ByVal venueId As String) As FourSquareDataModel.Venue
         Dim content As String = ""
-
-        Dim res As HttpStatusCode = GetContent("GET", New Uri(CreateAuthUri(venueId)), Nothing, content)
+        Dim res As HttpStatusCode = GetContent("GET",
+                                               New Uri("https://api.foursquare.com/v2/venues/" + venueId),
+                                               _authKey,
+                                               content)
 
         If res = HttpStatusCode.OK Then
             Dim curData As FourSquareDataModel.FourSquareData = Nothing
             Try
                 curData = CreateDataFromJson(Of FourSquareDataModel.FourSquareData)(content)
             Catch ex As Exception
-                MessageBox.Show(ex.ToString)
+                Return Nothing
             End Try
 
             Return curData.Response.Venue
         Else
-            Dim curData As FourSquareDataModel.FourSquareData = Nothing
-            Try
-                curData = CreateDataFromJson(Of FourSquareDataModel.FourSquareData)(content)
-            Catch ex As Exception
-                MessageBox.Show(ex.ToString)
-            End Try
-            MessageBox.Show(res.ToString + Environment.NewLine + curData.Meta.ErrorType + Environment.NewLine + curData.Meta.ErrorDetail)
-
+            'Dim curData As FourSquareDataModel.FourSquareData = Nothing
+            'Try
+            '    curData = CreateDataFromJson(Of FourSquareDataModel.FourSquareData)(content)
+            'Catch ex As Exception
+            '    Return Nothing
+            'End Try
+            'MessageBox.Show(res.ToString + Environment.NewLine + curData.Meta.ErrorType + Environment.NewLine + curData.Meta.ErrorDetail)
+            Return Nothing
         End If
-        Return Nothing
     End Function
 
     Public Function GetMapsUri(ByVal url As String) As String
         If Not AppendSettingDialog.Instance.IsPreviewFoursquare Then Return Nothing
-        Dim urlId As String = url.Replace("http://4sq.com/", "")
-        If CheckInUrlsVenueCollection.ContainsKey(urlId) Then Return CreateGoogleMapsUri(CheckInUrlsVenueCollection(urlId))
+
+        Dim urlId As String = Regex.Replace(url, "https?://(4sq|foursquare)\.com/", "")
+
+        If CheckInUrlsVenueCollection.ContainsKey(urlId) Then Return (New Google).CreateGoogleMapsUri(CheckInUrlsVenueCollection(urlId))
+
         Dim curVenue As FourSquareDataModel.Venue = Nothing
         Dim venueId As String = GetVenueId(url)
-        If Not venueId = "" Then curVenue = GetVenueInfo(venueId)
-        If curVenue Is Nothing Then Return Nothing
-        Dim curLocation As New GlobalLocation With {.Latitude = curVenue.Location.Latitude, .Longitude = curVenue.Location.Longitude}
-        CheckInUrlsVenueCollection.Add(urlId, curLocation)
-        Return CreateGoogleMapsUri(curLocation)
-    End Function
+        If String.IsNullOrEmpty(venueId) Then Return Nothing
 
-    Public Class GlobalLocation
-        Public Property Latitude As Double
-        Public Property Longitude As Double
-    End Class
+        curVenue = GetVenueInfo(venueId)
+        If curVenue Is Nothing Then Return Nothing
+
+        Dim curLocation As New Google.GlobalLocation With {.Latitude = curVenue.Location.Latitude, .Longitude = curVenue.Location.Longitude}
+        CheckInUrlsVenueCollection.Add(urlId, curLocation)
+        Return (New Google).CreateGoogleMapsUri(curLocation)
+    End Function
 
     Public Function GetContent(ByVal method As String, _
                 ByVal requestUri As Uri, _
@@ -97,13 +102,13 @@ Public Class Foursquare
 
         <DataContract()>
         Public Class FourSquareData
-            <DataMember(name:="meta", isRequired:=False)> Public Meta As Meta
-            <DataMember(name:="response", isRequired:=False)> Public Response As Response
+            <DataMember(Name:="meta", isRequired:=False)> Public Meta As Meta
+            <DataMember(Name:="response", isRequired:=False)> Public Response As Response
         End Class
 
         <DataContract()>
         Public Class Response
-            <DataMember(name:="venue", isRequired:=False)> Public Venue As Venue
+            <DataMember(Name:="venue", isRequired:=False)> Public Venue As Venue
         End Class
 
         <DataContract()>
@@ -151,37 +156,12 @@ Public Class Foursquare
 
         <DataContract()>
         Public Class Meta
-            <DataMember(name:="code")> Public Code As Integer
+            <DataMember(Name:="code")> Public Code As Integer
             <DataMember(Name:="errorType", IsRequired:=False)> Public ErrorType As String
             <DataMember(Name:="errorDetail", IsRequired:=False)> Public ErrorDetail As String
         End Class
     End Class
 #End Region
 
-    Private ReadOnly Property CreateAuthUri(ByVal vId As String) As String
-        Get
-            'コメントアウト部分を直してください
-            Return "https://api.foursquare.com/v2/venues/" + vId '+ "?client_id=" + ClientId + "&client_secret=" + ClientSecret
-        End Get
-    End Property
-
-    Private Overloads Function CreateGoogleMapsUri(ByVal locate As GlobalLocation) As String
-        Return CreateGoogleMapsUri(locate.Latitude, locate.Longitude)
-    End Function
-
-    Private Overloads Function CreateGoogleMapsUri(ByVal lat As Double, ByVal lng As Double) As String
-        Return "http://maps.google.com/maps/api/staticmap?center=" + lat.ToString + "," + lng.ToString + "&size=" + AppendSettingDialog.Instance.FoursquarePreviewWidth.ToString + "x" + AppendSettingDialog.Instance.FoursquarePreviewHeight.ToString + "&zoom=" + AppendSettingDialog.Instance.FoursquarePreviewZoom.ToString + "&markers=" + lat.ToString + "," + lng.ToString + "&sensor=false"
-    End Function
-
-    Public Function CreateDataFromJson(Of T)(ByVal content As String) As T
-        Dim data As T
-        Using stream As New MemoryStream()
-            Dim buf As Byte() = Encoding.Unicode.GetBytes(content)
-            stream.Write(Encoding.Unicode.GetBytes(content), offset:=0, count:=buf.Length)
-            stream.Seek(offset:=0, loc:=SeekOrigin.Begin)
-            data = DirectCast((New DataContractJsonSerializer(GetType(T))).ReadObject(stream), T)
-        End Using
-        Return data
-    End Function
 
 End Class

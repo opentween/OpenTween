@@ -273,4 +273,21 @@ Public Class Google
         Return ""
     End Function
 #End Region
+
+#Region "GoogleMaps"
+    Public Overloads Function CreateGoogleMapsUri(ByVal locate As GlobalLocation) As String
+        Return CreateGoogleMapsUri(locate.Latitude, locate.Longitude)
+    End Function
+
+    Public Overloads Function CreateGoogleMapsUri(ByVal lat As Double, ByVal lng As Double) As String
+        Return "http://maps.google.com/maps/api/staticmap?center=" + lat.ToString + "," + lng.ToString + "&size=" + AppendSettingDialog.Instance.FoursquarePreviewWidth.ToString + "x" + AppendSettingDialog.Instance.FoursquarePreviewHeight.ToString + "&zoom=" + AppendSettingDialog.Instance.FoursquarePreviewZoom.ToString + "&markers=" + lat.ToString + "," + lng.ToString + "&sensor=false"
+    End Function
+
+    Public Class GlobalLocation
+        Public Property Latitude As Double
+        Public Property Longitude As Double
+    End Class
+
+#End Region
+
 End Class
