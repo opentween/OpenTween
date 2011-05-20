@@ -1096,4 +1096,16 @@
   <data name="ListManageGetMoreUsers2" xml:space="preserve">
     <value>さらに取得(&amp;M)</value>
   </data>
+  <data name="AuthorizeButton_Click5" xml:space="preserve">
+    <value>PINを入力してください。</value>
+  </data>
+  <data name="AuthorizeButton_Click6" xml:space="preserve">
+    <value>認証サーバーに接続できませんでした。</value>
+  </data>
+  <data name="Save_ClickText4" xml:space="preserve">
+    <value>PINを入力してください。</value>
+  </data>
+  <data name="Unauthorized" xml:space="preserve">
+    <value>You are not authorized.</value>
+  </data>
 </root>

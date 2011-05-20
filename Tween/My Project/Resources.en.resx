@@ -978,4 +978,16 @@
   <data name="ListManageGetMoreUsers2" xml:space="preserve">
     <value>Get more(&amp;M)</value>
   </data>
+  <data name="AuthorizeButton_Click5" xml:space="preserve">
+    <value>Type PIN code.</value>
+  </data>
+  <data name="AuthorizeButton_Click6" xml:space="preserve">
+    <value>Failed to connect auth server.</value>
+  </data>
+  <data name="Save_ClickText4" xml:space="preserve">
+    <value>Type PIN code.</value>
+  </data>
+  <data name="Unauthorized" xml:space="preserve">
+    <value>You are not authorized.</value>
+  </data>
 </root>

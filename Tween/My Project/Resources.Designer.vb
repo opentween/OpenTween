@@ -260,6 +260,24 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  PINを入力してください。 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property AuthorizeButton_Click5() As String
+            Get
+                Return ResourceManager.GetString("AuthorizeButton_Click5", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  認証サーバーに接続できませんでした。 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property AuthorizeButton_Click6() As String
+            Get
+                Return ResourceManager.GetString("AuthorizeButton_Click6", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  実行形式ファイル(*.exe)|*.exe|すべてのファイル(*.*)|*.* に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property Button3_ClickText1() As String
@@ -1969,6 +1987,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  PINを入力してください。 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property Save_ClickText4() As String
+            Get
+                Return ResourceManager.GetString("Save_ClickText4", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  選択中タブの全発言を保存しますか？{0}　「はい」　　　：全発言を保存する{0}　「いいえ」　　：選択している発言のみ保存する{0}　「キャンセル」：保存処理をキャンセル{0}（タブ区切りのテキストファイル形式で保存します） に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property SaveLogMenuItem_ClickText1() As String
@@ -2692,6 +2719,15 @@ Namespace My.Resources
         Friend ReadOnly Property TweenMain_LoadText1() As String
             Get
                 Return ResourceManager.GetString("TweenMain_LoadText1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  You are not authorized. に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property Unauthorized() As String
+            Get
+                Return ResourceManager.GetString("Unauthorized", resourceCulture)
             End Get
         End Property
         

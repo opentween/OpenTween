@@ -217,12 +217,12 @@ Public Class AppendSettingDialog
         Else
             _ValidationError = False
         End If
-        If Me.Username.Focused OrElse Me.Password.Focused Then
-            If Not Authorize() Then
-                _ValidationError = True
-                Exit Sub
-            End If
-        End If
+        'If Me.Username.Focused OrElse Me.Password.Focused Then
+        '    If Not Authorize() Then
+        '        _ValidationError = True
+        '        Exit Sub
+        '    End If
+        'End If
         Try
             _MyUserstreamPeriod = CType(Me.UserstreamPeriod.Text, Integer)
             _MyUserstreamStartup = Me.StartupUserstreamCheck.Checked
@@ -2158,6 +2158,84 @@ Public Class AppendSettingDialog
         lblRetweet.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Green)
     End Sub
 
+    Private Function StartAuth() As Boolean
+        '現在の設定内容で通信
+        Dim ptype As HttpConnection.ProxyType
+        If RadioProxyNone.Checked Then
+            ptype = HttpConnection.ProxyType.None
+        ElseIf RadioProxyIE.Checked Then
+            ptype = HttpConnection.ProxyType.IE
+        Else
+            ptype = HttpConnection.ProxyType.Specified
+        End If
+        Dim padr As String = TextProxyAddress.Text.Trim()
+        Dim pport As Integer = Integer.Parse(TextProxyPort.Text.Trim())
+        Dim pusr As String = TextProxyUser.Text.Trim()
+        Dim ppw As String = TextProxyPassword.Text.Trim()
+
+        '通信基底クラス初期化
+        HttpConnection.InitializeConnection(20, ptype, padr, pport, pusr, ppw)
+        HttpTwitter.TwitterUrl = TwitterAPIText.Text.Trim
+        HttpTwitter.TwitterSearchUrl = TwitterSearchAPIText.Text.Trim
+        If Me.AuthBasicRadio.Checked Then
+            tw.Initialize("", "")
+        Else
+            tw.Initialize("", "", "")
+        End If
+        Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
+        Me.AuthUserLabel.Text = ""
+        Dim pinPageUrl As String = ""
+        Dim rslt As String = tw.StartAuthentication(pinPageUrl)
+        If String.IsNullOrEmpty(rslt) Then
+            MessageBox.Show(My.Resources.AuthorizeButton_Click5, "Authenticate", MessageBoxButtons.OK)
+            OpenUrl(pinPageUrl)
+            Return True
+        Else
+            MessageBox.Show(My.Resources.AuthorizeButton_Click2 + Environment.NewLine + rslt, "Authenticate", MessageBoxButtons.OK)
+            Return False
+        End If
+    End Function
+
+    Private Function PinAuth() As Boolean
+        'Dim user As String = Me.Username.Text.Trim
+        Dim pin As String = Me.Password.Text.Trim   'PIN Code
+        If String.IsNullOrEmpty(pin) Then
+            MessageBox.Show(My.Resources.Save_ClickText4)
+            Return False
+        End If
+
+        '現在の設定内容で通信
+        Dim ptype As HttpConnection.ProxyType
+        If RadioProxyNone.Checked Then
+            ptype = HttpConnection.ProxyType.None
+        ElseIf RadioProxyIE.Checked Then
+            ptype = HttpConnection.ProxyType.IE
+        Else
+            ptype = HttpConnection.ProxyType.Specified
+        End If
+        Dim padr As String = TextProxyAddress.Text.Trim()
+        Dim pport As Integer = Integer.Parse(TextProxyPort.Text.Trim())
+        Dim pusr As String = TextProxyUser.Text.Trim()
+        Dim ppw As String = TextProxyPassword.Text.Trim()
+
+        '通信基底クラス初期化
+        HttpConnection.InitializeConnection(20, ptype, padr, pport, pusr, ppw)
+        HttpTwitter.TwitterUrl = TwitterAPIText.Text.Trim
+        HttpTwitter.TwitterSearchUrl = TwitterSearchAPIText.Text.Trim
+        Dim rslt As String = tw.Authenticate(pin)
+        If String.IsNullOrEmpty(rslt) Then
+            MessageBox.Show(My.Resources.AuthorizeButton_Click1, "Authenticate", MessageBoxButtons.OK)
+            Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
+            Me.AuthUserLabel.Text = tw.Username
+            Return True
+        Else
+            MessageBox.Show(My.Resources.AuthorizeButton_Click2 + Environment.NewLine + rslt, "Authenticate", MessageBoxButtons.OK)
+            Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
+            Me.AuthUserLabel.Text = ""
+            Return False
+        End If
+    End Function
+
     Private Function Authorize() As Boolean
         Dim user As String = Me.Username.Text.Trim
         Dim pwd As String = Me.Password.Text.Trim
@@ -2203,8 +2281,19 @@ Public Class AppendSettingDialog
         End If
     End Function
 
+    Private Sub StartAuthButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StartAuthButton.Click
+        If StartAuth() Then
+            AuthorizeButton.Enabled = True
+        Else
+            AuthorizeButton.Enabled = False
+        End If
+    End Sub
+
     Private Sub AuthorizeButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AuthorizeButton.Click
-        If Authorize() Then CalcApiUsing()
+        If PinAuth() Then CalcApiUsing()
+        AuthorizeButton.Enabled = False
+        Me.Password.Text = ""
+        'If Authorize() Then CalcApiUsing()
     End Sub
 
     Private Sub AuthClearButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AuthClearButton.Click
@@ -2653,5 +2742,30 @@ Public Class AppendSettingDialog
 
     Private Sub IsPreviewFoursquareCheckBox_CheckedChanged(sender As Object, e As System.EventArgs) Handles IsPreviewFoursquareCheckBox.CheckedChanged
         FoursquareGroupBox.Enabled = IsPreviewFoursquareCheckBox.Checked
+    End Sub
+
+    Private Sub OpenUrl(ByVal url As String)
+        Dim myPath As String = url
+        Dim path As String = Me.BrowserPathText.Text
+        Try
+            If browserPath <> "" Then
+                If path.StartsWith("""") AndAlso path.Length > 2 AndAlso path.IndexOf("""", 2) > -1 Then
+                    Dim sep As Integer = path.IndexOf("""", 2)
+                    Dim browserPath As String = path.Substring(1, sep - 1)
+                    Dim arg As String = ""
+                    If sep < path.Length - 1 Then
+                        arg = path.Substring(sep + 1)
+                    End If
+                    myPath = arg + " " + myPath
+                    System.Diagnostics.Process.Start(browserPath, myPath)
+                Else
+                    System.Diagnostics.Process.Start(path, myPath)
+                End If
+            Else
+                System.Diagnostics.Process.Start(myPath)
+            End If
+        Catch ex As Exception
+            '                MessageBox.Show("ブラウザの起動に失敗、またはタイムアウトしました。" + ex.ToString())
+        End Try
     End Sub
 End Class

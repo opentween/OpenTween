@@ -82,7 +82,7 @@ Public Class Twitter
 
     'Private _deletemessages As New List(Of PostClass)
 
-    Public Function Authenticate(ByVal username As String, ByVal password As String) As String
+    Public Overloads Function Authenticate(ByVal username As String, ByVal password As String) As String
 
         Dim res As HttpStatusCode
         Dim content As String = ""
@@ -104,7 +104,61 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Dim errMsg As String = GetErrorMessageJson(content)
                 If String.IsNullOrEmpty(errMsg) Then
-                    Return "Check your Username/Password." + Environment.NewLine + content
+                    Return My.Resources.Unauthorized + Environment.NewLine + content
+                Else
+                    Return "Auth error:" + errMsg
+                End If
+            Case HttpStatusCode.Forbidden
+                Dim errMsg As String = GetErrorMessageJson(content)
+                If String.IsNullOrEmpty(errMsg) Then
+                    Return "Err:Forbidden"
+                Else
+                    Return "Err:" + errMsg
+                End If
+            Case Else
+                Return "Err:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
+        End Select
+
+    End Function
+
+    Public Function StartAuthentication(ByRef pinPageUrl As String) As String
+        'oAuth PIN Flow
+        Dim res As Boolean
+        Dim content As String = ""
+
+        TwitterApiInfo.Initialize()
+        Try
+            res = twCon.AuthGetRequestToken(pinPageUrl)
+        Catch ex As Exception
+            Return "Err:" + "Failed to access auth server."
+        End Try
+
+        Return ""
+    End Function
+
+    Public Overloads Function Authenticate(ByVal pinCode As String) As String
+
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+
+        TwitterApiInfo.Initialize()
+        Try
+            res = twCon.AuthGetAccessToken(pinCode)
+        Catch ex As Exception
+            Return "Err:" + "Failed to access auth acc server."
+        End Try
+
+        Select Case res
+            Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
+                _uid = username.ToLower
+                Me.ReconnectUserStream()
+                Return ""
+            Case HttpStatusCode.Unauthorized
+                Twitter.AccountState = ACCOUNT_STATE.Invalid
+                Dim errMsg As String = GetErrorMessageJson(content)
+                If String.IsNullOrEmpty(errMsg) Then
+                    Return "Check the PIN or retry." + Environment.NewLine + content
                 Else
                     Return "Auth error:" + errMsg
                 End If
@@ -428,7 +482,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Dim errMsg As String = GetErrorMessageJson(content)
                 If String.IsNullOrEmpty(errMsg) Then
-                    Return "Check your Username/Password."
+                    Return My.Resources.Unauthorized
                 Else
                     Return "Auth err:" + errMsg
                 End If
@@ -507,7 +561,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Dim errMsg As String = GetErrorMessageJson(content)
                 If String.IsNullOrEmpty(errMsg) Then
-                    Return "Check your Username/Password."
+                    Return My.Resources.Unauthorized
                 Else
                     Return "Auth err:" + errMsg
                 End If
@@ -535,7 +589,7 @@ Public Class Twitter
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.NotFound
                 Return ""
             Case Else
@@ -565,7 +619,7 @@ Public Class Twitter
         Select Case res
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case Is <> HttpStatusCode.OK
                 Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
         End Select
@@ -627,7 +681,7 @@ Public Class Twitter
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.NotFound
                 Return ""
             Case Else
@@ -656,7 +710,7 @@ Public Class Twitter
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.Forbidden
                 Dim errMsg As String = GetErrorMessageJson(content)
                 If String.IsNullOrEmpty(errMsg) Then
@@ -690,7 +744,7 @@ Public Class Twitter
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.Forbidden
                 Dim errMsg As String = GetErrorMessageJson(content)
                 If String.IsNullOrEmpty(errMsg) Then
@@ -724,7 +778,7 @@ Public Class Twitter
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.Forbidden
                 Dim errMsg As String = GetErrorMessageJson(content)
                 If String.IsNullOrEmpty(errMsg) Then
@@ -758,7 +812,7 @@ Public Class Twitter
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.Forbidden
                 Dim errMsg As String = GetErrorMessageJson(content)
                 If String.IsNullOrEmpty(errMsg) Then
@@ -792,7 +846,7 @@ Public Class Twitter
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.Forbidden
                 Dim errMsg As String = GetErrorMessageJson(content)
                 If String.IsNullOrEmpty(errMsg) Then
@@ -837,7 +891,7 @@ Public Class Twitter
                 Return "Err:API Limits?"
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case Else
                 Return "Err:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
         End Select
@@ -877,7 +931,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Dim errMsg As String = GetErrorMessageJson(content)
                 If String.IsNullOrEmpty(errMsg) Then
-                    Return "Check your Username/Password."
+                    Return My.Resources.Unauthorized
                 Else
                     Return "Auth err:" + errMsg
                 End If
@@ -928,7 +982,7 @@ Public Class Twitter
                 Case HttpStatusCode.Unauthorized
                     retweeted_count = -1
                     Twitter.AccountState = ACCOUNT_STATE.Invalid
-                    Return "Check your Username/Password."
+                    Return My.Resources.Unauthorized
                 Case Else
                     retweeted_count = -1
                     Return "Err:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
@@ -956,7 +1010,7 @@ Public Class Twitter
                 If Not _restrictFavCheck Then Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.Forbidden
                 Dim errMsg As String = GetErrorMessageJson(content)
                 If String.IsNullOrEmpty(errMsg) Then
@@ -998,7 +1052,7 @@ Public Class Twitter
                 End If
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
@@ -1026,7 +1080,7 @@ Public Class Twitter
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.Forbidden
                 Dim errMsg As String = GetErrorMessageJson(content)
                 If String.IsNullOrEmpty(errMsg) Then
@@ -1058,7 +1112,7 @@ Public Class Twitter
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.Forbidden
                 Dim errMsg As String = GetErrorMessageJson(content)
                 If String.IsNullOrEmpty(errMsg) Then
@@ -1090,7 +1144,7 @@ Public Class Twitter
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.Forbidden
                 Dim errMsg As String = GetErrorMessageJson(content)
                 If String.IsNullOrEmpty(errMsg) Then
@@ -1287,7 +1341,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
@@ -1387,7 +1441,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case HttpStatusCode.Forbidden
@@ -1628,7 +1682,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
@@ -1700,7 +1754,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
@@ -2104,7 +2158,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
@@ -2139,7 +2193,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
@@ -2293,7 +2347,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
@@ -2350,7 +2404,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
@@ -2397,7 +2451,7 @@ Public Class Twitter
                     Twitter.AccountState = ACCOUNT_STATE.Valid
                 Case HttpStatusCode.Unauthorized
                     Twitter.AccountState = ACCOUNT_STATE.Invalid
-                    Return "Check your Username/Password."
+                    Return My.Resources.Unauthorized
                 Case HttpStatusCode.BadRequest
                     Return "Err:API Limits?"
                 Case Else
@@ -2433,7 +2487,7 @@ Public Class Twitter
                     Twitter.AccountState = ACCOUNT_STATE.Valid
                 Case HttpStatusCode.Unauthorized
                     Twitter.AccountState = ACCOUNT_STATE.Invalid
-                    Return "Check your Username/Password."
+                    Return My.Resources.Unauthorized
                 Case HttpStatusCode.BadRequest
                     Return "Err:API Limits?"
                 Case Else
@@ -2474,7 +2528,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
@@ -2499,7 +2553,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
@@ -2548,7 +2602,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
@@ -2592,7 +2646,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
@@ -2631,7 +2685,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case HttpStatusCode.NotFound
@@ -2666,7 +2720,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.BadRequest
                 Return "Err:" + GetErrorMessageJson(content)
             Case Else
@@ -2691,7 +2745,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.BadRequest
                 Return "Err:" + GetErrorMessageJson(content)
             Case Else
@@ -2881,7 +2935,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
@@ -3035,7 +3089,7 @@ Public Class Twitter
                     isDm = True
                 ElseIf xElm.Element("scrub_geo") IsNot Nothing Then
                     Try
-                        Debug.Print("scrub_geo: user_id=" + xElm.Element("user_id").Value.ToString + " up_to_status_id=" + xElm.Element("up_to_status_id").Value.ToString)
+                        Debug.Print("scrub_geo: user_id=" + xElm.Element("scrub_geo").Element("user_id").Value.ToString + " up_to_status_id=" + xElm.Element("scrub_geo").Element("up_to_status_id").Value.ToString)
                     Catch ex As Exception
                         TraceOut("scrub_geo:" + line)
                     End Try

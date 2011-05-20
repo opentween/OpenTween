@@ -45,6 +45,9 @@ Public Class HttpTwitter
     '''OAuthのアクセストークン取得先URI
     '''</summary>
     Private Const AccessTokenUrlXAuth As String = "https://api.twitter.com/oauth/access_token"
+    Private Const RequestTokenUrl As String = "https://api.twitter.com/oauth/request_token"
+    Private Const AuthorizeUrl As String = "https://api.twitter.com/oauth/authorize"
+    Private Const AccessTokenUrl As String = "https://api.twitter.com/oauth/access_token"
 
     Private Shared _protocol As String = "http://"
 
@@ -59,6 +62,8 @@ Public Class HttpTwitter
         Basic
     End Enum
     Private connectionType As AuthMethod = AuthMethod.Basic
+
+    Private requestToken As String
 
     Public Sub Initialize(ByVal accessToken As String, _
                                     ByVal accessTokenSecret As String, _
@@ -78,6 +83,7 @@ Public Class HttpTwitter
         con.Initialize(DecryptString(ConsumerKey), DecryptString(ConsumerSecret), accessToken, accessTokenSecret, username, "screen_name")
         httpCon = con
         connectionType = AuthMethod.OAuth
+        requestToken = ""
     End Sub
 
     Public Sub Initialize(ByVal username As String, _
@@ -139,6 +145,17 @@ Public Class HttpTwitter
             End If
         End Get
     End Property
+
+    Public Function AuthGetRequestToken(ByRef content As String) As Boolean
+        Dim authUri As Uri = Nothing
+        Dim result As Boolean = DirectCast(httpCon, HttpOAuthApiProxy).AuthenticatePinFlowRequest(RequestTokenUrl, AuthorizeUrl, requestToken, authUri)
+        content = authUri.ToString
+        Return result
+    End Function
+
+    Public Function AuthGetAccessToken(ByVal pin As String) As HttpStatusCode
+        Return DirectCast(httpCon, HttpOAuthApiProxy).AuthenticatePinFlow(AccessTokenUrl, requestToken, pin)
+    End Function
 
     Public Function AuthUserAndPass(ByVal username As String, ByVal password As String, ByRef content As String) As HttpStatusCode
         If connectionType = AuthMethod.Basic Then

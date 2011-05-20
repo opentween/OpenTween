@@ -4366,12 +4366,13 @@ Public Class TweenMain
                     End Using
                 End If
             End If
-            If e.ColumnIndex = 6 Then Me.DrawListViewItemStateIcon(e, rct)
+            'If e.ColumnIndex = 6 Then Me.DrawListViewItemStateIcon(e, rct)
         End If
     End Sub
 
     Private Sub DrawListViewItemIcon(ByVal e As DrawListViewItemEventArgs)
         Dim item As ImageListViewItem = DirectCast(e.Item, ImageListViewItem)
+        Dim stateRect As Rectangle
         If item.Image IsNot Nothing Then
             'e.Bounds.Leftが常に0を指すから自前で計算
             Dim itemRect As Rectangle = item.Bounds
@@ -4385,6 +4386,7 @@ Public Class TweenMain
 
             Dim iconRect As Rectangle = Rectangle.Intersect(New Rectangle(e.Item.GetBounds(ItemBoundsPortion.Icon).Location, New Size(_iconSz, _iconSz)), itemRect)
             iconRect.Offset(0, CType(Math.Max(0, (itemRect.Height - _iconSz) / 2), Integer))
+            stateRect = Rectangle.Intersect(New Rectangle(iconRect.Location.X + _iconSz + 2, iconRect.Location.Y, 18, 16), itemRect)
 
             If iconRect.Width > 0 Then
                 e.Graphics.FillRectangle(Brushes.White, iconRect)
@@ -4394,6 +4396,14 @@ Public Class TweenMain
                 Catch ex As ArgumentException
                     item.RegetImage()
                 End Try
+            End If
+        End If
+
+        If item.StateImageIndex > -1 Then
+            If stateRect.Width > 0 Then
+                'e.Graphics.FillRectangle(Brushes.White, stateRect)
+                'e.Graphics.InterpolationMode = Drawing2D.InterpolationMode.High
+                e.Graphics.DrawImage(Me.PostStateImageList.Images(item.StateImageIndex), stateRect)
             End If
         End If
     End Sub
