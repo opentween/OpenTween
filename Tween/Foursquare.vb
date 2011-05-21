@@ -81,7 +81,8 @@ Public Class Foursquare
         If curVenue Is Nothing Then Return Nothing
 
         Dim curLocation As New Google.GlobalLocation With {.Latitude = curVenue.Location.Latitude, .Longitude = curVenue.Location.Longitude, .LocateInfo = CreateVenueInfoText(curVenue)}
-        CheckInUrlsVenueCollection.Add(urlId, curLocation)
+        '例外発生の場合があるため
+        If Not CheckInUrlsVenueCollection.ContainsKey(urlId) Then CheckInUrlsVenueCollection.Add(urlId, curLocation)
         refText = curLocation.LocateInfo
         Return (New Google).CreateGoogleMapsUri(curLocation)
     End Function
