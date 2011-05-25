@@ -89,7 +89,7 @@ Public Class TweenMain
     Private tw As New Twitter
 
     'サブ画面インスタンス
-    Private SettingDialog As AppendSettingDialog = AppendSettingDialog.Instance       '設定画面インスタンス
+    Private WithEvents SettingDialog As AppendSettingDialog = AppendSettingDialog.Instance       '設定画面インスタンス
     Private TabDialog As New TabsDialog        'タブ選択ダイアログインスタンス
     Private SearchDialog As New SearchWord     '検索画面インスタンス
     Private fltDialog As New FilterDialog 'フィルター編集画面
@@ -779,7 +779,6 @@ Public Class TweenMain
         SettingDialog.ListCountApi = _cfgCommon.ListCountApi
 
         SettingDialog.UserstreamStartup = _cfgCommon.UserstreamStartup
-        SettingDialog.UserstreamPeriodInt = _cfgCommon.UserstreamPeriod
         SettingDialog.OpenUserTimeline = _cfgCommon.OpenUserTimeline
         SettingDialog.ListDoubleClickAction = _cfgCommon.ListDoubleClickAction
         SettingDialog.UserAppointUrl = _cfgCommon.UserAppointUrl
@@ -1183,14 +1182,12 @@ Public Class TweenMain
         End If
     End Sub
 
-    'Private Sub ConvertConfig()
-    '    '新タブ設定ファイル存在チェック
-    '    If System.IO.File.Exists(SettingTabs.GetSettingFilePath("")) Then
-    '        LoadConfig()
-    '        Exit Sub
-    '    End If
-    '    'LoadOldConfig()
-    'End Sub
+    Private Sub TimerInterval_Changed(ByVal sender As Object, ByVal e As AppendSettingDialog.IntervalChangedEventArgs) Handles SettingDialog.IntervalChanged
+        If Not TimerTimeline.Enabled Then Exit Sub
+        ResetTimers = e
+    End Sub
+
+    Private ResetTimers As New AppendSettingDialog.IntervalChangedEventArgs
 
     Private Sub TimerTimeline_Elapsed(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TimerTimeline.Elapsed
         Static homeCounter As Integer = 0
@@ -1199,7 +1196,6 @@ Public Class TweenMain
         Static pubSearchCounter As Integer = 0
         Static userTimelineCounter As Integer = 0
         Static listsCounter As Integer = 0
-        Static usCounter As Integer = 0
         Static ResumeWait As Integer = 0
         Static refreshFollowers As Integer = 0
 
@@ -1209,37 +1205,38 @@ Public Class TweenMain
         If pubSearchCounter > 0 Then Interlocked.Decrement(pubSearchCounter)
         If userTimelineCounter > 0 Then Interlocked.Decrement(userTimelineCounter)
         If listsCounter > 0 Then Interlocked.Decrement(listsCounter)
-        If usCounter > 0 Then Interlocked.Decrement(usCounter)
         Interlocked.Increment(refreshFollowers)
 
         ''タイマー初期化
-        If homeCounter <= 0 AndAlso SettingDialog.TimelinePeriodInt > 0 Then
+        If ResetTimers.Timeline OrElse homeCounter <= 0 AndAlso SettingDialog.TimelinePeriodInt > 0 Then
             Interlocked.Exchange(homeCounter, SettingDialog.TimelinePeriodInt)
-            If Not tw.IsUserstreamDataReceived Then GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
+            If Not tw.IsUserstreamDataReceived AndAlso Not ResetTimers.Timeline Then GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
+            ResetTimers.Timeline = False
         End If
-        If mentionCounter <= 0 AndAlso SettingDialog.ReplyPeriodInt > 0 Then
+        If ResetTimers.Reply OrElse mentionCounter <= 0 AndAlso SettingDialog.ReplyPeriodInt > 0 Then
             Interlocked.Exchange(mentionCounter, SettingDialog.ReplyPeriodInt)
-            If Not tw.IsUserstreamDataReceived Then GetTimeline(WORKERTYPE.Reply, 1, 0, "")
+            If Not tw.IsUserstreamDataReceived AndAlso Not ResetTimers.Reply Then GetTimeline(WORKERTYPE.Reply, 1, 0, "")
+            ResetTimers.Reply = False
         End If
-        If dmCounter <= 0 AndAlso SettingDialog.DMPeriodInt > 0 Then
+        If ResetTimers.DirectMessage OrElse dmCounter <= 0 AndAlso SettingDialog.DMPeriodInt > 0 Then
             Interlocked.Exchange(dmCounter, SettingDialog.DMPeriodInt)
-            If Not tw.IsUserstreamDataReceived Then GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
+            If Not tw.IsUserstreamDataReceived AndAlso Not ResetTimers.DirectMessage Then GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
+            ResetTimers.DirectMessage = False
         End If
-        If pubSearchCounter <= 0 AndAlso SettingDialog.PubSearchPeriodInt > 0 Then
+        If ResetTimers.PublicSearch OrElse pubSearchCounter <= 0 AndAlso SettingDialog.PubSearchPeriodInt > 0 Then
             Interlocked.Exchange(pubSearchCounter, SettingDialog.PubSearchPeriodInt)
-            GetTimeline(WORKERTYPE.PublicSearch, 1, 0, "")
+            If Not ResetTimers.PublicSearch Then GetTimeline(WORKERTYPE.PublicSearch, 1, 0, "")
+            ResetTimers.PublicSearch = False
         End If
-        If userTimelineCounter <= 0 AndAlso SettingDialog.UserTimelinePeriodInt > 0 Then
+        If ResetTimers.UserTimeline OrElse userTimelineCounter <= 0 AndAlso SettingDialog.UserTimelinePeriodInt > 0 Then
             Interlocked.Exchange(userTimelineCounter, SettingDialog.UserTimelinePeriodInt)
-            GetTimeline(WORKERTYPE.UserTimeline, 1, 0, "")
+            If Not ResetTimers.UserTimeline Then GetTimeline(WORKERTYPE.UserTimeline, 1, 0, "")
+            ResetTimers.UserTimeline = False
         End If
-        If listsCounter <= 0 AndAlso SettingDialog.ListsPeriodInt > 0 Then
+        If ResetTimers.Lists OrElse listsCounter <= 0 AndAlso SettingDialog.ListsPeriodInt > 0 Then
             Interlocked.Exchange(listsCounter, SettingDialog.ListsPeriodInt)
-            GetTimeline(WORKERTYPE.List, 1, 0, "")
-        End If
-        If usCounter <= 0 AndAlso SettingDialog.UserstreamPeriodInt > 0 Then
-            Interlocked.Exchange(usCounter, SettingDialog.UserstreamPeriodInt)
-            If Me._isActiveUserstream Then RefreshTimeline(True)
+            If Not ResetTimers.Lists Then GetTimeline(WORKERTYPE.List, 1, 0, "")
+            ResetTimers.Lists = False
         End If
         If refreshFollowers > 3600 Then
             Interlocked.Exchange(refreshFollowers, 0)
@@ -2441,7 +2438,7 @@ Public Class TweenMain
                         End If
                     End If
                 End If
-                If rslt.retMsg.Length = 0 AndAlso SettingDialog.PostAndGet Then GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
+                If rslt.retMsg.Length = 0 AndAlso Not _isActiveUserstream AndAlso SettingDialog.PostAndGet Then GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
             Case WORKERTYPE.Retweet
                 If rslt.retMsg.Length = 0 Then
                     _postTimestamps.Add(Now)
@@ -6059,7 +6056,6 @@ RETRY:
             _cfgCommon.Token = tw.AccessToken
             _cfgCommon.TokenSecret = tw.AccessTokenSecret
             _cfgCommon.UserstreamStartup = SettingDialog.UserstreamStartup
-            _cfgCommon.UserstreamPeriod = SettingDialog.UserstreamPeriodInt
             _cfgCommon.TimelinePeriod = SettingDialog.TimelinePeriodInt
             _cfgCommon.ReplyPeriod = SettingDialog.ReplyPeriodInt
             _cfgCommon.DMPeriod = SettingDialog.DMPeriodInt
@@ -10040,8 +10036,6 @@ RETRY:
             'If before.Subtract(Now).Seconds > -5 Then Exit Sub
             'before = Now
         End SyncLock
-
-        If SettingDialog.UserstreamPeriodInt > 0 Then Exit Sub
 
         Try
             If InvokeRequired AndAlso Not IsDisposed Then

@@ -226,9 +226,7 @@ Partial Class AppendSettingDialog
         Me.CheckPeriodAdjust = New System.Windows.Forms.CheckBox()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.DMPeriod = New System.Windows.Forms.TextBox()
-        Me.UserstreamPeriod = New System.Windows.Forms.TextBox()
         Me.StartupUserstreamCheck = New System.Windows.Forms.CheckBox()
-        Me.Label83 = New System.Windows.Forms.Label()
         Me.PreviewPanel = New System.Windows.Forms.Panel()
         Me.ReplyIconStateCombo = New System.Windows.Forms.ComboBox()
         Me.Label72 = New System.Windows.Forms.Label()
@@ -316,6 +314,9 @@ Partial Class AppendSettingDialog
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.BackColor = System.Drawing.SystemColors.Control
+        Me.SplitContainer1.Panel2.Controls.Add(Me.GetPeriodPanel)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.PreviewPanel)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.FontPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.BasedPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.CooperatePanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.ShortUrlPanel)
@@ -328,9 +329,6 @@ Partial Class AppendSettingDialog
         Me.SplitContainer1.Panel2.Controls.Add(Me.ActionPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.NotifyPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.TweetPrvPanel)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.GetPeriodPanel)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.PreviewPanel)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.FontPanel)
         Me.SplitContainer1.TabStop = False
         '
         'TreeViewSetting
@@ -1585,9 +1583,7 @@ Partial Class AppendSettingDialog
         Me.GetPeriodPanel.Controls.Add(Me.CheckPeriodAdjust)
         Me.GetPeriodPanel.Controls.Add(Me.Label5)
         Me.GetPeriodPanel.Controls.Add(Me.DMPeriod)
-        Me.GetPeriodPanel.Controls.Add(Me.UserstreamPeriod)
         Me.GetPeriodPanel.Controls.Add(Me.StartupUserstreamCheck)
-        Me.GetPeriodPanel.Controls.Add(Me.Label83)
         resources.ApplyResources(Me.GetPeriodPanel, "GetPeriodPanel")
         Me.GetPeriodPanel.Name = "GetPeriodPanel"
         '
@@ -1689,21 +1685,11 @@ Partial Class AppendSettingDialog
         resources.ApplyResources(Me.DMPeriod, "DMPeriod")
         Me.DMPeriod.Name = "DMPeriod"
         '
-        'UserstreamPeriod
-        '
-        resources.ApplyResources(Me.UserstreamPeriod, "UserstreamPeriod")
-        Me.UserstreamPeriod.Name = "UserstreamPeriod"
-        '
         'StartupUserstreamCheck
         '
         resources.ApplyResources(Me.StartupUserstreamCheck, "StartupUserstreamCheck")
         Me.StartupUserstreamCheck.Name = "StartupUserstreamCheck"
         Me.StartupUserstreamCheck.UseVisualStyleBackColor = True
-        '
-        'Label83
-        '
-        resources.ApplyResources(Me.Label83, "Label83")
-        Me.Label83.Name = "Label83"
         '
         'PreviewPanel
         '
@@ -2284,9 +2270,7 @@ Partial Class AppendSettingDialog
     Friend WithEvents Label72 As System.Windows.Forms.Label
     Friend WithEvents ChkNewMentionsBlink As System.Windows.Forms.CheckBox
     Friend WithEvents chkTabIconDisp As System.Windows.Forms.CheckBox
-    Friend WithEvents UserstreamPeriod As System.Windows.Forms.TextBox
     Friend WithEvents StartupUserstreamCheck As System.Windows.Forms.CheckBox
-    Friend WithEvents Label83 As System.Windows.Forms.Label
     Friend WithEvents Label65 As System.Windows.Forms.Label
     Friend WithEvents Label52 As System.Windows.Forms.Label
     Friend WithEvents Label49 As System.Windows.Forms.Label

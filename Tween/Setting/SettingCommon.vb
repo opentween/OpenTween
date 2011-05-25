@@ -184,7 +184,6 @@ Public Class SettingCommon
     Public FavoritesCountApi As Integer = 40
     Public TrackWord As String = ""
     Public AllAtReply As Boolean = False
-    Public UserstreamPeriod As Integer = 3
     Public UserstreamStartup As Boolean = True
     Public UserTimelineCountApi As Integer = 20
     Public UserTimelinePeriod As Integer = 600

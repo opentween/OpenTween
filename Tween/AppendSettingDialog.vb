@@ -127,7 +127,6 @@ Public Class AppendSettingDialog
     Private _ListCountApi As Integer
     Private _MyRetweetNoConfirm As Boolean
     Private _MyUserstreamStartup As Boolean
-    Private _MyUserstreamPeriod As Integer
     Private _MyOpenUserTimeline As Boolean
 
     Private _ValidationError As Boolean = False
@@ -149,6 +148,19 @@ Public Class AppendSettingDialog
     Public Property FoursquarePreviewWidth As Integer
     Public Property FoursquarePreviewZoom As Integer
 
+    Public Class IntervalChangedEventArgs
+        Inherits EventArgs
+        Public UserStream As Boolean
+        Public Timeline As Boolean
+        Public Reply As Boolean
+        Public DirectMessage As Boolean
+        Public PublicSearch As Boolean
+        Public Lists As Boolean
+        Public UserTimeline As Boolean
+    End Class
+
+    Public Event IntervalChanged(ByVal sender As Object, e As IntervalChangedEventArgs)
+
     Private Sub TreeViewSetting_BeforeSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewCancelEventArgs) Handles TreeViewSetting.BeforeSelect
         If Me.TreeViewSetting.SelectedNode Is Nothing Then Exit Sub
         Dim pnl = DirectCast(Me.TreeViewSetting.SelectedNode.Tag, Panel)
@@ -164,42 +176,6 @@ Public Class AppendSettingDialog
         pnl.Enabled = True
         pnl.Visible = True
     End Sub
-
-    'Private Sub ToggleNodeChange(ByVal node As TreeNode)
-    '    If node Is Nothing Then Exit Sub
-    '    TreeViewSetting.BeginUpdate()
-    '    If node.IsExpanded Then
-    '        node.Collapse()
-    '    Else
-    '        node.Expand()
-    '    End If
-    '    TreeViewSetting.EndUpdate()
-    'End Sub
-
-    'Private Sub TreeViewSetting_DrawNode(ByVal sender As Object, ByVal e As System.Windows.Forms.DrawTreeNodeEventArgs) Handles TreeViewSetting.DrawNode
-    '    e.DrawDefault = True
-    '    If (e.State And TreeNodeStates.Selected) = TreeNodeStates.Selected Then
-    '        Dim pnl = DirectCast(e.Node.Tag, Panel)
-    '        If pnl Is Nothing Then Exit Sub
-    '        If _curPanel IsNot Nothing Then
-    '            If pnl.Name <> _curPanel.Name Then
-    '                _curPanel.Enabled = False
-    '                _curPanel.Visible = False
-
-    '                _curPanel = pnl
-    '                pnl.Enabled = True
-    '                pnl.Visible = True
-    '            End If
-    '        End If
-    '    End If
-    'End Sub
-
-    'Private Sub TreeViewSetting_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles TreeViewSetting.MouseDown
-    '    Dim info As TreeViewHitTestInfo = TreeViewSetting.HitTest(e.X, e.Y)
-    '    If CBool((info.Location And TreeViewHitTestLocations.Label)) Then
-    '        ToggleNodeChange(info.Node)
-    '    End If
-    'End Sub
 
     Private Sub Save_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Save.Click
         If TweenMain.IsNetworkAvailable() AndAlso _
@@ -217,22 +193,49 @@ Public Class AppendSettingDialog
         Else
             _ValidationError = False
         End If
-        'If Me.Username.Focused OrElse Me.Password.Focused Then
-        '    If Not Authorize() Then
-        '        _ValidationError = True
-        '        Exit Sub
-        '    End If
-        'End If
+
+        Dim arg As New IntervalChangedEventArgs
+        Dim isIntervalChanged As Boolean = False
+
         Try
-            _MyUserstreamPeriod = CType(Me.UserstreamPeriod.Text, Integer)
             _MyUserstreamStartup = Me.StartupUserstreamCheck.Checked
             _MyIsOAuth = AuthOAuthRadio.Checked
-            _MytimelinePeriod = CType(TimelinePeriod.Text, Integer)
-            _MyDMPeriod = CType(DMPeriod.Text, Integer)
-            _MyPubSearchPeriod = CType(PubSearchPeriod.Text, Integer)
-            _MyListsPeriod = CType(ListsPeriod.Text, Integer)
-            _MyReplyPeriod = CType(ReplyPeriod.Text, Integer)
-            _MyUserTimelinePeriod = CType(UserTimelinePeriod.Text, Integer)
+
+            If _MytimelinePeriod <> CType(TimelinePeriod.Text, Integer) Then
+                _MytimelinePeriod = CType(TimelinePeriod.Text, Integer)
+                arg.Timeline = True
+                isIntervalChanged = True
+            End If
+            If _MyDMPeriod <> CType(DMPeriod.Text, Integer) Then
+                _MyDMPeriod = CType(DMPeriod.Text, Integer)
+                arg.DirectMessage = True
+                isIntervalChanged = True
+            End If
+            If _MyPubSearchPeriod <> CType(PubSearchPeriod.Text, Integer) Then
+                _MyPubSearchPeriod = CType(PubSearchPeriod.Text, Integer)
+                arg.PublicSearch = True
+                isIntervalChanged = True
+            End If
+
+            If _MyListsPeriod <> CType(ListsPeriod.Text, Integer) Then
+                _MyListsPeriod = CType(ListsPeriod.Text, Integer)
+                arg.Lists = True
+                isIntervalChanged = True
+            End If
+            If _MyReplyPeriod <> CType(ReplyPeriod.Text, Integer) Then
+                _MyReplyPeriod = CType(ReplyPeriod.Text, Integer)
+                arg.Reply = True
+                isIntervalChanged = True
+            End If
+            If _MyUserTimelinePeriod <> CType(UserTimelinePeriod.Text, Integer) Then
+                _MyUserTimelinePeriod = CType(UserTimelinePeriod.Text, Integer)
+                arg.UserTimeline = True
+                isIntervalChanged = True
+            End If
+
+            If isIntervalChanged Then
+                RaiseEvent IntervalChanged(Me, arg)
+            End If
 
             _MyReaded = StartupReaded.Checked
             Select Case IconSize.SelectedIndex
@@ -482,7 +485,6 @@ Public Class AppendSettingDialog
         End If
 
         Me.StartupUserstreamCheck.Checked = _MyUserstreamStartup
-        Me.UserstreamPeriod.Text = _MyUserstreamPeriod.ToString()
         TimelinePeriod.Text = _MytimelinePeriod.ToString()
         ReplyPeriod.Text = _MyReplyPeriod.ToString()
         DMPeriod.Text = _MyDMPeriod.ToString()
@@ -740,24 +742,6 @@ Public Class AppendSettingDialog
         ActiveControl = Username
     End Sub
 
-    Private Sub UserstreamPeriod_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles UserstreamPeriod.Validating
-        Dim prd As Integer
-        Try
-            prd = CType(UserstreamPeriod.Text, Integer)
-        Catch ex As Exception
-            MessageBox.Show(My.Resources.UserstreamPeriod_ValidatingText1)
-            e.Cancel = True
-            Exit Sub
-        End Try
-
-        If prd < 0 OrElse prd > 60 Then
-            MessageBox.Show(My.Resources.UserstreamPeriod_ValidatingText1)
-            e.Cancel = True
-            Exit Sub
-        End If
-        CalcApiUsing()
-    End Sub
-
     Private Sub TimelinePeriod_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles TimelinePeriod.Validating
         Dim prd As Integer
         Try
@@ -999,15 +983,6 @@ Public Class AppendSettingDialog
                 lblDetailLink.ForeColor = ColorDialog1.Color
         End Select
     End Sub
-
-    Public Property UserstreamPeriodInt() As Integer
-        Get
-            Return _MyUserstreamPeriod
-        End Get
-        Set(ByVal value As Integer)
-            _MyUserstreamPeriod = value
-        End Set
-    End Property
 
     Public Property UserstreamStartup() As Boolean
         Get
@@ -2653,7 +2628,7 @@ Public Class AppendSettingDialog
 
         Return _eventCheckboxTable
     End Function
-    
+
     Private Sub GetEventNotifyFlag(ByRef eventnotifyflag As EVENTTYPE, ByRef isMyeventnotifyflag As EVENTTYPE)
         Dim evt As EVENTTYPE = EVENTTYPE.None
         Dim myevt As EVENTTYPE = EVENTTYPE.None
@@ -2748,7 +2723,7 @@ Public Class AppendSettingDialog
         Dim myPath As String = url
         Dim path As String = Me.BrowserPathText.Text
         Try
-            If browserPath <> "" Then
+            If BrowserPath <> "" Then
                 If path.StartsWith("""") AndAlso path.Length > 2 AndAlso path.IndexOf("""", 2) > -1 Then
                     Dim sep As Integer = path.IndexOf("""", 2)
                     Dim browserPath As String = path.Substring(1, sep - 1)
