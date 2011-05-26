@@ -170,7 +170,6 @@ Public Class SettingCommon
     Public UseHashSupplement As Boolean = True
     Public TwitterUrl As String = "api.twitter.com"
     Public TwitterSearchUrl As String = "search.twitter.com"
-    Public IsOAuth As Boolean = True
     Public HotkeyEnabled As Boolean = False
     Public HotkeyModifier As Keys = Keys.None
     Public HotkeyKey As Keys = Keys.None

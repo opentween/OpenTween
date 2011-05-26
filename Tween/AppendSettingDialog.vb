@@ -114,7 +114,6 @@ Public Class AppendSettingDialog
     Private _MyUseAtIdSupplement As Boolean
     Private _MyUseHashSupplement As Boolean
     Private _MyLanguage As String
-    Private _MyIsOAuth As Boolean
     Private _MyTwitterApiUrl As String
     Private _MyTwitterSearchApiUrl As String
     Private _MyPreviewEnable As Boolean
@@ -199,7 +198,6 @@ Public Class AppendSettingDialog
 
         Try
             _MyUserstreamStartup = Me.StartupUserstreamCheck.Checked
-            _MyIsOAuth = AuthOAuthRadio.Checked
 
             If _MytimelinePeriod <> CType(TimelinePeriod.Text, Integer) Then
                 _MytimelinePeriod = CType(TimelinePeriod.Text, Integer)
@@ -455,24 +453,10 @@ Public Class AppendSettingDialog
         Dim pw As String = tw.Password
         Dim tk As String = tw.AccessToken
         Dim tks As String = tw.AccessTokenSecret
-        If Not Me._MyIsOAuth Then
-            'BASIC認証時のみ表示
-            Me.AuthStateLabel.Enabled = False
-            Me.AuthUserLabel.Enabled = False
-            Me.AuthClearButton.Enabled = False
-            Me.AuthOAuthRadio.Checked = False
-            Me.AuthBasicRadio.Checked = True
-            Me.CheckEnableBasicAuth.Checked = True
-            Me.AuthBasicRadio.Enabled = True
-            tw.Initialize(uname, pw)
-        Else
-            Me.AuthStateLabel.Enabled = True
-            Me.AuthUserLabel.Enabled = True
-            Me.AuthClearButton.Enabled = True
-            Me.AuthOAuthRadio.Checked = True
-            Me.AuthBasicRadio.Checked = False
-            tw.Initialize(tk, tks, uname)
-        End If
+        Me.AuthStateLabel.Enabled = True
+        Me.AuthUserLabel.Enabled = True
+        Me.AuthClearButton.Enabled = True
+        tw.Initialize(tk, tks, uname)
 
         Username.Text = uname
         Password.Text = pw
@@ -1837,15 +1821,6 @@ Public Class AppendSettingDialog
         End Set
     End Property
 
-    Public Property IsOAuth() As Boolean
-        Get
-            Return _MyIsOAuth
-        End Get
-        Set(ByVal value As Boolean)
-            _MyIsOAuth = value
-        End Set
-    End Property
-
     Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
         Using filedlg As New OpenFileDialog()
 
@@ -2152,11 +2127,7 @@ Public Class AppendSettingDialog
         HttpConnection.InitializeConnection(20, ptype, padr, pport, pusr, ppw)
         HttpTwitter.TwitterUrl = TwitterAPIText.Text.Trim
         HttpTwitter.TwitterSearchUrl = TwitterSearchAPIText.Text.Trim
-        If Me.AuthBasicRadio.Checked Then
-            tw.Initialize("", "")
-        Else
-            tw.Initialize("", "", "")
-        End If
+        tw.Initialize("", "", "")
         Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
         Me.AuthUserLabel.Text = ""
         Dim pinPageUrl As String = ""
@@ -2237,11 +2208,7 @@ Public Class AppendSettingDialog
         HttpConnection.InitializeConnection(20, ptype, padr, pport, pusr, ppw)
         HttpTwitter.TwitterUrl = TwitterAPIText.Text.Trim
         HttpTwitter.TwitterSearchUrl = TwitterSearchAPIText.Text.Trim
-        If Me.AuthBasicRadio.Checked Then
-            tw.Initialize("", "")
-        Else
-            tw.Initialize("", "", "")
-        End If
+        tw.Initialize("", "", "")
         Dim rslt As String = tw.Authenticate(user, pwd)
         If String.IsNullOrEmpty(rslt) Then
             MessageBox.Show(My.Resources.AuthorizeButton_Click1, "Authenticate", MessageBoxButtons.OK)
@@ -2273,25 +2240,6 @@ Public Class AppendSettingDialog
 
     Private Sub AuthClearButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AuthClearButton.Click
         tw.ClearAuthInfo()
-        Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
-        Me.AuthUserLabel.Text = ""
-        CalcApiUsing()
-    End Sub
-
-    Private Sub AuthOAuthRadio_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AuthOAuthRadio.CheckedChanged
-        If tw Is Nothing Then Exit Sub
-        If AuthBasicRadio.Checked Then
-            'BASIC認証時のみ表示
-            tw.Initialize("", "")
-            Me.AuthStateLabel.Enabled = False
-            Me.AuthUserLabel.Enabled = False
-            Me.AuthClearButton.Enabled = False
-        Else
-            tw.Initialize("", "", "")
-            Me.AuthStateLabel.Enabled = True
-            Me.AuthUserLabel.Enabled = True
-            Me.AuthClearButton.Enabled = True
-        End If
         Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
         Me.AuthUserLabel.Text = ""
         CalcApiUsing()
@@ -2524,10 +2472,6 @@ Public Class AppendSettingDialog
             e.Cancel = True
             Exit Sub
         End If
-    End Sub
-
-    Private Sub CheckEnableBasicAuth_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckEnableBasicAuth.CheckedChanged
-        AuthBasicRadio.Enabled = CheckEnableBasicAuth.Checked
     End Sub
 
     Private Sub SearchTextCountApi_Validating(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles SearchTextCountApi.Validating

@@ -212,17 +212,6 @@ Public Class Twitter
         _UserIdNo = ""
     End Sub
 
-    Public Sub Initialize(ByVal username As String, ByVal password As String)
-        'BASIC認証
-        If String.IsNullOrEmpty(username) OrElse String.IsNullOrEmpty(password) Then
-            Twitter.AccountState = ACCOUNT_STATE.Invalid
-        End If
-        TwitterApiInfo.Initialize()
-        twCon.Initialize(username, password)
-        _uid = username.ToLower
-        _UserIdNo = ""
-    End Sub
-
     Public Function PreProcessUrl(ByVal orgData As String) As String
         Dim posl1 As Integer
         Dim posl2 As Integer = 0

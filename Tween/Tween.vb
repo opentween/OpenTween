@@ -590,18 +590,14 @@ Public Class TweenMain
         sfTab.LineAlignment = StringAlignment.Center
 
         '設定画面への反映
-        SettingDialog.IsOAuth = _cfgCommon.IsOAuth
         HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl
         HttpTwitter.TwitterSearchUrl = _cfgCommon.TwitterSearchUrl
         SettingDialog.TwitterApiUrl = _cfgCommon.TwitterUrl
         SettingDialog.TwitterSearchApiUrl = _cfgCommon.TwitterSearchUrl
+
         '認証関連
-        If _cfgCommon.IsOAuth Then
-            If _cfgCommon.Token = "" Then _cfgCommon.UserName = ""
-            tw.Initialize(_cfgCommon.Token, _cfgCommon.TokenSecret, _cfgCommon.UserName)
-        Else
-            tw.Initialize(_cfgCommon.UserName, _cfgCommon.Password)
-        End If
+        If _cfgCommon.Token = "" Then _cfgCommon.UserName = ""
+        tw.Initialize(_cfgCommon.Token, _cfgCommon.TokenSecret, _cfgCommon.UserName)
 
         SettingDialog.TimelinePeriodInt = _cfgCommon.TimelinePeriod
         SettingDialog.ReplyPeriodInt = _cfgCommon.ReplyPeriod
@@ -5467,6 +5463,10 @@ RETRY:
                     Return True
                 End If
                 Select Case KeyCode
+                    Case Keys.T
+                        If Not Me.ExistCurrentPost Then Exit Function
+                        doTranslation(_curPost.TextFromApi)
+                        Return True
                     Case Keys.R
                         doReTweetUnofficial()
                         Return True
@@ -6053,7 +6053,6 @@ RETRY:
         SyncLock _syncObject
             _cfgCommon.UserName = tw.Username
             _cfgCommon.Password = tw.Password
-            _cfgCommon.IsOAuth = SettingDialog.IsOAuth
             _cfgCommon.Token = tw.AccessToken
             _cfgCommon.TokenSecret = tw.AccessTokenSecret
             _cfgCommon.UserstreamStartup = SettingDialog.UserstreamStartup
@@ -9816,16 +9815,11 @@ RETRY:
         Dim svc As String = ""
         If ImageServiceCombo.SelectedIndex > -1 Then svc = ImageServiceCombo.SelectedItem.ToString
         ImageServiceCombo.Items.Clear()
-        If SettingDialog.IsOAuth Then
-            ImageServiceCombo.Items.Add("TwitPic")
-            ImageServiceCombo.Items.Add("img.ly")
-            ImageServiceCombo.Items.Add("yfrog")
-            ImageServiceCombo.Items.Add("lockerz")
-        Else
-            ImageServiceCombo.Items.Add("")
-            Exit Sub
-        End If
-        'ImageServiceCombo.Items.Add("TwitVideo")
+        ImageServiceCombo.Items.Add("TwitPic")
+        ImageServiceCombo.Items.Add("img.ly")
+        ImageServiceCombo.Items.Add("yfrog")
+        ImageServiceCombo.Items.Add("lockerz")
+
         If svc = "" Then
             ImageServiceCombo.SelectedIndex = 0
         Else

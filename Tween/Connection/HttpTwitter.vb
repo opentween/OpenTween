@@ -86,26 +86,9 @@ Public Class HttpTwitter
         requestToken = ""
     End Sub
 
-    Public Sub Initialize(ByVal username As String, _
-                                    ByVal password As String)
-        'for BASIC auth
-        Dim con As New HttpConnectionBasic
-        Static un As String = ""
-        Static pw As String = ""
-        If un <> username OrElse pw <> password OrElse connectionType <> AuthMethod.Basic Then
-            ' 以前の認証状態よりひとつでも変化があったらhttpヘッダより読み取ったカウントは初期化
-            un = username
-            pw = password
-        End If
-        con.Initialize(username, password)
-        httpCon = con
-        connectionType = AuthMethod.Basic
-    End Sub
-
     Public ReadOnly Property AccessToken() As String
         Get
             If httpCon IsNot Nothing Then
-                If connectionType = AuthMethod.Basic Then Return ""
                 Return DirectCast(httpCon, HttpConnectionOAuth).AccessToken
             Else
                 Return ""
@@ -116,7 +99,6 @@ Public Class HttpTwitter
     Public ReadOnly Property AccessTokenSecret() As String
         Get
             If httpCon IsNot Nothing Then
-                If connectionType = AuthMethod.Basic Then Return ""
                 Return DirectCast(httpCon, HttpConnectionOAuth).AccessTokenSecret
             Else
                 Return ""
@@ -136,13 +118,7 @@ Public Class HttpTwitter
 
     Public ReadOnly Property Password() As String
         Get
-            If httpCon IsNot Nothing Then
-                'OAuthではパスワード取得させない
-                If connectionType = AuthMethod.Basic Then Return DirectCast(httpCon, HttpConnectionBasic).Password
-                Return ""
-            Else
-                Return ""
-            End If
+            Return ""
         End Get
     End Property
 
@@ -158,19 +134,11 @@ Public Class HttpTwitter
     End Function
 
     Public Function AuthUserAndPass(ByVal username As String, ByVal password As String, ByRef content As String) As HttpStatusCode
-        If connectionType = AuthMethod.Basic Then
-            Return httpCon.Authenticate(CreateTwitterUri("/1/account/verify_credentials.json"), username, password, content)
-        Else
-            Return httpCon.Authenticate(New Uri(AccessTokenUrlXAuth), username, password, content)
-        End If
+        Return httpCon.Authenticate(New Uri(AccessTokenUrlXAuth), username, password, content)
     End Function
 
     Public Sub ClearAuthInfo()
-        If connectionType = AuthMethod.Basic Then
-            Me.Initialize("", "")
-        Else
-            Me.Initialize("", "", "")
-        End If
+        Me.Initialize("", "", "")
     End Sub
 
     Public Shared WriteOnly Property UseSsl() As Boolean
@@ -186,7 +154,6 @@ Public Class HttpTwitter
     Public Function UpdateStatus(ByVal status As String, ByVal replyToId As Long, ByRef content As String) As HttpStatusCode
         Dim param As New Dictionary(Of String, String)
         param.Add("status", status)
-        If connectionType = AuthMethod.Basic Then param.Add("source", "Tween")
         If replyToId > 0 Then param.Add("in_reply_to_status_id", replyToId.ToString)
 
         Return httpCon.GetContent(PostMethod, _
@@ -936,11 +903,7 @@ Public Class HttpTwitter
 
     Public Function Clone() As Object Implements System.ICloneable.Clone
         Dim myCopy As New HttpTwitter
-        If Me.connectionType = AuthMethod.Basic Then
-            myCopy.Initialize(Me.AuthenticatedUsername, Me.Password)
-        Else
-            myCopy.Initialize(Me.AccessToken, Me.AccessTokenSecret, Me.AuthenticatedUsername)
-        End If
+        myCopy.Initialize(Me.AccessToken, Me.AccessTokenSecret, Me.AuthenticatedUsername)
         Return myCopy
     End Function
 End Class
