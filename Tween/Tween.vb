@@ -4075,10 +4075,10 @@ Public Class TweenMain
 
     Private Function CreateItem(ByVal Tab As TabPage, ByVal Post As PostClass, ByVal Index As Integer) As ListViewItem
         Dim mk As New StringBuilder
-        If Post.IsDeleted Then mk.Append("×")
-        If Post.IsMark Then mk.Append("♪")
-        If Post.IsProtect Then mk.Append("Ю")
-        If Post.InReplyToStatusId > 0 Then mk.Append("⇒")
+        'If Post.IsDeleted Then mk.Append("×")
+        'If Post.IsMark Then mk.Append("♪")
+        'If Post.IsProtect Then mk.Append("Ю")
+        'If Post.InReplyToStatusId > 0 Then mk.Append("⇒")
         If Post.FavoritedCount > 0 Then mk.Append("+" + Post.FavoritedCount.ToString)
         Dim itm As ImageListViewItem
         If Post.RetweetedId = 0 Then
@@ -4405,29 +4405,30 @@ Public Class TweenMain
         End If
     End Sub
 
-    Private Sub DrawListViewItemStateIcon(ByVal e As DrawListViewSubItemEventArgs, ByVal rct As RectangleF)
-        Dim item As ImageListViewItem = DirectCast(e.Item, ImageListViewItem)
-        If item.StateImageIndex > -1 Then
-            ''e.Bounds.Leftが常に0を指すから自前で計算
-            'Dim itemRect As Rectangle = item.Bounds
-            'itemRect.Width = e.Item.ListView.Columns(4).Width
+    'Private Sub DrawListViewItemStateIcon(ByVal e As DrawListViewSubItemEventArgs, ByVal rct As RectangleF)
+    '    Dim item As ImageListViewItem = DirectCast(e.Item, ImageListViewItem)
+    '    If item.StateImageIndex > -1 Then
+    '        ''e.Bounds.Leftが常に0を指すから自前で計算
+    '        'Dim itemRect As Rectangle = item.Bounds
+    '        'itemRect.Width = e.Item.ListView.Columns(4).Width
 
-            'For Each clm As ColumnHeader In e.Item.ListView.Columns
-            '    If clm.DisplayIndex < e.Item.ListView.Columns(4).DisplayIndex Then
-            '        itemRect.X += clm.Width
-            '    End If
-            'Next
+    '        'For Each clm As ColumnHeader In e.Item.ListView.Columns
+    '        '    If clm.DisplayIndex < e.Item.ListView.Columns(4).DisplayIndex Then
+    '        '        itemRect.X += clm.Width
+    '        '    End If
+    '        'Next
 
-            'Dim iconRect As Rectangle = Rectangle.Intersect(New Rectangle(e.Item.GetBounds(ItemBoundsPortion.Icon).Location, New Size(_iconSz, _iconSz)), itemRect)
-            'iconRect.Offset(0, CType(Math.Max(0, (itemRect.Height - _iconSz) / 2), Integer))
+    '        'Dim iconRect As Rectangle = Rectangle.Intersect(New Rectangle(e.Item.GetBounds(ItemBoundsPortion.Icon).Location, New Size(_iconSz, _iconSz)), itemRect)
+    '        'iconRect.Offset(0, CType(Math.Max(0, (itemRect.Height - _iconSz) / 2), Integer))
 
-            If rct.Width > 0 Then
-                e.Graphics.FillRectangle(Brushes.White, rct)
-                'e.Graphics.InterpolationMode = Drawing2D.InterpolationMode.High
-                e.Graphics.DrawImage(Me.PostStateImageList.Images(item.StateImageIndex), rct)
-            End If
-        End If
-    End Sub
+    '        If rct.Width > 0 Then
+    '            Dim stateRect As RectangleF = RectangleF.Intersect(rct, New RectangleF(rct.Location, New Size(18, 16)))
+    '            'e.Graphics.FillRectangle(Brushes.White, rct)
+    '            'e.Graphics.InterpolationMode = Drawing2D.InterpolationMode.High
+    '            e.Graphics.DrawImage(Me.PostStateImageList.Images(item.StateImageIndex), stateRect)
+    '        End If
+    '    End If
+    'End Sub
 
     Private Sub DoTabSearch(ByVal _word As String, _
                             ByVal CaseSensitive As Boolean, _
