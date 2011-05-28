@@ -5463,10 +5463,10 @@ RETRY:
                     Return True
                 End If
                 Select Case KeyCode
-                    Case Keys.T
-                        If Not Me.ExistCurrentPost Then Exit Function
-                        doTranslation(_curPost.TextFromApi)
-                        Return True
+                    'Case Keys.T
+                    '    If Not Me.ExistCurrentPost Then Exit Function
+                    '    doTranslation(_curPost.TextFromApi)
+                    '    Return True
                     Case Keys.R
                         doReTweetUnofficial()
                         Return True
