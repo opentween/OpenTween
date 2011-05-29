@@ -3292,12 +3292,12 @@ Public Class Twitter
 
                     sr = New StreamReader(st)
 
-                    Do While _streamActive AndAlso Not sr.EndOfStream
+                    Do While _streamActive AndAlso Not sr.EndOfStream AndAlso Twitter.AccountState = ACCOUNT_STATE.Valid
                         RaiseEvent StatusArrived(sr.ReadLine())
                         'Me.LastTime = Now
                     Loop
 
-                    If sr.EndOfStream Then
+                    If sr.EndOfStream OrElse Twitter.AccountState = ACCOUNT_STATE.Invalid Then
                         RaiseEvent Stopped()
                         'TraceOut("Stop:EndOfStream")
                         Thread.Sleep(10 * 1000)
