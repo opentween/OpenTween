@@ -3274,8 +3274,22 @@ Public Class Twitter
                     End If
 
                     RaiseEvent Started()
+                    Dim res As HttpStatusCode = twCon.UserStream(st, _allAtreplies, _trackwords, My.Application.Info.ProductName + " v" + fileVersion)
 
-                    twCon.UserStream(st, _allAtreplies, _trackwords, My.Application.Info.ProductName + " v" + fileVersion)
+                    Select Case res
+                        Case HttpStatusCode.OK
+                            Twitter.AccountState = ACCOUNT_STATE.Valid
+                        Case HttpStatusCode.Unauthorized
+                            Twitter.AccountState = ACCOUNT_STATE.Invalid
+                    End Select
+
+                    If st Is Nothing Then
+                        RaiseEvent Stopped()
+                        'TraceOut("Stop:stream is Nothing")
+                        Thread.Sleep(10 * 1000)
+                        Continue Do
+                    End If
+
                     sr = New StreamReader(st)
 
                     Do While _streamActive AndAlso Not sr.EndOfStream
