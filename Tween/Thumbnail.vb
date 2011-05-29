@@ -2320,6 +2320,7 @@ Public Class Thumbnail
             ' TODO 成功時はサムネイルURLを作成しimglist.Addする
             'Dim mapsUrl As String = Foursquare.GetInstance.GetMapsUri(args.url)
             'If mapsUrl Is Nothing Then Return False
+            If Not AppendSettingDialog.Instance.IsPreviewFoursquare Then Return False
             args.imglist.Add(New KeyValuePair(Of String, String)(args.url, ""))
             Return True
         Else
