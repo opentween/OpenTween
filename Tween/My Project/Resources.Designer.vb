@@ -925,7 +925,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  一度にふぁぼ追加が実行できるのは250件までです に類似しているローカライズされた文字列を検索します。
+        '''  一度にFav追加が実行できるのは250件までです に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property FavoriteLimitCountText() As String
             Get
@@ -1755,6 +1755,15 @@ Namespace My.Resources
             End Get
         End Property
         
+        '''<summary>
+        '''  再度認証が必要です。設定画面からいったん認証情報をクリアし、再認証してください。再認証するまでDMにはアクセスできません。 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property ReAuthorizeText() As String
+            Get
+                Return ResourceManager.GetString("ReAuthorizeText", resourceCulture)
+            End Get
+        End Property
+        
         Friend ReadOnly Property Refresh() As System.Drawing.Icon
             Get
                 Dim obj As Object = ResourceManager.GetObject("Refresh", resourceCulture)
@@ -2257,7 +2266,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  ユーザー名とパスワードを入力して「認証する」ボタンを押してください。認証せずに終了してもよろしいですか？ に類似しているローカライズされた文字列を検索します。
+        '''  「1.認証開始」ボタンを押し、「2.PIN」にブラウザに表示されたPINを入力して「3.認証する」ボタンを押してください。認証せずに終了してもよろしいですか？ に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property Setting_FormClosing1() As String
             Get

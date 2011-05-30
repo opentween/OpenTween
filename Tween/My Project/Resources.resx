@@ -740,7 +740,7 @@
     <value>未認証</value>
   </data>
   <data name="Setting_FormClosing1" xml:space="preserve">
-    <value>ユーザー名とパスワードを入力して「認証する」ボタンを押してください。認証せずに終了してもよろしいですか？</value>
+    <value>「1.認証開始」ボタンを押し、「2.PIN」にブラウザに表示されたPINを入力して「3.認証する」ボタンを押してください。認証せずに終了してもよろしいですか？</value>
   </data>
   <data name="No" xml:space="preserve">
     <value>いいえ</value>
@@ -1010,7 +1010,7 @@
     <value>再生数:</value>
   </data>
   <data name="FavoriteLimitCountText" xml:space="preserve">
-    <value>一度にふぁぼ追加が実行できるのは250件までです</value>
+    <value>一度にFav追加が実行できるのは250件までです</value>
   </data>
   <data name="TextSearchCountApi_Validating1" xml:space="preserve">
     <value>取得発言数は20～100件を指定してください。</value>
@@ -1107,5 +1107,8 @@
   </data>
   <data name="Unauthorized" xml:space="preserve">
     <value>You are not authorized.</value>
+  </data>
+  <data name="ReAuthorizeText" xml:space="preserve">
+    <value>再度認証が必要です。設定画面からいったん認証情報をクリアし、再認証してください。再認証するまでDMにはアクセスできません。</value>
   </data>
 </root>

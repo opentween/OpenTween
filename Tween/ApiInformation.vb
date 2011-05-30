@@ -36,7 +36,16 @@ Public MustInherit Class ApiInfoBase
     Protected Shared _ResetTime As New DateTime
     Protected Shared _ResetTimeInSeconds As Integer = -1
     Protected Shared _UsingCount As Integer = -1
+    Protected Shared _AccessLevel As ApiAccessLevel = ApiAccessLevel.None
 End Class
+
+Public Enum ApiAccessLevel
+    None
+    Unknown
+    Read
+    ReadWrite
+    ReadWriteAndDirectMessage
+End Enum
 
 Public Class ApiInfo
     Inherits ApiInfoBase
@@ -45,6 +54,7 @@ Public Class ApiInfo
     Public ResetTime As DateTime
     Public ResetTimeInSeconds As Integer
     Public UsingCount As Integer
+    Public AccessLevel As ApiAccessLevel
 
     Public Sub New()
         Me.MaxCount = _MaxCount
@@ -52,6 +62,7 @@ Public Class ApiInfo
         Me.ResetTime = _ResetTime
         Me.ResetTimeInSeconds = _ResetTimeInSeconds
         Me.UsingCount = _UsingCount
+        Me.AccessLevel = _AccessLevel
     End Sub
 End Class
 
@@ -80,10 +91,18 @@ Public Class ApiInformation
         Else
             HttpHeaders.Add("X-RateLimit-Reset", "-1")
         End If
+
+        If HttpHeaders.ContainsKey("X-Access-Level") Then
+            HttpHeaders.Item("X-Access-Level") = "read-write"
+        Else
+            HttpHeaders.Add("X-Access-Level", "read-write")
+        End If
+
         _MaxCount = -1
         _RemainCount = -1
         _ResetTime = New DateTime
         _ResetTimeInSeconds = -1
+        AccessLevel = ApiAccessLevel.None
         '_UsingCount = -1
         RaiseEvent Changed(Me, New ApiInformationChangedEventArgs)
     End Sub
@@ -168,6 +187,38 @@ Public Class ApiInformation
         End Set
     End Property
 
+    Public Property AccessLevel As ApiAccessLevel
+        Get
+            Return _AccessLevel
+        End Get
+        Private Set(ByVal value As ApiAccessLevel)
+            If _AccessLevel <> value Then
+                _AccessLevel = value
+                Raise_Changed()
+            End If
+        End Set
+    End Property
+
+    Public ReadOnly Property IsReadPermission As Boolean
+        Get
+            Return AccessLevel = ApiAccessLevel.Read OrElse
+                AccessLevel = ApiAccessLevel.ReadWrite OrElse
+                AccessLevel = ApiAccessLevel.ReadWriteAndDirectMessage
+        End Get
+    End Property
+
+    Public ReadOnly Property IsWritePermission As Boolean
+        Get
+            Return AccessLevel = ApiAccessLevel.ReadWrite OrElse
+                AccessLevel = ApiAccessLevel.ReadWriteAndDirectMessage
+        End Get
+    End Property
+
+    Public ReadOnly Property IsDirectMessagePermission As Boolean
+        Get
+            Return AccessLevel = ApiAccessLevel.ReadWriteAndDirectMessage
+        End Get
+    End Property
 
     Private ReadOnly Property RemainCountFromHttpHeader() As Integer
         Get
@@ -206,10 +257,27 @@ Public Class ApiInformation
         End Get
     End Property
 
+    Private ReadOnly Property ApiAccessLevelFromHttpHeader() As ApiAccessLevel
+        Get
+            Select Case HttpHeaders("X-Access-Level")
+                Case "read"
+                    Return ApiAccessLevel.Read
+                Case "read-write"
+                    Return ApiAccessLevel.ReadWrite
+                Case "read-write-directmessages", "read-write-privatemessages"
+                    Return ApiAccessLevel.ReadWriteAndDirectMessage
+                Case Else
+                    TraceOut("Unknown ApiAccessLevel:" + HttpHeaders("X-Access-Level"))
+                    Return ApiAccessLevel.ReadWrite     '未知のアクセスレベルの場合Read/Writeと仮定して処理継続
+            End Select
+        End Get
+    End Property
+
     Public Sub ParseHttpHeaders(ByVal headers As Dictionary(Of String, String))
         _MaxCount = MaxCountFromHttpHeader
         _RemainCount = RemainCountFromHttpHeader
         _ResetTime = ResetTimeFromHttpHeader
+        AccessLevel = ApiAccessLevelFromHttpHeader
         Raise_Changed()
     End Sub
 

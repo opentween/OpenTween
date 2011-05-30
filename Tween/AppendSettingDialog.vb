@@ -456,7 +456,7 @@ Public Class AppendSettingDialog
         Me.AuthStateLabel.Enabled = True
         Me.AuthUserLabel.Enabled = True
         Me.AuthClearButton.Enabled = True
-        tw.Initialize(tk, tks, uname)
+        'tw.Initialize(tk, tks, uname)
 
         Username.Text = uname
         Password.Text = pw
@@ -465,6 +465,11 @@ Public Class AppendSettingDialog
             Me.AuthUserLabel.Text = ""
         Else
             Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
+            If TwitterApiInfo.AccessLevel = ApiAccessLevel.ReadWrite Then
+                Me.AuthStateLabel.Text += "(xAuth)"
+            ElseIf TwitterApiInfo.AccessLevel = ApiAccessLevel.ReadWriteAndDirectMessage Then
+                Me.AuthStateLabel.Text += "(oAuth)"
+            End If
             Me.AuthUserLabel.Text = tw.Username
         End If
 
@@ -2173,6 +2178,11 @@ Public Class AppendSettingDialog
             MessageBox.Show(My.Resources.AuthorizeButton_Click1, "Authenticate", MessageBoxButtons.OK)
             Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
             Me.AuthUserLabel.Text = tw.Username
+            If TwitterApiInfo.AccessLevel = ApiAccessLevel.ReadWrite Then
+                Me.AuthStateLabel.Text += "(xAuth)"
+            ElseIf TwitterApiInfo.AccessLevel = ApiAccessLevel.ReadWriteAndDirectMessage Then
+                Me.AuthStateLabel.Text += "(oAuth)"
+            End If
             Return True
         Else
             MessageBox.Show(My.Resources.AuthorizeButton_Click2 + Environment.NewLine + rslt, "Authenticate", MessageBoxButtons.OK)
@@ -2214,6 +2224,11 @@ Public Class AppendSettingDialog
             MessageBox.Show(My.Resources.AuthorizeButton_Click1, "Authenticate", MessageBoxButtons.OK)
             Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
             Me.AuthUserLabel.Text = tw.Username
+            If TwitterApiInfo.AccessLevel = ApiAccessLevel.ReadWrite Then
+                Me.AuthStateLabel.Text += "(xAuth)"
+            ElseIf TwitterApiInfo.AccessLevel = ApiAccessLevel.ReadWriteAndDirectMessage Then
+                Me.AuthStateLabel.Text += "(oAuth)"
+            End If
             Return True
         Else
             MessageBox.Show(My.Resources.AuthorizeButton_Click2 + Environment.NewLine + rslt, "Authenticate", MessageBoxButtons.OK)
@@ -2235,7 +2250,6 @@ Public Class AppendSettingDialog
         If PinAuth() Then CalcApiUsing()
         AuthorizeButton.Enabled = False
         Me.Password.Text = ""
-        'If Authorize() Then CalcApiUsing()
     End Sub
 
     Private Sub AuthClearButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AuthClearButton.Click

@@ -8484,6 +8484,12 @@ RETRY:
             If Not tw.GetFollowersSuccess AndAlso SettingDialog.StartupFollowers Then
                 GetTimeline(WORKERTYPE.Follower, 0, 0, "")
             End If
+
+            ' 権限チェック read/write権限(xAuthで取得したトークン)の場合は再認証を促す
+            If TwitterApiInfo.AccessLevel = ApiAccessLevel.ReadWrite Then
+                MessageBox.Show(My.Resources.ReAuthorizeText)
+            End If
+
         End If
         _initial = False
 

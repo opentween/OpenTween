@@ -202,7 +202,7 @@ Public Class Twitter
     End Function
 
     Public Sub Initialize(ByVal token As String, ByVal tokenSecret As String, ByVal username As String)
-        'xAuth認証
+        'oAuth認証
         If String.IsNullOrEmpty(token) OrElse String.IsNullOrEmpty(tokenSecret) OrElse String.IsNullOrEmpty(username) Then
             Twitter.AccountState = ACCOUNT_STATE.Invalid
         End If
@@ -485,6 +485,7 @@ Public Class Twitter
         If _endingFlag Then Return ""
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
+        If Not TwitterApiInfo.IsDirectMessagePermission Then Return "Auth Err:try to re-authorization."
 
         postStr = postStr.Trim()
 
@@ -652,6 +653,7 @@ Public Class Twitter
         If _endingFlag Then Return ""
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
+        If Not TwitterApiInfo.IsDirectMessagePermission Then Return "Auth Err:try to re-authorization."
 
         Dim res As HttpStatusCode
 
@@ -2120,6 +2122,7 @@ Public Class Twitter
         If _endingFlag Then Return ""
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
+        If Not TwitterApiInfo.IsDirectMessagePermission Then Return "Auth Err:try to re-authorization."
 
         Dim res As HttpStatusCode
         Dim content As String = ""

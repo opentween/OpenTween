@@ -562,8 +562,8 @@ Public Class HttpTwitter
                             CreateTwitterUri("/1/account/rate_limit_status.json"), _
                             Nothing, _
                             content, _
-                            Nothing, _
-                            Nothing)
+                            TwitterApiInfo.HttpHeaders, _
+                            AddressOf GetApiCallback)
     End Function
 
 #Region "Lists"
