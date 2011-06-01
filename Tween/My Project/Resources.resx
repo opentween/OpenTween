@@ -1096,9 +1096,6 @@
   <data name="ListManageGetMoreUsers2" xml:space="preserve">
     <value>さらに取得(&amp;M)</value>
   </data>
-  <data name="AuthorizeButton_Click5" xml:space="preserve">
-    <value>PINを入力してください。</value>
-  </data>
   <data name="AuthorizeButton_Click6" xml:space="preserve">
     <value>認証サーバーに接続できませんでした。</value>
   </data>
@@ -1109,6 +1106,6 @@
     <value>You are not authorized.</value>
   </data>
   <data name="ReAuthorizeText" xml:space="preserve">
-    <value>再度認証が必要です。設定画面からいったん認証情報をクリアし、再認証してください。再認証するまでDMにはアクセスできません。</value>
+    <value>Direct Messageの送受信をするため、もう一度認証処理をして下さい。</value>
   </data>
 </root>

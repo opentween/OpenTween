@@ -468,7 +468,7 @@ Public Class AppendSettingDialog
             If TwitterApiInfo.AccessLevel = ApiAccessLevel.ReadWrite Then
                 Me.AuthStateLabel.Text += "(xAuth)"
             ElseIf TwitterApiInfo.AccessLevel = ApiAccessLevel.ReadWriteAndDirectMessage Then
-                Me.AuthStateLabel.Text += "(oAuth)"
+                Me.AuthStateLabel.Text += "(OAuth)"
             End If
             Me.AuthUserLabel.Text = tw.Username
         End If
@@ -2138,7 +2138,6 @@ Public Class AppendSettingDialog
         Dim pinPageUrl As String = ""
         Dim rslt As String = tw.StartAuthentication(pinPageUrl)
         If String.IsNullOrEmpty(rslt) Then
-            MessageBox.Show(My.Resources.AuthorizeButton_Click5, "Authenticate", MessageBoxButtons.OK)
             OpenUrl(pinPageUrl)
             Return True
         Else
@@ -2181,7 +2180,7 @@ Public Class AppendSettingDialog
             If TwitterApiInfo.AccessLevel = ApiAccessLevel.ReadWrite Then
                 Me.AuthStateLabel.Text += "(xAuth)"
             ElseIf TwitterApiInfo.AccessLevel = ApiAccessLevel.ReadWriteAndDirectMessage Then
-                Me.AuthStateLabel.Text += "(oAuth)"
+                Me.AuthStateLabel.Text += "(OAuth)"
             End If
             Return True
         Else
@@ -2227,7 +2226,7 @@ Public Class AppendSettingDialog
             If TwitterApiInfo.AccessLevel = ApiAccessLevel.ReadWrite Then
                 Me.AuthStateLabel.Text += "(xAuth)"
             ElseIf TwitterApiInfo.AccessLevel = ApiAccessLevel.ReadWriteAndDirectMessage Then
-                Me.AuthStateLabel.Text += "(oAuth)"
+                Me.AuthStateLabel.Text += "(OAuth)"
             End If
             Return True
         Else
@@ -2361,6 +2360,7 @@ Public Class AppendSettingDialog
             Thread.Sleep(10)
             If Me.Disposing OrElse Me.IsDisposed Then Exit Sub
         Loop Until Me.IsHandleCreated
+        Me.TopMost = Me.AlwaysTop
         CalcApiUsing()
     End Sub
 

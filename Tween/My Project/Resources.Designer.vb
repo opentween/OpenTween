@@ -260,15 +260,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  PINを入力してください。 に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property AuthorizeButton_Click5() As String
-            Get
-                Return ResourceManager.GetString("AuthorizeButton_Click5", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  認証サーバーに接続できませんでした。 に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property AuthorizeButton_Click6() As String
@@ -1756,7 +1747,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  再度認証が必要です。設定画面からいったん認証情報をクリアし、再認証してください。再認証するまでDMにはアクセスできません。 に類似しているローカライズされた文字列を検索します。
+        '''  Direct Messageの送受信をするため、もう一度認証処理をして下さい。 に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property ReAuthorizeText() As String
             Get

@@ -122,7 +122,7 @@ Public Class Twitter
     End Function
 
     Public Function StartAuthentication(ByRef pinPageUrl As String) As String
-        'oAuth PIN Flow
+        'OAuth PIN Flow
         Dim res As Boolean
         Dim content As String = ""
 
@@ -202,7 +202,7 @@ Public Class Twitter
     End Function
 
     Public Sub Initialize(ByVal token As String, ByVal tokenSecret As String, ByVal username As String)
-        'oAuth認証
+        'OAuth認証
         If String.IsNullOrEmpty(token) OrElse String.IsNullOrEmpty(tokenSecret) OrElse String.IsNullOrEmpty(username) Then
             Twitter.AccountState = ACCOUNT_STATE.Invalid
         End If

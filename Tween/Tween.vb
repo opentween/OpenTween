@@ -811,7 +811,7 @@ Public Class TweenMain
         If tw.Username = "" Then
             saveRequired = True
             '設定せずにキャンセルされた場合はプログラム終了
-            If SettingDialog.ShowDialog() = Windows.Forms.DialogResult.Cancel Then
+            If SettingDialog.ShowDialog(Me) = Windows.Forms.DialogResult.Cancel Then
                 Application.Exit()  '強制終了
                 Exit Sub
             End If
@@ -3074,7 +3074,7 @@ Public Class TweenMain
         Dim uid As String = tw.Username.ToLower
 
         Try
-            result = SettingDialog.ShowDialog()
+            result = SettingDialog.ShowDialog(Me)
         Catch ex As Exception
             Exit Sub
         End Try
@@ -8488,6 +8488,7 @@ RETRY:
             ' 権限チェック read/write権限(xAuthで取得したトークン)の場合は再認証を促す
             If TwitterApiInfo.AccessLevel = ApiAccessLevel.ReadWrite Then
                 MessageBox.Show(My.Resources.ReAuthorizeText)
+                SettingStripMenuItem_Click(Nothing, Nothing)
             End If
 
         End If
