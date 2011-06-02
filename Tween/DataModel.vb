@@ -35,6 +35,34 @@ Public Class TwitterDataModel
     End Class
 
     <DataContract()> _
+    Public Class SizeElement
+        <DataMember(Name:="w")> Public w As Integer
+        <DataMember(Name:="h")> Public h As Integer
+        <DataMember(Name:="resize")> Public Resize As String
+    End Class
+
+    <DataContract()> _
+    Public Class Sizes
+        <DataMember(Name:="large")> Public Large As SizeElement
+        <DataMember(Name:="medium")> Public Medium As SizeElement
+        <DataMember(Name:="small")> Public Small As SizeElement
+        <DataMember(Name:="thumb")> Public Thumb As SizeElement
+    End Class
+
+    <DataContract()> _
+    Public Class Media
+        <DataMember(Name:="id")> Public Id As Long
+        <DataMember(Name:="media_url")> Public MediaUrl As String
+        <DataMember(Name:="media_url_https")> Public MediaUrlHttps As String
+        <DataMember(Name:="url")> Public Url As String
+        <DataMember(Name:="display_url")> Public DisplayUrl As String
+        <DataMember(Name:="expanded_url")> Public ExpandedUrl As String
+        <DataMember(Name:="sizes")> Public Sizes As Sizes
+        <DataMember(Name:="type")> Public Type As String
+        <DataMember(Name:="indices")> Public Indices(2) As Integer
+    End Class
+
+    <DataContract()> _
     Public Class Urls
         <DataMember(Name:="urls")> Public Urls As String
         <DataMember(Name:="indices")> Public Indices(2) As Integer
@@ -59,6 +87,7 @@ Public Class TwitterDataModel
         <DataMember(Name:="urls")> Public Urls() As Urls
         <DataMember(Name:="hashtags")> Public Hashtags() As Hashtags
         <DataMember(Name:="user_mentions")> Public UserMentions() As UserMentions
+        <DataMember(Name:="media", isRequired:=False)> Public Media() As Media
     End Class
 
     <DataContract()> _
@@ -178,6 +207,7 @@ Public Class TwitterDataModel
         <DataMember(Name:="id")> Public Id As Int64
         <DataMember(Name:="favorited")> Public Favorited As Boolean
         <DataMember(Name:="text")> Public Text As String
+        <DataMember(Name:="entities", isRequired:=False)> Public Entities As Entities
     End Class
 
     <DataContract()> _
