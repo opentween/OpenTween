@@ -3081,7 +3081,8 @@ Public Class Twitter
                     isDm = True
                 ElseIf xElm.Element("scrub_geo") IsNot Nothing Then
                     Try
-                        Debug.Print("scrub_geo: user_id=" + xElm.Element("scrub_geo").Element("user_id").Value.ToString + " up_to_status_id=" + xElm.Element("scrub_geo").Element("up_to_status_id").Value.ToString)
+                        TabInformations.GetInstance.ScrubGeoReserve(Long.Parse(xElm.Element("scrub_geo").Element("user_id").Value),
+                                                                    Long.Parse(xElm.Element("scrub_geo").Element("up_to_status_id").Value))
                     Catch ex As Exception
                         TraceOut("scrub_geo:" + line)
                     End Try

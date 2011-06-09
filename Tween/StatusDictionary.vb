@@ -480,6 +480,12 @@ Public NotInheritable Class TabInformations
     Private _deletedIds As New List(Of Long)
     Private _retweets As New Dictionary(Of Long, PostClass)
     Private _removedTab As New Stack(Of TabClass)
+    Private _scrubGeo As New List(Of ScrubGeoInfo)
+
+    Private Class ScrubGeoInfo
+        Public UserId As Long
+        Public UpToStatusId As Long
+    End Class
 
     Public BlockIds As New List(Of Long)
 
@@ -702,6 +708,34 @@ Public NotInheritable Class TabInformations
             '    End If
             '    tab.Remove(StatusId)
             'End If
+        End SyncLock
+    End Sub
+
+    Public Sub ScrubGeoReserve(ByVal id As Long, ByVal upToStatusId As Long)
+        SyncLock LockObj
+            Me._scrubGeo.Add(New ScrubGeoInfo With {.UserId = id, .UpToStatusId = upToStatusId})
+            Me.ScrubGeo(id, upToStatusId)
+        End SyncLock
+    End Sub
+
+    Private Sub ScrubGeo(ByVal userId As Long, ByVal upToStatusId As Long)
+        SyncLock LockObj
+            Dim userPosts = From post In Me._statuses.Values
+                            Where post.UserId = userId AndAlso post.UserId <= upToStatusId
+                            Select post
+
+            For Each p In userPosts
+                p.PostGeo = New PostClass.StatusGeo
+            Next
+
+            Dim userPosts2 = From tb In Me.GetTabsInnerStorageType
+                             From post In tb.Posts.Values
+                             Where post.UserId = userId AndAlso post.UserId <= upToStatusId
+                             Select post
+
+            For Each p In userPosts2
+                p.PostGeo = New PostClass.StatusGeo
+            Next
         End SyncLock
     End Sub
 
