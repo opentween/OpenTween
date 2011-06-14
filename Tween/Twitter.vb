@@ -629,6 +629,7 @@ Public Class Twitter
 
         'ReTweetしたものをTLに追加
         Dim post As PostClass = CreatePostsFromStatusData(status)
+        If post Is Nothing Then Return "Invalid Json!"
 
         '二重取得回避
         SyncLock LockObj
@@ -1501,6 +1502,8 @@ Public Class Twitter
             '以下、ユーザー情報
             Dim user As TwitterDataModel.User = retweeted.User
 
+            If user.ScreenName Is Nothing OrElse status.User.ScreenName Is Nothing Then Return Nothing
+
             post.UserId = user.Id
             post.ScreenName = user.ScreenName
             post.Nickname = user.Name.Trim()
@@ -1526,6 +1529,8 @@ Public Class Twitter
 
             '以下、ユーザー情報
             Dim user As TwitterDataModel.User = status.User
+
+            If user.ScreenName Is Nothing Then Return Nothing
 
             post.UserId = user.Id
             post.ScreenName = user.ScreenName
@@ -1570,6 +1575,7 @@ Public Class Twitter
         For Each status As TwitterDataModel.Status In items
             Dim post As PostClass = Nothing
             post = CreatePostsFromStatusData(status)
+            If post Is Nothing Then Continue For
 
             If minimumId > post.StatusId Then minimumId = post.StatusId
             '二重取得回避
@@ -1612,6 +1618,7 @@ Public Class Twitter
         For Each status As TwitterDataModel.Status In items.Statuses
             Dim post As PostClass = Nothing
             post = CreatePostsFromStatusData(status)
+            If post Is Nothing Then Continue For
 
             If minimumId > post.StatusId Then minimumId = post.StatusId
             '二重取得回避
