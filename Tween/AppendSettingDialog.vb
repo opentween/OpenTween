@@ -463,6 +463,7 @@ Public Class AppendSettingDialog
         If tw.Username = "" Then
             Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
             Me.AuthUserLabel.Text = ""
+            Me.Save.Enabled = False
         Else
             Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
             If TwitterApiInfo.AccessLevel = ApiAccessLevel.ReadWrite Then
@@ -2147,12 +2148,7 @@ Public Class AppendSettingDialog
     End Function
 
     Private Function PinAuth() As Boolean
-        'Dim user As String = Me.Username.Text.Trim
         Dim pin As String = Me.Password.Text.Trim   'PIN Code
-        If String.IsNullOrEmpty(pin) Then
-            MessageBox.Show(My.Resources.Save_ClickText4)
-            Return False
-        End If
 
         '現在の設定内容で通信
         Dim ptype As HttpConnection.ProxyType
@@ -2238,6 +2234,7 @@ Public Class AppendSettingDialog
     End Function
 
     Private Sub StartAuthButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StartAuthButton.Click
+        Me.Save.Enabled = False
         If StartAuth() Then
             AuthorizeButton.Enabled = True
         Else
@@ -2246,7 +2243,14 @@ Public Class AppendSettingDialog
     End Sub
 
     Private Sub AuthorizeButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AuthorizeButton.Click
-        If PinAuth() Then CalcApiUsing()
+        If String.IsNullOrEmpty(Me.Password.Text.Trim) Then
+            MessageBox.Show(My.Resources.Save_ClickText4)
+            Exit Sub
+        End If
+        If PinAuth() Then
+            CalcApiUsing()
+            Me.Save.Enabled = True
+        End If
         AuthorizeButton.Enabled = False
         Me.Password.Text = ""
     End Sub
@@ -2255,6 +2259,7 @@ Public Class AppendSettingDialog
         tw.ClearAuthInfo()
         Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
         Me.AuthUserLabel.Text = ""
+        Me.Save.Enabled = False
         CalcApiUsing()
     End Sub
 
@@ -2701,4 +2706,5 @@ Public Class AppendSettingDialog
             '                MessageBox.Show("ブラウザの起動に失敗、またはタイムアウトしました。" + ex.ToString())
         End Try
     End Sub
+
 End Class
