@@ -3905,7 +3905,9 @@ Public Class TweenMain
         If e.KeyChar = "@" Then
             If Not SettingDialog.UseAtIdSupplement Then Exit Sub
             '@マーク
+            Dim cnt As Integer = AtIdSupl.ItemCount
             ShowSuplDialog(StatusText, AtIdSupl)
+            If cnt <> AtIdSupl.ItemCount Then _modifySettingAtId = True
             e.Handled = True
         ElseIf e.KeyChar = "#" Then
             If Not SettingDialog.UseHashSupplement Then Exit Sub
@@ -5429,7 +5431,9 @@ RETRY:
                                     If c = "@" Then
                                         pressed = True
                                         startstr = StatusText.Text.Substring(i + 1, endidx - i)
+                                        Dim cnt As Integer = AtIdSupl.ItemCount
                                         ShowSuplDialog(StatusText, AtIdSupl, startstr.Length + 1, startstr)
+                                        If AtIdSupl.ItemCount <> cnt Then _modifySettingAtId = True
                                     ElseIf c = "#" Then
                                         pressed = True
                                         startstr = StatusText.Text.Substring(i + 1, endidx - i)
@@ -6033,17 +6037,21 @@ RETRY:
         If Not ifModified Then
             SaveConfigsCommon()
             SaveConfigsLocal()
-            'SaveConfigsTab(True)    'True:事前に設定ファイル削除
             SaveConfigsTabs()
+            SaveConfigsAtId()
         Else
             If _modifySettingCommon Then SaveConfigsCommon()
             If _modifySettingLocal Then SaveConfigsLocal()
-            If _modifySettingAtId AndAlso SettingDialog.UseAtIdSupplement AndAlso AtIdSupl IsNot Nothing Then
-                _modifySettingAtId = False
-                Dim cfgAtId As New SettingAtIdList(AtIdSupl.GetItemList)
-                cfgAtId.Save()
-            End If
+            If _modifySettingAtId Then SaveConfigsAtId()
         End If
+    End Sub
+
+    Private Sub SaveConfigsAtId()
+        If _ignoreConfigSave OrElse Not SettingDialog.UseAtIdSupplement AndAlso AtIdSupl Is Nothing Then Exit Sub
+
+        _modifySettingAtId = False
+        Dim cfgAtId As New SettingAtIdList(AtIdSupl.GetItemList)
+        cfgAtId.Save()
     End Sub
 
     Private Sub SaveConfigsCommon()
