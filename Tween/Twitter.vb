@@ -3173,9 +3173,10 @@ Public Class Twitter
             Case "list_member_added", "list_member_removed", "list_updated"
                 evt.Target = eventData.TargetObject.FullName
             Case "block"
-                TabInformations.GetInstance.BlockIds.Add(eventData.Target.Id)
+                If Not TabInformations.GetInstance.BlockIds.Contains(eventData.Target.Id) Then TabInformations.GetInstance.BlockIds.Add(eventData.Target.Id)
                 evt.Target = ""
             Case "unblock"
+                If TabInformations.GetInstance.BlockIds.Contains(eventData.Target.Id) Then TabInformations.GetInstance.BlockIds.Remove(eventData.Target.Id)
                 evt.Target = ""
             Case "user_update"
                 evt.Target = ""
