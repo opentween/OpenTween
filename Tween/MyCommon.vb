@@ -354,7 +354,7 @@ retry:
                     sb.Length = 0
                     GoTo retry
                 End If
-            ElseIf Convert.ToInt32(c) > 127 Then
+            ElseIf Convert.ToInt32(c) > 127 OrElse c = "%"c Then
                 ' UTF-8の場合
                 ' UriクラスをNewして再構成し、入力をinputからAuthority部分を除去してやり直す
                 If uri Is Nothing Then
