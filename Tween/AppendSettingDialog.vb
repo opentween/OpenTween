@@ -2066,9 +2066,13 @@ Public Class AppendSettingDialog
     Private Sub ComboBoxAutoShortUrlFirst_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboBoxAutoShortUrlFirst.SelectedIndexChanged
         If ComboBoxAutoShortUrlFirst.SelectedIndex = UrlConverter.Bitly OrElse _
            ComboBoxAutoShortUrlFirst.SelectedIndex = UrlConverter.Jmp Then
+            Label76.Enabled = True
+            Label77.Enabled = True
             TextBitlyId.Enabled = True
             TextBitlyPw.Enabled = True
         Else
+            Label76.Enabled = False
+            Label77.Enabled = False
             TextBitlyId.Enabled = False
             TextBitlyPw.Enabled = False
         End If
