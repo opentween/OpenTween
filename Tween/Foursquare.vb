@@ -70,7 +70,7 @@ Public Class Foursquare
 
         If CheckInUrlsVenueCollection.ContainsKey(urlId) Then
             refText = CheckInUrlsVenueCollection(urlId).LocateInfo
-            Return (New Google).CreateGoogleMapsUri(CheckInUrlsVenueCollection(urlId))
+            Return (New Google).CreateGoogleStaticMapsUri(CheckInUrlsVenueCollection(urlId))
         End If
 
         Dim curVenue As FourSquareDataModel.Venue = Nothing
@@ -84,7 +84,7 @@ Public Class Foursquare
         '例外発生の場合があるため
         If Not CheckInUrlsVenueCollection.ContainsKey(urlId) Then CheckInUrlsVenueCollection.Add(urlId, curLocation)
         refText = curLocation.LocateInfo
-        Return (New Google).CreateGoogleMapsUri(curLocation)
+        Return (New Google).CreateGoogleStaticMapsUri(curLocation)
     End Function
 
     Private ReadOnly Property CreateVenueInfoText(ByVal info As FourSquareDataModel.Venue) As String

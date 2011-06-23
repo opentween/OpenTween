@@ -2370,7 +2370,7 @@ Public Class Thumbnail
     Private Function TwitterGeo_GetUrl(ByVal args As GetUrlArgs) As Boolean
         ' TODO URL判定処理を記述
         If args.geoInfo IsNot Nothing AndAlso (args.geoInfo.Latitude <> 0 OrElse args.geoInfo.Longitude <> 0) Then
-            Dim url As String = (New Google).CreateGoogleMapsUri(args.geoInfo)
+            Dim url As String = (New Google).CreateGoogleStaticMapsUri(args.geoInfo)
             args.imglist.Add(New KeyValuePair(Of String, String)(url, url))
             Return True
         End If
@@ -2396,8 +2396,24 @@ Public Class Thumbnail
             Return False
         End If
         ' 成功した場合はURLに対応する画像、ツールチップテキストを登録
-        args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, img))
-        args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
+        Dim url As String = args.url.Key
+        Try
+            ' URLをStaticMapAPIから通常のURLへ変換
+            ' 仕様：ズーム率、サムネイルサイズの設定は無視する
+            ' 参考：http://imakoko.didit.jp/imakoko_html/memo/parameters_google.html
+            ' サンプル
+            ' static版 http://maps.google.com/maps/api/staticmap?center=35.16959869,136.93813205&size=300x300&zoom=15&markers=35.16959869,136.93813205&sensor=false
+            ' 通常URL  http://maps.google.com/maps?ll=35.16959869,136.93813205&size=300x300&zoom=15&markers=35.16959869,136.93813205&sensor=false
+
+            url = url.Replace("/maps/api/staticmap?center=", "?ll=")
+            url = url.Replace("&markers=", "&q=")
+            url = Regex.Replace(url, "&size=\d+x\d+&zoom=\d+", "")
+            url = url.Replace("&sensor=false", "")
+        Catch ex As Exception
+            url = args.url.Key
+        End Try
+        args.pics.Add(New KeyValuePair(Of String, Image)(url, img))
+        args.tooltipText.Add(New KeyValuePair(Of String, String)(url, ""))
         Return True
     End Function
 #End Region

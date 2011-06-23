@@ -275,12 +275,20 @@ Public Class Google
 #End Region
 
 #Region "GoogleMaps"
+    Public Overloads Function CreateGoogleStaticMapsUri(ByVal locate As GlobalLocation) As String
+        Return CreateGoogleStaticMapsUri(locate.Latitude, locate.Longitude)
+    End Function
+
+    Public Overloads Function CreateGoogleStaticMapsUri(ByVal lat As Double, ByVal lng As Double) As String
+        Return "http://maps.google.com/maps/api/staticmap?center=" + lat.ToString + "," + lng.ToString + "&size=" + AppendSettingDialog.Instance.FoursquarePreviewWidth.ToString + "x" + AppendSettingDialog.Instance.FoursquarePreviewHeight.ToString + "&zoom=" + AppendSettingDialog.Instance.FoursquarePreviewZoom.ToString + "&markers=" + lat.ToString + "," + lng.ToString + "&sensor=false"
+    End Function
+
     Public Overloads Function CreateGoogleMapsUri(ByVal locate As GlobalLocation) As String
         Return CreateGoogleMapsUri(locate.Latitude, locate.Longitude)
     End Function
 
     Public Overloads Function CreateGoogleMapsUri(ByVal lat As Double, ByVal lng As Double) As String
-        Return "http://maps.google.com/maps/api/staticmap?center=" + lat.ToString + "," + lng.ToString + "&size=" + AppendSettingDialog.Instance.FoursquarePreviewWidth.ToString + "x" + AppendSettingDialog.Instance.FoursquarePreviewHeight.ToString + "&zoom=" + AppendSettingDialog.Instance.FoursquarePreviewZoom.ToString + "&markers=" + lat.ToString + "," + lng.ToString + "&sensor=false"
+        Return "http://maps.google.com/maps?ll=" + lat.ToString + "," + lng.ToString + "&z=" + AppendSettingDialog.Instance.FoursquarePreviewZoom.ToString + "&q=" + lat.ToString + "," + lng.ToString
     End Function
 
     Public Class GlobalLocation
