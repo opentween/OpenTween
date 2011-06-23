@@ -729,7 +729,7 @@ Public Class AppendSettingDialog
             .ExpandAll()
         End With
         'TreeViewSetting.SelectedNode = TreeViewSetting.TopNode
-        ActiveControl = Username
+        ActiveControl = StartAuthButton
     End Sub
 
     Private Sub TimelinePeriod_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles TimelinePeriod.Validating
@@ -2239,6 +2239,7 @@ Public Class AppendSettingDialog
 
     Private Sub StartAuthButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StartAuthButton.Click
         Me.Save.Enabled = False
+        Me.Password.Focus()
         If StartAuth() Then
             AuthorizeButton.Enabled = True
         Else
@@ -2375,15 +2376,6 @@ Public Class AppendSettingDialog
 
     Private Sub ButtonApiCalc_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonApiCalc.Click
         CalcApiUsing()
-    End Sub
-
-    Private Sub New()
-
-        ' この呼び出しはデザイナーで必要です。
-        InitializeComponent()
-
-        ' InitializeComponent() 呼び出しの後で初期化を追加します。
-
     End Sub
 
     Public Shared ReadOnly Property Instance As AppendSettingDialog
@@ -2711,4 +2703,13 @@ Public Class AppendSettingDialog
         End Try
     End Sub
 
+    Public Sub New()
+
+        ' この呼び出しはデザイナーで必要です。
+        InitializeComponent()
+
+        ' InitializeComponent() 呼び出しの後で初期化を追加します。
+
+        Me.Icon = My.Resources.MIcon
+    End Sub
 End Class

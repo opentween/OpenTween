@@ -255,6 +255,2409 @@
   <data name="&gt;&gt;SplitContainer1.Panel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="&gt;&gt;StartAuthButton.Name" xml:space="preserve">
+    <value>StartAuthButton</value>
+  </data>
+  <data name="&gt;&gt;StartAuthButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;StartAuthButton.Parent" xml:space="preserve">
+    <value>BasedPanel</value>
+  </data>
+  <data name="&gt;&gt;StartAuthButton.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;AuthClearButton.Name" xml:space="preserve">
+    <value>AuthClearButton</value>
+  </data>
+  <data name="&gt;&gt;AuthClearButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;AuthClearButton.Parent" xml:space="preserve">
+    <value>BasedPanel</value>
+  </data>
+  <data name="&gt;&gt;AuthClearButton.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;AuthUserLabel.Name" xml:space="preserve">
+    <value>AuthUserLabel</value>
+  </data>
+  <data name="&gt;&gt;AuthUserLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;AuthUserLabel.Parent" xml:space="preserve">
+    <value>BasedPanel</value>
+  </data>
+  <data name="&gt;&gt;AuthUserLabel.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;AuthStateLabel.Name" xml:space="preserve">
+    <value>AuthStateLabel</value>
+  </data>
+  <data name="&gt;&gt;AuthStateLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;AuthStateLabel.Parent" xml:space="preserve">
+    <value>BasedPanel</value>
+  </data>
+  <data name="&gt;&gt;AuthStateLabel.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;Label4.Name" xml:space="preserve">
+    <value>Label4</value>
+  </data>
+  <data name="&gt;&gt;Label4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label4.Parent" xml:space="preserve">
+    <value>BasedPanel</value>
+  </data>
+  <data name="&gt;&gt;Label4.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;AuthorizeButton.Name" xml:space="preserve">
+    <value>AuthorizeButton</value>
+  </data>
+  <data name="&gt;&gt;AuthorizeButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;AuthorizeButton.Parent" xml:space="preserve">
+    <value>BasedPanel</value>
+  </data>
+  <data name="&gt;&gt;AuthorizeButton.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;Label2.Name" xml:space="preserve">
+    <value>Label2</value>
+  </data>
+  <data name="&gt;&gt;Label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label2.Parent" xml:space="preserve">
+    <value>BasedPanel</value>
+  </data>
+  <data name="&gt;&gt;Label2.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;Username.Name" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="&gt;&gt;Username.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Username.Parent" xml:space="preserve">
+    <value>BasedPanel</value>
+  </data>
+  <data name="&gt;&gt;Username.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;Password.Name" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="&gt;&gt;Password.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Password.Parent" xml:space="preserve">
+    <value>BasedPanel</value>
+  </data>
+  <data name="&gt;&gt;Password.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="BasedPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="BasedPanel.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="BasedPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="BasedPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>518, 368</value>
+  </data>
+  <data name="BasedPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="BasedPanel.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;BasedPanel.Name" xml:space="preserve">
+    <value>BasedPanel</value>
+  </data>
+  <data name="&gt;&gt;BasedPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BasedPanel.Parent" xml:space="preserve">
+    <value>SplitContainer1.Panel2</value>
+  </data>
+  <data name="&gt;&gt;BasedPanel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;IsPreviewFoursquareCheckBox.Name" xml:space="preserve">
+    <value>IsPreviewFoursquareCheckBox</value>
+  </data>
+  <data name="&gt;&gt;IsPreviewFoursquareCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;IsPreviewFoursquareCheckBox.Parent" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;IsPreviewFoursquareCheckBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;FoursquareGroupBox.Name" xml:space="preserve">
+    <value>FoursquareGroupBox</value>
+  </data>
+  <data name="&gt;&gt;FoursquareGroupBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FoursquareGroupBox.Parent" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;FoursquareGroupBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;Label39.Name" xml:space="preserve">
+    <value>Label39</value>
+  </data>
+  <data name="&gt;&gt;Label39.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label39.Parent" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;Label39.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;UserAppointUrlText.Name" xml:space="preserve">
+    <value>UserAppointUrlText</value>
+  </data>
+  <data name="&gt;&gt;UserAppointUrlText.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;UserAppointUrlText.Parent" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;UserAppointUrlText.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxTranslateLanguage.Name" xml:space="preserve">
+    <value>ComboBoxTranslateLanguage</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxTranslateLanguage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxTranslateLanguage.Parent" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxTranslateLanguage.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;Label29.Name" xml:space="preserve">
+    <value>Label29</value>
+  </data>
+  <data name="&gt;&gt;Label29.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label29.Parent" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;Label29.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;CheckOutputz.Name" xml:space="preserve">
+    <value>CheckOutputz</value>
+  </data>
+  <data name="&gt;&gt;CheckOutputz.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckOutputz.Parent" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;CheckOutputz.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;CheckNicoms.Name" xml:space="preserve">
+    <value>CheckNicoms</value>
+  </data>
+  <data name="&gt;&gt;CheckNicoms.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckNicoms.Parent" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;CheckNicoms.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;TextBoxOutputzKey.Name" xml:space="preserve">
+    <value>TextBoxOutputzKey</value>
+  </data>
+  <data name="&gt;&gt;TextBoxOutputzKey.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextBoxOutputzKey.Parent" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;TextBoxOutputzKey.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;Label60.Name" xml:space="preserve">
+    <value>Label60</value>
+  </data>
+  <data name="&gt;&gt;Label60.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label60.Parent" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;Label60.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;Label59.Name" xml:space="preserve">
+    <value>Label59</value>
+  </data>
+  <data name="&gt;&gt;Label59.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label59.Parent" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;Label59.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxOutputzUrlmode.Name" xml:space="preserve">
+    <value>ComboBoxOutputzUrlmode</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxOutputzUrlmode.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxOutputzUrlmode.Parent" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxOutputzUrlmode.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="CooperatePanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="CooperatePanel.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CooperatePanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="CooperatePanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>518, 368</value>
+  </data>
+  <data name="CooperatePanel.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="CooperatePanel.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;CooperatePanel.Name" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;CooperatePanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CooperatePanel.Parent" xml:space="preserve">
+    <value>SplitContainer1.Panel2</value>
+  </data>
+  <data name="&gt;&gt;CooperatePanel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;CheckForceResolve.Name" xml:space="preserve">
+    <value>CheckForceResolve</value>
+  </data>
+  <data name="&gt;&gt;CheckForceResolve.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckForceResolve.Parent" xml:space="preserve">
+    <value>ShortUrlPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckForceResolve.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;CheckTinyURL.Name" xml:space="preserve">
+    <value>CheckTinyURL</value>
+  </data>
+  <data name="&gt;&gt;CheckTinyURL.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckTinyURL.Parent" xml:space="preserve">
+    <value>ShortUrlPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckTinyURL.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;TextBitlyPw.Name" xml:space="preserve">
+    <value>TextBitlyPw</value>
+  </data>
+  <data name="&gt;&gt;TextBitlyPw.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextBitlyPw.Parent" xml:space="preserve">
+    <value>ShortUrlPanel</value>
+  </data>
+  <data name="&gt;&gt;TextBitlyPw.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;CheckAutoConvertUrl.Name" xml:space="preserve">
+    <value>CheckAutoConvertUrl</value>
+  </data>
+  <data name="&gt;&gt;CheckAutoConvertUrl.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckAutoConvertUrl.Parent" xml:space="preserve">
+    <value>ShortUrlPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckAutoConvertUrl.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;Label71.Name" xml:space="preserve">
+    <value>Label71</value>
+  </data>
+  <data name="&gt;&gt;Label71.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label71.Parent" xml:space="preserve">
+    <value>ShortUrlPanel</value>
+  </data>
+  <data name="&gt;&gt;Label71.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxAutoShortUrlFirst.Name" xml:space="preserve">
+    <value>ComboBoxAutoShortUrlFirst</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxAutoShortUrlFirst.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxAutoShortUrlFirst.Parent" xml:space="preserve">
+    <value>ShortUrlPanel</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxAutoShortUrlFirst.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;Label76.Name" xml:space="preserve">
+    <value>Label76</value>
+  </data>
+  <data name="&gt;&gt;Label76.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label76.Parent" xml:space="preserve">
+    <value>ShortUrlPanel</value>
+  </data>
+  <data name="&gt;&gt;Label76.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;Label77.Name" xml:space="preserve">
+    <value>Label77</value>
+  </data>
+  <data name="&gt;&gt;Label77.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label77.Parent" xml:space="preserve">
+    <value>ShortUrlPanel</value>
+  </data>
+  <data name="&gt;&gt;Label77.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;TextBitlyId.Name" xml:space="preserve">
+    <value>TextBitlyId</value>
+  </data>
+  <data name="&gt;&gt;TextBitlyId.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextBitlyId.Parent" xml:space="preserve">
+    <value>ShortUrlPanel</value>
+  </data>
+  <data name="&gt;&gt;TextBitlyId.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="ShortUrlPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="ShortUrlPanel.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="ShortUrlPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="ShortUrlPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>518, 368</value>
+  </data>
+  <data name="ShortUrlPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="ShortUrlPanel.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;ShortUrlPanel.Name" xml:space="preserve">
+    <value>ShortUrlPanel</value>
+  </data>
+  <data name="&gt;&gt;ShortUrlPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ShortUrlPanel.Parent" xml:space="preserve">
+    <value>SplitContainer1.Panel2</value>
+  </data>
+  <data name="&gt;&gt;ShortUrlPanel.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;Label55.Name" xml:space="preserve">
+    <value>Label55</value>
+  </data>
+  <data name="&gt;&gt;Label55.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label55.Parent" xml:space="preserve">
+    <value>ProxyPanel</value>
+  </data>
+  <data name="&gt;&gt;Label55.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;TextProxyPassword.Name" xml:space="preserve">
+    <value>TextProxyPassword</value>
+  </data>
+  <data name="&gt;&gt;TextProxyPassword.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextProxyPassword.Parent" xml:space="preserve">
+    <value>ProxyPanel</value>
+  </data>
+  <data name="&gt;&gt;TextProxyPassword.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;RadioProxyNone.Name" xml:space="preserve">
+    <value>RadioProxyNone</value>
+  </data>
+  <data name="&gt;&gt;RadioProxyNone.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RadioProxyNone.Parent" xml:space="preserve">
+    <value>ProxyPanel</value>
+  </data>
+  <data name="&gt;&gt;RadioProxyNone.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;LabelProxyPassword.Name" xml:space="preserve">
+    <value>LabelProxyPassword</value>
+  </data>
+  <data name="&gt;&gt;LabelProxyPassword.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LabelProxyPassword.Parent" xml:space="preserve">
+    <value>ProxyPanel</value>
+  </data>
+  <data name="&gt;&gt;LabelProxyPassword.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;RadioProxyIE.Name" xml:space="preserve">
+    <value>RadioProxyIE</value>
+  </data>
+  <data name="&gt;&gt;RadioProxyIE.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RadioProxyIE.Parent" xml:space="preserve">
+    <value>ProxyPanel</value>
+  </data>
+  <data name="&gt;&gt;RadioProxyIE.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;TextProxyUser.Name" xml:space="preserve">
+    <value>TextProxyUser</value>
+  </data>
+  <data name="&gt;&gt;TextProxyUser.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextProxyUser.Parent" xml:space="preserve">
+    <value>ProxyPanel</value>
+  </data>
+  <data name="&gt;&gt;TextProxyUser.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;RadioProxySpecified.Name" xml:space="preserve">
+    <value>RadioProxySpecified</value>
+  </data>
+  <data name="&gt;&gt;RadioProxySpecified.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RadioProxySpecified.Parent" xml:space="preserve">
+    <value>ProxyPanel</value>
+  </data>
+  <data name="&gt;&gt;RadioProxySpecified.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;LabelProxyUser.Name" xml:space="preserve">
+    <value>LabelProxyUser</value>
+  </data>
+  <data name="&gt;&gt;LabelProxyUser.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LabelProxyUser.Parent" xml:space="preserve">
+    <value>ProxyPanel</value>
+  </data>
+  <data name="&gt;&gt;LabelProxyUser.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;LabelProxyAddress.Name" xml:space="preserve">
+    <value>LabelProxyAddress</value>
+  </data>
+  <data name="&gt;&gt;LabelProxyAddress.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LabelProxyAddress.Parent" xml:space="preserve">
+    <value>ProxyPanel</value>
+  </data>
+  <data name="&gt;&gt;LabelProxyAddress.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;TextProxyPort.Name" xml:space="preserve">
+    <value>TextProxyPort</value>
+  </data>
+  <data name="&gt;&gt;TextProxyPort.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextProxyPort.Parent" xml:space="preserve">
+    <value>ProxyPanel</value>
+  </data>
+  <data name="&gt;&gt;TextProxyPort.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;TextProxyAddress.Name" xml:space="preserve">
+    <value>TextProxyAddress</value>
+  </data>
+  <data name="&gt;&gt;TextProxyAddress.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextProxyAddress.Parent" xml:space="preserve">
+    <value>ProxyPanel</value>
+  </data>
+  <data name="&gt;&gt;TextProxyAddress.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;LabelProxyPort.Name" xml:space="preserve">
+    <value>LabelProxyPort</value>
+  </data>
+  <data name="&gt;&gt;LabelProxyPort.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LabelProxyPort.Parent" xml:space="preserve">
+    <value>ProxyPanel</value>
+  </data>
+  <data name="&gt;&gt;LabelProxyPort.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="ProxyPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="ProxyPanel.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="ProxyPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="ProxyPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>518, 368</value>
+  </data>
+  <data name="ProxyPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="ProxyPanel.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;ProxyPanel.Name" xml:space="preserve">
+    <value>ProxyPanel</value>
+  </data>
+  <data name="&gt;&gt;ProxyPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ProxyPanel.Parent" xml:space="preserve">
+    <value>SplitContainer1.Panel2</value>
+  </data>
+  <data name="&gt;&gt;ProxyPanel.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;TwitterSearchAPIText.Name" xml:space="preserve">
+    <value>TwitterSearchAPIText</value>
+  </data>
+  <data name="&gt;&gt;TwitterSearchAPIText.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitterSearchAPIText.Parent" xml:space="preserve">
+    <value>ConnectionPanel</value>
+  </data>
+  <data name="&gt;&gt;TwitterSearchAPIText.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;Label31.Name" xml:space="preserve">
+    <value>Label31</value>
+  </data>
+  <data name="&gt;&gt;Label31.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label31.Parent" xml:space="preserve">
+    <value>ConnectionPanel</value>
+  </data>
+  <data name="&gt;&gt;Label31.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;TwitterAPIText.Name" xml:space="preserve">
+    <value>TwitterAPIText</value>
+  </data>
+  <data name="&gt;&gt;TwitterAPIText.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TwitterAPIText.Parent" xml:space="preserve">
+    <value>ConnectionPanel</value>
+  </data>
+  <data name="&gt;&gt;TwitterAPIText.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;Label8.Name" xml:space="preserve">
+    <value>Label8</value>
+  </data>
+  <data name="&gt;&gt;Label8.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label8.Parent" xml:space="preserve">
+    <value>ConnectionPanel</value>
+  </data>
+  <data name="&gt;&gt;Label8.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;CheckUseSsl.Name" xml:space="preserve">
+    <value>CheckUseSsl</value>
+  </data>
+  <data name="&gt;&gt;CheckUseSsl.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckUseSsl.Parent" xml:space="preserve">
+    <value>ConnectionPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckUseSsl.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;Label64.Name" xml:space="preserve">
+    <value>Label64</value>
+  </data>
+  <data name="&gt;&gt;Label64.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label64.Parent" xml:space="preserve">
+    <value>ConnectionPanel</value>
+  </data>
+  <data name="&gt;&gt;Label64.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;ConnectionTimeOut.Name" xml:space="preserve">
+    <value>ConnectionTimeOut</value>
+  </data>
+  <data name="&gt;&gt;ConnectionTimeOut.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ConnectionTimeOut.Parent" xml:space="preserve">
+    <value>ConnectionPanel</value>
+  </data>
+  <data name="&gt;&gt;ConnectionTimeOut.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;Label63.Name" xml:space="preserve">
+    <value>Label63</value>
+  </data>
+  <data name="&gt;&gt;Label63.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label63.Parent" xml:space="preserve">
+    <value>ConnectionPanel</value>
+  </data>
+  <data name="&gt;&gt;Label63.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="ConnectionPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="ConnectionPanel.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="ConnectionPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="ConnectionPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>518, 368</value>
+  </data>
+  <data name="ConnectionPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="ConnectionPanel.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;ConnectionPanel.Name" xml:space="preserve">
+    <value>ConnectionPanel</value>
+  </data>
+  <data name="&gt;&gt;ConnectionPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ConnectionPanel.Parent" xml:space="preserve">
+    <value>SplitContainer1.Panel2</value>
+  </data>
+  <data name="&gt;&gt;ConnectionPanel.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;GroupBox5.Name" xml:space="preserve">
+    <value>GroupBox5</value>
+  </data>
+  <data name="&gt;&gt;GroupBox5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GroupBox5.Parent" xml:space="preserve">
+    <value>FontPanel2</value>
+  </data>
+  <data name="&gt;&gt;GroupBox5.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="FontPanel2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="FontPanel2.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="FontPanel2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="FontPanel2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>518, 368</value>
+  </data>
+  <data name="FontPanel2.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="FontPanel2.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;FontPanel2.Name" xml:space="preserve">
+    <value>FontPanel2</value>
+  </data>
+  <data name="&gt;&gt;FontPanel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FontPanel2.Parent" xml:space="preserve">
+    <value>SplitContainer1.Panel2</value>
+  </data>
+  <data name="&gt;&gt;FontPanel2.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;CheckHashSupple.Name" xml:space="preserve">
+    <value>CheckHashSupple</value>
+  </data>
+  <data name="&gt;&gt;CheckHashSupple.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckHashSupple.Parent" xml:space="preserve">
+    <value>TweetActPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckHashSupple.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;CheckAtIdSupple.Name" xml:space="preserve">
+    <value>CheckAtIdSupple</value>
+  </data>
+  <data name="&gt;&gt;CheckAtIdSupple.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckAtIdSupple.Parent" xml:space="preserve">
+    <value>TweetActPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckAtIdSupple.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxPostKeySelect.Name" xml:space="preserve">
+    <value>ComboBoxPostKeySelect</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxPostKeySelect.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxPostKeySelect.Parent" xml:space="preserve">
+    <value>TweetActPanel</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxPostKeySelect.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;Label27.Name" xml:space="preserve">
+    <value>Label27</value>
+  </data>
+  <data name="&gt;&gt;Label27.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label27.Parent" xml:space="preserve">
+    <value>TweetActPanel</value>
+  </data>
+  <data name="&gt;&gt;Label27.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;CheckRetweetNoConfirm.Name" xml:space="preserve">
+    <value>CheckRetweetNoConfirm</value>
+  </data>
+  <data name="&gt;&gt;CheckRetweetNoConfirm.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckRetweetNoConfirm.Parent" xml:space="preserve">
+    <value>TweetActPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckRetweetNoConfirm.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;Label12.Name" xml:space="preserve">
+    <value>Label12</value>
+  </data>
+  <data name="&gt;&gt;Label12.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label12.Parent" xml:space="preserve">
+    <value>TweetActPanel</value>
+  </data>
+  <data name="&gt;&gt;Label12.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;CheckUseRecommendStatus.Name" xml:space="preserve">
+    <value>CheckUseRecommendStatus</value>
+  </data>
+  <data name="&gt;&gt;CheckUseRecommendStatus.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckUseRecommendStatus.Parent" xml:space="preserve">
+    <value>TweetActPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckUseRecommendStatus.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;StatusText.Name" xml:space="preserve">
+    <value>StatusText</value>
+  </data>
+  <data name="&gt;&gt;StatusText.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;StatusText.Parent" xml:space="preserve">
+    <value>TweetActPanel</value>
+  </data>
+  <data name="&gt;&gt;StatusText.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="TweetActPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="TweetActPanel.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="TweetActPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="TweetActPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>518, 368</value>
+  </data>
+  <data name="TweetActPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="TweetActPanel.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;TweetActPanel.Name" xml:space="preserve">
+    <value>TweetActPanel</value>
+  </data>
+  <data name="&gt;&gt;TweetActPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TweetActPanel.Parent" xml:space="preserve">
+    <value>SplitContainer1.Panel2</value>
+  </data>
+  <data name="&gt;&gt;TweetActPanel.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;StartupReaded.Name" xml:space="preserve">
+    <value>StartupReaded</value>
+  </data>
+  <data name="&gt;&gt;StartupReaded.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;StartupReaded.Parent" xml:space="preserve">
+    <value>StartupPanel</value>
+  </data>
+  <data name="&gt;&gt;StartupReaded.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;CheckStartupFollowers.Name" xml:space="preserve">
+    <value>CheckStartupFollowers</value>
+  </data>
+  <data name="&gt;&gt;CheckStartupFollowers.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckStartupFollowers.Parent" xml:space="preserve">
+    <value>StartupPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckStartupFollowers.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;CheckStartupVersion.Name" xml:space="preserve">
+    <value>CheckStartupVersion</value>
+  </data>
+  <data name="&gt;&gt;CheckStartupVersion.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckStartupVersion.Parent" xml:space="preserve">
+    <value>StartupPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckStartupVersion.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;chkGetFav.Name" xml:space="preserve">
+    <value>chkGetFav</value>
+  </data>
+  <data name="&gt;&gt;chkGetFav.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chkGetFav.Parent" xml:space="preserve">
+    <value>StartupPanel</value>
+  </data>
+  <data name="&gt;&gt;chkGetFav.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="StartupPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="StartupPanel.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="StartupPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="StartupPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>518, 368</value>
+  </data>
+  <data name="StartupPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="StartupPanel.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;StartupPanel.Name" xml:space="preserve">
+    <value>StartupPanel</value>
+  </data>
+  <data name="&gt;&gt;StartupPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;StartupPanel.Parent" xml:space="preserve">
+    <value>SplitContainer1.Panel2</value>
+  </data>
+  <data name="&gt;&gt;StartupPanel.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;ListTextCountApi.Name" xml:space="preserve">
+    <value>ListTextCountApi</value>
+  </data>
+  <data name="&gt;&gt;ListTextCountApi.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ListTextCountApi.Parent" xml:space="preserve">
+    <value>GetCountPanel</value>
+  </data>
+  <data name="&gt;&gt;ListTextCountApi.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;Label25.Name" xml:space="preserve">
+    <value>Label25</value>
+  </data>
+  <data name="&gt;&gt;Label25.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label25.Parent" xml:space="preserve">
+    <value>GetCountPanel</value>
+  </data>
+  <data name="&gt;&gt;Label25.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;UserTimelineTextCountApi.Name" xml:space="preserve">
+    <value>UserTimelineTextCountApi</value>
+  </data>
+  <data name="&gt;&gt;UserTimelineTextCountApi.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;UserTimelineTextCountApi.Parent" xml:space="preserve">
+    <value>GetCountPanel</value>
+  </data>
+  <data name="&gt;&gt;UserTimelineTextCountApi.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;Label17.Name" xml:space="preserve">
+    <value>Label17</value>
+  </data>
+  <data name="&gt;&gt;Label17.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label17.Parent" xml:space="preserve">
+    <value>GetCountPanel</value>
+  </data>
+  <data name="&gt;&gt;Label17.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;Label30.Name" xml:space="preserve">
+    <value>Label30</value>
+  </data>
+  <data name="&gt;&gt;Label30.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label30.Parent" xml:space="preserve">
+    <value>GetCountPanel</value>
+  </data>
+  <data name="&gt;&gt;Label30.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;Label28.Name" xml:space="preserve">
+    <value>Label28</value>
+  </data>
+  <data name="&gt;&gt;Label28.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label28.Parent" xml:space="preserve">
+    <value>GetCountPanel</value>
+  </data>
+  <data name="&gt;&gt;Label28.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;Label19.Name" xml:space="preserve">
+    <value>Label19</value>
+  </data>
+  <data name="&gt;&gt;Label19.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label19.Parent" xml:space="preserve">
+    <value>GetCountPanel</value>
+  </data>
+  <data name="&gt;&gt;Label19.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;FavoritesTextCountApi.Name" xml:space="preserve">
+    <value>FavoritesTextCountApi</value>
+  </data>
+  <data name="&gt;&gt;FavoritesTextCountApi.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FavoritesTextCountApi.Parent" xml:space="preserve">
+    <value>GetCountPanel</value>
+  </data>
+  <data name="&gt;&gt;FavoritesTextCountApi.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;SearchTextCountApi.Name" xml:space="preserve">
+    <value>SearchTextCountApi</value>
+  </data>
+  <data name="&gt;&gt;SearchTextCountApi.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SearchTextCountApi.Parent" xml:space="preserve">
+    <value>GetCountPanel</value>
+  </data>
+  <data name="&gt;&gt;SearchTextCountApi.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;Label66.Name" xml:space="preserve">
+    <value>Label66</value>
+  </data>
+  <data name="&gt;&gt;Label66.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label66.Parent" xml:space="preserve">
+    <value>GetCountPanel</value>
+  </data>
+  <data name="&gt;&gt;Label66.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;FirstTextCountApi.Name" xml:space="preserve">
+    <value>FirstTextCountApi</value>
+  </data>
+  <data name="&gt;&gt;FirstTextCountApi.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FirstTextCountApi.Parent" xml:space="preserve">
+    <value>GetCountPanel</value>
+  </data>
+  <data name="&gt;&gt;FirstTextCountApi.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;GetMoreTextCountApi.Name" xml:space="preserve">
+    <value>GetMoreTextCountApi</value>
+  </data>
+  <data name="&gt;&gt;GetMoreTextCountApi.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GetMoreTextCountApi.Parent" xml:space="preserve">
+    <value>GetCountPanel</value>
+  </data>
+  <data name="&gt;&gt;GetMoreTextCountApi.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;Label53.Name" xml:space="preserve">
+    <value>Label53</value>
+  </data>
+  <data name="&gt;&gt;Label53.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label53.Parent" xml:space="preserve">
+    <value>GetCountPanel</value>
+  </data>
+  <data name="&gt;&gt;Label53.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;UseChangeGetCount.Name" xml:space="preserve">
+    <value>UseChangeGetCount</value>
+  </data>
+  <data name="&gt;&gt;UseChangeGetCount.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;UseChangeGetCount.Parent" xml:space="preserve">
+    <value>GetCountPanel</value>
+  </data>
+  <data name="&gt;&gt;UseChangeGetCount.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="&gt;&gt;TextCountApiReply.Name" xml:space="preserve">
+    <value>TextCountApiReply</value>
+  </data>
+  <data name="&gt;&gt;TextCountApiReply.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextCountApiReply.Parent" xml:space="preserve">
+    <value>GetCountPanel</value>
+  </data>
+  <data name="&gt;&gt;TextCountApiReply.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="&gt;&gt;Label67.Name" xml:space="preserve">
+    <value>Label67</value>
+  </data>
+  <data name="&gt;&gt;Label67.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label67.Parent" xml:space="preserve">
+    <value>GetCountPanel</value>
+  </data>
+  <data name="&gt;&gt;Label67.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;TextCountApi.Name" xml:space="preserve">
+    <value>TextCountApi</value>
+  </data>
+  <data name="&gt;&gt;TextCountApi.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextCountApi.Parent" xml:space="preserve">
+    <value>GetCountPanel</value>
+  </data>
+  <data name="&gt;&gt;TextCountApi.ZOrder" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="GetCountPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="GetCountPanel.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="GetCountPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="GetCountPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>518, 368</value>
+  </data>
+  <data name="GetCountPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="GetCountPanel.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;GetCountPanel.Name" xml:space="preserve">
+    <value>GetCountPanel</value>
+  </data>
+  <data name="&gt;&gt;GetCountPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GetCountPanel.Parent" xml:space="preserve">
+    <value>SplitContainer1.Panel2</value>
+  </data>
+  <data name="&gt;&gt;GetCountPanel.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;Label38.Name" xml:space="preserve">
+    <value>Label38</value>
+  </data>
+  <data name="&gt;&gt;Label38.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label38.Parent" xml:space="preserve">
+    <value>ActionPanel</value>
+  </data>
+  <data name="&gt;&gt;Label38.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;ListDoubleClickActionComboBox.Name" xml:space="preserve">
+    <value>ListDoubleClickActionComboBox</value>
+  </data>
+  <data name="&gt;&gt;ListDoubleClickActionComboBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ListDoubleClickActionComboBox.Parent" xml:space="preserve">
+    <value>ActionPanel</value>
+  </data>
+  <data name="&gt;&gt;ListDoubleClickActionComboBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;CheckOpenUserTimeline.Name" xml:space="preserve">
+    <value>CheckOpenUserTimeline</value>
+  </data>
+  <data name="&gt;&gt;CheckOpenUserTimeline.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckOpenUserTimeline.Parent" xml:space="preserve">
+    <value>ActionPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckOpenUserTimeline.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;GroupBox3.Name" xml:space="preserve">
+    <value>GroupBox3</value>
+  </data>
+  <data name="&gt;&gt;GroupBox3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GroupBox3.Parent" xml:space="preserve">
+    <value>ActionPanel</value>
+  </data>
+  <data name="&gt;&gt;GroupBox3.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;Label57.Name" xml:space="preserve">
+    <value>Label57</value>
+  </data>
+  <data name="&gt;&gt;Label57.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label57.Parent" xml:space="preserve">
+    <value>ActionPanel</value>
+  </data>
+  <data name="&gt;&gt;Label57.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;CheckFavRestrict.Name" xml:space="preserve">
+    <value>CheckFavRestrict</value>
+  </data>
+  <data name="&gt;&gt;CheckFavRestrict.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckFavRestrict.Parent" xml:space="preserve">
+    <value>ActionPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckFavRestrict.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;Button3.Name" xml:space="preserve">
+    <value>Button3</value>
+  </data>
+  <data name="&gt;&gt;Button3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Button3.Parent" xml:space="preserve">
+    <value>ActionPanel</value>
+  </data>
+  <data name="&gt;&gt;Button3.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;PlaySnd.Name" xml:space="preserve">
+    <value>PlaySnd</value>
+  </data>
+  <data name="&gt;&gt;PlaySnd.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PlaySnd.Parent" xml:space="preserve">
+    <value>ActionPanel</value>
+  </data>
+  <data name="&gt;&gt;PlaySnd.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;chkReadOwnPost.Name" xml:space="preserve">
+    <value>chkReadOwnPost</value>
+  </data>
+  <data name="&gt;&gt;chkReadOwnPost.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chkReadOwnPost.Parent" xml:space="preserve">
+    <value>ActionPanel</value>
+  </data>
+  <data name="&gt;&gt;chkReadOwnPost.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;Label15.Name" xml:space="preserve">
+    <value>Label15</value>
+  </data>
+  <data name="&gt;&gt;Label15.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label15.Parent" xml:space="preserve">
+    <value>ActionPanel</value>
+  </data>
+  <data name="&gt;&gt;Label15.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;BrowserPathText.Name" xml:space="preserve">
+    <value>BrowserPathText</value>
+  </data>
+  <data name="&gt;&gt;BrowserPathText.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BrowserPathText.Parent" xml:space="preserve">
+    <value>ActionPanel</value>
+  </data>
+  <data name="&gt;&gt;BrowserPathText.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;UReadMng.Name" xml:space="preserve">
+    <value>UReadMng</value>
+  </data>
+  <data name="&gt;&gt;UReadMng.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;UReadMng.Parent" xml:space="preserve">
+    <value>ActionPanel</value>
+  </data>
+  <data name="&gt;&gt;UReadMng.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;Label44.Name" xml:space="preserve">
+    <value>Label44</value>
+  </data>
+  <data name="&gt;&gt;Label44.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label44.Parent" xml:space="preserve">
+    <value>ActionPanel</value>
+  </data>
+  <data name="&gt;&gt;Label44.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;CheckCloseToExit.Name" xml:space="preserve">
+    <value>CheckCloseToExit</value>
+  </data>
+  <data name="&gt;&gt;CheckCloseToExit.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckCloseToExit.Parent" xml:space="preserve">
+    <value>ActionPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckCloseToExit.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="&gt;&gt;CheckMinimizeToTray.Name" xml:space="preserve">
+    <value>CheckMinimizeToTray</value>
+  </data>
+  <data name="&gt;&gt;CheckMinimizeToTray.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckMinimizeToTray.Parent" xml:space="preserve">
+    <value>ActionPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckMinimizeToTray.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="&gt;&gt;CheckReadOldPosts.Name" xml:space="preserve">
+    <value>CheckReadOldPosts</value>
+  </data>
+  <data name="&gt;&gt;CheckReadOldPosts.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckReadOldPosts.Parent" xml:space="preserve">
+    <value>ActionPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckReadOldPosts.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="ActionPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="ActionPanel.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="ActionPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="ActionPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>518, 368</value>
+  </data>
+  <data name="ActionPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="ActionPanel.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;ActionPanel.Name" xml:space="preserve">
+    <value>ActionPanel</value>
+  </data>
+  <data name="&gt;&gt;ActionPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ActionPanel.Parent" xml:space="preserve">
+    <value>SplitContainer1.Panel2</value>
+  </data>
+  <data name="&gt;&gt;ActionPanel.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;CheckUserUpdateEvent.Name" xml:space="preserve">
+    <value>CheckUserUpdateEvent</value>
+  </data>
+  <data name="&gt;&gt;CheckUserUpdateEvent.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckUserUpdateEvent.Parent" xml:space="preserve">
+    <value>NotifyPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckUserUpdateEvent.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;Label35.Name" xml:space="preserve">
+    <value>Label35</value>
+  </data>
+  <data name="&gt;&gt;Label35.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label35.Parent" xml:space="preserve">
+    <value>NotifyPanel</value>
+  </data>
+  <data name="&gt;&gt;Label35.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxEventNotifySound.Name" xml:space="preserve">
+    <value>ComboBoxEventNotifySound</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxEventNotifySound.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxEventNotifySound.Parent" xml:space="preserve">
+    <value>NotifyPanel</value>
+  </data>
+  <data name="&gt;&gt;ComboBoxEventNotifySound.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;CheckFavEventUnread.Name" xml:space="preserve">
+    <value>CheckFavEventUnread</value>
+  </data>
+  <data name="&gt;&gt;CheckFavEventUnread.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckFavEventUnread.Parent" xml:space="preserve">
+    <value>NotifyPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckFavEventUnread.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;CheckListCreatedEvent.Name" xml:space="preserve">
+    <value>CheckListCreatedEvent</value>
+  </data>
+  <data name="&gt;&gt;CheckListCreatedEvent.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckListCreatedEvent.Parent" xml:space="preserve">
+    <value>NotifyPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckListCreatedEvent.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;CheckBlockEvent.Name" xml:space="preserve">
+    <value>CheckBlockEvent</value>
+  </data>
+  <data name="&gt;&gt;CheckBlockEvent.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckBlockEvent.Parent" xml:space="preserve">
+    <value>NotifyPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckBlockEvent.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;CheckForceEventNotify.Name" xml:space="preserve">
+    <value>CheckForceEventNotify</value>
+  </data>
+  <data name="&gt;&gt;CheckForceEventNotify.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckForceEventNotify.Parent" xml:space="preserve">
+    <value>NotifyPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckForceEventNotify.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;CheckListMemberRemovedEvent.Name" xml:space="preserve">
+    <value>CheckListMemberRemovedEvent</value>
+  </data>
+  <data name="&gt;&gt;CheckListMemberRemovedEvent.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckListMemberRemovedEvent.Parent" xml:space="preserve">
+    <value>NotifyPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckListMemberRemovedEvent.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;CheckListMemberAddedEvent.Name" xml:space="preserve">
+    <value>CheckListMemberAddedEvent</value>
+  </data>
+  <data name="&gt;&gt;CheckListMemberAddedEvent.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckListMemberAddedEvent.Parent" xml:space="preserve">
+    <value>NotifyPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckListMemberAddedEvent.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;CheckFollowEvent.Name" xml:space="preserve">
+    <value>CheckFollowEvent</value>
+  </data>
+  <data name="&gt;&gt;CheckFollowEvent.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckFollowEvent.Parent" xml:space="preserve">
+    <value>NotifyPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckFollowEvent.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;CheckUnfavoritesEvent.Name" xml:space="preserve">
+    <value>CheckUnfavoritesEvent</value>
+  </data>
+  <data name="&gt;&gt;CheckUnfavoritesEvent.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckUnfavoritesEvent.Parent" xml:space="preserve">
+    <value>NotifyPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckUnfavoritesEvent.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;CheckFavoritesEvent.Name" xml:space="preserve">
+    <value>CheckFavoritesEvent</value>
+  </data>
+  <data name="&gt;&gt;CheckFavoritesEvent.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckFavoritesEvent.Parent" xml:space="preserve">
+    <value>NotifyPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckFavoritesEvent.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;CheckEventNotify.Name" xml:space="preserve">
+    <value>CheckEventNotify</value>
+  </data>
+  <data name="&gt;&gt;CheckEventNotify.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckEventNotify.Parent" xml:space="preserve">
+    <value>NotifyPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckEventNotify.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="NotifyPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="NotifyPanel.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="NotifyPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="NotifyPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>518, 368</value>
+  </data>
+  <data name="NotifyPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="NotifyPanel.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;NotifyPanel.Name" xml:space="preserve">
+    <value>NotifyPanel</value>
+  </data>
+  <data name="&gt;&gt;NotifyPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NotifyPanel.Parent" xml:space="preserve">
+    <value>SplitContainer1.Panel2</value>
+  </data>
+  <data name="&gt;&gt;NotifyPanel.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;HideDuplicatedRetweetsCheck.Name" xml:space="preserve">
+    <value>HideDuplicatedRetweetsCheck</value>
+  </data>
+  <data name="&gt;&gt;HideDuplicatedRetweetsCheck.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;HideDuplicatedRetweetsCheck.Parent" xml:space="preserve">
+    <value>TweetPrvPanel</value>
+  </data>
+  <data name="&gt;&gt;HideDuplicatedRetweetsCheck.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;Label47.Name" xml:space="preserve">
+    <value>Label47</value>
+  </data>
+  <data name="&gt;&gt;Label47.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label47.Parent" xml:space="preserve">
+    <value>TweetPrvPanel</value>
+  </data>
+  <data name="&gt;&gt;Label47.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;LabelDateTimeFormatApplied.Name" xml:space="preserve">
+    <value>LabelDateTimeFormatApplied</value>
+  </data>
+  <data name="&gt;&gt;LabelDateTimeFormatApplied.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LabelDateTimeFormatApplied.Parent" xml:space="preserve">
+    <value>TweetPrvPanel</value>
+  </data>
+  <data name="&gt;&gt;LabelDateTimeFormatApplied.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;Label62.Name" xml:space="preserve">
+    <value>Label62</value>
+  </data>
+  <data name="&gt;&gt;Label62.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label62.Parent" xml:space="preserve">
+    <value>TweetPrvPanel</value>
+  </data>
+  <data name="&gt;&gt;Label62.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;CmbDateTimeFormat.Name" xml:space="preserve">
+    <value>CmbDateTimeFormat</value>
+  </data>
+  <data name="&gt;&gt;CmbDateTimeFormat.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CmbDateTimeFormat.Parent" xml:space="preserve">
+    <value>TweetPrvPanel</value>
+  </data>
+  <data name="&gt;&gt;CmbDateTimeFormat.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;Label23.Name" xml:space="preserve">
+    <value>Label23</value>
+  </data>
+  <data name="&gt;&gt;Label23.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label23.Parent" xml:space="preserve">
+    <value>TweetPrvPanel</value>
+  </data>
+  <data name="&gt;&gt;Label23.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;Label11.Name" xml:space="preserve">
+    <value>Label11</value>
+  </data>
+  <data name="&gt;&gt;Label11.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label11.Parent" xml:space="preserve">
+    <value>TweetPrvPanel</value>
+  </data>
+  <data name="&gt;&gt;Label11.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;IconSize.Name" xml:space="preserve">
+    <value>IconSize</value>
+  </data>
+  <data name="&gt;&gt;IconSize.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;IconSize.Parent" xml:space="preserve">
+    <value>TweetPrvPanel</value>
+  </data>
+  <data name="&gt;&gt;IconSize.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;TextBox3.Name" xml:space="preserve">
+    <value>TextBox3</value>
+  </data>
+  <data name="&gt;&gt;TextBox3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextBox3.Parent" xml:space="preserve">
+    <value>TweetPrvPanel</value>
+  </data>
+  <data name="&gt;&gt;TextBox3.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;CheckSortOrderLock.Name" xml:space="preserve">
+    <value>CheckSortOrderLock</value>
+  </data>
+  <data name="&gt;&gt;CheckSortOrderLock.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckSortOrderLock.Parent" xml:space="preserve">
+    <value>TweetPrvPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckSortOrderLock.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;CheckShowGrid.Name" xml:space="preserve">
+    <value>CheckShowGrid</value>
+  </data>
+  <data name="&gt;&gt;CheckShowGrid.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckShowGrid.Parent" xml:space="preserve">
+    <value>TweetPrvPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckShowGrid.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;chkUnreadStyle.Name" xml:space="preserve">
+    <value>chkUnreadStyle</value>
+  </data>
+  <data name="&gt;&gt;chkUnreadStyle.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chkUnreadStyle.Parent" xml:space="preserve">
+    <value>TweetPrvPanel</value>
+  </data>
+  <data name="&gt;&gt;chkUnreadStyle.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;OneWayLv.Name" xml:space="preserve">
+    <value>OneWayLv</value>
+  </data>
+  <data name="&gt;&gt;OneWayLv.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;OneWayLv.Parent" xml:space="preserve">
+    <value>TweetPrvPanel</value>
+  </data>
+  <data name="&gt;&gt;OneWayLv.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="TweetPrvPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="TweetPrvPanel.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="TweetPrvPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="TweetPrvPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>518, 368</value>
+  </data>
+  <data name="TweetPrvPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="TweetPrvPanel.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;TweetPrvPanel.Name" xml:space="preserve">
+    <value>TweetPrvPanel</value>
+  </data>
+  <data name="&gt;&gt;TweetPrvPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TweetPrvPanel.Parent" xml:space="preserve">
+    <value>SplitContainer1.Panel2</value>
+  </data>
+  <data name="&gt;&gt;TweetPrvPanel.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;LabelApiUsingUserStreamEnabled.Name" xml:space="preserve">
+    <value>LabelApiUsingUserStreamEnabled</value>
+  </data>
+  <data name="&gt;&gt;LabelApiUsingUserStreamEnabled.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LabelApiUsingUserStreamEnabled.Parent" xml:space="preserve">
+    <value>GetPeriodPanel</value>
+  </data>
+  <data name="&gt;&gt;LabelApiUsingUserStreamEnabled.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;LabelUserStreamActive.Name" xml:space="preserve">
+    <value>LabelUserStreamActive</value>
+  </data>
+  <data name="&gt;&gt;LabelUserStreamActive.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LabelUserStreamActive.Parent" xml:space="preserve">
+    <value>GetPeriodPanel</value>
+  </data>
+  <data name="&gt;&gt;LabelUserStreamActive.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;Label21.Name" xml:space="preserve">
+    <value>Label21</value>
+  </data>
+  <data name="&gt;&gt;Label21.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label21.Parent" xml:space="preserve">
+    <value>GetPeriodPanel</value>
+  </data>
+  <data name="&gt;&gt;Label21.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;UserTimelinePeriod.Name" xml:space="preserve">
+    <value>UserTimelinePeriod</value>
+  </data>
+  <data name="&gt;&gt;UserTimelinePeriod.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;UserTimelinePeriod.Parent" xml:space="preserve">
+    <value>GetPeriodPanel</value>
+  </data>
+  <data name="&gt;&gt;UserTimelinePeriod.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;TimelinePeriod.Name" xml:space="preserve">
+    <value>TimelinePeriod</value>
+  </data>
+  <data name="&gt;&gt;TimelinePeriod.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TimelinePeriod.Parent" xml:space="preserve">
+    <value>GetPeriodPanel</value>
+  </data>
+  <data name="&gt;&gt;TimelinePeriod.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;Label3.Name" xml:space="preserve">
+    <value>Label3</value>
+  </data>
+  <data name="&gt;&gt;Label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label3.Parent" xml:space="preserve">
+    <value>GetPeriodPanel</value>
+  </data>
+  <data name="&gt;&gt;Label3.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;ButtonApiCalc.Name" xml:space="preserve">
+    <value>ButtonApiCalc</value>
+  </data>
+  <data name="&gt;&gt;ButtonApiCalc.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ButtonApiCalc.Parent" xml:space="preserve">
+    <value>GetPeriodPanel</value>
+  </data>
+  <data name="&gt;&gt;ButtonApiCalc.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;LabelPostAndGet.Name" xml:space="preserve">
+    <value>LabelPostAndGet</value>
+  </data>
+  <data name="&gt;&gt;LabelPostAndGet.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LabelPostAndGet.Parent" xml:space="preserve">
+    <value>GetPeriodPanel</value>
+  </data>
+  <data name="&gt;&gt;LabelPostAndGet.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;LabelApiUsing.Name" xml:space="preserve">
+    <value>LabelApiUsing</value>
+  </data>
+  <data name="&gt;&gt;LabelApiUsing.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LabelApiUsing.Parent" xml:space="preserve">
+    <value>GetPeriodPanel</value>
+  </data>
+  <data name="&gt;&gt;LabelApiUsing.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;Label33.Name" xml:space="preserve">
+    <value>Label33</value>
+  </data>
+  <data name="&gt;&gt;Label33.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label33.Parent" xml:space="preserve">
+    <value>GetPeriodPanel</value>
+  </data>
+  <data name="&gt;&gt;Label33.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;ListsPeriod.Name" xml:space="preserve">
+    <value>ListsPeriod</value>
+  </data>
+  <data name="&gt;&gt;ListsPeriod.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ListsPeriod.Parent" xml:space="preserve">
+    <value>GetPeriodPanel</value>
+  </data>
+  <data name="&gt;&gt;ListsPeriod.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;Label7.Name" xml:space="preserve">
+    <value>Label7</value>
+  </data>
+  <data name="&gt;&gt;Label7.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label7.Parent" xml:space="preserve">
+    <value>GetPeriodPanel</value>
+  </data>
+  <data name="&gt;&gt;Label7.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;PubSearchPeriod.Name" xml:space="preserve">
+    <value>PubSearchPeriod</value>
+  </data>
+  <data name="&gt;&gt;PubSearchPeriod.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PubSearchPeriod.Parent" xml:space="preserve">
+    <value>GetPeriodPanel</value>
+  </data>
+  <data name="&gt;&gt;PubSearchPeriod.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;Label69.Name" xml:space="preserve">
+    <value>Label69</value>
+  </data>
+  <data name="&gt;&gt;Label69.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label69.Parent" xml:space="preserve">
+    <value>GetPeriodPanel</value>
+  </data>
+  <data name="&gt;&gt;Label69.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="&gt;&gt;ReplyPeriod.Name" xml:space="preserve">
+    <value>ReplyPeriod</value>
+  </data>
+  <data name="&gt;&gt;ReplyPeriod.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ReplyPeriod.Parent" xml:space="preserve">
+    <value>GetPeriodPanel</value>
+  </data>
+  <data name="&gt;&gt;ReplyPeriod.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="&gt;&gt;CheckPostAndGet.Name" xml:space="preserve">
+    <value>CheckPostAndGet</value>
+  </data>
+  <data name="&gt;&gt;CheckPostAndGet.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckPostAndGet.Parent" xml:space="preserve">
+    <value>GetPeriodPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckPostAndGet.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;CheckPeriodAdjust.Name" xml:space="preserve">
+    <value>CheckPeriodAdjust</value>
+  </data>
+  <data name="&gt;&gt;CheckPeriodAdjust.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckPeriodAdjust.Parent" xml:space="preserve">
+    <value>GetPeriodPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckPeriodAdjust.ZOrder" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="&gt;&gt;Label5.Name" xml:space="preserve">
+    <value>Label5</value>
+  </data>
+  <data name="&gt;&gt;Label5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label5.Parent" xml:space="preserve">
+    <value>GetPeriodPanel</value>
+  </data>
+  <data name="&gt;&gt;Label5.ZOrder" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="&gt;&gt;DMPeriod.Name" xml:space="preserve">
+    <value>DMPeriod</value>
+  </data>
+  <data name="&gt;&gt;DMPeriod.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DMPeriod.Parent" xml:space="preserve">
+    <value>GetPeriodPanel</value>
+  </data>
+  <data name="&gt;&gt;DMPeriod.ZOrder" xml:space="preserve">
+    <value>18</value>
+  </data>
+  <data name="&gt;&gt;StartupUserstreamCheck.Name" xml:space="preserve">
+    <value>StartupUserstreamCheck</value>
+  </data>
+  <data name="&gt;&gt;StartupUserstreamCheck.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;StartupUserstreamCheck.Parent" xml:space="preserve">
+    <value>GetPeriodPanel</value>
+  </data>
+  <data name="&gt;&gt;StartupUserstreamCheck.ZOrder" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="GetPeriodPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="GetPeriodPanel.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="GetPeriodPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="GetPeriodPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>518, 368</value>
+  </data>
+  <data name="GetPeriodPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="GetPeriodPanel.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;GetPeriodPanel.Name" xml:space="preserve">
+    <value>GetPeriodPanel</value>
+  </data>
+  <data name="&gt;&gt;GetPeriodPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GetPeriodPanel.Parent" xml:space="preserve">
+    <value>SplitContainer1.Panel2</value>
+  </data>
+  <data name="&gt;&gt;GetPeriodPanel.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;ReplyIconStateCombo.Name" xml:space="preserve">
+    <value>ReplyIconStateCombo</value>
+  </data>
+  <data name="&gt;&gt;ReplyIconStateCombo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ReplyIconStateCombo.Parent" xml:space="preserve">
+    <value>PreviewPanel</value>
+  </data>
+  <data name="&gt;&gt;ReplyIconStateCombo.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;Label72.Name" xml:space="preserve">
+    <value>Label72</value>
+  </data>
+  <data name="&gt;&gt;Label72.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label72.Parent" xml:space="preserve">
+    <value>PreviewPanel</value>
+  </data>
+  <data name="&gt;&gt;Label72.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;ChkNewMentionsBlink.Name" xml:space="preserve">
+    <value>ChkNewMentionsBlink</value>
+  </data>
+  <data name="&gt;&gt;ChkNewMentionsBlink.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ChkNewMentionsBlink.Parent" xml:space="preserve">
+    <value>PreviewPanel</value>
+  </data>
+  <data name="&gt;&gt;ChkNewMentionsBlink.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;chkTabIconDisp.Name" xml:space="preserve">
+    <value>chkTabIconDisp</value>
+  </data>
+  <data name="&gt;&gt;chkTabIconDisp.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chkTabIconDisp.Parent" xml:space="preserve">
+    <value>PreviewPanel</value>
+  </data>
+  <data name="&gt;&gt;chkTabIconDisp.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;CheckPreviewEnable.Name" xml:space="preserve">
+    <value>CheckPreviewEnable</value>
+  </data>
+  <data name="&gt;&gt;CheckPreviewEnable.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckPreviewEnable.Parent" xml:space="preserve">
+    <value>PreviewPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckPreviewEnable.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;Label81.Name" xml:space="preserve">
+    <value>Label81</value>
+  </data>
+  <data name="&gt;&gt;Label81.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label81.Parent" xml:space="preserve">
+    <value>PreviewPanel</value>
+  </data>
+  <data name="&gt;&gt;Label81.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;LanguageCombo.Name" xml:space="preserve">
+    <value>LanguageCombo</value>
+  </data>
+  <data name="&gt;&gt;LanguageCombo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LanguageCombo.Parent" xml:space="preserve">
+    <value>PreviewPanel</value>
+  </data>
+  <data name="&gt;&gt;LanguageCombo.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;Label13.Name" xml:space="preserve">
+    <value>Label13</value>
+  </data>
+  <data name="&gt;&gt;Label13.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label13.Parent" xml:space="preserve">
+    <value>PreviewPanel</value>
+  </data>
+  <data name="&gt;&gt;Label13.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;CheckAlwaysTop.Name" xml:space="preserve">
+    <value>CheckAlwaysTop</value>
+  </data>
+  <data name="&gt;&gt;CheckAlwaysTop.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckAlwaysTop.Parent" xml:space="preserve">
+    <value>PreviewPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckAlwaysTop.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;CheckMonospace.Name" xml:space="preserve">
+    <value>CheckMonospace</value>
+  </data>
+  <data name="&gt;&gt;CheckMonospace.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckMonospace.Parent" xml:space="preserve">
+    <value>PreviewPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckMonospace.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;CheckBalloonLimit.Name" xml:space="preserve">
+    <value>CheckBalloonLimit</value>
+  </data>
+  <data name="&gt;&gt;CheckBalloonLimit.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckBalloonLimit.Parent" xml:space="preserve">
+    <value>PreviewPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckBalloonLimit.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;Label10.Name" xml:space="preserve">
+    <value>Label10</value>
+  </data>
+  <data name="&gt;&gt;Label10.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label10.Parent" xml:space="preserve">
+    <value>PreviewPanel</value>
+  </data>
+  <data name="&gt;&gt;Label10.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;ComboDispTitle.Name" xml:space="preserve">
+    <value>ComboDispTitle</value>
+  </data>
+  <data name="&gt;&gt;ComboDispTitle.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ComboDispTitle.Parent" xml:space="preserve">
+    <value>PreviewPanel</value>
+  </data>
+  <data name="&gt;&gt;ComboDispTitle.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;Label45.Name" xml:space="preserve">
+    <value>Label45</value>
+  </data>
+  <data name="&gt;&gt;Label45.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label45.Parent" xml:space="preserve">
+    <value>PreviewPanel</value>
+  </data>
+  <data name="&gt;&gt;Label45.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="&gt;&gt;cmbNameBalloon.Name" xml:space="preserve">
+    <value>cmbNameBalloon</value>
+  </data>
+  <data name="&gt;&gt;cmbNameBalloon.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cmbNameBalloon.Parent" xml:space="preserve">
+    <value>PreviewPanel</value>
+  </data>
+  <data name="&gt;&gt;cmbNameBalloon.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="&gt;&gt;CheckDispUsername.Name" xml:space="preserve">
+    <value>CheckDispUsername</value>
+  </data>
+  <data name="&gt;&gt;CheckDispUsername.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckDispUsername.Parent" xml:space="preserve">
+    <value>PreviewPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckDispUsername.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;CheckBox3.Name" xml:space="preserve">
+    <value>CheckBox3</value>
+  </data>
+  <data name="&gt;&gt;CheckBox3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckBox3.Parent" xml:space="preserve">
+    <value>PreviewPanel</value>
+  </data>
+  <data name="&gt;&gt;CheckBox3.ZOrder" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="PreviewPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="PreviewPanel.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="PreviewPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="PreviewPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>518, 368</value>
+  </data>
+  <data name="PreviewPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="PreviewPanel.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;PreviewPanel.Name" xml:space="preserve">
+    <value>PreviewPanel</value>
+  </data>
+  <data name="&gt;&gt;PreviewPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PreviewPanel.Parent" xml:space="preserve">
+    <value>SplitContainer1.Panel2</value>
+  </data>
+  <data name="&gt;&gt;PreviewPanel.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="&gt;&gt;GroupBox1.Name" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;GroupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GroupBox1.Parent" xml:space="preserve">
+    <value>FontPanel</value>
+  </data>
+  <data name="&gt;&gt;GroupBox1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="FontPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="FontPanel.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="FontPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="FontPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>518, 368</value>
+  </data>
+  <data name="FontPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="FontPanel.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;FontPanel.Name" xml:space="preserve">
+    <value>FontPanel</value>
+  </data>
+  <data name="&gt;&gt;FontPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FontPanel.Parent" xml:space="preserve">
+    <value>SplitContainer1.Panel2</value>
+  </data>
+  <data name="&gt;&gt;FontPanel.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer1.Panel2.Name" xml:space="preserve">
+    <value>SplitContainer1.Panel2</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer1.Panel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer1.Panel2.Parent" xml:space="preserve">
+    <value>SplitContainer1</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer1.Panel2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="SplitContainer1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>691, 368</value>
+  </data>
+  <data name="SplitContainer1.SplitterDistance" type="System.Int32, mscorlib">
+    <value>169</value>
+  </data>
+  <data name="SplitContainer1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer1.Name" xml:space="preserve">
+    <value>SplitContainer1</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer1.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
   <data name="StartAuthButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -501,36 +2904,6 @@
   <data name="&gt;&gt;Password.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
-  <data name="BasedPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="BasedPanel.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="BasedPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="BasedPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>518, 368</value>
-  </data>
-  <data name="BasedPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="BasedPanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;BasedPanel.Name" xml:space="preserve">
-    <value>BasedPanel</value>
-  </data>
-  <data name="&gt;&gt;BasedPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;BasedPanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;BasedPanel.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="IsPreviewFoursquareCheckBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -557,6 +2930,108 @@
   </data>
   <data name="&gt;&gt;IsPreviewFoursquareCheckBox.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="&gt;&gt;Label42.Name" xml:space="preserve">
+    <value>Label42</value>
+  </data>
+  <data name="&gt;&gt;Label42.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label42.Parent" xml:space="preserve">
+    <value>FoursquareGroupBox</value>
+  </data>
+  <data name="&gt;&gt;Label42.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;FoursquarePreviewWidthTextBox.Name" xml:space="preserve">
+    <value>FoursquarePreviewWidthTextBox</value>
+  </data>
+  <data name="&gt;&gt;FoursquarePreviewWidthTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FoursquarePreviewWidthTextBox.Parent" xml:space="preserve">
+    <value>FoursquareGroupBox</value>
+  </data>
+  <data name="&gt;&gt;FoursquarePreviewWidthTextBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;FoursquarePreviewZoomTextBox.Name" xml:space="preserve">
+    <value>FoursquarePreviewZoomTextBox</value>
+  </data>
+  <data name="&gt;&gt;FoursquarePreviewZoomTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FoursquarePreviewZoomTextBox.Parent" xml:space="preserve">
+    <value>FoursquareGroupBox</value>
+  </data>
+  <data name="&gt;&gt;FoursquarePreviewZoomTextBox.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;FoursquarePreviewHeightTextBox.Name" xml:space="preserve">
+    <value>FoursquarePreviewHeightTextBox</value>
+  </data>
+  <data name="&gt;&gt;FoursquarePreviewHeightTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FoursquarePreviewHeightTextBox.Parent" xml:space="preserve">
+    <value>FoursquareGroupBox</value>
+  </data>
+  <data name="&gt;&gt;FoursquarePreviewHeightTextBox.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;Label41.Name" xml:space="preserve">
+    <value>Label41</value>
+  </data>
+  <data name="&gt;&gt;Label41.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label41.Parent" xml:space="preserve">
+    <value>FoursquareGroupBox</value>
+  </data>
+  <data name="&gt;&gt;Label41.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;Label40.Name" xml:space="preserve">
+    <value>Label40</value>
+  </data>
+  <data name="&gt;&gt;Label40.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label40.Parent" xml:space="preserve">
+    <value>FoursquareGroupBox</value>
+  </data>
+  <data name="&gt;&gt;Label40.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="FoursquareGroupBox.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="FoursquareGroupBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>21, 277</value>
+  </data>
+  <data name="FoursquareGroupBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>485, 71</value>
+  </data>
+  <data name="FoursquareGroupBox.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="FoursquareGroupBox.Text" xml:space="preserve">
+    <value>FourSquare</value>
+  </data>
+  <data name="FoursquareGroupBox.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;FoursquareGroupBox.Name" xml:space="preserve">
+    <value>FoursquareGroupBox</value>
+  </data>
+  <data name="&gt;&gt;FoursquareGroupBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FoursquareGroupBox.Parent" xml:space="preserve">
+    <value>CooperatePanel</value>
+  </data>
+  <data name="&gt;&gt;FoursquareGroupBox.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="Label42.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -701,36 +3176,6 @@
   </data>
   <data name="&gt;&gt;Label40.ZOrder" xml:space="preserve">
     <value>5</value>
-  </data>
-  <data name="FoursquareGroupBox.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="FoursquareGroupBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>21, 277</value>
-  </data>
-  <data name="FoursquareGroupBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>485, 71</value>
-  </data>
-  <data name="FoursquareGroupBox.TabIndex" type="System.Int32, mscorlib">
-    <value>19</value>
-  </data>
-  <data name="FoursquareGroupBox.Text" xml:space="preserve">
-    <value>FourSquare</value>
-  </data>
-  <data name="FoursquareGroupBox.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;FoursquareGroupBox.Name" xml:space="preserve">
-    <value>FoursquareGroupBox</value>
-  </data>
-  <data name="&gt;&gt;FoursquareGroupBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;FoursquareGroupBox.Parent" xml:space="preserve">
-    <value>CooperatePanel</value>
-  </data>
-  <data name="&gt;&gt;FoursquareGroupBox.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="Label39.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1317,36 +3762,6 @@
   <data name="&gt;&gt;ComboBoxOutputzUrlmode.ZOrder" xml:space="preserve">
     <value>11</value>
   </data>
-  <data name="CooperatePanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="CooperatePanel.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="CooperatePanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="CooperatePanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>518, 368</value>
-  </data>
-  <data name="CooperatePanel.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="CooperatePanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;CooperatePanel.Name" xml:space="preserve">
-    <value>CooperatePanel</value>
-  </data>
-  <data name="&gt;&gt;CooperatePanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CooperatePanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;CooperatePanel.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="CheckForceResolve.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -1607,36 +4022,6 @@
   </data>
   <data name="&gt;&gt;TextBitlyId.ZOrder" xml:space="preserve">
     <value>8</value>
-  </data>
-  <data name="ShortUrlPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="ShortUrlPanel.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="ShortUrlPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="ShortUrlPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>518, 368</value>
-  </data>
-  <data name="ShortUrlPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="ShortUrlPanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;ShortUrlPanel.Name" xml:space="preserve">
-    <value>ShortUrlPanel</value>
-  </data>
-  <data name="&gt;&gt;ShortUrlPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ShortUrlPanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;ShortUrlPanel.ZOrder" xml:space="preserve">
-    <value>2</value>
   </data>
   <data name="Label55.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1965,36 +4350,6 @@
   <data name="&gt;&gt;LabelProxyPort.ZOrder" xml:space="preserve">
     <value>11</value>
   </data>
-  <data name="ProxyPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="ProxyPanel.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="ProxyPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="ProxyPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>518, 368</value>
-  </data>
-  <data name="ProxyPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="ProxyPanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;ProxyPanel.Name" xml:space="preserve">
-    <value>ProxyPanel</value>
-  </data>
-  <data name="&gt;&gt;ProxyPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ProxyPanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;ProxyPanel.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
   <data name="TwitterSearchAPIText.Location" type="System.Drawing.Point, System.Drawing">
     <value>262, 125</value>
   </data>
@@ -2229,35 +4584,365 @@
   <data name="&gt;&gt;Label63.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
-  <data name="ConnectionPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
+  <data name="&gt;&gt;Label65.Name" xml:space="preserve">
+    <value>Label65</value>
   </data>
-  <data name="ConnectionPanel.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
+  <data name="&gt;&gt;Label65.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="ConnectionPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+  <data name="&gt;&gt;Label65.Parent" xml:space="preserve">
+    <value>GroupBox5</value>
   </data>
-  <data name="ConnectionPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>518, 368</value>
+  <data name="&gt;&gt;Label65.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
-  <data name="ConnectionPanel.TabIndex" type="System.Int32, mscorlib">
+  <data name="&gt;&gt;Label52.Name" xml:space="preserve">
+    <value>Label52</value>
+  </data>
+  <data name="&gt;&gt;Label52.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label52.Parent" xml:space="preserve">
+    <value>GroupBox5</value>
+  </data>
+  <data name="&gt;&gt;Label52.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;Label49.Name" xml:space="preserve">
+    <value>Label49</value>
+  </data>
+  <data name="&gt;&gt;Label49.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label49.Parent" xml:space="preserve">
+    <value>GroupBox5</value>
+  </data>
+  <data name="&gt;&gt;Label49.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;Label9.Name" xml:space="preserve">
+    <value>Label9</value>
+  </data>
+  <data name="&gt;&gt;Label9.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label9.Parent" xml:space="preserve">
+    <value>GroupBox5</value>
+  </data>
+  <data name="&gt;&gt;Label9.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;Label14.Name" xml:space="preserve">
+    <value>Label14</value>
+  </data>
+  <data name="&gt;&gt;Label14.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label14.Parent" xml:space="preserve">
+    <value>GroupBox5</value>
+  </data>
+  <data name="&gt;&gt;Label14.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;Label16.Name" xml:space="preserve">
+    <value>Label16</value>
+  </data>
+  <data name="&gt;&gt;Label16.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label16.Parent" xml:space="preserve">
+    <value>GroupBox5</value>
+  </data>
+  <data name="&gt;&gt;Label16.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;Label32.Name" xml:space="preserve">
+    <value>Label32</value>
+  </data>
+  <data name="&gt;&gt;Label32.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label32.Parent" xml:space="preserve">
+    <value>GroupBox5</value>
+  </data>
+  <data name="&gt;&gt;Label32.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;Label34.Name" xml:space="preserve">
+    <value>Label34</value>
+  </data>
+  <data name="&gt;&gt;Label34.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label34.Parent" xml:space="preserve">
+    <value>GroupBox5</value>
+  </data>
+  <data name="&gt;&gt;Label34.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;Label36.Name" xml:space="preserve">
+    <value>Label36</value>
+  </data>
+  <data name="&gt;&gt;Label36.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label36.Parent" xml:space="preserve">
+    <value>GroupBox5</value>
+  </data>
+  <data name="&gt;&gt;Label36.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;btnInputFont.Name" xml:space="preserve">
+    <value>btnInputFont</value>
+  </data>
+  <data name="&gt;&gt;btnInputFont.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnInputFont.Parent" xml:space="preserve">
+    <value>GroupBox5</value>
+  </data>
+  <data name="&gt;&gt;btnInputFont.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;btnInputBackcolor.Name" xml:space="preserve">
+    <value>btnInputBackcolor</value>
+  </data>
+  <data name="&gt;&gt;btnInputBackcolor.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnInputBackcolor.Parent" xml:space="preserve">
+    <value>GroupBox5</value>
+  </data>
+  <data name="&gt;&gt;btnInputBackcolor.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;btnAtTo.Name" xml:space="preserve">
+    <value>btnAtTo</value>
+  </data>
+  <data name="&gt;&gt;btnAtTo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnAtTo.Parent" xml:space="preserve">
+    <value>GroupBox5</value>
+  </data>
+  <data name="&gt;&gt;btnAtTo.ZOrder" xml:space="preserve">
     <value>11</value>
   </data>
-  <data name="ConnectionPanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
+  <data name="&gt;&gt;btnListBack.Name" xml:space="preserve">
+    <value>btnListBack</value>
   </data>
-  <data name="&gt;&gt;ConnectionPanel.Name" xml:space="preserve">
-    <value>ConnectionPanel</value>
+  <data name="&gt;&gt;btnListBack.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;ConnectionPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;btnListBack.Parent" xml:space="preserve">
+    <value>GroupBox5</value>
   </data>
-  <data name="&gt;&gt;ConnectionPanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
+  <data name="&gt;&gt;btnListBack.ZOrder" xml:space="preserve">
+    <value>12</value>
   </data>
-  <data name="&gt;&gt;ConnectionPanel.ZOrder" xml:space="preserve">
-    <value>4</value>
+  <data name="&gt;&gt;btnAtFromTarget.Name" xml:space="preserve">
+    <value>btnAtFromTarget</value>
+  </data>
+  <data name="&gt;&gt;btnAtFromTarget.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnAtFromTarget.Parent" xml:space="preserve">
+    <value>GroupBox5</value>
+  </data>
+  <data name="&gt;&gt;btnAtFromTarget.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="&gt;&gt;btnAtTarget.Name" xml:space="preserve">
+    <value>btnAtTarget</value>
+  </data>
+  <data name="&gt;&gt;btnAtTarget.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnAtTarget.Parent" xml:space="preserve">
+    <value>GroupBox5</value>
+  </data>
+  <data name="&gt;&gt;btnAtTarget.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="&gt;&gt;btnTarget.Name" xml:space="preserve">
+    <value>btnTarget</value>
+  </data>
+  <data name="&gt;&gt;btnTarget.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnTarget.Parent" xml:space="preserve">
+    <value>GroupBox5</value>
+  </data>
+  <data name="&gt;&gt;btnTarget.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;btnAtSelf.Name" xml:space="preserve">
+    <value>btnAtSelf</value>
+  </data>
+  <data name="&gt;&gt;btnAtSelf.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnAtSelf.Parent" xml:space="preserve">
+    <value>GroupBox5</value>
+  </data>
+  <data name="&gt;&gt;btnAtSelf.ZOrder" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="&gt;&gt;btnSelf.Name" xml:space="preserve">
+    <value>btnSelf</value>
+  </data>
+  <data name="&gt;&gt;btnSelf.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnSelf.Parent" xml:space="preserve">
+    <value>GroupBox5</value>
+  </data>
+  <data name="&gt;&gt;btnSelf.ZOrder" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="&gt;&gt;lblInputFont.Name" xml:space="preserve">
+    <value>lblInputFont</value>
+  </data>
+  <data name="&gt;&gt;lblInputFont.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblInputFont.Parent" xml:space="preserve">
+    <value>GroupBox5</value>
+  </data>
+  <data name="&gt;&gt;lblInputFont.ZOrder" xml:space="preserve">
+    <value>18</value>
+  </data>
+  <data name="&gt;&gt;lblInputBackcolor.Name" xml:space="preserve">
+    <value>lblInputBackcolor</value>
+  </data>
+  <data name="&gt;&gt;lblInputBackcolor.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblInputBackcolor.Parent" xml:space="preserve">
+    <value>GroupBox5</value>
+  </data>
+  <data name="&gt;&gt;lblInputBackcolor.ZOrder" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="&gt;&gt;lblAtTo.Name" xml:space="preserve">
+    <value>lblAtTo</value>
+  </data>
+  <data name="&gt;&gt;lblAtTo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblAtTo.Parent" xml:space="preserve">
+    <value>GroupBox5</value>
+  </data>
+  <data name="&gt;&gt;lblAtTo.ZOrder" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="&gt;&gt;lblListBackcolor.Name" xml:space="preserve">
+    <value>lblListBackcolor</value>
+  </data>
+  <data name="&gt;&gt;lblListBackcolor.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblListBackcolor.Parent" xml:space="preserve">
+    <value>GroupBox5</value>
+  </data>
+  <data name="&gt;&gt;lblListBackcolor.ZOrder" xml:space="preserve">
+    <value>21</value>
+  </data>
+  <data name="&gt;&gt;lblAtFromTarget.Name" xml:space="preserve">
+    <value>lblAtFromTarget</value>
+  </data>
+  <data name="&gt;&gt;lblAtFromTarget.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblAtFromTarget.Parent" xml:space="preserve">
+    <value>GroupBox5</value>
+  </data>
+  <data name="&gt;&gt;lblAtFromTarget.ZOrder" xml:space="preserve">
+    <value>22</value>
+  </data>
+  <data name="&gt;&gt;lblAtTarget.Name" xml:space="preserve">
+    <value>lblAtTarget</value>
+  </data>
+  <data name="&gt;&gt;lblAtTarget.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblAtTarget.Parent" xml:space="preserve">
+    <value>GroupBox5</value>
+  </data>
+  <data name="&gt;&gt;lblAtTarget.ZOrder" xml:space="preserve">
+    <value>23</value>
+  </data>
+  <data name="&gt;&gt;lblTarget.Name" xml:space="preserve">
+    <value>lblTarget</value>
+  </data>
+  <data name="&gt;&gt;lblTarget.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblTarget.Parent" xml:space="preserve">
+    <value>GroupBox5</value>
+  </data>
+  <data name="&gt;&gt;lblTarget.ZOrder" xml:space="preserve">
+    <value>24</value>
+  </data>
+  <data name="&gt;&gt;lblAtSelf.Name" xml:space="preserve">
+    <value>lblAtSelf</value>
+  </data>
+  <data name="&gt;&gt;lblAtSelf.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblAtSelf.Parent" xml:space="preserve">
+    <value>GroupBox5</value>
+  </data>
+  <data name="&gt;&gt;lblAtSelf.ZOrder" xml:space="preserve">
+    <value>25</value>
+  </data>
+  <data name="&gt;&gt;lblSelf.Name" xml:space="preserve">
+    <value>lblSelf</value>
+  </data>
+  <data name="&gt;&gt;lblSelf.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblSelf.Parent" xml:space="preserve">
+    <value>GroupBox5</value>
+  </data>
+  <data name="&gt;&gt;lblSelf.ZOrder" xml:space="preserve">
+    <value>26</value>
+  </data>
+  <data name="&gt;&gt;ButtonBackToDefaultFontColor2.Name" xml:space="preserve">
+    <value>ButtonBackToDefaultFontColor2</value>
+  </data>
+  <data name="&gt;&gt;ButtonBackToDefaultFontColor2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ButtonBackToDefaultFontColor2.Parent" xml:space="preserve">
+    <value>GroupBox5</value>
+  </data>
+  <data name="&gt;&gt;ButtonBackToDefaultFontColor2.ZOrder" xml:space="preserve">
+    <value>27</value>
+  </data>
+  <data name="GroupBox5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>22, 18</value>
+  </data>
+  <data name="GroupBox5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>429, 290</value>
+  </data>
+  <data name="GroupBox5.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="GroupBox5.Text" xml:space="preserve">
+    <value>フォント＆色設定</value>
+  </data>
+  <data name="&gt;&gt;GroupBox5.Name" xml:space="preserve">
+    <value>GroupBox5</value>
+  </data>
+  <data name="&gt;&gt;GroupBox5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GroupBox5.Parent" xml:space="preserve">
+    <value>FontPanel2</value>
+  </data>
+  <data name="&gt;&gt;GroupBox5.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="Label65.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3099,60 +5784,6 @@
   <data name="&gt;&gt;ButtonBackToDefaultFontColor2.ZOrder" xml:space="preserve">
     <value>27</value>
   </data>
-  <data name="GroupBox5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 18</value>
-  </data>
-  <data name="GroupBox5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>429, 290</value>
-  </data>
-  <data name="GroupBox5.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="GroupBox5.Text" xml:space="preserve">
-    <value>フォント＆色設定</value>
-  </data>
-  <data name="&gt;&gt;GroupBox5.Name" xml:space="preserve">
-    <value>GroupBox5</value>
-  </data>
-  <data name="&gt;&gt;GroupBox5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GroupBox5.Parent" xml:space="preserve">
-    <value>FontPanel2</value>
-  </data>
-  <data name="&gt;&gt;GroupBox5.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="FontPanel2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="FontPanel2.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="FontPanel2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="FontPanel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>518, 368</value>
-  </data>
-  <data name="FontPanel2.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="FontPanel2.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;FontPanel2.Name" xml:space="preserve">
-    <value>FontPanel2</value>
-  </data>
-  <data name="&gt;&gt;FontPanel2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;FontPanel2.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;FontPanel2.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
   <data name="CheckHashSupple.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -3384,36 +6015,6 @@
   <data name="&gt;&gt;StatusText.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
-  <data name="TweetActPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="TweetActPanel.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="TweetActPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="TweetActPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>518, 368</value>
-  </data>
-  <data name="TweetActPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="TweetActPanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;TweetActPanel.Name" xml:space="preserve">
-    <value>TweetActPanel</value>
-  </data>
-  <data name="&gt;&gt;TweetActPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TweetActPanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;TweetActPanel.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
   <data name="StartupReaded.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -3533,36 +6134,6 @@
   </data>
   <data name="&gt;&gt;chkGetFav.ZOrder" xml:space="preserve">
     <value>3</value>
-  </data>
-  <data name="StartupPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="StartupPanel.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="StartupPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="StartupPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>518, 368</value>
-  </data>
-  <data name="StartupPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="StartupPanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;StartupPanel.Name" xml:space="preserve">
-    <value>StartupPanel</value>
-  </data>
-  <data name="&gt;&gt;StartupPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;StartupPanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;StartupPanel.ZOrder" xml:space="preserve">
-    <value>7</value>
   </data>
   <data name="ListTextCountApi.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>Disable</value>
@@ -4011,36 +6582,6 @@
   <data name="&gt;&gt;TextCountApi.ZOrder" xml:space="preserve">
     <value>16</value>
   </data>
-  <data name="GetCountPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="GetCountPanel.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="GetCountPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="GetCountPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>518, 368</value>
-  </data>
-  <data name="GetCountPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="GetCountPanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;GetCountPanel.Name" xml:space="preserve">
-    <value>GetCountPanel</value>
-  </data>
-  <data name="&gt;&gt;GetCountPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GetCountPanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;GetCountPanel.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
   <data name="Label38.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -4139,6 +6680,114 @@
   </data>
   <data name="&gt;&gt;CheckOpenUserTimeline.ZOrder" xml:space="preserve">
     <value>2</value>
+  </data>
+  <data name="&gt;&gt;HotkeyCheck.Name" xml:space="preserve">
+    <value>HotkeyCheck</value>
+  </data>
+  <data name="&gt;&gt;HotkeyCheck.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;HotkeyCheck.Parent" xml:space="preserve">
+    <value>GroupBox3</value>
+  </data>
+  <data name="&gt;&gt;HotkeyCheck.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;HotkeyCode.Name" xml:space="preserve">
+    <value>HotkeyCode</value>
+  </data>
+  <data name="&gt;&gt;HotkeyCode.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;HotkeyCode.Parent" xml:space="preserve">
+    <value>GroupBox3</value>
+  </data>
+  <data name="&gt;&gt;HotkeyCode.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;HotkeyText.Name" xml:space="preserve">
+    <value>HotkeyText</value>
+  </data>
+  <data name="&gt;&gt;HotkeyText.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;HotkeyText.Parent" xml:space="preserve">
+    <value>GroupBox3</value>
+  </data>
+  <data name="&gt;&gt;HotkeyText.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;HotkeyWin.Name" xml:space="preserve">
+    <value>HotkeyWin</value>
+  </data>
+  <data name="&gt;&gt;HotkeyWin.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;HotkeyWin.Parent" xml:space="preserve">
+    <value>GroupBox3</value>
+  </data>
+  <data name="&gt;&gt;HotkeyWin.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;HotkeyAlt.Name" xml:space="preserve">
+    <value>HotkeyAlt</value>
+  </data>
+  <data name="&gt;&gt;HotkeyAlt.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;HotkeyAlt.Parent" xml:space="preserve">
+    <value>GroupBox3</value>
+  </data>
+  <data name="&gt;&gt;HotkeyAlt.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;HotkeyShift.Name" xml:space="preserve">
+    <value>HotkeyShift</value>
+  </data>
+  <data name="&gt;&gt;HotkeyShift.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;HotkeyShift.Parent" xml:space="preserve">
+    <value>GroupBox3</value>
+  </data>
+  <data name="&gt;&gt;HotkeyShift.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;HotkeyCtrl.Name" xml:space="preserve">
+    <value>HotkeyCtrl</value>
+  </data>
+  <data name="&gt;&gt;HotkeyCtrl.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;HotkeyCtrl.Parent" xml:space="preserve">
+    <value>GroupBox3</value>
+  </data>
+  <data name="&gt;&gt;HotkeyCtrl.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="GroupBox3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>21, 313</value>
+  </data>
+  <data name="GroupBox3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>474, 41</value>
+  </data>
+  <data name="GroupBox3.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="GroupBox3.Text" xml:space="preserve">
+    <value>ホットキー</value>
+  </data>
+  <data name="&gt;&gt;GroupBox3.Name" xml:space="preserve">
+    <value>GroupBox3</value>
+  </data>
+  <data name="&gt;&gt;GroupBox3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GroupBox3.Parent" xml:space="preserve">
+    <value>ActionPanel</value>
+  </data>
+  <data name="&gt;&gt;GroupBox3.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
   <data name="HotkeyCheck.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4343,30 +6992,6 @@
   </data>
   <data name="&gt;&gt;HotkeyCtrl.ZOrder" xml:space="preserve">
     <value>6</value>
-  </data>
-  <data name="GroupBox3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>21, 313</value>
-  </data>
-  <data name="GroupBox3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>474, 41</value>
-  </data>
-  <data name="GroupBox3.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
-  </data>
-  <data name="GroupBox3.Text" xml:space="preserve">
-    <value>ホットキー</value>
-  </data>
-  <data name="&gt;&gt;GroupBox3.Name" xml:space="preserve">
-    <value>GroupBox3</value>
-  </data>
-  <data name="&gt;&gt;GroupBox3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GroupBox3.Parent" xml:space="preserve">
-    <value>ActionPanel</value>
-  </data>
-  <data name="&gt;&gt;GroupBox3.ZOrder" xml:space="preserve">
-    <value>3</value>
   </data>
   <data name="Label57.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4713,36 +7338,9 @@
   <data name="&gt;&gt;CheckReadOldPosts.ZOrder" xml:space="preserve">
     <value>15</value>
   </data>
-  <data name="ActionPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="ActionPanel.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="ActionPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="ActionPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>518, 368</value>
-  </data>
-  <data name="ActionPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="ActionPanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;ActionPanel.Name" xml:space="preserve">
-    <value>ActionPanel</value>
-  </data>
-  <data name="&gt;&gt;ActionPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ActionPanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;ActionPanel.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
+  <metadata name="ToolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>268, 17</value>
+  </metadata>
   <data name="CheckUserUpdateEvent.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -4758,9 +7356,6 @@
   <data name="CheckUserUpdateEvent.Text" xml:space="preserve">
     <value>ユーザーのプロフィールが更新された</value>
   </data>
-  <metadata name="ToolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>268, 17</value>
-  </metadata>
   <data name="CheckUserUpdateEvent.ToolTip" xml:space="preserve">
     <value>チェックを不確定状態にすると他者が発生させたイベントのみ通知します</value>
   </data>
@@ -5117,36 +7712,6 @@
   </data>
   <data name="&gt;&gt;CheckEventNotify.ZOrder" xml:space="preserve">
     <value>12</value>
-  </data>
-  <data name="NotifyPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="NotifyPanel.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="NotifyPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="NotifyPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>518, 368</value>
-  </data>
-  <data name="NotifyPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="NotifyPanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;NotifyPanel.Name" xml:space="preserve">
-    <value>NotifyPanel</value>
-  </data>
-  <data name="&gt;&gt;NotifyPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;NotifyPanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;NotifyPanel.ZOrder" xml:space="preserve">
-    <value>10</value>
   </data>
   <data name="HideDuplicatedRetweetsCheck.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -5564,36 +8129,6 @@
   </data>
   <data name="&gt;&gt;OneWayLv.ZOrder" xml:space="preserve">
     <value>12</value>
-  </data>
-  <data name="TweetPrvPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="TweetPrvPanel.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="TweetPrvPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="TweetPrvPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>518, 368</value>
-  </data>
-  <data name="TweetPrvPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="TweetPrvPanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;TweetPrvPanel.Name" xml:space="preserve">
-    <value>TweetPrvPanel</value>
-  </data>
-  <data name="&gt;&gt;TweetPrvPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TweetPrvPanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;TweetPrvPanel.ZOrder" xml:space="preserve">
-    <value>11</value>
   </data>
   <data name="LabelApiUsingUserStreamEnabled.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -6155,36 +8690,6 @@
   <data name="&gt;&gt;StartupUserstreamCheck.ZOrder" xml:space="preserve">
     <value>19</value>
   </data>
-  <data name="GetPeriodPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="GetPeriodPanel.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="GetPeriodPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="GetPeriodPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>518, 368</value>
-  </data>
-  <data name="GetPeriodPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="GetPeriodPanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;GetPeriodPanel.Name" xml:space="preserve">
-    <value>GetPeriodPanel</value>
-  </data>
-  <data name="&gt;&gt;GetPeriodPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GetPeriodPanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;GetPeriodPanel.ZOrder" xml:space="preserve">
-    <value>12</value>
-  </data>
   <data name="ReplyIconStateCombo.Items" xml:space="preserve">
     <value>通知なし</value>
   </data>
@@ -6716,35 +9221,329 @@
   <data name="&gt;&gt;CheckBox3.ZOrder" xml:space="preserve">
     <value>16</value>
   </data>
-  <data name="PreviewPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
+  <data name="&gt;&gt;btnRetweet.Name" xml:space="preserve">
+    <value>btnRetweet</value>
   </data>
-  <data name="PreviewPanel.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
+  <data name="&gt;&gt;btnRetweet.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="PreviewPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+  <data name="&gt;&gt;btnRetweet.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
   </data>
-  <data name="PreviewPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>518, 368</value>
+  <data name="&gt;&gt;btnRetweet.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
-  <data name="PreviewPanel.TabIndex" type="System.Int32, mscorlib">
+  <data name="&gt;&gt;lblRetweet.Name" xml:space="preserve">
+    <value>lblRetweet</value>
+  </data>
+  <data name="&gt;&gt;lblRetweet.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblRetweet.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;lblRetweet.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;Label80.Name" xml:space="preserve">
+    <value>Label80</value>
+  </data>
+  <data name="&gt;&gt;Label80.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label80.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;Label80.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;ButtonBackToDefaultFontColor.Name" xml:space="preserve">
+    <value>ButtonBackToDefaultFontColor</value>
+  </data>
+  <data name="&gt;&gt;ButtonBackToDefaultFontColor.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ButtonBackToDefaultFontColor.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;ButtonBackToDefaultFontColor.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;btnDetailLink.Name" xml:space="preserve">
+    <value>btnDetailLink</value>
+  </data>
+  <data name="&gt;&gt;btnDetailLink.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnDetailLink.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;btnDetailLink.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;lblDetailLink.Name" xml:space="preserve">
+    <value>lblDetailLink</value>
+  </data>
+  <data name="&gt;&gt;lblDetailLink.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblDetailLink.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;lblDetailLink.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;Label18.Name" xml:space="preserve">
+    <value>Label18</value>
+  </data>
+  <data name="&gt;&gt;Label18.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label18.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;Label18.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;btnUnread.Name" xml:space="preserve">
+    <value>btnUnread</value>
+  </data>
+  <data name="&gt;&gt;btnUnread.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnUnread.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;btnUnread.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
-  <data name="PreviewPanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
+  <data name="&gt;&gt;lblUnread.Name" xml:space="preserve">
+    <value>lblUnread</value>
   </data>
-  <data name="&gt;&gt;PreviewPanel.Name" xml:space="preserve">
-    <value>PreviewPanel</value>
+  <data name="&gt;&gt;lblUnread.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;PreviewPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;lblUnread.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
   </data>
-  <data name="&gt;&gt;PreviewPanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
+  <data name="&gt;&gt;lblUnread.ZOrder" xml:space="preserve">
+    <value>8</value>
   </data>
-  <data name="&gt;&gt;PreviewPanel.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;Label20.Name" xml:space="preserve">
+    <value>Label20</value>
+  </data>
+  <data name="&gt;&gt;Label20.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label20.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;Label20.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;btnDetailBack.Name" xml:space="preserve">
+    <value>btnDetailBack</value>
+  </data>
+  <data name="&gt;&gt;btnDetailBack.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnDetailBack.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;btnDetailBack.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;lblDetailBackcolor.Name" xml:space="preserve">
+    <value>lblDetailBackcolor</value>
+  </data>
+  <data name="&gt;&gt;lblDetailBackcolor.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblDetailBackcolor.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;lblDetailBackcolor.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;Label37.Name" xml:space="preserve">
+    <value>Label37</value>
+  </data>
+  <data name="&gt;&gt;Label37.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label37.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;Label37.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;btnDetail.Name" xml:space="preserve">
+    <value>btnDetail</value>
+  </data>
+  <data name="&gt;&gt;btnDetail.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnDetail.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;btnDetail.ZOrder" xml:space="preserve">
     <value>13</value>
+  </data>
+  <data name="&gt;&gt;lblDetail.Name" xml:space="preserve">
+    <value>lblDetail</value>
+  </data>
+  <data name="&gt;&gt;lblDetail.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblDetail.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;lblDetail.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="&gt;&gt;Label26.Name" xml:space="preserve">
+    <value>Label26</value>
+  </data>
+  <data name="&gt;&gt;Label26.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label26.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;Label26.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;btnOWL.Name" xml:space="preserve">
+    <value>btnOWL</value>
+  </data>
+  <data name="&gt;&gt;btnOWL.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnOWL.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;btnOWL.ZOrder" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="&gt;&gt;lblOWL.Name" xml:space="preserve">
+    <value>lblOWL</value>
+  </data>
+  <data name="&gt;&gt;lblOWL.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblOWL.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;lblOWL.ZOrder" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="&gt;&gt;Label24.Name" xml:space="preserve">
+    <value>Label24</value>
+  </data>
+  <data name="&gt;&gt;Label24.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label24.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;Label24.ZOrder" xml:space="preserve">
+    <value>18</value>
+  </data>
+  <data name="&gt;&gt;btnFav.Name" xml:space="preserve">
+    <value>btnFav</value>
+  </data>
+  <data name="&gt;&gt;btnFav.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnFav.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;btnFav.ZOrder" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="&gt;&gt;lblFav.Name" xml:space="preserve">
+    <value>lblFav</value>
+  </data>
+  <data name="&gt;&gt;lblFav.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblFav.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;lblFav.ZOrder" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="&gt;&gt;Label22.Name" xml:space="preserve">
+    <value>Label22</value>
+  </data>
+  <data name="&gt;&gt;Label22.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label22.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;Label22.ZOrder" xml:space="preserve">
+    <value>21</value>
+  </data>
+  <data name="&gt;&gt;btnListFont.Name" xml:space="preserve">
+    <value>btnListFont</value>
+  </data>
+  <data name="&gt;&gt;btnListFont.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnListFont.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;btnListFont.ZOrder" xml:space="preserve">
+    <value>22</value>
+  </data>
+  <data name="&gt;&gt;lblListFont.Name" xml:space="preserve">
+    <value>lblListFont</value>
+  </data>
+  <data name="&gt;&gt;lblListFont.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblListFont.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;lblListFont.ZOrder" xml:space="preserve">
+    <value>23</value>
+  </data>
+  <data name="&gt;&gt;Label61.Name" xml:space="preserve">
+    <value>Label61</value>
+  </data>
+  <data name="&gt;&gt;Label61.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label61.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;Label61.ZOrder" xml:space="preserve">
+    <value>24</value>
+  </data>
+  <data name="GroupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>22, 18</value>
+  </data>
+  <data name="GroupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>429, 267</value>
+  </data>
+  <data name="GroupBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="GroupBox1.Text" xml:space="preserve">
+    <value>フォント＆色設定</value>
+  </data>
+  <data name="&gt;&gt;GroupBox1.Name" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;GroupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GroupBox1.Parent" xml:space="preserve">
+    <value>FontPanel</value>
+  </data>
+  <data name="&gt;&gt;GroupBox1.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="btnRetweet.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -7496,93 +10295,6 @@
   <data name="&gt;&gt;Label61.ZOrder" xml:space="preserve">
     <value>24</value>
   </data>
-  <data name="GroupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 18</value>
-  </data>
-  <data name="GroupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>429, 267</value>
-  </data>
-  <data name="GroupBox1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="GroupBox1.Text" xml:space="preserve">
-    <value>フォント＆色設定</value>
-  </data>
-  <data name="&gt;&gt;GroupBox1.Name" xml:space="preserve">
-    <value>GroupBox1</value>
-  </data>
-  <data name="&gt;&gt;GroupBox1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GroupBox1.Parent" xml:space="preserve">
-    <value>FontPanel</value>
-  </data>
-  <data name="&gt;&gt;GroupBox1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="FontPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="FontPanel.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="FontPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="FontPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>518, 368</value>
-  </data>
-  <data name="FontPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="FontPanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;FontPanel.Name" xml:space="preserve">
-    <value>FontPanel</value>
-  </data>
-  <data name="&gt;&gt;FontPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;FontPanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;FontPanel.ZOrder" xml:space="preserve">
-    <value>14</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer1.Panel2.Name" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer1.Panel2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer1.Panel2.Parent" xml:space="preserve">
-    <value>SplitContainer1</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer1.Panel2.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="SplitContainer1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>691, 368</value>
-  </data>
-  <data name="SplitContainer1.SplitterDistance" type="System.Int32, mscorlib">
-    <value>169</value>
-  </data>
-  <data name="SplitContainer1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer1.Name" xml:space="preserve">
-    <value>SplitContainer1</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer1.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
   <metadata name="FontDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
@@ -7643,6 +10355,9 @@
   <data name="&gt;&gt;Save.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <metadata name="ToolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>268, 17</value>
+  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -7657,9 +10372,6 @@
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterParent</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>            </value>
   </data>
   <data name="&gt;&gt;FontDialog1.Name" xml:space="preserve">
     <value>FontDialog1</value>
