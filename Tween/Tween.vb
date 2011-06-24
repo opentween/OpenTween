@@ -230,7 +230,8 @@ Public Class TweenMain
         End Sub
     End Structure
 
-    Private replyChains As Stack(Of ReplyChain)
+    Private replyChains As Stack(Of ReplyChain) '[, ]でのリプライ移動の履歴
+    Private selectPostChains As New Stack(Of Tuple(Of TabPage, PostClass)) 'ポスト選択履歴
 
     'Backgroundworkerの処理結果通知用引数構造体
     Private Class GetWorkerResult
@@ -1532,6 +1533,8 @@ Public Class TweenMain
         Catch ex As ArgumentException
             Exit Sub
         End Try
+
+        Me.selectPostChains.Push(Tuple.Create(Me._curTab, _curPost))
 
         If SettingDialog.UnreadManage Then _statuses.SetReadAllTab(True, _curTab.Text, _curItemIndex)
         'キャッシュの書き換え
@@ -5329,6 +5332,9 @@ RETRY:
                             ' お気に入り前後ジャンプ(SHIFT+N←/P→)
                             GoFav(False)
                             Return True
+                        Case Keys.Space
+                            Me.GoBackSelectPostChain()
+                            Return True
                     End Select
                 End If
             Case ModifierState.Alt
@@ -5995,6 +6001,17 @@ RETRY:
                 End If
             End If
         End If
+    End Sub
+
+    Private Sub GoBackSelectPostChain()
+        Try
+            Me.selectPostChains.Pop()
+            Dim tabPostPair = Me.selectPostChains.Pop()
+            Me.ListTab.SelectedTab = tabPostPair.Item1
+            Me.SelectListItem(Me._curList, Me._statuses.Tabs(Me._curTab.Text).IndexOf(tabPostPair.Item2.StatusId))
+            Me._curList.EnsureVisible(Me._statuses.Tabs(Me._curTab.Text).IndexOf(tabPostPair.Item2.StatusId))
+        Catch ex As InvalidOperationException
+        End Try
     End Sub
 
     Private Sub MyList_MouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
@@ -10350,5 +10367,4 @@ RETRY:
     Private Sub OpenUserSpecifiedUrlMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OpenUserSpecifiedUrlMenuItem.Click, OpenUserSpecifiedUrlMenuItem2.Click
         OpenUserAppointUrl()
     End Sub
-
 End Class
