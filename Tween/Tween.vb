@@ -1534,7 +1534,7 @@ Public Class TweenMain
             Exit Sub
         End Try
 
-        Me.selectPostChains.Push(Tuple.Create(Me._curTab, _curPost))
+        Me.PushSelectPostChain()
 
         If SettingDialog.UnreadManage Then _statuses.SetReadAllTab(True, _curTab.Text, _curItemIndex)
         'キャッシュの書き換え
@@ -3858,6 +3858,7 @@ Public Class TweenMain
         SetStatusLabelUrl()
         If ListTab.Focused OrElse DirectCast(ListTab.SelectedTab.Tag, Control).Focused Then Me.Tag = ListTab.Tag
         TabMenuControl(ListTab.SelectedTab.Text)
+        Me.PushSelectPostChain()
     End Sub
 
     Private Sub SetListProperty()
@@ -6008,10 +6009,18 @@ RETRY:
             Me.selectPostChains.Pop()
             Dim tabPostPair = Me.selectPostChains.Pop()
             Me.ListTab.SelectedTab = tabPostPair.Item1
-            Me.SelectListItem(Me._curList, Me._statuses.Tabs(Me._curTab.Text).IndexOf(tabPostPair.Item2.StatusId))
-            Me._curList.EnsureVisible(Me._statuses.Tabs(Me._curTab.Text).IndexOf(tabPostPair.Item2.StatusId))
+            If tabPostPair.Item2 IsNot Nothing Then
+                Me.SelectListItem(Me._curList, Me._statuses.Tabs(Me._curTab.Text).IndexOf(tabPostPair.Item2.StatusId))
+                Me._curList.EnsureVisible(Me._statuses.Tabs(Me._curTab.Text).IndexOf(tabPostPair.Item2.StatusId))
+            End If
         Catch ex As InvalidOperationException
         End Try
+    End Sub
+
+    Private Sub PushSelectPostChain()
+        If Me.selectPostChains.Count = 0 OrElse (Me.selectPostChains.Peek().Item1.Text <> Me._curTab.Text OrElse Me._curPost IsNot Me.selectPostChains.Peek().Item2) Then
+            Me.selectPostChains.Push(Tuple.Create(Me._curTab, _curPost))
+        End If
     End Sub
 
     Private Sub MyList_MouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
