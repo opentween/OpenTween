@@ -56,6 +56,7 @@ Public Class yfrog
 
     Public Function Upload(ByRef filePath As String,
                ByRef message As String) As String Implements IMultimediaShareService.Upload
+        If String.IsNullOrEmpty(filePath) Then Return "Err:File isn't exists."
         'FileInfo作成
         Dim mediaFile As FileInfo
         Try
@@ -63,7 +64,7 @@ Public Class yfrog
         Catch ex As NotSupportedException
             Return "Err:" + ex.Message
         End Try
-        If Not mediaFile.Exists Then Return "Err:File isn't exists."
+        If mediaFile Is Nothing OrElse Not mediaFile.Exists Then Return "Err:File isn't exists."
 
         Dim content As String = ""
         Dim ret As HttpStatusCode
@@ -87,6 +88,8 @@ Public Class yfrog
             Return "Err:" + ret.ToString
         End If
 
+        If String.IsNullOrEmpty(url) Then Return "Err:Upload failed."
+        If message Is Nothing Then message = ""
         'アップロードまでは成功
         filePath = ""
         'Twitterへの投稿
