@@ -7496,11 +7496,17 @@ RETRY:
     Delegate Sub SetStatusLabelApiDelegate()
 
     Private Sub SetStatusLabelApiHandler(ByVal sender As Object, ByVal e As ApiInformationChangedEventArgs)
-        If InvokeRequired AndAlso Not IsDisposed Then
-            Invoke(New SetStatusLabelApiDelegate(AddressOf SetStatusLabelApi))
-        Else
-            SetStatusLabelApi()
-        End If
+        Try
+            If InvokeRequired AndAlso Not IsDisposed Then
+                Invoke(New SetStatusLabelApiDelegate(AddressOf SetStatusLabelApi))
+            Else
+                SetStatusLabelApi()
+            End If
+        Catch ex As ObjectDisposedException
+            Exit Sub
+        Catch ex As InvalidOperationException
+            Exit Sub
+        End Try
     End Sub
 
     Private Sub SetStatusLabelApi()
@@ -10037,6 +10043,8 @@ RETRY:
             End If
         Catch ex As ObjectDisposedException
             Exit Sub
+        Catch ex As InvalidOperationException
+            Exit Sub
         End Try
     End Sub
 
@@ -10080,16 +10088,23 @@ RETRY:
             End If
         Catch ex As ObjectDisposedException
             Exit Sub
+        Catch ex As InvalidOperationException
+            Exit Sub
         End Try
     End Sub
 
     Private Sub tw_UserStreamStarted()
         Me._isActiveUserstream = True
-        If InvokeRequired AndAlso Not IsDisposed Then
-            Invoke(New MethodInvoker(AddressOf tw_UserStreamStarted))
+        Try
+            If InvokeRequired AndAlso Not IsDisposed Then
+                Invoke(New MethodInvoker(AddressOf tw_UserStreamStarted))
+                Exit Sub
+            End If
+        Catch ex As ObjectDisposedException
             Exit Sub
-        End If
-
+        Catch ex As InvalidOperationException
+            Exit Sub
+        End Try
         MenuItemUserStream.Text = "&UserStream ▶"
         MenuItemUserStream.Enabled = True
         StopToolStripMenuItem.Text = "&Stop"
@@ -10100,11 +10115,16 @@ RETRY:
 
     Private Sub tw_UserStreamStopped()
         Me._isActiveUserstream = False
-        If InvokeRequired AndAlso Not IsDisposed Then
-            Invoke(New MethodInvoker(AddressOf tw_UserStreamStopped))
+        Try
+            If InvokeRequired AndAlso Not IsDisposed Then
+                Invoke(New MethodInvoker(AddressOf tw_UserStreamStopped))
+                Exit Sub
+            End If
+        Catch ex As ObjectDisposedException
             Exit Sub
-        End If
-
+        Catch ex As InvalidOperationException
+            Exit Sub
+        End Try
         MenuItemUserStream.Text = "&UserStream ■"
         MenuItemUserStream.Enabled = True
         StopToolStripMenuItem.Text = "&Start"
@@ -10114,10 +10134,16 @@ RETRY:
     End Sub
 
     Private Sub tw_UserStreamEventArrived(ByVal ev As Twitter.FormattedEvent)
-        If InvokeRequired AndAlso Not IsDisposed Then
-            Invoke(New Action(Of Twitter.FormattedEvent)(AddressOf tw_UserStreamEventArrived), ev)
+        Try
+            If InvokeRequired AndAlso Not IsDisposed Then
+                Invoke(New Action(Of Twitter.FormattedEvent)(AddressOf tw_UserStreamEventArrived), ev)
+                Exit Sub
+            End If
+        Catch ex As ObjectDisposedException
             Exit Sub
-        End If
+        Catch ex As InvalidOperationException
+            Exit Sub
+        End Try
         StatusLabel.Text = "Event: " + ev.Event
         'If ev.Event = "favorite" Then
         '    NotifyFavorite(ev)
