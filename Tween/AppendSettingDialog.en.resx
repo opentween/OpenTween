@@ -213,7 +213,197 @@
   <data name="SplitContainer1.Panel1.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="UserstreamPeriod.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="Label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>187, 12</value>
+  </data>
+  <data name="Label1.Text" xml:space="preserve">
+    <value>User Streams refresh Interval (sec)</value>
+  </data>
+  <data name="Label1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LabelApiUsingUserStreamEnabled.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LabelUserStreamActive.Size" type="System.Drawing.Size, System.Drawing">
+    <value>395, 24</value>
+  </data>
+  <data name="LabelUserStreamActive.Text" xml:space="preserve">
+    <value>UserStream is enable.
+Periodic fetching, Timeline/Mentions/DM, and Post&amp;Fetch function is disable.</value>
+  </data>
+  <data name="LabelUserStreamActive.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label21.Text" xml:space="preserve">
+    <value>UserTimeline Interval (sec)</value>
+  </data>
+  <data name="Label21.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="UserTimelinePeriod.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TimelinePeriod.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 12</value>
+  </data>
+  <data name="Label3.Text" xml:space="preserve">
+    <value>Timeline Fetching Interval (sec.)</value>
+  </data>
+  <data name="Label3.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ButtonApiCalc.Text" xml:space="preserve">
+    <value>Recalculation</value>
+  </data>
+  <data name="ButtonApiCalc.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LabelPostAndGet.Size" type="System.Drawing.Size, System.Drawing">
+    <value>358, 12</value>
+  </data>
+  <data name="LabelPostAndGet.Text" xml:space="preserve">
+    <value>Because "Post &amp;&amp; fetch" is enabled, the API for each post consumed.</value>
+  </data>
+  <data name="LabelPostAndGet.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LabelApiUsing.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label33.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 12</value>
+  </data>
+  <data name="Label33.Text" xml:space="preserve">
+    <value>Lists Fetching Interval (sec)</value>
+  </data>
+  <data name="Label33.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListsPeriod.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 12</value>
+  </data>
+  <data name="Label7.Text" xml:space="preserve">
+    <value>Public Search Interval (sec.)</value>
+  </data>
+  <data name="Label7.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PubSearchPeriod.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label69.Size" type="System.Drawing.Size, System.Drawing">
+    <value>156, 12</value>
+  </data>
+  <data name="Label69.Text" xml:space="preserve">
+    <value>Reply Fetching Interval (sec.)</value>
+  </data>
+  <data name="Label69.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ReplyPeriod.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckPostAndGet.Size" type="System.Drawing.Size, System.Drawing">
+    <value>88, 16</value>
+  </data>
+  <data name="CheckPostAndGet.Text" xml:space="preserve">
+    <value>Post &amp;&amp; fetch</value>
+  </data>
+  <data name="CheckPostAndGet.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckPeriodAdjust.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 16</value>
+  </data>
+  <data name="CheckPeriodAdjust.Text" xml:space="preserve">
+    <value>Enable Auto-Adjustment</value>
+  </data>
+  <data name="CheckPeriodAdjust.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 12</value>
+  </data>
+  <data name="Label5.Text" xml:space="preserve">
+    <value>DM Fetching Interval (sec.)</value>
+  </data>
+  <data name="Label5.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DMPeriod.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="StartupUserstreamCheck.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 16</value>
+  </data>
+  <data name="StartupUserstreamCheck.Text" xml:space="preserve">
+    <value>Auto connect at starting</value>
+  </data>
+  <data name="StartupUserstreamCheck.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="GetPeriodPanel.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="StartAuthButton.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AuthClearButton.Text" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="AuthClearButton.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AuthUserLabel.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AuthStateLabel.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>65, 12</value>
+  </data>
+  <data name="Label4.Text" xml:space="preserve">
+    <value>Auth status</value>
+  </data>
+  <data name="Label4.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AuthorizeButton.Text" xml:space="preserve">
+    <value>Auth</value>
+  </data>
+  <data name="AuthorizeButton.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 12</value>
+  </data>
+  <data name="Label2.Text" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Label2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Username.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Password.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BasedPanel.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="IsPreviewFoursquareCheckBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>239, 16</value>
   </data>
@@ -452,15 +642,6 @@
     <value />
   </data>
   <data name="ProxyPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckEnableBasicAuth.Size" type="System.Drawing.Size, System.Drawing">
-    <value>241, 16</value>
-  </data>
-  <data name="CheckEnableBasicAuth.Text" xml:space="preserve">
-    <value>Enable to select BASIC auth in 'Basic' tab</value>
-  </data>
-  <data name="CheckEnableBasicAuth.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="TwitterSearchAPIText.ToolTip" xml:space="preserve">
@@ -1262,142 +1443,6 @@
   <data name="TweetPrvPanel.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="LabelApiUsingUserStreamEnabled.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="LabelUserStreamActive.Size" type="System.Drawing.Size, System.Drawing">
-    <value>395, 24</value>
-  </data>
-  <data name="LabelUserStreamActive.Text" xml:space="preserve">
-    <value>UserStream is enable.
-Periodic fetching, Timeline/Mentions/DM, and Post&amp;Fetch function is disable.</value>
-  </data>
-  <data name="LabelUserStreamActive.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label21.Text" xml:space="preserve">
-    <value>UserTimeline Interval (sec)</value>
-  </data>
-  <data name="Label21.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="UserTimelinePeriod.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="TimelinePeriod.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 12</value>
-  </data>
-  <data name="Label3.Text" xml:space="preserve">
-    <value>Timeline Fetching Interval (sec.)</value>
-  </data>
-  <data name="Label3.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ButtonApiCalc.Text" xml:space="preserve">
-    <value>Recalculation</value>
-  </data>
-  <data name="ButtonApiCalc.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="LabelPostAndGet.Size" type="System.Drawing.Size, System.Drawing">
-    <value>358, 12</value>
-  </data>
-  <data name="LabelPostAndGet.Text" xml:space="preserve">
-    <value>Because "Post &amp;&amp; fetch" is enabled, the API for each post consumed.</value>
-  </data>
-  <data name="LabelPostAndGet.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="LabelApiUsing.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label33.Size" type="System.Drawing.Size, System.Drawing">
-    <value>150, 12</value>
-  </data>
-  <data name="Label33.Text" xml:space="preserve">
-    <value>Lists Fetching Interval (sec)</value>
-  </data>
-  <data name="Label33.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ListsPeriod.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 12</value>
-  </data>
-  <data name="Label7.Text" xml:space="preserve">
-    <value>Public Search Interval (sec.)</value>
-  </data>
-  <data name="Label7.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="PubSearchPeriod.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label69.Size" type="System.Drawing.Size, System.Drawing">
-    <value>156, 12</value>
-  </data>
-  <data name="Label69.Text" xml:space="preserve">
-    <value>Reply Fetching Interval (sec.)</value>
-  </data>
-  <data name="Label69.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ReplyPeriod.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckPostAndGet.Size" type="System.Drawing.Size, System.Drawing">
-    <value>88, 16</value>
-  </data>
-  <data name="CheckPostAndGet.Text" xml:space="preserve">
-    <value>Post &amp;&amp; fetch</value>
-  </data>
-  <data name="CheckPostAndGet.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckPeriodAdjust.Size" type="System.Drawing.Size, System.Drawing">
-    <value>150, 16</value>
-  </data>
-  <data name="CheckPeriodAdjust.Text" xml:space="preserve">
-    <value>Enable Auto-Adjustment</value>
-  </data>
-  <data name="CheckPeriodAdjust.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 12</value>
-  </data>
-  <data name="Label5.Text" xml:space="preserve">
-    <value>DM Fetching Interval (sec.)</value>
-  </data>
-  <data name="Label5.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="DMPeriod.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="UserstreamPeriod.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="StartupUserstreamCheck.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 16</value>
-  </data>
-  <data name="StartupUserstreamCheck.Text" xml:space="preserve">
-    <value>Auto connect at starting</value>
-  </data>
-  <data name="StartupUserstreamCheck.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label83.Size" type="System.Drawing.Size, System.Drawing">
-    <value>191, 12</value>
-  </data>
-  <data name="GetPeriodPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="ReplyIconStateCombo.Items" xml:space="preserve">
     <value>Don't notify</value>
   </data>
@@ -1558,75 +1603,6 @@ Periodic fetching, Timeline/Mentions/DM, and Post&amp;Fetch function is disable.
     <value />
   </data>
   <data name="PreviewPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="AuthBasicRadio.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="AuthOAuthRadio.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>70, 12</value>
-  </data>
-  <data name="Label6.Text" xml:space="preserve">
-    <value>Auth method</value>
-  </data>
-  <data name="Label6.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="AuthClearButton.Text" xml:space="preserve">
-    <value>Clear</value>
-  </data>
-  <data name="AuthClearButton.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="AuthUserLabel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="AuthStateLabel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 12</value>
-  </data>
-  <data name="Label4.Text" xml:space="preserve">
-    <value>Auth status</value>
-  </data>
-  <data name="Label4.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="AuthorizeButton.Text" xml:space="preserve">
-    <value>Auth</value>
-  </data>
-  <data name="AuthorizeButton.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 12</value>
-  </data>
-  <data name="Label1.Text" xml:space="preserve">
-    <value>Username</value>
-  </data>
-  <data name="Label1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 12</value>
-  </data>
-  <data name="Label2.Text" xml:space="preserve">
-    <value>Password</value>
-  </data>
-  <data name="Label2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Username.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Password.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="BasedPanel.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="btnRetweet.Text" xml:space="preserve">

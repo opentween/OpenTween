@@ -137,6 +137,7 @@ Public Class AppendSettingDialog
     Private _MyTranslateLanguage As String
     Private _soundfileListup As Boolean = False
     Private _MyEventSoundFile As String
+    Private _MyUserstreamPeriod As Integer
 
     Private _MyDoubleClickAction As Integer
     Private _UserAppointUrl As String
@@ -199,6 +200,11 @@ Public Class AppendSettingDialog
         Try
             _MyUserstreamStartup = Me.StartupUserstreamCheck.Checked
 
+            If _MyUserstreamPeriod <> CType(UserstreamPeriod.Text, Integer) Then
+                _MyUserstreamPeriod = CType(UserstreamPeriod.Text, Integer)
+                arg.UserStream = True
+                isIntervalChanged = True
+            End If
             If _MytimelinePeriod <> CType(TimelinePeriod.Text, Integer) Then
                 _MytimelinePeriod = CType(TimelinePeriod.Text, Integer)
                 arg.Timeline = True
@@ -475,6 +481,7 @@ Public Class AppendSettingDialog
         End If
 
         Me.StartupUserstreamCheck.Checked = _MyUserstreamStartup
+        UserstreamPeriod.Text = _MyUserstreamPeriod.ToString()
         TimelinePeriod.Text = _MytimelinePeriod.ToString()
         ReplyPeriod.Text = _MyReplyPeriod.ToString()
         DMPeriod.Text = _MyDMPeriod.ToString()
@@ -732,6 +739,24 @@ Public Class AppendSettingDialog
         ActiveControl = StartAuthButton
     End Sub
 
+    Private Sub UserstreamPeriod_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles UserstreamPeriod.Validating
+        Dim prd As Integer
+        Try
+            prd = CType(UserstreamPeriod.Text, Integer)
+        Catch ex As Exception
+            MessageBox.Show(My.Resources.UserstreamPeriod_ValidatingText1)
+            e.Cancel = True
+            Exit Sub
+        End Try
+
+        If prd < 0 OrElse prd > 60 Then
+            MessageBox.Show(My.Resources.UserstreamPeriod_ValidatingText1)
+            e.Cancel = True
+            Exit Sub
+        End If
+        CalcApiUsing()
+    End Sub
+
     Private Sub TimelinePeriod_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles TimelinePeriod.Validating
         Dim prd As Integer
         Try
@@ -973,6 +998,15 @@ Public Class AppendSettingDialog
                 lblDetailLink.ForeColor = ColorDialog1.Color
         End Select
     End Sub
+
+    Public Property UserstreamPeriodInt() As Integer
+        Get
+            Return _MyUserstreamPeriod
+        End Get
+        Set(ByVal value As Integer)
+            _MyUserstreamPeriod = value
+        End Set
+    End Property
 
     Public Property UserstreamStartup() As Boolean
         Get
@@ -2674,7 +2708,7 @@ Public Class AppendSettingDialog
         End If
     End Sub
 
-    Private Sub IsPreviewFoursquareCheckBox_CheckedChanged(sender As Object, e As System.EventArgs) Handles IsPreviewFoursquareCheckBox.CheckedChanged
+    Private Sub IsPreviewFoursquareCheckBox_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles IsPreviewFoursquareCheckBox.CheckedChanged
         FoursquareGroupBox.Enabled = IsPreviewFoursquareCheckBox.Checked
     End Sub
 
