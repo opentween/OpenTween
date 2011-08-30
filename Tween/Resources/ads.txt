@@ -11,7 +11,7 @@ GA_googleAddSlot("ca-pub-6759700347268706", "Tween_HomePage_728x90");
 <script type='text/javascript'>
 GA_googleFetchAds();
 </script>
-<meta http-equiv="refresh" content="45">
+<!-- <meta http-equiv="refresh" content="45"> -->
 </head>
 <body style="margin:0px;">
 <!-- Tween_HomePage_728x90 -->

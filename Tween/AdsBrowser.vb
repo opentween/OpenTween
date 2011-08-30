@@ -6,6 +6,7 @@ Namespace TweenCustomControl
         Inherits WebBrowser
 
         Private adsPath As String
+        Private WithEvents refreshTimer As System.Timers.Timer
 
         Public Sub New()
             MyBase.New()
@@ -21,12 +22,27 @@ Namespace TweenCustomControl
             Me.TabStop = False
             Me.WebBrowserShortcutsEnabled = False
             Me.Dock = DockStyle.Fill
+            Me.Visible = False
             Me.Navigate(adsPath)
+            Me.Visible = True
 
+            Me.refreshTimer = New System.Timers.Timer(45 * 1000)
+            Me.refreshTimer.AutoReset = True
+            Me.refreshTimer.SynchronizingObject = Me
+            Me.refreshTimer.Enabled = True
         End Sub
+
 
         Private Sub AdsBrowser_Disposed(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Disposed
+            Me.refreshTimer.Dispose()
             File.Delete(adsPath)
         End Sub
+
+        Private Sub refreshTimer_Elapsed(ByVal sender As Object, ByVal e As System.Timers.ElapsedEventArgs) Handles refreshTimer.Elapsed
+            Me.Visible = False
+            Me.Refresh()
+            Me.Visible = True
+        End Sub
+
     End Class
 End Namespace

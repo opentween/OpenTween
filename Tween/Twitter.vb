@@ -3687,7 +3687,13 @@ Public Class Twitter
                     twCon.RequestAbort()
                     If sr IsNot Nothing Then sr.Close()
                     If st IsNot Nothing Then st.Close()
-                    If sleepSec > 0 AndAlso Me._streamActive Then Thread.Sleep(sleepSec * 1000)
+                    If sleepSec > 0 Then
+                        Dim ms As Integer = 0
+                        Do While _streamActive AndAlso ms < sleepSec * 1000
+                            Thread.Sleep(500)
+                            ms += 500
+                        Loop
+                    End If
                     sleepSec = 0
                 End Try
             Loop While Me._streamActive
