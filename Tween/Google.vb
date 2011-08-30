@@ -350,8 +350,8 @@ Public Class Google
 
         Private Sub SendRequest(ByVal info As Dictionary(Of String, String), ByVal userId As Long)
 #If UA <> "True" Then
-            exit sub
-#End If
+            Exit Sub
+#Else
             If userId = 0 Then Exit Sub
             If Me._SessionFirst = 0 Then Me.Init()
 
@@ -413,6 +413,8 @@ Public Class Google
             End If
 
             Me.GetAsync(params, New Uri(GA_GIF_URL))
+
+#End If
         End Sub
 
         Private Sub GetAsync(ByVal params As Dictionary(Of String, String), ByVal url As Uri)
