@@ -349,6 +349,9 @@ Public Class Google
         End Sub
 
         Private Sub SendRequest(ByVal info As Dictionary(Of String, String), ByVal userId As Long)
+#If UA <> "True" Then
+            exit sub
+#End If
             If userId = 0 Then Exit Sub
             If Me._SessionFirst = 0 Then Me.Init()
 

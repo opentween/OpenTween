@@ -185,9 +185,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Valid
                 _uname = Username.ToLower
                 If AppendSettingDialog.Instance.UserstreamStartup Then Me.ReconnectUserStream()
-#If UA = "True" Then
-        Google.GASender.GetInstance().TrackEventWithCategory("post", "authenticate",me.userid)
-#End If
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "authenticate", Me.UserId)
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
@@ -414,9 +412,7 @@ Public Class Twitter
             Return SendDirectMessage(postStr)
         End If
 
-#If UA = "True" Then
         Google.GASender.GetInstance().TrackEventWithCategory("post", "status", Me.UserId)
-#End If
 
         Dim res As HttpStatusCode
         Dim content As String = ""
@@ -498,9 +494,7 @@ Public Class Twitter
 
         postStr = postStr.Trim()
 
-#If UA = "True" Then
         Google.GASender.GetInstance().TrackEventWithCategory("post", "status_with_media", Me.UserId)
-#End If
 
         Dim res As HttpStatusCode
         Dim content As String = ""
@@ -581,9 +575,7 @@ Public Class Twitter
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
         If Not TwitterApiInfo.IsDirectMessagePermission Then Return "Auth Err:try to re-authorization."
 
-#If UA = "True" Then
         Google.GASender.GetInstance().TrackEventWithCategory("post", "direct_message", Me.UserId)
-#End If
 
         postStr = postStr.Trim()
 
@@ -662,9 +654,7 @@ Public Class Twitter
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
-#If UA = "True" Then
         Google.GASender.GetInstance().TrackEventWithCategory("post", "destroy", Me.UserId)
-#End If
         Dim res As HttpStatusCode
 
         Try
@@ -698,9 +688,7 @@ Public Class Twitter
             target = TabInformations.GetInstance.Item(id).RetweetedId '再RTの場合は元発言をRT
         End If
 
-#If UA = "True" Then
         Google.GASender.GetInstance().TrackEventWithCategory("post", "retweet", Me.UserId)
-#End If
         Dim res As HttpStatusCode
         Dim content As String = ""
         Try
@@ -760,9 +748,7 @@ Public Class Twitter
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
         If Not TwitterApiInfo.IsDirectMessagePermission Then Return "Auth Err:try to re-authorization."
 
-#If UA = "True" Then
         Google.GASender.GetInstance().TrackEventWithCategory("post", "destroy_direct_message", Me.UserId)
-#End If
         Dim res As HttpStatusCode
 
         'If post.IsMe Then
@@ -794,9 +780,7 @@ Public Class Twitter
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
-#If UA = "True" Then
         Google.GASender.GetInstance().TrackEventWithCategory("post", "follow", Me.UserId)
-#End If
         Dim res As HttpStatusCode
         Dim content As String = ""
 
@@ -831,9 +815,7 @@ Public Class Twitter
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
-#If UA = "True" Then
         Google.GASender.GetInstance().TrackEventWithCategory("post", "destroy_friendships", Me.UserId)
-#End If
         Dim res As HttpStatusCode
         Dim content As String = ""
 
@@ -868,9 +850,7 @@ Public Class Twitter
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
-#If UA = "True" Then
         Google.GASender.GetInstance().TrackEventWithCategory("post", "block", Me.UserId)
-#End If
         Dim res As HttpStatusCode
         Dim content As String = ""
 
@@ -905,9 +885,7 @@ Public Class Twitter
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
-#If UA = "True" Then
         Google.GASender.GetInstance().TrackEventWithCategory("post", "destroy_block", Me.UserId)
-#End If
         Dim res As HttpStatusCode
         Dim content As String = ""
 
@@ -942,9 +920,7 @@ Public Class Twitter
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
-#If UA = "True" Then
         Google.GASender.GetInstance().TrackEventWithCategory("post", "spam", Me.UserId)
-#End If
         Dim res As HttpStatusCode
         Dim content As String = ""
 
@@ -979,9 +955,7 @@ Public Class Twitter
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
-#If UA = "True" Then
         Google.GASender.GetInstance().TrackPage("/friendships", Me.UserId)
-#End If
         Dim res As HttpStatusCode
         Dim content As String = ""
         Try
@@ -1020,9 +994,7 @@ Public Class Twitter
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
-#If UA = "True" Then
         Google.GASender.GetInstance().TrackPage("/showuser", Me.UserId)
-#End If
         Dim res As HttpStatusCode
         Dim content As String = ""
         user = Nothing
@@ -1066,9 +1038,7 @@ Public Class Twitter
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
-#If UA = "True" Then
         Google.GASender.GetInstance().TrackPage("/retweet_count", Me.UserId)
-#End If
         Dim res As HttpStatusCode
         Dim content As String = ""
         Dim xmlBuf As String = ""
@@ -1119,9 +1089,7 @@ Public Class Twitter
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
-#If UA = "True" Then
         Google.GASender.GetInstance().TrackEventWithCategory("post", "favorites", Me.UserId)
-#End If
         Dim res As HttpStatusCode
         Dim content As String = ""
         Try
@@ -1192,9 +1160,7 @@ Public Class Twitter
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
-#If UA = "True" Then
         Google.GASender.GetInstance().TrackEventWithCategory("post", "destroy_favorites", Me.UserId)
-#End If
         Dim res As HttpStatusCode
         Dim content As String = ""
         Try
@@ -1227,9 +1193,7 @@ Public Class Twitter
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
-#If UA = "True" Then
         Google.GASender.GetInstance().TrackEventWithCategory("post", "update_profile", Me.UserId)
-#End If
         Dim res As HttpStatusCode
         Dim content As String = ""
         Try
@@ -1262,9 +1226,7 @@ Public Class Twitter
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
-#If UA = "True" Then
         Google.GASender.GetInstance().TrackEventWithCategory("post", "update_profile_image", Me.UserId)
-#End If
         Dim res As HttpStatusCode
         Dim content As String = ""
         Try
@@ -1354,9 +1316,7 @@ Public Class Twitter
     End Function
 
     Public Function GetTweenBinary(ByVal strVer As String) As String
-#If UA = "True" Then
         Google.GASender.GetInstance().TrackPage("/newversion", Me.UserId)
-#End If
         Try
             '本体
             If Not (New HttpVarious).GetDataToFile("http://tween.sourceforge.jp/Tween" + strVer + ".gz?" + Now.ToString("yyMMddHHmmss") + Environment.TickCount.ToString(), _
@@ -1620,9 +1580,7 @@ Public Class Twitter
 
         If _endingFlag Then Return ""
 
-#If UA = "True" Then
         Google.GASender.GetInstance().TrackPage("/showstatus", Me.UserId)
-#End If
         Dim res As HttpStatusCode
         Dim content As String = ""
 
@@ -1913,9 +1871,7 @@ Public Class Twitter
     End Function
 
     Public Function GetRelatedResult(ByVal read As Boolean, ByVal tab As TabClass) As String
-#If UA = "True" Then
         Google.GASender.GetInstance().TrackPage("/related_statuses", Me.UserId)
-#End If
         Dim rslt As String = ""
         Dim relPosts As New List(Of PostClass)
         If tab.RelationTargetPost.TextFromApi.Contains("@") AndAlso tab.RelationTargetPost.InReplyToStatusId = 0 Then
@@ -2782,9 +2738,7 @@ Public Class Twitter
         Dim res As HttpStatusCode
         Dim content As String = ""
 
-#If UA = "True" Then
         Google.GASender.GetInstance().TrackEventWithCategory("post", "destroy_list", Me.UserId)
-#End If
         Try
             res = twCon.DeleteListID(Me.Username, list_id, content)
         Catch ex As Exception
@@ -2807,9 +2761,7 @@ Public Class Twitter
     End Function
 
     Public Function EditList(ByVal list_id As String, ByVal new_name As String, ByVal isPrivate As Boolean, ByVal description As String, ByRef list As ListElement) As String
-#If UA = "True" Then
         Google.GASender.GetInstance().TrackEventWithCategory("get", "update_list", Me.UserId)
-#End If
         Dim res As HttpStatusCode
         Dim content As String = ""
 
@@ -2903,9 +2855,7 @@ Public Class Twitter
     Public Function CreateListApi(ByVal listName As String, ByVal isPrivate As Boolean, ByVal description As String) As String
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
-#If UA = "True" Then
         Google.GASender.GetInstance().TrackEventWithCategory("post", "create_list", Me.UserId)
-#End If
         Dim res As HttpStatusCode
         Dim content As String = ""
 
@@ -2983,9 +2933,7 @@ Public Class Twitter
         Dim content As String = ""
         Dim res As HttpStatusCode
 
-#If UA = "True" Then
         Google.GASender.GetInstance().TrackEventWithCategory("post", "add_user_to_list", Me.UserId)
-#End If
         Try
             res = twCon.CreateListMembers(listId, user, content)
         Catch ex As Exception
@@ -3008,9 +2956,7 @@ Public Class Twitter
     End Function
 
     Public Function RemoveUserToList(ByVal listId As String, ByVal user As String) As String
-#If UA = "True" Then
         Google.GASender.GetInstance().TrackEventWithCategory("post", "remove_user_from_list", Me.UserId)
-#End If
 
         Dim content As String = ""
         Dim res As HttpStatusCode
@@ -3583,9 +3529,7 @@ Public Class Twitter
     End Sub
 
     Private Sub userStream_Started() Handles userStream.Started
-#If UA = "True" Then
         Google.GASender.GetInstance().TrackPage("/userstream", Me.UserId)
-#End If
         RaiseEvent UserStreamStarted()
     End Sub
 

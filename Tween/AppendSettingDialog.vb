@@ -198,7 +198,7 @@ Public Class AppendSettingDialog
         Else
             _ValidationError = False
         End If
-
+#If UA = "True" Then
         'フォロー
         If Me.FollowCheckBox.Checked Then
             '現在の設定内容で通信
@@ -218,7 +218,7 @@ Public Class AppendSettingDialog
 
             Dim ret As String = tw.PostFollowCommand("TweenApp")
         End If
-
+#End If
         Dim arg As New IntervalChangedEventArgs
         Dim isIntervalChanged As Boolean = False
 
