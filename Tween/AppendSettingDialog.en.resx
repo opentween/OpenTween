@@ -167,8 +167,8 @@
         AQgICAIAAAAGCAAAAAVMaXN0cwYJAAAADFR3ZWV0UHJ2Tm9kZQD/////CQUAAAD/////CQUAAAAAAAAA
         BQcAAAAdU3lzdGVtLldpbmRvd3MuRm9ybXMuVHJlZU5vZGUIAAAABFRleHQETmFtZQlJc0NoZWNrZWQK
         SW1hZ2VJbmRleAhJbWFnZUtleRJTZWxlY3RlZEltYWdlSW5kZXgQU2VsZWN0ZWRJbWFnZUtleQpDaGls
-        ZENvdW50AQEAAAEAAQABCAgIAgAAAAYLAAAADEV2ZW50c05vdGlmeQYMAAAACk5vdGlmeU5vZGUA////
-        /wkFAAAA/////wkFAAAAAAAAAAs=
+        ZENvdW50AQEAAAEAAQABCAgIAgAAAAYLAAAAEkV2ZW50IE5vdGlmaWNhdGlvbgYMAAAACk5vdGlmeU5v
+        ZGUA/////wkFAAAA/////wkFAAAAAAAAAAs=
 </value>
   </data>
   <data name="TreeViewSetting.Nodes3" mimetype="application/x-microsoft.net.object.binary.base64">
@@ -213,294 +213,116 @@
   <data name="SplitContainer1.Panel1.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="UserstreamPeriod.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="Label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>187, 12</value>
+  <data name="IsListsIncludeRtsCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>127, 16</value>
   </data>
-  <data name="Label1.Text" xml:space="preserve">
-    <value>User Streams refresh Interval (sec)</value>
+  <data name="IsListsIncludeRtsCheckBox.Text" xml:space="preserve">
+    <value>Include RTs in Lists</value>
   </data>
-  <data name="Label1.ToolTip" xml:space="preserve">
+  <data name="IsListsIncludeRtsCheckBox.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="LabelApiUsingUserStreamEnabled.ToolTip" xml:space="preserve">
+  <data name="HideDuplicatedRetweetsCheck.Size" type="System.Drawing.Size, System.Drawing">
+    <value>151, 16</value>
+  </data>
+  <data name="HideDuplicatedRetweetsCheck.Text" xml:space="preserve">
+    <value>Hide duplicated retweets</value>
+  </data>
+  <data name="HideDuplicatedRetweetsCheck.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="LabelUserStreamActive.Size" type="System.Drawing.Size, System.Drawing">
-    <value>395, 24</value>
+  <data name="Label47.Size" type="System.Drawing.Size, System.Drawing">
+    <value>115, 12</value>
   </data>
-  <data name="LabelUserStreamActive.Text" xml:space="preserve">
-    <value>UserStream is enable.
-Periodic fetching, Timeline/Mentions/DM, and Post&amp;Fetch function is disable.</value>
+  <data name="Label47.Text" xml:space="preserve">
+    <value>Apply after restarting</value>
   </data>
-  <data name="LabelUserStreamActive.ToolTip" xml:space="preserve">
+  <data name="Label47.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="Label21.Text" xml:space="preserve">
-    <value>UserTimeline Interval (sec)</value>
-  </data>
-  <data name="Label21.ToolTip" xml:space="preserve">
+  <data name="LabelDateTimeFormatApplied.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="UserTimelinePeriod.ToolTip" xml:space="preserve">
+  <data name="Label62.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="TimelinePeriod.ToolTip" xml:space="preserve">
+  <data name="CmbDateTimeFormat.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="Label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 12</value>
+  <data name="Label23.Size" type="System.Drawing.Size, System.Drawing">
+    <value>105, 12</value>
   </data>
-  <data name="Label3.Text" xml:space="preserve">
-    <value>Timeline Fetching Interval (sec.)</value>
+  <data name="Label23.Text" xml:space="preserve">
+    <value>Date Format in List</value>
   </data>
-  <data name="Label3.ToolTip" xml:space="preserve">
+  <data name="Label23.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="ButtonApiCalc.Text" xml:space="preserve">
-    <value>Recalculation</value>
+  <data name="Label11.Size" type="System.Drawing.Size, System.Drawing">
+    <value>162, 12</value>
   </data>
-  <data name="ButtonApiCalc.ToolTip" xml:space="preserve">
+  <data name="Label11.Text" xml:space="preserve">
+    <value>Icon size in List (16 in default)</value>
+  </data>
+  <data name="Label11.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="LabelPostAndGet.Size" type="System.Drawing.Size, System.Drawing">
-    <value>358, 12</value>
+  <data name="IconSize.Items" xml:space="preserve">
+    <value>None</value>
   </data>
-  <data name="LabelPostAndGet.Text" xml:space="preserve">
-    <value>Because "Post &amp;&amp; fetch" is enabled, the API for each post consumed.</value>
-  </data>
-  <data name="LabelPostAndGet.ToolTip" xml:space="preserve">
+  <data name="IconSize.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="LabelApiUsing.ToolTip" xml:space="preserve">
+  <data name="TextBox3.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="Label33.Size" type="System.Drawing.Size, System.Drawing">
-    <value>150, 12</value>
+  <data name="CheckSortOrderLock.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 16</value>
   </data>
-  <data name="Label33.Text" xml:space="preserve">
-    <value>Lists Fetching Interval (sec)</value>
+  <data name="CheckSortOrderLock.Text" xml:space="preserve">
+    <value>Lock sort order</value>
   </data>
-  <data name="Label33.ToolTip" xml:space="preserve">
+  <data name="CheckSortOrderLock.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="ListsPeriod.ToolTip" xml:space="preserve">
+  <data name="CheckShowGrid.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 16</value>
+  </data>
+  <data name="CheckShowGrid.Text" xml:space="preserve">
+    <value>Show separator line</value>
+  </data>
+  <data name="CheckShowGrid.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="Label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 12</value>
+  <data name="chkUnreadStyle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>393, 16</value>
   </data>
-  <data name="Label7.Text" xml:space="preserve">
-    <value>Public Search Interval (sec.)</value>
+  <data name="chkUnreadStyle.Text" xml:space="preserve">
+    <value>Enable unread style(font and color). (Unread can be found by star mark)</value>
   </data>
-  <data name="Label7.ToolTip" xml:space="preserve">
+  <data name="chkUnreadStyle.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="PubSearchPeriod.ToolTip" xml:space="preserve">
+  <data name="OneWayLv.Size" type="System.Drawing.Size, System.Drawing">
+    <value>379, 16</value>
+  </data>
+  <data name="OneWayLv.Text" xml:space="preserve">
+    <value>Colorize one way love user's tweets (following and not followed user)</value>
+  </data>
+  <data name="OneWayLv.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="Label69.Size" type="System.Drawing.Size, System.Drawing">
-    <value>156, 12</value>
-  </data>
-  <data name="Label69.Text" xml:space="preserve">
-    <value>Reply Fetching Interval (sec.)</value>
-  </data>
-  <data name="Label69.ToolTip" xml:space="preserve">
+  <data name="TweetPrvPanel.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="ReplyPeriod.ToolTip" xml:space="preserve">
-    <value />
+  <data name="ShortenTcoCheck.Size" type="System.Drawing.Size, System.Drawing">
+    <value>91, 16</value>
   </data>
-  <data name="CheckPostAndGet.Size" type="System.Drawing.Size, System.Drawing">
-    <value>88, 16</value>
+  <data name="ShortenTcoCheck.Text" xml:space="preserve">
+    <value>t.co wrapping</value>
   </data>
-  <data name="CheckPostAndGet.Text" xml:space="preserve">
-    <value>Post &amp;&amp; fetch</value>
-  </data>
-  <data name="CheckPostAndGet.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckPeriodAdjust.Size" type="System.Drawing.Size, System.Drawing">
-    <value>150, 16</value>
-  </data>
-  <data name="CheckPeriodAdjust.Text" xml:space="preserve">
-    <value>Enable Auto-Adjustment</value>
-  </data>
-  <data name="CheckPeriodAdjust.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 12</value>
-  </data>
-  <data name="Label5.Text" xml:space="preserve">
-    <value>DM Fetching Interval (sec.)</value>
-  </data>
-  <data name="Label5.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="DMPeriod.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="StartupUserstreamCheck.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 16</value>
-  </data>
-  <data name="StartupUserstreamCheck.Text" xml:space="preserve">
-    <value>Auto connect at starting</value>
-  </data>
-  <data name="StartupUserstreamCheck.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="GetPeriodPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="StartAuthButton.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="AuthClearButton.Text" xml:space="preserve">
-    <value>Clear</value>
-  </data>
-  <data name="AuthClearButton.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="AuthUserLabel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="AuthStateLabel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 12</value>
-  </data>
-  <data name="Label4.Text" xml:space="preserve">
-    <value>Auth status</value>
-  </data>
-  <data name="Label4.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="AuthorizeButton.Text" xml:space="preserve">
-    <value>Auth</value>
-  </data>
-  <data name="AuthorizeButton.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 12</value>
-  </data>
-  <data name="Label2.Text" xml:space="preserve">
-    <value>Password</value>
-  </data>
-  <data name="Label2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Username.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Password.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="BasedPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="IsPreviewFoursquareCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>239, 16</value>
-  </data>
-  <data name="IsPreviewFoursquareCheckBox.Text" xml:space="preserve">
-    <value>Get map thumbnails from Foursquare urls.</value>
-  </data>
-  <data name="IsPreviewFoursquareCheckBox.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label42.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="FoursquarePreviewWidthTextBox.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="FoursquarePreviewZoomTextBox.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="FoursquarePreviewHeightTextBox.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label41.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label40.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="FoursquareGroupBox.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label39.Size" type="System.Drawing.Size, System.Drawing">
-    <value>299, 12</value>
-  </data>
-  <data name="Label39.Text" xml:space="preserve">
-    <value>Your appoint URL(Replace "{ID}" to tweet's ScreenName)</value>
-  </data>
-  <data name="Label39.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="UserAppointUrlText.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ComboBoxTranslateLanguage.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label29.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 12</value>
-  </data>
-  <data name="Label29.Text" xml:space="preserve">
-    <value>Language at translation destination</value>
-  </data>
-  <data name="Label29.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckOutputz.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 16</value>
-  </data>
-  <data name="CheckOutputz.Text" xml:space="preserve">
-    <value>Use Outputz</value>
-  </data>
-  <data name="CheckOutputz.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckNicoms.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 16</value>
-  </data>
-  <data name="CheckNicoms.Text" xml:space="preserve">
-    <value>Shorten nicovideo urls by nico.ms</value>
-  </data>
-  <data name="CheckNicoms.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="TextBoxOutputzKey.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label60.Size" type="System.Drawing.Size, System.Drawing">
-    <value>107, 12</value>
-  </data>
-  <data name="Label60.Text" xml:space="preserve">
-    <value>URI of your Outputz</value>
-  </data>
-  <data name="Label60.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label59.Size" type="System.Drawing.Size, System.Drawing">
-    <value>86, 12</value>
-  </data>
-  <data name="Label59.Text" xml:space="preserve">
-    <value>Your secret key</value>
-  </data>
-  <data name="Label59.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ComboBoxOutputzUrlmode.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CooperatePanel.ToolTip" xml:space="preserve">
+  <data name="ShortenTcoCheck.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="CheckForceResolve.Size" type="System.Drawing.Size, System.Drawing">
@@ -557,136 +379,229 @@ Periodic fetching, Timeline/Mentions/DM, and Post&amp;Fetch function is disable.
   <data name="ShortUrlPanel.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="Label55.Size" type="System.Drawing.Size, System.Drawing">
-    <value>320, 12</value>
+  <data name="Label1.Text" xml:space="preserve">
+    <value>We recommend to follow @TweenApp.</value>
   </data>
-  <data name="Label55.Text" xml:space="preserve">
-    <value>Keep credential empty if the proxy server don't need to log in</value>
-  </data>
-  <data name="Label55.ToolTip" xml:space="preserve">
+  <data name="Label1.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="TextProxyPassword.ToolTip" xml:space="preserve">
+  <data name="EmailText.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="RadioProxyNone.Size" type="System.Drawing.Size, System.Drawing">
-    <value>73, 16</value>
-  </data>
-  <data name="RadioProxyNone.Text" xml:space="preserve">
-    <value>Don't Use</value>
-  </data>
-  <data name="RadioProxyNone.ToolTip" xml:space="preserve">
+  <data name="Label6.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="LabelProxyPassword.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 12</value>
+  <data name="FollowCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>122, 16</value>
   </data>
-  <data name="LabelProxyPassword.Text" xml:space="preserve">
-    <value>Pass&amp;word</value>
+  <data name="FollowCheckBox.Text" xml:space="preserve">
+    <value>Follow @TweenApp</value>
   </data>
-  <data name="LabelProxyPassword.ToolTip" xml:space="preserve">
+  <data name="FollowCheckBox.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="RadioProxyIE.Size" type="System.Drawing.Size, System.Drawing">
-    <value>200, 16</value>
+  <data name="Label43.Text" xml:space="preserve">
+    <value>This account will accept, and answer demanding and inquiring besides the upgrade and useful information are passed on.</value>
   </data>
-  <data name="RadioProxyIE.Text" xml:space="preserve">
-    <value>Refer Settings of Internet Explorer</value>
-  </data>
-  <data name="RadioProxyIE.ToolTip" xml:space="preserve">
+  <data name="Label43.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="TextProxyUser.ToolTip" xml:space="preserve">
+  <data name="GroupBox2.Text" xml:space="preserve">
+    <value>Tween support</value>
+  </data>
+  <data name="GroupBox2.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="RadioProxySpecified.Size" type="System.Drawing.Size, System.Drawing">
-    <value>80, 16</value>
+  <data name="CreateAccountButton.Text" xml:space="preserve">
+    <value>Sign up for Twitter account</value>
   </data>
-  <data name="RadioProxySpecified.Text" xml:space="preserve">
-    <value>Use Below:</value>
-  </data>
-  <data name="RadioProxySpecified.ToolTip" xml:space="preserve">
+  <data name="CreateAccountButton.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="LabelProxyUser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 12</value>
+  <data name="StartAuthButton.Text" xml:space="preserve">
+    <value>Start Authentiation</value>
   </data>
-  <data name="LabelProxyUser.Text" xml:space="preserve">
-    <value>&amp;Username</value>
-  </data>
-  <data name="LabelProxyUser.ToolTip" xml:space="preserve">
+  <data name="StartAuthButton.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="LabelProxyAddress.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 12</value>
+  <data name="AuthClearButton.Text" xml:space="preserve">
+    <value>Clear</value>
   </data>
-  <data name="LabelProxyAddress.Text" xml:space="preserve">
-    <value>Pro&amp;xy Host</value>
-  </data>
-  <data name="LabelProxyAddress.ToolTip" xml:space="preserve">
+  <data name="AuthClearButton.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="TextProxyPort.ToolTip" xml:space="preserve">
+  <data name="AuthUserLabel.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="TextProxyAddress.ToolTip" xml:space="preserve">
+  <data name="AuthStateLabel.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="LabelProxyPort.Size" type="System.Drawing.Size, System.Drawing">
-    <value>26, 12</value>
+  <data name="Label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>65, 12</value>
   </data>
-  <data name="LabelProxyPort.Text" xml:space="preserve">
-    <value>&amp;Port</value>
+  <data name="Label4.Text" xml:space="preserve">
+    <value>Auth status</value>
   </data>
-  <data name="LabelProxyPort.ToolTip" xml:space="preserve">
+  <data name="Label4.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="ProxyPanel.ToolTip" xml:space="preserve">
+  <data name="BasedPanel.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="TwitterSearchAPIText.ToolTip" xml:space="preserve">
+  <data name="btnRetweet.Text" xml:space="preserve">
+    <value>Fore...</value>
+  </data>
+  <data name="btnRetweet.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="Label31.ToolTip" xml:space="preserve">
+  <data name="lblRetweet.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="TwitterAPIText.ToolTip" xml:space="preserve">
+  <data name="Label80.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="Label8.ToolTip" xml:space="preserve">
+  <data name="ButtonBackToDefaultFontColor.Size" type="System.Drawing.Size, System.Drawing">
+    <value>96, 22</value>
+  </data>
+  <data name="ButtonBackToDefaultFontColor.Text" xml:space="preserve">
+    <value>Back to Default</value>
+  </data>
+  <data name="ButtonBackToDefaultFontColor.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="CheckUseSsl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>130, 16</value>
+  <data name="btnDetailLink.Text" xml:space="preserve">
+    <value>Fore...</value>
   </data>
-  <data name="CheckUseSsl.Text" xml:space="preserve">
-    <value>Use HTTPS Protocol</value>
-  </data>
-  <data name="CheckUseSsl.ToolTip" xml:space="preserve">
+  <data name="btnDetailLink.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="Label64.Size" type="System.Drawing.Size, System.Drawing">
-    <value>371, 12</value>
-  </data>
-  <data name="Label64.Text" xml:space="preserve">
-    <value>※Adjust Connection timeout if the error of timeout happens frequently.</value>
-  </data>
-  <data name="Label64.ToolTip" xml:space="preserve">
+  <data name="lblDetailLink.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="ConnectionTimeOut.ToolTip" xml:space="preserve">
+  <data name="Label18.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 12</value>
+  </data>
+  <data name="Label18.Text" xml:space="preserve">
+    <value>Details of Tweet(Link)</value>
+  </data>
+  <data name="Label18.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="Label63.Size" type="System.Drawing.Size, System.Drawing">
-    <value>130, 12</value>
+  <data name="btnUnread.Text" xml:space="preserve">
+    <value>Font&amp;&amp;Fore...</value>
   </data>
-  <data name="Label63.Text" xml:space="preserve">
-    <value>Connection timeout(sec)</value>
-  </data>
-  <data name="Label63.ToolTip" xml:space="preserve">
+  <data name="btnUnread.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="ConnectionPanel.ToolTip" xml:space="preserve">
+  <data name="lblUnread.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label20.Size" type="System.Drawing.Size, System.Drawing">
+    <value>76, 12</value>
+  </data>
+  <data name="Label20.Text" xml:space="preserve">
+    <value>Unread Tweet</value>
+  </data>
+  <data name="Label20.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnDetailBack.Text" xml:space="preserve">
+    <value>Back...</value>
+  </data>
+  <data name="btnDetailBack.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="lblDetailBackcolor.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label37.Size" type="System.Drawing.Size, System.Drawing">
+    <value>110, 12</value>
+  </data>
+  <data name="Label37.Text" xml:space="preserve">
+    <value>Backcolor of Details</value>
+  </data>
+  <data name="Label37.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnDetail.Text" xml:space="preserve">
+    <value>Font&amp;&amp;Fore...</value>
+  </data>
+  <data name="btnDetail.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="lblDetail.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label26.Size" type="System.Drawing.Size, System.Drawing">
+    <value>90, 12</value>
+  </data>
+  <data name="Label26.Text" xml:space="preserve">
+    <value>Details of Tweet</value>
+  </data>
+  <data name="Label26.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnOWL.Text" xml:space="preserve">
+    <value>Fore...</value>
+  </data>
+  <data name="btnOWL.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="lblOWL.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label24.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 12</value>
+  </data>
+  <data name="Label24.Text" xml:space="preserve">
+    <value>One-way following</value>
+  </data>
+  <data name="Label24.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnFav.Text" xml:space="preserve">
+    <value>Fore...</value>
+  </data>
+  <data name="btnFav.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="lblFav.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label22.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 12</value>
+  </data>
+  <data name="Label22.Text" xml:space="preserve">
+    <value>Favorited</value>
+  </data>
+  <data name="Label22.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnListFont.Text" xml:space="preserve">
+    <value>Font&amp;&amp;Fore...</value>
+  </data>
+  <data name="btnListFont.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="lblListFont.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label61.Size" type="System.Drawing.Size, System.Drawing">
+    <value>94, 12</value>
+  </data>
+  <data name="Label61.Text" xml:space="preserve">
+    <value>Font of tweet list</value>
+  </data>
+  <data name="Label61.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="GroupBox1.Text" xml:space="preserve">
+    <value>Font &amp;&amp; Color</value>
+  </data>
+  <data name="GroupBox1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FontPanel.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="Label65.Size" type="System.Drawing.Size, System.Drawing">
@@ -869,108 +784,6 @@ Periodic fetching, Timeline/Mentions/DM, and Post&amp;Fetch function is disable.
   <data name="FontPanel2.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="CheckHashSupple.Size" type="System.Drawing.Size, System.Drawing">
-    <value>213, 16</value>
-  </data>
-  <data name="CheckHashSupple.Text" xml:space="preserve">
-    <value>Use Hashtag supplementary function</value>
-  </data>
-  <data name="CheckHashSupple.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckAtIdSupple.Size" type="System.Drawing.Size, System.Drawing">
-    <value>188, 16</value>
-  </data>
-  <data name="CheckAtIdSupple.Text" xml:space="preserve">
-    <value>Use @id supplementary function</value>
-  </data>
-  <data name="CheckAtIdSupple.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ComboBoxPostKeySelect.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label27.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 12</value>
-  </data>
-  <data name="Label27.Text" xml:space="preserve">
-    <value>Post key</value>
-  </data>
-  <data name="Label27.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckRetweetNoConfirm.Size" type="System.Drawing.Size, System.Drawing">
-    <value>239, 16</value>
-  </data>
-  <data name="CheckRetweetNoConfirm.Text" xml:space="preserve">
-    <value>Bypass confirm dialog at posting Retweet</value>
-  </data>
-  <data name="CheckRetweetNoConfirm.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>38, 12</value>
-  </data>
-  <data name="Label12.Text" xml:space="preserve">
-    <value>Footer</value>
-  </data>
-  <data name="Label12.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckUseRecommendStatus.Size" type="System.Drawing.Size, System.Drawing">
-    <value>151, 16</value>
-  </data>
-  <data name="CheckUseRecommendStatus.Text" xml:space="preserve">
-    <value>Use Default [TWNvNNN]</value>
-  </data>
-  <data name="CheckUseRecommendStatus.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="StatusText.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="TweetActPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="StartupReaded.Size" type="System.Drawing.Size, System.Drawing">
-    <value>81, 16</value>
-  </data>
-  <data name="StartupReaded.Text" xml:space="preserve">
-    <value>Make Read</value>
-  </data>
-  <data name="StartupReaded.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckStartupFollowers.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 16</value>
-  </data>
-  <data name="CheckStartupFollowers.Text" xml:space="preserve">
-    <value>Fetch followers list</value>
-  </data>
-  <data name="CheckStartupFollowers.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckStartupVersion.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 16</value>
-  </data>
-  <data name="CheckStartupVersion.Text" xml:space="preserve">
-    <value>Check new version</value>
-  </data>
-  <data name="CheckStartupVersion.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="chkGetFav.Size" type="System.Drawing.Size, System.Drawing">
-    <value>105, 16</value>
-  </data>
-  <data name="chkGetFav.Text" xml:space="preserve">
-    <value>Fetch Favorites</value>
-  </data>
-  <data name="chkGetFav.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="StartupPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="ListTextCountApi.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -1053,10 +866,10 @@ Periodic fetching, Timeline/Mentions/DM, and Post&amp;Fetch function is disable.
     <value />
   </data>
   <data name="UseChangeGetCount.Size" type="System.Drawing.Size, System.Drawing">
-    <value>243, 16</value>
+    <value>233, 16</value>
   </data>
   <data name="UseChangeGetCount.Text" xml:space="preserve">
-    <value>Enable to edit 'Count' parameters as below</value>
+    <value>Enable to edit fetching number of tweets</value>
   </data>
   <data name="UseChangeGetCount.ToolTip" xml:space="preserve">
     <value />
@@ -1065,10 +878,10 @@ Periodic fetching, Timeline/Mentions/DM, and Post&amp;Fetch function is disable.
     <value />
   </data>
   <data name="Label67.Size" type="System.Drawing.Size, System.Drawing">
-    <value>192, 12</value>
+    <value>199, 12</value>
   </data>
   <data name="Label67.Text" xml:space="preserve">
-    <value>Getting number of tweets in timeline</value>
+    <value>Fetching number of tweets in timeline</value>
   </data>
   <data name="Label67.ToolTip" xml:space="preserve">
     <value />
@@ -1079,14 +892,53 @@ Periodic fetching, Timeline/Mentions/DM, and Post&amp;Fetch function is disable.
   <data name="GetCountPanel.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="StartupReaded.Size" type="System.Drawing.Size, System.Drawing">
+    <value>91, 16</value>
+  </data>
+  <data name="StartupReaded.Text" xml:space="preserve">
+    <value>Mark as read</value>
+  </data>
+  <data name="StartupReaded.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckStartupFollowers.Size" type="System.Drawing.Size, System.Drawing">
+    <value>123, 16</value>
+  </data>
+  <data name="CheckStartupFollowers.Text" xml:space="preserve">
+    <value>Fetch followers list</value>
+  </data>
+  <data name="CheckStartupFollowers.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckStartupVersion.Size" type="System.Drawing.Size, System.Drawing">
+    <value>121, 16</value>
+  </data>
+  <data name="CheckStartupVersion.Text" xml:space="preserve">
+    <value>Check new version</value>
+  </data>
+  <data name="CheckStartupVersion.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="chkGetFav.Size" type="System.Drawing.Size, System.Drawing">
+    <value>105, 16</value>
+  </data>
+  <data name="chkGetFav.Text" xml:space="preserve">
+    <value>Fetch Favorites</value>
+  </data>
+  <data name="chkGetFav.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="StartupPanel.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="Label38.Location" type="System.Drawing.Point, System.Drawing">
     <value>20, 282</value>
   </data>
   <data name="Label38.Size" type="System.Drawing.Size, System.Drawing">
-    <value>173, 12</value>
+    <value>183, 12</value>
   </data>
   <data name="Label38.Text" xml:space="preserve">
-    <value>Behavier on doubleclick of tweet</value>
+    <value>Behavier when doubleclick a tweet</value>
   </data>
   <data name="Label38.ToolTip" xml:space="preserve">
     <value />
@@ -1195,10 +1047,10 @@ Periodic fetching, Timeline/Mentions/DM, and Post&amp;Fetch function is disable.
     <value />
   </data>
   <data name="chkReadOwnPost.Size" type="System.Drawing.Size, System.Drawing">
-    <value>133, 16</value>
+    <value>155, 16</value>
   </data>
   <data name="chkReadOwnPost.Text" xml:space="preserve">
-    <value>Make read own tweet</value>
+    <value>Mark your tweets as read</value>
   </data>
   <data name="chkReadOwnPost.ToolTip" xml:space="preserve">
     <value />
@@ -1249,198 +1101,15 @@ Periodic fetching, Timeline/Mentions/DM, and Post&amp;Fetch function is disable.
     <value />
   </data>
   <data name="CheckReadOldPosts.Size" type="System.Drawing.Size, System.Drawing">
-    <value>265, 16</value>
+    <value>311, 16</value>
   </data>
   <data name="CheckReadOldPosts.Text" xml:space="preserve">
-    <value>Make read old tweets when new tweets arrived</value>
+    <value>Mark acquired tweets as  read when new tweets arrived</value>
   </data>
   <data name="CheckReadOldPosts.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="ActionPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckUserUpdateEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>85, 16</value>
-  </data>
-  <data name="CheckUserUpdateEvent.Text" xml:space="preserve">
-    <value>Bio updated</value>
-  </data>
-  <data name="Label35.Size" type="System.Drawing.Size, System.Drawing">
-    <value>132, 12</value>
-  </data>
-  <data name="Label35.Text" xml:space="preserve">
-    <value>Play sound notify events</value>
-  </data>
-  <data name="Label35.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ComboBoxEventNotifySound.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckFavEventUnread.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 16</value>
-  </data>
-  <data name="CheckFavEventUnread.Text" xml:space="preserve">
-    <value>Make to unread the post someone favorited</value>
-  </data>
-  <data name="CheckFavEventUnread.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckListCreatedEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>91, 16</value>
-  </data>
-  <data name="CheckListCreatedEvent.Text" xml:space="preserve">
-    <value>Lists created</value>
-  </data>
-  <data name="CheckBlockEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>68, 16</value>
-  </data>
-  <data name="CheckBlockEvent.Text" xml:space="preserve">
-    <value>Blocking</value>
-  </data>
-  <data name="CheckForceEventNotify.Size" type="System.Drawing.Size, System.Drawing">
-    <value>294, 16</value>
-  </data>
-  <data name="CheckForceEventNotify.Text" xml:space="preserve">
-    <value>Notify Events even if disable new post arrival notify.</value>
-  </data>
-  <data name="CheckForceEventNotify.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckListMemberRemovedEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 16</value>
-  </data>
-  <data name="CheckListMemberRemovedEvent.Text" xml:space="preserve">
-    <value>Removed from the Lists</value>
-  </data>
-  <data name="CheckListMemberAddedEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>119, 16</value>
-  </data>
-  <data name="CheckListMemberAddedEvent.Text" xml:space="preserve">
-    <value>Added to the Lists</value>
-  </data>
-  <data name="CheckFollowEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>69, 16</value>
-  </data>
-  <data name="CheckFollowEvent.Text" xml:space="preserve">
-    <value>Followed</value>
-  </data>
-  <data name="CheckUnfavoritesEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>94, 16</value>
-  </data>
-  <data name="CheckUnfavoritesEvent.Text" xml:space="preserve">
-    <value>Fav Removed</value>
-  </data>
-  <data name="CheckFavoritesEvent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>79, 16</value>
-  </data>
-  <data name="CheckFavoritesEvent.Text" xml:space="preserve">
-    <value>Fav Added</value>
-  </data>
-  <data name="CheckEventNotify.Size" type="System.Drawing.Size, System.Drawing">
-    <value>189, 16</value>
-  </data>
-  <data name="CheckEventNotify.Text" xml:space="preserve">
-    <value>Notify Events(Only UserStream)</value>
-  </data>
-  <data name="CheckEventNotify.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="NotifyPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="HideDuplicatedRetweetsCheck.Size" type="System.Drawing.Size, System.Drawing">
-    <value>151, 16</value>
-  </data>
-  <data name="HideDuplicatedRetweetsCheck.Text" xml:space="preserve">
-    <value>Hide duplicated retweets</value>
-  </data>
-  <data name="HideDuplicatedRetweetsCheck.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label47.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 12</value>
-  </data>
-  <data name="Label47.Text" xml:space="preserve">
-    <value>Apply after restarting</value>
-  </data>
-  <data name="Label47.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="LabelDateTimeFormatApplied.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label62.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CmbDateTimeFormat.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label23.Size" type="System.Drawing.Size, System.Drawing">
-    <value>105, 12</value>
-  </data>
-  <data name="Label23.Text" xml:space="preserve">
-    <value>Date Format in List</value>
-  </data>
-  <data name="Label23.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>162, 12</value>
-  </data>
-  <data name="Label11.Text" xml:space="preserve">
-    <value>Icon size in List (16 in default)</value>
-  </data>
-  <data name="Label11.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="IconSize.Items" xml:space="preserve">
-    <value>None</value>
-  </data>
-  <data name="IconSize.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="TextBox3.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckSortOrderLock.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 16</value>
-  </data>
-  <data name="CheckSortOrderLock.Text" xml:space="preserve">
-    <value>Lock sort order</value>
-  </data>
-  <data name="CheckSortOrderLock.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckShowGrid.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 16</value>
-  </data>
-  <data name="CheckShowGrid.Text" xml:space="preserve">
-    <value>Show separator line</value>
-  </data>
-  <data name="CheckShowGrid.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="chkUnreadStyle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>393, 16</value>
-  </data>
-  <data name="chkUnreadStyle.Text" xml:space="preserve">
-    <value>Enable unread style(font and color). (Unread can be found by star mark)</value>
-  </data>
-  <data name="chkUnreadStyle.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="OneWayLv.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 16</value>
-  </data>
-  <data name="OneWayLv.Text" xml:space="preserve">
-    <value>Colorize one way love</value>
-  </data>
-  <data name="OneWayLv.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="TweetPrvPanel.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="ReplyIconStateCombo.Items" xml:space="preserve">
@@ -1501,19 +1170,19 @@ Periodic fetching, Timeline/Mentions/DM, and Post&amp;Fetch function is disable.
     <value />
   </data>
   <data name="CheckAlwaysTop.Size" type="System.Drawing.Size, System.Drawing">
-    <value>110, 16</value>
+    <value>97, 16</value>
   </data>
   <data name="CheckAlwaysTop.Text" xml:space="preserve">
-    <value>Always top most</value>
+    <value>Always on top</value>
   </data>
   <data name="CheckAlwaysTop.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="CheckMonospace.Size" type="System.Drawing.Size, System.Drawing">
-    <value>177, 16</value>
+    <value>232, 16</value>
   </data>
   <data name="CheckMonospace.Text" xml:space="preserve">
-    <value>Monospace font in detail view</value>
+    <value>Use monospace font in tweet detail area</value>
   </data>
   <data name="CheckMonospace.ToolTip" xml:space="preserve">
     <value />
@@ -1605,160 +1274,530 @@ Periodic fetching, Timeline/Mentions/DM, and Post&amp;Fetch function is disable.
   <data name="PreviewPanel.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="btnRetweet.Text" xml:space="preserve">
-    <value>Fore...</value>
+  <data name="CheckUserUpdateEvent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>85, 16</value>
   </data>
-  <data name="btnRetweet.ToolTip" xml:space="preserve">
+  <data name="CheckUserUpdateEvent.Text" xml:space="preserve">
+    <value>Bio updated</value>
+  </data>
+  <data name="Label35.Size" type="System.Drawing.Size, System.Drawing">
+    <value>132, 12</value>
+  </data>
+  <data name="Label35.Text" xml:space="preserve">
+    <value>Play sound notify events</value>
+  </data>
+  <data name="Label35.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="lblRetweet.ToolTip" xml:space="preserve">
+  <data name="ComboBoxEventNotifySound.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="Label80.ToolTip" xml:space="preserve">
+  <data name="CheckFavEventUnread.Size" type="System.Drawing.Size, System.Drawing">
+    <value>190, 16</value>
+  </data>
+  <data name="CheckFavEventUnread.Text" xml:space="preserve">
+    <value>Mark favorited tweets as unread</value>
+  </data>
+  <data name="CheckFavEventUnread.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="ButtonBackToDefaultFontColor.Size" type="System.Drawing.Size, System.Drawing">
-    <value>96, 22</value>
+  <data name="CheckListCreatedEvent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>91, 16</value>
   </data>
-  <data name="ButtonBackToDefaultFontColor.Text" xml:space="preserve">
-    <value>Back to Default</value>
+  <data name="CheckListCreatedEvent.Text" xml:space="preserve">
+    <value>Lists created</value>
   </data>
-  <data name="ButtonBackToDefaultFontColor.ToolTip" xml:space="preserve">
+  <data name="CheckBlockEvent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>68, 16</value>
+  </data>
+  <data name="CheckBlockEvent.Text" xml:space="preserve">
+    <value>Blocking</value>
+  </data>
+  <data name="CheckForceEventNotify.Size" type="System.Drawing.Size, System.Drawing">
+    <value>234, 16</value>
+  </data>
+  <data name="CheckForceEventNotify.Text" xml:space="preserve">
+    <value>Notify Events even if disable alert popup</value>
+  </data>
+  <data name="CheckForceEventNotify.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="btnDetailLink.Text" xml:space="preserve">
-    <value>Fore...</value>
+  <data name="CheckListMemberRemovedEvent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 16</value>
   </data>
-  <data name="btnDetailLink.ToolTip" xml:space="preserve">
+  <data name="CheckListMemberRemovedEvent.Text" xml:space="preserve">
+    <value>Removed from the Lists</value>
+  </data>
+  <data name="CheckListMemberAddedEvent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 16</value>
+  </data>
+  <data name="CheckListMemberAddedEvent.Text" xml:space="preserve">
+    <value>Added to the Lists</value>
+  </data>
+  <data name="CheckFollowEvent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>69, 16</value>
+  </data>
+  <data name="CheckFollowEvent.Text" xml:space="preserve">
+    <value>Followed</value>
+  </data>
+  <data name="CheckUnfavoritesEvent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>94, 16</value>
+  </data>
+  <data name="CheckUnfavoritesEvent.Text" xml:space="preserve">
+    <value>Fav Removed</value>
+  </data>
+  <data name="CheckFavoritesEvent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>79, 16</value>
+  </data>
+  <data name="CheckFavoritesEvent.Text" xml:space="preserve">
+    <value>Fav Added</value>
+  </data>
+  <data name="CheckEventNotify.Size" type="System.Drawing.Size, System.Drawing">
+    <value>189, 16</value>
+  </data>
+  <data name="CheckEventNotify.Text" xml:space="preserve">
+    <value>Notify Events(Only UserStream)</value>
+  </data>
+  <data name="CheckEventNotify.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="lblDetailLink.ToolTip" xml:space="preserve">
+  <data name="NotifyPanel.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="Label18.Size" type="System.Drawing.Size, System.Drawing">
-    <value>119, 12</value>
-  </data>
-  <data name="Label18.Text" xml:space="preserve">
-    <value>Details of Tweet(Link)</value>
-  </data>
-  <data name="Label18.ToolTip" xml:space="preserve">
+  <data name="UserstreamPeriod.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="btnUnread.Text" xml:space="preserve">
-    <value>Font&amp;&amp;Fore...</value>
+  <data name="Label46.Size" type="System.Drawing.Size, System.Drawing">
+    <value>191, 12</value>
   </data>
-  <data name="btnUnread.ToolTip" xml:space="preserve">
+  <data name="Label46.Text" xml:space="preserve">
+    <value>User Streams Refresh Interval (sec)</value>
+  </data>
+  <data name="Label46.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="lblUnread.ToolTip" xml:space="preserve">
+  <data name="LabelApiUsingUserStreamEnabled.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="Label20.Size" type="System.Drawing.Size, System.Drawing">
-    <value>76, 12</value>
+  <data name="LabelUserStreamActive.Size" type="System.Drawing.Size, System.Drawing">
+    <value>395, 24</value>
   </data>
-  <data name="Label20.Text" xml:space="preserve">
-    <value>Unread Tweet</value>
+  <data name="LabelUserStreamActive.Text" xml:space="preserve">
+    <value>UserStream is enable.
+Periodic fetching, Timeline/Mentions/DM, and Post&amp;Fetch function is disable.</value>
   </data>
-  <data name="Label20.ToolTip" xml:space="preserve">
+  <data name="LabelUserStreamActive.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="btnDetailBack.Text" xml:space="preserve">
-    <value>Back...</value>
+  <data name="Label21.Text" xml:space="preserve">
+    <value>UserTimeline Interval (sec)</value>
   </data>
-  <data name="btnDetailBack.ToolTip" xml:space="preserve">
+  <data name="Label21.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="lblDetailBackcolor.ToolTip" xml:space="preserve">
+  <data name="UserTimelinePeriod.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="Label37.Size" type="System.Drawing.Size, System.Drawing">
-    <value>110, 12</value>
-  </data>
-  <data name="Label37.Text" xml:space="preserve">
-    <value>Backcolor of Details</value>
-  </data>
-  <data name="Label37.ToolTip" xml:space="preserve">
+  <data name="TimelinePeriod.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="btnDetail.Text" xml:space="preserve">
-    <value>Font&amp;&amp;Fore...</value>
+  <data name="Label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 12</value>
   </data>
-  <data name="btnDetail.ToolTip" xml:space="preserve">
+  <data name="Label3.Text" xml:space="preserve">
+    <value>Timeline Fetching Interval (sec.)</value>
+  </data>
+  <data name="Label3.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="lblDetail.ToolTip" xml:space="preserve">
+  <data name="ButtonApiCalc.Text" xml:space="preserve">
+    <value>Recalculation</value>
+  </data>
+  <data name="ButtonApiCalc.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="Label26.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 12</value>
+  <data name="LabelPostAndGet.Size" type="System.Drawing.Size, System.Drawing">
+    <value>358, 12</value>
   </data>
-  <data name="Label26.Text" xml:space="preserve">
-    <value>Details of Tweet</value>
+  <data name="LabelPostAndGet.Text" xml:space="preserve">
+    <value>Because "Post &amp;&amp; fetch" is enabled, the API for each post consumed.</value>
   </data>
-  <data name="Label26.ToolTip" xml:space="preserve">
+  <data name="LabelPostAndGet.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="btnOWL.Text" xml:space="preserve">
-    <value>Fore...</value>
-  </data>
-  <data name="btnOWL.ToolTip" xml:space="preserve">
+  <data name="LabelApiUsing.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="lblOWL.ToolTip" xml:space="preserve">
+  <data name="Label33.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 12</value>
+  </data>
+  <data name="Label33.Text" xml:space="preserve">
+    <value>Lists Fetching Interval (sec)</value>
+  </data>
+  <data name="Label33.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="Label24.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 12</value>
-  </data>
-  <data name="Label24.Text" xml:space="preserve">
-    <value>One-way following</value>
-  </data>
-  <data name="Label24.ToolTip" xml:space="preserve">
+  <data name="ListsPeriod.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="btnFav.Text" xml:space="preserve">
-    <value>Fore...</value>
+  <data name="Label7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 12</value>
   </data>
-  <data name="btnFav.ToolTip" xml:space="preserve">
+  <data name="Label7.Text" xml:space="preserve">
+    <value>Public Search Interval (sec.)</value>
+  </data>
+  <data name="Label7.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="lblFav.ToolTip" xml:space="preserve">
+  <data name="PubSearchPeriod.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="Label22.Size" type="System.Drawing.Size, System.Drawing">
-    <value>53, 12</value>
+  <data name="Label69.Size" type="System.Drawing.Size, System.Drawing">
+    <value>156, 12</value>
   </data>
-  <data name="Label22.Text" xml:space="preserve">
-    <value>Favorited</value>
+  <data name="Label69.Text" xml:space="preserve">
+    <value>Reply Fetching Interval (sec.)</value>
   </data>
-  <data name="Label22.ToolTip" xml:space="preserve">
+  <data name="Label69.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="btnListFont.Text" xml:space="preserve">
-    <value>Font&amp;&amp;Fore...</value>
-  </data>
-  <data name="btnListFont.ToolTip" xml:space="preserve">
+  <data name="ReplyPeriod.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="lblListFont.ToolTip" xml:space="preserve">
+  <data name="CheckPostAndGet.Size" type="System.Drawing.Size, System.Drawing">
+    <value>88, 16</value>
+  </data>
+  <data name="CheckPostAndGet.Text" xml:space="preserve">
+    <value>Post &amp;&amp; fetch</value>
+  </data>
+  <data name="CheckPostAndGet.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="Label61.Size" type="System.Drawing.Size, System.Drawing">
-    <value>94, 12</value>
+  <data name="CheckPeriodAdjust.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 16</value>
   </data>
-  <data name="Label61.Text" xml:space="preserve">
-    <value>Font of tweet list</value>
+  <data name="CheckPeriodAdjust.Text" xml:space="preserve">
+    <value>Enable Auto-Adjustment</value>
   </data>
-  <data name="Label61.ToolTip" xml:space="preserve">
+  <data name="CheckPeriodAdjust.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="GroupBox1.Text" xml:space="preserve">
-    <value>Font &amp;&amp; Color</value>
+  <data name="Label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 12</value>
   </data>
-  <data name="GroupBox1.ToolTip" xml:space="preserve">
+  <data name="Label5.Text" xml:space="preserve">
+    <value>DM Fetching Interval (sec.)</value>
+  </data>
+  <data name="Label5.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="FontPanel.ToolTip" xml:space="preserve">
+  <data name="DMPeriod.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="StartupUserstreamCheck.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 16</value>
+  </data>
+  <data name="StartupUserstreamCheck.Text" xml:space="preserve">
+    <value>Auto connect at starting</value>
+  </data>
+  <data name="StartupUserstreamCheck.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="GetPeriodPanel.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckHashSupple.Size" type="System.Drawing.Size, System.Drawing">
+    <value>213, 16</value>
+  </data>
+  <data name="CheckHashSupple.Text" xml:space="preserve">
+    <value>Use Hashtag supplementary function</value>
+  </data>
+  <data name="CheckHashSupple.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckAtIdSupple.Size" type="System.Drawing.Size, System.Drawing">
+    <value>188, 16</value>
+  </data>
+  <data name="CheckAtIdSupple.Text" xml:space="preserve">
+    <value>Use @id supplementary function</value>
+  </data>
+  <data name="CheckAtIdSupple.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ComboBoxPostKeySelect.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label27.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 12</value>
+  </data>
+  <data name="Label27.Text" xml:space="preserve">
+    <value>Post key</value>
+  </data>
+  <data name="Label27.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckRetweetNoConfirm.Size" type="System.Drawing.Size, System.Drawing">
+    <value>239, 16</value>
+  </data>
+  <data name="CheckRetweetNoConfirm.Text" xml:space="preserve">
+    <value>Bypass confirm dialog at posting Retweet</value>
+  </data>
+  <data name="CheckRetweetNoConfirm.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label12.Size" type="System.Drawing.Size, System.Drawing">
+    <value>38, 12</value>
+  </data>
+  <data name="Label12.Text" xml:space="preserve">
+    <value>Footer</value>
+  </data>
+  <data name="Label12.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckUseRecommendStatus.Size" type="System.Drawing.Size, System.Drawing">
+    <value>151, 16</value>
+  </data>
+  <data name="CheckUseRecommendStatus.Text" xml:space="preserve">
+    <value>Use Default [TWNvNNN]</value>
+  </data>
+  <data name="CheckUseRecommendStatus.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="StatusText.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TweetActPanel.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TwitterSearchAPIText.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label31.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TwitterAPIText.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label8.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckUseSsl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>130, 16</value>
+  </data>
+  <data name="CheckUseSsl.Text" xml:space="preserve">
+    <value>Use HTTPS Protocol</value>
+  </data>
+  <data name="CheckUseSsl.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label64.Size" type="System.Drawing.Size, System.Drawing">
+    <value>371, 12</value>
+  </data>
+  <data name="Label64.Text" xml:space="preserve">
+    <value>※Adjust Connection timeout if the error of timeout happens frequently.</value>
+  </data>
+  <data name="Label64.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ConnectionTimeOut.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label63.Size" type="System.Drawing.Size, System.Drawing">
+    <value>130, 12</value>
+  </data>
+  <data name="Label63.Text" xml:space="preserve">
+    <value>Connection timeout(sec)</value>
+  </data>
+  <data name="Label63.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ConnectionPanel.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label55.Size" type="System.Drawing.Size, System.Drawing">
+    <value>320, 12</value>
+  </data>
+  <data name="Label55.Text" xml:space="preserve">
+    <value>Keep credential empty if the proxy server don't need to log in</value>
+  </data>
+  <data name="Label55.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TextProxyPassword.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RadioProxyNone.Size" type="System.Drawing.Size, System.Drawing">
+    <value>73, 16</value>
+  </data>
+  <data name="RadioProxyNone.Text" xml:space="preserve">
+    <value>Don't Use</value>
+  </data>
+  <data name="RadioProxyNone.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LabelProxyPassword.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 12</value>
+  </data>
+  <data name="LabelProxyPassword.Text" xml:space="preserve">
+    <value>Pass&amp;word</value>
+  </data>
+  <data name="LabelProxyPassword.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RadioProxyIE.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 16</value>
+  </data>
+  <data name="RadioProxyIE.Text" xml:space="preserve">
+    <value>Refer Settings of Internet Explorer</value>
+  </data>
+  <data name="RadioProxyIE.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TextProxyUser.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RadioProxySpecified.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 16</value>
+  </data>
+  <data name="RadioProxySpecified.Text" xml:space="preserve">
+    <value>Use Below:</value>
+  </data>
+  <data name="RadioProxySpecified.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LabelProxyUser.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 12</value>
+  </data>
+  <data name="LabelProxyUser.Text" xml:space="preserve">
+    <value>&amp;Username</value>
+  </data>
+  <data name="LabelProxyUser.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LabelProxyAddress.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 12</value>
+  </data>
+  <data name="LabelProxyAddress.Text" xml:space="preserve">
+    <value>Pro&amp;xy Host</value>
+  </data>
+  <data name="LabelProxyAddress.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TextProxyPort.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TextProxyAddress.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LabelProxyPort.Size" type="System.Drawing.Size, System.Drawing">
+    <value>26, 12</value>
+  </data>
+  <data name="LabelProxyPort.Text" xml:space="preserve">
+    <value>&amp;Port</value>
+  </data>
+  <data name="LabelProxyPort.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ProxyPanel.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="IsPreviewFoursquareCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>239, 16</value>
+  </data>
+  <data name="IsPreviewFoursquareCheckBox.Text" xml:space="preserve">
+    <value>Get map thumbnails from Foursquare urls.</value>
+  </data>
+  <data name="IsPreviewFoursquareCheckBox.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label42.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FoursquarePreviewWidthTextBox.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FoursquarePreviewZoomTextBox.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FoursquarePreviewHeightTextBox.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label41.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label40.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FoursquareGroupBox.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label39.Size" type="System.Drawing.Size, System.Drawing">
+    <value>299, 12</value>
+  </data>
+  <data name="Label39.Text" xml:space="preserve">
+    <value>Your appoint URL(Replace "{ID}" to tweet's ScreenName)</value>
+  </data>
+  <data name="Label39.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="UserAppointUrlText.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ComboBoxTranslateLanguage.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label29.Size" type="System.Drawing.Size, System.Drawing">
+    <value>185, 12</value>
+  </data>
+  <data name="Label29.Text" xml:space="preserve">
+    <value>Language at translation destination</value>
+  </data>
+  <data name="Label29.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckOutputz.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 16</value>
+  </data>
+  <data name="CheckOutputz.Text" xml:space="preserve">
+    <value>Use Outputz</value>
+  </data>
+  <data name="CheckOutputz.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckNicoms.Size" type="System.Drawing.Size, System.Drawing">
+    <value>196, 16</value>
+  </data>
+  <data name="CheckNicoms.Text" xml:space="preserve">
+    <value>Shorten nicovideo urls by nico.ms</value>
+  </data>
+  <data name="CheckNicoms.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TextBoxOutputzKey.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label60.Size" type="System.Drawing.Size, System.Drawing">
+    <value>107, 12</value>
+  </data>
+  <data name="Label60.Text" xml:space="preserve">
+    <value>URI of your Outputz</value>
+  </data>
+  <data name="Label60.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label59.Size" type="System.Drawing.Size, System.Drawing">
+    <value>86, 12</value>
+  </data>
+  <data name="Label59.Text" xml:space="preserve">
+    <value>Your secret key</value>
+  </data>
+  <data name="Label59.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ComboBoxOutputzUrlmode.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CooperatePanel.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="SplitContainer1.Panel2.ToolTip" xml:space="preserve">

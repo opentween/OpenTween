@@ -42,8 +42,6 @@ Public Class imgly
     '''</summary>
     Private Const ConsumerSecretKey As String = "M0IMsbl2722iWa+CGPVcNeQmE+TFpJk8B/KW9UUTk3eLOl9Ij005r52JNxVukTzM"
 
-    Private Const PostMethod As String = "POST"
-    Private Const GetMethod As String = "GET"
     Private pictureExt() As String = {".jpg", _
                                     ".jpeg", _
                                     ".gif", _
@@ -54,7 +52,8 @@ Public Class imgly
     Private tw As Twitter
 
     Public Function Upload(ByRef filePath As String,
-                           ByRef message As String) As String Implements IMultimediaShareService.Upload
+                           ByRef message As String,
+                           ByVal reply_to As Long) As String Implements IMultimediaShareService.Upload
         Dim mediaFile As FileInfo
         Try
             mediaFile = New FileInfo(filePath)
@@ -93,7 +92,7 @@ Public Class imgly
         Else
             message += " " + url
         End If
-        Return tw.PostStatus(message, 0)
+        Return tw.PostStatus(message, reply_to)
     End Function
 
     Private Function UploadFile(ByVal mediaFile As FileInfo, _
@@ -149,10 +148,14 @@ Public Class imgly
         Return False
     End Function
 
+    Public Function Configuration(ByVal key As String, ByVal value As Object) As Boolean Implements IMultimediaShareService.Configuration
+        Return True
+    End Function
+
     Public Sub New(ByVal twitter As Twitter)
         MyBase.New(New Uri("http://api.twitter.com/"), _
                    New Uri("https://api.twitter.com/1/account/verify_credentials.json"))
         tw = twitter
-        Initialize(DecryptString(ConsumerKey), DecryptString(ConsumerSecretKey), tw.AccessToken, tw.AccessTokenSecret, "")
+        Initialize(DecryptString(ConsumerKey), DecryptString(ConsumerSecretKey), tw.AccessToken, tw.AccessTokenSecret, "", "")
     End Sub
 End Class

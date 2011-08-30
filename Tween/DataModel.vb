@@ -23,7 +23,6 @@
 ' the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 ' Boston, MA 02110-1301, USA.
 
-Imports System.Runtime.InteropServices
 Imports System.Runtime.Serialization
 
 Public Class TwitterDataModel
@@ -64,7 +63,9 @@ Public Class TwitterDataModel
 
     <DataContract()> _
     Public Class Urls
-        <DataMember(Name:="urls")> Public Urls As String
+        <DataMember(Name:="url")> Public Url As String
+        <DataMember(Name:="display_url")> Public DisplayUrl As String
+        <DataMember(Name:="expanded_url")> Public ExpandedUrl As String
         <DataMember(Name:="indices")> Public Indices(2) As Integer
     End Class
 
@@ -183,6 +184,7 @@ Public Class TwitterDataModel
         <DataMember(Name:="place", IsRequired:=False)> Public Place As Place
         <DataMember(Name:="in_reply_to_status_id")> Public InReplyToStatusId As String
         <DataMember(Name:="text")> Public Text As String
+        <DataMember(Name:="entities", isRequired:=False)> Public Entities As Entities
     End Class
 
     <DataContract()> _
@@ -236,6 +238,7 @@ Public Class TwitterDataModel
         <DataMember(Name:="recipient_id")> Public RecipientId As Int64
         <DataMember(Name:="id")> Public Id As Int64
         <DataMember(Name:="text")> Public Text As String
+        <DataMember(Name:="entities", isRequired:=False)> Public Entities As Entities
     End Class
 
     <DataContract()> _
@@ -381,5 +384,31 @@ Public Class TwitterDataModel
         <DataMember(Name:="statuses")> Public Statuses As List(Of Status)
         <DataMember(Name:="next_page")> Public NextPage As String
         <DataMember(Name:="error")> Public ErrMsg As String
+    End Class
+
+    <DataContract()> _
+    Public Class PhotoSize
+        <DataMember(Name:="h")> Public Height As Integer
+        <DataMember(Name:="w")> Public Width As Integer
+        <DataMember(Name:="resize")> Public Resize As String
+    End Class
+
+    <DataContract()> _
+    Public Class PhotoType
+        <DataMember(Name:="large")> Public LargeSize As PhotoSize
+        <DataMember(Name:="medium")> Public MediumSize As PhotoSize
+        <DataMember(Name:="small")> Public SmallSize As PhotoSize
+        <DataMember(Name:="thumb")> Public ThumbSize As PhotoSize
+    End Class
+
+    <DataContract()> _
+    Public Class Configuration
+        <DataMember(Name:="characters_reserved_per_media")> Public CharactersReservedPerMedia As Integer = 20
+        <DataMember(Name:="photo_size_limit")> Public PhotoSizeLimit As Integer
+        <DataMember(Name:="photo_sizes")> Public PhotoSizes As PhotoType
+        <DataMember(Name:="non_username_paths")> Public NonUsernamePaths As String()
+        <DataMember(Name:="short_url_length")> Public ShortUrlLength As Integer = 19
+        <DataMember(Name:="short_url_length_https")> Public ShortUrlLengthHttps As Integer = 20
+        <DataMember(Name:="max_media_per_upload")> Public MaxMediaPerUpload As Integer
     End Class
 End Class

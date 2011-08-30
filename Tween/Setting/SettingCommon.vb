@@ -86,6 +86,7 @@ Public Class SettingCommon
         Return password
     End Function
 
+    Public UserId As Long = 0
     Public TabList As New List(Of String)
     Public TimelinePeriod As Integer = 90
     Public ReplyPeriod As Integer = 180
@@ -183,8 +184,8 @@ Public Class SettingCommon
     Public FavoritesCountApi As Integer = 40
     Public TrackWord As String = ""
     Public AllAtReply As Boolean = False
-    Public UserstreamPeriod As Integer = 0
     Public UserstreamStartup As Boolean = True
+    Public UserstreamPeriod As Integer = 0
     Public UserTimelineCountApi As Integer = 20
     Public UserTimelinePeriod As Integer = 600
     Public OpenUserTimeline As Boolean = True
@@ -197,4 +198,7 @@ Public Class SettingCommon
     Public FoursquarePreviewHeight As Integer = 300
     Public FoursquarePreviewWidth As Integer = 300
     Public FoursquarePreviewZoom As Integer = 15
+    Public IsListsIncludeRts As Boolean = False
+    Public GAFirst As Long = 0
+    Public GALast As Long = 0
 End Class

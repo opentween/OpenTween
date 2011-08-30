@@ -48,6 +48,7 @@ Public Class TweenMain
     Private _mySpDis As Integer         '区切り位置
     Private _mySpDis2 As Integer        '発言欄区切り位置
     Private _mySpDis3 As Integer        'プレビュー区切り位置
+    Private _myAdSpDis As Integer       'Ad区切り位置
     Private _iconSz As Integer            'アイコンサイズ（現在は16、24、48の3種類。将来直接数字指定可能とする 注：24x24の場合に26と指定しているのはMSゴシック系フォントのための仕様）
     Private _iconCol As Boolean           '1列表示の時True（48サイズのとき）
 
@@ -209,6 +210,8 @@ Public Class TweenMain
     Private WithEvents TimerTimeline As New System.Timers.Timer
 
     Private displayItem As ImageListViewItem
+
+    Private ab As AdsBrowser
 
     'URL短縮のUndo用
     Private Structure urlUndo
@@ -498,6 +501,9 @@ Public Class TweenMain
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         _ignoreConfigSave = True
         Me.Visible = False
+
+        'Win32Api.SetProxy(HttpConnection.ProxyType.Specified, "127.0.0.1", 8080, "user", "pass")
+
         SecurityManager = New InternetSecurityManager(PostBrowser)
         Thumbnail = New Thumbnail(Me)
 
@@ -598,7 +604,7 @@ Public Class TweenMain
 
         '認証関連
         If _cfgCommon.Token = "" Then _cfgCommon.UserName = ""
-        tw.Initialize(_cfgCommon.Token, _cfgCommon.TokenSecret, _cfgCommon.UserName)
+        tw.Initialize(_cfgCommon.Token, _cfgCommon.TokenSecret, _cfgCommon.UserName, _cfgCommon.UserId)
 
         SettingDialog.TimelinePeriodInt = _cfgCommon.TimelinePeriod
         SettingDialog.ReplyPeriodInt = _cfgCommon.ReplyPeriod
@@ -686,7 +692,8 @@ Public Class TweenMain
         SettingDialog.StartupFollowers = _cfgCommon.StartupFollowers
         SettingDialog.RestrictFavCheck = _cfgCommon.RestrictFavCheck
         SettingDialog.AlwaysTop = _cfgCommon.AlwaysTop
-        SettingDialog.UrlConvertAuto = _cfgCommon.UrlConvertAuto
+        SettingDialog.UrlConvertAuto = False
+        'SettingDialog.UrlConvertAuto = _cfgCommon.UrlConvertAuto
 
         SettingDialog.OutputzEnabled = _cfgCommon.Outputz
         SettingDialog.OutputzKey = _cfgCommon.OutputzKey
@@ -786,6 +793,7 @@ Public Class TweenMain
         SettingDialog.FoursquarePreviewHeight = _cfgCommon.FoursquarePreviewHeight
         SettingDialog.FoursquarePreviewWidth = _cfgCommon.FoursquarePreviewWidth
         SettingDialog.FoursquarePreviewZoom = _cfgCommon.FoursquarePreviewZoom
+        SettingDialog.IsListStatusesIncludeRts = _cfgCommon.IsListsIncludeRts
 
         'ハッシュタグ関連
         HashSupl = New AtIdSupplement(_cfgCommon.HashTags, "#")
@@ -966,6 +974,7 @@ Public Class TweenMain
             If _mySpDis3 < 1 Then _mySpDis3 = 50
             _cfgLocal.PreviewDistance = _mySpDis3
         End If
+        _myAdSpDis = _cfgLocal.AdSplitterDistance
         MultiLineMenuItem.Checked = _cfgLocal.StatusMultiline
         'Me.Tween_ClientSizeChanged(Me, Nothing)
         PlaySoundMenuItem.Checked = SettingDialog.PlaySound
@@ -1117,6 +1126,20 @@ Public Class TweenMain
         _ignoreConfigSave = False
         Me.TweenMain_Resize(Nothing, Nothing)
         If saveRequired Then SaveConfigsAll(False)
+
+#If UA = "True" Then
+        ab = New AdsBrowser()
+        Me.SplitContainer4.Panel2.Controls.Add(ab)
+#Else
+        SplitContainer4.Panel2Collapsed = True
+#End If
+#If UA = "True" Then
+        Google.GASender.GetInstance.SessionFirst = _cfgCommon.GAFirst
+        Google.GASender.GetInstance.SessionLast = _cfgCommon.GALast
+        If tw.UserId = 0 Then tw.VerifyCredentials()
+        Google.GASender.GetInstance().TrackPage("/home_timeline", tw.UserId)
+        Google.GASender.GetInstance().TrackEventWithCategory("post", "start", tw.UserId)
+#End If
     End Sub
 
     Private Sub CreatePictureServices()
@@ -1126,7 +1149,8 @@ Public Class TweenMain
             {"TwitPic", New TwitPic(tw)},
             {"img.ly", New imgly(tw)},
             {"yfrog", New yfrog(tw)},
-            {"lockerz", New Plixi(tw)}}
+            {"lockerz", New Plixi(tw)},
+            {"Twitter", New TwitterPhoto(tw)}}
     End Sub
 
     Private Sub spaceKeyCanceler_SpaceCancel(ByVal sender As Object, ByVal e As EventArgs)
@@ -1246,6 +1270,7 @@ Public Class TweenMain
         If refreshFollowers > 3600 Then
             Interlocked.Exchange(refreshFollowers, 0)
             doGetFollowersMenu()
+            If InvokeRequired AndAlso Not IsDisposed Then Me.Invoke(New MethodInvoker(AddressOf Me.TrimPostChain))
         End If
         If osResumed Then
             Interlocked.Increment(ResumeWait)
@@ -1255,6 +1280,11 @@ Public Class TweenMain
                 GetTimeline(WORKERTYPE.Timeline, 1, 0, "")
                 GetTimeline(WORKERTYPE.Reply, 1, 0, "")
                 GetTimeline(WORKERTYPE.DirectMessegeRcv, 1, 0, "")
+                GetTimeline(WORKERTYPE.PublicSearch, 1, 0, "")
+                GetTimeline(WORKERTYPE.UserTimeline, 1, 0, "")
+                GetTimeline(WORKERTYPE.List, 1, 0, "")
+                doGetFollowersMenu()
+                If InvokeRequired AndAlso Not IsDisposed Then Me.Invoke(New MethodInvoker(AddressOf Me.TrimPostChain))
             End If
         End If
     End Sub
@@ -1471,7 +1501,7 @@ Public Class TweenMain
         If notifyPosts IsNot Nothing AndAlso _
             notifyPosts.Count > 0 AndAlso _
             Me.SettingDialog.ReadOwnPost AndAlso _
-            notifyPosts.All(Function(post) post.UserId.ToString() = tw.UserIdNo OrElse post.ScreenName = tw.Username) Then
+            notifyPosts.All(Function(post) post.UserId = tw.UserId OrElse post.ScreenName = tw.Username) Then
             Exit Sub
         End If
 
@@ -1706,13 +1736,17 @@ Public Class TweenMain
 
         _history(_history.Count - 1) = New PostingStatus(StatusText.Text.Trim, _reply_to_id, _reply_to_name)
 
-        If SettingDialog.UrlConvertAuto Then
-            StatusText.SelectionStart = StatusText.Text.Length
-            UrlConvertAutoToolStripMenuItem_Click(Nothing, Nothing)
-        ElseIf SettingDialog.Nicoms Then
+        If SettingDialog.Nicoms Then
             StatusText.SelectionStart = StatusText.Text.Length
             UrlConvert(UrlConverter.Nicoms)
         End If
+        'If SettingDialog.UrlConvertAuto Then
+        '    StatusText.SelectionStart = StatusText.Text.Length
+        '    UrlConvertAutoToolStripMenuItem_Click(Nothing, Nothing)
+        'ElseIf SettingDialog.Nicoms Then
+        '    StatusText.SelectionStart = StatusText.Text.Length
+        '    UrlConvert(UrlConverter.Nicoms)
+        'End If
         StatusText.SelectionStart = StatusText.Text.Length
         Dim args As New GetWorkerArg()
         args.page = 0
@@ -1751,7 +1785,7 @@ Public Class TweenMain
         If GetRestStatusCount(False, Not isRemoveFooter) - adjustCount < 0 Then
             If MessageBox.Show(My.Resources.PostLengthOverMessage1, My.Resources.PostLengthOverMessage2, MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.OK Then
                 isCutOff = True
-                If Not SettingDialog.UrlConvertAuto Then UrlConvertAutoToolStripMenuItem_Click(Nothing, Nothing)
+                'If Not SettingDialog.UrlConvertAuto Then UrlConvertAutoToolStripMenuItem_Click(Nothing, Nothing)
                 If GetRestStatusCount(False, Not isRemoveFooter) - adjustCount < 0 Then
                     isRemoveFooter = True
                 End If
@@ -1889,6 +1923,10 @@ Public Class TweenMain
             e.Cancel = True
             Me.Visible = False
         Else
+            Me.SaveConfigsCommon()
+#If UA = "True" Then
+        Google.GASender.GetInstance().TrackEventWithCategory("post", "end", tw.UserId)
+#End If
             _hookGlobalHotkey.UnregisterAllOriginalHotkey()
             _ignoreConfigSave = True
             _endingFlag = True
@@ -2056,7 +2094,8 @@ Public Class TweenMain
                     Next
                 Else
                     ret = Me.pictureService(args.status.imageService).Upload(args.status.imagePath,
-                                                                           args.status.status)
+                                                                           args.status.status,
+                                                                            args.status.inReplyToId)
                 End If
                 bw.ReportProgress(300)
                 rslt.status = args.status
@@ -2072,6 +2111,8 @@ Public Class TweenMain
                 If String.IsNullOrEmpty(ret) Then
                     ret = tw.GetNoRetweetIdsApi()
                 End If
+            Case WORKERTYPE.Configuration
+                ret = tw.ConfigurationApi()
             Case WORKERTYPE.OpenUri
                 Dim myPath As String = Convert.ToString(args.url)
 
@@ -2184,7 +2225,7 @@ Public Class TweenMain
                 If _tlTimestamps.ContainsKey(tm) Then
                     _tlTimestamps(tm) += rslt.addCount
                 Else
-                    _tlTimestamps.Add(Now, rslt.addCount)
+                    _tlTimestamps.Add(tm, rslt.addCount)
                 End If
                 Dim oneHour As Date = Now.Subtract(New TimeSpan(1, 0, 0))
                 Dim keys As New List(Of Date)
@@ -2267,6 +2308,8 @@ Public Class TweenMain
                     smsg = My.Resources.GetTimelineWorker_RunWorkerCompletedText20
                 Case WORKERTYPE.Follower
                     smsg = My.Resources.UpdateFollowersMenuItem1_ClickText3
+                Case WORKERTYPE.Configuration
+                    '進捗メッセージ残す
                 Case WORKERTYPE.PublicSearch
                     smsg = "Search refreshed"
                 Case WORKERTYPE.List
@@ -2340,19 +2383,20 @@ Public Class TweenMain
         '    End If
         'Next
         'If Not busy Then RefreshTimeline() 'background処理なければ、リスト反映
-        If rslt.type = WORKERTYPE.Timeline OrElse _
-           rslt.type = WORKERTYPE.Reply OrElse _
-           rslt.type = WORKERTYPE.List OrElse _
-           rslt.type = WORKERTYPE.PublicSearch OrElse _
-           rslt.type = WORKERTYPE.DirectMessegeRcv OrElse _
-           rslt.type = WORKERTYPE.DirectMessegeSnt OrElse _
-           rslt.type = WORKERTYPE.Favorites OrElse _
-           rslt.type = WORKERTYPE.Follower OrElse _
-           rslt.type = WORKERTYPE.FavAdd OrElse _
-           rslt.type = WORKERTYPE.FavRemove OrElse _
-           rslt.type = WORKERTYPE.Related OrElse _
-           rslt.type = WORKERTYPE.UserTimeline OrElse _
-           rslt.type = WORKERTYPE.BlockIds Then
+        If rslt.type = WORKERTYPE.Timeline OrElse
+           rslt.type = WORKERTYPE.Reply OrElse
+           rslt.type = WORKERTYPE.List OrElse
+           rslt.type = WORKERTYPE.PublicSearch OrElse
+           rslt.type = WORKERTYPE.DirectMessegeRcv OrElse
+           rslt.type = WORKERTYPE.DirectMessegeSnt OrElse
+           rslt.type = WORKERTYPE.Favorites OrElse
+           rslt.type = WORKERTYPE.Follower OrElse
+           rslt.type = WORKERTYPE.FavAdd OrElse
+           rslt.type = WORKERTYPE.FavRemove OrElse
+           rslt.type = WORKERTYPE.Related OrElse
+           rslt.type = WORKERTYPE.UserTimeline OrElse
+           rslt.type = WORKERTYPE.BlockIds OrElse
+           rslt.type = WORKERTYPE.Configuration Then
             RefreshTimeline(False) 'リスト反映
         End If
 
@@ -2468,6 +2512,14 @@ Public Class TweenMain
                 _itemCache = Nothing
                 _postCache = Nothing
                 If _curList IsNot Nothing Then _curList.Refresh()
+            Case WORKERTYPE.Configuration
+                '_waitFollower = False
+                If SettingDialog.TwitterConfiguration.PhotoSizeLimit <> 0 Then
+                    pictureService("Twitter").Configuration("MaxUploadFilesize", SettingDialog.TwitterConfiguration.PhotoSizeLimit)
+                End If
+                _itemCache = Nothing
+                _postCache = Nothing
+                If _curList IsNot Nothing Then _curList.Refresh()
             Case WORKERTYPE.PublicSearch
                 _waitPubSearch = False
             Case WORKERTYPE.UserTimeline
@@ -2486,6 +2538,7 @@ Public Class TweenMain
                     Next
                 End If
         End Select
+
 
     End Sub
 
@@ -2704,22 +2757,15 @@ Public Class TweenMain
 
     Private Sub Tween_ClientSizeChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.ClientSizeChanged
         If (Not _initialLayout) AndAlso _
-            Me.Visible AndAlso _
-            Me.WindowState = FormWindowState.Normal Then
-
-            'Dim colNo As Integer = 2
-            'If _iconCol Then colNo = 1
-            'Dim widthDiff As Integer = Me.ClientSize.Width - Me._mySize.Width
-            'Dim listView As DetailsListView = CType(Me._curTab.Tag, DetailsListView)
-            'Dim column As ColumnHeader = listView.Columns(colNo)
-            'column.Width += widthDiff
-            'Me.MyList_ColumnWidthChanged(listView, New ColumnWidthChangedEventArgs(colNo))
-
-            _mySize = Me.ClientSize
-            _mySpDis = Me.SplitContainer1.SplitterDistance
-            _mySpDis3 = Me.SplitContainer3.SplitterDistance
-            If StatusText.Multiline Then _mySpDis2 = Me.StatusText.Height
-            _modifySettingLocal = True
+            Me.Visible Then
+            If Me.WindowState = FormWindowState.Normal Then
+                _mySize = Me.ClientSize
+                _mySpDis = Me.SplitContainer1.SplitterDistance
+                _mySpDis3 = Me.SplitContainer3.SplitterDistance
+                If StatusText.Multiline Then _mySpDis2 = Me.StatusText.Height
+                _myAdSpDis = Me.SplitContainer4.SplitterDistance
+                _modifySettingLocal = True
+            End If
         End If
     End Sub
 
@@ -3087,6 +3133,9 @@ Public Class TweenMain
     End Sub
 
     Private Sub SettingStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SettingStripMenuItem.Click, SettingFileMenuItem.Click
+#If UA = "True" Then
+        Google.GASender.GetInstance().TrackPage("/settings", tw.UserId)
+#End If
         Dim result As DialogResult
         Dim uid As String = tw.Username.ToLower
 
@@ -3116,6 +3165,9 @@ Public Class TweenMain
                                                     SettingDialog.ProxyUser, _
                                                     SettingDialog.ProxyPassword)
                 Me.CreatePictureServices()
+                Me.SplitContainer4.Panel2.Controls.RemoveAt(0)
+                Me.ab = New AdsBrowser
+                Me.SplitContainer4.Panel2.Controls.Add(ab)
                 Try
                     If SettingDialog.TabIconDisp Then
                         RemoveHandler ListTab.DrawItem, AddressOf ListTab_DrawItem
@@ -3309,6 +3361,9 @@ Public Class TweenMain
 
         Me.TopMost = SettingDialog.AlwaysTop
         SaveConfigsAll(False)
+#If UA = "True" Then
+        Google.GASender.GetInstance().Trackpage("/home_timeline", tw.UserId)
+#End If
     End Sub
 
     Private Sub PostBrowser_Navigated(ByVal sender As Object, ByVal e As System.Windows.Forms.WebBrowserNavigatedEventArgs) Handles PostBrowser.Navigated
@@ -3446,6 +3501,9 @@ Public Class TweenMain
             End If
         End If
 
+#If UA = "True" Then
+        if not startup then Google.GASender.GetInstance().TrackEventWithCategory("post", "add_tab", tw.UserId)
+#End If
         Dim _tabPage As TabPage = New TabPage
         Dim _listCustom As DetailsListView = New DetailsListView
         Dim _colHd1 As ColumnHeader = New ColumnHeader()  'アイコン
@@ -3643,6 +3701,8 @@ Public Class TweenMain
         _listCustom.SmallImageList = New ImageList()
         If _iconSz > 0 Then
             _listCustom.SmallImageList.ImageSize = New Size(_iconSz, _iconSz)
+        Else
+            _listCustom.SmallImageList.ImageSize = New Size(1, 1)
         End If
 
         Dim dispOrder(7) As Integer
@@ -3721,6 +3781,9 @@ Public Class TweenMain
 
         If _statuses.IsDefaultTab(TabName) Then Return False
 
+#If UA = "True" Then
+        Google.GASender.GetInstance().TrackEventWithCategory("post", "remove_tab", tw.UserId)
+#End If
         If confirm Then
             Dim tmp As String = String.Format(My.Resources.RemoveSpecifiedTabText1, Environment.NewLine)
             If MessageBox.Show(tmp, TabName + " " + My.Resources.RemoveSpecifiedTabText2, _
@@ -3873,6 +3936,32 @@ Public Class TweenMain
         If ListTab.Focused OrElse DirectCast(ListTab.SelectedTab.Tag, Control).Focused Then Me.Tag = ListTab.Tag
         TabMenuControl(ListTab.SelectedTab.Text)
         Me.PushSelectPostChain()
+#If UA = "True" Then
+        Select Case _statuses.Tabs(ListTab.SelectedTab.Text).TabType
+            Case TabUsageType.Home
+                Google.GASender.GetInstance().TrackPage("/home_timeline", tw.UserId)
+            Case TabUsageType.Mentions
+                Google.GASender.GetInstance().TrackPage("/mentions", tw.UserId)
+            Case TabUsageType.DirectMessage
+                Google.GASender.GetInstance().TrackPage("/direct_messages", tw.UserId)
+            Case TabUsageType.Favorites
+                Google.GASender.GetInstance().TrackPage("/favorites", tw.UserId)
+            Case TabUsageType.Lists
+                Google.GASender.GetInstance().TrackPage("/lists", tw.UserId)
+            Case TabUsageType.Profile
+                Google.GASender.GetInstance().TrackPage("/profile", tw.UserId)
+            Case TabUsageType.LocalQuery
+                Google.GASender.GetInstance().TrackPage("/local_query", tw.UserId)
+            Case TabUsageType.PublicSearch
+                Google.GASender.GetInstance().TrackPage("/search", tw.UserId)
+            Case TabUsageType.Related
+                Google.GASender.GetInstance().TrackPage("/related", tw.UserId)
+            Case TabUsageType.UserDefined
+                Google.GASender.GetInstance().TrackPage("/local_tab", tw.UserId)
+            Case TabUsageType.UserTimeline
+                Google.GASender.GetInstance().TrackPage("/user_timeline", tw.UserId)
+        End Select
+#End If
     End Sub
 
     Private Sub SetListProperty()
@@ -4020,6 +4109,7 @@ Public Class TweenMain
     Private Function GetRestStatusCount(ByVal isAuto As Boolean, ByVal isAddFooter As Boolean) As Integer
         '文字数カウント
         Dim pLen As Integer = 140 - StatusText.Text.Length
+        If Me.NotifyIcon1 Is Nothing OrElse Not Me.NotifyIcon1.Visible Then Return pLen
         If (isAuto AndAlso Not My.Computer.Keyboard.CtrlKeyDown AndAlso SettingDialog.PostShiftEnter) OrElse _
            (isAuto AndAlso Not My.Computer.Keyboard.ShiftKeyDown AndAlso Not SettingDialog.PostShiftEnter) OrElse _
            (Not isAuto AndAlso isAddFooter) Then
@@ -4031,6 +4121,17 @@ Public Class TweenMain
         End If
         If HashMgr.UseHash <> "" Then
             pLen -= HashMgr.UseHash.Length + 1
+        End If
+        'For Each m As Match In Regex.Matches(StatusText.Text, "https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#^]+")
+        '    pLen += m.Length - SettingDialog.TwitterConfiguration.ShortUrlLength
+        'Next
+        For Each m As Match In Regex.Matches(StatusText.Text, Twitter.rgUrl, RegexOptions.IgnoreCase)
+            If m.Result("${url}").Length > SettingDialog.TwitterConfiguration.ShortUrlLength Then
+                pLen += m.Result("${url}").Length - SettingDialog.TwitterConfiguration.ShortUrlLength
+            End If
+        Next
+        If ImageSelectionPanel.Visible AndAlso ImageSelectedPicture.Tag IsNot Nothing AndAlso Not String.IsNullOrEmpty(Me.ImageService) Then
+            pLen -= SettingDialog.TwitterConfiguration.CharactersReservedPerMedia
         End If
         Return pLen
     End Function
@@ -4386,30 +4487,36 @@ Public Class TweenMain
     Private Sub DrawListViewItemIcon(ByVal e As DrawListViewItemEventArgs)
         Dim item As ImageListViewItem = DirectCast(e.Item, ImageListViewItem)
         Dim stateRect As Rectangle
+
+        'e.Bounds.Leftが常に0を指すから自前で計算
+        Dim itemRect As Rectangle = item.Bounds
+        itemRect.Width = e.Item.ListView.Columns(0).Width
+
+        For Each clm As ColumnHeader In e.Item.ListView.Columns
+            If clm.DisplayIndex < e.Item.ListView.Columns(0).DisplayIndex Then
+                itemRect.X += clm.Width
+            End If
+        Next
+
+        Dim iconRect As Rectangle
         If item.Image IsNot Nothing Then
-            'e.Bounds.Leftが常に0を指すから自前で計算
-            Dim itemRect As Rectangle = item.Bounds
-            itemRect.Width = e.Item.ListView.Columns(0).Width
-
-            For Each clm As ColumnHeader In e.Item.ListView.Columns
-                If clm.DisplayIndex < e.Item.ListView.Columns(0).DisplayIndex Then
-                    itemRect.X += clm.Width
-                End If
-            Next
-
-            Dim iconRect As Rectangle = Rectangle.Intersect(New Rectangle(e.Item.GetBounds(ItemBoundsPortion.Icon).Location, New Size(_iconSz, _iconSz)), itemRect)
+            iconRect = Rectangle.Intersect(New Rectangle(e.Item.GetBounds(ItemBoundsPortion.Icon).Location, New Size(_iconSz, _iconSz)), itemRect)
             iconRect.Offset(0, CType(Math.Max(0, (itemRect.Height - _iconSz) / 2), Integer))
             stateRect = Rectangle.Intersect(New Rectangle(iconRect.Location.X + _iconSz + 2, iconRect.Location.Y, 18, 16), itemRect)
+        Else
+            iconRect = Rectangle.Intersect(New Rectangle(e.Item.GetBounds(ItemBoundsPortion.Icon).Location, New Size(1, 1)), itemRect)
+            'iconRect.Offset(0, CType(Math.Max(0, (itemRect.Height - _iconSz) / 2), Integer))
+            stateRect = Rectangle.Intersect(New Rectangle(iconRect.Location.X + _iconSz + 2, iconRect.Location.Y, 18, 16), itemRect)
+        End If
 
-            If iconRect.Width > 0 Then
-                e.Graphics.FillRectangle(Brushes.White, iconRect)
-                e.Graphics.InterpolationMode = Drawing2D.InterpolationMode.High
-                Try
-                    e.Graphics.DrawImage(item.Image, iconRect)
-                Catch ex As ArgumentException
-                    item.RegetImage()
-                End Try
-            End If
+        If item.Image IsNot Nothing AndAlso iconRect.Width > 0 Then
+            e.Graphics.FillRectangle(Brushes.White, iconRect)
+            e.Graphics.InterpolationMode = Drawing2D.InterpolationMode.High
+            Try
+                e.Graphics.DrawImage(item.Image, iconRect)
+            Catch ex As ArgumentException
+                item.RegetImage()
+            End Try
         End If
 
         If item.StateImageIndex > -1 Then
@@ -4709,12 +4816,13 @@ RETRY:
 
         Dim pinfo As New ProcessStartInfo
         pinfo.UseShellExecute = True
-        pinfo.WorkingDirectory = Application.StartupPath
-        pinfo.FileName = Path.Combine(Application.StartupPath(), "TweenUp2.exe")
+        pinfo.WorkingDirectory = MyCommon.settingPath
+        pinfo.FileName = Path.Combine(MyCommon.settingPath, "TweenUp3.exe")
+        pinfo.Arguments = """" + Application.StartupPath + """"
         Try
             Process.Start(pinfo)
         Catch ex As Exception
-            MessageBox.Show("Failed to execute TweenUp2.exe.")
+            MessageBox.Show("Failed to execute TweenUp3.exe.")
         End Try
     End Sub
 
@@ -4947,7 +5055,7 @@ RETRY:
                     For Each lnk As Match In Regex.Matches(dTxt, "<a target=""_self"" href=""(?<url>http[^""]+)""", RegexOptions.IgnoreCase)
                         lnks.Add(lnk.Result("${url}"))
                     Next
-                    Thumbnail.thumbnail(_curPost.StatusId, lnks, _curPost.PostGeo)
+                    Thumbnail.thumbnail(_curPost.StatusId, lnks, _curPost.PostGeo, _curPost.Media)
                 End If
             Catch ex As System.Runtime.InteropServices.COMException
                 '原因不明
@@ -5488,10 +5596,10 @@ RETRY:
                     Return True
                 End If
                 Select Case KeyCode
-                    'Case Keys.T
-                    '    If Not Me.ExistCurrentPost Then Exit Function
-                    '    doTranslation(_curPost.TextFromApi)
-                    '    Return True
+                    Case Keys.T
+                        If Not Me.ExistCurrentPost Then Exit Function
+                        doTranslation(_curPost.TextFromApi)
+                        Return True
                     Case Keys.R
                         doReTweetUnofficial()
                         Return True
@@ -6022,8 +6130,9 @@ RETRY:
         Try
             Me.selectPostChains.Pop()
             Dim tabPostPair = Me.selectPostChains.Pop()
+            If Not Me.ListTab.TabPages.Contains(tabPostPair.Item1) Then Exit Sub
             Me.ListTab.SelectedTab = tabPostPair.Item1
-            If tabPostPair.Item2 IsNot Nothing Then
+            If tabPostPair.Item2 IsNot Nothing AndAlso Me._statuses.Tabs(Me._curTab.Text).IndexOf(tabPostPair.Item2.StatusId) > -1 Then
                 Me.SelectListItem(Me._curList, Me._statuses.Tabs(Me._curTab.Text).IndexOf(tabPostPair.Item2.StatusId))
                 Me._curList.EnsureVisible(Me._statuses.Tabs(Me._curTab.Text).IndexOf(tabPostPair.Item2.StatusId))
             End If
@@ -6035,6 +6144,18 @@ RETRY:
         If Me.selectPostChains.Count = 0 OrElse (Me.selectPostChains.Peek().Item1.Text <> Me._curTab.Text OrElse Me._curPost IsNot Me.selectPostChains.Peek().Item2) Then
             Me.selectPostChains.Push(Tuple.Create(Me._curTab, _curPost))
         End If
+    End Sub
+
+    Private Sub TrimPostChain()
+        If Me.selectPostChains.Count < 2000 Then Exit Sub
+        Dim p As New Stack(Of Tuple(Of TabPage, PostClass))
+        For i = 0 To 1999
+            p.Push(Me.selectPostChains.Pop)
+        Next
+        Me.selectPostChains.Clear()
+        For i = 0 To 1999
+            Me.selectPostChains.Push(p.Pop)
+        Next
     End Sub
 
     Private Sub MyList_MouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
@@ -6223,6 +6344,10 @@ RETRY:
             _cfgCommon.FoursquarePreviewHeight = SettingDialog.FoursquarePreviewHeight
             _cfgCommon.FoursquarePreviewWidth = SettingDialog.FoursquarePreviewWidth
             _cfgCommon.FoursquarePreviewZoom = SettingDialog.FoursquarePreviewZoom
+            _cfgCommon.IsListsIncludeRts = SettingDialog.IsListStatusesIncludeRts
+            _cfgCommon.UserId = tw.UserId
+            _cfgCommon.GAFirst = Google.GASender.GetInstance.SessionFirst
+            _cfgCommon.GALast = Google.GASender.GetInstance.SessionLast
 
             _cfgCommon.Save()
         End SyncLock
@@ -6238,6 +6363,7 @@ RETRY:
             _cfgLocal.PreviewDistance = _mySpDis3
             _cfgLocal.StatusMultiline = StatusText.Multiline
             _cfgLocal.StatusTextHeight = _mySpDis2
+            _cfgLocal.AdSplitterDistance = _myAdSpDis
             _cfgLocal.StatusText = SettingDialog.Status
 
             _cfgLocal.FontUnread = _fntUnread
@@ -7333,6 +7459,8 @@ RETRY:
                 Catch ex As ArgumentException
                     '変なHTML？
                     Exit Sub
+                Catch ex As Exception
+                    Exit Sub
                 End Try
                 If String.IsNullOrEmpty(urlStr) Then Exit Sub
                 openUrlStr = urlEncodeMultibyteChar(urlStr)
@@ -7340,18 +7468,23 @@ RETRY:
                 For Each linkElm As HtmlElement In PostBrowser.Document.Links
                     Dim urlStr As String = ""
                     Dim linkText As String = ""
+                    Dim href As String = ""
                     Try
-                        urlStr = IDNDecode(linkElm.GetAttribute("href"))
+                        urlStr = linkElm.GetAttribute("title")
+                        href = IDNDecode(linkElm.GetAttribute("href"))
+                        If String.IsNullOrEmpty(urlStr) Then urlStr = href
                         linkText = linkElm.InnerText
-                        If Not linkText.StartsWith("http") AndAlso Not linkText.StartsWith("#") Then
+                        If Not linkText.StartsWith("http") AndAlso Not linkText.StartsWith("#") AndAlso Not linkText.Contains(".") Then
                             linkText = "@" + linkText
                         End If
                     Catch ex As ArgumentException
                         '変なHTML？
                         Exit Sub
+                    Catch ex As Exception
+                        Exit Sub
                     End Try
                     If String.IsNullOrEmpty(urlStr) Then Continue For
-                    UrlDialog.AddUrl(New OpenUrlItem(linkText, urlEncodeMultibyteChar(urlStr)))
+                    UrlDialog.AddUrl(New OpenUrlItem(linkText, urlEncodeMultibyteChar(urlStr), href))
                 Next
                 Try
                     If UrlDialog.ShowDialog() = Windows.Forms.DialogResult.OK Then
@@ -7364,8 +7497,8 @@ RETRY:
             End If
             If String.IsNullOrEmpty(openUrlStr) Then Exit Sub
 
-            If openUrlStr.StartsWith("http://twitter.com/search?q=%23") OrElse _
-               openUrlStr.StartsWith("https://twitter.com/search?q=%23") Then
+            If openUrlStr.StartsWith("http://twitter.com/search?q=") OrElse _
+               openUrlStr.StartsWith("https://twitter.com/search?q=") Then
                 'ハッシュタグの場合は、タブで開く
                 Dim urlStr As String = HttpUtility.UrlDecode(openUrlStr)
                 Dim hash As String = urlStr.Substring(urlStr.IndexOf("#"))
@@ -7564,14 +7697,12 @@ RETRY:
     Friend Sub CheckReplyTo(ByVal StatusText As String)
         Dim m As MatchCollection
         'ハッシュタグの保存
-        m = Regex.Matches(StatusText, "(^|[^a-zA-Z0-9_/])(#|＃)(?<hash>[a-zA-Z0-9_]+)")
+        m = Regex.Matches(StatusText, Twitter.HASHTAG, RegexOptions.IgnoreCase)
         Dim hstr As String = ""
         For Each hm As Match In m
-            If Not IsNumeric(hm.Result("${hash}")) Then
-                If Not hstr.Contains("#" + hm.Result("${hash}") + " ") Then
-                    hstr += "#" + hm.Result("${hash}") + " "
-                    HashSupl.AddItem("#" + hm.Result("${hash}"))
-                End If
+            If Not hstr.Contains("#" + hm.Result("$3") + " ") Then
+                hstr += "#" + hm.Result("$3") + " "
+                HashSupl.AddItem("#" + hm.Result("$3"))
             End If
         Next
         If Not String.IsNullOrEmpty(HashMgr.UseHash) AndAlso Not hstr.Contains(HashMgr.UseHash + " ") Then
@@ -7629,7 +7760,12 @@ RETRY:
             '_mySize = Me.ClientSize                     'サイズ保持（最小化・最大化されたまま終了した場合の対応用）
             Me.DesktopLocation = _cfgLocal.FormLocation
             '_myLoc = Me.DesktopLocation                        '位置保持（最小化・最大化されたまま終了した場合の対応用）
-            If _cfgLocal.SplitterDistance > Me.SplitContainer1.Panel1MinSize AndAlso _cfgLocal.SplitterDistance < Me.SplitContainer1.Height - Me.SplitContainer1.Panel2MinSize - Me.SplitContainer1.SplitterWidth Then
+            If _cfgLocal.AdSplitterDistance > Me.SplitContainer4.Panel1MinSize AndAlso
+                _cfgLocal.AdSplitterDistance < Me.SplitContainer4.Height - Me.SplitContainer4.Panel2MinSize - Me.SplitContainer4.SplitterWidth Then
+                Me.SplitContainer4.SplitterDistance = _cfgLocal.AdSplitterDistance 'Splitterの位置設定
+            End If
+            If _cfgLocal.SplitterDistance > Me.SplitContainer1.Panel1MinSize AndAlso
+                _cfgLocal.SplitterDistance < Me.SplitContainer1.Height - Me.SplitContainer1.Panel2MinSize - Me.SplitContainer1.SplitterWidth Then
                 Me.SplitContainer1.SplitterDistance = _cfgLocal.SplitterDistance 'Splitterの位置設定
             End If
             '発言欄複数行
@@ -7671,7 +7807,17 @@ RETRY:
         End If
     End Sub
 
+    Private Sub SplitContainer4_SplitterMoved(ByVal sender As Object, ByVal e As System.Windows.Forms.SplitterEventArgs) Handles SplitContainer4.SplitterMoved
+        If Me.WindowState = FormWindowState.Normal AndAlso Not _initialLayout Then
+            _myAdSpDis = SplitContainer4.SplitterDistance
+            _modifySettingLocal = True
+        End If
+    End Sub
+
     Private Sub doRepliedStatusOpen()
+#If UA = "True" Then
+        Google.GASender.GetInstance().Trackpage("/open_reply_to_status", tw.UserId)
+#End If
         If Me.ExistCurrentPost AndAlso _curPost.InReplyToUser IsNot Nothing AndAlso _curPost.InReplyToStatusId > 0 Then
             If My.Computer.Keyboard.ShiftKeyDown Then
                 OpenUriAsync("http://twitter.com/" + _curPost.InReplyToUser + "/status/" + _curPost.InReplyToStatusId.ToString())
@@ -7837,17 +7983,15 @@ RETRY:
     End Sub
 
     Private Function UrlConvert(ByVal Converter_Type As UrlConverter) As Boolean
+        't.coで投稿時自動短縮する場合は、外部サービスでの短縮禁止
+        'If SettingDialog.UrlConvertAuto AndAlso SettingDialog.ShortenTco Then Exit Function
+
         'Converter_Type=Nicomsの場合は、nicovideoのみ短縮する
         '参考資料 RFC3986 Uniform Resource Identifier (URI): Generic Syntax
         'Appendix A.  Collected ABNF for URI
         'http://www.ietf.org/rfc/rfc3986.txt
 
         Dim result As String = ""
-        Const url As String = "(?<before>(?:[^\""':!=]|^|\:))" + _
-                                   "(?<url>(?<protocol>https?://)" + _
-                                   "(?<domain>(?:[\.-]|[^\p{P}\s])+\.[a-z]{2,}(?::[0-9]+)?)" + _
-                                   "(?<path>/[a-z0-9!*'();:&=+$/%#\-_.,~@]*[a-z0-9)=#/]?)?" + _
-                                   "(?<query>\?[a-z0-9!*'();:&=+$/%#\-_.,~@?]*[a-z0-9_&=#/])?)"
 
         Const nico As String = "^https?://[a-z]+\.(nicovideo|niconicommons|nicolive)\.jp/[a-z]+/[a-z0-9]+$"
 
@@ -7890,6 +8034,11 @@ RETRY:
                 End If
             End If
         Else
+            Const url As String = "(?<before>(?:[^\""':!=]|^|\:))" + _
+                                       "(?<url>(?<protocol>https?://)" + _
+                                       "(?<domain>(?:[\.-]|[^\p{P}\s])+\.[a-z]{2,}(?::[0-9]+)?)" + _
+                                       "(?<path>/[a-z0-9!*'();:&=+$/%#\-_.,~@]*[a-z0-9)=#/]?)?" + _
+                                       "(?<query>\?[a-z0-9!*'();:&=+$/%#\-_.,~@?]*[a-z0-9_&=#/])?)"
             ' 正規表現にマッチしたURL文字列をtinyurl化
             For Each mt As Match In Regex.Matches(StatusText.Text, url, RegexOptions.IgnoreCase)
                 If StatusText.Text.IndexOf(mt.Result("${url}"), StringComparison.Ordinal) = -1 Then Continue For
@@ -7944,6 +8093,8 @@ RETRY:
             StatusText.Text = tmp
             urlUndoBuffer = Nothing
             UrlUndoToolStripMenuItem.Enabled = False
+            StatusText.SelectionStart = 0
+            StatusText.SelectionLength = 0
         End If
     End Sub
 
@@ -8335,6 +8486,9 @@ RETRY:
     End Function
 
     Public Sub OpenUriAsync(ByVal UriString As String)
+#If UA = "True" Then
+        Google.GASender.GetInstance().Trackpage("/open_url", tw.UserId)
+#End If
         Dim args As New GetWorkerArg
         args.type = WORKERTYPE.OpenUri
         args.url = UriString
@@ -8489,12 +8643,14 @@ RETRY:
         End Try
 
         NotifyIcon1.Visible = True
+        AddHandler tw.UserIdChanged, AddressOf tw_UserIdChanged
 
         If Me.IsNetworkAvailable() Then
             GetTimeline(WORKERTYPE.BlockIds, 0, 0, "")
             If SettingDialog.StartupFollowers Then
                 GetTimeline(WORKERTYPE.Follower, 0, 0, "")
             End If
+            GetTimeline(WORKERTYPE.Configuration, 0, 0, "")
             StartUserStream()
             _waitTimeline = True
             GetTimeline(WORKERTYPE.Timeline, 1, 1, "")
@@ -8540,12 +8696,18 @@ RETRY:
                 GetTimeline(WORKERTYPE.Follower, 0, 0, "")
             End If
 
+            ' 取得失敗の場合は再試行する
+            If SettingDialog.TwitterConfiguration.PhotoSizeLimit = 0 Then
+                GetTimeline(WORKERTYPE.Configuration, 0, 0, "")
+            End If
+
             ' 権限チェック read/write権限(xAuthで取得したトークン)の場合は再認証を促す
             If TwitterApiInfo.AccessLevel = ApiAccessLevel.ReadWrite Then
                 MessageBox.Show(My.Resources.ReAuthorizeText)
                 SettingStripMenuItem_Click(Nothing, Nothing)
             End If
 
+            '
         End If
         _initial = False
 
@@ -8674,11 +8836,12 @@ RETRY:
                 Exit For
             End If
         Next
-        If isUrl Then
-            status = Regex.Replace(status, "<a target=""_self"" href=""(?<url>[^""]+)""[^>]*>(?<link>(https?|shttp|ftps?)://[^<]+)</a>", "${url}")
-        Else
-            status = Regex.Replace(status, "<a target=""_self"" href=""(?<url>[^""]+)""[^>]*>(?<link>(https?|shttp|ftps?)://[^<]+)</a>", "${link}")
-        End If
+        'If isUrl Then
+        '    status = Regex.Replace(status, "<a target=""_self"" href=""(?<url>[^""]+)""[^>]*>(?<link>(https?|shttp|ftps?)://[^<]+)</a>", "${url}")
+        'Else
+        '    status = Regex.Replace(status, "<a target=""_self"" href=""(?<url>[^""]+)""[^>]*>(?<link>(https?|shttp|ftps?)://[^<]+)</a>", "${link}")
+        'End If
+        status = Regex.Replace(status, "<a target=""_self"" href=""(?<url>[^""]+)""[^>]*>(?<link>(https?|shttp|ftps?)://[^<]+)</a>", "${url}")
 
         'その他のリンク(@IDなど)を置き換える
         status = Regex.Replace(status, "@<a target=""_self"" href=""https?://twitter.com/(#!/)?(?<url>[^""]+)""[^>]*>(?<link>[^<]+)</a>", "@${url}")
@@ -8759,23 +8922,31 @@ RETRY:
 
     Private Sub ApiInfoMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ApiInfoMenuItem.Click
         Dim info As New ApiInfo
-        Dim tmp As String
+        Dim tmp As New StringBuilder
         Dim args As New GetApiInfoArgs With {.tw = tw, .info = info}
 
         Using dlg As New FormInfo(Me, My.Resources.ApiInfo6, AddressOf GetApiInfo_Dowork, Nothing, args)
             dlg.ShowDialog()
             If CBool(dlg.Result) Then
-                tmp = My.Resources.ApiInfo1 + args.info.MaxCount.ToString() + Environment.NewLine + _
-                    My.Resources.ApiInfo2 + args.info.RemainCount.ToString() + Environment.NewLine + _
-                    My.Resources.ApiInfo3 + args.info.ResetTime.ToString() + Environment.NewLine + _
-                    My.Resources.ApiInfo7 + IIf(tw.UserStreamEnabled, My.Resources.Enable, My.Resources.Disable).ToString()
+                tmp.AppendLine(My.Resources.ApiInfo1 + args.info.MaxCount.ToString())
+                tmp.AppendLine(My.Resources.ApiInfo2 + args.info.RemainCount.ToString())
+                tmp.AppendLine(My.Resources.ApiInfo3 + args.info.ResetTime.ToString())
+                tmp.AppendLine(My.Resources.ApiInfo7 + IIf(tw.UserStreamEnabled, My.Resources.Enable, My.Resources.Disable).ToString())
+
+                tmp.AppendLine()
+                tmp.AppendLine(My.Resources.ApiInfo8 + args.info.AccessLevel.ToString())
                 SetStatusLabelUrl()
+
+                tmp.AppendLine()
+                tmp.AppendLine(My.Resources.ApiInfo9 + IIf(args.info.MediaMaxCount < 0, My.Resources.ApiInfo91, args.info.MediaMaxCount).ToString())
+                tmp.AppendLine(My.Resources.ApiInfo10 + IIf(args.info.MediaRemainCount < 0, My.Resources.ApiInfo91, args.info.MediaRemainCount).ToString())
+                tmp.AppendLine(My.Resources.ApiInfo11 + IIf(args.info.MediaResetTime = New DateTime, My.Resources.ApiInfo91, args.info.MediaResetTime).ToString())
             Else
-                tmp = My.Resources.ApiInfo5
+                tmp.Append(My.Resources.ApiInfo5)
             End If
         End Using
 
-        MessageBox.Show(tmp, My.Resources.ApiInfo4, MessageBoxButtons.OK, MessageBoxIcon.Information)
+        MessageBox.Show(tmp.ToString(), My.Resources.ApiInfo4, MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
 
     Private Sub FollowCommandMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FollowCommandMenuItem.Click
@@ -8999,7 +9170,8 @@ RETRY:
     ' URLから切り出した文字列を渡す
 
     Public Function IsTwitterId(ByVal name As String) As Boolean
-        Return Not Regex.Match(name, "^(about|jobs|tos|privacy)$").Success
+        'Return Not Regex.Match(name, "^(about|jobs|tos|privacy|who_to_follow|download|messages)$").Success
+        Return Not SettingDialog.TwitterConfiguration.NonUsernamePaths.Contains(name.ToLower())
     End Function
 
     Private Function GetUserId() As String
@@ -9261,8 +9433,14 @@ RETRY:
         End If
 
         Using listSelectForm As New MyLists(user, Me.tw)
+#If UA = "True" Then
+        Google.GASender.GetInstance().Trackpage("/listuser_manage", tw.UserId)
+#End If
             listSelectForm.ShowDialog(Me)
         End Using
+#If UA = "True" Then
+        Google.GASender.GetInstance().Trackpage("/home_timeline", tw.UserId)
+#End If
     End Sub
 
     Private Sub SearchControls_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -9303,6 +9481,9 @@ RETRY:
     End Sub
 
     Private Sub HashManageMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HashManageMenuItem.Click, HashManageToolStripMenuItem.Click
+#If UA = "True" Then
+        Google.GASender.GetInstance().Trackpage("/hashtag_manage", tw.UserId)
+#End If
         Dim rslt As DialogResult
         Try
             rslt = HashMgr.ShowDialog()
@@ -9335,6 +9516,9 @@ RETRY:
         'End If
         _modifySettingCommon = True
         Me.StatusText_TextChanged(Nothing, Nothing)
+#If UA = "True" Then
+        Google.GASender.GetInstance().Trackpage("/home_timeline", tw.UserId)
+#End If
     End Sub
 
     Private Sub HashToggleMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles HashToggleMenuItem.Click, HashToggleToolStripMenuItem.Click
@@ -9566,8 +9750,14 @@ RETRY:
         Using userinfo As New ShowUserInfo()
             userinfo.Owner = Me
             userinfo.User = user
+#If UA = "True" Then
+        Google.GASender.GetInstance().Trackpage("/user_profile", tw.UserId)
+#End If
             userinfo.ShowDialog(Me)
             Me.Activate()
+#If UA = "True" Then
+        Google.GASender.GetInstance().Trackpage("/home_timeline", tw.UserId)
+#End If
         End Using
     End Sub
 
@@ -9881,6 +10071,7 @@ RETRY:
         ImageServiceCombo.Items.Add("img.ly")
         ImageServiceCombo.Items.Add("yfrog")
         ImageServiceCombo.Items.Add("lockerz")
+        ImageServiceCombo.Items.Add("Twitter")
 
         If svc = "" Then
             ImageServiceCombo.SelectedIndex = 0
@@ -9924,14 +10115,23 @@ RETRY:
             End Try
             _modifySettingCommon = True
             SaveConfigsAll(False)
+            If Me.ImageService = "Twitter" Then
+                Me.StatusText_TextChanged(Nothing, Nothing)
+            End If
         End If
     End Sub
 #End Region
 
     Private Sub ListManageToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListManageToolStripMenuItem.Click
+#If UA = "True" Then
+        Google.GASender.GetInstance().Trackpage("/list_manage", tw.UserId)
+#End If
         Using form As New ListManage(tw)
             form.ShowDialog(Me)
         End Using
+#If UA = "True" Then
+        Google.GASender.GetInstance().Trackpage("/home_timeline", tw.UserId)
+#End If
     End Sub
 
     Public WriteOnly Property ModifySettingCommon() As Boolean
@@ -9976,6 +10176,11 @@ RETRY:
         Else
             RtCountMenuItem.Enabled = False
         End If
+        'If SettingDialog.UrlConvertAuto AndAlso SettingDialog.ShortenTco Then
+        '    TinyUrlConvertToolStripMenuItem.Enabled = False
+        'Else
+        '    TinyUrlConvertToolStripMenuItem.Enabled = True
+        'End If
     End Sub
 
     Private Sub CopyUserIdStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CopyUserIdStripMenuItem.Click
@@ -10038,6 +10243,10 @@ RETRY:
         MessageBox.Show(buf.ToString, "アイコンキャッシュ使用状況")
     End Sub
 
+    Private Sub tw_UserIdChanged()
+        Me._modifySettingCommon = True
+    End Sub
+
 #Region "Userstream"
     Private _isActiveUserstream As Boolean = False
 
@@ -10074,7 +10283,7 @@ RETRY:
             If _tlTimestamps.ContainsKey(tm) Then
                 _tlTimestamps(tm) += rsltAddCount
             Else
-                _tlTimestamps.Add(Now, rsltAddCount)
+                _tlTimestamps.Add(tm, rsltAddCount)
             End If
             Dim oneHour As Date = Now.Subtract(New TimeSpan(1, 0, 0))
             Dim keys As New List(Of Date)
@@ -10122,6 +10331,7 @@ RETRY:
         Catch ex As InvalidOperationException
             Exit Sub
         End Try
+
         MenuItemUserStream.Text = "&UserStream ▶"
         MenuItemUserStream.Enabled = True
         StopToolStripMenuItem.Text = "&Stop"
@@ -10142,6 +10352,7 @@ RETRY:
         Catch ex As InvalidOperationException
             Exit Sub
         End Try
+
         MenuItemUserStream.Text = "&UserStream ■"
         MenuItemUserStream.Enabled = True
         StopToolStripMenuItem.Text = "&Start"
@@ -10295,19 +10506,22 @@ RETRY:
     End Sub
 
     Private Sub doTranslation(ByVal str As String)
-        Dim g As New Google
+        Dim _bing As New bing
         Dim buf As String = ""
         If String.IsNullOrEmpty(str) Then Exit Sub
-        Dim srclng As String = g.LanguageDetect(str)
+        Dim srclng As String = ""
         Dim dstlng As String = SettingDialog.TranslateLanguage
         Dim msg As String = ""
-        If srclng <> dstlng AndAlso g.Translate(srclng, dstlng, str, buf, msg) Then
+        If srclng <> dstlng AndAlso _bing.Translate("", dstlng, str, buf) Then
             PostBrowser.DocumentText = createDetailHtml(buf)
         Else
             If msg.StartsWith("Err:") Then
                 StatusLabel.Text = msg
             End If
         End If
+#If UA = "True" Then
+        Google.GASender.GetInstance().TrackEventWithCategory("post", "translation", tw.UserId)
+#End If
     End Sub
 
     Private Sub TranslationToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TranslationToolStripMenuItem.Click
@@ -10418,5 +10632,9 @@ RETRY:
 
     Private Sub OpenUserSpecifiedUrlMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OpenUserSpecifiedUrlMenuItem.Click, OpenUserSpecifiedUrlMenuItem2.Click
         OpenUserAppointUrl()
+    End Sub
+
+    Private Sub ImageSelectionPanel_VisibleChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ImageSelectionPanel.VisibleChanged
+        Me.StatusText_TextChanged(Nothing, Nothing)
     End Sub
 End Class

@@ -18,15 +18,14 @@
 Option Strict On
 Option Explicit On
 
-Imports System.Collections.Generic
-Imports System.Text
 Imports System.Linq
 Imports System.Linq.Expressions
 Imports System.Reflection
 Imports System.Reflection.Emit
-Imports System.Threading
 Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports System.Text.RegularExpressions
+Imports System.Threading
 
 
 Public Module DynamicQueryable

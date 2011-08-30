@@ -125,7 +125,7 @@ Public Class MyLists
                 Dim listItem As ListElement = CType(Me.ListsCheckedListBox.Items(e.Index), ListElement)
 
                 Dim ret As Boolean
-                Dim rslt As String = Me._tw.ContainsUserAtList(listItem.Id.ToString(), contextUserName.ToString(), ret)
+                Dim rslt As String = Me._tw.ContainsUserAtList(listItem.Id.ToString(), contextUserName, ret)
                 If rslt <> "" Then
                     MessageBox.Show(String.Format(My.Resources.ListManageOKButton2, rslt))
                     e.NewValue = CheckState.Indeterminate

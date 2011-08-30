@@ -24,14 +24,9 @@
 ' Boston, MA 02110-1301, USA.
 
 Imports System.Net
-Imports System.Collections.Generic
 
 Public Class HttpVarious
     Inherits HttpConnection
-
-    Private Const PostMethod As String = "POST"
-    Private Const GetMethod As String = "GET"
-    Private Const HeadMethod As String = "HEAD"
 
     Public Function GetRedirectTo(ByVal url As String) As String
         Try

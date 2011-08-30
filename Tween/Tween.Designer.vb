@@ -1,9 +1,9 @@
-ï»¿Option Strict On
+Option Strict On
 <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class TweenMain
     Inherits System.Windows.Forms.Form
 
-    'ãƒ•ã‚©ãƒ¼ãƒ ãŒã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ä¸€è¦§ã‚’ã‚¯ãƒªãƒ¼ãƒ³ã‚¢ãƒƒãƒ—ã™ã‚‹ãŸã‚ã« dispose ã‚’ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã¾ã™ã€‚
+    'ƒtƒH[ƒ€‚ªƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìˆê——‚ğƒNƒŠ[ƒ“ƒAƒbƒv‚·‚é‚½‚ß‚É dispose ‚ğƒI[ƒo[ƒ‰ƒCƒh‚µ‚Ü‚·B
     <System.Diagnostics.DebuggerNonUserCode()> _
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
@@ -15,12 +15,12 @@ Partial Class TweenMain
         End Try
     End Sub
 
-    'Windows ãƒ•ã‚©ãƒ¼ãƒ  ãƒ‡ã‚¶ã‚¤ãƒŠã§å¿…è¦ã§ã™ã€‚
+    'Windows ƒtƒH[ƒ€ ƒfƒUƒCƒi‚Å•K—v‚Å‚·B
     Private components As System.ComponentModel.IContainer
 
-    'ãƒ¡ãƒ¢: ä»¥ä¸‹ã®ãƒ—ãƒ­ã‚·ãƒ¼ã‚¸ãƒ£ã¯ Windows ãƒ•ã‚©ãƒ¼ãƒ  ãƒ‡ã‚¶ã‚¤ãƒŠã§å¿…è¦ã§ã™ã€‚
-    'Windows ãƒ•ã‚©ãƒ¼ãƒ  ãƒ‡ã‚¶ã‚¤ãƒŠã‚’ä½¿ç”¨ã—ã¦å¤‰æ›´ã§ãã¾ã™ã€‚  
-    'ã‚³ãƒ¼ãƒ‰ ã‚¨ãƒ‡ã‚£ã‚¿ã‚’ä½¿ã£ã¦å¤‰æ›´ã—ãªã„ã§ãã ã•ã„ã€‚
+    'ƒƒ‚: ˆÈ‰º‚ÌƒvƒƒV[ƒWƒƒ‚Í Windows ƒtƒH[ƒ€ ƒfƒUƒCƒi‚Å•K—v‚Å‚·B
+    'Windows ƒtƒH[ƒ€ ƒfƒUƒCƒi‚ğg—p‚µ‚Ä•ÏX‚Å‚«‚Ü‚·B  
+    'ƒR[ƒh ƒGƒfƒBƒ^‚ğg‚Á‚Ä•ÏX‚µ‚È‚¢‚Å‚­‚¾‚³‚¢B
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
@@ -43,6 +43,7 @@ Partial Class TweenMain
         Me.ToolStripSeparator8 = New System.Windows.Forms.ToolStripSeparator()
         Me.HashToggleMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HashManageMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SplitContainer4 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.TimelinePanel = New System.Windows.Forms.Panel()
         Me.ListTab = New System.Windows.Forms.TabControl()
@@ -309,6 +310,9 @@ Partial Class TweenMain
         Me.ToolStripContainer1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.ContextMenuPostMode.SuspendLayout()
+        CType(Me.SplitContainer4, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer4.Panel1.SuspendLayout()
+        Me.SplitContainer4.SuspendLayout()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -345,7 +349,7 @@ Partial Class TweenMain
         '
         'ToolStripContainer1.ContentPanel
         '
-        Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.SplitContainer1)
+        Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.SplitContainer4)
         resources.ApplyResources(Me.ToolStripContainer1.ContentPanel, "ToolStripContainer1.ContentPanel")
         resources.ApplyResources(Me.ToolStripContainer1, "ToolStripContainer1")
         Me.ToolStripContainer1.LeftToolStripPanelVisible = False
@@ -362,6 +366,7 @@ Partial Class TweenMain
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.StatusLabelUrl, Me.StatusLabel, Me.ToolStripStatusLabel1, Me.HashStripSplitButton})
         Me.StatusStrip1.Name = "StatusStrip1"
         Me.StatusStrip1.ShowItemToolTips = True
+        Me.StatusStrip1.SizingGrip = False
         '
         'StatusLabelUrl
         '
@@ -467,6 +472,18 @@ Partial Class TweenMain
         '
         Me.HashManageMenuItem.Name = "HashManageMenuItem"
         resources.ApplyResources(Me.HashManageMenuItem, "HashManageMenuItem")
+        '
+        'SplitContainer4
+        '
+        Me.SplitContainer4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        resources.ApplyResources(Me.SplitContainer4, "SplitContainer4")
+        Me.SplitContainer4.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
+        Me.SplitContainer4.Name = "SplitContainer4"
+        '
+        'SplitContainer4.Panel1
+        '
+        Me.SplitContainer4.Panel1.Controls.Add(Me.SplitContainer1)
+        Me.SplitContainer4.TabStop = False
         '
         'SplitContainer1
         '
@@ -1925,6 +1942,9 @@ Partial Class TweenMain
         Me.StatusStrip1.ResumeLayout(False)
         Me.StatusStrip1.PerformLayout()
         Me.ContextMenuPostMode.ResumeLayout(False)
+        Me.SplitContainer4.Panel1.ResumeLayout(False)
+        CType(Me.SplitContainer4, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitContainer4.ResumeLayout(False)
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2235,5 +2255,6 @@ Partial Class TweenMain
     Friend WithEvents OpenUserSpecifiedUrlMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents OpenUserSpecifiedUrlMenuItem2 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents PostStateImageList As System.Windows.Forms.ImageList
+    Friend WithEvents SplitContainer4 As System.Windows.Forms.SplitContainer
 
 End Class

@@ -23,15 +23,10 @@
 ' the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 ' Boston, MA 02110-1301, USA.
 
-Imports System.Collections.Generic
-Imports System.Collections.ObjectModel
-Imports System.Linq.Expressions
-Imports Tween.TweenCustomControl
-Imports System.Text.RegularExpressions
-Imports System.Web.HttpUtility
-Imports System.Text
 Imports System.Linq
-Imports System.Linq.Expressions.DynamicExpression
+Imports System.Linq.Expressions
+Imports System.Text
+Imports System.Text.RegularExpressions
 
 Public NotInheritable Class PostClass
     Implements ICloneable
@@ -71,6 +66,7 @@ Public NotInheritable Class PostClass
     Private _postGeo As New StatusGeo
     Public Property RetweetedCount As Integer = 0
     Public Property RetweetedByUserId As Long = 0
+    Public Property Media As New Dictionary(Of String, String)
 
     <FlagsAttribute()> _
     Private Enum States
@@ -713,7 +709,7 @@ Public NotInheritable Class TabInformations
 
     Public Sub ScrubGeoReserve(ByVal id As Long, ByVal upToStatusId As Long)
         SyncLock LockObj
-            Me._scrubGeo.Add(New ScrubGeoInfo With {.UserId = id, .UpToStatusId = upToStatusId})
+            'Me._scrubGeo.Add(New ScrubGeoInfo With {.UserId = id, .UpToStatusId = upToStatusId})
             Me.ScrubGeo(id, upToStatusId)
         End SyncLock
     End Sub

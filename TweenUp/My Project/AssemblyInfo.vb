@@ -9,10 +9,10 @@ Imports System.Runtime.InteropServices
 ' アセンブリ属性の値を確認します。
 
 <Assembly: AssemblyTitle("TweenUp")> 
-<Assembly: AssemblyDescription("Tweenアップデータ")> 
-<Assembly: AssemblyCompany("")> 
+<Assembly: AssemblyDescription("Tween Updater")> 
+<Assembly: AssemblyCompany("Tween")> 
 <Assembly: AssemblyProduct("TweenUp")> 
-<Assembly: AssemblyCopyright("syo68k")> 
+<Assembly: AssemblyCopyright("(C) kiri_feather 2007 - 2011")> 
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>

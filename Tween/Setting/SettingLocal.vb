@@ -41,8 +41,9 @@ Public Class SettingLocal
     Private _cc As New ColorConverter
 
     Public FormLocation As New Point(0, 0)
-    Public SplitterDistance As Integer = 320
-    Public FormSize As New Size(436, 476)
+    Public SplitterDistance As Integer = 200
+    Public AdSplitterDistance As Integer = 350
+    Public FormSize As New Size(600, 500)
     Public StatusText As String = ""
     Public UseRecommendStatus As Boolean = False
     Public Width1 As Integer = 48

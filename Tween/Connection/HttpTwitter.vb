@@ -23,10 +23,8 @@
 ' the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 ' Boston, MA 02110-1301, USA.
 
-Imports System.Net
 Imports System.IO
-Imports System.Web
-Imports System.Threading
+Imports System.Net
 
 Public Class HttpTwitter
     Implements ICloneable
@@ -67,7 +65,8 @@ Public Class HttpTwitter
 
     Public Sub Initialize(ByVal accessToken As String, _
                                     ByVal accessTokenSecret As String, _
-                                    ByVal username As String)
+                                    ByVal username As String,
+                                    ByVal userId As Long)
         'for OAuth
         Dim con As New HttpOAuthApiProxy
         Static tk As String = ""
@@ -80,7 +79,7 @@ Public Class HttpTwitter
             tks = accessTokenSecret
             un = username
         End If
-        con.Initialize(DecryptString(ConsumerKey), DecryptString(ConsumerSecret), accessToken, accessTokenSecret, username, "screen_name")
+        con.Initialize(DecryptString(ConsumerKey), DecryptString(ConsumerSecret), accessToken, accessTokenSecret, username, userId, "screen_name", "user_id")
         httpCon = con
         connectionType = AuthMethod.OAuth
         requestToken = ""
@@ -116,6 +115,21 @@ Public Class HttpTwitter
         End Get
     End Property
 
+    Public Property AuthenticatedUserId() As Long
+        Get
+            If httpCon IsNot Nothing Then
+                Return httpCon.AuthUserId
+            Else
+                Return 0
+            End If
+        End Get
+        Set(ByVal value As Long)
+            If httpCon IsNot Nothing Then
+                httpCon.AuthUserId = value
+            End If
+        End Set
+    End Property
+
     Public ReadOnly Property Password() As String
         Get
             Return ""
@@ -138,7 +152,7 @@ Public Class HttpTwitter
     End Function
 
     Public Sub ClearAuthInfo()
-        Me.Initialize("", "", "")
+        Me.Initialize("", "", "", 0)
     End Sub
 
     Public Shared WriteOnly Property UseSsl() As Boolean
@@ -155,6 +169,8 @@ Public Class HttpTwitter
         Dim param As New Dictionary(Of String, String)
         param.Add("status", status)
         If replyToId > 0 Then param.Add("in_reply_to_status_id", replyToId.ToString)
+        param.Add("include_entities", "true")
+        'If AppendSettingDialog.Instance.ShortenTco AndAlso AppendSettingDialog.Instance.UrlConvertAuto Then param.Add("wrap_links", "true")
 
         Return httpCon.GetContent(PostMethod, _
                             CreateTwitterUri("/1/statuses/update.json"), _
@@ -162,6 +178,26 @@ Public Class HttpTwitter
                             content, _
                             Nothing, _
                             Nothing)
+    End Function
+
+    Public Function UpdateStatusWithMedia(ByVal status As String, ByVal replyToId As Long, ByVal mediaFile As FileInfo, ByRef content As String) As HttpStatusCode
+        '画像投稿用エンドポイント
+        Dim param As New Dictionary(Of String, String)
+        param.Add("status", status)
+        If replyToId > 0 Then param.Add("in_reply_to_status_id", replyToId.ToString)
+        param.Add("include_entities", "true")
+        'If AppendSettingDialog.Instance.ShortenTco AndAlso AppendSettingDialog.Instance.UrlConvertAuto Then param.Add("wrap_links", "true")
+
+        Dim binary As New List(Of KeyValuePair(Of String, FileInfo))
+        binary.Add(New KeyValuePair(Of String, FileInfo)("media[]", mediaFile))
+
+        Return httpCon.GetContent(PostMethod, _
+                            New Uri("https://upload.twitter.com/1/statuses/update_with_media.json"), _
+                            param, _
+                            binary, _
+                            content, _
+                            TwitterApiInfo.HttpHeaders, _
+                            AddressOf GetApiCallback)
     End Function
 
     Public Function DestroyStatus(ByVal id As Long) As HttpStatusCode
@@ -177,6 +213,7 @@ Public Class HttpTwitter
         Dim param As New Dictionary(Of String, String)
         param.Add("text", status)
         param.Add("screen_name", sendto)
+        'If AppendSettingDialog.Instance.ShortenTco AndAlso AppendSettingDialog.Instance.UrlConvertAuto Then param.Add("wrap_links", "true")
 
         Return httpCon.GetContent(PostMethod, _
                             CreateTwitterUri("/1/direct_messages/new.json"), _
@@ -196,9 +233,12 @@ Public Class HttpTwitter
     End Function
 
     Public Function RetweetStatus(ByVal id As Long, ByRef content As String) As HttpStatusCode
+        Dim param As New Dictionary(Of String, String)
+        param.Add("include_entities", "true")
+
         Return httpCon.GetContent(PostMethod, _
                             CreateTwitterUri("/1/statuses/retweet/" + id.ToString() + ".json"), _
-                            Nothing, _
+                            param, _
                             content, _
                             Nothing, _
                             Nothing)
@@ -207,6 +247,7 @@ Public Class HttpTwitter
     Public Function ShowUserInfo(ByVal screenName As String, ByRef content As String) As HttpStatusCode
         Dim param As New Dictionary(Of String, String)
         param.Add("screen_name", screenName)
+        param.Add("include_entities", "true")
         Return httpCon.GetContent(GetMethod, _
                             CreateTwitterUri("/1/users/show.json"), _
                             param, _
@@ -289,9 +330,11 @@ Public Class HttpTwitter
     End Function
 
     Public Function ShowStatuses(ByVal id As Long, ByRef content As String) As HttpStatusCode
+        Dim param As New Dictionary(Of String, String)
+        param.Add("include_entities", "true")
         Return httpCon.GetContent(GetMethod, _
                             CreateTwitterUri("/1/statuses/show/" + id.ToString() + ".json"), _
-                            Nothing, _
+                            param, _
                             content, _
                             TwitterApiInfo.HttpHeaders, _
                             AddressOf GetApiCallback)
@@ -425,10 +468,11 @@ Public Class HttpTwitter
         If since_id > 0 Then
             param.Add("since_id", since_id.ToString())
         End If
+        param.Add("include_entities", "true")
 
         Return httpCon.GetContent(GetMethod, _
                             CreateTwitterUri("/1/direct_messages.json"), _
-                            Nothing, _
+                            param, _
                             content, _
                             TwitterApiInfo.HttpHeaders, _
                             AddressOf GetApiCallback)
@@ -445,10 +489,11 @@ Public Class HttpTwitter
         If since_id > 0 Then
             param.Add("since_id", since_id.ToString())
         End If
+        param.Add("include_entities", "true")
 
         Return httpCon.GetContent(GetMethod, _
                             CreateTwitterUri("/1/direct_messages/sent.json"), _
-                            Nothing, _
+                            param, _
                             content, _
                             TwitterApiInfo.HttpHeaders, _
                             AddressOf GetApiCallback)
@@ -457,6 +502,8 @@ Public Class HttpTwitter
     Public Function Favorites(ByVal count As Integer, ByRef content As String) As HttpStatusCode
         Dim param As New Dictionary(Of String, String)
         If count <> 20 Then param.Add("count", count.ToString())
+
+        param.Add("include_entities", "true")
 
         Return httpCon.GetContent(GetMethod, _
                             CreateTwitterUri("/1/favorites.json"), _
@@ -625,11 +672,14 @@ Public Class HttpTwitter
                             AddressOf GetApiCallback)
     End Function
 
-    Public Function GetListsStatuses(ByVal userId As Long, ByVal list_id As Long, ByVal per_page As Integer, ByVal max_id As Long, ByVal since_id As Long, ByRef content As String) As HttpStatusCode
+    Public Function GetListsStatuses(ByVal userId As Long, ByVal list_id As Long, ByVal per_page As Integer, ByVal max_id As Long, ByVal since_id As Long, ByVal isRTinclude As Boolean, ByRef content As String) As HttpStatusCode
         '認証なくても取得できるが、protectedユーザー分が抜ける
         Dim param As New Dictionary(Of String, String)
         param.Add("user_id", userId.ToString)
         param.Add("list_id", list_id.ToString)
+        If isRTinclude Then
+            param.Add("include_rts", "true")
+        End If
         If per_page > 0 Then
             param.Add("per_page", per_page.ToString())
         End If
@@ -639,6 +689,7 @@ Public Class HttpTwitter
         If since_id > 0 Then
             param.Add("since_id", since_id.ToString())
         End If
+        param.Add("include_entities", "true")
 
         Return httpCon.GetContent(GetMethod, _
                             CreateTwitterUri("/1/lists/statuses.json"), _
@@ -681,95 +732,92 @@ Public Class HttpTwitter
                             AddressOf GetApiCallback)
     End Function
 
-    'Public Function CreateListMembers(ByVal user As String, ByVal list_id As String, ByVal memberId As Long, ByRef content As String) As HttpStatusCode
-    '    Dim param As New Dictionary(Of String, String)
-    '    param.Add("screen_name", user)
-    '    param.Add("list_id", list_id)
-    '    param.Add("member_user_id", memberId.ToString)
-    '    Return httpCon.GetContent(PostMethod, _
-    '                        CreateTwitterUri("/1/lists/members/create.json"), _
-    '                        param, _
-    '                        content, _
-    '                        Nothing, _
-    '                        Nothing)
-    'End Function
-
-    Public Function CreateListMembers(ByVal user As String, ByVal list_id As String, ByVal memberName As String, ByRef content As String) As HttpStatusCode
-        '正常に動かないので旧APIで様子見
-        'Dim param As New Dictionary(Of String, String)
-        'param.Add("screen_name", user)
-        'param.Add("list_id", list_id)
-        'param.Add("member_screen_name", memberName)
-        'Return httpCon.GetContent(PostMethod, _
-        '                    CreateTwitterUri("/1/lists/members/create.json"), _
-        '                    param, _
-        '                    content, _
-        '                    Nothing, _
-        '                    Nothing)
+    Public Function CreateListMembers(ByVal list_id As String, ByVal memberName As String, ByRef content As String) As HttpStatusCode
         Dim param As New Dictionary(Of String, String)
-        param.Add("id", memberName)
+        param.Add("list_id", list_id)
+        param.Add("screen_name", memberName)
         Return httpCon.GetContent(PostMethod, _
-                            CreateTwitterUri("/1/" + user + "/" + list_id + "/members.json"), _
+                            CreateTwitterUri("/1/lists/members/create.json"), _
                             param, _
                             content, _
                             Nothing, _
                             Nothing)
     End Function
 
-    'Public Function DeleteListMembers(ByVal user As String, ByVal list_id As String, ByVal memberId As Long, ByRef content As String) As HttpStatusCode
+    'Public Function CreateListMembers(ByVal user As String, ByVal list_id As String, ByVal memberName As String, ByRef content As String) As HttpStatusCode
+    '    '正常に動かないので旧APIで様子見
+    '    'Dim param As New Dictionary(Of String, String)
+    '    'param.Add("screen_name", user)
+    '    'param.Add("list_id", list_id)
+    '    'param.Add("member_screen_name", memberName)
+    '    'Return httpCon.GetContent(PostMethod, _
+    '    '                    CreateTwitterUri("/1/lists/members/create.json"), _
+    '    '                    param, _
+    '    '                    content, _
+    '    '                    Nothing, _
+    '    '                    Nothing)
     '    Dim param As New Dictionary(Of String, String)
-    '    param.Add("screen_name", user)
-    '    param.Add("list_id", list_id)
-    '    param.Add("member_user_id", memberId.ToString)
+    '    param.Add("id", memberName)
     '    Return httpCon.GetContent(PostMethod, _
-    '                        CreateTwitterUri("/1/lists/members/destroy.json"), _
+    '                        CreateTwitterUri("/1/" + user + "/" + list_id + "/members.json"), _
     '                        param, _
     '                        content, _
     '                        Nothing, _
     '                        Nothing)
     'End Function
 
-    Public Function DeleteListMembers(ByVal user As String, ByVal list_id As String, ByVal memberName As String, ByRef content As String) As HttpStatusCode
-        'Dim param As New Dictionary(Of String, String)
-        'param.Add("screen_name", user)
-        'param.Add("list_id", list_id)
-        'param.Add("member_screen_name", memberName)
-        'Return httpCon.GetContent(PostMethod, _
-        '                    CreateTwitterUri("/1/lists/members/destroy.json"), _
-        '                    param, _
-        '                    content, _
-        '                    Nothing, _
-        '                    Nothing)
+    Public Function DeleteListMembers(ByVal list_id As String, ByVal memberName As String, ByRef content As String) As HttpStatusCode
         Dim param As New Dictionary(Of String, String)
-        param.Add("id", memberName)
-        param.Add("_method", "DELETE")
+        param.Add("screen_name", memberName)
+        param.Add("list_id", list_id)
         Return httpCon.GetContent(PostMethod, _
-                            CreateTwitterUri("/1/" + user + "/" + list_id + "/members.json"), _
+                            CreateTwitterUri("/1/lists/members/destroy.json"), _
                             param, _
                             content, _
                             Nothing, _
                             Nothing)
     End Function
 
-    Public Function ShowListMember(ByVal user As String, ByVal list_id As String, ByVal id As String, ByRef content As String) As HttpStatusCode
+    'Public Function DeleteListMembers(ByVal user As String, ByVal list_id As String, ByVal memberName As String, ByRef content As String) As HttpStatusCode
+    '    'Dim param As New Dictionary(Of String, String)
+    '    'param.Add("screen_name", user)
+    '    'param.Add("list_id", list_id)
+    '    'param.Add("member_screen_name", memberName)
+    '    'Return httpCon.GetContent(PostMethod, _
+    '    '                    CreateTwitterUri("/1/lists/members/destroy.json"), _
+    '    '                    param, _
+    '    '                    content, _
+    '    '                    Nothing, _
+    '    '                    Nothing)
+    '    Dim param As New Dictionary(Of String, String)
+    '    param.Add("id", memberName)
+    '    param.Add("_method", "DELETE")
+    '    Return httpCon.GetContent(PostMethod, _
+    '                        CreateTwitterUri("/1/" + user + "/" + list_id + "/members.json"), _
+    '                        param, _
+    '                        content, _
+    '                        Nothing, _
+    '                        Nothing)
+    'End Function
+
+    Public Function ShowListMember(ByVal list_id As String, ByVal memberName As String, ByRef content As String) As HttpStatusCode
         '新APIがmember_screen_nameもmember_user_idも無視して、自分のIDを返してくる。
         '正式にドキュメントに反映されるまで旧APIを使用する
-        'Dim param As New Dictionary(Of String, String)
-        'param.Add("screen_name", user)
-        'param.Add("list_id", list_id)
-        'param.Add("member_screen_name", id)
-        'Return httpCon.GetContent(GetMethod, _
-        '                    CreateTwitterUri("/1/lists/members/show.json"), _
-        '                    param, _
-        '                    content, _
-        '                    TwitterApiInfo.HttpHeaders, _
-        '                    AddressOf GetApiCallback)
+        Dim param As New Dictionary(Of String, String)
+        param.Add("screen_name", memberName)
+        param.Add("list_id", list_id)
         Return httpCon.GetContent(GetMethod, _
-                            CreateTwitterUri("/1/" + user + "/" + list_id + "/members/" + id + ".json"), _
-                            Nothing, _
+                            CreateTwitterUri("/1/lists/members/show.json"), _
+                            param, _
                             content, _
                             TwitterApiInfo.HttpHeaders, _
                             AddressOf GetApiCallback)
+        'Return httpCon.GetContent(GetMethod, _
+        '                    CreateTwitterUri("/1/" + user + "/" + list_id + "/members/" + id + ".json"), _
+        '                    Nothing, _
+        '                    content, _
+        '                    TwitterApiInfo.HttpHeaders, _
+        '                    AddressOf GetApiCallback)
     End Function
 #End Region
 
@@ -797,6 +845,7 @@ Public Class HttpTwitter
         param.Add("url", url)
         param.Add("location", location)
         param.Add("description", description)
+        param.Add("include_entities", "true")
 
         Return httpCon.GetContent(PostMethod, _
                     CreateTwitterUri("/1/account/update_profile.json"), _
@@ -821,10 +870,13 @@ Public Class HttpTwitter
 
     Public Function GetRelatedResults(ByVal id As Long, ByRef content As String) As HttpStatusCode
         '認証なくても取得できるが、protectedユーザー分が抜ける
+        Dim param As New Dictionary(Of String, String)
+
+        param.Add("include_entities", "true")
 
         Return httpCon.GetContent(GetMethod, _
                             CreateTwitterUri("/1/related_results/show/" + id.ToString + ".json"), _
-                            Nothing, _
+                            param, _
                             content, _
                             TwitterApiInfo.HttpHeaders, _
                             AddressOf GetApiCallback)
@@ -839,10 +891,29 @@ Public Class HttpTwitter
                             AddressOf GetApiCallback)
     End Function
 
+    Public Function GetConfiguration(ByRef content As String) As HttpStatusCode
+        Return httpCon.GetContent(GetMethod, _
+                                        CreateTwitterUri("/1/help/configuration.json"), _
+                                        Nothing, _
+                                        content, _
+                                        TwitterApiInfo.HttpHeaders, _
+                                        AddressOf GetApiCallback)
+    End Function
+
+    Public Function VerifyCredentials(ByRef content As String) As HttpStatusCode
+        Return httpCon.GetContent(GetMethod, _
+                                        CreateTwitterUri("/1/account/verify_credentials.json"), _
+                                        Nothing, _
+                                        content, _
+                                        TwitterApiInfo.HttpHeaders, _
+                                        AddressOf GetApiCallback)
+    End Function
+
 #Region "Proxy API"
     Private Shared _twitterUrl As String = "api.twitter.com"
     Private Shared _TwitterSearchUrl As String = "search.twitter.com"
-    Private Shared _twitterStreamUrl As String = "userstream.twitter.com"
+    Private Shared _twitterUserStreamUrl As String = "userstream.twitter.com"
+    Private Shared _twitterStreamUrl As String = "stream.twitter.com"
 
     Private Function CreateTwitterUri(ByVal path As String) As Uri
         Return New Uri(String.Format("{0}{1}{2}", _protocol, _twitterUrl, path))
@@ -852,8 +923,12 @@ Public Class HttpTwitter
         Return New Uri(String.Format("{0}{1}{2}", _protocol, _TwitterSearchUrl, path))
     End Function
 
+    Private Function CreateTwitterUserStreamUri(ByVal path As String) As Uri
+        Return New Uri(String.Format("{0}{1}{2}", "https://", _twitterUserStreamUrl, path))
+    End Function
+
     Private Function CreateTwitterStreamUri(ByVal path As String) As Uri
-        Return New Uri(String.Format("{0}{1}{2}", "https://", _twitterStreamUrl, path))
+        Return New Uri(String.Format("{0}{1}{2}", "http://", _twitterStreamUrl, path))
     End Function
 
     Public Shared WriteOnly Property TwitterUrl() As String
@@ -891,7 +966,24 @@ Public Class HttpTwitter
         End If
 
         Return httpCon.GetContent(GetMethod, _
-                            CreateTwitterStreamUri("/2/user.json"), _
+                            CreateTwitterUserStreamUri("/2/user.json"), _
+                            param, _
+                            content,
+                            userAgent)
+    End Function
+
+    Public Function FilterStream(ByRef content As Stream,
+                               ByVal trackwords As String,
+                               ByVal userAgent As String) As HttpStatusCode
+        '文中の日本語キーワードに反応せず、使えない（スペースで分かち書きしてないと反応しない）
+        Dim param As New Dictionary(Of String, String)
+
+        If Not String.IsNullOrEmpty(trackwords) Then
+            param.Add("track", String.Join(",", trackwords.Split(" ".ToCharArray)))
+        End If
+
+        Return httpCon.GetContent(PostMethod, _
+                            CreateTwitterStreamUri("/1/statuses/filter.json"), _
                             param, _
                             content,
                             userAgent)
@@ -903,7 +995,7 @@ Public Class HttpTwitter
 
     Public Function Clone() As Object Implements System.ICloneable.Clone
         Dim myCopy As New HttpTwitter
-        myCopy.Initialize(Me.AccessToken, Me.AccessTokenSecret, Me.AuthenticatedUsername)
+        myCopy.Initialize(Me.AccessToken, Me.AccessTokenSecret, Me.AuthenticatedUsername, Me.AuthenticatedUserId)
         Return myCopy
     End Function
 End Class

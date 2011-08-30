@@ -1,9 +1,6 @@
 ﻿Imports System.Net
 Imports System.Runtime.Serialization
 Imports System.Text.RegularExpressions
-Imports System.IO
-Imports System.Text
-Imports System.Runtime.Serialization.Json
 
 Public Class Foursquare
     Inherits HttpConnection
@@ -24,8 +21,12 @@ Public Class Foursquare
 
     Private Function GetVenueId(ByVal url As String) As String
         Dim content As String = ""
-        Dim res As HttpStatusCode = GetContent("GET", New Uri(url), Nothing, content)
-        If res <> HttpStatusCode.OK Then Return ""
+        Try
+            Dim res As HttpStatusCode = GetContent("GET", New Uri(url), Nothing, content)
+            If res <> HttpStatusCode.OK Then Return ""
+        Catch ex As Exception
+            Return ""
+        End Try
         Dim mc As Match = Regex.Match(content, "/venue/(?<venueId>[0-9]+)", RegexOptions.IgnoreCase)
         If mc.Success Then
             Dim vId As String = mc.Result("${venueId}")
@@ -37,30 +38,34 @@ Public Class Foursquare
 
     Private Function GetVenueInfo(ByVal venueId As String) As FourSquareDataModel.Venue
         Dim content As String = ""
-        Dim res As HttpStatusCode = GetContent("GET",
-                                               New Uri("https://api.foursquare.com/v2/venues/" + venueId),
-                                               _authKey,
-                                               content)
+        Try
+            Dim res As HttpStatusCode = GetContent("GET",
+                                                   New Uri("https://api.foursquare.com/v2/venues/" + venueId),
+                                                   _authKey,
+                                                   content)
 
-        If res = HttpStatusCode.OK Then
-            Dim curData As FourSquareDataModel.FourSquareData = Nothing
-            Try
-                curData = CreateDataFromJson(Of FourSquareDataModel.FourSquareData)(content)
-            Catch ex As Exception
+            If res = HttpStatusCode.OK Then
+                Dim curData As FourSquareDataModel.FourSquareData = Nothing
+                Try
+                    curData = CreateDataFromJson(Of FourSquareDataModel.FourSquareData)(content)
+                Catch ex As Exception
+                    Return Nothing
+                End Try
+
+                Return curData.Response.Venue
+            Else
+                'Dim curData As FourSquareDataModel.FourSquareData = Nothing
+                'Try
+                '    curData = CreateDataFromJson(Of FourSquareDataModel.FourSquareData)(content)
+                'Catch ex As Exception
+                '    Return Nothing
+                'End Try
+                'MessageBox.Show(res.ToString + Environment.NewLine + curData.Meta.ErrorType + Environment.NewLine + curData.Meta.ErrorDetail)
                 Return Nothing
-            End Try
-
-            Return curData.Response.Venue
-        Else
-            'Dim curData As FourSquareDataModel.FourSquareData = Nothing
-            'Try
-            '    curData = CreateDataFromJson(Of FourSquareDataModel.FourSquareData)(content)
-            'Catch ex As Exception
-            '    Return Nothing
-            'End Try
-            'MessageBox.Show(res.ToString + Environment.NewLine + curData.Meta.ErrorType + Environment.NewLine + curData.Meta.ErrorDetail)
+            End If
+        Catch ex As Exception
             Return Nothing
-        End If
+        End Try
     End Function
 
     Public Function GetMapsUri(ByVal url As String, ByRef refText As String) As String

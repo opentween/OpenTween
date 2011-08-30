@@ -23,13 +23,10 @@
 ' the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 ' Boston, MA 02110-1301, USA.
 
-Imports System.Windows.Forms
-Imports System.Linq
-Imports System.Text.RegularExpressions
-Imports System
-Imports System.Runtime.CompilerServices
 Imports System.IO
+Imports System.Linq
 Imports System.Text
+Imports System.Text.RegularExpressions
 
 Public Class EventViewerDialog
     Public Property EventSource As List(Of Twitter.FormattedEvent)

@@ -23,11 +23,9 @@
 ' the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 ' Boston, MA 02110-1301, USA.
 
-Imports System.Drawing
-Imports System.IO
-Imports System.Threading
-Imports System.Runtime.Caching
 Imports System.Collections.Specialized
+Imports System.Runtime.Caching
+Imports System.Threading
 
 Public Class ImageDictionary
     Implements IDictionary(Of String, Image), IDisposable

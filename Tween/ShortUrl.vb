@@ -76,6 +76,7 @@ Public Class ShortUrl
     Private Shared _bitlyKey As String = ""
     Private Shared _isresolve As Boolean = True
     Private Shared _isForceResolve As Boolean = True
+    Private Shared urlCache As New Dictionary(Of String, String)
 
     Private Shared ReadOnly _lockObj As New Object
 
@@ -109,34 +110,76 @@ Public Class ShortUrl
         End Set
     End Property
 
-    Public Shared Function Resolve(ByVal orgData As String) As String
-        If _isresolve Then
-            Static urlCache As New Dictionary(Of String, String)
-            SyncLock _lockObj
-                If urlCache.Count > 500 Then
-                    urlCache.Clear() '定期的にリセット
-                End If
-            End SyncLock
+    Public Shared Function Resolve(ByVal orgData As String, ByVal tcoResolve As Boolean) As String
+        If Not _isresolve Then Return orgData
+        SyncLock _lockObj
+            If urlCache.Count > 500 Then
+                urlCache.Clear() '定期的にリセット
+            End If
+        End SyncLock
 
-            Dim m As MatchCollection = Regex.Matches(orgData, "<a href=""(?<svc>http://.+?/)(?<path>[^""]+)?""", RegexOptions.IgnoreCase)
-            Dim urlList As New List(Of String)
-            For Each orgUrlMatch As Match In m
-                Dim orgUrl As String = orgUrlMatch.Result("${svc}")
-                Dim orgUrlPath As String = orgUrlMatch.Result("${path}")
-                If (_isForceResolve OrElse Array.IndexOf(_ShortUrlService, orgUrl) > -1) AndAlso _
-                   Not urlList.Contains(orgUrl + orgUrlPath) AndAlso orgUrl <> "http://twitter.com/" Then
-                    SyncLock _lockObj
-                        urlList.Add(orgUrl + orgUrlPath)
-                    End SyncLock
-                End If
-            Next
-            For Each orgUrl As String In urlList
+        Dim urlList As New List(Of String)
+        Dim m As MatchCollection = Regex.Matches(orgData, "<a href=""(?<svc>http://.+?/)(?<path>[^""]+)?""", RegexOptions.IgnoreCase)
+        For Each orgUrlMatch As Match In m
+            Dim orgUrl As String = orgUrlMatch.Result("${svc}")
+            Dim orgUrlPath As String = orgUrlMatch.Result("${path}")
+            If (_isForceResolve OrElse Array.IndexOf(_ShortUrlService, orgUrl) > -1) AndAlso _
+               Not urlList.Contains(orgUrl + orgUrlPath) AndAlso orgUrl <> "http://twitter.com/" Then
+                If Not tcoResolve AndAlso (orgUrl = "http://t.co/" OrElse orgUrl = "https://t.co") Then Return orgData
+                SyncLock _lockObj
+                    urlList.Add(orgUrl + orgUrlPath)
+                End SyncLock
+            End If
+        Next
+
+        For Each orgUrl As String In urlList
+            If urlCache.ContainsKey(orgUrl) Then
+                Try
+                    orgData = orgData.Replace("<a href=""" + orgUrl + """", "<a href=""" + urlCache(orgUrl) + """")
+                Catch ex As Exception
+                    'Through
+                End Try
+            Else
+                Try
+                    'urlとして生成できない場合があるらしい
+                    'Dim urlstr As String = New Uri(urlEncodeMultibyteChar(orgUrl)).GetLeftPart(UriPartial.Path)
+                    Dim retUrlStr As String = ""
+                    Dim tmpurlStr As String = New Uri(urlEncodeMultibyteChar(orgUrl)).GetLeftPart(UriPartial.Path)
+                    Dim httpVar As New HttpVarious
+                    retUrlStr = urlEncodeMultibyteChar(httpVar.GetRedirectTo(tmpurlStr))
+                    If retUrlStr.StartsWith("http") Then
+                        retUrlStr = retUrlStr.Replace("""", "%22")  'ダブルコーテーションがあるとURL終端と判断されるため、これだけ再エンコード
+                        orgData = orgData.Replace("<a href=""" + tmpurlStr, "<a href=""" + retUrlStr)
+                        SyncLock _lockObj
+                            If Not urlCache.ContainsKey(orgUrl) Then urlCache.Add(orgUrl, retUrlStr)
+                        End SyncLock
+                    End If
+                Catch ex As Exception
+                    'Through
+                End Try
+            End If
+        Next
+        Return orgData
+    End Function
+
+    Public Shared Function ResolveMedia(ByVal orgData As String, ByVal tcoResolve As Boolean) As String
+        If Not _isresolve Then Return orgData
+        SyncLock _lockObj
+            If urlCache.Count > 500 Then
+                urlCache.Clear() '定期的にリセット
+            End If
+        End SyncLock
+
+        Dim m As Match = Regex.Match(orgData, "(?<svc>https?://.+?/)(?<path>[^""]+)?", RegexOptions.IgnoreCase)
+        If m.Success Then
+            Dim orgUrl As String = m.Result("${svc}")
+            Dim orgUrlPath As String = m.Result("${path}")
+            If (_isForceResolve OrElse
+                Array.IndexOf(_ShortUrlService, orgUrl) > -1) AndAlso orgUrl <> "http://twitter.com/" Then
+                If Not tcoResolve AndAlso (orgUrl = "http://t.co/" OrElse orgUrl = "https://t.co/") Then Return orgData
+                orgUrl += orgUrlPath
                 If urlCache.ContainsKey(orgUrl) Then
-                    Try
-                        orgData = orgData.Replace("<a href=""" + orgUrl + """", "<a href=""" + urlCache(orgUrl) + """")
-                    Catch ex As Exception
-                        'Through
-                    End Try
+                    Return urlCache(orgUrl)
                 Else
                     Try
                         'urlとして生成できない場合があるらしい
@@ -147,22 +190,28 @@ Public Class ShortUrl
                         retUrlStr = urlEncodeMultibyteChar(httpVar.GetRedirectTo(tmpurlStr))
                         If retUrlStr.StartsWith("http") Then
                             retUrlStr = retUrlStr.Replace("""", "%22")  'ダブルコーテーションがあるとURL終端と判断されるため、これだけ再エンコード
-                            orgData = orgData.Replace("<a href=""" + tmpurlStr, "<a href=""" + retUrlStr)
                             SyncLock _lockObj
                                 If Not urlCache.ContainsKey(orgUrl) Then urlCache.Add(orgUrl, retUrlStr)
                             End SyncLock
+                            Return retUrlStr
                         End If
                     Catch ex As Exception
-                        'Through
+                        Return orgData
                     End Try
                 End If
-            Next
+            End If
         End If
         Return orgData
     End Function
 
     Public Shared Function Make(ByVal ConverterType As UrlConverter, ByVal SrcUrl As String) As String
-        Dim src As String = urlEncodeMultibyteChar(SrcUrl)
+        Dim src As String = ""
+        Try
+            src = urlEncodeMultibyteChar(SrcUrl)
+        Catch ex As Exception
+            Return "Can't convert"
+        End Try
+        Dim orgSrc As String = SrcUrl
         Dim param As New Dictionary(Of String, String)
         Dim content As String = ""
 
@@ -213,7 +262,7 @@ Public Class ShortUrl
                         content = src
                         Exit Select
                     End If
-                    param.Add("link[url]", SrcUrl)
+                    param.Add("link[url]", orgSrc) 'twurlはpostメソッドなので日本語エンコードのみ済ませた状態で送る
                     If Not (New HttpVarious).PostData("http://tweetburner.com/links", param, content) Then
                         Return "Can't convert"
                     End If

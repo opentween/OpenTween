@@ -23,10 +23,9 @@
 ' the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 ' Boston, MA 02110-1301, USA.
 
-Imports System.Net
-Imports System.IO
-Imports System.Collections.Generic
 Imports System.Collections.Specialized
+Imports System.IO
+Imports System.Net
 Imports System.Text
 
 '''<summary>
@@ -62,6 +61,10 @@ Public Class HttpConnection
         IE
         Specified
     End Enum
+
+    Protected Const PostMethod As String = "POST"
+    Protected Const GetMethod As String = "GET"
+    Protected Const HeadMethod As String = "HEAD"
 
     '''<summary>
     '''HttpWebRequestオブジェクトを取得する。パラメータはGET/HEAD/DELETEではクエリに、POST/PUTではエンティティボディに変換される。
@@ -620,6 +623,9 @@ Public Class HttpConnection
                 'IE設定（システム設定）はデフォルト値なので処理しない
         End Select
         proxyKind = proxyType
+
+        Win32Api.SetProxy(proxyType, proxyAddress, proxyPort, proxyUser, proxyPassword)
+
     End Sub
 
 End Class
