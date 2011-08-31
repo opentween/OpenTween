@@ -13,9 +13,11 @@ GA_googleFetchAds();
 </script>
 <!-- <meta http-equiv="refresh" content="45"> -->
 </head>
-<body style="margin:0px;">
+<body style="text-align:center; margin:0 auto;">
 <!-- Tween_HomePage_728x90 -->
+<div style="width: 720px; margin:0 auto; text-align:left;">
 <script type='text/javascript'>
 GA_googleFillSlot("Tween_HomePage_728x90");
 </script>
+</div>
 </body></html>

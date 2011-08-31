@@ -325,6 +325,8 @@ Public Class Google
         Public Property SessionFirst As Long
         Public Property SessionLast As Long
 
+        Public Event Sent()
+
         'Singleton
         Private Shared _me As New GASender
         Public Shared Function GetInstance() As GASender
@@ -442,6 +444,7 @@ Public Class Google
             Finally
                 If res IsNot Nothing Then res.Close()
             End Try
+            RaiseEvent Sent()
         End Sub
 
         Public Sub TrackPage(ByVal page As String, ByVal userId As Long)

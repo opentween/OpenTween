@@ -212,6 +212,7 @@ Public Class TweenMain
     Private displayItem As ImageListViewItem
 
     Private ab As AdsBrowser
+    Private WithEvents Ga As Google.GASender
 
     'URL短縮のUndo用
     Private Structure urlUndo
@@ -1133,6 +1134,7 @@ Public Class TweenMain
 #Else
         SplitContainer4.Panel2Collapsed = True
 #End If
+        ga = Google.GASender.GetInstance
         Google.GASender.GetInstance.SessionFirst = _cfgCommon.GAFirst
         Google.GASender.GetInstance.SessionLast = _cfgCommon.GALast
         If tw.UserId = 0 Then tw.VerifyCredentials()
@@ -1921,7 +1923,6 @@ Public Class TweenMain
             e.Cancel = True
             Me.Visible = False
         Else
-            Me.SaveConfigsCommon()
             Google.GASender.GetInstance().TrackEventWithCategory("post", "end", tw.UserId)
             _hookGlobalHotkey.UnregisterAllOriginalHotkey()
             _ignoreConfigSave = True
@@ -7748,8 +7749,11 @@ RETRY:
             '_mySize = Me.ClientSize                     'サイズ保持（最小化・最大化されたまま終了した場合の対応用）
             Me.DesktopLocation = _cfgLocal.FormLocation
             '_myLoc = Me.DesktopLocation                        '位置保持（最小化・最大化されたまま終了した場合の対応用）
-            If _cfgLocal.AdSplitterDistance > Me.SplitContainer4.Panel1MinSize AndAlso
-                _cfgLocal.AdSplitterDistance < Me.SplitContainer4.Height - Me.SplitContainer4.Panel2MinSize - Me.SplitContainer4.SplitterWidth Then
+            'If _cfgLocal.AdSplitterDistance > Me.SplitContainer4.Panel1MinSize AndAlso
+            '    _cfgLocal.AdSplitterDistance < Me.SplitContainer4.Height - Me.SplitContainer4.Panel2MinSize - Me.SplitContainer4.SplitterWidth Then
+            '    Me.SplitContainer4.SplitterDistance = _cfgLocal.AdSplitterDistance 'Splitterの位置設定
+            'End If
+            If _cfgLocal.AdSplitterDistance > Me.SplitContainer4.Panel1MinSize Then
                 Me.SplitContainer4.SplitterDistance = _cfgLocal.AdSplitterDistance 'Splitterの位置設定
             End If
             If _cfgLocal.SplitterDistance > Me.SplitContainer1.Panel1MinSize AndAlso
@@ -10602,5 +10606,19 @@ RETRY:
 
     Private Sub ImageSelectionPanel_VisibleChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ImageSelectionPanel.VisibleChanged
         Me.StatusText_TextChanged(Nothing, Nothing)
+    End Sub
+
+    Private Sub SplitContainer4_Resize(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SplitContainer4.Resize
+        If Me.WindowState = FormWindowState.Minimized Then Exit Sub
+        If SplitContainer4.Height < SplitContainer4.SplitterWidth + SplitContainer4.Panel2MinSize + SplitContainer4.SplitterDistance Then
+            SplitContainer4.SplitterDistance = SplitContainer4.Height - SplitContainer4.SplitterWidth - SplitContainer4.Panel2MinSize
+        End If
+        If SplitContainer4.Panel2.Height > 90 Then
+            SplitContainer4.SplitterDistance = SplitContainer4.Height - SplitContainer4.SplitterWidth - 90
+        End If
+    End Sub
+
+    Private Sub Ga_Sent() Handles Ga.Sent
+        Me._modifySettingCommon = True
     End Sub
 End Class
