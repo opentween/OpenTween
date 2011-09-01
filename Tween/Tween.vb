@@ -607,6 +607,8 @@ Public Class TweenMain
         If _cfgCommon.Token = "" Then _cfgCommon.UserName = ""
         tw.Initialize(_cfgCommon.Token, _cfgCommon.TokenSecret, _cfgCommon.UserName, _cfgCommon.UserId)
 
+        SettingDialog.UserAccounts = _cfgCommon.UserAccounts
+
         SettingDialog.TimelinePeriodInt = _cfgCommon.TimelinePeriod
         SettingDialog.ReplyPeriodInt = _cfgCommon.ReplyPeriod
         SettingDialog.DMPeriodInt = _cfgCommon.DMPeriod
@@ -1186,6 +1188,15 @@ Public Class TweenMain
     Private Sub LoadConfig()
         Dim needToSave As Boolean = False
         _cfgCommon = SettingCommon.Load()
+        If _cfgCommon.UserAccounts Is Nothing OrElse _cfgCommon.UserAccounts.Count = 0 Then
+            _cfgCommon.UserAccounts = New List(Of UserAccount)
+            If Not String.IsNullOrEmpty(_cfgCommon.UserName) Then
+                _cfgCommon.UserAccounts.Add(New UserAccount() With {.Username = _cfgCommon.UserName,
+                                                                    .UserId = _cfgCommon.UserId,
+                                                                    .Token = _cfgCommon.Token,
+                                                                    .TokenSecret = _cfgCommon.TokenSecret})
+            End If
+        End If
         _cfgLocal = SettingLocal.Load()
         Dim tabs As List(Of TabClass) = SettingTabs.Load().Tabs
         For Each tb As TabClass In tabs
@@ -6210,9 +6221,11 @@ RETRY:
         _modifySettingCommon = False
         SyncLock _syncObject
             _cfgCommon.UserName = tw.Username
+            _cfgCommon.UserId = tw.UserId
             _cfgCommon.Password = tw.Password
             _cfgCommon.Token = tw.AccessToken
             _cfgCommon.TokenSecret = tw.AccessTokenSecret
+            _cfgCommon.UserAccounts = SettingDialog.UserAccounts
             _cfgCommon.UserstreamStartup = SettingDialog.UserstreamStartup
             _cfgCommon.UserstreamPeriod = SettingDialog.UserstreamPeriodInt
             _cfgCommon.TimelinePeriod = SettingDialog.TimelinePeriodInt
@@ -6334,7 +6347,6 @@ RETRY:
             _cfgCommon.FoursquarePreviewWidth = SettingDialog.FoursquarePreviewWidth
             _cfgCommon.FoursquarePreviewZoom = SettingDialog.FoursquarePreviewZoom
             _cfgCommon.IsListsIncludeRts = SettingDialog.IsListStatusesIncludeRts
-            _cfgCommon.UserId = tw.UserId
             _cfgCommon.GAFirst = Google.GASender.GetInstance.SessionFirst
             _cfgCommon.GALast = Google.GASender.GetInstance.SessionLast
 

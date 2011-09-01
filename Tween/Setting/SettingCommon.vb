@@ -37,6 +37,7 @@ Public Class SettingCommon
     End Sub
 #End Region
 
+    Public UserAccounts As List(Of UserAccount)
     Public UserName As String = ""
 
     <Xml.Serialization.XmlIgnore()> _
@@ -201,4 +202,46 @@ Public Class SettingCommon
     Public IsListsIncludeRts As Boolean = False
     Public GAFirst As Long = 0
     Public GALast As Long = 0
+End Class
+
+Public Class UserAccount
+    Public Username As String = ""
+    Public UserId As Long = 0
+    Public Token As String = ""
+    <Xml.Serialization.XmlIgnore()> _
+    Public TokenSecret As String = ""
+    Public Property EncryptTokenSecret() As String
+        Get
+            Return Encrypt(TokenSecret)
+        End Get
+        Set(ByVal value As String)
+            TokenSecret = Decrypt(value)
+        End Set
+    End Property
+    Private Function Encrypt(ByVal password As String) As String
+        If String.IsNullOrEmpty(password) Then password = ""
+        If password.Length > 0 Then
+            Try
+                Return EncryptString(password)
+            Catch ex As Exception
+                Return ""
+            End Try
+        Else
+            Return ""
+        End If
+    End Function
+    Private Function Decrypt(ByVal password As String) As String
+        If String.IsNullOrEmpty(password) Then password = ""
+        If password.Length > 0 Then
+            Try
+                password = DecryptString(password)
+            Catch ex As Exception
+                password = ""
+            End Try
+        End If
+        Return password
+    End Function
+    Public Overrides Function ToString() As String
+        Return Me.Username
+    End Function
 End Class

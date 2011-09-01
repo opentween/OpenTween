@@ -213,7 +213,254 @@
   <data name="SplitContainer1.Panel1.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="AuthUserCombo.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label1.Text" xml:space="preserve">
+    <value>We recommend to follow @TweenApp.</value>
+  </data>
+  <data name="Label1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="EmailText.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label6.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="FollowCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>122, 16</value>
+  </data>
+  <data name="FollowCheckBox.Text" xml:space="preserve">
+    <value>Follow @TweenApp</value>
+  </data>
+  <data name="FollowCheckBox.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label43.Text" xml:space="preserve">
+    <value>This account will accept, and answer demanding and inquiring besides the upgrade and useful information are passed on.</value>
+  </data>
+  <data name="Label43.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="GroupBox2.Text" xml:space="preserve">
+    <value>Tween support</value>
+  </data>
+  <data name="GroupBox2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CreateAccountButton.Text" xml:space="preserve">
+    <value>Sign up for Twitter account</value>
+  </data>
+  <data name="CreateAccountButton.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="StartAuthButton.Text" xml:space="preserve">
+    <value>Start Authentiation</value>
+  </data>
+  <data name="StartAuthButton.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AuthClearButton.Text" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="AuthClearButton.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 12</value>
+  </data>
+  <data name="Label4.Text" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="Label4.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BasedPanel.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label38.Location" type="System.Drawing.Point, System.Drawing">
+    <value>20, 282</value>
+  </data>
+  <data name="Label38.Size" type="System.Drawing.Size, System.Drawing">
+    <value>183, 12</value>
+  </data>
+  <data name="Label38.Text" xml:space="preserve">
+    <value>Behavier when doubleclick a tweet</value>
+  </data>
+  <data name="Label38.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ListDoubleClickActionComboBox.Items2" xml:space="preserve">
+    <value>Show user's profile</value>
+  </data>
+  <data name="ListDoubleClickActionComboBox.Items3" xml:space="preserve">
+    <value>Show user's timeline</value>
+  </data>
+  <data name="ListDoubleClickActionComboBox.Items4" xml:space="preserve">
+    <value>Show Relational tweet</value>
+  </data>
+  <data name="ListDoubleClickActionComboBox.Items5" xml:space="preserve">
+    <value>Open user's home of twitter.com</value>
+  </data>
+  <data name="ListDoubleClickActionComboBox.Items6" xml:space="preserve">
+    <value>Open status of twitter.com</value>
+  </data>
+  <data name="ListDoubleClickActionComboBox.Items7" xml:space="preserve">
+    <value>Not bihavier</value>
+  </data>
+  <data name="ListDoubleClickActionComboBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>199, 277</value>
+  </data>
+  <data name="ListDoubleClickActionComboBox.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckOpenUserTimeline.Size" type="System.Drawing.Size, System.Drawing">
+    <value>189, 16</value>
+  </data>
+  <data name="CheckOpenUserTimeline.Text" xml:space="preserve">
+    <value>Open user's home URL with Tab</value>
+  </data>
+  <data name="CheckOpenUserTimeline.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="HotkeyCheck.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 16</value>
+  </data>
+  <data name="HotkeyCheck.Text" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="HotkeyCheck.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="HotkeyCode.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="HotkeyText.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="HotkeyWin.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="HotkeyAlt.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="HotkeyShift.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="HotkeyCtrl.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="GroupBox3.Text" xml:space="preserve">
+    <value>Hotkey</value>
+  </data>
+  <data name="GroupBox3.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Label57.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="Label57.Size" type="System.Drawing.Size, System.Drawing">
+    <value>496, 17</value>
+  </data>
+  <data name="Label57.Text" xml:space="preserve">
+    <value>Refetch tweets and verify whether marked favorites. This option causes traffic increasement.</value>
+  </data>
+  <data name="Label57.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckFavRestrict.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 16</value>
+  </data>
+  <data name="CheckFavRestrict.Text" xml:space="preserve">
+    <value>Check fav result strictly</value>
+  </data>
+  <data name="CheckFavRestrict.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Button3.Text" xml:space="preserve">
+    <value>Open...</value>
+  </data>
+  <data name="Button3.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PlaySnd.Size" type="System.Drawing.Size, System.Drawing">
+    <value>215, 16</value>
+  </data>
+  <data name="PlaySnd.Text" xml:space="preserve">
+    <value>Play sounds when new status arrived</value>
+  </data>
+  <data name="PlaySnd.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="chkReadOwnPost.Size" type="System.Drawing.Size, System.Drawing">
+    <value>155, 16</value>
+  </data>
+  <data name="chkReadOwnPost.Text" xml:space="preserve">
+    <value>Mark your tweets as read</value>
+  </data>
+  <data name="chkReadOwnPost.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label15.Text" xml:space="preserve">
+    <value>Sounds will play when you enable this option and set sound file for each tabs.</value>
+  </data>
+  <data name="Label15.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BrowserPathText.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="UReadMng.Size" type="System.Drawing.Size, System.Drawing">
+    <value>126, 16</value>
+  </data>
+  <data name="UReadMng.Text" xml:space="preserve">
+    <value>Enable unread state</value>
+  </data>
+  <data name="UReadMng.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label44.Size" type="System.Drawing.Size, System.Drawing">
+    <value>88, 12</value>
+  </data>
+  <data name="Label44.Text" xml:space="preserve">
+    <value>Path to Browser</value>
+  </data>
+  <data name="Label44.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckCloseToExit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 16</value>
+  </data>
+  <data name="CheckCloseToExit.Text" xml:space="preserve">
+    <value>Close to Exit application</value>
+  </data>
+  <data name="CheckCloseToExit.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckMinimizeToTray.Size" type="System.Drawing.Size, System.Drawing">
+    <value>106, 16</value>
+  </data>
+  <data name="CheckMinimizeToTray.Text" xml:space="preserve">
+    <value>Minimize to tray</value>
+  </data>
+  <data name="CheckMinimizeToTray.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CheckReadOldPosts.Size" type="System.Drawing.Size, System.Drawing">
+    <value>311, 16</value>
+  </data>
+  <data name="CheckReadOldPosts.Text" xml:space="preserve">
+    <value>Mark acquired tweets as  read when new tweets arrived</value>
+  </data>
+  <data name="CheckReadOldPosts.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ActionPanel.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="IsListsIncludeRtsCheckBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>127, 16</value>
   </data>
@@ -377,75 +624,6 @@
     <value />
   </data>
   <data name="ShortUrlPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label1.Text" xml:space="preserve">
-    <value>We recommend to follow @TweenApp.</value>
-  </data>
-  <data name="Label1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="EmailText.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label6.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="FollowCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>122, 16</value>
-  </data>
-  <data name="FollowCheckBox.Text" xml:space="preserve">
-    <value>Follow @TweenApp</value>
-  </data>
-  <data name="FollowCheckBox.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label43.Text" xml:space="preserve">
-    <value>This account will accept, and answer demanding and inquiring besides the upgrade and useful information are passed on.</value>
-  </data>
-  <data name="Label43.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="GroupBox2.Text" xml:space="preserve">
-    <value>Tween support</value>
-  </data>
-  <data name="GroupBox2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CreateAccountButton.Text" xml:space="preserve">
-    <value>Sign up for Twitter account</value>
-  </data>
-  <data name="CreateAccountButton.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="StartAuthButton.Text" xml:space="preserve">
-    <value>Start Authentiation</value>
-  </data>
-  <data name="StartAuthButton.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="AuthClearButton.Text" xml:space="preserve">
-    <value>Clear</value>
-  </data>
-  <data name="AuthClearButton.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="AuthUserLabel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="AuthStateLabel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 12</value>
-  </data>
-  <data name="Label4.Text" xml:space="preserve">
-    <value>Auth status</value>
-  </data>
-  <data name="Label4.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="BasedPanel.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="btnRetweet.Text" xml:space="preserve">
@@ -929,187 +1107,6 @@
     <value />
   </data>
   <data name="StartupPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label38.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 282</value>
-  </data>
-  <data name="Label38.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 12</value>
-  </data>
-  <data name="Label38.Text" xml:space="preserve">
-    <value>Behavier when doubleclick a tweet</value>
-  </data>
-  <data name="Label38.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ListDoubleClickActionComboBox.Items2" xml:space="preserve">
-    <value>Show user's profile</value>
-  </data>
-  <data name="ListDoubleClickActionComboBox.Items3" xml:space="preserve">
-    <value>Show user's timeline</value>
-  </data>
-  <data name="ListDoubleClickActionComboBox.Items4" xml:space="preserve">
-    <value>Show Relational tweet</value>
-  </data>
-  <data name="ListDoubleClickActionComboBox.Items5" xml:space="preserve">
-    <value>Open user's home of twitter.com</value>
-  </data>
-  <data name="ListDoubleClickActionComboBox.Items6" xml:space="preserve">
-    <value>Open status of twitter.com</value>
-  </data>
-  <data name="ListDoubleClickActionComboBox.Items7" xml:space="preserve">
-    <value>Not bihavier</value>
-  </data>
-  <data name="ListDoubleClickActionComboBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>199, 277</value>
-  </data>
-  <data name="ListDoubleClickActionComboBox.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckOpenUserTimeline.Size" type="System.Drawing.Size, System.Drawing">
-    <value>189, 16</value>
-  </data>
-  <data name="CheckOpenUserTimeline.Text" xml:space="preserve">
-    <value>Open user's home URL with Tab</value>
-  </data>
-  <data name="CheckOpenUserTimeline.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="HotkeyCheck.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 16</value>
-  </data>
-  <data name="HotkeyCheck.Text" xml:space="preserve">
-    <value>Enable</value>
-  </data>
-  <data name="HotkeyCheck.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="HotkeyCode.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="HotkeyText.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="HotkeyWin.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="HotkeyAlt.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="HotkeyShift.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="HotkeyCtrl.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="GroupBox3.Text" xml:space="preserve">
-    <value>Hotkey</value>
-  </data>
-  <data name="GroupBox3.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Label57.AutoSize" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="Label57.Size" type="System.Drawing.Size, System.Drawing">
-    <value>496, 17</value>
-  </data>
-  <data name="Label57.Text" xml:space="preserve">
-    <value>Refetch tweets and verify whether marked favorites. This option causes traffic increasement.</value>
-  </data>
-  <data name="Label57.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckFavRestrict.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 16</value>
-  </data>
-  <data name="CheckFavRestrict.Text" xml:space="preserve">
-    <value>Check fav result strictly</value>
-  </data>
-  <data name="CheckFavRestrict.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Button3.Text" xml:space="preserve">
-    <value>Open...</value>
-  </data>
-  <data name="Button3.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="PlaySnd.Size" type="System.Drawing.Size, System.Drawing">
-    <value>215, 16</value>
-  </data>
-  <data name="PlaySnd.Text" xml:space="preserve">
-    <value>Play sounds when new status arrived</value>
-  </data>
-  <data name="PlaySnd.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="chkReadOwnPost.Size" type="System.Drawing.Size, System.Drawing">
-    <value>155, 16</value>
-  </data>
-  <data name="chkReadOwnPost.Text" xml:space="preserve">
-    <value>Mark your tweets as read</value>
-  </data>
-  <data name="chkReadOwnPost.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label15.Text" xml:space="preserve">
-    <value>Sounds will play when you enable this option and set sound file for each tabs.</value>
-  </data>
-  <data name="Label15.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="BrowserPathText.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="UReadMng.Size" type="System.Drawing.Size, System.Drawing">
-    <value>126, 16</value>
-  </data>
-  <data name="UReadMng.Text" xml:space="preserve">
-    <value>Enable unread state</value>
-  </data>
-  <data name="UReadMng.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label44.Size" type="System.Drawing.Size, System.Drawing">
-    <value>88, 12</value>
-  </data>
-  <data name="Label44.Text" xml:space="preserve">
-    <value>Path to Browser</value>
-  </data>
-  <data name="Label44.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckCloseToExit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>150, 16</value>
-  </data>
-  <data name="CheckCloseToExit.Text" xml:space="preserve">
-    <value>Close to Exit application</value>
-  </data>
-  <data name="CheckCloseToExit.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckMinimizeToTray.Size" type="System.Drawing.Size, System.Drawing">
-    <value>106, 16</value>
-  </data>
-  <data name="CheckMinimizeToTray.Text" xml:space="preserve">
-    <value>Minimize to tray</value>
-  </data>
-  <data name="CheckMinimizeToTray.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckReadOldPosts.Size" type="System.Drawing.Size, System.Drawing">
-    <value>311, 16</value>
-  </data>
-  <data name="CheckReadOldPosts.Text" xml:space="preserve">
-    <value>Mark acquired tweets as  read when new tweets arrived</value>
-  </data>
-  <data name="CheckReadOldPosts.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ActionPanel.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="ReplyIconStateCombo.Items" xml:space="preserve">

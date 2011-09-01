@@ -263,6 +263,7 @@ Public Class Twitter
         TwitterApiInfo.Initialize()
         twCon.Initialize(token, tokenSecret, username, userId)
         _uname = username.ToLower
+        If AppendSettingDialog.Instance.UserstreamStartup Then Me.ReconnectUserStream()
     End Sub
 
     Public Function PreProcessUrl(ByVal orgData As String) As String

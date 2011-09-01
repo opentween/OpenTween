@@ -148,6 +148,7 @@ Public Class AppendSettingDialog
     Public Property FoursquarePreviewWidth As Integer
     Public Property FoursquarePreviewZoom As Integer
     Public Property IsListStatusesIncludeRts As Boolean
+    Public Property UserAccounts As List(Of UserAccount)
 
     Public Property TwitterConfiguration As New TwitterDataModel.Configuration
 
@@ -198,6 +199,23 @@ Public Class AppendSettingDialog
         Else
             _ValidationError = False
         End If
+
+        Me.UserAccounts.Clear()
+        For Each u In Me.AuthUserCombo.Items
+            Me.UserAccounts.Add(DirectCast(u, UserAccount))
+        Next
+        If Me.AuthUserCombo.SelectedIndex > -1 Then
+            For Each u In Me.UserAccounts
+                If u.UserId = DirectCast(Me.AuthUserCombo.SelectedItem, UserAccount).UserId Then
+                    tw.Initialize(u.Token, u.TokenSecret, u.Username, u.UserId)
+                    Exit For
+                End If
+            Next
+        Else
+            tw.ClearAuthInfo()
+            tw.Initialize("", "", "", 0)
+        End If
+
 #If UA = "True" Then
         'フォロー
         If Me.FollowCheckBox.Checked Then
@@ -491,22 +509,33 @@ Public Class AppendSettingDialog
         Dim pw As String = tw.Password
         Dim tk As String = tw.AccessToken
         Dim tks As String = tw.AccessTokenSecret
-        Me.AuthStateLabel.Enabled = True
-        Me.AuthUserLabel.Enabled = True
+        'Me.AuthStateLabel.Enabled = True
+        'Me.AuthUserLabel.Enabled = True
         Me.AuthClearButton.Enabled = True
 
-        If tw.Username = "" Then
-            Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
-            Me.AuthUserLabel.Text = ""
-            Me.Save.Enabled = False
-        Else
-            Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
-            If TwitterApiInfo.AccessLevel = ApiAccessLevel.ReadWrite Then
-                Me.AuthStateLabel.Text += "(xAuth)"
-            ElseIf TwitterApiInfo.AccessLevel = ApiAccessLevel.ReadWriteAndDirectMessage Then
-                Me.AuthStateLabel.Text += "(OAuth)"
-            End If
-            Me.AuthUserLabel.Text = tw.Username
+        'If tw.Username = "" Then
+        '    'Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
+        '    'Me.AuthUserLabel.Text = ""
+        '    'Me.Save.Enabled = False
+        'Else
+        '    'Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
+        '    'If TwitterApiInfo.AccessLevel = ApiAccessLevel.ReadWrite Then
+        '    '    Me.AuthStateLabel.Text += "(xAuth)"
+        '    'ElseIf TwitterApiInfo.AccessLevel = ApiAccessLevel.ReadWriteAndDirectMessage Then
+        '    '    Me.AuthStateLabel.Text += "(OAuth)"
+        '    'End If
+        '    'Me.AuthUserLabel.Text = tw.Username
+        'End If
+
+        Me.AuthUserCombo.Items.Clear()
+        If Me.UserAccounts.Count > 0 Then
+            Me.AuthUserCombo.Items.AddRange(Me.UserAccounts.ToArray)
+            For Each u In Me.UserAccounts
+                If u.UserId = tw.UserId Then
+                    Me.AuthUserCombo.SelectedItem = u
+                    Exit For
+                End If
+            Next
         End If
 
         Me.StartupUserstreamCheck.Checked = _MyUserstreamStartup
@@ -563,7 +592,7 @@ Public Class AppendSettingDialog
         lblDetail.ForeColor = _clDetail
         lblDetailLink.ForeColor = _clDetailLink
 
-        Select Case _MyNameBalloon
+        Select Case _myNameBalloon
             Case NameBalloonEnum.None
                 cmbNameBalloon.SelectedIndex = 0
             Case NameBalloonEnum.UserID
@@ -572,9 +601,9 @@ Public Class AppendSettingDialog
                 cmbNameBalloon.SelectedIndex = 2
         End Select
 
-        If _MyPostCtrlEnter Then
+        If _myPostCtrlEnter Then
             ComboBoxPostKeySelect.SelectedIndex = 1
-        ElseIf _MyPostShiftEnter Then
+        ElseIf _myPostShiftEnter Then
             ComboBoxPostKeySelect.SelectedIndex = 2
         Else
             ComboBoxPostKeySelect.SelectedIndex = 0
@@ -584,8 +613,8 @@ Public Class AppendSettingDialog
         TextCountApiReply.Text = _countApiReply.ToString
         BrowserPathText.Text = _browserpath
         CheckPostAndGet.Checked = _MyPostAndGet
-        CheckUseRecommendStatus.Checked = _MyUseRecommendStatus
-        CheckDispUsername.Checked = _MyDispUsername
+        CheckUseRecommendStatus.Checked = _myUseRecommendStatus
+        CheckDispUsername.Checked = _myDispUsername
         CheckCloseToExit.Checked = _MyCloseToExit
         CheckMinimizeToTray.Checked = _MyMinimizeToTray
         Select Case _MyDispLatestPost
@@ -660,7 +689,7 @@ Public Class AppendSettingDialog
         ApplyEventNotifyFlag(_MyEventNotifyEnabled, _MyEventNotifyFlag, _isMyEventNotifyFlag)
         CheckForceEventNotify.Checked = _MyForceEventNotify
         CheckFavEventUnread.Checked = _MyFavEventUnread
-        ComboBoxTranslateLanguage.SelectedIndex = (New bing).GetIndexFromLanguageEnum(_MyTranslateLanguage)
+        ComboBoxTranslateLanguage.SelectedIndex = (New Bing).GetIndexFromLanguageEnum(_MyTranslateLanguage)
         SoundFileListup()
         ComboBoxAutoShortUrlFirst.SelectedIndex = _MyAutoShortUrlFirst
         chkTabIconDisp.Checked = _MyTabIconDisp
@@ -2214,8 +2243,8 @@ Public Class AppendSettingDialog
         HttpTwitter.TwitterUrl = TwitterAPIText.Text.Trim
         HttpTwitter.TwitterSearchUrl = TwitterSearchAPIText.Text.Trim
         tw.Initialize("", "", "", 0)
-        Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
-        Me.AuthUserLabel.Text = ""
+        'Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
+        'Me.AuthUserLabel.Text = ""
         Dim pinPageUrl As String = ""
         Dim rslt As String = tw.StartAuthentication(pinPageUrl)
         If String.IsNullOrEmpty(rslt) Then
@@ -2240,37 +2269,63 @@ Public Class AppendSettingDialog
         Dim rslt As String = tw.Authenticate(pin)
         If String.IsNullOrEmpty(rslt) Then
             MessageBox.Show(My.Resources.AuthorizeButton_Click1, "Authenticate", MessageBoxButtons.OK)
-            Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
-            Me.AuthUserLabel.Text = tw.Username
-            If TwitterApiInfo.AccessLevel = ApiAccessLevel.ReadWrite Then
-                Me.AuthStateLabel.Text += "(xAuth)"
-            ElseIf TwitterApiInfo.AccessLevel = ApiAccessLevel.ReadWriteAndDirectMessage Then
-                Me.AuthStateLabel.Text += "(OAuth)"
+            'Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
+            'Me.AuthUserLabel.Text = tw.Username
+            Dim flg As Boolean = False
+            For Each u In Me.AuthUserCombo.Items
+                If DirectCast(u, UserAccount).UserId = tw.UserId Then
+                    u = New UserAccount() With {.Username = tw.Username,
+                                              .UserId = tw.UserId,
+                                              .Token = tw.AccessToken,
+                                              .TokenSecret = tw.AccessTokenSecret}
+                    Me.AuthUserCombo.SelectedItem = u
+                    flg = True
+                    Exit For
+                End If
+            Next
+            If Not flg Then
+                Me.AuthUserCombo.SelectedIndex = Me.AuthUserCombo.Items.Add(New UserAccount() With {.Username = tw.Username,
+                                                                   .UserId = tw.UserId,
+                                                                   .Token = tw.AccessToken,
+                                                                   .TokenSecret = tw.AccessTokenSecret})
             End If
+            'If TwitterApiInfo.AccessLevel = ApiAccessLevel.ReadWrite Then
+            '    Me.AuthStateLabel.Text += "(xAuth)"
+            'ElseIf TwitterApiInfo.AccessLevel = ApiAccessLevel.ReadWriteAndDirectMessage Then
+            '    Me.AuthStateLabel.Text += "(OAuth)"
+            'End If
             Return True
         Else
             MessageBox.Show(My.Resources.AuthorizeButton_Click2 + Environment.NewLine + rslt, "Authenticate", MessageBoxButtons.OK)
-            Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
-            Me.AuthUserLabel.Text = ""
+            'Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
+            'Me.AuthUserLabel.Text = ""
             Return False
         End If
     End Function
 
     Private Sub StartAuthButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StartAuthButton.Click
-        Me.Save.Enabled = False
+        'Me.Save.Enabled = False
         If StartAuth() Then
             If PinAuth() Then
                 CalcApiUsing()
-                Me.Save.Enabled = True
+                'Me.Save.Enabled = True
             End If
         End If
     End Sub
 
     Private Sub AuthClearButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AuthClearButton.Click
-        tw.ClearAuthInfo()
-        Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
-        Me.AuthUserLabel.Text = ""
-        Me.Save.Enabled = False
+        'tw.ClearAuthInfo()
+        'Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
+        'Me.AuthUserLabel.Text = ""
+        If Me.AuthUserCombo.SelectedIndex > -1 Then
+            Me.AuthUserCombo.Items.RemoveAt(Me.AuthUserCombo.SelectedIndex)
+            If Me.AuthUserCombo.Items.Count > 0 Then
+                Me.AuthUserCombo.SelectedIndex = 0
+            Else
+                Me.AuthUserCombo.SelectedIndex = -1
+            End If
+        End If
+        'Me.Save.Enabled = False
         CalcApiUsing()
     End Sub
 
@@ -2730,4 +2785,5 @@ Public Class AppendSettingDialog
     Private Sub CheckAutoConvertUrl_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckAutoConvertUrl.CheckedChanged
         ShortenTcoCheck.Enabled = CheckAutoConvertUrl.Checked
     End Sub
+
 End Class
