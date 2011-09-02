@@ -3144,6 +3144,13 @@ Public Class TweenMain
         Google.GASender.GetInstance().TrackPage("/settings", tw.UserId)
         Dim result As DialogResult
         Dim uid As String = tw.Username.ToLower
+        For Each u In SettingDialog.UserAccounts
+            If u.UserId = tw.UserId Then
+                u.GAFirst = Ga.SessionFirst
+                u.GALast = Ga.SessionLast
+                Exit For
+            End If
+        Next
 
         Try
             result = SettingDialog.ShowDialog(Me)

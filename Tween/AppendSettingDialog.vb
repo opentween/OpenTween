@@ -208,6 +208,8 @@ Public Class AppendSettingDialog
             For Each u In Me.UserAccounts
                 If u.UserId = DirectCast(Me.AuthUserCombo.SelectedItem, UserAccount).UserId Then
                     tw.Initialize(u.Token, u.TokenSecret, u.Username, u.UserId)
+                    Google.GASender.GetInstance.SessionFirst = u.GAFirst
+                    Google.GASender.GetInstance.SessionLast = u.GALast
                     Exit For
                 End If
             Next

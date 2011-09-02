@@ -207,6 +207,8 @@ End Class
 Public Class UserAccount
     Public Username As String = ""
     Public UserId As Long = 0
+    Public GAFirst As Long = 0
+    Public GALast As Long = 0
     Public Token As String = ""
     <Xml.Serialization.XmlIgnore()> _
     Public TokenSecret As String = ""
