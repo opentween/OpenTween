@@ -9468,7 +9468,7 @@ RETRY:
     End Sub
 
     Private Sub UseHashtagMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UseHashtagMenuItem.Click
-        Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/search\?q=%23(?<hash>[a-zA-Z0-9_]+)$")
+        Dim m As Match = Regex.Match(Me._postBrowserStatusText, "^https?://twitter.com/search\?q=%23(?<hash>.+)$")
         If m.Success Then
             HashMgr.SetPermanentHash("#" + m.Result("${hash}"))
             HashStripSplitButton.Text = HashMgr.UseHash
