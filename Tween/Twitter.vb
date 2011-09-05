@@ -685,6 +685,10 @@ Public Class Twitter
 
         'データ部分の生成
         Dim target As Long = id
+        Dim post As PostClass = TabInformations.GetInstance.Item(id)
+        If post Is Nothing Then
+            Return "Err:Target isn't found."
+        End If
         If TabInformations.GetInstance.Item(id).RetweetedId > 0 Then
             target = TabInformations.GetInstance.Item(id).RetweetedId '再RTの場合は元発言をRT
         End If
