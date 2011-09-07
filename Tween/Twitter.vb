@@ -725,7 +725,7 @@ Public Class Twitter
         End Try
 
         'ReTweetしたものをTLに追加
-        Dim post As PostClass = CreatePostsFromStatusData(status)
+        post = CreatePostsFromStatusData(status)
         If post Is Nothing Then Return "Invalid Json!"
 
         '二重取得回避
