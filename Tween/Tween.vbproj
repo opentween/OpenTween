@@ -293,6 +293,7 @@
     <Compile Include="TweenAboutBox.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="FavoriteQueue.vb" />
     <Compile Include="Twitter.vb" />
     <Compile Include="UserInfo.vb" />
     <Compile Include="WebBrowserController.vb" />

@@ -1094,13 +1094,16 @@ Public Class Twitter
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
+        If FavoriteQueue.GetInstance.Contains(id) Then FavoriteQueue.GetInstance.Remove(id)
+
         Google.GASender.GetInstance().TrackEventWithCategory("post", "favorites", Me.UserId)
         Dim res As HttpStatusCode
         Dim content As String = ""
         Try
             res = twCon.CreateFavorites(id, content)
         Catch ex As Exception
-            Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
+            FavoriteQueue.GetInstance.Add(id)
+            Return "Err:->FavoriteQueue:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
         End Try
 
         Select Case res
@@ -1115,8 +1118,15 @@ Public Class Twitter
                 If String.IsNullOrEmpty(errMsg) Then
                     Return "Err:Forbidden(" + GetCurrentMethod.Name + ")"
                 Else
+                    If errMsg.Contains("It's great that you like so many updates") Then
+                        FavoriteQueue.GetInstance.Add(id)
+                        Return "Err:->FavoriteQueue:" + errMsg
+                    End If
                     Return "Err:" + errMsg
                 End If
+            Case HttpStatusCode.BadGateway, HttpStatusCode.ServiceUnavailable, HttpStatusCode.InternalServerError, HttpStatusCode.RequestTimeout
+                FavoriteQueue.GetInstance.Add(id)
+                Return "Err:->FavoriteQueue:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
             Case Else
                 Return "Err:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
         End Select
@@ -1164,6 +1174,11 @@ Public Class Twitter
         If _endingFlag Then Return ""
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
+
+        If FavoriteQueue.GetInstance.Contains(id) Then
+            FavoriteQueue.GetInstance.Remove(id)
+            Return ""
+        End If
 
         Google.GASender.GetInstance().TrackEventWithCategory("post", "destroy_favorites", Me.UserId)
         Dim res As HttpStatusCode
