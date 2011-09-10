@@ -9852,7 +9852,6 @@ RETRY:
 
     Private WithEvents _hookGlobalHotkey As HookGlobalHotkey
     Public Sub New()
-        _instance = Me
         _hookGlobalHotkey = New HookGlobalHotkey(Me)
         ' この呼び出しは、Windows フォーム デザイナで必要です。
         InitializeComponent()
@@ -10537,12 +10536,6 @@ RETRY:
     Private Sub ShowUserTimelineToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ShowUserTimelineToolStripMenuItem.Click, ShowUserTimelineContextMenuItem.Click
         ShowUserTimeline()
     End Sub
-
-    Private Shared _instance As TweenMain
-
-    Public Shared Function GetInstance() As TweenMain
-        Return _instance
-    End Function
 
     Public ReadOnly Property FavEventChangeUnread As Boolean
         Get

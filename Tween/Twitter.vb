@@ -108,6 +108,8 @@ Public Class Twitter
     Private minDirectmessage As Long = Long.MaxValue
     Private minDirectmessageSent As Long = Long.MaxValue
 
+    'Private favQueue As FavoriteQueue
+
     Private twCon As New HttpTwitter
 
     Public Event UserIdChanged()
@@ -1094,7 +1096,9 @@ Public Class Twitter
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
-        If FavoriteQueue.GetInstance.Contains(id) Then FavoriteQueue.GetInstance.Remove(id)
+        'If Me.favQueue Is Nothing Then Me.favQueue = New FavoriteQueue(Me)
+
+        'If Me.favQueue.Contains(id) Then Me.favQueue.Remove(id)
 
         Google.GASender.GetInstance().TrackEventWithCategory("post", "favorites", Me.UserId)
         Dim res As HttpStatusCode
@@ -1102,14 +1106,14 @@ Public Class Twitter
         Try
             res = twCon.CreateFavorites(id, content)
         Catch ex As Exception
-            FavoriteQueue.GetInstance.Add(id)
+            'Me.favQueue.Add(id)
             Return "Err:->FavoriteQueue:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
         End Try
 
         Select Case res
             Case HttpStatusCode.OK
                 Twitter.AccountState = ACCOUNT_STATE.Valid
-                FavoriteQueue.GetInstance.FavoriteCacheStart()
+                'Me.favQueue.FavoriteCacheStart()
                 If Not _restrictFavCheck Then Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
@@ -1120,13 +1124,13 @@ Public Class Twitter
                     Return "Err:Forbidden(" + GetCurrentMethod.Name + ")"
                 Else
                     If errMsg.Contains("It's great that you like so many updates") Then
-                        FavoriteQueue.GetInstance.Add(id)
+                        'Me.favQueue.Add(id)
                         Return "Err:->FavoriteQueue:" + errMsg
                     End If
                     Return "Err:" + errMsg
                 End If
             Case HttpStatusCode.BadGateway, HttpStatusCode.ServiceUnavailable, HttpStatusCode.InternalServerError, HttpStatusCode.RequestTimeout
-                FavoriteQueue.GetInstance.Add(id)
+                'Me.favQueue.Add(id)
                 Return "Err:->FavoriteQueue:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
             Case Else
                 Return "Err:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
@@ -1176,10 +1180,12 @@ Public Class Twitter
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
-        If FavoriteQueue.GetInstance.Contains(id) Then
-            FavoriteQueue.GetInstance.Remove(id)
-            Return ""
-        End If
+        'If Me.favQueue Is Nothing Then Me.favQueue = New FavoriteQueue(Me)
+
+        'If Me.favQueue.Contains(id) Then
+        '    Me.favQueue.Remove(id)
+        '    Return ""
+        'End If
 
         Google.GASender.GetInstance().TrackEventWithCategory("post", "destroy_favorites", Me.UserId)
         Dim res As HttpStatusCode
@@ -3511,12 +3517,12 @@ Public Class Twitter
                         Else
                             post.FavoritedCount += 1
                             If Not TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites).Contains(post.StatusId) Then
-                                If TweenMain.GetInstance().FavEventChangeUnread AndAlso post.IsRead Then
+                                If AppendSettingDialog.Instance.FavEventUnread AndAlso post.IsRead Then
                                     post.IsRead = False
                                 End If
                                 TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites).Add(post.StatusId, post.IsRead, False)
                             Else
-                                If TweenMain.GetInstance().FavEventChangeUnread Then
+                                If AppendSettingDialog.Instance.FavEventUnread Then
                                     TabInformations.GetInstance.SetRead(False, TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites).TabName, TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites).IndexOf(post.StatusId))
                                 End If
                             End If
