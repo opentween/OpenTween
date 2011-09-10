@@ -1149,6 +1149,12 @@ Public Class TweenMain
                 End If
             Next
         End If
+        For Each ua In SettingDialog.UserAccounts
+            If ua.UserId = 0 AndAlso ua.Username.ToLower = tw.Username.ToLower Then
+                ua.UserId = tw.UserId
+                Exit For
+            End If
+        Next
         Google.GASender.GetInstance().TrackPage("/home_timeline", tw.UserId)
         Google.GASender.GetInstance().TrackEventWithCategory("post", "start", tw.UserId)
     End Sub

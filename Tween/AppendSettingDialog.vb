@@ -206,8 +206,12 @@ Public Class AppendSettingDialog
         Next
         If Me.AuthUserCombo.SelectedIndex > -1 Then
             For Each u In Me.UserAccounts
-                If u.UserId = DirectCast(Me.AuthUserCombo.SelectedItem, UserAccount).UserId Then
+                If u.Username.ToLower = DirectCast(Me.AuthUserCombo.SelectedItem, UserAccount).Username.ToLower Then
                     tw.Initialize(u.Token, u.TokenSecret, u.Username, u.UserId)
+                    If u.UserId = 0 Then
+                        tw.VerifyCredentials()
+                        u.UserId = tw.UserId
+                    End If
                     Google.GASender.GetInstance.SessionFirst = u.GAFirst
                     Google.GASender.GetInstance.SessionLast = u.GALast
                     Exit For
