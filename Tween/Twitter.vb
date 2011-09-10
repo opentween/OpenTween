@@ -1109,6 +1109,7 @@ Public Class Twitter
         Select Case res
             Case HttpStatusCode.OK
                 Twitter.AccountState = ACCOUNT_STATE.Valid
+                FavoriteQueue.GetInstance.FavoriteCacheStart()
                 If Not _restrictFavCheck Then Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
