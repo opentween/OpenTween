@@ -179,7 +179,7 @@ Public Class ShortUrl
                 If Not tcoResolve AndAlso (orgUrl = "http://t.co/" OrElse orgUrl = "https://t.co/") Then Return orgData
                 orgUrl += orgUrlPath
                 If urlCache.ContainsKey(orgUrl) Then
-                    Return urlCache(orgUrl)
+                    Return orgData.Replace(orgUrl, urlCache(orgUrl))
                 Else
                     Try
                         'urlとして生成できない場合があるらしい
@@ -191,9 +191,9 @@ Public Class ShortUrl
                         If retUrlStr.StartsWith("http") Then
                             retUrlStr = retUrlStr.Replace("""", "%22")  'ダブルコーテーションがあるとURL終端と判断されるため、これだけ再エンコード
                             SyncLock _lockObj
-                                If Not urlCache.ContainsKey(orgUrl) Then urlCache.Add(orgUrl, retUrlStr)
+                                If Not urlCache.ContainsKey(orgUrl) Then urlCache.Add(orgUrl, orgData.Replace(tmpurlStr, retUrlStr))
                             End SyncLock
-                            Return retUrlStr
+                            Return orgData.Replace(tmpurlStr, retUrlStr)
                         End If
                     Catch ex As Exception
                         Return orgData
