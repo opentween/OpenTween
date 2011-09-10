@@ -8863,7 +8863,7 @@ RETRY:
         'Else
         '    status = Regex.Replace(status, "<a target=""_self"" href=""(?<url>[^""]+)""[^>]*>(?<link>(https?|shttp|ftps?)://[^<]+)</a>", "${link}")
         'End If
-        status = Regex.Replace(status, "<a target=""_self"" href=""(?<url>[^""]+)"" title=""(?<title>[^""]+)""[^>]*>(?<link>[^<]+)</a>", "{$title}")
+        status = Regex.Replace(status, "<a target=""_self"" href=""(?<url>[^""]+)"" title=""(?<title>[^""]+)""[^>]*>(?<link>[^<]+)</a>", "${title}")
 
         'その他のリンク(@IDなど)を置き換える
         status = Regex.Replace(status, "@<a target=""_self"" href=""https?://twitter.com/(#!/)?(?<url>[^""]+)""[^>]*>(?<link>[^<]+)</a>", "@${url}")

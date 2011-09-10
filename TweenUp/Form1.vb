@@ -253,6 +253,10 @@ Public Class Form1
         ' 「新しいTweenを起動しています」
         BackgroundWorker1.ReportProgress(0, userState:=My.Resources.ProgressExecuteTween)
 
+        If My.Application.CommandLineArgs.Count = 1 Then
+            Process.Start(Path.Combine(TWEENEXEPATH, My.Resources.FilenameTweenExe))
+        End If
+
         'Process.Start(Path.Combine(TWEENEXEPATH, My.Resources.FilenameTweenExe))
 
     End Sub

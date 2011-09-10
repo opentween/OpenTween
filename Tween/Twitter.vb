@@ -52,7 +52,7 @@ Public Class Twitter
     Public Const HASHTAG As String = "(" + HASHTAG_BOUNDARY + ")(#|＃)(" + HASHTAG_ALPHANUMERIC + "*" + HASHTAG_ALPHA + HASHTAG_ALPHANUMERIC + "*)(?=" + HASHTAG_TERMINATOR + "|" + HASHTAG_BOUNDARY + ")"
     'URL正規表現
     Private Const url_valid_domain As String = "(?<domain>(?:[^\p{P}\s][\.\-_](?=[^\p{P}\s])|[^\p{P}\s]){1,}\.[a-z]{2,}(?::[0-9]+)?)"
-    Private Const url_valid_general_path_chars As String = "[a-z0-9!*';:=+$/%#\[\]\-_,~]"
+    Private Const url_valid_general_path_chars As String = "[a-z0-9!*';:=+$/%#\[\]\-_&,~]"
     Private Const url_balance_parens As String = "(?:\(" + url_valid_general_path_chars + "+\))"
     Private Const url_valid_url_path_ending_chars As String = "(?:[a-z0-9=_#/\-\+]+|" + url_balance_parens + ")"
     Private Const pth As String = "(?:" + url_balance_parens +
@@ -1107,7 +1107,8 @@ Public Class Twitter
             res = twCon.CreateFavorites(id, content)
         Catch ex As Exception
             'Me.favQueue.Add(id)
-            Return "Err:->FavoriteQueue:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
+            'Return "Err:->FavoriteQueue:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
+            Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
         End Try
 
         Select Case res
@@ -1123,15 +1124,15 @@ Public Class Twitter
                 If String.IsNullOrEmpty(errMsg) Then
                     Return "Err:Forbidden(" + GetCurrentMethod.Name + ")"
                 Else
-                    If errMsg.Contains("It's great that you like so many updates") Then
-                        'Me.favQueue.Add(id)
-                        Return "Err:->FavoriteQueue:" + errMsg
-                    End If
+                    'If errMsg.Contains("It's great that you like so many updates") Then
+                    '    'Me.favQueue.Add(id)
+                    '    Return "Err:->FavoriteQueue:" + errMsg
+                    'End If
                     Return "Err:" + errMsg
                 End If
-            Case HttpStatusCode.BadGateway, HttpStatusCode.ServiceUnavailable, HttpStatusCode.InternalServerError, HttpStatusCode.RequestTimeout
-                'Me.favQueue.Add(id)
-                Return "Err:->FavoriteQueue:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
+                'Case HttpStatusCode.BadGateway, HttpStatusCode.ServiceUnavailable, HttpStatusCode.InternalServerError, HttpStatusCode.RequestTimeout
+                '    'Me.favQueue.Add(id)
+                '    Return "Err:->FavoriteQueue:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
             Case Else
                 Return "Err:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
         End Select
