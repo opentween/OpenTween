@@ -1126,20 +1126,29 @@ Public Class TweenMain
             ListTab.ImageList = Nothing
         End If
 
-        _ignoreConfigSave = False
-        Me.TweenMain_Resize(Nothing, Nothing)
-        If saveRequired Then SaveConfigsAll(False)
-
 #If UA = "True" Then
         ab = New AdsBrowser()
         Me.SplitContainer4.Panel2.Controls.Add(ab)
 #Else
         SplitContainer4.Panel2Collapsed = True
 #End If
-        ga = Google.GASender.GetInstance
+
+        _ignoreConfigSave = False
+        Me.TweenMain_Resize(Nothing, Nothing)
+        If saveRequired Then SaveConfigsAll(False)
+
+        Ga = Google.GASender.GetInstance
         Google.GASender.GetInstance.SessionFirst = _cfgCommon.GAFirst
         Google.GASender.GetInstance.SessionLast = _cfgCommon.GALast
-        If tw.UserId = 0 Then tw.VerifyCredentials()
+        If tw.UserId = 0 Then
+            tw.VerifyCredentials()
+            For Each ua In _cfgCommon.UserAccounts
+                If ua.Username.ToLower = tw.Username.ToLower Then
+                    ua.UserId = tw.UserId
+                    Exit For
+                End If
+            Next
+        End If
         Google.GASender.GetInstance().TrackPage("/home_timeline", tw.UserId)
         Google.GASender.GetInstance().TrackEventWithCategory("post", "start", tw.UserId)
     End Sub
@@ -7772,7 +7781,7 @@ RETRY:
             '    _cfgLocal.AdSplitterDistance < Me.SplitContainer4.Height - Me.SplitContainer4.Panel2MinSize - Me.SplitContainer4.SplitterWidth Then
             '    Me.SplitContainer4.SplitterDistance = _cfgLocal.AdSplitterDistance 'Splitterの位置設定
             'End If
-            If _cfgLocal.AdSplitterDistance > Me.SplitContainer4.Panel1MinSize Then
+            If Not SplitContainer4.Panel2Collapsed AndAlso _cfgLocal.AdSplitterDistance > Me.SplitContainer4.Panel1MinSize Then
                 Me.SplitContainer4.SplitterDistance = _cfgLocal.AdSplitterDistance 'Splitterの位置設定
             End If
             If _cfgLocal.SplitterDistance > Me.SplitContainer1.Panel1MinSize AndAlso
@@ -8848,7 +8857,7 @@ RETRY:
         'Else
         '    status = Regex.Replace(status, "<a target=""_self"" href=""(?<url>[^""]+)""[^>]*>(?<link>(https?|shttp|ftps?)://[^<]+)</a>", "${link}")
         'End If
-        status = Regex.Replace(status, "<a target=""_self"" href=""(?<url>[^""]+)""[^>]*>(?<link>(https?|shttp|ftps?)://[^<]+)</a>", "${url}")
+        status = Regex.Replace(status, "<a target=""_self"" href=""(?<url>[^""]+)"" title=""(?<title>[^""]+)""[^>]*>(?<link>[^<]+)</a>", "{$title}")
 
         'その他のリンク(@IDなど)を置き換える
         status = Regex.Replace(status, "@<a target=""_self"" href=""https?://twitter.com/(#!/)?(?<url>[^""]+)""[^>]*>(?<link>[^<]+)</a>", "@${url}")
