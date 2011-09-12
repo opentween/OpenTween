@@ -1947,18 +1947,24 @@ Public NotInheritable Class TabClass
         '全フィルタ評価（優先順位あり）
         SyncLock Me._lockObj
             For Each ft As FiltersClass In _filters
-                Select Case ft.IsHit(post)   'フィルタクラスでヒット判定
-                    Case HITRESULT.None
-                    Case HITRESULT.Copy
-                        If rslt <> HITRESULT.CopyAndMark Then rslt = HITRESULT.Copy
-                    Case HITRESULT.CopyAndMark
-                        rslt = HITRESULT.CopyAndMark
-                    Case HITRESULT.Move
-                        rslt = HITRESULT.Move
-                    Case HITRESULT.Exclude
-                        rslt = HITRESULT.Exclude
-                        Exit For
-                End Select
+                Try
+                    Select Case ft.IsHit(post)   'フィルタクラスでヒット判定
+                        Case HITRESULT.None
+                        Case HITRESULT.Copy
+                            If rslt <> HITRESULT.CopyAndMark Then rslt = HITRESULT.Copy
+                        Case HITRESULT.CopyAndMark
+                            rslt = HITRESULT.CopyAndMark
+                        Case HITRESULT.Move
+                            rslt = HITRESULT.Move
+                        Case HITRESULT.Exclude
+                            rslt = HITRESULT.Exclude
+                            Exit For
+                    End Select
+                Catch ex As NullReferenceException
+                    'IsHitでNullRef出る場合あり。暫定対応
+                    TraceOut("IsHitでNullRef: " + ft.ToString)
+                    rslt = HITRESULT.None
+                End Try
             Next
         End SyncLock
 
