@@ -68,6 +68,8 @@ Public Class TwitterPhoto
     Public Function Upload(ByRef filePath As String,
                            ByRef message As String,
                            ByVal reply_to As Long) As String Implements IMultimediaShareService.Upload
+        If String.IsNullOrEmpty(filePath) Then Return "Err:File isn't specified."
+        If String.IsNullOrEmpty(message) Then message = ""
         Dim mediaFile As FileInfo
         Try
             mediaFile = New FileInfo(filePath)

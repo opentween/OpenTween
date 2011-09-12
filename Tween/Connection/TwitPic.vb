@@ -68,13 +68,15 @@ Public Class TwitPic
     Public Function Upload(ByRef filePath As String,
                            ByRef message As String,
                            ByVal reply_to As Long) As String Implements IMultimediaShareService.Upload
+        If String.IsNullOrEmpty(filePath) Then Return "Err:File isn't specified."
+        If String.IsNullOrEmpty(message) Then message = ""
         Dim mediaFile As FileInfo
         Try
             mediaFile = New FileInfo(filePath)
         Catch ex As NotSupportedException
             Return "Err:" + ex.Message
         End Try
-        If Not mediaFile.Exists Then Return "Err:File isn't exists."
+        If mediaFile Is Nothing OrElse Not mediaFile.Exists Then Return "Err:File isn't exists."
 
         Dim content As String = ""
         Dim ret As HttpStatusCode
@@ -99,6 +101,7 @@ Public Class TwitPic
         End If
         'アップロードまでは成功
         filePath = ""
+        If String.IsNullOrEmpty(url) Then url = ""
         'Twitterへの投稿
         '投稿メッセージの再構成
         If message.Length + url.Length + 1 > 140 Then
