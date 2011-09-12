@@ -1552,7 +1552,8 @@ Public Class Twitter
         Try
             If String.IsNullOrEmpty(userName) Then
                 Dim target As String = tab.User
-                If target Is Nothing Then Return ""
+                If String.IsNullOrEmpty(target) Then Return ""
+                userName = target
                 res = twCon.UserTimeline(0, target, count, 0, 0, content)
             Else
                 If more Then
