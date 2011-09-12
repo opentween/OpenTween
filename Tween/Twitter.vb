@@ -2331,7 +2331,9 @@ Public Class Twitter
         If _endingFlag Then Return ""
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
-        If Not TwitterApiInfo.IsDirectMessagePermission Then Return "Auth Err:try to re-authorization."
+        If Not TwitterApiInfo.AccessLevel <> ApiAccessLevel.None Then
+            If Not TwitterApiInfo.IsDirectMessagePermission Then Return "Auth Err:try to re-authorization."
+        End If
 
         Dim res As HttpStatusCode
         Dim content As String = ""
