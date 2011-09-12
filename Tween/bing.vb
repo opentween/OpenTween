@@ -141,7 +141,7 @@
                                 ByRef buf As String) As Boolean
 
         Dim http As New HttpVarious()
-        Dim apiurl As String = TranslateUri + "&text=" + _text + "&to=" + _to
+        Dim apiurl As String = TranslateUri + "&text=" + System.Web.HttpUtility.UrlEncode(_text) + "&to=" + _to
         Dim content As String = ""
         If http.GetData(apiurl, Nothing, content) Then
             buf = String.Copy(content)
