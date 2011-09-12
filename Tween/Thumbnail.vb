@@ -1020,14 +1020,16 @@ Public Class Thumbnail
                                       "^http://www\.youtube\.com/watch\?v=([\w\-]+)", RegexOptions.IgnoreCase)
         If mc.Success Then
             ' TODO 成功時はサムネイルURLを作成しimglist.Addする
-            args.imglist.Add(New KeyValuePair(Of String, String)(args.url, mc.Result("http://i.ytimg.com/vi/${1}/default.jpg")))
+            'args.imglist.Add(New KeyValuePair(Of String, String)(args.url, mc.Result("http://i.ytimg.com/vi/${1}/default.jpg")))
+            args.imglist.Add(New KeyValuePair(Of String, String)(args.url, mc.Result("${0}")))
             Return True
         End If
         mc = Regex.Match(If(String.IsNullOrEmpty(args.extended), args.url, args.extended),
                          "^http://youtu\.be/([\w\-]+)", RegexOptions.IgnoreCase)
         If mc.Success Then
             ' TODO 成功時はサムネイルURLを作成しimglist.Addする
-            args.imglist.Add(New KeyValuePair(Of String, String)(args.url, mc.Result("http://i.ytimg.com/vi/${1}/default.jpg")))
+            'args.imglist.Add(New KeyValuePair(Of String, String)(args.url, mc.Result("http://i.ytimg.com/vi/${1}/default.jpg")))
+            args.imglist.Add(New KeyValuePair(Of String, String)(args.url, mc.Result("${0}")))
             Return True
         End If
         Return False
@@ -1052,16 +1054,21 @@ Public Class Thumbnail
         ' デベロッパー ガイド: Data API プロトコル - 単独の動画情報の取得 - YouTube の API とツール - Google Code
         ' http://code.google.com/intl/ja/apis/youtube/2.0/developers_guide_protocol_understanding_video_feeds.html#Understanding_Feeds_and_Entries 
         ' デベロッパー ガイド: Data API プロトコル - 動画のフィードとエントリについて - YouTube の API とツール - Google Code
-        Dim http As New HttpVarious
-        Dim videourl As String = (New HttpVarious).GetRedirectTo(args.url.Key)
+        Dim imgurl As String = ""
+        Dim mcImg As Match = Regex.Match(args.url.Value, "^http://(?:(www\.youtube\.com)|(youtu\.be))/(watch\?v=)?(?<videoid>([\w\-]+))", RegexOptions.IgnoreCase)
+        If mcImg.Success Then
+            imgurl = mcImg.Result("http://i.ytimg.com/vi/${videoid}/default.jpg")
+        Else
+            Return False
+        End If
+        Dim videourl As String = (New HttpVarious).GetRedirectTo(args.url.Value)
         Dim mc As Match = Regex.Match(videourl, "^http://(?:(www\.youtube\.com)|(youtu\.be))/(watch\?v=)?(?<videoid>([\w\-]+))", RegexOptions.IgnoreCase)
         If videourl.StartsWith("http://www.youtube.com/index?ytsession=") Then
-            videourl = args.url.Key
+            videourl = args.url.Value
             mc = Regex.Match(videourl, "^http://(?:(www\.youtube\.com)|(youtu\.be))/(watch\?v=)?(?<videoid>([\w\-]+))", RegexOptions.IgnoreCase)
         End If
         If mc.Success Then
             Dim apiurl As String = "http://gdata.youtube.com/feeds/api/videos/" + mc.Groups("videoid").Value
-            Dim imgurl As String = args.url.Value
             Dim src As String = ""
             If (New HttpVarious).GetData(apiurl, Nothing, src, 5000) Then
                 Dim sb As New StringBuilder
@@ -1130,20 +1137,21 @@ Public Class Thumbnail
                     Catch ex As Exception
                     End Try
 
-                    mc = Regex.Match(videourl, "^http://www\.youtube\.com/watch\?v=([\w\-]+)", RegexOptions.IgnoreCase)
-                    If mc.Success Then
-                        imgurl = mc.Result("http://i.ytimg.com/vi/${1}/default.jpg")
-                    End If
-                    mc = Regex.Match(videourl, "^http://youtu\.be/([\w\-]+)", RegexOptions.IgnoreCase)
-                    If mc.Success Then
-                        imgurl = mc.Result("http://i.ytimg.com/vi/${1}/default.jpg")
-                    End If
+                    'mc = Regex.Match(videourl, "^http://www\.youtube\.com/watch\?v=([\w\-]+)", RegexOptions.IgnoreCase)
+                    'If mc.Success Then
+                    '    imgurl = mc.Result("http://i.ytimg.com/vi/${1}/default.jpg")
+                    'End If
+                    'mc = Regex.Match(videourl, "^http://youtu\.be/([\w\-]+)", RegexOptions.IgnoreCase)
+                    'If mc.Success Then
+                    '    imgurl = mc.Result("http://i.ytimg.com/vi/${1}/default.jpg")
+                    'End If
 
                 Catch ex As Exception
 
                 End Try
 
                 If Not String.IsNullOrEmpty(imgurl) Then
+                    Dim http As New HttpVarious
                     Dim _img As Image = http.GetImage(imgurl, videourl, 10000, args.errmsg)
                     If _img Is Nothing Then Return False
                     args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, _img))
