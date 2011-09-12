@@ -10637,10 +10637,13 @@ RETRY:
 
     Private Sub SplitContainer4_Resize(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SplitContainer4.Resize
         If Me.WindowState = FormWindowState.Minimized Then Exit Sub
-        If SplitContainer4.Height < SplitContainer4.SplitterWidth + SplitContainer4.Panel2MinSize + SplitContainer4.SplitterDistance Then
+        If SplitContainer4.Panel2Collapsed Then Exit Sub
+        If SplitContainer4.Height < SplitContainer4.SplitterWidth + SplitContainer4.Panel2MinSize + SplitContainer4.SplitterDistance AndAlso
+            SplitContainer4.Height - SplitContainer4.SplitterWidth - SplitContainer4.Panel2MinSize > 0 Then
             SplitContainer4.SplitterDistance = SplitContainer4.Height - SplitContainer4.SplitterWidth - SplitContainer4.Panel2MinSize
         End If
-        If SplitContainer4.Panel2.Height > 90 Then
+        If SplitContainer4.Panel2.Height > 90 AndAlso
+            SplitContainer4.Height - SplitContainer4.SplitterWidth - 90 > 0 Then
             SplitContainer4.SplitterDistance = SplitContainer4.Height - SplitContainer4.SplitterWidth - 90
         End If
     End Sub
