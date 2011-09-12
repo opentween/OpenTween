@@ -1420,7 +1420,7 @@ Public Class Thumbnail
             If http.GetData(Regex.Replace(mc.Groups(0).Value, "amp;", ""), Nothing, src, 0, args.errmsg, "") Then
                 Dim _mc As Match = Regex.Match(src, mc.Result("http://img([0-9]+)\.pixiv\.net/img/.+/${illustId}_[ms]\.([a-zA-Z]+)"))
                 If _mc.Success Then
-                    Dim _img As Image = http.GetImage(_mc.Value, args.url.Key, 0, args.errmsg)
+                    Dim _img As Image = http.GetImage(_mc.Value, args.url.Value, 0, args.errmsg)
                     If _img Is Nothing Then Return False
                     args.pics.Add(New KeyValuePair(Of String, Image)(args.url.Key, _img))
                     args.tooltipText.Add(New KeyValuePair(Of String, String)(args.url.Key, ""))
