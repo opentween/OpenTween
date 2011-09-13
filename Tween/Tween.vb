@@ -1949,7 +1949,7 @@ Public Class TweenMain
             e.Cancel = True
             Me.Visible = False
         Else
-            Google.GASender.GetInstance().TrackEventWithCategory("post", "end", tw.UserId)
+            'Google.GASender.GetInstance().TrackEventWithCategory("post", "end", tw.UserId)
             _hookGlobalHotkey.UnregisterAllOriginalHotkey()
             _ignoreConfigSave = True
             _endingFlag = True

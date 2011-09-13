@@ -415,8 +415,6 @@ Public Class Twitter
             Return SendDirectMessage(postStr)
         End If
 
-        Google.GASender.GetInstance().TrackEventWithCategory("post", "status", Me.UserId)
-
         Dim res As HttpStatusCode
         Dim content As String = ""
         Try
@@ -427,6 +425,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "status", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
                 Dim status As TwitterDataModel.Status
                 Try
@@ -497,8 +496,6 @@ Public Class Twitter
 
         postStr = postStr.Trim()
 
-        Google.GASender.GetInstance().TrackEventWithCategory("post", "status_with_media", Me.UserId)
-
         Dim res As HttpStatusCode
         Dim content As String = ""
         Try
@@ -509,6 +506,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "status_with_media", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
                 Dim status As TwitterDataModel.Status
                 Try
@@ -578,8 +576,6 @@ Public Class Twitter
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
         If Not TwitterApiInfo.IsDirectMessagePermission Then Return "Auth Err:try to re-authorization."
 
-        Google.GASender.GetInstance().TrackEventWithCategory("post", "direct_message", Me.UserId)
-
         postStr = postStr.Trim()
 
         Dim res As HttpStatusCode
@@ -595,6 +591,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "direct_message", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
                 Dim status As TwitterDataModel.Directmessage
                 Try
@@ -657,7 +654,6 @@ Public Class Twitter
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
-        Google.GASender.GetInstance().TrackEventWithCategory("post", "destroy", Me.UserId)
         Dim res As HttpStatusCode
 
         Try
@@ -668,6 +664,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "destroy", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
                 Return ""
             Case HttpStatusCode.Unauthorized
@@ -695,7 +692,6 @@ Public Class Twitter
             target = TabInformations.GetInstance.Item(id).RetweetedId '再RTの場合は元発言をRT
         End If
 
-        Google.GASender.GetInstance().TrackEventWithCategory("post", "retweet", Me.UserId)
         Dim res As HttpStatusCode
         Dim content As String = ""
         Try
@@ -713,6 +709,7 @@ Public Class Twitter
                 Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
         End Select
 
+        Google.GASender.GetInstance().TrackEventWithCategory("post", "retweet", Me.UserId)
         Twitter.AccountState = ACCOUNT_STATE.Valid
 
         Dim status As TwitterDataModel.Status
@@ -755,7 +752,6 @@ Public Class Twitter
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
         If Not TwitterApiInfo.IsDirectMessagePermission Then Return "Auth Err:try to re-authorization."
 
-        Google.GASender.GetInstance().TrackEventWithCategory("post", "destroy_direct_message", Me.UserId)
         Dim res As HttpStatusCode
 
         'If post.IsMe Then
@@ -769,6 +765,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "destroy_direct_message", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
                 Return ""
             Case HttpStatusCode.Unauthorized
@@ -787,7 +784,6 @@ Public Class Twitter
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
-        Google.GASender.GetInstance().TrackEventWithCategory("post", "follow", Me.UserId)
         Dim res As HttpStatusCode
         Dim content As String = ""
 
@@ -799,6 +795,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "follow", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
                 Return ""
             Case HttpStatusCode.Unauthorized
@@ -822,7 +819,6 @@ Public Class Twitter
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
-        Google.GASender.GetInstance().TrackEventWithCategory("post", "destroy_friendships", Me.UserId)
         Dim res As HttpStatusCode
         Dim content As String = ""
 
@@ -834,6 +830,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "destroy_friendships", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
                 Return ""
             Case HttpStatusCode.Unauthorized
@@ -857,7 +854,6 @@ Public Class Twitter
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
-        Google.GASender.GetInstance().TrackEventWithCategory("post", "block", Me.UserId)
         Dim res As HttpStatusCode
         Dim content As String = ""
 
@@ -869,6 +865,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "block", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
                 Return ""
             Case HttpStatusCode.Unauthorized
@@ -892,7 +889,6 @@ Public Class Twitter
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
-        Google.GASender.GetInstance().TrackEventWithCategory("post", "destroy_block", Me.UserId)
         Dim res As HttpStatusCode
         Dim content As String = ""
 
@@ -904,6 +900,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "destroy_block", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
                 Return ""
             Case HttpStatusCode.Unauthorized
@@ -927,7 +924,6 @@ Public Class Twitter
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
-        Google.GASender.GetInstance().TrackEventWithCategory("post", "spam", Me.UserId)
         Dim res As HttpStatusCode
         Dim content As String = ""
 
@@ -939,6 +935,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "spam", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
                 Return ""
             Case HttpStatusCode.Unauthorized
@@ -1100,7 +1097,6 @@ Public Class Twitter
 
         'If Me.favQueue.Contains(id) Then Me.favQueue.Remove(id)
 
-        Google.GASender.GetInstance().TrackEventWithCategory("post", "favorites", Me.UserId)
         Dim res As HttpStatusCode
         Dim content As String = ""
         Try
@@ -1113,6 +1109,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "favorites", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
                 'Me.favQueue.FavoriteCacheStart()
                 If Not _restrictFavCheck Then Return ""
@@ -1188,7 +1185,6 @@ Public Class Twitter
         '    Return ""
         'End If
 
-        Google.GASender.GetInstance().TrackEventWithCategory("post", "destroy_favorites", Me.UserId)
         Dim res As HttpStatusCode
         Dim content As String = ""
         Try
@@ -1199,6 +1195,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "destroy_favorites", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
                 Return ""
             Case HttpStatusCode.Unauthorized
@@ -1221,7 +1218,6 @@ Public Class Twitter
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
-        Google.GASender.GetInstance().TrackEventWithCategory("post", "update_profile", Me.UserId)
         Dim res As HttpStatusCode
         Dim content As String = ""
         Try
@@ -1232,6 +1228,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "update_profile", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
                 Return ""
             Case HttpStatusCode.Unauthorized
@@ -1254,7 +1251,6 @@ Public Class Twitter
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
-        Google.GASender.GetInstance().TrackEventWithCategory("post", "update_profile_image", Me.UserId)
         Dim res As HttpStatusCode
         Dim content As String = ""
         Try
@@ -1265,6 +1261,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "update_profile_image", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
                 Return ""
             Case HttpStatusCode.Unauthorized
@@ -2769,7 +2766,6 @@ Public Class Twitter
         Dim res As HttpStatusCode
         Dim content As String = ""
 
-        Google.GASender.GetInstance().TrackEventWithCategory("post", "destroy_list", Me.UserId)
         Try
             res = twCon.DeleteListID(Me.Username, list_id, content)
         Catch ex As Exception
@@ -2778,6 +2774,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "destroy_list", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
@@ -2792,7 +2789,6 @@ Public Class Twitter
     End Function
 
     Public Function EditList(ByVal list_id As String, ByVal new_name As String, ByVal isPrivate As Boolean, ByVal description As String, ByRef list As ListElement) As String
-        Google.GASender.GetInstance().TrackEventWithCategory("get", "update_list", Me.UserId)
         Dim res As HttpStatusCode
         Dim content As String = ""
 
@@ -2804,6 +2800,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("get", "update_list", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
@@ -2886,7 +2883,6 @@ Public Class Twitter
     Public Function CreateListApi(ByVal listName As String, ByVal isPrivate As Boolean, ByVal description As String) As String
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
-        Google.GASender.GetInstance().TrackEventWithCategory("post", "create_list", Me.UserId)
         Dim res As HttpStatusCode
         Dim content As String = ""
 
@@ -2898,6 +2894,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "create_list", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
@@ -2964,7 +2961,6 @@ Public Class Twitter
         Dim content As String = ""
         Dim res As HttpStatusCode
 
-        Google.GASender.GetInstance().TrackEventWithCategory("post", "add_user_to_list", Me.UserId)
         Try
             res = twCon.CreateListMembers(listId, user, content)
         Catch ex As Exception
@@ -2973,6 +2969,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "add_user_to_list", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
@@ -2987,7 +2984,6 @@ Public Class Twitter
     End Function
 
     Public Function RemoveUserToList(ByVal listId As String, ByVal user As String) As String
-        Google.GASender.GetInstance().TrackEventWithCategory("post", "remove_user_from_list", Me.UserId)
 
         Dim content As String = ""
         Dim res As HttpStatusCode
@@ -3000,6 +2996,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "remove_user_from_list", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
