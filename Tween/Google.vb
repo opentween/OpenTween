@@ -28,6 +28,7 @@ Imports System.Net
 Imports System.Runtime.Serialization
 Imports System.Runtime.Serialization.Json
 Imports System.Web
+Imports System.Threading
 
 Public Class Google
 
@@ -341,6 +342,33 @@ Public Class Google
                                                  System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height)
             Me._screenColorDepth = String.Format("{0}-bit",
                                                  System.Windows.Forms.Screen.PrimaryScreen.BitsPerPixel)
+            Dim proc As ThreadStart
+            proc = Sub()
+                       Threading.Thread.CurrentThread.Priority = ThreadPriority.Lowest
+                       While Not _endingFlag
+                           If Me.gaQueue.Count > 0 Then
+                               Dim param As Dictionary(Of String, String)
+                               SyncLock Me.syncObj
+                                   param = Me.gaQueue.Dequeue()
+                               End SyncLock
+                               Try
+                                   Dim req As HttpWebRequest = CreateRequest(GetMethod, New Uri(GA_GIF_URL), param, False)
+                                   req.AllowAutoRedirect = True
+                                   req.Accept = "*/*"
+                                   req.Referer = "http://apps.tweenapp.org/foo.html"
+                                   req.Headers.Add("Accept-Language", "ja-JP")
+                                   req.UserAgent = "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.1; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; .NET4.0E; MALC)"
+                                   req.Headers.Add("Accept-Encoding", "gzip, deflate")
+                                   Dim img As Bitmap = Nothing
+                                   Dim res = Me.GetResponse(req, img, Nothing, False)
+                               Catch ex As Exception
+                                   'nothing to do
+                               End Try
+                           End If
+                           Thread.Sleep(5000)
+                       End While
+                   End Sub
+            proc.BeginInvoke(Nothing, Nothing)
         End Sub
 
         Private Sub Init()
@@ -411,36 +439,14 @@ Public Class Google
                 params("utmr") = "0"
             End If
 
-            Me.GetAsync(params, New Uri(GA_GIF_URL))
+            'Me.GetAsync(params, New Uri(GA_GIF_URL))
+            SyncLock syncObj
+                Me.gaQueue.Enqueue(params)
+            End SyncLock
         End Sub
 
-        Private Sub GetAsync(ByVal params As Dictionary(Of String, String), ByVal url As Uri)
-            Try
-                Dim req As HttpWebRequest = CreateRequest(GetMethod, url, params, False)
-                req.AllowAutoRedirect = True
-                req.Accept = "*/*"
-                req.Referer = "http://apps.tweenapp.org/foo.html"
-                req.Headers.Add("Accept-Language", "ja-JP")
-                req.UserAgent = "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.1; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; .NET4.0E; MALC)"
-                req.Headers.Add("Accept-Encoding", "gzip, deflate")
-
-                Dim r As IAsyncResult = CType(req.BeginGetResponse(New AsyncCallback(AddressOf GetAsyncResponse), req), IAsyncResult)
-            Catch ex As Exception
-                'nothing to do
-            End Try
-        End Sub
-
-        Private Sub GetAsyncResponse(ByVal ar As IAsyncResult)
-            Dim res As HttpWebResponse = Nothing
-            Try
-                res = CType(CType(ar.AsyncState, HttpWebRequest).EndGetResponse(ar), HttpWebResponse)
-            Catch ex As Exception
-                'nothing to do
-            Finally
-                If res IsNot Nothing Then res.Close()
-            End Try
-            RaiseEvent Sent()
-        End Sub
+        Private syncObj As New Object
+        Private gaQueue As New Queue(Of Dictionary(Of String, String))
 
         Public Sub TrackPage(ByVal page As String, ByVal userId As Long)
             Me.SendRequest(New Dictionary(Of String, String) From {{"page", page}}, userId)
