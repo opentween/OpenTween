@@ -7874,7 +7874,7 @@ RETRY:
                 Dim idx As Integer = name.LastIndexOf("/"c)
                 If idx <> -1 Then
                     name = IO.Path.GetFileName(name.Substring(idx))
-                    If name.Contains("_normal.") Then
+                    If name.Contains("_normal.") OrElse name.EndsWith("_normal") Then
                         name = name.Replace("_normal", "")
                         Me.IconNameToolStripMenuItem.Text = name
                         Me.IconNameToolStripMenuItem.Enabled = True
