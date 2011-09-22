@@ -9192,8 +9192,11 @@ RETRY:
     ' URLから切り出した文字列を渡す
 
     Public Function IsTwitterId(ByVal name As String) As Boolean
-        'Return Not Regex.Match(name, "^(about|jobs|tos|privacy|who_to_follow|download|messages)$").Success
-        Return Not SettingDialog.TwitterConfiguration.NonUsernamePaths.Contains(name.ToLower())
+        If SettingDialog.TwitterConfiguration.NonUsernamePaths Is Nothing OrElse SettingDialog.TwitterConfiguration.NonUsernamePaths.Length = 0 Then
+            Return Not Regex.Match(name, "^(about|jobs|tos|privacy|who_to_follow|download|messages)$", RegexOptions.IgnoreCase).Success
+        Else
+            Return Not SettingDialog.TwitterConfiguration.NonUsernamePaths.Contains(name.ToLower())
+        End If
     End Function
 
     Private Function GetUserId() As String
