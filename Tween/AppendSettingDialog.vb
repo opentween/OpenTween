@@ -149,6 +149,8 @@ Public Class AppendSettingDialog
     Public Property FoursquarePreviewZoom As Integer
     Public Property IsListStatusesIncludeRts As Boolean
     Public Property UserAccounts As List(Of UserAccount)
+    Private InitialUserId As Long
+    Public Property OpenPicBuiltinBrowser As Boolean
 
     Public Property TwitterConfiguration As New TwitterDataModel.Configuration
 
@@ -481,6 +483,7 @@ Public Class AppendSettingDialog
             Me.FoursquarePreviewWidth = CInt(Me.FoursquarePreviewWidthTextBox.Text)
             Me.FoursquarePreviewZoom = CInt(Me.FoursquarePreviewZoomTextBox.Text)
             Me.IsListStatusesIncludeRts = Me.IsListsIncludeRtsCheckBox.Checked
+            Me.OpenPicBuiltinBrowser = Me.OpenPictureBuiltinBrowser.Checked
         Catch ex As Exception
             MessageBox.Show(My.Resources.Save_ClickText3)
             Me.DialogResult = Windows.Forms.DialogResult.Cancel
@@ -489,6 +492,27 @@ Public Class AppendSettingDialog
     End Sub
 
     Private Sub Setting_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+        If _endingFlag Then Exit Sub
+
+        Me.UserAccounts.Clear()
+        For Each u In Me.AuthUserCombo.Items
+            Me.UserAccounts.Add(DirectCast(u, UserAccount))
+        Next
+        Dim userSet As Boolean = False
+        For Each u In Me.UserAccounts
+            If u.UserId = Me.InitialUserId Then
+                tw.Initialize(u.Token, u.TokenSecret, u.Username, u.UserId)
+                Google.GASender.GetInstance.SessionFirst = u.GAFirst
+                Google.GASender.GetInstance.SessionLast = u.GALast
+                userSet = True
+                Exit For
+            End If
+        Next
+        If Not userSet Then
+            tw.ClearAuthInfo()
+            tw.Initialize("", "", "", 0)
+        End If
+
         If tw IsNot Nothing AndAlso tw.Username = "" AndAlso e.CloseReason = CloseReason.None Then
             If MessageBox.Show(My.Resources.Setting_FormClosing1, "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
                 e.Cancel = True
@@ -539,6 +563,7 @@ Public Class AppendSettingDialog
             For Each u In Me.UserAccounts
                 If u.UserId = tw.UserId Then
                     Me.AuthUserCombo.SelectedItem = u
+                    Me.InitialUserId = u.UserId
                     Exit For
                 End If
             Next
@@ -780,6 +805,7 @@ Public Class AppendSettingDialog
         Me.FoursquarePreviewWidthTextBox.Text = Me.FoursquarePreviewWidth.ToString
         Me.FoursquarePreviewZoomTextBox.Text = Me.FoursquarePreviewZoom.ToString
         Me.IsListsIncludeRtsCheckBox.Checked = Me.IsListStatusesIncludeRts
+        Me.OpenPictureBuiltinBrowser.Checked = Me.OpenPicBuiltinBrowser
 
         With Me.TreeViewSetting
             .Nodes("BasedNode").Tag = BasedPanel
@@ -2255,6 +2281,7 @@ Public Class AppendSettingDialog
         Dim rslt As String = tw.StartAuthentication(pinPageUrl)
         If String.IsNullOrEmpty(rslt) Then
             Using ab = New AuthBrowser
+                ab.Auth = True
                 ab.UrlString = pinPageUrl
                 If ab.ShowDialog(Me) = Windows.Forms.DialogResult.OK Then
                     Me._pin = ab.PinString

@@ -797,6 +797,7 @@ Public Class TweenMain
         SettingDialog.FoursquarePreviewWidth = _cfgCommon.FoursquarePreviewWidth
         SettingDialog.FoursquarePreviewZoom = _cfgCommon.FoursquarePreviewZoom
         SettingDialog.IsListStatusesIncludeRts = _cfgCommon.IsListsIncludeRts
+        SettingDialog.OpenPicBuiltinBrowser = _cfgCommon.OpenPicBuiltinBrowser
 
         'ハッシュタグ関連
         HashSupl = New AtIdSupplement(_cfgCommon.HashTags, "#")
@@ -4869,7 +4870,7 @@ RETRY:
             If fileVersion <> "" AndAlso strVer.CompareTo(fileVersion.Replace(".", "")) > 0 Then
                 Dim tmp As String = String.Format(My.Resources.CheckNewVersionText3, strVer)
                 Using dialogAsShieldicon As New DialogAsShieldIcon
-                    If dialogAsShieldicon.Show(tmp, strDetail, My.Resources.CheckNewVersionText1, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
+                    If dialogAsShieldicon.ShowDialog(tmp, strDetail, My.Resources.CheckNewVersionText1, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
                         retMsg = tw.GetTweenBinary(strVer)
                         If retMsg.Length = 0 Then
                             RunTweenUp()
@@ -4887,7 +4888,7 @@ RETRY:
                 If forceUpdate Then
                     Dim tmp As String = String.Format(My.Resources.CheckNewVersionText6, strVer)
                     Using dialogAsShieldicon As New DialogAsShieldIcon
-                        If dialogAsShieldicon.Show(tmp, strDetail, My.Resources.CheckNewVersionText1, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
+                        If dialogAsShieldicon.ShowDialog(tmp, strDetail, My.Resources.CheckNewVersionText1, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
                             retMsg = tw.GetTweenBinary(strVer)
                             If retMsg.Length = 0 Then
                                 RunTweenUp()
@@ -6371,6 +6372,7 @@ RETRY:
             _cfgCommon.IsListsIncludeRts = SettingDialog.IsListStatusesIncludeRts
             _cfgCommon.GAFirst = Google.GASender.GetInstance.SessionFirst
             _cfgCommon.GALast = Google.GASender.GetInstance.SessionLast
+            _cfgCommon.OpenPicBuiltinBrowser = SettingDialog.OpenPicBuiltinBrowser
 
             _cfgCommon.Save()
         End SyncLock
@@ -8358,7 +8360,17 @@ RETRY:
 
     Private Sub UrlCopyContextMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UrlCopyContextMenuItem.Click
         Try
-            Clipboard.SetDataObject(Me._postBrowserStatusText, False, 5, 100)
+            Dim mc As MatchCollection = Regex.Matches(Me.PostBrowser.DocumentText, "<a[^>]*href=""(?<url>" + Me._postBrowserStatusText.Replace(".", "\.") + ")""[^>]*title=""(?<title>https?://[^""]+)""", RegexOptions.IgnoreCase)
+            For Each m As Match In mc
+                If m.Groups("url").Value = Me._postBrowserStatusText Then
+                    Clipboard.SetDataObject(m.Groups("title").Value, False, 5, 100)
+                    Exit For
+                End If
+            Next
+            If mc.Count = 0 Then
+                Clipboard.SetDataObject(Me._postBrowserStatusText, False, 5, 100)
+            End If
+            'Clipboard.SetDataObject(Me._postBrowserStatusText, False, 5, 100)
         Catch ex As Exception
             MessageBox.Show(ex.Message)
         End Try

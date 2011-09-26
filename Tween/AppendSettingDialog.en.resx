@@ -213,71 +213,14 @@
   <data name="SplitContainer1.Panel1.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="AuthUserCombo.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label1.Text" xml:space="preserve">
-    <value>We recommend to follow @TweenApp.</value>
-  </data>
-  <data name="Label1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="EmailText.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label6.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="FollowCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>122, 16</value>
+  <data name="OpenPictureBuiltinBrowser.Size" type="System.Drawing.Size, System.Drawing">
+    <value>193, 16</value>
   </data>
-  <data name="FollowCheckBox.Text" xml:space="preserve">
-    <value>Follow @TweenApp</value>
+  <data name="OpenPictureBuiltinBrowser.Text" xml:space="preserve">
+    <value>Open pictures in built-in browser</value>
   </data>
-  <data name="FollowCheckBox.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label43.Text" xml:space="preserve">
-    <value>This account will accept, and answer demanding and inquiring besides the upgrade and useful information are passed on.</value>
-  </data>
-  <data name="Label43.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="GroupBox2.Text" xml:space="preserve">
-    <value>Tween support</value>
-  </data>
-  <data name="GroupBox2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CreateAccountButton.Text" xml:space="preserve">
-    <value>Sign up for Twitter account</value>
-  </data>
-  <data name="CreateAccountButton.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="StartAuthButton.Text" xml:space="preserve">
-    <value>Start Authentiation</value>
-  </data>
-  <data name="StartAuthButton.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="AuthClearButton.Text" xml:space="preserve">
-    <value>Remove</value>
-  </data>
-  <data name="AuthClearButton.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 12</value>
-  </data>
-  <data name="Label4.Text" xml:space="preserve">
-    <value>Account</value>
-  </data>
-  <data name="Label4.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="BasedPanel.ToolTip" xml:space="preserve">
+  <data name="OpenPictureBuiltinBrowser.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="Label38.Location" type="System.Drawing.Point, System.Drawing">
@@ -309,9 +252,6 @@
   </data>
   <data name="ListDoubleClickActionComboBox.Items7" xml:space="preserve">
     <value>Not bihavier</value>
-  </data>
-  <data name="ListDoubleClickActionComboBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>199, 277</value>
   </data>
   <data name="ListDoubleClickActionComboBox.ToolTip" xml:space="preserve">
     <value />
@@ -561,6 +501,72 @@
     <value />
   </data>
   <data name="TweetPrvPanel.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AuthUserCombo.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label1.Text" xml:space="preserve">
+    <value>We recommend to follow @TweenApp.</value>
+  </data>
+  <data name="Label1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="EmailText.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label6.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FollowCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>122, 16</value>
+  </data>
+  <data name="FollowCheckBox.Text" xml:space="preserve">
+    <value>Follow @TweenApp</value>
+  </data>
+  <data name="FollowCheckBox.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label43.Text" xml:space="preserve">
+    <value>This account will accept, and answer demanding and inquiring besides the upgrade and useful information are passed on.</value>
+  </data>
+  <data name="Label43.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="GroupBox2.Text" xml:space="preserve">
+    <value>Tween support</value>
+  </data>
+  <data name="GroupBox2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CreateAccountButton.Text" xml:space="preserve">
+    <value>Sign up for Twitter account</value>
+  </data>
+  <data name="CreateAccountButton.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="StartAuthButton.Text" xml:space="preserve">
+    <value>Start Authentiation</value>
+  </data>
+  <data name="StartAuthButton.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AuthClearButton.Text" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="AuthClearButton.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 12</value>
+  </data>
+  <data name="Label4.Text" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="Label4.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BasedPanel.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="ShortenTcoCheck.Size" type="System.Drawing.Size, System.Drawing">

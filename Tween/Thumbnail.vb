@@ -361,7 +361,15 @@ Public Class Thumbnail
     Public Sub OpenPicture()
         If _prev IsNot Nothing Then
             If Owner.PreviewScrollBar.Value < _prev.pics.Count Then
-                Owner.OpenUriAsync(_prev.pics(Owner.PreviewScrollBar.Value).Key)
+                If AppendSettingDialog.Instance.OpenPicBuiltinBrowser Then
+                    Using ab As New AuthBrowser
+                        ab.Auth = False
+                        ab.UrlString = _prev.pics(Owner.PreviewScrollBar.Value).Key
+                        ab.ShowDialog(Owner)
+                    End Using
+                Else
+                    Owner.OpenUriAsync(_prev.pics(Owner.PreviewScrollBar.Value).Key)
+                End If
             End If
         End If
     End Sub
@@ -633,7 +641,19 @@ Public Class Thumbnail
     ''' <remarks></remarks>
     Private Function Plixi_CreateImage(ByVal args As CreateImageArgs) As Boolean
         ' TODO: サムネイル画像読み込み処理を記述します
-        Dim img As Image = (New HttpVarious).GetImage(args.url.Value, args.url.Key, 10000, args.errmsg)
+        Dim referer As String = ""
+        If args.url.Key.Contains("t.co") Then
+            If args.url.Value.Contains("tweetphoto.com") Then
+                referer = "http://tweetphoto.com"
+            ElseIf args.url.Value.Contains("http://lockerz.com") Then
+                referer = "http://lockerz.com"
+            Else
+                referer = "http://plixi.com"
+            End If
+        Else
+            referer = args.url.Key
+        End If
+        Dim img As Image = (New HttpVarious).GetImage(args.url.Value, referer, 10000, args.errmsg)
         If img Is Nothing Then
             Return False
         End If

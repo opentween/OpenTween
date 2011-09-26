@@ -26,19 +26,8 @@ Partial Class AppendSettingDialog
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AppendSettingDialog))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.TreeViewSetting = New System.Windows.Forms.TreeView()
-        Me.BasedPanel = New System.Windows.Forms.Panel()
-        Me.AuthUserCombo = New System.Windows.Forms.ComboBox()
-        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.EmailText = New System.Windows.Forms.TextBox()
-        Me.Label6 = New System.Windows.Forms.Label()
-        Me.FollowCheckBox = New System.Windows.Forms.CheckBox()
-        Me.Label43 = New System.Windows.Forms.Label()
-        Me.CreateAccountButton = New System.Windows.Forms.Button()
-        Me.StartAuthButton = New System.Windows.Forms.Button()
-        Me.AuthClearButton = New System.Windows.Forms.Button()
-        Me.Label4 = New System.Windows.Forms.Label()
         Me.ActionPanel = New System.Windows.Forms.Panel()
+        Me.OpenPictureBuiltinBrowser = New System.Windows.Forms.CheckBox()
         Me.Label38 = New System.Windows.Forms.Label()
         Me.ListDoubleClickActionComboBox = New System.Windows.Forms.ComboBox()
         Me.CheckOpenUserTimeline = New System.Windows.Forms.CheckBox()
@@ -77,6 +66,18 @@ Partial Class AppendSettingDialog
         Me.CheckShowGrid = New System.Windows.Forms.CheckBox()
         Me.chkUnreadStyle = New System.Windows.Forms.CheckBox()
         Me.OneWayLv = New System.Windows.Forms.CheckBox()
+        Me.BasedPanel = New System.Windows.Forms.Panel()
+        Me.AuthUserCombo = New System.Windows.Forms.ComboBox()
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.EmailText = New System.Windows.Forms.TextBox()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.FollowCheckBox = New System.Windows.Forms.CheckBox()
+        Me.Label43 = New System.Windows.Forms.Label()
+        Me.CreateAccountButton = New System.Windows.Forms.Button()
+        Me.StartAuthButton = New System.Windows.Forms.Button()
+        Me.AuthClearButton = New System.Windows.Forms.Button()
+        Me.Label4 = New System.Windows.Forms.Label()
         Me.ShortUrlPanel = New System.Windows.Forms.Panel()
         Me.ShortenTcoCheck = New System.Windows.Forms.CheckBox()
         Me.CheckForceResolve = New System.Windows.Forms.CheckBox()
@@ -282,11 +283,11 @@ Partial Class AppendSettingDialog
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        Me.BasedPanel.SuspendLayout()
-        Me.GroupBox2.SuspendLayout()
         Me.ActionPanel.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.TweetPrvPanel.SuspendLayout()
+        Me.BasedPanel.SuspendLayout()
+        Me.GroupBox2.SuspendLayout()
         Me.ShortUrlPanel.SuspendLayout()
         Me.FontPanel.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -319,9 +320,9 @@ Partial Class AppendSettingDialog
         '
         resources.ApplyResources(Me.SplitContainer1.Panel2, "SplitContainer1.Panel2")
         Me.SplitContainer1.Panel2.BackColor = System.Drawing.SystemColors.Control
-        Me.SplitContainer1.Panel2.Controls.Add(Me.BasedPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.ActionPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.TweetPrvPanel)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.BasedPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.ShortUrlPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.FontPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.FontPanel2)
@@ -348,102 +349,10 @@ Partial Class AppendSettingDialog
         Me.TreeViewSetting.ShowLines = False
         Me.ToolTip1.SetToolTip(Me.TreeViewSetting, resources.GetString("TreeViewSetting.ToolTip"))
         '
-        'BasedPanel
-        '
-        resources.ApplyResources(Me.BasedPanel, "BasedPanel")
-        Me.BasedPanel.Controls.Add(Me.AuthUserCombo)
-        Me.BasedPanel.Controls.Add(Me.GroupBox2)
-        Me.BasedPanel.Controls.Add(Me.CreateAccountButton)
-        Me.BasedPanel.Controls.Add(Me.StartAuthButton)
-        Me.BasedPanel.Controls.Add(Me.AuthClearButton)
-        Me.BasedPanel.Controls.Add(Me.Label4)
-        Me.BasedPanel.Name = "BasedPanel"
-        Me.ToolTip1.SetToolTip(Me.BasedPanel, resources.GetString("BasedPanel.ToolTip"))
-        '
-        'AuthUserCombo
-        '
-        resources.ApplyResources(Me.AuthUserCombo, "AuthUserCombo")
-        Me.AuthUserCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.AuthUserCombo.FormattingEnabled = True
-        Me.AuthUserCombo.Name = "AuthUserCombo"
-        Me.ToolTip1.SetToolTip(Me.AuthUserCombo, resources.GetString("AuthUserCombo.ToolTip"))
-        '
-        'GroupBox2
-        '
-        resources.ApplyResources(Me.GroupBox2, "GroupBox2")
-        Me.GroupBox2.Controls.Add(Me.Label1)
-        Me.GroupBox2.Controls.Add(Me.EmailText)
-        Me.GroupBox2.Controls.Add(Me.Label6)
-        Me.GroupBox2.Controls.Add(Me.FollowCheckBox)
-        Me.GroupBox2.Controls.Add(Me.Label43)
-        Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.GroupBox2, resources.GetString("GroupBox2.ToolTip"))
-        '
-        'Label1
-        '
-        resources.ApplyResources(Me.Label1, "Label1")
-        Me.Label1.Name = "Label1"
-        Me.ToolTip1.SetToolTip(Me.Label1, resources.GetString("Label1.ToolTip"))
-        '
-        'EmailText
-        '
-        resources.ApplyResources(Me.EmailText, "EmailText")
-        Me.EmailText.Name = "EmailText"
-        Me.ToolTip1.SetToolTip(Me.EmailText, resources.GetString("EmailText.ToolTip"))
-        '
-        'Label6
-        '
-        resources.ApplyResources(Me.Label6, "Label6")
-        Me.Label6.Name = "Label6"
-        Me.ToolTip1.SetToolTip(Me.Label6, resources.GetString("Label6.ToolTip"))
-        '
-        'FollowCheckBox
-        '
-        resources.ApplyResources(Me.FollowCheckBox, "FollowCheckBox")
-        Me.FollowCheckBox.Checked = True
-        Me.FollowCheckBox.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.FollowCheckBox.Name = "FollowCheckBox"
-        Me.ToolTip1.SetToolTip(Me.FollowCheckBox, resources.GetString("FollowCheckBox.ToolTip"))
-        Me.FollowCheckBox.UseVisualStyleBackColor = True
-        '
-        'Label43
-        '
-        resources.ApplyResources(Me.Label43, "Label43")
-        Me.Label43.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.Label43.Name = "Label43"
-        Me.ToolTip1.SetToolTip(Me.Label43, resources.GetString("Label43.ToolTip"))
-        '
-        'CreateAccountButton
-        '
-        resources.ApplyResources(Me.CreateAccountButton, "CreateAccountButton")
-        Me.CreateAccountButton.Name = "CreateAccountButton"
-        Me.ToolTip1.SetToolTip(Me.CreateAccountButton, resources.GetString("CreateAccountButton.ToolTip"))
-        Me.CreateAccountButton.UseVisualStyleBackColor = True
-        '
-        'StartAuthButton
-        '
-        resources.ApplyResources(Me.StartAuthButton, "StartAuthButton")
-        Me.StartAuthButton.Name = "StartAuthButton"
-        Me.ToolTip1.SetToolTip(Me.StartAuthButton, resources.GetString("StartAuthButton.ToolTip"))
-        Me.StartAuthButton.UseVisualStyleBackColor = True
-        '
-        'AuthClearButton
-        '
-        resources.ApplyResources(Me.AuthClearButton, "AuthClearButton")
-        Me.AuthClearButton.Name = "AuthClearButton"
-        Me.ToolTip1.SetToolTip(Me.AuthClearButton, resources.GetString("AuthClearButton.ToolTip"))
-        Me.AuthClearButton.UseVisualStyleBackColor = True
-        '
-        'Label4
-        '
-        resources.ApplyResources(Me.Label4, "Label4")
-        Me.Label4.Name = "Label4"
-        Me.ToolTip1.SetToolTip(Me.Label4, resources.GetString("Label4.ToolTip"))
-        '
         'ActionPanel
         '
         resources.ApplyResources(Me.ActionPanel, "ActionPanel")
+        Me.ActionPanel.Controls.Add(Me.OpenPictureBuiltinBrowser)
         Me.ActionPanel.Controls.Add(Me.Label38)
         Me.ActionPanel.Controls.Add(Me.ListDoubleClickActionComboBox)
         Me.ActionPanel.Controls.Add(Me.CheckOpenUserTimeline)
@@ -462,6 +371,13 @@ Partial Class AppendSettingDialog
         Me.ActionPanel.Controls.Add(Me.CheckReadOldPosts)
         Me.ActionPanel.Name = "ActionPanel"
         Me.ToolTip1.SetToolTip(Me.ActionPanel, resources.GetString("ActionPanel.ToolTip"))
+        '
+        'OpenPictureBuiltinBrowser
+        '
+        resources.ApplyResources(Me.OpenPictureBuiltinBrowser, "OpenPictureBuiltinBrowser")
+        Me.OpenPictureBuiltinBrowser.Name = "OpenPictureBuiltinBrowser"
+        Me.ToolTip1.SetToolTip(Me.OpenPictureBuiltinBrowser, resources.GetString("OpenPictureBuiltinBrowser.ToolTip"))
+        Me.OpenPictureBuiltinBrowser.UseVisualStyleBackColor = True
         '
         'Label38
         '
@@ -747,6 +663,99 @@ Partial Class AppendSettingDialog
         Me.OneWayLv.Name = "OneWayLv"
         Me.ToolTip1.SetToolTip(Me.OneWayLv, resources.GetString("OneWayLv.ToolTip"))
         Me.OneWayLv.UseVisualStyleBackColor = True
+        '
+        'BasedPanel
+        '
+        resources.ApplyResources(Me.BasedPanel, "BasedPanel")
+        Me.BasedPanel.Controls.Add(Me.AuthUserCombo)
+        Me.BasedPanel.Controls.Add(Me.GroupBox2)
+        Me.BasedPanel.Controls.Add(Me.CreateAccountButton)
+        Me.BasedPanel.Controls.Add(Me.StartAuthButton)
+        Me.BasedPanel.Controls.Add(Me.AuthClearButton)
+        Me.BasedPanel.Controls.Add(Me.Label4)
+        Me.BasedPanel.Name = "BasedPanel"
+        Me.ToolTip1.SetToolTip(Me.BasedPanel, resources.GetString("BasedPanel.ToolTip"))
+        '
+        'AuthUserCombo
+        '
+        resources.ApplyResources(Me.AuthUserCombo, "AuthUserCombo")
+        Me.AuthUserCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.AuthUserCombo.FormattingEnabled = True
+        Me.AuthUserCombo.Name = "AuthUserCombo"
+        Me.ToolTip1.SetToolTip(Me.AuthUserCombo, resources.GetString("AuthUserCombo.ToolTip"))
+        '
+        'GroupBox2
+        '
+        resources.ApplyResources(Me.GroupBox2, "GroupBox2")
+        Me.GroupBox2.Controls.Add(Me.Label1)
+        Me.GroupBox2.Controls.Add(Me.EmailText)
+        Me.GroupBox2.Controls.Add(Me.Label6)
+        Me.GroupBox2.Controls.Add(Me.FollowCheckBox)
+        Me.GroupBox2.Controls.Add(Me.Label43)
+        Me.GroupBox2.Name = "GroupBox2"
+        Me.GroupBox2.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.GroupBox2, resources.GetString("GroupBox2.ToolTip"))
+        '
+        'Label1
+        '
+        resources.ApplyResources(Me.Label1, "Label1")
+        Me.Label1.Name = "Label1"
+        Me.ToolTip1.SetToolTip(Me.Label1, resources.GetString("Label1.ToolTip"))
+        '
+        'EmailText
+        '
+        resources.ApplyResources(Me.EmailText, "EmailText")
+        Me.EmailText.Name = "EmailText"
+        Me.ToolTip1.SetToolTip(Me.EmailText, resources.GetString("EmailText.ToolTip"))
+        '
+        'Label6
+        '
+        resources.ApplyResources(Me.Label6, "Label6")
+        Me.Label6.Name = "Label6"
+        Me.ToolTip1.SetToolTip(Me.Label6, resources.GetString("Label6.ToolTip"))
+        '
+        'FollowCheckBox
+        '
+        resources.ApplyResources(Me.FollowCheckBox, "FollowCheckBox")
+        Me.FollowCheckBox.Checked = True
+        Me.FollowCheckBox.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.FollowCheckBox.Name = "FollowCheckBox"
+        Me.ToolTip1.SetToolTip(Me.FollowCheckBox, resources.GetString("FollowCheckBox.ToolTip"))
+        Me.FollowCheckBox.UseVisualStyleBackColor = True
+        '
+        'Label43
+        '
+        resources.ApplyResources(Me.Label43, "Label43")
+        Me.Label43.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.Label43.Name = "Label43"
+        Me.ToolTip1.SetToolTip(Me.Label43, resources.GetString("Label43.ToolTip"))
+        '
+        'CreateAccountButton
+        '
+        resources.ApplyResources(Me.CreateAccountButton, "CreateAccountButton")
+        Me.CreateAccountButton.Name = "CreateAccountButton"
+        Me.ToolTip1.SetToolTip(Me.CreateAccountButton, resources.GetString("CreateAccountButton.ToolTip"))
+        Me.CreateAccountButton.UseVisualStyleBackColor = True
+        '
+        'StartAuthButton
+        '
+        resources.ApplyResources(Me.StartAuthButton, "StartAuthButton")
+        Me.StartAuthButton.Name = "StartAuthButton"
+        Me.ToolTip1.SetToolTip(Me.StartAuthButton, resources.GetString("StartAuthButton.ToolTip"))
+        Me.StartAuthButton.UseVisualStyleBackColor = True
+        '
+        'AuthClearButton
+        '
+        resources.ApplyResources(Me.AuthClearButton, "AuthClearButton")
+        Me.AuthClearButton.Name = "AuthClearButton"
+        Me.ToolTip1.SetToolTip(Me.AuthClearButton, resources.GetString("AuthClearButton.ToolTip"))
+        Me.AuthClearButton.UseVisualStyleBackColor = True
+        '
+        'Label4
+        '
+        resources.ApplyResources(Me.Label4, "Label4")
+        Me.Label4.Name = "Label4"
+        Me.ToolTip1.SetToolTip(Me.Label4, resources.GetString("Label4.ToolTip"))
         '
         'ShortUrlPanel
         '
@@ -2290,16 +2299,16 @@ Partial Class AppendSettingDialog
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.ResumeLayout(False)
-        Me.BasedPanel.ResumeLayout(False)
-        Me.BasedPanel.PerformLayout()
-        Me.GroupBox2.ResumeLayout(False)
-        Me.GroupBox2.PerformLayout()
         Me.ActionPanel.ResumeLayout(False)
         Me.ActionPanel.PerformLayout()
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox3.PerformLayout()
         Me.TweetPrvPanel.ResumeLayout(False)
         Me.TweetPrvPanel.PerformLayout()
+        Me.BasedPanel.ResumeLayout(False)
+        Me.BasedPanel.PerformLayout()
+        Me.GroupBox2.ResumeLayout(False)
+        Me.GroupBox2.PerformLayout()
         Me.ShortUrlPanel.ResumeLayout(False)
         Me.ShortUrlPanel.PerformLayout()
         Me.FontPanel.ResumeLayout(False)
@@ -2585,4 +2594,5 @@ Partial Class AppendSettingDialog
     Friend WithEvents ShortenTcoCheck As System.Windows.Forms.CheckBox
     Friend WithEvents IsListsIncludeRtsCheckBox As System.Windows.Forms.CheckBox
     Friend WithEvents AuthUserCombo As System.Windows.Forms.ComboBox
+    Friend WithEvents OpenPictureBuiltinBrowser As System.Windows.Forms.CheckBox
 End Class

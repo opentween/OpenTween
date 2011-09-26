@@ -26,9 +26,10 @@ Partial Class AuthBrowser
         Me.AddressLabel = New System.Windows.Forms.Label()
         Me.AuthWebBrowser = New System.Windows.Forms.WebBrowser()
         Me.Panel2 = New System.Windows.Forms.Panel()
-        Me.NextButton = New System.Windows.Forms.Button()
+        Me.Cancel = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.PinText = New System.Windows.Forms.TextBox()
+        Me.NextButton = New System.Windows.Forms.Button()
         Me.Panel2.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -62,6 +63,7 @@ Partial Class AuthBrowser
         '
         'Panel2
         '
+        Me.Panel2.Controls.Add(Me.Cancel)
         Me.Panel2.Controls.Add(Me.AddressLabel)
         Me.Panel2.Controls.Add(Me.Label1)
         Me.Panel2.Controls.Add(Me.PinText)
@@ -72,15 +74,16 @@ Partial Class AuthBrowser
         Me.Panel2.Size = New System.Drawing.Size(773, 22)
         Me.Panel2.TabIndex = 2
         '
-        'NextButton
+        'Cancel
         '
-        Me.NextButton.Dock = System.Windows.Forms.DockStyle.Right
-        Me.NextButton.Location = New System.Drawing.Point(698, 0)
-        Me.NextButton.Name = "NextButton"
-        Me.NextButton.Size = New System.Drawing.Size(75, 22)
-        Me.NextButton.TabIndex = 2
-        Me.NextButton.Text = "Finish"
-        Me.NextButton.UseVisualStyleBackColor = True
+        Me.Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
+        Me.Cancel.Location = New System.Drawing.Point(536, 32)
+        Me.Cancel.Name = "Cancel"
+        Me.Cancel.Size = New System.Drawing.Size(75, 15)
+        Me.Cancel.TabIndex = 3
+        Me.Cancel.TabStop = False
+        Me.Cancel.Text = "Cancel"
+        Me.Cancel.UseVisualStyleBackColor = True
         '
         'Label1
         '
@@ -101,11 +104,22 @@ Partial Class AuthBrowser
         Me.PinText.Size = New System.Drawing.Size(138, 19)
         Me.PinText.TabIndex = 1
         '
+        'NextButton
+        '
+        Me.NextButton.Dock = System.Windows.Forms.DockStyle.Right
+        Me.NextButton.Location = New System.Drawing.Point(698, 0)
+        Me.NextButton.Name = "NextButton"
+        Me.NextButton.Size = New System.Drawing.Size(75, 22)
+        Me.NextButton.TabIndex = 2
+        Me.NextButton.Text = "Finish"
+        Me.NextButton.UseVisualStyleBackColor = True
+        '
         'AuthBrowser
         '
         Me.AcceptButton = Me.NextButton
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.CancelButton = Me.Cancel
         Me.ClientSize = New System.Drawing.Size(773, 562)
         Me.Controls.Add(Me.AuthWebBrowser)
         Me.Controls.Add(Me.Panel1)
@@ -114,7 +128,7 @@ Partial Class AuthBrowser
         Me.MinimizeBox = False
         Me.Name = "AuthBrowser"
         Me.ShowIcon = False
-        Me.Text = "AuthBrowser"
+        Me.Text = "Browser"
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         Me.ResumeLayout(False)
@@ -128,4 +142,5 @@ Partial Class AuthBrowser
     Friend WithEvents NextButton As System.Windows.Forms.Button
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents PinText As System.Windows.Forms.TextBox
+    Friend WithEvents Cancel As System.Windows.Forms.Button
 End Class
