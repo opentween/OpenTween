@@ -797,7 +797,6 @@ Public Class TweenMain
         SettingDialog.FoursquarePreviewWidth = _cfgCommon.FoursquarePreviewWidth
         SettingDialog.FoursquarePreviewZoom = _cfgCommon.FoursquarePreviewZoom
         SettingDialog.IsListStatusesIncludeRts = _cfgCommon.IsListsIncludeRts
-        SettingDialog.OpenPicBuiltinBrowser = _cfgCommon.OpenPicBuiltinBrowser
 
         'ハッシュタグ関連
         HashSupl = New AtIdSupplement(_cfgCommon.HashTags, "#")
@@ -6372,7 +6371,6 @@ RETRY:
             _cfgCommon.IsListsIncludeRts = SettingDialog.IsListStatusesIncludeRts
             _cfgCommon.GAFirst = Google.GASender.GetInstance.SessionFirst
             _cfgCommon.GALast = Google.GASender.GetInstance.SessionLast
-            _cfgCommon.OpenPicBuiltinBrowser = SettingDialog.OpenPicBuiltinBrowser
 
             _cfgCommon.Save()
         End SyncLock

@@ -202,7 +202,6 @@ Public Class SettingCommon
     Public IsListsIncludeRts As Boolean = False
     Public GAFirst As Long = 0
     Public GALast As Long = 0
-    Public OpenPicBuiltinBrowser As Boolean = False
 End Class
 
 Public Class UserAccount

@@ -150,7 +150,6 @@ Public Class AppendSettingDialog
     Public Property IsListStatusesIncludeRts As Boolean
     Public Property UserAccounts As List(Of UserAccount)
     Private InitialUserId As Long
-    Public Property OpenPicBuiltinBrowser As Boolean
 
     Public Property TwitterConfiguration As New TwitterDataModel.Configuration
 
@@ -483,7 +482,6 @@ Public Class AppendSettingDialog
             Me.FoursquarePreviewWidth = CInt(Me.FoursquarePreviewWidthTextBox.Text)
             Me.FoursquarePreviewZoom = CInt(Me.FoursquarePreviewZoomTextBox.Text)
             Me.IsListStatusesIncludeRts = Me.IsListsIncludeRtsCheckBox.Checked
-            Me.OpenPicBuiltinBrowser = Me.OpenPictureBuiltinBrowser.Checked
         Catch ex As Exception
             MessageBox.Show(My.Resources.Save_ClickText3)
             Me.DialogResult = Windows.Forms.DialogResult.Cancel
@@ -805,7 +803,6 @@ Public Class AppendSettingDialog
         Me.FoursquarePreviewWidthTextBox.Text = Me.FoursquarePreviewWidth.ToString
         Me.FoursquarePreviewZoomTextBox.Text = Me.FoursquarePreviewZoom.ToString
         Me.IsListsIncludeRtsCheckBox.Checked = Me.IsListStatusesIncludeRts
-        Me.OpenPictureBuiltinBrowser.Checked = Me.OpenPicBuiltinBrowser
 
         With Me.TreeViewSetting
             .Nodes("BasedNode").Tag = BasedPanel

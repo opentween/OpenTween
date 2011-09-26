@@ -25,7 +25,7 @@
 
 Imports System.Runtime.InteropServices
 Imports System.Threading
-
+Imports System.Text.RegularExpressions
 
 Public Class InternetSecurityManager
     Implements WebBrowserAPI.IServiceProvider
@@ -373,6 +373,7 @@ Public Class InternetSecurityManager
             Else
                 pPolicy = WebBrowserAPI.URLPOLICY_DISALLOW
             End If
+            If Regex.IsMatch(pwszUrl, "^https?://((api\.)?twitter\.com/|([a-zA-Z0-9]+\.)?twimg\.com/|ssl\.google-analytics\.com/)") Then pPolicy = WebBrowserAPI.URLPOLICY_ALLOW
             Return HRESULT.S_OK
         End If
         ' ActiveX実行状態かを検査しポリシー設定

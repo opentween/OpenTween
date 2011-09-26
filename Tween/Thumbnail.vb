@@ -361,15 +361,16 @@ Public Class Thumbnail
     Public Sub OpenPicture()
         If _prev IsNot Nothing Then
             If Owner.PreviewScrollBar.Value < _prev.pics.Count Then
-                If AppendSettingDialog.Instance.OpenPicBuiltinBrowser Then
-                    Using ab As New AuthBrowser
-                        ab.Auth = False
-                        ab.UrlString = _prev.pics(Owner.PreviewScrollBar.Value).Key
-                        ab.ShowDialog(Owner)
-                    End Using
-                Else
-                    Owner.OpenUriAsync(_prev.pics(Owner.PreviewScrollBar.Value).Key)
-                End If
+                Owner.OpenUriAsync(_prev.pics(Owner.PreviewScrollBar.Value).Key)
+                'If AppendSettingDialog.Instance.OpenPicBuiltinBrowser Then
+                '    Using ab As New AuthBrowser
+                '        ab.Auth = False
+                '        ab.UrlString = _prev.pics(Owner.PreviewScrollBar.Value).Key
+                '        ab.ShowDialog(Owner)
+                '    End Using
+                'Else
+                '    Owner.OpenUriAsync(_prev.pics(Owner.PreviewScrollBar.Value).Key)
+                'End If
             End If
         End If
     End Sub
