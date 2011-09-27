@@ -492,23 +492,32 @@ Public Class AppendSettingDialog
     Private Sub Setting_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         If _endingFlag Then Exit Sub
 
-        Me.UserAccounts.Clear()
-        For Each u In Me.AuthUserCombo.Items
-            Me.UserAccounts.Add(DirectCast(u, UserAccount))
-        Next
-        Dim userSet As Boolean = False
-        For Each u In Me.UserAccounts
-            If InitialUserId = 0 OrElse u.UserId = InitialUserId Then
-                tw.Initialize(u.Token, u.TokenSecret, u.Username, u.UserId)
-                Google.GASender.GetInstance.SessionFirst = u.GAFirst
-                Google.GASender.GetInstance.SessionLast = u.GALast
-                userSet = True
-                Exit For
+        If Me.DialogResult = Windows.Forms.DialogResult.Cancel Then
+            'キャンセル時は画面表示時のアカウントに戻す
+            'キャンセル時でも認証済みアカウント情報は保存する
+            Me.UserAccounts.Clear()
+            For Each u In Me.AuthUserCombo.Items
+                Me.UserAccounts.Add(DirectCast(u, UserAccount))
+            Next
+            'アクティブユーザーを起動時のアカウントに戻す（起動時アカウントなければ何もしない）
+            Dim userSet As Boolean = False
+            If Me.InitialUserId > 0 Then
+                For Each u In Me.UserAccounts
+                    If u.UserId = Me.InitialUserId Then
+                        tw.Initialize(u.Token, u.TokenSecret, u.Username, u.UserId)
+                        Google.GASender.GetInstance.SessionFirst = u.GAFirst
+                        Google.GASender.GetInstance.SessionLast = u.GALast
+                        userSet = True
+                        Exit For
+                    End If
+                Next
             End If
-        Next
-        If Not userSet Then
-            tw.ClearAuthInfo()
-            tw.Initialize("", "", "", 0)
+            '認証済みアカウントが削除されていた場合、もしくは起動時アカウントがなかった場合は、
+            'アクティブユーザーなしとして初期化
+            If Not userSet Then
+                tw.ClearAuthInfo()
+                tw.Initialize("", "", "", 0)
+            End If
         End If
 
         If tw IsNot Nothing AndAlso tw.Username = "" AndAlso e.CloseReason = CloseReason.None Then
