@@ -498,7 +498,7 @@ Public Class AppendSettingDialog
         Next
         Dim userSet As Boolean = False
         For Each u In Me.UserAccounts
-            If u.UserId = Me.InitialUserId Then
+            If InitialUserId = 0 OrElse u.UserId = InitialUserId Then
                 tw.Initialize(u.Token, u.TokenSecret, u.Username, u.UserId)
                 Google.GASender.GetInstance.SessionFirst = u.GAFirst
                 Google.GASender.GetInstance.SessionLast = u.GALast
