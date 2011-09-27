@@ -214,13 +214,13 @@
     <value />
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="OpenPictureBuiltinBrowser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 16</value>
+  <data name="TabMouseLockCheck.Size" type="System.Drawing.Size, System.Drawing">
+    <value>157, 16</value>
   </data>
-  <data name="OpenPictureBuiltinBrowser.Text" xml:space="preserve">
-    <value>Open pictures in built-in browser</value>
+  <data name="TabMouseLockCheck.Text" xml:space="preserve">
+    <value>Disable Drag&amp;&amp;Drop on tab</value>
   </data>
-  <data name="OpenPictureBuiltinBrowser.ToolTip" xml:space="preserve">
+  <data name="TabMouseLockCheck.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="Label38.Location" type="System.Drawing.Point, System.Drawing">

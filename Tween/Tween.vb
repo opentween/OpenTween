@@ -797,6 +797,7 @@ Public Class TweenMain
         SettingDialog.FoursquarePreviewWidth = _cfgCommon.FoursquarePreviewWidth
         SettingDialog.FoursquarePreviewZoom = _cfgCommon.FoursquarePreviewZoom
         SettingDialog.IsListStatusesIncludeRts = _cfgCommon.IsListsIncludeRts
+        SettingDialog.TabMouseLock = _cfgCommon.TabMouseLock
 
         'ハッシュタグ関連
         HashSupl = New AtIdSupplement(_cfgCommon.HashTags, "#")
@@ -3920,6 +3921,7 @@ Public Class TweenMain
 
     Private Sub ListTab_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles ListTab.MouseMove
         'タブのD&D
+        If SettingDialog.TabMouseLock Then Exit Sub
         Dim cpos As New Point(e.X, e.Y)
 
         If e.Button = Windows.Forms.MouseButtons.Left AndAlso _tabDrag Then
@@ -6371,6 +6373,7 @@ RETRY:
             _cfgCommon.IsListsIncludeRts = SettingDialog.IsListStatusesIncludeRts
             _cfgCommon.GAFirst = Google.GASender.GetInstance.SessionFirst
             _cfgCommon.GALast = Google.GASender.GetInstance.SessionLast
+            _cfgCommon.TabMouseLock = SettingDialog.TabMouseLock
 
             _cfgCommon.Save()
         End SyncLock
@@ -6559,6 +6562,7 @@ RETRY:
     End Sub
 
     Private Sub Tabs_MouseDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles ListTab.MouseDown
+        If SettingDialog.TabMouseLock Then Exit Sub
         Dim cpos As New Point(e.X, e.Y)
         If e.Button = Windows.Forms.MouseButtons.Left Then
             For i As Integer = 0 To ListTab.TabPages.Count - 1
