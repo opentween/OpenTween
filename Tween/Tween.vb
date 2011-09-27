@@ -1294,7 +1294,7 @@ Public Class TweenMain
             If Me._isActiveUserstream Then RefreshTimeline(True)
             ResetTimers.UserStream = False
         End If
-        If refreshFollowers > 3600 Then
+        If refreshFollowers > 21600 Then
             Interlocked.Exchange(refreshFollowers, 0)
             doGetFollowersMenu()
             If InvokeRequired AndAlso Not IsDisposed Then Me.Invoke(New MethodInvoker(AddressOf Me.TrimPostChain))

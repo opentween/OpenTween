@@ -574,7 +574,9 @@ Public Class Twitter
         If _endingFlag Then Return ""
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
-        If Not TwitterApiInfo.IsDirectMessagePermission Then Return "Auth Err:try to re-authorization."
+        If TwitterApiInfo.AccessLevel <> ApiAccessLevel.None Then
+            If Not TwitterApiInfo.IsDirectMessagePermission Then Return "Auth Err:try to re-authorization."
+        End If
 
         postStr = postStr.Trim()
 
@@ -750,7 +752,9 @@ Public Class Twitter
         If _endingFlag Then Return ""
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
-        If Not TwitterApiInfo.IsDirectMessagePermission Then Return "Auth Err:try to re-authorization."
+        If TwitterApiInfo.AccessLevel <> ApiAccessLevel.None Then
+            If Not TwitterApiInfo.IsDirectMessagePermission Then Return "Auth Err:try to re-authorization."
+        End If
 
         Dim res As HttpStatusCode
 
@@ -2329,7 +2333,7 @@ Public Class Twitter
         If _endingFlag Then Return ""
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
-        If Not TwitterApiInfo.AccessLevel <> ApiAccessLevel.None Then
+        If TwitterApiInfo.AccessLevel <> ApiAccessLevel.None Then
             If Not TwitterApiInfo.IsDirectMessagePermission Then Return "Auth Err:try to re-authorization."
         End If
 
@@ -3311,7 +3315,8 @@ Public Class Twitter
         End Select
 
         Try
-            Dim Ids = CreateDataFromJson(Of Long())(content)
+            Dim Ids = CreateDataFromJson(Of List(Of Long))(content)
+            If Ids.Contains(Me.UserId) Then Ids.Remove(Me.UserId)
             TabInformations.GetInstance.BlockIds.AddRange(Ids)
             Return ("")
         Catch ex As SerializationException
