@@ -125,7 +125,7 @@ Public Class ShortUrl
             Dim orgUrlPath As String = orgUrlMatch.Result("${path}")
             If (_isForceResolve OrElse Array.IndexOf(_ShortUrlService, orgUrl) > -1) AndAlso _
                Not urlList.Contains(orgUrl + orgUrlPath) AndAlso orgUrl <> "http://twitter.com/" Then
-                If Not tcoResolve AndAlso (orgUrl = "http://t.co/" OrElse orgUrl = "https://t.co") Then Return orgData
+                If Not tcoResolve AndAlso (orgUrl = "http://t.co/" OrElse orgUrl = "https://t.co") Then Continue For
                 SyncLock _lockObj
                     urlList.Add(orgUrl + orgUrlPath)
                 End SyncLock

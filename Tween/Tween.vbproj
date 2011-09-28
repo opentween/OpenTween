@@ -331,6 +331,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EventViewerDialog.resx">
       <DependentUpon>EventViewerDialog.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="DialogAsShieldIcon.resx">
       <DependentUpon>DialogAsShieldIcon.vb</DependentUpon>

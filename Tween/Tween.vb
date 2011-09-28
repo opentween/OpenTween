@@ -3921,10 +3921,8 @@ Public Class TweenMain
 
     Private Sub ListTab_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles ListTab.MouseMove
         'タブのD&D
-        If SettingDialog.TabMouseLock Then Exit Sub
-        Dim cpos As New Point(e.X, e.Y)
 
-        If e.Button = Windows.Forms.MouseButtons.Left AndAlso _tabDrag Then
+        If Not SettingDialog.TabMouseLock AndAlso e.Button = Windows.Forms.MouseButtons.Left AndAlso _tabDrag Then
             Dim tn As String = ""
             Dim dragEnableRectangle As New Rectangle(CInt(_tabMouseDownPoint.X - (SystemInformation.DragSize.Width / 2)), CInt(_tabMouseDownPoint.Y - (SystemInformation.DragSize.Height / 2)), SystemInformation.DragSize.Width, SystemInformation.DragSize.Height)
             If Not dragEnableRectangle.Contains(e.Location) Then
@@ -3944,6 +3942,7 @@ Public Class TweenMain
             _tabDrag = False
         End If
 
+        Dim cpos As New Point(e.X, e.Y)
         For i As Integer = 0 To ListTab.TabPages.Count - 1
             Dim rect As Rectangle = ListTab.GetTabRect(i)
             If rect.Left <= cpos.X And cpos.X <= rect.Right And _

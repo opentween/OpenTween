@@ -2313,23 +2313,23 @@ Public Class AppendSettingDialog
             MessageBox.Show(My.Resources.AuthorizeButton_Click1, "Authenticate", MessageBoxButtons.OK)
             'Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
             'Me.AuthUserLabel.Text = tw.Username
-            Dim flg As Boolean = False
-            For Each u In Me.AuthUserCombo.Items
-                If DirectCast(u, UserAccount).UserId = tw.UserId Then
-                    u = New UserAccount() With {.Username = tw.Username,
+            Dim idx As Integer = -1
+            Dim user = New UserAccount() With {.Username = tw.Username,
                                               .UserId = tw.UserId,
                                               .Token = tw.AccessToken,
                                               .TokenSecret = tw.AccessTokenSecret}
-                    Me.AuthUserCombo.SelectedItem = u
-                    flg = True
+            For Each u In Me.AuthUserCombo.Items
+                If DirectCast(u, UserAccount).Username.ToLower = tw.Username.ToLower Then
+                    idx = Me.AuthUserCombo.Items.IndexOf(u)
                     Exit For
                 End If
             Next
-            If Not flg Then
-                Me.AuthUserCombo.SelectedIndex = Me.AuthUserCombo.Items.Add(New UserAccount() With {.Username = tw.Username,
-                                                                   .UserId = tw.UserId,
-                                                                   .Token = tw.AccessToken,
-                                                                   .TokenSecret = tw.AccessTokenSecret})
+            If idx > -1 Then
+                Me.AuthUserCombo.Items.RemoveAt(idx)
+                Me.AuthUserCombo.Items.Insert(idx, user)
+                Me.AuthUserCombo.SelectedIndex = idx
+            Else
+                Me.AuthUserCombo.SelectedIndex = Me.AuthUserCombo.Items.Add(user)
             End If
             'If TwitterApiInfo.AccessLevel = ApiAccessLevel.ReadWrite Then
             '    Me.AuthStateLabel.Text += "(xAuth)"
