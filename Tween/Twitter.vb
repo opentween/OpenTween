@@ -3656,7 +3656,7 @@ Public Class Twitter
             Do
                 Try
                     If Not MyCommon.IsNetworkAvailable() Then
-                        Thread.Sleep(30 * 1000)
+                        sleepSec = 30
                         Continue Do
                     End If
 

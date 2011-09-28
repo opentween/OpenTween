@@ -159,7 +159,6 @@ Public Module MyCommon
     Public Enum ACCOUNT_STATE
         Valid
         Invalid
-        Validating
     End Enum
 
     Public Enum REPLY_ICONSTATE
