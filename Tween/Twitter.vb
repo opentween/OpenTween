@@ -2028,7 +2028,7 @@ Public Class Twitter
 
 
         'MRTとかに対応のためツイート内にあるツイートを指すURLを取り込む
-        Dim ma As MatchCollection = Regex.Matches(tab.RelationTargetPost.Text, "href=""https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)(/status(es)?/(?<StatusId>[0-9]+))""")
+        Dim ma As MatchCollection = Regex.Matches(tab.RelationTargetPost.Text, "title=""https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)(/status(es)?/(?<StatusId>[0-9]+))""")
         For Each _match As Match In ma
             Dim _statusId As Int64
             If Int64.TryParse(_match.Groups("StatusId").Value, _statusId) Then
