@@ -28,6 +28,7 @@ Partial Class TweenMain
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.StatusLabelUrl = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.StatusLabel = New Tween.TweenCustomControl.ToolStripLabelHistory()
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.HashStripSplitButton = New System.Windows.Forms.ToolStripSplitButton()
         Me.ContextMenuPostMode = New System.Windows.Forms.ContextMenuStrip(Me.components)
@@ -61,6 +62,7 @@ Partial Class TweenMain
         Me.DeleteTabMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TabImage = New System.Windows.Forms.ImageList(Me.components)
         Me.ImageSelectionPanel = New System.Windows.Forms.Panel()
+        Me.ImageSelectedPicture = New Tween.TweenCustomControl.PictureBoxEx()
         Me.ImagePathPanel = New System.Windows.Forms.Panel()
         Me.ImagefilePathText = New System.Windows.Forms.TextBox()
         Me.FilePickButton = New System.Windows.Forms.Button()
@@ -72,6 +74,7 @@ Partial Class TweenMain
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
+        Me.UserPicture = New Tween.TweenCustomControl.PictureBoxEx()
         Me.ContextMenuUserPicture = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.FollowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UnFollowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -115,9 +118,13 @@ Partial Class TweenMain
         Me.TranslationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DateTimeLabel = New System.Windows.Forms.Label()
         Me.SourceLinkLabel = New System.Windows.Forms.LinkLabel()
+        Me.ContextMenuSource = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.SourceCopyMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SourceUrlCopyMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StatusText = New System.Windows.Forms.TextBox()
         Me.lblLen = New System.Windows.Forms.Label()
         Me.PostButton = New System.Windows.Forms.Button()
+        Me.PreviewPicture = New Tween.TweenCustomControl.PictureBoxEx()
         Me.PreviewScrollBar = New System.Windows.Forms.VScrollBar()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.MenuItemFile = New System.Windows.Forms.ToolStripMenuItem()
@@ -300,10 +307,6 @@ Partial Class TweenMain
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.PostStateImageList = New System.Windows.Forms.ImageList(Me.components)
-        Me.StatusLabel = New Tween.TweenCustomControl.ToolStripLabelHistory()
-        Me.ImageSelectedPicture = New Tween.TweenCustomControl.PictureBoxEx()
-        Me.UserPicture = New Tween.TweenCustomControl.PictureBoxEx()
-        Me.PreviewPicture = New Tween.TweenCustomControl.PictureBoxEx()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -320,6 +323,7 @@ Partial Class TweenMain
         Me.TimelinePanel.SuspendLayout()
         Me.ContextMenuTabProperty.SuspendLayout()
         Me.ImageSelectionPanel.SuspendLayout()
+        CType(Me.ImageSelectedPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ImagePathPanel.SuspendLayout()
         CType(Me.SplitContainer3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer3.Panel1.SuspendLayout()
@@ -330,14 +334,14 @@ Partial Class TweenMain
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
         Me.TableLayoutPanel1.SuspendLayout()
+        CType(Me.UserPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ContextMenuUserPicture.SuspendLayout()
         Me.ContextMenuPostBrowser.SuspendLayout()
+        Me.ContextMenuSource.SuspendLayout()
+        CType(Me.PreviewPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip1.SuspendLayout()
         Me.ContextMenuOperate.SuspendLayout()
         Me.ContextMenuFile.SuspendLayout()
-        CType(Me.ImageSelectedPicture, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.UserPicture, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PreviewPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'ToolStripContainer1
@@ -376,6 +380,14 @@ Partial Class TweenMain
         Me.StatusLabelUrl.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
         Me.StatusLabelUrl.Name = "StatusLabelUrl"
         Me.StatusLabelUrl.Spring = True
+        '
+        'StatusLabel
+        '
+        Me.StatusLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right
+        Me.StatusLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.StatusLabel.DoubleClickEnabled = True
+        Me.StatusLabel.Name = "StatusLabel"
+        resources.ApplyResources(Me.StatusLabel, "StatusLabel")
         '
         'ToolStripStatusLabel1
         '
@@ -596,6 +608,12 @@ Partial Class TweenMain
         Me.ImageSelectionPanel.Controls.Add(Me.ImagePathPanel)
         Me.ImageSelectionPanel.Name = "ImageSelectionPanel"
         '
+        'ImageSelectedPicture
+        '
+        resources.ApplyResources(Me.ImageSelectedPicture, "ImageSelectedPicture")
+        Me.ImageSelectedPicture.Name = "ImageSelectedPicture"
+        Me.ImageSelectedPicture.TabStop = False
+        '
         'ImagePathPanel
         '
         Me.ImagePathPanel.Controls.Add(Me.ImagefilePathText)
@@ -690,6 +708,16 @@ Partial Class TweenMain
         Me.TableLayoutPanel1.Controls.Add(Me.DateTimeLabel, 2, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.SourceLinkLabel, 3, 0)
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
+        '
+        'UserPicture
+        '
+        Me.UserPicture.BackColor = System.Drawing.Color.White
+        Me.UserPicture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.UserPicture.ContextMenuStrip = Me.ContextMenuUserPicture
+        resources.ApplyResources(Me.UserPicture, "UserPicture")
+        Me.UserPicture.Name = "UserPicture"
+        Me.TableLayoutPanel1.SetRowSpan(Me.UserPicture, 2)
+        Me.UserPicture.TabStop = False
         '
         'ContextMenuUserPicture
         '
@@ -919,9 +947,26 @@ Partial Class TweenMain
         '
         resources.ApplyResources(Me.SourceLinkLabel, "SourceLinkLabel")
         Me.SourceLinkLabel.AutoEllipsis = True
+        Me.SourceLinkLabel.ContextMenuStrip = Me.ContextMenuSource
         Me.SourceLinkLabel.MaximumSize = New System.Drawing.Size(130, 0)
         Me.SourceLinkLabel.Name = "SourceLinkLabel"
         Me.SourceLinkLabel.TabStop = True
+        '
+        'ContextMenuSource
+        '
+        Me.ContextMenuSource.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SourceCopyMenuItem, Me.SourceUrlCopyMenuItem})
+        Me.ContextMenuSource.Name = "ContextMenuSource"
+        resources.ApplyResources(Me.ContextMenuSource, "ContextMenuSource")
+        '
+        'SourceCopyMenuItem
+        '
+        Me.SourceCopyMenuItem.Name = "SourceCopyMenuItem"
+        resources.ApplyResources(Me.SourceCopyMenuItem, "SourceCopyMenuItem")
+        '
+        'SourceUrlCopyMenuItem
+        '
+        Me.SourceUrlCopyMenuItem.Name = "SourceUrlCopyMenuItem"
+        resources.ApplyResources(Me.SourceUrlCopyMenuItem, "SourceUrlCopyMenuItem")
         '
         'StatusText
         '
@@ -939,6 +984,12 @@ Partial Class TweenMain
         Me.PostButton.Name = "PostButton"
         Me.PostButton.TabStop = False
         Me.PostButton.UseVisualStyleBackColor = True
+        '
+        'PreviewPicture
+        '
+        resources.ApplyResources(Me.PreviewPicture, "PreviewPicture")
+        Me.PreviewPicture.Name = "PreviewPicture"
+        Me.PreviewPicture.TabStop = False
         '
         'PreviewScrollBar
         '
@@ -1894,36 +1945,6 @@ Partial Class TweenMain
         Me.PostStateImageList.Images.SetKeyName(13, "S13.ico")
         Me.PostStateImageList.Images.SetKeyName(14, "S14.ico")
         '
-        'StatusLabel
-        '
-        Me.StatusLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right
-        Me.StatusLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.StatusLabel.DoubleClickEnabled = True
-        Me.StatusLabel.Name = "StatusLabel"
-        resources.ApplyResources(Me.StatusLabel, "StatusLabel")
-        '
-        'ImageSelectedPicture
-        '
-        resources.ApplyResources(Me.ImageSelectedPicture, "ImageSelectedPicture")
-        Me.ImageSelectedPicture.Name = "ImageSelectedPicture"
-        Me.ImageSelectedPicture.TabStop = False
-        '
-        'UserPicture
-        '
-        Me.UserPicture.BackColor = System.Drawing.Color.White
-        Me.UserPicture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.UserPicture.ContextMenuStrip = Me.ContextMenuUserPicture
-        resources.ApplyResources(Me.UserPicture, "UserPicture")
-        Me.UserPicture.Name = "UserPicture"
-        Me.TableLayoutPanel1.SetRowSpan(Me.UserPicture, 2)
-        Me.UserPicture.TabStop = False
-        '
-        'PreviewPicture
-        '
-        resources.ApplyResources(Me.PreviewPicture, "PreviewPicture")
-        Me.PreviewPicture.Name = "PreviewPicture"
-        Me.PreviewPicture.TabStop = False
-        '
         'TweenMain
         '
         Me.AllowDrop = True
@@ -1952,6 +1973,7 @@ Partial Class TweenMain
         Me.TimelinePanel.ResumeLayout(False)
         Me.ContextMenuTabProperty.ResumeLayout(False)
         Me.ImageSelectionPanel.ResumeLayout(False)
+        CType(Me.ImageSelectedPicture, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ImagePathPanel.ResumeLayout(False)
         Me.ImagePathPanel.PerformLayout()
         Me.SplitContainer3.Panel1.ResumeLayout(False)
@@ -1965,15 +1987,15 @@ Partial Class TweenMain
         Me.SplitContainer2.ResumeLayout(False)
         Me.TableLayoutPanel1.ResumeLayout(False)
         Me.TableLayoutPanel1.PerformLayout()
+        CType(Me.UserPicture, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ContextMenuUserPicture.ResumeLayout(False)
         Me.ContextMenuPostBrowser.ResumeLayout(False)
+        Me.ContextMenuSource.ResumeLayout(False)
+        CType(Me.PreviewPicture, System.ComponentModel.ISupportInitialize).EndInit()
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
         Me.ContextMenuOperate.ResumeLayout(False)
         Me.ContextMenuFile.ResumeLayout(False)
-        CType(Me.ImageSelectedPicture, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.UserPicture, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PreviewPicture, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -2256,5 +2278,8 @@ Partial Class TweenMain
     Friend WithEvents OpenUserSpecifiedUrlMenuItem2 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents PostStateImageList As System.Windows.Forms.ImageList
     Friend WithEvents SplitContainer4 As System.Windows.Forms.SplitContainer
+    Friend WithEvents ContextMenuSource As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents SourceCopyMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SourceUrlCopyMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

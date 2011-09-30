@@ -10174,9 +10174,11 @@ RETRY:
     End Property
 
     Private Sub SourceLinkLabel_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles SourceLinkLabel.LinkClicked
-        Dim link As String = CType(SourceLinkLabel.Tag, String)
-        If Not String.IsNullOrEmpty(link) Then
-            OpenUriAsync(link)
+        If Control.MouseButtons = MouseButtons.Left Then
+            Dim link As String = CType(SourceLinkLabel.Tag, String)
+            If Not String.IsNullOrEmpty(link) Then
+                OpenUriAsync(link)
+            End If
         End If
     End Sub
 
@@ -10666,5 +10668,33 @@ RETRY:
 
     Private Sub Ga_Sent() Handles Ga.Sent
         Me._modifySettingCommon = True
+    End Sub
+
+    Private Sub SourceCopyMenuItem_Click(sender As Object, e As System.EventArgs) Handles SourceCopyMenuItem.Click
+        Dim selText As String = SourceLinkLabel.Text
+        Try
+            Clipboard.SetDataObject(selText, False, 5, 100)
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub SourceUrlCopyMenuItem_Click(sender As Object, e As System.EventArgs) Handles SourceUrlCopyMenuItem.Click
+        Dim selText As String = CType(SourceLinkLabel.Tag, String)
+        Try
+            Clipboard.SetDataObject(selText, False, 5, 100)
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub ContextMenuSource_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles ContextMenuSource.Opening
+        If _curPost Is Nothing OrElse Not ExistCurrentPost OrElse _curPost.IsDm Then
+            SourceCopyMenuItem.Enabled = False
+            SourceUrlCopyMenuItem.Enabled = False
+        Else
+            SourceCopyMenuItem.Enabled = True
+            SourceUrlCopyMenuItem.Enabled = True
+        End If
     End Sub
 End Class
