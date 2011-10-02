@@ -10174,11 +10174,9 @@ RETRY:
     End Property
 
     Private Sub SourceLinkLabel_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles SourceLinkLabel.LinkClicked
-        If Control.MouseButtons = MouseButtons.Left Then
-            Dim link As String = CType(SourceLinkLabel.Tag, String)
-            If Not String.IsNullOrEmpty(link) Then
-                OpenUriAsync(link)
-            End If
+        Dim link As String = CType(SourceLinkLabel.Tag, String)
+        If Not String.IsNullOrEmpty(link) AndAlso e.Button = MouseButtons.Left Then
+            OpenUriAsync(link)
         End If
     End Sub
 
