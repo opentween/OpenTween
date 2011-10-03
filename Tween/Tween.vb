@@ -1294,9 +1294,10 @@ Public Class TweenMain
             If Me._isActiveUserstream Then RefreshTimeline(True)
             ResetTimers.UserStream = False
         End If
-        If refreshFollowers > 21600 Then
+        If refreshFollowers > 6 * 3600 Then
             Interlocked.Exchange(refreshFollowers, 0)
             doGetFollowersMenu()
+            GetTimeline(WORKERTYPE.Configuration, 0, 0, "")
             If InvokeRequired AndAlso Not IsDisposed Then Me.Invoke(New MethodInvoker(AddressOf Me.TrimPostChain))
         End If
         If osResumed Then
@@ -1311,6 +1312,7 @@ Public Class TweenMain
                 GetTimeline(WORKERTYPE.UserTimeline, 1, 0, "")
                 GetTimeline(WORKERTYPE.List, 1, 0, "")
                 doGetFollowersMenu()
+                GetTimeline(WORKERTYPE.Configuration, 0, 0, "")
                 If InvokeRequired AndAlso Not IsDisposed Then Me.Invoke(New MethodInvoker(AddressOf Me.TrimPostChain))
             End If
         End If
