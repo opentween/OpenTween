@@ -5708,7 +5708,9 @@ RETRY:
             End If
         Next
         If IsProtected Then
-            MessageBox.Show(My.Resources.CopyStotText1)
+            'MessageBox.Show(My.Resources.CopyStotText1)
+            Dim w As New MessageForm
+            w.ShowDialog(My.Resources.CopyStotText1)
         End If
         If sb.Length > 0 Then
             clstr = sb.ToString()
