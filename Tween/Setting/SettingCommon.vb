@@ -203,6 +203,7 @@ Public Class SettingCommon
     Public GAFirst As Long = 0
     Public GALast As Long = 0
     Public TabMouseLock As Boolean = False
+    Public IsRemoveSameEvent As Boolean = False
 End Class
 
 Public Class UserAccount

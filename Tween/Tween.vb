@@ -798,6 +798,7 @@ Public Class TweenMain
         SettingDialog.FoursquarePreviewZoom = _cfgCommon.FoursquarePreviewZoom
         SettingDialog.IsListStatusesIncludeRts = _cfgCommon.IsListsIncludeRts
         SettingDialog.TabMouseLock = _cfgCommon.TabMouseLock
+        SettingDialog.IsRemoveSameEvent = _cfgCommon.IsRemoveSameEvent
 
         'ハッシュタグ関連
         HashSupl = New AtIdSupplement(_cfgCommon.HashTags, "#")
@@ -6377,6 +6378,7 @@ RETRY:
             _cfgCommon.GAFirst = Google.GASender.GetInstance.SessionFirst
             _cfgCommon.GALast = Google.GASender.GetInstance.SessionLast
             _cfgCommon.TabMouseLock = SettingDialog.TabMouseLock
+            _cfgCommon.IsRemoveSameEvent = SettingDialog.IsRemoveSameEvent
 
             _cfgCommon.Save()
         End SyncLock
