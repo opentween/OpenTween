@@ -2162,7 +2162,7 @@ Public Class TweenMain
                 End Try
             Case WORKERTYPE.Favorites
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
-                ret = tw.GetFavoritesApi(read, args.type)
+                ret = tw.GetFavoritesApi(read, args.type, args.page = -1)
                 rslt.addCount = _statuses.DistributePosts()
             Case WORKERTYPE.PublicSearch
                 bw.ReportProgress(50, MakeStatusMessage(args, False))
@@ -2918,11 +2918,11 @@ Public Class TweenMain
                 End If
             End If
         End If
-        If _statuses.Tabs(ListTab.SelectedTab.Text).TabType <> TabUsageType.Favorites Then
-            RefreshMoreStripMenuItem.Enabled = True
-        Else
-            RefreshMoreStripMenuItem.Enabled = False
-        End If
+        'If _statuses.Tabs(ListTab.SelectedTab.Text).TabType <> TabUsageType.Favorites Then
+        '    RefreshMoreStripMenuItem.Enabled = True
+        'Else
+        '    RefreshMoreStripMenuItem.Enabled = False
+        'End If
         If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.PublicSearch _
                             OrElse Not Me.ExistCurrentPost _
                             OrElse Not _curPost.InReplyToStatusId > 0 Then
@@ -3133,7 +3133,7 @@ Public Class TweenMain
                 Case TabUsageType.DirectMessage
                     GetTimeline(WORKERTYPE.DirectMessegeRcv, -1, 0, "")
                 Case TabUsageType.Favorites
-                    '    GetTimeline(WORKERTYPE.Favorites, -1, 0, "")
+                    GetTimeline(WORKERTYPE.Favorites, -1, 0, "")
                 Case TabUsageType.Profile
                     '' TODO
                 Case TabUsageType.PublicSearch

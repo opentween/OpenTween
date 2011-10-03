@@ -2373,8 +2373,11 @@ Public Class Twitter
         Return CreateDirectMessagesFromJson(content, gType, read)
     End Function
 
-    Public Function GetFavoritesApi(ByVal read As Boolean, _
-                        ByVal gType As WORKERTYPE) As String
+    Public Function GetFavoritesApi(ByVal read As Boolean,
+                        ByVal gType As WORKERTYPE,
+                        ByVal more As Boolean) As String
+
+        Static page As Integer = 1
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
@@ -2387,8 +2390,16 @@ Public Class Twitter
             AppendSettingDialog.Instance.FavoritesCountApi <> 0 Then
             count = AppendSettingDialog.Instance.FavoritesCountApi
         End If
+
+        ' 前ページ取得の場合はページカウンタをインクリメント、それ以外の場合はページカウンタリセット
+        If more Then
+            page += 1
+        Else
+            page = 1
+        End If
+
         Try
-            res = twCon.Favorites(count, content)
+            res = twCon.Favorites(count, page, content)
         Catch ex As Exception
             Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
         End Try

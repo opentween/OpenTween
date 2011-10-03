@@ -499,9 +499,13 @@ Public Class HttpTwitter
                             AddressOf GetApiCallback)
     End Function
 
-    Public Function Favorites(ByVal count As Integer, ByRef content As String) As HttpStatusCode
+    Public Function Favorites(ByVal count As Integer, ByVal page As Integer, ByRef content As String) As HttpStatusCode
         Dim param As New Dictionary(Of String, String)
         If count <> 20 Then param.Add("count", count.ToString())
+
+        If page > 0 Then
+            param.Add("page", page.ToString())
+        End If
 
         param.Add("include_entities", "true")
 
