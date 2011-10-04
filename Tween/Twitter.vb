@@ -3139,7 +3139,7 @@ Public Class Twitter
                                               RegexOptions.IgnoreCase)
 
 
-        retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9_/&#＃@＠>=.])(sm|nm)([0-9]{1,10})", "$1<a href=""http://www.nicovideo.jp/watch/$2$3"">$2$3</a>")
+        retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9_/&#＃@＠>=.~])(sm|nm)([0-9]{1,10})", "$1<a href=""http://www.nicovideo.jp/watch/$2$3"">$2$3</a>")
 
         retStr = retStr.Replace("<<<<<tweenだいなり>>>>>", "&gt;").Replace("<<<<<tweenしょうなり>>>>>", "&lt;")
 
@@ -3229,7 +3229,7 @@ Public Class Twitter
             End If
         End If
 
-        ret = Regex.Replace(ret, "(^|[^a-zA-Z0-9_/&#＃@＠>=.])(sm|nm)([0-9]{1,10})", "$1<a href=""http://www.nicovideo.jp/watch/$2$3"">$2$3</a>")
+        ret = Regex.Replace(ret, "(^|[^a-zA-Z0-9_/&#＃@＠>=.~])(sm|nm)([0-9]{1,10})", "$1<a href=""http://www.nicovideo.jp/watch/$2$3"">$2$3</a>")
         ret = AdjustHtml(ShortUrl.Resolve(PreProcessUrl(ret), False)) 'IDN置換、短縮Uri解決、@リンクを相対→絶対にしてtarget属性付与
 
         Return ret
