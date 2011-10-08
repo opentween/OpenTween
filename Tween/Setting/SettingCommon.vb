@@ -204,6 +204,7 @@ Public Class SettingCommon
     Public GALast As Long = 0
     Public TabMouseLock As Boolean = False
     Public IsRemoveSameEvent As Boolean = False
+    Public IsUseNotifyGrowl As Boolean = False
 End Class
 
 Public Class UserAccount

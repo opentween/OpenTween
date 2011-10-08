@@ -89,6 +89,9 @@ Public Class TweenMain
     'twitter解析部
     Private tw As New Twitter
 
+    'Growl呼び出し部
+    Private gh As New GrowlHelper("Tween")
+
     'サブ画面インスタンス
     Private WithEvents SettingDialog As AppendSettingDialog = AppendSettingDialog.Instance       '設定画面インスタンス
     Private TabDialog As New TabsDialog        'タブ選択ダイアログインスタンス
@@ -799,6 +802,7 @@ Public Class TweenMain
         SettingDialog.IsListStatusesIncludeRts = _cfgCommon.IsListsIncludeRts
         SettingDialog.TabMouseLock = _cfgCommon.TabMouseLock
         SettingDialog.IsRemoveSameEvent = _cfgCommon.IsRemoveSameEvent
+        SettingDialog.IsNotifyUseGrowl = _cfgCommon.IsUseNotifyGrowl
 
         'ハッシュタグ関連
         HashSupl = New AtIdSupplement(_cfgCommon.HashTags, "#")
@@ -993,6 +997,8 @@ Public Class TweenMain
             ReadedStripMenuItem.Enabled = False
             UnreadStripMenuItem.Enabled = False
         End If
+
+        If SettingDialog.IsNotifyUseGrowl Then gh.RegisterGrowl()
 
         'タイマー設定
         TimerTimeline.AutoReset = True
@@ -1553,21 +1559,42 @@ Public Class TweenMain
                     End Select
                     sb.Append(post.TextFromApi)
                 Next
-                If SettingDialog.DispUsername Then NotifyIcon1.BalloonTipTitle = tw.Username + " - " Else NotifyIcon1.BalloonTipTitle = ""
+                'If SettingDialog.DispUsername Then NotifyIcon1.BalloonTipTitle = tw.Username + " - " Else NotifyIcon1.BalloonTipTitle = ""
+                Dim title As String
+                Dim ntIcon As ToolTipIcon
+                Dim nt As GrowlHelper.NotifyType
+                If SettingDialog.DispUsername Then title = tw.Username + " - " Else title = ""
                 If dm Then
-                    NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning
-                    NotifyIcon1.BalloonTipTitle += "Tween [DM] " + My.Resources.RefreshDirectMessageText1 + " " + addCount.ToString() + My.Resources.RefreshDirectMessageText2
+                    'NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning
+                    'NotifyIcon1.BalloonTipTitle += "Tween [DM] " + My.Resources.RefreshDirectMessageText1 + " " + addCount.ToString() + My.Resources.RefreshDirectMessageText2
+                    ntIcon = ToolTipIcon.Warning
+                    title += "Tween [DM] " + My.Resources.RefreshDirectMessageText1 + " " + addCount.ToString() + My.Resources.RefreshDirectMessageText2
+                    nt = GrowlHelper.NotifyType.DirectMessage
                 ElseIf reply Then
-                    NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning
-                    NotifyIcon1.BalloonTipTitle += "Tween [Reply!] " + My.Resources.RefreshTimelineText1 + " " + addCount.ToString() + My.Resources.RefreshTimelineText2
+                    'NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning
+                    'NotifyIcon1.BalloonTipTitle += "Tween [Reply!] " + My.Resources.RefreshTimelineText1 + " " + addCount.ToString() + My.Resources.RefreshTimelineText2
+                    ntIcon = ToolTipIcon.Warning
+                    title += "Tween [Reply!] " + My.Resources.RefreshTimelineText1 + " " + addCount.ToString() + My.Resources.RefreshTimelineText2
+                    nt = GrowlHelper.NotifyType.Reply
                 Else
-                    NotifyIcon1.BalloonTipIcon = ToolTipIcon.Info
-                    NotifyIcon1.BalloonTipTitle += "Tween " + My.Resources.RefreshTimelineText1 + " " + addCount.ToString() + My.Resources.RefreshTimelineText2
+                    'NotifyIcon1.BalloonTipIcon = ToolTipIcon.Info
+                    'NotifyIcon1.BalloonTipTitle += "Tween " + My.Resources.RefreshTimelineText1 + " " + addCount.ToString() + My.Resources.RefreshTimelineText2
+                    ntIcon = ToolTipIcon.Info
+                    title += "Tween " + My.Resources.RefreshTimelineText1 + " " + addCount.ToString() + My.Resources.RefreshTimelineText2
+                    nt = GrowlHelper.NotifyType.Notify
                 End If
                 Dim bText As String = sb.ToString
                 If String.IsNullOrEmpty(bText) Then Exit Sub
-                NotifyIcon1.BalloonTipText = sb.ToString()
-                NotifyIcon1.ShowBalloonTip(500)
+                'NotifyIcon1.BalloonTipText = sb.ToString()
+                'NotifyIcon1.ShowBalloonTip(500)
+                If SettingDialog.IsNotifyUseGrowl Then
+                    gh.Notify(nt, DateTime.Now.Ticks.ToString(), title, bText)
+                Else
+                    NotifyIcon1.BalloonTipTitle = title
+                    NotifyIcon1.BalloonTipText = bText
+                    NotifyIcon1.BalloonTipIcon = ntIcon
+                    NotifyIcon1.ShowBalloonTip(500)
+                End If
             End If
         End If
 
@@ -3382,7 +3409,7 @@ Public Class TweenMain
                 If uid <> tw.Username Then Me.doGetFollowersMenu()
 
                 SetImageServiceCombo()
-
+                If SettingDialog.IsNotifyUseGrowl Then gh.RegisterGrowl()
                 Try
                     StatusText_TextChanged(Nothing, Nothing)
                 Catch ex As Exception
@@ -6379,6 +6406,7 @@ RETRY:
             _cfgCommon.GALast = Google.GASender.GetInstance.SessionLast
             _cfgCommon.TabMouseLock = SettingDialog.TabMouseLock
             _cfgCommon.IsRemoveSameEvent = SettingDialog.IsRemoveSameEvent
+            _cfgCommon.IsUseNotifyGrowl = SettingDialog.IsNotifyUseGrowl
 
             _cfgCommon.Save()
         End SyncLock
@@ -10421,31 +10449,45 @@ RETRY:
         '新着通知 
         If BalloonRequired(ev) Then
             NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning
-            If SettingDialog.DispUsername Then NotifyIcon1.BalloonTipTitle = tw.Username + " - " Else NotifyIcon1.BalloonTipTitle = ""
-            NotifyIcon1.BalloonTipTitle += "Tween [" + ev.Event.ToUpper() + "] by " + DirectCast(IIf(Not String.IsNullOrEmpty(ev.Username), ev.Username, ""), String)
+            'If SettingDialog.DispUsername Then NotifyIcon1.BalloonTipTitle = tw.Username + " - " Else NotifyIcon1.BalloonTipTitle = ""
+            'NotifyIcon1.BalloonTipTitle += "Tween [" + ev.Event.ToUpper() + "] by " + DirectCast(IIf(Not String.IsNullOrEmpty(ev.Username), ev.Username, ""), String)
+            Dim title As String
+            If SettingDialog.DispUsername Then title = tw.Username + " - " Else title = ""
+            title += "Tween [" + ev.Event.ToUpper() + "] by " + DirectCast(IIf(Not String.IsNullOrEmpty(ev.Username), ev.Username, ""), String)
+            Dim text As String
             If Not String.IsNullOrEmpty(ev.Target) Then
-                NotifyIcon1.BalloonTipText = ev.Target
+                'NotifyIcon1.BalloonTipText = ev.Target
+                text = ev.Target
             Else
-                NotifyIcon1.BalloonTipText = " "
+                'NotifyIcon1.BalloonTipText = " "
+                text = " "
             End If
-            NotifyIcon1.ShowBalloonTip(500)
-        End If
-
-        'サウンド再生
-        Dim snd As String = SettingDialog.EventSoundFile
-        If Not _initial AndAlso SettingDialog.PlaySound AndAlso snd <> "" Then
-            If CBool(ev.Eventtype And SettingDialog.EventNotifyFlag) AndAlso IsMyEventNotityAsEventType(ev) Then
-                Try
-                    Dim dir As String = My.Application.Info.DirectoryPath
-                    If Directory.Exists(Path.Combine(dir, "Sounds")) Then
-                        dir = Path.Combine(dir, "Sounds")
-                    End If
-                    My.Computer.Audio.Play(Path.Combine(dir, snd), AudioPlayMode.Background)
-                Catch ex As Exception
-
-                End Try
+            'NotifyIcon1.ShowBalloonTip(500)
+            If SettingDialog.IsNotifyUseGrowl Then
+                gh.Notify(GrowlHelper.NotifyType.UserStreamEvent, DateTime.Now.Ticks.ToString(), title, text)
+            Else
+                NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning
+                NotifyIcon1.BalloonTipTitle = title
+                NotifyIcon1.BalloonTipText = text
+                NotifyIcon1.ShowBalloonTip(500)
             End If
         End If
+
+            'サウンド再生
+            Dim snd As String = SettingDialog.EventSoundFile
+            If Not _initial AndAlso SettingDialog.PlaySound AndAlso snd <> "" Then
+                If CBool(ev.Eventtype And SettingDialog.EventNotifyFlag) AndAlso IsMyEventNotityAsEventType(ev) Then
+                    Try
+                        Dim dir As String = My.Application.Info.DirectoryPath
+                        If Directory.Exists(Path.Combine(dir, "Sounds")) Then
+                            dir = Path.Combine(dir, "Sounds")
+                        End If
+                        My.Computer.Audio.Play(Path.Combine(dir, snd), AudioPlayMode.Background)
+                    Catch ex As Exception
+
+                    End Try
+                End If
+            End If
     End Sub
 
     Private Sub StopToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StopToolStripMenuItem.Click

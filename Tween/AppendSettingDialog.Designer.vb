@@ -26,6 +26,21 @@ Partial Class AppendSettingDialog
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AppendSettingDialog))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.TreeViewSetting = New System.Windows.Forms.TreeView()
+        Me.NotifyPanel = New System.Windows.Forms.Panel()
+        Me.IsRemoveSameFavEventCheckBox = New System.Windows.Forms.CheckBox()
+        Me.CheckUserUpdateEvent = New System.Windows.Forms.CheckBox()
+        Me.Label35 = New System.Windows.Forms.Label()
+        Me.ComboBoxEventNotifySound = New System.Windows.Forms.ComboBox()
+        Me.CheckFavEventUnread = New System.Windows.Forms.CheckBox()
+        Me.CheckListCreatedEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckBlockEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckForceEventNotify = New System.Windows.Forms.CheckBox()
+        Me.CheckListMemberRemovedEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckListMemberAddedEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckFollowEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckUnfavoritesEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckFavoritesEvent = New System.Windows.Forms.CheckBox()
+        Me.CheckEventNotify = New System.Windows.Forms.CheckBox()
         Me.ActionPanel = New System.Windows.Forms.Panel()
         Me.TabMouseLockCheck = New System.Windows.Forms.CheckBox()
         Me.Label38 = New System.Windows.Forms.Label()
@@ -187,20 +202,6 @@ Partial Class AppendSettingDialog
         Me.cmbNameBalloon = New System.Windows.Forms.ComboBox()
         Me.CheckDispUsername = New System.Windows.Forms.CheckBox()
         Me.CheckBox3 = New System.Windows.Forms.CheckBox()
-        Me.NotifyPanel = New System.Windows.Forms.Panel()
-        Me.CheckUserUpdateEvent = New System.Windows.Forms.CheckBox()
-        Me.Label35 = New System.Windows.Forms.Label()
-        Me.ComboBoxEventNotifySound = New System.Windows.Forms.ComboBox()
-        Me.CheckFavEventUnread = New System.Windows.Forms.CheckBox()
-        Me.CheckListCreatedEvent = New System.Windows.Forms.CheckBox()
-        Me.CheckBlockEvent = New System.Windows.Forms.CheckBox()
-        Me.CheckForceEventNotify = New System.Windows.Forms.CheckBox()
-        Me.CheckListMemberRemovedEvent = New System.Windows.Forms.CheckBox()
-        Me.CheckListMemberAddedEvent = New System.Windows.Forms.CheckBox()
-        Me.CheckFollowEvent = New System.Windows.Forms.CheckBox()
-        Me.CheckUnfavoritesEvent = New System.Windows.Forms.CheckBox()
-        Me.CheckFavoritesEvent = New System.Windows.Forms.CheckBox()
-        Me.CheckEventNotify = New System.Windows.Forms.CheckBox()
         Me.GetPeriodPanel = New System.Windows.Forms.Panel()
         Me.UserstreamPeriod = New System.Windows.Forms.TextBox()
         Me.Label46 = New System.Windows.Forms.Label()
@@ -279,11 +280,12 @@ Partial Class AppendSettingDialog
         Me.Cancel = New System.Windows.Forms.Button()
         Me.Save = New System.Windows.Forms.Button()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.IsRemoveSameFavEventCheckBox = New System.Windows.Forms.CheckBox()
+        Me.IsNotifyUseGrowlCheckBox = New System.Windows.Forms.CheckBox()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        Me.NotifyPanel.SuspendLayout()
         Me.ActionPanel.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.TweetPrvPanel.SuspendLayout()
@@ -297,7 +299,6 @@ Partial Class AppendSettingDialog
         Me.GetCountPanel.SuspendLayout()
         Me.StartupPanel.SuspendLayout()
         Me.PreviewPanel.SuspendLayout()
-        Me.NotifyPanel.SuspendLayout()
         Me.GetPeriodPanel.SuspendLayout()
         Me.TweetActPanel.SuspendLayout()
         Me.ConnectionPanel.SuspendLayout()
@@ -318,6 +319,12 @@ Partial Class AppendSettingDialog
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.BackColor = System.Drawing.SystemColors.Control
+        Me.SplitContainer1.Panel2.Controls.Add(Me.PreviewPanel)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.GetPeriodPanel)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.TweetActPanel)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.ConnectionPanel)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.ProxyPanel)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.CooperatePanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.NotifyPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.ActionPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.TweetPrvPanel)
@@ -327,12 +334,6 @@ Partial Class AppendSettingDialog
         Me.SplitContainer1.Panel2.Controls.Add(Me.FontPanel2)
         Me.SplitContainer1.Panel2.Controls.Add(Me.GetCountPanel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.StartupPanel)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.PreviewPanel)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.GetPeriodPanel)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.TweetActPanel)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.ConnectionPanel)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.ProxyPanel)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.CooperatePanel)
         Me.SplitContainer1.TabStop = False
         '
         'TreeViewSetting
@@ -343,6 +344,146 @@ Partial Class AppendSettingDialog
         Me.TreeViewSetting.Name = "TreeViewSetting"
         Me.TreeViewSetting.Nodes.AddRange(New System.Windows.Forms.TreeNode() {CType(resources.GetObject("TreeViewSetting.Nodes"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeViewSetting.Nodes1"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeViewSetting.Nodes2"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeViewSetting.Nodes3"), System.Windows.Forms.TreeNode), CType(resources.GetObject("TreeViewSetting.Nodes4"), System.Windows.Forms.TreeNode)})
         Me.TreeViewSetting.ShowLines = False
+        '
+        'NotifyPanel
+        '
+        Me.NotifyPanel.Controls.Add(Me.IsRemoveSameFavEventCheckBox)
+        Me.NotifyPanel.Controls.Add(Me.CheckUserUpdateEvent)
+        Me.NotifyPanel.Controls.Add(Me.Label35)
+        Me.NotifyPanel.Controls.Add(Me.ComboBoxEventNotifySound)
+        Me.NotifyPanel.Controls.Add(Me.CheckFavEventUnread)
+        Me.NotifyPanel.Controls.Add(Me.CheckListCreatedEvent)
+        Me.NotifyPanel.Controls.Add(Me.CheckBlockEvent)
+        Me.NotifyPanel.Controls.Add(Me.CheckForceEventNotify)
+        Me.NotifyPanel.Controls.Add(Me.CheckListMemberRemovedEvent)
+        Me.NotifyPanel.Controls.Add(Me.CheckListMemberAddedEvent)
+        Me.NotifyPanel.Controls.Add(Me.CheckFollowEvent)
+        Me.NotifyPanel.Controls.Add(Me.CheckUnfavoritesEvent)
+        Me.NotifyPanel.Controls.Add(Me.CheckFavoritesEvent)
+        Me.NotifyPanel.Controls.Add(Me.CheckEventNotify)
+        resources.ApplyResources(Me.NotifyPanel, "NotifyPanel")
+        Me.NotifyPanel.Name = "NotifyPanel"
+        '
+        'IsRemoveSameFavEventCheckBox
+        '
+        resources.ApplyResources(Me.IsRemoveSameFavEventCheckBox, "IsRemoveSameFavEventCheckBox")
+        Me.IsRemoveSameFavEventCheckBox.Name = "IsRemoveSameFavEventCheckBox"
+        Me.IsRemoveSameFavEventCheckBox.UseVisualStyleBackColor = True
+        '
+        'CheckUserUpdateEvent
+        '
+        resources.ApplyResources(Me.CheckUserUpdateEvent, "CheckUserUpdateEvent")
+        Me.CheckUserUpdateEvent.Checked = True
+        Me.CheckUserUpdateEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckUserUpdateEvent.Name = "CheckUserUpdateEvent"
+        Me.CheckUserUpdateEvent.ThreeState = True
+        Me.ToolTip1.SetToolTip(Me.CheckUserUpdateEvent, resources.GetString("CheckUserUpdateEvent.ToolTip"))
+        Me.CheckUserUpdateEvent.UseVisualStyleBackColor = True
+        '
+        'Label35
+        '
+        resources.ApplyResources(Me.Label35, "Label35")
+        Me.Label35.Name = "Label35"
+        '
+        'ComboBoxEventNotifySound
+        '
+        Me.ComboBoxEventNotifySound.FormattingEnabled = True
+        resources.ApplyResources(Me.ComboBoxEventNotifySound, "ComboBoxEventNotifySound")
+        Me.ComboBoxEventNotifySound.Name = "ComboBoxEventNotifySound"
+        '
+        'CheckFavEventUnread
+        '
+        resources.ApplyResources(Me.CheckFavEventUnread, "CheckFavEventUnread")
+        Me.CheckFavEventUnread.Checked = True
+        Me.CheckFavEventUnread.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckFavEventUnread.Name = "CheckFavEventUnread"
+        Me.CheckFavEventUnread.UseVisualStyleBackColor = True
+        '
+        'CheckListCreatedEvent
+        '
+        resources.ApplyResources(Me.CheckListCreatedEvent, "CheckListCreatedEvent")
+        Me.CheckListCreatedEvent.Checked = True
+        Me.CheckListCreatedEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckListCreatedEvent.Name = "CheckListCreatedEvent"
+        Me.CheckListCreatedEvent.ThreeState = True
+        Me.ToolTip1.SetToolTip(Me.CheckListCreatedEvent, resources.GetString("CheckListCreatedEvent.ToolTip"))
+        Me.CheckListCreatedEvent.UseVisualStyleBackColor = True
+        '
+        'CheckBlockEvent
+        '
+        resources.ApplyResources(Me.CheckBlockEvent, "CheckBlockEvent")
+        Me.CheckBlockEvent.Checked = True
+        Me.CheckBlockEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBlockEvent.Name = "CheckBlockEvent"
+        Me.CheckBlockEvent.ThreeState = True
+        Me.ToolTip1.SetToolTip(Me.CheckBlockEvent, resources.GetString("CheckBlockEvent.ToolTip"))
+        Me.CheckBlockEvent.UseVisualStyleBackColor = True
+        '
+        'CheckForceEventNotify
+        '
+        resources.ApplyResources(Me.CheckForceEventNotify, "CheckForceEventNotify")
+        Me.CheckForceEventNotify.Checked = True
+        Me.CheckForceEventNotify.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckForceEventNotify.Name = "CheckForceEventNotify"
+        Me.CheckForceEventNotify.UseVisualStyleBackColor = True
+        '
+        'CheckListMemberRemovedEvent
+        '
+        resources.ApplyResources(Me.CheckListMemberRemovedEvent, "CheckListMemberRemovedEvent")
+        Me.CheckListMemberRemovedEvent.Checked = True
+        Me.CheckListMemberRemovedEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckListMemberRemovedEvent.Name = "CheckListMemberRemovedEvent"
+        Me.CheckListMemberRemovedEvent.ThreeState = True
+        Me.ToolTip1.SetToolTip(Me.CheckListMemberRemovedEvent, resources.GetString("CheckListMemberRemovedEvent.ToolTip"))
+        Me.CheckListMemberRemovedEvent.UseVisualStyleBackColor = True
+        '
+        'CheckListMemberAddedEvent
+        '
+        resources.ApplyResources(Me.CheckListMemberAddedEvent, "CheckListMemberAddedEvent")
+        Me.CheckListMemberAddedEvent.Checked = True
+        Me.CheckListMemberAddedEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckListMemberAddedEvent.Name = "CheckListMemberAddedEvent"
+        Me.CheckListMemberAddedEvent.ThreeState = True
+        Me.ToolTip1.SetToolTip(Me.CheckListMemberAddedEvent, resources.GetString("CheckListMemberAddedEvent.ToolTip"))
+        Me.CheckListMemberAddedEvent.UseVisualStyleBackColor = True
+        '
+        'CheckFollowEvent
+        '
+        resources.ApplyResources(Me.CheckFollowEvent, "CheckFollowEvent")
+        Me.CheckFollowEvent.Checked = True
+        Me.CheckFollowEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckFollowEvent.Name = "CheckFollowEvent"
+        Me.CheckFollowEvent.ThreeState = True
+        Me.ToolTip1.SetToolTip(Me.CheckFollowEvent, resources.GetString("CheckFollowEvent.ToolTip"))
+        Me.CheckFollowEvent.UseVisualStyleBackColor = True
+        '
+        'CheckUnfavoritesEvent
+        '
+        resources.ApplyResources(Me.CheckUnfavoritesEvent, "CheckUnfavoritesEvent")
+        Me.CheckUnfavoritesEvent.Checked = True
+        Me.CheckUnfavoritesEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckUnfavoritesEvent.Name = "CheckUnfavoritesEvent"
+        Me.CheckUnfavoritesEvent.ThreeState = True
+        Me.ToolTip1.SetToolTip(Me.CheckUnfavoritesEvent, resources.GetString("CheckUnfavoritesEvent.ToolTip"))
+        Me.CheckUnfavoritesEvent.UseVisualStyleBackColor = True
+        '
+        'CheckFavoritesEvent
+        '
+        resources.ApplyResources(Me.CheckFavoritesEvent, "CheckFavoritesEvent")
+        Me.CheckFavoritesEvent.Checked = True
+        Me.CheckFavoritesEvent.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckFavoritesEvent.Name = "CheckFavoritesEvent"
+        Me.CheckFavoritesEvent.ThreeState = True
+        Me.ToolTip1.SetToolTip(Me.CheckFavoritesEvent, resources.GetString("CheckFavoritesEvent.ToolTip"))
+        Me.CheckFavoritesEvent.UseVisualStyleBackColor = True
+        '
+        'CheckEventNotify
+        '
+        resources.ApplyResources(Me.CheckEventNotify, "CheckEventNotify")
+        Me.CheckEventNotify.Checked = True
+        Me.CheckEventNotify.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckEventNotify.Name = "CheckEventNotify"
+        Me.CheckEventNotify.UseVisualStyleBackColor = True
         '
         'ActionPanel
         '
@@ -1293,6 +1434,7 @@ Partial Class AppendSettingDialog
         '
         'PreviewPanel
         '
+        Me.PreviewPanel.Controls.Add(Me.IsNotifyUseGrowlCheckBox)
         Me.PreviewPanel.Controls.Add(Me.ReplyIconStateCombo)
         Me.PreviewPanel.Controls.Add(Me.Label72)
         Me.PreviewPanel.Controls.Add(Me.ChkNewMentionsBlink)
@@ -1419,140 +1561,6 @@ Partial Class AppendSettingDialog
         resources.ApplyResources(Me.CheckBox3, "CheckBox3")
         Me.CheckBox3.Name = "CheckBox3"
         Me.CheckBox3.UseVisualStyleBackColor = True
-        '
-        'NotifyPanel
-        '
-        Me.NotifyPanel.Controls.Add(Me.IsRemoveSameFavEventCheckBox)
-        Me.NotifyPanel.Controls.Add(Me.CheckUserUpdateEvent)
-        Me.NotifyPanel.Controls.Add(Me.Label35)
-        Me.NotifyPanel.Controls.Add(Me.ComboBoxEventNotifySound)
-        Me.NotifyPanel.Controls.Add(Me.CheckFavEventUnread)
-        Me.NotifyPanel.Controls.Add(Me.CheckListCreatedEvent)
-        Me.NotifyPanel.Controls.Add(Me.CheckBlockEvent)
-        Me.NotifyPanel.Controls.Add(Me.CheckForceEventNotify)
-        Me.NotifyPanel.Controls.Add(Me.CheckListMemberRemovedEvent)
-        Me.NotifyPanel.Controls.Add(Me.CheckListMemberAddedEvent)
-        Me.NotifyPanel.Controls.Add(Me.CheckFollowEvent)
-        Me.NotifyPanel.Controls.Add(Me.CheckUnfavoritesEvent)
-        Me.NotifyPanel.Controls.Add(Me.CheckFavoritesEvent)
-        Me.NotifyPanel.Controls.Add(Me.CheckEventNotify)
-        resources.ApplyResources(Me.NotifyPanel, "NotifyPanel")
-        Me.NotifyPanel.Name = "NotifyPanel"
-        '
-        'CheckUserUpdateEvent
-        '
-        resources.ApplyResources(Me.CheckUserUpdateEvent, "CheckUserUpdateEvent")
-        Me.CheckUserUpdateEvent.Checked = True
-        Me.CheckUserUpdateEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckUserUpdateEvent.Name = "CheckUserUpdateEvent"
-        Me.CheckUserUpdateEvent.ThreeState = True
-        Me.ToolTip1.SetToolTip(Me.CheckUserUpdateEvent, resources.GetString("CheckUserUpdateEvent.ToolTip"))
-        Me.CheckUserUpdateEvent.UseVisualStyleBackColor = True
-        '
-        'Label35
-        '
-        resources.ApplyResources(Me.Label35, "Label35")
-        Me.Label35.Name = "Label35"
-        '
-        'ComboBoxEventNotifySound
-        '
-        Me.ComboBoxEventNotifySound.FormattingEnabled = True
-        resources.ApplyResources(Me.ComboBoxEventNotifySound, "ComboBoxEventNotifySound")
-        Me.ComboBoxEventNotifySound.Name = "ComboBoxEventNotifySound"
-        '
-        'CheckFavEventUnread
-        '
-        resources.ApplyResources(Me.CheckFavEventUnread, "CheckFavEventUnread")
-        Me.CheckFavEventUnread.Checked = True
-        Me.CheckFavEventUnread.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckFavEventUnread.Name = "CheckFavEventUnread"
-        Me.CheckFavEventUnread.UseVisualStyleBackColor = True
-        '
-        'CheckListCreatedEvent
-        '
-        resources.ApplyResources(Me.CheckListCreatedEvent, "CheckListCreatedEvent")
-        Me.CheckListCreatedEvent.Checked = True
-        Me.CheckListCreatedEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckListCreatedEvent.Name = "CheckListCreatedEvent"
-        Me.CheckListCreatedEvent.ThreeState = True
-        Me.ToolTip1.SetToolTip(Me.CheckListCreatedEvent, resources.GetString("CheckListCreatedEvent.ToolTip"))
-        Me.CheckListCreatedEvent.UseVisualStyleBackColor = True
-        '
-        'CheckBlockEvent
-        '
-        resources.ApplyResources(Me.CheckBlockEvent, "CheckBlockEvent")
-        Me.CheckBlockEvent.Checked = True
-        Me.CheckBlockEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBlockEvent.Name = "CheckBlockEvent"
-        Me.CheckBlockEvent.ThreeState = True
-        Me.ToolTip1.SetToolTip(Me.CheckBlockEvent, resources.GetString("CheckBlockEvent.ToolTip"))
-        Me.CheckBlockEvent.UseVisualStyleBackColor = True
-        '
-        'CheckForceEventNotify
-        '
-        resources.ApplyResources(Me.CheckForceEventNotify, "CheckForceEventNotify")
-        Me.CheckForceEventNotify.Checked = True
-        Me.CheckForceEventNotify.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckForceEventNotify.Name = "CheckForceEventNotify"
-        Me.CheckForceEventNotify.UseVisualStyleBackColor = True
-        '
-        'CheckListMemberRemovedEvent
-        '
-        resources.ApplyResources(Me.CheckListMemberRemovedEvent, "CheckListMemberRemovedEvent")
-        Me.CheckListMemberRemovedEvent.Checked = True
-        Me.CheckListMemberRemovedEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckListMemberRemovedEvent.Name = "CheckListMemberRemovedEvent"
-        Me.CheckListMemberRemovedEvent.ThreeState = True
-        Me.ToolTip1.SetToolTip(Me.CheckListMemberRemovedEvent, resources.GetString("CheckListMemberRemovedEvent.ToolTip"))
-        Me.CheckListMemberRemovedEvent.UseVisualStyleBackColor = True
-        '
-        'CheckListMemberAddedEvent
-        '
-        resources.ApplyResources(Me.CheckListMemberAddedEvent, "CheckListMemberAddedEvent")
-        Me.CheckListMemberAddedEvent.Checked = True
-        Me.CheckListMemberAddedEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckListMemberAddedEvent.Name = "CheckListMemberAddedEvent"
-        Me.CheckListMemberAddedEvent.ThreeState = True
-        Me.ToolTip1.SetToolTip(Me.CheckListMemberAddedEvent, resources.GetString("CheckListMemberAddedEvent.ToolTip"))
-        Me.CheckListMemberAddedEvent.UseVisualStyleBackColor = True
-        '
-        'CheckFollowEvent
-        '
-        resources.ApplyResources(Me.CheckFollowEvent, "CheckFollowEvent")
-        Me.CheckFollowEvent.Checked = True
-        Me.CheckFollowEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckFollowEvent.Name = "CheckFollowEvent"
-        Me.CheckFollowEvent.ThreeState = True
-        Me.ToolTip1.SetToolTip(Me.CheckFollowEvent, resources.GetString("CheckFollowEvent.ToolTip"))
-        Me.CheckFollowEvent.UseVisualStyleBackColor = True
-        '
-        'CheckUnfavoritesEvent
-        '
-        resources.ApplyResources(Me.CheckUnfavoritesEvent, "CheckUnfavoritesEvent")
-        Me.CheckUnfavoritesEvent.Checked = True
-        Me.CheckUnfavoritesEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckUnfavoritesEvent.Name = "CheckUnfavoritesEvent"
-        Me.CheckUnfavoritesEvent.ThreeState = True
-        Me.ToolTip1.SetToolTip(Me.CheckUnfavoritesEvent, resources.GetString("CheckUnfavoritesEvent.ToolTip"))
-        Me.CheckUnfavoritesEvent.UseVisualStyleBackColor = True
-        '
-        'CheckFavoritesEvent
-        '
-        resources.ApplyResources(Me.CheckFavoritesEvent, "CheckFavoritesEvent")
-        Me.CheckFavoritesEvent.Checked = True
-        Me.CheckFavoritesEvent.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckFavoritesEvent.Name = "CheckFavoritesEvent"
-        Me.CheckFavoritesEvent.ThreeState = True
-        Me.ToolTip1.SetToolTip(Me.CheckFavoritesEvent, resources.GetString("CheckFavoritesEvent.ToolTip"))
-        Me.CheckFavoritesEvent.UseVisualStyleBackColor = True
-        '
-        'CheckEventNotify
-        '
-        resources.ApplyResources(Me.CheckEventNotify, "CheckEventNotify")
-        Me.CheckEventNotify.Checked = True
-        Me.CheckEventNotify.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckEventNotify.Name = "CheckEventNotify"
-        Me.CheckEventNotify.UseVisualStyleBackColor = True
         '
         'GetPeriodPanel
         '
@@ -2034,11 +2042,12 @@ Partial Class AppendSettingDialog
         Me.Save.Name = "Save"
         Me.Save.UseVisualStyleBackColor = True
         '
-        'IsRemoveSameFavEventCheckBox
+        'IsNotifyUseGrowlCheckBox
         '
-        resources.ApplyResources(Me.IsRemoveSameFavEventCheckBox, "IsRemoveSameFavEventCheckBox")
-        Me.IsRemoveSameFavEventCheckBox.Name = "IsRemoveSameFavEventCheckBox"
-        Me.IsRemoveSameFavEventCheckBox.UseVisualStyleBackColor = True
+        resources.ApplyResources(Me.IsNotifyUseGrowlCheckBox, "IsNotifyUseGrowlCheckBox")
+        Me.IsNotifyUseGrowlCheckBox.Name = "IsNotifyUseGrowlCheckBox"
+        Me.ToolTip1.SetToolTip(Me.IsNotifyUseGrowlCheckBox, resources.GetString("IsNotifyUseGrowlCheckBox.ToolTip"))
+        Me.IsNotifyUseGrowlCheckBox.UseVisualStyleBackColor = True
         '
         'AppendSettingDialog
         '
@@ -2058,6 +2067,8 @@ Partial Class AppendSettingDialog
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.ResumeLayout(False)
+        Me.NotifyPanel.ResumeLayout(False)
+        Me.NotifyPanel.PerformLayout()
         Me.ActionPanel.ResumeLayout(False)
         Me.ActionPanel.PerformLayout()
         Me.GroupBox3.ResumeLayout(False)
@@ -2082,8 +2093,6 @@ Partial Class AppendSettingDialog
         Me.StartupPanel.PerformLayout()
         Me.PreviewPanel.ResumeLayout(False)
         Me.PreviewPanel.PerformLayout()
-        Me.NotifyPanel.ResumeLayout(False)
-        Me.NotifyPanel.PerformLayout()
         Me.GetPeriodPanel.ResumeLayout(False)
         Me.GetPeriodPanel.PerformLayout()
         Me.TweetActPanel.ResumeLayout(False)
@@ -2355,4 +2364,5 @@ Partial Class AppendSettingDialog
     Friend WithEvents AuthUserCombo As System.Windows.Forms.ComboBox
     Friend WithEvents TabMouseLockCheck As System.Windows.Forms.CheckBox
     Friend WithEvents IsRemoveSameFavEventCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents IsNotifyUseGrowlCheckBox As System.Windows.Forms.CheckBox
 End Class

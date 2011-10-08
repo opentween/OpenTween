@@ -152,6 +152,7 @@ Public Class AppendSettingDialog
     Private InitialUserId As Long
     Public Property TabMouseLock As Boolean
     Public Property IsRemoveSameEvent As Boolean
+    Public Property IsNotifyUseGrowl As Boolean
 
     Public Property TwitterConfiguration As New TwitterDataModel.Configuration
 
@@ -184,6 +185,14 @@ Public Class AppendSettingDialog
         If pnl Is Nothing Then Exit Sub
         pnl.Enabled = True
         pnl.Visible = True
+
+        If pnl.Name = "PreviewPanel" Then
+            If GrowlHelper.IsDllExists Then
+                IsNotifyUseGrowlCheckBox.Enabled = True
+            Else
+                IsNotifyUseGrowlCheckBox.Enabled = False
+            End If
+        End If
     End Sub
 
     Private Sub Save_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Save.Click
@@ -486,6 +495,7 @@ Public Class AppendSettingDialog
             Me.IsListStatusesIncludeRts = Me.IsListsIncludeRtsCheckBox.Checked
             Me.TabMouseLock = Me.TabMouseLockCheck.Checked
             Me.IsRemoveSameEvent = Me.IsRemoveSameFavEventCheckBox.Checked
+            Me.IsNotifyUseGrowl = Me.IsNotifyUseGrowlCheckBox.Checked
         Catch ex As Exception
             MessageBox.Show(My.Resources.Save_ClickText3)
             Me.DialogResult = Windows.Forms.DialogResult.Cancel
@@ -818,6 +828,13 @@ Public Class AppendSettingDialog
         Me.IsListsIncludeRtsCheckBox.Checked = Me.IsListStatusesIncludeRts
         Me.TabMouseLockCheck.Checked = Me.TabMouseLock
         Me.IsRemoveSameFavEventCheckBox.Checked = Me.IsRemoveSameEvent
+        Me.IsNotifyUseGrowlCheckBox.Checked = Me.IsNotifyUseGrowl
+
+        If GrowlHelper.IsDllExists Then
+            IsNotifyUseGrowlCheckBox.Enabled = True
+        Else
+            IsNotifyUseGrowlCheckBox.Enabled = False
+        End If
 
         With Me.TreeViewSetting
             .Nodes("BasedNode").Tag = BasedPanel
@@ -2830,5 +2847,4 @@ Public Class AppendSettingDialog
     Private Sub CheckAutoConvertUrl_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckAutoConvertUrl.CheckedChanged
         ShortenTcoCheck.Enabled = CheckAutoConvertUrl.Checked
     End Sub
-
 End Class
