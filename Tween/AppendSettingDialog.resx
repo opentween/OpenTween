@@ -255,6 +255,42 @@
   <data name="&gt;&gt;SplitContainer1.Panel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="Label2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>230, 315</value>
+  </data>
+  <data name="Label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>223, 12</value>
+  </data>
+  <data name="Label2.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="Label2.Text" xml:space="preserve">
+    <value>※別途DLLが必要です(マウスオーバーで表示)</value>
+  </data>
+  <metadata name="ToolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>268, 17</value>
+  </metadata>
+  <data name="Label2.ToolTip" xml:space="preserve">
+    <value>Growl for Windowsの開発者向けに公開されている、
+Growl_NET_Connector_SDK.zipに同梱の次のDLLが必要です
+Growl.Connector.DLL
+Growl.CoreLibrary.DLL</value>
+  </data>
+  <data name="&gt;&gt;Label2.Name" xml:space="preserve">
+    <value>Label2</value>
+  </data>
+  <data name="&gt;&gt;Label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label2.Parent" xml:space="preserve">
+    <value>PreviewPanel</value>
+  </data>
+  <data name="&gt;&gt;Label2.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="IsNotifyUseGrowlCheckBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -270,16 +306,6 @@
   <data name="IsNotifyUseGrowlCheckBox.Text" xml:space="preserve">
     <value>通知にGrowlを使用</value>
   </data>
-  <metadata name="ToolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>268, 17</value>
-  </metadata>
-  <data name="IsNotifyUseGrowlCheckBox.ToolTip" xml:space="preserve">
-    <value>Growl for Windowsの開発者向けに公開されている、
-Growl_NET_Connector_SDK.zipに同梱された次のDLLが必要です
-Growl.Connector.dll
-Growl.CoreLibrary.dll
-</value>
-  </data>
   <data name="&gt;&gt;IsNotifyUseGrowlCheckBox.Name" xml:space="preserve">
     <value>IsNotifyUseGrowlCheckBox</value>
   </data>
@@ -290,7 +316,7 @@ Growl.CoreLibrary.dll
     <value>PreviewPanel</value>
   </data>
   <data name="&gt;&gt;IsNotifyUseGrowlCheckBox.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="ReplyIconStateCombo.Items" xml:space="preserve">
     <value>通知なし</value>
@@ -320,7 +346,7 @@ Growl.CoreLibrary.dll
     <value>PreviewPanel</value>
   </data>
   <data name="&gt;&gt;ReplyIconStateCombo.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="Label72.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -350,7 +376,7 @@ Growl.CoreLibrary.dll
     <value>PreviewPanel</value>
   </data>
   <data name="&gt;&gt;Label72.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="ChkNewMentionsBlink.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -380,7 +406,7 @@ Growl.CoreLibrary.dll
     <value>PreviewPanel</value>
   </data>
   <data name="&gt;&gt;ChkNewMentionsBlink.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="chkTabIconDisp.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -410,7 +436,7 @@ Growl.CoreLibrary.dll
     <value>PreviewPanel</value>
   </data>
   <data name="&gt;&gt;chkTabIconDisp.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="CheckPreviewEnable.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -440,7 +466,7 @@ Growl.CoreLibrary.dll
     <value>PreviewPanel</value>
   </data>
   <data name="&gt;&gt;CheckPreviewEnable.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="Label81.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -470,7 +496,7 @@ Growl.CoreLibrary.dll
     <value>PreviewPanel</value>
   </data>
   <data name="&gt;&gt;Label81.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="LanguageCombo.Items" xml:space="preserve">
     <value>OS Default</value>
@@ -503,7 +529,7 @@ Growl.CoreLibrary.dll
     <value>PreviewPanel</value>
   </data>
   <data name="&gt;&gt;LanguageCombo.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="Label13.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -533,7 +559,7 @@ Growl.CoreLibrary.dll
     <value>PreviewPanel</value>
   </data>
   <data name="&gt;&gt;Label13.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="CheckAlwaysTop.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -563,7 +589,7 @@ Growl.CoreLibrary.dll
     <value>PreviewPanel</value>
   </data>
   <data name="&gt;&gt;CheckAlwaysTop.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="CheckMonospace.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -593,7 +619,7 @@ Growl.CoreLibrary.dll
     <value>PreviewPanel</value>
   </data>
   <data name="&gt;&gt;CheckMonospace.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="CheckBalloonLimit.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -623,7 +649,7 @@ Growl.CoreLibrary.dll
     <value>PreviewPanel</value>
   </data>
   <data name="&gt;&gt;CheckBalloonLimit.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="Label10.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -653,7 +679,7 @@ Growl.CoreLibrary.dll
     <value>PreviewPanel</value>
   </data>
   <data name="&gt;&gt;Label10.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>13</value>
   </data>
   <data name="ComboDispTitle.Items" xml:space="preserve">
     <value>（なし）</value>
@@ -698,7 +724,7 @@ Growl.CoreLibrary.dll
     <value>PreviewPanel</value>
   </data>
   <data name="&gt;&gt;ComboDispTitle.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>14</value>
   </data>
   <data name="Label45.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -728,7 +754,7 @@ Growl.CoreLibrary.dll
     <value>PreviewPanel</value>
   </data>
   <data name="&gt;&gt;Label45.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>15</value>
   </data>
   <data name="cmbNameBalloon.Items" xml:space="preserve">
     <value>なし</value>
@@ -758,7 +784,7 @@ Growl.CoreLibrary.dll
     <value>PreviewPanel</value>
   </data>
   <data name="&gt;&gt;cmbNameBalloon.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>16</value>
   </data>
   <data name="CheckDispUsername.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -788,7 +814,7 @@ Growl.CoreLibrary.dll
     <value>PreviewPanel</value>
   </data>
   <data name="&gt;&gt;CheckDispUsername.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>17</value>
   </data>
   <data name="CheckBox3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -821,7 +847,7 @@ Growl.CoreLibrary.dll
     <value>PreviewPanel</value>
   </data>
   <data name="&gt;&gt;CheckBox3.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>18</value>
   </data>
   <data name="PreviewPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
