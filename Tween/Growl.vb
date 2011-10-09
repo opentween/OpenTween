@@ -1,5 +1,7 @@
 ﻿Imports System.Reflection
 Imports System.IO
+Imports System.ComponentModel
+Imports System.Drawing.Imaging
 
 Public Class GrowlHelper
 
@@ -12,13 +14,13 @@ Public Class GrowlHelper
     Private _growlNTusevent As Object
     Private _growlApp As Object
 
-    Private _t As Type
-    Private _target As Object
+    Private _targetConnector As Object
+    Private _targetCore As Object
 
     Private _appName As String = ""
     Dim _initialized As Boolean = False
 
-    Public ReadOnly Property appName As String
+    Public ReadOnly Property AppName As String
         Get
             Return _appName
         End Get
@@ -45,6 +47,18 @@ Public Class GrowlHelper
         End Get
     End Property
 
+    Private Overloads Function IconToByteArray(ByVal filename As String) As Byte()
+        Return IconToByteArray(New Icon(filename))
+    End Function
+
+    Private Overloads Function IconToByteArray(ByVal icondata As Icon) As Byte()
+        Using ms As New MemoryStream
+            Dim ic As Icon = New Icon(icondata, 48, 48)
+            ic.ToBitmap.Save(ms, ImageFormat.Png)
+            Return ms.ToArray()
+        End Using
+    End Function
+
     Public Shared ReadOnly Property IsDllExists As Boolean
         Get
             Dim dir As String = Application.StartupPath
@@ -61,7 +75,6 @@ Public Class GrowlHelper
     Public Function RegisterGrowl() As Boolean
 
         _initialized = False
-
         Dim dir As String = Application.StartupPath
         Dim connectorPath As String = Path.Combine(dir, "Growl.Connector.dll")
         Dim corePath As String = Path.Combine(dir, "Growl.CoreLibrary.dll")
@@ -75,8 +88,9 @@ Public Class GrowlHelper
         End Try
 
         Try
-            _target = _connector.CreateInstance("Growl.Connector.GrowlConnector")
-            _t = _connector.GetType("Growl.Connector.NotificationType")
+            _targetConnector = _connector.CreateInstance("Growl.Connector.GrowlConnector")
+            _targetCore = _core.CreateInstance("Growl.CoreLibrary")
+            Dim _t As Type = _connector.GetType("Growl.Connector.NotificationType")
 
             _growlNTreply = _t.InvokeMember(Nothing,
                 BindingFlags.CreateInstance, Nothing, Nothing, New Object() {"REPLY", "Reply"})
@@ -93,15 +107,62 @@ Public Class GrowlHelper
             Dim encryptType As Object =
                     _connector.GetType("Growl.Connector.Cryptography+SymmetricAlgorithmType").InvokeMember(
                         "PlainText", BindingFlags.GetField, Nothing, Nothing, Nothing)
-            _target.GetType.InvokeMember("EncryptionAlgorithm", BindingFlags.SetProperty, Nothing, _target, New Object() {encryptType})
+            _targetConnector.GetType.InvokeMember("EncryptionAlgorithm", BindingFlags.SetProperty, Nothing, _targetConnector, New Object() {encryptType})
 
             _growlApp = _connector.CreateInstance(
-                "Growl.Connector.Application", False, BindingFlags.Default, Nothing, New Object() {"Tween"}, Nothing, Nothing)
+                "Growl.Connector.Application", False, BindingFlags.Default, Nothing, New Object() {_appName}, Nothing, Nothing)
 
-            'If File.Exists(Path.Combine(Application.StartupPath, "Icons\Tween.png")) Then
-            '    _growlApp.GetType().InvokeMember("Icon", BindingFlags.SetProperty, Nothing, Nothing, New Object() {New Icon(Path.Combine(Application.StartupPath, "Icons\Tween.ico"))})
-            'End If
-            Dim mi As MethodInfo = _target.GetType.GetMethod("Register", New Type() {_growlApp.GetType, _connector.GetType("Growl.Connector.NotificationType[]")})
+
+            If File.Exists(Path.Combine(Application.StartupPath, "Icons\Tween.png")) Then
+                ' Icons\Tween.pngを使用
+                Dim ci As ConstructorInfo = _core.GetType(
+                    "Growl.CoreLibrary.Resource").GetConstructor(
+                    BindingFlags.NonPublic Or BindingFlags.Instance,
+                    Nothing, New Type() {GetType(System.String)}, Nothing)
+
+                Dim data As Object = ci.Invoke(New Object() {Path.Combine(Application.StartupPath, "Icons\Tween.png")})
+                Dim pi As PropertyInfo = _growlApp.GetType.GetProperty("Icon")
+                pi.SetValue(_growlApp, data, Nothing)
+
+            ElseIf File.Exists(Path.Combine(Application.StartupPath, "Icons\MIcon.ico")) Then
+                ' アイコンセットにMIcon.icoが存在する場合それを使用
+                Dim cibd As ConstructorInfo = _core.GetType(
+                     "Growl.CoreLibrary.BinaryData").GetConstructor(
+                     BindingFlags.Public Or BindingFlags.Instance,
+                     Nothing, New Type() {GetType(Byte())}, Nothing)
+                Dim tc As New TypeConverter
+                Dim bdata As Object = cibd.Invoke(
+                    New Object() {IconToByteArray(Path.Combine(Application.StartupPath, "Icons\MIcon.ico"))})
+
+                Dim ciRes As ConstructorInfo = _core.GetType(
+                    "Growl.CoreLibrary.Resource").GetConstructor(
+                    BindingFlags.NonPublic Or BindingFlags.Instance,
+                    Nothing, New Type() {bdata.GetType()}, Nothing)
+
+                Dim data As Object = ciRes.Invoke(New Object() {bdata})
+                Dim pi As PropertyInfo = _growlApp.GetType.GetProperty("Icon")
+                pi.SetValue(_growlApp, data, Nothing)
+            Else
+                '内蔵アイコンリソースを使用
+                Dim cibd As ConstructorInfo = _core.GetType(
+                     "Growl.CoreLibrary.BinaryData").GetConstructor(
+                     BindingFlags.Public Or BindingFlags.Instance,
+                     Nothing, New Type() {GetType(Byte())}, Nothing)
+                Dim tc As New TypeConverter
+                Dim bdata As Object = cibd.Invoke(
+                    New Object() {IconToByteArray(My.Resources.MIcon)})
+
+                Dim ciRes As ConstructorInfo = _core.GetType(
+                    "Growl.CoreLibrary.Resource").GetConstructor(
+                    BindingFlags.NonPublic Or BindingFlags.Instance,
+                    Nothing, New Type() {bdata.GetType()}, Nothing)
+
+                Dim data As Object = ciRes.Invoke(New Object() {bdata})
+                Dim pi As PropertyInfo = _growlApp.GetType.GetProperty("Icon")
+                pi.SetValue(_growlApp, data, Nothing)
+            End If
+
+            Dim mi As MethodInfo = _targetConnector.GetType.GetMethod("Register", New Type() {_growlApp.GetType, _connector.GetType("Growl.Connector.NotificationType[]")})
 
             _t = _connector.GetType("Growl.Connector.NotificationType")
 
@@ -111,7 +172,7 @@ Public Class GrowlHelper
             arglist.Add(_growlNTnew)
             arglist.Add(_growlNTusevent)
 
-            mi.Invoke(_target, New Object() {_growlApp, arglist.ToArray(_t)})
+            mi.Invoke(_targetConnector, New Object() {_growlApp, arglist.ToArray(_t)})
 
             _initialized = True
 
@@ -120,6 +181,7 @@ Public Class GrowlHelper
             Return False
         End Try
 
+        Return True
     End Function
 
     Public Sub Notify(ByVal notificationType As NotifyType, ByVal id As String, ByVal title As String, ByVal text As String)
@@ -147,6 +209,6 @@ Public Class GrowlHelper
                                   id,
                                   title,
                                   text})
-        _target.GetType.InvokeMember("Notify", BindingFlags.InvokeMethod, Nothing, _target, New Object() {n})
+        _targetConnector.GetType.InvokeMember("Notify", BindingFlags.InvokeMethod, Nothing, _targetConnector, New Object() {n})
     End Sub
 End Class
