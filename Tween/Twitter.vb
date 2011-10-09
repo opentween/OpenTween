@@ -1738,7 +1738,7 @@ Public Class Twitter
 
             '幻覚fav対策
             Dim tc As TabClass = TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites)
-            post.IsFav = tc.Contains(post.StatusId) AndAlso post.IsMe
+            post.IsFav = tc.Contains(post.StatusId)
         End If
         'HTMLに整形
         post.Text = CreateHtmlAnchor(post.TextFromApi, post.ReplyToList, entities, post.Media)
