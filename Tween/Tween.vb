@@ -1560,27 +1560,44 @@ Public Class TweenMain
                     sb.Append(post.TextFromApi)
                 Next
                 'If SettingDialog.DispUsername Then NotifyIcon1.BalloonTipTitle = tw.Username + " - " Else NotifyIcon1.BalloonTipTitle = ""
-                Dim title As String
+                Dim title As New StringBuilder
                 Dim ntIcon As ToolTipIcon
                 Dim nt As GrowlHelper.NotifyType
-                If SettingDialog.DispUsername Then title = tw.Username + " - " Else title = ""
+                If SettingDialog.DispUsername Then
+                    title.Append(tw.Username)
+                    title.Append(" - ")
+                Else
+                    'title.Clear()
+                End If
                 If dm Then
                     'NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning
                     'NotifyIcon1.BalloonTipTitle += "Tween [DM] " + My.Resources.RefreshDirectMessageText1 + " " + addCount.ToString() + My.Resources.RefreshDirectMessageText2
                     ntIcon = ToolTipIcon.Warning
-                    title += "Tween [DM] " + My.Resources.RefreshDirectMessageText1 + " " + addCount.ToString() + My.Resources.RefreshDirectMessageText2
+                    title.Append("Tween [DM] ")
+                    title.Append(My.Resources.RefreshDirectMessageText1)
+                    title.Append(" ")
+                    title.Append(addCount)
+                    title.Append(My.Resources.RefreshDirectMessageText2)
                     nt = GrowlHelper.NotifyType.DirectMessage
                 ElseIf reply Then
                     'NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning
                     'NotifyIcon1.BalloonTipTitle += "Tween [Reply!] " + My.Resources.RefreshTimelineText1 + " " + addCount.ToString() + My.Resources.RefreshTimelineText2
                     ntIcon = ToolTipIcon.Warning
-                    title += "Tween [Reply!] " + My.Resources.RefreshTimelineText1 + " " + addCount.ToString() + My.Resources.RefreshTimelineText2
+                    title.Append("Tween [Reply!] ")
+                    title.Append(My.Resources.RefreshTimelineText1)
+                    title.Append(" ")
+                    title.Append(addCount)
+                    title.Append(My.Resources.RefreshTimelineText2)
                     nt = GrowlHelper.NotifyType.Reply
                 Else
                     'NotifyIcon1.BalloonTipIcon = ToolTipIcon.Info
                     'NotifyIcon1.BalloonTipTitle += "Tween " + My.Resources.RefreshTimelineText1 + " " + addCount.ToString() + My.Resources.RefreshTimelineText2
                     ntIcon = ToolTipIcon.Info
-                    title += "Tween " + My.Resources.RefreshTimelineText1 + " " + addCount.ToString() + My.Resources.RefreshTimelineText2
+                    title.Append("Tween ")
+                    title.Append(My.Resources.RefreshTimelineText1)
+                    title.Append(" ")
+                    title.Append(addCount)
+                    title.Append(My.Resources.RefreshTimelineText2)
                     nt = GrowlHelper.NotifyType.Notify
                 End If
                 Dim bText As String = sb.ToString
@@ -1588,9 +1605,9 @@ Public Class TweenMain
                 'NotifyIcon1.BalloonTipText = sb.ToString()
                 'NotifyIcon1.ShowBalloonTip(500)
                 If SettingDialog.IsNotifyUseGrowl Then
-                    gh.Notify(nt, DateTime.Now.Ticks.ToString(), title, bText)
+                    gh.Notify(nt, DateTime.Now.Ticks.ToString(), title.ToString(), bText)
                 Else
-                    NotifyIcon1.BalloonTipTitle = title
+                    NotifyIcon1.BalloonTipTitle = title.ToString()
                     NotifyIcon1.BalloonTipText = bText
                     NotifyIcon1.BalloonTipIcon = ntIcon
                     NotifyIcon1.ShowBalloonTip(500)
@@ -10451,9 +10468,21 @@ RETRY:
             NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning
             'If SettingDialog.DispUsername Then NotifyIcon1.BalloonTipTitle = tw.Username + " - " Else NotifyIcon1.BalloonTipTitle = ""
             'NotifyIcon1.BalloonTipTitle += "Tween [" + ev.Event.ToUpper() + "] by " + DirectCast(IIf(Not String.IsNullOrEmpty(ev.Username), ev.Username, ""), String)
-            Dim title As String
-            If SettingDialog.DispUsername Then title = tw.Username + " - " Else title = ""
-            title += "Tween [" + ev.Event.ToUpper() + "] by " + DirectCast(IIf(Not String.IsNullOrEmpty(ev.Username), ev.Username, ""), String)
+            Dim title As New StringBuilder
+            If SettingDialog.DispUsername Then
+                title.Append(tw.Username)
+                title.Append(" - ")
+            Else
+                'title.Clear()
+            End If
+            title.Append("Tween [")
+            title.Append(ev.Event.ToUpper())
+            title.Append("] by ")
+            If Not String.IsNullOrEmpty(ev.Username) Then
+                title.Append(ev.Username.ToString)
+            Else
+                'title.Append("")
+            End If
             Dim text As String
             If Not String.IsNullOrEmpty(ev.Target) Then
                 'NotifyIcon1.BalloonTipText = ev.Target
@@ -10464,10 +10493,11 @@ RETRY:
             End If
             'NotifyIcon1.ShowBalloonTip(500)
             If SettingDialog.IsNotifyUseGrowl Then
-                gh.Notify(GrowlHelper.NotifyType.UserStreamEvent, DateTime.Now.Ticks.ToString(), title, text)
+                gh.Notify(GrowlHelper.NotifyType.UserStreamEvent,
+                          DateTime.Now.Ticks.ToString(), title.ToString(), text)
             Else
                 NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning
-                NotifyIcon1.BalloonTipTitle = title
+                NotifyIcon1.BalloonTipTitle = title.ToString()
                 NotifyIcon1.BalloonTipText = text
                 NotifyIcon1.ShowBalloonTip(500)
             End If
