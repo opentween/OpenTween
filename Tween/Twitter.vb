@@ -1722,10 +1722,6 @@ Public Class Twitter
             post.InReplyToUser = status.InReplyToScreenName
             Long.TryParse(status.InReplyToUserId, post.InReplyToUserId)
 
-            '幻覚fav対策
-            Dim tc As TabClass = TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites)
-            post.IsFav = tc.Contains(post.StatusId) AndAlso post.ScreenName.ToLower.Equals(_uname)
-
             If status.Geo IsNot Nothing Then post.PostGeo = New PostClass.StatusGeo() With {.Lat = status.Geo.Coordinates(0), .Lng = status.Geo.Coordinates(1)}
 
             '以下、ユーザー情報
@@ -1739,6 +1735,10 @@ Public Class Twitter
             post.ImageUrl = user.ProfileImageUrl
             post.IsProtect = user.Protected
             post.IsMe = post.ScreenName.ToLower.Equals(_uname)
+
+            '幻覚fav対策
+            Dim tc As TabClass = TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites)
+            post.IsFav = tc.Contains(post.StatusId) AndAlso post.IsMe
         End If
         'HTMLに整形
         post.Text = CreateHtmlAnchor(post.TextFromApi, post.ReplyToList, entities, post.Media)
