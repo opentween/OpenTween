@@ -3,6 +3,7 @@
 ==== Ver 1.1.0.0(2011/**/**)
  * NEW: 詳細表示のSource部分を右クリックしたときにSource、URLをコピーできるように
  * NEW: Growl対応 Growl for WindowsとC#/VB.NET用SDKに同梱されているGrowl.Connector.dll,Growl.CoreLibrary.dllが必要。
+ * NEW: Favしていない発言がFavされていたり、またはその逆になっていることがあるTwitterのバグに対処。Favタブに発言が存在しない場合はFav扱いとしません。
  * CHG: Favタブでの「前データの取得」を機能するように
  * CHG: OS復帰時、または6時間ごとにTwitterから設定を取得するように
  * FIX: 関連発言取得の際に、ツイートに含まれるツイートのURLを読み込まなくなっていたバグを修正

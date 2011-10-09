@@ -1689,7 +1689,11 @@ Public Class Twitter
             Long.TryParse(retweeted.InReplyToStatusId, post.InReplyToStatusId)
             post.InReplyToUser = retweeted.InReplyToScreenName
             Long.TryParse(status.InReplyToUserId, post.InReplyToUserId)
-            post.IsFav = TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites).Contains(post.RetweetedId)
+
+            '幻覚fav対策
+            Dim tc As TabClass = TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites)
+            post.IsFav = tc.Contains(post.RetweetedId)
+
             If retweeted.Geo IsNot Nothing Then post.PostGeo = New PostClass.StatusGeo() With {.Lat = retweeted.Geo.Coordinates(0), .Lng = retweeted.Geo.Coordinates(1)}
 
             '以下、ユーザー情報
@@ -1718,7 +1722,10 @@ Public Class Twitter
             post.InReplyToUser = status.InReplyToScreenName
             Long.TryParse(status.InReplyToUserId, post.InReplyToUserId)
 
-            post.IsFav = status.Favorited
+            '幻覚fav対策
+            Dim tc As TabClass = TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites)
+            post.IsFav = tc.Contains(post.StatusId) AndAlso post.ScreenName.ToLower.Equals(_uname)
+
             If status.Geo IsNot Nothing Then post.PostGeo = New PostClass.StatusGeo() With {.Lat = status.Geo.Coordinates(0), .Lng = status.Geo.Coordinates(1)}
 
             '以下、ユーザー情報
