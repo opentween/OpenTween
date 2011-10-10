@@ -3534,7 +3534,7 @@ Public Class Twitter
                 evt.Id = eventData.TargetObject.Id
                 If AppendSettingDialog.Instance.IsRemoveSameEvent Then
                     If StoredEvent.Any(Function(ev As FormattedEvent)
-                                           Return ev.Id = evt.Id AndAlso ev.Eventtype = evt.Eventtype AndAlso ev.Target = evt.Target
+                                           Return ev.Username = evt.Username AndAlso ev.Eventtype = evt.Eventtype AndAlso ev.Target = evt.Target
                                        End Function) Then Exit Sub
                 End If
                 If TabInformations.GetInstance.ContainsKey(eventData.TargetObject.Id) Then
