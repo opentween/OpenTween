@@ -5644,6 +5644,23 @@ RETRY:
                                 Return pressed
                             End If
                     End Select
+                ElseIf Focused = FocusedControl.ListTab Then
+                    Select Case KeyCode
+                        Case Keys.D1, Keys.D2, Keys.D3, Keys.D4, Keys.D5, Keys.D6, Keys.D7, Keys.D8
+                            ' ソートダイレクト選択(Ctrl+Shift+1～8,Ctrl+Shift+9)
+                            Dim colNo As Integer = KeyCode - Keys.D1
+                            Dim lst As DetailsListView = DirectCast(ListTab.SelectedTab.Tag, DetailsListView)
+                            If lst.Columns.Count < colNo Then Exit Function
+                            Dim col = lst.Columns.Cast(Of ColumnHeader).Where(Function(x) x.DisplayIndex = colNo).FirstOrDefault()
+                            If col Is Nothing Then Exit Function
+                            MyList_ColumnClick(lst, New ColumnClickEventArgs(col.Index))
+                            Return True
+                        Case Keys.D9
+                            Dim lst As DetailsListView = DirectCast(ListTab.SelectedTab.Tag, DetailsListView)
+                            Dim col = lst.Columns.Cast(Of ColumnHeader).OrderByDescending(Function(x) x.DisplayIndex).First()
+                            MyList_ColumnClick(lst, New ColumnClickEventArgs(col.Index))
+                            Return True
+                    End Select
                 End If
             Case ModifierState.Ctrl Or ModifierState.Alt
                 If KeyCode = Keys.S Then
