@@ -3170,6 +3170,7 @@ Public Class Twitter
             'URL
             If entities.Urls IsNot Nothing Then
                 For Each ent In entities.Urls
+                    Array.Sort(ent.Indices)
                     If String.IsNullOrEmpty(ent.DisplayUrl) Then
                         etInfo.Add(ent.Indices(0),
                                    New EntityInfo With {.StartIndex = ent.Indices(0),
@@ -3190,6 +3191,7 @@ Public Class Twitter
             End If
             If entities.Hashtags IsNot Nothing Then
                 For Each ent In entities.Hashtags
+                    Array.Sort(ent.Indices)
                     Dim hash As String = Text.Substring(ent.Indices(0), ent.Indices(1) - ent.Indices(0))
                     etInfo.Add(ent.Indices(0),
                                New EntityInfo With {.StartIndex = ent.Indices(0),
@@ -3203,6 +3205,7 @@ Public Class Twitter
             End If
             If entities.UserMentions IsNot Nothing Then
                 For Each ent In entities.UserMentions
+                    Array.Sort(ent.Indices)
                     Dim screenName As String = Text.Substring(ent.Indices(0) + 1, ent.Indices(1) - ent.Indices(0) - 1)
                     etInfo.Add(ent.Indices(0) + 1,
                                New EntityInfo With {.StartIndex = ent.Indices(0) + 1,
@@ -3214,6 +3217,7 @@ Public Class Twitter
             End If
             If entities.Media IsNot Nothing Then
                 For Each ent In entities.Media
+                    Array.Sort(ent.Indices)
                     If ent.Type = "photo" Then
                         etInfo.Add(ent.Indices(0),
                                    New EntityInfo With {.StartIndex = ent.Indices(0),
