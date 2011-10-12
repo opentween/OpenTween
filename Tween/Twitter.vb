@@ -3526,6 +3526,8 @@ Public Class Twitter
         evt.IsMe = evt.Username.ToLower().Equals(Me.Username.ToLower())
         evt.Eventtype = EventNameToEventType(evt.Event)
         Select Case eventData.Event
+            Case "access_revoked"
+                Exit Sub
             Case "follow"
                 If eventData.Target.ScreenName.ToLower.Equals(_uname) Then
                     If Not Me.followerId.Contains(eventData.Source.Id) Then Me.followerId.Add(eventData.Source.Id)
