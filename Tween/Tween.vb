@@ -3528,6 +3528,15 @@ Public Class TweenMain
         AddNewTabForUserTimeline(_curPost.ScreenName)
     End Sub
 
+    Private Sub SearchComboBox_KeyDown(ByVal sender As Object, ByVal e As KeyEventArgs)
+        If e.KeyCode = Keys.Escape Then
+            Dim relTp As TabPage = ListTab.SelectedTab
+            RemoveSpecifiedTab(relTp.Text, False)
+            SaveConfigsTabs()
+            e.SuppressKeyPress = True
+        End If
+    End Sub
+
     Public Sub AddNewTabForUserTimeline(ByVal user As String)
         '同一検索条件のタブが既に存在すれば、そのタブアクティブにして終了
         For Each tb As TabClass In _statuses.GetTabsByType(TabUsageType.UserTimeline)
@@ -3649,6 +3658,7 @@ Public Class TweenMain
             cmb.ImeMode = Windows.Forms.ImeMode.NoControl
             cmb.TabStop = False
             cmb.AutoCompleteMode = AutoCompleteMode.None
+            AddHandler cmb.KeyDown, AddressOf SearchComboBox_KeyDown
 
             If _statuses.ContainsTab(tabName) Then
                 cmb.Items.Add(_statuses.Tabs(tabName).SearchWords)
@@ -5307,7 +5317,7 @@ RETRY:
                         Case Keys.Escape
                             If ListTab.SelectedTab IsNot Nothing Then
                                 Dim tabtype As TabUsageType = _statuses.Tabs(ListTab.SelectedTab.Text).TabType
-                                If tabtype = TabUsageType.Related OrElse tabtype = TabUsageType.UserTimeline Then
+                                If tabtype = TabUsageType.Related OrElse tabtype = TabUsageType.UserTimeline OrElse tabtype = TabUsageType.PublicSearch Then
                                     Dim relTp As TabPage = ListTab.SelectedTab
                                     RemoveSpecifiedTab(relTp.Text, False)
                                     SaveConfigsTabs()
@@ -10520,21 +10530,21 @@ RETRY:
             End If
         End If
 
-            'サウンド再生
-            Dim snd As String = SettingDialog.EventSoundFile
-            If Not _initial AndAlso SettingDialog.PlaySound AndAlso snd <> "" Then
-                If CBool(ev.Eventtype And SettingDialog.EventNotifyFlag) AndAlso IsMyEventNotityAsEventType(ev) Then
-                    Try
-                        Dim dir As String = My.Application.Info.DirectoryPath
-                        If Directory.Exists(Path.Combine(dir, "Sounds")) Then
-                            dir = Path.Combine(dir, "Sounds")
-                        End If
-                        My.Computer.Audio.Play(Path.Combine(dir, snd), AudioPlayMode.Background)
-                    Catch ex As Exception
+        'サウンド再生
+        Dim snd As String = SettingDialog.EventSoundFile
+        If Not _initial AndAlso SettingDialog.PlaySound AndAlso snd <> "" Then
+            If CBool(ev.Eventtype And SettingDialog.EventNotifyFlag) AndAlso IsMyEventNotityAsEventType(ev) Then
+                Try
+                    Dim dir As String = My.Application.Info.DirectoryPath
+                    If Directory.Exists(Path.Combine(dir, "Sounds")) Then
+                        dir = Path.Combine(dir, "Sounds")
+                    End If
+                    My.Computer.Audio.Play(Path.Combine(dir, snd), AudioPlayMode.Background)
+                Catch ex As Exception
 
-                    End Try
-                End If
+                End Try
             End If
+        End If
     End Sub
 
     Private Sub StopToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StopToolStripMenuItem.Click
@@ -10622,7 +10632,7 @@ RETRY:
     End Sub
 
     Private Sub doTranslation(ByVal str As String)
-        Dim _bing As New bing
+        Dim _bing As New Bing
         Dim buf As String = ""
         If String.IsNullOrEmpty(str) Then Exit Sub
         Dim srclng As String = ""
