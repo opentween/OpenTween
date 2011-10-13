@@ -87,7 +87,7 @@ Public Class ImageDictionary
     Private Sub CacheRemoved(ByVal item As CacheEntryRemovedArguments)
         DirectCast(item.CacheItem.Value, Image).Dispose()
         removedCount += 1
-        System.Diagnostics.Debug.Print("cache delete")
+        'System.Diagnostics.Debug.Print("cache delete")
     End Sub
 
     Public Sub Add(ByVal item As System.Collections.Generic.KeyValuePair(Of String, Image)) Implements System.Collections.Generic.ICollection(Of System.Collections.Generic.KeyValuePair(Of String, Image)).Add

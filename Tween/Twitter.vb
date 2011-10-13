@@ -3170,7 +3170,6 @@ Public Class Twitter
             'URL
             If entities.Urls IsNot Nothing Then
                 For Each ent In entities.Urls
-                    Array.Sort(ent.Indices)
                     If String.IsNullOrEmpty(ent.DisplayUrl) Then
                         etInfo.Add(ent.Indices(0),
                                    New EntityInfo With {.StartIndex = ent.Indices(0),
@@ -3191,7 +3190,6 @@ Public Class Twitter
             End If
             If entities.Hashtags IsNot Nothing Then
                 For Each ent In entities.Hashtags
-                    Array.Sort(ent.Indices)
                     Dim hash As String = Text.Substring(ent.Indices(0), ent.Indices(1) - ent.Indices(0))
                     etInfo.Add(ent.Indices(0),
                                New EntityInfo With {.StartIndex = ent.Indices(0),
@@ -3205,7 +3203,6 @@ Public Class Twitter
             End If
             If entities.UserMentions IsNot Nothing Then
                 For Each ent In entities.UserMentions
-                    Array.Sort(ent.Indices)
                     Dim screenName As String = Text.Substring(ent.Indices(0) + 1, ent.Indices(1) - ent.Indices(0) - 1)
                     etInfo.Add(ent.Indices(0) + 1,
                                New EntityInfo With {.StartIndex = ent.Indices(0) + 1,
@@ -3217,7 +3214,6 @@ Public Class Twitter
             End If
             If entities.Media IsNot Nothing Then
                 For Each ent In entities.Media
-                    Array.Sort(ent.Indices)
                     If ent.Type = "photo" Then
                         etInfo.Add(ent.Indices(0),
                                    New EntityInfo With {.StartIndex = ent.Indices(0),
@@ -3230,13 +3226,20 @@ Public Class Twitter
                 Next
             End If
             If etInfo.Count > 0 Then
-                Dim idx As Integer = 0
-                ret = ""
-                For Each et In etInfo
-                    ret += Text.Substring(idx, et.Key - idx) + et.Value.Html
-                    idx = et.Value.EndIndex
-                Next
-                ret += Text.Substring(idx)
+                Try
+                    Dim idx As Integer = 0
+                    ret = ""
+                    For Each et In etInfo
+                        ret += Text.Substring(idx, et.Key - idx) + et.Value.Html
+                        idx = et.Value.EndIndex
+                    Next
+                    ret += Text.Substring(idx)
+                Catch ex As ArgumentOutOfRangeException
+                    'Twitterのバグで不正なエンティティ（Index指定範囲が重なっている）が返ってくる場合の対応
+                    ret = Text
+                    entities = Nothing
+                    If media IsNot Nothing Then media.Clear()
+                End Try
             End If
         End If
 
