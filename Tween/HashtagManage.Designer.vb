@@ -42,6 +42,7 @@ Partial Class HashtagManage
         Me.RadioHead = New System.Windows.Forms.RadioButton()
         Me.UnSelectButton = New System.Windows.Forms.Button()
         Me.GroupHashtag = New System.Windows.Forms.GroupBox()
+        Me.CheckNotAddToAtReply = New System.Windows.Forms.CheckBox()
         Me.TableLayoutButtons.SuspendLayout()
         Me.GroupDetail.SuspendLayout()
         Me.TableLayoutPanel2.SuspendLayout()
@@ -87,8 +88,8 @@ Partial Class HashtagManage
         '
         'HistoryHashList
         '
-        resources.ApplyResources(Me.HistoryHashList, "HistoryHashList")
         Me.HistoryHashList.FormattingEnabled = True
+        resources.ApplyResources(Me.HistoryHashList, "HistoryHashList")
         Me.HistoryHashList.Name = "HistoryHashList"
         Me.HistoryHashList.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
         '
@@ -110,10 +111,10 @@ Partial Class HashtagManage
         '
         'GroupDetail
         '
-        resources.ApplyResources(Me.GroupDetail, "GroupDetail")
         Me.GroupDetail.Controls.Add(Me.TableLayoutPanel2)
         Me.GroupDetail.Controls.Add(Me.UseHashText)
         Me.GroupDetail.Controls.Add(Me.Label1)
+        resources.ApplyResources(Me.GroupDetail, "GroupDetail")
         Me.GroupDetail.Name = "GroupDetail"
         Me.GroupDetail.TabStop = False
         '
@@ -161,7 +162,6 @@ Partial Class HashtagManage
         '
         'GroupHashtag
         '
-        resources.ApplyResources(Me.GroupHashtag, "GroupHashtag")
         Me.GroupHashtag.Controls.Add(Me.HistoryHashList)
         Me.GroupHashtag.Controls.Add(Me.Label3)
         Me.GroupHashtag.Controls.Add(Me.UnSelectButton)
@@ -171,13 +171,23 @@ Partial Class HashtagManage
         Me.GroupHashtag.Controls.Add(Me.EditButton)
         Me.GroupHashtag.Controls.Add(Me.AddButton)
         Me.GroupHashtag.Controls.Add(Me.CheckPermanent)
+        resources.ApplyResources(Me.GroupHashtag, "GroupHashtag")
         Me.GroupHashtag.Name = "GroupHashtag"
         Me.GroupHashtag.TabStop = False
+        '
+        'CheckNotAddToAtReply
+        '
+        resources.ApplyResources(Me.CheckNotAddToAtReply, "CheckNotAddToAtReply")
+        Me.CheckNotAddToAtReply.Checked = True
+        Me.CheckNotAddToAtReply.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckNotAddToAtReply.Name = "CheckNotAddToAtReply"
+        Me.CheckNotAddToAtReply.UseVisualStyleBackColor = True
         '
         'HashtagManage
         '
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me.CheckNotAddToAtReply)
         Me.Controls.Add(Me.GroupHashtag)
         Me.Controls.Add(Me.GroupDetail)
         Me.Controls.Add(Me.TableLayoutButtons)
@@ -195,6 +205,7 @@ Partial Class HashtagManage
         Me.GroupHashtag.ResumeLayout(False)
         Me.GroupHashtag.PerformLayout()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
     Friend WithEvents TableLayoutButtons As System.Windows.Forms.TableLayoutPanel
@@ -216,5 +227,6 @@ Partial Class HashtagManage
     Friend WithEvents Cancel_Button As System.Windows.Forms.Button
     Friend WithEvents OK_Button As System.Windows.Forms.Button
     Friend WithEvents GroupHashtag As System.Windows.Forms.GroupBox
+    Friend WithEvents CheckNotAddToAtReply As System.Windows.Forms.CheckBox
 
 End Class

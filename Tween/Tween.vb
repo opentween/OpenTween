@@ -806,11 +806,12 @@ Public Class TweenMain
 
         'ハッシュタグ関連
         HashSupl = New AtIdSupplement(_cfgCommon.HashTags, "#")
-        HashMgr = New HashtagManage(HashSupl, _
-                                _cfgCommon.HashTags.ToArray, _
-                                _cfgCommon.HashSelected, _
-                                _cfgCommon.HashIsPermanent, _
-                                _cfgCommon.HashIsHead)
+        HashMgr = New HashtagManage(HashSupl,
+                                _cfgCommon.HashTags.ToArray,
+                                _cfgCommon.HashSelected,
+                                _cfgCommon.HashIsPermanent,
+                                _cfgCommon.HashIsHead,
+                                _cfgCommon.HashIsNotAddToAtReply)
         If HashMgr.UseHash <> "" AndAlso HashMgr.IsPermanent Then HashStripSplitButton.Text = HashMgr.UseHash
 
         _initial = True
@@ -1875,7 +1876,7 @@ Public Class TweenMain
             footer = ""
         Else
             'ハッシュタグ
-            If HashMgr.UseHash <> "" Then
+            If HashMgr.UseHash <> "" AndAlso HashMgr.IsNotAddToAtReply AndAlso _reply_to_id = 0 AndAlso _reply_to_name = "" Then
                 If HashMgr.IsHead Then
                     header = HashMgr.UseHash + " "
                 Else
@@ -6416,6 +6417,7 @@ RETRY:
             End If
             _cfgCommon.HashIsHead = HashMgr.IsHead
             _cfgCommon.HashIsPermanent = HashMgr.IsPermanent
+            _cfgCommon.HashIsNotAddToAtReply = HashMgr.IsNotAddToAtReply
             _cfgCommon.TwitterUrl = SettingDialog.TwitterApiUrl
             _cfgCommon.TwitterSearchUrl = SettingDialog.TwitterSearchApiUrl
             _cfgCommon.HotkeyEnabled = SettingDialog.HotkeyEnabled

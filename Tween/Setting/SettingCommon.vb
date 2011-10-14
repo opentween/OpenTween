@@ -140,6 +140,7 @@ Public Class SettingCommon
     Public HashSelected As String = ""
     Public HashIsPermanent As Boolean = False
     Public HashIsHead As Boolean = False
+    Public HashIsNotAddToAtReply As Boolean = True
     Public PreviewEnable As Boolean = True
 
     <Xml.Serialization.XmlIgnore()> _
