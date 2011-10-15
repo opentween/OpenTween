@@ -1876,11 +1876,21 @@ Public Class TweenMain
             footer = ""
         Else
             'ハッシュタグ
-            If HashMgr.UseHash <> "" AndAlso HashMgr.IsNotAddToAtReply AndAlso _reply_to_id = 0 AndAlso _reply_to_name = "" Then
-                If HashMgr.IsHead Then
-                    header = HashMgr.UseHash + " "
-                Else
-                    footer = " " + HashMgr.UseHash
+            If HashMgr.IsNotAddToAtReply Then
+                If HashMgr.UseHash <> "" AndAlso _reply_to_id = 0 AndAlso _reply_to_name = "" Then
+                    If HashMgr.IsHead Then
+                        header = HashMgr.UseHash + " "
+                    Else
+                        footer = " " + HashMgr.UseHash
+                    End If
+                End If
+            Else
+                If HashMgr.UseHash <> "" Then
+                    If HashMgr.IsHead Then
+                        header = HashMgr.UseHash + " "
+                    Else
+                        footer = " " + HashMgr.UseHash
+                    End If
                 End If
             End If
             If Not isRemoveFooter Then
