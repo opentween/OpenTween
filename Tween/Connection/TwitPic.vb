@@ -95,17 +95,20 @@ Public Class TwitPic
                 url = xd.SelectSingleNode("/image/url").InnerText
             Catch ex As XmlException
                 Return "Err:" + ex.Message
+            Catch Ex As Exception
+                Return "Err:" + Ex.Message
             End Try
         Else
             Return "Err:" + ret.ToString
         End If
         'アップロードまでは成功
         filePath = ""
+        If String.IsNullOrEmpty(message) Then message = ""
         If String.IsNullOrEmpty(url) Then url = ""
         'Twitterへの投稿
         '投稿メッセージの再構成
-        If message.Length + url.Length + 1 > 140 Then
-            message = message.Substring(0, 140 - url.Length - 1) + " " + url
+        If message.Length + AppendSettingDialog.Instance.TwitterConfiguration.CharactersReservedPerMedia + 1 > 140 Then
+            message = message.Substring(0, 140 - AppendSettingDialog.Instance.TwitterConfiguration.CharactersReservedPerMedia - 1) + " " + url
         Else
             message += " " + url
         End If

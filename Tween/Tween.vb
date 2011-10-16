@@ -4217,9 +4217,10 @@ Public Class TweenMain
         '    pLen += m.Length - SettingDialog.TwitterConfiguration.ShortUrlLength
         'Next
         For Each m As Match In Regex.Matches(StatusText.Text, Twitter.rgUrl, RegexOptions.IgnoreCase)
-            If m.Result("${url}").Length > SettingDialog.TwitterConfiguration.ShortUrlLength Then
-                pLen += m.Result("${url}").Length - SettingDialog.TwitterConfiguration.ShortUrlLength
-            End If
+            pLen += m.Result("${url}").Length - SettingDialog.TwitterConfiguration.ShortUrlLength
+            'If m.Result("${url}").Length > SettingDialog.TwitterConfiguration.ShortUrlLength Then
+            '    pLen += m.Result("${url}").Length - SettingDialog.TwitterConfiguration.ShortUrlLength
+            'End If
         Next
         If ImageSelectionPanel.Visible AndAlso ImageSelectedPicture.Tag IsNot Nothing AndAlso Not String.IsNullOrEmpty(Me.ImageService) Then
             pLen -= SettingDialog.TwitterConfiguration.CharactersReservedPerMedia

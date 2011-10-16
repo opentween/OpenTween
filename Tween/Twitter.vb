@@ -2462,7 +2462,7 @@ Public Class Twitter
                     Long.TryParse(retweeted.InReplyToStatusId, post.InReplyToStatusId)
                     post.InReplyToUser = retweeted.InReplyToScreenName
                     Long.TryParse(retweeted.InReplyToUserId, post.InReplyToUserId)
-                    post.IsFav = retweeted.Favorited
+                    post.IsFav = True
 
                     '以下、ユーザー情報
                     Dim user As TwitterDataModel.User = retweeted.User
@@ -2487,7 +2487,7 @@ Public Class Twitter
                     post.InReplyToUser = status.InReplyToScreenName
                     Long.TryParse(status.InReplyToUserId, post.InReplyToUserId)
 
-                    post.IsFav = status.Favorited
+                    post.IsFav = True
 
                     '以下、ユーザー情報
                     Dim user As TwitterDataModel.User = status.User
