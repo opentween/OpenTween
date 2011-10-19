@@ -2166,8 +2166,7 @@ Public Class Thumbnail
         Dim src As String = ""
         Dim http As New HttpVarious
         If http.GetData(args.url.Value, Nothing, src, 0, args.errmsg, "") Then
-            Dim mc As Match = Regex.Match(src, "<meta property=""og:image"" content=""(?<url>.+)""/>")
-            '二つ以上キャプチャした場合先頭の一つだけ 一つだけの場合はユーザーアイコンしか取れなかった
+            Dim mc As Match = Regex.Match(src, "<meta property=""og:image"" content=""(?<url>.+)"" ?/>")
             If mc.Success Then
                 Dim _img As Image = http.GetImage(mc.Groups("url").Value, args.url.Key, 0, args.errmsg)
                 If _img Is Nothing Then Return False
