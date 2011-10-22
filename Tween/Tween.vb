@@ -90,7 +90,7 @@ Public Class TweenMain
     Private tw As New Twitter
 
     'Growl呼び出し部
-    Private gh As New GrowlHelper("Tween")
+    Private WithEvents gh As New GrowlHelper("Tween")
 
     'サブ画面インスタンス
     Private WithEvents SettingDialog As AppendSettingDialog = AppendSettingDialog.Instance       '設定画面インスタンス
@@ -10813,4 +10813,16 @@ RETRY:
             SourceUrlCopyMenuItem.Enabled = True
         End If
     End Sub
+
+    Private Sub GrowlHelper_Callback(ByVal sender As Object, ByVal e As EventArgs) Handles gh.Callback
+        If Form.ActiveForm Is Nothing Then
+            Me.BeginInvoke(Sub()
+                               Me.Visible = True
+                               If Me.WindowState = FormWindowState.Minimized Then Me.WindowState = FormWindowState.Normal
+                               Me.Activate()
+                               Me.StatusText.Focus()
+                           End Sub)
+        End If
+    End Sub
+
 End Class

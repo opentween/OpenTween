@@ -20,6 +20,8 @@ Public Class GrowlHelper
     Private _appName As String = ""
     Dim _initialized As Boolean = False
 
+    Public Event Callback(ByVal sender As Object, ByVal e As EventArgs)
+
     Public ReadOnly Property AppName As String
         Get
             Return _appName
@@ -174,6 +176,16 @@ Public Class GrowlHelper
 
             mi.Invoke(_targetConnector, New Object() {_growlApp, arglist.ToArray(_t)})
 
+            ' コールバックメソッドの登録
+            Dim tGrowlConnector As Type = _connector.GetType("Growl.Connector.GrowlConnector")
+            Dim evNotificationCallback As EventInfo = tGrowlConnector.GetEvent("NotificationCallback")
+            Dim tDelegate As Type = evNotificationCallback.EventHandlerType
+            Dim miHandler As MethodInfo = GetType(GrowlHelper).GetMethod("GrowlCallbackHandler", BindingFlags.NonPublic Or BindingFlags.Instance)
+            Dim d As [Delegate] = [Delegate].CreateDelegate(tDelegate, Me, miHandler)
+            Dim miAddHandler As MethodInfo = evNotificationCallback.GetAddMethod()
+            Dim addHandlerArgs() As Object = {d}
+            miAddHandler.Invoke(_targetConnector, addHandlerArgs)
+
             _initialized = True
 
         Catch ex As Exception
@@ -209,6 +221,33 @@ Public Class GrowlHelper
                                   id,
                                   title,
                                   text})
-        _targetConnector.GetType.InvokeMember("Notify", BindingFlags.InvokeMethod, Nothing, _targetConnector, New Object() {n})
+        '_targetConnector.GetType.InvokeMember("Notify", BindingFlags.InvokeMethod, Nothing, _targetConnector, New Object() {n})
+        Dim cc As Object = _connector.GetType("Growl.Connector.CallbackContext").InvokeMember(
+            Nothing, BindingFlags.CreateInstance, Nothing, _connector,
+            New Object() {"some fake information", "fake data"})
+        _targetConnector.GetType.InvokeMember("Notify", BindingFlags.InvokeMethod, Nothing, _targetConnector, New Object() {n, cc})
+    End Sub
+
+    Private Sub GrowlCallbackHandler(ByVal response As Object, ByVal callbackData As Object, ByVal state As Object)
+        Try
+            ' 定数取得
+            Dim vCLICK As Object =
+            _core.GetType("Growl.CoreLibrary.CallbackResult").GetField(
+                        "CLICK",
+                       BindingFlags.Public Or BindingFlags.Static).GetRawConstantValue()
+            ' 実際の値
+            Dim vResult As Object = callbackData.GetType.GetProperty(
+                        "Result",
+                        BindingFlags.Public Or BindingFlags.Instance).
+            GetGetMethod.
+            Invoke(callbackData, Nothing)
+            vResult = CType(vResult, Integer)
+
+            If vCLICK.Equals(vResult) Then
+                RaiseEvent Callback(Me, New EventArgs)
+            End If
+        Catch ex As Exception
+            Exit Sub
+        End Try
     End Sub
 End Class
