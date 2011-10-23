@@ -2935,6 +2935,7 @@ Public Class TweenMain
             ReadedStripMenuItem.Enabled = True
             UnreadStripMenuItem.Enabled = True
         End If
+        DeleteStripMenuItem.Text = My.Resources.DeleteMenuText1
         If _statuses.Tabs(ListTab.SelectedTab.Text).TabType = TabUsageType.DirectMessage OrElse Not Me.ExistCurrentPost OrElse _curPost.IsDm Then
             FavAddToolStripMenuItem.Enabled = False
             FavRemoveToolStripMenuItem.Enabled = False
@@ -2947,7 +2948,11 @@ Public Class TweenMain
             QuoteStripMenuItem.Enabled = False
             FavoriteRetweetContextMenu.Enabled = False
             FavoriteRetweetUnofficialContextMenu.Enabled = False
-            If Me.ExistCurrentPost AndAlso _curPost.IsDm Then DeleteStripMenuItem.Enabled = True
+            If Me.ExistCurrentPost AndAlso _curPost.IsDm Then
+                DeleteStripMenuItem.Enabled = True
+            Else
+                DeleteStripMenuItem.Enabled = False
+            End If
         Else
             FavAddToolStripMenuItem.Enabled = True
             FavRemoveToolStripMenuItem.Enabled = True
@@ -2958,8 +2963,18 @@ Public Class TweenMain
             If _curPost.IsMe Then
                 ReTweetOriginalStripMenuItem.Enabled = False
                 FavoriteRetweetContextMenu.Enabled = False
+                If _curPost.RetweetedBy = "" Then
+                    DeleteStripMenuItem.Text = My.Resources.DeleteMenuText1
+                Else
+                    DeleteStripMenuItem.Text = My.Resources.DeleteMenuText2
+                End If
                 DeleteStripMenuItem.Enabled = True
             Else
+                If _curPost.RetweetedBy = "" Then
+                    DeleteStripMenuItem.Text = My.Resources.DeleteMenuText1
+                Else
+                    DeleteStripMenuItem.Text = My.Resources.DeleteMenuText2
+                End If
                 DeleteStripMenuItem.Enabled = False
                 If _curPost.IsProtect Then
                     ReTweetOriginalStripMenuItem.Enabled = False

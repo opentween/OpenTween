@@ -1132,4 +1132,10 @@
   <data name="ApiInfo91" xml:space="preserve">
     <value>（画像投稿後に取得/更新されます）</value>
   </data>
+  <data name="DeleteMenuText1" xml:space="preserve">
+    <value>削除(&amp;D)</value>
+  </data>
+  <data name="DeleteMenuText2" xml:space="preserve">
+    <value>公式RTの取り消し(&amp;D)</value>
+  </data>
 </root>
