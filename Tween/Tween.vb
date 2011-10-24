@@ -2085,6 +2085,7 @@ Public Class TweenMain
             Me.WindowState = FormWindowState.Normal
         End If
         Me.Activate()
+        Me.BringToFront()
     End Sub
 
     Private Shared Function CheckAccountValid() As Boolean
@@ -2777,6 +2778,7 @@ Public Class TweenMain
                 Me.WindowState = FormWindowState.Normal
             End If
             Me.Activate()
+            Me.BringToFront()
         End If
     End Sub
 
@@ -8650,6 +8652,7 @@ RETRY:
             ImagefilePathText.Text = CType(e.Data.GetData(DataFormats.FileDrop, False), String())(0)
             ImageFromSelectedFile()
             Me.Activate()
+            Me.BringToFront()
             StatusText.Focus()
         ElseIf e.Data.GetDataPresent(DataFormats.StringFormat) Then
             Dim data As String = TryCast(e.Data.GetData(DataFormats.StringFormat, True), String)
@@ -9951,6 +9954,7 @@ RETRY:
             Google.GASender.GetInstance().TrackPage("/user_profile", tw.UserId)
             userinfo.ShowDialog(Me)
             Me.Activate()
+            Me.BringToFront()
             Google.GASender.GetInstance().TrackPage("/home_timeline", tw.UserId)
         End Using
     End Sub
@@ -10072,6 +10076,7 @@ RETRY:
             Me.Visible = True
             If Me.WindowState = FormWindowState.Minimized Then Me.WindowState = FormWindowState.Normal
             Me.Activate()
+            Me.BringToFront()
             Me.StatusText.Focus()
         End If
     End Sub
@@ -10897,6 +10902,7 @@ RETRY:
                                Me.Visible = True
                                If Me.WindowState = FormWindowState.Minimized Then Me.WindowState = FormWindowState.Normal
                                Me.Activate()
+                               Me.BringToFront()
                                Me.StatusText.Focus()
                            End Sub)
         End If
