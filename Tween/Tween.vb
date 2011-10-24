@@ -10926,7 +10926,7 @@ RETRY:
         End If
     End Sub
 
-    Private Sub GrowlHelper_Callback(ByVal sender As Object, ByVal e As GrowlHelper.NotifyCallbackEventArgs) Handles gh.Callback
+    Private Sub GrowlHelper_Callback(ByVal sender As Object, ByVal e As GrowlHelper.NotifyCallbackEventArgs) Handles gh.NotifyClicked
         If Form.ActiveForm Is Nothing Then
             Me.BeginInvoke(Sub()
                                Me.Visible = True

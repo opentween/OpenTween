@@ -32,7 +32,7 @@ Public Class GrowlHelper
         End Sub
     End Class
 
-    Public Event Callback(ByVal sender As Object, ByVal e As NotifyCallbackEventArgs)
+    Public Event NotifyClicked(ByVal sender As Object, ByVal e As NotifyCallbackEventArgs)
 
     Public ReadOnly Property AppName As String
         Get
@@ -300,7 +300,7 @@ Public Class GrowlHelper
                     Case "USERSTREAM_EVENT"
                         nt = NotifyType.UserStreamEvent
                 End Select
-                RaiseEvent Callback(Me, New NotifyCallbackEventArgs(nt, notifyId))
+                RaiseEvent NotifyClicked(Me, New NotifyCallbackEventArgs(nt, notifyId))
             End If
         Catch ex As Exception
             Exit Sub
