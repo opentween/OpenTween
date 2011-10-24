@@ -1606,7 +1606,7 @@ Public Class TweenMain
                         Dim bText As String = sb.ToString
                         If String.IsNullOrEmpty(bText) Then Exit Sub
 
-                        gh.Notify(nt, DateTime.Now.Ticks.ToString(), title.ToString(), bText, Me.TIconDic(post.ImageUrl))
+                        gh.Notify(nt, post.StatusId.ToString, title.ToString(), bText, Me.TIconDic(post.ImageUrl), post.ImageUrl)
                     Next
                 Else
                     Dim sb As New StringBuilder
@@ -6348,6 +6348,36 @@ RETRY:
         Next
     End Sub
 
+    Private Function GoStatus(ByVal statusId As Long) As Boolean
+        If statusId = 0 Then Return False
+        For tabidx As Integer = 0 To ListTab.TabCount - 1
+            If _statuses.Tabs(ListTab.TabPages(tabidx).Text).TabType <> TabUsageType.DirectMessage AndAlso _statuses.Tabs(ListTab.TabPages(tabidx).Text).Contains(statusId) Then
+                Dim idx = _statuses.Tabs(ListTab.TabPages(tabidx).Text).IndexOf(statusId)
+                ListTab.SelectedIndex = tabidx
+                ListTabSelect(ListTab.TabPages(tabidx))
+                SelectListItem(_curList, idx)
+                _curList.EnsureVisible(idx)
+                Return True
+            End If
+        Next
+        Return False
+    End Function
+
+    Private Function GoDirectMessage(ByVal statusId As Long) As Boolean
+        If statusId = 0 Then Return False
+        For tabidx As Integer = 0 To ListTab.TabCount - 1
+            If _statuses.Tabs(ListTab.TabPages(tabidx).Text).TabType = TabUsageType.DirectMessage AndAlso _statuses.Tabs(ListTab.TabPages(tabidx).Text).Contains(statusId) Then
+                Dim idx = _statuses.Tabs(ListTab.TabPages(tabidx).Text).IndexOf(statusId)
+                ListTab.SelectedIndex = tabidx
+                ListTabSelect(ListTab.TabPages(tabidx))
+                SelectListItem(_curList, idx)
+                _curList.EnsureVisible(idx)
+                Return True
+            End If
+        Next
+        Return False
+    End Function
+
     Private Sub MyList_MouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
         _anchorFlag = False
     End Sub
@@ -10616,7 +10646,7 @@ RETRY:
             'NotifyIcon1.ShowBalloonTip(500)
             If SettingDialog.IsNotifyUseGrowl Then
                 gh.Notify(GrowlHelper.NotifyType.UserStreamEvent,
-                          DateTime.Now.Ticks.ToString(), title.ToString(), text)
+                          ev.Id.ToString(), title.ToString(), text)
             Else
                 NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning
                 NotifyIcon1.BalloonTipTitle = title.ToString()
@@ -10896,14 +10926,18 @@ RETRY:
         End If
     End Sub
 
-    Private Sub GrowlHelper_Callback(ByVal sender As Object, ByVal e As EventArgs) Handles gh.Callback
+    Private Sub GrowlHelper_Callback(ByVal sender As Object, ByVal e As GrowlHelper.NotifyCallbackEventArgs) Handles gh.Callback
         If Form.ActiveForm Is Nothing Then
             Me.BeginInvoke(Sub()
                                Me.Visible = True
                                If Me.WindowState = FormWindowState.Minimized Then Me.WindowState = FormWindowState.Normal
                                Me.Activate()
                                Me.BringToFront()
-                               Me.StatusText.Focus()
+                               If e.NotifyType = GrowlHelper.NotifyType.DirectMessage Then
+                                   If Not Me.GoDirectMessage(e.StatusId) Then Me.StatusText.Focus()
+                               Else
+                                   If Not Me.GoStatus(e.StatusId) Then Me.StatusText.Focus()
+                               End If
                            End Sub)
         End If
     End Sub

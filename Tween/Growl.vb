@@ -20,7 +20,19 @@ Public Class GrowlHelper
     Private _appName As String = ""
     Dim _initialized As Boolean = False
 
-    Public Event Callback(ByVal sender As Object, ByVal e As EventArgs)
+    Public Class NotifyCallbackEventArgs
+        Inherits EventArgs
+        Public Property StatusId As Long
+        Public Property NotifyType As NotifyType
+        Public Sub New(ByVal notifyType As NotifyType, ByVal statusId As String)
+            If statusId.Length > 1 Then
+                Me.StatusId = CLng(statusId)
+                Me.NotifyType = notifyType
+            End If
+        End Sub
+    End Class
+
+    Public Event Callback(ByVal sender As Object, ByVal e As NotifyCallbackEventArgs)
 
     Public ReadOnly Property AppName As String
         Get
@@ -196,7 +208,7 @@ Public Class GrowlHelper
         Return True
     End Function
 
-    Public Sub Notify(ByVal notificationType As NotifyType, ByVal id As String, ByVal title As String, ByVal text As String, Optional ByVal icon As Image = Nothing)
+    Public Sub Notify(ByVal notificationType As NotifyType, ByVal id As String, ByVal title As String, ByVal text As String, Optional ByVal icon As Image = Nothing, Optional ByVal url As String = "")
         If Not _initialized Then Return
         Dim notificationName As String = ""
         Select Case notificationType
@@ -210,13 +222,22 @@ Public Class GrowlHelper
                 notificationName = "USERSTREAM_EVENT"
         End Select
         Dim n As Object = Nothing
-        If icon IsNot Nothing Then
+        If icon IsNot Nothing OrElse Not String.IsNullOrEmpty(url) Then
             Dim gCore As Type = _core.GetType("Growl.CoreLibrary.Resource")
-            Dim res As Object = gCore.InvokeMember("op_Implicit",
+            Dim res As Object = Nothing
+            If icon IsNot Nothing Then
+                res = gCore.InvokeMember("op_Implicit",
                                                    BindingFlags.Public Or BindingFlags.Static Or BindingFlags.InvokeMethod,
                                                    Nothing,
                                                    Nothing,
                                                    New Object() {icon})
+            Else
+                res = gCore.InvokeMember("op_Implicit",
+                                                   BindingFlags.Public Or BindingFlags.Static Or BindingFlags.InvokeMethod,
+                                                   Nothing,
+                                                   Nothing,
+                                                   New Object() {url})
+            End If
             Dim priority As Object =
                     _connector.GetType("Growl.Connector.Priority").InvokeMember(
                         "Normal", BindingFlags.GetField, Nothing, Nothing, Nothing)
@@ -249,7 +270,7 @@ Public Class GrowlHelper
         '_targetConnector.GetType.InvokeMember("Notify", BindingFlags.InvokeMethod, Nothing, _targetConnector, New Object() {n})
         Dim cc As Object = _connector.GetType("Growl.Connector.CallbackContext").InvokeMember(
             Nothing, BindingFlags.CreateInstance, Nothing, _connector,
-            New Object() {"some fake information", "fake data"})
+            New Object() {"some fake information", notificationName})
         _targetConnector.GetType.InvokeMember("Notify", BindingFlags.InvokeMethod, Nothing, _targetConnector, New Object() {n, cc})
     End Sub
 
@@ -263,13 +284,23 @@ Public Class GrowlHelper
             ' 実際の値
             Dim vResult As Object = callbackData.GetType.GetProperty(
                         "Result",
-                        BindingFlags.Public Or BindingFlags.Instance).
-            GetGetMethod.
-            Invoke(callbackData, Nothing)
+                        BindingFlags.Public Or BindingFlags.Instance).GetGetMethod.Invoke(callbackData, Nothing)
             vResult = CType(vResult, Integer)
-
+            Dim notifyId As String = CStr(callbackData.GetType.GetProperty("NotificationID").GetGetMethod.Invoke(callbackData, Nothing))
+            Dim notifyName As String = CStr(callbackData.GetType.GetProperty("Type").GetGetMethod.Invoke(callbackData, Nothing))
             If vCLICK.Equals(vResult) Then
-                RaiseEvent Callback(Me, New EventArgs)
+                Dim nt As NotifyType
+                Select Case notifyName
+                    Case "REPLY"
+                        nt = NotifyType.Reply
+                    Case "DIRECT_MESSAGE"
+                        nt = NotifyType.DirectMessage
+                    Case "NOTIFY"
+                        nt = NotifyType.Notify
+                    Case "USERSTREAM_EVENT"
+                        nt = NotifyType.UserStreamEvent
+                End Select
+                RaiseEvent Callback(Me, New NotifyCallbackEventArgs(nt, notifyId))
             End If
         Catch ex As Exception
             Exit Sub
