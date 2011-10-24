@@ -196,7 +196,7 @@ Public Class GrowlHelper
         Return True
     End Function
 
-    Public Sub Notify(ByVal notificationType As NotifyType, ByVal id As String, ByVal title As String, ByVal text As String)
+    Public Sub Notify(ByVal notificationType As NotifyType, ByVal id As String, ByVal title As String, ByVal text As String, Optional ByVal icon As Image = Nothing)
         If Not _initialized Then Return
         Dim notificationName As String = ""
         Select Case notificationType
@@ -209,9 +209,18 @@ Public Class GrowlHelper
             Case NotifyType.UserStreamEvent
                 notificationName = "USERSTREAM_EVENT"
         End Select
-
-        Dim n As Object =
-                _connector.GetType("Growl.Connector.Notification").InvokeMember(
+        Dim n As Object = Nothing
+        If icon IsNot Nothing Then
+            Dim gCore As Type = _core.GetType("Growl.CoreLibrary.Resource")
+            Dim res As Object = gCore.InvokeMember("op_Implicit",
+                                                   BindingFlags.Public Or BindingFlags.Static Or BindingFlags.InvokeMethod,
+                                                   Nothing,
+                                                   Nothing,
+                                                   New Object() {icon})
+            Dim priority As Object =
+                    _connector.GetType("Growl.Connector.Priority").InvokeMember(
+                        "Normal", BindingFlags.GetField, Nothing, Nothing, Nothing)
+            n = _connector.GetType("Growl.Connector.Notification").InvokeMember(
                     "Notification",
                     BindingFlags.CreateInstance,
                     Nothing,
@@ -220,7 +229,23 @@ Public Class GrowlHelper
                                   notificationName,
                                   id,
                                   title,
-                                  text})
+                                  text,
+                                  res,
+                                  False,
+                                  priority,
+                                  "aaa"})
+        Else
+            n = _connector.GetType("Growl.Connector.Notification").InvokeMember(
+                    "Notification",
+                    BindingFlags.CreateInstance,
+                    Nothing,
+                    _connector,
+                    New Object() {_appName,
+                                    notificationName,
+                                    id,
+                                    title,
+                                    text})
+        End If
         '_targetConnector.GetType.InvokeMember("Notify", BindingFlags.InvokeMethod, Nothing, _targetConnector, New Object() {n})
         Dim cc As Object = _connector.GetType("Growl.Connector.CallbackContext").InvokeMember(
             Nothing, BindingFlags.CreateInstance, Nothing, _connector,
