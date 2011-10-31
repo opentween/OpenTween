@@ -1545,13 +1545,19 @@ Public Class TweenMain
         '新着通知
         If BalloonRequired() Then
             If notifyPosts IsNot Nothing AndAlso notifyPosts.Length > 0 Then
-                'Growlは一個ずつばらして通知
+                'Growlは一個ずつばらして通知。ただし、3ポスト以上あるときはまとめる
                 If SettingDialog.IsNotifyUseGrowl Then
-                    For Each post In notifyPosts
-                        Dim sb As New StringBuilder
-                        Dim reply As Boolean = False
-                        Dim dm As Boolean = False
+                    Dim sb As New StringBuilder
+                    Dim reply As Boolean = False
+                    Dim dm As Boolean = False
 
+                    For Each post In notifyPosts
+
+                        If Not notifyPosts.Count > 3 Then
+                            sb.Clear()
+                            reply = False
+                            dm = False
+                        End If
                         If post.IsReply AndAlso Not post.IsExcludeReply Then reply = True
                         If post.IsDm Then dm = True
                         If sb.Length > 0 Then sb.Append(System.Environment.NewLine)
@@ -1562,6 +1568,9 @@ Public Class TweenMain
                                 sb.Append(post.Nickname).Append(" : ")
                         End Select
                         sb.Append(post.TextFromApi)
+                        If notifyPosts.Count > 3 Then
+                            If notifyPosts.Last IsNot post Then Continue For
+                        End If
 
                         Dim title As New StringBuilder
                         Dim ntIcon As ToolTipIcon
