@@ -23,11 +23,10 @@
 ' the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 ' Boston, MA 02110-1301, USA.
 
-Imports System.Xml
-Imports System.Web
-Imports System.Text.RegularExpressions
 Imports System.ComponentModel
 Imports System.IO
+Imports System.Text.RegularExpressions
+Imports System.Web
 
 Public Class ShowUserInfo
 
@@ -106,7 +105,7 @@ Public Class ShowUserInfo
         Dim webtext As String
         Dim jumpto As String
         webtext = MyOwner.TwitterInstance.PreProcessUrl("<a href=""" + data + """>Dummy</a>")
-        webtext = ShortUrl.Resolve(webtext)
+        webtext = ShortUrl.Resolve(webtext, False)
         jumpto = Regex.Match(webtext, "<a href=""(?<url>.*?)""").Groups.Item("url").Value
         ToolTip1.SetToolTip(LinkLabelWeb, jumpto)
         LinkLabelWeb.Tag = jumpto
@@ -115,7 +114,7 @@ Public Class ShowUserInfo
 
     Private Function MakeDescriptionBrowserText(ByVal data As String) As String
         descriptionTxt = MyOwner.createDetailHtml( _
-                                MyOwner.TwitterInstance.CreateHtmlAnchor(data, atlist))
+                                MyOwner.TwitterInstance.CreateHtmlAnchor(data, atlist, Nothing))
         Return descriptionTxt
     End Function
 
@@ -152,7 +151,7 @@ Public Class ShowUserInfo
         RecentPostBrowser.Visible = False
         If _info.RecentPost IsNot Nothing Then
             recentPostTxt = MyOwner.createDetailHtml( _
-                MyOwner.TwitterInstance.CreateHtmlAnchor(_info.RecentPost, atlist) + _
+                MyOwner.TwitterInstance.CreateHtmlAnchor(_info.RecentPost, atlist, userInfo.Status.Entities, Nothing) + _
                  " Posted at " + _info.PostCreatedAt.ToString + _
                  " via " + _info.PostSource)
         End If

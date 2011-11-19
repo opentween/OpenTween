@@ -35,7 +35,8 @@ Public Class nicoms
         "nicovideo.jp/watch/", _
         "seiga.nicovideo.jp/bbs/", _
         "www.niconicommons.jp/material/", _
-        "niconicommons.jp/material/"}
+        "niconicommons.jp/material/", _
+        "news.nicovideo.jp/watch/"}
 
     Public Shared Function Shorten(ByVal url As String) As String
         '®Œ`ihttp(s)://‚ğíœj

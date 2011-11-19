@@ -1,9 +1,9 @@
-ÔªøOption Strict On
+Option Strict On
 <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class TweenMain
     Inherits System.Windows.Forms.Form
 
-    '„Éï„Ç©„Éº„É†„Åå„Ç≥„É≥„Éù„Éº„Éç„É≥„Éà„ÅÆ‰∏ÄË¶ß„Çí„ÇØ„É™„Éº„É≥„Ç¢„ÉÉ„Éó„Åô„Çã„Åü„ÇÅ„Å´ dispose „Çí„Ç™„Éº„Éê„Éº„É©„Ç§„Éâ„Åó„Åæ„Åô„ÄÇ
+    'ÉtÉHÅ[ÉÄÇ™ÉRÉìÉ|Å[ÉlÉìÉgÇÃàÍóóÇÉNÉäÅ[ÉìÉAÉbÉvÇ∑ÇÈÇΩÇﬂÇ… dispose ÇÉIÅ[ÉoÅ[ÉâÉCÉhÇµÇ‹Ç∑ÅB
     <System.Diagnostics.DebuggerNonUserCode()> _
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
@@ -15,12 +15,12 @@ Partial Class TweenMain
         End Try
     End Sub
 
-    'Windows „Éï„Ç©„Éº„É† „Éá„Ç∂„Ç§„Éä„ÅßÂøÖË¶Å„Åß„Åô„ÄÇ
+    'Windows ÉtÉHÅ[ÉÄ ÉfÉUÉCÉiÇ≈ïKóvÇ≈Ç∑ÅB
     Private components As System.ComponentModel.IContainer
 
-    '„É°„É¢: ‰ª•‰∏ã„ÅÆ„Éó„É≠„Ç∑„Éº„Ç∏„É£„ÅØ Windows „Éï„Ç©„Éº„É† „Éá„Ç∂„Ç§„Éä„ÅßÂøÖË¶Å„Åß„Åô„ÄÇ
-    'Windows „Éï„Ç©„Éº„É† „Éá„Ç∂„Ç§„Éä„Çí‰ΩøÁî®„Åó„Å¶Â§âÊõ¥„Åß„Åç„Åæ„Åô„ÄÇ  
-    '„Ç≥„Éº„Éâ „Ç®„Éá„Ç£„Çø„Çí‰Ωø„Å£„Å¶Â§âÊõ¥„Åó„Å™„ÅÑ„Åß„Åè„Å†„Åï„ÅÑ„ÄÇ
+    'ÉÅÉÇ: à»â∫ÇÃÉvÉçÉVÅ[ÉWÉÉÇÕ Windows ÉtÉHÅ[ÉÄ ÉfÉUÉCÉiÇ≈ïKóvÇ≈Ç∑ÅB
+    'Windows ÉtÉHÅ[ÉÄ ÉfÉUÉCÉiÇégópÇµÇƒïœçXÇ≈Ç´Ç‹Ç∑ÅB  
+    'ÉRÅ[Éh ÉGÉfÉBÉ^ÇégÇ¡ÇƒïœçXÇµÇ»Ç¢Ç≈Ç≠ÇæÇ≥Ç¢ÅB
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
@@ -43,6 +43,7 @@ Partial Class TweenMain
         Me.ToolStripSeparator8 = New System.Windows.Forms.ToolStripSeparator()
         Me.HashToggleMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HashManageMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SplitContainer4 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.TimelinePanel = New System.Windows.Forms.Panel()
         Me.ListTab = New System.Windows.Forms.TabControl()
@@ -117,6 +118,9 @@ Partial Class TweenMain
         Me.TranslationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DateTimeLabel = New System.Windows.Forms.Label()
         Me.SourceLinkLabel = New System.Windows.Forms.LinkLabel()
+        Me.ContextMenuSource = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.SourceCopyMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SourceUrlCopyMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StatusText = New System.Windows.Forms.TextBox()
         Me.lblLen = New System.Windows.Forms.Label()
         Me.PostButton = New System.Windows.Forms.Button()
@@ -131,6 +135,8 @@ Partial Class TweenMain
         Me.NotifyFileMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PlaySoundFileMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.LockListFileMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator43 = New System.Windows.Forms.ToolStripSeparator()
+        Me.StopRefreshAllMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator24 = New System.Windows.Forms.ToolStripSeparator()
         Me.TweenRestartMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.EndFileMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -300,14 +306,16 @@ Partial Class TweenMain
         Me.TimerRefreshIcon = New System.Windows.Forms.Timer(Me.components)
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.StopRefreshAllMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripSeparator43 = New System.Windows.Forms.ToolStripSeparator()
+        Me.PostStateImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.ContextMenuPostMode.SuspendLayout()
+        CType(Me.SplitContainer4, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer4.Panel1.SuspendLayout()
+        Me.SplitContainer4.SuspendLayout()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -329,6 +337,7 @@ Partial Class TweenMain
         CType(Me.UserPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ContextMenuUserPicture.SuspendLayout()
         Me.ContextMenuPostBrowser.SuspendLayout()
+        Me.ContextMenuSource.SuspendLayout()
         CType(Me.PreviewPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip1.SuspendLayout()
         Me.ContextMenuOperate.SuspendLayout()
@@ -344,7 +353,7 @@ Partial Class TweenMain
         '
         'ToolStripContainer1.ContentPanel
         '
-        Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.SplitContainer1)
+        Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.SplitContainer4)
         resources.ApplyResources(Me.ToolStripContainer1.ContentPanel, "ToolStripContainer1.ContentPanel")
         resources.ApplyResources(Me.ToolStripContainer1, "ToolStripContainer1")
         Me.ToolStripContainer1.LeftToolStripPanelVisible = False
@@ -361,6 +370,7 @@ Partial Class TweenMain
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.StatusLabelUrl, Me.StatusLabel, Me.ToolStripStatusLabel1, Me.HashStripSplitButton})
         Me.StatusStrip1.Name = "StatusStrip1"
         Me.StatusStrip1.ShowItemToolTips = True
+        Me.StatusStrip1.SizingGrip = False
         '
         'StatusLabelUrl
         '
@@ -466,6 +476,18 @@ Partial Class TweenMain
         '
         Me.HashManageMenuItem.Name = "HashManageMenuItem"
         resources.ApplyResources(Me.HashManageMenuItem, "HashManageMenuItem")
+        '
+        'SplitContainer4
+        '
+        Me.SplitContainer4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        resources.ApplyResources(Me.SplitContainer4, "SplitContainer4")
+        Me.SplitContainer4.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.SplitContainer4.Name = "SplitContainer4"
+        '
+        'SplitContainer4.Panel1
+        '
+        Me.SplitContainer4.Panel1.Controls.Add(Me.SplitContainer1)
+        Me.SplitContainer4.TabStop = False
         '
         'SplitContainer1
         '
@@ -925,9 +947,26 @@ Partial Class TweenMain
         '
         resources.ApplyResources(Me.SourceLinkLabel, "SourceLinkLabel")
         Me.SourceLinkLabel.AutoEllipsis = True
+        Me.SourceLinkLabel.ContextMenuStrip = Me.ContextMenuSource
         Me.SourceLinkLabel.MaximumSize = New System.Drawing.Size(130, 0)
         Me.SourceLinkLabel.Name = "SourceLinkLabel"
         Me.SourceLinkLabel.TabStop = True
+        '
+        'ContextMenuSource
+        '
+        Me.ContextMenuSource.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SourceCopyMenuItem, Me.SourceUrlCopyMenuItem})
+        Me.ContextMenuSource.Name = "ContextMenuSource"
+        resources.ApplyResources(Me.ContextMenuSource, "ContextMenuSource")
+        '
+        'SourceCopyMenuItem
+        '
+        Me.SourceCopyMenuItem.Name = "SourceCopyMenuItem"
+        resources.ApplyResources(Me.SourceCopyMenuItem, "SourceCopyMenuItem")
+        '
+        'SourceUrlCopyMenuItem
+        '
+        Me.SourceUrlCopyMenuItem.Name = "SourceUrlCopyMenuItem"
+        resources.ApplyResources(Me.SourceUrlCopyMenuItem, "SourceUrlCopyMenuItem")
         '
         'StatusText
         '
@@ -1009,6 +1048,17 @@ Partial Class TweenMain
         Me.LockListFileMenuItem.CheckOnClick = True
         Me.LockListFileMenuItem.Name = "LockListFileMenuItem"
         resources.ApplyResources(Me.LockListFileMenuItem, "LockListFileMenuItem")
+        '
+        'ToolStripSeparator43
+        '
+        Me.ToolStripSeparator43.Name = "ToolStripSeparator43"
+        resources.ApplyResources(Me.ToolStripSeparator43, "ToolStripSeparator43")
+        '
+        'StopRefreshAllMenuItem
+        '
+        Me.StopRefreshAllMenuItem.CheckOnClick = True
+        Me.StopRefreshAllMenuItem.Name = "StopRefreshAllMenuItem"
+        resources.ApplyResources(Me.StopRefreshAllMenuItem, "StopRefreshAllMenuItem")
         '
         'ToolStripSeparator24
         '
@@ -1875,16 +1925,25 @@ Partial Class TweenMain
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'StopRefreshAllMenuItem
+        'PostStateImageList
         '
-        Me.StopRefreshAllMenuItem.CheckOnClick = True
-        Me.StopRefreshAllMenuItem.Name = "StopRefreshAllMenuItem"
-        resources.ApplyResources(Me.StopRefreshAllMenuItem, "StopRefreshAllMenuItem")
-        '
-        'ToolStripSeparator43
-        '
-        Me.ToolStripSeparator43.Name = "ToolStripSeparator43"
-        resources.ApplyResources(Me.ToolStripSeparator43, "ToolStripSeparator43")
+        Me.PostStateImageList.ImageStream = CType(resources.GetObject("PostStateImageList.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.PostStateImageList.TransparentColor = System.Drawing.Color.Transparent
+        Me.PostStateImageList.Images.SetKeyName(0, "S0.ico")
+        Me.PostStateImageList.Images.SetKeyName(1, "S1.ico")
+        Me.PostStateImageList.Images.SetKeyName(2, "S2.ico")
+        Me.PostStateImageList.Images.SetKeyName(3, "S3.ico")
+        Me.PostStateImageList.Images.SetKeyName(4, "S4.ico")
+        Me.PostStateImageList.Images.SetKeyName(5, "S5.ico")
+        Me.PostStateImageList.Images.SetKeyName(6, "S6.ico")
+        Me.PostStateImageList.Images.SetKeyName(7, "S7.ico")
+        Me.PostStateImageList.Images.SetKeyName(8, "S8.ico")
+        Me.PostStateImageList.Images.SetKeyName(9, "S9.ico")
+        Me.PostStateImageList.Images.SetKeyName(10, "S10.ico")
+        Me.PostStateImageList.Images.SetKeyName(11, "S11.ico")
+        Me.PostStateImageList.Images.SetKeyName(12, "S12.ico")
+        Me.PostStateImageList.Images.SetKeyName(13, "S13.ico")
+        Me.PostStateImageList.Images.SetKeyName(14, "S14.ico")
         '
         'TweenMain
         '
@@ -1904,6 +1963,9 @@ Partial Class TweenMain
         Me.StatusStrip1.ResumeLayout(False)
         Me.StatusStrip1.PerformLayout()
         Me.ContextMenuPostMode.ResumeLayout(False)
+        Me.SplitContainer4.Panel1.ResumeLayout(False)
+        CType(Me.SplitContainer4, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitContainer4.ResumeLayout(False)
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1928,6 +1990,7 @@ Partial Class TweenMain
         CType(Me.UserPicture, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ContextMenuUserPicture.ResumeLayout(False)
         Me.ContextMenuPostBrowser.ResumeLayout(False)
+        Me.ContextMenuSource.ResumeLayout(False)
         CType(Me.PreviewPicture, System.ComponentModel.ISupportInitialize).EndInit()
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
@@ -2213,5 +2276,10 @@ Partial Class TweenMain
     Friend WithEvents StopRefreshAllMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents OpenUserSpecifiedUrlMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents OpenUserSpecifiedUrlMenuItem2 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PostStateImageList As System.Windows.Forms.ImageList
+    Friend WithEvents SplitContainer4 As System.Windows.Forms.SplitContainer
+    Friend WithEvents ContextMenuSource As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents SourceCopyMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SourceUrlCopyMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

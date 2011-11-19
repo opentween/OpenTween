@@ -23,18 +23,17 @@
 ' the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 ' Boston, MA 02110-1301, USA.
 
-Imports System.Collections.Generic
-Imports System.Collections.ObjectModel
-Imports System.Linq.Expressions
-Imports Tween.TweenCustomControl
-Imports System.Text.RegularExpressions
-Imports System.Web.HttpUtility
-Imports System.Text
 Imports System.Linq
-Imports System.Linq.Expressions.DynamicExpression
+Imports System.Linq.Expressions
+Imports System.Text
+Imports System.Text.RegularExpressions
 
 Public NotInheritable Class PostClass
     Implements ICloneable
+    Public Class StatusGeo
+        Public Property Lng As Double
+        Public Property Lat As Double
+    End Class
     Private _Nick As String
     Private _textFromApi As String
     Private _ImageUrl As String
@@ -56,7 +55,7 @@ Public NotInheritable Class PostClass
     Private _ReplyToList As New List(Of String)
     Private _IsMe As Boolean
     Private _IsDm As Boolean
-    Private _statuses As Statuses = Statuses.None
+    Private _states As States = States.None
     Private _UserId As Long
     Private _FilterHit As Boolean
     Private _RetweetedBy As String = ""
@@ -64,16 +63,18 @@ Public NotInheritable Class PostClass
     Private _SearchTabName As String = ""
     Private _IsDeleted As Boolean = False
     Private _InReplyToUserId As Long = 0
+    Private _postGeo As New StatusGeo
     Public Property RetweetedCount As Integer = 0
     Public Property RetweetedByUserId As Long = 0
+    Public Property Media As New Dictionary(Of String, String)
 
     <FlagsAttribute()> _
-    Private Enum Statuses
+    Private Enum States
         None = 0
         Protect = 1
         Mark = 2
-        Read = 4
-        Reply = 8
+        Reply = 4
+        Geo = 8
     End Enum
 
     Public Sub New(ByVal Nickname As String, _
@@ -100,7 +101,8 @@ Public NotInheritable Class PostClass
             ByVal userId As Long, _
             ByVal FilterHit As Boolean, _
             ByVal RetweetedBy As String, _
-            ByVal RetweetedId As Long)
+            ByVal RetweetedId As Long, _
+            ByVal Geo As StatusGeo)
         _Nick = Nickname
         _textFromApi = textFromApi
         _ImageUrl = ImageUrl
@@ -108,7 +110,7 @@ Public NotInheritable Class PostClass
         _createdAt = createdAt
         _statusId = statusId
         _IsFav = IsFav
-        _text = Text
+        _text = text
         _IsRead = IsRead
         _IsReply = IsReply
         _IsExcludeReply = IsExcludeReply
@@ -126,6 +128,7 @@ Public NotInheritable Class PostClass
         _FilterHit = FilterHit
         _RetweetedBy = RetweetedBy
         _RetweetedId = RetweetedId
+        _PostGeo = Geo
     End Sub
 
     Public Sub New()
@@ -207,11 +210,6 @@ Public NotInheritable Class PostClass
             Return _IsRead
         End Get
         Set(ByVal value As Boolean)
-            If value Then
-                _statuses = _statuses Or Statuses.Read
-            Else
-                _statuses = _statuses And Not Statuses.Read
-            End If
             _IsRead = value
         End Set
     End Property
@@ -237,9 +235,9 @@ Public NotInheritable Class PostClass
         End Get
         Set(ByVal value As Boolean)
             If value Then
-                _statuses = _statuses Or Statuses.Protect
+                _states = _states Or States.Protect
             Else
-                _statuses = _statuses And Not Statuses.Protect
+                _states = _states And Not States.Protect
             End If
             _IsProtect = value
         End Set
@@ -258,9 +256,9 @@ Public NotInheritable Class PostClass
         End Get
         Set(ByVal value As Boolean)
             If value Then
-                _statuses = _statuses Or Statuses.Mark
+                _states = _states Or States.Mark
             Else
-                _statuses = _statuses And Not Statuses.Mark
+                _states = _states And Not States.Mark
             End If
             _IsMark = value
         End Set
@@ -278,6 +276,11 @@ Public NotInheritable Class PostClass
             Return _InReplyToStatusId
         End Get
         Set(ByVal value As Long)
+            If value > 0 Then
+                _states = _states Or States.Reply
+            Else
+                _states = _states And Not States.Reply
+            End If
             _InReplyToStatusId = value
         End Set
     End Property
@@ -386,12 +389,33 @@ Public NotInheritable Class PostClass
                 Me.InReplyToUserId = 0
                 Me.IsReply = False
                 Me.ReplyToList = New List(Of String)
+                Me._states = States.None
             End If
             _IsDeleted = value
         End Set
     End Property
 
     Public Property FavoritedCount As Integer
+
+    Public Property PostGeo As StatusGeo
+        Get
+            Return _postGeo
+        End Get
+        Set(ByVal value As StatusGeo)
+            If value IsNot Nothing AndAlso (value.Lat <> 0 OrElse value.Lng <> 0) Then
+                _states = _states Or States.Geo
+            Else
+                _states = _states And Not States.Geo
+            End If
+            _postGeo = value
+        End Set
+    End Property
+
+    Public ReadOnly Property StateIndex As Integer
+        Get
+            Return CType(_states, Integer) - 1
+        End Get
+    End Property
 
     Public Function Copy() As PostClass
         Dim post As PostClass = DirectCast(Me.Clone, PostClass)
@@ -452,6 +476,14 @@ Public NotInheritable Class TabInformations
     Private _deletedIds As New List(Of Long)
     Private _retweets As New Dictionary(Of Long, PostClass)
     Private _removedTab As New Stack(Of TabClass)
+    Private _scrubGeo As New List(Of ScrubGeoInfo)
+
+    Private Class ScrubGeoInfo
+        Public UserId As Long
+        Public UpToStatusId As Long
+    End Class
+
+    Public BlockIds As New List(Of Long)
 
     '発言の追加
     'AddPost(複数回) -> DistributePosts          -> SubmitUpdate
@@ -675,6 +707,34 @@ Public NotInheritable Class TabInformations
         End SyncLock
     End Sub
 
+    Public Sub ScrubGeoReserve(ByVal id As Long, ByVal upToStatusId As Long)
+        SyncLock LockObj
+            'Me._scrubGeo.Add(New ScrubGeoInfo With {.UserId = id, .UpToStatusId = upToStatusId})
+            Me.ScrubGeo(id, upToStatusId)
+        End SyncLock
+    End Sub
+
+    Private Sub ScrubGeo(ByVal userId As Long, ByVal upToStatusId As Long)
+        SyncLock LockObj
+            Dim userPosts = From post In Me._statuses.Values
+                            Where post.UserId = userId AndAlso post.UserId <= upToStatusId
+                            Select post
+
+            For Each p In userPosts
+                p.PostGeo = New PostClass.StatusGeo
+            Next
+
+            Dim userPosts2 = From tb In Me.GetTabsInnerStorageType
+                             From post In tb.Posts.Values
+                             Where post.UserId = userId AndAlso post.UserId <= upToStatusId
+                             Select post
+
+            For Each p In userPosts2
+                p.PostGeo = New PostClass.StatusGeo
+            Next
+        End SyncLock
+    End Sub
+
     Public Sub RemovePostReserve(ByVal id As Long)
         SyncLock LockObj
             Me._deletedIds.Add(id)
@@ -685,32 +745,32 @@ Public NotInheritable Class TabInformations
     Public Sub RemovePost(ByVal Id As Long)
         SyncLock LockObj
             Dim post As PostClass = Nothing
-            If _statuses.ContainsKey(Id) Then
-                post = _statuses(Id)
-                '各タブから該当ID削除
-                For Each key As String In _tabs.Keys
-                    Dim tab As TabClass = _tabs(key)
-                    If tab.Contains(Id) Then
-                        If Not tab.IsInnerStorageTabType Then
-                            If tab.UnreadManage AndAlso Not post.IsRead Then    '未読管理
-                                SyncLock LockUnread
-                                    tab.UnreadCount -= 1
-                                    Me.SetNextUnreadId(Id, tab)
-                                End SyncLock
-                            End If
-                        Else '未読数がずれる可能性があるためtab.Postsの未読も確認する
-                            If tab.UnreadManage AndAlso Not tab.Posts(Id).IsRead Then    '未読管理
-                                SyncLock LockUnread
-                                    tab.UnreadCount -= 1
-                                    Me.SetNextUnreadId(Id, tab)
-                                End SyncLock
-                            End If
+            'If _statuses.ContainsKey(Id) Then
+            '各タブから該当ID削除
+            For Each key As String In _tabs.Keys
+                Dim tab As TabClass = _tabs(key)
+                If tab.Contains(Id) Then
+                    If Not tab.IsInnerStorageTabType Then
+                        post = _statuses(Id)
+                        If tab.UnreadManage AndAlso Not post.IsRead Then    '未読管理
+                            SyncLock LockUnread
+                                tab.UnreadCount -= 1
+                                Me.SetNextUnreadId(Id, tab)
+                            End SyncLock
                         End If
-                        tab.Remove(Id)
+                    Else '未読数がずれる可能性があるためtab.Postsの未読も確認する
+                        If tab.UnreadManage AndAlso Not tab.Posts(Id).IsRead Then    '未読管理
+                            SyncLock LockUnread
+                                tab.UnreadCount -= 1
+                                Me.SetNextUnreadId(Id, tab)
+                            End SyncLock
+                        End If
                     End If
-                Next
-                _statuses.Remove(Id)
-            End If
+                    tab.Remove(Id)
+                End If
+            Next
+            If _statuses.ContainsKey(Id) Then _statuses.Remove(Id)
+            'End If
         End SyncLock
     End Sub
 
@@ -843,21 +903,21 @@ Public NotInheritable Class TabInformations
             toIdx = 0
             stp = -1
         End If
+
+        Dim posts As Dictionary(Of Long, PostClass)
         If Not Tab.IsInnerStorageTabType Then
-            For i As Integer = StartIdx To toIdx Step stp
-                If Not _statuses(Tab.GetId(i)).IsRead Then
-                    Tab.OldestUnreadId = Tab.GetId(i)
-                    Exit For
-                End If
-            Next
+            posts = _statuses
         Else
-            For i As Integer = StartIdx To toIdx Step stp
-                If Not Tab.Posts(Tab.GetId(i)).IsRead Then
-                    Tab.OldestUnreadId = Tab.GetId(i)
-                    Exit For
-                End If
-            Next
+            posts = Tab.Posts
         End If
+
+        For i As Integer = StartIdx To toIdx Step stp
+            Dim id As Long = Tab.GetId(i)
+            If id > -1 AndAlso Not posts(id).IsRead Then
+                Tab.OldestUnreadId = id
+                Exit For
+            End If
+        Next
     End Sub
 
     Public Function DistributePosts() As Integer
@@ -1037,6 +1097,7 @@ Public NotInheritable Class TabInformations
                             Not Item.IsMe AndAlso
                             Me._retweets.ContainsKey(Item.RetweetedId) AndAlso
                             Me._retweets(Item.RetweetedId).RetweetedCount > 0 Then Exit Sub
+                        If BlockIds.Contains(Item.UserId) Then Exit Sub
                         _statuses.Add(Item.StatusId, Item)
                     End If
                     If Item.RetweetedId > 0 Then
@@ -1106,7 +1167,8 @@ Public NotInheritable Class TabInformations
                         item.UserId, _
                         item.FilterHit, _
                         "", _
-                        0 _
+                        0, _
+                        item.PostGeo _
                     ) _
                 )
         _retweets(item.RetweetedId).RetweetedCount += 1
@@ -1885,18 +1947,24 @@ Public NotInheritable Class TabClass
         '全フィルタ評価（優先順位あり）
         SyncLock Me._lockObj
             For Each ft As FiltersClass In _filters
-                Select Case ft.IsHit(post)   'フィルタクラスでヒット判定
-                    Case HITRESULT.None
-                    Case HITRESULT.Copy
-                        If rslt <> HITRESULT.CopyAndMark Then rslt = HITRESULT.Copy
-                    Case HITRESULT.CopyAndMark
-                        rslt = HITRESULT.CopyAndMark
-                    Case HITRESULT.Move
-                        rslt = HITRESULT.Move
-                    Case HITRESULT.Exclude
-                        rslt = HITRESULT.Exclude
-                        Exit For
-                End Select
+                Try
+                    Select Case ft.IsHit(post)   'フィルタクラスでヒット判定
+                        Case HITRESULT.None
+                        Case HITRESULT.Copy
+                            If rslt <> HITRESULT.CopyAndMark Then rslt = HITRESULT.Copy
+                        Case HITRESULT.CopyAndMark
+                            rslt = HITRESULT.CopyAndMark
+                        Case HITRESULT.Move
+                            rslt = HITRESULT.Move
+                        Case HITRESULT.Exclude
+                            rslt = HITRESULT.Exclude
+                            Exit For
+                    End Select
+                Catch ex As NullReferenceException
+                    'IsHitでNullRef出る場合あり。暫定対応
+                    TraceOut("IsHitでNullRef: " + ft.ToString)
+                    rslt = HITRESULT.None
+                End Try
             Next
         End SyncLock
 

@@ -52,7 +52,7 @@ Public Class DialogAsShieldIcon
         PictureBox1.Image = System.Drawing.SystemIcons.Question.ToBitmap()
     End Sub
 
-    Public Shadows Function Show(ByVal text As String, Optional ByVal detail As String = "", Optional ByVal caption As String = "DialogAsShieldIcon", _
+    Public Shadows Function ShowDialog(ByVal text As String, Optional ByVal detail As String = "", Optional ByVal caption As String = "DialogAsShieldIcon", _
                                  Optional ByVal Buttons As Windows.Forms.MessageBoxButtons = MessageBoxButtons.OKCancel, _
                                  Optional ByVal icon As Windows.Forms.MessageBoxIcon = MessageBoxIcon.Question _
                                 ) As System.Windows.Forms.DialogResult
@@ -72,7 +72,7 @@ Public Class DialogAsShieldIcon
         End Select
         ' とりあえずアイコンは処理しない（互換性のためパラメータだけ指定できる）
 
-        MyBase.Show()
+        MyBase.ShowDialog(Me.Owner)
         Do While Me.dResult = Windows.Forms.DialogResult.None
             System.Threading.Thread.Sleep(200)
             Application.DoEvents()

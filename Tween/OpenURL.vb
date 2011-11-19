@@ -34,7 +34,7 @@ Public Class OpenURL
         If UrlList.SelectedItems.Count = 0 Then
             Me.DialogResult = Windows.Forms.DialogResult.Cancel
         Else
-            _selUrl = UrlList.SelectedItem.ToString
+            _selUrl = UrlList.SelectedItem.ToString()
             Me.DialogResult = System.Windows.Forms.DialogResult.OK
         End If
         Me.Close()
@@ -104,10 +104,12 @@ End Class
 Public Class OpenUrlItem
     Private _url As String
     Private _linkText As String
+    Private _href As String
 
-    Public Sub New(ByVal linkText As String, ByVal url As String)
+    Public Sub New(ByVal linkText As String, ByVal url As String, ByVal href As String)
         Me._linkText = linkText
         Me._url = url
+        Me._href = href
     End Sub
 
     Public ReadOnly Property Text() As String
@@ -130,6 +132,12 @@ Public Class OpenUrlItem
     End Property
 
     Public Overrides Function ToString() As String
-        Return Me._url
+        Return Me._href
     End Function
+
+    Public ReadOnly Property Href As String
+        Get
+            Return Me._href
+        End Get
+    End Property
 End Class

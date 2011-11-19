@@ -112,16 +112,16 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ExceptionMessage" xml:space="preserve">
-    <value>アップデート中にエラーが発生しました。 TweenUp.logにエラーを出力します。</value>
+    <value>Exception was occured in updateing proccess. Error log is TweenUp.log.</value>
   </data>
   <data name="ExceptionTitle" xml:space="preserve">
-    <value>アップデートエラー発生</value>
+    <value>Update Error</value>
   </data>
   <data name="FilenameDll" xml:space="preserve">
     <value>Tween.XmlSerializers.dll</value>
@@ -142,37 +142,37 @@
     <value>Tween.exe</value>
   </data>
   <data name="FormTitle" xml:space="preserve">
-    <value>Tweenアップデート</value>
+    <value>Tween Update</value>
   </data>
   <data name="PleaseWait" xml:space="preserve">
-    <value>このまましばらくお待ちください。</value>
+    <value>Please wait for a while...</value>
   </data>
   <data name="ProgressBackup" xml:space="preserve">
-    <value>設定ファイルをバックアップしています。</value>
+    <value>Backup setting files...</value>
   </data>
   <data name="ProgressCopying" xml:space="preserve">
-    <value>新しいファイルをコピーしています。</value>
+    <value>Copying new files...</value>
   </data>
   <data name="ProgressDetectMultipleInstance" xml:space="preserve">
-    <value>複数起動しているTweenを終了させます。</value>
+    <value>Attempting force termination Tween instances...</value>
   </data>
   <data name="ProgressDetectTweenExit" xml:space="preserve">
-    <value>Tweenの終了を検出しました。</value>
+    <value>Detected Tween termination...</value>
   </data>
   <data name="ProgressExecuteTween" xml:space="preserve">
-    <value>新しいTweenを起動しています。</value>
+    <value>Executing new Tween...</value>
   </data>
   <data name="ProgressProcessKill" xml:space="preserve">
-    <value>Tweenが終了しません。強制終了を試みます。</value>
+    <value>Attempting force termination Tween instance...</value>
   </data>
   <data name="ProgressWaitForTweenExit" xml:space="preserve">
-    <value>Tweenの終了を待っています。</value>
+    <value>Waiting Tween termination...</value>
   </data>
   <data name="TimeOutException" xml:space="preserve">
-    <value>Tweenを終了できないようです。タスクマネージャのプロセスタブからTween.exeを強制終了させるか、Windowsを再起動してみてください。</value>
+    <value>Failed to terminate Tween. Please try kill Tween process in TaskManager, or Reboot this computer.</value>
   </data>
   <data name="TweenUpdating" xml:space="preserve">
-    <value>Tweenを更新しています・・・</value>
+    <value>Updating Tween...</value>
   </data>
   <data name="WaitProcessName" xml:space="preserve">
     <value>Tween</value>

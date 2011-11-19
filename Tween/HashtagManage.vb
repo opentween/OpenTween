@@ -23,7 +23,6 @@
 ' the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 ' Boston, MA 02110-1301, USA.
 
-Imports System.Windows.Forms
 
 Public Class HashtagManage
     '入力補助画面
@@ -32,6 +31,7 @@ Public Class HashtagManage
     Private _useHash As String = ""
     Private _isPermanent As Boolean = False
     Private _isHead As Boolean = False
+    Private _isNotAddToAtReply As Boolean = True
     '編集モード
     Private _isAdd As Boolean = False
 
@@ -157,7 +157,7 @@ Public Class HashtagManage
         Me.ChangeMode(False)
     End Sub
 
-    Public Sub New(ByVal hashSuplForm As AtIdSupplement, ByVal history() As String, ByVal permanentHash As String, ByVal IsPermanent As Boolean, ByVal IsHead As Boolean)
+    Public Sub New(ByVal hashSuplForm As AtIdSupplement, ByVal history() As String, ByVal permanentHash As String, ByVal IsPermanent As Boolean, ByVal IsHead As Boolean, ByVal IsNotAddToAtReply As Boolean)
 
         ' この呼び出しは、Windows フォーム デザイナで必要です。
         InitializeComponent()
@@ -169,6 +169,7 @@ Public Class HashtagManage
         _useHash = permanentHash
         _isPermanent = IsPermanent
         _isHead = IsHead
+        _isNotAddToAtReply = IsNotAddToAtReply
     End Sub
 
     Private Sub UseHashText_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles UseHashText.KeyPress
@@ -241,6 +242,12 @@ Public Class HashtagManage
     Public ReadOnly Property IsHead() As Boolean
         Get
             Return _isHead
+        End Get
+    End Property
+
+    Public ReadOnly Property IsNotAddToAtReply() As Boolean
+        Get
+            Return _isNotAddToAtReply
         End Get
     End Property
 
@@ -352,5 +359,9 @@ Public Class HashtagManage
                 Me.Cancel_Button_Click(Nothing, Nothing)
             End If
         End If
+    End Sub
+
+    Private Sub CheckNotAddToAtReply_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles CheckNotAddToAtReply.CheckedChanged
+        _isNotAddToAtReply = CheckNotAddToAtReply.Checked
     End Sub
 End Class

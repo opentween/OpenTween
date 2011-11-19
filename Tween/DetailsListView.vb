@@ -23,11 +23,8 @@
 ' the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 ' Boston, MA 02110-1301, USA.
 
-Imports System
-Imports System.Drawing
-Imports System.Runtime.InteropServices
-Imports System.Windows.Forms
 Imports System.Diagnostics
+Imports System.Runtime.InteropServices
 
 Namespace TweenCustomControl
 

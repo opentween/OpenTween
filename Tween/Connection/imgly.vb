@@ -42,8 +42,6 @@ Public Class imgly
     '''</summary>
     Private Const ConsumerSecretKey As String = "M0IMsbl2722iWa+CGPVcNeQmE+TFpJk8B/KW9UUTk3eLOl9Ij005r52JNxVukTzM"
 
-    Private Const PostMethod As String = "POST"
-    Private Const GetMethod As String = "GET"
     Private pictureExt() As String = {".jpg", _
                                     ".jpeg", _
                                     ".gif", _
@@ -54,14 +52,17 @@ Public Class imgly
     Private tw As Twitter
 
     Public Function Upload(ByRef filePath As String,
-                           ByRef message As String) As String Implements IMultimediaShareService.Upload
+                           ByRef message As String,
+                           ByVal reply_to As Long) As String Implements IMultimediaShareService.Upload
+        If String.IsNullOrEmpty(filePath) Then Return "Err:File isn't specified."
+        If String.IsNullOrEmpty(message) Then message = ""
         Dim mediaFile As FileInfo
         Try
             mediaFile = New FileInfo(filePath)
         Catch ex As NotSupportedException
             Return "Err:" + ex.Message
         End Try
-        If Not mediaFile.Exists Then Return "Err:File isn't exists."
+        If mediaFile Is Nothing OrElse Not mediaFile.Exists Then Return "Err:File isn't exists."
 
         Dim content As String = ""
         Dim ret As HttpStatusCode
@@ -80,20 +81,24 @@ Public Class imgly
                 url = xd.SelectSingleNode("/image/url").InnerText
             Catch ex As XmlException
                 Return "Err:" + ex.Message
+            Catch ex As Exception
+                Return "Err:" + ex.Message
             End Try
         Else
             Return "Err:" + ret.ToString
         End If
         'アップロードまでは成功
         filePath = ""
+        If String.IsNullOrEmpty(url) Then url = ""
         'Twitterへの投稿
         '投稿メッセージの再構成
-        If message.Length + url.Length + 1 > 140 Then
-            message = message.Substring(0, 140 - url.Length - 1) + " " + url
+        If String.IsNullOrEmpty(message) Then message = ""
+        If message.Length + AppendSettingDialog.Instance.TwitterConfiguration.CharactersReservedPerMedia + 1 > 140 Then
+            message = message.Substring(0, 140 - AppendSettingDialog.Instance.TwitterConfiguration.CharactersReservedPerMedia - 1) + " " + url
         Else
             message += " " + url
         End If
-        Return tw.PostStatus(message, 0)
+        Return tw.PostStatus(message, reply_to)
     End Function
 
     Private Function UploadFile(ByVal mediaFile As FileInfo, _
@@ -149,10 +154,14 @@ Public Class imgly
         Return False
     End Function
 
+    Public Function Configuration(ByVal key As String, ByVal value As Object) As Boolean Implements IMultimediaShareService.Configuration
+        Return True
+    End Function
+
     Public Sub New(ByVal twitter As Twitter)
         MyBase.New(New Uri("http://api.twitter.com/"), _
                    New Uri("https://api.twitter.com/1/account/verify_credentials.json"))
         tw = twitter
-        Initialize(DecryptString(ConsumerKey), DecryptString(ConsumerSecretKey), tw.AccessToken, tw.AccessTokenSecret, "")
+        Initialize(DecryptString(ConsumerKey), DecryptString(ConsumerSecretKey), tw.AccessToken, tw.AccessTokenSecret, "", "")
     End Sub
 End Class

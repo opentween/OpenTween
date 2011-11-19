@@ -61,6 +61,7 @@
     <DebugSymbols>true</DebugSymbols>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
@@ -77,8 +78,7 @@
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
     <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
-    <DefineConstants>
-    </DefineConstants>
+    <DefineConstants>UA="False"</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -90,6 +90,8 @@
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <DefineConstants>UA="False"</DefineConstants>
   </PropertyGroup>
   <PropertyGroup>
     <OptionInfer>On</OptionInfer>
@@ -113,6 +115,9 @@
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdsBrowser.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ApiInformation.vb" />
     <Compile Include="AppendSettingDialog.Designer.vb">
       <DependentUpon>AppendSettingDialog.vb</DependentUpon>
@@ -127,10 +132,16 @@
     <Compile Include="AtIdSupplement.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="AuthBrowser.Designer.vb">
+      <DependentUpon>AuthBrowser.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AuthBrowser.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="bing.vb" />
     <Compile Include="Connection\HttpConnectionOAuthEcho.vb" />
     <Compile Include="Connection\HttpOAuthApiProxy.vb" />
     <Compile Include="Connection\HttpConnection.vb" />
-    <Compile Include="Connection\HttpConnectionBasic.vb" />
     <Compile Include="Connection\HttpConnectionOAuth.vb" />
     <Compile Include="Connection\HttpTwitter.vb" />
     <Compile Include="Connection\HttpVarious.vb" />
@@ -139,6 +150,7 @@
     <Compile Include="Connection\Plixi.vb" />
     <Compile Include="Connection\TwitPic.vb" />
     <Compile Include="Connection\imgly.vb" />
+    <Compile Include="Connection\TwitterPhoto.vb" />
     <Compile Include="Connection\yfrog.vb" />
     <Compile Include="DataModel.vb" />
     <Compile Include="DetailsListView.vb">
@@ -164,7 +176,9 @@
     <Compile Include="FormInfo.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Foursquare.vb" />
     <Compile Include="Google.vb" />
+    <Compile Include="Growl.vb" />
     <Compile Include="HashtagManage.Designer.vb">
       <DependentUpon>HashtagManage.vb</DependentUpon>
     </Compile>
@@ -193,6 +207,12 @@
     <Compile Include="ListManage.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="MessageForm.Designer.vb">
+      <DependentUpon>MessageForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MessageForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -215,6 +235,7 @@
     <Compile Include="MyLists.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="MySpecialPath.vb" />
     <Compile Include="nicoms.vb" />
     <Compile Include="OpenURL.Designer.vb">
       <DependentUpon>OpenURL.vb</DependentUpon>
@@ -279,6 +300,7 @@
     <Compile Include="TweenAboutBox.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="FavoriteQueue.vb" />
     <Compile Include="Twitter.vb" />
     <Compile Include="UserInfo.vb" />
     <Compile Include="WebBrowserController.vb" />
@@ -287,6 +309,7 @@
   <ItemGroup>
     <EmbeddedResource Include="AppendSettingDialog.en.resx">
       <DependentUpon>AppendSettingDialog.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="AppendSettingDialog.resx">
       <DependentUpon>AppendSettingDialog.vb</DependentUpon>
@@ -307,11 +330,15 @@
       <DependentUpon>AtIdSupplement.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="AuthBrowser.resx">
+      <DependentUpon>AuthBrowser.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EventViewerDialog.en.resx">
       <DependentUpon>EventViewerDialog.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EventViewerDialog.resx">
       <DependentUpon>EventViewerDialog.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="DialogAsShieldIcon.resx">
       <DependentUpon>DialogAsShieldIcon.vb</DependentUpon>
@@ -373,6 +400,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ListManage.zh-CHS.resx">
       <DependentUpon>ListManage.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MessageForm.resx">
+      <DependentUpon>MessageForm.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.en.resx">
       <SubType>Designer</SubType>
@@ -502,6 +532,7 @@
   <ItemGroup>
     <Content Include="DynamicQuery.txt" />
     <Content Include="Resources\1o.ico" />
+    <None Include="Resources\ads.txt" />
     <Content Include="tips.txt" />
     <None Include="Resources\5g.ico" />
     <Content Include="Resources\5o.ico" />

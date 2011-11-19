@@ -42,8 +42,6 @@ Public Class yfrog
     '''</summary>
     Private Const ConsumerSecretKey As String = "M0IMsbl2722iWa+CGPVcNeQmE+TFpJk8B/KW9UUTk3eLOl9Ij005r52JNxVukTzM"
 
-    Private Const PostMethod As String = "POST"
-    Private Const GetMethod As String = "GET"
     Private Const ApiKey As String = "03HJKOWY93b7d7b7a5fa015890f8259cf939e144"
     Private pictureExt() As String = {".jpg", _
                                     ".jpeg", _
@@ -55,7 +53,10 @@ Public Class yfrog
     Private tw As Twitter
 
     Public Function Upload(ByRef filePath As String,
-               ByRef message As String) As String Implements IMultimediaShareService.Upload
+                           ByRef message As String,
+                           ByVal reply_to As Long) As String Implements IMultimediaShareService.Upload
+        If String.IsNullOrEmpty(filePath) Then Return "Err:File isn't exists."
+        If String.IsNullOrEmpty(message) Then message = ""
         'FileInfo作成
         Dim mediaFile As FileInfo
         Try
@@ -63,7 +64,7 @@ Public Class yfrog
         Catch ex As NotSupportedException
             Return "Err:" + ex.Message
         End Try
-        If Not mediaFile.Exists Then Return "Err:File isn't exists."
+        If mediaFile Is Nothing OrElse Not mediaFile.Exists Then Return "Err:File isn't exists."
 
         Dim content As String = ""
         Dim ret As HttpStatusCode
@@ -82,17 +83,21 @@ Public Class yfrog
                 url = xd.SelectSingleNode("/rsp/mediaurl").InnerText
             Catch ex As XmlException
                 Return "Err:" + ex.Message
+            Catch ex As Exception
+                Return "Err:" + ex.Message
             End Try
         Else
             Return "Err:" + ret.ToString
         End If
 
+        If String.IsNullOrEmpty(url) Then url = ""
         'アップロードまでは成功
         filePath = ""
         'Twitterへの投稿
         '投稿メッセージの再構成
-        If message.Length + url.Length + 1 > 140 Then
-            message = message.Substring(0, 140 - url.Length - 1) + " " + url
+        If String.IsNullOrEmpty(message) Then message = ""
+        If message.Length + AppendSettingDialog.Instance.TwitterConfiguration.CharactersReservedPerMedia + 1 > 140 Then
+            message = message.Substring(0, 140 - AppendSettingDialog.Instance.TwitterConfiguration.CharactersReservedPerMedia - 1) + " " + url
         Else
             message += " " + url
         End If
@@ -157,6 +162,10 @@ Public Class yfrog
         MyBase.New(New Uri("http://api.twitter.com/"), _
                    New Uri("https://api.twitter.com/1/account/verify_credentials.xml"))
         tw = twitter
-        Initialize(DecryptString(ConsumerKey), DecryptString(ConsumerSecretKey), tw.AccessToken, tw.AccessTokenSecret, "")
+        Initialize(DecryptString(ConsumerKey), DecryptString(ConsumerSecretKey), tw.AccessToken, tw.AccessTokenSecret, "", "")
     End Sub
+
+    Public Function Configuration(key As String, value As Object) As Boolean Implements IMultimediaShareService.Configuration
+        Return True
+    End Function
 End Class

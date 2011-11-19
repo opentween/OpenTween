@@ -23,15 +23,11 @@
 ' the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 ' Boston, MA 02110-1301, USA.
 
-Imports System.IO
-Imports System.Text
 Imports System.Net
+Imports System.Text
 
 Public Class HttpConnectionOAuthEcho
     Inherits HttpConnectionOAuth
-
-    Private Const PostMethod As String = "POST"
-    Private Const GetMethod As String = "GET"
 
     Private _realm As Uri
     Private _serviceProvider As Uri

@@ -64,20 +64,21 @@ Public Class AppendSettingDialog
     Private _clDetailBackcolor As Color
     Private _clDetail As Color
     Private _clDetailLink As Color
-    Private _MyNameBalloon As NameBalloonEnum
-    Private _MyPostCtrlEnter As Boolean
-    Private _MyPostShiftEnter As Boolean
+    Private _myNameBalloon As NameBalloonEnum
+    Private _myPostCtrlEnter As Boolean
+    Private _myPostShiftEnter As Boolean
     Private _usePostMethod As Boolean
     Private _countApi As Integer
     Private _countApiReply As Integer
     Private _browserpath As String
-    Private _MyUseRecommendStatus As Boolean
-    Private _MyDispUsername As Boolean
+    Private _myUseRecommendStatus As Boolean
+    Private _myDispUsername As Boolean
     Private _MyDispLatestPost As DispTitleEnum
     Private _MySortOrderLock As Boolean
     Private _MyMinimizeToTray As Boolean
     Private _MyCloseToExit As Boolean
     Private _MyTinyUrlResolve As Boolean
+    Private _MyShortUrlForceResolve As Boolean
     Private _MyProxyType As HttpConnection.ProxyType
     Private _MyProxyAddress As String
     Private _MyProxyPort As Integer
@@ -89,6 +90,7 @@ Public Class AppendSettingDialog
     Private _MyRestrictFavCheck As Boolean
     Private _MyAlwaysTop As Boolean
     Private _MyUrlConvertAuto As Boolean
+    Private _MyShortenTco As Boolean
     Private _MyOutputz As Boolean
     Private _MyOutputzKey As String
     Private _MyOutputzUrlmode As OutputzUrlmode
@@ -113,7 +115,6 @@ Public Class AppendSettingDialog
     Private _MyUseAtIdSupplement As Boolean
     Private _MyUseHashSupplement As Boolean
     Private _MyLanguage As String
-    Private _MyIsOAuth As Boolean
     Private _MyTwitterApiUrl As String
     Private _MyTwitterSearchApiUrl As String
     Private _MyPreviewEnable As Boolean
@@ -126,7 +127,6 @@ Public Class AppendSettingDialog
     Private _ListCountApi As Integer
     Private _MyRetweetNoConfirm As Boolean
     Private _MyUserstreamStartup As Boolean
-    Private _MyUserstreamPeriod As Integer
     Private _MyOpenUserTimeline As Boolean
 
     Private _ValidationError As Boolean = False
@@ -136,12 +136,40 @@ Public Class AppendSettingDialog
     Private _MyForceEventNotify As Boolean
     Private _MyFavEventUnread As Boolean
     Private _MyTranslateLanguage As String
-    Private _soundfileListup As Boolean = False
     Private _MyEventSoundFile As String
+    Private _MyUserstreamPeriod As Integer
 
     Private _MyDoubleClickAction As Integer
     Private _UserAppointUrl As String
     Public Property HideDuplicatedRetweets As Boolean
+
+    Public Property IsPreviewFoursquare As Boolean
+    Public Property FoursquarePreviewHeight As Integer
+    Public Property FoursquarePreviewWidth As Integer
+    Public Property FoursquarePreviewZoom As Integer
+    Public Property IsListStatusesIncludeRts As Boolean
+    Public Property UserAccounts As List(Of UserAccount)
+    Private InitialUserId As Long
+    Public Property TabMouseLock As Boolean
+    Public Property IsRemoveSameEvent As Boolean
+    Public Property IsNotifyUseGrowl As Boolean
+
+    Public Property TwitterConfiguration As New TwitterDataModel.Configuration
+
+    Private _pin As String
+
+    Public Class IntervalChangedEventArgs
+        Inherits EventArgs
+        Public UserStream As Boolean
+        Public Timeline As Boolean
+        Public Reply As Boolean
+        Public DirectMessage As Boolean
+        Public PublicSearch As Boolean
+        Public Lists As Boolean
+        Public UserTimeline As Boolean
+    End Class
+
+    Public Event IntervalChanged(ByVal sender As Object, e As IntervalChangedEventArgs)
 
     Private Sub TreeViewSetting_BeforeSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewCancelEventArgs) Handles TreeViewSetting.BeforeSelect
         If Me.TreeViewSetting.SelectedNode Is Nothing Then Exit Sub
@@ -157,43 +185,15 @@ Public Class AppendSettingDialog
         If pnl Is Nothing Then Exit Sub
         pnl.Enabled = True
         pnl.Visible = True
+
+        If pnl.Name = "PreviewPanel" Then
+            If GrowlHelper.IsDllExists Then
+                IsNotifyUseGrowlCheckBox.Enabled = True
+            Else
+                IsNotifyUseGrowlCheckBox.Enabled = False
+            End If
+        End If
     End Sub
-
-    'Private Sub ToggleNodeChange(ByVal node As TreeNode)
-    '    If node Is Nothing Then Exit Sub
-    '    TreeViewSetting.BeginUpdate()
-    '    If node.IsExpanded Then
-    '        node.Collapse()
-    '    Else
-    '        node.Expand()
-    '    End If
-    '    TreeViewSetting.EndUpdate()
-    'End Sub
-
-    'Private Sub TreeViewSetting_DrawNode(ByVal sender As Object, ByVal e As System.Windows.Forms.DrawTreeNodeEventArgs) Handles TreeViewSetting.DrawNode
-    '    e.DrawDefault = True
-    '    If (e.State And TreeNodeStates.Selected) = TreeNodeStates.Selected Then
-    '        Dim pnl = DirectCast(e.Node.Tag, Panel)
-    '        If pnl Is Nothing Then Exit Sub
-    '        If _curPanel IsNot Nothing Then
-    '            If pnl.Name <> _curPanel.Name Then
-    '                _curPanel.Enabled = False
-    '                _curPanel.Visible = False
-
-    '                _curPanel = pnl
-    '                pnl.Enabled = True
-    '                pnl.Visible = True
-    '            End If
-    '        End If
-    '    End If
-    'End Sub
-
-    'Private Sub TreeViewSetting_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles TreeViewSetting.MouseDown
-    '    Dim info As TreeViewHitTestInfo = TreeViewSetting.HitTest(e.X, e.Y)
-    '    If CBool((info.Location And TreeViewHitTestLocations.Label)) Then
-    '        ToggleNodeChange(info.Node)
-    '    End If
-    'End Sub
 
     Private Sub Save_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Save.Click
         If TweenMain.IsNetworkAvailable() AndAlso _
@@ -211,22 +211,96 @@ Public Class AppendSettingDialog
         Else
             _ValidationError = False
         End If
-        If Me.Username.Focused OrElse Me.Password.Focused Then
-            If Not Authorize() Then
-                _ValidationError = True
-                Exit Sub
-            End If
+
+        Me.UserAccounts.Clear()
+        For Each u In Me.AuthUserCombo.Items
+            Me.UserAccounts.Add(DirectCast(u, UserAccount))
+        Next
+        If Me.AuthUserCombo.SelectedIndex > -1 Then
+            For Each u In Me.UserAccounts
+                If u.Username.ToLower = DirectCast(Me.AuthUserCombo.SelectedItem, UserAccount).Username.ToLower Then
+                    tw.Initialize(u.Token, u.TokenSecret, u.Username, u.UserId)
+                    If u.UserId = 0 Then
+                        tw.VerifyCredentials()
+                        u.UserId = tw.UserId
+                    End If
+                    Google.GASender.GetInstance.SessionFirst = u.GAFirst
+                    Google.GASender.GetInstance.SessionLast = u.GALast
+                    Exit For
+                End If
+            Next
+        Else
+            tw.ClearAuthInfo()
+            tw.Initialize("", "", "", 0)
         End If
+
+#If UA = "True" Then
+        'フォロー
+        If Me.FollowCheckBox.Checked Then
+            '現在の設定内容で通信
+            Dim ptype As HttpConnection.ProxyType
+            If RadioProxyNone.Checked Then
+                ptype = HttpConnection.ProxyType.None
+            ElseIf RadioProxyIE.Checked Then
+                ptype = HttpConnection.ProxyType.IE
+            Else
+                ptype = HttpConnection.ProxyType.Specified
+            End If
+            Dim padr As String = TextProxyAddress.Text.Trim()
+            Dim pport As Integer = Integer.Parse(TextProxyPort.Text.Trim())
+            Dim pusr As String = TextProxyUser.Text.Trim()
+            Dim ppw As String = TextProxyPassword.Text.Trim()
+            HttpConnection.InitializeConnection(20, ptype, padr, pport, pusr, ppw)
+
+            Dim ret As String = tw.PostFollowCommand("TweenApp")
+        End If
+#End If
+        Dim arg As New IntervalChangedEventArgs
+        Dim isIntervalChanged As Boolean = False
+
         Try
-            _MyUserstreamPeriod = CType(Me.UserstreamPeriod.Text, Integer)
             _MyUserstreamStartup = Me.StartupUserstreamCheck.Checked
-            _MyIsOAuth = AuthOAuthRadio.Checked
-            _MytimelinePeriod = CType(TimelinePeriod.Text, Integer)
-            _MyDMPeriod = CType(DMPeriod.Text, Integer)
-            _MyPubSearchPeriod = CType(PubSearchPeriod.Text, Integer)
-            _MyListsPeriod = CType(ListsPeriod.Text, Integer)
-            _MyReplyPeriod = CType(ReplyPeriod.Text, Integer)
-            _MyUserTimelinePeriod = CType(UserTimelinePeriod.Text, Integer)
+
+            If _MyUserstreamPeriod <> CType(UserstreamPeriod.Text, Integer) Then
+                _MyUserstreamPeriod = CType(UserstreamPeriod.Text, Integer)
+                arg.UserStream = True
+                isIntervalChanged = True
+            End If
+            If _MytimelinePeriod <> CType(TimelinePeriod.Text, Integer) Then
+                _MytimelinePeriod = CType(TimelinePeriod.Text, Integer)
+                arg.Timeline = True
+                isIntervalChanged = True
+            End If
+            If _MyDMPeriod <> CType(DMPeriod.Text, Integer) Then
+                _MyDMPeriod = CType(DMPeriod.Text, Integer)
+                arg.DirectMessage = True
+                isIntervalChanged = True
+            End If
+            If _MyPubSearchPeriod <> CType(PubSearchPeriod.Text, Integer) Then
+                _MyPubSearchPeriod = CType(PubSearchPeriod.Text, Integer)
+                arg.PublicSearch = True
+                isIntervalChanged = True
+            End If
+
+            If _MyListsPeriod <> CType(ListsPeriod.Text, Integer) Then
+                _MyListsPeriod = CType(ListsPeriod.Text, Integer)
+                arg.Lists = True
+                isIntervalChanged = True
+            End If
+            If _MyReplyPeriod <> CType(ReplyPeriod.Text, Integer) Then
+                _MyReplyPeriod = CType(ReplyPeriod.Text, Integer)
+                arg.Reply = True
+                isIntervalChanged = True
+            End If
+            If _MyUserTimelinePeriod <> CType(UserTimelinePeriod.Text, Integer) Then
+                _MyUserTimelinePeriod = CType(UserTimelinePeriod.Text, Integer)
+                arg.UserTimeline = True
+                isIntervalChanged = True
+            End If
+
+            If isIntervalChanged Then
+                RaiseEvent IntervalChanged(Me, arg)
+            End If
 
             _MyReaded = StartupReaded.Checked
             Select Case IconSize.SelectedIndex
@@ -316,7 +390,9 @@ Public Class AppendSettingDialog
             End Select
             _MySortOrderLock = CheckSortOrderLock.Checked
             _MyTinyUrlResolve = CheckTinyURL.Checked
+            _MyShortUrlForceResolve = CheckForceResolve.Checked
             ShortUrl.IsResolve = _MyTinyUrlResolve
+            ShortUrl.IsForceResolve = _MyShortUrlForceResolve
             If RadioProxyNone.Checked Then
                 _MyProxyType = HttpConnection.ProxyType.None
             ElseIf RadioProxyIE.Checked Then
@@ -334,6 +410,7 @@ Public Class AppendSettingDialog
             _MyRestrictFavCheck = CheckFavRestrict.Checked
             _MyAlwaysTop = CheckAlwaysTop.Checked
             _MyUrlConvertAuto = CheckAutoConvertUrl.Checked
+            _MyShortenTco = ShortenTcoCheck.Checked
             _MyOutputz = CheckOutputz.Checked
             _MyOutputzKey = TextBoxOutputzKey.Text.Trim()
 
@@ -354,7 +431,7 @@ Public Class AppendSettingDialog
             GetEventNotifyFlag(_MyEventNotifyFlag, _isMyEventNotifyFlag)
             _MyForceEventNotify = CheckForceEventNotify.Checked
             _MyFavEventUnread = CheckFavEventUnread.Checked
-            _MyTranslateLanguage = (New Google).GetLanguageEnumFromIndex(ComboBoxTranslateLanguage.SelectedIndex)
+            _MyTranslateLanguage = (New bing).GetLanguageEnumFromIndex(ComboBoxTranslateLanguage.SelectedIndex)
             _MyEventSoundFile = CStr(ComboBoxEventNotifySound.SelectedItem)
             _MyAutoShortUrlFirst = CType(ComboBoxAutoShortUrlFirst.SelectedIndex, UrlConverter)
             _MyTabIconDisp = chkTabIconDisp.Checked
@@ -411,6 +488,14 @@ Public Class AppendSettingDialog
             _MyDoubleClickAction = ListDoubleClickActionComboBox.SelectedIndex
             _UserAppointUrl = UserAppointUrlText.Text
             Me.HideDuplicatedRetweets = Me.HideDuplicatedRetweetsCheck.Checked
+            Me.IsPreviewFoursquare = Me.IsPreviewFoursquareCheckBox.Checked
+            Me.FoursquarePreviewHeight = CInt(Me.FoursquarePreviewHeightTextBox.Text)
+            Me.FoursquarePreviewWidth = CInt(Me.FoursquarePreviewWidthTextBox.Text)
+            Me.FoursquarePreviewZoom = CInt(Me.FoursquarePreviewZoomTextBox.Text)
+            Me.IsListStatusesIncludeRts = Me.IsListsIncludeRtsCheckBox.Checked
+            Me.TabMouseLock = Me.TabMouseLockCheck.Checked
+            Me.IsRemoveSameEvent = Me.IsRemoveSameFavEventCheckBox.Checked
+            Me.IsNotifyUseGrowl = Me.IsNotifyUseGrowlCheckBox.Checked
         Catch ex As Exception
             MessageBox.Show(My.Resources.Save_ClickText3)
             Me.DialogResult = Windows.Forms.DialogResult.Cancel
@@ -419,6 +504,36 @@ Public Class AppendSettingDialog
     End Sub
 
     Private Sub Setting_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+        If _endingFlag Then Exit Sub
+
+        If Me.DialogResult = Windows.Forms.DialogResult.Cancel Then
+            'キャンセル時は画面表示時のアカウントに戻す
+            'キャンセル時でも認証済みアカウント情報は保存する
+            Me.UserAccounts.Clear()
+            For Each u In Me.AuthUserCombo.Items
+                Me.UserAccounts.Add(DirectCast(u, UserAccount))
+            Next
+            'アクティブユーザーを起動時のアカウントに戻す（起動時アカウントなければ何もしない）
+            Dim userSet As Boolean = False
+            If Me.InitialUserId > 0 Then
+                For Each u In Me.UserAccounts
+                    If u.UserId = Me.InitialUserId Then
+                        tw.Initialize(u.Token, u.TokenSecret, u.Username, u.UserId)
+                        Google.GASender.GetInstance.SessionFirst = u.GAFirst
+                        Google.GASender.GetInstance.SessionLast = u.GALast
+                        userSet = True
+                        Exit For
+                    End If
+                Next
+            End If
+            '認証済みアカウントが削除されていた場合、もしくは起動時アカウントがなかった場合は、
+            'アクティブユーザーなしとして初期化
+            If Not userSet Then
+                tw.ClearAuthInfo()
+                tw.Initialize("", "", "", 0)
+            End If
+        End If
+
         If tw IsNot Nothing AndAlso tw.Username = "" AndAlso e.CloseReason = CloseReason.None Then
             If MessageBox.Show(My.Resources.Setting_FormClosing1, "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Cancel Then
                 e.Cancel = True
@@ -435,42 +550,48 @@ Public Class AppendSettingDialog
     End Sub
 
     Private Sub Setting_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Me.Load
+#If UA = "True" Then
+        Me.GroupBox2.Visible = True
+#Else
+        Me.GroupBox2.Visible = False
+#End If
         tw = DirectCast(Me.Owner, TweenMain).TwitterInstance
         Dim uname As String = tw.Username
         Dim pw As String = tw.Password
         Dim tk As String = tw.AccessToken
         Dim tks As String = tw.AccessTokenSecret
-        If Not Me._MyIsOAuth Then
-            'BASIC認証時のみ表示
-            Me.AuthStateLabel.Enabled = False
-            Me.AuthUserLabel.Enabled = False
-            Me.AuthClearButton.Enabled = False
-            Me.AuthOAuthRadio.Checked = False
-            Me.AuthBasicRadio.Checked = True
-            Me.CheckEnableBasicAuth.Checked = True
-            Me.AuthBasicRadio.Enabled = True
-            tw.Initialize(uname, pw)
-        Else
-            Me.AuthStateLabel.Enabled = True
-            Me.AuthUserLabel.Enabled = True
-            Me.AuthClearButton.Enabled = True
-            Me.AuthOAuthRadio.Checked = True
-            Me.AuthBasicRadio.Checked = False
-            tw.Initialize(tk, tks, uname)
-        End If
+        'Me.AuthStateLabel.Enabled = True
+        'Me.AuthUserLabel.Enabled = True
+        Me.AuthClearButton.Enabled = True
 
-        Username.Text = uname
-        Password.Text = pw
-        If tw.Username = "" Then
-            Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
-            Me.AuthUserLabel.Text = ""
-        Else
-            Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
-            Me.AuthUserLabel.Text = tw.Username
+        'If tw.Username = "" Then
+        '    'Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
+        '    'Me.AuthUserLabel.Text = ""
+        '    'Me.Save.Enabled = False
+        'Else
+        '    'Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
+        '    'If TwitterApiInfo.AccessLevel = ApiAccessLevel.ReadWrite Then
+        '    '    Me.AuthStateLabel.Text += "(xAuth)"
+        '    'ElseIf TwitterApiInfo.AccessLevel = ApiAccessLevel.ReadWriteAndDirectMessage Then
+        '    '    Me.AuthStateLabel.Text += "(OAuth)"
+        '    'End If
+        '    'Me.AuthUserLabel.Text = tw.Username
+        'End If
+
+        Me.AuthUserCombo.Items.Clear()
+        If Me.UserAccounts.Count > 0 Then
+            Me.AuthUserCombo.Items.AddRange(Me.UserAccounts.ToArray)
+            For Each u In Me.UserAccounts
+                If u.UserId = tw.UserId Then
+                    Me.AuthUserCombo.SelectedItem = u
+                    Me.InitialUserId = u.UserId
+                    Exit For
+                End If
+            Next
         End If
 
         Me.StartupUserstreamCheck.Checked = _MyUserstreamStartup
-        Me.UserstreamPeriod.Text = _MyUserstreamPeriod.ToString()
+        UserstreamPeriod.Text = _MyUserstreamPeriod.ToString()
         TimelinePeriod.Text = _MytimelinePeriod.ToString()
         ReplyPeriod.Text = _MyReplyPeriod.ToString()
         DMPeriod.Text = _MyDMPeriod.ToString()
@@ -523,7 +644,7 @@ Public Class AppendSettingDialog
         lblDetail.ForeColor = _clDetail
         lblDetailLink.ForeColor = _clDetailLink
 
-        Select Case _MyNameBalloon
+        Select Case _myNameBalloon
             Case NameBalloonEnum.None
                 cmbNameBalloon.SelectedIndex = 0
             Case NameBalloonEnum.UserID
@@ -532,9 +653,9 @@ Public Class AppendSettingDialog
                 cmbNameBalloon.SelectedIndex = 2
         End Select
 
-        If _MyPostCtrlEnter Then
+        If _myPostCtrlEnter Then
             ComboBoxPostKeySelect.SelectedIndex = 1
-        ElseIf _MyPostShiftEnter Then
+        ElseIf _myPostShiftEnter Then
             ComboBoxPostKeySelect.SelectedIndex = 2
         Else
             ComboBoxPostKeySelect.SelectedIndex = 0
@@ -544,8 +665,8 @@ Public Class AppendSettingDialog
         TextCountApiReply.Text = _countApiReply.ToString
         BrowserPathText.Text = _browserpath
         CheckPostAndGet.Checked = _MyPostAndGet
-        CheckUseRecommendStatus.Checked = _MyUseRecommendStatus
-        CheckDispUsername.Checked = _MyDispUsername
+        CheckUseRecommendStatus.Checked = _myUseRecommendStatus
+        CheckDispUsername.Checked = _myDispUsername
         CheckCloseToExit.Checked = _MyCloseToExit
         CheckMinimizeToTray.Checked = _MyMinimizeToTray
         Select Case _MyDispLatestPost
@@ -568,6 +689,7 @@ Public Class AppendSettingDialog
         End Select
         CheckSortOrderLock.Checked = _MySortOrderLock
         CheckTinyURL.Checked = _MyTinyUrlResolve
+        CheckForceResolve.Checked = _MyShortUrlForceResolve
         Select Case _MyProxyType
             Case HttpConnection.ProxyType.None
                 RadioProxyNone.Checked = True
@@ -597,6 +719,8 @@ Public Class AppendSettingDialog
         CheckFavRestrict.Checked = _MyRestrictFavCheck
         CheckAlwaysTop.Checked = _MyAlwaysTop
         CheckAutoConvertUrl.Checked = _MyUrlConvertAuto
+        ShortenTcoCheck.Checked = _MyShortenTco
+        ShortenTcoCheck.Enabled = CheckAutoConvertUrl.Checked
         CheckOutputz.Checked = _MyOutputz
         TextBoxOutputzKey.Text = _MyOutputzKey
 
@@ -617,7 +741,7 @@ Public Class AppendSettingDialog
         ApplyEventNotifyFlag(_MyEventNotifyEnabled, _MyEventNotifyFlag, _isMyEventNotifyFlag)
         CheckForceEventNotify.Checked = _MyForceEventNotify
         CheckFavEventUnread.Checked = _MyFavEventUnread
-        ComboBoxTranslateLanguage.SelectedIndex = (New Google).GetIndexFromLanguageEnum(_MyTranslateLanguage)
+        ComboBoxTranslateLanguage.SelectedIndex = (New Bing).GetIndexFromLanguageEnum(_MyTranslateLanguage)
         SoundFileListup()
         ComboBoxAutoShortUrlFirst.SelectedIndex = _MyAutoShortUrlFirst
         chkTabIconDisp.Checked = _MyTabIconDisp
@@ -697,6 +821,20 @@ Public Class AppendSettingDialog
         ListDoubleClickActionComboBox.SelectedIndex = _MyDoubleClickAction
         UserAppointUrlText.Text = _UserAppointUrl
         Me.HideDuplicatedRetweetsCheck.Checked = Me.HideDuplicatedRetweets
+        Me.IsPreviewFoursquareCheckBox.Checked = Me.IsPreviewFoursquare
+        Me.FoursquarePreviewHeightTextBox.Text = Me.FoursquarePreviewHeight.ToString
+        Me.FoursquarePreviewWidthTextBox.Text = Me.FoursquarePreviewWidth.ToString
+        Me.FoursquarePreviewZoomTextBox.Text = Me.FoursquarePreviewZoom.ToString
+        Me.IsListsIncludeRtsCheckBox.Checked = Me.IsListStatusesIncludeRts
+        Me.TabMouseLockCheck.Checked = Me.TabMouseLock
+        Me.IsRemoveSameFavEventCheckBox.Checked = Me.IsRemoveSameEvent
+        Me.IsNotifyUseGrowlCheckBox.Checked = Me.IsNotifyUseGrowl
+
+        If GrowlHelper.IsDllExists Then
+            IsNotifyUseGrowlCheckBox.Enabled = True
+        Else
+            IsNotifyUseGrowlCheckBox.Enabled = False
+        End If
 
         With Me.TreeViewSetting
             .Nodes("BasedNode").Tag = BasedPanel
@@ -720,7 +858,7 @@ Public Class AppendSettingDialog
             .ExpandAll()
         End With
         'TreeViewSetting.SelectedNode = TreeViewSetting.TopNode
-        ActiveControl = Username
+        ActiveControl = StartAuthButton
     End Sub
 
     Private Sub UserstreamPeriod_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles UserstreamPeriod.Validating
@@ -1481,6 +1619,15 @@ Public Class AppendSettingDialog
         End Set
     End Property
 
+    Public Property ShortUrlForceResolve() As Boolean
+        Get
+            Return _MyShortUrlForceResolve
+        End Get
+        Set(ByVal value As Boolean)
+            _MyShortUrlForceResolve = value
+        End Set
+    End Property
+
     Private Sub CheckUseRecommendStatus_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckUseRecommendStatus.CheckedChanged
         If CheckUseRecommendStatus.Checked = True Then
             StatusText.Enabled = False
@@ -1596,6 +1743,16 @@ Public Class AppendSettingDialog
             _MyUrlConvertAuto = value
         End Set
     End Property
+
+    Public Property ShortenTco() As Boolean
+        Get
+            Return _MyShortenTco
+        End Get
+        Set(ByVal value As Boolean)
+            _MyShortenTco = value
+        End Set
+    End Property
+
     Public Property OutputzEnabled() As Boolean
         Get
             Return _MyOutputz
@@ -1836,15 +1993,6 @@ Public Class AppendSettingDialog
         End Set
     End Property
 
-    Public Property IsOAuth() As Boolean
-        Get
-            Return _MyIsOAuth
-        End Get
-        Set(ByVal value As Boolean)
-            _MyIsOAuth = value
-        End Set
-    End Property
-
     Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
         Using filedlg As New OpenFileDialog()
 
@@ -2050,7 +2198,7 @@ Public Class AppendSettingDialog
         End Get
         Set(ByVal value As String)
             _MyTranslateLanguage = value
-            ComboBoxTranslateLanguage.SelectedIndex = (New Google).GetIndexFromLanguageEnum(value)
+            ComboBoxTranslateLanguage.SelectedIndex = (New bing).GetIndexFromLanguageEnum(value)
         End Set
     End Property
 
@@ -2084,9 +2232,13 @@ Public Class AppendSettingDialog
     Private Sub ComboBoxAutoShortUrlFirst_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboBoxAutoShortUrlFirst.SelectedIndexChanged
         If ComboBoxAutoShortUrlFirst.SelectedIndex = UrlConverter.Bitly OrElse _
            ComboBoxAutoShortUrlFirst.SelectedIndex = UrlConverter.Jmp Then
+            Label76.Enabled = True
+            Label77.Enabled = True
             TextBitlyId.Enabled = True
             TextBitlyPw.Enabled = True
         Else
+            Label76.Enabled = False
+            Label77.Enabled = False
             TextBitlyId.Enabled = False
             TextBitlyPw.Enabled = False
         End If
@@ -2132,14 +2284,7 @@ Public Class AppendSettingDialog
         lblRetweet.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Green)
     End Sub
 
-    Private Function Authorize() As Boolean
-        Dim user As String = Me.Username.Text.Trim
-        Dim pwd As String = Me.Password.Text.Trim
-        If String.IsNullOrEmpty(user) OrElse String.IsNullOrEmpty(pwd) Then
-            MessageBox.Show(My.Resources.Save_ClickText1)
-            Return False
-        End If
-
+    Private Function StartAuth() As Boolean
         '現在の設定内容で通信
         Dim ptype As HttpConnection.ProxyType
         If RadioProxyNone.Checked Then
@@ -2158,52 +2303,91 @@ Public Class AppendSettingDialog
         HttpConnection.InitializeConnection(20, ptype, padr, pport, pusr, ppw)
         HttpTwitter.TwitterUrl = TwitterAPIText.Text.Trim
         HttpTwitter.TwitterSearchUrl = TwitterSearchAPIText.Text.Trim
-        If Me.AuthBasicRadio.Checked Then
-            tw.Initialize("", "")
-        Else
-            tw.Initialize("", "", "")
-        End If
-        Dim rslt As String = tw.Authenticate(user, pwd)
+        tw.Initialize("", "", "", 0)
+        'Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
+        'Me.AuthUserLabel.Text = ""
+        Dim pinPageUrl As String = ""
+        Dim rslt As String = tw.StartAuthentication(pinPageUrl)
         If String.IsNullOrEmpty(rslt) Then
-            MessageBox.Show(My.Resources.AuthorizeButton_Click1, "Authenticate", MessageBoxButtons.OK)
-            Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
-            Me.AuthUserLabel.Text = tw.Username
-            Return True
+            Using ab = New AuthBrowser
+                ab.Auth = True
+                ab.UrlString = pinPageUrl
+                If ab.ShowDialog(Me) = Windows.Forms.DialogResult.OK Then
+                    Me._pin = ab.PinString
+                    Return True
+                Else
+                    Return False
+                End If
+            End Using
         Else
             MessageBox.Show(My.Resources.AuthorizeButton_Click2 + Environment.NewLine + rslt, "Authenticate", MessageBoxButtons.OK)
-            Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
-            Me.AuthUserLabel.Text = ""
             Return False
         End If
     End Function
 
-    Private Sub AuthorizeButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AuthorizeButton.Click
-        If Authorize() Then CalcApiUsing()
+    Private Function PinAuth() As Boolean
+        Dim pin As String = Me._pin   'PIN Code
+
+        Dim rslt As String = tw.Authenticate(pin)
+        If String.IsNullOrEmpty(rslt) Then
+            MessageBox.Show(My.Resources.AuthorizeButton_Click1, "Authenticate", MessageBoxButtons.OK)
+            'Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click3
+            'Me.AuthUserLabel.Text = tw.Username
+            Dim idx As Integer = -1
+            Dim user = New UserAccount() With {.Username = tw.Username,
+                                              .UserId = tw.UserId,
+                                              .Token = tw.AccessToken,
+                                              .TokenSecret = tw.AccessTokenSecret}
+            For Each u In Me.AuthUserCombo.Items
+                If DirectCast(u, UserAccount).Username.ToLower = tw.Username.ToLower Then
+                    idx = Me.AuthUserCombo.Items.IndexOf(u)
+                    Exit For
+                End If
+            Next
+            If idx > -1 Then
+                Me.AuthUserCombo.Items.RemoveAt(idx)
+                Me.AuthUserCombo.Items.Insert(idx, user)
+                Me.AuthUserCombo.SelectedIndex = idx
+            Else
+                Me.AuthUserCombo.SelectedIndex = Me.AuthUserCombo.Items.Add(user)
+            End If
+            'If TwitterApiInfo.AccessLevel = ApiAccessLevel.ReadWrite Then
+            '    Me.AuthStateLabel.Text += "(xAuth)"
+            'ElseIf TwitterApiInfo.AccessLevel = ApiAccessLevel.ReadWriteAndDirectMessage Then
+            '    Me.AuthStateLabel.Text += "(OAuth)"
+            'End If
+            Return True
+        Else
+            MessageBox.Show(My.Resources.AuthorizeButton_Click2 + Environment.NewLine + rslt, "Authenticate", MessageBoxButtons.OK)
+            'Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
+            'Me.AuthUserLabel.Text = ""
+            Return False
+        End If
+    End Function
+
+    Private Sub StartAuthButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StartAuthButton.Click
+        'Me.Save.Enabled = False
+        If StartAuth() Then
+            If PinAuth() Then
+                CalcApiUsing()
+                'Me.Save.Enabled = True
+            End If
+        End If
     End Sub
 
     Private Sub AuthClearButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AuthClearButton.Click
-        tw.ClearAuthInfo()
-        Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
-        Me.AuthUserLabel.Text = ""
-        CalcApiUsing()
-    End Sub
-
-    Private Sub AuthOAuthRadio_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AuthOAuthRadio.CheckedChanged
-        If tw Is Nothing Then Exit Sub
-        If AuthBasicRadio.Checked Then
-            'BASIC認証時のみ表示
-            tw.Initialize("", "")
-            Me.AuthStateLabel.Enabled = False
-            Me.AuthUserLabel.Enabled = False
-            Me.AuthClearButton.Enabled = False
-        Else
-            tw.Initialize("", "", "")
-            Me.AuthStateLabel.Enabled = True
-            Me.AuthUserLabel.Enabled = True
-            Me.AuthClearButton.Enabled = True
+        'tw.ClearAuthInfo()
+        'Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
+        'Me.AuthUserLabel.Text = ""
+        If Me.AuthUserCombo.SelectedIndex > -1 Then
+            Me.AuthUserCombo.Items.RemoveAt(Me.AuthUserCombo.SelectedIndex)
+            If Me.AuthUserCombo.Items.Count > 0 Then
+                Me.AuthUserCombo.SelectedIndex = 0
+            Else
+                Me.AuthUserCombo.SelectedIndex = -1
+            End If
         End If
-        Me.AuthStateLabel.Text = My.Resources.AuthorizeButton_Click4
-        Me.AuthUserLabel.Text = ""
+        'Me.Save.Enabled = False
         CalcApiUsing()
     End Sub
 
@@ -2309,20 +2493,12 @@ Public Class AppendSettingDialog
             Thread.Sleep(10)
             If Me.Disposing OrElse Me.IsDisposed Then Exit Sub
         Loop Until Me.IsHandleCreated
+        Me.TopMost = Me.AlwaysTop
         CalcApiUsing()
     End Sub
 
     Private Sub ButtonApiCalc_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ButtonApiCalc.Click
         CalcApiUsing()
-    End Sub
-
-    Private Sub New()
-
-        ' この呼び出しはデザイナーで必要です。
-        InitializeComponent()
-
-        ' InitializeComponent() 呼び出しの後で初期化を追加します。
-
     End Sub
 
     Public Shared ReadOnly Property Instance As AppendSettingDialog
@@ -2436,10 +2612,6 @@ Public Class AppendSettingDialog
         End If
     End Sub
 
-    Private Sub CheckEnableBasicAuth_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckEnableBasicAuth.CheckedChanged
-        AuthBasicRadio.Enabled = CheckEnableBasicAuth.Checked
-    End Sub
-
     Private Sub SearchTextCountApi_Validating(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles SearchTextCountApi.Validating
         Dim cnt As Integer
         Try
@@ -2508,15 +2680,15 @@ Public Class AppendSettingDialog
         End If
     End Sub
 
-    Private Sub CheckEventNotify_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) _
-                    Handles CheckEventNotify.CheckedChanged, CheckFavoritesEvent.CheckStateChanged, _
-                            CheckUnfavoritesEvent.CheckStateChanged, CheckFollowEvent.CheckStateChanged, _
-                            CheckListMemberAddedEvent.CheckStateChanged, CheckListMemberRemovedEvent.CheckStateChanged, _
-                            CheckListCreatedEvent.CheckStateChanged, CheckUserUpdateEvent.CheckStateChanged
-        _MyEventNotifyEnabled = CheckEventNotify.Checked
-        GetEventNotifyFlag(_MyEventNotifyFlag, _isMyEventNotifyFlag)
-        ApplyEventNotifyFlag(_MyEventNotifyEnabled, _MyEventNotifyFlag, _isMyEventNotifyFlag)
-    End Sub
+    'Private Sub CheckEventNotify_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) _
+    '                Handles CheckEventNotify.CheckedChanged, CheckFavoritesEvent.CheckStateChanged, _
+    '                        CheckUnfavoritesEvent.CheckStateChanged, CheckFollowEvent.CheckStateChanged, _
+    '                        CheckListMemberAddedEvent.CheckStateChanged, CheckListMemberRemovedEvent.CheckStateChanged, _
+    '                        CheckListCreatedEvent.CheckStateChanged, CheckUserUpdateEvent.CheckStateChanged
+    '    _MyEventNotifyEnabled = CheckEventNotify.Checked
+    '    GetEventNotifyFlag(_MyEventNotifyFlag, _isMyEventNotifyFlag)
+    '    ApplyEventNotifyFlag(_MyEventNotifyEnabled, _MyEventNotifyFlag, _isMyEventNotifyFlag)
+    'End Sub
 
     Private Class EventCheckboxTblElement
         Public CheckBox As CheckBox
@@ -2538,7 +2710,7 @@ Public Class AppendSettingDialog
 
         Return _eventCheckboxTable
     End Function
-    
+
     Private Sub GetEventNotifyFlag(ByRef eventnotifyflag As EVENTTYPE, ByRef isMyeventnotifyflag As EVENTTYPE)
         Dim evt As EVENTTYPE = EVENTTYPE.None
         Dim myevt As EVENTTYPE = EVENTTYPE.None
@@ -2579,21 +2751,26 @@ Public Class AppendSettingDialog
 
     End Sub
 
-    Private Sub CheckForceEventNotify_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckForceEventNotify.CheckedChanged
-        _MyForceEventNotify = CheckEventNotify.Checked
+    Private Sub CheckEventNotify_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckEventNotify.CheckedChanged
+        For Each tbl As EventCheckboxTblElement In GetEventCheckboxTable()
+            tbl.CheckBox.Enabled = CheckEventNotify.Checked
+        Next
     End Sub
 
-    Private Sub CheckFavEventUnread_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckFavEventUnread.CheckedChanged
-        _MyFavEventUnread = CheckFavEventUnread.Checked
-    End Sub
+    'Private Sub CheckForceEventNotify_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckForceEventNotify.CheckedChanged
+    '    _MyForceEventNotify = CheckEventNotify.Checked
+    'End Sub
 
-    Private Sub ComboBoxTranslateLanguage_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboBoxTranslateLanguage.SelectedIndexChanged
-        _MyTranslateLanguage = (New Google).GetLanguageEnumFromIndex(ComboBoxTranslateLanguage.SelectedIndex)
-    End Sub
+    'Private Sub CheckFavEventUnread_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckFavEventUnread.CheckedChanged
+    '    _MyFavEventUnread = CheckFavEventUnread.Checked
+    'End Sub
+
+    'Private Sub ComboBoxTranslateLanguage_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboBoxTranslateLanguage.SelectedIndexChanged
+    '    _MyTranslateLanguage = (New Google).GetLanguageEnumFromIndex(ComboBoxTranslateLanguage.SelectedIndex)
+    'End Sub
 
     Private Sub SoundFileListup()
-        If _MyEventSoundFile Is Nothing Then Exit Sub
-        _soundfileListup = True
+        If _MyEventSoundFile Is Nothing Then _MyEventSoundFile = ""
         ComboBoxEventNotifySound.Items.Clear()
         ComboBoxEventNotifySound.Items.Add("")
         Dim oDir As IO.DirectoryInfo = New IO.DirectoryInfo(My.Application.Info.DirectoryPath + IO.Path.DirectorySeparatorChar)
@@ -2606,18 +2783,17 @@ Public Class AppendSettingDialog
         Dim idx As Integer = ComboBoxEventNotifySound.Items.IndexOf(_MyEventSoundFile)
         If idx = -1 Then idx = 0
         ComboBoxEventNotifySound.SelectedIndex = idx
-        _soundfileListup = False
     End Sub
 
-    Private Sub ComboBoxEventNotifySound_VisibleChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboBoxEventNotifySound.VisibleChanged
-        SoundFileListup()
-    End Sub
+    'Private Sub ComboBoxEventNotifySound_VisibleChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboBoxEventNotifySound.VisibleChanged
+    '    SoundFileListup()
+    'End Sub
 
-    Private Sub ComboBoxEventNotifySound_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboBoxEventNotifySound.SelectedIndexChanged
-        If _soundfileListup Then Exit Sub
+    'Private Sub ComboBoxEventNotifySound_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboBoxEventNotifySound.SelectedIndexChanged
+    '    If _soundfileListup Then Exit Sub
 
-        _MyEventSoundFile = DirectCast(ComboBoxEventNotifySound.SelectedItem, String)
-    End Sub
+    '    _MyEventSoundFile = DirectCast(ComboBoxEventNotifySound.SelectedItem, String)
+    'End Sub
 
     Private Sub UserAppointUrlText_Validating(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles UserAppointUrlText.Validating
         If Not UserAppointUrlText.Text.StartsWith("http") AndAlso Not UserAppointUrlText.Text = "" Then
@@ -2625,4 +2801,50 @@ Public Class AppendSettingDialog
         End If
     End Sub
 
+    Private Sub IsPreviewFoursquareCheckBox_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles IsPreviewFoursquareCheckBox.CheckedChanged
+        FoursquareGroupBox.Enabled = IsPreviewFoursquareCheckBox.Checked
+    End Sub
+
+    Private Sub OpenUrl(ByVal url As String)
+        Dim myPath As String = url
+        Dim path As String = Me.BrowserPathText.Text
+        Try
+            If BrowserPath <> "" Then
+                If path.StartsWith("""") AndAlso path.Length > 2 AndAlso path.IndexOf("""", 2) > -1 Then
+                    Dim sep As Integer = path.IndexOf("""", 2)
+                    Dim browserPath As String = path.Substring(1, sep - 1)
+                    Dim arg As String = ""
+                    If sep < path.Length - 1 Then
+                        arg = path.Substring(sep + 1)
+                    End If
+                    myPath = arg + " " + myPath
+                    System.Diagnostics.Process.Start(browserPath, myPath)
+                Else
+                    System.Diagnostics.Process.Start(path, myPath)
+                End If
+            Else
+                System.Diagnostics.Process.Start(myPath)
+            End If
+        Catch ex As Exception
+            '                MessageBox.Show("ブラウザの起動に失敗、またはタイムアウトしました。" + ex.ToString())
+        End Try
+    End Sub
+
+    Private Sub CreateAccountButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CreateAccountButton.Click
+        Me.OpenUrl("https://twitter.com/signup")
+    End Sub
+
+    Public Sub New()
+
+        ' この呼び出しはデザイナーで必要です。
+        InitializeComponent()
+
+        ' InitializeComponent() 呼び出しの後で初期化を追加します。
+
+        Me.Icon = My.Resources.MIcon
+    End Sub
+
+    Private Sub CheckAutoConvertUrl_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckAutoConvertUrl.CheckedChanged
+        ShortenTcoCheck.Enabled = CheckAutoConvertUrl.Checked
+    End Sub
 End Class

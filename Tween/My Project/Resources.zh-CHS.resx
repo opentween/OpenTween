@@ -723,12 +723,6 @@
   <data name="GetTimelineWorker_RunWorkerCompletedText24" xml:space="preserve">
     <value>列表已刷新</value>
   </data>
-  <data name="Yes" xml:space="preserve">
-    <value>是</value>
-  </data>
-  <data name="No" xml:space="preserve">
-    <value>否</value>
-  </data>
   <data name="ShowUserInfo1" xml:space="preserve">
     <value>用户信息解析失败</value>
   </data>
@@ -992,5 +986,17 @@
   </data>
   <data name="TabUsageTypeName_UserTimeline" xml:space="preserve">
     <value>UserTimeline</value>
+  </data>
+  <data name="ListManageGetMoreUsers1" xml:space="preserve">
+    <value>Get members(&amp;M)</value>
+  </data>
+  <data name="ListManageGetMoreUsers2" xml:space="preserve">
+    <value>Get more(&amp;M)</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>否</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>是</value>
   </data>
 </root>

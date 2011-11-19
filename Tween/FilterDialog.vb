@@ -240,6 +240,12 @@ Public Class FilterDialog
         If ListFilters.SelectedIndex = -1 Then Exit Sub
 
         ShowDetail()
+
+        Dim idx As Integer = ListFilters.SelectedIndex
+        ListFilters.SelectedIndex = -1
+        ListFilters.SelectedIndex = idx
+        ListFilters.Enabled = False
+
         ButtonNew.Enabled = False
         ButtonEdit.Enabled = False
         ButtonDelete.Enabled = False
@@ -252,10 +258,6 @@ Public Class FilterDialog
         ListTabs.Enabled = False
         GroupTab.Enabled = False
 
-        Dim idx As Integer = ListFilters.SelectedIndex
-        ListFilters.SelectedIndex = -1
-        ListFilters.SelectedIndex = idx
-        ListFilters.Enabled = False
         _mode = EDITMODE.Edit
     End Sub
 
