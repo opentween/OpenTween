@@ -1,4 +1,4 @@
-﻿Option Strict On
+Option Strict On
 <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class InputTabName
     Inherits System.Windows.Forms.Form

@@ -24,10 +24,10 @@
 ' Boston, MA 02110-1301, USA.
 
 
-'ƒtƒH[ƒ€‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å‚±‚ÌƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒXì¬‚·‚é‚±‚Æ
-'ƒCƒ“ƒXƒ^ƒ“ƒX•Ï”‚Íwithevents‚ÅéŒ¾‚µAHotkeyPressedƒCƒxƒ“ƒg‚ğó‚¯æ‚é‚±‚Æ
-'ƒOƒ[ƒoƒ‹ƒzƒbƒgƒL[‚ÍRegisterOriginalHotkey‚Å“o˜^B•¡”í—Ş“o˜^‚Å‚«‚é‚ªAd•¡ƒ`ƒFƒbƒN‚Í‚µ‚Ä‚¢‚È‚¢‚Ì‚Å’ˆÓB
-'Äİ’è‘O‚É‚ÍUnregisterAllOriginalHotkey‚ğŒÄ‚Ô‚±‚Æ
+'ãƒ•ã‚©ãƒ¼ãƒ ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§ã“ã®ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ä½œæˆã™ã‚‹ã“ã¨
+'ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å¤‰æ•°ã¯witheventsã§å®£è¨€ã—ã€HotkeyPressedã‚¤ãƒ™ãƒ³ãƒˆã‚’å—ã‘å–ã‚‹ã“ã¨
+'ã‚°ãƒ­ãƒ¼ãƒãƒ«ãƒ›ãƒƒãƒˆã‚­ãƒ¼ã¯RegisterOriginalHotkeyã§ç™»éŒ²ã€‚è¤‡æ•°ç¨®é¡ç™»éŒ²ã§ãã‚‹ãŒã€é‡è¤‡ãƒã‚§ãƒƒã‚¯ã¯ã—ã¦ã„ãªã„ã®ã§æ³¨æ„ã€‚
+'å†è¨­å®šå‰ã«ã¯UnregisterAllOriginalHotkeyã‚’å‘¼ã¶ã“ã¨
 
 Public Class HookGlobalHotkey
     Inherits NativeWindow
@@ -102,7 +102,7 @@ Public Class HookGlobalHotkey
         If (modifiers And ModKeys.Win) = ModKeys.Win Then modKey = modKey Or Keys.LWin
         Dim key As New KeyEventArgs(hotkey Or modKey)
         For Each kvp As KeyValuePair(Of Integer, KeyEventValue) In Me._hotkeyID
-            If kvp.Value.KeyEvent.KeyData = key.KeyData AndAlso kvp.Value.Value = hotkeyValue Then Return True '“o˜^Ï‚İ‚È‚ç³íI—¹
+            If kvp.Value.KeyEvent.KeyData = key.KeyData AndAlso kvp.Value.Value = hotkeyValue Then Return True 'ç™»éŒ²æ¸ˆã¿ãªã‚‰æ­£å¸¸çµ‚äº†
         Next
         Dim hotkeyId As Integer = RegisterGlobalHotKey(hotkeyValue, modifiers, Me._targetForm)
         If hotkeyId > 0 Then
@@ -119,16 +119,16 @@ Public Class HookGlobalHotkey
         Me._hotkeyID.Clear()
     End Sub
 
-    Private disposedValue As Boolean = False        ' d•¡‚·‚éŒÄ‚Ño‚µ‚ğŒŸo‚·‚é‚É‚Í
+    Private disposedValue As Boolean = False        ' é‡è¤‡ã™ã‚‹å‘¼ã³å‡ºã—ã‚’æ¤œå‡ºã™ã‚‹ã«ã¯
 
     ' IDisposable
     Protected Overridable Sub Dispose(ByVal disposing As Boolean)
         If Not Me.disposedValue Then
             If disposing Then
-                ' TODO: –¾¦“I‚ÉŒÄ‚Ño‚³‚ê‚½‚Æ‚«‚Éƒ}ƒl[ƒW ƒŠƒ\[ƒX‚ğ‰ğ•ú‚µ‚Ü‚·
+                ' TODO: æ˜ç¤ºçš„ã«å‘¼ã³å‡ºã•ã‚ŒãŸã¨ãã«ãƒãƒãƒ¼ã‚¸ ãƒªã‚½ãƒ¼ã‚¹ã‚’è§£æ”¾ã—ã¾ã™
             End If
 
-            ' TODO: ‹¤—L‚ÌƒAƒ“ƒ}ƒl[ƒW ƒŠƒ\[ƒX‚ğ‰ğ•ú‚µ‚Ü‚·
+            ' TODO: å…±æœ‰ã®ã‚¢ãƒ³ãƒãƒãƒ¼ã‚¸ ãƒªã‚½ãƒ¼ã‚¹ã‚’è§£æ”¾ã—ã¾ã™
             If Me._targetForm IsNot Nothing AndAlso Not Me._targetForm.IsDisposed Then
                 Me.UnregisterAllOriginalHotkey()
                 RemoveHandler _targetForm.HandleCreated, AddressOf Me.OnHandleCreated
@@ -139,9 +139,9 @@ Public Class HookGlobalHotkey
     End Sub
 
 #Region " IDisposable Support "
-    ' ‚±‚ÌƒR[ƒh‚ÍA”jŠü‰Â”\‚Èƒpƒ^[ƒ“‚ğ³‚µ‚­À‘•‚Å‚«‚é‚æ‚¤‚É Visual Basic ‚É‚æ‚Á‚Ä’Ç‰Á‚³‚ê‚Ü‚µ‚½B
+    ' ã“ã®ã‚³ãƒ¼ãƒ‰ã¯ã€ç ´æ£„å¯èƒ½ãªãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’æ­£ã—ãå®Ÿè£…ã§ãã‚‹ã‚ˆã†ã« Visual Basic ã«ã‚ˆã£ã¦è¿½åŠ ã•ã‚Œã¾ã—ãŸã€‚
     Public Sub Dispose() Implements IDisposable.Dispose
-        ' ‚±‚ÌƒR[ƒh‚ğ•ÏX‚µ‚È‚¢‚Å‚­‚¾‚³‚¢BƒNƒŠ[ƒ“ƒAƒbƒv ƒR[ƒh‚ğã‚Ì Dispose(ByVal disposing As Boolean) ‚É‹Lq‚µ‚Ü‚·B
+        ' ã“ã®ã‚³ãƒ¼ãƒ‰ã‚’å¤‰æ›´ã—ãªã„ã§ãã ã•ã„ã€‚ã‚¯ãƒªãƒ¼ãƒ³ã‚¢ãƒƒãƒ— ã‚³ãƒ¼ãƒ‰ã‚’ä¸Šã® Dispose(ByVal disposing As Boolean) ã«è¨˜è¿°ã—ã¾ã™ã€‚
         Dispose(True)
         GC.SuppressFinalize(Me)
     End Sub

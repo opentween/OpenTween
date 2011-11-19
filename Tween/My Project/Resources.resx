@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -449,7 +449,7 @@
     <value>http://search.twitter.com/search?q={0}</value>
   </data>
   <data name="SetFiltersText1" xml:space="preserve">
-    <value>[ユーザ･･･{0}]  </value>
+    <value>[ユーザ・・・{0}]  </value>
   </data>
   <data name="SetFiltersText10" xml:space="preserve">
     <value>マークする</value>
@@ -458,10 +458,10 @@
     <value>コピーする/</value>
   </data>
   <data name="SetFiltersText2" xml:space="preserve">
-    <value>[ユーザ･･･(全て)]  </value>
+    <value>[ユーザ・・・(全て)]  </value>
   </data>
   <data name="SetFiltersText3" xml:space="preserve">
-    <value>[本文･･･</value>
+    <value>[本文・・・</value>
   </data>
   <data name="SetFiltersText4" xml:space="preserve">
     <value>]  </value>

@@ -1,4 +1,4 @@
-﻿Namespace TweenCustomControl
+Namespace TweenCustomControl
     Public Class PictureBoxEx
         Inherits PictureBox
         Protected Overrides Sub OnPaint(ByVal pe As System.Windows.Forms.PaintEventArgs)

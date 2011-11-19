@@ -1,4 +1,4 @@
-﻿Namespace My
+Namespace My
 
     ' 次のイベントは MyApplication に対して利用できます:
     ' 

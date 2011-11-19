@@ -38,7 +38,7 @@ Public Class nicoms
         "niconicommons.jp/material/"}
 
     Public Shared Function Shorten(ByVal url As String) As String
-        '®Œ`ihttp(s)://‚ðíœj
+        'æ•´å½¢ï¼ˆhttp(s)://ã‚’å‰Šé™¤ï¼‰
         If url.Length > 7 AndAlso url.Length < 128 AndAlso url.StartsWith("http://", StringComparison.OrdinalIgnoreCase) Then
             url = url.Substring(7)
         Else
