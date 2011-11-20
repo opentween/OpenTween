@@ -282,7 +282,6 @@
     <Compile Include="Twitter.vb" />
     <Compile Include="UserInfo.vb" />
     <Compile Include="WebBrowserController.vb" />
-    <Compile Include="Win32Api.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AppendSettingDialog.en.resx">
