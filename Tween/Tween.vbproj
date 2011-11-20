@@ -113,7 +113,6 @@
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiInformation.vb" />
     <Compile Include="AppendSettingDialog.Designer.vb">
       <DependentUpon>AppendSettingDialog.vb</DependentUpon>
     </Compile>
