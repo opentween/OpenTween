@@ -1,4 +1,4 @@
-' Tween - Client of Twitter
+﻿' Tween - Client of Twitter
 ' Copyright (c) 2007-2011 kiri_feather (@kiri_feather) <kiri.feather@gmail.com>
 '           (c) 2008-2011 Moz (@syo68k)
 '           (c) 2008-2011 takeshik (@takeshik) <http://www.takeshik.org/>
@@ -18,15 +18,14 @@
 Option Strict On
 Option Explicit On
 
-Imports System.Collections.Generic
-Imports System.Text
 Imports System.Linq
 Imports System.Linq.Expressions
 Imports System.Reflection
 Imports System.Reflection.Emit
-Imports System.Threading
 Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports System.Text.RegularExpressions
+Imports System.Threading
 
 
 Public Module DynamicQueryable

@@ -1,4 +1,4 @@
-' Tween - Client of Twitter
+﻿' Tween - Client of Twitter
 ' Copyright (c) 2007-2011 kiri_feather (@kiri_feather) <kiri.feather@gmail.com>
 '           (c) 2008-2011 Moz (@syo68k)
 '           (c) 2008-2011 takeshik (@takeshik) <http://www.takeshik.org/>
@@ -91,7 +91,10 @@ Public Class AtIdSupplement
     End Sub
 
     Private Sub AtIdSupplement_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        If startChar = "#" Then Me.ClientSize = New Size(Me.TextId.Width, Me.TextId.Height) 'プロパティで切り替えできるように
+        If startChar = "#" Then
+            Me.ClientSize = New Size(Me.TextId.Width, Me.TextId.Height) 'プロパティで切り替えできるように
+            Me.TextId.ImeMode = Windows.Forms.ImeMode.Inherit
+        End If
     End Sub
 
     Private Sub AtIdSupplement_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown

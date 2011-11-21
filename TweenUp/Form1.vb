@@ -1,7 +1,8 @@
-Imports System.Diagnostics
+﻿Imports System.Diagnostics
 Imports System.Threading
 Imports System.IO
 Imports System
+Imports System.Threading.Thread
 
 Public Class Form1
 
@@ -14,8 +15,34 @@ Public Class Form1
         Label1.Text = My.Resources.TweenUpdating
         Label2.Text = My.Resources.PleaseWait
 
+        If My.Application.CommandLineArgs.Count > 0 Then TWEENEXEPATH = My.Application.CommandLineArgs(0)
+
+        If My.Application.CommandLineArgs.Count = 1 AndAlso IsRequiredUAC() Then
+            Me.Visible = False
+            Dim p As New Process()
+            p.StartInfo.FileName = Path.Combine(Application.StartupPath, My.Application.Info.AssemblyName + ".exe")
+            p.StartInfo.UseShellExecute = True
+            p.StartInfo.WorkingDirectory = Application.StartupPath
+            p.StartInfo.Arguments = """" + TWEENEXEPATH + """ up"
+            p.StartInfo.Verb = "RunAs"
+            Try
+                p.Start()
+                p.WaitForExit()
+            Catch ex As System.ComponentModel.Win32Exception
+                Application.Exit()
+            Catch ex As Exception
+            Finally
+                p.Close()
+            End Try
+
+            Process.Start(Path.Combine(TWEENEXEPATH, My.Resources.FilenameTweenExe))
+            Application.Exit()
+            Exit Sub
+        End If
+
         ' exe自身からフォームのアイコンを取得
         Me.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath)
+
 #If 0 Then
         If Environment.GetCommandLineArgs().Length <> 1 AndAlso Directory.Exists(Environment.GetCommandLineArgs()(1)) Then
             TWEENEXEPATH = Environment.GetCommandLineArgs()(1)
@@ -23,6 +50,12 @@ Public Class Form1
         End If
 #End If
     End Sub
+
+    Private Function IsRequiredUAC() As Boolean
+        Dim os As OperatingSystem = System.Environment.OSVersion
+        If os.Platform = PlatformID.Win32NT AndAlso os.Version.Major >= 6 Then Return True
+        Return False
+    End Function
 
     Private Sub Form1_Shown(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Shown
         Me.BackgroundWorker1.WorkerReportsProgress = True
@@ -52,11 +85,11 @@ Public Class Form1
         'End Try
 
         Try
-            Dim bkDir2 As String = Path.Combine(TWEENEXEPATH, "TweenBackup2nd")
+            Dim bkDir2 As String = Path.Combine(SOURCEPATH, "TweenBackup2nd")
             If Directory.Exists(bkDir2) Then
                 Directory.Delete(bkDir2, True)
             End If
-            Dim bkDir As String = Path.Combine(TWEENEXEPATH, "TweenBackup1st")
+            Dim bkDir As String = Path.Combine(SOURCEPATH, "TweenBackup1st")
             If Directory.Exists(bkDir) Then
                 Directory.Move(bkDir, bkDir2)
             End If
@@ -64,11 +97,11 @@ Public Class Form1
 
         End Try
         Try
-            Dim bkDir As String = Path.Combine(TWEENEXEPATH, "TweenBackup1st")
+            Dim bkDir As String = Path.Combine(SOURCEPATH, "TweenBackup1st")
             If Not Directory.Exists(bkDir) Then
                 Directory.CreateDirectory(bkDir)
             End If
-            For Each file As FileInfo In (New DirectoryInfo(TWEENEXEPATH + Path.DirectorySeparatorChar)).GetFiles("*.xml")
+            For Each file As FileInfo In (New DirectoryInfo(SOURCEPATH + Path.DirectorySeparatorChar)).GetFiles("*.xml")
                 file.CopyTo(Path.Combine(bkDir, file.Name), True)
             Next
         Catch ex As Exception
@@ -79,12 +112,12 @@ Public Class Form1
 
     Private Sub DeleteOldFiles()
         Try
-            Dim bkDir As String = Path.Combine(TWEENEXEPATH, "TweenOldFiles")
+            Dim bkDir As String = Path.Combine(SOURCEPATH, "TweenOldFiles")
             If Not Directory.Exists(bkDir) Then
                 Directory.CreateDirectory(bkDir)
             End If
             'ログファイルの削除
-            Dim cDir As New DirectoryInfo(TWEENEXEPATH + Path.DirectorySeparatorChar)
+            Dim cDir As New DirectoryInfo(SOURCEPATH + Path.DirectorySeparatorChar)
             For Each file As FileInfo In cDir.GetFiles("Tween*.log")
                 file.MoveTo(Path.Combine(bkDir, file.Name))
             Next
@@ -112,8 +145,18 @@ Public Class Form1
         cultures.AddRange(New String() { _
                             "en" _
                           })
-
-
+        Dim curCul As String = ""
+        If Not CurrentThread.CurrentUICulture.IsNeutralCulture Then
+            Dim idx As Integer = CurrentThread.CurrentUICulture.Name.LastIndexOf("-"c)
+            If idx > -1 Then
+                curCul = CurrentThread.CurrentUICulture.Name.Substring(0, idx)
+            Else
+                curCul = CurrentThread.CurrentUICulture.Name
+            End If
+        Else
+            curCul = CurrentThread.CurrentUICulture.Name
+        End If
+        If String.IsNullOrEmpty(curCul) AndAlso curCul <> "en" Then cultures.Add(curCul)
 
         BackgroundWorker1.ReportProgress(0, userState:=My.Resources.ProgressWaitForTweenExit)
         System.Threading.Thread.Sleep(WaitTime) ' スリープ
@@ -165,6 +208,7 @@ Public Class Form1
 
         BackgroundWorker1.ReportProgress(0, userState:=My.Resources.ProgressCopying)
         For Each DstFile In ImagePath
+            '本体
             Dim SrcFile As String = Path.Combine(SOURCEPATH, My.Resources.FilenameNew)
             If System.IO.File.Exists(SrcFile) Then
                 ' ImagePathに格納されているファイルにTweenNew.exeを上書き
@@ -172,9 +216,12 @@ Public Class Form1
                 ' TweenNew.exeを削除
                 File.Delete(Path.Combine(SOURCEPATH, My.Resources.FilenameNew))
             End If
-
-            For Each cul As String In cultures
-                Dim SrcFileRes As String = Path.Combine(Path.Combine(SOURCEPATH, cul), My.Resources.FilenameResourceNew)
+            'リソース
+            'Dim resDirs As String() = Directory.GetDirectories(SOURCEPATH, "*", SearchOption.TopDirectoryOnly)
+            'ディレクトリ探索
+            For Each spath As String In Directory.GetDirectories(SOURCEPATH, "*", SearchOption.TopDirectoryOnly)
+                Dim cul As String = spath.Substring(spath.LastIndexOf(Path.DirectorySeparatorChar) + 1)
+                Dim SrcFileRes As String = Path.Combine(spath, My.Resources.FilenameResourceNew)
                 Dim DstFileRes As String = Path.Combine(Path.Combine(TWEENEXEPATH, cul), My.Resources.FilenameResourceDll)
 
                 If System.IO.File.Exists(SrcFileRes) Then
@@ -183,13 +230,12 @@ Public Class Form1
                         Directory.CreateDirectory(Path.Combine(TWEENEXEPATH, cul))
                     End If
                     ' リソースファイルの上書き
-                    If File.Exists(SrcFileRes) Then
-                        File.Copy(SrcFileRes, DstFileRes, True)
-                        ' リソースファイル削除
-                        File.Delete(SrcFileRes)
-                    End If
+                    File.Copy(SrcFileRes, DstFileRes, True)
+                    ' リソースファイル削除
+                    File.Delete(SrcFileRes)
                 End If
             Next
+            'シリアライザDLL
             Dim SrcFileDll As String = Path.Combine(SOURCEPATH, My.Resources.FilenameDllNew)
             Dim DstFileDll As String = Path.Combine(TWEENEXEPATH, My.Resources.FilenameDll)
             If System.IO.File.Exists(SrcFileDll) Then
@@ -207,7 +253,11 @@ Public Class Form1
         ' 「新しいTweenを起動しています」
         BackgroundWorker1.ReportProgress(0, userState:=My.Resources.ProgressExecuteTween)
 
-        Process.Start(Path.Combine(TWEENEXEPATH, My.Resources.FilenameTweenExe))
+        If My.Application.CommandLineArgs.Count = 1 Then
+            Process.Start(Path.Combine(TWEENEXEPATH, My.Resources.FilenameTweenExe))
+        End If
+
+        'Process.Start(Path.Combine(TWEENEXEPATH, My.Resources.FilenameTweenExe))
 
     End Sub
 

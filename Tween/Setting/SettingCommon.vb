@@ -1,4 +1,4 @@
-' Tween - Client of Twitter
+﻿' Tween - Client of Twitter
 ' Copyright (c) 2007-2011 kiri_feather (@kiri_feather) <kiri.feather@gmail.com>
 '           (c) 2008-2011 Moz (@syo68k)
 '           (c) 2008-2011 takeshik (@takeshik) <http://www.takeshik.org/>
@@ -37,6 +37,7 @@ Public Class SettingCommon
     End Sub
 #End Region
 
+    Public UserAccounts As List(Of UserAccount)
     Public UserName As String = ""
 
     <Xml.Serialization.XmlIgnore()> _
@@ -86,6 +87,7 @@ Public Class SettingCommon
         Return password
     End Function
 
+    Public UserId As Long = 0
     Public TabList As New List(Of String)
     Public TimelinePeriod As Integer = 90
     Public ReplyPeriod As Integer = 180
@@ -138,6 +140,7 @@ Public Class SettingCommon
     Public HashSelected As String = ""
     Public HashIsPermanent As Boolean = False
     Public HashIsHead As Boolean = False
+    Public HashIsNotAddToAtReply As Boolean = True
     Public PreviewEnable As Boolean = True
 
     <Xml.Serialization.XmlIgnore()> _
@@ -170,7 +173,6 @@ Public Class SettingCommon
     Public UseHashSupplement As Boolean = True
     Public TwitterUrl As String = "api.twitter.com"
     Public TwitterSearchUrl As String = "search.twitter.com"
-    Public IsOAuth As Boolean = True
     Public HotkeyEnabled As Boolean = False
     Public HotkeyModifier As Keys = Keys.None
     Public HotkeyKey As Keys = Keys.None
@@ -184,8 +186,8 @@ Public Class SettingCommon
     Public FavoritesCountApi As Integer = 40
     Public TrackWord As String = ""
     Public AllAtReply As Boolean = False
-    Public UserstreamPeriod As Integer = 3
     Public UserstreamStartup As Boolean = True
+    Public UserstreamPeriod As Integer = 0
     Public UserTimelineCountApi As Integer = 20
     Public UserTimelinePeriod As Integer = 600
     Public OpenUserTimeline As Boolean = True
@@ -194,4 +196,58 @@ Public Class SettingCommon
     Public ListDoubleClickAction As Integer = 0
     Public UserAppointUrl As String = ""
     Public HideDuplicatedRetweets As Boolean = False
+    Public IsPreviewFoursquare As Boolean = False
+    Public FoursquarePreviewHeight As Integer = 300
+    Public FoursquarePreviewWidth As Integer = 300
+    Public FoursquarePreviewZoom As Integer = 15
+    Public IsListsIncludeRts As Boolean = False
+    Public GAFirst As Long = 0
+    Public GALast As Long = 0
+    Public TabMouseLock As Boolean = False
+    Public IsRemoveSameEvent As Boolean = False
+    Public IsUseNotifyGrowl As Boolean = False
+End Class
+
+Public Class UserAccount
+    Public Username As String = ""
+    Public UserId As Long = 0
+    Public GAFirst As Long = 0
+    Public GALast As Long = 0
+    Public Token As String = ""
+    <Xml.Serialization.XmlIgnore()> _
+    Public TokenSecret As String = ""
+    Public Property EncryptTokenSecret() As String
+        Get
+            Return Encrypt(TokenSecret)
+        End Get
+        Set(ByVal value As String)
+            TokenSecret = Decrypt(value)
+        End Set
+    End Property
+    Private Function Encrypt(ByVal password As String) As String
+        If String.IsNullOrEmpty(password) Then password = ""
+        If password.Length > 0 Then
+            Try
+                Return EncryptString(password)
+            Catch ex As Exception
+                Return ""
+            End Try
+        Else
+            Return ""
+        End If
+    End Function
+    Private Function Decrypt(ByVal password As String) As String
+        If String.IsNullOrEmpty(password) Then password = ""
+        If password.Length > 0 Then
+            Try
+                password = DecryptString(password)
+            Catch ex As Exception
+                password = ""
+            End Try
+        End If
+        Return password
+    End Function
+    Public Overrides Function ToString() As String
+        Return Me.Username
+    End Function
 End Class

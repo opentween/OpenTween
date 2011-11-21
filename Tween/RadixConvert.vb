@@ -23,32 +23,31 @@
 ' the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 ' Boston, MA 02110-1301, USA.
 
-Imports System
 Imports System.Text
 
 
 Public Class RadixConvert
 
     ''' <summary>
-    ''' ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã‚’ç¦æ­¢ã—ã¦ã„ã¾ã™ã€‚
+    ''' ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚ð‹ÖŽ~‚µ‚Ä‚¢‚Ü‚·B
     ''' </summary>
     Private Sub New()
 
     End Sub
 
-#Region "Int16åž‹ãŠã‚ˆã³UInt16åž‹ç”¨ã®ãƒ¡ã‚½ãƒƒãƒ‰ç¾¤"
+#Region "Int16Œ^‚¨‚æ‚ÑUInt16Œ^—p‚Ìƒƒ\ƒbƒhŒQ"
 
     ''' <summary>
-    ''' 3ã€œ36é€²æ•°ã®æ•°å€¤æ–‡å­—åˆ—ã‚’Int16åž‹ã®æ•°å€¤ã«å¤‰æ›ã—ã¾ã™ã€‚
+    ''' 3`36i”‚Ì”’l•¶Žš—ñ‚ðInt16Œ^‚Ì”’l‚É•ÏŠ·‚µ‚Ü‚·B
     ''' </summary>
     ''' <remarks>
-    ''' â€»2ï¼8ï¼10ï¼16é€²æ•°ã¯ã€Convert.ToInt16ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½¿ã£ã¦ãã ã•ã„ã€‚
-    ''' â€»ï¼‹ã‚„âˆ’ã®ç¬¦å·ã‚„0xãªã©ã®ãƒ—ãƒ¬ãƒ•ã‚£ãƒƒã‚¯ã‚¹ã«ã¯å¯¾å¿œã—ã¦ã„ã¾ã›ã‚“ã€‚
-    ''' â€»å¼•æ•°ã¨ãªã‚‹æ•°å€¤æ–‡å­—åˆ—ã«ã€ã‚¹ãƒšãƒ¼ã‚¹ãªã©ã®æ–‡å­—ã‚’å«ã‚ãªã„ã§ãã ã•ã„ã€‚
+    ''' ¦2^8^10^16i”‚ÍAConvert.ToInt16ƒƒ\ƒbƒh‚ðŽg‚Á‚Ä‚­‚¾‚³‚¢B
+    ''' ¦{‚â|‚Ì•„†‚â0x‚È‚Ç‚ÌƒvƒŒƒtƒBƒbƒNƒX‚É‚Í‘Î‰ž‚µ‚Ä‚¢‚Ü‚¹‚ñB
+    ''' ¦ˆø”‚Æ‚È‚é”’l•¶Žš—ñ‚ÉAƒXƒy[ƒX‚È‚Ç‚Ì•¶Žš‚ðŠÜ‚ß‚È‚¢‚Å‚­‚¾‚³‚¢B
     ''' </remarks>
-    ''' <param name="s">æ•°å€¤æ–‡å­—åˆ—</param>
-    ''' <param name="radix">åŸºæ•°</param>
-    ''' <returns>æ•°å€¤</returns>
+    ''' <param name="s">”’l•¶Žš—ñ</param>
+    ''' <param name="radix">Šî”</param>
+    ''' <returns>”’l</returns>
     Public Shared Function ToInt16(ByVal s As String, ByVal radix As Integer) As Short
 
         Dim digit As ULong = ToUInt64(s, radix)
@@ -58,16 +57,16 @@ Public Class RadixConvert
     End Function
 
     ''' <summary>
-    ''' 3ã€œ36é€²æ•°ã®æ•°å€¤æ–‡å­—åˆ—ã‚’UInt16åž‹ã®æ•°å€¤ã«å¤‰æ›ã—ã¾ã™ã€‚
+    ''' 3`36i”‚Ì”’l•¶Žš—ñ‚ðUInt16Œ^‚Ì”’l‚É•ÏŠ·‚µ‚Ü‚·B
     ''' </summary>
     ''' <remarks>
-    ''' â€»2ï¼8ï¼10ï¼16é€²æ•°ã¯ã€Convert.ToUInt16ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½¿ã£ã¦ãã ã•ã„ã€‚
-    ''' â€»ï¼‹ã‚„âˆ’ã®ç¬¦å·ã‚„0xãªã©ã®ãƒ—ãƒ¬ãƒ•ã‚£ãƒƒã‚¯ã‚¹ã«ã¯å¯¾å¿œã—ã¦ã„ã¾ã›ã‚“ã€‚
-    ''' â€»å¼•æ•°ã¨ãªã‚‹æ•°å€¤æ–‡å­—åˆ—ã«ã€ã‚¹ãƒšãƒ¼ã‚¹ãªã©ã®æ–‡å­—ã‚’å«ã‚ãªã„ã§ãã ã•ã„ã€‚
+    ''' ¦2^8^10^16i”‚ÍAConvert.ToUInt16ƒƒ\ƒbƒh‚ðŽg‚Á‚Ä‚­‚¾‚³‚¢B
+    ''' ¦{‚â|‚Ì•„†‚â0x‚È‚Ç‚ÌƒvƒŒƒtƒBƒbƒNƒX‚É‚Í‘Î‰ž‚µ‚Ä‚¢‚Ü‚¹‚ñB
+    ''' ¦ˆø”‚Æ‚È‚é”’l•¶Žš—ñ‚ÉAƒXƒy[ƒX‚È‚Ç‚Ì•¶Žš‚ðŠÜ‚ß‚È‚¢‚Å‚­‚¾‚³‚¢B
     ''' </remarks>
-    ''' <param name="s">æ•°å€¤æ–‡å­—åˆ—</param>
-    ''' <param name="radix">åŸºæ•°</param>
-    ''' <returns>æ•°å€¤</returns>
+    ''' <param name="s">”’l•¶Žš—ñ</param>
+    ''' <param name="radix">Šî”</param>
+    ''' <returns>”’l</returns>
     Public Shared Function ToUInt16(ByVal s As String, ByVal radix As Integer) As UShort
 
         Dim digit As ULong = ToUInt64(s, radix)
@@ -77,16 +76,16 @@ Public Class RadixConvert
     End Function
 
     ''' <summary>
-    ''' UInt16åž‹ã®æ•°å€¤ã‚’3ã€œ36é€²æ•°ã®æ•°å€¤æ–‡å­—åˆ—ã«å¤‰æ›ã—ã¾ã™ã€‚
+    ''' UInt16Œ^‚Ì”’l‚ð3`36i”‚Ì”’l•¶Žš—ñ‚É•ÏŠ·‚µ‚Ü‚·B
     ''' </summary>
     ''' <remarks>
-    ''' â€»2ï¼8ï¼10ï¼16é€²æ•°ã¯ã€Convert.ToStringãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½¿ã£ã¦ãã ã•ã„ã€‚
-    ''' â€»âˆ’ç¬¦å·ã«ã¯å¯¾å¿œã—ã¦ã„ã¾ã›ã‚“ã€‚
+    ''' ¦2^8^10^16i”‚ÍAConvert.ToStringƒƒ\ƒbƒh‚ðŽg‚Á‚Ä‚­‚¾‚³‚¢B
+    ''' ¦|•„†‚É‚Í‘Î‰ž‚µ‚Ä‚¢‚Ü‚¹‚ñB
     ''' </remarks>
-    ''' <param name="n">æ•°å€¤</param>
-    ''' <param name="radix">åŸºæ•°</param>
-    ''' <param name="uppercase">å¤§æ–‡å­—ã‹ï¼ˆtrueï¼‰ã€å°æ–‡å­—ã‹ï¼ˆfalseï¼‰</param>
-    ''' <returns>æ•°å€¤æ–‡å­—åˆ—</returns>
+    ''' <param name="n">”’l</param>
+    ''' <param name="radix">Šî”</param>
+    ''' <param name="uppercase">‘å•¶Žš‚©itruejA¬•¶Žš‚©ifalsej</param>
+    ''' <returns>”’l•¶Žš—ñ</returns>
     Public Overloads Shared Function ToString(ByVal n As Short, ByVal radix As Integer, ByVal uppercase As Boolean) As String
 
         Return ToString(CType(n, ULong), radix, uppercase)
@@ -94,16 +93,16 @@ Public Class RadixConvert
     End Function
 
     ''' <summary>
-    ''' UInt16åž‹ã®æ•°å€¤ã‚’3ã€œ36é€²æ•°ã®æ•°å€¤æ–‡å­—åˆ—ã«å¤‰æ›ã—ã¾ã™ã€‚
+    ''' UInt16Œ^‚Ì”’l‚ð3`36i”‚Ì”’l•¶Žš—ñ‚É•ÏŠ·‚µ‚Ü‚·B
     ''' </summary>
     ''' <remarks>
-    ''' â€»2ï¼8ï¼10ï¼16é€²æ•°ã¯ã€Convert.ToStringãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½¿ã£ã¦ãã ã•ã„ã€‚
-    ''' â€»âˆ’ç¬¦å·ã«ã¯å¯¾å¿œã—ã¦ã„ã¾ã›ã‚“ã€‚
+    ''' ¦2^8^10^16i”‚ÍAConvert.ToStringƒƒ\ƒbƒh‚ðŽg‚Á‚Ä‚­‚¾‚³‚¢B
+    ''' ¦|•„†‚É‚Í‘Î‰ž‚µ‚Ä‚¢‚Ü‚¹‚ñB
     ''' </remarks>
-    ''' <param name="n">æ•°å€¤</param>
-    ''' <param name="radix">åŸºæ•°</param>
-    ''' <param name="uppercase">å¤§æ–‡å­—ã‹ï¼ˆtrueï¼‰ã€å°æ–‡å­—ã‹ï¼ˆfalseï¼‰</param>
-    ''' <returns>æ•°å€¤æ–‡å­—åˆ—</returns>
+    ''' <param name="n">”’l</param>
+    ''' <param name="radix">Šî”</param>
+    ''' <param name="uppercase">‘å•¶Žš‚©itruejA¬•¶Žš‚©ifalsej</param>
+    ''' <returns>”’l•¶Žš—ñ</returns>
     Public Overloads Shared Function ToString(ByVal n As UShort, ByVal radix As Integer, ByVal uppercase As Boolean) As String
 
         Return ToString(CType(n, ULong), radix, uppercase)
@@ -112,19 +111,19 @@ Public Class RadixConvert
 
 #End Region
 
-#Region "Int32åž‹ãŠã‚ˆã³UInt32åž‹ç”¨ã®ãƒ¡ã‚½ãƒƒãƒ‰ç¾¤"
+#Region "Int32Œ^‚¨‚æ‚ÑUInt32Œ^—p‚Ìƒƒ\ƒbƒhŒQ"
 
     ''' <summary>
-    ''' 3ã€œ36é€²æ•°ã®æ•°å€¤æ–‡å­—åˆ—ã‚’Int32åž‹ã®æ•°å€¤ã«å¤‰æ›ã—ã¾ã™ã€‚
+    ''' 3`36i”‚Ì”’l•¶Žš—ñ‚ðInt32Œ^‚Ì”’l‚É•ÏŠ·‚µ‚Ü‚·B
     ''' </summary>
     ''' <remarks>
-    ''' â€»2ï¼8ï¼10ï¼16é€²æ•°ã¯ã€Convert.ToInt32ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½¿ã£ã¦ãã ã•ã„ã€‚
-    ''' â€»ï¼‹ã‚„âˆ’ã®ç¬¦å·ã‚„0xãªã©ã®ãƒ—ãƒ¬ãƒ•ã‚£ãƒƒã‚¯ã‚¹ã«ã¯å¯¾å¿œã—ã¦ã„ã¾ã›ã‚“ã€‚
-    ''' â€»å¼•æ•°ã¨ãªã‚‹æ•°å€¤æ–‡å­—åˆ—ã«ã€ã‚¹ãƒšãƒ¼ã‚¹ãªã©ã®æ–‡å­—ã‚’å«ã‚ãªã„ã§ãã ã•ã„ã€‚
+    ''' ¦2^8^10^16i”‚ÍAConvert.ToInt32ƒƒ\ƒbƒh‚ðŽg‚Á‚Ä‚­‚¾‚³‚¢B
+    ''' ¦{‚â|‚Ì•„†‚â0x‚È‚Ç‚ÌƒvƒŒƒtƒBƒbƒNƒX‚É‚Í‘Î‰ž‚µ‚Ä‚¢‚Ü‚¹‚ñB
+    ''' ¦ˆø”‚Æ‚È‚é”’l•¶Žš—ñ‚ÉAƒXƒy[ƒX‚È‚Ç‚Ì•¶Žš‚ðŠÜ‚ß‚È‚¢‚Å‚­‚¾‚³‚¢B
     ''' </remarks>
-    ''' <param name="s">æ•°å€¤æ–‡å­—åˆ—</param>
-    ''' <param name="radix">åŸºæ•°</param>
-    ''' <returns>æ•°å€¤</returns>
+    ''' <param name="s">”’l•¶Žš—ñ</param>
+    ''' <param name="radix">Šî”</param>
+    ''' <returns>”’l</returns>
     Public Shared Function ToInt32(ByVal s As String, ByVal radix As Integer) As Integer
 
         Dim digit As ULong = ToUInt64(s, radix)
@@ -134,16 +133,16 @@ Public Class RadixConvert
     End Function
 
     ''' <summary>
-    ''' 3ã€œ36é€²æ•°ã®æ•°å€¤æ–‡å­—åˆ—ã‚’UInt32åž‹ã®æ•°å€¤ã«å¤‰æ›ã—ã¾ã™ã€‚
+    ''' 3`36i”‚Ì”’l•¶Žš—ñ‚ðUInt32Œ^‚Ì”’l‚É•ÏŠ·‚µ‚Ü‚·B
     ''' </summary>
     ''' <remarks>
-    ''' â€»2ï¼8ï¼10ï¼16é€²æ•°ã¯ã€Convert.ToUInt32ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½¿ã£ã¦ãã ã•ã„ã€‚
-    ''' â€»ï¼‹ã‚„âˆ’ã®ç¬¦å·ã‚„0xãªã©ã®ãƒ—ãƒ¬ãƒ•ã‚£ãƒƒã‚¯ã‚¹ã«ã¯å¯¾å¿œã—ã¦ã„ã¾ã›ã‚“ã€‚
-    ''' â€»å¼•æ•°ã¨ãªã‚‹æ•°å€¤æ–‡å­—åˆ—ã«ã€ã‚¹ãƒšãƒ¼ã‚¹ãªã©ã®æ–‡å­—ã‚’å«ã‚ãªã„ã§ãã ã•ã„ã€‚
+    ''' ¦2^8^10^16i”‚ÍAConvert.ToUInt32ƒƒ\ƒbƒh‚ðŽg‚Á‚Ä‚­‚¾‚³‚¢B
+    ''' ¦{‚â|‚Ì•„†‚â0x‚È‚Ç‚ÌƒvƒŒƒtƒBƒbƒNƒX‚É‚Í‘Î‰ž‚µ‚Ä‚¢‚Ü‚¹‚ñB
+    ''' ¦ˆø”‚Æ‚È‚é”’l•¶Žš—ñ‚ÉAƒXƒy[ƒX‚È‚Ç‚Ì•¶Žš‚ðŠÜ‚ß‚È‚¢‚Å‚­‚¾‚³‚¢B
     ''' </remarks>
-    ''' <param name="s">æ•°å€¤æ–‡å­—åˆ—</param>
-    ''' <param name="radix">åŸºæ•°</param>
-    ''' <returns>æ•°å€¤</returns>
+    ''' <param name="s">”’l•¶Žš—ñ</param>
+    ''' <param name="radix">Šî”</param>
+    ''' <returns>”’l</returns>
     Public Shared Function ToUInt32(ByVal s As String, ByVal radix As Integer) As UInteger
 
         Dim digit As ULong = ToUInt64(s, radix)
@@ -153,16 +152,16 @@ Public Class RadixConvert
     End Function
 
     ''' <summary>
-    ''' UInt32åž‹ã®æ•°å€¤ã‚’3ã€œ36é€²æ•°ã®æ•°å€¤æ–‡å­—åˆ—ã«å¤‰æ›ã—ã¾ã™ã€‚
+    ''' UInt32Œ^‚Ì”’l‚ð3`36i”‚Ì”’l•¶Žš—ñ‚É•ÏŠ·‚µ‚Ü‚·B
     ''' </summary>
     ''' <remarks>
-    ''' â€»2ï¼8ï¼10ï¼16é€²æ•°ã¯ã€Convert.ToStringãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½¿ã£ã¦ãã ã•ã„ã€‚
-    ''' â€»âˆ’ç¬¦å·ã«ã¯å¯¾å¿œã—ã¦ã„ã¾ã›ã‚“ã€‚
+    ''' ¦2^8^10^16i”‚ÍAConvert.ToStringƒƒ\ƒbƒh‚ðŽg‚Á‚Ä‚­‚¾‚³‚¢B
+    ''' ¦|•„†‚É‚Í‘Î‰ž‚µ‚Ä‚¢‚Ü‚¹‚ñB
     ''' </remarks>
-    ''' <param name="n">æ•°å€¤</param>
-    ''' <param name="radix">åŸºæ•°</param>
-    ''' <param name="uppercase">å¤§æ–‡å­—ã‹ï¼ˆtrueï¼‰ã€å°æ–‡å­—ã‹ï¼ˆfalseï¼‰</param>
-    ''' <returns>æ•°å€¤æ–‡å­—åˆ—</returns>
+    ''' <param name="n">”’l</param>
+    ''' <param name="radix">Šî”</param>
+    ''' <param name="uppercase">‘å•¶Žš‚©itruejA¬•¶Žš‚©ifalsej</param>
+    ''' <returns>”’l•¶Žš—ñ</returns>
     Public Overloads Shared Function ToString(ByVal n As Integer, ByVal radix As Integer, ByVal uppercase As Boolean) As String
 
         Return ToString(CType(n, ULong), radix, uppercase)
@@ -170,16 +169,16 @@ Public Class RadixConvert
     End Function
 
     ''' <summary>
-    ''' UInt32åž‹ã®æ•°å€¤ã‚’3ã€œ36é€²æ•°ã®æ•°å€¤æ–‡å­—åˆ—ã«å¤‰æ›ã—ã¾ã™ã€‚
+    ''' UInt32Œ^‚Ì”’l‚ð3`36i”‚Ì”’l•¶Žš—ñ‚É•ÏŠ·‚µ‚Ü‚·B
     ''' </summary>
     ''' <remarks>
-    ''' â€»2ï¼8ï¼10ï¼16é€²æ•°ã¯ã€Convert.ToStringãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½¿ã£ã¦ãã ã•ã„ã€‚
-    ''' â€»âˆ’ç¬¦å·ã«ã¯å¯¾å¿œã—ã¦ã„ã¾ã›ã‚“ã€‚
+    ''' ¦2^8^10^16i”‚ÍAConvert.ToStringƒƒ\ƒbƒh‚ðŽg‚Á‚Ä‚­‚¾‚³‚¢B
+    ''' ¦|•„†‚É‚Í‘Î‰ž‚µ‚Ä‚¢‚Ü‚¹‚ñB
     ''' </remarks>
-    ''' <param name="n">æ•°å€¤</param>
-    ''' <param name="radix">åŸºæ•°</param>
-    ''' <param name="uppercase">å¤§æ–‡å­—ã‹ï¼ˆtrueï¼‰ã€å°æ–‡å­—ã‹ï¼ˆfalseï¼‰</param>
-    ''' <returns>æ•°å€¤æ–‡å­—åˆ—</returns>
+    ''' <param name="n">”’l</param>
+    ''' <param name="radix">Šî”</param>
+    ''' <param name="uppercase">‘å•¶Žš‚©itruejA¬•¶Žš‚©ifalsej</param>
+    ''' <returns>”’l•¶Žš—ñ</returns>
     Public Overloads Shared Function ToString(ByVal n As UInteger, ByVal radix As Integer, ByVal uppercase As Boolean) As String
 
         Return ToString(CType(n, ULong), radix, uppercase)
@@ -188,19 +187,19 @@ Public Class RadixConvert
 
 #End Region
 
-#Region "Int64åž‹ãŠã‚ˆã³UInt64åž‹ç”¨ã®ãƒ¡ã‚½ãƒƒãƒ‰ç¾¤"
+#Region "Int64Œ^‚¨‚æ‚ÑUInt64Œ^—p‚Ìƒƒ\ƒbƒhŒQ"
 
     ''' <summary>
-    ''' 3ã€œ36é€²æ•°ã®æ•°å€¤æ–‡å­—åˆ—ã‚’Int64åž‹ã®æ•°å€¤ã«å¤‰æ›ã—ã¾ã™ã€‚
+    ''' 3`36i”‚Ì”’l•¶Žš—ñ‚ðInt64Œ^‚Ì”’l‚É•ÏŠ·‚µ‚Ü‚·B
     ''' </summary>
     ''' <remarks>
-    ''' â€»2ï¼8ï¼10ï¼16é€²æ•°ã¯ã€Convert.ToInt64ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½¿ã£ã¦ãã ã•ã„ã€‚
-    ''' â€»ï¼‹ã‚„âˆ’ã®ç¬¦å·ã‚„0xãªã©ã®ãƒ—ãƒ¬ãƒ•ã‚£ãƒƒã‚¯ã‚¹ã«ã¯å¯¾å¿œã—ã¦ã„ã¾ã›ã‚“ã€‚
-    ''' â€»å¼•æ•°ã¨ãªã‚‹æ•°å€¤æ–‡å­—åˆ—ã«ã€ã‚¹ãƒšãƒ¼ã‚¹ãªã©ã®æ–‡å­—ã‚’å«ã‚ãªã„ã§ãã ã•ã„ã€‚
+    ''' ¦2^8^10^16i”‚ÍAConvert.ToInt64ƒƒ\ƒbƒh‚ðŽg‚Á‚Ä‚­‚¾‚³‚¢B
+    ''' ¦{‚â|‚Ì•„†‚â0x‚È‚Ç‚ÌƒvƒŒƒtƒBƒbƒNƒX‚É‚Í‘Î‰ž‚µ‚Ä‚¢‚Ü‚¹‚ñB
+    ''' ¦ˆø”‚Æ‚È‚é”’l•¶Žš—ñ‚ÉAƒXƒy[ƒX‚È‚Ç‚Ì•¶Žš‚ðŠÜ‚ß‚È‚¢‚Å‚­‚¾‚³‚¢B
     ''' </remarks>
-    ''' <param name="s">æ•°å€¤æ–‡å­—åˆ—</param>
-    ''' <param name="radix">åŸºæ•°</param>
-    ''' <returns>æ•°å€¤</returns>
+    ''' <param name="s">”’l•¶Žš—ñ</param>
+    ''' <param name="radix">Šî”</param>
+    ''' <returns>”’l</returns>
     Public Shared Function ToInt64(ByVal s As String, ByVal radix As Integer) As Long
 
         Dim digit As ULong = ToUInt64(s, radix)
@@ -210,35 +209,35 @@ Public Class RadixConvert
     End Function
 
     ''' <summary>
-    ''' 3ã€œ36é€²æ•°ã®æ•°å€¤æ–‡å­—åˆ—ã‚’UInt64åž‹ã®æ•°å€¤ã«å¤‰æ›ã—ã¾ã™ã€‚
+    ''' 3`36i”‚Ì”’l•¶Žš—ñ‚ðUInt64Œ^‚Ì”’l‚É•ÏŠ·‚µ‚Ü‚·B
     ''' </summary>
     ''' <remarks>
-    ''' â€»2ï¼8ï¼10ï¼16é€²æ•°ã¯ã€Convert.ToUInt64ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½¿ã£ã¦ãã ã•ã„ã€‚
-    ''' â€»ï¼‹ã‚„âˆ’ã®ç¬¦å·ã‚„0xãªã©ã®ãƒ—ãƒ¬ãƒ•ã‚£ãƒƒã‚¯ã‚¹ã«ã¯å¯¾å¿œã—ã¦ã„ã¾ã›ã‚“ã€‚
-    ''' â€»å¼•æ•°ã¨ãªã‚‹æ•°å€¤æ–‡å­—åˆ—ã«ã€ã‚¹ãƒšãƒ¼ã‚¹ãªã©ã®æ–‡å­—ã‚’å«ã‚ãªã„ã§ãã ã•ã„ã€‚
+    ''' ¦2^8^10^16i”‚ÍAConvert.ToUInt64ƒƒ\ƒbƒh‚ðŽg‚Á‚Ä‚­‚¾‚³‚¢B
+    ''' ¦{‚â|‚Ì•„†‚â0x‚È‚Ç‚ÌƒvƒŒƒtƒBƒbƒNƒX‚É‚Í‘Î‰ž‚µ‚Ä‚¢‚Ü‚¹‚ñB
+    ''' ¦ˆø”‚Æ‚È‚é”’l•¶Žš—ñ‚ÉAƒXƒy[ƒX‚È‚Ç‚Ì•¶Žš‚ðŠÜ‚ß‚È‚¢‚Å‚­‚¾‚³‚¢B
     ''' </remarks>
-    ''' <param name="s">æ•°å€¤æ–‡å­—åˆ—</param>
-    ''' <param name="radix">åŸºæ•°</param>
-    ''' <returns>æ•°å€¤</returns>
+    ''' <param name="s">”’l•¶Žš—ñ</param>
+    ''' <param name="radix">Šî”</param>
+    ''' <returns>”’l</returns>
     Public Shared Function ToUInt64(ByVal s As String, ByVal radix As Integer) As ULong
 
-        ' å¼•æ•°ã‚’ãƒã‚§ãƒƒã‚¯ã‚’ã™ã‚‹
+        ' ˆø”‚ðƒ`ƒFƒbƒN‚ð‚·‚é
         CheckNumberArgument(s)
         CheckRadixArgument(radix)
 
-        Dim curValue As ULong = 0                                       ' å¤‰æ›ä¸­ã®æ•°å€¤
-        Dim maxValue As ULong = CType(UInt64.MaxValue / CType(radix, ULong), ULong)   ' æœ€å¤§å€¤ã®1ã‘ãŸå‰ã®æ•°å€¤
+        Dim curValue As ULong = 0                                       ' •ÏŠ·’†‚Ì”’l
+        Dim maxValue As ULong = CType(UInt64.MaxValue / CType(radix, ULong), ULong)   ' Å‘å’l‚Ì1‚¯‚½‘O‚Ì”’l
 
-        ' æ•°å€¤æ–‡å­—åˆ—ã‚’è§£æžã—ã¦æ•°å€¤ã«å¤‰æ›ã™ã‚‹
-        Dim num As Char         ' å‡¦ç†ä¸­ã®1ã‘ãŸã®æ•°å€¤æ–‡å­—åˆ—
-        Dim digit As Integer    ' å‡¦ç†ä¸­ã®1ã‘ãŸã®æ•°å€¤
+        ' ”’l•¶Žš—ñ‚ð‰ðÍ‚µ‚Ä”’l‚É•ÏŠ·‚·‚é
+        Dim num As Char         ' ˆ—’†‚Ì1‚¯‚½‚Ì”’l•¶Žš—ñ
+        Dim digit As Integer    ' ˆ—’†‚Ì1‚¯‚½‚Ì”’l
         Dim length As Integer = s.Length
         For i As Integer = 0 To length - 1
             num = s(i)
             digit = GetDigitFromNumber(num)
             CheckDigitOutOfRange(digit, radix)
 
-            ' æ¬¡ã«radixã‚’æŽ›ã‘ã‚‹ã¨ãã«æ•°å€¤ãŒã‚ªãƒ¼ãƒãƒ¼ãƒ•ãƒ­ãƒ¼ã—ãªã„ã‹ã‚’äº‹å‰ã«ãƒã‚§ãƒƒã‚¯ã™ã‚‹
+            ' ŽŸ‚Éradix‚ðŠ|‚¯‚é‚Æ‚«‚É”’l‚ªƒI[ƒo[ƒtƒ[‚µ‚È‚¢‚©‚ðŽ–‘O‚Éƒ`ƒFƒbƒN‚·‚é
             CheckDigitOverflow(curValue, maxValue)
             curValue = curValue * CType(radix, ULong) + CType(digit, ULong)
         Next
@@ -248,16 +247,16 @@ Public Class RadixConvert
     End Function
 
     ''' <summary>
-    ''' UInt64åž‹ã®æ•°å€¤ã‚’3ã€œ36é€²æ•°ã®æ•°å€¤æ–‡å­—åˆ—ã«å¤‰æ›ã—ã¾ã™ã€‚
+    ''' UInt64Œ^‚Ì”’l‚ð3`36i”‚Ì”’l•¶Žš—ñ‚É•ÏŠ·‚µ‚Ü‚·B
     ''' </summary>
     ''' <remarks>
-    ''' â€»2ï¼8ï¼10ï¼16é€²æ•°ã¯ã€Convert.ToStringãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½¿ã£ã¦ãã ã•ã„ã€‚
-    ''' â€»âˆ’ç¬¦å·ã«ã¯å¯¾å¿œã—ã¦ã„ã¾ã›ã‚“ã€‚
+    ''' ¦2^8^10^16i”‚ÍAConvert.ToStringƒƒ\ƒbƒh‚ðŽg‚Á‚Ä‚­‚¾‚³‚¢B
+    ''' ¦|•„†‚É‚Í‘Î‰ž‚µ‚Ä‚¢‚Ü‚¹‚ñB
     ''' </remarks>
-    ''' <param name="n">æ•°å€¤</param>
-    ''' <param name="radix">åŸºæ•°</param>
-    ''' <param name="uppercase">å¤§æ–‡å­—ã‹ï¼ˆtrueï¼‰ã€å°æ–‡å­—ã‹ï¼ˆfalseï¼‰</param>
-    ''' <returns>æ•°å€¤æ–‡å­—åˆ—</returns>
+    ''' <param name="n">”’l</param>
+    ''' <param name="radix">Šî”</param>
+    ''' <param name="uppercase">‘å•¶Žš‚©itruejA¬•¶Žš‚©ifalsej</param>
+    ''' <returns>”’l•¶Žš—ñ</returns>
     Public Overloads Shared Function ToString(ByVal n As Long, ByVal radix As Integer, ByVal uppercase As Boolean) As String
 
         Return ToString(CType(n, ULong), radix, uppercase)
@@ -265,36 +264,36 @@ Public Class RadixConvert
     End Function
 
     ''' <summary>
-    ''' UInt64åž‹ã®æ•°å€¤ã‚’3ã€œ36é€²æ•°ã®æ•°å€¤æ–‡å­—åˆ—ã«å¤‰æ›ã—ã¾ã™ã€‚
+    ''' UInt64Œ^‚Ì”’l‚ð3`36i”‚Ì”’l•¶Žš—ñ‚É•ÏŠ·‚µ‚Ü‚·B
     ''' </summary>
     ''' <remarks>
-    ''' â€»2ï¼8ï¼10ï¼16é€²æ•°ã¯ã€Convert.ToStringãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½¿ã£ã¦ãã ã•ã„ã€‚
-    ''' â€»âˆ’ç¬¦å·ã«ã¯å¯¾å¿œã—ã¦ã„ã¾ã›ã‚“ã€‚
+    ''' ¦2^8^10^16i”‚ÍAConvert.ToStringƒƒ\ƒbƒh‚ðŽg‚Á‚Ä‚­‚¾‚³‚¢B
+    ''' ¦|•„†‚É‚Í‘Î‰ž‚µ‚Ä‚¢‚Ü‚¹‚ñB
     ''' </remarks>
-    ''' <param name="n">æ•°å€¤</param>
-    ''' <param name="radix">åŸºæ•°</param>
-    ''' <param name="uppercase">å¤§æ–‡å­—ã‹ï¼ˆtrueï¼‰ã€å°æ–‡å­—ã‹ï¼ˆfalseï¼‰</param>
-    ''' <returns>æ•°å€¤æ–‡å­—åˆ—</returns>
+    ''' <param name="n">”’l</param>
+    ''' <param name="radix">Šî”</param>
+    ''' <param name="uppercase">‘å•¶Žš‚©itruejA¬•¶Žš‚©ifalsej</param>
+    ''' <returns>”’l•¶Žš—ñ</returns>
     Public Overloads Shared Function ToString(ByVal n As ULong, ByVal radix As Integer, ByVal uppercase As Boolean) As String
 
-        ' å¼•æ•°ã‚’ãƒã‚§ãƒƒã‚¯ã‚’ã™ã‚‹
+        ' ˆø”‚ðƒ`ƒFƒbƒN‚ð‚·‚é
         CheckRadixArgument(radix)
 
-        ' æ•°å€¤ã®ã€Œ0ã€ã¯ã€ã©ã®é€²æ•°ã§ã‚‚ã€Œ0ã€ã«ãªã‚‹
+        ' ”’l‚Ìu0v‚ÍA‚Ç‚Ìi”‚Å‚àu0v‚É‚È‚é
         If n = 0 Then
             Return "0"
         End If
 
-        Dim curValue As New StringBuilder(41)   ' å¤‰æ›ä¸­ã®æ•°å€¤æ–‡å­—åˆ—
-        ' â€»UInt64.MaxValueã®æ•°å€¤ã‚’3é€²æ•°ã§è¡¨ç¾ã™ã‚‹ã¨41ã‘ãŸã§ã™ã€‚
-        Dim curDigit As ULong = n               ' æœªå‡¦ç†ã®æ•°å€¤
+        Dim curValue As New StringBuilder(41)   ' •ÏŠ·’†‚Ì”’l•¶Žš—ñ
+        ' ¦UInt64.MaxValue‚Ì”’l‚ð3i”‚Å•\Œ»‚·‚é‚Æ41‚¯‚½‚Å‚·B
+        Dim curDigit As ULong = n               ' –¢ˆ—‚Ì”’l
 
-        ' æ•°å€¤ã‚’è§£æžã—ã¦æ•°å€¤æ–‡å­—åˆ—ã«å¤‰æ›ã™ã‚‹
-        Dim digit As ULong  ' å‡¦ç†ä¸­ã®1ã‘ãŸã®æ•°å€¤
+        ' ”’l‚ð‰ðÍ‚µ‚Ä”’l•¶Žš—ñ‚É•ÏŠ·‚·‚é
+        Dim digit As ULong  ' ˆ—’†‚Ì1‚¯‚½‚Ì”’l
         Do
-            ' ä¸€ç•ªä¸‹ã®ã‘ãŸã®æ•°å€¤ã‚’å–ã‚Šå‡ºã™
+            ' ˆê”Ô‰º‚Ì‚¯‚½‚Ì”’l‚ðŽæ‚èo‚·
             digit = curDigit Mod CType(radix, ULong)
-            ' å–ã‚Šå‡ºã—ãŸ1ã‘ãŸã‚’åˆ‡ã‚Šæ¨ã¦ã‚‹
+            ' Žæ‚èo‚µ‚½1‚¯‚½‚ðØ‚èŽÌ‚Ä‚é
             curDigit = CType(curDigit / CType(radix, ULong), ULong)
 
             curValue.Insert(0, GetNumberFromDigit(CType(digit, Integer), uppercase))
@@ -306,38 +305,38 @@ Public Class RadixConvert
 
 #End Region
 
-#Region "Decimalåž‹ç”¨ã®ãƒ¡ã‚½ãƒƒãƒ‰ç¾¤"
+#Region "DecimalŒ^—p‚Ìƒƒ\ƒbƒhŒQ"
 
     ''' <summary>
-    ''' 3ã€œ36é€²æ•°ã®æ•°å€¤æ–‡å­—åˆ—ã‚’Decimalåž‹ã®æ•°å€¤ã«å¤‰æ›ã—ã¾ã™ã€‚
+    ''' 3`36i”‚Ì”’l•¶Žš—ñ‚ðDecimalŒ^‚Ì”’l‚É•ÏŠ·‚µ‚Ü‚·B
     ''' </summary>
     ''' <remarks>
-    ''' â€»2ï¼8ï¼10ï¼16é€²æ•°ã¯ã€Convert.ToDecimalãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½¿ã£ã¦ãã ã•ã„ã€‚
-    ''' â€»ï¼‹ã‚„âˆ’ã®ç¬¦å·ã‚„0xãªã©ã®ãƒ—ãƒ¬ãƒ•ã‚£ãƒƒã‚¯ã‚¹ã«ã¯å¯¾å¿œã—ã¦ã„ã¾ã›ã‚“ã€‚
-    ''' â€»å¼•æ•°ã¨ãªã‚‹æ•°å€¤æ–‡å­—åˆ—ã«ã€ã‚¹ãƒšãƒ¼ã‚¹ãªã©ã®æ–‡å­—ã‚’å«ã‚ãªã„ã§ãã ã•ã„ã€‚
+    ''' ¦2^8^10^16i”‚ÍAConvert.ToDecimalƒƒ\ƒbƒh‚ðŽg‚Á‚Ä‚­‚¾‚³‚¢B
+    ''' ¦{‚â|‚Ì•„†‚â0x‚È‚Ç‚ÌƒvƒŒƒtƒBƒbƒNƒX‚É‚Í‘Î‰ž‚µ‚Ä‚¢‚Ü‚¹‚ñB
+    ''' ¦ˆø”‚Æ‚È‚é”’l•¶Žš—ñ‚ÉAƒXƒy[ƒX‚È‚Ç‚Ì•¶Žš‚ðŠÜ‚ß‚È‚¢‚Å‚­‚¾‚³‚¢B
     ''' </remarks>
-    ''' <param name="s">æ•°å€¤æ–‡å­—åˆ—</param>
-    ''' <param name="radix">åŸºæ•°</param>
-    ''' <returns>æ•°å€¤</returns>
+    ''' <param name="s">”’l•¶Žš—ñ</param>
+    ''' <param name="radix">Šî”</param>
+    ''' <returns>”’l</returns>
     Public Shared Function ToDecimal(ByVal s As String, ByVal radix As Integer) As Decimal
 
-        ' å¼•æ•°ã‚’ãƒã‚§ãƒƒã‚¯ã‚’ã™ã‚‹
+        ' ˆø”‚ðƒ`ƒFƒbƒN‚ð‚·‚é
         CheckNumberArgument(s)
         CheckRadixArgument(radix)
 
-        Dim curValue As Decimal = 0                                         ' å¤‰æ›ä¸­ã®æ•°å€¤
-        Dim maxValue As Decimal = Decimal.MaxValue / CType(radix, Decimal)  ' æœ€å¤§å€¤ã®1ã‘ãŸå‰ã®æ•°å€¤
+        Dim curValue As Decimal = 0                                         ' •ÏŠ·’†‚Ì”’l
+        Dim maxValue As Decimal = Decimal.MaxValue / CType(radix, Decimal)  ' Å‘å’l‚Ì1‚¯‚½‘O‚Ì”’l
 
-        ' æ•°å€¤æ–‡å­—åˆ—ã‚’è§£æžã—ã¦æ•°å€¤ã«å¤‰æ›ã™ã‚‹
-        Dim num As Char         ' å‡¦ç†ä¸­ã®1ã‘ãŸã®æ•°å€¤æ–‡å­—åˆ—
-        Dim digit As Integer    ' å‡¦ç†ä¸­ã®1ã‘ãŸã®æ•°å€¤
+        ' ”’l•¶Žš—ñ‚ð‰ðÍ‚µ‚Ä”’l‚É•ÏŠ·‚·‚é
+        Dim num As Char         ' ˆ—’†‚Ì1‚¯‚½‚Ì”’l•¶Žš—ñ
+        Dim digit As Integer    ' ˆ—’†‚Ì1‚¯‚½‚Ì”’l
         Dim length As Integer = s.Length
         For i As Integer = 0 To length - 1
             num = s(i)
             digit = GetDigitFromNumber(num)
             CheckDigitOutOfRange(digit, radix)
 
-            ' æ¬¡ã«radixã‚’æŽ›ã‘ã‚‹ã¨ãã«æ•°å€¤ãŒã‚ªãƒ¼ãƒãƒ¼ãƒ•ãƒ­ãƒ¼ã—ãªã„ã‹ã‚’äº‹å‰ã«ãƒã‚§ãƒƒã‚¯ã™ã‚‹
+            ' ŽŸ‚Éradix‚ðŠ|‚¯‚é‚Æ‚«‚É”’l‚ªƒI[ƒo[ƒtƒ[‚µ‚È‚¢‚©‚ðŽ–‘O‚Éƒ`ƒFƒbƒN‚·‚é
             CheckDigitOverflow(curValue, maxValue)
             curValue = curValue * CType(radix, Decimal) + CType(digit, Decimal)
         Next
@@ -347,36 +346,36 @@ Public Class RadixConvert
     End Function
 
     ''' <summary>
-    ''' Decimalåž‹ã®æ•°å€¤ã‚’3ã€œ36é€²æ•°ã®æ•°å€¤æ–‡å­—åˆ—ã«å¤‰æ›ã—ã¾ã™ã€‚
+    ''' DecimalŒ^‚Ì”’l‚ð3`36i”‚Ì”’l•¶Žš—ñ‚É•ÏŠ·‚µ‚Ü‚·B
     ''' </summary>
     ''' <remarks>
-    ''' â€»2ï¼8ï¼10ï¼16é€²æ•°ã¯ã€Convert.ToStringãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½¿ã£ã¦ãã ã•ã„ã€‚
-    ''' â€»âˆ’ç¬¦å·ã«ã¯å¯¾å¿œã—ã¦ã„ã¾ã›ã‚“ã€‚
+    ''' ¦2^8^10^16i”‚ÍAConvert.ToStringƒƒ\ƒbƒh‚ðŽg‚Á‚Ä‚­‚¾‚³‚¢B
+    ''' ¦|•„†‚É‚Í‘Î‰ž‚µ‚Ä‚¢‚Ü‚¹‚ñB
     ''' </remarks>
-    ''' <param name="n">æ•°å€¤</param>
-    ''' <param name="radix">åŸºæ•°</param>
-    ''' <param name="uppercase">å¤§æ–‡å­—ã‹ï¼ˆtrueï¼‰ã€å°æ–‡å­—ã‹ï¼ˆfalseï¼‰</param>
-    ''' <returns>æ•°å€¤æ–‡å­—åˆ—</returns>
+    ''' <param name="n">”’l</param>
+    ''' <param name="radix">Šî”</param>
+    ''' <param name="uppercase">‘å•¶Žš‚©itruejA¬•¶Žš‚©ifalsej</param>
+    ''' <returns>”’l•¶Žš—ñ</returns>
     Public Overloads Shared Function ToString(ByVal n As Decimal, ByVal radix As Integer, ByVal uppercase As Boolean) As String
 
-        ' å¼•æ•°ã‚’ãƒã‚§ãƒƒã‚¯ã‚’ã™ã‚‹
+        ' ˆø”‚ðƒ`ƒFƒbƒN‚ð‚·‚é
         CheckRadixArgument(radix)
 
-        ' æ•°å€¤ã®ã€Œ0ã€ã¯ã€ã©ã®é€²æ•°ã§ã‚‚ã€Œ0ã€ã«ãªã‚‹
+        ' ”’l‚Ìu0v‚ÍA‚Ç‚Ìi”‚Å‚àu0v‚É‚È‚é
         If n = 0 Then
             Return "0"
         End If
 
-        Dim curValue As New StringBuilder(120)  ' å¤‰æ›ä¸­ã®æ•°å€¤æ–‡å­—åˆ—
-        ' â€»Decimal.MaxValueã®æ•°å€¤ã‚’3é€²æ•°ã§è¡¨ç¾ã™ã‚‹ã¨120ã‘ãŸã§ã™ã€‚
-        Dim curDigit As Decimal = n             ' æœªå‡¦ç†ã®æ•°å€¤
+        Dim curValue As New StringBuilder(120)  ' •ÏŠ·’†‚Ì”’l•¶Žš—ñ
+        ' ¦Decimal.MaxValue‚Ì”’l‚ð3i”‚Å•\Œ»‚·‚é‚Æ120‚¯‚½‚Å‚·B
+        Dim curDigit As Decimal = n             ' –¢ˆ—‚Ì”’l
 
-        ' æ•°å€¤ã‚’è§£æžã—ã¦æ•°å€¤æ–‡å­—åˆ—ã«å¤‰æ›ã™ã‚‹
-        Dim digit As Decimal   ' å‡¦ç†ä¸­ã®1ã‘ãŸã®æ•°å€¤
+        ' ”’l‚ð‰ðÍ‚µ‚Ä”’l•¶Žš—ñ‚É•ÏŠ·‚·‚é
+        Dim digit As Decimal   ' ˆ—’†‚Ì1‚¯‚½‚Ì”’l
         Do
-            ' ä¸€ç•ªä¸‹ã®ã‘ãŸã®æ•°å€¤ã‚’å–ã‚Šå‡ºã™
+            ' ˆê”Ô‰º‚Ì‚¯‚½‚Ì”’l‚ðŽæ‚èo‚·
             digit = curDigit Mod CType(radix, Decimal)
-            ' å–ã‚Šå‡ºã—ãŸ1ã‘ãŸã‚’åˆ‡ã‚Šæ¨ã¦ã‚‹
+            ' Žæ‚èo‚µ‚½1‚¯‚½‚ðØ‚èŽÌ‚Ä‚é
             curDigit = curDigit / CType(radix, Decimal)
 
             curValue.Insert(0, GetNumberFromDigit(CType(digit, Integer), uppercase))
@@ -388,12 +387,12 @@ Public Class RadixConvert
 
 #End Region
 
-#Region "å†…éƒ¨ã§ä½¿ç”¨ã—ã¦ã„ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ç¾¤"
+#Region "“à•”‚ÅŽg—p‚µ‚Ä‚¢‚éƒƒ\ƒbƒhŒQ"
 
     Private Shared Sub CheckNumberArgument(ByVal s As String)
 
         If s = Nothing OrElse s = String.Empty Then
-            Throw New ArgumentException("æ•°å€¤æ–‡å­—åˆ—ãŒæŒ‡å®šã•ã‚Œã¦ã„ã¾ã›ã‚“ã€‚")
+            Throw New ArgumentException("”’l•¶Žš—ñ‚ªŽw’è‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB")
         End If
 
     End Sub
@@ -401,10 +400,10 @@ Public Class RadixConvert
     Private Shared Sub CheckRadixArgument(ByVal radix As Integer)
 
         If radix = 2 OrElse radix = 8 OrElse radix = 10 OrElse radix = 16 Then
-            Throw New ArgumentException("2ï¼8ï¼10ï¼16é€²æ•°ã¯System.Convertã‚¯ãƒ©ã‚¹ã‚’ä½¿ã£ã¦ãã ã•ã„ã€‚")
+            Throw New ArgumentException("2^8^10^16i”‚ÍSystem.ConvertƒNƒ‰ƒX‚ðŽg‚Á‚Ä‚­‚¾‚³‚¢B")
         End If
         If radix <= 1 OrElse 36 < radix Then
-            Throw New ArgumentException("3ã€œ36é€²æ•°ã«ã—ã‹å¯¾å¿œã—ã¦ã„ã¾ã›ã‚“ã€‚")
+            Throw New ArgumentException("3`36i”‚É‚µ‚©‘Î‰ž‚µ‚Ä‚¢‚Ü‚¹‚ñB")
         End If
 
     End Sub
@@ -412,7 +411,7 @@ Public Class RadixConvert
     Private Shared Sub CheckDigitOutOfRange(ByVal digit As Integer, ByVal radix As Integer)
 
         If digit < 0 OrElse radix <= digit Then
-            Throw New ArgumentOutOfRangeException("æ•°å€¤ãŒç¯„å›²å¤–ã§ã™ã€‚")
+            Throw New ArgumentOutOfRangeException("”’l‚ª”ÍˆÍŠO‚Å‚·B")
         End If
 
     End Sub
@@ -420,7 +419,7 @@ Public Class RadixConvert
     Private Shared Sub CheckDigitOverflow(ByVal curValue As ULong, ByVal maxValue As ULong)
 
         If curValue > maxValue Then
-            Throw New OverflowException("æ•°å€¤ãŒæœ€å¤§å€¤ã‚’è¶…ãˆã¾ã—ãŸã€‚")
+            Throw New OverflowException("”’l‚ªÅ‘å’l‚ð’´‚¦‚Ü‚µ‚½B")
         End If
 
     End Sub
@@ -428,7 +427,7 @@ Public Class RadixConvert
     Private Shared Sub CheckDigitOverflow(ByVal curValue As Decimal, ByVal maxValue As Decimal)
 
         If curValue > maxValue Then
-            Throw New OverflowException("æ•°å€¤ãŒæœ€å¤§å€¤ã‚’è¶…ãˆã¾ã—ãŸã€‚")
+            Throw New OverflowException("”’l‚ªÅ‘å’l‚ð’´‚¦‚Ü‚µ‚½B")
         End If
 
     End Sub

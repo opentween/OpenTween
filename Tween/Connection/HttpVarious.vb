@@ -1,4 +1,4 @@
-' Tween - Client of Twitter
+﻿' Tween - Client of Twitter
 ' Copyright (c) 2007-2011 kiri_feather (@kiri_feather) <kiri.feather@gmail.com>
 '           (c) 2008-2011 Moz (@syo68k)
 '           (c) 2008-2011 takeshik (@takeshik) <http://www.takeshik.org/>
@@ -24,14 +24,9 @@
 ' Boston, MA 02110-1301, USA.
 
 Imports System.Net
-Imports System.Collections.Generic
 
 Public Class HttpVarious
     Inherits HttpConnection
-
-    Private Const PostMethod As String = "POST"
-    Private Const GetMethod As String = "GET"
-    Private Const HeadMethod As String = "HEAD"
 
     Public Function GetRedirectTo(ByVal url As String) As String
         Try

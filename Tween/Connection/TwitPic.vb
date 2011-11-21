@@ -1,4 +1,4 @@
-' Tween - Client of Twitter
+﻿' Tween - Client of Twitter
 ' Copyright (c) 2007-2011 kiri_feather (@kiri_feather) <kiri.feather@gmail.com>
 '           (c) 2008-2011 Moz (@syo68k)
 '           (c) 2008-2011 takeshik (@takeshik) <http://www.takeshik.org/>
@@ -43,8 +43,6 @@ Public Class TwitPic
     '''</summary>
     Private Const ConsumerSecretKey As String = "M0IMsbl2722iWa+CGPVcNeQmE+TFpJk8B/KW9UUTk3eLOl9Ij005r52JNxVukTzM"
 
-    Private Const PostMethod As String = "POST"
-    Private Const GetMethod As String = "GET"
     Private Const ApiKey As String = "287b60562aea3cab9f58fa54015848e8"
     Private pictureExt() As String = {".jpg", _
                                     ".jpeg", _
@@ -68,14 +66,17 @@ Public Class TwitPic
     Private tw As Twitter
 
     Public Function Upload(ByRef filePath As String,
-                           ByRef message As String) As String Implements IMultimediaShareService.Upload
+                           ByRef message As String,
+                           ByVal reply_to As Long) As String Implements IMultimediaShareService.Upload
+        If String.IsNullOrEmpty(filePath) Then Return "Err:File isn't specified."
+        If String.IsNullOrEmpty(message) Then message = ""
         Dim mediaFile As FileInfo
         Try
             mediaFile = New FileInfo(filePath)
         Catch ex As NotSupportedException
             Return "Err:" + ex.Message
         End Try
-        If Not mediaFile.Exists Then Return "Err:File isn't exists."
+        If mediaFile Is Nothing OrElse Not mediaFile.Exists Then Return "Err:File isn't exists."
 
         Dim content As String = ""
         Dim ret As HttpStatusCode
@@ -94,16 +95,20 @@ Public Class TwitPic
                 url = xd.SelectSingleNode("/image/url").InnerText
             Catch ex As XmlException
                 Return "Err:" + ex.Message
+            Catch Ex As Exception
+                Return "Err:" + Ex.Message
             End Try
         Else
             Return "Err:" + ret.ToString
         End If
         'アップロードまでは成功
         filePath = ""
+        If String.IsNullOrEmpty(message) Then message = ""
+        If String.IsNullOrEmpty(url) Then url = ""
         'Twitterへの投稿
         '投稿メッセージの再構成
-        If message.Length + url.Length + 1 > 140 Then
-            message = message.Substring(0, 140 - url.Length - 1) + " " + url
+        If message.Length + AppendSettingDialog.Instance.TwitterConfiguration.CharactersReservedPerMedia + 1 > 140 Then
+            message = message.Substring(0, 140 - AppendSettingDialog.Instance.TwitterConfiguration.CharactersReservedPerMedia - 1) + " " + url
         Else
             message += " " + url
         End If
@@ -167,10 +172,14 @@ Public Class TwitPic
         Return False
     End Function
 
+    Public Function Configuration(ByVal key As String, ByVal value As Object) As Boolean Implements IMultimediaShareService.Configuration
+        Return True
+    End Function
+
     Public Sub New(ByVal twitter As Twitter)
         MyBase.New(New Uri("http://api.twitter.com/"), _
                    New Uri("https://api.twitter.com/1/account/verify_credentials.json"))
         tw = twitter
-        Initialize(DecryptString(ConsumerKey), DecryptString(ConsumerSecretKey), tw.AccessToken, tw.AccessTokenSecret, "")
+        Initialize(DecryptString(ConsumerKey), DecryptString(ConsumerSecretKey), tw.AccessToken, tw.AccessTokenSecret, "", "")
     End Sub
 End Class

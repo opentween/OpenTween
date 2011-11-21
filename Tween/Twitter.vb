@@ -1,4 +1,4 @@
-' Tween - Client of Twitter
+﻿' Tween - Client of Twitter
 ' Copyright (c) 2007-2011 kiri_feather (@kiri_feather) <kiri.feather@gmail.com>
 '           (c) 2008-2011 Moz (@syo68k)
 '           (c) 2008-2011 takeshik (@takeshik) <http://www.takeshik.org/>
@@ -23,24 +23,54 @@
 ' the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 ' Boston, MA 02110-1301, USA.
 
-Imports System.Web
-Imports System.Xml
-Imports System.Text
-Imports System.Threading
-Imports System.IO
-Imports System.Text.RegularExpressions
 Imports System.Diagnostics
+Imports System.IO
+Imports System.Linq
 Imports System.Net
 Imports System.Reflection.MethodBase
-Imports System.Runtime.Serialization.Json
-Imports System.Linq
-Imports System.Xml.Linq
 Imports System.Runtime.Serialization
-Imports System.Net.NetworkInformation
+Imports System.Runtime.Serialization.Json
+Imports System.Text
+Imports System.Text.RegularExpressions
+Imports System.Threading
+Imports System.Web
+Imports System.Xml
+Imports System.Xml.Linq
 
 Public Class Twitter
     Implements IDisposable
 
+    'Hashtag用正規表現
+    Private Const LATIN_ACCENTS As String = "\xc0-\xd6\xd8-\xf6\xf8-\xff"
+    Private Const NON_LATIN_HASHTAG_CHARS As String = "\u0400-\u04ff\u0500-\u0527\u1100-\u11ff\u3130-\u3185\uA960-\uA97F\uAC00-\uD7AF\uD7B0-\uD7FF"
+    'Private Const CJ_HASHTAG_CHARACTERS As String = "\u30A1-\u30FA\uFF66-\uFF9F\uFF10-\uFF19\uFF21-\uFF3A\uFF41-\uFF5A\u3041-\u3096\u3400-\u4DBF\u4E00-\u9FFF\u20000-\u2A6DF\u2A700-\u2B73F\u2B740-\u2B81F\u2F800-\u2FA1F"
+    Private Const CJ_HASHTAG_CHARACTERS As String = "\u30A1-\u30FA\u30FC\u3005\uFF66-\uFF9F\uFF10-\uFF19\uFF21-\uFF3A\uFF41-\uFF5A\u3041-\u309A\u3400-\u4DBF\p{IsCJKUnifiedIdeographs}"
+    Private Const HASHTAG_BOUNDARY As String = "^|$|\s|「|」|。|\.|!"
+    Private Const HASHTAG_ALPHA As String = "[a-z_" + LATIN_ACCENTS + NON_LATIN_HASHTAG_CHARS + CJ_HASHTAG_CHARACTERS + "]"
+    Private Const HASHTAG_ALPHANUMERIC As String = "[a-z0-9_" + LATIN_ACCENTS + NON_LATIN_HASHTAG_CHARS + CJ_HASHTAG_CHARACTERS + "]"
+    Private Const HASHTAG_TERMINATOR As String = "[^a-z0-9_" + LATIN_ACCENTS + NON_LATIN_HASHTAG_CHARS + CJ_HASHTAG_CHARACTERS + "]"
+    Public Const HASHTAG As String = "(" + HASHTAG_BOUNDARY + ")(#|＃)(" + HASHTAG_ALPHANUMERIC + "*" + HASHTAG_ALPHA + HASHTAG_ALPHANUMERIC + "*)(?=" + HASHTAG_TERMINATOR + "|" + HASHTAG_BOUNDARY + ")"
+    'URL正規表現
+    Private Const url_valid_domain As String = "(?<domain>(?:[^\p{P}\s][\.\-_](?=[^\p{P}\s])|[^\p{P}\s]){1,}\.[a-z]{2,}(?::[0-9]+)?)"
+    Private Const url_valid_general_path_chars As String = "[a-z0-9!*';:=+$/%#\[\]\-_&,~]"
+    Private Const url_balance_parens As String = "(?:\(" + url_valid_general_path_chars + "+\))"
+    Private Const url_valid_url_path_ending_chars As String = "(?:[a-z0-9=_#/\-\+]+|" + url_balance_parens + ")"
+    Private Const pth As String = "(?:" + url_balance_parens +
+        "|@" + url_valid_general_path_chars + "+/" +
+        "|[.,]?" + url_valid_general_path_chars + "+" +
+        ")"
+    Private Const pth2 As String = "(/(?:" +
+        pth + "+" + url_valid_url_path_ending_chars + "|" +
+        pth + "+" + url_valid_url_path_ending_chars + "?|" +
+        url_valid_url_path_ending_chars +
+        ")?)?"
+    Private Const qry As String = "(?<query>\?[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9_&=#])?"
+    Public Const rgUrl As String = "(?<before>(?:[^\""':!=#]|^|\:/))" +
+                                "(?<url>(?<protocol>https?://)" +
+                                url_valid_domain +
+                                pth2 +
+                                qry +
+                                ")"
     Delegate Sub GetIconImageDelegate(ByVal post As PostClass)
     Private ReadOnly LockObj As New Object
     Private followerId As New List(Of Long)
@@ -56,7 +86,7 @@ Public Class Twitter
     Private _protocol As String = "https://"
 
     'プロパティからアクセスされる共通情報
-    Private _uid As String
+    Private _uname As String
     Private _iconSz As Integer
     Private _getIcon As Boolean
     Private _dIcon As IDictionary(Of String, Image)
@@ -78,11 +108,15 @@ Public Class Twitter
     Private minDirectmessage As Long = Long.MaxValue
     Private minDirectmessageSent As Long = Long.MaxValue
 
+    'Private favQueue As FavoriteQueue
+
     Private twCon As New HttpTwitter
+
+    Public Event UserIdChanged()
 
     'Private _deletemessages As New List(Of PostClass)
 
-    Public Function Authenticate(ByVal username As String, ByVal password As String) As String
+    Public Overloads Function Authenticate(ByVal username As String, ByVal password As String) As String
 
         Dim res As HttpStatusCode
         Dim content As String = ""
@@ -97,14 +131,69 @@ Public Class Twitter
         Select Case res
             Case HttpStatusCode.OK
                 Twitter.AccountState = ACCOUNT_STATE.Valid
-                _uid = username.ToLower
-                Me.ReconnectUserStream()
+                _uname = username.ToLower
+                If AppendSettingDialog.Instance.UserstreamStartup Then Me.ReconnectUserStream()
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Dim errMsg As String = GetErrorMessageJson(content)
                 If String.IsNullOrEmpty(errMsg) Then
-                    Return "Check your Username/Password." + Environment.NewLine + content
+                    Return My.Resources.Unauthorized + Environment.NewLine + content
+                Else
+                    Return "Auth error:" + errMsg
+                End If
+            Case HttpStatusCode.Forbidden
+                Dim errMsg As String = GetErrorMessageJson(content)
+                If String.IsNullOrEmpty(errMsg) Then
+                    Return "Err:Forbidden"
+                Else
+                    Return "Err:" + errMsg
+                End If
+            Case Else
+                Return "Err:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
+        End Select
+
+    End Function
+
+    Public Function StartAuthentication(ByRef pinPageUrl As String) As String
+        'OAuth PIN Flow
+        Dim res As Boolean
+        Dim content As String = ""
+
+        TwitterApiInfo.Initialize()
+        Try
+            res = twCon.AuthGetRequestToken(pinPageUrl)
+        Catch ex As Exception
+            Return "Err:" + "Failed to access auth server."
+        End Try
+
+        Return ""
+    End Function
+
+    Public Overloads Function Authenticate(ByVal pinCode As String) As String
+
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+
+        TwitterApiInfo.Initialize()
+        Try
+            res = twCon.AuthGetAccessToken(pinCode)
+        Catch ex As Exception
+            Return "Err:" + "Failed to access auth acc server."
+        End Try
+
+        Select Case res
+            Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
+                _uname = Username.ToLower
+                If AppendSettingDialog.Instance.UserstreamStartup Then Me.ReconnectUserStream()
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "authenticate", Me.UserId)
+                Return ""
+            Case HttpStatusCode.Unauthorized
+                Twitter.AccountState = ACCOUNT_STATE.Invalid
+                Dim errMsg As String = GetErrorMessageJson(content)
+                If String.IsNullOrEmpty(errMsg) Then
+                    Return "Check the PIN or retry." + Environment.NewLine + content
                 Else
                     Return "Auth error:" + errMsg
                 End If
@@ -125,7 +214,28 @@ Public Class Twitter
         Twitter.AccountState = ACCOUNT_STATE.Invalid
         TwitterApiInfo.Initialize()
         twCon.ClearAuthInfo()
-        _UserIdNo = ""
+    End Sub
+
+    Public Sub VerifyCredentials()
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+
+        Try
+            res = twCon.VerifyCredentials(content)
+        Catch ex As Exception
+            Exit Sub
+        End Try
+
+        If res = HttpStatusCode.OK Then
+            Twitter.AccountState = ACCOUNT_STATE.Valid
+            Dim user As TwitterDataModel.User
+            Try
+                user = CreateDataFromJson(Of TwitterDataModel.User)(content)
+            Catch ex As SerializationException
+                Exit Sub
+            End Try
+            twCon.AuthenticatedUserId = user.Id
+        End If
     End Sub
 
     Private Function GetErrorMessageJson(ByVal content As String) As String
@@ -147,26 +257,15 @@ Public Class Twitter
         End Try
     End Function
 
-    Public Sub Initialize(ByVal token As String, ByVal tokenSecret As String, ByVal username As String)
-        'xAuth認証
+    Public Sub Initialize(ByVal token As String, ByVal tokenSecret As String, ByVal username As String, ByVal userId As Long)
+        'OAuth認証
         If String.IsNullOrEmpty(token) OrElse String.IsNullOrEmpty(tokenSecret) OrElse String.IsNullOrEmpty(username) Then
             Twitter.AccountState = ACCOUNT_STATE.Invalid
         End If
         TwitterApiInfo.Initialize()
-        twCon.Initialize(token, tokenSecret, username)
-        _uid = username.ToLower
-        _UserIdNo = ""
-    End Sub
-
-    Public Sub Initialize(ByVal username As String, ByVal password As String)
-        'BASIC認証
-        If String.IsNullOrEmpty(username) OrElse String.IsNullOrEmpty(password) Then
-            Twitter.AccountState = ACCOUNT_STATE.Invalid
-        End If
-        TwitterApiInfo.Initialize()
-        twCon.Initialize(username, password)
-        _uid = username.ToLower
-        _UserIdNo = ""
+        twCon.Initialize(token, tokenSecret, username, userId)
+        _uname = username.ToLower
+        If AppendSettingDialog.Instance.UserstreamStartup Then Me.ReconnectUserStream()
     End Sub
 
     Public Function PreProcessUrl(ByVal orgData As String) As String
@@ -220,13 +319,13 @@ Public Class Twitter
 
     Private Function AdjustHtml(ByVal orgData As String) As String
         Dim retStr As String = orgData
-        Dim m As Match = Regex.Match(retStr, "<a [^>]+>[#|＃](?<1>[a-zA-Z0-9_]+)</a>")
-        While m.Success
-            SyncLock LockObj
-                _hashList.Add("#" + m.Groups(1).Value)
-            End SyncLock
-            m = m.NextMatch
-        End While
+        'Dim m As Match = Regex.Match(retStr, "<a [^>]+>[#|＃](?<1>[a-zA-Z0-9_]+)</a>")
+        'While m.Success
+        '    SyncLock LockObj
+        '        _hashList.Add("#" + m.Groups(1).Value)
+        '    End SyncLock
+        '    m = m.NextMatch
+        'End While
         retStr = Regex.Replace(retStr, "<a [^>]*href=""/", "<a href=""" + _protocol + "twitter.com/")
         retStr = retStr.Replace("<a href=", "<a target=""_self"" href=")
         retStr = retStr.Replace(vbLf, "<br>")
@@ -259,56 +358,6 @@ Public Class Twitter
         Next
         Return True
     End Function
-
-    'Private Sub GetIconImage(ByVal post As PostClass)
-    '    Dim img As Image
-
-    '    Try
-    '        If Not _getIcon Then
-    '            post.ImageUrl = Nothing
-    '            TabInformations.GetInstance.AddPost(post)
-    '            Exit Sub
-    '        End If
-
-    '        If _dIcon.ContainsKey(post.ImageUrl) AndAlso _dIcon(post.ImageUrl) IsNot Nothing Then
-    '            TabInformations.GetInstance.AddPost(post)
-    '            Exit Sub
-    '        End If
-
-    '        Dim httpVar As New HttpVarious
-    '        img = httpVar.GetImage(post.ImageUrl, 10000)
-    '        If img Is Nothing Then
-    '            _dIcon.Add(post.ImageUrl, Nothing)
-    '            TabInformations.GetInstance.AddPost(post)
-    '            Exit Sub
-    '        End If
-
-    '        If _endingFlag Then Exit Sub
-
-    '        SyncLock LockObj
-    '            If Not _dIcon.ContainsKey(post.ImageUrl) Then
-    '                Try
-    '                    _dIcon.Add(post.ImageUrl, img)
-    '                Catch ex As InvalidOperationException
-    '                    'タイミングにより追加できない場合がある？（キー重複ではない）
-    '                    post.ImageUrl = Nothing
-    '                Catch ex As System.OverflowException
-    '                    '不正なアイコン？DrawImageに失敗する場合あり
-    '                    post.ImageUrl = Nothing
-    '                Catch ex As OutOfMemoryException
-    '                    'DrawImageで発生
-    '                    post.ImageUrl = Nothing
-    '                End Try
-    '            End If
-    '        End SyncLock
-    '        TabInformations.GetInstance.AddPost(post)
-    '    Catch ex As ArgumentException
-    '        'タイミングによってはキー重複
-    '    Finally
-    '        img = Nothing
-    '        post = Nothing
-    '    End Try
-    'End Sub
 
     Private Structure PostInfo
         Public CreatedAt As String
@@ -376,6 +425,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "status", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
                 Dim status As TwitterDataModel.Status
                 Try
@@ -392,7 +442,6 @@ Public Class Twitter
                 _statusesCount = status.User.StatusesCount
                 _location = status.User.Location
                 _bio = status.User.Description
-                _UserIdNo = status.User.IdStr
 
                 If IsPostRestricted(status) Then
                     Return "OK:Delaying?"
@@ -402,6 +451,8 @@ Public Class Twitter
                 Else
                     Return "Outputz:Failed"
                 End If
+            Case HttpStatusCode.NotFound
+                Return ""
             Case HttpStatusCode.Forbidden, HttpStatusCode.BadRequest
                 Dim errMsg As String = GetErrorMessageJson(content)
                 If String.IsNullOrEmpty(errMsg) Then
@@ -428,7 +479,88 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Dim errMsg As String = GetErrorMessageJson(content)
                 If String.IsNullOrEmpty(errMsg) Then
-                    Return "Check your Username/Password."
+                    Return My.Resources.Unauthorized
+                Else
+                    Return "Auth err:" + errMsg
+                End If
+            Case Else
+                Return "Err:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
+        End Select
+    End Function
+
+    Public Function PostStatusWithMedia(ByVal postStr As String, ByVal reply_to As Long, ByVal mediaFile As FileInfo) As String
+
+        If _endingFlag Then Return ""
+
+        If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
+
+        postStr = postStr.Trim()
+
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+        Try
+            res = twCon.UpdateStatusWithMedia(postStr, reply_to, mediaFile, content)
+        Catch ex As Exception
+            Return "Err:" + ex.Message
+        End Try
+
+        Select Case res
+            Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "status_with_media", Me.UserId)
+                Twitter.AccountState = ACCOUNT_STATE.Valid
+                Dim status As TwitterDataModel.Status
+                Try
+                    status = CreateDataFromJson(Of TwitterDataModel.Status)(content)
+                Catch ex As SerializationException
+                    TraceOut(ex.Message + Environment.NewLine + content)
+                    Return "Err:Json Parse Error(DataContractJsonSerializer)"
+                Catch ex As Exception
+                    TraceOut(ex, GetCurrentMethod.Name & " " & content)
+                    Return "Err:Invalid Json!"
+                End Try
+                _followersCount = status.User.FollowersCount
+                _friendsCount = status.User.FriendsCount
+                _statusesCount = status.User.StatusesCount
+                _location = status.User.Location
+                _bio = status.User.Description
+
+                If IsPostRestricted(status) Then
+                    Return "OK:Delaying?"
+                End If
+                If op.Post(postStr.Length) Then
+                    Return ""
+                Else
+                    Return "Outputz:Failed"
+                End If
+            Case HttpStatusCode.NotFound
+                Return ""
+            Case HttpStatusCode.Forbidden, HttpStatusCode.BadRequest
+                Dim errMsg As String = GetErrorMessageJson(content)
+                If String.IsNullOrEmpty(errMsg) Then
+                    Return "Warn:" + res.ToString
+                Else
+                    Return "Warn:" + errMsg
+                End If
+            Case HttpStatusCode.Conflict, _
+                HttpStatusCode.ExpectationFailed, _
+                HttpStatusCode.Gone, _
+                HttpStatusCode.LengthRequired, _
+                HttpStatusCode.MethodNotAllowed, _
+                HttpStatusCode.NotAcceptable, _
+                HttpStatusCode.NotFound, _
+                HttpStatusCode.PaymentRequired, _
+                HttpStatusCode.PreconditionFailed, _
+                HttpStatusCode.RequestedRangeNotSatisfiable, _
+                HttpStatusCode.RequestEntityTooLarge, _
+                HttpStatusCode.RequestTimeout, _
+                HttpStatusCode.RequestUriTooLong
+                '仕様書にない400系エラー。サーバまでは到達しているのでリトライしない
+                Return "Warn:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
+            Case HttpStatusCode.Unauthorized
+                Twitter.AccountState = ACCOUNT_STATE.Invalid
+                Dim errMsg As String = GetErrorMessageJson(content)
+                If String.IsNullOrEmpty(errMsg) Then
+                    Return My.Resources.Unauthorized
                 Else
                     Return "Auth err:" + errMsg
                 End If
@@ -442,6 +574,9 @@ Public Class Twitter
         If _endingFlag Then Return ""
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
+        If TwitterApiInfo.AccessLevel <> ApiAccessLevel.None Then
+            If Not TwitterApiInfo.IsDirectMessagePermission Then Return "Auth Err:try to re-authorization."
+        End If
 
         postStr = postStr.Trim()
 
@@ -458,6 +593,7 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "direct_message", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
                 Dim status As TwitterDataModel.Directmessage
                 Try
@@ -474,7 +610,6 @@ Public Class Twitter
                 _statusesCount = status.Sender.StatusesCount
                 _location = status.Sender.Location
                 _bio = status.Sender.Description
-                _UserIdNo = status.Sender.IdStr
 
                 If op.Post(postStr.Length) Then
                     Return ""
@@ -507,7 +642,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Dim errMsg As String = GetErrorMessageJson(content)
                 If String.IsNullOrEmpty(errMsg) Then
-                    Return "Check your Username/Password."
+                    Return My.Resources.Unauthorized
                 Else
                     Return "Auth err:" + errMsg
                 End If
@@ -531,11 +666,12 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "destroy", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.NotFound
                 Return ""
             Case Else
@@ -550,6 +686,10 @@ Public Class Twitter
 
         'データ部分の生成
         Dim target As Long = id
+        Dim post As PostClass = TabInformations.GetInstance.Item(id)
+        If post Is Nothing Then
+            Return "Err:Target isn't found."
+        End If
         If TabInformations.GetInstance.Item(id).RetweetedId > 0 Then
             target = TabInformations.GetInstance.Item(id).RetweetedId '再RTの場合は元発言をRT
         End If
@@ -564,12 +704,14 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.Unauthorized
-                Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                'Blockユーザーの発言をRTすると認証エラー返る
+                'Twitter.AccountState = ACCOUNT_STATE.Invalid
+                Return My.Resources.Unauthorized + " or blocked user."
             Case Is <> HttpStatusCode.OK
                 Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
         End Select
 
+        Google.GASender.GetInstance().TrackEventWithCategory("post", "retweet", Me.UserId)
         Twitter.AccountState = ACCOUNT_STATE.Valid
 
         Dim status As TwitterDataModel.Status
@@ -584,7 +726,8 @@ Public Class Twitter
         End Try
 
         'ReTweetしたものをTLに追加
-        Dim post As PostClass = CreatePostsFromStatusData(status)
+        post = CreatePostsFromStatusData(status)
+        If post Is Nothing Then Return "Invalid Json!"
 
         '二重取得回避
         SyncLock LockObj
@@ -609,6 +752,9 @@ Public Class Twitter
         If _endingFlag Then Return ""
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
+        If TwitterApiInfo.AccessLevel <> ApiAccessLevel.None Then
+            If Not TwitterApiInfo.IsDirectMessagePermission Then Return "Auth Err:try to re-authorization."
+        End If
 
         Dim res As HttpStatusCode
 
@@ -623,11 +769,12 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "destroy_direct_message", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.NotFound
                 Return ""
             Case Else
@@ -652,11 +799,12 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "follow", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.Forbidden
                 Dim errMsg As String = GetErrorMessageJson(content)
                 If String.IsNullOrEmpty(errMsg) Then
@@ -686,11 +834,12 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "destroy_friendships", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.Forbidden
                 Dim errMsg As String = GetErrorMessageJson(content)
                 If String.IsNullOrEmpty(errMsg) Then
@@ -720,11 +869,12 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "block", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.Forbidden
                 Dim errMsg As String = GetErrorMessageJson(content)
                 If String.IsNullOrEmpty(errMsg) Then
@@ -754,11 +904,12 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "destroy_block", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.Forbidden
                 Dim errMsg As String = GetErrorMessageJson(content)
                 If String.IsNullOrEmpty(errMsg) Then
@@ -788,11 +939,12 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "spam", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.Forbidden
                 Dim errMsg As String = GetErrorMessageJson(content)
                 If String.IsNullOrEmpty(errMsg) Then
@@ -811,10 +963,11 @@ Public Class Twitter
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
+        Google.GASender.GetInstance().TrackPage("/friendships", Me.UserId)
         Dim res As HttpStatusCode
         Dim content As String = ""
         Try
-            res = twCon.ShowFriendships(_uid, screenName, content)
+            res = twCon.ShowFriendships(_uname, screenName, content)
         Catch ex As Exception
             Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
         End Try
@@ -837,7 +990,7 @@ Public Class Twitter
                 Return "Err:API Limits?"
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case Else
                 Return "Err:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
         End Select
@@ -849,6 +1002,7 @@ Public Class Twitter
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
+        Google.GASender.GetInstance().TrackPage("/showuser", Me.UserId)
         Dim res As HttpStatusCode
         Dim content As String = ""
         user = Nothing
@@ -877,7 +1031,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
                 Dim errMsg As String = GetErrorMessageJson(content)
                 If String.IsNullOrEmpty(errMsg) Then
-                    Return "Check your Username/Password."
+                    Return My.Resources.Unauthorized
                 Else
                     Return "Auth err:" + errMsg
                 End If
@@ -892,6 +1046,7 @@ Public Class Twitter
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
+        Google.GASender.GetInstance().TrackPage("/retweet_count", Me.UserId)
         Dim res As HttpStatusCode
         Dim content As String = ""
         Dim xmlBuf As String = ""
@@ -928,7 +1083,7 @@ Public Class Twitter
                 Case HttpStatusCode.Unauthorized
                     retweeted_count = -1
                     Twitter.AccountState = ACCOUNT_STATE.Invalid
-                    Return "Check your Username/Password."
+                    Return My.Resources.Unauthorized
                 Case Else
                     retweeted_count = -1
                     Return "Err:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
@@ -942,28 +1097,43 @@ Public Class Twitter
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
+        'If Me.favQueue Is Nothing Then Me.favQueue = New FavoriteQueue(Me)
+
+        'If Me.favQueue.Contains(id) Then Me.favQueue.Remove(id)
+
         Dim res As HttpStatusCode
         Dim content As String = ""
         Try
             res = twCon.CreateFavorites(id, content)
         Catch ex As Exception
+            'Me.favQueue.Add(id)
+            'Return "Err:->FavoriteQueue:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
             Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
         End Try
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "favorites", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
+                'Me.favQueue.FavoriteCacheStart()
                 If Not _restrictFavCheck Then Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.Forbidden
                 Dim errMsg As String = GetErrorMessageJson(content)
                 If String.IsNullOrEmpty(errMsg) Then
                     Return "Err:Forbidden(" + GetCurrentMethod.Name + ")"
                 Else
+                    'If errMsg.Contains("It's great that you like so many updates") Then
+                    '    'Me.favQueue.Add(id)
+                    '    Return "Err:->FavoriteQueue:" + errMsg
+                    'End If
                     Return "Err:" + errMsg
                 End If
+                'Case HttpStatusCode.BadGateway, HttpStatusCode.ServiceUnavailable, HttpStatusCode.InternalServerError, HttpStatusCode.RequestTimeout
+                '    'Me.favQueue.Add(id)
+                '    Return "Err:->FavoriteQueue:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
             Case Else
                 Return "Err:" + res.ToString + "(" + GetCurrentMethod.Name + ")"
         End Select
@@ -998,7 +1168,7 @@ Public Class Twitter
                 End If
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
@@ -1012,6 +1182,13 @@ Public Class Twitter
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
+        'If Me.favQueue Is Nothing Then Me.favQueue = New FavoriteQueue(Me)
+
+        'If Me.favQueue.Contains(id) Then
+        '    Me.favQueue.Remove(id)
+        '    Return ""
+        'End If
+
         Dim res As HttpStatusCode
         Dim content As String = ""
         Try
@@ -1022,11 +1199,12 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "destroy_favorites", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.Forbidden
                 Dim errMsg As String = GetErrorMessageJson(content)
                 If String.IsNullOrEmpty(errMsg) Then
@@ -1054,11 +1232,12 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "update_profile", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.Forbidden
                 Dim errMsg As String = GetErrorMessageJson(content)
                 If String.IsNullOrEmpty(errMsg) Then
@@ -1086,11 +1265,12 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "update_profile_image", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
                 Return ""
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.Forbidden
                 Dim errMsg As String = GetErrorMessageJson(content)
                 If String.IsNullOrEmpty(errMsg) Then
@@ -1106,6 +1286,12 @@ Public Class Twitter
     Public ReadOnly Property Username() As String
         Get
             Return twCon.AuthenticatedUsername
+        End Get
+    End Property
+
+    Public ReadOnly Property UserId As Long
+        Get
+            Return twCon.AuthenticatedUserId
         End Get
     End Property
 
@@ -1159,24 +1345,73 @@ Public Class Twitter
     End Function
 
     Public Function GetTweenBinary(ByVal strVer As String) As String
+        Google.GASender.GetInstance().TrackPage("/newversion", Me.UserId)
         Try
+            '本体
             If Not (New HttpVarious).GetDataToFile("http://tween.sourceforge.jp/Tween" + strVer + ".gz?" + Now.ToString("yyMMddHHmmss") + Environment.TickCount.ToString(), _
-                                                Path.Combine(Application.StartupPath(), "TweenNew.exe")) Then
+                                                Path.Combine(MyCommon.settingPath, "TweenNew.exe")) Then
                 Return "Err:Download failed"
             End If
-            If Directory.Exists(Path.Combine(Application.StartupPath(), "en")) = False Then
-                Directory.CreateDirectory(Path.Combine(Application.StartupPath(), "en"))
+            '英語リソース
+            If Not Directory.Exists(Path.Combine(MyCommon.settingPath, "en")) Then
+                Directory.CreateDirectory(Path.Combine(MyCommon.settingPath, "en"))
             End If
-            If Not (New HttpVarious).GetDataToFile("http://tween.sourceforge.jp/TweenRes" + strVer + ".gz?" + Now.ToString("yyMMddHHmmss") + Environment.TickCount.ToString(), _
-                                                Path.Combine(Application.StartupPath(), "en\Tween.resourcesNew.dll")) Then
+            If Not (New HttpVarious).GetDataToFile("http://tween.sourceforge.jp/TweenResEn" + strVer + ".gz?" + Now.ToString("yyMMddHHmmss") + Environment.TickCount.ToString(), _
+                                                Path.Combine(Path.Combine(MyCommon.settingPath, "en"), "Tween.resourcesNew.dll")) Then
                 Return "Err:Download failed"
             End If
-            If Not (New HttpVarious).GetDataToFile("http://tween.sourceforge.jp/TweenUp2.gz?" + Now.ToString("yyMMddHHmmss") + Environment.TickCount.ToString(), _
-                                                Path.Combine(Application.StartupPath(), "TweenUp2.exe")) Then
+            'その他言語圏のリソース。取得失敗しても継続
+            'UIの言語圏のリソース
+            Dim curCul As String = ""
+            If Not Thread.CurrentThread.CurrentUICulture.IsNeutralCulture Then
+                Dim idx As Integer = Thread.CurrentThread.CurrentUICulture.Name.LastIndexOf("-"c)
+                If idx > -1 Then
+                    curCul = Thread.CurrentThread.CurrentUICulture.Name.Substring(0, idx)
+                Else
+                    curCul = Thread.CurrentThread.CurrentUICulture.Name
+                End If
+            Else
+                curCul = Thread.CurrentThread.CurrentUICulture.Name
+            End If
+            If Not String.IsNullOrEmpty(curCul) AndAlso curCul <> "en" AndAlso curCul <> "ja" Then
+                If Not Directory.Exists(Path.Combine(MyCommon.settingPath, curCul)) Then
+                    Directory.CreateDirectory(Path.Combine(MyCommon.settingPath, curCul))
+                End If
+                If Not (New HttpVarious).GetDataToFile("http://tween.sourceforge.jp/TweenRes" + curCul + strVer + ".gz?" + Now.ToString("yyMMddHHmmss") + Environment.TickCount.ToString(), _
+                                                    Path.Combine(Path.Combine(MyCommon.settingPath, curCul), "Tween.resourcesNew.dll")) Then
+                    'Return "Err:Download failed"
+                End If
+            End If
+            'スレッドの言語圏のリソース
+            Dim curCul2 As String
+            If Not Thread.CurrentThread.CurrentCulture.IsNeutralCulture Then
+                Dim idx As Integer = Thread.CurrentThread.CurrentCulture.Name.LastIndexOf("-"c)
+                If idx > -1 Then
+                    curCul2 = Thread.CurrentThread.CurrentCulture.Name.Substring(0, idx)
+                Else
+                    curCul2 = Thread.CurrentThread.CurrentCulture.Name
+                End If
+            Else
+                curCul2 = Thread.CurrentThread.CurrentCulture.Name
+            End If
+            If Not String.IsNullOrEmpty(curCul2) AndAlso curCul2 <> "en" AndAlso curCul2 <> curCul Then
+                If Not Directory.Exists(Path.Combine(MyCommon.settingPath, curCul2)) Then
+                    Directory.CreateDirectory(Path.Combine(MyCommon.settingPath, curCul2))
+                End If
+                If Not (New HttpVarious).GetDataToFile("http://tween.sourceforge.jp/TweenRes" + curCul2 + strVer + ".gz?" + Now.ToString("yyMMddHHmmss") + Environment.TickCount.ToString(), _
+                                                Path.Combine(Path.Combine(MyCommon.settingPath, curCul2), "Tween.resourcesNew.dll")) Then
+                    'Return "Err:Download failed"
+                End If
+            End If
+
+            'アップデータ
+            If Not (New HttpVarious).GetDataToFile("http://tween.sourceforge.jp/TweenUp3.gz?" + Now.ToString("yyMMddHHmmss") + Environment.TickCount.ToString(), _
+                                                Path.Combine(MyCommon.settingPath, "TweenUp3.exe")) Then
                 Return "Err:Download failed"
             End If
+            'シリアライザDLL
             If Not (New HttpVarious).GetDataToFile("http://tween.sourceforge.jp/TweenDll" + strVer + ".gz?" + Now.ToString("yyMMddHHmmss") + Environment.TickCount.ToString(), _
-                                                Path.Combine(Application.StartupPath(), "TweenNew.XmlSerializers.dll")) Then
+                                                Path.Combine(MyCommon.settingPath, "TweenNew.XmlSerializers.dll")) Then
                 Return "Err:Download failed"
             End If
             Return ""
@@ -1287,7 +1522,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
@@ -1318,7 +1553,8 @@ Public Class Twitter
         Try
             If String.IsNullOrEmpty(userName) Then
                 Dim target As String = tab.User
-                If target Is Nothing Then Return ""
+                If String.IsNullOrEmpty(target) Then Return ""
+                userName = target
                 res = twCon.UserTimeline(0, target, count, 0, 0, content)
             Else
                 If more Then
@@ -1374,6 +1610,7 @@ Public Class Twitter
 
         If _endingFlag Then Return ""
 
+        Google.GASender.GetInstance().TrackPage("/showstatus", Me.UserId)
         Dim res As HttpStatusCode
         Dim content As String = ""
 
@@ -1387,11 +1624,11 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case HttpStatusCode.Forbidden
-                Return "Err:You are not authorized to see this status"
+                Return "Err:Protected user's tweet"
             Case Else
                 Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
         End Select
@@ -1433,6 +1670,7 @@ Public Class Twitter
 
     Private Function CreatePostsFromStatusData(ByVal status As TwitterDataModel.Status) As PostClass
         Dim post As New PostClass
+        Dim entities As TwitterDataModel.Entities
 
         post.StatusId = status.Id
         If status.RetweetedStatus IsNot Nothing Then
@@ -1444,16 +1682,24 @@ Public Class Twitter
             post.RetweetedId = retweeted.Id
             '本文
             post.TextFromApi = retweeted.Text
+            entities = retweeted.Entities
             'Source取得（htmlの場合は、中身を取り出し）
             post.Source = retweeted.Source
             'Reply先
             Long.TryParse(retweeted.InReplyToStatusId, post.InReplyToStatusId)
             post.InReplyToUser = retweeted.InReplyToScreenName
             Long.TryParse(status.InReplyToUserId, post.InReplyToUserId)
-            post.IsFav = TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites).Contains(post.RetweetedId)
+
+            '幻覚fav対策
+            Dim tc As TabClass = TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites)
+            post.IsFav = tc.Contains(post.RetweetedId)
+
+            If retweeted.Geo IsNot Nothing Then post.PostGeo = New PostClass.StatusGeo() With {.Lat = retweeted.Geo.Coordinates(0), .Lng = retweeted.Geo.Coordinates(1)}
 
             '以下、ユーザー情報
             Dim user As TwitterDataModel.User = retweeted.User
+
+            If user.ScreenName Is Nothing OrElse status.User.ScreenName Is Nothing Then Return Nothing
 
             post.UserId = user.Id
             post.ScreenName = user.ScreenName
@@ -1464,38 +1710,46 @@ Public Class Twitter
             'Retweetした人
             post.RetweetedBy = status.User.ScreenName
             post.RetweetedByUserId = status.User.Id
-            post.IsMe = post.RetweetedBy.ToLower.Equals(_uid)
+            post.IsMe = post.RetweetedBy.ToLower.Equals(_uname)
         Else
             post.CreatedAt = DateTimeParse(status.CreatedAt)
             '本文
             post.TextFromApi = status.Text
+            entities = status.Entities
             'Source取得（htmlの場合は、中身を取り出し）
             post.Source = status.Source
             Long.TryParse(status.InReplyToStatusId, post.InReplyToStatusId)
             post.InReplyToUser = status.InReplyToScreenName
             Long.TryParse(status.InReplyToUserId, post.InReplyToUserId)
 
-            post.IsFav = status.Favorited
+            If status.Geo IsNot Nothing Then post.PostGeo = New PostClass.StatusGeo() With {.Lat = status.Geo.Coordinates(0), .Lng = status.Geo.Coordinates(1)}
 
             '以下、ユーザー情報
             Dim user As TwitterDataModel.User = status.User
+
+            If user.ScreenName Is Nothing Then Return Nothing
 
             post.UserId = user.Id
             post.ScreenName = user.ScreenName
             post.Nickname = user.Name.Trim()
             post.ImageUrl = user.ProfileImageUrl
             post.IsProtect = user.Protected
-            post.IsMe = post.ScreenName.ToLower.Equals(_uid)
-            If post.IsMe Then _UserIdNo = post.UserId.ToString
+            post.IsMe = post.ScreenName.ToLower.Equals(_uname)
+
+            '幻覚fav対策
+            Dim tc As TabClass = TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites)
+            post.IsFav = tc.Contains(post.StatusId) AndAlso TabInformations.GetInstance.Item(post.StatusId).IsFav
         End If
         'HTMLに整形
-        post.Text = CreateHtmlAnchor(post.TextFromApi, post.ReplyToList)
+        post.Text = CreateHtmlAnchor(post.TextFromApi, post.ReplyToList, entities, post.Media)
+        post.TextFromApi = Me.ReplaceTextFromApi(post.TextFromApi, entities)
         post.TextFromApi = HttpUtility.HtmlDecode(post.TextFromApi)
         post.TextFromApi = post.TextFromApi.Replace("<3", "♡")
+
         'Source整形
         CreateSource(post)
 
-        post.IsReply = post.ReplyToList.Contains(_uid)
+        post.IsReply = post.ReplyToList.Contains(_uname)
         post.IsExcludeReply = False
 
         If post.IsMe Then
@@ -1523,6 +1777,7 @@ Public Class Twitter
         For Each status As TwitterDataModel.Status In items
             Dim post As PostClass = Nothing
             post = CreatePostsFromStatusData(status)
+            If post Is Nothing Then Continue For
 
             If minimumId > post.StatusId Then minimumId = post.StatusId
             '二重取得回避
@@ -1565,6 +1820,7 @@ Public Class Twitter
         For Each status As TwitterDataModel.Status In items.Statuses
             Dim post As PostClass = Nothing
             post = CreatePostsFromStatusData(status)
+            If post Is Nothing Then Continue For
 
             If minimumId > post.StatusId Then minimumId = post.StatusId
             '二重取得回避
@@ -1614,9 +1870,9 @@ Public Class Twitter
         End If
         Try
             If more Then
-                res = twCon.GetListsStatuses(tab.ListInfo.UserId, tab.ListInfo.Id, count, tab.OldestId, 0, content)
+                res = twCon.GetListsStatuses(tab.ListInfo.UserId, tab.ListInfo.Id, count, tab.OldestId, 0, AppendSettingDialog.Instance.IsListStatusesIncludeRts, content)
             Else
-                res = twCon.GetListsStatuses(tab.ListInfo.UserId, tab.ListInfo.Id, count, 0, 0, content)
+                res = twCon.GetListsStatuses(tab.ListInfo.UserId, tab.ListInfo.Id, count, 0, 0, AppendSettingDialog.Instance.IsListStatusesIncludeRts, content)
             End If
         Catch ex As Exception
             Return "Err:" + ex.Message
@@ -1626,7 +1882,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
@@ -1652,6 +1908,7 @@ Public Class Twitter
     End Function
 
     Public Function GetRelatedResult(ByVal read As Boolean, ByVal tab As TabClass) As String
+        Google.GASender.GetInstance().TrackPage("/related_statuses", Me.UserId)
         Dim rslt As String = ""
         Dim relPosts As New List(Of PostClass)
         If tab.RelationTargetPost.TextFromApi.Contains("@") AndAlso tab.RelationTargetPost.InReplyToStatusId = 0 Then
@@ -1677,7 +1934,7 @@ Public Class Twitter
         Return rslt
     End Function
 
-    Public Function GetRelatedResultsApi(ByVal read As Boolean,
+    Private Function GetRelatedResultsApi(ByVal read As Boolean,
                                          ByVal post As PostClass,
                                          ByVal tab As TabClass,
                                          ByVal relatedPosts As List(Of PostClass)) As String
@@ -1689,7 +1946,11 @@ Public Class Twitter
         Dim res As HttpStatusCode
         Dim content As String = ""
         Try
-            res = twCon.GetRelatedResults(post.StatusId, content)
+            If post.RetweetedId > 0 Then
+                res = twCon.GetRelatedResults(post.RetweetedId, content)
+            Else
+                res = twCon.GetRelatedResults(post.StatusId, content)
+            End If
         Catch ex As Exception
             Return "Err:" + ex.Message
         End Try
@@ -1698,7 +1959,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
@@ -1774,7 +2035,7 @@ Public Class Twitter
 
 
         'MRTとかに対応のためツイート内にあるツイートを指すURLを取り込む
-        Dim ma As MatchCollection = Regex.Matches(tab.RelationTargetPost.Text, "href=""https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)(/status(es)?/(?<StatusId>[0-9]+))""")
+        Dim ma As MatchCollection = Regex.Matches(tab.RelationTargetPost.Text, "title=""https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)(/status(es)?/(?<StatusId>[0-9]+))""")
         For Each _match As Match In ma
             Dim _statusId As Int64
             If Int64.TryParse(_match.Groups("StatusId").Value, _statusId) Then
@@ -1809,6 +2070,8 @@ Public Class Twitter
         If AppendSettingDialog.Instance.UseAdditionalCount AndAlso
             AppendSettingDialog.Instance.SearchCountApi <> 0 Then
             count = AppendSettingDialog.Instance.SearchCountApi
+        Else
+            count = AppendSettingDialog.Instance.CountApi
         End If
         If more Then
             page = tab.GetSearchPage(count)
@@ -1835,7 +2098,7 @@ Public Class Twitter
         End Select
 
         If Not TabInformations.GetInstance.ContainsTab(tab) Then Return ""
-
+        content = Regex.Replace(content, "[\x00-\x1f-[\x0a\x0d]]+", " ")
         Dim xdoc As New XmlDocument
         Try
             xdoc.LoadXml(content)
@@ -1846,6 +2109,7 @@ Public Class Twitter
         Dim nsmgr As New XmlNamespaceManager(xdoc.NameTable)
         nsmgr.AddNamespace("search", "http://www.w3.org/2005/Atom")
         nsmgr.AddNamespace("twitter", "http://api.twitter.com/")
+        nsmgr.AddNamespace("georss", "http://www.georss.org/georss")
         For Each xentryNode As XmlNode In xdoc.DocumentElement.SelectNodes("/search:feed/search:entry", nsmgr)
             Dim xentry As XmlElement = CType(xentryNode, XmlElement)
             Dim post As New PostClass
@@ -1862,6 +2126,12 @@ Public Class Twitter
                 post.InReplyToUserId = 0
                 post.IsFav = False
 
+                ' Geoが勝手に付加されるバグがいっこうに修正されないので暫定的にGeo情報を無視する
+                If xentry.Item("twitter:geo").HasChildNodes Then
+                    Dim pnt As String() = CType(xentry.SelectSingleNode("twitter:geo/georss:point", nsmgr), XmlElement).InnerText.Split(" "c)
+                    post.PostGeo = New PostClass.StatusGeo With {.Lat = Double.Parse(pnt(0)), .Lng = Double.Parse(pnt(1))}
+                End If
+
                 '以下、ユーザー情報
                 Dim xUentry As XmlElement = CType(xentry.SelectSingleNode("./search:author", nsmgr), XmlElement)
                 post.UserId = 0
@@ -1874,16 +2144,16 @@ Public Class Twitter
                 End If
                 post.ImageUrl = CType(xentry.SelectSingleNode("./search:link[@type='image/png']", nsmgr), XmlElement).GetAttribute("href")
                 post.IsProtect = False
-                post.IsMe = post.ScreenName.ToLower.Equals(_uid)
+                post.IsMe = post.ScreenName.ToLower.Equals(_uname)
 
                 'HTMLに整形
-                post.Text = CreateHtmlAnchor(HttpUtility.HtmlEncode(post.TextFromApi), post.ReplyToList)
+                post.Text = CreateHtmlAnchor(HttpUtility.HtmlEncode(post.TextFromApi), post.ReplyToList, post.Media)
                 post.TextFromApi = HttpUtility.HtmlDecode(post.TextFromApi)
                 'Source整形
                 CreateSource(post)
 
                 post.IsRead = read
-                post.IsReply = post.ReplyToList.Contains(_uid)
+                post.IsReply = post.ReplyToList.Contains(_uname)
                 post.IsExcludeReply = False
 
                 post.IsOwl = False
@@ -2011,7 +2281,7 @@ Public Class Twitter
                 '本文
                 post.TextFromApi = message.Text
                 'HTMLに整形
-                post.Text = CreateHtmlAnchor(post.TextFromApi, post.ReplyToList)
+                post.Text = CreateHtmlAnchor(post.TextFromApi, post.ReplyToList, post.Media)
                 post.TextFromApi = HttpUtility.HtmlDecode(post.TextFromApi)
                 post.TextFromApi = post.TextFromApi.Replace("<3", "♡")
                 post.IsFav = False
@@ -2070,6 +2340,9 @@ Public Class Twitter
         If _endingFlag Then Return ""
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
+        If TwitterApiInfo.AccessLevel <> ApiAccessLevel.None Then
+            If Not TwitterApiInfo.IsDirectMessagePermission Then Return "Auth Err:try to re-authorization."
+        End If
 
         Dim res As HttpStatusCode
         Dim content As String = ""
@@ -2097,7 +2370,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
@@ -2107,8 +2380,11 @@ Public Class Twitter
         Return CreateDirectMessagesFromJson(content, gType, read)
     End Function
 
-    Public Function GetFavoritesApi(ByVal read As Boolean, _
-                        ByVal gType As WORKERTYPE) As String
+    Public Function GetFavoritesApi(ByVal read As Boolean,
+                        ByVal gType As WORKERTYPE,
+                        ByVal more As Boolean) As String
+
+        Static page As Integer = 1
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
@@ -2121,8 +2397,16 @@ Public Class Twitter
             AppendSettingDialog.Instance.FavoritesCountApi <> 0 Then
             count = AppendSettingDialog.Instance.FavoritesCountApi
         End If
+
+        ' 前ページ取得の場合はページカウンタをインクリメント、それ以外の場合はページカウンタリセット
+        If more Then
+            page += 1
+        Else
+            page = 1
+        End If
+
         Try
-            res = twCon.Favorites(count, content)
+            res = twCon.Favorites(count, page, content)
         Catch ex As Exception
             Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
         End Try
@@ -2132,7 +2416,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
@@ -2154,6 +2438,8 @@ Public Class Twitter
 
         For Each status As TwitterDataModel.Status In item
             Dim post As New PostClass
+            Dim entities As TwitterDataModel.Entities
+
             Try
                 post.StatusId = status.Id
                 '二重取得回避
@@ -2169,13 +2455,14 @@ Public Class Twitter
                     post.RetweetedId = post.StatusId
                     '本文
                     post.TextFromApi = retweeted.Text
+                    entities = retweeted.Entities
                     'Source取得（htmlの場合は、中身を取り出し）
                     post.Source = retweeted.Source
                     'Reply先
                     Long.TryParse(retweeted.InReplyToStatusId, post.InReplyToStatusId)
                     post.InReplyToUser = retweeted.InReplyToScreenName
                     Long.TryParse(retweeted.InReplyToUserId, post.InReplyToUserId)
-                    post.IsFav = retweeted.Favorited
+                    post.IsFav = True
 
                     '以下、ユーザー情報
                     Dim user As TwitterDataModel.User = retweeted.User
@@ -2187,20 +2474,20 @@ Public Class Twitter
 
                     'Retweetした人
                     post.RetweetedBy = status.User.ScreenName
-                    post.IsMe = post.RetweetedBy.ToLower.Equals(_uid)
-                    If post.IsMe Then _UserIdNo = post.UserId.ToString()
+                    post.IsMe = post.RetweetedBy.ToLower.Equals(_uname)
                 Else
                     post.CreatedAt = DateTimeParse(status.CreatedAt)
 
                     '本文
                     post.TextFromApi = status.Text
+                    entities = status.Entities
                     'Source取得（htmlの場合は、中身を取り出し）
                     post.Source = status.Source
                     Long.TryParse(status.InReplyToStatusId, post.InReplyToStatusId)
                     post.InReplyToUser = status.InReplyToScreenName
                     Long.TryParse(status.InReplyToUserId, post.InReplyToUserId)
 
-                    post.IsFav = status.Favorited
+                    post.IsFav = True
 
                     '以下、ユーザー情報
                     Dim user As TwitterDataModel.User = status.User
@@ -2209,18 +2496,18 @@ Public Class Twitter
                     post.Nickname = user.Name.Trim()
                     post.ImageUrl = user.ProfileImageUrl
                     post.IsProtect = user.Protected
-                    post.IsMe = post.ScreenName.ToLower.Equals(_uid)
-                    If post.IsMe Then _UserIdNo = post.UserId.ToString
+                    post.IsMe = post.ScreenName.ToLower.Equals(_uname)
                 End If
                 'HTMLに整形
-                post.Text = CreateHtmlAnchor(post.TextFromApi, post.ReplyToList)
+                post.Text = CreateHtmlAnchor(post.TextFromApi, post.ReplyToList, entities, post.Media)
+                post.TextFromApi = Me.ReplaceTextFromApi(post.TextFromApi, entities)
                 post.TextFromApi = HttpUtility.HtmlDecode(post.TextFromApi)
                 post.TextFromApi = post.TextFromApi.Replace("<3", "♡")
                 'Source整形
                 CreateSource(post)
 
                 post.IsRead = read
-                post.IsReply = post.ReplyToList.Contains(_uid)
+                post.IsReply = post.ReplyToList.Contains(_uname)
                 post.IsExcludeReply = False
 
                 If post.IsMe Then
@@ -2240,6 +2527,22 @@ Public Class Twitter
         Next
 
         Return ""
+    End Function
+
+    Private Function ReplaceTextFromApi(ByVal text As String, ByVal entities As TwitterDataModel.Entities) As String
+        If entities IsNot Nothing Then
+            If entities.Urls IsNot Nothing Then
+                For Each m In entities.Urls
+                    If Not String.IsNullOrEmpty(m.DisplayUrl) Then text = text.Replace(m.Url, m.DisplayUrl)
+                Next
+            End If
+            If entities.Media IsNot Nothing Then
+                For Each m In entities.Media
+                    If Not String.IsNullOrEmpty(m.DisplayUrl) Then text = text.Replace(m.Url, m.DisplayUrl)
+                Next
+            End If
+        End If
+        Return text
     End Function
 
     Public Function GetFollowersApi() As String
@@ -2286,7 +2589,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
@@ -2343,7 +2646,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
@@ -2370,6 +2673,39 @@ Public Class Twitter
         End Get
     End Property
 
+    Public Function ConfigurationApi() As String
+        Dim res As HttpStatusCode
+        Dim content As String = ""
+        Try
+            res = twCon.GetConfiguration(content)
+        Catch ex As Exception
+            Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
+        End Try
+
+        Select Case res
+            Case HttpStatusCode.OK
+                Twitter.AccountState = ACCOUNT_STATE.Valid
+            Case HttpStatusCode.Unauthorized
+                Twitter.AccountState = ACCOUNT_STATE.Invalid
+                Return My.Resources.Unauthorized
+            Case HttpStatusCode.BadRequest
+                Return "Err:API Limits?"
+            Case Else
+                Return "Err:" + res.ToString() + "(" + GetCurrentMethod.Name + ")"
+        End Select
+
+        Try
+            AppendSettingDialog.Instance.TwitterConfiguration = CreateDataFromJson(Of TwitterDataModel.Configuration)(content)
+            Return ""
+        Catch ex As SerializationException
+            TraceOut(ex.Message + Environment.NewLine + content)
+            Return "Err:Json Parse Error(DataContractJsonSerializer)"
+        Catch ex As Exception
+            TraceOut(ex, GetCurrentMethod.Name & " " & content)
+            Return "Err:Invalid Json!"
+        End Try
+    End Function
+
     Public Function GetListsApi() As String
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
 
@@ -2390,7 +2726,7 @@ Public Class Twitter
                     Twitter.AccountState = ACCOUNT_STATE.Valid
                 Case HttpStatusCode.Unauthorized
                     Twitter.AccountState = ACCOUNT_STATE.Invalid
-                    Return "Check your Username/Password."
+                    Return My.Resources.Unauthorized
                 Case HttpStatusCode.BadRequest
                     Return "Err:API Limits?"
                 Case Else
@@ -2399,9 +2735,7 @@ Public Class Twitter
 
             Try
                 Dim lst = CreateDataFromJson(Of TwitterDataModel.Lists)(content)
-                For Each le In lst.Lists
-                    lists.Add(New ListElement(le, Me))
-                Next
+                lists.AddRange(From le In lst.Lists Select New ListElement(le, Me))
                 cursor = lst.NextCursor
             Catch ex As SerializationException
                 TraceOut(ex.Message + Environment.NewLine + content)
@@ -2426,7 +2760,7 @@ Public Class Twitter
                     Twitter.AccountState = ACCOUNT_STATE.Valid
                 Case HttpStatusCode.Unauthorized
                     Twitter.AccountState = ACCOUNT_STATE.Invalid
-                    Return "Check your Username/Password."
+                    Return My.Resources.Unauthorized
                 Case HttpStatusCode.BadRequest
                     Return "Err:API Limits?"
                 Case Else
@@ -2435,9 +2769,7 @@ Public Class Twitter
 
             Try
                 Dim lst = CreateDataFromJson(Of TwitterDataModel.Lists)(content)
-                For Each le In lst.Lists
-                    lists.Add(New ListElement(le, Me))
-                Next
+                lists.AddRange(From le In lst.Lists Select New ListElement(le, Me))
                 cursor = lst.NextCursor
             Catch ex As SerializationException
                 TraceOut(ex.Message + Environment.NewLine + content)
@@ -2464,10 +2796,11 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "destroy_list", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
@@ -2489,10 +2822,11 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("get", "update_list", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
@@ -2541,7 +2875,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
@@ -2582,10 +2916,11 @@ Public Class Twitter
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "create_list", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
@@ -2605,7 +2940,7 @@ Public Class Twitter
         End Try
     End Function
 
-    Public Function ContainsUserAtList(ByVal list_name As String, ByVal user As String, ByRef value As Boolean) As String
+    Public Function ContainsUserAtList(ByVal listId As String, ByVal user As String, ByRef value As Boolean) As String
         value = False
 
         If Twitter.AccountState <> ACCOUNT_STATE.Valid Then Return ""
@@ -2614,7 +2949,7 @@ Public Class Twitter
         Dim content As String = ""
 
         Try
-            res = Me.twCon.ShowListMember(Me.Username, list_name, user, content)
+            res = Me.twCon.ShowListMember(listId, user, content)
         Catch ex As Exception
             Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
         End Try
@@ -2624,7 +2959,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case HttpStatusCode.NotFound
@@ -2644,22 +2979,23 @@ Public Class Twitter
         End Try
     End Function
 
-    Public Function AddUserToList(ByVal list_name As String, ByVal user As String) As String
+    Public Function AddUserToList(ByVal listId As String, ByVal user As String) As String
         Dim content As String = ""
         Dim res As HttpStatusCode
 
         Try
-            res = twCon.CreateListMembers(Me.Username, list_name, user, content)
+            res = twCon.CreateListMembers(listId, user, content)
         Catch ex As Exception
             Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
         End Try
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "add_user_to_list", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.BadRequest
                 Return "Err:" + GetErrorMessageJson(content)
             Case Else
@@ -2669,22 +3005,24 @@ Public Class Twitter
         Return ""
     End Function
 
-    Public Function RemoveUserToList(ByVal list_name As String, ByVal user As String) As String
+    Public Function RemoveUserToList(ByVal listId As String, ByVal user As String) As String
+
         Dim content As String = ""
         Dim res As HttpStatusCode
 
         Try
-            res = twCon.DeleteListMembers(Me.Username, list_name, user, content)
+            res = twCon.DeleteListMembers(listId, user, content)
         Catch ex As Exception
             Return "Err:" + ex.Message + "(" + GetCurrentMethod.Name + ")"
         End Try
 
         Select Case res
             Case HttpStatusCode.OK
+                Google.GASender.GetInstance().TrackEventWithCategory("post", "remove_user_from_list", Me.UserId)
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.BadRequest
                 Return "Err:" + GetErrorMessageJson(content)
             Case Else
@@ -2702,39 +3040,51 @@ Public Class Twitter
             Me.toIndex = toIndex
         End Sub
     End Class
-    Public Function CreateHtmlAnchor(ByVal Text As String, ByVal AtList As List(Of String)) As String
+    Public Function CreateHtmlAnchor(ByVal Text As String, ByVal AtList As List(Of String), ByVal media As Dictionary(Of String, String)) As String
         If Text Is Nothing Then Return Nothing
         Dim retStr As String = Text.Replace("&gt;", "<<<<<tweenだいなり>>>>>").Replace("&lt;", "<<<<<tweenしょうなり>>>>>")
         'uriの正規表現
-        Const url_valid_domain As String = "(?<domain>(?:[\.-]|[^\p{P}\s])+\.[a-z]{2,}(?::[0-9]+)?)"
-        Const url_valid_general_path_chars As String = "[a-z0-9!*';:=+$/%#\[\]\-_,~]"
-        Const url_balance_parens As String = "(?:\(" + url_valid_general_path_chars + "+\))"
-        Const url_valid_url_path_ending_chars As String = "(?:[a-z0-9=_#/\-\+]+|" + url_balance_parens + ")"
-        Const pth As String = "(?:" + url_balance_parens +
-            "|@" + url_valid_general_path_chars + "+/" +
-            "|[.,]?" + url_valid_general_path_chars + "+" +
-            ")"
-        Const pth2 As String = "(/(?:" +
-            pth + "+" + url_valid_url_path_ending_chars + "|" +
-            pth + "+" + url_valid_url_path_ending_chars + "?|" +
-            url_valid_url_path_ending_chars +
-            ")?)?"
-        Const qry As String = "(?<query>\?[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9_&=#])?"
-        Const rgUrl As String = "(?<before>(?:[^\""':!=]|^|\:))" +
-                                    "(?<url>(?<protocol>https?://|www\.)" +
-                                    url_valid_domain +
-                                    pth2 +
-                                    qry +
-                                    ")"
+        'Const url_valid_domain As String = "(?<domain>(?:[^\p{P}\s][\.\-_](?=[^\p{P}\s])|[^\p{P}\s]){1,}\.[a-z]{2,}(?::[0-9]+)?)"
+        'Const url_valid_general_path_chars As String = "[a-z0-9!*';:=+$/%#\[\]\-_,~]"
+        'Const url_balance_parens As String = "(?:\(" + url_valid_general_path_chars + "+\))"
+        'Const url_valid_url_path_ending_chars As String = "(?:[a-z0-9=_#/\-\+]+|" + url_balance_parens + ")"
+        'Const pth As String = "(?:" + url_balance_parens +
+        '    "|@" + url_valid_general_path_chars + "+/" +
+        '    "|[.,]?" + url_valid_general_path_chars + "+" +
+        '    ")"
+        'Const pth2 As String = "(/(?:" +
+        '    pth + "+" + url_valid_url_path_ending_chars + "|" +
+        '    pth + "+" + url_valid_url_path_ending_chars + "?|" +
+        '    url_valid_url_path_ending_chars +
+        '    ")?)?"
+        'Const qry As String = "(?<query>\?[a-z0-9!*'();:&=+$/%#\[\]\-_.,~]*[a-z0-9_&=#])?"
+        'Const rgUrl As String = "(?<before>(?:[^\""':!=#]|^|\:/))" +
+        '                            "(?<url>(?<protocol>https?://)" +
+        '                            url_valid_domain +
+        '                            pth2 +
+        '                            qry +
+        '                            ")"
+        'Const rgUrl As String = "(?<before>(?:[^\""':!=#]|^|\:/))" +
+        '                            "(?<url>(?<protocol>https?://|www\.)" +
+        '                            url_valid_domain +
+        '                            pth2 +
+        '                            qry +
+        '                            ")"
         '絶対パス表現のUriをリンクに置換
         retStr = Regex.Replace(retStr,
                                rgUrl,
                                New MatchEvaluator(Function(mu As Match)
                                                       Dim sb As New StringBuilder(mu.Result("${before}<a href="""))
-                                                      If mu.Result("${protocol}").StartsWith("w", StringComparison.OrdinalIgnoreCase) Then
-                                                          sb.Append("http://")
+                                                      'If mu.Result("${protocol}").StartsWith("w", StringComparison.OrdinalIgnoreCase) Then
+                                                      '    sb.Append("http://")
+                                                      'End If
+                                                      Dim url As String = mu.Result("${url}")
+                                                      Dim title As String = ShortUrl.ResolveMedia(url, True)
+                                                      If url <> title Then
+                                                          title = ShortUrl.ResolveMedia(title, False)
                                                       End If
-                                                      sb.Append(mu.Result("${url}"">")).Append(mu.Result("${url}")).Append("</a>")
+                                                      sb.Append(url + """ title=""" + title + """>").Append(url).Append("</a>")
+                                                      If media IsNot Nothing AndAlso Not media.ContainsKey(url) Then media.Add(url, title)
                                                       Return sb.ToString
                                                   End Function),
                                RegexOptions.IgnoreCase)
@@ -2767,14 +3117,27 @@ Public Class Twitter
                 End If
             End If
         Next
+        'retStr = Regex.Replace(retStr,
+        '                       "(^|[^a-zA-Z0-9/&])([#＃])([0-9a-zA-Z_]*[a-zA-Z_]+[a-zA-Z0-9_\xc0-\xd6\xd8-\xf6\xf8-\xff]*)",
+        '                       New MatchEvaluator(Function(mh As Match)
+        '                                              For Each rng As range In anchorRange
+        '                                                  If mh.Index >= rng.fromIndex AndAlso
+        '                                                   mh.Index <= rng.toIndex Then Return mh.Result("$0")
+        '                                              Next
+        '                                              If IsNumeric(mh.Result("$3")) Then Return mh.Result("$0")
+        '                                              SyncLock LockObj
+        '                                                  _hashList.Add("#" + mh.Result("$3"))
+        '                                              End SyncLock
+        '                                              Return mh.Result("$1") + "<a href=""" & _protocol & "twitter.com/search?q=%23" + mh.Result("$3") + """>" + mh.Result("$2$3") + "</a>"
+        '                                          End Function),
+        '                                      RegexOptions.IgnoreCase)
         retStr = Regex.Replace(retStr,
-                               "(^|[^a-zA-Z0-9/&])([#＃])([0-9a-zA-Z_]*[a-zA-Z_]+[a-zA-Z0-9_\xc0-\xd6\xd8-\xf6\xf8-\xff]*)",
+                               HASHTAG,
                                New MatchEvaluator(Function(mh As Match)
                                                       For Each rng As range In anchorRange
                                                           If mh.Index >= rng.fromIndex AndAlso
                                                            mh.Index <= rng.toIndex Then Return mh.Result("$0")
                                                       Next
-                                                      If IsNumeric(mh.Result("$3")) Then Return mh.Result("$0")
                                                       SyncLock LockObj
                                                           _hashList.Add("#" + mh.Result("$3"))
                                                       End SyncLock
@@ -2783,12 +3146,107 @@ Public Class Twitter
                                               RegexOptions.IgnoreCase)
 
 
-        retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9_/&#＃@＠>=.])(sm|nm)([0-9]{1,10})", "$1<a href=""http://www.nicovideo.jp/watch/$2$3"">$2$3</a>")
+        retStr = Regex.Replace(retStr, "(^|[^a-zA-Z0-9_/&#＃@＠>=.~])(sm|nm)([0-9]{1,10})", "$1<a href=""http://www.nicovideo.jp/watch/$2$3"">$2$3</a>")
 
         retStr = retStr.Replace("<<<<<tweenだいなり>>>>>", "&gt;").Replace("<<<<<tweenしょうなり>>>>>", "&lt;")
 
-        retStr = AdjustHtml(ShortUrl.Resolve(PreProcessUrl(retStr))) 'IDN置換、短縮Uri解決、@リンクを相対→絶対にしてtarget属性付与
+        'retStr = AdjustHtml(ShortUrl.Resolve(PreProcessUrl(retStr), True)) 'IDN置換、短縮Uri解決、@リンクを相対→絶対にしてtarget属性付与
+        retStr = AdjustHtml(PreProcessUrl(retStr)) 'IDN置換、短縮Uri解決、@リンクを相対→絶対にしてtarget属性付与
         Return retStr
+    End Function
+
+    Private Class EntityInfo
+        Public Property StartIndex As Integer
+        Public Property EndIndex As Integer
+        Public Property Text As String
+        Public Property Html As String
+        Public Property Display As String
+    End Class
+    Public Function CreateHtmlAnchor(ByRef Text As String, ByVal AtList As List(Of String), ByVal entities As TwitterDataModel.Entities, ByVal media As Dictionary(Of String, String)) As String
+        Dim ret As String = Text
+
+        If entities IsNot Nothing Then
+            Dim etInfo As New SortedList(Of Integer, EntityInfo)
+            'URL
+            If entities.Urls IsNot Nothing Then
+                For Each ent In entities.Urls
+                    If String.IsNullOrEmpty(ent.DisplayUrl) Then
+                        etInfo.Add(ent.Indices(0),
+                                   New EntityInfo With {.StartIndex = ent.Indices(0),
+                                                        .EndIndex = ent.Indices(1),
+                                                        .Text = ent.Url,
+                                                        .Html = "<a href=""" + ent.Url + """>" + ent.Url + "</a>"})
+                    Else
+                        Dim expanded As String = ShortUrl.ResolveMedia(ent.ExpandedUrl, False)
+                        etInfo.Add(ent.Indices(0),
+                                   New EntityInfo With {.StartIndex = ent.Indices(0),
+                                                        .EndIndex = ent.Indices(1),
+                                                        .Text = ent.Url,
+                                                        .Html = "<a href=""" + ent.Url + """ title=""" + expanded + """>" + ent.DisplayUrl + "</a>",
+                                                        .Display = ent.DisplayUrl})
+                        If media IsNot Nothing AndAlso Not media.ContainsKey(ent.Url) Then media.Add(ent.Url, expanded)
+                    End If
+                Next
+            End If
+            If entities.Hashtags IsNot Nothing Then
+                For Each ent In entities.Hashtags
+                    Dim hash As String = Text.Substring(ent.Indices(0), ent.Indices(1) - ent.Indices(0))
+                    etInfo.Add(ent.Indices(0),
+                               New EntityInfo With {.StartIndex = ent.Indices(0),
+                                                    .EndIndex = ent.Indices(1),
+                                                    .Text = hash,
+                                                    .Html = "<a href=""" & _protocol & "twitter.com/search?q=%23" + ent.Text + """>" + hash + "</a>"})
+                    SyncLock LockObj
+                        _hashList.Add("#" + ent.Text)
+                    End SyncLock
+                Next
+            End If
+            If entities.UserMentions IsNot Nothing Then
+                For Each ent In entities.UserMentions
+                    Dim screenName As String = Text.Substring(ent.Indices(0) + 1, ent.Indices(1) - ent.Indices(0) - 1)
+                    etInfo.Add(ent.Indices(0) + 1,
+                               New EntityInfo With {.StartIndex = ent.Indices(0) + 1,
+                                                    .EndIndex = ent.Indices(1),
+                                                    .Text = ent.ScreenName,
+                                                    .Html = "<a href=""/" + ent.ScreenName + """>" + screenName + "</a>"})
+                    If Not AtList.Contains(ent.ScreenName.ToLower) Then AtList.Add(ent.ScreenName.ToLower)
+                Next
+            End If
+            If entities.Media IsNot Nothing Then
+                For Each ent In entities.Media
+                    If ent.Type = "photo" Then
+                        etInfo.Add(ent.Indices(0),
+                                   New EntityInfo With {.StartIndex = ent.Indices(0),
+                                                        .EndIndex = ent.Indices(1),
+                                                        .Text = ent.Url,
+                                                        .Html = "<a href=""" + ent.Url + """ title=""" + ent.ExpandedUrl + """>" + ent.DisplayUrl + "</a>",
+                                                        .Display = ent.DisplayUrl})
+                        If media IsNot Nothing AndAlso Not media.ContainsKey(ent.Url) Then media.Add(ent.Url, ent.MediaUrl)
+                    End If
+                Next
+            End If
+            If etInfo.Count > 0 Then
+                Try
+                    Dim idx As Integer = 0
+                    ret = ""
+                    For Each et In etInfo
+                        ret += Text.Substring(idx, et.Key - idx) + et.Value.Html
+                        idx = et.Value.EndIndex
+                    Next
+                    ret += Text.Substring(idx)
+                Catch ex As ArgumentOutOfRangeException
+                    'Twitterのバグで不正なエンティティ（Index指定範囲が重なっている）が返ってくる場合の対応
+                    ret = Text
+                    entities = Nothing
+                    If media IsNot Nothing Then media.Clear()
+                End Try
+            End If
+        End If
+
+        ret = Regex.Replace(ret, "(^|[^a-zA-Z0-9_/&#＃@＠>=.~])(sm|nm)([0-9]{1,10})", "$1<a href=""http://www.nicovideo.jp/watch/$2$3"">$2$3</a>")
+        ret = AdjustHtml(ShortUrl.Resolve(PreProcessUrl(ret), False)) 'IDN置換、短縮Uri解決、@リンクを相対→絶対にしてtarget属性付与
+
+        Return ret
     End Function
 
     'Source整形
@@ -2799,7 +3257,7 @@ Public Class Twitter
             End If
             Dim mS As Match = Regex.Match(post.Source, ">(?<source>.+)<")
             If mS.Success Then
-                post.SourceHtml = String.Copy(ShortUrl.Resolve(PreProcessUrl(post.Source)))
+                post.SourceHtml = String.Copy(ShortUrl.Resolve(PreProcessUrl(post.Source), False))
                 post.Source = HttpUtility.HtmlDecode(mS.Result("${source}"))
             Else
                 post.Source = ""
@@ -2874,7 +3332,7 @@ Public Class Twitter
                 Twitter.AccountState = ACCOUNT_STATE.Valid
             Case HttpStatusCode.Unauthorized
                 Twitter.AccountState = ACCOUNT_STATE.Invalid
-                Return "Check your Username/Password."
+                Return My.Resources.Unauthorized
             Case HttpStatusCode.BadRequest
                 Return "Err:API Limits?"
             Case Else
@@ -2882,7 +3340,8 @@ Public Class Twitter
         End Select
 
         Try
-            Dim Ids = CreateDataFromJson(Of Long())(content)
+            Dim Ids = CreateDataFromJson(Of List(Of Long))(content)
+            If Ids.Contains(Me.UserId) Then Ids.Remove(Me.UserId)
             TabInformations.GetInstance.BlockIds.AddRange(Ids)
             Return ("")
         Catch ex As SerializationException
@@ -2915,8 +3374,6 @@ Public Class Twitter
             Return twCon.AccessTokenSecret
         End Get
     End Property
-
-    Public Property UserIdNo As String
 
     Public Event ApiInformationChanged(ByVal sender As Object, ByVal e As ApiInformationChangedEventArgs)
 
@@ -3028,7 +3485,8 @@ Public Class Twitter
                     isDm = True
                 ElseIf xElm.Element("scrub_geo") IsNot Nothing Then
                     Try
-                        Debug.Print("scrub_geo: user_id=" + xElm.Element("user_id").Value.ToString + " up_to_status_id=" + xElm.Element("up_to_status_id").Value.ToString)
+                        TabInformations.GetInstance.ScrubGeoReserve(Long.Parse(xElm.Element("scrub_geo").Element("user_id").Value),
+                                                                    Long.Parse(xElm.Element("scrub_geo").Element("up_to_status_id").Value))
                     Catch ex As Exception
                         TraceOut("scrub_geo:" + line)
                     End Try
@@ -3071,8 +3529,10 @@ Public Class Twitter
         evt.IsMe = evt.Username.ToLower().Equals(Me.Username.ToLower())
         evt.Eventtype = EventNameToEventType(evt.Event)
         Select Case eventData.Event
+            Case "access_revoked"
+                Exit Sub
             Case "follow"
-                If eventData.Target.ScreenName.ToLower.Equals(_uid) Then
+                If eventData.Target.ScreenName.ToLower.Equals(_uname) Then
                     If Not Me.followerId.Contains(eventData.Source.Id) Then Me.followerId.Add(eventData.Source.Id)
                 Else
                     Exit Sub    'Block後のUndoをすると、SourceとTargetが逆転したfollowイベントが帰ってくるため。
@@ -3081,27 +3541,32 @@ Public Class Twitter
             Case "favorite", "unfavorite"
                 evt.Target = "@" + eventData.TargetObject.User.ScreenName + ":" + HttpUtility.HtmlDecode(eventData.TargetObject.Text)
                 evt.Id = eventData.TargetObject.Id
+                If AppendSettingDialog.Instance.IsRemoveSameEvent Then
+                    If StoredEvent.Any(Function(ev As FormattedEvent)
+                                           Return ev.Username = evt.Username AndAlso ev.Eventtype = evt.Eventtype AndAlso ev.Target = evt.Target
+                                       End Function) Then Exit Sub
+                End If
                 If TabInformations.GetInstance.ContainsKey(eventData.TargetObject.Id) Then
                     Dim post As PostClass = TabInformations.GetInstance.Item(eventData.TargetObject.Id)
                     If eventData.Event = "favorite" Then
-                        If evt.Username.ToLower.Equals(_uid) Then
+                        If evt.Username.ToLower.Equals(_uname) Then
                             post.IsFav = True
                             TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites).Add(post.StatusId, post.IsRead, False)
                         Else
                             post.FavoritedCount += 1
                             If Not TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites).Contains(post.StatusId) Then
-                                If TweenMain.GetInstance().FavEventChangeUnread AndAlso post.IsRead Then
+                                If AppendSettingDialog.Instance.FavEventUnread AndAlso post.IsRead Then
                                     post.IsRead = False
                                 End If
                                 TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites).Add(post.StatusId, post.IsRead, False)
                             Else
-                                If TweenMain.GetInstance().FavEventChangeUnread Then
+                                If AppendSettingDialog.Instance.FavEventUnread Then
                                     TabInformations.GetInstance.SetRead(False, TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites).TabName, TabInformations.GetInstance.GetTabByType(TabUsageType.Favorites).IndexOf(post.StatusId))
                                 End If
                             End If
                         End If
                     Else
-                        If evt.Username.ToLower.Equals(_uid) Then
+                        If evt.Username.ToLower.Equals(_uname) Then
                             post.IsFav = False
                         Else
                             post.FavoritedCount -= 1
@@ -3112,8 +3577,10 @@ Public Class Twitter
             Case "list_member_added", "list_member_removed", "list_updated"
                 evt.Target = eventData.TargetObject.FullName
             Case "block"
+                If Not TabInformations.GetInstance.BlockIds.Contains(eventData.Target.Id) Then TabInformations.GetInstance.BlockIds.Add(eventData.Target.Id)
                 evt.Target = ""
             Case "unblock"
+                If TabInformations.GetInstance.BlockIds.Contains(eventData.Target.Id) Then TabInformations.GetInstance.BlockIds.Remove(eventData.Target.Id)
                 evt.Target = ""
             Case "user_update"
                 evt.Target = ""
@@ -3127,6 +3594,7 @@ Public Class Twitter
     End Sub
 
     Private Sub userStream_Started() Handles userStream.Started
+        Google.GASender.GetInstance().TrackPage("/userstream", Me.UserId)
         RaiseEvent UserStreamStarted()
     End Sub
 
@@ -3216,71 +3684,84 @@ Public Class Twitter
         Private Sub UserStreamLoop()
             Dim st As Stream = Nothing
             Dim sr As StreamReader = Nothing
+            Dim sleepSec As Integer = 0
             Do
                 Try
                     If Not MyCommon.IsNetworkAvailable() Then
-                        Thread.Sleep(30 * 1000)
+                        sleepSec = 30
                         Continue Do
                     End If
 
                     RaiseEvent Started()
+                    Dim res As HttpStatusCode = twCon.UserStream(st, _allAtreplies, _trackwords, GetUserAgentString())
 
-                    twCon.UserStream(st, _allAtreplies, _trackwords, My.Application.Info.ProductName + " v" + fileVersion)
+                    Select Case res
+                        Case HttpStatusCode.OK
+                            Twitter.AccountState = ACCOUNT_STATE.Valid
+                        Case HttpStatusCode.Unauthorized
+                            Twitter.AccountState = ACCOUNT_STATE.Invalid
+                            sleepSec = 120
+                            Continue Do
+                    End Select
+
+                    If st Is Nothing Then
+                        sleepSec = 30
+                        'TraceOut("Stop:stream is Nothing")
+                        Continue Do
+                    End If
+
                     sr = New StreamReader(st)
 
-                    Do While _streamActive AndAlso Not sr.EndOfStream
+                    Do While _streamActive AndAlso Not sr.EndOfStream AndAlso Twitter.AccountState = ACCOUNT_STATE.Valid
                         RaiseEvent StatusArrived(sr.ReadLine())
                         'Me.LastTime = Now
                     Loop
 
-                    If sr.EndOfStream Then
-                        RaiseEvent Stopped()
+                    If sr.EndOfStream OrElse Twitter.AccountState = ACCOUNT_STATE.Invalid Then
+                        sleepSec = 30
                         'TraceOut("Stop:EndOfStream")
-                        Thread.Sleep(10 * 1000)
                         Continue Do
                     End If
                     Exit Do
                 Catch ex As WebException
-                    If Not Me._streamActive Then
-                        Exit Do
-                    ElseIf ex.Status = WebExceptionStatus.Timeout Then
-                        RaiseEvent Stopped()
-                        'TraceOut("Stop:Timeout")
-                        Thread.Sleep(10 * 1000)
+                    If ex.Status = WebExceptionStatus.Timeout Then
+                        sleepSec = 30                        'TraceOut("Stop:Timeout")
                     ElseIf ex.Response IsNot Nothing AndAlso CType(ex.Response, HttpWebResponse).StatusCode = 420 Then
                         'TraceOut("Stop:Connection Limit")
                         Exit Do
                     Else
-                        RaiseEvent Stopped()
+                        sleepSec = 30
                         'TraceOut("Stop:WebException " & ex.Status.ToString)
-                        Thread.Sleep(10 * 1000)
                     End If
                 Catch ex As ThreadAbortException
                     Exit Do
                 Catch ex As IOException
-                    If Not Me._streamActive Then
-                        Exit Do
-                    Else
-                        RaiseEvent Stopped()
-                        'TraceOut("Stop:IOException with Active." + Environment.NewLine + ex.Message)
-                        Thread.Sleep(10 * 1000)
-                    End If
+                    sleepSec = 30
+                    'TraceOut("Stop:IOException with Active." + Environment.NewLine + ex.Message)
                 Catch ex As ArgumentException
                     'System.ArgumentException: ストリームを読み取れませんでした。
                     'サーバー側もしくは通信経路上で切断された場合？タイムアウト頻発後発生
-                    RaiseEvent Stopped()
+                    sleepSec = 30
                     TraceOut(ex, "Stop:ArgumentException")
-                    Thread.Sleep(10 * 1000)
                 Catch ex As Exception
                     TraceOut("Stop:Exception." + Environment.NewLine + ex.Message)
                     ExceptionOut(ex)
+                    sleepSec = 30
                 Finally
-                    If sr IsNot Nothing Then
-                        twCon.RequestAbort()
-                        sr.BaseStream.Close()
+                    If _streamActive Then RaiseEvent Stopped()
+                    twCon.RequestAbort()
+                    If sr IsNot Nothing Then sr.Close()
+                    If st IsNot Nothing Then st.Close()
+                    If sleepSec > 0 Then
+                        Dim ms As Integer = 0
+                        Do While _streamActive AndAlso ms < sleepSec * 1000
+                            Thread.Sleep(500)
+                            ms += 500
+                        Loop
                     End If
+                    sleepSec = 0
                 End Try
-            Loop While True
+            Loop While Me._streamActive
 
             If _streamActive Then RaiseEvent Stopped()
             TraceOut("Stop:EndLoop")
@@ -3297,7 +3778,6 @@ Public Class Twitter
                     _streamActive = False
                     If _streamThread IsNot Nothing AndAlso _streamThread.IsAlive Then
                         _streamThread.Abort()
-                        _streamThread.Join(1000)
                     End If
                 End If
 

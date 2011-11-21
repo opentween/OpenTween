@@ -1,4 +1,4 @@
-' Tween - Client of Twitter
+﻿' Tween - Client of Twitter
 ' Copyright (c) 2007-2011 kiri_feather (@kiri_feather) <kiri.feather@gmail.com>
 '           (c) 2008-2011 Moz (@syo68k)
 '           (c) 2008-2011 takeshik (@takeshik) <http://www.takeshik.org/>
@@ -125,7 +125,7 @@ Public Class MyLists
                 Dim listItem As ListElement = CType(Me.ListsCheckedListBox.Items(e.Index), ListElement)
 
                 Dim ret As Boolean
-                Dim rslt As String = Me._tw.ContainsUserAtList(listItem.Id.ToString(), contextUserName.ToString(), ret)
+                Dim rslt As String = Me._tw.ContainsUserAtList(listItem.Id.ToString(), contextUserName, ret)
                 If rslt <> "" Then
                     MessageBox.Show(String.Format(My.Resources.ListManageOKButton2, rslt))
                     e.NewValue = CheckState.Indeterminate

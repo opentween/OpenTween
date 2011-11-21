@@ -1,4 +1,4 @@
-' Tween - Client of Twitter
+﻿' Tween - Client of Twitter
 ' Copyright (c) 2007-2011 kiri_feather (@kiri_feather) <kiri.feather@gmail.com>
 '           (c) 2008-2011 Moz (@syo68k)
 '           (c) 2008-2011 takeshik (@takeshik) <http://www.takeshik.org/>
@@ -26,16 +26,17 @@
 Imports System.Text
 Imports System.Globalization
 Imports System.Security.Principal
-Imports System.Reflection
 Imports System.Web
 Imports System.IO
 Imports System.Runtime.Serialization.Json
 Imports System.Net.NetworkInformation
+Imports System.Text.RegularExpressions
 
 Public Module MyCommon
     Private ReadOnly LockObj As New Object
     Public _endingFlag As Boolean        '終了フラグ
     Public cultureStr As String = Nothing
+    Public settingPath As String
 
     Public Enum IconSizes
         IconNone = 0
@@ -125,6 +126,7 @@ Public Module MyCommon
         UserStream              'UserStream
         UserTimeline            'UserTimeline
         BlockIds                'Blocking/ids
+        Configuration           'Twitter Configuration読み込み
         '''
         ErrorState              'エラー表示のみで後処理終了(認証エラー時など)
     End Enum
@@ -157,7 +159,6 @@ Public Module MyCommon
     Public Enum ACCOUNT_STATE
         Valid
         Invalid
-        Validating
     End Enum
 
     Public Enum REPLY_ICONSTATE
@@ -348,13 +349,10 @@ retry:
             If Convert.ToInt32(c) > 255 Then
                 ' Unicodeの場合(1charが複数のバイトで構成されている）
                 ' UriクラスをNewして再構成し、入力をPathAndQueryのみとしてやり直す
-                If uri Is Nothing Then
-                    uri = New Uri(input)
-                    input = uri.PathAndQuery
-                    sb.Length = 0
-                    GoTo retry
-                End If
-            ElseIf Convert.ToInt32(c) > 127 Then
+                For Each b In Encoding.UTF8.GetBytes(c)
+                    sb.AppendFormat("%{0:X2}", b)
+                Next
+            ElseIf Convert.ToInt32(c) > 127 OrElse c = "%"c Then
                 ' UTF-8の場合
                 ' UriクラスをNewして再構成し、入力をinputからAuthority部分を除去してやり直す
                 If uri Is Nothing Then
@@ -629,5 +627,12 @@ retry:
         Catch ex As Exception
             Return False
         End Try
+    End Function
+
+    Function IsValidEmail(ByVal strIn As String) As Boolean
+        ' Return true if strIn is in valid e-mail format.
+        Return Regex.IsMatch(strIn, _
+               "^(?("")("".+?""@)|(([0-9a-zA-Z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-zA-Z])@))" + _
+               "(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,6}))$")
     End Function
 End Module

@@ -1,4 +1,4 @@
-' Tween - Client of Twitter
+﻿' Tween - Client of Twitter
 ' Copyright (c) 2007-2011 kiri_feather (@kiri_feather) <kiri.feather@gmail.com>
 '           (c) 2008-2011 Moz (@syo68k)
 '           (c) 2008-2011 takeshik (@takeshik) <http://www.takeshik.org/>
@@ -25,6 +25,7 @@
 
 Option Strict On
 
+Imports System.IO
 Imports System.Diagnostics
 Imports System.Threading.Thread
 
@@ -53,7 +54,7 @@ Namespace My
         End Sub
 
         Private Sub MyApplication_Startup(ByVal sender As Object, ByVal e As Microsoft.VisualBasic.ApplicationServices.StartupEventArgs) Handles Me.Startup
-
+            CheckSettingFilePath()
             InitCulture()
 
             Dim pt As String = Application.Info.DirectoryPath.Replace("\", "/") + "/" + Application.Info.ProductName
@@ -142,6 +143,15 @@ Namespace My
             Catch ex As Exception
 
             End Try
+        End Sub
+
+        Private Sub CheckSettingFilePath()
+            If File.Exists(Path.Combine(Application.Info.DirectoryPath, "roaming")) Then
+                MyCommon.settingPath = MySpecialPath.UserAppDataPath()
+            Else
+                MyCommon.settingPath = Application.Info.DirectoryPath
+            End If
+
         End Sub
 
     End Class

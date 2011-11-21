@@ -1,4 +1,4 @@
-' Tween - Client of Twitter
+﻿' Tween - Client of Twitter
 ' Copyright (c) 2007-2011 kiri_feather (@kiri_feather) <kiri.feather@gmail.com>
 '           (c) 2008-2011 Moz (@syo68k)
 '           (c) 2008-2011 takeshik (@takeshik) <http://www.takeshik.org/>
@@ -23,11 +23,9 @@
 ' the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 ' Boston, MA 02110-1301, USA.
 
-Imports System.Drawing
-Imports System.IO
-Imports System.Threading
-Imports System.Runtime.Caching
 Imports System.Collections.Specialized
+Imports System.Runtime.Caching
+Imports System.Threading
 
 Public Class ImageDictionary
     Implements IDictionary(Of String, Image), IDisposable
@@ -89,7 +87,7 @@ Public Class ImageDictionary
     Private Sub CacheRemoved(ByVal item As CacheEntryRemovedArguments)
         DirectCast(item.CacheItem.Value, Image).Dispose()
         removedCount += 1
-        System.Diagnostics.Debug.Print("cache delete")
+        'System.Diagnostics.Debug.Print("cache delete")
     End Sub
 
     Public Sub Add(ByVal item As System.Collections.Generic.KeyValuePair(Of String, Image)) Implements System.Collections.Generic.ICollection(Of System.Collections.Generic.KeyValuePair(Of String, Image)).Add

@@ -1,4 +1,4 @@
-' Tween - Client of Twitter
+﻿' Tween - Client of Twitter
 ' Copyright (c) 2007-2011 kiri_feather (@kiri_feather) <kiri.feather@gmail.com>
 '           (c) 2008-2011 Moz (@syo68k)
 '           (c) 2008-2011 takeshik (@takeshik) <http://www.takeshik.org/>
@@ -23,8 +23,8 @@
 ' the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 ' Boston, MA 02110-1301, USA.
 
-Imports System.Net
 Imports System.IO
+Imports System.Net
 
 Public Interface IHttpConnection
 
@@ -53,7 +53,8 @@ Public Interface IHttpConnection
 
     Function Authenticate(ByVal url As Uri, ByVal username As String, ByVal password As String, ByRef content As String) As HttpStatusCode
 
-ReadOnly Property AuthUsername() As String
+    ReadOnly Property AuthUsername() As String
+    Property AuthUserId() As Long
     ''' <summary>
     ''' APIメソッドの処理が終了し呼び出し元へ戻る直前に呼ばれるデリゲート
     ''' </summary>

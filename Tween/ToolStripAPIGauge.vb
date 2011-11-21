@@ -1,4 +1,4 @@
-' Tween - Client of Twitter
+﻿' Tween - Client of Twitter
 ' Copyright (c) 2007-2011 kiri_feather (@kiri_feather) <kiri.feather@gmail.com>
 '           (c) 2008-2011 Moz (@syo68k)
 '           (c) 2008-2011 takeshik (@takeshik) <http://www.takeshik.org/>
@@ -44,7 +44,7 @@ Public Class ToolStripAPIGauge
     Public Property GaugeHeight As Integer
         Set(ByVal value As Integer)
             Me._gaugeHeight = value
-            If Not Me.Control.IsDisposed Then Me.Control.Refresh()
+            If Me.Control IsNot Nothing AndAlso Not Me.Control.IsDisposed Then Me.Control.Refresh()
         End Set
         Get
             Return _gaugeHeight
@@ -55,7 +55,7 @@ Public Class ToolStripAPIGauge
     Public Property MaxCount As Integer
         Set(ByVal value As Integer)
             Me._maxCount = value
-            If Not Me.Control.IsDisposed Then
+            If Me.Control IsNot Nothing AndAlso Not Me.Control.IsDisposed Then
                 Me.SetText(Me._remainCount, Me._maxCount)
                 Me.Control.Refresh()
             End If
@@ -69,7 +69,7 @@ Public Class ToolStripAPIGauge
     Public Property RemainCount As Integer
         Set(ByVal value As Integer)
             Me._remainCount = value
-            If Not Me.Control.IsDisposed Then
+            If Me.Control IsNot Nothing AndAlso Not Me.Control.IsDisposed Then
                 Me.SetText(Me._remainCount, Me._maxCount)
                 Me.Control.Refresh()
             End If
@@ -83,7 +83,7 @@ Public Class ToolStripAPIGauge
     Public Property ResetTime As DateTime
         Set(ByVal value As DateTime)
             Me._resetTime = value
-            If Not Me.Control.IsDisposed Then
+            If Me.Control IsNot Nothing AndAlso Not Me.Control.IsDisposed Then
                 Me.SetText(Me._remainCount, Me._maxCount)
                 Me.Control.Refresh()
             End If

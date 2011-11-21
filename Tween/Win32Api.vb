@@ -1,4 +1,4 @@
-' Tween - Client of Twitter
+﻿' Tween - Client of Twitter
 ' Copyright (c) 2007-2011 kiri_feather (@kiri_feather) <kiri.feather@gmail.com>
 '           (c) 2008-2011 Moz (@syo68k)
 '           (c) 2008-2011 takeshik (@takeshik) <http://www.takeshik.org/>
@@ -23,8 +23,9 @@
 ' the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 ' Boston, MA 02110-1301, USA.
 
-Imports System.Runtime.InteropServices
 Imports System.Diagnostics
+Imports System.Net
+Imports System.Runtime.InteropServices
 Imports System.Threading
 
 Module Win32Api
@@ -585,6 +586,108 @@ Module Win32Api
             GlobalDeleteAtom(hotkeyID)
             hotkeyID = 0
         End If
+    End Sub
+#End Region
+
+#Region "プロセスのProxy設定"
+    <DllImport("wininet.dll", SetLastError:=True)> _
+    Private Function InternetSetOption(ByVal hInternet As IntPtr,
+                                       ByVal dwOption As Integer,
+                                       ByVal lpBuffer As IntPtr,
+                                       ByVal lpdwBufferLength As Integer) As Boolean
+    End Function
+
+    Private Structure INTERNET_PROXY_INFO
+        Public dwAccessType As Integer
+        Public proxy As IntPtr
+        Public proxyBypass As IntPtr
+    End Structure
+
+    Private Sub RefreshProxySettings(ByVal strProxy As String)
+        Const INTERNET_OPTION_PROXY As Integer = 38
+        'Const INTERNET_OPEN_TYPE_PRECONFIG As Integer = 0   'IE setting
+        Const INTERNET_OPEN_TYPE_DIRECT As Integer = 1      'Direct
+        Const INTERNET_OPEN_TYPE_PROXY As Integer = 3       'Custom
+
+        Dim ipi As INTERNET_PROXY_INFO
+
+        ' Filling in structure
+        If Not String.IsNullOrEmpty(strProxy) Then
+            ipi.dwAccessType = INTERNET_OPEN_TYPE_PROXY
+            ipi.proxy = Marshal.StringToHGlobalAnsi(strProxy)
+            ipi.proxyBypass = Marshal.StringToHGlobalAnsi("local")
+        ElseIf strProxy Is Nothing Then
+            'IE Default
+            Dim p As IWebProxy = WebRequest.GetSystemWebProxy()
+            If p.IsBypassed(New Uri("http://www.google.com/")) Then
+                ipi.dwAccessType = INTERNET_OPEN_TYPE_DIRECT
+                ipi.proxy = IntPtr.Zero
+                ipi.proxyBypass = IntPtr.Zero
+            Else
+                ipi.dwAccessType = INTERNET_OPEN_TYPE_PROXY
+                ipi.proxy = Marshal.StringToHGlobalAnsi(p.GetProxy(New Uri("http://www.google.com/")).Authority)
+                ipi.proxyBypass = Marshal.StringToHGlobalAnsi("local")
+            End If
+        Else
+            ipi.dwAccessType = INTERNET_OPEN_TYPE_DIRECT
+            ipi.proxy = IntPtr.Zero
+            ipi.proxyBypass = IntPtr.Zero
+        End If
+
+        Try
+            ' Allocating memory
+            Dim pIpi As IntPtr = Marshal.AllocCoTaskMem(Marshal.SizeOf(ipi))
+            If pIpi.Equals(IntPtr.Zero) Then Exit Sub
+            Try
+                ' Converting structure to IntPtr
+                Marshal.StructureToPtr(ipi, pIpi, True)
+                Dim ret As Boolean = InternetSetOption(IntPtr.Zero,
+                                                       INTERNET_OPTION_PROXY,
+                                                       pIpi,
+                                                       Marshal.SizeOf(ipi))
+            Finally
+                Marshal.FreeCoTaskMem(pIpi)
+            End Try
+        Finally
+            If ipi.proxy <> IntPtr.Zero Then Marshal.FreeHGlobal(ipi.proxy)
+            If ipi.proxyBypass <> IntPtr.Zero Then Marshal.FreeHGlobal(ipi.proxyBypass)
+        End Try
+    End Sub
+
+    Private Sub RefreshProxyAccount(ByVal username As String, ByVal password As String)
+        Const INTERNET_OPTION_PROXY_USERNAME As Integer = 43
+        Const INTERNET_OPTION_PROXY_PASSWORD As Integer = 44
+
+        If Not String.IsNullOrEmpty(username) OrElse Not String.IsNullOrEmpty(password) Then
+            Dim ret As Boolean
+            ret = InternetSetOption(IntPtr.Zero, INTERNET_OPTION_PROXY_USERNAME, IntPtr.Zero, 0)
+            ret = InternetSetOption(IntPtr.Zero, INTERNET_OPTION_PROXY_PASSWORD, IntPtr.Zero, 0)
+        Else
+            Dim pUser As IntPtr = Marshal.StringToBSTR(username)
+            Dim pPass As IntPtr = Marshal.StringToBSTR(password)
+            Try
+                Dim ret As Boolean
+                ret = InternetSetOption(IntPtr.Zero, INTERNET_OPTION_PROXY_USERNAME, pUser, username.Length + 1)
+                ret = InternetSetOption(IntPtr.Zero, INTERNET_OPTION_PROXY_PASSWORD, pPass, password.Length + 1)
+            Finally
+                Marshal.FreeBSTR(pUser)
+                Marshal.FreeBSTR(pPass)
+            End Try
+        End If
+    End Sub
+
+    Public Sub SetProxy(ByVal pType As HttpConnection.ProxyType, ByVal host As String, ByVal port As Integer, ByVal username As String, ByVal password As String)
+        Dim proxy As String = Nothing
+        Select Case pType
+            Case HttpConnection.ProxyType.IE
+                proxy = Nothing
+            Case HttpConnection.ProxyType.None
+                proxy = ""
+            Case HttpConnection.ProxyType.Specified
+                proxy = host & If(port > 0, ":" & port.ToString(), "")
+        End Select
+        RefreshProxySettings(proxy)
+        RefreshProxyAccount(username, password)
     End Sub
 #End Region
 End Module

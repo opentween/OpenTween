@@ -1,4 +1,4 @@
-' Tween - Client of Twitter
+﻿' Tween - Client of Twitter
 ' Copyright (c) 2007-2011 kiri_feather (@kiri_feather) <kiri.feather@gmail.com>
 '           (c) 2008-2011 Moz (@syo68k)
 '           (c) 2008-2011 takeshik (@takeshik) <http://www.takeshik.org/>
@@ -23,13 +23,12 @@
 ' the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 ' Boston, MA 02110-1301, USA.
 
-Imports System.Net
-Imports System.Collections.Generic
 Imports System.Collections.Specialized
-Imports System.IO
-Imports System.Text
-Imports System.Security
 Imports System.Diagnostics
+Imports System.IO
+Imports System.Net
+Imports System.Security
+Imports System.Text
 
 '''<summary>
 '''OAuth認証を使用するHTTP通信。HMAC-SHA1固定
@@ -77,12 +76,22 @@ Public Class HttpConnectionOAuth
     Private userIdentKey As String = ""
 
     '''<summary>
+    '''認証成功時の応答でユーザーID情報を取得する場合のキー。設定しない場合は、AuthUserIdもブランクのままとなる
+    '''</summary>
+    Private userIdIdentKey As String = ""
+
+    '''<summary>
     '''認証完了時の応答からuserIdentKey情報に基づいて取得するユーザー情報
     '''</summary>
     Private authorizedUsername As String = ""
 
     '''<summary>
     '''認証完了時の応答からuserIdentKey情報に基づいて取得するユーザー情報
+    '''</summary>
+    Private authorizedUserId As Long
+
+    '''<summary>
+    '''Stream用のHttpWebRequest
     '''</summary>
     Private streamReq As HttpWebRequest = Nothing
 
@@ -175,6 +184,7 @@ Public Class HttpConnectionOAuth
         '認証済かチェック
         If String.IsNullOrEmpty(token) Then Return HttpStatusCode.Unauthorized
 
+        Me.RequestAbort()
         streamReq = CreateRequest(method, requestUri, param, False)
         'User-Agent指定がある場合は付加
         If Not String.IsNullOrEmpty(userAgent) Then streamReq.UserAgent = userAgent
@@ -200,6 +210,7 @@ Public Class HttpConnectionOAuth
         Try
             If streamReq IsNot Nothing Then
                 streamReq.Abort()
+                streamReq = Nothing
             End If
         Catch ex As Exception
         End Try
@@ -260,6 +271,15 @@ Public Class HttpConnectionOAuth
             Else
                 authorizedUsername = ""
             End If
+            If Me.userIdIdentKey <> "" Then
+                Try
+                    authorizedUserId = CLng(accessTokenData.Item(Me.userIdIdentKey))
+                Catch ex As Exception
+                    authorizedUserId = 0
+                End Try
+            Else
+                authorizedUserId = 0
+            End If
             If token = "" Then Throw New InvalidDataException("Token is null.")
             Return HttpStatusCode.OK
         Else
@@ -298,6 +318,15 @@ Public Class HttpConnectionOAuth
                 authorizedUsername = accessTokenData.Item(Me.userIdentKey)
             Else
                 authorizedUsername = ""
+            End If
+            If Me.userIdIdentKey <> "" Then
+                Try
+                    authorizedUserId = CLng(accessTokenData.Item(Me.userIdIdentKey))
+                Catch ex As Exception
+                    authorizedUserId = 0
+                End Try
+            Else
+                authorizedUserId = 0
             End If
             If token = "" Then Throw New InvalidDataException("Token is null.")
             Return HttpStatusCode.OK
@@ -465,12 +494,14 @@ Public Class HttpConnectionOAuth
                                     ByVal consumerSecret As String, _
                                     ByVal accessToken As String, _
                                     ByVal accessTokenSecret As String, _
-                                    ByVal userIdentifier As String)
+                                    ByVal userIdentifier As String,
+                                    ByVal userIdIdentifier As String)
         Me.consumerKey = consumerKey
         Me.consumerSecret = consumerSecret
         Me.token = accessToken
         Me.tokenSecret = accessTokenSecret
         Me.userIdentKey = userIdentifier
+        Me.userIdIdentKey = userIdIdentifier
     End Sub
 
     '''<summary>
@@ -487,9 +518,12 @@ Public Class HttpConnectionOAuth
                                 ByVal accessToken As String, _
                                 ByVal accessTokenSecret As String, _
                                 ByVal username As String, _
-                                ByVal userIdentifier As String)
-        Initialize(consumerKey, consumerSecret, accessToken, accessTokenSecret, userIdentifier)
+                                ByVal userId As Long,
+                                ByVal userIdentifier As String,
+                                ByVal userIdIdentifier As String)
+        Initialize(consumerKey, consumerSecret, accessToken, accessTokenSecret, userIdentifier, userIdIdentifier)
         authorizedUsername = username
+        authorizedUserId = userId
     End Sub
 
     '''<summary>
@@ -517,6 +551,18 @@ Public Class HttpConnectionOAuth
         Get
             Return authorizedUsername
         End Get
+    End Property
+
+    '''<summary>
+    '''認証済みユーザーId
+    '''</summary>
+    Public Property AuthUserId() As Long Implements IHttpConnection.AuthUserId
+        Get
+            Return authorizedUserId
+        End Get
+        Set(ByVal value As Long)
+            authorizedUserId = value
+        End Set
     End Property
 
 End Class
