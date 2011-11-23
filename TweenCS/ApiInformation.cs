@@ -41,10 +41,10 @@ namespace Tween
         protected static DateTime _ResetTime = new DateTime();
         protected static int _ResetTimeInSeconds = -1;
         protected static int _UsingCount = -1;
-        protected static ApiAccessLevel static_AccessLevel = ApiAccessLevel.None;
-        protected static int static_MediaMaxCount = -1;
-        protected static DateTime static_MediaResetTime = new DateTime();
-        protected static int static_MediaRemainCount = -1;
+        protected static ApiAccessLevel _AccessLevel = ApiAccessLevel.None;
+        protected static int _MediaMaxCount = -1;
+        protected static DateTime _MediaResetTime = new DateTime();
+        protected static int _MediaRemainCount = -1;
     }
 
     public enum ApiAccessLevel
@@ -487,7 +487,8 @@ namespace Tween
                 case "read-write-privatemessages":
                     return ApiAccessLevel.ReadWriteAndDirectMessage;
                 default:
-                    TraceOut("Unknown ApiAccessLevel:" + HttpHeaders["X-Access-Level"]);
+                    // MyCommon.vbが移植されるまで一時的にコメントアウト
+                    //TraceOut("Unknown ApiAccessLevel:" + HttpHeaders["X-Access-Level"]);
                     return ApiAccessLevel.ReadWriteAndDirectMessage;     //未知のアクセスレベルの場合Read/Write/Dmと仮定して処理継続;
                 }
             }
