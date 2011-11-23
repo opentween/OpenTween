@@ -110,7 +110,7 @@ Public Class HttpConnectionOAuth
             ByVal param As Dictionary(Of String, String), _
             ByRef content As String, _
             ByVal headerInfo As Dictionary(Of String, String), _
-            ByVal callback As IHttpConnection.CallbackDelegate) As HttpStatusCode Implements IHttpConnection.GetContent
+            ByVal callback As CallbackDelegate) As HttpStatusCode Implements IHttpConnection.GetContent
         '認証済かチェック
         If String.IsNullOrEmpty(token) Then Return HttpStatusCode.Unauthorized
 
@@ -143,7 +143,7 @@ Public Class HttpConnectionOAuth
         ByVal binary As List(Of KeyValuePair(Of String, FileInfo)), _
         ByRef content As String, _
         ByVal headerInfo As Dictionary(Of String, String), _
-        ByVal callback As IHttpConnection.CallbackDelegate) As HttpStatusCode Implements IHttpConnection.GetContent
+        ByVal callback As CallbackDelegate) As HttpStatusCode Implements IHttpConnection.GetContent
         '認証済かチェック
         If String.IsNullOrEmpty(token) Then Return HttpStatusCode.Unauthorized
 
