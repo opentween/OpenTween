@@ -271,8 +271,8 @@ Public Class ShortUrl
                     Return "Can't convert"
                 End If
             Case UrlConverter.Bitly, UrlConverter.Jmp
-                Const BitlyLogin As String = "tweenapi"
-                Const BitlyApiKey As String = "R_c5ee0e30bdfff88723c4457cc331886b"
+                Const BitlyLogin As String = "opentween"
+                Const BitlyApiKey As String = "R_76319a25e2420b8d2c42e812fe177d8b"
                 Const BitlyApiVersion As String = "3"
                 If SrcUrl.StartsWith("http") Then
                     If "http://bit.ly/xxxx".Length > src.Length AndAlso Not src.Contains("?") AndAlso Not src.Contains("#") Then

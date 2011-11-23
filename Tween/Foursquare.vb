@@ -13,8 +13,8 @@ Public Class Foursquare
     End Property
 
     Private _authKey As New Dictionary(Of String, String) From {
-        {"client_id", "VWVC5NMXB1T5HKOYAKARCXKZDOHDNYSRLEMDDQYJNSJL2SUU"},
-        {"client_secret", DecryptString("eXXMGYXZyuDxz/lJ9nLApihoUeEGXNLEO0ZDCAczvwdKgGRExZl1Xyac/ezNTwHFOLUZqaA8tbA=")}
+        {"client_id", "5H3K5YQPT55DNQUFEOAJFNJA5D01ZJGO2ITEAJ3ASRIDONUB"},
+        {"client_secret", "JFRHP1L451M3AEPF11UZLTIIUZCZTZRVHVOWB5TQ0AJOVPBB"}
     }
 
     Private CheckInUrlsVenueCollection As New Dictionary(Of String, Google.GlobalLocation)

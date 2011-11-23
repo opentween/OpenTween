@@ -1,6 +1,6 @@
 ﻿Public Class Bing
 
-    Private Const AppId As String = "8DFACAC0C4891D0F75F5728391C9D30664B797A1"
+    Private Const AppId As String = "ABD3DFF1AB47F3899A2203E0C5873CBE3E14E8D3"
 
 #Region "言語テーブル定義"
     Private Shared ReadOnly LanguageTable As New List(Of String) From {
