@@ -7,7 +7,7 @@ Public Class TwitVideo
 
     Private Const PostMethod As String = "POST"
     Private Const GetMethod As String = "GET"
-    Private Const ConsumerKey As String = "c72b8327466ad675782538f7c869738d"
+    Private Const ConsumerKey As String = "********************************"
     Private multimediaExt() As String = {".avi", _
                                          ".wmv", _
                                          ".flv", _

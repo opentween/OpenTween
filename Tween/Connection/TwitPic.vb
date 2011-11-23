@@ -36,14 +36,14 @@ Public Class TwitPic
     '''<summary>
     '''OAuthのコンシューマー鍵
     '''</summary>
-    Private Const ConsumerKey As String = "tLbG3uS0BIIE8jm1mKzKOfZ6EgUOmWVM"
+    Private Const ConsumerKey As String = "ST6eAABKDRKTqbN7pPo2A"
 
     '''<summary>
     '''OAuthの署名作成用秘密コンシューマーデータ
     '''</summary>
-    Private Const ConsumerSecretKey As String = "M0IMsbl2722iWa+CGPVcNeQmE+TFpJk8B/KW9UUTk3eLOl9Ij005r52JNxVukTzM"
+    Private Const ConsumerSecretKey As String = "BJMEiivrXlqGESzdb8D0bvLfNYf3fifXRDMFjMogXg"
 
-    Private Const ApiKey As String = "287b60562aea3cab9f58fa54015848e8"
+    Private Const ApiKey As String = "bbc6449ceac87ef10c546e4a0ca06ef4"
     Private pictureExt() As String = {".jpg", _
                                     ".jpeg", _
                                     ".gif", _
@@ -180,6 +180,6 @@ Public Class TwitPic
         MyBase.New(New Uri("http://api.twitter.com/"), _
                    New Uri("https://api.twitter.com/1/account/verify_credentials.json"))
         tw = twitter
-        Initialize(DecryptString(ConsumerKey), DecryptString(ConsumerSecretKey), tw.AccessToken, tw.AccessTokenSecret, "", "")
+        Initialize(ConsumerKey, ConsumerSecretKey, tw.AccessToken, tw.AccessTokenSecret, "", "")
     End Sub
 End Class

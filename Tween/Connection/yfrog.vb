@@ -35,14 +35,14 @@ Public Class yfrog
     '''<summary>
     '''OAuthのコンシューマー鍵
     '''</summary>
-    Private Const ConsumerKey As String = "tLbG3uS0BIIE8jm1mKzKOfZ6EgUOmWVM"
+    Private Const ConsumerKey As String = "ST6eAABKDRKTqbN7pPo2A"
 
     '''<summary>
     '''OAuthの署名作成用秘密コンシューマーデータ
     '''</summary>
-    Private Const ConsumerSecretKey As String = "M0IMsbl2722iWa+CGPVcNeQmE+TFpJk8B/KW9UUTk3eLOl9Ij005r52JNxVukTzM"
+    Private Const ConsumerSecretKey As String = "BJMEiivrXlqGESzdb8D0bvLfNYf3fifXRDMFjMogXg"
 
-    Private Const ApiKey As String = "03HJKOWY93b7d7b7a5fa015890f8259cf939e144"
+    Private Const ApiKey As String = "HIDP42ZO6314ee2218e2995662bad5ae320c32f1"
     Private pictureExt() As String = {".jpg", _
                                     ".jpeg", _
                                     ".gif", _
