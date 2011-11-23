@@ -118,7 +118,6 @@
     <Compile Include="AdsBrowser.vb">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ApiInformation.vb" />
     <Compile Include="AppendSettingDialog.Designer.vb">
       <DependentUpon>AppendSettingDialog.vb</DependentUpon>
     </Compile>
@@ -145,7 +144,6 @@
     <Compile Include="Connection\HttpConnectionOAuth.vb" />
     <Compile Include="Connection\HttpTwitter.vb" />
     <Compile Include="Connection\HttpVarious.vb" />
-    <Compile Include="Connection\IHttpConnection.vb" />
     <Compile Include="Connection\IMultimediaShareService.vb" />
     <Compile Include="Connection\Plixi.vb" />
     <Compile Include="Connection\TwitPic.vb" />
@@ -304,7 +302,6 @@
     <Compile Include="Twitter.vb" />
     <Compile Include="UserInfo.vb" />
     <Compile Include="WebBrowserController.vb" />
-    <Compile Include="Win32Api.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AppendSettingDialog.en.resx">
@@ -582,6 +579,12 @@
       <ProductName>Windows インストーラー 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TweenCS\TweenCS.csproj">
+      <Project>{3D8995C7-BDF3-4273-9F9D-DDD902F6A101}</Project>
+      <Name>TweenCS</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
