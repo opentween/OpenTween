@@ -140,7 +140,6 @@
     <Compile Include="bing.vb" />
     <Compile Include="Connection\HttpConnectionOAuthEcho.vb" />
     <Compile Include="Connection\HttpOAuthApiProxy.vb" />
-    <Compile Include="Connection\HttpConnection.vb" />
     <Compile Include="Connection\HttpConnectionOAuth.vb" />
     <Compile Include="Connection\HttpTwitter.vb" />
     <Compile Include="Connection\HttpVarious.vb" />
