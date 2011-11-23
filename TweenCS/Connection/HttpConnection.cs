@@ -537,7 +537,7 @@ namespace Tween
 
             if (headerInfo.Count > 0)
             {
-                string[] keys = new string[headerInfo.Count - 1];
+                string[] keys = new string[headerInfo.Count];
                 headerInfo.Keys.CopyTo(keys, 0);
                 foreach (string key in keys)
                 {
