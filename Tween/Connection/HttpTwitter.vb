@@ -33,12 +33,12 @@ Public Class HttpTwitter
     '''<summary>
     '''OAuthのコンシューマー鍵
     '''</summary>
-    Private Const ConsumerKey As String = "tLbG3uS0BIIE8jm1mKzKOfZ6EgUOmWVM"
+    Private Const ConsumerKey As String = "ST6eAABKDRKTqbN7pPo2A"
 
     '''<summary>
     '''OAuthの署名作成用秘密コンシューマーデータ
     '''</summary>
-    Private Const ConsumerSecret As String = "M0IMsbl2722iWa+CGPVcNeQmE+TFpJk8B/KW9UUTk3eLOl9Ij005r52JNxVukTzM"
+    Private Const ConsumerSecret As String = "BJMEiivrXlqGESzdb8D0bvLfNYf3fifXRDMFjMogXg"
     '''<summary>
     '''OAuthのアクセストークン取得先URI
     '''</summary>
@@ -79,7 +79,7 @@ Public Class HttpTwitter
             tks = accessTokenSecret
             un = username
         End If
-        con.Initialize(DecryptString(ConsumerKey), DecryptString(ConsumerSecret), accessToken, accessTokenSecret, username, userId, "screen_name", "user_id")
+        con.Initialize(ConsumerKey, ConsumerSecret, accessToken, accessTokenSecret, username, userId, "screen_name", "user_id")
         httpCon = con
         connectionType = AuthMethod.OAuth
         requestToken = ""

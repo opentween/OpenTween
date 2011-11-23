@@ -35,14 +35,14 @@ Public Class Plixi
     '''<summary>
     '''OAuthのコンシューマー鍵
     '''</summary>
-    Private Const ConsumerKey As String = "tLbG3uS0BIIE8jm1mKzKOfZ6EgUOmWVM"
+    Private Const ConsumerKey As String = "ST6eAABKDRKTqbN7pPo2A"
 
     '''<summary>
     '''OAuthの署名作成用秘密コンシューマーデータ
     '''</summary>
-    Private Const ConsumerSecretKey As String = "M0IMsbl2722iWa+CGPVcNeQmE+TFpJk8B/KW9UUTk3eLOl9Ij005r52JNxVukTzM"
+    Private Const ConsumerSecretKey As String = "BJMEiivrXlqGESzdb8D0bvLfNYf3fifXRDMFjMogXg"
 
-    Private Const ApiKey As String = "c0263958-f32c-4704-9dac-cdc806b1249c"
+    Private Const ApiKey As String = "91083b55-f8f9-4b91-a0b3-f999e2e45af2"
     Private pictureExt() As String = {".jpg", _
                                     ".jpeg", _
                                     ".gif", _
@@ -165,7 +165,7 @@ Public Class Plixi
         MyBase.New(New Uri("http://api.twitter.com/"), _
                    New Uri("https://api.twitter.com/1/account/verify_credentials.json"))
         tw = twitter
-        Initialize(DecryptString(ConsumerKey), DecryptString(ConsumerSecretKey), tw.AccessToken, tw.AccessTokenSecret, "", "")
+        Initialize(ConsumerKey, ConsumerSecretKey, tw.AccessToken, tw.AccessTokenSecret, "", "")
     End Sub
 End Class
 
