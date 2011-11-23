@@ -41,6 +41,19 @@ namespace Tween
         protected static DateTime _ResetTime = new DateTime();
         protected static int _ResetTimeInSeconds = -1;
         protected static int _UsingCount = -1;
+        protected static ApiAccessLevel static_AccessLevel = ApiAccessLevel.None;
+        protected static int static_MediaMaxCount = -1;
+        protected static DateTime static_MediaResetTime = new DateTime();
+        protected static int static_MediaRemainCount = -1;
+    }
+
+    public enum ApiAccessLevel
+    {
+        None,
+        Unknown,
+        Read,
+        ReadWrite,
+        ReadWriteAndDirectMessage,
     }
 
     public class ApiInfo : ApiInfoBase
@@ -50,6 +63,10 @@ namespace Tween
         public DateTime ResetTime;
         public int ResetTimeInSeconds;
         public int UsingCount;
+        public ApiAccessLevel AccessLevel;
+        public int MediaMaxCount;
+        public int MediaRemainCount;
+        public DateTime MediaResetTime;
 
         public ApiInfo()
         {
@@ -58,6 +75,10 @@ namespace Tween
             this.ResetTime = _ResetTime;
             this.ResetTimeInSeconds = _ResetTimeInSeconds;
             this.UsingCount = _UsingCount;
+            this.AccessLevel = _AccessLevel;
+            this.MediaMaxCount = _MediaMaxCount;
+            this.MediaRemainCount = _MediaRemainCount;
+            this.MediaResetTime = _MediaResetTime;
         }
     }
 
@@ -95,10 +116,52 @@ namespace Tween
             {
                 HttpHeaders.Add("X-RateLimit-Reset", "-1");
             }
+
+            if (HttpHeaders.ContainsKey("X-Access-Level"))
+            {
+                HttpHeaders["X-Access-Level"] = "read-write-directmessages";
+            }
+            else
+            {
+                HttpHeaders.Add("X-Access-Level", "read-write-directmessages");
+            }
+
+            if (HttpHeaders.ContainsKey("X-MediaRateLimit-Remaining"))
+            {
+                HttpHeaders["X-MediaRateLimit-Remaining"] = "-1";
+            }
+            else
+            {
+                HttpHeaders.Add("X-MediaRateLimit-Remaining", "-1");
+            }
+
+            if (HttpHeaders.ContainsKey("X-MediaRateLimit-Limit"))
+            {
+                HttpHeaders["X-MediaRateLimit-Limit"] = "-1";
+            }
+            else
+            {
+                HttpHeaders.Add("X-MediaRateLimit-Limit", "-1");
+            }
+
+            if (HttpHeaders.ContainsKey("X-MediaRateLimit-Reset"))
+            {
+                HttpHeaders["X-MediaRateLimit-Reset"] = "-1";
+            }
+            else
+            {
+                HttpHeaders.Add("X-MediaRateLimit-Reset", "-1");
+            }
+
             _MaxCount = -1;
             _RemainCount = -1;
             _ResetTime = new DateTime();
             _ResetTimeInSeconds = -1;
+            AccessLevel = ApiAccessLevel.None;
+            _MediaMaxCount = -1;
+            _MediaRemainCount = -1;
+            _MediaResetTime = new DateTime();
+
             //_UsingCount = -1
             var arg = new ApiInformationChangedEventArgs();
             var changed = Changed;
@@ -185,6 +248,54 @@ namespace Tween
             }
         }
 
+        public int MediaMaxCount
+        {
+            get
+            {
+                return _MediaMaxCount;
+            }
+            set
+            {
+                if (_MediaMaxCount != value)
+                {
+                    _MediaMaxCount = value;
+                    Raise_Changed();
+                }
+            }
+        }
+
+        public int MediaRemainCount
+        {
+            get
+            {
+                return _MediaRemainCount;
+            }
+            set
+            {
+                if (_MediaRemainCount != value)
+                {
+                    _MediaRemainCount = value;
+                    Raise_Changed();
+                }
+            }
+        }
+
+        public DateTime MediaResetTime
+        {
+            get
+            {
+                return _MediaResetTime;
+            }
+            set
+            {
+                if (_MediaResetTime != value)
+                {
+                    _MediaResetTime = value;
+                    Raise_Changed();
+                }
+            }
+        }
+
         public int ResetTimeInSeconds
         {
             get
@@ -217,6 +328,48 @@ namespace Tween
             }
         }
 
+        public ApiAccessLevel AccessLevel
+        {
+            get
+            {
+                return _AccessLevel;
+            }
+            private set
+            {
+                if (_AccessLevel != value)
+                {
+                    _AccessLevel = value;
+                    Raise_Changed();
+                }
+            }
+        }
+
+        public bool IsReadPermission
+        {
+            get
+            {
+                return AccessLevel == ApiAccessLevel.Read ||
+                    AccessLevel == ApiAccessLevel.ReadWrite ||
+                    AccessLevel == ApiAccessLevel.ReadWriteAndDirectMessage;
+            }
+        }
+
+        public bool IsWritePermission
+        {
+            get
+            {
+                return AccessLevel == ApiAccessLevel.ReadWrite ||
+                    AccessLevel == ApiAccessLevel.ReadWriteAndDirectMessage;
+            }
+        }
+
+        public bool IsDirectMessagePermission
+        {
+            get
+            {
+                return AccessLevel == ApiAccessLevel.ReadWriteAndDirectMessage;
+            }
+        }
 
         private int RemainCountFromHttpHeader
         {
@@ -269,11 +422,114 @@ namespace Tween
             }
         }
 
+        private int MediaRemainCountFromHttpHeader
+        {
+            get
+            {
+                int result = 0;
+                if (string.IsNullOrEmpty(HttpHeaders["X-MediaRateLimit-Remaining"])) return -1;
+                if (int.TryParse(HttpHeaders["X-MediaRateLimit-Remaining"], out result))
+                {
+                    return result;
+                }
+                return -1;
+            }
+        }
+
+        private int MediaMaxCountFromHttpHeader
+        {
+            get
+            {
+                int result = 0;
+                if (string.IsNullOrEmpty(HttpHeaders["X-MediaRateLimit-Limit"])) return -1;
+                if (int.TryParse(HttpHeaders["X-MediaRateLimit-Limit"], out result))
+                {
+                    return result;
+                }
+                return -1;
+            }
+        }
+
+        private DateTime MediaResetTimeFromHttpHeader
+        {
+            get
+            {
+                int i;
+                if (int.TryParse(HttpHeaders["X-MediaRateLimit-Reset"], out i))
+                {
+                    if (i >= 0)
+                    {
+                        return TimeZone.CurrentTimeZone.ToLocalTime((new DateTime(1970, 1, 1, 0, 0, 0)).AddSeconds(i));
+                    }
+                    else
+                    {
+                        return new DateTime();
+                    }
+                }
+                else
+                {
+                    return new DateTime();
+                }
+            }
+        }
+
+        private ApiAccessLevel ApiAccessLevelFromHttpHeader
+        {
+            get
+            {
+                switch (HttpHeaders["X-Access-Level"])
+                {
+                case "read":
+                    return ApiAccessLevel.Read;
+                case "read-write":
+                    return ApiAccessLevel.ReadWrite;
+                case "read-write-directmessages":
+                case "read-write-privatemessages":
+                    return ApiAccessLevel.ReadWriteAndDirectMessage;
+                default:
+                    TraceOut("Unknown ApiAccessLevel:" + HttpHeaders["X-Access-Level"]);
+                    return ApiAccessLevel.ReadWriteAndDirectMessage;     //未知のアクセスレベルの場合Read/Write/Dmと仮定して処理継続;
+                }
+            }
+        }
+
         public void ParseHttpHeaders(Dictionary<string, string> headers)
         {
-            _MaxCount = MaxCountFromHttpHeader;
-            _RemainCount = RemainCountFromHttpHeader;
-            _ResetTime = ResetTimeFromHttpHeader;
+            int tmp;
+            DateTime tmpd;
+            tmp = MaxCountFromHttpHeader;
+            if (tmp != -1)
+            {
+                _MaxCount = tmp;
+            }
+            tmp = RemainCountFromHttpHeader;
+            if (tmp != -1)
+            {
+                _RemainCount = tmp;
+            }
+            tmpd = ResetTimeFromHttpHeader;
+            if (tmpd != new DateTime())
+            {
+                _ResetTime = tmpd;
+            }
+
+            tmp = MediaMaxCountFromHttpHeader;
+            if (tmp != -1)
+            {
+                _MediaMaxCount = tmp;
+            }
+            tmp = MediaRemainCountFromHttpHeader;
+            if (tmp != -1)
+            {
+                _MediaRemainCount = tmp;
+            }
+            tmpd = MediaResetTimeFromHttpHeader;
+            if (tmpd != new DateTime())
+            {
+                _MediaResetTime = tmpd;
+            }
+
+            AccessLevel = ApiAccessLevelFromHttpHeader;
             Raise_Changed();
         }
 
