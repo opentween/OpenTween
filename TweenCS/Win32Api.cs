@@ -29,6 +29,7 @@ using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
+using System.Net;
 
 namespace Tween
 {
@@ -643,5 +644,132 @@ namespace Tween
             }
         }
         #endregion
+
+        #region "プロセスのProxy設定"
+        [DllImport("wininet.dll", SetLastError =true)]
+        private static extern bool InternetSetOption(IntPtr hInternet,
+                                                     int dwOption,
+                                                     IntPtr lpBuffer,
+                                                     int lpdwBufferLength);
+
+        private struct INTERNET_PROXY_INFO
+        {
+            public int dwAccessType;
+            public IntPtr proxy;
+            public IntPtr proxyBypass;
+        }
+
+        private static void RefreshProxySettings(string strProxy)
+        {
+            const int INTERNET_OPTION_PROXY = 38;
+            //const int INTERNET_OPEN_TYPE_PRECONFIG = 0;   //IE setting
+            const int INTERNET_OPEN_TYPE_DIRECT = 1;      //Direct
+            const int INTERNET_OPEN_TYPE_PROXY = 3;       //Custom
+
+            INTERNET_PROXY_INFO ipi;
+
+            // Filling in structure
+            if (!string.IsNullOrEmpty(strProxy))
+            {
+                ipi.dwAccessType = INTERNET_OPEN_TYPE_PROXY;
+                ipi.proxy = Marshal.StringToHGlobalAnsi(strProxy);
+                ipi.proxyBypass = Marshal.StringToHGlobalAnsi("local");
+            }
+            else if (strProxy == null)
+            {
+                //IE Default
+                var p = WebRequest.GetSystemWebProxy();
+                if (p.IsBypassed(new Uri("http://www.google.com/")))
+                {
+                    ipi.dwAccessType = INTERNET_OPEN_TYPE_DIRECT;
+                    ipi.proxy = IntPtr.Zero;
+                    ipi.proxyBypass = IntPtr.Zero;
+                }
+                else
+                {
+                    ipi.dwAccessType = INTERNET_OPEN_TYPE_PROXY;
+                    ipi.proxy = Marshal.StringToHGlobalAnsi(p.GetProxy(new Uri("http://www.google.com/")).Authority);
+                    ipi.proxyBypass = Marshal.StringToHGlobalAnsi("local");
+                }
+            }
+            else
+            {
+                ipi.dwAccessType = INTERNET_OPEN_TYPE_DIRECT;
+                ipi.proxy = IntPtr.Zero;
+                ipi.proxyBypass = IntPtr.Zero;
+            }
+
+            try
+            {
+                // Allocating memory
+                var pIpi = Marshal.AllocCoTaskMem(Marshal.SizeOf(ipi));
+                if (pIpi.Equals(IntPtr.Zero)) return;
+                try
+                {
+                    // Converting structure to IntPtr
+                    Marshal.StructureToPtr(ipi, pIpi, true);
+                    var ret = InternetSetOption(IntPtr.Zero,
+                                                           INTERNET_OPTION_PROXY,
+                                                           pIpi,
+                                                           Marshal.SizeOf(ipi));
+                }
+                finally
+                {
+                    Marshal.FreeCoTaskMem(pIpi);
+                }
+            }
+            finally
+            {
+                if (ipi.proxy != IntPtr.Zero) Marshal.FreeHGlobal(ipi.proxy);
+                if (ipi.proxyBypass != IntPtr.Zero) Marshal.FreeHGlobal(ipi.proxyBypass);
+            }
+        }
+
+        private static void RefreshProxyAccount(string username, string password)
+        {
+            const int INTERNET_OPTION_PROXY_USERNAME = 43;
+            const int INTERNET_OPTION_PROXY_PASSWORD = 44;
+
+            if (!string.IsNullOrEmpty(username) || !string.IsNullOrEmpty(password))
+            {
+                var ret = InternetSetOption(IntPtr.Zero, INTERNET_OPTION_PROXY_USERNAME, IntPtr.Zero, 0);
+                ret = InternetSetOption(IntPtr.Zero, INTERNET_OPTION_PROXY_PASSWORD, IntPtr.Zero, 0);
+            }
+            else
+            {
+                var pUser = Marshal.StringToBSTR(username);
+                var pPass = Marshal.StringToBSTR(password);
+                try
+                {
+                    var ret = InternetSetOption(IntPtr.Zero, INTERNET_OPTION_PROXY_USERNAME, pUser, username.Length + 1);
+                    ret = InternetSetOption(IntPtr.Zero, INTERNET_OPTION_PROXY_PASSWORD, pPass, password.Length + 1);
+                }
+                finally
+                {
+                    Marshal.FreeBSTR(pUser);
+                    Marshal.FreeBSTR(pPass);
+                }
+            }
+        }
+
+        public static void SetProxy(HttpConnection.ProxyType pType, string host, int port, string username, string password)
+        {
+            string proxy = null;
+            switch (pType)
+            {
+            case HttpConnection.ProxyType.IE:
+                proxy = null;
+                break;
+            case HttpConnection.ProxyType.None:
+                proxy = "";
+                break;
+            case HttpConnection.ProxyType.Specified:
+                proxy = host + (port > 0 ? ":" + port.ToString() : "");
+                break;
+            }
+            RefreshProxySettings(proxy);
+            RefreshProxyAccount(username, password);
+        }
+#endregion
     }
 }
