@@ -60,6 +60,7 @@
     <Compile Include="TweenAboutBox.Designer.cs">
       <DependentUpon>TweenAboutBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="WebBrowserController.cs" />
     <Compile Include="Win32Api.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -106,7 +107,7 @@
     <Content Include="Resources\S9.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
