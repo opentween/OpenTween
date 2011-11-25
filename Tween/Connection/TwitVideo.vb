@@ -5,9 +5,7 @@ Imports System.Net
 Public Class TwitVideo
     Inherits HttpConnection
 
-    Private Const PostMethod As String = "POST"
-    Private Const GetMethod As String = "GET"
-    Private Const ConsumerKey As String = "********************************"
+    Private Const ConsumerKey As String = "7c4dc004a88e821b02c87a0cde2fa85c"
     Private multimediaExt() As String = {".avi", _
                                          ".wmv", _
                                          ".flv", _
