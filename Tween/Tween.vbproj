@@ -226,7 +226,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="MyCommon.vb" />
     <Compile Include="MyLists.Designer.vb">
       <DependentUpon>MyLists.vb</DependentUpon>
     </Compile>

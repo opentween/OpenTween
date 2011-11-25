@@ -1,0 +1,1002 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddNewTabText1" xml:space="preserve">
+    <value>(新标签)</value>
+  </data>
+  <data name="AddNewTabText2" xml:space="preserve">
+    <value>昵称</value>
+  </data>
+  <data name="AddNewTabText3" xml:space="preserve">
+    <value>消息</value>
+  </data>
+  <data name="AddNewTabText4" xml:space="preserve">
+    <value>时间</value>
+  </data>
+  <data name="AddNewTabText5" xml:space="preserve">
+    <value>账号</value>
+  </data>
+  <data name="AddTabMenuItem_ClickText1" xml:space="preserve">
+    <value>标签 ""{0}"" 已经存在，请指定别的名称</value>
+  </data>
+  <data name="AddTabMenuItem_ClickText2" xml:space="preserve">
+    <value>新增标签</value>
+  </data>
+  <data name="Button3_ClickText1" xml:space="preserve">
+    <value>可执行文件 (*.exe)|*.exe|所有文件 (*.*)|*.*</value>
+  </data>
+  <data name="Button3_ClickText2" xml:space="preserve">
+    <value>请选择浏览器</value>
+  </data>
+  <data name="ButtonDelete_ClickText1" xml:space="preserve">
+    <value>要删除该规则吗？ {0}   『{1}』</value>
+  </data>
+  <data name="ButtonDelete_ClickText2" xml:space="preserve">
+    <value>规则删除确认</value>
+  </data>
+  <data name="ButtonOK_ClickText1" xml:space="preserve">
+    <value>选择规则。</value>
+  </data>
+  <data name="ButtonOK_ClickText2" xml:space="preserve">
+    <value>正在检查规则</value>
+  </data>
+  <data name="ButtonOK_ClickText3" xml:space="preserve">
+    <value>非法正则表达式：</value>
+  </data>
+  <data name="CheckNewVersionText1" xml:space="preserve">
+    <value>Tween更新检查</value>
+  </data>
+  <data name="CheckNewVersionText10" xml:space="preserve">
+    <value>新版本检查失败。请稍候再试。</value>
+  </data>
+  <data name="CheckNewVersionText2" xml:space="preserve">
+    <value>Tween更新检查结果</value>
+  </data>
+  <data name="CheckNewVersionText3" xml:space="preserve">
+    <value>发现新版本  {0} 发布了。要更新吗？</value>
+  </data>
+  <data name="CheckNewVersionText4" xml:space="preserve">
+    <value>下载更新器失败。请稍候再试。</value>
+  </data>
+  <data name="CheckNewVersionText5" xml:space="preserve">
+    <value>有新版本可用但是下载失败了。请稍候再试。</value>
+  </data>
+  <data name="CheckNewVersionText6" xml:space="preserve">
+    <value>未发现新版本。当前最新版本为 {0}。 要重新下载吗？</value>
+  </data>
+  <data name="CheckNewVersionText7" xml:space="preserve">
+    <value>您的Tween已经是最新版本，无需更新。当前版本： </value>
+  </data>
+  <data name="CheckNewVersionText8" xml:space="preserve">
+    <value>最新版本：</value>
+  </data>
+  <data name="CheckNewVersionText9" xml:space="preserve">
+    <value>版本检查失败</value>
+  </data>
+  <data name="ClearTabMenuItem_ClickText1" xml:space="preserve">
+    <value>要清空{0}标签中所有消息吗？(发送的消息不会从服务器上删除)</value>
+  </data>
+  <data name="ClearTabMenuItem_ClickText2" xml:space="preserve">
+    <value>清空标签确认</value>
+  </data>
+  <data name="ContextMenuStrip3_OpeningText1" xml:space="preserve">
+    <value>(抓取图标失败)</value>
+  </data>
+  <data name="ContextMenuStrip3_OpeningText2" xml:space="preserve">
+    <value>(选择消息)</value>
+  </data>
+  <data name="DeleteStripMenuItem_ClickText1" xml:space="preserve">
+    <value>要删除选中的自己的消息（包括DM）吗？{0}注意　：　该操作同时也会将Twitter服务端的消息删除！{0}　如果只想将ID从标签删除，请使用“移动ID”操作。{0}　如果要删除标签，请使用“删除标签”操作。{0}{0}要取消删除操作，请点击“取消”按钮。</value>
+  </data>
+  <data name="DeleteStripMenuItem_ClickText2" xml:space="preserve">
+    <value>删除确认</value>
+  </data>
+  <data name="DeleteStripMenuItem_ClickText3" xml:space="preserve">
+    <value>删除失败</value>
+  </data>
+  <data name="DeleteStripMenuItem_ClickText4" xml:space="preserve">
+    <value>删除成功</value>
+  </data>
+  <data name="DMPeriod_ValidatingText1" xml:space="preserve">
+    <value>刷新间隔必须为0或在30到6000之间。</value>
+  </data>
+  <data name="DMPeriod_ValidatingText2" xml:space="preserve">
+    <value>刷新间隔必须为0或在30到6000之间。</value>
+  </data>
+  <data name="DoTabSearchText1" xml:space="preserve">
+    <value>非法正则表达式。</value>
+  </data>
+  <data name="DoTabSearchText2" xml:space="preserve">
+    <value>未找到指定的文本。</value>
+  </data>
+  <data name="DoTabSearchText3" xml:space="preserve">
+    <value>查找</value>
+  </data>
+  <data name="FavAddToolStripMenuItem_ClickText1" xml:space="preserve">
+    <value>要将选中的消息标记为Fav（收藏）吗？</value>
+  </data>
+  <data name="FavAddToolStripMenuItem_ClickText2" xml:space="preserve">
+    <value>Fav正在检查</value>
+  </data>
+  <data name="FavAddToolStripMenuItem_ClickText3" xml:space="preserve">
+    <value>Fav正在添加</value>
+  </data>
+  <data name="FavAddToolStripMenuItem_ClickText4" xml:space="preserve">
+    <value>Fav未添加</value>
+  </data>
+  <data name="FavRemoveToolStripMenuItem_ClickText1" xml:space="preserve">
+    <value>要将选中的消息取消Fav（收藏）吗？</value>
+  </data>
+  <data name="FavRemoveToolStripMenuItem_ClickText2" xml:space="preserve">
+    <value>Fav正在检查</value>
+  </data>
+  <data name="FavRemoveToolStripMenuItem_ClickText3" xml:space="preserve">
+    <value>Fav正在删除</value>
+  </data>
+  <data name="FavRemoveToolStripMenuItem_ClickText4" xml:space="preserve">
+    <value>Fav未删除</value>
+  </data>
+  <data name="Form1_LoadText1" xml:space="preserve">
+    <value>正在刷新...</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText1" xml:space="preserve">
+    <value>完成刷新</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText10" xml:space="preserve">
+    <value>初始获取完成</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText11" xml:space="preserve">
+    <value>DM接收已更新</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText12" xml:space="preserve">
+    <value>DM发送正在刷新...</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText13" xml:space="preserve">
+    <value>DM发送已更新</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText14" xml:space="preserve">
+    <value>发送完成</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText15" xml:space="preserve">
+    <value>Fav添加(</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText16" xml:space="preserve">
+    <value>) 失败:</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText17" xml:space="preserve">
+    <value>Fav删除(</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText18" xml:space="preserve">
+    <value>) 失败:</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText3" xml:space="preserve">
+    <value>继续确认</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText4" xml:space="preserve">
+    <value>正在刷新回复...</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText5" xml:space="preserve">
+    <value>正在刷新...</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText6" xml:space="preserve">
+    <value>项</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText8" xml:space="preserve">
+    <value>DM接收正在刷新...</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText9" xml:space="preserve">
+    <value>回复已更新</value>
+  </data>
+  <data name="IDRuleMenuItem_ClickText1" xml:space="preserve">
+    <value>(新建标签)</value>
+  </data>
+  <data name="IDRuleMenuItem_ClickText2" xml:space="preserve">
+    <value>标签 ""{0}"" 已存在，请指定别的名称。</value>
+  </data>
+  <data name="IDRuleMenuItem_ClickText3" xml:space="preserve">
+    <value>新增标签</value>
+  </data>
+  <data name="IDRuleMenuItem_ClickText4" xml:space="preserve">
+    <value>保留在最近消息里吗？</value>
+  </data>
+  <data name="IDRuleMenuItem_ClickText5" xml:space="preserve">
+    <value>正在移动</value>
+  </data>
+  <data name="IDRuleMenuItem_ClickText6" xml:space="preserve">
+    <value>要添加标记吗？</value>
+  </data>
+  <data name="IDRuleMenuItem_ClickText7" xml:space="preserve">
+    <value>正在标记</value>
+  </data>
+  <data name="LoadConfigurationText1" xml:space="preserve">
+    <value>该配置文件由Tween自动生成。请不要手工修改。</value>
+  </data>
+  <data name="MenuItemSearchNext_ClickText1" xml:space="preserve">
+    <value>非法正则表达式。</value>
+  </data>
+  <data name="MenuItemSearchNext_ClickText2" xml:space="preserve">
+    <value>未找到指定的文本。</value>
+  </data>
+  <data name="MenuItemSearchNext_ClickText3" xml:space="preserve">
+    <value>查找</value>
+  </data>
+  <data name="MenuItemSearchPrev_ClickText1" xml:space="preserve">
+    <value>非法正则表达式。</value>
+  </data>
+  <data name="MenuItemSearchPrev_ClickText2" xml:space="preserve">
+    <value>未找到指定的文本。</value>
+  </data>
+  <data name="MenuItemSearchPrev_ClickText3" xml:space="preserve">
+    <value>查找</value>
+  </data>
+  <data name="PostWorker_RunWorkerCompletedText4" xml:space="preserve">
+    <value>发送完成</value>
+  </data>
+  <data name="PostWorker_RunWorkerCompletedText5" xml:space="preserve">
+    <value>正在刷新...</value>
+  </data>
+  <data name="RefreshDirectMessageText1" xml:space="preserve">
+    <value>新</value>
+  </data>
+  <data name="RefreshDirectMessageText2" xml:space="preserve">
+    <value>消息</value>
+  </data>
+  <data name="RefreshStripMenuItem_ClickText1" xml:space="preserve">
+    <value>正在刷新...</value>
+  </data>
+  <data name="RefreshStripMenuItem_ClickText2" xml:space="preserve">
+    <value>正在刷新回复...</value>
+  </data>
+  <data name="RefreshStripMenuItem_ClickText3" xml:space="preserve">
+    <value>DM接收正在刷新...</value>
+  </data>
+  <data name="RefreshTimelineText1" xml:space="preserve">
+    <value>新</value>
+  </data>
+  <data name="RefreshTimelineText2" xml:space="preserve">
+    <value>消息</value>
+  </data>
+  <data name="RefreshTimelineText3" xml:space="preserve">
+    <value>加载日志</value>
+  </data>
+  <data name="RefreshTimelineText4" xml:space="preserve">
+    <value>正在初始化</value>
+  </data>
+  <data name="RemoveSpecifiedTabText1" xml:space="preserve">
+    <value>确认要删除该标签吗？{0}</value>
+  </data>
+  <data name="RemoveSpecifiedTabText2" xml:space="preserve">
+    <value>标签删除确认</value>
+  </data>
+  <data name="SaveLogMenuItem_ClickText1" xml:space="preserve">
+    <value>要保存选中标签中的全部消息吗？{0}　「是」　　　：保存全部消息{0}　「否」　　：只保存选中消息{0}　「取消」　　：取消保存{0}（将保存为以Tab分隔的文本文件）</value>
+  </data>
+  <data name="SaveLogMenuItem_ClickText2" xml:space="preserve">
+    <value>选择保存对象</value>
+  </data>
+  <data name="SaveLogMenuItem_ClickText3" xml:space="preserve">
+    <value>TSV文件 (*.tsv)|*.tsv|所有文件 (*.*)|*.*</value>
+  </data>
+  <data name="SaveLogMenuItem_ClickText4" xml:space="preserve">
+    <value>请选择另存为...</value>
+  </data>
+  <data name="Save_ClickText1" xml:space="preserve">
+    <value>请输入用户名和密码。</value>
+  </data>
+  <data name="Save_ClickText2" xml:space="preserve">
+    <value>用户名不符合要求（不可使用E-mail地址）</value>
+  </data>
+  <data name="Save_ClickText3" xml:space="preserve">
+    <value>非法设置数值。</value>
+  </data>
+  <data name="SearchItem1Url" xml:space="preserve">
+    <value>http://zh.wikipedia.org/wiki/{0}</value>
+  </data>
+  <data name="SearchItem2Url" xml:space="preserve">
+    <value>http://www.google.com.hk/search?q={0}</value>
+  </data>
+  <data name="SearchItem3Url" xml:space="preserve">
+    <value>http://yats-data.com/yats/search?query={0}</value>
+  </data>
+  <data name="SearchItem4Url" xml:space="preserve">
+    <value>http://search.twitter.com/search?q={0}</value>
+  </data>
+  <data name="SetFiltersText1" xml:space="preserve">
+    <value>[用户: {0}]  </value>
+  </data>
+  <data name="SetFiltersText10" xml:space="preserve">
+    <value>做标记</value>
+  </data>
+  <data name="SetFiltersText11" xml:space="preserve">
+    <value>复制/</value>
+  </data>
+  <data name="SetFiltersText2" xml:space="preserve">
+    <value>[用户: (全部)] </value>
+  </data>
+  <data name="SetFiltersText3" xml:space="preserve">
+    <value>[消息: </value>
+  </data>
+  <data name="SetFiltersText4" xml:space="preserve">
+    <value>]  </value>
+  </data>
+  <data name="SetFiltersText5" xml:space="preserve">
+    <value>复合/</value>
+  </data>
+  <data name="SetFiltersText6" xml:space="preserve">
+    <value>单一/</value>
+  </data>
+  <data name="SetFiltersText7" xml:space="preserve">
+    <value>正则/</value>
+  </data>
+  <data name="SetFiltersText8" xml:space="preserve">
+    <value>URL/</value>
+  </data>
+  <data name="SetFiltersText9" xml:space="preserve">
+    <value>移动</value>
+  </data>
+  <data name="SetMainWindowTitleText1" xml:space="preserve">
+    <value>{0} (未读回复)</value>
+  </data>
+  <data name="SetMainWindowTitleText2" xml:space="preserve">
+    <value>{0} (未读)</value>
+  </data>
+  <data name="SetMainWindowTitleText3" xml:space="preserve">
+    <value>{0} ({1}) (回复)</value>
+  </data>
+  <data name="SetMainWindowTitleText4" xml:space="preserve">
+    <value>{0}/{1} (未读/全部)</value>
+  </data>
+  <data name="SetStatusLabelText1" xml:space="preserve">
+    <value>[标签: {0}/{1} 全部: {2}/{3} (回复: {4})] [时速: 发 {5}/ ☆ {6}/ 收 {7}] [间隔: </value>
+  </data>
+  <data name="SetStatusLabelText2" xml:space="preserve">
+    <value>-]</value>
+  </data>
+  <data name="SetStatusLabelText3" xml:space="preserve">
+    <value>]</value>
+  </data>
+  <data name="StartupReadDM_ValidatingText1" xml:space="preserve">
+    <value>读取页码请设置在1到999之间。</value>
+  </data>
+  <data name="StartupReadDM_ValidatingText2" xml:space="preserve">
+    <value>读取页码请设置在1到999之间。</value>
+  </data>
+  <data name="StartupReadPages_ValidatingText1" xml:space="preserve">
+    <value>读取页码请设置在1到999之间。</value>
+  </data>
+  <data name="StartupReadPages_ValidatingText2" xml:space="preserve">
+    <value>读取页码请设置在1到999之间。</value>
+  </data>
+  <data name="StartupReadReply_ValidatingText1" xml:space="preserve">
+    <value>读取页码请设置在1到999之间。</value>
+  </data>
+  <data name="StartupReadReply_ValidatingText2" xml:space="preserve">
+    <value>读取页码请设置在1到999之间。</value>
+  </data>
+  <data name="StartupText1" xml:space="preserve">
+    <value>另一个Tween实例正在运行。要启动第2个Tween请运行另一个文件夹中的。</value>
+  </data>
+  <data name="StartupText2" xml:space="preserve">
+    <value>Tween重复启动检查</value>
+  </data>
+  <data name="TabMenuItem_ClickText1" xml:space="preserve">
+    <value>(新建标签)</value>
+  </data>
+  <data name="TabMenuItem_ClickText2" xml:space="preserve">
+    <value>标签 ""{0}""　已经存在；请指定别的名称。</value>
+  </data>
+  <data name="TabMenuItem_ClickText3" xml:space="preserve">
+    <value>新增标签</value>
+  </data>
+  <data name="TextProxyPort_ValidatingText1" xml:space="preserve">
+    <value>端口号必须为整数。</value>
+  </data>
+  <data name="TextProxyPort_ValidatingText2" xml:space="preserve">
+    <value>端口号只能在0到65535之间。</value>
+  </data>
+  <data name="TimelinePeriod_ValidatingText1" xml:space="preserve">
+    <value>刷新间隔必须为0或在30到6000之间。</value>
+  </data>
+  <data name="TimelinePeriod_ValidatingText2" xml:space="preserve">
+    <value>刷新间隔必须为0或在30到6000之间。</value>
+  </data>
+  <data name="TimerDM_TickText1" xml:space="preserve">
+    <value>DM接收正在刷新...</value>
+  </data>
+  <data name="TimerTimeline_TickText1" xml:space="preserve">
+    <value>正在刷新...</value>
+  </data>
+  <data name="TraceOutText1" xml:space="preserve">
+    <value>请发送该文件给 kiri_feather@users.sourceforge.jp。</value>
+  </data>
+  <data name="TraceOutText2" xml:space="preserve">
+    <value>如果方便的话请给 @kiri_feather 发消息。</value>
+  </data>
+  <data name="TraceOutText3" xml:space="preserve">
+    <value>运行环境:</value>
+  </data>
+  <data name="TraceOutText4" xml:space="preserve">
+    <value>   操作系统: {0}</value>
+  </data>
+  <data name="TraceOutText5" xml:space="preserve">
+    <value>   CLR运行时: {0}</value>
+  </data>
+  <data name="TraceOutText6" xml:space="preserve">
+    <value>   Tween.exe版本: {0}</value>
+  </data>
+  <data name="TweenAboutBox_LoadText1" xml:space="preserve">
+    <value>关于 {0}</value>
+  </data>
+  <data name="TweenAboutBox_LoadText2" xml:space="preserve">
+    <value>版本 {0}</value>
+  </data>
+  <data name="UnhandledExceptionText1" xml:space="preserve">
+    <value>**** 错误日志: {0} ****</value>
+  </data>
+  <data name="UnhandledExceptionText10" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="UnhandledExceptionText2" xml:space="preserve">
+    <value>请发送该文件给 kiri_feather@users.sourceforge.jp。</value>
+  </data>
+  <data name="UnhandledExceptionText3" xml:space="preserve">
+    <value>如果方便的话请给 @kiri_feather 发消息。</value>
+  </data>
+  <data name="UnhandledExceptionText4" xml:space="preserve">
+    <value>运行环境:</value>
+  </data>
+  <data name="UnhandledExceptionText5" xml:space="preserve">
+    <value>操作系统: {0}</value>
+  </data>
+  <data name="UnhandledExceptionText6" xml:space="preserve">
+    <value>CLR运行中: {0}</value>
+  </data>
+  <data name="UnhandledExceptionText7" xml:space="preserve">
+    <value>Tween.exe版本: {0}</value>
+  </data>
+  <data name="UnhandledExceptionText8" xml:space="preserve">
+    <value>异常 {0}: {1}</value>
+  </data>
+  <data name="UnhandledExceptionText9" xml:space="preserve">
+    <value>抱歉，发生异常了。错误日志已经在exe文件所在文件夹 {0} 生成，请把它发送到kiri_feather@users.sourceforge.jp。{1}如果可以的话，请发消息给@kiri_feather，谢谢。{1}点「是」按钮将打开日志文件。不想打开日志请点「否」，退出程序请点「取消」。</value>
+  </data>
+  <data name="UpdateFollowersMenuItem1_ClickText1" xml:space="preserve">
+    <value>正在刷新关注人...</value>
+  </data>
+  <data name="UpdateFollowersMenuItem1_ClickText2" xml:space="preserve">
+    <value>关注人刷新错误: </value>
+  </data>
+  <data name="UpdateFollowersMenuItem1_ClickText3" xml:space="preserve">
+    <value>关注人已刷新</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText15_black" xml:space="preserve">
+    <value>BalckFav添加(</value>
+  </data>
+  <data name="TextBoxOutputzKey_Validating" xml:space="preserve">
+    <value>请先填写您的Outputz复活咒文。</value>
+  </data>
+  <data name="TextCountApi_Validating1" xml:space="preserve">
+    <value>API模式下抓取消息数只能在20到200之间。</value>
+  </data>
+  <data name="AddNewTabText4_2" xml:space="preserve">
+    <value>时间</value>
+  </data>
+  <data name="Tabs_DoubleClickText1" xml:space="preserve">
+    <value>标签 ""{0}""　已经存在；请指定别的名称。</value>
+  </data>
+  <data name="Tabs_DoubleClickText2" xml:space="preserve">
+    <value>标签重命名</value>
+  </data>
+  <data name="UnhandledExceptionText11" xml:space="preserve">
+    <value>Administrator权限：</value>
+  </data>
+  <data name="UnhandledExceptionText12" xml:space="preserve">
+    <value>Users权限：</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText19" xml:space="preserve">
+    <value>Fav正在刷新...</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText20" xml:space="preserve">
+    <value>Fav已刷新</value>
+  </data>
+  <data name="SetFiltersText12" xml:space="preserve">
+    <value> &lt;&lt;排除&gt;&gt; </value>
+  </data>
+  <data name="SetFiltersText13" xml:space="preserve">
+    <value>区分大小写/</value>
+  </data>
+  <data name="ApiInfo1" xml:space="preserve">
+    <value>上限: </value>
+  </data>
+  <data name="ApiInfo2" xml:space="preserve">
+    <value>剩余: </value>
+  </data>
+  <data name="ApiInfo3" xml:space="preserve">
+    <value>重置时间: </value>
+  </data>
+  <data name="ApiInfo4" xml:space="preserve">
+    <value>API信息</value>
+  </data>
+  <data name="ApiInfo5" xml:space="preserve">
+    <value>* 获取API信息失败 *</value>
+  </data>
+  <data name="FRMessage1" xml:space="preserve">
+    <value>请输入用户ID。</value>
+  </data>
+  <data name="FRMessage2" xml:space="preserve">
+    <value>失败: </value>
+  </data>
+  <data name="FRMessage3" xml:space="preserve">
+    <value>完成!</value>
+  </data>
+  <data name="PostLengthOverMessage1" xml:space="preserve">
+    <value>该消息已经超出140个字符，要把URL缩短、去掉脚注等，裁剪到140字以内发送吗？</value>
+  </data>
+  <data name="PostLengthOverMessage2" xml:space="preserve">
+    <value>消息文本长度超出限制</value>
+  </data>
+  <data name="RetweetQuestion1" xml:space="preserve">
+    <value>锐推此消息？</value>
+  </data>
+  <data name="InputTabName_Load1" xml:space="preserve">
+    <value>过滤的时间线</value>
+  </data>
+  <data name="ShowYourProfileText1" xml:space="preserve">
+    <value>您的个人信息还未获取。请发条消息之后再试。</value>
+  </data>
+  <data name="DeleteHashtagsMessage1" xml:space="preserve">
+    <value>要删除选中的Hash Tag吗？</value>
+  </data>
+  <data name="GetFriendshipInfo1" xml:space="preserve">
+    <value>&gt;&gt;&gt; 好友</value>
+  </data>
+  <data name="GetFriendshipInfo2" xml:space="preserve">
+    <value>&gt;&gt;&gt; 不是好友</value>
+  </data>
+  <data name="GetFriendshipInfo3" xml:space="preserve">
+    <value>&lt;&lt;&lt; 关注</value>
+  </data>
+  <data name="GetFriendshipInfo4" xml:space="preserve">
+    <value>&lt;&lt;&lt; 未被关注</value>
+  </data>
+  <data name="GetFriendshipInfo5" xml:space="preserve">
+    <value>关系</value>
+  </data>
+  <data name="AuthorizeButton_Click1" xml:space="preserve">
+    <value>登录成功</value>
+  </data>
+  <data name="AuthorizeButton_Click2" xml:space="preserve">
+    <value>登录失败</value>
+  </data>
+  <data name="AuthorizeButton_Click3" xml:space="preserve">
+    <value>已登录</value>
+  </data>
+  <data name="AuthorizeButton_Click4" xml:space="preserve">
+    <value>未登录</value>
+  </data>
+  <data name="Setting_FormClosing1" xml:space="preserve">
+    <value>账号还未登录成功。确定要关闭设置对话框？</value>
+  </data>
+  <data name="AddNewTabText6" xml:space="preserve">
+    <value>来源</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText21" xml:space="preserve">
+    <value>正在刷新搜索...</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText22" xml:space="preserve">
+    <value>搜索已更新</value>
+  </data>
+  <data name="PostWorker_RunWorkerPosting" xml:space="preserve">
+    <value>正在发送...</value>
+  </data>
+  <data name="ButtonOK_ClickText4" xml:space="preserve">
+    <value>不能添加已经存在的规则</value>
+  </data>
+  <data name="CmbDateTimeFormat_Validating" xml:space="preserve">
+    <value>无效的日期时间格式</value>
+  </data>
+  <data name="ConnectionTimeOut_ValidatingText1" xml:space="preserve">
+    <value>请输入到超时为止需要等待的数值（0～120）。</value>
+  </data>
+  <data name="CreateDateTimeFormatSampleText1" xml:space="preserve">
+    <value>无效的日期时间格式</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText23" xml:space="preserve">
+    <value>列表正在刷新...</value>
+  </data>
+  <data name="GetTimelineWorker_RunWorkerCompletedText24" xml:space="preserve">
+    <value>列表已刷新</value>
+  </data>
+  <data name="ShowUserInfo1" xml:space="preserve">
+    <value>用户信息解析失败</value>
+  </data>
+  <data name="SettingAPIUse1" xml:space="preserve">
+    <value>使用的API:  {0} / h    (最大:  {1} / h)</value>
+  </data>
+  <data name="StatusUpdateFailed1" xml:space="preserve">
+    <value>发推失败了</value>
+  </data>
+  <data name="StatusUpdateFailed2" xml:space="preserve">
+    <value>想再试一次吗？</value>
+  </data>
+  <data name="GetFriendshipInfo6" xml:space="preserve">
+    <value>关注情况获取失败</value>
+  </data>
+  <data name="ShowUserInfo2" xml:space="preserve">
+    <value>最近消息获取失败</value>
+  </data>
+  <data name="doShowUserStatusText1" xml:space="preserve">
+    <value>正在读取个人信息…</value>
+  </data>
+  <data name="FollowCommandText1" xml:space="preserve">
+    <value>正在关注…</value>
+  </data>
+  <data name="NiconicoInfoText1" xml:space="preserve">
+    <value>标题:</value>
+  </data>
+  <data name="NiconicoInfoText2" xml:space="preserve">
+    <value>播放时间:</value>
+  </data>
+  <data name="NiconicoInfoText3" xml:space="preserve">
+    <value>上传日期:</value>
+  </data>
+  <data name="NiconicoInfoText4" xml:space="preserve">
+    <value>播放数:</value>
+  </data>
+  <data name="NiconicoInfoText5" xml:space="preserve">
+    <value>评论数:</value>
+  </data>
+  <data name="NiconicoInfoText6" xml:space="preserve">
+    <value>收藏数:</value>
+  </data>
+  <data name="RemoveCommandText1" xml:space="preserve">
+    <value>正在取消关注…</value>
+  </data>
+  <data name="RtCountMenuItem_ClickText1" xml:space="preserve">
+    <value>正在读取锐推数…</value>
+  </data>
+  <data name="ShowFriendshipText1" xml:space="preserve">
+    <value>正在获取关注状态…</value>
+  </data>
+  <data name="OwnStatusTitle" xml:space="preserve">
+    <value>消息数 {0}  好友数 {1}  关注数 {2}({3})</value>
+  </data>
+  <data name="ChangeIconToolStripMenuItem_ClickText1" xml:space="preserve">
+    <value>图像文件 (*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png</value>
+  </data>
+  <data name="ChangeIconToolStripMenuItem_ClickText2" xml:space="preserve">
+    <value>请选择用作头像的图片文件，文件最大可达700KB</value>
+  </data>
+  <data name="ChangeIconToolStripMenuItem_ClickText3" xml:space="preserve">
+    <value>头像上传中…</value>
+  </data>
+  <data name="ChangeIconToolStripMenuItem_ClickText4" xml:space="preserve">
+    <value>注意：由于Twitter本身的原因，即使出现错误提示，头像有时已更新成功。请在下次发消息时确认。</value>
+  </data>
+  <data name="ChangeIconToolStripMenuItem_ClickText5" xml:space="preserve">
+    <value>头像修改完成。将在下次发消息时生效。</value>
+  </data>
+  <data name="SettingSave_ClickText1" xml:space="preserve">
+    <value>ID与API Key组合错误。需要和ID一起设置的不是密码是API Key，请再确认。</value>
+  </data>
+  <data name="UserInfoButtonEdit_ClickText1" xml:space="preserve">
+    <value>应用</value>
+  </data>
+  <data name="UserInfoButtonEdit_ClickText2" xml:space="preserve">
+    <value>正在更新个人信息…</value>
+  </data>
+  <data name="ButtonBlockDestroy_ClickText1" xml:space="preserve">
+    <value>的屏蔽将被解除。继续吗？</value>
+  </data>
+  <data name="ButtonBlockDestroy_ClickText2" xml:space="preserve">
+    <value>解除屏蔽确认</value>
+  </data>
+  <data name="ButtonBlockDestroy_ClickText3" xml:space="preserve">
+    <value>服务报错了。还请通过Web方式确认是否解除成功。</value>
+  </data>
+  <data name="ButtonBlockDestroy_ClickText4" xml:space="preserve">
+    <value>屏蔽解除完成。请通过Web方式确认是否解除成功。</value>
+  </data>
+  <data name="ButtonBlock_ClickText1" xml:space="preserve">
+    <value>将被屏蔽。继续吗？</value>
+  </data>
+  <data name="ButtonBlock_ClickText2" xml:space="preserve">
+    <value>屏蔽确认</value>
+  </data>
+  <data name="ButtonBlock_ClickText3" xml:space="preserve">
+    <value>服务报错了。还请通过Web方式确认是否屏蔽成功。</value>
+  </data>
+  <data name="ButtonBlock_ClickText4" xml:space="preserve">
+    <value>屏蔽完成。请通过Web方式确认是否屏蔽成功。</value>
+  </data>
+  <data name="ButtonReportSpam_ClickText1" xml:space="preserve">
+    <value>将被屏蔽并且作为恶意账号向官方举报。继续吗？</value>
+  </data>
+  <data name="ButtonReportSpam_ClickText2" xml:space="preserve">
+    <value>举报确认</value>
+  </data>
+  <data name="ButtonReportSpam_ClickText3" xml:space="preserve">
+    <value>服务报错了。还请通过Web方式确认是否举报成功。</value>
+  </data>
+  <data name="ButtonReportSpam_ClickText4" xml:space="preserve">
+    <value>举报完成。请通过Web方式确认是否举报成功。</value>
+  </data>
+  <data name="ButtonUnFollow_ClickText1" xml:space="preserve">
+    <value>的关注将被取消。继续吗？</value>
+  </data>
+  <data name="ButtonUnFollow_ClickText2" xml:space="preserve">
+    <value>取消关注确认</value>
+  </data>
+  <data name="CopyStotText1" xml:space="preserve">
+    <value>警告：不能复制受保护(Protected)用户的消息。</value>
+  </data>
+  <data name="ButtonRuleCopy_ClickText1" xml:space="preserve">
+    <value>选择规则要复制到的标签</value>
+  </data>
+  <data name="ButtonRuleMove_ClickText1" xml:space="preserve">
+    <value>选择规则要移动到的标签</value>
+  </data>
+  <data name="TabUsageTypeName_DirectMessage" xml:space="preserve">
+    <value>私信</value>
+  </data>
+  <data name="TabUsageTypeName_Favorites" xml:space="preserve">
+    <value>收藏</value>
+  </data>
+  <data name="TabUsageTypeName_Home" xml:space="preserve">
+    <value>时间线</value>
+  </data>
+  <data name="TabUsageTypeName_Lists" xml:space="preserve">
+    <value>列表</value>
+  </data>
+  <data name="TabUsageTypeName_Mentions" xml:space="preserve">
+    <value>回复</value>
+  </data>
+  <data name="TabUsageTypeName_PublicSearch" xml:space="preserve">
+    <value>公开搜索</value>
+  </data>
+  <data name="TabUsageTypeName_UserDefined" xml:space="preserve">
+    <value>过滤的时间线</value>
+  </data>
+  <data name="ButtonDelete_ClickText3" xml:space="preserve">
+    <value>要删除被选中的{0}条规则吗？</value>
+  </data>
+  <data name="PickPictureDialog1" xml:space="preserve">
+    <value>选择要上传的图片</value>
+  </data>
+  <data name="PostPictureConfirm1" xml:space="preserve">
+    <value>选择的图片将被上传。继续吗？</value>
+  </data>
+  <data name="PostPictureConfirm2" xml:space="preserve">
+    <value>上传图片确认</value>
+  </data>
+  <data name="PostPictureWarn1" xml:space="preserve">
+    <value>尚未选择要使用的图片上传服务。</value>
+  </data>
+  <data name="PostPictureWarn2" xml:space="preserve">
+    <value>上传图片</value>
+  </data>
+  <data name="PostButton_Click1" xml:space="preserve">
+    <value>要用官方锐推方式发送未修改过的RT锐推吗？{0}[是：改用官方锐推]{0}[否：仍然用RT锐推]{0}[取消：不发送]</value>
+  </data>
+  <data name="ApiInfo6" xml:space="preserve">
+    <value>正在获取API信息…</value>
+  </data>
+  <data name="ListManageDeleteLists1" xml:space="preserve">
+    <value>该列表将被删除，要继续吗？</value>
+  </data>
+  <data name="ListManageDeleteUser1" xml:space="preserve">
+    <value>该成员用户将从列表删除，要继续吗？</value>
+  </data>
+  <data name="ListManageDeleteUser2" xml:space="preserve">
+    <value>成员删除失败（{0}）</value>
+  </data>
+  <data name="ListManageGetListMembersCallback1" xml:space="preserve">
+    <value>成员读取失败（{0}）</value>
+  </data>
+  <data name="ListManageOKButton1" xml:space="preserve">
+    <value>请输入列表名称</value>
+  </data>
+  <data name="ListManageOKButton2" xml:space="preserve">
+    <value>列表信息更新失败（{0}）</value>
+  </data>
+  <data name="ListsDeleteFailed" xml:space="preserve">
+    <value>列表信息读取失败（{0}）</value>
+  </data>
+  <data name="ListsGetting" xml:space="preserve">
+    <value>正在读取列表信息。请稍候...</value>
+  </data>
+  <data name="MyLists1" xml:space="preserve">
+    <value>所在列表管理</value>
+  </data>
+  <data name="RtCountText1" xml:space="preserve">
+    <value>人锐推了该消息</value>
+  </data>
+  <data name="PostLengthOverMessage3" xml:space="preserve">
+    <value>Abort to posting status because @id may be rounded down.</value>
+  </data>
+  <data name="FavstarUrl" xml:space="preserve">
+    <value>http://favstar.fm/</value>
+  </data>
+  <data name="VimeoInfoText1" xml:space="preserve">
+    <value>タイトル:</value>
+  </data>
+  <data name="VimeoInfoText2" xml:space="preserve">
+    <value>投稿日時:</value>
+  </data>
+  <data name="VimeoInfoText3" xml:space="preserve">
+    <value>Likes:</value>
+  </data>
+  <data name="VimeoInfoText4" xml:space="preserve">
+    <value>再生数:</value>
+  </data>
+  <data name="VimeoInfoText5" xml:space="preserve">
+    <value>コメント数:</value>
+  </data>
+  <data name="VimeoInfoText6" xml:space="preserve">
+    <value>再生時間:</value>
+  </data>
+  <data name="YouTubeInfoText1" xml:space="preserve">
+    <value>タイトル:</value>
+  </data>
+  <data name="YouTubeInfoText2" xml:space="preserve">
+    <value>再生時間:</value>
+  </data>
+  <data name="YouTubeInfoText3" xml:space="preserve">
+    <value>投稿日時:</value>
+  </data>
+  <data name="YouTubeInfoText4" xml:space="preserve">
+    <value>再生数:</value>
+  </data>
+  <data name="FavoriteLimitCountText" xml:space="preserve">
+    <value>一度にふぁぼ追加が実行できるのは250件までです</value>
+  </data>
+  <data name="TextSearchCountApi_Validating1" xml:space="preserve">
+    <value>取得発言数は20～100件を指定してください。</value>
+  </data>
+  <data name="RetweetLimitText" xml:space="preserve">
+    <value>一度にRetweetできるのは15件までです</value>
+  </data>
+  <data name="RetweetQuestion2" xml:space="preserve">
+    <value>選択された発言をRetweetしてもよろしいですか？</value>
+  </data>
+  <data name="FavoriteRetweetQuestionText1" xml:space="preserve">
+    <value>選択された発言をFavoriteに追加してRetweetします。よろしいですか？</value>
+  </data>
+  <data name="FavoritesRetweetQuestionText2" xml:space="preserve">
+    <value>Favoriteに追加してRetweetします。よろしいですか？</value>
+  </data>
+  <data name="FavoriteRetweetQuestionText3" xml:space="preserve">
+    <value>選択された発言をFavoritesに追加して非公式RTを実行します。よろしいですか？</value>
+  </data>
+  <data name="TabUsageTypeName_UserTimeline" xml:space="preserve">
+    <value>UserTimeline</value>
+  </data>
+  <data name="ListManageGetMoreUsers1" xml:space="preserve">
+    <value>Get members(&amp;M)</value>
+  </data>
+  <data name="ListManageGetMoreUsers2" xml:space="preserve">
+    <value>Get more(&amp;M)</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>否</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>是</value>
+  </data>
+</root>

@@ -35,6 +35,8 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -45,11 +47,48 @@
   <ItemGroup>
     <Compile Include="ApiInformation.cs" />
     <Compile Include="Connection\IHttpConnection.cs" />
+    <Compile Include="MyCommon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Win32Api.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connection\HttpConnection.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.en.resx" />
+    <EmbeddedResource Include="Properties\Resources.zh-CHS.resx" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Resources\5g.ico" />
+    <Content Include="Resources\6g.ico" />
+    <Content Include="Resources\ads.txt" />
+    <Content Include="Resources\ChangeLog.txt" />
+    <Content Include="Resources\Description.txt" />
+    <Content Include="Resources\S0.ico" />
+    <Content Include="Resources\S1.ico" />
+    <Content Include="Resources\S10.ico" />
+    <Content Include="Resources\S11.ico" />
+    <Content Include="Resources\S12.ico" />
+    <Content Include="Resources\S13.ico" />
+    <Content Include="Resources\S14.ico" />
+    <Content Include="Resources\S2.ico" />
+    <Content Include="Resources\S3.ico" />
+    <Content Include="Resources\S4.ico" />
+    <Content Include="Resources\S5.ico" />
+    <Content Include="Resources\S6.ico" />
+    <Content Include="Resources\S7.ico" />
+    <Content Include="Resources\S8.ico" />
+    <Content Include="Resources\S9.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
