@@ -162,7 +162,7 @@ Public Class yfrog
         MyBase.New(New Uri("http://api.twitter.com/"), _
                    New Uri("https://api.twitter.com/1/account/verify_credentials.xml"))
         tw = twitter
-        Initialize(DecryptString(ConsumerKey), DecryptString(ConsumerSecretKey), tw.AccessToken, tw.AccessTokenSecret, "", "")
+        Initialize(ConsumerKey, ConsumerSecretKey, tw.AccessToken, tw.AccessTokenSecret, "", "")
     End Sub
 
     Public Function Configuration(key As String, value As Object) As Boolean Implements IMultimediaShareService.Configuration
