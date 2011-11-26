@@ -487,8 +487,7 @@ namespace Tween
                 case "read-write-privatemessages":
                     return ApiAccessLevel.ReadWriteAndDirectMessage;
                 default:
-                    // MyCommon.vbが移植されるまで一時的にコメントアウト
-                    //TraceOut("Unknown ApiAccessLevel:" + HttpHeaders["X-Access-Level"]);
+                    MyCommon.TraceOut("Unknown ApiAccessLevel:" + HttpHeaders["X-Access-Level"]);
                     return ApiAccessLevel.ReadWriteAndDirectMessage;     //未知のアクセスレベルの場合Read/Write/Dmと仮定して処理継続;
                 }
             }
