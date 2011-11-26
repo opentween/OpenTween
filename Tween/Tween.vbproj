@@ -291,12 +291,6 @@
     <Compile Include="Tween.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TweenAboutBox.Designer.vb">
-      <DependentUpon>TweenAboutBox.vb</DependentUpon>
-    </Compile>
-    <Compile Include="TweenAboutBox.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="FavoriteQueue.vb" />
     <Compile Include="Twitter.vb" />
     <Compile Include="UserInfo.vb" />
@@ -487,18 +481,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Tween.zh-CHS.resx">
       <DependentUpon>Tween.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TweenAboutBox.en.resx">
-      <DependentUpon>TweenAboutBox.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TweenAboutBox.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>TweenAboutBox.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TweenAboutBox.zh-CHS.resx">
-      <DependentUpon>TweenAboutBox.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>

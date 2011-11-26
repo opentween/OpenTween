@@ -54,6 +54,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="TweenAboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TweenAboutBox.Designer.cs">
+      <DependentUpon>TweenAboutBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Win32Api.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -66,6 +72,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.en.resx" />
     <EmbeddedResource Include="Properties\Resources.zh-CHS.resx" />
+    <EmbeddedResource Include="TweenAboutBox.en.resx">
+      <DependentUpon>TweenAboutBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TweenAboutBox.resx">
+      <DependentUpon>TweenAboutBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TweenAboutBox.zh-CHS.resx">
+      <DependentUpon>TweenAboutBox.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

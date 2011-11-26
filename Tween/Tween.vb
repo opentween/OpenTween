@@ -4904,7 +4904,8 @@ RETRY:
     End Sub
 
     Private Sub AboutMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AboutMenuItem.Click
-        TweenAboutBox.ShowDialog()
+        Dim about As New TweenAboutBox()
+        about.ShowDialog()
         Me.TopMost = SettingDialog.AlwaysTop
     End Sub
 
