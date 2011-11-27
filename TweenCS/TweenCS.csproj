@@ -55,6 +55,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SearchWord.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SearchWord.Designer.cs">
+      <DependentUpon>SearchWord.cs</DependentUpon>
+    </Compile>
     <Compile Include="TweenAboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -74,6 +80,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.en.resx" />
     <EmbeddedResource Include="Properties\Resources.zh-CHS.resx" />
+    <EmbeddedResource Include="SearchWord.en.resx">
+      <DependentUpon>SearchWord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SearchWord.resx">
+      <DependentUpon>SearchWord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SearchWord.zh-CHS.resx">
+      <DependentUpon>SearchWord.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TweenAboutBox.en.resx">
       <DependentUpon>TweenAboutBox.cs</DependentUpon>
     </EmbeddedResource>

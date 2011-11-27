@@ -244,12 +244,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="RadixConvert.vb" />
-    <Compile Include="SearchWord.Designer.vb">
-      <DependentUpon>SearchWord.vb</DependentUpon>
-    </Compile>
-    <Compile Include="SearchWord.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Setting\SettingAtIdList.vb" />
     <Compile Include="Setting\SettingBase.vb" />
     <Compile Include="Setting\SettingCommon.vb" />
@@ -423,18 +417,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="OpenURL.zh-CHS.resx">
       <DependentUpon>OpenURL.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SearchWord.en.resx">
-      <DependentUpon>SearchWord.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SearchWord.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>SearchWord.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SearchWord.zh-CHS.resx">
-      <DependentUpon>SearchWord.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="FilterDialog.en.resx">
