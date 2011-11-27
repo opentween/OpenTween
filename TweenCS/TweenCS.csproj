@@ -48,6 +48,7 @@
     <Compile Include="ApiInformation.cs" />
     <Compile Include="Connection\IHttpConnection.cs" />
     <Compile Include="Connection\IMultimediaShareService.cs" />
+    <Compile Include="DataModel.cs" />
     <Compile Include="MyCommon.cs" />
     <Compile Include="OpenURL.cs">
       <SubType>Form</SubType>

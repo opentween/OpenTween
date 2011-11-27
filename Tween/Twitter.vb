@@ -963,8 +963,8 @@ Public Class Twitter
             Case HttpStatusCode.OK
                 Try
                     Dim relation = CreateDataFromJson(Of TwitterDataModel.Relationship)(content)
-                    isFollowing = relation.Relationship.Source.Following
-                    isFollowed = relation.Relationship.Source.FollowedBy
+                    isFollowing = relation.relationship.Source.Following
+                    isFollowed = relation.relationship.Source.FollowedBy
                     Return ""
                 Catch ex As SerializationException
                     TraceOut(ex.Message + Environment.NewLine + content)
@@ -2713,7 +2713,7 @@ Public Class Twitter
 
             Try
                 Dim lst = CreateDataFromJson(Of TwitterDataModel.Lists)(content)
-                lists.AddRange(From le In lst.Lists Select New ListElement(le, Me))
+                lists.AddRange(From le In lst.lists Select New ListElement(le, Me))
                 cursor = lst.NextCursor
             Catch ex As SerializationException
                 TraceOut(ex.Message + Environment.NewLine + content)
@@ -2747,7 +2747,7 @@ Public Class Twitter
 
             Try
                 Dim lst = CreateDataFromJson(Of TwitterDataModel.Lists)(content)
-                lists.AddRange(From le In lst.Lists Select New ListElement(le, Me))
+                lists.AddRange(From le In lst.lists Select New ListElement(le, Me))
                 cursor = lst.NextCursor
             Catch ex As SerializationException
                 TraceOut(ex.Message + Environment.NewLine + content)
