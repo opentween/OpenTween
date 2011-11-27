@@ -233,12 +233,6 @@
     </Compile>
     <Compile Include="MySpecialPath.vb" />
     <Compile Include="nicoms.vb" />
-    <Compile Include="OpenURL.Designer.vb">
-      <DependentUpon>OpenURL.vb</DependentUpon>
-    </Compile>
-    <Compile Include="OpenURL.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Outputz.vb" />
     <Compile Include="PictureBoxEx.vb">
       <SubType>Component</SubType>
@@ -406,18 +400,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyLists.zh-CHS.resx">
       <DependentUpon>MyLists.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="OpenURL.en.resx">
-      <DependentUpon>OpenURL.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="OpenURL.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>OpenURL.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="OpenURL.zh-CHS.resx">
-      <DependentUpon>OpenURL.vb</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="FilterDialog.en.resx">
       <DependentUpon>FilterDialog.vb</DependentUpon>
