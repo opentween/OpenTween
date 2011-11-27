@@ -72,6 +72,7 @@
     <Compile Include="DoubleClickCopyCanceller.cs" />
     <Compile Include="Growl.cs" />
     <Compile Include="HookGlobalHotkey.cs" />
+    <Compile Include="ListElement.cs" />
     <Compile Include="MyCommon.cs" />
     <Compile Include="MySpecialPath.cs" />
     <Compile Include="nicoms.cs" />
