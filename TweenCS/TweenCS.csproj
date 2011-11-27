@@ -79,6 +79,12 @@
     <Compile Include="Connection\IHttpConnection.cs" />
     <Compile Include="Connection\imgly.cs" />
     <Compile Include="Connection\IMultimediaShareService.cs" />
+    <Compile Include="ListManage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListManage.Designer.cs">
+      <DependentUpon>ListManage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Connection\Plixi.cs" />
     <Compile Include="Connection\TwitPic.cs" />
     <Compile Include="Connection\TwitterPhoto.cs" />
@@ -164,6 +170,9 @@
     <Compile Include="Connection\HttpConnection.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ListManage.resx">
+      <DependentUpon>ListManage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AtIdSupplement.en.resx">
       <DependentUpon>AtIdSupplement.cs</DependentUpon>
     </EmbeddedResource>
