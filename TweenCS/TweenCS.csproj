@@ -76,6 +76,9 @@
     <Compile Include="TweenAboutBox.Designer.cs">
       <DependentUpon>TweenAboutBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="ToolStripLabelHistory.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="WebBrowserController.cs" />
     <Compile Include="Win32Api.cs" />
   </ItemGroup>
