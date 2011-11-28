@@ -67,6 +67,9 @@
     <Compile Include="SearchWord.Designer.cs">
       <DependentUpon>SearchWord.cs</DependentUpon>
     </Compile>
+    <Compile Include="ToolStripAPIGauge.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="TweenAboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
