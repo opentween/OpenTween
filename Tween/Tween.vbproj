@@ -146,8 +146,6 @@
     <Compile Include="Connection\Plixi.vb" />
     <Compile Include="Connection\TwitPic.vb" />
     <Compile Include="Connection\imgly.vb" />
-    <Compile Include="Connection\TwitterPhoto.vb" />
-    <Compile Include="Connection\TwitVideo.vb" />
     <Compile Include="Connection\yfrog.vb" />
     <Compile Include="DataModel.vb" />
     <Compile Include="DetailsListView.vb">
