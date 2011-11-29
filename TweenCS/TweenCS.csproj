@@ -120,6 +120,7 @@
     <Compile Include="ToolStripLabelHistory.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Twitter.cs" />
     <Compile Include="UserInfo.cs" />
     <Compile Include="WebBrowserController.cs" />
     <Compile Include="Win32Api.cs" />

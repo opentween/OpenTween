@@ -235,7 +235,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FavoriteQueue.vb" />
-    <Compile Include="Twitter.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AppendSettingDialog.en.resx">
