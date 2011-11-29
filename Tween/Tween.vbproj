@@ -273,7 +273,6 @@
     </Compile>
     <Compile Include="FavoriteQueue.vb" />
     <Compile Include="Twitter.vb" />
-    <Compile Include="UserInfo.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AppendSettingDialog.en.resx">
