@@ -24,107 +24,113 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+using IMultimediaShareService = Tween.IMultimediaShareService;
 using Array = System.Array;
 using Convert = System.Convert;
+using UploadFileType = Tween.MyCommon.UploadFileType;
+using MyCommon = Tween.MyCommon;
 using FileInfo = System.IO.FileInfo;
 
-public class TwitterPhoto : IMultimediaShareService
+namespace Tween
 {
-	private string[] pictureExt = new string[] { ".jpg", ".jpeg", ".gif", ".png" };
-
-	private const long MaxfilesizeDefault = 3145728;
-
-	// help/configurationにより取得されコンストラクタへ渡される
-	private long _MaxFileSize = 3145728;
-
-	private Twitter tw;
-
-	public bool CheckValidExtension( string ext )
+	public class TwitterPhoto : IMultimediaShareService
 	{
-		if ( Array.IndexOf( this.pictureExt, ext.ToLower() ) > -1 )
-			return true;
+		private string[] pictureExt = new string[] { ".jpg", ".jpeg", ".gif", ".png" };
 
-		return false;
-	}
+		private const long MaxfilesizeDefault = 3145728;
 
-	public bool CheckValidFilesize( string ext, long fileSize )
-	{
-		if ( this.CheckValidExtension( ext ) )
-			return fileSize <= this._MaxFileSize;
+		// help/configurationにより取得されコンストラクタへ渡される
+		private long _MaxFileSize = 3145728;
 
-		return false;
-	}
+		private Twitter tw;
 
-	public bool Configuration( string key, object value )
-	{
-		if ( key == "MaxUploadFilesize" )
+		public bool CheckValidExtension( string ext )
 		{
-			long val;
+			if ( Array.IndexOf( this.pictureExt, ext.ToLower() ) > -1 )
+				return true;
+
+			return false;
+		}
+
+		public bool CheckValidFilesize( string ext, long fileSize )
+		{
+			if ( this.CheckValidExtension( ext ) )
+				return fileSize <= this._MaxFileSize;
+
+			return false;
+		}
+
+		public bool Configuration( string key, object value )
+		{
+			if ( key == "MaxUploadFilesize" )
+			{
+				long val;
+				try
+				{
+					val = Convert.ToInt64( value );
+					if ( val > 0 )
+						this._MaxFileSize = val;
+					else
+					this._MaxFileSize = this.MaxfilesizeDefault;
+				}
+				catch ( Exception ex )
+				{
+					this._MaxFileSize = this.MaxfilesizeDefault;
+					return false; // error
+				}
+				return true; // 正常に設定終了
+			}
+			return true; // 設定項目がない場合はとりあえずエラー扱いにしない
+		}
+
+		public string GetFileOpenDialogFilter()
+		{
+			return "Image Files(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png";
+		}
+
+		public UploadFileType GetFileType( string ext )
+		{
+			if ( this.CheckValidExtension( ext ) )
+				return UploadFileType.Picture;
+
+			return UploadFileType.Invalid;
+		}
+
+		public bool IsSupportedFileType( UploadFileType type )
+		{
+			return type.Equals( UploadFileType.Picture );
+		}
+
+		public string Upload( ref string filePath, ref string message, long reply_to )
+		{
+			if ( string.IsNullOrEmpty( filePath ) )
+				return "Err:File isn't specified.";
+
+			if ( string.IsNullOrEmpty( message ) )
+				message =  "";
+
+			FileInfo mediaFile;
 			try
 			{
-				val = Convert.ToInt64( value );
-				if ( val > 0 )
-					this._MaxFileSize = val;
-				else
-					this._MaxFileSize = this.MaxfilesizeDefault;
+				mediaFile = new FileInfo( filePath );
 			}
-			catch ( Exception ex )
+			catch ( NotSupportedException ex )
 			{
-				this._MaxFileSize = this.MaxfilesizeDefault;
-				return false; // error
+				return "Err:" + ex.Message;
 			}
-			return true; // 正常に設定終了
+
+			if ( !mediaFile.Exists )
+				return "Err:File isn't exists.";
+
+			if ( MyCommon.IsAnimatedGif( filePath ) )
+				return "Err:Don't support animatedGIF.";
+
+			return tw.PostStatusWithMedia( message, reply_to, mediaFile );
 		}
-		return true; // 設定項目がない場合はとりあえずエラー扱いにしない
-	}
 
-	public string GetFileOpenDialogFilter()
-	{
-		return "Image Files(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png";
-	}
-
-	public MyCommon.UploadFileType GetFileType( string ext )
-	{
-		if ( this.CheckValidExtension( ext ) )
-			return UploadFileType.Picture;
-
-		return UploadFileType.Invalid;
-	}
-
-	public bool IsSupportedFileType( MyCommon.UploadFileType type )
-	{
-		return type.Equals( UploadFileType.Picture );
-	}
-
-	public string Upload( ref string filePath, ref string message, long reply_to )
-	{
-		if ( string.IsNullOrEmpty( filePath ) )
-			return "Err:File isn't specified.";
-
-		if ( string.IsNullOrEmpty( message ) )
-			message =  "";
-
-		FileInfo mediaFile;
-		try
+		public TwitterPhoto( Twitter twitter )
 		{
-			mediaFile = new FileInfo( filePath );
+			this.tw = twitter;
 		}
-		catch ( NotSupportedException ex )
-		{
-			return "Err:" + ex.Message;
-		}
-
-		if ( !mediaFile.Exists )
-			return "Err:File isn't exists.";
-
-		if ( MyCommon.IsAnimatedGif( filePath ) )
-			return "Err:Don't support animatedGIF.";
-
-		return tw.PostStatusWithMedia( message, reply_to, mediaFile );
-	}
-
-	public void New( Twitter twitter )
-	{
-		this.tw = twitter;
 	}
 }

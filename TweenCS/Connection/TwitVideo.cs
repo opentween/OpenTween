@@ -24,6 +24,7 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+using HttpConnection = Tween.HttpConnection;
 using HttpStatusCode = System.Net.HttpStatusCode;
 using FileInfo = System.IO.FileInfo;
 using ArgumentException = System.ArgumentException;
@@ -33,106 +34,109 @@ using BitConverter = System.BitConverter;
 using System.Collections.Generic; // for Dictionary<TKey, TValue>, List<T>, KeyValuePair<TKey, TValue>
 using HttpWebRequest = System.Net.HttpWebRequest;
 using Uri = System.Uri;
-using UploadFileType = MyCommon.UploadFileType;
+using UploadFileType = Tween.MyCommon.UploadFileType;
 
-public class TwitVideo : HttpConnection
+namespace Tween
 {
-	private const string ConsumerKey = "7c4dc004a88e821b02c87a0cde2fa85c";
-
-	private string[] multimediaExt = new string[] { ".avi", ".wmv", ".flv", ".m4v", ".mov", ".mp4", ".rm", ".mpeg", ".mpg", ".3gp", ".3g2" };
-
-	private string[] pictureExt = new string[] { ".jpg", ".jpeg", ".gif", ".png" };
-
-	private const long MaxPictureFileSize = 10 * 1024 * 1024;
-
-	private const long MaxMultiMediaFileSize = 20 * 1024 * 1024;
-
-	public HttpStatusCode Upload( FileInfo mediaFile, string message, string keyword, string username, string twitter_id, ref string content )
+	public class TwitVideo : HttpConnection
 	{
-		// Message必須
-		if ( string.IsNullOrEmpty( message ) )
-			throw new ArgumentException( "'Message' is required." );
+		private const string ConsumerKey = "7c4dc004a88e821b02c87a0cde2fa85c";
 
-		// Check filetype and size
-		if ( Array.IndexOf( multimediaExt, mediaFile.Extension.ToLower ) > -1 )
+		private string[] multimediaExt = new string[] { ".avi", ".wmv", ".flv", ".m4v", ".mov", ".mp4", ".rm", ".mpeg", ".mpg", ".3gp", ".3g2" };
+
+		private string[] pictureExt = new string[] { ".jpg", ".jpeg", ".gif", ".png" };
+
+		private const long MaxPictureFileSize = 10 * 1024 * 1024;
+
+		private const long MaxMultiMediaFileSize = 20 * 1024 * 1024;
+
+		public HttpStatusCode Upload( FileInfo mediaFile, string message, string keyword, string username, string twitter_id, ref string content )
 		{
-			if ( mediaFile.Length > this.MaxMultiMediaFileSize )
-				throw new ArgumentException( "File is too large." );
+			// Message必須
+			if ( string.IsNullOrEmpty( message ) )
+				throw new ArgumentException( "'Message' is required." );
+
+			// Check filetype and size
+			if ( Array.IndexOf( multimediaExt, mediaFile.Extension.ToLower ) > -1 )
+			{
+				if ( mediaFile.Length > this.MaxMultiMediaFileSize )
+					throw new ArgumentException( "File is too large." );
+			}
+			else if ( Array.IndexOf( pictureExt, mediaFile.Extension.ToLower ) > -1 )
+			{
+				if ( mediaFile.Length > this.MaxPictureFileSize )
+					throw new ArgumentException( "File is too large." );
+			}
+			else
+			{
+				throw new ArgumentException( "Service don't support this filetype." );
+			}
+
+			// Endpoint(URI+Token)
+			const string URLBASE = "http://api.twitvideo.jp/oauth/upload/";
+			byte[] data = Encoding.ASCII.GetBytes( this.ConsumerKey.Substring( 0, 9 ) + username );
+			byte[] dHash = ( new System.Security.Cryptography.MD5CryptoServiceProvider() ).ComputeHash( data );
+			string url = URLBASE + BitConverter.ToString( bHash ).ToLower.Replace( "-", "" );
+
+			// Parameters
+			Dictionary< string, string > param = new Dictionary< string, string >();
+			param.Add( "username", username );
+			if ( !string.IsNullOrEmpty( twitter_id ) )
+				param.Add( "twitter_id", twitter_id );
+			if ( !string.IsNullOrEmpty( keyword ) )
+				param.Add( "keyword", keyword );
+			param.Add( "type", "xml" );
+			param.Add( "message", message );
+			List< KeyValuePair< string, FileInfo > > binary = new List< KeyValuePair< string, FileInfo > >();
+			binary.Add( new KeyValuePair< string, FileInfo >( "media", mediaFile ) );
+			this.InstanceTimeout = 60000; // タイムアウト60秒
+
+			HttpWebRequest req = this.CreateRequest( HttpConnection.PostMethod, new Uri( url ), param, binary, false );
+			return this.GetResponse( req, ref content, null, false );
 		}
-		else if ( Array.IndexOf( pictureExt, mediaFile.Extension.ToLower ) > -1 )
+
+		public bool CheckValidExtension( string ext )
 		{
-			if ( mediaFile.Length > this.MaxPictureFileSize )
-				throw new ArgumentException( "File is too large." );
+			if ( Array.IndexOf( this.pictureExt, ext.ToLower ) > -1 )
+				return true;
+
+			if ( Array.IndexOf( this.multimediaExt, ext.ToLower ) > -1 )
+				return true;
+
+			return false;
 		}
-		else
+
+		UploadFileType GetFileType( string ext )
 		{
-			throw new ArgumentException( "Service don't support this filetype." );
+			if ( Array.IndexOf( this.pictureExt, ext.ToLower ) > -1 )
+				return UploadFileType.Picture;
+
+			if ( Array.IndexOf( this.multimediaExt, ext.ToLower ) > -1 )
+				return UploadFileType.MultiMedia;
+
+			return UploadFileType.Invalid;
 		}
 
-		// Endpoint(URI+Token)
-		const string URLBASE = "http://api.twitvideo.jp/oauth/upload/";
-		byte[] data = Encoding.ASCII.GetBytes( this.ConsumerKey.Substring( 0, 9 ) + username );
-		byte[] dHash = ( new System.Security.Cryptography.MD5CryptoServiceProvider() ).ComputeHash( data );
-		string url = URLBASE + BitConverter.ToString( bHash ).ToLower.Replace( "-", "" );
+		bool IsSupportedFileType( UploadFileType type )
+		{
+			return type.Equals( UploadFileType.Picture ) || type.Equals( UploadFileType.MultiMedia );
+		}
 
-		// Parameters
-		Dictionary< string, string > param = new Dictionary< string, string >();
-		param.Add( "username", username );
-		if ( !string.IsNullOrEmpty( twitter_id ) )
-			param.Add( "twitter_id", twitter_id );
-		if ( !string.IsNullOrEmpty( keyword ) )
-			param.Add( "keyword", keyword );
-        param.Add( "type", "xml" );
-        param.Add( "message", message );
-		List< KeyValuePair< string, FileInfo > > binary = new List< KeyValuePair< string, FileInfo > >();
-		binary.Add( new KeyValuePair< string, FileInfo >( "media", mediaFile ) );
-		this.InstanceTimeout = 60000; // タイムアウト60秒
+		long GetMaxFileSize( string ext )
+		{
+			if ( Array.IndexOf( this.pictureExt, ext.ToLower ) > -1 )
+				return this.MaxPictureFileSize;
 
-		HttpWebRequest req = this.CreateRequest( HttpConnection.PostMethod, new Uri( url ), param, binary, false );
-		return this.GetResponse( req, ref content, null, false )
-	}
+			if ( Array.IndexOf( this.multimediaExt, ext.ToLower ) > -1 )
+				return this.MaxMultiMediaFileSize;
 
-	public bool CheckValidExtension( string ext )
-	{
-		if ( Array.IndexOf( this.pictureExt, ext.ToLower ) > -1 )
-			return true;
+			return -1;
+		}
 
-		if ( Array.IndexOf( this.multimediaExt, ext.ToLower ) > -1 )
-			return true;
-
-		return false;
-	}
-
-	UploadFileType GetFileType( string ext )
-	{
-		if ( Array.IndexOf( this.pictureExt, ext.ToLower ) > -1 )
-			return UploadFileType.Picture;
-
-		if ( Array.IndexOf( this.multimediaExt, ext.ToLower ) > -1 )
-			return UploadFileType.MultiMedia;
-
-		return UploadFileType.Invalid;
-	}
-
-	bool IsSupportedFileType( UploadFileType type )
-	{
-		return type.Equals( UploadFileType.Picture ) || type.Equals( UploadFileType.MultiMedia );
-	}
-
-	long GetMaxFileSize( string ext )
-	{
-		if ( Array.IndexOf( this.pictureExt, ext.ToLower ) > -1 )
-			return this.MaxPictureFileSize;
-
-		if ( Array.IndexOf( this.multimediaExt, ext.ToLower ) > -1 )
-			return this.MaxMultiMediaFileSize;
-
-		return -1;
-	}
-
-	string GetFileOpenDialogFilter()
-	{
-		return "Image Files(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png|"
+		string GetFileOpenDialogFilter()
+		{
+			return "Image Files(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png|"
 			+ "Movie Files(*.avi;*.wmv;*.flv;*.m4v;*.mov;*.mp4;*.rm;*.mpeg;*.mpg;*.3gp;*.3g2)|*.avi;*.wmv;*.flv;*.m4v;*.mov;*.mp4;*.rm;*.mpeg;*.mpg;*.3gp;*.3g2";
+		}
 	}
 }
