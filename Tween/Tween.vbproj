@@ -233,9 +233,6 @@
     <Compile Include="MySpecialPath.vb" />
     <Compile Include="nicoms.vb" />
     <Compile Include="Outputz.vb" />
-    <Compile Include="PictureBoxEx.vb">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="RadixConvert.vb" />
     <Compile Include="Setting\SettingAtIdList.vb" />
     <Compile Include="Setting\SettingBase.vb" />
