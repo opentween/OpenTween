@@ -278,10 +278,12 @@ namespace Tween.TweenCustomControl
                     }
                     break;
                 case WM_HSCROLL:
-                    HScrolled(this, EventArgs.Empty);
+                    if (HScrolled != null)
+                        HScrolled(this, EventArgs.Empty);
                     break;
                 case WM_VSCROLL:
-                    VScrolled(this, EventArgs.Empty);
+                    if (VScrolled != null)
+                        VScrolled(this, EventArgs.Empty);
                     break;
                 case WM_MOUSEWHEEL:
                 case WM_MOUSEHWHEEL:
