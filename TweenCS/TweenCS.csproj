@@ -78,6 +78,7 @@
     <Compile Include="SearchWord.Designer.cs">
       <DependentUpon>SearchWord.cs</DependentUpon>
     </Compile>
+    <Compile Include="ShortUrl.cs" />
     <Compile Include="ToolStripAPIGauge.cs">
       <SubType>Component</SubType>
     </Compile>
