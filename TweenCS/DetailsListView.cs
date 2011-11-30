@@ -40,7 +40,7 @@ namespace Tween.TweenCustomControl
     {
         private Rectangle changeBounds;
         private bool multiSelected;
-        private EventHandlerList[] _handlers;
+        private EventHandlerList _handlers = new EventHandlerList();
 
         public event EventHandler VScrolled;
         public event EventHandler HScrolled;
@@ -239,7 +239,7 @@ namespace Tween.TweenCustomControl
         }
 
         [DllImport("user32.dll")]
-        private static extern int GetScrollInfo(IntPtr hWnd, ScrollBarDirection fnBar, SCROLLINFO lpsi);
+        private static extern int GetScrollInfo(IntPtr hWnd, ScrollBarDirection fnBar, ref SCROLLINFO lpsi);
 
         private SCROLLINFO si = new SCROLLINFO {
             cbSize = Marshal.SizeOf(new SCROLLINFO()),
@@ -286,9 +286,9 @@ namespace Tween.TweenCustomControl
                 case WM_MOUSEWHEEL:
                 case WM_MOUSEHWHEEL:
                 case WM_KEYDOWN:
-                    if (GetScrollInfo(this.Handle, ScrollBarDirection.SB_VERT, si) != 0)
+                    if (GetScrollInfo(this.Handle, ScrollBarDirection.SB_VERT, ref si) != 0)
                         vPos = si.nPos;
-                    if (GetScrollInfo(this.Handle, ScrollBarDirection.SB_HORZ, si) != 0)
+                    if (GetScrollInfo(this.Handle, ScrollBarDirection.SB_HORZ, ref si) != 0)
                         hPos = si.nPos;
                     break;
                 case LVM_SETITEMCOUNT:
@@ -311,11 +311,13 @@ namespace Tween.TweenCustomControl
             if (this.IsDisposed) return;
 
             if (vPos != -1)
-                if (GetScrollInfo(this.Handle, ScrollBarDirection.SB_VERT, si) != 0 && vPos != si.nPos)
-                    VScrolled(this, EventArgs.Empty);
+                if (GetScrollInfo(this.Handle, ScrollBarDirection.SB_VERT, ref si) != 0 && vPos != si.nPos)
+                    if (VScrolled != null)
+                        VScrolled(this, EventArgs.Empty);
             if (hPos != -1)
-                if (GetScrollInfo(this.Handle, ScrollBarDirection.SB_HORZ, si) != 0 && hPos != si.nPos)
-                    HScrolled(this, EventArgs.Empty);
+                if (GetScrollInfo(this.Handle, ScrollBarDirection.SB_HORZ, ref si) != 0 && hPos != si.nPos)
+                    if (HScrolled != null)
+                        HScrolled(this, EventArgs.Empty);
         }
    }
 }
