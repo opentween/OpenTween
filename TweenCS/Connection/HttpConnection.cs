@@ -303,7 +303,7 @@ namespace Tween
         ///<param name="withCookie">通信にcookieを使用する</param>
         ///<returns>HTTP応答のステータスコード</returns>
         protected HttpStatusCode GetResponse(HttpWebRequest webRequest,
-                                             ref Stream contentStream,
+                                             Stream contentStream,
                                              Dictionary<string, string> headerInfo,
                                              bool withCookie)
         {
@@ -364,7 +364,7 @@ namespace Tween
         ///<param name="withCookie">通信にcookieを使用する</param>
         ///<returns>HTTP応答のステータスコード</returns>
         protected HttpStatusCode GetResponse(HttpWebRequest webRequest,
-                                             ref string contentText,
+                                             out string contentText,
                                              Dictionary<string, string> headerInfo,
                                              bool withCookie)
         {
@@ -378,7 +378,6 @@ namespace Tween
                     //リダイレクト応答の場合は、リダイレクト先を設定
                     GetHeaderInfo(webRes, headerInfo);
                     //応答のストリームをテキストに書き出し
-                    if (contentText == null) throw new ArgumentNullException("contentText");
                     using (StreamReader sr = new StreamReader(webRes.GetResponseStream()))
                     {
                         contentText = sr.ReadToEnd();
