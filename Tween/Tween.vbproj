@@ -115,9 +115,6 @@
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdsBrowser.vb">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="AppendSettingDialog.Designer.vb">
       <DependentUpon>AppendSettingDialog.vb</DependentUpon>
     </Compile>

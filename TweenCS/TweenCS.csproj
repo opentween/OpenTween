@@ -45,6 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdsBrowser.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ApiInformation.cs" />
     <Compile Include="Connection\IHttpConnection.cs" />
     <Compile Include="Connection\IMultimediaShareService.cs" />
