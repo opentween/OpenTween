@@ -52,6 +52,9 @@
     <Compile Include="Connection\IHttpConnection.cs" />
     <Compile Include="Connection\IMultimediaShareService.cs" />
     <Compile Include="DataModel.cs" />
+    <Compile Include="DetailsListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="MyCommon.cs" />
     <Compile Include="OpenURL.cs">
       <SubType>Form</SubType>
