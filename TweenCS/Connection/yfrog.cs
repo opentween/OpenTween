@@ -1,4 +1,4 @@
-// OpenTween - Client of Twitter
+ï»¿// OpenTween - Client of Twitter
 // Copyright (c) 2007-2011 kiri_feather (@kiri_feather) <kiri.feather@gmail.com>
 //           (c) 2008-2011 Moz (@syo68k)
 //           (c) 2008-2011 takeshik (@takeshik) <http://www.takeshik.org/>
@@ -42,15 +42,15 @@ namespace Tween
 {
 	public class yfrog : HttpConnectionOAuthEcho, IMultimediaShareService
 	{
-		// OAuthŠÖ˜A
+		// OAuthé–¢é€£
 
 		/// <summary>
-		/// OAuth‚ÌƒRƒ“ƒVƒ…[ƒ}[Œ®
+		/// OAuthã®ã‚³ãƒ³ã‚·ãƒ¥ãƒ¼ãƒãƒ¼éµ
 		/// </summary>
 		private const string ConsumerKey = "ST6eAABKDRKTqbN7pPo2A";
 
 		/// <summary>
-		/// OAuth‚Ì–¼ì¬—p”é–§ƒRƒ“ƒVƒ…[ƒ}[ƒf[ƒ^
+		/// OAuthã®ç½²åä½œæˆç”¨ç§˜å¯†ã‚³ãƒ³ã‚·ãƒ¥ãƒ¼ãƒãƒ¼ãƒ‡ãƒ¼ã‚¿
 		/// </summary><summary>
 		private const string ConsumerSecretKey = "BJMEiivrXlqGESzdb8D0bvLfNYf3fifXRDMFjMogXg";
 
@@ -69,7 +69,7 @@ namespace Tween
 			if ( string.IsNullOrEmpty( message ) )
 				message = "";
 
-			// FileInfoì¬
+			// FileInfoä½œæˆ
 			FileInfo mediaFile;
 			try
 			{
@@ -84,7 +84,7 @@ namespace Tween
 
 			string content = "";
 			HttpStatusCode ret;
-			// yfrog‚Ö‚Ì“Še
+			// yfrogã¸ã®æŠ•ç¨¿
 			try
 			{
 				ret = this.UploadFile( mediaFile, message, ref content );
@@ -100,8 +100,8 @@ namespace Tween
 				try
 				{
 					xd.LoadXml( content );
-					// URL‚Ìæ“¾
-					url = xd.SelectSingleNode( "/rsp/mediaurl" ).InnerText
+					// URLã®å–å¾—
+                    url = xd.SelectSingleNode( "/rsp/mediaurl" ).InnerText;
 					}
 				catch ( XmlException ex )
 				{
@@ -113,14 +113,14 @@ namespace Tween
 				}
 			}
 			else
-			return "Err:" + ret.ToString;
+			return "Err:" + ret.ToString();
 
 			if ( string.IsNullOrEmpty( url ) )
 				url = "";
-			// ƒAƒbƒvƒ[ƒh‚Ü‚Å‚Í¬Œ÷
+			// ã‚¢ãƒƒãƒ—ãƒ­ãƒ¼ãƒ‰ã¾ã§ã¯æˆåŠŸ
 			filePath = "";
-			// Twitter‚Ö‚Ì“Še
-			// “ŠeƒƒbƒZ[ƒW‚ÌÄ\¬
+			// Twitterã¸ã®æŠ•ç¨¿
+			// æŠ•ç¨¿ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å†æ§‹æˆ
 			if ( string.IsNullOrEmpty( message ) )
 				message = "";
 			if ( message.Length + AppendSettingDialog.Instance.TwitterConfiguration.CharactersReservedPerMedia + 1 > 140 )
@@ -132,7 +132,7 @@ namespace Tween
 
 		private HttpStatusCode UploadFile( FileInfo mediaFile, string message, ref string content )
 		{
-			// Message•K{
+			// Messageå¿…é ˆ
 			if ( string.IsNullOrEmpty( message ) )
 				message = "";
 			// Check filetype and size(Max 5MB)
@@ -142,18 +142,18 @@ namespace Tween
 				throw new ArgumentException( "File is too large." );
 
 			Dictionary< string, string > param = new Dictionary< string, string >();
-			param.Add( "key", this.ApiKey );
+            param.Add("key", yfrog.ApiKey);
 			param.Add( "message", message );
-			List< KeyValuePair< string, FileInfo > > binary = List< KeyValuePair< string, FileInfo > >();
+			List< KeyValuePair< string, FileInfo > > binary = new List< KeyValuePair< string, FileInfo > >();
 			binary.Add( new KeyValuePair< string, FileInfo >( "media", mediaFile ) );
-			this.InstanceTimeout = 60000; // ƒ^ƒCƒ€ƒAƒEƒg60•b
+			this.InstanceTimeout = 60000; // ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆ60ç§’
 
-			return this.GetContent( HttpConnection.PostMethod, new Uri( "http://yfrog.com/api/xauth_upload" ), param, binary, content, null, null );
+			return this.GetContent( HttpConnection.PostMethod, new Uri( "http://yfrog.com/api/xauth_upload" ), param, binary, ref content, null, null );
 		}
 
 		public bool CheckValidExtension( string ext )
 		{
-			if ( Array.IndexOf( this.pictureExt, ext.ToLower ) > -1 )
+			if ( Array.IndexOf( this.pictureExt, ext.ToLower() ) > -1 )
 				return true;
 
 			return false;
@@ -180,7 +180,7 @@ namespace Tween
 		public bool CheckValidFilesize( string ext, long fileSize )
 		{
 			if ( this.CheckValidExtension( ext ) )
-				return fileSize <= this.MaxFileSize;
+                return fileSize <= yfrog.MaxFileSize;
 
 			return false;
 		}
@@ -189,7 +189,7 @@ namespace Tween
 			: base( new Uri( "http://api.twitter.com/" ), new Uri( "https://api.twitter.com/1/account/verify_credentials.xml" ) )
 		{
 			this.tw = twitter;
-			this.Initialize( this.ConsumerKey, this.ConsumerSecretKey, this.tw.AccessToken, this.tw.AccessTokenSecret, "", "");
+            this.Initialize( yfrog.ConsumerKey, yfrog.ConsumerSecretKey, this.tw.AccessToken, this.tw.AccessTokenSecret, "", "" );
 		}
 
 		public bool Configuration( string key, object value )

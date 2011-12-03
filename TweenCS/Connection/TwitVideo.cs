@@ -57,14 +57,14 @@ namespace Tween
 				throw new ArgumentException( "'Message' is required." );
 
 			// Check filetype and size
-			if ( Array.IndexOf( multimediaExt, mediaFile.Extension.ToLower ) > -1 )
+			if ( Array.IndexOf( multimediaExt, mediaFile.Extension.ToLower() ) > -1 )
 			{
-				if ( mediaFile.Length > this.MaxMultiMediaFileSize )
+                if ( mediaFile.Length > TwitVideo.MaxMultiMediaFileSize )
 					throw new ArgumentException( "File is too large." );
 			}
-			else if ( Array.IndexOf( pictureExt, mediaFile.Extension.ToLower ) > -1 )
+			else if ( Array.IndexOf( pictureExt, mediaFile.Extension.ToLower() ) > -1 )
 			{
-				if ( mediaFile.Length > this.MaxPictureFileSize )
+                if ( mediaFile.Length > TwitVideo.MaxPictureFileSize )
 					throw new ArgumentException( "File is too large." );
 			}
 			else
@@ -74,9 +74,9 @@ namespace Tween
 
 			// Endpoint(URI+Token)
 			const string URLBASE = "http://api.twitvideo.jp/oauth/upload/";
-			byte[] data = Encoding.ASCII.GetBytes( this.ConsumerKey.Substring( 0, 9 ) + username );
-			byte[] dHash = ( new System.Security.Cryptography.MD5CryptoServiceProvider() ).ComputeHash( data );
-			string url = URLBASE + BitConverter.ToString( bHash ).ToLower.Replace( "-", "" );
+            byte[] data = Encoding.ASCII.GetBytes( TwitVideo.ConsumerKey.Substring(0, 9) + username );
+			byte[] bHash = ( new System.Security.Cryptography.MD5CryptoServiceProvider() ).ComputeHash( data );
+			string url = URLBASE + BitConverter.ToString( bHash ).ToLower().Replace( "-", "" );
 
 			// Parameters
 			Dictionary< string, string > param = new Dictionary< string, string >();
@@ -97,10 +97,10 @@ namespace Tween
 
 		public bool CheckValidExtension( string ext )
 		{
-			if ( Array.IndexOf( this.pictureExt, ext.ToLower ) > -1 )
+			if ( Array.IndexOf( this.pictureExt, ext.ToLower() ) > -1 )
 				return true;
 
-			if ( Array.IndexOf( this.multimediaExt, ext.ToLower ) > -1 )
+			if ( Array.IndexOf( this.multimediaExt, ext.ToLower() ) > -1 )
 				return true;
 
 			return false;
@@ -108,10 +108,10 @@ namespace Tween
 
 		UploadFileType GetFileType( string ext )
 		{
-			if ( Array.IndexOf( this.pictureExt, ext.ToLower ) > -1 )
+			if ( Array.IndexOf( this.pictureExt, ext.ToLower() ) > -1 )
 				return UploadFileType.Picture;
 
-			if ( Array.IndexOf( this.multimediaExt, ext.ToLower ) > -1 )
+			if ( Array.IndexOf( this.multimediaExt, ext.ToLower() ) > -1 )
 				return UploadFileType.MultiMedia;
 
 			return UploadFileType.Invalid;
@@ -124,11 +124,11 @@ namespace Tween
 
 		long GetMaxFileSize( string ext )
 		{
-			if ( Array.IndexOf( this.pictureExt, ext.ToLower ) > -1 )
-				return this.MaxPictureFileSize;
+			if ( Array.IndexOf( this.pictureExt, ext.ToLower() ) > -1 )
+                return TwitVideo.MaxPictureFileSize;
 
-			if ( Array.IndexOf( this.multimediaExt, ext.ToLower ) > -1 )
-				return this.MaxMultiMediaFileSize;
+			if ( Array.IndexOf( this.multimediaExt, ext.ToLower() ) > -1 )
+                return TwitVideo.MaxMultiMediaFileSize;
 
 			return -1;
 		}

@@ -27,9 +27,11 @@
 using IMultimediaShareService = Tween.IMultimediaShareService;
 using Array = System.Array;
 using Convert = System.Convert;
+using Exception = System.Exception;
 using UploadFileType = Tween.MyCommon.UploadFileType;
 using MyCommon = Tween.MyCommon;
 using FileInfo = System.IO.FileInfo;
+using NotSupportedException = System.NotSupportedException;
 
 namespace Tween
 {
@@ -71,11 +73,11 @@ namespace Tween
 					if ( val > 0 )
 						this._MaxFileSize = val;
 					else
-					this._MaxFileSize = this.MaxfilesizeDefault;
+					this._MaxFileSize = TwitterPhoto.MaxfilesizeDefault;
 				}
-				catch ( Exception ex )
+				catch ( Exception )
 				{
-					this._MaxFileSize = this.MaxfilesizeDefault;
+					this._MaxFileSize = TwitterPhoto.MaxfilesizeDefault;
 					return false; // error
 				}
 				return true; // 正常に設定終了
