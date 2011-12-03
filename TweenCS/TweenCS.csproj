@@ -51,6 +51,8 @@
     <Compile Include="ApiInformation.cs" />
     <Compile Include="Bing.cs" />
     <Compile Include="Connection\HttpVarious.cs" />
+    <Compile Include="Connection\HttpConnectionOAuth.cs" />
+    <Compile Include="Connection\HttpConnectionOAuthEcho.cs" />
     <Compile Include="Connection\IHttpConnection.cs" />
     <Compile Include="Connection\IMultimediaShareService.cs" />
     <Compile Include="DataModel.cs" />
