@@ -78,6 +78,8 @@
     <Compile Include="SearchWord.Designer.cs">
       <DependentUpon>SearchWord.cs</DependentUpon>
     </Compile>
+    <Compile Include="Setting\SettingBase.cs" />
+    <Compile Include="Setting\SettingCommon.cs" />
     <Compile Include="ShortUrl.cs" />
     <Compile Include="ToolStripAPIGauge.cs">
       <SubType>Component</SubType>

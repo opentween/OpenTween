@@ -190,7 +190,7 @@ namespace Tween
             Invalid,
         }
 
-        public enum REPLY_IconstATE
+        public enum REPLY_ICONSTATE
         {
             None,
             StaticIcon,
