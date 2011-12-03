@@ -31,18 +31,6 @@ using System.Xml.Serialization;
 
 namespace Tween
 {
-    internal static class AppendSettingDialog
-    {
-        private static dynamic instance = Assembly.GetEntryAssembly().GetType("Tween.AppendSettingDialog").GetProperty("Instance").GetValue(null, null);
-        public static dynamic Instance
-        {
-            get
-            {
-                return instance;
-            }
-        }
-    }
-
     internal static class DynamicExpression
     {
         public static Expression<Func<T, S>> ParseLambda<T, S>(string expression, params object[] values)

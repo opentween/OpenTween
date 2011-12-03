@@ -115,12 +115,6 @@
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppendSettingDialog.Designer.vb">
-      <DependentUpon>AppendSettingDialog.vb</DependentUpon>
-    </Compile>
-    <Compile Include="AppendSettingDialog.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="ApplicationEvents.vb" />
     <Compile Include="AtIdSupplement.Designer.vb">
       <DependentUpon>AtIdSupplement.vb</DependentUpon>
@@ -231,17 +225,6 @@
     <Compile Include="FavoriteQueue.vb" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="AppendSettingDialog.en.resx">
-      <DependentUpon>AppendSettingDialog.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AppendSettingDialog.resx">
-      <DependentUpon>AppendSettingDialog.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AppendSettingDialog.zh-CHS.resx">
-      <DependentUpon>AppendSettingDialog.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="AtIdSupplement.en.resx">
       <SubType>Designer</SubType>
       <DependentUpon>AtIdSupplement.vb</DependentUpon>
