@@ -46,7 +46,6 @@ using Convert = System.Convert;
 using InvalidDataException = System.IO.InvalidDataException;
 using UriBuilder = System.UriBuilder;
 using Environment = System.Environment;
-using DateTime = System.DateTime;
 using StringBuilder = System.Text.StringBuilder;
 using HttpRequestHeader = System.Net.HttpRequestHeader;
 using HMACSHA1 = System.Security.Cryptography.HMACSHA1;
@@ -60,7 +59,7 @@ namespace Tween
 	/// <remarks>
 	/// 使用前に認証情報を設定する。認証確認を伴う場合はAuthenticate系のメソッドを、認証不要な場合はInitializeを呼ぶこと。
 	/// </remarks>
-	public class HttpConnectionOAuth : HttpConnection, IHttpConnection
+	abstract public class HttpConnectionOAuth : HttpConnection, IHttpConnection
 	{
 		/// <summary>
 		/// OAuth署名のoauth_timestamp算出用基準日付（1970/1/1 00:00:00）
@@ -90,7 +89,7 @@ namespace Tween
 		/// <summary>
 		/// OAuthの署名作成用秘密コンシューマーデータ
 		/// </summary>
-		private string consumerSecret;
+		protected string consumerSecret;
 
 		/// <summary>
 		/// 認証成功時の応答でユーザー情報を取得する場合のキー。設定しない場合は、AuthUsernameもブランクのままとなる
@@ -146,7 +145,7 @@ namespace Tween
 			if ( content == null )
 				code = this.GetResponse( webReq, headerInfo, false );
 			else
-				code = this.GetResponse( webReq, ref content, headerInfo, false );
+				code = this.GetResponse( webReq, out content, headerInfo, false );
 
 			if ( callback != null )
 			{
@@ -179,7 +178,7 @@ namespace Tween
 			if ( content == null )
 				code = this.GetResponse( webReq, headerInfo, false );
 			else
-				code = this.GetResponse( webReq, ref content, headerInfo, false );
+				code = this.GetResponse( webReq, out content, headerInfo, false );
 
 			if ( callback != null )
 			{
@@ -277,7 +276,7 @@ namespace Tween
 		/// <param name="requestUri">AuthenticatePinFlowRequestで取得したリクエストトークン</param>
 		/// <param name="pinCode">Webで認証後に表示されるPINコード</param>
 		/// <returns>取得結果真偽値</returns>
-		HttpStatusCode AuthenticatePinFlow( string accessTokenUrl, string requestToken, string pinCode )
+		public HttpStatusCode AuthenticatePinFlow( string accessTokenUrl, string requestToken, string pinCode )
 		{
 			// PIN-based flow
 			if ( string.IsNullOrEmpty( requestToken ) )
@@ -327,6 +326,11 @@ namespace Tween
                 throw new InvalidDataException( "Return value is null." );
 			}
 		}
+
+        HttpStatusCode IHttpConnection.Authenticate(Uri accessTokenUrl, string username, string password, ref string content)
+        {
+            return this.AuthenticateXAuth(accessTokenUrl, username, password, ref content);
+        }
 
 		/// <summary>
 		/// OAuth認証のアクセストークン取得。xAuth方式
@@ -453,7 +457,7 @@ namespace Tween
 
 			// HTTP応答取得
 			Dictionary< string, string > header = new Dictionary< string, string >() { { "Date", "" } };
-			HttpStatusCode responseCode = this.GetResponse( webReq, ref content, header, false );
+			HttpStatusCode responseCode = this.GetResponse( webReq, out content, header, false );
 			if ( responseCode == HttpStatusCode.OK )
 				return responseCode;
 
@@ -472,7 +476,7 @@ namespace Tween
 		/// <param name="query">OAuth追加情報＋クエリ or POSTデータ</param>
 		/// <param name="token">アクセストークン、もしくはリクエストトークン。未取得なら空文字列</param>
 		/// <param name="tokenSecret">アクセストークンシークレット。認証処理では空文字列</param>
-		protected override void AppendOAuthInfo( HttpWebRequest webRequest, Dictionary< string, string > query, string token, string tokenSecret )
+		protected virtual void AppendOAuthInfo( HttpWebRequest webRequest, Dictionary< string, string > query, string token, string tokenSecret )
 		{
 			// OAuth共通情報取得
 			Dictionary< string, string > parameter = this.GetOAuthParameter( token );
@@ -517,7 +521,7 @@ namespace Tween
 		/// <param name="uri">アクセス先Uri</param>
 		/// <param name="parameter">クエリ、もしくはPOSTデータ</param>
 		/// <returns>署名文字列</returns>
-		protected override string CreateSignature( string tokenSecret, string method, Uri uri, Dictionary< string, string > parameter )
+		protected virtual string CreateSignature( string tokenSecret, string method, Uri uri, Dictionary< string, string > parameter )
 		{
 			// パラメタをソート済みディクショナリに詰替（OAuthの仕様）
 			SortedDictionary< string, string > sorted = new SortedDictionary< string, string >( parameter );
