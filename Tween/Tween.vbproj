@@ -134,7 +134,6 @@
     <Compile Include="AuthBrowser.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Connection\HttpOAuthApiProxy.vb" />
     <Compile Include="Connection\HttpTwitter.vb" />
     <Compile Include="Connection\Plixi.vb" />
     <Compile Include="Connection\TwitPic.vb" />
