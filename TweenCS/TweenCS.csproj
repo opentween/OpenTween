@@ -49,6 +49,7 @@
     <Compile Include="Connection\HttpConnectionOAuth.cs" />
     <Compile Include="Connection\HttpConnectionOAuthEcho.cs" />
     <Compile Include="Connection\IHttpConnection.cs" />
+    <Compile Include="Connection\imgly.cs" />
     <Compile Include="Connection\IMultimediaShareService.cs" />
     <Compile Include="Connection\TwitterPhoto.cs" />
     <Compile Include="Connection\TwitVideo.cs" />
