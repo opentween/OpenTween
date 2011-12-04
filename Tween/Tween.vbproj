@@ -128,12 +128,6 @@
     <Compile Include="AtIdSupplement.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AuthBrowser.Designer.vb">
-      <DependentUpon>AuthBrowser.vb</DependentUpon>
-    </Compile>
-    <Compile Include="AuthBrowser.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Connection\Plixi.vb" />
     <Compile Include="Connection\TwitPic.vb" />
     <Compile Include="Connection\imgly.vb" />
@@ -278,9 +272,6 @@
     <EmbeddedResource Include="AtIdSupplement.zh-CHS.resx">
       <DependentUpon>AtIdSupplement.vb</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AuthBrowser.resx">
-      <DependentUpon>AuthBrowser.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EventViewerDialog.en.resx">
       <DependentUpon>EventViewerDialog.vb</DependentUpon>
