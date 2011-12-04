@@ -197,6 +197,7 @@
       <DependentUpon>ShowUserInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="StatusDictionary.cs" />
+    <Compile Include="Thumbnail.cs" />
     <Compile Include="ToolStripAPIGauge.cs">
       <SubType>Component</SubType>
     </Compile>
