@@ -49,6 +49,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ApiInformation.cs" />
+    <Compile Include="Bing.cs" />
     <Compile Include="Connection\HttpVarious.cs" />
     <Compile Include="Connection\IHttpConnection.cs" />
     <Compile Include="Connection\IMultimediaShareService.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="OpenURL.Designer.cs">
       <DependentUpon>OpenURL.cs</DependentUpon>
     </Compile>
+    <Compile Include="Outputz.cs" />
     <Compile Include="PictureBoxEx.cs">
       <SubType>Component</SubType>
     </Compile>
