@@ -51,6 +51,7 @@
     <Compile Include="Connection\IHttpConnection.cs" />
     <Compile Include="Connection\imgly.cs" />
     <Compile Include="Connection\IMultimediaShareService.cs" />
+    <Compile Include="Connection\Plixi.cs" />
     <Compile Include="Connection\TwitterPhoto.cs" />
     <Compile Include="Connection\TwitVideo.cs" />
     <Compile Include="Connection\yfrog.cs" />
