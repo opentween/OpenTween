@@ -96,6 +96,7 @@
     </Compile>
     <Compile Include="Setting\SettingBase.cs" />
     <Compile Include="Setting\SettingCommon.cs" />
+    <Compile Include="ShieldIcon.cs" />
     <Compile Include="ShortUrl.cs" />
     <Compile Include="ToolStripAPIGauge.cs">
       <SubType>Component</SubType>

@@ -217,7 +217,6 @@
     <Compile Include="Setting\SettingLocal.vb" />
     <Compile Include="Setting\SettingFollower.vb" />
     <Compile Include="Setting\SettingTabs.vb" />
-    <Compile Include="ShieldIcon.vb" />
     <Compile Include="ShowUserInfo.Designer.vb">
       <DependentUpon>ShowUserInfo.vb</DependentUpon>
     </Compile>
