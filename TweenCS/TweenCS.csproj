@@ -87,6 +87,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="RadixConvert.cs" />
     <Compile Include="SearchWord.cs">
       <SubType>Form</SubType>
     </Compile>

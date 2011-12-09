@@ -213,7 +213,6 @@
     </Compile>
     <Compile Include="MySpecialPath.vb" />
     <Compile Include="nicoms.vb" />
-    <Compile Include="RadixConvert.vb" />
     <Compile Include="Setting\SettingAtIdList.vb" />
     <Compile Include="Setting\SettingLocal.vb" />
     <Compile Include="Setting\SettingFollower.vb" />
