@@ -69,6 +69,7 @@
     <Compile Include="DetailsListView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="DoubleClickCopyCanceller.cs" />
     <Compile Include="Growl.cs" />
     <Compile Include="MyCommon.cs" />
     <Compile Include="OpenURL.cs">

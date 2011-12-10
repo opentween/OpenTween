@@ -147,7 +147,6 @@
     <Compile Include="DialogAsShieldIcon.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DoubleClickCopyCanceller.vb" />
     <Compile Include="FormInfo.Designer.vb">
       <DependentUpon>FormInfo.vb</DependentUpon>
     </Compile>
