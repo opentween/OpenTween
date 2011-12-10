@@ -218,7 +218,6 @@
     <Compile Include="ShowUserInfo.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="StatusDictionary.vb" />
     <Compile Include="FilterDialog.Designer.vb">
       <DependentUpon>FilterDialog.vb</DependentUpon>
     </Compile>

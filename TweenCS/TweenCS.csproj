@@ -119,6 +119,7 @@
     <Compile Include="UserInfo.cs" />
     <Compile Include="WebBrowserController.cs" />
     <Compile Include="Win32Api.cs" />
+    <Compile Include="_Stab.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connection\HttpConnection.cs" />
