@@ -103,6 +103,7 @@
     <Compile Include="Setting\SettingCommon.cs" />
     <Compile Include="ShieldIcon.cs" />
     <Compile Include="ShortUrl.cs" />
+    <Compile Include="StatusDictionary.cs" />
     <Compile Include="ToolStripAPIGauge.cs">
       <SubType>Component</SubType>
     </Compile>
