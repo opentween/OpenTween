@@ -160,7 +160,6 @@
     <Compile Include="HashtagManage.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ImageDictionary.vb" />
     <Compile Include="ImageListViewItem.vb" />
     <Compile Include="InputTabName.Designer.vb">
       <DependentUpon>InputTabName.vb</DependentUpon>
@@ -484,7 +483,7 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

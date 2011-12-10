@@ -35,6 +35,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
@@ -74,6 +75,7 @@
     <Compile Include="Growl.cs" />
     <Compile Include="HookGlobalHotkey.cs" />
     <Compile Include="ListElement.cs" />
+    <Compile Include="ImageDictionary.cs" />
     <Compile Include="MyCommon.cs" />
     <Compile Include="MySpecialPath.cs" />
     <Compile Include="nicoms.cs" />
