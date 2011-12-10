@@ -175,7 +175,6 @@
     <Compile Include="ListAvailable.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ListElement.vb" />
     <Compile Include="ListManage.Designer.vb">
       <DependentUpon>ListManage.vb</DependentUpon>
     </Compile>

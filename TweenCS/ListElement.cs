@@ -42,7 +42,7 @@ namespace Tween
         public string Username = "";
         public string Nickname = "";
 
-        protected Twitter _tw;
+        protected dynamic _tw;
 
         private List<UserInfo> _members = null;
         private long _cursor = -1;
@@ -51,7 +51,7 @@ namespace Tween
         {
         }
 
-        public ListElement(TwitterDataModel.ListElementData listElementData, Twitter tw)
+        public ListElement(TwitterDataModel.ListElementData listElementData, dynamic tw)
         {
             this.Description = listElementData.Description;
             this.Id = listElementData.Id;
