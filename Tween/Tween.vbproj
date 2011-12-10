@@ -210,7 +210,6 @@
     <Compile Include="MyLists.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MySpecialPath.vb" />
     <Compile Include="nicoms.vb" />
     <Compile Include="Setting\SettingAtIdList.vb" />
     <Compile Include="Setting\SettingLocal.vb" />
