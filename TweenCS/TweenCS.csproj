@@ -74,6 +74,7 @@
     <Compile Include="HookGlobalHotkey.cs" />
     <Compile Include="MyCommon.cs" />
     <Compile Include="MySpecialPath.cs" />
+    <Compile Include="nicoms.cs" />
     <Compile Include="OpenURL.cs">
       <SubType>Form</SubType>
     </Compile>
