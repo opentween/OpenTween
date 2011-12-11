@@ -154,7 +154,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Foursquare.vb" />
-    <Compile Include="Google.vb" />
     <Compile Include="HashtagManage.Designer.vb">
       <DependentUpon>HashtagManage.vb</DependentUpon>
     </Compile>
