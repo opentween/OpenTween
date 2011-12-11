@@ -95,6 +95,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="DoubleClickCopyCanceller.cs" />
+    <Compile Include="Foursquare.cs" />
     <Compile Include="Google.cs" />
     <Compile Include="FormInfo.cs">
       <SubType>Form</SubType>
