@@ -161,7 +161,6 @@
     <Compile Include="HashtagManage.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="HookGlobalHotkey.vb" />
     <Compile Include="ImageDictionary.vb" />
     <Compile Include="ImageListViewItem.vb" />
     <Compile Include="InputTabName.Designer.vb">
