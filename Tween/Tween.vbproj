@@ -160,7 +160,6 @@
     <Compile Include="HashtagManage.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ImageListViewItem.vb" />
     <Compile Include="InputTabName.Designer.vb">
       <DependentUpon>InputTabName.vb</DependentUpon>
     </Compile>

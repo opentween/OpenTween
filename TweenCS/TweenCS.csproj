@@ -76,6 +76,7 @@
     <Compile Include="HookGlobalHotkey.cs" />
     <Compile Include="ListElement.cs" />
     <Compile Include="ImageDictionary.cs" />
+    <Compile Include="ImageListViewItem.cs" />
     <Compile Include="MyCommon.cs" />
     <Compile Include="MySpecialPath.cs" />
     <Compile Include="nicoms.cs" />
