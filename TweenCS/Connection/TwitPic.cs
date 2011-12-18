@@ -34,13 +34,13 @@ using XmlDocument = System.Xml.XmlDocument;
 using XmlException = System.Xml.XmlException;
 using ArgumentException = System.ArgumentException;
 using System.Collections.Generic; // for Dictionary<TKey, TValue>, List<T>, KeyValuePair<TKey, TValue>
+using UploadFileType = Tween.MyCommon.UploadFileType;
 using Uri = System.Uri;
 using Array = System.Array;
-using UploadFileType = Tween.MyCommon.UploadFileType;
 
 namespace Tween
 {
-	public class yfrog : HttpConnectionOAuthEcho, IMultimediaShareService
+	public class TwitPic : HttpConnectionOAuthEcho, IMultimediaShareService
 	{
 		// OAuth関連
 
@@ -54,22 +54,24 @@ namespace Tween
 		/// </summary>
 		private const string ConsumerSecretKey = "BJMEiivrXlqGESzdb8D0bvLfNYf3fifXRDMFjMogXg";
 
-		private const string ApiKey = "HIDP42ZO6314ee2218e2995662bad5ae320c32f1";
+		private const string ApiKey = "bbc6449ceac87ef10c546e4a0ca06ef4";
 
 		private string[] pictureExt = new string[] { ".jpg", ".jpeg", ".gif", ".png" };
 
-		private const long MaxFileSize = 5 * 1024 * 1024;
+		private string[] multimediaExt = new string[] { ".avi", ".wmv", ".flv", ".m4v", ".mov", ".mp4", ".rm", ".mpeg", ".mpg", ".3gp", ".3g2" };
+
+		private const long MaxFileSize = 10 * 1024 * 1024; // Image only
+		// Multimedia filesize limit unknown. But length limit is 1:30.
 
 		private Twitter tw;
 
 		public string Upload( ref string filePath, ref string message, long reply_to )
 		{
 			if ( string.IsNullOrEmpty( filePath ) )
-				return "Err:File isn't exists.";
+				return "Err:File isn't specified.";
 			if ( string.IsNullOrEmpty( message ) )
 				message = "";
 
-			// FileInfo作成
 			FileInfo mediaFile;
 			try
 			{
@@ -84,7 +86,7 @@ namespace Tween
 
 			string content = "";
 			HttpStatusCode ret;
-			// yfrogへの投稿
+			// TwitPicへの投稿
 			try
 			{
 				ret = this.UploadFile( mediaFile, message, ref content );
@@ -101,8 +103,8 @@ namespace Tween
 				{
 					xd.LoadXml( content );
 					// URLの取得
-                    url = xd.SelectSingleNode( "/rsp/mediaurl" ).InnerText;
-					}
+					url = xd.SelectSingleNode( "/image/url" ).InnerText;
+				}
 				catch ( XmlException ex )
 				{
 					return "Err:" + ex.Message;
@@ -115,20 +117,20 @@ namespace Tween
 			else
 				return "Err:" + ret.ToString();
 
-			if ( string.IsNullOrEmpty( url ) )
-				url = "";
 			// アップロードまでは成功
 			filePath = "";
-			// Twitterへの投稿
-			// 投稿メッセージの再構成
 			if ( string.IsNullOrEmpty( message ) )
 				message = "";
+			if ( string.IsNullOrEmpty( url ) )
+				url = "";
+			// Twitterへの投稿
+			// 投稿メッセージの再構成
 			if ( message.Length + AppendSettingDialog.Instance.TwitterConfiguration.CharactersReservedPerMedia + 1 > 140 )
-				message = message.Substring(0, 140 - AppendSettingDialog.Instance.TwitterConfiguration.CharactersReservedPerMedia - 1) + " " + url;
+				message = message.Substring( 0, 140 - AppendSettingDialog.Instance.TwitterConfiguration.CharactersReservedPerMedia - 1 ) + " " + url;
 			else
 				message += " " + url;
 
-			return this.tw.PostStatus( message, 0 );
+			return tw.PostStatus( message, 0 );
 		}
 
 		private HttpStatusCode UploadFile( FileInfo mediaFile, string message, ref string content )
@@ -143,18 +145,23 @@ namespace Tween
 				throw new ArgumentException( "File is too large." );
 
 			Dictionary< string, string > param = new Dictionary< string, string >();
-            param.Add("key", yfrog.ApiKey);
+			param.Add( "key", TwitPic.ApiKey );
 			param.Add( "message", message );
 			List< KeyValuePair< string, FileInfo > > binary = new List< KeyValuePair< string, FileInfo > >();
 			binary.Add( new KeyValuePair< string, FileInfo >( "media", mediaFile ) );
-			this.InstanceTimeout = 60000; // タイムアウト60秒
+			if ( this.GetFileType( mediaFile.Extension ) == UploadFileType.Picture )
+				this.InstanceTimeout = 60000; // タイムアウト60秒
+			else
+				this.InstanceTimeout = 120000;
 
-			return this.GetContent( HttpConnection.PostMethod, new Uri( "http://yfrog.com/api/xauth_upload" ), param, binary, ref content, null, null );
+			return this.GetContent( HttpConnection.PostMethod, new Uri( "http://api.twitpic.com/2/upload.xml" ), param, binary, ref content, null, null );
 		}
 
 		public bool CheckValidExtension( string ext )
 		{
 			if ( Array.IndexOf( this.pictureExt, ext.ToLower() ) > -1 )
+				return true;
+			if ( Array.IndexOf( this.multimediaExt, ext.ToLower() ) > -1 )
 				return true;
 
 			return false;
@@ -162,40 +169,45 @@ namespace Tween
 
 		public string GetFileOpenDialogFilter()
 		{
-			return "Image Files(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png";
+			return "Image Files(*" + string.Join( ";*", this.pictureExt ) + ")|*" + string.Join( ";*", this.pictureExt )
+			       + "|Videos(*" + string.Join( ";*", this.multimediaExt ) + ")|*" + string.Join( ";*", this.multimediaExt );
 		}
 
 		public UploadFileType GetFileType( string ext )
 		{
-			if ( this.CheckValidExtension( ext ) )
+			if ( Array.IndexOf( this.pictureExt, ext.ToLower() ) > -1 )
 				return UploadFileType.Picture;
+			if ( Array.IndexOf( this.multimediaExt, ext.ToLower() ) > -1 )
+				return UploadFileType.MultiMedia;
 
 			return UploadFileType.Invalid;
 		}
 
 		public bool IsSupportedFileType( UploadFileType type )
 		{
-			return type.Equals( UploadFileType.Picture );
+			return !type.Equals( UploadFileType.Invalid );
 		}
 
 		public bool CheckValidFilesize( string ext, long fileSize )
 		{
-			if ( this.CheckValidExtension( ext ) )
-                return fileSize <= yfrog.MaxFileSize;
+			if ( Array.IndexOf( this.pictureExt, ext.ToLower() ) > -1 )
+				return fileSize <= TwitPic.MaxFileSize;
+			if ( Array.IndexOf( this.multimediaExt, ext.ToLower() ) > -1 )
+				return true; // Multimedia : no check
 
 			return false;
-		}
-
-		public yfrog( Twitter twitter )
-			: base( new Uri( "http://api.twitter.com/" ), new Uri( "https://api.twitter.com/1/account/verify_credentials.xml" ) )
-		{
-			this.tw = twitter;
-            this.Initialize( yfrog.ConsumerKey, yfrog.ConsumerSecretKey, this.tw.AccessToken, this.tw.AccessTokenSecret, "", "" );
 		}
 
 		public bool Configuration( string key, object value )
 		{
 			return true;
+		}
+
+		public TwitPic( Twitter twitter )
+			: base( new Uri( "http://api.twitter.com/" ), new Uri( "https://api.twitter.com/1/account/verify_credentials.json" ) )
+		{
+			this.tw = twitter;
+			this.Initialize( TwitPic.ConsumerKey, TwitPic.ConsumerSecretKey, tw.AccessToken, tw.AccessTokenSecret, "", "" );
 		}
 	}
 }
