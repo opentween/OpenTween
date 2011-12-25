@@ -122,12 +122,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ApplicationEvents.vb" />
-    <Compile Include="AtIdSupplement.Designer.vb">
-      <DependentUpon>AtIdSupplement.vb</DependentUpon>
-    </Compile>
-    <Compile Include="AtIdSupplement.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Connection\Plixi.vb" />
     <Compile Include="Connection\TwitPic.vb" />
     <Compile Include="Connection\imgly.vb" />
@@ -253,18 +247,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AppendSettingDialog.zh-CHS.resx">
       <DependentUpon>AppendSettingDialog.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AtIdSupplement.en.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>AtIdSupplement.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AtIdSupplement.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>AtIdSupplement.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AtIdSupplement.zh-CHS.resx">
-      <DependentUpon>AtIdSupplement.vb</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="EventViewerDialog.en.resx">
       <DependentUpon>EventViewerDialog.vb</DependentUpon>

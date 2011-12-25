@@ -49,6 +49,12 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ApiInformation.cs" />
+    <Compile Include="AtIdSupplement.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AtIdSupplement.Designer.cs">
+      <DependentUpon>AtIdSupplement.cs</DependentUpon>
+    </Compile>
     <Compile Include="AuthBrowser.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -122,6 +128,15 @@
     <Compile Include="Connection\HttpConnection.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AtIdSupplement.en.resx">
+      <DependentUpon>AtIdSupplement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AtIdSupplement.resx">
+      <DependentUpon>AtIdSupplement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AtIdSupplement.zh-CHS.resx">
+      <DependentUpon>AtIdSupplement.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AuthBrowser.resx">
       <DependentUpon>AuthBrowser.cs</DependentUpon>
     </EmbeddedResource>
