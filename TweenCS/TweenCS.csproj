@@ -137,6 +137,7 @@
     <Compile Include="Setting\SettingBase.cs" />
     <Compile Include="Setting\SettingCommon.cs" />
     <Compile Include="Setting\SettingFollower.cs" />
+    <Compile Include="Setting\SettingTabs.cs" />
     <Compile Include="Setting\SettingLocal.cs" />
     <Compile Include="ShieldIcon.cs" />
     <Compile Include="ShortUrl.cs" />

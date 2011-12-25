@@ -175,7 +175,6 @@
     <Compile Include="MyLists.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Setting\SettingTabs.vb" />
     <Compile Include="ShowUserInfo.Designer.vb">
       <DependentUpon>ShowUserInfo.vb</DependentUpon>
     </Compile>
