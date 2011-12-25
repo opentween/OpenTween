@@ -201,6 +201,12 @@
     <Compile Include="ToolStripAPIGauge.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Tween.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tween.Designer.cs">
+      <DependentUpon>Tween.cs</DependentUpon>
+    </Compile>
     <Compile Include="TweenAboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -214,9 +220,7 @@
     <Compile Include="UserInfo.cs" />
     <Compile Include="WebBrowserController.cs" />
     <Compile Include="Win32Api.cs" />
-    <Compile Include="_Stab.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="_Stab.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connection\HttpConnection.cs" />
@@ -335,6 +339,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ShowUserInfo.zh-CHS.resx">
       <DependentUpon>ShowUserInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tween.en.resx">
+      <DependentUpon>Tween.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tween.resx">
+      <DependentUpon>Tween.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tween.zh-CHS.resx">
+      <DependentUpon>Tween.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TweenAboutBox.en.resx">
       <DependentUpon>TweenAboutBox.cs</DependentUpon>

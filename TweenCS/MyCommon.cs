@@ -5,6 +5,7 @@
 //           (c) 2010-2011 anis774 (@anis774) <http://d.hatena.ne.jp/anis774/>
 //           (c) 2010-2011 fantasticswallow (@f_swallow) <http://twitter.com/f_swallow>
 //           (c) 2011      Egtra (@egtra) <http://dev.activebasic.com/egtra/>
+//           (c) 2011      kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
 // 
 // This file is part of Tween.
@@ -752,6 +753,23 @@ namespace Tween
             return Regex.IsMatch(strIn,
                    @"^(?("")("".+?""@)|(([0-9a-zA-Z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-zA-Z])@))" +
                    @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,6}))$");
+        }
+
+        /// <summary>
+        /// 指定された修飾キーが押されている状態かを取得します。
+        /// </summary>
+        /// <param name="keys">状態を調べるキー</param>
+        /// <returns><paramref name="keys"/> で指定された修飾キーがすべて押されている状態であれば true。それ以外であれば false。</returns>
+        public static bool IsKeyDown(params Keys[] keys)
+        {
+            foreach (Keys key in keys)
+            {
+                if ((Control.ModifierKeys & key) != key)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }
