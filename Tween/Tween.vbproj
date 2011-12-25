@@ -197,7 +197,6 @@
     <Compile Include="MyLists.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Setting\SettingAtIdList.vb" />
     <Compile Include="Setting\SettingLocal.vb" />
     <Compile Include="Setting\SettingFollower.vb" />
     <Compile Include="Setting\SettingTabs.vb" />

@@ -110,6 +110,7 @@
     <Compile Include="SearchWord.Designer.cs">
       <DependentUpon>SearchWord.cs</DependentUpon>
     </Compile>
+    <Compile Include="Setting\SettingAtIdList.cs" />
     <Compile Include="Setting\SettingBase.cs" />
     <Compile Include="Setting\SettingCommon.cs" />
     <Compile Include="ShieldIcon.cs" />
