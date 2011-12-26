@@ -123,6 +123,12 @@
     <Compile Include="Setting\SettingLocal.cs" />
     <Compile Include="ShieldIcon.cs" />
     <Compile Include="ShortUrl.cs" />
+    <Compile Include="TabsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TabsDialog.Designer.cs">
+      <DependentUpon>TabsDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="ToolStripAPIGauge.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -190,6 +196,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SearchWord.zh-CHS.resx">
       <DependentUpon>SearchWord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TabsDialog.resx">
+      <DependentUpon>TabsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TweenAboutBox.en.resx">
       <DependentUpon>TweenAboutBox.cs</DependentUpon>
