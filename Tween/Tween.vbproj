@@ -128,12 +128,6 @@
     <Compile Include="AtIdSupplement.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Connection\Plixi.vb" />
-    <Compile Include="Connection\TwitPic.vb" />
-    <Compile Include="Connection\imgly.vb" />
-    <Compile Include="Connection\TwitterPhoto.vb" />
-    <Compile Include="Connection\TwitVideo.vb" />
-    <Compile Include="Connection\yfrog.vb" />
     <Compile Include="Dynamic.vb" />
     <Compile Include="EventViewerDialog.Designer.vb">
       <DependentUpon>EventViewerDialog.vb</DependentUpon>
