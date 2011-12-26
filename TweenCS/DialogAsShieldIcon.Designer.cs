@@ -76,8 +76,10 @@
             // 
             // DialogAsShieldIcon
             // 
+            this.AcceptButton = this.OK_Button;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.Cancel_Button;
             this.Controls.Add(this.TextDetail);
             this.Controls.Add(this.Label1);
             this.Controls.Add(this.PictureBox1);
