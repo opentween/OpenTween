@@ -50,6 +50,12 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ApiInformation.cs" />
+    <Compile Include="AtIdSupplement.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AtIdSupplement.Designer.cs">
+      <DependentUpon>AtIdSupplement.cs</DependentUpon>
+    </Compile>
     <Compile Include="AppendSettingDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -84,8 +90,20 @@
     </Compile>
     <Compile Include="DoubleClickCopyCanceller.cs" />
     <Compile Include="Google.cs" />
+    <Compile Include="FormInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormInfo.Designer.cs">
+      <DependentUpon>FormInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Growl.cs" />
     <Compile Include="HookGlobalHotkey.cs" />
+    <Compile Include="InputTabName.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InputTabName.Designer.cs">
+      <DependentUpon>InputTabName.cs</DependentUpon>
+    </Compile>
     <Compile Include="ListElement.cs" />
     <Compile Include="ImageDictionary.cs" />
     <Compile Include="ImageListViewItem.cs" />
@@ -115,8 +133,11 @@
     <Compile Include="SearchWord.Designer.cs">
       <DependentUpon>SearchWord.cs</DependentUpon>
     </Compile>
+    <Compile Include="Setting\SettingAtIdList.cs" />
     <Compile Include="Setting\SettingBase.cs" />
     <Compile Include="Setting\SettingCommon.cs" />
+    <Compile Include="Setting\SettingFollower.cs" />
+    <Compile Include="Setting\SettingLocal.cs" />
     <Compile Include="ShieldIcon.cs" />
     <Compile Include="ShortUrl.cs" />
     <Compile Include="StatusDictionary.cs" />
@@ -142,6 +163,15 @@
     <Compile Include="Connection\HttpConnection.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AtIdSupplement.en.resx">
+      <DependentUpon>AtIdSupplement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AtIdSupplement.resx">
+      <DependentUpon>AtIdSupplement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AtIdSupplement.zh-CHS.resx">
+      <DependentUpon>AtIdSupplement.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AppendSettingDialog.en.resx">
       <DependentUpon>AppendSettingDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -153,6 +183,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AuthBrowser.resx">
       <DependentUpon>AuthBrowser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormInfo.resx">
+      <DependentUpon>FormInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InputTabName.en.resx">
+      <DependentUpon>InputTabName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InputTabName.resx">
+      <DependentUpon>InputTabName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InputTabName.zh-CHS.resx">
+      <DependentUpon>InputTabName.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OpenURL.en.resx">
       <DependentUpon>OpenURL.cs</DependentUpon>

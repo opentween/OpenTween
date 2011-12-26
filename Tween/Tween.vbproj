@@ -116,12 +116,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationEvents.vb" />
-    <Compile Include="AtIdSupplement.Designer.vb">
-      <DependentUpon>AtIdSupplement.vb</DependentUpon>
-    </Compile>
-    <Compile Include="AtIdSupplement.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Dynamic.vb" />
     <Compile Include="EventViewerDialog.Designer.vb">
       <DependentUpon>EventViewerDialog.vb</DependentUpon>
@@ -135,23 +129,11 @@
     <Compile Include="DialogAsShieldIcon.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormInfo.Designer.vb">
-      <DependentUpon>FormInfo.vb</DependentUpon>
-    </Compile>
-    <Compile Include="FormInfo.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Foursquare.vb" />
     <Compile Include="HashtagManage.Designer.vb">
       <DependentUpon>HashtagManage.vb</DependentUpon>
     </Compile>
     <Compile Include="HashtagManage.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="InputTabName.Designer.vb">
-      <DependentUpon>InputTabName.vb</DependentUpon>
-    </Compile>
-    <Compile Include="InputTabName.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ListAvailable.Designer.vb">
@@ -193,9 +175,6 @@
     <Compile Include="MyLists.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Setting\SettingAtIdList.vb" />
-    <Compile Include="Setting\SettingLocal.vb" />
-    <Compile Include="Setting\SettingFollower.vb" />
     <Compile Include="Setting\SettingTabs.vb" />
     <Compile Include="ShowUserInfo.Designer.vb">
       <DependentUpon>ShowUserInfo.vb</DependentUpon>
@@ -225,18 +204,6 @@
     <Compile Include="FavoriteQueue.vb" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="AtIdSupplement.en.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>AtIdSupplement.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AtIdSupplement.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>AtIdSupplement.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AtIdSupplement.zh-CHS.resx">
-      <DependentUpon>AtIdSupplement.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="EventViewerDialog.en.resx">
       <DependentUpon>EventViewerDialog.vb</DependentUpon>
     </EmbeddedResource>
@@ -256,10 +223,6 @@
       <DependentUpon>FilterDialog.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormInfo.resx">
-      <DependentUpon>FormInfo.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="HashtagManage.en.resx">
       <SubType>Designer</SubType>
       <DependentUpon>HashtagManage.vb</DependentUpon>
@@ -270,18 +233,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HashtagManage.zh-CHS.resx">
       <DependentUpon>HashtagManage.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="InputTabName.en.resx">
-      <DependentUpon>InputTabName.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="InputTabName.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>InputTabName.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="InputTabName.zh-CHS.resx">
-      <DependentUpon>InputTabName.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ListAvailable.en.resx">
