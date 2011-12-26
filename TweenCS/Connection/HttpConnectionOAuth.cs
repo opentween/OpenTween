@@ -46,7 +46,6 @@ using Convert = System.Convert;
 using InvalidDataException = System.IO.InvalidDataException;
 using UriBuilder = System.UriBuilder;
 using Environment = System.Environment;
-using DateTime = System.DateTime;
 using StringBuilder = System.Text.StringBuilder;
 using HttpRequestHeader = System.Net.HttpRequestHeader;
 using HMACSHA1 = System.Security.Cryptography.HMACSHA1;

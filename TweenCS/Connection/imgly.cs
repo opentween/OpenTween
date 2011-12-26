@@ -36,7 +36,7 @@ using ArgumentException = System.ArgumentException;
 using System.Collections.Generic; // for Dictionary<TKey, TValue>, List<T>, KeyValuePair<TKey, TValue>
 using Uri = System.Uri;
 using Array = System.Array;
-using UploadFileType = MyCommon.UploadFileType;
+using UploadFileType = Tween.MyCommon.UploadFileType;
 
 namespace Tween
 {

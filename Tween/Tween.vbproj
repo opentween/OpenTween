@@ -141,7 +141,6 @@
     <Compile Include="Connection\HttpOAuthApiProxy.vb" />
     <Compile Include="Connection\HttpTwitter.vb" />
     <Compile Include="Connection\HttpVarious.vb" />
-    <Compile Include="Connection\TwitPic.vb" />
     <Compile Include="DataModel.vb" />
     <Compile Include="DetailsListView.vb">
       <SubType>Component</SubType>
