@@ -170,6 +170,9 @@
     <EmbeddedResource Include="DialogAsShieldIcon.resx">
       <DependentUpon>DialogAsShieldIcon.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DialogAsShieldIcon.zh-CHS.resx">
+      <DependentUpon>DialogAsShieldIcon.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormInfo.resx">
       <DependentUpon>FormInfo.cs</DependentUpon>
     </EmbeddedResource>

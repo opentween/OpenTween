@@ -37,7 +37,7 @@ namespace Tween
     public partial class DialogAsShieldIcon : Form
     {
 
-        private DialogResult _dResult = System.Windows.Forms.DialogResult.None;
+        private DialogResult dResult = System.Windows.Forms.DialogResult.None;
 
         public DialogAsShieldIcon()
         {
@@ -46,22 +46,22 @@ namespace Tween
 
         private void OK_Button_Click(object sender, EventArgs e)
         {
-            this._dResult = System.Windows.Forms.DialogResult.OK;
+            this.dResult = System.Windows.Forms.DialogResult.OK;
             this.Hide();
         }
 
         private void Cancel_Button_Click(object sender, EventArgs e)
         {
-            this._dResult = System.Windows.Forms.DialogResult.Cancel;
+            this.dResult = System.Windows.Forms.DialogResult.Cancel;
             this.Hide();
         }
 
         private void DialogAsShieldIcon_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (this._dResult == System.Windows.Forms.DialogResult.None)
+            if (this.dResult == System.Windows.Forms.DialogResult.None)
             {
                 e.Cancel = true;
-                this._dResult = System.Windows.Forms.DialogResult.Cancel;
+                this.dResult = System.Windows.Forms.DialogResult.Cancel;
                 this.Hide();
             }
         }
@@ -97,13 +97,14 @@ namespace Tween
             // とりあえずアイコンは処理しない（互換性のためパラメータだけ指定できる）
 
             base.ShowDialog(this.Owner);
-            while (this._dResult == System.Windows.Forms.DialogResult.None)
+            while (this.dResult == System.Windows.Forms.DialogResult.None)
             {
                 System.Threading.Thread.Sleep(200);
+                Application.DoEvents();
             }
             if (Buttons == MessageBoxButtons.YesNo)
             {
-                switch (_dResult)
+                switch (dResult)
                 {
                     case System.Windows.Forms.DialogResult.OK:
                         return System.Windows.Forms.DialogResult.Yes;
@@ -113,10 +114,10 @@ namespace Tween
             }
             else
             {
-                return _dResult;
+                return dResult;
             }
 
-            return _dResult;
+            return dResult;
         }
     }
 }
