@@ -283,7 +283,12 @@ namespace Tween
 
         public string CreateGoogleStaticMapsUri(double lat, double lng)
         {
-            return "http://maps.google.com/maps/api/staticmap?center=" + lat.ToString() + "," + lng.ToString() + "&size=" + AppendSettingDialog.Instance.FoursquarePreviewWidth.ToString + "x" + AppendSettingDialog.Instance.FoursquarePreviewHeight.ToString + "&zoom=" + AppendSettingDialog.Instance.FoursquarePreviewZoom.ToString() + "&markers=" + lat.ToString() + "," + lng.ToString() + "&sensor=false";
+            int width = AppendSettingDialog.Instance.FoursquarePreviewWidth;
+            int height = AppendSettingDialog.Instance.FoursquarePreviewHeight;
+            int zoom = AppendSettingDialog.Instance.FoursquarePreviewZoom;
+            string location = lat.ToString() + "," + lng.ToString();
+
+            return "http://maps.google.com/maps/api/staticmap?center=" + location + "&size=" + width + "x" + height + "&zoom=" + zoom + "&markers=" + location + "&sensor=false";
         }
 
         public string CreateGoogleMapsUri(GlobalLocation locate)
@@ -293,7 +298,10 @@ namespace Tween
 
         public string CreateGoogleMapsUri(double lat, double lng)
         {
-            return "http://maps.google.com/maps?ll=" + lat.ToString() + "," + lng.ToString() + "&z=" + AppendSettingDialog.Instance.FoursquarePreviewZoom.ToString() + "&q=" + lat.ToString() + "," + lng.ToString();
+            int zoom = AppendSettingDialog.Instance.FoursquarePreviewZoom;
+            string location = lat.ToString() + "," + lng.ToString();
+
+            return "http://maps.google.com/maps?ll=" + location + "&z=" + zoom + "&q=" + location;
         }
 
         public class GlobalLocation
