@@ -75,6 +75,12 @@
     <Compile Include="DetailsListView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="DialogAsShieldIcon.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DialogAsShieldIcon.Designer.cs">
+      <DependentUpon>DialogAsShieldIcon.cs</DependentUpon>
+    </Compile>
     <Compile Include="DoubleClickCopyCanceller.cs" />
     <Compile Include="FormInfo.cs">
       <SubType>Form</SubType>
@@ -160,6 +166,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AuthBrowser.resx">
       <DependentUpon>AuthBrowser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DialogAsShieldIcon.resx">
+      <DependentUpon>DialogAsShieldIcon.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormInfo.resx">
       <DependentUpon>FormInfo.cs</DependentUpon>
