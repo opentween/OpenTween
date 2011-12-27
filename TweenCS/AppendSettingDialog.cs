@@ -425,6 +425,7 @@ namespace Tween
                         break;
                     default:
                         Language = "en";
+                        break;
                 }
                 HotkeyEnabled = this.HotkeyCheck.Checked;
                 HotkeyMod = Keys.None;
@@ -510,7 +511,7 @@ namespace Tween
             {
                 e.Cancel = true;
             }
-            if (e.Cancel = false && TreeViewSetting.SelectedNode != null)
+            if (e.Cancel == false && TreeViewSetting.SelectedNode != null)
             {
                 Panel curPanel = (Panel)TreeViewSetting.SelectedNode.Tag;
                 curPanel.Visible = false;
@@ -706,6 +707,7 @@ namespace Tween
                     break;
                 default:
                     RadioProxySpecified.Checked = true;
+                    break;
             }
             bool chk = RadioProxySpecified.Checked;
             LabelProxyAddress.Enabled = chk;
