@@ -96,6 +96,12 @@
     <Compile Include="InputTabName.Designer.cs">
       <DependentUpon>InputTabName.cs</DependentUpon>
     </Compile>
+    <Compile Include="MessageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MessageForm.Designer.cs">
+      <DependentUpon>MessageForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyCommon.cs" />
     <Compile Include="MySpecialPath.cs" />
     <Compile Include="nicoms.cs" />
@@ -184,6 +190,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="InputTabName.zh-CHS.resx">
       <DependentUpon>InputTabName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MessageForm.resx">
+      <DependentUpon>MessageForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OpenURL.en.resx">
       <DependentUpon>OpenURL.cs</DependentUpon>
