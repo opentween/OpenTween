@@ -165,7 +165,9 @@
     <Compile Include="UserInfo.cs" />
     <Compile Include="WebBrowserController.cs" />
     <Compile Include="Win32Api.cs" />
-    <Compile Include="_Stab.cs" />
+    <Compile Include="_Stab.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connection\HttpConnection.cs" />

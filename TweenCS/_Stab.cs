@@ -40,4 +40,29 @@ namespace Tween
             return (Expression<Func<T, S>>)method.Invoke(null, new object[] { typeof(T), typeof(S), expression, values });
         }
     }
+
+    internal class TweenMain : Form
+    {
+        private static dynamic instance = Assembly.GetEntryAssembly().GetType("System.Windows.Form.Application").GetProperty("OpenForms").GetValue(null, new object[] {0});
+
+        public Twitter TwitterInstance
+        {
+            get
+            {
+                return instance.TwitterInstance;
+            }
+        }
+
+        public void OpenUriAsync(string uri)
+        {
+            instance.OpenUriAsync(uri);
+        }
+
+        public static bool IsNetworkAvailable()
+        {
+            var TweenMain = Assembly.GetEntryAssembly().GetType("Tween.TweenMain");
+            var property = TweenMain.GetProperty("IsNetworkAvailable", typeof(bool));
+            return (bool)property.GetValue(null, null);
+        }
+    }
 }
