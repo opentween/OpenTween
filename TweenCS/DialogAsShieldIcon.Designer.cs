@@ -67,12 +67,14 @@
             // 
             resources.ApplyResources(this.OK_Button, "OK_Button");
             this.OK_Button.Name = "OK_Button";
+            this.OK_Button.Click += new System.EventHandler(this.OK_Button_Click);
             // 
             // Cancel_Button
             // 
             resources.ApplyResources(this.Cancel_Button, "Cancel_Button");
             this.Cancel_Button.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.Cancel_Button.Name = "Cancel_Button";
+            this.Cancel_Button.Click += new System.EventHandler(this.Cancel_Button_Click);
             // 
             // DialogAsShieldIcon
             // 
@@ -90,6 +92,7 @@
             this.Name = "DialogAsShieldIcon";
             this.ShowInTaskbar = false;
             this.TopMost = true;
+            this.Load += new System.EventHandler(this.DialogAsShieldIcon_Load);
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox1)).EndInit();
             this.TableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
