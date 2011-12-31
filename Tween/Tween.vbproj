@@ -168,12 +168,6 @@
     <Compile Include="MyLists.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ShowUserInfo.Designer.vb">
-      <DependentUpon>ShowUserInfo.vb</DependentUpon>
-    </Compile>
-    <Compile Include="ShowUserInfo.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="FilterDialog.Designer.vb">
       <DependentUpon>FilterDialog.vb</DependentUpon>
     </Compile>
@@ -269,18 +263,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FilterDialog.resx">
       <DependentUpon>FilterDialog.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ShowUserInfo.en.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>ShowUserInfo.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ShowUserInfo.resx">
-      <DependentUpon>ShowUserInfo.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ShowUserInfo.zh-CHS.resx">
-      <DependentUpon>ShowUserInfo.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="TabsDialog.en.resx">
