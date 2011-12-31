@@ -79,6 +79,12 @@
     <Compile Include="Connection\IHttpConnection.cs" />
     <Compile Include="Connection\imgly.cs" />
     <Compile Include="Connection\IMultimediaShareService.cs" />
+    <Compile Include="FilterDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FilterDialog.Designer.cs">
+      <DependentUpon>FilterDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="ListManage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -185,6 +191,15 @@
     <Compile Include="Connection\HttpConnection.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="FilterDialog.en.resx">
+      <DependentUpon>FilterDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FilterDialog.resx">
+      <DependentUpon>FilterDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FilterDialog.zh-CHS.resx">
+      <DependentUpon>FilterDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ListManage.resx">
       <DependentUpon>ListManage.cs</DependentUpon>
     </EmbeddedResource>
