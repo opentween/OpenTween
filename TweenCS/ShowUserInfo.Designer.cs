@@ -421,6 +421,7 @@
             this.AllowDrop = true;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.ButtonClose;
             this.Controls.Add(this.LinkLabel2);
             this.Controls.Add(this.ButtonBlockDestroy);
             this.Controls.Add(this.ButtonReportSpam);
