@@ -115,6 +115,12 @@
     <Compile Include="ImageDictionary.cs" />
     <Compile Include="ImageListViewItem.cs" />
     <Compile Include="MyCommon.cs" />
+    <Compile Include="MyLists.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyLists.Designer.cs">
+      <DependentUpon>MyLists.cs</DependentUpon>
+    </Compile>
     <Compile Include="MySpecialPath.cs" />
     <Compile Include="nicoms.cs" />
     <Compile Include="OpenURL.cs">
@@ -214,6 +220,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="InputTabName.zh-CHS.resx">
       <DependentUpon>InputTabName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyLists.en.resx">
+      <DependentUpon>MyLists.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyLists.resx">
+      <DependentUpon>MyLists.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyLists.zh-CHS.resx">
+      <DependentUpon>MyLists.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OpenURL.en.resx">
       <DependentUpon>OpenURL.cs</DependentUpon>
