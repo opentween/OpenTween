@@ -97,13 +97,13 @@ namespace Tween
                 _info.FriendsCount = user.FriendsCount;
                 _info.FollowersCount = user.FollowersCount;
                 _info.FavoriteCount = user.FavouritesCount;
-                _info.CreatedAt = DateTimeParse(user.CreatedAt);
+                _info.CreatedAt = MyCommon.DateTimeParse(user.CreatedAt);
                 _info.StatusesCount = user.StatusesCount;
                 _info.Verified = user.Verified;
                 try
                 {
                     _info.RecentPost = user.Status.Text;
-                    _info.PostCreatedAt = DateTimeParse(user.Status.CreatedAt);
+                    _info.PostCreatedAt = MyCommon.DateTimeParse(user.Status.CreatedAt);
                     _info.PostSource = user.Status.Source;
                     if (!_info.PostSource.Contains("</a>"))
                     {
@@ -180,7 +180,7 @@ namespace Tween
             if (_info.RecentPost != null)
             {
                 recentPostTxt = MyOwner.createDetailHtml(
-                     MyOwner.TwitterInstance.CreateHtmlAnchor(_info.RecentPost, atlist, userInfo.Status.Entities, null) +
+                     MyOwner.TwitterInstance.CreateHtmlAnchor(ref _info.RecentPost, atlist, userInfo.Status.Entities, null) +
                      " Posted at " + _info.PostCreatedAt.ToString() +
                      " via " + _info.PostSource);
             }
@@ -811,7 +811,7 @@ namespace Tween
         private bool isValidIconFile(FileInfo info)
         {
             string ext = info.Extension.ToLower();
-            return isValidExtension(ext) && info.Length < 700 * 1024 && !IsAnimatedGif(info.FullName);
+            return isValidExtension(ext) && info.Length < 700 * 1024 && !MyCommon.IsAnimatedGif(info.FullName);
         }
 
         private void ShowUserInfo_DragOver(object sender, DragEventArgs e)
