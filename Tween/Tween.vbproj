@@ -117,12 +117,6 @@
   <ItemGroup>
     <Compile Include="ApplicationEvents.vb" />
     <Compile Include="Dynamic.vb" />
-    <Compile Include="DialogAsShieldIcon.Designer.vb">
-      <DependentUpon>DialogAsShieldIcon.vb</DependentUpon>
-    </Compile>
-    <Compile Include="DialogAsShieldIcon.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="HashtagManage.Designer.vb">
       <DependentUpon>HashtagManage.vb</DependentUpon>
     </Compile>
@@ -133,12 +127,6 @@
       <DependentUpon>ListAvailable.vb</DependentUpon>
     </Compile>
     <Compile Include="ListAvailable.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MessageForm.Designer.vb">
-      <DependentUpon>MessageForm.vb</DependentUpon>
-    </Compile>
-    <Compile Include="MessageForm.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -156,12 +144,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="TabsDialog.Designer.vb">
-      <DependentUpon>TabsDialog.vb</DependentUpon>
-    </Compile>
-    <Compile Include="TabsDialog.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Thumbnail.vb" />
     <Compile Include="Tween.Designer.vb">
       <DependentUpon>Tween.vb</DependentUpon>
@@ -172,14 +154,6 @@
     <Compile Include="FavoriteQueue.vb" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DialogAsShieldIcon.resx">
-      <DependentUpon>DialogAsShieldIcon.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DialogAsShieldIcon.zh-CHS.resx">
-      <DependentUpon>DialogAsShieldIcon.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="HashtagManage.en.resx">
       <SubType>Designer</SubType>
       <DependentUpon>HashtagManage.vb</DependentUpon>
@@ -204,9 +178,6 @@
       <DependentUpon>ListAvailable.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="MessageForm.resx">
-      <DependentUpon>MessageForm.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.en.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -217,18 +188,6 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.zh-CHS.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TabsDialog.en.resx">
-      <DependentUpon>TabsDialog.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TabsDialog.resx">
-      <DependentUpon>TabsDialog.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TabsDialog.zh-CHS.resx">
-      <DependentUpon>TabsDialog.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Tween.en.resx">

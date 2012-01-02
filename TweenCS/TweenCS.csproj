@@ -106,6 +106,12 @@
     <Compile Include="DetailsListView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="DialogAsShieldIcon.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DialogAsShieldIcon.Designer.cs">
+      <DependentUpon>DialogAsShieldIcon.cs</DependentUpon>
+    </Compile>
     <Compile Include="DoubleClickCopyCanceller.cs" />
     <Compile Include="Foursquare.cs" />
     <Compile Include="Google.cs" />
@@ -122,6 +128,12 @@
     </Compile>
     <Compile Include="InputTabName.Designer.cs">
       <DependentUpon>InputTabName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MessageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MessageForm.Designer.cs">
+      <DependentUpon>MessageForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ListElement.cs" />
     <Compile Include="ImageDictionary.cs" />
@@ -166,6 +178,12 @@
     <Compile Include="Setting\SettingLocal.cs" />
     <Compile Include="ShieldIcon.cs" />
     <Compile Include="ShortUrl.cs" />
+    <Compile Include="TabsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TabsDialog.Designer.cs">
+      <DependentUpon>TabsDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="ShowUserInfo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -236,6 +254,12 @@
     <EmbeddedResource Include="AuthBrowser.resx">
       <DependentUpon>AuthBrowser.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DialogAsShieldIcon.resx">
+      <DependentUpon>DialogAsShieldIcon.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DialogAsShieldIcon.zh-CHS.resx">
+      <DependentUpon>DialogAsShieldIcon.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormInfo.resx">
       <DependentUpon>FormInfo.cs</DependentUpon>
     </EmbeddedResource>
@@ -247,6 +271,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="InputTabName.zh-CHS.resx">
       <DependentUpon>InputTabName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MessageForm.resx">
+      <DependentUpon>MessageForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyLists.en.resx">
       <DependentUpon>MyLists.cs</DependentUpon>
@@ -280,6 +307,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SearchWord.zh-CHS.resx">
       <DependentUpon>SearchWord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TabsDialog.resx">
+      <DependentUpon>TabsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ShowUserInfo.en.resx">
       <DependentUpon>ShowUserInfo.cs</DependentUpon>
