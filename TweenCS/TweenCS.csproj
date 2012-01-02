@@ -79,6 +79,12 @@
     <Compile Include="Connection\IHttpConnection.cs" />
     <Compile Include="Connection\imgly.cs" />
     <Compile Include="Connection\IMultimediaShareService.cs" />
+    <Compile Include="EventViewerDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EventViewerDialog.Designer.cs">
+      <DependentUpon>EventViewerDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="FilterDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -191,6 +197,12 @@
     <Compile Include="Connection\HttpConnection.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="EventViewerDialog.en.resx">
+      <DependentUpon>EventViewerDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EventViewerDialog.resx">
+      <DependentUpon>EventViewerDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FilterDialog.en.resx">
       <DependentUpon>FilterDialog.cs</DependentUpon>
     </EmbeddedResource>
