@@ -1124,7 +1124,7 @@ namespace Tween
             if (ListTabs.SelectedIndex > -1 && ListFilters.SelectedItem != null)
             {
                 tabdialog.Text = Properties.Resources.ButtonRuleCopy_ClickText1;
-                if (tabdialog.ShowDialog == DialogResult.Cancel)
+                if (tabdialog.ShowDialog() == DialogResult.Cancel)
                 {
                     return;
                 }
@@ -1156,7 +1156,7 @@ namespace Tween
             if (ListTabs.SelectedIndex > -1 && ListFilters.SelectedItem != null)
             {
                 tabdialog.Text = Properties.Resources.ButtonRuleMove_ClickText1;
-                if (tabdialog.ShowDialog == DialogResult.Cancel)
+                if (tabdialog.ShowDialog() == DialogResult.Cancel)
                 {
                     return;
                 }
