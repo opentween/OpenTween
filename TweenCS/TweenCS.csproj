@@ -91,6 +91,12 @@
     <Compile Include="FilterDialog.Designer.cs">
       <DependentUpon>FilterDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="ListAvailable.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListAvailable.Designer.cs">
+      <DependentUpon>ListAvailable.cs</DependentUpon>
+    </Compile>
     <Compile Include="ListManage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -229,6 +235,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FilterDialog.zh-CHS.resx">
       <DependentUpon>FilterDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListAvailable.resx">
+      <DependentUpon>ListAvailable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListAvailable.en.resx">
+      <DependentUpon>ListAvailable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListAvailable.zh-CHS.resx">
+      <DependentUpon>ListAvailable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ListManage.resx">
       <DependentUpon>ListManage.cs</DependentUpon>
