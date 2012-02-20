@@ -91,6 +91,12 @@
     <Compile Include="FilterDialog.Designer.cs">
       <DependentUpon>FilterDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="HashtagManage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HashtagManage.Designer.cs">
+      <DependentUpon>HashtagManage.cs</DependentUpon>
+    </Compile>
     <Compile Include="ListAvailable.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -240,6 +246,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FilterDialog.zh-CHS.resx">
       <DependentUpon>FilterDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HashtagManage.en.resx">
+      <DependentUpon>HashtagManage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HashtagManage.resx">
+      <DependentUpon>HashtagManage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HashtagManage.zh-CHS.resx">
+      <DependentUpon>HashtagManage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ListAvailable.resx">
       <DependentUpon>ListAvailable.cs</DependentUpon>
