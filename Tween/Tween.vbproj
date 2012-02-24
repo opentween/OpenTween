@@ -132,7 +132,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Thumbnail.vb" />
     <Compile Include="FavoriteQueue.vb" />
   </ItemGroup>
   <ItemGroup>
