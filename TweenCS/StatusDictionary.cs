@@ -3307,22 +3307,14 @@ namespace Tween
 
         public bool ExecuteLambdaExpression(string expr, PostClass post)
         {
-            if (_lambdaExp == null || _lambdaExpDelegate == null)
-            {
-                _lambdaExp = DynamicExpression.ParseLambda<PostClass, bool>(expr, post);
-                _lambdaExpDelegate = _lambdaExp.Compile();
-            }
-            return (bool)_lambdaExpDelegate.DynamicInvoke(post);
+            return false;
+            // TODO DynamicQuery相当のGPLv3互換なライブラリで置換する
         }
 
         public bool ExecuteExLambdaExpression(string expr, PostClass post)
         {
-            if (_exlambdaExp == null || _exlambdaExpDelegate == null)
-            {
-                _exlambdaExp = DynamicExpression.ParseLambda<PostClass, bool>(expr, post);
-                _exlambdaExpDelegate = _exlambdaExp.Compile();
-            }
-            return (bool)_exlambdaExpDelegate.DynamicInvoke(post);
+            return false;
+            // TODO DynamicQuery相当のGPLv3互換なライブラリで置換する
         }
 
         public MyCommon.HITRESULT IsHit(PostClass post)

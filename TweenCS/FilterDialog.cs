@@ -668,19 +668,8 @@ namespace Tween
 
         private bool IsValidLambdaExp(string text)
         {
-            if (text == "") return true;
-            try
-            {
-                LambdaExpression expr;
-                expr = DynamicExpression.ParseLambda<PostClass, bool>(text, new PostClass());
-            }
-            catch (ParseException ex)
-            {
-                MessageBox.Show(Properties.Resources.IsValidLambdaExpText1 + ex.Message,
-                                Properties.Resources.IsValidLambdaExpText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return false;
-            }
-            return true;
+            return false;
+            // TODO DynamicQuery相当のGPLv3互換なライブラリで置換する
         }
 
         private bool IsValidRegexp(string text)
