@@ -84,7 +84,7 @@ namespace Tween
         {
             if (EventList.SelectedIndices.Count != 0 && _filterdEventSource[EventList.SelectedIndices[0]] != null)
             {
-                TweenMain.OpenUriAsync("http://twitter.com/" + _filterdEventSource[EventList.SelectedIndices[0]].Username);
+                ((TweenMain)this.Owner).OpenUriAsync("http://twitter.com/" + _filterdEventSource[EventList.SelectedIndices[0]].Username);
             }
         }
 

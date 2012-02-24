@@ -567,11 +567,12 @@ namespace Tween
             if (RadioAND.Checked)
             {
                 ft.NameFilter = UID.Text;
-                int cnt = TweenMain.AtIdSupl.ItemCount;
-                TweenMain.AtIdSupl.AddItem("@" + ft.NameFilter);
-                if (cnt != TweenMain.AtIdSupl.ItemCount)
+                TweenMain owner = (TweenMain)this.Owner;
+                int cnt = owner.AtIdSupl.ItemCount;
+                owner.AtIdSupl.AddItem("@" + ft.NameFilter);
+                if (cnt != owner.AtIdSupl.ItemCount)
                 {
-                    TweenMain.ModifySettingAtId = true;
+                    owner.ModifySettingAtId = true;
                 }
                 ft.SearchBoth = true;
                 bdy = MSG1.Text;
@@ -671,7 +672,7 @@ namespace Tween
             try
             {
                 LambdaExpression expr;
-                expr = ParseLambda<PostClass, bool>(text, new PostClass());
+                expr = DynamicExpression.ParseLambda<PostClass, bool>(text, new PostClass());
             }
             catch (ParseException ex)
             {
@@ -892,7 +893,7 @@ namespace Tween
             }
 
             idlist.Clear();
-            foreach (string tmp in TweenMain.AtIdSupl.GetItemList)
+            foreach (string tmp in ((TweenMain)this.Owner).AtIdSupl.GetItemList())
             {
                 idlist.Add(tmp.Remove(0, 1));  // @文字削除
             }
@@ -1006,7 +1007,7 @@ namespace Tween
             {
                 string tb = ListTabs.SelectedItem.ToString();
                 int idx = ListTabs.SelectedIndex;
-                if (((TweenMain)this.Owner).TabRename(tb))
+                if (((TweenMain)this.Owner).TabRename(ref tb))
                 {
                     ListTabs.Items.RemoveAt(idx);
                     ListTabs.Items.Insert(idx, tb);

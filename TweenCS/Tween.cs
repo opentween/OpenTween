@@ -854,7 +854,7 @@ namespace Tween
             SetMainWindowTitle();
             if (!StatusLabelUrl.Text.StartsWith("http")) SetStatusLabelUrl();
 
-            HashSupl.AddRangeItem(tw.GetHashList);
+            HashSupl.AddRangeItem(tw.GetHashList());
 
         }
 
@@ -1693,7 +1693,7 @@ namespace Tween
 
             Thread.CurrentThread.Priority = ThreadPriority.BelowNormal;
 
-            TweenApplication.InitCulture();
+            //TweenApplication.InitCulture();
 
             string ret = "";
             GetWorkerResult rslt = new GetWorkerResult();
@@ -3508,7 +3508,7 @@ namespace Tween
                     string urlStr = HttpUtility.UrlDecode(e.Url.AbsoluteUri);
                     string hash = urlStr.Substring(urlStr.IndexOf("#"));
                     HashSupl.AddItem(hash);
-                    HashMgr.AddHashToHistory(hash.Trim, false);
+                    HashMgr.AddHashToHistory(hash.Trim(), false);
                     AddNewTabForSearch(hash);
                     return;
                 }
@@ -6985,7 +6985,7 @@ namespace Tween
             if (_ignoreConfigSave || !SettingDialog.UseAtIdSupplement && AtIdSupl == null) return;
 
             _modifySettingAtId = false;
-            SettingAtIdList cfgAtId = new SettingAtIdList(AtIdSupl.GetItemList);
+            SettingAtIdList cfgAtId = new SettingAtIdList(AtIdSupl.GetItemList());
             cfgAtId.Save();
         }
 
@@ -7898,8 +7898,8 @@ namespace Tween
             this.SoundFileTbComboBox.Items.Clear();
             SoundFileComboBox.Items.Add("");
             this.SoundFileTbComboBox.Items.Add("");
-            DirectoryInfo oDir = new DirectoryInfo(Application.ExecutablePath + Path.DirectorySeparatorChar);
-            if (Directory.Exists(Path.Combine(Application.ExecutablePath, "Sounds")))
+            DirectoryInfo oDir = new DirectoryInfo(Application.StartupPath + Path.DirectorySeparatorChar);
+            if (Directory.Exists(Path.Combine(Application.StartupPath, "Sounds")))
             {
                 oDir = oDir.GetDirectories("Sounds")[0];
             }
@@ -8017,7 +8017,7 @@ namespace Tween
         {
             if (string.IsNullOrEmpty(_rclickTabName)) _rclickTabName = _statuses.GetTabByType(MyCommon.TabUsageType.Home).TabName;
             fltDialog.SetCurrent(_rclickTabName);
-            fltDialog.ShowDialog();
+            fltDialog.ShowDialog(this);
             this.TopMost = SettingDialog.AlwaysTop;
 
             try
@@ -8057,7 +8057,7 @@ namespace Tween
             MyCommon.TabUsageType tabUsage;
             using (InputTabName inputName = new InputTabName())
             {
-                inputName.TabName = _statuses.GetUniqueTabName;
+                inputName.TabName = _statuses.GetUniqueTabName();
                 inputName.IsShowUsage = true;
                 inputName.ShowDialog();
                 if (inputName.DialogResult == DialogResult.Cancel) return;
@@ -8122,7 +8122,7 @@ namespace Tween
                 {
                     fltDialog.AddNewFilter(_statuses[_curTab.Text, idx].RetweetedBy, _statuses[_curTab.Text, idx].TextFromApi);
                 }
-                fltDialog.ShowDialog();
+                fltDialog.ShowDialog(this);
                 this.TopMost = SettingDialog.AlwaysTop;
             }
 
@@ -8340,7 +8340,7 @@ namespace Tween
             do
             {
                 //振り分け先タブ選択
-                if (TabDialog.ShowDialog == DialogResult.Cancel)
+                if (TabDialog.ShowDialog() == DialogResult.Cancel)
                 {
                     this.TopMost = SettingDialog.AlwaysTop;
                     return false;
@@ -8354,7 +8354,7 @@ namespace Tween
                 {
                     using (InputTabName inputName = new InputTabName())
                     {
-                        inputName.TabName = _statuses.GetUniqueTabName;
+                        inputName.TabName = _statuses.GetUniqueTabName();
                         inputName.ShowDialog();
                         if (inputName.DialogResult == DialogResult.Cancel) return false;
                         tabName = inputName.TabName;
@@ -8795,7 +8795,7 @@ namespace Tween
             {
                 hstr += HashMgr.UseHash;
             }
-            if (!string.IsNullOrEmpty(hstr)) HashMgr.AddHashToHistory(hstr.Trim, false);
+            if (!string.IsNullOrEmpty(hstr)) HashMgr.AddHashToHistory(hstr.Trim(), false);
 
             // 本当にリプライ先指定すべきかどうかの判定
             m = Regex.Matches(StatusText, "(^|[ -/:-@[-^`{-~])(?<id>@[a-zA-Z0-9_]+)");
@@ -9828,7 +9828,7 @@ namespace Tween
         private void SelectListItem(DetailsListView LView, int Index)
         {
             //単一
-            Rectangle bnd;
+            Rectangle bnd = new Rectangle();
             bool flg = false;
             if (LView.FocusedItem != null)
             {
@@ -9851,7 +9851,7 @@ namespace Tween
         private void SelectListItem(DetailsListView LView , int[] Index, int FocusedIndex)
         {
             //複数
-            Rectangle bnd;
+            Rectangle bnd = new Rectangle();
             bool flg = false;
             if (LView.FocusedItem != null)
             {

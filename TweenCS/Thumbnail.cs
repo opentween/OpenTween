@@ -148,7 +148,7 @@ namespace Tween
         {
             get
             {
-                return Owner.CurPost();
+                return Owner.CurPost;
             }
         }
 
@@ -968,7 +968,7 @@ namespace Tween
             {
                 try
                 {
-                    args.imglist.Add(new KeyValuePair<string, string>(args.url, "http://images.bcphotoshare.com/storages/" + RadixConvert.ToInt32(mc.Result("${1}"), 36).ToString + "/thumb180.jpg"));
+                    args.imglist.Add(new KeyValuePair<string, string>(args.url, "http://images.bcphotoshare.com/storages/" + RadixConvert.ToInt32(mc.Result("${1}"), 36).ToString() + "/thumb180.jpg"));
                     return true;
                 }
                 catch (ArgumentOutOfRangeException)
@@ -2837,7 +2837,7 @@ namespace Tween
         {
             // TODO: サムネイル画像読み込み処理を記述します
             var tipsText = "";
-            var mapsUrl = Foursquare.GetInstance.GetMapsUri(args.url.Key, tipsText);
+            var mapsUrl = Foursquare.GetInstance.GetMapsUri(args.url.Key, ref tipsText);
             if (mapsUrl == null) return false;
             var img = (new HttpVarious()).GetImage(mapsUrl, args.url.Key, 10000, out args.errmsg);
             if (img == null)

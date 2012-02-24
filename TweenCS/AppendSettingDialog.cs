@@ -114,7 +114,7 @@ namespace Tween
 
         private void Save_Click(object sender, EventArgs e)
         {
-            if (TweenMain.IsNetworkAvailable() &&
+            if (MyCommon.IsNetworkAvailable() &&
                 (ComboBoxAutoShortUrlFirst.SelectedIndex == (int)MyCommon.UrlConverter.Bitly || ComboBoxAutoShortUrlFirst.SelectedIndex == (int)MyCommon.UrlConverter.Jmp) &&
                  (!string.IsNullOrEmpty(TextBitlyId.Text) || !string.IsNullOrEmpty(TextBitlyPw.Text)))
             {
@@ -598,12 +598,12 @@ namespace Tween
 
             this.StartupUserstreamCheck.Checked = UserstreamStartup;
             UserstreamPeriod.Text = UserstreamPeriodInt.ToString();
-            TimelinePeriod.Text = TimelinePeriod.ToString();
-            ReplyPeriod.Text = ReplyPeriod.ToString();
-            DMPeriod.Text = DMPeriod.ToString();
-            PubSearchPeriod.Text = PubSearchPeriod.ToString();
-            ListsPeriod.Text = ListsPeriod.ToString();
-            UserTimelinePeriod.Text = UserTimelinePeriod.ToString();
+            TimelinePeriod.Text = TimelinePeriodInt.ToString();
+            ReplyPeriod.Text = ReplyPeriodInt.ToString();
+            DMPeriod.Text = DMPeriodInt.ToString();
+            PubSearchPeriod.Text = PubSearchPeriodInt.ToString();
+            ListsPeriod.Text = ListsPeriodInt.ToString();
+            UserTimelinePeriod.Text = UserTimelinePeriodInt.ToString();
 
             StartupReaded.Checked = Readed;
             switch (IconSz)
@@ -2305,8 +2305,8 @@ namespace Tween
             if (EventSoundFile == null) EventSoundFile = "";
             ComboBoxEventNotifySound.Items.Clear();
             ComboBoxEventNotifySound.Items.Add("");
-            DirectoryInfo oDir = new DirectoryInfo(Application.ExecutablePath + Path.DirectorySeparatorChar);
-            if (Directory.Exists(Path.Combine(Application.ExecutablePath, "Sounds")))
+            DirectoryInfo oDir = new DirectoryInfo(Application.StartupPath + Path.DirectorySeparatorChar);
+            if (Directory.Exists(Path.Combine(Application.StartupPath, "Sounds")))
             {
                 oDir = oDir.GetDirectories("Sounds")[0];
             }

@@ -40,4 +40,8 @@ namespace Tween
             return (Expression<Func<T, S>>)method.Invoke(null, new object[] { typeof(T), typeof(S), expression, values });
         }
     }
+
+    internal class ParseException : Exception
+    {
+    }
 }
