@@ -548,7 +548,744 @@ namespace Tween
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            _ignoreConfigSave = true;
+            this.Visible = false;
 
+            //Win32Api.SetProxy(HttpConnection.ProxyType.Specified, "127.0.0.1", 8080, "user", "pass")
+
+            SecurityManager = new InternetSecurityManager(PostBrowser);
+            Thumbnail = new Thumbnail(this);
+
+            MyCommon.TwitterApiInfo.Changed += SetStatusLabelApiHandler;
+            Microsoft.Win32.SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
+
+            VerUpMenuItem.Image = shield.Icon;
+            string[] cmdArgs = Environment.GetCommandLineArgs();
+            if (cmdArgs.Length != 0 && cmdArgs.Contains("/d")) MyCommon.TraceFlag = true;
+
+            this._spaceKeyCanceler = new SpaceKeyCanceler(this.PostButton);
+            this._spaceKeyCanceler.SpaceCancel += spaceKeyCanceler_SpaceCancel;
+
+            Regex.CacheSize = 100;
+
+            MyCommon.fileVersion = ((AssemblyFileVersionAttribute)Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyFileVersionAttribute), false)[0]).Version;
+            InitializeTraceFrag();
+            LoadIcons(); // アイコン読み込み
+
+            //発言保持クラス
+            _statuses = TabInformations.GetInstance();
+
+            //アイコン設定
+            this.Icon = MainIcon;              //メインフォーム（TweenMain）
+            NotifyIcon1.Icon = NIconAt;      //タスクトレイ
+            TabImage.Images.Add(TabIcon);    //タブ見出し
+
+            SettingDialog.Owner = this;;
+            SearchDialog.Owner = this;
+            fltDialog.Owner = this;
+            TabDialog.Owner = this;
+            UrlDialog.Owner = this;
+
+            _history.Add(new PostingStatus());
+            _hisIdx = 0;
+            _reply_to_id = 0;
+            _reply_to_name = "";
+
+            //<<<<<<<<<設定関連>>>>>>>>>
+            //設定コンバージョン
+            //ConvertConfig();
+
+            ////設定読み出し
+            LoadConfig();
+
+            //新着バルーン通知のチェック状態設定
+            NewPostPopMenuItem.Checked = _cfgCommon.NewAllPop;
+            this.NotifyFileMenuItem.Checked = NewPostPopMenuItem.Checked;
+
+            //フォント＆文字色＆背景色保持
+            _fntUnread = _cfgLocal.FontUnread;
+            _clUnread = _cfgLocal.ColorUnread;
+            _fntReaded = _cfgLocal.FontRead;
+            _clReaded = _cfgLocal.ColorRead;
+            _clFav = _cfgLocal.ColorFav;
+            _clOWL = _cfgLocal.ColorOWL;
+            _clRetweet = _cfgLocal.ColorRetweet;
+            _fntDetail = _cfgLocal.FontDetail;
+            _clDetail = _cfgLocal.ColorDetail;
+            _clDetailLink = _cfgLocal.ColorDetailLink;
+            _clDetailBackcolor = _cfgLocal.ColorDetailBackcolor;
+            _clSelf = _cfgLocal.ColorSelf;
+            _clAtSelf = _cfgLocal.ColorAtSelf;
+            _clTarget = _cfgLocal.ColorTarget;
+            _clAtTarget = _cfgLocal.ColorAtTarget;
+            _clAtFromTarget = _cfgLocal.ColorAtFromTarget;
+            _clAtTo = _cfgLocal.ColorAtTo;
+            _clListBackcolor = _cfgLocal.ColorListBackcolor;
+            _clInputBackcolor = _cfgLocal.ColorInputBackcolor;
+            _clInputFont = _cfgLocal.ColorInputFont;
+            _fntInputFont = _cfgLocal.FontInputFont;
+
+            _brsForeColorUnread = new SolidBrush(_clUnread);
+            _brsForeColorReaded = new SolidBrush(_clReaded);
+            _brsForeColorFav = new SolidBrush(_clFav);
+            _brsForeColorOWL = new SolidBrush(_clOWL);
+            _brsForeColorRetweet = new SolidBrush(_clRetweet);
+            _brsBackColorMine = new SolidBrush(_clSelf);
+            _brsBackColorAt = new SolidBrush(_clAtSelf);
+            _brsBackColorYou = new SolidBrush(_clTarget);
+            _brsBackColorAtYou = new SolidBrush(_clAtTarget);
+            _brsBackColorAtFromTarget = new SolidBrush(_clAtFromTarget);
+            _brsBackColorAtTo = new SolidBrush(_clAtTo);
+            //_brsBackColorNone = new SolidBrush(Color.FromKnownColor(KnownColor.Window));
+            _brsBackColorNone = new SolidBrush(_clListBackcolor);
+
+            // StringFormatオブジェクトへの事前設定
+            //sf.Alignment = StringAlignment.Near;             // Textを近くへ配置（左から右の場合は左寄せ）
+            //sf.LineAlignment = StringAlignment.Near;         // Textを近くへ配置（上寄せ）
+            //sf.FormatFlags = StringFormatFlags.LineLimit;    // 
+            sfTab.Alignment = StringAlignment.Center;
+            sfTab.LineAlignment = StringAlignment.Center;
+
+            //設定画面への反映
+            HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl;
+            HttpTwitter.TwitterSearchUrl = _cfgCommon.TwitterSearchUrl;
+            SettingDialog.TwitterApiUrl = _cfgCommon.TwitterUrl;
+            SettingDialog.TwitterSearchApiUrl = _cfgCommon.TwitterSearchUrl;
+
+            //認証関連
+            if (_cfgCommon.Token == "") _cfgCommon.UserName = "";
+            tw.Initialize(_cfgCommon.Token, _cfgCommon.TokenSecret, _cfgCommon.UserName, _cfgCommon.UserId);
+
+            SettingDialog.UserAccounts = _cfgCommon.UserAccounts;
+
+            SettingDialog.TimelinePeriodInt = _cfgCommon.TimelinePeriod;
+            SettingDialog.ReplyPeriodInt = _cfgCommon.ReplyPeriod;
+            SettingDialog.DMPeriodInt = _cfgCommon.DMPeriod;
+            SettingDialog.PubSearchPeriodInt = _cfgCommon.PubSearchPeriod;
+            SettingDialog.UserTimelinePeriodInt = _cfgCommon.UserTimelinePeriod;
+            SettingDialog.ListsPeriodInt = _cfgCommon.ListsPeriod;
+            //不正値チェック
+            if (!cmdArgs.Contains("nolimit"))
+            {
+                if (SettingDialog.TimelinePeriodInt < 15 && SettingDialog.TimelinePeriodInt > 0) SettingDialog.TimelinePeriodInt = 15;
+                if (SettingDialog.ReplyPeriodInt < 15 && SettingDialog.ReplyPeriodInt > 0) SettingDialog.ReplyPeriodInt = 15;
+                if (SettingDialog.DMPeriodInt < 15 && SettingDialog.DMPeriodInt > 0) SettingDialog.DMPeriodInt = 15;
+                if (SettingDialog.PubSearchPeriodInt < 30 && SettingDialog.PubSearchPeriodInt > 0) SettingDialog.PubSearchPeriodInt = 30;
+                if (SettingDialog.UserTimelinePeriodInt < 15 && SettingDialog.UserTimelinePeriodInt > 0) SettingDialog.UserTimelinePeriodInt = 15;
+                if (SettingDialog.ListsPeriodInt < 15 && SettingDialog.ListsPeriodInt > 0) SettingDialog.ListsPeriodInt = 15;
+            }
+
+            //起動時読み込み分を既読にするか。trueなら既読として処理
+            SettingDialog.Readed = _cfgCommon.Read;
+            //新着取得時のリストスクロールをするか。trueならスクロールしない
+            ListLockMenuItem.Checked = _cfgCommon.ListLock;
+            this.LockListFileMenuItem.Checked = _cfgCommon.ListLock;
+            SettingDialog.IconSz = _cfgCommon.IconSize;
+            //文末ステータス
+            SettingDialog.Status = _cfgLocal.StatusText;
+            //未読管理。trueなら未読管理する
+            SettingDialog.UnreadManage = _cfgCommon.UnreadManage;
+            //サウンド再生（タブ別設定より優先）
+            SettingDialog.PlaySound = _cfgCommon.PlaySound;
+            PlaySoundMenuItem.Checked = SettingDialog.PlaySound;
+            this.PlaySoundFileMenuItem.Checked = SettingDialog.PlaySound;
+            //片思い表示。trueなら片思い表示する
+            SettingDialog.OneWayLove = _cfgCommon.OneWayLove;
+            //フォント＆文字色＆背景色
+            SettingDialog.FontUnread = _fntUnread;
+            SettingDialog.ColorUnread = _clUnread;
+            SettingDialog.FontReaded = _fntReaded;
+            SettingDialog.ColorReaded = _clReaded;
+            SettingDialog.ColorFav = _clFav;
+            SettingDialog.ColorOWL = _clOWL;
+            SettingDialog.ColorRetweet = _clRetweet;
+            SettingDialog.FontDetail = _fntDetail;
+            SettingDialog.ColorDetail = _clDetail;
+            SettingDialog.ColorDetailLink = _clDetailLink;
+            SettingDialog.ColorDetailBackcolor = _clDetailBackcolor;
+            SettingDialog.ColorSelf = _clSelf;
+            SettingDialog.ColorAtSelf = _clAtSelf;
+            SettingDialog.ColorTarget = _clTarget;
+            SettingDialog.ColorAtTarget = _clAtTarget;
+            SettingDialog.ColorAtFromTarget = _clAtFromTarget;
+            SettingDialog.ColorAtTo = _clAtTo;
+            SettingDialog.ColorListBackcolor = _clListBackcolor;
+            SettingDialog.ColorInputBackcolor = _clInputBackcolor;
+            SettingDialog.ColorInputFont = _clInputFont;
+            SettingDialog.FontInputFont = _fntInputFont;
+
+            SettingDialog.NameBalloon = _cfgCommon.NameBalloon;
+            SettingDialog.PostCtrlEnter = _cfgCommon.PostCtrlEnter;
+            SettingDialog.PostShiftEnter = _cfgCommon.PostShiftEnter;
+
+            SettingDialog.CountApi = _cfgCommon.CountApi;
+            SettingDialog.CountApiReply = _cfgCommon.CountApiReply;
+            if (SettingDialog.CountApi < 20 || SettingDialog.CountApi > 200) SettingDialog.CountApi = 60;
+            if (SettingDialog.CountApiReply < 20 || SettingDialog.CountApiReply > 200) SettingDialog.CountApiReply = 40;
+
+            SettingDialog.BrowserPath = _cfgLocal.BrowserPath;
+            SettingDialog.PostAndGet = _cfgCommon.PostAndGet;
+            SettingDialog.UseRecommendStatus = _cfgLocal.UseRecommendStatus;
+            SettingDialog.DispUsername = _cfgCommon.DispUsername;
+            SettingDialog.CloseToExit = _cfgCommon.CloseToExit;
+            SettingDialog.MinimizeToTray = _cfgCommon.MinimizeToTray;
+            SettingDialog.DispLatestPost = _cfgCommon.DispLatestPost;
+            SettingDialog.SortOrderLock = _cfgCommon.SortOrderLock;
+            SettingDialog.TinyUrlResolve = _cfgCommon.TinyUrlResolve;
+            SettingDialog.ShortUrlForceResolve = _cfgCommon.ShortUrlForceResolve;
+
+            SettingDialog.SelectedProxyType = _cfgLocal.ProxyType;
+            SettingDialog.ProxyAddress = _cfgLocal.ProxyAddress;
+            SettingDialog.ProxyPort = _cfgLocal.ProxyPort;
+            SettingDialog.ProxyUser = _cfgLocal.ProxyUser;
+            SettingDialog.ProxyPassword = _cfgLocal.ProxyPassword;
+
+            SettingDialog.PeriodAdjust = _cfgCommon.PeriodAdjust;
+            SettingDialog.StartupVersion = _cfgCommon.StartupVersion;
+            SettingDialog.StartupFollowers = _cfgCommon.StartupFollowers;
+            SettingDialog.RestrictFavCheck = _cfgCommon.RestrictFavCheck;
+            SettingDialog.AlwaysTop = _cfgCommon.AlwaysTop;
+            SettingDialog.UrlConvertAuto = false;
+            //SettingDialog.UrlConvertAuto = _cfgCommon.UrlConvertAuto;
+
+            SettingDialog.OutputzEnabled = _cfgCommon.Outputz;
+            SettingDialog.OutputzKey = _cfgCommon.OutputzKey;
+            SettingDialog.OutputzUrlmode = _cfgCommon.OutputzUrlMode;
+
+            SettingDialog.UseUnreadStyle = _cfgCommon.UseUnreadStyle;
+            SettingDialog.DefaultTimeOut = _cfgCommon.DefaultTimeOut;
+            SettingDialog.RetweetNoConfirm = _cfgCommon.RetweetNoConfirm;
+            SettingDialog.PlaySound = _cfgCommon.PlaySound;
+            SettingDialog.DateTimeFormat = _cfgCommon.DateTimeFormat;
+            SettingDialog.LimitBalloon = _cfgCommon.LimitBalloon;
+            SettingDialog.EventNotifyEnabled = _cfgCommon.EventNotifyEnabled;
+            SettingDialog.EventNotifyFlag = _cfgCommon.EventNotifyFlag;
+            SettingDialog.IsMyEventNotifyFlag = _cfgCommon.IsMyEventNotifyFlag;
+            SettingDialog.ForceEventNotify = _cfgCommon.ForceEventNotify;
+            SettingDialog.FavEventUnread = _cfgCommon.FavEventUnread;
+            SettingDialog.TranslateLanguage = _cfgCommon.TranslateLanguage;
+            SettingDialog.EventSoundFile = _cfgCommon.EventSoundFile;
+
+            //廃止サービスが選択されていた場合bit.lyへ読み替え
+            if (_cfgCommon.AutoShortUrlFirst < 0)
+                _cfgCommon.AutoShortUrlFirst = MyCommon.UrlConverter.Bitly;
+
+            SettingDialog.AutoShortUrlFirst = _cfgCommon.AutoShortUrlFirst;
+            SettingDialog.TabIconDisp = _cfgCommon.TabIconDisp;
+            SettingDialog.ReplyIconState = _cfgCommon.ReplyIconState;
+            SettingDialog.ReadOwnPost = _cfgCommon.ReadOwnPost;
+            SettingDialog.GetFav = _cfgCommon.GetFav;
+            SettingDialog.ReadOldPosts = _cfgCommon.ReadOldPosts;
+            SettingDialog.UseSsl = _cfgCommon.UseSsl;
+            SettingDialog.BitlyUser = _cfgCommon.BilyUser;
+            SettingDialog.BitlyPwd = _cfgCommon.BitlyPwd;
+            SettingDialog.ShowGrid = _cfgCommon.ShowGrid;
+            SettingDialog.Language = _cfgCommon.Language;
+            SettingDialog.UseAtIdSupplement = _cfgCommon.UseAtIdSupplement;
+            SettingDialog.UseHashSupplement = _cfgCommon.UseHashSupplement;
+            SettingDialog.PreviewEnable = _cfgCommon.PreviewEnable;
+            AtIdSupl = new AtIdSupplement(SettingAtIdList.Load().AtIdList, "@");
+
+            SettingDialog.IsMonospace = _cfgCommon.IsMonospace;
+            if (SettingDialog.IsMonospace)
+            {
+                detailHtmlFormatHeader = detailHtmlFormatMono1;
+                detailHtmlFormatFooter = detailHtmlFormatMono7;
+            }
+            else
+            {
+                detailHtmlFormatHeader = detailHtmlFormat1;
+                detailHtmlFormatFooter = detailHtmlFormat7;
+            }
+            detailHtmlFormatHeader += _fntDetail.Name + detailHtmlFormat2 + _fntDetail.Size.ToString() + detailHtmlFormat3 + _clDetail.R.ToString() + "," + _clDetail.G.ToString() + "," + _clDetail.B.ToString() + detailHtmlFormat4 + _clDetailLink.R.ToString() + "," + _clDetailLink.G.ToString() + "," + _clDetailLink.B.ToString() + detailHtmlFormat5 + _clDetailBackcolor.R.ToString() + "," + _clDetailBackcolor.G.ToString() + "," + _clDetailBackcolor.B.ToString();
+            if (SettingDialog.IsMonospace)
+            {
+                detailHtmlFormatHeader += detailHtmlFormatMono6;
+            }
+            else
+            {
+                detailHtmlFormatHeader += detailHtmlFormat6;
+            }
+            this.IdeographicSpaceToSpaceToolStripMenuItem.Checked = _cfgCommon.WideSpaceConvert;
+            this.ToolStripFocusLockMenuItem.Checked = _cfgCommon.FocusLockToStatusText;
+
+            //Regex statregex = new Regex("^0*");
+            SettingDialog.RecommendStatusText = " [TWNv" + Regex.Replace(MyCommon.fileVersion.Replace(".", ""), "^0*", "") + "]";
+
+            //書式指定文字列エラーチェック
+            try
+            {
+                if (DateTime.Now.ToString(SettingDialog.DateTimeFormat).Length == 0)
+                {
+                    // このブロックは絶対に実行されないはず
+                    // 変換が成功した場合にLengthが0にならない
+                    SettingDialog.DateTimeFormat = "yyyy/MM/dd H:mm:ss";
+                }
+            }
+            catch (FormatException)
+            {
+                // FormatExceptionが発生したら初期値を設定 (=yyyy/MM/dd H:mm:ssとみなされる)
+                SettingDialog.DateTimeFormat = "yyyy/MM/dd H:mm:ss";
+            }
+
+            SettingDialog.Nicoms = _cfgCommon.Nicoms;
+            SettingDialog.HotkeyEnabled = _cfgCommon.HotkeyEnabled;
+            SettingDialog.HotkeyMod = _cfgCommon.HotkeyModifier;
+            SettingDialog.HotkeyKey = _cfgCommon.HotkeyKey;
+            SettingDialog.HotkeyValue = _cfgCommon.HotkeyValue;
+
+            SettingDialog.BlinkNewMentions = _cfgCommon.BlinkNewMentions;
+
+            SettingDialog.UseAdditionalCount = _cfgCommon.UseAdditionalCount;
+            SettingDialog.MoreCountApi = _cfgCommon.MoreCountApi;
+            SettingDialog.FirstCountApi = _cfgCommon.FirstCountApi;
+            SettingDialog.SearchCountApi = _cfgCommon.SearchCountApi;
+            SettingDialog.FavoritesCountApi = _cfgCommon.FavoritesCountApi;
+            SettingDialog.UserTimelineCountApi = _cfgCommon.UserTimelineCountApi;
+            SettingDialog.ListCountApi = _cfgCommon.ListCountApi;
+
+            SettingDialog.UserstreamStartup = _cfgCommon.UserstreamStartup;
+            SettingDialog.UserstreamPeriodInt = _cfgCommon.UserstreamPeriod;
+            SettingDialog.OpenUserTimeline = _cfgCommon.OpenUserTimeline;
+            SettingDialog.ListDoubleClickAction = _cfgCommon.ListDoubleClickAction;
+            SettingDialog.UserAppointUrl = _cfgCommon.UserAppointUrl;
+            SettingDialog.HideDuplicatedRetweets = _cfgCommon.HideDuplicatedRetweets;
+
+            SettingDialog.IsPreviewFoursquare = _cfgCommon.IsPreviewFoursquare;
+            SettingDialog.FoursquarePreviewHeight = _cfgCommon.FoursquarePreviewHeight;
+            SettingDialog.FoursquarePreviewWidth = _cfgCommon.FoursquarePreviewWidth;
+            SettingDialog.FoursquarePreviewZoom = _cfgCommon.FoursquarePreviewZoom;
+            SettingDialog.IsListStatusesIncludeRts = _cfgCommon.IsListsIncludeRts;
+            SettingDialog.TabMouseLock = _cfgCommon.TabMouseLock;
+            SettingDialog.IsRemoveSameEvent = _cfgCommon.IsRemoveSameEvent;
+            SettingDialog.IsNotifyUseGrowl = _cfgCommon.IsUseNotifyGrowl;
+
+            //ハッシュタグ関連
+            HashSupl = new AtIdSupplement(_cfgCommon.HashTags, "#");
+            HashMgr = new HashtagManage(HashSupl,
+                                    _cfgCommon.HashTags.ToArray(),
+                                    _cfgCommon.HashSelected,
+                                    _cfgCommon.HashIsPermanent,
+                                    _cfgCommon.HashIsHead,
+                                    _cfgCommon.HashIsNotAddToAtReply);
+            if (HashMgr.UseHash != "" && HashMgr.IsPermanent) HashStripSplitButton.Text = HashMgr.UseHash;
+
+            _initial = true;
+
+            //アイコンリスト作成
+            try
+            {
+                TIconDic = new ImageDictionary(5);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Please install [.NET Framework 4 (Full)].");
+                Application.Exit();
+                return;
+            }
+            ((ImageDictionary)this.TIconDic).PauseGetImage = false;
+
+            bool saveRequired = false;
+            //ユーザー名、パスワードが未設定なら設定画面を表示（初回起動時など）
+            if (tw.Username == "")
+            {
+                saveRequired = true;
+                //設定せずにキャンセルされた場合はプログラム終了
+                if (SettingDialog.ShowDialog(this) == DialogResult.Cancel)
+                {
+                    Application.Exit();  //強制終了
+                    return;
+                }
+                //設定されたが、依然ユーザー名とパスワードが未設定ならプログラム終了
+                if (tw.Username == "")
+                {
+                    Application.Exit();  //強制終了
+                    return;
+                }
+                //新しい設定を反映
+                //フォント＆文字色＆背景色保持
+                _fntUnread = SettingDialog.FontUnread;
+                _clUnread = SettingDialog.ColorUnread;
+                _fntReaded = SettingDialog.FontReaded;
+                _clReaded = SettingDialog.ColorReaded;
+                _clFav = SettingDialog.ColorFav;
+                _clOWL = SettingDialog.ColorOWL;
+                _clRetweet = SettingDialog.ColorRetweet;
+                _fntDetail = SettingDialog.FontDetail;
+                _clDetail = SettingDialog.ColorDetail;
+                _clDetailLink = SettingDialog.ColorDetailLink;
+                _clDetailBackcolor = SettingDialog.ColorDetailBackcolor;
+                _clSelf = SettingDialog.ColorSelf;
+                _clAtSelf = SettingDialog.ColorAtSelf;
+                _clTarget = SettingDialog.ColorTarget;
+                _clAtTarget = SettingDialog.ColorAtTarget;
+                _clAtFromTarget = SettingDialog.ColorAtFromTarget;
+                _clAtTo = SettingDialog.ColorAtTo;
+                _clListBackcolor = SettingDialog.ColorListBackcolor;
+                _clInputBackcolor = SettingDialog.ColorInputBackcolor;
+                _clInputFont = SettingDialog.ColorInputFont;
+                _fntInputFont = SettingDialog.FontInputFont;
+                _brsForeColorUnread.Dispose();
+                _brsForeColorReaded.Dispose();
+                _brsForeColorFav.Dispose();
+                _brsForeColorOWL.Dispose();
+                _brsForeColorRetweet.Dispose();
+                _brsForeColorUnread = new SolidBrush(_clUnread);
+                _brsForeColorReaded = new SolidBrush(_clReaded);
+                _brsForeColorFav = new SolidBrush(_clFav);
+                _brsForeColorOWL = new SolidBrush(_clOWL);
+                _brsForeColorRetweet = new SolidBrush(_clRetweet);
+                _brsBackColorMine.Dispose();
+                _brsBackColorAt.Dispose();
+                _brsBackColorYou.Dispose();
+                _brsBackColorAtYou.Dispose();
+                _brsBackColorAtFromTarget.Dispose();
+                _brsBackColorAtTo.Dispose();
+                _brsBackColorNone.Dispose();
+                _brsBackColorMine = new SolidBrush(_clSelf);
+                _brsBackColorAt = new SolidBrush(_clAtSelf);
+                _brsBackColorYou = new SolidBrush(_clTarget);
+                _brsBackColorAtYou = new SolidBrush(_clAtTarget);
+                _brsBackColorAtFromTarget = new SolidBrush(_clAtFromTarget);
+                _brsBackColorAtTo = new SolidBrush(_clAtTo);
+                _brsBackColorNone = new SolidBrush(_clListBackcolor);
+
+                if (SettingDialog.IsMonospace)
+                {
+                    detailHtmlFormatHeader = detailHtmlFormatMono1;
+                    detailHtmlFormatFooter = detailHtmlFormatMono7;
+                }
+                else
+                {
+                    detailHtmlFormatHeader = detailHtmlFormat1;
+                    detailHtmlFormatFooter = detailHtmlFormat7;
+                }
+                detailHtmlFormatHeader += _fntDetail.Name + detailHtmlFormat2 + _fntDetail.Size.ToString() + detailHtmlFormat3 + _clDetail.R.ToString() + "," + _clDetail.G.ToString() + "," + _clDetail.B.ToString() + detailHtmlFormat4 + _clDetailLink.R.ToString() + "," + _clDetailLink.G.ToString() + "," + _clDetailLink.B.ToString() + detailHtmlFormat5 + _clDetailBackcolor.R.ToString() + "," + _clDetailBackcolor.G.ToString() + "," + _clDetailBackcolor.B.ToString();
+                if (SettingDialog.IsMonospace)
+                {
+                    detailHtmlFormatHeader += detailHtmlFormatMono6;
+                }
+                else
+                {
+                    detailHtmlFormatHeader += detailHtmlFormat6;
+                }
+                //他の設定項目は、随時設定画面で保持している値を読み出して使用
+            }
+
+            if (SettingDialog.HotkeyEnabled)
+            {
+                //////グローバルホットキーの登録
+                HookGlobalHotkey.ModKeys modKey = HookGlobalHotkey.ModKeys.None;
+                if ((SettingDialog.HotkeyMod & Keys.Alt) == Keys.Alt) modKey = modKey | HookGlobalHotkey.ModKeys.Alt;
+                if ((SettingDialog.HotkeyMod & Keys.Control) == Keys.Control) modKey = modKey | HookGlobalHotkey.ModKeys.Ctrl;
+                if ((SettingDialog.HotkeyMod & Keys.Shift) == Keys.Shift) modKey = modKey | HookGlobalHotkey.ModKeys.Shift;
+                if ((SettingDialog.HotkeyMod & Keys.LWin) == Keys.LWin) modKey = modKey | HookGlobalHotkey.ModKeys.Win;
+
+                _hookGlobalHotkey.RegisterOriginalHotkey(SettingDialog.HotkeyKey, SettingDialog.HotkeyValue, modKey);
+            }
+
+            //Twitter用通信クラス初期化
+            HttpConnection.InitializeConnection(SettingDialog.DefaultTimeOut,
+                                                SettingDialog.SelectedProxyType,
+                                                SettingDialog.ProxyAddress,
+                                                SettingDialog.ProxyPort,
+                                                SettingDialog.ProxyUser,
+                                                SettingDialog.ProxyPassword);
+
+            tw.RestrictFavCheck = SettingDialog.RestrictFavCheck;
+            tw.ReadOwnPost = SettingDialog.ReadOwnPost;
+            tw.UseSsl = SettingDialog.UseSsl;
+            ShortUrl.IsResolve = SettingDialog.TinyUrlResolve;
+            ShortUrl.IsForceResolve = SettingDialog.ShortUrlForceResolve;
+            ShortUrl.BitlyId = SettingDialog.BitlyUser;
+            ShortUrl.BitlyKey = SettingDialog.BitlyPwd;
+            HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl;
+            HttpTwitter.TwitterSearchUrl = _cfgCommon.TwitterSearchUrl;
+            tw.TrackWord = _cfgCommon.TrackWord;
+            TrackToolStripMenuItem.Checked = !String.IsNullOrEmpty(tw.TrackWord);
+            tw.AllAtReply = _cfgCommon.AllAtReply;
+            AllrepliesToolStripMenuItem.Checked = tw.AllAtReply;
+
+            Outputz.Key = SettingDialog.OutputzKey;
+            Outputz.Enabled = SettingDialog.OutputzEnabled;
+            switch (SettingDialog.OutputzUrlmode)
+            {
+                case MyCommon.OutputzUrlmode.twittercom:
+                    Outputz.OutUrl = "http://twitter.com/";
+                    break;
+                case MyCommon.OutputzUrlmode.twittercomWithUsername:
+                    Outputz.OutUrl = "http://twitter.com/" + tw.Username;
+                    break;
+            }
+
+            //画像投稿サービス
+            this.CreatePictureServices();
+            SetImageServiceCombo();
+            ImageSelectionPanel.Enabled = false;
+
+            ImageServiceCombo.SelectedIndex = _cfgCommon.UseImageService;
+
+            //ウィンドウ設定
+            this.ClientSize = _cfgLocal.FormSize;
+            _mySize = _cfgLocal.FormSize;                     //サイズ保持（最小化・最大化されたまま終了した場合の対応用）
+            _myLoc = _cfgLocal.FormLocation;
+            //タイトルバー領域
+            if (this.WindowState != FormWindowState.Minimized)
+            {
+                this.DesktopLocation = _cfgLocal.FormLocation;
+                Rectangle tbarRect = new Rectangle(this.Location, new Size(_mySize.Width, SystemInformation.CaptionHeight));
+                bool outOfScreen = true;
+                if (Screen.AllScreens.Length == 1)    //ハングするとの報告
+                {
+                    foreach (Screen scr in Screen.AllScreens)
+                    {
+                        if (!Rectangle.Intersect(tbarRect, scr.Bounds).IsEmpty)
+                        {
+                            outOfScreen = false;
+                            break;
+                        }
+                    }
+                    if (outOfScreen)
+                    {
+                        this.DesktopLocation = new Point(0, 0);
+                        _myLoc = this.DesktopLocation;
+                    }
+                }
+            }
+            this.TopMost = SettingDialog.AlwaysTop;
+            _mySpDis = _cfgLocal.SplitterDistance;
+            _mySpDis2 = _cfgLocal.StatusTextHeight;
+            _mySpDis3 = _cfgLocal.PreviewDistance;
+            if (_mySpDis3 == -1)
+            {
+                _mySpDis3 = _mySize.Width - 150;
+                if (_mySpDis3 < 1) _mySpDis3 = 50;
+                _cfgLocal.PreviewDistance = _mySpDis3;
+            }
+            _myAdSpDis = _cfgLocal.AdSplitterDistance;
+            MultiLineMenuItem.Checked = _cfgLocal.StatusMultiline;
+            //this.Tween_ClientSizeChanged(this, null);
+            PlaySoundMenuItem.Checked = SettingDialog.PlaySound;
+            this.PlaySoundFileMenuItem.Checked = SettingDialog.PlaySound;
+            //入力欄
+            StatusText.Font = _fntInputFont;
+            StatusText.ForeColor = _clInputFont;
+
+            //全新着通知のチェック状態により、Reply＆DMの新着通知有効無効切り替え（タブ別設定にするため削除予定）
+            if (SettingDialog.UnreadManage == false)
+            {
+                ReadedStripMenuItem.Enabled = false;
+                UnreadStripMenuItem.Enabled = false;
+            }
+
+            if (SettingDialog.IsNotifyUseGrowl) gh.RegisterGrowl();
+
+            //タイマー設定
+            TimerTimeline.AutoReset = true;
+            TimerTimeline.SynchronizingObject = this;
+            //Recent取得間隔
+            TimerTimeline.Interval = 1000;
+            TimerTimeline.Enabled = true;
+
+            //更新中アイコンアニメーション間隔
+            TimerRefreshIcon.Interval = 200;
+            TimerRefreshIcon.Enabled = true;
+
+            //状態表示部の初期化（画面右下）
+            StatusLabel.Text = "";
+            StatusLabel.AutoToolTip = false;
+            StatusLabel.ToolTipText = "";
+            //文字カウンタ初期化
+            lblLen.Text = GetRestStatusCount(true, false).ToString();
+
+            ////////////////////////////////////////////////////////////////////////////////
+            _statuses.SortOrder = (SortOrder)_cfgCommon.SortOrder;
+            IdComparerClass.ComparerMode mode = IdComparerClass.ComparerMode.Id;
+            switch (_cfgCommon.SortColumn)
+            {
+                case 0:    //0:アイコン,5:未読マーク,6:プロテクト・フィルターマーク
+                case 5:
+                case 6:
+                    //ソートしない
+                    mode = IdComparerClass.ComparerMode.Id;  //Idソートに読み替え
+                    break;
+                case 1:  //ニックネーム
+                    mode = IdComparerClass.ComparerMode.Nickname;
+                    break;
+                case 2:  //本文
+                    mode = IdComparerClass.ComparerMode.Data;
+                    break;
+                case 3:  //時刻=発言Id
+                    mode = IdComparerClass.ComparerMode.Id;
+                    break;
+                case 4:  //名前
+                    mode = IdComparerClass.ComparerMode.Name;
+                    break;
+                case 7:  //Source
+                    mode = IdComparerClass.ComparerMode.Source;
+                    break;
+            }
+            _statuses.SortMode = mode;
+            ////////////////////////////////////////////////////////////////////////////////
+
+            switch (SettingDialog.IconSz)
+            {
+                case MyCommon.IconSizes.IconNone:
+                    _iconSz = 0;
+                    break;
+                case MyCommon.IconSizes.Icon16:
+                    _iconSz = 16;
+                    break;
+                case MyCommon.IconSizes.Icon24:
+                    _iconSz = 26;
+                    break;
+                case MyCommon.IconSizes.Icon48:
+                    _iconSz = 48;
+                    break;
+                case MyCommon.IconSizes.Icon48_2:
+                    _iconSz = 48;
+                    _iconCol = true;
+                    break;
+            }
+            if (_iconSz == 0)
+            {
+                tw.GetIcon = false;
+            }
+            else
+            {
+                tw.GetIcon = true;
+                tw.IconSize = _iconSz;
+            }
+            tw.TinyUrlResolve = SettingDialog.TinyUrlResolve;
+            ShortUrl.IsForceResolve = SettingDialog.ShortUrlForceResolve;
+
+            //発言詳細部アイコンをリストアイコンにサイズ変更
+            int sz = _iconSz;
+            if (_iconSz == 0)
+            {
+                sz = 16;
+            }
+
+            tw.DetailIcon = TIconDic;
+
+            StatusLabel.Text = Properties.Resources.Form1_LoadText1;       //画面右下の状態表示を変更
+            StatusLabelUrl.Text = "";            //画面左下のリンク先URL表示部を初期化
+            NameLabel.Text = "";                 //発言詳細部名前ラベル初期化
+            DateTimeLabel.Text = "";             //発言詳細部日時ラベル初期化
+            SourceLinkLabel.Text = "";           //Source部分初期化
+
+            //<<<<<<<<タブ関連>>>>>>>
+            //デフォルトタブの存在チェック、ない場合には追加
+            if (_statuses.GetTabByType(MyCommon.TabUsageType.Home) == null)
+            {
+                if (!_statuses.Tabs.ContainsKey(MyCommon.DEFAULTTAB.RECENT))
+                {
+                    _statuses.AddTab(MyCommon.DEFAULTTAB.RECENT, MyCommon.TabUsageType.Home, null);
+                }
+                else
+                {
+                    _statuses.Tabs[MyCommon.DEFAULTTAB.RECENT].TabType = MyCommon.TabUsageType.Home;
+                }
+            }
+            if (_statuses.GetTabByType(MyCommon.TabUsageType.Mentions) == null)
+            {
+                if (!_statuses.Tabs.ContainsKey(MyCommon.DEFAULTTAB.REPLY))
+                {
+                    _statuses.AddTab(MyCommon.DEFAULTTAB.REPLY, MyCommon.TabUsageType.Mentions, null);
+                }
+                else
+                {
+                    _statuses.Tabs[MyCommon.DEFAULTTAB.REPLY].TabType = MyCommon.TabUsageType.Mentions;
+                }
+            }
+            if (_statuses.GetTabByType(MyCommon.TabUsageType.DirectMessage) == null)
+            {
+                if (!_statuses.Tabs.ContainsKey(MyCommon.DEFAULTTAB.DM))
+                {
+                    _statuses.AddTab(MyCommon.DEFAULTTAB.DM, MyCommon.TabUsageType.DirectMessage, null);
+                }
+                else
+                {
+                    _statuses.Tabs[MyCommon.DEFAULTTAB.DM].TabType = MyCommon.TabUsageType.DirectMessage;
+                }
+            }
+            if (_statuses.GetTabByType(MyCommon.TabUsageType.Favorites) == null)
+            {
+                if (!_statuses.Tabs.ContainsKey(MyCommon.DEFAULTTAB.FAV))
+                {
+                    _statuses.AddTab(MyCommon.DEFAULTTAB.FAV, MyCommon.TabUsageType.Favorites, null);
+                }
+                else
+                {
+                    _statuses.Tabs[MyCommon.DEFAULTTAB.FAV].TabType = MyCommon.TabUsageType.Favorites;
+                }
+            }
+            foreach (string tn in _statuses.Tabs.Keys)
+            {
+                if (_statuses.Tabs[tn].TabType == MyCommon.TabUsageType.Undefined)
+                {
+                    _statuses.Tabs[tn].TabType = MyCommon.TabUsageType.UserDefined;
+                }
+                if (!AddNewTab(tn, true, _statuses.Tabs[tn].TabType, _statuses.Tabs[tn].ListInfo)) throw new Exception(Properties.Resources.TweenMain_LoadText1);
+            }
+
+            this.JumpReadOpMenuItem.ShortcutKeyDisplayString = "Space";
+            CopySTOTMenuItem.ShortcutKeyDisplayString = "Ctrl+C";
+            CopyURLMenuItem.ShortcutKeyDisplayString = "Ctrl+Shift+C";
+            CopyUserIdStripMenuItem.ShortcutKeyDisplayString = "Shift+Alt+C";
+
+            if (SettingDialog.MinimizeToTray = false || this.WindowState != FormWindowState.Minimized)
+            {
+                this.Visible = true;
+            }
+            _curTab = ListTab.SelectedTab;
+            _curItemIndex = -1;
+            _curList = (DetailsListView)_curTab.Tag;
+            SetMainWindowTitle();
+            SetNotifyIconText();
+
+            if (SettingDialog.TabIconDisp)
+            {
+                ListTab.DrawMode = TabDrawMode.Normal;
+            }
+            else
+            {
+                ListTab.DrawMode = TabDrawMode.OwnerDrawFixed;
+                ListTab.DrawItem += ListTab_DrawItem;
+                ListTab.ImageList = null;
+            }
+
+#if UA
+            ab = new AdsBrowser();
+            this.SplitContainer4.Panel2.Controls.Add(ab);
+#else
+            SplitContainer4.Panel2Collapsed = true;
+#endif
+
+            _ignoreConfigSave = false;
+            this.TweenMain_Resize(null, null);
+            if (saveRequired) SaveConfigsAll(false);
+
+            if (tw.UserId == 0)
+            {
+                tw.VerifyCredentials();
+                foreach (UserAccount ua in _cfgCommon.UserAccounts)
+                {
+                    if (ua.Username.ToLower() == tw.Username.ToLower())
+                    {
+                        ua.UserId = tw.UserId;
+                        break;
+                    }
+                }
+            }
+            foreach (UserAccount ua in SettingDialog.UserAccounts)
+            {
+                if (ua.UserId == 0 && ua.Username.ToLower() == tw.Username.ToLower())
+                {
+                    ua.UserId = tw.UserId;
+                    break;
+                }
+            }
         }
 
         private void CreatePictureServices()
