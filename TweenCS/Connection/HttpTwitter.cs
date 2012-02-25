@@ -37,15 +37,6 @@ public class HttpTwitter : ICloneable
 {
     //OAuth関連
     ///<summary>
-    ///OAuthのコンシューマー鍵
-    ///</summary>
-    private const string ConsumerKey = "ST6eAABKDRKTqbN7pPo2A";
-
-    ///<summary>
-    ///OAuthの署名作成用秘密コンシューマーデータ
-    ///</summary>
-    private const string ConsumerSecret = "BJMEiivrXlqGESzdb8D0bvLfNYf3fifXRDMFjMogXg";
-    ///<summary>
     ///OAuthのアクセストークン取得先URI
     ///</summary>
     private const string AccessTokenUrlXAuth = "https://api.twitter.com/oauth/access_token";
@@ -89,7 +80,7 @@ public class HttpTwitter : ICloneable
             tks = accessTokenSecret;
             un = username;
         }
-        con.Initialize(ConsumerKey, ConsumerSecret, accessToken, accessTokenSecret, username, userId, "screen_name", "user_id");
+        con.Initialize(ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret, accessToken, accessTokenSecret, username, userId, "screen_name", "user_id");
         httpCon = con;
         connectionType = AuthMethod.OAuth;
         requestToken = "";

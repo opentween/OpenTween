@@ -33,8 +33,6 @@ namespace Tween
 {
     public class Bing
     {
-        private const string AppId = "ABD3DFF1AB47F3899A2203E0C5873CBE3E14E8D3";
-
 #region "言語テーブル定義"
         private static readonly List<string> LanguageTable = new List<string>() {
         "af",
@@ -166,7 +164,7 @@ namespace Tween
 
 #region "Translation"
 
-        private const string TranslateUri = "http://api.microsofttranslator.com/v2/Http.svc/Translate?appId=" + AppId;
+        private const string TranslateUri = "http://api.microsofttranslator.com/v2/Http.svc/Translate?appId=" + ApplicationSettings.BingAppId;
 
         public bool Translate(string _from, string _to, string _text, out string buf)
         {

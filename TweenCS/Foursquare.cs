@@ -47,8 +47,8 @@ namespace Tween
 
         private Dictionary<string, string> _authKey = new Dictionary<string, string>
         {
-            {"client_id", "5H3K5YQPT55DNQUFEOAJFNJA5D01ZJGO2ITEAJ3ASRIDONUB"},
-            {"client_secret", "JFRHP1L451M3AEPF11UZLTIIUZCZTZRVHVOWB5TQ0AJOVPBB"},
+            {"client_id", ApplicationSettings.FoursquareClientId},
+            {"client_secret", ApplicationSettings.FoursquareClientSecret},
         };
 
         private Dictionary<string, Google.GlobalLocation> CheckInUrlsVenueCollection = new Dictionary<string, Google.GlobalLocation>();

@@ -2978,11 +2978,10 @@ namespace Tween
             // TODO: サムネイル画像読み込み処理を記述します
             var http = new HttpVarious();
             var mc = Regex.Match(args.url.Value, @"^http://www\.tinami\.com/view/(?<ContentId>\d+)$", RegexOptions.IgnoreCase);
-            const string ApiKey = "4e353d9113dce";
             if (mc.Success)
             {
                 var src = "";
-                var ContentInfo = mc.Result("http://api.tinami.com/content/info?api_key=" + ApiKey +
+                var ContentInfo = mc.Result("http://api.tinami.com/content/info?api_key=" + ApplicationSettings.TINAMIApiKey +
                                             "&cont_id=${ContentId}");
                 if (http.GetData(ContentInfo, null, out src, 0, out args.errmsg, ""))
                 {

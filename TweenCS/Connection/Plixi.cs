@@ -43,20 +43,6 @@ namespace Tween
 {
 	public class Plixi : HttpConnectionOAuthEcho, IMultimediaShareService
 	{
-		// OAuth関連
-
-		/// <summary>
-		/// OAuthのコンシューマー鍵
-		/// </summary>
-		private const string ConsumerKey = "ST6eAABKDRKTqbN7pPo2A";
-
-		/// <summary>
-		/// OAuthの署名作成用秘密コンシューマーデータ
-		/// </summary>
-		private const string ConsumerSecretKey = "BJMEiivrXlqGESzdb8D0bvLfNYf3fifXRDMFjMogXg";
-
-		private const string ApiKey = "91083b55-f8f9-4b91-a0b3-f999e2e45af2";
-
 		private string[] pictureExt = new string[] { ".jpg", ".jpeg", ".gif", ".png" };
 
 		private const long MaxFileSize = 5 * 1024 * 1024;
@@ -142,7 +128,7 @@ namespace Tween
 				throw new ArgumentException( "File is too large." );
 
 			Dictionary< string, string > param = new Dictionary< string, string >();
-			param.Add( "api_key", Plixi.ApiKey );
+			param.Add( "api_key", ApplicationSettings.LockerzApiKey );
 			param.Add( "message", message );
 			param.Add( "isoauth", "true" );
 			List< KeyValuePair< string, FileInfo > > binary = new List< KeyValuePair< string, FileInfo > >();
@@ -195,7 +181,7 @@ namespace Tween
 			: base( new Uri( "http://api.twitter.com/" ), new Uri( "https://api.twitter.com/1/account/verify_credentials.json" ) )
 		{
 			this.tw = twitter;
-			base.Initialize( ConsumerKey, ConsumerSecretKey, tw.AccessToken, tw.AccessTokenSecret, "", "" );
+            base.Initialize( ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret, tw.AccessToken, tw.AccessTokenSecret, "", "" );
 		}
 	}
 }

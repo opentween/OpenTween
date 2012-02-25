@@ -42,18 +42,6 @@ namespace Tween
 {
 	public class imgly : HttpConnectionOAuthEcho, IMultimediaShareService
 	{
-		// OAuth関連
-
-		/// <summary>
-		/// OAuthのコンシューマー鍵
-		/// </summary>
-		private const string ConsumerKey = "ST6eAABKDRKTqbN7pPo2A";
-
-		/// <summary>
-		/// OAuthの署名作成用秘密コンシューマーデータ
-		/// </summary>
-		private const string ConsumerSecretKey = "BJMEiivrXlqGESzdb8D0bvLfNYf3fifXRDMFjMogXg";
-
 		private string[] pictureExt = new string[] { ".jpg", ".jpeg", ".gif", ".png" };
 
 		private const long MaxFileSize = 4 * 1024 * 1024;
@@ -193,7 +181,7 @@ namespace Tween
 			: base( new Uri( "http://api.twitter.com/" ), new Uri( "https://api.twitter.com/1/account/verify_credentials.json" ) )
 		{
 			this.tw = twitter;
-			this.Initialize( imgly.ConsumerKey, imgly.ConsumerSecretKey, tw.AccessToken, tw.AccessTokenSecret, "", "" );
+            this.Initialize( ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret, tw.AccessToken, tw.AccessTokenSecret, "", "" );
 		}
 	}
 }

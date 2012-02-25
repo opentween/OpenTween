@@ -40,8 +40,6 @@ namespace Tween
 {
 	public class TwitVideo : HttpConnection
 	{
-		private const string ConsumerKey = "7c4dc004a88e821b02c87a0cde2fa85c";
-
 		private string[] multimediaExt = new string[] { ".avi", ".wmv", ".flv", ".m4v", ".mov", ".mp4", ".rm", ".mpeg", ".mpg", ".3gp", ".3g2" };
 
 		private string[] pictureExt = new string[] { ".jpg", ".jpeg", ".gif", ".png" };
@@ -74,7 +72,7 @@ namespace Tween
 
 			// Endpoint(URI+Token)
 			const string URLBASE = "http://api.twitvideo.jp/oauth/upload/";
-            byte[] data = Encoding.ASCII.GetBytes( TwitVideo.ConsumerKey.Substring(0, 9) + username );
+            byte[] data = Encoding.ASCII.GetBytes( ApplicationSettings.TwitVideoConsumerKey.Substring(0, 9) + username );
 			byte[] bHash = ( new System.Security.Cryptography.MD5CryptoServiceProvider() ).ComputeHash( data );
 			string url = URLBASE + BitConverter.ToString( bHash ).ToLower().Replace( "-", "" );
 

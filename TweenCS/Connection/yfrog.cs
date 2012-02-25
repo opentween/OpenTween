@@ -42,20 +42,6 @@ namespace Tween
 {
 	public class yfrog : HttpConnectionOAuthEcho, IMultimediaShareService
 	{
-		// OAuth関連
-
-		/// <summary>
-		/// OAuthのコンシューマー鍵
-		/// </summary>
-		private const string ConsumerKey = "ST6eAABKDRKTqbN7pPo2A";
-
-		/// <summary>
-		/// OAuthの署名作成用秘密コンシューマーデータ
-		/// </summary>
-		private const string ConsumerSecretKey = "BJMEiivrXlqGESzdb8D0bvLfNYf3fifXRDMFjMogXg";
-
-		private const string ApiKey = "HIDP42ZO6314ee2218e2995662bad5ae320c32f1";
-
 		private string[] pictureExt = new string[] { ".jpg", ".jpeg", ".gif", ".png" };
 
 		private const long MaxFileSize = 5 * 1024 * 1024;
@@ -143,7 +129,7 @@ namespace Tween
 				throw new ArgumentException( "File is too large." );
 
 			Dictionary< string, string > param = new Dictionary< string, string >();
-            param.Add("key", yfrog.ApiKey);
+            param.Add( "key", ApplicationSettings.YfrogApiKey );
 			param.Add( "message", message );
 			List< KeyValuePair< string, FileInfo > > binary = new List< KeyValuePair< string, FileInfo > >();
 			binary.Add( new KeyValuePair< string, FileInfo >( "media", mediaFile ) );
@@ -190,7 +176,7 @@ namespace Tween
 			: base( new Uri( "http://api.twitter.com/" ), new Uri( "https://api.twitter.com/1/account/verify_credentials.xml" ) )
 		{
 			this.tw = twitter;
-            this.Initialize( yfrog.ConsumerKey, yfrog.ConsumerSecretKey, this.tw.AccessToken, this.tw.AccessTokenSecret, "", "" );
+            this.Initialize( ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret, this.tw.AccessToken, this.tw.AccessTokenSecret, "", "" );
 		}
 
 		public bool Configuration( string key, object value )

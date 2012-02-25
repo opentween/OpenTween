@@ -321,8 +321,6 @@ namespace Tween
                     break;
                 case MyCommon.UrlConverter.Bitly:
                 case MyCommon.UrlConverter.Jmp:
-                    const string BitlyLogin = "opentween";
-                    const string BitlyApiKey = "R_76319a25e2420b8d2c42e812fe177d8b";
                     const string BitlyApiVersion = "3";
                     if (SrcUrl.StartsWith("http"))
                     {
@@ -334,8 +332,8 @@ namespace Tween
                         }
                         string req = "";
                         req = "http://api.bitly.com/v" + BitlyApiVersion + "/shorten?";
-                        req += "login=" + BitlyLogin +
-                            "&apiKey=" + BitlyApiKey +
+                        req += "login=" + ApplicationSettings.BitlyLoginId +
+                            "&apiKey=" + ApplicationSettings.BitlyApiKey +
                             "&format=txt" +
                             "&longUrl=" + SrcUrl;
                         if (_bitlyId != "" && _bitlyKey != "") req += "&x_login=" + _bitlyId + "&x_apiKey=" + _bitlyKey;
