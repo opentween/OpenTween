@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Tween</RootNamespace>
-    <AssemblyName>TweenCS</AssemblyName>
+    <AssemblyName>Tween</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -383,7 +383,9 @@
       <DependentUpon>TweenAboutBox.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\1o.ico" />
     <Content Include="Resources\2b.ico" />
@@ -408,6 +410,7 @@
     <Content Include="Resources\re2.ico" />
     <Content Include="Resources\re3.ico" />
     <Content Include="Resources\re4.ico" />
+    <Content Include="tips.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
