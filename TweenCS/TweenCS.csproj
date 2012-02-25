@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{3D8995C7-BDF3-4273-9F9D-DDD902F6A101}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Tween</RootNamespace>
     <AssemblyName>TweenCS</AssemblyName>
@@ -29,6 +29,12 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Tween.MyApplication</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\4b.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
@@ -379,26 +385,29 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Resources\1o.ico" />
+    <Content Include="Resources\2b.ico" />
+    <Content Include="Resources\3b.ico" />
+    <Content Include="Resources\4b.ico" />
+    <Content Include="Resources\4r.ico" />
+    <Content Include="Resources\4y.ico" />
+    <Content Include="Resources\5b.ico" />
     <Content Include="Resources\5g.ico" />
+    <Content Include="Resources\5o.ico" />
+    <Content Include="Resources\5r.ico" />
+    <Content Include="Resources\5y.ico" />
+    <Content Include="Resources\6b.ico" />
     <Content Include="Resources\6g.ico" />
+    <Content Include="Resources\6o.ico" />
     <Content Include="Resources\ads.txt" />
     <Content Include="Resources\ChangeLog.txt" />
     <Content Include="Resources\Description.txt" />
-    <Content Include="Resources\S0.ico" />
-    <Content Include="Resources\S1.ico" />
-    <Content Include="Resources\S10.ico" />
-    <Content Include="Resources\S11.ico" />
-    <Content Include="Resources\S12.ico" />
-    <Content Include="Resources\S13.ico" />
-    <Content Include="Resources\S14.ico" />
-    <Content Include="Resources\S2.ico" />
-    <Content Include="Resources\S3.ico" />
-    <Content Include="Resources\S4.ico" />
-    <Content Include="Resources\S5.ico" />
-    <Content Include="Resources\S6.ico" />
-    <Content Include="Resources\S7.ico" />
-    <Content Include="Resources\S8.ico" />
-    <Content Include="Resources\S9.ico" />
+    <Content Include="Resources\InitialImage.png" />
+    <Content Include="Resources\MultiMediaImage.png" />
+    <Content Include="Resources\re.ico" />
+    <Content Include="Resources\re2.ico" />
+    <Content Include="Resources\re3.ico" />
+    <Content Include="Resources\re4.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

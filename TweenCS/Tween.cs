@@ -2430,7 +2430,7 @@ namespace Tween
 
             Thread.CurrentThread.Priority = ThreadPriority.BelowNormal;
 
-            //TweenApplication.InitCulture();
+            MyApplication.InitCulture();
 
             string ret = "";
             GetWorkerResult rslt = new GetWorkerResult();
