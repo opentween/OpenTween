@@ -9338,7 +9338,6 @@ namespace Tween
             SetStatusLabelUrl();
         }
 
-        private static string myVer = MyCommon.fileVersion;
         private static long followers = 0;
 
         private void SetMainWindowTitle()
@@ -9364,7 +9363,7 @@ namespace Tween
             switch (SettingDialog.DispLatestPost)
             {
                 case MyCommon.DispTitleEnum.Ver:
-                    ttl.Append("Ver:").Append(myVer);
+                    ttl.Append("Ver:").Append(MyCommon.fileVersion);
                     break;
                 case MyCommon.DispTitleEnum.Post:
                     if (_history != null && _history.Count > 1)
