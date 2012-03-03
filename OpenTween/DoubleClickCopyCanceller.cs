@@ -2,6 +2,7 @@
 // Copyright (c) 2007-2010 kiri_feather (@kiri_feather) <kiri.feather@gmail.com>
 //           (c) 2008-2010 Moz (@syo68k) <http://iddy.jp/profile/moz/>
 //           (c) 2008-2010 takeshik (@takeshik) <http://www.takeshik.org/>
+//           (c) 2011      Egtra (@egtra) <http://dev.activebasic.com/egtra/>
 // All rights reserved.
 //
 // This file is part of OpenTween.

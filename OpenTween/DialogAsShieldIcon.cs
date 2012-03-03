@@ -4,6 +4,7 @@
 //           (c) 2008-2011 takeshik (@takeshik) <http://www.takeshik.org/>
 //           (c) 2010-2011 anis774 (@anis774) <http://d.hatena.ne.jp/anis774/>
 //           (c) 2010-2011 fantasticswallow (@f_swallow) <http://twitter.com/f_swallow>
+//           (c) 2012      tigree4th <crerish@gmail.com>
 // All rights reserved.
 // 
 // This file is part of OpenTween.

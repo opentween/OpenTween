@@ -290,9 +290,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AppendSettingDialog.en.resx">
       <DependentUpon>AppendSettingDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="AppendSettingDialog.resx">
       <DependentUpon>AppendSettingDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="AppendSettingDialog.zh-CHS.resx">
       <DependentUpon>AppendSettingDialog.cs</DependentUpon>
@@ -342,9 +344,14 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.en.resx" />
-    <EmbeddedResource Include="Properties\Resources.zh-CHS.resx" />
+    <EmbeddedResource Include="Properties\Resources.en.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.zh-CHS.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="SearchWord.en.resx">
       <DependentUpon>SearchWord.cs</DependentUpon>
     </EmbeddedResource>
@@ -368,12 +375,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Tween.en.resx">
       <DependentUpon>Tween.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Tween.resx">
       <DependentUpon>Tween.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Tween.zh-CHS.resx">
       <DependentUpon>Tween.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="TweenAboutBox.en.resx">
       <DependentUpon>TweenAboutBox.cs</DependentUpon>
@@ -383,6 +393,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TweenAboutBox.zh-CHS.resx">
       <DependentUpon>TweenAboutBox.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
