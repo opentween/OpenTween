@@ -46,10 +46,8 @@ namespace OpenTween
             CheckSettingFilePath();
             InitCulture();
 
-            string pt = Application.ExecutablePath.Replace("\\", "/") + "/" + Application.ProductName; 
-            Mutex mt = new Mutex(false, pt);
-
-            try
+            string pt = Application.ExecutablePath.Replace("\\", "/") + "/" + Application.ProductName;
+            using (Mutex mt = new Mutex(false, pt))
             {
                 if (!mt.WaitOne(0, false))
                 {
@@ -63,11 +61,9 @@ namespace OpenTween
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new TweenMain());
 
-                return 0;
-            }
-            finally
-            {
                 mt.ReleaseMutex();
+
+                return 0;
             }
         }
 
