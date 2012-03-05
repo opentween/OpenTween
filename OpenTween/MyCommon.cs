@@ -240,8 +240,8 @@ namespace OpenTween
                 using (var writer = new StreamWriter(fileName))
                 {
                     writer.WriteLine("**** TraceOut: {0} ****", DateTime.Now.ToString());
-                    writer.WriteLine(Properties.Resources.TraceOutText1);
-                    writer.WriteLine(Properties.Resources.TraceOutText2);
+                    writer.WriteLine(Properties.Resources.TraceOutText1, ApplicationSettings.FeedbackEmailAddress);
+                    writer.WriteLine(Properties.Resources.TraceOutText2, ApplicationSettings.FeedbackTwitterName);
                     writer.WriteLine();
                     writer.WriteLine(Properties.Resources.TraceOutText3);
                     writer.WriteLine(Properties.Resources.TraceOutText4, Environment.OSVersion.VersionString);
@@ -352,8 +352,8 @@ namespace OpenTween
                     var princ = new WindowsPrincipal(ident);
 
                     writer.WriteLine(Properties.Resources.UnhandledExceptionText1, DateTime.Now.ToString());
-                    writer.WriteLine(Properties.Resources.UnhandledExceptionText2);
-                    writer.WriteLine(Properties.Resources.UnhandledExceptionText3);
+                    writer.WriteLine(Properties.Resources.UnhandledExceptionText2, ApplicationSettings.FeedbackEmailAddress);
+                    writer.WriteLine(Properties.Resources.UnhandledExceptionText3, ApplicationSettings.FeedbackTwitterName);
                     // 権限書き出し
                     writer.WriteLine(Properties.Resources.UnhandledExceptionText11 + princ.IsInRole(WindowsBuiltInRole.Administrator).ToString());
                     writer.WriteLine(Properties.Resources.UnhandledExceptionText12 + princ.IsInRole(WindowsBuiltInRole.User).ToString());
@@ -368,7 +368,7 @@ namespace OpenTween
                     writer.Flush();
                 }
 
-                switch (MessageBox.Show(string.Format(Properties.Resources.UnhandledExceptionText9, fileName, Environment.NewLine),
+                switch (MessageBox.Show(string.Format(Properties.Resources.UnhandledExceptionText9, fileName, ApplicationSettings.FeedbackEmailAddress, ApplicationSettings.FeedbackTwitterName, Environment.NewLine),
                                    Properties.Resources.UnhandledExceptionText10, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Error))
                 {
                     case DialogResult.Yes:

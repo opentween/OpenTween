@@ -871,8 +871,8 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   Client of Twitter. Free software(GPLv3)
         ///&lt;Contacts&gt;
-        ///Twitter: @kiri_feather
-        ///Mail: kiri_feather@users.sourceforge.jp に類似しているローカライズされた文字列を検索します。
+        ///Twitter: {0}
+        ///Mail: {1} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string Description {
             get {
@@ -2724,7 +2724,7 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   このファイルの内容を kiri_feather@users.sourceforge.jp まで送っていただけると助かります。 に類似しているローカライズされた文字列を検索します。
+        ///   このファイルの内容を {0} まで送っていただけると助かります。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string TraceOutText1 {
             get {
@@ -2733,7 +2733,7 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   ご面倒なら@kiri_featherまでお知らせ頂くだけでも助かります。 に類似しているローカライズされた文字列を検索します。
+        ///   ご面倒なら{0}までお知らせ頂くだけでも助かります。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string TraceOutText2 {
             get {
@@ -2859,7 +2859,7 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   このファイルの内容を kiri_feather@users.sourceforge.jp まで送っていただけると助かります。 に類似しているローカライズされた文字列を検索します。
+        ///   このファイルの内容を {0} まで送っていただけると助かります。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string UnhandledExceptionText2 {
             get {
@@ -2868,7 +2868,7 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   ご面倒なら@kiri_featherまでお知らせ頂くだけでも助かります。 に類似しているローカライズされた文字列を検索します。
+        ///   ご面倒なら{0}までお知らせ頂くだけでも助かります。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string UnhandledExceptionText3 {
             get {
@@ -2922,7 +2922,7 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   エラーが発生しました。ごめんなさい。ログをexeファイルのある場所に {0} として作ったので、kiri_feather@users.sourceforge.jpまで送っていただけると助かります。{1}ご面倒なら@kiri_featherまでお知らせ頂くだけでも助かります。{1}「はい」ボタンをクリックするとログを開きます。ログを開かない場合は「いいえ」、このまま終了する場合は「キャンセル」ボタンをクリックしてください。 に類似しているローカライズされた文字列を検索します。
+        ///   エラーが発生しました。ごめんなさい。ログをexeファイルのある場所に {0} として作ったので、{1}まで送っていただけると助かります。{3}ご面倒なら{2}までお知らせ頂くだけでも助かります。{3}「はい」ボタンをクリックするとログを開きます。ログを開かない場合は「いいえ」、このまま終了する場合は「キャンセル」ボタンをクリックしてください。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string UnhandledExceptionText9 {
             get {

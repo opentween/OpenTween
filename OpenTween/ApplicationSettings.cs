@@ -29,6 +29,20 @@ namespace OpenTween
     internal sealed class ApplicationSettings
     {
         //=====================================================================
+        // フィードバック送信先
+        // 異常終了時などにエラーログ等とともに表示されます。
+        
+        /// <summary>
+        /// フィードバック送信先 (メール)
+        /// </summary>
+        public const string FeedbackEmailAddress = "kim.upsilon@bucyou.net";
+
+        /// <summary>
+        /// フィードバック送信先 (Twitter)
+        /// </summary>
+        public const string FeedbackTwitterName = "@kim_upsilon";
+
+        //=====================================================================
         // Twitter
         // https://dev.twitter.com/ から取得できます。
 

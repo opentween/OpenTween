@@ -34,6 +34,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Threading;
 using System.IO;
+using System.Resources;
 
 namespace OpenTween
 {
@@ -187,7 +188,7 @@ namespace OpenTween
                 string ppw = TextProxyPassword.Text.Trim();
                 HttpConnection.InitializeConnection(20, ptype, padr, pport, pusr, ppw);
 
-                string ret = tw.PostFollowCommand("TweenApp");
+                string ret = tw.PostFollowCommand(ApplicationSettings.FeedbackTwitterName);
             }
 #endif
             IntervalChangedEventArgs arg = new IntervalChangedEventArgs();
@@ -548,6 +549,7 @@ namespace OpenTween
         private void Setting_Load(object sender, EventArgs e)
         {
 #if UA
+            this.FollowCheckBox.Text = string.Format(this.FollowCheckBox.Text, ApplicationSettings.FeedbackTwitterName);
             this.GroupBox2.Visible = true;
 #else
             this.GroupBox2.Visible = false;

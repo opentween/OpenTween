@@ -557,10 +557,10 @@
     <value>Recent更新中...</value>
   </data>
   <data name="TraceOutText1" xml:space="preserve">
-    <value>このファイルの内容を kiri_feather@users.sourceforge.jp まで送っていただけると助かります。</value>
+    <value>このファイルの内容を {0} まで送っていただけると助かります。</value>
   </data>
   <data name="TraceOutText2" xml:space="preserve">
-    <value>ご面倒なら@kiri_featherまでお知らせ頂くだけでも助かります。</value>
+    <value>ご面倒なら{0}までお知らせ頂くだけでも助かります。</value>
   </data>
   <data name="TraceOutText3" xml:space="preserve">
     <value>動作環境:</value>
@@ -587,10 +587,10 @@
     <value>エラー発生</value>
   </data>
   <data name="UnhandledExceptionText2" xml:space="preserve">
-    <value>このファイルの内容を kiri_feather@users.sourceforge.jp まで送っていただけると助かります。</value>
+    <value>このファイルの内容を {0} まで送っていただけると助かります。</value>
   </data>
   <data name="UnhandledExceptionText3" xml:space="preserve">
-    <value>ご面倒なら@kiri_featherまでお知らせ頂くだけでも助かります。</value>
+    <value>ご面倒なら{0}までお知らせ頂くだけでも助かります。</value>
   </data>
   <data name="UnhandledExceptionText4" xml:space="preserve">
     <value>動作環境:</value>
@@ -608,7 +608,7 @@
     <value>例外 {0}: {1}</value>
   </data>
   <data name="UnhandledExceptionText9" xml:space="preserve">
-    <value>エラーが発生しました。ごめんなさい。ログをexeファイルのある場所に {0} として作ったので、kiri_feather@users.sourceforge.jpまで送っていただけると助かります。{1}ご面倒なら@kiri_featherまでお知らせ頂くだけでも助かります。{1}「はい」ボタンをクリックするとログを開きます。ログを開かない場合は「いいえ」、このまま終了する場合は「キャンセル」ボタンをクリックしてください。</value>
+    <value>エラーが発生しました。ごめんなさい。ログをexeファイルのある場所に {0} として作ったので、{1}まで送っていただけると助かります。{3}ご面倒なら{2}までお知らせ頂くだけでも助かります。{3}「はい」ボタンをクリックするとログを開きます。ログを開かない場合は「いいえ」、このまま終了する場合は「キャンセル」ボタンをクリックしてください。</value>
   </data>
   <data name="UpdateFollowersMenuItem1_ClickText1" xml:space="preserve">
     <value>Followers取得中...</value>

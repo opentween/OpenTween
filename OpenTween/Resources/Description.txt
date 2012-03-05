@@ -1,4 +1,4 @@
 ﻿Client of Twitter. Free software(GPLv3)
 <Contacts>
-Twitter: @kiri_feather
-Mail: kiri_feather@users.sourceforge.jp
+Twitter: {0}
+Mail: {1}

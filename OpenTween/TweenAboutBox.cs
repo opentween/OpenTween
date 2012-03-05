@@ -63,7 +63,7 @@ namespace OpenTween
             this.LabelCompanyName.Text = Application.CompanyName;
             this.TextBoxDescription.Text = GetApplicationAttribute<AssemblyDescriptionAttribute>().Description;
             this.ChangeLog.Text = Properties.Resources.ChangeLog;
-            this.TextBoxDescription.Text = Properties.Resources.Description;
+            this.TextBoxDescription.Text = string.Format(Properties.Resources.Description, ApplicationSettings.FeedbackTwitterName, ApplicationSettings.FeedbackEmailAddress);
         }
 
         protected T GetApplicationAttribute<T>() where T : Attribute

@@ -117,6 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="HotkeyCheck.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 16</value>
+  </data>
+  <data name="HotkeyCheck.Text" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="Label46.Size" type="System.Drawing.Size, System.Drawing">
+    <value>191, 12</value>
+  </data>
+  <data name="Label46.Text" xml:space="preserve">
+    <value>User Streams Refresh Interval (sec)</value>
+  </data>
   <data name="TreeViewSetting.Nodes" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
@@ -207,7 +220,6 @@
         TAYQAAAADFNob3J0VXJsTm9kZQD/////CQUAAAD/////CQUAAAAAAAAACw==
 </value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="StartupReaded.Size" type="System.Drawing.Size, System.Drawing">
     <value>91, 16</value>
   </data>
@@ -479,20 +491,20 @@ This file is released for developers in Growl for Windows web site.</value>
   <data name="Label71.Text" xml:space="preserve">
     <value>Primary URLshorten service</value>
   </data>
+  <data name="GroupBox2.Text" xml:space="preserve">
+    <value>Tween support</value>
+  </data>
   <data name="Label1.Text" xml:space="preserve">
     <value>We recommend to follow @TweenApp.</value>
   </data>
   <data name="FollowCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>122, 16</value>
+    <value>73, 16</value>
   </data>
   <data name="FollowCheckBox.Text" xml:space="preserve">
-    <value>Follow @TweenApp</value>
+    <value>Follow {0}</value>
   </data>
   <data name="Label43.Text" xml:space="preserve">
     <value>This account will accept, and answer demanding and inquiring besides the upgrade and useful information are passed on.</value>
-  </data>
-  <data name="GroupBox2.Text" xml:space="preserve">
-    <value>Tween support</value>
   </data>
   <data name="CreateAccountButton.Text" xml:space="preserve">
     <value>Sign up for Twitter account</value>
@@ -776,12 +788,6 @@ This file is released for developers in Growl for Windows web site.</value>
   <data name="Label63.Text" xml:space="preserve">
     <value>Connection timeout(sec)</value>
   </data>
-  <data name="Label46.Size" type="System.Drawing.Size, System.Drawing">
-    <value>191, 12</value>
-  </data>
-  <data name="Label46.Text" xml:space="preserve">
-    <value>User Streams Refresh Interval (sec)</value>
-  </data>
   <data name="LabelUserStreamActive.Size" type="System.Drawing.Size, System.Drawing">
     <value>395, 24</value>
   </data>
@@ -888,12 +894,6 @@ Periodic fetching, Timeline/Mentions/DM, and Post&amp;Fetch function is disable.
   <data name="CheckOpenUserTimeline.Text" xml:space="preserve">
     <value>Open user's home URL with Tab</value>
   </data>
-  <data name="HotkeyCheck.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 16</value>
-  </data>
-  <data name="HotkeyCheck.Text" xml:space="preserve">
-    <value>Enable</value>
-  </data>
   <data name="GroupBox3.Text" xml:space="preserve">
     <value>Hotkey</value>
   </data>
@@ -960,6 +960,9 @@ Periodic fetching, Timeline/Mentions/DM, and Post&amp;Fetch function is disable.
   </data>
   <data name="CheckReadOldPosts.Text" xml:space="preserve">
     <value>Mark acquired tweets as  read when new tweets arrived</value>
+  </data>
+  <data name="GroupBox1.Text" xml:space="preserve">
+    <value>Font &amp;&amp; Color</value>
   </data>
   <data name="btnRetweet.Text" xml:space="preserve">
     <value>Fore...</value>
@@ -1033,7 +1036,7 @@ Periodic fetching, Timeline/Mentions/DM, and Post&amp;Fetch function is disable.
   <data name="Label61.Text" xml:space="preserve">
     <value>Font of tweet list</value>
   </data>
-  <data name="GroupBox1.Text" xml:space="preserve">
+  <data name="GroupBox5.Text" xml:space="preserve">
     <value>Font &amp;&amp; Color</value>
   </data>
   <data name="Label65.Size" type="System.Drawing.Size, System.Drawing">
@@ -1122,9 +1125,6 @@ Periodic fetching, Timeline/Mentions/DM, and Post&amp;Fetch function is disable.
   </data>
   <data name="ButtonBackToDefaultFontColor2.Text" xml:space="preserve">
     <value>Back to Default</value>
-  </data>
-  <data name="GroupBox5.Text" xml:space="preserve">
-    <value>Font &amp;&amp; Color</value>
   </data>
   <data name="Cancel.Text" xml:space="preserve">
     <value>Cancel</value>

@@ -523,10 +523,10 @@
     <value>正在刷新...</value>
   </data>
   <data name="TraceOutText1" xml:space="preserve">
-    <value>请发送该文件给 kiri_feather@users.sourceforge.jp。</value>
+    <value>请发送该文件给 {0}。</value>
   </data>
   <data name="TraceOutText2" xml:space="preserve">
-    <value>如果方便的话请给 @kiri_feather 发消息。</value>
+    <value>如果方便的话请给 {0} 发消息。</value>
   </data>
   <data name="TraceOutText3" xml:space="preserve">
     <value>运行环境:</value>
@@ -553,10 +553,10 @@
     <value>错误</value>
   </data>
   <data name="UnhandledExceptionText2" xml:space="preserve">
-    <value>请发送该文件给 kiri_feather@users.sourceforge.jp。</value>
+    <value>请发送该文件给 {0}。</value>
   </data>
   <data name="UnhandledExceptionText3" xml:space="preserve">
-    <value>如果方便的话请给 @kiri_feather 发消息。</value>
+    <value>如果方便的话请给 {0} 发消息。</value>
   </data>
   <data name="UnhandledExceptionText4" xml:space="preserve">
     <value>运行环境:</value>
@@ -574,7 +574,7 @@
     <value>异常 {0}: {1}</value>
   </data>
   <data name="UnhandledExceptionText9" xml:space="preserve">
-    <value>抱歉，发生异常了。错误日志已经在exe文件所在文件夹 {0} 生成，请把它发送到kiri_feather@users.sourceforge.jp。{1}如果可以的话，请发消息给@kiri_feather，谢谢。{1}点「是」按钮将打开日志文件。不想打开日志请点「否」，退出程序请点「取消」。</value>
+    <value>抱歉，发生异常了。错误日志已经在exe文件所在文件夹 {0} 生成，请把它发送到{1}。{3}如果可以的话，请发消息给{2}，谢谢。{3}点「是」按钮将打开日志文件。不想打开日志请点「否」，退出程序请点「取消」。</value>
   </data>
   <data name="UpdateFollowersMenuItem1_ClickText1" xml:space="preserve">
     <value>正在刷新关注人...</value>
