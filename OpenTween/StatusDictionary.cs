@@ -1193,7 +1193,7 @@ namespace OpenTween
                 posts = Tab.Posts;
             }
 
-            for (int i = StartIdx; i < toIdx; i+= stp)
+            for (int i = StartIdx; ; i+= stp)
             {
                 var id = Tab.GetId(i);
                 if (id > -1 && !posts[id].IsRead)
@@ -1201,6 +1201,8 @@ namespace OpenTween
                     Tab.OldestUnreadId = id;
                     break;
                 }
+
+                if (i == toIdx) break;
             }
         }
 
