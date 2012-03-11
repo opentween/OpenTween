@@ -42,9 +42,6 @@ namespace OpenTween
     {
         private static AppendSettingDialog _instance = new AppendSettingDialog();
         private Twitter tw;
-        private int _MyLogDays;
-        private MyCommon.LogUnitEnum _MyLogUnit;
-        private bool _usePostMethod;
         private HttpConnection.ProxyType _MyProxyType;
 
         private bool _ValidationError = false;
@@ -320,7 +317,6 @@ namespace OpenTween
                         PostShiftEnter = false;
                         break;
                 }
-                _usePostMethod = false;
                 CountApi = int.Parse(TextCountApi.Text);
                 CountApiReply = int.Parse(TextCountApiReply.Text);
                 BrowserPath = BrowserPathText.Text.Trim();
@@ -483,7 +479,7 @@ namespace OpenTween
                 this.IsRemoveSameEvent = this.IsRemoveSameFavEventCheckBox.Checked;
                 this.IsNotifyUseGrowl = this.IsNotifyUseGrowlCheckBox.Checked;
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 MessageBox.Show(Properties.Resources.Save_ClickText3);
                 this.DialogResult = DialogResult.Cancel;
@@ -1827,7 +1823,6 @@ namespace OpenTween
             int UserTimelineTabNum = 0;
             int ApiLists = 0;
             int ApiUserTimeline = 0;
-            int UsingApiUserStream = 0;
 
             try
             {

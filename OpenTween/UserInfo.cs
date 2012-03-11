@@ -56,7 +56,6 @@ namespace OpenTween
             this.CreatedAt = MyCommon.DateTimeParse(user.CreatedAt);
             this.StatusesCount = user.StatusesCount;
             this.Verified = user.Verified;
-            this.isFollowing = this.isFollowing; // egtra: 元(VB.NET)のコードの時点でこのように自己から自己への代入であった
             if (user.Status != null)
             {
                 this.RecentPost = user.Status.Text;

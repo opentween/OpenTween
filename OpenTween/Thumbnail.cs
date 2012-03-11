@@ -1471,7 +1471,7 @@ namespace OpenTween
                                 sb.AppendLine();
                             }
                         }
-                        catch(Exception ex)
+                        catch(Exception)
                         {
 
                         }
@@ -1486,7 +1486,7 @@ namespace OpenTween
                                 sb.AppendLine();
                             }
                         }
-                        catch(Exception ex)
+                        catch(Exception)
                         {
 
                         }
@@ -1502,7 +1502,7 @@ namespace OpenTween
                                 sb.AppendLine();
                             }
                         }
-                        catch(Exception ex)
+                        catch(Exception)
                         {
 
                         }
@@ -1517,7 +1517,7 @@ namespace OpenTween
                                 sb.AppendLine();
                             }
                         }
-                        catch(Exception ex)
+                        catch(Exception)
                         {
 
                         }
@@ -1532,7 +1532,7 @@ namespace OpenTween
                                 sb.AppendLine();
                             }
                         }
-                        catch(Exception ex)
+                        catch(Exception)
                         {
 
                         }
@@ -1546,7 +1546,7 @@ namespace OpenTween
                                 sb.AppendLine();
                             }
                         }
-                        catch(Exception ex)
+                        catch(Exception)
                         {
 
                         }
@@ -1564,7 +1564,7 @@ namespace OpenTween
                     }
 
                 }
-                catch(Exception ex)
+                catch(Exception)
                 {
                     imgurl = "";
                     args.errmsg = "Invalid XML";
@@ -2078,7 +2078,7 @@ namespace OpenTween
                         imgurl = "";
                     }
                 }
-                catch(Exception ex)
+                catch(Exception)
                 {
                     imgurl = "";
                 }
@@ -2352,7 +2352,7 @@ namespace OpenTween
                             sb.AppendLine();
                         }
                     }
-                    catch(Exception ex)
+                    catch(Exception)
                     {
                     }
                     try
@@ -2365,7 +2365,7 @@ namespace OpenTween
                             sb.AppendLine();
                         }
                     }
-                    catch(Exception ex)
+                    catch(Exception)
                     {
                     }
                     try
@@ -2378,7 +2378,7 @@ namespace OpenTween
                             sb.AppendLine();
                         }
                     }
-                    catch(Exception ex)
+                    catch(Exception)
                     {
                     }
                     try
@@ -2391,7 +2391,7 @@ namespace OpenTween
                             sb.AppendLine();
                         }
                     }
-                    catch(Exception ex)
+                    catch(Exception)
                     {
                     }
                     try
@@ -2404,7 +2404,7 @@ namespace OpenTween
                             sb.AppendLine();
                         }
                     }
-                    catch(Exception ex)
+                    catch(Exception)
                     {
                     }
                     try
@@ -2417,7 +2417,7 @@ namespace OpenTween
                             sb.AppendLine();
                         }
                     }
-                    catch(Exception ex)
+                    catch(Exception)
                     {
                     }
                     try
@@ -2428,11 +2428,11 @@ namespace OpenTween
                             imgurl = tmp;
                         }
                     }
-                    catch(Exception ex)
+                    catch(Exception)
                     {
                     }
                 }
-                catch(Exception ex)
+                catch(Exception)
                 {
                     imgurl = "";
                 }
@@ -2677,64 +2677,64 @@ namespace OpenTween
             [DataContract]
             public class Icon
             {
-                [DataMember(Name = "url")] public string Url;
-                [DataMember(Name = "width")] public int Width;
-                [DataMember(Name = "height")] public int Height;
+                [DataMember(Name = "url")] public string Url = null;
+                [DataMember(Name = "width")] public int Width = 0;
+                [DataMember(Name = "height")] public int Height = 0;
             }
 
             [DataContract]
             public class Creator
             {
-                [DataMember(Name = "username")] public string Username;
-                [DataMember(Name = "display_name")] public string DisplayName;
-                [DataMember(Name = "following_count")] public Int32 FollowingCount;
-                [DataMember(Name = "follower_count")] public Int32 FollowerCount;
-                [DataMember(Name = "id")] public Int32 Id;
-                [DataMember(Name = "icon")] public PicPlzDataModel.Icon Icon;
+                [DataMember(Name = "username")] public string Username = null;
+                [DataMember(Name = "display_name")] public string DisplayName = null;
+                [DataMember(Name = "following_count")] public Int32 FollowingCount = 0;
+                [DataMember(Name = "follower_count")] public Int32 FollowerCount = 0;
+                [DataMember(Name = "id")] public Int32 Id = 0;
+                [DataMember(Name = "icon")] public PicPlzDataModel.Icon Icon = null;
             }
 
             [DataContract]
             public class PicFileInfo
             {
-                [DataMember(Name = "width")] public int Width;
-                [DataMember(Name = "img_url")] public string ImgUrl;
-                [DataMember(Name = "height")] public int Height;
+                [DataMember(Name = "width")] public int Width = 0;
+                [DataMember(Name = "img_url")] public string ImgUrl = null;
+                [DataMember(Name = "height")] public int Height = 0;
             }
 
 
             [DataContract]
             public class PicFiles
             {
-                [DataMember(Name = "640r")] public PicFileInfo Pic640r;
-                [DataMember(Name = "100sh")] public PicFileInfo Pic100sh;
-                [DataMember(Name = "320rh")] public PicFileInfo Pic320rh;
+                [DataMember(Name = "640r")] public PicFileInfo Pic640r = null;
+                [DataMember(Name = "100sh")] public PicFileInfo Pic100sh = null;
+                [DataMember(Name = "320rh")] public PicFileInfo Pic320rh = null;
             }
 
             [DataContract]
             public class Pics
             {
-                [DataMember(Name = "view_count")] public int ViewCount;
-                [DataMember(Name = "creator")] public Creator Creator;
-                [DataMember(Name = "url")] public string Url;
-                [DataMember(Name = "pic_files")] public PicFiles PicFiles;
-                [DataMember(Name = "caption")] public string Caption;
-                [DataMember(Name = "comment_count")] public int CommentCount;
-                [DataMember(Name = "like_count")] public int LikeCount;
-                [DataMember(Name = "date")] public Int64 _Date;
-                [DataMember(Name = "id")] public int Id;
+                [DataMember(Name = "view_count")] public int ViewCount = 0;
+                [DataMember(Name = "creator")] public Creator Creator = null;
+                [DataMember(Name = "url")] public string Url = null;
+                [DataMember(Name = "pic_files")] public PicFiles PicFiles = null;
+                [DataMember(Name = "caption")] public string Caption = null;
+                [DataMember(Name = "comment_count")] public int CommentCount = 0;
+                [DataMember(Name = "like_count")] public int LikeCount = 0;
+                [DataMember(Name = "date")] public Int64 _Date = 0;
+                [DataMember(Name = "id")] public int Id = 0;
             }
 
             [DataContract]
             public class Value
             {
-                [DataMember(Name = "pics")] public Pics[] Pics;
+                [DataMember(Name = "pics")] public Pics[] Pics = null;
             }
 
             [DataContract]
             public class ResultData
             {
-                [DataMember(Name = "result")] public string Result;
-                [DataMember(Name = "value")] public Value Value;
+                [DataMember(Name = "result")] public string Result = null;
+                [DataMember(Name = "value")] public Value Value = null;
             }
         }
 
@@ -2772,7 +2772,7 @@ namespace OpenTween
                 {
                     res = MyCommon.CreateDataFromJson<PicPlzDataModel.ResultData>(src);
                 }
-                catch(Exception ex)
+                catch(Exception)
                 {
                     return false;
                 }
@@ -2783,7 +2783,7 @@ namespace OpenTween
                     {
                         imgurl = res.Value.Pics[0].PicFiles.Pic320rh.ImgUrl;
                     }
-                    catch(Exception ex)
+                    catch(Exception)
                     {
 
                     }
@@ -2792,7 +2792,7 @@ namespace OpenTween
                     {
                         sb.Append(res.Value.Pics[0].Caption);
                     }
-                    catch(Exception ex)
+                    catch(Exception)
                     {
 
                     }
@@ -2936,7 +2936,7 @@ namespace OpenTween
                 url = Regex.Replace(url, @"&size=\d+x\d+&zoom=\d+", "");
                 url = url.Replace("&sensor=false", "");
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 url = args.url.Value;
             }
@@ -2980,7 +2980,7 @@ namespace OpenTween
                     args.imglist.Add(new KeyValuePair<string, string>(args.url, "http://www.tinami.com/view/" + RadixConvert.ToInt32(mc.Result("${1}"), 36).ToString()));
                     return true;
                 }
-                catch(ArgumentOutOfRangeException ex)
+                catch(ArgumentOutOfRangeException)
                 {
                 }
             }

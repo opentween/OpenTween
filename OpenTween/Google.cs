@@ -167,9 +167,9 @@ namespace OpenTween
         [DataContract]
         private class TranslateResponse
         {
-            [DataMember(Name = "responseData")] public TranslateResponseData ResponseData;
-            [DataMember(Name = "responseDetails")] public string ResponseDetails;
-            [DataMember(Name = "responseStatus")] public HttpStatusCode ResponseStatus;
+            [DataMember(Name = "responseData")] public TranslateResponseData ResponseData = null;
+            [DataMember(Name = "responseDetails")] public string ResponseDetails = null;
+            [DataMember(Name = "responseStatus")] public HttpStatusCode ResponseStatus = 0;
         }
 
 
@@ -184,9 +184,9 @@ namespace OpenTween
         [DataContract]
         private class LanguageDetectResponse
         {
-            [DataMember(Name = "responseData")] public LanguageDetectResponseData ResponseData;
-            [DataMember(Name = "responseDetails")] public string ResponseDetails;
-            [DataMember(Name = "responseStatus")] public HttpStatusCode ResponseStatus;
+            [DataMember(Name = "responseData")] public LanguageDetectResponseData ResponseData = null;
+            [DataMember(Name = "responseDetails")] public string ResponseDetails = null;
+            [DataMember(Name = "responseStatus")] public HttpStatusCode ResponseStatus = 0;
         }
 
         public bool Translate(string srclng, string dstlng, string source, ref string destination, ref string ErrMsg)
@@ -279,7 +279,7 @@ namespace OpenTween
         [DataContract]
         private class UrlShortenerParameter
         {
-            [DataMember(Name = "longUrl")] string LongUrl;
+            [DataMember(Name = "longUrl")] public string LongUrl = null;
         }
 
         [DataContract]

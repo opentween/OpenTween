@@ -105,7 +105,6 @@ namespace OpenTween
         private SearchWord SearchDialog = new SearchWord();     //検索画面インスタンス
         private FilterDialog fltDialog = new FilterDialog(); //フィルター編集画面
         private OpenURL UrlDialog = new OpenURL();
-        private DialogAsShieldIcon dialogAsShieldicon;    // シールドアイコン付きダイアログ
         public AtIdSupplement AtIdSupl;     //@id補助
         public AtIdSupplement HashSupl;    //Hashtag補助
         public HashtagManage HashMgr;
@@ -197,7 +196,6 @@ namespace OpenTween
         private bool _waitLists = false;
         private BackgroundWorker[] _bw = new BackgroundWorker[20];
         private BackgroundWorker _bwFollower;
-        private int cMode;
         private ShieldIcon shield = new ShieldIcon();
         private InternetSecurityManager SecurityManager;
         private Thumbnail Thumbnail;
@@ -220,8 +218,6 @@ namespace OpenTween
         private System.Timers.Timer TimerTimeline = new System.Timers.Timer();
 
         private ImageListViewItem displayItem;
-
-        private AdsBrowser ab;
 
         //URL短縮のUndo用
         private struct urlUndo
@@ -254,13 +250,13 @@ namespace OpenTween
         {
             public string retMsg = "";                     //処理結果詳細メッセージ。エラー時に値がセットされる
             public int page;                      //取得対象ページ番号
-            public int endPage;                   //取得終了ページ番号（継続可能ならインクリメントされて返る。pageと比較して継続判定）
+            public int endPage = 0;                   //取得終了ページ番号（継続可能ならインクリメントされて返る。pageと比較して継続判定）
             public MyCommon.WORKERTYPE type;                   //処理種別
-            public Dictionary<string, Image> imgs;                    //新規取得したアイコンイメージ
+            public Dictionary<string, Image> imgs = null;                    //新規取得したアイコンイメージ
             public string tName = "";                  //Fav追加・削除時のタブ名
-            public List<long> ids;               //Fav追加・削除時のID
-            public List<long> sIds;                  //Fav追加・削除成功分のID
-            public bool newDM;
+            public List<long> ids = null;               //Fav追加・削除時のID
+            public List<long> sIds = null;                  //Fav追加・削除成功分のID
+            public bool newDM = false;
             public int addCount;
             public PostingStatus status;
         }
@@ -1340,7 +1336,6 @@ namespace OpenTween
 
         private void LoadConfig()
         {
-            bool needToSave = false;
             _cfgCommon = SettingCommon.Load();
             if (_cfgCommon.UserAccounts == null || _cfgCommon.UserAccounts.Count == 0)
             {
@@ -1790,7 +1785,6 @@ namespace OpenTween
                             }
 
                             StringBuilder title = new StringBuilder();
-                            ToolTipIcon ntIcon;
                             GrowlHelper.NotifyType nt;
                             if (SettingDialog.DispUsername)
                             {
@@ -1805,7 +1799,6 @@ namespace OpenTween
                             {
                                 //NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning;
                                 //NotifyIcon1.BalloonTipTitle += Application.ProductName + " [DM] " + Properties.Resources.RefreshDirectMessageText1 + " " + addCount.ToString() + Properties.Resources.RefreshDirectMessageText2;
-                                ntIcon = ToolTipIcon.Warning;
                                 title.Append(Application.ProductName);
                                 title.Append(" [DM] ");
                                 title.Append(Properties.Resources.RefreshDirectMessageText1);
@@ -1818,7 +1811,6 @@ namespace OpenTween
                             {
                                 //NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning;
                                 //NotifyIcon1.BalloonTipTitle += Application.ProductName + " [Reply!] " + Properties.Resources.RefreshTimelineText1 + " " + addCount.ToString() + Properties.Resources.RefreshTimelineText2;
-                                ntIcon = ToolTipIcon.Warning;
                                 title.Append(Application.ProductName);
                                 title.Append(" [Reply!] ");
                                 title.Append(Properties.Resources.RefreshTimelineText1);
@@ -1831,7 +1823,6 @@ namespace OpenTween
                             {
                                 //NotifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
                                 //NotifyIcon1.BalloonTipTitle += Application.ProductName + " " + Properties.Resources.RefreshTimelineText1 + " " + addCount.ToString() + Properties.Resources.RefreshTimelineText2;
-                                ntIcon = ToolTipIcon.Info;
                                 title.Append(Application.ProductName);
                                 title.Append(" ");
                                 title.Append(Properties.Resources.RefreshTimelineText1);
@@ -1871,7 +1862,6 @@ namespace OpenTween
                         //if (SettingDialog.DispUsername) { NotifyIcon1.BalloonTipTitle = tw.Username + " - "; } else { NotifyIcon1.BalloonTipTitle = ""; }
                         StringBuilder title = new StringBuilder();
                         ToolTipIcon ntIcon;
-                        GrowlHelper.NotifyType nt;
                         if (SettingDialog.DispUsername)
                         {
                             title.Append(tw.Username);
@@ -1892,7 +1882,6 @@ namespace OpenTween
                             title.Append(" ");
                             title.Append(addCount);
                             title.Append(Properties.Resources.RefreshDirectMessageText2);
-                            nt = GrowlHelper.NotifyType.DirectMessage;
                         }
                         else if (reply)
                         {
@@ -1905,7 +1894,6 @@ namespace OpenTween
                             title.Append(" ");
                             title.Append(addCount);
                             title.Append(Properties.Resources.RefreshTimelineText2);
-                            nt = GrowlHelper.NotifyType.Reply;
                         }
                         else
                         {
@@ -1918,7 +1906,6 @@ namespace OpenTween
                             title.Append(" ");
                             title.Append(addCount);
                             title.Append(Properties.Resources.RefreshTimelineText2);
-                            nt = GrowlHelper.NotifyType.Notify;
                         }
                         string bText = sb.ToString();
                         if (string.IsNullOrEmpty(bText)) return;
@@ -9295,9 +9282,6 @@ namespace OpenTween
                         OpenUriAsync(openUrlStr);
                     return;
                 }
-
-                openUrlStr = openUrlStr.Replace("://twitter.com/search?q=#", "://twitter.com/search?q=%23");
-                OpenUriAsync(openUrlStr);
             }
         }
 
@@ -10711,7 +10695,6 @@ namespace OpenTween
             }
 
             NotifyIcon1.Visible = true;
-            tw.UserIdChanged += tw_UserIdChanged;
 
             if (this.IsNetworkAvailable())
             {
@@ -10923,23 +10906,6 @@ namespace OpenTween
         private string CreateRetweetUnofficial(string status)
         {
             // Twitterにより省略されているURLを含むaタグをキャプチャしてリンク先URLへ置き換える
-            //展開しないように変更
-            //展開するか判定
-            bool isUrl = false;
-            MatchCollection ms = Regex.Matches(status, @"<a target=""_self"" href=""(?<url>[^""]+)""[^>]*>(?<link>(https?|shttp|ftps?)://[^<]+)</a>");
-            foreach (Match m in ms)
-            {
-                if (m.Result("${link}").EndsWith("..."))
-                {
-                    isUrl = true;
-                    break;
-                }
-            }
-            //if (isUrl)
-            //    status = Regex.Replace(status, @"<a target=""_self"" href=""(?<url>[^""]+)""[^>]*>(?<link>(https?|shttp|ftps?)://[^<]+)</a>", "${url}");
-            //else
-            //    status = Regex.Replace(status, @"<a target=""_self"" href=""(?<url>[^""]+)""[^>]*>(?<link>(https?|shttp|ftps?)://[^<]+)</a>", "${link}");
-
             status = Regex.Replace(status, @"<a target=""_self"" href=""(?<url>[^""]+)"" title=""(?<title>[^""]+)""[^>]*>(?<link>[^<]+)</a>", "${title}");
 
             //その他のリンク(@IDなど)を置き換える
@@ -11640,8 +11606,6 @@ namespace OpenTween
                 return;
             }
 
-            ListElement list = null;
-
             if (TabInformations.GetInstance().SubscribableLists.Count == 0)
             {
                 string res = this.tw.GetListsApi();
@@ -11969,7 +11933,6 @@ namespace OpenTween
 
         private void doShowUserStatus(string id, bool ShowInputDialog)
         {
-            string result = "";
             TwitterDataModel.User user = null;
             GetUserInfoArgs args = new GetUserInfoArgs();
             if (ShowInputDialog)

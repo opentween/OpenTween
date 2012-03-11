@@ -100,12 +100,8 @@ namespace OpenTween
         private bool _tinyUrlResolve;
         private bool _restrictFavCheck;
 
-        private string _hubServer;
         private bool _readOwnPost;
         private List<string> _hashList = new List<string>();
-
-        //共通で使用する状態
-        private int _remainCountApi = -1;
 
         private Outputz op = new Outputz();
         //max_idで古い発言を取得するために保持（lists分は個別タブで管理）
@@ -117,9 +113,6 @@ namespace OpenTween
         //private FavoriteQueue favQueue;
 
         private HttpTwitter twCon = new HttpTwitter();
-
-        //public Event UserIdChanged();
-        public event Action UserIdChanged;
 
         //private List<PostClass> _deletemessages = new List<PostClass>();
 
@@ -179,7 +172,6 @@ namespace OpenTween
         {
             //OAuth PIN Flow
             bool res;
-            var content = "";
 
             MyCommon.TwitterApiInfo.Initialize();
             try
@@ -204,7 +196,7 @@ namespace OpenTween
             {
                 res = twCon.AuthGetAccessToken(pinCode);
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 return "Err:" + "Failed to access auth acc server.";
             }
@@ -1273,7 +1265,6 @@ namespace OpenTween
 
             HttpStatusCode res = HttpStatusCode.BadRequest;
             var content = "";
-            var xmlBuf = "";
 
             retweeted_count = 0;
 
@@ -2282,7 +2273,6 @@ namespace OpenTween
 
             HttpStatusCode res;
             var content = "";
-            var page = 0;
             int count;
             if (AppendSettingDialog.Instance.UseAdditionalCount)
             {
@@ -3595,8 +3585,6 @@ namespace OpenTween
                 MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
                 return "Err:Invalid Json!";
             }
-
-            return "";
         }
 
         public string CreateListApi(string listName, bool isPrivate, string description)
@@ -4217,7 +4205,6 @@ namespace OpenTween
         public event Action NewPostFromStream;
         public event Action UserStreamStarted;
         public event Action UserStreamStopped;
-        public event Action UserStreamGetFriendsList;
         public event Action<long> PostDeleted;
         public event Action<FormattedEvent> UserStreamEventReceived;
         private DateTime _lastUserstreamDataReceived;

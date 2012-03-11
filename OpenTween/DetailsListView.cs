@@ -39,7 +39,6 @@ namespace OpenTween.OpenTweenCustomControl
     public sealed class DetailsListView : ListView
     {
         private Rectangle changeBounds;
-        private bool multiSelected;
         private EventHandlerList _handlers = new EventHandlerList();
 
         public event EventHandler VScrolled;

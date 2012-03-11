@@ -72,7 +72,7 @@ namespace OpenTween
             this.PictureBox1.Image = System.Drawing.SystemIcons.Question.ToBitmap();
         }
 
-        new public System.Windows.Forms.DialogResult ShowDialog(string text, string detail = "", string caption = "DialogAsShieldIcon",
+        public System.Windows.Forms.DialogResult ShowDialog(string text, string detail = "", string caption = "DialogAsShieldIcon",
             System.Windows.Forms.MessageBoxButtons Buttons = System.Windows.Forms.MessageBoxButtons.OKCancel,
             System.Windows.Forms.MessageBoxIcon icon = MessageBoxIcon.Question)
         {

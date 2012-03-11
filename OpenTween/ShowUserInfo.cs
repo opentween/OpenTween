@@ -50,7 +50,6 @@ namespace OpenTween
         private List<string> atlist = new List<string>();
         private string descriptionTxt;
         private string recentPostTxt;
-        private string ToolTipWeb;
 
         private const string Mainpath = "http://twitter.com/";
         private const string Followingpath = "/following";

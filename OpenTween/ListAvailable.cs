@@ -148,7 +148,7 @@ namespace OpenTween
             {
                 e.Result = ((TweenMain)this.Owner).TwitterInstance.GetListsApi();
             }
-            catch (InvalidCastException ex)
+            catch (InvalidCastException)
             {
                 return;
             }

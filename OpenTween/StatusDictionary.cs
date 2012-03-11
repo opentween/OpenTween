@@ -587,6 +587,12 @@ namespace OpenTween
                     (this.InReplyToUserId == other.InReplyToUserId);
 
         }
+
+        public override int GetHashCode()
+        {
+            return this.StatusId.GetHashCode();
+        }
+
 #region "IClonable.Clone"
         object ICloneable.Clone()
         {
@@ -609,8 +615,8 @@ namespace OpenTween
 
         private class ScrubGeoInfo
         {
-            public long UserId;
-            public long UpToStatusId;
+            public long UserId = 0;
+            public long UpToStatusId = 0;
         }
 
         public List<long> BlockIds = new List<long>();
@@ -2862,12 +2868,6 @@ namespace OpenTween
         private bool _useLambda = false;
         private bool _exuseLambda = false;
 
-        // ラムダ式コンパイルキャッシュ
-        private LambdaExpression _lambdaExp = null;
-        private Delegate _lambdaExpDelegate = null;
-        private LambdaExpression _exlambdaExp = null;
-        private Delegate _exlambdaExpDelegate = null;
-
         public FiltersClass() {}
 
         //フィルタ一覧に表示する文言生成
@@ -3053,8 +3053,6 @@ namespace OpenTween
             }
             set
             {
-                _lambdaExp = null;
-                _lambdaExpDelegate = null;
                 _body = value;
             }
         }
@@ -3084,8 +3082,6 @@ namespace OpenTween
             }
             set
             {
-                _exlambdaExp = null;
-                _exlambdaExpDelegate = null;
                 _exbody = value;
             }
         }
@@ -3210,8 +3206,6 @@ namespace OpenTween
             }
             set
             {
-                _lambdaExp = null;
-                _lambdaExpDelegate = null;
                 _useLambda = value;
             }
         }
@@ -3224,8 +3218,6 @@ namespace OpenTween
             }
             set
             {
-                _exlambdaExp = null;
-                _exlambdaExpDelegate = null;
                 _exuseLambda = value;
             }
         }

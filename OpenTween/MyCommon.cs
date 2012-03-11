@@ -465,7 +465,6 @@ namespace OpenTween
 
         public static string IDNDecode(string input)
         {
-            var result = "";
             var IDNConverter = new IdnMapping();
 
             if (!input.Contains("://")) return null;

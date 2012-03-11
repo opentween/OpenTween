@@ -39,10 +39,6 @@ namespace OpenTween
 
 		private Uri _serviceProvider;
 
-		private string _token;
-
-		private string _tokenSecret;
-
 		public Uri Realm
 		{
 			set { this._realm = value; }
