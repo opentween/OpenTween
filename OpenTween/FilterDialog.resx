@@ -1,0 +1,1869 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Label5.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="Label5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>43, 96</value>
+  </data>
+  <data name="Label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>40, 12</value>
+  </data>
+  <data name="Label5.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="Label5.Text" xml:space="preserve">
+    <value>Source</value>
+  </data>
+  <data name="&gt;&gt;Label5.Name" xml:space="preserve">
+    <value>Label5</value>
+  </data>
+  <data name="&gt;&gt;Label5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label5.Parent" xml:space="preserve">
+    <value>GroupMatch</value>
+  </data>
+  <data name="&gt;&gt;Label5.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="ButtonClose.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="ButtonClose.Location" type="System.Drawing.Point, System.Drawing">
+    <value>682, 553</value>
+  </data>
+  <data name="ButtonClose.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="ButtonClose.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="ButtonClose.Text" xml:space="preserve">
+    <value>閉じる(&amp;C)</value>
+  </data>
+  <data name="&gt;&gt;ButtonClose.Name" xml:space="preserve">
+    <value>ButtonClose</value>
+  </data>
+  <data name="&gt;&gt;ButtonClose.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ButtonClose.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;ButtonClose.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="ButtonRuleMove.Location" type="System.Drawing.Point, System.Drawing">
+    <value>342, 209</value>
+  </data>
+  <data name="ButtonRuleMove.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="ButtonRuleMove.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="ButtonRuleMove.Text" xml:space="preserve">
+    <value>移動</value>
+  </data>
+  <data name="&gt;&gt;ButtonRuleMove.Name" xml:space="preserve">
+    <value>ButtonRuleMove</value>
+  </data>
+  <data name="&gt;&gt;ButtonRuleMove.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ButtonRuleMove.Parent" xml:space="preserve">
+    <value>GroupBox2</value>
+  </data>
+  <data name="&gt;&gt;ButtonRuleMove.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="CheckRetweet.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckRetweet.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CheckRetweet.Location" type="System.Drawing.Point, System.Drawing">
+    <value>299, 84</value>
+  </data>
+  <data name="CheckRetweet.Size" type="System.Drawing.Size, System.Drawing">
+    <value>84, 16</value>
+  </data>
+  <data name="CheckRetweet.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="CheckRetweet.Text" xml:space="preserve">
+    <value>公式RTのみ</value>
+  </data>
+  <data name="&gt;&gt;CheckRetweet.Name" xml:space="preserve">
+    <value>CheckRetweet</value>
+  </data>
+  <data name="&gt;&gt;CheckRetweet.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckRetweet.Parent" xml:space="preserve">
+    <value>GroupMatch</value>
+  </data>
+  <data name="&gt;&gt;CheckRetweet.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="ButtonRuleCopy.Location" type="System.Drawing.Point, System.Drawing">
+    <value>261, 209</value>
+  </data>
+  <data name="ButtonRuleCopy.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="ButtonRuleCopy.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="ButtonRuleCopy.Text" xml:space="preserve">
+    <value>コピー</value>
+  </data>
+  <data name="&gt;&gt;ButtonRuleCopy.Name" xml:space="preserve">
+    <value>ButtonRuleCopy</value>
+  </data>
+  <data name="&gt;&gt;ButtonRuleCopy.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ButtonRuleCopy.Parent" xml:space="preserve">
+    <value>GroupBox2</value>
+  </data>
+  <data name="&gt;&gt;ButtonRuleCopy.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="TextSource.Location" type="System.Drawing.Point, System.Drawing">
+    <value>89, 93</value>
+  </data>
+  <data name="TextSource.Size" type="System.Drawing.Size, System.Drawing">
+    <value>96, 19</value>
+  </data>
+  <data name="TextSource.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;TextSource.Name" xml:space="preserve">
+    <value>TextSource</value>
+  </data>
+  <data name="&gt;&gt;TextSource.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextSource.Parent" xml:space="preserve">
+    <value>GroupMatch</value>
+  </data>
+  <data name="&gt;&gt;TextSource.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="ButtonRuleDown.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Marlett, 9pt, style=Bold</value>
+  </data>
+  <data name="ButtonRuleDown.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ButtonRuleDown.Location" type="System.Drawing.Point, System.Drawing">
+    <value>131, 209</value>
+  </data>
+  <data name="ButtonRuleDown.Size" type="System.Drawing.Size, System.Drawing">
+    <value>34, 23</value>
+  </data>
+  <data name="ButtonRuleDown.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="ButtonRuleDown.Text" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;ButtonRuleDown.Name" xml:space="preserve">
+    <value>ButtonRuleDown</value>
+  </data>
+  <data name="&gt;&gt;ButtonRuleDown.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ButtonRuleDown.Parent" xml:space="preserve">
+    <value>GroupBox2</value>
+  </data>
+  <data name="&gt;&gt;ButtonRuleDown.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="CheckLambda.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckLambda.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CheckLambda.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CheckLambda.Location" type="System.Drawing.Point, System.Drawing">
+    <value>299, 106</value>
+  </data>
+  <data name="CheckLambda.Size" type="System.Drawing.Size, System.Drawing">
+    <value>63, 16</value>
+  </data>
+  <data name="CheckLambda.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="CheckLambda.Text" xml:space="preserve">
+    <value>ラムダ式</value>
+  </data>
+  <data name="&gt;&gt;CheckLambda.Name" xml:space="preserve">
+    <value>CheckLambda</value>
+  </data>
+  <data name="&gt;&gt;CheckLambda.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckLambda.Parent" xml:space="preserve">
+    <value>GroupMatch</value>
+  </data>
+  <data name="&gt;&gt;CheckLambda.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="ButtonRuleUp.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Marlett, 9pt, style=Bold</value>
+  </data>
+  <data name="ButtonRuleUp.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ButtonRuleUp.Location" type="System.Drawing.Point, System.Drawing">
+    <value>90, 209</value>
+  </data>
+  <data name="ButtonRuleUp.Size" type="System.Drawing.Size, System.Drawing">
+    <value>34, 23</value>
+  </data>
+  <data name="ButtonRuleUp.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="ButtonRuleUp.Text" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;ButtonRuleUp.Name" xml:space="preserve">
+    <value>ButtonRuleUp</value>
+  </data>
+  <data name="&gt;&gt;ButtonRuleUp.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ButtonRuleUp.Parent" xml:space="preserve">
+    <value>GroupBox2</value>
+  </data>
+  <data name="&gt;&gt;ButtonRuleUp.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="CheckCaseSensitive.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckCaseSensitive.Location" type="System.Drawing.Point, System.Drawing">
+    <value>299, 62</value>
+  </data>
+  <data name="CheckCaseSensitive.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 16</value>
+  </data>
+  <data name="CheckCaseSensitive.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="CheckCaseSensitive.Text" xml:space="preserve">
+    <value>大/小文字区別</value>
+  </data>
+  <data name="&gt;&gt;CheckCaseSensitive.Name" xml:space="preserve">
+    <value>CheckCaseSensitive</value>
+  </data>
+  <data name="&gt;&gt;CheckCaseSensitive.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckCaseSensitive.Parent" xml:space="preserve">
+    <value>GroupMatch</value>
+  </data>
+  <data name="&gt;&gt;CheckCaseSensitive.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="CheckMark.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckMark.Location" type="System.Drawing.Point, System.Drawing">
+    <value>44, 62</value>
+  </data>
+  <data name="CheckMark.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 16</value>
+  </data>
+  <data name="CheckMark.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="CheckMark.Text" xml:space="preserve">
+    <value>マークする</value>
+  </data>
+  <data name="&gt;&gt;CheckMark.Name" xml:space="preserve">
+    <value>CheckMark</value>
+  </data>
+  <data name="&gt;&gt;CheckMark.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckMark.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;CheckMark.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="ButtonCancel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>516, 264</value>
+  </data>
+  <data name="ButtonCancel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="ButtonCancel.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="ButtonCancel.Text" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="&gt;&gt;ButtonCancel.Name" xml:space="preserve">
+    <value>ButtonCancel</value>
+  </data>
+  <data name="&gt;&gt;ButtonCancel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ButtonCancel.Parent" xml:space="preserve">
+    <value>EditFilterGroup</value>
+  </data>
+  <data name="&gt;&gt;ButtonCancel.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="OptCopy.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="OptCopy.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 40</value>
+  </data>
+  <data name="OptCopy.Size" type="System.Drawing.Size, System.Drawing">
+    <value>123, 16</value>
+  </data>
+  <data name="OptCopy.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="OptCopy.Text" xml:space="preserve">
+    <value>Recentからコピーする</value>
+  </data>
+  <data name="&gt;&gt;OptCopy.Name" xml:space="preserve">
+    <value>OptCopy</value>
+  </data>
+  <data name="&gt;&gt;OptCopy.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;OptCopy.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;OptCopy.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="OptMove.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="OptMove.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 18</value>
+  </data>
+  <data name="OptMove.Size" type="System.Drawing.Size, System.Drawing">
+    <value>120, 16</value>
+  </data>
+  <data name="OptMove.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="OptMove.Text" xml:space="preserve">
+    <value>Recentから移動する</value>
+  </data>
+  <data name="&gt;&gt;OptMove.Name" xml:space="preserve">
+    <value>OptMove</value>
+  </data>
+  <data name="&gt;&gt;OptMove.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;OptMove.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;OptMove.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="RadioAND.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="RadioAND.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 28</value>
+  </data>
+  <data name="RadioAND.Size" type="System.Drawing.Size, System.Drawing">
+    <value>71, 16</value>
+  </data>
+  <data name="RadioAND.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="RadioAND.Text" xml:space="preserve">
+    <value>複合条件</value>
+  </data>
+  <data name="&gt;&gt;RadioAND.Name" xml:space="preserve">
+    <value>RadioAND</value>
+  </data>
+  <data name="&gt;&gt;RadioAND.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RadioAND.Parent" xml:space="preserve">
+    <value>GroupMatch</value>
+  </data>
+  <data name="&gt;&gt;RadioAND.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="Label8.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Label8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>187, 14</value>
+  </data>
+  <data name="Label8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 12</value>
+  </data>
+  <data name="Label8.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="Label8.Text" xml:space="preserve">
+    <value>発言内容</value>
+  </data>
+  <data name="&gt;&gt;Label8.Name" xml:space="preserve">
+    <value>Label8</value>
+  </data>
+  <data name="&gt;&gt;Label8.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label8.Parent" xml:space="preserve">
+    <value>GroupMatch</value>
+  </data>
+  <data name="&gt;&gt;Label8.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="CheckURL.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckURL.Location" type="System.Drawing.Point, System.Drawing">
+    <value>299, 40</value>
+  </data>
+  <data name="CheckURL.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 16</value>
+  </data>
+  <data name="CheckURL.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="CheckURL.Text" xml:space="preserve">
+    <value>URL検索</value>
+  </data>
+  <data name="&gt;&gt;CheckURL.Name" xml:space="preserve">
+    <value>CheckURL</value>
+  </data>
+  <data name="&gt;&gt;CheckURL.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckURL.Parent" xml:space="preserve">
+    <value>GroupMatch</value>
+  </data>
+  <data name="&gt;&gt;CheckURL.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="ButtonOK.Location" type="System.Drawing.Point, System.Drawing">
+    <value>438, 264</value>
+  </data>
+  <data name="ButtonOK.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="ButtonOK.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="ButtonOK.Text" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="&gt;&gt;ButtonOK.Name" xml:space="preserve">
+    <value>ButtonOK</value>
+  </data>
+  <data name="&gt;&gt;ButtonOK.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ButtonOK.Parent" xml:space="preserve">
+    <value>EditFilterGroup</value>
+  </data>
+  <data name="&gt;&gt;ButtonOK.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="RadioPLUS.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="RadioPLUS.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 65</value>
+  </data>
+  <data name="RadioPLUS.Size" type="System.Drawing.Size, System.Drawing">
+    <value>71, 16</value>
+  </data>
+  <data name="RadioPLUS.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="RadioPLUS.Text" xml:space="preserve">
+    <value>単一条件</value>
+  </data>
+  <data name="&gt;&gt;RadioPLUS.Name" xml:space="preserve">
+    <value>RadioPLUS</value>
+  </data>
+  <data name="&gt;&gt;RadioPLUS.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RadioPLUS.Parent" xml:space="preserve">
+    <value>GroupMatch</value>
+  </data>
+  <data name="&gt;&gt;RadioPLUS.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="CheckRegex.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckRegex.Location" type="System.Drawing.Point, System.Drawing">
+    <value>299, 18</value>
+  </data>
+  <data name="CheckRegex.Size" type="System.Drawing.Size, System.Drawing">
+    <value>72, 16</value>
+  </data>
+  <data name="CheckRegex.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="CheckRegex.Text" xml:space="preserve">
+    <value>正規表現</value>
+  </data>
+  <data name="&gt;&gt;CheckRegex.Name" xml:space="preserve">
+    <value>CheckRegex</value>
+  </data>
+  <data name="&gt;&gt;CheckRegex.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckRegex.Parent" xml:space="preserve">
+    <value>GroupMatch</value>
+  </data>
+  <data name="&gt;&gt;CheckRegex.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="LabelTabType.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LabelTabType.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 344</value>
+  </data>
+  <data name="LabelTabType.Size" type="System.Drawing.Size, System.Drawing">
+    <value>76, 12</value>
+  </data>
+  <data name="LabelTabType.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="LabelTabType.Text" xml:space="preserve">
+    <value>LabelTabType</value>
+  </data>
+  <data name="&gt;&gt;LabelTabType.Name" xml:space="preserve">
+    <value>LabelTabType</value>
+  </data>
+  <data name="&gt;&gt;LabelTabType.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LabelTabType.Parent" xml:space="preserve">
+    <value>GroupTab</value>
+  </data>
+  <data name="&gt;&gt;LabelTabType.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="ListTabs.ItemHeight" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="ListTabs.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 18</value>
+  </data>
+  <data name="ListTabs.Size" type="System.Drawing.Size, System.Drawing">
+    <value>113, 184</value>
+  </data>
+  <data name="ListTabs.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;ListTabs.Name" xml:space="preserve">
+    <value>ListTabs</value>
+  </data>
+  <data name="&gt;&gt;ListTabs.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ListTabs.Parent" xml:space="preserve">
+    <value>GroupTab</value>
+  </data>
+  <data name="&gt;&gt;ListTabs.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="ButtonDown.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Marlett, 9pt, style=Bold</value>
+  </data>
+  <data name="ButtonDown.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ButtonDown.Location" type="System.Drawing.Point, System.Drawing">
+    <value>87, 207</value>
+  </data>
+  <data name="ButtonDown.Size" type="System.Drawing.Size, System.Drawing">
+    <value>34, 23</value>
+  </data>
+  <data name="ButtonDown.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="ButtonDown.Text" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;ButtonDown.Name" xml:space="preserve">
+    <value>ButtonDown</value>
+  </data>
+  <data name="&gt;&gt;ButtonDown.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ButtonDown.Parent" xml:space="preserve">
+    <value>GroupTab</value>
+  </data>
+  <data name="&gt;&gt;ButtonDown.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="ButtonAddTab.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 237</value>
+  </data>
+  <data name="ButtonAddTab.Size" type="System.Drawing.Size, System.Drawing">
+    <value>113, 23</value>
+  </data>
+  <data name="ButtonAddTab.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="ButtonAddTab.Text" xml:space="preserve">
+    <value>タブ作成</value>
+  </data>
+  <data name="&gt;&gt;ButtonAddTab.Name" xml:space="preserve">
+    <value>ButtonAddTab</value>
+  </data>
+  <data name="&gt;&gt;ButtonAddTab.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ButtonAddTab.Parent" xml:space="preserve">
+    <value>GroupTab</value>
+  </data>
+  <data name="&gt;&gt;ButtonAddTab.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="ButtonNew.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 209</value>
+  </data>
+  <data name="ButtonNew.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="ButtonNew.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="ButtonNew.Text" xml:space="preserve">
+    <value>新規（&amp;N)</value>
+  </data>
+  <data name="&gt;&gt;ButtonNew.Name" xml:space="preserve">
+    <value>ButtonNew</value>
+  </data>
+  <data name="&gt;&gt;ButtonNew.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ButtonNew.Parent" xml:space="preserve">
+    <value>GroupBox2</value>
+  </data>
+  <data name="&gt;&gt;ButtonNew.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="ButtonUp.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Marlett, 9pt, style=Bold</value>
+  </data>
+  <data name="ButtonUp.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 207</value>
+  </data>
+  <data name="ButtonUp.Size" type="System.Drawing.Size, System.Drawing">
+    <value>34, 23</value>
+  </data>
+  <data name="ButtonUp.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="ButtonUp.Text" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;ButtonUp.Name" xml:space="preserve">
+    <value>ButtonUp</value>
+  </data>
+  <data name="&gt;&gt;ButtonUp.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ButtonUp.Parent" xml:space="preserve">
+    <value>GroupTab</value>
+  </data>
+  <data name="&gt;&gt;ButtonUp.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="ButtonDeleteTab.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ButtonDeleteTab.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 266</value>
+  </data>
+  <data name="ButtonDeleteTab.Size" type="System.Drawing.Size, System.Drawing">
+    <value>113, 23</value>
+  </data>
+  <data name="ButtonDeleteTab.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="ButtonDeleteTab.Text" xml:space="preserve">
+    <value>タブ削除</value>
+  </data>
+  <data name="&gt;&gt;ButtonDeleteTab.Name" xml:space="preserve">
+    <value>ButtonDeleteTab</value>
+  </data>
+  <data name="&gt;&gt;ButtonDeleteTab.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ButtonDeleteTab.Parent" xml:space="preserve">
+    <value>GroupTab</value>
+  </data>
+  <data name="&gt;&gt;ButtonDeleteTab.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="Label10.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Label10.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 412</value>
+  </data>
+  <data name="Label10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>66, 12</value>
+  </data>
+  <data name="Label10.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="Label10.Text" xml:space="preserve">
+    <value>新着サウンド</value>
+  </data>
+  <data name="&gt;&gt;Label10.Name" xml:space="preserve">
+    <value>Label10</value>
+  </data>
+  <data name="&gt;&gt;Label10.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label10.Parent" xml:space="preserve">
+    <value>GroupTab</value>
+  </data>
+  <data name="&gt;&gt;Label10.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="ButtonRenameTab.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ButtonRenameTab.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 295</value>
+  </data>
+  <data name="ButtonRenameTab.Size" type="System.Drawing.Size, System.Drawing">
+    <value>113, 23</value>
+  </data>
+  <data name="ButtonRenameTab.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="ButtonRenameTab.Text" xml:space="preserve">
+    <value>タブ名変更</value>
+  </data>
+  <data name="&gt;&gt;ButtonRenameTab.Name" xml:space="preserve">
+    <value>ButtonRenameTab</value>
+  </data>
+  <data name="&gt;&gt;ButtonRenameTab.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ButtonRenameTab.Parent" xml:space="preserve">
+    <value>GroupTab</value>
+  </data>
+  <data name="&gt;&gt;ButtonRenameTab.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="Label13.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Label13.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 327</value>
+  </data>
+  <data name="Label13.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 12</value>
+  </data>
+  <data name="Label13.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="Label13.Text" xml:space="preserve">
+    <value>タブの種類</value>
+  </data>
+  <data name="&gt;&gt;Label13.Name" xml:space="preserve">
+    <value>Label13</value>
+  </data>
+  <data name="&gt;&gt;Label13.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label13.Parent" xml:space="preserve">
+    <value>GroupTab</value>
+  </data>
+  <data name="&gt;&gt;Label13.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="ComboSound.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 427</value>
+  </data>
+  <data name="ComboSound.Size" type="System.Drawing.Size, System.Drawing">
+    <value>113, 20</value>
+  </data>
+  <data name="ComboSound.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;ComboSound.Name" xml:space="preserve">
+    <value>ComboSound</value>
+  </data>
+  <data name="&gt;&gt;ComboSound.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ComboSound.Parent" xml:space="preserve">
+    <value>GroupTab</value>
+  </data>
+  <data name="&gt;&gt;ComboSound.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="CheckManageRead.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckManageRead.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 371</value>
+  </data>
+  <data name="CheckManageRead.Size" type="System.Drawing.Size, System.Drawing">
+    <value>72, 16</value>
+  </data>
+  <data name="CheckManageRead.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="CheckManageRead.Text" xml:space="preserve">
+    <value>未読管理</value>
+  </data>
+  <data name="&gt;&gt;CheckManageRead.Name" xml:space="preserve">
+    <value>CheckManageRead</value>
+  </data>
+  <data name="&gt;&gt;CheckManageRead.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckManageRead.Parent" xml:space="preserve">
+    <value>GroupTab</value>
+  </data>
+  <data name="&gt;&gt;CheckManageRead.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="CheckNotifyNew.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckNotifyNew.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CheckNotifyNew.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 393</value>
+  </data>
+  <data name="CheckNotifyNew.Size" type="System.Drawing.Size, System.Drawing">
+    <value>96, 16</value>
+  </data>
+  <data name="CheckNotifyNew.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="CheckNotifyNew.Text" xml:space="preserve">
+    <value>新着通知表示</value>
+  </data>
+  <data name="&gt;&gt;CheckNotifyNew.Name" xml:space="preserve">
+    <value>CheckNotifyNew</value>
+  </data>
+  <data name="&gt;&gt;CheckNotifyNew.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckNotifyNew.Parent" xml:space="preserve">
+    <value>GroupTab</value>
+  </data>
+  <data name="&gt;&gt;CheckNotifyNew.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="GroupTab.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 9</value>
+  </data>
+  <data name="GroupTab.Size" type="System.Drawing.Size, System.Drawing">
+    <value>127, 459</value>
+  </data>
+  <data name="GroupTab.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="GroupTab.Text" xml:space="preserve">
+    <value>タブ</value>
+  </data>
+  <data name="&gt;&gt;GroupTab.Name" xml:space="preserve">
+    <value>GroupTab</value>
+  </data>
+  <data name="&gt;&gt;GroupTab.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GroupTab.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;GroupTab.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="ButtonEdit.Location" type="System.Drawing.Point, System.Drawing">
+    <value>173, 209</value>
+  </data>
+  <data name="ButtonEdit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="ButtonEdit.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="ButtonEdit.Text" xml:space="preserve">
+    <value>編集(&amp;E)</value>
+  </data>
+  <data name="&gt;&gt;ButtonEdit.Name" xml:space="preserve">
+    <value>ButtonEdit</value>
+  </data>
+  <data name="&gt;&gt;ButtonEdit.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ButtonEdit.Parent" xml:space="preserve">
+    <value>GroupBox2</value>
+  </data>
+  <data name="&gt;&gt;ButtonEdit.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="ButtonDelete.Location" type="System.Drawing.Point, System.Drawing">
+    <value>531, 210</value>
+  </data>
+  <data name="ButtonDelete.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="ButtonDelete.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="ButtonDelete.Text" xml:space="preserve">
+    <value>削除(&amp;D)</value>
+  </data>
+  <data name="&gt;&gt;ButtonDelete.Name" xml:space="preserve">
+    <value>ButtonDelete</value>
+  </data>
+  <data name="&gt;&gt;ButtonDelete.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ButtonDelete.Parent" xml:space="preserve">
+    <value>GroupBox2</value>
+  </data>
+  <data name="&gt;&gt;ButtonDelete.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="GroupBox2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="ListFilters.HorizontalScrollbar" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ListFilters.ItemHeight" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="ListFilters.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 19</value>
+  </data>
+  <data name="ListFilters.Size" type="System.Drawing.Size, System.Drawing">
+    <value>597, 184</value>
+  </data>
+  <data name="ListFilters.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;ListFilters.Name" xml:space="preserve">
+    <value>ListFilters</value>
+  </data>
+  <data name="&gt;&gt;ListFilters.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ListFilters.Parent" xml:space="preserve">
+    <value>GroupBox2</value>
+  </data>
+  <data name="&gt;&gt;ListFilters.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="EditFilterGroup.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="Label11.Location" type="System.Drawing.Point, System.Drawing">
+    <value>436, 152</value>
+  </data>
+  <data name="Label11.Size" type="System.Drawing.Size, System.Drawing">
+    <value>157, 74</value>
+  </data>
+  <data name="Label11.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="Label11.Text" xml:space="preserve">
+    <value>除外ルールのみ設定すると、タブ全体への除外設定となります。</value>
+  </data>
+  <data name="&gt;&gt;Label11.Name" xml:space="preserve">
+    <value>Label11</value>
+  </data>
+  <data name="&gt;&gt;Label11.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label11.Parent" xml:space="preserve">
+    <value>EditFilterGroup</value>
+  </data>
+  <data name="&gt;&gt;Label11.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="CheckExLambDa.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckExLambDa.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CheckExLambDa.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CheckExLambDa.Location" type="System.Drawing.Point, System.Drawing">
+    <value>299, 106</value>
+  </data>
+  <data name="CheckExLambDa.Size" type="System.Drawing.Size, System.Drawing">
+    <value>63, 16</value>
+  </data>
+  <data name="CheckExLambDa.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="CheckExLambDa.Text" xml:space="preserve">
+    <value>ラムダ式</value>
+  </data>
+  <data name="&gt;&gt;CheckExLambDa.Name" xml:space="preserve">
+    <value>CheckExLambDa</value>
+  </data>
+  <data name="&gt;&gt;CheckExLambDa.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckExLambDa.Parent" xml:space="preserve">
+    <value>GroupExclude</value>
+  </data>
+  <data name="&gt;&gt;CheckExLambDa.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="TextExSource.Location" type="System.Drawing.Point, System.Drawing">
+    <value>89, 93</value>
+  </data>
+  <data name="TextExSource.Size" type="System.Drawing.Size, System.Drawing">
+    <value>96, 19</value>
+  </data>
+  <data name="TextExSource.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;TextExSource.Name" xml:space="preserve">
+    <value>TextExSource</value>
+  </data>
+  <data name="&gt;&gt;TextExSource.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextExSource.Parent" xml:space="preserve">
+    <value>GroupExclude</value>
+  </data>
+  <data name="&gt;&gt;TextExSource.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="Label12.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Label12.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Label12.Location" type="System.Drawing.Point, System.Drawing">
+    <value>43, 96</value>
+  </data>
+  <data name="Label12.Size" type="System.Drawing.Size, System.Drawing">
+    <value>40, 12</value>
+  </data>
+  <data name="Label12.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="Label12.Text" xml:space="preserve">
+    <value>Source</value>
+  </data>
+  <data name="&gt;&gt;Label12.Name" xml:space="preserve">
+    <value>Label12</value>
+  </data>
+  <data name="&gt;&gt;Label12.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label12.Parent" xml:space="preserve">
+    <value>GroupExclude</value>
+  </data>
+  <data name="&gt;&gt;Label12.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="CheckExRetweet.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckExRetweet.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CheckExRetweet.Location" type="System.Drawing.Point, System.Drawing">
+    <value>299, 84</value>
+  </data>
+  <data name="CheckExRetweet.Size" type="System.Drawing.Size, System.Drawing">
+    <value>84, 16</value>
+  </data>
+  <data name="CheckExRetweet.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="CheckExRetweet.Text" xml:space="preserve">
+    <value>公式RTのみ</value>
+  </data>
+  <data name="&gt;&gt;CheckExRetweet.Name" xml:space="preserve">
+    <value>CheckExRetweet</value>
+  </data>
+  <data name="&gt;&gt;CheckExRetweet.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckExRetweet.Parent" xml:space="preserve">
+    <value>GroupExclude</value>
+  </data>
+  <data name="&gt;&gt;CheckExRetweet.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="CheckExCaseSensitive.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckExCaseSensitive.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CheckExCaseSensitive.Location" type="System.Drawing.Point, System.Drawing">
+    <value>299, 62</value>
+  </data>
+  <data name="CheckExCaseSensitive.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 16</value>
+  </data>
+  <data name="CheckExCaseSensitive.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="CheckExCaseSensitive.Text" xml:space="preserve">
+    <value>大/小文字区別</value>
+  </data>
+  <data name="&gt;&gt;CheckExCaseSensitive.Name" xml:space="preserve">
+    <value>CheckExCaseSensitive</value>
+  </data>
+  <data name="&gt;&gt;CheckExCaseSensitive.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckExCaseSensitive.Parent" xml:space="preserve">
+    <value>GroupExclude</value>
+  </data>
+  <data name="&gt;&gt;CheckExCaseSensitive.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="RadioExAnd.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="RadioExAnd.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="RadioExAnd.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 28</value>
+  </data>
+  <data name="RadioExAnd.Size" type="System.Drawing.Size, System.Drawing">
+    <value>71, 16</value>
+  </data>
+  <data name="RadioExAnd.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="RadioExAnd.Text" xml:space="preserve">
+    <value>複合条件</value>
+  </data>
+  <data name="&gt;&gt;RadioExAnd.Name" xml:space="preserve">
+    <value>RadioExAnd</value>
+  </data>
+  <data name="&gt;&gt;RadioExAnd.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RadioExAnd.Parent" xml:space="preserve">
+    <value>GroupExclude</value>
+  </data>
+  <data name="&gt;&gt;RadioExAnd.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="Label1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>187, 14</value>
+  </data>
+  <data name="Label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 12</value>
+  </data>
+  <data name="Label1.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="Label1.Text" xml:space="preserve">
+    <value>発言内容</value>
+  </data>
+  <data name="&gt;&gt;Label1.Name" xml:space="preserve">
+    <value>Label1</value>
+  </data>
+  <data name="&gt;&gt;Label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label1.Parent" xml:space="preserve">
+    <value>GroupExclude</value>
+  </data>
+  <data name="&gt;&gt;Label1.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="CheckExURL.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckExURL.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CheckExURL.Location" type="System.Drawing.Point, System.Drawing">
+    <value>299, 40</value>
+  </data>
+  <data name="CheckExURL.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 16</value>
+  </data>
+  <data name="CheckExURL.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="CheckExURL.Text" xml:space="preserve">
+    <value>URL検索</value>
+  </data>
+  <data name="&gt;&gt;CheckExURL.Name" xml:space="preserve">
+    <value>CheckExURL</value>
+  </data>
+  <data name="&gt;&gt;CheckExURL.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckExURL.Parent" xml:space="preserve">
+    <value>GroupExclude</value>
+  </data>
+  <data name="&gt;&gt;CheckExURL.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="RadioExPLUS.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="RadioExPLUS.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="RadioExPLUS.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 65</value>
+  </data>
+  <data name="RadioExPLUS.Size" type="System.Drawing.Size, System.Drawing">
+    <value>71, 16</value>
+  </data>
+  <data name="RadioExPLUS.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="RadioExPLUS.Text" xml:space="preserve">
+    <value>単一条件</value>
+  </data>
+  <data name="&gt;&gt;RadioExPLUS.Name" xml:space="preserve">
+    <value>RadioExPLUS</value>
+  </data>
+  <data name="&gt;&gt;RadioExPLUS.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RadioExPLUS.Parent" xml:space="preserve">
+    <value>GroupExclude</value>
+  </data>
+  <data name="&gt;&gt;RadioExPLUS.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="CheckExRegex.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckExRegex.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CheckExRegex.Location" type="System.Drawing.Point, System.Drawing">
+    <value>299, 18</value>
+  </data>
+  <data name="CheckExRegex.Size" type="System.Drawing.Size, System.Drawing">
+    <value>72, 16</value>
+  </data>
+  <data name="CheckExRegex.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="CheckExRegex.Text" xml:space="preserve">
+    <value>正規表現</value>
+  </data>
+  <data name="&gt;&gt;CheckExRegex.Name" xml:space="preserve">
+    <value>CheckExRegex</value>
+  </data>
+  <data name="&gt;&gt;CheckExRegex.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckExRegex.Parent" xml:space="preserve">
+    <value>GroupExclude</value>
+  </data>
+  <data name="&gt;&gt;CheckExRegex.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="Label2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>87, 51</value>
+  </data>
+  <data name="Label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>114, 12</value>
+  </data>
+  <data name="Label2.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="Label2.Text" xml:space="preserve">
+    <value>ユーザーIDか発言内容</value>
+  </data>
+  <data name="&gt;&gt;Label2.Name" xml:space="preserve">
+    <value>Label2</value>
+  </data>
+  <data name="&gt;&gt;Label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label2.Parent" xml:space="preserve">
+    <value>GroupExclude</value>
+  </data>
+  <data name="&gt;&gt;Label2.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="Label3.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>156, 29</value>
+  </data>
+  <data name="Label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 12</value>
+  </data>
+  <data name="Label3.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="Label3.Text" xml:space="preserve">
+    <value>AND</value>
+  </data>
+  <data name="&gt;&gt;Label3.Name" xml:space="preserve">
+    <value>Label3</value>
+  </data>
+  <data name="&gt;&gt;Label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label3.Parent" xml:space="preserve">
+    <value>GroupExclude</value>
+  </data>
+  <data name="&gt;&gt;Label3.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="Label4.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Label4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>87, 14</value>
+  </data>
+  <data name="Label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 12</value>
+  </data>
+  <data name="Label4.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="Label4.Text" xml:space="preserve">
+    <value>ユーザーID</value>
+  </data>
+  <data name="&gt;&gt;Label4.Name" xml:space="preserve">
+    <value>Label4</value>
+  </data>
+  <data name="&gt;&gt;Label4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label4.Parent" xml:space="preserve">
+    <value>GroupExclude</value>
+  </data>
+  <data name="&gt;&gt;Label4.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="ExUID.Location" type="System.Drawing.Point, System.Drawing">
+    <value>89, 26</value>
+  </data>
+  <data name="ExUID.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 19</value>
+  </data>
+  <data name="ExUID.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;ExUID.Name" xml:space="preserve">
+    <value>ExUID</value>
+  </data>
+  <data name="&gt;&gt;ExUID.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ExUID.Parent" xml:space="preserve">
+    <value>GroupExclude</value>
+  </data>
+  <data name="&gt;&gt;ExUID.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="ExMSG1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>189, 26</value>
+  </data>
+  <data name="ExMSG1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>103, 19</value>
+  </data>
+  <data name="ExMSG1.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;ExMSG1.Name" xml:space="preserve">
+    <value>ExMSG1</value>
+  </data>
+  <data name="&gt;&gt;ExMSG1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ExMSG1.Parent" xml:space="preserve">
+    <value>GroupExclude</value>
+  </data>
+  <data name="&gt;&gt;ExMSG1.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="ExMSG2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>89, 64</value>
+  </data>
+  <data name="ExMSG2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>204, 19</value>
+  </data>
+  <data name="ExMSG2.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;ExMSG2.Name" xml:space="preserve">
+    <value>ExMSG2</value>
+  </data>
+  <data name="&gt;&gt;ExMSG2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ExMSG2.Parent" xml:space="preserve">
+    <value>GroupExclude</value>
+  </data>
+  <data name="&gt;&gt;ExMSG2.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="GroupExclude.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 152</value>
+  </data>
+  <data name="GroupExclude.Size" type="System.Drawing.Size, System.Drawing">
+    <value>424, 134</value>
+  </data>
+  <data name="GroupExclude.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="GroupExclude.Text" xml:space="preserve">
+    <value>除外ルール</value>
+  </data>
+  <data name="&gt;&gt;GroupExclude.Name" xml:space="preserve">
+    <value>GroupExclude</value>
+  </data>
+  <data name="&gt;&gt;GroupExclude.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GroupExclude.Parent" xml:space="preserve">
+    <value>EditFilterGroup</value>
+  </data>
+  <data name="&gt;&gt;GroupExclude.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="Label9.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Label9.Location" type="System.Drawing.Point, System.Drawing">
+    <value>87, 51</value>
+  </data>
+  <data name="Label9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>114, 12</value>
+  </data>
+  <data name="Label9.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="Label9.Text" xml:space="preserve">
+    <value>ユーザーIDか発言内容</value>
+  </data>
+  <data name="&gt;&gt;Label9.Name" xml:space="preserve">
+    <value>Label9</value>
+  </data>
+  <data name="&gt;&gt;Label9.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label9.Parent" xml:space="preserve">
+    <value>GroupMatch</value>
+  </data>
+  <data name="&gt;&gt;Label9.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="Label7.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Label7.Location" type="System.Drawing.Point, System.Drawing">
+    <value>156, 29</value>
+  </data>
+  <data name="Label7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 12</value>
+  </data>
+  <data name="Label7.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="Label7.Text" xml:space="preserve">
+    <value>AND</value>
+  </data>
+  <data name="&gt;&gt;Label7.Name" xml:space="preserve">
+    <value>Label7</value>
+  </data>
+  <data name="&gt;&gt;Label7.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label7.Parent" xml:space="preserve">
+    <value>GroupMatch</value>
+  </data>
+  <data name="&gt;&gt;Label7.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="Label6.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Label6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>87, 14</value>
+  </data>
+  <data name="Label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 12</value>
+  </data>
+  <data name="Label6.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="Label6.Text" xml:space="preserve">
+    <value>ユーザーID</value>
+  </data>
+  <data name="&gt;&gt;Label6.Name" xml:space="preserve">
+    <value>Label6</value>
+  </data>
+  <data name="&gt;&gt;Label6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label6.Parent" xml:space="preserve">
+    <value>GroupMatch</value>
+  </data>
+  <data name="&gt;&gt;Label6.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="UID.Location" type="System.Drawing.Point, System.Drawing">
+    <value>89, 26</value>
+  </data>
+  <data name="UID.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 19</value>
+  </data>
+  <data name="UID.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;UID.Name" xml:space="preserve">
+    <value>UID</value>
+  </data>
+  <data name="&gt;&gt;UID.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;UID.Parent" xml:space="preserve">
+    <value>GroupMatch</value>
+  </data>
+  <data name="&gt;&gt;UID.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="MSG1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>189, 26</value>
+  </data>
+  <data name="MSG1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>103, 19</value>
+  </data>
+  <data name="MSG1.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;MSG1.Name" xml:space="preserve">
+    <value>MSG1</value>
+  </data>
+  <data name="&gt;&gt;MSG1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MSG1.Parent" xml:space="preserve">
+    <value>GroupMatch</value>
+  </data>
+  <data name="&gt;&gt;MSG1.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="MSG2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>89, 64</value>
+  </data>
+  <data name="MSG2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>204, 19</value>
+  </data>
+  <data name="MSG2.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;MSG2.Name" xml:space="preserve">
+    <value>MSG2</value>
+  </data>
+  <data name="&gt;&gt;MSG2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MSG2.Parent" xml:space="preserve">
+    <value>GroupMatch</value>
+  </data>
+  <data name="&gt;&gt;MSG2.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="GroupMatch.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 18</value>
+  </data>
+  <data name="GroupMatch.Size" type="System.Drawing.Size, System.Drawing">
+    <value>424, 128</value>
+  </data>
+  <data name="GroupMatch.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="GroupMatch.Text" xml:space="preserve">
+    <value>マッチルール</value>
+  </data>
+  <data name="&gt;&gt;GroupMatch.Name" xml:space="preserve">
+    <value>GroupMatch</value>
+  </data>
+  <data name="&gt;&gt;GroupMatch.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GroupMatch.Parent" xml:space="preserve">
+    <value>EditFilterGroup</value>
+  </data>
+  <data name="&gt;&gt;GroupMatch.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="GroupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>436, 18</value>
+  </data>
+  <data name="GroupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>155, 98</value>
+  </data>
+  <data name="GroupBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="GroupBox1.Text" xml:space="preserve">
+    <value>マッチ時の追加動作(&amp;E)</value>
+  </data>
+  <data name="&gt;&gt;GroupBox1.Name" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;GroupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GroupBox1.Parent" xml:space="preserve">
+    <value>EditFilterGroup</value>
+  </data>
+  <data name="&gt;&gt;GroupBox1.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="EditFilterGroup.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 238</value>
+  </data>
+  <data name="EditFilterGroup.Size" type="System.Drawing.Size, System.Drawing">
+    <value>600, 293</value>
+  </data>
+  <data name="EditFilterGroup.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="EditFilterGroup.Text" xml:space="preserve">
+    <value>ルール編集</value>
+  </data>
+  <data name="&gt;&gt;EditFilterGroup.Name" xml:space="preserve">
+    <value>EditFilterGroup</value>
+  </data>
+  <data name="&gt;&gt;EditFilterGroup.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;EditFilterGroup.Parent" xml:space="preserve">
+    <value>GroupBox2</value>
+  </data>
+  <data name="&gt;&gt;EditFilterGroup.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="GroupBox2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>142, 9</value>
+  </data>
+  <data name="GroupBox2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>615, 538</value>
+  </data>
+  <data name="GroupBox2.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="GroupBox2.Text" xml:space="preserve">
+    <value>振り分けルール</value>
+  </data>
+  <data name="&gt;&gt;GroupBox2.Name" xml:space="preserve">
+    <value>GroupBox2</value>
+  </data>
+  <data name="&gt;&gt;GroupBox2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GroupBox2.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;GroupBox2.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>39</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 12</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>769, 583</value>
+  </data>
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>CenterParent</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>振り分けルール</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>FilterDialog</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+</root>

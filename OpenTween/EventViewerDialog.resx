@@ -1,0 +1,792 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="TabPageUnfav.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 4</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="TabPageUnfav.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="TabPageUnfav.Size" type="System.Drawing.Size, System.Drawing">
+    <value>706, 193</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="TabPageUnfav.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="TabPageUnfav.Text" xml:space="preserve">
+    <value>Unfavorite</value>
+  </data>
+  <data name="&gt;&gt;TabPageUnfav.Name" xml:space="preserve">
+    <value>TabPageUnfav</value>
+  </data>
+  <data name="&gt;&gt;TabPageUnfav.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPageUnfav.Parent" xml:space="preserve">
+    <value>TabEventType</value>
+  </data>
+  <data name="&gt;&gt;TabPageUnfav.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="SaveLogButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="SaveLogButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>599, 239</value>
+  </data>
+  <data name="SaveLogButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>126, 22</value>
+  </data>
+  <data name="SaveLogButton.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="SaveLogButton.Text" xml:space="preserve">
+    <value>ファイル保存</value>
+  </data>
+  <data name="&gt;&gt;SaveLogButton.Name" xml:space="preserve">
+    <value>SaveLogButton</value>
+  </data>
+  <data name="&gt;&gt;SaveLogButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SaveLogButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;SaveLogButton.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="TabPageFollow.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 4</value>
+  </data>
+  <data name="TabPageFollow.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="TabPageFollow.Size" type="System.Drawing.Size, System.Drawing">
+    <value>706, 193</value>
+  </data>
+  <data name="TabPageFollow.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="TabPageFollow.Text" xml:space="preserve">
+    <value>Follow</value>
+  </data>
+  <data name="&gt;&gt;TabPageFollow.Name" xml:space="preserve">
+    <value>TabPageFollow</value>
+  </data>
+  <data name="&gt;&gt;TabPageFollow.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPageFollow.Parent" xml:space="preserve">
+    <value>TabEventType</value>
+  </data>
+  <data name="&gt;&gt;TabPageFollow.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="CheckBoxFilter.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="CheckBoxFilter.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckBoxFilter.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 277</value>
+  </data>
+  <data name="CheckBoxFilter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>124, 16</value>
+  </data>
+  <data name="CheckBoxFilter.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="CheckBoxFilter.Text" xml:space="preserve">
+    <value>キーワードで絞り込む</value>
+  </data>
+  <data name="&gt;&gt;CheckBoxFilter.Name" xml:space="preserve">
+    <value>CheckBoxFilter</value>
+  </data>
+  <data name="&gt;&gt;CheckBoxFilter.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckBoxFilter.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;CheckBoxFilter.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;EventList.Name" xml:space="preserve">
+    <value>EventList</value>
+  </data>
+  <data name="&gt;&gt;EventList.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ListView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;EventList.Parent" xml:space="preserve">
+    <value>TabPageAll</value>
+  </data>
+  <data name="&gt;&gt;EventList.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="TabPageAll.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 4</value>
+  </data>
+  <data name="TabPageAll.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="TabPageAll.Size" type="System.Drawing.Size, System.Drawing">
+    <value>706, 193</value>
+  </data>
+  <data name="TabPageAll.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="TabPageAll.Text" xml:space="preserve">
+    <value>全て</value>
+  </data>
+  <data name="&gt;&gt;TabPageAll.Name" xml:space="preserve">
+    <value>TabPageAll</value>
+  </data>
+  <data name="&gt;&gt;TabPageAll.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPageAll.Parent" xml:space="preserve">
+    <value>TabEventType</value>
+  </data>
+  <data name="&gt;&gt;TabPageAll.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="EventList.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="EventList.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="EventList.Size" type="System.Drawing.Size, System.Drawing">
+    <value>700, 187</value>
+  </data>
+  <data name="EventList.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;EventList.Name" xml:space="preserve">
+    <value>EventList</value>
+  </data>
+  <data name="&gt;&gt;EventList.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ListView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;EventList.Parent" xml:space="preserve">
+    <value>TabPageAll</value>
+  </data>
+  <data name="&gt;&gt;EventList.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="ColumnHeader1.Text" xml:space="preserve">
+    <value>Datetime</value>
+  </data>
+  <data name="ColumnHeader1.Width" type="System.Int32, mscorlib">
+    <value>86</value>
+  </data>
+  <data name="ColumnHeader2.Text" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="ColumnHeader2.Width" type="System.Int32, mscorlib">
+    <value>90</value>
+  </data>
+  <data name="ColumnHeader3.Text" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="ColumnHeader3.Width" type="System.Int32, mscorlib">
+    <value>106</value>
+  </data>
+  <data name="ColumnHeader4.Text" xml:space="preserve">
+    <value>Target</value>
+  </data>
+  <data name="ColumnHeader4.Width" type="System.Int32, mscorlib">
+    <value>360</value>
+  </data>
+  <data name="CheckRegex.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="CheckRegex.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckRegex.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 299</value>
+  </data>
+  <data name="CheckRegex.Size" type="System.Drawing.Size, System.Drawing">
+    <value>72, 16</value>
+  </data>
+  <data name="CheckRegex.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="CheckRegex.Text" xml:space="preserve">
+    <value>正規表現</value>
+  </data>
+  <data name="&gt;&gt;CheckRegex.Name" xml:space="preserve">
+    <value>CheckRegex</value>
+  </data>
+  <data name="&gt;&gt;CheckRegex.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckRegex.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;CheckRegex.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="TextBoxKeyword.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="TextBoxKeyword.Location" type="System.Drawing.Point, System.Drawing">
+    <value>142, 275</value>
+  </data>
+  <data name="TextBoxKeyword.Size" type="System.Drawing.Size, System.Drawing">
+    <value>231, 19</value>
+  </data>
+  <data name="TextBoxKeyword.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;TextBoxKeyword.Name" xml:space="preserve">
+    <value>TextBoxKeyword</value>
+  </data>
+  <data name="&gt;&gt;TextBoxKeyword.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextBoxKeyword.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;TextBoxKeyword.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="TabPageFav.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 4</value>
+  </data>
+  <data name="TabPageFav.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="TabPageFav.Size" type="System.Drawing.Size, System.Drawing">
+    <value>706, 193</value>
+  </data>
+  <data name="TabPageFav.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="TabPageFav.Text" xml:space="preserve">
+    <value>Favorite</value>
+  </data>
+  <data name="&gt;&gt;TabPageFav.Name" xml:space="preserve">
+    <value>TabPageFav</value>
+  </data>
+  <data name="&gt;&gt;TabPageFav.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPageFav.Parent" xml:space="preserve">
+    <value>TabEventType</value>
+  </data>
+  <data name="&gt;&gt;TabPageFav.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="StatusLabelCount.Size" type="System.Drawing.Size, System.Drawing">
+    <value>95, 17</value>
+  </data>
+  <data name="StatusLabelCount.Text" xml:space="preserve">
+    <value>StatusLabelCount</value>
+  </data>
+  <data name="OK_Button.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="OK_Button.Location" type="System.Drawing.Point, System.Drawing">
+    <value>659, 298</value>
+  </data>
+  <data name="OK_Button.Size" type="System.Drawing.Size, System.Drawing">
+    <value>67, 21</value>
+  </data>
+  <data name="OK_Button.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="OK_Button.Text" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="&gt;&gt;OK_Button.Name" xml:space="preserve">
+    <value>OK_Button</value>
+  </data>
+  <data name="&gt;&gt;OK_Button.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;OK_Button.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;OK_Button.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <metadata name="StatusStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>24, 10</value>
+  </metadata>
+  <data name="StatusStrip1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 340</value>
+  </data>
+  <data name="StatusStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>738, 22</value>
+  </data>
+  <data name="StatusStrip1.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="StatusStrip1.Text" xml:space="preserve">
+    <value>StatusStrip1</value>
+  </data>
+  <data name="&gt;&gt;StatusStrip1.Name" xml:space="preserve">
+    <value>StatusStrip1</value>
+  </data>
+  <data name="&gt;&gt;StatusStrip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.StatusStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;StatusStrip1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;StatusStrip1.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="TabPageAddLists.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 4</value>
+  </data>
+  <data name="TabPageAddLists.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="TabPageAddLists.Size" type="System.Drawing.Size, System.Drawing">
+    <value>706, 193</value>
+  </data>
+  <data name="TabPageAddLists.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="TabPageAddLists.Text" xml:space="preserve">
+    <value>ListsMemberAdded</value>
+  </data>
+  <data name="&gt;&gt;TabPageAddLists.Name" xml:space="preserve">
+    <value>TabPageAddLists</value>
+  </data>
+  <data name="&gt;&gt;TabPageAddLists.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPageAddLists.Parent" xml:space="preserve">
+    <value>TabEventType</value>
+  </data>
+  <data name="&gt;&gt;TabPageAddLists.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="TabEventType.Alignment" type="System.Windows.Forms.TabAlignment, System.Windows.Forms">
+    <value>Bottom</value>
+  </data>
+  <data name="TabEventType.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="&gt;&gt;TabPageRemoveLists.Name" xml:space="preserve">
+    <value>TabPageRemoveLists</value>
+  </data>
+  <data name="&gt;&gt;TabPageRemoveLists.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPageRemoveLists.Parent" xml:space="preserve">
+    <value>TabEventType</value>
+  </data>
+  <data name="&gt;&gt;TabPageRemoveLists.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;TabPageListsCreated.Name" xml:space="preserve">
+    <value>TabPageListsCreated</value>
+  </data>
+  <data name="&gt;&gt;TabPageListsCreated.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPageListsCreated.Parent" xml:space="preserve">
+    <value>TabEventType</value>
+  </data>
+  <data name="&gt;&gt;TabPageListsCreated.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;TabPageBlock.Name" xml:space="preserve">
+    <value>TabPageBlock</value>
+  </data>
+  <data name="&gt;&gt;TabPageBlock.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPageBlock.Parent" xml:space="preserve">
+    <value>TabEventType</value>
+  </data>
+  <data name="&gt;&gt;TabPageBlock.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;TabPageUserUpdate.Name" xml:space="preserve">
+    <value>TabPageUserUpdate</value>
+  </data>
+  <data name="&gt;&gt;TabPageUserUpdate.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPageUserUpdate.Parent" xml:space="preserve">
+    <value>TabEventType</value>
+  </data>
+  <data name="&gt;&gt;TabPageUserUpdate.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="TabEventType.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="TabEventType.Size" type="System.Drawing.Size, System.Drawing">
+    <value>714, 218</value>
+  </data>
+  <data name="TabEventType.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;TabEventType.Name" xml:space="preserve">
+    <value>TabEventType</value>
+  </data>
+  <data name="&gt;&gt;TabEventType.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabEventType.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;TabEventType.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="TabPageRemoveLists.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 4</value>
+  </data>
+  <data name="TabPageRemoveLists.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="TabPageRemoveLists.Size" type="System.Drawing.Size, System.Drawing">
+    <value>706, 193</value>
+  </data>
+  <data name="TabPageRemoveLists.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="TabPageRemoveLists.Text" xml:space="preserve">
+    <value>ListsMemberRemoved</value>
+  </data>
+  <data name="&gt;&gt;TabPageRemoveLists.Name" xml:space="preserve">
+    <value>TabPageRemoveLists</value>
+  </data>
+  <data name="&gt;&gt;TabPageRemoveLists.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPageRemoveLists.Parent" xml:space="preserve">
+    <value>TabEventType</value>
+  </data>
+  <data name="&gt;&gt;TabPageRemoveLists.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="TabPageListsCreated.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 4</value>
+  </data>
+  <data name="TabPageListsCreated.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="TabPageListsCreated.Size" type="System.Drawing.Size, System.Drawing">
+    <value>706, 193</value>
+  </data>
+  <data name="TabPageListsCreated.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="TabPageListsCreated.Text" xml:space="preserve">
+    <value>ListsCreated</value>
+  </data>
+  <data name="&gt;&gt;TabPageListsCreated.Name" xml:space="preserve">
+    <value>TabPageListsCreated</value>
+  </data>
+  <data name="&gt;&gt;TabPageListsCreated.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPageListsCreated.Parent" xml:space="preserve">
+    <value>TabEventType</value>
+  </data>
+  <data name="&gt;&gt;TabPageListsCreated.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="TabPageBlock.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 4</value>
+  </data>
+  <data name="TabPageBlock.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="TabPageBlock.Size" type="System.Drawing.Size, System.Drawing">
+    <value>706, 193</value>
+  </data>
+  <data name="TabPageBlock.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="TabPageBlock.Text" xml:space="preserve">
+    <value>Block</value>
+  </data>
+  <data name="&gt;&gt;TabPageBlock.Name" xml:space="preserve">
+    <value>TabPageBlock</value>
+  </data>
+  <data name="&gt;&gt;TabPageBlock.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPageBlock.Parent" xml:space="preserve">
+    <value>TabEventType</value>
+  </data>
+  <data name="&gt;&gt;TabPageBlock.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="TabPageUserUpdate.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 4</value>
+  </data>
+  <data name="TabPageUserUpdate.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="TabPageUserUpdate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>706, 193</value>
+  </data>
+  <data name="TabPageUserUpdate.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="TabPageUserUpdate.Text" xml:space="preserve">
+    <value>UserUpdate</value>
+  </data>
+  <data name="&gt;&gt;TabPageUserUpdate.Name" xml:space="preserve">
+    <value>TabPageUserUpdate</value>
+  </data>
+  <data name="&gt;&gt;TabPageUserUpdate.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPageUserUpdate.Parent" xml:space="preserve">
+    <value>TabEventType</value>
+  </data>
+  <data name="&gt;&gt;TabPageUserUpdate.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="ButtonRefresh.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="ButtonRefresh.Location" type="System.Drawing.Point, System.Drawing">
+    <value>600, 269</value>
+  </data>
+  <data name="ButtonRefresh.Size" type="System.Drawing.Size, System.Drawing">
+    <value>126, 21</value>
+  </data>
+  <data name="ButtonRefresh.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="ButtonRefresh.Text" xml:space="preserve">
+    <value>最新の情報に更新</value>
+  </data>
+  <data name="&gt;&gt;ButtonRefresh.Name" xml:space="preserve">
+    <value>ButtonRefresh</value>
+  </data>
+  <data name="&gt;&gt;ButtonRefresh.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ButtonRefresh.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;ButtonRefresh.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="CheckExcludeMyEvent.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="CheckExcludeMyEvent.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckExcludeMyEvent.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 255</value>
+  </data>
+  <data name="CheckExcludeMyEvent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>197, 16</value>
+  </data>
+  <data name="CheckExcludeMyEvent.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="CheckExcludeMyEvent.Text" xml:space="preserve">
+    <value>自分が発生させたイベントを除外する</value>
+  </data>
+  <data name="&gt;&gt;CheckExcludeMyEvent.Name" xml:space="preserve">
+    <value>CheckExcludeMyEvent</value>
+  </data>
+  <data name="&gt;&gt;CheckExcludeMyEvent.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckExcludeMyEvent.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;CheckExcludeMyEvent.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <metadata name="SaveFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>150, 10</value>
+  </metadata>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>39</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 12</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>738, 362</value>
+  </data>
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>Manual</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Events</value>
+  </data>
+  <data name="&gt;&gt;ColumnHeader1.Name" xml:space="preserve">
+    <value>ColumnHeader1</value>
+  </data>
+  <data name="&gt;&gt;ColumnHeader1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ColumnHeader2.Name" xml:space="preserve">
+    <value>ColumnHeader2</value>
+  </data>
+  <data name="&gt;&gt;ColumnHeader2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ColumnHeader3.Name" xml:space="preserve">
+    <value>ColumnHeader3</value>
+  </data>
+  <data name="&gt;&gt;ColumnHeader3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ColumnHeader4.Name" xml:space="preserve">
+    <value>ColumnHeader4</value>
+  </data>
+  <data name="&gt;&gt;ColumnHeader4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;StatusLabelCount.Name" xml:space="preserve">
+    <value>StatusLabelCount</value>
+  </data>
+  <data name="&gt;&gt;StatusLabelCount.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SaveFileDialog1.Name" xml:space="preserve">
+    <value>SaveFileDialog1</value>
+  </data>
+  <data name="&gt;&gt;SaveFileDialog1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SaveFileDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>EventViewerDialog</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+</root>

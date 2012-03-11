@@ -1,0 +1,436 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3D8995C7-BDF3-4273-9F9D-DDD902F6A101}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OpenTween</RootNamespace>
+    <AssemblyName>OpenTween</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>OpenTween.MyApplication</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\4b.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdsBrowser.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ApiInformation.cs" />
+    <Compile Include="ApplicationEvents.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ApplicationSettings.cs" />
+    <Compile Include="AtIdSupplement.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AtIdSupplement.Designer.cs">
+      <DependentUpon>AtIdSupplement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AppendSettingDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AppendSettingDialog.Designer.cs">
+      <DependentUpon>AppendSettingDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AuthBrowser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AuthBrowser.Designer.cs">
+      <DependentUpon>AuthBrowser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Bing.cs" />
+    <Compile Include="Connection\HttpOAuthApiProxy.cs" />
+    <Compile Include="Connection\HttpTwitter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Connection\HttpVarious.cs" />
+    <Compile Include="Connection\HttpConnectionOAuth.cs" />
+    <Compile Include="Connection\HttpConnectionOAuthEcho.cs" />
+    <Compile Include="Connection\IHttpConnection.cs" />
+    <Compile Include="Connection\imgly.cs" />
+    <Compile Include="Connection\IMultimediaShareService.cs" />
+    <Compile Include="EventViewerDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EventViewerDialog.Designer.cs">
+      <DependentUpon>EventViewerDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FilterDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FilterDialog.Designer.cs">
+      <DependentUpon>FilterDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HashtagManage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HashtagManage.Designer.cs">
+      <DependentUpon>HashtagManage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ListAvailable.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListAvailable.Designer.cs">
+      <DependentUpon>ListAvailable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ListManage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListManage.Designer.cs">
+      <DependentUpon>ListManage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Connection\Plixi.cs" />
+    <Compile Include="Connection\TwitPic.cs" />
+    <Compile Include="Connection\TwitterPhoto.cs" />
+    <Compile Include="Connection\TwitVideo.cs" />
+    <Compile Include="Connection\yfrog.cs" />
+    <Compile Include="DataModel.cs" />
+    <Compile Include="DetailsListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DialogAsShieldIcon.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DialogAsShieldIcon.Designer.cs">
+      <DependentUpon>DialogAsShieldIcon.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DoubleClickCopyCanceller.cs" />
+    <Compile Include="Foursquare.cs" />
+    <Compile Include="Google.cs" />
+    <Compile Include="FormInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormInfo.Designer.cs">
+      <DependentUpon>FormInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Growl.cs" />
+    <Compile Include="HookGlobalHotkey.cs" />
+    <Compile Include="InputTabName.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InputTabName.Designer.cs">
+      <DependentUpon>InputTabName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MessageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MessageForm.Designer.cs">
+      <DependentUpon>MessageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ListElement.cs" />
+    <Compile Include="ImageDictionary.cs" />
+    <Compile Include="ImageListViewItem.cs" />
+    <Compile Include="MyCommon.cs" />
+    <Compile Include="MyLists.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyLists.Designer.cs">
+      <DependentUpon>MyLists.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MySpecialPath.cs" />
+    <Compile Include="nicoms.cs" />
+    <Compile Include="OpenURL.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OpenURL.Designer.cs">
+      <DependentUpon>OpenURL.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Outputz.cs" />
+    <Compile Include="PictureBoxEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="RadixConvert.cs" />
+    <Compile Include="SearchWord.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SearchWord.Designer.cs">
+      <DependentUpon>SearchWord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Setting\SettingAtIdList.cs" />
+    <Compile Include="Setting\SettingBase.cs" />
+    <Compile Include="Setting\SettingCommon.cs" />
+    <Compile Include="Setting\SettingFollower.cs" />
+    <Compile Include="Setting\SettingTabs.cs" />
+    <Compile Include="Setting\SettingLocal.cs" />
+    <Compile Include="ShieldIcon.cs" />
+    <Compile Include="ShortUrl.cs" />
+    <Compile Include="TabsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TabsDialog.Designer.cs">
+      <DependentUpon>TabsDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ShowUserInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ShowUserInfo.Designer.cs">
+      <DependentUpon>ShowUserInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StatusDictionary.cs" />
+    <Compile Include="Thumbnail.cs" />
+    <Compile Include="ToolStripAPIGauge.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Tween.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tween.Designer.cs">
+      <DependentUpon>Tween.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TweenAboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TweenAboutBox.Designer.cs">
+      <DependentUpon>TweenAboutBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ToolStripLabelHistory.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Twitter.cs" />
+    <Compile Include="UserInfo.cs" />
+    <Compile Include="WebBrowserController.cs" />
+    <Compile Include="Win32Api.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Connection\HttpConnection.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="EventViewerDialog.en.resx">
+      <DependentUpon>EventViewerDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EventViewerDialog.resx">
+      <DependentUpon>EventViewerDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FilterDialog.en.resx">
+      <DependentUpon>FilterDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FilterDialog.resx">
+      <DependentUpon>FilterDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FilterDialog.zh-CHS.resx">
+      <DependentUpon>FilterDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HashtagManage.en.resx">
+      <DependentUpon>HashtagManage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HashtagManage.resx">
+      <DependentUpon>HashtagManage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HashtagManage.zh-CHS.resx">
+      <DependentUpon>HashtagManage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListAvailable.resx">
+      <DependentUpon>ListAvailable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListAvailable.en.resx">
+      <DependentUpon>ListAvailable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListAvailable.zh-CHS.resx">
+      <DependentUpon>ListAvailable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListManage.resx">
+      <DependentUpon>ListManage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AtIdSupplement.en.resx">
+      <DependentUpon>AtIdSupplement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AtIdSupplement.resx">
+      <DependentUpon>AtIdSupplement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AtIdSupplement.zh-CHS.resx">
+      <DependentUpon>AtIdSupplement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AppendSettingDialog.en.resx">
+      <DependentUpon>AppendSettingDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AppendSettingDialog.resx">
+      <DependentUpon>AppendSettingDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AppendSettingDialog.zh-CHS.resx">
+      <DependentUpon>AppendSettingDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AuthBrowser.resx">
+      <DependentUpon>AuthBrowser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DialogAsShieldIcon.resx">
+      <DependentUpon>DialogAsShieldIcon.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DialogAsShieldIcon.zh-CHS.resx">
+      <DependentUpon>DialogAsShieldIcon.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormInfo.resx">
+      <DependentUpon>FormInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InputTabName.en.resx">
+      <DependentUpon>InputTabName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InputTabName.resx">
+      <DependentUpon>InputTabName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InputTabName.zh-CHS.resx">
+      <DependentUpon>InputTabName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MessageForm.resx">
+      <DependentUpon>MessageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyLists.en.resx">
+      <DependentUpon>MyLists.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyLists.resx">
+      <DependentUpon>MyLists.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyLists.zh-CHS.resx">
+      <DependentUpon>MyLists.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OpenURL.en.resx">
+      <DependentUpon>OpenURL.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OpenURL.resx">
+      <DependentUpon>OpenURL.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OpenURL.zh-CHS.resx">
+      <DependentUpon>OpenURL.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.en.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.zh-CHS.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SearchWord.en.resx">
+      <DependentUpon>SearchWord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SearchWord.resx">
+      <DependentUpon>SearchWord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SearchWord.zh-CHS.resx">
+      <DependentUpon>SearchWord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TabsDialog.resx">
+      <DependentUpon>TabsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ShowUserInfo.en.resx">
+      <DependentUpon>ShowUserInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ShowUserInfo.resx">
+      <DependentUpon>ShowUserInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ShowUserInfo.zh-CHS.resx">
+      <DependentUpon>ShowUserInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tween.en.resx">
+      <DependentUpon>Tween.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tween.resx">
+      <DependentUpon>Tween.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tween.zh-CHS.resx">
+      <DependentUpon>Tween.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TweenAboutBox.en.resx">
+      <DependentUpon>TweenAboutBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TweenAboutBox.resx">
+      <DependentUpon>TweenAboutBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TweenAboutBox.zh-CHS.resx">
+      <DependentUpon>TweenAboutBox.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\1o.ico" />
+    <Content Include="Resources\2b.ico" />
+    <Content Include="Resources\3b.ico" />
+    <Content Include="Resources\4b.ico" />
+    <Content Include="Resources\4r.ico" />
+    <Content Include="Resources\4y.ico" />
+    <Content Include="Resources\5b.ico" />
+    <Content Include="Resources\5g.ico" />
+    <Content Include="Resources\5o.ico" />
+    <Content Include="Resources\5r.ico" />
+    <Content Include="Resources\5y.ico" />
+    <Content Include="Resources\6b.ico" />
+    <Content Include="Resources\6g.ico" />
+    <Content Include="Resources\6o.ico" />
+    <Content Include="Resources\ads.txt" />
+    <Content Include="Resources\ChangeLog.txt" />
+    <Content Include="Resources\Description.txt" />
+    <Content Include="Resources\InitialImage.png" />
+    <Content Include="Resources\MultiMediaImage.png" />
+    <Content Include="Resources\re.ico" />
+    <Content Include="Resources\re2.ico" />
+    <Content Include="Resources\re3.ico" />
+    <Content Include="Resources\re4.ico" />
+    <Content Include="tips.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

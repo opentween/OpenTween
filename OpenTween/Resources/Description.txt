@@ -1,0 +1,4 @@
+﻿Client of Twitter. Free software(GPLv3)
+<Contacts>
+Twitter: {0}
+Mail: {1}
