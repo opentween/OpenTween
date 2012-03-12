@@ -34,7 +34,7 @@ using System.Xml.Serialization;
 namespace OpenTween
 {
     [Serializable]
-    public class SettingLocal : SettingBase<SettingLocal>
+    public class SettingLocal : SettingBase<SettingLocal>, IDisposable
     {
 #region Settingクラス基本
         public static SettingLocal Load()
@@ -48,7 +48,10 @@ namespace OpenTween
         }
 #endregion
 
+        [NonSerialized]
         private FontConverter _fc = new FontConverter();
+
+        [NonSerialized]
         private ColorConverter _cc = new ColorConverter();
 
         public Point FormLocation = new Point(0, 0);
@@ -290,6 +293,23 @@ namespace OpenTween
                     }
                 }
                 ProxyPassword = pwd;
+            }
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                this.FontUnread.Dispose();
+                this.FontRead.Dispose();
+                this.FontDetail.Dispose();
+                this.FontInputFont.Dispose();
             }
         }
     }

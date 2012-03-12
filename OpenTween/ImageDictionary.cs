@@ -293,11 +293,19 @@ namespace OpenTween
 
         public void Dispose()
         {
-            lock (this.lockObject)
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
             {
-                this.netSemaphore.Dispose();
-                this.innerDictionary.Dispose();
-                GC.SuppressFinalize(this);
+                lock (this.lockObject)
+                {
+                    this.netSemaphore.Dispose();
+                    this.innerDictionary.Dispose();
+                }
             }
         }
 

@@ -92,21 +92,21 @@ namespace OpenTween
 
         private void TextId_KeyDown(object sender, KeyEventArgs e) /*Handles TextId.KeyDown*/
         {
-            if (e.KeyCode == Keys.Back && this.TextId.Text == "")
+            if (e.KeyCode == Keys.Back && string.IsNullOrEmpty(this.TextId.Text))
             {
                 inputText = "";
                 isBack = true;
                 this.Close();
             }
-            if (e.KeyCode == Keys.Space || e.KeyCode == Keys.Tab)
+            else if (e.KeyCode == Keys.Space || e.KeyCode == Keys.Tab)
             {
                 inputText = this.TextId.Text + " ";
                 isBack = false;
                 this.Close();
             }
-            if (e.Control && e.KeyCode == Keys.Delete)
+            else if (e.Control && e.KeyCode == Keys.Delete)
             {
-                if (this.TextId.Text != "")
+                if (!string.IsNullOrEmpty(this.TextId.Text))
                 {
                     var idx = this.TextId.AutoCompleteCustomSource.IndexOf(this.TextId.Text);
                     if (idx > -1)

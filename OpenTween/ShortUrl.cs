@@ -336,7 +336,7 @@ namespace OpenTween
                             "&apiKey=" + ApplicationSettings.BitlyApiKey +
                             "&format=txt" +
                             "&longUrl=" + SrcUrl;
-                        if (_bitlyId != "" && _bitlyKey != "") req += "&x_login=" + _bitlyId + "&x_apiKey=" + _bitlyKey;
+                        if (!string.IsNullOrEmpty(_bitlyId) && !string.IsNullOrEmpty(_bitlyKey)) req += "&x_login=" + _bitlyId + "&x_apiKey=" + _bitlyKey;
                         if (ConverterType == MyCommon.UrlConverter.Jmp) req += "&domain=j.mp";
                         if (!(new HttpVarious()).GetData(req, null, out content))
                         {

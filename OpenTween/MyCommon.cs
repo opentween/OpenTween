@@ -522,31 +522,39 @@ namespace OpenTween
                 des.Key = ResizeBytesArray(bytesKey, des.Key.Length);
                 des.IV = ResizeBytesArray(bytesKey, des.IV.Length);
 
-                //暗号化されたデータを書き出すためのMemoryStream
-                using (var msOut = new MemoryStream())
+                MemoryStream msOut = null;
+                ICryptoTransform desdecrypt = null;
+
+                try
                 {
+                    //暗号化されたデータを書き出すためのMemoryStream
+                    msOut = new MemoryStream();
+
                     //DES暗号化オブジェクトの作成
-                    using (var desdecrypt = des.CreateEncryptor())
+                    desdecrypt = des.CreateEncryptor();
+
+                    //書き込むためのCryptoStreamの作成
+                    using (CryptoStream cryptStream = new CryptoStream(msOut, desdecrypt, CryptoStreamMode.Write))
                     {
-                        //書き込むためのCryptoStreamの作成
-                        using (var cryptStream = new System.Security.Cryptography.CryptoStream(
-                            msOut, desdecrypt,
-                            CryptoStreamMode.Write))
-                        {
-                            //書き込む
-                            cryptStream.Write(bytesIn, 0, bytesIn.Length);
-                            cryptStream.FlushFinalBlock();
-                            //暗号化されたデータを取得
-                            var bytesOut = msOut.ToArray();
+                        //Disposeが重複して呼ばれないようにする
+                        MemoryStream msTmp = msOut;
+                        msOut = null;
+                        desdecrypt = null;
 
-                            //閉じる
-                            cryptStream.Close();
-                            msOut.Close();
+                        //書き込む
+                        cryptStream.Write(bytesIn, 0, bytesIn.Length);
+                        cryptStream.FlushFinalBlock();
+                        //暗号化されたデータを取得
+                        var bytesOut = msTmp.ToArray();
 
-                            //Base64で文字列に変更して結果を返す
-                            return Convert.ToBase64String(bytesOut);
-                        }
+                        //Base64で文字列に変更して結果を返す
+                        return Convert.ToBase64String(bytesOut);
                     }
+                }
+                finally
+                {
+                    if (msOut != null) msOut.Dispose();
+                    if (desdecrypt != null) desdecrypt.Dispose();
                 }
             }
         }
@@ -567,33 +575,41 @@ namespace OpenTween
 
                 //Base64で文字列をバイト配列に戻す
                 var bytesIn = Convert.FromBase64String(str);
-                //暗号化されたデータを読み込むためのMemoryStream
-                using (var msIn = new MemoryStream(bytesIn))
+
+                MemoryStream msIn = null;
+                ICryptoTransform desdecrypt = null;
+                CryptoStream cryptStreem = null;
+
+                try
                 {
+                    //暗号化されたデータを読み込むためのMemoryStream
+                    msIn = new MemoryStream(bytesIn);
                     //DES復号化オブジェクトの作成
-                    using (var desdecrypt = des.CreateDecryptor())
+                    desdecrypt = des.CreateDecryptor();
+                    //読み込むためのCryptoStreamの作成
+                    cryptStreem = new CryptoStream(msIn, desdecrypt, CryptoStreamMode.Read);
+
+                    //Disposeが重複して呼ばれないようにする
+                    msIn = null;
+                    desdecrypt = null;
+
+                    //復号化されたデータを取得するためのStreamReader
+                    using (StreamReader srOut = new StreamReader(cryptStreem, Encoding.UTF8))
                     {
-                        //読み込むためのCryptoStreamの作成
-                        using (var cryptStreem = new CryptoStream(
-                            msIn, desdecrypt,
-                            CryptoStreamMode.Read))
-                        {
-                            //復号化されたデータを取得するためのStreamReader
-                            using (var srOut = new StreamReader(
-                                cryptStreem, Encoding.UTF8))
-                            {
-                                //復号化されたデータを取得する
-                                var result = srOut.ReadToEnd();
+                        //Disposeが重複して呼ばれないようにする
+                        cryptStreem = null;
 
-                                //閉じる
-                                srOut.Close();
-                                cryptStreem.Close();
-                                msIn.Close();
+                        //復号化されたデータを取得する
+                        var result = srOut.ReadToEnd();
 
-                                return result;
-                            }
-                        }
+                        return result;
                     }
+                }
+                finally
+                {
+                    if (msIn != null) msIn.Dispose();
+                    if (desdecrypt != null) desdecrypt.Dispose();
+                    if (cryptStreem != null) cryptStreem.Dispose();
                 }
             }
         }

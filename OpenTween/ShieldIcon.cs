@@ -44,9 +44,9 @@ namespace OpenTween
         }
 
         [DllImport("shell32.dll")]
-        private static extern int SHGetStockIconInfo(int siid, uint uFlags, ref SHSTOCKICONINFO psii);
+        private static extern int SHGetStockIconInfo(int siid, uint uFlags, ref SHSTOCKICONINFO psii); // Windows Vista, Windows Server 2008 以前には存在しない
 
-        [DllImport("shell32.dll")]
+        [DllImport("user32.dll")]
         private static extern bool DestroyIcon(IntPtr hIcon);
 
         const int SIID_SHIELD = 77;
@@ -72,7 +72,15 @@ namespace OpenTween
                 sii = new SHSTOCKICONINFO();
                 sii.cbSize = Marshal.SizeOf(sii);
                 sii.hIcon = IntPtr.Zero;
-                SHGetStockIconInfo(SIID_SHIELD, SHGFI_ICON | SHGFI_SMALLICON, ref sii);
+
+                int ret;
+                ret = SHGetStockIconInfo(SIID_SHIELD, SHGFI_ICON | SHGFI_SMALLICON, ref sii);
+                if (ret != 0)
+                {
+                    icondata = null;
+                    return;
+                }
+
                 icondata = Bitmap.FromHicon(sii.hIcon);
             }
             catch (Exception)

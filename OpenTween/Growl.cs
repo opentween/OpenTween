@@ -103,16 +103,21 @@ namespace OpenTween
 
         private byte[] IconToByteArray(string filename)
         {
-            return IconToByteArray(new Icon(filename));
+            using (Icon ic = new Icon(filename))
+            {
+                return IconToByteArray(ic);
+            }
         }
 
         private byte[] IconToByteArray(Icon icondata)
         {
             using (MemoryStream ms = new MemoryStream())
             {
-                Icon ic = new Icon(icondata, 48, 48);
-                ic.ToBitmap().Save(ms, ImageFormat.Png);
-                return ms.ToArray();
+                using (Icon ic = new Icon(icondata, 48, 48))
+                {
+                    ic.ToBitmap().Save(ms, ImageFormat.Png);
+                    return ms.ToArray();
+                }
             }
         }
 

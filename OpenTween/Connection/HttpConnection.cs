@@ -267,7 +267,6 @@ namespace OpenTween
                                     if (readSize == 0) break;
                                     reqStream.Write(readBytes, 0, readSize);
                                 }
-                                fs.Close();
                             }
                             reqStream.Write(crlfByte, 0, crlfByte.Length);
                         }
@@ -275,7 +274,6 @@ namespace OpenTween
                     //終端
                     byte[] endBytes = Encoding.UTF8.GetBytes("--" + boundary + "--\r\n");
                     reqStream.Write(endBytes, 0, endBytes.Length);
-                    reqStream.Close();
                 }
             }
             //cookie設定

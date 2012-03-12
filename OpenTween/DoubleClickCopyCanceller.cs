@@ -59,8 +59,16 @@ namespace OpenTween
 
         public void Dispose()
         {
-            this.ReleaseHandle();
+            Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                this.ReleaseHandle();
+            }
         }
     }
 }

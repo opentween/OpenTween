@@ -296,12 +296,12 @@ namespace OpenTween
 				this.tokenSecret = accessTokenData[ "oauth_token_secret" ];
 
 				// サービスごとの独自拡張対応
-				if ( this.userIdentKey != "" )
+				if ( !string.IsNullOrEmpty(this.userIdentKey) )
 					this.authorizedUsername = accessTokenData[ this.userIdentKey ];
 				else
 					this.authorizedUsername = "";
 
-				if ( this.userIdIdentKey != "" )
+				if ( !string.IsNullOrEmpty(this.userIdIdentKey) )
 				{
 					try
 					{
@@ -317,7 +317,7 @@ namespace OpenTween
 					this.authorizedUserId = 0;
 				}
 
-				if ( token == "" )
+				if ( string.IsNullOrEmpty(token) )
 					throw new InvalidDataException( "Token is null." );
 				return HttpStatusCode.OK;
 			}
@@ -327,7 +327,7 @@ namespace OpenTween
 			}
 		}
 
-        HttpStatusCode IHttpConnection.Authenticate(Uri accessTokenUrl, string username, string password, ref string content)
+        public HttpStatusCode Authenticate(Uri accessTokenUrl, string username, string password, ref string content)
         {
             return this.AuthenticateXAuth(accessTokenUrl, username, password, ref content);
         }
@@ -363,12 +363,12 @@ namespace OpenTween
 				this.tokenSecret = accessTokenData[ "oauth_token_secret" ];
 
 				// サービスごとの独自拡張対応
-				if ( this.userIdentKey != "" )
+				if ( !string.IsNullOrEmpty(this.userIdentKey) )
 					this.authorizedUsername = accessTokenData[ this.userIdentKey ];
 				else
 					this.authorizedUsername = "";
 
-				if ( this.userIdIdentKey != "" )
+				if ( !string.IsNullOrEmpty(this.userIdIdentKey) )
 				{
 					try
 					{
@@ -384,7 +384,7 @@ namespace OpenTween
 					this.authorizedUserId = 0;
 				}
 
-				if ( token == "" )
+				if ( string.IsNullOrEmpty(token) )
 					throw new InvalidDataException( "Token is null." );
 				return HttpStatusCode.OK;
 			}

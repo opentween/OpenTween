@@ -68,13 +68,13 @@ namespace OpenTween
                     if (disposing)
                     {
                         // TODO: 明示的に呼び出されたときにマネージ リソースを解放します
+                        foreach (var pic in pics)
+                        {
+                            if (pic.Value != null) pic.Value.Dispose();
+                        }
                     }
 
                     // TODO: 共有のアンマネージ リソースを解放します
-                    foreach (var pic in pics)
-                    {
-                        if (pic.Value != null) pic.Value.Dispose();
-                    }
                 }
                 this.disposedValue = true;
             }
@@ -363,6 +363,10 @@ namespace OpenTween
             {
                 if (prv != null && _curPost != null && prv.statusId == _curPost.StatusId)
                 {
+                    if (_prev != null)
+                    {
+                        _prev.Dispose();
+                    }
                     _prev = prv;
                     Owner.SplitContainer3.Panel2Collapsed = false;
                     Owner.PreviewScrollBar.Maximum = _prev.pics.Count - 1;

@@ -143,7 +143,7 @@ namespace OpenTween
         private void ListRefreshButton_Click(object sender, EventArgs e)
         {
             string rslt = this._tw.GetListsApi();
-            if (rslt != "")
+            if (!string.IsNullOrEmpty(rslt))
             {
                 MessageBox.Show(String.Format(Properties.Resources.ListsDeleteFailed, rslt));
             }
@@ -164,7 +164,7 @@ namespace OpenTween
                 case CheckState.Indeterminate:
                     bool ret = false;
                     rslt = this._tw.ContainsUserAtList(list.Id.ToString(), contextUserName, ref ret);
-                    if (rslt != "")
+                    if (!string.IsNullOrEmpty(rslt))
                     {
                         MessageBox.Show(string.Format(Properties.Resources.ListManageOKButton2, rslt));
                         e.NewValue = CheckState.Indeterminate;
@@ -179,7 +179,7 @@ namespace OpenTween
                     break;
                 case CheckState.Unchecked:
                     rslt = this._tw.AddUserToList(list.Id.ToString(), this.contextUserName.ToString());
-                    if (rslt != "")
+                    if (!string.IsNullOrEmpty(rslt))
                     {
                         MessageBox.Show(string.Format(Properties.Resources.ListManageOKButton2, rslt));
                         e.NewValue = CheckState.Indeterminate;
@@ -187,7 +187,7 @@ namespace OpenTween
                     break;
                 case CheckState.Checked:
                     rslt = this._tw.RemoveUserToList(list.Id.ToString(), this.contextUserName.ToString());
-                    if (rslt != "")
+                    if (!string.IsNullOrEmpty(rslt))
                     {
                         MessageBox.Show(String.Format(Properties.Resources.ListManageOKButton2, rslt));
                         e.NewValue = CheckState.Indeterminate;

@@ -35,6 +35,7 @@ using System.Collections.Generic; // for Dictionary<TKey, TValue>, List<T>, KeyV
 using HttpWebRequest = System.Net.HttpWebRequest;
 using Uri = System.Uri;
 using UploadFileType = OpenTween.MyCommon.UploadFileType;
+using MD5CryptoServiceProvider = System.Security.Cryptography.MD5CryptoServiceProvider;
 
 namespace OpenTween
 {
@@ -73,9 +74,14 @@ namespace OpenTween
 			// Endpoint(URI+Token)
 			const string URLBASE = "http://api.twitvideo.jp/oauth/upload/";
             byte[] data = Encoding.ASCII.GetBytes( ApplicationSettings.TwitVideoConsumerKey.Substring(0, 9) + username );
-			byte[] bHash = ( new System.Security.Cryptography.MD5CryptoServiceProvider() ).ComputeHash( data );
-			string url = URLBASE + BitConverter.ToString( bHash ).ToLower().Replace( "-", "" );
 
+            byte[] bHash;
+            using (MD5CryptoServiceProvider md5provider = new MD5CryptoServiceProvider())
+            {
+    	        bHash = md5provider.ComputeHash( data );
+            }
+
+			string url = URLBASE + BitConverter.ToString( bHash ).ToLower().Replace( "-", "" );
 			// Parameters
 			Dictionary< string, string > param = new Dictionary< string, string >();
 			param.Add( "username", username );

@@ -649,7 +649,7 @@ namespace OpenTween
             SettingDialog.TwitterSearchApiUrl = _cfgCommon.TwitterSearchUrl;
 
             //認証関連
-            if (_cfgCommon.Token == "") _cfgCommon.UserName = "";
+            if (string.IsNullOrEmpty(_cfgCommon.Token)) _cfgCommon.UserName = "";
             tw.Initialize(_cfgCommon.Token, _cfgCommon.TokenSecret, _cfgCommon.UserName, _cfgCommon.UserId);
 
             SettingDialog.UserAccounts = _cfgCommon.UserAccounts;
@@ -864,7 +864,7 @@ namespace OpenTween
                                     _cfgCommon.HashIsPermanent,
                                     _cfgCommon.HashIsHead,
                                     _cfgCommon.HashIsNotAddToAtReply);
-            if (HashMgr.UseHash != "" && HashMgr.IsPermanent) HashStripSplitButton.Text = HashMgr.UseHash;
+            if (!string.IsNullOrEmpty(HashMgr.UseHash) && HashMgr.IsPermanent) HashStripSplitButton.Text = HashMgr.UseHash;
 
             _initial = true;
 
@@ -883,7 +883,7 @@ namespace OpenTween
 
             bool saveRequired = false;
             //ユーザー名、パスワードが未設定なら設定画面を表示（初回起動時など）
-            if (tw.Username == "")
+            if (string.IsNullOrEmpty(tw.Username))
             {
                 saveRequired = true;
                 //設定せずにキャンセルされた場合はプログラム終了
@@ -893,7 +893,7 @@ namespace OpenTween
                     return;
                 }
                 //設定されたが、依然ユーザー名とパスワードが未設定ならプログラム終了
-                if (tw.Username == "")
+                if (string.IsNullOrEmpty(tw.Username))
                 {
                     Application.Exit();  //強制終了
                     return;
@@ -1920,18 +1920,19 @@ namespace OpenTween
             }
 
             //サウンド再生
-            if (!_initial && SettingDialog.PlaySound && soundFile != "")
+            if (!_initial && SettingDialog.PlaySound && !string.IsNullOrEmpty(soundFile))
             {
                 try
                 {
-                    string dir = Application.ExecutablePath;
+                    string dir = Application.StartupPath;
                     if (Directory.Exists(Path.Combine(dir, "Sounds")))
                     {
                         dir = Path.Combine(dir, "Sounds");
                     }
-
-                    SoundPlayer player = new SoundPlayer(Path.Combine(dir, soundFile));
-                    player.Play();
+                    using (SoundPlayer player = new SoundPlayer(Path.Combine(dir, soundFile)))
+                    {
+                        player.Play();
+                    }
                 }
                 catch (Exception)
                 {
@@ -2227,7 +2228,7 @@ namespace OpenTween
                 //ハッシュタグ
                 if (HashMgr.IsNotAddToAtReply)
                 {
-                    if (HashMgr.UseHash != "" && _reply_to_id == 0 && _reply_to_name == "")
+                    if (!string.IsNullOrEmpty(HashMgr.UseHash) && _reply_to_id == 0 && string.IsNullOrEmpty(_reply_to_name))
                     {
                         if (HashMgr.IsHead)
                             header = HashMgr.UseHash + " ";
@@ -2237,7 +2238,7 @@ namespace OpenTween
                 }
                 else
                 {
-                    if (HashMgr.UseHash != "")
+                    if (!string.IsNullOrEmpty(HashMgr.UseHash))
                     {
                         if (HashMgr.IsHead)
                             header = HashMgr.UseHash + " ";
@@ -2302,7 +2303,7 @@ namespace OpenTween
                 //画像投稿
                 if (ImageSelectedPicture.Image != ImageSelectedPicture.InitialImage &&
                     ImageServiceCombo.SelectedIndex > -1 &&
-                    ImagefilePathText.Text != "")
+                    !string.IsNullOrEmpty(ImagefilePathText.Text))
                 {
                     if (MessageBox.Show(Properties.Resources.PostPictureConfirm1,
                                        Properties.Resources.PostPictureConfirm2,
@@ -2450,7 +2451,7 @@ namespace OpenTween
                     bw.ReportProgress(50, MakeStatusMessage(args, false));
                     ret = tw.GetTimelineApi(read, args.type, args.page == -1, _initial);
                     //新着時未読クリア
-                    if (ret == "" && args.type == MyCommon.WORKERTYPE.Timeline && SettingDialog.ReadOldPosts)
+                    if (string.IsNullOrEmpty(ret) && args.type == MyCommon.WORKERTYPE.Timeline && SettingDialog.ReadOldPosts)
                         _statuses.SetRead();
                     //振り分け
                     rslt.addCount = _statuses.DistributePosts();
@@ -2458,7 +2459,7 @@ namespace OpenTween
                 case MyCommon.WORKERTYPE.DirectMessegeRcv:    //送信分もまとめて取得
                     bw.ReportProgress(50, MakeStatusMessage(args, false));
                     ret = tw.GetDirectMessageApi(read, MyCommon.WORKERTYPE.DirectMessegeRcv, args.page == -1);
-                    if (ret == "") ret = tw.GetDirectMessageApi(read, MyCommon.WORKERTYPE.DirectMessegeSnt, args.page == -1);
+                    if (string.IsNullOrEmpty(ret)) ret = tw.GetDirectMessageApi(read, MyCommon.WORKERTYPE.DirectMessegeSnt, args.page == -1);
                     rslt.addCount = _statuses.DistributePosts();
                     break;
                 case MyCommon.WORKERTYPE.FavAdd:
@@ -2488,7 +2489,7 @@ namespace OpenTween
                                     args.sIds.Add(post.StatusId);
                                     post.IsFav = true;    //リスト再描画必要
                                     _favTimestamps.Add(DateTime.Now);
-                                    if (post.RelTabName == "")
+                                    if (string.IsNullOrEmpty(post.RelTabName))
                                     {
                                         //検索,リストUserTimeline.Relatedタブからのfavは、favタブへ追加せず。それ以外は追加
                                         _statuses.GetTabByType(MyCommon.TabUsageType.Favorites).Add(post.StatusId, post.IsRead, false);
@@ -2559,7 +2560,7 @@ namespace OpenTween
                         for (int i = 0; i <= 1; i++)
                         {
                             ret = tw.PostStatus(args.status.status, args.status.inReplyToId);
-                            if (ret == "" ||
+                            if (string.IsNullOrEmpty(ret) ||
                                 ret.StartsWith("OK:") ||
                                 ret.StartsWith("Outputz:") ||
                                 ret.StartsWith("Warn:") ||
@@ -2603,7 +2604,7 @@ namespace OpenTween
 
                     try
                     {
-                        if (SettingDialog.BrowserPath != "")
+                        if (!string.IsNullOrEmpty(SettingDialog.BrowserPath))
                         {
                             if (SettingDialog.BrowserPath.StartsWith("\"") && SettingDialog.BrowserPath.Length > 2 && SettingDialog.BrowserPath.IndexOf("\"", 2) > -1)
                             {
@@ -2639,12 +2640,12 @@ namespace OpenTween
                     break;
                 case MyCommon.WORKERTYPE.PublicSearch:
                     bw.ReportProgress(50, MakeStatusMessage(args, false));
-                    if (args.tName == "")
+                    if (string.IsNullOrEmpty(args.tName))
                     {
                         foreach (TabClass tb in _statuses.GetTabsByType(MyCommon.TabUsageType.PublicSearch))
                         {
-                            //if (tb.SearchWords != "") ret = tw.GetPhoenixSearch(read, tb, false);
-                            if (tb.SearchWords != "") ret = tw.GetSearch(read, tb, false);
+                            //if (!string.IsNullOrEmpty(tb.SearchWords)) ret = tw.GetPhoenixSearch(read, tb, false);
+                            if (!string.IsNullOrEmpty(tb.SearchWords)) ret = tw.GetSearch(read, tb, false);
                         }
                     }
                     else
@@ -2654,7 +2655,7 @@ namespace OpenTween
                         {
                             //ret = tw.GetPhoenixSearch(read, tb, false);
                             ret = tw.GetSearch(read, tb, false);
-                            if (ret == "" && args.page == -1)
+                            if (string.IsNullOrEmpty(ret) && args.page == -1)
                             {
                                 //ret = tw.GetPhoenixSearch(read, tb, true)
                                 ret = tw.GetSearch(read, tb, true);
@@ -2668,11 +2669,11 @@ namespace OpenTween
                     bw.ReportProgress(50, MakeStatusMessage(args, false));
                     int count = 20;
                     if (SettingDialog.UseAdditionalCount) count = SettingDialog.UserTimelineCountApi;
-                    if (args.tName == "")
+                    if (string.IsNullOrEmpty(args.tName))
                     {
                         foreach (TabClass tb in _statuses.GetTabsByType(MyCommon.TabUsageType.UserTimeline))
                         {
-                            if (tb.User != "") ret = tw.GetUserTimelineApi(read, count, tb.User, tb, false);
+                            if (!string.IsNullOrEmpty(tb.User)) ret = tw.GetUserTimelineApi(read, count, tb.User, tb, false);
                         }
                     }
                     else
@@ -2688,7 +2689,7 @@ namespace OpenTween
                     break;
                 case MyCommon.WORKERTYPE.List:
                     bw.ReportProgress(50, MakeStatusMessage(args, false));
-                    if (args.tName == "")
+                    if (string.IsNullOrEmpty(args.tName))
                     {
                         //定期更新
                         foreach (TabClass tb in _statuses.GetTabsByType(MyCommon.TabUsageType.Lists))
@@ -3031,7 +3032,7 @@ namespace OpenTween
                     }
                     break;
                 case MyCommon.WORKERTYPE.PostMessage:
-                    if (rslt.retMsg == "" ||
+                    if (string.IsNullOrEmpty(rslt.retMsg) ||
                         rslt.retMsg.StartsWith("Outputz") ||
                         rslt.retMsg.StartsWith("OK:") ||
                         rslt.retMsg == "Warn:Status is a duplicate.")
@@ -3046,7 +3047,7 @@ namespace OpenTween
                             }
                         }
 
-                        if (!HashMgr.IsPermanent && HashMgr.UseHash != "")
+                        if (!HashMgr.IsPermanent && !string.IsNullOrEmpty(HashMgr.UseHash))
                         {
                             HashMgr.ClearHashtag();
                             this.HashStripSplitButton.Text = "#[-]";
@@ -3480,18 +3481,19 @@ namespace OpenTween
             _statuses.ToggleSortOrder(mode);
             InitColumnText();
 
+            DetailsListView list = (DetailsListView)sender;
             if (_iconCol)
             {
-                ((DetailsListView)sender).Columns[0].Text = ColumnOrgText[0];
-                ((DetailsListView)sender).Columns[1].Text = ColumnText[2];
+                list.Columns[0].Text = ColumnOrgText[0];
+                list.Columns[1].Text = ColumnText[2];
             }
             else
             {
                 for (int i = 0; i <= 7; i++)
                 {
-                    ((DetailsListView)sender).Columns[i].Text = ColumnOrgText[i];
+                    list.Columns[i].Text = ColumnOrgText[i];
                 }
-                ((DetailsListView)sender).Columns[e.Column].Text = ColumnText[e.Column];
+                list.Columns[e.Column].Text = ColumnText[e.Column];
             }
 
             _itemCache = null;
@@ -3582,7 +3584,7 @@ namespace OpenTween
                 {
                     ReTweetOriginalStripMenuItem.Enabled = false;
                     FavoriteRetweetContextMenu.Enabled = false;
-                    if (_curPost.RetweetedBy == "")
+                    if (string.IsNullOrEmpty(_curPost.RetweetedBy))
                     {
                         DeleteStripMenuItem.Text = Properties.Resources.DeleteMenuText1;
                     }
@@ -3594,7 +3596,7 @@ namespace OpenTween
                 }
                 else
                 {
-                    if (_curPost.RetweetedBy == "")
+                    if (string.IsNullOrEmpty(_curPost.RetweetedBy))
                     {
                         DeleteStripMenuItem.Text = Properties.Resources.DeleteMenuText1;
                     }
@@ -3639,7 +3641,7 @@ namespace OpenTween
             {
                 RepliedStatusOpenMenuItem.Enabled = true;
             }
-            if (!this.ExistCurrentPost || _curPost.RetweetedBy == "")
+            if (!this.ExistCurrentPost || string.IsNullOrEmpty(_curPost.RetweetedBy))
             {
                 MoveToRTHomeMenuItem.Enabled = false;
             }
@@ -3864,7 +3866,7 @@ namespace OpenTween
                     case MyCommon.TabUsageType.PublicSearch:
                         //// TODO
                         TabClass tb = _statuses.Tabs[_curTab.Text];
-                        if (tb.SearchWords == "") return;
+                        if (string.IsNullOrEmpty(tb.SearchWords)) return;
                         GetTimeline(MyCommon.WORKERTYPE.PublicSearch, 1, 0, _curTab.Text);
                         break;
                     case MyCommon.TabUsageType.UserTimeline:
@@ -3909,7 +3911,7 @@ namespace OpenTween
                     case MyCommon.TabUsageType.PublicSearch:
                         // TODO
                         TabClass tb = _statuses.Tabs[_curTab.Text];
-                        if (tb.SearchWords == "") return;
+                        if (string.IsNullOrEmpty(tb.SearchWords)) return;
                         GetTimeline(MyCommon.WORKERTYPE.PublicSearch, -1, 0, _curTab.Text);
                         break;
                     case MyCommon.TabUsageType.UserTimeline:
@@ -4276,7 +4278,7 @@ namespace OpenTween
             //同一検索条件のタブが既に存在すれば、そのタブアクティブにして終了
             foreach (TabClass tb in _statuses.GetTabsByType(MyCommon.TabUsageType.PublicSearch))
             {
-                if (tb.SearchWords == searchWord && tb.SearchLang == "")
+                if (tb.SearchWords == searchWord && string.IsNullOrEmpty(tb.SearchLang))
                 {
                     foreach (TabPage tp in ListTab.TabPages)
                     {
@@ -4825,7 +4827,7 @@ namespace OpenTween
                     tn = ListTab.SelectedTab.Text;
                 }
 
-                if (tn == "") return;
+                if (string.IsNullOrEmpty(tn)) return;
 
                 foreach (TabPage tb in ListTab.TabPages)
                 {
@@ -4913,7 +4915,7 @@ namespace OpenTween
                 {
                     StatusLabelUrl.Text = PostBrowser.StatusText.Replace("&", "&&");
                 }
-                if (PostBrowser.StatusText == "")
+                if (string.IsNullOrEmpty(PostBrowser.StatusText))
                 {
                     SetStatusLabelUrl();
                 }
@@ -4969,7 +4971,7 @@ namespace OpenTween
             string eHalf = "";
             if (dialog.DialogResult == DialogResult.OK)
             {
-                if (dialog.inputText != "")
+                if (!string.IsNullOrEmpty(dialog.inputText))
                 {
                     if (selStart > 0)
                     {
@@ -5046,7 +5048,7 @@ namespace OpenTween
             {
                 StatusText.ForeColor = _clInputFont;
             }
-            if (StatusText.Text == "")
+            if (string.IsNullOrEmpty(StatusText.Text))
             {
                 _reply_to_id = 0;
                 _reply_to_name = "";
@@ -5067,7 +5069,7 @@ namespace OpenTween
                 else if (SettingDialog.Status.Length > 0)
                     pLen -= SettingDialog.Status.Length + 1;
             }
-            if (HashMgr.UseHash != "")
+            if (!string.IsNullOrEmpty(HashMgr.UseHash))
             {
                 pLen -= HashMgr.UseHash.Length + 1;
             }
@@ -5752,7 +5754,7 @@ namespace OpenTween
             }
             this.TopMost = SettingDialog.AlwaysTop;
 
-            if (SearchDialog.SWord != "")
+            if (!string.IsNullOrEmpty(SearchDialog.SWord))
             {
                 DoTabSearch(SearchDialog.SWord,
                             SearchDialog.CheckCaseSensitive,
@@ -5764,7 +5766,7 @@ namespace OpenTween
         private void MenuItemSearchNext_Click(object sender, EventArgs e)
         {
             //次を検索
-            if (SearchDialog.SWord == "")
+            if (string.IsNullOrEmpty(SearchDialog.SWord))
             {
                 if (SearchDialog.ShowDialog() == DialogResult.Cancel)
                 {
@@ -5772,7 +5774,7 @@ namespace OpenTween
                     return;
                 }
                 this.TopMost = SettingDialog.AlwaysTop;
-                if (SearchDialog.SWord == "") return;
+                if (string.IsNullOrEmpty(SearchDialog.SWord)) return;
 
                 DoTabSearch(SearchDialog.SWord,
                             SearchDialog.CheckCaseSensitive,
@@ -5791,7 +5793,7 @@ namespace OpenTween
         private void MenuItemSearchPrev_Click(object sender, EventArgs e)
         {
             //前を検索
-            if (SearchDialog.SWord == "")
+            if (string.IsNullOrEmpty(SearchDialog.SWord))
             {
                 if (SearchDialog.ShowDialog() == DialogResult.Cancel)
                 {
@@ -5799,7 +5801,7 @@ namespace OpenTween
                     return;
                 }
                 this.TopMost = SettingDialog.AlwaysTop;
-                if (SearchDialog.SWord == "") return;
+                if (string.IsNullOrEmpty(SearchDialog.SWord)) return;
             }
 
             DoTabSearch(SearchDialog.SWord,
@@ -5810,8 +5812,10 @@ namespace OpenTween
 
         private void AboutMenuItem_Click(object sender, EventArgs e)
         {
-            TweenAboutBox about = new TweenAboutBox();
-            about.ShowDialog();
+            using (TweenAboutBox about = new TweenAboutBox())
+            {
+                about.ShowDialog();
+            }
             this.TopMost = SettingDialog.AlwaysTop;
         }
 
@@ -5956,7 +5960,7 @@ namespace OpenTween
                 {
                     strDetail = retMsg.Substring(5).Trim();
                 }
-                if (MyCommon.fileVersion != "" && strVer.CompareTo(MyCommon.fileVersion.Replace(".", "")) > 0)
+                if (!string.IsNullOrEmpty(MyCommon.fileVersion) && strVer.CompareTo(MyCommon.fileVersion.Replace(".", "")) > 0)
                 {
                     string tmp = string.Format(Properties.Resources.CheckNewVersionText3, strVer);
                     using (DialogAsShieldIcon dialogAsShieldicon = new DialogAsShieldIcon())
@@ -5968,7 +5972,6 @@ namespace OpenTween
                             {
                                 RunTweenUp();
                                 MyCommon._endingFlag = true;
-                                dialogAsShieldicon.Dispose();
                                 this.Close();
                                 return;
                             }
@@ -5977,7 +5980,6 @@ namespace OpenTween
                                 if (!startup) MessageBox.Show(Properties.Resources.CheckNewVersionText5 + System.Environment.NewLine + retMsg, Properties.Resources.CheckNewVersionText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                             }
                         }
-                        dialogAsShieldicon.Dispose();
                     }
                 }
                 else
@@ -5994,7 +5996,6 @@ namespace OpenTween
                                 {
                                     RunTweenUp();
                                     MyCommon._endingFlag = true;
-                                    dialogAsShieldicon.Dispose();
                                     this.Close();
                                     return;
                                 }
@@ -6003,7 +6004,6 @@ namespace OpenTween
                                     if (!startup) MessageBox.Show(Properties.Resources.CheckNewVersionText5 + System.Environment.NewLine + retMsg, Properties.Resources.CheckNewVersionText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                                 }
                             }
-                            dialogAsShieldicon.Dispose();
                         }
                     }
                     else if (!startup)
@@ -6575,7 +6575,7 @@ namespace OpenTween
                                 return true;
                             case Keys.Up:
                             case Keys.Down:
-                                if (StatusText.Text.Trim() != "")
+                                if (!string.IsNullOrWhiteSpace(StatusText.Text))
                                 {
                                     _history[_hisIdx] = new PostingStatus(StatusText.Text, _reply_to_id, _reply_to_name);
                                 }
@@ -7018,8 +7018,10 @@ namespace OpenTween
             if (IsProtected)
             {
                 //MessageBox.Show(Properties.Resources.CopyStotText1);
-                MessageForm w = new MessageForm();
-                w.ShowDialog(Properties.Resources.CopyStotText1);
+                using (MessageForm w = new MessageForm())
+                {
+                    w.ShowDialog(Properties.Resources.CopyStotText1);
+                }
             }
             if (sb.Length > 0)
             {
@@ -7385,7 +7387,7 @@ namespace OpenTween
             {
                 PostClass post = null;
                 string r = tw.GetStatusApi(false, _curPost.StatusId, ref post);
-                if (r == "" && post != null)
+                if (string.IsNullOrEmpty(r) && post != null)
                 {
                     _curPost.InReplyToStatusId = post.InReplyToStatusId;
                     _curPost.InReplyToUser = post.InReplyToUser;
@@ -7436,7 +7438,7 @@ namespace OpenTween
             {
                 PostClass post = null;
                 string r = tw.GetStatusApi(false, _curPost.InReplyToStatusId, ref post);
-                if (r == "" && post != null)
+                if (string.IsNullOrEmpty(r) && post != null)
                 {
                     post.IsRead = true;
                     _statuses.AddPost(post);
@@ -7986,8 +7988,6 @@ namespace OpenTween
                                      protect);
                         }
                     }
-                    sw.Close();
-                    sw.Dispose();
                 }
             }
             this.TopMost = SettingDialog.AlwaysTop;
@@ -8013,7 +8013,6 @@ namespace OpenTween
                 inputName.ShowDialog();
                 if (inputName.DialogResult == DialogResult.Cancel) return false;
                 newTabText = inputName.TabName;
-                inputName.Dispose();
             }
             this.TopMost = SettingDialog.AlwaysTop;
             if (!string.IsNullOrEmpty(newTabText))
@@ -8728,7 +8727,7 @@ namespace OpenTween
 
         private void SoundFileComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (soundfileListup || _rclickTabName == "") return;
+            if (soundfileListup || string.IsNullOrEmpty(_rclickTabName)) return;
 
             _statuses.Tabs[_rclickTabName].SoundFile = (string)((ToolStripComboBox)sender).SelectedItem;
 
@@ -8793,7 +8792,6 @@ namespace OpenTween
                 if (inputName.DialogResult == DialogResult.Cancel) return;
                 tabName = inputName.TabName;
                 tabUsage = inputName.Usage;
-                inputName.Dispose();
             }
             this.TopMost = SettingDialog.AlwaysTop;
             if (!string.IsNullOrEmpty(tabName))
@@ -9088,7 +9086,6 @@ namespace OpenTween
                         inputName.ShowDialog();
                         if (inputName.DialogResult == DialogResult.Cancel) return false;
                         tabName = inputName.TabName;
-                        inputName.Dispose();
                     }
                     this.TopMost = SettingDialog.AlwaysTop;
                     if (!string.IsNullOrEmpty(tabName))
@@ -9819,12 +9816,9 @@ namespace OpenTween
                             {
                                 g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
                                 g.DrawImage(orgBmp, 0, 0, orgBmp.Size.Width, orgBmp.Size.Height);
-                                g.Dispose();
                             }
                             bmp2.Save(this.SaveFileDialog1.FileName);
-                            bmp2.Dispose();
                         }
-                        orgBmp.Dispose();
                     }
                 }
                 catch (Exception)
@@ -11457,7 +11451,7 @@ namespace OpenTween
 
             tb.SearchWords = cmb.Text;
             tb.SearchLang = cmbLang.Text;
-            if (cmb.Text == "")
+            if (string.IsNullOrEmpty(cmb.Text))
             {
                 ((DetailsListView)ListTab.SelectedTab.Tag).Focus();
                 SaveConfigsTabs();
@@ -11610,7 +11604,7 @@ namespace OpenTween
             {
                 string res = this.tw.GetListsApi();
 
-                if (res != "")
+                if (!string.IsNullOrEmpty(res))
                 {
                     MessageBox.Show("Failed to get lists. (" + res + ")");
                     return;
@@ -11682,7 +11676,7 @@ namespace OpenTween
             }
             this.TopMost = SettingDialog.AlwaysTop;
             if (rslt == DialogResult.Cancel) return;
-            if (HashMgr.UseHash != "")
+            if (!string.IsNullOrEmpty(HashMgr.UseHash))
             {
                 HashStripSplitButton.Text = HashMgr.UseHash;
                 HashToggleMenuItem.Checked = true;
@@ -11715,7 +11709,7 @@ namespace OpenTween
         private void HashToggleMenuItem_Click(object sender, EventArgs e)
         {
             HashMgr.ToggleHash();
-            if (HashMgr.UseHash != "")
+            if (!string.IsNullOrEmpty(HashMgr.UseHash))
             {
                 HashStripSplitButton.Text = HashMgr.UseHash;
                 HashToggleMenuItem.Checked = true;
@@ -11837,7 +11831,7 @@ namespace OpenTween
             {
                 OpenRepSourceOpMenuItem.Enabled = true;
             }
-            if (!this.ExistCurrentPost || _curPost.RetweetedBy == "")
+            if (!this.ExistCurrentPost || string.IsNullOrEmpty(_curPost.RetweetedBy))
             {
                 OpenRterHomeMenuItem.Enabled = false;
             }
@@ -12246,7 +12240,7 @@ namespace OpenTween
                 return;
             }
             ImagefilePathText.Text = ImagefilePathText.Text.Trim();
-            if (ImagefilePathText.Text == "")
+            if (string.IsNullOrEmpty(ImagefilePathText.Text))
             {
                 ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage;
                 ImageSelectedPicture.Tag = MyCommon.UploadFileType.Invalid;
@@ -12301,7 +12295,6 @@ namespace OpenTween
                         using (FileStream fs = new FileStream(ImagefilePathText.Text, FileMode.Open, FileAccess.Read))
                         {
                             img = Image.FromStream(fs);
-                            fs.Close();
                         }
                         ImageSelectedPicture.Image = (new HttpVarious()).CheckValidImage(
                                     img,
@@ -12379,7 +12372,7 @@ namespace OpenTween
             ImageServiceCombo.Items.Add("lockerz");
             ImageServiceCombo.Items.Add("Twitter");
 
-            if (svc == "")
+            if (string.IsNullOrEmpty(svc))
             {
                 ImageServiceCombo.SelectedIndex = 0;
             }
@@ -12824,19 +12817,21 @@ namespace OpenTween
 
             //サウンド再生
             string snd = SettingDialog.EventSoundFile;
-            if (!_initial && SettingDialog.PlaySound && snd != "")
+            if (!_initial && SettingDialog.PlaySound && !string.IsNullOrEmpty(snd))
             {
                 if ((ev.Eventtype & SettingDialog.EventNotifyFlag) != 0 && IsMyEventNotityAsEventType(ev))
                 {
                     try
                     {
-                        string dir = Application.ExecutablePath;
+                        string dir = Application.StartupPath;
                         if (Directory.Exists(Path.Combine(dir, "Sounds")))
                         {
                             dir = Path.Combine(dir, "Sounds");
                         }
-                        SoundPlayer player = new SoundPlayer(Path.Combine(dir, snd));
-                        player.Play();
+                        using (SoundPlayer player = new SoundPlayer(Path.Combine(dir, snd)))
+                        {
+                            player.Play();
+                        }
                     }
                     catch (Exception)
                     {
@@ -12946,7 +12941,7 @@ namespace OpenTween
 
         private void OpenOwnFavedMenuItem_Click(object sender, EventArgs e)
         {
-            if (tw.Username != "") OpenUriAsync(Properties.Resources.FavstarUrl + "users/" + tw.Username + "/recent");
+            if (!string.IsNullOrEmpty(tw.Username)) OpenUriAsync(Properties.Resources.FavstarUrl + "users/" + tw.Username + "/recent");
         }
 
         private void OpenOwnHomeMenuItem_Click(object sender, EventArgs e)

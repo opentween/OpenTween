@@ -1331,7 +1331,7 @@ namespace OpenTween
                             post.IsMark = false;
                         }
                         if (_tabs[tn].Notify) add = true; //通知あり
-                        if (_tabs[tn].SoundFile != "" && _soundFile == "")
+                        if (!string.IsNullOrEmpty(_tabs[tn].SoundFile) && string.IsNullOrEmpty(_soundFile))
                         {
                             _soundFile = _tabs[tn].SoundFile; //wavファイル（未設定の場合のみ）
                         }
@@ -1349,13 +1349,13 @@ namespace OpenTween
                 if (!mv)  //移動されなかったらRecentに追加
                 {
                     homeTab.Add(post.StatusId, post.IsRead, true);
-                    if (homeTab.SoundFile != "" && _soundFile == "") _soundFile = homeTab.SoundFile;
+                    if (!string.IsNullOrEmpty(homeTab.SoundFile) && string.IsNullOrEmpty(_soundFile)) _soundFile = homeTab.SoundFile;
                     if (homeTab.Notify) add = true;
                 }
                 if (post.IsReply && !post.IsExcludeReply)    //除外ルール適用のないReplyならReplyタブに追加
                 {
                     replyTab.Add(post.StatusId, post.IsRead, true);
-                    if (replyTab.SoundFile != "") _soundFile = replyTab.SoundFile;
+                    if (!string.IsNullOrEmpty(replyTab.SoundFile)) _soundFile = replyTab.SoundFile;
                     if (replyTab.Notify) add = true;
                 }
                 if (post.IsFav)    //Fav済み発言だったらFavoritesタブに追加
@@ -1396,9 +1396,9 @@ namespace OpenTween
                                 }
                                 if (!exist) _notifyPosts.Add(post);
                             }
-                            if (tb.SoundFile != "")
+                            if (!string.IsNullOrEmpty(tb.SoundFile))
                             {
-                                if (tb.TabType == MyCommon.TabUsageType.DirectMessage || _soundFile == "")
+                                if (tb.TabType == MyCommon.TabUsageType.DirectMessage || string.IsNullOrEmpty(_soundFile))
                                 {
                                     _soundFile = tb.SoundFile;
                                 }
@@ -1413,7 +1413,7 @@ namespace OpenTween
         {
             lock (LockObj)
             {
-                if (Item.RelTabName == "")
+                if (string.IsNullOrEmpty(Item.RelTabName))
                 {
                     if (!Item.IsDm)
                     {
@@ -2243,6 +2243,8 @@ namespace OpenTween
         private List<long> _ids;
         private List<TemporaryId> _tmpIds = new List<TemporaryId>();
         private MyCommon.TabUsageType _tabType = MyCommon.TabUsageType.Undefined;
+
+        [NonSerialized]
         private IdComparerClass _sorter = new IdComparerClass();
 
         private readonly object _lockObj = new object();
@@ -2332,6 +2334,7 @@ namespace OpenTween
 #endregion
 
 #region "リスト"
+        [NonSerialized]
         private ListElement _listInfo;
         public ListElement ListInfo
         {

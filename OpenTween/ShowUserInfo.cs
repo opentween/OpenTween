@@ -339,7 +339,7 @@ namespace OpenTween
             }
             else
             {
-                if (FriendshipResult == "")
+                if (string.IsNullOrEmpty(FriendshipResult))
                 {
                     if (_info.isFollowing)
                     {
@@ -427,7 +427,7 @@ namespace OpenTween
             {
                 ToolTip1.Show(ComponentInstance.StatusText, this, PointToClient(MousePosition));
             }
-            else if (DescriptionBrowser.StatusText == "")
+            else if (string.IsNullOrEmpty(DescriptionBrowser.StatusText))
             {
                 ToolTip1.Hide(this);
             }

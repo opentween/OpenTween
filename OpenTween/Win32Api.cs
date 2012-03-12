@@ -97,22 +97,22 @@ namespace OpenTween
         #endregion
         #region "タスクトレイアイコンのクリック"
         // 指定されたクラス名およびウィンドウ名と一致するトップレベルウィンドウのハンドルを取得します
-        [DllImport("user32.dll")]
+        [DllImport("user32.dll", CharSet = CharSet.Auto, BestFitMapping = false, ThrowOnUnmappableChar = true)]
         private extern static IntPtr FindWindow(
-            string lpClassName,
-            string lpWindowName);
+            [MarshalAs(UnmanagedType.LPTStr)] string lpClassName,
+            [MarshalAs(UnmanagedType.LPTStr)] string lpWindowName);
 
         // 指定された文字列と一致するクラス名とウィンドウ名文字列を持つウィンドウのハンドルを返します
-        [DllImport("user32.dll")]
+        [DllImport("user32.dll", CharSet = CharSet.Auto, BestFitMapping = false, ThrowOnUnmappableChar = true)]
         private extern static IntPtr FindWindowEx(
             IntPtr hWnd1,
             IntPtr hWnd2,
-            string lpsz1,
-            string lpsz2);
+            [MarshalAs(UnmanagedType.LPTStr)] string lpsz1,
+            [MarshalAs(UnmanagedType.LPTStr)] string lpsz2);
 
         // 指定されたウィンドウへ、指定されたメッセージを送信します
         [DllImport("user32.dll")]
-        private extern static int SendMessage(
+        private extern static IntPtr SendMessage(
             IntPtr hwnd,
             int wMsg,
             IntPtr wParam,
@@ -216,7 +216,7 @@ namespace OpenTween
         private static extern IntPtr VirtualAllocEx(
             IntPtr hProcess,
             IntPtr lpAddress,
-            int dwSize,
+            IntPtr dwSize,
             AllocationTypes flAllocationType,
             MemoryProtectionTypes flProtect);
 
@@ -259,8 +259,8 @@ namespace OpenTween
         private static extern bool VirtualFreeEx(
             IntPtr hProcess,
             IntPtr lpAddress,
-            int dwSize,
-            int dwFreeType);
+            IntPtr dwSize,
+            MemoryFreeTypes dwFreeType);
 
         // メモリ解放種別
         [Flags()]
@@ -274,7 +274,7 @@ namespace OpenTween
             IntPtr hProcess,
             IntPtr lpBaseAddress,
             ref TBBUTTONINFO lpBuffer,
-            int nSize,
+            IntPtr nSize,
             out int lpNumberOfBytesWritten);
 
         //指定したプロセスのメモリ領域のデータを呼び出し側プロセスのバッファにコピーする
@@ -283,7 +283,7 @@ namespace OpenTween
             IntPtr hProcess,
             IntPtr lpBaseAddress,
             IntPtr lpBuffer,
-            int nSize,
+            IntPtr nSize,
             out int lpNumberOfBytesRead);
 
         //メッセージをウィンドウのメッセージ キューに置き、対応するウィンドウがメッセージを処理するのを待たずに戻ります
@@ -291,8 +291,8 @@ namespace OpenTween
         private static extern bool PostMessage(
             IntPtr hWnd,
             uint Msg,
-            UInt32 wParam,
-            UInt32 lParam);
+            IntPtr wParam,
+            IntPtr lParam);
 
         //PostMessageで送信するメッセージ
         private enum PM_Message : uint
@@ -332,13 +332,13 @@ namespace OpenTween
             {
                 var tbButtonLocal = new TBBUTTON();   //本プロセス内のタスクバーボタン情報作成（サイズ特定でのみ使用）
                 //Explorer内のタスクバーボタン格納メモリ確保
-                var ptbSysButton = VirtualAllocEx(hProc, IntPtr.Zero, Marshal.SizeOf(tbButtonLocal), AllocationTypes.Reserve | AllocationTypes.Commit, MemoryProtectionTypes.ReadWrite);
+                var ptbSysButton = VirtualAllocEx(hProc, IntPtr.Zero, (IntPtr)Marshal.SizeOf(tbButtonLocal), AllocationTypes.Reserve | AllocationTypes.Commit, MemoryProtectionTypes.ReadWrite);
                 if (ptbSysButton.Equals(IntPtr.Zero)) return false; //メモリ確保失敗
                 try
                 {
                     var tbButtonInfoLocal = new TBBUTTONINFO();   //本プロセス内ツールバーボタン詳細情報作成
                     //Explorer内のタスクバーボタン詳細情報格納メモリ確保
-                    var ptbSysInfo = VirtualAllocEx(hProc, IntPtr.Zero, Marshal.SizeOf(tbButtonInfoLocal), AllocationTypes.Reserve | AllocationTypes.Commit, MemoryProtectionTypes.ReadWrite);
+                    var ptbSysInfo = VirtualAllocEx(hProc, IntPtr.Zero, (IntPtr)Marshal.SizeOf(tbButtonInfoLocal), AllocationTypes.Reserve | AllocationTypes.Commit, MemoryProtectionTypes.ReadWrite);
                     if (ptbSysInfo.Equals(IntPtr.Zero)) return false; //メモリ確保失敗
                     try
                     {
@@ -350,7 +350,7 @@ namespace OpenTween
                         try
                         {
                             //Explorer内にTooltip読込メモリ確保
-                            var pszSysTitle = VirtualAllocEx(hProc, IntPtr.Zero, titleSize, AllocationTypes.Reserve | AllocationTypes.Commit, MemoryProtectionTypes.ReadWrite);
+                            var pszSysTitle = VirtualAllocEx(hProc, IntPtr.Zero, (IntPtr)titleSize, AllocationTypes.Reserve | AllocationTypes.Commit, MemoryProtectionTypes.ReadWrite);
                             if (pszSysTitle.Equals(IntPtr.Zero)) return false; //メモリ確保失敗
                             try
                             {
@@ -379,7 +379,7 @@ namespace OpenTween
                                             hProc,
                                             ptbSysButton,
                                             ptrLocal,
-                                            Marshal.SizeOf(tbButtonLocal),
+                                            (IntPtr)Marshal.SizeOf(tbButtonLocal),
                                             out dwBytes);
                                         //共有メモリの内容を構造体に変換
                                         tbButtonLocal2 = (TBBUTTON)Marshal.PtrToStructure(
@@ -401,7 +401,7 @@ namespace OpenTween
                                         hProc,
                                         ptbSysInfo,
                                         ref tbButtonInfoLocal,
-                                        Marshal.SizeOf(tbButtonInfoLocal),
+                                        (IntPtr)Marshal.SizeOf(tbButtonInfoLocal),
                                         out dwBytes);
                                     //ボタン詳細情報取得
                                     SendMessage(
@@ -420,7 +420,7 @@ namespace OpenTween
                                             hProc,
                                             ptbSysInfo,
                                             ptrInfo,
-                                            Marshal.SizeOf(tbButtonInfoLocal),
+                                            (IntPtr)Marshal.SizeOf(tbButtonInfoLocal),
                                             out dwBytes);
                                         //共有メモリの内容を構造体に変換
                                         tbButtonInfoLocal2 = (TBBUTTONINFO)Marshal.PtrToStructure(
@@ -432,7 +432,7 @@ namespace OpenTween
                                         Marshal.FreeCoTaskMem(ptrInfo);  //共有メモリ解放
                                     }
                                     //Tooltipの内容をExplorer内のメモリから共有メモリへ読込
-                                    ReadProcessMemory(hProc, pszSysTitle, pszTitle, titleSize, out dwBytes);
+                                    ReadProcessMemory(hProc, pszSysTitle, pszTitle, (IntPtr)titleSize, out dwBytes);
                                     //ローカル変数へ変換
                                     title = Marshal.PtrToStringAnsi(pszTitle, titleSize);
 
@@ -453,7 +453,7 @@ namespace OpenTween
                                                 hProc,
                                                 tbButtonInfoLocal2.lParam,
                                                 ptNotify,
-                                                Marshal.SizeOf(tNotify),
+                                                (IntPtr)Marshal.SizeOf(tNotify),
                                                 out dwBytes);
                                             //構造体へ変換
                                             tNotify2 = (TRAYNOTIFY)
@@ -468,8 +468,8 @@ namespace OpenTween
                                         //クリックするためには通知領域がアクティブでなければならない
                                         SetForegroundWindow(tNotify2.hWnd);
                                         //左クリック
-                                        PostMessage(tNotify2.hWnd, tNotify2.uCallbackMessage, tNotify2.uID, (uint)PM_Message.WM_LBUTTONDOWN);
-                                        PostMessage(tNotify2.hWnd, tNotify2.uCallbackMessage, tNotify2.uID, (uint)PM_Message.WM_LBUTTONUP);
+                                        PostMessage(tNotify2.hWnd, tNotify2.uCallbackMessage, (IntPtr)tNotify2.uID, (IntPtr)PM_Message.WM_LBUTTONDOWN);
+                                        PostMessage(tNotify2.hWnd, tNotify2.uCallbackMessage, (IntPtr)tNotify2.uID, (IntPtr)PM_Message.WM_LBUTTONUP);
                                         return true;
                                     }
                                 }
@@ -477,7 +477,7 @@ namespace OpenTween
                             }
                             finally
                             {
-                                VirtualFreeEx(hProc, pszSysTitle, titleSize, (int)MemoryFreeTypes.Release);   //メモリ解放
+                                VirtualFreeEx(hProc, pszSysTitle, (IntPtr)titleSize, MemoryFreeTypes.Release);   //メモリ解放
                             }
                         }
                         finally
@@ -487,12 +487,12 @@ namespace OpenTween
                     }
                     finally
                     {
-                        VirtualFreeEx(hProc, ptbSysInfo, Marshal.SizeOf(tbButtonInfoLocal), (int)MemoryFreeTypes.Release);    //メモリ解放
+                        VirtualFreeEx(hProc, ptbSysInfo, (IntPtr)Marshal.SizeOf(tbButtonInfoLocal), MemoryFreeTypes.Release);    //メモリ解放
                     }
                 }
                 finally
                 {
-                    VirtualFreeEx(hProc, ptbSysButton, Marshal.SizeOf(tbButtonLocal), (int)MemoryFreeTypes.Release);      //メモリ解放
+                    VirtualFreeEx(hProc, ptbSysButton, (IntPtr)Marshal.SizeOf(tbButtonLocal), MemoryFreeTypes.Release);      //メモリ解放
                 }
             }
             finally
@@ -504,9 +504,9 @@ namespace OpenTween
 
         //画面をブリンクするためのWin32API。起動時に10ページ読み取りごとに継続確認メッセージを表示する際の通知強調用
         [DllImport("user32.dll")]
-        public static extern int FlashWindow(
-            int hwnd,
-            int bInvert);
+        private static extern int FlashWindow(
+            IntPtr hwnd,
+            bool bInvert);
 
         #region "画面ブリンク用"
         public static bool FlashMyWindow(IntPtr hwnd,
@@ -520,7 +520,7 @@ namespace OpenTween
             fInfo.uCount = flashCount;
             fInfo.dwTimeout = 0;
 
-            return FlashWindowEx(fInfo);
+            return FlashWindowEx(ref fInfo);
         }
 
         public enum FlashSpecification : uint
@@ -535,7 +535,7 @@ namespace OpenTween
         /// http://www.atmarkit.co.jp/fdotnet/dotnettips/723flashwindow/flashwindow.html
         [DllImport("user32.dll")]
         private static extern bool FlashWindowEx(
-            FLASHWINFO FWInfo);
+            ref FLASHWINFO FWInfo);
 
 
         private struct FLASHWINFO
@@ -594,16 +594,16 @@ namespace OpenTween
             int fsModifiers, int vk);
         [DllImport("user32")]
         private static extern int UnregisterHotKey(IntPtr hwnd, int id);
+        [DllImport("kernel32", CharSet = CharSet.Auto, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        private static extern ushort GlobalAddAtom([MarshalAs(UnmanagedType.LPTStr)] string lpString);
         [DllImport("kernel32")]
-        private static extern int GlobalAddAtom(string lpString);
-        [DllImport("kernel32")]
-        private static extern int GlobalDeleteAtom(int nAtom);
+        private static extern ushort GlobalDeleteAtom(ushort nAtom);
 
         private static int registerCount = 0;
         // register a global hot key
         public static int RegisterGlobalHotKey(int hotkeyValue, int modifiers, Form targetForm)
         {
-            var hotkeyID = 0;
+            ushort hotkeyID = 0;
             try
             {
                 // use the GlobalAddAtom API to get a unique ID (as suggested by MSDN docs)
@@ -633,7 +633,7 @@ namespace OpenTween
         }
 
         // unregister a global hotkey
-        public static void UnregisterGlobalHotKey(int hotkeyID, Form targetForm)
+        public static void UnregisterGlobalHotKey(ushort hotkeyID, Form targetForm)
         {
             if (hotkeyID != 0)
             {
@@ -652,11 +652,22 @@ namespace OpenTween
                                                      IntPtr lpBuffer,
                                                      int lpdwBufferLength);
 
-        private struct INTERNET_PROXY_INFO
+        private struct INTERNET_PROXY_INFO : IDisposable
         {
             public int dwAccessType;
             public IntPtr proxy;
             public IntPtr proxyBypass;
+
+            public void Dispose()
+            {
+                Dispose(true);
+            }
+
+            private void Dispose(bool disposing)
+            {
+                if (proxy != IntPtr.Zero) Marshal.FreeHGlobal(proxy);
+                if (proxyBypass != IntPtr.Zero) Marshal.FreeHGlobal(proxyBypass);
+            }
         }
 
         private static void RefreshProxySettings(string strProxy)
@@ -720,8 +731,7 @@ namespace OpenTween
             }
             finally
             {
-                if (ipi.proxy != IntPtr.Zero) Marshal.FreeHGlobal(ipi.proxy);
-                if (ipi.proxyBypass != IntPtr.Zero) Marshal.FreeHGlobal(ipi.proxyBypass);
+                ipi.Dispose();
             }
         }
 

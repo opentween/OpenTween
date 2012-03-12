@@ -136,7 +136,7 @@ namespace OpenTween
         public void AddHashToHistory(string hash, bool isIgnorePermanent)
         {
             hash = hash.Trim();
-            if (hash != "")
+            if (!string.IsNullOrEmpty(hash))
             {
                 if (isIgnorePermanent || !_isPermanent)
                 {
@@ -216,7 +216,7 @@ namespace OpenTween
             if (e.KeyChar == '#')
             {
                 _hashSupl.ShowDialog();
-                if (_hashSupl.inputText != "")
+                if (!string.IsNullOrEmpty(_hashSupl.inputText))
                 {
                     string fHalf = "";
                     string eHalf = "";
@@ -243,7 +243,7 @@ namespace OpenTween
 
         public void ToggleHash()
         {
-            if (this._useHash == "")
+            if (string.IsNullOrEmpty(this._useHash))
             {
                 if (this.HistoryHashList.Items.Count > 0)
                     this._useHash = this.HistoryHashList.Items[0].ToString();
@@ -354,7 +354,7 @@ namespace OpenTween
         {
             //ハッシュタグの整形
             hashtag = hashtag.Trim();
-            if (hashtag == "")
+            if (string.IsNullOrEmpty(hashtag))
             {
                 if (isShowWarn) MessageBox.Show("emply hashtag.", "Hashtag warning", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 return false;
@@ -392,7 +392,7 @@ namespace OpenTween
                 hash += hs + " ";
             }
             hash = hash.Trim();
-            if (hash != "")
+            if (!string.IsNullOrEmpty(hash))
             {
                 this.AddHashToHistory(hash, true);
                 this._isPermanent = this.CheckPermanent.Checked;

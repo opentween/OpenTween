@@ -523,7 +523,7 @@ namespace OpenTween
                 }
             }
 
-            if (tw != null && tw.Username == "" && e.CloseReason == CloseReason.None)
+            if (tw != null && string.IsNullOrEmpty(tw.Username) && e.CloseReason == CloseReason.None)
             {
                 if (MessageBox.Show(Properties.Resources.Setting_FormClosing1, "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
                 {
@@ -1404,7 +1404,7 @@ namespace OpenTween
         private void TextProxyPort_Validating(object sender, CancelEventArgs e)
         {
             int port;
-            if (TextProxyPort.Text.Trim() == "") TextProxyPort.Text = "0";
+            if (string.IsNullOrWhiteSpace(TextProxyPort.Text)) TextProxyPort.Text = "0";
             if (int.TryParse(TextProxyPort.Text.Trim(), out port) == false)
             {
                 MessageBox.Show(Properties.Resources.TextProxyPort_ValidatingText1);
@@ -2330,7 +2330,7 @@ namespace OpenTween
 
         private void UserAppointUrlText_Validating(object sender, CancelEventArgs e)
         {
-            if (!UserAppointUrlText.Text.StartsWith("http") && UserAppointUrlText.Text != "")
+            if (!UserAppointUrlText.Text.StartsWith("http") && !string.IsNullOrEmpty(UserAppointUrlText.Text))
             {
                 MessageBox.Show("Text Error:正しいURLではありません");
             }
@@ -2347,7 +2347,7 @@ namespace OpenTween
             string path = this.BrowserPathText.Text;
             try
             {
-                if (BrowserPath != "")
+                if (!string.IsNullOrEmpty(BrowserPath))
                 {
                     if (path.StartsWith("\"") && path.Length > 2 && path.IndexOf("\"", 2) > -1)
                     {

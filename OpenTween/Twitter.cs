@@ -2040,7 +2040,7 @@ namespace OpenTween
             PostClass post = null;
             var r = this.GetStatusApi(read, id, ref post);
 
-            if (r == "")
+            if (string.IsNullOrEmpty(r))
             {
                 if (tab != null) post.RelTabName = tab.TabName;
                 //非同期アイコン取得＆StatusDictionaryに追加
@@ -4631,11 +4631,11 @@ namespace OpenTween
 
             private void UserStreamLoop()
             {
-                Stream st = null;
-                StreamReader sr = null;
                 var sleepSec = 0;
                 do
                 {
+                    Stream st = null;
+                    StreamReader sr = null;
                     try
                     {
                         if (!MyCommon.IsNetworkAvailable())
@@ -4737,7 +4737,6 @@ namespace OpenTween
                         }
                         twCon.RequestAbort();
                         if (sr != null) sr.Close();
-                        if (st != null) st.Close();
                         if (sleepSec > 0)
                         {
                             var ms = 0;

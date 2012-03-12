@@ -51,7 +51,6 @@ namespace OpenTween
                         fs.Position = 0;
                         XmlSerializer xs = new XmlSerializer(typeof(T));
                         T instance = (T)xs.Deserialize(fs);
-                        fs.Close();
                         return instance;
                     }
                 }
@@ -78,7 +77,6 @@ namespace OpenTween
                                 fs.Position = 0;
                                 XmlSerializer xs = new XmlSerializer(typeof(T));
                                 T instance = (T)xs.Deserialize(fs);
-                                fs.Close();
                                 MessageBox.Show("File: " + GetSettingFilePath(FileId) + Environment.NewLine + "Use old setting file, because application can't read this setting file.");
                                 return instance;
                             }
@@ -123,7 +121,6 @@ namespace OpenTween
                             XmlSerializer xs = new XmlSerializer(typeof(T));
                             xs.Serialize(fs, Instance);
                             fs.Flush();
-                            fs.Close();
                         }
                         FileInfo fi = new FileInfo(fileName);
                         if (fi.Length == 0)

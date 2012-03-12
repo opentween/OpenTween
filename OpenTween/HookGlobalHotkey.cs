@@ -135,7 +135,7 @@ namespace OpenTween
 
         public void UnregisterAllOriginalHotkey()
         {
-            foreach (var hotkeyId in this._hotkeyID.Keys)
+            foreach (ushort hotkeyId in this._hotkeyID.Keys)
             {
                 Win32Api.UnregisterGlobalHotKey(hotkeyId, this._targetForm);
             }

@@ -249,8 +249,6 @@ namespace OpenTween
                             //
                             break;
                     }
-                    sw.Close();
-                    sw.Dispose();
                 }
             }
             this.TopMost = AppendSettingDialog.Instance.AlwaysTop;

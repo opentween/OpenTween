@@ -116,7 +116,7 @@ namespace OpenTween
             if (this.ListsList.SelectedItem == null) return;
             ListElement listItem = (ListElement) this.ListsList.SelectedItem;
 
-            if (this.NameTextBox.Text == "")
+            if (string.IsNullOrEmpty(this.NameTextBox.Text))
             {
                 MessageBox.Show(Properties.Resources.ListManageOKButton1);
                 return;
@@ -128,7 +128,7 @@ namespace OpenTween
 
             string rslt = listItem.Refresh();
 
-            if (rslt != "")
+            if (!string.IsNullOrEmpty(rslt))
             {
                 MessageBox.Show(String.Format(Properties.Resources.ListManageOKButton2, rslt));
                 return;
@@ -195,7 +195,7 @@ namespace OpenTween
             {
                 string rslt = this.tw.RemoveUserToList(list.Id.ToString(), user.Id.ToString());
 
-                if (rslt != "")
+                if (!string.IsNullOrEmpty(rslt))
                 {
                     MessageBox.Show(String.Format(Properties.Resources.ListManageDeleteUser2, rslt));
                     return;
@@ -218,7 +218,7 @@ namespace OpenTween
 
                 rslt = this.tw.DeleteList(list.Id.ToString());
 
-                if (rslt != "")
+                if (!string.IsNullOrEmpty(rslt))
                 {
                     MessageBox.Show(Properties.Resources.ListManageOKButton2, rslt);
                     return;
@@ -226,7 +226,7 @@ namespace OpenTween
 
                 rslt = this.tw.GetListsApi();
 
-                if (rslt != "")
+                if (!string.IsNullOrEmpty(rslt))
                 {
                     MessageBox.Show(Properties.Resources.ListsDeleteFailed, rslt);
                     return;
@@ -348,7 +348,7 @@ namespace OpenTween
                 else
                 {
                     string rslt = this._tw.CreateListApi(this.Name, !this.IsPublic, this.Description);
-                    this._isCreated = (rslt == "");
+                    this._isCreated = string.IsNullOrEmpty(rslt);
                     return rslt;
                 }
             }

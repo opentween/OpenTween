@@ -237,13 +237,11 @@ namespace OpenTween
                     try
                     {
                         HttpStatusCode res = this.GetResponse(req, strm, null, false);
-                        strm.Close();
                         if (res == HttpStatusCode.OK) return true;
                         return false;
                     }
                     catch (Exception)
                     {
-                        strm.Close();
                         return false;
                     }
                 }
@@ -262,9 +260,12 @@ namespace OpenTween
         public Image CheckValidImage(Image img, int width, int height)
         {
             if (img == null) return null;
-            Bitmap bmp = new Bitmap(width, height);
+
+            Bitmap bmp = null;
+
             try
             {
+                bmp = new Bitmap(width, height);
                 using (Graphics g = Graphics.FromImage(bmp))
                 {
                     g.InterpolationMode = InterpolationMode.HighQualityBicubic;
@@ -272,17 +273,29 @@ namespace OpenTween
                     g.DrawImage(img, 0, 0, width, height);
                 }
                 bmp.Tag = img.Tag;
-                return bmp;
+
+                Bitmap result = bmp;
+                bmp = null; //返り値のBitmapはDisposeしない
+                return result;
             }
             catch (Exception)
             {
-                bmp.Dispose();
+                if (bmp != null)
+                {
+                    bmp.Dispose();
+                    bmp = null;
+                }
+
                 bmp = new Bitmap(width, height);
                 bmp.Tag = img.Tag;
-                return bmp;
+
+                Bitmap result = bmp;
+                bmp = null; //返り値のBitmapはDisposeしない
+                return result;
             }
             finally
             {
+                if (bmp != null) bmp.Dispose();
                 img.Dispose();
             }
         }

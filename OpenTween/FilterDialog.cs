@@ -594,7 +594,7 @@ namespace OpenTween
                 string[] bf = bdy.Trim().Split((char)32);
                 foreach (string bfs in bf)
                 {
-                    if (bfs != "") ft.BodyFilter.Add(bfs.Trim());
+                    if (!string.IsNullOrEmpty(bfs)) ft.BodyFilter.Add(bfs.Trim());
                 }
             }
 
@@ -628,7 +628,7 @@ namespace OpenTween
                 string[] bf = bdy.Trim().Split((char)32);
                 foreach (string bfs in bf)
                 {
-                    if (bfs != "") ft.ExBodyFilter.Add(bfs.Trim());
+                    if (!string.IsNullOrEmpty(bfs)) ft.ExBodyFilter.Add(bfs.Trim());
                 }
             }
 
@@ -696,7 +696,7 @@ namespace OpenTween
                 UID.Text = UID.Text.Trim();
                 if (!CheckRegex.Checked && !CheckLambda.Checked) MSG1.Text = MSG1.Text.Replace("　", " ");
 
-                if (UID.Text == "" && MSG1.Text == "" && TextSource.Text == "" && CheckRetweet.Checked == false)
+                if (string.IsNullOrEmpty(UID.Text) && string.IsNullOrEmpty(MSG1.Text) && string.IsNullOrEmpty(TextSource.Text) && CheckRetweet.Checked == false)
                 {
                     isBlank = true;
                     return true;
@@ -728,7 +728,7 @@ namespace OpenTween
             {
                 MSG2.Text = MSG2.Text.Trim();
                 if (!CheckRegex.Checked && !CheckLambda.Checked) MSG2.Text = MSG2.Text.Replace("　", " ");
-                if (MSG2.Text == "" && TextSource.Text == "" && CheckRetweet.Checked == false)
+                if (string.IsNullOrEmpty(MSG2.Text) && string.IsNullOrEmpty(TextSource.Text) && CheckRetweet.Checked == false)
                 {
                     isBlank = true;
                     return true;
@@ -759,7 +759,7 @@ namespace OpenTween
                 ExMSG1.Text = ExMSG1.Text.Trim();
                 if (!CheckExRegex.Checked && !CheckExLambDa.Checked) ExMSG1.Text = ExMSG1.Text.Replace("　", " ");
                 ExUID.Text = ExUID.Text.Trim();
-                if (ExUID.Text == "" && ExMSG1.Text == "" && TextExSource.Text == "" && CheckExRetweet.Checked == false)
+                if (string.IsNullOrEmpty(ExUID.Text) && string.IsNullOrEmpty(ExMSG1.Text) && string.IsNullOrEmpty(TextExSource.Text) && CheckExRetweet.Checked == false)
                 {
                     isBlank = true;
                     return true;
@@ -791,7 +791,7 @@ namespace OpenTween
             {
                 ExMSG2.Text = ExMSG2.Text.Trim();
                 if (!CheckExRegex.Checked && !CheckExLambDa.Checked) ExMSG2.Text = ExMSG2.Text.Replace("　", " ");
-                if (ExMSG2.Text == "" && TextExSource.Text == "" && CheckExRetweet.Checked == false)
+                if (string.IsNullOrEmpty(ExMSG2.Text) && string.IsNullOrEmpty(TextExSource.Text) && CheckExRetweet.Checked == false)
                 {
                     isBlank = true;
                     return true;
@@ -940,14 +940,14 @@ namespace OpenTween
                 tabName = inputName.TabName;
                 tabType = inputName.Usage;
             }
-            if (tabName != "")
+            if (!string.IsNullOrEmpty(tabName))
             {
                 //List対応
                 ListElement list = null;
                 if (tabType == MyCommon.TabUsageType.Lists)
                 {
                     string rslt = ((TweenMain)this.Owner).TwitterInstance.GetListsApi();
-                    if (rslt != "")
+                    if (string.IsNullOrEmpty(rslt))
                     {
                         MessageBox.Show("Failed to get lists. (" + rslt + ")");
                     }
@@ -975,7 +975,7 @@ namespace OpenTween
 
         private void ButtonDeleteTab_Click(object sender, EventArgs e)
         {
-            if (ListTabs.SelectedIndex > -1 && ListTabs.SelectedItem.ToString() != "")
+            if (ListTabs.SelectedIndex > -1 && !string.IsNullOrEmpty(ListTabs.SelectedItem.ToString()))
             {
                 string tb = ListTabs.SelectedItem.ToString();
                 int idx = ListTabs.SelectedIndex;
@@ -992,7 +992,7 @@ namespace OpenTween
 
         private void ButtonRenameTab_Click(object sender, EventArgs e)
         {
-            if (ListTabs.SelectedIndex > -1 && ListTabs.SelectedItem.ToString() != "")
+            if (ListTabs.SelectedIndex > -1 && !string.IsNullOrEmpty(ListTabs.SelectedItem.ToString()))
             {
                 string tb = ListTabs.SelectedItem.ToString();
                 int idx = ListTabs.SelectedIndex;
@@ -1008,7 +1008,7 @@ namespace OpenTween
 
         private void CheckManageRead_CheckedChanged(object sender, EventArgs e)
         {
-            if (ListTabs.SelectedIndex > -1 && ListTabs.SelectedItem.ToString() != "")
+            if (ListTabs.SelectedIndex > -1 && !string.IsNullOrEmpty(ListTabs.SelectedItem.ToString()))
             {
                 ((TweenMain)this.Owner).ChangeTabUnreadManage(
                     ListTabs.SelectedItem.ToString(),
@@ -1018,7 +1018,7 @@ namespace OpenTween
 
         private void ButtonUp_Click(object sender, EventArgs e)
         {
-            if (ListTabs.SelectedIndex > 0 && ListTabs.SelectedItem.ToString() != "")
+            if (ListTabs.SelectedIndex > 0 && !string.IsNullOrEmpty(ListTabs.SelectedItem.ToString()))
             {
                 string selName = ListTabs.SelectedItem.ToString();
                 string tgtName = ListTabs.Items[ListTabs.SelectedIndex - 1].ToString();
@@ -1050,7 +1050,7 @@ namespace OpenTween
 
         private void CheckNotifyNew_CheckedChanged(object sender, EventArgs e)
         {
-            if (ListTabs.SelectedIndex > -1 && ListTabs.SelectedItem.ToString() != "")
+            if (ListTabs.SelectedIndex > -1 && !string.IsNullOrEmpty(ListTabs.SelectedItem.ToString()))
             {
                 _sts.Tabs[ListTabs.SelectedItem.ToString()].Notify = CheckNotifyNew.Checked;
             }
@@ -1058,7 +1058,7 @@ namespace OpenTween
 
         private void ComboSound_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (ListTabs.SelectedIndex > -1 && ListTabs.SelectedItem.ToString() != "")
+            if (ListTabs.SelectedIndex > -1 && string.IsNullOrEmpty(ListTabs.SelectedItem.ToString()))
             {
                 string filename = "";
                 if (ComboSound.SelectedIndex > -1) filename = ComboSound.SelectedItem.ToString();
