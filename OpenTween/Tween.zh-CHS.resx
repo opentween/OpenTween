@@ -902,7 +902,7 @@
     <value>188, 22</value>
   </data>
   <data name="AboutMenuItem.Text" xml:space="preserve">
-    <value>关于Tween(&amp;A)...</value>
+    <value>关于%AppName%(&amp;A)...</value>
   </data>
   <data name="DumpPostClassToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>150, 22</value>

@@ -798,5 +798,15 @@ namespace OpenTween
         {
             return Assembly.GetEntryAssembly().GetName().Name;
         }
+
+        /// <summary>
+        /// 文字列中に含まれる %AppName% をアプリケーション名に置換する
+        /// </summary>
+        /// <param name="orig">対象となる文字列</param>
+        /// <returns>置換後の文字列</returns>
+        public static string ReplaceAppName(string orig)
+        {
+            return orig.Replace("%AppName%", Application.ProductName);
+        }
     }
 }

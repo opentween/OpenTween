@@ -12136,6 +12136,8 @@ namespace OpenTween
             this._apiGauge.GaugeHeight = 8;
             this._apiGauge.Control.DoubleClick += this.ApiInfoMenuItem_Click;
             this.StatusStrip1.Items.Insert(2, this._apiGauge);
+
+            this.ReplaceAppName();
         }
 
         private void _hookGlobalHotkey_HotkeyPressed(object sender, KeyEventArgs e)
@@ -13179,6 +13181,11 @@ namespace OpenTween
                     }
                 }));
             }
+        }
+
+        private void ReplaceAppName()
+        {
+            AboutMenuItem.Text = MyCommon.ReplaceAppName(AboutMenuItem.Text);
         }
     }
 }

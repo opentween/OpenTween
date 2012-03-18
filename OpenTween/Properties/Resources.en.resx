@@ -540,9 +540,6 @@
   <data name="TraceOutText6" xml:space="preserve">
     <value>   Tween.exe Version    : {0}</value>
   </data>
-  <data name="TweenAboutBox_LoadText1" xml:space="preserve">
-    <value>About {0}</value>
-  </data>
   <data name="TweenAboutBox_LoadText2" xml:space="preserve">
     <value>Version {0}</value>
   </data>

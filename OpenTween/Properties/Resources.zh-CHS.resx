@@ -540,9 +540,6 @@
   <data name="TraceOutText6" xml:space="preserve">
     <value>   Tween.exe版本: {0}</value>
   </data>
-  <data name="TweenAboutBox_LoadText1" xml:space="preserve">
-    <value>关于 {0}</value>
-  </data>
   <data name="TweenAboutBox_LoadText2" xml:space="preserve">
     <value>版本 {0}</value>
   </data>

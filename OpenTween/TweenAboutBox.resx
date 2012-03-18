@@ -1207,18 +1207,6 @@
   <data name="LabelProductName.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
-  <data name="&gt;&gt;LabelProductName.Name" xml:space="preserve">
-    <value>LabelProductName</value>
-  </data>
-  <data name="&gt;&gt;LabelProductName.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LabelProductName.Parent" xml:space="preserve">
-    <value>TableLayoutPanel</value>
-  </data>
-  <data name="&gt;&gt;LabelProductName.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="LabelVersion.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -1239,18 +1227,6 @@
   </data>
   <data name="LabelVersion.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
-  </data>
-  <data name="&gt;&gt;LabelVersion.Name" xml:space="preserve">
-    <value>LabelVersion</value>
-  </data>
-  <data name="&gt;&gt;LabelVersion.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LabelVersion.Parent" xml:space="preserve">
-    <value>TableLayoutPanel</value>
-  </data>
-  <data name="&gt;&gt;LabelVersion.ZOrder" xml:space="preserve">
-    <value>2</value>
   </data>
   <data name="LabelCopyright.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -1273,18 +1249,6 @@
   <data name="LabelCopyright.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
-  <data name="&gt;&gt;LabelCopyright.Name" xml:space="preserve">
-    <value>LabelCopyright</value>
-  </data>
-  <data name="&gt;&gt;LabelCopyright.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LabelCopyright.Parent" xml:space="preserve">
-    <value>TableLayoutPanel</value>
-  </data>
-  <data name="&gt;&gt;LabelCopyright.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
   <data name="LabelCompanyName.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -1305,18 +1269,6 @@
   </data>
   <data name="LabelCompanyName.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
-  </data>
-  <data name="&gt;&gt;LabelCompanyName.Name" xml:space="preserve">
-    <value>LabelCompanyName</value>
-  </data>
-  <data name="&gt;&gt;LabelCompanyName.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LabelCompanyName.Parent" xml:space="preserve">
-    <value>TableLayoutPanel</value>
-  </data>
-  <data name="&gt;&gt;LabelCompanyName.ZOrder" xml:space="preserve">
-    <value>4</value>
   </data>
   <data name="TextBoxDescription.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -1345,18 +1297,6 @@
 (ランタイムに、ラベルのテキストはアプリケーションのアセンブリ情報に置き換えられます。
 プロジェクト デザイナの [アプリケーション] ペインで、アプリケーションのアセンブリ情報をカスタマイズします。)</value>
   </data>
-  <data name="&gt;&gt;TextBoxDescription.Name" xml:space="preserve">
-    <value>TextBoxDescription</value>
-  </data>
-  <data name="&gt;&gt;TextBoxDescription.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TextBoxDescription.Parent" xml:space="preserve">
-    <value>TableLayoutPanel</value>
-  </data>
-  <data name="&gt;&gt;TextBoxDescription.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
   <data name="OKButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
@@ -1371,18 +1311,6 @@
   </data>
   <data name="OKButton.Text" xml:space="preserve">
     <value>OK(&amp;O)</value>
-  </data>
-  <data name="&gt;&gt;OKButton.Name" xml:space="preserve">
-    <value>OKButton</value>
-  </data>
-  <data name="&gt;&gt;OKButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;OKButton.Parent" xml:space="preserve">
-    <value>TableLayoutPanel</value>
-  </data>
-  <data name="&gt;&gt;OKButton.ZOrder" xml:space="preserve">
-    <value>6</value>
   </data>
   <data name="ChangeLog.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -1402,21 +1330,9 @@
   <data name="ChangeLog.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;ChangeLog.Name" xml:space="preserve">
-    <value>ChangeLog</value>
-  </data>
-  <data name="&gt;&gt;ChangeLog.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ChangeLog.Parent" xml:space="preserve">
-    <value>TableLayoutPanel</value>
-  </data>
-  <data name="&gt;&gt;ChangeLog.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 12</value>
   </data>
@@ -1430,7 +1346,7 @@
     <value>CenterParent</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>TweenAboutBox</value>
+    <value>%AppName% のバージョン情報</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>TweenAboutBox</value>

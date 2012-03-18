@@ -2787,15 +2787,6 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   {0} のバージョン情報 に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string TweenAboutBox_LoadText1 {
-            get {
-                return ResourceManager.GetString("TweenAboutBox_LoadText1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   バージョン {0} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string TweenAboutBox_LoadText2 {

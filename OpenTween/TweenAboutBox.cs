@@ -46,14 +46,8 @@ namespace OpenTween
         private void TweenAboutBox_Load(object sender, EventArgs e)
         {
             // フォームのタイトルを設定します。
-            string ApplicationTitle;
+            this.Text = MyCommon.ReplaceAppName(this.Text);
 
-            if (GetApplicationAttribute<AssemblyTitleAttribute>().Title != null)
-                ApplicationTitle = GetApplicationAttribute<AssemblyTitleAttribute>().Title;
-            else
-                ApplicationTitle = System.IO.Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().GetName().Name);
-
-            this.Text = String.Format(Properties.Resources.TweenAboutBox_LoadText1, ApplicationTitle);
             // バージョン情報ボックスに表示されたテキストをすべて初期化します。
             // TODO: [プロジェクト] メニューの下にある [プロジェクト プロパティ] ダイアログの [アプリケーション] ペインで、アプリケーションのアセンブリ情報を 
             //    カスタマイズします。

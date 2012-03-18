@@ -1414,7 +1414,7 @@
     <value>API Information</value>
   </data>
   <data name="AboutMenuItem.Text" xml:space="preserve">
-    <value>&amp;About Tween...</value>
+    <value>&amp;About %AppName%...</value>
   </data>
   <data name="ContextMenuOperate.Size" type="System.Drawing.Size, System.Drawing">
     <value>220, 512</value>

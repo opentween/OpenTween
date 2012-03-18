@@ -574,9 +574,6 @@
   <data name="TraceOutText6" xml:space="preserve">
     <value>   Tween.exeのバージョン    : {0}</value>
   </data>
-  <data name="TweenAboutBox_LoadText1" xml:space="preserve">
-    <value>{0} のバージョン情報</value>
-  </data>
   <data name="TweenAboutBox_LoadText2" xml:space="preserve">
     <value>バージョン {0}</value>
   </data>
