@@ -253,7 +253,7 @@ namespace OpenTween
                             postData = "--" + boundary + "\r\n" +
                                 "Content-Disposition: form-data; name=\"" + kvp.Key + "\"; filename=\"" +
                                 kvp.Value.Name + "\"\r\n" +
-                                "Content-Type: " + mime + "\r\n";
+                                "Content-Type: " + mime + "\r\n\r\n";
                             byte[] postBytes = Encoding.UTF8.GetBytes(postData);
                             reqStream.Write(postBytes, 0, postBytes.Length);
                             //ファイルを読み出してHTTPのストリームに書き込み

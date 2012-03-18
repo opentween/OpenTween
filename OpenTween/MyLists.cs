@@ -57,7 +57,7 @@ namespace OpenTween
 
         private void MyLists_Load(object sender, EventArgs e)
         {
-            this.ListsCheckedListBox.ItemCheck += this.ListsCheckedListBox_ItemCheck;
+            this.ListsCheckedListBox.ItemCheck -= this.ListsCheckedListBox_ItemCheck;
 
             this.ListsCheckedListBox.Items.AddRange(TabInformations.GetInstance().SubscribableLists.FindAll((item) => item.Username == this._tw.Username).ToArray());
 
