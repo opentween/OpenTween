@@ -57,18 +57,6 @@ namespace OpenTween
 
         }
 
-        private void OK_Button_Click(object sender, EventArgs e)
-        {
-            this.DialogResult = DialogResult.OK;
-            this.Close();
-        }
-
-        private void Cancel_Button_Click(object sender, EventArgs e)
-        {
-            this.DialogResult = DialogResult.Cancel;
-            this.Close();
-        }
-
         private void TabsDialog_Load(object sender, EventArgs e)
         {
             if (_multiSelect)

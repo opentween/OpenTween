@@ -46,6 +46,7 @@
             // OK_Button
             // 
             resources.ApplyResources(this.OK_Button, "OK_Button");
+            this.OK_Button.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.OK_Button.Name = "OK_Button";
             // 
             // Cancel_Button
