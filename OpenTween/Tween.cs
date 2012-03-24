@@ -5667,7 +5667,7 @@ namespace OpenTween
                     try
                     {
                         _search = new Regex(_word, regOpt);
-                        for (int idx = cidx; idx == toIdx; idx += stp)
+                        for (int idx = cidx; idx <= toIdx; idx += stp)
                         {
                             PostClass post;
                             try
@@ -5697,7 +5697,7 @@ namespace OpenTween
                 else
                 {
                     // 通常検索
-                    for (int idx = cidx; idx == toIdx; idx += stp)
+                    for (int idx = cidx; idx <= toIdx; idx += stp)
                     {
                         PostClass post;
                         try
