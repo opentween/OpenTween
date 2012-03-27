@@ -7262,7 +7262,7 @@ namespace OpenTween
                 if (_anchorPost == null) return;
             }
 
-            for (int idx = fIdx; idx == toIdx; idx += stp)
+            for (int idx = fIdx; ; idx += stp)
             {
                 PostClass post = _statuses[_curTab.Text, idx];
                 if (post.ScreenName == _anchorPost.ScreenName ||
@@ -7278,6 +7278,8 @@ namespace OpenTween
                     _curList.EnsureVisible(idx);
                     break;
                 }
+
+                if (idx == toIdx) break;
             }
         }
 
