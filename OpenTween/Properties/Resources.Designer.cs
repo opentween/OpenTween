@@ -1553,6 +1553,13 @@ namespace OpenTween.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap LogoImage {
+            get {
+                object obj = ResourceManager.GetObject("LogoImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         /// <summary>
         ///   正規表現パターンが間違っています。 に類似しているローカライズされた文字列を検索します。
         /// </summary>

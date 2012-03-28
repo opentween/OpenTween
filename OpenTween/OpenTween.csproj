@@ -400,12 +400,8 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\1o.ico" />
-    <Content Include="Resources\2b.ico" />
     <Content Include="Resources\3b.ico" />
     <Content Include="Resources\4b.ico" />
-    <Content Include="Resources\4r.ico" />
-    <Content Include="Resources\4y.ico" />
     <Content Include="Resources\5b.ico" />
     <Content Include="Resources\5g.ico" />
     <Content Include="Resources\5o.ico" />
@@ -413,11 +409,11 @@
     <Content Include="Resources\5y.ico" />
     <Content Include="Resources\6b.ico" />
     <Content Include="Resources\6g.ico" />
-    <Content Include="Resources\6o.ico" />
     <Content Include="Resources\ads.txt" />
     <Content Include="Resources\ChangeLog.txt" />
     <Content Include="Resources\Description.txt" />
     <Content Include="Resources\InitialImage.png" />
+    <Content Include="Resources\LogoImage.png" />
     <Content Include="Resources\MultiMediaImage.png" />
     <Content Include="Resources\re.ico" />
     <Content Include="Resources\re2.ico" />

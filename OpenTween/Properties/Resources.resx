@@ -1135,4 +1135,7 @@
   <data name="DeleteMenuText2" xml:space="preserve">
     <value>公式RTの取り消し(&amp;D)</value>
   </data>
+  <data name="LogoImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\logoimage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

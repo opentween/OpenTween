@@ -45,6 +45,7 @@
             // LogoPictureBox
             // 
             resources.ApplyResources(this.LogoPictureBox, "LogoPictureBox");
+            this.LogoPictureBox.Image = global::OpenTween.Properties.Resources.LogoImage;
             this.LogoPictureBox.Name = "LogoPictureBox";
             this.TableLayoutPanel.SetRowSpan(this.LogoPictureBox, 5);
             this.LogoPictureBox.TabStop = false;

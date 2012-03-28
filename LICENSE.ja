@@ -32,3 +32,31 @@ Tween著作者:
   また、ライセンスの *非公式な* 日本語訳は、
   http://sourceforge.jp/magazine/07/09/02/130237 にて公開されています。
 
+
+アイコン
+--------
+
+  Copyright (C) 2012 抹花 / @matsukaaaa
+
+  このプログラムには、下記の LGPL ライセンスのアイコンが含まれています。
+
+    OpenTween/Resources/3b.ico
+    OpenTween/Resources/4b.ico
+    OpenTween/Resources/5b.ico
+    OpenTween/Resources/5g.ico
+    OpenTween/Resources/5r.ico
+    OpenTween/Resources/5y.ico
+    OpenTween/Resources/6b.ico
+    OpenTween/Resources/6g.ico
+    OpenTween/Resources/InitialImage.png
+    OpenTween/Resources/LogoImage.png
+    OpenTween/Resources/MultiMediaImage.png
+    OpenTween/Resources/re.ico
+    OpenTween/Resources/re2.ico
+    OpenTween/Resources/re3.ico
+    OpenTween/Resources/re4.ico
+
+  これらは https://github.com/opentween/OpenTween-icons からコピーされました。
+
+  GNU Lesser General Public License (GNU 劣等一般公衆利用許諾書) バージョン 3 の
+  完全なコピーは LICENSE.LGPL-3 ファイルにあります。

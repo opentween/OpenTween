@@ -32,3 +32,32 @@ License
   The complete text of the GNU General Public License version 3 can be found in
   the `LICENSE.GPL-3' file.
 
+
+Icons
+-----
+
+  Copyright (C) 2012 抹花 / @matsukaaaa
+
+  This program is includes LGPL'ed icons listed blow:
+
+    OpenTween/Resources/3b.ico
+    OpenTween/Resources/4b.ico
+    OpenTween/Resources/5b.ico
+    OpenTween/Resources/5g.ico
+    OpenTween/Resources/5r.ico
+    OpenTween/Resources/5y.ico
+    OpenTween/Resources/6b.ico
+    OpenTween/Resources/6g.ico
+    OpenTween/Resources/InitialImage.png
+    OpenTween/Resources/LogoImage.png
+    OpenTween/Resources/MultiMediaImage.png
+    OpenTween/Resources/re.ico
+    OpenTween/Resources/re2.ico
+    OpenTween/Resources/re3.ico
+    OpenTween/Resources/re4.ico
+
+  They were originally downloaded from
+  https://github.com/opentween/OpenTween-icons.
+
+  The complete text of the GNU Lesser General Public License version 3 can be
+  found in the `LICENSE.LGPL-3' file.
