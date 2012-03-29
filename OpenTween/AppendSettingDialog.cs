@@ -113,14 +113,27 @@ namespace OpenTween
         private void Save_Click(object sender, EventArgs e)
         {
             if (MyCommon.IsNetworkAvailable() &&
-                (ComboBoxAutoShortUrlFirst.SelectedIndex == (int)MyCommon.UrlConverter.Bitly || ComboBoxAutoShortUrlFirst.SelectedIndex == (int)MyCommon.UrlConverter.Jmp) &&
-                 (!string.IsNullOrEmpty(TextBitlyId.Text) || !string.IsNullOrEmpty(TextBitlyPw.Text)))
+                (ComboBoxAutoShortUrlFirst.SelectedIndex == (int)MyCommon.UrlConverter.Bitly || ComboBoxAutoShortUrlFirst.SelectedIndex == (int)MyCommon.UrlConverter.Jmp))
             {
+                // bit.ly 短縮機能実装のプライバシー問題の暫定対応
+                // bit.ly 使用時はログインIDとAPIキーの指定を必須とする
+                // 参照: http://sourceforge.jp/projects/opentween/lists/archive/dev/2012-January/000020.html
+                if (string.IsNullOrEmpty(TextBitlyId.Text) || string.IsNullOrEmpty(TextBitlyPw.Text))
+                {
+                    MessageBox.Show("bit.ly のログイン名とAPIキーの指定は必須項目です。", Application.ProductName);
+                    _ValidationError = true;
+                    TreeViewSetting.SelectedNode = TreeViewSetting.Nodes["ConnectionNode"].Nodes["ShortUrlNode"]; // 動作タブを選択
+                    TreeViewSetting.Select();
+                    TextBitlyId.Focus();
+                    return;
+                }
+
                 if (!BitlyValidation(TextBitlyId.Text, TextBitlyPw.Text))
                 {
                     MessageBox.Show(Properties.Resources.SettingSave_ClickText1);
                     _ValidationError = true;
-                    TreeViewSetting.SelectedNode.Name = "TweetActNode"; // 動作タブを選択
+                    TreeViewSetting.SelectedNode = TreeViewSetting.Nodes["ConnectionNode"].Nodes["ShortUrlNode"]; // 動作タブを選択
+                    TreeViewSetting.Select();
                     TextBitlyId.Focus();
                     return;
                 }
@@ -1960,8 +1973,8 @@ namespace OpenTween
             string content = "";
             Dictionary<string, string> param = new Dictionary<string, string>();
 
-            param.Add("login", "tweenapi");
-            param.Add("apiKey", "R_c5ee0e30bdfff88723c4457cc331886b");
+            param.Add("login", ApplicationSettings.BitlyLoginId);
+            param.Add("apiKey", ApplicationSettings.BitlyApiKey);
             param.Add("x_login", id);
             param.Add("x_apiKey", apikey);
             param.Add("format", "txt");

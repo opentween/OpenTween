@@ -330,13 +330,20 @@ namespace OpenTween
                             content = src;
                             break;
                         }
+                        if (string.IsNullOrEmpty(_bitlyId) || string.IsNullOrEmpty(_bitlyKey))
+                        {
+                            // bit.ly 短縮機能実装のプライバシー問題の暫定対応
+                            // ログインIDとAPIキーが指定されていない場合は短縮せずにPOSTする
+                            // 参照: http://sourceforge.jp/projects/opentween/lists/archive/dev/2012-January/000020.html
+                            content = src;
+                            break;
+                        }
                         string req = "";
                         req = "http://api.bitly.com/v" + BitlyApiVersion + "/shorten?";
-                        req += "login=" + ApplicationSettings.BitlyLoginId +
-                            "&apiKey=" + ApplicationSettings.BitlyApiKey +
+                        req += "login=" + _bitlyId +
+                            "&apiKey=" + _bitlyKey +
                             "&format=txt" +
                             "&longUrl=" + SrcUrl;
-                        if (!string.IsNullOrEmpty(_bitlyId) && !string.IsNullOrEmpty(_bitlyKey)) req += "&x_login=" + _bitlyId + "&x_apiKey=" + _bitlyKey;
                         if (ConverterType == MyCommon.UrlConverter.Jmp) req += "&domain=j.mp";
                         if (!(new HttpVarious()).GetData(req, null, out content))
                         {
