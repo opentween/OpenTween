@@ -428,4 +428,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Target Name="AfterBuild">
+     <SGen BuildAssemblyName="$(TargetFileName)" BuildAssemblyPath="$(TargetDir)" ShouldGenerateSerializer="true" UseProxyTypes="false" />
+  </Target>
 </Project>
