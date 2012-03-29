@@ -147,6 +147,7 @@
             this.ListsList.FormattingEnabled = true;
             resources.ApplyResources(this.ListsList, "ListsList");
             this.ListsList.Name = "ListsList";
+            this.ListsList.SelectedIndexChanged += new System.EventHandler(this.ListsList_SelectedIndexChanged);
             // 
             // ListAvailable
             // 
@@ -174,9 +175,11 @@
             this.MinimizeBox = false;
             this.Name = "ListAvailable";
             this.ShowInTaskbar = false;
+            this.Shown += new System.EventHandler(this.ListAvailable_Shown);
             this.TableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion

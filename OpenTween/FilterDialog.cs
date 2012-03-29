@@ -947,7 +947,7 @@ namespace OpenTween
                 if (tabType == MyCommon.TabUsageType.Lists)
                 {
                     string rslt = ((TweenMain)this.Owner).TwitterInstance.GetListsApi();
-                    if (string.IsNullOrEmpty(rslt))
+                    if (!string.IsNullOrEmpty(rslt))
                     {
                         MessageBox.Show("Failed to get lists. (" + rslt + ")");
                     }

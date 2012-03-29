@@ -45,6 +45,11 @@ namespace OpenTween
             }
         }
 
+        public ListAvailable()
+        {
+            InitializeComponent();
+        }
+
         private void OK_Button_Click(object sender, EventArgs e)
         {
             if (this.ListsList.SelectedIndex > -1) {
@@ -61,7 +66,7 @@ namespace OpenTween
             this.Close();
         }
 
-        private void Cancel_Button_Shown(object sender, EventArgs e)
+        private void ListAvailable_Shown(object sender, EventArgs e)
         {
             if (TabInformations.GetInstance().SubscribableLists.Count == 0) this.RefreshLists();
             this.ListsList.Items.AddRange(TabInformations.GetInstance().SubscribableLists.ToArray());
