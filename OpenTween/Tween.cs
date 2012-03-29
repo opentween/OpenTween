@@ -6251,12 +6251,17 @@ namespace OpenTween
 
         private void MatomeMenuItem_Click(object sender, EventArgs e)
         {
-            OpenUriAsync("http://sourceforge.jp/projects/tween/wiki/FrontPage");
+            OpenApplicationWebsite();
+        }
+
+        private void OpenApplicationWebsite()
+        {
+            OpenUriAsync(ApplicationSettings.WebsiteUrl);
         }
 
         private void ShortcutKeyListMenuItem_Click(object sender, EventArgs e)
         {
-            OpenUriAsync("http://sourceforge.jp/projects/tween/wiki/%E3%82%B7%E3%83%A7%E3%83%BC%E3%83%88%E3%82%AB%E3%83%83%E3%83%88%E3%82%AD%E3%83%BC");
+            OpenUriAsync(ApplicationSettings.ShortcutKeyUrl);
         }
 
         private void ListTab_KeyDown(object sender, KeyEventArgs e)
@@ -6360,7 +6365,7 @@ namespace OpenTween
                     switch (KeyCode)
                     {
                         case Keys.F1:
-                            OpenUriAsync("http://sourceforge.jp/projects/tween/wiki/FrontPage");
+                            OpenApplicationWebsite();
                             return true;
                         case Keys.F3:
                             MenuItemSearchNext_Click(null, null);
@@ -13187,6 +13192,7 @@ namespace OpenTween
 
         private void ReplaceAppName()
         {
+            MatomeMenuItem.Text = MyCommon.ReplaceAppName(MatomeMenuItem.Text);
             AboutMenuItem.Text = MyCommon.ReplaceAppName(AboutMenuItem.Text);
         }
     }

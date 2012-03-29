@@ -43,6 +43,22 @@ namespace OpenTween
         public const string FeedbackTwitterName = "@kim_upsilon";
 
         //=====================================================================
+        // Web サイト
+
+        /// <summary>
+        /// 「ヘルプ」メニューの「(アプリ名) ウェブサイト」クリック時に外部ブラウザで表示する URL
+        /// </summary>
+        public const string WebsiteUrl = "http://sourceforge.jp/projects/opentween/wiki/FrontPage";
+
+        /// <summary>
+        /// 「ヘルプ」メニューの「ショートカットキー一覧」クリック時に外部ブラウザで表示する URL
+        /// </summary>
+        /// <remarks>
+        /// Tween の Wiki ページのコンテンツはプロプライエタリなため転載不可
+        /// </remarks>
+        public const string ShortcutKeyUrl = "http://sourceforge.jp/projects/tween/wiki/%E3%82%B7%E3%83%A7%E3%83%BC%E3%83%88%E3%82%AB%E3%83%83%E3%83%88%E3%82%AD%E3%83%BC";
+
+        //=====================================================================
         // Twitter
         // https://dev.twitter.com/ から取得できます。
 

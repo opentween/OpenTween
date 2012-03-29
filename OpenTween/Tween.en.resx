@@ -1402,7 +1402,7 @@
     <value>&amp;Help</value>
   </data>
   <data name="MatomeMenuItem.Text" xml:space="preserve">
-    <value>Open Tween &amp;Help Site</value>
+    <value>%AppName% &amp;Help Site</value>
   </data>
   <data name="ShortcutKeyListMenuItem.Text" xml:space="preserve">
     <value>Shortcut keys</value>

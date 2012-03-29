@@ -869,7 +869,7 @@
     <value>188, 22</value>
   </data>
   <data name="MatomeMenuItem.Text" xml:space="preserve">
-    <value>Tween帮助网站(&amp;H)</value>
+    <value>%AppName%帮助网站(&amp;H)</value>
   </data>
   <data name="ShortcutKeyListMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>188, 22</value>
