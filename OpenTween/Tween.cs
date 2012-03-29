@@ -5938,84 +5938,10 @@ namespace OpenTween
 
         private void CheckNewVersion(bool startup = false)
         {
-            string retMsg = "";
-            string strVer = "";
-            string strDetail = "";
-            bool forceUpdate = MyCommon.IsKeyDown(Keys.Shift);
-
-            try
+            // TODO 自動アップデート機能の実装
+            if (!startup)
             {
-                retMsg = tw.GetVersionInfo();
-            }
-            catch (Exception)
-            {
-                StatusLabel.Text = Properties.Resources.CheckNewVersionText9;
-                if (!startup) MessageBox.Show(Properties.Resources.CheckNewVersionText10, Properties.Resources.CheckNewVersionText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
-                return;
-            }
-            if (retMsg.Length > 0)
-            {
-                strVer = retMsg.Substring(0, 4);
-                if (retMsg.Length > 4)
-                {
-                    strDetail = retMsg.Substring(5).Trim();
-                }
-                if (!string.IsNullOrEmpty(MyCommon.fileVersion) && strVer.CompareTo(MyCommon.fileVersion.Replace(".", "")) > 0)
-                {
-                    string tmp = string.Format(Properties.Resources.CheckNewVersionText3, strVer);
-                    using (DialogAsShieldIcon dialogAsShieldicon = new DialogAsShieldIcon())
-                    {
-                        if (dialogAsShieldicon.ShowDialog(tmp, strDetail, Properties.Resources.CheckNewVersionText1, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                        {
-                            retMsg = tw.GetTweenBinary(strVer);
-                            if (retMsg.Length == 0)
-                            {
-                                RunTweenUp();
-                                MyCommon._endingFlag = true;
-                                this.Close();
-                                return;
-                            }
-                            else
-                            {
-                                if (!startup) MessageBox.Show(Properties.Resources.CheckNewVersionText5 + System.Environment.NewLine + retMsg, Properties.Resources.CheckNewVersionText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    if (forceUpdate)
-                    {
-                        string tmp = string.Format(Properties.Resources.CheckNewVersionText6, strVer);
-                        using (DialogAsShieldIcon dialogAsShieldicon = new DialogAsShieldIcon())
-                        {
-                            if (dialogAsShieldicon.ShowDialog(tmp, strDetail, Properties.Resources.CheckNewVersionText1, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                            {
-                                retMsg = tw.GetTweenBinary(strVer);
-                                if (retMsg.Length == 0)
-                                {
-                                    RunTweenUp();
-                                    MyCommon._endingFlag = true;
-                                    this.Close();
-                                    return;
-                                }
-                                else
-                                {
-                                    if (!startup) MessageBox.Show(Properties.Resources.CheckNewVersionText5 + System.Environment.NewLine + retMsg, Properties.Resources.CheckNewVersionText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                                }
-                            }
-                        }
-                    }
-                    else if (!startup)
-                    {
-                        MessageBox.Show(Properties.Resources.CheckNewVersionText7 + MyCommon.fileVersion.Replace(".", "") + Properties.Resources.CheckNewVersionText8 + strVer, Properties.Resources.CheckNewVersionText2, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                }
-            }
-            else
-            {
-                StatusLabel.Text = Properties.Resources.CheckNewVersionText9;
-                if (!startup) MessageBox.Show(Properties.Resources.CheckNewVersionText10, Properties.Resources.CheckNewVersionText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show(this, "OpenTween の自動アップデート機能は未実装です。OpenTween のウェブサイトで更新を確認し手動でアップデートしてください。", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
