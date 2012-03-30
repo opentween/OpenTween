@@ -764,7 +764,7 @@ namespace OpenTween
 
             //廃止サービスが選択されていた場合bit.lyへ読み替え
             if (_cfgCommon.AutoShortUrlFirst < 0)
-                _cfgCommon.AutoShortUrlFirst = MyCommon.UrlConverter.Bitly;
+                _cfgCommon.AutoShortUrlFirst = MyCommon.UrlConverter.Uxnu;
 
             SettingDialog.AutoShortUrlFirst = _cfgCommon.AutoShortUrlFirst;
             SettingDialog.TabIconDisp = _cfgCommon.TabIconDisp;

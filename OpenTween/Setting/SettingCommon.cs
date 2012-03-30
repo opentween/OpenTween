@@ -168,7 +168,7 @@ namespace OpenTween
         }
 
         public MyCommon.OutputzUrlmode OutputzUrlMode = MyCommon.OutputzUrlmode.twittercom;
-        public MyCommon.UrlConverter AutoShortUrlFirst = MyCommon.UrlConverter.Bitly;
+        public MyCommon.UrlConverter AutoShortUrlFirst = MyCommon.UrlConverter.Uxnu;
         public bool UseUnreadStyle = true;
         public string DateTimeFormat = "yyyy/MM/dd H:mm:ss";
         public int DefaultTimeOut = 20;
