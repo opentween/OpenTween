@@ -9284,7 +9284,7 @@ namespace OpenTween
             switch (SettingDialog.DispLatestPost)
             {
                 case MyCommon.DispTitleEnum.Ver:
-                    ttl.Append("Ver:").Append(MyCommon.fileVersion);
+                    ttl.Append("Ver:").Append(MyCommon.GetReadableVersion());
                     break;
                 case MyCommon.DispTitleEnum.Post:
                     if (_history != null && _history.Count > 1)

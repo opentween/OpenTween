@@ -808,5 +808,31 @@ namespace OpenTween
         {
             return orig.Replace("%AppName%", Application.ProductName);
         }
+
+        /// <summary>
+        /// 表示用のバージョン番号の文字列を生成する
+        /// </summary>
+        /// <remarks>
+        /// バージョン1.0.1.1のように末尾が0でない（＝開発版）の場合は「1.0.1-beta1」が出力される
+        /// </remarks>
+        /// <returns></returns>
+        public static string GetReadableVersion()
+        {
+            if (string.IsNullOrEmpty(MyCommon.fileVersion))
+            {
+                return null;
+            }
+
+            string[] version = MyCommon.fileVersion.Split('.');
+
+            if (version[3] == "0")
+            {
+                return string.Format("{0}.{1}.{2}", version[0], version[1], version[2]);
+            }
+            else
+            {
+                return string.Format("{0}.{1}.{2}-beta{3}", version[0], version[1], version[2], version[3]);
+            }
+        }
     }
 }
