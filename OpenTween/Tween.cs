@@ -1230,7 +1230,7 @@ namespace OpenTween
             CopyURLMenuItem.ShortcutKeyDisplayString = "Ctrl+Shift+C";
             CopyUserIdStripMenuItem.ShortcutKeyDisplayString = "Shift+Alt+C";
 
-            if (SettingDialog.MinimizeToTray = false || this.WindowState != FormWindowState.Minimized)
+            if (SettingDialog.MinimizeToTray == false || this.WindowState != FormWindowState.Minimized)
             {
                 this.Visible = true;
             }
