@@ -5814,7 +5814,7 @@ namespace OpenTween
         {
             using (TweenAboutBox about = new TweenAboutBox())
             {
-                about.ShowDialog();
+                about.ShowDialog(this);
             }
             this.TopMost = SettingDialog.AlwaysTop;
         }
@@ -7137,7 +7137,7 @@ namespace OpenTween
             {
                 name = _curPost.RetweetedBy;
             }
-            for (int idx = fIdx; idx == toIdx; idx += stp)
+            for (int idx = fIdx; idx != toIdx; idx += stp)
             {
                 if (_statuses[_curTab.Text, idx].RetweetedId == 0)
                 {
