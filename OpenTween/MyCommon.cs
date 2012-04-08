@@ -813,7 +813,7 @@ namespace OpenTween
         /// 表示用のバージョン番号の文字列を生成する
         /// </summary>
         /// <remarks>
-        /// バージョン1.0.1.1のように末尾が0でない（＝開発版）の場合は「1.0.1-beta1」が出力される
+        /// バージョン1.0.0.1のように末尾が0でない（＝開発版）の場合は「1.0.1-beta1」が出力される
         /// </remarks>
         /// <returns></returns>
         public static string GetReadableVersion()
@@ -823,14 +823,30 @@ namespace OpenTween
                 return null;
             }
 
-            string[] version = MyCommon.fileVersion.Split('.');
+            int[] version = MyCommon.fileVersion.Split('.')
+                .Select(x => int.Parse(x)).ToArray();
 
-            if (version[3] == "0")
+            if (version[3] == 0)
             {
                 return string.Format("{0}.{1}.{2}", version[0], version[1], version[2]);
             }
             else
             {
+                version[2] = version[2] + 1;
+
+                // 10を越えたら桁上げ
+                if (version[2] > 10)
+                {
+                    version[1] += version[2] / 10;
+                    version[2] %= 10;
+
+                    if (version[1] > 10)
+                    {
+                        version[0] += version[1] / 10;
+                        version[1] %= 10;
+                    }
+                }
+
                 return string.Format("{0}.{1}.{2}-beta{3}", version[0], version[1], version[2], version[3]);
             }
         }
