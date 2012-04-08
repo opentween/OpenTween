@@ -68,14 +68,14 @@ namespace OpenTween
         private Point _tabMouseDownPoint;
         private string _rclickTabName;      //右クリックしたタブの名前（Tabコントロール機能不足対応）
         private readonly object _syncObject = new object();    //ロック用
-        private const string detailHtmlFormatMono1 = "<html><head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=10;IE=9;IE=8\"><style type=\"text/css\"><!-- pre {font-family: \"";
+        private const string detailHtmlFormatMono1 = "<html><head><style type=\"text/css\"><!-- pre {font-family: \"";
         private const string detailHtmlFormat2 = "\", sans-serif; font-size: ";
-        private const string detailHtmlFormat3 = "pt; margin: 0; word-wrap: break-word; color:rgb(";
+        private const string detailHtmlFormat3 = "pt; word-wrap: break-word; color:rgb(";
         private const string detailHtmlFormat4 = ");} a:link, a:visited, a:active, a:hover {color:rgb(";
         private const string detailHtmlFormat5 = "); } --></style></head><body style=\"margin:0px; background-color:rgb(";
         private const string detailHtmlFormatMono6 = ");\"><pre>";
         private const string detailHtmlFormatMono7 = "</pre></body></html>";
-        private const string detailHtmlFormat1 = "<html><head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=10;IE=9;IE=8\"><style type=\"text/css\"><!-- p {font-family: \"";
+        private const string detailHtmlFormat1 = "<html><head><style type=\"text/css\"><!-- p {font-family: \"";
         private const string detailHtmlFormat6 = ");\"><p>";
         private const string detailHtmlFormat7 = "</p></body></html>";
         private string detailHtmlFormatHeader;
@@ -5614,7 +5614,7 @@ namespace OpenTween
             {
                 cidx = _curList.SelectedIndices[0];
             }
-            toIdx = _curList.VirtualListSize;
+            toIdx = _curList.VirtualListSize - 1;
 
             switch (SType)
             {
@@ -5645,7 +5645,7 @@ namespace OpenTween
                     {
                         cidx = toIdx;
                     }
-                    toIdx = -1;
+                    toIdx = 0;
                     stp = -1;
                     break;
             }
@@ -5667,7 +5667,7 @@ namespace OpenTween
                     try
                     {
                         _search = new Regex(_word, regOpt);
-                        for (int idx = cidx; idx != toIdx; idx += stp)
+                        for (int idx = cidx; idx <= toIdx; idx += stp)
                         {
                             PostClass post;
                             try
@@ -5697,7 +5697,7 @@ namespace OpenTween
                 else
                 {
                     // 通常検索
-                    for (int idx = cidx; idx != toIdx; idx += stp)
+                    for (int idx = cidx; idx <= toIdx; idx += stp)
                     {
                         PostClass post;
                         try
@@ -7015,7 +7015,7 @@ namespace OpenTween
                     fIdx = _curList.SelectedIndices[0] + 1;
                     if (fIdx > _curList.VirtualListSize - 1) return;
                 }
-                toIdx = _curList.VirtualListSize;
+                toIdx = _curList.VirtualListSize - 1;
                 stp = 1;
             }
             else
@@ -7029,11 +7029,11 @@ namespace OpenTween
                     fIdx = _curList.SelectedIndices[0] - 1;
                     if (fIdx < 0) return;
                 }
-                toIdx = -1;
+                toIdx = 0;
                 stp = -1;
             }
 
-            for (int idx = fIdx; idx != toIdx; idx += stp)
+            for (int idx = fIdx; idx == toIdx; idx += stp)
             {
                 if (_statuses[_curTab.Text, idx].IsFav)
                 {
@@ -7068,7 +7068,7 @@ namespace OpenTween
                 {
                     fIdx = ListTab.SelectedIndex - 1;
                 }
-                toIdx = -1;
+                toIdx = 0;
                 stp = -1;
             }
             else
@@ -7082,12 +7082,12 @@ namespace OpenTween
                 {
                     fIdx = ListTab.SelectedIndex + 1;
                 }
-                toIdx = ListTab.TabCount;
+                toIdx = ListTab.TabCount - 1;
                 stp = 1;
             }
 
             bool found = false;
-            for (int tabidx = fIdx; tabidx != toIdx; tabidx += stp)
+            for (int tabidx = fIdx; tabidx == toIdx; tabidx += stp)
             {
                 if (_statuses.Tabs[ListTab.TabPages[tabidx].Text].TabType == MyCommon.TabUsageType.DirectMessage) continue; // Directタブは対象外
                 for (int idx = 0; idx < ((DetailsListView)ListTab.TabPages[tabidx].Tag).VirtualListSize; idx++)
@@ -7117,14 +7117,14 @@ namespace OpenTween
             {
                 fIdx = _curList.SelectedIndices[0] + 1;
                 if (fIdx > _curList.VirtualListSize - 1) return;
-                toIdx = _curList.VirtualListSize;
+                toIdx = _curList.VirtualListSize - 1;
                 stp = 1;
             }
             else
             {
                 fIdx = _curList.SelectedIndices[0] - 1;
                 if (fIdx < 0) return;
-                toIdx = -1;
+                toIdx = 0;
                 stp = -1;
             }
 
@@ -7171,14 +7171,14 @@ namespace OpenTween
             {
                 fIdx = _curList.SelectedIndices[0] + 1;
                 if (fIdx > _curList.VirtualListSize - 1) return;
-                toIdx = _curList.VirtualListSize;
+                toIdx = _curList.VirtualListSize - 1;
                 stp = 1;
             }
             else
             {
                 fIdx = _curList.SelectedIndices[0] - 1;
                 if (fIdx < 0) return;
-                toIdx = -1;
+                toIdx = 0;
                 stp = -1;
             }
 
@@ -7193,7 +7193,7 @@ namespace OpenTween
                 if (_anchorPost == null) return;
             }
 
-            for (int idx = fIdx; idx != toIdx; idx += stp)
+            for (int idx = fIdx; ; idx += stp)
             {
                 PostClass post = _statuses[_curTab.Text, idx];
                 if (post.ScreenName == _anchorPost.ScreenName ||
@@ -7209,6 +7209,8 @@ namespace OpenTween
                     _curList.EnsureVisible(idx);
                     break;
                 }
+
+                if (idx == toIdx) break;
             }
         }
 
