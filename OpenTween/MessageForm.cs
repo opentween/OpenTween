@@ -33,6 +33,11 @@ namespace OpenTween
 {
     public partial class MessageForm : Form
     {
+        public MessageForm()
+        {
+            InitializeComponent();
+        }
+
         public System.Windows.Forms.DialogResult ShowDialog(string message) {
             this.Label1.Text = message;
 
