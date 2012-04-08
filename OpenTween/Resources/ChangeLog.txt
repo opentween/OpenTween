@@ -7,6 +7,7 @@
  * FIX: 「最小化したときにアイコン化する」が強制的にオンになる問題を修正
  * FIX: 発言詳細部においてUnicodeで追加された一部の文字が正しく表示されない問題を修正
  * FIX: STOT形式コピー時にprotectedユーザのつぶやきが混ざっているとエラーが発生する問題を修正 (thanks @tests_peer!)
+ * FIX: PublicSearchタブで、一度クリアしたツイートがタブ更新時に再び表示されてしまう問題を修正 (thanks @5px!)
  * NEW: TwitrPixとPcklesのサムネイル画像表示に対応
  * NEW: fb.meとon.fb.meのURL展開に対応
 

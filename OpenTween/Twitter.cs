@@ -2539,7 +2539,7 @@ namespace OpenTween
             HttpStatusCode res;
             var content = "";
             var page = 0;
-            var sinceId = 0;
+            var sinceId = 0L;
             var count = 100;
             if (AppendSettingDialog.Instance.UseAdditionalCount &&
                 AppendSettingDialog.Instance.SearchCountApi != 0)
@@ -2556,7 +2556,7 @@ namespace OpenTween
             }
             else
             {
-                sinceId = (int)tab.SinceId;
+                sinceId = tab.SinceId;
             }
 
             try
@@ -2691,7 +2691,7 @@ namespace OpenTween
             HttpStatusCode res;
             var content = "";
             var page = 0;
-            var sinceId = 0;
+            var sinceId = 0L;
             var count = 100;
             var querystr = "";
             if (AppendSettingDialog.Instance.UseAdditionalCount &&
@@ -2709,7 +2709,7 @@ namespace OpenTween
             }
             else
             {
-                sinceId = (int)tab.SinceId;
+                sinceId = tab.SinceId;
             }
 
             try
