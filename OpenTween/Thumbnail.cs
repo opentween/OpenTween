@@ -1777,7 +1777,7 @@ namespace OpenTween
         {
             // TODO: サムネイル画像読み込み処理を記述します
             //参考: http://tanarky.blogspot.com/2010/03/flickr-urlunavailable.html アグレッシブエンジニア: flickr の画像URL仕様についてまとめ(Unavailable画像)
-            //画像URL仕様　http://farm{farm}.static.flickr.com/{server}/{id}_{secret}_{size}.{extension}
+            //画像URL仕様　http://farm{farm}.staticflickr.com/{server}/{id}_{secret}_{size}.{extension}
             //photostreamなど複数の画像がある場合先頭の一つのみ認識と言うことにする
             //(二つ目のキャプチャ 一つ目の画像はユーザーアイコン）
 
@@ -1786,7 +1786,7 @@ namespace OpenTween
             var http = new HttpVarious();
             if (http.GetData(args.url.Value, null, out src, 0, out args.errmsg, ""))
             {
-                var _mc = Regex.Matches(src, mc.Result(@"http://farm[0-9]+\.static\.flickr\.com/[0-9]+/.+?\.([a-zA-Z]+)"));
+                var _mc = Regex.Matches(src, mc.Result(@"http://farm[0-9]+\.staticflickr\.com/[0-9]+/.+?\.([a-zA-Z]+)"));
                 //二つ以上キャプチャした場合先頭の一つだけ 一つだけの場合はユーザーアイコンしか取れなかった
                 if (_mc.Count > 1)
                 {
