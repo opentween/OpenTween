@@ -75,7 +75,10 @@ namespace OpenTween
             "http://bkite.com/",
             "http://dlvr.it/",
             "http://ht.ly/",
-            "http://tl.gd/"
+            "http://tl.gd/",
+            "http://feeds.feedburner.com/",
+            "http://on.fb.me/",
+            "http://fb.me/",
         };
 
         private static string _bitlyId = "";
