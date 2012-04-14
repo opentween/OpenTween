@@ -160,13 +160,13 @@
     <value>非法正则表达式：</value>
   </data>
   <data name="CheckNewVersionText1" xml:space="preserve">
-    <value>Tween更新检查</value>
+    <value>%AppName%更新检查</value>
   </data>
   <data name="CheckNewVersionText10" xml:space="preserve">
     <value>新版本检查失败。请稍候再试。</value>
   </data>
   <data name="CheckNewVersionText2" xml:space="preserve">
-    <value>Tween更新检查结果</value>
+    <value>%AppName%更新检查结果</value>
   </data>
   <data name="CheckNewVersionText3" xml:space="preserve">
     <value>发现新版本  {0} 发布了。要更新吗？</value>
@@ -181,7 +181,7 @@
     <value>未发现新版本。当前最新版本为 {0}。 要重新下载吗？</value>
   </data>
   <data name="CheckNewVersionText7" xml:space="preserve">
-    <value>您的Tween已经是最新版本，无需更新。当前版本： </value>
+    <value>您的%AppName%已经是最新版本，无需更新。当前版本： </value>
   </data>
   <data name="CheckNewVersionText8" xml:space="preserve">
     <value>最新版本：</value>
@@ -325,7 +325,7 @@
     <value>正在标记</value>
   </data>
   <data name="LoadConfigurationText1" xml:space="preserve">
-    <value>该配置文件由Tween自动生成。请不要手工修改。</value>
+    <value>该配置文件由%AppName%自动生成。请不要手工修改。</value>
   </data>
   <data name="MenuItemSearchNext_ClickText1" xml:space="preserve">
     <value>非法正则表达式。</value>
@@ -490,10 +490,10 @@
     <value>读取页码请设置在1到999之间。</value>
   </data>
   <data name="StartupText1" xml:space="preserve">
-    <value>另一个Tween实例正在运行。要启动第2个Tween请运行另一个文件夹中的。</value>
+    <value>另一个%AppName%实例正在运行。要启动第2个{0}.exe请运行另一个文件夹中的。</value>
   </data>
   <data name="StartupText2" xml:space="preserve">
-    <value>Tween重复启动检查</value>
+    <value>%AppName%重复启动检查</value>
   </data>
   <data name="TabMenuItem_ClickText1" xml:space="preserve">
     <value>(新建标签)</value>
@@ -538,7 +538,7 @@
     <value>   CLR运行时: {0}</value>
   </data>
   <data name="TraceOutText6" xml:space="preserve">
-    <value>   Tween.exe版本: {0}</value>
+    <value>   {0}.exe版本: {1}</value>
   </data>
   <data name="TweenAboutBox_LoadText2" xml:space="preserve">
     <value>版本 {0}</value>
@@ -565,7 +565,7 @@
     <value>CLR运行中: {0}</value>
   </data>
   <data name="UnhandledExceptionText7" xml:space="preserve">
-    <value>Tween.exe版本: {0}</value>
+    <value>{0}.exe版本: {1}</value>
   </data>
   <data name="UnhandledExceptionText8" xml:space="preserve">
     <value>异常 {0}: {1}</value>

@@ -246,7 +246,7 @@ namespace OpenTween
                     writer.WriteLine(Properties.Resources.TraceOutText3);
                     writer.WriteLine(Properties.Resources.TraceOutText4, Environment.OSVersion.VersionString);
                     writer.WriteLine(Properties.Resources.TraceOutText5, Environment.Version.ToString());
-                    writer.WriteLine(Properties.Resources.TraceOutText6, fileVersion);
+                    writer.WriteLine(Properties.Resources.TraceOutText6, MyCommon.GetAssemblyName(), fileVersion);
                     writer.WriteLine(Message);
                     writer.WriteLine();
                 }
@@ -362,13 +362,13 @@ namespace OpenTween
                     writer.WriteLine(Properties.Resources.UnhandledExceptionText4);
                     writer.WriteLine(Properties.Resources.UnhandledExceptionText5, Environment.OSVersion.VersionString);
                     writer.WriteLine(Properties.Resources.UnhandledExceptionText6, Environment.Version.ToString());
-                    writer.WriteLine(Properties.Resources.UnhandledExceptionText7, fileVersion);
+                    writer.WriteLine(Properties.Resources.UnhandledExceptionText7, MyCommon.GetAssemblyName(), fileVersion);
 
                     writer.Write(ExceptionOutMessage(ex, ref IsTerminatePermission));
                     writer.Flush();
                 }
 
-                switch (MessageBox.Show(string.Format(Properties.Resources.UnhandledExceptionText9, fileName, ApplicationSettings.FeedbackEmailAddress, ApplicationSettings.FeedbackTwitterName, Environment.NewLine),
+                switch (MessageBox.Show(MyCommon.ReplaceAppName(string.Format(Properties.Resources.UnhandledExceptionText9, fileName, ApplicationSettings.FeedbackEmailAddress, ApplicationSettings.FeedbackTwitterName, Environment.NewLine)),
                                    Properties.Resources.UnhandledExceptionText10, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Error))
                 {
                     case DialogResult.Yes:

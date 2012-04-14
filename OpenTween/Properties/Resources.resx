@@ -176,13 +176,13 @@
     <value>..\Resources\ChangeLog.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="CheckNewVersionText1" xml:space="preserve">
-    <value>Tween更新確認</value>
+    <value>%AppName%更新確認</value>
   </data>
   <data name="CheckNewVersionText10" xml:space="preserve">
     <value>更新版のバージョン取得に失敗しました。しばらく待ってから再度お試しください。</value>
   </data>
   <data name="CheckNewVersionText2" xml:space="preserve">
-    <value>Tween更新結果</value>
+    <value>%AppName%更新結果</value>
   </data>
   <data name="CheckNewVersionText3" xml:space="preserve">
     <value>新しいバージョン {0} が公開されています。更新しますか？</value>
@@ -341,7 +341,7 @@
     <value>マーク確認</value>
   </data>
   <data name="LoadConfigurationText1" xml:space="preserve">
-    <value>この設定ファイルは Tween により自動生成されました。手動で変更しないでください。</value>
+    <value>この設定ファイルは %AppName% により自動生成されました。手動で変更しないでください。</value>
   </data>
   <data name="MenuItemSearchNext_ClickText1" xml:space="preserve">
     <value>正規表現パターンが間違っています。</value>
@@ -521,10 +521,10 @@
     <value>読み込みページ数には数値（0～999）を指定してください。</value>
   </data>
   <data name="StartupText1" xml:space="preserve">
-    <value>Tweenは既に起動されています。2重起動する場合は、別フォルダのTween.exeを実行してください。</value>
+    <value>%AppName%は既に起動されています。2重起動する場合は、別フォルダの{0}.exeを実行してください。</value>
   </data>
   <data name="StartupText2" xml:space="preserve">
-    <value>Tween二重起動チェック</value>
+    <value>%AppName%二重起動チェック</value>
   </data>
   <data name="TabIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\3b.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -569,10 +569,10 @@
     <value>   オペレーティング システム: {0}</value>
   </data>
   <data name="TraceOutText5" xml:space="preserve">
-    <value>   共通言語ランタイム          : {0}</value>
+    <value>   共通言語ランタイム: {0}</value>
   </data>
   <data name="TraceOutText6" xml:space="preserve">
-    <value>   Tween.exeのバージョン    : {0}</value>
+    <value>   {0}.exeのバージョン: {1}</value>
   </data>
   <data name="TweenAboutBox_LoadText2" xml:space="preserve">
     <value>バージョン {0}</value>
@@ -596,10 +596,10 @@
     <value>   オペレーティング システム: {0}</value>
   </data>
   <data name="UnhandledExceptionText6" xml:space="preserve">
-    <value>   共通言語ランタイム          : {0}</value>
+    <value>   共通言語ランタイム: {0}</value>
   </data>
   <data name="UnhandledExceptionText7" xml:space="preserve">
-    <value>   Tween.exeのバージョン    : {0}</value>
+    <value>   {0}.exeのバージョン: {1}</value>
   </data>
   <data name="UnhandledExceptionText8" xml:space="preserve">
     <value>例外 {0}: {1}</value>

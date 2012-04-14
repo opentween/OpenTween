@@ -87,13 +87,13 @@ namespace OpenTween
                     if (!rslt)
                     {
                         // 警告を表示（見つからない、またはその他の原因で失敗）
-                        MessageBox.Show(Properties.Resources.StartupText1, Properties.Resources.StartupText2, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show(MyCommon.ReplaceAppName(Properties.Resources.StartupText1), MyCommon.ReplaceAppName(Properties.Resources.StartupText2), MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
                 else
                 {
                     // 警告を表示（プロセス見つからない場合）
-                    MessageBox.Show(Properties.Resources.StartupText1, Properties.Resources.StartupText2, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(MyCommon.ReplaceAppName(Properties.Resources.StartupText1), MyCommon.ReplaceAppName(Properties.Resources.StartupText2), MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }

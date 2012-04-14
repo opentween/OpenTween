@@ -628,14 +628,18 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
-        ///==== Ver 1.1.0.0(2011/10/17)
-        /// * NEW: 発言詳細部右上のSource部分を右クリックしたときにSource、URLをコピーできるように
-        /// * NEW: Growl対応 Growl for WindowsとC#/VB.NET用SDKに同梱されているGrowl.Connector.dll,Growl.CoreLibrary.dllをTween.exeと同じフォルダに置く必要があります。
-        /// * NEW: Favしていない発言がFavされていたり、またはその逆になっていることがあるTwitterのバグに対処。Favタブに発言が存在しない場合はFav扱いとしません。
-        /// * NEW: Ctrl-Shift-1～8を発言一覧の列見出しをクリックのショートカットキーに割り当ててソート操作をしやすくした。Ctrl-Shift-9は常に最後のカラムに対応する。
-        /// * NEW: 返信投稿時はハッシュタグを付加しない設定を追加（デフォルトオン）
-        /// * CHG: Favタブでの「前データの取得」を機能するように
-        /// * CHG: OS復帰時、または6時間ごとにTwitter [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ///==== Ver 1.0.2-beta1(2012/xx/xx)
+        /// * FIX: 発言詳細部においてUnicodeで追加された一部の文字が正しく表示されない問題を修正
+        ///
+        ///==== Ver 1.0.1(2012/04/09)
+        /// * FIX: OpenTweenアイコンが表示方法によって低解像度で表示されてしまう問題を修正
+        /// * FIX: リスト表示上での一部のショートカットキーが動作しない問題を修正
+        /// * FIX: 「常に最前面に表示」が有効な状態でバージョン情報ダイアログを表示できない問題を修正
+        /// * FIX: 「最小化したときにアイコン化する」が強制的にオンになる問題を修正
+        /// * FIX: STOT形式コピー時にprotectedユーザのつぶやきが混ざっているとエラーが発生する問題を修正 (thanks @tests_peer!)
+        /// * FIX: PublicSearchタブで、一度クリアしたツイートがタブ更新時に再び表示されてしまう問題を修正 (thanks @5px!)
+        /// * NEW: TwitrPixとPcklesのサムネイル画像表示に対応
+        /// * NEW: fb. [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
@@ -644,7 +648,7 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   Tween更新確認 に類似しているローカライズされた文字列を検索します。
+        ///   %AppName%更新確認 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string CheckNewVersionText1 {
             get {
@@ -662,7 +666,7 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   Tween更新結果 に類似しているローカライズされた文字列を検索します。
+        ///   %AppName%更新結果 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string CheckNewVersionText2 {
             get {
@@ -1545,7 +1549,7 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   この設定ファイルは Tween により自動生成されました。手動で変更しないでください。 に類似しているローカライズされた文字列を検索します。
+        ///   この設定ファイルは %AppName% により自動生成されました。手動で変更しないでください。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string LoadConfigurationText1 {
             get {
@@ -2481,7 +2485,7 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   Tweenは既に起動されています。2重起動する場合は、別フォルダのTween.exeを実行してください。 に類似しているローカライズされた文字列を検索します。
+        ///   %AppName%は既に起動されています。2重起動する場合は、別フォルダの{0}.exeを実行してください。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string StartupText1 {
             get {
@@ -2490,7 +2494,7 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   Tween二重起動チェック に類似しているローカライズされた文字列を検索します。
+        ///   %AppName%二重起動チェック に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string StartupText2 {
             get {
@@ -2767,7 +2771,7 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///      共通言語ランタイム          : {0} に類似しているローカライズされた文字列を検索します。
+        ///      共通言語ランタイム: {0} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string TraceOutText5 {
             get {
@@ -2776,7 +2780,7 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///      Tween.exeのバージョン    : {0} に類似しているローカライズされた文字列を検索します。
+        ///      {0}.exeのバージョン: {1} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string TraceOutText6 {
             get {
@@ -2893,7 +2897,7 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///      共通言語ランタイム          : {0} に類似しているローカライズされた文字列を検索します。
+        ///      共通言語ランタイム: {0} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string UnhandledExceptionText6 {
             get {
@@ -2902,7 +2906,7 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///      Tween.exeのバージョン    : {0} に類似しているローカライズされた文字列を検索します。
+        ///      {0}.exeのバージョン: {1} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string UnhandledExceptionText7 {
             get {
