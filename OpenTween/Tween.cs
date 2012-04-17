@@ -76,8 +76,8 @@ namespace OpenTween
         private const string detailHtmlFormatMono6 = ");\"><pre>";
         private const string detailHtmlFormatMono7 = "</pre></body></html>";
         private const string detailHtmlFormat1 = "<html><head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=10;IE=9;IE=8\"><style type=\"text/css\"><!-- p {font-family: \"";
-        private const string detailHtmlFormat6 = ");\"><p>";
-        private const string detailHtmlFormat7 = "</p></body></html>";
+        private const string detailHtmlFormat6 = ");\"><p><span style=\"vertical-align:text-bottom\">";
+        private const string detailHtmlFormat7 = "</span></p></body></html>";
         private string detailHtmlFormatHeader;
         private string detailHtmlFormatFooter;
         private bool _myStatusError = false;
