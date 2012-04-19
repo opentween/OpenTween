@@ -5080,7 +5080,44 @@ namespace OpenTween
             //}
             foreach (Match m in Regex.Matches(StatusText.Text, Twitter.rgUrl, RegexOptions.IgnoreCase))
             {
-                pLen += m.Result("${url}").Length - SettingDialog.TwitterConfiguration.ShortUrlLength;
+                string before = m.Result("${before}");
+                string url = m.Result("${url}");
+                string protocol = m.Result("${protocol}");
+                string domain = m.Result("${domain}");
+                string path = m.Result("${path}");
+                if (protocol.Length == 0)
+                {
+                    if (Regex.IsMatch(before, Twitter.url_invalid_without_protocol_preceding_chars))
+                    {
+                        continue;
+                    }
+
+                    bool last_url_invalid_match = false;
+                    string lasturl = null;
+                    foreach (Match mm in Regex.Matches(domain, Twitter.url_valid_ascii_domain, RegexOptions.IgnoreCase))
+                    {
+                        lasturl = mm.ToString();
+                        last_url_invalid_match = Regex.IsMatch(lasturl, Twitter.url_invalid_short_domain, RegexOptions.IgnoreCase);
+                        if (!last_url_invalid_match)
+                        {
+                            pLen += lasturl.Length - SettingDialog.TwitterConfiguration.ShortUrlLength;
+                        }
+                    }
+
+                    if (path.Length != 0)
+                    {
+                        if (last_url_invalid_match)
+                        {
+                            pLen += lasturl.Length - SettingDialog.TwitterConfiguration.ShortUrlLength;
+                        }
+                        pLen += path.Length;
+                    }
+                }
+                else
+                {
+                    pLen += url.Length - SettingDialog.TwitterConfiguration.ShortUrlLength;
+                }
+                
                 //if (m.Result("${url}").Length > SettingDialog.TwitterConfiguration.ShortUrlLength)
                 //{
                 //    pLen += m.Result("${url}").Length - SettingDialog.TwitterConfiguration.ShortUrlLength;
