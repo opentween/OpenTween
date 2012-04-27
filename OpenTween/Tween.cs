@@ -84,6 +84,7 @@ namespace OpenTween
         private bool _myStatusOnline = false;
         private bool soundfileListup = false;
         private SpaceKeyCanceler _spaceKeyCanceler;
+		private FormWindowState _formWindowState = FormWindowState.Normal; // フォームの状態保存用 通知領域からアイコンをクリックして復帰した際に使用する
 
         //設定ファイル関連
         //private SettingToConfig _cfg; //旧
@@ -3272,7 +3273,7 @@ namespace OpenTween
                 this.Visible = true;
                 if (this.WindowState == FormWindowState.Minimized)
                 {
-                    this.WindowState = FormWindowState.Normal;
+					this.WindowState = _formWindowState;
                 }
                 this.Activate();
                 this.BringToFront();
@@ -9551,6 +9552,10 @@ namespace OpenTween
                 }
                 _initialLayout = false;
             }
+			if (this.WindowState != FormWindowState.Minimized)
+			{
+				_formWindowState = this.WindowState;
+			}
         }
 
         private void PlaySoundMenuItem_CheckedChanged(object sender, EventArgs e)
