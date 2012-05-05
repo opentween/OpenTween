@@ -26,6 +26,12 @@ using System.Text;
 
 namespace OpenTween
 {
+    /// <summary>
+    /// アプリケーション固有の情報を格納します
+    /// </summary>
+    /// <remarks>
+    /// OpenTween の派生版を作る方法は http://sourceforge.jp/projects/opentween/wiki/HowToFork を参照して下さい。
+    /// </remarks>
     internal sealed class ApplicationSettings
     {
         //=====================================================================
