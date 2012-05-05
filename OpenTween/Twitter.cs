@@ -46,6 +46,25 @@ namespace OpenTween
 {
     public class Twitter : IDisposable
     {
+        #region Regexp from twitter-text-js
+
+        // The code in this region code block incorporates works covered by
+        // the following copyright and permission notices:
+        //
+        //   Copyright 2011 Twitter, Inc.
+        //
+        //   Licensed under the Apache License, Version 2.0 (the "License"); you
+        //   may not use this work except in compliance with the License. You
+        //   may obtain a copy of the License in the LICENSE file, or at:
+        //
+        //   http://www.apache.org/licenses/LICENSE-2.0
+        //
+        //   Unless required by applicable law or agreed to in writing, software
+        //   distributed under the License is distributed on an "AS IS" BASIS,
+        //   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+        //   implied. See the License for the specific language governing
+        //   permissions and limitations under the License.
+
         //Hashtag用正規表現
         private const string LATIN_ACCENTS = @"\xc0-\xd6\xd8-\xf6\xf8-\xff";
         private const string NON_LATIN_HASHTAG_CHARS = @"\u0400-\u04ff\u0500-\u0527\u1100-\u11ff\u3130-\u3185\uA960-\uA97F\uAC00-\uD7AF\uD7B0-\uD7FF";
@@ -77,6 +96,9 @@ namespace OpenTween
                                     pth2 +
                                     qry +
                                     ")";
+
+        #endregion
+
         delegate void GetIconImageDelegate(PostClass post);
         private readonly object LockObj = new object();
         private List<long> followerId = new List<long>();
