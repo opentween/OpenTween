@@ -74,22 +74,22 @@ namespace OpenTween
 		/// <summary>
 		/// OAuthのアクセストークン。永続化可能（ユーザー取り消しの可能性はある）。
 		/// </summary>
-		private string token = "";
+		private string token = "344338139-rdxAp6Xjq4Bs3tErlcU9jHnJTbxGMsKI06KqBree";
 
 		/// <summary>
 		/// OAuthの署名作成用秘密アクセストークン。永続化可能（ユーザー取り消しの可能性はある）。
 		/// </summary>
-		private string tokenSecret = "";
+		private string tokenSecret = "vWrzu0s85XkTRppxkKau4hOXVSiNCkJs9fJCaUwW0e4";
 
 		/// <summary>
 		/// OAuthのコンシューマー鍵
 		/// </summary>
-		private string consumerKey;
+		private string consumerKey = "fudj0ltdWVHpdfuIxsNaQ";
 
 		/// <summary>
 		/// OAuthの署名作成用秘密コンシューマーデータ
 		/// </summary>
-		protected string consumerSecret;
+		protected string consumerSecret = "TswIPbEvweWdLo7rIWCetmGnwDBZfifOsaBhlGfPBo";
 
 		/// <summary>
 		/// 認証成功時の応答でユーザー情報を取得する場合のキー。設定しない場合は、AuthUsernameもブランクのままとなる
