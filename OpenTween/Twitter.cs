@@ -2174,7 +2174,7 @@ namespace OpenTween
             post.TextFromApi = textFromApi;
             post.TextFromApi = this.ReplaceTextFromApi(post.TextFromApi, entities);
             post.TextFromApi = HttpUtility.HtmlDecode(post.TextFromApi);
-            post.TextFromApi = post.TextFromApi.Replace("<3", "?");
+            post.TextFromApi = post.TextFromApi.Replace("<3", "\u2661");
 
             //Source整形
             CreateSource(ref post);
@@ -2847,7 +2847,7 @@ namespace OpenTween
                     //HTMLに整形
                     post.Text = CreateHtmlAnchor(post.TextFromApi, post.ReplyToList, post.Media);
                     post.TextFromApi = HttpUtility.HtmlDecode(post.TextFromApi);
-                    post.TextFromApi = post.TextFromApi.Replace("<3", "?");
+                    post.TextFromApi = post.TextFromApi.Replace("<3", "\u2661");
                     post.IsFav = false;
 
                     //以下、ユーザー情報
@@ -3122,7 +3122,7 @@ namespace OpenTween
                     post.TextFromApi = textFromApi;
                     post.TextFromApi = this.ReplaceTextFromApi(post.TextFromApi, entities);
                     post.TextFromApi = HttpUtility.HtmlDecode(post.TextFromApi);
-                    post.TextFromApi = post.TextFromApi.Replace("<3", "?");
+                    post.TextFromApi = post.TextFromApi.Replace("<3", "\u2661");
                     //Source整形
                     CreateSource(ref post);
 
