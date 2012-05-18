@@ -4239,7 +4239,10 @@ namespace OpenTween
                 {
                     //ハッシュタグの場合は、タブで開く
                     string urlStr = HttpUtility.UrlDecode(e.Url.AbsoluteUri);
-                    string hash = urlStr.Substring(urlStr.IndexOf("#"));
+                    int i = urlStr.IndexOf('#');
+                    if (i == -1) return;
+
+                    string hash = urlStr.Substring(i);
                     HashSupl.AddItem(hash);
                     HashMgr.AddHashToHistory(hash.Trim(), false);
                     AddNewTabForSearch(hash);
