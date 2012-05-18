@@ -1656,7 +1656,7 @@ namespace OpenTween
         public string GetVersionInfo()
         {
             var content = "";
-            if (!(new HttpVarious()).GetData("http://tween.sourceforge.jp/version.txt?" + DateTime.Now.ToString("yyMMddHHmmss") + Environment.TickCount.ToString(), null, out content, MyCommon.GetUserAgentString()))
+            if (!(new HttpVarious()).GetData(ApplicationSettings.VersionInfoUrl + "?" + DateTime.Now.ToString("yyMMddHHmmss") + Environment.TickCount.ToString(), null, out content, MyCommon.GetUserAgentString()))
             {
                 throw new Exception("GetVersionInfo Failed");
             }

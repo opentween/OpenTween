@@ -5979,10 +5979,57 @@ namespace OpenTween
 
         private void CheckNewVersion(bool startup = false)
         {
-            // TODO 自動アップデート機能の実装
-            if (!startup)
+            if (string.IsNullOrEmpty(MyCommon.fileVersion))
             {
-                MessageBox.Show(this, "OpenTween の自動アップデート機能は未実装です。OpenTween のウェブサイトで更新を確認し手動でアップデートしてください。", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            string retMsg;
+            try
+            {
+                retMsg = tw.GetVersionInfo();
+            }
+            catch
+            {
+                retMsg = "";
+            }
+
+            if (string.IsNullOrEmpty(retMsg))
+            {
+                StatusLabel.Text = Properties.Resources.CheckNewVersionText9;
+                if (!startup) MessageBox.Show(Properties.Resources.CheckNewVersionText10, MyCommon.ReplaceAppName(Properties.Resources.CheckNewVersionText2), MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
+                return;
+            }
+
+            // 改行2つで前後パートを分割（前半がバージョン番号など、後半が詳細テキスト）
+            string[] msgPart = retMsg.Split(new string[] {"\n\n", "\r\n\r\n"}, 2, StringSplitOptions.None);
+
+            string[] msgHeader = msgPart[0].Split(new string[] {"\n", "\r\n"}, StringSplitOptions.None);
+            string msgBody = msgPart.Length == 2 ? msgPart[1] : "";
+
+            msgBody = Regex.Replace(msgBody, "(?<!\r)\n", "\r\n"); // LF -> CRLF
+
+            string currentVersion = msgHeader[0];
+            string downloadUrl = msgHeader[1];
+
+            if (currentVersion.Replace(".", "").CompareTo(MyCommon.fileVersion.Replace(".", "")) > 0)
+            {
+                string dialogText = string.Format(Properties.Resources.CheckNewVersionText3, MyCommon.GetReadableVersion(currentVersion));
+                using (DialogAsShieldIcon dialog = new DialogAsShieldIcon())
+                {
+                    DialogResult ret = dialog.ShowDialog(this, dialogText, msgBody, MyCommon.ReplaceAppName(Properties.Resources.CheckNewVersionText1), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (ret == DialogResult.Yes)
+                    {
+                        this.OpenUriAsync(downloadUrl);
+                    }
+                }
+            }
+            else
+            {
+                if (!startup)
+                {
+                    MessageBox.Show(Properties.Resources.CheckNewVersionText7 + MyCommon.GetReadableVersion() + Properties.Resources.CheckNewVersionText8 + MyCommon.GetReadableVersion(currentVersion), MyCommon.ReplaceAppName(Properties.Resources.CheckNewVersionText2), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
         }
 

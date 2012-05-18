@@ -65,6 +65,17 @@ namespace OpenTween
         public const string ShortcutKeyUrl = "http://sourceforge.jp/projects/tween/wiki/%E3%82%B7%E3%83%A7%E3%83%BC%E3%83%88%E3%82%AB%E3%83%83%E3%83%88%E3%82%AD%E3%83%BC";
 
         //=====================================================================
+        // アップデートチェック関連
+
+        /// <summary>
+        /// 最新バージョンの情報を取得するためのURL
+        /// </summary>
+        /// <remarks>
+        /// version.txt のフォーマットについては http://sourceforge.jp/projects/opentween/wiki/VersionTxt を参照。
+        /// </remarks>
+        public const string VersionInfoUrl = "http://www.opentween.org/status/version.txt";
+
+        //=====================================================================
         // Twitter
         // https://dev.twitter.com/ から取得できます。
 

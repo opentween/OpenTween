@@ -815,15 +815,22 @@ namespace OpenTween
         /// <remarks>
         /// バージョン1.0.0.1のように末尾が0でない（＝開発版）の場合は「1.0.1-beta1」が出力される
         /// </remarks>
-        /// <returns></returns>
-        public static string GetReadableVersion()
+        /// <returns>
+        /// 生成されたバージョン番号の文字列
+        /// </returns>
+        public static string GetReadableVersion(string fileVersion = null)
         {
-            if (string.IsNullOrEmpty(MyCommon.fileVersion))
+            if (fileVersion == null)
+            {
+                fileVersion = MyCommon.fileVersion;
+            }
+
+            if (string.IsNullOrEmpty(fileVersion))
             {
                 return null;
             }
 
-            int[] version = MyCommon.fileVersion.Split('.')
+            int[] version = fileVersion.Split('.')
                 .Select(x => int.Parse(x)).ToArray();
 
             if (version[3] == 0)
