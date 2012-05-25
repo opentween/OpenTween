@@ -98,7 +98,6 @@
             this.SelectionSearchContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SearchGoogleContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SearchWikipediaContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.SearchYatsContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SearchPublicSearchContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CurrentTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
@@ -946,7 +945,6 @@
             this.SelectionSearchContextMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.SearchGoogleContextMenuItem,
             this.SearchWikipediaContextMenuItem,
-            this.SearchYatsContextMenuItem,
             this.SearchPublicSearchContextMenuItem,
             this.CurrentTabToolStripMenuItem});
             this.SelectionSearchContextMenuItem.Name = "SelectionSearchContextMenuItem";
@@ -963,12 +961,6 @@
             this.SearchWikipediaContextMenuItem.Name = "SearchWikipediaContextMenuItem";
             resources.ApplyResources(this.SearchWikipediaContextMenuItem, "SearchWikipediaContextMenuItem");
             this.SearchWikipediaContextMenuItem.Click += new System.EventHandler(this.SearchWikipediaContextMenuItem_Click);
-            // 
-            // SearchYatsContextMenuItem
-            // 
-            this.SearchYatsContextMenuItem.Name = "SearchYatsContextMenuItem";
-            resources.ApplyResources(this.SearchYatsContextMenuItem, "SearchYatsContextMenuItem");
-            this.SearchYatsContextMenuItem.Click += new System.EventHandler(this.SearchYatsContextMenuItem_Click);
             // 
             // SearchPublicSearchContextMenuItem
             // 
@@ -2567,7 +2559,6 @@
         internal System.Windows.Forms.ToolStripMenuItem SelectionSearchContextMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem SearchGoogleContextMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem SearchWikipediaContextMenuItem;
-        internal System.Windows.Forms.ToolStripMenuItem SearchYatsContextMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem SearchPublicSearchContextMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem CurrentTabToolStripMenuItem;
         internal System.Windows.Forms.ToolStripSeparator ToolStripSeparator13;
