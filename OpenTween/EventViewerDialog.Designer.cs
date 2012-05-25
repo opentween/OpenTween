@@ -235,9 +235,9 @@
             // 
             // EventViewerDialog
             // 
-            this.AcceptButton = this.OK_Button;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.OK_Button;
             this.Controls.Add(this.SaveLogButton);
             this.Controls.Add(this.CheckBoxFilter);
             this.Controls.Add(this.CheckRegex);
