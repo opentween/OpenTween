@@ -1,5 +1,7 @@
 ﻿更新履歴
 
+==== Ver 1.0.4-beta1(2012/xx/xx)
+
 ==== Ver 1.0.3(2012/05/26)
  * NEW: via.me のサムネイル表示に対応
  * CHG: yats-data.comのTwitter検索を削除 (サイト閉鎖のため)
