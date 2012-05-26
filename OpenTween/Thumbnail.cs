@@ -689,7 +689,7 @@ namespace OpenTween
             if (mc.Success)
             {
                 // TODO 成功時はサムネイルURLを作成しimglist.Addする
-                args.imglist.Add(new KeyValuePair<string, string>(args.url, (string.IsNullOrEmpty(args.extended) ? args.url : args.extended) + ".th.jpg"));
+                args.imglist.Add(new KeyValuePair<string, string>(args.url, (string.IsNullOrEmpty(args.extended) ? args.url : args.extended) + ":small"));
                 return true;
             }
             else
