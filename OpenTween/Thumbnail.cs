@@ -32,8 +32,12 @@ using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
+using System.Xml.Linq;
+using System.Xml.XPath;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Collections;
+using System.Linq;
 
 namespace OpenTween
 {
@@ -169,6 +173,7 @@ namespace OpenTween
                 new ThumbnailService("Twimg", Twimg_GetUrl, Twimg_CreateImage),
                 new ThumbnailService("TwitrPix", TwitrPix_GetUrl, TwitrPix_CreateImage),
                 new ThumbnailService("Pckles", Pckles_GetUrl, Pckles_CreateImage),
+                new ThumbnailService("via.me", ViaMe_GetUrl, ViaMe_CreateImage),
             };
         }
 
@@ -3233,6 +3238,81 @@ namespace OpenTween
             args.pics.Add(new KeyValuePair<string, Image>(args.url.Key, img));
             args.tooltipText.Add(new KeyValuePair<string, string>(args.url.Key, ""));
             return true;
+        }
+
+        #endregion
+
+        #region via.me
+
+        /// <summary>
+        /// URL解析部で呼び出されるサムネイル画像URL作成デリゲート
+        /// </summary>
+        /// <param name="args">class GetUrlArgs
+        ///                                 args.url        URL文字列
+        ///                                 args.imglist    解析成功した際にこのリストに元URL、サムネイルURLの形で作成するKeyValuePair
+        /// </param>
+        /// <returns>成功した場合True,失敗の場合False</returns>
+        /// <remarks>args.imglistには呼び出しもとで使用しているimglistをそのまま渡すこと</remarks>
+
+        private bool ViaMe_GetUrl(GetUrlArgs args)
+        {
+            // TODO URL判定処理を記述
+            var mc = Regex.Match(string.IsNullOrEmpty(args.extended) ? args.url : args.extended,
+                                 @"^https?://via\.me/-(\w+)$", RegexOptions.IgnoreCase);
+            if (mc.Success)
+            {
+                // TODO 成功時はサムネイルURLを作成しimglist.Addする
+                args.imglist.Add(new KeyValuePair<string, string>(args.url, mc.Value));
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// BackgroundWorkerから呼び出されるサムネイル画像作成デリゲート
+        /// </summary>
+        /// <param name="args">class CreateImageArgs
+        ///                                 KeyValuePair<string, string> url                  元URLとサムネイルURLのKeyValuePair
+        ///                                 List<KeyValuePair<string, Image>> pics         元URLとサムネイル画像のKeyValuePair
+        ///                                 List<KeyValuePair<string, string>> tooltiptext 元URLとツールチップテキストのKeyValuePair
+        ///                                 string errmsg                                        取得に失敗した際のエラーメッセージ
+        /// </param>
+        /// <returns>サムネイル画像作成に成功した場合はTrue,失敗した場合はFalse
+        /// なお失敗した場合はargs.errmsgにエラーを表す文字列がセットされる</returns>
+        /// <remarks></remarks>
+        private bool ViaMe_CreateImage(CreateImageArgs args)
+        {
+            var mc = Regex.Match(args.url.Value, @"^https?://via\.me/-(\w+)$", RegexOptions.IgnoreCase);
+            var apiUrl = mc.Result("http://via.me/api/v1/posts/$1");
+
+            var src = "";
+            if ((new HttpVarious()).GetData(apiUrl, null, out src, 0, out args.errmsg, MyCommon.GetUserAgentString()))
+            {
+                using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(src), XmlDictionaryReaderQuotas.Max))
+                {
+                    var xElm = XElement.Load(jsonReader);
+                    var thumbUrlElm = ((IEnumerable)xElm.XPathEvaluate("/response/post/thumb_url/text()")).Cast<XText>().FirstOrDefault();
+                    if (thumbUrlElm == null)
+                    {
+                        return false;
+                    }
+
+                    var thumbUrl = thumbUrlElm.Value;
+
+                    // TODO: サムネイル画像読み込み処理を記述します
+                    var img = (new HttpVarious()).GetImage(thumbUrl, args.url.Key, 10000, out args.errmsg);
+                    if (img == null)
+                    {
+                        return false;
+                    }
+                    // 成功した場合はURLに対応する画像、ツールチップテキストを登録
+                    args.pics.Add(new KeyValuePair<string, Image>(args.url.Key, img));
+                    args.tooltipText.Add(new KeyValuePair<string, string>(args.url.Key, ""));
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         #endregion

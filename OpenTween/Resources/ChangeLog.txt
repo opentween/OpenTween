@@ -1,6 +1,7 @@
 ﻿更新履歴
 
 ==== Ver 1.0.3-beta1(2012/xx/xx)
+ * NEW: via.me のサムネイル表示に対応
  * CHG: yats-data.comのTwitter検索を削除 (サイト閉鎖のため)
  * FIX: UserStreamsのイベントログ表示をEscキーで閉じられない問題を修正
  * FIX: yfrogのサムネイルURL仕様変更に対応
