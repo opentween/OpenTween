@@ -5,6 +5,7 @@
  * CHG: yats-data.comのTwitter検索を削除 (サイト閉鎖のため)
  * FIX: UserStreamsのイベントログ表示をEscキーで閉じられない問題を修正
  * FIX: yfrogのサムネイルURL仕様変更に対応
+ * FIX: ツイートに含まれるpixivのイラストURLの判定を修正
 
 ==== Ver 1.0.2(2012/05/19)
  * NEW: アップデート確認機能を追加

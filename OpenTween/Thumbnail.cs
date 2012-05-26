@@ -1673,7 +1673,7 @@ namespace OpenTween
             //サムネイルURLは画像ページから抽出する
             // TODO URL判定処理を記述
             var mc = Regex.Match(string.IsNullOrEmpty(args.extended) ? args.url : args.extended,
-                                 @"^http://www\.pixiv\.net/(member_illust|index)\.php\?mode=(medium|big)&(amp;)?illust_id=(?<illustId>[0-9]+)(&(amp;)?tag=(?<tag>.+)?)*$", RegexOptions.IgnoreCase);
+                                 @"^http://www\.pixiv\.net/(member_illust|index)\.php\?(|.+&(amp;)?)illust_id=(?<illustId>[0-9]+)(&(amp;)?.+|$)", RegexOptions.IgnoreCase);
             if (mc.Success)
             {
                 // TODO 成功時はサムネイルURLを作成しimglist.Addする
@@ -1703,7 +1703,7 @@ namespace OpenTween
             // TODO: サムネイル画像読み込み処理を記述します
             var src = "";
             //illustIDをキャプチャ
-            var mc = Regex.Match(args.url.Value, @"^http://www\.pixiv\.net/(member_illust|index)\.php\?mode=(medium|big)&(amp;)?illust_id=(?<illustId>[0-9]+)(&(amp;)?tag=(?<tag>.+)?)*$", RegexOptions.IgnoreCase);
+            var mc = Regex.Match(args.url.Value, @"^http://www\.pixiv\.net/(member_illust|index)\.php\?(?=.*mode=(medium|big))(?=.*illust_id=(?<illustId>[0-9]+))(?=.*tag=(?<tag>[^&]+)?)?.*$", RegexOptions.IgnoreCase);
             if (mc.Groups["tag"].Value == "R-18" || mc.Groups["tag"].Value == "R-18G")
             {
                 args.errmsg = "NotSupported";
