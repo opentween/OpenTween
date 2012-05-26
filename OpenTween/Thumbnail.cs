@@ -3208,7 +3208,7 @@ namespace OpenTween
             if (mc.Success)
             {
                 // TODO 成功時はサムネイルURLを作成しimglist.Addする
-                args.imglist.Add(new KeyValuePair<string, string>(args.url, mc.Result("http://pckles.com/api/data.get?userid=$1&fileid=$2&type=resize")));
+                args.imglist.Add(new KeyValuePair<string, string>(args.url, mc.Result("http://pckles.com/api/data.get?userid=$1&fileid=$2&type=raw")));
                 return true;
             }
             return false;
