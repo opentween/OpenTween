@@ -539,8 +539,8 @@ namespace OpenTween
             }
         }
 
-        private static bool IsEditing = false;
-        private static string ButtonEditText = "";
+        private bool IsEditing = false;
+        private string ButtonEditText = "";
 
         private void ButtonEdit_Click(object sender, EventArgs e)
         {
