@@ -4695,7 +4695,7 @@ namespace OpenTween
                 if (ListTab.TabPages[idx].Text == TabName) break;
             }
 
-            if (_statuses.IsDefaultTab(TabName)) return false;
+            if (_statuses.IsDefaultTab(TabName) || _statuses.Tabs[TabName].Locked) return false;
 
             if (confirm)
             {
@@ -8669,27 +8669,52 @@ namespace OpenTween
 
         private void TabMenuControl(string tabName)
         {
-            if (_statuses.Tabs[tabName].TabType != MyCommon.TabUsageType.Mentions && _statuses.IsDefaultTab(tabName))
+            this.FilterEditMenuItem.Enabled = true;
+            this.EditRuleTbMenuItem.Enabled = true;
+
+            if (_statuses.IsDefaultTab(tabName))
             {
-                FilterEditMenuItem.Enabled = true;
-                this.EditRuleTbMenuItem.Enabled = true;
-                DeleteTabMenuItem.Enabled = false;
-                this.DeleteTbMenuItem.Enabled = false;
+                this.LockTabMenuItem.Enabled = false;
+                this.LockTbMenuItem.Enabled = false;
             }
-            else if (_statuses.Tabs[tabName].TabType == MyCommon.TabUsageType.Mentions)
+            else
             {
-                FilterEditMenuItem.Enabled = true;
-                this.EditRuleTbMenuItem.Enabled = true;
-                DeleteTabMenuItem.Enabled = false;
+                this.LockTabMenuItem.Enabled = true;
+                this.LockTbMenuItem.Enabled = true;
+            }
+
+            if (_statuses.IsDefaultTab(tabName) || _statuses.Tabs[tabName].Locked)
+            {
+                this.LockTabMenuItem.Checked = true;
+                this.LockTbMenuItem.Checked = true;
+                this.DeleteTabMenuItem.Enabled = false;
                 this.DeleteTbMenuItem.Enabled = false;
             }
             else
             {
-                FilterEditMenuItem.Enabled = true;
-                this.EditRuleTbMenuItem.Enabled = true;
-                DeleteTabMenuItem.Enabled = true;
+                this.LockTabMenuItem.Checked = false;
+                this.LockTbMenuItem.Checked = false;
+                this.DeleteTabMenuItem.Enabled = true;
                 this.DeleteTbMenuItem.Enabled = true;
             }
+        }
+
+        private void LockTabMenuItem_Click(object sender, EventArgs e)
+        {
+            var checkState = ((ToolStripMenuItem)sender).Checked;
+
+            // チェック状態を同期
+            this.LockTbMenuItem.Checked = checkState;
+            this.LockTabMenuItem.Checked = checkState;
+
+            // ロック中はタブの削除を無効化
+            this.DeleteTabMenuItem.Enabled = !checkState;
+            this.DeleteTbMenuItem.Enabled = !checkState;
+
+            if (string.IsNullOrEmpty(_rclickTabName)) return;
+            _statuses.Tabs[_rclickTabName].Locked = checkState;
+
+            SaveConfigsTabs();
         }
 
         private void UreadManageMenuItem_Click(object sender, EventArgs e)

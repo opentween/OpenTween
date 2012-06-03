@@ -685,7 +685,7 @@
     <value>GroupTab</value>
   </data>
   <data name="&gt;&gt;LabelTabType.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="ListTabs.ItemHeight" type="System.Int32, mscorlib">
     <value>12</value>
@@ -709,7 +709,7 @@
     <value>GroupTab</value>
   </data>
   <data name="&gt;&gt;ListTabs.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="ButtonDown.Font" type="System.Drawing.Font, System.Drawing">
     <value>Marlett, 9pt, style=Bold</value>
@@ -739,7 +739,7 @@
     <value>GroupTab</value>
   </data>
   <data name="&gt;&gt;ButtonDown.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="ButtonAddTab.Location" type="System.Drawing.Point, System.Drawing">
     <value>8, 237</value>
@@ -763,7 +763,7 @@
     <value>GroupTab</value>
   </data>
   <data name="&gt;&gt;ButtonAddTab.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="ButtonNew.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 209</value>
@@ -814,7 +814,7 @@
     <value>GroupTab</value>
   </data>
   <data name="&gt;&gt;ButtonUp.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="ButtonDeleteTab.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -841,13 +841,16 @@
     <value>GroupTab</value>
   </data>
   <data name="&gt;&gt;ButtonDeleteTab.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
+  </data>
+  <data name="Label10.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
   </data>
   <data name="Label10.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="Label10.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 412</value>
+    <value>6, 430</value>
   </data>
   <data name="Label10.Size" type="System.Drawing.Size, System.Drawing">
     <value>66, 12</value>
@@ -868,7 +871,7 @@
     <value>GroupTab</value>
   </data>
   <data name="&gt;&gt;Label10.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="ButtonRenameTab.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -895,7 +898,40 @@
     <value>GroupTab</value>
   </data>
   <data name="&gt;&gt;ButtonRenameTab.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
+  </data>
+  <data name="CheckLocked.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="CheckLocked.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckLocked.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CheckLocked.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 367</value>
+  </data>
+  <data name="CheckLocked.Size" type="System.Drawing.Size, System.Drawing">
+    <value>65, 16</value>
+  </data>
+  <data name="CheckLocked.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="CheckLocked.Text" xml:space="preserve">
+    <value>タブ固定</value>
+  </data>
+  <data name="&gt;&gt;CheckLocked.Name" xml:space="preserve">
+    <value>CheckLocked</value>
+  </data>
+  <data name="&gt;&gt;CheckLocked.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckLocked.Parent" xml:space="preserve">
+    <value>GroupTab</value>
+  </data>
+  <data name="&gt;&gt;CheckLocked.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="Label13.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -922,10 +958,13 @@
     <value>GroupTab</value>
   </data>
   <data name="&gt;&gt;Label13.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
+  </data>
+  <data name="ComboSound.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
   </data>
   <data name="ComboSound.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 427</value>
+    <value>8, 445</value>
   </data>
   <data name="ComboSound.Size" type="System.Drawing.Size, System.Drawing">
     <value>113, 20</value>
@@ -943,19 +982,22 @@
     <value>GroupTab</value>
   </data>
   <data name="&gt;&gt;ComboSound.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
+  </data>
+  <data name="CheckManageRead.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
   </data>
   <data name="CheckManageRead.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="CheckManageRead.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 371</value>
+    <value>8, 389</value>
   </data>
   <data name="CheckManageRead.Size" type="System.Drawing.Size, System.Drawing">
     <value>72, 16</value>
   </data>
   <data name="CheckManageRead.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="CheckManageRead.Text" xml:space="preserve">
     <value>未読管理</value>
@@ -970,7 +1012,10 @@
     <value>GroupTab</value>
   </data>
   <data name="&gt;&gt;CheckManageRead.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
+  </data>
+  <data name="CheckNotifyNew.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
   </data>
   <data name="CheckNotifyNew.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -979,13 +1024,13 @@
     <value>NoControl</value>
   </data>
   <data name="CheckNotifyNew.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 393</value>
+    <value>8, 411</value>
   </data>
   <data name="CheckNotifyNew.Size" type="System.Drawing.Size, System.Drawing">
     <value>96, 16</value>
   </data>
   <data name="CheckNotifyNew.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="CheckNotifyNew.Text" xml:space="preserve">
     <value>新着通知表示</value>
@@ -1000,13 +1045,13 @@
     <value>GroupTab</value>
   </data>
   <data name="&gt;&gt;CheckNotifyNew.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="GroupTab.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 9</value>
   </data>
   <data name="GroupTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>127, 459</value>
+    <value>127, 477</value>
   </data>
   <data name="GroupTab.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>

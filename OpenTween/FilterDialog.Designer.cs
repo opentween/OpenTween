@@ -59,6 +59,7 @@
             this.Label10 = new System.Windows.Forms.Label();
             this.ButtonRenameTab = new System.Windows.Forms.Button();
             this.GroupTab = new System.Windows.Forms.GroupBox();
+            this.CheckLocked = new System.Windows.Forms.CheckBox();
             this.Label13 = new System.Windows.Forms.Label();
             this.ComboSound = new System.Windows.Forms.ComboBox();
             this.CheckManageRead = new System.Windows.Forms.CheckBox();
@@ -294,6 +295,7 @@
             // 
             // GroupTab
             // 
+            this.GroupTab.Controls.Add(this.CheckLocked);
             this.GroupTab.Controls.Add(this.LabelTabType);
             this.GroupTab.Controls.Add(this.Label13);
             this.GroupTab.Controls.Add(this.ListTabs);
@@ -310,6 +312,13 @@
             this.GroupTab.Name = "GroupTab";
             this.GroupTab.TabStop = false;
             // 
+            // CheckLocked
+            // 
+            resources.ApplyResources(this.CheckLocked, "CheckLocked");
+            this.CheckLocked.Name = "CheckLocked";
+            this.CheckLocked.UseVisualStyleBackColor = true;
+            this.CheckLocked.CheckedChanged += new System.EventHandler(this.CheckLocked_CheckedChanged);
+            // 
             // Label13
             // 
             resources.ApplyResources(this.Label13, "Label13");
@@ -317,8 +326,8 @@
             // 
             // ComboSound
             // 
-            this.ComboSound.FormattingEnabled = true;
             resources.ApplyResources(this.ComboSound, "ComboSound");
+            this.ComboSound.FormattingEnabled = true;
             this.ComboSound.Name = "ComboSound";
             this.ComboSound.SelectedIndexChanged += new System.EventHandler(this.ComboSound_SelectedIndexChanged);
             // 
@@ -676,5 +685,6 @@
         internal System.Windows.Forms.TextBox MSG1;
         internal System.Windows.Forms.TextBox MSG2;
         internal System.Windows.Forms.GroupBox GroupBox1;
+        internal System.Windows.Forms.CheckBox CheckLocked;
     }
 }
