@@ -1293,62 +1293,55 @@ namespace OpenTween
 
         public string GetStatus_Retweeted_Count(long StatusId, ref int retweeted_count)
         {
-            if (MyCommon._endingFlag) return "";
-
             if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
+
+            if (MyCommon._endingFlag) return "";
 
             HttpStatusCode res = HttpStatusCode.BadRequest;
             var content = "";
 
-            retweeted_count = 0;
-
-            // 注：dev.twitter.comに記述されているcountパラメータは間違い。100が正しい
-            for (int i = 1; i <= 100; i++)
+            try
             {
-                try
-                {
-                    res = twCon.Statusid_retweeted_by_ids(StatusId, 100, i, ref content);
-                }
-                catch(Exception ex)
-                {
-                    return "Err:" + ex.Message;
-                }
-
-                switch (res)
-                {
-                    case HttpStatusCode.OK:
-                        try
-                        {
-                            var ids = MyCommon.CreateDataFromJson<Int64[]>(content);
-                            retweeted_count += ids.Length;
-                            if (ids.Length < 100) goto exit_for;
-                        }
-                        catch (SerializationException ex)
-                        {
-                            retweeted_count = -1;
-                            MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                            return "Err:Json Parse Error(DataContractJsonSerializer)";
-                        }
-                        catch (Exception ex)
-                        {
-                            retweeted_count = -1;
-                            MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                            return "Err:Invalid Json!";
-                        }
-                        break;
-                    case HttpStatusCode.BadRequest:
-                        retweeted_count = -1;
-                        return "Err:API Limits?";
-                    case HttpStatusCode.Unauthorized:
-                        retweeted_count = -1;
-                        Twitter.AccountState = MyCommon.ACCOUNT_STATE.Invalid;
-                        return Properties.Resources.Unauthorized;
-                    default:
-                        retweeted_count = -1;
-                        return "Err:" + res.ToString() + "(" + MethodBase.GetCurrentMethod().Name + ")";
-                }
+                res = twCon.ShowStatuses(StatusId, ref content);
             }
-        exit_for:
+            catch (Exception ex)
+            {
+                return "Err:" + ex.Message;
+            }
+            switch (res)
+            {
+                case HttpStatusCode.OK:
+                    Twitter.AccountState = MyCommon.ACCOUNT_STATE.Valid;
+                    break;
+                case HttpStatusCode.Unauthorized:
+                    Twitter.AccountState = MyCommon.ACCOUNT_STATE.Invalid;
+                    return Properties.Resources.Unauthorized;
+                case HttpStatusCode.BadRequest:
+                    return "Err:API Limits?";
+                case HttpStatusCode.Forbidden:
+                    return "Err:protected user's tweet";
+                default:
+                    return "Err:" + res.ToString() + "(" + MethodBase.GetCurrentMethod().Name + ")";
+            }
+
+            TwitterDataModel.Status status;
+            try
+            {
+                status = MyCommon.CreateDataFromJson<TwitterDataModel.Status>(content);
+            }
+            catch (SerializationException ex)
+            {
+                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
+                return "Json Parse Error(DataContractJsonSerializer)";
+            }
+            catch (Exception ex)
+            {
+                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
+                return "Invalid Json!";
+            }
+            int tmp;
+            if (int.TryParse(status.RetweetCount, out tmp))
+                retweeted_count = tmp;
             return "";
         }
 
