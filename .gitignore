@@ -1,4 +1,6 @@
-*.suo
-*.user
-bin
-obj
+/*.suo
+/*/*.user
+/*/bin
+/*/obj
+
+Thumbs.db
