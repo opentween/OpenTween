@@ -1706,19 +1706,15 @@ namespace OpenTween
             string rslt = tw.StartAuthentication(ref pinPageUrl);
             if (string.IsNullOrEmpty(rslt))
             {
-                using (AuthBrowser ab = new AuthBrowser())
+                string pin = AuthDialog.DoAuth(this, pinPageUrl);
+                if (!string.IsNullOrEmpty(pin))
                 {
-                    ab.Auth = true;
-                    ab.UrlString = pinPageUrl;
-                    if (ab.ShowDialog(this) == DialogResult.OK)
-                    {
-                        this._pin = ab.PinString;
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    this._pin = pin;
+                    return true;
+                }
+                else
+                {
+                    return false;
                 }
             }
             else

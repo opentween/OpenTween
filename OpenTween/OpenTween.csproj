@@ -75,11 +75,11 @@
     <Compile Include="AppendSettingDialog.Designer.cs">
       <DependentUpon>AppendSettingDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="AuthBrowser.cs">
+    <Compile Include="AuthDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AuthBrowser.Designer.cs">
-      <DependentUpon>AuthBrowser.cs</DependentUpon>
+    <Compile Include="AuthDialog.Designer.cs">
+      <DependentUpon>AuthDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Bing.cs" />
     <Compile Include="Connection\HttpOAuthApiProxy.cs" />
@@ -244,6 +244,12 @@
     <Compile Include="Connection\HttpConnection.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AuthDialog.en.resx">
+      <DependentUpon>AuthDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AuthDialog.resx">
+      <DependentUpon>AuthDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EventViewerDialog.en.resx">
       <DependentUpon>EventViewerDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -299,9 +305,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AppendSettingDialog.zh-CHS.resx">
       <DependentUpon>AppendSettingDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AuthBrowser.resx">
-      <DependentUpon>AuthBrowser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DialogAsShieldIcon.resx">
       <DependentUpon>DialogAsShieldIcon.cs</DependentUpon>
