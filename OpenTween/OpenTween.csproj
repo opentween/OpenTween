@@ -55,9 +55,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdsBrowser.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="ApiInformation.cs" />
     <Compile Include="ApplicationEvents.cs">
       <SubType>Code</SubType>
