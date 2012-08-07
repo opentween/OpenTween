@@ -2127,7 +2127,8 @@ namespace OpenTween
             if (mc.Success)
             {
                 // TODO 成功時はサムネイルURLを作成しimglist.Addする
-                args.imglist.Add(new KeyValuePair<string, string>(args.url, mc.Value));
+                // http://p.twipple.jp/wiki/API_Thumbnail/ja
+                args.imglist.Add(new KeyValuePair<string, string>(args.url, mc.Result("http://p.twipple.jp/show/large/${contentId}")));
                 return true;
             }
             else
@@ -2151,37 +2152,14 @@ namespace OpenTween
         private bool TwipplePhoto_CreateImage(CreateImageArgs args)
         {
             // TODO: サムネイル画像読み込み処理を記述します
-            var http = new HttpVarious();
-            var mc = Regex.Match(args.url.Value, "^http://p.twipple.jp/(?<contentId>[0-9a-z]+)", RegexOptions.IgnoreCase);
-            if (mc.Success)
-            {
-                var src = "";
-                if (http.GetData(args.url.Key, null, out src, 0, out args.errmsg, ""))
-                {
-                    var thumbnail_url = "";
-                    var ContentId = mc.Groups["contentId"].Value;
-                    var DataDir = new StringBuilder();
+            var image = new HttpVarious().GetImage(args.url.Value, args.url.Key, 10000, out args.errmsg);
+            if (image == null)
+                return false;
 
-                    // DataDir作成
-                    DataDir.Append("data");
-                    for (int i = 0; i < ContentId.Length; i++)
-                    {
-                        DataDir.Append("/");
-                        DataDir.Append(ContentId[i]);
-                    }
-
-                    // サムネイルURL抽出
-                    thumbnail_url = Regex.Match(src, @"http://p\.twipple\.jp/" + DataDir.ToString() + @"_s\.([a-zA-Z]+)").Value;
-
-                    if (string.IsNullOrEmpty(thumbnail_url)) return false;
-                    var _img = http.GetImage(thumbnail_url, args.url.Key, 0, out args.errmsg);
-                    if (_img == null) return false;
-                    args.pics.Add(new KeyValuePair<string, Image>(args.url.Key, _img));
-                    args.tooltipText.Add(new KeyValuePair<string, string>(args.url.Key, ""));
-                    return true;
-                }
-            }
-            return false;
+            // 成功した場合はURLに対応する画像、ツールチップテキストを登録
+            args.pics.Add(new KeyValuePair<string, Image>(args.url.Key, image));
+            args.tooltipText.Add(new KeyValuePair<string, string>(args.url.Key, ""));
+            return true;
         }
 
 #endregion
