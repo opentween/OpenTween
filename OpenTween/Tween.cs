@@ -1252,13 +1252,6 @@ namespace OpenTween
                 ListTab.ImageList = null;
             }
 
-#if UA
-            ab = new AdsBrowser();
-            this.SplitContainer4.Panel2.Controls.Add(ab);
-#else
-            SplitContainer4.Panel2Collapsed = true;
-#endif
-
             _ignoreConfigSave = false;
             this.TweenMain_Resize(null, null);
             if (saveRequired) SaveConfigsAll(false);
@@ -3439,7 +3432,6 @@ namespace OpenTween
                     _mySpDis = this.SplitContainer1.SplitterDistance;
                     _mySpDis3 = this.SplitContainer3.SplitterDistance;
                     if (StatusText.Multiline) _mySpDis2 = this.StatusText.Height;
-                    _myAdSpDis = this.SplitContainer4.SplitterDistance;
                     _modifySettingLocal = true;
                 }
             }
@@ -9631,10 +9623,6 @@ namespace OpenTween
                 //{
                 //    this.SplitContainer4.SplitterDistance = _cfgLocal.AdSplitterDistance; //Splitterの位置設定
                 //}
-                if (!SplitContainer4.Panel2Collapsed && _cfgLocal.AdSplitterDistance > this.SplitContainer4.Panel1MinSize)
-                {
-                    this.SplitContainer4.SplitterDistance = _cfgLocal.AdSplitterDistance; //Splitterの位置設定
-                }
                 if (_cfgLocal.SplitterDistance > this.SplitContainer1.Panel1MinSize &&
                     _cfgLocal.SplitterDistance < this.SplitContainer1.Height - this.SplitContainer1.Panel2MinSize - this.SplitContainer1.SplitterWidth)
                 {
@@ -9691,15 +9679,6 @@ namespace OpenTween
             {
                 _mySpDis = SplitContainer1.SplitterDistance;
                 if (StatusText.Multiline) _mySpDis2 = StatusText.Height;
-                _modifySettingLocal = true;
-            }
-        }
-
-        private void SplitContainer4_SplitterMoved(object sender, SplitterEventArgs e)
-        {
-            if (this.WindowState == FormWindowState.Normal && !_initialLayout)
-            {
-                _myAdSpDis = SplitContainer4.SplitterDistance;
                 _modifySettingLocal = true;
             }
         }
@@ -13146,22 +13125,6 @@ namespace OpenTween
         private void ImageSelectionPanel_VisibleChanged(object sender, EventArgs e)
         {
             this.StatusText_TextChanged(null, null);
-        }
-
-        private void SplitContainer4_Resize(object sender, EventArgs e)
-        {
-            if (this.WindowState == FormWindowState.Minimized) return;
-            if (SplitContainer4.Panel2Collapsed) return;
-            if (SplitContainer4.Height < SplitContainer4.SplitterWidth + SplitContainer4.Panel2MinSize + SplitContainer4.SplitterDistance &&
-                SplitContainer4.Height - SplitContainer4.SplitterWidth - SplitContainer4.Panel2MinSize > 0)
-            {
-                SplitContainer4.SplitterDistance = SplitContainer4.Height - SplitContainer4.SplitterWidth - SplitContainer4.Panel2MinSize;
-            }
-            if (SplitContainer4.Panel2.Height > 90 &&
-                SplitContainer4.Height - SplitContainer4.SplitterWidth - 90 > 0)
-            {
-                SplitContainer4.SplitterDistance = SplitContainer4.Height - SplitContainer4.SplitterWidth - 90;
-            }
         }
 
         private void SourceCopyMenuItem_Click(object sender, EventArgs e)
