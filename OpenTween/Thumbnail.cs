@@ -544,10 +544,10 @@ namespace OpenTween
         private bool ImgUr_GetUrl(GetUrlArgs args)
         {
             var mc = Regex.Match(string.IsNullOrEmpty(args.extended) ? args.url : args.extended,
-                                          @"^http://imgur\.com/(\w+)\.jpg$", RegexOptions.IgnoreCase);
+                                          @"^http://(?:i\.)?imgur\.com/(\w+)(?:\..{3})?$", RegexOptions.IgnoreCase);
             if (mc.Success)
             {
-                args.imglist.Add(new KeyValuePair<string, string>(args.url, mc.Result("http://i.imgur.com/${1}l.jpg")));
+                args.imglist.Add(new KeyValuePair<string, string>(args.url, mc.Result("http://img.imgur.com/${1}l.jpg")));
                 return true;
             }
             else
