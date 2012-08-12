@@ -28,6 +28,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Net;
+using System.Text.RegularExpressions;
 
 namespace OpenTween
 {
@@ -163,20 +165,31 @@ namespace OpenTween
         #endregion
 
         #region Translation
-        private const string TranslateUri = "http://api.microsofttranslator.com/v2/Http.svc/Translate?appId=" + ApplicationSettings.BingAppId;
+        private const string TranslateUri = "https://api.datamarket.azure.com/Data.ashx/Bing/MicrosoftTranslator/v1/Translate";
 
         public bool Translate(string _from, string _to, string _text, out string buf)
         {
-            HttpVarious http = new HttpVarious();
-            string apiurl = TranslateUri + "&text=" + System.Web.HttpUtility.UrlEncode(_text) + "&to=" + _to;
-            string content = "";
-            if (http.GetData(apiurl, null, out content))
+            var apiurl = TranslateUri +
+                "?Text=" + Uri.EscapeDataString("'" + _text + "'") +
+                "&To=" + Uri.EscapeDataString("'" + _to + "'") +
+                "&$format=Raw";
+
+            var client = new WebClient();
+            client.Credentials = new NetworkCredential(ApplicationSettings.AzureMarketplaceKey, ApplicationSettings.AzureMarketplaceKey);
+            client.Encoding = Encoding.UTF8;
+
+            try
             {
-                buf = string.Copy(content);
+                var content = client.DownloadString(apiurl);
+
+                buf = Regex.Replace(content, @"^<string[^>]*>(.*)</string>$", "$1");
                 return true;
             }
-            buf = null;
-            return false;
+            catch (WebException)
+            {
+                buf = null;
+                return false;
+            }
         }
 
         public string GetLanguageEnumFromIndex(int index)
