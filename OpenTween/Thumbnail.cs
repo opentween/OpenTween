@@ -1714,7 +1714,7 @@ namespace OpenTween
                 var http = new HttpVarious();
                 if (http.GetData(Regex.Replace(mc.Groups[0].Value, "amp;", ""), null, out src, 0, out args.errmsg, ""))
                 {
-                    var _mc = Regex.Match(src, mc.Result(@"http://img([0-9]+)\.pixiv\.net/img/.+/${illustId}_[ms]\.([a-zA-Z]+)"));
+                    var _mc = Regex.Match(src, mc.Result(@"http://i([0-9]+)\.pixiv\.net/.+/${illustId}_[ms]\.([a-zA-Z]+)"));
                     if (_mc.Success)
                     {
                         var _img = http.GetImage(_mc.Value, args.url.Value, 0, out args.errmsg);
