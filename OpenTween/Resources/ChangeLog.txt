@@ -5,6 +5,7 @@
  * CHG: OAuth認証に内部ブラウザを使用する方法を廃止
  * CHG: Instagramのサムネイル画像を正式に提供されているURLに更新
  * FIX: プロフィール編集中に編集画面を閉じると次回編集時の挙動がおかしくなる問題を修正 (thanks @miracleflyer!)
+ * FIX: ツイートのRT回数が正常に表示されない問題を修正 (thanks @re4k!)
  * FIX: ついっぷるフォト・imgur・pixivのサムネイルが正常に取得できない問題を修正
  * FIX: Bing翻訳のAPI仕様変更に対応
 

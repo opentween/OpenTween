@@ -642,6 +642,7 @@ namespace OpenTween.Properties {
         /// * CHG: OAuth認証に内部ブラウザを使用する方法を廃止
         /// * CHG: Instagramのサムネイル画像を正式に提供されているURLに更新
         /// * FIX: プロフィール編集中に編集画面を閉じると次回編集時の挙動がおかしくなる問題を修正 (thanks @miracleflyer!)
+        /// * FIX: ツイートのRT回数が正常に表示されない問題を修正 (thanks @re4k!)
         /// * FIX: ついっぷるフォト・imgur・pixivのサムネイルが正常に取得できない問題を修正
         /// * FIX: Bing翻訳のAPI仕様変更に対応
         ///
@@ -649,8 +650,7 @@ namespace OpenTween.Properties {
         /// * NEW: via.me のサムネイル表示に対応
         /// * CHG: yats-data.comのTwitter検索を削除 (サイト閉鎖のため)
         /// * FIX: UserStreamsのイベントログ表示をEscキーで閉じられない問題を修正
-        /// * FIX: yfrogのサムネイルURL仕様変更に対応
-        /// * FIX: ツイートに含まれるpixivのイラストURLの判定を修 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * FIX: yfrogのサム [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
