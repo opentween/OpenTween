@@ -2514,7 +2514,7 @@ namespace OpenTween
             if (mc.Success)
             {
                 // TODO 成功時はサムネイルURLを作成しimglist.Addする
-                args.imglist.Add(new KeyValuePair<string, string>(args.url, mc.Value));
+                args.imglist.Add(new KeyValuePair<string, string>(args.url, mc.Value + "media/?size=m"));
                 return true;
             }
             else
@@ -2537,27 +2537,18 @@ namespace OpenTween
         /// <remarks></remarks>
         private bool instagram_CreateImage(CreateImageArgs args)
         {
-            // TODO: サムネイル画像読み込み処理を記述します
-
-            var src = "";
             var http = new HttpVarious();
-            if (http.GetData(args.url.Value, null, out src, 0, out args.errmsg, ""))
-            {
-                var mc = Regex.Match(src, "<meta property=\"og:image\" content=\"(?<url>.+)\" ?/>");
-                if (mc.Success)
-                {
-                    var _img = http.GetImage(mc.Groups["url"].Value, args.url.Key, 0, out args.errmsg);
-                    if (_img == null) return false;
-                    args.pics.Add(new KeyValuePair<string, Image>(args.url.Key, _img));
-                    args.tooltipText.Add(new KeyValuePair<string, string>(args.url.Key, ""));
-                    return true;
-                }
-                else
-                {
-                    args.errmsg = "Pattern NotFound";
-                }
-            }
-            return false;
+            var imgUrl = http.GetRedirectTo(args.url.Value);
+
+            if (string.IsNullOrEmpty(imgUrl)) return false;
+
+            var img = http.GetImage(imgUrl, args.url.Key, 10000, out args.errmsg);
+            if (img == null) return false;
+
+            // 成功した場合はURLに対応する画像、ツールチップテキストを登録
+            args.pics.Add(new KeyValuePair<string, Image>(args.url.Key, img));
+            args.tooltipText.Add(new KeyValuePair<string, string>(args.url.Key, ""));
+            return true;
         }
 
 #endregion

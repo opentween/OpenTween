@@ -640,8 +640,9 @@ namespace OpenTween.Properties {
         ///==== Ver 1.0.4-beta1(2012/xx/xx)
         /// * NEW: 「タブを固定」機能を追加
         /// * CHG: OAuth認証に内部ブラウザを使用する方法を廃止
+        /// * CHG: Instagramのサムネイル画像を正式に提供されているURLに更新
         /// * FIX: プロフィール編集中に編集画面を閉じると次回編集時の挙動がおかしくなる問題を修正 (thanks @miracleflyer!)
-        /// * FIX: ついっぷるフォトのサムネイルが正常に取得できない問題を修正
+        /// * FIX: ついっぷるフォト・imgur・pixivのサムネイルが正常に取得できない問題を修正
         /// * FIX: Bing翻訳のAPI仕様変更に対応
         ///
         ///==== Ver 1.0.3(2012/05/26)
@@ -649,10 +650,7 @@ namespace OpenTween.Properties {
         /// * CHG: yats-data.comのTwitter検索を削除 (サイト閉鎖のため)
         /// * FIX: UserStreamsのイベントログ表示をEscキーで閉じられない問題を修正
         /// * FIX: yfrogのサムネイルURL仕様変更に対応
-        /// * FIX: ツイートに含まれるpixivのイラストURLの判定を修正
-        /// * FIX: Pcklesのサムネイルが画像によっては表示できないことがある問題を修正
-        ///
-        ///====  [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * FIX: ツイートに含まれるpixivのイラストURLの判定を修 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
