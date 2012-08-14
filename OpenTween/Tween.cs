@@ -6020,7 +6020,8 @@ namespace OpenTween
             {
                 if (!startup)
                 {
-                    MessageBox.Show(Properties.Resources.CheckNewVersionText7 + MyCommon.GetReadableVersion() + Properties.Resources.CheckNewVersionText8 + MyCommon.GetReadableVersion(currentVersion), MyCommon.ReplaceAppName(Properties.Resources.CheckNewVersionText2), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    var msgtext = MyCommon.ReplaceAppName(string.Format(Properties.Resources.CheckNewVersionText7, MyCommon.GetReadableVersion(), MyCommon.GetReadableVersion(currentVersion)));
+                    MessageBox.Show(msgtext, MyCommon.ReplaceAppName(Properties.Resources.CheckNewVersionText2), MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }

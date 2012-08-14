@@ -181,10 +181,7 @@
     <value>New version is not found. Latest version is {0}. Download it?</value>
   </data>
   <data name="CheckNewVersionText7" xml:space="preserve">
-    <value>Your %AppName% is latest; you don't need to update. Version: </value>
-  </data>
-  <data name="CheckNewVersionText8" xml:space="preserve">
-    <value>Latest version:</value>
+    <value>Your %AppName% is latest; you don't need to update. Version: {0} Latest version: {1}</value>
   </data>
   <data name="CheckNewVersionText9" xml:space="preserve">
     <value>Version check failed</value>

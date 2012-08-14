@@ -723,20 +723,11 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   最新版をお使いです。更新の必要はありませんでした。使用中Ver： に類似しているローカライズされた文字列を検索します。
+        ///   最新版をお使いです。更新の必要はありませんでした。使用中Ver：{0} 最新Ver：{1} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string CheckNewVersionText7 {
             get {
                 return ResourceManager.GetString("CheckNewVersionText7", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   最新Ver： に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string CheckNewVersionText8 {
-            get {
-                return ResourceManager.GetString("CheckNewVersionText8", resourceCulture);
             }
         }
         
