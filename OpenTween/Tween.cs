@@ -4687,7 +4687,7 @@ namespace OpenTween
                 if (ListTab.TabPages[idx].Text == TabName) break;
             }
 
-            if (_statuses.IsDefaultTab(TabName) || _statuses.Tabs[TabName].Locked) return false;
+            if (_statuses.IsDefaultTab(TabName) || _statuses.Tabs[TabName].Protected) return false;
 
             if (confirm)
             {
@@ -8667,45 +8667,45 @@ namespace OpenTween
 
             if (_statuses.IsDefaultTab(tabName))
             {
-                this.LockTabMenuItem.Enabled = false;
-                this.LockTbMenuItem.Enabled = false;
+                this.ProtectTabMenuItem.Enabled = false;
+                this.ProtectTbMenuItem.Enabled = false;
             }
             else
             {
-                this.LockTabMenuItem.Enabled = true;
-                this.LockTbMenuItem.Enabled = true;
+                this.ProtectTabMenuItem.Enabled = true;
+                this.ProtectTbMenuItem.Enabled = true;
             }
 
-            if (_statuses.IsDefaultTab(tabName) || _statuses.Tabs[tabName].Locked)
+            if (_statuses.IsDefaultTab(tabName) || _statuses.Tabs[tabName].Protected)
             {
-                this.LockTabMenuItem.Checked = true;
-                this.LockTbMenuItem.Checked = true;
+                this.ProtectTabMenuItem.Checked = true;
+                this.ProtectTbMenuItem.Checked = true;
                 this.DeleteTabMenuItem.Enabled = false;
                 this.DeleteTbMenuItem.Enabled = false;
             }
             else
             {
-                this.LockTabMenuItem.Checked = false;
-                this.LockTbMenuItem.Checked = false;
+                this.ProtectTabMenuItem.Checked = false;
+                this.ProtectTbMenuItem.Checked = false;
                 this.DeleteTabMenuItem.Enabled = true;
                 this.DeleteTbMenuItem.Enabled = true;
             }
         }
 
-        private void LockTabMenuItem_Click(object sender, EventArgs e)
+        private void ProtectTabMenuItem_Click(object sender, EventArgs e)
         {
             var checkState = ((ToolStripMenuItem)sender).Checked;
 
             // チェック状態を同期
-            this.LockTbMenuItem.Checked = checkState;
-            this.LockTabMenuItem.Checked = checkState;
+            this.ProtectTbMenuItem.Checked = checkState;
+            this.ProtectTabMenuItem.Checked = checkState;
 
             // ロック中はタブの削除を無効化
             this.DeleteTabMenuItem.Enabled = !checkState;
             this.DeleteTbMenuItem.Enabled = !checkState;
 
             if (string.IsNullOrEmpty(_rclickTabName)) return;
-            _statuses.Tabs[_rclickTabName].Locked = checkState;
+            _statuses.Tabs[_rclickTabName].Protected = checkState;
 
             SaveConfigsTabs();
         }

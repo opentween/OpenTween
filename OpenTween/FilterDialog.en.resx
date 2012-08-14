@@ -220,11 +220,11 @@
   <data name="ButtonRenameTab.Text" xml:space="preserve">
     <value>Rename Tab</value>
   </data>
-  <data name="CheckLocked.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 16</value>
+  <data name="CheckProtected.Size" type="System.Drawing.Size, System.Drawing">
+    <value>73, 16</value>
   </data>
-  <data name="CheckLocked.Text" xml:space="preserve">
-    <value>Lock</value>
+  <data name="CheckProtected.Text" xml:space="preserve">
+    <value>Protected</value>
   </data>
   <data name="Label13.Size" type="System.Drawing.Size, System.Drawing">
     <value>61, 12</value>

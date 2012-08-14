@@ -59,7 +59,7 @@
             this.Label10 = new System.Windows.Forms.Label();
             this.ButtonRenameTab = new System.Windows.Forms.Button();
             this.GroupTab = new System.Windows.Forms.GroupBox();
-            this.CheckLocked = new System.Windows.Forms.CheckBox();
+            this.CheckProtected = new System.Windows.Forms.CheckBox();
             this.Label13 = new System.Windows.Forms.Label();
             this.ComboSound = new System.Windows.Forms.ComboBox();
             this.CheckManageRead = new System.Windows.Forms.CheckBox();
@@ -241,8 +241,8 @@
             // 
             // ListTabs
             // 
-            this.ListTabs.FormattingEnabled = true;
             resources.ApplyResources(this.ListTabs, "ListTabs");
+            this.ListTabs.FormattingEnabled = true;
             this.ListTabs.Name = "ListTabs";
             this.ListTabs.SelectedIndexChanged += new System.EventHandler(this.ListTabs_SelectedIndexChanged);
             // 
@@ -295,7 +295,8 @@
             // 
             // GroupTab
             // 
-            this.GroupTab.Controls.Add(this.CheckLocked);
+            resources.ApplyResources(this.GroupTab, "GroupTab");
+            this.GroupTab.Controls.Add(this.CheckProtected);
             this.GroupTab.Controls.Add(this.LabelTabType);
             this.GroupTab.Controls.Add(this.Label13);
             this.GroupTab.Controls.Add(this.ListTabs);
@@ -308,16 +309,15 @@
             this.GroupTab.Controls.Add(this.ComboSound);
             this.GroupTab.Controls.Add(this.CheckManageRead);
             this.GroupTab.Controls.Add(this.CheckNotifyNew);
-            resources.ApplyResources(this.GroupTab, "GroupTab");
             this.GroupTab.Name = "GroupTab";
             this.GroupTab.TabStop = false;
             // 
-            // CheckLocked
+            // CheckProtected
             // 
-            resources.ApplyResources(this.CheckLocked, "CheckLocked");
-            this.CheckLocked.Name = "CheckLocked";
-            this.CheckLocked.UseVisualStyleBackColor = true;
-            this.CheckLocked.CheckedChanged += new System.EventHandler(this.CheckLocked_CheckedChanged);
+            resources.ApplyResources(this.CheckProtected, "CheckProtected");
+            this.CheckProtected.Name = "CheckProtected";
+            this.CheckProtected.UseVisualStyleBackColor = true;
+            this.CheckProtected.CheckedChanged += new System.EventHandler(this.CheckLocked_CheckedChanged);
             // 
             // Label13
             // 
@@ -376,8 +376,8 @@
             // 
             // ListFilters
             // 
-            this.ListFilters.FormattingEnabled = true;
             resources.ApplyResources(this.ListFilters, "ListFilters");
+            this.ListFilters.FormattingEnabled = true;
             this.ListFilters.Name = "ListFilters";
             this.ListFilters.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.ListFilters.SelectedIndexChanged += new System.EventHandler(this.ListFilters_SelectedIndexChanged);
@@ -402,6 +402,7 @@
             // 
             // GroupExclude
             // 
+            resources.ApplyResources(this.GroupExclude, "GroupExclude");
             this.GroupExclude.Controls.Add(this.CheckExLambDa);
             this.GroupExclude.Controls.Add(this.TextExSource);
             this.GroupExclude.Controls.Add(this.Label12);
@@ -418,7 +419,6 @@
             this.GroupExclude.Controls.Add(this.ExUID);
             this.GroupExclude.Controls.Add(this.ExMSG1);
             this.GroupExclude.Controls.Add(this.ExMSG2);
-            resources.ApplyResources(this.GroupExclude, "GroupExclude");
             this.GroupExclude.Name = "GroupExclude";
             this.GroupExclude.TabStop = false;
             // 
@@ -499,9 +499,9 @@
             // 
             // ExUID
             // 
+            resources.ApplyResources(this.ExUID, "ExUID");
             this.ExUID.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.ExUID.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            resources.ApplyResources(this.ExUID, "ExUID");
             this.ExUID.Name = "ExUID";
             // 
             // ExMSG1
@@ -520,6 +520,7 @@
             // 
             // GroupMatch
             // 
+            resources.ApplyResources(this.GroupMatch, "GroupMatch");
             this.GroupMatch.Controls.Add(this.CheckLambda);
             this.GroupMatch.Controls.Add(this.TextSource);
             this.GroupMatch.Controls.Add(this.Label5);
@@ -536,7 +537,6 @@
             this.GroupMatch.Controls.Add(this.UID);
             this.GroupMatch.Controls.Add(this.MSG1);
             this.GroupMatch.Controls.Add(this.MSG2);
-            resources.ApplyResources(this.GroupMatch, "GroupMatch");
             this.GroupMatch.Name = "GroupMatch";
             this.GroupMatch.TabStop = false;
             // 
@@ -557,9 +557,9 @@
             // 
             // UID
             // 
+            resources.ApplyResources(this.UID, "UID");
             this.UID.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.UID.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            resources.ApplyResources(this.UID, "UID");
             this.UID.Name = "UID";
             // 
             // MSG1
@@ -578,10 +578,10 @@
             // 
             // GroupBox1
             // 
+            resources.ApplyResources(this.GroupBox1, "GroupBox1");
             this.GroupBox1.Controls.Add(this.CheckMark);
             this.GroupBox1.Controls.Add(this.OptCopy);
             this.GroupBox1.Controls.Add(this.OptMove);
-            resources.ApplyResources(this.GroupBox1, "GroupBox1");
             this.GroupBox1.Name = "GroupBox1";
             this.GroupBox1.TabStop = false;
             // 
@@ -685,6 +685,6 @@
         internal System.Windows.Forms.TextBox MSG1;
         internal System.Windows.Forms.TextBox MSG2;
         internal System.Windows.Forms.GroupBox GroupBox1;
-        internal System.Windows.Forms.CheckBox CheckLocked;
+        internal System.Windows.Forms.CheckBox CheckProtected;
     }
 }

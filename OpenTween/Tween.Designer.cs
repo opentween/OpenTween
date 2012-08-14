@@ -55,7 +55,7 @@
             this.AddTabMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TabRenameMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripSeparator20 = new System.Windows.Forms.ToolStripSeparator();
-            this.LockTabMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ProtectTabMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UreadManageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.NotifyDispMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SoundFileComboBox = new System.Windows.Forms.ToolStripComboBox();
@@ -199,7 +199,7 @@
             this.CreateTbMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RenameTbMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripSeparator28 = new System.Windows.Forms.ToolStripSeparator();
-            this.LockTbMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ProtectTbMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UnreadMngTbMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.NotifyTbMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SoundFileTbComboBox = new System.Windows.Forms.ToolStripComboBox();
@@ -557,7 +557,7 @@
             this.AddTabMenuItem,
             this.TabRenameMenuItem,
             this.ToolStripSeparator20,
-            this.LockTabMenuItem,
+            this.ProtectTabMenuItem,
             this.UreadManageMenuItem,
             this.NotifyDispMenuItem,
             this.SoundFileComboBox,
@@ -589,12 +589,12 @@
             this.ToolStripSeparator20.Name = "ToolStripSeparator20";
             resources.ApplyResources(this.ToolStripSeparator20, "ToolStripSeparator20");
             // 
-            // LockTabMenuItem
+            // ProtectTabMenuItem
             // 
-            this.LockTabMenuItem.CheckOnClick = true;
-            this.LockTabMenuItem.Name = "LockTabMenuItem";
-            resources.ApplyResources(this.LockTabMenuItem, "LockTabMenuItem");
-            this.LockTabMenuItem.Click += new System.EventHandler(this.LockTabMenuItem_Click);
+            this.ProtectTabMenuItem.CheckOnClick = true;
+            this.ProtectTabMenuItem.Name = "ProtectTabMenuItem";
+            resources.ApplyResources(this.ProtectTabMenuItem, "ProtectTabMenuItem");
+            this.ProtectTabMenuItem.Click += new System.EventHandler(this.ProtectTabMenuItem_Click);
             // 
             // UreadManageMenuItem
             // 
@@ -1617,7 +1617,7 @@
             this.CreateTbMenuItem,
             this.RenameTbMenuItem,
             this.ToolStripSeparator28,
-            this.LockTbMenuItem,
+            this.ProtectTbMenuItem,
             this.UnreadMngTbMenuItem,
             this.NotifyTbMenuItem,
             this.SoundFileTbComboBox,
@@ -1648,12 +1648,12 @@
             this.ToolStripSeparator28.Name = "ToolStripSeparator28";
             resources.ApplyResources(this.ToolStripSeparator28, "ToolStripSeparator28");
             // 
-            // LockTbMenuItem
+            // ProtectTbMenuItem
             // 
-            this.LockTbMenuItem.CheckOnClick = true;
-            this.LockTbMenuItem.Name = "LockTbMenuItem";
-            resources.ApplyResources(this.LockTbMenuItem, "LockTbMenuItem");
-            this.LockTbMenuItem.Click += new System.EventHandler(this.LockTabMenuItem_Click);
+            this.ProtectTbMenuItem.CheckOnClick = true;
+            this.ProtectTbMenuItem.Name = "ProtectTbMenuItem";
+            resources.ApplyResources(this.ProtectTbMenuItem, "ProtectTbMenuItem");
+            this.ProtectTbMenuItem.Click += new System.EventHandler(this.ProtectTabMenuItem_Click);
             // 
             // UnreadMngTbMenuItem
             // 
@@ -2764,8 +2764,8 @@
         internal System.Windows.Forms.ToolTip ToolTip1;
         internal System.Windows.Forms.Timer TimerRefreshIcon;
         internal System.Windows.Forms.ImageList PostStateImageList;
-        private System.Windows.Forms.ToolStripMenuItem LockTabMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem LockTbMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ProtectTabMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ProtectTbMenuItem;
 
     }
 }
