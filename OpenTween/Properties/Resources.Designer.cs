@@ -639,6 +639,7 @@ namespace OpenTween.Properties {
         ///
         ///==== Ver 1.0.5-beta1(2012/xx/xx)
         /// * CHG: 「タブを固定」機能を「タブを保護」に名称変更
+        /// * CHG: 閉鎖された画像共有サービスbrightkite・picplzのサムネイル対応を終了
         ///
         ///==== Ver 1.0.4(2012/08/13)
         /// * NEW: 「タブを固定」機能を追加
@@ -650,9 +651,7 @@ namespace OpenTween.Properties {
         /// * FIX: Bing翻訳のAPI仕様変更に対応
         ///
         ///==== Ver 1.0.3(2012/05/26)
-        /// * NEW: via.me のサムネイル表示に対応
-        /// * CHG: yats-data.comのTwitter検索を削除 (サイト閉鎖のため)
-        /// * [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * NEW: via.me のサムネイル表示に対応 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
