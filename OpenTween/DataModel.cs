@@ -198,7 +198,7 @@ namespace OpenTween
             [DataMember(Name = "created_at")] public string CreatedAt;
             [DataMember(Name = "contributors")] public int[] Contributors;
             [DataMember(Name = "favorited")] public bool Favorited;
-            [DataMember(Name = "truncated")] public bool Truncated;
+            [DataMember(Name = "truncated")] public string Truncated;
             [DataMember(Name = "id")] public Int64 Id;
             [DataMember(Name = "annotations", IsRequired = false)] public Annotations Annotations;
             [DataMember(Name = "place", IsRequired = false)] public Place Place;
@@ -223,7 +223,7 @@ namespace OpenTween
             [DataMember(Name = "source")] public string Source;
             [DataMember(Name = "id_str")] public string IdStr;
             [DataMember(Name = "coordinates", IsRequired = false)] public Coordinates Coordinates;
-            [DataMember(Name = "truncated")] public bool Truncated;
+            [DataMember(Name = "truncated")] public string Truncated;
             [DataMember(Name = "place", IsRequired = false)] public Place Place;
             [DataMember(Name = "user")] public User User;
             [DataMember(Name = "retweeted_status", IsRequired = false)] public RetweetedStatus RetweetedStatus;
