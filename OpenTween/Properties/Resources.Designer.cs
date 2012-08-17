@@ -638,7 +638,9 @@ namespace OpenTween.Properties {
         ///   更新履歴
         ///
         ///==== Ver 1.0.6-beta1(2012/xx/xx)
+        /// * NEW: TUNA.BE のサムネイル表示に対応
         /// * CHG: アップデート通知画面をちょっと変更
+        /// * FIX: 発言詳細部のアイコンの縦幅が狭くなっていたのを修正
         ///
         ///==== Ver 1.0.5(2012/08/17)
         /// * CHG: 「タブを固定」機能を「タブを保護」に名称変更
@@ -650,8 +652,7 @@ namespace OpenTween.Properties {
         /// * CHG: OAuth認証に内部ブラウザを使用する方法を廃止
         /// * CHG: Instagramのサムネイル画像を正式に提供されているURLに更新
         /// * FIX: プロフィール編集中に編集画面を閉じると次回編集時の挙動がおかしくなる問題を修正 (thanks @miracleflyer!)
-        /// * FIX: ツイートのRT回数が正常に表示されない問題を修正 (thanks @re4k!)
-        /// * FIX: ついっぷるフォト・imgur・pixivのサムネイルが正常に取得で [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * FIX: ツイートのRT回数が正常に表示されない [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
