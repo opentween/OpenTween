@@ -637,7 +637,10 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
-        ///==== Ver 1.0.5-beta1(2012/xx/xx)
+        ///==== Ver 1.0.6-beta1(2012/xx/xx)
+        /// * CHG: アップデート通知画面をちょっと変更
+        ///
+        ///==== Ver 1.0.5(2012/08/17)
         /// * CHG: 「タブを固定」機能を「タブを保護」に名称変更
         /// * CHG: 閉鎖された画像共有サービスbrightkite・picplzのサムネイル対応を終了
         /// * FIX: UserStreamsの &gt;突然の仕様変更&lt; に対応
@@ -648,10 +651,7 @@ namespace OpenTween.Properties {
         /// * CHG: Instagramのサムネイル画像を正式に提供されているURLに更新
         /// * FIX: プロフィール編集中に編集画面を閉じると次回編集時の挙動がおかしくなる問題を修正 (thanks @miracleflyer!)
         /// * FIX: ツイートのRT回数が正常に表示されない問題を修正 (thanks @re4k!)
-        /// * FIX: ついっぷるフォト・imgur・pixivのサムネイルが正常に取得できない問題を修正
-        /// * FIX: Bing翻訳のAPI仕様変更に対応
-        ///
-        ///==== Ver 1.0.3(201 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * FIX: ついっぷるフォト・imgur・pixivのサムネイルが正常に取得で [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {

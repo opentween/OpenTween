@@ -1,6 +1,6 @@
 ﻿namespace OpenTween
 {
-    partial class DialogAsShieldIcon
+    partial class UpdateDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -28,13 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DialogAsShieldIcon));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UpdateDialog));
             this.TextDetail = new System.Windows.Forms.TextBox();
-            this.Label1 = new System.Windows.Forms.Label();
+            this.LabelSummary = new System.Windows.Forms.Label();
             this.PictureBox1 = new System.Windows.Forms.PictureBox();
             this.TableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.OK_Button = new System.Windows.Forms.Button();
-            this.Cancel_Button = new System.Windows.Forms.Button();
+            this.YesButton = new System.Windows.Forms.Button();
+            this.NoButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox1)).BeginInit();
             this.TableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -45,10 +45,10 @@
             this.TextDetail.Name = "TextDetail";
             this.TextDetail.ReadOnly = true;
             // 
-            // Label1
+            // LabelSummary
             // 
-            resources.ApplyResources(this.Label1, "Label1");
-            this.Label1.Name = "Label1";
+            resources.ApplyResources(this.LabelSummary, "LabelSummary");
+            this.LabelSummary.Name = "LabelSummary";
             // 
             // PictureBox1
             // 
@@ -59,40 +59,40 @@
             // TableLayoutPanel1
             // 
             resources.ApplyResources(this.TableLayoutPanel1, "TableLayoutPanel1");
-            this.TableLayoutPanel1.Controls.Add(this.OK_Button, 0, 0);
-            this.TableLayoutPanel1.Controls.Add(this.Cancel_Button, 1, 0);
+            this.TableLayoutPanel1.Controls.Add(this.YesButton, 0, 0);
+            this.TableLayoutPanel1.Controls.Add(this.NoButton, 1, 0);
             this.TableLayoutPanel1.Name = "TableLayoutPanel1";
             // 
-            // OK_Button
+            // YesButton
             // 
-            resources.ApplyResources(this.OK_Button, "OK_Button");
-            this.OK_Button.Name = "OK_Button";
-            this.OK_Button.Click += new System.EventHandler(this.OK_Button_Click);
+            resources.ApplyResources(this.YesButton, "YesButton");
+            this.YesButton.DialogResult = System.Windows.Forms.DialogResult.Yes;
+            this.YesButton.Name = "YesButton";
+            this.YesButton.Click += new System.EventHandler(this.YesButton_Click);
             // 
-            // Cancel_Button
+            // NoButton
             // 
-            resources.ApplyResources(this.Cancel_Button, "Cancel_Button");
-            this.Cancel_Button.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.Cancel_Button.Name = "Cancel_Button";
-            this.Cancel_Button.Click += new System.EventHandler(this.Cancel_Button_Click);
+            resources.ApplyResources(this.NoButton, "NoButton");
+            this.NoButton.DialogResult = System.Windows.Forms.DialogResult.No;
+            this.NoButton.Name = "NoButton";
+            this.NoButton.Click += new System.EventHandler(this.NoButton_Click);
             // 
-            // DialogAsShieldIcon
+            // UpdateDialog
             // 
-            this.AcceptButton = this.OK_Button;
+            this.AcceptButton = this.YesButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.Cancel_Button;
+            this.CancelButton = this.NoButton;
             this.Controls.Add(this.TextDetail);
-            this.Controls.Add(this.Label1);
+            this.Controls.Add(this.LabelSummary);
             this.Controls.Add(this.PictureBox1);
             this.Controls.Add(this.TableLayoutPanel1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "DialogAsShieldIcon";
+            this.Name = "UpdateDialog";
             this.ShowInTaskbar = false;
             this.TopMost = true;
-            this.Load += new System.EventHandler(this.DialogAsShieldIcon_Load);
+            this.Shown += new System.EventHandler(this.UpdateDialog_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox1)).EndInit();
             this.TableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -103,10 +103,10 @@
         #endregion
 
         internal System.Windows.Forms.TextBox TextDetail;
-        internal System.Windows.Forms.Label Label1;
+        internal System.Windows.Forms.Label LabelSummary;
         internal System.Windows.Forms.PictureBox PictureBox1;
         internal System.Windows.Forms.TableLayoutPanel TableLayoutPanel1;
-        internal System.Windows.Forms.Button OK_Button;
-        internal System.Windows.Forms.Button Cancel_Button;
+        internal System.Windows.Forms.Button YesButton;
+        internal System.Windows.Forms.Button NoButton;
     }
 }

@@ -6006,11 +6006,11 @@ namespace OpenTween
 
             if (currentVersion.Replace(".", "").CompareTo(MyCommon.fileVersion.Replace(".", "")) > 0)
             {
-                string dialogText = string.Format(Properties.Resources.CheckNewVersionText3, MyCommon.GetReadableVersion(currentVersion));
-                using (DialogAsShieldIcon dialog = new DialogAsShieldIcon())
+                using (var dialog = new UpdateDialog())
                 {
-                    DialogResult ret = dialog.ShowDialog(this, dialogText, msgBody, MyCommon.ReplaceAppName(Properties.Resources.CheckNewVersionText1), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (ret == DialogResult.Yes)
+                    dialog.SummaryText = string.Format(Properties.Resources.CheckNewVersionText3, MyCommon.GetReadableVersion(currentVersion));
+                    dialog.DetailsText = msgBody;
+                    if (dialog.ShowDialog(this) == DialogResult.Yes)
                     {
                         this.OpenUriAsync(downloadUrl);
                     }
