@@ -135,9 +135,7 @@
     <Compile Include="UpdateDialog.Designer.cs">
       <DependentUpon>UpdateDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="DoubleClickCopyCanceller.cs" />
     <Compile Include="Foursquare.cs" />
-    <Compile Include="Google.cs" />
     <Compile Include="FormInfo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -155,12 +153,6 @@
     <Compile Include="Thumbnail\MapThumbGoogle.cs" />
     <Compile Include="Thumbnail\MapThumb.cs" />
     <Compile Include="Thumbnail\MapThumbOSM.cs" />
-    <Compile Include="MessageForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MessageForm.Designer.cs">
-      <DependentUpon>MessageForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="ListElement.cs" />
     <Compile Include="ImageDictionary.cs" />
     <Compile Include="ImageListViewItem.cs" />
@@ -199,10 +191,8 @@
     <Compile Include="Setting\SettingAtIdList.cs" />
     <Compile Include="Setting\SettingBase.cs" />
     <Compile Include="Setting\SettingCommon.cs" />
-    <Compile Include="Setting\SettingFollower.cs" />
     <Compile Include="Setting\SettingTabs.cs" />
     <Compile Include="Setting\SettingLocal.cs" />
-    <Compile Include="ShieldIcon.cs" />
     <Compile Include="ShortUrl.cs" />
     <Compile Include="TabsDialog.cs">
       <SubType>Form</SubType>
@@ -327,9 +317,6 @@
     <EmbeddedResource Include="InputTabName.zh-CHS.resx">
       <DependentUpon>InputTabName.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MessageForm.resx">
-      <DependentUpon>MessageForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MyLists.en.resx">
       <DependentUpon>MyLists.cs</DependentUpon>
     </EmbeddedResource>
@@ -420,7 +407,6 @@
       <Link>LICENSE.LGPL-3</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\3b.ico" />
@@ -431,7 +417,6 @@
     <Content Include="Resources\5y.ico" />
     <Content Include="Resources\6b.ico" />
     <Content Include="Resources\6g.ico" />
-    <Content Include="Resources\ads.txt" />
     <Content Include="Resources\ChangeLog.txt" />
     <Content Include="Resources\Description.txt" />
     <Content Include="Resources\InitialImage.png" />
@@ -441,7 +426,6 @@
     <Content Include="Resources\re2.ico" />
     <Content Include="Resources\re3.ico" />
     <Content Include="Resources\re4.ico" />
-    <Content Include="tips.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

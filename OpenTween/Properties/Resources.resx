@@ -1108,9 +1108,6 @@
   <data name="RegistrationEmail2" xml:space="preserve">
     <value>登録ありがとうございます。</value>
   </data>
-  <data name="ads" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ads.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;shift_jis</value>
-  </data>
   <data name="ApiInfo10" xml:space="preserve">
     <value>画像投稿API残数：</value>
   </data>

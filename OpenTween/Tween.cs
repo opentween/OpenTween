@@ -198,7 +198,6 @@ namespace OpenTween
         private bool _waitLists = false;
         private BackgroundWorker[] _bw = new BackgroundWorker[20];
         private BackgroundWorker _bwFollower;
-        private ShieldIcon shield = new ShieldIcon();
         private InternetSecurityManager SecurityManager;
         private ThumbnailGenerator Thumbnail;
 
@@ -376,7 +375,6 @@ namespace OpenTween
             if (_brsBackColorAtTo != null) _brsBackColorAtTo.Dispose();
             if (_brsBackColorNone != null) _brsBackColorNone.Dispose();
             if (_brsDeactiveSelection != null) _brsDeactiveSelection.Dispose();
-            shield.Dispose();
             //sf.Dispose();
             sfTab.Dispose();
             foreach (BackgroundWorker bw in _bw)
@@ -557,7 +555,6 @@ namespace OpenTween
             MyCommon.TwitterApiInfo.Changed += SetStatusLabelApiHandler;
             Microsoft.Win32.SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
 
-            VerUpMenuItem.Image = shield.Icon;
             string[] cmdArgs = Environment.GetCommandLineArgs();
             if (cmdArgs.Length != 0 && cmdArgs.Contains("/d")) MyCommon.TraceFlag = true;
 

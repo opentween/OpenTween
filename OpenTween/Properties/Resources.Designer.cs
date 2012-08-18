@@ -133,30 +133,6 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   &lt;html&gt;&lt;head&gt;
-        ///&lt;script type=&apos;text/javascript&apos; src=&apos;http://partner.googleadservices.com/gampad/google_service.js&apos;&gt;
-        ///&lt;/script&gt;
-        ///&lt;script type=&apos;text/javascript&apos;&gt;
-        ///GS_googleAddAdSenseService(&quot;ca-pub-6759700347268706&quot;);
-        ///GS_googleEnableAllServices();
-        ///&lt;/script&gt;
-        ///&lt;script type=&apos;text/javascript&apos;&gt;
-        ///GA_googleAddSlot(&quot;ca-pub-6759700347268706&quot;, &quot;Tween_HomePage_728x90&quot;);
-        ///&lt;/script&gt;
-        ///&lt;script type=&apos;text/javascript&apos;&gt;
-        ///GA_googleFetchAds();
-        ///&lt;/script&gt;
-        ///&lt;!-- &lt;meta http-equiv=&quot;refresh&quot; content=&quot;45&quot;&gt; --&gt;
-        ///&lt;/head&gt;
-        ///&lt;body style=&quot;te [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ads {
-            get {
-                return ResourceManager.GetString("ads", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   REST API上限 :  に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ApiInfo1 {
