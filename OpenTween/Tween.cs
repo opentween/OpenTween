@@ -7031,11 +7031,7 @@ namespace OpenTween
             }
             if (IsProtected)
             {
-                //MessageBox.Show(Properties.Resources.CopyStotText1);
-                using (MessageForm w = new MessageForm())
-                {
-                    w.ShowDialog(Properties.Resources.CopyStotText1);
-                }
+                MessageBox.Show(Properties.Resources.CopyStotText1);
             }
             if (sb.Length > 0)
             {
