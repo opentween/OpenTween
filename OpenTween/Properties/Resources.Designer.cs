@@ -640,6 +640,7 @@ namespace OpenTween.Properties {
         ///==== Ver 1.0.6-beta1(2012/xx/xx)
         /// * NEW: TUNA.BE のサムネイル表示に対応
         /// * NEW: 地図のサムネイルに使用するサービスを選択可能に（OpenStreetMap/Google Maps）
+        /// * CHG: デフォルトの地図サムネイル表示をOpenStreetMapに変更
         /// * CHG: アップデート通知画面をちょっと変更
         /// * FIX: 発言詳細部のアイコンの縦幅が狭くなっていたのを修正
         ///
@@ -651,8 +652,7 @@ namespace OpenTween.Properties {
         ///==== Ver 1.0.4(2012/08/13)
         /// * NEW: 「タブを固定」機能を追加
         /// * CHG: OAuth認証に内部ブラウザを使用する方法を廃止
-        /// * CHG: Instagramのサムネイル画像を正式に提供されているURLに更新
-        /// * FIX: プロフィール編集中に編集画面を閉じると次回編集時の挙動がおかしく [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * CHG: Instagramのサムネイル画像を正式に提供されているURLに更新 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {

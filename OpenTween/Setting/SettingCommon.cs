@@ -214,7 +214,7 @@ namespace OpenTween
         public int MapThumbnailHeight = 200;
         public int MapThumbnailWidth = 200;
         public int MapThumbnailZoom = 15;
-        public MapProvider MapThumbnailProvider = MapProvider.GoogleMaps;
+        public MapProvider MapThumbnailProvider = MapProvider.OpenStreetMap;
         public bool IsListsIncludeRts = false;
         public long GAFirst = 0;
         public long GALast = 0;
