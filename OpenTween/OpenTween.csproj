@@ -72,10 +72,10 @@
     <Compile Include="Forms\AppendSettingDialog.Designer.cs">
       <DependentUpon>AppendSettingDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="AuthDialog.cs">
+    <Compile Include="Forms\AuthDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AuthDialog.Designer.cs">
+    <Compile Include="Forms\AuthDialog.Designer.cs">
       <DependentUpon>AuthDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Bing.cs" />
@@ -128,10 +128,10 @@
     <Compile Include="Components\DetailsListView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UpdateDialog.cs">
+    <Compile Include="Forms\UpdateDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UpdateDialog.Designer.cs">
+    <Compile Include="Forms\UpdateDialog.Designer.cs">
       <DependentUpon>UpdateDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\DoubleClickCopyCanceller.cs" />
@@ -241,14 +241,11 @@
     <Compile Include="Connections\HttpConnection.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="AuthDialog.en.resx">
+    <EmbeddedResource Include="Forms\AuthDialog.en.resx">
       <DependentUpon>AuthDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AuthDialog.resx">
+    <EmbeddedResource Include="Forms\AuthDialog.resx">
       <DependentUpon>AuthDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="EventViewerDialog.en.resx">
-      <DependentUpon>EventViewerDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\EventViewerDialog.resx">
       <DependentUpon>EventViewerDialog.cs</DependentUpon>
@@ -303,13 +300,13 @@
     <EmbeddedResource Include="Forms\AppendSettingDialog.zh-CHS.resx">
       <DependentUpon>AppendSettingDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UpdateDialog.en.resx">
+    <EmbeddedResource Include="Forms\UpdateDialog.en.resx">
       <DependentUpon>UpdateDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UpdateDialog.resx">
+    <EmbeddedResource Include="Forms\UpdateDialog.resx">
       <DependentUpon>UpdateDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UpdateDialog.zh-CHS.resx">
+    <EmbeddedResource Include="Forms\UpdateDialog.zh-CHS.resx">
       <DependentUpon>UpdateDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormInfo.resx">
