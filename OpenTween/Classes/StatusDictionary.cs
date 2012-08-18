@@ -2396,6 +2396,7 @@ namespace OpenTween
             OldestUnreadId = -1;
             TabName = "";
             _filters = new List<FiltersClass>();
+            Protected = false;
             Notify = true;
             SoundFile = "";
             _unreadManage = true;
@@ -2405,18 +2406,9 @@ namespace OpenTween
             _listInfo = null;
         }
 
-        public TabClass(string TabName, MyCommon.TabUsageType TabType, ListElement list)
+        public TabClass(string TabName, MyCommon.TabUsageType TabType, ListElement list) : this()
         {
-            Posts = new Dictionary<long, PostClass>();
-            SoundFile = "";
-            OldestUnreadId = -1;
             this.TabName = TabName;
-            _filters = new List<FiltersClass>();
-            Notify = true;
-            SoundFile = "";
-            _unreadManage = true;
-            _ids = new List<long>();
-            this.OldestUnreadId = -1;
             _tabType = TabType;
             this.ListInfo = list;
             if (this.IsInnerStorageTabType)
@@ -2645,6 +2637,10 @@ namespace OpenTween
                 }
             }
         }
+
+        // v1.0.5で「タブを固定(Locked)」から「タブを保護(Protected)」に名称変更
+        [XmlElement(ElementName = "Locked")]
+        public bool Protected { get; set; }
 
         public bool Notify { get; set; }
 

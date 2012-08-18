@@ -48,7 +48,6 @@
             this.ToolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.HashToggleMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.HashManageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.SplitContainer4 = new System.Windows.Forms.SplitContainer();
             this.SplitContainer1 = new System.Windows.Forms.SplitContainer();
             this.TimelinePanel = new System.Windows.Forms.Panel();
             this.ListTab = new System.Windows.Forms.TabControl();
@@ -56,6 +55,7 @@
             this.AddTabMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TabRenameMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripSeparator20 = new System.Windows.Forms.ToolStripSeparator();
+            this.ProtectTabMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UreadManageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.NotifyDispMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SoundFileComboBox = new System.Windows.Forms.ToolStripComboBox();
@@ -98,7 +98,6 @@
             this.SelectionSearchContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SearchGoogleContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SearchWikipediaContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.SearchYatsContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SearchPublicSearchContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CurrentTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
@@ -200,6 +199,7 @@
             this.CreateTbMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RenameTbMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripSeparator28 = new System.Windows.Forms.ToolStripSeparator();
+            this.ProtectTbMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UnreadMngTbMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.NotifyTbMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SoundFileTbComboBox = new System.Windows.Forms.ToolStripComboBox();
@@ -318,9 +318,6 @@
             this.ToolStripContainer1.SuspendLayout();
             this.StatusStrip1.SuspendLayout();
             this.ContextMenuPostMode.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.SplitContainer4)).BeginInit();
-            this.SplitContainer4.Panel1.SuspendLayout();
-            this.SplitContainer4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer1)).BeginInit();
             this.SplitContainer1.Panel1.SuspendLayout();
             this.SplitContainer1.Panel2.SuspendLayout();
@@ -358,7 +355,7 @@
             // 
             // ToolStripContainer1.ContentPanel
             // 
-            this.ToolStripContainer1.ContentPanel.Controls.Add(this.SplitContainer4);
+            this.ToolStripContainer1.ContentPanel.Controls.Add(this.SplitContainer1);
             resources.ApplyResources(this.ToolStripContainer1.ContentPanel, "ToolStripContainer1.ContentPanel");
             resources.ApplyResources(this.ToolStripContainer1, "ToolStripContainer1");
             this.ToolStripContainer1.LeftToolStripPanelVisible = false;
@@ -507,20 +504,6 @@
             resources.ApplyResources(this.HashManageMenuItem, "HashManageMenuItem");
             this.HashManageMenuItem.Click += new System.EventHandler(this.HashManageMenuItem_Click);
             // 
-            // SplitContainer4
-            // 
-            this.SplitContainer4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            resources.ApplyResources(this.SplitContainer4, "SplitContainer4");
-            this.SplitContainer4.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.SplitContainer4.Name = "SplitContainer4";
-            // 
-            // SplitContainer4.Panel1
-            // 
-            this.SplitContainer4.Panel1.Controls.Add(this.SplitContainer1);
-            this.SplitContainer4.TabStop = false;
-            this.SplitContainer4.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.SplitContainer4_SplitterMoved);
-            this.SplitContainer4.Resize += new System.EventHandler(this.SplitContainer4_Resize);
-            // 
             // SplitContainer1
             // 
             this.SplitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -574,6 +557,7 @@
             this.AddTabMenuItem,
             this.TabRenameMenuItem,
             this.ToolStripSeparator20,
+            this.ProtectTabMenuItem,
             this.UreadManageMenuItem,
             this.NotifyDispMenuItem,
             this.SoundFileComboBox,
@@ -604,6 +588,13 @@
             // 
             this.ToolStripSeparator20.Name = "ToolStripSeparator20";
             resources.ApplyResources(this.ToolStripSeparator20, "ToolStripSeparator20");
+            // 
+            // ProtectTabMenuItem
+            // 
+            this.ProtectTabMenuItem.CheckOnClick = true;
+            this.ProtectTabMenuItem.Name = "ProtectTabMenuItem";
+            resources.ApplyResources(this.ProtectTabMenuItem, "ProtectTabMenuItem");
+            this.ProtectTabMenuItem.Click += new System.EventHandler(this.ProtectTabMenuItem_Click);
             // 
             // UreadManageMenuItem
             // 
@@ -767,7 +758,6 @@
             // 
             resources.ApplyResources(this.SplitContainer2, "SplitContainer2");
             this.SplitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.SplitContainer2.MinimumSize = new System.Drawing.Size(0, 22);
             this.SplitContainer2.Name = "SplitContainer2";
             // 
             // SplitContainer2.Panel1
@@ -904,7 +894,6 @@
             this.PostBrowser.ContextMenuStrip = this.ContextMenuPostBrowser;
             resources.ApplyResources(this.PostBrowser, "PostBrowser");
             this.PostBrowser.IsWebBrowserContextMenuEnabled = false;
-            this.PostBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.PostBrowser.Name = "PostBrowser";
             this.PostBrowser.TabStop = false;
             this.PostBrowser.WebBrowserShortcutsEnabled = false;
@@ -946,7 +935,6 @@
             this.SelectionSearchContextMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.SearchGoogleContextMenuItem,
             this.SearchWikipediaContextMenuItem,
-            this.SearchYatsContextMenuItem,
             this.SearchPublicSearchContextMenuItem,
             this.CurrentTabToolStripMenuItem});
             this.SelectionSearchContextMenuItem.Name = "SelectionSearchContextMenuItem";
@@ -963,12 +951,6 @@
             this.SearchWikipediaContextMenuItem.Name = "SearchWikipediaContextMenuItem";
             resources.ApplyResources(this.SearchWikipediaContextMenuItem, "SearchWikipediaContextMenuItem");
             this.SearchWikipediaContextMenuItem.Click += new System.EventHandler(this.SearchWikipediaContextMenuItem_Click);
-            // 
-            // SearchYatsContextMenuItem
-            // 
-            this.SearchYatsContextMenuItem.Name = "SearchYatsContextMenuItem";
-            resources.ApplyResources(this.SearchYatsContextMenuItem, "SearchYatsContextMenuItem");
-            this.SearchYatsContextMenuItem.Click += new System.EventHandler(this.SearchYatsContextMenuItem_Click);
             // 
             // SearchPublicSearchContextMenuItem
             // 
@@ -1108,7 +1090,6 @@
             resources.ApplyResources(this.SourceLinkLabel, "SourceLinkLabel");
             this.SourceLinkLabel.AutoEllipsis = true;
             this.SourceLinkLabel.ContextMenuStrip = this.ContextMenuSource;
-            this.SourceLinkLabel.MaximumSize = new System.Drawing.Size(130, 0);
             this.SourceLinkLabel.Name = "SourceLinkLabel";
             this.SourceLinkLabel.TabStop = true;
             this.SourceLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.SourceLinkLabel_LinkClicked);
@@ -1636,6 +1617,7 @@
             this.CreateTbMenuItem,
             this.RenameTbMenuItem,
             this.ToolStripSeparator28,
+            this.ProtectTbMenuItem,
             this.UnreadMngTbMenuItem,
             this.NotifyTbMenuItem,
             this.SoundFileTbComboBox,
@@ -1665,6 +1647,13 @@
             // 
             this.ToolStripSeparator28.Name = "ToolStripSeparator28";
             resources.ApplyResources(this.ToolStripSeparator28, "ToolStripSeparator28");
+            // 
+            // ProtectTbMenuItem
+            // 
+            this.ProtectTbMenuItem.CheckOnClick = true;
+            this.ProtectTbMenuItem.Name = "ProtectTbMenuItem";
+            resources.ApplyResources(this.ProtectTbMenuItem, "ProtectTbMenuItem");
+            this.ProtectTbMenuItem.Click += new System.EventHandler(this.ProtectTabMenuItem_Click);
             // 
             // UnreadMngTbMenuItem
             // 
@@ -2459,9 +2448,6 @@
             this.StatusStrip1.ResumeLayout(false);
             this.StatusStrip1.PerformLayout();
             this.ContextMenuPostMode.ResumeLayout(false);
-            this.SplitContainer4.Panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.SplitContainer4)).EndInit();
-            this.SplitContainer4.ResumeLayout(false);
             this.SplitContainer1.Panel1.ResumeLayout(false);
             this.SplitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer1)).EndInit();
@@ -2517,7 +2503,6 @@
         internal System.Windows.Forms.ToolStripSeparator ToolStripSeparator8;
         internal System.Windows.Forms.ToolStripMenuItem HashToggleMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem HashManageMenuItem;
-        internal System.Windows.Forms.SplitContainer SplitContainer4;
         internal System.Windows.Forms.SplitContainer SplitContainer1;
         internal System.Windows.Forms.Panel TimelinePanel;
         internal System.Windows.Forms.TabControl ListTab;
@@ -2567,7 +2552,6 @@
         internal System.Windows.Forms.ToolStripMenuItem SelectionSearchContextMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem SearchGoogleContextMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem SearchWikipediaContextMenuItem;
-        internal System.Windows.Forms.ToolStripMenuItem SearchYatsContextMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem SearchPublicSearchContextMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem CurrentTabToolStripMenuItem;
         internal System.Windows.Forms.ToolStripSeparator ToolStripSeparator13;
@@ -2780,6 +2764,8 @@
         internal System.Windows.Forms.ToolTip ToolTip1;
         internal System.Windows.Forms.Timer TimerRefreshIcon;
         internal System.Windows.Forms.ImageList PostStateImageList;
+        private System.Windows.Forms.ToolStripMenuItem ProtectTabMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ProtectTbMenuItem;
 
     }
 }

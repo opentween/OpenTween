@@ -181,10 +181,7 @@
     <value>New version is not found. Latest version is {0}. Download it?</value>
   </data>
   <data name="CheckNewVersionText7" xml:space="preserve">
-    <value>Your %AppName% is latest; you don't need to update. Version: </value>
-  </data>
-  <data name="CheckNewVersionText8" xml:space="preserve">
-    <value>Latest version:</value>
+    <value>Your %AppName% is latest; you don't need to update. Version: {0} Latest version: {1}</value>
   </data>
   <data name="CheckNewVersionText9" xml:space="preserve">
     <value>Version check failed</value>
@@ -1070,5 +1067,8 @@
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Yes</value>
+  </data>
+  <data name="BrowserStartFailed" xml:space="preserve">
+    <value>Failed to start browser. Error code: {0}</value>
   </data>
 </root>

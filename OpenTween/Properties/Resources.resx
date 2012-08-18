@@ -197,10 +197,7 @@
     <value>新しいバージョンは見つかりません。 {0} が公開されています。強制的に更新しますか？</value>
   </data>
   <data name="CheckNewVersionText7" xml:space="preserve">
-    <value>最新版をお使いです。更新の必要はありませんでした。使用中Ver：</value>
-  </data>
-  <data name="CheckNewVersionText8" xml:space="preserve">
-    <value>最新Ver：</value>
+    <value>最新版をお使いです。更新の必要はありませんでした。使用中Ver：{0} 最新Ver：{1}</value>
   </data>
   <data name="CheckNewVersionText9" xml:space="preserve">
     <value>バージョンチェック失敗</value>
@@ -1137,5 +1134,8 @@
   </data>
   <data name="LogoImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\logoimage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BrowserStartFailed" xml:space="preserve">
+    <value>ブラウザの起動に失敗しました。エラーコード: {0}</value>
   </data>
 </root>

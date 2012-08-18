@@ -55,9 +55,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Components\AdsBrowser.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Classes\ApiInformation.cs" />
     <Compile Include="Classes\ApplicationEvents.cs">
       <SubType>Code</SubType>
@@ -75,11 +72,11 @@
     <Compile Include="Forms\AppendSettingDialog.Designer.cs">
       <DependentUpon>AppendSettingDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\AuthBrowser.cs">
+    <Compile Include="AuthDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\AuthBrowser.Designer.cs">
-      <DependentUpon>AuthBrowser.cs</DependentUpon>
+    <Compile Include="AuthDialog.Designer.cs">
+      <DependentUpon>AuthDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Bing.cs" />
     <Compile Include="Connections\HttpOAuthApiProxy.cs" />
@@ -131,11 +128,11 @@
     <Compile Include="Components\DetailsListView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Forms\DialogAsShieldIcon.cs">
+    <Compile Include="UpdateDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\DialogAsShieldIcon.Designer.cs">
-      <DependentUpon>DialogAsShieldIcon.cs</DependentUpon>
+    <Compile Include="UpdateDialog.Designer.cs">
+      <DependentUpon>UpdateDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\DoubleClickCopyCanceller.cs" />
     <Compile Include="Classes\Foursquare.cs" />
@@ -244,7 +241,13 @@
     <Compile Include="Connections\HttpConnection.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Forms\EventViewerDialog.en.resx">
+    <EmbeddedResource Include="AuthDialog.en.resx">
+      <DependentUpon>AuthDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AuthDialog.resx">
+      <DependentUpon>AuthDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EventViewerDialog.en.resx">
       <DependentUpon>EventViewerDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\EventViewerDialog.resx">
@@ -300,14 +303,14 @@
     <EmbeddedResource Include="Forms\AppendSettingDialog.zh-CHS.resx">
       <DependentUpon>AppendSettingDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\AuthBrowser.resx">
-      <DependentUpon>AuthBrowser.cs</DependentUpon>
+    <EmbeddedResource Include="UpdateDialog.en.resx">
+      <DependentUpon>UpdateDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\DialogAsShieldIcon.resx">
-      <DependentUpon>DialogAsShieldIcon.cs</DependentUpon>
+    <EmbeddedResource Include="UpdateDialog.resx">
+      <DependentUpon>UpdateDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\DialogAsShieldIcon.zh-CHS.resx">
-      <DependentUpon>DialogAsShieldIcon.cs</DependentUpon>
+    <EmbeddedResource Include="UpdateDialog.zh-CHS.resx">
+      <DependentUpon>UpdateDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormInfo.resx">
       <DependentUpon>FormInfo.cs</DependentUpon>

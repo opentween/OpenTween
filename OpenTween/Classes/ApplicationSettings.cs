@@ -122,15 +122,6 @@ namespace OpenTween
         public const string YfrogApiKey = "HIDP42ZO6314ee2218e2995662bad5ae320c32f1";
 
         //=====================================================================
-        // Bing
-        // http://www.bing.com/toolbox/bingdeveloper/ から取得できます。
-
-        /// <summary>
-        /// Bing AppId
-        /// </summary>
-        public const string BingAppId = "ABD3DFF1AB47F3899A2203E0C5873CBE3E14E8D3";
-
-        //=====================================================================
         // Foursquare
         // https://developer.foursquare.com/ から取得できます。
 
@@ -166,5 +157,14 @@ namespace OpenTween
         /// TINAMI APIキー
         /// </summary>
         public const string TINAMIApiKey = "4f48bb4858d36";
+
+        //=====================================================================
+        // Windows Azure Marketplace
+        // https://datamarket.azure.com/account/keys から取得できます。
+
+        /// <summary>
+        /// Windows Azure Marketplace アカウントキー
+        /// </summary>
+        public const string AzureMarketplaceKey = "UlOODyR2rVH0lfweya1VuY5KjE7L0ZjvQKQWlYgWsPw=";
     }
 }

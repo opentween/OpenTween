@@ -69,6 +69,17 @@ namespace OpenTween
             ListFilters.Items.AddRange(_sts.Tabs[tabName].GetFilters());
             if (ListFilters.Items.Count > 0) ListFilters.SelectedIndex = 0;
 
+            if (TabInformations.GetInstance().IsDefaultTab(tabName))
+            {
+                CheckProtected.Checked = true;
+                CheckProtected.Enabled = false;
+            }
+            else
+            {
+                CheckProtected.Checked = _sts.Tabs[tabName].Protected;
+                CheckProtected.Enabled = true;
+            }
+
             CheckManageRead.Checked = _sts.Tabs[tabName].UnreadManage;
             CheckNotifyNew.Checked = _sts.Tabs[tabName].Notify;
 
@@ -159,7 +170,7 @@ namespace OpenTween
                     break;
             }
             ButtonRenameTab.Enabled = true;
-            if (TabInformations.GetInstance().IsDefaultTab(tabName))
+            if (TabInformations.GetInstance().IsDefaultTab(tabName) || TabInformations.GetInstance().Tabs[tabName].Protected)
             {
                 ButtonDeleteTab.Enabled = false;
             }
@@ -1045,6 +1056,15 @@ namespace OpenTween
                 int idx = ListTabs.SelectedIndex;
                 ListTabs.Items.RemoveAt(idx + 1);
                 ListTabs.Items.Insert(idx, tgtName);
+            }
+        }
+
+        private void CheckLocked_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ListTabs.SelectedIndex > -1 && !string.IsNullOrEmpty(ListTabs.SelectedItem.ToString()))
+            {
+                _sts.Tabs[ListTabs.SelectedItem.ToString()].Protected = CheckProtected.Checked;
+                ButtonDeleteTab.Enabled = !CheckProtected.Checked;
             }
         }
 

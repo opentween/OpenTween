@@ -32,8 +32,12 @@ using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
+using System.Xml.Linq;
+using System.Xml.XPath;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Collections;
+using System.Linq;
 
 namespace OpenTween
 {
@@ -145,7 +149,6 @@ namespace OpenTween
                 new ThumbnailService("はてなフォトライフ", Hatena_GetUrl, Hatena_CreateImage),
                 new ThumbnailService("PhotoShare/bctiny", PhotoShare_GetUrl, PhotoShare_CreateImage),
                 new ThumbnailService("img.ly", imgly_GetUrl, imgly_CreateImage),
-                new ThumbnailService("brightkite", brightkite_GetUrl, brightkite_CreateImage),
                 new ThumbnailService("Twitgoo", Twitgoo_GetUrl, Twitgoo_CreateImage),
                 new ThumbnailService("youtube", youtube_GetUrl, youtube_CreateImage),
                 new ThumbnailService("ニコニコ動画", nicovideo_GetUrl, nicovideo_CreateImage),
@@ -163,12 +166,13 @@ namespace OpenTween
                 new ThumbnailService("cloudfiles", CloudFiles_GetUrl, CloudFiles_CreateImage),
                 new ThumbnailService("instagram", instagram_GetUrl, instagram_CreateImage),
                 new ThumbnailService("pikubo", pikubo_GetUrl, pikubo_CreateImage),
-                new ThumbnailService("PicPlz", PicPlz_GetUrl, PicPlz_CreateImage),
                 new ThumbnailService("FourSquare", Foursquare_GetUrl, Foursquare_CreateImage),
                 new ThumbnailService("TINAMI", Tinami_GetUrl, Tinami_CreateImage),
                 new ThumbnailService("Twimg", Twimg_GetUrl, Twimg_CreateImage),
                 new ThumbnailService("TwitrPix", TwitrPix_GetUrl, TwitrPix_CreateImage),
                 new ThumbnailService("Pckles", Pckles_GetUrl, Pckles_CreateImage),
+                new ThumbnailService("via.me", ViaMe_GetUrl, ViaMe_CreateImage),
+                new ThumbnailService("tuna.be", TunaBe_GetUrl, TunaBe_CreateImage),
             };
         }
 
@@ -539,10 +543,10 @@ namespace OpenTween
         private bool ImgUr_GetUrl(GetUrlArgs args)
         {
             var mc = Regex.Match(string.IsNullOrEmpty(args.extended) ? args.url : args.extended,
-                                          @"^http://imgur\.com/(\w+)\.jpg$", RegexOptions.IgnoreCase);
+                                          @"^http://(?:i\.)?imgur\.com/(\w+)(?:\..{3})?$", RegexOptions.IgnoreCase);
             if (mc.Success)
             {
-                args.imglist.Add(new KeyValuePair<string, string>(args.url, mc.Result("http://i.imgur.com/${1}l.jpg")));
+                args.imglist.Add(new KeyValuePair<string, string>(args.url, mc.Result("http://img.imgur.com/${1}l.jpg")));
                 return true;
             }
             else
@@ -689,7 +693,7 @@ namespace OpenTween
             if (mc.Success)
             {
                 // TODO 成功時はサムネイルURLを作成しimglist.Addする
-                args.imglist.Add(new KeyValuePair<string, string>(args.url, (string.IsNullOrEmpty(args.extended) ? args.url : args.extended) + ".th.jpg"));
+                args.imglist.Add(new KeyValuePair<string, string>(args.url, (string.IsNullOrEmpty(args.extended) ? args.url : args.extended) + ":small"));
                 return true;
             }
             else
@@ -1079,62 +1083,6 @@ namespace OpenTween
         /// なお失敗した場合はargs.errmsgにエラーを表す文字列がセットされる</returns>
         /// <remarks></remarks>
         private bool imgly_CreateImage(CreateImageArgs args)
-        {
-            // TODO: サムネイル画像読み込み処理を記述します
-            var img = (new HttpVarious()).GetImage(args.url.Value, args.url.Key, 10000, out args.errmsg);
-            if (img == null)
-            {
-                return false;
-            }
-            // 成功した場合はURLに対応する画像、ツールチップテキストを登録
-            args.pics.Add(new KeyValuePair<string, Image>(args.url.Key, img));
-            args.tooltipText.Add(new KeyValuePair<string, string>(args.url.Key, ""));
-            return true;
-        }
-
-#endregion
-
-#region "brightkite"
-        /// <summary>
-        /// URL解析部で呼び出されるサムネイル画像URL作成デリゲート
-        /// </summary>
-        /// <param name="args">class GetUrlArgs
-        ///                                 args.url        URL文字列
-        ///                                 args.imglist    解析成功した際にこのリストに元URL、サムネイルURLの形で作成するKeyValuePair
-        /// </param>
-        /// <returns>成功した場合True,失敗の場合False</returns>
-        /// <remarks>args.imglistには呼び出しもとで使用しているimglistをそのまま渡すこと</remarks>
-
-        private bool brightkite_GetUrl(GetUrlArgs args)
-        {
-            // TODO URL判定処理を記述
-            var mc = Regex.Match(string.IsNullOrEmpty(args.extended) ? args.url : args.extended,
-                                 @"^http://brightkite\.com/objects/((\w{2})(\w{2})\w+)$", RegexOptions.IgnoreCase);
-            if (mc.Success)
-            {
-                // TODO 成功時はサムネイルURLを作成しimglist.Addする
-                args.imglist.Add(new KeyValuePair<string, string>(args.url, mc.Result("http://cdn.brightkite.com/${2}/${3}/${1}-feed.jpg")));
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// BackgroundWorkerから呼び出されるサムネイル画像作成デリゲート
-        /// </summary>
-        /// <param name="args">class CreateImageArgs
-        ///                                 KeyValuePair<string, string> url                  元URLとサムネイルURLのKeyValuePair
-        ///                                 List<KeyValuePair<string, Image>> pics         元URLとサムネイル画像のKeyValuePair
-        ///                                 List<KeyValuePair<string, string>> tooltiptext 元URLとツールチップテキストのKeyValuePair
-        ///                                 string errmsg                                        取得に失敗した際のエラーメッセージ
-        /// </param>
-        /// <returns>サムネイル画像作成に成功した場合はTrue,失敗した場合はFalse
-        /// なお失敗した場合はargs.errmsgにエラーを表す文字列がセットされる</returns>
-        /// <remarks></remarks>
-        private bool brightkite_CreateImage(CreateImageArgs args)
         {
             // TODO: サムネイル画像読み込み処理を記述します
             var img = (new HttpVarious()).GetImage(args.url.Value, args.url.Key, 10000, out args.errmsg);
@@ -1668,7 +1616,7 @@ namespace OpenTween
             //サムネイルURLは画像ページから抽出する
             // TODO URL判定処理を記述
             var mc = Regex.Match(string.IsNullOrEmpty(args.extended) ? args.url : args.extended,
-                                 @"^http://www\.pixiv\.net/(member_illust|index)\.php\?mode=(medium|big)&(amp;)?illust_id=(?<illustId>[0-9]+)(&(amp;)?tag=(?<tag>.+)?)*$", RegexOptions.IgnoreCase);
+                                 @"^http://www\.pixiv\.net/(member_illust|index)\.php\?(|.+&(amp;)?)illust_id=(?<illustId>[0-9]+)(&(amp;)?.+|$)", RegexOptions.IgnoreCase);
             if (mc.Success)
             {
                 // TODO 成功時はサムネイルURLを作成しimglist.Addする
@@ -1698,7 +1646,7 @@ namespace OpenTween
             // TODO: サムネイル画像読み込み処理を記述します
             var src = "";
             //illustIDをキャプチャ
-            var mc = Regex.Match(args.url.Value, @"^http://www\.pixiv\.net/(member_illust|index)\.php\?mode=(medium|big)&(amp;)?illust_id=(?<illustId>[0-9]+)(&(amp;)?tag=(?<tag>.+)?)*$", RegexOptions.IgnoreCase);
+            var mc = Regex.Match(args.url.Value, @"^http://www\.pixiv\.net/(member_illust|index)\.php\?(?=.*mode=(medium|big))(?=.*illust_id=(?<illustId>[0-9]+))(?=.*tag=(?<tag>[^&]+)?)?.*$", RegexOptions.IgnoreCase);
             if (mc.Groups["tag"].Value == "R-18" || mc.Groups["tag"].Value == "R-18G")
             {
                 args.errmsg = "NotSupported";
@@ -1709,7 +1657,7 @@ namespace OpenTween
                 var http = new HttpVarious();
                 if (http.GetData(Regex.Replace(mc.Groups[0].Value, "amp;", ""), null, out src, 0, out args.errmsg, ""))
                 {
-                    var _mc = Regex.Match(src, mc.Result(@"http://img([0-9]+)\.pixiv\.net/img/.+/${illustId}_[ms]\.([a-zA-Z]+)"));
+                    var _mc = Regex.Match(src, mc.Result(@"http://i([0-9]+)\.pixiv\.net/.+/${illustId}_[ms]\.([a-zA-Z]+)"));
                     if (_mc.Success)
                     {
                         var _img = http.GetImage(_mc.Value, args.url.Value, 0, out args.errmsg);
@@ -2122,7 +2070,8 @@ namespace OpenTween
             if (mc.Success)
             {
                 // TODO 成功時はサムネイルURLを作成しimglist.Addする
-                args.imglist.Add(new KeyValuePair<string, string>(args.url, mc.Value));
+                // http://p.twipple.jp/wiki/API_Thumbnail/ja
+                args.imglist.Add(new KeyValuePair<string, string>(args.url, mc.Result("http://p.twipple.jp/show/large/${contentId}")));
                 return true;
             }
             else
@@ -2146,37 +2095,14 @@ namespace OpenTween
         private bool TwipplePhoto_CreateImage(CreateImageArgs args)
         {
             // TODO: サムネイル画像読み込み処理を記述します
-            var http = new HttpVarious();
-            var mc = Regex.Match(args.url.Value, "^http://p.twipple.jp/(?<contentId>[0-9a-z]+)", RegexOptions.IgnoreCase);
-            if (mc.Success)
-            {
-                var src = "";
-                if (http.GetData(args.url.Key, null, out src, 0, out args.errmsg, ""))
-                {
-                    var thumbnail_url = "";
-                    var ContentId = mc.Groups["contentId"].Value;
-                    var DataDir = new StringBuilder();
+            var image = new HttpVarious().GetImage(args.url.Value, args.url.Key, 10000, out args.errmsg);
+            if (image == null)
+                return false;
 
-                    // DataDir作成
-                    DataDir.Append("data");
-                    for (int i = 0; i < ContentId.Length; i++)
-                    {
-                        DataDir.Append("/");
-                        DataDir.Append(ContentId[i]);
-                    }
-
-                    // サムネイルURL抽出
-                    thumbnail_url = Regex.Match(src, @"http://p\.twipple\.jp/" + DataDir.ToString() + @"_s\.([a-zA-Z]+)").Value;
-
-                    if (string.IsNullOrEmpty(thumbnail_url)) return false;
-                    var _img = http.GetImage(thumbnail_url, args.url.Key, 0, out args.errmsg);
-                    if (_img == null) return false;
-                    args.pics.Add(new KeyValuePair<string, Image>(args.url.Key, _img));
-                    args.tooltipText.Add(new KeyValuePair<string, string>(args.url.Key, ""));
-                    return true;
-                }
-            }
-            return false;
+            // 成功した場合はURLに対応する画像、ツールチップテキストを登録
+            args.pics.Add(new KeyValuePair<string, Image>(args.url.Key, image));
+            args.tooltipText.Add(new KeyValuePair<string, string>(args.url.Key, ""));
+            return true;
         }
 
 #endregion
@@ -2531,7 +2457,7 @@ namespace OpenTween
             if (mc.Success)
             {
                 // TODO 成功時はサムネイルURLを作成しimglist.Addする
-                args.imglist.Add(new KeyValuePair<string, string>(args.url, mc.Value));
+                args.imglist.Add(new KeyValuePair<string, string>(args.url, mc.Value + "media/?size=m"));
                 return true;
             }
             else
@@ -2554,27 +2480,18 @@ namespace OpenTween
         /// <remarks></remarks>
         private bool instagram_CreateImage(CreateImageArgs args)
         {
-            // TODO: サムネイル画像読み込み処理を記述します
-
-            var src = "";
             var http = new HttpVarious();
-            if (http.GetData(args.url.Value, null, out src, 0, out args.errmsg, ""))
-            {
-                var mc = Regex.Match(src, "<meta property=\"og:image\" content=\"(?<url>.+)\" ?/>");
-                if (mc.Success)
-                {
-                    var _img = http.GetImage(mc.Groups["url"].Value, args.url.Key, 0, out args.errmsg);
-                    if (_img == null) return false;
-                    args.pics.Add(new KeyValuePair<string, Image>(args.url.Key, _img));
-                    args.tooltipText.Add(new KeyValuePair<string, string>(args.url.Key, ""));
-                    return true;
-                }
-                else
-                {
-                    args.errmsg = "Pattern NotFound";
-                }
-            }
-            return false;
+            var imgUrl = http.GetRedirectTo(args.url.Value);
+
+            if (string.IsNullOrEmpty(imgUrl)) return false;
+
+            var img = http.GetImage(imgUrl, args.url.Key, 10000, out args.errmsg);
+            if (img == null) return false;
+
+            // 成功した場合はURLに対応する画像、ツールチップテキストを登録
+            args.pics.Add(new KeyValuePair<string, Image>(args.url.Key, img));
+            args.tooltipText.Add(new KeyValuePair<string, string>(args.url.Key, ""));
+            return true;
         }
 
 #endregion
@@ -2628,196 +2545,6 @@ namespace OpenTween
             args.pics.Add(new KeyValuePair<string, Image>(args.url.Key, img));
             args.tooltipText.Add(new KeyValuePair<string, string>(args.url.Key, ""));
             return true;
-        }
-
-#endregion
-
-#region "PicPlz"
-        /// <summary>
-        /// URL解析部で呼び出されるサムネイル画像URL作成デリゲート
-        /// </summary>
-        /// <param name="args">class GetUrlArgs
-        ///                                 args.url        URL文字列
-        ///                                 args.imglist    解析成功した際にこのリストに元URL、サムネイルURLの形で作成するKeyValuePair
-        /// </param>
-        /// <returns>成功した場合True,失敗の場合False</returns>
-        /// <remarks>args.imglistには呼び出しもとで使用しているimglistをそのまま渡すこと</remarks>
-
-        private bool PicPlz_GetUrl(GetUrlArgs args)
-        {
-            // TODO URL判定処理を記述
-            var mc = Regex.Match(string.IsNullOrEmpty(args.extended) ? args.url : args.extended,
-                                 @"^http://picplz\.com/user/\w+/pic/(?<longurl_ids>\w+)/?$", RegexOptions.IgnoreCase);
-            if (mc.Success)
-            {
-                // TODO 成功時はサムネイルURLを作成しimglist.Addする
-                args.imglist.Add(new KeyValuePair<string, string>(args.url, mc.Value));
-                return true;
-            }
-            mc = Regex.Match(string.IsNullOrEmpty(args.extended) ? args.url : args.extended,
-                             @"^http://picplz\.com/(?<shorturl_ids>\w+)?$", RegexOptions.IgnoreCase);
-            if (mc.Success)
-            {
-                // TODO 成功時はサムネイルURLを作成しimglist.Addする
-                args.imglist.Add(new KeyValuePair<string, string>(args.url, mc.Value));
-                return true;
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// BackgroundWorkerから呼び出されるサムネイル画像作成デリゲート
-        /// </summary>
-        /// <param name="args">class CreateImageArgs
-        ///                                 KeyValuePair<string, string> url                  元URLとサムネイルURLのKeyValuePair
-        ///                                 List<KeyValuePair<string, Image>> pics         元URLとサムネイル画像のKeyValuePair
-        ///                                 List<KeyValuePair<string, string>> tooltiptext 元URLとツールチップテキストのKeyValuePair
-        ///                                 string errmsg                                        取得に失敗した際のエラーメッセージ
-        /// </param>
-        /// <returns>サムネイル画像作成に成功した場合はTrue,失敗した場合はFalse
-        /// なお失敗した場合はargs.errmsgにエラーを表す文字列がセットされる</returns>
-        /// <remarks></remarks>
-
-        private class PicPlzDataModel
-        {
-            [DataContract]
-            public class Icon
-            {
-                [DataMember(Name = "url")] public string Url = null;
-                [DataMember(Name = "width")] public int Width = 0;
-                [DataMember(Name = "height")] public int Height = 0;
-            }
-
-            [DataContract]
-            public class Creator
-            {
-                [DataMember(Name = "username")] public string Username = null;
-                [DataMember(Name = "display_name")] public string DisplayName = null;
-                [DataMember(Name = "following_count")] public Int32 FollowingCount = 0;
-                [DataMember(Name = "follower_count")] public Int32 FollowerCount = 0;
-                [DataMember(Name = "id")] public Int32 Id = 0;
-                [DataMember(Name = "icon")] public PicPlzDataModel.Icon Icon = null;
-            }
-
-            [DataContract]
-            public class PicFileInfo
-            {
-                [DataMember(Name = "width")] public int Width = 0;
-                [DataMember(Name = "img_url")] public string ImgUrl = null;
-                [DataMember(Name = "height")] public int Height = 0;
-            }
-
-
-            [DataContract]
-            public class PicFiles
-            {
-                [DataMember(Name = "640r")] public PicFileInfo Pic640r = null;
-                [DataMember(Name = "100sh")] public PicFileInfo Pic100sh = null;
-                [DataMember(Name = "320rh")] public PicFileInfo Pic320rh = null;
-            }
-
-            [DataContract]
-            public class Pics
-            {
-                [DataMember(Name = "view_count")] public int ViewCount = 0;
-                [DataMember(Name = "creator")] public Creator Creator = null;
-                [DataMember(Name = "url")] public string Url = null;
-                [DataMember(Name = "pic_files")] public PicFiles PicFiles = null;
-                [DataMember(Name = "caption")] public string Caption = null;
-                [DataMember(Name = "comment_count")] public int CommentCount = 0;
-                [DataMember(Name = "like_count")] public int LikeCount = 0;
-                [DataMember(Name = "date")] public Int64 _Date = 0;
-                [DataMember(Name = "id")] public int Id = 0;
-            }
-
-            [DataContract]
-            public class Value
-            {
-                [DataMember(Name = "pics")] public Pics[] Pics = null;
-            }
-
-            [DataContract]
-            public class ResultData
-            {
-                [DataMember(Name = "result")] public string Result = null;
-                [DataMember(Name = "value")] public Value Value = null;
-            }
-        }
-
-        private bool PicPlz_CreateImage(CreateImageArgs args)
-        {
-            // TODO: サムネイル画像読み込み処理を記述します
-            var http = new HttpVarious();
-            var apiurl = "http://api.picplz.com/api/v2/pic.json?";
-            var mc = Regex.Match(args.url.Value, @"^http://picplz\.com/user/\w+/pic/(?<longurl_ids>\w+)/?$", RegexOptions.IgnoreCase);
-            if (mc.Success)
-            {
-                apiurl += "longurl_ids=" + mc.Groups["longurl_ids"].Value;
-            }
-            else
-            {
-                mc = Regex.Match(args.url.Value, @"^http://picplz\.com/(?<shorturl_ids>\w+)?$", RegexOptions.IgnoreCase);
-                if (mc.Success)
-                {
-                    apiurl += "shorturl_ids=" + mc.Groups["shorturl_ids"].Value;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            var src = "";
-            var imgurl = "";
-            if ((new HttpVarious()).GetData(apiurl, null, out src, 0, out args.errmsg, MyCommon.GetUserAgentString()))
-            {
-                var sb = new StringBuilder();
-                var serializer = new DataContractJsonSerializer(typeof(PicPlzDataModel.ResultData));
-                PicPlzDataModel.ResultData res;
-
-                try
-                {
-                    res = MyCommon.CreateDataFromJson<PicPlzDataModel.ResultData>(src);
-                }
-                catch(Exception)
-                {
-                    return false;
-                }
-
-                if (res.Result == "ok")
-                {
-                    try
-                    {
-                        imgurl = res.Value.Pics[0].PicFiles.Pic320rh.ImgUrl;
-                    }
-                    catch(Exception)
-                    {
-
-                    }
-
-                    try
-                    {
-                        sb.Append(res.Value.Pics[0].Caption);
-                    }
-                    catch(Exception)
-                    {
-
-                    }
-                }
-                else
-                {
-                    return false;
-                }
-
-                if (!string.IsNullOrEmpty(imgurl))
-                {
-                    var _img = http.GetImage(imgurl, args.url.Key, 0, out args.errmsg);
-                    if (_img == null) return false;
-                    args.pics.Add(new KeyValuePair<string, Image>(args.url.Key, _img));
-                    args.tooltipText.Add(new KeyValuePair<string, string>(args.url.Key, sb.ToString().Trim()));
-                    return true;
-                }
-            }
-            return false;
         }
 
 #endregion
@@ -3203,7 +2930,7 @@ namespace OpenTween
             if (mc.Success)
             {
                 // TODO 成功時はサムネイルURLを作成しimglist.Addする
-                args.imglist.Add(new KeyValuePair<string, string>(args.url, mc.Result("http://pckles.com/api/data.get?userid=$1&fileid=$2&type=resize")));
+                args.imglist.Add(new KeyValuePair<string, string>(args.url, mc.Result("http://pckles.com/api/data.get?userid=$1&fileid=$2&type=raw")));
                 return true;
             }
             return false;
@@ -3231,6 +2958,139 @@ namespace OpenTween
             }
             // 成功した場合はURLに対応する画像、ツールチップテキストを登録
             args.pics.Add(new KeyValuePair<string, Image>(args.url.Key, img));
+            args.tooltipText.Add(new KeyValuePair<string, string>(args.url.Key, ""));
+            return true;
+        }
+
+        #endregion
+
+        #region via.me
+
+        /// <summary>
+        /// URL解析部で呼び出されるサムネイル画像URL作成デリゲート
+        /// </summary>
+        /// <param name="args">class GetUrlArgs
+        ///                                 args.url        URL文字列
+        ///                                 args.imglist    解析成功した際にこのリストに元URL、サムネイルURLの形で作成するKeyValuePair
+        /// </param>
+        /// <returns>成功した場合True,失敗の場合False</returns>
+        /// <remarks>args.imglistには呼び出しもとで使用しているimglistをそのまま渡すこと</remarks>
+
+        private bool ViaMe_GetUrl(GetUrlArgs args)
+        {
+            // TODO URL判定処理を記述
+            var mc = Regex.Match(string.IsNullOrEmpty(args.extended) ? args.url : args.extended,
+                                 @"^https?://via\.me/-(\w+)$", RegexOptions.IgnoreCase);
+            if (mc.Success)
+            {
+                // TODO 成功時はサムネイルURLを作成しimglist.Addする
+                args.imglist.Add(new KeyValuePair<string, string>(args.url, mc.Value));
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// BackgroundWorkerから呼び出されるサムネイル画像作成デリゲート
+        /// </summary>
+        /// <param name="args">class CreateImageArgs
+        ///                                 KeyValuePair<string, string> url                  元URLとサムネイルURLのKeyValuePair
+        ///                                 List<KeyValuePair<string, Image>> pics         元URLとサムネイル画像のKeyValuePair
+        ///                                 List<KeyValuePair<string, string>> tooltiptext 元URLとツールチップテキストのKeyValuePair
+        ///                                 string errmsg                                        取得に失敗した際のエラーメッセージ
+        /// </param>
+        /// <returns>サムネイル画像作成に成功した場合はTrue,失敗した場合はFalse
+        /// なお失敗した場合はargs.errmsgにエラーを表す文字列がセットされる</returns>
+        /// <remarks></remarks>
+        private bool ViaMe_CreateImage(CreateImageArgs args)
+        {
+            var mc = Regex.Match(args.url.Value, @"^https?://via\.me/-(\w+)$", RegexOptions.IgnoreCase);
+            var apiUrl = mc.Result("http://via.me/api/v1/posts/$1");
+
+            var src = "";
+            if ((new HttpVarious()).GetData(apiUrl, null, out src, 0, out args.errmsg, MyCommon.GetUserAgentString()))
+            {
+                using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(src), XmlDictionaryReaderQuotas.Max))
+                {
+                    var xElm = XElement.Load(jsonReader);
+                    var thumbUrlElm = ((IEnumerable)xElm.XPathEvaluate("/response/post/thumb_url/text()")).Cast<XText>().FirstOrDefault();
+                    if (thumbUrlElm == null)
+                    {
+                        return false;
+                    }
+
+                    var thumbUrl = thumbUrlElm.Value;
+
+                    // TODO: サムネイル画像読み込み処理を記述します
+                    var img = (new HttpVarious()).GetImage(thumbUrl, args.url.Key, 10000, out args.errmsg);
+                    if (img == null)
+                    {
+                        return false;
+                    }
+                    // 成功した場合はURLに対応する画像、ツールチップテキストを登録
+                    args.pics.Add(new KeyValuePair<string, Image>(args.url.Key, img));
+                    args.tooltipText.Add(new KeyValuePair<string, string>(args.url.Key, ""));
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        #endregion
+
+        #region tuna.be
+
+        /// <summary>
+        /// URL解析部で呼び出されるサムネイル画像URL作成デリゲート
+        /// </summary>
+        /// <param name="args">class GetUrlArgs
+        ///                                 args.url        URL文字列
+        ///                                 args.imglist    解析成功した際にこのリストに元URL、サムネイルURLの形で作成するKeyValuePair
+        /// </param>
+        /// <returns>成功した場合True,失敗の場合False</returns>
+        /// <remarks>args.imglistには呼び出しもとで使用しているimglistをそのまま渡すこと</remarks>
+
+        private bool TunaBe_GetUrl(GetUrlArgs args)
+        {
+            // TODO URL判定処理を記述
+            var mc = Regex.Match(string.IsNullOrEmpty(args.extended) ? args.url : args.extended,
+                                 @"^http://tuna\.be/t/(?<entryId>[a-zA-Z0-9\.\-_]+)$", RegexOptions.IgnoreCase);
+            if (mc.Success)
+            {
+                // TODO 成功時はサムネイルURLを作成しimglist.Addする
+                // http://tuna.be/api/
+                args.imglist.Add(new KeyValuePair<string, string>(args.url, mc.Result("http://tuna.be/show/thumb/${entryId}")));
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// BackgroundWorkerから呼び出されるサムネイル画像作成デリゲート
+        /// </summary>
+        /// <param name="args">class CreateImageArgs
+        ///                                 KeyValuePair<string, string> url                  元URLとサムネイルURLのKeyValuePair
+        ///                                 List<KeyValuePair<string, Image>> pics         元URLとサムネイル画像のKeyValuePair
+        ///                                 List<KeyValuePair<string, string>> tooltiptext 元URLとツールチップテキストのKeyValuePair
+        ///                                 string errmsg                                        取得に失敗した際のエラーメッセージ
+        /// </param>
+        /// <returns>サムネイル画像作成に成功した場合はTrue,失敗した場合はFalse
+        /// なお失敗した場合はargs.errmsgにエラーを表す文字列がセットされる</returns>
+        /// <remarks></remarks>
+
+        private bool TunaBe_CreateImage(CreateImageArgs args)
+        {
+            // TODO: サムネイル画像読み込み処理を記述します
+            var image = new HttpVarious().GetImage(args.url.Value, args.url.Key, 10000, out args.errmsg);
+            if (image == null)
+                return false;
+
+            // 成功した場合はURLに対応する画像、ツールチップテキストを登録
+            args.pics.Add(new KeyValuePair<string, Image>(args.url.Key, image));
             args.tooltipText.Add(new KeyValuePair<string, string>(args.url.Key, ""));
             return true;
         }
