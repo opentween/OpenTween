@@ -39,9 +39,9 @@ using System.Windows.Forms;
 using System.Collections;
 using System.Linq;
 
-namespace OpenTween
+namespace OpenTween.Thumbnail
 {
-    public class Thumbnail
+    public class ThumbnailGenerator
     {
         private object lckPrev = new object();
         private PreviewData _prev;
@@ -103,7 +103,7 @@ namespace OpenTween
             public string url;
             public string extended;
             public List<KeyValuePair<string, string>> imglist;
-            public Google.GlobalLocation geoInfo;
+            public GlobalLocation geoInfo;
         }
 
         private class CreateImageArgs
@@ -130,7 +130,7 @@ namespace OpenTween
 
         private ThumbnailService[] ThumbnailServices;
 
-        public Thumbnail(TweenMain Owner)
+        public ThumbnailGenerator(TweenMain Owner)
         {
             this.Owner = Owner;
 
@@ -269,7 +269,7 @@ namespace OpenTween
                 var args = new GetUrlArgs();
                 args.url = "";
                 args.imglist = imglist;
-                args.geoInfo = new Google.GlobalLocation{ Latitude = geo.Lat, Longitude = geo.Lng };
+                args.geoInfo = new GlobalLocation{ Latitude = geo.Lat, Longitude = geo.Lng };
                 if (TwitterGeo_GetUrl(args))
                 {
                     // URLに対応したサムネイル作成処理デリゲートをリストに登録
@@ -2626,7 +2626,7 @@ namespace OpenTween
             // TODO URL判定処理を記述
             if (args.geoInfo != null && (args.geoInfo.Latitude != 0 || args.geoInfo.Longitude != 0))
             {
-                var url = (new Google()).CreateGoogleStaticMapsUri(args.geoInfo);
+                var url = MapThumb.GetDefaultInstance().CreateStaticMapUrl(args.geoInfo);
                 args.imglist.Add(new KeyValuePair<string, string>(url, url));
                 return true;
             }
@@ -2658,16 +2658,13 @@ namespace OpenTween
             try
             {
                 // URLをStaticMapAPIから通常のURLへ変換
-                // 仕様：ズーム率、サムネイルサイズの設定は無視する
-                // 参考：http://imakoko.didit.jp/imakoko_html/memo/parameters_google.html
-                // サンプル
-                // static版 http://maps.google.com/maps/api/staticmap?center=35.16959869,136.93813205&size=300x300&zoom=15&markers=35.16959869,136.93813205&sensor=false
-                // 通常URL  http://maps.google.com/maps?ll=35.16959869,136.93813205&size=300x300&zoom=15&markers=35.16959869,136.93813205&sensor=false
-
-                url = url.Replace("/maps/api/staticmap?center=", "?ll=");
-                url = url.Replace("&markers=", "&q=");
-                url = Regex.Replace(url, @"&size=\d+x\d+&zoom=\d+", "");
-                url = url.Replace("&sensor=false", "");
+                var m = Regex.Match(url, @"^.+=(?<lat>\d+\.\d+),(?<lon>\d+\.\d+)(&.+)?$");
+                if (m.Success)
+                {
+                    var lat = double.Parse(m.Groups["lat"].Value);
+                    var lon = double.Parse(m.Groups["lon"].Value);
+                    url = MapThumb.GetDefaultInstance().CreateMapLinkUrl(lat, lon);
+                }
             }
             catch(Exception)
             {

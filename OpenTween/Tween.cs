@@ -44,6 +44,7 @@ using System.Threading;
 using System.Media;
 using System.Web;
 using System.Diagnostics;
+using OpenTween.Thumbnail;
 
 namespace OpenTween
 {
@@ -199,7 +200,7 @@ namespace OpenTween
         private BackgroundWorker _bwFollower;
         private ShieldIcon shield = new ShieldIcon();
         private InternetSecurityManager SecurityManager;
-        private Thumbnail Thumbnail;
+        private ThumbnailGenerator Thumbnail;
 
         private int UnreadCounter = -1;
         private int UnreadAtCounter = -1;
@@ -551,7 +552,7 @@ namespace OpenTween
             //Win32Api.SetProxy(HttpConnection.ProxyType.Specified, "127.0.0.1", 8080, "user", "pass")
 
             SecurityManager = new InternetSecurityManager(PostBrowser);
-            Thumbnail = new Thumbnail(this);
+            this.Thumbnail = new ThumbnailGenerator(this);
 
             MyCommon.TwitterApiInfo.Changed += SetStatusLabelApiHandler;
             Microsoft.Win32.SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
@@ -849,9 +850,10 @@ namespace OpenTween
             SettingDialog.HideDuplicatedRetweets = _cfgCommon.HideDuplicatedRetweets;
 
             SettingDialog.IsPreviewFoursquare = _cfgCommon.IsPreviewFoursquare;
-            SettingDialog.FoursquarePreviewHeight = _cfgCommon.FoursquarePreviewHeight;
-            SettingDialog.FoursquarePreviewWidth = _cfgCommon.FoursquarePreviewWidth;
-            SettingDialog.FoursquarePreviewZoom = _cfgCommon.FoursquarePreviewZoom;
+            SettingDialog.MapThumbnailProvider = _cfgCommon.MapThumbnailProvider;
+            SettingDialog.MapThumbnailHeight = _cfgCommon.MapThumbnailHeight;
+            SettingDialog.MapThumbnailWidth = _cfgCommon.MapThumbnailWidth;
+            SettingDialog.MapThumbnailZoom = _cfgCommon.MapThumbnailZoom;
             SettingDialog.IsListStatusesIncludeRts = _cfgCommon.IsListsIncludeRts;
             SettingDialog.TabMouseLock = _cfgCommon.TabMouseLock;
             SettingDialog.IsRemoveSameEvent = _cfgCommon.IsRemoveSameEvent;
@@ -7875,9 +7877,10 @@ namespace OpenTween
                 _cfgCommon.UserAppointUrl = SettingDialog.UserAppointUrl;
                 _cfgCommon.HideDuplicatedRetweets = SettingDialog.HideDuplicatedRetweets;
                 _cfgCommon.IsPreviewFoursquare = SettingDialog.IsPreviewFoursquare;
-                _cfgCommon.FoursquarePreviewHeight = SettingDialog.FoursquarePreviewHeight;
-                _cfgCommon.FoursquarePreviewWidth = SettingDialog.FoursquarePreviewWidth;
-                _cfgCommon.FoursquarePreviewZoom = SettingDialog.FoursquarePreviewZoom;
+                _cfgCommon.MapThumbnailProvider = SettingDialog.MapThumbnailProvider;
+                _cfgCommon.MapThumbnailHeight = SettingDialog.MapThumbnailHeight;
+                _cfgCommon.MapThumbnailWidth = SettingDialog.MapThumbnailWidth;
+                _cfgCommon.MapThumbnailZoom = SettingDialog.MapThumbnailZoom;
                 _cfgCommon.IsListsIncludeRts = SettingDialog.IsListStatusesIncludeRts;
                 _cfgCommon.TabMouseLock = SettingDialog.TabMouseLock;
                 _cfgCommon.IsRemoveSameEvent = SettingDialog.IsRemoveSameEvent;

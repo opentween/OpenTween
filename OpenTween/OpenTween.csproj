@@ -128,6 +128,7 @@
     <Compile Include="DetailsListView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Thumbnail\ThumbnailGenerator.cs" />
     <Compile Include="UpdateDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -151,6 +152,9 @@
     <Compile Include="InputTabName.Designer.cs">
       <DependentUpon>InputTabName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Thumbnail\MapThumbGoogle.cs" />
+    <Compile Include="Thumbnail\MapThumb.cs" />
+    <Compile Include="Thumbnail\MapThumbOSM.cs" />
     <Compile Include="MessageForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -213,7 +217,6 @@
       <DependentUpon>ShowUserInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="StatusDictionary.cs" />
-    <Compile Include="Thumbnail.cs" />
     <Compile Include="ToolStripAPIGauge.cs">
       <SubType>Component</SubType>
     </Compile>

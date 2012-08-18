@@ -31,6 +31,7 @@ using System.Text;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Runtime.Serialization;
+using OpenTween.Thumbnail;
 
 namespace OpenTween
 {
@@ -51,7 +52,7 @@ namespace OpenTween
             {"client_secret", ApplicationSettings.FoursquareClientSecret},
         };
 
-        private Dictionary<string, Google.GlobalLocation> CheckInUrlsVenueCollection = new Dictionary<string, Google.GlobalLocation>();
+        private Dictionary<string, GlobalLocation> CheckInUrlsVenueCollection = new Dictionary<string, GlobalLocation>();
 
         private string GetVenueId(string url)
         {
@@ -131,7 +132,7 @@ namespace OpenTween
             if (CheckInUrlsVenueCollection.ContainsKey(urlId))
             {
                 refText = CheckInUrlsVenueCollection[urlId].LocateInfo;
-                return new Google().CreateGoogleStaticMapsUri(CheckInUrlsVenueCollection[urlId]);
+                return MapThumb.GetDefaultInstance().CreateStaticMapUrl(CheckInUrlsVenueCollection[urlId]);
             }
 
             FourSquareDataModel.Venue curVenue = null;
@@ -141,11 +142,11 @@ namespace OpenTween
             curVenue = GetVenueInfo(venueId);
             if (curVenue == null) return null;
 
-            var curLocation = new Google.GlobalLocation {Latitude = curVenue.Location.Latitude, Longitude = curVenue.Location.Longitude, LocateInfo = CreateVenueInfoText(curVenue)};
+            var curLocation = new GlobalLocation {Latitude = curVenue.Location.Latitude, Longitude = curVenue.Location.Longitude, LocateInfo = CreateVenueInfoText(curVenue)};
             //例外発生の場合があるため
             if (!CheckInUrlsVenueCollection.ContainsKey(urlId)) CheckInUrlsVenueCollection.Add(urlId, curLocation);
             refText = curLocation.LocateInfo;
-            return new Google().CreateGoogleStaticMapsUri(curLocation);
+            return MapThumb.GetDefaultInstance().CreateStaticMapUrl(curLocation);
         }
 
         private string CreateVenueInfoText(FourSquareDataModel.Venue info)

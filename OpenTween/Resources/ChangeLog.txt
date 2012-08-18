@@ -2,6 +2,7 @@
 
 ==== Ver 1.0.6-beta1(2012/xx/xx)
  * NEW: TUNA.BE のサムネイル表示に対応
+ * NEW: 地図のサムネイルに使用するサービスを選択可能に（OpenStreetMap/Google Maps）
  * CHG: アップデート通知画面をちょっと変更
  * FIX: 発言詳細部のアイコンの縦幅が狭くなっていたのを修正
 

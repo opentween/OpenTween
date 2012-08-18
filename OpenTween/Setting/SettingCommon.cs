@@ -28,6 +28,7 @@ using System;
 using System.Xml.Serialization;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using OpenTween.Thumbnail;
 
 namespace OpenTween
 {
@@ -210,9 +211,10 @@ namespace OpenTween
         public string UserAppointUrl = "";
         public bool HideDuplicatedRetweets = false;
         public bool IsPreviewFoursquare = false;
-        public int FoursquarePreviewHeight = 300;
-        public int FoursquarePreviewWidth = 300;
-        public int FoursquarePreviewZoom = 15;
+        public int MapThumbnailHeight = 200;
+        public int MapThumbnailWidth = 200;
+        public int MapThumbnailZoom = 15;
+        public MapProvider MapThumbnailProvider = MapProvider.GoogleMaps;
         public bool IsListsIncludeRts = false;
         public long GAFirst = 0;
         public long GALast = 0;

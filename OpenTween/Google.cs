@@ -300,43 +300,5 @@ namespace OpenTween
             return "";
         }
 #endregion
-
-#region "GoogleMaps"
-        public string CreateGoogleStaticMapsUri(GlobalLocation locate)
-        {
-            return CreateGoogleStaticMapsUri(locate.Latitude, locate.Longitude);
-        }
-
-        public string CreateGoogleStaticMapsUri(double lat, double lng)
-        {
-            int width = AppendSettingDialog.Instance.FoursquarePreviewWidth;
-            int height = AppendSettingDialog.Instance.FoursquarePreviewHeight;
-            int zoom = AppendSettingDialog.Instance.FoursquarePreviewZoom;
-            string location = lat.ToString() + "," + lng.ToString();
-
-            return "http://maps.google.com/maps/api/staticmap?center=" + location + "&size=" + width + "x" + height + "&zoom=" + zoom + "&markers=" + location + "&sensor=false";
-        }
-
-        public string CreateGoogleMapsUri(GlobalLocation locate)
-        {
-            return CreateGoogleMapsUri(locate.Latitude, locate.Longitude);
-        }
-
-        public string CreateGoogleMapsUri(double lat, double lng)
-        {
-            int zoom = AppendSettingDialog.Instance.FoursquarePreviewZoom;
-            string location = lat.ToString() + "," + lng.ToString();
-
-            return "http://maps.google.com/maps?ll=" + location + "&z=" + zoom + "&q=" + location;
-        }
-
-        public class GlobalLocation
-        {
-            public double Latitude { get; set; }
-            public double Longitude { get; set; }
-            public string LocateInfo { get; set; }
-        }
-
-#endregion
     }
 }

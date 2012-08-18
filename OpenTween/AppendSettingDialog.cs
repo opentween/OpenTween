@@ -35,6 +35,7 @@ using System.Windows.Forms;
 using System.Threading;
 using System.IO;
 using System.Resources;
+using OpenTween.Thumbnail;
 
 namespace OpenTween
 {
@@ -52,9 +53,10 @@ namespace OpenTween
         public bool HideDuplicatedRetweets;
 
         public bool IsPreviewFoursquare;
-        public int FoursquarePreviewHeight;
-        public int FoursquarePreviewWidth;
-        public int FoursquarePreviewZoom;
+        public MapProvider MapThumbnailProvider;
+        public int MapThumbnailHeight;
+        public int MapThumbnailWidth;
+        public int MapThumbnailZoom;
         public bool IsListStatusesIncludeRts;
         public List<UserAccount> UserAccounts;
         private long InitialUserId;
@@ -484,9 +486,10 @@ namespace OpenTween
                 UserAppointUrl = UserAppointUrlText.Text;
                 this.HideDuplicatedRetweets = this.HideDuplicatedRetweetsCheck.Checked;
                 this.IsPreviewFoursquare = this.IsPreviewFoursquareCheckBox.Checked;
-                this.FoursquarePreviewHeight = int.Parse(this.FoursquarePreviewHeightTextBox.Text);
-                this.FoursquarePreviewWidth = int.Parse(this.FoursquarePreviewWidthTextBox.Text);
-                this.FoursquarePreviewZoom = int.Parse(this.FoursquarePreviewZoomTextBox.Text);
+                this.MapThumbnailProvider = (MapProvider)this.MapThumbnailProviderComboBox.SelectedIndex;
+                this.MapThumbnailHeight = int.Parse(this.MapThumbnailHeightTextBox.Text);
+                this.MapThumbnailWidth = int.Parse(this.MapThumbnailWidthTextBox.Text);
+                this.MapThumbnailZoom = int.Parse(this.MapThumbnailZoomTextBox.Text);
                 this.IsListStatusesIncludeRts = this.IsListsIncludeRtsCheckBox.Checked;
                 this.TabMouseLock = this.TabMouseLockCheck.Checked;
                 this.IsRemoveSameEvent = this.IsRemoveSameFavEventCheckBox.Checked;
@@ -883,9 +886,10 @@ namespace OpenTween
             UserAppointUrlText.Text = UserAppointUrl;
             this.HideDuplicatedRetweetsCheck.Checked = this.HideDuplicatedRetweets;
             this.IsPreviewFoursquareCheckBox.Checked = this.IsPreviewFoursquare;
-            this.FoursquarePreviewHeightTextBox.Text = this.FoursquarePreviewHeight.ToString();
-            this.FoursquarePreviewWidthTextBox.Text = this.FoursquarePreviewWidth.ToString();
-            this.FoursquarePreviewZoomTextBox.Text = this.FoursquarePreviewZoom.ToString();
+            this.MapThumbnailProviderComboBox.SelectedIndex = (int)this.MapThumbnailProvider;
+            this.MapThumbnailHeightTextBox.Text = this.MapThumbnailHeight.ToString();
+            this.MapThumbnailWidthTextBox.Text = this.MapThumbnailWidth.ToString();
+            this.MapThumbnailZoomTextBox.Text = this.MapThumbnailZoom.ToString();
             this.IsListsIncludeRtsCheckBox.Checked = this.IsListStatusesIncludeRts;
             this.TabMouseLockCheck.Checked = this.TabMouseLock;
             this.IsRemoveSameFavEventCheckBox.Checked = this.IsRemoveSameEvent;
@@ -2343,11 +2347,6 @@ namespace OpenTween
             {
                 MessageBox.Show("Text Error:正しいURLではありません");
             }
-        }
-
-        private void IsPreviewFoursquareCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            FoursquareGroupBox.Enabled = IsPreviewFoursquareCheckBox.Checked;
         }
 
         private void OpenUrl(string url)
