@@ -90,6 +90,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "UpdateDialog";
+            this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.TopMost = true;
             this.Shown += new System.EventHandler(this.UpdateDialog_Shown);
