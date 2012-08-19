@@ -114,6 +114,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.TableLayoutPanel);
             this.Name = "TweenAboutBox";
+            this.ShowInTaskbar = false;
             this.Load += new System.EventHandler(this.TweenAboutBox_Load);
             this.Shown += new System.EventHandler(this.TweenAboutBox_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.LogoPictureBox)).EndInit();

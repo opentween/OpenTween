@@ -2336,6 +2336,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AppendSettingDialog";
+            this.ShowInTaskbar = false;
             this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Setting_FormClosing);
             this.Load += new System.EventHandler(this.Setting_Load);
