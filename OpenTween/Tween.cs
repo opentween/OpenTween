@@ -1275,6 +1275,8 @@ namespace OpenTween
                     break;
                 }
             }
+
+            UserPicture.Height = UserPicture.Width;
         }
 
         private void CreatePictureServices()
