@@ -2923,11 +2923,11 @@ namespace OpenTween.Thumbnail
         {
             // TODO URL判定処理を記述
             var mc = Regex.Match(string.IsNullOrEmpty(args.extended) ? args.url : args.extended,
-                                 @"^https?://pckles\.com/(\w+)/(\w+)$", RegexOptions.IgnoreCase);
+                                 @"^https?://pckles\.com/\w+/\w+$", RegexOptions.IgnoreCase);
             if (mc.Success)
             {
                 // TODO 成功時はサムネイルURLを作成しimglist.Addする
-                args.imglist.Add(new KeyValuePair<string, string>(args.url, mc.Result("http://pckles.com/api/data.get?userid=$1&fileid=$2&type=raw")));
+                args.imglist.Add(new KeyValuePair<string, string>(args.url, mc.Result("$0.resize.jpg")));
                 return true;
             }
             return false;

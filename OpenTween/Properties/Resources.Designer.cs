@@ -619,6 +619,7 @@ namespace OpenTween.Properties {
         /// * CHG: デフォルトの地図サムネイル表示をOpenStreetMapに変更
         /// * CHG: アップデート通知画面をちょっと変更
         /// * FIX: 発言詳細部のアイコンの縦幅が狭くなっていたのを修正
+        /// * FIX: Pcklesのサムネイルが表示できなくなっていたのを修正
         ///
         ///==== Ver 1.0.5(2012/08/17)
         /// * CHG: 「タブを固定」機能を「タブを保護」に名称変更
@@ -628,7 +629,7 @@ namespace OpenTween.Properties {
         ///==== Ver 1.0.4(2012/08/13)
         /// * NEW: 「タブを固定」機能を追加
         /// * CHG: OAuth認証に内部ブラウザを使用する方法を廃止
-        /// * CHG: Instagramのサムネイル画像を正式に提供されているURLに更新 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * C [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
