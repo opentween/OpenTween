@@ -857,5 +857,20 @@ namespace OpenTween
                 return string.Format("{0}.{1}.{2}-beta{3}", version[0], version[1], version[2], version[3]);
             }
         }
+
+        public const string TwitterUrl = "https://twitter.com/";
+
+        public static string GetStatusUrl(PostClass post)
+        {
+            if (post.RetweetedId == 0)
+                return GetStatusUrl(post.ScreenName, post.StatusId);
+            else
+                return GetStatusUrl(post.ScreenName, post.RetweetedId);
+        }
+
+        public static string GetStatusUrl(string screenName, long statusId)
+        {
+            return TwitterUrl + screenName + "/status/" + statusId.ToString();
+        }
     }
 }

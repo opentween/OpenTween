@@ -3412,15 +3412,15 @@ namespace OpenTween
         private void MoveToHomeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (_curList.SelectedIndices.Count > 0)
-                OpenUriAsync("http://twitter.com/" + GetCurTabPost(_curList.SelectedIndices[0]).ScreenName);
+                OpenUriAsync(MyCommon.TwitterUrl + GetCurTabPost(_curList.SelectedIndices[0]).ScreenName);
             else if (_curList.SelectedIndices.Count == 0)
-                OpenUriAsync("http://twitter.com/");
+                OpenUriAsync(MyCommon.TwitterUrl);
         }
 
         private void MoveToFavToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (_curList.SelectedIndices.Count > 0)
-                OpenUriAsync("http://twitter.com/" + GetCurTabPost(_curList.SelectedIndices[0]).ScreenName + "/favorites");
+                OpenUriAsync(MyCommon.TwitterUrl + "#!/" + GetCurTabPost(_curList.SelectedIndices[0]).ScreenName + "/favorites");
         }
 
         private void Tween_ClientSizeChanged(object sender, EventArgs e)
@@ -5931,11 +5931,8 @@ namespace OpenTween
         {
             if (_curList.SelectedIndices.Count > 0 && _statuses.Tabs[_curTab.Text].TabType != MyCommon.TabUsageType.DirectMessage)
             {
-                PostClass post = _statuses[_curTab.Text, _curList.SelectedIndices[0]];
-                if (post.RetweetedId == 0)
-                    OpenUriAsync("http://twitter.com/" + post.ScreenName + "/status/" + post.StatusId.ToString());
-                else
-                    OpenUriAsync("http://twitter.com/" + post.ScreenName + "/status/" + post.RetweetedId.ToString());
+                var post = _statuses[_curTab.Text, _curList.SelectedIndices[0]];
+                OpenUriAsync(MyCommon.GetStatusUrl(post));
             }
         }
 
@@ -6520,15 +6517,11 @@ namespace OpenTween
                             return true;
                         case Keys.H:
                             // Webページを開く動作
-                            if (_curList.SelectedIndices.Count > 0)
-                                OpenUriAsync("http://twitter.com/" + GetCurTabPost(_curList.SelectedIndices[0]).ScreenName);
-                            else if (_curList.SelectedIndices.Count == 0)
-                                OpenUriAsync("http://twitter.com/");
+                            MoveToHomeToolStripMenuItem_Click(null, null);
                             return true;
                         case Keys.G:
                             // Webページを開く動作
-                            if (_curList.SelectedIndices.Count > 0)
-                                OpenUriAsync("http://twitter.com/" + GetCurTabPost(_curList.SelectedIndices[0]).ScreenName + "/favorites");
+                            MoveToFavToolStripMenuItem_Click(null, null);
                             return true;
                         case Keys.O:
                             // Webページを開く動作
@@ -7055,11 +7048,8 @@ namespace OpenTween
             if (this._statuses.GetTabByName(this._curTab.Text).TabType == MyCommon.TabUsageType.DirectMessage) return;
             foreach (int idx in _curList.SelectedIndices)
             {
-                PostClass post = _statuses[_curTab.Text, idx];
-                if (post.RetweetedId > 0)
-                    sb.AppendFormat("http://twitter.com/{0}/status/{1}{2}", post.ScreenName, post.RetweetedId, Environment.NewLine);
-                else
-                    sb.AppendFormat("http://twitter.com/{0}/status/{1}{2}", post.ScreenName, post.StatusId, Environment.NewLine);
+                var post = _statuses[_curTab.Text, idx];
+                sb.Append(MyCommon.GetStatusUrl(post));
             }
             if (sb.Length > 0)
             {
@@ -9688,7 +9678,7 @@ namespace OpenTween
             {
                 if (MyCommon.IsKeyDown(Keys.Shift))
                 {
-                    OpenUriAsync("http://twitter.com/" + _curPost.InReplyToUser + "/status/" + _curPost.InReplyToStatusId.ToString());
+                    OpenUriAsync(MyCommon.GetStatusUrl(_curPost.InReplyToUser, _curPost.InReplyToStatusId));
                     return;
                 }
                 if (_statuses.ContainsKey(_curPost.InReplyToStatusId))
@@ -9705,7 +9695,7 @@ namespace OpenTween
                         MessageBox.Show(repPost.ScreenName + " / " + repPost.Nickname + "   (" + repPost.CreatedAt.ToString() + ")" + Environment.NewLine + repPost.TextFromApi);
                         return;
                     }
-                    OpenUriAsync("http://twitter.com/" + _curPost.InReplyToUser + "/status/" + _curPost.InReplyToStatusId.ToString());
+                    OpenUriAsync(MyCommon.GetStatusUrl(_curPost.InReplyToUser, _curPost.InReplyToStatusId));
                 }
             }
         }
@@ -12192,7 +12182,7 @@ namespace OpenTween
         {
             if (NameLabel.Tag != null)
             {
-                OpenUriAsync("http://twitter.com/" + NameLabel.Tag.ToString());
+                OpenUriAsync(MyCommon.TwitterUrl + NameLabel.Tag.ToString());
             }
         }
 
@@ -12969,7 +12959,7 @@ namespace OpenTween
 
         private void OpenOwnHomeMenuItem_Click(object sender, EventArgs e)
         {
-            OpenUriAsync("http://twitter.com/" + tw.Username);
+            OpenUriAsync(MyCommon.TwitterUrl + tw.Username);
         }
 
         private void doTranslation(string str)
