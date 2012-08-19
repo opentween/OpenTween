@@ -2658,7 +2658,7 @@ namespace OpenTween.Thumbnail
             try
             {
                 // URLをStaticMapAPIから通常のURLへ変換
-                var m = Regex.Match(url, @"^.+=(?<lat>\d+\.\d+),(?<lon>\d+\.\d+)(&.+)?$");
+                var m = Regex.Match(url, @"^.+=(?<lat>\d+(\.\d+)?),(?<lon>\d+(\.\d+)?)(&.+)?$");
                 if (m.Success)
                 {
                     var lat = double.Parse(m.Groups["lat"].Value);
