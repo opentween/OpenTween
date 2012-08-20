@@ -3364,7 +3364,7 @@ Growl.CoreLibrary.DLL</value>
     <value>121, 20</value>
   </data>
   <data name="MapThumbnailProviderComboBox.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
+    <value>2</value>
   </data>
   <data name="&gt;&gt;MapThumbnailProviderComboBox.Name" xml:space="preserve">
     <value>MapThumbnailProviderComboBox</value>
@@ -3409,7 +3409,7 @@ Growl.CoreLibrary.DLL</value>
     <value>True</value>
   </data>
   <data name="Label42.Location" type="System.Drawing.Point, System.Drawing">
-    <value>168, 49</value>
+    <value>160, 51</value>
   </data>
   <data name="Label42.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>5, 0, 5, 0</value>
@@ -3436,13 +3436,13 @@ Growl.CoreLibrary.DLL</value>
     <value>2</value>
   </data>
   <data name="MapThumbnailWidthTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>186, 46</value>
+    <value>102, 46</value>
   </data>
   <data name="MapThumbnailWidthTextBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>50, 19</value>
   </data>
   <data name="MapThumbnailWidthTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>3</value>
   </data>
   <data name="&gt;&gt;MapThumbnailWidthTextBox.Name" xml:space="preserve">
     <value>MapThumbnailWidthTextBox</value>
@@ -3463,7 +3463,7 @@ Growl.CoreLibrary.DLL</value>
     <value>63, 19</value>
   </data>
   <data name="MapThumbnailZoomTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>7</value>
   </data>
   <data name="&gt;&gt;MapThumbnailZoomTextBox.Name" xml:space="preserve">
     <value>MapThumbnailZoomTextBox</value>
@@ -3478,13 +3478,13 @@ Growl.CoreLibrary.DLL</value>
     <value>4</value>
   </data>
   <data name="MapThumbnailHeightTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>102, 46</value>
+    <value>179, 46</value>
   </data>
   <data name="MapThumbnailHeightTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 19</value>
+    <value>50, 19</value>
   </data>
   <data name="MapThumbnailHeightTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="&gt;&gt;MapThumbnailHeightTextBox.Name" xml:space="preserve">
     <value>MapThumbnailHeightTextBox</value>
