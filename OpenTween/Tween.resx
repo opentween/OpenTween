@@ -130,7 +130,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="StatusLabelUrl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>459, 22</value>
+    <value>620, 22</value>
   </data>
   <data name="StatusLabelUrl.Text" xml:space="preserve">
     <value>ToolStripStatusLabel1</value>
@@ -139,7 +139,7 @@
     <value>MiddleLeft</value>
   </data>
   <data name="StatusLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 22</value>
+    <value>78, 22</value>
   </data>
   <data name="StatusLabel.Text" xml:space="preserve">
     <value>Starting...</value>
@@ -157,19 +157,19 @@
     <value>431, 17</value>
   </metadata>
   <data name="ToolStripMenuItemUrlMultibyteSplit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>237, 22</value>
+    <value>306, 22</value>
   </data>
   <data name="ToolStripMenuItemUrlMultibyteSplit.Text" xml:space="preserve">
     <value>URLからの全角文字列の切り離し</value>
   </data>
   <data name="ToolStripMenuItemApiCommandEvasion.Size" type="System.Drawing.Size, System.Drawing">
-    <value>237, 22</value>
+    <value>306, 22</value>
   </data>
   <data name="ToolStripMenuItemApiCommandEvasion.Text" xml:space="preserve">
     <value>APIコマンドを回避する</value>
   </data>
   <data name="ToolStripMenuItemUrlAutoShorten.Size" type="System.Drawing.Size, System.Drawing">
-    <value>237, 22</value>
+    <value>306, 22</value>
   </data>
   <data name="ToolStripMenuItemUrlAutoShorten.Text" xml:space="preserve">
     <value>自動的にURLを短縮する</value>
@@ -178,7 +178,7 @@
     <value>False</value>
   </data>
   <data name="IdeographicSpaceToSpaceToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>237, 22</value>
+    <value>306, 22</value>
   </data>
   <data name="IdeographicSpaceToSpaceToolStripMenuItem.Text" xml:space="preserve">
     <value>全角スペースを半角スペースにする</value>
@@ -187,37 +187,37 @@
     <value>Ctrl+Y</value>
   </data>
   <data name="MultiLineMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>237, 22</value>
+    <value>306, 22</value>
   </data>
   <data name="MultiLineMenuItem.Text" xml:space="preserve">
     <value>発言欄複数行入力(&amp;M)</value>
   </data>
   <data name="ToolStripFocusLockMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>237, 22</value>
+    <value>306, 22</value>
   </data>
   <data name="ToolStripFocusLockMenuItem.Text" xml:space="preserve">
     <value>フォーカスを発言欄へロックする</value>
   </data>
   <data name="ToolStripSeparator35.Size" type="System.Drawing.Size, System.Drawing">
-    <value>234, 6</value>
+    <value>303, 6</value>
   </data>
   <data name="ImageSelectMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+Shift+P</value>
   </data>
   <data name="ImageSelectMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>237, 22</value>
+    <value>306, 22</value>
   </data>
   <data name="ImageSelectMenuItem.Text" xml:space="preserve">
     <value>投稿画像選択(&amp;P)</value>
   </data>
   <data name="ToolStripSeparator8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>234, 6</value>
+    <value>303, 6</value>
   </data>
   <data name="HashToggleMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+Shift+T</value>
   </data>
   <data name="HashToggleMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>237, 22</value>
+    <value>306, 22</value>
   </data>
   <data name="HashToggleMenuItem.Text" xml:space="preserve">
     <value>ハッシュタグ自動付加</value>
@@ -226,13 +226,13 @@
     <value>Ctrl+T</value>
   </data>
   <data name="HashManageMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>237, 22</value>
+    <value>306, 22</value>
   </data>
   <data name="HashManageMenuItem.Text" xml:space="preserve">
     <value>ハッシュタグ設定</value>
   </data>
   <data name="ContextMenuPostMode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>238, 214</value>
+    <value>307, 214</value>
   </data>
   <data name="&gt;&gt;ContextMenuPostMode.Name" xml:space="preserve">
     <value>ContextMenuPostMode</value>
@@ -241,7 +241,7 @@
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="HashStripSplitButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>43, 25</value>
+    <value>50, 25</value>
   </data>
   <data name="HashStripSplitButton.Text" xml:space="preserve">
     <value>#[-]</value>
@@ -250,7 +250,7 @@
     <value>0, 0</value>
   </data>
   <data name="StatusStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>574, 27</value>
+    <value>765, 27</value>
   </data>
   <data name="StatusStrip1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -288,8 +288,644 @@
   <data name="SplitContainer1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
+  <data name="SplitContainer1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
   <data name="SplitContainer1.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
     <value>Horizontal</value>
+  </data>
+  <data name="&gt;&gt;ListTab.Name" xml:space="preserve">
+    <value>ListTab</value>
+  </data>
+  <data name="&gt;&gt;ListTab.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ListTab.Parent" xml:space="preserve">
+    <value>TimelinePanel</value>
+  </data>
+  <data name="&gt;&gt;ListTab.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="TimelinePanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="TimelinePanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="TimelinePanel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="TimelinePanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>761, 385</value>
+  </data>
+  <data name="TimelinePanel.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;TimelinePanel.Name" xml:space="preserve">
+    <value>TimelinePanel</value>
+  </data>
+  <data name="&gt;&gt;TimelinePanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TimelinePanel.Parent" xml:space="preserve">
+    <value>SplitContainer1.Panel1</value>
+  </data>
+  <data name="&gt;&gt;TimelinePanel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="ImageSelectionPanel.AutoScroll" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;ImageSelectedPicture.Name" xml:space="preserve">
+    <value>ImageSelectedPicture</value>
+  </data>
+  <data name="&gt;&gt;ImageSelectedPicture.Type" xml:space="preserve">
+    <value>OpenTween.OpenTweenCustomControl.PictureBoxEx, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;ImageSelectedPicture.Parent" xml:space="preserve">
+    <value>ImageSelectionPanel</value>
+  </data>
+  <data name="&gt;&gt;ImageSelectedPicture.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;ImagePathPanel.Name" xml:space="preserve">
+    <value>ImagePathPanel</value>
+  </data>
+  <data name="&gt;&gt;ImagePathPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ImagePathPanel.Parent" xml:space="preserve">
+    <value>ImageSelectionPanel</value>
+  </data>
+  <data name="&gt;&gt;ImagePathPanel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="ImageSelectionPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="ImageSelectionPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="ImageSelectionPanel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="ImageSelectionPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>761, 385</value>
+  </data>
+  <data name="ImageSelectionPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="ImageSelectionPanel.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;ImageSelectionPanel.Name" xml:space="preserve">
+    <value>ImageSelectionPanel</value>
+  </data>
+  <data name="&gt;&gt;ImageSelectionPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ImageSelectionPanel.Parent" xml:space="preserve">
+    <value>SplitContainer1.Panel1</value>
+  </data>
+  <data name="&gt;&gt;ImageSelectionPanel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="ProfilePanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="ProfilePanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="ProfilePanel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="ProfilePanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>761, 385</value>
+  </data>
+  <data name="ProfilePanel.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="ProfilePanel.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;ProfilePanel.Name" xml:space="preserve">
+    <value>ProfilePanel</value>
+  </data>
+  <data name="&gt;&gt;ProfilePanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ProfilePanel.Parent" xml:space="preserve">
+    <value>SplitContainer1.Panel1</value>
+  </data>
+  <data name="&gt;&gt;ProfilePanel.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer1.Panel1.Name" xml:space="preserve">
+    <value>SplitContainer1.Panel1</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer1.Panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer1.Panel1.Parent" xml:space="preserve">
+    <value>SplitContainer1</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer1.Panel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="SplitContainer3.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="SplitContainer3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="SplitContainer3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="SplitContainer2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="SplitContainer2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="SplitContainer2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="SplitContainer2.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
+    <value>Horizontal</value>
+  </data>
+  <data name="TableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;UserPicture.Name" xml:space="preserve">
+    <value>UserPicture</value>
+  </data>
+  <data name="&gt;&gt;UserPicture.Type" xml:space="preserve">
+    <value>OpenTween.OpenTweenCustomControl.PictureBoxEx, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;UserPicture.Parent" xml:space="preserve">
+    <value>TableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;UserPicture.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;NameLabel.Name" xml:space="preserve">
+    <value>NameLabel</value>
+  </data>
+  <data name="&gt;&gt;NameLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NameLabel.Parent" xml:space="preserve">
+    <value>TableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;NameLabel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;PostBrowser.Name" xml:space="preserve">
+    <value>PostBrowser</value>
+  </data>
+  <data name="&gt;&gt;PostBrowser.Type" xml:space="preserve">
+    <value>System.Windows.Forms.WebBrowser, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PostBrowser.Parent" xml:space="preserve">
+    <value>TableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;PostBrowser.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;DateTimeLabel.Name" xml:space="preserve">
+    <value>DateTimeLabel</value>
+  </data>
+  <data name="&gt;&gt;DateTimeLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DateTimeLabel.Parent" xml:space="preserve">
+    <value>TableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;DateTimeLabel.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;SourceLinkLabel.Name" xml:space="preserve">
+    <value>SourceLinkLabel</value>
+  </data>
+  <data name="&gt;&gt;SourceLinkLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SourceLinkLabel.Parent" xml:space="preserve">
+    <value>TableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;SourceLinkLabel.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="TableLayoutPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="TableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="TableLayoutPanel1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="TableLayoutPanel1.RowCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="TableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>761, 97</value>
+  </data>
+  <data name="TableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;TableLayoutPanel1.Name" xml:space="preserve">
+    <value>TableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;TableLayoutPanel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TableLayoutPanel1.Parent" xml:space="preserve">
+    <value>SplitContainer2.Panel1</value>
+  </data>
+  <data name="&gt;&gt;TableLayoutPanel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="TableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="UserPicture" Row="0" RowSpan="2" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="NameLabel" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="PostBrowser" Row="1" RowSpan="1" Column="1" ColumnSpan="3" /&gt;&lt;Control Name="DateTimeLabel" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="SourceLinkLabel" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,75,Percent,100,Absolute,160,AutoSize,0" /&gt;&lt;Rows Styles="Absolute,21,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer2.Panel1.Name" xml:space="preserve">
+    <value>SplitContainer2.Panel1</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer2.Panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer2.Panel1.Parent" xml:space="preserve">
+    <value>SplitContainer2</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer2.Panel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="SplitContainer2.Panel1MinSize" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="StatusText.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="StatusText.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="StatusText.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="StatusText.Size" type="System.Drawing.Size, System.Drawing">
+    <value>643, 22</value>
+  </data>
+  <data name="StatusText.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;StatusText.Name" xml:space="preserve">
+    <value>StatusText</value>
+  </data>
+  <data name="&gt;&gt;StatusText.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;StatusText.Parent" xml:space="preserve">
+    <value>SplitContainer2.Panel2</value>
+  </data>
+  <data name="&gt;&gt;StatusText.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lblLen.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="lblLen.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Off</value>
+  </data>
+  <data name="lblLen.Location" type="System.Drawing.Point, System.Drawing">
+    <value>643, 0</value>
+  </data>
+  <data name="lblLen.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
+  </data>
+  <data name="lblLen.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 25</value>
+  </data>
+  <data name="lblLen.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="lblLen.Text" xml:space="preserve">
+    <value>999</value>
+  </data>
+  <data name="lblLen.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="&gt;&gt;lblLen.Name" xml:space="preserve">
+    <value>lblLen</value>
+  </data>
+  <data name="&gt;&gt;lblLen.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblLen.Parent" xml:space="preserve">
+    <value>SplitContainer2.Panel2</value>
+  </data>
+  <data name="&gt;&gt;lblLen.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="PostButton.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="PostButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Off</value>
+  </data>
+  <data name="PostButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>702, 0</value>
+  </data>
+  <data name="PostButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="PostButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 25</value>
+  </data>
+  <data name="PostButton.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="PostButton.Text" xml:space="preserve">
+    <value>Post</value>
+  </data>
+  <data name="&gt;&gt;PostButton.Name" xml:space="preserve">
+    <value>PostButton</value>
+  </data>
+  <data name="&gt;&gt;PostButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PostButton.Parent" xml:space="preserve">
+    <value>SplitContainer2.Panel2</value>
+  </data>
+  <data name="&gt;&gt;PostButton.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer2.Panel2.Name" xml:space="preserve">
+    <value>SplitContainer2.Panel2</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer2.Panel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer2.Panel2.Parent" xml:space="preserve">
+    <value>SplitContainer2</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer2.Panel2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="SplitContainer2.Panel2MinSize" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="SplitContainer2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>761, 124</value>
+  </data>
+  <data name="SplitContainer2.SplitterDistance" type="System.Int32, mscorlib">
+    <value>97</value>
+  </data>
+  <data name="SplitContainer2.SplitterWidth" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="SplitContainer2.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer2.Name" xml:space="preserve">
+    <value>SplitContainer2</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer2.Parent" xml:space="preserve">
+    <value>SplitContainer3.Panel1</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer2.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer3.Panel1.Name" xml:space="preserve">
+    <value>SplitContainer3.Panel1</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer3.Panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer3.Panel1.Parent" xml:space="preserve">
+    <value>SplitContainer3</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer3.Panel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tweetThumbnail1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="tweetThumbnail1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="tweetThumbnail1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>5, 5, 5, 5</value>
+  </data>
+  <data name="tweetThumbnail1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>246, 93</value>
+  </data>
+  <data name="tweetThumbnail1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;tweetThumbnail1.Name" xml:space="preserve">
+    <value>tweetThumbnail1</value>
+  </data>
+  <data name="&gt;&gt;tweetThumbnail1.Type" xml:space="preserve">
+    <value>OpenTween.TweetThumbnail, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;tweetThumbnail1.Parent" xml:space="preserve">
+    <value>SplitContainer3.Panel2</value>
+  </data>
+  <data name="&gt;&gt;tweetThumbnail1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer3.Panel2.Name" xml:space="preserve">
+    <value>SplitContainer3.Panel2</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer3.Panel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer3.Panel2.Parent" xml:space="preserve">
+    <value>SplitContainer3</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer3.Panel2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="SplitContainer3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>761, 124</value>
+  </data>
+  <data name="SplitContainer3.SplitterDistance" type="System.Int32, mscorlib">
+    <value>511</value>
+  </data>
+  <data name="SplitContainer3.SplitterWidth" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="SplitContainer3.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer3.Name" xml:space="preserve">
+    <value>SplitContainer3</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer3.Parent" xml:space="preserve">
+    <value>SplitContainer1.Panel2</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer3.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer1.Panel2.Name" xml:space="preserve">
+    <value>SplitContainer1.Panel2</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer1.Panel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer1.Panel2.Parent" xml:space="preserve">
+    <value>SplitContainer1</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer1.Panel2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="SplitContainer1.Panel2MinSize" type="System.Int32, mscorlib">
+    <value>23</value>
+  </data>
+  <data name="SplitContainer1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>765, 519</value>
+  </data>
+  <data name="SplitContainer1.SplitterDistance" type="System.Int32, mscorlib">
+    <value>389</value>
+  </data>
+  <data name="SplitContainer1.SplitterWidth" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="SplitContainer1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer1.Name" xml:space="preserve">
+    <value>SplitContainer1</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer1.Parent" xml:space="preserve">
+    <value>ToolStripContainer1.ContentPanel</value>
+  </data>
+  <data name="&gt;&gt;SplitContainer1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="ToolStripContainer1.ContentPanel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="ToolStripContainer1.ContentPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>765, 519</value>
+  </data>
+  <data name="&gt;&gt;ToolStripContainer1.ContentPanel.Name" xml:space="preserve">
+    <value>ToolStripContainer1.ContentPanel</value>
+  </data>
+  <data name="&gt;&gt;ToolStripContainer1.ContentPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripContentPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripContainer1.ContentPanel.Parent" xml:space="preserve">
+    <value>ToolStripContainer1</value>
+  </data>
+  <data name="&gt;&gt;ToolStripContainer1.ContentPanel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="ToolStripContainer1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="&gt;&gt;ToolStripContainer1.LeftToolStripPanel.Name" xml:space="preserve">
+    <value>ToolStripContainer1.LeftToolStripPanel</value>
+  </data>
+  <data name="&gt;&gt;ToolStripContainer1.LeftToolStripPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripContainer1.LeftToolStripPanel.Parent" xml:space="preserve">
+    <value>ToolStripContainer1</value>
+  </data>
+  <data name="&gt;&gt;ToolStripContainer1.LeftToolStripPanel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="ToolStripContainer1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="ToolStripContainer1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="&gt;&gt;ToolStripContainer1.RightToolStripPanel.Name" xml:space="preserve">
+    <value>ToolStripContainer1.RightToolStripPanel</value>
+  </data>
+  <data name="&gt;&gt;ToolStripContainer1.RightToolStripPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripContainer1.RightToolStripPanel.Parent" xml:space="preserve">
+    <value>ToolStripContainer1</value>
+  </data>
+  <data name="&gt;&gt;ToolStripContainer1.RightToolStripPanel.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="ToolStripContainer1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>765, 570</value>
+  </data>
+  <data name="ToolStripContainer1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="ToolStripContainer1.Text" xml:space="preserve">
+    <value>ToolStripContainer1</value>
+  </data>
+  <metadata name="MenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>311, 17</value>
+  </metadata>
+  <data name="MenuStrip1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="MenuStrip1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="MenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>765, 24</value>
+  </data>
+  <data name="MenuStrip1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="MenuStrip1.Text" xml:space="preserve">
+    <value>MenuStrip1</value>
+  </data>
+  <data name="&gt;&gt;MenuStrip1.Name" xml:space="preserve">
+    <value>MenuStrip1</value>
+  </data>
+  <data name="&gt;&gt;MenuStrip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MenuStrip1.Parent" xml:space="preserve">
+    <value>ToolStripContainer1.TopToolStripPanel</value>
+  </data>
+  <data name="&gt;&gt;MenuStrip1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;ToolStripContainer1.TopToolStripPanel.Name" xml:space="preserve">
+    <value>ToolStripContainer1.TopToolStripPanel</value>
+  </data>
+  <data name="&gt;&gt;ToolStripContainer1.TopToolStripPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripContainer1.TopToolStripPanel.Parent" xml:space="preserve">
+    <value>ToolStripContainer1</value>
+  </data>
+  <data name="&gt;&gt;ToolStripContainer1.TopToolStripPanel.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;ToolStripContainer1.Name" xml:space="preserve">
+    <value>ToolStripContainer1</value>
+  </data>
+  <data name="&gt;&gt;ToolStripContainer1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripContainer1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;ToolStripContainer1.ZOrder" xml:space="preserve">
+    <value>7</value>
   </data>
   <data name="ListTab.Alignment" type="System.Windows.Forms.TabAlignment, System.Windows.Forms">
     <value>Bottom</value>
@@ -297,74 +933,8 @@
   <metadata name="ContextMenuTabProperty.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>130, 99</value>
   </metadata>
-  <data name="AddTabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>188, 22</value>
-  </data>
-  <data name="AddTabMenuItem.Text" xml:space="preserve">
-    <value>タブ作成(&amp;N)...</value>
-  </data>
-  <data name="TabRenameMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>188, 22</value>
-  </data>
-  <data name="TabRenameMenuItem.Text" xml:space="preserve">
-    <value>タブ名の変更(&amp;R)</value>
-  </data>
-  <data name="ToolStripSeparator20.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 6</value>
-  </data>
-  <data name="ProtectTabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>188, 22</value>
-  </data>
-  <data name="ProtectTabMenuItem.Text" xml:space="preserve">
-    <value>タブを保護する(&amp;P)</value>
-  </data>
-  <data name="UreadManageMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>188, 22</value>
-  </data>
-  <data name="UreadManageMenuItem.Text" xml:space="preserve">
-    <value>未読管理(&amp;U)</value>
-  </data>
-  <data name="NotifyDispMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>188, 22</value>
-  </data>
-  <data name="NotifyDispMenuItem.Text" xml:space="preserve">
-    <value>新着通知表示(&amp;Q)</value>
-  </data>
-  <data name="SoundFileComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 20</value>
-  </data>
-  <data name="SoundFileComboBox.ToolTipText" xml:space="preserve">
-    <value>再生するwavファイルを指定してください</value>
-  </data>
-  <data name="ToolStripSeparator18.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 6</value>
-  </data>
-  <data name="FilterEditMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>188, 22</value>
-  </data>
-  <data name="FilterEditMenuItem.Text" xml:space="preserve">
-    <value>振り分けルール編集(&amp;F)...</value>
-  </data>
-  <data name="ToolStripSeparator19.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 6</value>
-  </data>
-  <data name="ClearTabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>188, 22</value>
-  </data>
-  <data name="ClearTabMenuItem.Text" xml:space="preserve">
-    <value>このタブの発言をクリア(&amp;C)</value>
-  </data>
-  <data name="ToolStripSeparator11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 6</value>
-  </data>
-  <data name="DeleteTabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>188, 22</value>
-  </data>
-  <data name="DeleteTabMenuItem.Text" xml:space="preserve">
-    <value>タブ削除(&amp;D)</value>
-  </data>
   <data name="ContextMenuTabProperty.Size" type="System.Drawing.Size, System.Drawing">
-    <value>189, 228</value>
+    <value>244, 232</value>
   </data>
   <data name="&gt;&gt;ContextMenuTabProperty.Name" xml:space="preserve">
     <value>ContextMenuTabProperty</value>
@@ -391,7 +961,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="ListTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 312</value>
+    <value>761, 385</value>
   </data>
   <data name="ListTab.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -408,32 +978,71 @@
   <data name="&gt;&gt;ListTab.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="TimelinePanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
+  <data name="AddTabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>243, 22</value>
   </data>
-  <data name="TimelinePanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+  <data name="AddTabMenuItem.Text" xml:space="preserve">
+    <value>タブ作成(&amp;N)...</value>
   </data>
-  <data name="TimelinePanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 312</value>
+  <data name="TabRenameMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>243, 22</value>
   </data>
-  <data name="TimelinePanel.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+  <data name="TabRenameMenuItem.Text" xml:space="preserve">
+    <value>タブ名の変更(&amp;R)</value>
   </data>
-  <data name="&gt;&gt;TimelinePanel.Name" xml:space="preserve">
-    <value>TimelinePanel</value>
+  <data name="ToolStripSeparator20.Size" type="System.Drawing.Size, System.Drawing">
+    <value>240, 6</value>
   </data>
-  <data name="&gt;&gt;TimelinePanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="ProtectTabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>243, 22</value>
   </data>
-  <data name="&gt;&gt;TimelinePanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel1</value>
+  <data name="ProtectTabMenuItem.Text" xml:space="preserve">
+    <value>タブを保護する(&amp;P)</value>
   </data>
-  <data name="&gt;&gt;TimelinePanel.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="UreadManageMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>243, 22</value>
   </data>
-  <data name="ImageSelectionPanel.AutoScroll" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="UreadManageMenuItem.Text" xml:space="preserve">
+    <value>未読管理(&amp;U)</value>
+  </data>
+  <data name="NotifyDispMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>243, 22</value>
+  </data>
+  <data name="NotifyDispMenuItem.Text" xml:space="preserve">
+    <value>新着通知表示(&amp;Q)</value>
+  </data>
+  <data name="SoundFileComboBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>121, 24</value>
+  </data>
+  <data name="SoundFileComboBox.ToolTipText" xml:space="preserve">
+    <value>再生するwavファイルを指定してください</value>
+  </data>
+  <data name="ToolStripSeparator18.Size" type="System.Drawing.Size, System.Drawing">
+    <value>240, 6</value>
+  </data>
+  <data name="FilterEditMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>243, 22</value>
+  </data>
+  <data name="FilterEditMenuItem.Text" xml:space="preserve">
+    <value>振り分けルール編集(&amp;F)...</value>
+  </data>
+  <data name="ToolStripSeparator19.Size" type="System.Drawing.Size, System.Drawing">
+    <value>240, 6</value>
+  </data>
+  <data name="ClearTabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>243, 22</value>
+  </data>
+  <data name="ClearTabMenuItem.Text" xml:space="preserve">
+    <value>このタブの発言をクリア(&amp;C)</value>
+  </data>
+  <data name="ToolStripSeparator11.Size" type="System.Drawing.Size, System.Drawing">
+    <value>240, 6</value>
+  </data>
+  <data name="DeleteTabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>243, 22</value>
+  </data>
+  <data name="DeleteTabMenuItem.Text" xml:space="preserve">
+    <value>タブ削除(&amp;D)</value>
   </data>
   <data name="ImageSelectedPicture.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -774,8 +1383,11 @@
   <data name="ImageSelectedPicture.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
+  <data name="ImageSelectedPicture.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
   <data name="ImageSelectedPicture.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 284</value>
+    <value>761, 350</value>
   </data>
   <data name="ImageSelectedPicture.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>Zoom</value>
@@ -795,14 +1407,119 @@
   <data name="&gt;&gt;ImageSelectedPicture.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="&gt;&gt;ImagefilePathText.Name" xml:space="preserve">
+    <value>ImagefilePathText</value>
+  </data>
+  <data name="&gt;&gt;ImagefilePathText.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ImagefilePathText.Parent" xml:space="preserve">
+    <value>ImagePathPanel</value>
+  </data>
+  <data name="&gt;&gt;ImagefilePathText.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;FilePickButton.Name" xml:space="preserve">
+    <value>FilePickButton</value>
+  </data>
+  <data name="&gt;&gt;FilePickButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FilePickButton.Parent" xml:space="preserve">
+    <value>ImagePathPanel</value>
+  </data>
+  <data name="&gt;&gt;FilePickButton.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;Label2.Name" xml:space="preserve">
+    <value>Label2</value>
+  </data>
+  <data name="&gt;&gt;Label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label2.Parent" xml:space="preserve">
+    <value>ImagePathPanel</value>
+  </data>
+  <data name="&gt;&gt;Label2.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;ImageServiceCombo.Name" xml:space="preserve">
+    <value>ImageServiceCombo</value>
+  </data>
+  <data name="&gt;&gt;ImageServiceCombo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ImageServiceCombo.Parent" xml:space="preserve">
+    <value>ImagePathPanel</value>
+  </data>
+  <data name="&gt;&gt;ImageServiceCombo.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;ImageCancelButton.Name" xml:space="preserve">
+    <value>ImageCancelButton</value>
+  </data>
+  <data name="&gt;&gt;ImageCancelButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ImageCancelButton.Parent" xml:space="preserve">
+    <value>ImagePathPanel</value>
+  </data>
+  <data name="&gt;&gt;ImageCancelButton.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;Label1.Name" xml:space="preserve">
+    <value>Label1</value>
+  </data>
+  <data name="&gt;&gt;Label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label1.Parent" xml:space="preserve">
+    <value>ImagePathPanel</value>
+  </data>
+  <data name="&gt;&gt;Label1.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="ImagePathPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Bottom</value>
+  </data>
+  <data name="ImagePathPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 350</value>
+  </data>
+  <data name="ImagePathPanel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="ImagePathPanel.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="ImagePathPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>761, 35</value>
+  </data>
+  <data name="ImagePathPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;ImagePathPanel.Name" xml:space="preserve">
+    <value>ImagePathPanel</value>
+  </data>
+  <data name="&gt;&gt;ImagePathPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ImagePathPanel.Parent" xml:space="preserve">
+    <value>ImageSelectionPanel</value>
+  </data>
+  <data name="&gt;&gt;ImagePathPanel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="ImagefilePathText.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
   <data name="ImagefilePathText.Location" type="System.Drawing.Point, System.Drawing">
-    <value>57, 3</value>
+    <value>76, 4</value>
+  </data>
+  <data name="ImagefilePathText.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="ImagefilePathText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>278, 19</value>
+    <value>373, 22</value>
   </data>
   <data name="ImagefilePathText.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -826,10 +1543,13 @@
     <value>Off</value>
   </data>
   <data name="FilePickButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>335, 3</value>
+    <value>449, 4</value>
+  </data>
+  <data name="FilePickButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="FilePickButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>22, 22</value>
+    <value>29, 27</value>
   </data>
   <data name="FilePickButton.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -856,10 +1576,13 @@
     <value>Off</value>
   </data>
   <data name="Label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>357, 3</value>
+    <value>478, 4</value>
+  </data>
+  <data name="Label2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="Label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>57, 22</value>
+    <value>76, 27</value>
   </data>
   <data name="Label2.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -892,10 +1615,13 @@
     <value>TwitVideo</value>
   </data>
   <data name="ImageServiceCombo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>414, 3</value>
+    <value>554, 4</value>
+  </data>
+  <data name="ImageServiceCombo.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="ImageServiceCombo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>97, 20</value>
+    <value>128, 23</value>
   </data>
   <data name="ImageServiceCombo.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -919,10 +1645,13 @@
     <value>Off</value>
   </data>
   <data name="ImageCancelButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>511, 3</value>
+    <value>682, 4</value>
+  </data>
+  <data name="ImageCancelButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="ImageCancelButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 22</value>
+    <value>75, 27</value>
   </data>
   <data name="ImageCancelButton.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -949,10 +1678,13 @@
     <value>Off</value>
   </data>
   <data name="Label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
+    <value>4, 4</value>
+  </data>
+  <data name="Label1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
   </data>
   <data name="Label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 22</value>
+    <value>72, 27</value>
   </data>
   <data name="Label1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -975,182 +1707,11 @@
   <data name="&gt;&gt;Label1.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <data name="ImagePathPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Bottom</value>
-  </data>
-  <data name="ImagePathPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 284</value>
-  </data>
-  <data name="ImagePathPanel.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
-  </data>
-  <data name="ImagePathPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 28</value>
-  </data>
-  <data name="ImagePathPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;ImagePathPanel.Name" xml:space="preserve">
-    <value>ImagePathPanel</value>
-  </data>
-  <data name="&gt;&gt;ImagePathPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ImagePathPanel.Parent" xml:space="preserve">
-    <value>ImageSelectionPanel</value>
-  </data>
-  <data name="&gt;&gt;ImagePathPanel.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="ImageSelectionPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="ImageSelectionPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="ImageSelectionPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 312</value>
-  </data>
-  <data name="ImageSelectionPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="ImageSelectionPanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;ImageSelectionPanel.Name" xml:space="preserve">
-    <value>ImageSelectionPanel</value>
-  </data>
-  <data name="&gt;&gt;ImageSelectionPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ImageSelectionPanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel1</value>
-  </data>
-  <data name="&gt;&gt;ImageSelectionPanel.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="ProfilePanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="ProfilePanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="ProfilePanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 312</value>
-  </data>
-  <data name="ProfilePanel.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="ProfilePanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;ProfilePanel.Name" xml:space="preserve">
-    <value>ProfilePanel</value>
-  </data>
-  <data name="&gt;&gt;ProfilePanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ProfilePanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel1</value>
-  </data>
-  <data name="&gt;&gt;ProfilePanel.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer1.Panel1.Name" xml:space="preserve">
-    <value>SplitContainer1.Panel1</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer1.Panel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer1.Panel1.Parent" xml:space="preserve">
-    <value>SplitContainer1</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer1.Panel1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="SplitContainer3.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="SplitContainer3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="SplitContainer2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="SplitContainer2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="SplitContainer2.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
-    <value>Horizontal</value>
-  </data>
-  <data name="TableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
   <metadata name="ContextMenuUserPicture.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>674, 58</value>
   </metadata>
-  <data name="FollowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 22</value>
-  </data>
-  <data name="FollowToolStripMenuItem.Text" xml:space="preserve">
-    <value>フォローする(&amp;F)</value>
-  </data>
-  <data name="UnFollowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 22</value>
-  </data>
-  <data name="UnFollowToolStripMenuItem.Text" xml:space="preserve">
-    <value>フォロー解除(&amp;N)</value>
-  </data>
-  <data name="ShowFriendShipToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 22</value>
-  </data>
-  <data name="ShowFriendShipToolStripMenuItem.Text" xml:space="preserve">
-    <value>相互フォロー状態表示(&amp;H)</value>
-  </data>
-  <data name="ListManageUserContextToolStripMenuItem3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 22</value>
-  </data>
-  <data name="ListManageUserContextToolStripMenuItem3.Text" xml:space="preserve">
-    <value>リスト管理(&amp;L)</value>
-  </data>
-  <data name="ToolStripSeparator37.Size" type="System.Drawing.Size, System.Drawing">
-    <value>229, 6</value>
-  </data>
-  <data name="ShowUserStatusToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 22</value>
-  </data>
-  <data name="ShowUserStatusToolStripMenuItem.Text" xml:space="preserve">
-    <value>プロフィール表示(&amp;P)</value>
-  </data>
-  <data name="SearchPostsDetailNameToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 22</value>
-  </data>
-  <data name="SearchPostsDetailNameToolStripMenuItem.Text" xml:space="preserve">
-    <value>ユーザーのタイムラインを表示(&amp;T)</value>
-  </data>
-  <data name="SearchAtPostsDetailNameToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 22</value>
-  </data>
-  <data name="SearchAtPostsDetailNameToolStripMenuItem.Text" xml:space="preserve">
-    <value>このユーザーへの＠発言を検索(&amp;S)</value>
-  </data>
-  <data name="ToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>229, 6</value>
-  </data>
-  <data name="IconNameToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 22</value>
-  </data>
-  <data name="IconNameToolStripMenuItem.Text" xml:space="preserve">
-    <value>IconName</value>
-  </data>
-  <data name="SaveIconPictureToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 22</value>
-  </data>
-  <data name="SaveIconPictureToolStripMenuItem.Text" xml:space="preserve">
-    <value>保存(&amp;I)...</value>
-  </data>
   <data name="ContextMenuUserPicture.Size" type="System.Drawing.Size, System.Drawing">
-    <value>233, 214</value>
+    <value>297, 214</value>
   </data>
   <data name="&gt;&gt;ContextMenuUserPicture.Name" xml:space="preserve">
     <value>ContextMenuUserPicture</value>
@@ -1162,10 +1723,13 @@
     <value>Off</value>
   </data>
   <data name="UserPicture.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
+    <value>4, 4</value>
+  </data>
+  <data name="UserPicture.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="UserPicture.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 50</value>
+    <value>66, 66</value>
   </data>
   <data name="UserPicture.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>Zoom</value>
@@ -1185,6 +1749,66 @@
   <data name="&gt;&gt;UserPicture.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="FollowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>296, 22</value>
+  </data>
+  <data name="FollowToolStripMenuItem.Text" xml:space="preserve">
+    <value>フォローする(&amp;F)</value>
+  </data>
+  <data name="UnFollowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>296, 22</value>
+  </data>
+  <data name="UnFollowToolStripMenuItem.Text" xml:space="preserve">
+    <value>フォロー解除(&amp;N)</value>
+  </data>
+  <data name="ShowFriendShipToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>296, 22</value>
+  </data>
+  <data name="ShowFriendShipToolStripMenuItem.Text" xml:space="preserve">
+    <value>相互フォロー状態表示(&amp;H)</value>
+  </data>
+  <data name="ListManageUserContextToolStripMenuItem3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>296, 22</value>
+  </data>
+  <data name="ListManageUserContextToolStripMenuItem3.Text" xml:space="preserve">
+    <value>リスト管理(&amp;L)</value>
+  </data>
+  <data name="ToolStripSeparator37.Size" type="System.Drawing.Size, System.Drawing">
+    <value>293, 6</value>
+  </data>
+  <data name="ShowUserStatusToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>296, 22</value>
+  </data>
+  <data name="ShowUserStatusToolStripMenuItem.Text" xml:space="preserve">
+    <value>プロフィール表示(&amp;P)</value>
+  </data>
+  <data name="SearchPostsDetailNameToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>296, 22</value>
+  </data>
+  <data name="SearchPostsDetailNameToolStripMenuItem.Text" xml:space="preserve">
+    <value>ユーザーのタイムラインを表示(&amp;T)</value>
+  </data>
+  <data name="SearchAtPostsDetailNameToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>296, 22</value>
+  </data>
+  <data name="SearchAtPostsDetailNameToolStripMenuItem.Text" xml:space="preserve">
+    <value>このユーザーへの＠発言を検索(&amp;S)</value>
+  </data>
+  <data name="ToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>293, 6</value>
+  </data>
+  <data name="IconNameToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>296, 22</value>
+  </data>
+  <data name="IconNameToolStripMenuItem.Text" xml:space="preserve">
+    <value>IconName</value>
+  </data>
+  <data name="SaveIconPictureToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>296, 22</value>
+  </data>
+  <data name="SaveIconPictureToolStripMenuItem.Text" xml:space="preserve">
+    <value>保存(&amp;I)...</value>
+  </data>
   <data name="NameLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -1198,13 +1822,13 @@
     <value>Off</value>
   </data>
   <data name="NameLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>59, 3</value>
+    <value>79, 4</value>
   </data>
   <data name="NameLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 0</value>
+    <value>4, 4, 4, 0</value>
   </data>
   <data name="NameLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>323, 14</value>
+    <value>436, 17</value>
   </data>
   <data name="NameLabel.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1230,152 +1854,8 @@
   <metadata name="ContextMenuPostBrowser.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 58</value>
   </metadata>
-  <data name="SearchGoogleContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 22</value>
-  </data>
-  <data name="SearchGoogleContextMenuItem.Text" xml:space="preserve">
-    <value>Google(&amp;G)</value>
-  </data>
-  <data name="SearchWikipediaContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 22</value>
-  </data>
-  <data name="SearchWikipediaContextMenuItem.Text" xml:space="preserve">
-    <value>Wikipedia(&amp;W)</value>
-  </data>
-  <data name="SearchPublicSearchContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 22</value>
-  </data>
-  <data name="SearchPublicSearchContextMenuItem.Text" xml:space="preserve">
-    <value>Twitter Search(&amp;S)</value>
-  </data>
-  <data name="CurrentTabToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 22</value>
-  </data>
-  <data name="CurrentTabToolStripMenuItem.Text" xml:space="preserve">
-    <value>現在のタブ(&amp;L)</value>
-  </data>
-  <data name="SelectionSearchContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 22</value>
-  </data>
-  <data name="SelectionSearchContextMenuItem.Text" xml:space="preserve">
-    <value>選択文字列で検索(&amp;S)</value>
-  </data>
-  <data name="ToolStripSeparator13.Size" type="System.Drawing.Size, System.Drawing">
-    <value>229, 6</value>
-  </data>
-  <data name="SelectionCopyContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 22</value>
-  </data>
-  <data name="SelectionCopyContextMenuItem.Text" xml:space="preserve">
-    <value>選択文字列をコピー(&amp;C)</value>
-  </data>
-  <data name="UrlCopyContextMenuItem.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="UrlCopyContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 22</value>
-  </data>
-  <data name="UrlCopyContextMenuItem.Text" xml:space="preserve">
-    <value>URLをコピー(&amp;U)</value>
-  </data>
-  <data name="SelectionAllContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 22</value>
-  </data>
-  <data name="SelectionAllContextMenuItem.Text" xml:space="preserve">
-    <value>すべて選択(&amp;A)</value>
-  </data>
-  <data name="ToolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>229, 6</value>
-  </data>
-  <data name="FollowContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 22</value>
-  </data>
-  <data name="FollowContextMenuItem.Text" xml:space="preserve">
-    <value>フォローする(&amp;F)</value>
-  </data>
-  <data name="RemoveContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 22</value>
-  </data>
-  <data name="RemoveContextMenuItem.Text" xml:space="preserve">
-    <value>フォロー解除(&amp;N)</value>
-  </data>
-  <data name="FriendshipContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 22</value>
-  </data>
-  <data name="FriendshipContextMenuItem.Text" xml:space="preserve">
-    <value>相互フォロー状態表示(&amp;R)</value>
-  </data>
-  <data name="FriendshipAllMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 22</value>
-  </data>
-  <data name="FriendshipAllMenuItem.Text" xml:space="preserve">
-    <value>全ユーザーのフォロー状態(&amp;A)</value>
-  </data>
-  <data name="ToolStripSeparator36.Size" type="System.Drawing.Size, System.Drawing">
-    <value>229, 6</value>
-  </data>
-  <data name="ShowUserStatusContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 22</value>
-  </data>
-  <data name="ShowUserStatusContextMenuItem.Text" xml:space="preserve">
-    <value>プロフィール表示(&amp;P)</value>
-  </data>
-  <data name="SearchPostsDetailToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 22</value>
-  </data>
-  <data name="SearchPostsDetailToolStripMenuItem.Text" xml:space="preserve">
-    <value>このユーザーのTLを取得(&amp;F)</value>
-  </data>
-  <data name="SearchAtPostsDetailToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 22</value>
-  </data>
-  <data name="SearchAtPostsDetailToolStripMenuItem.Text" xml:space="preserve">
-    <value>このユーザーへの＠発言を検索(&amp;S)</value>
-  </data>
-  <data name="ToolStripSeparator32.Size" type="System.Drawing.Size, System.Drawing">
-    <value>229, 6</value>
-  </data>
-  <data name="IdFilterAddMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 22</value>
-  </data>
-  <data name="IdFilterAddMenuItem.Text" xml:space="preserve">
-    <value>ID振分ルール作成(&amp;I)</value>
-  </data>
-  <data name="ListManageUserContextToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 22</value>
-  </data>
-  <data name="ListManageUserContextToolStripMenuItem.Text" xml:space="preserve">
-    <value>リスト管理(&amp;L)</value>
-  </data>
-  <data name="ToolStripSeparator33.Size" type="System.Drawing.Size, System.Drawing">
-    <value>229, 6</value>
-  </data>
-  <data name="UseHashtagMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 22</value>
-  </data>
-  <data name="UseHashtagMenuItem.Text" xml:space="preserve">
-    <value>ハッシュタグを固定(&amp;H)</value>
-  </data>
-  <data name="SelectionTranslationToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 22</value>
-  </data>
-  <data name="SelectionTranslationToolStripMenuItem.Text" xml:space="preserve">
-    <value>選択した文字列を翻訳</value>
-  </data>
-  <data name="SelectionTranslationToolStripMenuItem.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="TranslationToolStripMenuItem.ShortcutKeyDisplayString" xml:space="preserve">
-    <value>Alt+Shift+T</value>
-  </data>
-  <data name="TranslationToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>232, 22</value>
-  </data>
-  <data name="TranslationToolStripMenuItem.Text" xml:space="preserve">
-    <value>この発言を翻訳</value>
-  </data>
   <data name="ContextMenuPostBrowser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>233, 386</value>
+    <value>297, 386</value>
   </data>
   <data name="&gt;&gt;ContextMenuPostBrowser.Name" xml:space="preserve">
     <value>ContextMenuPostBrowser</value>
@@ -1387,10 +1867,13 @@
     <value>Fill</value>
   </data>
   <data name="PostBrowser.Location" type="System.Drawing.Point, System.Drawing">
-    <value>59, 20</value>
+    <value>79, 25</value>
+  </data>
+  <data name="PostBrowser.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="PostBrowser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>508, 33</value>
+    <value>678, 68</value>
   </data>
   <data name="PostBrowser.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -1407,6 +1890,150 @@
   <data name="&gt;&gt;PostBrowser.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="SelectionSearchContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>296, 22</value>
+  </data>
+  <data name="SelectionSearchContextMenuItem.Text" xml:space="preserve">
+    <value>選択文字列で検索(&amp;S)</value>
+  </data>
+  <data name="SearchGoogleContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>197, 22</value>
+  </data>
+  <data name="SearchGoogleContextMenuItem.Text" xml:space="preserve">
+    <value>Google(&amp;G)</value>
+  </data>
+  <data name="SearchWikipediaContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>197, 22</value>
+  </data>
+  <data name="SearchWikipediaContextMenuItem.Text" xml:space="preserve">
+    <value>Wikipedia(&amp;W)</value>
+  </data>
+  <data name="SearchPublicSearchContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>197, 22</value>
+  </data>
+  <data name="SearchPublicSearchContextMenuItem.Text" xml:space="preserve">
+    <value>Twitter Search(&amp;S)</value>
+  </data>
+  <data name="CurrentTabToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>197, 22</value>
+  </data>
+  <data name="CurrentTabToolStripMenuItem.Text" xml:space="preserve">
+    <value>現在のタブ(&amp;L)</value>
+  </data>
+  <data name="ToolStripSeparator13.Size" type="System.Drawing.Size, System.Drawing">
+    <value>293, 6</value>
+  </data>
+  <data name="SelectionCopyContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>296, 22</value>
+  </data>
+  <data name="SelectionCopyContextMenuItem.Text" xml:space="preserve">
+    <value>選択文字列をコピー(&amp;C)</value>
+  </data>
+  <data name="UrlCopyContextMenuItem.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="UrlCopyContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>296, 22</value>
+  </data>
+  <data name="UrlCopyContextMenuItem.Text" xml:space="preserve">
+    <value>URLをコピー(&amp;U)</value>
+  </data>
+  <data name="SelectionAllContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>296, 22</value>
+  </data>
+  <data name="SelectionAllContextMenuItem.Text" xml:space="preserve">
+    <value>すべて選択(&amp;A)</value>
+  </data>
+  <data name="ToolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>293, 6</value>
+  </data>
+  <data name="FollowContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>296, 22</value>
+  </data>
+  <data name="FollowContextMenuItem.Text" xml:space="preserve">
+    <value>フォローする(&amp;F)</value>
+  </data>
+  <data name="RemoveContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>296, 22</value>
+  </data>
+  <data name="RemoveContextMenuItem.Text" xml:space="preserve">
+    <value>フォロー解除(&amp;N)</value>
+  </data>
+  <data name="FriendshipContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>296, 22</value>
+  </data>
+  <data name="FriendshipContextMenuItem.Text" xml:space="preserve">
+    <value>相互フォロー状態表示(&amp;R)</value>
+  </data>
+  <data name="FriendshipAllMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>296, 22</value>
+  </data>
+  <data name="FriendshipAllMenuItem.Text" xml:space="preserve">
+    <value>全ユーザーのフォロー状態(&amp;A)</value>
+  </data>
+  <data name="ToolStripSeparator36.Size" type="System.Drawing.Size, System.Drawing">
+    <value>293, 6</value>
+  </data>
+  <data name="ShowUserStatusContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>296, 22</value>
+  </data>
+  <data name="ShowUserStatusContextMenuItem.Text" xml:space="preserve">
+    <value>プロフィール表示(&amp;P)</value>
+  </data>
+  <data name="SearchPostsDetailToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>296, 22</value>
+  </data>
+  <data name="SearchPostsDetailToolStripMenuItem.Text" xml:space="preserve">
+    <value>このユーザーのTLを取得(&amp;F)</value>
+  </data>
+  <data name="SearchAtPostsDetailToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>296, 22</value>
+  </data>
+  <data name="SearchAtPostsDetailToolStripMenuItem.Text" xml:space="preserve">
+    <value>このユーザーへの＠発言を検索(&amp;S)</value>
+  </data>
+  <data name="ToolStripSeparator32.Size" type="System.Drawing.Size, System.Drawing">
+    <value>293, 6</value>
+  </data>
+  <data name="IdFilterAddMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>296, 22</value>
+  </data>
+  <data name="IdFilterAddMenuItem.Text" xml:space="preserve">
+    <value>ID振分ルール作成(&amp;I)</value>
+  </data>
+  <data name="ListManageUserContextToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>296, 22</value>
+  </data>
+  <data name="ListManageUserContextToolStripMenuItem.Text" xml:space="preserve">
+    <value>リスト管理(&amp;L)</value>
+  </data>
+  <data name="ToolStripSeparator33.Size" type="System.Drawing.Size, System.Drawing">
+    <value>293, 6</value>
+  </data>
+  <data name="UseHashtagMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>296, 22</value>
+  </data>
+  <data name="UseHashtagMenuItem.Text" xml:space="preserve">
+    <value>ハッシュタグを固定(&amp;H)</value>
+  </data>
+  <data name="SelectionTranslationToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>296, 22</value>
+  </data>
+  <data name="SelectionTranslationToolStripMenuItem.Text" xml:space="preserve">
+    <value>選択した文字列を翻訳</value>
+  </data>
+  <data name="SelectionTranslationToolStripMenuItem.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="TranslationToolStripMenuItem.ShortcutKeyDisplayString" xml:space="preserve">
+    <value>Alt+Shift+T</value>
+  </data>
+  <data name="TranslationToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>296, 22</value>
+  </data>
+  <data name="TranslationToolStripMenuItem.Text" xml:space="preserve">
+    <value>この発言を翻訳</value>
+  </data>
   <data name="DateTimeLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Right</value>
   </data>
@@ -1417,13 +2044,13 @@
     <value>Off</value>
   </data>
   <data name="DateTimeLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>464, 3</value>
+    <value>627, 4</value>
   </data>
   <data name="DateTimeLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 0</value>
+    <value>4, 4, 4, 0</value>
   </data>
   <data name="DateTimeLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>38, 14</value>
+    <value>48, 17</value>
   </data>
   <data name="DateTimeLabel.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1455,20 +2082,8 @@
   <metadata name="ContextMenuSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>620, 17</value>
   </metadata>
-  <data name="SourceCopyMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 22</value>
-  </data>
-  <data name="SourceCopyMenuItem.Text" xml:space="preserve">
-    <value>Sourceをコピー</value>
-  </data>
-  <data name="SourceUrlCopyMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 22</value>
-  </data>
-  <data name="SourceUrlCopyMenuItem.Text" xml:space="preserve">
-    <value>Source URLをコピー</value>
-  </data>
   <data name="ContextMenuSource.Size" type="System.Drawing.Size, System.Drawing">
-    <value>168, 48</value>
+    <value>213, 48</value>
   </data>
   <data name="&gt;&gt;ContextMenuSource.Name" xml:space="preserve">
     <value>ContextMenuSource</value>
@@ -1480,13 +2095,13 @@
     <value>Off</value>
   </data>
   <data name="SourceLinkLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>508, 3</value>
+    <value>683, 4</value>
   </data>
   <data name="SourceLinkLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 0</value>
+    <value>4, 4, 4, 0</value>
   </data>
   <data name="SourceLinkLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 14</value>
+    <value>74, 17</value>
   </data>
   <data name="SourceLinkLabel.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -1509,479 +2124,125 @@
   <data name="&gt;&gt;SourceLinkLabel.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="TableLayoutPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
+  <data name="SourceCopyMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>212, 22</value>
   </data>
-  <data name="TableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+  <data name="SourceCopyMenuItem.Text" xml:space="preserve">
+    <value>Sourceをコピー</value>
   </data>
-  <data name="TableLayoutPanel1.RowCount" type="System.Int32, mscorlib">
-    <value>2</value>
+  <data name="SourceUrlCopyMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>212, 22</value>
   </data>
-  <data name="TableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 56</value>
+  <data name="SourceUrlCopyMenuItem.Text" xml:space="preserve">
+    <value>Source URLをコピー</value>
   </data>
-  <data name="TableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+  <data name="MenuItemFile.Size" type="System.Drawing.Size, System.Drawing">
+    <value>88, 20</value>
   </data>
-  <data name="&gt;&gt;TableLayoutPanel1.Name" xml:space="preserve">
-    <value>TableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;TableLayoutPanel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TableLayoutPanel1.Parent" xml:space="preserve">
-    <value>SplitContainer2.Panel1</value>
-  </data>
-  <data name="&gt;&gt;TableLayoutPanel1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="TableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="UserPicture" Row="0" RowSpan="2" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="NameLabel" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="PostBrowser" Row="1" RowSpan="1" Column="1" ColumnSpan="3" /&gt;&lt;Control Name="DateTimeLabel" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="SourceLinkLabel" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,56,Percent,100,Absolute,120,AutoSize,0" /&gt;&lt;Rows Styles="Absolute,17,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer2.Panel1.Name" xml:space="preserve">
-    <value>SplitContainer2.Panel1</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer2.Panel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer2.Panel1.Parent" xml:space="preserve">
-    <value>SplitContainer2</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer2.Panel1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="SplitContainer2.Panel1MinSize" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="StatusText.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="StatusText.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="StatusText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>482, 19</value>
-  </data>
-  <data name="StatusText.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;StatusText.Name" xml:space="preserve">
-    <value>StatusText</value>
-  </data>
-  <data name="&gt;&gt;StatusText.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;StatusText.Parent" xml:space="preserve">
-    <value>SplitContainer2.Panel2</value>
-  </data>
-  <data name="&gt;&gt;StatusText.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="lblLen.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Right</value>
-  </data>
-  <data name="lblLen.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Off</value>
-  </data>
-  <data name="lblLen.Location" type="System.Drawing.Point, System.Drawing">
-    <value>482, 0</value>
-  </data>
-  <data name="lblLen.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 25</value>
-  </data>
-  <data name="lblLen.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="lblLen.Text" xml:space="preserve">
-    <value>999</value>
-  </data>
-  <data name="lblLen.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleCenter</value>
-  </data>
-  <data name="&gt;&gt;lblLen.Name" xml:space="preserve">
-    <value>lblLen</value>
-  </data>
-  <data name="&gt;&gt;lblLen.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblLen.Parent" xml:space="preserve">
-    <value>SplitContainer2.Panel2</value>
-  </data>
-  <data name="&gt;&gt;lblLen.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="PostButton.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Right</value>
-  </data>
-  <data name="PostButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Off</value>
-  </data>
-  <data name="PostButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>526, 0</value>
-  </data>
-  <data name="PostButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 25</value>
-  </data>
-  <data name="PostButton.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="PostButton.Text" xml:space="preserve">
-    <value>Post</value>
-  </data>
-  <data name="&gt;&gt;PostButton.Name" xml:space="preserve">
-    <value>PostButton</value>
-  </data>
-  <data name="&gt;&gt;PostButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;PostButton.Parent" xml:space="preserve">
-    <value>SplitContainer2.Panel2</value>
-  </data>
-  <data name="&gt;&gt;PostButton.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer2.Panel2.Name" xml:space="preserve">
-    <value>SplitContainer2.Panel2</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer2.Panel2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer2.Panel2.Parent" xml:space="preserve">
-    <value>SplitContainer2</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer2.Panel2.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="SplitContainer2.Panel2MinSize" type="System.Int32, mscorlib">
-    <value>19</value>
-  </data>
-  <data name="SplitContainer2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 83</value>
-  </data>
-  <data name="SplitContainer2.SplitterDistance" type="System.Int32, mscorlib">
-    <value>56</value>
-  </data>
-  <data name="SplitContainer2.SplitterWidth" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="SplitContainer2.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer2.Name" xml:space="preserve">
-    <value>SplitContainer2</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer2.Parent" xml:space="preserve">
-    <value>SplitContainer3.Panel1</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer2.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer3.Panel1.Name" xml:space="preserve">
-    <value>SplitContainer3.Panel1</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer3.Panel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer3.Panel1.Parent" xml:space="preserve">
-    <value>SplitContainer3</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer3.Panel1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="PreviewPicture.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="PreviewPicture.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Off</value>
-  </data>
-  <data name="PreviewPicture.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="PreviewPicture.Size" type="System.Drawing.Size, System.Drawing">
-    <value>194, 83</value>
-  </data>
-  <data name="PreviewPicture.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
-    <value>Zoom</value>
-  </data>
-  <data name="PreviewPicture.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;PreviewPicture.Name" xml:space="preserve">
-    <value>PreviewPicture</value>
-  </data>
-  <data name="&gt;&gt;PreviewPicture.Type" xml:space="preserve">
-    <value>OpenTween.OpenTweenCustomControl.PictureBoxEx, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;PreviewPicture.Parent" xml:space="preserve">
-    <value>SplitContainer3.Panel2</value>
-  </data>
-  <data name="&gt;&gt;PreviewPicture.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="PreviewScrollBar.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Right</value>
-  </data>
-  <data name="PreviewScrollBar.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Off</value>
-  </data>
-  <data name="PreviewScrollBar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>194, 0</value>
-  </data>
-  <data name="PreviewScrollBar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>17, 83</value>
-  </data>
-  <data name="PreviewScrollBar.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;PreviewScrollBar.Name" xml:space="preserve">
-    <value>PreviewScrollBar</value>
-  </data>
-  <data name="&gt;&gt;PreviewScrollBar.Type" xml:space="preserve">
-    <value>System.Windows.Forms.VScrollBar, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;PreviewScrollBar.Parent" xml:space="preserve">
-    <value>SplitContainer3.Panel2</value>
-  </data>
-  <data name="&gt;&gt;PreviewScrollBar.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer3.Panel2.Name" xml:space="preserve">
-    <value>SplitContainer3.Panel2</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer3.Panel2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer3.Panel2.Parent" xml:space="preserve">
-    <value>SplitContainer3</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer3.Panel2.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="SplitContainer3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 83</value>
-  </data>
-  <data name="SplitContainer3.SplitterDistance" type="System.Int32, mscorlib">
-    <value>355</value>
-  </data>
-  <data name="SplitContainer3.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer3.Name" xml:space="preserve">
-    <value>SplitContainer3</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer3.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer3.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer1.Panel2.Name" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer1.Panel2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer1.Panel2.Parent" xml:space="preserve">
-    <value>SplitContainer1</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer1.Panel2.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="SplitContainer1.Panel2MinSize" type="System.Int32, mscorlib">
-    <value>23</value>
-  </data>
-  <data name="SplitContainer1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>574, 405</value>
-  </data>
-  <data name="SplitContainer1.SplitterDistance" type="System.Int32, mscorlib">
-    <value>316</value>
-  </data>
-  <data name="SplitContainer1.SplitterWidth" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="SplitContainer1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer1.Name" xml:space="preserve">
-    <value>SplitContainer1</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer1.Parent" xml:space="preserve">
-    <value>ToolStripContainer1.ContentPanel</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="ToolStripContainer1.ContentPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>574, 405</value>
-  </data>
-  <data name="&gt;&gt;ToolStripContainer1.ContentPanel.Name" xml:space="preserve">
-    <value>ToolStripContainer1.ContentPanel</value>
-  </data>
-  <data name="&gt;&gt;ToolStripContainer1.ContentPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripContentPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ToolStripContainer1.ContentPanel.Parent" xml:space="preserve">
-    <value>ToolStripContainer1</value>
-  </data>
-  <data name="&gt;&gt;ToolStripContainer1.ContentPanel.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="ToolStripContainer1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="&gt;&gt;ToolStripContainer1.LeftToolStripPanel.Name" xml:space="preserve">
-    <value>ToolStripContainer1.LeftToolStripPanel</value>
-  </data>
-  <data name="&gt;&gt;ToolStripContainer1.LeftToolStripPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ToolStripContainer1.LeftToolStripPanel.Parent" xml:space="preserve">
-    <value>ToolStripContainer1</value>
-  </data>
-  <data name="&gt;&gt;ToolStripContainer1.LeftToolStripPanel.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="ToolStripContainer1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="&gt;&gt;ToolStripContainer1.RightToolStripPanel.Name" xml:space="preserve">
-    <value>ToolStripContainer1.RightToolStripPanel</value>
-  </data>
-  <data name="&gt;&gt;ToolStripContainer1.RightToolStripPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ToolStripContainer1.RightToolStripPanel.Parent" xml:space="preserve">
-    <value>ToolStripContainer1</value>
-  </data>
-  <data name="&gt;&gt;ToolStripContainer1.RightToolStripPanel.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="ToolStripContainer1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>574, 456</value>
-  </data>
-  <data name="ToolStripContainer1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="ToolStripContainer1.Text" xml:space="preserve">
-    <value>ToolStripContainer1</value>
-  </data>
-  <metadata name="MenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>311, 17</value>
-  </metadata>
-  <data name="MenuStrip1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>None</value>
+  <data name="MenuItemFile.Text" xml:space="preserve">
+    <value>ファイル(&amp;F)</value>
   </data>
   <data name="SettingFileMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>168, 22</value>
+    <value>205, 22</value>
   </data>
   <data name="SettingFileMenuItem.Text" xml:space="preserve">
     <value>設定(&amp;O)</value>
   </data>
   <data name="ToolStripSeparator21.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 6</value>
+    <value>202, 6</value>
   </data>
   <data name="SaveFileMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>168, 22</value>
+    <value>205, 22</value>
   </data>
   <data name="SaveFileMenuItem.Text" xml:space="preserve">
     <value>ファイル保存(&amp;S)</value>
   </data>
   <data name="ToolStripSeparator23.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 6</value>
+    <value>202, 6</value>
   </data>
   <data name="NotifyFileMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>168, 22</value>
+    <value>205, 22</value>
   </data>
   <data name="NotifyFileMenuItem.Text" xml:space="preserve">
     <value>新着通知(&amp;Q)</value>
   </data>
   <data name="PlaySoundFileMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>168, 22</value>
+    <value>205, 22</value>
   </data>
   <data name="PlaySoundFileMenuItem.Text" xml:space="preserve">
     <value>サウンド再生(&amp;P)</value>
   </data>
   <data name="LockListFileMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>168, 22</value>
+    <value>205, 22</value>
   </data>
   <data name="LockListFileMenuItem.Text" xml:space="preserve">
     <value>新着時リスト固定(&amp;L)</value>
   </data>
   <data name="ToolStripSeparator43.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 6</value>
+    <value>202, 6</value>
   </data>
   <data name="StopRefreshAllMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>168, 22</value>
+    <value>205, 22</value>
   </data>
   <data name="StopRefreshAllMenuItem.Text" xml:space="preserve">
     <value>All Refresh Stop</value>
   </data>
   <data name="ToolStripSeparator24.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 6</value>
+    <value>202, 6</value>
   </data>
   <data name="TweenRestartMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>168, 22</value>
+    <value>205, 22</value>
   </data>
   <data name="TweenRestartMenuItem.Text" xml:space="preserve">
     <value>再起動(&amp;R)</value>
   </data>
   <data name="EndFileMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>168, 22</value>
+    <value>205, 22</value>
   </data>
   <data name="EndFileMenuItem.Text" xml:space="preserve">
     <value>終了(&amp;X)</value>
   </data>
-  <data name="MenuItemFile.Size" type="System.Drawing.Size, System.Drawing">
-    <value>66, 20</value>
+  <data name="MenuItemEdit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>69, 20</value>
   </data>
-  <data name="MenuItemFile.Text" xml:space="preserve">
-    <value>ファイル(&amp;F)</value>
+  <data name="MenuItemEdit.Text" xml:space="preserve">
+    <value>編集(&amp;E)</value>
   </data>
   <data name="UndoRemoveTabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 22</value>
+    <value>281, 22</value>
   </data>
   <data name="UndoRemoveTabMenuItem.Text" xml:space="preserve">
     <value>タブ削除の取消</value>
   </data>
   <data name="ToolStripSeparator12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>222, 6</value>
+    <value>278, 6</value>
   </data>
   <data name="CopySTOTMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 22</value>
+    <value>281, 22</value>
   </data>
   <data name="CopySTOTMenuItem.Text" xml:space="preserve">
     <value>コピー（STOT形式テキスト）(&amp;C)</value>
   </data>
   <data name="CopyURLMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 22</value>
+    <value>281, 22</value>
   </data>
   <data name="CopyURLMenuItem.Text" xml:space="preserve">
     <value>コピー（ステータスURL）(&amp;S)</value>
   </data>
   <data name="CopyUserIdStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 22</value>
+    <value>281, 22</value>
   </data>
   <data name="CopyUserIdStripMenuItem.Text" xml:space="preserve">
     <value>コピー（ユーザーID）(&amp;A)</value>
   </data>
   <data name="ToolStripSeparator6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>222, 6</value>
+    <value>278, 6</value>
   </data>
   <data name="MenuItemSubSearch.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+F</value>
   </data>
   <data name="MenuItemSubSearch.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 22</value>
+    <value>281, 22</value>
   </data>
   <data name="MenuItemSubSearch.Text" xml:space="preserve">
     <value>検索(&amp;F)...</value>
@@ -1990,7 +2251,7 @@
     <value>F3</value>
   </data>
   <data name="MenuItemSearchNext.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 22</value>
+    <value>281, 22</value>
   </data>
   <data name="MenuItemSearchNext.Text" xml:space="preserve">
     <value>次を検索(&amp;X)</value>
@@ -1999,34 +2260,34 @@
     <value>Shift+F3</value>
   </data>
   <data name="MenuItemSearchPrev.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 22</value>
+    <value>281, 22</value>
   </data>
   <data name="MenuItemSearchPrev.Text" xml:space="preserve">
     <value>前を検索(&amp;P)</value>
   </data>
   <data name="ToolStripSeparator22.Size" type="System.Drawing.Size, System.Drawing">
-    <value>222, 6</value>
+    <value>278, 6</value>
   </data>
   <data name="PublicSearchQueryMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+Shift+F</value>
   </data>
   <data name="PublicSearchQueryMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 22</value>
+    <value>281, 22</value>
   </data>
   <data name="PublicSearchQueryMenuItem.Text" xml:space="preserve">
     <value>抽出条件入力(&amp;Q)</value>
   </data>
-  <data name="MenuItemEdit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 20</value>
+  <data name="MenuItemOperate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>72, 20</value>
   </data>
-  <data name="MenuItemEdit.Text" xml:space="preserve">
-    <value>編集(&amp;E)</value>
+  <data name="MenuItemOperate.Text" xml:space="preserve">
+    <value>操作(&amp;O)</value>
   </data>
   <data name="ReplyOpMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+R</value>
   </data>
   <data name="ReplyOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>277, 22</value>
+    <value>355, 22</value>
   </data>
   <data name="ReplyOpMenuItem.Text" xml:space="preserve">
     <value>＠返信(&amp;R)</value>
@@ -2035,7 +2296,7 @@
     <value>Ctrl+Shift+R</value>
   </data>
   <data name="ReplyAllOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>277, 22</value>
+    <value>355, 22</value>
   </data>
   <data name="ReplyAllOpMenuItem.Text" xml:space="preserve">
     <value>＠返信ALL(&amp;E)</value>
@@ -2044,7 +2305,7 @@
     <value>Ctrl+M</value>
   </data>
   <data name="DmOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>277, 22</value>
+    <value>355, 22</value>
   </data>
   <data name="DmOpMenuItem.Text" xml:space="preserve">
     <value>DM送信(&amp;M)</value>
@@ -2053,7 +2314,7 @@
     <value>Alt+R</value>
   </data>
   <data name="RtOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>277, 22</value>
+    <value>355, 22</value>
   </data>
   <data name="RtOpMenuItem.Text" xml:space="preserve">
     <value>Re&amp;tweet</value>
@@ -2062,7 +2323,7 @@
     <value>Alt+Shift+R</value>
   </data>
   <data name="RtUnOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>277, 22</value>
+    <value>355, 22</value>
   </data>
   <data name="RtUnOpMenuItem.Text" xml:space="preserve">
     <value>Retweet(U&amp;nofficial)</value>
@@ -2071,19 +2332,19 @@
     <value>Ctrl+Q</value>
   </data>
   <data name="QtOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>277, 22</value>
+    <value>355, 22</value>
   </data>
   <data name="QtOpMenuItem.Text" xml:space="preserve">
     <value>&amp;Quote</value>
   </data>
   <data name="ToolStripSeparator25.Size" type="System.Drawing.Size, System.Drawing">
-    <value>274, 6</value>
+    <value>352, 6</value>
   </data>
   <data name="FavOpMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+S</value>
   </data>
   <data name="FavOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>277, 22</value>
+    <value>355, 22</value>
   </data>
   <data name="FavOpMenuItem.Text" xml:space="preserve">
     <value>Fav追加(&amp;F)</value>
@@ -2092,7 +2353,7 @@
     <value>Ctrl+Alt+S</value>
   </data>
   <data name="FavoriteRetweetMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>277, 22</value>
+    <value>355, 22</value>
   </data>
   <data name="FavoriteRetweetMenuItem.Text" xml:space="preserve">
     <value>Fav追加+Retweet</value>
@@ -2101,7 +2362,7 @@
     <value>Ctrl+Alt+R</value>
   </data>
   <data name="FavoriteRetweetUnofficialMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>277, 22</value>
+    <value>355, 22</value>
   </data>
   <data name="FavoriteRetweetUnofficialMenuItem.Text" xml:space="preserve">
     <value>Fav追加+Retweet(Unofficial)</value>
@@ -2110,13 +2371,13 @@
     <value>Ctrl+Shift+S</value>
   </data>
   <data name="UnFavOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>277, 22</value>
+    <value>355, 22</value>
   </data>
   <data name="UnFavOpMenuItem.Text" xml:space="preserve">
     <value>Fav削除(&amp;V)</value>
   </data>
   <data name="ToolStripSeparator38.Size" type="System.Drawing.Size, System.Drawing">
-    <value>274, 6</value>
+    <value>352, 6</value>
   </data>
   <data name="ShowProfMenuItem.ShortcutKeyDisplayString" xml:space="preserve">
     <value />
@@ -2125,13 +2386,13 @@
     <value>Alt+P</value>
   </data>
   <data name="ShowProfMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>277, 22</value>
+    <value>355, 22</value>
   </data>
   <data name="ShowProfMenuItem.Text" xml:space="preserve">
     <value>プロフィール表示</value>
   </data>
   <data name="ShowRelatedStatusesMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>277, 22</value>
+    <value>355, 22</value>
   </data>
   <data name="ShowRelatedStatusesMenuItem2.Text" xml:space="preserve">
     <value>関連発言表示(&amp;G)</value>
@@ -2140,16 +2401,22 @@
     <value>Ctrl+U</value>
   </data>
   <data name="ShowUserTimelineToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>277, 22</value>
+    <value>355, 22</value>
   </data>
   <data name="ShowUserTimelineToolStripMenuItem.Text" xml:space="preserve">
     <value>ユーザーのタイムラインを表示</value>
+  </data>
+  <data name="OpenOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>355, 22</value>
+  </data>
+  <data name="OpenOpMenuItem.Text" xml:space="preserve">
+    <value>開く(&amp;O)</value>
   </data>
   <data name="OpenHomeOpMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+H</value>
   </data>
   <data name="OpenHomeOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>266, 22</value>
+    <value>346, 22</value>
   </data>
   <data name="OpenHomeOpMenuItem.Text" xml:space="preserve">
     <value>ホームを開く(&amp;H)</value>
@@ -2158,7 +2425,7 @@
     <value>Ctrl+G</value>
   </data>
   <data name="OpenFavOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>266, 22</value>
+    <value>346, 22</value>
   </data>
   <data name="OpenFavOpMenuItem.Text" xml:space="preserve">
     <value>Favを開く(&amp;G)</value>
@@ -2167,7 +2434,7 @@
     <value>Ctrl+O</value>
   </data>
   <data name="OpenStatusOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>266, 22</value>
+    <value>346, 22</value>
   </data>
   <data name="OpenStatusOpMenuItem.Text" xml:space="preserve">
     <value>ステータスを開く(&amp;O)</value>
@@ -2176,7 +2443,7 @@
     <value>Ctrl+I</value>
   </data>
   <data name="OpenRepSourceOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>266, 22</value>
+    <value>346, 22</value>
   </data>
   <data name="OpenRepSourceOpMenuItem.Text" xml:space="preserve">
     <value>返信元ステータスを開く(&amp;I)</value>
@@ -2185,7 +2452,7 @@
     <value>Ctrl+Shift+O</value>
   </data>
   <data name="OpenFavotterOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>266, 22</value>
+    <value>346, 22</value>
   </data>
   <data name="OpenFavotterOpMenuItem.Text" xml:space="preserve">
     <value>ふぁぼられを開く(&amp;P)</value>
@@ -2194,7 +2461,7 @@
     <value>Ctrl+E</value>
   </data>
   <data name="OpenUrlOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>266, 22</value>
+    <value>346, 22</value>
   </data>
   <data name="OpenUrlOpMenuItem.Text" xml:space="preserve">
     <value>発言内URLを開く(&amp;U)</value>
@@ -2203,7 +2470,7 @@
     <value>Ctrl+Shift+H</value>
   </data>
   <data name="OpenRterHomeMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>266, 22</value>
+    <value>346, 22</value>
   </data>
   <data name="OpenRterHomeMenuItem.Text" xml:space="preserve">
     <value>RTした人のホームを開く(&amp;R)</value>
@@ -2212,49 +2479,49 @@
     <value>Ctrl+Alt+H</value>
   </data>
   <data name="OpenUserSpecifiedUrlMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>266, 22</value>
+    <value>346, 22</value>
   </data>
   <data name="OpenUserSpecifiedUrlMenuItem.Text" xml:space="preserve">
     <value>ユーザー定義のURL</value>
   </data>
-  <data name="OpenOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>277, 22</value>
+  <data name="CreateRuleOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>355, 22</value>
   </data>
-  <data name="OpenOpMenuItem.Text" xml:space="preserve">
-    <value>開く(&amp;O)</value>
+  <data name="CreateRuleOpMenuItem.Text" xml:space="preserve">
+    <value>振り分けルール作成(&amp;C)</value>
   </data>
   <data name="CreateTabRuleOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 22</value>
+    <value>252, 22</value>
   </data>
   <data name="CreateTabRuleOpMenuItem.Text" xml:space="preserve">
     <value>タブ振り分けルール作成(&amp;N)</value>
   </data>
   <data name="CreateIdRuleOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 22</value>
+    <value>252, 22</value>
   </data>
   <data name="CreateIdRuleOpMenuItem.Text" xml:space="preserve">
     <value>ID振り分けルール作成(&amp;I)</value>
   </data>
-  <data name="CreateRuleOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>277, 22</value>
-  </data>
-  <data name="CreateRuleOpMenuItem.Text" xml:space="preserve">
-    <value>振り分けルール作成(&amp;C)</value>
-  </data>
   <data name="ListManageMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>277, 22</value>
+    <value>355, 22</value>
   </data>
   <data name="ListManageMenuItem.Text" xml:space="preserve">
     <value>リスト管理(&amp;L)</value>
   </data>
   <data name="ToolStripSeparator26.Size" type="System.Drawing.Size, System.Drawing">
-    <value>274, 6</value>
+    <value>352, 6</value>
+  </data>
+  <data name="ChangeReadOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>355, 22</value>
+  </data>
+  <data name="ChangeReadOpMenuItem.Text" xml:space="preserve">
+    <value>未読状態変更(&amp;H)</value>
   </data>
   <data name="ReadOpMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+B</value>
   </data>
   <data name="ReadOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>206, 22</value>
+    <value>261, 22</value>
   </data>
   <data name="ReadOpMenuItem.Text" xml:space="preserve">
     <value>既読にする(&amp;B)</value>
@@ -2263,31 +2530,25 @@
     <value>Ctrl+Shift+B</value>
   </data>
   <data name="UnreadOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>206, 22</value>
+    <value>261, 22</value>
   </data>
   <data name="UnreadOpMenuItem.Text" xml:space="preserve">
     <value>未読にする(&amp;U)</value>
   </data>
-  <data name="ChangeReadOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>277, 22</value>
-  </data>
-  <data name="ChangeReadOpMenuItem.Text" xml:space="preserve">
-    <value>未読状態変更(&amp;H)</value>
-  </data>
   <data name="JumpReadOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>277, 22</value>
+    <value>355, 22</value>
   </data>
   <data name="JumpReadOpMenuItem.Text" xml:space="preserve">
     <value>未読へジャンプ(&amp;J)</value>
   </data>
   <data name="ToolStripSeparator27.Size" type="System.Drawing.Size, System.Drawing">
-    <value>274, 6</value>
+    <value>352, 6</value>
   </data>
   <data name="SelAllOpMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+A</value>
   </data>
   <data name="SelAllOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>277, 22</value>
+    <value>355, 22</value>
   </data>
   <data name="SelAllOpMenuItem.Text" xml:space="preserve">
     <value>全て選択(&amp;A)</value>
@@ -2296,7 +2557,7 @@
     <value>Ctrl+D</value>
   </data>
   <data name="DelOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>277, 22</value>
+    <value>355, 22</value>
   </data>
   <data name="DelOpMenuItem.Text" xml:space="preserve">
     <value>削除(&amp;D)</value>
@@ -2305,7 +2566,7 @@
     <value>F5</value>
   </data>
   <data name="RefreshOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>277, 22</value>
+    <value>355, 22</value>
   </data>
   <data name="RefreshOpMenuItem.Text" xml:space="preserve">
     <value>更新(&amp;U)</value>
@@ -2314,94 +2575,100 @@
     <value>Shift+F5</value>
   </data>
   <data name="RefreshPrevOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>277, 22</value>
+    <value>355, 22</value>
   </data>
   <data name="RefreshPrevOpMenuItem.Text" xml:space="preserve">
     <value>前データを取得(&amp;I)</value>
   </data>
-  <data name="MenuItemOperate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>57, 20</value>
+  <data name="MenuItemTab.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 20</value>
   </data>
-  <data name="MenuItemOperate.Text" xml:space="preserve">
-    <value>操作(&amp;O)</value>
+  <data name="MenuItemTab.Text" xml:space="preserve">
+    <value>タブ(&amp;T)</value>
   </data>
   <data name="CreateTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>188, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="CreateTbMenuItem.Text" xml:space="preserve">
     <value>タブ作成(&amp;N)...</value>
   </data>
   <data name="RenameTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>188, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="RenameTbMenuItem.Text" xml:space="preserve">
     <value>タブ名変更(&amp;R)</value>
   </data>
   <data name="ToolStripSeparator28.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 6</value>
+    <value>240, 6</value>
   </data>
   <data name="ProtectTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>188, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="ProtectTbMenuItem.Text" xml:space="preserve">
     <value>タブを保護する(&amp;P)</value>
   </data>
   <data name="UnreadMngTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>188, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="UnreadMngTbMenuItem.Text" xml:space="preserve">
     <value>未読管理(&amp;U)</value>
   </data>
   <data name="NotifyTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>188, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="NotifyTbMenuItem.Text" xml:space="preserve">
     <value>新着通知表示(&amp;Q)</value>
   </data>
   <data name="SoundFileTbComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 20</value>
+    <value>121, 24</value>
   </data>
   <data name="ToolStripSeparator29.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 6</value>
+    <value>240, 6</value>
   </data>
   <data name="EditRuleTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>188, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="EditRuleTbMenuItem.Text" xml:space="preserve">
     <value>振り分けルール編集(&amp;F)...</value>
   </data>
   <data name="ToolStripSeparator30.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 6</value>
+    <value>240, 6</value>
   </data>
   <data name="ClearTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>188, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="ClearTbMenuItem.Text" xml:space="preserve">
     <value>このタブの発言をクリア(&amp;C)</value>
   </data>
   <data name="ToolStripSeparator31.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 6</value>
+    <value>240, 6</value>
   </data>
   <data name="DeleteTbMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+W</value>
   </data>
   <data name="DeleteTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>188, 22</value>
+    <value>243, 22</value>
   </data>
   <data name="DeleteTbMenuItem.Text" xml:space="preserve">
     <value>タブ削除(&amp;D)</value>
   </data>
-  <data name="MenuItemTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>49, 20</value>
+  <data name="MenuItemCommand.Size" type="System.Drawing.Size, System.Drawing">
+    <value>114, 20</value>
   </data>
-  <data name="MenuItemTab.Text" xml:space="preserve">
-    <value>タブ(&amp;T)</value>
+  <data name="MenuItemCommand.Text" xml:space="preserve">
+    <value>その他機能(&amp;C)</value>
+  </data>
+  <data name="TinyUrlConvertToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>306, 22</value>
+  </data>
+  <data name="TinyUrlConvertToolStripMenuItem.Text" xml:space="preserve">
+    <value>入力欄のURLを短縮変換</value>
   </data>
   <data name="UrlConvertAutoToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+L</value>
   </data>
   <data name="UrlConvertAutoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>215, 22</value>
+    <value>272, 22</value>
   </data>
   <data name="UrlConvertAutoToolStripMenuItem.Text" xml:space="preserve">
     <value>短縮サービス自動選択</value>
@@ -2410,130 +2677,124 @@
     <value>False</value>
   </data>
   <data name="UrlUndoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>215, 22</value>
+    <value>272, 22</value>
   </data>
   <data name="UrlUndoToolStripMenuItem.Text" xml:space="preserve">
     <value>元に戻す</value>
   </data>
   <data name="TinyURLToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>215, 22</value>
+    <value>272, 22</value>
   </data>
   <data name="TinyURLToolStripMenuItem.Text" xml:space="preserve">
     <value>TinyURL</value>
   </data>
   <data name="IsgdToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>215, 22</value>
+    <value>272, 22</value>
   </data>
   <data name="IsgdToolStripMenuItem.Text" xml:space="preserve">
     <value>is.gd</value>
   </data>
   <data name="TwurlnlToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>215, 22</value>
+    <value>272, 22</value>
   </data>
   <data name="TwurlnlToolStripMenuItem.Text" xml:space="preserve">
     <value>twurl.nl</value>
   </data>
   <data name="BitlyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>215, 22</value>
+    <value>272, 22</value>
   </data>
   <data name="BitlyToolStripMenuItem.Text" xml:space="preserve">
     <value>bit.ly</value>
   </data>
   <data name="JmpStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>215, 22</value>
+    <value>272, 22</value>
   </data>
   <data name="JmpStripMenuItem.Text" xml:space="preserve">
     <value>j.mp</value>
   </data>
   <data name="UxnuMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>215, 22</value>
+    <value>272, 22</value>
   </data>
   <data name="UxnuMenuItem.Text" xml:space="preserve">
     <value>ux.nu</value>
   </data>
-  <data name="TinyUrlConvertToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>237, 22</value>
-  </data>
-  <data name="TinyUrlConvertToolStripMenuItem.Text" xml:space="preserve">
-    <value>入力欄のURLを短縮変換</value>
-  </data>
   <data name="UpdateFollowersMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>237, 22</value>
+    <value>306, 22</value>
   </data>
   <data name="UpdateFollowersMenuItem1.Text" xml:space="preserve">
     <value>片思いユーザーリスト取得</value>
   </data>
   <data name="ToolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>234, 6</value>
+    <value>303, 6</value>
   </data>
   <data name="FollowCommandMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>237, 22</value>
+    <value>306, 22</value>
   </data>
   <data name="FollowCommandMenuItem.Text" xml:space="preserve">
     <value>フォローする(&amp;F)</value>
   </data>
   <data name="RemoveCommandMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>237, 22</value>
+    <value>306, 22</value>
   </data>
   <data name="RemoveCommandMenuItem.Text" xml:space="preserve">
     <value>フォロー解除(&amp;N)</value>
   </data>
   <data name="FriendshipMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>237, 22</value>
+    <value>306, 22</value>
   </data>
   <data name="FriendshipMenuItem.Text" xml:space="preserve">
     <value>相互フォロー状態表示(&amp;H)</value>
   </data>
   <data name="ToolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>234, 6</value>
+    <value>303, 6</value>
   </data>
   <data name="OwnStatusMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>237, 22</value>
+    <value>306, 22</value>
   </data>
   <data name="OwnStatusMenuItem.Text" xml:space="preserve">
     <value>自プロフィール表示</value>
   </data>
   <data name="OpenOwnHomeMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>237, 22</value>
+    <value>306, 22</value>
   </data>
   <data name="OpenOwnHomeMenuItem.Text" xml:space="preserve">
     <value>自身のホームを開く</value>
   </data>
   <data name="OpenOwnFavedMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>237, 22</value>
+    <value>306, 22</value>
   </data>
   <data name="OpenOwnFavedMenuItem.Text" xml:space="preserve">
     <value>自身のふぁぼられを開く</value>
   </data>
   <data name="ToolStripSeparator41.Size" type="System.Drawing.Size, System.Drawing">
-    <value>234, 6</value>
+    <value>303, 6</value>
   </data>
   <data name="UserStatusToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>237, 22</value>
+    <value>306, 22</value>
   </data>
   <data name="UserStatusToolStripMenuItem.Text" xml:space="preserve">
     <value>プロフィール表示</value>
   </data>
   <data name="UserTimelineToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>237, 22</value>
+    <value>306, 22</value>
   </data>
   <data name="UserTimelineToolStripMenuItem.Text" xml:space="preserve">
     <value>ユーザーのタイムラインを開く</value>
   </data>
   <data name="UserFavorareToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>237, 22</value>
+    <value>306, 22</value>
   </data>
   <data name="UserFavorareToolStripMenuItem.Text" xml:space="preserve">
     <value>ユーザーのふぁぼられを開く</value>
   </data>
   <data name="ToolStripSeparator34.Size" type="System.Drawing.Size, System.Drawing">
-    <value>234, 6</value>
+    <value>303, 6</value>
   </data>
   <data name="HashToggleToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+Shift+T</value>
   </data>
   <data name="HashToggleToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>237, 22</value>
+    <value>306, 22</value>
   </data>
   <data name="HashToggleToolStripMenuItem.Text" xml:space="preserve">
     <value>ハッシュタグ自動付加</value>
@@ -2542,133 +2803,115 @@
     <value>Ctrl+T</value>
   </data>
   <data name="HashManageToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>237, 22</value>
+    <value>306, 22</value>
   </data>
   <data name="HashManageToolStripMenuItem.Text" xml:space="preserve">
     <value>ハッシュタグ設定</value>
   </data>
   <data name="RtCountMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>237, 22</value>
+    <value>306, 22</value>
   </data>
   <data name="RtCountMenuItem.Text" xml:space="preserve">
     <value>この発言のRetweet回数を確認</value>
   </data>
   <data name="ListManageToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>237, 22</value>
+    <value>306, 22</value>
   </data>
   <data name="ListManageToolStripMenuItem.Text" xml:space="preserve">
     <value>リスト編集</value>
-  </data>
-  <data name="MenuItemCommand.Size" type="System.Drawing.Size, System.Drawing">
-    <value>88, 20</value>
-  </data>
-  <data name="MenuItemCommand.Text" xml:space="preserve">
-    <value>その他機能(&amp;C)</value>
-  </data>
-  <data name="StopToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>201, 22</value>
-  </data>
-  <data name="StopToolStripMenuItem.Text" xml:space="preserve">
-    <value>Stop</value>
-  </data>
-  <data name="ToolStripSeparator40.Size" type="System.Drawing.Size, System.Drawing">
-    <value>198, 6</value>
-  </data>
-  <data name="TrackToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>201, 22</value>
-  </data>
-  <data name="TrackToolStripMenuItem.Text" xml:space="preserve">
-    <value>Track</value>
-  </data>
-  <data name="AllrepliesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>201, 22</value>
-  </data>
-  <data name="AllrepliesToolStripMenuItem.Text" xml:space="preserve">
-    <value>All @replies</value>
-  </data>
-  <data name="ToolStripSeparator42.Size" type="System.Drawing.Size, System.Drawing">
-    <value>198, 6</value>
-  </data>
-  <data name="EventViewerMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+Shift+E</value>
-  </data>
-  <data name="EventViewerMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>201, 22</value>
-  </data>
-  <data name="EventViewerMenuItem.Text" xml:space="preserve">
-    <value>View Events</value>
   </data>
   <data name="MenuItemUserStream.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="MenuItemUserStream.Size" type="System.Drawing.Size, System.Drawing">
-    <value>77, 20</value>
+    <value>103, 20</value>
   </data>
   <data name="MenuItemUserStream.Text" xml:space="preserve">
     <value>UserStream</value>
+  </data>
+  <data name="StopToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>253, 22</value>
+  </data>
+  <data name="StopToolStripMenuItem.Text" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="ToolStripSeparator40.Size" type="System.Drawing.Size, System.Drawing">
+    <value>250, 6</value>
+  </data>
+  <data name="TrackToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>253, 22</value>
+  </data>
+  <data name="TrackToolStripMenuItem.Text" xml:space="preserve">
+    <value>Track</value>
+  </data>
+  <data name="AllrepliesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>253, 22</value>
+  </data>
+  <data name="AllrepliesToolStripMenuItem.Text" xml:space="preserve">
+    <value>All @replies</value>
+  </data>
+  <data name="ToolStripSeparator42.Size" type="System.Drawing.Size, System.Drawing">
+    <value>250, 6</value>
+  </data>
+  <data name="EventViewerMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+Shift+E</value>
+  </data>
+  <data name="EventViewerMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>253, 22</value>
+  </data>
+  <data name="EventViewerMenuItem.Text" xml:space="preserve">
+    <value>View Events</value>
+  </data>
+  <data name="MenuItemHelp.Size" type="System.Drawing.Size, System.Drawing">
+    <value>84, 20</value>
+  </data>
+  <data name="MenuItemHelp.Text" xml:space="preserve">
+    <value>ヘルプ(&amp;H)</value>
   </data>
   <data name="MatomeMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>F1</value>
   </data>
   <data name="MatomeMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>221, 22</value>
+    <value>295, 22</value>
   </data>
   <data name="MatomeMenuItem.Text" xml:space="preserve">
     <value>%AppName% ウェブサイト(&amp;H)</value>
   </data>
   <data name="ShortcutKeyListMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>221, 22</value>
+    <value>295, 22</value>
   </data>
   <data name="ShortcutKeyListMenuItem.Text" xml:space="preserve">
     <value>ショートカットキー一覧</value>
   </data>
   <data name="ToolStripSeparator16.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 6</value>
+    <value>292, 6</value>
   </data>
   <data name="VerUpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>221, 22</value>
+    <value>295, 22</value>
   </data>
   <data name="VerUpMenuItem.Text" xml:space="preserve">
     <value>最新版の取得(&amp;G)</value>
   </data>
   <data name="ToolStripSeparator14.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 6</value>
+    <value>292, 6</value>
   </data>
   <data name="ApiInfoMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>221, 22</value>
+    <value>295, 22</value>
   </data>
   <data name="ApiInfoMenuItem.Text" xml:space="preserve">
     <value>API情報</value>
   </data>
   <data name="ToolStripSeparator7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 6</value>
+    <value>292, 6</value>
   </data>
   <data name="AboutMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>221, 22</value>
+    <value>295, 22</value>
   </data>
   <data name="AboutMenuItem.Text" xml:space="preserve">
     <value>%AppName% について(&amp;A)...</value>
   </data>
-  <data name="DumpPostClassToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 22</value>
-  </data>
-  <data name="DumpPostClassToolStripMenuItem.Text" xml:space="preserve">
-    <value>PostClassのダンプ</value>
-  </data>
-  <data name="TraceOutToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 22</value>
-  </data>
-  <data name="TraceOutToolStripMenuItem.Text" xml:space="preserve">
-    <value>TraceOut出力</value>
-  </data>
-  <data name="CacheInfoMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 22</value>
-  </data>
-  <data name="CacheInfoMenuItem.Text" xml:space="preserve">
-    <value>アイコンキャッシュ使用状況</value>
-  </data>
   <data name="DebugModeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>221, 22</value>
+    <value>295, 22</value>
   </data>
   <data name="DebugModeToolStripMenuItem.Text" xml:space="preserve">
     <value>デバッグモード</value>
@@ -2676,152 +2919,116 @@
   <data name="DebugModeToolStripMenuItem.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="MenuItemHelp.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 20</value>
+  <data name="DumpPostClassToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>246, 22</value>
   </data>
-  <data name="MenuItemHelp.Text" xml:space="preserve">
-    <value>ヘルプ(&amp;H)</value>
+  <data name="DumpPostClassToolStripMenuItem.Text" xml:space="preserve">
+    <value>PostClassのダンプ</value>
   </data>
-  <data name="MenuStrip1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+  <data name="TraceOutToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>246, 22</value>
   </data>
-  <data name="MenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>574, 24</value>
+  <data name="TraceOutToolStripMenuItem.Text" xml:space="preserve">
+    <value>TraceOut出力</value>
   </data>
-  <data name="MenuStrip1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+  <data name="CacheInfoMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>246, 22</value>
   </data>
-  <data name="MenuStrip1.Text" xml:space="preserve">
-    <value>MenuStrip1</value>
-  </data>
-  <data name="&gt;&gt;MenuStrip1.Name" xml:space="preserve">
-    <value>MenuStrip1</value>
-  </data>
-  <data name="&gt;&gt;MenuStrip1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;MenuStrip1.Parent" xml:space="preserve">
-    <value>ToolStripContainer1.TopToolStripPanel</value>
-  </data>
-  <data name="&gt;&gt;MenuStrip1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;ToolStripContainer1.TopToolStripPanel.Name" xml:space="preserve">
-    <value>ToolStripContainer1.TopToolStripPanel</value>
-  </data>
-  <data name="&gt;&gt;ToolStripContainer1.TopToolStripPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ToolStripContainer1.TopToolStripPanel.Parent" xml:space="preserve">
-    <value>ToolStripContainer1</value>
-  </data>
-  <data name="&gt;&gt;ToolStripContainer1.TopToolStripPanel.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;ToolStripContainer1.Name" xml:space="preserve">
-    <value>ToolStripContainer1</value>
-  </data>
-  <data name="&gt;&gt;ToolStripContainer1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ToolStripContainer1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;ToolStripContainer1.ZOrder" xml:space="preserve">
-    <value>7</value>
+  <data name="CacheInfoMenuItem.Text" xml:space="preserve">
+    <value>アイコンキャッシュ使用状況</value>
   </data>
   <data name="ReadedStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>138, 22</value>
+    <value>166, 22</value>
   </data>
   <data name="ReadedStripMenuItem.Text" xml:space="preserve">
     <value>既読にする(&amp;B)</value>
   </data>
   <data name="UnreadStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>138, 22</value>
+    <value>166, 22</value>
   </data>
   <data name="UnreadStripMenuItem.Text" xml:space="preserve">
     <value>未読にする</value>
   </data>
   <data name="ToolStripMenuItem11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 22</value>
+    <value>274, 22</value>
   </data>
   <data name="ToolStripMenuItem11.Text" xml:space="preserve">
     <value>未読状態変更(&amp;H)</value>
   </data>
   <data name="SelectAllMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 22</value>
+    <value>274, 22</value>
   </data>
   <data name="SelectAllMenuItem.Text" xml:space="preserve">
     <value>全て選択(&amp;A)</value>
   </data>
   <data name="JumpUnreadMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 22</value>
+    <value>274, 22</value>
   </data>
   <data name="JumpUnreadMenuItem.Text" xml:space="preserve">
     <value>未読へジャンプ(&amp;J)</value>
   </data>
   <data name="ToolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>215, 6</value>
+    <value>271, 6</value>
   </data>
   <data name="ToolStripSeparator10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>215, 6</value>
+    <value>271, 6</value>
   </data>
   <data name="ListManageUserContextToolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 22</value>
+    <value>274, 22</value>
   </data>
   <data name="ListManageUserContextToolStripMenuItem2.Text" xml:space="preserve">
     <value>リスト管理(&amp;L)</value>
   </data>
   <data name="OpenURLMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>198, 22</value>
+    <value>251, 22</value>
   </data>
   <data name="OpenURLMenuItem.Text" xml:space="preserve">
     <value>発言内URLを開く(&amp;U)</value>
   </data>
   <data name="IDRuleMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>205, 22</value>
+    <value>264, 22</value>
   </data>
   <data name="IDRuleMenuItem.Text" xml:space="preserve">
     <value>ID振り分けルール作成...</value>
   </data>
   <data name="MoveToRTHomeMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>198, 22</value>
+    <value>251, 22</value>
   </data>
   <data name="MoveToRTHomeMenuItem.Text" xml:space="preserve">
     <value>RTした人のホームを開く(&amp;R)</value>
   </data>
   <data name="FavorareMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>198, 22</value>
+    <value>251, 22</value>
   </data>
   <data name="FavorareMenuItem.Text" xml:space="preserve">
     <value>ふぁぼられを開く(&amp;P)</value>
   </data>
   <data name="TabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>205, 22</value>
+    <value>264, 22</value>
   </data>
   <data name="TabMenuItem.Text" xml:space="preserve">
     <value>タブ振り分けルール作成(&amp;N)...</value>
   </data>
   <data name="OpenUserSpecifiedUrlMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>198, 22</value>
+    <value>251, 22</value>
   </data>
   <data name="OpenUserSpecifiedUrlMenuItem2.Text" xml:space="preserve">
     <value>ユーザー定義のURL</value>
   </data>
   <data name="DeleteStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 22</value>
+    <value>274, 22</value>
   </data>
   <data name="DeleteStripMenuItem.Text" xml:space="preserve">
     <value>削除(&amp;D)</value>
   </data>
   <data name="ToolStripMenuItem7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 22</value>
+    <value>274, 22</value>
   </data>
   <data name="ToolStripMenuItem7.Text" xml:space="preserve">
     <value>振り分けルール作成(&amp;C)</value>
   </data>
   <data name="RefreshStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 22</value>
+    <value>274, 22</value>
   </data>
   <data name="RefreshStripMenuItem.Text" xml:space="preserve">
     <value>更新(&amp;U)</value>
@@ -2832,56 +3039,8 @@
   <metadata name="ContextMenuFile.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>344, 58</value>
   </metadata>
-  <data name="SettingStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>168, 22</value>
-  </data>
-  <data name="SettingStripMenuItem.Text" xml:space="preserve">
-    <value>設定(&amp;O)...</value>
-  </data>
-  <data name="ToolStripSeparator9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 6</value>
-  </data>
-  <data name="SaveLogMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>168, 22</value>
-  </data>
-  <data name="SaveLogMenuItem.Text" xml:space="preserve">
-    <value>ファイル保存(&amp;S)...</value>
-  </data>
-  <data name="ToolStripSeparator17.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 6</value>
-  </data>
-  <data name="NewPostPopMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>168, 22</value>
-  </data>
-  <data name="NewPostPopMenuItem.Text" xml:space="preserve">
-    <value>新着通知(&amp;Q)</value>
-  </data>
-  <data name="PlaySoundMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>168, 22</value>
-  </data>
-  <data name="PlaySoundMenuItem.Text" xml:space="preserve">
-    <value>サウンド再生(&amp;P)</value>
-  </data>
-  <data name="ListLockMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>168, 22</value>
-  </data>
-  <data name="ListLockMenuItem.Text" xml:space="preserve">
-    <value>新着時リスト固定(&amp;L)</value>
-  </data>
-  <data name="ToolStripSeparator15.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 6</value>
-  </data>
-  <data name="EndToolStripMenuItem.ShowShortcutKeys" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="EndToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>168, 22</value>
-  </data>
-  <data name="EndToolStripMenuItem.Text" xml:space="preserve">
-    <value>終了(&amp;X)</value>
-  </data>
   <data name="ContextMenuFile.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 154</value>
+    <value>206, 154</value>
   </data>
   <data name="&gt;&gt;ContextMenuFile.Name" xml:space="preserve">
     <value>ContextMenuFile</value>
@@ -2892,8 +3051,56 @@
   <data name="NotifyIcon1.Text" xml:space="preserve">
     <value>Tween</value>
   </data>
+  <data name="SettingStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>205, 22</value>
+  </data>
+  <data name="SettingStripMenuItem.Text" xml:space="preserve">
+    <value>設定(&amp;O)...</value>
+  </data>
+  <data name="ToolStripSeparator9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>202, 6</value>
+  </data>
+  <data name="SaveLogMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>205, 22</value>
+  </data>
+  <data name="SaveLogMenuItem.Text" xml:space="preserve">
+    <value>ファイル保存(&amp;S)...</value>
+  </data>
+  <data name="ToolStripSeparator17.Size" type="System.Drawing.Size, System.Drawing">
+    <value>202, 6</value>
+  </data>
+  <data name="NewPostPopMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>205, 22</value>
+  </data>
+  <data name="NewPostPopMenuItem.Text" xml:space="preserve">
+    <value>新着通知(&amp;Q)</value>
+  </data>
+  <data name="PlaySoundMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>205, 22</value>
+  </data>
+  <data name="PlaySoundMenuItem.Text" xml:space="preserve">
+    <value>サウンド再生(&amp;P)</value>
+  </data>
+  <data name="ListLockMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>205, 22</value>
+  </data>
+  <data name="ListLockMenuItem.Text" xml:space="preserve">
+    <value>新着時リスト固定(&amp;L)</value>
+  </data>
+  <data name="ToolStripSeparator15.Size" type="System.Drawing.Size, System.Drawing">
+    <value>202, 6</value>
+  </data>
+  <data name="EndToolStripMenuItem.ShowShortcutKeys" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="EndToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>205, 22</value>
+  </data>
+  <data name="EndToolStripMenuItem.Text" xml:space="preserve">
+    <value>終了(&amp;X)</value>
+  </data>
   <data name="RefreshMoreStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 22</value>
+    <value>274, 22</value>
   </data>
   <data name="RefreshMoreStripMenuItem.Text" xml:space="preserve">
     <value>前データを取得(&amp;I)</value>
@@ -2905,13 +3112,13 @@
     <value>481, 99</value>
   </metadata>
   <data name="RepliedStatusOpenMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>198, 22</value>
+    <value>251, 22</value>
   </data>
   <data name="RepliedStatusOpenMenuItem.Text" xml:space="preserve">
     <value>返信元ステータスを開く(&amp;I)</value>
   </data>
   <data name="StatusOpenMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>198, 22</value>
+    <value>251, 22</value>
   </data>
   <data name="StatusOpenMenuItem.Text" xml:space="preserve">
     <value>ステータスを開く(&amp;O)</value>
@@ -2919,116 +3126,116 @@
   <metadata name="ContextMenuOperate.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>495, 58</value>
   </metadata>
-  <data name="ReplyStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 22</value>
-  </data>
-  <data name="ReplyStripMenuItem.Text" xml:space="preserve">
-    <value>@返信(&amp;R)</value>
-  </data>
-  <data name="ReplyAllStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 22</value>
-  </data>
-  <data name="ReplyAllStripMenuItem.Text" xml:space="preserve">
-    <value>@返信ALL(&amp;E)</value>
-  </data>
-  <data name="DMStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 22</value>
-  </data>
-  <data name="DMStripMenuItem.Text" xml:space="preserve">
-    <value>DM送信(&amp;M)</value>
-  </data>
-  <data name="ReTweetOriginalStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 22</value>
-  </data>
-  <data name="ReTweetOriginalStripMenuItem.Text" xml:space="preserve">
-    <value>Re&amp;tweet</value>
-  </data>
-  <data name="ReTweetStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 22</value>
-  </data>
-  <data name="ReTweetStripMenuItem.Text" xml:space="preserve">
-    <value>Retweet(U&amp;nofficial)</value>
-  </data>
-  <data name="QuoteStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 22</value>
-  </data>
-  <data name="QuoteStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Quote</value>
-  </data>
-  <data name="ToolStripSeparator39.Size" type="System.Drawing.Size, System.Drawing">
-    <value>215, 6</value>
-  </data>
-  <data name="FavAddToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 22</value>
-  </data>
-  <data name="FavAddToolStripMenuItem.Text" xml:space="preserve">
-    <value>Fav追加(&amp;F)</value>
-  </data>
-  <data name="FavoriteRetweetContextMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 22</value>
-  </data>
-  <data name="FavoriteRetweetContextMenu.Text" xml:space="preserve">
-    <value>Fav追加+Retweet</value>
-  </data>
-  <data name="FavoriteRetweetUnofficialContextMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 22</value>
-  </data>
-  <data name="FavoriteRetweetUnofficialContextMenu.Text" xml:space="preserve">
-    <value>Fav追加+Retweet(Unofficial)</value>
-  </data>
-  <data name="FavRemoveToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 22</value>
-  </data>
-  <data name="FavRemoveToolStripMenuItem.Text" xml:space="preserve">
-    <value>Fav削除(&amp;V)</value>
-  </data>
-  <data name="ToolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>215, 6</value>
-  </data>
-  <data name="ShowProfileMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 22</value>
-  </data>
-  <data name="ShowProfileMenuItem.Text" xml:space="preserve">
-    <value>プロフィール表示</value>
-  </data>
-  <data name="ShowRelatedStatusesMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 22</value>
-  </data>
-  <data name="ShowRelatedStatusesMenuItem.Text" xml:space="preserve">
-    <value>関連発言表示(&amp;G)</value>
-  </data>
-  <data name="ShowUserTimelineContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 22</value>
-  </data>
-  <data name="ShowUserTimelineContextMenuItem.Text" xml:space="preserve">
-    <value>ユーザーのタイムラインを表示</value>
-  </data>
-  <data name="MoveToHomeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>198, 22</value>
-  </data>
-  <data name="MoveToHomeToolStripMenuItem.Text" xml:space="preserve">
-    <value>ホームを開く(&amp;H)</value>
-  </data>
-  <data name="MoveToFavToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>198, 22</value>
-  </data>
-  <data name="MoveToFavToolStripMenuItem.Text" xml:space="preserve">
-    <value>Favを開く(&amp;G)</value>
-  </data>
-  <data name="ToolStripMenuItem6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 22</value>
-  </data>
-  <data name="ToolStripMenuItem6.Text" xml:space="preserve">
-    <value>開く(&amp;O)</value>
-  </data>
   <data name="ContextMenuOperate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>219, 512</value>
+    <value>275, 512</value>
   </data>
   <data name="&gt;&gt;ContextMenuOperate.Name" xml:space="preserve">
     <value>ContextMenuOperate</value>
   </data>
   <data name="&gt;&gt;ContextMenuOperate.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ReplyStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>274, 22</value>
+  </data>
+  <data name="ReplyStripMenuItem.Text" xml:space="preserve">
+    <value>@返信(&amp;R)</value>
+  </data>
+  <data name="ReplyAllStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>274, 22</value>
+  </data>
+  <data name="ReplyAllStripMenuItem.Text" xml:space="preserve">
+    <value>@返信ALL(&amp;E)</value>
+  </data>
+  <data name="DMStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>274, 22</value>
+  </data>
+  <data name="DMStripMenuItem.Text" xml:space="preserve">
+    <value>DM送信(&amp;M)</value>
+  </data>
+  <data name="ReTweetOriginalStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>274, 22</value>
+  </data>
+  <data name="ReTweetOriginalStripMenuItem.Text" xml:space="preserve">
+    <value>Re&amp;tweet</value>
+  </data>
+  <data name="ReTweetStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>274, 22</value>
+  </data>
+  <data name="ReTweetStripMenuItem.Text" xml:space="preserve">
+    <value>Retweet(U&amp;nofficial)</value>
+  </data>
+  <data name="QuoteStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>274, 22</value>
+  </data>
+  <data name="QuoteStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Quote</value>
+  </data>
+  <data name="ToolStripSeparator39.Size" type="System.Drawing.Size, System.Drawing">
+    <value>271, 6</value>
+  </data>
+  <data name="FavAddToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>274, 22</value>
+  </data>
+  <data name="FavAddToolStripMenuItem.Text" xml:space="preserve">
+    <value>Fav追加(&amp;F)</value>
+  </data>
+  <data name="FavoriteRetweetContextMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>274, 22</value>
+  </data>
+  <data name="FavoriteRetweetContextMenu.Text" xml:space="preserve">
+    <value>Fav追加+Retweet</value>
+  </data>
+  <data name="FavoriteRetweetUnofficialContextMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>274, 22</value>
+  </data>
+  <data name="FavoriteRetweetUnofficialContextMenu.Text" xml:space="preserve">
+    <value>Fav追加+Retweet(Unofficial)</value>
+  </data>
+  <data name="FavRemoveToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>274, 22</value>
+  </data>
+  <data name="FavRemoveToolStripMenuItem.Text" xml:space="preserve">
+    <value>Fav削除(&amp;V)</value>
+  </data>
+  <data name="ToolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>271, 6</value>
+  </data>
+  <data name="ShowProfileMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>274, 22</value>
+  </data>
+  <data name="ShowProfileMenuItem.Text" xml:space="preserve">
+    <value>プロフィール表示</value>
+  </data>
+  <data name="ShowRelatedStatusesMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>274, 22</value>
+  </data>
+  <data name="ShowRelatedStatusesMenuItem.Text" xml:space="preserve">
+    <value>関連発言表示(&amp;G)</value>
+  </data>
+  <data name="ShowUserTimelineContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>274, 22</value>
+  </data>
+  <data name="ShowUserTimelineContextMenuItem.Text" xml:space="preserve">
+    <value>ユーザーのタイムラインを表示</value>
+  </data>
+  <data name="ToolStripMenuItem6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>274, 22</value>
+  </data>
+  <data name="ToolStripMenuItem6.Text" xml:space="preserve">
+    <value>開く(&amp;O)</value>
+  </data>
+  <data name="MoveToHomeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>251, 22</value>
+  </data>
+  <data name="MoveToHomeToolStripMenuItem.Text" xml:space="preserve">
+    <value>ホームを開く(&amp;H)</value>
+  </data>
+  <data name="MoveToFavToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>251, 22</value>
+  </data>
+  <data name="MoveToFavToolStripMenuItem.Text" xml:space="preserve">
+    <value>Favを開く(&amp;G)</value>
   </data>
   <metadata name="ToolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>789, 99</value>
@@ -3046,118 +3253,118 @@
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAACW
         HQAAAk1TRnQBSQFMAgEBDwEAAVQBAQFUAQEBEAEAARABAAT/ASEBAAj/AUIBTQE2BwABNgMAASgDAAFA
         AwABQAMAAQEBAAEgBgABQP8AIwADwAH/A8AB/xAAA8AB/yQAA8AB/wPAAf8QAAPAAf8kAAPAAf8DwAH/
-        EAADwAH/YAABSwGZAv8BSwGZAv8QAAFAAZkBQAH/A8AB/yAAAUsBmQL/AUsBmQL/EAABQAGZAUAB/wPA
-        Af8gAAFLAZkC/wFLAZkC/xAAAUABmQFAAf8DwAH/WAADwAH/AUsBmQL/AUsBmQL/A8AB/wPAAf8DwAH/
-        CAABQAGZAUAB/wPAAf8DwAH/FAADwAH/AUsBmQL/AUsBmQL/A8AB/wPAAf8DwAH/CAABQAGZAUAB/wPA
-        Af8DwAH/FAADwAH/AUsBmQL/AUsBmQL/A8AB/wPAAf8DwAH/CAABQAGZAUAB/wPAAf8DwAH/UAABSwGZ
-        Av8BSwGZAv8BSwGZAv8BSwGZAv8BSwGZAv8BSwGZAv8DwAH/BAABQAGZAUAB/wFAAZkBQAH/AUABmQFA
-        Af8DwAH/A8AB/wwAAUsBmQL/AUsBmQL/AUsBmQL/AUsBmQL/AUsBmQL/AUsBmQL/A8AB/wQAAUABmQFA
-        Af8BQAGZAUAB/wFAAZkBQAH/A8AB/wPAAf8MAAFLAZkC/wFLAZkC/wFLAZkC/wFLAZkC/wFLAZkC/wFL
-        AZkC/wPAAf8EAAFAAZkBQAH/AUABmQFAAf8BQAGZAUAB/wPAAf8DwAH/TAABSwGZAv8BSwGZAv8BSwGZ
-        Av8BSwGZAv8BSwGZAv8BSwGZAv8DwAH/AUABmQFAAf8BQAGZAUAB/wFAAZkBQAH/AUABmQFAAf8BQAGZ
-        AUAB/wPAAf8MAAFLAZkC/wFLAZkC/wFLAZkC/wFLAZkC/wFLAZkC/wFLAZkC/wPAAf8BQAGZAUAB/wFA
-        AZkBQAH/AUABmQFAAf8BQAGZAUAB/wFAAZkBQAH/A8AB/wwAAUsBmQL/AUsBmQL/AUsBmQL/AUsBmQL/
-        AUsBmQL/AUsBmQL/A8AB/wFAAZkBQAH/AUABmQFAAf8BQAGZAUAB/wFAAZkBQAH/AUABmQFAAf8DwAH/
-        TAABSwGZAv8BSwGZAv8BSwGZAv8BSwGZAv8BSwGZAv8BSwGZAv8DwAH/AUABmQFAAf8BQAGZAUAB/wQA
-        AUABmQFAAf8BQAGZAUAB/wPAAf8MAAFLAZkC/wFLAZkC/wFLAZkC/wFLAZkC/wFLAZkC/wFLAZkC/wPA
-        Af8BQAGZAUAB/wFAAZkBQAH/BAABQAGZAUAB/wFAAZkBQAH/A8AB/wwAAUsBmQL/AUsBmQL/AUsBmQL/
-        AUsBmQL/AUsBmQL/AUsBmQL/A8AB/wFAAZkBQAH/AUABmQFAAf8EAAFAAZkBQAH/AUABmQFAAf8DwAH/
-        TAABSwGZAv8BSwGZAv8BSwGZAv8BSwGZAv8BSwGZAv8BSwGZAv8EAAFAAZkBQAH/AUABmQFAAf8BQAGZ
-        AUAB/wFAAZkBQAH/AUABmQFAAf8QAAFLAZkC/wFLAZkC/wFLAZkC/wFLAZkC/wFLAZkC/wFLAZkC/wQA
-        AUABmQFAAf8BQAGZAUAB/wFAAZkBQAH/AUABmQFAAf8BQAGZAUAB/xAAAUsBmQL/AUsBmQL/AUsBmQL/
-        AUsBmQL/AUsBmQL/AUsBmQL/BAABQAGZAUAB/wFAAZkBQAH/AUABmQFAAf8BQAGZAUAB/wFAAZkBQAH/
-        cAABQAGZAUAB/wFAAZkBQAH/AUABmQFAAf80AAFAAZkBQAH/AUABmQFAAf8BQAGZAUAB/zQAAUABmQFA
-        Af8BQAGZAUAB/wFAAZkBQAH/WAADwAH/A8AB/wPAAf8DwAH/A8AB/wPAAf9MAAPAAf8DwAH/FAADwAH/
-        A8AB/wPAAf8DwAH/A8AB/wPAAf8MAAPAAf8DwAH/UAABmQJ+Af8BmQJ+Af8BmQJ+Af8BmQJ+Af8BmQJ+
-        Af8BmQJ+Af8DwAH/SAAB/wGZAUAC/wGZAUAB/wPAAf8DwAH/DAABmQJ+Af8BmQJ+Af8BmQJ+Af8BmQJ+
-        Af8BmQJ+Af8BmQJ+Af8DwAH/CAAB/wGZAUAC/wGZAUAB/wPAAf8DwAH/TAABmQJ+Af8BmQJ+Af8BmQJ+
-        Af8BmQJ+Af8BmQJ+Af8BmQJ+Af8DwAH/RAAB/wGZAUAC/wGZAUAC/wGZAUAC/wGZAUAB/wPAAf8DwAH/
-        CAABmQJ+Af8BmQJ+Af8BmQJ+Af8BmQJ+Af8BmQJ+Af8BmQJ+Af8DwAH/BAAB/wGZAUAC/wGZAUAC/wGZ
-        AUAC/wGZAUAB/wPAAf8DwAH/SAABmQJ+Af8BmQJ+Af8BmQJ+Af8BmQJ+Af8BmQJ+Af8BmQJ+Af8DwAH/
-        QAAB/wGZAUAC/wGZAUAB/wQAAf8BmQFAAv8BmQFAAv8BmQFAAf8DwAH/CAABmQJ+Af8BmQJ+Af8BmQJ+
-        Af8BmQJ+Af8BmQJ+Af8BmQJ+Af8DwAL/AZkBQAL/AZkBQAH/BAAB/wGZAUAC/wGZAUAC/wGZAUAB/wPA
-        Af9IAAGZAn4B/wGZAn4B/wGZAn4B/wGZAn4B/wGZAn4B/wGZAn4B/0QAAf8BmQFAAf8MAAH/AZkBQAL/
-        AZkBQAH/A8AB/wPAAf8EAAGZAn4B/wGZAn4B/wGZAn4B/wGZAn4B/wGZAn4B/wGZAn4B/wQAAf8BmQFA
-        Af8MAAH/AZkBQAL/AZkBQAH/A8AB/wPAAf9IAAGZAn4B/wQAA8AB/wGZAn4B/1wAAf8BmQFAAv8BmQFA
-        Af8DwAH/CAABmQJ+Af8EAAPAAf8BmQJ+Af8cAAH/AZkBQAL/AZkBQAH/A8AB/0wAAZkCfgH/AZkCfgH/
-        ZAAB/wGZAUAB/xAAAZkCfgH/AZkCfgH/JAAB/wGZAUAB//8AcQADwAH/PAADwAH/PAADwAH/JAADwAH/
-        A8AB/xAAA8AB/zgAAUABmQFAAf8DwAH/OAABQAGZAUAB/wPAAf84AAFAAZkBQAH/A8AB/yAAAUsBmQL/
-        AUsBmQL/EAABQAGZAUAB/wPAAf84AAFAAZkBQAH/A8AB/wPAAf80AAFAAZkBQAH/A8AB/wPAAf80AAFA
-        AZkBQAH/A8AB/wPAAf8UAAPAAf8BSwGZAv8BSwGZAv8DwAH/A8AB/wPAAf8IAAFAAZkBQAH/A8AB/wPA
-        Af8wAAFAAZkBQAH/AUABmQFAAf8BQAGZAUAB/wPAAf8DwAH/LAABQAGZAUAB/wFAAZkBQAH/AUABmQFA
-        Af8DwAH/A8AB/ywAAUABmQFAAf8BQAGZAUAB/wFAAZkBQAH/A8AB/wPAAf8MAAFLAZkC/wFLAZkC/wFL
-        AZkC/wFLAZkC/wFLAZkC/wFLAZkC/wPAAf8EAAFAAZkBQAH/AUABmQFAAf8BQAGZAUAB/wPAAf8DwAH/
-        KAABQAGZAUAB/wFAAZkBQAH/AUABmQFAAf8BQAGZAUAB/wFAAZkBQAH/A8AB/ygAAUABmQFAAf8BQAGZ
-        AUAB/wFAAZkBQAH/AUABmQFAAf8BQAGZAUAB/wPAAf8oAAFAAZkBQAH/AUABmQFAAf8BQAGZAUAB/wFA
-        AZkBQAH/AUABmQFAAf8DwAH/DAABSwGZAv8BSwGZAv8BSwGZAv8BSwGZAv8BSwGZAv8BSwGZAv8DwAH/
-        AUABmQFAAf8BQAGZAUAB/wFAAZkBQAH/AUABmQFAAf8BQAGZAUAB/wPAAf8oAAFAAZkBQAH/AUABmQFA
-        Af8EAAFAAZkBQAH/AUABmQFAAf8DwAH/KAABQAGZAUAB/wFAAZkBQAH/BAABQAGZAUAB/wFAAZkBQAH/
-        A8AB/ygAAUABmQFAAf8BQAGZAUAB/wQAAUABmQFAAf8BQAGZAUAB/wPAAf8MAAFLAZkC/wFLAZkC/wFL
-        AZkC/wFLAZkC/wFLAZkC/wFLAZkC/wPAAf8BQAGZAUAB/wFAAZkBQAH/BAABQAGZAUAB/wFAAZkBQAH/
-        A8AB/ygAAUABmQFAAf8BQAGZAUAB/wFAAZkBQAH/AUABmQFAAf8BQAGZAUAB/ywAAUABmQFAAf8BQAGZ
-        AUAB/wFAAZkBQAH/AUABmQFAAf8BQAGZAUAB/ywAAUABmQFAAf8BQAGZAUAB/wFAAZkBQAH/AUABmQFA
-        Af8BQAGZAUAB/xAAAUsBmQL/AUsBmQL/AUsBmQL/AUsBmQL/AUsBmQL/AUsBmQL/BAABQAGZAUAB/wFA
-        AZkBQAH/AUABmQFAAf8BQAGZAUAB/wFAAZkBQAH/MAABQAGZAUAB/wFAAZkBQAH/AUABmQFAAf80AAFA
-        AZkBQAH/AUABmQFAAf8BQAGZAUAB/zQAAUABmQFAAf8BQAGZAUAB/wFAAZkBQAH/NAABQAGZAUAB/wFA
-        AZkBQAH/AUABmQFAAf8YAAPAAf8DwAH/A8AB/wPAAf8DwAH/A8AB/0wAA8AB/wPAAf8UAAPAAf8DwAH/
-        A8AB/wPAAf8DwAH/A8AB/wwAA8AB/wPAAf9QAAGZAn4B/wGZAn4B/wGZAn4B/wGZAn4B/wGZAn4B/wGZ
-        An4B/wPAAf9IAAH/AZkBQAL/AZkBQAH/A8AB/wPAAf8MAAGZAn4B/wGZAn4B/wGZAn4B/wGZAn4B/wGZ
-        An4B/wGZAn4B/wPAAf8IAAH/AZkBQAL/AZkBQAH/A8AB/wPAAf9MAAGZAn4B/wGZAn4B/wGZAn4B/wGZ
-        An4B/wGZAn4B/wGZAn4B/wPAAf9EAAH/AZkBQAL/AZkBQAL/AZkBQAL/AZkBQAH/A8AB/wPAAf8IAAGZ
-        An4B/wGZAn4B/wGZAn4B/wGZAn4B/wGZAn4B/wGZAn4B/wPAAf8EAAH/AZkBQAL/AZkBQAL/AZkBQAL/
-        AZkBQAH/A8AB/wPAAf9IAAGZAn4B/wGZAn4B/wGZAn4B/wGZAn4B/wGZAn4B/wGZAn4B/wPAAf9AAAH/
-        AZkBQAL/AZkBQAH/BAAB/wGZAUAC/wGZAUAC/wGZAUAB/wPAAf8IAAGZAn4B/wGZAn4B/wGZAn4B/wGZ
-        An4B/wGZAn4B/wGZAn4B/wPAAv8BmQFAAv8BmQFAAf8EAAH/AZkBQAL/AZkBQAL/AZkBQAH/A8AB/0gA
-        AZkCfgH/AZkCfgH/AZkCfgH/AZkCfgH/AZkCfgH/AZkCfgH/RAAB/wGZAUAB/wwAAf8BmQFAAv8BmQFA
-        Af8DwAH/A8AB/wQAAZkCfgH/AZkCfgH/AZkCfgH/AZkCfgH/AZkCfgH/AZkCfgH/BAAB/wGZAUAB/wwA
-        Af8BmQFAAv8BmQFAAf8DwAH/A8AB/0gAAZkCfgH/BAADwAH/AZkCfgH/XAAB/wGZAUAC/wGZAUAB/wPA
-        Af8IAAGZAn4B/wQAA8AB/wGZAn4B/xwAAf8BmQFAAv8BmQFAAf8DwAH/TAABmQJ+Af8BmQJ+Af9kAAH/
-        AZkBQAH/EAABmQJ+Af8BmQJ+Af8kAAH/AZkBQAH//wBZAAPAAf8DwAH/OAADwAH/A8AB/zgAA8AB/wPA
-        Af9QAAPAAf8gAAFLAZkC/wFLAZkC/zgAAUsBmQL/AUsBmQL/OAABSwGZAv8BSwGZAv9QAAFAAZkBQAH/
-        A8AB/xgAA8AB/wFLAZkC/wFLAZkC/wPAAf8DwAH/A8AB/ygAA8AB/wFLAZkC/wFLAZkC/wPAAf8DwAH/
-        A8AB/ygAA8AB/wFLAZkC/wFLAZkC/wPAAf8DwAH/A8AB/0gAAUABmQFAAf8DwAH/A8AB/xAAAUsBmQL/
-        AUsBmQL/AUsBmQL/AUsBmQL/AUsBmQL/AUsBmQL/A8AB/yQAAUsBmQL/AUsBmQL/AUsBmQL/AUsBmQL/
-        AUsBmQL/AUsBmQL/A8AB/yQAAUsBmQL/AUsBmQL/AUsBmQL/AUsBmQL/AUsBmQL/AUsBmQL/A8AB/0QA
-        AUABmQFAAf8BQAGZAUAB/wFAAZkBQAH/A8AB/wPAAf8MAAFLAZkC/wFLAZkC/wFLAZkC/wFLAZkC/wFL
-        AZkC/wFLAZkC/wPAAf8kAAFLAZkC/wFLAZkC/wFLAZkC/wFLAZkC/wFLAZkC/wFLAZkC/wPAAf8kAAFL
-        AZkC/wFLAZkC/wFLAZkC/wFLAZkC/wFLAZkC/wFLAZkC/wPAAf9AAAFAAZkBQAH/AUABmQFAAf8BQAGZ
-        AUAB/wFAAZkBQAH/AUABmQFAAf8DwAH/DAABSwGZAv8BSwGZAv8BSwGZAv8BSwGZAv8BSwGZAv8BSwGZ
-        Av8DwAH/JAABSwGZAv8BSwGZAv8BSwGZAv8BSwGZAv8BSwGZAv8BSwGZAv8DwAH/JAABSwGZAv8BSwGZ
-        Av8BSwGZAv8BSwGZAv8BSwGZAv8BSwGZAv8DwAH/QAABQAGZAUAB/wFAAZkBQAH/BAABQAGZAUAB/wFA
-        AZkBQAH/A8AB/wwAAUsBmQL/AUsBmQL/AUsBmQL/AUsBmQL/AUsBmQL/AUsBmQL/KAABSwGZAv8BSwGZ
-        Av8BSwGZAv8BSwGZAv8BSwGZAv8BSwGZAv8oAAFLAZkC/wFLAZkC/wFLAZkC/wFLAZkC/wFLAZkC/wFL
-        AZkC/0QAAUABmQFAAf8BQAGZAUAB/wFAAZkBQAH/AUABmQFAAf8BQAGZAUAB//AAAUABmQFAAf8BQAGZ
-        AUAB/wFAAZkBQAH/GAADwAH/A8AB/wPAAf8DwAH/A8AB/wPAAf9MAAPAAf8DwAH/FAADwAH/A8AB/wPA
-        Af8DwAH/A8AB/wPAAf8MAAPAAf8DwAH/UAABmQJ+Af8BmQJ+Af8BmQJ+Af8BmQJ+Af8BmQJ+Af8BmQJ+
-        Af8DwAH/SAAB/wGZAUAC/wGZAUAB/wPAAf8DwAH/DAABmQJ+Af8BmQJ+Af8BmQJ+Af8BmQJ+Af8BmQJ+
-        Af8BmQJ+Af8DwAH/CAAB/wGZAUAC/wGZAUAB/wPAAf8DwAH/TAABmQJ+Af8BmQJ+Af8BmQJ+Af8BmQJ+
-        Af8BmQJ+Af8BmQJ+Af8DwAH/RAAB/wGZAUAC/wGZAUAC/wGZAUAC/wGZAUAB/wPAAf8DwAH/CAABmQJ+
-        Af8BmQJ+Af8BmQJ+Af8BmQJ+Af8BmQJ+Af8BmQJ+Af8DwAH/BAAB/wGZAUAC/wGZAUAC/wGZAUAC/wGZ
-        AUAB/wPAAf8DwAH/SAABmQJ+Af8BmQJ+Af8BmQJ+Af8BmQJ+Af8BmQJ+Af8BmQJ+Af8DwAH/QAAB/wGZ
-        AUAC/wGZAUAB/wQAAf8BmQFAAv8BmQFAAv8BmQFAAf8DwAH/CAABmQJ+Af8BmQJ+Af8BmQJ+Af8BmQJ+
-        Af8BmQJ+Af8BmQJ+Af8DwAL/AZkBQAL/AZkBQAH/BAAB/wGZAUAC/wGZAUAC/wGZAUAB/wPAAf9IAAGZ
-        An4B/wGZAn4B/wGZAn4B/wGZAn4B/wGZAn4B/wGZAn4B/0QAAf8BmQFAAf8MAAH/AZkBQAL/AZkBQAH/
-        A8AB/wPAAf8EAAGZAn4B/wGZAn4B/wGZAn4B/wGZAn4B/wGZAn4B/wGZAn4B/wQAAf8BmQFAAf8MAAH/
-        AZkBQAL/AZkBQAH/A8AB/wPAAf9IAAGZAn4B/wQAA8AB/wGZAn4B/1wAAf8BmQFAAv8BmQFAAf8DwAH/
-        CAABmQJ+Af8EAAPAAf8BmQJ+Af8cAAH/AZkBQAL/AZkBQAH/A8AB/0wAAZkCfgH/AZkCfgH/ZAAB/wGZ
-        AUAB/xAAAZkCfgH/AZkCfgH/JAAB/wGZAUAB//8A/wAaAAPAAf8DwAH/9AABSwGZAv8BSwGZAv/wAAPA
-        Af8BSwGZAv8BSwGZAv8DwAH/A8AB/wPAAf/kAAFLAZkC/wFLAZkC/wFLAZkC/wFLAZkC/wFLAZkC/wFL
-        AZkC/wPAAf/kAAFLAZkC/wFLAZkC/wFLAZkC/wFLAZkC/wFLAZkC/wFLAZkC/wPAAf/kAAFLAZkC/wFL
-        AZkC/wFLAZkC/wFLAZkC/wFLAZkC/wFLAZkC/wPAAf/kAAFLAZkC/wFLAZkC/wFLAZkC/wFLAZkC/wFL
-        AZkC/wFLAZkC//8ALQADwAH/A8AB/wPAAf8DwAH/A8AB/wPAAf9MAAPAAf8DwAH/FAADwAH/A8AB/wPA
-        Af8DwAH/A8AB/wPAAf8MAAPAAf8DwAH/UAABmQJ+Af8BmQJ+Af8BmQJ+Af8BmQJ+Af8BmQJ+Af8BmQJ+
-        Af8DwAH/SAAB/wGZAUAC/wGZAUAB/wPAAf8DwAH/DAABmQJ+Af8BmQJ+Af8BmQJ+Af8BmQJ+Af8BmQJ+
-        Af8BmQJ+Af8DwAH/CAAB/wGZAUAC/wGZAUAB/wPAAf8DwAH/TAABmQJ+Af8BmQJ+Af8BmQJ+Af8BmQJ+
-        Af8BmQJ+Af8BmQJ+Af8DwAH/RAAB/wGZAUAC/wGZAUAC/wGZAUAC/wGZAUAB/wPAAf8DwAH/CAABmQJ+
-        Af8BmQJ+Af8BmQJ+Af8BmQJ+Af8BmQJ+Af8BmQJ+Af8DwAH/BAAB/wGZAUAC/wGZAUAC/wGZAUAC/wGZ
-        AUAB/wPAAf8DwAH/SAABmQJ+Af8BmQJ+Af8BmQJ+Af8BmQJ+Af8BmQJ+Af8BmQJ+Af8DwAH/QAAB/wGZ
-        AUAC/wGZAUAB/wQAAf8BmQFAAv8BmQFAAv8BmQFAAf8DwAH/CAABmQJ+Af8BmQJ+Af8BmQJ+Af8BmQJ+
-        Af8BmQJ+Af8BmQJ+Af8DwAL/AZkBQAL/AZkBQAH/BAAB/wGZAUAC/wGZAUAC/wGZAUAB/wPAAf9IAAGZ
-        An4B/wGZAn4B/wGZAn4B/wGZAn4B/wGZAn4B/wGZAn4B/0QAAf8BmQFAAf8MAAH/AZkBQAL/AZkBQAH/
-        A8AB/wPAAf8EAAGZAn4B/wGZAn4B/wGZAn4B/wGZAn4B/wGZAn4B/wGZAn4B/wQAAf8BmQFAAf8MAAH/
-        AZkBQAL/AZkBQAH/A8AB/wPAAf9IAAGZAn4B/wQAA8AB/wGZAn4B/1wAAf8BmQFAAv8BmQFAAf8DwAH/
-        CAABmQJ+Af8EAAPAAf8BmQJ+Af8cAAH/AZkBQAL/AZkBQAH/A8AB/0wAAZkCfgH/AZkCfgH/ZAAB/wGZ
-        AUAB/xAAAZkCfgH/AZkCfgH/JAAB/wGZAUAB/0gAAUIBTQE+BwABPgMAASgDAAFAAwABQAMAAQEBAAEB
+        EAADwAH/YAABVQGZAv8BVQGZAv8QAAFKAZkBSgH/A8AB/yAAAVUBmQL/AVUBmQL/EAABSgGZAUoB/wPA
+        Af8gAAFVAZkC/wFVAZkC/xAAAUoBmQFKAf8DwAH/WAADwAH/AVUBmQL/AVUBmQL/A8AB/wPAAf8DwAH/
+        CAABSgGZAUoB/wPAAf8DwAH/FAADwAH/AVUBmQL/AVUBmQL/A8AB/wPAAf8DwAH/CAABSgGZAUoB/wPA
+        Af8DwAH/FAADwAH/AVUBmQL/AVUBmQL/A8AB/wPAAf8DwAH/CAABSgGZAUoB/wPAAf8DwAH/UAABVQGZ
+        Av8BVQGZAv8BVQGZAv8BVQGZAv8BVQGZAv8BVQGZAv8DwAH/BAABSgGZAUoB/wFKAZkBSgH/AUoBmQFK
+        Af8DwAH/A8AB/wwAAVUBmQL/AVUBmQL/AVUBmQL/AVUBmQL/AVUBmQL/AVUBmQL/A8AB/wQAAUoBmQFK
+        Af8BSgGZAUoB/wFKAZkBSgH/A8AB/wPAAf8MAAFVAZkC/wFVAZkC/wFVAZkC/wFVAZkC/wFVAZkC/wFV
+        AZkC/wPAAf8EAAFKAZkBSgH/AUoBmQFKAf8BSgGZAUoB/wPAAf8DwAH/TAABVQGZAv8BVQGZAv8BVQGZ
+        Av8BVQGZAv8BVQGZAv8BVQGZAv8DwAH/AUoBmQFKAf8BSgGZAUoB/wFKAZkBSgH/AUoBmQFKAf8BSgGZ
+        AUoB/wPAAf8MAAFVAZkC/wFVAZkC/wFVAZkC/wFVAZkC/wFVAZkC/wFVAZkC/wPAAf8BSgGZAUoB/wFK
+        AZkBSgH/AUoBmQFKAf8BSgGZAUoB/wFKAZkBSgH/A8AB/wwAAVUBmQL/AVUBmQL/AVUBmQL/AVUBmQL/
+        AVUBmQL/AVUBmQL/A8AB/wFKAZkBSgH/AUoBmQFKAf8BSgGZAUoB/wFKAZkBSgH/AUoBmQFKAf8DwAH/
+        TAABVQGZAv8BVQGZAv8BVQGZAv8BVQGZAv8BVQGZAv8BVQGZAv8DwAH/AUoBmQFKAf8BSgGZAUoB/wQA
+        AUoBmQFKAf8BSgGZAUoB/wPAAf8MAAFVAZkC/wFVAZkC/wFVAZkC/wFVAZkC/wFVAZkC/wFVAZkC/wPA
+        Af8BSgGZAUoB/wFKAZkBSgH/BAABSgGZAUoB/wFKAZkBSgH/A8AB/wwAAVUBmQL/AVUBmQL/AVUBmQL/
+        AVUBmQL/AVUBmQL/AVUBmQL/A8AB/wFKAZkBSgH/AUoBmQFKAf8EAAFKAZkBSgH/AUoBmQFKAf8DwAH/
+        TAABVQGZAv8BVQGZAv8BVQGZAv8BVQGZAv8BVQGZAv8BVQGZAv8EAAFKAZkBSgH/AUoBmQFKAf8BSgGZ
+        AUoB/wFKAZkBSgH/AUoBmQFKAf8QAAFVAZkC/wFVAZkC/wFVAZkC/wFVAZkC/wFVAZkC/wFVAZkC/wQA
+        AUoBmQFKAf8BSgGZAUoB/wFKAZkBSgH/AUoBmQFKAf8BSgGZAUoB/xAAAVUBmQL/AVUBmQL/AVUBmQL/
+        AVUBmQL/AVUBmQL/AVUBmQL/BAABSgGZAUoB/wFKAZkBSgH/AUoBmQFKAf8BSgGZAUoB/wFKAZkBSgH/
+        cAABSgGZAUoB/wFKAZkBSgH/AUoBmQFKAf80AAFKAZkBSgH/AUoBmQFKAf8BSgGZAUoB/zQAAUoBmQFK
+        Af8BSgGZAUoB/wFKAZkBSgH/WAADwAH/A8AB/wPAAf8DwAH/A8AB/wPAAf9MAAPAAf8DwAH/FAADwAH/
+        A8AB/wPAAf8DwAH/A8AB/wPAAf8MAAPAAf8DwAH/UAABmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8BmQKB
+        Af8BmQKBAf8DwAH/SAAB/wGZAUoC/wGZAUoB/wPAAf8DwAH/DAABmQKBAf8BmQKBAf8BmQKBAf8BmQKB
+        Af8BmQKBAf8BmQKBAf8DwAH/CAAB/wGZAUoC/wGZAUoB/wPAAf8DwAH/TAABmQKBAf8BmQKBAf8BmQKB
+        Af8BmQKBAf8BmQKBAf8BmQKBAf8DwAH/RAAB/wGZAUoC/wGZAUoC/wGZAUoC/wGZAUoB/wPAAf8DwAH/
+        CAABmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8DwAH/BAAB/wGZAUoC/wGZAUoC/wGZ
+        AUoC/wGZAUoB/wPAAf8DwAH/SAABmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8DwAH/
+        QAAB/wGZAUoC/wGZAUoB/wQAAf8BmQFKAv8BmQFKAv8BmQFKAf8DwAH/CAABmQKBAf8BmQKBAf8BmQKB
+        Af8BmQKBAf8BmQKBAf8BmQKBAf8DwAL/AZkBSgL/AZkBSgH/BAAB/wGZAUoC/wGZAUoC/wGZAUoB/wPA
+        Af9IAAGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/0QAAf8BmQFKAf8MAAH/AZkBSgL/
+        AZkBSgH/A8AB/wPAAf8EAAGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wQAAf8BmQFK
+        Af8MAAH/AZkBSgL/AZkBSgH/A8AB/wPAAf9IAAGZAoEB/wQAA8AB/wGZAoEB/1wAAf8BmQFKAv8BmQFK
+        Af8DwAH/CAABmQKBAf8EAAPAAf8BmQKBAf8cAAH/AZkBSgL/AZkBSgH/A8AB/0wAAZkCgQH/AZkCgQH/
+        ZAAB/wGZAUoB/xAAAZkCgQH/AZkCgQH/JAAB/wGZAUoB//8AcQADwAH/PAADwAH/PAADwAH/JAADwAH/
+        A8AB/xAAA8AB/zgAAUoBmQFKAf8DwAH/OAABSgGZAUoB/wPAAf84AAFKAZkBSgH/A8AB/yAAAVUBmQL/
+        AVUBmQL/EAABSgGZAUoB/wPAAf84AAFKAZkBSgH/A8AB/wPAAf80AAFKAZkBSgH/A8AB/wPAAf80AAFK
+        AZkBSgH/A8AB/wPAAf8UAAPAAf8BVQGZAv8BVQGZAv8DwAH/A8AB/wPAAf8IAAFKAZkBSgH/A8AB/wPA
+        Af8wAAFKAZkBSgH/AUoBmQFKAf8BSgGZAUoB/wPAAf8DwAH/LAABSgGZAUoB/wFKAZkBSgH/AUoBmQFK
+        Af8DwAH/A8AB/ywAAUoBmQFKAf8BSgGZAUoB/wFKAZkBSgH/A8AB/wPAAf8MAAFVAZkC/wFVAZkC/wFV
+        AZkC/wFVAZkC/wFVAZkC/wFVAZkC/wPAAf8EAAFKAZkBSgH/AUoBmQFKAf8BSgGZAUoB/wPAAf8DwAH/
+        KAABSgGZAUoB/wFKAZkBSgH/AUoBmQFKAf8BSgGZAUoB/wFKAZkBSgH/A8AB/ygAAUoBmQFKAf8BSgGZ
+        AUoB/wFKAZkBSgH/AUoBmQFKAf8BSgGZAUoB/wPAAf8oAAFKAZkBSgH/AUoBmQFKAf8BSgGZAUoB/wFK
+        AZkBSgH/AUoBmQFKAf8DwAH/DAABVQGZAv8BVQGZAv8BVQGZAv8BVQGZAv8BVQGZAv8BVQGZAv8DwAH/
+        AUoBmQFKAf8BSgGZAUoB/wFKAZkBSgH/AUoBmQFKAf8BSgGZAUoB/wPAAf8oAAFKAZkBSgH/AUoBmQFK
+        Af8EAAFKAZkBSgH/AUoBmQFKAf8DwAH/KAABSgGZAUoB/wFKAZkBSgH/BAABSgGZAUoB/wFKAZkBSgH/
+        A8AB/ygAAUoBmQFKAf8BSgGZAUoB/wQAAUoBmQFKAf8BSgGZAUoB/wPAAf8MAAFVAZkC/wFVAZkC/wFV
+        AZkC/wFVAZkC/wFVAZkC/wFVAZkC/wPAAf8BSgGZAUoB/wFKAZkBSgH/BAABSgGZAUoB/wFKAZkBSgH/
+        A8AB/ygAAUoBmQFKAf8BSgGZAUoB/wFKAZkBSgH/AUoBmQFKAf8BSgGZAUoB/ywAAUoBmQFKAf8BSgGZ
+        AUoB/wFKAZkBSgH/AUoBmQFKAf8BSgGZAUoB/ywAAUoBmQFKAf8BSgGZAUoB/wFKAZkBSgH/AUoBmQFK
+        Af8BSgGZAUoB/xAAAVUBmQL/AVUBmQL/AVUBmQL/AVUBmQL/AVUBmQL/AVUBmQL/BAABSgGZAUoB/wFK
+        AZkBSgH/AUoBmQFKAf8BSgGZAUoB/wFKAZkBSgH/MAABSgGZAUoB/wFKAZkBSgH/AUoBmQFKAf80AAFK
+        AZkBSgH/AUoBmQFKAf8BSgGZAUoB/zQAAUoBmQFKAf8BSgGZAUoB/wFKAZkBSgH/NAABSgGZAUoB/wFK
+        AZkBSgH/AUoBmQFKAf8YAAPAAf8DwAH/A8AB/wPAAf8DwAH/A8AB/0wAA8AB/wPAAf8UAAPAAf8DwAH/
+        A8AB/wPAAf8DwAH/A8AB/wwAA8AB/wPAAf9QAAGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZ
+        AoEB/wPAAf9IAAH/AZkBSgL/AZkBSgH/A8AB/wPAAf8MAAGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZ
+        AoEB/wGZAoEB/wPAAf8IAAH/AZkBSgL/AZkBSgH/A8AB/wPAAf9MAAGZAoEB/wGZAoEB/wGZAoEB/wGZ
+        AoEB/wGZAoEB/wGZAoEB/wPAAf9EAAH/AZkBSgL/AZkBSgL/AZkBSgL/AZkBSgH/A8AB/wPAAf8IAAGZ
+        AoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wPAAf8EAAH/AZkBSgL/AZkBSgL/AZkBSgL/
+        AZkBSgH/A8AB/wPAAf9IAAGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wPAAf9AAAH/
+        AZkBSgL/AZkBSgH/BAAB/wGZAUoC/wGZAUoC/wGZAUoB/wPAAf8IAAGZAoEB/wGZAoEB/wGZAoEB/wGZ
+        AoEB/wGZAoEB/wGZAoEB/wPAAv8BmQFKAv8BmQFKAf8EAAH/AZkBSgL/AZkBSgL/AZkBSgH/A8AB/0gA
+        AZkCgQH/AZkCgQH/AZkCgQH/AZkCgQH/AZkCgQH/AZkCgQH/RAAB/wGZAUoB/wwAAf8BmQFKAv8BmQFK
+        Af8DwAH/A8AB/wQAAZkCgQH/AZkCgQH/AZkCgQH/AZkCgQH/AZkCgQH/AZkCgQH/BAAB/wGZAUoB/wwA
+        Af8BmQFKAv8BmQFKAf8DwAH/A8AB/0gAAZkCgQH/BAADwAH/AZkCgQH/XAAB/wGZAUoC/wGZAUoB/wPA
+        Af8IAAGZAoEB/wQAA8AB/wGZAoEB/xwAAf8BmQFKAv8BmQFKAf8DwAH/TAABmQKBAf8BmQKBAf9kAAH/
+        AZkBSgH/EAABmQKBAf8BmQKBAf8kAAH/AZkBSgH//wBZAAPAAf8DwAH/OAADwAH/A8AB/zgAA8AB/wPA
+        Af9QAAPAAf8gAAFVAZkC/wFVAZkC/zgAAVUBmQL/AVUBmQL/OAABVQGZAv8BVQGZAv9QAAFKAZkBSgH/
+        A8AB/xgAA8AB/wFVAZkC/wFVAZkC/wPAAf8DwAH/A8AB/ygAA8AB/wFVAZkC/wFVAZkC/wPAAf8DwAH/
+        A8AB/ygAA8AB/wFVAZkC/wFVAZkC/wPAAf8DwAH/A8AB/0gAAUoBmQFKAf8DwAH/A8AB/xAAAVUBmQL/
+        AVUBmQL/AVUBmQL/AVUBmQL/AVUBmQL/AVUBmQL/A8AB/yQAAVUBmQL/AVUBmQL/AVUBmQL/AVUBmQL/
+        AVUBmQL/AVUBmQL/A8AB/yQAAVUBmQL/AVUBmQL/AVUBmQL/AVUBmQL/AVUBmQL/AVUBmQL/A8AB/0QA
+        AUoBmQFKAf8BSgGZAUoB/wFKAZkBSgH/A8AB/wPAAf8MAAFVAZkC/wFVAZkC/wFVAZkC/wFVAZkC/wFV
+        AZkC/wFVAZkC/wPAAf8kAAFVAZkC/wFVAZkC/wFVAZkC/wFVAZkC/wFVAZkC/wFVAZkC/wPAAf8kAAFV
+        AZkC/wFVAZkC/wFVAZkC/wFVAZkC/wFVAZkC/wFVAZkC/wPAAf9AAAFKAZkBSgH/AUoBmQFKAf8BSgGZ
+        AUoB/wFKAZkBSgH/AUoBmQFKAf8DwAH/DAABVQGZAv8BVQGZAv8BVQGZAv8BVQGZAv8BVQGZAv8BVQGZ
+        Av8DwAH/JAABVQGZAv8BVQGZAv8BVQGZAv8BVQGZAv8BVQGZAv8BVQGZAv8DwAH/JAABVQGZAv8BVQGZ
+        Av8BVQGZAv8BVQGZAv8BVQGZAv8BVQGZAv8DwAH/QAABSgGZAUoB/wFKAZkBSgH/BAABSgGZAUoB/wFK
+        AZkBSgH/A8AB/wwAAVUBmQL/AVUBmQL/AVUBmQL/AVUBmQL/AVUBmQL/AVUBmQL/KAABVQGZAv8BVQGZ
+        Av8BVQGZAv8BVQGZAv8BVQGZAv8BVQGZAv8oAAFVAZkC/wFVAZkC/wFVAZkC/wFVAZkC/wFVAZkC/wFV
+        AZkC/0QAAUoBmQFKAf8BSgGZAUoB/wFKAZkBSgH/AUoBmQFKAf8BSgGZAUoB//AAAUoBmQFKAf8BSgGZ
+        AUoB/wFKAZkBSgH/GAADwAH/A8AB/wPAAf8DwAH/A8AB/wPAAf9MAAPAAf8DwAH/FAADwAH/A8AB/wPA
+        Af8DwAH/A8AB/wPAAf8MAAPAAf8DwAH/UAABmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8BmQKB
+        Af8DwAH/SAAB/wGZAUoC/wGZAUoB/wPAAf8DwAH/DAABmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8BmQKB
+        Af8BmQKBAf8DwAH/CAAB/wGZAUoC/wGZAUoB/wPAAf8DwAH/TAABmQKBAf8BmQKBAf8BmQKBAf8BmQKB
+        Af8BmQKBAf8BmQKBAf8DwAH/RAAB/wGZAUoC/wGZAUoC/wGZAUoC/wGZAUoB/wPAAf8DwAH/CAABmQKB
+        Af8BmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8DwAH/BAAB/wGZAUoC/wGZAUoC/wGZAUoC/wGZ
+        AUoB/wPAAf8DwAH/SAABmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8DwAH/QAAB/wGZ
+        AUoC/wGZAUoB/wQAAf8BmQFKAv8BmQFKAv8BmQFKAf8DwAH/CAABmQKBAf8BmQKBAf8BmQKBAf8BmQKB
+        Af8BmQKBAf8BmQKBAf8DwAL/AZkBSgL/AZkBSgH/BAAB/wGZAUoC/wGZAUoC/wGZAUoB/wPAAf9IAAGZ
+        AoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/0QAAf8BmQFKAf8MAAH/AZkBSgL/AZkBSgH/
+        A8AB/wPAAf8EAAGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wQAAf8BmQFKAf8MAAH/
+        AZkBSgL/AZkBSgH/A8AB/wPAAf9IAAGZAoEB/wQAA8AB/wGZAoEB/1wAAf8BmQFKAv8BmQFKAf8DwAH/
+        CAABmQKBAf8EAAPAAf8BmQKBAf8cAAH/AZkBSgL/AZkBSgH/A8AB/0wAAZkCgQH/AZkCgQH/ZAAB/wGZ
+        AUoB/xAAAZkCgQH/AZkCgQH/JAAB/wGZAUoB//8A/wAaAAPAAf8DwAH/9AABVQGZAv8BVQGZAv/wAAPA
+        Af8BVQGZAv8BVQGZAv8DwAH/A8AB/wPAAf/kAAFVAZkC/wFVAZkC/wFVAZkC/wFVAZkC/wFVAZkC/wFV
+        AZkC/wPAAf/kAAFVAZkC/wFVAZkC/wFVAZkC/wFVAZkC/wFVAZkC/wFVAZkC/wPAAf/kAAFVAZkC/wFV
+        AZkC/wFVAZkC/wFVAZkC/wFVAZkC/wFVAZkC/wPAAf/kAAFVAZkC/wFVAZkC/wFVAZkC/wFVAZkC/wFV
+        AZkC/wFVAZkC//8ALQADwAH/A8AB/wPAAf8DwAH/A8AB/wPAAf9MAAPAAf8DwAH/FAADwAH/A8AB/wPA
+        Af8DwAH/A8AB/wPAAf8MAAPAAf8DwAH/UAABmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8BmQKB
+        Af8DwAH/SAAB/wGZAUoC/wGZAUoB/wPAAf8DwAH/DAABmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8BmQKB
+        Af8BmQKBAf8DwAH/CAAB/wGZAUoC/wGZAUoB/wPAAf8DwAH/TAABmQKBAf8BmQKBAf8BmQKBAf8BmQKB
+        Af8BmQKBAf8BmQKBAf8DwAH/RAAB/wGZAUoC/wGZAUoC/wGZAUoC/wGZAUoB/wPAAf8DwAH/CAABmQKB
+        Af8BmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8DwAH/BAAB/wGZAUoC/wGZAUoC/wGZAUoC/wGZ
+        AUoB/wPAAf8DwAH/SAABmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8DwAH/QAAB/wGZ
+        AUoC/wGZAUoB/wQAAf8BmQFKAv8BmQFKAv8BmQFKAf8DwAH/CAABmQKBAf8BmQKBAf8BmQKBAf8BmQKB
+        Af8BmQKBAf8BmQKBAf8DwAL/AZkBSgL/AZkBSgH/BAAB/wGZAUoC/wGZAUoC/wGZAUoB/wPAAf9IAAGZ
+        AoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/0QAAf8BmQFKAf8MAAH/AZkBSgL/AZkBSgH/
+        A8AB/wPAAf8EAAGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wQAAf8BmQFKAf8MAAH/
+        AZkBSgL/AZkBSgH/A8AB/wPAAf9IAAGZAoEB/wQAA8AB/wGZAoEB/1wAAf8BmQFKAv8BmQFKAf8DwAH/
+        CAABmQKBAf8EAAPAAf8BmQKBAf8cAAH/AZkBSgL/AZkBSgH/A8AB/0wAAZkCgQH/AZkCgQH/ZAAB/wGZ
+        AUoB/xAAAZkCgQH/AZkCgQH/JAAB/wGZAUoB/0gAAUIBTQE+BwABPgMAASgDAAFAAwABQAMAAQEBAAEB
         BgABAhYAA/8BAAb/AgAB8wHfAfMB3wHzAd8CAAHnAZ8B5wGfAecBnwIAAYEBjwGBAY8BgQGPAgABAQEH
         AQEBBwEBAQcDAAEHAQABBwEAAQcDAAFHAQABRwEAAUcCAAECAQ8BAgEPAQIBDwIAAf8BHwH/AR8B/wEf
         AgABgQL/Ac8BgQHPAgABAQL/AYcBAQGHAgABAQL/AQMBAQEDAgABAQH/Af4BQwEAAUMCAAEDAf8B/gHh
@@ -3180,13 +3387,16 @@
     <value>125</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 12</value>
+    <value>8, 15</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>574, 456</value>
+    <value>765, 570</value>
   </data>
   <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>Off</value>
+  </data>
+  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>Manual</value>

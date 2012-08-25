@@ -128,8 +128,7 @@
             this.StatusText = new System.Windows.Forms.TextBox();
             this.lblLen = new System.Windows.Forms.Label();
             this.PostButton = new System.Windows.Forms.Button();
-            this.PreviewPicture = new OpenTween.OpenTweenCustomControl.PictureBoxEx();
-            this.PreviewScrollBar = new System.Windows.Forms.VScrollBar();
+            this.tweetThumbnail1 = new OpenTween.TweetThumbnail();
             this.MenuStrip1 = new System.Windows.Forms.MenuStrip();
             this.MenuItemFile = new System.Windows.Forms.ToolStripMenuItem();
             this.SettingFileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -340,7 +339,6 @@
             this.ContextMenuUserPicture.SuspendLayout();
             this.ContextMenuPostBrowser.SuspendLayout();
             this.ContextMenuSource.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PreviewPicture)).BeginInit();
             this.MenuStrip1.SuspendLayout();
             this.ContextMenuFile.SuspendLayout();
             this.ContextMenuOperate.SuspendLayout();
@@ -740,6 +738,7 @@
             // SplitContainer3
             // 
             resources.ApplyResources(this.SplitContainer3, "SplitContainer3");
+            this.SplitContainer3.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
             this.SplitContainer3.Name = "SplitContainer3";
             // 
             // SplitContainer3.Panel1
@@ -748,8 +747,7 @@
             // 
             // SplitContainer3.Panel2
             // 
-            this.SplitContainer3.Panel2.Controls.Add(this.PreviewPicture);
-            this.SplitContainer3.Panel2.Controls.Add(this.PreviewScrollBar);
+            this.SplitContainer3.Panel2.Controls.Add(this.tweetThumbnail1);
             this.SplitContainer3.Panel2Collapsed = true;
             this.SplitContainer3.TabStop = false;
             this.SplitContainer3.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.SplitContainer3_SplitterMoved);
@@ -1142,18 +1140,12 @@
             this.PostButton.UseVisualStyleBackColor = true;
             this.PostButton.Click += new System.EventHandler(this.PostButton_Click);
             // 
-            // PreviewPicture
+            // tweetThumbnail1
             // 
-            resources.ApplyResources(this.PreviewPicture, "PreviewPicture");
-            this.PreviewPicture.Name = "PreviewPicture";
-            this.PreviewPicture.TabStop = false;
-            // 
-            // PreviewScrollBar
-            // 
-            resources.ApplyResources(this.PreviewScrollBar, "PreviewScrollBar");
-            this.PreviewScrollBar.LargeChange = 1;
-            this.PreviewScrollBar.Maximum = 0;
-            this.PreviewScrollBar.Name = "PreviewScrollBar";
+            resources.ApplyResources(this.tweetThumbnail1, "tweetThumbnail1");
+            this.tweetThumbnail1.Name = "tweetThumbnail1";
+            this.tweetThumbnail1.ThumbnailLoading += new System.EventHandler(this.tweetThumbnail1_ThumbnailLoading);
+            this.tweetThumbnail1.ThumbnailDoubleClick += new System.EventHandler<OpenTween.ThumbnailDoubleClickEventArgs>(this.tweetThumbnail1_ThumbnailDoubleClick);
             // 
             // MenuStrip1
             // 
@@ -2473,7 +2465,6 @@
             this.ContextMenuUserPicture.ResumeLayout(false);
             this.ContextMenuPostBrowser.ResumeLayout(false);
             this.ContextMenuSource.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.PreviewPicture)).EndInit();
             this.MenuStrip1.ResumeLayout(false);
             this.MenuStrip1.PerformLayout();
             this.ContextMenuFile.ResumeLayout(false);
@@ -2582,8 +2573,6 @@
         internal System.Windows.Forms.TextBox StatusText;
         internal System.Windows.Forms.Label lblLen;
         internal System.Windows.Forms.Button PostButton;
-        internal OpenTweenCustomControl.PictureBoxEx PreviewPicture;
-        internal System.Windows.Forms.VScrollBar PreviewScrollBar;
         internal System.Windows.Forms.MenuStrip MenuStrip1;
         internal System.Windows.Forms.ToolStripMenuItem MenuItemFile;
         internal System.Windows.Forms.ToolStripMenuItem SettingFileMenuItem;
@@ -2766,6 +2755,7 @@
         internal System.Windows.Forms.ImageList PostStateImageList;
         private System.Windows.Forms.ToolStripMenuItem ProtectTabMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ProtectTbMenuItem;
+        private TweetThumbnail tweetThumbnail1;
 
     }
 }

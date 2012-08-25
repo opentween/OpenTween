@@ -128,7 +128,30 @@
     <Compile Include="DetailsListView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="OTWebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Thumbnail\Services\Foursquare.cs" />
+    <Compile Include="Thumbnail\Services\ImgAzyobuziNet.cs" />
+    <Compile Include="Thumbnail\Services\IThumbnailService.cs" />
+    <Compile Include="Thumbnail\Services\MetaThumbnailService.cs" />
+    <Compile Include="Thumbnail\Services\Nicovideo.cs" />
+    <Compile Include="Thumbnail\Services\PhotoShareShortlink.cs" />
+    <Compile Include="Thumbnail\Services\Pixiv.cs" />
+    <Compile Include="Thumbnail\Services\SimpleThumbnailService.cs" />
+    <Compile Include="Thumbnail\Services\Tinami.cs" />
+    <Compile Include="Thumbnail\Services\Tumblr.cs" />
+    <Compile Include="Thumbnail\Services\ViaMe.cs" />
+    <Compile Include="Thumbnail\Services\Vimeo.cs" />
+    <Compile Include="Thumbnail\Services\Youtube.cs" />
     <Compile Include="Thumbnail\ThumbnailGenerator.cs" />
+    <Compile Include="Thumbnail\ThumbnailInfo.cs" />
+    <Compile Include="TweetThumbnail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TweetThumbnail.Designer.cs">
+      <DependentUpon>TweetThumbnail.cs</DependentUpon>
+    </Compile>
     <Compile Include="UpdateDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -295,6 +318,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AppendSettingDialog.zh-CHS.resx">
       <DependentUpon>AppendSettingDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TweetThumbnail.resx">
+      <DependentUpon>TweetThumbnail.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UpdateDialog.en.resx">
       <DependentUpon>UpdateDialog.cs</DependentUpon>

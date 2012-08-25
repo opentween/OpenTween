@@ -79,6 +79,7 @@ namespace OpenTween
             "http://feeds.feedburner.com/",
             "http://on.fb.me/",
             "http://fb.me/",
+            "http://tinami.jp/",
         };
 
         private static string _bitlyId = "";
