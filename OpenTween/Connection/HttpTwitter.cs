@@ -591,8 +591,10 @@ namespace OpenTween
 
             if (param.Count == 0) return HttpStatusCode.BadRequest;
 
+            param.Add("result_type", "recent");
+            param.Add("include_entities", "true");
             return httpConVar.GetContent(GetMethod,
-                                         CreateTwitterSearchUri("/search.atom"),
+                                         this.CreateTwitterSearchUri("/search.json"),
                                          param,
                                          out content,
                                          null,

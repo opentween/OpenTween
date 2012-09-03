@@ -2240,12 +2240,106 @@ namespace OpenTween
             return "";
         }
 
-        private string CreatePostsFromPhoenixSearch(string content, MyCommon.WORKERTYPE gType, TabClass tab, bool read, int count, ref long minimumId, ref string nextPageQuery)
+        private string CreatePostsFromSearchJson(string content, TabClass tab, bool read, int count, ref long minimumId)
         {
             TwitterDataModel.SearchResult items;
             try
             {
                 items = MyCommon.CreateDataFromJson<TwitterDataModel.SearchResult>(content);
+            }
+            catch (SerializationException ex)
+            {
+                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
+                return "Json Parse Error(DataContractJsonSerializer)";
+            }
+            catch (Exception ex)
+            {
+                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
+                return "Invalid Json!";
+            }
+            foreach (var result in items.Results)
+            {
+                PostClass post = null;
+                post = CreatePostsFromSearchResultData(result);
+                if (post == null) continue;
+
+                if (minimumId > post.StatusId) minimumId = post.StatusId;
+                //二重取得回避
+                lock (LockObj)
+                {
+                    if (tab == null)
+                    {
+                        if (TabInformations.GetInstance().ContainsKey(post.StatusId)) continue;
+                    }
+                    else
+                    {
+                        if (TabInformations.GetInstance().ContainsKey(post.StatusId, tab.TabName)) continue;
+                    }
+                }
+
+                post.IsRead = read;
+                if ((post.IsMe && !read) && this._readOwnPost) post.IsRead = true;
+
+                if (tab != null) post.RelTabName = tab.TabName;
+                //非同期アイコン取得＆StatusDictionaryに追加
+                TabInformations.GetInstance().AddPost(post);
+            }
+
+            return "";
+        }
+
+        private PostClass CreatePostsFromSearchResultData(TwitterDataModel.SearchResultData status)
+        {
+            var post = new PostClass();
+            post.StatusId = status.Id;
+            post.CreatedAt = MyCommon.DateTimeParse(status.CreatedAt);
+            //本文
+            post.TextFromApi = status.Text;
+            var entities = status.Entities;
+            post.Source = HttpUtility.HtmlDecode(status.Source);
+            post.InReplyToStatusId = status.InReplyToStatusId;
+            post.InReplyToUser = status.ToUser;
+            post.InReplyToUserId = !status.ToUserId.HasValue ? 0 : (long)status.ToUserId;
+
+            if (status.Geo != null) post.PostGeo = new PostClass.StatusGeo { Lat = status.Geo.Coordinates[0], Lng = status.Geo.Coordinates[1] };
+
+            if (status.FromUser == null) return null;
+
+            post.UserId = status.FromUserId;
+            post.ScreenName = status.FromUser;
+            post.Nickname = status.FromUserName.Trim();
+            post.ImageUrl = status.ProfileImageUrl;
+            post.IsProtect = false;
+            post.IsMe = post.ScreenName.ToLower().Equals(this._uname);
+
+            //幻覚fav対策
+            var tc = TabInformations.GetInstance().GetTabByType(MyCommon.TabUsageType.Favorites);
+            post.IsFav = tc.Contains(post.StatusId) && TabInformations.GetInstance()[post.StatusId].IsFav;
+
+            //HTMLに整形
+            string textFromApi = post.TextFromApi;
+            post.Text = this.CreateHtmlAnchor(ref textFromApi, post.ReplyToList, entities, post.Media);
+            post.TextFromApi = this.ReplaceTextFromApi(post.TextFromApi, entities);
+            post.TextFromApi = HttpUtility.HtmlDecode(post.TextFromApi);
+            post.TextFromApi = post.TextFromApi.Replace("<3", "\u2661");
+
+            //Source整形
+            this.CreateSource(ref post);
+
+            post.IsReply = post.ReplyToList.Contains(this._uname);
+            post.IsExcludeReply = false;
+            post.IsOwl = false;
+            post.IsDm = false;
+
+            return post;
+        }
+
+        private string CreatePostsFromPhoenixSearch(string content, MyCommon.WORKERTYPE gType, TabClass tab, bool read, int count, ref long minimumId, ref string nextPageQuery)
+        {
+            TwitterDataModel.SearchResultPhoenix items;
+            try
+            {
+                items = MyCommon.CreateDataFromJson<TwitterDataModel.SearchResultPhoenix>(content);
             }
             catch(SerializationException ex)
             {
@@ -2610,104 +2704,8 @@ namespace OpenTween
             }
 
             if (!TabInformations.GetInstance().ContainsTab(tab)) return "";
-            content = Regex.Replace(content, @"[\x00-\x1f-[\x0a\x0d]]+", " ");
-            content = Regex.Replace(content, @"<twitter:geo>.*?</twitter:geo>", "<twitter:geo></twitter:geo>"); // Invalid ATOM エラーの暫定処置 (JSONに移行しましょう)
-            var xdoc = new XmlDocument();
-            try
-            {
-                xdoc.LoadXml(content);
-            }
-            catch(Exception ex)
-            {
-                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                return "Invalid ATOM!";
-            }
-            var nsmgr = new XmlNamespaceManager(xdoc.NameTable);
-            nsmgr.AddNamespace("search", "http://www.w3.org/2005/Atom");
-            nsmgr.AddNamespace("twitter", "http://api.twitter.com/");
-            nsmgr.AddNamespace("georss", "http://www.georss.org/georss");
-            foreach (var xentryNode in xdoc.DocumentElement.SelectNodes("/search:feed/search:entry", nsmgr))
-            {
-                var xentry = (XmlElement)xentryNode;
-                var post = new PostClass();
-                try
-                {
-                    post.StatusId = long.Parse(xentry["id"].InnerText.Split(':')[2]);
-                    if (TabInformations.GetInstance().ContainsKey(post.StatusId, tab.TabName)) continue;
-                    post.CreatedAt = DateTime.Parse(xentry["published"].InnerText);
-                    //本文
-                    post.TextFromApi = xentry["title"].InnerText;
-                    //Source取得（htmlの場合は、中身を取り出し）
-                    post.Source = xentry["twitter:source"].InnerText;
-                    post.InReplyToStatusId = 0;
-                    post.InReplyToUser = "";
-                    post.InReplyToUserId = 0;
-                    post.IsFav = false;
 
-                    // Geoが勝手に付加されるバグがいっこうに修正されないので暫定的にGeo情報を無視する
-                    if (xentry["twitter:geo"].HasChildNodes)
-                    {
-                        var pnt = ((XmlElement)xentry.SelectSingleNode("twitter:geo/georss:point", nsmgr)).InnerText.Split(' ');
-                        post.PostGeo = new PostClass.StatusGeo {Lat = Double.Parse(pnt[0]), Lng = Double.Parse(pnt[1])};
-                    }
-
-                    //以下、ユーザー情報
-                    var xUentry = (XmlElement)xentry.SelectSingleNode("./search:author", nsmgr);
-                    post.UserId = 0;
-                    post.ScreenName = xUentry["name"].InnerText.Split(' ')[0].Trim();
-                    post.Nickname = xUentry["name"].InnerText.Substring(post.ScreenName.Length).Trim();
-                    if (post.Nickname.Length > 2)
-                    {
-                        post.Nickname = post.Nickname.Substring(1, post.Nickname.Length - 2);
-                    }
-                    else
-                    {
-                        post.Nickname = post.ScreenName;
-                    }
-                    post.ImageUrl = ((XmlElement)xentry.SelectSingleNode("./search:link[@type='image/png']", nsmgr)).GetAttribute("href");
-                    post.IsProtect = false;
-                    post.IsMe = post.ScreenName.ToLower().Equals(_uname);
-
-                    //HTMLに整形
-                    post.Text = CreateHtmlAnchor(HttpUtility.HtmlEncode(post.TextFromApi), post.ReplyToList, post.Media);
-                    post.TextFromApi = HttpUtility.HtmlDecode(post.TextFromApi);
-                    //Source整形
-                    CreateSource(ref post);
-
-                    post.IsRead = read;
-                    post.IsReply = post.ReplyToList.Contains(_uname);
-                    post.IsExcludeReply = false;
-
-                    post.IsOwl = false;
-                    if (post.IsMe && !read && _readOwnPost) post.IsRead = true;
-                    post.IsDm = false;
-                    post.RelTabName = tab.TabName;
-                    if (!more && post.StatusId > tab.SinceId) tab.SinceId = post.StatusId;
-                }
-                catch(Exception ex)
-                {
-                    MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                    continue;
-                }
-
-                //this._dIcon.Add(post.ImageUrl, null);
-                TabInformations.GetInstance().AddPost(post);
-
-            }
-
-            // TODO
-            // 遡るための情報max_idやnext_pageの情報を保持する
-
-#if UNDEFINED__
-            var xNode = xdoc.DocumentElement.SelectSingleNode("/search:feed/twitter:warning", nsmgr);
-
-            if (xNode != null)
-            {
-                return "Warn:" + xNode.InnerText + "(" + MethodBase.GetCurrentMethod().Name + ")";
-            }
-#endif
-
-            return "";
+            return this.CreatePostsFromSearchJson(content, tab, read, count, ref tab.OldestId);
         }
 
         public string GetPhoenixSearch(bool read,
