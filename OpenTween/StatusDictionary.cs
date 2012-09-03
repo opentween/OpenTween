@@ -172,6 +172,13 @@ namespace OpenTween
                 _textFromApi = value;
             }
         }
+        public string TextSingleLine
+        {
+            get
+            {
+                return this._textFromApi.Replace("\n", " ");
+            }
+        }
         public string ImageUrl
         {
             get

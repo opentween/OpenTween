@@ -618,6 +618,7 @@ namespace OpenTween.Properties {
         /// * NEW: 地図のサムネイルに使用するサービスを選択可能に（OpenStreetMap/Google Maps）
         /// * CHG: デフォルトの地図サムネイル表示をOpenStreetMapに変更
         /// * CHG: アップデート通知画面をちょっと変更
+        /// * CHG: 一行表示時に改行を半角スペースとして表示するように変更（以前は単純に改行を削除して表示）
         /// * FIX: 発言詳細部のアイコンの縦幅が狭くなっていたのを修正
         /// * FIX: Pcklesのサムネイルが表示できなくなっていたのを修正
         ///
@@ -627,9 +628,7 @@ namespace OpenTween.Properties {
         /// * FIX: UserStreamsの &gt;突然の仕様変更&lt; に対応
         ///
         ///==== Ver 1.0.4(2012/08/13)
-        /// * NEW: 「タブを固定」機能を追加
-        /// * CHG: OAuth認証に内部ブラウザを使用する方法を廃止
-        /// * C [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * NEW [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {

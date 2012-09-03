@@ -5207,7 +5207,7 @@ namespace OpenTween
             {
                 string[] sitem= {"",
                                  Post.Nickname,
-                                 Post.IsDeleted ? "(DELETED)" : Post.TextFromApi,
+                                 Post.IsDeleted ? "(DELETED)" : Post.TextSingleLine,
                                  Post.CreatedAt.ToString(SettingDialog.DateTimeFormat),
                                  Post.ScreenName,
                                  "",
@@ -5219,7 +5219,7 @@ namespace OpenTween
             {
                 string[] sitem = {"",
                                   Post.Nickname,
-                                  Post.IsDeleted ? "(DELETED)" : Post.TextFromApi,
+                                  Post.IsDeleted ? "(DELETED)" : Post.TextSingleLine,
                                   Post.CreatedAt.ToString(SettingDialog.DateTimeFormat),
                                   Post.ScreenName + Environment.NewLine + "(RT:" + Post.RetweetedBy + ")",
                                   "",
@@ -7010,13 +7010,13 @@ namespace OpenTween
                 if (!isDm)
                 {
                     if (post.RetweetedId > 0)
-                        sb.AppendFormat("{0}:{1} [http://twitter.com/{0}/status/{2}]{3}", post.ScreenName, post.TextFromApi, post.RetweetedId, Environment.NewLine);
+                        sb.AppendFormat("{0}:{1} [http://twitter.com/{0}/status/{2}]{3}", post.ScreenName, post.TextSingleLine, post.RetweetedId, Environment.NewLine);
                     else
-                        sb.AppendFormat("{0}:{1} [http://twitter.com/{0}/status/{2}]{3}", post.ScreenName, post.TextFromApi, post.StatusId, Environment.NewLine);
+                        sb.AppendFormat("{0}:{1} [http://twitter.com/{0}/status/{2}]{3}", post.ScreenName, post.TextSingleLine, post.StatusId, Environment.NewLine);
                 }
                 else
                 {
-                    sb.AppendFormat("{0}:{1} [{2}]{3}", post.ScreenName, post.TextFromApi, post.StatusId, Environment.NewLine);
+                    sb.AppendFormat("{0}:{1} [{2}]{3}", post.ScreenName, post.TextSingleLine, post.StatusId, Environment.NewLine);
                 }
             }
             if (IsProtected)
@@ -9378,7 +9378,7 @@ namespace OpenTween
                     break;
                 case MyCommon.DispTitleEnum.Post:
                     if (_history != null && _history.Count > 1)
-                        ttl.Append(_history[_history.Count - 2].status.Replace("\r\n", ""));
+                        ttl.Append(_history[_history.Count - 2].status.Replace("\r\n", " "));
                     break;
                 case MyCommon.DispTitleEnum.UnreadRepCount:
                     ttl.AppendFormat(Properties.Resources.SetMainWindowTitleText1, _statuses.GetTabByType(MyCommon.TabUsageType.Mentions).UnreadCount + _statuses.GetTabByType(MyCommon.TabUsageType.DirectMessage).UnreadCount);
@@ -10919,7 +10919,7 @@ namespace OpenTween
             if (StatusText.Multiline)
                 status = Regex.Replace(status, @"(\r\n|\n|\r)?<br>", "\r\n", RegexOptions.IgnoreCase | RegexOptions.Multiline);
             else
-                status = Regex.Replace(status, @"(\r\n|\n|\r)?<br>", "", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+                status = Regex.Replace(status, @"(\r\n|\n|\r)?<br>", " ", RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
             _reply_to_id = 0;
             _reply_to_name = "";
