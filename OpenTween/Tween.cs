@@ -882,10 +882,14 @@ namespace OpenTween
             ((ImageDictionary)this.TIconDic).PauseGetImage = false;
 
             bool saveRequired = false;
+            bool firstRun = false;
+
             //ユーザー名、パスワードが未設定なら設定画面を表示（初回起動時など）
             if (string.IsNullOrEmpty(tw.Username))
             {
                 saveRequired = true;
+                firstRun = true;
+
                 //設定せずにキャンセルされた場合はプログラム終了
                 if (SettingDialog.ShowDialog(this) == DialogResult.Cancel)
                 {
@@ -1274,6 +1278,12 @@ namespace OpenTween
                     ua.UserId = tw.UserId;
                     break;
                 }
+            }
+
+            if (firstRun)
+            {
+                // 初回起動時だけ右下のメニューを目立たせる
+                HashStripSplitButton.ShowDropDown();
             }
         }
 
