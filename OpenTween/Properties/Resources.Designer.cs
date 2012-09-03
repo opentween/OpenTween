@@ -622,13 +622,11 @@ namespace OpenTween.Properties {
         /// * CHG: 初回起動時け右下のメニューを目立たせるように変更
         /// * FIX: 発言詳細部のアイコンの縦幅が狭くなっていたのを修正
         /// * FIX: Pcklesのサムネイルが表示できなくなっていたのを修正
+        /// * FIX: 検索タブにて Invalid ATOM エラーが発生する問題の暫定措置
         ///
         ///==== Ver 1.0.5(2012/08/17)
         /// * CHG: 「タブを固定」機能を「タブを保護」に名称変更
-        /// * CHG: 閉鎖された画像共有サービスbrightkite・picplzのサムネイル対応を終了
-        /// * FIX: UserStreamsの &gt;突然の仕様変更&lt; に対応
-        ///
-        /// [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * CHG: 閉鎖された画像共有サービスbrightkite・picplzのサムネイル [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {

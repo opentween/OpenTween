@@ -2611,6 +2611,7 @@ namespace OpenTween
 
             if (!TabInformations.GetInstance().ContainsTab(tab)) return "";
             content = Regex.Replace(content, @"[\x00-\x1f-[\x0a\x0d]]+", " ");
+            content = Regex.Replace(content, @"<twitter:geo>.*?</twitter:geo>", "<twitter:geo></twitter:geo>"); // Invalid ATOM エラーの暫定処置 (JSONに移行しましょう)
             var xdoc = new XmlDocument();
             try
             {
