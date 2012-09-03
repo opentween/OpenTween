@@ -889,6 +889,7 @@ namespace OpenTween
             {
                 saveRequired = true;
                 firstRun = true;
+                SettingDialog.ShowInTaskbar = true;
 
                 //設定せずにキャンセルされた場合はプログラム終了
                 if (SettingDialog.ShowDialog(this) == DialogResult.Cancel)
@@ -902,6 +903,7 @@ namespace OpenTween
                     Application.Exit();  //強制終了
                     return;
                 }
+                SettingDialog.ShowInTaskbar = false;
                 //新しい設定を反映
                 //フォント＆文字色＆背景色保持
                 _fntUnread = SettingDialog.FontUnread;
