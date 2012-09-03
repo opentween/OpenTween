@@ -3010,7 +3010,7 @@ namespace OpenTween.Thumbnail
                 using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(src), XmlDictionaryReaderQuotas.Max))
                 {
                     var xElm = XElement.Load(jsonReader);
-                    var thumbUrlElm = ((IEnumerable)xElm.XPathEvaluate("/response/post/thumb_url/text()")).Cast<XText>().FirstOrDefault();
+                    var thumbUrlElm = xElm.XPathSelectElement("/response/post/thumb_url");
                     if (thumbUrlElm == null)
                     {
                         return false;
