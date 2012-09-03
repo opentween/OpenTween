@@ -1,5 +1,7 @@
 ﻿更新履歴
 
+==== Ver 1.0.7-beta1(2012/xx/xx)
+
 ==== Ver 1.0.6(2012/09/04)
  * NEW: TUNA.BE のサムネイル表示に対応
  * NEW: 地図のサムネイルに使用するサービスを選択可能に（OpenStreetMap/Google Maps）
