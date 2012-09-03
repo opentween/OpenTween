@@ -3,6 +3,7 @@
 ==== Ver 1.0.6-beta1(2012/xx/xx)
  * NEW: TUNA.BE のサムネイル表示に対応
  * NEW: 地図のサムネイルに使用するサービスを選択可能に（OpenStreetMap/Google Maps）
+ * NEW: 画像共有サービス Path (path.com) のサムネイル表示に対応
  * CHG: デフォルトの地図サムネイル表示をOpenStreetMapに変更
  * CHG: アップデート通知画面をちょっと変更
  * CHG: 一行表示時に改行を半角スペースとして表示するように変更（以前は単純に改行を削除して表示）

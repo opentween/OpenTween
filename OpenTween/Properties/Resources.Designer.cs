@@ -616,6 +616,7 @@ namespace OpenTween.Properties {
         ///==== Ver 1.0.6-beta1(2012/xx/xx)
         /// * NEW: TUNA.BE のサムネイル表示に対応
         /// * NEW: 地図のサムネイルに使用するサービスを選択可能に（OpenStreetMap/Google Maps）
+        /// * NEW: 画像共有サービス Path (path.com) のサムネイル表示に対応
         /// * CHG: デフォルトの地図サムネイル表示をOpenStreetMapに変更
         /// * CHG: アップデート通知画面をちょっと変更
         /// * CHG: 一行表示時に改行を半角スペースとして表示するように変更（以前は単純に改行を削除して表示）
@@ -625,8 +626,7 @@ namespace OpenTween.Properties {
         /// * FIX: 検索タブにて Invalid ATOM エラーが発生する問題の暫定措置
         ///
         ///==== Ver 1.0.5(2012/08/17)
-        /// * CHG: 「タブを固定」機能を「タブを保護」に名称変更
-        /// * CHG: 閉鎖された画像共有サービスbrightkite・picplzのサムネイル [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * CHG: 「タブを固定」機能を「タブを保護」に名称変更 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
