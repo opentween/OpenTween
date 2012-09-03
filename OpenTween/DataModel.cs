@@ -423,11 +423,53 @@ namespace OpenTween
         }
 
         [DataContract]
-        public class SearchResult
+        public class SearchResultPhoenix
         {
             [DataMember(Name = "statuses")] public List<Status> Statuses;
             [DataMember(Name = "next_page")] public string NextPage;
             [DataMember(Name = "error")] public string ErrMsg;
+        }
+
+        [DataContract]
+        public class SearchResult
+        {
+            [DataMember(Name = "completed_in")] public double CompletedIn;
+            [DataMember(Name = "max_id")] public long MaxId;
+            [DataMember(Name = "next_page")] public string NextPageQuery;
+            [DataMember(Name = "page")] public int Page;
+            [DataMember(Name = "query")] public string Query;
+            [DataMember(Name = "refresh_url")] public string RefreshUrl;
+            [DataMember(Name = "results")] public List<SearchResultData> Results;
+            [DataMember(Name = "results_per_page")] public int ResultsPerPage;
+            [DataMember(Name = "since_id")] public long SinceId;
+        }
+
+        [DataContract]
+        public class SearchResultData
+        {
+            [DataMember(Name = "created_at")] public string CreatedAt;
+            [DataMember(Name = "entities", IsRequired = false)] public Entities Entities;
+            [DataMember(Name = "from_user")] public string FromUser;
+            [DataMember(Name = "from_user_id")] public long FromUserId;
+            [DataMember(Name = "from_user_name")] public string FromUserName;
+            [DataMember(Name = "geo", IsRequired = false)] public Geo Geo;
+            [DataMember(Name = "id")] public long Id;
+            [DataMember(Name = "in_reply_to_status_id", IsRequired = false)] public long InReplyToStatusId = 0;
+            [DataMember(Name = "iso_language_code")] public string IsoLanguageCode;
+            [DataMember(Name = "meta_data")] public SearchMetaData MetaData;
+            [DataMember(Name = "profile_image_url")] public string ProfileImageUrl;
+            [DataMember(Name = "source")] public string Source;
+            [DataMember(Name = "text")] public string Text;
+            [DataMember(Name = "to_user")] public string ToUser;
+            [DataMember(Name = "to_user_id")] public long? ToUserId;
+            [DataMember(Name = "to_user_name")] public string ToUserName;
+        }
+
+        [DataContract]
+        public class SearchMetaData
+        {
+            [DataMember(Name = "recent_retweets")] public int RecentRetweets;
+            [DataMember(Name = "result_type")] public string ResultType;
         }
 
         [DataContract]
