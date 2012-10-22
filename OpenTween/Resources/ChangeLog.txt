@@ -1,6 +1,7 @@
 ﻿更新履歴
 
 ==== Ver 1.0.7-beta1(2012/xx/xx)
+ * CHG: 検索APIをATOMからJSONに移行 (thx @re4k, @5px!)
 
 ==== Ver 1.0.6(2012/09/04)
  * NEW: TUNA.BE のサムネイル表示に対応
