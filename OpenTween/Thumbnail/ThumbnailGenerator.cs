@@ -39,6 +39,9 @@ namespace OpenTween.Thumbnail
                 // DirectLink
                 new SimpleThumbnailService(@"^https?://.*(\.jpg|\.jpeg|\.gif|\.png|\.bmp)$", "${0}"),
 
+                // img.azyobuzi.net
+                new ImgAzyobuziNet(),
+
                 // ImgUr
                 new SimpleThumbnailService(@"^http://(?:i\.)?imgur\.com/(\w+)(?:\..{3})?$", "http://img.imgur.com/${1}l.jpg"),
 
