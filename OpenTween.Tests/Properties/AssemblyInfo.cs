@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // アセンブリに関する一般情報は以下の属性セットをとおして制御されます。
 // アセンブリに関連付けられている情報を変更するには、
 // これらの属性値を変更してください。
-[assembly: AssemblyTitle("OpenTween")]
-[assembly: AssemblyDescription("Client of Twitter. Free software(GPLv3)")]
+[assembly: AssemblyTitle("OpenTween.Tests")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("OpenTween")]
-[assembly: AssemblyCopyright("(C) OpenTween Project 2011-")]
+[assembly: AssemblyProduct("OpenTween.Tests")]
+[assembly: AssemblyCopyright("Copyright ©  2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // 次の GUID は、このプロジェクトが COM に公開される場合の、typelib の ID です
-[assembly: Guid("2d0ae0ba-adac-49a2-9b10-26fd69e695bf")]
+[assembly: Guid("de8a0031-c35f-4728-bf75-181afef74ae0")]
 
 // アセンブリのバージョン情報は、以下の 4 つの値で構成されています:
 //
@@ -32,7 +32,5 @@ using System.Runtime.InteropServices;
 // すべての値を指定するか、下のように '*' を使ってビルドおよびリビジョン番号を 
 // 既定値にすることができます:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.1.0.0")]
-[assembly: AssemblyFileVersion("1.0.6.1")]
-
-[assembly: InternalsVisibleTo("OpenTween.Tests")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
