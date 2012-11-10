@@ -33,7 +33,6 @@ using System.Net;
 
 namespace OpenTween
 {
-    [Microsoft.VisualBasic.CompilerServices.StandardModule]
     public static class Win32Api
     {
         #region "先行起動プロセスをアクティブにする"

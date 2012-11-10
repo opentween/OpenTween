@@ -1,0 +1,13 @@
+language: c#
+
+install:
+  - sudo apt-get install -qq nunit-console mono-devel
+
+# Build
+script:
+  - xbuild /verbosity:quiet
+
+# Run Tests
+after_script:
+  - nunit-console ./OpenTween.Tests/OpenTween.Tests.nunit
+

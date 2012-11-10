@@ -938,7 +938,7 @@
     <value>編集されていないため、公式RTとして投稿します。　よろしいですか？{0}[はい：公式RTで投稿]{0}[いいえ：非公式RTで投稿]{0}[キャンセル：投稿しない]</value>
   </data>
   <data name="Description" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\description.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>..\Resources\Description.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="ListManageDeleteLists1" xml:space="preserve">
     <value>このリストを削除してもよろしいですか？</value>
@@ -1130,7 +1130,7 @@
     <value>公式RTの取り消し(&amp;D)</value>
   </data>
   <data name="LogoImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\logoimage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\LogoImage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="BrowserStartFailed" xml:space="preserve">
     <value>ブラウザの起動に失敗しました。エラーコード: {0}</value>

@@ -46,7 +46,6 @@ using System.Net.NetworkInformation;
 
 namespace OpenTween
 {
-    [Microsoft.VisualBasic.CompilerServices.StandardModule]
     public sealed class MyCommon
     {
         private static readonly object LockObj = new object();
