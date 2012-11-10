@@ -43,6 +43,7 @@ using System.Reflection;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Net.NetworkInformation;
+using System.Runtime.InteropServices;
 
 namespace OpenTween
 {
@@ -762,7 +763,7 @@ namespace OpenTween
             }
         }
 
-        static bool IsValidEmail(string strIn)
+        public static bool IsValidEmail(string strIn)
         {
             // Return true if strIn is in valid e-mail format.
             return Regex.IsMatch(strIn,
@@ -777,9 +778,14 @@ namespace OpenTween
         /// <returns><paramref name="keys"/> で指定された修飾キーがすべて押されている状態であれば true。それ以外であれば false。</returns>
         public static bool IsKeyDown(params Keys[] keys)
         {
-            foreach (Keys key in keys)
+            return MyCommon._IsKeyDown(Control.ModifierKeys, keys);
+        }
+
+        internal static bool _IsKeyDown(Keys modifierKeys, Keys[] targetKeys)
+        {
+            foreach (Keys key in targetKeys)
             {
-                if ((Control.ModifierKeys & key) != key)
+                if ((modifierKeys & key) != key)
                 {
                     return false;
                 }
@@ -796,8 +802,10 @@ namespace OpenTween
         /// <returns>アプリケーションのアセンブリ名</returns>
         public static string GetAssemblyName()
         {
-            return Assembly.GetEntryAssembly().GetName().Name;
+            return MyCommon.EntryAssembly.GetName().Name;
         }
+
+        internal static _Assembly EntryAssembly = Assembly.GetEntryAssembly();
 
         /// <summary>
         /// 文字列中に含まれる %AppName% をアプリケーション名に置換する
@@ -806,7 +814,18 @@ namespace OpenTween
         /// <returns>置換後の文字列</returns>
         public static string ReplaceAppName(string orig)
         {
-            return orig.Replace("%AppName%", Application.ProductName);
+            return MyCommon.ReplaceAppName(orig, Application.ProductName);
+        }
+
+        /// <summary>
+        /// 文字列中に含まれる %AppName% をアプリケーション名に置換する
+        /// </summary>
+        /// <param name="orig">対象となる文字列</param>
+        /// <param name="appname">アプリケーション名</param>
+        /// <returns>置換後の文字列</returns>
+        public static string ReplaceAppName(string orig, string appname)
+        {
+            return orig.Replace("%AppName%", appname);
         }
 
         /// <summary>
