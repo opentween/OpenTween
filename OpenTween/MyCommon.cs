@@ -402,9 +402,9 @@ namespace OpenTween
             foreach (var c in _input)
             {
                 c_ = c;
-                if (Convert.ToInt32(c) > 127) break;
+                if (Convert.ToInt32(c) > 127 || c == '%') break;
             }
-            if (Convert.ToInt32(c_) <= 127) return _input;
+            if (Convert.ToInt32(c_) <= 127 && c_ != '%') return _input;
 
             var input = HttpUtility.UrlDecode(_input);
         retry:
@@ -861,12 +861,12 @@ namespace OpenTween
                 version[2] = version[2] + 1;
 
                 // 10を越えたら桁上げ
-                if (version[2] > 10)
+                if (version[2] >= 10)
                 {
                     version[1] += version[2] / 10;
                     version[2] %= 10;
 
-                    if (version[1] > 10)
+                    if (version[1] >= 10)
                     {
                         version[0] += version[1] / 10;
                         version[1] %= 10;
