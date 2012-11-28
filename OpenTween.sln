@@ -1,7 +1,9 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTween", "OpenTween\OpenTween.csproj", "{3D8995C7-BDF3-4273-9F9D-DDD902F6A101}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTweenTest", "OpenTweenTest\OpenTweenTest.csproj", "{62357129-9071-4191-ADAF-59ABE69F2472}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,26 @@ Global
 		{3D8995C7-BDF3-4273-9F9D-DDD902F6A101}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
 		{3D8995C7-BDF3-4273-9F9D-DDD902F6A101}.SingleImage|x64.ActiveCfg = Release|Any CPU
 		{3D8995C7-BDF3-4273-9F9D-DDD902F6A101}.SingleImage|x86.ActiveCfg = Release|Any CPU
+		{62357129-9071-4191-ADAF-59ABE69F2472}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{62357129-9071-4191-ADAF-59ABE69F2472}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{62357129-9071-4191-ADAF-59ABE69F2472}.CD_ROM|x64.ActiveCfg = Release|Any CPU
+		{62357129-9071-4191-ADAF-59ABE69F2472}.CD_ROM|x86.ActiveCfg = Release|Any CPU
+		{62357129-9071-4191-ADAF-59ABE69F2472}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62357129-9071-4191-ADAF-59ABE69F2472}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62357129-9071-4191-ADAF-59ABE69F2472}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{62357129-9071-4191-ADAF-59ABE69F2472}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{62357129-9071-4191-ADAF-59ABE69F2472}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{62357129-9071-4191-ADAF-59ABE69F2472}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{62357129-9071-4191-ADAF-59ABE69F2472}.DVD-5|x64.ActiveCfg = Debug|Any CPU
+		{62357129-9071-4191-ADAF-59ABE69F2472}.DVD-5|x86.ActiveCfg = Debug|Any CPU
+		{62357129-9071-4191-ADAF-59ABE69F2472}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62357129-9071-4191-ADAF-59ABE69F2472}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62357129-9071-4191-ADAF-59ABE69F2472}.Release|x64.ActiveCfg = Release|Any CPU
+		{62357129-9071-4191-ADAF-59ABE69F2472}.Release|x86.ActiveCfg = Release|Any CPU
+		{62357129-9071-4191-ADAF-59ABE69F2472}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{62357129-9071-4191-ADAF-59ABE69F2472}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{62357129-9071-4191-ADAF-59ABE69F2472}.SingleImage|x64.ActiveCfg = Release|Any CPU
+		{62357129-9071-4191-ADAF-59ABE69F2472}.SingleImage|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
