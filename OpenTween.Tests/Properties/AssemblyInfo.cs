@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // アセンブリに関する一般情報は以下の属性セットをとおして制御されます。
 // アセンブリに関連付けられている情報を変更するには、
 // これらの属性値を変更してください。
-[assembly: AssemblyTitle("OpenTweenTest")]
+[assembly: AssemblyTitle("OpenTween.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("OpenTweenTest")]
+[assembly: AssemblyProduct("OpenTween.Tests")]
 [assembly: AssemblyCopyright("Copyright ©  2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // 次の GUID は、このプロジェクトが COM に公開される場合の、typelib の ID です
-[assembly: Guid("8b1e5376-c23c-4d63-adb8-c562d3afa1eb")]
+[assembly: Guid("de8a0031-c35f-4728-bf75-181afef74ae0")]
 
 // アセンブリのバージョン情報は、以下の 4 つの値で構成されています:
 //

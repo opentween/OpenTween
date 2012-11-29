@@ -40,7 +40,6 @@
     <ApplicationIcon>Resources\4b.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -462,6 +461,6 @@
   </Target>
   -->
   <Target Name="AfterBuild">
-    <SGen BuildAssemblyName="$(TargetFileName)" BuildAssemblyPath="$(TargetDir)" ShouldGenerateSerializer="true" UseProxyTypes="false" />
+    <SGen BuildAssemblyName="$(TargetFileName)" BuildAssemblyPath="$(TargetDir)" ShouldGenerateSerializer="true" UseProxyTypes="false" Condition="'$(OS)' == 'Windows_NT'" />
   </Target>
 </Project>

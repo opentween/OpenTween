@@ -2,5 +2,6 @@
 /*/*.user
 /*/bin
 /*/obj
-
 Thumbs.db
+TestResult.xml
+*.VisualState.xml

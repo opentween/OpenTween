@@ -27,7 +27,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 
 
-namespace OpenTweenTest
+namespace OpenTween
 {
     [TestFixture]
     public class ApiInformationTest
