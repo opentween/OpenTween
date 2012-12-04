@@ -88,7 +88,9 @@ namespace OpenTween.Thumbnail.Services
                     lock (this.LockObj)
                     {
                         this.UrlRegex = xElm.Elements("item")
-                            .Select(e => new Regex(e.Element("regex").Value, RegexOptions.IgnoreCase));
+                            .Select(e => new Regex(e.Element("regex").Value, RegexOptions.IgnoreCase))
+                            .ToArray();
+
                         this.ApiBase = apiBase;
                     }
                 }
