@@ -9100,7 +9100,7 @@ namespace OpenTween
             do
             {
                 //振り分け先タブ選択
-                if (TabDialog.ShowDialog() == DialogResult.Cancel)
+                if (TabDialog.ShowDialog() == DialogResult.Cancel || string.IsNullOrEmpty(this.TabDialog.SelectedTabName))
                 {
                     this.TopMost = SettingDialog.AlwaysTop;
                     return false;

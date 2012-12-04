@@ -4,6 +4,7 @@
  * NEW: img.azyobuzi.net を使用したサムネイル表示に対応
  * CHG: 検索APIをATOMからJSONに移行 (thx @re4k, @5px!)
  * CHG: サムネイル表示を大幅に書き直し
+ * FIX: ID振り分けルール作成時にエラーが起きる問題を修正 (thx @tadsan!)
 
 ==== Ver 1.0.6(2012/09/04)
  * NEW: TUNA.BE のサムネイル表示に対応
