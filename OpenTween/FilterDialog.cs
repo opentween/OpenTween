@@ -47,8 +47,6 @@ namespace OpenTween
         private string _cur;
         private List<string> idlist = new List<string>();
 
-        private TabsDialog tabdialog = new TabsDialog(true);
-
         private enum EDITMODE
         {
             AddNew,
@@ -878,7 +876,6 @@ namespace OpenTween
             {
                 ListTabs.Items.Add(key);
             }
-            SetTabnamesToDialog();
 
             ComboSound.Items.Clear();
             ComboSound.Items.Add("");
@@ -918,15 +915,6 @@ namespace OpenTween
                         }
                     }
                 }
-            }
-        }
-
-        private void SetTabnamesToDialog()
-        {
-            tabdialog.ClearTab();
-            foreach (string key in _sts.Tabs.Keys)
-            {
-                if (TabInformations.GetInstance().IsDistributableTab(key)) tabdialog.AddTab(key);
             }
         }
 
@@ -979,7 +967,6 @@ namespace OpenTween
                 {
                     //成功
                     ListTabs.Items.Add(tabName);
-                    SetTabnamesToDialog();
                 }
             }
         }
@@ -996,7 +983,6 @@ namespace OpenTween
                     idx -= 1;
                     if (idx < 0) idx = 0;
                     ListTabs.SelectedIndex = idx;
-                    SetTabnamesToDialog();
                 }
             }
         }
@@ -1012,7 +998,6 @@ namespace OpenTween
                     ListTabs.Items.RemoveAt(idx);
                     ListTabs.Items.Insert(idx, tb);
                     ListTabs.SelectedIndex = idx;
-                    SetTabnamesToDialog();
                 }
             }
         }
@@ -1133,28 +1118,32 @@ namespace OpenTween
         {
             if (ListTabs.SelectedIndex > -1 && ListFilters.SelectedItem != null)
             {
-                tabdialog.Text = Properties.Resources.ButtonRuleCopy_ClickText1;
-                if (tabdialog.ShowDialog() == DialogResult.Cancel)
+                TabClass[] selectedTabs;
+                using (TabsDialog dialog = new TabsDialog(_sts))
                 {
-                    return;
+                    dialog.MultiSelect = true;
+                    dialog.Text = Properties.Resources.ButtonRuleCopy_ClickText1;
+
+                    if (dialog.ShowDialog(this) == DialogResult.Cancel) return;
+
+                    selectedTabs = dialog.SelectedTabs;
                 }
+
                 string tabname = ListTabs.SelectedItem.ToString();
-                StringCollection tabs = tabdialog.SelectedTabNames;
                 List<FiltersClass> filters = new List<FiltersClass>();
 
                 foreach (int idx in ListFilters.SelectedIndices)
                 {
                     filters.Add(_sts.Tabs[tabname].Filters[idx].CopyTo(new FiltersClass()));
                 }
-                foreach (string tb in tabs)
+                foreach (var tb in selectedTabs)
                 {
-                    if (tb != tabname)
+                    if (tb.TabName == tabname) continue;
+
+                    foreach (FiltersClass flt in filters)
                     {
-                        foreach (FiltersClass flt in filters)
-                        {
-                            if (!_sts.Tabs[tb].Filters.Contains(flt))
-                                _sts.Tabs[tb].AddFilter(flt.CopyTo(new FiltersClass()));
-                        }
+                        if (!tb.Filters.Contains(flt))
+                            tb.AddFilter(flt.CopyTo(new FiltersClass()));
                     }
                 }
                 SetFilters(tabname);
@@ -1165,29 +1154,32 @@ namespace OpenTween
         {
             if (ListTabs.SelectedIndex > -1 && ListFilters.SelectedItem != null)
             {
-                tabdialog.Text = Properties.Resources.ButtonRuleMove_ClickText1;
-                if (tabdialog.ShowDialog() == DialogResult.Cancel)
+                TabClass[] selectedTabs;
+                using (var dialog = new TabsDialog(_sts))
                 {
-                    return;
+                    dialog.MultiSelect = true;
+                    dialog.Text = Properties.Resources.ButtonRuleMove_ClickText1;
+
+                    if (dialog.ShowDialog(this) == DialogResult.Cancel) return;
+
+                    selectedTabs = dialog.SelectedTabs;
                 }
                 string tabname = ListTabs.SelectedItem.ToString();
-                StringCollection tabs = tabdialog.SelectedTabNames;
                 List<FiltersClass> filters = new List<FiltersClass>();
 
                 foreach (int idx in ListFilters.SelectedIndices)
                 {
                     filters.Add(_sts.Tabs[tabname].Filters[idx].CopyTo(new FiltersClass()));
                 }
-                if (tabs.Count == 1 && tabs[0] == tabname) return;
-                foreach (string tb in tabs)
+                if (selectedTabs.Length == 1 && selectedTabs[0].TabName == tabname) return;
+                foreach (var tb in selectedTabs)
                 {
-                    if (tb != tabname)
+                    if (tb.TabName == tabname) continue;
+
+                    foreach (FiltersClass flt in filters)
                     {
-                        foreach (FiltersClass flt in filters)
-                        {
-                            if (!_sts.Tabs[tb].Filters.Contains(flt))
-                                _sts.Tabs[tb].AddFilter(flt.CopyTo(new FiltersClass()));
-                        }
+                        if (!tb.Filters.Contains(flt))
+                            tb.AddFilter(flt.CopyTo(new FiltersClass()));
                     }
                 }
                 for (int idx = ListFilters.Items.Count - 1; idx >= 0; idx--)

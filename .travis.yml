@@ -5,6 +5,9 @@ install:
   # Install NUnit 2.6
   - wget -q http://de.archive.ubuntu.com/ubuntu/pool/main/n/nunit/libnunit2.6-cil_2.6.0.12051+dfsg-2_all.deb http://de.archive.ubuntu.com/ubuntu/pool/universe/n/nunit/nunit-console_2.6.0.12051+dfsg-2_all.deb
   - sudo dpkg -i libnunit2.6-cil_2.6.0.12051+dfsg-2_all.deb nunit-console_2.6.0.12051+dfsg-2_all.deb
+  # Setup Xvfb
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
 
 # Build
 script:

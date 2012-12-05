@@ -29,19 +29,10 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TabsDialog));
-            this.TableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.OK_Button = new System.Windows.Forms.Button();
             this.Cancel_Button = new System.Windows.Forms.Button();
             this.TabList = new System.Windows.Forms.ListBox();
-            this.TableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // TableLayoutPanel1
-            // 
-            resources.ApplyResources(this.TableLayoutPanel1, "TableLayoutPanel1");
-            this.TableLayoutPanel1.Controls.Add(this.OK_Button, 0, 0);
-            this.TableLayoutPanel1.Controls.Add(this.Cancel_Button, 1, 0);
-            this.TableLayoutPanel1.Name = "TableLayoutPanel1";
             // 
             // OK_Button
             // 
@@ -57,11 +48,11 @@
             // 
             // TabList
             // 
-            this.TabList.FormattingEnabled = true;
             resources.ApplyResources(this.TabList, "TabList");
-            this.TabList.Items.AddRange(new object[] {
-            resources.GetString("TabList.Items")});
+            this.TabList.FormattingEnabled = true;
             this.TabList.Name = "TabList";
+            this.TabList.SelectedValueChanged += new System.EventHandler(this.TabList_SelectedValueChanged);
+            this.TabList.DoubleClick += new System.EventHandler(this.TabList_DoubleClick);
             // 
             // TabsDialog
             // 
@@ -69,24 +60,23 @@
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.Cancel_Button;
-            this.Controls.Add(this.TableLayoutPanel1);
+            this.Controls.Add(this.Cancel_Button);
+            this.Controls.Add(this.OK_Button);
             this.Controls.Add(this.TabList);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "TabsDialog";
             this.ShowInTaskbar = false;
-            this.TopMost = true;
-            this.TableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        internal System.Windows.Forms.TableLayoutPanel TableLayoutPanel1;
         internal System.Windows.Forms.Button OK_Button;
         internal System.Windows.Forms.Button Cancel_Button;
         internal System.Windows.Forms.ListBox TabList;
+
     }
 }

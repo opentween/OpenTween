@@ -103,7 +103,6 @@ namespace OpenTween
 
         //サブ画面インスタンス
         private AppendSettingDialog SettingDialog = AppendSettingDialog.Instance;       //設定画面インスタンス
-        private TabsDialog TabDialog = new TabsDialog();        //タブ選択ダイアログインスタンス
         private SearchWord SearchDialog = new SearchWord();     //検索画面インスタンス
         private FilterDialog fltDialog = new FilterDialog(); //フィルター編集画面
         private OpenURL UrlDialog = new OpenURL();
@@ -343,7 +342,6 @@ namespace OpenTween
         {
             //後始末
             SettingDialog.Dispose();
-            TabDialog.Dispose();
             SearchDialog.Dispose();
             fltDialog.Dispose();
             UrlDialog.Dispose();
@@ -578,7 +576,6 @@ namespace OpenTween
             SettingDialog.Owner = this;;
             SearchDialog.Owner = this;
             fltDialog.Owner = this;
-            TabDialog.Owner = this;
             UrlDialog.Owner = this;
 
             _history.Add(new PostingStatus());
@@ -4599,8 +4596,6 @@ namespace OpenTween
             _colHd8.Text = ColumnText[7];
             _colHd8.Width = 50;
 
-            if (_statuses.IsDistributableTab(tabName)) TabDialog.AddTab(tabName);
-
             _listCustom.SmallImageList = new ImageList();
             if (_iconSz > 0)
             {
@@ -4769,8 +4764,6 @@ namespace OpenTween
             _listCustom.RetrieveVirtualItem -= MyList_RetrieveVirtualItem;
             _listCustom.DrawSubItem -= MyList_DrawSubItem;
             _listCustom.HScrolled -= MyList_HScrolled;
-
-            TabDialog.RemoveTab(TabName);
 
             _listCustom.SmallImageList = null;
             _listCustom.ListViewItemSorter = null;
@@ -8037,10 +8030,6 @@ namespace OpenTween
                 //タブ名のリスト作り直し（デフォルトタブ以外は再作成）
                 for (int i = 0; i < ListTab.TabCount; i++)
                 {
-                    if (_statuses.IsDistributableTab(ListTab.TabPages[i].Text))
-                    {
-                        TabDialog.RemoveTab(ListTab.TabPages[i].Text);
-                    }
                     if (ListTab.TabPages[i].Text == tabName)
                     {
                         ListTab.TabPages[i].Text = newTabText;
@@ -8056,7 +8045,6 @@ namespace OpenTween
                         {
                             ListTab.TabPages[i].Text = newTabText;
                         }
-                        TabDialog.AddTab(ListTab.TabPages[i].Text);
                     }
                 }
                 SaveConfigsCommon();
@@ -8869,9 +8857,9 @@ namespace OpenTween
             //選択発言を元にフィルタ追加
             foreach (int idx in _curList.SelectedIndices)
             {
-                string tabName = "";
+                string tabName;
                 //タブ選択（or追加）
-                if (!SelectTab(ref tabName)) return;
+                if (!SelectTab(out tabName)) return;
 
                 fltDialog.SetCurrent(tabName);
                 if (_statuses[_curTab.Text, idx].RetweetedId == 0)
@@ -9013,13 +9001,13 @@ namespace OpenTween
 
         private void IDRuleMenuItem_Click(object sender, EventArgs e)
         {
-            string tabName = "";
+            string tabName;
 
             //未選択なら処理終了
             if (_curList.SelectedIndices.Count == 0) return;
 
             //タブ選択（or追加）
-            if (!SelectTab(ref tabName)) return;
+            if (!SelectTab(out tabName)) return;
 
             bool mv = false;
             bool mk = false;
@@ -9095,22 +9083,24 @@ namespace OpenTween
             SaveConfigsTabs();
         }
 
-        private bool SelectTab(ref string tabName)
+        private bool SelectTab(out string tabName)
         {
             do
             {
+                tabName = null;
+
                 //振り分け先タブ選択
-                if (TabDialog.ShowDialog() == DialogResult.Cancel || string.IsNullOrEmpty(this.TabDialog.SelectedTabName))
+                using (var dialog = new TabsDialog(_statuses))
                 {
-                    this.TopMost = SettingDialog.AlwaysTop;
-                    return false;
+                    if (dialog.ShowDialog(this) == DialogResult.Cancel) return false;
+
+                    var selectedTab = dialog.SelectedTab;
+                    tabName = selectedTab == null ? null : selectedTab.TabName;
                 }
-                this.TopMost = SettingDialog.AlwaysTop;
-                tabName = TabDialog.SelectedTabName;
 
                 ListTab.SelectedTab.Focus();
                 //新規タブを選択→タブ作成
-                if (tabName == Properties.Resources.IDRuleMenuItem_ClickText1)
+                if (tabName == null)
                 {
                     using (InputTabName inputName = new InputTabName())
                     {
@@ -11545,13 +11535,13 @@ namespace OpenTween
             string name = GetUserId();
             if (name != null)
             {
-                string tabName = "";
+                string tabName;
 
                 //未選択なら処理終了
                 if (_curList.SelectedIndices.Count == 0) return;
 
                 //タブ選択（or追加）
-                if (!SelectTab(ref tabName)) return;
+                if (!SelectTab(out tabName)) return;
 
                 bool mv = false;
                 bool mk = false;
