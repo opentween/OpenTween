@@ -32,7 +32,59 @@ namespace OpenTween
     [TestFixture]
     public class ApiInformationTest
     {
+        [Test]
+        public void Initialize()
+        {
+            ApiInformation apiinfo = new ApiInformation();
+            apiinfo.Initialize();
+
+            Assert.That(apiinfo.HttpHeaders["X-RateLimit-Remaining"], Is.EqualTo(-1));
+            Assert.That(apiinfo.HttpHeaders["X-RateLimit-Limit"], Is.EqualTo(-1));
+            Assert.That(apiinfo.HttpHeaders["X-RateLimit-Reset"], Is.EqualTo(-1));
+
+            Assert.That(apiinfo.HttpHeaders["X-Access-Level"], Is.EqualTo("read-write-directmessages"));
+
+            Assert.That(apiinfo.HttpHeaders["X-MediaRateLimit-Remaining"], Is.EqualTo(-1));
+            Assert.That(apiinfo.HttpHeaders["X-MediaRateLimit-Limit"], Is.EqualTo(-1));
+            Assert.That(apiinfo.HttpHeaders["X-MediaRateLimit-Reset"], Is.EqualTo(-1));
+            
+
+        }
+
+        [Test]
+        [Combinatorial]
+        public void MaxCountTest([Values(100,0,-100)]int value)
+        {
+            ApiInformation apiinfo = new ApiInformation();
+            apiinfo.MaxCount = value;
+            Assert.That(apiinfo.MaxCount, Is.EqualTo(value));
+        }
 
 
+        [TestCase(-100, Result = -100)]
+        [TestCase(-100, Result = 0)]
+        [TestCase(-100, Result = 100)]
+        [TestCase(int.MaxValue, Result = int.MaxValue)]
+        [TestCase(int.MinValue, Result = int.MinValue)]
+        public int RemainCountTest(int value)
+        {
+            ApiInformation apiinfo = new ApiInformation();
+            apiinfo.RemainCount = value;
+            return apiinfo.RemainCount;
+        }
+
+        [Test]
+        public void ConvertResetTimeInSecondsToResetTimeTest()
+        {
+            ApiInformation apiinfo = new ApiInformation();
+            DateTime d = apiinfo.ConvertResetTimeInSecondsToResetTime(-1);
+            Assert.That(d, Is.EqualTo(new DateTime()));
+        }
+
+        
+        public void ResetTimeTest()
+        {
+
+        }
     }
 }
