@@ -38,15 +38,15 @@ namespace OpenTween
             ApiInformation apiinfo = new ApiInformation();
             apiinfo.Initialize();
 
-            Assert.That(apiinfo.HttpHeaders["X-RateLimit-Remaining"], Is.EqualTo(-1));
-            Assert.That(apiinfo.HttpHeaders["X-RateLimit-Limit"], Is.EqualTo(-1));
-            Assert.That(apiinfo.HttpHeaders["X-RateLimit-Reset"], Is.EqualTo(-1));
+            Assert.That(apiinfo.HttpHeaders["X-RateLimit-Remaining"], Is.EqualTo("-1"));
+            Assert.That(apiinfo.HttpHeaders["X-RateLimit-Limit"], Is.EqualTo("-1"));
+            Assert.That(apiinfo.HttpHeaders["X-RateLimit-Reset"], Is.EqualTo("-1"));
 
             Assert.That(apiinfo.HttpHeaders["X-Access-Level"], Is.EqualTo("read-write-directmessages"));
 
-            Assert.That(apiinfo.HttpHeaders["X-MediaRateLimit-Remaining"], Is.EqualTo(-1));
-            Assert.That(apiinfo.HttpHeaders["X-MediaRateLimit-Limit"], Is.EqualTo(-1));
-            Assert.That(apiinfo.HttpHeaders["X-MediaRateLimit-Reset"], Is.EqualTo(-1));
+            Assert.That(apiinfo.HttpHeaders["X-MediaRateLimit-Remaining"], Is.EqualTo("-1"));
+            Assert.That(apiinfo.HttpHeaders["X-MediaRateLimit-Limit"], Is.EqualTo("-1"));
+            Assert.That(apiinfo.HttpHeaders["X-MediaRateLimit-Reset"], Is.EqualTo("-1"));
             
 
         }
@@ -62,8 +62,8 @@ namespace OpenTween
 
 
         [TestCase(-100, Result = -100)]
-        [TestCase(-100, Result = 0)]
-        [TestCase(-100, Result = 100)]
+        [TestCase(0, Result = 0)]
+        [TestCase(100, Result = 100)]
         [TestCase(int.MaxValue, Result = int.MaxValue)]
         [TestCase(int.MinValue, Result = int.MinValue)]
         public int RemainCountTest(int value)
@@ -73,6 +73,48 @@ namespace OpenTween
             return apiinfo.RemainCount;
         }
 
+
+
+
+
+        [TestCase(-100, Result = -100)]
+        [TestCase(0, Result = 0)]
+        [TestCase(100, Result = 100)]
+        [TestCase(int.MaxValue, Result = int.MaxValue)]
+        [TestCase(int.MinValue, Result = int.MinValue)]
+        public int MediaMaxCountTest(int value)
+        {
+            ApiInformation apiinfo = new ApiInformation();
+            apiinfo.MediaMaxCount = value;
+            return apiinfo.MediaMaxCount;
+        }
+
+        [TestCase(-100, Result = -100)]
+        [TestCase(0, Result = 0)]
+        [TestCase(100, Result = 100)]
+        [TestCase(int.MaxValue, Result = int.MaxValue)]
+        [TestCase(int.MinValue, Result = int.MinValue)]
+        public int ResetTimeInSecondsTest(int value)
+        {
+            ApiInformation apiinfo = new ApiInformation();
+            apiinfo.ResetTimeInSeconds = value;
+            return apiinfo.ResetTimeInSeconds;
+        }
+
+        [TestCase(-100, Result = -100)]
+        [TestCase(0, Result = 0)]
+        [TestCase(100, Result = 100)]
+        [TestCase(int.MaxValue, Result = int.MaxValue)]
+        [TestCase(int.MinValue, Result = int.MinValue)]
+        public int UsingCountTest(int value)
+        {
+            ApiInformation apiinfo = new ApiInformation();
+            apiinfo.UsingCount = value;
+            return apiinfo.UsingCount;
+        }
+
+        //↓以下DateTime系
+
         [Test]
         public void ConvertResetTimeInSecondsToResetTimeTest()
         {
@@ -81,10 +123,15 @@ namespace OpenTween
             Assert.That(d, Is.EqualTo(new DateTime()));
         }
 
-        
-        public void ResetTimeTest()
+        [Test]
+        public void MediaResetTimeTest()
         {
-
+            ApiInformation apiinfo = new ApiInformation();
+            DateTime d = new DateTime(1970, 1, 1, 0, 0, 0);
+            apiinfo.MediaResetTime = d;
+            Assert.That(apiinfo.MediaResetTime, Is.EqualTo(d));
         }
+
+
     }
 }
