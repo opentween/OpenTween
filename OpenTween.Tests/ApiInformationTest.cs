@@ -52,8 +52,8 @@ namespace OpenTween
         }
 
         [Test]
-        [Combinatorial]
-        public void MaxCountTest([Values(100,0,-100)]int value)
+        [Combinatorial] 
+        public void Test_MaxCount([Values(100, 0, -100)]int value)
         {
             ApiInformation apiinfo = new ApiInformation();
             apiinfo.MaxCount = value;
@@ -66,7 +66,7 @@ namespace OpenTween
         [TestCase(100, Result = 100)]
         [TestCase(int.MaxValue, Result = int.MaxValue)]
         [TestCase(int.MinValue, Result = int.MinValue)]
-        public int RemainCountTest(int value)
+        public int Test_RemainCount(int value)
         {
             ApiInformation apiinfo = new ApiInformation();
             apiinfo.RemainCount = value;
@@ -82,7 +82,7 @@ namespace OpenTween
         [TestCase(100, Result = 100)]
         [TestCase(int.MaxValue, Result = int.MaxValue)]
         [TestCase(int.MinValue, Result = int.MinValue)]
-        public int MediaMaxCountTest(int value)
+        public int Test_MediaMaxCount(int value)
         {
             ApiInformation apiinfo = new ApiInformation();
             apiinfo.MediaMaxCount = value;
@@ -94,7 +94,7 @@ namespace OpenTween
         [TestCase(100, Result = 100)]
         [TestCase(int.MaxValue, Result = int.MaxValue)]
         [TestCase(int.MinValue, Result = int.MinValue)]
-        public int ResetTimeInSecondsTest(int value)
+        public int Test_ResetTimeInSeconds(int value)
         {
             ApiInformation apiinfo = new ApiInformation();
             apiinfo.ResetTimeInSeconds = value;
@@ -106,7 +106,7 @@ namespace OpenTween
         [TestCase(100, Result = 100)]
         [TestCase(int.MaxValue, Result = int.MaxValue)]
         [TestCase(int.MinValue, Result = int.MinValue)]
-        public int UsingCountTest(int value)
+        public int Test_UsingCount(int value)
         {
             ApiInformation apiinfo = new ApiInformation();
             apiinfo.UsingCount = value;
@@ -116,7 +116,7 @@ namespace OpenTween
         //↓以下DateTime系
 
         [Test]
-        public void ConvertResetTimeInSecondsToResetTimeTest()
+        public void Test_ConvertResetTimeInSecondsToResetTime()
         {
             ApiInformation apiinfo = new ApiInformation();
             DateTime d = apiinfo.ConvertResetTimeInSecondsToResetTime(-1);
@@ -124,7 +124,7 @@ namespace OpenTween
         }
 
         [Test]
-        public void MediaResetTimeTest()
+        public void Test_MediaResetTime()
         {
             ApiInformation apiinfo = new ApiInformation();
             DateTime d = new DateTime(1970, 1, 1, 0, 0, 0);
