@@ -27,6 +27,10 @@ using NUnit.Framework;
 
 namespace OpenTween.Tests
 {
+    /// <summary>
+    /// Bingクラスのテストクラス
+    /// Translate(string _from, string _to, string _text, out string buf)のテスト未実装です
+    /// </summary>
     [TestFixture]
     class BingTest
     {

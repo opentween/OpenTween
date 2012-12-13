@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="ApiInformationTest.cs" />
     <Compile Include="BingTest.cs" />
+    <Compile Include="FoursquareTest.cs" />
     <Compile Include="MyCommonTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TabsDialogTest.cs" />
