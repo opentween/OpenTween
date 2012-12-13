@@ -43,7 +43,6 @@ namespace OpenTween.Tests
         }
 
         [TestCase("https://ja.foursquare.com/v/starbucks-coffee-jr%E6%9D%B1%E6%B5%B7-%E5%93%81%E5%B7%9D%E9%A7%85%E5%BA%97/4b5fd527f964a52036ce29e3", Result = "")]
-        [TestCase("https://ja.foursquare.com/keihotmanp/checkin/501be52be4b01e9e719e459e?s=IeKLsUAddfpBsXL7PkEsYZ3xzSg", Result = "")]
         public string Test_GetMapsUri(string url)
         {
             AppendSettingDialog.Instance.IsPreviewFoursquare = true;
