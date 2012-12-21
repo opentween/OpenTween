@@ -75,7 +75,7 @@ namespace OpenTween
             return MyCommon.IsAnimatedGif(filename);
         }
 
-        static object[] DateTimeParse_TestCase =
+        public static object[] DateTimeParse_TestCase =
         {
             new object[] {
                 "Sun Nov 25 06:10:00 +00:00 2012",
@@ -98,7 +98,7 @@ namespace OpenTween
             [DataMember(Name = "id")] public string Id { get; set; }
             [DataMember(Name = "body")] public string Body { get; set; }
         }
-        static object[] CreateDataFromJson_TestCase =
+        public static object[] CreateDataFromJson_TestCase =
         {
             new object[] {
                 @"{""id"":""1"", ""body"":""hogehoge""}",
@@ -163,7 +163,7 @@ namespace OpenTween
             Assert.That(OpenTween.MyCommon.GetReadableVersion(fileVersion), Is.EqualTo(expect));
         }
 
-        static object[] GetStatusUrlTest1_TestCase =
+        public static object[] GetStatusUrlTest1_TestCase =
         {
             new object[] {
                 new PostClass { StatusId = 249493863826350080L, ScreenName = "Favstar_LM", RetweetedId = 0L, RetweetedBy = null },
