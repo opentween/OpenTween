@@ -33,7 +33,7 @@ namespace OpenTween.Thumbnail.Services
     /// </summary>
     class MetaThumbnailService : SimpleThumbnailService
     {
-        protected static Regex metaPattern = new Regex("<meta property=[\"'](?<property>.+?)[\"'] content=[\"'](?<content>.+?)[\"']");
+        protected static Regex metaPattern = new Regex("<meta (name|property)=[\"'](?<name>.+?)[\"'] (content|value)=[\"'](?<content>.+?)[\"']");
         protected static string[] propertyNames = { "twitter:image", "og:image" };
 
         public MetaThumbnailService(string url)
@@ -70,7 +70,7 @@ namespace OpenTween.Thumbnail.Services
 
             foreach (Match match in matches)
             {
-                var propertyName = match.Groups["property"].Value;
+                var propertyName = match.Groups["name"].Value;
                 if (MetaThumbnailService.propertyNames.Contains(propertyName))
                 {
                     return match.Groups["content"].Value;
