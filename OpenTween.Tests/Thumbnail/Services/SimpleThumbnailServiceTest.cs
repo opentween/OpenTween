@@ -1,5 +1,5 @@
 ﻿// OpenTween - Client of Twitter
-// Copyright (c) 2012      kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
+// Copyright (c) 2012 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
 // 
 // This file is part of OpenTween.
@@ -23,23 +23,34 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
+using NUnit.Framework;
 
 namespace OpenTween.Thumbnail.Services
 {
-    class Pixiv : MetaThumbnailService
+    [TestFixture]
+    class SimpleThumbnailServiceTest
     {
-        public Pixiv(string pattern, string replacement = "${0}")
-            : base(pattern, replacement)
+        [Test]
+        public void RegexMatchTest()
         {
+            var service = new SimpleThumbnailService(@"http://example.com/(.+)", @"http://img.example.com/$1");
+
+            var thumbinfo = service.GetThumbnailInfo("http://example.com/abcd", null);
+
+            Assert.That(thumbinfo, Is.Not.Null);
+            Assert.That(thumbinfo.ImageUrl, Is.EqualTo("http://example.com/abcd"));
+            Assert.That(thumbinfo.ThumbnailUrl, Is.EqualTo("http://img.example.com/abcd"));
+            Assert.That(thumbinfo.TooltipText, Is.Null);
         }
 
-        protected override string FetchImageUrl(string url)
+        [Test]
+        public void RegexNotMatchTest()
         {
-            var thumbnailUrl = base.FetchImageUrl(url);
+            var service = new SimpleThumbnailService(@"http://example.com/(.+)", @"http://img.example.com/\1");
 
-            // og:image のサムネイルURLにそのままアクセスすると403が返ってくるので回避
-            return Regex.Replace(thumbnailUrl, @"_s(?=\..{3}$)", "_m");
+            var thumbinfo = service.GetThumbnailInfo("http://hogehoge.com/abcd", null);
+
+            Assert.That(thumbinfo, Is.Null);
         }
     }
 }

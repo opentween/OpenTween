@@ -36,7 +36,12 @@ namespace OpenTween.Thumbnail.Services
         protected static Regex metaPattern = new Regex("<meta property=[\"'](?<property>.+?)[\"'] content=[\"'](?<content>.+?)[\"']");
         protected static string[] propertyNames = { "twitter:image", "og:image" };
 
-        public MetaThumbnailService(string pattern, string replacement = "${0}")
+        public MetaThumbnailService(string url)
+            : base(url, "${0}")
+        {
+        }
+
+        public MetaThumbnailService(string pattern, string replacement)
             : base(pattern, replacement)
         {
         }
@@ -46,7 +51,9 @@ namespace OpenTween.Thumbnail.Services
             var pageUrl = this.ReplaceUrl(url);
             if (pageUrl == null) return null;
 
-            var thumbnailUrl = this.FetchThumbnailUrl(pageUrl);
+            var content = this.FetchImageUrl(pageUrl);
+
+            var thumbnailUrl = this.GetThumbnailUrl(content);
             if (string.IsNullOrEmpty(thumbnailUrl)) return null;
 
             return new ThumbnailInfo()
@@ -57,23 +64,27 @@ namespace OpenTween.Thumbnail.Services
             };
         }
 
-        protected virtual string FetchThumbnailUrl(string url)
+        protected virtual string GetThumbnailUrl(string html)
+        {
+            var matches = MetaThumbnailService.metaPattern.Matches(html);
+
+            foreach (Match match in matches)
+            {
+                var propertyName = match.Groups["property"].Value;
+                if (MetaThumbnailService.propertyNames.Contains(propertyName))
+                {
+                    return match.Groups["content"].Value;
+                }
+            }
+
+            return null;
+        }
+
+        protected virtual string FetchImageUrl(string url)
         {
             using (var client = new OTWebClient())
             {
-                var content = client.DownloadString(url);
-                var matches = MetaThumbnailService.metaPattern.Matches(content);
-
-                foreach (Match match in matches)
-                {
-                    var propertyName = match.Groups["property"].Value;
-                    if (MetaThumbnailService.propertyNames.Contains(propertyName))
-                    {
-                        return match.Groups["content"].Value;
-                    }
-                }
-
-                return null;
+                return client.DownloadString(url);
             }
         }
     }

@@ -40,7 +40,7 @@ namespace OpenTween.Thumbnail
                 new SimpleThumbnailService(@"^https?://.*(\.jpg|\.jpeg|\.gif|\.png|\.bmp)$", "${0}"),
 
                 // img.azyobuzi.net
-                new ImgAzyobuziNet(),
+                new ImgAzyobuziNet(autoupdate: true),
 
                 // ImgUr
                 new SimpleThumbnailService(@"^http://(?:i\.)?imgur\.com/(\w+)(?:\..{3})?$", "http://img.imgur.com/${1}l.jpg"),

@@ -43,7 +43,7 @@ namespace OpenTween.Thumbnail.Services
             var apiUrl = base.ReplaceUrl(url);
             if (apiUrl == null) return null;
 
-            var xdoc = XDocument.Load(apiUrl);
+            var xdoc = this.FetchContentInfoApi(apiUrl);
 
             if (xdoc.XPathSelectElement("/rsp").Attribute("stat").Value == "ok")
             {
@@ -62,6 +62,11 @@ namespace OpenTween.Thumbnail.Services
             }
 
             return null;
+        }
+
+        protected virtual XDocument FetchContentInfoApi(string url)
+        {
+            return XDocument.Load(url);
         }
     }
 }

@@ -8,7 +8,7 @@
     <ProjectGuid>{18A32642-A8F3-425B-978D-0C6F630EDDE8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OpenTween.Tests</RootNamespace>
+    <RootNamespace>OpenTween</RootNamespace>
     <AssemblyName>OpenTween.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -58,6 +58,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TabsDialogTest.cs" />
     <Compile Include="TestUtils.cs" />
+    <Compile Include="Thumbnail\Services\ImgAzyobuziNetTest.cs" />
+    <Compile Include="Thumbnail\Services\MetaThumbnailServiceTest.cs" />
+    <Compile Include="Thumbnail\Services\SimpleThumbnailServiceTest.cs" />
+    <Compile Include="Thumbnail\Services\TinamiTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenTween\OpenTween.csproj">

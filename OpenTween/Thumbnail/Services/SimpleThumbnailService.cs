@@ -28,7 +28,7 @@ using System.Text.RegularExpressions;
 namespace OpenTween.Thumbnail.Services
 {
     /// <summary>
-    /// 正規表現による単純な置換でサムネイルURLを生成する
+    /// 正規表現によるURLの単純な置換でサムネイルURLを生成する
     /// </summary>
     class SimpleThumbnailService : IThumbnailService
     {
