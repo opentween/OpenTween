@@ -5,6 +5,7 @@
 //           (c) 2010-2011 anis774 (@anis774) <http://d.hatena.ne.jp/anis774/>
 //           (c) 2010-2011 fantasticswallow (@f_swallow) <http://twitter.com/f_swallow>
 //           (c) 2011      Egtra (@egtra) <http://dev.activebasic.com/egtra/>
+//           (c) 2012      kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
 //
 // This file is part of OpenTween.
@@ -42,6 +43,17 @@ namespace OpenTween
         {
             public double Lng { get; set; }
             public double Lat { get; set; }
+
+            public override bool Equals(object obj)
+            {
+                var geo = obj as StatusGeo;
+                return geo != null && geo.Lng == this.Lng && geo.Lat == this.Lng;
+            }
+
+            public override int GetHashCode()
+            {
+                return this.Lng.GetHashCode() ^ this.Lat.GetHashCode();
+            }
         }
         private string _Nick;
         private string _textFromApi;
@@ -587,7 +599,7 @@ namespace OpenTween
                     (this.InReplyToStatusId == other.InReplyToStatusId) &&
                     (this.Source == other.Source) &&
                     (this.SourceHtml == other.SourceHtml) &&
-                    (this.ReplyToList.Equals(other.ReplyToList)) &&
+                    (this.ReplyToList.SequenceEqual(other.ReplyToList)) &&
                     (this.IsMe == other.IsMe) &&
                     (this.IsDm == other.IsDm) &&
                     (this.UserId == other.UserId) &&
@@ -608,7 +620,12 @@ namespace OpenTween
 #region "IClonable.Clone"
         object ICloneable.Clone()
         {
-            return this.MemberwiseClone();
+            var clone = (PostClass)this.MemberwiseClone();
+            clone.ReplyToList = new List<string>(this.ReplyToList);
+            clone.PostGeo = new StatusGeo { Lng = this.PostGeo.Lng, Lat = this.PostGeo.Lat };
+            clone.Media = new Dictionary<string, string>(this.Media);
+
+            return clone;
         }
 #endregion
     }
