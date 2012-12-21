@@ -188,7 +188,7 @@ namespace OpenTween
         {
             get
             {
-                return this._textFromApi.Replace("\n", " ");
+                return this._textFromApi == null ? null : this._textFromApi.Replace("\n", " ");
             }
         }
         public string ImageUrl
