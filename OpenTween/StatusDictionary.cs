@@ -36,7 +36,7 @@ using System.Xml.Serialization;
 
 namespace OpenTween
 {
-    public sealed class PostClass : ICloneable
+    public class PostClass : ICloneable
     {
         public class StatusGeo
         {
@@ -227,9 +227,9 @@ namespace OpenTween
         {
             get
             {
-                if (this.RetweetedId > 0 && TabInformations.GetInstance().RetweetSource(this.RetweetedId) != null)
+                if (this.RetweetedId > 0 && this.GetRetweetSource(this.RetweetedId) != null)
                 {
-                    return TabInformations.GetInstance().RetweetSource(this.RetweetedId).IsFav;
+                    return this.GetRetweetSource(this.RetweetedId).IsFav;
                 }
                 else
                 {
@@ -239,9 +239,9 @@ namespace OpenTween
             set
             {
                 _IsFav = value;
-                if (this.RetweetedId > 0 && TabInformations.GetInstance().RetweetSource(this.RetweetedId) != null)
+                if (this.RetweetedId > 0 && this.GetRetweetSource(this.RetweetedId) != null)
                 {
-                    TabInformations.GetInstance().RetweetSource(this.RetweetedId).IsFav = value;
+                    this.GetRetweetSource(this.RetweetedId).IsFav = value;
                 }
             }
         }
@@ -546,6 +546,11 @@ namespace OpenTween
             {
                 return (int)_states - 1;
             }
+        }
+
+        protected virtual PostClass GetRetweetSource(long statusId)
+        {
+            return TabInformations.GetInstance().RetweetSource(statusId);
         }
 
         public PostClass Copy()
