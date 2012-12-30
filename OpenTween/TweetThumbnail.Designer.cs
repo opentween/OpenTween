@@ -58,7 +58,7 @@
 
         #endregion
 
-        private System.Windows.Forms.VScrollBar scrollBar;
         private System.Windows.Forms.ToolTip toolTip;
+        protected internal System.Windows.Forms.VScrollBar scrollBar;
     }
 }

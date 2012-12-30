@@ -37,10 +37,10 @@ namespace OpenTween.Thumbnail.Services
 {
     class ImgAzyobuziNet : IThumbnailService
     {
-        private readonly string[] ApiHosts = { "http://img.azyobuzi.net/api/", "http://img.opentween.org/api/" };
+        protected string[] ApiHosts = { "http://img.azyobuzi.net/api/", "http://img.opentween.org/api/" };
 
-        private string ApiBase;
-        private IEnumerable<Regex> UrlRegex = new Regex[] {};
+        protected string ApiBase;
+        protected IEnumerable<Regex> UrlRegex = new Regex[] {};
 
         private object LockObj = new object();
 

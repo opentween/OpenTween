@@ -37,7 +37,7 @@ namespace OpenTween.Thumbnail.Services
         protected static string[] propertyNames = { "twitter:image", "og:image" };
 
         public MetaThumbnailService(string url)
-            : base(url, "${0}")
+            : this(url, "${0}")
         {
         }
 

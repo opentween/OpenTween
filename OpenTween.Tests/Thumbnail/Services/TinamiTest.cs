@@ -55,5 +55,20 @@ namespace OpenTween.Thumbnail.Services
             Assert.That(thumbinfo.ThumbnailUrl, Is.EqualTo("http://img.tinami.com/hogehoge_150.gif"));
             Assert.That(thumbinfo.TooltipText, Is.EqualTo("説明"));
         }
+
+        [Test]
+        public void ApiErrorTest()
+        {
+            var service = new TestTinami(@"^http://www\.tinami\.com/view/(?<ContentId>\d+)$",
+                "http://api.tinami.com/content/info?cont_id=${ContentId}&api_key=" + ApplicationSettings.TINAMIApiKey);
+
+            service.FakeXml = @"<?xml version='1.0' encoding='utf-8'?>
+<rsp stat='user_only'>
+  <err msg='この作品は登録ユーザー限定の作品です。'/>
+</rsp>";
+            var thumbinfo = service.GetThumbnailInfo("http://www.tinami.com/view/12345", null);
+
+            Assert.That(thumbinfo, Is.Null);
+        }
     }
 }

@@ -62,6 +62,7 @@
     <Compile Include="Thumbnail\Services\MetaThumbnailServiceTest.cs" />
     <Compile Include="Thumbnail\Services\SimpleThumbnailServiceTest.cs" />
     <Compile Include="Thumbnail\Services\TinamiTest.cs" />
+    <Compile Include="TweetThumbnailTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenTween\OpenTween.csproj">

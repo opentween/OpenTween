@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using System.Net;
 
 namespace OpenTween.Thumbnail.Services
 {
@@ -32,10 +33,39 @@ namespace OpenTween.Thumbnail.Services
     {
         class TestImgAzyobuziNet : ImgAzyobuziNet
         {
+            public TestImgAzyobuziNet()
+                : base()
+            {
+                this.ApiHosts = new[] { "http://img.azyobuzi.net/api/" };
+            }
+
+            public TestImgAzyobuziNet(string[] apiHosts)
+                : base()
+            {
+                this.ApiHosts = apiHosts;
+            }
+
+            public string GetApiBase()
+            {
+                return this.ApiBase;
+            }
+
             protected override byte[] FetchRegex(string apiBase)
             {
+                if (apiBase == "http://down.example.com/api/")
+                    throw new WebException();
+
                 return Encoding.UTF8.GetBytes("[{\"name\": \"hogehoge\", \"regex\": \"^https?://example.com/(.+)$\"}]");
             }
+        }
+
+        [Test]
+        public void HostFallbackTest()
+        {
+            var service = new TestImgAzyobuziNet(new[] { "http://down.example.com/api/", "http://avail.example.com/api/" });
+
+            service.LoadRegex();
+            Assert.That(service.GetApiBase(), Is.EqualTo("http://avail.example.com/api/"));
         }
 
         [Test]
