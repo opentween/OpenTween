@@ -160,8 +160,8 @@ namespace OpenTween
 
         public PostClass()
         {
-            RetweetedCount = 0;
-            RetweetedByUserId = 0;
+            RetweetedBy = "";
+            RelTabName = "";
             Media = new Dictionary<string, string>();
             ReplyToList = new List<string>();
         }
