@@ -90,68 +90,13 @@ namespace OpenTween
 
         public void Initialize()
         {
-            if (HttpHeaders.ContainsKey("X-RateLimit-Remaining"))
-            {
-                HttpHeaders["X-RateLimit-Remaining"] = "-1";
-            }
-            else
-            {
-                HttpHeaders.Add("X-RateLimit-Remaining", "-1");
-            }
-
-            if (HttpHeaders.ContainsKey("X-RateLimit-Limit"))
-            {
-                HttpHeaders["X-RateLimit-Limit"] = "-1";
-            }
-            else
-            {
-                HttpHeaders.Add("X-RateLimit-Limit", "-1");
-            }
-
-            if (HttpHeaders.ContainsKey("X-RateLimit-Reset"))
-            {
-                HttpHeaders["X-RateLimit-Reset"] = "-1";
-            }
-            else
-            {
-                HttpHeaders.Add("X-RateLimit-Reset", "-1");
-            }
-
-            if (HttpHeaders.ContainsKey("X-Access-Level"))
-            {
-                HttpHeaders["X-Access-Level"] = "read-write-directmessages";
-            }
-            else
-            {
-                HttpHeaders.Add("X-Access-Level", "read-write-directmessages");
-            }
-
-            if (HttpHeaders.ContainsKey("X-MediaRateLimit-Remaining"))
-            {
-                HttpHeaders["X-MediaRateLimit-Remaining"] = "-1";
-            }
-            else
-            {
-                HttpHeaders.Add("X-MediaRateLimit-Remaining", "-1");
-            }
-
-            if (HttpHeaders.ContainsKey("X-MediaRateLimit-Limit"))
-            {
-                HttpHeaders["X-MediaRateLimit-Limit"] = "-1";
-            }
-            else
-            {
-                HttpHeaders.Add("X-MediaRateLimit-Limit", "-1");
-            }
-
-            if (HttpHeaders.ContainsKey("X-MediaRateLimit-Reset"))
-            {
-                HttpHeaders["X-MediaRateLimit-Reset"] = "-1";
-            }
-            else
-            {
-                HttpHeaders.Add("X-MediaRateLimit-Reset", "-1");
-            }
+            HttpHeaders["X-RateLimit-Remaining"] = "-1";
+            HttpHeaders["X-RateLimit-Limit"] = "-1";
+            HttpHeaders["X-RateLimit-Reset"] = "-1";
+            HttpHeaders["X-Access-Level"] = "read-write-directmessages";
+            HttpHeaders["X-MediaRateLimit-Remaining"] = "-1";
+            HttpHeaders["X-MediaRateLimit-Limit"] = "-1";
+            HttpHeaders["X-MediaRateLimit-Reset"] = "-1";
 
             _MaxCount = -1;
             _RemainCount = -1;

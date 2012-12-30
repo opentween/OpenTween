@@ -118,26 +118,17 @@ namespace OpenTween
             var post = new TestPostClass();
             var except = 0x00;
 
-            if (protect)
-            {
-                post.IsProtect = true;
-                except |= 0x01;
-            }
-            if (mark)
-            {
-                post.IsMark = true;
-                except |= 0x02;
-            }
-            if (reply)
-            {
-                post.InReplyToStatusId = 100L;
-                except |= 0x04;
-            }
-            if (geo)
-            {
-                post.PostGeo = new PostClass.StatusGeo { Lat = -47.15, Lng = -126.716667 };
-                except |= 0x08;
-            }
+            post.IsProtect = protect;
+            if (protect) except |= 0x01;
+
+            post.IsMark = mark;
+            if (mark) except |= 0x02;
+
+            post.InReplyToStatusId = reply ? 100L : 0L;
+            if (reply) except |= 0x04;
+
+            post.PostGeo = geo ? new PostClass.StatusGeo { Lat = -47.15, Lng = -126.716667 } : new PostClass.StatusGeo();
+            if (geo) except |= 0x08;
 
             except -= 1;
 

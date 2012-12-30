@@ -55,39 +55,42 @@ namespace OpenTween
                 return this.Lng.GetHashCode() ^ this.Lat.GetHashCode();
             }
         }
-        private string _Nick;
-        private string _textFromApi;
-        private string _ImageUrl;
-        private string _screenName;
-        private DateTime _createdAt;
-        private long _statusId;
+        public string Nickname { get; set; }
+        public string TextFromApi { get; set; }
+        public string ImageUrl { get; set; }
+        public string ScreenName { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public long StatusId { get; set; }
         private bool _IsFav;
-        private string _text;
-        private bool _IsRead;
-        private bool _IsReply;
-        private bool _IsExcludeReply;
+        public string Text { get; set; }
+        public bool IsRead { get; set; }
+        public bool IsReply { get; set; }
+        public bool IsExcludeReply { get; set; }
         private bool _IsProtect;
-        private bool _IsOWL;
+        public bool IsOwl { get; set; }
         private bool _IsMark;
-        private string _InReplyToUser;
+        public string InReplyToUser { get; set; }
         private long _InReplyToStatusId;
-        private string _Source;
-        private string _SourceHtml;
-        private List<string> _ReplyToList = new List<string>();
-        private bool _IsMe;
-        private bool _IsDm;
-        private States _states = States.None;
-        private long _UserId;
-        private bool _FilterHit;
-        private string _RetweetedBy = "";
-        private long _RetweetedId = 0;
-        private string _SearchTabName = "";
+        public string Source { get; set; }
+        public string SourceHtml { get; set; }
+        public List<string> ReplyToList { get; set; }
+        public bool IsMe { get; set; }
+        public bool IsDm { get; set; }
+        public long UserId { get; set; }
+        public bool FilterHit { get; set; }
+        public string RetweetedBy { get; set; }
+        public long RetweetedId { get; set; }
         private bool _IsDeleted = false;
-        private long _InReplyToUserId = 0;
         private StatusGeo _postGeo = new StatusGeo();
         public int RetweetedCount { get; set; }
         public long RetweetedByUserId { get; set; }
+        public long InReplyToUserId { get; set; }
         public Dictionary<string, string> Media { get; set; }
+
+        public string RelTabName { get; set; }
+        public int FavoritedCount { get; set; }
+
+        private States _states = States.None;
 
         [Flags]
         private enum States
@@ -127,31 +130,31 @@ namespace OpenTween
                 StatusGeo Geo)
             : this()
         {
-            _Nick = Nickname;
-            _textFromApi = textFromApi;
-            _ImageUrl = ImageUrl;
-            _screenName = screenName;
-            _createdAt = createdAt;
-            _statusId = statusId;
+            this.Nickname = Nickname;
+            this.TextFromApi = textFromApi;
+            this.ImageUrl = ImageUrl;
+            this.ScreenName = screenName;
+            this.CreatedAt = createdAt;
+            this.StatusId = statusId;
             _IsFav = IsFav;
-            _text = text;
-            _IsRead = IsRead;
-            _IsReply = IsReply;
-            _IsExcludeReply = IsExcludeReply;
+            this.Text = text;
+            this.IsRead = IsRead;
+            this.IsReply = IsReply;
+            this.IsExcludeReply = IsExcludeReply;
             _IsProtect = IsProtect;
-            _IsOWL = IsOwl;
+            this.IsOwl = IsOwl;
             _IsMark = IsMark;
-            _InReplyToUser = InReplyToUser;
+            this.InReplyToUser = InReplyToUser;
             _InReplyToStatusId = InReplyToStatusId;
-            _Source = Source;
-            _SourceHtml = SourceHtml;
-            _ReplyToList = ReplyToList;
-            _IsMe = IsMe;
-            _IsDm = IsDm;
-            _UserId = userId;
-            _FilterHit = FilterHit;
-            _RetweetedBy = RetweetedBy;
-            _RetweetedId = RetweetedId;
+            this.Source = Source;
+            this.SourceHtml = SourceHtml;
+            this.ReplyToList = ReplyToList;
+            this.IsMe = IsMe;
+            this.IsDm = IsDm;
+            this.UserId = userId;
+            this.FilterHit = FilterHit;
+            this.RetweetedBy = RetweetedBy;
+            this.RetweetedId = RetweetedId;
             _postGeo = Geo;
         }
 
@@ -160,81 +163,17 @@ namespace OpenTween
             RetweetedCount = 0;
             RetweetedByUserId = 0;
             Media = new Dictionary<string, string>();
+            ReplyToList = new List<string>();
         }
 
-        public string Nickname
-        {
-            get
-            {
-                return _Nick;
-            }
-            set
-            {
-                _Nick = value;
-            }
-        }
-        public string TextFromApi
-        {
-            get
-            {
-                return _textFromApi;
-            }
-            set
-            {
-                _textFromApi = value;
-            }
-        }
         public string TextSingleLine
         {
             get
             {
-                return this._textFromApi == null ? null : this._textFromApi.Replace("\n", " ");
+                return this.TextFromApi == null ? null : this.TextFromApi.Replace("\n", " ");
             }
         }
-        public string ImageUrl
-        {
-            get
-            {
-                return _ImageUrl;
-            }
-            set
-            {
-                _ImageUrl = value;
-            }
-        }
-        public string ScreenName
-        {
-            get
-            {
-                return _screenName;
-            }
-            set
-            {
-                _screenName = value;
-            }
-        }
-        public DateTime CreatedAt
-        {
-            get
-            {
-                return _createdAt;
-            }
-            set
-            {
-                _createdAt = value;
-            }
-        }
-        public long StatusId
-        {
-            get
-            {
-                return _statusId;
-            }
-            set
-            {
-                _statusId = value;
-            }
-        }
+
         public bool IsFav
         {
             get
@@ -257,50 +196,7 @@ namespace OpenTween
                 }
             }
         }
-        public string Text
-        {
-            get
-            {
-                return _text;
-            }
-            set
-            {
-                _text = value;
-            }
-        }
-        public bool IsRead
-        {
-            get
-            {
-                return _IsRead;
-            }
-            set
-            {
-                _IsRead = value;
-            }
-        }
-        public bool IsReply
-        {
-            get
-            {
-                return _IsReply;
-            }
-            set
-            {
-                _IsReply = value;
-            }
-        }
-        public bool IsExcludeReply
-        {
-            get
-            {
-                return _IsExcludeReply;
-            }
-            set
-            {
-                _IsExcludeReply = value;
-            }
-        }
+
         public bool IsProtect
         {
             get
@@ -320,17 +216,6 @@ namespace OpenTween
                 _IsProtect = value;
             }
         }
-        public bool IsOwl
-        {
-            get
-            {
-                return _IsOWL;
-            }
-            set
-            {
-                _IsOWL = value;
-            }
-        }
         public bool IsMark
         {
             get
@@ -348,17 +233,6 @@ namespace OpenTween
                     _states = _states & ~States.Mark;
                 }
                 _IsMark = value;
-            }
-        }
-        public string InReplyToUser
-        {
-            get
-            {
-                return _InReplyToUser;
-            }
-            set
-            {
-                _InReplyToUser = value;
             }
         }
         public long InReplyToStatusId
@@ -381,134 +255,6 @@ namespace OpenTween
             }
         }
 
-        public long InReplyToUserId
-        {
-            get
-            {
-                return _InReplyToUserId;
-            }
-            set
-            {
-                _InReplyToUserId = value;
-            }
-        }
-        public string Source
-        {
-            get
-            {
-                return _Source;
-            }
-            set
-            {
-                _Source = value;
-            }
-        }
-        public string SourceHtml
-        {
-            get
-            {
-                return _SourceHtml;
-            }
-            set
-            {
-                _SourceHtml = value;
-            }
-        }
-        public List<string> ReplyToList
-        {
-            get
-            {
-                return _ReplyToList;
-            }
-            set
-            {
-                _ReplyToList = value;
-            }
-        }
-        public bool IsMe
-        {
-            get
-            {
-                return _IsMe;
-            }
-            set
-            {
-                _IsMe = value;
-            }
-        }
-        public bool IsDm
-        {
-            get
-            {
-                return _IsDm;
-            }
-            set
-            {
-                _IsDm = value;
-            }
-        }
-        //public readonly int StatusIndex
-        //{
-        //    get
-        //    {
-        //        return _statuses;
-        //    }
-        //}
-        public long UserId
-        {
-            get
-            {
-                return _UserId;
-            }
-            set
-            {
-                _UserId = value;
-            }
-        }
-        public bool FilterHit
-        {
-            get
-            {
-                return _FilterHit;
-            }
-            set
-            {
-                _FilterHit = value;
-            }
-        }
-        public string RetweetedBy
-        {
-            get
-            {
-                return _RetweetedBy;
-            }
-            set
-            {
-                _RetweetedBy = value;
-            }
-        }
-        public long RetweetedId
-        {
-            get
-            {
-                return _RetweetedId;
-            }
-            set
-            {
-                _RetweetedId = value;
-            }
-        }
-        public string RelTabName
-        {
-            get
-            {
-                return _SearchTabName;
-            }
-            set
-            {
-                _SearchTabName = value;
-            }
-        }
         public bool IsDeleted
         {
             get
@@ -529,8 +275,6 @@ namespace OpenTween
                 _IsDeleted = value;
             }
         }
-
-        public int FavoritedCount { get; set; }
 
         public StatusGeo PostGeo
         {
@@ -565,11 +309,15 @@ namespace OpenTween
             return TabInformations.GetInstance().RetweetSource(statusId);
         }
 
+        [Obsolete("Use PostClass.Clone() instead.")]
         public PostClass Copy()
         {
-            var post = (PostClass)((ICloneable)this).Clone();
-            post.ReplyToList = new List<string>(this.ReplyToList);
-            return post;
+            return this.Clone();
+        }
+
+        public PostClass Clone()
+        {
+            return (PostClass)((ICloneable)this).Clone();
         }
 
         public override bool Equals(object obj)
