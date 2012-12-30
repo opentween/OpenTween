@@ -74,18 +74,24 @@ namespace OpenTween
             }
         }
 
-        private static Dictionary<long, PostClass> TestCases = new Dictionary<long, PostClass>
+        private static Dictionary<long, PostClass> TestCases;
+
+        [SetUp]
+        public void SetUpTestCases()
         {
-            {1L, new TestPostClass(statusId: 1L)},
-            {2L, new TestPostClass(statusId: 2L, IsFav: true)},
-            {3L, new TestPostClass(statusId: 3L, IsFav: false, RetweetedId: 2L)},
-        };
+            PostClassTest.TestCases = new Dictionary<long, PostClass>
+            {
+                {1L, new TestPostClass(statusId: 1L)},
+                {2L, new TestPostClass(statusId: 2L, IsFav: true)},
+                {3L, new TestPostClass(statusId: 3L, IsFav: false, RetweetedId: 2L)},
+            };
+        }
 
         [Test]
         public void CloneTest()
         {
             var post = new PostClass();
-            var clonePost = ((ICloneable)post).Clone() as PostClass;
+            var clonePost = post.Clone();
 
             TestUtils.CheckDeepCloning(post, clonePost);
         }
@@ -103,9 +109,23 @@ namespace OpenTween
         [TestCase(1L, Result = false)]
         [TestCase(2L, Result = true)]
         [TestCase(3L, Result = true)]
-        public bool IsFavTest(long statusId)
+        public bool GetIsFavTest(long statusId)
         {
             return PostClassTest.TestCases[statusId].IsFav;
+        }
+
+        [Test, Combinatorial]
+        public void SetIsFavTest(
+            [Values(2L, 3L)] long statusId,
+            [Values(true, false)] bool isFav)
+        {
+            var post = PostClassTest.TestCases[statusId];
+
+            post.IsFav = isFav;
+            Assert.That(post.IsFav, Is.EqualTo(isFav));
+
+            if (post.RetweetedId != 0)
+                Assert.That(PostClassTest.TestCases[post.RetweetedId].IsFav, Is.EqualTo(isFav));
         }
 
         [Test, Combinatorial]
