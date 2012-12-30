@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using System.Reflection;
+using System.Windows.Forms;
 
 namespace OpenTween
 {
@@ -25,6 +26,19 @@ namespace OpenTween
 
                 Assert.That(cloneValue, Is.Not.SameAs(objValue), field.Name);
             }
+        }
+
+        public static void FireEvent<T>(T control, string eventName) where T : Control
+        {
+            TestUtils.FireEvent(control, eventName, EventArgs.Empty);
+        }
+
+        public static void FireEvent<T>(T control, string eventName, EventArgs e) where T : Control
+        {
+            var methodName = "On" + eventName;
+            var method = typeof(T).GetMethod(methodName, BindingFlags.Instance | BindingFlags.NonPublic);
+
+            method.Invoke(control, new[] { e });
         }
     }
 }

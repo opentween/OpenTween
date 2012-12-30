@@ -61,6 +61,10 @@ namespace OpenTween
                 dialog.TabList.SelectedIndex = 0;
 
                 Assert.That(dialog.OK_Button.Enabled, Is.True);
+
+                dialog.TabList.SelectedIndex = -1;
+
+                Assert.That(dialog.OK_Button.Enabled, Is.False);
             }
         }
 
@@ -83,6 +87,25 @@ namespace OpenTween
                 firstItem = dialog.TabList.Items[0] as TabsDialog.TabListItem;
                 Assert.That(firstItem.Tab, Is.Null);
                 Assert.That(dialog.TabList.SelectionMode, Is.EqualTo(SelectionMode.One));
+            }
+        }
+
+        [Test]
+        public void DoubleClickTest()
+        {
+            using (var dialog = new TabsDialog(this.tabinfo))
+            {
+                dialog.TabList.SelectedIndex = -1;
+                TestUtils.FireEvent(dialog.TabList, "DoubleClick");
+
+                Assert.That(dialog.DialogResult, Is.EqualTo(DialogResult.None));
+                Assert.That(dialog.IsDisposed, Is.False);
+
+                dialog.TabList.SelectedIndex = 1;
+                TestUtils.FireEvent(dialog.TabList, "DoubleClick");
+
+                Assert.That(dialog.DialogResult, Is.EqualTo(DialogResult.OK));
+                Assert.That(dialog.IsDisposed, Is.True);
             }
         }
 
