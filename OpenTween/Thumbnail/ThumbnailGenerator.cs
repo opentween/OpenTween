@@ -30,11 +30,16 @@ namespace OpenTween.Thumbnail
 {
     class ThumbnailGenerator
     {
-        private static List<IThumbnailService> generator = new List<IThumbnailService>();
+        public static List<IThumbnailService> Services { get; protected set; }
+
+        static ThumbnailGenerator()
+        {
+            ThumbnailGenerator.Services = new List<IThumbnailService>();
+        }
 
         public static void InitializeGenerator()
         {
-            ThumbnailGenerator.generator = new List<IThumbnailService>()
+            ThumbnailGenerator.Services = new List<IThumbnailService>()
             {
                 // DirectLink
                 new SimpleThumbnailService(@"^https?://.*(\.jpg|\.jpeg|\.gif|\.png|\.bmp)$", "${0}"),
@@ -181,7 +186,7 @@ namespace OpenTween.Thumbnail
 
         public static ThumbnailInfo GetThumbnailInfo(string url, PostClass post)
         {
-            foreach (var generator in ThumbnailGenerator.generator)
+            foreach (var generator in ThumbnailGenerator.Services)
             {
                 var result = generator.GetThumbnailInfo(url, post);
                 if (result != null)
