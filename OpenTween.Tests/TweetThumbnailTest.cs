@@ -238,5 +238,50 @@ namespace OpenTween
                 Assert.That(eventCalled, Is.True);
             }
         }
+
+        [Test]
+        public void ScrollTest()
+        {
+            var post = new PostClass
+            {
+                TextFromApi = "てすと http://foo.example.com/abcd http://foo.example.com/efgh",
+                Media = new Dictionary<string, string>
+                {
+                    {"http://foo.example.com/abcd", "http://foo.example.com/abcd"},
+                    {"http://foo.example.com/efgh", "http://foo.example.com/efgh"},
+                },
+            };
+
+            using (var thumbbox = new TweetThumbnail())
+            {
+                SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
+                thumbbox.ShowThumbnailAsync(post).Wait();
+
+                Assert.That(thumbbox.scrollBar.Minimum, Is.EqualTo(0));
+                Assert.That(thumbbox.scrollBar.Maximum, Is.EqualTo(1));
+
+                thumbbox.scrollBar.Value = 0;
+
+                thumbbox.ScrollUp();
+                Assert.That(thumbbox.scrollBar.Value, Is.EqualTo(1));
+                Assert.That(thumbbox.pictureBox[0].Visible, Is.False);
+                Assert.That(thumbbox.pictureBox[1].Visible, Is.True);
+
+                thumbbox.ScrollUp();
+                Assert.That(thumbbox.scrollBar.Value, Is.EqualTo(1));
+                Assert.That(thumbbox.pictureBox[0].Visible, Is.False);
+                Assert.That(thumbbox.pictureBox[1].Visible, Is.True);
+
+                thumbbox.ScrollDown();
+                Assert.That(thumbbox.scrollBar.Value, Is.EqualTo(0));
+                Assert.That(thumbbox.pictureBox[0].Visible, Is.True);
+                Assert.That(thumbbox.pictureBox[1].Visible, Is.False);
+
+                thumbbox.ScrollDown();
+                Assert.That(thumbbox.scrollBar.Value, Is.EqualTo(0));
+                Assert.That(thumbbox.pictureBox[0].Visible, Is.True);
+                Assert.That(thumbbox.pictureBox[1].Visible, Is.False);
+            }
+        }
     }
 }

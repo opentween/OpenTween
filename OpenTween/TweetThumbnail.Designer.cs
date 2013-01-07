@@ -42,7 +42,7 @@
             this.scrollBar.Name = "scrollBar";
             this.scrollBar.Size = new System.Drawing.Size(17, 188);
             this.scrollBar.TabIndex = 0;
-            this.scrollBar.Scroll += new System.Windows.Forms.ScrollEventHandler(this.scrollBar_Scroll);
+            this.scrollBar.ValueChanged += new System.EventHandler(this.scrollBar_ValueChanged);
             // 
             // TweetThumbnail
             // 

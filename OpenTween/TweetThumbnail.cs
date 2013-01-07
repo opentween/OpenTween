@@ -188,12 +188,17 @@ namespace OpenTween
             this.scrollBar.Value = newval;
         }
 
-        private void scrollBar_Scroll(object sender, ScrollEventArgs e)
+        private void scrollBar_ValueChanged(object sender, EventArgs e)
         {
-            if (e.NewValue == e.OldValue) return;
+            for (var i = 0; i < this.pictureBox.Count; i++)
+            {
+                var picbox = this.pictureBox[i];
 
-            this.pictureBox[e.NewValue].Visible = true;
-            this.pictureBox[e.OldValue].Visible = false;
+                if (this.scrollBar.Value == i)
+                    picbox.Visible = true;
+                else
+                    picbox.Visible = false;
+            }
         }
 
         private void pictureBox_DoubleClick(object sender, EventArgs e)
