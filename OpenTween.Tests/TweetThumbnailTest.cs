@@ -84,7 +84,6 @@ namespace OpenTween
                 Assert.That(picbox.SizeMode, Is.EqualTo(PictureBoxSizeMode.Zoom));
                 Assert.That(picbox.WaitOnLoad, Is.False);
                 Assert.That(picbox.Dock, Is.EqualTo(DockStyle.Fill));
-                Assert.That(picbox.Visible, Is.False);
 
                 picbox.Dispose();
             }
@@ -123,6 +122,8 @@ namespace OpenTween
                     Assert.That(picbox.Name, Is.EqualTo("pictureBox" + num));
                     num++;
                 }
+
+                Assert.That(thumbbox.Controls, Is.EquivalentTo(new Control[]{ thumbbox.scrollBar }.Concat(thumbbox.pictureBox)));
 
                 Assert.That(thumbbox.scrollBar.Minimum, Is.EqualTo(0));
                 Assert.That(thumbbox.scrollBar.Maximum, Is.EqualTo(count));
