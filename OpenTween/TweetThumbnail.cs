@@ -36,7 +36,7 @@ namespace OpenTween
 {
     public partial class TweetThumbnail : UserControl
     {
-        protected internal List<PictureBox> pictureBox = new List<PictureBox>();
+        protected internal List<OTPictureBox> pictureBox = new List<OTPictureBox>();
 
         private Task task = null;
         private CancellationTokenSource cancelTokenSource;
@@ -156,9 +156,9 @@ namespace OpenTween
             this.ResumeLayout(false);
         }
 
-        protected virtual PictureBox CreatePictureBox(string name)
+        protected virtual OTPictureBox CreatePictureBox(string name)
         {
-            return new PictureBox()
+            return new OTPictureBox()
             {
                 Name = name,
                 SizeMode = PictureBoxSizeMode.Zoom,

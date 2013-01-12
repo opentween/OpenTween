@@ -24,6 +24,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Net;
+using System.Threading.Tasks;
+using System.Threading;
+using System.ComponentModel;
 
 namespace OpenTween
 {
@@ -50,6 +53,54 @@ namespace OpenTween
             }
 
             return req;
+        }
+
+        public new Task<byte[]> DownloadDataAsync(Uri address)
+        {
+            return this.DownloadDataAsync(address, CancellationToken.None);
+        }
+
+        public Task<byte[]> DownloadDataAsync(Uri address, CancellationToken token)
+        {
+            var tcs = new TaskCompletionSource<byte[]>();
+
+            token.Register(() =>
+            {
+                this.CancelAsync();
+            });
+
+            DownloadDataCompletedEventHandler onCompleted = null;
+
+            onCompleted = (s, e) =>
+            {
+                this.DownloadDataCompleted -= onCompleted;
+
+                if (e.Cancelled)
+                {
+                    tcs.TrySetCanceled();
+                    return;
+                }
+                if (e.Error != null)
+                {
+                    tcs.TrySetException(e.Error);
+                    return;
+                }
+
+                tcs.SetResult(e.Result);
+            };
+
+            this.DownloadDataCompleted += onCompleted;
+            base.DownloadDataAsync(address);
+
+            return tcs.Task;
+        }
+
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public new event DownloadDataCompletedEventHandler DownloadDataCompleted
+        {
+            add { base.DownloadDataCompleted += value; }
+            remove { base.DownloadDataCompleted -= value; }
         }
     }
 }

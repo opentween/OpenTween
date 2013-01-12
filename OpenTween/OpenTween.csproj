@@ -127,6 +127,9 @@
     <Compile Include="DetailsListView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="OTPictureBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="OTWebClient.cs">
       <SubType>Component</SubType>
     </Compile>
