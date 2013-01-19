@@ -33,7 +33,11 @@ namespace OpenTween.Thumbnail.Services
 {
     class ImgAzyobuziNet : IThumbnailService, IDisposable
     {
-        protected string[] ApiHosts = { "http://img.azyobuzi.net/api/", "http://img.opentween.org/api/" };
+        protected string[] ApiHosts = {
+            "https://ss1.coressl.jp/img.azyobuzi.net/api/",
+            "http://img.azyobuzi.net/api/",
+            "http://img.opentween.org/api/",
+        };
 
         protected string ApiBase;
         protected IEnumerable<Regex> UrlRegex = new Regex[] {};
