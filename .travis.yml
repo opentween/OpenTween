@@ -16,4 +16,4 @@ script:
 # Run Tests
 after_script:
   - if ! grep -q 'Version 11.00' OpenTween.sln; then echo 'OpenTween.sln is not compatible with Visual C# 2010 Express.'; false; fi
-  - nunit-console -timeout=10 ./OpenTween.Tests/OpenTween.Tests.nunit
+  - nunit-console -timeout=10000 ./OpenTween.Tests/OpenTween.Tests.nunit
