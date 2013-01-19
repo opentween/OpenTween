@@ -22,25 +22,22 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Net;
 using System.Runtime.Serialization.Json;
 using System.Xml;
 using System.Xml.Linq;
-using System.Xml.XPath;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Threading;
-using System.Windows.Forms;
 
 namespace OpenTween.Thumbnail.Services
 {
-    class ImgAzyobuziNet : IThumbnailService
+    class ImgAzyobuziNet : IThumbnailService, IDisposable
     {
         protected string[] ApiHosts = { "http://img.azyobuzi.net/api/", "http://img.opentween.org/api/" };
 
         protected string ApiBase;
         protected IEnumerable<Regex> UrlRegex = new Regex[] {};
+        protected Timer UpdateTimer;
 
         private object LockObj = new object();
 
@@ -48,20 +45,33 @@ namespace OpenTween.Thumbnail.Services
         {
             this.LoadRegex();
 
-            if (autoupdate)
-                this.StartAutoUpdate();
+            this.UpdateTimer = new Timer(_ => this.LoadRegex());
+            this.AutoUpdate = autoupdate;
         }
 
-        public void StartAutoUpdate()
+        public bool AutoUpdate
         {
-            Task.Factory.StartNew(() =>
+            get { return this._AutoUpdate; }
+            set
             {
-                for (;;)
-                {
-                    Thread.Sleep(30 * 60 * 1000); // 30分おきに更新
-                    this.LoadRegex();
-                }
-            }, TaskCreationOptions.LongRunning);
+                if (value)
+                    this.StartAutoUpdate();
+                else
+                    this.StopAutoUpdate();
+
+                this._AutoUpdate = value;
+            }
+        }
+        private bool _AutoUpdate = false;
+
+        protected void StartAutoUpdate()
+        {
+            this.UpdateTimer.Change(0, 30 * 60 * 1000); ; // 30分おきに更新
+        }
+
+        protected void StopAutoUpdate()
+        {
+            this.UpdateTimer.Change(Timeout.Infinite, Timeout.Infinite);
         }
 
         public void LoadRegex()
@@ -134,6 +144,11 @@ namespace OpenTween.Thumbnail.Services
             }
 
             return null;
+        }
+
+        public virtual void Dispose()
+        {
+            this.UpdateTimer.Dispose();
         }
     }
 }
