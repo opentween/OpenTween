@@ -34,15 +34,15 @@ namespace OpenTween.Thumbnail.Services
         class TestImgAzyobuziNet : ImgAzyobuziNet
         {
             public TestImgAzyobuziNet()
-                : base()
+                : this(new[] { "http://img.azyobuzi.net/api/" })
             {
-                this.ApiHosts = new[] { "http://img.azyobuzi.net/api/" };
             }
 
             public TestImgAzyobuziNet(string[] apiHosts)
                 : base()
             {
                 this.ApiHosts = apiHosts;
+                this.LoadRegex();
             }
 
             public string GetApiBase()
@@ -76,7 +76,7 @@ namespace OpenTween.Thumbnail.Services
 
             Assert.That(thumbinfo, Is.Not.Null);
             Assert.That(thumbinfo.ImageUrl, Is.EqualTo("http://example.com/abcd"));
-            Assert.That(thumbinfo.ThumbnailUrl, Is.EqualTo("http://img.azyobuzi.net/api/redirect?uri=http%3A%2F%2Fexample.com%2Fabcd"));
+            Assert.That(thumbinfo.ThumbnailUrl, Is.EqualTo("http://img.azyobuzi.net/api/redirect?size=large&uri=http%3A%2F%2Fexample.com%2Fabcd"));
             Assert.That(thumbinfo.TooltipText, Is.Null);
         }
 
