@@ -140,7 +140,7 @@ namespace OpenTween.Thumbnail.Services
                         return new ThumbnailInfo()
                         {
                             ImageUrl = url,
-                            ThumbnailUrl = this.ApiBase + "redirect?uri=" + Uri.EscapeDataString(url),
+                            ThumbnailUrl = this.ApiBase + "redirect?size=large&uri=" + Uri.EscapeDataString(url),
                             TooltipText = null,
                         };
                     }
