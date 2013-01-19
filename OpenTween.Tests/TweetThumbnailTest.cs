@@ -71,6 +71,12 @@ namespace OpenTween
             });
         }
 
+        [TestFixtureSetUp]
+        public void MyCommonSetup()
+        {
+            MyCommon.fileVersion = "1.0.0.0";
+        }
+
         [Test]
         public void CreatePictureBoxTest()
         {
