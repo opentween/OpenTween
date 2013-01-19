@@ -1,6 +1,6 @@
 ﻿更新履歴
 
-==== Ver 1.0.7-beta1(2012/xx/xx)
+==== Ver 1.0.7(2013/01/19)
  * NEW: img.azyobuzi.net を使用したサムネイル表示に対応
  * CHG: 検索APIをATOMからJSONに移行 (thx @re4k, @5px!)
  * CHG: サムネイル表示を大幅に書き直し
