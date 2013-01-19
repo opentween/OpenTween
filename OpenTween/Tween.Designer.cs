@@ -2416,7 +2416,7 @@
             // 
             this.AllowDrop = true;
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.Controls.Add(this.ToolStripContainer1);
             this.Name = "TweenMain";
             this.Activated += new System.EventHandler(this.TweenMain_Activated);
