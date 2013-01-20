@@ -2487,7 +2487,7 @@ namespace OpenTween
                     tab.RelationTargetPost = p;
                 }
             }
-            relPosts.Add(tab.RelationTargetPost.Copy());
+            relPosts.Add(tab.RelationTargetPost.Clone());
             var tmpPost = relPosts[0];
             do
             {
@@ -2563,7 +2563,7 @@ namespace OpenTween
             }
             else
             {
-                targetItem = targetItem.Copy();
+                targetItem = targetItem.Clone();
             }
             targetItem.RelTabName = tab.TabName;
             TabInformations.GetInstance().AddPost(targetItem);
@@ -2572,7 +2572,7 @@ namespace OpenTween
             var replyToUserName = targetItem.InReplyToUser;
             if (targetItem.InReplyToStatusId > 0 && TabInformations.GetInstance()[targetItem.InReplyToStatusId] != null)
             {
-                replyToItem = TabInformations.GetInstance()[targetItem.InReplyToStatusId].Copy();
+                replyToItem = TabInformations.GetInstance()[targetItem.InReplyToStatusId].Clone();
                 replyToItem.IsRead = read;
                 if (replyToItem.IsMe && !read && _readOwnPost) replyToItem.IsRead = true;
                 replyToItem.RelTabName = tab.TabName;
@@ -2639,7 +2639,7 @@ namespace OpenTween
                     }
                     else
                     {
-                        p = _post.Copy();
+                        p = _post.Clone();
                     }
                     if (p != null)
                     {
