@@ -4028,6 +4028,8 @@ namespace OpenTween
         //Source整形
         private void CreateSource(ref PostClass post)
         {
+            if (string.IsNullOrEmpty(post.Source)) return;
+
             if (post.Source.StartsWith("<"))
             {
                 if (!post.Source.Contains("</a>"))
