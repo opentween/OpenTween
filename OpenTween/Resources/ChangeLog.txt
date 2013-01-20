@@ -1,6 +1,7 @@
 ﻿更新履歴
 
 ==== Ver 1.0.8-beta1(2013/xx/xx)
+ * FIX: http://m.tbs.jp/tv/ で始まるURLを含むツイートを開くと発生するエラーの対策 (thx @WhiteWeathercoc!)
 
 ==== Ver 1.0.7(2013/01/19)
  * NEW: img.azyobuzi.net を使用したサムネイル表示に対応

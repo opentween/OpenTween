@@ -555,13 +555,9 @@ namespace OpenTween
                 statusCode == HttpStatusCode.SeeOther ||
                 statusCode == HttpStatusCode.TemporaryRedirect)
             {
-                if (headerInfo.ContainsKey("Location"))
+                if (webResponse.Headers["Location"] != null)
                 {
                     headerInfo["Location"] = webResponse.Headers["Location"];
-                }
-                else
-                {
-                    headerInfo.Add("Location", webResponse.Headers["Location"]);
                 }
             }
         }
