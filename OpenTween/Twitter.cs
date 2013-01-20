@@ -2170,7 +2170,7 @@ namespace OpenTween
             post.TextFromApi = post.TextFromApi.Replace("<3", "\u2661");
 
             //Source整形
-            CreateSource(ref post);
+            CreateSource(post);
 
             post.IsReply = post.ReplyToList.Contains(_uname);
             post.IsExcludeReply = false;
@@ -2325,7 +2325,7 @@ namespace OpenTween
             post.TextFromApi = post.TextFromApi.Replace("<3", "\u2661");
 
             //Source整形
-            this.CreateSource(ref post);
+            this.CreateSource(post);
 
             post.IsReply = post.ReplyToList.Contains(this._uname);
             post.IsExcludeReply = false;
@@ -3117,7 +3117,7 @@ namespace OpenTween
                     post.TextFromApi = HttpUtility.HtmlDecode(post.TextFromApi);
                     post.TextFromApi = post.TextFromApi.Replace("<3", "\u2661");
                     //Source整形
-                    CreateSource(ref post);
+                    CreateSource(post);
 
                     post.IsRead = read;
                     post.IsReply = post.ReplyToList.Contains(_uname);
@@ -4026,7 +4026,7 @@ namespace OpenTween
         }
 
         //Source整形
-        private void CreateSource(ref PostClass post)
+        private void CreateSource(PostClass post)
         {
             if (string.IsNullOrEmpty(post.Source)) return;
 
