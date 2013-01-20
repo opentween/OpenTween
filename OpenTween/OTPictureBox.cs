@@ -36,6 +36,21 @@ namespace OpenTween
     public class OTPictureBox : PictureBox
     {
         [Localizable(true)]
+        public new Image Image
+        {
+            get { return base.Image; }
+            set
+            {
+                if (base.Image != null && this.imageFromLoadMethod)
+                {
+                    this.DisposeImageFromStream();
+                    this.imageFromLoadMethod = false;
+                }
+                base.Image = value;
+            }
+        }
+
+        [Localizable(true)]
         public new string ImageLocation
         {
             get { return this._ImageLocation; }
@@ -50,6 +65,9 @@ namespace OpenTween
             }
         }
         private string _ImageLocation;
+
+        private bool imageFromLoadMethod = false;
+        private Stream imageStream = null;
 
         private Task loadAsyncTask = null;
         private CancellationTokenSource loadAsyncCancelTokenSource = null;
@@ -94,21 +112,27 @@ namespace OpenTween
                 if (t.IsFaulted) throw t.Exception;
 
                 var bytes = t.Result;
-                using (var stream = new MemoryStream(bytes))
-                {
-                    stream.Write(bytes, 0, bytes.Length);
 
-                    return Image.FromStream(stream, true, true);
-                }
+                // InitialImageの表示時に DisposeImageFromStream() が呼ばれるためここでは不要
+
+                this.imageStream = new MemoryStream(bytes);
+                this.imageStream.Write(bytes, 0, bytes.Length);
+
+                return Image.FromStream(this.imageStream, true, true);
             }, cancelToken)
             .ContinueWith(t =>
             {
                 if (!t.IsCanceled)
                 {
                     if (t.IsFaulted)
+                    {
                         this.Image = this.expandedErrorImage;
+                    }
                     else
+                    {
                         this.Image = t.Result;
+                        this.imageFromLoadMethod = true;
+                    }
                 }
 
                 var exp = t.Exception != null ? t.Exception.Flatten() : null;
@@ -139,6 +163,18 @@ namespace OpenTween
                     return false;
                 });
             }
+        }
+
+        /// <summary>
+        /// LoadAsync メソッドで取得した画像の破棄
+        /// </summary>
+        protected void DisposeImageFromStream()
+        {
+            if (this.Image != null)
+                this.Image.Dispose();
+
+            if (this.imageStream != null)
+                this.imageStream.Dispose();
         }
 
         public new Image ErrorImage
@@ -223,6 +259,9 @@ namespace OpenTween
 
             if (this.expandedInitialImage != null)
                 this.expandedInitialImage.Dispose();
+
+            if (this.imageFromLoadMethod)
+                this.DisposeImageFromStream();
         }
     }
 }

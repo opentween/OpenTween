@@ -4,6 +4,7 @@
  * FIX: http://m.tbs.jp/tv/ で始まるURLを含むツイートを開くと発生するエラーの対策 (thx @WhiteWeathercoc!)
  * FIX: ディスプレイ設定が96dpiの環境で発言詳細欄のアイコンが正方形に表示されない不具合の修正 (thx @5px!)
  * FIX: PublicSearch利用時に発生することのあるエラーの対策
+ * FIX: アニメーションGifを使用した画像をサムネイル表示すると表示が壊れる問題の修正 (thx @hama_kai!)
 
 ==== Ver 1.0.7(2013/01/19)
  * NEW: img.azyobuzi.net を使用したサムネイル表示に対応
