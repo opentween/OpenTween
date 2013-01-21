@@ -47,8 +47,6 @@ namespace OpenTween.Thumbnail.Services
 
         public ImgAzyobuziNet(bool autoupdate = false)
         {
-            this.LoadRegex();
-
             this.UpdateTimer = new Timer(_ => this.LoadRegex());
             this.AutoUpdate = autoupdate;
         }

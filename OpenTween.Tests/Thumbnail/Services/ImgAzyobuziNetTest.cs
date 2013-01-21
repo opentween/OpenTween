@@ -39,7 +39,7 @@ namespace OpenTween.Thumbnail.Services
             }
 
             public TestImgAzyobuziNet(string[] apiHosts)
-                : base()
+                : base(autoupdate: false)
             {
                 this.ApiHosts = apiHosts;
                 this.LoadRegex();
