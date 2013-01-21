@@ -40,7 +40,7 @@ namespace OpenTween.Thumbnail.Services
         };
 
         protected string ApiBase;
-        protected IEnumerable<Regex> UrlRegex = new Regex[] {};
+        protected IEnumerable<Regex> UrlRegex = null;
         protected Timer UpdateTimer;
 
         private object LockObj = new object();
@@ -92,6 +92,13 @@ namespace OpenTween.Thumbnail.Services
 #endif
                 }
             }
+
+            // どのサーバーも使用できない場合
+            lock (this.LockObj)
+            {
+                this.UrlRegex = null;
+                this.ApiBase = null;
+            }
         }
 
         public bool LoadRegex(string apiBase)
@@ -101,6 +108,9 @@ namespace OpenTween.Thumbnail.Services
                 using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(this.FetchRegex(apiBase), XmlDictionaryReaderQuotas.Max))
                 {
                     var xElm = XElement.Load(jsonReader);
+
+                    if (xElm.Element("error") != null)
+                        return false;
 
                     lock (this.LockObj)
                     {
@@ -114,7 +124,8 @@ namespace OpenTween.Thumbnail.Services
 
                 return true;
             }
-            catch (WebException) { }
+            catch (WebException) { } // サーバーが2xx以外のステータスコードを返した場合
+            catch (XmlException) { } // サーバーが不正なJSONを返した場合
 
             return false;
         }
@@ -131,6 +142,9 @@ namespace OpenTween.Thumbnail.Services
         {
             lock (this.LockObj)
             {
+                if (this.UrlRegex == null)
+                    return null;
+
                 foreach (var regex in this.UrlRegex)
                 {
                     if (regex.IsMatch(url))

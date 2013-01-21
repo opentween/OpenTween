@@ -55,6 +55,12 @@ namespace OpenTween.Thumbnail.Services
                 if (apiBase == "http://down.example.com/api/")
                     throw new WebException();
 
+                if (apiBase == "http://error.example.com/api/")
+                    return Encoding.UTF8.GetBytes("{\"error\": {\"code\": 5001}}");
+
+                if (apiBase == "http://invalid.example.com/api/")
+                    return Encoding.UTF8.GetBytes("<<<INVALID JSON>>>");
+
                 return Encoding.UTF8.GetBytes("[{\"name\": \"hogehoge\", \"regex\": \"^https?://example.com/(.+)$\"}]");
             }
         }
@@ -62,10 +68,37 @@ namespace OpenTween.Thumbnail.Services
         [Test]
         public void HostFallbackTest()
         {
-            var service = new TestImgAzyobuziNet(new[] { "http://down.example.com/api/", "http://avail.example.com/api/" });
+            var service = new TestImgAzyobuziNet(new[] { "http://avail1.example.com/api/", "http://avail2.example.com/api/" });
+            service.LoadRegex();
+            Assert.That(service.GetApiBase(), Is.EqualTo("http://avail1.example.com/api/"));
 
+            service = new TestImgAzyobuziNet(new[] { "http://down.example.com/api/", "http://avail.example.com/api/" });
             service.LoadRegex();
             Assert.That(service.GetApiBase(), Is.EqualTo("http://avail.example.com/api/"));
+
+            service = new TestImgAzyobuziNet(new[] { "http://error.example.com/api/", "http://avail.example.com/api/" });
+            service.LoadRegex();
+            Assert.That(service.GetApiBase(), Is.EqualTo("http://avail.example.com/api/"));
+
+            service = new TestImgAzyobuziNet(new[] { "http://invalid.example.com/api/", "http://avail.example.com/api/" });
+            service.LoadRegex();
+            Assert.That(service.GetApiBase(), Is.EqualTo("http://avail.example.com/api/"));
+
+            service = new TestImgAzyobuziNet(new[] { "http://down.example.com/api/" });
+            service.LoadRegex();
+            Assert.That(service.GetApiBase(), Is.Null);
+        }
+
+        [Test]
+        public void ServerOutageTest()
+        {
+            var service = new TestImgAzyobuziNet(new[] { "http://down.example.com/api/" });
+
+            service.LoadRegex();
+            Assert.That(service.GetApiBase(), Is.Null);
+
+            var thumbinfo = service.GetThumbnailInfo("http://example.com/abcd", null);
+            Assert.That(thumbinfo, Is.Null);
         }
 
         [Test]
