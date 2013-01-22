@@ -143,7 +143,6 @@ namespace OpenTween
             FavAdd,                  //Fav追加
             FavRemove,               //Fav削除
             Follower,                //Followerリスト取得
-            OpenUri,                 //Uri開く
             Favorites,               //Fav取得
             Retweet,                 //Retweetする
             PublicSearch,            //公式検索

@@ -45,6 +45,7 @@ using System.Media;
 using System.Web;
 using System.Diagnostics;
 using OpenTween.Thumbnail;
+using System.Threading.Tasks;
 
 namespace OpenTween
 {
@@ -2445,7 +2446,8 @@ namespace OpenTween
                 return;
             }
 
-            if (args.type != MyCommon.WORKERTYPE.OpenUri) bw.ReportProgress(0, ""); //Notifyアイコンアニメーション開始
+            bw.ReportProgress(0, ""); //Notifyアイコンアニメーション開始
+
             switch (args.type)
             {
                 case MyCommon.WORKERTYPE.Timeline:
@@ -2601,40 +2603,6 @@ namespace OpenTween
                 case MyCommon.WORKERTYPE.Configuration:
                     ret = tw.ConfigurationApi();
                     break;
-                case MyCommon.WORKERTYPE.OpenUri:
-                    string myPath = Convert.ToString(args.url);
-
-                    try
-                    {
-                        if (!string.IsNullOrEmpty(SettingDialog.BrowserPath))
-                        {
-                            if (SettingDialog.BrowserPath.StartsWith("\"") && SettingDialog.BrowserPath.Length > 2 && SettingDialog.BrowserPath.IndexOf("\"", 2) > -1)
-                            {
-                                int sep = SettingDialog.BrowserPath.IndexOf("\"", 2);
-                                string browserPath = SettingDialog.BrowserPath.Substring(1, sep - 1);
-                                string arg = "";
-                                if (sep < SettingDialog.BrowserPath.Length - 1)
-                                {
-                                    arg = SettingDialog.BrowserPath.Substring(sep + 1);
-                                }
-                                myPath = arg + " " + myPath;
-                                System.Diagnostics.Process.Start(browserPath, myPath);
-                            }
-                            else
-                            {
-                                System.Diagnostics.Process.Start(SettingDialog.BrowserPath, myPath);
-                            }
-                        }
-                        else
-                        {
-                            System.Diagnostics.Process.Start(myPath);
-                        }
-                    }
-                    catch (Exception)
-                    {
-    //                  MessageBox.Show("ブラウザの起動に失敗、またはタイムアウトしました。" + ex.ToString());
-                    }
-                    break;
                 case MyCommon.WORKERTYPE.Favorites:
                     bw.ReportProgress(50, MakeStatusMessage(args, false));
                     ret = tw.GetFavoritesApi(read, args.type, args.page == -1);
@@ -2778,7 +2746,7 @@ namespace OpenTween
             }
 
             //終了ステータス
-            if (args.type != MyCommon.WORKERTYPE.OpenUri) bw.ReportProgress(100, MakeStatusMessage(args, true)); //ステータス書き換え、Notifyアイコンアニメーション開始
+            bw.ReportProgress(100, MakeStatusMessage(args, true)); //ステータス書き換え、Notifyアイコンアニメーション開始
 
             rslt.retMsg = ret;
             rslt.type = args.type;
@@ -2925,8 +2893,6 @@ namespace OpenTween
             }
 
             GetWorkerResult rslt = (GetWorkerResult)e.Result;
-
-            if (rslt.type == MyCommon.WORKERTYPE.OpenUri) return;
 
             //エラー
             if (rslt.retMsg.Length > 0)
@@ -10505,13 +10471,44 @@ namespace OpenTween
             return nw;
         }
 
-        public void OpenUriAsync(string UriString)
+        public Task OpenUriAsync(string UriString)
         {
-            GetWorkerArg args = new GetWorkerArg();
-            args.type = MyCommon.WORKERTYPE.OpenUri;
-            args.url = UriString;
+            return Task.Factory.StartNew(() =>
+            {
+                string myPath = UriString;
 
-            RunAsync(args);
+                try
+                {
+                    var configBrowserPath = SettingDialog.BrowserPath;
+                    if (!string.IsNullOrEmpty(configBrowserPath))
+                    {
+                        if (configBrowserPath.StartsWith("\"") && configBrowserPath.Length > 2 && configBrowserPath.IndexOf("\"", 2) > -1)
+                        {
+                            int sep = configBrowserPath.IndexOf("\"", 2);
+                            string browserPath = configBrowserPath.Substring(1, sep - 1);
+                            string arg = "";
+                            if (sep < configBrowserPath.Length - 1)
+                            {
+                                arg = configBrowserPath.Substring(sep + 1);
+                            }
+                            myPath = arg + " " + myPath;
+                            System.Diagnostics.Process.Start(browserPath, myPath);
+                        }
+                        else
+                        {
+                            System.Diagnostics.Process.Start(configBrowserPath, myPath);
+                        }
+                    }
+                    else
+                    {
+                        System.Diagnostics.Process.Start(myPath);
+                    }
+                }
+                catch (Exception)
+                {
+                    //MessageBox.Show("ブラウザの起動に失敗、またはタイムアウトしました。" + ex.ToString());
+                }
+            });
         }
 
         private void ListTabSelect(TabPage _tab)
