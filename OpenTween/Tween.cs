@@ -10996,7 +10996,7 @@ namespace OpenTween
             e.Result = tw.GetInfoApi(args.info);
         }
 
-        private void ApiInfoMenuItem_Click(object sender, EventArgs e)
+        private void ApiUsageInfoMenuItem_Click(object sender, EventArgs e)
         {
             ApiInfo info = new ApiInfo();
             StringBuilder tmp = new StringBuilder();
@@ -12144,7 +12144,7 @@ namespace OpenTween
             this._apiGauge.Control.Size = new Size(70, 22);
             this._apiGauge.Control.Margin = new Padding(0, 3, 0, 2);
             this._apiGauge.GaugeHeight = 8;
-            this._apiGauge.Control.DoubleClick += this.ApiInfoMenuItem_Click;
+            this._apiGauge.Control.DoubleClick += this.ApiUsageInfoMenuItem_Click;
             this.StatusStrip1.Items.Insert(2, this._apiGauge);
 
             this.ReplaceAppName();
@@ -13196,6 +13196,11 @@ namespace OpenTween
         private void OpenThumbnailPicture(ThumbnailInfo thumbnail)
         {
             this.OpenUriAsync(thumbnail.ImageUrl);
+        }
+
+        private void TwitterApiStatusToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.OpenUriAsync(Twitter.ServiceAvailabilityStatusUrl);
         }
     }
 }

@@ -111,6 +111,11 @@ namespace OpenTween
 
         #endregion
 
+        /// <summary>
+        /// Twitter API のステータスページのURL
+        /// </summary>
+        public const string ServiceAvailabilityStatusUrl = "https://status.io.watchmouse.com/7617";
+
         delegate void GetIconImageDelegate(PostClass post);
         private readonly object LockObj = new object();
         private List<long> followerId = new List<long>();
