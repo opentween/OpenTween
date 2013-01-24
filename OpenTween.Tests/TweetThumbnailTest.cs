@@ -129,7 +129,7 @@ namespace OpenTween
                     num++;
                 }
 
-                Assert.That(thumbbox.Controls, Is.EquivalentTo(new Control[]{ thumbbox.scrollBar }.Concat(thumbbox.pictureBox)));
+                Assert.That(thumbbox.panelPictureBox.Controls, Is.EquivalentTo(thumbbox.pictureBox));
 
                 Assert.That(thumbbox.scrollBar.Minimum, Is.EqualTo(0));
                 Assert.That(thumbbox.scrollBar.Maximum, Is.EqualTo(count));

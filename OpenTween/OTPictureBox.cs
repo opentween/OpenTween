@@ -209,6 +209,19 @@ namespace OpenTween
         /// </remarks>
         private void UpdateStatusImages()
         {
+            var isError = false;
+            var isInit = false;
+
+            if (this.Image != null)
+            {
+                // ErrorImage か InitialImage を使用中であれば記憶しておく
+                isError = (this.Image == this.expandedErrorImage);
+                isInit = (this.Image == this.expandedInitialImage);
+            }
+
+            if (isError || isInit)
+                this.Image = null;
+
             if (this.expandedErrorImage != null)
                 this.expandedErrorImage.Dispose();
 
@@ -217,6 +230,12 @@ namespace OpenTween
 
             this.expandedErrorImage = this.ExpandImage(this.ErrorImage);
             this.expandedInitialImage = this.ExpandImage(this.InitialImage);
+
+            if (isError)
+                this.Image = this.expandedErrorImage;
+
+            if (isInit)
+                this.Image = this.expandedInitialImage;
         }
 
         private Image ExpandImage(Image image)

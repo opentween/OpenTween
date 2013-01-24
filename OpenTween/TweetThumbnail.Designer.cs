@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.scrollBar = new System.Windows.Forms.VScrollBar();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.panelPictureBox = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
             // scrollBar
@@ -44,10 +45,19 @@
             this.scrollBar.TabIndex = 0;
             this.scrollBar.ValueChanged += new System.EventHandler(this.scrollBar_ValueChanged);
             // 
+            // panelPictureBox
+            // 
+            this.panelPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelPictureBox.Location = new System.Drawing.Point(0, 0);
+            this.panelPictureBox.Name = "panelPictureBox";
+            this.panelPictureBox.Size = new System.Drawing.Size(183, 188);
+            this.panelPictureBox.TabIndex = 1;
+            // 
             // TweetThumbnail
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.panelPictureBox);
             this.Controls.Add(this.scrollBar);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "TweetThumbnail";
@@ -60,5 +70,6 @@
 
         protected internal System.Windows.Forms.VScrollBar scrollBar;
         protected internal System.Windows.Forms.ToolTip toolTip;
+        protected internal System.Windows.Forms.Panel panelPictureBox;
     }
 }
