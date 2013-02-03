@@ -112,17 +112,25 @@ namespace OpenTween
 
         public void CancelAsync()
         {
-            if (this.task != null && !this.task.IsCompleted)
+            if (this.task == null || this.task.IsCompleted) return;
+
+            this.cancelTokenSource.Cancel();
+
+            // this.task.Status は、GetThumbailInfo() の実行中であれば TaskStatus.WaitingForActivation となる。
+            // ContinueWith の処理も含めて終了していれば RanToCompletion などになる。
+            // もしこれが Running である場合は、PictureBox に対する操作の途中である可能性が高いため
+            // 必ず Wait() を実行してタスクの終了を待つ。
+            // (ContinueWith のタスクは ThumbnailLoading イベントが足を引っ張らない限り20ms程で完了する)
+
+            if (this.task.Status != TaskStatus.Running) return;
+
+            try
             {
-                try
-                {
-                    this.cancelTokenSource.Cancel();
-                    this.task.Wait();
-                }
-                catch (AggregateException e)
-                {
-                    if (!(e.InnerException is TaskCanceledException)) throw;
-                }
+                this.task.Wait();
+            }
+            catch (AggregateException ae)
+            {
+                ae.Handle(e => e is TaskCanceledException);
             }
         }
 
