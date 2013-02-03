@@ -41,18 +41,10 @@ namespace OpenTween.Thumbnail.Services
 
         public override ThumbnailInfo GetThumbnailInfo(string url, PostClass post)
         {
-            var http = new HttpVarious();
-            var TargetUrl = url;
-            var tmp = http.GetRedirectTo(TargetUrl);
-            while (!TargetUrl.Equals(tmp))
-            {
-                TargetUrl = tmp;
-                tmp = http.GetRedirectTo(TargetUrl);
-            }
-
             var apiUrl = base.ReplaceUrl(url);
             if (apiUrl == null) return null;
 
+            var http = new HttpVarious();
             var src = "";
             string imgurl = null;
             string errmsg;
