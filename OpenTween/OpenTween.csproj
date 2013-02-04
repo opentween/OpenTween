@@ -127,6 +127,7 @@
     <Compile Include="DetailsListView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="MemoryImage.cs" />
     <Compile Include="OTPictureBox.cs">
       <SubType>Component</SubType>
     </Compile>

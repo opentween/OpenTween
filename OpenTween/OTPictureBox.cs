@@ -41,10 +41,10 @@ namespace OpenTween
             get { return base.Image; }
             set
             {
-                if (base.Image != null && this.imageFromLoadMethod)
+                if (this.memoryImage != null)
                 {
-                    this.DisposeImageFromStream();
-                    this.imageFromLoadMethod = false;
+                    this.memoryImage.Dispose();
+                    this.memoryImage = null;
                 }
                 base.Image = value;
             }
@@ -66,8 +66,10 @@ namespace OpenTween
         }
         private string _ImageLocation;
 
-        private bool imageFromLoadMethod = false;
-        private Stream imageStream = null;
+        /// <summary>
+        /// ImageLocation によりロードされた画像
+        /// </summary>
+        private MemoryImage memoryImage = null;
 
         private Task loadAsyncTask = null;
         private CancellationTokenSource loadAsyncCancelTokenSource = null;
@@ -111,14 +113,7 @@ namespace OpenTween
             return loadImageTask.ContinueWith(t => {
                 if (t.IsFaulted) throw t.Exception;
 
-                var bytes = t.Result;
-
-                // InitialImageの表示時に DisposeImageFromStream() が呼ばれるためここでは不要
-
-                this.imageStream = new MemoryStream(bytes);
-                this.imageStream.Write(bytes, 0, bytes.Length);
-
-                return Image.FromStream(this.imageStream, true, true);
+                return MemoryImage.CopyFromBytes(t.Result);
             }, cancelToken)
             .ContinueWith(t =>
             {
@@ -130,8 +125,8 @@ namespace OpenTween
                     }
                     else
                     {
-                        this.Image = t.Result;
-                        this.imageFromLoadMethod = true;
+                        this.Image = t.Result.Image;
+                        this.memoryImage = t.Result;
                     }
                 }
 
@@ -163,18 +158,6 @@ namespace OpenTween
                     return false;
                 });
             }
-        }
-
-        /// <summary>
-        /// LoadAsync メソッドで取得した画像の破棄
-        /// </summary>
-        protected void DisposeImageFromStream()
-        {
-            if (this.Image != null)
-                this.Image.Dispose();
-
-            if (this.imageStream != null)
-                this.imageStream.Dispose();
         }
 
         public new Image ErrorImage
@@ -279,8 +262,8 @@ namespace OpenTween
             if (this.expandedInitialImage != null)
                 this.expandedInitialImage.Dispose();
 
-            if (this.imageFromLoadMethod)
-                this.DisposeImageFromStream();
+            if (this.memoryImage != null)
+                this.memoryImage.Dispose();
         }
     }
 }
