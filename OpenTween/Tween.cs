@@ -134,7 +134,7 @@ namespace OpenTween
         private Color _clInputBackcolor;      //入力欄背景色
         private Color _clInputFont;           //入力欄文字色
         private Font _fntInputFont;           //入力欄フォント
-        private IDictionary<string, Image> TIconDic;        //アイコン画像リスト
+        private ImageCache IconCache;        //アイコン画像リスト
         private Icon NIconAt;               //At.ico             タスクトレイアイコン：通常時
         private Icon NIconAtRed;            //AtRed.ico          タスクトレイアイコン：通信エラー時
         private Icon NIconAtSmoke;          //AtSmoke.ico        タスクトレイアイコン：オフライン時
@@ -385,10 +385,10 @@ namespace OpenTween
                 _bwFollower.Dispose();
             }
             this._apiGauge.Dispose();
-            if (TIconDic != null)
+            if (IconCache != null)
             {
-                ((ImageDictionary)this.TIconDic).PauseGetImage = true;
-                ((IDisposable)TIconDic).Dispose();
+                this.IconCache.CancelAsync();
+                this.IconCache.Dispose();
             }
             // 終了時にRemoveHandlerしておかないとメモリリークする
             // http://msdn.microsoft.com/ja-jp/library/microsoft.win32.systemevents.powermodechanged.aspx
@@ -867,9 +867,11 @@ namespace OpenTween
             _initial = true;
 
             //アイコンリスト作成
+            this.IconCache = new ImageCache();
+
             try
             {
-                TIconDic = new ImageDictionary(5);
+                new System.Runtime.Caching.MemoryCache("dummyCache");
             }
             catch (Exception)
             {
@@ -877,7 +879,6 @@ namespace OpenTween
                 Application.Exit();
                 return;
             }
-            ((ImageDictionary)this.TIconDic).PauseGetImage = false;
 
             bool saveRequired = false;
             bool firstRun = false;
@@ -1165,8 +1166,6 @@ namespace OpenTween
             {
                 sz = 16;
             }
-
-            tw.DetailIcon = TIconDic;
 
             StatusLabel.Text = Properties.Resources.Form1_LoadText1;       //画面右下の状態表示を変更
             StatusLabelUrl.Text = "";            //画面左下のリンク先URL表示部を初期化
@@ -1837,7 +1836,8 @@ namespace OpenTween
                             string bText = sb.ToString();
                             if (string.IsNullOrEmpty(bText)) return;
 
-                            gh.Notify(nt, post.StatusId.ToString(), title.ToString(), bText, this.TIconDic[post.ImageUrl], post.ImageUrl);
+                            var image = this.IconCache.TryGetFromCache(post.ImageUrl);
+                            gh.Notify(nt, post.StatusId.ToString(), title.ToString(), bText, image == null ? null : image.Image, post.ImageUrl);
                         }
                     }
                     else
@@ -5184,7 +5184,7 @@ namespace OpenTween
                                  "",
                                  mk.ToString(),
                                  Post.Source};
-                itm = new ImageListViewItem(sitem, (ImageDictionary)this.TIconDic, Post.ImageUrl);
+                itm = new ImageListViewItem(sitem, this.IconCache, Post.ImageUrl);
             }
             else
             {
@@ -5196,7 +5196,7 @@ namespace OpenTween
                                   "",
                                   mk.ToString(),
                                   Post.Source};
-                itm = new ImageListViewItem(sitem, (ImageDictionary)this.TIconDic, Post.ImageUrl);
+                itm = new ImageListViewItem(sitem, this.IconCache, Post.ImageUrl);
             }
             itm.StateImageIndex = Post.StateIndex;
 
@@ -6126,21 +6126,23 @@ namespace OpenTween
             {
                 NameLabel.Text += " (RT:" + _curPost.RetweetedBy + ")";
             }
+
             if (UserPicture.Image != null) UserPicture.Image.Dispose();
-            if (!string.IsNullOrEmpty(_curPost.ImageUrl) && TIconDic[_curPost.ImageUrl] != null)
+            UserPicture.Image = null;
+            if (!string.IsNullOrEmpty(_curPost.ImageUrl))
             {
-                try
+                var image = IconCache.TryGetFromCache(_curPost.ImageUrl);
+                if (image != null)
                 {
-                    UserPicture.Image = new Bitmap(TIconDic[_curPost.ImageUrl]);
+                    try
+                    {
+                        UserPicture.Image = new Bitmap(image.Image);
+                    }
+                    catch (Exception)
+                    {
+                        UserPicture.Image = null;
+                    }
                 }
-                catch (Exception)
-                {
-                    UserPicture.Image = null;
-                }
-            }
-            else
-            {
-                UserPicture.Image = null;
             }
 
             NameLabel.ForeColor = System.Drawing.SystemColors.ControlText;
@@ -9699,7 +9701,7 @@ namespace OpenTween
                         this.IconNameToolStripMenuItem.Enabled = false;
                         this.IconNameToolStripMenuItem.Text = Properties.Resources.ContextMenuStrip3_OpeningText1;
                     }
-                    if (this.TIconDic[_curPost.ImageUrl] != null)
+                    if (this.IconCache.TryGetFromCache(_curPost.ImageUrl) != null)
                     {
                         this.SaveIconPictureToolStripMenuItem.Enabled = true;
                     }
@@ -9789,7 +9791,7 @@ namespace OpenTween
             {
                 try
                 {
-                    using (Image orgBmp = new Bitmap(TIconDic[name]))
+                    using (Image orgBmp = new Bitmap(IconCache.TryGetFromCache(name).Image))
                     {
                         using (Bitmap bmp2 = new Bitmap(orgBmp.Size.Width, orgBmp.Size.Height))
                         {
@@ -12566,10 +12568,10 @@ namespace OpenTween
         private void CacheInfoMenuItem_Click(object sender, EventArgs e)
         {
             StringBuilder buf = new StringBuilder();
-            buf.AppendFormat("キャッシュメモリ容量         : {0}bytes({1}MB)" + Environment.NewLine, ((ImageDictionary)TIconDic).CacheMemoryLimit, ((ImageDictionary)TIconDic).CacheMemoryLimit / 1048576);
-            buf.AppendFormat("物理メモリ使用割合           : {0}%" + Environment.NewLine, ((ImageDictionary)TIconDic).PhysicalMemoryLimit);
-            buf.AppendFormat("キャッシュエントリ保持数     : {0}" + Environment.NewLine, ((ImageDictionary)TIconDic).CacheCount);
-            buf.AppendFormat("キャッシュエントリ破棄数     : {0}" + Environment.NewLine, ((ImageDictionary)TIconDic).CacheRemoveCount);
+            //buf.AppendFormat("キャッシュメモリ容量         : {0}bytes({1}MB)" + Environment.NewLine, IconCache.CacheMemoryLimit, ((ImageDictionary)IconCache).CacheMemoryLimit / 1048576);
+            //buf.AppendFormat("物理メモリ使用割合           : {0}%" + Environment.NewLine, IconCache.PhysicalMemoryLimit);
+            buf.AppendFormat("キャッシュエントリ保持数     : {0}" + Environment.NewLine, IconCache.CacheCount);
+            buf.AppendFormat("キャッシュエントリ破棄数     : {0}" + Environment.NewLine, IconCache.CacheRemoveCount);
             MessageBox.Show(buf.ToString(), "アイコンキャッシュ使用状況");
         }
 

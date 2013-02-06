@@ -106,6 +106,7 @@
     <Compile Include="HashtagManage.Designer.cs">
       <DependentUpon>HashtagManage.cs</DependentUpon>
     </Compile>
+    <Compile Include="ImageCache.cs" />
     <Compile Include="ListAvailable.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -127,6 +128,7 @@
     <Compile Include="DetailsListView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="LRUCacheDictionary.cs" />
     <Compile Include="MemoryImage.cs" />
     <Compile Include="OTPictureBox.cs">
       <SubType>Component</SubType>
@@ -186,7 +188,6 @@
     <Compile Include="Thumbnail\MapThumb.cs" />
     <Compile Include="Thumbnail\MapThumbOSM.cs" />
     <Compile Include="ListElement.cs" />
-    <Compile Include="ImageDictionary.cs" />
     <Compile Include="ImageListViewItem.cs" />
     <Compile Include="MyCommon.cs" />
     <Compile Include="MyLists.cs">

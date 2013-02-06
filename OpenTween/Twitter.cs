@@ -134,7 +134,6 @@ namespace OpenTween
         private string _uname;
         private int _iconSz;
         private bool _getIcon;
-        private IDictionary<string, Image> _dIcon;
 
         private bool _tinyUrlResolve;
         private bool _restrictFavCheck;
@@ -1763,18 +1762,6 @@ namespace OpenTween
             }
         }
 #endregion
-
-        public IDictionary<string, Image> DetailIcon
-        {
-            get
-            {
-                return _dIcon;
-            }
-            set
-            {
-                _dIcon = value;
-            }
-        }
 
         public bool ReadOwnPost
         {

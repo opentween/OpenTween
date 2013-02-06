@@ -53,6 +53,7 @@
     <Compile Include="ApiInformationTest.cs" />
     <Compile Include="BingTest.cs" />
     <Compile Include="FoursquareTest.cs" />
+    <Compile Include="LRUCacheDictionaryTest.cs" />
     <Compile Include="MyCommonTest.cs" />
     <Compile Include="PostClassTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

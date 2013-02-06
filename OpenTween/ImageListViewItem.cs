@@ -27,71 +27,83 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Threading.Tasks;
 
 namespace OpenTween
 {
     public class ImageListViewItem : ListViewItem
     {
-        //public Image Image { get; set; }
         public event EventHandler ImageDownloaded;
-        private ImageDictionary imageDict = null;
+        private ImageCache imageCache = null;
         private string imageUrl;
+
+        private WeakReference _ImageReference = new WeakReference(null);
 
         public ImageListViewItem(string[] items, string imageKey)
             : base(items, imageKey)
         {
         }
 
-        public ImageListViewItem(string[] items, ImageDictionary imageDictionary, string imageKey)
+        public ImageListViewItem(string[] items, ImageCache imageDictionary, string imageKey)
             : base(items, imageKey)
         {
-            this.imageDict = imageDictionary;
+            this.imageCache = imageDictionary;
             this.imageUrl = imageKey;
-            var dummy = this.GetImage(false);
+
+            var image = this.imageCache.TryGetFromCache(imageKey);
+
+            if (image == null)
+                this.GetImageAsync();
+            else
+                this._ImageReference.Target = image;
         }
 
-        private Image GetImage(bool force)
+        private Task GetImageAsync(bool force = false)
         {
-            return this.imageDict[this.imageUrl, force, getImg =>
-                                                        {
-                                                            if (getImg == null) return;
-                                                            //this.Image = getImg
-                                                            if (this.ListView != null &&
-                                                                this.ListView.Created &&
-                                                                !this.ListView.IsDisposed)
-                                                            {
-                                                                this.ListView.Invoke(new MethodInvoker(() =>
-                                                                                     {
-                                                                                         if (this.Index < this.ListView.VirtualListSize)
-                                                                                         {
-                                                                                             this.ListView.RedrawItems(this.Index, this.Index, true);
-                                                                                             if (ImageDownloaded != null)
-                                                                                             {
-                                                                                                 ImageDownloaded(this, EventArgs.Empty);
-                                                                                             }
-                                                                                         }
-                                                                                     }));
-                                                            }
-                                                        }];
+            return this.imageCache.DownloadImageAsync(this.imageUrl, force).ContinueWith(t =>
+            {
+                var image = t.Result;
+
+                if (image == null) return;
+
+                this._ImageReference.Target = image;
+
+                if (this.ListView != null &&
+                    this.ListView.Created &&
+                    !this.ListView.IsDisposed)
+                {
+                    this.ListView.Invoke(new MethodInvoker(() =>
+                    {
+                        if (this.Index < this.ListView.VirtualListSize)
+                        {
+                            this.ListView.RedrawItems(this.Index, this.Index, true);
+                            if (ImageDownloaded != null)
+                            {
+                                ImageDownloaded(this, EventArgs.Empty);
+                            }
+                        }
+                    }));
+                }
+            }, TaskContinuationOptions.OnlyOnRanToCompletion);
         }
 
         public Image Image
         {
             get
             {
-                if (string.IsNullOrEmpty(this.imageUrl)) return null;
-                return this.imageDict[this.imageUrl];
+                if (string.IsNullOrEmpty(this.imageUrl))
+                    return null;
+
+                var img = this._ImageReference.Target as MemoryImage;
+
+                return img == null ? null : img.Image;
             }
         }
 
         public void RegetImage()
         {
-            //if (this.Image IsNot null)
-            //{
-            //    this.Image.Dispose()
-            //    this.Image = null
-            //}
-            var dummy = GetImage(true);
+            this._ImageReference.Target = null;
+            this.GetImageAsync(true);
         }
 
         //~ImageListViewItem()
