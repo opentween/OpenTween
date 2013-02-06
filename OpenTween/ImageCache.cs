@@ -26,6 +26,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 using System.Threading;
+using System.Xml.Serialization;
 
 namespace OpenTween
 {
@@ -83,6 +84,7 @@ namespace OpenTween
         /// <summary>
         /// 破棄されたキャッシュの件数
         /// </summary>
+        [XmlIgnore] // これ付けないと sgen.exe がエラーを吐く
         public int CacheRemoveCount { get; private set; }
 
         /// <summary>
