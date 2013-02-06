@@ -43,7 +43,7 @@ namespace OpenTween
             this.Description = user.Description;
             try
             {
-                this.ImageUrl = new Uri(user.ProfileImageUrl);
+                this.ImageUrl = new Uri(user.ProfileImageUrlHttps);
             }
             catch (Exception)
             {

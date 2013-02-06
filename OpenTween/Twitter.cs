@@ -2111,7 +2111,7 @@ namespace OpenTween
                 post.UserId = user.Id;
                 post.ScreenName = user.ScreenName;
                 post.Nickname = user.Name.Trim();
-                post.ImageUrl = user.ProfileImageUrl;
+                post.ImageUrl = user.ProfileImageUrlHttps;
                 post.IsProtect = user.Protected;
 
                 //Retweetした人
@@ -2145,7 +2145,7 @@ namespace OpenTween
                 post.UserId = user.Id;
                 post.ScreenName = user.ScreenName;
                 post.Nickname = user.Name.Trim();
-                post.ImageUrl = user.ProfileImageUrl;
+                post.ImageUrl = user.ProfileImageUrlHttps;
                 post.IsProtect = user.Protected;
                 post.IsMe = post.ScreenName.ToLower().Equals(_uname);
 
@@ -2871,7 +2871,7 @@ namespace OpenTween
                     post.UserId = user.Id;
                     post.ScreenName = user.ScreenName;
                     post.Nickname = user.Name.Trim();
-                    post.ImageUrl = user.ProfileImageUrl;
+                    post.ImageUrl = user.ProfileImageUrlHttps;
                     post.IsProtect = user.Protected;
                 }
                 catch(Exception ex)
@@ -3066,7 +3066,7 @@ namespace OpenTween
                         post.UserId = user.Id;
                         post.ScreenName = user.ScreenName;
                         post.Nickname = user.Name.Trim();
-                        post.ImageUrl = user.ProfileImageUrl;
+                        post.ImageUrl = user.ProfileImageUrlHttps;
                         post.IsProtect = user.Protected;
 
                         //Retweetした人
@@ -3097,7 +3097,7 @@ namespace OpenTween
                         post.UserId = user.Id;
                         post.ScreenName = user.ScreenName;
                         post.Nickname = user.Name.Trim();
-                        post.ImageUrl = user.ProfileImageUrl;
+                        post.ImageUrl = user.ProfileImageUrlHttps;
                         post.IsProtect = user.Protected;
                         post.IsMe = post.ScreenName.ToLower().Equals(_uname);
                     }
