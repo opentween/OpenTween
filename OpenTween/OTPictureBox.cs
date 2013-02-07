@@ -111,6 +111,8 @@ namespace OpenTween
             var uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
 
             return loadImageTask.ContinueWith(t => {
+                client.Dispose();
+
                 if (t.IsFaulted) throw t.Exception;
 
                 return MemoryImage.CopyFromBytes(t.Result);
@@ -264,6 +266,9 @@ namespace OpenTween
 
             if (this.memoryImage != null)
                 this.memoryImage.Dispose();
+
+            if (this.loadAsyncCancelTokenSource != null)
+                this.loadAsyncCancelTokenSource.Dispose();
         }
     }
 }

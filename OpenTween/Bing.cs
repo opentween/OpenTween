@@ -174,21 +174,23 @@ namespace OpenTween
                 "&To=" + Uri.EscapeDataString("'" + _to + "'") +
                 "&$format=Raw";
 
-            var client = new WebClient();
-            client.Credentials = new NetworkCredential(ApplicationSettings.AzureMarketplaceKey, ApplicationSettings.AzureMarketplaceKey);
-            client.Encoding = Encoding.UTF8;
-
-            try
+            using (var client = new OTWebClient())
             {
-                var content = client.DownloadString(apiurl);
+                client.Credentials = new NetworkCredential(ApplicationSettings.AzureMarketplaceKey, ApplicationSettings.AzureMarketplaceKey);
+                client.Encoding = Encoding.UTF8;
 
-                buf = Regex.Replace(content, @"^<string[^>]*>(.*)</string>$", "$1");
-                return true;
-            }
-            catch (WebException)
-            {
-                buf = null;
-                return false;
+                try
+                {
+                    var content = client.DownloadString(apiurl);
+
+                    buf = Regex.Replace(content, @"^<string[^>]*>(.*)</string>$", "$1");
+                    return true;
+                }
+                catch (WebException)
+                {
+                    buf = null;
+                    return false;
+                }
             }
         }
 

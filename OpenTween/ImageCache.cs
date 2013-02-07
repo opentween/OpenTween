@@ -165,20 +165,34 @@ namespace OpenTween
             }
         }
 
-        public void Dispose()
+        protected virtual void Dispose(bool disposing)
         {
             if (this.disposed) return;
 
-            this.CancelAsync();
-
-            lock (this.lockObject)
+            if (disposing)
             {
-                foreach (var item in this.innerDictionary)
-                    item.Value.Dispose();
+                this.CancelAsync();
 
-                this.innerDictionary.Clear();
-                this.cancelTokenSource.Dispose();
+                lock (this.lockObject)
+                {
+                    foreach (var item in this.innerDictionary)
+                        item.Value.Dispose();
+
+                    this.innerDictionary.Clear();
+                    this.cancelTokenSource.Dispose();
+                }
             }
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~ImageCache()
+        {
+            this.Dispose(false);
         }
     }
 }
