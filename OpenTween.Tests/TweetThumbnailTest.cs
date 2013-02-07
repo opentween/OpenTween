@@ -113,6 +113,7 @@ namespace OpenTween
 
                 thumbbox.CancelAsync();
 
+                Assert.Throws<AggregateException>(() => task.Wait());
                 Assert.That(task.IsCanceled, Is.True);
             }
         }
