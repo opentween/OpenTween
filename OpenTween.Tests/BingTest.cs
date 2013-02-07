@@ -25,7 +25,7 @@ using System.Reflection;
 using NUnit.Framework;
 
 
-namespace OpenTween.Tests
+namespace OpenTween
 {
     /// <summary>
     /// Bingクラスのテストクラス

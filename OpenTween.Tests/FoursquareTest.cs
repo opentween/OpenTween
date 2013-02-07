@@ -26,7 +26,7 @@ using System.Text;
 using NUnit.Framework;
 using OpenTween;
 
-namespace OpenTween.Tests
+namespace OpenTween
 {
     /// <summary>
     /// OpenTween.Foursquareクラステスト用
