@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using System.Collections;
 
 namespace OpenTween
 {
@@ -209,6 +210,22 @@ namespace OpenTween
         }
 
         [Test]
+        public void ContainsTest()
+        {
+            var dict = new LRUCacheDictionary<string, string>
+            {
+                {"key1", "value1"},
+                {"key2", "value2"},
+                {"key3", "value3"},
+            };
+
+            Assert.That(dict.Contains(new KeyValuePair<string, string>("key1", "value1")), Is.True);
+            Assert.That(dict.Contains(new KeyValuePair<string, string>("key3", "value2")), Is.False);
+            Assert.That(dict.Contains(new KeyValuePair<string, string>("value3", "key3")), Is.False);
+            Assert.That(dict.Contains(new KeyValuePair<string, string>("hogehoge", "hogehoge")), Is.False);
+        }
+
+        [Test]
         public void RemoveTest()
         {
             var dict = new LRUCacheDictionary<string, string>
@@ -218,8 +235,9 @@ namespace OpenTween
                 {"key3", "value3"},
             };
 
-            dict.Remove("key1");
+            var ret = dict.Remove("key1");
 
+            Assert.That(ret, Is.True);
             Assert.That(dict.innerDict.Count, Is.EqualTo(2));
             Assert.That(dict.innerList.Count, Is.EqualTo(2));
             Assert.That(dict.innerDict.ContainsKey("key1"), Is.False);
@@ -231,6 +249,41 @@ namespace OpenTween
 
             Assert.That(dict.innerDict, Is.Empty);
             Assert.That(dict.innerList, Is.Empty);
+
+            ret = dict.Remove("hogehoge");
+            Assert.That(ret, Is.False);
+        }
+
+        [Test]
+        public void Remove2Test()
+        {
+            var dict = new LRUCacheDictionary<string, string>
+            {
+                {"key1", "value1"},
+                {"key2", "value2"},
+                {"key3", "value3"},
+            };
+
+            var ret = dict.Remove(new KeyValuePair<string, string>("key1", "value1"));
+
+            Assert.That(ret, Is.True);
+            Assert.That(dict.innerDict.Count, Is.EqualTo(2));
+            Assert.That(dict.innerList.Count, Is.EqualTo(2));
+            Assert.That(dict.innerDict.ContainsKey("key1"), Is.False);
+            Assert.That(dict.innerDict.ContainsKey("key2"), Is.True);
+            Assert.That(dict.innerDict.ContainsKey("key3"), Is.True);
+
+            ret = dict.Remove(new KeyValuePair<string, string>("key2", "hogehoge"));
+            Assert.That(ret, Is.False);
+
+            dict.Remove(new KeyValuePair<string, string>("key2", "value2"));
+            dict.Remove(new KeyValuePair<string, string>("key3", "value3"));
+
+            Assert.That(dict.innerDict, Is.Empty);
+            Assert.That(dict.innerList, Is.Empty);
+
+            ret = dict.Remove(new KeyValuePair<string, string>("hogehoge", "hogehoge"));
+            Assert.That(ret, Is.False);
         }
 
         [Test]
@@ -353,6 +406,47 @@ namespace OpenTween
         }
 
         [Test]
+        public void CopyToTest()
+        {
+            var dict = new LRUCacheDictionary<string, string>
+            {
+                {"key1", "value1"},
+                {"key2", "value2"},
+                {"key3", "value3"},
+            };
+
+            var array = new KeyValuePair<string, string>[5];
+            dict.CopyTo(array, 0);
+            Assert.That(array[0], Is.EqualTo(new KeyValuePair<string, string>("key1", "value1")));
+            Assert.That(array[1], Is.EqualTo(new KeyValuePair<string, string>("key2", "value2")));
+            Assert.That(array[2], Is.EqualTo(new KeyValuePair<string, string>("key3", "value3")));
+            Assert.That(array[3], Is.EqualTo(new KeyValuePair<string, string>()));
+            Assert.That(array[4], Is.EqualTo(new KeyValuePair<string, string>()));
+
+            array = new KeyValuePair<string, string>[5];
+            dict.CopyTo(array, 1);
+            Assert.That(array[0], Is.EqualTo(new KeyValuePair<string, string>()));
+            Assert.That(array[1], Is.EqualTo(new KeyValuePair<string, string>("key1", "value1")));
+            Assert.That(array[2], Is.EqualTo(new KeyValuePair<string, string>("key2", "value2")));
+            Assert.That(array[3], Is.EqualTo(new KeyValuePair<string, string>("key3", "value3")));
+            Assert.That(array[4], Is.EqualTo(new KeyValuePair<string, string>()));
+
+            array = new KeyValuePair<string, string>[5];
+            Assert.Throws<ArgumentException>(() => dict.CopyTo(array, 3));
+            Assert.Throws<ArgumentException>(() => dict.CopyTo(array, 5));
+            Assert.Throws<ArgumentOutOfRangeException>(() => dict.CopyTo(array, -1));
+            Assert.Throws<ArgumentNullException>(() => dict.CopyTo(null, 0));
+        }
+
+        [Test]
+        public void IsReadOnlyTest()
+        {
+            var dict = new LRUCacheDictionary<string, string>();
+
+            Assert.That(dict.IsReadOnly, Is.False);
+        }
+
+        [Test]
         public void EnumeratorTest()
         {
             var dict = new LRUCacheDictionary<string, string>
@@ -363,6 +457,27 @@ namespace OpenTween
             };
 
             var enumerator = dict.GetEnumerator();
+
+            Assert.That(enumerator.MoveNext(), Is.True);
+            Assert.That(enumerator.Current, Is.EqualTo(new KeyValuePair<string, string>("key1", "value1")));
+            Assert.That(enumerator.MoveNext(), Is.True);
+            Assert.That(enumerator.Current, Is.EqualTo(new KeyValuePair<string, string>("key2", "value2")));
+            Assert.That(enumerator.MoveNext(), Is.True);
+            Assert.That(enumerator.Current, Is.EqualTo(new KeyValuePair<string, string>("key3", "value3")));
+            Assert.That(enumerator.MoveNext(), Is.False);
+        }
+
+        [Test]
+        public void Enumerator2Test()
+        {
+            var dict = new LRUCacheDictionary<string, string>
+            {
+                {"key1", "value1"},
+                {"key2", "value2"},
+                {"key3", "value3"},
+            };
+
+            var enumerator = ((IEnumerable)dict).GetEnumerator();
 
             Assert.That(enumerator.MoveNext(), Is.True);
             Assert.That(enumerator.Current, Is.EqualTo(new KeyValuePair<string, string>("key1", "value1")));

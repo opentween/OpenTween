@@ -153,10 +153,10 @@ namespace OpenTween
 
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
-            if (!this.ContainsKey(item.Key)) return false;
+            if (!this.innerDict.ContainsKey(item.Key)) return false;
 
             var node = this.innerDict[item.Key];
-            if (!node.Value.Equals(item.Value)) return false;
+            if (!node.Value.Value.Equals(item.Value)) return false;
 
             this.innerList.Remove(node);
 
@@ -239,6 +239,10 @@ namespace OpenTween
 
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
+            if (array == null)
+                throw new ArgumentNullException();
+            if (arrayIndex < 0)
+                throw new ArgumentOutOfRangeException();
             if (arrayIndex >= array.Length)
                 throw new ArgumentException("arrayIndex is equal to or greater than array.Length.");
             if (array.Length - arrayIndex < this.Count)
