@@ -22,7 +22,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
+using NSubstitute;
 using NUnit.Framework;
 using System.Reflection;
 using System.Windows.Forms;
@@ -74,6 +76,10 @@ namespace OpenTween
         [TestFixtureSetUp]
         public void MyCommonSetup()
         {
+            var mockAssembly = Substitute.For<_Assembly>();
+            mockAssembly.GetName().Returns(new AssemblyName("OpenTween"));
+            MyCommon.EntryAssembly = mockAssembly;
+
             MyCommon.fileVersion = "1.0.0.0";
         }
 
