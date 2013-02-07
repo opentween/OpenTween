@@ -405,7 +405,7 @@ namespace OpenTween
             }
             if (Convert.ToInt32(c_) <= 127 && c_ != '%') return _input;
 
-            var input = HttpUtility.UrlDecode(_input);
+            var input = Uri.UnescapeDataString(_input);
         retry:
             foreach (char c in input)
             {

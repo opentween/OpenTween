@@ -261,7 +261,7 @@ namespace OpenTween
             //nico.msは短縮しない
             if (SrcUrl.StartsWith("http://nico.ms/")) return "Can't convert";
 
-            SrcUrl = HttpUtility.UrlEncode(SrcUrl);
+            SrcUrl = Uri.EscapeDataString(SrcUrl);
 
             switch (ConverterType)
             {

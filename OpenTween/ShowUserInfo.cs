@@ -398,7 +398,7 @@ namespace OpenTween
                     e.Url.AbsoluteUri.StartsWith("https://twitter.com/search?q=%23"))
                 {
                     //ハッシュタグの場合は、タブで開く
-                    string urlStr = HttpUtility.UrlDecode(e.Url.AbsoluteUri);
+                    string urlStr = Uri.UnescapeDataString(e.Url.AbsoluteUri);
                     string hash = urlStr.Substring(urlStr.IndexOf("#"));
                     MyOwner.HashSupl.AddItem(hash);
                     MyOwner.HashMgr.AddHashToHistory(hash.Trim(), false);
