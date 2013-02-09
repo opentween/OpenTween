@@ -73,6 +73,8 @@ namespace OpenTween
 
             onCompleted = (s, e) =>
             {
+                if (e.UserState != tcs) return; // 同時実行中の別のリクエストだった場合を考慮
+
                 this.DownloadDataCompleted -= onCompleted;
 
                 if (e.Cancelled)
@@ -90,7 +92,7 @@ namespace OpenTween
             };
 
             this.DownloadDataCompleted += onCompleted;
-            base.DownloadDataAsync(address);
+            base.DownloadDataAsync(address, tcs);
 
             return tcs.Task;
         }
