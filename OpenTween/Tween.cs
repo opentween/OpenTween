@@ -181,7 +181,7 @@ namespace OpenTween
         private StringFormat sfTab = new StringFormat();
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
-        private ToolStripAPIGauge _apiGauge = new ToolStripAPIGauge();
+        private ToolStripAPIGauge _apiGauge;
         private TabInformations _statuses;
         private ListViewItem[] _itemCache;
         private int _itemCacheIndex;
@@ -9442,13 +9442,7 @@ namespace OpenTween
 
         private void SetStatusLabelApi()
         {
-            var apiLimit = MyCommon.TwitterApiInfo.AccessLimit;
-            if (apiLimit == null)
-                return;
-
-            this._apiGauge.RemainCount = apiLimit.AccessLimitRemain;
-            this._apiGauge.MaxCount = apiLimit.AccessLimitCount;
-            this._apiGauge.ResetTime = apiLimit.AccessLimitResetDate;
+            this._apiGauge.ApiLimit = MyCommon.TwitterApiInfo.AccessLimit;
         }
 
         private void SetStatusLabelUrl()
@@ -12130,10 +12124,8 @@ namespace OpenTween
             this._hookGlobalHotkey.HotkeyPressed += _hookGlobalHotkey_HotkeyPressed;
             this.gh.NotifyClicked += GrowlHelper_Callback;
 
-            this._apiGauge.Control.Size = new Size(70, 22);
-            this._apiGauge.Control.Margin = new Padding(0, 3, 0, 2);
-            this._apiGauge.GaugeHeight = 8;
-            this._apiGauge.Control.DoubleClick += this.ApiUsageInfoMenuItem_Click;
+            this._apiGauge = new ToolStripAPIGauge();
+            this._apiGauge.DoubleClick += this.ApiUsageInfoMenuItem_Click;
             this.StatusStrip1.Items.Insert(2, this._apiGauge);
 
             this.ReplaceAppName();

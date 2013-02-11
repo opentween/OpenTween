@@ -1,10 +1,5 @@
 ﻿// OpenTween - Client of Twitter
-// Copyright (c) 2007-2011 kiri_feather (@kiri_feather) <kiri.feather@gmail.com>
-//           (c) 2008-2011 Moz (@syo68k)
-//           (c) 2008-2011 takeshik (@takeshik) <http://www.takeshik.org/>
-//           (c) 2010-2011 anis774 (@anis774) <http://d.hatena.ne.jp/anis774/>
-//           (c) 2010-2011 fantasticswallow (@f_swallow) <http://twitter.com/f_swallow>
-//           (c) 2011      kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
+// Copyright (c) 2013 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
 // 
 // This file is part of OpenTween.
@@ -30,153 +25,171 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Windows.Forms.Design;
+using System.ComponentModel;
+using OpenTween.Api;
 
 namespace OpenTween
 {
-    public class ToolStripAPIGauge : ToolStripControlHost
+    /// <summary>
+    /// API 実行回数制限に到達するまでの目安を表示する ToolStripItem
+    /// </summary>
+    [ToolStripItemDesignerAvailability(ToolStripItemDesignerAvailability.All)]
+    public class ToolStripAPIGauge : ToolStripButton
     {
-        private Size originalSize;
-
-        public ToolStripAPIGauge() : base(new Control())
+        public ToolStripAPIGauge()
+            : base()
         {
-            this.AutoToolTip = true;
-            this.Control.Paint += Draw;
-            this.Control.TextChanged += Control_TextChanged;
-            this.Control.SizeChanged += Control_SizeChanged;
+            this.Text = "API ???/???";
+            this.ToolTipText = "API rest ???/???" + Environment.NewLine + "(reset after ??? minutes)";
+
+            this.DisplayStyle = ToolStripItemDisplayStyle.Text;
         }
 
-        private int _gaugeHeight;
-
+        /// <summary>
+        /// ゲージに表示される横棒グラフの幅
+        /// </summary>
+        [DefaultValue(8)]
+        [RefreshProperties(RefreshProperties.Repaint)]
         public int GaugeHeight
         {
+            get { return this._GaugeHeight; }
             set
             {
-                this._gaugeHeight = value;
-                if (this.Control != null && !this.Control.IsDisposed) this.Control.Refresh();
+                this._GaugeHeight = value;
+
+                this.UpdateGaugeBounds();
+                this.Invalidate();
             }
-            get { return _gaugeHeight; }
         }
+        private int _GaugeHeight = 8;
 
-        private int _maxCount = 350;
-
-        public int MaxCount
+        /// <summary>
+        /// API 実行回数制限の値
+        /// </summary>
+        [Browsable(false)]
+        public ApiLimit ApiLimit
         {
+            get { return this._ApiLimit; }
             set
             {
-                this._maxCount = value;
-                if (this.Control != null && !this.Control.IsDisposed)
-                {
-                    this.SetText(this._remainCount, this._maxCount);
-                    this.Control.Refresh();
-                }
+                this._ApiLimit = value;
+
+                if (value != null)
+                    this.remainMinutes = (value.AccessLimitResetDate - DateTime.Now).TotalMinutes;
+                else
+                    this.remainMinutes = -1;
+
+                this.UpdateText();
+                this.UpdateGaugeBounds();
+                this.Invalidate();
             }
-            get { return _maxCount; }
+        }
+        private ApiLimit _ApiLimit = null;
+
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public new string Text
+        {
+            get { return base.Text; }
+            set { base.Text = value; }
         }
 
-        private int _remainCount;
-
-        public int RemainCount
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public new string ToolTipText
         {
-            set
+            get { return base.ToolTipText; }
+            set { base.ToolTipText = value; }
+        }
+
+        [DefaultValue(ToolStripItemDisplayStyle.Text)]
+        [RefreshProperties(RefreshProperties.Repaint)]
+        public new ToolStripItemDisplayStyle DisplayStyle
+        {
+            get { return base.DisplayStyle; }
+            set { base.DisplayStyle = value; }
+        }
+
+        private double remainMinutes = -1;
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            var g = e.Graphics;
+
+            if (this.apiGaugeBounds != Rectangle.Empty)
+                g.FillRectangle(Brushes.LightBlue, this.apiGaugeBounds);
+
+            if (this.timeGaugeBounds != Rectangle.Empty)
+                g.FillRectangle(Brushes.LightPink, this.timeGaugeBounds);
+
+            base.OnPaint(e);
+        }
+
+        #region from Tween v1.1.0.0
+
+        // The code in this region block is based on code written by the following authors:
+        //   (C) 2010 anis774 (@anis774) <http://d.hatena.ne.jp/anis774/>
+        //   (C) 2010 Moz (@syo68k)
+
+        internal Rectangle apiGaugeBounds = Rectangle.Empty;
+        internal Rectangle timeGaugeBounds = Rectangle.Empty;
+
+        protected virtual void UpdateGaugeBounds()
+        {
+            if (this._ApiLimit == null || this._GaugeHeight < 1)
             {
-                this._remainCount = value;
-                if (this.Control != null && !this.Control.IsDisposed)
-                {
-                    this.SetText(this._remainCount, this._maxCount);
-                    this.Control.Refresh();
-                }
+                this.apiGaugeBounds = Rectangle.Empty;
+                this.timeGaugeBounds = Rectangle.Empty;
+                return;
             }
-            get { return _remainCount; }
+
+            var apiGaugeValue = (double)this._ApiLimit.AccessLimitRemain / this._ApiLimit.AccessLimitCount;
+            this.apiGaugeBounds = new Rectangle(
+                0,
+                (this.Height - this._GaugeHeight * 2) / 2,
+                (int)(this.Width * apiGaugeValue),
+                this._GaugeHeight
+            );
+
+            var timeGaugeValue = this.remainMinutes >= 60 ? 1.00 : this.remainMinutes / 60;
+            this.timeGaugeBounds = new Rectangle(
+                0,
+                this.apiGaugeBounds.Top + this._GaugeHeight,
+                (int)(this.Width * timeGaugeValue),
+                this._GaugeHeight
+            );
         }
 
-        private DateTime _resetTime;
-
-        public DateTime ResetTime
+        protected virtual void UpdateText()
         {
-            set
+            string remainCountText;
+            string maxCountText;
+            string minuteText;
+
+            if (this._ApiLimit == null)
             {
-                this._resetTime = value;
-                if (this.Control != null && !this.Control.IsDisposed)
-                {
-                    this.SetText(this._remainCount, this._maxCount);
-                    this.Control.Refresh();
-                }
+                remainCountText = "???";
+                maxCountText = "???";
+                minuteText = "???";
             }
-            get { return _resetTime; }
-        }
-
-        private void Draw(object sender, PaintEventArgs e)
-        {
-            double minute = (this.ResetTime - DateTime.Now).TotalMinutes;
-            Rectangle apiGaugeBounds = new Rectangle(0,
-                                                     (this.Control.Height - (this._gaugeHeight * 2)) / 2,
-                                                     this.Control.Width * this.RemainCount / this._maxCount,
-                                                     this._gaugeHeight);
-            Rectangle timeGaugeBounds = new Rectangle(0,
-                                                      apiGaugeBounds.Top + this._gaugeHeight,
-                                                      (int)(this.Control.Width * minute / 60),
-                                                      this._gaugeHeight);
-            e.Graphics.FillRectangle(Brushes.LightBlue, apiGaugeBounds);
-            e.Graphics.FillRectangle(Brushes.LightPink, timeGaugeBounds);
-            e.Graphics.DrawString(this.Control.Text, this.Control.Font, SystemBrushes.ControlText, 0, (float)(timeGaugeBounds.Top - (this.Control.Font.Height / 2)));
-        }
-
-        private void Control_TextChanged(object sender, EventArgs e)
-        {
-            this.Control.SizeChanged -= this.Control_SizeChanged;
-            using (Graphics g = this.Control.CreateGraphics())
+            else
             {
-                this.Control.Size = new Size((int)(Math.Max(g.MeasureString(this.Control.Text, this.Control.Font).Width, this.originalSize.Width)),
-                                             this.Control.Size.Height);
+                remainCountText = this._ApiLimit.AccessLimitRemain.ToString();
+                maxCountText = this._ApiLimit.AccessLimitCount.ToString();
+                minuteText = Math.Ceiling(this.remainMinutes).ToString();
             }
-            this.Control.SizeChanged += this.Control_SizeChanged;
-        }
 
-        private void Control_SizeChanged(object sender, EventArgs e)
-        {
-            this.originalSize = this.Control.Size;
-        }
+            var textFormat = "API {0}/{1}";
+            this.Text = string.Format(textFormat, remainCountText, maxCountText);
 
-        private void SetText(int remain, int max)
-        {
-            string textFormat = "API {0}/{1}";
-            string toolTipTextFormat =
+            var toolTipTextFormat =
                 "API rest {0}/{1}" + Environment.NewLine +
                 "(reset after {2} minutes)";
 
-            if (this._remainCount > -1 && this._maxCount > -1)
-            {
-                // 正常
-                this.Control.Text = String.Format(textFormat, this._remainCount, this._maxCount);
-            }
-            else if (this.RemainCount > -1)
-            {
-                // uppercount不正
-                this.Control.Text = String.Format(textFormat, this._remainCount, "???");
-            }
-            else if (this._maxCount < -1)
-            {
-                // remaincount不正
-                this.Control.Text = String.Format(textFormat, "???", this._maxCount);
-            }
-            else
-            {
-                // 両方とも不正
-                this.Control.Text = String.Format(textFormat, "???", "???");
-            }
-
-            double minute = Math.Ceiling((this.ResetTime - DateTime.Now).TotalMinutes);
-            string minuteText;
-            if (minute >= 0)
-            {
-                minuteText = minute.ToString();
-            }
-            else
-            {
-                minuteText = "???";
-            }
-
-            this.ToolTipText = String.Format(toolTipTextFormat, this._remainCount, this._maxCount, minuteText);
+            this.ToolTipText = String.Format(toolTipTextFormat, remainCountText, maxCountText, minuteText);
         }
+
+        #endregion
     }
 }
