@@ -102,36 +102,33 @@ namespace OpenTween
 
                     if (this.innerDictionary.ContainsKey(address) && !this.innerDictionary[address].IsFaulted)
                         cachedImageTask = this.innerDictionary[address];
-                }
 
-                if (cachedImageTask != null)
-                    return cachedImageTask;
+                    if (cachedImageTask != null)
+                        return cachedImageTask;
 
-                cancelToken.ThrowIfCancellationRequested();
+                    cancelToken.ThrowIfCancellationRequested();
 
-                using (var client = new OTWebClient() { Timeout = 10000 })
-                {
-                    var imageTask = client.DownloadDataAsync(new Uri(address), cancelToken).ContinueWith(t =>
+                    using (var client = new OTWebClient() { Timeout = 10000 })
                     {
-                        MemoryImage image = null;
-                        if (t.Status == TaskStatus.RanToCompletion)
+                        var imageTask = client.DownloadDataAsync(new Uri(address), cancelToken).ContinueWith(t =>
                         {
-                            image = MemoryImage.CopyFromBytes(t.Result);
-                        }
+                            MemoryImage image = null;
+                            if (t.Status == TaskStatus.RanToCompletion)
+                            {
+                                image = MemoryImage.CopyFromBytes(t.Result);
+                            }
 
-                        if (t.Exception != null)
-                            t.Exception.Handle(e => e is WebException);
+                            if (t.Exception != null)
+                                t.Exception.Handle(e => e is WebException);
 
-                        // FIXME: MemoryImage.Dispose() が正しいタイミングで呼ばれるように修正すべき
-                        return image;
-                    }, cancelToken);
+                            // FIXME: MemoryImage.Dispose() が正しいタイミングで呼ばれるように修正すべき
+                            return image;
+                        }, cancelToken);
 
-                    lock (this.lockObject)
-                    {
                         this.innerDictionary[address] = imageTask;
-                    }
 
-                    return imageTask;
+                        return imageTask;
+                    }
                 }
             }, cancelToken).Unwrap();
         }
