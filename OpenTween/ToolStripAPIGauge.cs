@@ -40,11 +40,26 @@ namespace OpenTween
         public ToolStripAPIGauge()
             : base()
         {
-            this.Text = "API ???/???";
+            this.Text = "API v1.1 ???/???";
             this.ToolTipText = "API rest ???/???" + Environment.NewLine + "(reset after ??? minutes)";
 
             this.DisplayStyle = ToolStripItemDisplayStyle.Text;
         }
+
+        [DefaultValue(true)]
+        [RefreshProperties(RefreshProperties.Repaint)]
+        public bool API11Enabled
+        {
+            get { return this._API11Enabled; }
+            set
+            {
+                this._API11Enabled = value;
+
+                this.UpdateText();
+                this.Invalidate();
+            }
+        }
+        private bool _API11Enabled = true;
 
         /// <summary>
         /// ゲージに表示される横棒グラフの幅
@@ -167,9 +182,15 @@ namespace OpenTween
 
         protected virtual void UpdateText()
         {
+            string apiVersionText;
             string remainCountText;
             string maxCountText;
             string minuteText;
+
+            if (this._API11Enabled)
+                apiVersionText = "v1.1";
+            else
+                apiVersionText = "v1";
 
             if (this._ApiLimit == null)
             {
@@ -184,8 +205,8 @@ namespace OpenTween
                 minuteText = Math.Ceiling(this.remainMinutes).ToString();
             }
 
-            var textFormat = "API {0}/{1}";
-            this.Text = string.Format(textFormat, remainCountText, maxCountText);
+            var textFormat = "API {0} {1}/{2}";
+            this.Text = string.Format(textFormat, apiVersionText, remainCountText, maxCountText);
 
             var toolTipTextFormat =
                 "API rest {0}/{1}" + Environment.NewLine +
