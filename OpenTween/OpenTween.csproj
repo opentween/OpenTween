@@ -53,7 +53,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiInformation.cs" />
+    <Compile Include="Api\ApiLimit.cs" />
+    <Compile Include="Api\TwitterApiAccessLevel.cs" />
+    <Compile Include="Api\TwitterApiStatus.cs" />
     <Compile Include="ApplicationEvents.cs">
       <SubType>Code</SubType>
     </Compile>

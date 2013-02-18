@@ -377,10 +377,20 @@ namespace OpenTween
         [DataContract]
         public class RateLimitStatus
         {
+            [DataMember(Name = "reset_time_in_seconds")] public int ResetTimeInSeconds;
+            [DataMember(Name = "remaining_hits")] public int RemainingHits;
+            [DataMember(Name = "reset_time")] public string ResetTime;
+            [DataMember(Name = "hourly_limit")] public int HourlyLimit;
+            [DataMember(Name = "photos")] public MediaRateLimitStatus Photos;
+        }
+
+        [DataContract]
+        public class MediaRateLimitStatus
+        {
             [DataMember(Name = "reset_time_in_seconds")] public int RestTimeInSeconds;
             [DataMember(Name = "remaining_hits")] public int RemainingHits;
-            [DataMember(Name = "reset_time")] public string RestTime;
-            [DataMember(Name = "hourly_limit")] public int HourlyLimit;
+            [DataMember(Name = "reset_time")] public string ResetTime;
+            [DataMember(Name = "daily_limit")] public int DailyLimit;
         }
 
         [DataContract]

@@ -44,6 +44,7 @@ using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
+using OpenTween.Api;
 
 namespace OpenTween
 {
@@ -677,7 +678,7 @@ namespace OpenTween
             return GetAssemblyName() + "/" + fileVersion;
         }
 
-        public static ApiInformation TwitterApiInfo = new ApiInformation();
+        public static TwitterApiStatus TwitterApiInfo = new TwitterApiStatus();
 
         public static bool IsAnimatedGif(string filename)
         {

@@ -41,6 +41,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using OpenTween.Api;
 
 namespace OpenTween
 {
@@ -159,7 +160,7 @@ namespace OpenTween
             HttpStatusCode res;
             var content = "";
 
-            MyCommon.TwitterApiInfo.Initialize();
+            MyCommon.TwitterApiInfo.Reset();
             try
             {
                 res = twCon.AuthUserAndPass(username, password, ref content);
@@ -211,7 +212,7 @@ namespace OpenTween
             //OAuth PIN Flow
             bool res;
 
-            MyCommon.TwitterApiInfo.Initialize();
+            MyCommon.TwitterApiInfo.Reset();
             try
             {
                 res = twCon.AuthGetRequestToken(ref pinPageUrl);
@@ -229,7 +230,7 @@ namespace OpenTween
             HttpStatusCode res;
             var content = "";
 
-            MyCommon.TwitterApiInfo.Initialize();
+            MyCommon.TwitterApiInfo.Reset();
             try
             {
                 res = twCon.AuthGetAccessToken(pinCode);
@@ -279,7 +280,7 @@ namespace OpenTween
         public void ClearAuthInfo()
         {
             Twitter.AccountState = MyCommon.ACCOUNT_STATE.Invalid;
-            MyCommon.TwitterApiInfo.Initialize();
+            MyCommon.TwitterApiInfo.Reset();
             twCon.ClearAuthInfo();
         }
 
@@ -350,7 +351,7 @@ namespace OpenTween
             {
                 Twitter.AccountState = MyCommon.ACCOUNT_STATE.Invalid;
             }
-            MyCommon.TwitterApiInfo.Initialize();
+            MyCommon.TwitterApiInfo.Reset();
             twCon.Initialize(token, tokenSecret, username, userId);
             _uname = username.ToLower();
             if (AppendSettingDialog.Instance.UserstreamStartup) this.ReconnectUserStream();
@@ -736,9 +737,9 @@ namespace OpenTween
             if (MyCommon._endingFlag) return "";
 
             if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
-            if (MyCommon.TwitterApiInfo.AccessLevel != ApiAccessLevel.None)
+            if (MyCommon.TwitterApiInfo.AccessLevel == TwitterApiAccessLevel.Read || MyCommon.TwitterApiInfo.AccessLevel == TwitterApiAccessLevel.ReadWrite)
             {
-                if (!MyCommon.TwitterApiInfo.IsDirectMessagePermission) return "Auth Err:try to re-authorization.";
+                return "Auth Err:try to re-authorization.";
             }
 
             postStr = postStr.Trim();
@@ -954,9 +955,9 @@ namespace OpenTween
             if (MyCommon._endingFlag) return "";
 
             if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
-            if (MyCommon.TwitterApiInfo.AccessLevel != ApiAccessLevel.None)
+            if (MyCommon.TwitterApiInfo.AccessLevel == TwitterApiAccessLevel.Read || MyCommon.TwitterApiInfo.AccessLevel == TwitterApiAccessLevel.ReadWrite)
             {
-                if (!MyCommon.TwitterApiInfo.IsDirectMessagePermission) return "Auth Err:try to re-authorization.";
+                return "Auth Err:try to re-authorization.";
             }
 
             HttpStatusCode res = HttpStatusCode.BadRequest;
@@ -2901,9 +2902,9 @@ namespace OpenTween
             if (MyCommon._endingFlag) return "";
 
             if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
-            if (MyCommon.TwitterApiInfo.AccessLevel != ApiAccessLevel.None)
+            if (MyCommon.TwitterApiInfo.AccessLevel == TwitterApiAccessLevel.Read || MyCommon.TwitterApiInfo.AccessLevel == TwitterApiAccessLevel.ReadWrite)
             {
-                if (!MyCommon.TwitterApiInfo.IsDirectMessagePermission) return "Auth Err:try to re-authorization.";
+                return "Auth Err:try to re-authorization.";
             }
 
             HttpStatusCode res = HttpStatusCode.BadRequest;
@@ -4057,7 +4058,7 @@ namespace OpenTween
             }
         }
 
-        public bool GetInfoApi(ApiInfo info)
+        public bool GetInfoApi()
         {
             if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return true;
 
@@ -4071,7 +4072,7 @@ namespace OpenTween
             }
             catch(Exception)
             {
-                MyCommon.TwitterApiInfo.Initialize();
+                MyCommon.TwitterApiInfo.Reset();
                 return false;
             }
 
@@ -4080,32 +4081,13 @@ namespace OpenTween
             try
             {
                 var limit = MyCommon.CreateDataFromJson<TwitterDataModel.RateLimitStatus>(content);
-                var arg = new ApiInformationChangedEventArgs();
-                arg.ApiInfo.MaxCount = limit.HourlyLimit;
-                arg.ApiInfo.RemainCount = limit.RemainingHits;
-                arg.ApiInfo.ResetTime = MyCommon.DateTimeParse(limit.RestTime);
-                arg.ApiInfo.ResetTimeInSeconds = limit.RestTimeInSeconds;
-                if (info != null)
-                {
-                    arg.ApiInfo.UsingCount = info.UsingCount;
-
-                    info.MaxCount = arg.ApiInfo.MaxCount;
-                    info.RemainCount = arg.ApiInfo.RemainCount;
-                    info.ResetTime = arg.ApiInfo.ResetTime;
-                    info.ResetTimeInSeconds = arg.ApiInfo.ResetTimeInSeconds;
-                }
-
-                if (ApiInformationChanged != null)
-                {
-                    ApiInformationChanged(this, arg);
-                }
-                MyCommon.TwitterApiInfo.WriteBackEventArgs(arg);
+                MyCommon.TwitterApiInfo.UpdateFromApi(limit);
                 return true;
             }
             catch(Exception ex)
             {
                 MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                MyCommon.TwitterApiInfo.Initialize();
+                MyCommon.TwitterApiInfo.Reset();
                 return false;
             }
         }
@@ -4184,17 +4166,6 @@ namespace OpenTween
             {
                 return twCon.AccessTokenSecret;
             }
-        }
-
-        public event EventHandler<ApiInformationChangedEventArgs> ApiInformationChanged;
-
-        private void Twitter_ApiInformationChanged(object sender, ApiInformationChangedEventArgs e)
-        {
-        }
-
-        public Twitter()
-        {
-            ApiInformationChanged += Twitter_ApiInformationChanged;
         }
 
 #region "UserStream"

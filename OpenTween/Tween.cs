@@ -47,6 +47,7 @@ using System.Diagnostics;
 using OpenTween.Thumbnail;
 using System.Threading.Tasks;
 using System.Net;
+using OpenTween.Api;
 
 namespace OpenTween
 {
@@ -550,7 +551,7 @@ namespace OpenTween
 
             SecurityManager = new InternetSecurityManager(PostBrowser);
 
-            MyCommon.TwitterApiInfo.Changed += SetStatusLabelApiHandler;
+            MyCommon.TwitterApiInfo.AccessLimitUpdated += SetStatusLabelApiHandler;
             Microsoft.Win32.SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
 
             string[] cmdArgs = Environment.GetCommandLineArgs();
@@ -9416,7 +9417,7 @@ namespace OpenTween
 
         delegate void SetStatusLabelApiDelegate();
 
-        private void SetStatusLabelApiHandler(object sender, ApiInformationChangedEventArgs e)
+        private void SetStatusLabelApiHandler(object sender, EventArgs e)
         {
             try
             {
@@ -9441,9 +9442,13 @@ namespace OpenTween
 
         private void SetStatusLabelApi()
         {
-            this._apiGauge.RemainCount = MyCommon.TwitterApiInfo.RemainCount;
-            this._apiGauge.MaxCount = MyCommon.TwitterApiInfo.MaxCount;
-            this._apiGauge.ResetTime = MyCommon.TwitterApiInfo.ResetTime;
+            var apiLimit = MyCommon.TwitterApiInfo.AccessLimit;
+            if (apiLimit == null)
+                return;
+
+            this._apiGauge.RemainCount = apiLimit.AccessLimitRemain;
+            this._apiGauge.MaxCount = apiLimit.AccessLimitCount;
+            this._apiGauge.ResetTime = apiLimit.AccessLimitResetDate;
         }
 
         private void SetStatusLabelUrl()
@@ -10747,7 +10752,7 @@ namespace OpenTween
                     GetTimeline(MyCommon.WORKERTYPE.Configuration, 0, 0, "");
 
                 // 権限チェック read/write権限(xAuthで取得したトークン)の場合は再認証を促す
-                if (MyCommon.TwitterApiInfo.AccessLevel == ApiAccessLevel.ReadWrite)
+                if (MyCommon.TwitterApiInfo.AccessLevel == TwitterApiAccessLevel.ReadWrite)
                 {
                     MessageBox.Show(Properties.Resources.ReAuthorizeText);
                     SettingStripMenuItem_Click(null, null);
@@ -10973,42 +10978,37 @@ namespace OpenTween
         }
 
 
-        private class GetApiInfoArgs
-        {
-            public Twitter tw;
-            public ApiInfo info;
-        }
-
         private void GetApiInfo_Dowork(object sender, DoWorkEventArgs e)
         {
-            GetApiInfoArgs args = (GetApiInfoArgs)e.Argument;
-            e.Result = tw.GetInfoApi(args.info);
+            if (tw.GetInfoApi())
+                e.Result = MyCommon.TwitterApiInfo;
+            else
+                e.Result = null;
         }
 
         private void ApiUsageInfoMenuItem_Click(object sender, EventArgs e)
         {
-            ApiInfo info = new ApiInfo();
             StringBuilder tmp = new StringBuilder();
-            GetApiInfoArgs args = new GetApiInfoArgs() {tw = tw, info = info};
 
-            using (FormInfo dlg = new FormInfo(this, Properties.Resources.ApiInfo6, GetApiInfo_Dowork, null, args))
+            using (FormInfo dlg = new FormInfo(this, Properties.Resources.ApiInfo6, GetApiInfo_Dowork))
             {
                 dlg.ShowDialog();
-                if ((bool)dlg.Result)
+                TwitterApiStatus result = dlg.Result as TwitterApiStatus;
+                if (result != null)
                 {
-                    tmp.AppendLine(Properties.Resources.ApiInfo1 + args.info.MaxCount.ToString());
-                    tmp.AppendLine(Properties.Resources.ApiInfo2 + args.info.RemainCount.ToString());
-                    tmp.AppendLine(Properties.Resources.ApiInfo3 + args.info.ResetTime.ToString());
-                    tmp.AppendLine(Properties.Resources.ApiInfo7 + (tw.UserStreamEnabled ? Properties.Resources.Enable : Properties.Resources.Disable).ToString());
+                    tmp.AppendLine(Properties.Resources.ApiInfo1 + result.AccessLimit.AccessLimitCount);
+                    tmp.AppendLine(Properties.Resources.ApiInfo2 + result.AccessLimit.AccessLimitRemain);
+                    tmp.AppendLine(Properties.Resources.ApiInfo3 + result.AccessLimit.AccessLimitResetDate);
+                    tmp.AppendLine(Properties.Resources.ApiInfo7 + (tw.UserStreamEnabled ? Properties.Resources.Enable : Properties.Resources.Disable));
 
                     tmp.AppendLine();
-                    tmp.AppendLine(Properties.Resources.ApiInfo8 + args.info.AccessLevel.ToString());
+                    tmp.AppendLine(Properties.Resources.ApiInfo8 + result.AccessLevel);
                     SetStatusLabelUrl();
 
                     tmp.AppendLine();
-                    tmp.AppendLine(Properties.Resources.ApiInfo9 + (args.info.MediaMaxCount < 0 ? Properties.Resources.ApiInfo91 : args.info.MediaMaxCount.ToString()));
-                    tmp.AppendLine(Properties.Resources.ApiInfo10 + (args.info.MediaRemainCount < 0 ? Properties.Resources.ApiInfo91 : args.info.MediaRemainCount.ToString()));
-                    tmp.AppendLine(Properties.Resources.ApiInfo11 + (args.info.MediaResetTime == new DateTime() ? Properties.Resources.ApiInfo91 : args.info.MediaResetTime.ToString()));
+                    tmp.AppendLine(Properties.Resources.ApiInfo9 + (result.MediaUploadLimit == null ? Properties.Resources.ApiInfo91 : result.MediaUploadLimit.AccessLimitCount.ToString()));
+                    tmp.AppendLine(Properties.Resources.ApiInfo10 + (result.MediaUploadLimit == null ? Properties.Resources.ApiInfo91 : result.MediaUploadLimit.AccessLimitRemain.ToString()));
+                    tmp.AppendLine(Properties.Resources.ApiInfo11 + (result.MediaUploadLimit == null ? Properties.Resources.ApiInfo91 : result.MediaUploadLimit.AccessLimitResetDate.ToString()));
                 }
                 else
                 {

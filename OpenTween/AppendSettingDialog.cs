@@ -36,6 +36,7 @@ using System.Threading;
 using System.IO;
 using System.Resources;
 using OpenTween.Thumbnail;
+using System.Threading.Tasks;
 
 namespace OpenTween
 {
@@ -1818,13 +1819,14 @@ namespace OpenTween
 
         private void DisplayApiMaxCount()
         {
-            if (MyCommon.TwitterApiInfo.MaxCount > -1)
+            var limit = MyCommon.TwitterApiInfo.AccessLimit;
+            if (limit != null)
             {
-                LabelApiUsing.Text = string.Format(Properties.Resources.SettingAPIUse1, MyCommon.TwitterApiInfo.UsingCount, MyCommon.TwitterApiInfo.MaxCount);
+                LabelApiUsing.Text = string.Format(Properties.Resources.SettingAPIUse1, limit.AccessLimitCount - limit.AccessLimitRemain, limit.AccessLimitCount);
             }
             else
             {
-                LabelApiUsing.Text = string.Format(Properties.Resources.SettingAPIUse1, MyCommon.TwitterApiInfo.UsingCount, "???");
+                LabelApiUsing.Text = string.Format(Properties.Resources.SettingAPIUse1, "???", "???");
             }
         }
 
@@ -1906,16 +1908,19 @@ namespace OpenTween
 
             if (tw != null)
             {
-                if (MyCommon.TwitterApiInfo.MaxCount == -1)
+                var limit = MyCommon.TwitterApiInfo.AccessLimit;
+                if (limit == null)
                 {
                     if (Twitter.AccountState == MyCommon.ACCOUNT_STATE.Valid)
                     {
-                        MyCommon.TwitterApiInfo.UsingCount = UsingApi;
-                        Thread proc = new Thread(new System.Threading.ThreadStart(() => {
-                            tw.GetInfoApi(null); //取得エラー時はinfoCountは初期状態（値：-1）
-                            if (this.IsHandleCreated && !this.IsDisposed) Invoke(new MethodInvoker(DisplayApiMaxCount));
-                        }));
-                        proc.Start();
+                        Task.Factory.StartNew(() => tw.GetInfoApi()) //取得エラー時はinfoCountは初期状態（値：-1）
+                            .ContinueWith(t =>
+                            {
+                                if (this.IsHandleCreated && !this.IsDisposed)
+                                {
+                                    this.DisplayApiMaxCount();
+                                }
+                            }, TaskScheduler.FromCurrentSynchronizationContext());
                     }
                     else
                     {
@@ -1924,7 +1929,7 @@ namespace OpenTween
                 }
                 else
                 {
-                    LabelApiUsing.Text = string.Format(Properties.Resources.SettingAPIUse1, UsingApi, MyCommon.TwitterApiInfo.MaxCount);
+                    LabelApiUsing.Text = string.Format(Properties.Resources.SettingAPIUse1, UsingApi, limit.AccessLimitCount);
                 }
             }
 
