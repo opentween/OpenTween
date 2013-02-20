@@ -37,6 +37,7 @@ namespace OpenTween
         {
             using (var toolStrip = new ToolStripAPIGauge())
             {
+                toolStrip.AutoSize = false;
                 toolStrip.Size = new Size(100, 10);
                 toolStrip.ApiLimit = new ApiLimit(150, 150, DateTime.MaxValue);
 
@@ -84,6 +85,7 @@ namespace OpenTween
         {
             using (var toolStrip = new ToolStripAPIGauge())
             {
+                toolStrip.AutoSize = false;
                 toolStrip.Size = new Size(100, 10);
                 toolStrip.GaugeHeight = 5;
 
