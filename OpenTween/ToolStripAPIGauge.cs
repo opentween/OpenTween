@@ -75,11 +75,7 @@ namespace OpenTween
             {
                 this._ApiLimit = value;
 
-                if (value != null)
-                    this.remainMinutes = (value.AccessLimitResetDate - DateTime.Now).TotalMinutes;
-                else
-                    this.remainMinutes = -1;
-
+                this.UpdateRemainMinutes();
                 this.UpdateText();
                 this.UpdateGaugeBounds();
                 this.Invalidate();
@@ -111,7 +107,15 @@ namespace OpenTween
             set { base.DisplayStyle = value; }
         }
 
-        private double remainMinutes = -1;
+        protected double remainMinutes = -1;
+
+        protected virtual void UpdateRemainMinutes()
+        {
+            if (this._ApiLimit != null)
+                this.remainMinutes = (this._ApiLimit.AccessLimitResetDate - DateTime.Now).TotalMinutes;
+            else
+                this.remainMinutes = -1;
+        }
 
         protected override void OnPaint(PaintEventArgs e)
         {

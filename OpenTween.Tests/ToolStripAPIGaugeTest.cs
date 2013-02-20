@@ -80,21 +80,37 @@ namespace OpenTween
             }
         }
 
+        class TestToolStripAPIGauge : ToolStripAPIGauge
+        {
+            public DateTime Now { get; set; } // 現在時刻
+
+            protected override void UpdateRemainMinutes()
+            {
+                if (this.ApiLimit != null)
+                    this.remainMinutes = (this.ApiLimit.AccessLimitResetDate - this.Now).TotalMinutes;
+                else
+                    this.remainMinutes = -1;
+            }
+        }
+
         [Test]
         public void GaugeBoundsTest()
         {
-            using (var toolStrip = new ToolStripAPIGauge())
+            using (var toolStrip = new TestToolStripAPIGauge())
             {
                 toolStrip.AutoSize = false;
                 toolStrip.Size = new Size(100, 10);
                 toolStrip.GaugeHeight = 5;
+
+                // 現在時刻を偽装
+                toolStrip.Now = new DateTime(2013, 1, 1, 0, 0, 0);
 
                 // toolStrip.ApiLimit の初期値は null
 
                 Assert.That(toolStrip.apiGaugeBounds, Is.EqualTo(Rectangle.Empty));
                 Assert.That(toolStrip.timeGaugeBounds, Is.EqualTo(Rectangle.Empty));
 
-                toolStrip.ApiLimit = new ApiLimit(150, 60, DateTime.Now.AddMinutes(15));
+                toolStrip.ApiLimit = new ApiLimit(150, 60, toolStrip.Now.AddMinutes(15));
 
                 Assert.That(toolStrip.apiGaugeBounds, Is.EqualTo(new Rectangle(0, 0, 40, 5))); // 40% (60/150)
                 Assert.That(toolStrip.timeGaugeBounds, Is.EqualTo(new Rectangle(0, 5, 25, 5))); // 25% (15/60)
