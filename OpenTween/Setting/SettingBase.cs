@@ -44,9 +44,15 @@ namespace OpenTween
         {
             try
             {
+                var settingFilePath = GetSettingFilePath(FileId);
+                if (!File.Exists(settingFilePath))
+                {
+                    return new T();
+                }
+
                 lock (lockObj)
                 {
-                    using (FileStream fs = new FileStream(GetSettingFilePath(FileId), FileMode.Open))
+                    using (FileStream fs = new FileStream(settingFilePath, FileMode.Open))
                     {
                         fs.Position = 0;
                         XmlSerializer xs = new XmlSerializer(typeof(T));
