@@ -213,9 +213,10 @@ namespace OpenTween
             Deleted = 256,
             ListCreated = 512,
             ListUpdated = 1024,
+            Unfollow = 2048,
 
             All = (None | Favorite | Unfavorite | Follow | ListMemberAdded | ListMemberRemoved |
-                   Block | Unblock | UserUpdate | Deleted | ListCreated | ListUpdated),
+                   Block | Unblock | UserUpdate | Deleted | ListCreated | ListUpdated | Unfollow),
         }
 
         public static void TraceOut(Exception ex, string Message)

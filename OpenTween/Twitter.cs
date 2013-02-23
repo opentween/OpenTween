@@ -4250,6 +4250,7 @@ namespace OpenTween
             new EventTypeTableElement("deleted", MyCommon.EVENTTYPE.Deleted),
             new EventTypeTableElement("list_created", MyCommon.EVENTTYPE.ListCreated),
             new EventTypeTableElement("list_updated", MyCommon.EVENTTYPE.ListUpdated),
+            new EventTypeTableElement("unfollow", MyCommon.EVENTTYPE.Unfollow),
         };
 
         public MyCommon.EVENTTYPE EventNameToEventType(string EventName)
@@ -4416,6 +4417,8 @@ namespace OpenTween
                     }
                     evt.Target = "";
                     break;
+                case "unfollow":
+                    return;
                 case "favorite":
                 case "unfavorite":
                     evt.Target = "@" + eventData.TargetObject.User.ScreenName + ":" + WebUtility.HtmlDecode(eventData.TargetObject.Text);
