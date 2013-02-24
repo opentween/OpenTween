@@ -5534,13 +5534,14 @@ namespace OpenTween
                 stateRect = Rectangle.Intersect(new Rectangle(iconRect.Location.X + _iconSz + 2, iconRect.Location.Y, 18, 16), itemRect);
             }
 
-            if (item.Image != null && iconRect.Width > 0)
+            var img = item.Image;
+            if (img != null && iconRect.Width > 0)
             {
                 e.Graphics.FillRectangle(Brushes.White, iconRect);
                 e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
                 try
                 {
-                    e.Graphics.DrawImage(item.Image, iconRect);
+                    e.Graphics.DrawImage(img.Image, iconRect);
                 }
                 catch (ArgumentException)
                 {
@@ -6020,11 +6021,13 @@ namespace OpenTween
             if (sender.Equals(displayItem))
             {
                 if (UserPicture.Image != null) UserPicture.Image.Dispose();
-                if (displayItem.Image != null)
+
+                var img = displayItem.Image;
+                if (img != null)
                 {
                     try
                     {
-                        UserPicture.Image = new Bitmap(displayItem.Image);
+                        UserPicture.Image = new Bitmap(img.Image);
                     }
                     catch (Exception)
                     {
