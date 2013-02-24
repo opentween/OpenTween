@@ -41,12 +41,12 @@ namespace OpenTween
             get { return base.Image; }
             set
             {
+                base.Image = value;
                 if (this.memoryImage != null)
                 {
                     this.memoryImage.Dispose();
                     this.memoryImage = null;
                 }
-                base.Image = value;
             }
         }
 
