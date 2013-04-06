@@ -136,6 +136,12 @@ namespace OpenTween
         public bool CloseToExit = false;
         public MyCommon.DispTitleEnum DispLatestPost = MyCommon.DispTitleEnum.Post;
         public bool SortOrderLock = false;
+
+        /// <summary>
+        /// タブを下部に表示するかどうか
+        /// </summary>
+        public bool ViewTabBottom = true;
+
         public bool TinyUrlResolve = true;
         public bool ShortUrlForceResolve = false;
         public bool PeriodAdjust = true;
