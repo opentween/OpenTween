@@ -450,7 +450,7 @@ namespace OpenTween
 					query.Add( kvp.Key, kvp.Value );
 
 			// PINコードが指定されていればパラメータに追加
-			if ( string.IsNullOrEmpty( pinCode ) )
+			if ( ! string.IsNullOrEmpty( pinCode ) )
 				query.Add( "oauth_verifier", pinCode );
 			// OAuth関連情報をHTTPリクエストに追加
 			this.AppendOAuthInfo( webReq, query, requestToken, "" );
