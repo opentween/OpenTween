@@ -25,6 +25,7 @@
 // Boston, MA 02110-1301, USA.
 
 using System;
+using System.Net;
 
 namespace OpenTween
 {
@@ -37,10 +38,10 @@ namespace OpenTween
         public UserInfo(TwitterDataModel.User user)
         {
             this.Id = user.Id;
-            this.Name = user.Name.Trim();
+            this.Name = WebUtility.HtmlDecode(user.Name).Trim();
             this.ScreenName = user.ScreenName;
-            this.Location = user.Location;
-            this.Description = user.Description;
+            this.Location = WebUtility.HtmlDecode(user.Location);
+            this.Description = WebUtility.HtmlDecode(user.Description);
             try
             {
                 this.ImageUrl = new Uri(user.ProfileImageUrlHttps);

@@ -35,6 +35,7 @@ using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.IO;
+using System.Net;
 
 namespace OpenTween
 {
@@ -86,10 +87,10 @@ namespace OpenTween
             try
             {
                 _info.Id = user.Id;
-                _info.Name = user.Name.Trim();
+                _info.Name = WebUtility.HtmlDecode(user.Name).Trim();
                 _info.ScreenName = user.ScreenName;
-                _info.Location = user.Location;
-                _info.Description = user.Description;
+                _info.Location = WebUtility.HtmlDecode(user.Location);
+                _info.Description = WebUtility.HtmlDecode(user.Description);
                 _info.ImageUrl = new Uri(user.ProfileImageUrlHttps);
                 _info.Url = user.Url;
                 _info.Protect = user.Protected;
@@ -138,7 +139,7 @@ namespace OpenTween
         private string MakeDescriptionBrowserText(string data)
         {
             descriptionTxt = MyOwner.createDetailHtml(
-                                    MyOwner.TwitterInstance.CreateHtmlAnchor(data, atlist, null));
+                                    MyOwner.TwitterInstance.CreateHtmlAnchor(WebUtility.HtmlEncode(data), atlist, null));
             return descriptionTxt;
         }
 
