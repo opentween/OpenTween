@@ -428,7 +428,7 @@ namespace OpenTween
             //}
             retStr = Regex.Replace(retStr, "<a [^>]*href=\"/", "<a href=\"https://twitter.com/");
             retStr = retStr.Replace("<a href=", "<a target=\"_self\" href=");
-            retStr = retStr.Replace("\n", "<br>");
+            retStr = Regex.Replace(retStr, @"(\r\n?|\n)", "<br>"); // CRLF, CR, LF は全て <br> に置換する
 
             //半角スペースを置換(Thanks @anis774)
             var ret = false;
