@@ -726,6 +726,7 @@ namespace OpenTween
             SettingDialog.MinimizeToTray = _cfgCommon.MinimizeToTray;
             SettingDialog.DispLatestPost = _cfgCommon.DispLatestPost;
             SettingDialog.SortOrderLock = _cfgCommon.SortOrderLock;
+            SettingDialog.ViewTabBottom = _cfgCommon.ViewTabBottom;
             SettingDialog.TinyUrlResolve = _cfgCommon.TinyUrlResolve;
             SettingDialog.ShortUrlForceResolve = _cfgCommon.ShortUrlForceResolve;
 
@@ -1275,6 +1276,9 @@ namespace OpenTween
                 // 初回起動時だけ右下のメニューを目立たせる
                 HashStripSplitButton.ShowDropDown();
             }
+
+            // タブの位置を調整する
+            SetTabAlignment();
         }
 
         private void CreatePictureServices()
@@ -3998,6 +4002,9 @@ namespace OpenTween
                         throw;
                     }
 
+                    // タブの表示位置の決定
+                    SetTabAlignment();
+
                     PlaySoundMenuItem.Checked = SettingDialog.PlaySound;
                     this.PlaySoundFileMenuItem.Checked = SettingDialog.PlaySound;
                     _fntUnread = SettingDialog.FontUnread;
@@ -4170,6 +4177,14 @@ namespace OpenTween
 
             this.TopMost = SettingDialog.AlwaysTop;
             SaveConfigsAll(false);
+        }
+
+        /// <summary>
+        /// タブの表示位置を設定する
+        /// </summary>
+        private void SetTabAlignment()
+        {
+            ListTab.Alignment = (SettingDialog.ViewTabBottom ? TabAlignment.Bottom : TabAlignment.Top);
         }
 
         private void PostBrowser_Navigated(object sender, WebBrowserNavigatedEventArgs e)
@@ -7722,6 +7737,7 @@ namespace OpenTween
                 _cfgCommon.CloseToExit = SettingDialog.CloseToExit;
                 _cfgCommon.DispLatestPost = SettingDialog.DispLatestPost;
                 _cfgCommon.SortOrderLock = SettingDialog.SortOrderLock;
+                _cfgCommon.ViewTabBottom = SettingDialog.ViewTabBottom;
                 _cfgCommon.TinyUrlResolve = SettingDialog.TinyUrlResolve;
                 _cfgCommon.ShortUrlForceResolve = SettingDialog.ShortUrlForceResolve;
                 _cfgCommon.PeriodAdjust = SettingDialog.PeriodAdjust;
@@ -12331,8 +12347,6 @@ namespace OpenTween
             {
                 ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage;
                 ImageSelectedPicture.Tag = MyCommon.UploadFileType.Invalid;
-                TimelinePanel.Visible = true;
-                TimelinePanel.Enabled = true;
                 ImageSelectionPanel.Visible = false;
                 ImageSelectionPanel.Enabled = false;
                 ((DetailsListView)ListTab.SelectedTab.Tag).Focus();
@@ -12390,8 +12404,6 @@ namespace OpenTween
         private void ImageCancelButton_Click(object sender, EventArgs e)
         {
             ImagefilePathText.CausesValidation = false;
-            TimelinePanel.Visible = true;
-            TimelinePanel.Enabled = true;
             ImageSelectionPanel.Visible = false;
             ImageSelectionPanel.Enabled = false;
             ((DetailsListView)ListTab.SelectedTab.Tag).Focus();

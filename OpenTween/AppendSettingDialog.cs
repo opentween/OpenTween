@@ -369,6 +369,7 @@ namespace OpenTween
                         break;
                 }
                 SortOrderLock = CheckSortOrderLock.Checked;
+                ViewTabBottom = CheckViewTabBottom.Checked;
                 TinyUrlResolve = CheckTinyURL.Checked;
                 ShortUrlForceResolve = CheckForceResolve.Checked;
                 ShortUrl.IsResolve = TinyUrlResolve;
@@ -736,6 +737,7 @@ namespace OpenTween
                     break;
             }
             CheckSortOrderLock.Checked = SortOrderLock;
+            CheckViewTabBottom.Checked = ViewTabBottom;
             CheckTinyURL.Checked = TinyUrlResolve;
             CheckForceResolve.Checked = ShortUrlForceResolve;
             switch (_MyProxyType)
@@ -1350,6 +1352,10 @@ namespace OpenTween
                 _MyProxyType = value;
             }
         }
+        /// <summary>
+        /// タブを下部に表示するかどうかを取得または設定する
+        /// </summary>
+        public bool ViewTabBottom { get; set; }
 
         public string ProxyAddress { get; set; }
         public int ProxyPort { get; set; }
