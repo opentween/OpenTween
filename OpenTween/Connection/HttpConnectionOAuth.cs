@@ -408,7 +408,7 @@ namespace OpenTween
 			// リクエストトークン取得
 			string content = "";
 			NameValueCollection reqTokenData;
-			if ( this.GetOAuthToken( new Uri( requestTokenUrl ), "", "", null, ref content) != HttpStatusCode.OK )
+			if ( this.GetOAuthToken( new Uri( requestTokenUrl ), "", "", null, ref content, callbackUrl: "oob" ) != HttpStatusCode.OK )
 				return null;
 			reqTokenData = base.ParseQueryString( content );
 
@@ -434,7 +434,7 @@ namespace OpenTween
 		/// <param name="requestToken">PINフロー時のリクエストトークン取得時に設定。それ以外は空文字列</param>
 		/// <param name="parameter">追加パラメータ。xAuthで使用</param>
 		/// <returns>取得結果のデータ。正しく取得出来なかった場合はNothing</returns>
-		private HttpStatusCode GetOAuthToken( Uri requestUri, string pinCode, string requestToken, Dictionary< string , string > parameter, ref string content )
+		private HttpStatusCode GetOAuthToken( Uri requestUri, string pinCode, string requestToken, Dictionary< string , string > parameter, ref string content, string callbackUrl = null )
 		{
 			HttpWebRequest webReq = null;
 			// HTTPリクエスト生成。PINコードもパラメータも未指定の場合はGETメソッドで通信。それ以外はPOST
@@ -452,6 +452,11 @@ namespace OpenTween
 			// PINコードが指定されていればパラメータに追加
 			if ( ! string.IsNullOrEmpty( pinCode ) )
 				query.Add( "oauth_verifier", pinCode );
+
+			// コールバックURLが指定されていればパラメータに追加
+			if (!string.IsNullOrEmpty(callbackUrl))
+				query.Add("oauth_callback", callbackUrl);
+
 			// OAuth関連情報をHTTPリクエストに追加
 			this.AppendOAuthInfo( webReq, query, requestToken, "" );
 
