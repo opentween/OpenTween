@@ -625,6 +625,8 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Ver 1.1.0-beta1(2013/xx/xx)
+        ///
         ///==== Ver 1.0.9(2013/04/07)
         /// * CHG: APIレートリミット関連の実装を修正
         /// * FIX: アイコンキャッシュの破棄時にエラーが出ることがある問題を修正
@@ -634,8 +636,7 @@ namespace OpenTween.Properties {
         /// * FIX: アカウント追加時の初回認証に失敗する問題を修正 (thx @polka_roco_!)
         /// * FIX: ツールバー上のAPIレートリミット表示が正しく動作しなくなった問題を修正
         /// * FIX: ツイタマなど一部のTwitterクライアントから投稿されたツイートの改行が正しく表示されない問題を修正 (thx @ohta8801, @kossetsu_inryo!)
-        /// * FIX: プロフィール編集画面で入力した &lt;, &gt; などの記号が保持されない問題を修正 (thx @cn!) 
-        /// [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * FIX: プロフィール編集画面で入力した  [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
