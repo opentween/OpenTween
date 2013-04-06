@@ -57,7 +57,15 @@ namespace OpenTween.Api
                 new ApiLimit(150, 100, new DateTime(2013, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToLocalTime()),
             },
             new object[] {
-                new Dictionary<string, string> {
+                new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+                    {"x-ratelimit-limit", "150"},
+                    {"x-ratelimit-remaining", "100"},
+                    {"x-ratelimit-reset", "1356998400"},
+                },
+                new ApiLimit(150, 100, new DateTime(2013, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToLocalTime()),
+            },
+            new object[] {
+                new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                     {"X-RateLimit-Limit", "150"},
                     {"X-RateLimit-Remaining", "100"},
                     {"X-RateLimit-Reset", "hogehoge"},

@@ -534,18 +534,14 @@ namespace OpenTween
 
             if (headerInfo.Count > 0)
             {
-                string[] keys = new string[headerInfo.Count];
-                headerInfo.Keys.CopyTo(keys, 0);
-                foreach (string key in keys)
+                var headers = webResponse.Headers;
+                var dictKeys = new string[headerInfo.Count];
+                headerInfo.Keys.CopyTo(dictKeys, 0);
+
+                foreach (var key in dictKeys)
                 {
-                    if (Array.IndexOf(webResponse.Headers.AllKeys, key) > -1)
-                    {
-                        headerInfo[key] = webResponse.Headers[key];
-                    }
-                    else
-                    {
-                        headerInfo[key] = "";
-                    }
+                    var value = headers[key];
+                    headerInfo[key] = value ?? "";
                 }
             }
 

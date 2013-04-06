@@ -65,7 +65,7 @@ namespace OpenTween
         private static string tks = "";
         private static string un = "";
 
-        private Dictionary<string, string> apiStatusHeaders = new Dictionary<string, string>
+        private Dictionary<string, string> apiStatusHeaders = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
         {
             {"X-Access-Level", ""},
             {"X-RateLimit-Limit", ""},
