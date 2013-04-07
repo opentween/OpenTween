@@ -71,7 +71,7 @@ namespace OpenTween
         {
             // 実行中の同じアプリケーションのウィンドウ・ハンドルの取得
             var prevProcess = Win32Api.GetPreviousProcess();
-            if (prevProcess != null && prevProcess.MainWindowHandle == IntPtr.Zero)
+            if (prevProcess != null && prevProcess.MainWindowHandle != IntPtr.Zero)
             {
                 // 起動中のアプリケーションを最前面に表示
                 Win32Api.WakeupWindow(prevProcess.MainWindowHandle);
