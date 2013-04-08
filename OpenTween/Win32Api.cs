@@ -25,11 +25,12 @@
 // Boston, MA 02110-1301, USA.
 
 using System;
-using System.Runtime.InteropServices;
 using System.Diagnostics;
+using System.Linq;
+using System.Net;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
-using System.Net;
 
 namespace OpenTween
 {
@@ -72,26 +73,16 @@ namespace OpenTween
         public static Process GetPreviousProcess()
         {
             var curProcess = Process.GetCurrentProcess();
-            var allProcesses = Process.GetProcessesByName(curProcess.ProcessName);
-
-            foreach (Process checkProcess in allProcesses)
+            try
             {
-                // 自分自身のプロセスIDは無視する
-                if (checkProcess.Id != curProcess.Id)
-                {
-                    // プロセスのフルパス名を比較して同じアプリケーションか検証
-                    if (string.Compare(
-                            checkProcess.MainModule.FileName,
-                            curProcess.MainModule.FileName, true) == 0)
-                    {
-                        // 同じフルパス名のプロセスを取得
-                        return checkProcess;
-                    }
-                }
+                return Process.GetProcessesByName(curProcess.ProcessName)
+                    .Where(p => p.Id != curProcess.Id)
+                    .FirstOrDefault(p => string.Compare(p.MainModule.FileName, curProcess.MainModule.FileName, StringComparison.OrdinalIgnoreCase) == 0);
             }
-
-            // 同じアプリケーションのプロセスが見つからない！  
-            return null;
+            catch
+            {
+                return null;
+            }
         }
         #endregion
         #region "タスクトレイアイコンのクリック"

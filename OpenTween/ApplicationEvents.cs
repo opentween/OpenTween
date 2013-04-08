@@ -51,6 +51,9 @@ namespace OpenTween
             {
                 if (!mt.WaitOne(0, false))
                 {
+                    var text = string.Format(MyCommon.ReplaceAppName(Properties.Resources.StartupText1), MyCommon.GetAssemblyName());
+                    MessageBox.Show(text, MyCommon.ReplaceAppName(Properties.Resources.StartupText2), MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                     ShowPreviousWindow();
                     return 1;
                 }
@@ -71,32 +74,20 @@ namespace OpenTween
         {
             // 実行中の同じアプリケーションのウィンドウ・ハンドルの取得
             var prevProcess = Win32Api.GetPreviousProcess();
-            if (prevProcess != null && prevProcess.MainWindowHandle != IntPtr.Zero)
+            if (prevProcess == null)
+                return;
+
+            if (prevProcess.MainWindowHandle != IntPtr.Zero)
             {
                 // 起動中のアプリケーションを最前面に表示
                 Win32Api.WakeupWindow(prevProcess.MainWindowHandle);
             }
             else
             {
-                if (prevProcess != null)
-                {
-                    //プロセス特定は出来たが、ウィンドウハンドルが取得できなかった（アイコン化されている）
-                    //タスクトレイアイコンのクリックをエミュレート
-                    //注：アイコン特定はTooltipの文字列で行うため、多重起動時は先に見つけた物がアクティブになる
-                    var rslt = Win32Api.ClickTasktrayIcon(Application.ProductName);
-                    if (!rslt)
-                    {
-                        // 警告を表示（見つからない、またはその他の原因で失敗）
-                        var text = string.Format(MyCommon.ReplaceAppName(Properties.Resources.StartupText1), MyCommon.GetAssemblyName());
-                        MessageBox.Show(text, MyCommon.ReplaceAppName(Properties.Resources.StartupText2), MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                }
-                else
-                {
-                    // 警告を表示（プロセス見つからない場合）
-                    var text = string.Format(MyCommon.ReplaceAppName(Properties.Resources.StartupText1), MyCommon.GetAssemblyName());
-                    MessageBox.Show(text, MyCommon.ReplaceAppName(Properties.Resources.StartupText2), MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+                //プロセス特定は出来たが、ウィンドウハンドルが取得できなかった（アイコン化されている）
+                //タスクトレイアイコンのクリックをエミュレート
+                //注：アイコン特定はTooltipの文字列で行うため、多重起動時は先に見つけた物がアクティブになる
+                Win32Api.ClickTasktrayIcon(Application.ProductName);
             }
         }
 
