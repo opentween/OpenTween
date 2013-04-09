@@ -45,7 +45,7 @@ namespace OpenTween
         /// <summary>
         /// innerDictionary の排他制御のためのロックオブジェクト
         /// </summary>
-        private object lockObject = new object();
+        private ReaderWriterLockSlim lockObject = new ReaderWriterLockSlim();
 
         /// <summary>
         /// オブジェクトが破棄された否か
@@ -54,11 +54,13 @@ namespace OpenTween
 
         public ImageCache()
         {
-            lock (this.lockObject)
+            this.lockObject.EnterWriteLock();
+            try
             {
                 this.innerDictionary = new LRUCacheDictionary<string, Task<MemoryImage>>(trimLimit: 300, autoTrimCount: 100);
-                
-                this.innerDictionary.CacheRemoved += (s, e) => {
+
+                this.innerDictionary.CacheRemoved += (s, e) =>
+                {
                     // まだ参照されている場合もあるのでDisposeはファイナライザ任せ
 
                     this.CacheRemoveCount++;
@@ -66,6 +68,7 @@ namespace OpenTween
 
                 this.cancelTokenSource = new CancellationTokenSource();
             }
+            finally { this.lockObject.ExitWriteLock(); }
         }
 
         /// <summary>
@@ -95,12 +98,10 @@ namespace OpenTween
             return Task.Factory.StartNew(() =>
             {
                 Task<MemoryImage> cachedImageTask = null;
-                lock (this.lockObject)
+                this.lockObject.EnterUpgradeableReadLock();
+                try
                 {
-                    if (force)
-                        this.innerDictionary.Remove(address);
-
-                    if (this.innerDictionary.ContainsKey(address) && !this.innerDictionary[address].IsFaulted)
+                    if (!force && this.innerDictionary.ContainsKey(address) && !this.innerDictionary[address].IsFaulted)
                         cachedImageTask = this.innerDictionary[address];
 
                     if (cachedImageTask != null)
@@ -108,34 +109,41 @@ namespace OpenTween
 
                     cancelToken.ThrowIfCancellationRequested();
 
-                    using (var client = new OTWebClient() { Timeout = 10000 })
+                    this.lockObject.EnterWriteLock();
+                    try
                     {
-                        var imageTask = client.DownloadDataAsync(new Uri(address), cancelToken).ContinueWith(t =>
+                        using (var client = new OTWebClient() { Timeout = 10000 })
                         {
-                            MemoryImage image = null;
-                            if (t.Status == TaskStatus.RanToCompletion)
+                            var imageTask = client.DownloadDataAsync(new Uri(address), cancelToken).ContinueWith(t =>
                             {
-                                image = MemoryImage.CopyFromBytes(t.Result);
-                            }
+                                MemoryImage image = null;
+                                if (t.Status == TaskStatus.RanToCompletion)
+                                {
+                                    image = MemoryImage.CopyFromBytes(t.Result);
+                                }
 
-                            if (t.Exception != null)
-                                t.Exception.Handle(e => e is WebException);
+                                if (t.Exception != null)
+                                    t.Exception.Handle(e => e is WebException);
 
-                            // FIXME: MemoryImage.Dispose() が正しいタイミングで呼ばれるように修正すべき
-                            return image;
-                        }, cancelToken);
+                                // FIXME: MemoryImage.Dispose() が正しいタイミングで呼ばれるように修正すべき
+                                return image;
+                            }, cancelToken);
 
-                        this.innerDictionary[address] = imageTask;
+                            this.innerDictionary[address] = imageTask;
 
-                        return imageTask;
+                            return imageTask;
+                        }
                     }
+                    finally { this.lockObject.ExitWriteLock(); }
                 }
+                finally { this.lockObject.ExitUpgradeableReadLock(); }
             }, cancelToken).Unwrap();
         }
 
         public MemoryImage TryGetFromCache(string address)
         {
-            lock (this.lockObject)
+            this.lockObject.EnterReadLock();
+            try
             {
                 if (!this.innerDictionary.ContainsKey(address))
                     return null;
@@ -146,15 +154,18 @@ namespace OpenTween
 
                 return imageTask.Result;
             }
+            finally { this.lockObject.ExitReadLock(); }
         }
 
         public void CancelAsync()
         {
-            lock (this.lockObject)
+            this.lockObject.EnterWriteLock();
+            try
             {
                 this.cancelTokenSource.Cancel();
                 this.cancelTokenSource = new CancellationTokenSource();
             }
+            finally { this.lockObject.ExitWriteLock(); }
         }
 
         protected virtual void Dispose(bool disposing)
@@ -165,7 +176,8 @@ namespace OpenTween
             {
                 this.CancelAsync();
 
-                lock (this.lockObject)
+                this.lockObject.EnterWriteLock();
+                try
                 {
                     foreach (var item in this.innerDictionary)
                     {
@@ -177,6 +189,9 @@ namespace OpenTween
                     this.innerDictionary.Clear();
                     this.cancelTokenSource.Dispose();
                 }
+                finally { this.lockObject.ExitWriteLock(); }
+
+                this.lockObject.Dispose();
             }
         }
 
