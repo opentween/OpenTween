@@ -38,7 +38,6 @@ namespace OpenTween.OpenTweenCustomControl
 {
     public sealed class DetailsListView : ListView
     {
-        private Rectangle changeBounds;
         private EventHandlerList _handlers = new EventHandlerList();
 
         public event EventHandler VScrolled;
@@ -124,34 +123,22 @@ namespace OpenTween.OpenTweenCustomControl
         public void ChangeSubItemBackColor(int itemIndex, int subitemIndex, Color backColor)
         {
             this.Items[itemIndex].SubItems[subitemIndex].BackColor = backColor;
-            SetUpdateBounds(itemIndex, subitemIndex);
-            this.Update();
-            this.changeBounds = Rectangle.Empty;
         }
 
         public void ChangeSubItemForeColor(int itemIndex, int subitemIndex, Color foreColor)
         {
             this.Items[itemIndex].SubItems[subitemIndex].ForeColor = foreColor;
-            SetUpdateBounds(itemIndex, subitemIndex);
-            this.Update();
-            this.changeBounds = Rectangle.Empty;
         }
 
         public void ChangeSubItemFont(int itemIndex, int subitemIndex, Font fnt)
         {
             this.Items[itemIndex].SubItems[subitemIndex].Font = fnt;
-            SetUpdateBounds(itemIndex, subitemIndex);
-            this.Update();
-            this.changeBounds = Rectangle.Empty;
         }
 
         public void ChangeSubItemFontAndColor(int itemIndex, int subitemIndex, Color foreColor, Font fnt)
         {
             this.Items[itemIndex].SubItems[subitemIndex].ForeColor = foreColor;
             this.Items[itemIndex].SubItems[subitemIndex].Font = fnt;
-            SetUpdateBounds(itemIndex, subitemIndex);
-            this.Update();
-            this.changeBounds = Rectangle.Empty;
         }
 
         public void ChangeSubItemStyles(int itemIndex, int subitemIndex, Color backColor, Color foreColor, Font fnt)
@@ -159,52 +146,6 @@ namespace OpenTween.OpenTweenCustomControl
             this.Items[itemIndex].SubItems[subitemIndex].BackColor = backColor;
             this.Items[itemIndex].SubItems[subitemIndex].ForeColor = foreColor;
             this.Items[itemIndex].SubItems[subitemIndex].Font = fnt;
-            SetUpdateBounds(itemIndex, subitemIndex);
-            this.Update();
-            this.changeBounds = Rectangle.Empty;
-        }
-
-        private void SetUpdateBounds(int itemIndex, int subItemIndex)
-        {
-            try
-            {
-                if (itemIndex > this.Items.Count)
-                {
-                    throw new ArgumentOutOfRangeException("itemIndex");
-                }
-                if (subItemIndex > this.Columns.Count)
-                {
-                    throw new ArgumentOutOfRangeException("subItemIndex");
-                }
-                ListViewItem item = this.Items[itemIndex];
-                if (item.UseItemStyleForSubItems)
-                {
-                    this.changeBounds = item.Bounds;
-                }
-                else
-                {
-                    this.changeBounds = this.GetSubItemBounds(itemIndex, subItemIndex);
-                }
-            }
-            catch (ArgumentException)
-            {
-                //タイミングによりBoundsプロパティが取れない？
-                this.changeBounds = Rectangle.Empty;
-            }
-        }
-
-        private Rectangle GetSubItemBounds(int itemIndex, int subitemIndex)
-        {
-            ListViewItem item = this.Items[itemIndex];
-            if (subitemIndex == 0 && this.Columns.Count > 0)
-            {
-                Rectangle col0 = item.Bounds;
-                return new Rectangle(col0.Left, col0.Top, item.SubItems[1].Bounds.X + 1, col0.Height);
-            }
-            else
-            {
-                return item.SubItems[subitemIndex].Bounds;
-            }
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -248,8 +189,6 @@ namespace OpenTween.OpenTweenCustomControl
         [DebuggerStepThrough()]
         protected override void WndProc(ref Message m)
         {
-            const int WM_ERASEBKGND = 0x14;
-            const int WM_PAINT = 0xF;
             const int WM_MOUSEWHEEL = 0x20A;
             const int WM_MOUSEHWHEEL = 0x20E;
             const int WM_HSCROLL = 0x114;
@@ -264,18 +203,6 @@ namespace OpenTween.OpenTweenCustomControl
 
             switch (m.Msg)
             {
-                case WM_ERASEBKGND:
-                    if (this.changeBounds != Rectangle.Empty)
-                        m.Msg = 0;
-                    break;
-                case WM_PAINT:
-                    if (this.changeBounds != Rectangle.Empty)
-                    {
-                        Win32Api.ValidateRect(this.Handle, IntPtr.Zero);
-                        this.Invalidate(this.changeBounds);
-                        this.changeBounds = Rectangle.Empty;
-                    }
-                    break;
                 case WM_HSCROLL:
                     if (HScrolled != null)
                         HScrolled(this, EventArgs.Empty);

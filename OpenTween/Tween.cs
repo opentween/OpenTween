@@ -183,9 +183,13 @@ namespace OpenTween
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
         private ToolStripAPIGauge _apiGauge;
         private TabInformations _statuses;
-        private ListViewItem[] _itemCache;
+
+        // ListViewItem のキャッシュ関連
         private int _itemCacheIndex;
+        private ListViewItem[] _itemCache;
         private PostClass[] _postCache;
+        private ReaderWriterLockSlim itemCacheLock = new ReaderWriterLockSlim();
+
         private TabPage _curTab;
         private int _curItemIndex;
         private DetailsListView _curList;
@@ -1508,8 +1512,7 @@ namespace OpenTween
                     {
                         if (lst.Equals(_curList))
                         {
-                            _itemCache = null;
-                            _postCache = null;
+                            this.PurgeListViewItemCache();
                         }
                         try
                         {
@@ -1978,14 +1981,15 @@ namespace OpenTween
                !SettingDialog.UnreadManage) Read = true;
 
             //対象の特定
-            ListViewItem itm;
-            PostClass post;
-            if (Tab.Equals(_curTab) && _itemCache != null && Index >= _itemCacheIndex && Index < _itemCacheIndex + _itemCache.Length)
+            ListViewItem itm = null;
+            PostClass post = null;
+
+            if (Tab.Equals(this._curTab))
             {
-                itm = _itemCache[Index - _itemCacheIndex];
-                post = _postCache[Index - _itemCacheIndex];
+                this.TryGetListViewItemCache(Index, out itm, out post);
             }
-            else
+
+            if (itm == null || post == null)
             {
                 itm = ((DetailsListView)Tab.Tag).Items[Index];
                 post = _statuses[Tab.Text, Index];
@@ -2048,20 +2052,20 @@ namespace OpenTween
             else
                 _post = _curPost;
 
-            if (_itemCache == null) return;
-
             if (_post == null) return;
 
+            this.itemCacheLock.EnterReadLock();
             try
             {
-                for (int cnt = 0; cnt <= _itemCache.Length - 1; cnt++)
+                if (this._itemCache == null) return;
+
+                for (int i = 0; i < this._itemCache.Length; i++)
                 {
-                    _curList.ChangeItemBackColor(_itemCacheIndex + cnt, JudgeColor(_post, _postCache[cnt]));
+                    this._itemCache[i].SubItems[0].BackColor = this.JudgeColor(_post, this._postCache[i]);
                 }
             }
-            catch (Exception)
-            {
-            }
+            catch (Exception) { }
+            finally { this.itemCacheLock.ExitReadLock(); }
         }
 
         private void ColorizeList(ListViewItem Item, int Index)
@@ -3083,8 +3087,7 @@ namespace OpenTween
                     break;
                 case MyCommon.WORKERTYPE.Follower:
                     //_waitFollower = false;
-                    _itemCache = null;
-                    _postCache = null;
+                    this.PurgeListViewItemCache();
                     if (_curList != null) _curList.Refresh();
                     break;
                 case MyCommon.WORKERTYPE.Configuration:
@@ -3093,8 +3096,7 @@ namespace OpenTween
                     {
                         pictureService["Twitter"].Configuration("MaxUploadFilesize", SettingDialog.TwitterConfiguration.PhotoSizeLimit);
                     }
-                    _itemCache = null;
-                    _postCache = null;
+                    this.PurgeListViewItemCache();
                     if (_curList != null) _curList.Refresh();
                     break;
                 case MyCommon.WORKERTYPE.PublicSearch:
@@ -3151,8 +3153,7 @@ namespace OpenTween
             }
             if (_curTab != null && _curTab.Text.Equals(favTabName))
             {
-                _itemCache = null;    //キャッシュ破棄
-                _postCache = null;
+                this.PurgeListViewItemCache();
                 _curPost = null;
                 //_curItemIndex = -1;
             }
@@ -3458,8 +3459,7 @@ namespace OpenTween
                 list.Columns[e.Column].Text = ColumnText[e.Column];
             }
 
-            _itemCache = null;
-            _postCache = null;
+            this.PurgeListViewItemCache();
 
             if (_statuses.Tabs[_curTab.Text].AllCount > 0 && _curPost != null)
             {
@@ -3695,8 +3695,7 @@ namespace OpenTween
                 else
                     StatusLabel.Text = Properties.Resources.DeleteStripMenuItem_ClickText4;  //成功
 
-                _itemCache = null;    //キャッシュ破棄
-                _postCache = null;
+                this.PurgeListViewItemCache();
                 _curPost = null;
                 _curItemIndex = -1;
                 foreach (TabPage tb in ListTab.TabPages)
@@ -4129,8 +4128,7 @@ namespace OpenTween
                     SetMainWindowTitle();
                     SetNotifyIconText();
 
-                    _itemCache = null;
-                    _postCache = null;
+                    this.PurgeListViewItemCache();
                     if (_curList != null) _curList.Refresh();
                     ListTab.Refresh();
 
@@ -4748,9 +4746,7 @@ namespace OpenTween
                 _curList = null;
                 _curPost = null;
             }
-            _itemCache = null;
-            _itemCacheIndex = -1;
-            _postCache = null;
+            this.PurgeListViewItemCache();
 
             _tabPage.ResumeLayout(false);
 
@@ -4779,9 +4775,7 @@ namespace OpenTween
 
         private void ListTab_Deselected(object sender, TabControlEventArgs e)
         {
-            _itemCache = null;
-            _itemCacheIndex = -1;
-            _postCache = null;
+            this.PurgeListViewItemCache();
             _beforeSelectedTab = e.TabPage;
         }
 
@@ -5103,26 +5097,35 @@ namespace OpenTween
 
         private void MyList_CacheVirtualItems(object sender, CacheVirtualItemsEventArgs e)
         {
-            if (_itemCache != null &&
-               e.StartIndex >= _itemCacheIndex &&
-               e.EndIndex < _itemCacheIndex + _itemCache.Length &&
-               _curList.Equals(sender))
+            this.itemCacheLock.EnterUpgradeableReadLock();
+            try
             {
-                //If the newly requested cache is a subset of the old cache, 
-                //no need to rebuild everything, so do nothing.
-                return;
-            }
+                if (_itemCache != null &&
+                   e.StartIndex >= _itemCacheIndex &&
+                   e.EndIndex < _itemCacheIndex + _itemCache.Length &&
+                   _curList.Equals(sender))
+                {
+                    //If the newly requested cache is a subset of the old cache, 
+                    //no need to rebuild everything, so do nothing.
+                    return;
+                }
 
-            //Now we need to rebuild the cache.
-            if (_curList.Equals(sender)) CreateCache(e.StartIndex, e.EndIndex);
+                //Now we need to rebuild the cache.
+                if (_curList.Equals(sender)) CreateCache(e.StartIndex, e.EndIndex);
+            }
+            finally { this.itemCacheLock.ExitUpgradeableReadLock(); }
         }
 
         private void MyList_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
         {
-            if (_itemCache != null && e.ItemIndex >= _itemCacheIndex && e.ItemIndex < _itemCacheIndex + _itemCache.Length && _curList.Equals(sender))
+            ListViewItem cacheItem = null;
+            PostClass cacheItemPost = null;
+
+            this.TryGetListViewItemCache(e.ItemIndex, out cacheItem, out cacheItemPost);
+
+            if (cacheItem != null)
             {
-                //A cache hit, so get the ListViewItem from the cache instead of making a new one.
-                e.Item = _itemCache[e.ItemIndex - _itemCacheIndex];
+                e.Item = cacheItem;
             }
             else
             {
@@ -5145,6 +5148,7 @@ namespace OpenTween
 
         private void CreateCache(int StartIndex, int EndIndex)
         {
+            this.itemCacheLock.EnterWriteLock();
             try
             {
                 //キャッシュ要求（要求範囲±30を作成）
@@ -5169,6 +5173,41 @@ namespace OpenTween
                 _postCache = null;
                 _itemCache = null;
             }
+            finally { this.itemCacheLock.ExitWriteLock(); }
+        }
+
+        /// <summary>
+        /// DetailsListView のための ListViewItem のキャッシュを消去する
+        /// </summary>
+        private void PurgeListViewItemCache()
+        {
+            this.itemCacheLock.EnterWriteLock();
+            try
+            {
+                this._itemCache = null;
+                this._itemCacheIndex = -1;
+                this._postCache = null;
+            }
+            finally { this.itemCacheLock.ExitWriteLock(); }
+        }
+
+        private bool TryGetListViewItemCache(int index, out ListViewItem item, out PostClass post)
+        {
+            this.itemCacheLock.EnterReadLock();
+            try
+            {
+                if (this._itemCache != null && index >= this._itemCacheIndex && index < this._itemCacheIndex + this._itemCache.Length)
+                {
+                    item = this._itemCache[index - _itemCacheIndex];
+                    post = this._postCache[index - _itemCacheIndex];
+                    return true;
+                }
+            }
+            finally { this.itemCacheLock.ExitReadLock(); }
+
+            item = null;
+            post = null;
+            return false;
         }
 
         private ListViewItem CreateItem(TabPage Tab, PostClass Post, int Index)
@@ -7370,7 +7409,7 @@ namespace OpenTween
                     _curPost.InReplyToStatusId = post.InReplyToStatusId;
                     _curPost.InReplyToUser = post.InReplyToUser;
                     _curPost.IsReply = post.IsReply;
-                    _itemCache = null;
+                    this.PurgeListViewItemCache();
                     _curList.RedrawItems(_curItemIndex, _curItemIndex, false);
                 }
                 else
@@ -8703,8 +8742,7 @@ namespace OpenTween
 
             if (_curTab.Text == tabName)
             {
-                _itemCache = null;
-                _postCache = null;
+                this.PurgeListViewItemCache();
                 _curList.Refresh();
             }
 
@@ -8752,8 +8790,7 @@ namespace OpenTween
             try
             {
                 this.Cursor = Cursors.WaitCursor;
-                _itemCache = null;
-                _postCache = null;
+                this.PurgeListViewItemCache();
                 _curPost = null;
                 _curItemIndex = -1;
                 _statuses.FilterAll();
@@ -8857,8 +8894,7 @@ namespace OpenTween
             try
             {
                 this.Cursor = Cursors.WaitCursor;
-                _itemCache = null;
-                _postCache = null;
+                this.PurgeListViewItemCache();
                 _curPost = null;
                 _curItemIndex = -1;
                 _statuses.FilterAll();
@@ -9032,8 +9068,7 @@ namespace OpenTween
             try
             {
                 this.Cursor = Cursors.WaitCursor;
-                _itemCache = null;
-                _postCache = null;
+                this.PurgeListViewItemCache();
                 _curPost = null;
                 _curItemIndex = -1;
                 _statuses.FilterAll();
@@ -9306,8 +9341,7 @@ namespace OpenTween
             {
                 _anchorPost = null;
                 _anchorFlag = false;
-                _itemCache = null;
-                _postCache = null;
+                this.PurgeListViewItemCache();
                 _itemCacheIndex = -1;
                 _curItemIndex = -1;
                 _curPost = null;
@@ -10525,9 +10559,7 @@ namespace OpenTween
         {
             SetListProperty();
 
-            _itemCache = null;
-            _itemCacheIndex = -1;
-            _postCache = null;
+            this.PurgeListViewItemCache();
 
             _curTab = _tab;
             _curList = (DetailsListView)_tab.Tag;
@@ -11563,8 +11595,7 @@ namespace OpenTween
                 try
                 {
                     this.Cursor = Cursors.WaitCursor;
-                    _itemCache = null;
-                    _postCache = null;
+                    this.PurgeListViewItemCache();
                     _curPost = null;
                     _curItemIndex = -1;
                     _statuses.FilterAll();
@@ -12591,9 +12622,7 @@ namespace OpenTween
                                _statuses.RemovePostReserve(id);
                                if (_curTab != null && _statuses.Tabs[_curTab.Text].Contains(id))
                                {
-                                   _itemCache = null;
-                                   _itemCacheIndex = -1;
-                                   _postCache = null;
+                                   this.PurgeListViewItemCache();
                                    ((DetailsListView)_curTab.Tag).Update();
                                    if (_curPost != null && _curPost.StatusId == id) DispSelectedPost(true);
                                }
@@ -12755,9 +12784,7 @@ namespace OpenTween
             {
                 if (_curTab != null && _statuses.Tabs[_curTab.Text].Contains(ev.Id))
                 {
-                    _itemCache = null;
-                    _itemCacheIndex = -1;
-                    _postCache = null;
+                    this.PurgeListViewItemCache();
                     ((DetailsListView)_curTab.Tag).Update();
                 }
                 if (ev.Event == "unfavorite" && ev.Username.ToLower().Equals(tw.Username.ToLower()))
