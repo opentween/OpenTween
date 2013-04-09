@@ -67,6 +67,7 @@
     <Compile Include="Thumbnail\Services\TinamiTest.cs" />
     <Compile Include="ToolStripAPIGaugeTest.cs" />
     <Compile Include="TweetThumbnailTest.cs" />
+    <Compile Include="TwitterTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenTween\OpenTween.csproj">

@@ -2,6 +2,7 @@
 
 ==== Ver 1.1.0-beta1(2013/xx/xx)
  * NEW: タブの表示位置を画面上部に変更可能に (thx @aokomoriuta!)
+ * NEW: mobile.twitter.com/<スクリーン名>/status/<ステータスID> のURLも関連発言表示の対象に追加
  * FIX: スペースが含まれているURLをブラウザで開こうとするとURLが分断されて複数のタブが開いてしまう問題を修正 (thx @5px!)
  * FIX: 画面更新時にInvalidOperationExceptionのエラーが発生する不具合を修正
 
