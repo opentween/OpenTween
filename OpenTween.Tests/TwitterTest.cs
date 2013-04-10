@@ -47,5 +47,21 @@ namespace OpenTween
             return Twitter.StatusUrlRegex.Matches(url).Cast<Match>()
                 .Select(x => x.Groups["StatusId"].Value).ToArray();
         }
+
+        [TestCase("http://favstar.fm/users/twitterapi/status/22634515958",
+            Result = new[] { "22634515958" })]
+        [TestCase("http://ja.favstar.fm/users/twitterapi/status/22634515958",
+            Result = new[] { "22634515958" })]
+        [TestCase("http://favstar.fm/t/22634515958",
+            Result = new[] { "22634515958" })]
+        [TestCase("http://aclog.koba789.com/i/312485321239564288",
+            Result = new[] { "312485321239564288" })]
+        [TestCase("http://frtrt.net/solo_status.php?status=263483634307198977",
+            Result = new[] { "263483634307198977" })]
+        public string[] ThirdPartyStatusUrlRegexTest(string url)
+        {
+            return Twitter.ThirdPartyStatusUrlRegex.Matches(url).Cast<Match>()
+                .Select(x => x.Groups["StatusId"].Value).ToArray();
+        }
     }
 }
