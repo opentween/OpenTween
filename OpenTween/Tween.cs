@@ -2054,18 +2054,27 @@ namespace OpenTween
 
             if (_post == null) return;
 
+            var itemColorTuple = new Tuple<ListViewItem, Color>[] { };
+
             this.itemCacheLock.EnterReadLock();
             try
             {
                 if (this._itemCache == null) return;
 
-                for (int i = 0; i < this._itemCache.Length; i++)
-                {
-                    this._itemCache[i].SubItems[0].BackColor = this.JudgeColor(_post, this._postCache[i]);
-                }
+                var query = 
+                    from i in Enumerable.Range(0, this._itemCache.Length)
+                    select new Tuple<ListViewItem, Color>(this._itemCache[i], this.JudgeColor(_post, this._postCache[i]));
+                
+                itemColorTuple = query.ToArray();
             }
-            catch (Exception) { }
             finally { this.itemCacheLock.ExitReadLock(); }
+
+            foreach (var tuple in itemColorTuple)
+            {
+                // この処理中に MyList_CacheVirtualItems が呼ばれることがあるため、
+                // 同一スレッド内での二重ロックを避けるためにロックの外で実行する必要がある
+                tuple.Item1.SubItems[0].BackColor = tuple.Item2;
+            }
         }
 
         private void ColorizeList(ListViewItem Item, int Index)
