@@ -188,7 +188,7 @@ namespace OpenTween
         private int _itemCacheIndex;
         private ListViewItem[] _itemCache;
         private PostClass[] _postCache;
-        private ReaderWriterLockSlim itemCacheLock = new ReaderWriterLockSlim();
+        private ReaderWriterLockSlim itemCacheLock = new ReaderWriterLockSlim(LockRecursionPolicy.SupportsRecursion);
 
         private TabPage _curTab;
         private int _curItemIndex;
