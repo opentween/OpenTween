@@ -54,6 +54,7 @@
     <Compile Include="Api\ApiLimitTest.cs" />
     <Compile Include="Api\TwitterApiStatusTest.cs" />
     <Compile Include="BingTest.cs" />
+    <Compile Include="FiltersClassTest.cs" />
     <Compile Include="FoursquareTest.cs" />
     <Compile Include="LRUCacheDictionaryTest.cs" />
     <Compile Include="MyCommonTest.cs" />
