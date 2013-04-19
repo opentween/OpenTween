@@ -1950,7 +1950,7 @@ namespace OpenTween
 
         private void MyList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (_curList == null || _curList.SelectedIndices.Count != 1) return;
+            if (_curList == null || !_curList.Equals(sender) || _curList.SelectedIndices.Count != 1) return;
 
             _curItemIndex = _curList.SelectedIndices[0];
             if (_curItemIndex > _curList.VirtualListSize - 1) return;
@@ -3381,10 +3381,15 @@ namespace OpenTween
 
         private PostClass GetCurTabPost(int Index)
         {
-            if (_postCache != null && Index >= _itemCacheIndex && Index < _itemCacheIndex + _postCache.Length)
-                return _postCache[Index - _itemCacheIndex];
-            else
-                return _statuses[_curTab.Text, Index];
+            this.itemCacheLock.EnterReadLock();
+            try
+            {
+                if (_postCache != null && Index >= _itemCacheIndex && Index < _itemCacheIndex + _postCache.Length)
+                    return _postCache[Index - _itemCacheIndex];
+            }
+            finally { this.itemCacheLock.ExitReadLock(); }
+
+            return _statuses[_curTab.Text, Index];
         }
 
 
@@ -5110,18 +5115,20 @@ namespace OpenTween
             this.itemCacheLock.EnterUpgradeableReadLock();
             try
             {
-                if (_itemCache != null &&
-                   e.StartIndex >= _itemCacheIndex &&
-                   e.EndIndex < _itemCacheIndex + _itemCache.Length &&
-                   _curList.Equals(sender))
+                if (_curList.Equals(sender))
                 {
-                    //If the newly requested cache is a subset of the old cache, 
-                    //no need to rebuild everything, so do nothing.
-                    return;
-                }
+                    if (_itemCache != null &&
+                       e.StartIndex >= _itemCacheIndex &&
+                       e.EndIndex < _itemCacheIndex + _itemCache.Length)
+                    {
+                        //If the newly requested cache is a subset of the old cache, 
+                        //no need to rebuild everything, so do nothing.
+                        return;
+                    }
 
-                //Now we need to rebuild the cache.
-                if (_curList.Equals(sender)) CreateCache(e.StartIndex, e.EndIndex);
+                    //Now we need to rebuild the cache.
+                    CreateCache(e.StartIndex, e.EndIndex);
+                }
             }
             finally { this.itemCacheLock.ExitUpgradeableReadLock(); }
         }
@@ -5181,6 +5188,7 @@ namespace OpenTween
             {
                 //キャッシュ要求が実データとずれるため（イベントの遅延？）
                 _postCache = null;
+                _itemCacheIndex = -1;
                 _itemCache = null;
             }
             finally { this.itemCacheLock.ExitWriteLock(); }
@@ -9355,7 +9363,6 @@ namespace OpenTween
                 _anchorPost = null;
                 _anchorFlag = false;
                 this.PurgeListViewItemCache();
-                _itemCacheIndex = -1;
                 _curItemIndex = -1;
                 _curPost = null;
             }
