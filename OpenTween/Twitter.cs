@@ -2459,27 +2459,30 @@ namespace OpenTween
             return CreatePostsFromJson(content, MyCommon.WORKERTYPE.List, tab, read, count, ref tab.OldestId);
         }
 
-
-        private PostClass CheckReplyToPost(List<PostClass> relPosts)
+        /// <summary>
+        /// startStatusId からリプライ先の発言を辿る。発言は posts 以外からは検索しない。
+        /// </summary>
+        /// <returns>posts の中から検索されたリプライチェインの末端</returns>
+        internal static PostClass FindTopOfReplyChain(IDictionary<Int64, PostClass> posts, Int64 startStatusId)
         {
-            var tmpPost = relPosts[0];
-            PostClass lastPost = null;
-            while (tmpPost != null)
+            if (!posts.ContainsKey(startStatusId))
+                throw new ArgumentException("startStatusId (" + startStatusId + ") が posts の中から見つかりませんでした。");
+
+            var nextPost = posts[startStatusId];
+            while (nextPost.InReplyToStatusId != 0)
             {
-                if (tmpPost.InReplyToStatusId == 0) return null;
-                lastPost = tmpPost;
-                var replyToPost = from p in relPosts
-                                  where p.StatusId == tmpPost.InReplyToStatusId
-                                  select p;
-                tmpPost = replyToPost.FirstOrDefault();
+                if (!posts.ContainsKey(nextPost.InReplyToStatusId))
+                    break;
+                nextPost = posts[nextPost.InReplyToStatusId];
             }
-            return lastPost;
+
+            return nextPost;
         }
 
         public string GetRelatedResult(bool read, TabClass tab)
         {
             var rslt = "";
-            var relPosts = new List<PostClass>();
+            var relPosts = new Dictionary<Int64, PostClass>();
             if (tab.RelationTargetPost.TextFromApi.Contains("@") && tab.RelationTargetPost.InReplyToStatusId == 0)
             {
                 //検索結果対応
@@ -2495,23 +2498,89 @@ namespace OpenTween
                     tab.RelationTargetPost = p;
                 }
             }
-            relPosts.Add(tab.RelationTargetPost.Clone());
-            var tmpPost = relPosts[0];
+            relPosts.Add(tab.RelationTargetPost.StatusId, tab.RelationTargetPost.Clone());
+
+            // 一周目: 非公式な related_results API を使用してリプライチェインを辿る
+            var nextPost = relPosts[tab.RelationTargetPost.StatusId];
+            var loopCount = 1;
             do
             {
-                rslt = this.GetRelatedResultsApi(read, tmpPost, tab, relPosts);
+                rslt = this.GetRelatedResultsApi(nextPost, relPosts);
                 if (!string.IsNullOrEmpty(rslt)) break;
-                tmpPost = CheckReplyToPost(relPosts);
-            } while (tmpPost != null);
+                nextPost = FindTopOfReplyChain(relPosts, nextPost.StatusId);
+            } while (nextPost.InReplyToStatusId != 0 && loopCount++ <= 5);
 
-            relPosts.ForEach(p => TabInformations.GetInstance().AddPost(p));
+            // 二周目: in_reply_to_status_id を使用してリプライチェインを辿る
+            nextPost = FindTopOfReplyChain(relPosts, tab.RelationTargetPost.StatusId);
+            loopCount = 1;
+            while (nextPost.InReplyToStatusId != 0 && loopCount++ <= 20)
+            {
+                var inReplyToId = nextPost.InReplyToStatusId;
+
+                var inReplyToPost = TabInformations.GetInstance()[inReplyToId];
+                if (inReplyToPost != null)
+                {
+                    inReplyToPost = inReplyToPost.Clone();
+                }
+                else
+                {
+                    var errorText = this.GetStatusApi(read, inReplyToId, ref inReplyToPost);
+                    if (!string.IsNullOrEmpty(errorText))
+                    {
+                        rslt = errorText;
+                        break;
+                    }
+                }
+
+                relPosts.Add(inReplyToPost.StatusId, inReplyToPost);
+
+                nextPost = FindTopOfReplyChain(relPosts, nextPost.StatusId);
+            }
+
+            //MRTとかに対応のためツイート内にあるツイートを指すURLを取り込む
+            var text = tab.RelationTargetPost.Text;
+            var ma = Twitter.StatusUrlRegex.Matches(text).Cast<Match>()
+                .Concat(Twitter.ThirdPartyStatusUrlRegex.Matches(text).Cast<Match>());
+            foreach (var _match in ma)
+            {
+                Int64 _statusId;
+                if (Int64.TryParse(_match.Groups["StatusId"].Value, out _statusId))
+                {
+                    if (relPosts.ContainsKey(_statusId))
+                        continue;
+
+                    PostClass p = null;
+                    var _post = TabInformations.GetInstance()[_statusId];
+                    if (_post == null)
+                    {
+                        this.GetStatusApi(read, _statusId, ref p);
+                    }
+                    else
+                    {
+                        p = _post.Clone();
+                    }
+
+                    if (p != null)
+                        relPosts.Add(p.StatusId, p);
+                }
+            }
+
+            relPosts.Values.ToList().ForEach(p =>
+            {
+                if (p.IsMe && !read && this._readOwnPost)
+                    p.IsRead = true;
+                else
+                    p.IsRead = read;
+
+                p.RelTabName = tab.TabName;
+                TabInformations.GetInstance().AddPost(p);
+            });
+
             return rslt;
         }
 
-        private string GetRelatedResultsApi(bool read,
-                                             PostClass post,
-                                             TabClass tab,
-                                             List<PostClass> relatedPosts)
+        private string GetRelatedResultsApi(PostClass post,
+                                            IDictionary<Int64, PostClass> relatedPosts)
         {
             if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
 
@@ -2564,100 +2633,18 @@ namespace OpenTween
                 return "Invalid Json!";
             }
 
-            var targetItem = post;
-            if (targetItem == null)
-            {
-                return "";
-            }
-            else
-            {
-                targetItem = targetItem.Clone();
-            }
-            targetItem.RelTabName = tab.TabName;
-            TabInformations.GetInstance().AddPost(targetItem);
-
-            PostClass replyToItem = null;
-            var replyToUserName = targetItem.InReplyToUser;
-            if (targetItem.InReplyToStatusId > 0 && TabInformations.GetInstance()[targetItem.InReplyToStatusId] != null)
-            {
-                replyToItem = TabInformations.GetInstance()[targetItem.InReplyToStatusId].Clone();
-                replyToItem.IsRead = read;
-                if (replyToItem.IsMe && !read && _readOwnPost) replyToItem.IsRead = true;
-                replyToItem.RelTabName = tab.TabName;
-            }
-
-            var replyAdded = false;
             foreach (var relatedData in items)
             {
                 foreach (var result in relatedData.Results)
                 {
                     var item = CreatePostsFromStatusData(result.Status);
                     if (item == null) continue;
-                    if (targetItem.InReplyToStatusId == item.StatusId)
-                    {
-                        replyToItem = null;
-                        replyAdded = true;
-                    }
-                    item.IsRead = read;
-                    if (item.IsMe && !read && _readOwnPost) item.IsRead = true;
-                    if (tab != null) item.RelTabName = tab.TabName;
                     //非同期アイコン取得＆StatusDictionaryに追加
-                    relatedPosts.Add(item);
+                    if (!relatedPosts.ContainsKey(item.StatusId))
+                        relatedPosts.Add(item.StatusId, item);
                 }
-            }
-            if (replyToItem != null)
-            {
-                relatedPosts.Add(replyToItem);
-            }
-            else if (targetItem.InReplyToStatusId > 0 && !replyAdded)
-            {
-                PostClass p = null;
-                var rslt = "";
-                rslt = GetStatusApi(read, targetItem.InReplyToStatusId, ref p);
-                if (string.IsNullOrEmpty(rslt))
-                {
-                    p.IsRead = read;
-                    p.RelTabName = tab.TabName;
-                    relatedPosts.Add(p);
-                }
-                return rslt;
             }
 
-            //発言者・返信先ユーザーの直近10発言取得
-            //var rslt = this.GetUserTimelineApi(read, 10, "", tab);
-            //if (!string.IsNullOrEmpty(rslt)) return rslt;
-            //if (!string.IsNullOrEmpty(replyToUserName))
-            //    rslt = this.GetUserTimelineApi(read, 10, replyToUserName, tab);
-            //}
-            //return rslt;
-
-            //MRTとかに対応のためツイート内にあるツイートを指すURLを取り込む
-            var text = tab.RelationTargetPost.Text;
-            var ma = Twitter.StatusUrlRegex.Matches(text).Cast<Match>()
-                .Concat(Twitter.ThirdPartyStatusUrlRegex.Matches(text).Cast<Match>());
-            foreach (var _match in ma)
-            {
-                Int64 _statusId;
-                if (Int64.TryParse(_match.Groups["StatusId"].Value, out _statusId))
-                {
-                    PostClass p = null;
-                    var _post = TabInformations.GetInstance()[_statusId];
-                    if (_post == null)
-                    {
-                        var rslt = this.GetStatusApi(read, _statusId, ref p);
-                    }
-                    else
-                    {
-                        p = _post.Clone();
-                    }
-                    if (p != null)
-                    {
-                        p.IsRead = read;
-                        p.RelTabName = tab.TabName;
-                        relatedPosts.Add(p);
-                    }
-                }
-            }
             return "";
         }
 
