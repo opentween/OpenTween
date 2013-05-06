@@ -925,10 +925,11 @@ namespace OpenTween
             //認証なくても取得できるが、protectedユーザー分が抜ける
             Dictionary<string, string> param = new Dictionary<string, string>();
 
+            param.Add("id", id.ToString());
             param.Add("include_entities", "true");
 
             return httpCon.GetContent(GetMethod,
-                                      CreateTwitterUri("/1/related_results/show/" + id.ToString()+ ".json"),
+                                      CreateTwitterUri("/1/related_results/show.json"),
                                       param,
                                       ref content,
                                       this.apiStatusHeaders,
