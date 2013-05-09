@@ -1077,4 +1077,7 @@
   <data name="DeleteMenuText2" xml:space="preserve">
     <value>Undo Retweet (&amp;D)</value>
   </data>
+  <data name="SearchSimilarImageText" xml:space="preserve">
+    <value>Search similar images</value>
+  </data>
 </root>

@@ -13222,7 +13222,7 @@ namespace OpenTween
 
         private void tweetThumbnail1_ThumbnailDoubleClick(object sender, ThumbnailDoubleClickEventArgs e)
         {
-            this.OpenThumbnailPicture(e.Thumbnail);
+            this.OpenUriAsync(Uri.EscapeUriString(e.Uri));
         }
 
         private void OpenThumbnailPicture(ThumbnailInfo thumbnail)

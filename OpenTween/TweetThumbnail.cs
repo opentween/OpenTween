@@ -79,6 +79,7 @@ namespace OpenTween
 
                             picbox.Tag = thumb;
                             picbox.LoadAsync(thumb.ThumbnailUrl);
+                            picbox.ContextMenu = CreateContextMenu(thumb);
 
                             var tooltipText = thumb.TooltipText;
                             if (!string.IsNullOrEmpty(tooltipText))
@@ -103,6 +104,42 @@ namespace OpenTween
                 );
 
             return this.task;
+        }
+
+        private ContextMenu CreateContextMenu(ThumbnailInfo thumb)
+        {
+            var contextMenu = new ContextMenu();
+            var contextItemSearch = new MenuItem();
+            contextItemSearch.Text = Properties.Resources.SearchSimilarImageText;
+            string search_targe_url =
+                thumb.ImageFileUrl != null
+                    ? thumb.ImageFileUrl
+                    : thumb.ThumbnailUrl != null
+                        ? thumb.ThumbnailUrl
+                        : null;
+
+            if (search_targe_url != null)
+            {
+                contextItemSearch.Click += (sender, e) =>
+                {
+                    string uri = GetImageSearchUri(search_targe_url);
+                    if (this.ThumbnailDoubleClick != null)
+                    {
+                        this.ThumbnailDoubleClick(this, new ThumbnailDoubleClickEventArgs(uri));
+                    }
+                };
+            }
+            else
+            {
+                contextItemSearch.Enabled = false;
+            }
+            contextMenu.MenuItems.Add(contextItemSearch);
+            return contextMenu;
+        }
+
+        private string GetImageSearchUri(string image_uri)
+        {
+            return @"https://www.google.co.jp/searchbyimage?image_url=" + image_uri;
         }
 
         protected virtual List<ThumbnailInfo> GetThumbailInfo(PostClass post)
@@ -216,18 +253,18 @@ namespace OpenTween
 
             if (this.ThumbnailDoubleClick != null)
             {
-                this.ThumbnailDoubleClick(this, new ThumbnailDoubleClickEventArgs(thumb));
+                this.ThumbnailDoubleClick(this, new ThumbnailDoubleClickEventArgs(thumb.ImageUrl));
             }
         }
     }
 
     public class ThumbnailDoubleClickEventArgs : EventArgs
     {
-        public ThumbnailInfo Thumbnail { get; private set; }
+        public string Uri { get; private set; }
 
-        public ThumbnailDoubleClickEventArgs(ThumbnailInfo thumbnail)
+        public ThumbnailDoubleClickEventArgs(string uri)
         {
-            this.Thumbnail = thumbnail;
+            this.Uri = uri;
         }
     }
 }

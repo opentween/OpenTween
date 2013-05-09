@@ -51,7 +51,10 @@ namespace OpenTween.Thumbnail
                 new SimpleThumbnailService(@"^http://(?:i\.)?imgur\.com/(\w+)(?:\..{3})?$", "http://img.imgur.com/${1}l.jpg"),
 
                 // Twitpic
-                new SimpleThumbnailService(@"^http://(www\.)?twitpic\.com/(?<photoId>\w+)(/full/?)?$", "http://twitpic.com/show/thumb/${photoId}"),
+                new SimpleThumbnailService(
+                    @"^http://(www\.)?twitpic\.com/(?<photoId>\w+)(/full/?)?$",
+                    "http://twitpic.com/show/thumb/${photoId}",
+                    "http://twitpic.com/show/large/${photoId}"),
 
                 // yfrog
                 new SimpleThumbnailService(@"^http://yfrog\.com/(\w+)$", "${0}:small"),
