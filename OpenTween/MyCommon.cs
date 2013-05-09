@@ -219,6 +219,11 @@ namespace OpenTween
                    Block | Unblock | UserUpdate | Deleted | ListCreated | ListUpdated | Unfollow),
         }
 
+        public static string GetErrorLogPath()
+        {
+            return Path.Combine(Path.GetDirectoryName(MyCommon.EntryAssembly.Location), "ErrorLogs");
+        }
+
         public static void TraceOut(Exception ex, string Message)
         {
             var buf = ExceptionOutMessage(ex);
@@ -235,8 +240,14 @@ namespace OpenTween
             lock (LockObj)
             {
                 if (!OutputFlag) return;
+
+                var logPath = MyCommon.GetErrorLogPath();
+                if (!Directory.Exists(logPath))
+                    Directory.CreateDirectory(logPath);
+
                 var now = DateTime.Now;
                 var fileName = string.Format("{0}Trace-{1:0000}{2:00}{3:00}-{4:00}{5:00}{6:00}.log", GetAssemblyName(), now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
+                fileName = Path.Combine(logPath, fileName);
 
                 using (var writer = new StreamWriter(fileName))
                 {
@@ -344,8 +355,14 @@ namespace OpenTween
             lock (LockObj)
             {
                 var IsTerminatePermission = true;
+
+                var logPath = MyCommon.GetErrorLogPath();
+                if (!Directory.Exists(logPath))
+                    Directory.CreateDirectory(logPath);
+
                 var now = DateTime.Now;
                 var fileName = string.Format("{0}-{1:0000}{2:00}{3:00}-{4:00}{5:00}{6:00}.log", GetAssemblyName(), now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
+                fileName = Path.Combine(logPath, fileName);
 
                 using (var writer = new StreamWriter(fileName))
                 {
