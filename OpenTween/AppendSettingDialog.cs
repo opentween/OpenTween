@@ -769,6 +769,8 @@ namespace OpenTween
 
             CheckPeriodAdjust.Checked = PeriodAdjust;
             CheckStartupVersion.Checked = StartupVersion;
+            if (ApplicationSettings.VersionInfoUrl == null)
+                CheckStartupVersion.Enabled = false; // 更新チェック無効化
             CheckStartupFollowers.Checked = StartupFollowers;
             CheckFavRestrict.Checked = RestrictFavCheck;
             CheckAlwaysTop.Checked = AlwaysTop;

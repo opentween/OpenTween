@@ -5993,6 +5993,9 @@ namespace OpenTween
 
         private void CheckNewVersion(bool startup = false)
         {
+            if (ApplicationSettings.VersionInfoUrl == null)
+                return; // 更新チェック無効化
+
             if (string.IsNullOrEmpty(MyCommon.fileVersion))
             {
                 return;
@@ -10793,9 +10796,19 @@ namespace OpenTween
 
                 if (MyCommon._endingFlag) return;
 
-                //バージョンチェック（引数：起動時チェックの場合はtrue･･･チェック結果のメッセージを表示しない）
-                if (SettingDialog.StartupVersion)
-                    CheckNewVersion(true);
+                if (ApplicationSettings.VersionInfoUrl != null)
+                {
+                    //バージョンチェック（引数：起動時チェックの場合はtrue･･･チェック結果のメッセージを表示しない）
+                    if (SettingDialog.StartupVersion)
+                        CheckNewVersion(true);
+                }
+                else
+                {
+                    // ApplicationSetting.cs の設定により更新チェックが無効化されている場合
+                    this.VerUpMenuItem.Enabled = false;
+                    this.VerUpMenuItem.Available = false;
+                    this.ToolStripSeparator16.Available = false; // VerUpMenuItem の一つ上にあるセパレータ
+                }
 
                 // 取得失敗の場合は再試行する
                 if (!tw.GetFollowersSuccess && SettingDialog.StartupFollowers)

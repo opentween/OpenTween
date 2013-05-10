@@ -72,8 +72,9 @@ namespace OpenTween
         /// </summary>
         /// <remarks>
         /// version.txt のフォーマットについては http://sourceforge.jp/projects/opentween/wiki/VersionTxt を参照。
+        /// 派生プロジェクトなどでこの機能を無効にする場合は null をセットして下さい。
         /// </remarks>
-        public const string VersionInfoUrl = "http://www.opentween.org/status/version.txt";
+        public static readonly string VersionInfoUrl = "http://www.opentween.org/status/version.txt";
 
         //=====================================================================
         // Twitter
