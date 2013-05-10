@@ -210,13 +210,25 @@ namespace OpenTween
         }
 
         [Test]
-        public void GetErrorLogPathTest()
+        [Platform("Win")]
+        public void GetErrorLogPathTestWindows()
         {
             var mockAssembly = Substitute.For<_Assembly>();
             mockAssembly.Location.Returns(@"C:\hogehoge\OpenTween\OpenTween.exe");
             MyCommon.EntryAssembly = mockAssembly;
 
             Assert.That(MyCommon.GetErrorLogPath(), Is.SamePath(@"C:\hogehoge\OpenTween\ErrorLogs\"));
+        }
+
+        [Test]
+        [Platform(Exclude = "Win")]
+        public void GetErrorLogPathTestOther()
+        {
+            var mockAssembly = Substitute.For<_Assembly>();
+            mockAssembly.Location.Returns(@"/hogehoge/OpenTween/OpenTween.exe");
+            MyCommon.EntryAssembly = mockAssembly;
+
+            Assert.That(MyCommon.GetErrorLogPath(), Is.SamePath(@"/hogehoge/OpenTween/ErrorLogs/"));
         }
     }
 }
