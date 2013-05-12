@@ -110,8 +110,14 @@ namespace OpenTween
         private ContextMenu CreateContextMenu(ThumbnailInfo thumb)
         {
             var contextMenu = new ContextMenu();
-            var contextItemSearch = new MenuItem();
-            contextItemSearch.Text = Properties.Resources.SearchSimilarImageText;
+            contextMenu.MenuItems.Add(CreateImageSearchMenuItem(thumb));
+            return contextMenu;
+        }
+
+        private MenuItem CreateImageSearchMenuItem(ThumbnailInfo thumb)
+        {
+            var item = new MenuItem();
+            item.Text = Properties.Resources.SearchSimilarImageText;
             string search_targe_url =
                 thumb.FullSizeImageUrl != null
                     ? thumb.FullSizeImageUrl
@@ -121,7 +127,7 @@ namespace OpenTween
 
             if (search_targe_url != null)
             {
-                contextItemSearch.Click += (sender, e) =>
+                item.Click += (sender, e) =>
                 {
                     string uri = GetImageSearchUri(search_targe_url);
                     if (this.ThumbnailImageSearchClick != null)
@@ -132,10 +138,10 @@ namespace OpenTween
             }
             else
             {
-                contextItemSearch.Enabled = false;
+                item.Enabled = false;
             }
-            contextMenu.MenuItems.Add(contextItemSearch);
-            return contextMenu;
+
+            return item;
         }
 
         private string GetImageSearchUri(string image_uri)
