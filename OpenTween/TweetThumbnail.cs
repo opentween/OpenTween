@@ -43,6 +43,7 @@ namespace OpenTween
 
         public event EventHandler ThumbnailLoading;
         public event EventHandler<ThumbnailDoubleClickEventArgs> ThumbnailDoubleClick;
+        public event EventHandler<ThumbnailImageSearchEventArgs> ThumbnailImageSearchClick;
 
         public ThumbnailInfo Thumbnail
         {
@@ -112,8 +113,8 @@ namespace OpenTween
             var contextItemSearch = new MenuItem();
             contextItemSearch.Text = Properties.Resources.SearchSimilarImageText;
             string search_targe_url =
-                thumb.ImageFileUrl != null
-                    ? thumb.ImageFileUrl
+                thumb.FullSizeImageUrl != null
+                    ? thumb.FullSizeImageUrl
                     : thumb.ThumbnailUrl != null
                         ? thumb.ThumbnailUrl
                         : null;
@@ -123,9 +124,9 @@ namespace OpenTween
                 contextItemSearch.Click += (sender, e) =>
                 {
                     string uri = GetImageSearchUri(search_targe_url);
-                    if (this.ThumbnailDoubleClick != null)
+                    if (this.ThumbnailImageSearchClick != null)
                     {
-                        this.ThumbnailDoubleClick(this, new ThumbnailDoubleClickEventArgs(uri));
+                        this.ThumbnailImageSearchClick(this, new ThumbnailImageSearchEventArgs(uri));
                     }
                 };
             }
@@ -139,7 +140,7 @@ namespace OpenTween
 
         private string GetImageSearchUri(string image_uri)
         {
-            return @"https://www.google.co.jp/searchbyimage?image_url=" + image_uri;
+            return @"https://www.google.com/searchbyimage?image_url=" + Uri.EscapeDataString(image_uri);
         }
 
         protected virtual List<ThumbnailInfo> GetThumbailInfo(PostClass post)
@@ -253,18 +254,28 @@ namespace OpenTween
 
             if (this.ThumbnailDoubleClick != null)
             {
-                this.ThumbnailDoubleClick(this, new ThumbnailDoubleClickEventArgs(thumb.ImageUrl));
+                this.ThumbnailDoubleClick(this, new ThumbnailDoubleClickEventArgs(thumb));
             }
         }
     }
 
     public class ThumbnailDoubleClickEventArgs : EventArgs
     {
-        public string Uri { get; private set; }
+        public ThumbnailInfo Thumbnail { get; private set; }
 
-        public ThumbnailDoubleClickEventArgs(string uri)
+        public ThumbnailDoubleClickEventArgs(ThumbnailInfo thumbnail)
         {
-            this.Uri = uri;
+            this.Thumbnail = thumbnail;
+        }
+    }
+
+    public class ThumbnailImageSearchEventArgs : EventArgs
+    {
+        public string ImageUrl { get; private set; }
+
+        public ThumbnailImageSearchEventArgs(string url)
+        {
+            this.ImageUrl = url;
         }
     }
 }

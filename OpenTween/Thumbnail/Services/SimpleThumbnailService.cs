@@ -59,7 +59,7 @@ namespace OpenTween.Thumbnail.Services
                 ImageUrl = url,
                 ThumbnailUrl = thumbnailUrl,
                 TooltipText = null,
-                ImageFileUrl = ReplaceUrl(url, this.file_replacement)
+                FullSizeImageUrl = ReplaceUrl(url, this.file_replacement)
             };
         }
 

@@ -31,6 +31,6 @@ namespace OpenTween.Thumbnail
         public string ImageUrl { get; set; }
         public string ThumbnailUrl { get; set; }
         public string TooltipText { get; set; }
-        public string ImageFileUrl { get; set; }
+        public string FullSizeImageUrl { get; set; }
     }
 }
