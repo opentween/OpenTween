@@ -1,6 +1,6 @@
 ﻿更新履歴
 
-==== Ver 1.1.0-beta1(2013/xx/xx)
+==== Ver 1.1.0(2013/05/15)
  * NEW: タブの表示位置を画面上部に変更可能に (thx @aokomoriuta!)
  * NEW: mobile.twitter.com/<スクリーン名>/status/<ステータスID> のURLも関連発言表示の対象に追加
  * NEW: Favstarなどサードパーティ製サービスのパーマリンクURLも関連発言表示の対象に追加
