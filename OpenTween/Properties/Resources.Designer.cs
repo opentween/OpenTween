@@ -625,6 +625,8 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Ver 1.1.1-beta1(2013/xx/xx)
+        ///
         ///==== Ver 1.1.0(2013/05/15)
         /// * NEW: タブの表示位置を画面上部に変更可能に (thx @aokomoriuta!)
         /// * NEW: mobile.twitter.com/&lt;スクリーン名&gt;/status/&lt;ステータスID&gt; のURLも関連発言表示の対象に追加
@@ -633,9 +635,7 @@ namespace OpenTween.Properties {
         /// * FIX: スペースが含まれているURLをブラウザで開こうとするとURLが分断されて複数のタブが開いてしまう問題を修正 (thx @5px!)
         /// * FIX: 画面更新時にInvalidOperationExceptionのエラーが発生する不具合を修正
         /// * FIX: 関連発言表示が非公開アカウントのツイートに対して機能しない問題を修正
-        /// * FIX: 言語設定が英語の状態でリスト管理の画面が翻訳されずに表示される問題を修正
-        ///
-        ///==== Ver 1.0 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * FIX: 言語設定が英語の状態でリスト管理 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
