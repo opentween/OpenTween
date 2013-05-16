@@ -301,6 +301,9 @@
     <EmbeddedResource Include="ListAvailable.zh-CHS.resx">
       <DependentUpon>ListAvailable.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ListManage.en.resx">
+      <DependentUpon>ListManage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ListManage.resx">
       <DependentUpon>ListManage.cs</DependentUpon>
     </EmbeddedResource>
@@ -323,6 +326,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AppendSettingDialog.zh-CHS.resx">
       <DependentUpon>AppendSettingDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListManage.zh-CHS.resx">
+      <DependentUpon>ListManage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TabsDialog.en.resx">
       <DependentUpon>TabsDialog.cs</DependentUpon>

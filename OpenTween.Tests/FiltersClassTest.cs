@@ -71,25 +71,25 @@ namespace OpenTween
             var filter = new FiltersClass { UseRegex = true };
             PostClass post;
 
-            filter.NameFilter = "(hoge)+";
+            filter.NameFilter = "hoge(hoge)+";
             post = new PostClass { ScreenName = "hogehoge", Text = "test" };
             Assert.That(filter.IsHit(post), Is.EqualTo(MyCommon.HITRESULT.CopyAndMark));
 
-            filter.NameFilter = "(hoge)+";
+            filter.NameFilter = "hoge(hoge)+";
             post = new PostClass { ScreenName = "hoge", Text = "test" };
             Assert.That(filter.IsHit(post), Is.EqualTo(MyCommon.HITRESULT.None));
 
             // NameFilter は RetweetedBy にもマッチする
-            filter.NameFilter = "(hoge)+";
+            filter.NameFilter = "hoge(hoge)+";
             post = new PostClass { ScreenName = "foo", Text = "test", RetweetedBy = "hogehoge" };
             Assert.That(filter.IsHit(post), Is.EqualTo(MyCommon.HITRESULT.CopyAndMark));
 
-            filter.NameFilter = "(hoge)+";
+            filter.NameFilter = "hoge(hoge)+";
             post = new PostClass { ScreenName = "foo", Text = "test", RetweetedBy = "hoge2" };
             Assert.That(filter.IsHit(post), Is.EqualTo(MyCommon.HITRESULT.None));
 
             // 大小文字を区別しないオプション
-            filter.NameFilter = "(hoge)+";
+            filter.NameFilter = "hoge(hoge)+";
             filter.CaseSensitive = false;
             post = new PostClass { ScreenName = "HogeHogeHoge", Text = "test" };
             Assert.That(filter.IsHit(post), Is.EqualTo(MyCommon.HITRESULT.CopyAndMark));

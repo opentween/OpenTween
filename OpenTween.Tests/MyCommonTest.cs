@@ -30,6 +30,7 @@ using System.Runtime.InteropServices;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Runtime.Serialization;
+using System.IO;
 
 namespace OpenTween
 {
@@ -206,6 +207,28 @@ namespace OpenTween
         public void GetStatusUrlTest2(string screenName, long statusId, string except)
         {
             Assert.That(MyCommon.GetStatusUrl(screenName, statusId), Is.EqualTo(except));
+        }
+
+        [Test]
+        [Platform("Win")]
+        public void GetErrorLogPathTestWindows()
+        {
+            var mockAssembly = Substitute.For<_Assembly>();
+            mockAssembly.Location.Returns(@"C:\hogehoge\OpenTween\OpenTween.exe");
+            MyCommon.EntryAssembly = mockAssembly;
+
+            Assert.That(MyCommon.GetErrorLogPath(), Is.SamePath(@"C:\hogehoge\OpenTween\ErrorLogs\"));
+        }
+
+        [Test]
+        [Platform(Exclude = "Win")]
+        public void GetErrorLogPathTestOther()
+        {
+            var mockAssembly = Substitute.For<_Assembly>();
+            mockAssembly.Location.Returns(@"/hogehoge/OpenTween/OpenTween.exe");
+            MyCommon.EntryAssembly = mockAssembly;
+
+            Assert.That(MyCommon.GetErrorLogPath(), Is.SamePath(@"/hogehoge/OpenTween/ErrorLogs/"));
         }
     }
 }
