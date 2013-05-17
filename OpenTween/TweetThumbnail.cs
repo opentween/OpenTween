@@ -43,6 +43,7 @@ namespace OpenTween
 
         public event EventHandler ThumbnailLoading;
         public event EventHandler<ThumbnailDoubleClickEventArgs> ThumbnailDoubleClick;
+        public event EventHandler<ThumbnailImageSearchEventArgs> ThumbnailImageSearchClick;
 
         public ThumbnailInfo Thumbnail
         {
@@ -79,6 +80,7 @@ namespace OpenTween
 
                             picbox.Tag = thumb;
                             picbox.LoadAsync(thumb.ThumbnailUrl);
+                            picbox.ContextMenu = CreateContextMenu(thumb);
 
                             var tooltipText = thumb.TooltipText;
                             if (!string.IsNullOrEmpty(tooltipText))
@@ -103,6 +105,48 @@ namespace OpenTween
                 );
 
             return this.task;
+        }
+
+        private ContextMenu CreateContextMenu(ThumbnailInfo thumb)
+        {
+            var contextMenu = new ContextMenu();
+            contextMenu.MenuItems.Add(CreateImageSearchMenuItem(thumb));
+            return contextMenu;
+        }
+
+        private MenuItem CreateImageSearchMenuItem(ThumbnailInfo thumb)
+        {
+            var item = new MenuItem();
+            item.Text = Properties.Resources.SearchSimilarImageText;
+            string search_targe_url =
+                thumb.FullSizeImageUrl != null
+                    ? thumb.FullSizeImageUrl
+                    : thumb.ThumbnailUrl != null
+                        ? thumb.ThumbnailUrl
+                        : null;
+
+            if (search_targe_url != null)
+            {
+                item.Click += (sender, e) =>
+                {
+                    string uri = GetImageSearchUri(search_targe_url);
+                    if (this.ThumbnailImageSearchClick != null)
+                    {
+                        this.ThumbnailImageSearchClick(this, new ThumbnailImageSearchEventArgs(uri));
+                    }
+                };
+            }
+            else
+            {
+                item.Enabled = false;
+            }
+
+            return item;
+        }
+
+        private string GetImageSearchUri(string image_uri)
+        {
+            return @"https://www.google.com/searchbyimage?image_url=" + Uri.EscapeDataString(image_uri);
         }
 
         protected virtual List<ThumbnailInfo> GetThumbailInfo(PostClass post)
@@ -228,6 +272,16 @@ namespace OpenTween
         public ThumbnailDoubleClickEventArgs(ThumbnailInfo thumbnail)
         {
             this.Thumbnail = thumbnail;
+        }
+    }
+
+    public class ThumbnailImageSearchEventArgs : EventArgs
+    {
+        public string ImageUrl { get; private set; }
+
+        public ThumbnailImageSearchEventArgs(string url)
+        {
+            this.ImageUrl = url;
         }
     }
 }
