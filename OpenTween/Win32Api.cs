@@ -85,6 +85,7 @@ namespace OpenTween
             }
         }
         #endregion
+
         #region "タスクトレイアイコンのクリック"
         // 指定されたクラス名およびウィンドウ名と一致するトップレベルウィンドウのハンドルを取得します
         [DllImport("user32.dll", CharSet = CharSet.Auto, BestFitMapping = false, ThrowOnUnmappableChar = true)]
@@ -492,12 +493,6 @@ namespace OpenTween
         }
         #endregion
 
-        //画面をブリンクするためのWin32API。起動時に10ページ読み取りごとに継続確認メッセージを表示する際の通知強調用
-        [DllImport("user32.dll")]
-        private static extern int FlashWindow(
-            IntPtr hwnd,
-            bool bInvert);
-
         #region "画面ブリンク用"
         public static bool FlashMyWindow(IntPtr hwnd,
             FlashSpecification flashType,
@@ -551,11 +546,6 @@ namespace OpenTween
         private const Int32 FLASHW_TIMERNOFG = 0xC;
         #endregion
 
-        [DllImport("user32.dll")]
-        public static extern bool ValidateRect(
-            IntPtr hwnd,
-            IntPtr rect);
-
         #region "スクリーンセーバー起動中か判定"
         [DllImport("user32", CharSet = CharSet.Auto)]
         private static extern int SystemParametersInfo(
@@ -566,14 +556,12 @@ namespace OpenTween
         // returns non-zero value if function succeeds
 
         //スクリーンセーバーが起動中かを取得する定数
-        private const int SPI_GETSCREENSAVERRUNNING = 0x61;
+        private const int SPI_GETSCREENSAVERRUNNING = 0x0072;
 
         public static bool IsScreenSaverRunning()
         {
-            var ret = 0;
             var isRunning = false;
-
-            ret = SystemParametersInfo(SPI_GETSCREENSAVERRUNNING, 0, ref isRunning, 0);
+            SystemParametersInfo(SPI_GETSCREENSAVERRUNNING, 0, ref isRunning, 0);
             return isRunning;
         }
         #endregion
