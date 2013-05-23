@@ -253,7 +253,7 @@ namespace OpenTween
 		/// 呼び出し元では戻されたurlをブラウザで開き、認証完了後PIN入力を受け付けて、リクエストトークンと共にAuthenticatePinFlowを呼び出す
 		/// </remarks>
 		/// <param name="requestTokenUrl">リクエストトークンの取得先URL</param>
-		/// <param name="requestUri">ブラウザで開く認証用URLのベース</param>
+		/// <param name="authorizeUrl">ブラウザで開く認証用URLのベース</param>
 		/// <param name="requestToken">[OUT]認証要求で戻されるリクエストトークン。使い捨て</param>
 		/// <param name="authUri">[OUT]requestUriを元に生成された認証用URL。通常はリクエストトークンをクエリとして付加したUri</param>
 		/// <returns>取得結果真偽値</returns>
@@ -273,7 +273,7 @@ namespace OpenTween
 		/// 事前にAuthenticatePinFlowRequestを呼んで、ブラウザで認証後に表示されるPINを入力してもらい、その値とともに呼び出すこと
 		/// </remarks>
 		/// <param name="accessTokenUrl">アクセストークンの取得先URL</param>
-		/// <param name="requestUri">AuthenticatePinFlowRequestで取得したリクエストトークン</param>
+		/// <param name="requestToken">AuthenticatePinFlowRequestで取得したリクエストトークン</param>
 		/// <param name="pinCode">Webで認証後に表示されるPINコード</param>
 		/// <returns>取得結果真偽値</returns>
 		public HttpStatusCode AuthenticatePinFlow( string accessTokenUrl, string requestToken, string pinCode )
@@ -397,7 +397,7 @@ namespace OpenTween
 		/// <summary>
 		/// OAuth認証のリクエストトークン取得。リクエストトークンと組み合わせた認証用のUriも生成する
 		/// </summary>
-		/// <param name="accessTokenUrl">リクエストトークンの取得先URL</param>
+		/// <param name="requestTokenUrl">リクエストトークンの取得先URL</param>
 		/// <param name="authorizeUrl">ブラウザで開く認証用URLのベース</param>
 		/// <param name="requestToken">[OUT]取得したリクエストトークン</param>
 		/// <returns>取得結果真偽値</returns>

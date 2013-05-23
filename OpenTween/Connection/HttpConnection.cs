@@ -143,7 +143,7 @@ namespace OpenTween
         ///<param name="method">HTTP通信メソッド（POST/PUT）</param>
         ///<param name="requestUri">通信先URI</param>
         ///<param name="param">form-dataで指定する名前と文字列のディクショナリ</param>
-        ///<param name="param">form-dataで指定する名前とバイナリファイル情報のリスト</param>
+        ///<param name="binaryFileInfo">form-dataで指定する名前とバイナリファイル情報のリスト</param>
         ///<param name="withCookie">通信にcookieを使用するか</param>
         ///<returns>引数で指定された内容を反映したHttpWebRequestオブジェクト</returns>
         protected HttpWebRequest CreateRequest(string method,
@@ -446,7 +446,7 @@ namespace OpenTween
         ///WebExceptionはハンドルしていないので、呼び出し元でキャッチすること
         ///</remarks>
         ///<param name="webRequest">HTTP通信リクエストオブジェクト</param>
-        ///<param name="contentText">[OUT]HTTP応答のボディデータを書き込むBitmap</param>
+        ///<param name="contentBitmap">[OUT]HTTP応答のボディデータを書き込むBitmap</param>
         ///<param name="headerInfo">[IN/OUT]HTTP応答のヘッダ情報。ヘッダ名をキーにして空データのコレクションを渡すことで、該当ヘッダの値をデータに設定して戻す</param>
         ///<param name="withCookie">通信にcookieを使用する</param>
         ///<returns>HTTP応答のステータスコード</returns>
@@ -597,7 +597,7 @@ namespace OpenTween
         ///<summary>
         ///2バイト文字も考慮したUrlエンコード
         ///</summary>
-        ///<param name="str">エンコードする文字列</param>
+        ///<param name="stringToEncode">エンコードする文字列</param>
         ///<returns>エンコード結果文字列</returns>
         protected string UrlEncode(string stringToEncode)
         {

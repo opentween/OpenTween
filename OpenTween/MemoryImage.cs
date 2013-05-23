@@ -101,7 +101,7 @@ namespace OpenTween
         /// <summary>
         /// 指定されたバイト列から MemoryImage を作成します。
         /// </summary>
-        /// <param name="stream">読み込む対象となるバイト列</param>
+        /// <param name="bytes">読み込む対象となるバイト列</param>
         /// <returns>作成された MemoryImage</returns>
         public static MemoryImage CopyFromBytes(byte[] bytes)
         {
