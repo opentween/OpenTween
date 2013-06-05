@@ -9490,7 +9490,11 @@ namespace OpenTween
                 {
                     if (sender is TwitterApiStatus11 && this._apiGauge.API11Enabled)
                     {
-                        this._apiGauge.ApiLimit = MyCommon.TwitterApiInfo11.AccessLimit["/statuses/home_timeline"];
+                        var endpointName = (e as TwitterApiStatus11.AccessLimitUpdatedEventArgs).EndpointName;
+                        if (endpointName == "/statuses/home_timeline")
+                        {
+                            this._apiGauge.ApiLimit = MyCommon.TwitterApiInfo11.AccessLimit["/statuses/home_timeline"];
+                        }
                     }
                     else if (sender is TwitterApiStatus && !this._apiGauge.API11Enabled)
                     {
