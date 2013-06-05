@@ -1041,7 +1041,7 @@ namespace OpenTween
         }
         #endregion
 
-        private void GetApiCallback(Object sender, ref HttpStatusCode code, ref string content)
+        private void GetApiCallback(Object sender, HttpStatusCode code, string content)
         {
             if (code < HttpStatusCode.InternalServerError)
                 MyCommon.TwitterApiInfo.UpdateFromHeader(this.apiStatusHeaders);
@@ -1049,7 +1049,7 @@ namespace OpenTween
 
         private CallbackDelegate CreateApi11Calllback(string endpointName)
         {
-            return (object sender, ref HttpStatusCode code, ref string content) =>
+            return (sender, code, content) =>
             {
                 if (code < HttpStatusCode.InternalServerError)
                     MyCommon.TwitterApiInfo11.UpdateFromHeader(this.apiStatusHeaders, endpointName);
