@@ -694,11 +694,14 @@ namespace OpenTween
         }
 
         #region Lists
-        public HttpStatusCode GetLists(string user, long cursor, ref string content)
+        public HttpStatusCode GetLists(string user, long? cursor, ref string content)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
             param.Add("screen_name", user);
-            param.Add("cursor", cursor.ToString());
+
+            if (cursor != null)
+                param.Add("cursor", cursor.Value.ToString()); // API v1
+
             return httpCon.GetContent(GetMethod,
                 CreateTwitterUri(HttpTwitter.API11Enabled ? "/1.1/lists/list.json" : "/1/lists.json"),
                 param,
@@ -742,11 +745,14 @@ namespace OpenTween
                 null);
         }
 
-        public HttpStatusCode GetListsSubscriptions(string user, long cursor, ref string content)
+        public HttpStatusCode GetListsSubscriptions(string user, long? cursor, ref string content)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
             param.Add("screen_name", user);
-            param.Add("cursor", cursor.ToString());
+
+            if (cursor != null)
+                param.Add("cursor", cursor.Value.ToString()); // API v1
+
             return httpCon.GetContent(GetMethod,
                 CreateTwitterUri(HttpTwitter.API11Enabled ? "/1.1/lists/subscriptions.json" : "/1/lists/subscriptions.json"),
                 param,

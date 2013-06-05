@@ -3459,6 +3459,11 @@ namespace OpenTween
 
         public string GetListsApi()
         {
+            return HttpTwitter.API11Enabled ? this.GetListsApi11() : this.GetListsApi10();
+        }
+
+        private string GetListsApi10()
+        {
             if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
 
             HttpStatusCode res = HttpStatusCode.BadRequest;
@@ -3555,6 +3560,97 @@ namespace OpenTween
             } while (cursor != 0);
 
             TabInformations.GetInstance().SubscribableLists = lists;
+            return "";
+        }
+
+        private string GetListsApi11()
+        {
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
+
+            HttpStatusCode res = HttpStatusCode.BadRequest;
+            IEnumerable<ListElement> lists;
+            var content = "";
+
+            try
+            {
+                res = twCon.GetLists(this.Username, null, ref content);
+            }
+            catch (Exception ex)
+            {
+                return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")";
+            }
+
+            switch (res)
+            {
+                case HttpStatusCode.OK:
+                    Twitter.AccountState = MyCommon.ACCOUNT_STATE.Valid;
+                    break;
+                case HttpStatusCode.Unauthorized:
+                    Twitter.AccountState = MyCommon.ACCOUNT_STATE.Invalid;
+                    return Properties.Resources.Unauthorized;
+                case HttpStatusCode.BadRequest:
+                    return "Err:API Limits?";
+                default:
+                    return "Err:" + res.ToString() + "(" + MethodBase.GetCurrentMethod().Name + ")";
+            }
+
+            try
+            {
+                lists = MyCommon.CreateDataFromJson<List<TwitterDataModel.ListElementData>>(content)
+                    .Select(x => new ListElement(x, this));
+            }
+            catch (SerializationException ex)
+            {
+                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
+                return "Err:Json Parse Error(DataContractJsonSerializer)";
+            }
+            catch (Exception ex)
+            {
+                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
+                return "Err:Invalid Json!";
+            }
+
+            content = "";
+            try
+            {
+                res = twCon.GetListsSubscriptions(this.Username, null, ref content);
+            }
+            catch (Exception ex)
+            {
+                return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")";
+            }
+
+            switch (res)
+            {
+                case HttpStatusCode.OK:
+                    Twitter.AccountState = MyCommon.ACCOUNT_STATE.Valid;
+                    break;
+                case HttpStatusCode.Unauthorized:
+                    Twitter.AccountState = MyCommon.ACCOUNT_STATE.Invalid;
+                    return Properties.Resources.Unauthorized;
+                case HttpStatusCode.BadRequest:
+                    return "Err:API Limits?";
+                default:
+                    return "Err:" + res.ToString() + "(" + MethodBase.GetCurrentMethod().Name + ")";
+            }
+
+            try
+            {
+                lists = lists.Concat(MyCommon.CreateDataFromJson<List<TwitterDataModel.ListElementData>>(content)
+                    .Select(x => new ListElement(x, this)));
+            }
+            catch (SerializationException ex)
+            {
+                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
+                return "Err:Json Parse Error(DataContractJsonSerializer)";
+            }
+            catch (Exception ex)
+            {
+                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
+                return "Err:Invalid Json!";
+            }
+
+            TabInformations.GetInstance().SubscribableLists = lists.ToList();
             return "";
         }
 
