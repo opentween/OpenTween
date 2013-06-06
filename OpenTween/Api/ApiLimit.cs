@@ -43,11 +43,22 @@ namespace OpenTween.Api
         /// </summary>
         public readonly DateTime AccessLimitResetDate;
 
+        /// <summary>
+        /// API 実行回数制限値を取得した日時
+        /// </summary>
+        public readonly DateTime UpdatedAt;
+
         public ApiLimit(int limitCount, int limitRemain, DateTime resetDate)
+            : this(limitCount, limitRemain, resetDate, DateTime.Now)
+        {
+        }
+
+        public ApiLimit(int limitCount, int limitRemain, DateTime resetDate, DateTime updatedAt)
         {
             this.AccessLimitCount = limitCount;
             this.AccessLimitRemain = limitRemain;
             this.AccessLimitResetDate = resetDate;
+            this.UpdatedAt = updatedAt;
         }
 
         public override bool Equals(object obj)
