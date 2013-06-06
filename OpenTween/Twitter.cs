@@ -4245,11 +4245,11 @@ namespace OpenTween
             }
         }
 
-        public bool GetInfoApi()
+        public TwitterApiStatus GetInfoApi10()
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return true;
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return null;
 
-            if (MyCommon._endingFlag) return true;
+            if (MyCommon._endingFlag) return null;
 
             HttpStatusCode res = HttpStatusCode.BadRequest;
             var content = "";
@@ -4260,24 +4260,59 @@ namespace OpenTween
             catch(Exception)
             {
                 this.ResetApiStatus();
-                return false;
+                return null;
             }
 
-            if (res != HttpStatusCode.OK) return false;
+            if (res != HttpStatusCode.OK) return null;
 
             try
             {
                 var limit = MyCommon.CreateDataFromJson<TwitterDataModel.RateLimitStatus>(content);
                 MyCommon.TwitterApiInfo.UpdateFromApi(limit);
-                return true;
+
+                return MyCommon.TwitterApiInfo;
             }
             catch(Exception ex)
             {
                 MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
                 MyCommon.TwitterApiInfo.Reset();
-                return false;
+                return null;
             }
         }
+
+        public TwitterApiStatus11 GetInfoApi11()
+        {
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return null;
+
+            if (MyCommon._endingFlag) return null;
+
+            HttpStatusCode res = HttpStatusCode.BadRequest;
+            var content = "";
+            try
+            {
+                res = twCon.RateLimitStatus(ref content);
+            }
+            catch (Exception)
+            {
+                this.ResetApiStatus();
+                return null;
+            }
+
+            if (res != HttpStatusCode.OK) return null;
+
+            try
+            {
+                MyCommon.TwitterApiInfo11.UpdateFromJson(content);
+                return MyCommon.TwitterApiInfo11;
+            }
+            catch (Exception ex)
+            {
+                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
+                MyCommon.TwitterApiInfo.Reset();
+                return null;
+            }
+        }
+
         public string GetBlockUserIds()
         {
             if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";

@@ -9491,7 +9491,7 @@ namespace OpenTween
                     if (sender is TwitterApiStatus11 && this._apiGauge.API11Enabled)
                     {
                         var endpointName = (e as TwitterApiStatus11.AccessLimitUpdatedEventArgs).EndpointName;
-                        if (endpointName == "/statuses/home_timeline")
+                        if (endpointName == "/statuses/home_timeline" || endpointName == null)
                         {
                             this._apiGauge.ApiLimit = MyCommon.TwitterApiInfo11.AccessLimit["/statuses/home_timeline"];
                         }
@@ -11039,10 +11039,10 @@ namespace OpenTween
 
         private void GetApiInfo_Dowork(object sender, DoWorkEventArgs e)
         {
-            if (tw.GetInfoApi())
-                e.Result = MyCommon.TwitterApiInfo;
+            if (HttpTwitter.API11Enabled)
+                e.Result = tw.GetInfoApi11();
             else
-                e.Result = null;
+                e.Result = tw.GetInfoApi10();
         }
 
         private void ApiUsageInfoMenuItem_Click(object sender, EventArgs e)
@@ -11052,22 +11052,42 @@ namespace OpenTween
             using (FormInfo dlg = new FormInfo(this, Properties.Resources.ApiInfo6, GetApiInfo_Dowork))
             {
                 dlg.ShowDialog();
-                TwitterApiStatus result = dlg.Result as TwitterApiStatus;
-                if (result != null)
+
+                TwitterApiAccessLevel? accessLevel = null;
+                ApiLimit timelineLimit = null, mediaLimit = null;
+
+                if (dlg.Result is TwitterApiStatus)
                 {
-                    tmp.AppendLine(Properties.Resources.ApiInfo1 + result.AccessLimit.AccessLimitCount);
-                    tmp.AppendLine(Properties.Resources.ApiInfo2 + result.AccessLimit.AccessLimitRemain);
-                    tmp.AppendLine(Properties.Resources.ApiInfo3 + result.AccessLimit.AccessLimitResetDate);
+                    var result = (TwitterApiStatus)dlg.Result;
+
+                    accessLevel = result.AccessLevel;
+                    timelineLimit = result.AccessLimit;
+                    mediaLimit = result.MediaUploadLimit;
+                }
+                else if (dlg.Result is TwitterApiStatus11)
+                {
+                    var result = (TwitterApiStatus11)dlg.Result;
+
+                    accessLevel = result.AccessLevel;
+                    timelineLimit = result.AccessLimit["/statuses/home_timeline"];
+                    mediaLimit = result.MediaUploadLimit;
+                }
+
+                if (accessLevel != null)
+                {
+                    tmp.AppendLine(Properties.Resources.ApiInfo1 + timelineLimit.AccessLimitCount);
+                    tmp.AppendLine(Properties.Resources.ApiInfo2 + timelineLimit.AccessLimitRemain);
+                    tmp.AppendLine(Properties.Resources.ApiInfo3 + timelineLimit.AccessLimitResetDate);
                     tmp.AppendLine(Properties.Resources.ApiInfo7 + (tw.UserStreamEnabled ? Properties.Resources.Enable : Properties.Resources.Disable));
 
                     tmp.AppendLine();
-                    tmp.AppendLine(Properties.Resources.ApiInfo8 + result.AccessLevel);
+                    tmp.AppendLine(Properties.Resources.ApiInfo8 + accessLevel);
                     SetStatusLabelUrl();
 
                     tmp.AppendLine();
-                    tmp.AppendLine(Properties.Resources.ApiInfo9 + (result.MediaUploadLimit == null ? Properties.Resources.ApiInfo91 : result.MediaUploadLimit.AccessLimitCount.ToString()));
-                    tmp.AppendLine(Properties.Resources.ApiInfo10 + (result.MediaUploadLimit == null ? Properties.Resources.ApiInfo91 : result.MediaUploadLimit.AccessLimitRemain.ToString()));
-                    tmp.AppendLine(Properties.Resources.ApiInfo11 + (result.MediaUploadLimit == null ? Properties.Resources.ApiInfo91 : result.MediaUploadLimit.AccessLimitResetDate.ToString()));
+                    tmp.AppendLine(Properties.Resources.ApiInfo9 + (mediaLimit == null ? Properties.Resources.ApiInfo91 : mediaLimit.AccessLimitCount.ToString()));
+                    tmp.AppendLine(Properties.Resources.ApiInfo10 + (mediaLimit == null ? Properties.Resources.ApiInfo91 : mediaLimit.AccessLimitRemain.ToString()));
+                    tmp.AppendLine(Properties.Resources.ApiInfo11 + (mediaLimit == null ? Properties.Resources.ApiInfo91 : mediaLimit.AccessLimitResetDate.ToString()));
                 }
                 else
                 {

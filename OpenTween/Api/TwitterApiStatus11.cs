@@ -1,4 +1,4 @@
-// OpenTween - Client of Twitter
+﻿// OpenTween - Client of Twitter
 // Copyright (c) 2013 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
 //
@@ -22,7 +22,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization.Json;
 using System.Text;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.XPath;
 
 namespace OpenTween.Api
 {
@@ -70,6 +74,29 @@ namespace OpenTween.Api
                 this.AccessLevel = accessLevel.Value;
         }
 
+        private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
+        public void UpdateFromJson(string json)
+        {
+            using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(json), XmlDictionaryReaderQuotas.Max))
+            {
+                var xElm = XElement.Load(jsonReader);
+                XNamespace a = "item";
+
+                var q =
+                    from res in xElm.Element("resources").Descendants(a + "item") // a:item 要素を列挙
+                    select new {
+                        endpointName = res.Attribute("item").Value,
+                        limit = new ApiLimit(
+                            int.Parse(res.Element("limit").Value),
+                            int.Parse(res.Element("remaining").Value),
+                            UnixEpoch.AddSeconds(long.Parse(res.Element("reset").Value)).ToLocalTime()
+                        ),
+                    };
+                this.AccessLimit.AddAll(q.ToDictionary(x => x.endpointName, x => x.limit));
+            }
+        }
+
         protected virtual void OnAccessLimitUpdated(AccessLimitUpdatedEventArgs e)
         {
             if (this.AccessLimitUpdated != null)
@@ -106,6 +133,16 @@ namespace OpenTween.Api
             public void Clear()
             {
                 this.innerDict.Clear();
+                this.Owner.OnAccessLimitUpdated(new AccessLimitUpdatedEventArgs(null));
+            }
+
+            public void AddAll(IDictionary<string, ApiLimit> resources)
+            {
+                foreach (var res in resources)
+                {
+                    this.innerDict[res.Key] = res.Value;
+                }
+
                 this.Owner.OnAccessLimitUpdated(new AccessLimitUpdatedEventArgs(null));
             }
         }
