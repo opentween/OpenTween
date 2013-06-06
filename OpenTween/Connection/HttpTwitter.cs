@@ -428,7 +428,7 @@ namespace OpenTween
 
             return httpCon.GetContent(PostMethod,
                 CreateTwitterUri(HttpTwitter.API11Enabled ? "/1.1/favorites/destroy.json" : "/1/favorites/destroy/" + id + ".json"),
-                null,
+                param,
                 ref content,
                 null,
                 null);
