@@ -125,25 +125,25 @@
     <value>17, 17</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="追加AToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="MenuItemAdd.Size" type="System.Drawing.Size, System.Drawing">
     <value>152, 22</value>
   </data>
-  <data name="追加AToolStripMenuItem.Text" xml:space="preserve">
+  <data name="MenuItemAdd.Text" xml:space="preserve">
     <value>追加(&amp;A)</value>
   </data>
-  <data name="削除DToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="MenuItemDelete.Size" type="System.Drawing.Size, System.Drawing">
     <value>152, 22</value>
   </data>
-  <data name="削除DToolStripMenuItem.Text" xml:space="preserve">
+  <data name="MenuItemDelete.Text" xml:space="preserve">
     <value>削除(&amp;D)</value>
   </data>
   <data name="ToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
     <value>149, 6</value>
   </data>
-  <data name="更新RToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="MenuItemReload.Size" type="System.Drawing.Size, System.Drawing">
     <value>152, 22</value>
   </data>
-  <data name="更新RToolStripMenuItem.Text" xml:space="preserve">
+  <data name="MenuItemReload.Text" xml:space="preserve">
     <value>更新(&amp;R)</value>
   </data>
   <data name="ContextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
@@ -264,16 +264,16 @@
   <data name="$this.Text" xml:space="preserve">
     <value>MyLists</value>
   </data>
-  <data name="&gt;&gt;追加AToolStripMenuItem.Name" xml:space="preserve">
-    <value>追加AToolStripMenuItem</value>
+  <data name="&gt;&gt;MenuItemAdd.Name" xml:space="preserve">
+    <value>MenuItemAdd</value>
   </data>
-  <data name="&gt;&gt;追加AToolStripMenuItem.Type" xml:space="preserve">
+  <data name="&gt;&gt;MenuItemAdd.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;削除DToolStripMenuItem.Name" xml:space="preserve">
-    <value>削除DToolStripMenuItem</value>
+  <data name="&gt;&gt;MenuItemDelete.Name" xml:space="preserve">
+    <value>MenuItemDelete</value>
   </data>
-  <data name="&gt;&gt;削除DToolStripMenuItem.Type" xml:space="preserve">
+  <data name="&gt;&gt;MenuItemDelete.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;ToolStripMenuItem1.Name" xml:space="preserve">
@@ -282,10 +282,10 @@
   <data name="&gt;&gt;ToolStripMenuItem1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;更新RToolStripMenuItem.Name" xml:space="preserve">
-    <value>更新RToolStripMenuItem</value>
+  <data name="&gt;&gt;MenuItemReload.Name" xml:space="preserve">
+    <value>MenuItemReload</value>
   </data>
-  <data name="&gt;&gt;更新RToolStripMenuItem.Type" xml:space="preserve">
+  <data name="&gt;&gt;MenuItemReload.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
