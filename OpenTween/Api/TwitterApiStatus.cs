@@ -75,15 +75,15 @@ namespace OpenTween.Api
 
         internal static ApiLimit ParseRateLimit(IDictionary<string, string> header, string prefix)
         {
-            var limitCount = ParseHeaderValue(header, prefix + "Limit") ?? -1;
-            var limitRemain = ParseHeaderValue(header, prefix + "Remaining") ?? -1;
-            var limitReset = ParseHeaderValue(header, prefix + "Reset") ?? -1;
+            var limitCount = (int?)ParseHeaderValue(header, prefix + "Limit");
+            var limitRemain = (int?)ParseHeaderValue(header, prefix + "Remaining");
+            var limitReset = ParseHeaderValue(header, prefix + "Reset");
 
-            if (limitCount == -1 || limitRemain == -1 || limitReset == -1)
+            if (limitCount == null || limitRemain == null || limitReset == null)
                 return null;
 
-            var limitResetDate = UnixEpoch.AddSeconds(limitReset).ToLocalTime();
-            return new ApiLimit(limitCount, limitRemain, limitResetDate);
+            var limitResetDate = UnixEpoch.AddSeconds(limitReset.Value).ToLocalTime();
+            return new ApiLimit(limitCount.Value, limitRemain.Value, limitResetDate);
         }
 
         internal static TwitterApiAccessLevel? ParseAccessLevel(IDictionary<string, string> header, string headerName)
@@ -109,14 +109,14 @@ namespace OpenTween.Api
             }
         }
 
-        internal static int? ParseHeaderValue(IDictionary<string, string> dict, params string[] keys)
+        internal static long? ParseHeaderValue(IDictionary<string, string> dict, params string[] keys)
         {
             foreach (var key in keys)
             {
                 if (!dict.ContainsKey(key)) continue;
 
-                int result;
-                if (int.TryParse(dict[key], out result))
+                long result;
+                if (long.TryParse(dict[key], out result))
                     return result;
             }
 
