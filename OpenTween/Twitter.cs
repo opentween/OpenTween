@@ -4035,7 +4035,7 @@ namespace OpenTween
                 var mS = Regex.Match(post.Source, ">(?<source>.+)<");
                 if (mS.Success)
                 {
-                    post.SourceHtml = string.Copy(ShortUrl.Resolve(PreProcessUrl(post.Source), false));
+                    post.SourceHtml = ShortUrl.Resolve(PreProcessUrl(post.Source), false);
                     post.Source = WebUtility.HtmlDecode(mS.Result("${source}"));
                 }
                 else
@@ -4056,7 +4056,7 @@ namespace OpenTween
                 }
                 else
                 {
-                    post.SourceHtml = string.Copy(post.Source);
+                    post.SourceHtml = post.Source;
                 }
             }
         }

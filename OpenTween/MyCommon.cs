@@ -759,11 +759,9 @@ namespace OpenTween
         public static T CreateDataFromJson<T>(string content)
         {
             T data;
-            using (var stream = new MemoryStream())
+            var buf = Encoding.Unicode.GetBytes(content);
+            using (var stream = new MemoryStream(buf))
             {
-                var buf = Encoding.Unicode.GetBytes(content);
-                stream.Write(Encoding.Unicode.GetBytes(content), offset: 0, count: buf.Length);
-                stream.Seek(offset: 0, loc: SeekOrigin.Begin);
                 data = (T)((new DataContractJsonSerializer(typeof(T))).ReadObject(stream));
             }
             return data;
