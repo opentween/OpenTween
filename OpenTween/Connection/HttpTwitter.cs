@@ -914,14 +914,15 @@ namespace OpenTween
             if (page > 0)
                 param.Add("page", page.ToString());
 
-            // TODO: API v1.1 に存在しない API (旧 API で代替)
+            if (HttpTwitter.API11Enabled)
+                param.Add("id", statusid.ToString());
 
             return httpCon.GetContent(GetMethod,
-                CreateTwitterUri("/1/statuses/" + statusid + "/retweeted_by/ids.json"),
+                CreateTwitterUri(HttpTwitter.API11Enabled ? "/1.1/statuses/retweeters/ids.json" : "/1/statuses/" + statusid + "/retweeted_by/ids.json"),
                 param,
                 ref content,
                 this.apiStatusHeaders,
-                GetApiCallback);
+                HttpTwitter.API11Enabled ? CreateApi11Calllback("/statuses/retweeters/ids") : GetApiCallback);
         }
 
         public HttpStatusCode UpdateProfile(string name, string url, string location, string description, ref string content)
