@@ -83,7 +83,7 @@ namespace OpenTween.Api
         [TestCaseSource("ParseRateLimit_TestCase")]
         public void ParseRateLimitTest(IDictionary<string, string> header, ApiLimit expect)
         {
-            var limit = TwitterApiStatus.ParseRateLimit(header, "X-RateLimit");
+            var limit = TwitterApiStatus.ParseRateLimit(header, "X-RateLimit-");
             Assert.That(limit, Is.EqualTo(expect));
         }
 
