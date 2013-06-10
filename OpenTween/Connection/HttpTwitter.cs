@@ -246,13 +246,9 @@ namespace OpenTween
         {
             string content = null;
 
-            var param = new Dictionary<string, string>();
-            if (HttpTwitter.API11Enabled)
-                param.Add("id", id.ToString());
-
             return httpCon.GetContent(PostMethod,
-                CreateTwitterUri(HttpTwitter.API11Enabled ? "/1.1/statuses/destroy.json" : "/1/statuses/destroy/" + id + ".json"),
-                param,
+                CreateTwitterUri(HttpTwitter.API11Enabled ? "/1.1/statuses/destroy/" + id + ".json" : "/1/statuses/destroy/" + id + ".json"),
+                null,
                 ref content,
                 null,
                 null);
