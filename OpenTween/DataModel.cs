@@ -441,6 +441,27 @@ namespace OpenTween
         }
 
         [DataContract]
+        public class SearchResult11 // API v1.1
+        {
+            [DataMember(Name = "statuses")] public List<Status> Statuses;
+            [DataMember(Name = "search_metadata")] public SearchMetadata11 SearchMetadata;
+        }
+
+        [DataContract]
+        public class SearchMetadata11 // API v1.1
+        {
+            [DataMember(Name = "max_id")] public long MaxId;
+            [DataMember(Name = "since_id")] public long SinceId;
+            [DataMember(Name = "refresh_url")] public string RefreshUrl;
+            [DataMember(Name = "next_results")] public string NextResults;
+            [DataMember(Name = "count")] public int Count;
+            [DataMember(Name = "completed_in")] public double CompletedIn;
+            [DataMember(Name = "since_id_str")] public string SinceIdStr;
+            [DataMember(Name = "query")] public string Query;
+            [DataMember(Name = "max_id_str")] public string MaxIdStr;
+        }
+
+        [DataContract]
         public class SearchResult
         {
             [DataMember(Name = "completed_in")] public double CompletedIn;

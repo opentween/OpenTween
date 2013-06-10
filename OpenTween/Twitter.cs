@@ -170,12 +170,31 @@ namespace OpenTween
 
         //private List<PostClass> _deletemessages = new List<PostClass>();
 
+        public TwitterApiAccessLevel AccessLevel
+        {
+            get
+            {
+                if (HttpTwitter.API11Enabled)
+                    return MyCommon.TwitterApiInfo11.AccessLevel;
+                else
+                    return MyCommon.TwitterApiInfo.AccessLevel;
+            }
+        }
+
+        protected void ResetApiStatus()
+        {
+            if (HttpTwitter.API11Enabled)
+                MyCommon.TwitterApiInfo11.Reset();
+            else
+                MyCommon.TwitterApiInfo.Reset();
+        }
+
         public string Authenticate(string username, string password)
         {
             HttpStatusCode res;
             var content = "";
 
-            MyCommon.TwitterApiInfo.Reset();
+            this.ResetApiStatus();
             try
             {
                 res = twCon.AuthUserAndPass(username, password, ref content);
@@ -227,7 +246,7 @@ namespace OpenTween
             //OAuth PIN Flow
             bool res;
 
-            MyCommon.TwitterApiInfo.Reset();
+            this.ResetApiStatus();
             try
             {
                 res = twCon.AuthGetRequestToken(ref pinPageUrl);
@@ -245,7 +264,7 @@ namespace OpenTween
             HttpStatusCode res;
             var content = "";
 
-            MyCommon.TwitterApiInfo.Reset();
+            this.ResetApiStatus();
             try
             {
                 res = twCon.AuthGetAccessToken(pinCode);
@@ -295,7 +314,7 @@ namespace OpenTween
         public void ClearAuthInfo()
         {
             Twitter.AccountState = MyCommon.ACCOUNT_STATE.Invalid;
-            MyCommon.TwitterApiInfo.Reset();
+            this.ResetApiStatus();
             twCon.ClearAuthInfo();
         }
 
@@ -366,7 +385,7 @@ namespace OpenTween
             {
                 Twitter.AccountState = MyCommon.ACCOUNT_STATE.Invalid;
             }
-            MyCommon.TwitterApiInfo.Reset();
+            this.ResetApiStatus();
             twCon.Initialize(token, tokenSecret, username, userId);
             _uname = username.ToLower();
             if (AppendSettingDialog.Instance.UserstreamStartup) this.ReconnectUserStream();
@@ -752,7 +771,8 @@ namespace OpenTween
             if (MyCommon._endingFlag) return "";
 
             if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
-            if (MyCommon.TwitterApiInfo.AccessLevel == TwitterApiAccessLevel.Read || MyCommon.TwitterApiInfo.AccessLevel == TwitterApiAccessLevel.ReadWrite)
+
+            if (this.AccessLevel == TwitterApiAccessLevel.Read || this.AccessLevel == TwitterApiAccessLevel.ReadWrite)
             {
                 return "Auth Err:try to re-authorization.";
             }
@@ -970,7 +990,8 @@ namespace OpenTween
             if (MyCommon._endingFlag) return "";
 
             if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
-            if (MyCommon.TwitterApiInfo.AccessLevel == TwitterApiAccessLevel.Read || MyCommon.TwitterApiInfo.AccessLevel == TwitterApiAccessLevel.ReadWrite)
+
+            if (this.AccessLevel == TwitterApiAccessLevel.Read || this.AccessLevel == TwitterApiAccessLevel.ReadWrite)
             {
                 return "Auth Err:try to re-authorization.";
             }
@@ -2248,6 +2269,56 @@ namespace OpenTween
             return "";
         }
 
+        // API v1.1
+        private string CreatePostsFromSearch11Json(string content, TabClass tab, bool read, int count, ref long minimumId, bool more)
+        {
+            TwitterDataModel.SearchResult11 items;
+            try
+            {
+                items = MyCommon.CreateDataFromJson<TwitterDataModel.SearchResult11>(content);
+            }
+            catch (SerializationException ex)
+            {
+                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
+                return "Json Parse Error(DataContractJsonSerializer)";
+            }
+            catch (Exception ex)
+            {
+                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
+                return "Invalid Json!";
+            }
+            foreach (var result in items.Statuses)
+            {
+                PostClass post = null;
+                post = CreatePostsFromStatusData(result);
+                if (post == null) continue;
+
+                if (minimumId > post.StatusId) minimumId = post.StatusId;
+                if (!more && post.StatusId > tab.SinceId) tab.SinceId = post.StatusId;
+                //二重取得回避
+                lock (LockObj)
+                {
+                    if (tab == null)
+                    {
+                        if (TabInformations.GetInstance().ContainsKey(post.StatusId)) continue;
+                    }
+                    else
+                    {
+                        if (TabInformations.GetInstance().ContainsKey(post.StatusId, tab.TabName)) continue;
+                    }
+                }
+
+                post.IsRead = read;
+                if ((post.IsMe && !read) && this._readOwnPost) post.IsRead = true;
+
+                if (tab != null) post.RelTabName = tab.TabName;
+                //非同期アイコン取得＆StatusDictionaryに追加
+                TabInformations.GetInstance().AddPost(post);
+            }
+
+            return "";
+        }
+
         private string CreatePostsFromSearchJson(string content, TabClass tab, bool read, int count, ref long minimumId, bool more)
         {
             TwitterDataModel.SearchResult items;
@@ -2702,7 +2773,10 @@ namespace OpenTween
 
             if (!TabInformations.GetInstance().ContainsTab(tab)) return "";
 
-            return this.CreatePostsFromSearchJson(content, tab, read, count, ref tab.OldestId, more);
+            if (HttpTwitter.API11Enabled)
+                return this.CreatePostsFromSearch11Json(content, tab, read, count, ref tab.OldestId, more);
+            else
+                return this.CreatePostsFromSearchJson(content, tab, read, count, ref tab.OldestId, more);
         }
 
         public string GetPhoenixSearch(bool read,
@@ -2905,7 +2979,8 @@ namespace OpenTween
             if (MyCommon._endingFlag) return "";
 
             if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
-            if (MyCommon.TwitterApiInfo.AccessLevel == TwitterApiAccessLevel.Read || MyCommon.TwitterApiInfo.AccessLevel == TwitterApiAccessLevel.ReadWrite)
+
+            if (this.AccessLevel == TwitterApiAccessLevel.Read || this.AccessLevel == TwitterApiAccessLevel.ReadWrite)
             {
                 return "Auth Err:try to re-authorization.";
             }
@@ -3371,6 +3446,11 @@ namespace OpenTween
 
         public string GetListsApi()
         {
+            return HttpTwitter.API11Enabled ? this.GetListsApi11() : this.GetListsApi10();
+        }
+
+        private string GetListsApi10()
+        {
             if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
 
             HttpStatusCode res = HttpStatusCode.BadRequest;
@@ -3467,6 +3547,97 @@ namespace OpenTween
             } while (cursor != 0);
 
             TabInformations.GetInstance().SubscribableLists = lists;
+            return "";
+        }
+
+        private string GetListsApi11()
+        {
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
+
+            HttpStatusCode res = HttpStatusCode.BadRequest;
+            IEnumerable<ListElement> lists;
+            var content = "";
+
+            try
+            {
+                res = twCon.GetLists(this.Username, null, ref content);
+            }
+            catch (Exception ex)
+            {
+                return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")";
+            }
+
+            switch (res)
+            {
+                case HttpStatusCode.OK:
+                    Twitter.AccountState = MyCommon.ACCOUNT_STATE.Valid;
+                    break;
+                case HttpStatusCode.Unauthorized:
+                    Twitter.AccountState = MyCommon.ACCOUNT_STATE.Invalid;
+                    return Properties.Resources.Unauthorized;
+                case HttpStatusCode.BadRequest:
+                    return "Err:API Limits?";
+                default:
+                    return "Err:" + res.ToString() + "(" + MethodBase.GetCurrentMethod().Name + ")";
+            }
+
+            try
+            {
+                lists = MyCommon.CreateDataFromJson<List<TwitterDataModel.ListElementData>>(content)
+                    .Select(x => new ListElement(x, this));
+            }
+            catch (SerializationException ex)
+            {
+                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
+                return "Err:Json Parse Error(DataContractJsonSerializer)";
+            }
+            catch (Exception ex)
+            {
+                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
+                return "Err:Invalid Json!";
+            }
+
+            content = "";
+            try
+            {
+                res = twCon.GetListsSubscriptions(this.Username, null, ref content);
+            }
+            catch (Exception ex)
+            {
+                return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")";
+            }
+
+            switch (res)
+            {
+                case HttpStatusCode.OK:
+                    Twitter.AccountState = MyCommon.ACCOUNT_STATE.Valid;
+                    break;
+                case HttpStatusCode.Unauthorized:
+                    Twitter.AccountState = MyCommon.ACCOUNT_STATE.Invalid;
+                    return Properties.Resources.Unauthorized;
+                case HttpStatusCode.BadRequest:
+                    return "Err:API Limits?";
+                default:
+                    return "Err:" + res.ToString() + "(" + MethodBase.GetCurrentMethod().Name + ")";
+            }
+
+            try
+            {
+                lists = lists.Concat(MyCommon.CreateDataFromJson<List<TwitterDataModel.ListElementData>>(content)
+                    .Select(x => new ListElement(x, this)));
+            }
+            catch (SerializationException ex)
+            {
+                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
+                return "Err:Json Parse Error(DataContractJsonSerializer)";
+            }
+            catch (Exception ex)
+            {
+                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
+                return "Err:Invalid Json!";
+            }
+
+            TabInformations.GetInstance().SubscribableLists = lists.ToList();
             return "";
         }
 
@@ -4061,11 +4232,11 @@ namespace OpenTween
             }
         }
 
-        public bool GetInfoApi()
+        public TwitterApiStatus GetInfoApi10()
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return true;
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return null;
 
-            if (MyCommon._endingFlag) return true;
+            if (MyCommon._endingFlag) return null;
 
             HttpStatusCode res = HttpStatusCode.BadRequest;
             var content = "";
@@ -4075,25 +4246,60 @@ namespace OpenTween
             }
             catch(Exception)
             {
-                MyCommon.TwitterApiInfo.Reset();
-                return false;
+                this.ResetApiStatus();
+                return null;
             }
 
-            if (res != HttpStatusCode.OK) return false;
+            if (res != HttpStatusCode.OK) return null;
 
             try
             {
                 var limit = MyCommon.CreateDataFromJson<TwitterDataModel.RateLimitStatus>(content);
                 MyCommon.TwitterApiInfo.UpdateFromApi(limit);
-                return true;
+
+                return MyCommon.TwitterApiInfo;
             }
             catch(Exception ex)
             {
                 MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
                 MyCommon.TwitterApiInfo.Reset();
-                return false;
+                return null;
             }
         }
+
+        public TwitterApiStatus11 GetInfoApi11()
+        {
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return null;
+
+            if (MyCommon._endingFlag) return null;
+
+            HttpStatusCode res = HttpStatusCode.BadRequest;
+            var content = "";
+            try
+            {
+                res = twCon.RateLimitStatus(ref content);
+            }
+            catch (Exception)
+            {
+                this.ResetApiStatus();
+                return null;
+            }
+
+            if (res != HttpStatusCode.OK) return null;
+
+            try
+            {
+                MyCommon.TwitterApiInfo11.UpdateFromJson(content);
+                return MyCommon.TwitterApiInfo11;
+            }
+            catch (Exception ex)
+            {
+                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
+                MyCommon.TwitterApiInfo.Reset();
+                return null;
+            }
+        }
+
         public string GetBlockUserIds()
         {
             if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";

@@ -60,51 +60,38 @@ namespace OpenTween.Api
 
         public void UpdateFromHeader(IDictionary<string, string> header)
         {
-            var rateLimit = TwitterApiStatus.ParseRateLimit(header);
+            var rateLimit = TwitterApiStatus.ParseRateLimit(header, "X-RateLimit-");
             if (rateLimit != null)
                 this.AccessLimit = rateLimit;
 
-            var mediaLimit = TwitterApiStatus.ParseMediaRateLimit(header);
+            var mediaLimit = TwitterApiStatus.ParseRateLimit(header, "X-MediaRateLimit-");
             if (mediaLimit != null)
                 this.MediaUploadLimit = mediaLimit;
 
-            var accessLevel = TwitterApiStatus.ParseAccessLevel(header);
+            var accessLevel = TwitterApiStatus.ParseAccessLevel(header, "X-Access-Level");
             if (accessLevel.HasValue)
                 this.AccessLevel = accessLevel.Value;
         }
 
-        internal static ApiLimit ParseRateLimit(IDictionary<string, string> header)
+        internal static ApiLimit ParseRateLimit(IDictionary<string, string> header, string prefix)
         {
-            var limitCount = ParseHeaderValue(header, "X-RateLimit-Limit") ?? -1;
-            var limitRemain = ParseHeaderValue(header, "X-RateLimit-Remaining") ?? -1;
-            var limitReset = ParseHeaderValue(header, "X-RateLimit-Reset") ?? -1;
+            var limitCount = (int?)ParseHeaderValue(header, prefix + "Limit");
+            var limitRemain = (int?)ParseHeaderValue(header, prefix + "Remaining");
+            var limitReset = ParseHeaderValue(header, prefix + "Reset");
 
-            if (limitCount == -1 || limitRemain == -1 || limitReset == -1)
+            if (limitCount == null || limitRemain == null || limitReset == null)
                 return null;
 
-            var limitResetDate = UnixEpoch.AddSeconds(limitReset).ToLocalTime();
-            return new ApiLimit(limitCount, limitRemain, limitResetDate);
+            var limitResetDate = UnixEpoch.AddSeconds(limitReset.Value).ToLocalTime();
+            return new ApiLimit(limitCount.Value, limitRemain.Value, limitResetDate);
         }
 
-        internal static ApiLimit ParseMediaRateLimit(IDictionary<string, string> header)
+        internal static TwitterApiAccessLevel? ParseAccessLevel(IDictionary<string, string> header, string headerName)
         {
-            var limitCount = ParseHeaderValue(header, "X-MediaRateLimit-Limit") ?? -1;
-            var limitRemain = ParseHeaderValue(header, "X-MediaRateLimit-Remaining") ?? -1;
-            var limitReset = ParseHeaderValue(header, "X-MediaRateLimit-Reset") ?? -1;
-
-            if (limitCount == -1 || limitRemain == -1 || limitReset == -1)
+            if (!header.ContainsKey(headerName))
                 return null;
 
-            var limitResetDate = UnixEpoch.AddSeconds(limitReset).ToLocalTime();
-            return new ApiLimit(limitCount, limitRemain, limitResetDate);
-        }
-
-        internal static TwitterApiAccessLevel? ParseAccessLevel(IDictionary<string, string> header)
-        {
-            if (!header.ContainsKey("X-Access-Level"))
-                return null;
-
-            switch (header["X-Access-Level"])
+            switch (header[headerName])
             {
                 case "read-write-directmessages":
                 case "read-write-privatemessages":
@@ -117,19 +104,19 @@ namespace OpenTween.Api
                     // たまに出てくる空文字列は無視する
                     return null;
                 default:
-                    MyCommon.TraceOut("Unknown ApiAccessLevel:" + header["X-Access-Level"]);
+                    MyCommon.TraceOut("Unknown ApiAccessLevel:" + header[headerName]);
                     return TwitterApiAccessLevel.ReadWriteAndDirectMessage;
             }
         }
 
-        internal static int? ParseHeaderValue(IDictionary<string, string> dict, params string[] keys)
+        internal static long? ParseHeaderValue(IDictionary<string, string> dict, params string[] keys)
         {
             foreach (var key in keys)
             {
                 if (!dict.ContainsKey(key)) continue;
 
-                int result;
-                if (int.TryParse(dict[key], out result))
+                long result;
+                if (long.TryParse(dict[key], out result))
                     return result;
             }
 

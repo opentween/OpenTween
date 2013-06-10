@@ -69,5 +69,5 @@ namespace OpenTween
     /// <param name="code">APIメソッドの返したHTTPステータスコード</param>
     /// <param name="content">APIメソッドの処理結果</param>
     /// <remarks>contentはNothingになることがあるのでチェックを必ず行うこと</remarks>
-    public delegate void CallbackDelegate(object sender, ref HttpStatusCode code, ref string content);
+    public delegate void CallbackDelegate(object sender, HttpStatusCode code, string content);
 }

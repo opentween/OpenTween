@@ -555,7 +555,8 @@ namespace OpenTween
 
             SecurityManager = new InternetSecurityManager(PostBrowser);
 
-            MyCommon.TwitterApiInfo.AccessLimitUpdated += SetStatusLabelApiHandler;
+            MyCommon.TwitterApiInfo.AccessLimitUpdated += TwitterApiStatus_AccessLimitUpdated;
+            MyCommon.TwitterApiInfo11.AccessLimitUpdated += TwitterApiStatus_AccessLimitUpdated;
             Microsoft.Win32.SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
 
             string[] cmdArgs = Environment.GetCommandLineArgs();
@@ -9480,19 +9481,28 @@ namespace OpenTween
             return slbl.ToString();
         }
 
-        delegate void SetStatusLabelApiDelegate();
-
-        private void SetStatusLabelApiHandler(object sender, EventArgs e)
+        private void TwitterApiStatus_AccessLimitUpdated(object sender, EventArgs e)
         {
             try
             {
-                if (InvokeRequired && !IsDisposed)
+                if (this.InvokeRequired && !this.IsDisposed)
                 {
-                    Invoke(new SetStatusLabelApiDelegate(SetStatusLabelApi));
+                    this.Invoke((MethodInvoker)(() => this.TwitterApiStatus_AccessLimitUpdated(sender, e)));
                 }
                 else
                 {
-                    SetStatusLabelApi();
+                    if (sender is TwitterApiStatus11 && this._apiGauge.API11Enabled)
+                    {
+                        var endpointName = (e as TwitterApiStatus11.AccessLimitUpdatedEventArgs).EndpointName;
+                        if (endpointName == "/statuses/home_timeline" || endpointName == null)
+                        {
+                            this._apiGauge.ApiLimit = MyCommon.TwitterApiInfo11.AccessLimit["/statuses/home_timeline"];
+                        }
+                    }
+                    else if (sender is TwitterApiStatus && !this._apiGauge.API11Enabled)
+                    {
+                        this._apiGauge.ApiLimit = MyCommon.TwitterApiInfo.AccessLimit;
+                    }
                 }
             }
             catch (ObjectDisposedException)
@@ -9503,11 +9513,6 @@ namespace OpenTween
             {
                 return;
             }
-        }
-
-        private void SetStatusLabelApi()
-        {
-            this._apiGauge.ApiLimit = MyCommon.TwitterApiInfo.AccessLimit;
         }
 
         private void SetStatusLabelUrl()
@@ -11047,10 +11052,10 @@ namespace OpenTween
 
         private void GetApiInfo_Dowork(object sender, DoWorkEventArgs e)
         {
-            if (tw.GetInfoApi())
-                e.Result = MyCommon.TwitterApiInfo;
+            if (HttpTwitter.API11Enabled)
+                e.Result = tw.GetInfoApi11();
             else
-                e.Result = null;
+                e.Result = tw.GetInfoApi10();
         }
 
         private void ApiUsageInfoMenuItem_Click(object sender, EventArgs e)
@@ -11060,22 +11065,42 @@ namespace OpenTween
             using (FormInfo dlg = new FormInfo(this, Properties.Resources.ApiInfo6, GetApiInfo_Dowork))
             {
                 dlg.ShowDialog();
-                TwitterApiStatus result = dlg.Result as TwitterApiStatus;
-                if (result != null)
+
+                TwitterApiAccessLevel? accessLevel = null;
+                ApiLimit timelineLimit = null, mediaLimit = null;
+
+                if (dlg.Result is TwitterApiStatus)
                 {
-                    tmp.AppendLine(Properties.Resources.ApiInfo1 + result.AccessLimit.AccessLimitCount);
-                    tmp.AppendLine(Properties.Resources.ApiInfo2 + result.AccessLimit.AccessLimitRemain);
-                    tmp.AppendLine(Properties.Resources.ApiInfo3 + result.AccessLimit.AccessLimitResetDate);
+                    var result = (TwitterApiStatus)dlg.Result;
+
+                    accessLevel = result.AccessLevel;
+                    timelineLimit = result.AccessLimit;
+                    mediaLimit = result.MediaUploadLimit;
+                }
+                else if (dlg.Result is TwitterApiStatus11)
+                {
+                    var result = (TwitterApiStatus11)dlg.Result;
+
+                    accessLevel = result.AccessLevel;
+                    timelineLimit = result.AccessLimit["/statuses/home_timeline"];
+                    mediaLimit = result.MediaUploadLimit;
+                }
+
+                if (accessLevel != null)
+                {
+                    tmp.AppendLine(Properties.Resources.ApiInfo1 + timelineLimit.AccessLimitCount);
+                    tmp.AppendLine(Properties.Resources.ApiInfo2 + timelineLimit.AccessLimitRemain);
+                    tmp.AppendLine(Properties.Resources.ApiInfo3 + timelineLimit.AccessLimitResetDate);
                     tmp.AppendLine(Properties.Resources.ApiInfo7 + (tw.UserStreamEnabled ? Properties.Resources.Enable : Properties.Resources.Disable));
 
                     tmp.AppendLine();
-                    tmp.AppendLine(Properties.Resources.ApiInfo8 + result.AccessLevel);
+                    tmp.AppendLine(Properties.Resources.ApiInfo8 + accessLevel);
                     SetStatusLabelUrl();
 
                     tmp.AppendLine();
-                    tmp.AppendLine(Properties.Resources.ApiInfo9 + (result.MediaUploadLimit == null ? Properties.Resources.ApiInfo91 : result.MediaUploadLimit.AccessLimitCount.ToString()));
-                    tmp.AppendLine(Properties.Resources.ApiInfo10 + (result.MediaUploadLimit == null ? Properties.Resources.ApiInfo91 : result.MediaUploadLimit.AccessLimitRemain.ToString()));
-                    tmp.AppendLine(Properties.Resources.ApiInfo11 + (result.MediaUploadLimit == null ? Properties.Resources.ApiInfo91 : result.MediaUploadLimit.AccessLimitResetDate.ToString()));
+                    tmp.AppendLine(Properties.Resources.ApiInfo9 + (mediaLimit == null ? Properties.Resources.ApiInfo91 : mediaLimit.AccessLimitCount.ToString()));
+                    tmp.AppendLine(Properties.Resources.ApiInfo10 + (mediaLimit == null ? Properties.Resources.ApiInfo91 : mediaLimit.AccessLimitRemain.ToString()));
+                    tmp.AppendLine(Properties.Resources.ApiInfo11 + (mediaLimit == null ? Properties.Resources.ApiInfo91 : mediaLimit.AccessLimitResetDate.ToString()));
                 }
                 else
                 {
@@ -12197,7 +12222,18 @@ namespace OpenTween
             this.gh.NotifyClicked += GrowlHelper_Callback;
 
             this._apiGauge = new ToolStripAPIGauge();
-            this._apiGauge.DoubleClick += this.ApiUsageInfoMenuItem_Click;
+            this._apiGauge.Click += (s, e) =>
+            {
+                var api11Enabled = !HttpTwitter.API11Enabled;
+
+                HttpTwitter.API11Enabled = api11Enabled;
+                (s as ToolStripAPIGauge).API11Enabled = api11Enabled;
+
+                if (api11Enabled)
+                    MyCommon.TwitterApiInfo11.Reset();
+                else
+                    MyCommon.TwitterApiInfo.Reset();
+            };
             this.StatusStrip1.Items.Insert(2, this._apiGauge);
 
             this.ReplaceAppName();

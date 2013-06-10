@@ -1921,7 +1921,7 @@ namespace OpenTween
                 {
                     if (Twitter.AccountState == MyCommon.ACCOUNT_STATE.Valid)
                     {
-                        Task.Factory.StartNew(() => tw.GetInfoApi()) //取得エラー時はinfoCountは初期状態（値：-1）
+                        Task.Factory.StartNew(() => tw.GetInfoApi10()) //取得エラー時はinfoCountは初期状態（値：-1）
                             .ContinueWith(t =>
                             {
                                 if (this.IsHandleCreated && !this.IsDisposed)
