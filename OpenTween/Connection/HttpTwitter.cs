@@ -765,7 +765,7 @@ namespace OpenTween
             param.Add("list_id", list_id.ToString());
             param.Add("include_rts", isRTinclude ? "true" : "false");
             if (per_page > 0)
-                param.Add("per_page", per_page.ToString());
+                param.Add(HttpTwitter.API11Enabled ? "count" : "per_page", per_page.ToString());
             if (max_id > 0)
                 param.Add("max_id", max_id.ToString());
             if (since_id > 0)
