@@ -4460,6 +4460,8 @@ namespace OpenTween
             new EventTypeTableElement("list_created", MyCommon.EVENTTYPE.ListCreated),
             new EventTypeTableElement("list_updated", MyCommon.EVENTTYPE.ListUpdated),
             new EventTypeTableElement("unfollow", MyCommon.EVENTTYPE.Unfollow),
+            new EventTypeTableElement("list_user_subscribed", MyCommon.EVENTTYPE.ListUserSubscribed),
+            new EventTypeTableElement("list_user_unsubscribed", MyCommon.EVENTTYPE.ListUserUnsubscribed),
         };
 
         public MyCommon.EVENTTYPE EventNameToEventType(string EventName)
@@ -4702,6 +4704,9 @@ namespace OpenTween
                 case "list_created":
                     evt.Target = "";
                     break;
+                case "list_user_subscribed":
+                case "list_user_unsubscribed":
+                    return;
                 default:
                     MyCommon.TraceOut("Unknown Event:" + evt.Event + Environment.NewLine + content);
                     break;
