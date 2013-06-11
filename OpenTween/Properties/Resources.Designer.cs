@@ -625,6 +625,8 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Ver 1.1.2-beta1(2013/xx/xx)
+        ///
         ///==== Ver 1.1.1(2013/06/11)
         /// * 当バージョンから Twitter API v1.1 に対応しています
         /// * 旧 API v1 は太平洋標準時の 6/11 (Wed) に廃止される予定であると Twitter 社が予告しています
@@ -636,7 +638,7 @@ namespace OpenTween.Properties {
         ///
         ///==== Ver 1.1.0(2013/05/15)
         /// * NEW: タブの表示位置を画面上部に変更可能に (thx @aokomoriuta!)
-        /// * NEW: mobile.twitter.com/&lt;スクリーン名&gt;/status/&lt;ステータスID&gt; のURLも関連 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * NEW: mobile.twitter.c [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
