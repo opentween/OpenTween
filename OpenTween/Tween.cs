@@ -1294,7 +1294,6 @@ namespace OpenTween
                 {"TwitPic", new TwitPic(tw)},
                 {"img.ly", new imgly(tw)},
                 {"yfrog", new yfrog(tw)},
-                {"lockerz", new Plixi(tw)},
                 {"Twitter", new TwitterPhoto(tw)}
             };
         }
@@ -12470,7 +12469,6 @@ namespace OpenTween
             ImageServiceCombo.Items.Add("TwitPic");
             ImageServiceCombo.Items.Add("img.ly");
             ImageServiceCombo.Items.Add("yfrog");
-            ImageServiceCombo.Items.Add("lockerz");
             ImageServiceCombo.Items.Add("Twitter");
 
             if (string.IsNullOrEmpty(svc))
