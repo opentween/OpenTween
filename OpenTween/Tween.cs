@@ -31,23 +31,23 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using OpenTween.OpenTweenCustomControl;
-using System.IO;
-using System.Text.RegularExpressions;
-using System.Reflection;
-using System.Threading;
-using System.Media;
-using System.Web;
 using System.Diagnostics;
-using OpenTween.Thumbnail;
-using System.Threading.Tasks;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Media;
 using System.Net;
+using System.Reflection;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
 using OpenTween.Api;
+using OpenTween.Connection;
+using OpenTween.OpenTweenCustomControl;
+using OpenTween.Thumbnail;
 
 namespace OpenTween
 {
@@ -1294,7 +1294,8 @@ namespace OpenTween
                 {"TwitPic", new TwitPic(tw)},
                 {"img.ly", new imgly(tw)},
                 {"yfrog", new yfrog(tw)},
-                {"Twitter", new TwitterPhoto(tw)}
+                {"Twitter", new TwitterPhoto(tw)},
+                {"ついっぷるフォト", new TwipplePhoto(tw)}
             };
         }
 
@@ -12466,10 +12467,12 @@ namespace OpenTween
             string svc = "";
             if (ImageServiceCombo.SelectedIndex > -1) svc = ImageServiceCombo.SelectedItem.ToString();
             ImageServiceCombo.Items.Clear();
-            ImageServiceCombo.Items.Add("TwitPic");
-            ImageServiceCombo.Items.Add("img.ly");
-            ImageServiceCombo.Items.Add("yfrog");
-            ImageServiceCombo.Items.Add("Twitter");
+            
+            // Add service names to combobox
+            foreach (var key in pictureService.Keys)
+            {
+                ImageServiceCombo.Items.Add(key);
+            }
 
             if (string.IsNullOrEmpty(svc))
             {
