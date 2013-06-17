@@ -42,6 +42,7 @@ namespace OpenTween
             set
             {
                 base.Image = value;
+                this.SizeMode = this._SizeMode;
                 if (this.memoryImage != null)
                 {
                     this.memoryImage.Dispose();
@@ -67,6 +68,31 @@ namespace OpenTween
         private string _ImageLocation;
 
         /// <summary>
+        /// 画像に応じた SizeMode を取得・設定する
+        /// </summary>
+        /// <remarks>
+        /// ErrorImage と InitialImage は SizeMode の値に依らず中央等倍に表示する必要があるため、
+        /// 画像に応じて SizeMode の状態を弄る
+        /// </remarks>
+        public new PictureBoxSizeMode SizeMode
+        {
+            get { return this._SizeMode; }
+            set
+            {
+                this._SizeMode = value;
+                if (base.Image == null || (base.Image != base.ErrorImage && base.Image != base.InitialImage))
+                {
+                    base.SizeMode = value;
+                }
+                else
+                {
+                    base.SizeMode = PictureBoxSizeMode.CenterImage;
+                }
+            }
+        }
+        private PictureBoxSizeMode _SizeMode;
+
+        /// <summary>
         /// ImageLocation によりロードされた画像
         /// </summary>
         private MemoryImage memoryImage = null;
@@ -81,8 +107,7 @@ namespace OpenTween
             if (this.loadAsyncTask != null && !this.loadAsyncTask.IsCompleted)
                 this.CancelAsync();
 
-            if (this.expandedInitialImage != null)
-                this.Image = this.expandedInitialImage;
+            this.Image = base.InitialImage;
 
             Uri uri;
             try
@@ -123,7 +148,7 @@ namespace OpenTween
                 {
                     if (t.IsFaulted)
                     {
-                        this.Image = this.expandedErrorImage;
+                        this.Image = base.ErrorImage;
                     }
                     else
                     {
@@ -162,107 +187,9 @@ namespace OpenTween
             }
         }
 
-        public new Image ErrorImage
-        {
-            get { return base.ErrorImage; }
-            set
-            {
-                base.ErrorImage = value;
-                this.UpdateStatusImages();
-            }
-        }
-
-        public new Image InitialImage
-        {
-            get { return base.InitialImage; }
-            set
-            {
-                base.InitialImage = value;
-                this.UpdateStatusImages();
-            }
-        }
-
-        private Image expandedErrorImage = null;
-        private Image expandedInitialImage = null;
-
-        /// <summary>
-        /// ErrorImage と InitialImage の表示用の画像を生成する
-        /// </summary>
-        /// <remarks>
-        /// ErrorImage と InitialImage は SizeMode の値に依らず中央等倍に表示する必要があるため、
-        /// 事前にコントロールのサイズに合わせた画像を生成しておく
-        /// </remarks>
-        private void UpdateStatusImages()
-        {
-            var isError = false;
-            var isInit = false;
-
-            if (this.Image != null)
-            {
-                // ErrorImage か InitialImage を使用中であれば記憶しておく
-                isError = (this.Image == this.expandedErrorImage);
-                isInit = (this.Image == this.expandedInitialImage);
-            }
-
-            if (isError || isInit)
-                this.Image = null;
-
-            if (this.expandedErrorImage != null)
-                this.expandedErrorImage.Dispose();
-
-            if (this.expandedInitialImage != null)
-                this.expandedInitialImage.Dispose();
-
-            this.expandedErrorImage = this.ExpandImage(this.ErrorImage);
-            this.expandedInitialImage = this.ExpandImage(this.InitialImage);
-
-            if (isError)
-                this.Image = this.expandedErrorImage;
-
-            if (isInit)
-                this.Image = this.expandedInitialImage;
-        }
-
-        private Image ExpandImage(Image image)
-        {
-            if (image == null) return null;
-
-            var bitmap = new Bitmap(this.ClientSize.Width, this.ClientSize.Height);
-
-            using (var g = this.CreateGraphics())
-            {
-                bitmap.SetResolution(g.DpiX, g.DpiY);
-            }
-
-            using (var g = Graphics.FromImage(bitmap))
-            {
-                var posx = (bitmap.Width - image.Width) / 2;
-                var posy = (bitmap.Height - image.Height) / 2;
-
-                g.DrawImage(image,
-                    new Rectangle(posx, posy, image.Width, image.Height),
-                    new Rectangle(0, 0, image.Width, image.Height),
-                    GraphicsUnit.Pixel);
-            }
-
-            return bitmap;
-        }
-
-        protected override void OnResize(EventArgs e)
-        {
-            base.OnResize(e);
-            this.UpdateStatusImages();
-        }
-
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
-
-            if (this.expandedErrorImage != null)
-                this.expandedErrorImage.Dispose();
-
-            if (this.expandedInitialImage != null)
-                this.expandedInitialImage.Dispose();
 
             if (this.memoryImage != null)
                 this.memoryImage.Dispose();
