@@ -76,8 +76,8 @@
             this.ImageCancelButton = new System.Windows.Forms.Button();
             this.Label1 = new System.Windows.Forms.Label();
             this.ProfilePanel = new System.Windows.Forms.Panel();
-            this.SplitContainer3 = new System.Windows.Forms.SplitContainer();
             this.SplitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.SplitContainer3 = new System.Windows.Forms.SplitContainer();
             this.TableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.UserPicture = new OpenTween.OpenTweenCustomControl.PictureBoxEx();
             this.ContextMenuUserPicture = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -125,10 +125,10 @@
             this.ContextMenuSource = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.SourceCopyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SourceUrlCopyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tweetThumbnail1 = new OpenTween.TweetThumbnail();
             this.StatusText = new System.Windows.Forms.TextBox();
             this.lblLen = new System.Windows.Forms.Label();
             this.PostButton = new System.Windows.Forms.Button();
-            this.tweetThumbnail1 = new OpenTween.TweetThumbnail();
             this.MenuStrip1 = new System.Windows.Forms.MenuStrip();
             this.MenuItemFile = new System.Windows.Forms.ToolStripMenuItem();
             this.SettingFileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -327,14 +327,14 @@
             this.ImageSelectionPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ImageSelectedPicture)).BeginInit();
             this.ImagePathPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.SplitContainer3)).BeginInit();
-            this.SplitContainer3.Panel1.SuspendLayout();
-            this.SplitContainer3.Panel2.SuspendLayout();
-            this.SplitContainer3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer2)).BeginInit();
             this.SplitContainer2.Panel1.SuspendLayout();
             this.SplitContainer2.Panel2.SuspendLayout();
             this.SplitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SplitContainer3)).BeginInit();
+            this.SplitContainer3.Panel1.SuspendLayout();
+            this.SplitContainer3.Panel2.SuspendLayout();
+            this.SplitContainer3.SuspendLayout();
             this.TableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UserPicture)).BeginInit();
             this.ContextMenuUserPicture.SuspendLayout();
@@ -539,7 +539,7 @@
             // SplitContainer1.Panel2
             // 
             resources.ApplyResources(this.SplitContainer1.Panel2, "SplitContainer1.Panel2");
-            this.SplitContainer1.Panel2.Controls.Add(this.SplitContainer3);
+            this.SplitContainer1.Panel2.Controls.Add(this.SplitContainer2);
             this.ToolTip1.SetToolTip(this.SplitContainer1.Panel2, resources.GetString("SplitContainer1.Panel2.ToolTip"));
             this.SplitContainer1.TabStop = false;
             this.ToolTip1.SetToolTip(this.SplitContainer1, resources.GetString("SplitContainer1.ToolTip"));
@@ -769,41 +769,21 @@
             // ProfilePanel
             // 
             resources.ApplyResources(this.ProfilePanel, "ProfilePanel");
+            this.ProfilePanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.ProfilePanel.Name = "ProfilePanel";
             this.ToolTip1.SetToolTip(this.ProfilePanel, resources.GetString("ProfilePanel.ToolTip"));
-            // 
-            // SplitContainer3
-            // 
-            resources.ApplyResources(this.SplitContainer3, "SplitContainer3");
-            this.SplitContainer3.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.SplitContainer3.Name = "SplitContainer3";
-            // 
-            // SplitContainer3.Panel1
-            // 
-            resources.ApplyResources(this.SplitContainer3.Panel1, "SplitContainer3.Panel1");
-            this.SplitContainer3.Panel1.Controls.Add(this.SplitContainer2);
-            this.ToolTip1.SetToolTip(this.SplitContainer3.Panel1, resources.GetString("SplitContainer3.Panel1.ToolTip"));
-            // 
-            // SplitContainer3.Panel2
-            // 
-            resources.ApplyResources(this.SplitContainer3.Panel2, "SplitContainer3.Panel2");
-            this.SplitContainer3.Panel2.Controls.Add(this.tweetThumbnail1);
-            this.ToolTip1.SetToolTip(this.SplitContainer3.Panel2, resources.GetString("SplitContainer3.Panel2.ToolTip"));
-            this.SplitContainer3.Panel2Collapsed = true;
-            this.SplitContainer3.TabStop = false;
-            this.ToolTip1.SetToolTip(this.SplitContainer3, resources.GetString("SplitContainer3.ToolTip"));
-            this.SplitContainer3.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.SplitContainer3_SplitterMoved);
             // 
             // SplitContainer2
             // 
             resources.ApplyResources(this.SplitContainer2, "SplitContainer2");
+            this.SplitContainer2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.SplitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
             this.SplitContainer2.Name = "SplitContainer2";
             // 
             // SplitContainer2.Panel1
             // 
             resources.ApplyResources(this.SplitContainer2.Panel1, "SplitContainer2.Panel1");
-            this.SplitContainer2.Panel1.Controls.Add(this.TableLayoutPanel1);
+            this.SplitContainer2.Panel1.Controls.Add(this.SplitContainer3);
             this.ToolTip1.SetToolTip(this.SplitContainer2.Panel1, resources.GetString("SplitContainer2.Panel1.ToolTip"));
             // 
             // SplitContainer2.Panel2
@@ -818,6 +798,28 @@
             this.ToolTip1.SetToolTip(this.SplitContainer2, resources.GetString("SplitContainer2.ToolTip"));
             this.SplitContainer2.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.SplitContainer2_SplitterMoved);
             this.SplitContainer2.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.SplitContainer2_MouseDoubleClick);
+            // 
+            // SplitContainer3
+            // 
+            resources.ApplyResources(this.SplitContainer3, "SplitContainer3");
+            this.SplitContainer3.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.SplitContainer3.Name = "SplitContainer3";
+            // 
+            // SplitContainer3.Panel1
+            // 
+            resources.ApplyResources(this.SplitContainer3.Panel1, "SplitContainer3.Panel1");
+            this.SplitContainer3.Panel1.Controls.Add(this.TableLayoutPanel1);
+            this.ToolTip1.SetToolTip(this.SplitContainer3.Panel1, resources.GetString("SplitContainer3.Panel1.ToolTip"));
+            // 
+            // SplitContainer3.Panel2
+            // 
+            resources.ApplyResources(this.SplitContainer3.Panel2, "SplitContainer3.Panel2");
+            this.SplitContainer3.Panel2.Controls.Add(this.tweetThumbnail1);
+            this.ToolTip1.SetToolTip(this.SplitContainer3.Panel2, resources.GetString("SplitContainer3.Panel2.ToolTip"));
+            this.SplitContainer3.Panel2Collapsed = true;
+            this.SplitContainer3.TabStop = false;
+            this.ToolTip1.SetToolTip(this.SplitContainer3, resources.GetString("SplitContainer3.ToolTip"));
+            this.SplitContainer3.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.SplitContainer3_SplitterMoved);
             // 
             // TableLayoutPanel1
             // 
@@ -1171,6 +1173,15 @@
             this.SourceUrlCopyMenuItem.Name = "SourceUrlCopyMenuItem";
             this.SourceUrlCopyMenuItem.Click += new System.EventHandler(this.SourceUrlCopyMenuItem_Click);
             // 
+            // tweetThumbnail1
+            // 
+            resources.ApplyResources(this.tweetThumbnail1, "tweetThumbnail1");
+            this.tweetThumbnail1.Name = "tweetThumbnail1";
+            this.ToolTip1.SetToolTip(this.tweetThumbnail1, resources.GetString("tweetThumbnail1.ToolTip"));
+            this.tweetThumbnail1.ThumbnailLoading += new System.EventHandler(this.tweetThumbnail1_ThumbnailLoading);
+            this.tweetThumbnail1.ThumbnailDoubleClick += new System.EventHandler<OpenTween.ThumbnailDoubleClickEventArgs>(this.tweetThumbnail1_ThumbnailDoubleClick);
+            this.tweetThumbnail1.ThumbnailImageSearchClick += new System.EventHandler<OpenTween.ThumbnailImageSearchEventArgs>(this.tweetThumbnail1_ThumbnailImageSearchClick);
+            // 
             // StatusText
             // 
             resources.ApplyResources(this.StatusText, "StatusText");
@@ -1198,15 +1209,6 @@
             this.ToolTip1.SetToolTip(this.PostButton, resources.GetString("PostButton.ToolTip"));
             this.PostButton.UseVisualStyleBackColor = true;
             this.PostButton.Click += new System.EventHandler(this.PostButton_Click);
-            // 
-            // tweetThumbnail1
-            // 
-            resources.ApplyResources(this.tweetThumbnail1, "tweetThumbnail1");
-            this.tweetThumbnail1.Name = "tweetThumbnail1";
-            this.ToolTip1.SetToolTip(this.tweetThumbnail1, resources.GetString("tweetThumbnail1.ToolTip"));
-            this.tweetThumbnail1.ThumbnailLoading += new System.EventHandler(this.tweetThumbnail1_ThumbnailLoading);
-            this.tweetThumbnail1.ThumbnailDoubleClick += new System.EventHandler<OpenTween.ThumbnailDoubleClickEventArgs>(this.tweetThumbnail1_ThumbnailDoubleClick);
-            this.tweetThumbnail1.ThumbnailImageSearchClick += new System.EventHandler<OpenTween.ThumbnailImageSearchEventArgs>(this.tweetThumbnail1_ThumbnailImageSearchClick);
             // 
             // MenuStrip1
             // 
@@ -2527,15 +2529,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.ImageSelectedPicture)).EndInit();
             this.ImagePathPanel.ResumeLayout(false);
             this.ImagePathPanel.PerformLayout();
-            this.SplitContainer3.Panel1.ResumeLayout(false);
-            this.SplitContainer3.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.SplitContainer3)).EndInit();
-            this.SplitContainer3.ResumeLayout(false);
             this.SplitContainer2.Panel1.ResumeLayout(false);
             this.SplitContainer2.Panel2.ResumeLayout(false);
             this.SplitContainer2.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer2)).EndInit();
             this.SplitContainer2.ResumeLayout(false);
+            this.SplitContainer3.Panel1.ResumeLayout(false);
+            this.SplitContainer3.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.SplitContainer3)).EndInit();
+            this.SplitContainer3.ResumeLayout(false);
             this.TableLayoutPanel1.ResumeLayout(false);
             this.TableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UserPicture)).EndInit();
