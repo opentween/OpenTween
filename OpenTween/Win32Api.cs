@@ -546,6 +546,11 @@ namespace OpenTween
         private const Int32 FLASHW_TIMERNOFG = 0xC;
         #endregion
 
+        [DllImport("user32.dll")]
+        public static extern bool ValidateRect(
+            IntPtr hwnd,
+            IntPtr rect);
+
         #region "スクリーンセーバー起動中か判定"
         [DllImport("user32", CharSet = CharSet.Auto)]
         private static extern int SystemParametersInfo(

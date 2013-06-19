@@ -2055,7 +2055,8 @@ namespace OpenTween
 
             if (_post == null) return;
 
-            var itemColorTuple = new Tuple<ListViewItem, Color>[] { };
+            var itemColors = new Color[] { };
+            int itemIndex = -1;
 
             this.itemCacheLock.EnterReadLock();
             try
@@ -2064,17 +2065,20 @@ namespace OpenTween
 
                 var query = 
                     from i in Enumerable.Range(0, this._itemCache.Length)
-                    select new Tuple<ListViewItem, Color>(this._itemCache[i], this.JudgeColor(_post, this._postCache[i]));
+                    select this.JudgeColor(_post, this._postCache[i]);
                 
-                itemColorTuple = query.ToArray();
+                itemColors = query.ToArray();
+                itemIndex = _itemCacheIndex;
             }
             finally { this.itemCacheLock.ExitReadLock(); }
 
-            foreach (var tuple in itemColorTuple)
+            if (itemIndex < 0) return;
+
+            foreach (var backColor in itemColors)
             {
                 // この処理中に MyList_CacheVirtualItems が呼ばれることがあるため、
                 // 同一スレッド内での二重ロックを避けるためにロックの外で実行する必要がある
-                tuple.Item1.SubItems[0].BackColor = tuple.Item2;
+                _curList.ChangeItemBackColor(itemIndex++, backColor);
             }
         }
 
