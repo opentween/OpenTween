@@ -149,7 +149,7 @@ namespace OpenTween
         public class Coordinates
         {
             [DataMember(Name = "type", IsRequired = false)] public string Type;
-            [DataMember(Name = "coordinates", IsRequired = false)] public double[] coordinates = new double[3];
+            [DataMember(Name = "coordinates", IsRequired = false)] public double[] coordinates = new double[2];
         }
 
         [DataContract]
@@ -191,7 +191,7 @@ namespace OpenTween
         public class RetweetedStatus
         {
             [DataMember(Name = "coordinates", IsRequired = false)] public Coordinates Coordinates;
-            [DataMember(Name = "geo", IsRequired = false)] public Geo Geo;
+            //[DataMember(Name = "geo", IsRequired = false)] public Geo Geo;
             [DataMember(Name = "in_reply_to_user_id")] public long? InReplyToUserId;
             [DataMember(Name = "source")] public string Source;
             [DataMember(Name = "user")] public User User;
@@ -218,7 +218,7 @@ namespace OpenTween
             [DataMember(Name = "in_reply_to_user_id_str")] public string InReplyToUserIdStr;
             [DataMember(Name = "retweet_count")] public int RetweetCount;
             [DataMember(Name = "created_at")] public string CreatedAt;
-            [DataMember(Name = "geo", IsRequired = false)] public Geo Geo;
+            //[DataMember(Name = "geo", IsRequired = false)] public Geo Geo;
             [DataMember(Name = "retweeted")] public bool Retweeted;
             [DataMember(Name = "in_reply_to_user_id")] public long? InReplyToUserId;
             [DataMember(Name = "source")] public string Source;
