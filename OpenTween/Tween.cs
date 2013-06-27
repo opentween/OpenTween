@@ -9872,7 +9872,7 @@ namespace OpenTween
 
         private void SplitContainer2_Panel2_Resize(object sender, EventArgs e)
         {
-            this.StatusText.Multiline = this.SplitContainer2.Panel2.Height > this.SplitContainer2.Panel2MinSize + 2;
+            this.StatusText.Multiline = this.SplitContainer2.Panel2.Height > this.SplitContainer2.Panel2MinSize + this.SplitContainer2.SplitterWidth*2;
             MultiLineMenuItem.Checked = this.StatusText.Multiline;
             _modifySettingLocal = true;
         }
