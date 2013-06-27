@@ -1,4 +1,4 @@
-﻿// OpenTween - Client of Twitter
+// OpenTween - Client of Twitter
 // Copyright (c) 2007-2011 kiri_feather (@kiri_feather) <kiri.feather@gmail.com>
 //           (c) 2008-2011 Moz (@syo68k)
 //           (c) 2008-2011 takeshik (@takeshik) <http://www.takeshik.org/>
@@ -703,6 +703,13 @@ namespace OpenTween
                     break;
             }
             proxyKind = proxyType;
+
+            // Windows 8.1の場合SecurityProtocolを明確に指定する必要がある  
+            var osVersion = Environment.OSVersion.Version;  
+            if (osVersion.Major == 6 && osVersion.Minor == 2)  
+            {  
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3;  
+            }  
 
             Win32Api.SetProxy(proxyType, proxyAddress, proxyPort, proxyUser, proxyPassword);
         }
