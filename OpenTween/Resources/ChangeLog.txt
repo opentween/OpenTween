@@ -4,6 +4,7 @@
  * NEW: 画像アップロード対応サービスについっぷるフォトを追加
  * CHG: 画像アップロード対応サービスから Lockerz を削除 (API廃止のため)
  * FIX: Twitpic, yfrog, img.ly に画像をアップロードすることができない問題を修正
+ * FIX: Windows 8.1 Preview にて UserStreams が動作しない問題の対策 (thx @ch3cooh!)
 
 ==== Ver 1.1.1(2013/06/11)
  * 当バージョンから Twitter API v1.1 に対応しています
