@@ -87,15 +87,6 @@ namespace OpenTween
         public const string TwitterConsumerSecret = "BJMEiivrXlqGESzdb8D0bvLfNYf3fifXRDMFjMogXg";
 
         //=====================================================================
-        // Lockerz (旧Plixi)
-        // https://admin.plixi.com/Api.aspx から取得できます。
-
-        /// <summary>
-        /// Lockerz APIキー
-        /// </summary>
-        public const string LockerzApiKey = "91083b55-f8f9-4b91-a0b3-f999e2e45af2";
-
-        //=====================================================================
         // Twitpic
         // http://dev.twitpic.com/apps/new から取得できます。
 
