@@ -622,13 +622,13 @@ namespace OpenTween
                                          MyCommon.GetAssemblyName());
         }
 
-        public HttpStatusCode Search(string words, string lang, int count, int page, long sinceId, ref string content)
+        public HttpStatusCode Search(string words, string lang, int count, long maxId, long sinceId, ref string content)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
             if (!string.IsNullOrEmpty(words)) param.Add("q", words);
             if (!string.IsNullOrEmpty(lang)) param.Add("lang", lang);
             if (count > 0) param.Add(HttpTwitter.API11Enabled ? "count" : "rpp", count.ToString());
-            if (page > 0) param.Add("page", page.ToString());
+            if (maxId > 0) param.Add("max_id", maxId.ToString());
             if (sinceId > 0) param.Add("since_id", sinceId.ToString());
 
             if (param.Count == 0) return HttpStatusCode.BadRequest;

@@ -2733,7 +2733,7 @@ namespace OpenTween
 
             HttpStatusCode res;
             var content = "";
-            var page = 0;
+            var maxId = 0L;
             var sinceId = 0L;
             var count = 100;
             if (AppendSettingDialog.Instance.UseAdditionalCount &&
@@ -2747,7 +2747,7 @@ namespace OpenTween
             }
             if (more)
             {
-                page = tab.GetSearchPage(count);
+                maxId = tab.OldestId - 1;
             }
             else
             {
@@ -2757,7 +2757,7 @@ namespace OpenTween
             try
             {
                 // TODO:一時的に40>100件に 件数変更UI作成の必要あり
-                res = twCon.Search(tab.SearchWords, tab.SearchLang, count, page, sinceId, ref content);
+                res = twCon.Search(tab.SearchWords, tab.SearchLang, count, maxId, sinceId, ref content);
             }
             catch(Exception ex)
             {
