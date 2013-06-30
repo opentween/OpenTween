@@ -1404,8 +1404,8 @@ namespace OpenTween
                                 if (_tabs[key].UnreadManage &&
                                    _tabs[key].Contains(Id) &&
                                    !_tabs[key].IsInnerStorageTabType)
-                                    _tabs[key].UnreadCount++;
                                 {
+                                    _tabs[key].UnreadCount++;
                                     if (_tabs[key].OldestUnreadId > Id) _tabs[key].OldestUnreadId = Id;
                                 }
                             }
