@@ -2143,7 +2143,7 @@ namespace OpenTween
                 //以下、ユーザー情報
                 var user = retweeted.User;
 
-                if (user.ScreenName == null || status.User.ScreenName == null) return null;
+                if (user == null || user.ScreenName == null || status.User.ScreenName == null) return null;
 
                 post.UserId = user.Id;
                 post.ScreenName = user.ScreenName;
@@ -2177,7 +2177,7 @@ namespace OpenTween
                 //以下、ユーザー情報
                 var user = status.User;
 
-                if (user.ScreenName == null) return null;
+                if (user == null || user.ScreenName == null) return null;
 
                 post.UserId = user.Id;
                 post.ScreenName = user.ScreenName;
@@ -2291,7 +2291,13 @@ namespace OpenTween
             {
                 PostClass post = null;
                 post = CreatePostsFromStatusData(result);
-                if (post == null) continue;
+
+                if (post == null)
+                {
+                    // Search API は相変わらずぶっ壊れたデータを返すことがあるため、必要なデータが欠如しているものは取得し直す
+                    var ret = this.GetStatusApi(read, result.Id, ref post);
+                    if (!string.IsNullOrEmpty(ret)) continue;
+                }
 
                 if (minimumId > post.StatusId) minimumId = post.StatusId;
                 if (!more && post.StatusId > tab.SinceId) tab.SinceId = post.StatusId;
