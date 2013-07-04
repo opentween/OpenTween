@@ -150,7 +150,7 @@ namespace OpenTween
 			if ( callback != null )
 			{
 				StackFrame frame = new StackFrame( 1 );
-				callback( frame.GetMethod().Name, code, content );
+				callback( frame.GetMethod().Name, code, headerInfo, content );
 			}
 			return code;
 		}
@@ -183,7 +183,7 @@ namespace OpenTween
 			if ( callback != null )
 			{
 				StackFrame frame = new StackFrame( 1 );
-				callback( frame.GetMethod().Name, code, content );
+				callback( frame.GetMethod().Name, code, headerInfo, content );
 			}
 			return code;
 		}

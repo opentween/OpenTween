@@ -74,20 +74,6 @@ namespace OpenTween
         private static string tks = "";
         private static string un = "";
 
-        private Dictionary<string, string> apiStatusHeaders = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
-        {
-            {"X-Access-Level", ""},
-            {"X-RateLimit-Limit", ""},
-            {"X-RateLimit-Remaining", ""},
-            {"X-RateLimit-Reset", ""},
-            {"X-Rate-Limit-Limit", ""},
-            {"X-Rate-Limit-Remaining", ""},
-            {"X-Rate-Limit-Reset", ""},
-            {"X-MediaRateLimit-Limit", ""},
-            {"X-MediaRateLimit-Remaining", ""},
-            {"X-MediaRateLimit-Reset", ""},
-        };
-
         static HttpTwitter()
         {
             HttpTwitter.API11Enabled = true;
@@ -238,7 +224,7 @@ namespace OpenTween
                 param,
                 binary,
                 ref content,
-                this.apiStatusHeaders,
+                this.CreateRetelimitHeadersDict(),
                 HttpTwitter.API11Enabled ? CreateApi11Calllback("/statuses/update_with_media") : GetApiCallback);
         }
 
@@ -307,7 +293,7 @@ namespace OpenTween
                 CreateTwitterUri(HttpTwitter.API11Enabled ? "/1.1/users/show.json" : "/1/users/show.json"),
                 param,
                 ref content,
-                this.apiStatusHeaders,
+                this.CreateRetelimitHeadersDict(),
                 HttpTwitter.API11Enabled ? CreateApi11Calllback("/users/show/:id") : GetApiCallback);
         }
 
@@ -386,7 +372,7 @@ namespace OpenTween
                 CreateTwitterUri(HttpTwitter.API11Enabled ? "/1.1/friendships/show.json" : "/1/friendships/show.json"),
                 param,
                 ref content,
-                this.apiStatusHeaders,
+                this.CreateRetelimitHeadersDict(),
                 HttpTwitter.API11Enabled ? CreateApi11Calllback("/friendships/show") : GetApiCallback);
         }
 
@@ -398,7 +384,7 @@ namespace OpenTween
                 CreateTwitterUri(HttpTwitter.API11Enabled ? "/1.1/statuses/show/" + id + ".json" : "/1/statuses/show/" + id + ".json"),
                 param,
                 ref content,
-                this.apiStatusHeaders,
+                this.CreateRetelimitHeadersDict(),
                 HttpTwitter.API11Enabled ? CreateApi11Calllback("/statuses/show/:id") : GetApiCallback);
         }
 
@@ -446,7 +432,7 @@ namespace OpenTween
                 CreateTwitterUri(HttpTwitter.API11Enabled ? "/1.1/statuses/home_timeline.json" : "/1/statuses/home_timeline.json"),
                 param,
                 ref content,
-                this.apiStatusHeaders,
+                this.CreateRetelimitHeadersDict(),
                 HttpTwitter.API11Enabled ? CreateApi11Calllback("/statuses/home_timeline") : GetApiCallback);
         }
 
@@ -475,7 +461,7 @@ namespace OpenTween
                 CreateTwitterUri(HttpTwitter.API11Enabled ? "/1.1/statuses/user_timeline.json" : "/1/statuses/user_timeline.json"),
                 param,
                 ref content,
-                this.apiStatusHeaders,
+                this.CreateRetelimitHeadersDict(),
                 HttpTwitter.API11Enabled ? CreateApi11Calllback("/statuses/user_timeline") : GetApiCallback);
         }
 
@@ -497,7 +483,7 @@ namespace OpenTween
                 CreateTwitterUri("/1/statuses/public_timeline.json"),
                 param,
                 ref content,
-                this.apiStatusHeaders,
+                this.CreateRetelimitHeadersDict(),
                 GetApiCallback);
         }
 
@@ -517,7 +503,7 @@ namespace OpenTween
                 CreateTwitterUri(HttpTwitter.API11Enabled ? "/1.1/statuses/mentions_timeline.json" : "/1/statuses/mentions.json"),
                 param,
                 ref content,
-                this.apiStatusHeaders,
+                this.CreateRetelimitHeadersDict(),
                 HttpTwitter.API11Enabled ? CreateApi11Calllback("/statuses/mentions_timeline") : GetApiCallback);
         }
 
@@ -536,7 +522,7 @@ namespace OpenTween
                 CreateTwitterUri(HttpTwitter.API11Enabled ? "/1.1/direct_messages.json" : "/1/direct_messages.json"),
                 param,
                 ref content,
-                this.apiStatusHeaders,
+                this.CreateRetelimitHeadersDict(),
                 HttpTwitter.API11Enabled ? CreateApi11Calllback("/direct_messages") : GetApiCallback);
         }
 
@@ -555,7 +541,7 @@ namespace OpenTween
                 CreateTwitterUri(HttpTwitter.API11Enabled ? "/1.1/direct_messages/sent.json" : "/1/direct_messages/sent.json"),
                 param,
                 ref content,
-                this.apiStatusHeaders,
+                this.CreateRetelimitHeadersDict(),
                 HttpTwitter.API11Enabled ? CreateApi11Calllback("/direct_messages/sent") : GetApiCallback);
         }
 
@@ -575,7 +561,7 @@ namespace OpenTween
                 CreateTwitterUri(HttpTwitter.API11Enabled ? "/1.1/favorites/list.json" : "/1/favorites.json"),
                 param,
                 ref content,
-                this.apiStatusHeaders,
+                this.CreateRetelimitHeadersDict(),
                 HttpTwitter.API11Enabled ? CreateApi11Calllback("/favorites/list") : GetApiCallback);
         }
 
@@ -639,7 +625,7 @@ namespace OpenTween
                 HttpTwitter.API11Enabled ? this.CreateTwitterUri("/1.1/search/tweets.json") : this.CreateTwitterSearchUri("/search.json"),
                 param,
                 ref content,
-                null,
+                this.CreateRetelimitHeadersDict(),
                 HttpTwitter.API11Enabled ? CreateApi11Calllback("/search/tweets") : GetApiCallback);
         }
 
@@ -649,7 +635,7 @@ namespace OpenTween
                 CreateTwitterUri(HttpTwitter.API11Enabled ? "/1.1/saved_searches/list.json" : "/1/saved_searches.json"),
                 null,
                 ref content,
-                null,
+                this.CreateRetelimitHeadersDict(),
                 HttpTwitter.API11Enabled ? CreateApi11Calllback("/saved_searches/list") : GetApiCallback);
         }
 
@@ -662,7 +648,7 @@ namespace OpenTween
                 CreateTwitterUri(HttpTwitter.API11Enabled ? "/1.1/followers/ids.json" : "/1/followers/ids.json"),
                 param,
                 ref content,
-                this.apiStatusHeaders,
+                this.CreateRetelimitHeadersDict(),
                 HttpTwitter.API11Enabled ? CreateApi11Calllback("/followers/ids") : GetApiCallback);
         }
 
@@ -675,7 +661,7 @@ namespace OpenTween
                 CreateTwitterUri(HttpTwitter.API11Enabled ? "/1.1/friendships/no_retweets/ids.json" : "/1/friendships/no_retweet_ids.json"),
                 param,
                 ref content,
-                this.apiStatusHeaders,
+                this.CreateRetelimitHeadersDict(),
                 HttpTwitter.API11Enabled ? CreateApi11Calllback("/friendships/no_retweets/ids") : GetApiCallback);
         }
 
@@ -685,7 +671,7 @@ namespace OpenTween
                 CreateTwitterUri(HttpTwitter.API11Enabled ? "/1.1/application/rate_limit_status.json" : "/1/account/rate_limit_status.json"),
                 null,
                 ref content,
-                this.apiStatusHeaders,
+                this.CreateRetelimitHeadersDict(),
                 HttpTwitter.API11Enabled ? CreateApi11Calllback("/application/rate_limit_status") : GetApiCallback);
         }
 
@@ -702,7 +688,7 @@ namespace OpenTween
                 CreateTwitterUri(HttpTwitter.API11Enabled ? "/1.1/lists/list.json" : "/1/lists.json"),
                 param,
                 ref content,
-                this.apiStatusHeaders,
+                this.CreateRetelimitHeadersDict(),
                 HttpTwitter.API11Enabled ? CreateApi11Calllback("/lists/list") : GetApiCallback);
         }
 
@@ -753,7 +739,7 @@ namespace OpenTween
                 CreateTwitterUri(HttpTwitter.API11Enabled ? "/1.1/lists/subscriptions.json" : "/1/lists/subscriptions.json"),
                 param,
                 ref content,
-                this.apiStatusHeaders,
+                this.CreateRetelimitHeadersDict(),
                 HttpTwitter.API11Enabled ? CreateApi11Calllback("/lists/subscriptions") : GetApiCallback);
         }
 
@@ -776,7 +762,7 @@ namespace OpenTween
                 CreateTwitterUri(HttpTwitter.API11Enabled ? "/1.1/lists/statuses.json" : "/1/lists/statuses.json"),
                 param,
                 ref content,
-                this.apiStatusHeaders,
+                this.CreateRetelimitHeadersDict(),
                 HttpTwitter.API11Enabled ? CreateApi11Calllback("/lists/statuses") : GetApiCallback);
         }
 
@@ -810,7 +796,7 @@ namespace OpenTween
                 CreateTwitterUri(HttpTwitter.API11Enabled ? "/1.1/lists/members.json" : "/1/lists/members.json"),
                 param,
                 ref content,
-                this.apiStatusHeaders,
+                this.CreateRetelimitHeadersDict(),
                 HttpTwitter.API11Enabled ? CreateApi11Calllback("/lists/members") : GetApiCallback);
         }
 
@@ -897,7 +883,7 @@ namespace OpenTween
                 CreateTwitterUri(HttpTwitter.API11Enabled ? "/1.1/lists/members/show.json" : "/1/lists/members/show.json"),
                 param,
                 ref content,
-                this.apiStatusHeaders,
+                this.CreateRetelimitHeadersDict(),
                 HttpTwitter.API11Enabled ? CreateApi11Calllback("/lists/members/show") : GetApiCallback);
         }
         #endregion
@@ -917,7 +903,7 @@ namespace OpenTween
                 CreateTwitterUri(HttpTwitter.API11Enabled ? "/1.1/statuses/retweeters/ids.json" : "/1/statuses/" + statusid + "/retweeted_by/ids.json"),
                 param,
                 ref content,
-                this.apiStatusHeaders,
+                this.CreateRetelimitHeadersDict(),
                 HttpTwitter.API11Enabled ? CreateApi11Calllback("/statuses/retweeters/ids") : GetApiCallback);
         }
 
@@ -967,7 +953,7 @@ namespace OpenTween
                 CreateTwitterUri("/1/related_results/show.json"),
                 param,
                 ref content,
-                this.apiStatusHeaders,
+                this.CreateRetelimitHeadersDict(),
                 GetApiCallback);
         }
 
@@ -977,7 +963,7 @@ namespace OpenTween
                 CreateTwitterUri(HttpTwitter.API11Enabled ? "/1.1/blocks/ids.json" : "/1/blocks/blocking/ids.json"),
                 null,
                 ref content,
-                this.apiStatusHeaders,
+                this.CreateRetelimitHeadersDict(),
                 HttpTwitter.API11Enabled ? CreateApi11Calllback("/blocks/ids") : GetApiCallback);
         }
 
@@ -987,7 +973,7 @@ namespace OpenTween
                 CreateTwitterUri(HttpTwitter.API11Enabled ? "/1.1/help/configuration.json" : "/1/help/configuration.json"),
                 null,
                 ref content,
-                this.apiStatusHeaders,
+                this.CreateRetelimitHeadersDict(),
                 HttpTwitter.API11Enabled ? CreateApi11Calllback("/help/configuration") : GetApiCallback);
         }
 
@@ -997,7 +983,7 @@ namespace OpenTween
                 CreateTwitterUri(HttpTwitter.API11Enabled ? "/1.1/account/verify_credentials.json" : "/1/account/verify_credentials.json"),
                 null,
                 ref content,
-                this.apiStatusHeaders,
+                this.CreateRetelimitHeadersDict(),
                 HttpTwitter.API11Enabled ? CreateApi11Calllback("/account/verify_credentials") : GetApiCallback);
         }
 
@@ -1045,18 +1031,35 @@ namespace OpenTween
         }
         #endregion
 
-        private void GetApiCallback(Object sender, HttpStatusCode code, string content)
+        private Dictionary<string, string> CreateRetelimitHeadersDict()
+        {
+            return new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+            {
+                {"X-Access-Level", ""},
+                {"X-RateLimit-Limit", ""},
+                {"X-RateLimit-Remaining", ""},
+                {"X-RateLimit-Reset", ""},
+                {"X-Rate-Limit-Limit", ""},
+                {"X-Rate-Limit-Remaining", ""},
+                {"X-Rate-Limit-Reset", ""},
+                {"X-MediaRateLimit-Limit", ""},
+                {"X-MediaRateLimit-Remaining", ""},
+                {"X-MediaRateLimit-Reset", ""},
+            };
+        }
+
+        private void GetApiCallback(Object sender, HttpStatusCode code, IDictionary<string, string> headerInfo, string content)
         {
             if (code < HttpStatusCode.InternalServerError)
-                MyCommon.TwitterApiInfo.UpdateFromHeader(this.apiStatusHeaders);
+                MyCommon.TwitterApiInfo.UpdateFromHeader(headerInfo);
         }
 
         private CallbackDelegate CreateApi11Calllback(string endpointName)
         {
-            return (sender, code, content) =>
+            return (sender, code, headerInfo, content) =>
             {
                 if (code < HttpStatusCode.InternalServerError)
-                    MyCommon.TwitterApiInfo11.UpdateFromHeader(this.apiStatusHeaders, endpointName);
+                    MyCommon.TwitterApiInfo11.UpdateFromHeader(headerInfo, endpointName);
             };
         }
 
