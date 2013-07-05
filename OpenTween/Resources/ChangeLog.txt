@@ -8,6 +8,7 @@
  * FIX: 検索タブ更新時に壊れたツイートを受信した場合の対策を追加 (thx @nyamph_pf!)
  * FIX: 検索機能の API v1.1 対応が不完全であった箇所の修正 (thx @nyamph_pf!)
  * FIX: APIレートリミット表示がタイミングによって不整合を起こす問題の修正
+ * FIX: 関連発言表示時に Err:Gone(GetRelatedResultsApi) が表示される問題の修正 (thx @KishSoup!)
 
 ==== Ver 1.1.1(2013/06/11)
  * 当バージョンから Twitter API v1.1 に対応しています

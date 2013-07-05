@@ -2577,15 +2577,21 @@ namespace OpenTween
             }
             relPosts.Add(tab.RelationTargetPost.StatusId, tab.RelationTargetPost.Clone());
 
+            PostClass nextPost;
+            int loopCount;
+
             // 一周目: 非公式な related_results API を使用してリプライチェインを辿る
-            var nextPost = relPosts[tab.RelationTargetPost.StatusId];
-            var loopCount = 1;
-            do
+            if (!HttpTwitter.API11Enabled)
             {
-                rslt = this.GetRelatedResultsApi(nextPost, relPosts);
-                if (!string.IsNullOrEmpty(rslt)) break;
-                nextPost = FindTopOfReplyChain(relPosts, nextPost.StatusId);
-            } while (nextPost.InReplyToStatusId != 0 && loopCount++ <= 5);
+                nextPost = relPosts[tab.RelationTargetPost.StatusId];
+                loopCount = 1;
+                do
+                {
+                    rslt = this.GetRelatedResultsApi(nextPost, relPosts);
+                    if (!string.IsNullOrEmpty(rslt)) break;
+                    nextPost = FindTopOfReplyChain(relPosts, nextPost.StatusId);
+                } while (nextPost.InReplyToStatusId != 0 && loopCount++ <= 5);
+            }
 
             // 二周目: in_reply_to_status_id を使用してリプライチェインを辿る
             nextPost = FindTopOfReplyChain(relPosts, tab.RelationTargetPost.StatusId);
