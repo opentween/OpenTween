@@ -625,20 +625,17 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
-        ///==== Ver 1.1.2-beta1(2013/xx/xx)
+        ///==== Ver 1.1.2(2013/07/06)
+        /// * NEW: 画像アップロード対応サービスについっぷるフォトを追加
+        /// * CHG: 画像アップロード対応サービスから Lockerz を削除 (API廃止のため)
+        /// * FIX: Twitpic, yfrog, img.ly に画像をアップロードすることができない問題を修正
+        /// * FIX: Windows 8.1 Preview にて UserStreams が動作しない問題の対策 (thx @ch3cooh!)
+        /// * FIX: 検索タブ更新時に壊れたツイートを受信した場合の対策を追加 (thx @nyamph_pf!)
+        /// * FIX: 検索機能の API v1.1 対応が不完全であった箇所の修正 (thx @nyamph_pf!)
+        /// * FIX: APIレートリミット表示がタイミングによって不整合を起こす問題の修正
+        /// * FIX: 関連発言表示時に Err:Gone(GetRelatedResultsApi) が表示される問題の修正 (thx @KishSoup!)
         ///
-        ///==== Ver 1.1.1(2013/06/11)
-        /// * 当バージョンから Twitter API v1.1 に対応しています
-        /// * 旧 API v1 は太平洋標準時の 6/11 (Wed) に廃止される予定であると Twitter 社が予告しています
-        /// * API v1.1 の使用に不都合がある場合は、ステータスバーのレートリミット表示をクリックすることで API v1 と切り替えることができます。
-        ///
-        /// * NEW: API v1.1 に対応
-        /// * NEW: サムネイル画像表示の右クリックメニューにGoogle画像検索を開くための項目を追加 (thx @moccos!)
-        /// * FIX: 画像投稿画面をキャンセルした場合にタイムライン表示に復帰できない不具合を修正 (thx @polka_roco_!)
-        ///
-        ///==== Ver 1.1.0(2013/05/15)
-        /// * NEW: タブの表示位置を画面上部に変更可能に (thx @aokomoriuta!)
-        /// * NEW: mobile.twitter.c [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ///==== Ver 1.1.1(2013/06/1 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
