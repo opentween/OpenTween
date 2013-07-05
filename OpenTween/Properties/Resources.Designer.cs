@@ -625,6 +625,8 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Ver 1.1.3-beta1(2013/xx/xx)
+        ///
         ///==== Ver 1.1.2(2013/07/06)
         /// * NEW: 画像アップロード対応サービスについっぷるフォトを追加
         /// * CHG: 画像アップロード対応サービスから Lockerz を削除 (API廃止のため)
@@ -633,9 +635,7 @@ namespace OpenTween.Properties {
         /// * FIX: 検索タブ更新時に壊れたツイートを受信した場合の対策を追加 (thx @nyamph_pf!)
         /// * FIX: 検索機能の API v1.1 対応が不完全であった箇所の修正 (thx @nyamph_pf!)
         /// * FIX: APIレートリミット表示がタイミングによって不整合を起こす問題の修正
-        /// * FIX: 関連発言表示時に Err:Gone(GetRelatedResultsApi) が表示される問題の修正 (thx @KishSoup!)
-        ///
-        ///==== Ver 1.1.1(2013/06/1 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * FIX: 関連発言表示時に Err:Gone(GetRelatedResultsApi) が表示される問題の修正 (thx @Ki [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
