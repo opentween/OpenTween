@@ -188,7 +188,7 @@ namespace OpenTween
         public static object[] GetStatusUrlTest1_TestCase =
         {
             new object[] {
-                new PostClass { StatusId = 249493863826350080L, ScreenName = "Favstar_LM", RetweetedId = 0L, RetweetedBy = null },
+                new PostClass { StatusId = 249493863826350080L, ScreenName = "Favstar_LM", RetweetedId = null, RetweetedBy = null },
                 "https://twitter.com/Favstar_LM/status/249493863826350080",
             },
             new object[] {

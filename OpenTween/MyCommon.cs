@@ -901,10 +901,10 @@ namespace OpenTween
 
         public static string GetStatusUrl(PostClass post)
         {
-            if (post.RetweetedId == 0)
+            if (post.RetweetedId == null)
                 return GetStatusUrl(post.ScreenName, post.StatusId);
             else
-                return GetStatusUrl(post.ScreenName, post.RetweetedId);
+                return GetStatusUrl(post.ScreenName, post.RetweetedId.Value);
         }
 
         public static string GetStatusUrl(string screenName, long statusId)

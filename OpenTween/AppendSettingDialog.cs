@@ -60,7 +60,7 @@ namespace OpenTween
         public int MapThumbnailZoom;
         public bool IsListStatusesIncludeRts;
         public List<UserAccount> UserAccounts;
-        private long InitialUserId;
+        private long? InitialUserId;
         public bool TabMouseLock;
         public bool IsRemoveSameEvent;
         public bool IsNotifyUseGrowl;
@@ -520,7 +520,7 @@ namespace OpenTween
                 }
                 //アクティブユーザーを起動時のアカウントに戻す（起動時アカウントなければ何もしない）
                 bool userSet = false;
-                if (this.InitialUserId > 0)
+                if (this.InitialUserId != null)
                 {
                     foreach (UserAccount u in this.UserAccounts)
                     {

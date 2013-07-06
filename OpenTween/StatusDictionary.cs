@@ -70,7 +70,7 @@ namespace OpenTween
         public bool IsOwl { get; set; }
         private bool _IsMark;
         public string InReplyToUser { get; set; }
-        private long _InReplyToStatusId;
+        private long? _InReplyToStatusId;
         public string Source { get; set; }
         public string SourceHtml { get; set; }
         public List<string> ReplyToList { get; set; }
@@ -79,12 +79,12 @@ namespace OpenTween
         public long UserId { get; set; }
         public bool FilterHit { get; set; }
         public string RetweetedBy { get; set; }
-        public long RetweetedId { get; set; }
+        public long? RetweetedId { get; set; }
         private bool _IsDeleted = false;
         private StatusGeo _postGeo = new StatusGeo();
         public int RetweetedCount { get; set; }
-        public long RetweetedByUserId { get; set; }
-        public long InReplyToUserId { get; set; }
+        public long? RetweetedByUserId { get; set; }
+        public long? InReplyToUserId { get; set; }
         public Dictionary<string, string> Media { get; set; }
 
         public string RelTabName { get; set; }
@@ -117,7 +117,7 @@ namespace OpenTween
                 bool IsOwl,
                 bool IsMark,
                 string InReplyToUser,
-                long InReplyToStatusId,
+                long? InReplyToStatusId,
                 string Source,
                 string SourceHtml,
                 List<string> ReplyToList,
@@ -126,7 +126,7 @@ namespace OpenTween
                 long userId,
                 bool FilterHit,
                 string RetweetedBy,
-                long RetweetedId,
+                long? RetweetedId,
                 StatusGeo Geo)
             : this()
         {
@@ -178,9 +178,9 @@ namespace OpenTween
         {
             get
             {
-                if (this.RetweetedId > 0 && this.GetRetweetSource(this.RetweetedId) != null)
+                if (this.RetweetedId != null && this.GetRetweetSource(this.RetweetedId.Value) != null)
                 {
-                    return this.GetRetweetSource(this.RetweetedId).IsFav;
+                    return this.GetRetweetSource(this.RetweetedId.Value).IsFav;
                 }
                 else
                 {
@@ -190,9 +190,9 @@ namespace OpenTween
             set
             {
                 _IsFav = value;
-                if (this.RetweetedId > 0 && this.GetRetweetSource(this.RetweetedId) != null)
+                if (this.RetweetedId != null && this.GetRetweetSource(this.RetweetedId.Value) != null)
                 {
-                    this.GetRetweetSource(this.RetweetedId).IsFav = value;
+                    this.GetRetweetSource(this.RetweetedId.Value).IsFav = value;
                 }
             }
         }
@@ -235,7 +235,7 @@ namespace OpenTween
                 _IsMark = value;
             }
         }
-        public long InReplyToStatusId
+        public long? InReplyToStatusId
         {
             get
             {
@@ -243,7 +243,7 @@ namespace OpenTween
             }
             set
             {
-                if (value > 0)
+                if (value != null)
                 {
                     _states = _states | States.Reply;
                 }
@@ -265,9 +265,9 @@ namespace OpenTween
             {
                 if (value)
                 {
-                    this.InReplyToStatusId = 0;
+                    this.InReplyToStatusId = null;
                     this.InReplyToUser = "";
-                    this.InReplyToUserId = 0;
+                    this.InReplyToUserId = null;
                     this.IsReply = false;
                     this.ReplyToList = new List<string>();
                     this._states = States.None;
@@ -652,7 +652,7 @@ namespace OpenTween
                         tab.Remove(Id);
                     }
                     //FavタブからRetweet発言を削除する場合は、他の同一参照Retweetも削除
-                    if (tType == MyCommon.TabUsageType.Favorites && post.RetweetedId > 0)
+                    if (tType == MyCommon.TabUsageType.Favorites && post.RetweetedId != null)
                     {
                         for (int i = 0; i < tab.AllCount; i++)
                         {
@@ -665,7 +665,7 @@ namespace OpenTween
                             {
                                 break;
                             }
-                            if (rPost.RetweetedId > 0 && rPost.RetweetedId == post.RetweetedId)
+                            if (rPost.RetweetedId != null && rPost.RetweetedId == post.RetweetedId)
                             {
                                 if (tab.UnreadManage && !rPost.IsRead)    //未読管理
                                 {
@@ -1198,7 +1198,7 @@ namespace OpenTween
                         {
                             if (Item.IsFav)
                             {
-                                if (Item.RetweetedId == 0)
+                                if (Item.RetweetedId == null)
                                 {
                                     _statuses[Item.StatusId].IsFav = true;
                                 }
@@ -1214,16 +1214,17 @@ namespace OpenTween
                         }
                         else
                         {
-                            if (Item.IsFav && Item.RetweetedId > 0) Item.IsFav = false;
+                            if (Item.IsFav && Item.RetweetedId != null) Item.IsFav = false;
                             //既に持っている公式RTは捨てる
                             if (AppendSettingDialog.Instance.HideDuplicatedRetweets &&
                                 !Item.IsMe &&
-                                this._retweets.ContainsKey(Item.RetweetedId) &&
-                                this._retweets[Item.RetweetedId].RetweetedCount > 0) return;
+                                Item.RetweetedId != null &&
+                                this._retweets.ContainsKey(Item.RetweetedId.Value) &&
+                                this._retweets[Item.RetweetedId.Value].RetweetedCount > 0) return;
                             if (BlockIds.Contains(Item.UserId)) return;
                             _statuses.Add(Item.StatusId, Item);
                         }
-                        if (Item.RetweetedId > 0)
+                        if (Item.RetweetedId != null)
                         {
                             this.AddRetweet(Item);
                         }
@@ -1264,19 +1265,21 @@ namespace OpenTween
 
         private void AddRetweet(PostClass item)
         {
+            var retweetedId = item.RetweetedId.Value;
+
             //true:追加、False:保持済み
-            if (_retweets.ContainsKey(item.RetweetedId))
+            if (_retweets.ContainsKey(retweetedId))
             {
-                _retweets[item.RetweetedId].RetweetedCount++;
-                if (_retweets[item.RetweetedId].RetweetedCount > 10)
+                _retweets[retweetedId].RetweetedCount++;
+                if (_retweets[retweetedId].RetweetedCount > 10)
                 {
-                    _retweets[item.RetweetedId].RetweetedCount = 0;
+                    _retweets[retweetedId].RetweetedCount = 0;
                 }
                 return;
             }
 
             _retweets.Add(
-                        item.RetweetedId,
+                        item.RetweetedId.Value,
                         new PostClass(
                             item.Nickname,
                             item.TextFromApi,
@@ -1284,7 +1287,7 @@ namespace OpenTween
                             item.ImageUrl,
                             item.ScreenName,
                             item.CreatedAt,
-                            item.RetweetedId,
+                            item.RetweetedId.Value,
                             item.IsFav,
                             item.IsRead,
                             item.IsReply,
@@ -1302,11 +1305,11 @@ namespace OpenTween
                             item.UserId,
                             item.FilterHit,
                             "",
-                            0,
+                            null,
                             item.PostGeo
                         )
                     );
-            _retweets[item.RetweetedId].RetweetedCount++;
+            _retweets[retweetedId].RetweetedCount++;
         }
 
         public void SetReadAllTab(bool Read, string TabName, int Index)
@@ -3198,7 +3201,7 @@ namespace OpenTween
             }
             if (_isRt)
             {
-                if (post.RetweetedId == 0) bHit = false;
+                if (post.RetweetedId == null) bHit = false;
             }
             if (!string.IsNullOrEmpty(_source))
             {
@@ -3325,7 +3328,7 @@ namespace OpenTween
                 }
                 if (_isExRt)
                 {
-                    if (post.RetweetedId > 0) exFlag = true;
+                    if (post.RetweetedId != null) exFlag = true;
                 }
                 if (!string.IsNullOrEmpty(_exSource))
                 {

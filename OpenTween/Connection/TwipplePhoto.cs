@@ -63,7 +63,7 @@ namespace OpenTween.Connection
 
         #region Upload Methods
 
-        public string Upload(ref string filePath, ref string message, long reply_to)
+        public string Upload(ref string filePath, ref string message, long? reply_to)
         {
             if (!File.Exists(filePath))
                 return "Err:File isn't exists.";

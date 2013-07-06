@@ -49,7 +49,7 @@ namespace OpenTween
                 bool IsOwl = false,
                 bool IsMark = false,
                 string InReplyToUser = null,
-                long InReplyToStatusId = 0L,
+                long? InReplyToStatusId = null,
                 string Source = null,
                 string SourceHtml = null,
                 List<string> ReplyToList = null,
@@ -58,7 +58,7 @@ namespace OpenTween
                 long userId = 0L,
                 bool FilterHit = false,
                 string RetweetedBy = null,
-                long RetweetedId = 0L,
+                long? RetweetedId = null,
                 StatusGeo Geo = null) :
                 base(Nickname, textFromApi, text, ImageUrl, screenName, createdAt, statusId, IsFav, IsRead,
                 IsReply, IsExcludeReply, IsProtect, IsOwl, IsMark, InReplyToUser, InReplyToStatusId, Source,
@@ -124,8 +124,8 @@ namespace OpenTween
             post.IsFav = isFav;
             Assert.That(post.IsFav, Is.EqualTo(isFav));
 
-            if (post.RetweetedId != 0)
-                Assert.That(PostClassTest.TestCases[post.RetweetedId].IsFav, Is.EqualTo(isFav));
+            if (post.RetweetedId != null)
+                Assert.That(PostClassTest.TestCases[post.RetweetedId.Value].IsFav, Is.EqualTo(isFav));
         }
 
         [Test, Combinatorial]
@@ -144,7 +144,7 @@ namespace OpenTween
             post.IsMark = mark;
             if (mark) except |= 0x02;
 
-            post.InReplyToStatusId = reply ? 100L : 0L;
+            post.InReplyToStatusId = reply ? (long?)100L : null;
             if (reply) except |= 0x04;
 
             post.PostGeo = geo ? new PostClass.StatusGeo { Lat = -47.15, Lng = -126.716667 } : new PostClass.StatusGeo();
@@ -169,9 +169,9 @@ namespace OpenTween
 
             post.IsDeleted = true;
 
-            Assert.That(post.InReplyToStatusId, Is.EqualTo(0L));
+            Assert.That(post.InReplyToStatusId, Is.Null);
             Assert.That(post.InReplyToUser, Is.EqualTo(""));
-            Assert.That(post.InReplyToUserId, Is.EqualTo(0L));
+            Assert.That(post.InReplyToUserId, Is.Null);
             Assert.That(post.IsReply, Is.False);
             Assert.That(post.ReplyToList, Is.Empty);
             Assert.That(post.StateIndex, Is.EqualTo(-1));

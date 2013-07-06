@@ -191,11 +191,11 @@ namespace OpenTween
             }
         }
 
-        public HttpStatusCode UpdateStatus(string status, long replyToId, ref string content)
+        public HttpStatusCode UpdateStatus(string status, long? replyToId, ref string content)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
             param.Add("status", status);
-            if (replyToId > 0) param.Add("in_reply_to_status_id", replyToId.ToString());
+            if (replyToId != null) param.Add("in_reply_to_status_id", replyToId.ToString());
             param.Add("include_entities", "true");
             //if (AppendSettingDialog.Instance.ShortenTco && AppendSettingDialog.Instance.UrlConvertAuto) param.Add("wrap_links", "true")
 
@@ -207,12 +207,12 @@ namespace OpenTween
                 null);
         }
 
-        public HttpStatusCode UpdateStatusWithMedia(string status, long replyToId, FileInfo mediaFile, ref string content)
+        public HttpStatusCode UpdateStatusWithMedia(string status, long? replyToId, FileInfo mediaFile, ref string content)
         {
             //画像投稿用エンドポイント
             Dictionary<string, string> param = new Dictionary<string, string>();
             param.Add("status", status);
-            if (replyToId > 0) param.Add("in_reply_to_status_id", replyToId.ToString());
+            if (replyToId != null) param.Add("in_reply_to_status_id", replyToId.ToString());
             param.Add("include_entities", "true");
             //if (AppendSettingDialog.Instance.ShortenTco && AppendSettingDialog.Instance.UrlConvertAuto) param.Add("wrap_links", "true")
 
@@ -416,14 +416,14 @@ namespace OpenTween
                 null);
         }
 
-        public HttpStatusCode HomeTimeline(int count, long max_id, long since_id, ref string content)
+        public HttpStatusCode HomeTimeline(int? count, long? max_id, long? since_id, ref string content)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
-            if (count > 0)
+            if (count != null)
                 param.Add("count", count.ToString());
-            if (max_id > 0)
+            if (max_id != null)
                 param.Add("max_id", max_id.ToString());
-            if (since_id > 0)
+            if (since_id != null)
                 param.Add("since_id", since_id.ToString());
 
             param.Add("include_entities", "true");
@@ -436,22 +436,22 @@ namespace OpenTween
                 HttpTwitter.API11Enabled ? CreateApi11Calllback("/statuses/home_timeline") : GetApiCallback);
         }
 
-        public HttpStatusCode UserTimeline(long user_id, string screen_name, int count, long max_id, long since_id, ref string content)
+        public HttpStatusCode UserTimeline(long? user_id, string screen_name, int? count, long? max_id, long? since_id, ref string content)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
 
-            if ((user_id == 0 && string.IsNullOrEmpty(screen_name)) ||
-                (user_id != 0 && !string.IsNullOrEmpty(screen_name))) return HttpStatusCode.BadRequest;
+            if ((user_id == null && string.IsNullOrEmpty(screen_name)) ||
+                (user_id != null && !string.IsNullOrEmpty(screen_name))) return HttpStatusCode.BadRequest;
 
-            if (user_id > 0)
+            if (user_id != null)
                 param.Add("user_id", user_id.ToString());
             if (!string.IsNullOrEmpty(screen_name))
                 param.Add("screen_name", screen_name);
-            if (count > 0)
+            if (count != null)
                 param.Add("count", count.ToString());
-            if (max_id > 0)
+            if (max_id != null)
                 param.Add("max_id", max_id.ToString());
-            if (since_id > 0)
+            if (since_id != null)
                 param.Add("since_id", since_id.ToString());
 
             param.Add("include_rts", "true");
@@ -465,14 +465,14 @@ namespace OpenTween
                 HttpTwitter.API11Enabled ? CreateApi11Calllback("/statuses/user_timeline") : GetApiCallback);
         }
 
-        public HttpStatusCode PublicTimeline(int count, long max_id, long since_id, ref string content)
+        public HttpStatusCode PublicTimeline(int? count, long? max_id, long? since_id, ref string content)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
-            if (count > 0)
+            if (count != null)
                 param.Add("count", count.ToString());
-            if (max_id > 0)
+            if (max_id != null)
                 param.Add("max_id", max_id.ToString());
-            if (since_id > 0)
+            if (since_id != null)
                 param.Add("since_id", since_id.ToString());
 
             param.Add("include_entities", "true");
@@ -487,14 +487,14 @@ namespace OpenTween
                 GetApiCallback);
         }
 
-        public HttpStatusCode Mentions(int count, long max_id, long since_id, ref string content)
+        public HttpStatusCode Mentions(int? count, long? max_id, long? since_id, ref string content)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
-            if (count > 0)
+            if (count != null)
                 param.Add("count", count.ToString());
-            if (max_id > 0)
+            if (max_id != null)
                 param.Add("max_id", max_id.ToString());
-            if (since_id > 0)
+            if (since_id != null)
                 param.Add("since_id", since_id.ToString());
 
             param.Add("include_entities", "true");
@@ -507,14 +507,14 @@ namespace OpenTween
                 HttpTwitter.API11Enabled ? CreateApi11Calllback("/statuses/mentions_timeline") : GetApiCallback);
         }
 
-        public HttpStatusCode DirectMessages(int count, long max_id, long since_id, ref string content)
+        public HttpStatusCode DirectMessages(int? count, long? max_id, long? since_id, ref string content)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
-            if (count > 0)
+            if (count != null)
                 param.Add("count", count.ToString());
-            if (max_id > 0)
+            if (max_id != null)
                 param.Add("max_id", max_id.ToString());
-            if (since_id > 0)
+            if (since_id != null)
                 param.Add("since_id", since_id.ToString());
             param.Add("include_entities", "true");
 
@@ -526,14 +526,14 @@ namespace OpenTween
                 HttpTwitter.API11Enabled ? CreateApi11Calllback("/direct_messages") : GetApiCallback);
         }
 
-        public HttpStatusCode DirectMessagesSent(int count, long max_id, long since_id, ref string content)
+        public HttpStatusCode DirectMessagesSent(int? count, long? max_id, long? since_id, ref string content)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
-            if (count > 0)
+            if (count != null)
                 param.Add("count", count.ToString());
-            if (max_id > 0)
+            if (max_id != null)
                 param.Add("max_id", max_id.ToString());
-            if (since_id > 0)
+            if (since_id != null)
                 param.Add("since_id", since_id.ToString());
             param.Add("include_entities", "true");
 
@@ -545,12 +545,12 @@ namespace OpenTween
                 HttpTwitter.API11Enabled ? CreateApi11Calllback("/direct_messages/sent") : GetApiCallback);
         }
 
-        public HttpStatusCode Favorites(int count, int page, ref string content)
+        public HttpStatusCode Favorites(int? count, int? page, ref string content)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
-            if (count != 20) param.Add("count", count.ToString());
+            if (count != null) param.Add("count", count.ToString());
 
-            if (page > 0)
+            if (page != null)
             {
                 param.Add("page", page.ToString());
             }
@@ -587,16 +587,16 @@ namespace OpenTween
                                          MyCommon.GetAssemblyName());
         }
 
-        public HttpStatusCode PhoenixSearch(string words, string lang, int rpp, int page, long sinceId, ref string content)
+        public HttpStatusCode PhoenixSearch(string words, string lang, int? rpp, int? page, long? sinceId, ref string content)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
             if (!string.IsNullOrEmpty(words)) param.Add("q", words);
             param.Add("include_entities", "1");
             param.Add("contributor_details", "true");
             if (!string.IsNullOrEmpty(lang)) param.Add("lang", lang);
-            if (rpp > 0) param.Add("rpp", rpp.ToString());
-            if (page > 0) param.Add("page", page.ToString());
-            if (sinceId > 0) param.Add("since_id", sinceId.ToString());
+            if (rpp != null) param.Add("rpp", rpp.ToString());
+            if (page != null) param.Add("page", page.ToString());
+            if (sinceId != null) param.Add("since_id", sinceId.ToString());
 
             if (param.Count == 0) return HttpStatusCode.BadRequest;
 
@@ -608,14 +608,14 @@ namespace OpenTween
                                          MyCommon.GetAssemblyName());
         }
 
-        public HttpStatusCode Search(string words, string lang, int count, long maxId, long sinceId, ref string content)
+        public HttpStatusCode Search(string words, string lang, int? count, long? maxId, long? sinceId, ref string content)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
             if (!string.IsNullOrEmpty(words)) param.Add("q", words);
             if (!string.IsNullOrEmpty(lang)) param.Add("lang", lang);
-            if (count > 0) param.Add(HttpTwitter.API11Enabled ? "count" : "rpp", count.ToString());
-            if (maxId > 0) param.Add("max_id", maxId.ToString());
-            if (sinceId > 0) param.Add("since_id", sinceId.ToString());
+            if (count != null) param.Add(HttpTwitter.API11Enabled ? "count" : "rpp", count.ToString());
+            if (maxId != null) param.Add("max_id", maxId.ToString());
+            if (sinceId != null) param.Add("since_id", sinceId.ToString());
 
             if (param.Count == 0) return HttpStatusCode.BadRequest;
 
@@ -743,18 +743,18 @@ namespace OpenTween
                 HttpTwitter.API11Enabled ? CreateApi11Calllback("/lists/subscriptions") : GetApiCallback);
         }
 
-        public HttpStatusCode GetListsStatuses(long userId, long list_id, int per_page, long max_id, long since_id, Boolean isRTinclude, ref string content)
+        public HttpStatusCode GetListsStatuses(long userId, long list_id, int? per_page, long? max_id, long? since_id, Boolean isRTinclude, ref string content)
         {
             //認証なくても取得できるが、protectedユーザー分が抜ける
             Dictionary<string, string> param = new Dictionary<string, string>();
             param.Add("user_id", userId.ToString());
             param.Add("list_id", list_id.ToString());
             param.Add("include_rts", isRTinclude ? "true" : "false");
-            if (per_page > 0)
+            if (per_page != null)
                 param.Add(HttpTwitter.API11Enabled ? "count" : "per_page", per_page.ToString());
-            if (max_id > 0)
+            if (max_id != null)
                 param.Add("max_id", max_id.ToString());
-            if (since_id > 0)
+            if (since_id != null)
                 param.Add("since_id", since_id.ToString());
             param.Add("include_entities", "true");
 
@@ -888,12 +888,12 @@ namespace OpenTween
         }
         #endregion
 
-        public HttpStatusCode Statusid_retweeted_by_ids(long statusid, int count, int page, ref string content)
+        public HttpStatusCode Statusid_retweeted_by_ids(long statusid, int? count, int? page, ref string content)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
-            if (count > 0)
+            if (count != null)
                 param.Add("count", count.ToString());
-            if (page > 0)
+            if (page != null)
                 param.Add("page", page.ToString());
 
             if (HttpTwitter.API11Enabled)

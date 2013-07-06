@@ -51,7 +51,7 @@ namespace OpenTween
 
 		private Twitter tw;
 
-		public string Upload( ref string filePath, ref string message, long reply_to )
+		public string Upload( ref string filePath, ref string message, long? reply_to )
 		{
 			if ( string.IsNullOrEmpty( filePath ) )
 				return "Err:File isn't specified.";
