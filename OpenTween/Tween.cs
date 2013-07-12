@@ -1452,6 +1452,7 @@ namespace OpenTween
             {
                 Interlocked.Exchange(ref refreshFollowers, 0);
                 doGetFollowersMenu();
+                GetTimeline(MyCommon.WORKERTYPE.NoRetweetIds, 0, 0, "");
                 GetTimeline(MyCommon.WORKERTYPE.Configuration, 0, 0, "");
                 if (InvokeRequired && !IsDisposed) this.Invoke(new MethodInvoker(this.TrimPostChain));
             }
@@ -2608,10 +2609,9 @@ namespace OpenTween
                 case MyCommon.WORKERTYPE.Follower:
                     bw.ReportProgress(50, Properties.Resources.UpdateFollowersMenuItem1_ClickText1);
                     ret = tw.GetFollowersApi();
-                    if (string.IsNullOrEmpty(ret))
-                    {
-                        ret = tw.GetNoRetweetIdsApi();
-                    }
+                    break;
+                case MyCommon.WORKERTYPE.NoRetweetIds:
+                    ret = tw.GetNoRetweetIdsApi();
                     break;
                 case MyCommon.WORKERTYPE.Configuration:
                     ret = tw.ConfigurationApi();
@@ -2847,6 +2847,9 @@ namespace OpenTween
                     case MyCommon.WORKERTYPE.Follower:
                         smsg = Properties.Resources.UpdateFollowersMenuItem1_ClickText3;
                         break;
+                    case MyCommon.WORKERTYPE.NoRetweetIds:
+                        smsg = "NoRetweetIds refreshed";
+                        break;
                     case MyCommon.WORKERTYPE.Configuration:
                         //進捗メッセージ残す
                         break;
@@ -2940,6 +2943,7 @@ namespace OpenTween
                 rslt.type == MyCommon.WORKERTYPE.DirectMessegeSnt ||
                 rslt.type == MyCommon.WORKERTYPE.Favorites ||
                 rslt.type == MyCommon.WORKERTYPE.Follower ||
+                rslt.type == MyCommon.WORKERTYPE.NoRetweetIds ||
                 rslt.type == MyCommon.WORKERTYPE.FavAdd ||
                 rslt.type == MyCommon.WORKERTYPE.FavRemove ||
                 rslt.type == MyCommon.WORKERTYPE.Related ||
@@ -3103,6 +3107,8 @@ namespace OpenTween
                     //_waitFollower = false;
                     this.PurgeListViewItemCache();
                     if (_curList != null) _curList.Refresh();
+                    break;
+                case MyCommon.WORKERTYPE.NoRetweetIds:
                     break;
                 case MyCommon.WORKERTYPE.Configuration:
                     //_waitFollower = false
@@ -10770,6 +10776,7 @@ namespace OpenTween
             if (this.IsNetworkAvailable())
             {
                 GetTimeline(MyCommon.WORKERTYPE.BlockIds, 0, 0, "");
+                GetTimeline(MyCommon.WORKERTYPE.NoRetweetIds, 0, 0, "");
                 if (SettingDialog.StartupFollowers)
                 {
                     GetTimeline(MyCommon.WORKERTYPE.Follower, 0, 0, "");
@@ -10829,6 +10836,10 @@ namespace OpenTween
                 // 取得失敗の場合は再試行する
                 if (!tw.GetFollowersSuccess && SettingDialog.StartupFollowers)
                     GetTimeline(MyCommon.WORKERTYPE.Follower, 0, 0, "");
+
+                // 取得失敗の場合は再試行する
+                if (!tw.GetNoRetweetSuccess)
+                    GetTimeline(MyCommon.WORKERTYPE.NoRetweetIds, 0, 0, "");
 
                 // 取得失敗の場合は再試行する
                 if (SettingDialog.TwitterConfiguration.PhotoSizeLimit == 0)

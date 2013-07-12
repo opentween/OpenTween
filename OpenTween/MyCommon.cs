@@ -153,6 +153,7 @@ namespace OpenTween
             UserTimeline,            //UserTimeline
             BlockIds,                //Blocking/ids
             Configuration,           //Twitter Configuration読み込み
+            NoRetweetIds,            //RT非表示ユーザー取得
             //////
             ErrorState,              //エラー表示のみで後処理終了(認証エラー時など)
         }
