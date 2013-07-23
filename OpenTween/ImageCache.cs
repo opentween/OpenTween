@@ -115,7 +115,14 @@ namespace OpenTween
                             MemoryImage image = null;
                             if (t.Status == TaskStatus.RanToCompletion)
                             {
-                                image = MemoryImage.CopyFromBytes(t.Result);
+                                try
+                                {
+                                    image = MemoryImage.CopyFromBytes(t.Result);
+                                }
+                                catch (ArgumentException)  // 画像形式が不正
+                                {
+                                    image = null;
+                                }
                             }
 
                             if (t.Exception != null)
@@ -178,6 +185,8 @@ namespace OpenTween
                     this.cancelTokenSource.Dispose();
                 }
             }
+
+            this.disposed = true;
         }
 
         public void Dispose()
