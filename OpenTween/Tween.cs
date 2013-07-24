@@ -3585,9 +3585,8 @@ namespace OpenTween
             //{
             //    RefreshMoreStripMenuItem.Enabled = false;
             //}
-            if (_statuses.Tabs[ListTab.SelectedTab.Text].TabType == MyCommon.TabUsageType.PublicSearch
-                                || !this.ExistCurrentPost
-                                || _curPost.InReplyToStatusId == null)
+            if (!this.ExistCurrentPost
+                || _curPost.InReplyToStatusId == null)
             {
                 RepliedStatusOpenMenuItem.Enabled = false;
             }
@@ -11930,9 +11929,8 @@ namespace OpenTween
             {
                 this.RefreshPrevOpMenuItem.Enabled = false;
             }
-            if (_statuses.Tabs[ListTab.SelectedTab.Text].TabType == MyCommon.TabUsageType.PublicSearch
-                                || !this.ExistCurrentPost
-                                || _curPost.InReplyToStatusId == null)
+            if (!this.ExistCurrentPost
+                || _curPost.InReplyToStatusId == null)
             {
                 OpenRepSourceOpMenuItem.Enabled = false;
             }
