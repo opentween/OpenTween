@@ -43,10 +43,21 @@ namespace OpenTween
 
         protected bool disposed = false;
 
+        /// <exception cref="ArgumentException">
+        /// ストリームから読みだされる画像データが不正な場合にスローされる
+        /// </exception>
         protected MemoryImage(Stream stream)
         {
+            try
+            {
+                this.Image = Image.FromStream(stream);
+            }
+            catch (ArgumentException)
+            {
+                stream.Dispose();
+                throw;
+            }
             this.Stream = stream;
-            this.Image = Image.FromStream(stream);
         }
 
         protected virtual void Dispose(bool disposing)
