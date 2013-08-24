@@ -138,7 +138,7 @@ namespace OpenTween
         private readonly object LockObj = new object();
         private List<long> followerId = new List<long>();
         private bool _GetFollowerResult = false;
-        private List<long> noRTId = new List<long>();
+        private long[] noRTId = new long[0];
         private bool _GetNoRetweetResult = false;
 
         private int _followersCount = 0;
@@ -2678,29 +2678,27 @@ namespace OpenTween
             return text;
         }
 
-        public string GetFollowersApi()
+        /// <summary>
+        /// フォロワーIDを更新します
+        /// </summary>
+        /// <exception cref="WebApiException"/>
+        public void RefreshFollowerIds()
         {
-            if (MyCommon._endingFlag) return "";
-            long cursor = -1;
-            var tmpFollower = new List<long>(followerId);
+            if (MyCommon._endingFlag) return;
 
-            followerId.Clear();
+            var cursor = -1L;
+            var newFollowerIds = new List<long>();
             do
             {
-                var ret = FollowerApi(ref cursor);
-                if (!string.IsNullOrEmpty(ret))
-                {
-                    followerId.Clear();
-                    followerId.AddRange(tmpFollower);
-                    _GetFollowerResult = false;
-                    return ret;
-                }
-            } while (cursor > 0);
+                var ret = this.GetFollowerIdsApi(ref cursor);
+                newFollowerIds.AddRange(ret.Id);
+                cursor = ret.NextCursor;
+            } while (cursor != 0);
 
-            TabInformations.GetInstance().RefreshOwl(followerId);
+            this.followerId = newFollowerIds;
+            TabInformations.GetInstance().RefreshOwl(this.followerId);
 
-            _GetFollowerResult = true;
-            return "";
+            this._GetFollowerResult = true;
         }
 
         public bool GetFollowersSuccess
@@ -2711,9 +2709,10 @@ namespace OpenTween
             }
         }
 
-        private string FollowerApi(ref long cursor)
+        private TwitterDataModel.Ids GetFollowerIdsApi(ref long cursor)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
+                throw new WebApiException("AccountState invalid");
 
             HttpStatusCode res;
             var content = "";
@@ -2721,89 +2720,81 @@ namespace OpenTween
             {
                 res = twCon.FollowerIds(cursor, ref content);
             }
-            catch(Exception ex)
+            catch(Exception e)
             {
-                return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")";
+                throw new WebApiException("Err:" + e.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", e);
             }
 
             var err = this.CheckStatusCode(res, content);
-            if (err != null) return err;
+            if (err != null)
+                throw new WebApiException(err, content);
 
             try
             {
-                var followers = MyCommon.CreateDataFromJson<TwitterDataModel.Ids>(content);
-                followerId.AddRange(followers.Id);
-                cursor = followers.NextCursor;
-                return "";
+                return MyCommon.CreateDataFromJson<TwitterDataModel.Ids>(content);
             }
-            catch(SerializationException ex)
+            catch(SerializationException e)
             {
-                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                return "Err:Json Parse Error(DataContractJsonSerializer)";
+                var ex = new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, e);
+                MyCommon.TraceOut(ex);
+                throw ex;
             }
-            catch(Exception ex)
+            catch(Exception e)
             {
-                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                return "Err:Invalid Json!";
+                var ex = new WebApiException("Err:Invalid Json!", content, e);
+                MyCommon.TraceOut(ex);
+                throw ex;
             }
         }
 
-        public string GetNoRetweetIdsApi()
+        /// <summary>
+        /// RT 非表示ユーザーを更新します
+        /// </summary>
+        /// <exception cref="WebApiException"/>
+        public void RefreshNoRetweetIds()
         {
-            if (MyCommon._endingFlag) return "";
-            long cursor = -1;
-            var tmpIds = new List<long>(noRTId);
+            if (MyCommon._endingFlag) return;
 
-            noRTId.Clear();
-            do
-            {
-                var ret = NoRetweetApi(ref cursor);
-                if (!string.IsNullOrEmpty(ret))
-                {
-                    noRTId.Clear();
-                    noRTId.AddRange(tmpIds);
-                    return ret;
-                }
-            } while (cursor > 0);
+            this.noRTId = this.NoRetweetIdsApi();
 
-            _GetNoRetweetResult = true;
-            return "";
+            this._GetNoRetweetResult = true;
         }
 
-        private string NoRetweetApi(ref long cursor)
+        private long[] NoRetweetIdsApi()
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
+                throw new WebApiException("AccountState invalid");
 
             HttpStatusCode res;
             var content = "";
             try
             {
-                res = twCon.NoRetweetIds(cursor, ref content);
+                res = twCon.NoRetweetIds(ref content);
             }
-            catch(Exception ex)
+            catch(Exception e)
             {
-                return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")";
+                throw new WebApiException("Err:" + e.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", e);
             }
 
             var err = this.CheckStatusCode(res, content);
-            if (err != null) return err;
+            if (err != null)
+                throw new WebApiException(err, content);
 
             try
             {
-                var ids = MyCommon.CreateDataFromJson<long[]>(content);
-                noRTId.AddRange(ids);
-                cursor = 0;  //0より小さければ何でも良い。
-                return "";
+                return MyCommon.CreateDataFromJson<long[]>(content);
             }
-            catch(SerializationException ex)
+            catch(SerializationException e)
             {
-                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                return "Err:Json Parse Error(DataContractJsonSerializer)";
+                var ex = new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, e);
+                MyCommon.TraceOut(ex);
+                throw ex;
             }
-            catch(Exception ex)
+            catch(Exception e)
             {
-                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                return "Err:Invalid Json!";
+                var ex = new WebApiException("Err:Invalid Json!", content, e);
+                MyCommon.TraceOut(ex);
+                throw ex;
             }
         }
 
@@ -2815,7 +2806,11 @@ namespace OpenTween
             }
         }
 
-        public string ConfigurationApi()
+        /// <summary>
+        /// t.co の文字列長などの設定情報を取得します
+        /// </summary>
+        /// <exception cref="WebApiException"/>
+        public TwitterDataModel.Configuration ConfigurationApi()
         {
             HttpStatusCode res;
             var content = "";
@@ -2823,28 +2818,30 @@ namespace OpenTween
             {
                 res = twCon.GetConfiguration(ref content);
             }
-            catch(Exception ex)
+            catch(Exception e)
             {
-                return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")";
+                throw new WebApiException("Err:" + e.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", e);
             }
 
             var err = this.CheckStatusCode(res, content);
-            if (err != null) return err;
+            if (err != null)
+                throw new WebApiException(err, content);
 
             try
             {
-                AppendSettingDialog.Instance.TwitterConfiguration = MyCommon.CreateDataFromJson<TwitterDataModel.Configuration>(content);
-                return "";
+                return MyCommon.CreateDataFromJson<TwitterDataModel.Configuration>(content);
             }
-            catch(SerializationException ex)
+            catch(SerializationException e)
             {
-                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                return "Err:Json Parse Error(DataContractJsonSerializer)";
+                var ex = new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, e);
+                MyCommon.TraceOut(ex);
+                throw ex;
             }
-            catch(Exception ex)
+            catch(Exception e)
             {
-                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                return "Err:Invalid Json!";
+                var ex = new WebApiException("Err:Invalid Json!", content, e);
+                MyCommon.TraceOut(ex);
+                throw ex;
             }
         }
 
@@ -3582,43 +3579,64 @@ namespace OpenTween
             }
         }
 
-        public string GetBlockUserIds()
+        /// <summary>
+        /// ブロック中のユーザーを更新します
+        /// </summary>
+        /// <exception cref="WebApiException"/>
+        public void RefreshBlockIds()
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
+            if (MyCommon._endingFlag) return;
+
+            var cursor = -1L;
+            var newBlockIds = new List<long>();
+            do
+            {
+                var ret = this.GetBlockIdsApi(cursor);
+                newBlockIds.AddRange(ret.Id);
+                cursor = ret.NextCursor;
+            } while (cursor != 0);
+
+            newBlockIds.Remove(this.UserId); // 元のソースにあったので一応残しておく
+
+            TabInformations.GetInstance().BlockIds = newBlockIds;
+        }
+
+        public TwitterDataModel.Ids GetBlockIdsApi(long cursor)
+        {
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
+                throw new WebApiException("AccountState invalid");
 
             HttpStatusCode res;
             var content = "";
-
             try
             {
-                res = twCon.GetBlockUserIds(ref content);
+                res = twCon.GetBlockUserIds(ref content, cursor);
             }
-            catch(Exception ex)
+            catch(Exception e)
             {
-                return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")";
+                throw new WebApiException("Err:" + e.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", e);
             }
 
             var err = this.CheckStatusCode(res, content);
-            if (err != null) return err;
+            if (err != null)
+                throw new WebApiException(err, content);
 
             try
             {
-                var Ids = MyCommon.CreateDataFromJson<List<long>>(content);
-                if (Ids.Contains(this.UserId)) Ids.Remove(this.UserId);
-                TabInformations.GetInstance().BlockIds.AddRange(Ids);
-                return ("");
+                return MyCommon.CreateDataFromJson<TwitterDataModel.Ids>(content);
             }
-            catch(SerializationException ex)
+            catch(SerializationException e)
             {
-                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                return "Err:Json Parse Error(DataContractJsonSerializer)";
+                var ex = new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, e);
+                MyCommon.TraceOut(ex);
+                throw ex;
             }
-            catch(Exception ex)
+            catch(Exception e)
             {
-                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                return "Err:Invalid Json!";
+                var ex = new WebApiException("Err:Invalid Json!", content, e);
+                MyCommon.TraceOut(ex);
+                throw ex;
             }
-
         }
 
         public string[] GetHashList()

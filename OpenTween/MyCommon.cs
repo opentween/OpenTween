@@ -228,6 +228,16 @@ namespace OpenTween
             return Path.Combine(Path.GetDirectoryName(MyCommon.EntryAssembly.Location), "ErrorLogs");
         }
 
+        public static void TraceOut(WebApiException ex)
+        {
+            var message = ExceptionOutMessage(ex);
+
+            if (ex.ResponseText != null)
+                message += Environment.NewLine + "------- Response Data -------" + Environment.NewLine + ex.ResponseText;
+
+            TraceOut(TraceFlag, message);
+        }
+
         public static void TraceOut(Exception ex, string Message)
         {
             var buf = ExceptionOutMessage(ex);

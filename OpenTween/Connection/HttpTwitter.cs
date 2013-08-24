@@ -652,14 +652,11 @@ namespace OpenTween
                 HttpTwitter.API11Enabled ? CreateApi11Calllback("/followers/ids") : GetApiCallback);
         }
 
-        public HttpStatusCode NoRetweetIds(long cursor, ref string content)
+        public HttpStatusCode NoRetweetIds(ref string content)
         {
-            Dictionary<string, string> param = new Dictionary<string, string>();
-            param.Add("cursor", cursor.ToString());
-
             return httpCon.GetContent(GetMethod,
                 CreateTwitterUri(HttpTwitter.API11Enabled ? "/1.1/friendships/no_retweets/ids.json" : "/1/friendships/no_retweet_ids.json"),
-                param,
+                null,
                 ref content,
                 this.CreateRetelimitHeadersDict(),
                 HttpTwitter.API11Enabled ? CreateApi11Calllback("/friendships/no_retweets/ids") : GetApiCallback);
@@ -957,11 +954,16 @@ namespace OpenTween
                 GetApiCallback);
         }
 
-        public HttpStatusCode GetBlockUserIds(ref string content)
+        public HttpStatusCode GetBlockUserIds(ref string content, long? cursor)
         {
+            var param = new Dictionary<string, string>();
+
+            if (cursor != null)
+                param.Add("cursor", cursor.ToString());
+
             return httpCon.GetContent(GetMethod,
                 CreateTwitterUri(HttpTwitter.API11Enabled ? "/1.1/blocks/ids.json" : "/1/blocks/blocking/ids.json"),
-                null,
+                param,
                 ref content,
                 this.CreateRetelimitHeadersDict(),
                 HttpTwitter.API11Enabled ? CreateApi11Calllback("/blocks/ids") : GetApiCallback);

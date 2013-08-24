@@ -2596,13 +2596,25 @@ namespace OpenTween
                     break;
                 case MyCommon.WORKERTYPE.Follower:
                     bw.ReportProgress(50, Properties.Resources.UpdateFollowersMenuItem1_ClickText1);
-                    ret = tw.GetFollowersApi();
+                    try
+                    {
+                        tw.RefreshFollowerIds();
+                    }
+                    catch (WebApiException ex) { ret = ex.Message; }
                     break;
                 case MyCommon.WORKERTYPE.NoRetweetIds:
-                    ret = tw.GetNoRetweetIdsApi();
+                    try
+                    {
+                        tw.RefreshNoRetweetIds();
+                    }
+                    catch (WebApiException ex) { ret = ex.Message; }
                     break;
                 case MyCommon.WORKERTYPE.Configuration:
-                    ret = tw.ConfigurationApi();
+                    try
+                    {
+                        this.SettingDialog.TwitterConfiguration = tw.ConfigurationApi();
+                    }
+                    catch (WebApiException ex) { ret = ex.Message; }
                     break;
                 case MyCommon.WORKERTYPE.Favorites:
                     bw.ReportProgress(50, MakeStatusMessage(args, false));
@@ -2688,11 +2700,11 @@ namespace OpenTween
                     break;
                 case MyCommon.WORKERTYPE.BlockIds:
                     bw.ReportProgress(50, Properties.Resources.UpdateBlockUserText1);
-                    ret = tw.GetBlockUserIds();
-                    if (TabInformations.GetInstance().BlockIds.Count == 0)
+                    try
                     {
-                        tw.GetBlockUserIds();
+                        tw.RefreshBlockIds();
                     }
+                    catch (WebApiException ex) { ret = ex.Message; }
                     break;
             }
             //キャンセル要求
