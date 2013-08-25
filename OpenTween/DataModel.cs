@@ -5,6 +5,7 @@
 //           (c) 2010-2011 anis774 (@anis774) <http://d.hatena.ne.jp/anis774/>
 //           (c) 2010-2011 fantasticswallow (@f_swallow) <http://twitter.com/f_swallow>
 //           (c) 2011      Egtra (@egtra) <http://dev.activebasic.com/egtra/>
+//           (c) 2013      kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
 //
 // This file is part of OpenTween.
@@ -428,8 +429,80 @@ namespace OpenTween
         [DataContract]
         public class ErrorResponse
         {
-            [DataMember(Name = "request")] public string Request;
-            [DataMember(Name = "error")] public string ErrMsg;
+            [DataMember(Name = "errors")] public ErrorItem[] Errors;
+        }
+
+        [DataContract]
+        public class ErrorItem
+        {
+            [DataMember(Name = "code")] public ErrorCode Code;
+            [DataMember(Name = "message")] public string Message;
+
+            public override string ToString()
+            {
+                if (Enum.IsDefined(typeof(ErrorCode), this.Code))
+                    return this.Code.ToString();
+                else
+                    return this.Message;
+            }
+        }
+
+        /// <summary>
+        /// Twitter API から返されるエラーコード
+        /// </summary>
+        /// <remarks>
+        /// https://dev.twitter.com/docs/error-codes-responses を参照
+        /// </remarks>
+        public enum ErrorCode : int
+        {
+            /// <summary>
+            /// 不正なリクエスト等によって認証を完了できない場合に発生する。大体クライアントのせい
+            /// </summary>
+            AuthError = 32,
+            /// <summary>
+            /// 指定されたリソースが存在しません。HTTP 404 と同等
+            /// </summary>
+            NotFound = 34,
+            /// <summary>
+            /// REST API v1 は星になりました
+            /// </summary>
+            APIv1Retired = 68,
+            /// <summary>
+            /// レートリミットに到達しました
+            /// </summary>
+            RateLimit = 88,
+            /// <summary>
+            /// アクセストークンが無効です。不正なトークンまたはユーザーによって失効されています
+            /// </summary>
+            InvalidToken = 89,
+            /// <summary>
+            /// アカウントが凍結されています
+            /// </summary>
+            SuspendedAccount = 64,
+            /// <summary>
+            /// サーバーの過負荷によって一時的にアクセスできません
+            /// </summary>
+            OverCapacity = 130,
+            /// <summary>
+            /// サーバーの内部エラー
+            /// </summary>
+            InternalError = 131,
+            /// <summary>
+            /// ユーザーからブロックされている (公式ドキュメントに記述無し)
+            /// </summary>
+            Blocked = 136,
+            /// <summary>
+            /// oauth_timestamp の時刻が無効。クライアントかサーバーの時計が大幅にずれている
+            /// </summary>
+            TimestampOutOfRange = 135,
+            /// <summary>
+            /// 投稿されたステータスが重複しています
+            /// </summary>
+            DuplicateStatus = 187,
+            /// <summary>
+            /// 認証が必要な API で認証データが含まれていない、または認証データが不正
+            /// </summary>
+            AuthenticationRequired = 215,
         }
 
         [DataContract]

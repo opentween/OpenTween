@@ -2575,19 +2575,7 @@ namespace OpenTween
                     bw.ReportProgress(200);
                     if (string.IsNullOrEmpty(args.status.imagePath))
                     {
-                        for (int i = 0; i <= 1; i++)
-                        {
-                            ret = tw.PostStatus(args.status.status, args.status.inReplyToId);
-                            if (string.IsNullOrEmpty(ret) ||
-                                ret.StartsWith("OK:") ||
-                                ret.StartsWith("Outputz:") ||
-                                ret.StartsWith("Warn:") ||
-                                ret == "Err:Status is a duplicate." ||
-                                args.status.status.StartsWith("D", StringComparison.OrdinalIgnoreCase) ||
-                                args.status.status.StartsWith("DM", StringComparison.OrdinalIgnoreCase) ||
-                                Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
-                                break;
-                        }
+                        ret = tw.PostStatus(args.status.status, args.status.inReplyToId);
                     }
                     else
                     {
