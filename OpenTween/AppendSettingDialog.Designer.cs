@@ -173,8 +173,6 @@
             this.TextProxyAddress = new System.Windows.Forms.TextBox();
             this.LabelProxyPort = new System.Windows.Forms.Label();
             this.ConnectionPanel = new System.Windows.Forms.Panel();
-            this.TwitterSearchAPIText = new System.Windows.Forms.TextBox();
-            this.Label31 = new System.Windows.Forms.Label();
             this.TwitterAPIText = new System.Windows.Forms.TextBox();
             this.Label8 = new System.Windows.Forms.Label();
             this.CheckUseSsl = new System.Windows.Forms.CheckBox();
@@ -1668,8 +1666,6 @@
             // ConnectionPanel
             // 
             resources.ApplyResources(this.ConnectionPanel, "ConnectionPanel");
-            this.ConnectionPanel.Controls.Add(this.TwitterSearchAPIText);
-            this.ConnectionPanel.Controls.Add(this.Label31);
             this.ConnectionPanel.Controls.Add(this.TwitterAPIText);
             this.ConnectionPanel.Controls.Add(this.Label8);
             this.ConnectionPanel.Controls.Add(this.CheckUseSsl);
@@ -1678,18 +1674,6 @@
             this.ConnectionPanel.Controls.Add(this.Label63);
             this.ConnectionPanel.Name = "ConnectionPanel";
             this.ToolTip1.SetToolTip(this.ConnectionPanel, resources.GetString("ConnectionPanel.ToolTip"));
-            // 
-            // TwitterSearchAPIText
-            // 
-            resources.ApplyResources(this.TwitterSearchAPIText, "TwitterSearchAPIText");
-            this.TwitterSearchAPIText.Name = "TwitterSearchAPIText";
-            this.ToolTip1.SetToolTip(this.TwitterSearchAPIText, resources.GetString("TwitterSearchAPIText.ToolTip"));
-            // 
-            // Label31
-            // 
-            resources.ApplyResources(this.Label31, "Label31");
-            this.Label31.Name = "Label31";
-            this.ToolTip1.SetToolTip(this.Label31, resources.GetString("Label31.ToolTip"));
             // 
             // TwitterAPIText
             // 
@@ -2801,8 +2785,6 @@
         internal System.Windows.Forms.TextBox TextProxyAddress;
         internal System.Windows.Forms.Label LabelProxyPort;
         internal System.Windows.Forms.Panel ConnectionPanel;
-        internal System.Windows.Forms.TextBox TwitterSearchAPIText;
-        internal System.Windows.Forms.Label Label31;
         internal System.Windows.Forms.TextBox TwitterAPIText;
         internal System.Windows.Forms.Label Label8;
         internal System.Windows.Forms.CheckBox CheckUseSsl;

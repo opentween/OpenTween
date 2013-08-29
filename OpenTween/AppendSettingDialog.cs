@@ -436,7 +436,6 @@ namespace OpenTween
                 UseHashSupplement = CheckHashSupple.Checked;
                 PreviewEnable = CheckPreviewEnable.Checked;
                 TwitterApiUrl = TwitterAPIText.Text.Trim();
-                TwitterSearchApiUrl = TwitterSearchAPIText.Text.Trim();
                 switch (ReplyIconStateCombo.SelectedIndex)
                 {
                     case 0:
@@ -818,7 +817,6 @@ namespace OpenTween
             CheckHashSupple.Checked = UseHashSupplement;
             CheckPreviewEnable.Checked = PreviewEnable;
             TwitterAPIText.Text = TwitterApiUrl;
-            TwitterSearchAPIText.Text = TwitterSearchApiUrl;
             switch (ReplyIconState)
             {
                 case MyCommon.REPLY_ICONSTATE.None:
@@ -1395,7 +1393,6 @@ namespace OpenTween
         public bool UseAdditionalCount { get; set; }
         public bool OpenUserTimeline { get; set; }
         public string TwitterApiUrl { get; set; }
-        public string TwitterSearchApiUrl { get; set; }
         public string Language { get; set; }
 
         private void Button3_Click(object sender, EventArgs e)
@@ -1711,7 +1708,6 @@ namespace OpenTween
             //通信基底クラス初期化
             HttpConnection.InitializeConnection(20, ptype, padr, pport, pusr, ppw);
             HttpTwitter.TwitterUrl = TwitterAPIText.Text.Trim();
-            HttpTwitter.TwitterSearchUrl = TwitterSearchAPIText.Text.Trim();
             tw.Initialize("", "", "", 0);
             //this.AuthStateLabel.Text = Properties.Resources.AuthorizeButton_Click4;
             //this.AuthUserLabel.Text = "";
@@ -1828,11 +1824,11 @@ namespace OpenTween
         private void DisplayApiMaxCount()
         {
             var limit = MyCommon.TwitterApiInfo.AccessLimit;
-            if (limit != null)
-            {
-                LabelApiUsing.Text = string.Format(Properties.Resources.SettingAPIUse1, limit.AccessLimitCount - limit.AccessLimitRemain, limit.AccessLimitCount);
-            }
-            else
+//            if (limit != null)
+//            {
+//                LabelApiUsing.Text = string.Format(Properties.Resources.SettingAPIUse1, limit.AccessLimitCount - limit.AccessLimitRemain, limit.AccessLimitCount);
+//            }
+//            else
             {
                 LabelApiUsing.Text = string.Format(Properties.Resources.SettingAPIUse1, "???", "???");
             }
@@ -1921,7 +1917,7 @@ namespace OpenTween
                 {
                     if (Twitter.AccountState == MyCommon.ACCOUNT_STATE.Valid)
                     {
-                        Task.Factory.StartNew(() => tw.GetInfoApi10()) //取得エラー時はinfoCountは初期状態（値：-1）
+                        Task.Factory.StartNew(() => tw.GetInfoApi()) //取得エラー時はinfoCountは初期状態（値：-1）
                             .ContinueWith(t =>
                             {
                                 if (this.IsHandleCreated && !this.IsDisposed)
@@ -1937,7 +1933,7 @@ namespace OpenTween
                 }
                 else
                 {
-                    LabelApiUsing.Text = string.Format(Properties.Resources.SettingAPIUse1, UsingApi, limit.AccessLimitCount);
+//                    LabelApiUsing.Text = string.Format(Properties.Resources.SettingAPIUse1, UsingApi, limit.AccessLimitCount);
                 }
             }
 

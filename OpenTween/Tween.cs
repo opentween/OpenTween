@@ -556,7 +556,6 @@ namespace OpenTween
             SecurityManager = new InternetSecurityManager(PostBrowser);
 
             MyCommon.TwitterApiInfo.AccessLimitUpdated += TwitterApiStatus_AccessLimitUpdated;
-            MyCommon.TwitterApiInfo11.AccessLimitUpdated += TwitterApiStatus_AccessLimitUpdated;
             Microsoft.Win32.SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
 
             string[] cmdArgs = Environment.GetCommandLineArgs();
@@ -648,9 +647,7 @@ namespace OpenTween
 
             //設定画面への反映
             HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl;
-            HttpTwitter.TwitterSearchUrl = _cfgCommon.TwitterSearchUrl;
             SettingDialog.TwitterApiUrl = _cfgCommon.TwitterUrl;
-            SettingDialog.TwitterSearchApiUrl = _cfgCommon.TwitterSearchUrl;
 
             //認証関連
             if (string.IsNullOrEmpty(_cfgCommon.Token)) _cfgCommon.UserName = "";
@@ -998,7 +995,6 @@ namespace OpenTween
             ShortUrl.BitlyId = SettingDialog.BitlyUser;
             ShortUrl.BitlyKey = SettingDialog.BitlyPwd;
             HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl;
-            HttpTwitter.TwitterSearchUrl = _cfgCommon.TwitterSearchUrl;
             tw.TrackWord = _cfgCommon.TrackWord;
             TrackToolStripMenuItem.Checked = !String.IsNullOrEmpty(tw.TrackWord);
             tw.AllAtReply = _cfgCommon.AllAtReply;
@@ -3947,7 +3943,6 @@ namespace OpenTween
                     ShortUrl.BitlyId = SettingDialog.BitlyUser;
                     ShortUrl.BitlyKey = SettingDialog.BitlyPwd;
                     HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl;
-                    HttpTwitter.TwitterSearchUrl = _cfgCommon.TwitterSearchUrl;
 
                     HttpConnection.InitializeConnection(SettingDialog.DefaultTimeOut,
                                                         SettingDialog.SelectedProxyType,
@@ -7886,7 +7881,6 @@ namespace OpenTween
                 _cfgCommon.HashIsPermanent = HashMgr.IsPermanent;
                 _cfgCommon.HashIsNotAddToAtReply = HashMgr.IsNotAddToAtReply;
                 _cfgCommon.TwitterUrl = SettingDialog.TwitterApiUrl;
-                _cfgCommon.TwitterSearchUrl = SettingDialog.TwitterSearchApiUrl;
                 _cfgCommon.HotkeyEnabled = SettingDialog.HotkeyEnabled;
                 _cfgCommon.HotkeyModifier = SettingDialog.HotkeyMod;
                 _cfgCommon.HotkeyKey = SettingDialog.HotkeyKey;
@@ -9508,17 +9502,10 @@ namespace OpenTween
                 }
                 else
                 {
-                    if (sender is TwitterApiStatus11 && this._apiGauge.API11Enabled)
+                    var endpointName = (e as TwitterApiStatus.AccessLimitUpdatedEventArgs).EndpointName;
+                    if (endpointName == "/statuses/home_timeline" || endpointName == null)
                     {
-                        var endpointName = (e as TwitterApiStatus11.AccessLimitUpdatedEventArgs).EndpointName;
-                        if (endpointName == "/statuses/home_timeline" || endpointName == null)
-                        {
-                            this._apiGauge.ApiLimit = MyCommon.TwitterApiInfo11.AccessLimit["/statuses/home_timeline"];
-                        }
-                    }
-                    else if (sender is TwitterApiStatus && !this._apiGauge.API11Enabled)
-                    {
-                        this._apiGauge.ApiLimit = MyCommon.TwitterApiInfo.AccessLimit;
+                        this._apiGauge.ApiLimit = MyCommon.TwitterApiInfo.AccessLimit["/statuses/home_timeline"];
                     }
                 }
             }
@@ -11074,10 +11061,7 @@ namespace OpenTween
 
         private void GetApiInfo_Dowork(object sender, DoWorkEventArgs e)
         {
-            if (HttpTwitter.API11Enabled)
-                e.Result = tw.GetInfoApi11();
-            else
-                e.Result = tw.GetInfoApi10();
+            e.Result = tw.GetInfoApi();
         }
 
         private void ApiUsageInfoMenuItem_Click(object sender, EventArgs e)
@@ -11088,28 +11072,14 @@ namespace OpenTween
             {
                 dlg.ShowDialog();
 
-                TwitterApiAccessLevel? accessLevel = null;
-                ApiLimit timelineLimit = null, mediaLimit = null;
+                var result = (TwitterApiStatus)dlg.Result;
 
-                if (dlg.Result is TwitterApiStatus)
+                if (result == null)
                 {
-                    var result = (TwitterApiStatus)dlg.Result;
+                    var accessLevel = result.AccessLevel;
+                    var timelineLimit = result.AccessLimit["/statuses/home_timeline"];
+                    var mediaLimit = result.MediaUploadLimit;
 
-                    accessLevel = result.AccessLevel;
-                    timelineLimit = result.AccessLimit;
-                    mediaLimit = result.MediaUploadLimit;
-                }
-                else if (dlg.Result is TwitterApiStatus11)
-                {
-                    var result = (TwitterApiStatus11)dlg.Result;
-
-                    accessLevel = result.AccessLevel;
-                    timelineLimit = result.AccessLimit["/statuses/home_timeline"];
-                    mediaLimit = result.MediaUploadLimit;
-                }
-
-                if (accessLevel != null)
-                {
                     tmp.AppendLine(Properties.Resources.ApiInfo1 + timelineLimit.AccessLimitCount);
                     tmp.AppendLine(Properties.Resources.ApiInfo2 + timelineLimit.AccessLimitRemain);
                     tmp.AppendLine(Properties.Resources.ApiInfo3 + timelineLimit.AccessLimitResetDate);
@@ -12244,18 +12214,6 @@ namespace OpenTween
             this.gh.NotifyClicked += GrowlHelper_Callback;
 
             this._apiGauge = new ToolStripAPIGauge();
-            this._apiGauge.Click += (s, e) =>
-            {
-                var api11Enabled = !HttpTwitter.API11Enabled;
-
-                HttpTwitter.API11Enabled = api11Enabled;
-                (s as ToolStripAPIGauge).API11Enabled = api11Enabled;
-
-                if (api11Enabled)
-                    MyCommon.TwitterApiInfo11.Reset();
-                else
-                    MyCommon.TwitterApiInfo.Reset();
-            };
             this.StatusStrip1.Items.Insert(2, this._apiGauge);
 
             this.ReplaceAppName();

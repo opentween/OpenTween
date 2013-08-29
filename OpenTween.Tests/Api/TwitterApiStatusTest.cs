@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using System.Xml;
 
 namespace OpenTween.Api
 {
@@ -35,13 +36,13 @@ namespace OpenTween.Api
         {
             var apiStatus = new TwitterApiStatus();
 
-            apiStatus.AccessLimit = new ApiLimit(150, 100, new DateTime(2013, 1, 1, 0, 0, 0));
+            apiStatus.AccessLimit["/statuses/home_timeline"] = new ApiLimit(150, 100, new DateTime(2013, 1, 1, 0, 0, 0));
             apiStatus.MediaUploadLimit = new ApiLimit(150, 100, new DateTime(2013, 1, 1, 0, 0, 0));
             apiStatus.AccessLevel = TwitterApiAccessLevel.ReadWriteAndDirectMessage;
 
             apiStatus.Reset();
 
-            Assert.That(apiStatus.AccessLimit, Is.Null);
+            Assert.That(apiStatus.AccessLimit["/statuses/home_timeline"], Is.Null);
             Assert.That(apiStatus.MediaUploadLimit, Is.Null);
             Assert.That(apiStatus.AccessLevel, Is.EqualTo(TwitterApiAccessLevel.Anonymous));
         }
@@ -160,18 +161,18 @@ namespace OpenTween.Api
 
             var header = new Dictionary<string, string>
             {
-                {"X-RateLimit-Limit", "150"},
-                {"X-RateLimit-Remaining", "100"},
-                {"X-RateLimit-Reset", "1356998400"},
+                {"X-Rate-Limit-Limit", "150"},
+                {"X-Rate-Limit-Remaining", "100"},
+                {"X-Rate-Limit-Reset", "1356998400"},
                 {"X-MediaRateLimit-Limit", "30"},
                 {"X-MediaRateLimit-Remaining", "20"},
                 {"X-MediaRateLimit-Reset", "1357084800"},
                 {"X-Access-Level", "read-write-directmessages"},
             };
 
-            status.UpdateFromHeader(header);
+            status.UpdateFromHeader(header, "/statuses/home_timeline");
 
-            var rateLimit = status.AccessLimit;
+            var rateLimit = status.AccessLimit["/statuses/home_timeline"];
             Assert.That(rateLimit.AccessLimitCount, Is.EqualTo(150));
             Assert.That(rateLimit.AccessLimitRemain, Is.EqualTo(100));
             Assert.That(rateLimit.AccessLimitResetDate, Is.EqualTo(new DateTime(2013, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToLocalTime()));
@@ -187,84 +188,37 @@ namespace OpenTween.Api
         }
 
         [Test]
-        public void UpdateFromApiTest()
+        public void UpdateFromJsonTest()
         {
             var status = new TwitterApiStatus();
 
             var eventCalled = false;
             status.AccessLimitUpdated += (s, e) => eventCalled = true;
 
-            var apiResponse = new TwitterDataModel.RateLimitStatus
-            {
-                HourlyLimit = 150,
-                RemainingHits = 100,
-                ResetTime = "Tue Jan 01 00:00:00 +0000 2013",
-                ResetTimeInSeconds = 1356998400,
-                Photos = new TwitterDataModel.MediaRateLimitStatus
-                {
-                    DailyLimit = 30,
-                    RemainingHits = 20,
-                    ResetTime = "Wed Jan 02 00:00:00 +0000 2013",
-                    RestTimeInSeconds = 1357084800,
-                },
-            };
+            var json = "{\"resources\":{\"statuses\":{\"/statuses/home_timeline\":{\"limit\":150,\"remaining\":100,\"reset\":1356998400}}}}";
+            status.UpdateFromJson(json);
 
-            status.UpdateFromApi(apiResponse);
-
-            var rateLimit = status.AccessLimit;
+            var rateLimit = status.AccessLimit["/statuses/home_timeline"];
             Assert.That(rateLimit.AccessLimitCount, Is.EqualTo(150));
             Assert.That(rateLimit.AccessLimitRemain, Is.EqualTo(100));
             Assert.That(rateLimit.AccessLimitResetDate, Is.EqualTo(new DateTime(2013, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToLocalTime()));
-
-            var mediaLimit = status.MediaUploadLimit;
-            Assert.That(mediaLimit.AccessLimitCount, Is.EqualTo(30));
-            Assert.That(mediaLimit.AccessLimitRemain, Is.EqualTo(20));
-            Assert.That(mediaLimit.AccessLimitResetDate, Is.EqualTo(new DateTime(2013, 1, 2, 0, 0, 0, DateTimeKind.Utc).ToLocalTime()));
 
             Assert.That(eventCalled, Is.True);
         }
 
         [Test]
-        public void UpdateFromApiTest2()
+        public void UpdateFromJsonTest2()
         {
             var status = new TwitterApiStatus();
 
             var eventCalled = false;
             status.AccessLimitUpdated += (s, e) => eventCalled = true;
 
-            var apiResponse = new TwitterDataModel.RateLimitStatus
-            {
-                HourlyLimit = 150,
-                RemainingHits = 100,
-                ResetTime = "Tue Jan 01 00:00:00 +0000 2013",
-                ResetTimeInSeconds = 1356998400,
-                Photos = null,
-            };
+            var json = "INVALID JSON";
+            Assert.That(() => status.UpdateFromJson(json), Throws.TypeOf<XmlException>());
 
-            status.UpdateFromApi(apiResponse);
-
-            var rateLimit = status.AccessLimit;
-            Assert.That(rateLimit.AccessLimitCount, Is.EqualTo(150));
-            Assert.That(rateLimit.AccessLimitRemain, Is.EqualTo(100));
-            Assert.That(rateLimit.AccessLimitResetDate, Is.EqualTo(new DateTime(2013, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToLocalTime()));
-
-            Assert.That(status.MediaUploadLimit, Is.Null);
-
-            Assert.That(eventCalled, Is.True);
-        }
-
-        [Test]
-        public void UpdateFromApiTest3()
-        {
-            var status = new TwitterApiStatus();
-
-            var eventCalled = false;
-            status.AccessLimitUpdated += (s, e) => eventCalled = true;
-
-            Assert.That(() => status.UpdateFromApi(null), Throws.TypeOf<ArgumentNullException>());
-
-            Assert.That(status.AccessLimit, Is.Null);
-            Assert.That(status.MediaUploadLimit, Is.Null);
+            var rateLimit = status.AccessLimit["/statuses/home_timeline"];
+            Assert.That(rateLimit, Is.Null);
 
             Assert.That(eventCalled, Is.False);
         }
@@ -279,7 +233,7 @@ namespace OpenTween.Api
 
             Assert.That(eventCount, Is.EqualTo(0));
 
-            apiStatus.AccessLimit = new ApiLimit(150, 100, new DateTime(2013, 1, 1, 0, 0, 0));
+            apiStatus.AccessLimit["/statuses/home_timeline"] = new ApiLimit(150, 100, new DateTime(2013, 1, 1, 0, 0, 0));
             Assert.That(eventCount, Is.EqualTo(1));
 
             apiStatus.Reset();

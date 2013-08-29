@@ -192,7 +192,6 @@ namespace OpenTween
         public bool UseAtIdSupplement = true;
         public bool UseHashSupplement = true;
         public string TwitterUrl = "api.twitter.com";
-        public string TwitterSearchUrl = "search.twitter.com";
         public bool HotkeyEnabled = false;
         public Keys HotkeyModifier = Keys.None;
         public Keys HotkeyKey = Keys.None;

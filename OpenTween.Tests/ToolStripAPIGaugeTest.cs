@@ -65,36 +65,18 @@ namespace OpenTween
             {
                 // toolStrip.ApiLimit の初期値は null
 
-                Assert.That(toolStrip.Text, Is.EqualTo("API v1.1 ???/???"));
+                Assert.That(toolStrip.Text, Is.EqualTo("API ???/???"));
                 Assert.That(toolStrip.ToolTipText, Is.EqualTo("API rest ???/???" + Environment.NewLine + "(reset after ??? minutes)"));
 
                 toolStrip.ApiLimit = new ApiLimit(15, 14, DateTime.Now.AddMinutes(15));
 
-                Assert.That(toolStrip.Text, Is.EqualTo("API v1.1 14/15"));
+                Assert.That(toolStrip.Text, Is.EqualTo("API 14/15"));
                 Assert.That(toolStrip.ToolTipText, Is.EqualTo("API rest 14/15" + Environment.NewLine + "(reset after 15 minutes)"));
 
                 toolStrip.ApiLimit = null;
 
-                Assert.That(toolStrip.Text, Is.EqualTo("API v1.1 ???/???"));
+                Assert.That(toolStrip.Text, Is.EqualTo("API ???/???"));
                 Assert.That(toolStrip.ToolTipText, Is.EqualTo("API rest ???/???" + Environment.NewLine + "(reset after ??? minutes)"));
-            }
-        }
-
-        [Test]
-        public void API11EnabledTest()
-        {
-            using (var toolStrip = new ToolStripAPIGauge())
-            {
-                // toolStrip.API11Enabled の初期値は true
-                Assert.That(toolStrip.Text, Is.EqualTo("API v1.1 ???/???"));
-
-                toolStrip.API11Enabled = false;
-
-                Assert.That(toolStrip.Text, Is.EqualTo("API v1 ???/???"));
-
-                toolStrip.API11Enabled = true;
-
-                Assert.That(toolStrip.Text, Is.EqualTo("API v1.1 ???/???"));
             }
         }
 

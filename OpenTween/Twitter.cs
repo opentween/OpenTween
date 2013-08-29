@@ -176,19 +176,13 @@ namespace OpenTween
         {
             get
             {
-                if (HttpTwitter.API11Enabled)
-                    return MyCommon.TwitterApiInfo11.AccessLevel;
-                else
-                    return MyCommon.TwitterApiInfo.AccessLevel;
+                return MyCommon.TwitterApiInfo.AccessLevel;
             }
         }
 
         protected void ResetApiStatus()
         {
-            if (HttpTwitter.API11Enabled)
-                MyCommon.TwitterApiInfo11.Reset();
-            else
-                MyCommon.TwitterApiInfo.Reset();
+            MyCommon.TwitterApiInfo.Reset();
         }
 
         public string Authenticate(string username, string password)
@@ -1747,13 +1741,12 @@ namespace OpenTween
             return "";
         }
 
-        // API v1.1
-        private string CreatePostsFromSearch11Json(string content, TabClass tab, bool read, int count, ref long minimumId, bool more)
+        private string CreatePostsFromSearchJson(string content, TabClass tab, bool read, int count, ref long minimumId, bool more)
         {
-            TwitterDataModel.SearchResult11 items;
+            TwitterDataModel.SearchResult items;
             try
             {
-                items = MyCommon.CreateDataFromJson<TwitterDataModel.SearchResult11>(content);
+                items = MyCommon.CreateDataFromJson<TwitterDataModel.SearchResult>(content);
             }
             catch (SerializationException ex)
             {
@@ -1801,152 +1794,6 @@ namespace OpenTween
             }
 
             return "";
-        }
-
-        private string CreatePostsFromSearchJson(string content, TabClass tab, bool read, int count, ref long minimumId, bool more)
-        {
-            TwitterDataModel.SearchResult items;
-            try
-            {
-                items = MyCommon.CreateDataFromJson<TwitterDataModel.SearchResult>(content);
-            }
-            catch (SerializationException ex)
-            {
-                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                return "Json Parse Error(DataContractJsonSerializer)";
-            }
-            catch (Exception ex)
-            {
-                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                return "Invalid Json!";
-            }
-            foreach (var result in items.Results)
-            {
-                PostClass post = null;
-                post = CreatePostsFromSearchResultData(result);
-                if (post == null) continue;
-
-                if (minimumId > post.StatusId) minimumId = post.StatusId;
-                if (!more && post.StatusId > tab.SinceId) tab.SinceId = post.StatusId;
-                //二重取得回避
-                lock (LockObj)
-                {
-                    if (tab == null)
-                    {
-                        if (TabInformations.GetInstance().ContainsKey(post.StatusId)) continue;
-                    }
-                    else
-                    {
-                        if (TabInformations.GetInstance().ContainsKey(post.StatusId, tab.TabName)) continue;
-                    }
-                }
-
-                post.IsRead = read;
-                if ((post.IsMe && !read) && this._readOwnPost) post.IsRead = true;
-
-                if (tab != null) post.RelTabName = tab.TabName;
-                //非同期アイコン取得＆StatusDictionaryに追加
-                TabInformations.GetInstance().AddPost(post);
-            }
-
-            return "";
-        }
-
-        private PostClass CreatePostsFromSearchResultData(TwitterDataModel.SearchResultData status)
-        {
-            var post = new PostClass();
-            post.StatusId = status.Id;
-            post.CreatedAt = MyCommon.DateTimeParse(status.CreatedAt);
-            //本文
-            post.TextFromApi = status.Text;
-            var entities = status.Entities;
-            post.Source = WebUtility.HtmlDecode(status.Source);
-            post.InReplyToStatusId = status.InReplyToStatusId;
-            post.InReplyToUser = status.ToUser;
-            post.InReplyToUserId = status.ToUserId;
-
-            if (status.Geo != null) post.PostGeo = new PostClass.StatusGeo { Lat = status.Geo.Coordinates[0], Lng = status.Geo.Coordinates[1] };
-
-            if (status.FromUser == null) return null;
-
-            post.UserId = status.FromUserId;
-            post.ScreenName = status.FromUser;
-            post.Nickname = status.FromUserName.Trim();
-            post.ImageUrl = status.ProfileImageUrl;
-            post.IsProtect = false;
-            post.IsMe = post.ScreenName.ToLower().Equals(this._uname);
-
-            //幻覚fav対策
-            var tc = TabInformations.GetInstance().GetTabByType(MyCommon.TabUsageType.Favorites);
-            post.IsFav = tc.Contains(post.StatusId) && TabInformations.GetInstance()[post.StatusId].IsFav;
-
-            //HTMLに整形
-            string textFromApi = post.TextFromApi;
-            post.Text = this.CreateHtmlAnchor(ref textFromApi, post.ReplyToList, entities, post.Media);
-            post.TextFromApi = this.ReplaceTextFromApi(post.TextFromApi, entities);
-            post.TextFromApi = WebUtility.HtmlDecode(post.TextFromApi);
-            post.TextFromApi = post.TextFromApi.Replace("<3", "\u2661");
-
-            //Source整形
-            this.CreateSource(post);
-
-            post.IsReply = post.ReplyToList.Contains(this._uname);
-            post.IsExcludeReply = false;
-            post.IsOwl = false;
-            post.IsDm = false;
-
-            return post;
-        }
-
-        private string CreatePostsFromPhoenixSearch(string content, MyCommon.WORKERTYPE gType, TabClass tab, bool read, int count, ref long minimumId, ref string nextPageQuery)
-        {
-            TwitterDataModel.SearchResultPhoenix items;
-            try
-            {
-                items = MyCommon.CreateDataFromJson<TwitterDataModel.SearchResultPhoenix>(content);
-            }
-            catch(SerializationException ex)
-            {
-                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                return "Json Parse Error(DataContractJsonSerializer)";
-            }
-            catch(Exception ex)
-            {
-                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                return "Invalid Json!";
-            }
-
-            nextPageQuery = items.NextPage;
-
-            foreach (var status in items.Statuses)
-            {
-                PostClass post = null;
-                post = CreatePostsFromStatusData(status);
-                if (post == null) continue;
-
-                if (minimumId > post.StatusId) minimumId = post.StatusId;
-                //二重取得回避
-                lock (LockObj)
-                {
-                    if (tab == null)
-                    {
-                        if (TabInformations.GetInstance().ContainsKey(post.StatusId)) continue;
-                    }
-                    else
-                    {
-                        if (TabInformations.GetInstance().ContainsKey(post.StatusId, tab.TabName)) continue;
-                    }
-                }
-
-                post.IsRead = read;
-                if (post.IsMe && !read && _readOwnPost) post.IsRead = true;
-
-                if (tab != null) post.RelTabName = tab.TabName;
-                //非同期アイコン取得＆StatusDictionaryに追加
-                TabInformations.GetInstance().AddPost(post);
-            }
-
-            return string.IsNullOrEmpty(items.ErrMsg) ? "" : "Err:" + items.ErrMsg;
         }
 
         public string GetListStatus(bool read,
@@ -2045,25 +1892,9 @@ namespace OpenTween
             }
             relPosts.Add(tab.RelationTargetPost.StatusId, tab.RelationTargetPost.Clone());
 
-            PostClass nextPost;
-            int loopCount;
-
-            // 一周目: 非公式な related_results API を使用してリプライチェインを辿る
-            if (!HttpTwitter.API11Enabled)
-            {
-                nextPost = relPosts[tab.RelationTargetPost.StatusId];
-                loopCount = 1;
-                do
-                {
-                    rslt = this.GetRelatedResultsApi(nextPost, relPosts);
-                    if (!string.IsNullOrEmpty(rslt)) break;
-                    nextPost = FindTopOfReplyChain(relPosts, nextPost.StatusId);
-                } while (nextPost.InReplyToStatusId != null && loopCount++ <= 5);
-            }
-
-            // 二周目: in_reply_to_status_id を使用してリプライチェインを辿る
-            nextPost = FindTopOfReplyChain(relPosts, tab.RelationTargetPost.StatusId);
-            loopCount = 1;
+            // in_reply_to_status_id を使用してリプライチェインを辿る
+            var nextPost = FindTopOfReplyChain(relPosts, tab.RelationTargetPost.StatusId);
+            var loopCount = 1;
             while (nextPost.InReplyToStatusId != null && loopCount++ <= 20)
             {
                 var inReplyToId = nextPost.InReplyToStatusId.Value;
@@ -2130,65 +1961,6 @@ namespace OpenTween
             return rslt;
         }
 
-        private string GetRelatedResultsApi(PostClass post,
-                                            IDictionary<Int64, PostClass> relatedPosts)
-        {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
-
-            if (MyCommon._endingFlag) return "";
-
-            HttpStatusCode res;
-            var content = "";
-            try
-            {
-                if (post.RetweetedId != null)
-                {
-                    res = twCon.GetRelatedResults(post.RetweetedId.Value, ref content);
-                }
-                else
-                {
-                    res = twCon.GetRelatedResults(post.StatusId, ref content);
-                }
-            }
-            catch(Exception ex)
-            {
-                return "Err:" + ex.Message;
-            }
-
-            var err = this.CheckStatusCode(res, content);
-            if (err != null) return err;
-
-            List<TwitterDataModel.RelatedResult> items;
-            try
-            {
-                items = MyCommon.CreateDataFromJson<List<TwitterDataModel.RelatedResult>>(content);
-            }
-            catch(SerializationException ex)
-            {
-                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                return "Json Parse Error(DataContractJsonSerializer)";
-            }
-            catch(Exception ex)
-            {
-                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                return "Invalid Json!";
-            }
-
-            foreach (var relatedData in items)
-            {
-                foreach (var result in relatedData.Results)
-                {
-                    var item = CreatePostsFromStatusData(result.Status);
-                    if (item == null) continue;
-                    //非同期アイコン取得＆StatusDictionaryに追加
-                    if (!relatedPosts.ContainsKey(item.StatusId))
-                        relatedPosts.Add(item.StatusId, item);
-                }
-            }
-
-            return "";
-        }
-
         public string GetSearch(bool read,
                             TabClass tab,
                             bool more)
@@ -2243,80 +2015,7 @@ namespace OpenTween
 
             if (!TabInformations.GetInstance().ContainsTab(tab)) return "";
 
-            if (HttpTwitter.API11Enabled)
-                return this.CreatePostsFromSearch11Json(content, tab, read, count, ref tab.OldestId, more);
-            else
-                return this.CreatePostsFromSearchJson(content, tab, read, count, ref tab.OldestId, more);
-        }
-
-        public string GetPhoenixSearch(bool read,
-                                TabClass tab,
-                                bool more)
-        {
-            if (MyCommon._endingFlag) return "";
-
-            HttpStatusCode res;
-            var content = "";
-            int? page = null;
-            long? sinceId = null;
-            var count = 100;
-            var querystr = "";
-            if (AppendSettingDialog.Instance.UseAdditionalCount &&
-                AppendSettingDialog.Instance.SearchCountApi != 0)
-            {
-                count = AppendSettingDialog.Instance.SearchCountApi;
-            }
-            if (more)
-            {
-                page = tab.GetSearchPage(count);
-                if (!string.IsNullOrEmpty(tab.NextPageQuery))
-                {
-                    querystr = tab.NextPageQuery;
-                }
-            }
-            else
-            {
-                sinceId = tab.SinceId;
-            }
-
-            try
-            {
-                if (string.IsNullOrEmpty(querystr))
-                {
-                    res = twCon.PhoenixSearch(tab.SearchWords, tab.SearchLang, count, page, sinceId, ref content);
-                }
-                else
-                {
-                    res = twCon.PhoenixSearch(querystr, ref content);
-                }
-            }
-            catch(Exception ex)
-            {
-                return "Err:" + ex.Message;
-            }
-            switch (res)
-            {
-                case HttpStatusCode.BadRequest:
-                    return "Invalid query";
-                case HttpStatusCode.NotFound:
-                    return "Invalid query";
-                case HttpStatusCode.PaymentRequired: //API Documentには420と書いてあるが、該当コードがないので402にしてある
-                    return "Search API Limit?";
-                case HttpStatusCode.OK:
-                    break;
-                default:
-                    return "Err:" + res.ToString() + "(" + MethodBase.GetCurrentMethod().Name + ")";
-            }
-
-            if (!TabInformations.GetInstance().ContainsTab(tab)) return "";
-
-            //// TODO
-            //// 遡るための情報max_idやnext_pageの情報を保持する
-
-            string nextPageQuery = tab.NextPageQuery;
-            var ret = CreatePostsFromPhoenixSearch(content, MyCommon.WORKERTYPE.PublicSearch, tab, read, count, ref tab.OldestId, ref nextPageQuery);
-            tab.NextPageQuery = nextPageQuery;
-            return ret;
+            return this.CreatePostsFromSearchJson(content, tab, read, count, ref tab.OldestId, more);
         }
 
         private string CreateDirectMessagesFromJson(string content, MyCommon.WORKERTYPE gType, bool read)
@@ -2847,89 +2546,6 @@ namespace OpenTween
 
         public string GetListsApi()
         {
-            return HttpTwitter.API11Enabled ? this.GetListsApi11() : this.GetListsApi10();
-        }
-
-        private string GetListsApi10()
-        {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
-
-            HttpStatusCode res;
-            var content = "";
-            long cursor = -1;
-
-            var lists = new List<ListElement>();
-            do
-            {
-                try
-                {
-                    res = twCon.GetLists(this.Username, cursor, ref content);
-                }
-                catch(Exception ex)
-                {
-                    return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")";
-                }
-
-                var err = this.CheckStatusCode(res, content);
-                if (err != null) return err;
-
-                try
-                {
-                    var lst = MyCommon.CreateDataFromJson<TwitterDataModel.Lists>(content);
-                    lists.AddRange(from le in lst.lists select new ListElement(le, this));
-                    cursor = lst.NextCursor;
-                }
-                catch(SerializationException ex)
-                {
-                    MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                    return "Err:Json Parse Error(DataContractJsonSerializer)";
-                }
-                catch(Exception ex)
-                {
-                    MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                    return "Err:Invalid Json!";
-                }
-            } while (cursor != 0);
-
-            cursor = -1;
-            do
-            {
-                try
-                {
-                    res = twCon.GetListsSubscriptions(this.Username, cursor, ref content);
-                }
-                catch(Exception ex)
-                {
-                    return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")";
-                }
-
-                var err = this.CheckStatusCode(res, content);
-                if (err != null) return err;
-
-                try
-                {
-                    var lst = MyCommon.CreateDataFromJson<TwitterDataModel.Lists>(content);
-                    lists.AddRange(from le in lst.lists select new ListElement(le, this));
-                    cursor = lst.NextCursor;
-                }
-                catch(SerializationException ex)
-                {
-                    MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                    return "Err:Json Parse Error(DataContractJsonSerializer)";
-                }
-                catch(Exception ex)
-                {
-                    MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                    return "Err:Invalid Json!";
-                }
-            } while (cursor != 0);
-
-            TabInformations.GetInstance().SubscribableLists = lists;
-            return "";
-        }
-
-        private string GetListsApi11()
-        {
             if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
 
             HttpStatusCode res;
@@ -2938,7 +2554,7 @@ namespace OpenTween
 
             try
             {
-                res = twCon.GetLists(this.Username, null, ref content);
+                res = twCon.GetLists(this.Username, ref content);
             }
             catch (Exception ex)
             {
@@ -2966,7 +2582,7 @@ namespace OpenTween
 
             try
             {
-                res = twCon.GetListsSubscriptions(this.Username, null, ref content);
+                res = twCon.GetListsSubscriptions(this.Username, ref content);
             }
             catch (Exception ex)
             {
@@ -3509,43 +3125,7 @@ namespace OpenTween
             }
         }
 
-        public TwitterApiStatus GetInfoApi10()
-        {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return null;
-
-            if (MyCommon._endingFlag) return null;
-
-            HttpStatusCode res;
-            var content = "";
-            try
-            {
-                res = twCon.RateLimitStatus(ref content);
-            }
-            catch(Exception)
-            {
-                this.ResetApiStatus();
-                return null;
-            }
-
-            var err = this.CheckStatusCode(res, content);
-            if (err != null) return null;
-
-            try
-            {
-                var limit = MyCommon.CreateDataFromJson<TwitterDataModel.RateLimitStatus>(content);
-                MyCommon.TwitterApiInfo.UpdateFromApi(limit);
-
-                return MyCommon.TwitterApiInfo;
-            }
-            catch(Exception ex)
-            {
-                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                MyCommon.TwitterApiInfo.Reset();
-                return null;
-            }
-        }
-
-        public TwitterApiStatus11 GetInfoApi11()
+        public TwitterApiStatus GetInfoApi()
         {
             if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return null;
 
@@ -3568,8 +3148,8 @@ namespace OpenTween
 
             try
             {
-                MyCommon.TwitterApiInfo11.UpdateFromJson(content);
-                return MyCommon.TwitterApiInfo11;
+                MyCommon.TwitterApiInfo.UpdateFromJson(content);
+                return MyCommon.TwitterApiInfo;
             }
             catch (Exception ex)
             {

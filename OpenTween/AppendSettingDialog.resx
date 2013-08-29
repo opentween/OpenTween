@@ -126,9 +126,6 @@
     <value>7</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Label31.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="btnUnread.Size" type="System.Drawing.Size, System.Drawing">
     <value>83, 25</value>
   </data>
@@ -299,9 +296,6 @@
   </data>
   <data name="IsListsIncludeRtsCheckBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="TwitterSearchAPIText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 19</value>
   </data>
   <data name="&gt;&gt;btnAtSelf.Name" xml:space="preserve">
     <value>btnAtSelf</value>
@@ -1040,9 +1034,6 @@
   <data name="&gt;&gt;Label64.Parent" xml:space="preserve">
     <value>ConnectionPanel</value>
   </data>
-  <data name="&gt;&gt;TwitterSearchAPIText.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="HotkeyWin.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -1222,9 +1213,6 @@
   </data>
   <data name="HotkeyShift.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
-  </data>
-  <data name="&gt;&gt;Label31.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Label52.Size" type="System.Drawing.Size, System.Drawing">
     <value>131, 12</value>
@@ -2416,9 +2404,6 @@
   <data name="ChkNewMentionsBlink.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
   </data>
-  <data name="&gt;&gt;TwitterSearchAPIText.Parent" xml:space="preserve">
-    <value>ConnectionPanel</value>
-  </data>
   <data name="lblDetailBackcolor.TabIndex" type="System.Int32, mscorlib">
     <value>22</value>
   </data>
@@ -2499,9 +2484,6 @@
   </data>
   <data name="&gt;&gt;Label57.ZOrder" xml:space="preserve">
     <value>5</value>
-  </data>
-  <data name="TwitterSearchAPIText.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="&gt;&gt;UserTimelinePeriod.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -3463,9 +3445,6 @@
   <data name="&gt;&gt;btnInputBackcolor.ZOrder" xml:space="preserve">
     <value>10</value>
   </data>
-  <data name="&gt;&gt;Label31.Name" xml:space="preserve">
-    <value>Label31</value>
-  </data>
   <data name="Label18.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -3937,9 +3916,6 @@
   <data name="CooperatePanel.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
   </data>
-  <data name="&gt;&gt;Label31.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="&gt;&gt;CheckAlwaysTop.ZOrder" xml:space="preserve">
     <value>10</value>
   </data>
@@ -4147,17 +4123,11 @@
   <data name="Label28.Text" xml:space="preserve">
     <value>初回の更新</value>
   </data>
-  <data name="TwitterSearchAPIText.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
   <data name="GroupBox2.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="Label67.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 24</value>
-  </data>
-  <data name="&gt;&gt;TwitterSearchAPIText.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="lblTarget.Text" xml:space="preserve">
     <value>This is sample.</value>
@@ -4395,9 +4365,6 @@
   </data>
   <data name="ComboBoxTranslateLanguage.Items48" xml:space="preserve">
     <value>French (Belgium)</value>
-  </data>
-  <data name="TwitterSearchAPIText.Location" type="System.Drawing.Point, System.Drawing">
-    <value>262, 125</value>
   </data>
   <data name="&gt;&gt;ButtonApiCalc.Name" xml:space="preserve">
     <value>ButtonApiCalc</value>
@@ -4638,9 +4605,6 @@
   </data>
   <data name="CheckBalloonLimit.Text" xml:space="preserve">
     <value>画面最小化・アイコン時のみバルーンを表示する</value>
-  </data>
-  <data name="Label31.Size" type="System.Drawing.Size, System.Drawing">
-    <value>228, 12</value>
   </data>
   <data name="Label46.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -5183,9 +5147,6 @@ Growl.CoreLibrary.DLL</value>
   </data>
   <data name="&gt;&gt;Label59.Name" xml:space="preserve">
     <value>Label59</value>
-  </data>
-  <data name="Label31.Text" xml:space="preserve">
-    <value>Twitter SearchAPI URL (search.twitter.com)</value>
   </data>
   <data name="&gt;&gt;Label7.Parent" xml:space="preserve">
     <value>GetPeriodPanel</value>
@@ -6168,9 +6129,6 @@ Growl.CoreLibrary.DLL</value>
   <data name="CheckMinimizeToTray.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="&gt;&gt;Label31.Parent" xml:space="preserve">
-    <value>ConnectionPanel</value>
-  </data>
   <data name="&gt;&gt;Label62.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -6474,9 +6432,6 @@ Growl.CoreLibrary.DLL</value>
   <data name="btnFav.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="TwitterSearchAPIText.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
   <data name="Label81.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -6771,9 +6726,6 @@ Growl.CoreLibrary.DLL</value>
   <data name="&gt;&gt;BrowserPathText.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Label31.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="Cancel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -6911,9 +6863,6 @@ Growl.CoreLibrary.DLL</value>
   </data>
   <data name="&gt;&gt;FollowCheckBox.Parent" xml:space="preserve">
     <value>GroupBox2</value>
-  </data>
-  <data name="Label31.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
   </data>
   <data name="&gt;&gt;TextProxyUser.Name" xml:space="preserve">
     <value>TextProxyUser</value>
@@ -7406,9 +7355,6 @@ Growl.CoreLibrary.DLL</value>
   </data>
   <data name="TextCountApi.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
-  </data>
-  <data name="Label31.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="&gt;&gt;RadioProxyIE.ZOrder" xml:space="preserve">
     <value>4</value>
@@ -8007,9 +7953,6 @@ Growl.CoreLibrary.DLL</value>
   <data name="&gt;&gt;Label19.Parent" xml:space="preserve">
     <value>GetCountPanel</value>
   </data>
-  <data name="Label31.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
   <data name="IsPreviewFoursquareCheckBox.Text" xml:space="preserve">
     <value>FoursquareのURLからプレビューを表示する（非常に重くなります）</value>
   </data>
@@ -8018,9 +7961,6 @@ Growl.CoreLibrary.DLL</value>
   </data>
   <data name="CheckAlwaysTop.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="TwitterSearchAPIText.Text" xml:space="preserve">
-    <value>search.twitter.com</value>
   </data>
   <data name="&gt;&gt;lblListBackcolor.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -8108,9 +8048,6 @@ Growl.CoreLibrary.DLL</value>
   </data>
   <data name="&gt;&gt;CheckReadOldPosts.Name" xml:space="preserve">
     <value>CheckReadOldPosts</value>
-  </data>
-  <data name="&gt;&gt;TwitterSearchAPIText.Name" xml:space="preserve">
-    <value>TwitterSearchAPIText</value>
   </data>
   <data name="lblAtSelf.ToolTip" xml:space="preserve">
     <value />
@@ -8441,9 +8378,6 @@ Growl.CoreLibrary.DLL</value>
   </data>
   <data name="&gt;&gt;CheckListMemberAddedEvent.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="Label31.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 128</value>
   </data>
   <data name="ShortenTcoCheck.Location" type="System.Drawing.Point, System.Drawing">
     <value>40, 90</value>
