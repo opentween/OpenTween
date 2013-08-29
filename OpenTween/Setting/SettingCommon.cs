@@ -144,7 +144,6 @@ namespace OpenTween
 
         public bool TinyUrlResolve = true;
         public bool ShortUrlForceResolve = false;
-        public bool PeriodAdjust = true;
         public bool StartupVersion = true;
         public bool StartupFollowers = true;
         public bool RestrictFavCheck = false;

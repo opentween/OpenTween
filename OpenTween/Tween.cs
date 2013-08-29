@@ -738,7 +738,6 @@ namespace OpenTween
             SettingDialog.ProxyUser = _cfgLocal.ProxyUser;
             SettingDialog.ProxyPassword = _cfgLocal.ProxyPassword;
 
-            SettingDialog.PeriodAdjust = _cfgCommon.PeriodAdjust;
             SettingDialog.StartupVersion = _cfgCommon.StartupVersion;
             SettingDialog.StartupFollowers = _cfgCommon.StartupFollowers;
             SettingDialog.RestrictFavCheck = _cfgCommon.RestrictFavCheck;
@@ -7805,7 +7804,6 @@ namespace OpenTween
                 _cfgCommon.ViewTabBottom = SettingDialog.ViewTabBottom;
                 _cfgCommon.TinyUrlResolve = SettingDialog.TinyUrlResolve;
                 _cfgCommon.ShortUrlForceResolve = SettingDialog.ShortUrlForceResolve;
-                _cfgCommon.PeriodAdjust = SettingDialog.PeriodAdjust;
                 _cfgCommon.StartupVersion = SettingDialog.StartupVersion;
                 _cfgCommon.StartupFollowers = SettingDialog.StartupFollowers;
                 _cfgCommon.RestrictFavCheck = SettingDialog.RestrictFavCheck;

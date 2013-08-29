@@ -754,9 +754,6 @@
   <data name="GetFriendshipInfo6" xml:space="preserve">
     <value>フォロー状況取得失敗</value>
   </data>
-  <data name="SettingAPIUse1" xml:space="preserve">
-    <value>消費API数 :  {0} / h    (最大 :  {1} / h)</value>
-  </data>
   <data name="ShowUserInfo2" xml:space="preserve">
     <value>最新発言の取得に失敗しました</value>
   </data>
@@ -1047,9 +1044,6 @@
   </data>
   <data name="TranslateDefaultLanguage" xml:space="preserve">
     <value>ja</value>
-  </data>
-  <data name="SettingAPIUse2" xml:space="preserve">
-    <value>UserStream有効時の消費API数 :  {0} / h</value>
   </data>
   <data name="ApiInfo7" xml:space="preserve">
     <value>UserStream接続 : </value>

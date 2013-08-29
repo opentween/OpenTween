@@ -825,9 +825,6 @@ Periodic fetching, Timeline/Mentions/DM, and Post&amp;Fetch function is disable.
   <data name="Label3.Text" xml:space="preserve">
     <value>Timeline Fetching Interval (sec.)</value>
   </data>
-  <data name="ButtonApiCalc.Text" xml:space="preserve">
-    <value>Recalculation</value>
-  </data>
   <data name="LabelPostAndGet.Size" type="System.Drawing.Size, System.Drawing">
     <value>358, 12</value>
   </data>
@@ -857,12 +854,6 @@ Periodic fetching, Timeline/Mentions/DM, and Post&amp;Fetch function is disable.
   </data>
   <data name="CheckPostAndGet.Text" xml:space="preserve">
     <value>Post &amp;&amp; fetch</value>
-  </data>
-  <data name="CheckPeriodAdjust.Size" type="System.Drawing.Size, System.Drawing">
-    <value>150, 16</value>
-  </data>
-  <data name="CheckPeriodAdjust.Text" xml:space="preserve">
-    <value>Enable Auto-Adjustment</value>
   </data>
   <data name="Label5.Size" type="System.Drawing.Size, System.Drawing">
     <value>144, 12</value>
