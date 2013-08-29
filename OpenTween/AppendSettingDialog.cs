@@ -390,7 +390,6 @@ namespace OpenTween
                 ProxyPort = int.Parse(TextProxyPort.Text.Trim());
                 ProxyUser = TextProxyUser.Text.Trim();
                 ProxyPassword = TextProxyPassword.Text.Trim();
-                PeriodAdjust = CheckPeriodAdjust.Checked;
                 StartupVersion = CheckStartupVersion.Checked;
                 StartupFollowers = CheckStartupFollowers.Checked;
                 RestrictFavCheck = CheckFavRestrict.Checked;
@@ -436,7 +435,6 @@ namespace OpenTween
                 UseHashSupplement = CheckHashSupple.Checked;
                 PreviewEnable = CheckPreviewEnable.Checked;
                 TwitterApiUrl = TwitterAPIText.Text.Trim();
-                TwitterSearchApiUrl = TwitterSearchAPIText.Text.Trim();
                 switch (ReplyIconStateCombo.SelectedIndex)
                 {
                     case 0:
@@ -767,7 +765,6 @@ namespace OpenTween
             TextProxyUser.Text = ProxyUser;
             TextProxyPassword.Text = ProxyPassword;
 
-            CheckPeriodAdjust.Checked = PeriodAdjust;
             CheckStartupVersion.Checked = StartupVersion;
             if (ApplicationSettings.VersionInfoUrl == null)
                 CheckStartupVersion.Enabled = false; // 更新チェック無効化
@@ -818,7 +815,6 @@ namespace OpenTween
             CheckHashSupple.Checked = UseHashSupplement;
             CheckPreviewEnable.Checked = PreviewEnable;
             TwitterAPIText.Text = TwitterApiUrl;
-            TwitterSearchAPIText.Text = TwitterSearchApiUrl;
             switch (ReplyIconState)
             {
                 case MyCommon.REPLY_ICONSTATE.None:
@@ -953,7 +949,6 @@ namespace OpenTween
                 e.Cancel = true;
                 return;
             }
-            CalcApiUsing();
         }
 
         private void TimelinePeriod_Validating(object sender, CancelEventArgs e)
@@ -976,7 +971,6 @@ namespace OpenTween
                 e.Cancel = true;
                 return;
             }
-            CalcApiUsing();
         }
 
         private void ReplyPeriod_Validating(object sender, CancelEventArgs e)
@@ -999,7 +993,6 @@ namespace OpenTween
                 e.Cancel = true;
                 return;
             }
-            CalcApiUsing();
         }
 
         private void DMPeriod_Validating(object sender, CancelEventArgs e)
@@ -1022,7 +1015,6 @@ namespace OpenTween
                 e.Cancel = true;
                 return;
             }
-            CalcApiUsing();
         }
 
         private void PubSearchPeriod_Validating(object sender, CancelEventArgs e)
@@ -1066,7 +1058,6 @@ namespace OpenTween
                 e.Cancel = true;
                 return;
             }
-            CalcApiUsing();
         }
 
         private void UserTimeline_Validating(object sender, CancelEventArgs e)
@@ -1089,7 +1080,6 @@ namespace OpenTween
                 e.Cancel = true;
                 return;
             }
-            CalcApiUsing();
         }
 
         private void UReadMng_CheckedChanged(object sender, EventArgs e)
@@ -1363,7 +1353,6 @@ namespace OpenTween
         public int ProxyPort { get; set; }
         public string ProxyUser { get; set; }
         public string ProxyPassword { get; set; }
-        public bool PeriodAdjust { get; set; }
         public bool StartupVersion { get; set; }
         public bool StartupFollowers { get; set; }
         public bool RestrictFavCheck { get; set; }
@@ -1395,7 +1384,6 @@ namespace OpenTween
         public bool UseAdditionalCount { get; set; }
         public bool OpenUserTimeline { get; set; }
         public string TwitterApiUrl { get; set; }
-        public string TwitterSearchApiUrl { get; set; }
         public string Language { get; set; }
 
         private void Button3_Click(object sender, EventArgs e)
@@ -1711,7 +1699,6 @@ namespace OpenTween
             //通信基底クラス初期化
             HttpConnection.InitializeConnection(20, ptype, padr, pport, pusr, ppw);
             HttpTwitter.TwitterUrl = TwitterAPIText.Text.Trim();
-            HttpTwitter.TwitterSearchUrl = TwitterSearchAPIText.Text.Trim();
             tw.Initialize("", "", "", 0);
             //this.AuthStateLabel.Text = Properties.Resources.AuthorizeButton_Click4;
             //this.AuthUserLabel.Text = "";
@@ -1798,7 +1785,6 @@ namespace OpenTween
             {
                 if (PinAuth())
                 {
-                    CalcApiUsing();
                     //this.Save.Enabled = true;
                 }
             }
@@ -1822,136 +1808,11 @@ namespace OpenTween
                 }
             }
             //this.Save.Enabled = false;
-            CalcApiUsing();
-        }
-
-        private void DisplayApiMaxCount()
-        {
-            var limit = MyCommon.TwitterApiInfo.AccessLimit;
-            if (limit != null)
-            {
-                LabelApiUsing.Text = string.Format(Properties.Resources.SettingAPIUse1, limit.AccessLimitCount - limit.AccessLimitRemain, limit.AccessLimitCount);
-            }
-            else
-            {
-                LabelApiUsing.Text = string.Format(Properties.Resources.SettingAPIUse1, "???", "???");
-            }
-        }
-
-        private void CalcApiUsing()
-        {
-            int UsingApi = 0;
-            int tmp;
-            int ListsTabNum = 0;
-            int UserTimelineTabNum = 0;
-            int ApiLists = 0;
-            int ApiUserTimeline = 0;
-
-            try
-            {
-                // 初回起動時などにnullの場合あり
-                ListsTabNum = TabInformations.GetInstance().GetTabsByType(MyCommon.TabUsageType.Lists).Count;
-            }
-            catch(Exception)
-            {
-                return;
-            }
-
-            try
-            {
-                // 初回起動時などにnullの場合あり
-                UserTimelineTabNum = TabInformations.GetInstance().GetTabsByType(MyCommon.TabUsageType.UserTimeline).Count;
-            }
-            catch(Exception)
-            {
-                return;
-            }
-
-            // Recent計算 0は手動更新
-            if (int.TryParse(TimelinePeriod.Text, out tmp))
-            {
-                if (tmp != 0)
-                {
-                    UsingApi += 3600 / tmp;
-                }
-            }
-
-            // Reply計算 0は手動更新
-            if (int.TryParse(ReplyPeriod.Text, out tmp))
-            {
-                if (tmp != 0)
-                {
-                    UsingApi += 3600 / tmp;
-                }
-            }
-
-            // DM計算 0は手動更新 送受信両方
-            if (int.TryParse(DMPeriod.Text, out tmp))
-            {
-                if (tmp != 0)
-                {
-                    UsingApi += (3600 / tmp) * 2;
-                }
-            }
-
-            // Listsタブ計算 0は手動更新
-            if (int.TryParse(ListsPeriod.Text, out tmp))
-            {
-                if (tmp != 0)
-                {
-                    ApiLists = (3600 / tmp) * ListsTabNum;
-                    UsingApi += ApiLists;
-                }
-            }
-
-            // UserTimelineタブ計算 0は手動更新
-            if (int.TryParse(UserTimelinePeriod.Text, out tmp))
-            {
-                if (tmp != 0)
-                {
-                    ApiUserTimeline = (3600 / tmp) * UserTimelineTabNum;
-                    UsingApi += ApiUserTimeline;
-                }
-            }
-
-            if (tw != null)
-            {
-                var limit = MyCommon.TwitterApiInfo.AccessLimit;
-                if (limit == null)
-                {
-                    if (Twitter.AccountState == MyCommon.ACCOUNT_STATE.Valid)
-                    {
-                        Task.Factory.StartNew(() => tw.GetInfoApi10()) //取得エラー時はinfoCountは初期状態（値：-1）
-                            .ContinueWith(t =>
-                            {
-                                if (this.IsHandleCreated && !this.IsDisposed)
-                                {
-                                    this.DisplayApiMaxCount();
-                                }
-                            }, TaskScheduler.FromCurrentSynchronizationContext());
-                    }
-                    else
-                    {
-                        LabelApiUsing.Text = string.Format(Properties.Resources.SettingAPIUse1, UsingApi, "???");
-                    }
-                }
-                else
-                {
-                    LabelApiUsing.Text = string.Format(Properties.Resources.SettingAPIUse1, UsingApi, limit.AccessLimitCount);
-                }
-            }
-
-
-            LabelPostAndGet.Visible = CheckPostAndGet.Checked && !tw.UserStreamEnabled;
-            LabelUserStreamActive.Visible = tw.UserStreamEnabled;
-
-            LabelApiUsingUserStreamEnabled.Text = string.Format(Properties.Resources.SettingAPIUse2, (ApiLists + ApiUserTimeline).ToString());
-            LabelApiUsingUserStreamEnabled.Visible = tw.UserStreamEnabled;
         }
 
         private void CheckPostAndGet_CheckedChanged(object sender, EventArgs e)
         {
-            CalcApiUsing();
+            LabelPostAndGet.Visible = CheckPostAndGet.Checked && !tw.UserStreamEnabled;
         }
 
         private void Setting_Shown(object sender, EventArgs e)
@@ -1962,12 +1823,9 @@ namespace OpenTween
                 if (this.Disposing || this.IsDisposed) return;
             } while (!this.IsHandleCreated);
             this.TopMost = this.AlwaysTop;
-            CalcApiUsing();
-        }
 
-        private void ButtonApiCalc_Click(object sender, EventArgs e)
-        {
-            CalcApiUsing();
+            LabelPostAndGet.Visible = CheckPostAndGet.Checked && !tw.UserStreamEnabled;
+            LabelUserStreamActive.Visible = tw.UserStreamEnabled;
         }
 
         public static AppendSettingDialog Instance

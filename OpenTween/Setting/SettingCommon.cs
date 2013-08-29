@@ -144,7 +144,6 @@ namespace OpenTween
 
         public bool TinyUrlResolve = true;
         public bool ShortUrlForceResolve = false;
-        public bool PeriodAdjust = true;
         public bool StartupVersion = true;
         public bool StartupFollowers = true;
         public bool RestrictFavCheck = false;
@@ -192,7 +191,6 @@ namespace OpenTween
         public bool UseAtIdSupplement = true;
         public bool UseHashSupplement = true;
         public string TwitterUrl = "api.twitter.com";
-        public string TwitterSearchUrl = "search.twitter.com";
         public bool HotkeyEnabled = false;
         public Keys HotkeyModifier = Keys.None;
         public Keys HotkeyKey = Keys.None;

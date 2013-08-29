@@ -711,7 +711,6 @@ namespace OpenTween
         }
 
         public static TwitterApiStatus TwitterApiInfo = new TwitterApiStatus();
-        public static TwitterApiStatus11 TwitterApiInfo11 = new TwitterApiStatus11();
 
         public static bool IsAnimatedGif(string filename)
         {

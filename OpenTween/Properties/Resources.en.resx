@@ -693,9 +693,6 @@
   <data name="StatusUpdateFailed2" xml:space="preserve">
     <value>Do you retry to update status?</value>
   </data>
-  <data name="SettingAPIUse1" xml:space="preserve">
-    <value>Consumption API :  {0} / h    (Limit :  {1} / h)</value>
-  </data>
   <data name="PubSearchPeriod_ValidatingText1" xml:space="preserve">
     <value>Fetching interval must a value in 0 or 30 to 6000.</value>
   </data>
@@ -950,9 +947,6 @@
   </data>
   <data name="TabUsageTypeName_UserTimeline" xml:space="preserve">
     <value>UserTimeline</value>
-  </data>
-  <data name="SettingAPIUse2" xml:space="preserve">
-    <value>Consumption API count if using Users Streams :  {0} / h</value>
   </data>
   <data name="ListManageGetMoreUsers1" xml:space="preserve">
     <value>Get members(&amp;M)</value>

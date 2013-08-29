@@ -22,55 +22,41 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization.Json;
 using System.Text;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.XPath;
 
 namespace OpenTween.Api
 {
     public class TwitterApiStatus
     {
-        public ApiLimit AccessLimit
+        public TwitterApiAccessLevel AccessLevel { get; set; }
+        public EndpointLimits AccessLimit { get; private set; }
+        public ApiLimit MediaUploadLimit { get; set; }
+
+        public class AccessLimitUpdatedEventArgs : EventArgs
         {
-            get { return this._AccessLimit; }
-            set
+            public readonly string EndpointName;
+
+            public AccessLimitUpdatedEventArgs(string endpointName)
             {
-                this._AccessLimit = value;
-                this.OnAccessLimitUpdated(EventArgs.Empty);
+                this.EndpointName = endpointName;
             }
         }
-        public ApiLimit _AccessLimit;
+        public event EventHandler<AccessLimitUpdatedEventArgs> AccessLimitUpdated;
 
-        public ApiLimit MediaUploadLimit { get; set; }
-        public TwitterApiAccessLevel AccessLevel { get; set; }
-
-        public event EventHandler AccessLimitUpdated;
-
-        private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-
-        protected internal TwitterApiStatus()
+        public TwitterApiStatus()
         {
-            this.Reset();
+            this.AccessLimit = new EndpointLimits(this);
         }
 
         public void Reset()
         {
-            this.AccessLimit = null;
-            this.MediaUploadLimit = null;
             this.AccessLevel = TwitterApiAccessLevel.Anonymous;
-        }
-
-        public void UpdateFromHeader(IDictionary<string, string> header)
-        {
-            var rateLimit = TwitterApiStatus.ParseRateLimit(header, "X-RateLimit-");
-            if (rateLimit != null)
-                this.AccessLimit = rateLimit;
-
-            var mediaLimit = TwitterApiStatus.ParseRateLimit(header, "X-MediaRateLimit-");
-            if (mediaLimit != null)
-                this.MediaUploadLimit = mediaLimit;
-
-            var accessLevel = TwitterApiStatus.ParseAccessLevel(header, "X-Access-Level");
-            if (accessLevel.HasValue)
-                this.AccessLevel = accessLevel.Value;
+            this.AccessLimit.Clear();
+            this.MediaUploadLimit = null;
         }
 
         internal static ApiLimit ParseRateLimit(IDictionary<string, string> header, string prefix)
@@ -121,26 +107,94 @@ namespace OpenTween.Api
             }
 
             return null;
+        }   
+
+        public void UpdateFromHeader(IDictionary<string, string> header, string endpointName)
+        {
+            var rateLimit = TwitterApiStatus.ParseRateLimit(header, "X-Rate-Limit-");
+            if (rateLimit != null)
+                this.AccessLimit[endpointName] = rateLimit;
+
+            var mediaLimit = TwitterApiStatus.ParseRateLimit(header, "X-MediaRateLimit-");
+            if (mediaLimit != null)
+                this.MediaUploadLimit = mediaLimit;
+
+            var accessLevel = TwitterApiStatus.ParseAccessLevel(header, "X-Access-Level");
+            if (accessLevel.HasValue)
+                this.AccessLevel = accessLevel.Value;
         }
 
-        public void UpdateFromApi(TwitterDataModel.RateLimitStatus limit)
+        private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
+        public void UpdateFromJson(string json)
         {
-            if (limit == null)
-                throw new ArgumentNullException();
-
-            this.AccessLimit = new ApiLimit(limit.HourlyLimit, limit.RemainingHits, MyCommon.DateTimeParse(limit.ResetTime));
-
-            var mediaLimit = limit.Photos;
-            if (mediaLimit != null)
+            using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(json), XmlDictionaryReaderQuotas.Max))
             {
-                this.MediaUploadLimit = new ApiLimit(mediaLimit.DailyLimit, mediaLimit.RemainingHits, MyCommon.DateTimeParse(mediaLimit.ResetTime));
+                var xElm = XElement.Load(jsonReader);
+                XNamespace a = "item";
+
+                var q =
+                    from res in xElm.Element("resources").Descendants(a + "item") // a:item 要素を列挙
+                    select new {
+                        endpointName = res.Attribute("item").Value,
+                        limit = new ApiLimit(
+                            int.Parse(res.Element("limit").Value),
+                            int.Parse(res.Element("remaining").Value),
+                            UnixEpoch.AddSeconds(long.Parse(res.Element("reset").Value)).ToLocalTime()
+                        ),
+                    };
+                this.AccessLimit.AddAll(q.ToDictionary(x => x.endpointName, x => x.limit));
             }
         }
 
-        protected virtual void OnAccessLimitUpdated(EventArgs e)
+        protected virtual void OnAccessLimitUpdated(AccessLimitUpdatedEventArgs e)
         {
             if (this.AccessLimitUpdated != null)
                 this.AccessLimitUpdated(this, e);
+        }
+
+        public class EndpointLimits
+        {
+            public readonly TwitterApiStatus Owner;
+
+            private Dictionary<string, ApiLimit> innerDict = new Dictionary<string, ApiLimit>();
+
+            public EndpointLimits(TwitterApiStatus owner)
+            {
+                this.Owner = owner;
+            }
+
+            public ApiLimit this[string endpoint]
+            {
+                get
+                {
+                    if (this.innerDict.ContainsKey(endpoint))
+                        return this.innerDict[endpoint];
+
+                    return null;
+                }
+                set
+                {
+                    this.innerDict[endpoint] = value;
+                    this.Owner.OnAccessLimitUpdated(new AccessLimitUpdatedEventArgs(endpoint));
+                }
+            }
+
+            public void Clear()
+            {
+                this.innerDict.Clear();
+                this.Owner.OnAccessLimitUpdated(new AccessLimitUpdatedEventArgs(null));
+            }
+
+            public void AddAll(IDictionary<string, ApiLimit> resources)
+            {
+                foreach (var res in resources)
+                {
+                    this.innerDict[res.Key] = res.Value;
+                }
+
+                this.Owner.OnAccessLimitUpdated(new AccessLimitUpdatedEventArgs(null));
+            }
         }
     }
 }

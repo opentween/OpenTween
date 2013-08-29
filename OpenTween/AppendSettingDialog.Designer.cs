@@ -173,8 +173,6 @@
             this.TextProxyAddress = new System.Windows.Forms.TextBox();
             this.LabelProxyPort = new System.Windows.Forms.Label();
             this.ConnectionPanel = new System.Windows.Forms.Panel();
-            this.TwitterSearchAPIText = new System.Windows.Forms.TextBox();
-            this.Label31 = new System.Windows.Forms.Label();
             this.TwitterAPIText = new System.Windows.Forms.TextBox();
             this.Label8 = new System.Windows.Forms.Label();
             this.CheckUseSsl = new System.Windows.Forms.CheckBox();
@@ -184,15 +182,12 @@
             this.GetPeriodPanel = new System.Windows.Forms.Panel();
             this.UserstreamPeriod = new System.Windows.Forms.TextBox();
             this.Label46 = new System.Windows.Forms.Label();
-            this.LabelApiUsingUserStreamEnabled = new System.Windows.Forms.Label();
             this.LabelUserStreamActive = new System.Windows.Forms.Label();
             this.Label21 = new System.Windows.Forms.Label();
             this.UserTimelinePeriod = new System.Windows.Forms.TextBox();
             this.TimelinePeriod = new System.Windows.Forms.TextBox();
             this.Label3 = new System.Windows.Forms.Label();
-            this.ButtonApiCalc = new System.Windows.Forms.Button();
             this.LabelPostAndGet = new System.Windows.Forms.Label();
-            this.LabelApiUsing = new System.Windows.Forms.Label();
             this.Label33 = new System.Windows.Forms.Label();
             this.ListsPeriod = new System.Windows.Forms.TextBox();
             this.Label7 = new System.Windows.Forms.Label();
@@ -200,7 +195,6 @@
             this.Label69 = new System.Windows.Forms.Label();
             this.ReplyPeriod = new System.Windows.Forms.TextBox();
             this.CheckPostAndGet = new System.Windows.Forms.CheckBox();
-            this.CheckPeriodAdjust = new System.Windows.Forms.CheckBox();
             this.Label5 = new System.Windows.Forms.Label();
             this.DMPeriod = new System.Windows.Forms.TextBox();
             this.StartupUserstreamCheck = new System.Windows.Forms.CheckBox();
@@ -1668,8 +1662,6 @@
             // ConnectionPanel
             // 
             resources.ApplyResources(this.ConnectionPanel, "ConnectionPanel");
-            this.ConnectionPanel.Controls.Add(this.TwitterSearchAPIText);
-            this.ConnectionPanel.Controls.Add(this.Label31);
             this.ConnectionPanel.Controls.Add(this.TwitterAPIText);
             this.ConnectionPanel.Controls.Add(this.Label8);
             this.ConnectionPanel.Controls.Add(this.CheckUseSsl);
@@ -1678,18 +1670,6 @@
             this.ConnectionPanel.Controls.Add(this.Label63);
             this.ConnectionPanel.Name = "ConnectionPanel";
             this.ToolTip1.SetToolTip(this.ConnectionPanel, resources.GetString("ConnectionPanel.ToolTip"));
-            // 
-            // TwitterSearchAPIText
-            // 
-            resources.ApplyResources(this.TwitterSearchAPIText, "TwitterSearchAPIText");
-            this.TwitterSearchAPIText.Name = "TwitterSearchAPIText";
-            this.ToolTip1.SetToolTip(this.TwitterSearchAPIText, resources.GetString("TwitterSearchAPIText.ToolTip"));
-            // 
-            // Label31
-            // 
-            resources.ApplyResources(this.Label31, "Label31");
-            this.Label31.Name = "Label31";
-            this.ToolTip1.SetToolTip(this.Label31, resources.GetString("Label31.ToolTip"));
             // 
             // TwitterAPIText
             // 
@@ -1736,15 +1716,12 @@
             resources.ApplyResources(this.GetPeriodPanel, "GetPeriodPanel");
             this.GetPeriodPanel.Controls.Add(this.UserstreamPeriod);
             this.GetPeriodPanel.Controls.Add(this.Label46);
-            this.GetPeriodPanel.Controls.Add(this.LabelApiUsingUserStreamEnabled);
             this.GetPeriodPanel.Controls.Add(this.LabelUserStreamActive);
             this.GetPeriodPanel.Controls.Add(this.Label21);
             this.GetPeriodPanel.Controls.Add(this.UserTimelinePeriod);
             this.GetPeriodPanel.Controls.Add(this.TimelinePeriod);
             this.GetPeriodPanel.Controls.Add(this.Label3);
-            this.GetPeriodPanel.Controls.Add(this.ButtonApiCalc);
             this.GetPeriodPanel.Controls.Add(this.LabelPostAndGet);
-            this.GetPeriodPanel.Controls.Add(this.LabelApiUsing);
             this.GetPeriodPanel.Controls.Add(this.Label33);
             this.GetPeriodPanel.Controls.Add(this.ListsPeriod);
             this.GetPeriodPanel.Controls.Add(this.Label7);
@@ -1752,7 +1729,6 @@
             this.GetPeriodPanel.Controls.Add(this.Label69);
             this.GetPeriodPanel.Controls.Add(this.ReplyPeriod);
             this.GetPeriodPanel.Controls.Add(this.CheckPostAndGet);
-            this.GetPeriodPanel.Controls.Add(this.CheckPeriodAdjust);
             this.GetPeriodPanel.Controls.Add(this.Label5);
             this.GetPeriodPanel.Controls.Add(this.DMPeriod);
             this.GetPeriodPanel.Controls.Add(this.StartupUserstreamCheck);
@@ -1771,12 +1747,6 @@
             resources.ApplyResources(this.Label46, "Label46");
             this.Label46.Name = "Label46";
             this.ToolTip1.SetToolTip(this.Label46, resources.GetString("Label46.ToolTip"));
-            // 
-            // LabelApiUsingUserStreamEnabled
-            // 
-            resources.ApplyResources(this.LabelApiUsingUserStreamEnabled, "LabelApiUsingUserStreamEnabled");
-            this.LabelApiUsingUserStreamEnabled.Name = "LabelApiUsingUserStreamEnabled";
-            this.ToolTip1.SetToolTip(this.LabelApiUsingUserStreamEnabled, resources.GetString("LabelApiUsingUserStreamEnabled.ToolTip"));
             // 
             // LabelUserStreamActive
             // 
@@ -1810,25 +1780,11 @@
             this.Label3.Name = "Label3";
             this.ToolTip1.SetToolTip(this.Label3, resources.GetString("Label3.ToolTip"));
             // 
-            // ButtonApiCalc
-            // 
-            resources.ApplyResources(this.ButtonApiCalc, "ButtonApiCalc");
-            this.ButtonApiCalc.Name = "ButtonApiCalc";
-            this.ToolTip1.SetToolTip(this.ButtonApiCalc, resources.GetString("ButtonApiCalc.ToolTip"));
-            this.ButtonApiCalc.UseVisualStyleBackColor = true;
-            this.ButtonApiCalc.Click += new System.EventHandler(this.ButtonApiCalc_Click);
-            // 
             // LabelPostAndGet
             // 
             resources.ApplyResources(this.LabelPostAndGet, "LabelPostAndGet");
             this.LabelPostAndGet.Name = "LabelPostAndGet";
             this.ToolTip1.SetToolTip(this.LabelPostAndGet, resources.GetString("LabelPostAndGet.ToolTip"));
-            // 
-            // LabelApiUsing
-            // 
-            resources.ApplyResources(this.LabelApiUsing, "LabelApiUsing");
-            this.LabelApiUsing.Name = "LabelApiUsing";
-            this.ToolTip1.SetToolTip(this.LabelApiUsing, resources.GetString("LabelApiUsing.ToolTip"));
             // 
             // Label33
             // 
@@ -1876,13 +1832,6 @@
             this.ToolTip1.SetToolTip(this.CheckPostAndGet, resources.GetString("CheckPostAndGet.ToolTip"));
             this.CheckPostAndGet.UseVisualStyleBackColor = true;
             this.CheckPostAndGet.CheckedChanged += new System.EventHandler(this.CheckPostAndGet_CheckedChanged);
-            // 
-            // CheckPeriodAdjust
-            // 
-            resources.ApplyResources(this.CheckPeriodAdjust, "CheckPeriodAdjust");
-            this.CheckPeriodAdjust.Name = "CheckPeriodAdjust";
-            this.ToolTip1.SetToolTip(this.CheckPeriodAdjust, resources.GetString("CheckPeriodAdjust.ToolTip"));
-            this.CheckPeriodAdjust.UseVisualStyleBackColor = true;
             // 
             // Label5
             // 
@@ -2658,7 +2607,6 @@
         internal System.Windows.Forms.Label HotkeyCode;
         internal System.Windows.Forms.TextBox HotkeyText;
         internal System.Windows.Forms.Label Label46;
-        internal System.Windows.Forms.Label LabelApiUsingUserStreamEnabled;
         internal System.Windows.Forms.CheckBox HotkeyWin;
         internal System.Windows.Forms.SplitContainer SplitContainer1;
         private System.Windows.Forms.TreeView TreeViewSetting;
@@ -2801,8 +2749,6 @@
         internal System.Windows.Forms.TextBox TextProxyAddress;
         internal System.Windows.Forms.Label LabelProxyPort;
         internal System.Windows.Forms.Panel ConnectionPanel;
-        internal System.Windows.Forms.TextBox TwitterSearchAPIText;
-        internal System.Windows.Forms.Label Label31;
         internal System.Windows.Forms.TextBox TwitterAPIText;
         internal System.Windows.Forms.Label Label8;
         internal System.Windows.Forms.CheckBox CheckUseSsl;
@@ -2815,9 +2761,7 @@
         internal System.Windows.Forms.TextBox UserTimelinePeriod;
         internal System.Windows.Forms.TextBox TimelinePeriod;
         internal System.Windows.Forms.Label Label3;
-        internal System.Windows.Forms.Button ButtonApiCalc;
         internal System.Windows.Forms.Label LabelPostAndGet;
-        internal System.Windows.Forms.Label LabelApiUsing;
         internal System.Windows.Forms.Label Label33;
         internal System.Windows.Forms.TextBox ListsPeriod;
         internal System.Windows.Forms.Label Label7;
@@ -2825,7 +2769,6 @@
         internal System.Windows.Forms.Label Label69;
         internal System.Windows.Forms.TextBox ReplyPeriod;
         internal System.Windows.Forms.CheckBox CheckPostAndGet;
-        internal System.Windows.Forms.CheckBox CheckPeriodAdjust;
         internal System.Windows.Forms.Label Label5;
         internal System.Windows.Forms.TextBox DMPeriod;
         internal System.Windows.Forms.CheckBox StartupUserstreamCheck;

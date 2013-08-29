@@ -2394,24 +2394,6 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   消費API数 :  {0} / h    (最大 :  {1} / h) に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string SettingAPIUse1 {
-            get {
-                return ResourceManager.GetString("SettingAPIUse1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   UserStream有効時の消費API数 :  {0} / h に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string SettingAPIUse2 {
-            get {
-                return ResourceManager.GetString("SettingAPIUse2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   IDとAPIキーの組み合わせが違います。IDと同時に設定するのはパスワードではなくAPIキーです。ご確認ください。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string SettingSave_ClickText1 {
