@@ -160,9 +160,8 @@ namespace OpenTween
         {
             var webReq  = CreateRequest(method,
                                         requestUri,
-                                        param,
-                                        false);
-            var code = GetResponse(webReq, out content, null, false);
+                                        param);
+            var code = GetResponse(webReq, out content, null);
             return code;
         }
 

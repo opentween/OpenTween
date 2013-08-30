@@ -137,15 +137,15 @@ namespace OpenTween
 			if ( string.IsNullOrEmpty( token ) )
 				return HttpStatusCode.Unauthorized;
 
-			HttpWebRequest webReq = this.CreateRequest( method, requestUri, param, false );
+			HttpWebRequest webReq = this.CreateRequest( method, requestUri, param );
 			// OAuth認証ヘッダを付加
 			this.AppendOAuthInfo( webReq, param, token, tokenSecret );
 
 			HttpStatusCode code;
 			if ( content == null )
-				code = this.GetResponse( webReq, headerInfo, false );
+				code = this.GetResponse( webReq, headerInfo );
 			else
-				code = this.GetResponse( webReq, out content, headerInfo, false );
+				code = this.GetResponse( webReq, out content, headerInfo );
 
 			if ( callback != null )
 			{
@@ -170,15 +170,15 @@ namespace OpenTween
 			if ( string.IsNullOrEmpty( token ) )
 				return HttpStatusCode.Unauthorized;
 
-			HttpWebRequest webReq = this.CreateRequest( method, requestUri, param, binary, false );
+			HttpWebRequest webReq = this.CreateRequest( method, requestUri, param, binary );
 			// OAuth認証ヘッダを付加
 			this.AppendOAuthInfo( webReq, null, token, tokenSecret );
 
 			HttpStatusCode code;
 			if ( content == null )
-				code = this.GetResponse( webReq, headerInfo, false );
+				code = this.GetResponse( webReq, headerInfo );
 			else
-				code = this.GetResponse( webReq, out content, headerInfo, false );
+				code = this.GetResponse( webReq, out content, headerInfo );
 
 			if ( callback != null )
 			{
@@ -207,7 +207,7 @@ namespace OpenTween
 				return HttpStatusCode.Unauthorized;
 
 			this.RequestAbort();
-			this.streamReq = this.CreateRequest( method, requestUri, param, false );
+			this.streamReq = this.CreateRequest( method, requestUri, param );
 			// User-Agent指定がある場合は付加
 			if ( !string.IsNullOrEmpty( userAgent ) )
 				this.streamReq.UserAgent = userAgent;
@@ -439,9 +439,9 @@ namespace OpenTween
 			HttpWebRequest webReq = null;
 			// HTTPリクエスト生成。PINコードもパラメータも未指定の場合はGETメソッドで通信。それ以外はPOST
 			if ( string.IsNullOrEmpty( pinCode ) && parameter != null )
-				webReq = this.CreateRequest( "GET", requestUri, null, false );
+				webReq = this.CreateRequest( "GET", requestUri, null );
 			else
-				webReq = this.CreateRequest( "POST", requestUri, parameter, false ); // ボディに追加パラメータ書き込み
+				webReq = this.CreateRequest( "POST", requestUri, parameter ); // ボディに追加パラメータ書き込み
 
 			// OAuth関連パラメータ準備。追加パラメータがあれば追加
 			Dictionary< string, string > query = new Dictionary< string, string >();
@@ -462,7 +462,7 @@ namespace OpenTween
 
 			// HTTP応答取得
 			Dictionary< string, string > header = new Dictionary< string, string >() { { "Date", "" } };
-			HttpStatusCode responseCode = this.GetResponse( webReq, out content, header, false );
+			HttpStatusCode responseCode = this.GetResponse( webReq, out content, header );
 			if ( responseCode == HttpStatusCode.OK )
 				return responseCode;
 

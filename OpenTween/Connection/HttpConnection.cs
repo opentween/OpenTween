@@ -55,11 +55,6 @@ namespace OpenTween
         private static ProxyType proxyKind = ProxyType.IE;
 
         ///<summary>
-        ///クッキー保存用コンテナ
-        ///</summary>
-        private static CookieContainer cookieContainer = new CookieContainer();
-
-        ///<summary>
         ///初期化済みフラグ
         ///</summary>
         private static bool isInitialize = false;
@@ -70,6 +65,16 @@ namespace OpenTween
             IE,
             Specified,
         }
+
+        /// <summary>
+        /// リクエスト間で Cookie を保持するか否か
+        /// </summary>
+        public bool UseCookie { get; set; }
+
+        /// <summary>
+        /// クッキー保存用コンテナ
+        /// </summary>
+        private CookieContainer cookieContainer = new CookieContainer();
 
         protected const string PostMethod = "POST";
         protected const string GetMethod = "GET";
@@ -86,12 +91,10 @@ namespace OpenTween
         ///<param name="method">HTTP通信メソッド（GET/HEAD/POST/PUT/DELETE）</param>
         ///<param name="requestUri">通信先URI</param>
         ///<param name="param">GET時のクエリ、またはPOST時のエンティティボディ</param>
-        ///<param name="withCookie">通信にcookieを使用するか</param>
         ///<returns>引数で指定された内容を反映したHttpWebRequestオブジェクト</returns>
         protected HttpWebRequest CreateRequest(string method,
                                                Uri requestUri,
-                                               Dictionary<string, string> param,
-                                               bool withCookie)
+                                               Dictionary<string, string> param)
         {
             if (!isInitialize) throw new Exception("Sequence error.(not initialized)");
 
@@ -120,7 +123,7 @@ namespace OpenTween
                 }
             }
             //cookie設定
-            if (withCookie) webReq.CookieContainer = cookieContainer;
+            if (this.UseCookie) webReq.CookieContainer = this.cookieContainer;
             //タイムアウト設定
             webReq.Timeout = this.InstanceTimeout ?? HttpConnection.DefaultTimeout;
 
@@ -137,13 +140,11 @@ namespace OpenTween
         ///<param name="requestUri">通信先URI</param>
         ///<param name="param">form-dataで指定する名前と文字列のディクショナリ</param>
         ///<param name="binaryFileInfo">form-dataで指定する名前とバイナリファイル情報のリスト</param>
-        ///<param name="withCookie">通信にcookieを使用するか</param>
         ///<returns>引数で指定された内容を反映したHttpWebRequestオブジェクト</returns>
         protected HttpWebRequest CreateRequest(string method,
                                                Uri requestUri,
                                                Dictionary<string, string> param,
-                                               List<KeyValuePair<String, FileInfo>> binaryFileInfo,
-                                               bool withCookie)
+                                               List<KeyValuePair<String, FileInfo>> binaryFileInfo)
         {
             if (!isInitialize) throw new Exception("Sequence error.(not initialized)");
 
@@ -270,7 +271,7 @@ namespace OpenTween
                 }
             }
             //cookie設定
-            if (withCookie) webReq.CookieContainer = cookieContainer;
+            if (this.UseCookie) webReq.CookieContainer = this.cookieContainer;
             //タイムアウト設定
             webReq.Timeout = this.InstanceTimeout ?? HttpConnection.DefaultTimeout;
 
@@ -288,12 +289,10 @@ namespace OpenTween
         ///<param name="webRequest">HTTP通信リクエストオブジェクト</param>
         ///<param name="contentStream">[OUT]HTTP応答のボディストリームのコピー先</param>
         ///<param name="headerInfo">[IN/OUT]HTTP応答のヘッダ情報。ヘッダ名をキーにして空データのコレクションを渡すことで、該当ヘッダの値をデータに設定して戻す</param>
-        ///<param name="withCookie">通信にcookieを使用する</param>
         ///<returns>HTTP応答のステータスコード</returns>
         protected HttpStatusCode GetResponse(HttpWebRequest webRequest,
                                              Stream contentStream,
-                                             Dictionary<string, string> headerInfo,
-                                             bool withCookie)
+                                             Dictionary<string, string> headerInfo)
         {
             try
             {
@@ -301,7 +300,7 @@ namespace OpenTween
                 {
                     HttpStatusCode statusCode = webRes.StatusCode;
                     //cookie保持
-                    if (withCookie) SaveCookie(webRes.Cookies);
+                    if (this.UseCookie) this.FixCookies(webRes.Cookies);
                     //リダイレクト応答の場合は、リダイレクト先を設定
                     GetHeaderInfo(webRes, headerInfo);
                     //応答のストリームをコピーして戻す
@@ -349,12 +348,10 @@ namespace OpenTween
         ///<param name="webRequest">HTTP通信リクエストオブジェクト</param>
         ///<param name="contentText">[OUT]HTTP応答のボディデータ</param>
         ///<param name="headerInfo">[IN/OUT]HTTP応答のヘッダ情報。ヘッダ名をキーにして空データのコレクションを渡すことで、該当ヘッダの値をデータに設定して戻す</param>
-        ///<param name="withCookie">通信にcookieを使用する</param>
         ///<returns>HTTP応答のステータスコード</returns>
         protected HttpStatusCode GetResponse(HttpWebRequest webRequest,
                                              out string contentText,
-                                             Dictionary<string, string> headerInfo,
-                                             bool withCookie)
+                                             Dictionary<string, string> headerInfo)
         {
             try
             {
@@ -362,7 +359,7 @@ namespace OpenTween
                 {
                     HttpStatusCode statusCode = webRes.StatusCode;
                     //cookie保持
-                    if (withCookie) SaveCookie(webRes.Cookies);
+                    if (this.UseCookie) this.FixCookies(webRes.Cookies);
                     //リダイレクト応答の場合は、リダイレクト先を設定
                     GetHeaderInfo(webRes, headerInfo);
                     //応答のストリームをテキストに書き出し
@@ -398,11 +395,9 @@ namespace OpenTween
         ///</remarks>
         ///<param name="webRequest">HTTP通信リクエストオブジェクト</param>
         ///<param name="headerInfo">[IN/OUT]HTTP応答のヘッダ情報。ヘッダ名をキーにして空データのコレクションを渡すことで、該当ヘッダの値をデータに設定して戻す</param>
-        ///<param name="withCookie">通信にcookieを使用する</param>
         ///<returns>HTTP応答のステータスコード</returns>
         protected HttpStatusCode GetResponse(HttpWebRequest webRequest,
-                                             Dictionary<string, string> headerInfo,
-                                             bool withCookie)
+                                             Dictionary<string, string> headerInfo)
         {
             try
             {
@@ -410,7 +405,7 @@ namespace OpenTween
                 {
                     HttpStatusCode statusCode = webRes.StatusCode;
                     //cookie保持
-                    if (withCookie) SaveCookie(webRes.Cookies);
+                    if (this.UseCookie) this.FixCookies(webRes.Cookies);
                     //リダイレクト応答の場合は、リダイレクト先を設定
                     GetHeaderInfo(webRes, headerInfo);
                     return statusCode;
@@ -438,12 +433,10 @@ namespace OpenTween
         ///<param name="webRequest">HTTP通信リクエストオブジェクト</param>
         ///<param name="contentBitmap">[OUT]HTTP応答のボディデータを書き込むBitmap</param>
         ///<param name="headerInfo">[IN/OUT]HTTP応答のヘッダ情報。ヘッダ名をキーにして空データのコレクションを渡すことで、該当ヘッダの値をデータに設定して戻す</param>
-        ///<param name="withCookie">通信にcookieを使用する</param>
         ///<returns>HTTP応答のステータスコード</returns>
         protected HttpStatusCode GetResponse(HttpWebRequest webRequest,
                                              out Bitmap contentBitmap,
-                                             Dictionary<string, string> headerInfo,
-                                             bool withCookie)
+                                             Dictionary<string, string> headerInfo)
         {
             try
             {
@@ -451,7 +444,7 @@ namespace OpenTween
                 {
                     HttpStatusCode statusCode = webRes.StatusCode;
                     //cookie保持
-                    if (withCookie) SaveCookie(webRes.Cookies);
+                    if (this.UseCookie) this.FixCookies(webRes.Cookies);
                     //リダイレクト応答の場合は、リダイレクト先を設定
                     GetHeaderInfo(webRes, headerInfo);
                     //応答のストリームをBitmapにして戻す
@@ -473,16 +466,16 @@ namespace OpenTween
             }
         }
 
-        ///<summary>
-        ///クッキーを保存。ホスト名なしのドメインの場合、ドメイン名から先頭のドットを除去して追加しないと再利用されないため
-        ///</summary>
-        private void SaveCookie(CookieCollection cookieCollection)
+        /// <summary>
+        /// ホスト名なしのドメインはドメイン名から先頭のドットを除去しないと再利用されないため修正して追加する
+        /// </summary>
+        private void FixCookies(CookieCollection cookieCollection)
         {
             foreach (Cookie ck in cookieCollection)
             {
                 if (ck.Domain.StartsWith("."))
                 {
-                    ck.Domain = ck.Domain.Substring(1, ck.Domain.Length - 1);
+                    ck.Domain = ck.Domain.Substring(1);
                     cookieContainer.Add(ck);
                 }
             }

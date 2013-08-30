@@ -95,8 +95,8 @@ namespace OpenTween
 			binary.Add( new KeyValuePair< string, FileInfo >( "media", mediaFile ) );
 			this.InstanceTimeout = 60000; // タイムアウト60秒
 
-			HttpWebRequest req = this.CreateRequest( HttpConnection.PostMethod, new Uri( url ), param, binary, false );
-			return this.GetResponse( req, out content, null, false );
+			HttpWebRequest req = this.CreateRequest( HttpConnection.PostMethod, new Uri( url ), param, binary );
+			return this.GetResponse( req, out content, null );
 		}
 
 		public bool CheckValidExtension( string ext )

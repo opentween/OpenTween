@@ -42,12 +42,12 @@ namespace OpenTween
         {
             try
             {
-                HttpWebRequest req = CreateRequest(HeadMethod, new Uri(url), null, false);
+                HttpWebRequest req = CreateRequest(HeadMethod, new Uri(url), null);
                 req.Timeout = 5000;
                 req.AllowAutoRedirect = false;
                 string data;
                 Dictionary<string, string> head = new Dictionary<string, string>();
-                HttpStatusCode ret = GetResponse(req, out data, head, false);
+                HttpStatusCode ret = GetResponse(req, out data, head);
                 if (head.ContainsKey("Location"))
                 {
                     return head["Location"];
@@ -102,7 +102,7 @@ namespace OpenTween
         {
             try
             {
-                HttpWebRequest req = CreateRequest(GetMethod, new Uri(url), null, false);
+                HttpWebRequest req = CreateRequest(GetMethod, new Uri(url), null);
                 if (!String.IsNullOrEmpty(referer)) req.Referer = referer;
                 if (timeout < 3000 || timeout > 30000)
                 {
@@ -113,7 +113,7 @@ namespace OpenTween
                     req.Timeout = timeout;
                 }
                 Bitmap img;
-                HttpStatusCode ret = GetResponse(req, out img, null, false);
+                HttpStatusCode ret = GetResponse(req, out img, null);
                 if (ret == HttpStatusCode.OK)
                 {
                     errmsg = "";
@@ -142,8 +142,8 @@ namespace OpenTween
         {
             try
             {
-                HttpWebRequest req = CreateRequest(PostMethod, new Uri(Url), param, false);
-                HttpStatusCode res = this.GetResponse(req, null, false);
+                HttpWebRequest req = CreateRequest(PostMethod, new Uri(Url), param);
+                HttpStatusCode res = this.GetResponse(req, null);
                 if (res == HttpStatusCode.OK) return true;
                 return false;
             }
@@ -157,8 +157,8 @@ namespace OpenTween
         {
             try
             {
-                HttpWebRequest req = CreateRequest(PostMethod, new Uri(Url), param, false);
-                HttpStatusCode res = this.GetResponse(req, out content, null, false);
+                HttpWebRequest req = CreateRequest(PostMethod, new Uri(Url), param);
+                HttpStatusCode res = this.GetResponse(req, out content, null);
                 if (res == HttpStatusCode.OK) return true;
                 return false;
             }
@@ -190,7 +190,7 @@ namespace OpenTween
         {
             try
             {
-                HttpWebRequest req = CreateRequest(GetMethod, new Uri(Url), param, false);
+                HttpWebRequest req = CreateRequest(GetMethod, new Uri(Url), param);
                 if (timeout < 3000 || timeout > 100000)
                 {
                     req.Timeout = 10000;
@@ -200,7 +200,7 @@ namespace OpenTween
                     req.Timeout = timeout;
                 }
                 if (!String.IsNullOrEmpty(userAgent)) req.UserAgent = userAgent;
-                HttpStatusCode res = this.GetResponse(req, out content, null, false);
+                HttpStatusCode res = this.GetResponse(req, out content, null);
                 if (res == HttpStatusCode.OK)
                 {
                     errmsg = "";
@@ -220,23 +220,23 @@ namespace OpenTween
         public HttpStatusCode GetContent(string method, Uri Url, Dictionary<string, string> param, out string content, Dictionary<string, string> headerInfo, string userAgent)
         {
             //Searchで使用。呼び出し元で例外キャッチしている。
-            HttpWebRequest req = CreateRequest(method, Url, param, false);
+            HttpWebRequest req = CreateRequest(method, Url, param);
             req.UserAgent = userAgent;
-            return this.GetResponse(req, out content, headerInfo, false);
+            return this.GetResponse(req, out content, headerInfo);
         }
 
         public bool GetDataToFile(string Url, string savePath)
         {
             try
             {
-                HttpWebRequest req = CreateRequest(GetMethod, new Uri(Url), null, false);
+                HttpWebRequest req = CreateRequest(GetMethod, new Uri(Url), null);
                 req.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
                 req.UserAgent = MyCommon.GetUserAgentString();
                 using (FileStream strm = new FileStream(savePath, FileMode.Create, FileAccess.Write))
                 {
                     try
                     {
-                        HttpStatusCode res = this.GetResponse(req, strm, null, false);
+                        HttpStatusCode res = this.GetResponse(req, strm, null);
                         if (res == HttpStatusCode.OK) return true;
                         return false;
                     }
