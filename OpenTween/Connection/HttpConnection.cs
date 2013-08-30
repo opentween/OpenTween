@@ -122,14 +122,7 @@ namespace OpenTween
             //cookie設定
             if (withCookie) webReq.CookieContainer = cookieContainer;
             //タイムアウト設定
-            if (InstanceTimeout > 0)
-            {
-                webReq.Timeout = InstanceTimeout;
-            }
-            else
-            {
-                webReq.Timeout = DefaultTimeout;
-            }
+            webReq.Timeout = this.InstanceTimeout ?? HttpConnection.DefaultTimeout;
 
             return webReq;
         }
@@ -279,10 +272,7 @@ namespace OpenTween
             //cookie設定
             if (withCookie) webReq.CookieContainer = cookieContainer;
             //タイムアウト設定
-            if (InstanceTimeout > 0)
-                webReq.Timeout = InstanceTimeout;
-            else
-                webReq.Timeout = DefaultTimeout;
+            webReq.Timeout = this.InstanceTimeout ?? HttpConnection.DefaultTimeout;
 
             return webReq;
         }
@@ -619,12 +609,12 @@ namespace OpenTween
         ///<summary>
         ///通信タイムアウト時間（ms）
         ///</summary>
-        private int _timeout = 0;
+        private int? _timeout = null;
 
         ///<summary>
         ///通信タイムアウト時間（ms）。10～120秒の範囲で指定。範囲外は20秒とする
         ///</summary>
-        protected int InstanceTimeout
+        protected int? InstanceTimeout
         {
             get { return _timeout; }
             set
