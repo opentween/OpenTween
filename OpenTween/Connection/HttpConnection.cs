@@ -311,14 +311,14 @@ namespace OpenTween
                         {
                             using (Stream stream = webRes.GetResponseStream())
                             {
-                                if (stream != null) CopyStream(stream, contentStream);
+                                if (stream != null) stream.CopyTo(contentStream);
                             }
                         }
                         else
                         {
                             using (Stream stream = new GZipStream(webRes.GetResponseStream(), CompressionMode.Decompress))
                             {
-                                if (stream != null) CopyStream(stream, contentStream);
+                                if (stream != null) stream.CopyTo(contentStream);
                             }
                         }
                     }
@@ -479,30 +479,6 @@ namespace OpenTween
                     cookieContainer.Add(ck);
                 }
             }
-        }
-
-        ///<summary>
-        ///in/outのストリームインスタンスを受け取り、コピーして返却
-        ///</summary>
-        ///<param name="inStream">コピー元ストリームインスタンス。読み取り可であること</param>
-        ///<param name="outStream">コピー先ストリームインスタンス。書き込み可であること</param>
-        private void CopyStream(Stream inStream, Stream outStream)
-        {
-            if (inStream == null) throw new ArgumentNullException("inStream");
-            if (outStream == null) throw new ArgumentNullException("outStream");
-            if (!inStream.CanRead) throw new ArgumentException("Input stream can not read.");
-            if (!outStream.CanWrite) throw new ArgumentException("Output stream can not write.");
-            if (inStream.CanSeek && inStream.Length == 0) throw new ArgumentException("Input stream do not have data.");
-
-            do
-            {
-                byte[] buffer = new byte[1024];
-                int i = buffer.Length;
-                i = inStream.Read(buffer, 0, i);
-                if (i == 0) break;
-                outStream.Write(buffer, 0, i);
-            }
-            while (true);
         }
 
         ///<summary>
