@@ -496,6 +496,10 @@ namespace OpenTween
             /// </summary>
             Blocked = 136,
             /// <summary>
+            /// 既にふぁぼっているツイートをふぁぼろうとした (公式ドキュメントに記述無し)
+            /// </summary>
+            AlreadyFavorited = 139,
+            /// <summary>
             /// 投稿されたステータスが重複しています
             /// </summary>
             DuplicateStatus = 187,
