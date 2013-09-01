@@ -692,18 +692,8 @@ namespace OpenTween
                 return "Err:" + ex.Message;
             }
 
-            if (res == HttpStatusCode.Unauthorized)
-            {
-                //Blockユーザーの発言をRTすると認証エラー返る
-                //Twitter.AccountState = MyCommon.ACCOUNT_STATE.Invalid
-                return Properties.Resources.Unauthorized + " or blocked user.";
-            }
-            else if (res != HttpStatusCode.OK)
-            {
-                return "Err:" + res.ToString() + "(" + MethodBase.GetCurrentMethod().Name + ")";
-            }
-
-            Twitter.AccountState = MyCommon.ACCOUNT_STATE.Valid;
+            var err = this.CheckStatusCode(res, content);
+            if (err != null) return err;
 
             TwitterDataModel.Status status;
             try
