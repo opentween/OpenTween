@@ -188,6 +188,7 @@ namespace OpenTween.Api
         }
 
         [Test]
+        [Platform(Exclude = "Mono")]
         public void UpdateFromJsonTest()
         {
             var status = new TwitterApiStatus();
