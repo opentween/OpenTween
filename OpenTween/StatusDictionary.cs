@@ -2018,7 +2018,7 @@ namespace OpenTween
     public sealed class TabClass
     {
         private bool _unreadManage = false;
-        private List<FiltersClass> _filters;
+        private List<PostFilterRule> _filters;
         private int _unreadCount = 0;
         private List<long> _ids;
         private List<TemporaryId> _tmpIds = new List<TemporaryId>();
@@ -2175,7 +2175,7 @@ namespace OpenTween
             SoundFile = "";
             OldestUnreadId = -1;
             TabName = "";
-            _filters = new List<FiltersClass>();
+            _filters = new List<PostFilterRule>();
             Protected = false;
             Notify = true;
             SoundFile = "";
@@ -2317,7 +2317,7 @@ namespace OpenTween
                 {
                     try
                     {
-                        switch (ft.IsHit(post))   //フィルタクラスでヒット判定
+                        switch (ft.ExecFilter(post))   //フィルタクラスでヒット判定
                         {
                             case MyCommon.HITRESULT.None:
                                 break;
@@ -2337,8 +2337,8 @@ namespace OpenTween
                     }
                     catch (NullReferenceException)
                     {
-                        //IsHitでNullRef出る場合あり。暫定対応
-                        MyCommon.TraceOut("IsHitでNullRef: " + ft.ToString());
+                        // ExecFilterでNullRef出る場合あり。暫定対応
+                        MyCommon.TraceOut("ExecFilterでNullRef: " + ft.ToString());
                         rslt = MyCommon.HITRESULT.None;
                     }
                 }
@@ -2451,7 +2451,7 @@ namespace OpenTween
             }
         }
 
-        public FiltersClass[] GetFilters()
+        public PostFilterRule[] GetFilters()
         {
             lock (this._lockObj)
             {
@@ -2459,7 +2459,7 @@ namespace OpenTween
             }
         }
 
-        public void RemoveFilter(FiltersClass filter)
+        public void RemoveFilter(PostFilterRule filter)
         {
             lock (this._lockObj)
             {
@@ -2468,7 +2468,7 @@ namespace OpenTween
             }
         }
 
-        public bool AddFilter(FiltersClass filter)
+        public bool AddFilter(PostFilterRule filter)
         {
             lock (this._lockObj)
             {
@@ -2479,33 +2479,33 @@ namespace OpenTween
             }
         }
 
-        public void EditFilter(FiltersClass original, FiltersClass modified)
+        public void EditFilter(PostFilterRule original, PostFilterRule modified)
         {
-            original.BodyFilter = modified.BodyFilter;
-            original.NameFilter = modified.NameFilter;
-            original.SearchBoth = modified.SearchBoth;
-            original.SearchUrl = modified.SearchUrl;
+            original.FilterBody = modified.FilterBody;
+            original.FilterName = modified.FilterName;
+            original.UseNameField = modified.UseNameField;
+            original.FilterByUrl = modified.FilterByUrl;
             original.UseRegex = modified.UseRegex;
             original.CaseSensitive = modified.CaseSensitive;
-            original.IsRt = modified.IsRt;
+            original.FilterRt = modified.FilterRt;
             original.UseLambda = modified.UseLambda;
-            original.Source = modified.Source;
-            original.ExBodyFilter = modified.ExBodyFilter;
-            original.ExNameFilter = modified.ExNameFilter;
-            original.ExSearchBoth = modified.ExSearchBoth;
-            original.ExSearchUrl = modified.ExSearchUrl;
+            original.FilterSource = modified.FilterSource;
+            original.ExFilterBody = modified.ExFilterBody;
+            original.ExFilterName = modified.ExFilterName;
+            original.ExUseNameField = modified.ExUseNameField;
+            original.ExFilterByUrl = modified.ExFilterByUrl;
             original.ExUseRegex = modified.ExUseRegex;
             original.ExCaseSensitive = modified.ExCaseSensitive;
-            original.IsExRt = modified.IsExRt;
+            original.ExFilterRt = modified.ExFilterRt;
             original.ExUseLambda = modified.ExUseLambda;
-            original.ExSource = modified.ExSource;
-            original.MoveFrom = modified.MoveFrom;
-            original.SetMark = modified.SetMark;
+            original.ExFilterSource = modified.ExFilterSource;
+            original.MoveMatches = modified.MoveMatches;
+            original.MarkMatches = modified.MarkMatches;
             this.FilterModified = true;
         }
 
         [XmlIgnore]
-        public List<FiltersClass> Filters
+        public List<PostFilterRule> Filters
         {
             get
             {
@@ -2523,7 +2523,7 @@ namespace OpenTween
             }
         }
 
-        public FiltersClass[] FilterArray
+        public PostFilterRule[] FilterArray
         {
             get
             {
@@ -2620,866 +2620,6 @@ namespace OpenTween
                     return false;
                 }
             }
-        }
-    }
-
-    [Serializable]
-    public sealed class FiltersClass : System.IEquatable<FiltersClass>
-    {
-        private string _name = "";
-        private List<string> _body = new List<string>();
-        private bool _searchBoth = true;
-        private bool _searchUrl = false;
-        private bool _caseSensitive = false;
-        private bool _useRegex = false;
-        private bool _isRt = false;
-        private string _source = "";
-        private string _exname = "";
-        private List<string> _exbody = new List<string>();
-        private bool _exsearchBoth = true;
-        private bool _exsearchUrl = false;
-        private bool _exuseRegex = false;
-        private bool _excaseSensitive = false;
-        private bool _isExRt = false;
-        private string _exSource = "";
-        private bool _moveFrom = false;
-        private bool _setMark = true;
-        private bool _useLambda = false;
-        private bool _exuseLambda = false;
-
-        public FiltersClass() {}
-
-        //フィルタ一覧に表示する文言生成
-        private string MakeSummary()
-        {
-            var fs = new StringBuilder();
-            if (!string.IsNullOrEmpty(_name) || _body.Count > 0 || _isRt || !string.IsNullOrEmpty(_source))
-            {
-                if (_searchBoth)
-                {
-                    if (!string.IsNullOrEmpty(_name))
-                    {
-                        fs.AppendFormat(Properties.Resources.SetFiltersText1, _name);
-                    }
-                    else
-                    {
-                        fs.Append(Properties.Resources.SetFiltersText2);
-                    }
-                }
-                if (_body.Count > 0)
-                {
-                    fs.Append(Properties.Resources.SetFiltersText3);
-                    foreach (var bf in _body)
-                    {
-                        fs.Append(bf);
-                        fs.Append(" ");
-                    }
-                    fs.Length--;
-                    fs.Append(Properties.Resources.SetFiltersText4);
-                }
-                fs.Append("(");
-                if (_searchBoth)
-                {
-                    fs.Append(Properties.Resources.SetFiltersText5);
-                }
-                else
-                {
-                    fs.Append(Properties.Resources.SetFiltersText6);
-                }
-                if (_useRegex)
-                {
-                    fs.Append(Properties.Resources.SetFiltersText7);
-                }
-                if (_searchUrl)
-                {
-                    fs.Append(Properties.Resources.SetFiltersText8);
-                }
-                if (_caseSensitive)
-                {
-                    fs.Append(Properties.Resources.SetFiltersText13);
-                }
-                if (_isRt)
-                {
-                    fs.Append("RT/");
-                }
-                if (_useLambda)
-                {
-                    fs.Append("LambdaExp/");
-                }
-                if (!string.IsNullOrEmpty(_source))
-                {
-                    fs.AppendFormat("Src…{0}/", _source);
-                }
-                fs.Length--;
-                fs.Append(")");
-            }
-            if (!string.IsNullOrEmpty(_exname) || _exbody.Count > 0 || _isExRt || !string.IsNullOrEmpty(_exSource))
-            {
-                //除外
-                fs.Append(Properties.Resources.SetFiltersText12);
-                if (_exsearchBoth)
-                {
-                    if (!string.IsNullOrEmpty(_exname))
-                    {
-                        fs.AppendFormat(Properties.Resources.SetFiltersText1, _exname);
-                    }
-                    else
-                    {
-                        fs.Append(Properties.Resources.SetFiltersText2);
-                    }
-                }
-                if (_exbody.Count > 0)
-                {
-                    fs.Append(Properties.Resources.SetFiltersText3);
-                    foreach (var bf in _exbody)
-                    {
-                        fs.Append(bf);
-                        fs.Append(" ");
-                    }
-                    fs.Length--;
-                    fs.Append(Properties.Resources.SetFiltersText4);
-                }
-                fs.Append("(");
-                if (_exsearchBoth)
-                {
-                    fs.Append(Properties.Resources.SetFiltersText5);
-                }
-                else
-                {
-                    fs.Append(Properties.Resources.SetFiltersText6);
-                }
-                if (_exuseRegex)
-                {
-                    fs.Append(Properties.Resources.SetFiltersText7);
-                }
-                if (_exsearchUrl)
-                {
-                    fs.Append(Properties.Resources.SetFiltersText8);
-                }
-                if (_excaseSensitive)
-                {
-                    fs.Append(Properties.Resources.SetFiltersText13);
-                }
-                if (_isExRt)
-                {
-                    fs.Append("RT/");
-                }
-                if (_exuseLambda)
-                {
-                    fs.Append("LambdaExp/");
-                }
-                if (!string.IsNullOrEmpty(_exSource))
-                {
-                    fs.AppendFormat("Src…{0}/", _exSource);
-                }
-                fs.Length--;
-                fs.Append(")");
-            }
-
-            fs.Append("(");
-            if (_moveFrom)
-            {
-                fs.Append(Properties.Resources.SetFiltersText9);
-            }
-            else
-            {
-                fs.Append(Properties.Resources.SetFiltersText11);
-            }
-            if (!_moveFrom && _setMark)
-            {
-                fs.Append(Properties.Resources.SetFiltersText10);
-            }
-            else if (!_moveFrom)
-            {
-                fs.Length--;
-            }
-
-            fs.Append(")");
-
-            return fs.ToString();
-        }
-
-        public string NameFilter
-        {
-            get
-            {
-                return _name;
-            }
-            set
-            {
-                _name = value;
-            }
-        }
-
-        public string ExNameFilter
-        {
-            get
-            {
-                return _exname;
-            }
-            set
-            {
-                _exname = value;
-            }
-        }
-
-        [XmlIgnore]
-        public List<string> BodyFilter
-        {
-            get
-            {
-                return _body;
-            }
-            set
-            {
-                _body = value;
-            }
-        }
-
-        public string[] BodyFilterArray
-        {
-            get
-            {
-                return _body.ToArray();
-            }
-            set
-            {
-                _body = new List<string>();
-                foreach (var filter in value)
-                {
-                    _body.Add(filter);
-                }
-            }
-        }
-
-        [XmlIgnore]
-        public List<string> ExBodyFilter
-        {
-            get
-            {
-                return _exbody;
-            }
-            set
-            {
-                _exbody = value;
-            }
-        }
-
-        public string[] ExBodyFilterArray
-        {
-            get
-            {
-                return _exbody.ToArray();
-            }
-            set
-            {
-                _exbody = new List<string>();
-                foreach (var filter in value)
-                {
-                    _exbody.Add(filter);
-                }
-            }
-        }
-
-        public bool SearchBoth
-        {
-            get
-            {
-                return _searchBoth;
-            }
-            set
-            {
-                _searchBoth = value;
-            }
-        }
-
-        public bool ExSearchBoth
-        {
-            get
-            {
-                return _exsearchBoth;
-            }
-            set
-            {
-                _exsearchBoth = value;
-            }
-        }
-
-        public bool MoveFrom
-        {
-            get
-            {
-                return _moveFrom;
-            }
-            set
-            {
-                _moveFrom = value;
-            }
-        }
-
-        public bool SetMark
-        {
-            get
-            {
-                return _setMark;
-            }
-            set
-            {
-                _setMark = value;
-            }
-        }
-
-        public bool SearchUrl
-        {
-            get
-            {
-                return _searchUrl;
-            }
-            set
-            {
-                _searchUrl = value;
-            }
-        }
-
-        public bool ExSearchUrl
-        {
-            get
-            {
-                return _exsearchUrl;
-            }
-            set
-            {
-                _exsearchUrl = value;
-            }
-        }
-
-        public bool CaseSensitive
-        {
-            get
-            {
-                return _caseSensitive;
-            }
-            set
-            {
-                _caseSensitive = value;
-            }
-        }
-
-        public bool ExCaseSensitive
-        {
-            get
-            {
-                return _excaseSensitive;
-            }
-            set
-            {
-                _excaseSensitive = value;
-            }
-        }
-
-        public bool UseLambda
-        {
-            get
-            {
-                return _useLambda;
-            }
-            set
-            {
-                _useLambda = value;
-            }
-        }
-
-        public bool ExUseLambda
-        {
-            get
-            {
-                return _exuseLambda;
-            }
-            set
-            {
-                _exuseLambda = value;
-            }
-        }
-
-        public bool UseRegex
-        {
-            get
-            {
-                return _useRegex;
-            }
-            set
-            {
-                _useRegex = value;
-            }
-        }
-
-        public bool ExUseRegex
-        {
-            get
-            {
-                return _exuseRegex;
-            }
-            set
-            {
-                _exuseRegex = value;
-            }
-        }
-
-        public bool IsRt
-        {
-            get
-            {
-                return _isRt;
-            }
-            set
-            {
-                _isRt = value;
-            }
-        }
-
-        public bool IsExRt
-        {
-            get
-            {
-                return _isExRt;
-            }
-            set
-            {
-                _isExRt = value;
-            }
-        }
-
-        public string Source
-        {
-            get
-            {
-                return _source;
-            }
-            set
-            {
-                _source = value;
-            }
-        }
-
-        public string ExSource
-        {
-            get
-            {
-                return _exSource;
-            }
-            set
-            {
-                _exSource = value;
-            }
-        }
-
-        public override string ToString()
-        {
-            return MakeSummary();
-        }
-
-        public bool ExecuteLambdaExpression(string expr, PostClass post)
-        {
-            return false;
-            // TODO DynamicQuery相当のGPLv3互換なライブラリで置換する
-        }
-
-        public bool ExecuteExLambdaExpression(string expr, PostClass post)
-        {
-            return false;
-            // TODO DynamicQuery相当のGPLv3互換なライブラリで置換する
-        }
-
-        public MyCommon.HITRESULT IsHit(PostClass post)
-        {
-            var bHit = true;
-            string tBody;
-            string tSource;
-            if (_searchUrl)
-            {
-                tBody = post.Text;
-                tSource = post.SourceHtml;
-            }
-            else
-            {
-                tBody = post.TextFromApi;
-                tSource = post.Source;
-            }
-            //検索オプション
-            System.StringComparison compOpt;
-            System.Text.RegularExpressions.RegexOptions rgOpt;
-            if (_caseSensitive)
-            {
-                compOpt = StringComparison.Ordinal;
-                rgOpt = RegexOptions.None;
-            }
-            else
-            {
-                compOpt = StringComparison.OrdinalIgnoreCase;
-                rgOpt = RegexOptions.IgnoreCase;
-            }
-            if (_searchBoth)
-            {
-                if (string.IsNullOrEmpty(_name) ||
-                    (!_useRegex &&
-                     (post.ScreenName.Equals(_name, compOpt) ||
-                      post.RetweetedBy.Equals(_name, compOpt)
-                     )
-                    ) ||
-                    (_useRegex &&
-                     (Regex.IsMatch(post.ScreenName, _name, rgOpt) ||
-                      (!string.IsNullOrEmpty(post.RetweetedBy) && Regex.IsMatch(post.RetweetedBy, _name, rgOpt))
-                     )
-                    ))
-                {
-                    if (_useLambda)
-                    {
-                        if (!ExecuteLambdaExpression(_body[0], post)) bHit = false;
-                    }
-                    else
-                    {
-                        foreach (var fs in _body)
-                        {
-                            if (_useRegex)
-                            {
-                                if (!Regex.IsMatch(tBody, fs, rgOpt)) bHit = false;
-                            }
-                            else
-                            {
-                                if (_caseSensitive)
-                                {
-                                    if (!tBody.Contains(fs)) bHit = false;
-                                }
-                                else
-                                {
-                                    if (!tBody.ToLower().Contains(fs.ToLower())) bHit = false;
-                                }
-                            }
-                            if (!bHit) break;
-                        }
-                    }
-                }
-                else
-                {
-                    bHit = false;
-                }
-            }
-            else
-            {
-                if (_useLambda)
-                {
-                    if (!ExecuteLambdaExpression(_body[0], post)) bHit = false;
-                }
-                else
-                {
-                    foreach (var fs in _body)
-                    {
-                        if (_useRegex)
-                        {
-                            if (!(Regex.IsMatch(post.ScreenName, fs, rgOpt) ||
-                                 (!string.IsNullOrEmpty(post.RetweetedBy) && Regex.IsMatch(post.RetweetedBy, fs, rgOpt)) ||
-                                 Regex.IsMatch(tBody, fs, rgOpt))) bHit = false;
-                        }
-                        else
-                        {
-                            if (_caseSensitive)
-                            {
-                                if (!(post.ScreenName.Contains(fs) ||
-                                    post.RetweetedBy.Contains(fs) ||
-                                    tBody.Contains(fs))) bHit = false;
-                            }
-                            else
-                            {
-                                if (!(post.ScreenName.ToLower().Contains(fs.ToLower()) ||
-                                    post.RetweetedBy.ToLower().Contains(fs.ToLower()) ||
-                                    tBody.ToLower().Contains(fs.ToLower()))) bHit = false;
-                            }
-                        }
-                        if (!bHit) break;
-                    }
-                }
-            }
-            if (_isRt)
-            {
-                if (post.RetweetedId == null) bHit = false;
-            }
-            if (!string.IsNullOrEmpty(_source))
-            {
-                if (_useRegex)
-                {
-                    if (!Regex.IsMatch(tSource, _source, rgOpt)) bHit = false;
-                }
-                else
-                {
-                    if (!tSource.Equals(_source, compOpt)) bHit = false;
-                }
-            }
-            if (bHit)
-            {
-                //除外判定
-                if (_exsearchUrl)
-                {
-                    tBody = post.Text;
-                    tSource = post.SourceHtml;
-                }
-                else
-                {
-                    tBody = post.TextFromApi;
-                    tSource = post.Source;
-                }
-
-                var exFlag = false;
-                if (!string.IsNullOrEmpty(_exname) || _exbody.Count > 0)
-                {
-                    if (_excaseSensitive)
-                    {
-                        compOpt = StringComparison.Ordinal;
-                        rgOpt = RegexOptions.None;
-                    }
-                    else
-                    {
-                        compOpt = StringComparison.OrdinalIgnoreCase;
-                        rgOpt = RegexOptions.IgnoreCase;
-                    }
-                    if (_exsearchBoth)
-                    {
-                        if (string.IsNullOrEmpty(_exname) ||
-                            (!_exuseRegex &&
-                             (post.ScreenName.Equals(_exname, compOpt) ||
-                              post.RetweetedBy.Equals(_exname, compOpt)
-                             )
-                            ) ||
-                            (_exuseRegex &&
-                                (Regex.IsMatch(post.ScreenName, _exname, rgOpt) ||
-                                 (!string.IsNullOrEmpty(post.RetweetedBy) && Regex.IsMatch(post.RetweetedBy, _exname, rgOpt))
-                                )
-                            ))
-                        {
-                            if (_exbody.Count > 0)
-                            {
-                                if (_exuseLambda)
-                                {
-                                    if (ExecuteExLambdaExpression(_exbody[0], post)) exFlag = true;
-                                }
-                                else
-                                {
-                                    foreach (var fs in _exbody)
-                                    {
-                                        if (_exuseRegex)
-                                        {
-                                            if (Regex.IsMatch(tBody, fs, rgOpt)) exFlag = true;
-                                        }
-                                        else
-                                        {
-                                            if (_excaseSensitive)
-                                            {
-                                                if (tBody.Contains(fs)) exFlag = true;
-                                            }
-                                            else
-                                            {
-                                                if (tBody.ToLower().Contains(fs.ToLower())) exFlag = true;
-                                            }
-                                        }
-                                        if (exFlag) break;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                exFlag = true;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (_exuseLambda)
-                        {
-                            if (ExecuteExLambdaExpression(_exbody[0], post)) exFlag = true;
-                        }
-                        else
-                        {
-                            foreach (var fs in _exbody)
-                            {
-                                if (_exuseRegex)
-                                {
-                                    if (Regex.IsMatch(post.ScreenName, fs, rgOpt) ||
-                                       (!string.IsNullOrEmpty(post.RetweetedBy) && Regex.IsMatch(post.RetweetedBy, fs, rgOpt)) ||
-                                       Regex.IsMatch(tBody, fs, rgOpt)) exFlag = true;
-                                }
-                                else
-                                {
-                                    if (_excaseSensitive)
-                                    {
-                                        if (post.ScreenName.Contains(fs) ||
-                                           post.RetweetedBy.Contains(fs) ||
-                                           tBody.Contains(fs)) exFlag = true;
-                                    }
-                                    else
-                                    {
-                                        if (post.ScreenName.ToLower().Contains(fs.ToLower()) ||
-                                           post.RetweetedBy.ToLower().Contains(fs.ToLower()) ||
-                                           tBody.ToLower().Contains(fs.ToLower())) exFlag = true;
-                                    }
-                                }
-                                if (exFlag) break;
-                            }
-                        }
-                    }
-                }
-                if (_isExRt)
-                {
-                    if (post.RetweetedId != null) exFlag = true;
-                }
-                if (!string.IsNullOrEmpty(_exSource))
-                {
-                    if (_exuseRegex)
-                    {
-                        if (Regex.IsMatch(tSource, _exSource, rgOpt)) exFlag = true;
-                    }
-                    else
-                    {
-                        if (tSource.Equals(_exSource, compOpt)) exFlag = true;
-                    }
-                }
-
-                if (string.IsNullOrEmpty(_name) && _body.Count == 0 && !_isRt && string.IsNullOrEmpty(_source))
-                {
-                    bHit = false;
-                }
-                if (bHit)
-                {
-                    if (!exFlag)
-                    {
-                        if (_moveFrom)
-                        {
-                            return MyCommon.HITRESULT.Move;
-                        }
-                        else
-                        {
-                            if (_setMark)
-                            {
-                                return MyCommon.HITRESULT.CopyAndMark;
-                            }
-                            return MyCommon.HITRESULT.Copy;
-                        }
-                    }
-                    else
-                    {
-                        return MyCommon.HITRESULT.Exclude;
-                    }
-                }
-                else
-                {
-                    if (exFlag)
-                    {
-                        return MyCommon.HITRESULT.Exclude;
-                    }
-                    else
-                    {
-                        return MyCommon.HITRESULT.None;
-                    }
-                }
-            }
-            else
-            {
-                return MyCommon.HITRESULT.None;
-            }
-        }
-
-        public bool Equals(FiltersClass other)
-        {
-            if (this.BodyFilter.Count != other.BodyFilter.Count) return false;
-            if (this.ExBodyFilter.Count != other.ExBodyFilter.Count) return false;
-            for (int i = 0; i < this.BodyFilter.Count; i++)
-            {
-                if (this.BodyFilter[i] != other.BodyFilter[i]) return false;
-            }
-            for (int i = 0; i < this.ExBodyFilter.Count; i++)
-            {
-                if (this.ExBodyFilter[i] != other.ExBodyFilter[i]) return false;
-            }
-
-            return (this.MoveFrom == other.MoveFrom) &
-                   (this.SetMark == other.SetMark) &
-                   (this.NameFilter == other.NameFilter) &
-                   (this.SearchBoth == other.SearchBoth) &
-                   (this.SearchUrl == other.SearchUrl) &
-                   (this.UseRegex == other.UseRegex) &
-                   (this.ExNameFilter == other.ExNameFilter) &
-                   (this.ExSearchBoth == other.ExSearchBoth) &
-                   (this.ExSearchUrl == other.ExSearchUrl) &
-                   (this.ExUseRegex == other.ExUseRegex) &
-                   (this.IsRt == other.IsRt) &
-                   (this.Source == other.Source) &
-                   (this.IsExRt == other.IsExRt) &
-                   (this.ExSource == other.ExSource) &
-                   (this.UseLambda == other.UseLambda) &
-                   (this.ExUseLambda == other.ExUseLambda);
-        }
-
-        public FiltersClass CopyTo(FiltersClass destination)
-        {
-            if (this.BodyFilter.Count > 0)
-            {
-                foreach (var flt in this.BodyFilter)
-                {
-                    destination.BodyFilter.Add(flt);
-                }
-            }
-
-            if (this.ExBodyFilter.Count > 0)
-            {
-                foreach (var flt in this.ExBodyFilter)
-                {
-                    destination.ExBodyFilter.Add(flt);
-                }
-            }
-
-            destination.MoveFrom = this.MoveFrom;
-            destination.SetMark = this.SetMark;
-            destination.NameFilter = this.NameFilter;
-            destination.SearchBoth = this.SearchBoth;
-            destination.SearchUrl = this.SearchUrl;
-            destination.UseRegex = this.UseRegex;
-            destination.ExNameFilter = this.ExNameFilter;
-            destination.ExSearchBoth = this.ExSearchBoth;
-            destination.ExSearchUrl = this.ExSearchUrl;
-            destination.ExUseRegex = this.ExUseRegex;
-            destination.IsRt = this.IsRt;
-            destination.Source = this.Source;
-            destination.IsExRt = this.IsExRt;
-            destination.ExSource = this.ExSource;
-            destination.UseLambda = this.UseLambda;
-            destination.ExUseLambda = this.ExUseLambda;
-            return destination;
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj == null || this.GetType() != obj.GetType()) return false;
-            return this.Equals((FiltersClass)obj);
-        }
-
-        public override int GetHashCode()
-        {
-            return this.MoveFrom.GetHashCode() ^
-                   this.SetMark.GetHashCode() ^
-                   this.BodyFilter.GetHashCode() ^
-                   this.NameFilter.GetHashCode() ^
-                   this.SearchBoth.GetHashCode() ^
-                   this.SearchUrl.GetHashCode() ^
-                   this.UseRegex.GetHashCode() ^
-                   this.ExBodyFilter.GetHashCode() ^
-                   this.ExNameFilter.GetHashCode() ^
-                   this.ExSearchBoth.GetHashCode() ^
-                   this.ExSearchUrl.GetHashCode() ^
-                   this.ExUseRegex.GetHashCode() ^
-                   this.IsRt.GetHashCode() ^
-                   this.Source.GetHashCode() ^
-                   this.IsExRt.GetHashCode() ^
-                   this.ExSource.GetHashCode() ^
-                   this.UseLambda.GetHashCode() ^
-                   this.ExUseLambda.GetHashCode();
         }
     }
 
