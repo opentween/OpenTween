@@ -116,7 +116,7 @@ namespace OpenTween
 			else
 				message += " " + url;
 
-			return tw.PostStatus( message, 0 );
+			return tw.PostStatus( message, reply_to );
 		}
 
 		private HttpStatusCode UploadFile( FileInfo mediaFile, string message, ref string content )
