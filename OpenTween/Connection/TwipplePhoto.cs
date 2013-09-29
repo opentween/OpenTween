@@ -24,7 +24,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Xml;
 
 namespace OpenTween.Connection
@@ -32,11 +31,11 @@ namespace OpenTween.Connection
     public sealed class TwipplePhoto : HttpConnectionOAuthEcho,
                                        IMultimediaShareService
     {
-        private const string TwipplePhotoUploadEndpointV2 = "http://p.twipple.jp/api/upload2";
         private const long MaxFileSize = 4 * 1024 * 1024;
 
         private readonly Twitter _twitter;
-        private readonly IEnumerable<string> _pictureExtensions = new[]
+        private readonly Uri _twipplePhotoUploadUri = new Uri("http://p.twipple.jp/api/upload2");
+        private readonly IEnumerable<string> _supportedPictureExtensions = new[]
         {
             ".gif",
             ".jpg",
@@ -132,35 +131,31 @@ namespace OpenTween.Connection
             };
             InstanceTimeout = 60000;
 
-            return GetContent(PostMethod, new Uri(TwipplePhotoUploadEndpointV2), null, binaly, ref content, null, null);
+            return GetContent(PostMethod, _twipplePhotoUploadUri, null, binaly, ref content, null, null);
         }
 
         #endregion
 
         public bool CheckValidExtension(string ext)
         {
-            return _pictureExtensions.Contains(ext, StringComparer.InvariantCultureIgnoreCase);
+            return _supportedPictureExtensions.Contains(ext, StringComparer.OrdinalIgnoreCase);
         }
 
         public string GetFileOpenDialogFilter()
         {
-            var filter = new StringBuilder("Image Files(", 128);
-            var sb = new StringBuilder(64);
-            foreach (var photoExtension in _pictureExtensions)
+            string filterFormatExtensions = "";
+            foreach (var pictureExtension in _supportedPictureExtensions)
             {
-                sb.Append('*');
-                sb.Append(photoExtension);
-                sb.Append(';');
+                filterFormatExtensions += '*';
+                filterFormatExtensions += pictureExtension;
+                filterFormatExtensions += ';';
             }
-            filter.Append(sb);
-            filter.Append(")|");
-            filter.Append(sb);
-            return filter.ToString();
+            return "Image Files(" + filterFormatExtensions + ")|" + filterFormatExtensions;
         }
 
-        public MyCommon.UploadFileType GetFileType(string ext)
+        public MyCommon.UploadFileType GetFileType(string extension)
         {
-            return CheckValidExtension(ext)
+            return CheckValidExtension(extension)
                        ? MyCommon.UploadFileType.Picture
                        : MyCommon.UploadFileType.Invalid;
         }
@@ -170,9 +165,9 @@ namespace OpenTween.Connection
             return type == MyCommon.UploadFileType.Picture;
         }
 
-        public bool CheckValidFilesize(string ext, long fileSize)
+        public bool CheckValidFilesize(string extension, long fileSize)
         {
-            return CheckValidExtension(ext) && fileSize <= MaxFileSize;
+            return CheckValidExtension(extension) && fileSize <= MaxFileSize;
         }
 
         public bool Configuration(string key, object value)
