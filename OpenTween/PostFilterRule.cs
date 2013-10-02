@@ -142,7 +142,7 @@ namespace OpenTween
         }
         private bool _ExUseNameField;
 
-        [XmlElement("MoveForm")]
+        [XmlElement("MoveFrom")]
         public bool MoveMatches
         {
             get { return this._MoveMatches; }

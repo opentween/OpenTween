@@ -59,6 +59,7 @@
     <Compile Include="LRUCacheDictionaryTest.cs" />
     <Compile Include="MyCommonTest.cs" />
     <Compile Include="PostClassTest.cs" />
+    <Compile Include="PostFilterRuleVersion113DeserializeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TabsDialogTest.cs" />
     <Compile Include="TestUtils.cs" />
