@@ -11572,16 +11572,55 @@ namespace OpenTween
             else
             {
                 TabClass tb = _statuses.RemovedTab.Pop();
-                string renamed = tb.TabName;
-                for (int i = 1; i < int.MaxValue; i++)
+                if (tb.TabType == MyCommon.TabUsageType.Related)
                 {
-                    if (!_statuses.ContainsTab(renamed)) break;
-                    renamed = tb.TabName + "(" + i.ToString() + ")";
+                    var relatedTab = _statuses.GetTabByType(MyCommon.TabUsageType.Related);
+                    if (relatedTab != null)
+                    {
+                        // 関連発言なら既存のタブを置き換える
+                        tb.TabName = relatedTab.TabName;
+                        this.ClearTab(tb.TabName, false);
+                        _statuses.Tabs[tb.TabName] = tb;
+                        for (int i = 0; i < ListTab.TabPages.Count; i++)
+                        {
+                            if (tb.TabName == ListTab.TabPages[i].Text)
+                            {
+                                ListTab.SelectedIndex = i;
+                                ListTabSelect(ListTab.TabPages[i]);
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        const string TabName = "Related Tweets";
+                        string renamed = TabName;
+                        for (int i = 2; i <= 100; i++)
+                        {
+                            if (!_statuses.ContainsTab(renamed)) break;
+                            renamed = TabName + i.ToString();
+                        }
+                        tb.TabName = renamed;
+                        AddNewTab(renamed, false, tb.TabType, tb.ListInfo);
+                        _statuses.Tabs.Add(renamed, tb);  // 後に
+                        ListTab.SelectedIndex = ListTab.TabPages.Count - 1;
+                        ListTabSelect(ListTab.TabPages[ListTab.TabPages.Count - 1]);
+                    }
                 }
-                tb.TabName = renamed;
-                _statuses.Tabs.Add(renamed, tb);
-                AddNewTab(renamed, false, tb.TabType, tb.ListInfo);
-                ListTab.SelectedIndex = ListTab.TabPages.Count - 1;
+                else
+                {
+                    string renamed = tb.TabName;
+                    for (int i = 1; i < int.MaxValue; i++)
+                    {
+                        if (!_statuses.ContainsTab(renamed)) break;
+                        renamed = tb.TabName + "(" + i.ToString() + ")";
+                    }
+                    tb.TabName = renamed;
+                    _statuses.Tabs.Add(renamed, tb);  // 先に
+                    AddNewTab(renamed, false, tb.TabType, tb.ListInfo);
+                    ListTab.SelectedIndex = ListTab.TabPages.Count - 1;
+                    ListTabSelect(ListTab.TabPages[ListTab.TabPages.Count - 1]);
+                }
                 SaveConfigsTabs();
             }
         }
