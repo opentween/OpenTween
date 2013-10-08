@@ -404,14 +404,9 @@ namespace OpenTween
                     MSG2.Enabled = false;
                     UID.Text = fc.FilterName;
                     UID.SelectAll();
-                    MSG1.Text = "";
-                    MSG2.Text = "";
-                    foreach (string bf in fc.FilterBody)
-                    {
-                        MSG1.Text += bf + " ";
-                    }
-                    MSG1.Text = MSG1.Text.Trim();
+                    MSG1.Text = string.Join(" ", fc.FilterBody);
                     MSG1.SelectAll();
+                    MSG2.Text = "";
                 }
                 else
                 {
@@ -422,12 +417,7 @@ namespace OpenTween
                     MSG2.Enabled = true;
                     UID.Text = "";
                     MSG1.Text = "";
-                    MSG2.Text = "";
-                    foreach (string bf in fc.FilterBody)
-                    {
-                        MSG2.Text += bf + " ";
-                    }
-                    MSG2.Text = MSG2.Text.Trim();
+                    MSG2.Text = string.Join(" ", fc.FilterBody);
                     MSG2.SelectAll();
                 }
                 TextSource.Text = fc.FilterSource;
@@ -446,14 +436,9 @@ namespace OpenTween
                     ExMSG2.Enabled = false;
                     ExUID.Text = fc.ExFilterName;
                     ExUID.SelectAll();
-                    ExMSG1.Text = "";
-                    ExMSG2.Text = "";
-                    foreach (string bf in fc.ExFilterBody)
-                    {
-                        ExMSG1.Text += bf + " ";
-                    }
-                    ExMSG1.Text = ExMSG1.Text.Trim();
+                    ExMSG1.Text = string.Join(" ", fc.ExFilterBody);
                     ExMSG1.SelectAll();
+                    ExMSG2.Text = "";
                 }
                 else
                 {
@@ -464,12 +449,7 @@ namespace OpenTween
                     ExMSG2.Enabled = true;
                     ExUID.Text = "";
                     ExMSG1.Text = "";
-                    ExMSG2.Text = "";
-                    foreach (string bf in fc.ExFilterBody)
-                    {
-                        ExMSG2.Text += bf + " ";
-                    }
-                    ExMSG2.Text = ExMSG2.Text.Trim();
+                    ExMSG2.Text = string.Join(" ", fc.ExFilterBody);
                     ExMSG2.SelectAll();
                 }
                 TextExSource.Text = fc.ExFilterSource;
@@ -592,7 +572,7 @@ namespace OpenTween
                 ft.UseNameField = false;
                 bdy = MSG2.Text;
             }
-            ft.FilterSource = TextSource.Text.Trim();
+            ft.FilterSource = TextSource.Text;
 
             if (CheckRegex.Checked || CheckLambda.Checked)
             {
@@ -600,8 +580,7 @@ namespace OpenTween
             }
             else
             {
-                ft.FilterBody = bdy.Split((char)32)
-                    .Select(x => x.Trim())
+                ft.FilterBody = bdy.Split(' ', '　')
                     .Where(x => !string.IsNullOrEmpty(x))
                     .ToArray();
             }
@@ -625,7 +604,7 @@ namespace OpenTween
                 ft.ExUseNameField = false;
                 bdy = ExMSG2.Text;
             }
-            ft.ExFilterSource = TextExSource.Text.Trim();
+            ft.ExFilterSource = TextExSource.Text;
 
             if (CheckExRegex.Checked || CheckExLambDa.Checked)
             {
@@ -633,8 +612,7 @@ namespace OpenTween
             }
             else
             {
-                ft.ExFilterBody = bdy.Split((char)32)
-                    .Select(x => x.Trim())
+                ft.ExFilterBody = bdy.Split(' ', '　')
                     .Where(x => !string.IsNullOrEmpty(x))
                     .ToArray();
             }
@@ -696,13 +674,8 @@ namespace OpenTween
         private bool CheckMatchRule(out bool isBlank)
         {
             isBlank = false;
-            TextSource.Text = TextSource.Text.Trim();
             if (RadioAND.Checked)
             {
-                MSG1.Text = MSG1.Text.Trim();
-                UID.Text = UID.Text.Trim();
-                if (!CheckRegex.Checked && !CheckLambda.Checked) MSG1.Text = MSG1.Text.Replace("　", " ");
-
                 if (string.IsNullOrEmpty(UID.Text) && string.IsNullOrEmpty(MSG1.Text) && string.IsNullOrEmpty(TextSource.Text) && CheckRetweet.Checked == false)
                 {
                     isBlank = true;
@@ -733,8 +706,6 @@ namespace OpenTween
             }
             else
             {
-                MSG2.Text = MSG2.Text.Trim();
-                if (!CheckRegex.Checked && !CheckLambda.Checked) MSG2.Text = MSG2.Text.Replace("　", " ");
                 if (string.IsNullOrEmpty(MSG2.Text) && string.IsNullOrEmpty(TextSource.Text) && CheckRetweet.Checked == false)
                 {
                     isBlank = true;
@@ -760,12 +731,8 @@ namespace OpenTween
         private bool CheckExcludeRule(out bool isBlank)
         {
             isBlank = false;
-            TextExSource.Text = TextExSource.Text.Trim();
             if (RadioExAnd.Checked)
             {
-                ExMSG1.Text = ExMSG1.Text.Trim();
-                if (!CheckExRegex.Checked && !CheckExLambDa.Checked) ExMSG1.Text = ExMSG1.Text.Replace("　", " ");
-                ExUID.Text = ExUID.Text.Trim();
                 if (string.IsNullOrEmpty(ExUID.Text) && string.IsNullOrEmpty(ExMSG1.Text) && string.IsNullOrEmpty(TextExSource.Text) && CheckExRetweet.Checked == false)
                 {
                     isBlank = true;
@@ -796,8 +763,6 @@ namespace OpenTween
             }
             else
             {
-                ExMSG2.Text = ExMSG2.Text.Trim();
-                if (!CheckExRegex.Checked && !CheckExLambDa.Checked) ExMSG2.Text = ExMSG2.Text.Replace("　", " ");
                 if (string.IsNullOrEmpty(ExMSG2.Text) && string.IsNullOrEmpty(TextExSource.Text) && CheckExRetweet.Checked == false)
                 {
                     isBlank = true;
