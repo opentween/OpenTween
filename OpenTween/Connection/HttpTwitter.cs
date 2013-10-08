@@ -210,7 +210,7 @@ namespace OpenTween
                 param,
                 binary,
                 ref content,
-                this.CreateRetelimitHeadersDict(),
+                this.CreateRatelimitHeadersDict(),
                 this.CreateApiCalllback("/statuses/update_with_media"));
         }
 
@@ -278,7 +278,7 @@ namespace OpenTween
                 this.CreateTwitterUri("/1.1/users/show.json"),
                 param,
                 ref content,
-                this.CreateRetelimitHeadersDict(),
+                this.CreateRatelimitHeadersDict(),
                 this.CreateApiCalllback("/users/show/:id"));
         }
 
@@ -357,7 +357,7 @@ namespace OpenTween
                 this.CreateTwitterUri("/1.1/friendships/show.json"),
                 param,
                 ref content,
-                this.CreateRetelimitHeadersDict(),
+                this.CreateRatelimitHeadersDict(),
                 this.CreateApiCalllback("/friendships/show"));
         }
 
@@ -369,7 +369,7 @@ namespace OpenTween
                 this.CreateTwitterUri("/1.1/statuses/show/" + id + ".json"),
                 param,
                 ref content,
-                this.CreateRetelimitHeadersDict(),
+                this.CreateRatelimitHeadersDict(),
                 this.CreateApiCalllback("/statuses/show/:id"));
         }
 
@@ -415,7 +415,7 @@ namespace OpenTween
                 this.CreateTwitterUri("/1.1/statuses/home_timeline.json"),
                 param,
                 ref content,
-                this.CreateRetelimitHeadersDict(),
+                this.CreateRatelimitHeadersDict(),
                 this.CreateApiCalllback("/statuses/home_timeline"));
         }
 
@@ -444,7 +444,7 @@ namespace OpenTween
                 this.CreateTwitterUri("/1.1/statuses/user_timeline.json"),
                 param,
                 ref content,
-                this.CreateRetelimitHeadersDict(),
+                this.CreateRatelimitHeadersDict(),
                 this.CreateApiCalllback("/statuses/user_timeline"));
         }
 
@@ -464,7 +464,7 @@ namespace OpenTween
                 this.CreateTwitterUri("/1.1/statuses/mentions_timeline.json"),
                 param,
                 ref content,
-                this.CreateRetelimitHeadersDict(),
+                this.CreateRatelimitHeadersDict(),
                 this.CreateApiCalllback("/statuses/mentions_timeline"));
         }
 
@@ -483,7 +483,7 @@ namespace OpenTween
                 this.CreateTwitterUri("/1.1/direct_messages.json"),
                 param,
                 ref content,
-                this.CreateRetelimitHeadersDict(),
+                this.CreateRatelimitHeadersDict(),
                 this.CreateApiCalllback("/direct_messages"));
         }
 
@@ -502,7 +502,7 @@ namespace OpenTween
                 this.CreateTwitterUri("/1.1/direct_messages/sent.json"),
                 param,
                 ref content,
-                this.CreateRetelimitHeadersDict(),
+                this.CreateRatelimitHeadersDict(),
                 this.CreateApiCalllback("/direct_messages/sent"));
         }
 
@@ -522,7 +522,7 @@ namespace OpenTween
                 this.CreateTwitterUri("/1.1/favorites/list.json"),
                 param,
                 ref content,
-                this.CreateRetelimitHeadersDict(),
+                this.CreateRatelimitHeadersDict(),
                 this.CreateApiCalllback("/favorites/list"));
         }
 
@@ -543,7 +543,7 @@ namespace OpenTween
                 this.CreateTwitterUri("/1.1/search/tweets.json"),
                 param,
                 ref content,
-                this.CreateRetelimitHeadersDict(),
+                this.CreateRatelimitHeadersDict(),
                 this.CreateApiCalllback("/search/tweets"));
         }
 
@@ -553,7 +553,7 @@ namespace OpenTween
                 this.CreateTwitterUri("/1.1/saved_searches/list.json"),
                 null,
                 ref content,
-                this.CreateRetelimitHeadersDict(),
+                this.CreateRatelimitHeadersDict(),
                 this.CreateApiCalllback("/saved_searches/list"));
         }
 
@@ -566,7 +566,7 @@ namespace OpenTween
                 this.CreateTwitterUri("/1.1/followers/ids.json"),
                 param,
                 ref content,
-                this.CreateRetelimitHeadersDict(),
+                this.CreateRatelimitHeadersDict(),
                 this.CreateApiCalllback("/followers/ids"));
         }
 
@@ -576,7 +576,7 @@ namespace OpenTween
                 this.CreateTwitterUri("/1.1/friendships/no_retweets/ids.json"),
                 null,
                 ref content,
-                this.CreateRetelimitHeadersDict(),
+                this.CreateRatelimitHeadersDict(),
                 this.CreateApiCalllback("/friendships/no_retweets/ids"));
         }
 
@@ -586,7 +586,7 @@ namespace OpenTween
                 this.CreateTwitterUri("/1.1/application/rate_limit_status.json"),
                 null,
                 ref content,
-                this.CreateRetelimitHeadersDict(),
+                this.CreateRatelimitHeadersDict(),
                 this.CreateApiCalllback("/application/rate_limit_status"));
         }
 
@@ -600,7 +600,7 @@ namespace OpenTween
                 this.CreateTwitterUri("/1.1/lists/list.json"),
                 param,
                 ref content,
-                this.CreateRetelimitHeadersDict(),
+                this.CreateRatelimitHeadersDict(),
                 this.CreateApiCalllback("/lists/list"));
         }
 
@@ -648,7 +648,7 @@ namespace OpenTween
                 this.CreateTwitterUri("/1.1/lists/subscriptions.json"),
                 param,
                 ref content,
-                this.CreateRetelimitHeadersDict(),
+                this.CreateRatelimitHeadersDict(),
                 this.CreateApiCalllback("/lists/subscriptions"));
         }
 
@@ -671,7 +671,7 @@ namespace OpenTween
                 this.CreateTwitterUri("/1.1/lists/statuses.json"),
                 param,
                 ref content,
-                this.CreateRetelimitHeadersDict(),
+                this.CreateRatelimitHeadersDict(),
                 this.CreateApiCalllback("/lists/statuses"));
         }
 
@@ -705,7 +705,7 @@ namespace OpenTween
                 this.CreateTwitterUri("/1.1/lists/members.json"),
                 param,
                 ref content,
-                this.CreateRetelimitHeadersDict(),
+                this.CreateRatelimitHeadersDict(),
                 this.CreateApiCalllback("/lists/members"));
         }
 
@@ -744,7 +744,7 @@ namespace OpenTween
                 this.CreateTwitterUri("/1.1/lists/members/show.json"),
                 param,
                 ref content,
-                this.CreateRetelimitHeadersDict(),
+                this.CreateRatelimitHeadersDict(),
                 this.CreateApiCalllback("/lists/members/show"));
         }
         #endregion
@@ -763,7 +763,7 @@ namespace OpenTween
                 this.CreateTwitterUri("/1.1/statuses/retweeters/ids.json"),
                 param,
                 ref content,
-                this.CreateRetelimitHeadersDict(),
+                this.CreateRatelimitHeadersDict(),
                 this.CreateApiCalllback("/statuses/retweeters/ids"));
         }
 
@@ -810,7 +810,7 @@ namespace OpenTween
                 this.CreateTwitterUri("/1.1/blocks/ids.json"),
                 param,
                 ref content,
-                this.CreateRetelimitHeadersDict(),
+                this.CreateRatelimitHeadersDict(),
                 this.CreateApiCalllback("/blocks/ids"));
         }
 
@@ -820,7 +820,7 @@ namespace OpenTween
                 this.CreateTwitterUri("/1.1/help/configuration.json"),
                 null,
                 ref content,
-                this.CreateRetelimitHeadersDict(),
+                this.CreateRatelimitHeadersDict(),
                 this.CreateApiCalllback("/help/configuration"));
         }
 
@@ -830,7 +830,7 @@ namespace OpenTween
                 this.CreateTwitterUri("/1.1/account/verify_credentials.json"),
                 null,
                 ref content,
-                this.CreateRetelimitHeadersDict(),
+                this.CreateRatelimitHeadersDict(),
                 this.CreateApiCalllback("/account/verify_credentials"));
         }
 
@@ -864,7 +864,7 @@ namespace OpenTween
         }
         #endregion
 
-        private Dictionary<string, string> CreateRetelimitHeadersDict()
+        private Dictionary<string, string> CreateRatelimitHeadersDict()
         {
             return new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
             {
