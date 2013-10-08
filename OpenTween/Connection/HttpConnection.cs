@@ -127,6 +127,8 @@ namespace OpenTween
             //タイムアウト設定
             webReq.Timeout = this.InstanceTimeout ?? HttpConnection.DefaultTimeout;
 
+            webReq.UserAgent = MyCommon.GetUserAgentString();
+
             return webReq;
         }
 
