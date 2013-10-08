@@ -52,6 +52,9 @@ namespace OpenTween
                 hreq.Timeout = this.Timeout;
             }
 
+            if (HttpConnection.proxyKind != HttpConnection.ProxyType.IE)
+                req.Proxy = HttpConnection.proxy;
+
             return req;
         }
 
