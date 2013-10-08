@@ -85,7 +85,6 @@ namespace OpenTween
         private static string _bitlyId = "";
         private static string _bitlyKey = "";
         private static bool _isresolve = true;
-        private static bool _isForceResolve = true;
         private static Dictionary<string, string> urlCache = new Dictionary<string, string>();
 
         private static readonly object _lockObj = new object();
@@ -106,12 +105,6 @@ namespace OpenTween
             set { _isresolve = value; }
         }
 
-        public static bool IsForceResolve
-        {
-            get { return _isForceResolve; }
-            set { _isForceResolve = value; }
-        }
-
         public static string Resolve(string orgData, bool tcoResolve)
         {
             if (!_isresolve) return orgData;
@@ -129,7 +122,7 @@ namespace OpenTween
             {
                 string orgUrl = orgUrlMatch.Result("${svc}");
                 string orgUrlPath = orgUrlMatch.Result("${path}");
-                if ((_isForceResolve || Array.IndexOf(_ShortUrlService, orgUrl) > -1) &&
+                if (Array.IndexOf(_ShortUrlService, orgUrl) > -1 &&
                    !urlList.Contains(orgUrl + orgUrlPath) && orgUrl != "http://twitter.com/")
                 {
                     if (!tcoResolve && (orgUrl == "http://t.co/" || orgUrl == "https://t.co")) continue;
@@ -197,8 +190,7 @@ namespace OpenTween
             {
                 string orgUrl = m.Result("${svc}");
                 string orgUrlPath = m.Result("${path}");
-                if ((_isForceResolve ||
-                    Array.IndexOf(_ShortUrlService, orgUrl) > -1) && orgUrl != "http://twitter.com/")
+                if (Array.IndexOf(_ShortUrlService, orgUrl) > -1 && orgUrl != "http://twitter.com/")
                 {
                     if (!tcoResolve && (orgUrl == "http://t.co/" || orgUrl == "https://t.co/")) return orgData;
                     orgUrl += orgUrlPath;

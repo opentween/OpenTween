@@ -458,12 +458,6 @@ This file is released for developers in Growl for Windows web site.</value>
   <data name="ShortenTcoCheck.Text" xml:space="preserve">
     <value>t.co wrapping</value>
   </data>
-  <data name="CheckForceResolve.Size" type="System.Drawing.Size, System.Drawing">
-    <value>142, 16</value>
-  </data>
-  <data name="CheckForceResolve.Text" xml:space="preserve">
-    <value>Force Resolve All URL</value>
-  </data>
   <data name="CheckTinyURL.Size" type="System.Drawing.Size, System.Drawing">
     <value>145, 16</value>
   </data>

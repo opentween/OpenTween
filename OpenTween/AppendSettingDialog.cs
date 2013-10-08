@@ -371,9 +371,7 @@ namespace OpenTween
                 SortOrderLock = CheckSortOrderLock.Checked;
                 ViewTabBottom = CheckViewTabBottom.Checked;
                 TinyUrlResolve = CheckTinyURL.Checked;
-                ShortUrlForceResolve = CheckForceResolve.Checked;
                 ShortUrl.IsResolve = TinyUrlResolve;
-                ShortUrl.IsForceResolve = ShortUrlForceResolve;
                 if (RadioProxyNone.Checked)
                 {
                     _MyProxyType = HttpConnection.ProxyType.None;
@@ -737,7 +735,6 @@ namespace OpenTween
             CheckSortOrderLock.Checked = SortOrderLock;
             CheckViewTabBottom.Checked = ViewTabBottom;
             CheckTinyURL.Checked = TinyUrlResolve;
-            CheckForceResolve.Checked = ShortUrlForceResolve;
             switch (_MyProxyType)
             {
                 case HttpConnection.ProxyType.None:
@@ -1320,7 +1317,6 @@ namespace OpenTween
         public MyCommon.DispTitleEnum DispLatestPost { get; set; }
         public string BrowserPath { get; set; }
         public bool TinyUrlResolve { get; set; }
-        public bool ShortUrlForceResolve { get; set; }
 
         private void CheckUseRecommendStatus_CheckedChanged(object sender, EventArgs e)
         {

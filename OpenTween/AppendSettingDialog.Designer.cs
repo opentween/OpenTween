@@ -86,7 +86,6 @@
             this.TextCountApi = new System.Windows.Forms.TextBox();
             this.ShortUrlPanel = new System.Windows.Forms.Panel();
             this.ShortenTcoCheck = new System.Windows.Forms.CheckBox();
-            this.CheckForceResolve = new System.Windows.Forms.CheckBox();
             this.CheckTinyURL = new System.Windows.Forms.CheckBox();
             this.TextBitlyPw = new System.Windows.Forms.TextBox();
             this.CheckAutoConvertUrl = new System.Windows.Forms.CheckBox();
@@ -792,7 +791,6 @@
             // 
             resources.ApplyResources(this.ShortUrlPanel, "ShortUrlPanel");
             this.ShortUrlPanel.Controls.Add(this.ShortenTcoCheck);
-            this.ShortUrlPanel.Controls.Add(this.CheckForceResolve);
             this.ShortUrlPanel.Controls.Add(this.CheckTinyURL);
             this.ShortUrlPanel.Controls.Add(this.TextBitlyPw);
             this.ShortUrlPanel.Controls.Add(this.CheckAutoConvertUrl);
@@ -810,13 +808,6 @@
             this.ShortenTcoCheck.Name = "ShortenTcoCheck";
             this.ToolTip1.SetToolTip(this.ShortenTcoCheck, resources.GetString("ShortenTcoCheck.ToolTip"));
             this.ShortenTcoCheck.UseVisualStyleBackColor = true;
-            // 
-            // CheckForceResolve
-            // 
-            resources.ApplyResources(this.CheckForceResolve, "CheckForceResolve");
-            this.CheckForceResolve.Name = "CheckForceResolve";
-            this.ToolTip1.SetToolTip(this.CheckForceResolve, resources.GetString("CheckForceResolve.ToolTip"));
-            this.CheckForceResolve.UseVisualStyleBackColor = true;
             // 
             // CheckTinyURL
             // 
@@ -2665,7 +2656,6 @@
         internal System.Windows.Forms.TextBox TextCountApi;
         internal System.Windows.Forms.Panel ShortUrlPanel;
         internal System.Windows.Forms.CheckBox ShortenTcoCheck;
-        internal System.Windows.Forms.CheckBox CheckForceResolve;
         internal System.Windows.Forms.CheckBox CheckTinyURL;
         internal System.Windows.Forms.TextBox TextBitlyPw;
         internal System.Windows.Forms.CheckBox CheckAutoConvertUrl;
