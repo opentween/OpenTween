@@ -30,6 +30,7 @@ using System.IO;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Globalization;
 using System.Reflection;
 
@@ -58,7 +59,13 @@ namespace OpenTween
                     return 1;
                 }
 
-                Application.ThreadException += MyApplication_UnhandledException;
+                TaskScheduler.UnobservedTaskException += (s, e) =>
+                {
+                    e.SetObserved();
+                    OnUnhandledException(e.Exception.Flatten());
+                };
+                Application.ThreadException += (s, e) => OnUnhandledException(e.Exception);
+                AppDomain.CurrentDomain.UnhandledException += (s, e) => OnUnhandledException((Exception)e.ExceptionObject);
 
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
@@ -91,16 +98,11 @@ namespace OpenTween
             }
         }
 
-        private static void MyApplication_UnhandledException(object sender, ThreadExceptionEventArgs e)
+        private static void OnUnhandledException(Exception ex)
         {
-            //GDI+のエラー原因を特定したい
-            if (e.Exception.Message != "A generic error occurred in GDI+." &&
-               e.Exception.Message != "GDI+ で汎用エラーが発生しました。")
+            if (MyCommon.ExceptionOut(ex))
             {
-                if (MyCommon.ExceptionOut(e.Exception))
-                {
-                    Application.Exit();
-                }
+                Application.Exit();
             }
         }
 
