@@ -22,6 +22,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Drawing;
 using System.IO;
@@ -43,7 +44,7 @@ namespace OpenTween
 
         protected bool disposed = false;
 
-        /// <exception cref="ArgumentException">
+        /// <exception cref="InvalidImageException">
         /// ストリームから読みだされる画像データが不正な場合にスローされる
         /// </exception>
         protected MemoryImage(Stream stream)
@@ -52,11 +53,12 @@ namespace OpenTween
             {
                 this.Image = Image.FromStream(stream);
             }
-            catch (ArgumentException)
+            catch (ArgumentException e)
             {
                 stream.Dispose();
-                throw;
+                throw new InvalidImageException("Invalid image", e);
             }
+
             this.Stream = stream;
         }
 
@@ -95,6 +97,7 @@ namespace OpenTween
         /// </remarks>
         /// <param name="stream">読み込む対象となる Stream</param>
         /// <returns>作成された MemoryImage</returns>
+        /// <exception cref="InvalidImageException">不正な画像データが入力された場合</exception>
         public static MemoryImage CopyFromStream(Stream stream)
         {
             var memstream = new MemoryStream();
@@ -114,9 +117,21 @@ namespace OpenTween
         /// </summary>
         /// <param name="bytes">読み込む対象となるバイト列</param>
         /// <returns>作成された MemoryImage</returns>
+        /// <exception cref="InvalidImageException">不正な画像データが入力された場合</exception>
         public static MemoryImage CopyFromBytes(byte[] bytes)
         {
             return new MemoryImage(new MemoryStream(bytes));
         }
+    }
+
+    /// <summary>
+    /// 不正な画像データに対してスローされる例外
+    /// </summary>
+    public class InvalidImageException : Exception
+    {
+        public InvalidImageException() : base() { }
+        public InvalidImageException(string message) : base(message) { }
+        public InvalidImageException(string message, Exception innerException) : base(message, innerException) { }
+        public InvalidImageException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

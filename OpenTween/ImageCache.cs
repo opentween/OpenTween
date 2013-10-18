@@ -112,24 +112,20 @@ namespace OpenTween
                     {
                         var imageTask = client.DownloadDataAsync(new Uri(address), cancelToken).ContinueWith(t =>
                         {
-                            MemoryImage image = null;
-                            if (t.Status == TaskStatus.RanToCompletion)
-                            {
-                                try
-                                {
-                                    image = MemoryImage.CopyFromBytes(t.Result);
-                                }
-                                catch (ArgumentException)  // 画像形式が不正
-                                {
-                                    image = null;
-                                }
-                            }
-
                             if (t.Exception != null)
                                 t.Exception.Handle(e => e is WebException);
 
-                            // FIXME: MemoryImage.Dispose() が正しいタイミングで呼ばれるように修正すべき
-                            return image;
+                            if (t.Status != TaskStatus.RanToCompletion)
+                                return null;
+
+                            try
+                            {
+                                return MemoryImage.CopyFromBytes(t.Result);
+                            }
+                            catch (InvalidImageException)  // 画像形式が不正
+                            {
+                                return null;
+                            }
                         }, cancelToken);
 
                         this.innerDictionary[address] = imageTask;
