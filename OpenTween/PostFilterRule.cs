@@ -432,7 +432,7 @@ namespace OpenTween
                     {
                         bodyExpr = Expression.OrElse(
                             bodyExpr,
-                            this.MakeGenericFilter(postParam, "ScreenName", body, useRegex, caseSensitive));
+                            this.MakeGenericFilter(postParam, "ScreenName", body, useRegex, caseSensitive, exactMatch: true));
 
                         // bodyExpr || x.RetweetedBy != null && <MakeGenericFilter()>
                         bodyExpr = Expression.OrElse(
@@ -443,7 +443,7 @@ namespace OpenTween
                                         postParam,
                                         typeof(PostClass).GetProperty("RetweetedBy")),
                                     Expression.Constant(null)),
-                                this.MakeGenericFilter(postParam, "RetweetedBy", body, useRegex, caseSensitive)));
+                                this.MakeGenericFilter(postParam, "RetweetedBy", body, useRegex, caseSensitive, exactMatch: true)));
                     }
                 }
 
