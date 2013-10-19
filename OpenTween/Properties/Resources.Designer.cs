@@ -625,6 +625,8 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Ver 1.1.5-beta1(2013/xx/xx)
+        ///
         ///==== Ver 1.1.4(2013/10/19)
         /// * CHG: タブ振り分けルールでのスクリーン名に対するヒット条件が、「複合条件」では完全一致、「単一条件」では部分一致となっていたため完全一致に統一
         /// * FIX: 取得したプロフィール画像が壊れていた場合にOpenTweenが異常終了してしまう問題の修正 (thx @5px, @selvaggio!)
@@ -634,7 +636,7 @@ namespace OpenTween.Properties {
         ///==== Ver 1.1.3(2013/10/11)
         /// * タブ振り分けルールの挙動が若干変わりました
         /// * 基本的には Tween の Wiki に記載されている挙動に忠実にしたものですが、一部利用者には影響があるかもしれません
-        /// * http://sourceforge.jp/projects/tween/wiki/%E3%82%BF%E3%83% [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * http://sourceforge.jp/ [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
