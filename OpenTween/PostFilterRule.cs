@@ -427,12 +427,23 @@ namespace OpenTween
                     else
                         bodyExpr = this.MakeGenericFilter(postParam, "TextFromApi", body, useRegex, caseSensitive);
 
+                    // useNameField = false の場合は ScreenName と RetweetedBy も filterBody のマッチ対象となる
                     if (!useNameField)
                     {
-                        // useNameField = false の場合は ScreenName も filterBody のマッチ対象となる
                         bodyExpr = Expression.OrElse(
                             bodyExpr,
                             this.MakeGenericFilter(postParam, "ScreenName", body, useRegex, caseSensitive));
+
+                        // bodyExpr || x.RetweetedBy != null && <MakeGenericFilter()>
+                        bodyExpr = Expression.OrElse(
+                            bodyExpr,
+                            Expression.AndAlso(
+                                Expression.NotEqual(
+                                    Expression.Property(
+                                        postParam,
+                                        typeof(PostClass).GetProperty("RetweetedBy")),
+                                    Expression.Constant(null)),
+                                this.MakeGenericFilter(postParam, "RetweetedBy", body, useRegex, caseSensitive)));
                     }
                 }
 
@@ -476,17 +487,20 @@ namespace OpenTween
             ParameterExpression postParam, string targetFieldName, string pattern,
             bool useRegex, bool caseSensitive, bool exactMatch = false)
         {
+            // x.<targetFieldName>
+            var targetField = Expression.Property(
+                postParam,
+                typeof(PostClass).GetProperty(targetFieldName));
+
             if (useRegex)
             {
                 var regex = new Regex(pattern, caseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase);
 
-                // regex.IsMatch(x.<targetFieldName>)
+                // regex.IsMatch(targetField)
                 return Expression.Call(
                     Expression.Constant(regex),
                     typeof(Regex).GetMethod("IsMatch", new[] { typeof(string) }),
-                    Expression.Property(
-                        postParam,
-                        typeof(PostClass).GetProperty(targetFieldName)));
+                    targetField);
             }
             else
             {
@@ -495,25 +509,21 @@ namespace OpenTween
                 if (exactMatch)
                 {
                     // 完全一致
-                    // pattern.Equals(x.<targetFieldName>, compOpt)
+                    // pattern.Equals(targetField, compOpt)
                     return Expression.Call(
                         Expression.Constant(pattern),
                         typeof(string).GetMethod("Equals", new[] { typeof(string), typeof(StringComparison) }),
-                        Expression.Property(
-                            postParam,
-                            typeof(PostClass).GetProperty(targetFieldName)),
+                        targetField,
                         Expression.Constant(compOpt));
 
                 }
                 else
                 {
                     // 部分一致
-                    // x.<targetFieldName>.IndexOf(pattern, compOpt) != -1
+                    // targetField.IndexOf(pattern, compOpt) != -1
                     return Expression.NotEqual(
                         Expression.Call(
-                            Expression.Property(
-                                postParam,
-                                typeof(PostClass).GetProperty(targetFieldName)),
+                            targetField,
                             typeof(string).GetMethod("IndexOf", new[] { typeof(string), typeof(StringComparison) }),
                             Expression.Constant(pattern),
                             Expression.Constant(compOpt)),

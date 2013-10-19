@@ -337,6 +337,14 @@ namespace OpenTween
             post = new PostClass { ScreenName = "aaabbb", TextFromApi = "test" };
             Assert.That(filter.ExecFilter(post), Is.EqualTo(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark));
 
+            // RetweetedBy に FilterBody の文字列が全て含まれている
+            post = new PostClass { ScreenName = "hoge", TextFromApi = "test", RetweetedBy = "aaabbb" };
+            Assert.That(filter.ExecFilter(post), Is.EqualTo(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark));
+
+            // RetweetedBy が null でなくても依然として ScreenName にはマッチする
+            post = new PostClass { ScreenName = "aaabbb", TextFromApi = "test", RetweetedBy = "hoge" };
+            Assert.That(filter.ExecFilter(post), Is.EqualTo(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark));
+
             // FilterBody と ScreenName に FilterBody の文字列がそれぞれ含まれている
             post = new PostClass { ScreenName = "aaa", TextFromApi = "bbb" };
             Assert.That(filter.ExecFilter(post), Is.EqualTo(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark));
@@ -353,6 +361,9 @@ namespace OpenTween
             post = new PostClass { ScreenName = "AaaBbb", TextFromApi = "test" };
             Assert.That(filter.ExecFilter(post), Is.EqualTo(MyCommon.HITRESULT.None));
 
+            post = new PostClass { ScreenName = "hoge", TextFromApi = "test", RetweetedBy = "AaaBbb" };
+            Assert.That(filter.ExecFilter(post), Is.EqualTo(MyCommon.HITRESULT.None));
+
             // 大小文字を区別しない
             if (!exclude)
                 filter.CaseSensitive = false;
@@ -363,6 +374,9 @@ namespace OpenTween
             Assert.That(filter.ExecFilter(post), Is.EqualTo(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark));
 
             post = new PostClass { ScreenName = "AaaBbb", TextFromApi = "test" };
+            Assert.That(filter.ExecFilter(post), Is.EqualTo(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark));
+
+            post = new PostClass { ScreenName = "hoge", TextFromApi = "test", RetweetedBy = "AaaBbb" };
             Assert.That(filter.ExecFilter(post), Is.EqualTo(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark));
         }
 
@@ -417,6 +431,14 @@ namespace OpenTween
             post = new PostClass { ScreenName = "aaabbb", Text = "<a href='http://example.com/123'>t.co/hoge</a>" };
             Assert.That(filter.ExecFilter(post), Is.EqualTo(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark));
 
+            // RetweetedBy に FilterBody の文字列が全て含まれている
+            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/123'>t.co/hoge</a>", RetweetedBy = "aaabbb" };
+            Assert.That(filter.ExecFilter(post), Is.EqualTo(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark));
+
+            // RetweetedBy が null でなくても依然として ScreenName にはマッチする
+            post = new PostClass { ScreenName = "aaabbb", Text = "<a href='http://example.com/123'>t.co/hoge</a>", RetweetedBy = "hoge" };
+            Assert.That(filter.ExecFilter(post), Is.EqualTo(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark));
+
             // FilterBody と ScreenName に FilterBody の文字列がそれぞれ含まれている
             post = new PostClass { ScreenName = "aaa", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>" };
             Assert.That(filter.ExecFilter(post), Is.EqualTo(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark));
@@ -433,6 +455,9 @@ namespace OpenTween
             post = new PostClass { ScreenName = "AaaBbb", Text = "<a href='http://example.com/123'>t.co/hoge</a>" };
             Assert.That(filter.ExecFilter(post), Is.EqualTo(MyCommon.HITRESULT.None));
 
+            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/123'>t.co/hoge</a>", RetweetedBy = "AaaBbb" };
+            Assert.That(filter.ExecFilter(post), Is.EqualTo(MyCommon.HITRESULT.None));
+
             // 大小文字を区別しない
             if (!exclude)
                 filter.CaseSensitive = false;
@@ -443,6 +468,9 @@ namespace OpenTween
             Assert.That(filter.ExecFilter(post), Is.EqualTo(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark));
 
             post = new PostClass { ScreenName = "AaaBbb", Text = "<a href='http://example.com/123'>t.co/hoge</a>" };
+            Assert.That(filter.ExecFilter(post), Is.EqualTo(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark));
+
+            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/123'>t.co/hoge</a>", RetweetedBy = "AaaBbb" };
             Assert.That(filter.ExecFilter(post), Is.EqualTo(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark));
         }
 
