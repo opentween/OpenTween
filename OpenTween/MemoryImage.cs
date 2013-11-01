@@ -22,6 +22,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Drawing;
@@ -61,6 +62,12 @@ namespace OpenTween
             catch (OutOfMemoryException e)
             {
                 // GDI+ がサポートしない画像形式で OutOfMemoryException がスローされる場合があるらしい
+                stream.Dispose();
+                throw new InvalidImageException("Invalid image?", e);
+            }
+            catch (ExternalException e)
+            {
+                // 「GDI+ で汎用エラーが発生しました」という大雑把な例外がスローされる場合があるらしい
                 stream.Dispose();
                 throw new InvalidImageException("Invalid image?", e);
             }
