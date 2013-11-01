@@ -58,6 +58,17 @@ namespace OpenTween
                 stream.Dispose();
                 throw new InvalidImageException("Invalid image", e);
             }
+            catch (OutOfMemoryException e)
+            {
+                // GDI+ がサポートしない画像形式で OutOfMemoryException がスローされる場合があるらしい
+                stream.Dispose();
+                throw new InvalidImageException("Invalid image?", e);
+            }
+            catch (Exception)
+            {
+                stream.Dispose();
+                throw;
+            }
 
             this.Stream = stream;
         }
