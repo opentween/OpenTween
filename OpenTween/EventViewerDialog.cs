@@ -73,6 +73,12 @@ namespace OpenTween
 
         private void EventViewerDialog_Shown(object sender, EventArgs e)
         {
+            // タブ初期化
+            foreach (var tabPage in CreateTabsFromUserStreamsEvent())
+            {
+                TabEventType.TabPages.Add(tabPage);
+            }
+
             EventList.BeginUpdate();
             _curTab = TabEventType.SelectedTab;
             CreateFilterdEventSource();
@@ -265,6 +271,18 @@ namespace OpenTween
                              _event.Target + "\t" +
                              _event.Id.ToString());
             }
+        }
+
+        private static IEnumerable<TabPage> CreateTabsFromUserStreamsEvent()
+        {
+            return Enum.GetNames(typeof(MyCommon.EVENTTYPE))
+                       .Where(e => e != "None" && e != "All")
+                       .Select(e => new TabPage(e)
+                       {
+                           // Name = "TabPage" + e,
+                           Tag = e,
+                           UseVisualStyleBackColor = true
+                       });
         }
     }
 }

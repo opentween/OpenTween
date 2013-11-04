@@ -29,9 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EventViewerDialog));
-            this.TabPageUnfav = new System.Windows.Forms.TabPage();
             this.SaveLogButton = new System.Windows.Forms.Button();
-            this.TabPageFollow = new System.Windows.Forms.TabPage();
             this.CheckBoxFilter = new System.Windows.Forms.CheckBox();
             this.TabPageAll = new System.Windows.Forms.TabPage();
             this.EventList = new System.Windows.Forms.ListView();
@@ -41,16 +39,10 @@
             this.ColumnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CheckRegex = new System.Windows.Forms.CheckBox();
             this.TextBoxKeyword = new System.Windows.Forms.TextBox();
-            this.TabPageFav = new System.Windows.Forms.TabPage();
             this.StatusLabelCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.OK_Button = new System.Windows.Forms.Button();
             this.StatusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.TabPageAddLists = new System.Windows.Forms.TabPage();
             this.TabEventType = new System.Windows.Forms.TabControl();
-            this.TabPageRemoveLists = new System.Windows.Forms.TabPage();
-            this.TabPageListsCreated = new System.Windows.Forms.TabPage();
-            this.TabPageBlock = new System.Windows.Forms.TabPage();
-            this.TabPageUserUpdate = new System.Windows.Forms.TabPage();
             this.ButtonRefresh = new System.Windows.Forms.Button();
             this.CheckExcludeMyEvent = new System.Windows.Forms.CheckBox();
             this.SaveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
@@ -59,26 +51,12 @@
             this.TabEventType.SuspendLayout();
             this.SuspendLayout();
             // 
-            // TabPageUnfav
-            // 
-            resources.ApplyResources(this.TabPageUnfav, "TabPageUnfav");
-            this.TabPageUnfav.Name = "TabPageUnfav";
-            this.TabPageUnfav.Tag = "Unfavorite";
-            this.TabPageUnfav.UseVisualStyleBackColor = true;
-            // 
             // SaveLogButton
             // 
             resources.ApplyResources(this.SaveLogButton, "SaveLogButton");
             this.SaveLogButton.Name = "SaveLogButton";
             this.SaveLogButton.UseVisualStyleBackColor = true;
             this.SaveLogButton.Click += new System.EventHandler(this.SaveLogButton_Click);
-            // 
-            // TabPageFollow
-            // 
-            resources.ApplyResources(this.TabPageFollow, "TabPageFollow");
-            this.TabPageFollow.Name = "TabPageFollow";
-            this.TabPageFollow.Tag = "Follow";
-            this.TabPageFollow.UseVisualStyleBackColor = true;
             // 
             // CheckBoxFilter
             // 
@@ -141,13 +119,6 @@
             this.TextBoxKeyword.Name = "TextBoxKeyword";
             this.TextBoxKeyword.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxKeyword_KeyPress);
             // 
-            // TabPageFav
-            // 
-            resources.ApplyResources(this.TabPageFav, "TabPageFav");
-            this.TabPageFav.Name = "TabPageFav";
-            this.TabPageFav.Tag = "Favorite";
-            this.TabPageFav.UseVisualStyleBackColor = true;
-            // 
             // StatusLabelCount
             // 
             this.StatusLabelCount.Name = "StatusLabelCount";
@@ -167,57 +138,14 @@
             resources.ApplyResources(this.StatusStrip1, "StatusStrip1");
             this.StatusStrip1.Name = "StatusStrip1";
             // 
-            // TabPageAddLists
-            // 
-            resources.ApplyResources(this.TabPageAddLists, "TabPageAddLists");
-            this.TabPageAddLists.Name = "TabPageAddLists";
-            this.TabPageAddLists.Tag = "ListMemberAdded";
-            this.TabPageAddLists.UseVisualStyleBackColor = true;
-            // 
             // TabEventType
             // 
             resources.ApplyResources(this.TabEventType, "TabEventType");
             this.TabEventType.Controls.Add(this.TabPageAll);
-            this.TabEventType.Controls.Add(this.TabPageFav);
-            this.TabEventType.Controls.Add(this.TabPageUnfav);
-            this.TabEventType.Controls.Add(this.TabPageFollow);
-            this.TabEventType.Controls.Add(this.TabPageAddLists);
-            this.TabEventType.Controls.Add(this.TabPageRemoveLists);
-            this.TabEventType.Controls.Add(this.TabPageListsCreated);
-            this.TabEventType.Controls.Add(this.TabPageBlock);
-            this.TabEventType.Controls.Add(this.TabPageUserUpdate);
             this.TabEventType.Name = "TabEventType";
             this.TabEventType.SelectedIndex = 0;
             this.TabEventType.SelectedIndexChanged += new System.EventHandler(this.TabEventType_SelectedIndexChanged);
             this.TabEventType.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.TabEventType_Selecting);
-            // 
-            // TabPageRemoveLists
-            // 
-            resources.ApplyResources(this.TabPageRemoveLists, "TabPageRemoveLists");
-            this.TabPageRemoveLists.Name = "TabPageRemoveLists";
-            this.TabPageRemoveLists.Tag = "ListMemberRemoved";
-            this.TabPageRemoveLists.UseVisualStyleBackColor = true;
-            // 
-            // TabPageListsCreated
-            // 
-            resources.ApplyResources(this.TabPageListsCreated, "TabPageListsCreated");
-            this.TabPageListsCreated.Name = "TabPageListsCreated";
-            this.TabPageListsCreated.Tag = "ListCreated";
-            this.TabPageListsCreated.UseVisualStyleBackColor = true;
-            // 
-            // TabPageBlock
-            // 
-            resources.ApplyResources(this.TabPageBlock, "TabPageBlock");
-            this.TabPageBlock.Name = "TabPageBlock";
-            this.TabPageBlock.Tag = "Block";
-            this.TabPageBlock.UseVisualStyleBackColor = true;
-            // 
-            // TabPageUserUpdate
-            // 
-            resources.ApplyResources(this.TabPageUserUpdate, "TabPageUserUpdate");
-            this.TabPageUserUpdate.Name = "TabPageUserUpdate";
-            this.TabPageUserUpdate.Tag = "UserUpdate";
-            this.TabPageUserUpdate.UseVisualStyleBackColor = true;
             // 
             // ButtonRefresh
             // 
@@ -263,9 +191,7 @@
 
         #endregion
 
-        internal System.Windows.Forms.TabPage TabPageUnfav;
         internal System.Windows.Forms.Button SaveLogButton;
-        internal System.Windows.Forms.TabPage TabPageFollow;
         internal System.Windows.Forms.CheckBox CheckBoxFilter;
         internal System.Windows.Forms.TabPage TabPageAll;
         internal System.Windows.Forms.ListView EventList;
@@ -275,16 +201,10 @@
         internal System.Windows.Forms.ColumnHeader ColumnHeader4;
         internal System.Windows.Forms.CheckBox CheckRegex;
         internal System.Windows.Forms.TextBox TextBoxKeyword;
-        internal System.Windows.Forms.TabPage TabPageFav;
         internal System.Windows.Forms.ToolStripStatusLabel StatusLabelCount;
         internal System.Windows.Forms.Button OK_Button;
         internal System.Windows.Forms.StatusStrip StatusStrip1;
-        internal System.Windows.Forms.TabPage TabPageAddLists;
         internal System.Windows.Forms.TabControl TabEventType;
-        internal System.Windows.Forms.TabPage TabPageRemoveLists;
-        internal System.Windows.Forms.TabPage TabPageListsCreated;
-        internal System.Windows.Forms.TabPage TabPageBlock;
-        internal System.Windows.Forms.TabPage TabPageUserUpdate;
         internal System.Windows.Forms.Button ButtonRefresh;
         internal System.Windows.Forms.CheckBox CheckExcludeMyEvent;
         internal System.Windows.Forms.SaveFileDialog SaveFileDialog1;

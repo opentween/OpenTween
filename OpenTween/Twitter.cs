@@ -3530,7 +3530,8 @@ namespace OpenTween
                     evt.Target = "";
                     break;
                 case "unfollow":
-                    return;
+                    evt.Target = "@" + eventData.Target.ScreenName;
+                    break;
                 case "favorite":
                 case "unfavorite":
                     evt.Target = "@" + eventData.TargetObject.User.ScreenName + ":" + WebUtility.HtmlDecode(eventData.TargetObject.Text);
@@ -3589,6 +3590,8 @@ namespace OpenTween
                 case "list_member_added":
                 case "list_member_removed":
                 case "list_updated":
+                case "list_user_subscribed":
+                case "list_user_unsubscribed":
                     evt.Target = eventData.TargetObject.FullName;
                     break;
                 case "block":
@@ -3605,9 +3608,6 @@ namespace OpenTween
                 case "list_created":
                     evt.Target = "";
                     break;
-                case "list_user_subscribed":
-                case "list_user_unsubscribed":
-                    return;
                 default:
                     MyCommon.TraceOut("Unknown Event:" + evt.Event + Environment.NewLine + content);
                     break;
