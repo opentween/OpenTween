@@ -60,35 +60,30 @@ namespace OpenTween
 
         private Task GetImageAsync(bool force = false)
         {
-            return this.imageCache.DownloadImageAsync(this.imageUrl, force).ContinueWith(t =>
-            {
-                if (t.IsFaulted)
+            var uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+
+            return this.imageCache.DownloadImageAsync(this.imageUrl, force)
+                .ContinueWith(t =>
                 {
-                    t.Exception.Handle(x => x is InvalidImageException);
-                    return;
-                }
-
-                var image = t.Result;
-
-                this._ImageReference.Target = image;
-
-                if (this.ListView != null &&
-                    this.ListView.Created &&
-                    !this.ListView.IsDisposed)
-                {
-                    this.ListView.Invoke(new MethodInvoker(() =>
+                    if (t.IsFaulted)
                     {
-                        if (this.Index < this.ListView.VirtualListSize)
-                        {
-                            this.ListView.RedrawItems(this.Index, this.Index, true);
-                            if (ImageDownloaded != null)
-                            {
-                                ImageDownloaded(this, EventArgs.Empty);
-                            }
-                        }
-                    }));
-                }
-            });
+                        t.Exception.Handle(x => x is InvalidImageException);
+                        return;
+                    }
+
+                    this._ImageReference.Target = t.Result;
+
+                    if (this.ListView == null || !this.ListView.Created || this.ListView.IsDisposed)
+                        return;
+
+                    if (this.Index < this.ListView.VirtualListSize)
+                    {
+                        this.ListView.RedrawItems(this.Index, this.Index, true);
+
+                        if (this.ImageDownloaded != null)
+                            this.ImageDownloaded(this, EventArgs.Empty);
+                    }
+                }, uiScheduler);
         }
 
         public MemoryImage Image
