@@ -33,33 +33,40 @@ namespace OpenTween
 {
     public class ImageListViewItem : ListViewItem
     {
+        protected readonly ImageCache imageCache;
+        protected readonly string imageUrl;
+
+        private WeakReference imageReference = new WeakReference(null);
+
         public event EventHandler ImageDownloaded;
-        private ImageCache imageCache = null;
-        private string imageUrl;
 
-        private WeakReference _ImageReference = new WeakReference(null);
-
-        public ImageListViewItem(string[] items, string imageKey)
-            : base(items, imageKey)
+        public ImageListViewItem(string[] items)
+            : this(items, null, null)
         {
         }
 
-        public ImageListViewItem(string[] items, ImageCache imageDictionary, string imageKey)
-            : base(items, imageKey)
+        public ImageListViewItem(string[] items, ImageCache imageCache, string imageUrl)
+            : base(items, imageUrl)
         {
-            this.imageCache = imageDictionary;
-            this.imageUrl = imageKey;
+            this.imageCache = imageCache;
+            this.imageUrl = imageUrl;
 
-            var image = this.imageCache.TryGetFromCache(imageKey);
+            if (imageCache != null)
+            {
+                var image = imageCache.TryGetFromCache(imageUrl);
 
-            if (image == null)
-                this.GetImageAsync();
-            else
-                this._ImageReference.Target = image;
+                if (image == null)
+                    this.GetImageAsync();
+                else
+                    this.imageReference.Target = image;
+            }
         }
 
         private Task GetImageAsync(bool force = false)
         {
+            if (string.IsNullOrEmpty(this.imageUrl))
+                return Task.Factory.StartNew(() => { });
+
             var uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
 
             return this.imageCache.DownloadImageAsync(this.imageUrl, force)
@@ -71,7 +78,7 @@ namespace OpenTween
                         return;
                     }
 
-                    this._ImageReference.Target = t.Result;
+                    this.imageReference.Target = t.Result;
 
                     if (this.ListView == null || !this.ListView.Created || this.ListView.IsDisposed)
                         return;
@@ -90,28 +97,14 @@ namespace OpenTween
         {
             get
             {
-                if (string.IsNullOrEmpty(this.imageUrl))
-                    return null;
-
-                var img = this._ImageReference.Target as MemoryImage;
-
-                return img;
+                return (MemoryImage)this.imageReference.Target;
             }
         }
 
-        public void RegetImage()
+        public void RefreshImage()
         {
-            this._ImageReference.Target = null;
+            this.imageReference.Target = null;
             this.GetImageAsync(true);
         }
-
-        //~ImageListViewItem()
-        //    if (this.Image IsNot null)
-        //    {
-        //        this.Image.Dispose()
-        //        this.Image = null
-        //    }
-        //    MyBase.Finalize()
-        //}
     }
 }
