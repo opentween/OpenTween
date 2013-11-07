@@ -151,8 +151,11 @@ namespace OpenTween
         {
             lock (this.lockObject)
             {
-                this.cancelTokenSource.Cancel();
+                var oldTokenSource = this.cancelTokenSource;
                 this.cancelTokenSource = new CancellationTokenSource();
+
+                oldTokenSource.Cancel();
+                oldTokenSource.Dispose();
             }
         }
 
