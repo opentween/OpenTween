@@ -40,6 +40,9 @@
   <PropertyGroup>
     <ApplicationIcon>Resources\4b.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -451,6 +454,9 @@
     <None Include="..\LICENSE.LGPL-3">
       <Link>LICENSE.LGPL-3</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="app.manifest">
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
