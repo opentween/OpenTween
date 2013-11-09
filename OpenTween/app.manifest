@@ -54,4 +54,11 @@
     </dependentAssembly>
   </dependency>-->
 
+  <asmv3:application xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" >
+    <asmv3:windowsSettings xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">
+      <!-- DPI 対応であることを宣言 -->
+      <dpiAware>true</dpiAware>
+    </asmv3:windowsSettings>
+  </asmv3:application>
+
 </asmv1:assembly>
