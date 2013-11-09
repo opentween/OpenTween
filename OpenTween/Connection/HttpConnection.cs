@@ -667,7 +667,7 @@ namespace OpenTween
 
             // Windows 8.1の場合SecurityProtocolを明確に指定する必要がある  
             var osVersion = Environment.OSVersion.Version;  
-            if (osVersion.Major == 6 && osVersion.Minor == 2)  
+            if (osVersion.Major == 6 && osVersion.Minor == 3)  
             {  
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3;  
             }  
