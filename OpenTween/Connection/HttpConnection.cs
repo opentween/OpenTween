@@ -665,7 +665,8 @@ namespace OpenTween
             }
             proxyKind = proxyType;
 
-            // Windows 8.1の場合SecurityProtocolを明確に指定する必要がある  
+            // Windows 8.1 Previewの場合SecurityProtocolを明確に指定する必要がある  
+            // Preview 版使用期限の 2014 年 1 月を過ぎたら消すよ
             var osVersion = Environment.OSVersion.Version;  
             if (osVersion.Major == 6 && osVersion.Minor == 3)  
             {  
