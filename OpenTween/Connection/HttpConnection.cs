@@ -669,7 +669,7 @@ namespace OpenTween
             var osVersion = Environment.OSVersion.Version;  
             if (osVersion.Major == 6 && osVersion.Minor == 3)  
             {  
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3;  
+                ServicePointManager.SecurityProtocol |= SecurityProtocolType.Ssl3;  
             }  
 
             Win32Api.SetProxy(proxyType, proxyAddress, proxyPort, proxyUser, proxyPassword);
