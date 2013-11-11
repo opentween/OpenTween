@@ -204,7 +204,7 @@
             // HashtagManage
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.Controls.Add(this.TableLayoutButtons);
             this.Controls.Add(this.GroupHashtag);
             this.Controls.Add(this.CheckNotAddToAtReply);

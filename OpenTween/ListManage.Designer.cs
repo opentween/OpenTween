@@ -394,7 +394,7 @@
             // ListManage
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.CancelButton = this.CloseButton;
             this.Controls.Add(this.ListsList);
             this.Controls.Add(this.EditCheckBox);

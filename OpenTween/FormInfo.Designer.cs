@@ -48,7 +48,7 @@
             // FormInfo
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ControlBox = false;
             this.Controls.Add(this.LabelInformation);
             this.Controls.Add(this.ProgressBar1);

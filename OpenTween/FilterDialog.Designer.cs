@@ -588,7 +588,7 @@
             // FilterDialog
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.CancelButton = this.ButtonClose;
             this.ControlBox = false;
             this.Controls.Add(this.ButtonClose);

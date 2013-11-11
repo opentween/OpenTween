@@ -105,6 +105,9 @@
     <Compile Include="FilterDialog.Designer.cs">
       <DependentUpon>FilterDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="OTBaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="PostFilterRule.cs" />
     <Compile Include="HashtagManage.cs">
       <SubType>Form</SubType>

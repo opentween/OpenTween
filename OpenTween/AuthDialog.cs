@@ -33,7 +33,7 @@ namespace OpenTween
     /// <summary>
     /// OAuth認証のPINコードの入力を求めるダイアログ
     /// </summary>
-    public partial class AuthDialog : Form
+    public partial class AuthDialog : OTBaseForm
     {
         public AuthDialog()
         {

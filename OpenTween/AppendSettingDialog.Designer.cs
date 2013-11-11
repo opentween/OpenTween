@@ -2531,7 +2531,7 @@
             // AppendSettingDialog
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.Controls.Add(this.SplitContainer1);
             this.Controls.Add(this.Save);
             this.Controls.Add(this.Cancel);

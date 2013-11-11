@@ -40,7 +40,7 @@ using System.Threading.Tasks;
 
 namespace OpenTween
 {
-    public partial class AppendSettingDialog : Form
+    public partial class AppendSettingDialog : OTBaseForm
     {
         private static AppendSettingDialog _instance = new AppendSettingDialog();
         private Twitter tw;

@@ -35,7 +35,7 @@ using System.Windows.Forms;
 
 namespace OpenTween
 {
-    public partial class AtIdSupplement : Form
+    public partial class AtIdSupplement : OTBaseForm
     {
         public string inputText = "";
         public bool isBack = false;

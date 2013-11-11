@@ -87,7 +87,7 @@
             // 
             this.AcceptButton = this.OKBtn;
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.CancelButton = this.CancelBtn;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.PinTextBox);

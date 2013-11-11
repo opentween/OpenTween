@@ -58,7 +58,7 @@
             // 
             this.AcceptButton = this.OK_Button;
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.CancelButton = this.Cancel_Button;
             this.Controls.Add(this.Cancel_Button);
             this.Controls.Add(this.OK_Button);

@@ -34,7 +34,7 @@ using System.Windows.Forms;
 
 namespace OpenTween
 {
-    public partial class ListAvailable : Form
+    public partial class ListAvailable : OTBaseForm
     {
         private ListElement _selectedList = null;
         public ListElement SelectedList

@@ -51,7 +51,7 @@ using OpenTween.Thumbnail;
 
 namespace OpenTween
 {
-    public partial class TweenMain : Form
+    public partial class TweenMain : OTBaseForm
     {
         //各種設定
         private Size _mySize;           //画面サイズ

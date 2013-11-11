@@ -35,7 +35,7 @@ using System.Windows.Forms;
 
 namespace OpenTween
 {
-    public partial class InputTabName : Form
+    public partial class InputTabName : OTBaseForm
     {
         public InputTabName()
         {

@@ -35,7 +35,7 @@ using System.Windows.Forms;
 
 namespace OpenTween
 {
-    public partial class OpenURL : Form
+    public partial class OpenURL : OTBaseForm
     {
         private string _selUrl;
 

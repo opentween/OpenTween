@@ -35,7 +35,7 @@ using System.Windows.Forms;
 
 namespace OpenTween
 {
-    public partial class MyLists : Form
+    public partial class MyLists : OTBaseForm
     {
         private string contextUserName;
         private Twitter _tw;

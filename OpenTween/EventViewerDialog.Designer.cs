@@ -164,7 +164,7 @@
             // EventViewerDialog
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.CancelButton = this.OK_Button;
             this.Controls.Add(this.SaveLogButton);
             this.Controls.Add(this.CheckBoxFilter);

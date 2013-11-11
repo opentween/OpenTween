@@ -35,7 +35,7 @@ using System.Windows.Forms;
 
 namespace OpenTween
 {
-    public partial class SearchWord : Form
+    public partial class SearchWord : OTBaseForm
     {
         public SearchWord()
         {

@@ -36,7 +36,7 @@ using System.Reflection;
 
 namespace OpenTween
 {
-    public partial class TweenAboutBox : Form
+    public partial class TweenAboutBox : OTBaseForm
     {
         public TweenAboutBox()
         {

@@ -30,7 +30,7 @@ using System.Windows.Forms;
 
 namespace OpenTween
 {
-    public partial class TabsDialog : Form
+    public partial class TabsDialog : OTBaseForm
     {
         private readonly TabInformations TabInfo;
 

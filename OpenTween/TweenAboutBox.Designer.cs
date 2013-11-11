@@ -111,7 +111,7 @@
             // TweenAboutBox
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.Controls.Add(this.TableLayoutPanel);
             this.Name = "TweenAboutBox";
             this.ShowIcon = false;

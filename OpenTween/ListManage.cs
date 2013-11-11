@@ -35,7 +35,7 @@ using System.Windows.Forms;
 
 namespace OpenTween
 {
-    public partial class ListManage : Form
+    public partial class ListManage : OTBaseForm
     {
         private Twitter tw;
 

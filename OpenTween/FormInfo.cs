@@ -48,7 +48,7 @@ namespace OpenTween
     /// 6. 必要な場合はInstance.Result(=Servicerのe.Result)を参照し戻り値を得る
     /// 7.Dispose タスクサービスが正常終了した場合は自分自身をCloseするので最後にDisposeすること。
     ///</remarks>
-    public partial class FormInfo : Form
+    public partial class FormInfo : OTBaseForm
     {
         private class BackgroundWorkerServicer : BackgroundWorker
         {

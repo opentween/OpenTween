@@ -104,7 +104,7 @@
             // 
             this.AcceptButton = this.CloseButton;
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.CancelButton = this.CloseButton;
             this.Controls.Add(this.ListRefreshButton);
             this.Controls.Add(this.ListsCheckedListBox);

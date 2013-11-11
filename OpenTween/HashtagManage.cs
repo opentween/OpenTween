@@ -35,7 +35,7 @@ using System.Windows.Forms;
 
 namespace OpenTween
 {
-    public partial class HashtagManage : Form
+    public partial class HashtagManage : OTBaseForm
     {
         //入力補助画面
         private AtIdSupplement _hashSupl;

@@ -37,7 +37,7 @@ using System.IO;
 
 namespace OpenTween
 {
-    public partial class EventViewerDialog : Form
+    public partial class EventViewerDialog : OTBaseForm
     {
         public List<Twitter.FormattedEvent> EventSource { get; set; }
 

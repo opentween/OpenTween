@@ -39,7 +39,7 @@ using System.Collections.Specialized;
 
 namespace OpenTween
 {
-    public partial class FilterDialog : Form
+    public partial class FilterDialog : OTBaseForm
     {
         private EDITMODE _mode;
         private bool _directAdd;

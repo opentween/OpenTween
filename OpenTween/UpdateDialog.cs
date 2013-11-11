@@ -36,7 +36,7 @@ using System.Windows.Forms;
 
 namespace OpenTween
 {
-    public partial class UpdateDialog : Form
+    public partial class UpdateDialog : OTBaseForm
     {
         public string SummaryText
         {

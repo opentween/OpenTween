@@ -81,7 +81,7 @@
             // 
             this.AcceptButton = this.YesButton;
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.CancelButton = this.NoButton;
             this.Controls.Add(this.TextDetail);
             this.Controls.Add(this.LabelSummary);

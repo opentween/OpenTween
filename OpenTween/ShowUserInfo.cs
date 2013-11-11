@@ -39,7 +39,7 @@ using System.Net;
 
 namespace OpenTween
 {
-    public partial class ShowUserInfo : Form
+    public partial class ShowUserInfo : OTBaseForm
     {
         public ShowUserInfo()
         {
