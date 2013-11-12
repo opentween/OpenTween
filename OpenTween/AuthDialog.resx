@@ -130,7 +130,7 @@
     <value>3, 15, 3, 15</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>352, 12</value>
+    <value>359, 15</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -152,13 +152,13 @@
     <value>4</value>
   </data>
   <data name="AuthLinkLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>24, 66</value>
+    <value>24, 69</value>
   </data>
   <data name="AuthLinkLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>15, 15, 15, 15</value>
   </data>
   <data name="AuthLinkLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>396, 12</value>
+    <value>396, 15</value>
   </data>
   <data name="AuthLinkLabel.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -182,13 +182,13 @@
     <value>True</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 108</value>
+    <value>12, 114</value>
   </data>
   <data name="label2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 15, 3, 15</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>228, 12</value>
+    <value>232, 15</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -212,13 +212,13 @@
     <value>Top, Left, Right</value>
   </data>
   <data name="PinTextBox.Font" type="System.Drawing.Font, System.Drawing">
-    <value>MS UI Gothic, 24pt</value>
+    <value>Meiryo UI, 24pt</value>
   </data>
   <data name="PinTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>127, 138</value>
+    <value>127, 147</value>
   </data>
   <data name="PinTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>190, 39</value>
+    <value>190, 48</value>
   </data>
   <data name="PinTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -254,7 +254,7 @@
     <value>84, 3</value>
   </data>
   <data name="CancelBtn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>82, 23</value>
+    <value>86, 25</value>
   </data>
   <data name="CancelBtn.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -281,7 +281,7 @@
     <value>3, 3</value>
   </data>
   <data name="OKBtn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>75, 25</value>
   </data>
   <data name="OKBtn.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -302,13 +302,13 @@
     <value>1</value>
   </data>
   <data name="tableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>263, 188</value>
+    <value>259, 201</value>
   </data>
   <data name="tableLayoutPanel1.RowCount" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
   <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 29</value>
+    <value>173, 31</value>
   </data>
   <data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -335,7 +335,7 @@
     <value>96, 96</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>444, 229</value>
+    <value>444, 244</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>

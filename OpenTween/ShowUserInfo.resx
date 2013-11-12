@@ -574,7 +574,7 @@
     <value>17</value>
   </data>
   <data name="LabelScreenName.Font" type="System.Drawing.Font, System.Drawing">
-    <value>MS UI Gothic, 12pt</value>
+    <value>Meiryo UI, 12pt</value>
   </data>
   <data name="LabelScreenName.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
