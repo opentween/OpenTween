@@ -86,7 +86,7 @@ namespace OpenTween
         public int PreviewDistance = -1;
 
         [XmlIgnore]
-        public Font FontUnread = new Font(SystemFonts.DefaultFont, FontStyle.Bold | FontStyle.Underline);
+        public Font FontUnread = new Font(SystemFonts.MessageBoxFont, FontStyle.Bold | FontStyle.Underline);
         public string FontUnreadStr
         {
             get { return _fc.ConvertToString(FontUnread); }
@@ -102,7 +102,7 @@ namespace OpenTween
         }
 
         [XmlIgnore]
-        public Font FontRead = System.Drawing.SystemFonts.DefaultFont;
+        public Font FontRead = System.Drawing.SystemFonts.MessageBoxFont;
         public string FontReadStr
         {
             get { return _fc.ConvertToString(FontRead); }
@@ -142,7 +142,7 @@ namespace OpenTween
         }
 
         [XmlIgnore]
-        public Font FontDetail = System.Drawing.SystemFonts.DefaultFont;
+        public Font FontDetail = System.Drawing.SystemFonts.MessageBoxFont;
         public string FontDetailStr
         {
             get { return _fc.ConvertToString(FontDetail); }
@@ -214,7 +214,7 @@ namespace OpenTween
         }
 
         [XmlIgnore]
-        public Font FontInputFont = System.Drawing.SystemFonts.DefaultFont;
+        public Font FontInputFont = System.Drawing.SystemFonts.MessageBoxFont;
         public string FontInputFontStr
         {
             get { return _fc.ConvertToString(FontInputFont); }
