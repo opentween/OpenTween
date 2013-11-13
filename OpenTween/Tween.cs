@@ -12245,6 +12245,9 @@ namespace OpenTween
             this._hookGlobalHotkey.HotkeyPressed += _hookGlobalHotkey_HotkeyPressed;
             this.gh.NotifyClicked += GrowlHelper_Callback;
 
+            // メイリオフォント指定時にタブの最小幅が広くなる問題の対策
+            this.ListTab.HandleCreated += (s, e) => Win32Api.SetMinTabWidth((TabControl)s, 10);
+
             this._apiGauge = new ToolStripAPIGauge();
             this.StatusStrip1.Items.Insert(2, this._apiGauge);
 

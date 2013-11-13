@@ -116,6 +116,9 @@ namespace OpenTween
             TB_GETBUTTON = WM_USER + 23,         //ツールバーのボタン取得
             TB_BUTTONCOUNT = WM_USER + 24,       //ツールバーのボタン（アイコン）数取得
             TB_GETBUTTONINFO = WM_USER + 65,     //ツールバーのボタン詳細情報取得
+
+            TCM_FIRST = 0x1300,                  //タブコントロールメッセージ
+            TCM_SETMINTABWIDTH = TCM_FIRST + 49, //タブアイテムの最小幅を設定
         }
         // ツールバーボタン構造体
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -290,6 +293,17 @@ namespace OpenTween
         {
             WM_LBUTTONDOWN = 0x201,      //左マウスボタン押し下げ
             WM_LBUTTONUP = 0x202,        //左マウスボタン離し
+        }
+
+        /// <summary>
+        /// タブコントロールのアイテムの最小幅を設定します
+        /// </summary>
+        /// <param name="tabControl">対象となるタブコントロール</param>
+        /// <param name="width">アイテムの最小幅。-1 を指定するとデフォルトの幅が使用されます</param>
+        /// <returns>設定前の最小幅</returns>
+        public static int SetMinTabWidth(TabControl tabControl, int width)
+        {
+            return (int)SendMessage(tabControl.Handle, (int)Sm_Message.TCM_SETMINTABWIDTH, IntPtr.Zero, (IntPtr)width);
         }
 
         //タスクトレイアイコンのクリック処理
