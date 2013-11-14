@@ -27,16 +27,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Text;
 using System.IO;
+using System.Xml;
 using System.Xml.Serialization;
 using System.Windows.Forms;
 using System.Threading;
 
 namespace OpenTween
 {
-    abstract public class SettingBase<T> : IExtensibleDataObject where T : class, new()
+    abstract public class SettingBase<T> where T : class, new()
     {
         /// <summary>
         /// XML に含まれる追加データを保持するフィールド
@@ -45,7 +45,8 @@ namespace OpenTween
         /// 他バージョンから設定をコピーした場合など、クラスに存在しないフィールドが
         /// XML に含まれていた場合に破棄せず保持するため必要となる。
         /// </remarks>
-        public ExtensionDataObject ExtensionData { get; set; }
+        [XmlAnyElement]
+        public XmlElement[] ExtraElements;
 
         private static object lockObj = new object();
 
