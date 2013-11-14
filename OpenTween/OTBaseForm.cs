@@ -33,14 +33,36 @@ namespace OpenTween
     /// </summary>
     public class OTBaseForm : Form
     {
+        /// <summary>
+        /// 全てのフォームで共通して使用する UI フォント
+        /// </summary>
+        public static Font GlobalFont { get; set; }
+
+        static OTBaseForm()
+        {
+            GlobalFont = SystemFonts.MessageBoxFont;
+        }
+
         protected OTBaseForm()
             : base()
         {
             this.Load += (o, e) =>
             {
                 // デフォルトの UI フォントを変更
-                this.Font = SystemFonts.MessageBoxFont;
+                if (OTBaseForm.GlobalFont != null)
+                    this.Font = OTBaseForm.GlobalFont;
             };
+        }
+
+        /// <summary>
+        /// source で指定されたフォントのスタイルを維持しつつ GlobalFont に置き換えた Font を返します
+        /// </summary>
+        protected Font ReplaceToGlobalFont(Font source)
+        {
+            if (OTBaseForm.GlobalFont == null)
+                return source;
+
+            return new Font(OTBaseForm.GlobalFont.Name, source.Size, source.Style);
         }
     }
 }

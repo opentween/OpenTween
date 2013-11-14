@@ -1062,6 +1062,9 @@ namespace OpenTween
             StatusText.Font = _fntInputFont;
             StatusText.ForeColor = _clInputFont;
 
+            // NameLabel のフォントを OTBaseForm.GlobalFont に変更
+            this.NameLabel.Font = this.ReplaceToGlobalFont(this.NameLabel.Font);
+
             //全新着通知のチェック状態により、Reply＆DMの新着通知有効無効切り替え（タブ別設定にするため削除予定）
             if (SettingDialog.UnreadManage == false)
             {

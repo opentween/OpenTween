@@ -2352,7 +2352,7 @@
     <value>0</value>
   </data>
   <data name="NameLabel.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Meiryo UI, 9pt, style=Bold</value>
+    <value>MS UI Gothic, 9pt, style=Bold</value>
   </data>
   <data name="&gt;&gt;lblLen.Parent" xml:space="preserve">
     <value>SplitContainer2.Panel2</value>

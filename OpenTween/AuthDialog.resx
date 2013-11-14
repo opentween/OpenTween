@@ -212,7 +212,7 @@
     <value>Top, Left, Right</value>
   </data>
   <data name="PinTextBox.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Meiryo UI, 24pt</value>
+    <value>MS UI Gothic, 24pt</value>
   </data>
   <data name="PinTextBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>127, 147</value>
