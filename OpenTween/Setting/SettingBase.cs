@@ -117,54 +117,73 @@ namespace OpenTween
             return LoadSettings("");
         }
 
-        protected static void SaveSettings(T Instance, string FileId)
+        protected static void SaveSettings(T instance, string fileId)
         {
-            int cnt = 0;
-            bool err = false;
-            string fileName = GetSettingFilePath(FileId);
-            if (Instance == null) return;
+            const int SaveRetryMax = 3;
+
+            if (instance == null)
+                return;
+
+            var retryCount = 0;
+            Exception lastException = null;
+
+            var filePath = GetSettingFilePath(fileId);
             do
             {
-                err = false;
-                cnt += 1;
+                var tmpfilePath = Path.GetTempFileName();
                 try
                 {
                     lock (lockObj)
                     {
-                        using (FileStream fs = new FileStream(fileName, FileMode.Create))
+                        using (var stream = new FileStream(tmpfilePath, FileMode.Create))
                         {
-                            fs.Position = 0;
-                            XmlSerializer xs = new XmlSerializer(typeof(T));
-                            xs.Serialize(fs, Instance);
-                            fs.Flush();
+                            var serializer = new XmlSerializer(typeof(T));
+                            serializer.Serialize(stream, instance);
+                            stream.Flush();
                         }
-                        FileInfo fi = new FileInfo(fileName);
-                        if (fi.Length == 0)
+
+                        var fileInfo = new FileInfo(tmpfilePath);
+                        if (fileInfo.Length != 0)
                         {
-                            if (cnt > 3)
-                            {
-                                throw new Exception();
-                            }
-                            Thread.Sleep(1000);
-                            err = true;
+                            // 成功
+
+                            // 上書き保存時の動作:
+                            //   1. Settingなんとか.xml を Settingなんとか.xml.tmp にリネーム
+                            //   2. 一時ファイル (tmpfilePath) を Settingなんとか.xml にリネーム
+                            //   3. Settingなんとか.xml.tmp を削除
+                            var overwrite = File.Exists(filePath);
+
+                            if (overwrite)
+                                File.Move(filePath, filePath + ".tmp");
+
+                            File.Move(tmpfilePath, filePath);
+
+                            if (overwrite)
+                                File.Delete(filePath + ".tmp");
+
+                            return;
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    //検証エラー or 書き込みエラー
-                    if (cnt > 3)
-                    {
-                        //リトライオーバー
-                        MessageBox.Show("Can't write setting XML.(" + fileName + ")", "Save Settings", MessageBoxButtons.OK);
-                        //throw new System.InvalidOperationException("Can't write setting XML.(" + fileName + ")");
-                        return;
-                    }
-                    //リトライ
-                    Thread.Sleep(1000);
-                    err = true;
+                    lastException = e;
                 }
-            } while (err);
+
+                // リトライ
+                retryCount++;
+                if (File.Exists(tmpfilePath))
+                    File.Delete(tmpfilePath);
+
+                Thread.Sleep(1000);
+
+            } while (retryCount <= SaveRetryMax);
+
+            // リトライオーバー
+            if (lastException != null)
+                MyCommon.ExceptionOut(lastException);
+
+            MessageBox.Show("Can't write setting XML.(" + filePath + ")", "Save Settings", MessageBoxButtons.OK);
         }
 
         protected static void SaveSettings(T Instance)
