@@ -48,12 +48,6 @@ namespace OpenTween
         }
 #endregion
 
-        [NonSerialized]
-        private FontConverter _fc = new FontConverter();
-
-        [NonSerialized]
-        private ColorConverter _cc = new ColorConverter();
-
         public Point FormLocation = new Point(0, 0);
         public int SplitterDistance = 200;
         public int AdSplitterDistance = 350;
@@ -89,168 +83,168 @@ namespace OpenTween
         public Font FontUnread = new Font(SystemFonts.MessageBoxFont, FontStyle.Bold | FontStyle.Underline);
         public string FontUnreadStr
         {
-            get { return _fc.ConvertToString(FontUnread); }
-            set { FontUnread = (Font)_fc.ConvertFromString(value); }
+            get { return this.FontToString(this.FontUnread); }
+            set { this.FontUnread = this.StringToFont(value); }
         }
 
         [XmlIgnore]
         public Color ColorUnread = System.Drawing.SystemColors.ControlText;
         public string ColorUnreadStr
         {
-            get { return _cc.ConvertToString(ColorUnread); }
-            set { ColorUnread = (Color)_cc.ConvertFromString(value); }
+            get { return this.ColorToString(this.ColorUnread); }
+            set { this.ColorUnread = this.StringToColor(value); }
         }
 
         [XmlIgnore]
         public Font FontRead = System.Drawing.SystemFonts.MessageBoxFont;
         public string FontReadStr
         {
-            get { return _fc.ConvertToString(FontRead); }
-            set { FontRead = (Font)_fc.ConvertFromString(value); }
+            get { return this.FontToString(this.FontRead); }
+            set { this.FontRead = this.StringToFont(value); }
         }
 
         [XmlIgnore]
         public Color ColorRead = System.Drawing.SystemColors.ControlText;
         public string ColorReadStr
         {
-            get { return _cc.ConvertToString(ColorRead); }
-            set { ColorRead = (Color)_cc.ConvertFromString(value); }
+            get { return this.ColorToString(this.ColorRead); }
+            set { this.ColorRead = this.StringToColor(value); }
         }
 
         [XmlIgnore]
         public Color ColorFav = Color.FromKnownColor(System.Drawing.KnownColor.Red);
         public string ColorFavStr
         {
-            get { return _cc.ConvertToString(ColorFav); }
-            set { ColorFav = (Color)_cc.ConvertFromString(value); }
+            get { return this.ColorToString(this.ColorFav); }
+            set { this.ColorFav = this.StringToColor(value); }
         }
 
         [XmlIgnore]
         public Color ColorOWL = Color.FromKnownColor(System.Drawing.KnownColor.Blue);
         public string ColorOWLStr
         {
-            get { return _cc.ConvertToString(ColorOWL); }
-            set { ColorOWL = (Color)_cc.ConvertFromString(value); }
+            get { return this.ColorToString(this.ColorOWL); }
+            set { this.ColorOWL = this.StringToColor(value); }
         }
 
         [XmlIgnore]
         public Color ColorRetweet = Color.FromKnownColor(System.Drawing.KnownColor.Green);
         public string ColorRetweetStr
         {
-            get { return _cc.ConvertToString(ColorRetweet); }
-            set { ColorRetweet = (Color)_cc.ConvertFromString(value); }
+            get { return this.ColorToString(this.ColorRetweet); }
+            set { this.ColorRetweet = this.StringToColor(value); }
         }
 
         [XmlIgnore]
         public Font FontDetail = System.Drawing.SystemFonts.MessageBoxFont;
         public string FontDetailStr
         {
-            get { return _fc.ConvertToString(FontDetail); }
-            set { FontDetail = (Font)_fc.ConvertFromString(value); }
+            get { return this.FontToString(this.FontDetail); }
+            set { this.FontDetail = this.StringToFont(value); }
         }
 
         [XmlIgnore]
         public Color ColorSelf = Color.FromKnownColor(System.Drawing.KnownColor.AliceBlue);
         public string ColorSelfStr
         {
-            get { return _cc.ConvertToString(ColorSelf); }
-            set { ColorSelf = (Color)_cc.ConvertFromString(value); }
+            get { return this.ColorToString(this.ColorSelf); }
+            set { this.ColorSelf = this.StringToColor(value); }
         }
 
         [XmlIgnore]
         public Color ColorAtSelf = Color.FromKnownColor(System.Drawing.KnownColor.AntiqueWhite);
         public string ColorAtSelfStr
         {
-            get { return _cc.ConvertToString(ColorAtSelf); }
-            set { ColorAtSelf = (Color)_cc.ConvertFromString(value); }
+            get { return this.ColorToString(this.ColorAtSelf); }
+            set { this.ColorAtSelf = this.StringToColor(value); }
         }
 
         [XmlIgnore]
         public Color ColorTarget = Color.FromKnownColor(System.Drawing.KnownColor.LemonChiffon);
         public string ColorTargetStr
         {
-            get { return _cc.ConvertToString(ColorTarget); }
-            set { ColorTarget = (Color)_cc.ConvertFromString(value); }
+            get { return this.ColorToString(this.ColorTarget); }
+            set { this.ColorTarget = this.StringToColor(value); }
         }
 
         [XmlIgnore]
         public Color ColorAtTarget = Color.FromKnownColor(System.Drawing.KnownColor.LavenderBlush);
         public string ColorAtTargetStr
         {
-            get { return _cc.ConvertToString(ColorAtTarget); }
-            set { ColorAtTarget = (Color)_cc.ConvertFromString(value); }
+            get { return this.ColorToString(this.ColorAtTarget); }
+            set { this.ColorAtTarget = this.StringToColor(value); }
         }
 
         [XmlIgnore]
         public Color ColorAtFromTarget = Color.FromKnownColor(System.Drawing.KnownColor.Honeydew);
         public string ColorAtFromTargetStr
         {
-            get { return _cc.ConvertToString(ColorAtFromTarget); }
-            set { ColorAtFromTarget = (Color)_cc.ConvertFromString(value); }
+            get { return this.ColorToString(this.ColorAtFromTarget); }
+            set { this.ColorAtFromTarget = this.StringToColor(value); }
         }
 
         [XmlIgnore]
         public Color ColorAtTo = Color.FromKnownColor(System.Drawing.KnownColor.Pink);
         public string ColorAtToStr
         {
-            get { return _cc.ConvertToString(ColorAtTo); }
-            set { ColorAtTo = (Color)_cc.ConvertFromString(value); }
+            get { return this.ColorToString(this.ColorAtTo); }
+            set { this.ColorAtTo = this.StringToColor(value); }
         }
 
         [XmlIgnore]
         public Color ColorInputBackcolor = Color.FromKnownColor(System.Drawing.KnownColor.LemonChiffon);
         public string ColorInputBackcolorStr
         {
-            get { return _cc.ConvertToString(ColorInputBackcolor); }
-            set { ColorInputBackcolor = (Color)_cc.ConvertFromString(value); }
+            get { return this.ColorToString(this.ColorInputBackcolor); }
+            set { this.ColorInputBackcolor = this.StringToColor(value); }
         }
 
         [XmlIgnore]
         public Color ColorInputFont = Color.FromKnownColor(System.Drawing.KnownColor.ControlText);
         public string ColorInputFontStr
         {
-            get { return _cc.ConvertToString(ColorInputFont); }
-            set { ColorInputFont = (Color)_cc.ConvertFromString(value); }
+            get { return this.ColorToString(this.ColorInputFont); }
+            set { this.ColorInputFont = this.StringToColor(value); }
         }
 
         [XmlIgnore]
         public Font FontInputFont = System.Drawing.SystemFonts.MessageBoxFont;
         public string FontInputFontStr
         {
-            get { return _fc.ConvertToString(FontInputFont); }
-            set { FontInputFont = (Font)_fc.ConvertFromString(value); }
+            get { return this.FontToString(this.FontInputFont); }
+            set { this.FontInputFont = this.StringToFont(value); }
         }
 
         [XmlIgnore]
         public Color ColorListBackcolor = Color.FromKnownColor(System.Drawing.KnownColor.Window);
         public string ColorListBackcolorStr
         {
-            get { return _cc.ConvertToString(ColorListBackcolor); }
-            set { ColorListBackcolor = (Color)_cc.ConvertFromString(value); }
+            get { return this.ColorToString(this.ColorListBackcolor); }
+            set { this.ColorListBackcolor = this.StringToColor(value); }
         }
 
         [XmlIgnore]
         public Color ColorDetailBackcolor = Color.FromKnownColor(System.Drawing.KnownColor.Window);
         public string ColorDetailBackcolorStr
         {
-            get { return _cc.ConvertToString(ColorDetailBackcolor); }
-            set { ColorDetailBackcolor = (Color)_cc.ConvertFromString(value); }
+            get { return this.ColorToString(this.ColorDetailBackcolor); }
+            set { this.ColorDetailBackcolor = this.StringToColor(value); }
         }
 
         [XmlIgnore]
         public Color ColorDetail = Color.FromKnownColor(System.Drawing.KnownColor.ControlText);
         public string ColorDetailStr
         {
-            get { return _cc.ConvertToString(ColorDetail); }
-            set { ColorDetail = (Color)_cc.ConvertFromString(value); }
+            get { return this.ColorToString(this.ColorDetail); }
+            set { this.ColorDetail = this.StringToColor(value); }
         }
 
         [XmlIgnore]
         public Color ColorDetailLink = Color.FromKnownColor(System.Drawing.KnownColor.Blue);
         public string ColorDetailLinkStr
         {
-            get { return _cc.ConvertToString(ColorDetailLink); }
-            set { ColorDetailLink = (Color)_cc.ConvertFromString(value); }
+            get { return this.ColorToString(this.ColorDetailLink); }
+            set { this.ColorDetailLink = this.StringToColor(value); }
         }
 
         [XmlIgnore]
@@ -294,6 +288,32 @@ namespace OpenTween
                 }
                 ProxyPassword = pwd;
             }
+        }
+
+        [XmlIgnore]
+        private FontConverter fontConverter = new FontConverter();
+
+        protected string FontToString(Font font)
+        {
+            return this.fontConverter.ConvertToString(font);
+        }
+
+        protected Font StringToFont(string str)
+        {
+            return (Font)this.fontConverter.ConvertFromString(str);
+        }
+
+        [XmlIgnore]
+        private ColorConverter colorConverter = new ColorConverter();
+
+        protected string ColorToString(Color color)
+        {
+            return this.colorConverter.ConvertToString(color);
+        }
+
+        protected Color StringToColor(string str)
+        {
+            return (Color)this.colorConverter.ConvertFromString(str);
         }
 
         public void Dispose()
