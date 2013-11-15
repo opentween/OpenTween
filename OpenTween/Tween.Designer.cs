@@ -1198,6 +1198,7 @@
             this.ToolTip1.SetToolTip(this.PostButton, resources.GetString("PostButton.ToolTip"));
             this.PostButton.UseVisualStyleBackColor = true;
             this.PostButton.Click += new System.EventHandler(this.PostButton_Click);
+            this.PostButton.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PostButton_KeyDown);
             // 
             // tweetThumbnail1
             // 
