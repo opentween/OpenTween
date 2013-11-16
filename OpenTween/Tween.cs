@@ -224,6 +224,11 @@ namespace OpenTween
 
         private ImageListViewItem displayItem;
 
+        /// <summary>
+        /// デザイン時の DPI (96dpi) と実際の表示時の DPI との比を表します
+        /// </summary>
+        protected SizeF currentScaleFactor = new SizeF();
+
         //URL短縮のUndo用
         private struct urlUndo
         {
@@ -5543,7 +5548,6 @@ namespace OpenTween
         private void DrawListViewItemIcon(DrawListViewItemEventArgs e)
         {
             ImageListViewItem item = (ImageListViewItem)e.Item;
-            Rectangle stateRect;
 
             //e.Bounds.Leftが常に0を指すから自前で計算
             Rectangle itemRect = item.Bounds;
@@ -5555,18 +5559,22 @@ namespace OpenTween
                     itemRect.X += clm.Width;
             }
 
-            Rectangle iconRect;
+            // ディスプレイの DPI 設定を考慮したアイコンサイズ
+            var realIconSize = new SizeF(this._iconSz * this.currentScaleFactor.Width, this._iconSz * this.currentScaleFactor.Height);
+
+            RectangleF iconRect;
+            RectangleF stateRect;
             if (item.Image != null)
             {
-                iconRect = Rectangle.Intersect(new Rectangle(e.Item.GetBounds(ItemBoundsPortion.Icon).Location, new Size(_iconSz, _iconSz)), itemRect);
-                iconRect.Offset(0, Math.Max(0, (itemRect.Height - _iconSz) / 2));
-                stateRect = Rectangle.Intersect(new Rectangle(iconRect.Location.X + _iconSz + 2, iconRect.Location.Y, 18, 16), itemRect);
+                iconRect = RectangleF.Intersect(new RectangleF(e.Item.GetBounds(ItemBoundsPortion.Icon).Location, realIconSize), itemRect);
+                iconRect.Offset(0, Math.Max(0, (itemRect.Height - realIconSize.Height) / 2));
+                stateRect = RectangleF.Intersect(new RectangleF(iconRect.X + iconRect.Width + 2, iconRect.Y, 18, 16), itemRect);
             }
             else
             {
-                iconRect = Rectangle.Intersect(new Rectangle(e.Item.GetBounds(ItemBoundsPortion.Icon).Location, new Size(1, 1)), itemRect);
-                //iconRect.Offset(0, Math.Max(0, (itemRect.Height - _iconSz) / 2));
-                stateRect = Rectangle.Intersect(new Rectangle(iconRect.Location.X + _iconSz + 2, iconRect.Location.Y, 18, 16), itemRect);
+                iconRect = RectangleF.Intersect(new RectangleF(e.Item.GetBounds(ItemBoundsPortion.Icon).Location, new Size(1, 1)), itemRect);
+                //iconRect.Offset(0, Math.Max(0, (itemRect.Height - realIconSize.Height) / 2));
+                stateRect = RectangleF.Intersect(new RectangleF(iconRect.X + iconRect.Width + 2, iconRect.Y, 18, 16), itemRect);
             }
 
             var img = item.Image;
@@ -5593,6 +5601,18 @@ namespace OpenTween
                     e.Graphics.DrawImage(this.PostStateImageList.Images[item.StateImageIndex], stateRect);
                 }
             }
+        }
+
+        protected override void ScaleControl(SizeF factor, BoundsSpecified specified)
+        {
+            base.ScaleControl(factor, specified);
+
+            const int baseDpi = 96;
+
+            // デザイン時の DPI (96dpi) との比を更新する
+            this.currentScaleFactor = new SizeF(
+                this.CurrentAutoScaleDimensions.Width / baseDpi,
+                this.CurrentAutoScaleDimensions.Height / baseDpi);
         }
 
         //private void DrawListViewItemStateIcon(DrawListViewSubItemEventArgs e, RectangleF rct)
