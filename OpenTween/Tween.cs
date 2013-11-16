@@ -4552,7 +4552,10 @@ namespace OpenTween
             _listCustom.SmallImageList = new ImageList();
             if (_iconSz > 0)
             {
-                _listCustom.SmallImageList.ImageSize = new Size(_iconSz, _iconSz);
+                // ディスプレイの DPI 設定を考慮したサイズを設定する
+                _listCustom.SmallImageList.ImageSize = new Size(
+                    (int)Math.Ceiling(this._iconSz * this.currentScaleFactor.Width),
+                    (int)Math.Ceiling(this._iconSz * this.currentScaleFactor.Height));
             }
             else
             {
