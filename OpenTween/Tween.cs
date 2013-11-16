@@ -594,6 +594,13 @@ namespace OpenTween
             _clInputFont = _cfgLocal.ColorInputFont;
             _fntInputFont = _cfgLocal.FontInputFont;
 
+            var fontUIGlobal = this._cfgLocal.FontUIGlobal;
+            if (fontUIGlobal != null)
+            {
+                OTBaseForm.GlobalFont = fontUIGlobal;
+                this.Font = fontUIGlobal;
+            }
+
             _brsForeColorUnread = new SolidBrush(_clUnread);
             _brsForeColorReaded = new SolidBrush(_clReaded);
             _brsForeColorFav = new SolidBrush(_clFav);

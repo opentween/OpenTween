@@ -248,6 +248,21 @@ namespace OpenTween
         }
 
         [XmlIgnore]
+        public Font FontUIGlobal = null;
+
+        /// <summary>
+        /// [隠し設定] UI フォントを指定します
+        /// </summary>
+        /// <remarks>
+        /// フォントによっては一部レイアウトが崩れるためこっそり追加
+        /// </remarks>
+        public string FontUIGlobalStr
+        {
+            get { return this.FontToString(this.FontUIGlobal); }
+            set { this.FontUIGlobal = this.StringToFont(value); }
+        }
+
+        [XmlIgnore]
         public string ProxyPassword = "";
         public string EncryptProxyPassword
         {
@@ -295,12 +310,12 @@ namespace OpenTween
 
         protected string FontToString(Font font)
         {
-            return this.fontConverter.ConvertToString(font);
+            return font != null ? this.fontConverter.ConvertToString(font) : null;
         }
 
         protected Font StringToFont(string str)
         {
-            return (Font)this.fontConverter.ConvertFromString(str);
+            return str != null ? (Font)this.fontConverter.ConvertFromString(str) : null;
         }
 
         [XmlIgnore]

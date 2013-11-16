@@ -36,12 +36,10 @@ namespace OpenTween
         /// <summary>
         /// 全てのフォームで共通して使用する UI フォント
         /// </summary>
+        /// <remarks>
+        /// SettingLocal.xml に FontUIGlobalStr 要素を追加する事で変更できます
+        /// </remarks>
         public static Font GlobalFont { get; set; }
-
-        static OTBaseForm()
-        {
-            GlobalFont = SystemFonts.MessageBoxFont;
-        }
 
         protected OTBaseForm()
             : base()
