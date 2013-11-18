@@ -464,6 +464,10 @@ namespace OpenTween
             /// </summary>
             NotFound = 34,
             /// <summary>
+            /// アカウントが凍結されています
+            /// </summary>
+            SuspendedAccount = 64,
+            /// <summary>
             /// REST API v1 は星になりました
             /// </summary>
             APIv1Retired = 68,
@@ -475,10 +479,6 @@ namespace OpenTween
             /// アクセストークンが無効です。不正なトークンまたはユーザーによって失効されています
             /// </summary>
             InvalidToken = 89,
-            /// <summary>
-            /// アカウントが凍結されています
-            /// </summary>
-            SuspendedAccount = 64,
             /// <summary>
             /// サーバーの過負荷によって一時的にアクセスできません
             /// </summary>
@@ -500,6 +500,10 @@ namespace OpenTween
             /// </summary>
             AlreadyFavorited = 139,
             /// <summary>
+            /// フォローの追加が制限されています
+            /// </summary>
+            FollowLimit = 161,
+            /// <summary>
             /// 投稿されたステータスが重複しています
             /// </summary>
             DuplicateStatus = 187,
@@ -507,6 +511,10 @@ namespace OpenTween
             /// 認証が必要な API で認証データが含まれていない、または認証データが不正
             /// </summary>
             AuthenticationRequired = 215,
+            /// <summary>
+            /// 廃止されたエンドポイント
+            /// </summary>
+            RetiredEndpoint = 251,
         }
 
         [DataContract]
