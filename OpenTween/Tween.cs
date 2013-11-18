@@ -5570,22 +5570,22 @@ namespace OpenTween
             }
 
             // ディスプレイの DPI 設定を考慮したアイコンサイズ
-            var realIconSize = new SizeF(this._iconSz * this.currentScaleFactor.Width, this._iconSz * this.currentScaleFactor.Height);
-            var realStateSize = new SizeF(16 * this.currentScaleFactor.Width, 16 * this.currentScaleFactor.Height);
+            var realIconSize = new SizeF(this._iconSz * this.currentScaleFactor.Width, this._iconSz * this.currentScaleFactor.Height).ToSize();
+            var realStateSize = new SizeF(16 * this.currentScaleFactor.Width, 16 * this.currentScaleFactor.Height).ToSize();
 
-            RectangleF iconRect;
-            RectangleF stateRect;
+            Rectangle iconRect;
+            Rectangle stateRect;
             if (item.Image != null)
             {
-                iconRect = RectangleF.Intersect(new RectangleF(e.Item.GetBounds(ItemBoundsPortion.Icon).Location, realIconSize), itemRect);
+                iconRect = Rectangle.Intersect(new Rectangle(e.Item.GetBounds(ItemBoundsPortion.Icon).Location, realIconSize), itemRect);
                 iconRect.Offset(0, Math.Max(0, (itemRect.Height - realIconSize.Height) / 2));
-                stateRect = RectangleF.Intersect(new RectangleF(new PointF(iconRect.X + iconRect.Width + 2, iconRect.Y), realStateSize), itemRect);
+                stateRect = Rectangle.Intersect(new Rectangle(new Point(iconRect.X + iconRect.Width + 2, iconRect.Y), realStateSize), itemRect);
             }
             else
             {
-                iconRect = RectangleF.Intersect(new RectangleF(e.Item.GetBounds(ItemBoundsPortion.Icon).Location, new Size(1, 1)), itemRect);
+                iconRect = Rectangle.Intersect(new Rectangle(e.Item.GetBounds(ItemBoundsPortion.Icon).Location, new Size(1, 1)), itemRect);
                 //iconRect.Offset(0, Math.Max(0, (itemRect.Height - realIconSize.Height) / 2));
-                stateRect = RectangleF.Intersect(new RectangleF(new PointF(iconRect.X + iconRect.Width + 2, iconRect.Y), realStateSize), itemRect);
+                stateRect = Rectangle.Intersect(new Rectangle(new Point(iconRect.X + iconRect.Width + 2, iconRect.Y), realStateSize), itemRect);
             }
 
             var img = item.Image;
