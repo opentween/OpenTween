@@ -82,5 +82,13 @@ namespace OpenTween
                 {"foo", ""},
             }));
         }
+
+        [Test]
+        public void IgroreInvalidOptionsTest()
+        {
+            var args = new string[] { "--foo", "/" };
+
+            Assert.That(MyApplication.ParseArguments(args), Is.Empty);
+        }
     }
 }

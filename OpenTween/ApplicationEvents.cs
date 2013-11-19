@@ -28,6 +28,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
@@ -88,19 +89,11 @@ namespace OpenTween
 
         internal static IDictionary<string, string> ParseArguments(IEnumerable<string> arguments)
         {
-            var results = new Dictionary<string, string>();
             var optionPattern = new Regex(@"^/(.+?)(?::(.*))?$");
 
-            foreach (var arg in arguments)
-            {
-                var match = optionPattern.Match(arg);
-                if (match == null)
-                    continue;
-
-                results[match.Groups[1].Value] = match.Groups[2].Value;
-            }
-
-            return results;
+            return arguments.Select(x => optionPattern.Match(x))
+                .Where(x => x.Success)
+                .ToDictionary(x => x.Groups[1].Value, x => x.Groups[2].Value);
         }
 
         private static void ShowPreviousWindow()
