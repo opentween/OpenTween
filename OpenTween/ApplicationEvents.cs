@@ -26,9 +26,11 @@
 // Boston, MA 02110-1301, USA.
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Globalization;
@@ -39,11 +41,18 @@ namespace OpenTween
     internal class MyApplication
     {
         /// <summary>
+        /// 起動時に指定されたオプションを取得します
+        /// </summary>
+        public static IDictionary<string, string> StartupOptions { get; private set; }
+
+        /// <summary>
         /// アプリケーションのメイン エントリ ポイントです。
         /// </summary>
         [STAThread]
-        static int Main()
+        static int Main(string[] args)
         {
+            StartupOptions = ParseArguments(args);
+
             CheckSettingFilePath();
             InitCulture();
 
@@ -75,6 +84,23 @@ namespace OpenTween
 
                 return 0;
             }
+        }
+
+        internal static IDictionary<string, string> ParseArguments(IEnumerable<string> arguments)
+        {
+            var results = new Dictionary<string, string>();
+            var optionPattern = new Regex(@"^/(.+?)(?::(.*))?$");
+
+            foreach (var arg in arguments)
+            {
+                var match = optionPattern.Match(arg);
+                if (match == null)
+                    continue;
+
+                results[match.Groups[1].Value] = match.Groups[2].Value;
+            }
+
+            return results;
         }
 
         private static void ShowPreviousWindow()
