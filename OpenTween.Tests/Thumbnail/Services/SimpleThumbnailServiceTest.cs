@@ -23,34 +23,34 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NUnit.Framework;
+using Xunit;
+using Xunit.Extensions;
 
 namespace OpenTween.Thumbnail.Services
 {
-    [TestFixture]
-    class SimpleThumbnailServiceTest
+    public class SimpleThumbnailServiceTest
     {
-        [Test]
+        [Fact]
         public void RegexMatchTest()
         {
             var service = new SimpleThumbnailService(@"http://example.com/(.+)", @"http://img.example.com/$1");
 
             var thumbinfo = service.GetThumbnailInfo("http://example.com/abcd", null);
 
-            Assert.That(thumbinfo, Is.Not.Null);
-            Assert.That(thumbinfo.ImageUrl, Is.EqualTo("http://example.com/abcd"));
-            Assert.That(thumbinfo.ThumbnailUrl, Is.EqualTo("http://img.example.com/abcd"));
-            Assert.That(thumbinfo.TooltipText, Is.Null);
+            Assert.NotNull(thumbinfo);
+            Assert.Equal("http://example.com/abcd", thumbinfo.ImageUrl);
+            Assert.Equal("http://img.example.com/abcd", thumbinfo.ThumbnailUrl);
+            Assert.Null(thumbinfo.TooltipText);
         }
 
-        [Test]
+        [Fact]
         public void RegexNotMatchTest()
         {
             var service = new SimpleThumbnailService(@"http://example.com/(.+)", @"http://img.example.com/\1");
 
             var thumbinfo = service.GetThumbnailInfo("http://hogehoge.com/abcd", null);
 
-            Assert.That(thumbinfo, Is.Null);
+            Assert.Null(thumbinfo);
         }
     }
 }

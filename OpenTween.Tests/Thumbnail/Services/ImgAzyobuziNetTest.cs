@@ -22,14 +22,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using NUnit.Framework;
 using System.Net;
+using System.Text;
+using Xunit;
+using Xunit.Extensions;
 
 namespace OpenTween.Thumbnail.Services
 {
-    [TestFixture]
-    class ImgAzyobuziNetTest
+    public class ImgAzyobuziNetTest
     {
         class TestImgAzyobuziNet : ImgAzyobuziNet
         {
@@ -65,61 +65,61 @@ namespace OpenTween.Thumbnail.Services
             }
         }
 
-        [Test]
+        [Fact]
         public void HostFallbackTest()
         {
             var service = new TestImgAzyobuziNet(new[] { "http://avail1.example.com/api/", "http://avail2.example.com/api/" });
             service.LoadRegex();
-            Assert.That(service.GetApiBase(), Is.EqualTo("http://avail1.example.com/api/"));
+            Assert.Equal("http://avail1.example.com/api/", service.GetApiBase());
 
             service = new TestImgAzyobuziNet(new[] { "http://down.example.com/api/", "http://avail.example.com/api/" });
             service.LoadRegex();
-            Assert.That(service.GetApiBase(), Is.EqualTo("http://avail.example.com/api/"));
+            Assert.Equal("http://avail.example.com/api/", service.GetApiBase());
 
             service = new TestImgAzyobuziNet(new[] { "http://error.example.com/api/", "http://avail.example.com/api/" });
             service.LoadRegex();
-            Assert.That(service.GetApiBase(), Is.EqualTo("http://avail.example.com/api/"));
+            Assert.Equal("http://avail.example.com/api/", service.GetApiBase());
 
             service = new TestImgAzyobuziNet(new[] { "http://invalid.example.com/api/", "http://avail.example.com/api/" });
             service.LoadRegex();
-            Assert.That(service.GetApiBase(), Is.EqualTo("http://avail.example.com/api/"));
+            Assert.Equal("http://avail.example.com/api/", service.GetApiBase());
 
             service = new TestImgAzyobuziNet(new[] { "http://down.example.com/api/" });
             service.LoadRegex();
-            Assert.That(service.GetApiBase(), Is.Null);
+            Assert.Null(service.GetApiBase());
         }
 
-        [Test]
+        [Fact]
         public void ServerOutageTest()
         {
             var service = new TestImgAzyobuziNet(new[] { "http://down.example.com/api/" });
 
             service.LoadRegex();
-            Assert.That(service.GetApiBase(), Is.Null);
+            Assert.Null(service.GetApiBase());
 
             var thumbinfo = service.GetThumbnailInfo("http://example.com/abcd", null);
-            Assert.That(thumbinfo, Is.Null);
+            Assert.Null(thumbinfo);
         }
 
-        [Test]
+        [Fact]
         public void MatchTest()
         {
             var service = new TestImgAzyobuziNet();
             var thumbinfo = service.GetThumbnailInfo("http://example.com/abcd", null);
 
-            Assert.That(thumbinfo, Is.Not.Null);
-            Assert.That(thumbinfo.ImageUrl, Is.EqualTo("http://example.com/abcd"));
-            Assert.That(thumbinfo.ThumbnailUrl, Is.EqualTo("http://img.azyobuzi.net/api/redirect?size=large&uri=http%3A%2F%2Fexample.com%2Fabcd"));
-            Assert.That(thumbinfo.TooltipText, Is.Null);
+            Assert.NotNull(thumbinfo);
+            Assert.Equal("http://example.com/abcd", thumbinfo.ImageUrl);
+            Assert.Equal("http://img.azyobuzi.net/api/redirect?size=large&uri=http%3A%2F%2Fexample.com%2Fabcd", thumbinfo.ThumbnailUrl);
+            Assert.Null(thumbinfo.TooltipText);
         }
 
-        [Test]
+        [Fact]
         public void NotMatchTest()
         {
             var service = new TestImgAzyobuziNet();
             var thumbinfo = service.GetThumbnailInfo("http://hogehoge.com/abcd", null);
 
-            Assert.That(thumbinfo, Is.Null);
+            Assert.Null(thumbinfo);
         }
     }
 }

@@ -24,15 +24,15 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using NUnit.Framework;
 using OpenTween.Api;
+using Xunit;
+using Xunit.Extensions;
 
 namespace OpenTween
 {
-    [TestFixture]
-    class ToolStripAPIGaugeTest
+    public class ToolStripAPIGaugeTest
     {
-        [Test]
+        [Fact]
         public void GaugeHeightTest()
         {
             using (var toolStrip = new ToolStripAPIGauge())
@@ -43,57 +43,57 @@ namespace OpenTween
 
                 toolStrip.GaugeHeight = 5;
 
-                Assert.That(toolStrip.apiGaugeBounds, Is.EqualTo(new Rectangle(0, 0, 100, 5)));
-                Assert.That(toolStrip.timeGaugeBounds, Is.EqualTo(new Rectangle(0, 5, 100, 5)));
+                Assert.Equal(new Rectangle(0, 0, 100, 5), toolStrip.apiGaugeBounds);
+                Assert.Equal(new Rectangle(0, 5, 100, 5), toolStrip.timeGaugeBounds);
 
                 toolStrip.GaugeHeight = 3;
 
-                Assert.That(toolStrip.apiGaugeBounds, Is.EqualTo(new Rectangle(0, 2, 100, 3)));
-                Assert.That(toolStrip.timeGaugeBounds, Is.EqualTo(new Rectangle(0, 5, 100, 3)));
+                Assert.Equal(new Rectangle(0, 2, 100, 3), toolStrip.apiGaugeBounds);
+                Assert.Equal(new Rectangle(0, 5, 100, 3), toolStrip.timeGaugeBounds);
 
                 toolStrip.GaugeHeight = 0;
 
-                Assert.That(toolStrip.apiGaugeBounds, Is.EqualTo(Rectangle.Empty));
-                Assert.That(toolStrip.timeGaugeBounds, Is.EqualTo(Rectangle.Empty));
+                Assert.Equal(Rectangle.Empty, toolStrip.apiGaugeBounds);
+                Assert.Equal(Rectangle.Empty, toolStrip.timeGaugeBounds);
             }
         }
 
-        [Test]
+        [Fact]
         public void TextTest()
         {
             using (var toolStrip = new ToolStripAPIGauge())
             {
                 // toolStrip.ApiLimit の初期値は null
 
-                Assert.That(toolStrip.Text, Is.EqualTo("API ???/???"));
-                Assert.That(toolStrip.ToolTipText, Is.EqualTo("API rest ???/???" + Environment.NewLine + "(reset after ??? minutes)"));
+                Assert.Equal("API ???/???", toolStrip.Text);
+                Assert.Equal("API rest ???/???" + Environment.NewLine + "(reset after ??? minutes)", toolStrip.ToolTipText);
 
                 toolStrip.ApiLimit = new ApiLimit(15, 14, DateTime.Now.AddMinutes(15));
 
-                Assert.That(toolStrip.Text, Is.EqualTo("API 14/15"));
-                Assert.That(toolStrip.ToolTipText, Is.EqualTo("API rest 14/15" + Environment.NewLine + "(reset after 15 minutes)"));
+                Assert.Equal("API 14/15", toolStrip.Text);
+                Assert.Equal("API rest 14/15" + Environment.NewLine + "(reset after 15 minutes)", toolStrip.ToolTipText);
 
                 toolStrip.ApiLimit = null;
 
-                Assert.That(toolStrip.Text, Is.EqualTo("API ???/???"));
-                Assert.That(toolStrip.ToolTipText, Is.EqualTo("API rest ???/???" + Environment.NewLine + "(reset after ??? minutes)"));
+                Assert.Equal("API ???/???", toolStrip.Text);
+                Assert.Equal("API rest ???/???" + Environment.NewLine + "(reset after ??? minutes)", toolStrip.ToolTipText);
             }
         }
 
         class TestToolStripAPIGauge : ToolStripAPIGauge
         {
-            public DateTime Now { get; set; } // 現在時刻
-
             protected override void UpdateRemainMinutes()
             {
                 if (this.ApiLimit != null)
-                    this.remainMinutes = (this.ApiLimit.AccessLimitResetDate - this.Now).TotalMinutes;
+                    // DateTime の代わりに Clock.Now を使用することで FreezeClock 属性の影響を受けるようになる
+                    this.remainMinutes = (this.ApiLimit.AccessLimitResetDate - Clock.Now).TotalMinutes;
                 else
                     this.remainMinutes = -1;
             }
         }
 
-        [Test]
+        [Fact]
+        [FreezeClock]
         public void GaugeBoundsTest()
         {
             using (var toolStrip = new TestToolStripAPIGauge())
@@ -102,23 +102,20 @@ namespace OpenTween
                 toolStrip.Size = new Size(100, 10);
                 toolStrip.GaugeHeight = 5;
 
-                // 現在時刻を偽装
-                toolStrip.Now = new DateTime(2013, 1, 1, 0, 0, 0);
-
                 // toolStrip.ApiLimit の初期値は null
 
-                Assert.That(toolStrip.apiGaugeBounds, Is.EqualTo(Rectangle.Empty));
-                Assert.That(toolStrip.timeGaugeBounds, Is.EqualTo(Rectangle.Empty));
+                Assert.Equal(Rectangle.Empty, toolStrip.apiGaugeBounds);
+                Assert.Equal(Rectangle.Empty, toolStrip.timeGaugeBounds);
 
-                toolStrip.ApiLimit = new ApiLimit(150, 60, toolStrip.Now.AddMinutes(15));
+                toolStrip.ApiLimit = new ApiLimit(150, 60, Clock.Now.AddMinutes(15));
 
-                Assert.That(toolStrip.apiGaugeBounds, Is.EqualTo(new Rectangle(0, 0, 40, 5))); // 40% (60/150)
-                Assert.That(toolStrip.timeGaugeBounds, Is.EqualTo(new Rectangle(0, 5, 25, 5))); // 25% (15/60)
+                Assert.Equal(new Rectangle(0, 0, 40, 5), toolStrip.apiGaugeBounds); // 40% (60/150)
+                Assert.Equal(new Rectangle(0, 5, 25, 5), toolStrip.timeGaugeBounds); // 25% (15/60)
 
                 toolStrip.ApiLimit = null;
 
-                Assert.That(toolStrip.apiGaugeBounds, Is.EqualTo(Rectangle.Empty));
-                Assert.That(toolStrip.timeGaugeBounds, Is.EqualTo(Rectangle.Empty));
+                Assert.Equal(Rectangle.Empty, toolStrip.apiGaugeBounds);
+                Assert.Equal(Rectangle.Empty, toolStrip.timeGaugeBounds);
             }
         }
     }

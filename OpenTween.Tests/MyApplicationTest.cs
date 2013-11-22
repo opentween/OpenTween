@@ -23,72 +23,76 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NUnit.Framework;
+using Xunit;
+using Xunit.Extensions;
 
 namespace OpenTween
 {
-    [TestFixture]
     public class ParseArgumentsTest
     {
-        [Test]
+        [Fact]
         public void NoOptionsTest()
         {
             var args = new string[] { };
 
-            Assert.That(MyApplication.ParseArguments(args), Is.Empty);
+            Assert.Empty(MyApplication.ParseArguments(args));
         }
 
-        [Test]
+        [Fact]
         public void SingleOptionTest()
         {
             var args = new[] { "/foo" };
 
-            Assert.That(MyApplication.ParseArguments(args), Is.EquivalentTo(new Dictionary<string, string>
+            Assert.Equal(new Dictionary<string, string>
             {
                 {"foo", ""},
-            }));
+            },
+            MyApplication.ParseArguments(args));
         }
 
-        [Test]
+        [Fact]
         public void MultipleOptionsTest()
         {
             var args = new[] { "/foo", "/bar" };
 
-            Assert.That(MyApplication.ParseArguments(args), Is.EquivalentTo(new Dictionary<string, string>
+            Assert.Equal(new Dictionary<string, string>
             {
                 {"foo", ""},
                 {"bar", ""},
-            }));
+            },
+            MyApplication.ParseArguments(args));
         }
 
-        [Test]
+        [Fact]
         public void OptionWithArgumentTest()
         {
             var args = new[] { "/foo:hogehoge" };
 
-            Assert.That(MyApplication.ParseArguments(args), Is.EquivalentTo(new Dictionary<string, string>
+            Assert.Equal(new Dictionary<string, string>
             {
                 {"foo", "hogehoge"},
-            }));
+            },
+            MyApplication.ParseArguments(args));
         }
 
-        [Test]
+        [Fact]
         public void OptionWithEmptyArgumentTest()
         {
             var args = new[] { "/foo:" };
 
-            Assert.That(MyApplication.ParseArguments(args), Is.EquivalentTo(new Dictionary<string, string>
+            Assert.Equal(new Dictionary<string, string>
             {
                 {"foo", ""},
-            }));
+            },
+            MyApplication.ParseArguments(args));
         }
 
-        [Test]
+        [Fact]
         public void IgroreInvalidOptionsTest()
         {
             var args = new string[] { "--foo", "/" };
 
-            Assert.That(MyApplication.ParseArguments(args), Is.Empty);
+            Assert.Empty(MyApplication.ParseArguments(args));
         }
     }
 }

@@ -1,10 +1,7 @@
 language: c#
 
 install:
-  - sudo apt-get install -qq nunit-console mono-devel
-  # Install NUnit 2.6
-  - wget -q http://de.archive.ubuntu.com/ubuntu/pool/main/n/nunit/libnunit2.6-cil_2.6.0.12051+dfsg-2_all.deb http://de.archive.ubuntu.com/ubuntu/pool/universe/n/nunit/nunit-console_2.6.0.12051+dfsg-2_all.deb
-  - sudo dpkg -i libnunit2.6-cil_2.6.0.12051+dfsg-2_all.deb nunit-console_2.6.0.12051+dfsg-2_all.deb
+  - sudo apt-get install -qq mono-devel
   # Setup Xvfb
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
@@ -14,4 +11,4 @@ script:
   - xbuild /verbosity:quiet
   # Run Tests
   - if ! grep -q 'Version 11.00' OpenTween.sln; then echo 'OpenTween.sln is not compatible with Visual C# 2010 Express.'; false; fi
-  - nunit-console -timeout=10000 ./OpenTween.Tests/OpenTween.Tests.nunit
+  - mono ./OpenTween.Tests/dlls/xunit.console.clr4.x86.exe ./OpenTween.Tests/OpenTween.Tests.xunit

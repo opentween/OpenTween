@@ -22,19 +22,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using NUnit.Framework;
-using System.Windows.Forms;
 using System.Reflection;
+using System.Text;
+using System.Windows.Forms;
+using Xunit;
+using Xunit.Extensions;
 
 namespace OpenTween
 {
-    class TabsDialogTest
+    public class TabsDialogTest
     {
         private TabInformations tabinfo;
 
-        [SetUp]
-        public void TabInformationSetUp()
+        public TabsDialogTest()
         {
             this.tabinfo = Activator.CreateInstance(typeof(TabInformations), true) as TabInformations;
 
@@ -51,46 +51,46 @@ namespace OpenTween
             field.SetValue(null, this.tabinfo);
         }
 
-        [Test]
+        [Fact]
         public void OKButtonEnabledTest()
         {
             using (var dialog = new TabsDialog(this.tabinfo))
             {
-                Assert.That(dialog.OK_Button.Enabled, Is.False);
+                Assert.False(dialog.OK_Button.Enabled);
 
                 dialog.TabList.SelectedIndex = 0;
 
-                Assert.That(dialog.OK_Button.Enabled, Is.True);
+                Assert.True(dialog.OK_Button.Enabled);
 
                 dialog.TabList.SelectedIndex = -1;
 
-                Assert.That(dialog.OK_Button.Enabled, Is.False);
+                Assert.False(dialog.OK_Button.Enabled);
             }
         }
 
-        [Test]
+        [Fact]
         public void MultiSelectTest()
         {
             using (var dialog = new TabsDialog(this.tabinfo))
             {
                 // MultiSelect = false (default)
                 var firstItem = dialog.TabList.Items[0] as TabsDialog.TabListItem;
-                Assert.That(firstItem.Tab, Is.Null); // 「(新規タブ)」
-                Assert.That(dialog.TabList.SelectionMode, Is.EqualTo(SelectionMode.One));
+                Assert.Null(firstItem.Tab); // 「(新規タブ)」
+                Assert.Equal(SelectionMode.One, dialog.TabList.SelectionMode);
 
                 dialog.MultiSelect = true;
                 firstItem = dialog.TabList.Items[0] as TabsDialog.TabListItem;
-                Assert.That(firstItem.Tab, Is.Not.Null);
-                Assert.That(dialog.TabList.SelectionMode, Is.EqualTo(SelectionMode.MultiExtended));
+                Assert.NotNull(firstItem.Tab);
+                Assert.Equal(SelectionMode.MultiExtended, dialog.TabList.SelectionMode);
 
                 dialog.MultiSelect = false;
                 firstItem = dialog.TabList.Items[0] as TabsDialog.TabListItem;
-                Assert.That(firstItem.Tab, Is.Null);
-                Assert.That(dialog.TabList.SelectionMode, Is.EqualTo(SelectionMode.One));
+                Assert.Null(firstItem.Tab);
+                Assert.Equal(SelectionMode.One, dialog.TabList.SelectionMode);
             }
         }
 
-        [Test]
+        [Fact]
         public void DoubleClickTest()
         {
             using (var dialog = new TabsDialog(this.tabinfo))
@@ -98,18 +98,18 @@ namespace OpenTween
                 dialog.TabList.SelectedIndex = -1;
                 TestUtils.FireEvent(dialog.TabList, "DoubleClick");
 
-                Assert.That(dialog.DialogResult, Is.EqualTo(DialogResult.None));
-                Assert.That(dialog.IsDisposed, Is.False);
+                Assert.Equal(DialogResult.None, dialog.DialogResult);
+                Assert.False(dialog.IsDisposed);
 
                 dialog.TabList.SelectedIndex = 1;
                 TestUtils.FireEvent(dialog.TabList, "DoubleClick");
 
-                Assert.That(dialog.DialogResult, Is.EqualTo(DialogResult.OK));
-                Assert.That(dialog.IsDisposed, Is.True);
+                Assert.Equal(DialogResult.OK, dialog.DialogResult);
+                Assert.True(dialog.IsDisposed);
             }
         }
 
-        [Test]
+        [Fact]
         public void SelectableTabTest()
         {
             using (var dialog = new TabsDialog(this.tabinfo))
@@ -117,17 +117,17 @@ namespace OpenTween
                 dialog.MultiSelect = false;
 
                 var item = dialog.TabList.Items[0] as TabsDialog.TabListItem;
-                Assert.That(item.Tab, Is.Null);
+                Assert.Null(item.Tab);
 
                 item = dialog.TabList.Items[1] as TabsDialog.TabListItem;
-                Assert.That(item.Tab, Is.EqualTo(this.tabinfo.Tabs["Reply"]));
+                Assert.Equal(this.tabinfo.Tabs["Reply"], item.Tab);
 
                 item = dialog.TabList.Items[2] as TabsDialog.TabListItem;
-                Assert.That(item.Tab, Is.EqualTo(this.tabinfo.Tabs["MyTab1"]));
+                Assert.Equal(this.tabinfo.Tabs["MyTab1"], item.Tab);
             }
         }
 
-        [Test]
+        [Fact]
         public void SelectedTabTest()
         {
             using (var dialog = new TabsDialog(this.tabinfo))
@@ -135,14 +135,14 @@ namespace OpenTween
                 dialog.MultiSelect = false;
 
                 dialog.TabList.SelectedIndex = 0;
-                Assert.That(dialog.SelectedTab, Is.Null);
+                Assert.Null(dialog.SelectedTab);
 
                 dialog.TabList.SelectedIndex = 1;
-                Assert.That(dialog.SelectedTab, Is.EqualTo(this.tabinfo.Tabs["Reply"]));
+                Assert.Equal(this.tabinfo.Tabs["Reply"], dialog.SelectedTab);
             }
         }
 
-        [Test]
+        [Fact]
         public void SelectedTabsTest()
         {
             using (var dialog = new TabsDialog(this.tabinfo))
@@ -151,15 +151,15 @@ namespace OpenTween
 
                 dialog.TabList.SelectedIndices.Clear();
                 var selectedTabs = dialog.SelectedTabs;
-                Assert.That(selectedTabs, Is.Empty);
+                Assert.Empty(selectedTabs);
 
                 dialog.TabList.SelectedIndices.Add(0);
                 selectedTabs = dialog.SelectedTabs;
-                Assert.That(selectedTabs, Is.EquivalentTo(new[] { this.tabinfo.Tabs["Reply"] }));
+                Assert.Equal(new[] { this.tabinfo.Tabs["Reply"] }, selectedTabs);
 
                 dialog.TabList.SelectedIndices.Add(1);
                 selectedTabs = dialog.SelectedTabs;
-                Assert.That(selectedTabs, Is.EquivalentTo(new[] { this.tabinfo.Tabs["Reply"], this.tabinfo.Tabs["MyTab1"] }));
+                Assert.Equal(new[] { this.tabinfo.Tabs["Reply"], this.tabinfo.Tabs["MyTab1"] }, selectedTabs);
             }
         }
     }

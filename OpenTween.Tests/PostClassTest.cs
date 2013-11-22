@@ -22,14 +22,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using NUnit.Framework;
 using System.Reflection;
+using System.Text;
+using Xunit;
+using Xunit.Extensions;
 
 namespace OpenTween
 {
-    [TestFixture]
-    class PostClassTest
+    public class PostClassTest
     {
         class TestPostClass : PostClass
         {
@@ -76,8 +76,7 @@ namespace OpenTween
 
         private static Dictionary<long, PostClass> TestCases;
 
-        [SetUp]
-        public void SetUpTestCases()
+        public PostClassTest()
         {
             PostClassTest.TestCases = new Dictionary<long, PostClass>
             {
@@ -87,7 +86,7 @@ namespace OpenTween
             };
         }
 
-        [Test]
+        [Fact]
         public void CloneTest()
         {
             var post = new PostClass();
@@ -96,66 +95,73 @@ namespace OpenTween
             TestUtils.CheckDeepCloning(post, clonePost);
         }
 
-        [TestCase(null, Result = null)]
-        [TestCase("", Result = "")]
-        [TestCase("aaa\nbbb", Result = "aaa bbb")]
-        public string TextSingleLineTest(string text)
+        [Theory]
+        [InlineData(null,  null)]
+        [InlineData("", "")]
+        [InlineData("aaa\nbbb", "aaa bbb")]
+        public void TextSingleLineTest(string text, string expected)
         {
             var post = new TestPostClass(textFromApi: text);
 
-            return post.TextSingleLine;
+            Assert.Equal(expected, post.TextSingleLine);
         }
 
-        [TestCase(1L, Result = false)]
-        [TestCase(2L, Result = true)]
-        [TestCase(3L, Result = true)]
-        public bool GetIsFavTest(long statusId)
+        [Theory]
+        [InlineData(1L, false)]
+        [InlineData(2L, true)]
+        [InlineData(3L, true)]
+        public void GetIsFavTest(long statusId, bool expected)
         {
-            return PostClassTest.TestCases[statusId].IsFav;
+            Assert.Equal(expected, PostClassTest.TestCases[statusId].IsFav);
         }
 
-        [Test, Combinatorial]
-        public void SetIsFavTest(
-            [Values(2L, 3L)] long statusId,
-            [Values(true, false)] bool isFav)
+        [Theory]
+        [InlineData(2L, true)]
+        [InlineData(2L, false)]
+        [InlineData(3L, true)]
+        [InlineData(3L, false)]
+        public void SetIsFavTest(long statusId, bool isFav)
         {
             var post = PostClassTest.TestCases[statusId];
 
             post.IsFav = isFav;
-            Assert.That(post.IsFav, Is.EqualTo(isFav));
+            Assert.Equal(isFav, post.IsFav);
 
             if (post.RetweetedId != null)
-                Assert.That(PostClassTest.TestCases[post.RetweetedId.Value].IsFav, Is.EqualTo(isFav));
+                Assert.Equal(isFav, PostClassTest.TestCases[post.RetweetedId.Value].IsFav);
         }
 
-        [Test, Combinatorial]
-        public void StateIndexTest(
-            [Values(true, false)] bool protect,
-            [Values(true, false)] bool mark,
-            [Values(true, false)] bool reply,
-            [Values(true, false)] bool geo)
+        [Theory]
+        [InlineData(false, false, false, false, -0x01)]
+        [InlineData( true, false, false, false, 0x00)]
+        [InlineData(false,  true, false, false, 0x01)]
+        [InlineData( true,  true, false, false, 0x02)]
+        [InlineData(false, false,  true, false, 0x03)]
+        [InlineData( true, false,  true, false, 0x04)]
+        [InlineData(false,  true,  true, false, 0x05)]
+        [InlineData( true,  true,  true, false, 0x06)]
+        [InlineData(false, false, false,  true, 0x07)]
+        [InlineData( true, false, false,  true, 0x08)]
+        [InlineData(false,  true, false,  true, 0x09)]
+        [InlineData( true,  true, false,  true, 0x0A)]
+        [InlineData(false, false,  true,  true, 0x0B)]
+        [InlineData( true, false,  true,  true, 0x0C)]
+        [InlineData(false,  true,  true,  true, 0x0D)]
+        [InlineData( true,  true,  true,  true, 0x0E)]
+        public void StateIndexTest(bool protect, bool mark, bool reply, bool geo, int expected)
         {
-            var post = new TestPostClass();
-            var except = 0x00;
+            var post = new TestPostClass
+            {
+                IsProtect = protect,
+                IsMark = mark,
+                InReplyToStatusId = reply ? (long?)100L : null,
+                PostGeo = geo ? new PostClass.StatusGeo { Lat = -47.15, Lng = -126.716667 } : new PostClass.StatusGeo(),
+            };
 
-            post.IsProtect = protect;
-            if (protect) except |= 0x01;
-
-            post.IsMark = mark;
-            if (mark) except |= 0x02;
-
-            post.InReplyToStatusId = reply ? (long?)100L : null;
-            if (reply) except |= 0x04;
-
-            post.PostGeo = geo ? new PostClass.StatusGeo { Lat = -47.15, Lng = -126.716667 } : new PostClass.StatusGeo();
-            if (geo) except |= 0x08;
-
-            except -= 1;
-
-            Assert.That(post.StateIndex, Is.EqualTo(except));
+            Assert.Equal(expected, post.StateIndex);
         }
 
-        [Test]
+        [Fact]
         public void DeleteTest()
         {
             var post = new TestPostClass
@@ -169,12 +175,12 @@ namespace OpenTween
 
             post.IsDeleted = true;
 
-            Assert.That(post.InReplyToStatusId, Is.Null);
-            Assert.That(post.InReplyToUser, Is.EqualTo(""));
-            Assert.That(post.InReplyToUserId, Is.Null);
-            Assert.That(post.IsReply, Is.False);
-            Assert.That(post.ReplyToList, Is.Empty);
-            Assert.That(post.StateIndex, Is.EqualTo(-1));
+            Assert.Null(post.InReplyToStatusId);
+            Assert.Equal("", post.InReplyToUser);
+            Assert.Null(post.InReplyToUserId);
+            Assert.False(post.IsReply);
+            Assert.Empty(post.ReplyToList);
+            Assert.Equal(-1, post.StateIndex);
         }
     }
 }

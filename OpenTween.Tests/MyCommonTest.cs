@@ -21,97 +21,107 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 using System.Text;
-using NUnit.Framework;
+using System.Windows.Forms;
 using NSubstitute;
 using OpenTween;
-using System.Runtime.InteropServices;
-using System.Reflection;
-using System.Windows.Forms;
-using System.Runtime.Serialization;
-using System.IO;
+using Xunit;
+using Xunit.Extensions;
 
 namespace OpenTween
 {
-    [TestFixture]
     public class MyCommonTest
     {
-        [TestCase("http://ja.wikipedia.org/wiki/Wikipedia", Result = "http://ja.wikipedia.org/wiki/Wikipedia")]
-        [TestCase("http://ja.wikipedia.org/wiki/メインページ",
-            Result = "http://ja.wikipedia.org/wiki/%E3%83%A1%E3%82%A4%E3%83%B3%E3%83%9A%E3%83%BC%E3%82%B8")]
-        [TestCase("http://fr.wikipedia.org/wiki/Café", Result = "http://fr.wikipedia.org/wiki/Caf%E9")]
-        [TestCase("http://ja.wikipedia.org/wiki/勇気100%", Result = "http://ja.wikipedia.org/wiki/%E5%8B%87%E6%B0%97100%25")]
-        [TestCase("http://ja.wikipedia.org/wiki/Bio_100%", Result = "http://ja.wikipedia.org/wiki/Bio_100%25")]
-        public string urlEncodeMultibyteCharTest(string uri)
+        [Theory]
+        [InlineData("http://ja.wikipedia.org/wiki/Wikipedia", "http://ja.wikipedia.org/wiki/Wikipedia")]
+        [InlineData("http://ja.wikipedia.org/wiki/メインページ",
+            "http://ja.wikipedia.org/wiki/%E3%83%A1%E3%82%A4%E3%83%B3%E3%83%9A%E3%83%BC%E3%82%B8")]
+        [InlineData("http://fr.wikipedia.org/wiki/Café", "http://fr.wikipedia.org/wiki/Caf%E9")]
+        [InlineData("http://ja.wikipedia.org/wiki/勇気100%", "http://ja.wikipedia.org/wiki/%E5%8B%87%E6%B0%97100%25")]
+        [InlineData("http://ja.wikipedia.org/wiki/Bio_100%", "http://ja.wikipedia.org/wiki/Bio_100%25")]
+        public void urlEncodeMultibyteCharTest(string uri, string expected)
         {
-            return MyCommon.urlEncodeMultibyteChar(uri);
+            Assert.Equal(expected, MyCommon.urlEncodeMultibyteChar(uri));
         }
 
-        [TestCase("http://日本語.idn.icann.org/", Result = "http://xn--wgv71a119e.idn.icann.org/")]
-        [TestCase("http://例え.テスト/", Result = "http://xn--r8jz45g.xn--zckzah/")]
-        public string IDNDecodeTest(string uri)
+        [Theory]
+        [InlineData("http://日本語.idn.icann.org/", "http://xn--wgv71a119e.idn.icann.org/")]
+        [InlineData("http://例え.テスト/", "http://xn--r8jz45g.xn--zckzah/")]
+        public void IDNDecodeTest(string uri, string expected)
         {
-            return MyCommon.IDNDecode(uri);
+            Assert.Equal(expected, MyCommon.IDNDecode(uri));
         }
 
-        [TestCase(new int[] { 1, 2, 3, 4 }, 0, 3, Result = new int[] { 2, 3, 4, 1 })] // 左ローテイト?
-        [TestCase(new int[] { 1, 2, 3, 4 }, 3, 0, Result = new int[] { 4, 1, 2, 3 })] // 右ローテイト?
-        [TestCase(new int[] { 1, 2, 3, 4, 5 }, 1, 3, Result = new int[] { 1, 3, 4, 2, 5 })]
-        [TestCase(new int[] { 1, 2, 3, 4, 5 }, 3, 1, Result = new int[] { 1, 4, 2, 3, 5 })]
-        public int[] MoveArrayItemTest(int[] values, int idx_fr, int idx_to)
+        [Theory]
+        [InlineData(new int[] { 1, 2, 3, 4 }, 0, 3, new int[] { 2, 3, 4, 1 })] // 左ローテイト?
+        [InlineData(new int[] { 1, 2, 3, 4 }, 3, 0, new int[] { 4, 1, 2, 3 })] // 右ローテイト?
+        [InlineData(new int[] { 1, 2, 3, 4, 5 }, 1, 3, new int[] { 1, 3, 4, 2, 5 })]
+        [InlineData(new int[] { 1, 2, 3, 4, 5 }, 3, 1, new int[] { 1, 4, 2, 3, 5 })]
+        public void MoveArrayItemTest(int[] values, int idx_fr, int idx_to, int[] expected)
         {
             // MoveArrayItem は values を直接変更するため複製を用意する
             var copy = new int[values.Length];
             Array.Copy(values, copy, values.Length);
 
             MyCommon.MoveArrayItem(copy, idx_fr, idx_to);
-            return copy;
+            Assert.Equal(expected, copy);
         }
 
-        [Test]
+        [Fact]
         public void EncryptStringTest()
         {
             var str = "hogehoge";
 
             var crypto = MyCommon.EncryptString(str);
-            Assert.That(crypto, Is.Not.EqualTo(str));
+            Assert.NotEqual(str, crypto);
 
             var decrypt = MyCommon.DecryptString(crypto);
-            Assert.That(decrypt, Is.EqualTo(str));
+            Assert.Equal(str, decrypt);
         }
 
-        [TestCase(new byte[] { 0x01, 0x02 }, 3, Result = new byte[] { 0x01, 0x02, 0x00 })]
-        [TestCase(new byte[] { 0x01, 0x02 }, 2, Result = new byte[] { 0x01, 0x02 })]
-        [TestCase(new byte[] { 0x01, 0x02 }, 1, Result = new byte[] { 0x03 })]
-        public byte[] ResizeBytesArrayTest(byte[] bytes, int size)
+        [Theory]
+        [InlineData(new byte[] { 0x01, 0x02 }, 3, new byte[] { 0x01, 0x02, 0x00 })]
+        [InlineData(new byte[] { 0x01, 0x02 }, 2, new byte[] { 0x01, 0x02 })]
+        [InlineData(new byte[] { 0x01, 0x02 }, 1, new byte[] { 0x03 })]
+        public void ResizeBytesArrayTest(byte[] bytes, int size, byte[] expected)
         {
-            return MyCommon.ResizeBytesArray(bytes, size);
+            Assert.Equal(expected, MyCommon.ResizeBytesArray(bytes, size));
         }
 
-        [TestCase("Resources/re.gif", Result = true)]
-        [TestCase("Resources/re1.gif", Result = false)]
-        [TestCase("Resources/re1.png", Result = false)]
-        public bool IsAnimatedGifTest(string filename)
+        [Theory]
+        [InlineData("Resources/re.gif", true)]
+        [InlineData("Resources/re1.gif", false)]
+        [InlineData("Resources/re1.png", false)]
+        public void IsAnimatedGifTest(string filename, bool expected)
         {
-            return MyCommon.IsAnimatedGif(filename);
+            Assert.Equal(expected, MyCommon.IsAnimatedGif(filename));
         }
 
-        public static object[] DateTimeParse_TestCase =
+        public static IEnumerable<object[]> DateTimeParse_TestCase
         {
-            new object[] {
-                "Sun Nov 25 06:10:00 +00:00 2012",
-                new DateTime(2012, 11, 25, 6, 10, 0, DateTimeKind.Utc)
-            },
-            new object[] {
-                "Sun, 25 Nov 2012 06:10:00 +00:00",
-                new DateTime(2012, 11, 25, 6, 10, 0, DateTimeKind.Utc)
-            },
-        };
-        [TestCaseSource("DateTimeParse_TestCase")]
-        public void DateTimeParseTest(string date, DateTime except)
+            get
+            {
+                yield return new object[] {
+                    "Sun Nov 25 06:10:00 +00:00 2012",
+                    new DateTime(2012, 11, 25, 6, 10, 0, DateTimeKind.Utc),
+                };
+                yield return new object[] {
+                    "Sun, 25 Nov 2012 06:10:00 +00:00",
+                    new DateTime(2012, 11, 25, 6, 10, 0, DateTimeKind.Utc),
+                };
+            }
+        }
+
+        [Theory]
+        [PropertyData("DateTimeParse_TestCase")]
+        public void DateTimeParseTest(string date, DateTime excepted)
         {
-            Assert.That(MyCommon.DateTimeParse(date).ToUniversalTime(), Is.EqualTo(except));
+            Assert.Equal(excepted, MyCommon.DateTimeParse(date).ToUniversalTime());
         }
 
         [DataContract]
@@ -120,115 +130,129 @@ namespace OpenTween
             [DataMember(Name = "id")] public string Id { get; set; }
             [DataMember(Name = "body")] public string Body { get; set; }
         }
-        public static object[] CreateDataFromJson_TestCase =
+        public static IEnumerable<object[]> CreateDataFromJson_TestCase
         {
-            new object[] {
-                @"{""id"":""1"", ""body"":""hogehoge""}",
-                new JsonData { Id = "1", Body = "hogehoge" },
-            },
-        };
-        [TestCaseSource("CreateDataFromJson_TestCase")]
-        public void CreateDataFromJsonTest<T>(string json, T expect)
-        {
-            Assert.That(MyCommon.CreateDataFromJson<T>(json), Is.EqualTo(expect));
+            get
+            {
+                yield return new object[] {
+                    @"{""id"":""1"", ""body"":""hogehoge""}",
+                    new JsonData { Id = "1", Body = "hogehoge" },
+                };
+            }
         }
 
-        [TestCase("hoge123@example.com", Result = true)]
-        [TestCase("hogehoge", Result = false)]
-        [TestCase("foo.bar@example.com", Result = true)]
-        [TestCase("foo..bar@example.com", Result = false)]
-        [TestCase("foobar.@example.com", Result = false)]
-        [TestCase("foo+bar@example.com", Result = true)]
-        public bool IsValidEmailTest(string email)
+        [Theory]
+        [PropertyData("CreateDataFromJson_TestCase")]
+        public void CreateDataFromJsonTest<T>(string json, T expected)
         {
-            return MyCommon.IsValidEmail(email);
+            Assert.Equal(expected, MyCommon.CreateDataFromJson<T>(json));
         }
 
-        [TestCase(Keys.Shift, Keys.Shift, Result = true)]
-        [TestCase(Keys.Shift, Keys.Control, Result = false)]
-        [TestCase(Keys.Control | Keys.Alt, Keys.Control, Result = true)]
-        [TestCase(Keys.Control | Keys.Alt, Keys.Alt, Result = true)]
-        [TestCase(Keys.Control | Keys.Alt, Keys.Control, Keys.Alt, Result = true)]
-        [TestCase(Keys.Control | Keys.Alt, Keys.Shift, Result = false)]
-        public bool IsKeyDownTest(Keys modifierKeys, params Keys[] checkKeys)
+        [Theory]
+        [InlineData("hoge123@example.com", true)]
+        [InlineData("hogehoge", false)]
+        [InlineData("foo.bar@example.com", true)]
+        [InlineData("foo..bar@example.com", false)]
+        [InlineData("foobar.@example.com", false)]
+        [InlineData("foo+bar@example.com", true)]
+        public void IsValidEmailTest(string email, bool expected)
         {
-            return MyCommon._IsKeyDown(modifierKeys, checkKeys);
+            Assert.Equal(expected, MyCommon.IsValidEmail(email));
         }
 
-        [Test]
+        [Theory(Skip = "Travis CI (Mono 2.10) で `mono_class_from_mono_type: implement me 0x55' エラーが発生する")]
+        [InlineData(Keys.Shift, new[] { Keys.Shift }, true)]
+        [InlineData(Keys.Shift, new[] { Keys.Control }, false)]
+        [InlineData(Keys.Control | Keys.Alt, new[] { Keys.Control }, true)]
+        [InlineData(Keys.Control | Keys.Alt, new[] { Keys.Alt }, true)]
+        [InlineData(Keys.Control | Keys.Alt, new[] { Keys.Control, Keys.Alt }, true)]
+        [InlineData(Keys.Control | Keys.Alt, new[] { Keys.Shift }, false)]
+        public void IsKeyDownTest(Keys modifierKeys, Keys[] checkKeys, bool expected)
+        {
+            Assert.Equal(expected, MyCommon._IsKeyDown(modifierKeys, checkKeys));
+        }
+
+        [Fact]
         public void GetAssemblyNameTest()
         {
             var mockAssembly = Substitute.For<_Assembly>();
             mockAssembly.GetName().Returns(new AssemblyName("OpenTween"));
             MyCommon.EntryAssembly = mockAssembly;
 
-            Assert.That(MyCommon.GetAssemblyName(), Is.EqualTo("OpenTween"));
+            Assert.Equal("OpenTween", MyCommon.GetAssemblyName());
         }
 
-        [TestCase("", "")]
-        [TestCase("%AppName%", "OpenTween")]
-        [TestCase("%AppName% %AppName%", "OpenTween OpenTween")]
-        public void ReplaceAppNameTest(string str, string except)
+        [Theory]
+        [InlineData("", "")]
+        [InlineData("%AppName%", "OpenTween")]
+        [InlineData("%AppName% %AppName%", "OpenTween OpenTween")]
+        public void ReplaceAppNameTest(string str, string excepted)
         {
-            Assert.That(MyCommon.ReplaceAppName(str, "OpenTween"), Is.EqualTo(except));
+            Assert.Equal(excepted, MyCommon.ReplaceAppName(str, "OpenTween"));
         }
 
-        [TestCase("1.0.0.0", "1.0.0")]
-        [TestCase("1.0.0.1", "1.0.1-beta1")]
-        [TestCase("1.0.0.9", "1.0.1-beta9")]
-        [TestCase("1.0.1.0", "1.0.1")]
-        [TestCase("1.0.9.1", "1.1.0-beta1")]
-        [TestCase("1.1.0.0", "1.1.0")]
-        [TestCase("1.9.9.1", "2.0.0-beta1")]
-        public void GetReadableVersionTest(string fileVersion, string expect)
+        [Theory]
+        [InlineData("1.0.0.0", "1.0.0")]
+        [InlineData("1.0.0.1", "1.0.1-beta1")]
+        [InlineData("1.0.0.9", "1.0.1-beta9")]
+        [InlineData("1.0.1.0", "1.0.1")]
+        [InlineData("1.0.9.1", "1.1.0-beta1")]
+        [InlineData("1.1.0.0", "1.1.0")]
+        [InlineData("1.9.9.1", "2.0.0-beta1")]
+        public void GetReadableVersionTest(string fileVersion, string expected)
         {
-            Assert.That(OpenTween.MyCommon.GetReadableVersion(fileVersion), Is.EqualTo(expect));
+            Assert.Equal(expected, MyCommon.GetReadableVersion(fileVersion));
         }
 
-        public static object[] GetStatusUrlTest1_TestCase =
+        public static IEnumerable<object[]> GetStatusUrlTest1_TestCase
         {
-            new object[] {
-                new PostClass { StatusId = 249493863826350080L, ScreenName = "Favstar_LM", RetweetedId = null, RetweetedBy = null },
-                "https://twitter.com/Favstar_LM/status/249493863826350080",
-            },
-            new object[] {
-                new PostClass { StatusId = 216033842434289664L, ScreenName = "haru067", RetweetedId = 200245741443235840L, RetweetedBy = "re4k"},
-                "https://twitter.com/haru067/status/200245741443235840",
-            },
-        };
-        [TestCaseSource("GetStatusUrlTest1_TestCase")]
-        public void GetStatusUrlTest1(PostClass post, string except)
-        {
-            Assert.That(MyCommon.GetStatusUrl(post), Is.EqualTo(except));
+            get
+            {
+                yield return new object[] {
+                    new PostClass { StatusId = 249493863826350080L, ScreenName = "Favstar_LM", RetweetedId = null, RetweetedBy = null },
+                    "https://twitter.com/Favstar_LM/status/249493863826350080",
+                };
+                yield return new object[] {
+                    new PostClass { StatusId = 216033842434289664L, ScreenName = "haru067", RetweetedId = 200245741443235840L, RetweetedBy = "re4k"},
+                    "https://twitter.com/haru067/status/200245741443235840",
+                };
+            }
         }
 
-        [TestCase("Favstar_LM", 249493863826350080L, "https://twitter.com/Favstar_LM/status/249493863826350080")]
-        [TestCase("haru067", 200245741443235840L, "https://twitter.com/haru067/status/200245741443235840")]
-        public void GetStatusUrlTest2(string screenName, long statusId, string except)
+        [Theory]
+        [PropertyData("GetStatusUrlTest1_TestCase")]
+        public void GetStatusUrlTest1(PostClass post, string expected)
         {
-            Assert.That(MyCommon.GetStatusUrl(screenName, statusId), Is.EqualTo(except));
+            Assert.Equal(expected, MyCommon.GetStatusUrl(post));
         }
 
-        [Test]
-        [Platform("Win")]
-        public void GetErrorLogPathTestWindows()
+        [Theory]
+        [InlineData("Favstar_LM", 249493863826350080L, "https://twitter.com/Favstar_LM/status/249493863826350080")]
+        [InlineData("haru067", 200245741443235840L, "https://twitter.com/haru067/status/200245741443235840")]
+        public void GetStatusUrlTest2(string screenName, long statusId, string expected)
         {
-            var mockAssembly = Substitute.For<_Assembly>();
-            mockAssembly.Location.Returns(@"C:\hogehoge\OpenTween\OpenTween.exe");
-            MyCommon.EntryAssembly = mockAssembly;
-
-            Assert.That(MyCommon.GetErrorLogPath(), Is.SamePath(@"C:\hogehoge\OpenTween\ErrorLogs\"));
+            Assert.Equal(expected, MyCommon.GetStatusUrl(screenName, statusId));
         }
 
-        [Test]
-        [Platform(Exclude = "Win")]
-        public void GetErrorLogPathTestOther()
+        [Fact]
+        public void GetErrorLogPathTest()
         {
-            var mockAssembly = Substitute.For<_Assembly>();
-            mockAssembly.Location.Returns(@"/hogehoge/OpenTween/OpenTween.exe");
-            MyCommon.EntryAssembly = mockAssembly;
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                var mockAssembly = Substitute.For<_Assembly>();
+                mockAssembly.Location.Returns(@"C:\hogehoge\OpenTween\OpenTween.exe");
+                MyCommon.EntryAssembly = mockAssembly;
 
-            Assert.That(MyCommon.GetErrorLogPath(), Is.SamePath(@"/hogehoge/OpenTween/ErrorLogs/"));
+                Assert.Equal(@"C:\hogehoge\OpenTween\ErrorLogs", MyCommon.GetErrorLogPath());
+            }
+            else
+            {
+                var mockAssembly = Substitute.For<_Assembly>();
+                mockAssembly.Location.Returns(@"/hogehoge/OpenTween/OpenTween.exe");
+                MyCommon.EntryAssembly = mockAssembly;
+
+                Assert.Equal(@"/hogehoge/OpenTween/ErrorLogs", MyCommon.GetErrorLogPath());
+            }
         }
     }
 }

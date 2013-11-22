@@ -23,15 +23,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NUnit.Framework;
 using System.Xml;
+using Xunit;
+using Xunit.Extensions;
 
 namespace OpenTween.Api
 {
-    [TestFixture]
-    class TwitterApiStatusTest
+    public class TwitterApiStatusTest
     {
-        [Test]
+        [Fact]
         public void ResetTest()
         {
             var apiStatus = new TwitterApiStatus();
@@ -42,116 +42,131 @@ namespace OpenTween.Api
 
             apiStatus.Reset();
 
-            Assert.That(apiStatus.AccessLimit["/statuses/home_timeline"], Is.Null);
-            Assert.That(apiStatus.MediaUploadLimit, Is.Null);
-            Assert.That(apiStatus.AccessLevel, Is.EqualTo(TwitterApiAccessLevel.Anonymous));
+            Assert.Null(apiStatus.AccessLimit["/statuses/home_timeline"]);
+            Assert.Null(apiStatus.MediaUploadLimit);
+            Assert.Equal(TwitterApiAccessLevel.Anonymous, apiStatus.AccessLevel);
         }
 
-        public static object[] ParseRateLimit_TestCase =
+        public static IEnumerable<object[]> ParseRateLimit_TestCase
         {
-            new object[] {
-                new Dictionary<string, string> {
-                    {"X-RateLimit-Limit", "150"},
-                    {"X-RateLimit-Remaining", "100"},
-                    {"X-RateLimit-Reset", "1356998400"},
-                },
-                new ApiLimit(150, 100, new DateTime(2013, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToLocalTime()),
-            },
-            new object[] {
-                new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
-                    {"x-ratelimit-limit", "150"},
-                    {"x-ratelimit-remaining", "100"},
-                    {"x-ratelimit-reset", "1356998400"},
-                },
-                new ApiLimit(150, 100, new DateTime(2013, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToLocalTime()),
-            },
-            new object[] {
-                new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
-                    {"X-RateLimit-Limit", "150"},
-                    {"X-RateLimit-Remaining", "100"},
-                    {"X-RateLimit-Reset", "hogehoge"},
-                },
-                null,
-            },
-            new object[] {
-                new Dictionary<string, string> {
-                    {"X-RateLimit-Limit", "150"},
-                    {"X-RateLimit-Remaining", "100"},
-                },
-                null,
-            },
-        };
-        [TestCaseSource("ParseRateLimit_TestCase")]
-        public void ParseRateLimitTest(IDictionary<string, string> header, ApiLimit expect)
+            get
+            {
+                yield return new object[] {
+                    new Dictionary<string, string> {
+                        {"X-RateLimit-Limit", "150"},
+                        {"X-RateLimit-Remaining", "100"},
+                        {"X-RateLimit-Reset", "1356998400"},
+                    },
+                    new ApiLimit(150, 100, new DateTime(2013, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToLocalTime()),
+                };
+                yield return new object[] {
+                    new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+                        {"x-ratelimit-limit", "150"},
+                        {"x-ratelimit-remaining", "100"},
+                        {"x-ratelimit-reset", "1356998400"},
+                    },
+                    new ApiLimit(150, 100, new DateTime(2013, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToLocalTime()),
+                };
+                yield return new object[] {
+                    new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+                        {"X-RateLimit-Limit", "150"},
+                        {"X-RateLimit-Remaining", "100"},
+                        {"X-RateLimit-Reset", "hogehoge"},
+                    },
+                    null,
+                };
+                yield return new object[] {
+                    new Dictionary<string, string> {
+                        {"X-RateLimit-Limit", "150"},
+                        {"X-RateLimit-Remaining", "100"},
+                    },
+                    null,
+                };
+            }
+        }
+
+        [Theory]
+        [PropertyData("ParseRateLimit_TestCase")]
+        public void ParseRateLimitTest(IDictionary<string, string> header, ApiLimit expected)
         {
             var limit = TwitterApiStatus.ParseRateLimit(header, "X-RateLimit-");
-            Assert.That(limit, Is.EqualTo(expect));
+            Assert.Equal(expected, limit);
         }
 
-        public static object[] ParseMediaRateLimit_TestCase =
+        public static IEnumerable<object[]> ParseMediaRateLimit_TestCase
         {
-            new object[] {
-                new Dictionary<string, string> {
-                    {"X-MediaRateLimit-Limit", "30"},
-                    {"X-MediaRateLimit-Remaining", "20"},
-                    {"X-MediaRateLimit-Reset", "1234567890"},
-                },
-                new ApiLimit(30, 20, new DateTime(2009, 2, 13, 23, 31, 30, DateTimeKind.Utc).ToLocalTime()),
-            },
-            new object[] {
-                new Dictionary<string, string> {
-                    {"X-MediaRateLimit-Limit", "30"},
-                    {"X-MediaRateLimit-Remaining", "20"},
-                    {"X-MediaRateLimit-Reset", "hogehoge"},
-                },
-                null,
-            },
-            new object[] {
-                new Dictionary<string, string> {
-                    {"X-MediaRateLimit-Limit", "30"},
-                    {"X-MediaRateLimit-Remaining", "20"},
-                },
-                null,
-            },
-        };
-        [TestCaseSource("ParseMediaRateLimit_TestCase")]
-        public void ParseMediaRateLimitTest(IDictionary<string, string> header, ApiLimit expect)
+            get
+            {
+                yield return new object[] {
+                    new Dictionary<string, string> {
+                        {"X-MediaRateLimit-Limit", "30"},
+                        {"X-MediaRateLimit-Remaining", "20"},
+                        {"X-MediaRateLimit-Reset", "1234567890"},
+                    },
+                    new ApiLimit(30, 20, new DateTime(2009, 2, 13, 23, 31, 30, DateTimeKind.Utc).ToLocalTime()),
+                };
+                yield return new object[] {
+                    new Dictionary<string, string> {
+                        {"X-MediaRateLimit-Limit", "30"},
+                        {"X-MediaRateLimit-Remaining", "20"},
+                        {"X-MediaRateLimit-Reset", "hogehoge"},
+                    },
+                    null,
+                };
+                yield return new object[] {
+                    new Dictionary<string, string> {
+                        {"X-MediaRateLimit-Limit", "30"},
+                        {"X-MediaRateLimit-Remaining", "20"},
+                    },
+                    null,
+                };
+            }
+        }
+
+        [Theory]
+        [PropertyData("ParseMediaRateLimit_TestCase")]
+        public void ParseMediaRateLimitTest(IDictionary<string, string> header, ApiLimit expected)
         {
             var limit = TwitterApiStatus.ParseRateLimit(header, "X-MediaRateLimit-");
-            Assert.That(limit, Is.EqualTo(expect));
+            Assert.Equal(expected, limit);
         }
 
-        public static object[] ParseAccessLevel_TestCase =
+        public static IEnumerable<object[]> ParseAccessLevel_TestCase
         {
-            new object[] {
-                new Dictionary<string, string> { {"X-Access-Level", "read"} },
-                TwitterApiAccessLevel.Read,
-            },
-            new object[] {
-                new Dictionary<string, string> { {"X-Access-Level", "read-write"} },
-                TwitterApiAccessLevel.ReadWrite,
-            },
-            new object[] {
-                new Dictionary<string, string> { {"X-Access-Level", "read-write-directmessages"} },
-                TwitterApiAccessLevel.ReadWriteAndDirectMessage,
-            },
-            new object[] {
-                new Dictionary<string, string> { {"X-Access-Level", ""} }, // 何故かたまに出てくるやつ
-                null,
-            },
-            new object[] {
-                new Dictionary<string, string> { },
-                null,
-            },
-        };
-        [TestCaseSource("ParseAccessLevel_TestCase")]
-        public void ParseAccessLevelTest(IDictionary<string, string> header, TwitterApiAccessLevel? expect)
+            get
+            {
+                yield return new object[] {
+                    new Dictionary<string, string> { {"X-Access-Level", "read"} },
+                    TwitterApiAccessLevel.Read,
+                };
+                yield return new object[] {
+                    new Dictionary<string, string> { {"X-Access-Level", "read-write"} },
+                    TwitterApiAccessLevel.ReadWrite,
+                };
+                yield return new object[] {
+                    new Dictionary<string, string> { {"X-Access-Level", "read-write-directmessages"} },
+                    TwitterApiAccessLevel.ReadWriteAndDirectMessage,
+                };
+                yield return new object[] {
+                    new Dictionary<string, string> { {"X-Access-Level", ""} }, // 何故かたまに出てくるやつ
+                    null,
+                };
+                yield return new object[] {
+                    new Dictionary<string, string> { },
+                    null,
+                };
+            }
+        }
+
+        [Theory]
+        [PropertyData("ParseAccessLevel_TestCase")]
+        public void ParseAccessLevelTest(IDictionary<string, string> header, TwitterApiAccessLevel? expected)
         {
             var accessLevel = TwitterApiStatus.ParseAccessLevel(header, "X-Access-Level");
-            Assert.That(accessLevel, Is.EqualTo(expect));
+            Assert.Equal(expected, accessLevel);
         }
 
-        [Test]
+        [Fact]
         public void UpdateFromHeaderTest()
         {
             var status = new TwitterApiStatus();
@@ -173,22 +188,21 @@ namespace OpenTween.Api
             status.UpdateFromHeader(header, "/statuses/home_timeline");
 
             var rateLimit = status.AccessLimit["/statuses/home_timeline"];
-            Assert.That(rateLimit.AccessLimitCount, Is.EqualTo(150));
-            Assert.That(rateLimit.AccessLimitRemain, Is.EqualTo(100));
-            Assert.That(rateLimit.AccessLimitResetDate, Is.EqualTo(new DateTime(2013, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToLocalTime()));
+            Assert.Equal(150, rateLimit.AccessLimitCount);
+            Assert.Equal(100, rateLimit.AccessLimitRemain);
+            Assert.Equal(new DateTime(2013, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToLocalTime(), rateLimit.AccessLimitResetDate);
 
             var mediaLimit = status.MediaUploadLimit;
-            Assert.That(mediaLimit.AccessLimitCount, Is.EqualTo(30));
-            Assert.That(mediaLimit.AccessLimitRemain, Is.EqualTo(20));
-            Assert.That(mediaLimit.AccessLimitResetDate, Is.EqualTo(new DateTime(2013, 1, 2, 0, 0, 0, DateTimeKind.Utc).ToLocalTime()));
+            Assert.Equal(30, mediaLimit.AccessLimitCount);
+            Assert.Equal(20, mediaLimit.AccessLimitRemain);
+            Assert.Equal(new DateTime(2013, 1, 2, 0, 0, 0, DateTimeKind.Utc).ToLocalTime(), mediaLimit.AccessLimitResetDate);
 
-            Assert.That(status.AccessLevel, Is.EqualTo(TwitterApiAccessLevel.ReadWriteAndDirectMessage));
+            Assert.Equal(TwitterApiAccessLevel.ReadWriteAndDirectMessage, status.AccessLevel);
 
-            Assert.That(eventCalled, Is.True);
+            Assert.True(eventCalled);
         }
 
-        [Test]
-        [Platform(Exclude = "Mono")]
+        [Fact(Skip = "Mono環境でエラーが発生する")]
         public void UpdateFromJsonTest()
         {
             var status = new TwitterApiStatus();
@@ -200,14 +214,14 @@ namespace OpenTween.Api
             status.UpdateFromJson(json);
 
             var rateLimit = status.AccessLimit["/statuses/home_timeline"];
-            Assert.That(rateLimit.AccessLimitCount, Is.EqualTo(150));
-            Assert.That(rateLimit.AccessLimitRemain, Is.EqualTo(100));
-            Assert.That(rateLimit.AccessLimitResetDate, Is.EqualTo(new DateTime(2013, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToLocalTime()));
+            Assert.Equal(150, rateLimit.AccessLimitCount);
+            Assert.Equal(100, rateLimit.AccessLimitRemain);
+            Assert.Equal(new DateTime(2013, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToLocalTime(), rateLimit.AccessLimitResetDate);
 
-            Assert.That(eventCalled, Is.True);
+            Assert.True(eventCalled);
         }
 
-        [Test]
+        [Fact]
         public void UpdateFromJsonTest2()
         {
             var status = new TwitterApiStatus();
@@ -216,15 +230,15 @@ namespace OpenTween.Api
             status.AccessLimitUpdated += (s, e) => eventCalled = true;
 
             var json = "INVALID JSON";
-            Assert.That(() => status.UpdateFromJson(json), Throws.TypeOf<XmlException>());
+            Assert.Throws<XmlException>(() => status.UpdateFromJson(json));
 
             var rateLimit = status.AccessLimit["/statuses/home_timeline"];
-            Assert.That(rateLimit, Is.Null);
+            Assert.Null(rateLimit);
 
-            Assert.That(eventCalled, Is.False);
+            Assert.False(eventCalled);
         }
 
-        [Test]
+        [Fact]
         public void AccessLimitUpdatedTest()
         {
             var apiStatus = new TwitterApiStatus();
@@ -232,13 +246,13 @@ namespace OpenTween.Api
             var eventCount = 0;
             apiStatus.AccessLimitUpdated += (s, e) => eventCount++;
 
-            Assert.That(eventCount, Is.EqualTo(0));
+            Assert.Equal(0, eventCount);
 
             apiStatus.AccessLimit["/statuses/home_timeline"] = new ApiLimit(150, 100, new DateTime(2013, 1, 1, 0, 0, 0));
-            Assert.That(eventCount, Is.EqualTo(1));
+            Assert.Equal(1, eventCount);
 
             apiStatus.Reset();
-            Assert.That(eventCount, Is.EqualTo(2));
+            Assert.Equal(2, eventCount);
         }
     }
 }

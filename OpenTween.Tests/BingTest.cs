@@ -17,13 +17,15 @@
 // You should have received a copy of the GNU General public License along
 // with this program. If not, see <http://www.gnu.org/licenses/>, or write to
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
-// Boston, MA 02110-1301, USA.using System;
+// Boston, MA 02110-1301, USA.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Reflection;
-using NUnit.Framework;
-
+using System.Text;
+using Xunit;
+using Xunit.Extensions;
 
 namespace OpenTween
 {
@@ -31,14 +33,12 @@ namespace OpenTween
     /// Bingクラスのテストクラス
     /// Translate(string _from, string _to, string _text, out string buf)のテスト未実装です
     /// </summary>
-    [TestFixture]
-    class BingTest
+    public class BingTest
     {
         List<string> LanguageTable;
         Bing bing;
 
-        [TestFixtureSetUp]
-        public  void TestInit()
+        public BingTest()
         {
             bing = new Bing();
             //リフレクション使ってインスタンスから取得するようにしたい
@@ -178,20 +178,20 @@ namespace OpenTween
 
         //}
 
-        [Test]
+        [Fact]
         public void GetLanguageEnumFromIndexTest()
         {
-            Assert.That(bing.GetLanguageEnumFromIndex(0), Is.EqualTo(LanguageTable[0]));
-            Assert.That(bing.GetLanguageEnumFromIndex(1), Is.EqualTo(LanguageTable[1]));
-            Assert.That(bing.GetLanguageEnumFromIndex(LanguageTable.Count - 1), Is.EqualTo(LanguageTable[LanguageTable.Count - 1]));
+            Assert.Equal(LanguageTable[0], bing.GetLanguageEnumFromIndex(0));
+            Assert.Equal(LanguageTable[1], bing.GetLanguageEnumFromIndex(1));
+            Assert.Equal(LanguageTable[LanguageTable.Count - 1], bing.GetLanguageEnumFromIndex(LanguageTable.Count - 1));
         }
 
-        [Test]
+        [Fact]
         public void GetIndexFromLanguageEnumTest()
         {
-            Assert.That(bing.GetIndexFromLanguageEnum(LanguageTable[0]), Is.EqualTo(0));
-            Assert.That(bing.GetIndexFromLanguageEnum(LanguageTable[1]), Is.EqualTo(1));
-            Assert.That(bing.GetIndexFromLanguageEnum(LanguageTable[LanguageTable.Count - 1]), Is.EqualTo(LanguageTable.Count - 1));
+            Assert.Equal(0, bing.GetIndexFromLanguageEnum(LanguageTable[0]));
+            Assert.Equal(1, bing.GetIndexFromLanguageEnum(LanguageTable[1]));
+            Assert.Equal(LanguageTable.Count - 1, bing.GetIndexFromLanguageEnum(LanguageTable[LanguageTable.Count - 1]));
         }
 
 

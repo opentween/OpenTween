@@ -25,7 +25,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
-using NUnit.Framework;
+using Xunit;
+using Xunit.Extensions;
 
 namespace OpenTween
 {
@@ -33,7 +34,6 @@ namespace OpenTween
     /// FiltersClass -> PostFilterRule クラスへの変更で v1.1.2 までの
     /// 設定ファイルと互換性が保たれているかどうかを確認するテスト
     /// </summary>
-    [TestFixture]
     public class PostFilterRuleVersion113DeserializeTest
     {
         // OpenTween v1.1.2 時点の FiltersClass クラス
@@ -61,7 +61,7 @@ namespace OpenTween
             public string ExSource { get; set; }
         }
 
-        [Test]
+        [Fact]
         public void DeserializeTest()
         {
             var oldVersion = new FiltersClass
@@ -101,26 +101,26 @@ namespace OpenTween
                 newVersion = (PostFilterRule)newSerializer.Deserialize(stream);
             }
 
-            Assert.That(newVersion.FilterName, Is.EqualTo(oldVersion.NameFilter));
-            Assert.That(newVersion.ExFilterName, Is.EqualTo(oldVersion.ExNameFilter));
-            Assert.That(newVersion.FilterBody, Is.EqualTo(oldVersion.BodyFilterArray));
-            Assert.That(newVersion.ExFilterBody, Is.EqualTo(oldVersion.ExBodyFilterArray));
-            Assert.That(newVersion.UseNameField, Is.EqualTo(oldVersion.SearchBoth));
-            Assert.That(newVersion.ExUseNameField, Is.EqualTo(oldVersion.ExSearchBoth));
-            Assert.That(newVersion.MoveMatches, Is.EqualTo(oldVersion.MoveFrom));
-            Assert.That(newVersion.MarkMatches, Is.EqualTo(oldVersion.SetMark));
-            Assert.That(newVersion.FilterByUrl, Is.EqualTo(oldVersion.SearchUrl));
-            Assert.That(newVersion.ExFilterByUrl, Is.EqualTo(oldVersion.ExSearchUrl));
-            Assert.That(newVersion.CaseSensitive, Is.EqualTo(oldVersion.CaseSensitive));
-            Assert.That(newVersion.ExCaseSensitive, Is.EqualTo(oldVersion.ExCaseSensitive));
-            Assert.That(newVersion.UseLambda, Is.EqualTo(oldVersion.UseLambda));
-            Assert.That(newVersion.ExUseLambda, Is.EqualTo(oldVersion.ExUseLambda));
-            Assert.That(newVersion.UseRegex, Is.EqualTo(oldVersion.UseRegex));
-            Assert.That(newVersion.ExUseRegex, Is.EqualTo(oldVersion.ExUseRegex));
-            Assert.That(newVersion.FilterRt, Is.EqualTo(oldVersion.IsRt));
-            Assert.That(newVersion.ExFilterRt, Is.EqualTo(oldVersion.IsExRt));
-            Assert.That(newVersion.FilterSource, Is.EqualTo(oldVersion.Source));
-            Assert.That(newVersion.ExFilterSource, Is.EqualTo(oldVersion.ExSource));
+            Assert.Equal(oldVersion.NameFilter, newVersion.FilterName);
+            Assert.Equal(oldVersion.ExNameFilter, newVersion.ExFilterName);
+            Assert.Equal(oldVersion.BodyFilterArray, newVersion.FilterBody);
+            Assert.Equal(oldVersion.ExBodyFilterArray, newVersion.ExFilterBody);
+            Assert.Equal(oldVersion.SearchBoth, newVersion.UseNameField);
+            Assert.Equal(oldVersion.ExSearchBoth, newVersion.ExUseNameField);
+            Assert.Equal(oldVersion.MoveFrom, newVersion.MoveMatches);
+            Assert.Equal(oldVersion.SetMark, newVersion.MarkMatches);
+            Assert.Equal(oldVersion.SearchUrl, newVersion.FilterByUrl);
+            Assert.Equal(oldVersion.ExSearchUrl, newVersion.ExFilterByUrl);
+            Assert.Equal(oldVersion.CaseSensitive, newVersion.CaseSensitive);
+            Assert.Equal(oldVersion.ExCaseSensitive, newVersion.ExCaseSensitive);
+            Assert.Equal(oldVersion.UseLambda, newVersion.UseLambda);
+            Assert.Equal(oldVersion.ExUseLambda, newVersion.ExUseLambda);
+            Assert.Equal(oldVersion.UseRegex, newVersion.UseRegex);
+            Assert.Equal(oldVersion.ExUseRegex, newVersion.ExUseRegex);
+            Assert.Equal(oldVersion.IsRt, newVersion.FilterRt);
+            Assert.Equal(oldVersion.IsExRt, newVersion.ExFilterRt);
+            Assert.Equal(oldVersion.Source, newVersion.FilterSource);
+            Assert.Equal(oldVersion.ExSource, newVersion.ExFilterSource);
         }
     }
 }

@@ -23,13 +23,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NUnit.Framework;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using Xunit;
+using Xunit.Extensions;
 
 namespace OpenTween.Thumbnail.Services
 {
-    [TestFixture]
-    class TinamiTest
+    public class TinamiTest
     {
         class TestTinami : Tinami
         {
@@ -42,13 +43,13 @@ namespace OpenTween.Thumbnail.Services
 
             protected override XDocument FetchContentInfoApi(string url)
             {
-                Assert.That(url, Is.StringMatching(@"http://api\.tinami\.com/content/info\?cont_id=.+&api_key=.+"));
+                Assert.True(Regex.IsMatch(url, @"http://api\.tinami\.com/content/info\?cont_id=.+&api_key=.+"));
 
                 return XDocument.Parse(this.FakeXml);
             }
         }
 
-        [Test]
+        [Fact]
         public void ApiTest()
         {
             var service = new TestTinami(@"^http://www\.tinami\.com/view/(?<ContentId>\d+)$",
@@ -71,13 +72,13 @@ namespace OpenTween.Thumbnail.Services
 </rsp>";
             var thumbinfo = service.GetThumbnailInfo("http://www.tinami.com/view/12345", null);
 
-            Assert.That(thumbinfo, Is.Not.Null);
-            Assert.That(thumbinfo.ImageUrl, Is.EqualTo("http://www.tinami.com/view/12345"));
-            Assert.That(thumbinfo.ThumbnailUrl, Is.EqualTo("http://img.tinami.com/hogehoge_150.gif"));
-            Assert.That(thumbinfo.TooltipText, Is.EqualTo("説明"));
+            Assert.NotNull(thumbinfo);
+            Assert.Equal("http://www.tinami.com/view/12345", thumbinfo.ImageUrl);
+            Assert.Equal("http://img.tinami.com/hogehoge_150.gif", thumbinfo.ThumbnailUrl);
+            Assert.Equal("説明", thumbinfo.TooltipText);
         }
 
-        [Test]
+        [Fact]
         public void ApiErrorTest()
         {
             var service = new TestTinami(@"^http://www\.tinami\.com/view/(?<ContentId>\d+)$",
@@ -89,7 +90,7 @@ namespace OpenTween.Thumbnail.Services
 </rsp>";
             var thumbinfo = service.GetThumbnailInfo("http://www.tinami.com/view/12345", null);
 
-            Assert.That(thumbinfo, Is.Null);
+            Assert.Null(thumbinfo);
         }
     }
 }

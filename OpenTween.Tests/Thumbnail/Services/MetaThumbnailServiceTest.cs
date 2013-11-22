@@ -23,12 +23,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NUnit.Framework;
+using Xunit;
+using Xunit.Extensions;
 
 namespace OpenTween.Thumbnail.Services
 {
-    [TestFixture]
-    class MetaThumbnailServiceTest
+    public class MetaThumbnailServiceTest
     {
         class TestMetaThumbnailService : MetaThumbnailService
         {
@@ -45,8 +45,7 @@ namespace OpenTween.Thumbnail.Services
             }
         }
 
-        [Test]
-        [Description("Open Graph protocol")]
+        [Fact(DisplayName = "Open Graph protocol")]
         public void OGPMetaTest()
         {
             var service = new TestMetaThumbnailService(@"http://example.com/.+");
@@ -66,14 +65,13 @@ namespace OpenTween.Thumbnail.Services
 ";
             var thumbinfo = service.GetThumbnailInfo("http://example.com/abcd", null);
 
-            Assert.That(thumbinfo, Is.Not.Null);
-            Assert.That(thumbinfo.ImageUrl, Is.EqualTo("http://example.com/abcd"));
-            Assert.That(thumbinfo.ThumbnailUrl, Is.EqualTo("http://img.example.com/abcd"));
-            Assert.That(thumbinfo.TooltipText, Is.Null);
+            Assert.NotNull(thumbinfo);
+            Assert.Equal("http://example.com/abcd", thumbinfo.ImageUrl);
+            Assert.Equal("http://img.example.com/abcd", thumbinfo.ThumbnailUrl);
+            Assert.Null(thumbinfo.TooltipText);
         }
 
-        [Test]
-        [Description("Twitter Cards")]
+        [Fact(DisplayName = "Twitter Cards")]
         public void TwitterMetaTest()
         {
             var service = new TestMetaThumbnailService(@"http://example.com/.+");
@@ -89,14 +87,13 @@ namespace OpenTween.Thumbnail.Services
 ";
             var thumbinfo = service.GetThumbnailInfo("http://example.com/abcd", null);
 
-            Assert.That(thumbinfo, Is.Not.Null);
-            Assert.That(thumbinfo.ImageUrl, Is.EqualTo("http://example.com/abcd"));
-            Assert.That(thumbinfo.ThumbnailUrl, Is.EqualTo("http://img.example.com/abcd"));
-            Assert.That(thumbinfo.TooltipText, Is.Null);
+            Assert.NotNull(thumbinfo);
+            Assert.Equal("http://example.com/abcd", thumbinfo.ImageUrl);
+            Assert.Equal("http://img.example.com/abcd", thumbinfo.ThumbnailUrl);
+            Assert.Null(thumbinfo.TooltipText);
         }
 
-        [Test]
-        [Description("Twitpicとか")]
+        [Fact(DisplayName = "Twitpicとか")]
         public void InvalidMetaTest()
         {
             var service = new TestMetaThumbnailService(@"http://example.com/.+");
@@ -112,13 +109,13 @@ namespace OpenTween.Thumbnail.Services
 ";
             var thumbinfo = service.GetThumbnailInfo("http://example.com/abcd", null);
 
-            Assert.That(thumbinfo, Is.Not.Null);
-            Assert.That(thumbinfo.ImageUrl, Is.EqualTo("http://example.com/abcd"));
-            Assert.That(thumbinfo.ThumbnailUrl, Is.EqualTo("http://img.example.com/abcd"));
-            Assert.That(thumbinfo.TooltipText, Is.Null);
+            Assert.NotNull(thumbinfo);
+            Assert.Equal("http://example.com/abcd", thumbinfo.ImageUrl);
+            Assert.Equal("http://img.example.com/abcd", thumbinfo.ThumbnailUrl);
+            Assert.Null(thumbinfo.TooltipText);
         }
 
-        [Test]
+        [Fact]
         public void NoMetaTest()
         {
             var service = new TestMetaThumbnailService(@"http://example.com/.+");
@@ -133,7 +130,7 @@ namespace OpenTween.Thumbnail.Services
 ";
             var thumbinfo = service.GetThumbnailInfo("http://example.com/abcd", null);
 
-            Assert.That(thumbinfo, Is.Null);
+            Assert.Null(thumbinfo);
         }
     }
 }

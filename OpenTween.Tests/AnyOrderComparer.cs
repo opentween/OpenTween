@@ -23,33 +23,36 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Xunit;
-using Xunit.Extensions;
 
-namespace OpenTween.Api
+namespace OpenTween
 {
-    public class ApiLimitTest
+    /// <summary>
+    /// 順不定なコレクションの比較を行います
+    /// </summary>
+    internal class AnyOrderComparer<T> : IEqualityComparer<IEnumerable<T>>
+        where T : IEquatable<T>
     {
-        public static IEnumerable<object[]> Equals_TestCase
+        public static readonly AnyOrderComparer<T> Instance = new AnyOrderComparer<T>();
+
+        public bool Equals(IEnumerable<T> x, IEnumerable<T> y)
         {
-            get
+            var xList = new LinkedList<T>(x);
+
+            foreach (var item in y)
             {
-                yield return new object[] { new ApiLimit(150, 100, new DateTime(2013, 1, 1, 0, 0, 0)), true };
-                yield return new object[] { new ApiLimit(350, 100, new DateTime(2013, 1, 1, 0, 0, 0)), false };
-                yield return new object[] { new ApiLimit(150, 150, new DateTime(2013, 1, 1, 0, 0, 0)), false };
-                yield return new object[] { new ApiLimit(150, 100, new DateTime(2012, 12, 31, 0, 0, 0)), false };
-                yield return new object[] { null, false };
-                yield return new object[] { new object(), false };
+                var node = xList.Find(item);
+                if (node == null)
+                    return false;
+
+                xList.Remove(node);
             }
+
+            return xList.Count == 0;
         }
 
-        [Theory]
-        [PropertyData("Equals_TestCase")]
-        public void EqualsTest(object obj2, bool expected)
+        public int GetHashCode(IEnumerable<T> obj)
         {
-            var obj1 = new ApiLimit(150, 100, new DateTime(2013, 1, 1, 0, 0, 0));
-
-            Assert.Equal(expected, obj1.Equals(obj2));
+            throw new NotImplementedException();
         }
     }
 }

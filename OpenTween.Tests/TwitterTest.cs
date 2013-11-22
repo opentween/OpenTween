@@ -24,47 +24,48 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using NUnit.Framework;
+using Xunit;
+using Xunit.Extensions;
 
 namespace OpenTween
 {
-    [TestFixture]
-    class TwitterTest
+    public class TwitterTest
     {
-        [TestCase("https://twitter.com/twitterapi/status/22634515958",
-            Result = new[] { "22634515958" })]
-        [TestCase("<a target=\"_self\" href=\"https://t.co/aaaaaaaa\" title=\"https://twitter.com/twitterapi/status/22634515958\">twitter.com/twitterapi/stat…</a>",
-            Result = new[] { "22634515958" })]
-        [TestCase("<a target=\"_self\" href=\"https://t.co/bU3oR95KIy\" title=\"https://twitter.com/haru067/status/224782458816692224\">https://t.co/bU3oR95KIy</a>" +
+        [Theory]
+        [InlineData("https://twitter.com/twitterapi/status/22634515958",
+            new[] { "22634515958" })]
+        [InlineData("<a target=\"_self\" href=\"https://t.co/aaaaaaaa\" title=\"https://twitter.com/twitterapi/status/22634515958\">twitter.com/twitterapi/stat…</a>",
+            new[] { "22634515958" })]
+        [InlineData("<a target=\"_self\" href=\"https://t.co/bU3oR95KIy\" title=\"https://twitter.com/haru067/status/224782458816692224\">https://t.co/bU3oR95KIy</a>" +
             "<a target=\"_self\" href=\"https://t.co/bbbbbbbb\" title=\"https://twitter.com/karno/status/311081657790771200\">https://t.co/bbbbbbbb</a>",
-            Result = new[] { "224782458816692224", "311081657790771200" })]
-        [TestCase("https://mobile.twitter.com/muji_net/status/21984934471",
-            Result = new[] { "21984934471" })]
-        [TestCase("https://twitter.com/imgazyobuzi/status/293333871171354624/photo/1",
-            Result = new[] { "293333871171354624" })]
-        public string[] StatusUrlRegexTest(string url)
+            new[] { "224782458816692224", "311081657790771200" })]
+        [InlineData("https://mobile.twitter.com/muji_net/status/21984934471",
+            new[] { "21984934471" })]
+        [InlineData("https://twitter.com/imgazyobuzi/status/293333871171354624/photo/1",
+            new[] { "293333871171354624" })]
+        public void StatusUrlRegexTest(string url, string[] expected)
         {
-            return Twitter.StatusUrlRegex.Matches(url).Cast<Match>()
+            var results = Twitter.StatusUrlRegex.Matches(url).Cast<Match>()
                 .Select(x => x.Groups["StatusId"].Value).ToArray();
+
+            Assert.Equal(expected, results);
         }
 
-        [TestCase("http://favstar.fm/users/twitterapi/status/22634515958",
-            Result = new[] { "22634515958" })]
-        [TestCase("http://ja.favstar.fm/users/twitterapi/status/22634515958",
-            Result = new[] { "22634515958" })]
-        [TestCase("http://favstar.fm/t/22634515958",
-            Result = new[] { "22634515958" })]
-        [TestCase("http://aclog.koba789.com/i/312485321239564288",
-            Result = new[] { "312485321239564288" })]
-        [TestCase("http://frtrt.net/solo_status.php?status=263483634307198977",
-            Result = new[] { "263483634307198977" })]
-        public string[] ThirdPartyStatusUrlRegexTest(string url)
+        [Theory]
+        [InlineData("http://favstar.fm/users/twitterapi/status/22634515958", new[] { "22634515958" })]
+        [InlineData("http://ja.favstar.fm/users/twitterapi/status/22634515958", new[] { "22634515958" })]
+        [InlineData("http://favstar.fm/t/22634515958", new[] { "22634515958" })]
+        [InlineData("http://aclog.koba789.com/i/312485321239564288", new[] { "312485321239564288" })]
+        [InlineData("http://frtrt.net/solo_status.php?status=263483634307198977", new[] { "263483634307198977" })]
+        public void ThirdPartyStatusUrlRegexTest(string url, string[] expected)
         {
-            return Twitter.ThirdPartyStatusUrlRegex.Matches(url).Cast<Match>()
+            var results = Twitter.ThirdPartyStatusUrlRegex.Matches(url).Cast<Match>()
                 .Select(x => x.Groups["StatusId"].Value).ToArray();
+
+            Assert.Equal(expected, results);
         }
 
-        [Test]
+        [Fact]
         public void FindTopOfReplyChainTest()
         {
             var posts = new Dictionary<long, PostClass>
@@ -74,9 +75,9 @@ namespace OpenTween
                 {999L, new PostClass { StatusId = 999L, InReplyToStatusId = 987L }},
                 {1000L, new PostClass { StatusId = 1000L, InReplyToStatusId = 999L }},
             };
-            Assert.That(Twitter.FindTopOfReplyChain(posts, 1000L).StatusId, Is.EqualTo(950L));
-            Assert.That(Twitter.FindTopOfReplyChain(posts, 950L).StatusId, Is.EqualTo(950L));
-            Assert.That(() => Twitter.FindTopOfReplyChain(posts, 500L), Throws.ArgumentException);
+            Assert.Equal(950L, Twitter.FindTopOfReplyChain(posts, 1000L).StatusId);
+            Assert.Equal(950L, Twitter.FindTopOfReplyChain(posts, 950L).StatusId);
+            Assert.Throws<ArgumentException>(() => Twitter.FindTopOfReplyChain(posts, 500L));
 
             posts = new Dictionary<long, PostClass>
             {
@@ -85,8 +86,8 @@ namespace OpenTween
                 {1220L, new PostClass { StatusId = 1220L, InReplyToStatusId = 1210L }},
                 {1230L, new PostClass { StatusId = 1230L, InReplyToStatusId = 1220L }},
             };
-            Assert.That(Twitter.FindTopOfReplyChain(posts, 1230L).StatusId, Is.EqualTo(1210L));
-            Assert.That(Twitter.FindTopOfReplyChain(posts, 1210L).StatusId, Is.EqualTo(1210L));
+            Assert.Equal(1210L, Twitter.FindTopOfReplyChain(posts, 1230L).StatusId);
+            Assert.Equal(1210L, Twitter.FindTopOfReplyChain(posts, 1210L).StatusId);
         }
     }
 }

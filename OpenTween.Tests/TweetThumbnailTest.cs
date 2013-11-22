@@ -22,21 +22,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using NSubstitute;
-using NUnit.Framework;
 using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows.Forms;
+using NSubstitute;
 using OpenTween.Thumbnail;
 using OpenTween.Thumbnail.Services;
-using System.Threading;
-using System.Threading.Tasks;
+using Xunit;
+using Xunit.Extensions;
 
 namespace OpenTween
 {
-    [TestFixture]
-    class TweetThumbnailTest
+    public class TweetThumbnailTest
     {
         class TestThumbnailService : SimpleThumbnailService
         {
@@ -62,7 +60,12 @@ namespace OpenTween
             }
         }
 
-        [TestFixtureSetUp]
+        public TweetThumbnailTest()
+        {
+            this.ThumbnailGeneratorSetup();
+            this.MyCommonSetup();
+        }
+
         public void ThumbnailGeneratorSetup()
         {
             ThumbnailGenerator.Services.Clear();
@@ -73,7 +76,6 @@ namespace OpenTween
             });
         }
 
-        [TestFixtureSetUp]
         public void MyCommonSetup()
         {
             var mockAssembly = Substitute.For<_Assembly>();
@@ -83,7 +85,7 @@ namespace OpenTween
             MyCommon.fileVersion = "1.0.0.0";
         }
 
-        [Test]
+        [Fact]
         public void CreatePictureBoxTest()
         {
             using (var thumbBox = new TweetThumbnail())
@@ -91,18 +93,17 @@ namespace OpenTween
                 var method = typeof(TweetThumbnail).GetMethod("CreatePictureBox", BindingFlags.Instance | BindingFlags.NonPublic);
                 var picbox = method.Invoke(thumbBox, new[] { "pictureBox1" }) as PictureBox;
 
-                Assert.That(picbox, Is.Not.Null);
-                Assert.That(picbox.Name, Is.EqualTo("pictureBox1"));
-                Assert.That(picbox.SizeMode, Is.EqualTo(PictureBoxSizeMode.Zoom));
-                Assert.That(picbox.WaitOnLoad, Is.False);
-                Assert.That(picbox.Dock, Is.EqualTo(DockStyle.Fill));
+                Assert.NotNull(picbox);
+                Assert.Equal("pictureBox1", picbox.Name);
+                Assert.Equal(PictureBoxSizeMode.Zoom, picbox.SizeMode);
+                Assert.False(picbox.WaitOnLoad);
+                Assert.Equal(DockStyle.Fill, picbox.Dock);
 
                 picbox.Dispose();
             }
         }
 
-        [Test]
-        [Ignore]
+        [Fact(Skip = "Mono環境でたまに InvaliOperationException: out of sync で異常終了する")]
         public void CancelAsyncTest()
         {
             using (var thumbbox = new TweetThumbnail())
@@ -115,36 +116,38 @@ namespace OpenTween
                 thumbbox.CancelAsync();
 
                 Assert.Throws<AggregateException>(() => task.Wait());
-                Assert.That(task.IsCanceled, Is.True);
+                Assert.True(task.IsCanceled);
             }
         }
 
-        [Test]
-        public void SetThumbnailCountTest(
-            [Values(0, 1, 2)] int count)
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void SetThumbnailCountTest(int count)
         {
             using (var thumbbox = new TweetThumbnail())
             {
                 var method = typeof(TweetThumbnail).GetMethod("SetThumbnailCount", BindingFlags.Instance | BindingFlags.NonPublic);
                 method.Invoke(thumbbox, new[] { (object)count });
 
-                Assert.That(thumbbox.pictureBox.Count, Is.EqualTo(count));
+                Assert.Equal(count, thumbbox.pictureBox.Count);
 
                 var num = 0;
                 foreach (var picbox in thumbbox.pictureBox)
                 {
-                    Assert.That(picbox.Name, Is.EqualTo("pictureBox" + num));
+                    Assert.Equal("pictureBox" + num, picbox.Name);
                     num++;
                 }
 
-                Assert.That(thumbbox.panelPictureBox.Controls, Is.EquivalentTo(thumbbox.pictureBox));
+                Assert.Equal(thumbbox.pictureBox, thumbbox.panelPictureBox.Controls.Cast<OTPictureBox>());
 
-                Assert.That(thumbbox.scrollBar.Minimum, Is.EqualTo(0));
-                Assert.That(thumbbox.scrollBar.Maximum, Is.EqualTo(count));
+                Assert.Equal(0, thumbbox.scrollBar.Minimum);
+                Assert.Equal(count, thumbbox.scrollBar.Maximum);
             }
         }
 
-        [Test]
+        [Fact]
         public void ShowThumbnailAsyncTest()
         {
             var post = new PostClass
@@ -161,22 +164,23 @@ namespace OpenTween
                 SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
                 thumbbox.ShowThumbnailAsync(post).Wait();
 
-                Assert.That(thumbbox.scrollBar.Maximum, Is.EqualTo(0));
-                Assert.That(thumbbox.scrollBar.Enabled, Is.False);
+                Assert.Equal(0, thumbbox.scrollBar.Maximum);
+                Assert.False(thumbbox.scrollBar.Enabled);
 
-                Assert.That(thumbbox.pictureBox.Count, Is.EqualTo(1));
-                Assert.That(thumbbox.pictureBox[0].ImageLocation, Is.EqualTo("dot.gif"));
+                Assert.Equal(1, thumbbox.pictureBox.Count);
+                Assert.Equal("dot.gif", thumbbox.pictureBox[0].ImageLocation);
 
-                var thumbinfo = thumbbox.pictureBox[0].Tag as ThumbnailInfo;
-                Assert.That(thumbinfo, Is.Not.Null);
-                Assert.That(thumbinfo.ImageUrl, Is.EqualTo("http://foo.example.com/abcd"));
-                Assert.That(thumbinfo.ThumbnailUrl, Is.EqualTo("dot.gif"));
+                Assert.IsType<ThumbnailInfo>(thumbbox.pictureBox[0].Tag);
+                var thumbinfo = (ThumbnailInfo)thumbbox.pictureBox[0].Tag;
 
-                Assert.That(thumbbox.toolTip.GetToolTip(thumbbox.pictureBox[0]), Is.EqualTo(""));
+                Assert.Equal("http://foo.example.com/abcd", thumbinfo.ImageUrl);
+                Assert.Equal("dot.gif", thumbinfo.ThumbnailUrl);
+
+                Assert.Equal("", thumbbox.toolTip.GetToolTip(thumbbox.pictureBox[0]));
             }
         }
 
-        [Test]
+        [Fact]
         public void ShowThumbnailAsyncTest2()
         {
             var post = new PostClass
@@ -194,29 +198,31 @@ namespace OpenTween
                 SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
                 thumbbox.ShowThumbnailAsync(post).Wait();
 
-                Assert.That(thumbbox.scrollBar.Maximum, Is.EqualTo(1));
-                Assert.That(thumbbox.scrollBar.Enabled, Is.True);
+                Assert.Equal(1, thumbbox.scrollBar.Maximum);
+                Assert.True(thumbbox.scrollBar.Enabled);
 
-                Assert.That(thumbbox.pictureBox.Count, Is.EqualTo(2));
-                Assert.That(thumbbox.pictureBox[0].ImageLocation, Is.EqualTo("dot.gif"));
-                Assert.That(thumbbox.pictureBox[1].ImageLocation, Is.EqualTo("dot.gif"));
+                Assert.Equal(2, thumbbox.pictureBox.Count);
+                Assert.Equal("dot.gif", thumbbox.pictureBox[0].ImageLocation);
+                Assert.Equal("dot.gif", thumbbox.pictureBox[1].ImageLocation);
 
-                var thumbinfo = thumbbox.pictureBox[0].Tag as ThumbnailInfo;
-                Assert.That(thumbinfo, Is.Not.Null);
-                Assert.That(thumbinfo.ImageUrl, Is.EqualTo("http://foo.example.com/abcd"));
-                Assert.That(thumbinfo.ThumbnailUrl, Is.EqualTo("dot.gif"));
+                Assert.IsType<ThumbnailInfo>(thumbbox.pictureBox[0].Tag);
+                var thumbinfo = (ThumbnailInfo)thumbbox.pictureBox[0].Tag;
 
-                thumbinfo = thumbbox.pictureBox[1].Tag as ThumbnailInfo;
-                Assert.That(thumbinfo, Is.Not.Null);
-                Assert.That(thumbinfo.ImageUrl, Is.EqualTo("http://bar.example.com/efgh"));
-                Assert.That(thumbinfo.ThumbnailUrl, Is.EqualTo("dot.gif"));
+                Assert.Equal("http://foo.example.com/abcd", thumbinfo.ImageUrl);
+                Assert.Equal("dot.gif", thumbinfo.ThumbnailUrl);
 
-                Assert.That(thumbbox.toolTip.GetToolTip(thumbbox.pictureBox[0]), Is.EqualTo(""));
-                Assert.That(thumbbox.toolTip.GetToolTip(thumbbox.pictureBox[1]), Is.EqualTo("efgh"));
+                Assert.IsType<ThumbnailInfo>(thumbbox.pictureBox[1].Tag);
+                thumbinfo = (ThumbnailInfo)thumbbox.pictureBox[1].Tag;
+
+                Assert.Equal("http://bar.example.com/efgh", thumbinfo.ImageUrl);
+                Assert.Equal("dot.gif", thumbinfo.ThumbnailUrl);
+
+                Assert.Equal("", thumbbox.toolTip.GetToolTip(thumbbox.pictureBox[0]));
+                Assert.Equal("efgh", thumbbox.toolTip.GetToolTip(thumbbox.pictureBox[1]));
             }
         }
 
-        [Test]
+        [Fact]
         public void ThumbnailLoadingEventTest()
         {
             using (var thumbbox = new TweetThumbnail())
@@ -237,7 +243,7 @@ namespace OpenTween
                 eventCalled = false;
                 thumbbox.ShowThumbnailAsync(post).Wait();
 
-                Assert.That(eventCalled, Is.False);
+                Assert.False(eventCalled);
 
                 var post2 = new PostClass
                 {
@@ -250,12 +256,11 @@ namespace OpenTween
                 eventCalled = false;
                 thumbbox.ShowThumbnailAsync(post2).Wait();
 
-                Assert.That(eventCalled, Is.True);
+                Assert.True(eventCalled);
             }
         }
 
-        [Test]
-        [Platform(Exclude = "Net", Reason = "時々実行が停止しキャンセルもできなくなる。原因不明。")]
+        [Fact]//(Skip = "時々実行が停止しキャンセルもできなくなる。原因不明。")]
         public void ScrollTest()
         {
             var post = new PostClass
@@ -273,30 +278,30 @@ namespace OpenTween
                 SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
                 thumbbox.ShowThumbnailAsync(post).Wait();
 
-                Assert.That(thumbbox.scrollBar.Minimum, Is.EqualTo(0));
-                Assert.That(thumbbox.scrollBar.Maximum, Is.EqualTo(1));
+                Assert.Equal(0, thumbbox.scrollBar.Minimum);
+                Assert.Equal(1, thumbbox.scrollBar.Maximum);
 
                 thumbbox.scrollBar.Value = 0;
 
                 thumbbox.ScrollUp();
-                Assert.That(thumbbox.scrollBar.Value, Is.EqualTo(1));
-                Assert.That(thumbbox.pictureBox[0].Visible, Is.False);
-                Assert.That(thumbbox.pictureBox[1].Visible, Is.True);
+                Assert.Equal(1, thumbbox.scrollBar.Value);
+                Assert.False(thumbbox.pictureBox[0].Visible);
+                Assert.True(thumbbox.pictureBox[1].Visible);
 
                 thumbbox.ScrollUp();
-                Assert.That(thumbbox.scrollBar.Value, Is.EqualTo(1));
-                Assert.That(thumbbox.pictureBox[0].Visible, Is.False);
-                Assert.That(thumbbox.pictureBox[1].Visible, Is.True);
+                Assert.Equal(1, thumbbox.scrollBar.Value);
+                Assert.False(thumbbox.pictureBox[0].Visible);
+                Assert.True(thumbbox.pictureBox[1].Visible);
 
                 thumbbox.ScrollDown();
-                Assert.That(thumbbox.scrollBar.Value, Is.EqualTo(0));
-                Assert.That(thumbbox.pictureBox[0].Visible, Is.True);
-                Assert.That(thumbbox.pictureBox[1].Visible, Is.False);
+                Assert.Equal(0, thumbbox.scrollBar.Value);
+                Assert.True(thumbbox.pictureBox[0].Visible);
+                Assert.False(thumbbox.pictureBox[1].Visible);
 
                 thumbbox.ScrollDown();
-                Assert.That(thumbbox.scrollBar.Value, Is.EqualTo(0));
-                Assert.That(thumbbox.pictureBox[0].Visible, Is.True);
-                Assert.That(thumbbox.pictureBox[1].Visible, Is.False);
+                Assert.Equal(0, thumbbox.scrollBar.Value);
+                Assert.True(thumbbox.pictureBox[0].Visible);
+                Assert.False(thumbbox.pictureBox[1].Visible);
             }
         }
     }
