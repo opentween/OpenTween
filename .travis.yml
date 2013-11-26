@@ -1,5 +1,8 @@
 language: c#
 
+cache:
+  - apt
+
 install:
   - sudo apt-get install -qq mono-devel
   # Setup Xvfb
