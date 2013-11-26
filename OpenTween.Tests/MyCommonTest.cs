@@ -160,7 +160,7 @@ namespace OpenTween
             Assert.Equal(expected, MyCommon.IsValidEmail(email));
         }
 
-        [Theory(Skip = "Travis CI (Mono 2.10) で `mono_class_from_mono_type: implement me 0x55' エラーが発生する")]
+        [Theory]
         [InlineData(Keys.Shift, new[] { Keys.Shift }, true)]
         [InlineData(Keys.Shift, new[] { Keys.Control }, false)]
         [InlineData(Keys.Control | Keys.Alt, new[] { Keys.Control }, true)]
