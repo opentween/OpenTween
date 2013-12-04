@@ -52,9 +52,9 @@ namespace OpenTween
         [Theory]
         [InlineData("http://日本語.idn.icann.org/", "http://xn--wgv71a119e.idn.icann.org/")]
         [InlineData("http://例え.テスト/", "http://xn--r8jz45g.xn--zckzah/")]
-        public void IDNDecodeTest(string uri, string expected)
+        public void IDNEncodeTest(string uri, string expected)
         {
-            Assert.Equal(expected, MyCommon.IDNDecode(uri));
+            Assert.Equal(expected, MyCommon.IDNEncode(uri));
         }
 
         [Theory]

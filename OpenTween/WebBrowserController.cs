@@ -383,7 +383,7 @@ namespace OpenTween
             if (pwszUrl == "about:blank") return WebBrowserAPI.INET_E_DEFAULT_ACTION;
             try
             {
-                var urlStr = MyCommon.IDNDecode(pwszUrl);
+                var urlStr = MyCommon.IDNEncode(pwszUrl);
                 if (object.ReferenceEquals(urlStr, null)) return WebBrowserAPI.URLPOLICY_DISALLOW;
                 var url = new Uri(urlStr);
                 if (url.Scheme == "data")

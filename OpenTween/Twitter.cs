@@ -320,7 +320,7 @@ namespace OpenTween
                         continue;
                     }
 
-                    var replacedUrl = MyCommon.IDNDecode(urlStr);
+                    var replacedUrl = MyCommon.IDNEncode(urlStr);
                     if (replacedUrl == null) continue;
                     if (replacedUrl == urlStr) continue;
 

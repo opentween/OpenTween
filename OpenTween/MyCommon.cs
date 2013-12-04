@@ -485,17 +485,16 @@ namespace OpenTween
             return result;
         }
 
-        ////// <summary>
-        ////// URLのドメイン名をPunycode展開します。
-        ////// <para>
-        ////// ドメイン名がIDNでない場合はそのまま返します。
-        ////// ドメインラベルの区切り文字はFULLSTOP(.、U002E)に置き換えられます。
-        ////// </para>
-        ////// </summary>
-        ////// <param name="input">展開対象のURL</param>
-        ////// <returns>IDNが含まれていた場合はPunycodeに展開したURLをを返します。Punycode展開時にエラーが発生した場合はnullを返します。</returns>
-
-        public static string IDNDecode(string input)
+        /// <summary>
+        /// URLのドメイン名をPunycode展開します。
+        /// <para>
+        /// ドメイン名がIDNでない場合はそのまま返します。
+        /// ドメインラベルの区切り文字はFULLSTOP(.、U002E)に置き換えられます。
+        /// </para>
+        /// </summary>
+        /// <param name="input">展開対象のURL</param>
+        /// <returns>IDNが含まれていた場合はPunycodeに展開したURLをを返します。Punycode展開時にエラーが発生した場合はnullを返します。</returns>
+        public static string IDNEncode(string input)
         {
             var IDNConverter = new IdnMapping();
 
