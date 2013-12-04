@@ -511,6 +511,23 @@ namespace OpenTween
             }
         }
 
+        public static string IDNDecode(string inputUrl)
+        {
+            try
+            {
+                var uriBuilder = new UriBuilder(inputUrl);
+
+                var idnConverter = new IdnMapping();
+                uriBuilder.Host = idnConverter.GetUnicode(uriBuilder.Host);
+
+                return uriBuilder.Uri.ToString();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         public static void MoveArrayItem(int[] values, int idx_fr, int idx_to)
         {
             var moved_value = values[idx_fr];

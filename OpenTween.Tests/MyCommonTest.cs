@@ -58,6 +58,14 @@ namespace OpenTween
         }
 
         [Theory]
+        [InlineData("http://xn--wgv71a119e.idn.icann.org/", "http://日本語.idn.icann.org/")]
+        [InlineData("http://xn--r8jz45g.xn--zckzah/", "http://例え.テスト/")]
+        public void IDNDecodeTest(string uri, string expected)
+        {
+            Assert.Equal(expected, MyCommon.IDNDecode(uri));
+        }
+
+        [Theory]
         [InlineData(new int[] { 1, 2, 3, 4 }, 0, 3, new int[] { 2, 3, 4, 1 })] // 左ローテイト?
         [InlineData(new int[] { 1, 2, 3, 4 }, 3, 0, new int[] { 4, 1, 2, 3 })] // 右ローテイト?
         [InlineData(new int[] { 1, 2, 3, 4, 5 }, 1, 3, new int[] { 1, 3, 4, 2, 5 })]
