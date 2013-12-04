@@ -494,27 +494,21 @@ namespace OpenTween
         /// </summary>
         /// <param name="input">展開対象のURL</param>
         /// <returns>IDNが含まれていた場合はPunycodeに展開したURLをを返します。Punycode展開時にエラーが発生した場合はnullを返します。</returns>
-        public static string IDNEncode(string input)
+        public static string IDNEncode(string inputUrl)
         {
-            var IDNConverter = new IdnMapping();
-
-            if (!input.Contains("://")) return null;
-
-            // ドメイン名をPunycode展開
-            string Domain;
-            string AsciiDomain;
-
             try
             {
-                Domain = input.Split('/')[2];
-                AsciiDomain = IDNConverter.GetAscii(Domain);
+                var uriBuilder = new UriBuilder(inputUrl);
+
+                var idnConverter = new IdnMapping();
+                uriBuilder.Host = idnConverter.GetAscii(uriBuilder.Host);
+
+                return uriBuilder.Uri.ToString();
             }
             catch (Exception)
             {
                 return null;
             }
-
-            return input.Replace("://" + Domain, "://" + AsciiDomain);
         }
 
         public static void MoveArrayItem(int[] values, int idx_fr, int idx_to)
