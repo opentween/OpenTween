@@ -66,6 +66,16 @@ namespace OpenTween
         }
 
         [Theory]
+        [InlineData("http://xn--r8jz45g.xn--zckzah/", "http://例え.テスト/")]
+        [InlineData("http://ja.wikipedia.org/wiki/%3F", "http://ja.wikipedia.org/wiki/%3F")] // "?" に変換しない
+        [InlineData("http://ja.wikipedia.org/wiki/%E3%83%9E%E3%82%B8LOVE1000%25",
+            "http://ja.wikipedia.org/wiki/マジLOVE1000%25")] // "%" も変換しない
+        public void ConvertToReadableUrl(string url, string expected)
+        {
+            Assert.Equal(expected, MyCommon.ConvertToReadableUrl(url));
+        }
+
+        [Theory]
         [InlineData(new int[] { 1, 2, 3, 4 }, 0, 3, new int[] { 2, 3, 4, 1 })] // 左ローテイト?
         [InlineData(new int[] { 1, 2, 3, 4 }, 3, 0, new int[] { 4, 1, 2, 3 })] // 右ローテイト?
         [InlineData(new int[] { 1, 2, 3, 4, 5 }, 1, 3, new int[] { 1, 3, 4, 2, 5 })]

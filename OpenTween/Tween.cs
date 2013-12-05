@@ -12576,7 +12576,7 @@ namespace OpenTween
             string link = (string)SourceLinkLabel.Tag;
             if (!string.IsNullOrEmpty(link))
             {
-                StatusLabelUrl.Text = link;
+                StatusLabelUrl.Text = MyCommon.ConvertToReadableUrl(link);
             }
         }
 

@@ -2879,7 +2879,7 @@ namespace OpenTween
                                                           {
                                                               title = ShortUrl.ResolveMedia(title, false);
                                                           }
-                                                          sb.Append(url + "\" title=\"" + title + "\">").Append(url).Append("</a>");
+                                                          sb.Append(url + "\" title=\"" + MyCommon.ConvertToReadableUrl(title) + "\">").Append(url).Append("</a>");
                                                           if (media != null && !media.ContainsKey(url)) media.Add(url, title);
                                                           return sb.ToString();
                                                       }),
@@ -2995,7 +2995,7 @@ namespace OpenTween
                                        new EntityInfo {StartIndex = ent.Indices[0],
                                                        EndIndex = ent.Indices[1],
                                                        Text = ent.Url,
-                                                       Html = "<a href=\"" + ent.Url + "\" title=\"" + expanded + "\">" + ent.DisplayUrl + "</a>",
+                                                       Html = "<a href=\"" + ent.Url + "\" title=\"" + MyCommon.ConvertToReadableUrl(expanded) + "\">" + ent.DisplayUrl + "</a>",
                                                        Display = ent.DisplayUrl});
                             if (media != null && !media.ContainsKey(ent.Url)) media.Add(ent.Url, expanded);
                         }

@@ -528,6 +528,27 @@ namespace OpenTween
             }
         }
 
+        /// <summary>
+        /// URL を画面上で人間に読みやすい文字列に変換する（エスケープ解除など）
+        /// </summary>
+        public static string ConvertToReadableUrl(string inputUrl)
+        {
+            var outputUrl = inputUrl;
+
+            // Punycodeをデコードする
+            outputUrl = MyCommon.IDNDecode(outputUrl);
+
+            // URL内で特殊な意味を持つ記号は元の文字に変換されることを避けるために二重エスケープする
+            // 参考: Firefoxの losslessDecodeURI() 関数
+            //   http://hg.mozilla.org/mozilla-central/annotate/FIREFOX_AURORA_27_BASE/browser/base/content/browser.js#l2128
+            outputUrl = Regex.Replace(outputUrl, @"%(2[3456BCF]|3[ABDF]|40)", @"%25$1", RegexOptions.IgnoreCase);
+
+            // エスケープを解除する
+            outputUrl = Uri.UnescapeDataString(outputUrl);
+
+            return outputUrl;
+        }
+
         public static void MoveArrayItem(int[] values, int idx_fr, int idx_to)
         {
             var moved_value = values[idx_fr];
