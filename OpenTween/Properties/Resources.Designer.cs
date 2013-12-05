@@ -753,6 +753,15 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
+        ///   &quot;/configDir&quot; で指定されたディレクトリ ({0}) は存在しないかアクセスできません。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ConfigDirectoryNotExist {
+            get {
+                return ResourceManager.GetString("ConfigDirectoryNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   タイムアウトまでの時間には数値（10～120）を指定してください。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ConnectionTimeOut_ValidatingText1 {

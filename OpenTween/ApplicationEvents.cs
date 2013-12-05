@@ -54,7 +54,9 @@ namespace OpenTween
         {
             StartupOptions = ParseArguments(args);
 
-            CheckSettingFilePath();
+            if (!SetConfigDirectoryPath())
+                return 1;
+
             InitCulture();
 
             string pt = Application.ExecutablePath.Replace("\\", "/") + "/" + Application.ProductName;
@@ -181,16 +183,34 @@ namespace OpenTween
             }
         }
 
-        private static void CheckSettingFilePath()
+        private static bool SetConfigDirectoryPath()
         {
-            if (File.Exists(Path.Combine(Application.StartupPath, "roaming")))
+            string configDir;
+            if (StartupOptions.TryGetValue("configDir", out configDir) && !string.IsNullOrEmpty(configDir))
             {
-                MyCommon.settingPath = MySpecialPath.UserAppDataPath();
+                // 起動オプション /configDir で設定ファイルの参照先を変更できます
+                if (!Directory.Exists(configDir))
+                {
+                    var text = string.Format(Properties.Resources.ConfigDirectoryNotExist, configDir);
+                    MessageBox.Show(text, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+
+                MyCommon.settingPath = configDir;
             }
             else
             {
-                MyCommon.settingPath = Application.StartupPath;
+                if (File.Exists(Path.Combine(Application.StartupPath, "roaming")))
+                {
+                    MyCommon.settingPath = MySpecialPath.UserAppDataPath();
+                }
+                else
+                {
+                    MyCommon.settingPath = Application.StartupPath;
+                }
             }
+
+            return true;
         }
     }
 }

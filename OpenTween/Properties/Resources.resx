@@ -1132,4 +1132,7 @@
   <data name="SearchSimilarImageText" xml:space="preserve">
     <value>類似画像を検索</value>
   </data>
+  <data name="ConfigDirectoryNotExist" xml:space="preserve">
+    <value>"/configDir" で指定されたディレクトリ ({0}) は存在しないかアクセスできません。</value>
+  </data>
 </root>
