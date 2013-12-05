@@ -2503,7 +2503,7 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   %AppName%は既に起動されています。2重起動する場合は、別フォルダの{0}.exeを実行してください。 に類似しているローカライズされた文字列を検索します。
+        ///   %AppName%は既に起動されています。2重起動する場合は /configDir オプションを使用して設定ファイルを分離するか、別フォルダの{0}.exeを実行してください。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string StartupText1 {
             get {

@@ -487,7 +487,7 @@
     <value>Reading page number must be number 1 to 999.</value>
   </data>
   <data name="StartupText1" xml:space="preserve">
-    <value>Another %AppName% is running. To run plurally, execute {0}.exe in another folder.</value>
+    <value>%AppName% is already running. If you want to run multiple %AppName% processes, change the path to settings location by the /configDir:&lt;dirpath&gt; option or run the {0}.exe from another folder.</value>
   </data>
   <data name="StartupText2" xml:space="preserve">
     <value>%AppName%</value>

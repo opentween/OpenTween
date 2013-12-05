@@ -59,7 +59,8 @@ namespace OpenTween
 
             InitCulture();
 
-            string pt = Application.ExecutablePath.Replace("\\", "/") + "/" + Application.ProductName;
+            // 同じ設定ファイルを使用する OpenTween プロセスの二重起動を防止する
+            string pt = MyCommon.settingPath.Replace("\\", "/") + "/" + Application.ProductName;
             using (Mutex mt = new Mutex(false, pt))
             {
                 if (!mt.WaitOne(0, false))
@@ -196,7 +197,7 @@ namespace OpenTween
                     return false;
                 }
 
-                MyCommon.settingPath = configDir;
+                MyCommon.settingPath = Path.GetFullPath(configDir);
             }
             else
             {
