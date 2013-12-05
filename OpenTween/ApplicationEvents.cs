@@ -87,13 +87,21 @@ namespace OpenTween
             }
         }
 
+        /// <summary>
+        /// “/key:value”形式の起動オプションを解釈し IDictionary に変換する
+        /// </summary>
+        /// <remarks>
+        /// 不正な形式のオプションは除外されます。
+        /// また、重複したキーのオプションが入力された場合は末尾に書かれたオプションが採用されます。
+        /// </remarks>
         internal static IDictionary<string, string> ParseArguments(IEnumerable<string> arguments)
         {
             var optionPattern = new Regex(@"^/(.+?)(?::(.*))?$");
 
             return arguments.Select(x => optionPattern.Match(x))
                 .Where(x => x.Success)
-                .ToDictionary(x => x.Groups[1].Value, x => x.Groups[2].Value);
+                .GroupBy(x => x.Groups[1].Value)
+                .ToDictionary(x => x.Key, x => x.Last().Groups[2].Value);
         }
 
         private static void ShowPreviousWindow()

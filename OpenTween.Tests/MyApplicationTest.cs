@@ -94,5 +94,17 @@ namespace OpenTween
 
             Assert.Empty(MyApplication.ParseArguments(args));
         }
+
+        [Fact]
+        public void DuplicateOptionsTest()
+        {
+            var args = new[] { "/foo:abc", "/foo:123" };
+
+            Assert.Equal(new Dictionary<string, string>
+            {
+                {"foo", "123"},
+            },
+            MyApplication.ParseArguments(args));
+        }
     }
 }
