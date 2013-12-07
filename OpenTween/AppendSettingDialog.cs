@@ -260,7 +260,7 @@ namespace OpenTween
                     IntervalChanged(this, arg);
                 }
 
-                Readed = StartupReaded.Checked;
+                Readed = this.StartupPanel.StartupReaded.Checked;
                 switch (IconSize.SelectedIndex)
                 {
                     case 0:
@@ -388,8 +388,8 @@ namespace OpenTween
                 ProxyPort = int.Parse(TextProxyPort.Text.Trim());
                 ProxyUser = TextProxyUser.Text.Trim();
                 ProxyPassword = TextProxyPassword.Text.Trim();
-                StartupVersion = CheckStartupVersion.Checked;
-                StartupFollowers = CheckStartupFollowers.Checked;
+                StartupVersion = this.StartupPanel.CheckStartupVersion.Checked;
+                StartupFollowers = this.StartupPanel.CheckStartupFollowers.Checked;
                 RestrictFavCheck = CheckFavRestrict.Checked;
                 AlwaysTop = CheckAlwaysTop.Checked;
                 UrlConvertAuto = CheckAutoConvertUrl.Checked;
@@ -422,7 +422,7 @@ namespace OpenTween
                 AutoShortUrlFirst = (MyCommon.UrlConverter)ComboBoxAutoShortUrlFirst.SelectedIndex;
                 TabIconDisp = chkTabIconDisp.Checked;
                 ReadOwnPost = chkReadOwnPost.Checked;
-                GetFav = chkGetFav.Checked;
+                GetFav = this.StartupPanel.chkGetFav.Checked;
                 IsMonospace = CheckMonospace.Checked;
                 ReadOldPosts = CheckReadOldPosts.Checked;
                 UseSsl = CheckUseSsl.Checked;
@@ -617,7 +617,7 @@ namespace OpenTween
             ListsPeriod.Text = ListsPeriodInt.ToString();
             UserTimelinePeriod.Text = UserTimelinePeriodInt.ToString();
 
-            StartupReaded.Checked = Readed;
+            this.StartupPanel.StartupReaded.Checked = Readed;
             switch (IconSz)
             {
                 case MyCommon.IconSizes.IconNone:
@@ -640,11 +640,11 @@ namespace OpenTween
             UReadMng.Checked = UnreadManage;
             if (UnreadManage == false)
             {
-                StartupReaded.Enabled = false;
+                this.StartupPanel.StartupReaded.Enabled = false;
             }
             else
             {
-                StartupReaded.Enabled = true;
+                this.StartupPanel.StartupReaded.Enabled = true;
             }
             PlaySnd.Checked = PlaySound;
             OneWayLv.Checked = OneWayLove;
@@ -762,10 +762,10 @@ namespace OpenTween
             TextProxyUser.Text = ProxyUser;
             TextProxyPassword.Text = ProxyPassword;
 
-            CheckStartupVersion.Checked = StartupVersion;
+            this.StartupPanel.CheckStartupVersion.Checked = StartupVersion;
             if (ApplicationSettings.VersionInfoUrl == null)
-                CheckStartupVersion.Enabled = false; // 更新チェック無効化
-            CheckStartupFollowers.Checked = StartupFollowers;
+                this.StartupPanel.CheckStartupVersion.Enabled = false; // 更新チェック無効化
+            this.StartupPanel.CheckStartupFollowers.Checked = StartupFollowers;
             CheckFavRestrict.Checked = RestrictFavCheck;
             CheckAlwaysTop.Checked = AlwaysTop;
             CheckAutoConvertUrl.Checked = UrlConvertAuto;
@@ -799,7 +799,7 @@ namespace OpenTween
             ComboBoxAutoShortUrlFirst.SelectedIndex = (int)AutoShortUrlFirst;
             chkTabIconDisp.Checked = TabIconDisp;
             chkReadOwnPost.Checked = ReadOwnPost;
-            chkGetFav.Checked = GetFav;
+            this.StartupPanel.chkGetFav.Checked = GetFav;
             CheckMonospace.Checked = IsMonospace;
             CheckReadOldPosts.Checked = ReadOldPosts;
             CheckUseSsl.Checked = UseSsl;
@@ -1083,11 +1083,11 @@ namespace OpenTween
         {
             if (UReadMng.Checked == true)
             {
-                StartupReaded.Enabled = true;
+                this.StartupPanel.StartupReaded.Enabled = true;
             }
             else
             {
-                StartupReaded.Enabled = false;
+                this.StartupPanel.StartupReaded.Enabled = false;
             }
         }
 

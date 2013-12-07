@@ -211,30 +211,6 @@
 </value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="StartupReaded.Size" type="System.Drawing.Size, System.Drawing">
-    <value>91, 16</value>
-  </data>
-  <data name="StartupReaded.Text" xml:space="preserve">
-    <value>Mark as read</value>
-  </data>
-  <data name="CheckStartupFollowers.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 16</value>
-  </data>
-  <data name="CheckStartupFollowers.Text" xml:space="preserve">
-    <value>Fetch followers list</value>
-  </data>
-  <data name="CheckStartupVersion.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 16</value>
-  </data>
-  <data name="CheckStartupVersion.Text" xml:space="preserve">
-    <value>Check new version</value>
-  </data>
-  <data name="chkGetFav.Size" type="System.Drawing.Size, System.Drawing">
-    <value>105, 16</value>
-  </data>
-  <data name="chkGetFav.Text" xml:space="preserve">
-    <value>Fetch Favorites</value>
-  </data>
   <data name="Label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>224, 12</value>
   </data>

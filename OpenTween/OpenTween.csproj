@@ -150,6 +150,12 @@
     <Compile Include="Setting\Panel\SettingPanelBase.Designer.cs">
       <DependentUpon>SettingPanelBase.cs</DependentUpon>
     </Compile>
+    <Compile Include="Setting\Panel\StartupPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Setting\Panel\StartupPanel.Designer.cs">
+      <DependentUpon>StartupPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="TabsDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -343,6 +349,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ListManage.zh-CHS.resx">
       <DependentUpon>ListManage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setting\Panel\StartupPanel.en.resx">
+      <DependentUpon>StartupPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setting\Panel\StartupPanel.resx">
+      <DependentUpon>StartupPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setting\Panel\StartupPanel.zh-CHS.resx">
+      <DependentUpon>StartupPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TabsDialog.en.resx">
       <DependentUpon>TabsDialog.cs</DependentUpon>

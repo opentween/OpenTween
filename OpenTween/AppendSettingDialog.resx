@@ -360,9 +360,6 @@
   <data name="CooperatePanel.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="CheckStartupFollowers.Size" type="System.Drawing.Size, System.Drawing">
-    <value>174, 16</value>
-  </data>
   <data name="Label77.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
   </data>
@@ -446,9 +443,6 @@
   </data>
   <data name="Label64.Text" xml:space="preserve">
     <value>※タイムアウトが頻発する場合に調整してください。初期設定は20秒です。</value>
-  </data>
-  <data name="CheckStartupFollowers.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="UserAppointUrlText.Location" type="System.Drawing.Point, System.Drawing">
     <value>205, 220</value>
@@ -545,9 +539,6 @@
   </data>
   <data name="&gt;&gt;CmbDateTimeFormat.ZOrder" xml:space="preserve">
     <value>5</value>
-  </data>
-  <data name="StartupReaded.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="IsNotifyUseGrowlCheckBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>119, 16</value>
@@ -656,9 +647,6 @@
   <data name="&gt;&gt;lblUnread.Name" xml:space="preserve">
     <value>lblUnread</value>
   </data>
-  <data name="StartupReaded.Text" xml:space="preserve">
-    <value>読み込んだポストを既読にする</value>
-  </data>
   <data name="ReplyIconStateCombo.Items" xml:space="preserve">
     <value>通知なし</value>
   </data>
@@ -710,9 +698,6 @@
   <data name="&gt;&gt;SplitContainer1.Panel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="chkGetFav.Text" xml:space="preserve">
-    <value>Favoritesを取得する</value>
-  </data>
   <data name="&gt;&gt;TextCountApi.Parent" xml:space="preserve">
     <value>GetCountPanel</value>
   </data>
@@ -739,9 +724,6 @@
   </data>
   <data name="&gt;&gt;Label72.ZOrder" xml:space="preserve">
     <value>3</value>
-  </data>
-  <data name="CheckStartupFollowers.Text" xml:space="preserve">
-    <value>片思いユーザーリストを取得する</value>
   </data>
   <data name="GetCountPanel.Size" type="System.Drawing.Size, System.Drawing">
     <value>519, 368</value>
@@ -790,9 +772,6 @@
   </data>
   <data name="FirstTextCountApi.Location" type="System.Drawing.Point, System.Drawing">
     <value>308, 135</value>
-  </data>
-  <data name="chkGetFav.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 93</value>
   </data>
   <data name="&gt;&gt;ComboBoxPostKeySelect.Parent" xml:space="preserve">
     <value>TweetActPanel</value>
@@ -934,9 +913,6 @@
   </data>
   <data name="LanguageCombo.Items2" xml:space="preserve">
     <value>English</value>
-  </data>
-  <data name="&gt;&gt;chkGetFav.ZOrder" xml:space="preserve">
-    <value>3</value>
   </data>
   <data name="&gt;&gt;CheckOutputz.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1087,9 +1063,6 @@
   </data>
   <data name="&gt;&gt;Label3.ZOrder" xml:space="preserve">
     <value>7</value>
-  </data>
-  <data name="CheckStartupFollowers.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="ComboBoxTranslateLanguage.Items5" xml:space="preserve">
     <value>Arabic (Libya)</value>
@@ -1495,9 +1468,6 @@
   <data name="&gt;&gt;CheckAtIdSupple.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="chkGetFav.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="ConnectionPanel.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -1578,6 +1548,9 @@
   </data>
   <data name="StartupPanel.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
+  </data>
+  <data name="StartupPanel.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>20, 20, 20, 20</value>
   </data>
   <data name="HotkeyShift.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1845,9 +1818,6 @@
   </data>
   <data name="&gt;&gt;ActionPanel.Parent" xml:space="preserve">
     <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="StartupReaded.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="&gt;&gt;Label69.Parent" xml:space="preserve">
     <value>GetPeriodPanel</value>
@@ -2146,9 +2116,6 @@
   <data name="&gt;&gt;btnAtTo.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;chkGetFav.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="Label12.Location" type="System.Drawing.Point, System.Drawing">
     <value>23, 94</value>
   </data>
@@ -2329,9 +2296,6 @@
   <data name="CheckPreviewEnable.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="&gt;&gt;CheckStartupVersion.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
   <data name="CheckUserUpdateEvent.Text" xml:space="preserve">
     <value>ユーザーのプロフィールが更新された</value>
   </data>
@@ -2464,9 +2428,6 @@
   <data name="&gt;&gt;Label27.Parent" xml:space="preserve">
     <value>TweetActPanel</value>
   </data>
-  <data name="&gt;&gt;CheckStartupVersion.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="Label42.Text" xml:space="preserve">
     <value>x</value>
   </data>
@@ -2596,9 +2557,6 @@
   <data name="ComboBoxTranslateLanguage.Items9" xml:space="preserve">
     <value>Arabic (Oman)</value>
   </data>
-  <data name="chkGetFav.Size" type="System.Drawing.Size, System.Drawing">
-    <value>124, 16</value>
-  </data>
   <data name="&gt;&gt;HideDuplicatedRetweetsCheck.Name" xml:space="preserve">
     <value>HideDuplicatedRetweetsCheck</value>
   </data>
@@ -2613,9 +2571,6 @@
   </data>
   <data name="GroupBox2.Size" type="System.Drawing.Size, System.Drawing">
     <value>476, 162</value>
-  </data>
-  <data name="&gt;&gt;CheckStartupFollowers.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="TextBox3.ToolTip" xml:space="preserve">
     <value />
@@ -2839,9 +2794,6 @@
   <data name="LanguageCombo.Size" type="System.Drawing.Size, System.Drawing">
     <value>136, 20</value>
   </data>
-  <data name="&gt;&gt;CheckStartupFollowers.Parent" xml:space="preserve">
-    <value>StartupPanel</value>
-  </data>
   <data name="CmbDateTimeFormat.Location" type="System.Drawing.Point, System.Drawing">
     <value>216, 111</value>
   </data>
@@ -2871,9 +2823,6 @@
   </data>
   <data name="&gt;&gt;HotkeyCheck.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="CheckStartupVersion.Text" xml:space="preserve">
-    <value>最新版のチェックをする</value>
   </data>
   <data name="&gt;&gt;CheckReadOldPosts.ZOrder" xml:space="preserve">
     <value>16</value>
@@ -2907,9 +2856,6 @@
   </data>
   <data name="&gt;&gt;lblDetailBackcolor.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="chkGetFav.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="ProxyPanel.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -3060,9 +3006,6 @@
   </data>
   <data name="lblListBackcolor.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="StartupReaded.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 16</value>
   </data>
   <data name="Label77.ToolTip" xml:space="preserve">
     <value />
@@ -3412,9 +3355,6 @@
   <data name="LabelProxyAddress.Location" type="System.Drawing.Point, System.Drawing">
     <value>50, 85</value>
   </data>
-  <data name="StartupReaded.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="Label69.Text" xml:space="preserve">
     <value>Mentions更新間隔（秒）</value>
   </data>
@@ -3522,12 +3462,6 @@
   </data>
   <data name="HotkeyAlt.Text" xml:space="preserve">
     <value>Alt</value>
-  </data>
-  <data name="&gt;&gt;chkGetFav.Name" xml:space="preserve">
-    <value>chkGetFav</value>
-  </data>
-  <data name="&gt;&gt;CheckStartupVersion.Parent" xml:space="preserve">
-    <value>StartupPanel</value>
   </data>
   <data name="btnDetail.Location" type="System.Drawing.Point, System.Drawing">
     <value>331, 146</value>
@@ -3652,9 +3586,6 @@
   <data name="UReadMng.Text" xml:space="preserve">
     <value>未読管理を行う</value>
   </data>
-  <data name="&gt;&gt;CheckStartupFollowers.Name" xml:space="preserve">
-    <value>CheckStartupFollowers</value>
-  </data>
   <data name="Label62.Location" type="System.Drawing.Point, System.Drawing">
     <value>217, 134</value>
   </data>
@@ -3758,9 +3689,6 @@
     <value>19</value>
   </data>
   <data name="Label8.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CheckStartupVersion.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="Label34.AutoSize" type="System.Boolean, mscorlib">
@@ -4063,9 +3991,6 @@
   <data name="Label6.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="StartupReaded.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
   <data name="&gt;&gt;CheckMonospace.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -4137,9 +4062,6 @@
   </data>
   <data name="Label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="&gt;&gt;StartupReaded.Name" xml:space="preserve">
-    <value>StartupReaded</value>
   </data>
   <data name="Label11.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -4411,9 +4333,6 @@
   <data name="RadioProxySpecified.Text" xml:space="preserve">
     <value>指定する</value>
   </data>
-  <data name="CheckStartupVersion.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 47</value>
-  </data>
   <data name="&gt;&gt;ReplyPeriod.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -4479,9 +4398,6 @@
   </data>
   <data name="btnInputFont.TabIndex" type="System.Int32, mscorlib">
     <value>26</value>
-  </data>
-  <data name="&gt;&gt;chkGetFav.Parent" xml:space="preserve">
-    <value>StartupPanel</value>
   </data>
   <data name="&gt;&gt;IsNotifyUseGrowlCheckBox.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -4798,9 +4714,6 @@ Growl.CoreLibrary.DLL</value>
   <data name="lblOWL.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
   </data>
-  <data name="CheckStartupFollowers.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 70</value>
-  </data>
   <data name="Label15.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -4836,9 +4749,6 @@ Growl.CoreLibrary.DLL</value>
   </data>
   <data name="&gt;&gt;TextBoxOutputzKey.Name" xml:space="preserve">
     <value>TextBoxOutputzKey</value>
-  </data>
-  <data name="CheckStartupVersion.Size" type="System.Drawing.Size, System.Drawing">
-    <value>129, 16</value>
   </data>
   <data name="&gt;&gt;TabMouseLockCheck.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -5181,9 +5091,6 @@ Growl.CoreLibrary.DLL</value>
   <data name="OneWayLv.Size" type="System.Drawing.Size, System.Drawing">
     <value>162, 16</value>
   </data>
-  <data name="CheckStartupFollowers.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
   <data name="CheckNicoms.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
   </data>
@@ -5212,7 +5119,7 @@ Growl.CoreLibrary.DLL</value>
     <value>NoControl</value>
   </data>
   <data name="&gt;&gt;StartupPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>OpenTween.Setting.Panel.StartupPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="Label71.Text" xml:space="preserve">
     <value>URL自動短縮で優先的に使用</value>
@@ -5514,9 +5421,6 @@ Growl.CoreLibrary.DLL</value>
   <data name="ListsPeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>Disable</value>
   </data>
-  <data name="CheckStartupVersion.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="&gt;&gt;UReadMng.Name" xml:space="preserve">
     <value>UReadMng</value>
   </data>
@@ -5724,9 +5628,6 @@ Growl.CoreLibrary.DLL</value>
   <data name="&gt;&gt;Label76.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="CheckStartupVersion.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="btnTarget.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
   </data>
@@ -5814,9 +5715,6 @@ Growl.CoreLibrary.DLL</value>
   </data>
   <data name="btnAtFromTarget.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="chkGetFav.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
   </data>
   <data name="CheckUnfavoritesEvent.Text" xml:space="preserve">
     <value>Fav削除した、またはFav削除された</value>
@@ -5920,9 +5818,6 @@ Growl.CoreLibrary.DLL</value>
   <data name="ComboBoxTranslateLanguage.Items88" xml:space="preserve">
     <value>Slovak</value>
   </data>
-  <data name="&gt;&gt;StartupReaded.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="Label80.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
   </data>
@@ -5993,9 +5888,6 @@ Growl.CoreLibrary.DLL</value>
   </data>
   <data name="&gt;&gt;Label62.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="chkGetFav.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="PubSearchPeriod.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -6987,9 +6879,6 @@ Growl.CoreLibrary.DLL</value>
   <data name="LabelProxyPassword.Size" type="System.Drawing.Size, System.Drawing">
     <value>69, 12</value>
   </data>
-  <data name="CheckStartupFollowers.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="ComboBoxTranslateLanguage.Items109" xml:space="preserve">
     <value>Spanish (Puerto Rico)</value>
   </data>
@@ -7358,9 +7247,6 @@ Growl.CoreLibrary.DLL</value>
   </data>
   <data name="RadioProxyNone.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="CheckStartupVersion.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
   </data>
   <data name="DMPeriod.Location" type="System.Drawing.Point, System.Drawing">
     <value>258, 103</value>
@@ -7818,9 +7704,6 @@ Growl.CoreLibrary.DLL</value>
   <data name="HideDuplicatedRetweetsCheck.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;CheckStartupFollowers.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="Label63.Size" type="System.Drawing.Size, System.Drawing">
     <value>131, 12</value>
   </data>
@@ -7977,9 +7860,6 @@ Growl.CoreLibrary.DLL</value>
   <data name="Label40.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="&gt;&gt;CheckStartupVersion.Name" xml:space="preserve">
-    <value>CheckStartupVersion</value>
-  </data>
   <data name="btnAtTarget.Text" xml:space="preserve">
     <value>背景色</value>
   </data>
@@ -8000,12 +7880,6 @@ Growl.CoreLibrary.DLL</value>
   </data>
   <data name="IconSize.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="&gt;&gt;StartupReaded.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;StartupReaded.Parent" xml:space="preserve">
-    <value>StartupPanel</value>
   </data>
   <data name="CheckShowGrid.ToolTip" xml:space="preserve">
     <value />
@@ -8324,9 +8198,6 @@ Growl.CoreLibrary.DLL</value>
   </data>
   <data name="SplitContainer1.SplitterDistance" type="System.Int32, mscorlib">
     <value>168</value>
-  </data>
-  <data name="StartupReaded.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 25</value>
   </data>
   <data name="CheckShowGrid.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>

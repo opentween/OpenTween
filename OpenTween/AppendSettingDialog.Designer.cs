@@ -32,11 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AppendSettingDialog));
             this.SplitContainer1 = new System.Windows.Forms.SplitContainer();
             this.TreeViewSetting = new System.Windows.Forms.TreeView();
-            this.StartupPanel = new System.Windows.Forms.Panel();
-            this.StartupReaded = new System.Windows.Forms.CheckBox();
-            this.CheckStartupFollowers = new System.Windows.Forms.CheckBox();
-            this.CheckStartupVersion = new System.Windows.Forms.CheckBox();
-            this.chkGetFav = new System.Windows.Forms.CheckBox();
+            this.StartupPanel = new OpenTween.Setting.Panel.StartupPanel();
             this.PreviewPanel = new System.Windows.Forms.Panel();
             this.Label2 = new System.Windows.Forms.Label();
             this.IsNotifyUseGrowlCheckBox = new System.Windows.Forms.CheckBox();
@@ -288,7 +284,6 @@
             this.SplitContainer1.Panel1.SuspendLayout();
             this.SplitContainer1.Panel2.SuspendLayout();
             this.SplitContainer1.SuspendLayout();
-            this.StartupPanel.SuspendLayout();
             this.PreviewPanel.SuspendLayout();
             this.TweetActPanel.SuspendLayout();
             this.GetCountPanel.SuspendLayout();
@@ -364,40 +359,8 @@
             // StartupPanel
             // 
             resources.ApplyResources(this.StartupPanel, "StartupPanel");
-            this.StartupPanel.Controls.Add(this.StartupReaded);
-            this.StartupPanel.Controls.Add(this.CheckStartupFollowers);
-            this.StartupPanel.Controls.Add(this.CheckStartupVersion);
-            this.StartupPanel.Controls.Add(this.chkGetFav);
             this.StartupPanel.Name = "StartupPanel";
             this.ToolTip1.SetToolTip(this.StartupPanel, resources.GetString("StartupPanel.ToolTip"));
-            // 
-            // StartupReaded
-            // 
-            resources.ApplyResources(this.StartupReaded, "StartupReaded");
-            this.StartupReaded.Name = "StartupReaded";
-            this.ToolTip1.SetToolTip(this.StartupReaded, resources.GetString("StartupReaded.ToolTip"));
-            this.StartupReaded.UseVisualStyleBackColor = true;
-            // 
-            // CheckStartupFollowers
-            // 
-            resources.ApplyResources(this.CheckStartupFollowers, "CheckStartupFollowers");
-            this.CheckStartupFollowers.Name = "CheckStartupFollowers";
-            this.ToolTip1.SetToolTip(this.CheckStartupFollowers, resources.GetString("CheckStartupFollowers.ToolTip"));
-            this.CheckStartupFollowers.UseVisualStyleBackColor = true;
-            // 
-            // CheckStartupVersion
-            // 
-            resources.ApplyResources(this.CheckStartupVersion, "CheckStartupVersion");
-            this.CheckStartupVersion.Name = "CheckStartupVersion";
-            this.ToolTip1.SetToolTip(this.CheckStartupVersion, resources.GetString("CheckStartupVersion.ToolTip"));
-            this.CheckStartupVersion.UseVisualStyleBackColor = true;
-            // 
-            // chkGetFav
-            // 
-            resources.ApplyResources(this.chkGetFav, "chkGetFav");
-            this.chkGetFav.Name = "chkGetFav";
-            this.ToolTip1.SetToolTip(this.chkGetFav, resources.GetString("chkGetFav.ToolTip"));
-            this.chkGetFav.UseVisualStyleBackColor = true;
             // 
             // PreviewPanel
             // 
@@ -2549,8 +2512,6 @@
             this.SplitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer1)).EndInit();
             this.SplitContainer1.ResumeLayout(false);
-            this.StartupPanel.ResumeLayout(false);
-            this.StartupPanel.PerformLayout();
             this.PreviewPanel.ResumeLayout(false);
             this.PreviewPanel.PerformLayout();
             this.TweetActPanel.ResumeLayout(false);
@@ -2601,11 +2562,7 @@
         internal System.Windows.Forms.CheckBox HotkeyWin;
         internal System.Windows.Forms.SplitContainer SplitContainer1;
         private System.Windows.Forms.TreeView TreeViewSetting;
-        internal System.Windows.Forms.Panel StartupPanel;
-        internal System.Windows.Forms.CheckBox StartupReaded;
-        internal System.Windows.Forms.CheckBox CheckStartupFollowers;
-        internal System.Windows.Forms.CheckBox CheckStartupVersion;
-        internal System.Windows.Forms.CheckBox chkGetFav;
+        private Setting.Panel.StartupPanel StartupPanel;
         internal System.Windows.Forms.Panel PreviewPanel;
         internal System.Windows.Forms.Label Label2;
         internal System.Windows.Forms.ToolTip ToolTip1;
