@@ -33,26 +33,7 @@
             this.SplitContainer1 = new System.Windows.Forms.SplitContainer();
             this.TreeViewSetting = new System.Windows.Forms.TreeView();
             this.StartupPanel = new OpenTween.Setting.Panel.StartupPanel();
-            this.PreviewPanel = new System.Windows.Forms.Panel();
-            this.Label2 = new System.Windows.Forms.Label();
-            this.IsNotifyUseGrowlCheckBox = new System.Windows.Forms.CheckBox();
-            this.ReplyIconStateCombo = new System.Windows.Forms.ComboBox();
-            this.Label72 = new System.Windows.Forms.Label();
-            this.ChkNewMentionsBlink = new System.Windows.Forms.CheckBox();
-            this.chkTabIconDisp = new System.Windows.Forms.CheckBox();
-            this.CheckPreviewEnable = new System.Windows.Forms.CheckBox();
-            this.Label81 = new System.Windows.Forms.Label();
-            this.LanguageCombo = new System.Windows.Forms.ComboBox();
-            this.Label13 = new System.Windows.Forms.Label();
-            this.CheckAlwaysTop = new System.Windows.Forms.CheckBox();
-            this.CheckMonospace = new System.Windows.Forms.CheckBox();
-            this.CheckBalloonLimit = new System.Windows.Forms.CheckBox();
-            this.Label10 = new System.Windows.Forms.Label();
-            this.ComboDispTitle = new System.Windows.Forms.ComboBox();
-            this.Label45 = new System.Windows.Forms.Label();
-            this.cmbNameBalloon = new System.Windows.Forms.ComboBox();
-            this.CheckDispUsername = new System.Windows.Forms.CheckBox();
-            this.CheckBox3 = new System.Windows.Forms.CheckBox();
+            this.PreviewPanel = new OpenTween.Setting.Panel.PreviewPanel();
             this.TweetActPanel = new System.Windows.Forms.Panel();
             this.CheckHashSupple = new System.Windows.Forms.CheckBox();
             this.CheckAtIdSupple = new System.Windows.Forms.CheckBox();
@@ -284,7 +265,6 @@
             this.SplitContainer1.Panel1.SuspendLayout();
             this.SplitContainer1.Panel2.SuspendLayout();
             this.SplitContainer1.SuspendLayout();
-            this.PreviewPanel.SuspendLayout();
             this.TweetActPanel.SuspendLayout();
             this.GetCountPanel.SuspendLayout();
             this.ShortUrlPanel.SuspendLayout();
@@ -365,182 +345,8 @@
             // PreviewPanel
             // 
             resources.ApplyResources(this.PreviewPanel, "PreviewPanel");
-            this.PreviewPanel.Controls.Add(this.Label2);
-            this.PreviewPanel.Controls.Add(this.IsNotifyUseGrowlCheckBox);
-            this.PreviewPanel.Controls.Add(this.ReplyIconStateCombo);
-            this.PreviewPanel.Controls.Add(this.Label72);
-            this.PreviewPanel.Controls.Add(this.ChkNewMentionsBlink);
-            this.PreviewPanel.Controls.Add(this.chkTabIconDisp);
-            this.PreviewPanel.Controls.Add(this.CheckPreviewEnable);
-            this.PreviewPanel.Controls.Add(this.Label81);
-            this.PreviewPanel.Controls.Add(this.LanguageCombo);
-            this.PreviewPanel.Controls.Add(this.Label13);
-            this.PreviewPanel.Controls.Add(this.CheckAlwaysTop);
-            this.PreviewPanel.Controls.Add(this.CheckMonospace);
-            this.PreviewPanel.Controls.Add(this.CheckBalloonLimit);
-            this.PreviewPanel.Controls.Add(this.Label10);
-            this.PreviewPanel.Controls.Add(this.ComboDispTitle);
-            this.PreviewPanel.Controls.Add(this.Label45);
-            this.PreviewPanel.Controls.Add(this.cmbNameBalloon);
-            this.PreviewPanel.Controls.Add(this.CheckDispUsername);
-            this.PreviewPanel.Controls.Add(this.CheckBox3);
             this.PreviewPanel.Name = "PreviewPanel";
             this.ToolTip1.SetToolTip(this.PreviewPanel, resources.GetString("PreviewPanel.ToolTip"));
-            // 
-            // Label2
-            // 
-            resources.ApplyResources(this.Label2, "Label2");
-            this.Label2.Name = "Label2";
-            this.ToolTip1.SetToolTip(this.Label2, resources.GetString("Label2.ToolTip"));
-            // 
-            // IsNotifyUseGrowlCheckBox
-            // 
-            resources.ApplyResources(this.IsNotifyUseGrowlCheckBox, "IsNotifyUseGrowlCheckBox");
-            this.IsNotifyUseGrowlCheckBox.Name = "IsNotifyUseGrowlCheckBox";
-            this.ToolTip1.SetToolTip(this.IsNotifyUseGrowlCheckBox, resources.GetString("IsNotifyUseGrowlCheckBox.ToolTip"));
-            this.IsNotifyUseGrowlCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // ReplyIconStateCombo
-            // 
-            resources.ApplyResources(this.ReplyIconStateCombo, "ReplyIconStateCombo");
-            this.ReplyIconStateCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ReplyIconStateCombo.FormattingEnabled = true;
-            this.ReplyIconStateCombo.Items.AddRange(new object[] {
-            resources.GetString("ReplyIconStateCombo.Items"),
-            resources.GetString("ReplyIconStateCombo.Items1"),
-            resources.GetString("ReplyIconStateCombo.Items2")});
-            this.ReplyIconStateCombo.Name = "ReplyIconStateCombo";
-            this.ToolTip1.SetToolTip(this.ReplyIconStateCombo, resources.GetString("ReplyIconStateCombo.ToolTip"));
-            // 
-            // Label72
-            // 
-            resources.ApplyResources(this.Label72, "Label72");
-            this.Label72.Name = "Label72";
-            this.ToolTip1.SetToolTip(this.Label72, resources.GetString("Label72.ToolTip"));
-            // 
-            // ChkNewMentionsBlink
-            // 
-            resources.ApplyResources(this.ChkNewMentionsBlink, "ChkNewMentionsBlink");
-            this.ChkNewMentionsBlink.Name = "ChkNewMentionsBlink";
-            this.ToolTip1.SetToolTip(this.ChkNewMentionsBlink, resources.GetString("ChkNewMentionsBlink.ToolTip"));
-            this.ChkNewMentionsBlink.UseVisualStyleBackColor = true;
-            // 
-            // chkTabIconDisp
-            // 
-            resources.ApplyResources(this.chkTabIconDisp, "chkTabIconDisp");
-            this.chkTabIconDisp.Name = "chkTabIconDisp";
-            this.ToolTip1.SetToolTip(this.chkTabIconDisp, resources.GetString("chkTabIconDisp.ToolTip"));
-            this.chkTabIconDisp.UseVisualStyleBackColor = true;
-            // 
-            // CheckPreviewEnable
-            // 
-            resources.ApplyResources(this.CheckPreviewEnable, "CheckPreviewEnable");
-            this.CheckPreviewEnable.Name = "CheckPreviewEnable";
-            this.ToolTip1.SetToolTip(this.CheckPreviewEnable, resources.GetString("CheckPreviewEnable.ToolTip"));
-            this.CheckPreviewEnable.UseVisualStyleBackColor = true;
-            // 
-            // Label81
-            // 
-            resources.ApplyResources(this.Label81, "Label81");
-            this.Label81.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.Label81.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.Label81.Name = "Label81";
-            this.ToolTip1.SetToolTip(this.Label81, resources.GetString("Label81.ToolTip"));
-            // 
-            // LanguageCombo
-            // 
-            resources.ApplyResources(this.LanguageCombo, "LanguageCombo");
-            this.LanguageCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.LanguageCombo.FormattingEnabled = true;
-            this.LanguageCombo.Items.AddRange(new object[] {
-            resources.GetString("LanguageCombo.Items"),
-            resources.GetString("LanguageCombo.Items1"),
-            resources.GetString("LanguageCombo.Items2"),
-            resources.GetString("LanguageCombo.Items3")});
-            this.LanguageCombo.Name = "LanguageCombo";
-            this.ToolTip1.SetToolTip(this.LanguageCombo, resources.GetString("LanguageCombo.ToolTip"));
-            // 
-            // Label13
-            // 
-            resources.ApplyResources(this.Label13, "Label13");
-            this.Label13.Name = "Label13";
-            this.ToolTip1.SetToolTip(this.Label13, resources.GetString("Label13.ToolTip"));
-            // 
-            // CheckAlwaysTop
-            // 
-            resources.ApplyResources(this.CheckAlwaysTop, "CheckAlwaysTop");
-            this.CheckAlwaysTop.Name = "CheckAlwaysTop";
-            this.ToolTip1.SetToolTip(this.CheckAlwaysTop, resources.GetString("CheckAlwaysTop.ToolTip"));
-            this.CheckAlwaysTop.UseVisualStyleBackColor = true;
-            // 
-            // CheckMonospace
-            // 
-            resources.ApplyResources(this.CheckMonospace, "CheckMonospace");
-            this.CheckMonospace.Name = "CheckMonospace";
-            this.ToolTip1.SetToolTip(this.CheckMonospace, resources.GetString("CheckMonospace.ToolTip"));
-            this.CheckMonospace.UseVisualStyleBackColor = true;
-            // 
-            // CheckBalloonLimit
-            // 
-            resources.ApplyResources(this.CheckBalloonLimit, "CheckBalloonLimit");
-            this.CheckBalloonLimit.Name = "CheckBalloonLimit";
-            this.ToolTip1.SetToolTip(this.CheckBalloonLimit, resources.GetString("CheckBalloonLimit.ToolTip"));
-            this.CheckBalloonLimit.UseVisualStyleBackColor = true;
-            // 
-            // Label10
-            // 
-            resources.ApplyResources(this.Label10, "Label10");
-            this.Label10.Name = "Label10";
-            this.ToolTip1.SetToolTip(this.Label10, resources.GetString("Label10.ToolTip"));
-            // 
-            // ComboDispTitle
-            // 
-            resources.ApplyResources(this.ComboDispTitle, "ComboDispTitle");
-            this.ComboDispTitle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ComboDispTitle.FormattingEnabled = true;
-            this.ComboDispTitle.Items.AddRange(new object[] {
-            resources.GetString("ComboDispTitle.Items"),
-            resources.GetString("ComboDispTitle.Items1"),
-            resources.GetString("ComboDispTitle.Items2"),
-            resources.GetString("ComboDispTitle.Items3"),
-            resources.GetString("ComboDispTitle.Items4"),
-            resources.GetString("ComboDispTitle.Items5"),
-            resources.GetString("ComboDispTitle.Items6"),
-            resources.GetString("ComboDispTitle.Items7")});
-            this.ComboDispTitle.Name = "ComboDispTitle";
-            this.ToolTip1.SetToolTip(this.ComboDispTitle, resources.GetString("ComboDispTitle.ToolTip"));
-            // 
-            // Label45
-            // 
-            resources.ApplyResources(this.Label45, "Label45");
-            this.Label45.Name = "Label45";
-            this.ToolTip1.SetToolTip(this.Label45, resources.GetString("Label45.ToolTip"));
-            // 
-            // cmbNameBalloon
-            // 
-            resources.ApplyResources(this.cmbNameBalloon, "cmbNameBalloon");
-            this.cmbNameBalloon.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbNameBalloon.FormattingEnabled = true;
-            this.cmbNameBalloon.Items.AddRange(new object[] {
-            resources.GetString("cmbNameBalloon.Items"),
-            resources.GetString("cmbNameBalloon.Items1"),
-            resources.GetString("cmbNameBalloon.Items2")});
-            this.cmbNameBalloon.Name = "cmbNameBalloon";
-            this.ToolTip1.SetToolTip(this.cmbNameBalloon, resources.GetString("cmbNameBalloon.ToolTip"));
-            // 
-            // CheckDispUsername
-            // 
-            resources.ApplyResources(this.CheckDispUsername, "CheckDispUsername");
-            this.CheckDispUsername.Name = "CheckDispUsername";
-            this.ToolTip1.SetToolTip(this.CheckDispUsername, resources.GetString("CheckDispUsername.ToolTip"));
-            this.CheckDispUsername.UseVisualStyleBackColor = true;
-            // 
-            // CheckBox3
-            // 
-            resources.ApplyResources(this.CheckBox3, "CheckBox3");
-            this.CheckBox3.Name = "CheckBox3";
-            this.ToolTip1.SetToolTip(this.CheckBox3, resources.GetString("CheckBox3.ToolTip"));
-            this.CheckBox3.UseVisualStyleBackColor = true;
             // 
             // TweetActPanel
             // 
@@ -2512,8 +2318,6 @@
             this.SplitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer1)).EndInit();
             this.SplitContainer1.ResumeLayout(false);
-            this.PreviewPanel.ResumeLayout(false);
-            this.PreviewPanel.PerformLayout();
             this.TweetActPanel.ResumeLayout(false);
             this.TweetActPanel.PerformLayout();
             this.GetCountPanel.ResumeLayout(false);
@@ -2563,27 +2367,8 @@
         internal System.Windows.Forms.SplitContainer SplitContainer1;
         private System.Windows.Forms.TreeView TreeViewSetting;
         private Setting.Panel.StartupPanel StartupPanel;
-        internal System.Windows.Forms.Panel PreviewPanel;
-        internal System.Windows.Forms.Label Label2;
+        private Setting.Panel.PreviewPanel PreviewPanel;
         internal System.Windows.Forms.ToolTip ToolTip1;
-        internal System.Windows.Forms.CheckBox IsNotifyUseGrowlCheckBox;
-        internal System.Windows.Forms.ComboBox ReplyIconStateCombo;
-        internal System.Windows.Forms.Label Label72;
-        internal System.Windows.Forms.CheckBox ChkNewMentionsBlink;
-        internal System.Windows.Forms.CheckBox chkTabIconDisp;
-        internal System.Windows.Forms.CheckBox CheckPreviewEnable;
-        internal System.Windows.Forms.Label Label81;
-        internal System.Windows.Forms.ComboBox LanguageCombo;
-        internal System.Windows.Forms.Label Label13;
-        internal System.Windows.Forms.CheckBox CheckAlwaysTop;
-        internal System.Windows.Forms.CheckBox CheckMonospace;
-        internal System.Windows.Forms.CheckBox CheckBalloonLimit;
-        internal System.Windows.Forms.Label Label10;
-        internal System.Windows.Forms.ComboBox ComboDispTitle;
-        internal System.Windows.Forms.Label Label45;
-        internal System.Windows.Forms.ComboBox cmbNameBalloon;
-        internal System.Windows.Forms.CheckBox CheckDispUsername;
-        internal System.Windows.Forms.CheckBox CheckBox3;
         internal System.Windows.Forms.Panel TweetActPanel;
         internal System.Windows.Forms.CheckBox CheckHashSupple;
         internal System.Windows.Forms.CheckBox CheckAtIdSupple;
