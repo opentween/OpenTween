@@ -39,21 +39,7 @@
             this.ShortUrlPanel = new OpenTween.Setting.Panel.ShortUrlPanel();
             this.BasedPanel = new OpenTween.Setting.Panel.BasedPanel();
             this.TweetPrvPanel = new OpenTween.Setting.Panel.TweetPrvPanel();
-            this.NotifyPanel = new System.Windows.Forms.Panel();
-            this.IsRemoveSameFavEventCheckBox = new System.Windows.Forms.CheckBox();
-            this.CheckUserUpdateEvent = new System.Windows.Forms.CheckBox();
-            this.Label35 = new System.Windows.Forms.Label();
-            this.ComboBoxEventNotifySound = new System.Windows.Forms.ComboBox();
-            this.CheckFavEventUnread = new System.Windows.Forms.CheckBox();
-            this.CheckListCreatedEvent = new System.Windows.Forms.CheckBox();
-            this.CheckBlockEvent = new System.Windows.Forms.CheckBox();
-            this.CheckForceEventNotify = new System.Windows.Forms.CheckBox();
-            this.CheckListMemberRemovedEvent = new System.Windows.Forms.CheckBox();
-            this.CheckListMemberAddedEvent = new System.Windows.Forms.CheckBox();
-            this.CheckFollowEvent = new System.Windows.Forms.CheckBox();
-            this.CheckUnfavoritesEvent = new System.Windows.Forms.CheckBox();
-            this.CheckFavoritesEvent = new System.Windows.Forms.CheckBox();
-            this.CheckEventNotify = new System.Windows.Forms.CheckBox();
+            this.NotifyPanel = new OpenTween.Setting.Panel.NotifyPanel();
             this.CooperatePanel = new System.Windows.Forms.Panel();
             this.IsPreviewFoursquareCheckBox = new System.Windows.Forms.CheckBox();
             this.MapThumbnailGroupBox = new System.Windows.Forms.GroupBox();
@@ -205,7 +191,6 @@
             this.SplitContainer1.Panel1.SuspendLayout();
             this.SplitContainer1.Panel2.SuspendLayout();
             this.SplitContainer1.SuspendLayout();
-            this.NotifyPanel.SuspendLayout();
             this.CooperatePanel.SuspendLayout();
             this.MapThumbnailGroupBox.SuspendLayout();
             this.ProxyPanel.SuspendLayout();
@@ -315,150 +300,8 @@
             // NotifyPanel
             // 
             resources.ApplyResources(this.NotifyPanel, "NotifyPanel");
-            this.NotifyPanel.Controls.Add(this.IsRemoveSameFavEventCheckBox);
-            this.NotifyPanel.Controls.Add(this.CheckUserUpdateEvent);
-            this.NotifyPanel.Controls.Add(this.Label35);
-            this.NotifyPanel.Controls.Add(this.ComboBoxEventNotifySound);
-            this.NotifyPanel.Controls.Add(this.CheckFavEventUnread);
-            this.NotifyPanel.Controls.Add(this.CheckListCreatedEvent);
-            this.NotifyPanel.Controls.Add(this.CheckBlockEvent);
-            this.NotifyPanel.Controls.Add(this.CheckForceEventNotify);
-            this.NotifyPanel.Controls.Add(this.CheckListMemberRemovedEvent);
-            this.NotifyPanel.Controls.Add(this.CheckListMemberAddedEvent);
-            this.NotifyPanel.Controls.Add(this.CheckFollowEvent);
-            this.NotifyPanel.Controls.Add(this.CheckUnfavoritesEvent);
-            this.NotifyPanel.Controls.Add(this.CheckFavoritesEvent);
-            this.NotifyPanel.Controls.Add(this.CheckEventNotify);
             this.NotifyPanel.Name = "NotifyPanel";
             this.ToolTip1.SetToolTip(this.NotifyPanel, resources.GetString("NotifyPanel.ToolTip"));
-            // 
-            // IsRemoveSameFavEventCheckBox
-            // 
-            resources.ApplyResources(this.IsRemoveSameFavEventCheckBox, "IsRemoveSameFavEventCheckBox");
-            this.IsRemoveSameFavEventCheckBox.Name = "IsRemoveSameFavEventCheckBox";
-            this.ToolTip1.SetToolTip(this.IsRemoveSameFavEventCheckBox, resources.GetString("IsRemoveSameFavEventCheckBox.ToolTip"));
-            this.IsRemoveSameFavEventCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // CheckUserUpdateEvent
-            // 
-            resources.ApplyResources(this.CheckUserUpdateEvent, "CheckUserUpdateEvent");
-            this.CheckUserUpdateEvent.Checked = true;
-            this.CheckUserUpdateEvent.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CheckUserUpdateEvent.Name = "CheckUserUpdateEvent";
-            this.CheckUserUpdateEvent.ThreeState = true;
-            this.ToolTip1.SetToolTip(this.CheckUserUpdateEvent, resources.GetString("CheckUserUpdateEvent.ToolTip"));
-            this.CheckUserUpdateEvent.UseVisualStyleBackColor = true;
-            // 
-            // Label35
-            // 
-            resources.ApplyResources(this.Label35, "Label35");
-            this.Label35.Name = "Label35";
-            this.ToolTip1.SetToolTip(this.Label35, resources.GetString("Label35.ToolTip"));
-            // 
-            // ComboBoxEventNotifySound
-            // 
-            resources.ApplyResources(this.ComboBoxEventNotifySound, "ComboBoxEventNotifySound");
-            this.ComboBoxEventNotifySound.FormattingEnabled = true;
-            this.ComboBoxEventNotifySound.Name = "ComboBoxEventNotifySound";
-            this.ToolTip1.SetToolTip(this.ComboBoxEventNotifySound, resources.GetString("ComboBoxEventNotifySound.ToolTip"));
-            // 
-            // CheckFavEventUnread
-            // 
-            resources.ApplyResources(this.CheckFavEventUnread, "CheckFavEventUnread");
-            this.CheckFavEventUnread.Checked = true;
-            this.CheckFavEventUnread.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CheckFavEventUnread.Name = "CheckFavEventUnread";
-            this.ToolTip1.SetToolTip(this.CheckFavEventUnread, resources.GetString("CheckFavEventUnread.ToolTip"));
-            this.CheckFavEventUnread.UseVisualStyleBackColor = true;
-            // 
-            // CheckListCreatedEvent
-            // 
-            resources.ApplyResources(this.CheckListCreatedEvent, "CheckListCreatedEvent");
-            this.CheckListCreatedEvent.Checked = true;
-            this.CheckListCreatedEvent.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CheckListCreatedEvent.Name = "CheckListCreatedEvent";
-            this.CheckListCreatedEvent.ThreeState = true;
-            this.ToolTip1.SetToolTip(this.CheckListCreatedEvent, resources.GetString("CheckListCreatedEvent.ToolTip"));
-            this.CheckListCreatedEvent.UseVisualStyleBackColor = true;
-            // 
-            // CheckBlockEvent
-            // 
-            resources.ApplyResources(this.CheckBlockEvent, "CheckBlockEvent");
-            this.CheckBlockEvent.Checked = true;
-            this.CheckBlockEvent.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CheckBlockEvent.Name = "CheckBlockEvent";
-            this.CheckBlockEvent.ThreeState = true;
-            this.ToolTip1.SetToolTip(this.CheckBlockEvent, resources.GetString("CheckBlockEvent.ToolTip"));
-            this.CheckBlockEvent.UseVisualStyleBackColor = true;
-            // 
-            // CheckForceEventNotify
-            // 
-            resources.ApplyResources(this.CheckForceEventNotify, "CheckForceEventNotify");
-            this.CheckForceEventNotify.Checked = true;
-            this.CheckForceEventNotify.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CheckForceEventNotify.Name = "CheckForceEventNotify";
-            this.ToolTip1.SetToolTip(this.CheckForceEventNotify, resources.GetString("CheckForceEventNotify.ToolTip"));
-            this.CheckForceEventNotify.UseVisualStyleBackColor = true;
-            // 
-            // CheckListMemberRemovedEvent
-            // 
-            resources.ApplyResources(this.CheckListMemberRemovedEvent, "CheckListMemberRemovedEvent");
-            this.CheckListMemberRemovedEvent.Checked = true;
-            this.CheckListMemberRemovedEvent.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CheckListMemberRemovedEvent.Name = "CheckListMemberRemovedEvent";
-            this.CheckListMemberRemovedEvent.ThreeState = true;
-            this.ToolTip1.SetToolTip(this.CheckListMemberRemovedEvent, resources.GetString("CheckListMemberRemovedEvent.ToolTip"));
-            this.CheckListMemberRemovedEvent.UseVisualStyleBackColor = true;
-            // 
-            // CheckListMemberAddedEvent
-            // 
-            resources.ApplyResources(this.CheckListMemberAddedEvent, "CheckListMemberAddedEvent");
-            this.CheckListMemberAddedEvent.Checked = true;
-            this.CheckListMemberAddedEvent.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CheckListMemberAddedEvent.Name = "CheckListMemberAddedEvent";
-            this.CheckListMemberAddedEvent.ThreeState = true;
-            this.ToolTip1.SetToolTip(this.CheckListMemberAddedEvent, resources.GetString("CheckListMemberAddedEvent.ToolTip"));
-            this.CheckListMemberAddedEvent.UseVisualStyleBackColor = true;
-            // 
-            // CheckFollowEvent
-            // 
-            resources.ApplyResources(this.CheckFollowEvent, "CheckFollowEvent");
-            this.CheckFollowEvent.Checked = true;
-            this.CheckFollowEvent.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CheckFollowEvent.Name = "CheckFollowEvent";
-            this.CheckFollowEvent.ThreeState = true;
-            this.ToolTip1.SetToolTip(this.CheckFollowEvent, resources.GetString("CheckFollowEvent.ToolTip"));
-            this.CheckFollowEvent.UseVisualStyleBackColor = true;
-            // 
-            // CheckUnfavoritesEvent
-            // 
-            resources.ApplyResources(this.CheckUnfavoritesEvent, "CheckUnfavoritesEvent");
-            this.CheckUnfavoritesEvent.Checked = true;
-            this.CheckUnfavoritesEvent.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CheckUnfavoritesEvent.Name = "CheckUnfavoritesEvent";
-            this.CheckUnfavoritesEvent.ThreeState = true;
-            this.ToolTip1.SetToolTip(this.CheckUnfavoritesEvent, resources.GetString("CheckUnfavoritesEvent.ToolTip"));
-            this.CheckUnfavoritesEvent.UseVisualStyleBackColor = true;
-            // 
-            // CheckFavoritesEvent
-            // 
-            resources.ApplyResources(this.CheckFavoritesEvent, "CheckFavoritesEvent");
-            this.CheckFavoritesEvent.Checked = true;
-            this.CheckFavoritesEvent.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CheckFavoritesEvent.Name = "CheckFavoritesEvent";
-            this.CheckFavoritesEvent.ThreeState = true;
-            this.ToolTip1.SetToolTip(this.CheckFavoritesEvent, resources.GetString("CheckFavoritesEvent.ToolTip"));
-            this.CheckFavoritesEvent.UseVisualStyleBackColor = true;
-            // 
-            // CheckEventNotify
-            // 
-            resources.ApplyResources(this.CheckEventNotify, "CheckEventNotify");
-            this.CheckEventNotify.Checked = true;
-            this.CheckEventNotify.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CheckEventNotify.Name = "CheckEventNotify";
-            this.ToolTip1.SetToolTip(this.CheckEventNotify, resources.GetString("CheckEventNotify.ToolTip"));
-            this.CheckEventNotify.UseVisualStyleBackColor = true;
-            this.CheckEventNotify.CheckedChanged += new System.EventHandler(this.CheckEventNotify_CheckedChanged);
             // 
             // CooperatePanel
             // 
@@ -1749,8 +1592,6 @@
             this.SplitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer1)).EndInit();
             this.SplitContainer1.ResumeLayout(false);
-            this.NotifyPanel.ResumeLayout(false);
-            this.NotifyPanel.PerformLayout();
             this.CooperatePanel.ResumeLayout(false);
             this.CooperatePanel.PerformLayout();
             this.MapThumbnailGroupBox.ResumeLayout(false);
@@ -1793,21 +1634,7 @@
         private Setting.Panel.ShortUrlPanel ShortUrlPanel;
         private Setting.Panel.BasedPanel BasedPanel;
         private Setting.Panel.TweetPrvPanel TweetPrvPanel;
-        internal System.Windows.Forms.Panel NotifyPanel;
-        internal System.Windows.Forms.CheckBox IsRemoveSameFavEventCheckBox;
-        internal System.Windows.Forms.CheckBox CheckUserUpdateEvent;
-        internal System.Windows.Forms.Label Label35;
-        internal System.Windows.Forms.ComboBox ComboBoxEventNotifySound;
-        internal System.Windows.Forms.CheckBox CheckFavEventUnread;
-        internal System.Windows.Forms.CheckBox CheckListCreatedEvent;
-        internal System.Windows.Forms.CheckBox CheckBlockEvent;
-        internal System.Windows.Forms.CheckBox CheckForceEventNotify;
-        internal System.Windows.Forms.CheckBox CheckListMemberRemovedEvent;
-        internal System.Windows.Forms.CheckBox CheckListMemberAddedEvent;
-        internal System.Windows.Forms.CheckBox CheckFollowEvent;
-        internal System.Windows.Forms.CheckBox CheckUnfavoritesEvent;
-        internal System.Windows.Forms.CheckBox CheckFavoritesEvent;
-        internal System.Windows.Forms.CheckBox CheckEventNotify;
+        private Setting.Panel.NotifyPanel NotifyPanel;
         internal System.Windows.Forms.Panel CooperatePanel;
         internal System.Windows.Forms.CheckBox IsPreviewFoursquareCheckBox;
         internal System.Windows.Forms.GroupBox MapThumbnailGroupBox;

@@ -413,12 +413,12 @@ namespace OpenTween
                 DefaultTimeOut = int.Parse(ConnectionTimeOut.Text);
                 RetweetNoConfirm = this.TweetActPanel.CheckRetweetNoConfirm.Checked;
                 LimitBalloon = this.PreviewPanel.CheckBalloonLimit.Checked;
-                EventNotifyEnabled = CheckEventNotify.Checked;
+                EventNotifyEnabled = this.NotifyPanel.CheckEventNotify.Checked;
                 GetEventNotifyFlag(ref _MyEventNotifyFlag, ref _isMyEventNotifyFlag);
-                ForceEventNotify = CheckForceEventNotify.Checked;
-                FavEventUnread = CheckFavEventUnread.Checked;
+                ForceEventNotify = this.NotifyPanel.CheckForceEventNotify.Checked;
+                FavEventUnread = this.NotifyPanel.CheckFavEventUnread.Checked;
                 TranslateLanguage = (new Bing()).GetLanguageEnumFromIndex(ComboBoxTranslateLanguage.SelectedIndex);
-                EventSoundFile = (string)ComboBoxEventNotifySound.SelectedItem;
+                EventSoundFile = (string)this.NotifyPanel.ComboBoxEventNotifySound.SelectedItem;
                 AutoShortUrlFirst = (MyCommon.UrlConverter)this.ShortUrlPanel.ComboBoxAutoShortUrlFirst.SelectedIndex;
                 TabIconDisp = this.PreviewPanel.chkTabIconDisp.Checked;
                 ReadOwnPost = chkReadOwnPost.Checked;
@@ -490,7 +490,7 @@ namespace OpenTween
                 this.MapThumbnailZoom = int.Parse(this.MapThumbnailZoomTextBox.Text);
                 this.IsListStatusesIncludeRts = this.TweetPrvPanel.IsListsIncludeRtsCheckBox.Checked;
                 this.TabMouseLock = this.TabMouseLockCheck.Checked;
-                this.IsRemoveSameEvent = this.IsRemoveSameFavEventCheckBox.Checked;
+                this.IsRemoveSameEvent = this.NotifyPanel.IsRemoveSameFavEventCheckBox.Checked;
                 this.IsNotifyUseGrowl = this.PreviewPanel.IsNotifyUseGrowlCheckBox.Checked;
             }
             catch(Exception)
@@ -786,8 +786,8 @@ namespace OpenTween
             this.PreviewPanel.CheckBalloonLimit.Checked = LimitBalloon;
 
             ApplyEventNotifyFlag(EventNotifyEnabled, EventNotifyFlag, IsMyEventNotifyFlag);
-            CheckForceEventNotify.Checked = ForceEventNotify;
-            CheckFavEventUnread.Checked = FavEventUnread;
+            this.NotifyPanel.CheckForceEventNotify.Checked = ForceEventNotify;
+            this.NotifyPanel.CheckFavEventUnread.Checked = FavEventUnread;
             ComboBoxTranslateLanguage.SelectedIndex = (new Bing()).GetIndexFromLanguageEnum(TranslateLanguage);
             SoundFileListup();
             this.ShortUrlPanel.ComboBoxAutoShortUrlFirst.SelectedIndex = (int)AutoShortUrlFirst;
@@ -884,7 +884,7 @@ namespace OpenTween
             this.MapThumbnailZoomTextBox.Text = this.MapThumbnailZoom.ToString();
             this.TweetPrvPanel.IsListsIncludeRtsCheckBox.Checked = this.IsListStatusesIncludeRts;
             this.TabMouseLockCheck.Checked = this.TabMouseLock;
-            this.IsRemoveSameFavEventCheckBox.Checked = this.IsRemoveSameEvent;
+            this.NotifyPanel.IsRemoveSameFavEventCheckBox.Checked = this.IsRemoveSameEvent;
             this.PreviewPanel.IsNotifyUseGrowlCheckBox.Checked = this.IsNotifyUseGrowl;
 
             if (GrowlHelper.IsDllExists)
@@ -1780,35 +1780,35 @@ namespace OpenTween
             EventCheckboxTblElement[] _eventCheckboxTable = new EventCheckboxTblElement[8];
 
             _eventCheckboxTable[0] = new EventCheckboxTblElement();
-            _eventCheckboxTable[0].CheckBox = CheckFavoritesEvent;
+            _eventCheckboxTable[0].CheckBox = this.NotifyPanel.CheckFavoritesEvent;
             _eventCheckboxTable[0].Type = MyCommon.EVENTTYPE.Favorite;
 
             _eventCheckboxTable[1] = new EventCheckboxTblElement();
-            _eventCheckboxTable[1].CheckBox = CheckUnfavoritesEvent;
+            _eventCheckboxTable[1].CheckBox = this.NotifyPanel.CheckUnfavoritesEvent;
             _eventCheckboxTable[1].Type = MyCommon.EVENTTYPE.Unfavorite;
 
             _eventCheckboxTable[2] = new EventCheckboxTblElement();
-            _eventCheckboxTable[2].CheckBox = CheckFollowEvent;
+            _eventCheckboxTable[2].CheckBox = this.NotifyPanel.CheckFollowEvent;
             _eventCheckboxTable[2].Type = MyCommon.EVENTTYPE.Follow;
 
             _eventCheckboxTable[3] = new EventCheckboxTblElement();
-            _eventCheckboxTable[3].CheckBox = CheckListMemberAddedEvent;
+            _eventCheckboxTable[3].CheckBox = this.NotifyPanel.CheckListMemberAddedEvent;
             _eventCheckboxTable[3].Type = MyCommon.EVENTTYPE.ListMemberAdded;
 
             _eventCheckboxTable[4] = new EventCheckboxTblElement();
-            _eventCheckboxTable[4].CheckBox = CheckListMemberRemovedEvent;
+            _eventCheckboxTable[4].CheckBox = this.NotifyPanel.CheckListMemberRemovedEvent;
             _eventCheckboxTable[4].Type = MyCommon.EVENTTYPE.ListMemberRemoved;
 
             _eventCheckboxTable[5] = new EventCheckboxTblElement();
-            _eventCheckboxTable[5].CheckBox = CheckBlockEvent;
+            _eventCheckboxTable[5].CheckBox = this.NotifyPanel.CheckBlockEvent;
             _eventCheckboxTable[5].Type = MyCommon.EVENTTYPE.Block;
 
             _eventCheckboxTable[6] = new EventCheckboxTblElement();
-            _eventCheckboxTable[6].CheckBox = CheckUserUpdateEvent;
+            _eventCheckboxTable[6].CheckBox = this.NotifyPanel.CheckUserUpdateEvent;
             _eventCheckboxTable[6].Type = MyCommon.EVENTTYPE.UserUpdate;
 
             _eventCheckboxTable[7] = new EventCheckboxTblElement();
-            _eventCheckboxTable[7].CheckBox = CheckListCreatedEvent;
+            _eventCheckboxTable[7].CheckBox = this.NotifyPanel.CheckListCreatedEvent;
             _eventCheckboxTable[7].Type = MyCommon.EVENTTYPE.ListCreated;
 
             return _eventCheckboxTable;
@@ -1843,7 +1843,7 @@ namespace OpenTween
             MyCommon.EVENTTYPE evt = eventnotifyflag;
             MyCommon.EVENTTYPE myevt = isMyeventnotifyflag;
 
-            CheckEventNotify.Checked = rootEnabled;
+            this.NotifyPanel.CheckEventNotify.Checked = rootEnabled;
 
             foreach (EventCheckboxTblElement tbl in GetEventCheckboxTable())
             {
@@ -1871,7 +1871,7 @@ namespace OpenTween
         {
             foreach (EventCheckboxTblElement tbl in GetEventCheckboxTable())
             {
-                tbl.CheckBox.Enabled = CheckEventNotify.Checked;
+                tbl.CheckBox.Enabled = this.NotifyPanel.CheckEventNotify.Checked;
             }
         }
 
@@ -1893,8 +1893,8 @@ namespace OpenTween
         private void SoundFileListup()
         {
             if (EventSoundFile == null) EventSoundFile = "";
-            ComboBoxEventNotifySound.Items.Clear();
-            ComboBoxEventNotifySound.Items.Add("");
+            this.NotifyPanel.ComboBoxEventNotifySound.Items.Clear();
+            this.NotifyPanel.ComboBoxEventNotifySound.Items.Add("");
             DirectoryInfo oDir = new DirectoryInfo(Application.StartupPath + Path.DirectorySeparatorChar);
             if (Directory.Exists(Path.Combine(Application.StartupPath, "Sounds")))
             {
@@ -1902,11 +1902,11 @@ namespace OpenTween
             }
             foreach (FileInfo oFile in oDir.GetFiles("*.wav"))
             {
-                ComboBoxEventNotifySound.Items.Add(oFile.Name);
+                this.NotifyPanel.ComboBoxEventNotifySound.Items.Add(oFile.Name);
             }
-            int idx = ComboBoxEventNotifySound.Items.IndexOf(EventSoundFile);
+            int idx = this.NotifyPanel.ComboBoxEventNotifySound.Items.IndexOf(EventSoundFile);
             if (idx == -1) idx = 0;
-            ComboBoxEventNotifySound.SelectedIndex = idx;
+            this.NotifyPanel.ComboBoxEventNotifySound.SelectedIndex = idx;
         }
 
         //private void ComboBoxEventNotifySound_VisibleChanged(object sender, EventArgs e)
@@ -1976,6 +1976,7 @@ namespace OpenTween
 
             this.BasedPanel.StartAuthButton.Click += this.StartAuthButton_Click;
             this.BasedPanel.CreateAccountButton.Click += this.CreateAccountButton_Click;
+            this.NotifyPanel.CheckEventNotify.CheckedChanged += this.CheckEventNotify_CheckedChanged;
 
             this.Icon = Properties.Resources.MIcon;
         }

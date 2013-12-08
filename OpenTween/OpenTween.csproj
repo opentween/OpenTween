@@ -156,6 +156,12 @@
     <Compile Include="Setting\Panel\GetCountPanel.Designer.cs">
       <DependentUpon>GetCountPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Setting\Panel\NotifyPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Setting\Panel\NotifyPanel.Designer.cs">
+      <DependentUpon>NotifyPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Setting\Panel\PreviewPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -403,6 +409,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Setting\Panel\GetCountPanel.zh-CHS.resx">
       <DependentUpon>GetCountPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setting\Panel\NotifyPanel.en.resx">
+      <DependentUpon>NotifyPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setting\Panel\NotifyPanel.resx">
+      <DependentUpon>NotifyPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setting\Panel\NotifyPanel.zh-CHS.resx">
+      <DependentUpon>NotifyPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Setting\Panel\PreviewPanel.en.resx">
       <DependentUpon>PreviewPanel.cs</DependentUpon>
