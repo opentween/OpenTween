@@ -44,31 +44,7 @@
             this.ProxyPanel = new OpenTween.Setting.Panel.ProxyPanel();
             this.ConnectionPanel = new OpenTween.Setting.Panel.ConnectionPanel();
             this.GetPeriodPanel = new OpenTween.Setting.Panel.GetPeriodPanel();
-            this.ActionPanel = new System.Windows.Forms.Panel();
-            this.TabMouseLockCheck = new System.Windows.Forms.CheckBox();
-            this.Label38 = new System.Windows.Forms.Label();
-            this.ListDoubleClickActionComboBox = new System.Windows.Forms.ComboBox();
-            this.CheckOpenUserTimeline = new System.Windows.Forms.CheckBox();
-            this.GroupBox3 = new System.Windows.Forms.GroupBox();
-            this.HotkeyCheck = new System.Windows.Forms.CheckBox();
-            this.HotkeyCode = new System.Windows.Forms.Label();
-            this.HotkeyText = new System.Windows.Forms.TextBox();
-            this.HotkeyWin = new System.Windows.Forms.CheckBox();
-            this.HotkeyAlt = new System.Windows.Forms.CheckBox();
-            this.HotkeyShift = new System.Windows.Forms.CheckBox();
-            this.HotkeyCtrl = new System.Windows.Forms.CheckBox();
-            this.Label57 = new System.Windows.Forms.Label();
-            this.CheckFavRestrict = new System.Windows.Forms.CheckBox();
-            this.Button3 = new System.Windows.Forms.Button();
-            this.PlaySnd = new System.Windows.Forms.CheckBox();
-            this.chkReadOwnPost = new System.Windows.Forms.CheckBox();
-            this.Label15 = new System.Windows.Forms.Label();
-            this.BrowserPathText = new System.Windows.Forms.TextBox();
-            this.UReadMng = new System.Windows.Forms.CheckBox();
-            this.Label44 = new System.Windows.Forms.Label();
-            this.CheckCloseToExit = new System.Windows.Forms.CheckBox();
-            this.CheckMinimizeToTray = new System.Windows.Forms.CheckBox();
-            this.CheckReadOldPosts = new System.Windows.Forms.CheckBox();
+            this.ActionPanel = new OpenTween.Setting.Panel.ActionPanel();
             this.FontPanel = new System.Windows.Forms.Panel();
             this.GroupBox1 = new System.Windows.Forms.GroupBox();
             this.btnRetweet = new System.Windows.Forms.Button();
@@ -135,8 +111,6 @@
             this.SplitContainer1.Panel1.SuspendLayout();
             this.SplitContainer1.Panel2.SuspendLayout();
             this.SplitContainer1.SuspendLayout();
-            this.ActionPanel.SuspendLayout();
-            this.GroupBox3.SuspendLayout();
             this.FontPanel.SuspendLayout();
             this.GroupBox1.SuspendLayout();
             this.FontPanel2.SuspendLayout();
@@ -269,213 +243,8 @@
             // ActionPanel
             // 
             resources.ApplyResources(this.ActionPanel, "ActionPanel");
-            this.ActionPanel.Controls.Add(this.TabMouseLockCheck);
-            this.ActionPanel.Controls.Add(this.Label38);
-            this.ActionPanel.Controls.Add(this.ListDoubleClickActionComboBox);
-            this.ActionPanel.Controls.Add(this.CheckOpenUserTimeline);
-            this.ActionPanel.Controls.Add(this.GroupBox3);
-            this.ActionPanel.Controls.Add(this.Label57);
-            this.ActionPanel.Controls.Add(this.CheckFavRestrict);
-            this.ActionPanel.Controls.Add(this.Button3);
-            this.ActionPanel.Controls.Add(this.PlaySnd);
-            this.ActionPanel.Controls.Add(this.chkReadOwnPost);
-            this.ActionPanel.Controls.Add(this.Label15);
-            this.ActionPanel.Controls.Add(this.BrowserPathText);
-            this.ActionPanel.Controls.Add(this.UReadMng);
-            this.ActionPanel.Controls.Add(this.Label44);
-            this.ActionPanel.Controls.Add(this.CheckCloseToExit);
-            this.ActionPanel.Controls.Add(this.CheckMinimizeToTray);
-            this.ActionPanel.Controls.Add(this.CheckReadOldPosts);
             this.ActionPanel.Name = "ActionPanel";
             this.ToolTip1.SetToolTip(this.ActionPanel, resources.GetString("ActionPanel.ToolTip"));
-            // 
-            // TabMouseLockCheck
-            // 
-            resources.ApplyResources(this.TabMouseLockCheck, "TabMouseLockCheck");
-            this.TabMouseLockCheck.Name = "TabMouseLockCheck";
-            this.ToolTip1.SetToolTip(this.TabMouseLockCheck, resources.GetString("TabMouseLockCheck.ToolTip"));
-            this.TabMouseLockCheck.UseVisualStyleBackColor = true;
-            // 
-            // Label38
-            // 
-            resources.ApplyResources(this.Label38, "Label38");
-            this.Label38.Name = "Label38";
-            this.ToolTip1.SetToolTip(this.Label38, resources.GetString("Label38.ToolTip"));
-            // 
-            // ListDoubleClickActionComboBox
-            // 
-            resources.ApplyResources(this.ListDoubleClickActionComboBox, "ListDoubleClickActionComboBox");
-            this.ListDoubleClickActionComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ListDoubleClickActionComboBox.FormattingEnabled = true;
-            this.ListDoubleClickActionComboBox.Items.AddRange(new object[] {
-            resources.GetString("ListDoubleClickActionComboBox.Items"),
-            resources.GetString("ListDoubleClickActionComboBox.Items1"),
-            resources.GetString("ListDoubleClickActionComboBox.Items2"),
-            resources.GetString("ListDoubleClickActionComboBox.Items3"),
-            resources.GetString("ListDoubleClickActionComboBox.Items4"),
-            resources.GetString("ListDoubleClickActionComboBox.Items5"),
-            resources.GetString("ListDoubleClickActionComboBox.Items6"),
-            resources.GetString("ListDoubleClickActionComboBox.Items7")});
-            this.ListDoubleClickActionComboBox.Name = "ListDoubleClickActionComboBox";
-            this.ToolTip1.SetToolTip(this.ListDoubleClickActionComboBox, resources.GetString("ListDoubleClickActionComboBox.ToolTip"));
-            // 
-            // CheckOpenUserTimeline
-            // 
-            resources.ApplyResources(this.CheckOpenUserTimeline, "CheckOpenUserTimeline");
-            this.CheckOpenUserTimeline.Name = "CheckOpenUserTimeline";
-            this.ToolTip1.SetToolTip(this.CheckOpenUserTimeline, resources.GetString("CheckOpenUserTimeline.ToolTip"));
-            this.CheckOpenUserTimeline.UseVisualStyleBackColor = true;
-            // 
-            // GroupBox3
-            // 
-            resources.ApplyResources(this.GroupBox3, "GroupBox3");
-            this.GroupBox3.Controls.Add(this.HotkeyCheck);
-            this.GroupBox3.Controls.Add(this.HotkeyCode);
-            this.GroupBox3.Controls.Add(this.HotkeyText);
-            this.GroupBox3.Controls.Add(this.HotkeyWin);
-            this.GroupBox3.Controls.Add(this.HotkeyAlt);
-            this.GroupBox3.Controls.Add(this.HotkeyShift);
-            this.GroupBox3.Controls.Add(this.HotkeyCtrl);
-            this.GroupBox3.Name = "GroupBox3";
-            this.GroupBox3.TabStop = false;
-            this.ToolTip1.SetToolTip(this.GroupBox3, resources.GetString("GroupBox3.ToolTip"));
-            // 
-            // HotkeyCheck
-            // 
-            resources.ApplyResources(this.HotkeyCheck, "HotkeyCheck");
-            this.HotkeyCheck.Name = "HotkeyCheck";
-            this.ToolTip1.SetToolTip(this.HotkeyCheck, resources.GetString("HotkeyCheck.ToolTip"));
-            this.HotkeyCheck.UseVisualStyleBackColor = true;
-            this.HotkeyCheck.CheckedChanged += new System.EventHandler(this.HotkeyCheck_CheckedChanged);
-            // 
-            // HotkeyCode
-            // 
-            resources.ApplyResources(this.HotkeyCode, "HotkeyCode");
-            this.HotkeyCode.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.HotkeyCode.Name = "HotkeyCode";
-            this.ToolTip1.SetToolTip(this.HotkeyCode, resources.GetString("HotkeyCode.ToolTip"));
-            // 
-            // HotkeyText
-            // 
-            resources.ApplyResources(this.HotkeyText, "HotkeyText");
-            this.HotkeyText.Name = "HotkeyText";
-            this.HotkeyText.ReadOnly = true;
-            this.ToolTip1.SetToolTip(this.HotkeyText, resources.GetString("HotkeyText.ToolTip"));
-            this.HotkeyText.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HotkeyText_KeyDown);
-            // 
-            // HotkeyWin
-            // 
-            resources.ApplyResources(this.HotkeyWin, "HotkeyWin");
-            this.HotkeyWin.Name = "HotkeyWin";
-            this.ToolTip1.SetToolTip(this.HotkeyWin, resources.GetString("HotkeyWin.ToolTip"));
-            this.HotkeyWin.UseVisualStyleBackColor = true;
-            // 
-            // HotkeyAlt
-            // 
-            resources.ApplyResources(this.HotkeyAlt, "HotkeyAlt");
-            this.HotkeyAlt.Name = "HotkeyAlt";
-            this.ToolTip1.SetToolTip(this.HotkeyAlt, resources.GetString("HotkeyAlt.ToolTip"));
-            this.HotkeyAlt.UseVisualStyleBackColor = true;
-            // 
-            // HotkeyShift
-            // 
-            resources.ApplyResources(this.HotkeyShift, "HotkeyShift");
-            this.HotkeyShift.Name = "HotkeyShift";
-            this.ToolTip1.SetToolTip(this.HotkeyShift, resources.GetString("HotkeyShift.ToolTip"));
-            this.HotkeyShift.UseVisualStyleBackColor = true;
-            // 
-            // HotkeyCtrl
-            // 
-            resources.ApplyResources(this.HotkeyCtrl, "HotkeyCtrl");
-            this.HotkeyCtrl.Name = "HotkeyCtrl";
-            this.ToolTip1.SetToolTip(this.HotkeyCtrl, resources.GetString("HotkeyCtrl.ToolTip"));
-            this.HotkeyCtrl.UseVisualStyleBackColor = true;
-            // 
-            // Label57
-            // 
-            resources.ApplyResources(this.Label57, "Label57");
-            this.Label57.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.Label57.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.Label57.Name = "Label57";
-            this.ToolTip1.SetToolTip(this.Label57, resources.GetString("Label57.ToolTip"));
-            // 
-            // CheckFavRestrict
-            // 
-            resources.ApplyResources(this.CheckFavRestrict, "CheckFavRestrict");
-            this.CheckFavRestrict.Name = "CheckFavRestrict";
-            this.ToolTip1.SetToolTip(this.CheckFavRestrict, resources.GetString("CheckFavRestrict.ToolTip"));
-            this.CheckFavRestrict.UseVisualStyleBackColor = true;
-            // 
-            // Button3
-            // 
-            resources.ApplyResources(this.Button3, "Button3");
-            this.Button3.Name = "Button3";
-            this.ToolTip1.SetToolTip(this.Button3, resources.GetString("Button3.ToolTip"));
-            this.Button3.UseVisualStyleBackColor = true;
-            this.Button3.Click += new System.EventHandler(this.Button3_Click);
-            // 
-            // PlaySnd
-            // 
-            resources.ApplyResources(this.PlaySnd, "PlaySnd");
-            this.PlaySnd.Name = "PlaySnd";
-            this.ToolTip1.SetToolTip(this.PlaySnd, resources.GetString("PlaySnd.ToolTip"));
-            this.PlaySnd.UseVisualStyleBackColor = true;
-            // 
-            // chkReadOwnPost
-            // 
-            resources.ApplyResources(this.chkReadOwnPost, "chkReadOwnPost");
-            this.chkReadOwnPost.Name = "chkReadOwnPost";
-            this.ToolTip1.SetToolTip(this.chkReadOwnPost, resources.GetString("chkReadOwnPost.ToolTip"));
-            this.chkReadOwnPost.UseVisualStyleBackColor = true;
-            // 
-            // Label15
-            // 
-            resources.ApplyResources(this.Label15, "Label15");
-            this.Label15.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.Label15.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.Label15.Name = "Label15";
-            this.ToolTip1.SetToolTip(this.Label15, resources.GetString("Label15.ToolTip"));
-            // 
-            // BrowserPathText
-            // 
-            resources.ApplyResources(this.BrowserPathText, "BrowserPathText");
-            this.BrowserPathText.Name = "BrowserPathText";
-            this.ToolTip1.SetToolTip(this.BrowserPathText, resources.GetString("BrowserPathText.ToolTip"));
-            // 
-            // UReadMng
-            // 
-            resources.ApplyResources(this.UReadMng, "UReadMng");
-            this.UReadMng.Name = "UReadMng";
-            this.ToolTip1.SetToolTip(this.UReadMng, resources.GetString("UReadMng.ToolTip"));
-            this.UReadMng.UseVisualStyleBackColor = true;
-            this.UReadMng.CheckedChanged += new System.EventHandler(this.UReadMng_CheckedChanged);
-            // 
-            // Label44
-            // 
-            resources.ApplyResources(this.Label44, "Label44");
-            this.Label44.Name = "Label44";
-            this.ToolTip1.SetToolTip(this.Label44, resources.GetString("Label44.ToolTip"));
-            // 
-            // CheckCloseToExit
-            // 
-            resources.ApplyResources(this.CheckCloseToExit, "CheckCloseToExit");
-            this.CheckCloseToExit.Name = "CheckCloseToExit";
-            this.ToolTip1.SetToolTip(this.CheckCloseToExit, resources.GetString("CheckCloseToExit.ToolTip"));
-            this.CheckCloseToExit.UseVisualStyleBackColor = true;
-            // 
-            // CheckMinimizeToTray
-            // 
-            resources.ApplyResources(this.CheckMinimizeToTray, "CheckMinimizeToTray");
-            this.CheckMinimizeToTray.Name = "CheckMinimizeToTray";
-            this.ToolTip1.SetToolTip(this.CheckMinimizeToTray, resources.GetString("CheckMinimizeToTray.ToolTip"));
-            this.CheckMinimizeToTray.UseVisualStyleBackColor = true;
-            // 
-            // CheckReadOldPosts
-            // 
-            resources.ApplyResources(this.CheckReadOldPosts, "CheckReadOldPosts");
-            this.CheckReadOldPosts.Name = "CheckReadOldPosts";
-            this.ToolTip1.SetToolTip(this.CheckReadOldPosts, resources.GetString("CheckReadOldPosts.ToolTip"));
-            this.CheckReadOldPosts.UseVisualStyleBackColor = true;
             // 
             // FontPanel
             // 
@@ -971,10 +740,6 @@
             this.SplitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer1)).EndInit();
             this.SplitContainer1.ResumeLayout(false);
-            this.ActionPanel.ResumeLayout(false);
-            this.ActionPanel.PerformLayout();
-            this.GroupBox3.ResumeLayout(false);
-            this.GroupBox3.PerformLayout();
             this.FontPanel.ResumeLayout(false);
             this.GroupBox1.ResumeLayout(false);
             this.GroupBox1.PerformLayout();
@@ -987,10 +752,6 @@
 
         #endregion
 
-        internal System.Windows.Forms.CheckBox HotkeyCheck;
-        internal System.Windows.Forms.Label HotkeyCode;
-        internal System.Windows.Forms.TextBox HotkeyText;
-        internal System.Windows.Forms.CheckBox HotkeyWin;
         internal System.Windows.Forms.SplitContainer SplitContainer1;
         private System.Windows.Forms.TreeView TreeViewSetting;
         private Setting.Panel.StartupPanel StartupPanel;
@@ -1006,27 +767,7 @@
         private Setting.Panel.ProxyPanel ProxyPanel;
         private Setting.Panel.ConnectionPanel ConnectionPanel;
         private Setting.Panel.GetPeriodPanel GetPeriodPanel;
-        internal System.Windows.Forms.Panel ActionPanel;
-        internal System.Windows.Forms.CheckBox TabMouseLockCheck;
-        internal System.Windows.Forms.Label Label38;
-        internal System.Windows.Forms.ComboBox ListDoubleClickActionComboBox;
-        internal System.Windows.Forms.CheckBox CheckOpenUserTimeline;
-        internal System.Windows.Forms.GroupBox GroupBox3;
-        internal System.Windows.Forms.CheckBox HotkeyAlt;
-        internal System.Windows.Forms.CheckBox HotkeyShift;
-        internal System.Windows.Forms.CheckBox HotkeyCtrl;
-        internal System.Windows.Forms.Label Label57;
-        internal System.Windows.Forms.CheckBox CheckFavRestrict;
-        internal System.Windows.Forms.Button Button3;
-        internal System.Windows.Forms.CheckBox PlaySnd;
-        internal System.Windows.Forms.CheckBox chkReadOwnPost;
-        internal System.Windows.Forms.Label Label15;
-        internal System.Windows.Forms.TextBox BrowserPathText;
-        internal System.Windows.Forms.CheckBox UReadMng;
-        internal System.Windows.Forms.Label Label44;
-        internal System.Windows.Forms.CheckBox CheckCloseToExit;
-        internal System.Windows.Forms.CheckBox CheckMinimizeToTray;
-        internal System.Windows.Forms.CheckBox CheckReadOldPosts;
+        private Setting.Panel.ActionPanel ActionPanel;
         internal System.Windows.Forms.Panel FontPanel;
         internal System.Windows.Forms.GroupBox GroupBox1;
         internal System.Windows.Forms.Button btnRetweet;

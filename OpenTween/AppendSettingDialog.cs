@@ -280,8 +280,8 @@ namespace OpenTween
                         break;
                 }
                 Status = this.TweetActPanel.StatusText.Text;
-                PlaySound = PlaySnd.Checked;
-                UnreadManage = UReadMng.Checked;
+                PlaySound = this.ActionPanel.PlaySnd.Checked;
+                UnreadManage = this.ActionPanel.UReadMng.Checked;
                 OneWayLove = this.TweetPrvPanel.OneWayLv.Checked;
 
                 FontUnread = lblUnread.Font;     //未使用
@@ -335,12 +335,12 @@ namespace OpenTween
                 }
                 CountApi = int.Parse(this.GetCountPanel.TextCountApi.Text);
                 CountApiReply = int.Parse(this.GetCountPanel.TextCountApiReply.Text);
-                BrowserPath = BrowserPathText.Text.Trim();
+                BrowserPath = this.ActionPanel.BrowserPathText.Text.Trim();
                 PostAndGet = this.GetPeriodPanel.CheckPostAndGet.Checked;
                 UseRecommendStatus = this.TweetActPanel.CheckUseRecommendStatus.Checked;
                 DispUsername = this.PreviewPanel.CheckDispUsername.Checked;
-                CloseToExit = CheckCloseToExit.Checked;
-                MinimizeToTray = CheckMinimizeToTray.Checked;
+                CloseToExit = this.ActionPanel.CheckCloseToExit.Checked;
+                MinimizeToTray = this.ActionPanel.CheckMinimizeToTray.Checked;
                 switch (this.PreviewPanel.ComboDispTitle.SelectedIndex)
                 {
                     case 0:  //None
@@ -390,7 +390,7 @@ namespace OpenTween
                 ProxyPassword = this.ProxyPanel.TextProxyPassword.Text.Trim();
                 StartupVersion = this.StartupPanel.CheckStartupVersion.Checked;
                 StartupFollowers = this.StartupPanel.CheckStartupFollowers.Checked;
-                RestrictFavCheck = CheckFavRestrict.Checked;
+                RestrictFavCheck = this.ActionPanel.CheckFavRestrict.Checked;
                 AlwaysTop = this.PreviewPanel.CheckAlwaysTop.Checked;
                 UrlConvertAuto = this.ShortUrlPanel.CheckAutoConvertUrl.Checked;
                 ShortenTco = this.ShortUrlPanel.ShortenTcoCheck.Checked;
@@ -421,10 +421,10 @@ namespace OpenTween
                 EventSoundFile = (string)this.NotifyPanel.ComboBoxEventNotifySound.SelectedItem;
                 AutoShortUrlFirst = (MyCommon.UrlConverter)this.ShortUrlPanel.ComboBoxAutoShortUrlFirst.SelectedIndex;
                 TabIconDisp = this.PreviewPanel.chkTabIconDisp.Checked;
-                ReadOwnPost = chkReadOwnPost.Checked;
+                ReadOwnPost = this.ActionPanel.chkReadOwnPost.Checked;
                 GetFav = this.StartupPanel.chkGetFav.Checked;
                 IsMonospace = this.PreviewPanel.CheckMonospace.Checked;
-                ReadOldPosts = CheckReadOldPosts.Checked;
+                ReadOldPosts = this.ActionPanel.CheckReadOldPosts.Checked;
                 UseSsl = this.ConnectionPanel.CheckUseSsl.Checked;
                 BitlyUser = this.ShortUrlPanel.TextBitlyId.Text;
                 BitlyPwd = this.ShortUrlPanel.TextBitlyPw.Text;
@@ -463,14 +463,14 @@ namespace OpenTween
                         Language = "en";
                         break;
                 }
-                HotkeyEnabled = this.HotkeyCheck.Checked;
+                HotkeyEnabled = this.ActionPanel.HotkeyCheck.Checked;
                 HotkeyMod = Keys.None;
-                if (this.HotkeyAlt.Checked) HotkeyMod = HotkeyMod | Keys.Alt;
-                if (this.HotkeyShift.Checked) HotkeyMod = HotkeyMod | Keys.Shift;
-                if (this.HotkeyCtrl.Checked) HotkeyMod = HotkeyMod | Keys.Control;
-                if (this.HotkeyWin.Checked) HotkeyMod = HotkeyMod | Keys.LWin;
-                int.TryParse(HotkeyCode.Text, out HotkeyValue);
-                HotkeyKey = (Keys)HotkeyText.Tag;
+                if (this.ActionPanel.HotkeyAlt.Checked) HotkeyMod = HotkeyMod | Keys.Alt;
+                if (this.ActionPanel.HotkeyShift.Checked) HotkeyMod = HotkeyMod | Keys.Shift;
+                if (this.ActionPanel.HotkeyCtrl.Checked) HotkeyMod = HotkeyMod | Keys.Control;
+                if (this.ActionPanel.HotkeyWin.Checked) HotkeyMod = HotkeyMod | Keys.LWin;
+                int.TryParse(this.ActionPanel.HotkeyCode.Text, out HotkeyValue);
+                HotkeyKey = (Keys)this.ActionPanel.HotkeyText.Tag;
                 BlinkNewMentions = this.PreviewPanel.ChkNewMentionsBlink.Checked;
                 UseAdditionalCount = this.GetCountPanel.UseChangeGetCount.Checked;
                 MoreCountApi = int.Parse(this.GetCountPanel.GetMoreTextCountApi.Text);
@@ -479,8 +479,8 @@ namespace OpenTween
                 FavoritesCountApi = int.Parse(this.GetCountPanel.FavoritesTextCountApi.Text);
                 UserTimelineCountApi = int.Parse(this.GetCountPanel.UserTimelineTextCountApi.Text);
                 ListCountApi = int.Parse(this.GetCountPanel.ListTextCountApi.Text);
-                OpenUserTimeline = CheckOpenUserTimeline.Checked;
-                ListDoubleClickAction = ListDoubleClickActionComboBox.SelectedIndex;
+                OpenUserTimeline = this.ActionPanel.CheckOpenUserTimeline.Checked;
+                ListDoubleClickAction = this.ActionPanel.ListDoubleClickActionComboBox.SelectedIndex;
                 UserAppointUrl = this.CooperatePanel.UserAppointUrlText.Text;
                 this.HideDuplicatedRetweets = this.TweetPrvPanel.HideDuplicatedRetweetsCheck.Checked;
                 this.IsPreviewFoursquare = this.CooperatePanel.IsPreviewFoursquareCheckBox.Checked;
@@ -489,7 +489,7 @@ namespace OpenTween
                 this.MapThumbnailWidth = int.Parse(this.CooperatePanel.MapThumbnailWidthTextBox.Text);
                 this.MapThumbnailZoom = int.Parse(this.CooperatePanel.MapThumbnailZoomTextBox.Text);
                 this.IsListStatusesIncludeRts = this.TweetPrvPanel.IsListsIncludeRtsCheckBox.Checked;
-                this.TabMouseLock = this.TabMouseLockCheck.Checked;
+                this.TabMouseLock = this.ActionPanel.TabMouseLockCheck.Checked;
                 this.IsRemoveSameEvent = this.NotifyPanel.IsRemoveSameFavEventCheckBox.Checked;
                 this.IsNotifyUseGrowl = this.PreviewPanel.IsNotifyUseGrowlCheckBox.Checked;
             }
@@ -631,7 +631,7 @@ namespace OpenTween
                     break;
             }
             this.TweetActPanel.StatusText.Text = Status;
-            UReadMng.Checked = UnreadManage;
+            this.ActionPanel.UReadMng.Checked = UnreadManage;
             if (UnreadManage == false)
             {
                 this.StartupPanel.StartupReaded.Enabled = false;
@@ -640,7 +640,7 @@ namespace OpenTween
             {
                 this.StartupPanel.StartupReaded.Enabled = true;
             }
-            PlaySnd.Checked = PlaySound;
+            this.ActionPanel.PlaySnd.Checked = PlaySound;
             this.TweetPrvPanel.OneWayLv.Checked = OneWayLove;
 
             lblListFont.Font = FontReaded;
@@ -693,12 +693,12 @@ namespace OpenTween
 
             this.GetCountPanel.TextCountApi.Text = CountApi.ToString();
             this.GetCountPanel.TextCountApiReply.Text = CountApiReply.ToString();
-            BrowserPathText.Text = BrowserPath;
+            this.ActionPanel.BrowserPathText.Text = BrowserPath;
             this.GetPeriodPanel.CheckPostAndGet.Checked = PostAndGet;
             this.TweetActPanel.CheckUseRecommendStatus.Checked = UseRecommendStatus;
             this.PreviewPanel.CheckDispUsername.Checked = DispUsername;
-            CheckCloseToExit.Checked = CloseToExit;
-            CheckMinimizeToTray.Checked = MinimizeToTray;
+            this.ActionPanel.CheckCloseToExit.Checked = CloseToExit;
+            this.ActionPanel.CheckMinimizeToTray.Checked = MinimizeToTray;
             switch (DispLatestPost)
             {
                 case MyCommon.DispTitleEnum.None:
@@ -760,7 +760,7 @@ namespace OpenTween
             if (ApplicationSettings.VersionInfoUrl == null)
                 this.StartupPanel.CheckStartupVersion.Enabled = false; // 更新チェック無効化
             this.StartupPanel.CheckStartupFollowers.Checked = StartupFollowers;
-            CheckFavRestrict.Checked = RestrictFavCheck;
+            this.ActionPanel.CheckFavRestrict.Checked = RestrictFavCheck;
             this.PreviewPanel.CheckAlwaysTop.Checked = AlwaysTop;
             this.ShortUrlPanel.CheckAutoConvertUrl.Checked = UrlConvertAuto;
             this.ShortUrlPanel.ShortenTcoCheck.Checked = ShortenTco;
@@ -792,10 +792,10 @@ namespace OpenTween
             SoundFileListup();
             this.ShortUrlPanel.ComboBoxAutoShortUrlFirst.SelectedIndex = (int)AutoShortUrlFirst;
             this.PreviewPanel.chkTabIconDisp.Checked = TabIconDisp;
-            chkReadOwnPost.Checked = ReadOwnPost;
+            this.ActionPanel.chkReadOwnPost.Checked = ReadOwnPost;
             this.StartupPanel.chkGetFav.Checked = GetFav;
             this.PreviewPanel.CheckMonospace.Checked = IsMonospace;
-            CheckReadOldPosts.Checked = ReadOldPosts;
+            this.ActionPanel.CheckReadOldPosts.Checked = ReadOldPosts;
             this.ConnectionPanel.CheckUseSsl.Checked = UseSsl;
             this.ShortUrlPanel.TextBitlyId.Text = BitlyUser;
             this.ShortUrlPanel.TextBitlyPw.Text = BitlyPwd;
@@ -836,20 +836,20 @@ namespace OpenTween
                     this.PreviewPanel.LanguageCombo.SelectedIndex = 0;
                     break;
             }
-            HotkeyCheck.Checked = HotkeyEnabled;
-            HotkeyAlt.Checked = ((HotkeyMod & Keys.Alt) == Keys.Alt);
-            HotkeyCtrl.Checked = ((HotkeyMod & Keys.Control) == Keys.Control);
-            HotkeyShift.Checked = ((HotkeyMod & Keys.Shift) == Keys.Shift);
-            HotkeyWin.Checked = ((HotkeyMod & Keys.LWin) == Keys.LWin);
-            HotkeyCode.Text = HotkeyValue.ToString();
-            HotkeyText.Text = HotkeyKey.ToString();
-            HotkeyText.Tag = HotkeyKey;
-            HotkeyAlt.Enabled = HotkeyEnabled;
-            HotkeyShift.Enabled = HotkeyEnabled;
-            HotkeyCtrl.Enabled = HotkeyEnabled;
-            HotkeyWin.Enabled = HotkeyEnabled;
-            HotkeyText.Enabled = HotkeyEnabled;
-            HotkeyCode.Enabled = HotkeyEnabled;
+            this.ActionPanel.HotkeyCheck.Checked = HotkeyEnabled;
+            this.ActionPanel.HotkeyAlt.Checked = ((HotkeyMod & Keys.Alt) == Keys.Alt);
+            this.ActionPanel.HotkeyCtrl.Checked = ((HotkeyMod & Keys.Control) == Keys.Control);
+            this.ActionPanel.HotkeyShift.Checked = ((HotkeyMod & Keys.Shift) == Keys.Shift);
+            this.ActionPanel.HotkeyWin.Checked = ((HotkeyMod & Keys.LWin) == Keys.LWin);
+            this.ActionPanel.HotkeyCode.Text = HotkeyValue.ToString();
+            this.ActionPanel.HotkeyText.Text = HotkeyKey.ToString();
+            this.ActionPanel.HotkeyText.Tag = HotkeyKey;
+            this.ActionPanel.HotkeyAlt.Enabled = HotkeyEnabled;
+            this.ActionPanel.HotkeyShift.Enabled = HotkeyEnabled;
+            this.ActionPanel.HotkeyCtrl.Enabled = HotkeyEnabled;
+            this.ActionPanel.HotkeyWin.Enabled = HotkeyEnabled;
+            this.ActionPanel.HotkeyText.Enabled = HotkeyEnabled;
+            this.ActionPanel.HotkeyCode.Enabled = HotkeyEnabled;
             this.PreviewPanel.ChkNewMentionsBlink.Checked = BlinkNewMentions;
 
             // XXX: CheckedChanged イベントを発生させる
@@ -874,8 +874,8 @@ namespace OpenTween
             this.GetCountPanel.FavoritesTextCountApi.Enabled = this.GetCountPanel.UseChangeGetCount.Checked;
             this.GetCountPanel.UserTimelineTextCountApi.Enabled = this.GetCountPanel.UseChangeGetCount.Checked;
             this.GetCountPanel.ListTextCountApi.Enabled = this.GetCountPanel.UseChangeGetCount.Checked;
-            CheckOpenUserTimeline.Checked = OpenUserTimeline;
-            ListDoubleClickActionComboBox.SelectedIndex = ListDoubleClickAction;
+            this.ActionPanel.CheckOpenUserTimeline.Checked = OpenUserTimeline;
+            this.ActionPanel.ListDoubleClickActionComboBox.SelectedIndex = ListDoubleClickAction;
             this.CooperatePanel.UserAppointUrlText.Text = UserAppointUrl;
             this.TweetPrvPanel.HideDuplicatedRetweetsCheck.Checked = this.HideDuplicatedRetweets;
             this.CooperatePanel.IsPreviewFoursquareCheckBox.Checked = this.IsPreviewFoursquare;
@@ -884,7 +884,7 @@ namespace OpenTween
             this.CooperatePanel.MapThumbnailWidthTextBox.Text = this.MapThumbnailWidth.ToString();
             this.CooperatePanel.MapThumbnailZoomTextBox.Text = this.MapThumbnailZoom.ToString();
             this.TweetPrvPanel.IsListsIncludeRtsCheckBox.Checked = this.IsListStatusesIncludeRts;
-            this.TabMouseLockCheck.Checked = this.TabMouseLock;
+            this.ActionPanel.TabMouseLockCheck.Checked = this.TabMouseLock;
             this.NotifyPanel.IsRemoveSameFavEventCheckBox.Checked = this.IsRemoveSameEvent;
             this.PreviewPanel.IsNotifyUseGrowlCheckBox.Checked = this.IsNotifyUseGrowl;
 
@@ -923,7 +923,7 @@ namespace OpenTween
 
         private void UReadMng_CheckedChanged(object sender, EventArgs e)
         {
-            if (UReadMng.Checked == true)
+            if (this.ActionPanel.UReadMng.Checked == true)
             {
                 this.StartupPanel.StartupReaded.Enabled = true;
             }
@@ -1212,22 +1212,6 @@ namespace OpenTween
         public string TwitterApiUrl { get; set; }
         public string Language { get; set; }
 
-        private void Button3_Click(object sender, EventArgs e)
-        {
-            using (OpenFileDialog filedlg = new OpenFileDialog())
-            {
-                filedlg.Filter = Properties.Resources.Button3_ClickText1;
-                filedlg.FilterIndex = 1;
-                filedlg.Title = Properties.Resources.Button3_ClickText2;
-                filedlg.RestoreDirectory = true;
-
-                if (filedlg.ShowDialog() == DialogResult.OK)
-                {
-                    BrowserPathText.Text = filedlg.FileName;
-                }
-            }
-        }
-
         public bool LimitBalloon { get; set; }
         public bool EventNotifyEnabled { get; set; }
 
@@ -1499,27 +1483,6 @@ namespace OpenTween
         public int HotkeyValue;
         public Keys HotkeyMod;
 
-        private void HotkeyText_KeyDown(object sender, KeyEventArgs e)
-        {
-            //KeyValueで判定する。
-            //表示文字とのテーブルを用意すること
-            HotkeyText.Text = e.KeyCode.ToString();
-            HotkeyCode.Text = e.KeyValue.ToString();
-            HotkeyText.Tag = e.KeyCode;
-            e.Handled = true;
-            e.SuppressKeyPress = true;
-        }
-
-        private void HotkeyCheck_CheckedChanged(object sender, EventArgs e)
-        {
-            HotkeyCtrl.Enabled = HotkeyCheck.Checked;
-            HotkeyAlt.Enabled = HotkeyCheck.Checked;
-            HotkeyShift.Enabled = HotkeyCheck.Checked;
-            HotkeyWin.Enabled = HotkeyCheck.Checked;
-            HotkeyText.Enabled = HotkeyCheck.Checked;
-            HotkeyCode.Enabled = HotkeyCheck.Checked;
-        }
-
         public bool BlinkNewMentions;
 
         //private void CheckEventNotify_CheckedChanged(object sender, EventArgs e)
@@ -1688,7 +1651,7 @@ namespace OpenTween
         private void OpenUrl(string url)
         {
             string myPath = url;
-            string path = this.BrowserPathText.Text;
+            string path = this.ActionPanel.BrowserPathText.Text;
             try
             {
                 if (!string.IsNullOrEmpty(BrowserPath))
@@ -1734,6 +1697,7 @@ namespace OpenTween
             this.BasedPanel.CreateAccountButton.Click += this.CreateAccountButton_Click;
             this.NotifyPanel.CheckEventNotify.CheckedChanged += this.CheckEventNotify_CheckedChanged;
             this.GetPeriodPanel.CheckPostAndGet.CheckedChanged += this.CheckPostAndGet_CheckedChanged;
+            this.ActionPanel.UReadMng.CheckedChanged += this.UReadMng_CheckedChanged;
 
             this.Icon = Properties.Resources.MIcon;
         }
