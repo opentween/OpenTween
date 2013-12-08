@@ -284,14 +284,14 @@ namespace OpenTween
                 UnreadManage = this.ActionPanel.UReadMng.Checked;
                 OneWayLove = this.TweetPrvPanel.OneWayLv.Checked;
 
-                FontUnread = lblUnread.Font;     //未使用
-                ColorUnread = lblUnread.ForeColor;
-                FontReaded = lblListFont.Font;     //リストフォントとして使用
-                ColorReaded = lblListFont.ForeColor;
-                ColorFav = lblFav.ForeColor;
-                ColorOWL = lblOWL.ForeColor;
-                ColorRetweet = lblRetweet.ForeColor;
-                FontDetail = lblDetail.Font;
+                FontUnread = this.FontPanel.lblUnread.Font;     //未使用
+                ColorUnread = this.FontPanel.lblUnread.ForeColor;
+                FontReaded = this.FontPanel.lblListFont.Font;     //リストフォントとして使用
+                ColorReaded = this.FontPanel.lblListFont.ForeColor;
+                ColorFav = this.FontPanel.lblFav.ForeColor;
+                ColorOWL = this.FontPanel.lblOWL.ForeColor;
+                ColorRetweet = this.FontPanel.lblRetweet.ForeColor;
+                FontDetail = this.FontPanel.lblDetail.Font;
                 ColorSelf = lblSelf.BackColor;
                 ColorAtSelf = lblAtSelf.BackColor;
                 ColorTarget = lblTarget.BackColor;
@@ -301,9 +301,9 @@ namespace OpenTween
                 ColorInputBackcolor = lblInputBackcolor.BackColor;
                 ColorInputFont = lblInputFont.ForeColor;
                 ColorListBackcolor = lblListBackcolor.BackColor;
-                ColorDetailBackcolor = lblDetailBackcolor.BackColor;
-                ColorDetail = lblDetail.ForeColor;
-                ColorDetailLink = lblDetailLink.ForeColor;
+                ColorDetailBackcolor = this.FontPanel.lblDetailBackcolor.BackColor;
+                ColorDetail = this.FontPanel.lblDetail.ForeColor;
+                ColorDetailLink = this.FontPanel.lblDetailLink.ForeColor;
                 FontInputFont = lblInputFont.Font;
                 switch (this.PreviewPanel.cmbNameBalloon.SelectedIndex)
                 {
@@ -643,14 +643,14 @@ namespace OpenTween
             this.ActionPanel.PlaySnd.Checked = PlaySound;
             this.TweetPrvPanel.OneWayLv.Checked = OneWayLove;
 
-            lblListFont.Font = FontReaded;
-            lblUnread.Font = FontUnread;
-            lblUnread.ForeColor = ColorUnread;
-            lblListFont.ForeColor = ColorReaded;
-            lblFav.ForeColor = ColorFav;
-            lblOWL.ForeColor = ColorOWL;
-            lblRetweet.ForeColor = ColorRetweet;
-            lblDetail.Font = FontDetail;
+            this.FontPanel.lblListFont.Font = FontReaded;
+            this.FontPanel.lblUnread.Font = FontUnread;
+            this.FontPanel.lblUnread.ForeColor = ColorUnread;
+            this.FontPanel.lblListFont.ForeColor = ColorReaded;
+            this.FontPanel.lblFav.ForeColor = ColorFav;
+            this.FontPanel.lblOWL.ForeColor = ColorOWL;
+            this.FontPanel.lblRetweet.ForeColor = ColorRetweet;
+            this.FontPanel.lblDetail.Font = FontDetail;
             lblSelf.BackColor = ColorSelf;
             lblAtSelf.BackColor = ColorAtSelf;
             lblTarget.BackColor = ColorTarget;
@@ -661,9 +661,9 @@ namespace OpenTween
             lblInputFont.ForeColor = ColorInputFont;
             lblInputFont.Font = FontInputFont;
             lblListBackcolor.BackColor = ColorListBackcolor;
-            lblDetailBackcolor.BackColor = ColorDetailBackcolor;
-            lblDetail.ForeColor = ColorDetail;
-            lblDetailLink.ForeColor = ColorDetailLink;
+            this.FontPanel.lblDetailBackcolor.BackColor = ColorDetailBackcolor;
+            this.FontPanel.lblDetail.ForeColor = ColorDetail;
+            this.FontPanel.lblDetailLink.ForeColor = ColorDetailLink;
 
             switch (NameBalloon)
             {
@@ -952,16 +952,16 @@ namespace OpenTween
             switch (Btn.Name)
             {
                 case "btnUnread":
-                    FontDialog1.Color = lblUnread.ForeColor;
-                    FontDialog1.Font = lblUnread.Font;
+                    FontDialog1.Color = this.FontPanel.lblUnread.ForeColor;
+                    FontDialog1.Font = this.FontPanel.lblUnread.Font;
                     break;
                 case "btnDetail":
-                    FontDialog1.Color = lblDetail.ForeColor;
-                    FontDialog1.Font = lblDetail.Font;
+                    FontDialog1.Color = this.FontPanel.lblDetail.ForeColor;
+                    FontDialog1.Font = this.FontPanel.lblDetail.Font;
                     break;
                 case "btnListFont":
-                    FontDialog1.Color = lblListFont.ForeColor;
-                    FontDialog1.Font = lblListFont.Font;
+                    FontDialog1.Color = this.FontPanel.lblListFont.ForeColor;
+                    FontDialog1.Font = this.FontPanel.lblListFont.Font;
                     break;
                 case "btnInputFont":
                     FontDialog1.Color = lblInputFont.ForeColor;
@@ -984,16 +984,16 @@ namespace OpenTween
             switch (Btn.Name)
             {
                 case "btnUnread":
-                    lblUnread.ForeColor = FontDialog1.Color;
-                    lblUnread.Font = FontDialog1.Font;
+                    this.FontPanel.lblUnread.ForeColor = FontDialog1.Color;
+                    this.FontPanel.lblUnread.Font = FontDialog1.Font;
                     break;
                 case "btnDetail":
-                    lblDetail.ForeColor = FontDialog1.Color;
-                    lblDetail.Font = FontDialog1.Font;
+                    this.FontPanel.lblDetail.ForeColor = FontDialog1.Color;
+                    this.FontPanel.lblDetail.Font = FontDialog1.Font;
                     break;
                 case "btnListFont":
-                    lblListFont.ForeColor = FontDialog1.Color;
-                    lblListFont.Font = FontDialog1.Font;
+                    this.FontPanel.lblListFont.ForeColor = FontDialog1.Color;
+                    this.FontPanel.lblListFont.Font = FontDialog1.Font;
                     break;
                 case "btnInputFont":
                     lblInputFont.ForeColor = FontDialog1.Color;
@@ -1031,13 +1031,13 @@ namespace OpenTween
                     ColorDialog1.Color = lblAtFromTarget.BackColor;
                     break;
                 case "btnFav":
-                    ColorDialog1.Color = lblFav.ForeColor;
+                    ColorDialog1.Color = this.FontPanel.lblFav.ForeColor;
                     break;
                 case "btnOWL":
-                    ColorDialog1.Color = lblOWL.ForeColor;
+                    ColorDialog1.Color = this.FontPanel.lblOWL.ForeColor;
                     break;
                 case "btnRetweet":
-                    ColorDialog1.Color = lblRetweet.ForeColor;
+                    ColorDialog1.Color = this.FontPanel.lblRetweet.ForeColor;
                     break;
                 case "btnInputBackcolor":
                     ColorDialog1.Color = lblInputBackcolor.BackColor;
@@ -1049,10 +1049,10 @@ namespace OpenTween
                     ColorDialog1.Color = lblListBackcolor.BackColor;
                     break;
                 case "btnDetailBack":
-                    ColorDialog1.Color = lblDetailBackcolor.BackColor;
+                    ColorDialog1.Color = this.FontPanel.lblDetailBackcolor.BackColor;
                     break;
                 case "btnDetailLink":
-                    ColorDialog1.Color = lblDetailLink.ForeColor;
+                    ColorDialog1.Color = this.FontPanel.lblDetailLink.ForeColor;
                     break;
             }
 
@@ -1078,13 +1078,13 @@ namespace OpenTween
                     lblAtFromTarget.BackColor = ColorDialog1.Color;
                     break;
                 case "btnFav":
-                    lblFav.ForeColor = ColorDialog1.Color;
+                    this.FontPanel.lblFav.ForeColor = ColorDialog1.Color;
                     break;
                 case "btnOWL":
-                    lblOWL.ForeColor = ColorDialog1.Color;
+                    this.FontPanel.lblOWL.ForeColor = ColorDialog1.Color;
                     break;
                 case "btnRetweet":
-                    lblRetweet.ForeColor = ColorDialog1.Color;
+                    this.FontPanel.lblRetweet.ForeColor = ColorDialog1.Color;
                     break;
                 case "btnInputBackcolor":
                     lblInputBackcolor.BackColor = ColorDialog1.Color;
@@ -1096,10 +1096,10 @@ namespace OpenTween
                     lblListBackcolor.BackColor = ColorDialog1.Color;
                     break;
                 case "btnDetailBack":
-                    lblDetailBackcolor.BackColor = ColorDialog1.Color;
+                    this.FontPanel.lblDetailBackcolor.BackColor = ColorDialog1.Color;
                     break;
                 case "btnDetailLink":
-                    lblDetailLink.ForeColor = ColorDialog1.Color;
+                    this.FontPanel.lblDetailLink.ForeColor = ColorDialog1.Color;
                     break;
             }
         }
@@ -1261,15 +1261,6 @@ namespace OpenTween
 
         private void ButtonBackToDefaultFontColor_Click(object sender, EventArgs e) //Handles ButtonBackToDefaultFontColor.Click, ButtonBackToDefaultFontColor2.Click
         {
-            lblUnread.ForeColor = SystemColors.ControlText;
-            lblUnread.Font = new Font(SystemFonts.DefaultFont, FontStyle.Bold | FontStyle.Underline);
-
-            lblListFont.ForeColor = System.Drawing.SystemColors.ControlText;
-            lblListFont.Font = System.Drawing.SystemFonts.DefaultFont;
-
-            lblDetail.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.ControlText);
-            lblDetail.Font = System.Drawing.SystemFonts.DefaultFont;
-
             lblInputFont.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.ControlText);
             lblInputFont.Font = System.Drawing.SystemFonts.DefaultFont;
 
@@ -1283,21 +1274,11 @@ namespace OpenTween
 
             lblAtFromTarget.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.Honeydew);
 
-            lblFav.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Red);
-
-            lblOWL.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Blue);
-
             lblInputBackcolor.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.LemonChiffon);
 
             lblAtTo.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.Pink);
 
             lblListBackcolor.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.Window);
-
-            lblDetailBackcolor.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.Window);
-
-            lblDetailLink.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Blue);
-
-            lblRetweet.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Green);
         }
 
         private bool StartAuth()
@@ -1698,6 +1679,14 @@ namespace OpenTween
             this.NotifyPanel.CheckEventNotify.CheckedChanged += this.CheckEventNotify_CheckedChanged;
             this.GetPeriodPanel.CheckPostAndGet.CheckedChanged += this.CheckPostAndGet_CheckedChanged;
             this.ActionPanel.UReadMng.CheckedChanged += this.UReadMng_CheckedChanged;
+            this.FontPanel.btnUnread.Click += this.btnFontAndColor_Click;
+            this.FontPanel.btnDetail.Click += this.btnFontAndColor_Click;
+            this.FontPanel.btnListFont.Click += this.btnFontAndColor_Click;
+            this.FontPanel.btnFav.Click += this.btnColor_Click;
+            this.FontPanel.btnOWL.Click += this.btnColor_Click;
+            this.FontPanel.btnRetweet.Click += this.btnColor_Click;
+            this.FontPanel.btnDetailBack.Click += this.btnColor_Click;
+            this.FontPanel.btnDetailLink.Click += this.btnColor_Click;
 
             this.Icon = Properties.Resources.MIcon;
         }

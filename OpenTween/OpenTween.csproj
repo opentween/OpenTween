@@ -168,6 +168,12 @@
     <Compile Include="Setting\Panel\CooperatePanel.Designer.cs">
       <DependentUpon>CooperatePanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Setting\Panel\FontPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Setting\Panel\FontPanel.Designer.cs">
+      <DependentUpon>FontPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Setting\Panel\GetCountPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -457,6 +463,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Setting\Panel\CooperatePanel.zh-CHS.resx">
       <DependentUpon>CooperatePanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setting\Panel\FontPanel.en.resx">
+      <DependentUpon>FontPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setting\Panel\FontPanel.resx">
+      <DependentUpon>FontPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setting\Panel\FontPanel.zh-CHS.resx">
+      <DependentUpon>FontPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Setting\Panel\GetCountPanel.en.resx">
       <DependentUpon>GetCountPanel.cs</DependentUpon>

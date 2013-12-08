@@ -123,29 +123,14 @@
     <value>7</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="btnUnread.Size" type="System.Drawing.Size, System.Drawing">
-    <value>83, 25</value>
-  </data>
-  <data name="lblUnread.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="ButtonBackToDefaultFontColor.TabIndex" type="System.Int32, mscorlib">
-    <value>24</value>
-  </data>
   <data name="PreviewPanel.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
-  </data>
-  <data name="ButtonBackToDefaultFontColor.Size" type="System.Drawing.Size, System.Drawing">
-    <value>112, 25</value>
   </data>
   <data name="&gt;&gt;lblAtTo.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Save.Text" xml:space="preserve">
     <value>OK</value>
-  </data>
-  <data name="Label80.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="&gt;&gt;GroupBox5.ZOrder" xml:space="preserve">
     <value>0</value>
@@ -162,17 +147,11 @@
   <data name="TweetActPanel.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="btnDetailBack.Location" type="System.Drawing.Point, System.Drawing">
-    <value>331, 196</value>
-  </data>
   <data name="Label36.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
   <data name="Label34.Location" type="System.Drawing.Point, System.Drawing">
     <value>16, 45</value>
-  </data>
-  <data name="btnDetail.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="btnAtTo.Text" xml:space="preserve">
     <value>背景色</value>
@@ -186,29 +165,11 @@
   <data name="&gt;&gt;btnAtSelf.Name" xml:space="preserve">
     <value>btnAtSelf</value>
   </data>
-  <data name="&gt;&gt;btnOWL.ZOrder" xml:space="preserve">
-    <value>16</value>
-  </data>
-  <data name="&gt;&gt;btnDetailBack.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="CooperatePanel.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="&gt;&gt;btnDetail.ZOrder" xml:space="preserve">
-    <value>13</value>
-  </data>
-  <data name="&gt;&gt;btnDetailBack.Parent" xml:space="preserve">
-    <value>GroupBox1</value>
-  </data>
-  <data name="lblRetweet.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="&gt;&gt;Save.Parent" xml:space="preserve">
     <value>$this</value>
-  </data>
-  <data name="Label80.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 12</value>
   </data>
   <data name="&gt;&gt;StartupPanel.ZOrder" xml:space="preserve">
     <value>0</value>
@@ -219,29 +180,14 @@
   <data name="GetPeriodPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <data name="btnDetail.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="btnListBack.Location" type="System.Drawing.Point, System.Drawing">
     <value>339, 165</value>
-  </data>
-  <data name="&gt;&gt;lblOWL.Name" xml:space="preserve">
-    <value>lblOWL</value>
   </data>
   <data name="BasedPanel.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
   <data name="Label36.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="lblListFont.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;ButtonBackToDefaultFontColor.Parent" xml:space="preserve">
-    <value>GroupBox1</value>
-  </data>
-  <data name="lblListFont.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="&gt;&gt;ToolTip1.Name" xml:space="preserve">
     <value>ToolTip1</value>
@@ -272,15 +218,6 @@
         BAAAAAYKAAAADFR3ZWV0QWN0Tm9kZQD/////CQQAAAD/////CQQAAAAAAAAACw==
 </value>
   </data>
-  <data name="&gt;&gt;lblUnread.Name" xml:space="preserve">
-    <value>lblUnread</value>
-  </data>
-  <data name="Label37.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 198</value>
-  </data>
-  <data name="&gt;&gt;Label20.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
   <data name="ButtonBackToDefaultFontColor2.Location" type="System.Drawing.Point, System.Drawing">
     <value>191, 252</value>
   </data>
@@ -296,17 +233,11 @@
   <data name="&gt;&gt;SplitContainer1.Panel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="Label18.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 173</value>
-  </data>
   <data name="&gt;&gt;ButtonBackToDefaultFontColor2.Parent" xml:space="preserve">
     <value>GroupBox5</value>
   </data>
   <data name="GetCountPanel.Size" type="System.Drawing.Size, System.Drawing">
     <value>519, 368</value>
-  </data>
-  <data name="&gt;&gt;Label18.ZOrder" xml:space="preserve">
-    <value>6</value>
   </data>
   <data name="lblInputFont.ToolTip" xml:space="preserve">
     <value />
@@ -317,20 +248,8 @@
   <data name="Label34.Text" xml:space="preserve">
     <value>自分への@返信</value>
   </data>
-  <data name="Label37.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="btnRetweet.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblOWL.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="&gt;&gt;FontPanel.Name" xml:space="preserve">
     <value>FontPanel</value>
-  </data>
-  <data name="GroupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 18</value>
   </data>
   <data name="&gt;&gt;Label34.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -343,12 +262,6 @@
   </data>
   <data name="lblAtSelf.Location" type="System.Drawing.Point, System.Drawing">
     <value>227, 43</value>
-  </data>
-  <data name="&gt;&gt;Label18.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="lblDetail.Text" xml:space="preserve">
-    <value>This is sample.</value>
   </data>
   <data name="&gt;&gt;NotifyPanel.ZOrder" xml:space="preserve">
     <value>7</value>
@@ -377,9 +290,6 @@
   <data name="lblInputFont.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
-  <data name="lblDetail.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
-  </data>
   <data name="lblAtTarget.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -389,14 +299,8 @@
   <data name="lblAtTo.Location" type="System.Drawing.Point, System.Drawing">
     <value>227, 143</value>
   </data>
-  <data name="btnOWL.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="ActionPanel.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
-  </data>
-  <data name="&gt;&gt;Label80.Parent" xml:space="preserve">
-    <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;btnTarget.Name" xml:space="preserve">
     <value>btnTarget</value>
@@ -404,23 +308,14 @@
   <data name="FontPanel.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="&gt;&gt;lblListFont.ZOrder" xml:space="preserve">
-    <value>23</value>
-  </data>
   <data name="BasedPanel.Size" type="System.Drawing.Size, System.Drawing">
     <value>519, 368</value>
   </data>
   <data name="Label16.Text" xml:space="preserve">
     <value>その人への@返信</value>
   </data>
-  <data name="lblDetailLink.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
   <data name="Label36.Text" xml:space="preserve">
     <value>自分の発言</value>
-  </data>
-  <data name="lblRetweet.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
   </data>
   <data name="Label52.Size" type="System.Drawing.Size, System.Drawing">
     <value>131, 12</value>
@@ -451,12 +346,6 @@
         n63nuK5VUkwJBAAAAAYUAAAADFNob3J0VXJsTm9kZQD/////CQQAAAD/////CQQAAAAAAAAACw==
 </value>
   </data>
-  <data name="&gt;&gt;GroupBox1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="lblDetailBackcolor.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
   <data name="GetPeriodPanel.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -478,12 +367,6 @@
   <data name="&gt;&gt;PreviewPanel.Type" xml:space="preserve">
     <value>OpenTween.Setting.Panel.PreviewPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;Label37.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label61.Parent" xml:space="preserve">
-    <value>GroupBox1</value>
-  </data>
   <data name="&gt;&gt;SplitContainer1.Panel2.Parent" xml:space="preserve">
     <value>SplitContainer1</value>
   </data>
@@ -492,9 +375,6 @@
   </data>
   <data name="&gt;&gt;Label49.Name" xml:space="preserve">
     <value>Label49</value>
-  </data>
-  <data name="btnDetail.Size" type="System.Drawing.Size, System.Drawing">
-    <value>83, 25</value>
   </data>
   <data name="&gt;&gt;GetCountPanel.ZOrder" xml:space="preserve">
     <value>3</value>
@@ -513,9 +393,6 @@
   </data>
   <data name="btnInputBackcolor.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="Label37.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="TreeViewSetting.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -538,9 +415,6 @@
   <data name="ShortUrlPanel.Size" type="System.Drawing.Size, System.Drawing">
     <value>519, 368</value>
   </data>
-  <data name="&gt;&gt;lblRetweet.Parent" xml:space="preserve">
-    <value>GroupBox1</value>
-  </data>
   <data name="SplitContainer1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
@@ -562,17 +436,11 @@
   <data name="TweetActPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <data name="&gt;&gt;Label18.Name" xml:space="preserve">
-    <value>Label18</value>
-  </data>
   <data name="&gt;&gt;lblTarget.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Cancel.ZOrder" xml:space="preserve">
     <value>2</value>
-  </data>
-  <data name="&gt;&gt;ButtonBackToDefaultFontColor.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Label32.ToolTip" xml:space="preserve">
     <value />
@@ -589,12 +457,6 @@
   <data name="NotifyPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <data name="&gt;&gt;lblDetail.Name" xml:space="preserve">
-    <value>lblDetail</value>
-  </data>
-  <data name="Label61.Text" xml:space="preserve">
-    <value>リストフォント</value>
-  </data>
   <data name="Cancel.Text" xml:space="preserve">
     <value>キャンセル</value>
   </data>
@@ -610,38 +472,17 @@
   <data name="lblAtTarget.Location" type="System.Drawing.Point, System.Drawing">
     <value>227, 93</value>
   </data>
-  <data name="&gt;&gt;lblUnread.Parent" xml:space="preserve">
-    <value>GroupBox1</value>
-  </data>
-  <data name="btnUnread.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="TweetActPanel.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="&gt;&gt;Label26.Parent" xml:space="preserve">
-    <value>GroupBox1</value>
-  </data>
-  <data name="lblFav.Text" xml:space="preserve">
-    <value>This is sample.</value>
-  </data>
   <data name="&gt;&gt;lblAtFromTarget.ZOrder" xml:space="preserve">
     <value>22</value>
-  </data>
-  <data name="&gt;&gt;lblDetailLink.ZOrder" xml:space="preserve">
-    <value>5</value>
   </data>
   <data name="btnInputFont.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="TweetPrvPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
-  </data>
-  <data name="lblOWL.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="btnRetweet.Text" xml:space="preserve">
-    <value>文字色</value>
   </data>
   <data name="FontPanel2.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -655,12 +496,6 @@
   <data name="&gt;&gt;ActionPanel.Parent" xml:space="preserve">
     <value>SplitContainer1.Panel2</value>
   </data>
-  <data name="lblDetail.Location" type="System.Drawing.Point, System.Drawing">
-    <value>216, 146</value>
-  </data>
-  <data name="lblOWL.Location" type="System.Drawing.Point, System.Drawing">
-    <value>216, 96</value>
-  </data>
   <data name="TweetPrvPanel.Size" type="System.Drawing.Size, System.Drawing">
     <value>519, 368</value>
   </data>
@@ -669,9 +504,6 @@
   </data>
   <data name="&gt;&gt;TweetActPanel.Name" xml:space="preserve">
     <value>TweetActPanel</value>
-  </data>
-  <data name="Label24.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="&gt;&gt;btnAtTarget.Name" xml:space="preserve">
     <value>btnAtTarget</value>
@@ -688,12 +520,6 @@
   <data name="FontPanel2.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="&gt;&gt;btnUnread.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;Label26.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="lblSelf.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -703,17 +529,8 @@
   <data name="PreviewPanel.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>20, 10, 20, 10</value>
   </data>
-  <data name="&gt;&gt;ButtonBackToDefaultFontColor.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
   <data name="StartupPanel.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
-  </data>
-  <data name="btnDetailBack.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="btnDetail.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="&gt;&gt;ActionPanel.Type" xml:space="preserve">
     <value>OpenTween.Setting.Panel.ActionPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
@@ -724,20 +541,11 @@
   <data name="Cancel.Location" type="System.Drawing.Point, System.Drawing">
     <value>604, 374</value>
   </data>
-  <data name="btnDetailLink.Location" type="System.Drawing.Point, System.Drawing">
-    <value>331, 171</value>
-  </data>
   <data name="&gt;&gt;btnTarget.ZOrder" xml:space="preserve">
     <value>15</value>
   </data>
-  <data name="&gt;&gt;btnDetailLink.Parent" xml:space="preserve">
-    <value>GroupBox1</value>
-  </data>
   <data name="Label9.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="&gt;&gt;lblFav.Parent" xml:space="preserve">
-    <value>GroupBox1</value>
   </data>
   <data name="Cancel.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -748,17 +556,8 @@
   <data name="&gt;&gt;btnAtTo.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Label61.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="FontPanel2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
-  </data>
-  <data name="&gt;&gt;btnOWL.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="lblListFont.Location" type="System.Drawing.Point, System.Drawing">
-    <value>216, 21</value>
   </data>
   <data name="TweetPrvPanel.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -769,9 +568,6 @@
   <data name="&gt;&gt;FontPanel2.ZOrder" xml:space="preserve">
     <value>14</value>
   </data>
-  <data name="btnDetail.TabIndex" type="System.Int32, mscorlib">
-    <value>17</value>
-  </data>
   <data name="ProxyPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -780,9 +576,6 @@
   </data>
   <data name="&gt;&gt;Label65.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="&gt;&gt;Label20.Parent" xml:space="preserve">
-    <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;btnAtFromTarget.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -795,12 +588,6 @@
   </data>
   <data name="&gt;&gt;btnSelf.ZOrder" xml:space="preserve">
     <value>17</value>
-  </data>
-  <data name="lblDetailBackcolor.TabIndex" type="System.Int32, mscorlib">
-    <value>22</value>
-  </data>
-  <data name="&gt;&gt;btnFav.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="btnTarget.ToolTip" xml:space="preserve">
     <value />
@@ -835,9 +622,6 @@
   <data name="btnAtTarget.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 25</value>
   </data>
-  <data name="Label24.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="&gt;&gt;SplitContainer1.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
@@ -846,9 +630,6 @@
   </data>
   <data name="btnAtTo.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
-  </data>
-  <data name="Label26.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 148</value>
   </data>
   <data name="&gt;&gt;BasedPanel.Name" xml:space="preserve">
     <value>BasedPanel</value>
@@ -865,17 +646,8 @@
   <data name="btnInputBackcolor.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 25</value>
   </data>
-  <data name="&gt;&gt;Label22.Parent" xml:space="preserve">
-    <value>GroupBox1</value>
-  </data>
   <data name="lblAtFromTarget.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="lblRetweet.Location" type="System.Drawing.Point, System.Drawing">
-    <value>216, 121</value>
-  </data>
-  <data name="&gt;&gt;btnDetailLink.ZOrder" xml:space="preserve">
-    <value>4</value>
   </data>
   <data name="StartupPanel.ToolTip" xml:space="preserve">
     <value />
@@ -889,29 +661,11 @@
   <data name="&gt;&gt;GroupBox5.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;btnFav.Name" xml:space="preserve">
-    <value>btnFav</value>
-  </data>
   <data name="ConnectionPanel.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="Label22.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;lblDetailBackcolor.ZOrder" xml:space="preserve">
-    <value>11</value>
-  </data>
-  <data name="btnListFont.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="&gt;&gt;lblDetailLink.Parent" xml:space="preserve">
-    <value>GroupBox1</value>
-  </data>
   <data name="lblListBackcolor.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
-  </data>
-  <data name="&gt;&gt;btnRetweet.Parent" xml:space="preserve">
-    <value>GroupBox1</value>
   </data>
   <data name="btnAtTo.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -921,12 +675,6 @@
   </data>
   <data name="TweetActPanel.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
-  </data>
-  <data name="&gt;&gt;Label80.Name" xml:space="preserve">
-    <value>Label80</value>
-  </data>
-  <data name="&gt;&gt;lblDetailBackcolor.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ProxyPanel.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -940,14 +688,8 @@
   <data name="PreviewPanel.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="&gt;&gt;Label61.ZOrder" xml:space="preserve">
-    <value>24</value>
-  </data>
   <data name="Label36.Location" type="System.Drawing.Point, System.Drawing">
     <value>16, 20</value>
-  </data>
-  <data name="&gt;&gt;lblDetailLink.Name" xml:space="preserve">
-    <value>lblDetailLink</value>
   </data>
   <data name="lblTarget.Location" type="System.Drawing.Point, System.Drawing">
     <value>227, 68</value>
@@ -955,35 +697,14 @@
   <data name="Label65.Location" type="System.Drawing.Point, System.Drawing">
     <value>16, 220</value>
   </data>
-  <data name="&gt;&gt;lblDetailLink.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label26.ZOrder" xml:space="preserve">
-    <value>15</value>
-  </data>
-  <data name="lblDetailLink.Location" type="System.Drawing.Point, System.Drawing">
-    <value>216, 171</value>
-  </data>
-  <data name="&gt;&gt;Label24.ZOrder" xml:space="preserve">
-    <value>18</value>
-  </data>
   <data name="GetPeriodPanel.Size" type="System.Drawing.Size, System.Drawing">
     <value>519, 368</value>
-  </data>
-  <data name="&gt;&gt;btnRetweet.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="Label61.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 23</value>
   </data>
   <data name="lblAtFromTarget.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
   </data>
   <data name="lblListBackcolor.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="btnOWL.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 25</value>
   </data>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>96, 96</value>
@@ -994,20 +715,11 @@
   <data name="&gt;&gt;NotifyPanel.Parent" xml:space="preserve">
     <value>SplitContainer1.Panel2</value>
   </data>
-  <data name="&gt;&gt;GroupBox1.Name" xml:space="preserve">
-    <value>GroupBox1</value>
-  </data>
-  <data name="btnDetailLink.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="&gt;&gt;lblAtTo.Parent" xml:space="preserve">
     <value>GroupBox5</value>
   </data>
   <data name="btnInputFont.Location" type="System.Drawing.Point, System.Drawing">
     <value>339, 215</value>
-  </data>
-  <data name="&gt;&gt;btnRetweet.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ButtonBackToDefaultFontColor2.Text" xml:space="preserve">
     <value>デフォルトに戻す</value>
@@ -1024,29 +736,14 @@
   <data name="&gt;&gt;lblAtTarget.Name" xml:space="preserve">
     <value>lblAtTarget</value>
   </data>
-  <data name="&gt;&gt;Label24.Parent" xml:space="preserve">
-    <value>GroupBox1</value>
-  </data>
-  <data name="btnOWL.Location" type="System.Drawing.Point, System.Drawing">
-    <value>331, 96</value>
-  </data>
   <data name="&gt;&gt;lblAtTarget.Parent" xml:space="preserve">
     <value>GroupBox5</value>
   </data>
   <data name="&gt;&gt;ConnectionPanel.Type" xml:space="preserve">
     <value>OpenTween.Setting.Panel.ConnectionPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;Label24.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="lblFav.Location" type="System.Drawing.Point, System.Drawing">
-    <value>216, 71</value>
-  </data>
   <data name="&gt;&gt;lblAtSelf.Parent" xml:space="preserve">
     <value>GroupBox5</value>
-  </data>
-  <data name="lblDetailLink.TabIndex" type="System.Int32, mscorlib">
-    <value>19</value>
   </data>
   <data name="Label14.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1066,20 +763,11 @@
   <data name="&gt;&gt;SplitContainer1.Panel2.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="lblDetailLink.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="btnDetailBack.TabIndex" type="System.Int32, mscorlib">
-    <value>23</value>
-  </data>
   <data name="&gt;&gt;Cancel.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Label32.Name" xml:space="preserve">
     <value>Label32</value>
-  </data>
-  <data name="btnRetweet.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="&gt;&gt;FontDialog1.Type" xml:space="preserve">
     <value>System.Windows.Forms.FontDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1087,23 +775,11 @@
   <data name="&gt;&gt;btnInputBackcolor.ZOrder" xml:space="preserve">
     <value>10</value>
   </data>
-  <data name="Label18.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="btnDetailLink.TabIndex" type="System.Int32, mscorlib">
-    <value>20</value>
-  </data>
-  <data name="&gt;&gt;btnFav.ZOrder" xml:space="preserve">
-    <value>19</value>
-  </data>
   <data name="NotifyPanel.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
   </data>
   <data name="&gt;&gt;lblAtFromTarget.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="Label24.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 98</value>
   </data>
   <data name="lblAtTo.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 19</value>
@@ -1111,35 +787,14 @@
   <data name="&gt;&gt;Label34.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
-  <data name="btnDetailLink.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="lblDetail.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="btnDetail.Location" type="System.Drawing.Point, System.Drawing">
-    <value>331, 146</value>
-  </data>
   <data name="Label16.Location" type="System.Drawing.Point, System.Drawing">
     <value>16, 95</value>
-  </data>
-  <data name="&gt;&gt;btnListFont.Name" xml:space="preserve">
-    <value>btnListFont</value>
-  </data>
-  <data name="btnFav.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="&gt;&gt;PreviewPanel.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="Label32.Location" type="System.Drawing.Point, System.Drawing">
     <value>16, 70</value>
-  </data>
-  <data name="Label80.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 123</value>
-  </data>
-  <data name="Label24.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 12</value>
   </data>
   <data name="TweetActPanel.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1164,15 +819,6 @@
   </data>
   <data name="Label36.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="Label26.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="btnListFont.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;Label22.ZOrder" xml:space="preserve">
-    <value>21</value>
   </data>
   <data name="&gt;&gt;Label49.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1201,23 +847,11 @@
   <data name="CooperatePanel.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
   </data>
-  <data name="btnUnread.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="&gt;&gt;btnAtFromTarget.Parent" xml:space="preserve">
     <value>GroupBox5</value>
   </data>
-  <data name="Label80.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="btnUnread.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="&gt;&gt;lblInputFont.ZOrder" xml:space="preserve">
     <value>18</value>
-  </data>
-  <data name="btnFav.Location" type="System.Drawing.Point, System.Drawing">
-    <value>331, 71</value>
   </data>
   <data name="BasedPanel.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1255,17 +889,11 @@
   <data name="&gt;&gt;TreeViewSetting.Name" xml:space="preserve">
     <value>TreeViewSetting</value>
   </data>
-  <data name="&gt;&gt;btnOWL.Name" xml:space="preserve">
-    <value>btnOWL</value>
-  </data>
   <data name="&gt;&gt;btnListBack.Parent" xml:space="preserve">
     <value>GroupBox5</value>
   </data>
   <data name="Label36.Size" type="System.Drawing.Size, System.Drawing">
     <value>63, 12</value>
-  </data>
-  <data name="&gt;&gt;btnOWL.Parent" xml:space="preserve">
-    <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;SplitContainer1.Name" xml:space="preserve">
     <value>SplitContainer1</value>
@@ -1273,14 +901,8 @@
   <data name="&gt;&gt;SplitContainer1.Panel1.Name" xml:space="preserve">
     <value>SplitContainer1.Panel1</value>
   </data>
-  <data name="Label80.Text" xml:space="preserve">
-    <value>ReTweet</value>
-  </data>
   <data name="&gt;&gt;FontPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ButtonBackToDefaultFontColor.Name" xml:space="preserve">
-    <value>ButtonBackToDefaultFontColor</value>
+    <value>OpenTween.Setting.Panel.FontPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="Label14.Size" type="System.Drawing.Size, System.Drawing">
     <value>134, 12</value>
@@ -1303,9 +925,6 @@
   <data name="&gt;&gt;Label32.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
-  <data name="ButtonBackToDefaultFontColor.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="&gt;&gt;Label16.Name" xml:space="preserve">
     <value>Label16</value>
   </data>
@@ -1318,35 +937,14 @@
   <data name="&gt;&gt;Label9.Name" xml:space="preserve">
     <value>Label9</value>
   </data>
-  <data name="btnUnread.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;btnListFont.Parent" xml:space="preserve">
-    <value>GroupBox1</value>
-  </data>
-  <data name="&gt;&gt;btnDetailBack.ZOrder" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="Label22.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
   <data name="btnSelf.Location" type="System.Drawing.Point, System.Drawing">
     <value>339, 15</value>
-  </data>
-  <data name="&gt;&gt;lblFav.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Save.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Label20.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="ProxyPanel.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="btnFav.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 25</value>
   </data>
   <data name="&gt;&gt;lblAtTo.ZOrder" xml:space="preserve">
     <value>20</value>
@@ -1363,9 +961,6 @@
   <data name="lblAtTo.Text" xml:space="preserve">
     <value>This is sample.</value>
   </data>
-  <data name="&gt;&gt;btnDetail.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="TweetPrvPanel.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
   </data>
@@ -1378,9 +973,6 @@
   <data name="&gt;&gt;lblAtTarget.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;btnDetail.Name" xml:space="preserve">
-    <value>btnDetail</value>
-  </data>
   <data name="StartupPanel.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -1390,17 +982,11 @@
   <data name="FontPanel2.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
-  <data name="lblFav.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="&gt;&gt;SplitContainer1.Panel1.Parent" xml:space="preserve">
     <value>SplitContainer1</value>
   </data>
   <data name="&gt;&gt;FontPanel2.Name" xml:space="preserve">
     <value>FontPanel2</value>
-  </data>
-  <data name="&gt;&gt;lblDetail.Parent" xml:space="preserve">
-    <value>GroupBox1</value>
   </data>
   <data name="NotifyPanel.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1414,9 +1000,6 @@
   <data name="Label65.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblOWL.Size" type="System.Drawing.Size, System.Drawing">
-    <value>104, 19</value>
-  </data>
   <data name="Label14.Location" type="System.Drawing.Point, System.Drawing">
     <value>16, 120</value>
   </data>
@@ -1429,14 +1012,8 @@
   <data name="GetCountPanel.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="&gt;&gt;lblListFont.Parent" xml:space="preserve">
-    <value>GroupBox1</value>
-  </data>
   <data name="&gt;&gt;FontPanel2.Parent" xml:space="preserve">
     <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="Label18.Text" xml:space="preserve">
-    <value>発言詳細リンク</value>
   </data>
   <data name="&gt;&gt;FontPanel2.Type" xml:space="preserve">
     <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1459,12 +1036,6 @@
   <data name="&gt;&gt;Label52.Parent" xml:space="preserve">
     <value>GroupBox5</value>
   </data>
-  <data name="lblUnread.Location" type="System.Drawing.Point, System.Drawing">
-    <value>216, 46</value>
-  </data>
-  <data name="btnDetailLink.Text" xml:space="preserve">
-    <value>文字色</value>
-  </data>
   <data name="Label9.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -1474,20 +1045,11 @@
   <data name="&gt;&gt;btnAtFromTarget.ZOrder" xml:space="preserve">
     <value>13</value>
   </data>
-  <data name="GroupBox1.Text" xml:space="preserve">
-    <value>フォント＆色設定</value>
-  </data>
-  <data name="&gt;&gt;lblUnread.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
   <data name="ActionPanel.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
   <data name="Label16.Size" type="System.Drawing.Size, System.Drawing">
     <value>88, 12</value>
-  </data>
-  <data name="lblOWL.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
   </data>
   <data name="Label52.TabIndex" type="System.Int32, mscorlib">
     <value>21</value>
@@ -1498,9 +1060,6 @@
   <data name="Label16.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="&gt;&gt;btnListFont.ZOrder" xml:space="preserve">
-    <value>22</value>
-  </data>
   <data name="&gt;&gt;btnInputBackcolor.Name" xml:space="preserve">
     <value>btnInputBackcolor</value>
   </data>
@@ -1510,14 +1069,8 @@
   <data name="ShortUrlPanel.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
-  <data name="btnListFont.Text" xml:space="preserve">
-    <value>フォント&amp;&amp;色</value>
-  </data>
   <data name="FontPanel.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
-  </data>
-  <data name="Label18.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="&gt;&gt;lblListBackcolor.Parent" xml:space="preserve">
     <value>GroupBox5</value>
@@ -1534,14 +1087,8 @@
   <data name="CooperatePanel.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="btnFav.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="CooperatePanel.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
-  </data>
-  <data name="lblUnread.Text" xml:space="preserve">
-    <value>This is sample.</value>
   </data>
   <data name="&gt;&gt;FontDialog1.Name" xml:space="preserve">
     <value>FontDialog1</value>
@@ -1558,20 +1105,11 @@
   <data name="lblAtFromTarget.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 19</value>
   </data>
-  <data name="&gt;&gt;Label61.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="btnDetailBack.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 25</value>
-  </data>
   <data name="&gt;&gt;StartupPanel.Name" xml:space="preserve">
     <value>StartupPanel</value>
   </data>
   <data name="Save.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
-  </data>
-  <data name="lblListFont.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
   </data>
   <data name="&gt;&gt;Label14.Parent" xml:space="preserve">
     <value>GroupBox5</value>
@@ -1579,14 +1117,8 @@
   <data name="NotifyPanel.Size" type="System.Drawing.Size, System.Drawing">
     <value>519, 368</value>
   </data>
-  <data name="btnOWL.Text" xml:space="preserve">
-    <value>文字色</value>
-  </data>
   <data name="&gt;&gt;Save.Name" xml:space="preserve">
     <value>Save</value>
-  </data>
-  <data name="Label61.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="Label9.Size" type="System.Drawing.Size, System.Drawing">
     <value>53, 12</value>
@@ -1600,20 +1132,8 @@
   <data name="&gt;&gt;lblSelf.ZOrder" xml:space="preserve">
     <value>26</value>
   </data>
-  <data name="lblDetail.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="&gt;&gt;NotifyPanel.Name" xml:space="preserve">
     <value>NotifyPanel</value>
-  </data>
-  <data name="&gt;&gt;btnUnread.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="lblFav.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;lblListFont.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="lblTarget.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1627,20 +1147,11 @@
   <data name="TweetPrvPanel.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="lblDetailLink.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="&gt;&gt;CooperatePanel.Name" xml:space="preserve">
     <value>CooperatePanel</value>
   </data>
-  <data name="Label18.TabIndex" type="System.Int32, mscorlib">
-    <value>18</value>
-  </data>
   <data name="Label34.Size" type="System.Drawing.Size, System.Drawing">
     <value>81, 12</value>
-  </data>
-  <data name="&gt;&gt;Label24.Name" xml:space="preserve">
-    <value>Label24</value>
   </data>
   <data name="Label16.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -1657,15 +1168,6 @@
   <data name="FontPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <data name="Label61.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 12</value>
-  </data>
-  <data name="&gt;&gt;Label80.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblDetail.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="lblTarget.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 19</value>
   </data>
@@ -1678,35 +1180,14 @@
   <data name="btnAtFromTarget.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="&gt;&gt;btnDetailBack.Name" xml:space="preserve">
-    <value>btnDetailBack</value>
-  </data>
-  <data name="&gt;&gt;lblRetweet.Name" xml:space="preserve">
-    <value>lblRetweet</value>
-  </data>
   <data name="&gt;&gt;Label49.Parent" xml:space="preserve">
     <value>GroupBox5</value>
   </data>
   <data name="Label52.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="btnListFont.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="&gt;&gt;Label16.Parent" xml:space="preserve">
     <value>GroupBox5</value>
-  </data>
-  <data name="Label20.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;btnDetail.Parent" xml:space="preserve">
-    <value>GroupBox1</value>
-  </data>
-  <data name="&gt;&gt;Label20.Name" xml:space="preserve">
-    <value>Label20</value>
-  </data>
-  <data name="GroupBox1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
   </data>
   <data name="btnInputFont.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1717,14 +1198,8 @@
   <data name="&gt;&gt;Label65.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="lblUnread.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
   <data name="StartupPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
-  </data>
-  <data name="Label61.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
   </data>
   <data name="&gt;&gt;Label34.Parent" xml:space="preserve">
     <value>GroupBox5</value>
@@ -1735,9 +1210,6 @@
   <data name="&gt;&gt;SplitContainer1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="Label20.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="Label49.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
   </data>
@@ -1747,22 +1219,7 @@
   <data name="btnInputFont.Size" type="System.Drawing.Size, System.Drawing">
     <value>83, 25</value>
   </data>
-  <data name="Label26.Size" type="System.Drawing.Size, System.Drawing">
-    <value>77, 12</value>
-  </data>
   <data name="lblAtSelf.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lblUnread.Size" type="System.Drawing.Size, System.Drawing">
-    <value>104, 19</value>
-  </data>
-  <data name="lblFav.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="&gt;&gt;Label26.Name" xml:space="preserve">
-    <value>Label26</value>
-  </data>
-  <data name="Label80.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="btnTarget.TabIndex" type="System.Int32, mscorlib">
@@ -1802,14 +1259,8 @@
   <data name="&gt;&gt;FontPanel.Parent" xml:space="preserve">
     <value>SplitContainer1.Panel2</value>
   </data>
-  <data name="Label22.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="Cancel.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
-  </data>
-  <data name="btnOWL.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="btnAtFromTarget.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1838,26 +1289,14 @@
   <data name="lblInputBackcolor.TabIndex" type="System.Int32, mscorlib">
     <value>22</value>
   </data>
-  <data name="Label22.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 12</value>
-  </data>
-  <data name="Label80.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
   <data name="btnAtSelf.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="lblInputFont.Text" xml:space="preserve">
     <value>This is sample.</value>
   </data>
-  <data name="GroupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>429, 267</value>
-  </data>
   <data name="&gt;&gt;GetCountPanel.Parent" xml:space="preserve">
     <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;Label18.Parent" xml:space="preserve">
-    <value>GroupBox1</value>
   </data>
   <data name="TreeViewSetting.Nodes3" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -1876,20 +1315,11 @@
   <data name="GetPeriodPanel.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
-  <data name="&gt;&gt;lblOWL.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="Label65.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="&gt;&gt;lblFav.ZOrder" xml:space="preserve">
-    <value>20</value>
-  </data>
   <data name="ButtonBackToDefaultFontColor2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
-  </data>
-  <data name="&gt;&gt;btnDetailLink.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Label36.Parent" xml:space="preserve">
     <value>GroupBox5</value>
@@ -1912,18 +1342,6 @@
   <data name="Label9.Location" type="System.Drawing.Point, System.Drawing">
     <value>16, 170</value>
   </data>
-  <data name="Label26.Text" xml:space="preserve">
-    <value>発言詳細文字</value>
-  </data>
-  <data name="btnDetailLink.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="&gt;&gt;GroupBox1.Parent" xml:space="preserve">
-    <value>FontPanel</value>
-  </data>
-  <data name="btnListFont.Location" type="System.Drawing.Point, System.Drawing">
-    <value>331, 21</value>
-  </data>
   <data name="btnAtSelf.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -1945,26 +1363,11 @@
   <data name="GroupBox5.Size" type="System.Drawing.Size, System.Drawing">
     <value>429, 290</value>
   </data>
-  <data name="Label24.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btnDetailLink.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 25</value>
-  </data>
-  <data name="Label24.Text" xml:space="preserve">
-    <value>片思い発言</value>
-  </data>
-  <data name="lblDetailBackcolor.Text" xml:space="preserve">
-    <value>This is sample.</value>
-  </data>
   <data name="btnAtTarget.Location" type="System.Drawing.Point, System.Drawing">
     <value>339, 90</value>
   </data>
   <data name="&gt;&gt;TweetPrvPanel.Parent" xml:space="preserve">
     <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="lblFav.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
   </data>
   <data name="Label34.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -1975,29 +1378,14 @@
   <data name="lblSelf.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
-  <data name="btnFav.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="&gt;&gt;btnDetailLink.Name" xml:space="preserve">
-    <value>btnDetailLink</value>
-  </data>
   <data name="&gt;&gt;btnSelf.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Label9.Text" xml:space="preserve">
     <value>一般発言</value>
   </data>
-  <data name="&gt;&gt;Label37.Parent" xml:space="preserve">
-    <value>GroupBox1</value>
-  </data>
   <data name="lblInputBackcolor.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
-  </data>
-  <data name="lblFav.Size" type="System.Drawing.Size, System.Drawing">
-    <value>104, 19</value>
-  </data>
-  <data name="btnListFont.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="&gt;&gt;Label32.Parent" xml:space="preserve">
     <value>GroupBox5</value>
@@ -2011,44 +1399,17 @@
   <data name="lblInputBackcolor.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="Label26.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>            </value>
   </data>
-  <data name="Label22.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="btnOWL.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
   <data name="lblSelf.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="btnDetail.Text" xml:space="preserve">
-    <value>フォント&amp;&amp;色</value>
-  </data>
-  <data name="ButtonBackToDefaultFontColor.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="btnRetweet.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 25</value>
-  </data>
-  <data name="Label22.Text" xml:space="preserve">
-    <value>Fav発言</value>
   </data>
   <data name="btnAtSelf.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 25</value>
   </data>
   <data name="ConnectionPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
-  </data>
-  <data name="lblDetailBackcolor.Size" type="System.Drawing.Size, System.Drawing">
-    <value>104, 19</value>
-  </data>
-  <data name="lblListFont.Size" type="System.Drawing.Size, System.Drawing">
-    <value>104, 19</value>
   </data>
   <data name="btnInputBackcolor.ToolTip" xml:space="preserve">
     <value />
@@ -2065,14 +1426,8 @@
   <data name="Cancel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="Label20.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="&gt;&gt;SplitContainer1.Panel2.Type" xml:space="preserve">
     <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="btnUnread.Location" type="System.Drawing.Point, System.Drawing">
-    <value>331, 46</value>
   </data>
   <data name="&gt;&gt;ButtonBackToDefaultFontColor2.ZOrder" xml:space="preserve">
     <value>27</value>
@@ -2083,14 +1438,8 @@
   <data name="&gt;&gt;SplitContainer1.Panel2.Name" xml:space="preserve">
     <value>SplitContainer1.Panel2</value>
   </data>
-  <data name="lblRetweet.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="&gt;&gt;Label49.ZOrder" xml:space="preserve">
     <value>2</value>
-  </data>
-  <data name="&gt;&gt;Label37.ZOrder" xml:space="preserve">
-    <value>12</value>
   </data>
   <data name="btnAtTarget.ToolTip" xml:space="preserve">
     <value />
@@ -2110,17 +1459,11 @@
   <data name="&gt;&gt;CooperatePanel.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
-  <data name="Label20.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 12</value>
-  </data>
   <data name="Label65.Text" xml:space="preserve">
     <value>入力欄フォント</value>
   </data>
   <data name="&gt;&gt;GetPeriodPanel.Parent" xml:space="preserve">
     <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;lblRetweet.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="&gt;&gt;PreviewPanel.Parent" xml:space="preserve">
     <value>SplitContainer1.Panel2</value>
@@ -2128,23 +1471,14 @@
   <data name="TweetPrvPanel.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
-  <data name="Label37.Size" type="System.Drawing.Size, System.Drawing">
-    <value>89, 12</value>
-  </data>
   <data name="lblSelf.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 19</value>
-  </data>
-  <data name="&gt;&gt;Label80.ZOrder" xml:space="preserve">
-    <value>2</value>
   </data>
   <data name="GetCountPanel.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="btnListBack.TabIndex" type="System.Int32, mscorlib">
     <value>20</value>
-  </data>
-  <data name="&gt;&gt;btnFav.Parent" xml:space="preserve">
-    <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;lblAtSelf.ZOrder" xml:space="preserve">
     <value>25</value>
@@ -2188,9 +1522,6 @@
   <data name="&gt;&gt;lblSelf.Name" xml:space="preserve">
     <value>lblSelf</value>
   </data>
-  <data name="Label26.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="btnSelf.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
@@ -2200,17 +1531,8 @@
   <data name="&gt;&gt;lblInputBackcolor.Parent" xml:space="preserve">
     <value>GroupBox5</value>
   </data>
-  <data name="&gt;&gt;Label22.Name" xml:space="preserve">
-    <value>Label22</value>
-  </data>
   <data name="&gt;&gt;Label14.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblDetailBackcolor.Name" xml:space="preserve">
-    <value>lblDetailBackcolor</value>
-  </data>
-  <data name="lblListFont.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="&gt;&gt;Label14.Name" xml:space="preserve">
     <value>Label14</value>
@@ -2227,18 +1549,6 @@
   <data name="Save.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="&gt;&gt;GroupBox1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="Label22.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 73</value>
-  </data>
-  <data name="GroupBox1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="btnRetweet.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
-  </data>
   <data name="&gt;&gt;btnListBack.ZOrder" xml:space="preserve">
     <value>12</value>
   </data>
@@ -2251,14 +1561,8 @@
   <data name="TweetActPanel.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
-  <data name="btnListFont.Size" type="System.Drawing.Size, System.Drawing">
-    <value>83, 25</value>
-  </data>
   <data name="&gt;&gt;GetCountPanel.Type" xml:space="preserve">
     <value>OpenTween.Setting.Panel.GetCountPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;Label22.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnTarget.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -2269,14 +1573,8 @@
   <data name="Label34.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lblUnread.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
   <data name="btnAtFromTarget.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 25</value>
-  </data>
-  <data name="&gt;&gt;btnRetweet.Name" xml:space="preserve">
-    <value>btnRetweet</value>
   </data>
   <data name="&gt;&gt;GetPeriodPanel.Name" xml:space="preserve">
     <value>GetPeriodPanel</value>
@@ -2284,32 +1582,14 @@
   <data name="lblAtFromTarget.Text" xml:space="preserve">
     <value>This is sample.</value>
   </data>
-  <data name="btnFav.Text" xml:space="preserve">
-    <value>文字色</value>
-  </data>
-  <data name="Label61.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="lblTarget.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
   <data name="lblAtTo.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
   </data>
-  <data name="lblDetailBackcolor.Location" type="System.Drawing.Point, System.Drawing">
-    <value>216, 196</value>
-  </data>
-  <data name="&gt;&gt;lblListFont.Name" xml:space="preserve">
-    <value>lblListFont</value>
-  </data>
   <data name="&gt;&gt;lblSelf.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="lblRetweet.Size" type="System.Drawing.Size, System.Drawing">
-    <value>104, 19</value>
-  </data>
-  <data name="Label37.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="&gt;&gt;btnAtFromTarget.Name" xml:space="preserve">
     <value>btnAtFromTarget</value>
@@ -2326,14 +1606,8 @@
   <data name="&gt;&gt;Label52.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="btnFav.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
   <data name="btnListBack.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
-  </data>
-  <data name="ButtonBackToDefaultFontColor.Text" xml:space="preserve">
-    <value>デフォルトに戻す</value>
   </data>
   <data name="ShortUrlPanel.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -2383,12 +1657,6 @@
   <data name="ButtonBackToDefaultFontColor2.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="btnDetailBack.Text" xml:space="preserve">
-    <value>背景色</value>
-  </data>
-  <data name="lblDetail.Size" type="System.Drawing.Size, System.Drawing">
-    <value>104, 19</value>
-  </data>
   <data name="btnListBack.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 25</value>
   </data>
@@ -2398,14 +1666,8 @@
   <data name="&gt;&gt;Label65.Name" xml:space="preserve">
     <value>Label65</value>
   </data>
-  <data name="Label24.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
   <data name="btnAtFromTarget.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
-  </data>
-  <data name="&gt;&gt;btnUnread.Name" xml:space="preserve">
-    <value>btnUnread</value>
   </data>
   <data name="FontPanel.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -2413,20 +1675,8 @@
   <data name="&gt;&gt;btnInputFont.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="lblRetweet.Text" xml:space="preserve">
-    <value>This is sample.</value>
-  </data>
-  <data name="lblDetailLink.Size" type="System.Drawing.Size, System.Drawing">
-    <value>104, 19</value>
-  </data>
   <data name="ActionPanel.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="lblUnread.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label18.Size" type="System.Drawing.Size, System.Drawing">
-    <value>77, 12</value>
   </data>
   <data name="&gt;&gt;ButtonBackToDefaultFontColor2.Name" xml:space="preserve">
     <value>ButtonBackToDefaultFontColor2</value>
@@ -2446,9 +1696,6 @@
   <data name="btnTarget.Text" xml:space="preserve">
     <value>背景色</value>
   </data>
-  <data name="btnDetailBack.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="Label49.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 12</value>
   </data>
@@ -2458,17 +1705,8 @@
   <data name="btnListBack.Text" xml:space="preserve">
     <value>背景色</value>
   </data>
-  <data name="lblDetailBackcolor.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="btnSelf.Text" xml:space="preserve">
     <value>背景色</value>
-  </data>
-  <data name="Label18.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="btnRetweet.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="&gt;&gt;lblListBackcolor.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -2482,29 +1720,8 @@
   <data name="ConnectionPanel.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
-  <data name="&gt;&gt;Label61.Name" xml:space="preserve">
-    <value>Label61</value>
-  </data>
-  <data name="lblListFont.Text" xml:space="preserve">
-    <value>This is sample.</value>
-  </data>
-  <data name="lblDetail.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ButtonBackToDefaultFontColor.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="&gt;&gt;lblFav.Name" xml:space="preserve">
-    <value>lblFav</value>
-  </data>
-  <data name="Label37.Text" xml:space="preserve">
-    <value>発言詳細背景色</value>
-  </data>
   <data name="lblAtSelf.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="&gt;&gt;Label20.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="PreviewPanel.ToolTip" xml:space="preserve">
     <value />
@@ -2524,20 +1741,11 @@
   <data name="Label49.Text" xml:space="preserve">
     <value>その発言の@先発言</value>
   </data>
-  <data name="&gt;&gt;btnListFont.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="Label14.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
   </data>
   <data name="btnAtTarget.Text" xml:space="preserve">
     <value>背景色</value>
-  </data>
-  <data name="Label20.Text" xml:space="preserve">
-    <value>未読フォント</value>
-  </data>
-  <data name="lblOWL.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
   </data>
   <data name="Label52.Location" type="System.Drawing.Point, System.Drawing">
     <value>16, 195</value>
@@ -2548,29 +1756,14 @@
   <data name="lblInputBackcolor.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 19</value>
   </data>
-  <data name="Label20.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 48</value>
-  </data>
-  <data name="lblDetailBackcolor.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="&gt;&gt;lblUnread.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;TreeViewSetting.Type" xml:space="preserve">
     <value>System.Windows.Forms.TreeView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ShortUrlPanel.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="ButtonBackToDefaultFontColor.Location" type="System.Drawing.Point, System.Drawing">
-    <value>175, 235</value>
-  </data>
   <data name="GetPeriodPanel.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
-  </data>
-  <data name="btnRetweet.Location" type="System.Drawing.Point, System.Drawing">
-    <value>331, 121</value>
   </data>
   <data name="lblAtSelf.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
@@ -2599,15 +1792,6 @@
   <data name="&gt;&gt;btnListBack.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;Label37.Name" xml:space="preserve">
-    <value>Label37</value>
-  </data>
-  <data name="btnUnread.Text" xml:space="preserve">
-    <value>フォント&amp;&amp;色</value>
-  </data>
-  <data name="&gt;&gt;lblDetailBackcolor.Parent" xml:space="preserve">
-    <value>GroupBox1</value>
-  </data>
   <data name="&gt;&gt;lblInputFont.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -2617,32 +1801,17 @@
   <data name="lblAtSelf.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 19</value>
   </data>
-  <data name="&gt;&gt;btnUnread.Parent" xml:space="preserve">
-    <value>GroupBox1</value>
-  </data>
   <data name="btnAtTo.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 25</value>
   </data>
   <data name="lblInputFont.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="&gt;&gt;lblDetail.ZOrder" xml:space="preserve">
-    <value>14</value>
-  </data>
   <data name="SplitContainer1.SplitterDistance" type="System.Int32, mscorlib">
     <value>168</value>
   </data>
-  <data name="Label37.TabIndex" type="System.Int32, mscorlib">
-    <value>21</value>
-  </data>
   <data name="ConnectionPanel.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
-  </data>
-  <data name="btnDetailBack.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="&gt;&gt;lblRetweet.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Label34.ToolTip" xml:space="preserve">
     <value />
@@ -2650,17 +1819,8 @@
   <data name="&gt;&gt;Label9.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;lblOWL.ZOrder" xml:space="preserve">
-    <value>17</value>
-  </data>
   <data name="&gt;&gt;lblInputBackcolor.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="btnOWL.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label26.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
   </data>
   <data name="lblTarget.ToolTip" xml:space="preserve">
     <value />
@@ -2677,9 +1837,6 @@
   <data name="TreeViewSetting.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;lblOWL.Parent" xml:space="preserve">
-    <value>GroupBox1</value>
-  </data>
   <data name="&gt;&gt;lblInputBackcolor.ZOrder" xml:space="preserve">
     <value>19</value>
   </data>
@@ -2692,17 +1849,8 @@
   <data name="FontPanel2.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="lblRetweet.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
   <data name="lblAtTarget.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="lblOWL.Text" xml:space="preserve">
-    <value>This is sample.</value>
-  </data>
-  <data name="lblDetailLink.Text" xml:space="preserve">
-    <value>This is sample.</value>
   </data>
   <data name="GroupBox5.Text" xml:space="preserve">
     <value>フォント＆色設定</value>
