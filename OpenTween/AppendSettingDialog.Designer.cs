@@ -38,22 +38,7 @@
             this.GetCountPanel = new OpenTween.Setting.Panel.GetCountPanel();
             this.ShortUrlPanel = new OpenTween.Setting.Panel.ShortUrlPanel();
             this.BasedPanel = new OpenTween.Setting.Panel.BasedPanel();
-            this.TweetPrvPanel = new System.Windows.Forms.Panel();
-            this.IsListsIncludeRtsCheckBox = new System.Windows.Forms.CheckBox();
-            this.HideDuplicatedRetweetsCheck = new System.Windows.Forms.CheckBox();
-            this.Label47 = new System.Windows.Forms.Label();
-            this.LabelDateTimeFormatApplied = new System.Windows.Forms.Label();
-            this.Label62 = new System.Windows.Forms.Label();
-            this.CmbDateTimeFormat = new System.Windows.Forms.ComboBox();
-            this.Label23 = new System.Windows.Forms.Label();
-            this.Label11 = new System.Windows.Forms.Label();
-            this.IconSize = new System.Windows.Forms.ComboBox();
-            this.TextBox3 = new System.Windows.Forms.TextBox();
-            this.CheckViewTabBottom = new System.Windows.Forms.CheckBox();
-            this.CheckSortOrderLock = new System.Windows.Forms.CheckBox();
-            this.CheckShowGrid = new System.Windows.Forms.CheckBox();
-            this.chkUnreadStyle = new System.Windows.Forms.CheckBox();
-            this.OneWayLv = new System.Windows.Forms.CheckBox();
+            this.TweetPrvPanel = new OpenTween.Setting.Panel.TweetPrvPanel();
             this.NotifyPanel = new System.Windows.Forms.Panel();
             this.IsRemoveSameFavEventCheckBox = new System.Windows.Forms.CheckBox();
             this.CheckUserUpdateEvent = new System.Windows.Forms.CheckBox();
@@ -220,7 +205,6 @@
             this.SplitContainer1.Panel1.SuspendLayout();
             this.SplitContainer1.Panel2.SuspendLayout();
             this.SplitContainer1.SuspendLayout();
-            this.TweetPrvPanel.SuspendLayout();
             this.NotifyPanel.SuspendLayout();
             this.CooperatePanel.SuspendLayout();
             this.MapThumbnailGroupBox.SuspendLayout();
@@ -325,148 +309,8 @@
             // TweetPrvPanel
             // 
             resources.ApplyResources(this.TweetPrvPanel, "TweetPrvPanel");
-            this.TweetPrvPanel.Controls.Add(this.IsListsIncludeRtsCheckBox);
-            this.TweetPrvPanel.Controls.Add(this.HideDuplicatedRetweetsCheck);
-            this.TweetPrvPanel.Controls.Add(this.Label47);
-            this.TweetPrvPanel.Controls.Add(this.LabelDateTimeFormatApplied);
-            this.TweetPrvPanel.Controls.Add(this.Label62);
-            this.TweetPrvPanel.Controls.Add(this.CmbDateTimeFormat);
-            this.TweetPrvPanel.Controls.Add(this.Label23);
-            this.TweetPrvPanel.Controls.Add(this.Label11);
-            this.TweetPrvPanel.Controls.Add(this.IconSize);
-            this.TweetPrvPanel.Controls.Add(this.TextBox3);
-            this.TweetPrvPanel.Controls.Add(this.CheckViewTabBottom);
-            this.TweetPrvPanel.Controls.Add(this.CheckSortOrderLock);
-            this.TweetPrvPanel.Controls.Add(this.CheckShowGrid);
-            this.TweetPrvPanel.Controls.Add(this.chkUnreadStyle);
-            this.TweetPrvPanel.Controls.Add(this.OneWayLv);
             this.TweetPrvPanel.Name = "TweetPrvPanel";
             this.ToolTip1.SetToolTip(this.TweetPrvPanel, resources.GetString("TweetPrvPanel.ToolTip"));
-            // 
-            // IsListsIncludeRtsCheckBox
-            // 
-            resources.ApplyResources(this.IsListsIncludeRtsCheckBox, "IsListsIncludeRtsCheckBox");
-            this.IsListsIncludeRtsCheckBox.Name = "IsListsIncludeRtsCheckBox";
-            this.ToolTip1.SetToolTip(this.IsListsIncludeRtsCheckBox, resources.GetString("IsListsIncludeRtsCheckBox.ToolTip"));
-            this.IsListsIncludeRtsCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // HideDuplicatedRetweetsCheck
-            // 
-            resources.ApplyResources(this.HideDuplicatedRetweetsCheck, "HideDuplicatedRetweetsCheck");
-            this.HideDuplicatedRetweetsCheck.Name = "HideDuplicatedRetweetsCheck";
-            this.ToolTip1.SetToolTip(this.HideDuplicatedRetweetsCheck, resources.GetString("HideDuplicatedRetweetsCheck.ToolTip"));
-            this.HideDuplicatedRetweetsCheck.UseVisualStyleBackColor = true;
-            // 
-            // Label47
-            // 
-            resources.ApplyResources(this.Label47, "Label47");
-            this.Label47.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.Label47.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.Label47.Name = "Label47";
-            this.ToolTip1.SetToolTip(this.Label47, resources.GetString("Label47.ToolTip"));
-            // 
-            // LabelDateTimeFormatApplied
-            // 
-            resources.ApplyResources(this.LabelDateTimeFormatApplied, "LabelDateTimeFormatApplied");
-            this.LabelDateTimeFormatApplied.Name = "LabelDateTimeFormatApplied";
-            this.ToolTip1.SetToolTip(this.LabelDateTimeFormatApplied, resources.GetString("LabelDateTimeFormatApplied.ToolTip"));
-            this.LabelDateTimeFormatApplied.VisibleChanged += new System.EventHandler(this.LabelDateTimeFormatApplied_VisibleChanged);
-            // 
-            // Label62
-            // 
-            resources.ApplyResources(this.Label62, "Label62");
-            this.Label62.Name = "Label62";
-            this.ToolTip1.SetToolTip(this.Label62, resources.GetString("Label62.ToolTip"));
-            // 
-            // CmbDateTimeFormat
-            // 
-            resources.ApplyResources(this.CmbDateTimeFormat, "CmbDateTimeFormat");
-            this.CmbDateTimeFormat.Items.AddRange(new object[] {
-            resources.GetString("CmbDateTimeFormat.Items"),
-            resources.GetString("CmbDateTimeFormat.Items1"),
-            resources.GetString("CmbDateTimeFormat.Items2"),
-            resources.GetString("CmbDateTimeFormat.Items3"),
-            resources.GetString("CmbDateTimeFormat.Items4"),
-            resources.GetString("CmbDateTimeFormat.Items5"),
-            resources.GetString("CmbDateTimeFormat.Items6"),
-            resources.GetString("CmbDateTimeFormat.Items7"),
-            resources.GetString("CmbDateTimeFormat.Items8"),
-            resources.GetString("CmbDateTimeFormat.Items9"),
-            resources.GetString("CmbDateTimeFormat.Items10")});
-            this.CmbDateTimeFormat.Name = "CmbDateTimeFormat";
-            this.ToolTip1.SetToolTip(this.CmbDateTimeFormat, resources.GetString("CmbDateTimeFormat.ToolTip"));
-            this.CmbDateTimeFormat.SelectedIndexChanged += new System.EventHandler(this.CmbDateTimeFormat_SelectedIndexChanged);
-            this.CmbDateTimeFormat.TextUpdate += new System.EventHandler(this.CmbDateTimeFormat_TextUpdate);
-            this.CmbDateTimeFormat.Validating += new System.ComponentModel.CancelEventHandler(this.CmbDateTimeFormat_Validating);
-            // 
-            // Label23
-            // 
-            resources.ApplyResources(this.Label23, "Label23");
-            this.Label23.Name = "Label23";
-            this.ToolTip1.SetToolTip(this.Label23, resources.GetString("Label23.ToolTip"));
-            // 
-            // Label11
-            // 
-            resources.ApplyResources(this.Label11, "Label11");
-            this.Label11.Name = "Label11";
-            this.ToolTip1.SetToolTip(this.Label11, resources.GetString("Label11.ToolTip"));
-            // 
-            // IconSize
-            // 
-            resources.ApplyResources(this.IconSize, "IconSize");
-            this.IconSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.IconSize.FormattingEnabled = true;
-            this.IconSize.Items.AddRange(new object[] {
-            resources.GetString("IconSize.Items"),
-            resources.GetString("IconSize.Items1"),
-            resources.GetString("IconSize.Items2"),
-            resources.GetString("IconSize.Items3"),
-            resources.GetString("IconSize.Items4")});
-            this.IconSize.Name = "IconSize";
-            this.ToolTip1.SetToolTip(this.IconSize, resources.GetString("IconSize.ToolTip"));
-            // 
-            // TextBox3
-            // 
-            resources.ApplyResources(this.TextBox3, "TextBox3");
-            this.TextBox3.Name = "TextBox3";
-            this.ToolTip1.SetToolTip(this.TextBox3, resources.GetString("TextBox3.ToolTip"));
-            // 
-            // CheckViewTabBottom
-            // 
-            resources.ApplyResources(this.CheckViewTabBottom, "CheckViewTabBottom");
-            this.CheckViewTabBottom.Checked = true;
-            this.CheckViewTabBottom.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CheckViewTabBottom.Name = "CheckViewTabBottom";
-            this.ToolTip1.SetToolTip(this.CheckViewTabBottom, resources.GetString("CheckViewTabBottom.ToolTip"));
-            this.CheckViewTabBottom.UseVisualStyleBackColor = true;
-            // 
-            // CheckSortOrderLock
-            // 
-            resources.ApplyResources(this.CheckSortOrderLock, "CheckSortOrderLock");
-            this.CheckSortOrderLock.Name = "CheckSortOrderLock";
-            this.ToolTip1.SetToolTip(this.CheckSortOrderLock, resources.GetString("CheckSortOrderLock.ToolTip"));
-            this.CheckSortOrderLock.UseVisualStyleBackColor = true;
-            // 
-            // CheckShowGrid
-            // 
-            resources.ApplyResources(this.CheckShowGrid, "CheckShowGrid");
-            this.CheckShowGrid.Name = "CheckShowGrid";
-            this.ToolTip1.SetToolTip(this.CheckShowGrid, resources.GetString("CheckShowGrid.ToolTip"));
-            this.CheckShowGrid.UseVisualStyleBackColor = true;
-            // 
-            // chkUnreadStyle
-            // 
-            resources.ApplyResources(this.chkUnreadStyle, "chkUnreadStyle");
-            this.chkUnreadStyle.Name = "chkUnreadStyle";
-            this.ToolTip1.SetToolTip(this.chkUnreadStyle, resources.GetString("chkUnreadStyle.ToolTip"));
-            this.chkUnreadStyle.UseVisualStyleBackColor = true;
-            // 
-            // OneWayLv
-            // 
-            resources.ApplyResources(this.OneWayLv, "OneWayLv");
-            this.OneWayLv.Name = "OneWayLv";
-            this.ToolTip1.SetToolTip(this.OneWayLv, resources.GetString("OneWayLv.ToolTip"));
-            this.OneWayLv.UseVisualStyleBackColor = true;
             // 
             // NotifyPanel
             // 
@@ -1905,8 +1749,6 @@
             this.SplitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer1)).EndInit();
             this.SplitContainer1.ResumeLayout(false);
-            this.TweetPrvPanel.ResumeLayout(false);
-            this.TweetPrvPanel.PerformLayout();
             this.NotifyPanel.ResumeLayout(false);
             this.NotifyPanel.PerformLayout();
             this.CooperatePanel.ResumeLayout(false);
@@ -1950,21 +1792,7 @@
         private Setting.Panel.GetCountPanel GetCountPanel;
         private Setting.Panel.ShortUrlPanel ShortUrlPanel;
         private Setting.Panel.BasedPanel BasedPanel;
-        internal System.Windows.Forms.Panel TweetPrvPanel;
-        internal System.Windows.Forms.CheckBox IsListsIncludeRtsCheckBox;
-        internal System.Windows.Forms.CheckBox HideDuplicatedRetweetsCheck;
-        internal System.Windows.Forms.Label Label47;
-        internal System.Windows.Forms.Label LabelDateTimeFormatApplied;
-        internal System.Windows.Forms.Label Label62;
-        internal System.Windows.Forms.ComboBox CmbDateTimeFormat;
-        internal System.Windows.Forms.Label Label23;
-        internal System.Windows.Forms.Label Label11;
-        internal System.Windows.Forms.ComboBox IconSize;
-        internal System.Windows.Forms.TextBox TextBox3;
-        internal System.Windows.Forms.CheckBox CheckSortOrderLock;
-        internal System.Windows.Forms.CheckBox CheckShowGrid;
-        internal System.Windows.Forms.CheckBox chkUnreadStyle;
-        internal System.Windows.Forms.CheckBox OneWayLv;
+        private Setting.Panel.TweetPrvPanel TweetPrvPanel;
         internal System.Windows.Forms.Panel NotifyPanel;
         internal System.Windows.Forms.CheckBox IsRemoveSameFavEventCheckBox;
         internal System.Windows.Forms.CheckBox CheckUserUpdateEvent;
@@ -2120,6 +1948,5 @@
         internal System.Windows.Forms.FontDialog FontDialog1;
         private System.Windows.Forms.ComboBox MapThumbnailProviderComboBox;
         private System.Windows.Forms.Label label48;
-        internal System.Windows.Forms.CheckBox CheckViewTabBottom;
     }
 }

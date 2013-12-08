@@ -132,9 +132,6 @@
   <data name="StartupUserstreamCheck.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="IconSize.Items" xml:space="preserve">
-    <value>none</value>
-  </data>
   <data name="lblUnread.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -161,12 +158,6 @@
   </data>
   <data name="Save.Text" xml:space="preserve">
     <value>OK</value>
-  </data>
-  <data name="LabelDateTimeFormatApplied.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="IconSize.Items1" xml:space="preserve">
-    <value>16*16</value>
   </data>
   <data name="Label80.ToolTip" xml:space="preserve">
     <value />
@@ -210,9 +201,6 @@
   <data name="&gt;&gt;TextProxyPort.ZOrder" xml:space="preserve">
     <value>9</value>
   </data>
-  <data name="CheckShowGrid.Size" type="System.Drawing.Size, System.Drawing">
-    <value>154, 16</value>
-  </data>
   <data name="TweetActPanel.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -246,9 +234,6 @@
   <data name="&gt;&gt;btnAtSelf.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="IsListsIncludeRtsCheckBox.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="&gt;&gt;btnAtSelf.Name" xml:space="preserve">
     <value>btnAtSelf</value>
   </data>
@@ -281,9 +266,6 @@
   </data>
   <data name="ComboBoxTranslateLanguage.Items44" xml:space="preserve">
     <value>Faeroese</value>
-  </data>
-  <data name="CmbDateTimeFormat.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 20</value>
   </data>
   <data name="ComboBoxTranslateLanguage.Items46" xml:space="preserve">
     <value>Finnish</value>
@@ -320,9 +302,6 @@
   </data>
   <data name="&gt;&gt;CheckNicoms.ZOrder" xml:space="preserve">
     <value>7</value>
-  </data>
-  <data name="&gt;&gt;CheckSortOrderLock.ZOrder" xml:space="preserve">
-    <value>11</value>
   </data>
   <data name="&gt;&gt;CheckPostAndGet.Parent" xml:space="preserve">
     <value>GetPeriodPanel</value>
@@ -366,9 +345,6 @@
   <data name="&gt;&gt;lblOWL.Name" xml:space="preserve">
     <value>lblOWL</value>
   </data>
-  <data name="&gt;&gt;Label11.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="BasedPanel.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -390,9 +366,6 @@
   <data name="Label36.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="&gt;&gt;OneWayLv.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="ComboBoxTranslateLanguage.Items31" xml:space="preserve">
     <value>English</value>
   </data>
@@ -401,9 +374,6 @@
   </data>
   <data name="lblListFont.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
-  </data>
-  <data name="IconSize.Items3" xml:space="preserve">
-    <value>48*48</value>
   </data>
   <data name="&gt;&gt;GroupBox3.Parent" xml:space="preserve">
     <value>ActionPanel</value>
@@ -416,9 +386,6 @@
   </data>
   <data name="lblListFont.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
-  </data>
-  <data name="&gt;&gt;CmbDateTimeFormat.ZOrder" xml:space="preserve">
-    <value>5</value>
   </data>
   <data name="ReplyPeriod.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -435,9 +402,6 @@
   <data name="&gt;&gt;Label44.Name" xml:space="preserve">
     <value>Label44</value>
   </data>
-  <data name="&gt;&gt;TextBox3.Name" xml:space="preserve">
-    <value>TextBox3</value>
-  </data>
   <data name="Label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -450,14 +414,8 @@
   <data name="&gt;&gt;UserAppointUrlText.Name" xml:space="preserve">
     <value>UserAppointUrlText</value>
   </data>
-  <data name="CmbDateTimeFormat.Items1" xml:space="preserve">
-    <value>yy/M/d H:mm:ss</value>
-  </data>
   <data name="TextBoxOutputzKey.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="OneWayLv.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 21</value>
   </data>
   <data name="&gt;&gt;CheckListMemberAddedEvent.Parent" xml:space="preserve">
     <value>NotifyPanel</value>
@@ -482,9 +440,6 @@
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterParent</value>
-  </data>
-  <data name="CmbDateTimeFormat.Items3" xml:space="preserve">
-    <value>M/d H:mm:ss</value>
   </data>
   <data name="TreeViewSetting.Nodes1" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -526,9 +481,6 @@
   </data>
   <data name="CooperatePanel.Size" type="System.Drawing.Size, System.Drawing">
     <value>519, 368</value>
-  </data>
-  <data name="&gt;&gt;HideDuplicatedRetweetsCheck.Parent" xml:space="preserve">
-    <value>TweetPrvPanel</value>
   </data>
   <data name="ListDoubleClickActionComboBox.Items4" xml:space="preserve">
     <value>関連発言表示</value>
@@ -578,14 +530,8 @@
   <data name="&gt;&gt;RadioProxyIE.Parent" xml:space="preserve">
     <value>ProxyPanel</value>
   </data>
-  <data name="OneWayLv.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="&gt;&gt;Label18.ZOrder" xml:space="preserve">
     <value>6</value>
-  </data>
-  <data name="OneWayLv.Text" xml:space="preserve">
-    <value>片思いを色分けして表示する</value>
   </data>
   <data name="lblInputFont.ToolTip" xml:space="preserve">
     <value />
@@ -629,9 +575,6 @@
   <data name="&gt;&gt;FontPanel.Name" xml:space="preserve">
     <value>FontPanel</value>
   </data>
-  <data name="&gt;&gt;LabelDateTimeFormatApplied.Name" xml:space="preserve">
-    <value>LabelDateTimeFormatApplied</value>
-  </data>
   <data name="CheckUserUpdateEvent.Size" type="System.Drawing.Size, System.Drawing">
     <value>189, 16</value>
   </data>
@@ -671,14 +614,8 @@
   <data name="lblAtSelf.Location" type="System.Drawing.Point, System.Drawing">
     <value>227, 43</value>
   </data>
-  <data name="&gt;&gt;HideDuplicatedRetweetsCheck.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;UReadMng.ZOrder" xml:space="preserve">
     <value>12</value>
-  </data>
-  <data name="&gt;&gt;chkUnreadStyle.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CheckOutputz.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -691,9 +628,6 @@
   </data>
   <data name="lblDetail.Text" xml:space="preserve">
     <value>This is sample.</value>
-  </data>
-  <data name="CmbDateTimeFormat.Items6" xml:space="preserve">
-    <value>H:mm:ss</value>
   </data>
   <data name="&gt;&gt;NotifyPanel.ZOrder" xml:space="preserve">
     <value>7</value>
@@ -743,9 +677,6 @@
   <data name="&gt;&gt;CheckListCreatedEvent.Name" xml:space="preserve">
     <value>CheckListCreatedEvent</value>
   </data>
-  <data name="CmbDateTimeFormat.Items" xml:space="preserve">
-    <value>yyyy/MM/dd H:mm:ss</value>
-  </data>
   <data name="&gt;&gt;Label64.Parent" xml:space="preserve">
     <value>ConnectionPanel</value>
   </data>
@@ -785,9 +716,6 @@
   <data name="&gt;&gt;LabelProxyPort.Parent" xml:space="preserve">
     <value>ProxyPanel</value>
   </data>
-  <data name="IsListsIncludeRtsCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 85</value>
-  </data>
   <data name="&gt;&gt;Label65.Parent" xml:space="preserve">
     <value>GroupBox5</value>
   </data>
@@ -815,9 +743,6 @@
   <data name="&gt;&gt;btnInputBackcolor.Parent" xml:space="preserve">
     <value>GroupBox5</value>
   </data>
-  <data name="&gt;&gt;CmbDateTimeFormat.Name" xml:space="preserve">
-    <value>CmbDateTimeFormat</value>
-  </data>
   <data name="lblAtTo.Location" type="System.Drawing.Point, System.Drawing">
     <value>227, 143</value>
   </data>
@@ -826,9 +751,6 @@
   </data>
   <data name="ActionPanel.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
-  </data>
-  <data name="&gt;&gt;CheckSortOrderLock.Name" xml:space="preserve">
-    <value>CheckSortOrderLock</value>
   </data>
   <data name="ComboBoxEventNotifySound.Size" type="System.Drawing.Size, System.Drawing">
     <value>188, 20</value>
@@ -884,9 +806,6 @@
   <data name="MapThumbnailZoomTextBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>63, 19</value>
   </data>
-  <data name="&gt;&gt;OneWayLv.Name" xml:space="preserve">
-    <value>OneWayLv</value>
-  </data>
   <data name="btnSelf.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -921,9 +840,6 @@
   </data>
   <data name="&gt;&gt;CheckNicoms.Name" xml:space="preserve">
     <value>CheckNicoms</value>
-  </data>
-  <data name="CmbDateTimeFormat.Items2" xml:space="preserve">
-    <value>H:mm:ss yy/M/d</value>
   </data>
   <data name="lblDetailBackcolor.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
@@ -976,9 +892,6 @@
   <data name="&gt;&gt;Label9.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="&gt;&gt;CheckSortOrderLock.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;PreviewPanel.Type" xml:space="preserve">
     <value>OpenTween.Setting.Panel.PreviewPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
@@ -1018,14 +931,8 @@
   <data name="&gt;&gt;GetCountPanel.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="&gt;&gt;Label47.Name" xml:space="preserve">
-    <value>Label47</value>
-  </data>
   <data name="RadioProxyIE.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="CheckSortOrderLock.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="MapThumbnailProviderComboBox.Items" xml:space="preserve">
     <value>OpenStreetMap</value>
@@ -1060,9 +967,6 @@
   <data name="Label59.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="&gt;&gt;CheckShowGrid.Parent" xml:space="preserve">
-    <value>TweetPrvPanel</value>
-  </data>
   <data name="Button3.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -1077,9 +981,6 @@
   </data>
   <data name="TreeViewSetting.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
-  </data>
-  <data name="&gt;&gt;HideDuplicatedRetweetsCheck.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="TabMouseLockCheck.ToolTip" xml:space="preserve">
     <value />
@@ -1159,9 +1060,6 @@
   <data name="&gt;&gt;CheckFollowEvent.Parent" xml:space="preserve">
     <value>NotifyPanel</value>
   </data>
-  <data name="CheckViewTabBottom.Size" type="System.Drawing.Size, System.Drawing">
-    <value>148, 16</value>
-  </data>
   <data name="&gt;&gt;Label33.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -1209,9 +1107,6 @@
   </data>
   <data name="ComboBoxTranslateLanguage.Location" type="System.Drawing.Point, System.Drawing">
     <value>205, 156</value>
-  </data>
-  <data name="&gt;&gt;CheckShowGrid.Name" xml:space="preserve">
-    <value>CheckShowGrid</value>
   </data>
   <data name="BasedPanel.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1306,9 +1201,6 @@
   <data name="&gt;&gt;lblDetailLink.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <data name="Label62.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 12</value>
-  </data>
   <data name="&gt;&gt;LabelUserStreamActive.Parent" xml:space="preserve">
     <value>GetPeriodPanel</value>
   </data>
@@ -1338,9 +1230,6 @@
   </data>
   <data name="ComboBoxTranslateLanguage.Items2" xml:space="preserve">
     <value>Arabic (Saudi Arabia)</value>
-  </data>
-  <data name="TextBox3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>34, 19</value>
   </data>
   <data name="ComboBoxOutputzUrlmode.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -1405,9 +1294,6 @@
   <data name="&gt;&gt;TweetActPanel.Name" xml:space="preserve">
     <value>TweetActPanel</value>
   </data>
-  <data name="Label47.Location" type="System.Drawing.Point, System.Drawing">
-    <value>216, 178</value>
-  </data>
   <data name="Label24.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -1438,14 +1324,8 @@
   <data name="&gt;&gt;CheckUserUpdateEvent.Parent" xml:space="preserve">
     <value>NotifyPanel</value>
   </data>
-  <data name="Label47.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="TwitterAPIText.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="Label62.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
   </data>
   <data name="ComboBoxTranslateLanguage.Items11" xml:space="preserve">
     <value>Arabic (Syria)</value>
@@ -1474,9 +1354,6 @@
   <data name="ComboBoxTranslateLanguage.Items81" xml:space="preserve">
     <value>Romanian</value>
   </data>
-  <data name="TextBox3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>216, 150</value>
-  </data>
   <data name="&gt;&gt;btnUnread.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
@@ -1500,9 +1377,6 @@
   </data>
   <data name="lblSelf.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
-  </data>
-  <data name="&gt;&gt;Label47.ZOrder" xml:space="preserve">
-    <value>2</value>
   </data>
   <data name="PreviewPanel.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -1564,23 +1438,14 @@
   <data name="ComboBoxTranslateLanguage.Items" xml:space="preserve">
     <value>Afrikaans</value>
   </data>
-  <data name="Label23.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="&gt;&gt;btnDetailLink.Parent" xml:space="preserve">
     <value>GroupBox1</value>
   </data>
   <data name="Label9.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="LabelDateTimeFormatApplied.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="&gt;&gt;lblFav.Parent" xml:space="preserve">
     <value>GroupBox1</value>
-  </data>
-  <data name="chkUnreadStyle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>226, 16</value>
   </data>
   <data name="Cancel.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -1696,14 +1561,8 @@
   <data name="&gt;&gt;Label65.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;TextBox3.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
   <data name="&gt;&gt;LabelProxyUser.Name" xml:space="preserve">
     <value>LabelProxyUser</value>
-  </data>
-  <data name="&gt;&gt;CheckViewTabBottom.Parent" xml:space="preserve">
-    <value>TweetPrvPanel</value>
   </data>
   <data name="&gt;&gt;Label20.Parent" xml:space="preserve">
     <value>GroupBox1</value>
@@ -1756,9 +1615,6 @@
   <data name="&gt;&gt;CheckBlockEvent.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
-  <data name="LabelDateTimeFormatApplied.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
   <data name="&gt;&gt;Label21.Parent" xml:space="preserve">
     <value>GetPeriodPanel</value>
   </data>
@@ -1767,9 +1623,6 @@
   </data>
   <data name="&gt;&gt;btnSelf.ZOrder" xml:space="preserve">
     <value>17</value>
-  </data>
-  <data name="Label11.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
   </data>
   <data name="lblDetailBackcolor.TabIndex" type="System.Int32, mscorlib">
     <value>22</value>
@@ -1821,9 +1674,6 @@
   </data>
   <data name="ShortUrlPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
-  </data>
-  <data name="CheckShowGrid.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 222</value>
   </data>
   <data name="&gt;&gt;Label57.ZOrder" xml:space="preserve">
     <value>5</value>
@@ -1933,20 +1783,11 @@
   <data name="ComboBoxTranslateLanguage.Items9" xml:space="preserve">
     <value>Arabic (Oman)</value>
   </data>
-  <data name="&gt;&gt;HideDuplicatedRetweetsCheck.Name" xml:space="preserve">
-    <value>HideDuplicatedRetweetsCheck</value>
-  </data>
   <data name="&gt;&gt;CheckCloseToExit.ZOrder" xml:space="preserve">
     <value>14</value>
   </data>
-  <data name="chkUnreadStyle.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 65</value>
-  </data>
   <data name="UserTimelinePeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>Disable</value>
-  </data>
-  <data name="TextBox3.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="Label60.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1987,9 +1828,6 @@
   <data name="CheckFavEventUnread.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 240</value>
   </data>
-  <data name="CheckViewTabBottom.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="lblAtFromTarget.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -2017,9 +1855,6 @@
   <data name="&gt;&gt;btnDetailLink.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="&gt;&gt;Label23.Parent" xml:space="preserve">
-    <value>TweetPrvPanel</value>
-  </data>
   <data name="&gt;&gt;UReadMng.Parent" xml:space="preserve">
     <value>ActionPanel</value>
   </data>
@@ -2040,9 +1875,6 @@
   </data>
   <data name="TextProxyPort.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
-  </data>
-  <data name="CheckViewTabBottom.Text" xml:space="preserve">
-    <value>タブを一覧の下に表示する</value>
   </data>
   <data name="CheckUserUpdateEvent.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2098,14 +1930,8 @@
   <data name="&gt;&gt;lblDetailLink.Parent" xml:space="preserve">
     <value>GroupBox1</value>
   </data>
-  <data name="CheckSortOrderLock.Size" type="System.Drawing.Size, System.Drawing">
-    <value>203, 16</value>
-  </data>
   <data name="&gt;&gt;TextProxyAddress.ZOrder" xml:space="preserve">
     <value>10</value>
-  </data>
-  <data name="&gt;&gt;CheckViewTabBottom.Name" xml:space="preserve">
-    <value>CheckViewTabBottom</value>
   </data>
   <data name="&gt;&gt;Label59.ZOrder" xml:space="preserve">
     <value>10</value>
@@ -2115,12 +1941,6 @@
   </data>
   <data name="MapThumbnailWidthTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
-  </data>
-  <data name="LabelDateTimeFormatApplied.Text" xml:space="preserve">
-    <value>Label63</value>
-  </data>
-  <data name="CmbDateTimeFormat.Location" type="System.Drawing.Point, System.Drawing">
-    <value>216, 111</value>
   </data>
   <data name="ComboBoxTranslateLanguage.Items28" xml:space="preserve">
     <value>Danish</value>
@@ -2152,16 +1972,7 @@
   <data name="&gt;&gt;Label80.Name" xml:space="preserve">
     <value>Label80</value>
   </data>
-  <data name="CmbDateTimeFormat.Items9" xml:space="preserve">
-    <value>M/d tt h:mm:ss</value>
-  </data>
   <data name="Label44.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="HideDuplicatedRetweetsCheck.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 43</value>
-  </data>
-  <data name="CheckShowGrid.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="&gt;&gt;lblDetailBackcolor.Type" xml:space="preserve">
@@ -2184,9 +1995,6 @@
   </data>
   <data name="&gt;&gt;Label61.ZOrder" xml:space="preserve">
     <value>24</value>
-  </data>
-  <data name="chkUnreadStyle.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="Label21.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 183</value>
@@ -2251,23 +2059,14 @@
   <data name="CheckListCreatedEvent.ToolTip" xml:space="preserve">
     <value>チェックを不確定状態にすると他者が発生させたイベントのみ通知します</value>
   </data>
-  <data name="Label11.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="&gt;&gt;Label24.ZOrder" xml:space="preserve">
     <value>18</value>
-  </data>
-  <data name="CheckSortOrderLock.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 247</value>
   </data>
   <data name="GetPeriodPanel.Size" type="System.Drawing.Size, System.Drawing">
     <value>519, 368</value>
   </data>
   <data name="&gt;&gt;HotkeyCode.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="LabelDateTimeFormatApplied.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="PlaySnd.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -2329,9 +2128,6 @@
   <data name="&gt;&gt;GroupBox1.Name" xml:space="preserve">
     <value>GroupBox1</value>
   </data>
-  <data name="chkUnreadStyle.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
   <data name="&gt;&gt;PlaySnd.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
@@ -2373,9 +2169,6 @@
   </data>
   <data name="lblInputBackcolor.Text" xml:space="preserve">
     <value>This is sample.</value>
-  </data>
-  <data name="CmbDateTimeFormat.Items10" xml:space="preserve">
-    <value>M/d tt h:mm</value>
   </data>
   <data name="Label42.Size" type="System.Drawing.Size, System.Drawing">
     <value>11, 12</value>
@@ -2434,9 +2227,6 @@
   <data name="UReadMng.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 71</value>
   </data>
-  <data name="&gt;&gt;Label47.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="Label29.Location" type="System.Drawing.Point, System.Drawing">
     <value>20, 160</value>
   </data>
@@ -2454,9 +2244,6 @@
   </data>
   <data name="CheckNicoms.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
-  </data>
-  <data name="Label23.Size" type="System.Drawing.Size, System.Drawing">
-    <value>113, 12</value>
   </data>
   <data name="&gt;&gt;btnAtTarget.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -2512,9 +2299,6 @@
   <data name="btnRetweet.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="chkUnreadStyle.Text" xml:space="preserve">
-    <value>未読ポストのフォントと色を変更する（低速）</value>
-  </data>
   <data name="&gt;&gt;FontDialog1.Type" xml:space="preserve">
     <value>System.Windows.Forms.FontDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -2538,9 +2322,6 @@
   </data>
   <data name="&gt;&gt;btnFav.ZOrder" xml:space="preserve">
     <value>19</value>
-  </data>
-  <data name="&gt;&gt;IsListsIncludeRtsCheckBox.Name" xml:space="preserve">
-    <value>IsListsIncludeRtsCheckBox</value>
   </data>
   <data name="Label69.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 83</value>
@@ -2608,9 +2389,6 @@
   <data name="IsRemoveSameFavEventCheckBox.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
   </data>
-  <data name="&gt;&gt;OneWayLv.ZOrder" xml:space="preserve">
-    <value>14</value>
-  </data>
   <data name="btnDetailLink.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -2653,9 +2431,6 @@
   <data name="Label7.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="&gt;&gt;IconSize.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;PreviewPanel.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
@@ -2676,9 +2451,6 @@
   </data>
   <data name="IsRemoveSameFavEventCheckBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 257</value>
-  </data>
-  <data name="Label47.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
   </data>
   <data name="HotkeyCtrl.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -2719,9 +2491,6 @@
   <data name="UReadMng.Text" xml:space="preserve">
     <value>未読管理を行う</value>
   </data>
-  <data name="Label62.Location" type="System.Drawing.Point, System.Drawing">
-    <value>217, 134</value>
-  </data>
   <data name="CheckUseSsl.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -2733,9 +2502,6 @@
   </data>
   <data name="Button3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
-  </data>
-  <data name="&gt;&gt;IconSize.Parent" xml:space="preserve">
-    <value>TweetPrvPanel</value>
   </data>
   <data name="Label32.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2783,7 +2549,7 @@
     <value>11, 49</value>
   </data>
   <data name="&gt;&gt;TweetPrvPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>OpenTween.Setting.Panel.TweetPrvPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="lblListBackcolor.TabIndex" type="System.Int32, mscorlib">
     <value>19</value>
@@ -2808,9 +2574,6 @@
   </data>
   <data name="&gt;&gt;LabelProxyPassword.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label23.ZOrder" xml:space="preserve">
-    <value>6</value>
   </data>
   <data name="GroupBox3.Location" type="System.Drawing.Point, System.Drawing">
     <value>21, 328</value>
@@ -2842,9 +2605,6 @@
   <data name="&gt;&gt;CheckUseSsl.Name" xml:space="preserve">
     <value>CheckUseSsl</value>
   </data>
-  <data name="&gt;&gt;CmbDateTimeFormat.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;label48.Name" xml:space="preserve">
     <value>label48</value>
   </data>
@@ -2853,12 +2613,6 @@
   </data>
   <data name="&gt;&gt;btnAtFromTarget.Parent" xml:space="preserve">
     <value>GroupBox5</value>
-  </data>
-  <data name="&gt;&gt;chkUnreadStyle.Name" xml:space="preserve">
-    <value>chkUnreadStyle</value>
-  </data>
-  <data name="&gt;&gt;IsListsIncludeRtsCheckBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Label80.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2883,9 +2637,6 @@
   </data>
   <data name="btnFav.Location" type="System.Drawing.Point, System.Drawing">
     <value>331, 71</value>
-  </data>
-  <data name="Label62.Text" xml:space="preserve">
-    <value>Sample:</value>
   </data>
   <data name="CheckBlockEvent.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2977,12 +2728,6 @@
   <data name="ActionPanel.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="Label11.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 152</value>
-  </data>
-  <data name="IconSize.Items2" xml:space="preserve">
-    <value>24*24</value>
-  </data>
   <data name="Label39.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -2995,17 +2740,11 @@
   <data name="lblAtFromTarget.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="&gt;&gt;Label23.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="lblTarget.Text" xml:space="preserve">
     <value>This is sample.</value>
   </data>
   <data name="&gt;&gt;btnListBack.Name" xml:space="preserve">
     <value>btnListBack</value>
-  </data>
-  <data name="Label47.Text" xml:space="preserve">
-    <value>再起動後有効になります。</value>
   </data>
   <data name="IsPreviewFoursquareCheckBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>327, 16</value>
@@ -3052,9 +2791,6 @@
   <data name="Label80.Text" xml:space="preserve">
     <value>ReTweet</value>
   </data>
-  <data name="Label11.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="&gt;&gt;UserAppointUrlText.Parent" xml:space="preserve">
     <value>CooperatePanel</value>
   </data>
@@ -3094,12 +2830,6 @@
   <data name="NotifyPanel.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="IconSize.Items4" xml:space="preserve">
-    <value>48*48(2Column)</value>
-  </data>
-  <data name="chkUnreadStyle.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="&gt;&gt;TweetPrvPanel.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
@@ -3130,9 +2860,6 @@
   <data name="TreeViewSetting.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="Label23.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 114</value>
-  </data>
   <data name="btnAtTarget.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
   </data>
@@ -3161,9 +2888,6 @@
     <value>French (Belgium)</value>
   </data>
   <data name="RadioProxySpecified.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label47.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="ComboBoxTranslateLanguage.Items69" xml:space="preserve">
@@ -3208,9 +2932,6 @@
   <data name="CheckBlockEvent.Location" type="System.Drawing.Point, System.Drawing">
     <value>40, 128</value>
   </data>
-  <data name="CheckSortOrderLock.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="Label20.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -3225,9 +2946,6 @@
   </data>
   <data name="&gt;&gt;Label38.ZOrder" xml:space="preserve">
     <value>1</value>
-  </data>
-  <data name="&gt;&gt;IsListsIncludeRtsCheckBox.ZOrder" xml:space="preserve">
-    <value>0</value>
   </data>
   <data name="&gt;&gt;IsPreviewFoursquareCheckBox.Name" xml:space="preserve">
     <value>IsPreviewFoursquareCheckBox</value>
@@ -3273,9 +2991,6 @@
   </data>
   <data name="SplitContainer1.Panel2.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="&gt;&gt;CheckViewTabBottom.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="lblAtTo.Text" xml:space="preserve">
     <value>This is sample.</value>
@@ -3325,9 +3040,6 @@
   <data name="StartupPanel.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="&gt;&gt;LabelDateTimeFormatApplied.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
   <data name="CheckUserUpdateEvent.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
   </data>
@@ -3336,9 +3048,6 @@
   </data>
   <data name="chkReadOwnPost.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
-  </data>
-  <data name="Label23.Text" xml:space="preserve">
-    <value>リストの日時フォーマット</value>
   </data>
   <data name="LabelProxyAddress.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -3448,9 +3157,6 @@
   <data name="&gt;&gt;FontPanel2.Type" xml:space="preserve">
     <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;Label62.Name" xml:space="preserve">
-    <value>Label62</value>
-  </data>
   <data name="CooperatePanel.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -3496,9 +3202,6 @@
   <data name="&gt;&gt;Label52.Parent" xml:space="preserve">
     <value>GroupBox5</value>
   </data>
-  <data name="&gt;&gt;TextBox3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="lblUnread.Location" type="System.Drawing.Point, System.Drawing">
     <value>216, 46</value>
   </data>
@@ -3535,9 +3238,6 @@
   <data name="&gt;&gt;btnAtFromTarget.ZOrder" xml:space="preserve">
     <value>13</value>
   </data>
-  <data name="CmbDateTimeFormat.Items5" xml:space="preserve">
-    <value>H:mm:ss M/d</value>
-  </data>
   <data name="GroupBox1.Text" xml:space="preserve">
     <value>フォント＆色設定</value>
   </data>
@@ -3564,9 +3264,6 @@
   </data>
   <data name="FontPanel.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
-  </data>
-  <data name="TextBox3.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
   </data>
   <data name="RadioProxyNone.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -3669,9 +3366,6 @@
   <data name="&gt;&gt;lblTarget.Parent" xml:space="preserve">
     <value>GroupBox5</value>
   </data>
-  <data name="Label11.Text" xml:space="preserve">
-    <value>リストのアイコンサイズ（初期値16）</value>
-  </data>
   <data name="Label8.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -3695,9 +3389,6 @@
   </data>
   <data name="ComboBoxTranslateLanguage.Items117" xml:space="preserve">
     <value>Ukrainian</value>
-  </data>
-  <data name="CmbDateTimeFormat.Items8" xml:space="preserve">
-    <value>tt h:mm</value>
   </data>
   <data name="CooperatePanel.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -3744,9 +3435,6 @@
   <data name="ComboBoxTranslateLanguage.Items47" xml:space="preserve">
     <value>French (Standard)</value>
   </data>
-  <data name="CheckViewTabBottom.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 272</value>
-  </data>
   <data name="&gt;&gt;Label59.Name" xml:space="preserve">
     <value>Label59</value>
   </data>
@@ -3771,9 +3459,6 @@
   <data name="lblListFont.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
-  <data name="HideDuplicatedRetweetsCheck.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="CheckListMemberAddedEvent.ToolTip" xml:space="preserve">
     <value>チェックを不確定状態にすると他者が発生させたイベントのみ通知します</value>
   </data>
@@ -3789,9 +3474,6 @@
   <data name="NotifyPanel.Size" type="System.Drawing.Size, System.Drawing">
     <value>519, 368</value>
   </data>
-  <data name="&gt;&gt;IsListsIncludeRtsCheckBox.Parent" xml:space="preserve">
-    <value>TweetPrvPanel</value>
-  </data>
   <data name="&gt;&gt;TextProxyAddress.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -3801,14 +3483,8 @@
   <data name="&gt;&gt;CheckFavRestrict.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="CheckViewTabBottom.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="UserTimelinePeriod.Size" type="System.Drawing.Size, System.Drawing">
     <value>65, 19</value>
-  </data>
-  <data name="Label62.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="Label44.Text" xml:space="preserve">
     <value>ブラウザパス</value>
@@ -3819,9 +3495,6 @@
   <data name="PubSearchPeriod.Size" type="System.Drawing.Size, System.Drawing">
     <value>65, 19</value>
   </data>
-  <data name="&gt;&gt;LabelDateTimeFormatApplied.Parent" xml:space="preserve">
-    <value>TweetPrvPanel</value>
-  </data>
   <data name="btnOWL.Text" xml:space="preserve">
     <value>文字色</value>
   </data>
@@ -3831,14 +3504,8 @@
   <data name="Label61.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="&gt;&gt;chkUnreadStyle.ZOrder" xml:space="preserve">
-    <value>13</value>
-  </data>
   <data name="TextProxyUser.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
-  </data>
-  <data name="IsListsIncludeRtsCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>189, 16</value>
   </data>
   <data name="TimelinePeriod.ToolTip" xml:space="preserve">
     <value />
@@ -3870,12 +3537,6 @@
   <data name="&gt;&gt;Label63.Parent" xml:space="preserve">
     <value>ConnectionPanel</value>
   </data>
-  <data name="IsListsIncludeRtsCheckBox.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="OneWayLv.Size" type="System.Drawing.Size, System.Drawing">
-    <value>162, 16</value>
-  </data>
   <data name="CheckNicoms.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
   </data>
@@ -3890,9 +3551,6 @@
   </data>
   <data name="lblFav.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
-  </data>
-  <data name="Label47.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="&gt;&gt;lblListFont.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -3966,17 +3624,11 @@
   <data name="ComboBoxTranslateLanguage.Items98" xml:space="preserve">
     <value>Spanish (Colombia)</value>
   </data>
-  <data name="LabelDateTimeFormatApplied.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 12</value>
-  </data>
   <data name="&gt;&gt;Label24.Name" xml:space="preserve">
     <value>Label24</value>
   </data>
   <data name="Label16.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
-  </data>
-  <data name="CmbDateTimeFormat.Items4" xml:space="preserve">
-    <value>M/d H:mm</value>
   </data>
   <data name="RadioProxyNone.Text" xml:space="preserve">
     <value>使用しない</value>
@@ -3998,9 +3650,6 @@
   </data>
   <data name="&gt;&gt;lblAtSelf.Name" xml:space="preserve">
     <value>lblAtSelf</value>
-  </data>
-  <data name="Label23.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="FontPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -4038,9 +3687,6 @@
   <data name="FontPanel2.Size" type="System.Drawing.Size, System.Drawing">
     <value>519, 368</value>
   </data>
-  <data name="&gt;&gt;CheckShowGrid.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="RadioProxyIE.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 41</value>
   </data>
@@ -4064,9 +3710,6 @@
   </data>
   <data name="&gt;&gt;btnDetailBack.Name" xml:space="preserve">
     <value>btnDetailBack</value>
-  </data>
-  <data name="Label11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>163, 12</value>
   </data>
   <data name="Label29.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
@@ -4200,9 +3843,6 @@
   <data name="&gt;&gt;BasedPanel.Parent" xml:space="preserve">
     <value>SplitContainer1.Panel2</value>
   </data>
-  <data name="&gt;&gt;Label23.Name" xml:space="preserve">
-    <value>Label23</value>
-  </data>
   <data name="btnInputFont.Size" type="System.Drawing.Size, System.Drawing">
     <value>83, 25</value>
   </data>
@@ -4220,9 +3860,6 @@
   </data>
   <data name="lblFav.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="&gt;&gt;Label11.ZOrder" xml:space="preserve">
-    <value>7</value>
   </data>
   <data name="&gt;&gt;MapThumbnailHeightTextBox.ZOrder" xml:space="preserve">
     <value>5</value>
@@ -4245,9 +3882,6 @@
   <data name="Label44.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
   </data>
-  <data name="CheckShowGrid.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="&gt;&gt;Label26.Name" xml:space="preserve">
     <value>Label26</value>
   </data>
@@ -4256,9 +3890,6 @@
   </data>
   <data name="Label80.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
-  </data>
-  <data name="&gt;&gt;Label11.Name" xml:space="preserve">
-    <value>Label11</value>
   </data>
   <data name="btnTarget.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -4303,17 +3934,11 @@
   <data name="btnAtFromTarget.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="IconSize.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
   <data name="IsRemoveSameFavEventCheckBox.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="btnInputFont.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="chkUnreadStyle.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="&gt;&gt;FontPanel.Parent" xml:space="preserve">
     <value>SplitContainer1.Panel2</value>
@@ -4347,9 +3972,6 @@
   </data>
   <data name="LabelPostAndGet.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 236</value>
-  </data>
-  <data name="&gt;&gt;LabelDateTimeFormatApplied.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="RadioProxyIE.Text" xml:space="preserve">
     <value>InternetExplorerの設定を使用する</value>
@@ -4461,9 +4083,6 @@
   <data name="CheckMinimizeToTray.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="&gt;&gt;Label62.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="PubSearchPeriod.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
   </data>
@@ -4521,9 +4140,6 @@
   <data name="Label9.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="OneWayLv.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="&gt;&gt;TwitterAPIText.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
@@ -4553,9 +4169,6 @@
   </data>
   <data name="Label9.Location" type="System.Drawing.Point, System.Drawing">
     <value>16, 170</value>
-  </data>
-  <data name="Label11.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="CheckFavRestrict.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4614,12 +4227,6 @@
   <data name="Label55.Text" xml:space="preserve">
     <value>※認証が不要な場合は、ユーザ名とパスワードは空にしてください。</value>
   </data>
-  <data name="&gt;&gt;IconSize.Name" xml:space="preserve">
-    <value>IconSize</value>
-  </data>
-  <data name="&gt;&gt;Label47.Parent" xml:space="preserve">
-    <value>TweetPrvPanel</value>
-  </data>
   <data name="PlaySnd.Size" type="System.Drawing.Size, System.Drawing">
     <value>113, 16</value>
   </data>
@@ -4659,12 +4266,6 @@
   <data name="Label34.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
-  <data name="CmbDateTimeFormat.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="HideDuplicatedRetweetsCheck.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="GroupBox5.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
@@ -4673,9 +4274,6 @@
   </data>
   <data name="StartupUserstreamCheck.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
-  </data>
-  <data name="CheckViewTabBottom.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="btnFav.ToolTip" xml:space="preserve">
     <value />
@@ -4697,9 +4295,6 @@
   </data>
   <data name="lblInputBackcolor.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
-  </data>
-  <data name="OneWayLv.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="Label42.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>5, 0, 5, 0</value>
@@ -4739,9 +4334,6 @@
   </data>
   <data name="btnTarget.Location" type="System.Drawing.Point, System.Drawing">
     <value>339, 65</value>
-  </data>
-  <data name="&gt;&gt;CheckViewTabBottom.ZOrder" xml:space="preserve">
-    <value>10</value>
   </data>
   <data name="SplitContainer1.IsSplitterFixed" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4878,9 +4470,6 @@
   <data name="label48.Text" xml:space="preserve">
     <value>地図サービス</value>
   </data>
-  <data name="&gt;&gt;TextBox3.Parent" xml:space="preserve">
-    <value>TweetPrvPanel</value>
-  </data>
   <data name="lblListFont.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 19</value>
   </data>
@@ -4983,9 +4572,6 @@
   <data name="&gt;&gt;CheckMinimizeToTray.ZOrder" xml:space="preserve">
     <value>15</value>
   </data>
-  <data name="Label23.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>691, 403</value>
   </data>
@@ -5000,9 +4586,6 @@
   </data>
   <data name="Label20.Size" type="System.Drawing.Size, System.Drawing">
     <value>62, 12</value>
-  </data>
-  <data name="HideDuplicatedRetweetsCheck.Text" xml:space="preserve">
-    <value>重複した公式RTを表示しない</value>
   </data>
   <data name="Label65.Text" xml:space="preserve">
     <value>入力欄フォント</value>
@@ -5084,9 +4667,6 @@
   </data>
   <data name="&gt;&gt;lblAtSelf.ZOrder" xml:space="preserve">
     <value>25</value>
-  </data>
-  <data name="Label23.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="GetPeriodPanel.ToolTip" xml:space="preserve">
     <value />
@@ -5184,9 +4764,6 @@
   <data name="&gt;&gt;Label22.Name" xml:space="preserve">
     <value>Label22</value>
   </data>
-  <data name="IsListsIncludeRtsCheckBox.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="Label63.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -5201,9 +4778,6 @@
   </data>
   <data name="&gt;&gt;lblDetailBackcolor.Name" xml:space="preserve">
     <value>lblDetailBackcolor</value>
-  </data>
-  <data name="OneWayLv.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
   </data>
   <data name="&gt;&gt;CheckListMemberRemovedEvent.Parent" xml:space="preserve">
     <value>NotifyPanel</value>
@@ -5225,9 +4799,6 @@
   </data>
   <data name="&gt;&gt;Label29.Parent" xml:space="preserve">
     <value>CooperatePanel</value>
-  </data>
-  <data name="&gt;&gt;CmbDateTimeFormat.Parent" xml:space="preserve">
-    <value>TweetPrvPanel</value>
   </data>
   <data name="&gt;&gt;ComboBoxTranslateLanguage.ZOrder" xml:space="preserve">
     <value>4</value>
@@ -5277,23 +4848,14 @@
   <data name="&gt;&gt;GroupBox1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="CheckSortOrderLock.Text" xml:space="preserve">
-    <value>ソート順を変更できないようにロックする</value>
-  </data>
   <data name="chkReadOwnPost.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="ComboBoxTranslateLanguage.Items38" xml:space="preserve">
     <value>English (South Africa)</value>
   </data>
-  <data name="&gt;&gt;CheckSortOrderLock.Parent" xml:space="preserve">
-    <value>TweetPrvPanel</value>
-  </data>
   <data name="HotkeyWin.Size" type="System.Drawing.Size, System.Drawing">
     <value>42, 16</value>
-  </data>
-  <data name="IsListsIncludeRtsCheckBox.Text" xml:space="preserve">
-    <value>Listの発言取得に公式RTを含める</value>
   </data>
   <data name="Label22.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 73</value>
@@ -5304,14 +4866,8 @@
   <data name="IsPreviewFoursquareCheckBox.TabIndex" type="System.Int32, mscorlib">
     <value>20</value>
   </data>
-  <data name="HideDuplicatedRetweetsCheck.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="label48.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 22</value>
-  </data>
-  <data name="&gt;&gt;IconSize.ZOrder" xml:space="preserve">
-    <value>8</value>
   </data>
   <data name="CheckUseSsl.Text" xml:space="preserve">
     <value>通信にHTTPSを使用する</value>
@@ -5415,9 +4971,6 @@
   <data name="Label61.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="CheckViewTabBottom.TabIndex" type="System.Int32, mscorlib">
-    <value>17</value>
-  </data>
   <data name="&gt;&gt;ComboBoxEventNotifySound.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -5429,9 +4982,6 @@
   </data>
   <data name="Label69.Size" type="System.Drawing.Size, System.Drawing">
     <value>123, 12</value>
-  </data>
-  <data name="Label62.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="lblTarget.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
@@ -5448,9 +4998,6 @@
   <data name="lblDetailBackcolor.Location" type="System.Drawing.Point, System.Drawing">
     <value>216, 196</value>
   </data>
-  <data name="LabelDateTimeFormatApplied.Location" type="System.Drawing.Point, System.Drawing">
-    <value>264, 134</value>
-  </data>
   <data name="&gt;&gt;lblListFont.Name" xml:space="preserve">
     <value>lblListFont</value>
   </data>
@@ -5465,9 +5012,6 @@
   </data>
   <data name="lblRetweet.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 19</value>
-  </data>
-  <data name="CheckSortOrderLock.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
   </data>
   <data name="Label37.ToolTip" xml:space="preserve">
     <value />
@@ -5504,9 +5048,6 @@
   </data>
   <data name="btnFav.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
-  </data>
-  <data name="&gt;&gt;Label62.ZOrder" xml:space="preserve">
-    <value>4</value>
   </data>
   <data name="HotkeyCode.Size" type="System.Drawing.Size, System.Drawing">
     <value>13, 14</value>
@@ -5628,9 +5169,6 @@
   <data name="MapThumbnailProviderComboBox.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="&gt;&gt;Label11.Parent" xml:space="preserve">
-    <value>TweetPrvPanel</value>
-  </data>
   <data name="&gt;&gt;TweetActPanel.Parent" xml:space="preserve">
     <value>SplitContainer1.Panel2</value>
   </data>
@@ -5688,9 +5226,6 @@
   <data name="&gt;&gt;DMPeriod.Parent" xml:space="preserve">
     <value>GetPeriodPanel</value>
   </data>
-  <data name="CheckSortOrderLock.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="&gt;&gt;HotkeyCheck.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -5739,17 +5274,11 @@
   <data name="ComboBoxTranslateLanguage.Items80" xml:space="preserve">
     <value>Rhaeto-Romanic</value>
   </data>
-  <data name="&gt;&gt;OneWayLv.Parent" xml:space="preserve">
-    <value>TweetPrvPanel</value>
-  </data>
   <data name="lblRetweet.Text" xml:space="preserve">
     <value>This is sample.</value>
   </data>
   <data name="TabMouseLockCheck.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 304</value>
-  </data>
-  <data name="&gt;&gt;CheckShowGrid.ZOrder" xml:space="preserve">
-    <value>12</value>
   </data>
   <data name="ListDoubleClickActionComboBox.ToolTip" xml:space="preserve">
     <value />
@@ -5786,9 +5315,6 @@
   </data>
   <data name="ComboBoxOutputzUrlmode.Location" type="System.Drawing.Point, System.Drawing">
     <value>205, 72</value>
-  </data>
-  <data name="TextBox3.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
   </data>
   <data name="&gt;&gt;BasedPanel.Type" xml:space="preserve">
     <value>OpenTween.Setting.Panel.BasedPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
@@ -5856,17 +5382,11 @@
   <data name="IsPreviewFoursquareCheckBox.Text" xml:space="preserve">
     <value>FoursquareのURLからプレビューを表示する（非常に重くなります）</value>
   </data>
-  <data name="IconSize.Location" type="System.Drawing.Point, System.Drawing">
-    <value>252, 149</value>
-  </data>
   <data name="&gt;&gt;lblListBackcolor.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Label29.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="HideDuplicatedRetweetsCheck.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
   </data>
   <data name="Label63.Size" type="System.Drawing.Size, System.Drawing">
     <value>131, 12</value>
@@ -5889,9 +5409,6 @@
   <data name="&gt;&gt;Label61.Name" xml:space="preserve">
     <value>Label61</value>
   </data>
-  <data name="HideDuplicatedRetweetsCheck.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 16</value>
-  </data>
   <data name="&gt;&gt;label48.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -5900,9 +5417,6 @@
   </data>
   <data name="lblListFont.Text" xml:space="preserve">
     <value>This is sample.</value>
-  </data>
-  <data name="IconSize.Size" type="System.Drawing.Size, System.Drawing">
-    <value>163, 20</value>
   </data>
   <data name="&gt;&gt;HotkeyWin.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -5973,9 +5487,6 @@
   <data name="TimelinePeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>Disable</value>
   </data>
-  <data name="&gt;&gt;Label62.Parent" xml:space="preserve">
-    <value>TweetPrvPanel</value>
-  </data>
   <data name="&gt;&gt;lblTarget.Name" xml:space="preserve">
     <value>lblTarget</value>
   </data>
@@ -6021,12 +5532,6 @@
   <data name="MapThumbnailWidthTextBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>102, 46</value>
   </data>
-  <data name="IconSize.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckShowGrid.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="&gt;&gt;DMPeriod.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -6063,9 +5568,6 @@
   <data name="&gt;&gt;TreeViewSetting.Type" xml:space="preserve">
     <value>System.Windows.Forms.TreeView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="CmbDateTimeFormat.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
   <data name="LabelProxyAddress.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -6093,9 +5595,6 @@
   <data name="btnRetweet.Location" type="System.Drawing.Point, System.Drawing">
     <value>331, 121</value>
   </data>
-  <data name="Label47.Size" type="System.Drawing.Size, System.Drawing">
-    <value>131, 12</value>
-  </data>
   <data name="Label7.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 133</value>
   </data>
@@ -6119,9 +5618,6 @@
   </data>
   <data name="btnInputBackcolor.TabIndex" type="System.Int32, mscorlib">
     <value>23</value>
-  </data>
-  <data name="CmbDateTimeFormat.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="LabelProxyPassword.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -6207,9 +5703,6 @@
   <data name="&gt;&gt;GroupBox3.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Label62.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="&gt;&gt;lblDetailBackcolor.Parent" xml:space="preserve">
     <value>GroupBox1</value>
   </data>
@@ -6254,9 +5747,6 @@
   </data>
   <data name="SplitContainer1.SplitterDistance" type="System.Int32, mscorlib">
     <value>168</value>
-  </data>
-  <data name="CheckShowGrid.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
   </data>
   <data name="ConnectionTimeOut.ToolTip" xml:space="preserve">
     <value />
@@ -6308,12 +5798,6 @@
   </data>
   <data name="&gt;&gt;lblOWL.ZOrder" xml:space="preserve">
     <value>17</value>
-  </data>
-  <data name="&gt;&gt;chkUnreadStyle.Parent" xml:space="preserve">
-    <value>TweetPrvPanel</value>
-  </data>
-  <data name="CmbDateTimeFormat.Items7" xml:space="preserve">
-    <value>H:mm</value>
   </data>
   <data name="&gt;&gt;lblInputBackcolor.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -6434,9 +5918,6 @@
   </data>
   <data name="CheckFavoritesEvent.Size" type="System.Drawing.Size, System.Drawing">
     <value>192, 16</value>
-  </data>
-  <data name="CheckShowGrid.Text" xml:space="preserve">
-    <value>リストの区切り線を表示する</value>
   </data>
   <data name="lblAtTarget.ToolTip" xml:space="preserve">
     <value />

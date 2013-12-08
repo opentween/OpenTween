@@ -186,6 +186,12 @@
     <Compile Include="Setting\Panel\TweetActPanel.Designer.cs">
       <DependentUpon>TweetActPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Setting\Panel\TweetPrvPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Setting\Panel\TweetPrvPanel.Designer.cs">
+      <DependentUpon>TweetPrvPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="TabsDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -433,6 +439,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Setting\Panel\TweetActPanel.zh-CHS.resx">
       <DependentUpon>TweetActPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setting\Panel\TweetPrvPanel.en.resx">
+      <DependentUpon>TweetPrvPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setting\Panel\TweetPrvPanel.resx">
+      <DependentUpon>TweetPrvPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setting\Panel\TweetPrvPanel.zh-CHS.resx">
+      <DependentUpon>TweetPrvPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TabsDialog.en.resx">
       <DependentUpon>TabsDialog.cs</DependentUpon>

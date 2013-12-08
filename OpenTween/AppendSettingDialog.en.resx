@@ -211,69 +211,6 @@
 </value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="IsListsIncludeRtsCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>127, 16</value>
-  </data>
-  <data name="IsListsIncludeRtsCheckBox.Text" xml:space="preserve">
-    <value>Include RTs in Lists</value>
-  </data>
-  <data name="HideDuplicatedRetweetsCheck.Size" type="System.Drawing.Size, System.Drawing">
-    <value>151, 16</value>
-  </data>
-  <data name="HideDuplicatedRetweetsCheck.Text" xml:space="preserve">
-    <value>Hide duplicated retweets</value>
-  </data>
-  <data name="Label47.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 12</value>
-  </data>
-  <data name="Label47.Text" xml:space="preserve">
-    <value>Apply after restarting</value>
-  </data>
-  <data name="Label23.Size" type="System.Drawing.Size, System.Drawing">
-    <value>105, 12</value>
-  </data>
-  <data name="Label23.Text" xml:space="preserve">
-    <value>Date Format in List</value>
-  </data>
-  <data name="Label11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>162, 12</value>
-  </data>
-  <data name="Label11.Text" xml:space="preserve">
-    <value>Icon size in List (16 in default)</value>
-  </data>
-  <data name="IconSize.Items" xml:space="preserve">
-    <value>None</value>
-  </data>
-  <data name="CheckViewTabBottom.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 16</value>
-  </data>
-  <data name="CheckViewTabBottom.Text" xml:space="preserve">
-    <value>View tabs at the bottom of the list</value>
-  </data>
-  <data name="CheckSortOrderLock.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 16</value>
-  </data>
-  <data name="CheckSortOrderLock.Text" xml:space="preserve">
-    <value>Lock sort order</value>
-  </data>
-  <data name="CheckShowGrid.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 16</value>
-  </data>
-  <data name="CheckShowGrid.Text" xml:space="preserve">
-    <value>Show separator line</value>
-  </data>
-  <data name="chkUnreadStyle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>393, 16</value>
-  </data>
-  <data name="chkUnreadStyle.Text" xml:space="preserve">
-    <value>Enable unread style(font and color). (Unread can be found by star mark)</value>
-  </data>
-  <data name="OneWayLv.Size" type="System.Drawing.Size, System.Drawing">
-    <value>379, 16</value>
-  </data>
-  <data name="OneWayLv.Text" xml:space="preserve">
-    <value>Colorize one way love user's tweets (following and not followed user)</value>
-  </data>
   <data name="IsRemoveSameFavEventCheckBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>254, 16</value>
   </data>

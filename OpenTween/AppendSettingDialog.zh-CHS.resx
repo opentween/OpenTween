@@ -250,48 +250,6 @@
   <data name="Label59.Text" xml:space="preserve">
     <value>复活咒语</value>
   </data>
-  <data name="Label47.Size" type="System.Drawing.Size, System.Drawing">
-    <value>97, 12</value>
-  </data>
-  <data name="Label47.Text" xml:space="preserve">
-    <value>重启之后才生效。</value>
-  </data>
-  <data name="Label23.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 12</value>
-  </data>
-  <data name="Label23.Text" xml:space="preserve">
-    <value>列表中的日期时间格式</value>
-  </data>
-  <data name="Label11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 12</value>
-  </data>
-  <data name="Label11.Text" xml:space="preserve">
-    <value>列表中的头像图标大小(默认16)</value>
-  </data>
-  <data name="CheckSortOrderLock.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 16</value>
-  </data>
-  <data name="CheckSortOrderLock.Text" xml:space="preserve">
-    <value>固定</value>
-  </data>
-  <data name="CheckShowGrid.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 16</value>
-  </data>
-  <data name="CheckShowGrid.Text" xml:space="preserve">
-    <value>显示</value>
-  </data>
-  <data name="chkUnreadStyle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 16</value>
-  </data>
-  <data name="chkUnreadStyle.Text" xml:space="preserve">
-    <value>启用</value>
-  </data>
-  <data name="OneWayLv.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 16</value>
-  </data>
-  <data name="OneWayLv.Text" xml:space="preserve">
-    <value>启用</value>
-  </data>
   <data name="Label35.Size" type="System.Drawing.Size, System.Drawing">
     <value>77, 12</value>
   </data>
