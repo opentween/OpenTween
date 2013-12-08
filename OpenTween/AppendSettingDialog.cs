@@ -151,15 +151,15 @@ namespace OpenTween
             }
 
             this.UserAccounts.Clear();
-            foreach (object u in this.AuthUserCombo.Items)
+            foreach (object u in this.BasedPanel.AuthUserCombo.Items)
             {
                 this.UserAccounts.Add((UserAccount)u);
             }
-            if (this.AuthUserCombo.SelectedIndex > -1)
+            if (this.BasedPanel.AuthUserCombo.SelectedIndex > -1)
             {
                 foreach (UserAccount u in this.UserAccounts)
                 {
-                    if (u.Username.ToLower() == ((UserAccount)this.AuthUserCombo.SelectedItem).Username.ToLower())
+                    if (u.Username.ToLower() == ((UserAccount)this.BasedPanel.AuthUserCombo.SelectedItem).Username.ToLower())
                     {
                         tw.Initialize(u.Token, u.TokenSecret, u.Username, u.UserId);
                         if (u.UserId == 0)
@@ -510,7 +510,7 @@ namespace OpenTween
                 //キャンセル時は画面表示時のアカウントに戻す
                 //キャンセル時でも認証済みアカウント情報は保存する
                 this.UserAccounts.Clear();
-                foreach (object u in this.AuthUserCombo.Items)
+                foreach (object u in this.BasedPanel.AuthUserCombo.Items)
                 {
                     this.UserAccounts.Add((UserAccount)u);
                 }
@@ -558,12 +558,6 @@ namespace OpenTween
 
         private void Setting_Load(object sender, EventArgs e)
         {
-#if UA
-            this.FollowCheckBox.Text = string.Format(this.FollowCheckBox.Text, ApplicationSettings.FeedbackTwitterName);
-            this.GroupBox2.Visible = true;
-#else
-            this.GroupBox2.Visible = false;
-#endif
             tw = ((TweenMain)this.Owner).TwitterInstance;
             string uname = tw.Username;
             string pw = tw.Password;
@@ -571,7 +565,7 @@ namespace OpenTween
             string tks = tw.AccessTokenSecret;
             //this.AuthStateLabel.Enabled = true;
             //this.AuthUserLabel.Enabled = true;
-            this.AuthClearButton.Enabled = true;
+            this.BasedPanel.AuthClearButton.Enabled = true;
 
             //if (tw.Username == "")
             //{
@@ -593,15 +587,15 @@ namespace OpenTween
             //    //this.AuthUserLabel.Text = tw.Username;
             //}
 
-            this.AuthUserCombo.Items.Clear();
+            this.BasedPanel.AuthUserCombo.Items.Clear();
             if (this.UserAccounts.Count > 0)
             {
-                this.AuthUserCombo.Items.AddRange(this.UserAccounts.ToArray());
+                this.BasedPanel.AuthUserCombo.Items.AddRange(this.UserAccounts.ToArray());
                 foreach (UserAccount u in this.UserAccounts)
                 {
                     if (u.UserId == tw.UserId)
                     {
-                        this.AuthUserCombo.SelectedItem = u;
+                        this.BasedPanel.AuthUserCombo.SelectedItem = u;
                         this.InitialUserId = u.UserId;
                         break;
                     }
@@ -923,7 +917,7 @@ namespace OpenTween
             this.TreeViewSetting.ExpandAll();
 
             //TreeViewSetting.SelectedNode = TreeViewSetting.TopNode;
-            ActiveControl = StartAuthButton;
+            ActiveControl = BasedPanel.StartAuthButton;
         }
 
         private void UserstreamPeriod_Validating(object sender, CancelEventArgs e)
@@ -1662,23 +1656,23 @@ namespace OpenTween
                 user.Token = tw.AccessToken;
                 user.TokenSecret = tw.AccessTokenSecret;
 
-                foreach (object u in this.AuthUserCombo.Items)
+                foreach (object u in this.BasedPanel.AuthUserCombo.Items)
                 {
                     if (((UserAccount)u).Username.ToLower() == tw.Username.ToLower())
                     {
-                        idx = this.AuthUserCombo.Items.IndexOf(u);
+                        idx = this.BasedPanel.AuthUserCombo.Items.IndexOf(u);
                         break;
                     }
                 }
                 if (idx > -1)
                 {
-                    this.AuthUserCombo.Items.RemoveAt(idx);
-                    this.AuthUserCombo.Items.Insert(idx, user);
-                    this.AuthUserCombo.SelectedIndex = idx;
+                    this.BasedPanel.AuthUserCombo.Items.RemoveAt(idx);
+                    this.BasedPanel.AuthUserCombo.Items.Insert(idx, user);
+                    this.BasedPanel.AuthUserCombo.SelectedIndex = idx;
                 }
                 else
                 {
-                    this.AuthUserCombo.SelectedIndex = this.AuthUserCombo.Items.Add(user);
+                    this.BasedPanel.AuthUserCombo.SelectedIndex = this.BasedPanel.AuthUserCombo.Items.Add(user);
                 }
                 //if (TwitterApiInfo.AccessLevel = ApiAccessLevel.ReadWrite)
                 //{
@@ -1709,26 +1703,6 @@ namespace OpenTween
                     //this.Save.Enabled = true;
                 }
             }
-        }
-
-        private void AuthClearButton_Click(object sender, EventArgs e)
-        {
-            //tw.ClearAuthInfo();
-            //this.AuthStateLabel.Text = Properties.Resources.AuthorizeButton_Click4;
-            //this.AuthUserLabel.Text = "";
-            if (this.AuthUserCombo.SelectedIndex > -1)
-            {
-                this.AuthUserCombo.Items.RemoveAt(this.AuthUserCombo.SelectedIndex);
-                if (this.AuthUserCombo.Items.Count > 0)
-                {
-                    this.AuthUserCombo.SelectedIndex = 0;
-                }
-                else
-                {
-                    this.AuthUserCombo.SelectedIndex = -1;
-                }
-            }
-            //this.Save.Enabled = false;
         }
 
         private void CheckPostAndGet_CheckedChanged(object sender, EventArgs e)
@@ -2037,6 +2011,9 @@ namespace OpenTween
         public AppendSettingDialog()
         {
             InitializeComponent();
+
+            this.BasedPanel.StartAuthButton.Click += this.StartAuthButton_Click;
+            this.BasedPanel.CreateAccountButton.Click += this.CreateAccountButton_Click;
 
             this.Icon = Properties.Resources.MIcon;
         }

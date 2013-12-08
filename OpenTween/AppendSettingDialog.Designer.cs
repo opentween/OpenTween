@@ -37,18 +37,7 @@
             this.TweetActPanel = new OpenTween.Setting.Panel.TweetActPanel();
             this.GetCountPanel = new OpenTween.Setting.Panel.GetCountPanel();
             this.ShortUrlPanel = new OpenTween.Setting.Panel.ShortUrlPanel();
-            this.BasedPanel = new System.Windows.Forms.Panel();
-            this.AuthUserCombo = new System.Windows.Forms.ComboBox();
-            this.GroupBox2 = new System.Windows.Forms.GroupBox();
-            this.Label1 = new System.Windows.Forms.Label();
-            this.EmailText = new System.Windows.Forms.TextBox();
-            this.Label6 = new System.Windows.Forms.Label();
-            this.FollowCheckBox = new System.Windows.Forms.CheckBox();
-            this.Label43 = new System.Windows.Forms.Label();
-            this.CreateAccountButton = new System.Windows.Forms.Button();
-            this.StartAuthButton = new System.Windows.Forms.Button();
-            this.AuthClearButton = new System.Windows.Forms.Button();
-            this.Label4 = new System.Windows.Forms.Label();
+            this.BasedPanel = new OpenTween.Setting.Panel.BasedPanel();
             this.TweetPrvPanel = new System.Windows.Forms.Panel();
             this.IsListsIncludeRtsCheckBox = new System.Windows.Forms.CheckBox();
             this.HideDuplicatedRetweetsCheck = new System.Windows.Forms.CheckBox();
@@ -231,8 +220,6 @@
             this.SplitContainer1.Panel1.SuspendLayout();
             this.SplitContainer1.Panel2.SuspendLayout();
             this.SplitContainer1.SuspendLayout();
-            this.BasedPanel.SuspendLayout();
-            this.GroupBox2.SuspendLayout();
             this.TweetPrvPanel.SuspendLayout();
             this.NotifyPanel.SuspendLayout();
             this.CooperatePanel.SuspendLayout();
@@ -332,98 +319,8 @@
             // BasedPanel
             // 
             resources.ApplyResources(this.BasedPanel, "BasedPanel");
-            this.BasedPanel.Controls.Add(this.AuthUserCombo);
-            this.BasedPanel.Controls.Add(this.GroupBox2);
-            this.BasedPanel.Controls.Add(this.CreateAccountButton);
-            this.BasedPanel.Controls.Add(this.StartAuthButton);
-            this.BasedPanel.Controls.Add(this.AuthClearButton);
-            this.BasedPanel.Controls.Add(this.Label4);
             this.BasedPanel.Name = "BasedPanel";
             this.ToolTip1.SetToolTip(this.BasedPanel, resources.GetString("BasedPanel.ToolTip"));
-            // 
-            // AuthUserCombo
-            // 
-            resources.ApplyResources(this.AuthUserCombo, "AuthUserCombo");
-            this.AuthUserCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.AuthUserCombo.FormattingEnabled = true;
-            this.AuthUserCombo.Name = "AuthUserCombo";
-            this.ToolTip1.SetToolTip(this.AuthUserCombo, resources.GetString("AuthUserCombo.ToolTip"));
-            // 
-            // GroupBox2
-            // 
-            resources.ApplyResources(this.GroupBox2, "GroupBox2");
-            this.GroupBox2.Controls.Add(this.Label1);
-            this.GroupBox2.Controls.Add(this.EmailText);
-            this.GroupBox2.Controls.Add(this.Label6);
-            this.GroupBox2.Controls.Add(this.FollowCheckBox);
-            this.GroupBox2.Controls.Add(this.Label43);
-            this.GroupBox2.Name = "GroupBox2";
-            this.GroupBox2.TabStop = false;
-            this.ToolTip1.SetToolTip(this.GroupBox2, resources.GetString("GroupBox2.ToolTip"));
-            // 
-            // Label1
-            // 
-            resources.ApplyResources(this.Label1, "Label1");
-            this.Label1.Name = "Label1";
-            this.ToolTip1.SetToolTip(this.Label1, resources.GetString("Label1.ToolTip"));
-            // 
-            // EmailText
-            // 
-            resources.ApplyResources(this.EmailText, "EmailText");
-            this.EmailText.Name = "EmailText";
-            this.ToolTip1.SetToolTip(this.EmailText, resources.GetString("EmailText.ToolTip"));
-            // 
-            // Label6
-            // 
-            resources.ApplyResources(this.Label6, "Label6");
-            this.Label6.Name = "Label6";
-            this.ToolTip1.SetToolTip(this.Label6, resources.GetString("Label6.ToolTip"));
-            // 
-            // FollowCheckBox
-            // 
-            resources.ApplyResources(this.FollowCheckBox, "FollowCheckBox");
-            this.FollowCheckBox.Checked = true;
-            this.FollowCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.FollowCheckBox.Name = "FollowCheckBox";
-            this.ToolTip1.SetToolTip(this.FollowCheckBox, resources.GetString("FollowCheckBox.ToolTip"));
-            this.FollowCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // Label43
-            // 
-            resources.ApplyResources(this.Label43, "Label43");
-            this.Label43.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.Label43.Name = "Label43";
-            this.ToolTip1.SetToolTip(this.Label43, resources.GetString("Label43.ToolTip"));
-            // 
-            // CreateAccountButton
-            // 
-            resources.ApplyResources(this.CreateAccountButton, "CreateAccountButton");
-            this.CreateAccountButton.Name = "CreateAccountButton";
-            this.ToolTip1.SetToolTip(this.CreateAccountButton, resources.GetString("CreateAccountButton.ToolTip"));
-            this.CreateAccountButton.UseVisualStyleBackColor = true;
-            this.CreateAccountButton.Click += new System.EventHandler(this.CreateAccountButton_Click);
-            // 
-            // StartAuthButton
-            // 
-            resources.ApplyResources(this.StartAuthButton, "StartAuthButton");
-            this.StartAuthButton.Name = "StartAuthButton";
-            this.ToolTip1.SetToolTip(this.StartAuthButton, resources.GetString("StartAuthButton.ToolTip"));
-            this.StartAuthButton.UseVisualStyleBackColor = true;
-            this.StartAuthButton.Click += new System.EventHandler(this.StartAuthButton_Click);
-            // 
-            // AuthClearButton
-            // 
-            resources.ApplyResources(this.AuthClearButton, "AuthClearButton");
-            this.AuthClearButton.Name = "AuthClearButton";
-            this.ToolTip1.SetToolTip(this.AuthClearButton, resources.GetString("AuthClearButton.ToolTip"));
-            this.AuthClearButton.UseVisualStyleBackColor = true;
-            this.AuthClearButton.Click += new System.EventHandler(this.AuthClearButton_Click);
-            // 
-            // Label4
-            // 
-            resources.ApplyResources(this.Label4, "Label4");
-            this.Label4.Name = "Label4";
-            this.ToolTip1.SetToolTip(this.Label4, resources.GetString("Label4.ToolTip"));
             // 
             // TweetPrvPanel
             // 
@@ -2008,10 +1905,6 @@
             this.SplitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer1)).EndInit();
             this.SplitContainer1.ResumeLayout(false);
-            this.BasedPanel.ResumeLayout(false);
-            this.BasedPanel.PerformLayout();
-            this.GroupBox2.ResumeLayout(false);
-            this.GroupBox2.PerformLayout();
             this.TweetPrvPanel.ResumeLayout(false);
             this.TweetPrvPanel.PerformLayout();
             this.NotifyPanel.ResumeLayout(false);
@@ -2056,18 +1949,7 @@
         private Setting.Panel.TweetActPanel TweetActPanel;
         private Setting.Panel.GetCountPanel GetCountPanel;
         private Setting.Panel.ShortUrlPanel ShortUrlPanel;
-        internal System.Windows.Forms.Panel BasedPanel;
-        internal System.Windows.Forms.ComboBox AuthUserCombo;
-        internal System.Windows.Forms.GroupBox GroupBox2;
-        internal System.Windows.Forms.Label Label1;
-        internal System.Windows.Forms.TextBox EmailText;
-        internal System.Windows.Forms.Label Label6;
-        internal System.Windows.Forms.CheckBox FollowCheckBox;
-        internal System.Windows.Forms.Label Label43;
-        internal System.Windows.Forms.Button CreateAccountButton;
-        internal System.Windows.Forms.Button StartAuthButton;
-        internal System.Windows.Forms.Button AuthClearButton;
-        internal System.Windows.Forms.Label Label4;
+        private Setting.Panel.BasedPanel BasedPanel;
         internal System.Windows.Forms.Panel TweetPrvPanel;
         internal System.Windows.Forms.CheckBox IsListsIncludeRtsCheckBox;
         internal System.Windows.Forms.CheckBox HideDuplicatedRetweetsCheck;

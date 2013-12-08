@@ -211,36 +211,6 @@
 </value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="GroupBox2.Text" xml:space="preserve">
-    <value>Tween support</value>
-  </data>
-  <data name="Label1.Text" xml:space="preserve">
-    <value>We recommend to follow @TweenApp.</value>
-  </data>
-  <data name="FollowCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>73, 16</value>
-  </data>
-  <data name="FollowCheckBox.Text" xml:space="preserve">
-    <value>Follow {0}</value>
-  </data>
-  <data name="Label43.Text" xml:space="preserve">
-    <value>This account will accept, and answer demanding and inquiring besides the upgrade and useful information are passed on.</value>
-  </data>
-  <data name="CreateAccountButton.Text" xml:space="preserve">
-    <value>Sign up for Twitter account</value>
-  </data>
-  <data name="StartAuthButton.Text" xml:space="preserve">
-    <value>Start Authentiation</value>
-  </data>
-  <data name="AuthClearButton.Text" xml:space="preserve">
-    <value>Remove</value>
-  </data>
-  <data name="Label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 12</value>
-  </data>
-  <data name="Label4.Text" xml:space="preserve">
-    <value>Account</value>
-  </data>
   <data name="IsListsIncludeRtsCheckBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>127, 16</value>
   </data>

@@ -180,9 +180,6 @@
   <data name="SplitContainer1.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="AuthUserCombo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>109, 26</value>
-  </data>
   <data name="RadioProxyNone.Size" type="System.Drawing.Size, System.Drawing">
     <value>76, 16</value>
   </data>
@@ -207,17 +204,8 @@
   <data name="&gt;&gt;Label15.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;StartAuthButton.Name" xml:space="preserve">
-    <value>StartAuthButton</value>
-  </data>
-  <data name="&gt;&gt;Label4.Name" xml:space="preserve">
-    <value>Label4</value>
-  </data>
   <data name="Label33.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
-  </data>
-  <data name="&gt;&gt;Label6.Parent" xml:space="preserve">
-    <value>GroupBox2</value>
   </data>
   <data name="&gt;&gt;TextProxyPort.ZOrder" xml:space="preserve">
     <value>9</value>
@@ -270,9 +258,6 @@
   <data name="CheckCloseToExit.Size" type="System.Drawing.Size, System.Drawing">
     <value>171, 16</value>
   </data>
-  <data name="CreateAccountButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>315, 331</value>
-  </data>
   <data name="ComboBoxTranslateLanguage.Items49" xml:space="preserve">
     <value>French (Canada)</value>
   </data>
@@ -303,9 +288,6 @@
   <data name="ComboBoxTranslateLanguage.Items46" xml:space="preserve">
     <value>Finnish</value>
   </data>
-  <data name="&gt;&gt;AuthClearButton.Name" xml:space="preserve">
-    <value>AuthClearButton</value>
-  </data>
   <data name="MapThumbnailProviderComboBox.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -323,9 +305,6 @@
   </data>
   <data name="&gt;&gt;btnDetail.ZOrder" xml:space="preserve">
     <value>13</value>
-  </data>
-  <data name="&gt;&gt;EmailText.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="&gt;&gt;btnDetailBack.Parent" xml:space="preserve">
     <value>GroupBox1</value>
@@ -357,9 +336,6 @@
   <data name="&gt;&gt;StartupPanel.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;CreateAccountButton.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
   <data name="&gt;&gt;ShortUrlPanel.Name" xml:space="preserve">
     <value>ShortUrlPanel</value>
   </data>
@@ -389,9 +365,6 @@
   </data>
   <data name="&gt;&gt;lblOWL.Name" xml:space="preserve">
     <value>lblOWL</value>
-  </data>
-  <data name="Label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 12</value>
   </data>
   <data name="&gt;&gt;Label11.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -437,9 +410,6 @@
   </data>
   <data name="&gt;&gt;ButtonBackToDefaultFontColor.Parent" xml:space="preserve">
     <value>GroupBox1</value>
-  </data>
-  <data name="&gt;&gt;Label6.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;IsRemoveSameFavEventCheckBox.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -593,12 +563,6 @@
   <data name="GetCountPanel.Size" type="System.Drawing.Size, System.Drawing">
     <value>519, 368</value>
   </data>
-  <data name="Label43.Text" xml:space="preserve">
-    <value>バージョンアップやお役立ち情報をお伝えするほか、要望やお問い合わせの受付、回答をいたします。</value>
-  </data>
-  <data name="AuthClearButton.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="Label55.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -607,9 +571,6 @@
   </data>
   <data name="&gt;&gt;BrowserPathText.Name" xml:space="preserve">
     <value>BrowserPathText</value>
-  </data>
-  <data name="FollowCheckBox.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="TextProxyPassword.Size" type="System.Drawing.Size, System.Drawing">
     <value>96, 19</value>
@@ -701,9 +662,6 @@
   <data name="&gt;&gt;HotkeyText.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;GroupBox2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="SplitContainer1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -770,9 +728,6 @@
   <data name="CheckListCreatedEvent.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="&gt;&gt;GroupBox2.Name" xml:space="preserve">
-    <value>GroupBox2</value>
-  </data>
   <data name="TwitterAPIText.Text" xml:space="preserve">
     <value>api.twitter.com</value>
   </data>
@@ -795,9 +750,6 @@
     <value>ConnectionPanel</value>
   </data>
   <data name="HotkeyWin.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="StartAuthButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="Label21.Size" type="System.Drawing.Size, System.Drawing">
@@ -1030,9 +982,6 @@
   <data name="&gt;&gt;PreviewPanel.Type" xml:space="preserve">
     <value>OpenTween.Setting.Panel.PreviewPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;AuthUserCombo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;Label37.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -1101,9 +1050,6 @@
   </data>
   <data name="btnInputBackcolor.Text" xml:space="preserve">
     <value>背景色</value>
-  </data>
-  <data name="CreateAccountButton.Text" xml:space="preserve">
-    <value>Twitter アカウントを作成する</value>
   </data>
   <data name="CheckFavEventUnread.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -1219,9 +1165,6 @@
   <data name="&gt;&gt;Label33.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;GroupBox2.Parent" xml:space="preserve">
-    <value>BasedPanel</value>
-  </data>
   <data name="&gt;&gt;lblInputFont.Parent" xml:space="preserve">
     <value>GroupBox5</value>
   </data>
@@ -1239,9 +1182,6 @@
   </data>
   <data name="&gt;&gt;lblTarget.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="FollowCheckBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="&gt;&gt;Cancel.ZOrder" xml:space="preserve">
     <value>2</value>
@@ -1296,9 +1236,6 @@
   </data>
   <data name="Label61.Text" xml:space="preserve">
     <value>リストフォント</value>
-  </data>
-  <data name="EmailText.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
   </data>
   <data name="Cancel.Text" xml:space="preserve">
     <value>キャンセル</value>
@@ -1407,9 +1344,6 @@
   </data>
   <data name="ComboBoxOutputzUrlmode.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
-  </data>
-  <data name="Label1.Text" xml:space="preserve">
-    <value>サポート用アカウントのフォローをお勧めしています。</value>
   </data>
   <data name="PubSearchPeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>Disable</value>
@@ -1567,14 +1501,8 @@
   <data name="lblSelf.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="&gt;&gt;Label43.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
   <data name="&gt;&gt;Label47.ZOrder" xml:space="preserve">
     <value>2</value>
-  </data>
-  <data name="Label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="PreviewPanel.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -1624,14 +1552,8 @@
   <data name="&gt;&gt;Label7.ZOrder" xml:space="preserve">
     <value>13</value>
   </data>
-  <data name="&gt;&gt;GroupBox2.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="&gt;&gt;TwitterAPIText.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="FollowCheckBox.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
   </data>
   <data name="Label7.Text" xml:space="preserve">
     <value>Twitter検索更新間隔（秒）</value>
@@ -1873,9 +1795,6 @@
   <data name="CheckFavEventUnread.Size" type="System.Drawing.Size, System.Drawing">
     <value>271, 16</value>
   </data>
-  <data name="&gt;&gt;AuthClearButton.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
   <data name="&gt;&gt;TextProxyPassword.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
@@ -1945,9 +1864,6 @@
   <data name="ProxyPanel.Size" type="System.Drawing.Size, System.Drawing">
     <value>519, 368</value>
   </data>
-  <data name="&gt;&gt;FollowCheckBox.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
   <data name="GetPeriodPanel.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
@@ -1981,9 +1897,6 @@
   <data name="&gt;&gt;SplitContainer1.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="GroupBox2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>25, 161</value>
-  </data>
   <data name="HotkeyCheck.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -1995,9 +1908,6 @@
   </data>
   <data name="btnAtTo.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
-  </data>
-  <data name="Label43.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="Label26.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 148</value>
@@ -2034,9 +1944,6 @@
   </data>
   <data name="UserTimelinePeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>Disable</value>
-  </data>
-  <data name="GroupBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>476, 162</value>
   </data>
   <data name="TextBox3.ToolTip" xml:space="preserve">
     <value />
@@ -2087,9 +1994,6 @@
     <value />
   </data>
   <data name="LabelProxyPort.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="lblRetweet.Location" type="System.Drawing.Point, System.Drawing">
@@ -2161,12 +2065,6 @@
   <data name="ConnectionPanel.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="FollowCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>36, 56</value>
-  </data>
-  <data name="FollowCheckBox.Text" xml:space="preserve">
-    <value>{0} をフォローする</value>
-  </data>
   <data name="Label22.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -2205,9 +2103,6 @@
   </data>
   <data name="&gt;&gt;TextProxyAddress.ZOrder" xml:space="preserve">
     <value>10</value>
-  </data>
-  <data name="&gt;&gt;Label6.Name" xml:space="preserve">
-    <value>Label6</value>
   </data>
   <data name="&gt;&gt;CheckViewTabBottom.Name" xml:space="preserve">
     <value>CheckViewTabBottom</value>
@@ -2497,9 +2392,6 @@
   <data name="TextProxyUser.Location" type="System.Drawing.Point, System.Drawing">
     <value>143, 107</value>
   </data>
-  <data name="Label6.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
   <data name="&gt;&gt;lblAtTarget.Name" xml:space="preserve">
     <value>lblAtTarget</value>
   </data>
@@ -2725,12 +2617,6 @@
   <data name="lblDetail.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
-  <data name="StartAuthButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>99, 68</value>
-  </data>
-  <data name="&gt;&gt;Label43.Name" xml:space="preserve">
-    <value>Label43</value>
-  </data>
   <data name="CheckPostAndGet.Text" xml:space="preserve">
     <value>投稿時取得</value>
   </data>
@@ -2742,9 +2628,6 @@
   </data>
   <data name="btnDetail.Location" type="System.Drawing.Point, System.Drawing">
     <value>331, 146</value>
-  </data>
-  <data name="&gt;&gt;Label1.Parent" xml:space="preserve">
-    <value>GroupBox2</value>
   </data>
   <data name="&gt;&gt;Label35.ZOrder" xml:space="preserve">
     <value>2</value>
@@ -2770,9 +2653,6 @@
   <data name="Label7.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="&gt;&gt;Label43.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;IconSize.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -2793,9 +2673,6 @@
   </data>
   <data name="Label64.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 51</value>
-  </data>
-  <data name="&gt;&gt;AuthClearButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="IsRemoveSameFavEventCheckBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 257</value>
@@ -2820,9 +2697,6 @@
   </data>
   <data name="TimelinePeriod.Location" type="System.Drawing.Point, System.Drawing">
     <value>258, 37</value>
-  </data>
-  <data name="Label6.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
   </data>
   <data name="ComboBoxOutputzUrlmode.ToolTip" xml:space="preserve">
     <value />
@@ -2893,9 +2767,6 @@
   <data name="&gt;&gt;Label22.ZOrder" xml:space="preserve">
     <value>21</value>
   </data>
-  <data name="CreateAccountButton.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="&gt;&gt;Label49.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -2910,9 +2781,6 @@
   </data>
   <data name="Label40.Location" type="System.Drawing.Point, System.Drawing">
     <value>11, 49</value>
-  </data>
-  <data name="EmailText.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="&gt;&gt;TweetPrvPanel.Type" xml:space="preserve">
     <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -2965,12 +2833,6 @@
   <data name="Label49.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="Label6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>34, 71</value>
-  </data>
-  <data name="Label6.Text" xml:space="preserve">
-    <value>メールアドレスの登録</value>
-  </data>
   <data name="Label41.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
@@ -2988,9 +2850,6 @@
   </data>
   <data name="btnUnread.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
-  </data>
-  <data name="Label4.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
   </data>
   <data name="&gt;&gt;btnAtFromTarget.Parent" xml:space="preserve">
     <value>GroupBox5</value>
@@ -3109,9 +2968,6 @@
   <data name="ComboBoxTranslateLanguage.Items97" xml:space="preserve">
     <value>Spanish (Venezuela)</value>
   </data>
-  <data name="StartAuthButton.Text" xml:space="preserve">
-    <value>認証開始</value>
-  </data>
   <data name="&gt;&gt;Label69.Name" xml:space="preserve">
     <value>Label69</value>
   </data>
@@ -3142,9 +2998,6 @@
   <data name="&gt;&gt;Label23.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="GroupBox2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="lblTarget.Text" xml:space="preserve">
     <value>This is sample.</value>
   </data>
@@ -3153,12 +3006,6 @@
   </data>
   <data name="Label47.Text" xml:space="preserve">
     <value>再起動後有効になります。</value>
-  </data>
-  <data name="Label6.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;CreateAccountButton.Parent" xml:space="preserve">
-    <value>BasedPanel</value>
   </data>
   <data name="IsPreviewFoursquareCheckBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>327, 16</value>
@@ -3177,9 +3024,6 @@
   </data>
   <data name="&gt;&gt;TextProxyUser.ZOrder" xml:space="preserve">
     <value>5</value>
-  </data>
-  <data name="Label4.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="&gt;&gt;btnListBack.Parent" xml:space="preserve">
     <value>GroupBox5</value>
@@ -3207,9 +3051,6 @@
   </data>
   <data name="Label80.Text" xml:space="preserve">
     <value>ReTweet</value>
-  </data>
-  <data name="Label4.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="Label11.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -3241,9 +3082,6 @@
   <data name="IsRemoveSameFavEventCheckBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="&gt;&gt;AuthUserCombo.Parent" xml:space="preserve">
-    <value>BasedPanel</value>
-  </data>
   <data name="&gt;&gt;Label29.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -3268,9 +3106,6 @@
   <data name="&gt;&gt;Label32.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
-  <data name="AuthClearButton.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
   <data name="&gt;&gt;CheckFavoritesEvent.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -3293,9 +3128,6 @@
     <value>Label16</value>
   </data>
   <data name="TreeViewSetting.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="StartAuthButton.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="Label23.Location" type="System.Drawing.Point, System.Drawing">
@@ -3370,9 +3202,6 @@
   <data name="ComboBoxTranslateLanguage.Items67" xml:space="preserve">
     <value>Japanese</value>
   </data>
-  <data name="&gt;&gt;Label6.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
   <data name="Label63.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
@@ -3399,9 +3228,6 @@
   </data>
   <data name="&gt;&gt;IsListsIncludeRtsCheckBox.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="Label4.Text" xml:space="preserve">
-    <value>アカウント</value>
   </data>
   <data name="&gt;&gt;IsPreviewFoursquareCheckBox.Name" xml:space="preserve">
     <value>IsPreviewFoursquareCheckBox</value>
@@ -3445,14 +3271,8 @@
   <data name="StartupUserstreamCheck.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="Label1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="SplitContainer1.Panel2.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="Label43.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
   </data>
   <data name="&gt;&gt;CheckViewTabBottom.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -3501,9 +3321,6 @@
   </data>
   <data name="&gt;&gt;btnDetail.Name" xml:space="preserve">
     <value>btnDetail</value>
-  </data>
-  <data name="StartAuthButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>321, 45</value>
   </data>
   <data name="StartupPanel.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -3592,14 +3409,8 @@
   <data name="&gt;&gt;LabelProxyAddress.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
-  <data name="AuthUserCombo.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="&gt;&gt;HotkeyText.ZOrder" xml:space="preserve">
     <value>2</value>
-  </data>
-  <data name="Label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>463, 26</value>
   </data>
   <data name="&gt;&gt;HotkeyAlt.Parent" xml:space="preserve">
     <value>GroupBox3</value>
@@ -3642,9 +3453,6 @@
   </data>
   <data name="CooperatePanel.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="&gt;&gt;Label1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;HotkeyCode.Name" xml:space="preserve">
     <value>HotkeyCode</value>
@@ -3754,9 +3562,6 @@
   <data name="Label52.TabIndex" type="System.Int32, mscorlib">
     <value>21</value>
   </data>
-  <data name="AuthUserCombo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 20</value>
-  </data>
   <data name="FontPanel.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -3843,9 +3648,6 @@
   <data name="LabelProxyPassword.Location" type="System.Drawing.Point, System.Drawing">
     <value>217, 110</value>
   </data>
-  <data name="FollowCheckBox.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="lblAtTarget.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
@@ -3902,12 +3704,6 @@
   </data>
   <data name="lblUnread.Text" xml:space="preserve">
     <value>This is sample.</value>
-  </data>
-  <data name="&gt;&gt;Label1.Name" xml:space="preserve">
-    <value>Label1</value>
-  </data>
-  <data name="AuthClearButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="ComboBoxTranslateLanguage.Items105" xml:space="preserve">
     <value>Spanish (Bolivia)</value>
@@ -4128,9 +3924,6 @@
   <data name="MapThumbnailWidthTextBox.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="&gt;&gt;Label1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="&gt;&gt;ListsPeriod.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -4163,9 +3956,6 @@
   </data>
   <data name="CheckOpenUserTimeline.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="&gt;&gt;EmailText.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Label18.TabIndex" type="System.Int32, mscorlib">
     <value>18</value>
@@ -4205,9 +3995,6 @@
   </data>
   <data name="chkReadOwnPost.Size" type="System.Drawing.Size, System.Drawing">
     <value>143, 16</value>
-  </data>
-  <data name="EmailText.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
   </data>
   <data name="&gt;&gt;lblAtSelf.Name" xml:space="preserve">
     <value>lblAtSelf</value>
@@ -4269,17 +4056,8 @@
   <data name="RadioProxySpecified.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="EmailText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>326, 19</value>
-  </data>
   <data name="CheckReadOldPosts.Size" type="System.Drawing.Size, System.Drawing">
     <value>145, 16</value>
-  </data>
-  <data name="&gt;&gt;EmailText.Parent" xml:space="preserve">
-    <value>GroupBox2</value>
-  </data>
-  <data name="AuthClearButton.Text" xml:space="preserve">
-    <value>削除</value>
   </data>
   <data name="btnAtFromTarget.ToolTip" xml:space="preserve">
     <value />
@@ -4349,12 +4127,6 @@
   </data>
   <data name="ListDoubleClickActionComboBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>263, 277</value>
-  </data>
-  <data name="&gt;&gt;CreateAccountButton.Name" xml:space="preserve">
-    <value>CreateAccountButton</value>
-  </data>
-  <data name="&gt;&gt;StartAuthButton.ZOrder" xml:space="preserve">
-    <value>3</value>
   </data>
   <data name="&gt;&gt;Label8.Parent" xml:space="preserve">
     <value>ConnectionPanel</value>
@@ -4549,9 +4321,6 @@
   <data name="CheckListCreatedEvent.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
   </data>
-  <data name="AuthUserCombo.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
   <data name="Label22.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -4596,9 +4365,6 @@
   </data>
   <data name="LabelProxyAddress.Text" xml:space="preserve">
     <value>プロキシ(&amp;X)</value>
-  </data>
-  <data name="&gt;&gt;Label4.ZOrder" xml:space="preserve">
-    <value>5</value>
   </data>
   <data name="Label32.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -4648,9 +4414,6 @@
   <data name="Label80.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
   </data>
-  <data name="Label43.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 101</value>
-  </data>
   <data name="btnAtSelf.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -4689,9 +4452,6 @@
   <data name="&gt;&gt;lblOWL.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Label43.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="CheckFavoritesEvent.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
@@ -4725,14 +4485,8 @@
   <data name="Label65.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="&gt;&gt;StartAuthButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;ListsPeriod.ZOrder" xml:space="preserve">
     <value>12</value>
-  </data>
-  <data name="CreateAccountButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>186, 23</value>
   </data>
   <data name="&gt;&gt;CheckOutputz.Name" xml:space="preserve">
     <value>CheckOutputz</value>
@@ -4749,14 +4503,8 @@
   <data name="&gt;&gt;btnDetailLink.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="StartAuthButton.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
   <data name="&gt;&gt;Label36.Parent" xml:space="preserve">
     <value>GroupBox5</value>
-  </data>
-  <data name="Label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 17</value>
   </data>
   <data name="LabelProxyUser.ToolTip" xml:space="preserve">
     <value />
@@ -5018,9 +4766,6 @@
   </data>
   <data name="CheckOpenUserTimeline.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 232</value>
-  </data>
-  <data name="AuthClearButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
   </data>
   <data name="ComboBoxTranslateLanguage.Items78" xml:space="preserve">
     <value>Portuguese (Brazil)</value>
@@ -5286,9 +5031,6 @@
   <data name="&gt;&gt;Button3.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
-  <data name="&gt;&gt;FollowCheckBox.Parent" xml:space="preserve">
-    <value>GroupBox2</value>
-  </data>
   <data name="&gt;&gt;TextProxyUser.Name" xml:space="preserve">
     <value>TextProxyUser</value>
   </data>
@@ -5523,9 +5265,6 @@
   <data name="Label42.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="Label1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
   <data name="ActionPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -5573,9 +5312,6 @@
   </data>
   <data name="&gt;&gt;IconSize.ZOrder" xml:space="preserve">
     <value>8</value>
-  </data>
-  <data name="Label6.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="CheckUseSsl.Text" xml:space="preserve">
     <value>通信にHTTPSを使用する</value>
@@ -5640,9 +5376,6 @@
   <data name="lblUnread.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
-  <data name="Label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 29</value>
-  </data>
   <data name="&gt;&gt;HotkeyAlt.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -5703,14 +5436,8 @@
   <data name="lblTarget.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
-  <data name="Label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>49, 12</value>
-  </data>
   <data name="lblAtTo.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
-  </data>
-  <data name="Label6.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="&gt;&gt;ReplyPeriod.ZOrder" xml:space="preserve">
     <value>16</value>
@@ -5735,9 +5462,6 @@
   </data>
   <data name="UserstreamPeriod.Location" type="System.Drawing.Point, System.Drawing">
     <value>258, 12</value>
-  </data>
-  <data name="&gt;&gt;Label4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="lblRetweet.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 19</value>
@@ -5892,9 +5616,6 @@
   <data name="&gt;&gt;Label42.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="FollowCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 16</value>
-  </data>
   <data name="&gt;&gt;TextProxyPort.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -5930,9 +5651,6 @@
   </data>
   <data name="&gt;&gt;MapThumbnailGroupBox.Parent" xml:space="preserve">
     <value>CooperatePanel</value>
-  </data>
-  <data name="&gt;&gt;Label4.Parent" xml:space="preserve">
-    <value>BasedPanel</value>
   </data>
   <data name="&gt;&gt;Label59.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -6006,12 +5724,6 @@
   <data name="RadioProxyNone.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="&gt;&gt;FollowCheckBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;AuthUserCombo.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="&gt;&gt;CheckOpenUserTimeline.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
@@ -6038,9 +5750,6 @@
   </data>
   <data name="&gt;&gt;CheckShowGrid.ZOrder" xml:space="preserve">
     <value>12</value>
-  </data>
-  <data name="CreateAccountButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="ListDoubleClickActionComboBox.ToolTip" xml:space="preserve">
     <value />
@@ -6082,7 +5791,7 @@
     <value>False</value>
   </data>
   <data name="&gt;&gt;BasedPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>OpenTween.Setting.Panel.BasedPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="CheckCloseToExit.Text" xml:space="preserve">
     <value>×ボタンを押したときに終了する</value>
@@ -6119,9 +5828,6 @@
   </data>
   <data name="LabelPostAndGet.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
-  </data>
-  <data name="GroupBox2.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
   </data>
   <data name="btnListBack.Text" xml:space="preserve">
     <value>背景色</value>
@@ -6170,9 +5876,6 @@
   </data>
   <data name="CheckNicoms.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="&gt;&gt;StartAuthButton.Parent" xml:space="preserve">
-    <value>BasedPanel</value>
   </data>
   <data name="Save.Location" type="System.Drawing.Point, System.Drawing">
     <value>521, 374</value>
@@ -6423,9 +6126,6 @@
   <data name="LabelProxyPassword.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="&gt;&gt;AuthClearButton.Parent" xml:space="preserve">
-    <value>BasedPanel</value>
-  </data>
   <data name="ListDoubleClickActionComboBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>232, 20</value>
   </data>
@@ -6489,9 +6189,6 @@
   <data name="&gt;&gt;btnListBack.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;FollowCheckBox.Name" xml:space="preserve">
-    <value>FollowCheckBox</value>
-  </data>
   <data name="&gt;&gt;Label37.Name" xml:space="preserve">
     <value>Label37</value>
   </data>
@@ -6519,9 +6216,6 @@
   <data name="&gt;&gt;lblInputFont.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;CreateAccountButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="Label38.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -6546,17 +6240,11 @@
   <data name="btnAtTo.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 25</value>
   </data>
-  <data name="CreateAccountButton.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
   <data name="lblInputFont.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="&gt;&gt;Label3.Name" xml:space="preserve">
     <value>Label3</value>
-  </data>
-  <data name="&gt;&gt;EmailText.Name" xml:space="preserve">
-    <value>EmailText</value>
   </data>
   <data name="&gt;&gt;lblDetail.ZOrder" xml:space="preserve">
     <value>14</value>
@@ -6590,9 +6278,6 @@
   </data>
   <data name="TextProxyAddress.Size" type="System.Drawing.Size, System.Drawing">
     <value>135, 19</value>
-  </data>
-  <data name="Label43.Size" type="System.Drawing.Size, System.Drawing">
-    <value>460, 49</value>
   </data>
   <data name="&gt;&gt;lblRetweet.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -6642,9 +6327,6 @@
   <data name="btnOWL.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="&gt;&gt;AuthUserCombo.Name" xml:space="preserve">
-    <value>AuthUserCombo</value>
-  </data>
   <data name="&gt;&gt;Label44.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -6665,9 +6347,6 @@
   </data>
   <data name="lblTarget.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="&gt;&gt;Label43.Parent" xml:space="preserve">
-    <value>GroupBox2</value>
   </data>
   <data name="Label65.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 12</value>
@@ -6696,9 +6375,6 @@
   <data name="MapThumbnailZoomTextBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>346, 46</value>
   </data>
-  <data name="EmailText.Location" type="System.Drawing.Point, System.Drawing">
-    <value>143, 68</value>
-  </data>
   <data name="CheckBlockEvent.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
   </data>
@@ -6719,9 +6395,6 @@
   </data>
   <data name="&gt;&gt;CheckFavEventUnread.ZOrder" xml:space="preserve">
     <value>4</value>
-  </data>
-  <data name="AuthClearButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>303, 24</value>
   </data>
   <data name="LabelProxyPort.Text" xml:space="preserve">
     <value>ポート(&amp;P)</value>
@@ -6767,9 +6440,6 @@
   </data>
   <data name="lblAtTarget.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="GroupBox2.Text" xml:space="preserve">
-    <value>Tweenサポート</value>
   </data>
   <data name="lblOWL.Text" xml:space="preserve">
     <value>This is sample.</value>

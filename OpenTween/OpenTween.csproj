@@ -144,6 +144,12 @@
     <Compile Include="OTWebClient.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Setting\Panel\BasedPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Setting\Panel\BasedPanel.Designer.cs">
+      <DependentUpon>BasedPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Setting\Panel\GetCountPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -373,6 +379,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ListManage.zh-CHS.resx">
       <DependentUpon>ListManage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setting\Panel\BasedPanel.en.resx">
+      <DependentUpon>BasedPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setting\Panel\BasedPanel.resx">
+      <DependentUpon>BasedPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setting\Panel\BasedPanel.zh-CHS.resx">
+      <DependentUpon>BasedPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Setting\Panel\GetCountPanel.en.resx">
       <DependentUpon>GetCountPanel.cs</DependentUpon>
