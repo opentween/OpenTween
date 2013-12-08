@@ -209,48 +209,48 @@ namespace OpenTween
 
             try
             {
-                UserstreamStartup = this.StartupUserstreamCheck.Checked;
+                UserstreamStartup = this.GetPeriodPanel.StartupUserstreamCheck.Checked;
 
-                if (UserstreamPeriodInt != int.Parse(UserstreamPeriod.Text))
+                if (UserstreamPeriodInt != int.Parse(this.GetPeriodPanel.UserstreamPeriod.Text))
                 {
-                    UserstreamPeriodInt = int.Parse(UserstreamPeriod.Text);
+                    UserstreamPeriodInt = int.Parse(this.GetPeriodPanel.UserstreamPeriod.Text);
                     arg.UserStream = true;
                     isIntervalChanged = true;
                 }
-                if (TimelinePeriodInt != int.Parse(TimelinePeriod.Text))
+                if (TimelinePeriodInt != int.Parse(this.GetPeriodPanel.TimelinePeriod.Text))
                 {
-                    TimelinePeriodInt = int.Parse(TimelinePeriod.Text);
+                    TimelinePeriodInt = int.Parse(this.GetPeriodPanel.TimelinePeriod.Text);
                     arg.Timeline = true;
                     isIntervalChanged = true;
                 }
-                if (DMPeriodInt != int.Parse(DMPeriod.Text))
+                if (DMPeriodInt != int.Parse(this.GetPeriodPanel.DMPeriod.Text))
                 {
-                    DMPeriodInt = int.Parse(DMPeriod.Text);
+                    DMPeriodInt = int.Parse(this.GetPeriodPanel.DMPeriod.Text);
                     arg.DirectMessage = true;
                     isIntervalChanged = true;
                 }
-                if (PubSearchPeriodInt != int.Parse(PubSearchPeriod.Text))
+                if (PubSearchPeriodInt != int.Parse(this.GetPeriodPanel.PubSearchPeriod.Text))
                 {
-                    PubSearchPeriodInt = int.Parse(PubSearchPeriod.Text);
+                    PubSearchPeriodInt = int.Parse(this.GetPeriodPanel.PubSearchPeriod.Text);
                     arg.PublicSearch = true;
                     isIntervalChanged = true;
                 }
 
-                if (ListsPeriodInt != int.Parse(ListsPeriod.Text))
+                if (ListsPeriodInt != int.Parse(this.GetPeriodPanel.ListsPeriod.Text))
                 {
-                    ListsPeriodInt = int.Parse(ListsPeriod.Text);
+                    ListsPeriodInt = int.Parse(this.GetPeriodPanel.ListsPeriod.Text);
                     arg.Lists = true;
                     isIntervalChanged = true;
                 }
-                if (ReplyPeriodInt != int.Parse(ReplyPeriod.Text))
+                if (ReplyPeriodInt != int.Parse(this.GetPeriodPanel.ReplyPeriod.Text))
                 {
-                    ReplyPeriodInt = int.Parse(ReplyPeriod.Text);
+                    ReplyPeriodInt = int.Parse(this.GetPeriodPanel.ReplyPeriod.Text);
                     arg.Reply = true;
                     isIntervalChanged = true;
                 }
-                if (UserTimelinePeriodInt != int.Parse(UserTimelinePeriod.Text))
+                if (UserTimelinePeriodInt != int.Parse(this.GetPeriodPanel.UserTimelinePeriod.Text))
                 {
-                    UserTimelinePeriodInt = int.Parse(UserTimelinePeriod.Text);
+                    UserTimelinePeriodInt = int.Parse(this.GetPeriodPanel.UserTimelinePeriod.Text);
                     arg.UserTimeline = true;
                     isIntervalChanged = true;
                 }
@@ -336,7 +336,7 @@ namespace OpenTween
                 CountApi = int.Parse(this.GetCountPanel.TextCountApi.Text);
                 CountApiReply = int.Parse(this.GetCountPanel.TextCountApiReply.Text);
                 BrowserPath = BrowserPathText.Text.Trim();
-                PostAndGet = CheckPostAndGet.Checked;
+                PostAndGet = this.GetPeriodPanel.CheckPostAndGet.Checked;
                 UseRecommendStatus = this.TweetActPanel.CheckUseRecommendStatus.Checked;
                 DispUsername = this.PreviewPanel.CheckDispUsername.Checked;
                 CloseToExit = CheckCloseToExit.Checked;
@@ -602,14 +602,14 @@ namespace OpenTween
                 }
             }
 
-            this.StartupUserstreamCheck.Checked = UserstreamStartup;
-            UserstreamPeriod.Text = UserstreamPeriodInt.ToString();
-            TimelinePeriod.Text = TimelinePeriodInt.ToString();
-            ReplyPeriod.Text = ReplyPeriodInt.ToString();
-            DMPeriod.Text = DMPeriodInt.ToString();
-            PubSearchPeriod.Text = PubSearchPeriodInt.ToString();
-            ListsPeriod.Text = ListsPeriodInt.ToString();
-            UserTimelinePeriod.Text = UserTimelinePeriodInt.ToString();
+            this.GetPeriodPanel.StartupUserstreamCheck.Checked = UserstreamStartup;
+            this.GetPeriodPanel.UserstreamPeriod.Text = UserstreamPeriodInt.ToString();
+            this.GetPeriodPanel.TimelinePeriod.Text = TimelinePeriodInt.ToString();
+            this.GetPeriodPanel.ReplyPeriod.Text = ReplyPeriodInt.ToString();
+            this.GetPeriodPanel.DMPeriod.Text = DMPeriodInt.ToString();
+            this.GetPeriodPanel.PubSearchPeriod.Text = PubSearchPeriodInt.ToString();
+            this.GetPeriodPanel.ListsPeriod.Text = ListsPeriodInt.ToString();
+            this.GetPeriodPanel.UserTimelinePeriod.Text = UserTimelinePeriodInt.ToString();
 
             this.StartupPanel.StartupReaded.Checked = Readed;
             switch (IconSz)
@@ -694,7 +694,7 @@ namespace OpenTween
             this.GetCountPanel.TextCountApi.Text = CountApi.ToString();
             this.GetCountPanel.TextCountApiReply.Text = CountApiReply.ToString();
             BrowserPathText.Text = BrowserPath;
-            CheckPostAndGet.Checked = PostAndGet;
+            this.GetPeriodPanel.CheckPostAndGet.Checked = PostAndGet;
             this.TweetActPanel.CheckUseRecommendStatus.Checked = UseRecommendStatus;
             this.PreviewPanel.CheckDispUsername.Checked = DispUsername;
             CheckCloseToExit.Checked = CloseToExit;
@@ -919,159 +919,6 @@ namespace OpenTween
 
             //TreeViewSetting.SelectedNode = TreeViewSetting.TopNode;
             ActiveControl = BasedPanel.StartAuthButton;
-        }
-
-        private void UserstreamPeriod_Validating(object sender, CancelEventArgs e)
-        {
-            int prd;
-            try
-            {
-                prd = int.Parse(UserstreamPeriod.Text);
-            }
-            catch(Exception)
-            {
-                MessageBox.Show(Properties.Resources.UserstreamPeriod_ValidatingText1);
-                e.Cancel = true;
-                return;
-            }
-
-            if (prd < 0 || prd > 60)
-            {
-                MessageBox.Show(Properties.Resources.UserstreamPeriod_ValidatingText1);
-                e.Cancel = true;
-                return;
-            }
-        }
-
-        private void TimelinePeriod_Validating(object sender, CancelEventArgs e)
-        {
-            int prd;
-            try
-            {
-                prd = int.Parse(TimelinePeriod.Text);
-            }
-            catch(Exception)
-            {
-                MessageBox.Show(Properties.Resources.TimelinePeriod_ValidatingText1);
-                e.Cancel = true;
-                return;
-            }
-
-            if (prd != 0 && (prd < 15 || prd > 6000))
-            {
-                MessageBox.Show(Properties.Resources.TimelinePeriod_ValidatingText2);
-                e.Cancel = true;
-                return;
-            }
-        }
-
-        private void ReplyPeriod_Validating(object sender, CancelEventArgs e)
-        {
-            int prd;
-            try
-            {
-                prd = int.Parse(ReplyPeriod.Text);
-            }
-            catch(Exception)
-            {
-                MessageBox.Show(Properties.Resources.TimelinePeriod_ValidatingText1);
-                e.Cancel = true;
-                return;
-            }
-
-            if (prd != 0 && (prd < 15 || prd > 6000))
-            {
-                MessageBox.Show(Properties.Resources.TimelinePeriod_ValidatingText2);
-                e.Cancel = true;
-                return;
-            }
-        }
-
-        private void DMPeriod_Validating(object sender, CancelEventArgs e)
-        {
-            int prd;
-            try
-            {
-                prd = int.Parse(DMPeriod.Text);
-            }
-            catch(Exception)
-            {
-                MessageBox.Show(Properties.Resources.DMPeriod_ValidatingText1);
-                e.Cancel = true;
-                return;
-            }
-
-            if (prd != 0 && (prd < 15 || prd > 6000))
-            {
-                MessageBox.Show(Properties.Resources.DMPeriod_ValidatingText2);
-                e.Cancel = true;
-                return;
-            }
-        }
-
-        private void PubSearchPeriod_Validating(object sender, CancelEventArgs e)
-        {
-            int prd;
-            try
-            {
-                prd = int.Parse(PubSearchPeriod.Text);
-            }
-            catch(Exception)
-            {
-                MessageBox.Show(Properties.Resources.PubSearchPeriod_ValidatingText1);
-                e.Cancel = true;
-                return;
-            }
-
-            if (prd != 0 && (prd < 30 || prd > 6000))
-            {
-                MessageBox.Show(Properties.Resources.PubSearchPeriod_ValidatingText2);
-                e.Cancel = true;
-            }
-        }
-
-        private void ListsPeriod_Validating(object sender, CancelEventArgs e)
-        {
-            int prd;
-            try
-            {
-                prd = int.Parse(ListsPeriod.Text);
-            }
-            catch(Exception)
-            {
-                MessageBox.Show(Properties.Resources.DMPeriod_ValidatingText1);
-                e.Cancel = true;
-                return;
-            }
-
-            if (prd != 0 && (prd < 15 || prd > 6000))
-            {
-                MessageBox.Show(Properties.Resources.DMPeriod_ValidatingText2);
-                e.Cancel = true;
-                return;
-            }
-        }
-
-        private void UserTimeline_Validating(object sender, CancelEventArgs e)
-        {
-            int prd;
-            try
-            {
-                prd = int.Parse(UserTimelinePeriod.Text);
-            }
-            catch(Exception)
-            {
-                MessageBox.Show(Properties.Resources.DMPeriod_ValidatingText1);
-                e.Cancel = true;
-                return;
-            }
-
-            if (prd != 0 && (prd < 15 || prd > 6000))
-            {
-                MessageBox.Show(Properties.Resources.DMPeriod_ValidatingText2);
-                e.Cancel = true;
-                return;
-            }
         }
 
         private void UReadMng_CheckedChanged(object sender, EventArgs e)
@@ -1586,7 +1433,7 @@ namespace OpenTween
 
         private void CheckPostAndGet_CheckedChanged(object sender, EventArgs e)
         {
-            LabelPostAndGet.Visible = CheckPostAndGet.Checked && !tw.UserStreamEnabled;
+            this.GetPeriodPanel.LabelPostAndGet.Visible = this.GetPeriodPanel.CheckPostAndGet.Checked && !tw.UserStreamEnabled;
         }
 
         private void Setting_Shown(object sender, EventArgs e)
@@ -1598,8 +1445,8 @@ namespace OpenTween
             } while (!this.IsHandleCreated);
             this.TopMost = this.AlwaysTop;
 
-            LabelPostAndGet.Visible = CheckPostAndGet.Checked && !tw.UserStreamEnabled;
-            LabelUserStreamActive.Visible = tw.UserStreamEnabled;
+            this.GetPeriodPanel.LabelPostAndGet.Visible = this.GetPeriodPanel.CheckPostAndGet.Checked && !tw.UserStreamEnabled;
+            this.GetPeriodPanel.LabelUserStreamActive.Visible = tw.UserStreamEnabled;
         }
 
         public static AppendSettingDialog Instance
@@ -1886,6 +1733,7 @@ namespace OpenTween
             this.BasedPanel.StartAuthButton.Click += this.StartAuthButton_Click;
             this.BasedPanel.CreateAccountButton.Click += this.CreateAccountButton_Click;
             this.NotifyPanel.CheckEventNotify.CheckedChanged += this.CheckEventNotify_CheckedChanged;
+            this.GetPeriodPanel.CheckPostAndGet.CheckedChanged += this.CheckPostAndGet_CheckedChanged;
 
             this.Icon = Properties.Resources.MIcon;
         }

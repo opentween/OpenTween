@@ -43,25 +43,7 @@
             this.CooperatePanel = new OpenTween.Setting.Panel.CooperatePanel();
             this.ProxyPanel = new OpenTween.Setting.Panel.ProxyPanel();
             this.ConnectionPanel = new OpenTween.Setting.Panel.ConnectionPanel();
-            this.GetPeriodPanel = new System.Windows.Forms.Panel();
-            this.UserstreamPeriod = new System.Windows.Forms.TextBox();
-            this.Label46 = new System.Windows.Forms.Label();
-            this.LabelUserStreamActive = new System.Windows.Forms.Label();
-            this.Label21 = new System.Windows.Forms.Label();
-            this.UserTimelinePeriod = new System.Windows.Forms.TextBox();
-            this.TimelinePeriod = new System.Windows.Forms.TextBox();
-            this.Label3 = new System.Windows.Forms.Label();
-            this.LabelPostAndGet = new System.Windows.Forms.Label();
-            this.Label33 = new System.Windows.Forms.Label();
-            this.ListsPeriod = new System.Windows.Forms.TextBox();
-            this.Label7 = new System.Windows.Forms.Label();
-            this.PubSearchPeriod = new System.Windows.Forms.TextBox();
-            this.Label69 = new System.Windows.Forms.Label();
-            this.ReplyPeriod = new System.Windows.Forms.TextBox();
-            this.CheckPostAndGet = new System.Windows.Forms.CheckBox();
-            this.Label5 = new System.Windows.Forms.Label();
-            this.DMPeriod = new System.Windows.Forms.TextBox();
-            this.StartupUserstreamCheck = new System.Windows.Forms.CheckBox();
+            this.GetPeriodPanel = new OpenTween.Setting.Panel.GetPeriodPanel();
             this.ActionPanel = new System.Windows.Forms.Panel();
             this.TabMouseLockCheck = new System.Windows.Forms.CheckBox();
             this.Label38 = new System.Windows.Forms.Label();
@@ -153,7 +135,6 @@
             this.SplitContainer1.Panel1.SuspendLayout();
             this.SplitContainer1.Panel2.SuspendLayout();
             this.SplitContainer1.SuspendLayout();
-            this.GetPeriodPanel.SuspendLayout();
             this.ActionPanel.SuspendLayout();
             this.GroupBox3.SuspendLayout();
             this.FontPanel.SuspendLayout();
@@ -282,144 +263,8 @@
             // GetPeriodPanel
             // 
             resources.ApplyResources(this.GetPeriodPanel, "GetPeriodPanel");
-            this.GetPeriodPanel.Controls.Add(this.UserstreamPeriod);
-            this.GetPeriodPanel.Controls.Add(this.Label46);
-            this.GetPeriodPanel.Controls.Add(this.LabelUserStreamActive);
-            this.GetPeriodPanel.Controls.Add(this.Label21);
-            this.GetPeriodPanel.Controls.Add(this.UserTimelinePeriod);
-            this.GetPeriodPanel.Controls.Add(this.TimelinePeriod);
-            this.GetPeriodPanel.Controls.Add(this.Label3);
-            this.GetPeriodPanel.Controls.Add(this.LabelPostAndGet);
-            this.GetPeriodPanel.Controls.Add(this.Label33);
-            this.GetPeriodPanel.Controls.Add(this.ListsPeriod);
-            this.GetPeriodPanel.Controls.Add(this.Label7);
-            this.GetPeriodPanel.Controls.Add(this.PubSearchPeriod);
-            this.GetPeriodPanel.Controls.Add(this.Label69);
-            this.GetPeriodPanel.Controls.Add(this.ReplyPeriod);
-            this.GetPeriodPanel.Controls.Add(this.CheckPostAndGet);
-            this.GetPeriodPanel.Controls.Add(this.Label5);
-            this.GetPeriodPanel.Controls.Add(this.DMPeriod);
-            this.GetPeriodPanel.Controls.Add(this.StartupUserstreamCheck);
             this.GetPeriodPanel.Name = "GetPeriodPanel";
             this.ToolTip1.SetToolTip(this.GetPeriodPanel, resources.GetString("GetPeriodPanel.ToolTip"));
-            // 
-            // UserstreamPeriod
-            // 
-            resources.ApplyResources(this.UserstreamPeriod, "UserstreamPeriod");
-            this.UserstreamPeriod.Name = "UserstreamPeriod";
-            this.ToolTip1.SetToolTip(this.UserstreamPeriod, resources.GetString("UserstreamPeriod.ToolTip"));
-            this.UserstreamPeriod.Validating += new System.ComponentModel.CancelEventHandler(this.UserstreamPeriod_Validating);
-            // 
-            // Label46
-            // 
-            resources.ApplyResources(this.Label46, "Label46");
-            this.Label46.Name = "Label46";
-            this.ToolTip1.SetToolTip(this.Label46, resources.GetString("Label46.ToolTip"));
-            // 
-            // LabelUserStreamActive
-            // 
-            resources.ApplyResources(this.LabelUserStreamActive, "LabelUserStreamActive");
-            this.LabelUserStreamActive.Name = "LabelUserStreamActive";
-            this.ToolTip1.SetToolTip(this.LabelUserStreamActive, resources.GetString("LabelUserStreamActive.ToolTip"));
-            // 
-            // Label21
-            // 
-            resources.ApplyResources(this.Label21, "Label21");
-            this.Label21.Name = "Label21";
-            this.ToolTip1.SetToolTip(this.Label21, resources.GetString("Label21.ToolTip"));
-            // 
-            // UserTimelinePeriod
-            // 
-            resources.ApplyResources(this.UserTimelinePeriod, "UserTimelinePeriod");
-            this.UserTimelinePeriod.Name = "UserTimelinePeriod";
-            this.ToolTip1.SetToolTip(this.UserTimelinePeriod, resources.GetString("UserTimelinePeriod.ToolTip"));
-            this.UserTimelinePeriod.Validating += new System.ComponentModel.CancelEventHandler(this.UserTimeline_Validating);
-            // 
-            // TimelinePeriod
-            // 
-            resources.ApplyResources(this.TimelinePeriod, "TimelinePeriod");
-            this.TimelinePeriod.Name = "TimelinePeriod";
-            this.ToolTip1.SetToolTip(this.TimelinePeriod, resources.GetString("TimelinePeriod.ToolTip"));
-            this.TimelinePeriod.Validating += new System.ComponentModel.CancelEventHandler(this.TimelinePeriod_Validating);
-            // 
-            // Label3
-            // 
-            resources.ApplyResources(this.Label3, "Label3");
-            this.Label3.Name = "Label3";
-            this.ToolTip1.SetToolTip(this.Label3, resources.GetString("Label3.ToolTip"));
-            // 
-            // LabelPostAndGet
-            // 
-            resources.ApplyResources(this.LabelPostAndGet, "LabelPostAndGet");
-            this.LabelPostAndGet.Name = "LabelPostAndGet";
-            this.ToolTip1.SetToolTip(this.LabelPostAndGet, resources.GetString("LabelPostAndGet.ToolTip"));
-            // 
-            // Label33
-            // 
-            resources.ApplyResources(this.Label33, "Label33");
-            this.Label33.Name = "Label33";
-            this.ToolTip1.SetToolTip(this.Label33, resources.GetString("Label33.ToolTip"));
-            // 
-            // ListsPeriod
-            // 
-            resources.ApplyResources(this.ListsPeriod, "ListsPeriod");
-            this.ListsPeriod.Name = "ListsPeriod";
-            this.ToolTip1.SetToolTip(this.ListsPeriod, resources.GetString("ListsPeriod.ToolTip"));
-            this.ListsPeriod.Validating += new System.ComponentModel.CancelEventHandler(this.ListsPeriod_Validating);
-            // 
-            // Label7
-            // 
-            resources.ApplyResources(this.Label7, "Label7");
-            this.Label7.Name = "Label7";
-            this.ToolTip1.SetToolTip(this.Label7, resources.GetString("Label7.ToolTip"));
-            // 
-            // PubSearchPeriod
-            // 
-            resources.ApplyResources(this.PubSearchPeriod, "PubSearchPeriod");
-            this.PubSearchPeriod.Name = "PubSearchPeriod";
-            this.ToolTip1.SetToolTip(this.PubSearchPeriod, resources.GetString("PubSearchPeriod.ToolTip"));
-            this.PubSearchPeriod.Validating += new System.ComponentModel.CancelEventHandler(this.PubSearchPeriod_Validating);
-            // 
-            // Label69
-            // 
-            resources.ApplyResources(this.Label69, "Label69");
-            this.Label69.Name = "Label69";
-            this.ToolTip1.SetToolTip(this.Label69, resources.GetString("Label69.ToolTip"));
-            // 
-            // ReplyPeriod
-            // 
-            resources.ApplyResources(this.ReplyPeriod, "ReplyPeriod");
-            this.ReplyPeriod.Name = "ReplyPeriod";
-            this.ToolTip1.SetToolTip(this.ReplyPeriod, resources.GetString("ReplyPeriod.ToolTip"));
-            this.ReplyPeriod.Validating += new System.ComponentModel.CancelEventHandler(this.ReplyPeriod_Validating);
-            // 
-            // CheckPostAndGet
-            // 
-            resources.ApplyResources(this.CheckPostAndGet, "CheckPostAndGet");
-            this.CheckPostAndGet.Name = "CheckPostAndGet";
-            this.ToolTip1.SetToolTip(this.CheckPostAndGet, resources.GetString("CheckPostAndGet.ToolTip"));
-            this.CheckPostAndGet.UseVisualStyleBackColor = true;
-            this.CheckPostAndGet.CheckedChanged += new System.EventHandler(this.CheckPostAndGet_CheckedChanged);
-            // 
-            // Label5
-            // 
-            resources.ApplyResources(this.Label5, "Label5");
-            this.Label5.Name = "Label5";
-            this.ToolTip1.SetToolTip(this.Label5, resources.GetString("Label5.ToolTip"));
-            // 
-            // DMPeriod
-            // 
-            resources.ApplyResources(this.DMPeriod, "DMPeriod");
-            this.DMPeriod.Name = "DMPeriod";
-            this.ToolTip1.SetToolTip(this.DMPeriod, resources.GetString("DMPeriod.ToolTip"));
-            this.DMPeriod.Validating += new System.ComponentModel.CancelEventHandler(this.DMPeriod_Validating);
-            // 
-            // StartupUserstreamCheck
-            // 
-            resources.ApplyResources(this.StartupUserstreamCheck, "StartupUserstreamCheck");
-            this.StartupUserstreamCheck.Name = "StartupUserstreamCheck";
-            this.ToolTip1.SetToolTip(this.StartupUserstreamCheck, resources.GetString("StartupUserstreamCheck.ToolTip"));
-            this.StartupUserstreamCheck.UseVisualStyleBackColor = true;
             // 
             // ActionPanel
             // 
@@ -1126,8 +971,6 @@
             this.SplitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer1)).EndInit();
             this.SplitContainer1.ResumeLayout(false);
-            this.GetPeriodPanel.ResumeLayout(false);
-            this.GetPeriodPanel.PerformLayout();
             this.ActionPanel.ResumeLayout(false);
             this.ActionPanel.PerformLayout();
             this.GroupBox3.ResumeLayout(false);
@@ -1144,11 +987,9 @@
 
         #endregion
 
-        internal System.Windows.Forms.TextBox UserstreamPeriod;
         internal System.Windows.Forms.CheckBox HotkeyCheck;
         internal System.Windows.Forms.Label HotkeyCode;
         internal System.Windows.Forms.TextBox HotkeyText;
-        internal System.Windows.Forms.Label Label46;
         internal System.Windows.Forms.CheckBox HotkeyWin;
         internal System.Windows.Forms.SplitContainer SplitContainer1;
         private System.Windows.Forms.TreeView TreeViewSetting;
@@ -1164,23 +1005,7 @@
         private Setting.Panel.CooperatePanel CooperatePanel;
         private Setting.Panel.ProxyPanel ProxyPanel;
         private Setting.Panel.ConnectionPanel ConnectionPanel;
-        internal System.Windows.Forms.Panel GetPeriodPanel;
-        internal System.Windows.Forms.Label LabelUserStreamActive;
-        internal System.Windows.Forms.Label Label21;
-        internal System.Windows.Forms.TextBox UserTimelinePeriod;
-        internal System.Windows.Forms.TextBox TimelinePeriod;
-        internal System.Windows.Forms.Label Label3;
-        internal System.Windows.Forms.Label LabelPostAndGet;
-        internal System.Windows.Forms.Label Label33;
-        internal System.Windows.Forms.TextBox ListsPeriod;
-        internal System.Windows.Forms.Label Label7;
-        internal System.Windows.Forms.TextBox PubSearchPeriod;
-        internal System.Windows.Forms.Label Label69;
-        internal System.Windows.Forms.TextBox ReplyPeriod;
-        internal System.Windows.Forms.CheckBox CheckPostAndGet;
-        internal System.Windows.Forms.Label Label5;
-        internal System.Windows.Forms.TextBox DMPeriod;
-        internal System.Windows.Forms.CheckBox StartupUserstreamCheck;
+        private Setting.Panel.GetPeriodPanel GetPeriodPanel;
         internal System.Windows.Forms.Panel ActionPanel;
         internal System.Windows.Forms.CheckBox TabMouseLockCheck;
         internal System.Windows.Forms.Label Label38;

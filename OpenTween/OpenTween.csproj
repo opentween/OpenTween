@@ -168,6 +168,12 @@
     <Compile Include="Setting\Panel\GetCountPanel.Designer.cs">
       <DependentUpon>GetCountPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Setting\Panel\GetPeriodPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Setting\Panel\GetPeriodPanel.Designer.cs">
+      <DependentUpon>GetPeriodPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Setting\Panel\NotifyPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -445,6 +451,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Setting\Panel\GetCountPanel.zh-CHS.resx">
       <DependentUpon>GetCountPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setting\Panel\GetPeriodPanel.en.resx">
+      <DependentUpon>GetPeriodPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setting\Panel\GetPeriodPanel.resx">
+      <DependentUpon>GetPeriodPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setting\Panel\GetPeriodPanel.zh-CHS.resx">
+      <DependentUpon>GetPeriodPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Setting\Panel\NotifyPanel.en.resx">
       <DependentUpon>NotifyPanel.cs</DependentUpon>
