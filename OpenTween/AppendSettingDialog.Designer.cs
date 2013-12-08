@@ -42,13 +42,7 @@
             this.NotifyPanel = new OpenTween.Setting.Panel.NotifyPanel();
             this.CooperatePanel = new OpenTween.Setting.Panel.CooperatePanel();
             this.ProxyPanel = new OpenTween.Setting.Panel.ProxyPanel();
-            this.ConnectionPanel = new System.Windows.Forms.Panel();
-            this.TwitterAPIText = new System.Windows.Forms.TextBox();
-            this.Label8 = new System.Windows.Forms.Label();
-            this.CheckUseSsl = new System.Windows.Forms.CheckBox();
-            this.Label64 = new System.Windows.Forms.Label();
-            this.ConnectionTimeOut = new System.Windows.Forms.TextBox();
-            this.Label63 = new System.Windows.Forms.Label();
+            this.ConnectionPanel = new OpenTween.Setting.Panel.ConnectionPanel();
             this.GetPeriodPanel = new System.Windows.Forms.Panel();
             this.UserstreamPeriod = new System.Windows.Forms.TextBox();
             this.Label46 = new System.Windows.Forms.Label();
@@ -159,7 +153,6 @@
             this.SplitContainer1.Panel1.SuspendLayout();
             this.SplitContainer1.Panel2.SuspendLayout();
             this.SplitContainer1.SuspendLayout();
-            this.ConnectionPanel.SuspendLayout();
             this.GetPeriodPanel.SuspendLayout();
             this.ActionPanel.SuspendLayout();
             this.GroupBox3.SuspendLayout();
@@ -283,54 +276,8 @@
             // ConnectionPanel
             // 
             resources.ApplyResources(this.ConnectionPanel, "ConnectionPanel");
-            this.ConnectionPanel.Controls.Add(this.TwitterAPIText);
-            this.ConnectionPanel.Controls.Add(this.Label8);
-            this.ConnectionPanel.Controls.Add(this.CheckUseSsl);
-            this.ConnectionPanel.Controls.Add(this.Label64);
-            this.ConnectionPanel.Controls.Add(this.ConnectionTimeOut);
-            this.ConnectionPanel.Controls.Add(this.Label63);
             this.ConnectionPanel.Name = "ConnectionPanel";
             this.ToolTip1.SetToolTip(this.ConnectionPanel, resources.GetString("ConnectionPanel.ToolTip"));
-            // 
-            // TwitterAPIText
-            // 
-            resources.ApplyResources(this.TwitterAPIText, "TwitterAPIText");
-            this.TwitterAPIText.Name = "TwitterAPIText";
-            this.ToolTip1.SetToolTip(this.TwitterAPIText, resources.GetString("TwitterAPIText.ToolTip"));
-            // 
-            // Label8
-            // 
-            resources.ApplyResources(this.Label8, "Label8");
-            this.Label8.Name = "Label8";
-            this.ToolTip1.SetToolTip(this.Label8, resources.GetString("Label8.ToolTip"));
-            // 
-            // CheckUseSsl
-            // 
-            resources.ApplyResources(this.CheckUseSsl, "CheckUseSsl");
-            this.CheckUseSsl.Name = "CheckUseSsl";
-            this.ToolTip1.SetToolTip(this.CheckUseSsl, resources.GetString("CheckUseSsl.ToolTip"));
-            this.CheckUseSsl.UseVisualStyleBackColor = true;
-            // 
-            // Label64
-            // 
-            resources.ApplyResources(this.Label64, "Label64");
-            this.Label64.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.Label64.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.Label64.Name = "Label64";
-            this.ToolTip1.SetToolTip(this.Label64, resources.GetString("Label64.ToolTip"));
-            // 
-            // ConnectionTimeOut
-            // 
-            resources.ApplyResources(this.ConnectionTimeOut, "ConnectionTimeOut");
-            this.ConnectionTimeOut.Name = "ConnectionTimeOut";
-            this.ToolTip1.SetToolTip(this.ConnectionTimeOut, resources.GetString("ConnectionTimeOut.ToolTip"));
-            this.ConnectionTimeOut.Validating += new System.ComponentModel.CancelEventHandler(this.ConnectionTimeOut_Validating);
-            // 
-            // Label63
-            // 
-            resources.ApplyResources(this.Label63, "Label63");
-            this.Label63.Name = "Label63";
-            this.ToolTip1.SetToolTip(this.Label63, resources.GetString("Label63.ToolTip"));
             // 
             // GetPeriodPanel
             // 
@@ -1179,8 +1126,6 @@
             this.SplitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer1)).EndInit();
             this.SplitContainer1.ResumeLayout(false);
-            this.ConnectionPanel.ResumeLayout(false);
-            this.ConnectionPanel.PerformLayout();
             this.GetPeriodPanel.ResumeLayout(false);
             this.GetPeriodPanel.PerformLayout();
             this.ActionPanel.ResumeLayout(false);
@@ -1218,13 +1163,7 @@
         private Setting.Panel.NotifyPanel NotifyPanel;
         private Setting.Panel.CooperatePanel CooperatePanel;
         private Setting.Panel.ProxyPanel ProxyPanel;
-        internal System.Windows.Forms.Panel ConnectionPanel;
-        internal System.Windows.Forms.TextBox TwitterAPIText;
-        internal System.Windows.Forms.Label Label8;
-        internal System.Windows.Forms.CheckBox CheckUseSsl;
-        internal System.Windows.Forms.Label Label64;
-        internal System.Windows.Forms.TextBox ConnectionTimeOut;
-        internal System.Windows.Forms.Label Label63;
+        private Setting.Panel.ConnectionPanel ConnectionPanel;
         internal System.Windows.Forms.Panel GetPeriodPanel;
         internal System.Windows.Forms.Label LabelUserStreamActive;
         internal System.Windows.Forms.Label Label21;

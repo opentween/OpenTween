@@ -211,24 +211,6 @@
 </value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="CheckUseSsl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>130, 16</value>
-  </data>
-  <data name="CheckUseSsl.Text" xml:space="preserve">
-    <value>Use HTTPS Protocol</value>
-  </data>
-  <data name="Label64.Size" type="System.Drawing.Size, System.Drawing">
-    <value>371, 12</value>
-  </data>
-  <data name="Label64.Text" xml:space="preserve">
-    <value>※Adjust Connection timeout if the error of timeout happens frequently.</value>
-  </data>
-  <data name="Label63.Size" type="System.Drawing.Size, System.Drawing">
-    <value>130, 12</value>
-  </data>
-  <data name="Label63.Text" xml:space="preserve">
-    <value>Connection timeout(sec)</value>
-  </data>
   <data name="Label46.Size" type="System.Drawing.Size, System.Drawing">
     <value>191, 12</value>
   </data>

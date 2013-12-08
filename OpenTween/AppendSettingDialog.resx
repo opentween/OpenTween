@@ -192,9 +192,6 @@
   <data name="Label36.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;ConnectionTimeOut.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
   <data name="Label34.Location" type="System.Drawing.Point, System.Drawing">
     <value>16, 45</value>
   </data>
@@ -218,9 +215,6 @@
   </data>
   <data name="CheckCloseToExit.Size" type="System.Drawing.Size, System.Drawing">
     <value>171, 16</value>
-  </data>
-  <data name="&gt;&gt;ConnectionTimeOut.Name" xml:space="preserve">
-    <value>ConnectionTimeOut</value>
   </data>
   <data name="&gt;&gt;btnDetailBack.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -269,9 +263,6 @@
   </data>
   <data name="GroupBox3.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
-  </data>
-  <data name="Label64.Text" xml:space="preserve">
-    <value>※タイムアウトが頻発する場合に調整してください。初期設定は20秒です。</value>
   </data>
   <data name="&gt;&gt;lblOWL.Name" xml:space="preserve">
     <value>lblOWL</value>
@@ -347,9 +338,6 @@
         BAAAAAYKAAAADFR3ZWV0QWN0Tm9kZQD/////CQQAAAD/////CQQAAAAAAAAACw==
 </value>
   </data>
-  <data name="&gt;&gt;Label8.Name" xml:space="preserve">
-    <value>Label8</value>
-  </data>
   <data name="&gt;&gt;lblUnread.Name" xml:space="preserve">
     <value>lblUnread</value>
   </data>
@@ -403,9 +391,6 @@
   </data>
   <data name="GetCountPanel.Size" type="System.Drawing.Size, System.Drawing">
     <value>519, 368</value>
-  </data>
-  <data name="TwitterAPIText.Location" type="System.Drawing.Point, System.Drawing">
-    <value>262, 100</value>
   </data>
   <data name="&gt;&gt;BrowserPathText.Name" xml:space="preserve">
     <value>BrowserPathText</value>
@@ -491,35 +476,20 @@
   <data name="Label32.Size" type="System.Drawing.Size, System.Drawing">
     <value>70, 12</value>
   </data>
-  <data name="Label64.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="Label33.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 158</value>
   </data>
   <data name="Label57.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="Label64.Size" type="System.Drawing.Size, System.Drawing">
-    <value>349, 12</value>
-  </data>
-  <data name="TwitterAPIText.Text" xml:space="preserve">
-    <value>api.twitter.com</value>
-  </data>
   <data name="Label65.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="&gt;&gt;Label64.Parent" xml:space="preserve">
-    <value>ConnectionPanel</value>
   </data>
   <data name="HotkeyWin.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="Label21.Size" type="System.Drawing.Size, System.Drawing">
     <value>144, 12</value>
-  </data>
-  <data name="Label63.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="BasedPanel.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -598,9 +568,6 @@
   </data>
   <data name="BrowserPathText.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="Label8.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
   </data>
   <data name="lblRetweet.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -751,9 +718,6 @@
   <data name="lblListBackcolor.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
-  <data name="&gt;&gt;TwitterAPIText.Parent" xml:space="preserve">
-    <value>ConnectionPanel</value>
-  </data>
   <data name="CheckFavRestrict.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -856,9 +820,6 @@
   <data name="NotifyPanel.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="Label64.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="&gt;&gt;ActionPanel.ZOrder" xml:space="preserve">
     <value>12</value>
   </data>
@@ -901,17 +862,11 @@
   <data name="&gt;&gt;LabelUserStreamActive.Parent" xml:space="preserve">
     <value>GetPeriodPanel</value>
   </data>
-  <data name="&gt;&gt;Label63.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="btnInputFont.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="TweetPrvPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
-  </data>
-  <data name="Label8.Text" xml:space="preserve">
-    <value>Twitter API URL (api.twitter.com)</value>
   </data>
   <data name="lblOWL.ToolTip" xml:space="preserve">
     <value />
@@ -961,9 +916,6 @@
   <data name="Label14.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="Label8.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="&gt;&gt;TweetActPanel.Name" xml:space="preserve">
     <value>TweetActPanel</value>
   </data>
@@ -984,12 +936,6 @@
   </data>
   <data name="FontPanel2.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
-  </data>
-  <data name="TwitterAPIText.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CheckUseSsl.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="&gt;&gt;btnUnread.ZOrder" xml:space="preserve">
     <value>7</value>
@@ -1044,9 +990,6 @@
   </data>
   <data name="&gt;&gt;Label7.ZOrder" xml:space="preserve">
     <value>13</value>
-  </data>
-  <data name="&gt;&gt;TwitterAPIText.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Label7.Text" xml:space="preserve">
     <value>Twitter検索更新間隔（秒）</value>
@@ -1116,9 +1059,6 @@
   </data>
   <data name="lblListFont.Location" type="System.Drawing.Point, System.Drawing">
     <value>216, 21</value>
-  </data>
-  <data name="CheckUseSsl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 16</value>
   </data>
   <data name="TweetPrvPanel.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1198,9 +1138,6 @@
   <data name="lblAtFromTarget.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
-  <data name="ConnectionTimeOut.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
   <data name="ListDoubleClickActionComboBox.Items3" xml:space="preserve">
     <value>ユーザーのタイムラインを表示</value>
   </data>
@@ -1233,9 +1170,6 @@
   </data>
   <data name="GetPeriodPanel.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
-  </data>
-  <data name="Label8.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
   </data>
   <data name="btnAtTarget.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 25</value>
@@ -1414,12 +1348,6 @@
   <data name="lblTarget.Location" type="System.Drawing.Point, System.Drawing">
     <value>227, 68</value>
   </data>
-  <data name="&gt;&gt;Label8.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckUseSsl.Parent" xml:space="preserve">
-    <value>ConnectionPanel</value>
-  </data>
   <data name="PlaySnd.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -1440,9 +1368,6 @@
   </data>
   <data name="lblDetailLink.Location" type="System.Drawing.Point, System.Drawing">
     <value>216, 171</value>
-  </data>
-  <data name="Label8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>174, 12</value>
   </data>
   <data name="StartupUserstreamCheck.Location" type="System.Drawing.Point, System.Drawing">
     <value>334, 14</value>
@@ -1471,17 +1396,11 @@
   <data name="lblListBackcolor.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="Label8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 103</value>
-  </data>
   <data name="btnOWL.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 25</value>
   </data>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>96, 96</value>
-  </data>
-  <data name="&gt;&gt;Label64.Name" xml:space="preserve">
-    <value>Label64</value>
   </data>
   <data name="PreviewPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -1497,9 +1416,6 @@
   </data>
   <data name="&gt;&gt;PlaySnd.ZOrder" xml:space="preserve">
     <value>8</value>
-  </data>
-  <data name="&gt;&gt;ConnectionTimeOut.Parent" xml:space="preserve">
-    <value>ConnectionPanel</value>
   </data>
   <data name="UserstreamPeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>Disable</value>
@@ -1556,7 +1472,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;ConnectionPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>OpenTween.Setting.Panel.ConnectionPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Label24.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1611,9 +1527,6 @@
   </data>
   <data name="&gt;&gt;Cancel.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="CheckUseSsl.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="&gt;&gt;Label32.Name" xml:space="preserve">
     <value>Label32</value>
@@ -1723,9 +1636,6 @@
   <data name="CheckReadOldPosts.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="Label64.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 51</value>
-  </data>
   <data name="HotkeyCtrl.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
@@ -1755,9 +1665,6 @@
   </data>
   <data name="UReadMng.Text" xml:space="preserve">
     <value>未読管理を行う</value>
-  </data>
-  <data name="CheckUseSsl.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="GetCountPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -1807,9 +1714,6 @@
   <data name="lblListBackcolor.TabIndex" type="System.Int32, mscorlib">
     <value>19</value>
   </data>
-  <data name="Label8.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="Label34.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -1828,9 +1732,6 @@
   <data name="GroupBox3.Location" type="System.Drawing.Point, System.Drawing">
     <value>21, 328</value>
   </data>
-  <data name="ConnectionTimeOut.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Disable</value>
-  </data>
   <data name="ConnectionPanel.Size" type="System.Drawing.Size, System.Drawing">
     <value>519, 368</value>
   </data>
@@ -1845,9 +1746,6 @@
   </data>
   <data name="CooperatePanel.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
-  </data>
-  <data name="&gt;&gt;CheckUseSsl.Name" xml:space="preserve">
-    <value>CheckUseSsl</value>
   </data>
   <data name="btnUnread.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1875,9 +1773,6 @@
   </data>
   <data name="btnFav.Location" type="System.Drawing.Point, System.Drawing">
     <value>331, 71</value>
-  </data>
-  <data name="&gt;&gt;Label8.ZOrder" xml:space="preserve">
-    <value>3</value>
   </data>
   <data name="BasedPanel.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -2044,17 +1939,11 @@
   <data name="&gt;&gt;Save.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Label63.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
   <data name="Label20.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="ProxyPanel.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="ConnectionTimeOut.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 19</value>
   </data>
   <data name="&gt;&gt;Label38.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -2067,9 +1956,6 @@
   </data>
   <data name="&gt;&gt;lblAtTo.ZOrder" xml:space="preserve">
     <value>20</value>
-  </data>
-  <data name="Label63.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 20</value>
   </data>
   <data name="ActionPanel.Size" type="System.Drawing.Size, System.Drawing">
     <value>519, 368</value>
@@ -2109,9 +1995,6 @@
   </data>
   <data name="Button3.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 21</value>
-  </data>
-  <data name="TwitterAPIText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 19</value>
   </data>
   <data name="Label16.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2251,9 +2134,6 @@
   <data name="BasedPanel.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="Label64.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="&gt;&gt;Label52.Parent" xml:space="preserve">
     <value>GroupBox5</value>
   </data>
@@ -2370,9 +2250,6 @@
   <data name="HotkeyAlt.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="&gt;&gt;CheckUseSsl.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="Label69.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
   </data>
@@ -2381,9 +2258,6 @@
   </data>
   <data name="&gt;&gt;lblTarget.Parent" xml:space="preserve">
     <value>GroupBox5</value>
-  </data>
-  <data name="Label8.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="ListsPeriod.Size" type="System.Drawing.Size, System.Drawing">
     <value>65, 19</value>
@@ -2499,9 +2373,6 @@
   <data name="lblDetail.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="&gt;&gt;Label63.Parent" xml:space="preserve">
-    <value>ConnectionPanel</value>
-  </data>
   <data name="&gt;&gt;NotifyPanel.Name" xml:space="preserve">
     <value>NotifyPanel</value>
   </data>
@@ -2528,9 +2399,6 @@
   </data>
   <data name="HotkeyShift.Size" type="System.Drawing.Size, System.Drawing">
     <value>48, 16</value>
-  </data>
-  <data name="Label63.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="&gt;&gt;ListsPeriod.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -2594,9 +2462,6 @@
   </data>
   <data name="UserstreamPeriod.Size" type="System.Drawing.Size, System.Drawing">
     <value>65, 19</value>
-  </data>
-  <data name="Label63.Text" xml:space="preserve">
-    <value>タイムアウトまでの時間(秒)</value>
   </data>
   <data name="&gt;&gt;lblDetail.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -2669,9 +2534,6 @@
   </data>
   <data name="ListDoubleClickActionComboBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>263, 277</value>
-  </data>
-  <data name="&gt;&gt;Label8.Parent" xml:space="preserve">
-    <value>ConnectionPanel</value>
   </data>
   <data name="UserstreamPeriod.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -2848,9 +2710,6 @@
   <data name="Label46.Size" type="System.Drawing.Size, System.Drawing">
     <value>137, 12</value>
   </data>
-  <data name="TwitterAPIText.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
   <data name="HotkeyCode.Text" xml:space="preserve">
     <value>0</value>
   </data>
@@ -2945,9 +2804,6 @@
   </data>
   <data name="Label9.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="&gt;&gt;TwitterAPIText.ZOrder" xml:space="preserve">
-    <value>2</value>
   </data>
   <data name="&gt;&gt;SplitContainer1.Type" xml:space="preserve">
     <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -3126,9 +2982,6 @@
   <data name="&gt;&gt;TabMouseLockCheck.Parent" xml:space="preserve">
     <value>ActionPanel</value>
   </data>
-  <data name="TwitterAPIText.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
   <data name="Label22.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -3207,9 +3060,6 @@
   <data name="&gt;&gt;ButtonBackToDefaultFontColor2.ZOrder" xml:space="preserve">
     <value>27</value>
   </data>
-  <data name="ConnectionTimeOut.Location" type="System.Drawing.Point, System.Drawing">
-    <value>262, 18</value>
-  </data>
   <data name="&gt;&gt;ProxyPanel.Parent" xml:space="preserve">
     <value>SplitContainer1.Panel2</value>
   </data>
@@ -3224,9 +3074,6 @@
   </data>
   <data name="&gt;&gt;Label37.ZOrder" xml:space="preserve">
     <value>12</value>
-  </data>
-  <data name="&gt;&gt;Label64.ZOrder" xml:space="preserve">
-    <value>5</value>
   </data>
   <data name="btnAtTarget.ToolTip" xml:space="preserve">
     <value />
@@ -3284,9 +3131,6 @@
   </data>
   <data name="TweetPrvPanel.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
-  </data>
-  <data name="CheckUseSsl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 78</value>
   </data>
   <data name="Label37.Size" type="System.Drawing.Size, System.Drawing">
     <value>89, 12</value>
@@ -3384,9 +3228,6 @@
   <data name="&gt;&gt;Label22.Name" xml:space="preserve">
     <value>Label22</value>
   </data>
-  <data name="Label63.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="&gt;&gt;CheckCloseToExit.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -3443,9 +3284,6 @@
   </data>
   <data name="GroupBox1.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="CheckUseSsl.Text" xml:space="preserve">
-    <value>通信にHTTPSを使用する</value>
   </data>
   <data name="btnRetweet.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
@@ -3516,9 +3354,6 @@
   <data name="lblAtFromTarget.Text" xml:space="preserve">
     <value>This is sample.</value>
   </data>
-  <data name="CheckUseSsl.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
   <data name="HotkeyCheck.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -3570,9 +3405,6 @@
   <data name="lblSelf.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;CheckUseSsl.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>OpenTween.OTBaseForm, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
@@ -3584,9 +3416,6 @@
   </data>
   <data name="&gt;&gt;HotkeyCtrl.ZOrder" xml:space="preserve">
     <value>6</value>
-  </data>
-  <data name="&gt;&gt;ConnectionTimeOut.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Label52.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -3617,9 +3446,6 @@
   </data>
   <data name="Label7.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="&gt;&gt;Label63.ZOrder" xml:space="preserve">
-    <value>7</value>
   </data>
   <data name="Label52.ToolTip" xml:space="preserve">
     <value />
@@ -3831,9 +3657,6 @@
   <data name="&gt;&gt;lblListBackcolor.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Label63.Size" type="System.Drawing.Size, System.Drawing">
-    <value>131, 12</value>
-  </data>
   <data name="&gt;&gt;Label38.Parent" xml:space="preserve">
     <value>ActionPanel</value>
   </data>
@@ -3878,9 +3701,6 @@
   </data>
   <data name="&gt;&gt;HotkeyCheck.Name" xml:space="preserve">
     <value>HotkeyCheck</value>
-  </data>
-  <data name="&gt;&gt;TwitterAPIText.Name" xml:space="preserve">
-    <value>TwitterAPIText</value>
   </data>
   <data name="&gt;&gt;Label20.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -3950,9 +3770,6 @@
   </data>
   <data name="&gt;&gt;lblAtFromTarget.Parent" xml:space="preserve">
     <value>GroupBox5</value>
-  </data>
-  <data name="Label64.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
   </data>
   <data name="lblInputBackcolor.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 19</value>
@@ -4080,9 +3897,6 @@
   <data name="lblAtSelf.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 19</value>
   </data>
-  <data name="&gt;&gt;Label63.Name" xml:space="preserve">
-    <value>Label63</value>
-  </data>
   <data name="&gt;&gt;btnUnread.Parent" xml:space="preserve">
     <value>GroupBox1</value>
   </data>
@@ -4100,9 +3914,6 @@
   </data>
   <data name="SplitContainer1.SplitterDistance" type="System.Int32, mscorlib">
     <value>168</value>
-  </data>
-  <data name="ConnectionTimeOut.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="Label37.TabIndex" type="System.Int32, mscorlib">
     <value>21</value>
@@ -4208,9 +4019,6 @@
   </data>
   <data name="lblDetailLink.Text" xml:space="preserve">
     <value>This is sample.</value>
-  </data>
-  <data name="&gt;&gt;Label64.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="GroupBox5.Text" xml:space="preserve">
     <value>フォント＆色設定</value>

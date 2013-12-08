@@ -410,7 +410,7 @@ namespace OpenTween
                 Nicoms = this.CooperatePanel.CheckNicoms.Checked;
                 UseUnreadStyle = this.TweetPrvPanel.chkUnreadStyle.Checked;
                 DateTimeFormat = this.TweetPrvPanel.CmbDateTimeFormat.Text;
-                DefaultTimeOut = int.Parse(ConnectionTimeOut.Text);
+                DefaultTimeOut = int.Parse(this.ConnectionPanel.ConnectionTimeOut.Text);
                 RetweetNoConfirm = this.TweetActPanel.CheckRetweetNoConfirm.Checked;
                 LimitBalloon = this.PreviewPanel.CheckBalloonLimit.Checked;
                 EventNotifyEnabled = this.NotifyPanel.CheckEventNotify.Checked;
@@ -425,14 +425,14 @@ namespace OpenTween
                 GetFav = this.StartupPanel.chkGetFav.Checked;
                 IsMonospace = this.PreviewPanel.CheckMonospace.Checked;
                 ReadOldPosts = CheckReadOldPosts.Checked;
-                UseSsl = CheckUseSsl.Checked;
+                UseSsl = this.ConnectionPanel.CheckUseSsl.Checked;
                 BitlyUser = this.ShortUrlPanel.TextBitlyId.Text;
                 BitlyPwd = this.ShortUrlPanel.TextBitlyPw.Text;
                 ShowGrid = this.TweetPrvPanel.CheckShowGrid.Checked;
                 UseAtIdSupplement = this.TweetActPanel.CheckAtIdSupple.Checked;
                 UseHashSupplement = this.TweetActPanel.CheckHashSupple.Checked;
                 PreviewEnable = this.PreviewPanel.CheckPreviewEnable.Checked;
-                TwitterApiUrl = TwitterAPIText.Text.Trim();
+                TwitterApiUrl = this.ConnectionPanel.TwitterAPIText.Text.Trim();
                 switch (this.PreviewPanel.ReplyIconStateCombo.SelectedIndex)
                 {
                     case 0:
@@ -781,7 +781,7 @@ namespace OpenTween
             this.CooperatePanel.CheckNicoms.Checked = Nicoms;
             this.TweetPrvPanel.chkUnreadStyle.Checked = UseUnreadStyle;
             this.TweetPrvPanel.CmbDateTimeFormat.Text = DateTimeFormat;
-            ConnectionTimeOut.Text = DefaultTimeOut.ToString();
+            this.ConnectionPanel.ConnectionTimeOut.Text = DefaultTimeOut.ToString();
             this.TweetActPanel.CheckRetweetNoConfirm.Checked = RetweetNoConfirm;
             this.PreviewPanel.CheckBalloonLimit.Checked = LimitBalloon;
 
@@ -796,7 +796,7 @@ namespace OpenTween
             this.StartupPanel.chkGetFav.Checked = GetFav;
             this.PreviewPanel.CheckMonospace.Checked = IsMonospace;
             CheckReadOldPosts.Checked = ReadOldPosts;
-            CheckUseSsl.Checked = UseSsl;
+            this.ConnectionPanel.CheckUseSsl.Checked = UseSsl;
             this.ShortUrlPanel.TextBitlyId.Text = BitlyUser;
             this.ShortUrlPanel.TextBitlyPw.Text = BitlyPwd;
             this.ShortUrlPanel.TextBitlyId.Modified = false;
@@ -805,7 +805,7 @@ namespace OpenTween
             this.TweetActPanel.CheckAtIdSupple.Checked = UseAtIdSupplement;
             this.TweetActPanel.CheckHashSupple.Checked = UseHashSupplement;
             this.PreviewPanel.CheckPreviewEnable.Checked = PreviewEnable;
-            TwitterAPIText.Text = TwitterApiUrl;
+            this.ConnectionPanel.TwitterAPIText.Text = TwitterApiUrl;
             switch (ReplyIconState)
             {
                 case MyCommon.REPLY_ICONSTATE.None:
@@ -1381,27 +1381,6 @@ namespace OpenTween
             }
         }
 
-        private void ConnectionTimeOut_Validating(object sender, CancelEventArgs e)
-        {
-            int tm;
-            try
-            {
-                tm = int.Parse(ConnectionTimeOut.Text);
-            }
-            catch(Exception)
-            {
-                MessageBox.Show(Properties.Resources.ConnectionTimeOut_ValidatingText1);
-                e.Cancel = true;
-                return;
-            }
-
-            if (tm < (int)MyCommon.HttpTimeOut.MinValue || tm > (int)MyCommon.HttpTimeOut.MaxValue)
-            {
-                MessageBox.Show(Properties.Resources.ConnectionTimeOut_ValidatingText1);
-                e.Cancel = true;
-            }
-        }
-
         public bool LimitBalloon { get; set; }
         public bool EventNotifyEnabled { get; set; }
 
@@ -1513,7 +1492,7 @@ namespace OpenTween
 
             //通信基底クラス初期化
             HttpConnection.InitializeConnection(20, ptype, padr, pport, pusr, ppw);
-            HttpTwitter.TwitterUrl = TwitterAPIText.Text.Trim();
+            HttpTwitter.TwitterUrl = this.ConnectionPanel.TwitterAPIText.Text.Trim();
             tw.Initialize("", "", "", 0);
             //this.AuthStateLabel.Text = Properties.Resources.AuthorizeButton_Click4;
             //this.AuthUserLabel.Text = "";

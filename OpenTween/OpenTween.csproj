@@ -150,6 +150,12 @@
     <Compile Include="Setting\Panel\BasedPanel.Designer.cs">
       <DependentUpon>BasedPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Setting\Panel\ConnectionPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Setting\Panel\ConnectionPanel.Designer.cs">
+      <DependentUpon>ConnectionPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Setting\Panel\CooperatePanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -412,6 +418,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Setting\Panel\BasedPanel.zh-CHS.resx">
       <DependentUpon>BasedPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setting\Panel\ConnectionPanel.en.resx">
+      <DependentUpon>ConnectionPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setting\Panel\ConnectionPanel.resx">
+      <DependentUpon>ConnectionPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setting\Panel\ConnectionPanel.zh-CHS.resx">
+      <DependentUpon>ConnectionPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Setting\Panel\CooperatePanel.en.resx">
       <DependentUpon>CooperatePanel.cs</DependentUpon>
