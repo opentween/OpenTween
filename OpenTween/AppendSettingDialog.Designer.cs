@@ -36,16 +36,7 @@
             this.PreviewPanel = new OpenTween.Setting.Panel.PreviewPanel();
             this.TweetActPanel = new OpenTween.Setting.Panel.TweetActPanel();
             this.GetCountPanel = new OpenTween.Setting.Panel.GetCountPanel();
-            this.ShortUrlPanel = new System.Windows.Forms.Panel();
-            this.ShortenTcoCheck = new System.Windows.Forms.CheckBox();
-            this.CheckTinyURL = new System.Windows.Forms.CheckBox();
-            this.TextBitlyPw = new System.Windows.Forms.TextBox();
-            this.CheckAutoConvertUrl = new System.Windows.Forms.CheckBox();
-            this.Label71 = new System.Windows.Forms.Label();
-            this.ComboBoxAutoShortUrlFirst = new System.Windows.Forms.ComboBox();
-            this.Label76 = new System.Windows.Forms.Label();
-            this.Label77 = new System.Windows.Forms.Label();
-            this.TextBitlyId = new System.Windows.Forms.TextBox();
+            this.ShortUrlPanel = new OpenTween.Setting.Panel.ShortUrlPanel();
             this.BasedPanel = new System.Windows.Forms.Panel();
             this.AuthUserCombo = new System.Windows.Forms.ComboBox();
             this.GroupBox2 = new System.Windows.Forms.GroupBox();
@@ -240,7 +231,6 @@
             this.SplitContainer1.Panel1.SuspendLayout();
             this.SplitContainer1.Panel2.SuspendLayout();
             this.SplitContainer1.SuspendLayout();
-            this.ShortUrlPanel.SuspendLayout();
             this.BasedPanel.SuspendLayout();
             this.GroupBox2.SuspendLayout();
             this.TweetPrvPanel.SuspendLayout();
@@ -336,85 +326,8 @@
             // ShortUrlPanel
             // 
             resources.ApplyResources(this.ShortUrlPanel, "ShortUrlPanel");
-            this.ShortUrlPanel.Controls.Add(this.ShortenTcoCheck);
-            this.ShortUrlPanel.Controls.Add(this.CheckTinyURL);
-            this.ShortUrlPanel.Controls.Add(this.TextBitlyPw);
-            this.ShortUrlPanel.Controls.Add(this.CheckAutoConvertUrl);
-            this.ShortUrlPanel.Controls.Add(this.Label71);
-            this.ShortUrlPanel.Controls.Add(this.ComboBoxAutoShortUrlFirst);
-            this.ShortUrlPanel.Controls.Add(this.Label76);
-            this.ShortUrlPanel.Controls.Add(this.Label77);
-            this.ShortUrlPanel.Controls.Add(this.TextBitlyId);
             this.ShortUrlPanel.Name = "ShortUrlPanel";
             this.ToolTip1.SetToolTip(this.ShortUrlPanel, resources.GetString("ShortUrlPanel.ToolTip"));
-            // 
-            // ShortenTcoCheck
-            // 
-            resources.ApplyResources(this.ShortenTcoCheck, "ShortenTcoCheck");
-            this.ShortenTcoCheck.Name = "ShortenTcoCheck";
-            this.ToolTip1.SetToolTip(this.ShortenTcoCheck, resources.GetString("ShortenTcoCheck.ToolTip"));
-            this.ShortenTcoCheck.UseVisualStyleBackColor = true;
-            // 
-            // CheckTinyURL
-            // 
-            resources.ApplyResources(this.CheckTinyURL, "CheckTinyURL");
-            this.CheckTinyURL.Name = "CheckTinyURL";
-            this.ToolTip1.SetToolTip(this.CheckTinyURL, resources.GetString("CheckTinyURL.ToolTip"));
-            this.CheckTinyURL.UseVisualStyleBackColor = true;
-            // 
-            // TextBitlyPw
-            // 
-            resources.ApplyResources(this.TextBitlyPw, "TextBitlyPw");
-            this.TextBitlyPw.Name = "TextBitlyPw";
-            this.ToolTip1.SetToolTip(this.TextBitlyPw, resources.GetString("TextBitlyPw.ToolTip"));
-            // 
-            // CheckAutoConvertUrl
-            // 
-            resources.ApplyResources(this.CheckAutoConvertUrl, "CheckAutoConvertUrl");
-            this.CheckAutoConvertUrl.Name = "CheckAutoConvertUrl";
-            this.ToolTip1.SetToolTip(this.CheckAutoConvertUrl, resources.GetString("CheckAutoConvertUrl.ToolTip"));
-            this.CheckAutoConvertUrl.UseVisualStyleBackColor = true;
-            this.CheckAutoConvertUrl.CheckedChanged += new System.EventHandler(this.CheckAutoConvertUrl_CheckedChanged);
-            // 
-            // Label71
-            // 
-            resources.ApplyResources(this.Label71, "Label71");
-            this.Label71.Name = "Label71";
-            this.ToolTip1.SetToolTip(this.Label71, resources.GetString("Label71.ToolTip"));
-            // 
-            // ComboBoxAutoShortUrlFirst
-            // 
-            resources.ApplyResources(this.ComboBoxAutoShortUrlFirst, "ComboBoxAutoShortUrlFirst");
-            this.ComboBoxAutoShortUrlFirst.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ComboBoxAutoShortUrlFirst.FormattingEnabled = true;
-            this.ComboBoxAutoShortUrlFirst.Items.AddRange(new object[] {
-            resources.GetString("ComboBoxAutoShortUrlFirst.Items"),
-            resources.GetString("ComboBoxAutoShortUrlFirst.Items1"),
-            resources.GetString("ComboBoxAutoShortUrlFirst.Items2"),
-            resources.GetString("ComboBoxAutoShortUrlFirst.Items3"),
-            resources.GetString("ComboBoxAutoShortUrlFirst.Items4"),
-            resources.GetString("ComboBoxAutoShortUrlFirst.Items5")});
-            this.ComboBoxAutoShortUrlFirst.Name = "ComboBoxAutoShortUrlFirst";
-            this.ToolTip1.SetToolTip(this.ComboBoxAutoShortUrlFirst, resources.GetString("ComboBoxAutoShortUrlFirst.ToolTip"));
-            this.ComboBoxAutoShortUrlFirst.SelectedIndexChanged += new System.EventHandler(this.ComboBoxAutoShortUrlFirst_SelectedIndexChanged);
-            // 
-            // Label76
-            // 
-            resources.ApplyResources(this.Label76, "Label76");
-            this.Label76.Name = "Label76";
-            this.ToolTip1.SetToolTip(this.Label76, resources.GetString("Label76.ToolTip"));
-            // 
-            // Label77
-            // 
-            resources.ApplyResources(this.Label77, "Label77");
-            this.Label77.Name = "Label77";
-            this.ToolTip1.SetToolTip(this.Label77, resources.GetString("Label77.ToolTip"));
-            // 
-            // TextBitlyId
-            // 
-            resources.ApplyResources(this.TextBitlyId, "TextBitlyId");
-            this.TextBitlyId.Name = "TextBitlyId";
-            this.ToolTip1.SetToolTip(this.TextBitlyId, resources.GetString("TextBitlyId.ToolTip"));
             // 
             // BasedPanel
             // 
@@ -2095,8 +2008,6 @@
             this.SplitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer1)).EndInit();
             this.SplitContainer1.ResumeLayout(false);
-            this.ShortUrlPanel.ResumeLayout(false);
-            this.ShortUrlPanel.PerformLayout();
             this.BasedPanel.ResumeLayout(false);
             this.BasedPanel.PerformLayout();
             this.GroupBox2.ResumeLayout(false);
@@ -2144,16 +2055,7 @@
         internal System.Windows.Forms.ToolTip ToolTip1;
         private Setting.Panel.TweetActPanel TweetActPanel;
         private Setting.Panel.GetCountPanel GetCountPanel;
-        internal System.Windows.Forms.Panel ShortUrlPanel;
-        internal System.Windows.Forms.CheckBox ShortenTcoCheck;
-        internal System.Windows.Forms.CheckBox CheckTinyURL;
-        internal System.Windows.Forms.TextBox TextBitlyPw;
-        internal System.Windows.Forms.CheckBox CheckAutoConvertUrl;
-        internal System.Windows.Forms.Label Label71;
-        internal System.Windows.Forms.ComboBox ComboBoxAutoShortUrlFirst;
-        internal System.Windows.Forms.Label Label76;
-        internal System.Windows.Forms.Label Label77;
-        internal System.Windows.Forms.TextBox TextBitlyId;
+        private Setting.Panel.ShortUrlPanel ShortUrlPanel;
         internal System.Windows.Forms.Panel BasedPanel;
         internal System.Windows.Forms.ComboBox AuthUserCombo;
         internal System.Windows.Forms.GroupBox GroupBox2;

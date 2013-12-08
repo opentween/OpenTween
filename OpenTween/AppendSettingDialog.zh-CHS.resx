@@ -250,24 +250,6 @@
   <data name="Label59.Text" xml:space="preserve">
     <value>复活咒语</value>
   </data>
-  <data name="CheckTinyURL.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 16</value>
-  </data>
-  <data name="CheckTinyURL.Text" xml:space="preserve">
-    <value>展开</value>
-  </data>
-  <data name="CheckAutoConvertUrl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>72, 16</value>
-  </data>
-  <data name="CheckAutoConvertUrl.Text" xml:space="preserve">
-    <value>自动缩短</value>
-  </data>
-  <data name="Label71.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 12</value>
-  </data>
-  <data name="Label71.Text" xml:space="preserve">
-    <value>URL自动缩短优先使用</value>
-  </data>
   <data name="Label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>41, 12</value>
   </data>

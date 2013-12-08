@@ -255,15 +255,6 @@
   <data name="ComboBoxTranslateLanguage.Items90" xml:space="preserve">
     <value>Sorbian</value>
   </data>
-  <data name="&gt;&gt;TextBitlyId.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="TextBitlyId.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="ComboBoxAutoShortUrlFirst.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
   <data name="&gt;&gt;btnAtSelf.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -330,9 +321,6 @@
   <data name="CooperatePanel.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="Label77.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
   <data name="&gt;&gt;btnDetail.ZOrder" xml:space="preserve">
     <value>13</value>
   </data>
@@ -378,9 +366,6 @@
   <data name="Label38.Size" type="System.Drawing.Size, System.Drawing">
     <value>142, 12</value>
   </data>
-  <data name="ShortenTcoCheck.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="GetPeriodPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -389,9 +374,6 @@
   </data>
   <data name="btnListBack.Location" type="System.Drawing.Point, System.Drawing">
     <value>339, 165</value>
-  </data>
-  <data name="ComboBoxAutoShortUrlFirst.Items" xml:space="preserve">
-    <value>tinyurl</value>
   </data>
   <data name="&gt;&gt;CheckForceEventNotify.Parent" xml:space="preserve">
     <value>NotifyPanel</value>
@@ -410,12 +392,6 @@
   </data>
   <data name="Label6.Size" type="System.Drawing.Size, System.Drawing">
     <value>103, 12</value>
-  </data>
-  <data name="Label71.Size" type="System.Drawing.Size, System.Drawing">
-    <value>154, 12</value>
-  </data>
-  <data name="&gt;&gt;Label76.ZOrder" xml:space="preserve">
-    <value>7</value>
   </data>
   <data name="&gt;&gt;Label11.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -468,9 +444,6 @@
   <data name="&gt;&gt;IsRemoveSameFavEventCheckBox.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;Label77.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
   <data name="lblListFont.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -485,9 +458,6 @@
   </data>
   <data name="Label59.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="CheckTinyURL.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 22</value>
   </data>
   <data name="CheckUnfavoritesEvent.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -566,9 +536,6 @@
   <data name="&gt;&gt;lblUnread.Name" xml:space="preserve">
     <value>lblUnread</value>
   </data>
-  <data name="&gt;&gt;Label76.Parent" xml:space="preserve">
-    <value>ShortUrlPanel</value>
-  </data>
   <data name="&gt;&gt;HotkeyShift.Parent" xml:space="preserve">
     <value>GroupBox3</value>
   </data>
@@ -614,12 +581,6 @@
   <data name="Label18.Location" type="System.Drawing.Point, System.Drawing">
     <value>8, 173</value>
   </data>
-  <data name="&gt;&gt;Label77.Parent" xml:space="preserve">
-    <value>ShortUrlPanel</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxAutoShortUrlFirst.Name" xml:space="preserve">
-    <value>ComboBoxAutoShortUrlFirst</value>
-  </data>
   <data name="&gt;&gt;Label57.Parent" xml:space="preserve">
     <value>ActionPanel</value>
   </data>
@@ -659,17 +620,11 @@
   <data name="OneWayLv.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="ShortenTcoCheck.Size" type="System.Drawing.Size, System.Drawing">
-    <value>95, 16</value>
-  </data>
   <data name="&gt;&gt;Label18.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
   <data name="OneWayLv.Text" xml:space="preserve">
     <value>片思いを色分けして表示する</value>
-  </data>
-  <data name="Label77.Location" type="System.Drawing.Point, System.Drawing">
-    <value>366, 164</value>
   </data>
   <data name="lblInputFont.ToolTip" xml:space="preserve">
     <value />
@@ -694,9 +649,6 @@
   </data>
   <data name="&gt;&gt;CheckUserUpdateEvent.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ComboBoxAutoShortUrlFirst.Items1" xml:space="preserve">
-    <value>is.gd</value>
   </data>
   <data name="Label3.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 40</value>
@@ -748,9 +700,6 @@
   </data>
   <data name="&gt;&gt;HotkeyText.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ShortenTcoCheck.ZOrder" xml:space="preserve">
-    <value>0</value>
   </data>
   <data name="&gt;&gt;GroupBox2.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -890,9 +839,6 @@
   <data name="&gt;&gt;Label65.Parent" xml:space="preserve">
     <value>GroupBox5</value>
   </data>
-  <data name="&gt;&gt;TextBitlyPw.Parent" xml:space="preserve">
-    <value>ShortUrlPanel</value>
-  </data>
   <data name="lblInputFont.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
@@ -931,9 +877,6 @@
   </data>
   <data name="&gt;&gt;CheckSortOrderLock.Name" xml:space="preserve">
     <value>CheckSortOrderLock</value>
-  </data>
-  <data name="ComboBoxAutoShortUrlFirst.Items4" xml:space="preserve">
-    <value>j.mp</value>
   </data>
   <data name="ComboBoxEventNotifySound.Size" type="System.Drawing.Size, System.Drawing">
     <value>188, 20</value>
@@ -1021,12 +964,6 @@
   <data name="CheckUnfavoritesEvent.Location" type="System.Drawing.Point, System.Drawing">
     <value>40, 60</value>
   </data>
-  <data name="&gt;&gt;TextBitlyPw.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;TextBitlyId.Name" xml:space="preserve">
-    <value>TextBitlyId</value>
-  </data>
   <data name="&gt;&gt;GroupBox1.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -1075,9 +1012,6 @@
   <data name="ButtonBackToDefaultFontColor2.Size" type="System.Drawing.Size, System.Drawing">
     <value>112, 25</value>
   </data>
-  <data name="&gt;&gt;CheckTinyURL.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
   <data name="TimelinePeriod.Size" type="System.Drawing.Size, System.Drawing">
     <value>65, 19</value>
   </data>
@@ -1096,17 +1030,11 @@
   <data name="&gt;&gt;PreviewPanel.Type" xml:space="preserve">
     <value>OpenTween.Setting.Panel.PreviewPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;CheckAutoConvertUrl.Parent" xml:space="preserve">
-    <value>ShortUrlPanel</value>
-  </data>
   <data name="&gt;&gt;AuthUserCombo.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Label37.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ComboBoxAutoShortUrlFirst.Location" type="System.Drawing.Point, System.Drawing">
-    <value>251, 138</value>
   </data>
   <data name="CheckListCreatedEvent.Location" type="System.Drawing.Point, System.Drawing">
     <value>40, 162</value>
@@ -1162,9 +1090,6 @@
   <data name="Label52.Text" xml:space="preserve">
     <value>入力欄アクティブ時背景色</value>
   </data>
-  <data name="Label76.Text" xml:space="preserve">
-    <value>ID</value>
-  </data>
   <data name="&gt;&gt;ListDoubleClickActionComboBox.Name" xml:space="preserve">
     <value>ListDoubleClickActionComboBox</value>
   </data>
@@ -1191,9 +1116,6 @@
   </data>
   <data name="&gt;&gt;CheckShowGrid.Parent" xml:space="preserve">
     <value>TweetPrvPanel</value>
-  </data>
-  <data name="CheckTinyURL.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
   </data>
   <data name="Button3.ToolTip" xml:space="preserve">
     <value />
@@ -1248,9 +1170,6 @@
   </data>
   <data name="ShortUrlPanel.Size" type="System.Drawing.Size, System.Drawing">
     <value>519, 368</value>
-  </data>
-  <data name="TextBitlyPw.Size" type="System.Drawing.Size, System.Drawing">
-    <value>70, 19</value>
   </data>
   <data name="Label59.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -1318,9 +1237,6 @@
   <data name="&gt;&gt;Label18.Name" xml:space="preserve">
     <value>Label18</value>
   </data>
-  <data name="TextBitlyPw.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
   <data name="&gt;&gt;lblTarget.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -1356,9 +1272,6 @@
   </data>
   <data name="&gt;&gt;CheckShowGrid.Name" xml:space="preserve">
     <value>CheckShowGrid</value>
-  </data>
-  <data name="ShortenTcoCheck.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="BasedPanel.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1455,9 +1368,6 @@
   </data>
   <data name="&gt;&gt;lblDetailLink.ZOrder" xml:space="preserve">
     <value>5</value>
-  </data>
-  <data name="&gt;&gt;Label71.Parent" xml:space="preserve">
-    <value>ShortUrlPanel</value>
   </data>
   <data name="Label62.Size" type="System.Drawing.Size, System.Drawing">
     <value>44, 12</value>
@@ -1561,9 +1471,6 @@
   <data name="&gt;&gt;TweetActPanel.Name" xml:space="preserve">
     <value>TweetActPanel</value>
   </data>
-  <data name="CheckTinyURL.Size" type="System.Drawing.Size, System.Drawing">
-    <value>122, 16</value>
-  </data>
   <data name="Label47.Location" type="System.Drawing.Point, System.Drawing">
     <value>216, 178</value>
   </data>
@@ -1660,9 +1567,6 @@
   <data name="lblSelf.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="TextBitlyPw.Location" type="System.Drawing.Point, System.Drawing">
-    <value>413, 161</value>
-  </data>
   <data name="&gt;&gt;Label43.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
@@ -1698,12 +1602,6 @@
   </data>
   <data name="&gt;&gt;Label55.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="&gt;&gt;Label77.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="CheckAutoConvertUrl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 68</value>
   </data>
   <data name="lblAtTarget.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 19</value>
@@ -1810,9 +1708,6 @@
   <data name="Label33.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="TextBitlyPw.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="CheckFavEventUnread.Text" xml:space="preserve">
     <value>Favoritesイベント受信の際に書き込みを未読に戻す</value>
   </data>
@@ -1842,9 +1737,6 @@
   </data>
   <data name="TweetPrvPanel.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
-  </data>
-  <data name="&gt;&gt;TextBitlyId.Parent" xml:space="preserve">
-    <value>ShortUrlPanel</value>
   </data>
   <data name="&gt;&gt;ProxyPanel.Type" xml:space="preserve">
     <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1920,9 +1812,6 @@
   </data>
   <data name="&gt;&gt;btnAtFromTarget.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="TextBitlyId.Size" type="System.Drawing.Size, System.Drawing">
-    <value>71, 19</value>
   </data>
   <data name="&gt;&gt;CheckUserUpdateEvent.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -2083,9 +1972,6 @@
   <data name="&gt;&gt;CheckUserUpdateEvent.Name" xml:space="preserve">
     <value>CheckUserUpdateEvent</value>
   </data>
-  <data name="&gt;&gt;CheckTinyURL.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;CheckPostAndGet.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -2112,9 +1998,6 @@
   </data>
   <data name="Label43.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="Label77.Size" type="System.Drawing.Size, System.Drawing">
-    <value>42, 12</value>
   </data>
   <data name="Label26.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 148</value>
@@ -2265,9 +2148,6 @@
   </data>
   <data name="&gt;&gt;GetPeriodPanel.ZOrder" xml:space="preserve">
     <value>11</value>
-  </data>
-  <data name="&gt;&gt;ShortenTcoCheck.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;GroupBox5.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -2506,16 +2386,10 @@
   <data name="Label61.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 23</value>
   </data>
-  <data name="ComboBoxAutoShortUrlFirst.Items5" xml:space="preserve">
-    <value>ux.nu</value>
-  </data>
   <data name="lblAtFromTarget.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
   </data>
   <data name="lblListBackcolor.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label77.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="RadioProxySpecified.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
@@ -2632,9 +2506,6 @@
   <data name="&gt;&gt;PubSearchPeriod.ZOrder" xml:space="preserve">
     <value>14</value>
   </data>
-  <data name="&gt;&gt;ShortenTcoCheck.Name" xml:space="preserve">
-    <value>ShortenTcoCheck</value>
-  </data>
   <data name="&gt;&gt;Label24.Parent" xml:space="preserve">
     <value>GroupBox1</value>
   </data>
@@ -2655,9 +2526,6 @@
   </data>
   <data name="&gt;&gt;Label24.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label71.Name" xml:space="preserve">
-    <value>Label71</value>
   </data>
   <data name="PubSearchPeriod.ToolTip" xml:space="preserve">
     <value />
@@ -2839,12 +2707,6 @@
   <data name="TextProxyPassword.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
   </data>
-  <data name="Label77.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="ShortenTcoCheck.Text" xml:space="preserve">
-    <value>t.coで短縮する</value>
-  </data>
   <data name="&gt;&gt;CheckFavoritesEvent.Name" xml:space="preserve">
     <value>CheckFavoritesEvent</value>
   </data>
@@ -2886,12 +2748,6 @@
   </data>
   <data name="&gt;&gt;Label35.ZOrder" xml:space="preserve">
     <value>2</value>
-  </data>
-  <data name="Label76.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CheckAutoConvertUrl.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="CheckFavRestrict.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 188</value>
@@ -2940,9 +2796,6 @@
   </data>
   <data name="&gt;&gt;AuthClearButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxAutoShortUrlFirst.Parent" xml:space="preserve">
-    <value>ShortUrlPanel</value>
   </data>
   <data name="IsRemoveSameFavEventCheckBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 257</value>
@@ -3037,9 +2890,6 @@
   <data name="btnListFont.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="ComboBoxAutoShortUrlFirst.Items3" xml:space="preserve">
-    <value>bit.ly</value>
-  </data>
   <data name="&gt;&gt;Label22.ZOrder" xml:space="preserve">
     <value>21</value>
   </data>
@@ -3100,9 +2950,6 @@
   <data name="ConnectionTimeOut.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>Disable</value>
   </data>
-  <data name="&gt;&gt;ShortenTcoCheck.Parent" xml:space="preserve">
-    <value>ShortUrlPanel</value>
-  </data>
   <data name="ConnectionPanel.Size" type="System.Drawing.Size, System.Drawing">
     <value>519, 368</value>
   </data>
@@ -3111,9 +2958,6 @@
   </data>
   <data name="&gt;&gt;CheckBlockEvent.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="Label71.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
   </data>
   <data name="UserstreamPeriod.ToolTip" xml:space="preserve">
     <value />
@@ -3135,9 +2979,6 @@
   </data>
   <data name="&gt;&gt;CheckUseSsl.Name" xml:space="preserve">
     <value>CheckUseSsl</value>
-  </data>
-  <data name="&gt;&gt;TextBitlyPw.Name" xml:space="preserve">
-    <value>TextBitlyPw</value>
   </data>
   <data name="&gt;&gt;CmbDateTimeFormat.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -3310,9 +3151,6 @@
   <data name="&gt;&gt;btnListBack.Name" xml:space="preserve">
     <value>btnListBack</value>
   </data>
-  <data name="&gt;&gt;CheckTinyURL.Name" xml:space="preserve">
-    <value>CheckTinyURL</value>
-  </data>
   <data name="Label47.Text" xml:space="preserve">
     <value>再起動後有効になります。</value>
   </data>
@@ -3430,9 +3268,6 @@
   <data name="&gt;&gt;Label32.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
-  <data name="CheckAutoConvertUrl.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="AuthClearButton.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
@@ -3460,9 +3295,6 @@
   <data name="TreeViewSetting.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="Label71.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="StartAuthButton.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -3489,9 +3321,6 @@
   </data>
   <data name="Label22.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
-  </data>
-  <data name="ComboBoxAutoShortUrlFirst.Size" type="System.Drawing.Size, System.Drawing">
-    <value>246, 20</value>
   </data>
   <data name="&gt;&gt;Label33.ZOrder" xml:space="preserve">
     <value>11</value>
@@ -3628,9 +3457,6 @@
   <data name="&gt;&gt;CheckViewTabBottom.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Label76.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
   <data name="lblAtTo.Text" xml:space="preserve">
     <value>This is sample.</value>
   </data>
@@ -3689,7 +3515,7 @@
     <value>7</value>
   </data>
   <data name="&gt;&gt;ShortUrlPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>OpenTween.Setting.Panel.ShortUrlPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="chkReadOwnPost.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -3739,9 +3565,6 @@
   <data name="lblAtSelf.Text" xml:space="preserve">
     <value>This is sample.</value>
   </data>
-  <data name="&gt;&gt;CheckTinyURL.Parent" xml:space="preserve">
-    <value>ShortUrlPanel</value>
-  </data>
   <data name="chkReadOwnPost.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 255</value>
   </data>
@@ -3750,9 +3573,6 @@
   </data>
   <data name="lblOWL.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 19</value>
-  </data>
-  <data name="&gt;&gt;TextBitlyId.ZOrder" xml:space="preserve">
-    <value>9</value>
   </data>
   <data name="Label14.Location" type="System.Drawing.Point, System.Drawing">
     <value>16, 120</value>
@@ -3814,9 +3634,6 @@
   <data name="&gt;&gt;HotkeyWin.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="CheckTinyURL.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="&gt;&gt;FontPanel2.Type" xml:space="preserve">
     <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -3858,9 +3675,6 @@
   </data>
   <data name="CheckReadOldPosts.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="&gt;&gt;Label71.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="CheckCloseToExit.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3982,9 +3796,6 @@
   <data name="CheckListMemberAddedEvent.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
-  <data name="ShortenTcoCheck.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="ShortUrlPanel.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -4050,17 +3861,11 @@
   <data name="IsPreviewFoursquareCheckBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="&gt;&gt;CheckAutoConvertUrl.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
   <data name="lblInputFont.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 19</value>
   </data>
   <data name="&gt;&gt;lblTarget.Parent" xml:space="preserve">
     <value>GroupBox5</value>
-  </data>
-  <data name="CheckAutoConvertUrl.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
   </data>
   <data name="Label11.Text" xml:space="preserve">
     <value>リストのアイコンサイズ（初期値16）</value>
@@ -4218,9 +4023,6 @@
   <data name="PubSearchPeriod.Size" type="System.Drawing.Size, System.Drawing">
     <value>65, 19</value>
   </data>
-  <data name="&gt;&gt;ComboBoxAutoShortUrlFirst.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
   <data name="&gt;&gt;LabelDateTimeFormatApplied.Parent" xml:space="preserve">
     <value>TweetPrvPanel</value>
   </data>
@@ -4305,9 +4107,6 @@
   <data name="&gt;&gt;StartupPanel.Type" xml:space="preserve">
     <value>OpenTween.Setting.Panel.StartupPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="Label71.Text" xml:space="preserve">
-    <value>URL自動短縮で優先的に使用</value>
-  </data>
   <data name="&gt;&gt;TextProxyUser.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -4355,9 +4154,6 @@
   </data>
   <data name="&gt;&gt;LabelProxyAddress.Name" xml:space="preserve">
     <value>LabelProxyAddress</value>
-  </data>
-  <data name="Label77.Text" xml:space="preserve">
-    <value>APIKey</value>
   </data>
   <data name="lblDetailLink.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -4407,9 +4203,6 @@
   <data name="btnAtSelf.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="TextBitlyId.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="chkReadOwnPost.Size" type="System.Drawing.Size, System.Drawing">
     <value>143, 16</value>
   </data>
@@ -4433,9 +4226,6 @@
   </data>
   <data name="UserstreamPeriod.Size" type="System.Drawing.Size, System.Drawing">
     <value>65, 19</value>
-  </data>
-  <data name="&gt;&gt;Label76.Name" xml:space="preserve">
-    <value>Label76</value>
   </data>
   <data name="&gt;&gt;CheckFavoritesEvent.Parent" xml:space="preserve">
     <value>NotifyPanel</value>
@@ -4500,9 +4290,6 @@
   <data name="Label11.Size" type="System.Drawing.Size, System.Drawing">
     <value>163, 12</value>
   </data>
-  <data name="&gt;&gt;Label77.Name" xml:space="preserve">
-    <value>Label77</value>
-  </data>
   <data name="Label29.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
   </data>
@@ -4538,9 +4325,6 @@
   </data>
   <data name="CheckMinimizeToTray.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 137</value>
-  </data>
-  <data name="ComboBoxAutoShortUrlFirst.Items2" xml:space="preserve">
-    <value>twurl.nl</value>
   </data>
   <data name="&gt;&gt;Label16.Parent" xml:space="preserve">
     <value>GroupBox5</value>
@@ -4653,9 +4437,6 @@
   <data name="Label26.Size" type="System.Drawing.Size, System.Drawing">
     <value>77, 12</value>
   </data>
-  <data name="&gt;&gt;CheckAutoConvertUrl.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="lblAtSelf.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -4698,9 +4479,6 @@
   <data name="&gt;&gt;Label26.Name" xml:space="preserve">
     <value>Label26</value>
   </data>
-  <data name="Label77.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="LabelProxyPort.Location" type="System.Drawing.Point, System.Drawing">
     <value>255, 85</value>
   </data>
@@ -4709,9 +4487,6 @@
   </data>
   <data name="&gt;&gt;Label11.Name" xml:space="preserve">
     <value>Label11</value>
-  </data>
-  <data name="&gt;&gt;Label76.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="btnTarget.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -4798,9 +4573,6 @@
   <data name="&gt;&gt;CheckEventNotify.Parent" xml:space="preserve">
     <value>NotifyPanel</value>
   </data>
-  <data name="ComboBoxAutoShortUrlFirst.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="&gt;&gt;btnAtTo.Parent" xml:space="preserve">
     <value>GroupBox5</value>
   </data>
@@ -4833,9 +4605,6 @@
   </data>
   <data name="&gt;&gt;GroupBox5.Parent" xml:space="preserve">
     <value>FontPanel2</value>
-  </data>
-  <data name="CheckAutoConvertUrl.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
   </data>
   <data name="MapThumbnailGroupBox.ToolTip" xml:space="preserve">
     <value />
@@ -4896,9 +4665,6 @@
   </data>
   <data name="&gt;&gt;Label18.Parent" xml:space="preserve">
     <value>GroupBox1</value>
-  </data>
-  <data name="CheckTinyURL.Text" xml:space="preserve">
-    <value>短縮URLを解決する</value>
   </data>
   <data name="TreeViewSetting.Nodes3" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -4979,9 +4745,6 @@
   </data>
   <data name="ButtonBackToDefaultFontColor2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
-  </data>
-  <data name="Label76.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="&gt;&gt;btnDetailLink.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -5109,9 +4872,6 @@
   <data name="&gt;&gt;Label47.Parent" xml:space="preserve">
     <value>TweetPrvPanel</value>
   </data>
-  <data name="Label71.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="PlaySnd.Size" type="System.Drawing.Size, System.Drawing">
     <value>113, 16</value>
   </data>
@@ -5199,9 +4959,6 @@
   <data name="lblFav.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 19</value>
   </data>
-  <data name="&gt;&gt;Label71.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
   <data name="btnListFont.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -5237,9 +4994,6 @@
   </data>
   <data name="&gt;&gt;CheckViewTabBottom.ZOrder" xml:space="preserve">
     <value>10</value>
-  </data>
-  <data name="Label76.Location" type="System.Drawing.Point, System.Drawing">
-    <value>250, 164</value>
   </data>
   <data name="SplitContainer1.IsSplitterFixed" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -5369,9 +5123,6 @@
   </data>
   <data name="ConnectionPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
-  </data>
-  <data name="TextBitlyId.Location" type="System.Drawing.Point, System.Drawing">
-    <value>271, 161</value>
   </data>
   <data name="lblDetailBackcolor.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 19</value>
@@ -5817,9 +5568,6 @@
   <data name="HideDuplicatedRetweetsCheck.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="Label76.Size" type="System.Drawing.Size, System.Drawing">
-    <value>16, 12</value>
-  </data>
   <data name="label48.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 22</value>
   </data>
@@ -5831,9 +5579,6 @@
   </data>
   <data name="CheckUseSsl.Text" xml:space="preserve">
     <value>通信にHTTPSを使用する</value>
-  </data>
-  <data name="CheckTinyURL.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="btnRetweet.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
@@ -5894,9 +5639,6 @@
   </data>
   <data name="lblUnread.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxAutoShortUrlFirst.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Label4.Location" type="System.Drawing.Point, System.Drawing">
     <value>20, 29</value>
@@ -5960,9 +5702,6 @@
   </data>
   <data name="lblTarget.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
-  </data>
-  <data name="&gt;&gt;TextBitlyPw.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Label4.Size" type="System.Drawing.Size, System.Drawing">
     <value>49, 12</value>
@@ -6051,9 +5790,6 @@
   <data name="btnListBack.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="Label71.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="ButtonBackToDefaultFontColor.Text" xml:space="preserve">
     <value>デフォルトに戻す</value>
   </data>
@@ -6065,12 +5801,6 @@
   </data>
   <data name="ShortUrlPanel.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
-  </data>
-  <data name="&gt;&gt;CheckAutoConvertUrl.Name" xml:space="preserve">
-    <value>CheckAutoConvertUrl</value>
-  </data>
-  <data name="ShortenTcoCheck.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
   </data>
   <data name="&gt;&gt;ButtonBackToDefaultFontColor2.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -6092,9 +5822,6 @@
   </data>
   <data name="&gt;&gt;Label63.ZOrder" xml:space="preserve">
     <value>7</value>
-  </data>
-  <data name="CheckAutoConvertUrl.Text" xml:space="preserve">
-    <value>入力欄のURLを投稿する際に自動で短縮する</value>
   </data>
   <data name="Label52.ToolTip" xml:space="preserve">
     <value />
@@ -6125,9 +5852,6 @@
   </data>
   <data name="LabelProxyPassword.Text" xml:space="preserve">
     <value>パスワード(&amp;W)</value>
-  </data>
-  <data name="CheckAutoConvertUrl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>242, 16</value>
   </data>
   <data name="HotkeyText.ToolTip" xml:space="preserve">
     <value />
@@ -6306,9 +6030,6 @@
   <data name="&gt;&gt;OneWayLv.Parent" xml:space="preserve">
     <value>TweetPrvPanel</value>
   </data>
-  <data name="Label76.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="lblRetweet.Text" xml:space="preserve">
     <value>This is sample.</value>
   </data>
@@ -6353,9 +6074,6 @@
   </data>
   <data name="&gt;&gt;lblAtFromTarget.Name" xml:space="preserve">
     <value>lblAtFromTarget</value>
-  </data>
-  <data name="ShortenTcoCheck.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
   </data>
   <data name="ComboBoxOutputzUrlmode.Location" type="System.Drawing.Point, System.Drawing">
     <value>205, 72</value>
@@ -6756,14 +6474,8 @@
   <data name="HotkeyAlt.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="CheckTinyURL.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="&gt;&gt;CheckListMemberAddedEvent.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ShortenTcoCheck.Location" type="System.Drawing.Point, System.Drawing">
-    <value>40, 90</value>
   </data>
   <data name="Label44.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -6873,17 +6585,11 @@
   <data name="ComboBoxTranslateLanguage.Items1" xml:space="preserve">
     <value>Albanian</value>
   </data>
-  <data name="Label71.Location" type="System.Drawing.Point, System.Drawing">
-    <value>19, 141</value>
-  </data>
   <data name="btnDetailBack.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="TextProxyAddress.Size" type="System.Drawing.Size, System.Drawing">
     <value>135, 19</value>
-  </data>
-  <data name="CheckAutoConvertUrl.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="Label43.Size" type="System.Drawing.Size, System.Drawing">
     <value>460, 49</value>

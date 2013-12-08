@@ -162,6 +162,12 @@
     <Compile Include="Setting\Panel\SettingPanelBase.Designer.cs">
       <DependentUpon>SettingPanelBase.cs</DependentUpon>
     </Compile>
+    <Compile Include="Setting\Panel\ShortUrlPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Setting\Panel\ShortUrlPanel.Designer.cs">
+      <DependentUpon>ShortUrlPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Setting\Panel\StartupPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -385,6 +391,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Setting\Panel\PreviewPanel.zh-CHS.resx">
       <DependentUpon>PreviewPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setting\Panel\ShortUrlPanel.en.resx">
+      <DependentUpon>ShortUrlPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setting\Panel\ShortUrlPanel.resx">
+      <DependentUpon>ShortUrlPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setting\Panel\ShortUrlPanel.zh-CHS.resx">
+      <DependentUpon>ShortUrlPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Setting\Panel\StartupPanel.en.resx">
       <DependentUpon>StartupPanel.cs</DependentUpon>
