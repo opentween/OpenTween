@@ -34,15 +34,7 @@
             this.TreeViewSetting = new System.Windows.Forms.TreeView();
             this.StartupPanel = new OpenTween.Setting.Panel.StartupPanel();
             this.PreviewPanel = new OpenTween.Setting.Panel.PreviewPanel();
-            this.TweetActPanel = new System.Windows.Forms.Panel();
-            this.CheckHashSupple = new System.Windows.Forms.CheckBox();
-            this.CheckAtIdSupple = new System.Windows.Forms.CheckBox();
-            this.ComboBoxPostKeySelect = new System.Windows.Forms.ComboBox();
-            this.Label27 = new System.Windows.Forms.Label();
-            this.CheckRetweetNoConfirm = new System.Windows.Forms.CheckBox();
-            this.Label12 = new System.Windows.Forms.Label();
-            this.CheckUseRecommendStatus = new System.Windows.Forms.CheckBox();
-            this.StatusText = new System.Windows.Forms.TextBox();
+            this.TweetActPanel = new OpenTween.Setting.Panel.TweetActPanel();
             this.GetCountPanel = new System.Windows.Forms.Panel();
             this.ListTextCountApi = new System.Windows.Forms.TextBox();
             this.Label25 = new System.Windows.Forms.Label();
@@ -265,7 +257,6 @@
             this.SplitContainer1.Panel1.SuspendLayout();
             this.SplitContainer1.Panel2.SuspendLayout();
             this.SplitContainer1.SuspendLayout();
-            this.TweetActPanel.SuspendLayout();
             this.GetCountPanel.SuspendLayout();
             this.ShortUrlPanel.SuspendLayout();
             this.BasedPanel.SuspendLayout();
@@ -351,75 +342,8 @@
             // TweetActPanel
             // 
             resources.ApplyResources(this.TweetActPanel, "TweetActPanel");
-            this.TweetActPanel.Controls.Add(this.CheckHashSupple);
-            this.TweetActPanel.Controls.Add(this.CheckAtIdSupple);
-            this.TweetActPanel.Controls.Add(this.ComboBoxPostKeySelect);
-            this.TweetActPanel.Controls.Add(this.Label27);
-            this.TweetActPanel.Controls.Add(this.CheckRetweetNoConfirm);
-            this.TweetActPanel.Controls.Add(this.Label12);
-            this.TweetActPanel.Controls.Add(this.CheckUseRecommendStatus);
-            this.TweetActPanel.Controls.Add(this.StatusText);
             this.TweetActPanel.Name = "TweetActPanel";
             this.ToolTip1.SetToolTip(this.TweetActPanel, resources.GetString("TweetActPanel.ToolTip"));
-            // 
-            // CheckHashSupple
-            // 
-            resources.ApplyResources(this.CheckHashSupple, "CheckHashSupple");
-            this.CheckHashSupple.Name = "CheckHashSupple";
-            this.ToolTip1.SetToolTip(this.CheckHashSupple, resources.GetString("CheckHashSupple.ToolTip"));
-            this.CheckHashSupple.UseVisualStyleBackColor = true;
-            // 
-            // CheckAtIdSupple
-            // 
-            resources.ApplyResources(this.CheckAtIdSupple, "CheckAtIdSupple");
-            this.CheckAtIdSupple.Name = "CheckAtIdSupple";
-            this.ToolTip1.SetToolTip(this.CheckAtIdSupple, resources.GetString("CheckAtIdSupple.ToolTip"));
-            this.CheckAtIdSupple.UseVisualStyleBackColor = true;
-            // 
-            // ComboBoxPostKeySelect
-            // 
-            resources.ApplyResources(this.ComboBoxPostKeySelect, "ComboBoxPostKeySelect");
-            this.ComboBoxPostKeySelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ComboBoxPostKeySelect.FormattingEnabled = true;
-            this.ComboBoxPostKeySelect.Items.AddRange(new object[] {
-            resources.GetString("ComboBoxPostKeySelect.Items"),
-            resources.GetString("ComboBoxPostKeySelect.Items1"),
-            resources.GetString("ComboBoxPostKeySelect.Items2")});
-            this.ComboBoxPostKeySelect.Name = "ComboBoxPostKeySelect";
-            this.ToolTip1.SetToolTip(this.ComboBoxPostKeySelect, resources.GetString("ComboBoxPostKeySelect.ToolTip"));
-            // 
-            // Label27
-            // 
-            resources.ApplyResources(this.Label27, "Label27");
-            this.Label27.Name = "Label27";
-            this.ToolTip1.SetToolTip(this.Label27, resources.GetString("Label27.ToolTip"));
-            // 
-            // CheckRetweetNoConfirm
-            // 
-            resources.ApplyResources(this.CheckRetweetNoConfirm, "CheckRetweetNoConfirm");
-            this.CheckRetweetNoConfirm.Name = "CheckRetweetNoConfirm";
-            this.ToolTip1.SetToolTip(this.CheckRetweetNoConfirm, resources.GetString("CheckRetweetNoConfirm.ToolTip"));
-            this.CheckRetweetNoConfirm.UseVisualStyleBackColor = true;
-            // 
-            // Label12
-            // 
-            resources.ApplyResources(this.Label12, "Label12");
-            this.Label12.Name = "Label12";
-            this.ToolTip1.SetToolTip(this.Label12, resources.GetString("Label12.ToolTip"));
-            // 
-            // CheckUseRecommendStatus
-            // 
-            resources.ApplyResources(this.CheckUseRecommendStatus, "CheckUseRecommendStatus");
-            this.CheckUseRecommendStatus.Name = "CheckUseRecommendStatus";
-            this.ToolTip1.SetToolTip(this.CheckUseRecommendStatus, resources.GetString("CheckUseRecommendStatus.ToolTip"));
-            this.CheckUseRecommendStatus.UseVisualStyleBackColor = true;
-            this.CheckUseRecommendStatus.CheckedChanged += new System.EventHandler(this.CheckUseRecommendStatus_CheckedChanged);
-            // 
-            // StatusText
-            // 
-            resources.ApplyResources(this.StatusText, "StatusText");
-            this.StatusText.Name = "StatusText";
-            this.ToolTip1.SetToolTip(this.StatusText, resources.GetString("StatusText.ToolTip"));
             // 
             // GetCountPanel
             // 
@@ -2318,8 +2242,6 @@
             this.SplitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer1)).EndInit();
             this.SplitContainer1.ResumeLayout(false);
-            this.TweetActPanel.ResumeLayout(false);
-            this.TweetActPanel.PerformLayout();
             this.GetCountPanel.ResumeLayout(false);
             this.GetCountPanel.PerformLayout();
             this.ShortUrlPanel.ResumeLayout(false);
@@ -2369,15 +2291,7 @@
         private Setting.Panel.StartupPanel StartupPanel;
         private Setting.Panel.PreviewPanel PreviewPanel;
         internal System.Windows.Forms.ToolTip ToolTip1;
-        internal System.Windows.Forms.Panel TweetActPanel;
-        internal System.Windows.Forms.CheckBox CheckHashSupple;
-        internal System.Windows.Forms.CheckBox CheckAtIdSupple;
-        internal System.Windows.Forms.ComboBox ComboBoxPostKeySelect;
-        internal System.Windows.Forms.Label Label27;
-        internal System.Windows.Forms.CheckBox CheckRetweetNoConfirm;
-        internal System.Windows.Forms.Label Label12;
-        internal System.Windows.Forms.CheckBox CheckUseRecommendStatus;
-        internal System.Windows.Forms.TextBox StatusText;
+        private Setting.Panel.TweetActPanel TweetActPanel;
         internal System.Windows.Forms.Panel GetCountPanel;
         internal System.Windows.Forms.TextBox ListTextCountApi;
         internal System.Windows.Forms.Label Label25;
