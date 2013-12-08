@@ -211,66 +211,6 @@
 </value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="IsPreviewFoursquareCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>239, 16</value>
-  </data>
-  <data name="IsPreviewFoursquareCheckBox.Text" xml:space="preserve">
-    <value>Get map thumbnails from Foursquare urls.</value>
-  </data>
-  <data name="MapThumbnailGroupBox.Text" xml:space="preserve">
-    <value>Map Thumbnail</value>
-  </data>
-  <data name="label48.Size" type="System.Drawing.Size, System.Drawing">
-    <value>72, 12</value>
-  </data>
-  <data name="label48.Text" xml:space="preserve">
-    <value>Map Provider</value>
-  </data>
-  <data name="Label41.Text" xml:space="preserve">
-    <value>Zoom Level</value>
-  </data>
-  <data name="Label40.Size" type="System.Drawing.Size, System.Drawing">
-    <value>82, 12</value>
-  </data>
-  <data name="Label40.Text" xml:space="preserve">
-    <value>Thumbnail Size</value>
-  </data>
-  <data name="Label39.Size" type="System.Drawing.Size, System.Drawing">
-    <value>299, 12</value>
-  </data>
-  <data name="Label39.Text" xml:space="preserve">
-    <value>Your appoint URL(Replace "{ID}" to tweet's ScreenName)</value>
-  </data>
-  <data name="Label29.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 12</value>
-  </data>
-  <data name="Label29.Text" xml:space="preserve">
-    <value>Language at translation destination</value>
-  </data>
-  <data name="CheckOutputz.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 16</value>
-  </data>
-  <data name="CheckOutputz.Text" xml:space="preserve">
-    <value>Use Outputz</value>
-  </data>
-  <data name="CheckNicoms.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 16</value>
-  </data>
-  <data name="CheckNicoms.Text" xml:space="preserve">
-    <value>Shorten nicovideo urls by nico.ms</value>
-  </data>
-  <data name="Label60.Size" type="System.Drawing.Size, System.Drawing">
-    <value>107, 12</value>
-  </data>
-  <data name="Label60.Text" xml:space="preserve">
-    <value>URI of your Outputz</value>
-  </data>
-  <data name="Label59.Size" type="System.Drawing.Size, System.Drawing">
-    <value>86, 12</value>
-  </data>
-  <data name="Label59.Text" xml:space="preserve">
-    <value>Your secret key</value>
-  </data>
   <data name="Label55.Size" type="System.Drawing.Size, System.Drawing">
     <value>320, 12</value>
   </data>

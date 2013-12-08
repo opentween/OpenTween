@@ -394,10 +394,10 @@ namespace OpenTween
                 AlwaysTop = this.PreviewPanel.CheckAlwaysTop.Checked;
                 UrlConvertAuto = this.ShortUrlPanel.CheckAutoConvertUrl.Checked;
                 ShortenTco = this.ShortUrlPanel.ShortenTcoCheck.Checked;
-                OutputzEnabled = CheckOutputz.Checked;
-                OutputzKey = TextBoxOutputzKey.Text.Trim();
+                OutputzEnabled = this.CooperatePanel.CheckOutputz.Checked;
+                OutputzKey = this.CooperatePanel.TextBoxOutputzKey.Text.Trim();
 
-                switch (ComboBoxOutputzUrlmode.SelectedIndex)
+                switch (this.CooperatePanel.ComboBoxOutputzUrlmode.SelectedIndex)
                 {
                     case 0:
                         OutputzUrlmode = MyCommon.OutputzUrlmode.twittercom;
@@ -407,7 +407,7 @@ namespace OpenTween
                         break;
                 }
 
-                Nicoms = CheckNicoms.Checked;
+                Nicoms = this.CooperatePanel.CheckNicoms.Checked;
                 UseUnreadStyle = this.TweetPrvPanel.chkUnreadStyle.Checked;
                 DateTimeFormat = this.TweetPrvPanel.CmbDateTimeFormat.Text;
                 DefaultTimeOut = int.Parse(ConnectionTimeOut.Text);
@@ -417,7 +417,7 @@ namespace OpenTween
                 GetEventNotifyFlag(ref _MyEventNotifyFlag, ref _isMyEventNotifyFlag);
                 ForceEventNotify = this.NotifyPanel.CheckForceEventNotify.Checked;
                 FavEventUnread = this.NotifyPanel.CheckFavEventUnread.Checked;
-                TranslateLanguage = (new Bing()).GetLanguageEnumFromIndex(ComboBoxTranslateLanguage.SelectedIndex);
+                TranslateLanguage = (new Bing()).GetLanguageEnumFromIndex(this.CooperatePanel.ComboBoxTranslateLanguage.SelectedIndex);
                 EventSoundFile = (string)this.NotifyPanel.ComboBoxEventNotifySound.SelectedItem;
                 AutoShortUrlFirst = (MyCommon.UrlConverter)this.ShortUrlPanel.ComboBoxAutoShortUrlFirst.SelectedIndex;
                 TabIconDisp = this.PreviewPanel.chkTabIconDisp.Checked;
@@ -481,13 +481,13 @@ namespace OpenTween
                 ListCountApi = int.Parse(this.GetCountPanel.ListTextCountApi.Text);
                 OpenUserTimeline = CheckOpenUserTimeline.Checked;
                 ListDoubleClickAction = ListDoubleClickActionComboBox.SelectedIndex;
-                UserAppointUrl = UserAppointUrlText.Text;
+                UserAppointUrl = this.CooperatePanel.UserAppointUrlText.Text;
                 this.HideDuplicatedRetweets = this.TweetPrvPanel.HideDuplicatedRetweetsCheck.Checked;
-                this.IsPreviewFoursquare = this.IsPreviewFoursquareCheckBox.Checked;
-                this.MapThumbnailProvider = (MapProvider)this.MapThumbnailProviderComboBox.SelectedIndex;
-                this.MapThumbnailHeight = int.Parse(this.MapThumbnailHeightTextBox.Text);
-                this.MapThumbnailWidth = int.Parse(this.MapThumbnailWidthTextBox.Text);
-                this.MapThumbnailZoom = int.Parse(this.MapThumbnailZoomTextBox.Text);
+                this.IsPreviewFoursquare = this.CooperatePanel.IsPreviewFoursquareCheckBox.Checked;
+                this.MapThumbnailProvider = (MapProvider)this.CooperatePanel.MapThumbnailProviderComboBox.SelectedIndex;
+                this.MapThumbnailHeight = int.Parse(this.CooperatePanel.MapThumbnailHeightTextBox.Text);
+                this.MapThumbnailWidth = int.Parse(this.CooperatePanel.MapThumbnailWidthTextBox.Text);
+                this.MapThumbnailZoom = int.Parse(this.CooperatePanel.MapThumbnailZoomTextBox.Text);
                 this.IsListStatusesIncludeRts = this.TweetPrvPanel.IsListsIncludeRtsCheckBox.Checked;
                 this.TabMouseLock = this.TabMouseLockCheck.Checked;
                 this.IsRemoveSameEvent = this.NotifyPanel.IsRemoveSameFavEventCheckBox.Checked;
@@ -765,20 +765,20 @@ namespace OpenTween
             this.ShortUrlPanel.CheckAutoConvertUrl.Checked = UrlConvertAuto;
             this.ShortUrlPanel.ShortenTcoCheck.Checked = ShortenTco;
             this.ShortUrlPanel.ShortenTcoCheck.Enabled = this.ShortUrlPanel.CheckAutoConvertUrl.Checked;
-            CheckOutputz.Checked = OutputzEnabled;
-            TextBoxOutputzKey.Text = OutputzKey;
+            this.CooperatePanel.CheckOutputz.Checked = OutputzEnabled;
+            this.CooperatePanel.TextBoxOutputzKey.Text = OutputzKey;
 
             switch (OutputzUrlmode)
             {
                 case MyCommon.OutputzUrlmode.twittercom:
-                    ComboBoxOutputzUrlmode.SelectedIndex = 0;
+                    this.CooperatePanel.ComboBoxOutputzUrlmode.SelectedIndex = 0;
                     break;
                 case MyCommon.OutputzUrlmode.twittercomWithUsername:
-                    ComboBoxOutputzUrlmode.SelectedIndex = 1;
+                    this.CooperatePanel.ComboBoxOutputzUrlmode.SelectedIndex = 1;
                     break;
             }
 
-            CheckNicoms.Checked = Nicoms;
+            this.CooperatePanel.CheckNicoms.Checked = Nicoms;
             this.TweetPrvPanel.chkUnreadStyle.Checked = UseUnreadStyle;
             this.TweetPrvPanel.CmbDateTimeFormat.Text = DateTimeFormat;
             ConnectionTimeOut.Text = DefaultTimeOut.ToString();
@@ -788,7 +788,7 @@ namespace OpenTween
             ApplyEventNotifyFlag(EventNotifyEnabled, EventNotifyFlag, IsMyEventNotifyFlag);
             this.NotifyPanel.CheckForceEventNotify.Checked = ForceEventNotify;
             this.NotifyPanel.CheckFavEventUnread.Checked = FavEventUnread;
-            ComboBoxTranslateLanguage.SelectedIndex = (new Bing()).GetIndexFromLanguageEnum(TranslateLanguage);
+            this.CooperatePanel.ComboBoxTranslateLanguage.SelectedIndex = (new Bing()).GetIndexFromLanguageEnum(TranslateLanguage);
             SoundFileListup();
             this.ShortUrlPanel.ComboBoxAutoShortUrlFirst.SelectedIndex = (int)AutoShortUrlFirst;
             this.PreviewPanel.chkTabIconDisp.Checked = TabIconDisp;
@@ -852,7 +852,8 @@ namespace OpenTween
             HotkeyCode.Enabled = HotkeyEnabled;
             this.PreviewPanel.ChkNewMentionsBlink.Checked = BlinkNewMentions;
 
-            CheckOutputz_CheckedChanged(sender, e);
+            // XXX: CheckedChanged イベントを発生させる
+            this.CooperatePanel.CheckOutputz.Checked = this.CooperatePanel.CheckOutputz.Checked;
 
             this.GetCountPanel.GetMoreTextCountApi.Text = MoreCountApi.ToString();
             this.GetCountPanel.FirstTextCountApi.Text = FirstCountApi.ToString();
@@ -875,13 +876,13 @@ namespace OpenTween
             this.GetCountPanel.ListTextCountApi.Enabled = this.GetCountPanel.UseChangeGetCount.Checked;
             CheckOpenUserTimeline.Checked = OpenUserTimeline;
             ListDoubleClickActionComboBox.SelectedIndex = ListDoubleClickAction;
-            UserAppointUrlText.Text = UserAppointUrl;
+            this.CooperatePanel.UserAppointUrlText.Text = UserAppointUrl;
             this.TweetPrvPanel.HideDuplicatedRetweetsCheck.Checked = this.HideDuplicatedRetweets;
-            this.IsPreviewFoursquareCheckBox.Checked = this.IsPreviewFoursquare;
-            this.MapThumbnailProviderComboBox.SelectedIndex = (int)this.MapThumbnailProvider;
-            this.MapThumbnailHeightTextBox.Text = this.MapThumbnailHeight.ToString();
-            this.MapThumbnailWidthTextBox.Text = this.MapThumbnailWidth.ToString();
-            this.MapThumbnailZoomTextBox.Text = this.MapThumbnailZoom.ToString();
+            this.CooperatePanel.IsPreviewFoursquareCheckBox.Checked = this.IsPreviewFoursquare;
+            this.CooperatePanel.MapThumbnailProviderComboBox.SelectedIndex = (int)this.MapThumbnailProvider;
+            this.CooperatePanel.MapThumbnailHeightTextBox.Text = this.MapThumbnailHeight.ToString();
+            this.CooperatePanel.MapThumbnailWidthTextBox.Text = this.MapThumbnailWidth.ToString();
+            this.CooperatePanel.MapThumbnailZoomTextBox.Text = this.MapThumbnailZoom.ToString();
             this.TweetPrvPanel.IsListsIncludeRtsCheckBox.Checked = this.IsListStatusesIncludeRts;
             this.TabMouseLockCheck.Checked = this.TabMouseLock;
             this.NotifyPanel.IsRemoveSameFavEventCheckBox.Checked = this.IsRemoveSameEvent;
@@ -1411,38 +1412,6 @@ namespace OpenTween
             }
         }
 
-        private void CheckOutputz_CheckedChanged(object sender, EventArgs e)
-        {
-            if (CheckOutputz.Checked == true)
-            {
-                Label59.Enabled = true;
-                Label60.Enabled = true;
-                TextBoxOutputzKey.Enabled = true;
-                ComboBoxOutputzUrlmode.Enabled = true;
-            }
-            else
-            {
-                Label59.Enabled = false;
-                Label60.Enabled = false;
-                TextBoxOutputzKey.Enabled = false;
-                ComboBoxOutputzUrlmode.Enabled = false;
-            }
-        }
-
-        private void TextBoxOutputzKey_Validating(object sender, CancelEventArgs e)
-        {
-            if (CheckOutputz.Checked)
-            {
-                TextBoxOutputzKey.Text = TextBoxOutputzKey.Text.Trim();
-                if (TextBoxOutputzKey.Text.Length == 0)
-                {
-                    MessageBox.Show(Properties.Resources.TextBoxOutputzKey_Validating);
-                    e.Cancel = true;
-                    return;
-                }
-            }
-        }
-
         private void ConnectionTimeOut_Validating(object sender, CancelEventArgs e)
         {
             int tm;
@@ -1503,7 +1472,7 @@ namespace OpenTween
             set
             {
                 _MyTranslateLanguage = value;
-                ComboBoxTranslateLanguage.SelectedIndex = (new Bing()).GetIndexFromLanguageEnum(value);
+                this.CooperatePanel.ComboBoxTranslateLanguage.SelectedIndex = (new Bing()).GetIndexFromLanguageEnum(value);
             }
         }
 
@@ -1920,14 +1889,6 @@ namespace OpenTween
 
         //    _MyEventSoundFile = (string)ComboBoxEventNotifySound.SelectedItem;
         //}
-
-        private void UserAppointUrlText_Validating(object sender, CancelEventArgs e)
-        {
-            if (!UserAppointUrlText.Text.StartsWith("http") && !string.IsNullOrEmpty(UserAppointUrlText.Text))
-            {
-                MessageBox.Show("Text Error:正しいURLではありません");
-            }
-        }
 
         private void OpenUrl(string url)
         {

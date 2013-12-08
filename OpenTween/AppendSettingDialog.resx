@@ -118,9 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="Label39.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 203</value>
-  </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="PreviewPanel.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -153,9 +150,6 @@
   <data name="&gt;&gt;lblAtTo.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Label39.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="Save.Text" xml:space="preserve">
     <value>OK</value>
   </data>
@@ -182,9 +176,6 @@
   </data>
   <data name="&gt;&gt;UserstreamPeriod.Parent" xml:space="preserve">
     <value>GetPeriodPanel</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items22" xml:space="preserve">
-    <value>Chinese (Taiwan)</value>
   </data>
   <data name="&gt;&gt;RadioProxyNone.Parent" xml:space="preserve">
     <value>ProxyPanel</value>
@@ -225,9 +216,6 @@
   <data name="Label9.TabIndex" type="System.Int32, mscorlib">
     <value>18</value>
   </data>
-  <data name="ComboBoxTranslateLanguage.Items90" xml:space="preserve">
-    <value>Sorbian</value>
-  </data>
   <data name="&gt;&gt;btnAtSelf.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -240,44 +228,11 @@
   <data name="CheckCloseToExit.Size" type="System.Drawing.Size, System.Drawing">
     <value>171, 16</value>
   </data>
-  <data name="ComboBoxTranslateLanguage.Items49" xml:space="preserve">
-    <value>French (Canada)</value>
-  </data>
   <data name="&gt;&gt;ConnectionTimeOut.Name" xml:space="preserve">
     <value>ConnectionTimeOut</value>
   </data>
   <data name="&gt;&gt;btnDetailBack.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items40" xml:space="preserve">
-    <value>English (Caribbean)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items41" xml:space="preserve">
-    <value>English (Belize)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items42" xml:space="preserve">
-    <value>English (Trinidad)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items43" xml:space="preserve">
-    <value>Estonian</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items44" xml:space="preserve">
-    <value>Faeroese</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items46" xml:space="preserve">
-    <value>Finnish</value>
-  </data>
-  <data name="MapThumbnailProviderComboBox.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="&gt;&gt;ComboBoxTranslateLanguage.Name" xml:space="preserve">
-    <value>ComboBoxTranslateLanguage</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items106" xml:space="preserve">
-    <value>Spanish (El Salvador)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items116" xml:space="preserve">
-    <value>Turkish</value>
   </data>
   <data name="CooperatePanel.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -297,14 +252,8 @@
   <data name="&gt;&gt;Save.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;CheckNicoms.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
   <data name="&gt;&gt;CheckPostAndGet.Parent" xml:space="preserve">
     <value>GetPeriodPanel</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items23" xml:space="preserve">
-    <value>Chinese (PRC)</value>
   </data>
   <data name="Label80.Size" type="System.Drawing.Size, System.Drawing">
     <value>50, 12</value>
@@ -333,9 +282,6 @@
   <data name="Label64.Text" xml:space="preserve">
     <value>※タイムアウトが頻発する場合に調整してください。初期設定は20秒です。</value>
   </data>
-  <data name="UserAppointUrlText.Location" type="System.Drawing.Point, System.Drawing">
-    <value>205, 220</value>
-  </data>
   <data name="&gt;&gt;lblOWL.Name" xml:space="preserve">
     <value>lblOWL</value>
   </data>
@@ -345,20 +291,11 @@
   <data name="&gt;&gt;chkReadOwnPost.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Label42.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="TextBoxOutputzKey.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 19</value>
-  </data>
   <data name="Label33.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="Label36.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items31" xml:space="preserve">
-    <value>English</value>
   </data>
   <data name="lblListFont.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -378,9 +315,6 @@
   <data name="&gt;&gt;ToolTip1.Name" xml:space="preserve">
     <value>ToolTip1</value>
   </data>
-  <data name="Label59.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="&gt;&gt;Label44.Name" xml:space="preserve">
     <value>Label44</value>
   </data>
@@ -392,12 +326,6 @@
   </data>
   <data name="&gt;&gt;CheckCloseToExit.Parent" xml:space="preserve">
     <value>ActionPanel</value>
-  </data>
-  <data name="&gt;&gt;UserAppointUrlText.Name" xml:space="preserve">
-    <value>UserAppointUrlText</value>
-  </data>
-  <data name="TextBoxOutputzKey.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="lblTarget.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -458,9 +386,6 @@
   <data name="ListDoubleClickActionComboBox.Items4" xml:space="preserve">
     <value>関連発言表示</value>
   </data>
-  <data name="ComboBoxTranslateLanguage.Items32" xml:space="preserve">
-    <value>English (United States)</value>
-  </data>
   <data name="Label16.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -518,17 +443,11 @@
   <data name="Label34.Text" xml:space="preserve">
     <value>自分への@返信</value>
   </data>
-  <data name="&gt;&gt;Label40.Name" xml:space="preserve">
-    <value>Label40</value>
-  </data>
   <data name="Label3.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 40</value>
   </data>
   <data name="Label37.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="Label40.Text" xml:space="preserve">
-    <value>サムネイルサイズ</value>
   </data>
   <data name="btnRetweet.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -544,9 +463,6 @@
   </data>
   <data name="GroupBox1.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 18</value>
-  </data>
-  <data name="&gt;&gt;Label41.Name" xml:space="preserve">
-    <value>Label41</value>
   </data>
   <data name="LabelPostAndGet.TabIndex" type="System.Int32, mscorlib">
     <value>18</value>
@@ -571,9 +487,6 @@
   </data>
   <data name="&gt;&gt;UReadMng.ZOrder" xml:space="preserve">
     <value>12</value>
-  </data>
-  <data name="&gt;&gt;CheckOutputz.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Label18.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -620,9 +533,6 @@
   <data name="Label65.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="MapThumbnailProviderComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 20</value>
-  </data>
   <data name="&gt;&gt;Label64.Parent" xml:space="preserve">
     <value>ConnectionPanel</value>
   </data>
@@ -638,9 +548,6 @@
   <data name="BasedPanel.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="MapThumbnailGroupBox.TabIndex" type="System.Int32, mscorlib">
-    <value>19</value>
-  </data>
   <data name="&gt;&gt;FontPanel.ZOrder" xml:space="preserve">
     <value>13</value>
   </data>
@@ -652,12 +559,6 @@
   </data>
   <data name="SplitContainer1.Size" type="System.Drawing.Size, System.Drawing">
     <value>691, 368</value>
-  </data>
-  <data name="Label41.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="MapThumbnailProviderComboBox.Items1" xml:space="preserve">
-    <value>Google Maps</value>
   </data>
   <data name="&gt;&gt;LabelProxyPort.Parent" xml:space="preserve">
     <value>ProxyPanel</value>
@@ -676,9 +577,6 @@
   </data>
   <data name="&gt;&gt;Label3.ZOrder" xml:space="preserve">
     <value>7</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items5" xml:space="preserve">
-    <value>Arabic (Libya)</value>
   </data>
   <data name="lblAtTarget.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -734,9 +632,6 @@
   <data name="Label8.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
-  <data name="&gt;&gt;Label42.Name" xml:space="preserve">
-    <value>Label42</value>
-  </data>
   <data name="lblRetweet.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
   </data>
@@ -745,9 +640,6 @@
   </data>
   <data name="Label52.Size" type="System.Drawing.Size, System.Drawing">
     <value>131, 12</value>
-  </data>
-  <data name="MapThumbnailZoomTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 19</value>
   </data>
   <data name="btnSelf.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -778,14 +670,8 @@
   <data name="&gt;&gt;GroupBox1.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;CheckNicoms.Name" xml:space="preserve">
-    <value>CheckNicoms</value>
-  </data>
   <data name="lblDetailBackcolor.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
-  </data>
-  <data name="UserAppointUrlText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>301, 19</value>
   </data>
   <data name="GetPeriodPanel.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -798,15 +684,6 @@
   </data>
   <data name="GroupBox5.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 18</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items100" xml:space="preserve">
-    <value>Spanish (Argentina)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items110" xml:space="preserve">
-    <value>Sutu</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items120" xml:space="preserve">
-    <value>Vietnamese</value>
   </data>
   <data name="StartupUserstreamCheck.Size" type="System.Drawing.Size, System.Drawing">
     <value>117, 16</value>
@@ -868,12 +745,6 @@
   <data name="RadioProxyIE.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="MapThumbnailProviderComboBox.Items" xml:space="preserve">
-    <value>OpenStreetMap</value>
-  </data>
-  <data name="&gt;&gt;TextBoxOutputzKey.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
   <data name="Label52.Text" xml:space="preserve">
     <value>入力欄アクティブ時背景色</value>
   </data>
@@ -891,9 +762,6 @@
   </data>
   <data name="btnInputBackcolor.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="Label59.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="Button3.ToolTip" xml:space="preserve">
     <value />
@@ -925,9 +793,6 @@
   <data name="HotkeyWin.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
-  <data name="&gt;&gt;MapThumbnailHeightTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="lblListBackcolor.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
@@ -946,15 +811,6 @@
   <data name="ShortUrlPanel.Size" type="System.Drawing.Size, System.Drawing">
     <value>519, 368</value>
   </data>
-  <data name="Label59.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="Label60.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items56" xml:space="preserve">
-    <value>German (Austria)</value>
-  </data>
   <data name="&gt;&gt;lblRetweet.Parent" xml:space="preserve">
     <value>GroupBox1</value>
   </data>
@@ -969,9 +825,6 @@
   </data>
   <data name="btnListBack.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="&gt;&gt;Label40.ZOrder" xml:space="preserve">
-    <value>7</value>
   </data>
   <data name="HotkeyShift.Location" type="System.Drawing.Point, System.Drawing">
     <value>116, 15</value>
@@ -1006,9 +859,6 @@
   <data name="&gt;&gt;Cancel.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="&gt;&gt;Label41.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
   <data name="HotkeyCheck.Size" type="System.Drawing.Size, System.Drawing">
     <value>48, 16</value>
   </data>
@@ -1023,12 +873,6 @@
   </data>
   <data name="&gt;&gt;btnSelf.Parent" xml:space="preserve">
     <value>GroupBox5</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxTranslateLanguage.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>205, 156</value>
   </data>
   <data name="BasedPanel.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1054,14 +898,8 @@
   <data name="Cancel.Text" xml:space="preserve">
     <value>キャンセル</value>
   </data>
-  <data name="Label39.TabIndex" type="System.Int32, mscorlib">
-    <value>17</value>
-  </data>
   <data name="NotifyPanel.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
-  </data>
-  <data name="CheckOutputz.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="Label64.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1086,9 +924,6 @@
   </data>
   <data name="btnUnread.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="&gt;&gt;Label39.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="TextProxyPort.ToolTip" xml:space="preserve">
     <value />
@@ -1126,20 +961,11 @@
   <data name="Label8.Text" xml:space="preserve">
     <value>Twitter API URL (api.twitter.com)</value>
   </data>
-  <data name="&gt;&gt;MapThumbnailZoomTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="lblOWL.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="btnRetweet.Text" xml:space="preserve">
     <value>文字色</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items2" xml:space="preserve">
-    <value>Arabic (Saudi Arabia)</value>
-  </data>
-  <data name="ComboBoxOutputzUrlmode.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
   </data>
   <data name="PubSearchPeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>Disable</value>
@@ -1180,12 +1006,6 @@
   <data name="TweetPrvPanel.Size" type="System.Drawing.Size, System.Drawing">
     <value>519, 368</value>
   </data>
-  <data name="&gt;&gt;MapThumbnailWidthTextBox.Name" xml:space="preserve">
-    <value>MapThumbnailWidthTextBox</value>
-  </data>
-  <data name="Label29.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="&gt;&gt;LabelProxyAddress.Parent" xml:space="preserve">
     <value>ProxyPanel</value>
   </data>
@@ -1213,59 +1033,17 @@
   <data name="&gt;&gt;btnSelf.Name" xml:space="preserve">
     <value>btnSelf</value>
   </data>
-  <data name="ComboBoxTranslateLanguage.Items18" xml:space="preserve">
-    <value>Basque</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items19" xml:space="preserve">
-    <value>Bulgarian</value>
-  </data>
   <data name="FontPanel2.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="TwitterAPIText.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="ComboBoxTranslateLanguage.Items11" xml:space="preserve">
-    <value>Arabic (Syria)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items12" xml:space="preserve">
-    <value>Arabic (Jordan)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items13" xml:space="preserve">
-    <value>Arabic (Lebanon)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items14" xml:space="preserve">
-    <value>Arabic (Kuwait)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items15" xml:space="preserve">
-    <value>Arabic (U.A.E.)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items16" xml:space="preserve">
-    <value>Arabic (Bahrain)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items17" xml:space="preserve">
-    <value>Arabic (Qatar)</value>
-  </data>
   <data name="CheckUseSsl.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="ComboBoxTranslateLanguage.Items81" xml:space="preserve">
-    <value>Romanian</value>
-  </data>
   <data name="&gt;&gt;btnUnread.ZOrder" xml:space="preserve">
     <value>7</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items84" xml:space="preserve">
-    <value>Russian (Republic of Moldova)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items85" xml:space="preserve">
-    <value>Sami (Lappish)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items86" xml:space="preserve">
-    <value>Serbian (Cyrillic)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items87" xml:space="preserve">
-    <value>Serbian (Latin)</value>
   </data>
   <data name="&gt;&gt;Label26.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1333,9 +1111,6 @@
   <data name="&gt;&gt;btnTarget.ZOrder" xml:space="preserve">
     <value>15</value>
   </data>
-  <data name="ComboBoxTranslateLanguage.Items" xml:space="preserve">
-    <value>Afrikaans</value>
-  </data>
   <data name="&gt;&gt;btnDetailLink.Parent" xml:space="preserve">
     <value>GroupBox1</value>
   </data>
@@ -1362,9 +1137,6 @@
   </data>
   <data name="&gt;&gt;ReplyPeriod.Name" xml:space="preserve">
     <value>ReplyPeriod</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items6" xml:space="preserve">
-    <value>Arabic (Algeria)</value>
   </data>
   <data name="&gt;&gt;HotkeyCtrl.Parent" xml:space="preserve">
     <value>GroupBox3</value>
@@ -1411,9 +1183,6 @@
   <data name="CheckUseSsl.Size" type="System.Drawing.Size, System.Drawing">
     <value>145, 16</value>
   </data>
-  <data name="Label40.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="TweetPrvPanel.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -1435,9 +1204,6 @@
   <data name="Label46.Text" xml:space="preserve">
     <value>UserStream反映間隔（秒）</value>
   </data>
-  <data name="Label42.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="ProxyPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -1456,27 +1222,6 @@
   <data name="&gt;&gt;Label20.Parent" xml:space="preserve">
     <value>GroupBox1</value>
   </data>
-  <data name="ComboBoxTranslateLanguage.Items50" xml:space="preserve">
-    <value>French (Switzerland)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items51" xml:space="preserve">
-    <value>French (Luxembourg)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items52" xml:space="preserve">
-    <value>Gaelic (Scotland)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items53" xml:space="preserve">
-    <value>Irish</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items54" xml:space="preserve">
-    <value>German (Standard)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items55" xml:space="preserve">
-    <value>German (Switzerland)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items57" xml:space="preserve">
-    <value>German (Luxembourg)</value>
-  </data>
   <data name="&gt;&gt;btnAtFromTarget.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -1488,9 +1233,6 @@
   </data>
   <data name="LabelProxyAddress.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
-  </data>
-  <data name="label48.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="&gt;&gt;Label21.Parent" xml:space="preserve">
     <value>GetPeriodPanel</value>
@@ -1506,9 +1248,6 @@
   </data>
   <data name="LabelProxyPort.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="UserAppointUrlText.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="&gt;&gt;btnFav.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1549,17 +1288,11 @@
   <data name="&gt;&gt;UserTimelinePeriod.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="ComboBoxTranslateLanguage.Items74" xml:space="preserve">
-    <value>Maltese</value>
-  </data>
   <data name="CheckMinimizeToTray.Size" type="System.Drawing.Size, System.Drawing">
     <value>170, 16</value>
   </data>
   <data name="Label15.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
-  </data>
-  <data name="Label42.Text" xml:space="preserve">
-    <value>x</value>
   </data>
   <data name="PlaySnd.Text" xml:space="preserve">
     <value>サウンドを再生する</value>
@@ -1570,29 +1303,17 @@
   <data name="&gt;&gt;Label36.Name" xml:space="preserve">
     <value>Label36</value>
   </data>
-  <data name="ComboBoxTranslateLanguage.Items122" xml:space="preserve">
-    <value>Yiddish</value>
-  </data>
-  <data name="MapThumbnailGroupBox.Text" xml:space="preserve">
-    <value>地図サムネイル</value>
-  </data>
   <data name="ProxyPanel.Size" type="System.Drawing.Size, System.Drawing">
     <value>519, 368</value>
   </data>
   <data name="GetPeriodPanel.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="Label60.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 12</value>
-  </data>
   <data name="Label8.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="btnAtTarget.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 25</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxOutputzUrlmode.Parent" xml:space="preserve">
-    <value>CooperatePanel</value>
   </data>
   <data name="&gt;&gt;CheckPostAndGet.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1630,20 +1351,11 @@
   <data name="&gt;&gt;StartupUserstreamCheck.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="CheckNicoms.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 120</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items9" xml:space="preserve">
-    <value>Arabic (Oman)</value>
-  </data>
   <data name="&gt;&gt;CheckCloseToExit.ZOrder" xml:space="preserve">
     <value>14</value>
   </data>
   <data name="UserTimelinePeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>Disable</value>
-  </data>
-  <data name="Label60.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="&gt;&gt;LabelProxyUser.ZOrder" xml:space="preserve">
     <value>7</value>
@@ -1656,9 +1368,6 @@
   </data>
   <data name="ListDoubleClickActionComboBox.Items5" xml:space="preserve">
     <value>ユーザーのHomeを開く</value>
-  </data>
-  <data name="MapThumbnailHeightTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 19</value>
   </data>
   <data name="DMPeriod.ToolTip" xml:space="preserve">
     <value />
@@ -1687,15 +1396,6 @@
   <data name="TextProxyAddress.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
-  <data name="&gt;&gt;TextBoxOutputzKey.Parent" xml:space="preserve">
-    <value>CooperatePanel</value>
-  </data>
-  <data name="MapThumbnailGroupBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>21, 285</value>
-  </data>
-  <data name="MapThumbnailZoomTextBox.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="&gt;&gt;btnDetailLink.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
@@ -1714,9 +1414,6 @@
   <data name="RadioProxySpecified.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="ComboBoxOutputzUrlmode.Items" xml:space="preserve">
-    <value>twitter.com</value>
-  </data>
   <data name="TextProxyPort.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
   </data>
@@ -1729,9 +1426,6 @@
   <data name="&gt;&gt;GroupBox5.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Label29.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 12</value>
-  </data>
   <data name="&gt;&gt;btnFav.Name" xml:space="preserve">
     <value>btnFav</value>
   </data>
@@ -1741,20 +1435,8 @@
   <data name="Label22.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="ComboBoxTranslateLanguage.Items101" xml:space="preserve">
-    <value>Spanish (Ecuador)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items111" xml:space="preserve">
-    <value>Swedish</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items121" xml:space="preserve">
-    <value>Xhosa</value>
-  </data>
   <data name="HotkeyCode.Location" type="System.Drawing.Point, System.Drawing">
     <value>340, 16</value>
-  </data>
-  <data name="Label42.Location" type="System.Drawing.Point, System.Drawing">
-    <value>160, 51</value>
   </data>
   <data name="&gt;&gt;lblDetailBackcolor.ZOrder" xml:space="preserve">
     <value>11</value>
@@ -1768,17 +1450,8 @@
   <data name="&gt;&gt;TextProxyAddress.ZOrder" xml:space="preserve">
     <value>10</value>
   </data>
-  <data name="&gt;&gt;Label59.ZOrder" xml:space="preserve">
-    <value>10</value>
-  </data>
   <data name="lblListBackcolor.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
-  </data>
-  <data name="MapThumbnailWidthTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items28" xml:space="preserve">
-    <value>Danish</value>
   </data>
   <data name="&gt;&gt;btnRetweet.Parent" xml:space="preserve">
     <value>GroupBox1</value>
@@ -1800,9 +1473,6 @@
   </data>
   <data name="TweetActPanel.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
-  </data>
-  <data name="&gt;&gt;label48.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="&gt;&gt;Label80.Name" xml:space="preserve">
     <value>Label80</value>
@@ -1837,9 +1507,6 @@
   <data name="HotkeyCode.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="&gt;&gt;ComboBoxOutputzUrlmode.ZOrder" xml:space="preserve">
-    <value>11</value>
-  </data>
   <data name="&gt;&gt;lblDetailLink.Name" xml:space="preserve">
     <value>lblDetailLink</value>
   </data>
@@ -1866,9 +1533,6 @@
   </data>
   <data name="&gt;&gt;Label26.ZOrder" xml:space="preserve">
     <value>15</value>
-  </data>
-  <data name="CheckOutputz.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="HotkeyCtrl.Text" xml:space="preserve">
     <value>Ctrl</value>
@@ -1924,12 +1588,6 @@
   <data name="LabelProxyUser.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="MapThumbnailProviderComboBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>102, 19</value>
-  </data>
-  <data name="&gt;&gt;Label40.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="PreviewPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -1953,9 +1611,6 @@
   </data>
   <data name="UserstreamPeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>Disable</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items3" xml:space="preserve">
-    <value>Arabic (Iraq)</value>
   </data>
   <data name="btnDetailLink.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1981,14 +1636,8 @@
   <data name="ButtonBackToDefaultFontColor2.Text" xml:space="preserve">
     <value>デフォルトに戻す</value>
   </data>
-  <data name="&gt;&gt;Label41.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="lblInputBackcolor.Text" xml:space="preserve">
     <value>This is sample.</value>
-  </data>
-  <data name="Label42.Size" type="System.Drawing.Size, System.Drawing">
-    <value>11, 12</value>
   </data>
   <data name="Label49.ToolTip" xml:space="preserve">
     <value />
@@ -2017,9 +1666,6 @@
   <data name="&gt;&gt;Label46.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;IsPreviewFoursquareCheckBox.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="&gt;&gt;ConnectionPanel.Type" xml:space="preserve">
     <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -2041,9 +1687,6 @@
   <data name="UReadMng.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 71</value>
   </data>
-  <data name="Label29.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 160</value>
-  </data>
   <data name="lblDetailLink.TabIndex" type="System.Int32, mscorlib">
     <value>19</value>
   </data>
@@ -2055,9 +1698,6 @@
   </data>
   <data name="lblAtTo.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="CheckNicoms.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="&gt;&gt;btnAtTarget.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -2080,12 +1720,6 @@
   <data name="ListsPeriod.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="ComboBoxTranslateLanguage.Items104" xml:space="preserve">
-    <value>Spanish (Paraguay)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items114" xml:space="preserve">
-    <value>Tsonga</value>
-  </data>
   <data name="lblDetailLink.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -2100,9 +1734,6 @@
   </data>
   <data name="&gt;&gt;Label32.Name" xml:space="preserve">
     <value>Label32</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailProviderComboBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Label21.ZOrder" xml:space="preserve">
     <value>4</value>
@@ -2137,9 +1768,6 @@
   <data name="TabMouseLockCheck.Size" type="System.Drawing.Size, System.Drawing">
     <value>164, 16</value>
   </data>
-  <data name="&gt;&gt;MapThumbnailHeightTextBox.Parent" xml:space="preserve">
-    <value>MapThumbnailGroupBox</value>
-  </data>
   <data name="&gt;&gt;UserTimelinePeriod.Name" xml:space="preserve">
     <value>UserTimelinePeriod</value>
   </data>
@@ -2160,9 +1788,6 @@
   </data>
   <data name="&gt;&gt;LabelProxyPort.ZOrder" xml:space="preserve">
     <value>11</value>
-  </data>
-  <data name="&gt;&gt;label48.Parent" xml:space="preserve">
-    <value>MapThumbnailGroupBox</value>
   </data>
   <data name="&gt;&gt;lblAtFromTarget.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -2205,9 +1830,6 @@
   </data>
   <data name="CheckFavRestrict.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 188</value>
-  </data>
-  <data name="&gt;&gt;Label39.Name" xml:space="preserve">
-    <value>Label39</value>
   </data>
   <data name="Label16.Location" type="System.Drawing.Point, System.Drawing">
     <value>16, 95</value>
@@ -2254,9 +1876,6 @@
   <data name="TimelinePeriod.Location" type="System.Drawing.Point, System.Drawing">
     <value>258, 37</value>
   </data>
-  <data name="ComboBoxOutputzUrlmode.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="&gt;&gt;LabelPostAndGet.Parent" xml:space="preserve">
     <value>GetPeriodPanel</value>
   </data>
@@ -2265,9 +1884,6 @@
   </data>
   <data name="&gt;&gt;lblAtTarget.ZOrder" xml:space="preserve">
     <value>23</value>
-  </data>
-  <data name="MapThumbnailWidthTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 19</value>
   </data>
   <data name="Label7.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -2326,9 +1942,6 @@
   <data name="Label15.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 42</value>
   </data>
-  <data name="Label40.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 49</value>
-  </data>
   <data name="&gt;&gt;TweetPrvPanel.Type" xml:space="preserve">
     <value>OpenTween.Setting.Panel.TweetPrvPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
@@ -2374,17 +1987,11 @@
   <data name="Label49.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="Label41.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
   <data name="CooperatePanel.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
   </data>
   <data name="&gt;&gt;CheckUseSsl.Name" xml:space="preserve">
     <value>CheckUseSsl</value>
-  </data>
-  <data name="&gt;&gt;label48.Name" xml:space="preserve">
-    <value>label48</value>
   </data>
   <data name="btnUnread.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -2400,9 +2007,6 @@
   </data>
   <data name="btnUnread.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="CheckOutputz.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
   </data>
   <data name="&gt;&gt;lblInputFont.ZOrder" xml:space="preserve">
     <value>18</value>
@@ -2425,17 +2029,8 @@
   <data name="&gt;&gt;GetCountPanel.Name" xml:space="preserve">
     <value>GetCountPanel</value>
   </data>
-  <data name="ComboBoxTranslateLanguage.Items29" xml:space="preserve">
-    <value>Dutch (Standard)</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailGroupBox.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="&gt;&gt;Label46.Name" xml:space="preserve">
     <value>Label46</value>
-  </data>
-  <data name="&gt;&gt;Label29.ZOrder" xml:space="preserve">
-    <value>5</value>
   </data>
   <data name="&gt;&gt;SplitContainer1.Panel1.Type" xml:space="preserve">
     <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -2443,53 +2038,11 @@
   <data name="StartupUserstreamCheck.Text" xml:space="preserve">
     <value>起動時に自動接続</value>
   </data>
-  <data name="ComboBoxTranslateLanguage.Items20" xml:space="preserve">
-    <value>Belarusian</value>
-  </data>
-  <data name="&gt;&gt;CheckOutputz.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
   <data name="SplitContainer1.Panel1.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="ComboBoxTranslateLanguage.Items99" xml:space="preserve">
-    <value>Spanish (Peru)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items24" xml:space="preserve">
-    <value>Chinese (Hong Kong SAR)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items25" xml:space="preserve">
-    <value>Chinese (Singapore)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items26" xml:space="preserve">
-    <value>Croatian</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items27" xml:space="preserve">
-    <value>Czech</value>
-  </data>
   <data name="&gt;&gt;Label3.Parent" xml:space="preserve">
     <value>GetPeriodPanel</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items91" xml:space="preserve">
-    <value>Spanish (Spain)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items92" xml:space="preserve">
-    <value>Spanish (Mexico)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items93" xml:space="preserve">
-    <value>Spanish (Guatemala)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items94" xml:space="preserve">
-    <value>Spanish (Costa Rica)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items95" xml:space="preserve">
-    <value>Spanish (Panama)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items96" xml:space="preserve">
-    <value>Spanish (Dominican Republic)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items97" xml:space="preserve">
-    <value>Spanish (Venezuela)</value>
   </data>
   <data name="&gt;&gt;Label69.Name" xml:space="preserve">
     <value>Label69</value>
@@ -2499,9 +2052,6 @@
   </data>
   <data name="ActionPanel.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
-  </data>
-  <data name="Label39.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="FontPanel.ToolTip" xml:space="preserve">
     <value />
@@ -2518,14 +2068,8 @@
   <data name="&gt;&gt;btnListBack.Name" xml:space="preserve">
     <value>btnListBack</value>
   </data>
-  <data name="IsPreviewFoursquareCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>327, 16</value>
-  </data>
   <data name="&gt;&gt;TweetPrvPanel.Name" xml:space="preserve">
     <value>TweetPrvPanel</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 20</value>
   </data>
   <data name="&gt;&gt;TreeViewSetting.Name" xml:space="preserve">
     <value>TreeViewSetting</value>
@@ -2563,9 +2107,6 @@
   <data name="Label80.Text" xml:space="preserve">
     <value>ReTweet</value>
   </data>
-  <data name="&gt;&gt;UserAppointUrlText.Parent" xml:space="preserve">
-    <value>CooperatePanel</value>
-  </data>
   <data name="Label38.Location" type="System.Drawing.Point, System.Drawing">
     <value>24, 282</value>
   </data>
@@ -2587,9 +2128,6 @@
   <data name="btnSelf.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="&gt;&gt;Label29.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="lblSelf.Text" xml:space="preserve">
     <value>This is sample.</value>
   </data>
@@ -2607,9 +2145,6 @@
   </data>
   <data name="ButtonBackToDefaultFontColor.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="&gt;&gt;CheckNicoms.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;StartupUserstreamCheck.Parent" xml:space="preserve">
     <value>GetPeriodPanel</value>
@@ -2647,14 +2182,8 @@
   <data name="&gt;&gt;Label33.ZOrder" xml:space="preserve">
     <value>11</value>
   </data>
-  <data name="ComboBoxTranslateLanguage.Items48" xml:space="preserve">
-    <value>French (Belgium)</value>
-  </data>
   <data name="RadioProxySpecified.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items69" xml:space="preserve">
-    <value>Korean (Johab)</value>
   </data>
   <data name="btnSelf.Location" type="System.Drawing.Point, System.Drawing">
     <value>339, 15</value>
@@ -2671,24 +2200,6 @@
   <data name="&gt;&gt;Save.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="ComboBoxTranslateLanguage.Items62" xml:space="preserve">
-    <value>Hungarian</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items63" xml:space="preserve">
-    <value>Icelandic</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items64" xml:space="preserve">
-    <value>Indonesian</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items65" xml:space="preserve">
-    <value>Italian (Standard)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items66" xml:space="preserve">
-    <value>Italian (Switzerland)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items67" xml:space="preserve">
-    <value>Japanese</value>
-  </data>
   <data name="Label63.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
@@ -2703,9 +2214,6 @@
   </data>
   <data name="&gt;&gt;Label38.ZOrder" xml:space="preserve">
     <value>1</value>
-  </data>
-  <data name="&gt;&gt;IsPreviewFoursquareCheckBox.Name" xml:space="preserve">
-    <value>IsPreviewFoursquareCheckBox</value>
   </data>
   <data name="Label55.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -2737,9 +2245,6 @@
   <data name="ActionPanel.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
-  <data name="&gt;&gt;MapThumbnailZoomTextBox.Parent" xml:space="preserve">
-    <value>MapThumbnailGroupBox</value>
-  </data>
   <data name="StartupUserstreamCheck.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -2752,26 +2257,17 @@
   <data name="&gt;&gt;ListDoubleClickActionComboBox.Parent" xml:space="preserve">
     <value>ActionPanel</value>
   </data>
-  <data name="&gt;&gt;Label39.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
   <data name="&gt;&gt;btnDetail.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="TweetPrvPanel.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
   </data>
-  <data name="&gt;&gt;Label60.Parent" xml:space="preserve">
-    <value>CooperatePanel</value>
-  </data>
   <data name="Label46.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
   <data name="btnInputFont.TabIndex" type="System.Int32, mscorlib">
     <value>26</value>
-  </data>
-  <data name="Label60.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="Button3.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 21</value>
@@ -2826,9 +2322,6 @@
   </data>
   <data name="CooperatePanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
-  </data>
-  <data name="&gt;&gt;CheckOutputz.Parent" xml:space="preserve">
-    <value>CooperatePanel</value>
   </data>
   <data name="lblAtSelf.Text" xml:space="preserve">
     <value>This is sample.</value>
@@ -2886,9 +2379,6 @@
   </data>
   <data name="Label38.Text" xml:space="preserve">
     <value>発言をダブルクリック時の動作</value>
-  </data>
-  <data name="Label60.Text" xml:space="preserve">
-    <value>アウトプット先のURL</value>
   </data>
   <data name="&gt;&gt;HotkeyWin.ZOrder" xml:space="preserve">
     <value>3</value>
@@ -2956,9 +2446,6 @@
   <data name="btnDetailLink.Text" xml:space="preserve">
     <value>文字色</value>
   </data>
-  <data name="&gt;&gt;Label59.Parent" xml:space="preserve">
-    <value>CooperatePanel</value>
-  </data>
   <data name="&gt;&gt;PlaySnd.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -3001,20 +2488,11 @@
   <data name="RadioProxyNone.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="&gt;&gt;MapThumbnailHeightTextBox.Name" xml:space="preserve">
-    <value>MapThumbnailHeightTextBox</value>
-  </data>
   <data name="&gt;&gt;Label44.ZOrder" xml:space="preserve">
     <value>13</value>
   </data>
   <data name="Label16.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="&gt;&gt;Label40.Parent" xml:space="preserve">
-    <value>MapThumbnailGroupBox</value>
-  </data>
-  <data name="&gt;&gt;TextBoxOutputzKey.Name" xml:space="preserve">
-    <value>TextBoxOutputzKey</value>
   </data>
   <data name="&gt;&gt;TabMouseLockCheck.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -3066,9 +2544,6 @@
   <data name="RadioProxySpecified.Size" type="System.Drawing.Size, System.Drawing">
     <value>66, 16</value>
   </data>
-  <data name="&gt;&gt;Label41.Parent" xml:space="preserve">
-    <value>MapThumbnailGroupBox</value>
-  </data>
   <data name="&gt;&gt;lblListBackcolor.Parent" xml:space="preserve">
     <value>GroupBox5</value>
   </data>
@@ -3086,9 +2561,6 @@
   </data>
   <data name="Label69.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
-  </data>
-  <data name="IsPreviewFoursquareCheckBox.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="lblInputFont.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 19</value>
@@ -3117,20 +2589,11 @@
   <data name="&gt;&gt;RadioProxyIE.Type" xml:space="preserve">
     <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="ComboBoxTranslateLanguage.Items117" xml:space="preserve">
-    <value>Ukrainian</value>
-  </data>
   <data name="CooperatePanel.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
   <data name="lblUnread.Text" xml:space="preserve">
     <value>This is sample.</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items105" xml:space="preserve">
-    <value>Spanish (Bolivia)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items115" xml:space="preserve">
-    <value>Tswana</value>
   </data>
   <data name="&gt;&gt;FontDialog1.Name" xml:space="preserve">
     <value>FontDialog1</value>
@@ -3140,9 +2603,6 @@
   </data>
   <data name="Label5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="MapThumbnailZoomTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
   </data>
   <data name="btnTarget.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -3162,29 +2622,17 @@
   <data name="&gt;&gt;Label61.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="ComboBoxTranslateLanguage.Items47" xml:space="preserve">
-    <value>French (Standard)</value>
-  </data>
-  <data name="&gt;&gt;Label59.Name" xml:space="preserve">
-    <value>Label59</value>
-  </data>
   <data name="&gt;&gt;Label7.Parent" xml:space="preserve">
     <value>GetPeriodPanel</value>
   </data>
   <data name="btnDetailBack.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 25</value>
   </data>
-  <data name="ComboBoxTranslateLanguage.Items7" xml:space="preserve">
-    <value>Arabic (Morocco)</value>
-  </data>
   <data name="&gt;&gt;StartupPanel.Name" xml:space="preserve">
     <value>StartupPanel</value>
   </data>
   <data name="Save.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
-  </data>
-  <data name="Label40.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
   </data>
   <data name="lblListFont.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
@@ -3258,9 +2706,6 @@
   <data name="&gt;&gt;Label63.Parent" xml:space="preserve">
     <value>ConnectionPanel</value>
   </data>
-  <data name="CheckNicoms.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
   <data name="&gt;&gt;NotifyPanel.Name" xml:space="preserve">
     <value>NotifyPanel</value>
   </data>
@@ -3294,26 +2739,14 @@
   <data name="Label63.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="ComboBoxOutputzUrlmode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 20</value>
-  </data>
-  <data name="MapThumbnailWidthTextBox.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="&gt;&gt;ListsPeriod.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;TweetActPanel.Type" xml:space="preserve">
     <value>OpenTween.Setting.Panel.TweetActPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="UserAppointUrlText.TabIndex" type="System.Int32, mscorlib">
-    <value>18</value>
-  </data>
   <data name="HotkeyText.Size" type="System.Drawing.Size, System.Drawing">
     <value>77, 19</value>
-  </data>
-  <data name="&gt;&gt;Label42.Parent" xml:space="preserve">
-    <value>MapThumbnailGroupBox</value>
   </data>
   <data name="TweetPrvPanel.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -3338,9 +2771,6 @@
   </data>
   <data name="Label34.Size" type="System.Drawing.Size, System.Drawing">
     <value>81, 12</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items98" xml:space="preserve">
-    <value>Spanish (Colombia)</value>
   </data>
   <data name="&gt;&gt;Label24.Name" xml:space="preserve">
     <value>Label24</value>
@@ -3381,12 +2811,6 @@
   <data name="UserstreamPeriod.Size" type="System.Drawing.Size, System.Drawing">
     <value>65, 19</value>
   </data>
-  <data name="ComboBoxTranslateLanguage.Items108" xml:space="preserve">
-    <value>Spanish (Nicaragua)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items118" xml:space="preserve">
-    <value>Urdu</value>
-  </data>
   <data name="Label63.Text" xml:space="preserve">
     <value>タイムアウトまでの時間(秒)</value>
   </data>
@@ -3408,9 +2832,6 @@
   <data name="lblAtFromTarget.Location" type="System.Drawing.Point, System.Drawing">
     <value>227, 118</value>
   </data>
-  <data name="TextBoxOutputzKey.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
   <data name="&gt;&gt;HotkeyCode.Parent" xml:space="preserve">
     <value>GroupBox3</value>
   </data>
@@ -3425,9 +2846,6 @@
   </data>
   <data name="&gt;&gt;btnDetailBack.Name" xml:space="preserve">
     <value>btnDetailBack</value>
-  </data>
-  <data name="Label29.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
   </data>
   <data name="&gt;&gt;lblRetweet.Name" xml:space="preserve">
     <value>lblRetweet</value>
@@ -3444,17 +2862,11 @@
   <data name="HotkeyCtrl.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="&gt;&gt;MapThumbnailWidthTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;Label49.Parent" xml:space="preserve">
     <value>GroupBox5</value>
   </data>
   <data name="Label52.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
-  </data>
-  <data name="&gt;&gt;UserAppointUrlText.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="btnListFont.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3513,9 +2925,6 @@
   <data name="lblUnread.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
-  <data name="label48.Size" type="System.Drawing.Size, System.Drawing">
-    <value>66, 12</value>
-  </data>
   <data name="&gt;&gt;Label7.Name" xml:space="preserve">
     <value>Label7</value>
   </data>
@@ -3570,17 +2979,8 @@
   <data name="lblFav.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="&gt;&gt;MapThumbnailHeightTextBox.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="IsPreviewFoursquareCheckBox.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="&gt;&gt;TextProxyPort.Name" xml:space="preserve">
     <value>TextProxyPort</value>
-  </data>
-  <data name="&gt;&gt;Label29.Name" xml:space="preserve">
-    <value>Label29</value>
   </data>
   <data name="Label44.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -3616,9 +3016,6 @@
         ZGUA/////wkEAAAA/////wkEAAAAAAAAAAs=
 </value>
   </data>
-  <data name="&gt;&gt;ComboBoxTranslateLanguage.Parent" xml:space="preserve">
-    <value>CooperatePanel</value>
-  </data>
   <data name="CheckOpenUserTimeline.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
   </data>
@@ -3652,9 +3049,6 @@
   <data name="btnOWL.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="CheckOutputz.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 16</value>
-  </data>
   <data name="btnAtFromTarget.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -3682,9 +3076,6 @@
   <data name="&gt;&gt;GroupBox5.Parent" xml:space="preserve">
     <value>FontPanel2</value>
   </data>
-  <data name="MapThumbnailGroupBox.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="&gt;&gt;CheckReadOldPosts.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -3700,9 +3091,6 @@
   <data name="Label46.Size" type="System.Drawing.Size, System.Drawing">
     <value>137, 12</value>
   </data>
-  <data name="&gt;&gt;MapThumbnailProviderComboBox.Name" xml:space="preserve">
-    <value>MapThumbnailProviderComboBox</value>
-  </data>
   <data name="TwitterAPIText.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
@@ -3717,9 +3105,6 @@
   </data>
   <data name="Label22.Size" type="System.Drawing.Size, System.Drawing">
     <value>48, 12</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items88" xml:space="preserve">
-    <value>Slovak</value>
   </data>
   <data name="Label80.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -3789,9 +3174,6 @@
   <data name="&gt;&gt;ListsPeriod.ZOrder" xml:space="preserve">
     <value>12</value>
   </data>
-  <data name="&gt;&gt;CheckOutputz.Name" xml:space="preserve">
-    <value>CheckOutputz</value>
-  </data>
   <data name="&gt;&gt;lblFav.ZOrder" xml:space="preserve">
     <value>20</value>
   </data>
@@ -3828,26 +3210,8 @@
   <data name="&gt;&gt;SplitContainer1.Type" xml:space="preserve">
     <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="ComboBoxTranslateLanguage.Items30" xml:space="preserve">
-    <value>Dutch (Belgium)</value>
-  </data>
   <data name="&gt;&gt;lblListBackcolor.Name" xml:space="preserve">
     <value>lblListBackcolor</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items33" xml:space="preserve">
-    <value>English (United Kingdom)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items34" xml:space="preserve">
-    <value>English (Australia)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items35" xml:space="preserve">
-    <value>English (Canada)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items36" xml:space="preserve">
-    <value>English (New Zealand)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items37" xml:space="preserve">
-    <value>English (Ireland)</value>
   </data>
   <data name="Label9.Location" type="System.Drawing.Point, System.Drawing">
     <value>16, 170</value>
@@ -3863,9 +3227,6 @@
   </data>
   <data name="btnDetailLink.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items89" xml:space="preserve">
-    <value>Slovenian</value>
   </data>
   <data name="ListDoubleClickActionComboBox.Items6" xml:space="preserve">
     <value>ステータスをWebで開く</value>
@@ -3969,9 +3330,6 @@
   <data name="lblInputBackcolor.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
-  <data name="Label42.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>5, 0, 5, 0</value>
-  </data>
   <data name="lblFav.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 19</value>
   </data>
@@ -3987,17 +3345,8 @@
   <data name="&gt;&gt;TimelinePeriod.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;TextBoxOutputzKey.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;PubSearchPeriod.Parent" xml:space="preserve">
     <value>GetPeriodPanel</value>
-  </data>
-  <data name="Label41.Text" xml:space="preserve">
-    <value>ズームレベル</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items60" xml:space="preserve">
-    <value>Hebrew</value>
   </data>
   <data name="&gt;&gt;HotkeyWin.Name" xml:space="preserve">
     <value>HotkeyWin</value>
@@ -4020,47 +3369,14 @@
   <data name="StartupUserstreamCheck.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="Label39.Size" type="System.Drawing.Size, System.Drawing">
-    <value>401, 12</value>
-  </data>
   <data name="CheckOpenUserTimeline.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 232</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items78" xml:space="preserve">
-    <value>Portuguese (Brazil)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items79" xml:space="preserve">
-    <value>Portuguese (Portugal)</value>
-  </data>
-  <data name="Label41.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="Label5.Size" type="System.Drawing.Size, System.Drawing">
     <value>94, 12</value>
   </data>
-  <data name="ComboBoxTranslateLanguage.Items70" xml:space="preserve">
-    <value>Latvian</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items71" xml:space="preserve">
-    <value>Lithuanian</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items72" xml:space="preserve">
-    <value>Macedonian (FYROM)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items73" xml:space="preserve">
-    <value>Malaysian</value>
-  </data>
   <data name="Label26.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items75" xml:space="preserve">
-    <value>Norwegian (Bokmal)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items76" xml:space="preserve">
-    <value>Norwegian (Nynorsk)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items77" xml:space="preserve">
-    <value>Polish</value>
   </data>
   <data name="HotkeyShift.Text" xml:space="preserve">
     <value>Shift</value>
@@ -4079,9 +3395,6 @@
   </data>
   <data name="&gt;&gt;TabMouseLockCheck.Parent" xml:space="preserve">
     <value>ActionPanel</value>
-  </data>
-  <data name="Label60.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="TwitterAPIText.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -4131,26 +3444,14 @@
   <data name="&gt;&gt;BrowserPathText.Parent" xml:space="preserve">
     <value>ActionPanel</value>
   </data>
-  <data name="label48.Text" xml:space="preserve">
-    <value>地図サービス</value>
-  </data>
   <data name="lblListFont.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 19</value>
-  </data>
-  <data name="label48.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="TextProxyUser.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="&gt;&gt;Label39.Parent" xml:space="preserve">
-    <value>CooperatePanel</value>
-  </data>
   <data name="btnInputBackcolor.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="&gt;&gt;MapThumbnailGroupBox.Name" xml:space="preserve">
-    <value>MapThumbnailGroupBox</value>
   </data>
   <data name="Save.ToolTip" xml:space="preserve">
     <value />
@@ -4173,9 +3474,6 @@
   <data name="&gt;&gt;SplitContainer1.Panel2.Type" xml:space="preserve">
     <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="ComboBoxTranslateLanguage.Items4" xml:space="preserve">
-    <value>Arabic (Egypt)</value>
-  </data>
   <data name="btnUnread.Location" type="System.Drawing.Point, System.Drawing">
     <value>331, 46</value>
   </data>
@@ -4197,17 +3495,8 @@
   <data name="&gt;&gt;Label49.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="ComboBoxTranslateLanguage.Items102" xml:space="preserve">
-    <value>Spanish (Chile)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items112" xml:space="preserve">
-    <value>Swedish (Finland)</value>
-  </data>
   <data name="&gt;&gt;Label37.ZOrder" xml:space="preserve">
     <value>12</value>
-  </data>
-  <data name="Label59.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 12</value>
   </data>
   <data name="&gt;&gt;Label64.ZOrder" xml:space="preserve">
     <value>5</value>
@@ -4238,9 +3527,6 @@
   </data>
   <data name="Label65.Text" xml:space="preserve">
     <value>入力欄フォント</value>
-  </data>
-  <data name="CheckNicoms.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="&gt;&gt;Button3.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -4284,9 +3570,6 @@
   <data name="Label5.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
   </data>
-  <data name="MapThumbnailGroupBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>485, 71</value>
-  </data>
   <data name="&gt;&gt;ListDoubleClickActionComboBox.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
@@ -4299,26 +3582,17 @@
   <data name="GetCountPanel.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="&gt;&gt;IsPreviewFoursquareCheckBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="btnListBack.TabIndex" type="System.Int32, mscorlib">
     <value>20</value>
   </data>
   <data name="&gt;&gt;btnFav.Parent" xml:space="preserve">
     <value>GroupBox1</value>
   </data>
-  <data name="ComboBoxTranslateLanguage.Items61" xml:space="preserve">
-    <value>Hindi</value>
-  </data>
   <data name="&gt;&gt;lblAtSelf.ZOrder" xml:space="preserve">
     <value>25</value>
   </data>
   <data name="GetPeriodPanel.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="&gt;&gt;MapThumbnailGroupBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="StartupPanel.Size" type="System.Drawing.Size, System.Drawing">
     <value>519, 368</value>
@@ -4362,12 +3636,6 @@
   <data name="Label26.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="Label39.Text" xml:space="preserve">
-    <value>ユーザー指定のURL({ID}をScreenNameに、{STATUS}をステータスIDに置き換えます)</value>
-  </data>
-  <data name="Label59.Text" xml:space="preserve">
-    <value>復活の呪文</value>
-  </data>
   <data name="Label7.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
   </data>
@@ -4377,32 +3645,17 @@
   <data name="lblInputBackcolor.Location" type="System.Drawing.Point, System.Drawing">
     <value>227, 193</value>
   </data>
-  <data name="TextBoxOutputzKey.Location" type="System.Drawing.Point, System.Drawing">
-    <value>205, 44</value>
-  </data>
-  <data name="CheckOutputz.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 22</value>
-  </data>
   <data name="&gt;&gt;BrowserPathText.ZOrder" xml:space="preserve">
     <value>11</value>
   </data>
-  <data name="CheckOutputz.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="CheckCloseToExit.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 114</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailProviderComboBox.ZOrder" xml:space="preserve">
-    <value>0</value>
   </data>
   <data name="&gt;&gt;lblInputBackcolor.Parent" xml:space="preserve">
     <value>GroupBox5</value>
   </data>
   <data name="&gt;&gt;Label5.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
   </data>
   <data name="&gt;&gt;Label22.Name" xml:space="preserve">
     <value>Label22</value>
@@ -4416,29 +3669,17 @@
   <data name="&gt;&gt;Label14.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;Label60.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
   <data name="&gt;&gt;lblDetailBackcolor.Name" xml:space="preserve">
     <value>lblDetailBackcolor</value>
   </data>
   <data name="lblListFont.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="&gt;&gt;Label60.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="UReadMng.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
   <data name="RadioProxyIE.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
-  </data>
-  <data name="&gt;&gt;Label29.Parent" xml:space="preserve">
-    <value>CooperatePanel</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxTranslateLanguage.ZOrder" xml:space="preserve">
-    <value>4</value>
   </data>
   <data name="PlaySnd.ToolTip" xml:space="preserve">
     <value />
@@ -4461,17 +3702,8 @@
   <data name="LabelProxyPassword.Size" type="System.Drawing.Size, System.Drawing">
     <value>69, 12</value>
   </data>
-  <data name="ComboBoxTranslateLanguage.Items109" xml:space="preserve">
-    <value>Spanish (Puerto Rico)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items119" xml:space="preserve">
-    <value>Venda</value>
-  </data>
   <data name="GetCountPanel.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
-  </data>
-  <data name="Label42.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="ActionPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -4485,9 +3717,6 @@
   <data name="chkReadOwnPost.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="ComboBoxTranslateLanguage.Items38" xml:space="preserve">
-    <value>English (South Africa)</value>
-  </data>
   <data name="HotkeyWin.Size" type="System.Drawing.Size, System.Drawing">
     <value>42, 16</value>
   </data>
@@ -4496,12 +3725,6 @@
   </data>
   <data name="GroupBox1.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="IsPreviewFoursquareCheckBox.TabIndex" type="System.Int32, mscorlib">
-    <value>20</value>
-  </data>
-  <data name="label48.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 22</value>
   </data>
   <data name="CheckUseSsl.Text" xml:space="preserve">
     <value>通信にHTTPSを使用する</value>
@@ -4542,9 +3765,6 @@
   <data name="Label7.Size" type="System.Drawing.Size, System.Drawing">
     <value>137, 12</value>
   </data>
-  <data name="ComboBoxTranslateLanguage.Items45" xml:space="preserve">
-    <value>Farsi</value>
-  </data>
   <data name="&gt;&gt;Label22.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -4578,9 +3798,6 @@
   <data name="&gt;&gt;GetPeriodPanel.Name" xml:space="preserve">
     <value>GetPeriodPanel</value>
   </data>
-  <data name="&gt;&gt;MapThumbnailProviderComboBox.Parent" xml:space="preserve">
-    <value>MapThumbnailGroupBox</value>
-  </data>
   <data name="Label3.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -4604,9 +3821,6 @@
   </data>
   <data name="&gt;&gt;RadioProxyIE.ZOrder" xml:space="preserve">
     <value>4</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxOutputzUrlmode.Name" xml:space="preserve">
-    <value>ComboBoxOutputzUrlmode</value>
   </data>
   <data name="Label69.Size" type="System.Drawing.Size, System.Drawing">
     <value>123, 12</value>
@@ -4701,14 +3915,8 @@
   <data name="&gt;&gt;Label52.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;MapThumbnailZoomTextBox.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
   <data name="Label7.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="CheckNicoms.Size" type="System.Drawing.Size, System.Drawing">
-    <value>237, 16</value>
   </data>
   <data name="&gt;&gt;Label63.ZOrder" xml:space="preserve">
     <value>7</value>
@@ -4734,9 +3942,6 @@
   <data name="ListsPeriod.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
   </data>
-  <data name="ComboBoxOutputzUrlmode.Items1" xml:space="preserve">
-    <value>twitter.com/username</value>
-  </data>
   <data name="btnAtSelf.Text" xml:space="preserve">
     <value>背景色</value>
   </data>
@@ -4755,11 +3960,8 @@
   <data name="&gt;&gt;UserTimelinePeriod.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <data name="ComboBoxTranslateLanguage.Items58" xml:space="preserve">
-    <value>German (Liechtenstein)</value>
-  </data>
   <data name="&gt;&gt;CooperatePanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>OpenTween.Setting.Panel.CooperatePanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="BrowserPathText.Size" type="System.Drawing.Size, System.Drawing">
     <value>228, 19</value>
@@ -4773,14 +3975,8 @@
   <data name="&gt;&gt;btnInputFont.Name" xml:space="preserve">
     <value>btnInputFont</value>
   </data>
-  <data name="Label29.Text" xml:space="preserve">
-    <value>発言翻訳先の言語</value>
-  </data>
   <data name="LabelUserStreamActive.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 261</value>
-  </data>
-  <data name="&gt;&gt;Label42.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;TextProxyPort.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -4790,9 +3986,6 @@
   </data>
   <data name="ProxyPanel.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
-  </data>
-  <data name="MapThumbnailProviderComboBox.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
   </data>
   <data name="&gt;&gt;TweetActPanel.Parent" xml:space="preserve">
     <value>SplitContainer1.Panel2</value>
@@ -4809,32 +4002,14 @@
   <data name="&gt;&gt;CheckFavRestrict.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
-  <data name="CheckOutputz.Text" xml:space="preserve">
-    <value>Outputzに対応する</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailGroupBox.Parent" xml:space="preserve">
-    <value>CooperatePanel</value>
-  </data>
-  <data name="&gt;&gt;Label59.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="ButtonBackToDefaultFontColor2.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="btnDetailBack.Text" xml:space="preserve">
     <value>背景色</value>
   </data>
-  <data name="&gt;&gt;UserAppointUrlText.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;Label42.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
   <data name="&gt;&gt;chkReadOwnPost.ZOrder" xml:space="preserve">
     <value>9</value>
-  </data>
-  <data name="IsPreviewFoursquareCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>24, 254</value>
   </data>
   <data name="lblDetail.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 19</value>
@@ -4866,9 +4041,6 @@
   <data name="Label38.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="&gt;&gt;MapThumbnailZoomTextBox.Name" xml:space="preserve">
-    <value>MapThumbnailZoomTextBox</value>
-  </data>
   <data name="btnAtFromTarget.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
   </data>
@@ -4887,17 +4059,11 @@
   <data name="&gt;&gt;CheckOpenUserTimeline.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="&gt;&gt;MapThumbnailWidthTextBox.Parent" xml:space="preserve">
-    <value>MapThumbnailGroupBox</value>
-  </data>
   <data name="&gt;&gt;btnInputFont.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="CheckReadOldPosts.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items80" xml:space="preserve">
-    <value>Rhaeto-Romanic</value>
   </data>
   <data name="lblRetweet.Text" xml:space="preserve">
     <value>This is sample.</value>
@@ -4913,9 +4079,6 @@
   </data>
   <data name="ActionPanel.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="Label40.Size" type="System.Drawing.Size, System.Drawing">
-    <value>83, 12</value>
   </data>
   <data name="lblUnread.ToolTip" xml:space="preserve">
     <value />
@@ -4935,9 +4098,6 @@
   <data name="&gt;&gt;lblAtFromTarget.Name" xml:space="preserve">
     <value>lblAtFromTarget</value>
   </data>
-  <data name="ComboBoxOutputzUrlmode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>205, 72</value>
-  </data>
   <data name="&gt;&gt;BasedPanel.Type" xml:space="preserve">
     <value>OpenTween.Setting.Panel.BasedPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
@@ -4955,9 +4115,6 @@
   </data>
   <data name="Label49.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 12</value>
-  </data>
-  <data name="Label59.Location" type="System.Drawing.Point, System.Drawing">
-    <value>36, 47</value>
   </data>
   <data name="Label21.ToolTip" xml:space="preserve">
     <value />
@@ -4989,32 +4146,20 @@
   <data name="btnSelf.Text" xml:space="preserve">
     <value>背景色</value>
   </data>
-  <data name="&gt;&gt;Label60.Name" xml:space="preserve">
-    <value>Label60</value>
-  </data>
   <data name="Label18.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="btnRetweet.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="IsPreviewFoursquareCheckBox.Text" xml:space="preserve">
-    <value>FoursquareのURLからプレビューを表示する（非常に重くなります）</value>
-  </data>
   <data name="&gt;&gt;lblListBackcolor.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="Label29.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="Label63.Size" type="System.Drawing.Size, System.Drawing">
     <value>131, 12</value>
   </data>
   <data name="&gt;&gt;Label38.Parent" xml:space="preserve">
     <value>ActionPanel</value>
-  </data>
-  <data name="CheckNicoms.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="Save.Location" type="System.Drawing.Point, System.Drawing">
     <value>521, 374</value>
@@ -5027,9 +4172,6 @@
   </data>
   <data name="&gt;&gt;Label61.Name" xml:space="preserve">
     <value>Label61</value>
-  </data>
-  <data name="&gt;&gt;label48.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;TextProxyAddress.Name" xml:space="preserve">
     <value>TextProxyAddress</value>
@@ -5055,9 +4197,6 @@
   <data name="&gt;&gt;RadioProxySpecified.Name" xml:space="preserve">
     <value>RadioProxySpecified</value>
   </data>
-  <data name="ComboBoxTranslateLanguage.Items59" xml:space="preserve">
-    <value>Greek</value>
-  </data>
   <data name="Label37.Text" xml:space="preserve">
     <value>発言詳細背景色</value>
   </data>
@@ -5076,14 +4215,8 @@
   <data name="&gt;&gt;Label20.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="ComboBoxTranslateLanguage.Items68" xml:space="preserve">
-    <value>Korean</value>
-  </data>
   <data name="ReplyPeriod.Size" type="System.Drawing.Size, System.Drawing">
     <value>65, 19</value>
-  </data>
-  <data name="CheckNicoms.Text" xml:space="preserve">
-    <value>ニコニコ動画のURLをnico.msで短縮して送信</value>
   </data>
   <data name="Button3.Location" type="System.Drawing.Point, System.Drawing">
     <value>418, 158</value>
@@ -5124,9 +4257,6 @@
   <data name="Label14.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
   </data>
-  <data name="Label40.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="btnAtTarget.Text" xml:space="preserve">
     <value>背景色</value>
   </data>
@@ -5142,17 +4272,11 @@
   <data name="lblOWL.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
-  <data name="MapThumbnailWidthTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>102, 46</value>
-  </data>
   <data name="&gt;&gt;DMPeriod.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Label52.Location" type="System.Drawing.Point, System.Drawing">
     <value>16, 195</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items107" xml:space="preserve">
-    <value>Spanish (Honduras)</value>
   </data>
   <data name="&gt;&gt;CheckPostAndGet.ZOrder" xml:space="preserve">
     <value>17</value>
@@ -5190,12 +4314,6 @@
   <data name="ButtonBackToDefaultFontColor.Location" type="System.Drawing.Point, System.Drawing">
     <value>175, 235</value>
   </data>
-  <data name="MapThumbnailHeightTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>179, 46</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items82" xml:space="preserve">
-    <value>Romanian (Republic of Moldova)</value>
-  </data>
   <data name="LabelUserStreamActive.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -5207,9 +4325,6 @@
   </data>
   <data name="Label7.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 133</value>
-  </data>
-  <data name="Label41.Location" type="System.Drawing.Point, System.Drawing">
-    <value>270, 49</value>
   </data>
   <data name="lblAtSelf.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
@@ -5244,14 +4359,8 @@
   <data name="LabelPostAndGet.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="&gt;&gt;CheckNicoms.Parent" xml:space="preserve">
-    <value>CooperatePanel</value>
-  </data>
   <data name="&gt;&gt;Label7.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="Label60.Location" type="System.Drawing.Point, System.Drawing">
-    <value>36, 75</value>
   </data>
   <data name="btnInputBackcolor.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -5286,14 +4395,8 @@
   <data name="&gt;&gt;Label37.Name" xml:space="preserve">
     <value>Label37</value>
   </data>
-  <data name="ComboBoxTranslateLanguage.Items103" xml:space="preserve">
-    <value>Spanish (Uruguay)</value>
-  </data>
   <data name="btnUnread.Text" xml:space="preserve">
     <value>フォント&amp;&amp;色</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items123" xml:space="preserve">
-    <value>Zulu</value>
   </data>
   <data name="&gt;&gt;GroupBox3.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -5337,9 +4440,6 @@
   <data name="&gt;&gt;lblDetail.ZOrder" xml:space="preserve">
     <value>14</value>
   </data>
-  <data name="ComboBoxTranslateLanguage.Items83" xml:space="preserve">
-    <value>Russian</value>
-  </data>
   <data name="SplitContainer1.SplitterDistance" type="System.Int32, mscorlib">
     <value>168</value>
   </data>
@@ -5355,9 +4455,6 @@
   <data name="ConnectionPanel.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
   </data>
-  <data name="ComboBoxTranslateLanguage.Items1" xml:space="preserve">
-    <value>Albanian</value>
-  </data>
   <data name="btnDetailBack.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -5366,9 +4463,6 @@
   </data>
   <data name="&gt;&gt;lblRetweet.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items8" xml:space="preserve">
-    <value>Arabic (Tunisia)</value>
   </data>
   <data name="Label34.ToolTip" xml:space="preserve">
     <value />
@@ -5381,9 +4475,6 @@
   </data>
   <data name="&gt;&gt;Label9.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items113" xml:space="preserve">
-    <value>Thai</value>
   </data>
   <data name="ReplyPeriod.ToolTip" xml:space="preserve">
     <value />
@@ -5409,17 +4500,11 @@
   <data name="&gt;&gt;CheckOpenUserTimeline.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="ComboBoxTranslateLanguage.Items10" xml:space="preserve">
-    <value>Arabic (Yemen)</value>
-  </data>
   <data name="UReadMng.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="Label26.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
-  </data>
-  <data name="Label59.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="lblTarget.ToolTip" xml:space="preserve">
     <value />
@@ -5433,35 +4518,11 @@
   <data name="UserTimelinePeriod.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
   </data>
-  <data name="ComboBoxTranslateLanguage.Items39" xml:space="preserve">
-    <value>English (Jamaica)</value>
-  </data>
-  <data name="&gt;&gt;IsPreviewFoursquareCheckBox.Parent" xml:space="preserve">
-    <value>CooperatePanel</value>
-  </data>
   <data name="btnAtFromTarget.Location" type="System.Drawing.Point, System.Drawing">
     <value>339, 115</value>
   </data>
-  <data name="MapThumbnailHeightTextBox.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items21" xml:space="preserve">
-    <value>Catalan</value>
-  </data>
-  <data name="MapThumbnailZoomTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>346, 46</value>
-  </data>
   <data name="TreeViewSetting.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
-  </data>
-  <data name="label48.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="MapThumbnailHeightTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailWidthTextBox.ZOrder" xml:space="preserve">
-    <value>3</value>
   </data>
   <data name="TextProxyAddress.Location" type="System.Drawing.Point, System.Drawing">
     <value>114, 82</value>
@@ -5484,9 +4545,6 @@
   <data name="TextProxyPort.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>Disable</value>
   </data>
-  <data name="&gt;&gt;ComboBoxOutputzUrlmode.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="lblListBackcolor.Text" xml:space="preserve">
     <value>This is sample.</value>
   </data>
@@ -5507,12 +4565,6 @@
   </data>
   <data name="lblOWL.Text" xml:space="preserve">
     <value>This is sample.</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label41.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 12</value>
   </data>
   <data name="&gt;&gt;UserstreamPeriod.ZOrder" xml:space="preserve">
     <value>0</value>
