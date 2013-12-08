@@ -41,19 +41,7 @@
             this.TweetPrvPanel = new OpenTween.Setting.Panel.TweetPrvPanel();
             this.NotifyPanel = new OpenTween.Setting.Panel.NotifyPanel();
             this.CooperatePanel = new OpenTween.Setting.Panel.CooperatePanel();
-            this.ProxyPanel = new System.Windows.Forms.Panel();
-            this.Label55 = new System.Windows.Forms.Label();
-            this.TextProxyPassword = new System.Windows.Forms.TextBox();
-            this.RadioProxyNone = new System.Windows.Forms.RadioButton();
-            this.LabelProxyPassword = new System.Windows.Forms.Label();
-            this.RadioProxyIE = new System.Windows.Forms.RadioButton();
-            this.TextProxyUser = new System.Windows.Forms.TextBox();
-            this.RadioProxySpecified = new System.Windows.Forms.RadioButton();
-            this.LabelProxyUser = new System.Windows.Forms.Label();
-            this.LabelProxyAddress = new System.Windows.Forms.Label();
-            this.TextProxyPort = new System.Windows.Forms.TextBox();
-            this.TextProxyAddress = new System.Windows.Forms.TextBox();
-            this.LabelProxyPort = new System.Windows.Forms.Label();
+            this.ProxyPanel = new OpenTween.Setting.Panel.ProxyPanel();
             this.ConnectionPanel = new System.Windows.Forms.Panel();
             this.TwitterAPIText = new System.Windows.Forms.TextBox();
             this.Label8 = new System.Windows.Forms.Label();
@@ -171,7 +159,6 @@
             this.SplitContainer1.Panel1.SuspendLayout();
             this.SplitContainer1.Panel2.SuspendLayout();
             this.SplitContainer1.SuspendLayout();
-            this.ProxyPanel.SuspendLayout();
             this.ConnectionPanel.SuspendLayout();
             this.GetPeriodPanel.SuspendLayout();
             this.ActionPanel.SuspendLayout();
@@ -290,102 +277,8 @@
             // ProxyPanel
             // 
             resources.ApplyResources(this.ProxyPanel, "ProxyPanel");
-            this.ProxyPanel.Controls.Add(this.Label55);
-            this.ProxyPanel.Controls.Add(this.TextProxyPassword);
-            this.ProxyPanel.Controls.Add(this.RadioProxyNone);
-            this.ProxyPanel.Controls.Add(this.LabelProxyPassword);
-            this.ProxyPanel.Controls.Add(this.RadioProxyIE);
-            this.ProxyPanel.Controls.Add(this.TextProxyUser);
-            this.ProxyPanel.Controls.Add(this.RadioProxySpecified);
-            this.ProxyPanel.Controls.Add(this.LabelProxyUser);
-            this.ProxyPanel.Controls.Add(this.LabelProxyAddress);
-            this.ProxyPanel.Controls.Add(this.TextProxyPort);
-            this.ProxyPanel.Controls.Add(this.TextProxyAddress);
-            this.ProxyPanel.Controls.Add(this.LabelProxyPort);
             this.ProxyPanel.Name = "ProxyPanel";
             this.ToolTip1.SetToolTip(this.ProxyPanel, resources.GetString("ProxyPanel.ToolTip"));
-            // 
-            // Label55
-            // 
-            resources.ApplyResources(this.Label55, "Label55");
-            this.Label55.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.Label55.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.Label55.Name = "Label55";
-            this.ToolTip1.SetToolTip(this.Label55, resources.GetString("Label55.ToolTip"));
-            // 
-            // TextProxyPassword
-            // 
-            resources.ApplyResources(this.TextProxyPassword, "TextProxyPassword");
-            this.TextProxyPassword.Name = "TextProxyPassword";
-            this.ToolTip1.SetToolTip(this.TextProxyPassword, resources.GetString("TextProxyPassword.ToolTip"));
-            this.TextProxyPassword.UseSystemPasswordChar = true;
-            // 
-            // RadioProxyNone
-            // 
-            resources.ApplyResources(this.RadioProxyNone, "RadioProxyNone");
-            this.RadioProxyNone.Name = "RadioProxyNone";
-            this.ToolTip1.SetToolTip(this.RadioProxyNone, resources.GetString("RadioProxyNone.ToolTip"));
-            this.RadioProxyNone.UseVisualStyleBackColor = true;
-            // 
-            // LabelProxyPassword
-            // 
-            resources.ApplyResources(this.LabelProxyPassword, "LabelProxyPassword");
-            this.LabelProxyPassword.Name = "LabelProxyPassword";
-            this.ToolTip1.SetToolTip(this.LabelProxyPassword, resources.GetString("LabelProxyPassword.ToolTip"));
-            // 
-            // RadioProxyIE
-            // 
-            resources.ApplyResources(this.RadioProxyIE, "RadioProxyIE");
-            this.RadioProxyIE.Checked = true;
-            this.RadioProxyIE.Name = "RadioProxyIE";
-            this.RadioProxyIE.TabStop = true;
-            this.ToolTip1.SetToolTip(this.RadioProxyIE, resources.GetString("RadioProxyIE.ToolTip"));
-            this.RadioProxyIE.UseVisualStyleBackColor = true;
-            // 
-            // TextProxyUser
-            // 
-            resources.ApplyResources(this.TextProxyUser, "TextProxyUser");
-            this.TextProxyUser.Name = "TextProxyUser";
-            this.ToolTip1.SetToolTip(this.TextProxyUser, resources.GetString("TextProxyUser.ToolTip"));
-            // 
-            // RadioProxySpecified
-            // 
-            resources.ApplyResources(this.RadioProxySpecified, "RadioProxySpecified");
-            this.RadioProxySpecified.Name = "RadioProxySpecified";
-            this.ToolTip1.SetToolTip(this.RadioProxySpecified, resources.GetString("RadioProxySpecified.ToolTip"));
-            this.RadioProxySpecified.UseVisualStyleBackColor = true;
-            this.RadioProxySpecified.CheckedChanged += new System.EventHandler(this.RadioProxySpecified_CheckedChanged);
-            // 
-            // LabelProxyUser
-            // 
-            resources.ApplyResources(this.LabelProxyUser, "LabelProxyUser");
-            this.LabelProxyUser.Name = "LabelProxyUser";
-            this.ToolTip1.SetToolTip(this.LabelProxyUser, resources.GetString("LabelProxyUser.ToolTip"));
-            // 
-            // LabelProxyAddress
-            // 
-            resources.ApplyResources(this.LabelProxyAddress, "LabelProxyAddress");
-            this.LabelProxyAddress.Name = "LabelProxyAddress";
-            this.ToolTip1.SetToolTip(this.LabelProxyAddress, resources.GetString("LabelProxyAddress.ToolTip"));
-            // 
-            // TextProxyPort
-            // 
-            resources.ApplyResources(this.TextProxyPort, "TextProxyPort");
-            this.TextProxyPort.Name = "TextProxyPort";
-            this.ToolTip1.SetToolTip(this.TextProxyPort, resources.GetString("TextProxyPort.ToolTip"));
-            this.TextProxyPort.Validating += new System.ComponentModel.CancelEventHandler(this.TextProxyPort_Validating);
-            // 
-            // TextProxyAddress
-            // 
-            resources.ApplyResources(this.TextProxyAddress, "TextProxyAddress");
-            this.TextProxyAddress.Name = "TextProxyAddress";
-            this.ToolTip1.SetToolTip(this.TextProxyAddress, resources.GetString("TextProxyAddress.ToolTip"));
-            // 
-            // LabelProxyPort
-            // 
-            resources.ApplyResources(this.LabelProxyPort, "LabelProxyPort");
-            this.LabelProxyPort.Name = "LabelProxyPort";
-            this.ToolTip1.SetToolTip(this.LabelProxyPort, resources.GetString("LabelProxyPort.ToolTip"));
             // 
             // ConnectionPanel
             // 
@@ -1286,8 +1179,6 @@
             this.SplitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer1)).EndInit();
             this.SplitContainer1.ResumeLayout(false);
-            this.ProxyPanel.ResumeLayout(false);
-            this.ProxyPanel.PerformLayout();
             this.ConnectionPanel.ResumeLayout(false);
             this.ConnectionPanel.PerformLayout();
             this.GetPeriodPanel.ResumeLayout(false);
@@ -1326,19 +1217,7 @@
         private Setting.Panel.TweetPrvPanel TweetPrvPanel;
         private Setting.Panel.NotifyPanel NotifyPanel;
         private Setting.Panel.CooperatePanel CooperatePanel;
-        internal System.Windows.Forms.Panel ProxyPanel;
-        internal System.Windows.Forms.Label Label55;
-        internal System.Windows.Forms.TextBox TextProxyPassword;
-        internal System.Windows.Forms.RadioButton RadioProxyNone;
-        internal System.Windows.Forms.Label LabelProxyPassword;
-        internal System.Windows.Forms.RadioButton RadioProxyIE;
-        internal System.Windows.Forms.TextBox TextProxyUser;
-        internal System.Windows.Forms.RadioButton RadioProxySpecified;
-        internal System.Windows.Forms.Label LabelProxyUser;
-        internal System.Windows.Forms.Label LabelProxyAddress;
-        internal System.Windows.Forms.TextBox TextProxyPort;
-        internal System.Windows.Forms.TextBox TextProxyAddress;
-        internal System.Windows.Forms.Label LabelProxyPort;
+        private Setting.Panel.ProxyPanel ProxyPanel;
         internal System.Windows.Forms.Panel ConnectionPanel;
         internal System.Windows.Forms.TextBox TwitterAPIText;
         internal System.Windows.Forms.Label Label8;

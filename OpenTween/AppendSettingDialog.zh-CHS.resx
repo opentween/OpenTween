@@ -208,54 +208,6 @@
 </value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="Label55.Size" type="System.Drawing.Size, System.Drawing">
-    <value>273, 12</value>
-  </data>
-  <data name="Label55.Text" xml:space="preserve">
-    <value>※代理不需要登录认证时，请将用户名密码栏留空。</value>
-  </data>
-  <data name="RadioProxyNone.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 16</value>
-  </data>
-  <data name="RadioProxyNone.Text" xml:space="preserve">
-    <value>不使用</value>
-  </data>
-  <data name="LabelProxyPassword.Size" type="System.Drawing.Size, System.Drawing">
-    <value>46, 12</value>
-  </data>
-  <data name="LabelProxyPassword.Text" xml:space="preserve">
-    <value>密码(&amp;W)</value>
-  </data>
-  <data name="RadioProxyIE.Size" type="System.Drawing.Size, System.Drawing">
-    <value>164, 16</value>
-  </data>
-  <data name="RadioProxyIE.Text" xml:space="preserve">
-    <value>使用InternetExplorer的设置</value>
-  </data>
-  <data name="RadioProxySpecified.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 16</value>
-  </data>
-  <data name="RadioProxySpecified.Text" xml:space="preserve">
-    <value>自定义</value>
-  </data>
-  <data name="LabelProxyUser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>57, 12</value>
-  </data>
-  <data name="LabelProxyUser.Text" xml:space="preserve">
-    <value>用户名(&amp;U)</value>
-  </data>
-  <data name="LabelProxyAddress.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 12</value>
-  </data>
-  <data name="LabelProxyAddress.Text" xml:space="preserve">
-    <value>地址(&amp;X)</value>
-  </data>
-  <data name="LabelProxyPort.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 12</value>
-  </data>
-  <data name="LabelProxyPort.Text" xml:space="preserve">
-    <value>端口(&amp;P)</value>
-  </data>
   <data name="TwitterAPIText.Size" type="System.Drawing.Size, System.Drawing">
     <value>143, 19</value>
   </data>

@@ -165,9 +165,6 @@
   <data name="SplitContainer1.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="RadioProxyNone.Size" type="System.Drawing.Size, System.Drawing">
-    <value>76, 16</value>
-  </data>
   <data name="ButtonBackToDefaultFontColor2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -177,9 +174,6 @@
   <data name="&gt;&gt;UserstreamPeriod.Parent" xml:space="preserve">
     <value>GetPeriodPanel</value>
   </data>
-  <data name="&gt;&gt;RadioProxyNone.Parent" xml:space="preserve">
-    <value>ProxyPanel</value>
-  </data>
   <data name="TimelinePeriod.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
@@ -188,9 +182,6 @@
   </data>
   <data name="Label33.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
-  </data>
-  <data name="&gt;&gt;TextProxyPort.ZOrder" xml:space="preserve">
-    <value>9</value>
   </data>
   <data name="TweetActPanel.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -413,29 +404,17 @@
   <data name="GetCountPanel.Size" type="System.Drawing.Size, System.Drawing">
     <value>519, 368</value>
   </data>
-  <data name="Label55.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="TwitterAPIText.Location" type="System.Drawing.Point, System.Drawing">
     <value>262, 100</value>
   </data>
   <data name="&gt;&gt;BrowserPathText.Name" xml:space="preserve">
     <value>BrowserPathText</value>
   </data>
-  <data name="TextProxyPassword.Size" type="System.Drawing.Size, System.Drawing">
-    <value>96, 19</value>
-  </data>
-  <data name="&gt;&gt;RadioProxyIE.Parent" xml:space="preserve">
-    <value>ProxyPanel</value>
-  </data>
   <data name="&gt;&gt;Label18.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
   <data name="lblInputFont.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="&gt;&gt;LabelProxyPort.Name" xml:space="preserve">
-    <value>LabelProxyPort</value>
   </data>
   <data name="&gt;&gt;Label52.Name" xml:space="preserve">
     <value>Label52</value>
@@ -524,9 +503,6 @@
   <data name="Label64.Size" type="System.Drawing.Size, System.Drawing">
     <value>349, 12</value>
   </data>
-  <data name="Label55.Location" type="System.Drawing.Point, System.Drawing">
-    <value>41, 134</value>
-  </data>
   <data name="TwitterAPIText.Text" xml:space="preserve">
     <value>api.twitter.com</value>
   </data>
@@ -551,17 +527,11 @@
   <data name="&gt;&gt;FontPanel.ZOrder" xml:space="preserve">
     <value>13</value>
   </data>
-  <data name="LabelProxyAddress.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 12</value>
-  </data>
   <data name="&gt;&gt;lblListBackcolor.ZOrder" xml:space="preserve">
     <value>21</value>
   </data>
   <data name="SplitContainer1.Size" type="System.Drawing.Size, System.Drawing">
     <value>691, 368</value>
-  </data>
-  <data name="&gt;&gt;LabelProxyPort.Parent" xml:space="preserve">
-    <value>ProxyPanel</value>
   </data>
   <data name="&gt;&gt;Label65.Parent" xml:space="preserve">
     <value>GroupBox5</value>
@@ -676,9 +646,6 @@
   <data name="GetPeriodPanel.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="&gt;&gt;TextProxyPassword.Parent" xml:space="preserve">
-    <value>ProxyPanel</value>
-  </data>
   <data name="&gt;&gt;Label36.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -700,9 +667,6 @@
   <data name="&gt;&gt;ListDoubleClickActionComboBox.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;LabelProxyPassword.Name" xml:space="preserve">
-    <value>LabelProxyPassword</value>
-  </data>
   <data name="&gt;&gt;Label9.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
@@ -721,12 +685,6 @@
   <data name="Label15.Size" type="System.Drawing.Size, System.Drawing">
     <value>408, 22</value>
   </data>
-  <data name="LabelProxyPort.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="LabelProxyPassword.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
   <data name="UserTimelinePeriod.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -741,9 +699,6 @@
   </data>
   <data name="&gt;&gt;GetCountPanel.ZOrder" xml:space="preserve">
     <value>3</value>
-  </data>
-  <data name="RadioProxyIE.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="Label52.Text" xml:space="preserve">
     <value>入力欄アクティブ時背景色</value>
@@ -925,9 +880,6 @@
   <data name="btnUnread.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="TextProxyPort.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="TweetActPanel.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -1006,9 +958,6 @@
   <data name="TweetPrvPanel.Size" type="System.Drawing.Size, System.Drawing">
     <value>519, 368</value>
   </data>
-  <data name="&gt;&gt;LabelProxyAddress.Parent" xml:space="preserve">
-    <value>ProxyPanel</value>
-  </data>
   <data name="Label14.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -1078,9 +1027,6 @@
   <data name="&gt;&gt;ActionPanel.Type" xml:space="preserve">
     <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;Label55.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="lblAtTarget.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 19</value>
   </data>
@@ -1092,9 +1038,6 @@
   </data>
   <data name="HotkeyShift.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="LabelProxyUser.Location" type="System.Drawing.Point, System.Drawing">
-    <value>74, 110</value>
   </data>
   <data name="btnDetailLink.Location" type="System.Drawing.Point, System.Drawing">
     <value>331, 171</value>
@@ -1125,12 +1068,6 @@
   </data>
   <data name="&gt;&gt;DMPeriod.ZOrder" xml:space="preserve">
     <value>20</value>
-  </data>
-  <data name="&gt;&gt;LabelProxyPassword.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="LabelProxyPassword.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="CheckFavRestrict.Size" type="System.Drawing.Size, System.Drawing">
     <value>183, 16</value>
@@ -1187,7 +1124,7 @@
     <value>False</value>
   </data>
   <data name="&gt;&gt;ProxyPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>OpenTween.Setting.Panel.ProxyPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="Label5.ToolTip" xml:space="preserve">
     <value />
@@ -1216,9 +1153,6 @@
   <data name="&gt;&gt;Label65.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;LabelProxyUser.Name" xml:space="preserve">
-    <value>LabelProxyUser</value>
-  </data>
   <data name="&gt;&gt;Label20.Parent" xml:space="preserve">
     <value>GroupBox1</value>
   </data>
@@ -1230,9 +1164,6 @@
   </data>
   <data name="GetCountPanel.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
-  </data>
-  <data name="LabelProxyAddress.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="&gt;&gt;Label21.Parent" xml:space="preserve">
     <value>GetPeriodPanel</value>
@@ -1246,9 +1177,6 @@
   <data name="lblDetailBackcolor.TabIndex" type="System.Int32, mscorlib">
     <value>22</value>
   </data>
-  <data name="LabelProxyPort.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="&gt;&gt;btnFav.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -1257,9 +1185,6 @@
   </data>
   <data name="lblAtTo.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
-  </data>
-  <data name="&gt;&gt;TextProxyPassword.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="TweetPrvPanel.ToolTip" xml:space="preserve">
     <value />
@@ -1357,9 +1282,6 @@
   <data name="UserTimelinePeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>Disable</value>
   </data>
-  <data name="&gt;&gt;LabelProxyUser.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
   <data name="&gt;&gt;lblAtTo.Name" xml:space="preserve">
     <value>lblAtTo</value>
   </data>
@@ -1384,17 +1306,8 @@
   <data name="lblAtFromTarget.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="LabelProxyPort.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="lblRetweet.Location" type="System.Drawing.Point, System.Drawing">
     <value>216, 121</value>
-  </data>
-  <data name="&gt;&gt;RadioProxyIE.Name" xml:space="preserve">
-    <value>RadioProxyIE</value>
-  </data>
-  <data name="TextProxyAddress.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
   </data>
   <data name="&gt;&gt;btnDetailLink.ZOrder" xml:space="preserve">
     <value>4</value>
@@ -1410,15 +1323,6 @@
   </data>
   <data name="&gt;&gt;ShortUrlPanel.ZOrder" xml:space="preserve">
     <value>4</value>
-  </data>
-  <data name="RadioProxySpecified.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="TextProxyPort.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;TextProxyAddress.Parent" xml:space="preserve">
-    <value>ProxyPanel</value>
   </data>
   <data name="&gt;&gt;GetPeriodPanel.ZOrder" xml:space="preserve">
     <value>11</value>
@@ -1446,9 +1350,6 @@
   </data>
   <data name="&gt;&gt;lblDetailLink.Parent" xml:space="preserve">
     <value>GroupBox1</value>
-  </data>
-  <data name="&gt;&gt;TextProxyAddress.ZOrder" xml:space="preserve">
-    <value>10</value>
   </data>
   <data name="lblListBackcolor.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1570,9 +1471,6 @@
   <data name="lblListBackcolor.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="RadioProxySpecified.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="Label8.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 103</value>
   </data>
@@ -1585,17 +1483,11 @@
   <data name="&gt;&gt;Label64.Name" xml:space="preserve">
     <value>Label64</value>
   </data>
-  <data name="LabelProxyUser.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="PreviewPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
   <data name="&gt;&gt;GroupBox3.ZOrder" xml:space="preserve">
     <value>4</value>
-  </data>
-  <data name="&gt;&gt;LabelProxyPort.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;NotifyPanel.Parent" xml:space="preserve">
     <value>SplitContainer1.Panel2</value>
@@ -1645,9 +1537,6 @@
   <data name="&gt;&gt;BasedPanel.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <data name="TextProxyUser.Location" type="System.Drawing.Point, System.Drawing">
-    <value>143, 107</value>
-  </data>
   <data name="&gt;&gt;lblAtTarget.Name" xml:space="preserve">
     <value>lblAtTarget</value>
   </data>
@@ -1693,9 +1582,6 @@
   <data name="Label14.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="TextProxyAddress.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="lblAtTo.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -1707,9 +1593,6 @@
   </data>
   <data name="&gt;&gt;GroupBox5.Name" xml:space="preserve">
     <value>GroupBox5</value>
-  </data>
-  <data name="&gt;&gt;RadioProxySpecified.ZOrder" xml:space="preserve">
-    <value>6</value>
   </data>
   <data name="&gt;&gt;SplitContainer1.Panel2.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -1744,9 +1627,6 @@
   <data name="&gt;&gt;FontDialog1.Type" xml:space="preserve">
     <value>System.Windows.Forms.FontDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;LabelProxyUser.Parent" xml:space="preserve">
-    <value>ProxyPanel</value>
-  </data>
   <data name="&gt;&gt;Button3.Parent" xml:space="preserve">
     <value>ActionPanel</value>
   </data>
@@ -1771,9 +1651,6 @@
   <data name="&gt;&gt;UserTimelinePeriod.Name" xml:space="preserve">
     <value>UserTimelinePeriod</value>
   </data>
-  <data name="LabelProxyAddress.Location" type="System.Drawing.Point, System.Drawing">
-    <value>50, 85</value>
-  </data>
   <data name="Label69.Text" xml:space="preserve">
     <value>Mentions更新間隔（秒）</value>
   </data>
@@ -1785,9 +1662,6 @@
   </data>
   <data name="&gt;&gt;UReadMng.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LabelProxyPort.ZOrder" xml:space="preserve">
-    <value>11</value>
   </data>
   <data name="&gt;&gt;lblAtFromTarget.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1804,9 +1678,6 @@
   <data name="&gt;&gt;Label34.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
-  <data name="TextProxyPassword.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
   <data name="HotkeyCtrl.Location" type="System.Drawing.Point, System.Drawing">
     <value>69, 15</value>
   </data>
@@ -1818,9 +1689,6 @@
   </data>
   <data name="CheckPostAndGet.Text" xml:space="preserve">
     <value>投稿時取得</value>
-  </data>
-  <data name="TextProxyUser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>68, 19</value>
   </data>
   <data name="HotkeyAlt.Text" xml:space="preserve">
     <value>Alt</value>
@@ -1870,9 +1738,6 @@
   <data name="Label24.Size" type="System.Drawing.Size, System.Drawing">
     <value>63, 12</value>
   </data>
-  <data name="TextProxyPassword.Location" type="System.Drawing.Point, System.Drawing">
-    <value>286, 107</value>
-  </data>
   <data name="TimelinePeriod.Location" type="System.Drawing.Point, System.Drawing">
     <value>258, 37</value>
   </data>
@@ -1912,9 +1777,6 @@
   <data name="Label3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="RadioProxyNone.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
   <data name="&gt;&gt;ActionPanel.Name" xml:space="preserve">
     <value>ActionPanel</value>
   </data>
@@ -1935,9 +1797,6 @@
   </data>
   <data name="&gt;&gt;Label49.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="LabelProxyPassword.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="Label15.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 42</value>
@@ -1965,9 +1824,6 @@
   </data>
   <data name="ConnectionPanel.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="&gt;&gt;LabelProxyPassword.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="GroupBox3.Location" type="System.Drawing.Point, System.Drawing">
     <value>21, 328</value>
@@ -2077,9 +1933,6 @@
   <data name="&gt;&gt;btnOWL.Name" xml:space="preserve">
     <value>btnOWL</value>
   </data>
-  <data name="&gt;&gt;TextProxyUser.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
   <data name="&gt;&gt;btnListBack.Parent" xml:space="preserve">
     <value>GroupBox5</value>
   </data>
@@ -2116,9 +1969,6 @@
   <data name="&gt;&gt;FontPanel.Type" xml:space="preserve">
     <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="RadioProxyIE.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="&gt;&gt;ButtonBackToDefaultFontColor.Name" xml:space="preserve">
     <value>ButtonBackToDefaultFontColor</value>
   </data>
@@ -2148,9 +1998,6 @@
   </data>
   <data name="&gt;&gt;StartupUserstreamCheck.Parent" xml:space="preserve">
     <value>GetPeriodPanel</value>
-  </data>
-  <data name="&gt;&gt;Label55.Name" xml:space="preserve">
-    <value>Label55</value>
   </data>
   <data name="&gt;&gt;Label16.Name" xml:space="preserve">
     <value>Label16</value>
@@ -2182,9 +2029,6 @@
   <data name="&gt;&gt;Label33.ZOrder" xml:space="preserve">
     <value>11</value>
   </data>
-  <data name="RadioProxySpecified.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="btnSelf.Location" type="System.Drawing.Point, System.Drawing">
     <value>339, 15</value>
   </data>
@@ -2215,9 +2059,6 @@
   <data name="&gt;&gt;Label38.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="Label55.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
   <data name="btnFav.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 25</value>
   </data>
@@ -2232,9 +2073,6 @@
   </data>
   <data name="ActionPanel.Size" type="System.Drawing.Size, System.Drawing">
     <value>519, 368</value>
-  </data>
-  <data name="RadioProxySpecified.Text" xml:space="preserve">
-    <value>指定する</value>
   </data>
   <data name="&gt;&gt;ReplyPeriod.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -2296,9 +2134,6 @@
   <data name="chkReadOwnPost.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="LabelProxyAddress.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
   <data name="FontPanel2.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -2347,9 +2182,6 @@
   <data name="GetCountPanel.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="&gt;&gt;LabelProxyAddress.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
   <data name="&gt;&gt;HotkeyText.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
@@ -2361,9 +2193,6 @@
   </data>
   <data name="TabMouseLockCheck.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="&gt;&gt;LabelProxyPassword.Parent" xml:space="preserve">
-    <value>ProxyPanel</value>
   </data>
   <data name="&gt;&gt;Label15.Name" xml:space="preserve">
     <value>Label15</value>
@@ -2437,9 +2266,6 @@
   <data name="&gt;&gt;chkReadOwnPost.Name" xml:space="preserve">
     <value>chkReadOwnPost</value>
   </data>
-  <data name="LabelProxyAddress.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="CheckMinimizeToTray.Text" xml:space="preserve">
     <value>最小化したときにアイコン化する</value>
   </data>
@@ -2484,9 +2310,6 @@
   </data>
   <data name="FontPanel.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
-  </data>
-  <data name="RadioProxyNone.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="&gt;&gt;Label44.ZOrder" xml:space="preserve">
     <value>13</value>
@@ -2535,20 +2358,11 @@
 タイムライン/Mentions/DMの定期更新、投稿時取得は停止しています。
 これらはUserStreamによりリアルタイム更新されます。</value>
   </data>
-  <data name="&gt;&gt;TextProxyPassword.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="Label57.Location" type="System.Drawing.Point, System.Drawing">
     <value>26, 210</value>
   </data>
-  <data name="RadioProxySpecified.Size" type="System.Drawing.Size, System.Drawing">
-    <value>66, 16</value>
-  </data>
   <data name="&gt;&gt;lblListBackcolor.Parent" xml:space="preserve">
     <value>GroupBox5</value>
-  </data>
-  <data name="LabelProxyPassword.Location" type="System.Drawing.Point, System.Drawing">
-    <value>217, 110</value>
   </data>
   <data name="lblAtTarget.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
@@ -2571,9 +2385,6 @@
   <data name="Label8.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="&gt;&gt;TextProxyPort.Parent" xml:space="preserve">
-    <value>ProxyPanel</value>
-  </data>
   <data name="ListsPeriod.Size" type="System.Drawing.Size, System.Drawing">
     <value>65, 19</value>
   </data>
@@ -2585,9 +2396,6 @@
   </data>
   <data name="&gt;&gt;Label46.Parent" xml:space="preserve">
     <value>GetPeriodPanel</value>
-  </data>
-  <data name="&gt;&gt;RadioProxyIE.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="CooperatePanel.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -2612,9 +2420,6 @@
   </data>
   <data name="GetCountPanel.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="&gt;&gt;Label55.Parent" xml:space="preserve">
-    <value>ProxyPanel</value>
   </data>
   <data name="lblAtFromTarget.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 19</value>
@@ -2649,9 +2454,6 @@
   <data name="NotifyPanel.Size" type="System.Drawing.Size, System.Drawing">
     <value>519, 368</value>
   </data>
-  <data name="&gt;&gt;TextProxyAddress.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;CheckFavRestrict.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -2660,9 +2462,6 @@
   </data>
   <data name="Label44.Text" xml:space="preserve">
     <value>ブラウザパス</value>
-  </data>
-  <data name="Label55.Size" type="System.Drawing.Size, System.Drawing">
-    <value>314, 12</value>
   </data>
   <data name="PubSearchPeriod.Size" type="System.Drawing.Size, System.Drawing">
     <value>65, 19</value>
@@ -2675,9 +2474,6 @@
   </data>
   <data name="Label61.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="TextProxyUser.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
   </data>
   <data name="TimelinePeriod.ToolTip" xml:space="preserve">
     <value />
@@ -2727,9 +2523,6 @@
   <data name="&gt;&gt;StartupPanel.Type" xml:space="preserve">
     <value>OpenTween.Setting.Panel.StartupPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;TextProxyUser.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="UReadMng.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -2754,9 +2547,6 @@
   <data name="&gt;&gt;LabelUserStreamActive.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="&gt;&gt;LabelProxyAddress.Name" xml:space="preserve">
-    <value>LabelProxyAddress</value>
-  </data>
   <data name="lblDetailLink.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -2778,17 +2568,11 @@
   <data name="Label16.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
   </data>
-  <data name="RadioProxyNone.Text" xml:space="preserve">
-    <value>使用しない</value>
-  </data>
   <data name="&gt;&gt;Label14.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
   <data name="PlaySnd.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 20</value>
-  </data>
-  <data name="&gt;&gt;RadioProxySpecified.Parent" xml:space="preserve">
-    <value>ProxyPanel</value>
   </data>
   <data name="btnAtSelf.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -2826,17 +2610,11 @@
   <data name="FontPanel2.Size" type="System.Drawing.Size, System.Drawing">
     <value>519, 368</value>
   </data>
-  <data name="RadioProxyIE.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 41</value>
-  </data>
   <data name="lblAtFromTarget.Location" type="System.Drawing.Point, System.Drawing">
     <value>227, 118</value>
   </data>
   <data name="&gt;&gt;HotkeyCode.Parent" xml:space="preserve">
     <value>GroupBox3</value>
-  </data>
-  <data name="RadioProxySpecified.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
   </data>
   <data name="CheckReadOldPosts.Size" type="System.Drawing.Size, System.Drawing">
     <value>145, 16</value>
@@ -2852,9 +2630,6 @@
   </data>
   <data name="&gt;&gt;Label3.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TextProxyPassword.Name" xml:space="preserve">
-    <value>TextProxyPassword</value>
   </data>
   <data name="HotkeyAlt.Location" type="System.Drawing.Point, System.Drawing">
     <value>168, 15</value>
@@ -2900,9 +2675,6 @@
   </data>
   <data name="UserstreamPeriod.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
-  </data>
-  <data name="TextProxyPort.Size" type="System.Drawing.Size, System.Drawing">
-    <value>73, 19</value>
   </data>
   <data name="&gt;&gt;Label20.Name" xml:space="preserve">
     <value>Label20</value>
@@ -2979,17 +2751,11 @@
   <data name="lblFav.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="&gt;&gt;TextProxyPort.Name" xml:space="preserve">
-    <value>TextProxyPort</value>
-  </data>
   <data name="Label44.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
   </data>
   <data name="&gt;&gt;Label26.Name" xml:space="preserve">
     <value>Label26</value>
-  </data>
-  <data name="LabelProxyPort.Location" type="System.Drawing.Point, System.Drawing">
-    <value>255, 85</value>
   </data>
   <data name="Label80.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -3058,17 +2824,8 @@
   <data name="LabelPostAndGet.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 236</value>
   </data>
-  <data name="RadioProxyIE.Text" xml:space="preserve">
-    <value>InternetExplorerの設定を使用する</value>
-  </data>
-  <data name="LabelProxyUser.Text" xml:space="preserve">
-    <value>ユーザ名(&amp;U)</value>
-  </data>
   <data name="FontPanel.Size" type="System.Drawing.Size, System.Drawing">
     <value>519, 368</value>
-  </data>
-  <data name="LabelProxyAddress.Text" xml:space="preserve">
-    <value>プロキシ(&amp;X)</value>
   </data>
   <data name="Label32.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -3147,17 +2904,11 @@
   <data name="&gt;&gt;lblOWL.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="LabelProxyUser.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="CheckMinimizeToTray.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="PubSearchPeriod.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
-  </data>
-  <data name="LabelProxyUser.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
   </data>
   <data name="&gt;&gt;ReplyPeriod.Parent" xml:space="preserve">
     <value>GetPeriodPanel</value>
@@ -3177,9 +2928,6 @@
   <data name="&gt;&gt;lblFav.ZOrder" xml:space="preserve">
     <value>20</value>
   </data>
-  <data name="&gt;&gt;RadioProxyNone.Name" xml:space="preserve">
-    <value>RadioProxyNone</value>
-  </data>
   <data name="ButtonBackToDefaultFontColor2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -3189,14 +2937,8 @@
   <data name="&gt;&gt;Label36.Parent" xml:space="preserve">
     <value>GroupBox5</value>
   </data>
-  <data name="LabelProxyUser.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="btnTarget.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 25</value>
-  </data>
-  <data name="LabelProxyPort.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 12</value>
   </data>
   <data name="PreviewPanel.Size" type="System.Drawing.Size, System.Drawing">
     <value>519, 368</value>
@@ -3219,9 +2961,6 @@
   <data name="CheckFavRestrict.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="RadioProxyIE.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="Label26.Text" xml:space="preserve">
     <value>発言詳細文字</value>
   </data>
@@ -3233,9 +2972,6 @@
   </data>
   <data name="&gt;&gt;GroupBox1.Parent" xml:space="preserve">
     <value>FontPanel</value>
-  </data>
-  <data name="&gt;&gt;LabelProxyAddress.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="btnListFont.Location" type="System.Drawing.Point, System.Drawing">
     <value>331, 21</value>
@@ -3260,9 +2996,6 @@
   </data>
   <data name="Label49.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
-  </data>
-  <data name="Label55.Text" xml:space="preserve">
-    <value>※認証が不要な場合は、ユーザ名とパスワードは空にしてください。</value>
   </data>
   <data name="PlaySnd.Size" type="System.Drawing.Size, System.Drawing">
     <value>113, 16</value>
@@ -3387,9 +3120,6 @@
   <data name="&gt;&gt;Label69.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="LabelProxyUser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 12</value>
-  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>            </value>
   </data>
@@ -3446,9 +3176,6 @@
   </data>
   <data name="lblListFont.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 19</value>
-  </data>
-  <data name="TextProxyUser.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="btnInputBackcolor.ToolTip" xml:space="preserve">
     <value />
@@ -3548,9 +3275,6 @@
   </data>
   <data name="&gt;&gt;Button3.ZOrder" xml:space="preserve">
     <value>7</value>
-  </data>
-  <data name="&gt;&gt;TextProxyUser.Name" xml:space="preserve">
-    <value>TextProxyUser</value>
   </data>
   <data name="&gt;&gt;PreviewPanel.Parent" xml:space="preserve">
     <value>SplitContainer1.Panel2</value>
@@ -3678,9 +3402,6 @@
   <data name="UReadMng.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="RadioProxyIE.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
   <data name="PlaySnd.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -3698,9 +3419,6 @@
   </data>
   <data name="Label57.Size" type="System.Drawing.Size, System.Drawing">
     <value>340, 12</value>
-  </data>
-  <data name="LabelProxyPassword.Size" type="System.Drawing.Size, System.Drawing">
-    <value>69, 12</value>
   </data>
   <data name="GetCountPanel.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -3731,9 +3449,6 @@
   </data>
   <data name="btnRetweet.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
-  </data>
-  <data name="Label55.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="&gt;&gt;btnListBack.ZOrder" xml:space="preserve">
     <value>12</value>
@@ -3766,9 +3481,6 @@
     <value>137, 12</value>
   </data>
   <data name="&gt;&gt;Label22.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label55.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnTarget.Type" xml:space="preserve">
@@ -3804,9 +3516,6 @@
   <data name="lblAtFromTarget.Text" xml:space="preserve">
     <value>This is sample.</value>
   </data>
-  <data name="RadioProxyIE.Size" type="System.Drawing.Size, System.Drawing">
-    <value>190, 16</value>
-  </data>
   <data name="CheckUseSsl.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
@@ -3818,9 +3527,6 @@
   </data>
   <data name="Label61.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
-  </data>
-  <data name="&gt;&gt;RadioProxyIE.ZOrder" xml:space="preserve">
-    <value>4</value>
   </data>
   <data name="Label69.Size" type="System.Drawing.Size, System.Drawing">
     <value>123, 12</value>
@@ -3897,9 +3603,6 @@
   <data name="ButtonBackToDefaultFontColor.Text" xml:space="preserve">
     <value>デフォルトに戻す</value>
   </data>
-  <data name="RadioProxyNone.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="DMPeriod.Location" type="System.Drawing.Point, System.Drawing">
     <value>258, 103</value>
   </data>
@@ -3908,9 +3611,6 @@
   </data>
   <data name="&gt;&gt;ButtonBackToDefaultFontColor2.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="RadioProxyNone.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 19</value>
   </data>
   <data name="&gt;&gt;Label52.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -3930,9 +3630,6 @@
   <data name="TreeViewSetting.Size" type="System.Drawing.Size, System.Drawing">
     <value>168, 368</value>
   </data>
-  <data name="RadioProxySpecified.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 62</value>
-  </data>
   <data name="CheckMinimizeToTray.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -3944,9 +3641,6 @@
   </data>
   <data name="btnAtSelf.Text" xml:space="preserve">
     <value>背景色</value>
-  </data>
-  <data name="LabelProxyPassword.Text" xml:space="preserve">
-    <value>パスワード(&amp;W)</value>
   </data>
   <data name="HotkeyText.ToolTip" xml:space="preserve">
     <value />
@@ -3969,17 +3663,11 @@
   <data name="&gt;&gt;Save.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="TextProxyPort.Location" type="System.Drawing.Point, System.Drawing">
-    <value>309, 82</value>
-  </data>
   <data name="&gt;&gt;btnInputFont.Name" xml:space="preserve">
     <value>btnInputFont</value>
   </data>
   <data name="LabelUserStreamActive.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 261</value>
-  </data>
-  <data name="&gt;&gt;TextProxyPort.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="lblAtTo.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
@@ -3989,9 +3677,6 @@
   </data>
   <data name="&gt;&gt;TweetActPanel.Parent" xml:space="preserve">
     <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="TextProxyPassword.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="Label44.ToolTip" xml:space="preserve">
     <value />
@@ -4047,14 +3732,8 @@
   <data name="&gt;&gt;btnUnread.Name" xml:space="preserve">
     <value>btnUnread</value>
   </data>
-  <data name="LabelProxyPort.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="FontPanel.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
-  </data>
-  <data name="RadioProxyNone.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="&gt;&gt;CheckOpenUserTimeline.ZOrder" xml:space="preserve">
     <value>3</value>
@@ -4122,9 +3801,6 @@
   <data name="Label49.Location" type="System.Drawing.Point, System.Drawing">
     <value>16, 145</value>
   </data>
-  <data name="&gt;&gt;RadioProxyNone.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
   <data name="&gt;&gt;TabMouseLockCheck.Name" xml:space="preserve">
     <value>TabMouseLockCheck</value>
   </data>
@@ -4173,9 +3849,6 @@
   <data name="&gt;&gt;Label61.Name" xml:space="preserve">
     <value>Label61</value>
   </data>
-  <data name="&gt;&gt;TextProxyAddress.Name" xml:space="preserve">
-    <value>TextProxyAddress</value>
-  </data>
   <data name="lblListFont.Text" xml:space="preserve">
     <value>This is sample.</value>
   </data>
@@ -4193,9 +3866,6 @@
   </data>
   <data name="&gt;&gt;lblFav.Name" xml:space="preserve">
     <value>lblFav</value>
-  </data>
-  <data name="&gt;&gt;RadioProxySpecified.Name" xml:space="preserve">
-    <value>RadioProxySpecified</value>
   </data>
   <data name="Label37.Text" xml:space="preserve">
     <value>発言詳細背景色</value>
@@ -4241,9 +3911,6 @@
   </data>
   <data name="&gt;&gt;lblTarget.Name" xml:space="preserve">
     <value>lblTarget</value>
-  </data>
-  <data name="&gt;&gt;RadioProxySpecified.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Save.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -4302,9 +3969,6 @@
   <data name="&gt;&gt;TreeViewSetting.Type" xml:space="preserve">
     <value>System.Windows.Forms.TreeView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="LabelProxyAddress.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="CheckFavRestrict.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -4335,17 +3999,11 @@
   <data name="&gt;&gt;StartupPanel.Parent" xml:space="preserve">
     <value>SplitContainer1.Panel2</value>
   </data>
-  <data name="&gt;&gt;LabelProxyUser.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;ConnectionPanel.ZOrder" xml:space="preserve">
     <value>10</value>
   </data>
   <data name="btnInputBackcolor.TabIndex" type="System.Int32, mscorlib">
     <value>23</value>
-  </data>
-  <data name="LabelProxyPassword.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="ListDoubleClickActionComboBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>232, 20</value>
@@ -4449,17 +4107,11 @@
   <data name="Label37.TabIndex" type="System.Int32, mscorlib">
     <value>21</value>
   </data>
-  <data name="&gt;&gt;RadioProxyNone.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="ConnectionPanel.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
   </data>
   <data name="btnDetailBack.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
-  </data>
-  <data name="TextProxyAddress.Size" type="System.Drawing.Size, System.Drawing">
-    <value>135, 19</value>
   </data>
   <data name="&gt;&gt;lblRetweet.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -4484,9 +4136,6 @@
   </data>
   <data name="&gt;&gt;lblInputBackcolor.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TextProxyUser.Parent" xml:space="preserve">
-    <value>ProxyPanel</value>
   </data>
   <data name="Label46.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 15</value>
@@ -4524,26 +4173,14 @@
   <data name="TreeViewSetting.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="TextProxyAddress.Location" type="System.Drawing.Point, System.Drawing">
-    <value>114, 82</value>
-  </data>
-  <data name="LabelProxyPort.Text" xml:space="preserve">
-    <value>ポート(&amp;P)</value>
-  </data>
   <data name="&gt;&gt;lblOWL.Parent" xml:space="preserve">
     <value>GroupBox1</value>
-  </data>
-  <data name="Label55.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="HotkeyAlt.Size" type="System.Drawing.Size, System.Drawing">
     <value>39, 16</value>
   </data>
   <data name="&gt;&gt;lblInputBackcolor.ZOrder" xml:space="preserve">
     <value>19</value>
-  </data>
-  <data name="TextProxyPort.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Disable</value>
   </data>
   <data name="lblListBackcolor.Text" xml:space="preserve">
     <value>This is sample.</value>

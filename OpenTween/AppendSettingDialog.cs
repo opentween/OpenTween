@@ -372,11 +372,11 @@ namespace OpenTween
                 ViewTabBottom = this.TweetPrvPanel.CheckViewTabBottom.Checked;
                 TinyUrlResolve = this.ShortUrlPanel.CheckTinyURL.Checked;
                 ShortUrl.IsResolve = TinyUrlResolve;
-                if (RadioProxyNone.Checked)
+                if (this.ProxyPanel.RadioProxyNone.Checked)
                 {
                     _MyProxyType = HttpConnection.ProxyType.None;
                 }
-                else if (RadioProxyIE.Checked)
+                else if (this.ProxyPanel.RadioProxyIE.Checked)
                 {
                     _MyProxyType = HttpConnection.ProxyType.IE;
                 }
@@ -384,10 +384,10 @@ namespace OpenTween
                 {
                     _MyProxyType = HttpConnection.ProxyType.Specified;
                 }
-                ProxyAddress = TextProxyAddress.Text.Trim();
-                ProxyPort = int.Parse(TextProxyPort.Text.Trim());
-                ProxyUser = TextProxyUser.Text.Trim();
-                ProxyPassword = TextProxyPassword.Text.Trim();
+                ProxyAddress = this.ProxyPanel.TextProxyAddress.Text.Trim();
+                ProxyPort = int.Parse(this.ProxyPanel.TextProxyPort.Text.Trim());
+                ProxyUser = this.ProxyPanel.TextProxyUser.Text.Trim();
+                ProxyPassword = this.ProxyPanel.TextProxyPassword.Text.Trim();
                 StartupVersion = this.StartupPanel.CheckStartupVersion.Checked;
                 StartupFollowers = this.StartupPanel.CheckStartupFollowers.Checked;
                 RestrictFavCheck = CheckFavRestrict.Checked;
@@ -732,29 +732,29 @@ namespace OpenTween
             switch (_MyProxyType)
             {
                 case HttpConnection.ProxyType.None:
-                    RadioProxyNone.Checked = true;
+                    this.ProxyPanel.RadioProxyNone.Checked = true;
                     break;
                 case HttpConnection.ProxyType.IE:
-                    RadioProxyIE.Checked = true;
+                    this.ProxyPanel.RadioProxyIE.Checked = true;
                     break;
                 default:
-                    RadioProxySpecified.Checked = true;
+                    this.ProxyPanel.RadioProxySpecified.Checked = true;
                     break;
             }
-            bool chk = RadioProxySpecified.Checked;
-            LabelProxyAddress.Enabled = chk;
-            TextProxyAddress.Enabled = chk;
-            LabelProxyPort.Enabled = chk;
-            TextProxyPort.Enabled = chk;
-            LabelProxyUser.Enabled = chk;
-            TextProxyUser.Enabled = chk;
-            LabelProxyPassword.Enabled = chk;
-            TextProxyPassword.Enabled = chk;
+            bool chk = this.ProxyPanel.RadioProxySpecified.Checked;
+            this.ProxyPanel.LabelProxyAddress.Enabled = chk;
+            this.ProxyPanel.TextProxyAddress.Enabled = chk;
+            this.ProxyPanel.LabelProxyPort.Enabled = chk;
+            this.ProxyPanel.TextProxyPort.Enabled = chk;
+            this.ProxyPanel.LabelProxyUser.Enabled = chk;
+            this.ProxyPanel.TextProxyUser.Enabled = chk;
+            this.ProxyPanel.LabelProxyPassword.Enabled = chk;
+            this.ProxyPanel.TextProxyPassword.Enabled = chk;
 
-            TextProxyAddress.Text = ProxyAddress;
-            TextProxyPort.Text = ProxyPort.ToString();
-            TextProxyUser.Text = ProxyUser;
-            TextProxyPassword.Text = ProxyPassword;
+            this.ProxyPanel.TextProxyAddress.Text = ProxyAddress;
+            this.ProxyPanel.TextProxyPort.Text = ProxyPort.ToString();
+            this.ProxyPanel.TextProxyUser.Text = ProxyUser;
+            this.ProxyPanel.TextProxyPassword.Text = ProxyPassword;
 
             this.StartupPanel.CheckStartupVersion.Checked = StartupVersion;
             if (ApplicationSettings.VersionInfoUrl == null)
@@ -1381,37 +1381,6 @@ namespace OpenTween
             }
         }
 
-        private void RadioProxySpecified_CheckedChanged(object sender, EventArgs e)
-        {
-            bool chk = RadioProxySpecified.Checked;
-            LabelProxyAddress.Enabled = chk;
-            TextProxyAddress.Enabled = chk;
-            LabelProxyPort.Enabled = chk;
-            TextProxyPort.Enabled = chk;
-            LabelProxyUser.Enabled = chk;
-            TextProxyUser.Enabled = chk;
-            LabelProxyPassword.Enabled = chk;
-            TextProxyPassword.Enabled = chk;
-        }
-
-        private void TextProxyPort_Validating(object sender, CancelEventArgs e)
-        {
-            int port;
-            if (string.IsNullOrWhiteSpace(TextProxyPort.Text)) TextProxyPort.Text = "0";
-            if (int.TryParse(TextProxyPort.Text.Trim(), out port) == false)
-            {
-                MessageBox.Show(Properties.Resources.TextProxyPort_ValidatingText1);
-                e.Cancel = true;
-                return;
-            }
-            if (port < 0 || port > 65535)
-            {
-                MessageBox.Show(Properties.Resources.TextProxyPort_ValidatingText2);
-                e.Cancel = true;
-                return;
-            }
-        }
-
         private void ConnectionTimeOut_Validating(object sender, CancelEventArgs e)
         {
             int tm;
@@ -1525,11 +1494,11 @@ namespace OpenTween
         {
             //現在の設定内容で通信
             HttpConnection.ProxyType ptype;
-            if (RadioProxyNone.Checked)
+            if (this.ProxyPanel.RadioProxyNone.Checked)
             {
                 ptype = HttpConnection.ProxyType.None;
             }
-            else if (RadioProxyIE.Checked)
+            else if (this.ProxyPanel.RadioProxyIE.Checked)
             {
                 ptype = HttpConnection.ProxyType.IE;
             }
@@ -1537,10 +1506,10 @@ namespace OpenTween
             {
                 ptype = HttpConnection.ProxyType.Specified;
             }
-            string padr = TextProxyAddress.Text.Trim();
-            int pport = int.Parse(TextProxyPort.Text.Trim());
-            string pusr = TextProxyUser.Text.Trim();
-            string ppw = TextProxyPassword.Text.Trim();
+            string padr = this.ProxyPanel.TextProxyAddress.Text.Trim();
+            int pport = int.Parse(this.ProxyPanel.TextProxyPort.Text.Trim());
+            string pusr = this.ProxyPanel.TextProxyUser.Text.Trim();
+            string ppw = this.ProxyPanel.TextProxyPassword.Text.Trim();
 
             //通信基底クラス初期化
             HttpConnection.InitializeConnection(20, ptype, padr, pport, pusr, ppw);
