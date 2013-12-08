@@ -211,60 +211,6 @@
 </value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="Label25.Size" type="System.Drawing.Size, System.Drawing">
-    <value>30, 12</value>
-  </data>
-  <data name="Label25.Text" xml:space="preserve">
-    <value>Lists</value>
-  </data>
-  <data name="Label17.Size" type="System.Drawing.Size, System.Drawing">
-    <value>72, 12</value>
-  </data>
-  <data name="Label17.Text" xml:space="preserve">
-    <value>UserTimeline</value>
-  </data>
-  <data name="Label30.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 12</value>
-  </data>
-  <data name="Label30.Text" xml:space="preserve">
-    <value>Public Search</value>
-  </data>
-  <data name="Label28.Size" type="System.Drawing.Size, System.Drawing">
-    <value>105, 12</value>
-  </data>
-  <data name="Label28.Text" xml:space="preserve">
-    <value>Timeline at starting</value>
-  </data>
-  <data name="Label19.Size" type="System.Drawing.Size, System.Drawing">
-    <value>51, 12</value>
-  </data>
-  <data name="Label19.Text" xml:space="preserve">
-    <value>Mentions</value>
-  </data>
-  <data name="Label66.Size" type="System.Drawing.Size, System.Drawing">
-    <value>53, 12</value>
-  </data>
-  <data name="Label66.Text" xml:space="preserve">
-    <value>Favorites</value>
-  </data>
-  <data name="Label53.Size" type="System.Drawing.Size, System.Drawing">
-    <value>52, 12</value>
-  </data>
-  <data name="Label53.Text" xml:space="preserve">
-    <value>Get more</value>
-  </data>
-  <data name="UseChangeGetCount.Size" type="System.Drawing.Size, System.Drawing">
-    <value>233, 16</value>
-  </data>
-  <data name="UseChangeGetCount.Text" xml:space="preserve">
-    <value>Enable to edit fetching number of tweets</value>
-  </data>
-  <data name="Label67.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 12</value>
-  </data>
-  <data name="Label67.Text" xml:space="preserve">
-    <value>Fetching number of tweets in timeline</value>
-  </data>
   <data name="ShortenTcoCheck.Size" type="System.Drawing.Size, System.Drawing">
     <value>91, 16</value>
   </data>

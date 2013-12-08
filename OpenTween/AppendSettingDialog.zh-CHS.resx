@@ -250,54 +250,6 @@
   <data name="Label59.Text" xml:space="preserve">
     <value>复活咒语</value>
   </data>
-  <data name="Label25.Size" type="System.Drawing.Size, System.Drawing">
-    <value>101, 12</value>
-  </data>
-  <data name="Label25.Text" xml:space="preserve">
-    <value>消息栏的头像图标</value>
-  </data>
-  <data name="Label17.Size" type="System.Drawing.Size, System.Drawing">
-    <value>157, 12</value>
-  </data>
-  <data name="Label17.Text" xml:space="preserve">
-    <value>未读文本样式(字体和颜色上)</value>
-  </data>
-  <data name="Label30.Size" type="System.Drawing.Size, System.Drawing">
-    <value>97, 12</value>
-  </data>
-  <data name="Label30.Text" xml:space="preserve">
-    <value>@给选中人的消息</value>
-  </data>
-  <data name="Label28.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 12</value>
-  </data>
-  <data name="Label28.Text" xml:space="preserve">
-    <value>先中消息所@人的其它消息</value>
-  </data>
-  <data name="Label19.Size" type="System.Drawing.Size, System.Drawing">
-    <value>53, 12</value>
-  </data>
-  <data name="Label19.Text" xml:space="preserve">
-    <value>普通消息</value>
-  </data>
-  <data name="Label66.Size" type="System.Drawing.Size, System.Drawing">
-    <value>171, 12</value>
-  </data>
-  <data name="Label66.Text" xml:space="preserve">
-    <value>Favorites/PublicSearchの取得数</value>
-  </data>
-  <data name="Label53.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 12</value>
-  </data>
-  <data name="Label53.Text" xml:space="preserve">
-    <value>前データの更新/初回の更新</value>
-  </data>
-  <data name="Label67.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 12</value>
-  </data>
-  <data name="Label67.Text" xml:space="preserve">
-    <value>默认读取推数/回复读取数</value>
-  </data>
   <data name="CheckTinyURL.Size" type="System.Drawing.Size, System.Drawing">
     <value>48, 16</value>
   </data>

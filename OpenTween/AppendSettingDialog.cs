@@ -333,8 +333,8 @@ namespace OpenTween
                         PostShiftEnter = false;
                         break;
                 }
-                CountApi = int.Parse(TextCountApi.Text);
-                CountApiReply = int.Parse(TextCountApiReply.Text);
+                CountApi = int.Parse(this.GetCountPanel.TextCountApi.Text);
+                CountApiReply = int.Parse(this.GetCountPanel.TextCountApiReply.Text);
                 BrowserPath = BrowserPathText.Text.Trim();
                 PostAndGet = CheckPostAndGet.Checked;
                 UseRecommendStatus = this.TweetActPanel.CheckUseRecommendStatus.Checked;
@@ -472,13 +472,13 @@ namespace OpenTween
                 int.TryParse(HotkeyCode.Text, out HotkeyValue);
                 HotkeyKey = (Keys)HotkeyText.Tag;
                 BlinkNewMentions = this.PreviewPanel.ChkNewMentionsBlink.Checked;
-                UseAdditionalCount = UseChangeGetCount.Checked;
-                MoreCountApi = int.Parse(GetMoreTextCountApi.Text);
-                FirstCountApi = int.Parse(FirstTextCountApi.Text);
-                SearchCountApi = int.Parse(SearchTextCountApi.Text);
-                FavoritesCountApi = int.Parse(FavoritesTextCountApi.Text);
-                UserTimelineCountApi = int.Parse(UserTimelineTextCountApi.Text);
-                ListCountApi = int.Parse(ListTextCountApi.Text);
+                UseAdditionalCount = this.GetCountPanel.UseChangeGetCount.Checked;
+                MoreCountApi = int.Parse(this.GetCountPanel.GetMoreTextCountApi.Text);
+                FirstCountApi = int.Parse(this.GetCountPanel.FirstTextCountApi.Text);
+                SearchCountApi = int.Parse(this.GetCountPanel.SearchTextCountApi.Text);
+                FavoritesCountApi = int.Parse(this.GetCountPanel.FavoritesTextCountApi.Text);
+                UserTimelineCountApi = int.Parse(this.GetCountPanel.UserTimelineTextCountApi.Text);
+                ListCountApi = int.Parse(this.GetCountPanel.ListTextCountApi.Text);
                 OpenUserTimeline = CheckOpenUserTimeline.Checked;
                 ListDoubleClickAction = ListDoubleClickActionComboBox.SelectedIndex;
                 UserAppointUrl = UserAppointUrlText.Text;
@@ -697,8 +697,8 @@ namespace OpenTween
                 this.TweetActPanel.ComboBoxPostKeySelect.SelectedIndex = 0;
             }
 
-            TextCountApi.Text = CountApi.ToString();
-            TextCountApiReply.Text = CountApiReply.ToString();
+            this.GetCountPanel.TextCountApi.Text = CountApi.ToString();
+            this.GetCountPanel.TextCountApiReply.Text = CountApiReply.ToString();
             BrowserPathText.Text = BrowserPath;
             CheckPostAndGet.Checked = PostAndGet;
             this.TweetActPanel.CheckUseRecommendStatus.Checked = UseRecommendStatus;
@@ -860,25 +860,25 @@ namespace OpenTween
 
             CheckOutputz_CheckedChanged(sender, e);
 
-            GetMoreTextCountApi.Text = MoreCountApi.ToString();
-            FirstTextCountApi.Text = FirstCountApi.ToString();
-            SearchTextCountApi.Text = SearchCountApi.ToString();
-            FavoritesTextCountApi.Text = FavoritesCountApi.ToString();
-            UserTimelineTextCountApi.Text = UserTimelineCountApi.ToString();
-            ListTextCountApi.Text = ListCountApi.ToString();
-            UseChangeGetCount.Checked = UseAdditionalCount;
-            Label28.Enabled = UseChangeGetCount.Checked;
-            Label30.Enabled = UseChangeGetCount.Checked;
-            Label53.Enabled = UseChangeGetCount.Checked;
-            Label66.Enabled = UseChangeGetCount.Checked;
-            Label17.Enabled = UseChangeGetCount.Checked;
-            Label25.Enabled = UseChangeGetCount.Checked;
-            GetMoreTextCountApi.Enabled = UseChangeGetCount.Checked;
-            FirstTextCountApi.Enabled = UseChangeGetCount.Checked;
-            SearchTextCountApi.Enabled = UseChangeGetCount.Checked;
-            FavoritesTextCountApi.Enabled = UseChangeGetCount.Checked;
-            UserTimelineTextCountApi.Enabled = UseChangeGetCount.Checked;
-            ListTextCountApi.Enabled = UseChangeGetCount.Checked;
+            this.GetCountPanel.GetMoreTextCountApi.Text = MoreCountApi.ToString();
+            this.GetCountPanel.FirstTextCountApi.Text = FirstCountApi.ToString();
+            this.GetCountPanel.SearchTextCountApi.Text = SearchCountApi.ToString();
+            this.GetCountPanel.FavoritesTextCountApi.Text = FavoritesCountApi.ToString();
+            this.GetCountPanel.UserTimelineTextCountApi.Text = UserTimelineCountApi.ToString();
+            this.GetCountPanel.ListTextCountApi.Text = ListCountApi.ToString();
+            this.GetCountPanel.UseChangeGetCount.Checked = UseAdditionalCount;
+            this.GetCountPanel.Label28.Enabled = this.GetCountPanel.UseChangeGetCount.Checked;
+            this.GetCountPanel.Label30.Enabled = this.GetCountPanel.UseChangeGetCount.Checked;
+            this.GetCountPanel.Label53.Enabled = this.GetCountPanel.UseChangeGetCount.Checked;
+            this.GetCountPanel.Label66.Enabled = this.GetCountPanel.UseChangeGetCount.Checked;
+            this.GetCountPanel.Label17.Enabled = this.GetCountPanel.UseChangeGetCount.Checked;
+            this.GetCountPanel.Label25.Enabled = this.GetCountPanel.UseChangeGetCount.Checked;
+            this.GetCountPanel.GetMoreTextCountApi.Enabled = this.GetCountPanel.UseChangeGetCount.Checked;
+            this.GetCountPanel.FirstTextCountApi.Enabled = this.GetCountPanel.UseChangeGetCount.Checked;
+            this.GetCountPanel.SearchTextCountApi.Enabled = this.GetCountPanel.UseChangeGetCount.Checked;
+            this.GetCountPanel.FavoritesTextCountApi.Enabled = this.GetCountPanel.UseChangeGetCount.Checked;
+            this.GetCountPanel.UserTimelineTextCountApi.Enabled = this.GetCountPanel.UseChangeGetCount.Checked;
+            this.GetCountPanel.ListTextCountApi.Enabled = this.GetCountPanel.UseChangeGetCount.Checked;
             CheckOpenUserTimeline.Checked = OpenUserTimeline;
             ListDoubleClickActionComboBox.SelectedIndex = ListDoubleClickAction;
             UserAppointUrlText.Text = UserAppointUrl;
@@ -1508,50 +1508,6 @@ namespace OpenTween
             CreateDateTimeFormatSample();
         }
 
-        private void TextCountApi_Validating(object sender, CancelEventArgs e)
-        {
-            int cnt;
-            try
-            {
-                cnt = int.Parse(TextCountApi.Text);
-            }
-            catch(Exception)
-            {
-                MessageBox.Show(Properties.Resources.TextCountApi_Validating1);
-                e.Cancel = true;
-                return;
-            }
-
-            if (cnt < 20 || cnt > 200)
-            {
-                MessageBox.Show(Properties.Resources.TextCountApi_Validating1);
-                e.Cancel = true;
-                return;
-            }
-        }
-
-        private void TextCountApiReply_Validating(object sender, CancelEventArgs e)
-        {
-            int cnt;
-            try
-            {
-                cnt = int.Parse(TextCountApiReply.Text);
-            }
-            catch(Exception)
-            {
-                MessageBox.Show(Properties.Resources.TextCountApi_Validating1);
-                e.Cancel = true;
-                return;
-            }
-
-            if (cnt < 20 || cnt > 200)
-            {
-                MessageBox.Show(Properties.Resources.TextCountApi_Validating1);
-                e.Cancel = true;
-                return;
-            }
-        }
-
         public bool LimitBalloon { get; set; }
         public bool EventNotifyEnabled { get; set; }
 
@@ -1884,154 +1840,6 @@ namespace OpenTween
         }
 
         public bool BlinkNewMentions;
-
-        private void GetMoreTextCountApi_Validating(object sender, CancelEventArgs e)
-        {
-            int cnt;
-            try
-            {
-                cnt = int.Parse(GetMoreTextCountApi.Text);
-            }
-            catch(Exception)
-            {
-                MessageBox.Show(Properties.Resources.TextCountApi_Validating1);
-                e.Cancel = true;
-                return;
-            }
-
-            if (cnt != 0 && (cnt < 20 || cnt > 200))
-            {
-                MessageBox.Show(Properties.Resources.TextCountApi_Validating1);
-                e.Cancel = true;
-                return;
-            }
-        }
-
-        private void UseChangeGetCount_CheckedChanged(object sender, EventArgs e)
-        {
-            GetMoreTextCountApi.Enabled = UseChangeGetCount.Checked;
-            FirstTextCountApi.Enabled = UseChangeGetCount.Checked;
-            Label28.Enabled = UseChangeGetCount.Checked;
-            Label30.Enabled = UseChangeGetCount.Checked;
-            Label53.Enabled = UseChangeGetCount.Checked;
-            Label66.Enabled = UseChangeGetCount.Checked;
-            Label17.Enabled = UseChangeGetCount.Checked;
-            Label25.Enabled = UseChangeGetCount.Checked;
-            SearchTextCountApi.Enabled = UseChangeGetCount.Checked;
-            FavoritesTextCountApi.Enabled = UseChangeGetCount.Checked;
-            UserTimelineTextCountApi.Enabled = UseChangeGetCount.Checked;
-            ListTextCountApi.Enabled = UseChangeGetCount.Checked;
-        }
-
-        private void FirstTextCountApi_Validating(object sender, CancelEventArgs e)
-        {
-            int cnt;
-            try
-            {
-                cnt = int.Parse(FirstTextCountApi.Text);
-            }
-            catch(Exception)
-            {
-                MessageBox.Show(Properties.Resources.TextCountApi_Validating1);
-                e.Cancel = true;
-                return;
-            }
-
-            if (cnt != 0 && (cnt < 20 || cnt > 200))
-            {
-                MessageBox.Show(Properties.Resources.TextCountApi_Validating1);
-                e.Cancel = true;
-                return;
-            }
-        }
-
-        private void SearchTextCountApi_Validating(object sender, CancelEventArgs e)
-        {
-            int cnt;
-            try
-            {
-                cnt = int.Parse(SearchTextCountApi.Text);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show(Properties.Resources.TextSearchCountApi_Validating1);
-                e.Cancel = true;
-                return;
-            }
-
-            if (cnt != 0 && (cnt < 20 || cnt > 100))
-            {
-                MessageBox.Show(Properties.Resources.TextSearchCountApi_Validating1);
-                e.Cancel = true;
-                return;
-            }
-        }
-
-        private void FavoritesTextCountApi_Validating(object sender, CancelEventArgs e)
-        {
-            int cnt;
-            try
-            {
-                cnt = int.Parse(FavoritesTextCountApi.Text);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show(Properties.Resources.TextCountApi_Validating1);
-                e.Cancel = true;
-                return;
-            }
-
-            if (cnt != 0 && (cnt < 20 || cnt > 200))
-            {
-                MessageBox.Show(Properties.Resources.TextCountApi_Validating1);
-                e.Cancel = true;
-                return;
-            }
-        }
-
-        private void UserTimelineTextCountApi_Validating(object sender, CancelEventArgs e)
-        {
-            int cnt;
-            try
-            {
-                cnt = int.Parse(UserTimelineTextCountApi.Text);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show(Properties.Resources.TextCountApi_Validating1);
-                e.Cancel = true;
-                return;
-            }
-
-            if (cnt != 0 && (cnt < 20 || cnt > 200))
-            {
-                MessageBox.Show(Properties.Resources.TextCountApi_Validating1);
-                e.Cancel = true;
-                return;
-            }
-        }
-
-        private void ListTextCountApi_Validating(object sender, CancelEventArgs e)
-        {
-            int cnt;
-            try
-            {
-                cnt = int.Parse(ListTextCountApi.Text);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show(Properties.Resources.TextCountApi_Validating1);
-                e.Cancel = true;
-                return;
-            }
-
-            if (cnt != 0 && (cnt < 20 || cnt > 200))
-            {
-                MessageBox.Show(Properties.Resources.TextCountApi_Validating1);
-                e.Cancel = true;
-                return;
-            }
-        }
 
         //private void CheckEventNotify_CheckedChanged(object sender, EventArgs e)
         //                Handles CheckEventNotify.CheckedChanged, CheckFavoritesEvent.CheckStateChanged,

@@ -35,24 +35,7 @@
             this.StartupPanel = new OpenTween.Setting.Panel.StartupPanel();
             this.PreviewPanel = new OpenTween.Setting.Panel.PreviewPanel();
             this.TweetActPanel = new OpenTween.Setting.Panel.TweetActPanel();
-            this.GetCountPanel = new System.Windows.Forms.Panel();
-            this.ListTextCountApi = new System.Windows.Forms.TextBox();
-            this.Label25 = new System.Windows.Forms.Label();
-            this.UserTimelineTextCountApi = new System.Windows.Forms.TextBox();
-            this.Label17 = new System.Windows.Forms.Label();
-            this.Label30 = new System.Windows.Forms.Label();
-            this.Label28 = new System.Windows.Forms.Label();
-            this.Label19 = new System.Windows.Forms.Label();
-            this.FavoritesTextCountApi = new System.Windows.Forms.TextBox();
-            this.SearchTextCountApi = new System.Windows.Forms.TextBox();
-            this.Label66 = new System.Windows.Forms.Label();
-            this.FirstTextCountApi = new System.Windows.Forms.TextBox();
-            this.GetMoreTextCountApi = new System.Windows.Forms.TextBox();
-            this.Label53 = new System.Windows.Forms.Label();
-            this.UseChangeGetCount = new System.Windows.Forms.CheckBox();
-            this.TextCountApiReply = new System.Windows.Forms.TextBox();
-            this.Label67 = new System.Windows.Forms.Label();
-            this.TextCountApi = new System.Windows.Forms.TextBox();
+            this.GetCountPanel = new OpenTween.Setting.Panel.GetCountPanel();
             this.ShortUrlPanel = new System.Windows.Forms.Panel();
             this.ShortenTcoCheck = new System.Windows.Forms.CheckBox();
             this.CheckTinyURL = new System.Windows.Forms.CheckBox();
@@ -257,7 +240,6 @@
             this.SplitContainer1.Panel1.SuspendLayout();
             this.SplitContainer1.Panel2.SuspendLayout();
             this.SplitContainer1.SuspendLayout();
-            this.GetCountPanel.SuspendLayout();
             this.ShortUrlPanel.SuspendLayout();
             this.BasedPanel.SuspendLayout();
             this.GroupBox2.SuspendLayout();
@@ -348,137 +330,8 @@
             // GetCountPanel
             // 
             resources.ApplyResources(this.GetCountPanel, "GetCountPanel");
-            this.GetCountPanel.Controls.Add(this.ListTextCountApi);
-            this.GetCountPanel.Controls.Add(this.Label25);
-            this.GetCountPanel.Controls.Add(this.UserTimelineTextCountApi);
-            this.GetCountPanel.Controls.Add(this.Label17);
-            this.GetCountPanel.Controls.Add(this.Label30);
-            this.GetCountPanel.Controls.Add(this.Label28);
-            this.GetCountPanel.Controls.Add(this.Label19);
-            this.GetCountPanel.Controls.Add(this.FavoritesTextCountApi);
-            this.GetCountPanel.Controls.Add(this.SearchTextCountApi);
-            this.GetCountPanel.Controls.Add(this.Label66);
-            this.GetCountPanel.Controls.Add(this.FirstTextCountApi);
-            this.GetCountPanel.Controls.Add(this.GetMoreTextCountApi);
-            this.GetCountPanel.Controls.Add(this.Label53);
-            this.GetCountPanel.Controls.Add(this.UseChangeGetCount);
-            this.GetCountPanel.Controls.Add(this.TextCountApiReply);
-            this.GetCountPanel.Controls.Add(this.Label67);
-            this.GetCountPanel.Controls.Add(this.TextCountApi);
             this.GetCountPanel.Name = "GetCountPanel";
             this.ToolTip1.SetToolTip(this.GetCountPanel, resources.GetString("GetCountPanel.ToolTip"));
-            // 
-            // ListTextCountApi
-            // 
-            resources.ApplyResources(this.ListTextCountApi, "ListTextCountApi");
-            this.ListTextCountApi.Name = "ListTextCountApi";
-            this.ToolTip1.SetToolTip(this.ListTextCountApi, resources.GetString("ListTextCountApi.ToolTip"));
-            this.ListTextCountApi.Validating += new System.ComponentModel.CancelEventHandler(this.ListTextCountApi_Validating);
-            // 
-            // Label25
-            // 
-            resources.ApplyResources(this.Label25, "Label25");
-            this.Label25.Name = "Label25";
-            this.ToolTip1.SetToolTip(this.Label25, resources.GetString("Label25.ToolTip"));
-            // 
-            // UserTimelineTextCountApi
-            // 
-            resources.ApplyResources(this.UserTimelineTextCountApi, "UserTimelineTextCountApi");
-            this.UserTimelineTextCountApi.Name = "UserTimelineTextCountApi";
-            this.ToolTip1.SetToolTip(this.UserTimelineTextCountApi, resources.GetString("UserTimelineTextCountApi.ToolTip"));
-            this.UserTimelineTextCountApi.Validating += new System.ComponentModel.CancelEventHandler(this.UserTimelineTextCountApi_Validating);
-            // 
-            // Label17
-            // 
-            resources.ApplyResources(this.Label17, "Label17");
-            this.Label17.Name = "Label17";
-            this.ToolTip1.SetToolTip(this.Label17, resources.GetString("Label17.ToolTip"));
-            // 
-            // Label30
-            // 
-            resources.ApplyResources(this.Label30, "Label30");
-            this.Label30.Name = "Label30";
-            this.ToolTip1.SetToolTip(this.Label30, resources.GetString("Label30.ToolTip"));
-            // 
-            // Label28
-            // 
-            resources.ApplyResources(this.Label28, "Label28");
-            this.Label28.Name = "Label28";
-            this.ToolTip1.SetToolTip(this.Label28, resources.GetString("Label28.ToolTip"));
-            // 
-            // Label19
-            // 
-            resources.ApplyResources(this.Label19, "Label19");
-            this.Label19.Name = "Label19";
-            this.ToolTip1.SetToolTip(this.Label19, resources.GetString("Label19.ToolTip"));
-            // 
-            // FavoritesTextCountApi
-            // 
-            resources.ApplyResources(this.FavoritesTextCountApi, "FavoritesTextCountApi");
-            this.FavoritesTextCountApi.Name = "FavoritesTextCountApi";
-            this.ToolTip1.SetToolTip(this.FavoritesTextCountApi, resources.GetString("FavoritesTextCountApi.ToolTip"));
-            this.FavoritesTextCountApi.Validating += new System.ComponentModel.CancelEventHandler(this.FavoritesTextCountApi_Validating);
-            // 
-            // SearchTextCountApi
-            // 
-            resources.ApplyResources(this.SearchTextCountApi, "SearchTextCountApi");
-            this.SearchTextCountApi.Name = "SearchTextCountApi";
-            this.ToolTip1.SetToolTip(this.SearchTextCountApi, resources.GetString("SearchTextCountApi.ToolTip"));
-            this.SearchTextCountApi.Validating += new System.ComponentModel.CancelEventHandler(this.SearchTextCountApi_Validating);
-            // 
-            // Label66
-            // 
-            resources.ApplyResources(this.Label66, "Label66");
-            this.Label66.Name = "Label66";
-            this.ToolTip1.SetToolTip(this.Label66, resources.GetString("Label66.ToolTip"));
-            // 
-            // FirstTextCountApi
-            // 
-            resources.ApplyResources(this.FirstTextCountApi, "FirstTextCountApi");
-            this.FirstTextCountApi.Name = "FirstTextCountApi";
-            this.ToolTip1.SetToolTip(this.FirstTextCountApi, resources.GetString("FirstTextCountApi.ToolTip"));
-            this.FirstTextCountApi.Validating += new System.ComponentModel.CancelEventHandler(this.FirstTextCountApi_Validating);
-            // 
-            // GetMoreTextCountApi
-            // 
-            resources.ApplyResources(this.GetMoreTextCountApi, "GetMoreTextCountApi");
-            this.GetMoreTextCountApi.Name = "GetMoreTextCountApi";
-            this.ToolTip1.SetToolTip(this.GetMoreTextCountApi, resources.GetString("GetMoreTextCountApi.ToolTip"));
-            this.GetMoreTextCountApi.Validating += new System.ComponentModel.CancelEventHandler(this.GetMoreTextCountApi_Validating);
-            // 
-            // Label53
-            // 
-            resources.ApplyResources(this.Label53, "Label53");
-            this.Label53.Name = "Label53";
-            this.ToolTip1.SetToolTip(this.Label53, resources.GetString("Label53.ToolTip"));
-            // 
-            // UseChangeGetCount
-            // 
-            resources.ApplyResources(this.UseChangeGetCount, "UseChangeGetCount");
-            this.UseChangeGetCount.Name = "UseChangeGetCount";
-            this.ToolTip1.SetToolTip(this.UseChangeGetCount, resources.GetString("UseChangeGetCount.ToolTip"));
-            this.UseChangeGetCount.UseVisualStyleBackColor = true;
-            this.UseChangeGetCount.CheckedChanged += new System.EventHandler(this.UseChangeGetCount_CheckedChanged);
-            // 
-            // TextCountApiReply
-            // 
-            resources.ApplyResources(this.TextCountApiReply, "TextCountApiReply");
-            this.TextCountApiReply.Name = "TextCountApiReply";
-            this.ToolTip1.SetToolTip(this.TextCountApiReply, resources.GetString("TextCountApiReply.ToolTip"));
-            this.TextCountApiReply.Validating += new System.ComponentModel.CancelEventHandler(this.TextCountApiReply_Validating);
-            // 
-            // Label67
-            // 
-            resources.ApplyResources(this.Label67, "Label67");
-            this.Label67.Name = "Label67";
-            this.ToolTip1.SetToolTip(this.Label67, resources.GetString("Label67.ToolTip"));
-            // 
-            // TextCountApi
-            // 
-            resources.ApplyResources(this.TextCountApi, "TextCountApi");
-            this.TextCountApi.Name = "TextCountApi";
-            this.ToolTip1.SetToolTip(this.TextCountApi, resources.GetString("TextCountApi.ToolTip"));
-            this.TextCountApi.Validating += new System.ComponentModel.CancelEventHandler(this.TextCountApi_Validating);
             // 
             // ShortUrlPanel
             // 
@@ -2242,8 +2095,6 @@
             this.SplitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer1)).EndInit();
             this.SplitContainer1.ResumeLayout(false);
-            this.GetCountPanel.ResumeLayout(false);
-            this.GetCountPanel.PerformLayout();
             this.ShortUrlPanel.ResumeLayout(false);
             this.ShortUrlPanel.PerformLayout();
             this.BasedPanel.ResumeLayout(false);
@@ -2292,24 +2143,7 @@
         private Setting.Panel.PreviewPanel PreviewPanel;
         internal System.Windows.Forms.ToolTip ToolTip1;
         private Setting.Panel.TweetActPanel TweetActPanel;
-        internal System.Windows.Forms.Panel GetCountPanel;
-        internal System.Windows.Forms.TextBox ListTextCountApi;
-        internal System.Windows.Forms.Label Label25;
-        internal System.Windows.Forms.TextBox UserTimelineTextCountApi;
-        internal System.Windows.Forms.Label Label17;
-        internal System.Windows.Forms.Label Label30;
-        internal System.Windows.Forms.Label Label28;
-        internal System.Windows.Forms.Label Label19;
-        internal System.Windows.Forms.TextBox FavoritesTextCountApi;
-        internal System.Windows.Forms.TextBox SearchTextCountApi;
-        internal System.Windows.Forms.Label Label66;
-        internal System.Windows.Forms.TextBox FirstTextCountApi;
-        internal System.Windows.Forms.TextBox GetMoreTextCountApi;
-        internal System.Windows.Forms.Label Label53;
-        internal System.Windows.Forms.CheckBox UseChangeGetCount;
-        internal System.Windows.Forms.TextBox TextCountApiReply;
-        internal System.Windows.Forms.Label Label67;
-        internal System.Windows.Forms.TextBox TextCountApi;
+        private Setting.Panel.GetCountPanel GetCountPanel;
         internal System.Windows.Forms.Panel ShortUrlPanel;
         internal System.Windows.Forms.CheckBox ShortenTcoCheck;
         internal System.Windows.Forms.CheckBox CheckTinyURL;

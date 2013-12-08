@@ -144,9 +144,6 @@
   <data name="PreviewPanel.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="&gt;&gt;TextCountApi.ZOrder" xml:space="preserve">
-    <value>16</value>
-  </data>
   <data name="UReadMng.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 16</value>
   </data>
@@ -201,9 +198,6 @@
   <data name="ComboBoxTranslateLanguage.Items22" xml:space="preserve">
     <value>Chinese (Taiwan)</value>
   </data>
-  <data name="Label67.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="&gt;&gt;RadioProxyNone.Parent" xml:space="preserve">
     <value>ProxyPanel</value>
   </data>
@@ -212,9 +206,6 @@
   </data>
   <data name="&gt;&gt;Label15.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;SearchTextCountApi.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;StartAuthButton.Name" xml:space="preserve">
     <value>StartAuthButton</value>
@@ -230,9 +221,6 @@
   </data>
   <data name="&gt;&gt;TextProxyPort.ZOrder" xml:space="preserve">
     <value>9</value>
-  </data>
-  <data name="&gt;&gt;ListTextCountApi.Name" xml:space="preserve">
-    <value>ListTextCountApi</value>
   </data>
   <data name="CheckShowGrid.Size" type="System.Drawing.Size, System.Drawing">
     <value>154, 16</value>
@@ -393,17 +381,11 @@
   <data name="ShortenTcoCheck.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="Label67.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="GetPeriodPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
   <data name="btnDetail.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="Label53.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
   </data>
   <data name="btnListBack.Location" type="System.Drawing.Point, System.Drawing">
     <value>339, 165</value>
@@ -440,9 +422,6 @@
   </data>
   <data name="BasedPanel.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
-  </data>
-  <data name="&gt;&gt;UseChangeGetCount.Name" xml:space="preserve">
-    <value>UseChangeGetCount</value>
   </data>
   <data name="&gt;&gt;chkReadOwnPost.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -533,9 +512,6 @@
   </data>
   <data name="CmbDateTimeFormat.Items1" xml:space="preserve">
     <value>yy/M/d H:mm:ss</value>
-  </data>
-  <data name="&gt;&gt;Label17.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="TextBoxOutputzKey.ToolTip" xml:space="preserve">
     <value />
@@ -635,9 +611,6 @@
   <data name="&gt;&gt;SplitContainer1.Panel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;TextCountApi.Parent" xml:space="preserve">
-    <value>GetCountPanel</value>
-  </data>
   <data name="Label18.Location" type="System.Drawing.Point, System.Drawing">
     <value>8, 173</value>
   </data>
@@ -680,9 +653,6 @@
   <data name="TextProxyPassword.Size" type="System.Drawing.Size, System.Drawing">
     <value>96, 19</value>
   </data>
-  <data name="TextCountApiReply.Location" type="System.Drawing.Point, System.Drawing">
-    <value>308, 51</value>
-  </data>
   <data name="&gt;&gt;RadioProxyIE.Parent" xml:space="preserve">
     <value>ProxyPanel</value>
   </data>
@@ -701,9 +671,6 @@
   <data name="Label77.Location" type="System.Drawing.Point, System.Drawing">
     <value>366, 164</value>
   </data>
-  <data name="FirstTextCountApi.Location" type="System.Drawing.Point, System.Drawing">
-    <value>308, 135</value>
-  </data>
   <data name="lblInputFont.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -715,9 +682,6 @@
   </data>
   <data name="Label34.Text" xml:space="preserve">
     <value>自分への@返信</value>
-  </data>
-  <data name="TextCountApiReply.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
   </data>
   <data name="&gt;&gt;Label40.Name" xml:space="preserve">
     <value>Label40</value>
@@ -731,9 +695,6 @@
   <data name="&gt;&gt;CheckUserUpdateEvent.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Label30.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="ComboBoxAutoShortUrlFirst.Items1" xml:space="preserve">
     <value>is.gd</value>
   </data>
@@ -742,9 +703,6 @@
   </data>
   <data name="Label37.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="Label28.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
   </data>
   <data name="Label40.Text" xml:space="preserve">
     <value>サムネイルサイズ</value>
@@ -787,9 +745,6 @@
   </data>
   <data name="CheckForceEventNotify.Text" xml:space="preserve">
     <value>新着通知が無効でもイベントを通知する</value>
-  </data>
-  <data name="Label25.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="&gt;&gt;HotkeyText.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -839,9 +794,6 @@
   <data name="PlaySnd.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="SearchTextCountApi.Location" type="System.Drawing.Point, System.Drawing">
-    <value>308, 209</value>
-  </data>
   <data name="&gt;&gt;PubSearchPeriod.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -886,9 +838,6 @@
   </data>
   <data name="&gt;&gt;CheckListCreatedEvent.Name" xml:space="preserve">
     <value>CheckListCreatedEvent</value>
-  </data>
-  <data name="&gt;&gt;Label19.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="CmbDateTimeFormat.Items" xml:space="preserve">
     <value>yyyy/MM/dd H:mm:ss</value>
@@ -1004,9 +953,6 @@
   <data name="&gt;&gt;lblListFont.ZOrder" xml:space="preserve">
     <value>23</value>
   </data>
-  <data name="&gt;&gt;Label30.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="BasedPanel.Size" type="System.Drawing.Size, System.Drawing">
     <value>519, 368</value>
   </data>
@@ -1039,9 +985,6 @@
   </data>
   <data name="Label52.Size" type="System.Drawing.Size, System.Drawing">
     <value>131, 12</value>
-  </data>
-  <data name="Label17.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 237</value>
   </data>
   <data name="MapThumbnailZoomTextBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>63, 19</value>
@@ -1083,9 +1026,6 @@
   </data>
   <data name="&gt;&gt;TextBitlyId.Name" xml:space="preserve">
     <value>TextBitlyId</value>
-  </data>
-  <data name="Label53.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 112</value>
   </data>
   <data name="&gt;&gt;GroupBox1.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1156,20 +1096,11 @@
   <data name="&gt;&gt;PreviewPanel.Type" xml:space="preserve">
     <value>OpenTween.Setting.Panel.PreviewPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;FavoritesTextCountApi.Parent" xml:space="preserve">
-    <value>GetCountPanel</value>
-  </data>
   <data name="&gt;&gt;CheckAutoConvertUrl.Parent" xml:space="preserve">
     <value>ShortUrlPanel</value>
   </data>
   <data name="&gt;&gt;AuthUserCombo.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;FirstTextCountApi.Parent" xml:space="preserve">
-    <value>GetCountPanel</value>
-  </data>
-  <data name="Label17.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="&gt;&gt;Label37.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1213,17 +1144,11 @@
   <data name="&gt;&gt;Label47.Name" xml:space="preserve">
     <value>Label47</value>
   </data>
-  <data name="FirstTextCountApi.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
   <data name="RadioProxyIE.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="CheckSortOrderLock.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
-  </data>
-  <data name="SearchTextCountApi.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Disable</value>
   </data>
   <data name="MapThumbnailProviderComboBox.Items" xml:space="preserve">
     <value>OpenStreetMap</value>
@@ -1231,17 +1156,11 @@
   <data name="CheckListMemberRemovedEvent.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="&gt;&gt;Label66.Parent" xml:space="preserve">
-    <value>GetCountPanel</value>
-  </data>
   <data name="&gt;&gt;TextBoxOutputzKey.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
   <data name="Label52.Text" xml:space="preserve">
     <value>入力欄アクティブ時背景色</value>
-  </data>
-  <data name="&gt;&gt;Label67.Name" xml:space="preserve">
-    <value>Label67</value>
   </data>
   <data name="Label76.Text" xml:space="preserve">
     <value>ID</value>
@@ -1342,9 +1261,6 @@
   <data name="ComboBoxTranslateLanguage.Items56" xml:space="preserve">
     <value>German (Austria)</value>
   </data>
-  <data name="GetMoreTextCountApi.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="&gt;&gt;lblRetweet.Parent" xml:space="preserve">
     <value>GroupBox1</value>
   </data>
@@ -1398,9 +1314,6 @@
   </data>
   <data name="CheckOpenUserTimeline.Size" type="System.Drawing.Size, System.Drawing">
     <value>180, 16</value>
-  </data>
-  <data name="FavoritesTextCountApi.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
   </data>
   <data name="&gt;&gt;Label18.Name" xml:space="preserve">
     <value>Label18</value>
@@ -1459,14 +1372,8 @@
   <data name="&gt;&gt;CheckFavEventUnread.Parent" xml:space="preserve">
     <value>NotifyPanel</value>
   </data>
-  <data name="UserTimelineTextCountApi.Location" type="System.Drawing.Point, System.Drawing">
-    <value>308, 235</value>
-  </data>
   <data name="NotifyPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
-  </data>
-  <data name="&gt;&gt;UserTimelineTextCountApi.ZOrder" xml:space="preserve">
-    <value>2</value>
   </data>
   <data name="&gt;&gt;lblDetail.Name" xml:space="preserve">
     <value>lblDetail</value>
@@ -1476,9 +1383,6 @@
   </data>
   <data name="Label61.Text" xml:space="preserve">
     <value>リストフォント</value>
-  </data>
-  <data name="Label30.Size" type="System.Drawing.Size, System.Drawing">
-    <value>117, 12</value>
   </data>
   <data name="EmailText.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -1561,9 +1465,6 @@
   <data name="&gt;&gt;LabelUserStreamActive.Parent" xml:space="preserve">
     <value>GetPeriodPanel</value>
   </data>
-  <data name="TextCountApi.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 19</value>
-  </data>
   <data name="&gt;&gt;Label63.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -1609,9 +1510,6 @@
   <data name="&gt;&gt;ColorDialog1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ColorDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Label53.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="HotkeyCheck.Text" xml:space="preserve">
     <value>有効</value>
   </data>
@@ -1651,9 +1549,6 @@
   <data name="&gt;&gt;LabelProxyAddress.Parent" xml:space="preserve">
     <value>ProxyPanel</value>
   </data>
-  <data name="&gt;&gt;FirstTextCountApi.Name" xml:space="preserve">
-    <value>FirstTextCountApi</value>
-  </data>
   <data name="ComboBoxEventNotifySound.Location" type="System.Drawing.Point, System.Drawing">
     <value>286, 278</value>
   </data>
@@ -1662,9 +1557,6 @@
   </data>
   <data name="Label8.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="Label25.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
   </data>
   <data name="&gt;&gt;TweetActPanel.Name" xml:space="preserve">
     <value>TweetActPanel</value>
@@ -1734,9 +1626,6 @@
   </data>
   <data name="ComboBoxTranslateLanguage.Items17" xml:space="preserve">
     <value>Arabic (Qatar)</value>
-  </data>
-  <data name="&gt;&gt;Label53.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="CheckUseSsl.ToolTip" xml:space="preserve">
     <value />
@@ -1834,9 +1723,6 @@
   <data name="btnDetailLink.Location" type="System.Drawing.Point, System.Drawing">
     <value>331, 171</value>
   </data>
-  <data name="&gt;&gt;Label25.Parent" xml:space="preserve">
-    <value>GetCountPanel</value>
-  </data>
   <data name="&gt;&gt;Label7.ZOrder" xml:space="preserve">
     <value>13</value>
   </data>
@@ -1851,9 +1737,6 @@
   </data>
   <data name="Label7.Text" xml:space="preserve">
     <value>Twitter検索更新間隔（秒）</value>
-  </data>
-  <data name="&gt;&gt;FirstTextCountApi.ZOrder" xml:space="preserve">
-    <value>10</value>
   </data>
   <data name="&gt;&gt;btnTarget.ZOrder" xml:space="preserve">
     <value>15</value>
@@ -1912,9 +1795,6 @@
   <data name="&gt;&gt;btnAtTo.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Label25.Size" type="System.Drawing.Size, System.Drawing">
-    <value>76, 12</value>
-  </data>
   <data name="BrowserPathText.Location" type="System.Drawing.Point, System.Drawing">
     <value>184, 160</value>
   </data>
@@ -1935,9 +1815,6 @@
   </data>
   <data name="CheckFavEventUnread.Text" xml:space="preserve">
     <value>Favoritesイベント受信の際に書き込みを未読に戻す</value>
-  </data>
-  <data name="&gt;&gt;UseChangeGetCount.ZOrder" xml:space="preserve">
-    <value>13</value>
   </data>
   <data name="FontPanel2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -1996,9 +1873,6 @@
   <data name="btnAtTo.Location" type="System.Drawing.Point, System.Drawing">
     <value>339, 140</value>
   </data>
-  <data name="Label30.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
   <data name="CheckFavoritesEvent.ToolTip" xml:space="preserve">
     <value>チェックを不確定状態にすると他者が発生させたイベントのみ通知します</value>
   </data>
@@ -2044,17 +1918,11 @@
   <data name="ComboBoxTranslateLanguage.Items57" xml:space="preserve">
     <value>German (Luxembourg)</value>
   </data>
-  <data name="Label30.Text" xml:space="preserve">
-    <value>PublicSearchの取得数</value>
-  </data>
   <data name="&gt;&gt;btnAtFromTarget.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="TextBitlyId.Size" type="System.Drawing.Size, System.Drawing">
     <value>71, 19</value>
-  </data>
-  <data name="Label17.Size" type="System.Drawing.Size, System.Drawing">
-    <value>118, 12</value>
   </data>
   <data name="&gt;&gt;CheckUserUpdateEvent.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -2125,9 +1993,6 @@
   <data name="&gt;&gt;Label35.Name" xml:space="preserve">
     <value>Label35</value>
   </data>
-  <data name="Label28.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="TweetPrvPanel.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -2146,9 +2011,6 @@
   <data name="ListDoubleClickActionComboBox.Items3" xml:space="preserve">
     <value>ユーザーのタイムラインを表示</value>
   </data>
-  <data name="SearchTextCountApi.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="ShortUrlPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -2160,9 +2022,6 @@
   </data>
   <data name="&gt;&gt;UserTimelinePeriod.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="FavoritesTextCountApi.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Disable</value>
   </data>
   <data name="CheckEventNotify.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 22</value>
@@ -2242,9 +2101,6 @@
   <data name="HotkeyCheck.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="FirstTextCountApi.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 19</value>
-  </data>
   <data name="&gt;&gt;CooperatePanel.Parent" xml:space="preserve">
     <value>SplitContainer1.Panel2</value>
   </data>
@@ -2266,17 +2122,11 @@
   <data name="CheckListMemberRemovedEvent.Text" xml:space="preserve">
     <value>Listsから削除された</value>
   </data>
-  <data name="FavoritesTextCountApi.Location" type="System.Drawing.Point, System.Drawing">
-    <value>308, 159</value>
-  </data>
   <data name="&gt;&gt;BasedPanel.Name" xml:space="preserve">
     <value>BasedPanel</value>
   </data>
   <data name="&gt;&gt;ColorDialog1.Name" xml:space="preserve">
     <value>ColorDialog1</value>
-  </data>
-  <data name="Label25.Text" xml:space="preserve">
-    <value>Listsの取得数</value>
   </data>
   <data name="lblAtTarget.Text" xml:space="preserve">
     <value>This is sample.</value>
@@ -2286,9 +2136,6 @@
   </data>
   <data name="CheckNicoms.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 120</value>
-  </data>
-  <data name="UserTimelineTextCountApi.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
   </data>
   <data name="ComboBoxTranslateLanguage.Items9" xml:space="preserve">
     <value>Arabic (Oman)</value>
@@ -2323,9 +2170,6 @@
   <data name="btnInputBackcolor.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 25</value>
   </data>
-  <data name="UseChangeGetCount.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 86</value>
-  </data>
   <data name="ListDoubleClickActionComboBox.Items5" xml:space="preserve">
     <value>ユーザーのHomeを開く</value>
   </data>
@@ -2353,9 +2197,6 @@
   <data name="CheckFavEventUnread.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 240</value>
   </data>
-  <data name="Label66.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 160</value>
-  </data>
   <data name="CheckViewTabBottom.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -2371,17 +2212,11 @@
   <data name="lblRetweet.Location" type="System.Drawing.Point, System.Drawing">
     <value>216, 121</value>
   </data>
-  <data name="&gt;&gt;Label53.ZOrder" xml:space="preserve">
-    <value>12</value>
-  </data>
   <data name="&gt;&gt;RadioProxyIE.Name" xml:space="preserve">
     <value>RadioProxyIE</value>
   </data>
   <data name="TextProxyAddress.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
-  </data>
-  <data name="Label28.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="&gt;&gt;TextBoxOutputzKey.Parent" xml:space="preserve">
     <value>CooperatePanel</value>
@@ -2418,9 +2253,6 @@
   </data>
   <data name="TextProxyPort.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
-  </data>
-  <data name="&gt;&gt;Label66.Name" xml:space="preserve">
-    <value>Label66</value>
   </data>
   <data name="CheckViewTabBottom.Text" xml:space="preserve">
     <value>タブを一覧の下に表示する</value>
@@ -2470,9 +2302,6 @@
   <data name="HotkeyCode.Location" type="System.Drawing.Point, System.Drawing">
     <value>340, 16</value>
   </data>
-  <data name="&gt;&gt;Label28.Parent" xml:space="preserve">
-    <value>GetCountPanel</value>
-  </data>
   <data name="&gt;&gt;CheckListMemberRemovedEvent.Name" xml:space="preserve">
     <value>CheckListMemberRemovedEvent</value>
   </data>
@@ -2518,9 +2347,6 @@
   <data name="CmbDateTimeFormat.Location" type="System.Drawing.Point, System.Drawing">
     <value>216, 111</value>
   </data>
-  <data name="&gt;&gt;UserTimelineTextCountApi.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="ComboBoxTranslateLanguage.Items28" xml:space="preserve">
     <value>Danish</value>
   </data>
@@ -2557,9 +2383,6 @@
   <data name="Label44.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="&gt;&gt;UseChangeGetCount.Parent" xml:space="preserve">
-    <value>GetCountPanel</value>
-  </data>
   <data name="HideDuplicatedRetweetsCheck.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 43</value>
   </data>
@@ -2589,9 +2412,6 @@
   </data>
   <data name="chkUnreadStyle.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="SearchTextCountApi.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 19</value>
   </data>
   <data name="Label21.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 183</value>
@@ -2629,9 +2449,6 @@
   <data name="Label65.Location" type="System.Drawing.Point, System.Drawing">
     <value>16, 220</value>
   </data>
-  <data name="&gt;&gt;Label30.Name" xml:space="preserve">
-    <value>Label30</value>
-  </data>
   <data name="HotkeyCtrl.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -2643,9 +2460,6 @@
   </data>
   <data name="CheckOutputz.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="ListTextCountApi.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 19</value>
   </data>
   <data name="HotkeyCtrl.Text" xml:space="preserve">
     <value>Ctrl</value>
@@ -2719,20 +2533,11 @@
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>96, 96</value>
   </data>
-  <data name="UserTimelineTextCountApi.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Disable</value>
-  </data>
   <data name="&gt;&gt;Label64.Name" xml:space="preserve">
     <value>Label64</value>
   </data>
   <data name="LabelProxyUser.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
-  </data>
-  <data name="GetMoreTextCountApi.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;Label25.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="MapThumbnailProviderComboBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>102, 19</value>
@@ -2845,14 +2650,8 @@
   <data name="&gt;&gt;IsPreviewFoursquareCheckBox.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="Label66.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 12</value>
-  </data>
   <data name="&gt;&gt;ConnectionPanel.Type" xml:space="preserve">
     <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="Label66.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="&gt;&gt;Label24.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -2869,17 +2668,11 @@
   <data name="HotkeyText.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
-  <data name="&gt;&gt;Label30.Parent" xml:space="preserve">
-    <value>GetCountPanel</value>
-  </data>
   <data name="&gt;&gt;lblAtSelf.Parent" xml:space="preserve">
     <value>GroupBox5</value>
   </data>
   <data name="UReadMng.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 71</value>
-  </data>
-  <data name="&gt;&gt;Label67.Parent" xml:space="preserve">
-    <value>GetCountPanel</value>
   </data>
   <data name="&gt;&gt;Label47.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -2889,9 +2682,6 @@
   </data>
   <data name="lblDetailLink.TabIndex" type="System.Int32, mscorlib">
     <value>19</value>
-  </data>
-  <data name="&gt;&gt;SearchTextCountApi.Name" xml:space="preserve">
-    <value>SearchTextCountApi</value>
   </data>
   <data name="Label14.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2905,14 +2695,8 @@
   <data name="CheckNicoms.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="&gt;&gt;Label25.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="Label23.Size" type="System.Drawing.Size, System.Drawing">
     <value>113, 12</value>
-  </data>
-  <data name="UseChangeGetCount.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 16</value>
   </data>
   <data name="&gt;&gt;btnAtTarget.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -2989,9 +2773,6 @@
   <data name="Label18.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="&gt;&gt;FavoritesTextCountApi.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="btnDetailLink.TabIndex" type="System.Int32, mscorlib">
     <value>20</value>
   </data>
@@ -3000,9 +2781,6 @@
   </data>
   <data name="&gt;&gt;IsListsIncludeRtsCheckBox.Name" xml:space="preserve">
     <value>IsListsIncludeRtsCheckBox</value>
-  </data>
-  <data name="TextCountApi.Location" type="System.Drawing.Point, System.Drawing">
-    <value>308, 21</value>
   </data>
   <data name="Label69.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 83</value>
@@ -3031,9 +2809,6 @@
   <data name="NotifyPanel.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
   </data>
-  <data name="Label30.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="&gt;&gt;UReadMng.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -3043,9 +2818,6 @@
   <data name="&gt;&gt;label48.Parent" xml:space="preserve">
     <value>MapThumbnailGroupBox</value>
   </data>
-  <data name="GetMoreTextCountApi.Location" type="System.Drawing.Point, System.Drawing">
-    <value>308, 112</value>
-  </data>
   <data name="&gt;&gt;lblAtFromTarget.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -3054,9 +2826,6 @@
   </data>
   <data name="CheckListMemberRemovedEvent.ToolTip" xml:space="preserve">
     <value>チェックを不確定状態にすると他者が発生させたイベントのみ通知します</value>
-  </data>
-  <data name="Label66.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="lblAtTo.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 19</value>
@@ -3075,9 +2844,6 @@
   </data>
   <data name="ShortenTcoCheck.Text" xml:space="preserve">
     <value>t.coで短縮する</value>
-  </data>
-  <data name="Label17.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
   </data>
   <data name="&gt;&gt;CheckFavoritesEvent.Name" xml:space="preserve">
     <value>CheckFavoritesEvent</value>
@@ -3099,9 +2865,6 @@
   </data>
   <data name="StartAuthButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>99, 68</value>
-  </data>
-  <data name="Label67.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
   </data>
   <data name="&gt;&gt;Label43.Name" xml:space="preserve">
     <value>Label43</value>
@@ -3247,9 +3010,6 @@
   <data name="&gt;&gt;IconSize.Parent" xml:space="preserve">
     <value>TweetPrvPanel</value>
   </data>
-  <data name="&gt;&gt;Label66.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
   <data name="Label32.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -3316,9 +3076,6 @@
   <data name="Label34.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="&gt;&gt;Label30.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
   <data name="&gt;&gt;PlaySnd.Name" xml:space="preserve">
     <value>PlaySnd</value>
   </data>
@@ -3345,9 +3102,6 @@
   </data>
   <data name="&gt;&gt;ShortenTcoCheck.Parent" xml:space="preserve">
     <value>ShortUrlPanel</value>
-  </data>
-  <data name="TextCountApiReply.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Disable</value>
   </data>
   <data name="ConnectionPanel.Size" type="System.Drawing.Size, System.Drawing">
     <value>519, 368</value>
@@ -3376,17 +3130,11 @@
   <data name="Label41.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="Label66.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="CooperatePanel.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
   </data>
   <data name="&gt;&gt;CheckUseSsl.Name" xml:space="preserve">
     <value>CheckUseSsl</value>
-  </data>
-  <data name="&gt;&gt;Label17.Name" xml:space="preserve">
-    <value>Label17</value>
   </data>
   <data name="&gt;&gt;TextBitlyPw.Name" xml:space="preserve">
     <value>TextBitlyPw</value>
@@ -3396,9 +3144,6 @@
   </data>
   <data name="&gt;&gt;label48.Name" xml:space="preserve">
     <value>label48</value>
-  </data>
-  <data name="&gt;&gt;Label28.ZOrder" xml:space="preserve">
-    <value>5</value>
   </data>
   <data name="btnUnread.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -3471,9 +3216,6 @@
   </data>
   <data name="StartupUserstreamCheck.Text" xml:space="preserve">
     <value>起動時に自動接続</value>
-  </data>
-  <data name="&gt;&gt;TextCountApiReply.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ComboBoxTranslateLanguage.Items20" xml:space="preserve">
     <value>Belarusian</value>
@@ -3559,14 +3301,8 @@
   <data name="&gt;&gt;Label23.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Label28.Text" xml:space="preserve">
-    <value>初回の更新</value>
-  </data>
   <data name="GroupBox2.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="Label67.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 24</value>
   </data>
   <data name="lblTarget.Text" xml:space="preserve">
     <value>This is sample.</value>
@@ -3592,9 +3328,6 @@
   <data name="&gt;&gt;TweetPrvPanel.Name" xml:space="preserve">
     <value>TweetPrvPanel</value>
   </data>
-  <data name="&gt;&gt;FavoritesTextCountApi.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
   <data name="ComboBoxTranslateLanguage.Size" type="System.Drawing.Size, System.Drawing">
     <value>182, 20</value>
   </data>
@@ -3613,9 +3346,6 @@
   <data name="&gt;&gt;btnListBack.Parent" xml:space="preserve">
     <value>GroupBox5</value>
   </data>
-  <data name="&gt;&gt;Label28.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="Label36.Size" type="System.Drawing.Size, System.Drawing">
     <value>63, 12</value>
   </data>
@@ -3627,9 +3357,6 @@
   </data>
   <data name="&gt;&gt;HotkeyCtrl.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GetMoreTextCountApi.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;SplitContainer1.Name" xml:space="preserve">
     <value>SplitContainer1</value>
@@ -3694,9 +3421,6 @@
   <data name="IconSize.Items4" xml:space="preserve">
     <value>48*48(2Column)</value>
   </data>
-  <data name="&gt;&gt;GetMoreTextCountApi.Name" xml:space="preserve">
-    <value>GetMoreTextCountApi</value>
-  </data>
   <data name="chkUnreadStyle.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -3736,9 +3460,6 @@
   <data name="TreeViewSetting.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="Label17.Text" xml:space="preserve">
-    <value>UserTimelineの取得数</value>
-  </data>
   <data name="Label71.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -3756,9 +3477,6 @@
   </data>
   <data name="&gt;&gt;Label9.Name" xml:space="preserve">
     <value>Label9</value>
-  </data>
-  <data name="&gt;&gt;Label19.Name" xml:space="preserve">
-    <value>Label19</value>
   </data>
   <data name="btnUnread.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -3844,17 +3562,8 @@
   <data name="ConnectionTimeOut.Size" type="System.Drawing.Size, System.Drawing">
     <value>125, 19</value>
   </data>
-  <data name="TextCountApi.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Disable</value>
-  </data>
   <data name="ComboBoxEventNotifySound.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="&gt;&gt;TextCountApi.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="Label66.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
   </data>
   <data name="&gt;&gt;Label38.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -3903,9 +3612,6 @@
   </data>
   <data name="&gt;&gt;MapThumbnailZoomTextBox.Parent" xml:space="preserve">
     <value>MapThumbnailGroupBox</value>
-  </data>
-  <data name="Label19.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 54</value>
   </data>
   <data name="StartupUserstreamCheck.ToolTip" xml:space="preserve">
     <value />
@@ -4059,9 +3765,6 @@
   </data>
   <data name="CheckEventNotify.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="Label30.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 210</value>
   </data>
   <data name="GetCountPanel.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -4224,12 +3927,6 @@
   </data>
   <data name="ActionPanel.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
-  </data>
-  <data name="&gt;&gt;Label53.Parent" xml:space="preserve">
-    <value>GetCountPanel</value>
-  </data>
-  <data name="UseChangeGetCount.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="Label16.Size" type="System.Drawing.Size, System.Drawing">
     <value>88, 12</value>
@@ -4461,9 +4158,6 @@
   <data name="ComboBoxTranslateLanguage.Items7" xml:space="preserve">
     <value>Arabic (Morocco)</value>
   </data>
-  <data name="TextCountApiReply.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="&gt;&gt;StartupPanel.Name" xml:space="preserve">
     <value>StartupPanel</value>
   </data>
@@ -4478,9 +4172,6 @@
   </data>
   <data name="HideDuplicatedRetweetsCheck.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="FirstTextCountApi.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Disable</value>
   </data>
   <data name="CheckListMemberAddedEvent.ToolTip" xml:space="preserve">
     <value>チェックを不確定状態にすると他者が発生させたイベントのみ通知します</value>
@@ -4571,9 +4262,6 @@
   </data>
   <data name="&gt;&gt;lblSelf.Parent" xml:space="preserve">
     <value>GroupBox5</value>
-  </data>
-  <data name="&gt;&gt;Label67.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblSelf.ZOrder" xml:space="preserve">
     <value>26</value>
@@ -4743,9 +4431,6 @@
   <data name="&gt;&gt;Label80.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;Label25.Name" xml:space="preserve">
-    <value>Label25</value>
-  </data>
   <data name="UserstreamPeriod.Size" type="System.Drawing.Size, System.Drawing">
     <value>65, 19</value>
   </data>
@@ -4766,9 +4451,6 @@
   </data>
   <data name="&gt;&gt;lblDetail.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="Label67.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="&gt;&gt;Label15.ZOrder" xml:space="preserve">
     <value>10</value>
@@ -4866,9 +4548,6 @@
   <data name="Label35.Location" type="System.Drawing.Point, System.Drawing">
     <value>23, 281</value>
   </data>
-  <data name="Label19.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
   <data name="Label20.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
@@ -4901,9 +4580,6 @@
   </data>
   <data name="TextProxyPort.Size" type="System.Drawing.Size, System.Drawing">
     <value>73, 19</value>
-  </data>
-  <data name="&gt;&gt;Label17.Parent" xml:space="preserve">
-    <value>GetCountPanel</value>
   </data>
   <data name="&gt;&gt;Label20.Name" xml:space="preserve">
     <value>Label20</value>
@@ -4980,17 +4656,11 @@
   <data name="&gt;&gt;CheckAutoConvertUrl.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Label28.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 136</value>
-  </data>
   <data name="lblAtSelf.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="lblUnread.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 19</value>
-  </data>
-  <data name="&gt;&gt;FavoritesTextCountApi.Name" xml:space="preserve">
-    <value>FavoritesTextCountApi</value>
   </data>
   <data name="LabelUserStreamActive.TabIndex" type="System.Int32, mscorlib">
     <value>19</value>
@@ -5036,9 +4706,6 @@
   </data>
   <data name="Label80.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
-  </data>
-  <data name="FavoritesTextCountApi.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="&gt;&gt;Label11.Name" xml:space="preserve">
     <value>Label11</value>
@@ -5088,9 +4755,6 @@
   </data>
   <data name="btnAtFromTarget.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
-  </data>
-  <data name="&gt;&gt;Label53.Name" xml:space="preserve">
-    <value>Label53</value>
   </data>
   <data name="IconSize.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -5155,9 +4819,6 @@
   <data name="LabelProxyUser.Text" xml:space="preserve">
     <value>ユーザ名(&amp;U)</value>
   </data>
-  <data name="&gt;&gt;ListTextCountApi.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="FontPanel.Size" type="System.Drawing.Size, System.Drawing">
     <value>519, 368</value>
   </data>
@@ -5187,9 +4848,6 @@
   </data>
   <data name="lblAtTarget.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
-  </data>
-  <data name="UserTimelineTextCountApi.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="lblInputFont.Location" type="System.Drawing.Point, System.Drawing">
     <value>227, 218</value>
@@ -5235,9 +4893,6 @@
   </data>
   <data name="&gt;&gt;GetCountPanel.Parent" xml:space="preserve">
     <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="Label19.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 12</value>
   </data>
   <data name="&gt;&gt;Label18.Parent" xml:space="preserve">
     <value>GroupBox1</value>
@@ -5340,9 +4995,6 @@
   <data name="Label1.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 17</value>
   </data>
-  <data name="Label25.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="LabelProxyUser.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -5391,9 +5043,6 @@
   <data name="Label9.Location" type="System.Drawing.Point, System.Drawing">
     <value>16, 170</value>
   </data>
-  <data name="&gt;&gt;Label28.Name" xml:space="preserve">
-    <value>Label28</value>
-  </data>
   <data name="Label11.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -5415,9 +5064,6 @@
   <data name="ListDoubleClickActionComboBox.Items6" xml:space="preserve">
     <value>ステータスをWebで開く</value>
   </data>
-  <data name="UseChangeGetCount.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="&gt;&gt;GroupBox1.Parent" xml:space="preserve">
     <value>FontPanel</value>
   </data>
@@ -5432,9 +5078,6 @@
   </data>
   <data name="btnAtSelf.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="Label53.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="&gt;&gt;btnAtTarget.Parent" xml:space="preserve">
     <value>GroupBox5</value>
@@ -5508,12 +5151,6 @@
   <data name="Label34.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
-  <data name="&gt;&gt;Label66.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label19.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
   <data name="CmbDateTimeFormat.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -5543,9 +5180,6 @@
   </data>
   <data name="Label9.Text" xml:space="preserve">
     <value>一般発言</value>
-  </data>
-  <data name="GetMoreTextCountApi.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 19</value>
   </data>
   <data name="&gt;&gt;Label37.Parent" xml:space="preserve">
     <value>GroupBox1</value>
@@ -5625,9 +5259,6 @@
   <data name="StartupUserstreamCheck.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="&gt;&gt;GetMoreTextCountApi.ZOrder" xml:space="preserve">
-    <value>11</value>
-  </data>
   <data name="Label39.Size" type="System.Drawing.Size, System.Drawing">
     <value>401, 12</value>
   </data>
@@ -5703,20 +5334,11 @@
   <data name="Label22.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="&gt;&gt;UserTimelineTextCountApi.Name" xml:space="preserve">
-    <value>UserTimelineTextCountApi</value>
-  </data>
-  <data name="SearchTextCountApi.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
-  </data>
   <data name="HotkeyCtrl.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="btnOWL.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
-  </data>
-  <data name="UseChangeGetCount.Text" xml:space="preserve">
-    <value>次の項目の更新時の取得数を個別に設定する</value>
   </data>
   <data name="lblSelf.ToolTip" xml:space="preserve">
     <value />
@@ -5765,9 +5387,6 @@
   </data>
   <data name="lblListFont.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 19</value>
-  </data>
-  <data name="&gt;&gt;ListTextCountApi.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="label48.ToolTip" xml:space="preserve">
     <value />
@@ -5850,9 +5469,6 @@
   <data name="Label59.Size" type="System.Drawing.Size, System.Drawing">
     <value>63, 12</value>
   </data>
-  <data name="&gt;&gt;Label17.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
   <data name="&gt;&gt;Label64.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
@@ -5925,9 +5541,6 @@
   <data name="&gt;&gt;TextProxyUser.Name" xml:space="preserve">
     <value>TextProxyUser</value>
   </data>
-  <data name="ListTextCountApi.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
   <data name="&gt;&gt;PreviewPanel.Parent" xml:space="preserve">
     <value>SplitContainer1.Panel2</value>
   </data>
@@ -5966,9 +5579,6 @@
   </data>
   <data name="&gt;&gt;IsPreviewFoursquareCheckBox.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="Label66.Text" xml:space="preserve">
-    <value>Favoritesの取得数</value>
   </data>
   <data name="btnListBack.TabIndex" type="System.Int32, mscorlib">
     <value>20</value>
@@ -6032,9 +5642,6 @@
   </data>
   <data name="Label26.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="Label19.Text" xml:space="preserve">
-    <value>Mentions取得数</value>
   </data>
   <data name="Label39.Text" xml:space="preserve">
     <value>ユーザー指定のURL({ID}をScreenNameに、{STATUS}をステータスIDに置き換えます)</value>
@@ -6102,9 +5709,6 @@
   <data name="&gt;&gt;lblDetailBackcolor.Name" xml:space="preserve">
     <value>lblDetailBackcolor</value>
   </data>
-  <data name="FavoritesTextCountApi.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 19</value>
-  </data>
   <data name="OneWayLv.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
@@ -6128,9 +5732,6 @@
   </data>
   <data name="&gt;&gt;Label29.Parent" xml:space="preserve">
     <value>CooperatePanel</value>
-  </data>
-  <data name="&gt;&gt;Label67.ZOrder" xml:space="preserve">
-    <value>15</value>
   </data>
   <data name="&gt;&gt;CmbDateTimeFormat.Parent" xml:space="preserve">
     <value>TweetPrvPanel</value>
@@ -6176,9 +5777,6 @@
   </data>
   <data name="ActionPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
-  </data>
-  <data name="UseChangeGetCount.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="Save.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -6258,9 +5856,6 @@
   <data name="&gt;&gt;ListsPeriod.Parent" xml:space="preserve">
     <value>GetPeriodPanel</value>
   </data>
-  <data name="Label25.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 186</value>
-  </data>
   <data name="btnListFont.Size" type="System.Drawing.Size, System.Drawing">
     <value>83, 25</value>
   </data>
@@ -6268,7 +5863,7 @@
     <value>Button3</value>
   </data>
   <data name="&gt;&gt;GetCountPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>OpenTween.Setting.Panel.GetCountPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Label57.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -6281,9 +5876,6 @@
   </data>
   <data name="&gt;&gt;Label22.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TextCountApiReply.Parent" xml:space="preserve">
-    <value>GetCountPanel</value>
   </data>
   <data name="&gt;&gt;Label55.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -6333,9 +5925,6 @@
   <data name="lblAtFromTarget.Text" xml:space="preserve">
     <value>This is sample.</value>
   </data>
-  <data name="&gt;&gt;SearchTextCountApi.Parent" xml:space="preserve">
-    <value>GetCountPanel</value>
-  </data>
   <data name="RadioProxyIE.Size" type="System.Drawing.Size, System.Drawing">
     <value>190, 16</value>
   </data>
@@ -6357,9 +5946,6 @@
   <data name="&gt;&gt;ComboBoxEventNotifySound.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="TextCountApi.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
   <data name="&gt;&gt;RadioProxyIE.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
@@ -6380,12 +5966,6 @@
   </data>
   <data name="Label4.Size" type="System.Drawing.Size, System.Drawing">
     <value>49, 12</value>
-  </data>
-  <data name="ListTextCountApi.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="FirstTextCountApi.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="lblAtTo.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
@@ -6429,9 +6009,6 @@
   <data name="Label37.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="Label53.Size" type="System.Drawing.Size, System.Drawing">
-    <value>79, 12</value>
-  </data>
   <data name="BrowserPathText.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
   </data>
@@ -6442,9 +6019,6 @@
     <value>1</value>
   </data>
   <data name="&gt;&gt;CheckUseSsl.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="UseChangeGetCount.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
@@ -6501,17 +6075,11 @@
   <data name="&gt;&gt;ButtonBackToDefaultFontColor2.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;TextCountApiReply.ZOrder" xml:space="preserve">
-    <value>14</value>
-  </data>
   <data name="RadioProxyNone.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 19</value>
   </data>
   <data name="&gt;&gt;Label52.ZOrder" xml:space="preserve">
     <value>1</value>
-  </data>
-  <data name="&gt;&gt;SearchTextCountApi.ZOrder" xml:space="preserve">
-    <value>8</value>
   </data>
   <data name="&gt;&gt;MapThumbnailZoomTextBox.ZOrder" xml:space="preserve">
     <value>4</value>
@@ -6639,9 +6207,6 @@
   <data name="&gt;&gt;MapThumbnailGroupBox.Parent" xml:space="preserve">
     <value>CooperatePanel</value>
   </data>
-  <data name="&gt;&gt;FirstTextCountApi.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;Label4.Parent" xml:space="preserve">
     <value>BasedPanel</value>
   </data>
@@ -6675,9 +6240,6 @@
   <data name="&gt;&gt;GetPeriodPanel.Type" xml:space="preserve">
     <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Label67.Size" type="System.Drawing.Size, System.Drawing">
-    <value>77, 12</value>
-  </data>
   <data name="&gt;&gt;Label65.Name" xml:space="preserve">
     <value>Label65</value>
   </data>
@@ -6702,14 +6264,8 @@
   <data name="Label38.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="GetMoreTextCountApi.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Disable</value>
-  </data>
   <data name="&gt;&gt;MapThumbnailZoomTextBox.Name" xml:space="preserve">
     <value>MapThumbnailZoomTextBox</value>
-  </data>
-  <data name="Label53.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="btnAtFromTarget.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
@@ -6761,9 +6317,6 @@
   </data>
   <data name="&gt;&gt;CheckShowGrid.ZOrder" xml:space="preserve">
     <value>12</value>
-  </data>
-  <data name="Label19.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="CreateAccountButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -6819,9 +6372,6 @@
   <data name="HotkeyCode.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="&gt;&gt;UserTimelineTextCountApi.Parent" xml:space="preserve">
-    <value>GetCountPanel</value>
-  </data>
   <data name="btnTarget.Text" xml:space="preserve">
     <value>背景色</value>
   </data>
@@ -6835,9 +6385,6 @@
     <value>36, 47</value>
   </data>
   <data name="Label21.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label17.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="Label49.Location" type="System.Drawing.Point, System.Drawing">
@@ -6881,9 +6428,6 @@
   </data>
   <data name="btnRetweet.ToolTip" xml:space="preserve">
     <value />
-  </data>
-  <data name="&gt;&gt;Label19.Parent" xml:space="preserve">
-    <value>GetCountPanel</value>
   </data>
   <data name="IsPreviewFoursquareCheckBox.Text" xml:space="preserve">
     <value>FoursquareのURLからプレビューを表示する（非常に重くなります）</value>
@@ -7005,9 +6549,6 @@
   <data name="Label36.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="Label67.Text" xml:space="preserve">
-    <value>標準取得件数</value>
-  </data>
   <data name="TimelinePeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>Disable</value>
   </data>
@@ -7104,9 +6645,6 @@
   <data name="CmbDateTimeFormat.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
-  <data name="&gt;&gt;TextCountApi.Name" xml:space="preserve">
-    <value>TextCountApi</value>
-  </data>
   <data name="LabelProxyAddress.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -7134,9 +6672,6 @@
   <data name="btnRetweet.Location" type="System.Drawing.Point, System.Drawing">
     <value>331, 121</value>
   </data>
-  <data name="TextCountApi.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="Label47.Size" type="System.Drawing.Size, System.Drawing">
     <value>131, 12</value>
   </data>
@@ -7161,9 +6696,6 @@
   <data name="&gt;&gt;ConnectionPanel.ZOrder" xml:space="preserve">
     <value>10</value>
   </data>
-  <data name="&gt;&gt;GetMoreTextCountApi.Parent" xml:space="preserve">
-    <value>GetCountPanel</value>
-  </data>
   <data name="btnInputBackcolor.TabIndex" type="System.Int32, mscorlib">
     <value>23</value>
   </data>
@@ -7184,9 +6716,6 @@
   </data>
   <data name="Label57.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
-  </data>
-  <data name="Label53.Text" xml:space="preserve">
-    <value>前データの更新</value>
   </data>
   <data name="&gt;&gt;CheckUnfavoritesEvent.ZOrder" xml:space="preserve">
     <value>11</value>
@@ -7314,9 +6843,6 @@
   <data name="&gt;&gt;Label3.Name" xml:space="preserve">
     <value>Label3</value>
   </data>
-  <data name="&gt;&gt;TextCountApiReply.Name" xml:space="preserve">
-    <value>TextCountApiReply</value>
-  </data>
   <data name="&gt;&gt;EmailText.Name" xml:space="preserve">
     <value>EmailText</value>
   </data>
@@ -7331,9 +6857,6 @@
   </data>
   <data name="CheckShowGrid.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
-  </data>
-  <data name="ListTextCountApi.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Disable</value>
   </data>
   <data name="ConnectionTimeOut.ToolTip" xml:space="preserve">
     <value />
@@ -7431,9 +6954,6 @@
   <data name="Label26.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
   </data>
-  <data name="&gt;&gt;ListTextCountApi.Parent" xml:space="preserve">
-    <value>GetCountPanel</value>
-  </data>
   <data name="Label59.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -7460,9 +6980,6 @@
   </data>
   <data name="btnAtFromTarget.Location" type="System.Drawing.Point, System.Drawing">
     <value>339, 115</value>
-  </data>
-  <data name="&gt;&gt;UseChangeGetCount.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="MapThumbnailHeightTextBox.ToolTip" xml:space="preserve">
     <value />
@@ -7491,9 +7008,6 @@
   <data name="&gt;&gt;MapThumbnailWidthTextBox.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="TextCountApiReply.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 19</value>
-  </data>
   <data name="TextProxyAddress.Location" type="System.Drawing.Point, System.Drawing">
     <value>114, 82</value>
   </data>
@@ -7502,9 +7016,6 @@
   </data>
   <data name="AuthClearButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>303, 24</value>
-  </data>
-  <data name="UserTimelineTextCountApi.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 19</value>
   </data>
   <data name="LabelProxyPort.Text" xml:space="preserve">
     <value>ポート(&amp;P)</value>
@@ -7548,9 +7059,6 @@
   <data name="CheckShowGrid.Text" xml:space="preserve">
     <value>リストの区切り線を表示する</value>
   </data>
-  <data name="Label28.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 12</value>
-  </data>
   <data name="lblAtTarget.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -7561,9 +7069,6 @@
     <value>This is sample.</value>
   </data>
   <data name="ComboBoxTranslateLanguage.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Label19.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="Label41.Size" type="System.Drawing.Size, System.Drawing">
@@ -7583,9 +7088,6 @@
   </data>
   <data name="&gt;&gt;HotkeyWin.Parent" xml:space="preserve">
     <value>GroupBox3</value>
-  </data>
-  <data name="ListTextCountApi.Location" type="System.Drawing.Point, System.Drawing">
-    <value>308, 183</value>
   </data>
   <data name="ListDoubleClickActionComboBox.Items7" xml:space="preserve">
     <value>なし</value>
