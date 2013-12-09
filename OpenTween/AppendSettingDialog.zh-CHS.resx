@@ -208,63 +208,6 @@
 </value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="Label65.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 12</value>
-  </data>
-  <data name="Label65.Text" xml:space="preserve">
-    <value>输入框字体</value>
-  </data>
-  <data name="Label52.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 12</value>
-  </data>
-  <data name="Label52.Text" xml:space="preserve">
-    <value>输入框激活时的背景色</value>
-  </data>
-  <data name="Label49.Size" type="System.Drawing.Size, System.Drawing">
-    <value>109, 12</value>
-  </data>
-  <data name="Label49.Text" xml:space="preserve">
-    <value>选中消息所@的消息</value>
-  </data>
-  <data name="Label9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>101, 12</value>
-  </data>
-  <data name="Label9.Text" xml:space="preserve">
-    <value>启动时读取的消息</value>
-  </data>
-  <data name="Label14.Size" type="System.Drawing.Size, System.Drawing">
-    <value>41, 12</value>
-  </data>
-  <data name="Label14.Text" xml:space="preserve">
-    <value>提示音</value>
-  </data>
-  <data name="Label16.Size" type="System.Drawing.Size, System.Drawing">
-    <value>113, 12</value>
-  </data>
-  <data name="Label16.Text" xml:space="preserve">
-    <value>用颜色区分单向关注</value>
-  </data>
-  <data name="Label32.Size" type="System.Drawing.Size, System.Drawing">
-    <value>101, 12</value>
-  </data>
-  <data name="Label32.Text" xml:space="preserve">
-    <value>选中人的其它消息</value>
-  </data>
-  <data name="Label34.Size" type="System.Drawing.Size, System.Drawing">
-    <value>85, 12</value>
-  </data>
-  <data name="Label34.Text" xml:space="preserve">
-    <value>@给自己的消息</value>
-  </data>
-  <data name="Label36.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 12</value>
-  </data>
-  <data name="Label36.Text" xml:space="preserve">
-    <value>自己的消息</value>
-  </data>
-  <data name="btnInputFont.Text" xml:space="preserve">
-    <value>字体&amp;&amp;颜色</value>
-  </data>
   <data name="Save.Text" xml:space="preserve">
     <value>确定</value>
   </data>
