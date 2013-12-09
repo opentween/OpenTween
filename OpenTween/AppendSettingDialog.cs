@@ -86,7 +86,7 @@ namespace OpenTween
         private void TreeViewSetting_BeforeSelect(object sender, TreeViewCancelEventArgs e)
         {
             if (this.TreeViewSetting.SelectedNode == null) return;
-            Panel pnl = (Panel)this.TreeViewSetting.SelectedNode.Tag;
+            var pnl = (Control)this.TreeViewSetting.SelectedNode.Tag;
             if (pnl == null) return;
             pnl.Enabled = false;
             pnl.Visible = false;
@@ -95,7 +95,7 @@ namespace OpenTween
         private void TreeViewSetting_AfterSelect(object sender, TreeViewEventArgs e)
         {
             if (e.Node == null) return;
-            Panel pnl = (Panel)e.Node.Tag;
+            var pnl = (Control)e.Node.Tag;
             if (pnl == null) return;
             pnl.Enabled = true;
             pnl.Visible = true;
@@ -550,7 +550,7 @@ namespace OpenTween
             }
             if (e.Cancel == false && TreeViewSetting.SelectedNode != null)
             {
-                Panel curPanel = (Panel)TreeViewSetting.SelectedNode.Tag;
+                var curPanel = (Control)TreeViewSetting.SelectedNode.Tag;
                 curPanel.Visible = false;
                 curPanel.Enabled = false;
             }

@@ -144,6 +144,12 @@
     <Compile Include="OTWebClient.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Setting\Panel\SettingPanelBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Setting\Panel\SettingPanelBase.Designer.cs">
+      <DependentUpon>SettingPanelBase.cs</DependentUpon>
+    </Compile>
     <Compile Include="TabsDialog.cs">
       <SubType>Form</SubType>
     </Compile>
