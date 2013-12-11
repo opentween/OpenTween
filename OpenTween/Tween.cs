@@ -1267,7 +1267,8 @@ namespace OpenTween
                 {"img.ly", new imgly(tw)},
                 {"yfrog", new yfrog(tw)},
                 {"Twitter", new TwitterPhoto(tw)},
-                {"ついっぷるフォト", new TwipplePhoto(tw)}
+                {"ついっぷるフォト", new TwipplePhoto(tw)},
+                {"Imgur", new Imgur(tw)},
             };
         }
 

@@ -158,5 +158,19 @@ namespace OpenTween
         /// Windows Azure Marketplace アカウントキー
         /// </summary>
         public const string AzureMarketplaceKey = "UlOODyR2rVH0lfweya1VuY5KjE7L0ZjvQKQWlYgWsPw=";
+
+        //=====================================================================
+        // Imgur
+        // https://api.imgur.com/oauth2/addclient から取得できます
+
+        /// <summary>
+        /// Imgur Client ID
+        /// </summary>
+        public readonly static string ImgurClientID = "a5fff36fb83568c";
+
+        /// <summary>
+        /// Imgur Client Secret
+        /// </summary>
+        public readonly static string ImgurClientSecret = "af5d668a9aa83b34a8f0f735e12073edafbc9a5d";
     }
 }
