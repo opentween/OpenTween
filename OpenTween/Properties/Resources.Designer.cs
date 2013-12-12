@@ -625,17 +625,19 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
-        ///==== Ver 1.1.6-beta1(201x/xx/xx)
+        ///==== Ver 1.1.6(2013/12/12)
+        /// * UriFormatException のエラーが多数報告されたため修正版をリリースしました
+        ///
+        /// * CHG: 発言一覧等に使用するフォントのデフォルトが誤って変更されていた問題を修正
+        /// * FIX: 不正なURLを含むツイートを受信するとエラーが発生する問題を修正
+        /// * FIX: 短い名前のタブの幅が極端に狭く表示されてしまう問題を修正
         ///
         ///==== Ver 1.1.5(2013/12/12)
         /// * NEW: ディスプレイのDPI設定に応じて適切にスケーリングが行われます
         /// * NEW: OpenTween派生クライアントなどから設定ファイルをコピーした場合に、存在しない設定を削除せず保持するようになります
         /// * NEW: タブやボタン等のUIに任意のフォントを指定できます
         ///   - フォントによっては一部レイアウトが崩れるため隠し設定にしています
-        ///   - SettingLocal.xml に &lt;FontUIGlobalStr&gt;Meiryo UI, 9pt&lt;/FontUIGlobalStr&gt; のように記述することで使えます
-        ///   - 「メイリオ」のように日本語のフォント名を指定する場合は UTF-8 で保存するのを忘れずに
-        /// * NEW: 起動オプション /configDir:&lt;dirpath&gt; を使用して設定ファイルの参照先を変更できるようになります
-        ///   - 別々の設定ファイルを使用するプロセスであれば複数のOpenTweenを同時起動す [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ///   - SettingLocal.xml に &lt;FontUIGlobalStr&gt;Meiryo UI, 9pt&lt;/FontUIGlobalStr&gt; のように記述するこ [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
