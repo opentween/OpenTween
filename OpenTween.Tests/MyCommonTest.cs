@@ -70,6 +70,7 @@ namespace OpenTween
         [InlineData("http://ja.wikipedia.org/wiki/%3F", "http://ja.wikipedia.org/wiki/%3F")] // "?" に変換しない
         [InlineData("http://ja.wikipedia.org/wiki/%E3%83%9E%E3%82%B8LOVE1000%25",
             "http://ja.wikipedia.org/wiki/マジLOVE1000%25")] // "%" も変換しない
+        [InlineData("http://example..com/", "http://example..com/")] // 不正なURL
         public void ConvertToReadableUrl(string url, string expected)
         {
             Assert.Equal(expected, MyCommon.ConvertToReadableUrl(url));
