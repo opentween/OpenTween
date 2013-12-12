@@ -53,7 +53,7 @@ namespace OpenTween
             InitializeComponent();
 
             // メイリオフォント指定時にタブの最小幅が広くなる問題の対策
-            this.TabEventType.HandleCreated += (s, e) => Win32Api.SetMinTabWidth((TabControl)s, 10);
+            this.TabEventType.HandleCreated += (s, e) => Win32Api.SetMinTabWidth((TabControl)s, 40);
         }
 
         private void OK_Button_Click(object sender, EventArgs e)
