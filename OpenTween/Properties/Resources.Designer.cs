@@ -625,6 +625,8 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Ver 1.1.7-beta1(201x/xx/xx)
+        ///
         ///==== Ver 1.1.6(2013/12/12)
         /// * UriFormatException のエラーが多数報告されたため修正版をリリースしました
         ///
@@ -637,7 +639,7 @@ namespace OpenTween.Properties {
         /// * NEW: OpenTween派生クライアントなどから設定ファイルをコピーした場合に、存在しない設定を削除せず保持するようになります
         /// * NEW: タブやボタン等のUIに任意のフォントを指定できます
         ///   - フォントによっては一部レイアウトが崩れるため隠し設定にしています
-        ///   - SettingLocal.xml に &lt;FontUIGlobalStr&gt;Meiryo UI, 9pt&lt;/FontUIGlobalStr&gt; のように記述するこ [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ///   - SettingLocal.xml に &lt;FontUIGlobalStr&gt;Meiryo [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
