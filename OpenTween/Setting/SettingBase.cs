@@ -146,21 +146,7 @@ namespace OpenTween
                         if (fileInfo.Length != 0)
                         {
                             // 成功
-
-                            // 上書き保存時の動作:
-                            //   1. Settingなんとか.xml を Settingなんとか.xml.tmp にリネーム
-                            //   2. 一時ファイル (tmpfilePath) を Settingなんとか.xml にリネーム
-                            //   3. Settingなんとか.xml.tmp を削除
-                            var overwrite = File.Exists(filePath);
-
-                            if (overwrite)
-                                File.Move(filePath, filePath + ".tmp");
-
-                            File.Move(tmpfilePath, filePath);
-
-                            if (overwrite)
-                                File.Delete(filePath + ".tmp");
-
+                            File.Copy(tmpfilePath, filePath, true);
                             return;
                         }
                     }
@@ -169,12 +155,14 @@ namespace OpenTween
                 {
                     lastException = e;
                 }
+                finally
+                {
+                    if (File.Exists(tmpfilePath))
+                        File.Delete(tmpfilePath);
+                }
 
                 // リトライ
                 retryCount++;
-                if (File.Exists(tmpfilePath))
-                    File.Delete(tmpfilePath);
-
                 Thread.Sleep(1000);
 
             } while (retryCount <= SaveRetryMax);
