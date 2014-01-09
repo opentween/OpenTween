@@ -37,6 +37,7 @@ using System.IO;
 using System.Resources;
 using OpenTween.Thumbnail;
 using System.Threading.Tasks;
+using OpenTween.Setting.Panel;
 
 namespace OpenTween
 {
@@ -86,7 +87,7 @@ namespace OpenTween
         private void TreeViewSetting_BeforeSelect(object sender, TreeViewCancelEventArgs e)
         {
             if (this.TreeViewSetting.SelectedNode == null) return;
-            var pnl = (Control)this.TreeViewSetting.SelectedNode.Tag;
+            var pnl = (SettingPanelBase)this.TreeViewSetting.SelectedNode.Tag;
             if (pnl == null) return;
             pnl.Enabled = false;
             pnl.Visible = false;
@@ -95,7 +96,7 @@ namespace OpenTween
         private void TreeViewSetting_AfterSelect(object sender, TreeViewEventArgs e)
         {
             if (e.Node == null) return;
-            var pnl = (Control)e.Node.Tag;
+            var pnl = (SettingPanelBase)e.Node.Tag;
             if (pnl == null) return;
             pnl.Enabled = true;
             pnl.Visible = true;
@@ -550,7 +551,7 @@ namespace OpenTween
             }
             if (e.Cancel == false && TreeViewSetting.SelectedNode != null)
             {
-                var curPanel = (Control)TreeViewSetting.SelectedNode.Tag;
+                var curPanel = (SettingPanelBase)TreeViewSetting.SelectedNode.Tag;
                 curPanel.Visible = false;
                 curPanel.Enabled = false;
             }
