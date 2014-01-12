@@ -2065,9 +2065,10 @@ namespace OpenTween
                     //recipient_id
                     post.CreatedAt = MyCommon.DateTimeParse(message.CreatedAt);
                     //本文
-                    post.TextFromApi = message.Text;
+                    var textFromApi = message.Text;
                     //HTMLに整形
-                    post.Text = CreateHtmlAnchor(post.TextFromApi, post.ReplyToList, post.Media);
+                    post.Text = CreateHtmlAnchor(ref textFromApi, post.ReplyToList, message.Entities, post.Media);
+                    post.TextFromApi = this.ReplaceTextFromApi(textFromApi, message.Entities);
                     post.TextFromApi = WebUtility.HtmlDecode(post.TextFromApi);
                     post.TextFromApi = post.TextFromApi.Replace("<3", "\u2661");
                     post.IsFav = false;
@@ -3036,6 +3037,10 @@ namespace OpenTween
                     {
                         if (ent.Type == "photo")
                         {
+                            // entities.Urls との重複を考慮
+                            if (etInfo.ContainsKey(ent.Indices[0]))
+                                continue;
+
                             etInfo.Add(ent.Indices[0],
                                        new EntityInfo {StartIndex = ent.Indices[0],
                                                        EndIndex = ent.Indices[1],
