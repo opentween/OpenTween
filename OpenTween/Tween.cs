@@ -542,6 +542,10 @@ namespace OpenTween
 
             ThumbnailGenerator.InitializeGenerator();
 
+            Thumbnail.Services.TonTwitterCom.InitializeOAuthToken = x =>
+                x.Initialize(ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret,
+                    this.tw.AccessToken, this.tw.AccessTokenSecret, "", "");
+
             //発言保持クラス
             _statuses = TabInformations.GetInstance();
 

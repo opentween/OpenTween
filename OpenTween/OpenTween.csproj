@@ -256,6 +256,7 @@
     <Compile Include="Thumbnail\Services\Pixiv.cs" />
     <Compile Include="Thumbnail\Services\SimpleThumbnailService.cs" />
     <Compile Include="Thumbnail\Services\Tinami.cs" />
+    <Compile Include="Thumbnail\Services\TonTwitterCom.cs" />
     <Compile Include="Thumbnail\Services\Tumblr.cs" />
     <Compile Include="Thumbnail\Services\ViaMe.cs" />
     <Compile Include="Thumbnail\Services\Vimeo.cs" />

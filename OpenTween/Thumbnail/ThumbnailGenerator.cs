@@ -41,6 +41,9 @@ namespace OpenTween.Thumbnail
         {
             ThumbnailGenerator.Services = new List<IThumbnailService>()
             {
+                // ton.twitter.com
+                new TonTwitterCom(),
+
                 // DirectLink
                 new SimpleThumbnailService(@"^https?://.*(\.jpg|\.jpeg|\.gif|\.png|\.bmp)$", "${0}"),
 
