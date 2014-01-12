@@ -25,6 +25,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Data;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
@@ -64,6 +65,8 @@ namespace OpenTween
             this.cancelTokenSource = new CancellationTokenSource();
             var cancelToken = this.cancelTokenSource.Token;
 
+            var uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+
             this.task = Task.Factory.StartNew(() => this.GetThumbailInfo(post), cancelToken)
                 .ContinueWith( /* await使いたい */
                     t =>
@@ -79,8 +82,24 @@ namespace OpenTween
                             var picbox = this.pictureBox[i];
 
                             picbox.Tag = thumb;
-                            picbox.LoadAsync(thumb.ThumbnailUrl);
                             picbox.ContextMenu = CreateContextMenu(thumb);
+
+                            picbox.ShowInitialImage();
+
+                            var client = new OTWebClient();
+                            client.DownloadDataAsync(new Uri(thumb.ThumbnailUrl))
+                                .ContinueWith(t2 => MemoryImage.CopyFromBytes(t2.Result))
+                                .ContinueWith(t2 =>
+                                {
+                                    client.Dispose();
+                                    if (t2.IsFaulted)
+                                    {
+                                        t2.Exception.Flatten().Handle(x => x is WebException || x is InvalidImageException);
+                                        picbox.ShowErrorImage();
+                                        return;
+                                    }
+                                    picbox.Image = t2.Result;
+                                }, uiScheduler);
 
                             var tooltipText = thumb.TooltipText;
                             if (!string.IsNullOrEmpty(tooltipText))
@@ -101,7 +120,7 @@ namespace OpenTween
                     },
                     cancelToken,
                     TaskContinuationOptions.OnlyOnRanToCompletion,
-                    TaskScheduler.FromCurrentSynchronizationContext()
+                    uiScheduler
                 );
 
             return this.task;
@@ -191,7 +210,11 @@ namespace OpenTween
             this.panelPictureBox.Controls.Clear();
             foreach (var picbox in this.pictureBox)
             {
+                var memoryImage = picbox.Image;
                 picbox.Dispose();
+
+                if (memoryImage != null)
+                    memoryImage.Dispose();
             }
             this.pictureBox.Clear();
 
