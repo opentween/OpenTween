@@ -118,7 +118,7 @@ namespace OpenTween.Thumbnail
                     "http://lohas.nicoseiga.jp/thumb/${id}l?"),
 
                 // pixiv
-                new MetaThumbnailService(@"^http://www\.pixiv\.net/(member_illust|index)\.php\?(?=.*mode=(medium|big))(?=.*illust_id=(?<illustId>[0-9]+)).*$"),
+                new Pixiv(@"^http://www\.pixiv\.net/(member_illust|index)\.php\?(?=.*mode=(medium|big))(?=.*illust_id=(?<illustId>[0-9]+)).*$"),
 
                 // flickr
                 new MetaThumbnailService(@"^http://www\.flickr\.com/.+$"),

@@ -744,13 +744,17 @@ namespace OpenTween
 
         public static string fileVersion = "";
 
-        public static string GetUserAgentString()
+        public static string GetUserAgentString(bool fakeMSIE = false)
         {
             if (string.IsNullOrEmpty(fileVersion))
             {
                 throw new Exception("fileversion is not Initialized.");
             }
-            return GetAssemblyName() + "/" + fileVersion;
+
+            if (fakeMSIE)
+                return GetAssemblyName() + "/" + fileVersion + " (compatible; MSIE 10.0)";
+            else
+                return GetAssemblyName() + "/" + fileVersion;
         }
 
         public static TwitterApiStatus TwitterApiInfo = new TwitterApiStatus();

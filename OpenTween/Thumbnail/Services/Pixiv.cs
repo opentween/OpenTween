@@ -22,8 +22,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace OpenTween.Thumbnail.Services
 {
@@ -34,12 +36,36 @@ namespace OpenTween.Thumbnail.Services
         {
         }
 
-        protected override string FetchImageUrl(string url)
+        public override ThumbnailInfo GetThumbnailInfo(string url, PostClass post)
         {
-            var thumbnailUrl = base.FetchImageUrl(url);
+            var thumb = base.GetThumbnailInfo(url, post);
+            if (thumb == null) return null;
 
-            // og:image のサムネイルURLにそのままアクセスすると403が返ってくるので回避
-            return Regex.Replace(thumbnailUrl, @"_s(?=\..{3}$)", "_m");
+            return new Pixiv.Thumbnail
+            {
+                ImageUrl = thumb.ImageUrl,
+                ThumbnailUrl = thumb.ThumbnailUrl,
+                TooltipText = thumb.TooltipText,
+                FullSizeImageUrl = thumb.FullSizeImageUrl,
+            };
+        }
+
+        public class Thumbnail : ThumbnailInfo
+        {
+            protected override Task<MemoryImage> LoadThumbnailImageAsync()
+            {
+                var client = new OTWebClient();
+
+                client.UserAgent = MyCommon.GetUserAgentString(fakeMSIE: true);
+                client.Headers[HttpRequestHeader.Referer] = this.ImageUrl;
+
+                var task = client.DownloadDataAsync(new Uri(this.ThumbnailUrl))
+                    .ContinueWith(t => MemoryImage.CopyFromBytes(t.Result));
+
+                task.ContinueWith(_ => client.Dispose());
+
+                return task;
+            }
         }
     }
 }
