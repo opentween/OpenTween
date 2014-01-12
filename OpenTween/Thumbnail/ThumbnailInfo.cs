@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace OpenTween.Thumbnail
 {
@@ -32,5 +33,24 @@ namespace OpenTween.Thumbnail
         public string ThumbnailUrl { get; set; }
         public string TooltipText { get; set; }
         public string FullSizeImageUrl { get; set; }
+
+        public readonly Lazy<Task<MemoryImage>> ThumbnailImageTask;
+
+        public ThumbnailInfo()
+        {
+            this.ThumbnailImageTask = new Lazy<Task<MemoryImage>>(this.LoadThumbnailImageAsync);
+        }
+
+        protected virtual Task<MemoryImage> LoadThumbnailImageAsync()
+        {
+            var client = new OTWebClient();
+
+            var task = client.DownloadDataAsync(new Uri(this.ThumbnailUrl))
+                .ContinueWith(t => MemoryImage.CopyFromBytes(t.Result));
+
+            task.ContinueWith(_ => client.Dispose());
+
+            return task;
+        }
     }
 }

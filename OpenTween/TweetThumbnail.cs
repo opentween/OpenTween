@@ -85,13 +85,8 @@ namespace OpenTween
                             picbox.ContextMenu = CreateContextMenu(thumb);
 
                             picbox.ShowInitialImage();
-
-                            var client = new OTWebClient();
-                            client.DownloadDataAsync(new Uri(thumb.ThumbnailUrl))
-                                .ContinueWith(t2 => MemoryImage.CopyFromBytes(t2.Result))
-                                .ContinueWith(t2 =>
+                            thumb.ThumbnailImageTask.Value.ContinueWith(t2 =>
                                 {
-                                    client.Dispose();
                                     if (t2.IsFaulted)
                                     {
                                         t2.Exception.Flatten().Handle(x => x is WebException || x is InvalidImageException);
@@ -99,7 +94,8 @@ namespace OpenTween
                                         return;
                                     }
                                     picbox.Image = t2.Result;
-                                }, uiScheduler);
+                                },
+                                cancelToken, TaskContinuationOptions.AttachedToParent, uiScheduler);
 
                             var tooltipText = thumb.TooltipText;
                             if (!string.IsNullOrEmpty(tooltipText))

@@ -21,10 +21,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using NSubstitute;
 using OpenTween.Thumbnail;
@@ -36,27 +39,39 @@ namespace OpenTween
 {
     public class TweetThumbnailTest
     {
-        class TestThumbnailService : SimpleThumbnailService
+        class TestThumbnailService : IThumbnailService
         {
-            protected string tooltip;
+            private readonly Regex regex;
+            private readonly string replaceUrl;
+            private readonly string replaceTooltip;
 
-            public TestThumbnailService(string pattern, string replacement, string tooltip)
-                : base(pattern, replacement)
+            public TestThumbnailService(string pattern, string replaceUrl, string replaceTooltip)
             {
-                this.tooltip = tooltip;
+                this.regex = new Regex(pattern);
+                this.replaceUrl = replaceUrl;
+                this.replaceTooltip = replaceTooltip;
             }
 
             public override ThumbnailInfo GetThumbnailInfo(string url, PostClass post)
             {
-                var thumbinfo = base.GetThumbnailInfo(url, post);
+                var match = this.regex.Match(url);
 
-                if (thumbinfo != null && this.tooltip != null)
+                if (!match.Success) return null;
+
+                return new MockThumbnailInfo
                 {
-                    var match = this.regex.Match(url);
-                    thumbinfo.TooltipText = match.Result(this.tooltip);
-                }
+                    ImageUrl = url,
+                    ThumbnailUrl = match.Result(this.replaceUrl),
+                    TooltipText = this.replaceTooltip != null ? match.Result(this.replaceTooltip) : null,
+                };
+            }
 
-                return thumbinfo;
+            class MockThumbnailInfo : ThumbnailInfo
+            {
+                protected override Task<MemoryImage> LoadThumbnailImageAsync()
+                {
+                    return Task.Factory.StartNew(() => MemoryImage.CopyFromBytes(File.ReadAllBytes("Resources/" + this.ThumbnailUrl)));
+                }
             }
         }
 
@@ -168,9 +183,9 @@ namespace OpenTween
                 Assert.False(thumbbox.scrollBar.Enabled);
 
                 Assert.Equal(1, thumbbox.pictureBox.Count);
-                Assert.Equal("dot.gif", thumbbox.pictureBox[0].ImageLocation);
+                Assert.NotNull(thumbbox.pictureBox[0].Image);
 
-                Assert.IsType<ThumbnailInfo>(thumbbox.pictureBox[0].Tag);
+                Assert.IsAssignableFrom<ThumbnailInfo>(thumbbox.pictureBox[0].Tag);
                 var thumbinfo = (ThumbnailInfo)thumbbox.pictureBox[0].Tag;
 
                 Assert.Equal("http://foo.example.com/abcd", thumbinfo.ImageUrl);
@@ -202,16 +217,16 @@ namespace OpenTween
                 Assert.True(thumbbox.scrollBar.Enabled);
 
                 Assert.Equal(2, thumbbox.pictureBox.Count);
-                Assert.Equal("dot.gif", thumbbox.pictureBox[0].ImageLocation);
-                Assert.Equal("dot.gif", thumbbox.pictureBox[1].ImageLocation);
+                Assert.NotNull(thumbbox.pictureBox[0].Image);
+                Assert.NotNull(thumbbox.pictureBox[1].Image);
 
-                Assert.IsType<ThumbnailInfo>(thumbbox.pictureBox[0].Tag);
+                Assert.IsAssignableFrom<ThumbnailInfo>(thumbbox.pictureBox[0].Tag);
                 var thumbinfo = (ThumbnailInfo)thumbbox.pictureBox[0].Tag;
 
                 Assert.Equal("http://foo.example.com/abcd", thumbinfo.ImageUrl);
                 Assert.Equal("dot.gif", thumbinfo.ThumbnailUrl);
 
-                Assert.IsType<ThumbnailInfo>(thumbbox.pictureBox[1].Tag);
+                Assert.IsAssignableFrom<ThumbnailInfo>(thumbbox.pictureBox[1].Tag);
                 thumbinfo = (ThumbnailInfo)thumbbox.pictureBox[1].Tag;
 
                 Assert.Equal("http://bar.example.com/efgh", thumbinfo.ImageUrl);
