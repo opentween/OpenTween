@@ -217,10 +217,11 @@ namespace OpenTween
             Unfollow = 2048,
             ListUserSubscribed = 4096,
             ListUserUnsubscribed = 8192,
+            ListDestroyed = 16384,
 
             All = (None | Favorite | Unfavorite | Follow | ListMemberAdded | ListMemberRemoved |
                    Block | Unblock | UserUpdate | Deleted | ListCreated | ListUpdated | Unfollow |
-                   ListUserSubscribed | ListUserUnsubscribed),
+                   ListUserSubscribed | ListUserUnsubscribed | ListDestroyed),
         }
 
         public static string GetErrorLogPath()

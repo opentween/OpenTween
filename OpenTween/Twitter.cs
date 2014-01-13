@@ -3364,6 +3364,7 @@ namespace OpenTween
             new EventTypeTableElement("user_update", MyCommon.EVENTTYPE.UserUpdate),
             new EventTypeTableElement("deleted", MyCommon.EVENTTYPE.Deleted),
             new EventTypeTableElement("list_created", MyCommon.EVENTTYPE.ListCreated),
+            new EventTypeTableElement("list_destroyed", MyCommon.EVENTTYPE.ListDestroyed), 
             new EventTypeTableElement("list_updated", MyCommon.EVENTTYPE.ListUpdated),
             new EventTypeTableElement("unfollow", MyCommon.EVENTTYPE.Unfollow),
             new EventTypeTableElement("list_user_subscribed", MyCommon.EVENTTYPE.ListUserSubscribed),
@@ -3594,6 +3595,7 @@ namespace OpenTween
                     break;
                 case "list_member_added":
                 case "list_member_removed":
+                case "list_destroyed":
                 case "list_updated":
                 case "list_user_subscribed":
                 case "list_user_unsubscribed":
