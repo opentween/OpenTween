@@ -95,7 +95,7 @@ namespace OpenTween
                                     }
                                     picbox.Image = t2.Result;
                                 },
-                                cancelToken, TaskContinuationOptions.AttachedToParent, uiScheduler);
+                                CancellationToken.None, TaskContinuationOptions.AttachedToParent, uiScheduler);
 
                             var tooltipText = thumb.TooltipText;
                             if (!string.IsNullOrEmpty(tooltipText))
