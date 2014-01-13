@@ -613,9 +613,6 @@
   <data name="UpdateFollowersMenuItem1_ClickText3" xml:space="preserve">
     <value>Followers取得完了</value>
   </data>
-  <data name="TextBoxOutputzKey_Validating" xml:space="preserve">
-    <value>復活の呪文を指定してください。</value>
-  </data>
   <data name="CmbDateTimeFormat_Validating" xml:space="preserve">
     <value>無効な日時書式指定文字列です</value>
   </data>

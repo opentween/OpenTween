@@ -579,9 +579,6 @@
   <data name="UpdateFollowersMenuItem1_ClickText3" xml:space="preserve">
     <value>Followers refreshed</value>
   </data>
-  <data name="TextBoxOutputzKey_Validating" xml:space="preserve">
-    <value>Your secret key using with Outputz must be fill-in.</value>
-  </data>
   <data name="TextCountApi_Validating1" xml:space="preserve">
     <value>Getting number of tweet in Api-mode must be 20 to 200.</value>
   </data>

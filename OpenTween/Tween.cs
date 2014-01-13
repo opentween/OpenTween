@@ -725,10 +725,6 @@ namespace OpenTween
             SettingDialog.UrlConvertAuto = false;
             //SettingDialog.UrlConvertAuto = _cfgCommon.UrlConvertAuto;
 
-            SettingDialog.OutputzEnabled = _cfgCommon.Outputz;
-            SettingDialog.OutputzKey = _cfgCommon.OutputzKey;
-            SettingDialog.OutputzUrlmode = _cfgCommon.OutputzUrlMode;
-
             SettingDialog.UseUnreadStyle = _cfgCommon.UseUnreadStyle;
             SettingDialog.DefaultTimeOut = _cfgCommon.DefaultTimeOut;
             SettingDialog.RetweetNoConfirm = _cfgCommon.RetweetNoConfirm;
@@ -977,18 +973,6 @@ namespace OpenTween
             TrackToolStripMenuItem.Checked = !String.IsNullOrEmpty(tw.TrackWord);
             tw.AllAtReply = _cfgCommon.AllAtReply;
             AllrepliesToolStripMenuItem.Checked = tw.AllAtReply;
-
-            Outputz.Key = SettingDialog.OutputzKey;
-            Outputz.Enabled = SettingDialog.OutputzEnabled;
-            switch (SettingDialog.OutputzUrlmode)
-            {
-                case MyCommon.OutputzUrlmode.twittercom:
-                    Outputz.OutUrl = "http://twitter.com/";
-                    break;
-                case MyCommon.OutputzUrlmode.twittercomWithUsername:
-                    Outputz.OutUrl = "http://twitter.com/" + tw.Username;
-                    break;
-            }
 
             //画像投稿サービス
             this.CreatePictureServices();
@@ -2990,7 +2974,6 @@ namespace OpenTween
                     break;
                 case MyCommon.WORKERTYPE.PostMessage:
                     if (string.IsNullOrEmpty(rslt.retMsg) ||
-                        rslt.retMsg.StartsWith("Outputz") ||
                         rslt.retMsg.StartsWith("OK:") ||
                         rslt.retMsg == "Warn:Status is a duplicate.")
                     {
@@ -4125,18 +4108,6 @@ namespace OpenTween
                     this.PurgeListViewItemCache();
                     if (_curList != null) _curList.Refresh();
                     ListTab.Refresh();
-
-                    Outputz.Key = SettingDialog.OutputzKey;
-                    Outputz.Enabled = SettingDialog.OutputzEnabled;
-                    switch (SettingDialog.OutputzUrlmode)
-                    {
-                        case MyCommon.OutputzUrlmode.twittercom:
-                            Outputz.OutUrl = "http://twitter.com/";
-                            break;
-                        case MyCommon.OutputzUrlmode.twittercomWithUsername:
-                            Outputz.OutUrl = "http://twitter.com/" + tw.Username;
-                            break;
-                    }
 
                     _hookGlobalHotkey.UnregisterAllOriginalHotkey();
                     if (SettingDialog.HotkeyEnabled)
@@ -7803,9 +7774,6 @@ namespace OpenTween
                 _cfgCommon.RestrictFavCheck = SettingDialog.RestrictFavCheck;
                 _cfgCommon.AlwaysTop = SettingDialog.AlwaysTop;
                 _cfgCommon.UrlConvertAuto = SettingDialog.UrlConvertAuto;
-                _cfgCommon.Outputz = SettingDialog.OutputzEnabled;
-                _cfgCommon.OutputzKey = SettingDialog.OutputzKey;
-                _cfgCommon.OutputzUrlMode = SettingDialog.OutputzUrlmode;
                 _cfgCommon.UseUnreadStyle = SettingDialog.UseUnreadStyle;
                 _cfgCommon.DateTimeFormat = SettingDialog.DateTimeFormat;
                 _cfgCommon.DefaultTimeOut = SettingDialog.DefaultTimeOut;

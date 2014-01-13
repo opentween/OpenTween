@@ -111,12 +111,6 @@ namespace OpenTween
             Unu = -1,
         }
 
-        public enum OutputzUrlmode
-        {
-            twittercom,
-            twittercomWithUsername,
-        }
-
         public enum HITRESULT
         {
             None,

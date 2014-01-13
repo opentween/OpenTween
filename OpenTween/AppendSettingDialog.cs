@@ -395,18 +395,6 @@ namespace OpenTween
                 AlwaysTop = this.PreviewPanel.CheckAlwaysTop.Checked;
                 UrlConvertAuto = this.ShortUrlPanel.CheckAutoConvertUrl.Checked;
                 ShortenTco = this.ShortUrlPanel.ShortenTcoCheck.Checked;
-                OutputzEnabled = this.CooperatePanel.CheckOutputz.Checked;
-                OutputzKey = this.CooperatePanel.TextBoxOutputzKey.Text.Trim();
-
-                switch (this.CooperatePanel.ComboBoxOutputzUrlmode.SelectedIndex)
-                {
-                    case 0:
-                        OutputzUrlmode = MyCommon.OutputzUrlmode.twittercom;
-                        break;
-                    case 1:
-                        OutputzUrlmode = MyCommon.OutputzUrlmode.twittercomWithUsername;
-                        break;
-                }
 
                 Nicoms = this.CooperatePanel.CheckNicoms.Checked;
                 UseUnreadStyle = this.TweetPrvPanel.chkUnreadStyle.Checked;
@@ -766,18 +754,6 @@ namespace OpenTween
             this.ShortUrlPanel.CheckAutoConvertUrl.Checked = UrlConvertAuto;
             this.ShortUrlPanel.ShortenTcoCheck.Checked = ShortenTco;
             this.ShortUrlPanel.ShortenTcoCheck.Enabled = this.ShortUrlPanel.CheckAutoConvertUrl.Checked;
-            this.CooperatePanel.CheckOutputz.Checked = OutputzEnabled;
-            this.CooperatePanel.TextBoxOutputzKey.Text = OutputzKey;
-
-            switch (OutputzUrlmode)
-            {
-                case MyCommon.OutputzUrlmode.twittercom:
-                    this.CooperatePanel.ComboBoxOutputzUrlmode.SelectedIndex = 0;
-                    break;
-                case MyCommon.OutputzUrlmode.twittercomWithUsername:
-                    this.CooperatePanel.ComboBoxOutputzUrlmode.SelectedIndex = 1;
-                    break;
-            }
 
             this.CooperatePanel.CheckNicoms.Checked = Nicoms;
             this.TweetPrvPanel.chkUnreadStyle.Checked = UseUnreadStyle;
@@ -852,9 +828,6 @@ namespace OpenTween
             this.ActionPanel.HotkeyText.Enabled = HotkeyEnabled;
             this.ActionPanel.HotkeyCode.Enabled = HotkeyEnabled;
             this.PreviewPanel.ChkNewMentionsBlink.Checked = BlinkNewMentions;
-
-            // XXX: CheckedChanged イベントを発生させる
-            this.CooperatePanel.CheckOutputz.Checked = this.CooperatePanel.CheckOutputz.Checked;
 
             this.GetCountPanel.GetMoreTextCountApi.Text = MoreCountApi.ToString();
             this.GetCountPanel.FirstTextCountApi.Text = FirstCountApi.ToString();
@@ -1186,9 +1159,6 @@ namespace OpenTween
         public bool AlwaysTop { get; set; }
         public bool UrlConvertAuto { get; set; }
         public bool ShortenTco { get; set; }
-        public bool OutputzEnabled { get; set; }
-        public string OutputzKey { get; set; }
-        public MyCommon.OutputzUrlmode OutputzUrlmode { get; set; }
         public bool Nicoms { get; set; }
         public MyCommon.UrlConverter AutoShortUrlFirst { get; set; }
         public bool UseUnreadStyle { get; set; }

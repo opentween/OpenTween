@@ -582,9 +582,6 @@
   <data name="GetTimelineWorker_RunWorkerCompletedText15_black" xml:space="preserve">
     <value>BalckFav添加(</value>
   </data>
-  <data name="TextBoxOutputzKey_Validating" xml:space="preserve">
-    <value>请先填写您的Outputz复活咒文。</value>
-  </data>
   <data name="TextCountApi_Validating1" xml:space="preserve">
     <value>API模式下抓取消息数只能在20到200之间。</value>
   </data>

@@ -43,12 +43,7 @@
             this.UserAppointUrlText = new System.Windows.Forms.TextBox();
             this.ComboBoxTranslateLanguage = new System.Windows.Forms.ComboBox();
             this.Label29 = new System.Windows.Forms.Label();
-            this.CheckOutputz = new System.Windows.Forms.CheckBox();
             this.CheckNicoms = new System.Windows.Forms.CheckBox();
-            this.TextBoxOutputzKey = new System.Windows.Forms.TextBox();
-            this.Label60 = new System.Windows.Forms.Label();
-            this.Label59 = new System.Windows.Forms.Label();
-            this.ComboBoxOutputzUrlmode = new System.Windows.Forms.ComboBox();
             this.MapThumbnailGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -265,44 +260,11 @@
             resources.ApplyResources(this.Label29, "Label29");
             this.Label29.Name = "Label29";
             // 
-            // CheckOutputz
-            // 
-            resources.ApplyResources(this.CheckOutputz, "CheckOutputz");
-            this.CheckOutputz.Name = "CheckOutputz";
-            this.CheckOutputz.UseVisualStyleBackColor = true;
-            this.CheckOutputz.CheckedChanged += new System.EventHandler(this.CheckOutputz_CheckedChanged);
-            // 
             // CheckNicoms
             // 
             resources.ApplyResources(this.CheckNicoms, "CheckNicoms");
             this.CheckNicoms.Name = "CheckNicoms";
             this.CheckNicoms.UseVisualStyleBackColor = true;
-            // 
-            // TextBoxOutputzKey
-            // 
-            resources.ApplyResources(this.TextBoxOutputzKey, "TextBoxOutputzKey");
-            this.TextBoxOutputzKey.Name = "TextBoxOutputzKey";
-            this.TextBoxOutputzKey.Validating += new System.ComponentModel.CancelEventHandler(this.TextBoxOutputzKey_Validating);
-            // 
-            // Label60
-            // 
-            resources.ApplyResources(this.Label60, "Label60");
-            this.Label60.Name = "Label60";
-            // 
-            // Label59
-            // 
-            resources.ApplyResources(this.Label59, "Label59");
-            this.Label59.Name = "Label59";
-            // 
-            // ComboBoxOutputzUrlmode
-            // 
-            this.ComboBoxOutputzUrlmode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ComboBoxOutputzUrlmode.FormattingEnabled = true;
-            this.ComboBoxOutputzUrlmode.Items.AddRange(new object[] {
-            resources.GetString("ComboBoxOutputzUrlmode.Items"),
-            resources.GetString("ComboBoxOutputzUrlmode.Items1")});
-            resources.ApplyResources(this.ComboBoxOutputzUrlmode, "ComboBoxOutputzUrlmode");
-            this.ComboBoxOutputzUrlmode.Name = "ComboBoxOutputzUrlmode";
             // 
             // CooperatePanel
             // 
@@ -314,12 +276,7 @@
             this.Controls.Add(this.UserAppointUrlText);
             this.Controls.Add(this.ComboBoxTranslateLanguage);
             this.Controls.Add(this.Label29);
-            this.Controls.Add(this.CheckOutputz);
             this.Controls.Add(this.CheckNicoms);
-            this.Controls.Add(this.TextBoxOutputzKey);
-            this.Controls.Add(this.Label60);
-            this.Controls.Add(this.Label59);
-            this.Controls.Add(this.ComboBoxOutputzUrlmode);
             this.Name = "CooperatePanel";
             this.MapThumbnailGroupBox.ResumeLayout(false);
             this.MapThumbnailGroupBox.PerformLayout();
@@ -343,12 +300,7 @@
         internal System.Windows.Forms.TextBox UserAppointUrlText;
         internal System.Windows.Forms.ComboBox ComboBoxTranslateLanguage;
         internal System.Windows.Forms.Label Label29;
-        internal System.Windows.Forms.CheckBox CheckOutputz;
         internal System.Windows.Forms.CheckBox CheckNicoms;
-        internal System.Windows.Forms.TextBox TextBoxOutputzKey;
-        internal System.Windows.Forms.Label Label60;
-        internal System.Windows.Forms.Label Label59;
-        internal System.Windows.Forms.ComboBox ComboBoxOutputzUrlmode;
         internal System.Windows.Forms.ComboBox MapThumbnailProviderComboBox;
     }
 }

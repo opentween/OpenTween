@@ -310,7 +310,6 @@
     <Compile Include="OpenURL.Designer.cs">
       <DependentUpon>OpenURL.cs</DependentUpon>
     </Compile>
-    <Compile Include="Outputz.cs" />
     <Compile Include="PictureBoxEx.cs">
       <SubType>Component</SubType>
     </Compile>

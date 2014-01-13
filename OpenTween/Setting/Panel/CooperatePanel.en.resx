@@ -154,12 +154,6 @@
   <data name="Label29.Text" xml:space="preserve">
     <value>Language at translation destination</value>
   </data>
-  <data name="CheckOutputz.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 16</value>
-  </data>
-  <data name="CheckOutputz.Text" xml:space="preserve">
-    <value>Use Outputz</value>
-  </data>
   <data name="CheckNicoms.Size" type="System.Drawing.Size, System.Drawing">
     <value>196, 16</value>
   </data>
@@ -168,9 +162,6 @@
   </data>
   <data name="Label60.Size" type="System.Drawing.Size, System.Drawing">
     <value>107, 12</value>
-  </data>
-  <data name="Label60.Text" xml:space="preserve">
-    <value>URI of your Outputz</value>
   </data>
   <data name="Label59.Size" type="System.Drawing.Size, System.Drawing">
     <value>86, 12</value>

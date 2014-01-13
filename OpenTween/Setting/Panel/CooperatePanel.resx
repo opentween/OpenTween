@@ -127,7 +127,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="IsPreviewFoursquareCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 214</value>
+    <value>23, 131</value>
   </data>
   <data name="IsPreviewFoursquareCheckBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>327, 16</value>
@@ -149,126 +149,6 @@
   </data>
   <data name="&gt;&gt;IsPreviewFoursquareCheckBox.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailProviderComboBox.Name" xml:space="preserve">
-    <value>MapThumbnailProviderComboBox</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailProviderComboBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailProviderComboBox.Parent" xml:space="preserve">
-    <value>MapThumbnailGroupBox</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailProviderComboBox.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;label48.Name" xml:space="preserve">
-    <value>label48</value>
-  </data>
-  <data name="&gt;&gt;label48.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label48.Parent" xml:space="preserve">
-    <value>MapThumbnailGroupBox</value>
-  </data>
-  <data name="&gt;&gt;label48.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;Label42.Name" xml:space="preserve">
-    <value>Label42</value>
-  </data>
-  <data name="&gt;&gt;Label42.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label42.Parent" xml:space="preserve">
-    <value>MapThumbnailGroupBox</value>
-  </data>
-  <data name="&gt;&gt;Label42.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailWidthTextBox.Name" xml:space="preserve">
-    <value>MapThumbnailWidthTextBox</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailWidthTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailWidthTextBox.Parent" xml:space="preserve">
-    <value>MapThumbnailGroupBox</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailWidthTextBox.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailZoomTextBox.Name" xml:space="preserve">
-    <value>MapThumbnailZoomTextBox</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailZoomTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailZoomTextBox.Parent" xml:space="preserve">
-    <value>MapThumbnailGroupBox</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailZoomTextBox.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailHeightTextBox.Name" xml:space="preserve">
-    <value>MapThumbnailHeightTextBox</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailHeightTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailHeightTextBox.Parent" xml:space="preserve">
-    <value>MapThumbnailGroupBox</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailHeightTextBox.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;Label41.Name" xml:space="preserve">
-    <value>Label41</value>
-  </data>
-  <data name="&gt;&gt;Label41.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label41.Parent" xml:space="preserve">
-    <value>MapThumbnailGroupBox</value>
-  </data>
-  <data name="&gt;&gt;Label41.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;Label40.Name" xml:space="preserve">
-    <value>Label40</value>
-  </data>
-  <data name="&gt;&gt;Label40.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label40.Parent" xml:space="preserve">
-    <value>MapThumbnailGroupBox</value>
-  </data>
-  <data name="&gt;&gt;Label40.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="MapThumbnailGroupBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 239</value>
-  </data>
-  <data name="MapThumbnailGroupBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>473, 80</value>
-  </data>
-  <data name="MapThumbnailGroupBox.TabIndex" type="System.Int32, mscorlib">
-    <value>31</value>
-  </data>
-  <data name="MapThumbnailGroupBox.Text" xml:space="preserve">
-    <value>地図サムネイル</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailGroupBox.Name" xml:space="preserve">
-    <value>MapThumbnailGroupBox</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailGroupBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailGroupBox.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailGroupBox.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="MapThumbnailProviderComboBox.Items" xml:space="preserve">
     <value>OpenStreetMap</value>
@@ -483,6 +363,30 @@
   <data name="&gt;&gt;Label40.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
+  <data name="MapThumbnailGroupBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>23, 156</value>
+  </data>
+  <data name="MapThumbnailGroupBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>473, 80</value>
+  </data>
+  <data name="MapThumbnailGroupBox.TabIndex" type="System.Int32, mscorlib">
+    <value>31</value>
+  </data>
+  <data name="MapThumbnailGroupBox.Text" xml:space="preserve">
+    <value>地図サムネイル</value>
+  </data>
+  <data name="&gt;&gt;MapThumbnailGroupBox.Name" xml:space="preserve">
+    <value>MapThumbnailGroupBox</value>
+  </data>
+  <data name="&gt;&gt;MapThumbnailGroupBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MapThumbnailGroupBox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;MapThumbnailGroupBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="Label39.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -490,7 +394,7 @@
     <value>NoControl</value>
   </data>
   <data name="Label39.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 167</value>
+    <value>23, 84</value>
   </data>
   <data name="Label39.Size" type="System.Drawing.Size, System.Drawing">
     <value>401, 12</value>
@@ -514,7 +418,7 @@
     <value>2</value>
   </data>
   <data name="UserAppointUrlText.Location" type="System.Drawing.Point, System.Drawing">
-    <value>218, 185</value>
+    <value>218, 102</value>
   </data>
   <data name="UserAppointUrlText.Size" type="System.Drawing.Size, System.Drawing">
     <value>278, 19</value>
@@ -907,7 +811,7 @@
     <value>Zulu</value>
   </data>
   <data name="ComboBoxTranslateLanguage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>218, 131</value>
+    <value>218, 48</value>
   </data>
   <data name="ComboBoxTranslateLanguage.Size" type="System.Drawing.Size, System.Drawing">
     <value>182, 20</value>
@@ -934,7 +838,7 @@
     <value>NoControl</value>
   </data>
   <data name="Label29.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 134</value>
+    <value>23, 51</value>
   </data>
   <data name="Label29.Size" type="System.Drawing.Size, System.Drawing">
     <value>99, 12</value>
@@ -957,36 +861,6 @@
   <data name="&gt;&gt;Label29.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <data name="CheckOutputz.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CheckOutputz.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CheckOutputz.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 23</value>
-  </data>
-  <data name="CheckOutputz.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 16</value>
-  </data>
-  <data name="CheckOutputz.TabIndex" type="System.Int32, mscorlib">
-    <value>21</value>
-  </data>
-  <data name="CheckOutputz.Text" xml:space="preserve">
-    <value>Outputzに対応する</value>
-  </data>
-  <data name="&gt;&gt;CheckOutputz.Name" xml:space="preserve">
-    <value>CheckOutputz</value>
-  </data>
-  <data name="&gt;&gt;CheckOutputz.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckOutputz.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;CheckOutputz.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
   <data name="CheckNicoms.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -994,7 +868,7 @@
     <value>NoControl</value>
   </data>
   <data name="CheckNicoms.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 106</value>
+    <value>23, 23</value>
   </data>
   <data name="CheckNicoms.Size" type="System.Drawing.Size, System.Drawing">
     <value>237, 16</value>
@@ -1015,115 +889,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CheckNicoms.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="TextBoxOutputzKey.Location" type="System.Drawing.Point, System.Drawing">
-    <value>217, 48</value>
-  </data>
-  <data name="TextBoxOutputzKey.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 19</value>
-  </data>
-  <data name="TextBoxOutputzKey.TabIndex" type="System.Int32, mscorlib">
-    <value>23</value>
-  </data>
-  <data name="&gt;&gt;TextBoxOutputzKey.Name" xml:space="preserve">
-    <value>TextBoxOutputzKey</value>
-  </data>
-  <data name="&gt;&gt;TextBoxOutputzKey.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TextBoxOutputzKey.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;TextBoxOutputzKey.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="Label60.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label60.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label60.Location" type="System.Drawing.Point, System.Drawing">
-    <value>32, 80</value>
-  </data>
-  <data name="Label60.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 12</value>
-  </data>
-  <data name="Label60.TabIndex" type="System.Int32, mscorlib">
-    <value>24</value>
-  </data>
-  <data name="Label60.Text" xml:space="preserve">
-    <value>アウトプット先のURL</value>
-  </data>
-  <data name="&gt;&gt;Label60.Name" xml:space="preserve">
-    <value>Label60</value>
-  </data>
-  <data name="&gt;&gt;Label60.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label60.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;Label60.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="Label59.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label59.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label59.Location" type="System.Drawing.Point, System.Drawing">
-    <value>32, 51</value>
-  </data>
-  <data name="Label59.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 12</value>
-  </data>
-  <data name="Label59.TabIndex" type="System.Int32, mscorlib">
-    <value>22</value>
-  </data>
-  <data name="Label59.Text" xml:space="preserve">
-    <value>復活の呪文</value>
-  </data>
-  <data name="&gt;&gt;Label59.Name" xml:space="preserve">
-    <value>Label59</value>
-  </data>
-  <data name="&gt;&gt;Label59.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label59.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;Label59.ZOrder" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="ComboBoxOutputzUrlmode.Items" xml:space="preserve">
-    <value>twitter.com</value>
-  </data>
-  <data name="ComboBoxOutputzUrlmode.Items1" xml:space="preserve">
-    <value>twitter.com/username</value>
-  </data>
-  <data name="ComboBoxOutputzUrlmode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>218, 77</value>
-  </data>
-  <data name="ComboBoxOutputzUrlmode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 20</value>
-  </data>
-  <data name="ComboBoxOutputzUrlmode.TabIndex" type="System.Int32, mscorlib">
-    <value>25</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxOutputzUrlmode.Name" xml:space="preserve">
-    <value>ComboBoxOutputzUrlmode</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxOutputzUrlmode.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxOutputzUrlmode.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxOutputzUrlmode.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>6</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
