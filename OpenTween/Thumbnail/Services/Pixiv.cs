@@ -25,6 +25,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace OpenTween.Thumbnail.Services
@@ -52,15 +53,15 @@ namespace OpenTween.Thumbnail.Services
 
         public class Thumbnail : ThumbnailInfo
         {
-            protected override Task<MemoryImage> LoadThumbnailImageAsync()
+            public override Task<MemoryImage> LoadThumbnailImageAsync(CancellationToken token)
             {
                 var client = new OTWebClient();
 
                 client.UserAgent = MyCommon.GetUserAgentString(fakeMSIE: true);
                 client.Headers[HttpRequestHeader.Referer] = this.ImageUrl;
 
-                var task = client.DownloadDataAsync(new Uri(this.ThumbnailUrl))
-                    .ContinueWith(t => MemoryImage.CopyFromBytes(t.Result));
+                var task = client.DownloadDataAsync(new Uri(this.ThumbnailUrl), token)
+                    .ContinueWith(t => MemoryImage.CopyFromBytes(t.Result), token);
 
                 task.ContinueWith(_ => client.Dispose());
 

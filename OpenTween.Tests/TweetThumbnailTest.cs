@@ -68,9 +68,9 @@ namespace OpenTween
 
             class MockThumbnailInfo : ThumbnailInfo
             {
-                protected override Task<MemoryImage> LoadThumbnailImageAsync()
+                public override Task<MemoryImage> LoadThumbnailImageAsync(CancellationToken token)
                 {
-                    return Task.Factory.StartNew(() => MemoryImage.CopyFromBytes(File.ReadAllBytes("Resources/" + this.ThumbnailUrl)));
+                    return Task.Factory.StartNew(() => MemoryImage.CopyFromBytes(File.ReadAllBytes("Resources/" + this.ThumbnailUrl)), token);
                 }
             }
         }

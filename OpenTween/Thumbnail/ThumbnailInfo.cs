@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace OpenTween.Thumbnail
@@ -34,19 +35,17 @@ namespace OpenTween.Thumbnail
         public string TooltipText { get; set; }
         public string FullSizeImageUrl { get; set; }
 
-        public readonly Lazy<Task<MemoryImage>> ThumbnailImageTask;
-
-        public ThumbnailInfo()
+        public Task<MemoryImage> LoadThumbnailImageAsync()
         {
-            this.ThumbnailImageTask = new Lazy<Task<MemoryImage>>(this.LoadThumbnailImageAsync);
+            return this.LoadThumbnailImageAsync(CancellationToken.None);
         }
 
-        protected virtual Task<MemoryImage> LoadThumbnailImageAsync()
+        public virtual Task<MemoryImage> LoadThumbnailImageAsync(CancellationToken token)
         {
             var client = new OTWebClient();
 
-            var task = client.DownloadDataAsync(new Uri(this.ThumbnailUrl))
-                .ContinueWith(t => MemoryImage.CopyFromBytes(t.Result));
+            var task = client.DownloadDataAsync(new Uri(this.ThumbnailUrl), token)
+                .ContinueWith(t => MemoryImage.CopyFromBytes(t.Result), token);
 
             task.ContinueWith(_ => client.Dispose());
 

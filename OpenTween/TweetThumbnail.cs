@@ -85,14 +85,19 @@ namespace OpenTween
                             picbox.ContextMenu = CreateContextMenu(thumb);
 
                             picbox.ShowInitialImage();
-                            thumb.ThumbnailImageTask.Value.ContinueWith(t2 =>
+
+                            thumb.LoadThumbnailImageAsync(cancelToken)
+                                .ContinueWith(t2 =>
                                 {
                                     if (t2.IsFaulted)
-                                    {
                                         t2.Exception.Flatten().Handle(x => x is WebException || x is InvalidImageException);
+
+                                    if (t2.IsFaulted || t2.IsCanceled)
+                                    {
                                         picbox.ShowErrorImage();
                                         return;
                                     }
+
                                     picbox.Image = t2.Result;
                                 },
                                 CancellationToken.None, TaskContinuationOptions.AttachedToParent, uiScheduler);

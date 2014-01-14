@@ -59,7 +59,7 @@ namespace OpenTween.Thumbnail.Services
 
         public class Thumbnail : ThumbnailInfo
         {
-            protected override Task<MemoryImage> LoadThumbnailImageAsync()
+            public override Task<MemoryImage> LoadThumbnailImageAsync(CancellationToken token)
             {
                 return Task.Factory.StartNew(() =>
                 {
@@ -77,7 +77,7 @@ namespace OpenTween.Thumbnail.Services
                             throw new WebException(statusCode.ToString(), WebExceptionStatus.ProtocolError);
                     }
                 },
-                CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default); // 明示しないと TaskScheduler.Current になり UI スレッド上で実行されてしまう
+                token, TaskCreationOptions.None, TaskScheduler.Default); // 明示しないと TaskScheduler.Current になり UI スレッド上で実行されてしまう
             }
         }
     }
