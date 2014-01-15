@@ -1453,7 +1453,7 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   &lt;a href=&quot;http://twitter.com/&quot; rel=&quot;nofollow&quot;&gt;Keitai Mail&lt;/a&gt; に類似しているローカライズされた文字列を検索します。
+        ///   &lt;a href=&quot;https://twitter.com/&quot; rel=&quot;nofollow&quot;&gt;Keitai Mail&lt;/a&gt; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string KeitaiMailSourceString {
             get {
@@ -3083,7 +3083,7 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   &lt;a href=&quot;http://twitter.com/&quot; rel=&quot;nofollow&quot;&gt;web&lt;/a&gt; に類似しているローカライズされた文字列を検索します。
+        ///   &lt;a href=&quot;https://twitter.com/&quot; rel=&quot;nofollow&quot;&gt;web&lt;/a&gt; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string WebSourceString {
             get {

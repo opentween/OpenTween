@@ -123,7 +123,7 @@ namespace OpenTween
                 string orgUrl = orgUrlMatch.Result("${svc}");
                 string orgUrlPath = orgUrlMatch.Result("${path}");
                 if (Array.IndexOf(_ShortUrlService, orgUrl) > -1 &&
-                   !urlList.Contains(orgUrl + orgUrlPath) && orgUrl != "http://twitter.com/")
+                   !urlList.Contains(orgUrl + orgUrlPath) && orgUrl != "https://twitter.com/")
                 {
                     if (!tcoResolve && (orgUrl == "http://t.co/" || orgUrl == "https://t.co")) continue;
                     lock (_lockObj)
@@ -190,7 +190,7 @@ namespace OpenTween
             {
                 string orgUrl = m.Result("${svc}");
                 string orgUrlPath = m.Result("${path}");
-                if (Array.IndexOf(_ShortUrlService, orgUrl) > -1 && orgUrl != "http://twitter.com/")
+                if (Array.IndexOf(_ShortUrlService, orgUrl) > -1 && orgUrl != "https://twitter.com/")
                 {
                     if (!tcoResolve && (orgUrl == "http://t.co/" || orgUrl == "https://t.co/")) return orgData;
                     orgUrl += orgUrlPath;

@@ -1004,10 +1004,10 @@
     <value>取得発言数は20～100件を指定してください。</value>
   </data>
   <data name="KeitaiMailSourceString" xml:space="preserve">
-    <value>&lt;a href="http://twitter.com/" rel="nofollow"&gt;Keitai Mail&lt;/a&gt;</value>
+    <value>&lt;a href="https://twitter.com/" rel="nofollow"&gt;Keitai Mail&lt;/a&gt;</value>
   </data>
   <data name="WebSourceString" xml:space="preserve">
-    <value>&lt;a href="http://twitter.com/" rel="nofollow"&gt;web&lt;/a&gt;</value>
+    <value>&lt;a href="https://twitter.com/" rel="nofollow"&gt;web&lt;/a&gt;</value>
   </data>
   <data name="RetweetLimitText" xml:space="preserve">
     <value>一度にRetweetできるのは15件までです</value>

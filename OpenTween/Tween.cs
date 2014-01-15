@@ -6122,7 +6122,7 @@ namespace OpenTween
                     mc = Regex.Match(src, "^https?://");
                     if (!mc.Success)
                     {
-                        src = src.Insert(0, "http://twitter.com");
+                        src = src.Insert(0, "https://twitter.com");
                     }
                     SourceLinkLabel.Tag = src;
                 }
@@ -7017,9 +7017,9 @@ namespace OpenTween
                 if (!isDm)
                 {
                     if (post.RetweetedId != null)
-                        sb.AppendFormat("{0}:{1} [http://twitter.com/{0}/status/{2}]{3}", post.ScreenName, post.TextSingleLine, post.RetweetedId, Environment.NewLine);
+                        sb.AppendFormat("{0}:{1} [https://twitter.com/{0}/status/{2}]{3}", post.ScreenName, post.TextSingleLine, post.RetweetedId, Environment.NewLine);
                     else
-                        sb.AppendFormat("{0}:{1} [http://twitter.com/{0}/status/{2}]{3}", post.ScreenName, post.TextSingleLine, post.StatusId, Environment.NewLine);
+                        sb.AppendFormat("{0}:{1} [https://twitter.com/{0}/status/{2}]{3}", post.ScreenName, post.TextSingleLine, post.StatusId, Environment.NewLine);
                 }
                 else
                 {
@@ -7458,14 +7458,14 @@ namespace OpenTween
                     }
                     catch (InvalidOperationException)
                     {
-                        OpenUriAsync("http://twitter.com/" + inReplyToUser + "/statuses/" + inReplyToId.ToString());
+                        OpenUriAsync("https://twitter.com/" + inReplyToUser + "/statuses/" + inReplyToId.ToString());
                         return;
                     }
                 }
                 else
                 {
                     this.StatusLabel.Text = r;
-                    OpenUriAsync("http://twitter.com/" + inReplyToUser + "/statuses/" + inReplyToId.ToString());
+                    OpenUriAsync("https://twitter.com/" + inReplyToUser + "/statuses/" + inReplyToId.ToString());
                     return;
                 }
             }
@@ -11590,7 +11590,7 @@ namespace OpenTween
                 PostClass post = GetCurTabPost(_curList.SelectedIndices[0]);
                 if (post.RetweetedId != null)
                 {
-                    OpenUriAsync("http://twitter.com/" + GetCurTabPost(_curList.SelectedIndices[0]).RetweetedBy);
+                    OpenUriAsync("https://twitter.com/" + GetCurTabPost(_curList.SelectedIndices[0]).RetweetedBy);
                 }
             }
         }

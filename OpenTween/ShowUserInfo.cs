@@ -52,7 +52,7 @@ namespace OpenTween
         private string descriptionTxt;
         private string recentPostTxt;
 
-        private const string Mainpath = "http://twitter.com/";
+        private const string Mainpath = "https://twitter.com/";
         private const string Followingpath = "/following";
         private const string Followerspath = "/followers";
         private const string Favpath = "/favorites";
