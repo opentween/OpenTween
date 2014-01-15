@@ -5,7 +5,9 @@
  * CHG: 「通信にHTTPSを使用する」の設定項目を削除
    - Twitter APIへの接続にSSLが必須となったため、常にHTTPSを使用して通信します
  * CHG: Twitterのプロフィールページなどをブラウザで開く際のURLのスキームを http:// から https:// に変更しました
+ * CHG: 既にサービスが終了しているOutputz関連の設定項目を削除
  * FIX: 設定ファイルの保存時に Setting*.xml.tmp ファイルが残ったまま設定が保存できなくなる問題の修正
+ * FIX: UserStreamsの list_destroyed イベントを受信した際に未知のイベントとして扱われる問題を修正 (thx @5px)
 
 ==== Ver 1.1.6(2013/12/12)
  * UriFormatException のエラーが多数報告されたため修正版をリリースしました
