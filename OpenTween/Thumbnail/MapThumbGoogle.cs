@@ -35,11 +35,7 @@ namespace OpenTween.Thumbnail
             var zoom = AppendSettingDialog.Instance.MapThumbnailZoom;
             var location = latitude.ToString() + "," + longitude.ToString();
 
-            string baseUrl;
-            if (AppendSettingDialog.Instance.UseSsl)
-                baseUrl = "https://maps.googleapis.com/maps/api/staticmap";
-            else
-                baseUrl = "http://maps.google.com/maps/api/staticmap";
+            var baseUrl = "https://maps.googleapis.com/maps/api/staticmap";
 
             return baseUrl + "?center=" + location + "&size=" + width + "x" + height + "&zoom=" + zoom + "&markers=" + location + "&sensor=false";
         }
@@ -49,11 +45,7 @@ namespace OpenTween.Thumbnail
             var zoom = AppendSettingDialog.Instance.MapThumbnailZoom;
             var location = latitude.ToString() + "," + longitude.ToString();
 
-            string baseUrl;
-            if (AppendSettingDialog.Instance.UseSsl)
-                baseUrl = "https://maps.google.co.jp/maps";
-            else
-                baseUrl = "http://maps.google.co.jp/maps";
+            var baseUrl = "https://maps.google.co.jp/maps";
 
             return baseUrl + "?ll=" + location + "&z=" + zoom + "&q=" + location;
         }

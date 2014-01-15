@@ -44,8 +44,6 @@ namespace OpenTween
         private const string AuthorizeUrl = "https://api.twitter.com/oauth/authorize";
         private const string AccessTokenUrl = "https://api.twitter.com/oauth/access_token";
 
-        private static string _protocol = "http://";
-
         private const string PostMethod = "POST";
         private const string GetMethod = "GET";
 
@@ -164,17 +162,6 @@ namespace OpenTween
         public void ClearAuthInfo()
         {
             this.Initialize("", "", "", 0);
-        }
-
-        public static bool UseSsl
-        {
-            set
-            {
-                if (value)
-                    _protocol = "https://";
-                else
-                    _protocol = "http://";
-            }
         }
 
         public HttpStatusCode UpdateStatus(string status, long? replyToId, ref string content)
@@ -841,7 +828,7 @@ namespace OpenTween
 
         private Uri CreateTwitterUri(string path)
         {
-            return new Uri(string.Format("{0}{1}{2}", _protocol, _twitterUrl, path));
+            return new Uri(string.Format("{0}{1}{2}", "https://", _twitterUrl, path));
         }
 
         private Uri CreateTwitterUserStreamUri(string path)

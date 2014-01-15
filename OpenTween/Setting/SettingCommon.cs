@@ -153,7 +153,6 @@ namespace OpenTween
         public int SortOrder = 1;
         public bool IsMonospace = false;
         public bool ReadOldPosts = false;
-        public bool UseSsl = true;
         public string Language = "OS";
         public bool Nicoms = false;
         public List<string> HashTags = new List<string>();

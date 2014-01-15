@@ -146,7 +146,6 @@ namespace OpenTween
         private int _statusesCount = 0;
         private string _location = "";
         private string _bio = "";
-        private string _protocol = "https://";
 
         //プロパティからアクセスされる共通情報
         private string _uname;
@@ -1324,22 +1323,6 @@ namespace OpenTween
             get
             {
                 return _bio;
-            }
-        }
-
-        public bool UseSsl
-        {
-            set
-            {
-                HttpTwitter.UseSsl = value;
-                if (value)
-                {
-                    _protocol = "https://";
-                }
-                else
-                {
-                    _protocol = "http://";
-                }
             }
         }
 
@@ -2925,7 +2908,7 @@ namespace OpenTween
                                                           {
                                                               _hashList.Add("#" + mh.Result("$3"));
                                                           }
-                                                          return mh.Result("$1") + "<a href=\"" + _protocol + "twitter.com/search?q=%23" + mh.Result("$3") + "\">" + mh.Result("$2$3") + "</a>";
+                                                          return mh.Result("$1") + "<a href=\"https://twitter.com/search?q=%23" + mh.Result("$3") + "\">" + mh.Result("$2$3") + "</a>";
                                                       }),
                                                   RegexOptions.IgnoreCase);
 
@@ -2989,7 +2972,7 @@ namespace OpenTween
                                    new EntityInfo {StartIndex = ent.Indices[0],
                                                    EndIndex = ent.Indices[1],
                                                    Text = hash,
-                                                   Html = "<a href=\"" + _protocol + "twitter.com/search?q=%23" + ent.Text + "\">" + hash + "</a>"});
+                                                   Html = "<a href=\"https://twitter.com/search?q=%23" + ent.Text + "\">" + hash + "</a>"});
                         lock (LockObj)
                         {
                             _hashList.Add("#" + ent.Text);

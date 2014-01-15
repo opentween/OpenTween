@@ -121,9 +121,6 @@
   <data name="CheckUseSsl.Size" type="System.Drawing.Size, System.Drawing">
     <value>130, 16</value>
   </data>
-  <data name="CheckUseSsl.Text" xml:space="preserve">
-    <value>Use HTTPS Protocol</value>
-  </data>
   <data name="Label64.Size" type="System.Drawing.Size, System.Drawing">
     <value>371, 12</value>
   </data>
