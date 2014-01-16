@@ -199,6 +199,7 @@ namespace OpenTween
         public bool OpenUserTimeline = true;
         public int ListCountApi = 100;
         public int UseImageService = 0;
+        public string UseImageServiceName = "";
         public int ListDoubleClickAction = 0;
         public string UserAppointUrl = "";
         public bool HideDuplicatedRetweets = false;
