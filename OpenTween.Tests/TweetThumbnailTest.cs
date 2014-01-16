@@ -158,7 +158,11 @@ namespace OpenTween
                 Assert.Equal(thumbbox.pictureBox, thumbbox.panelPictureBox.Controls.Cast<OTPictureBox>());
 
                 Assert.Equal(0, thumbbox.scrollBar.Minimum);
-                Assert.Equal(count, thumbbox.scrollBar.Maximum);
+
+                if (count == 0)
+                    Assert.Equal(0, thumbbox.scrollBar.Maximum);
+                else
+                    Assert.Equal(count - 1, thumbbox.scrollBar.Maximum);
             }
         }
 
