@@ -85,7 +85,7 @@ namespace OpenTween
             return MemoryImage.CopyFromStream(this.Stream);
         }
 
-        public object ICloneable.Clone()
+        object ICloneable.Clone()
         {
             return this.Clone();
         }
