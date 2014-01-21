@@ -38,7 +38,7 @@ namespace OpenTween
     /// Image.FromStream() を使用して Image を生成する場合、
     /// Image を破棄するまでの間は元となった Stream を破棄できないためその対策として使用する。
     /// </remarks>
-    public class MemoryImage : IDisposable
+    public class MemoryImage : ICloneable, IDisposable
     {
         public readonly Stream Stream;
         public readonly Image Image;
@@ -78,6 +78,16 @@ namespace OpenTween
             }
 
             this.Stream = stream;
+        }
+
+        public MemoryImage Clone()
+        {
+            return MemoryImage.CopyFromStream(this.Stream);
+        }
+
+        public object ICloneable.Clone()
+        {
+            return this.Clone();
         }
 
         protected virtual void Dispose(bool disposing)
@@ -120,12 +130,8 @@ namespace OpenTween
         {
             var memstream = new MemoryStream();
 
-            var buffer = new byte[1024];
-            int length;
-            while ((length = stream.Read(buffer, 0, buffer.Length)) > 0)
-            {
-                memstream.Write(buffer, 0, length);
-            }
+            stream.CopyTo(memstream);
+            memstream.Seek(0, SeekOrigin.Begin);
 
             return new MemoryImage(memstream);
         }
