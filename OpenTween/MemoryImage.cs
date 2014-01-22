@@ -80,8 +80,18 @@ namespace OpenTween
             this.Stream = stream;
         }
 
+        /// <summary>
+        /// MemoryImage インスタンスを複製します
+        /// </summary>
+        /// <remarks>
+        /// メソッド実行中にストリームのシークが行われないよう注意して下さい。
+        /// 特に PictureBox で Gif アニメーションを表示している場合は Enabled に false をセットするなどして更新を止めて下さい。
+        /// </remarks>
+        /// <returns>複製された MemoryImage</returns>
         public MemoryImage Clone()
         {
+            this.Stream.Seek(0, SeekOrigin.Begin);
+
             return MemoryImage.CopyFromStream(this.Stream);
         }
 
@@ -131,7 +141,6 @@ namespace OpenTween
             var memstream = new MemoryStream();
 
             stream.CopyTo(memstream);
-            memstream.Seek(0, SeekOrigin.Begin);
 
             return new MemoryImage(memstream);
         }
