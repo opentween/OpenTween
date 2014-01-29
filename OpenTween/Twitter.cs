@@ -3214,19 +3214,26 @@ namespace OpenTween
             // 404エラーの挙動が変なので無視: https://dev.twitter.com/discussions/1213
             if (httpStatus == HttpStatusCode.NotFound) return null;
 
-            var callerMethod = new StackTrace(false).GetFrame(1).GetMethod().Name;
+            var callerMethod = new StackTrace(false).GetFrame(1).GetMethod();
+            var callerMethodName = callerMethod != null
+                ? callerMethod.Name
+                : "";
 
             if (string.IsNullOrWhiteSpace(responseText))
             {
                 if (httpStatus == HttpStatusCode.Unauthorized)
                     Twitter.AccountState = MyCommon.ACCOUNT_STATE.Invalid;
 
-                return "Err:" + httpStatus + "(" + callerMethod + ")";
+                return "Err:" + httpStatus + "(" + callerMethodName + ")";
             }
 
             try
             {
                 var errors = MyCommon.CreateDataFromJson<TwitterDataModel.ErrorResponse>(responseText).Errors;
+                if (errors == null || !errors.Any())
+                {
+                    return "Err:" + responseText + "(" + callerMethodName + ")";
+                }
 
                 foreach (var error in errors)
                 {
@@ -3237,11 +3244,11 @@ namespace OpenTween
                     }
                 }
 
-                return "Err:" + string.Join(",", errors.Select(x => x.ToString())) + "(" + callerMethod + ")";
+                return "Err:" + string.Join(",", errors.Select(x => x.ToString())) + "(" + callerMethodName + ")";
             }
             catch (SerializationException) { }
 
-            return "Err:" + responseText + "(" + callerMethod + ")";
+            return "Err:" + responseText + "(" + callerMethodName + ")";
         }
 
 #region "UserStream"
