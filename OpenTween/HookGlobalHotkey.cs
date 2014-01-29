@@ -151,10 +151,8 @@ namespace OpenTween
             {
                 if (disposing)
                 {
-                    // TODO: 明示的に呼び出されたときにマネージ リソースを解放します
                 }
 
-                // TODO: 共有のアンマネージ リソースを解放します
                 if (this._targetForm != null && !this._targetForm.IsDisposed)
                 {
                     this.UnregisterAllOriginalHotkey();

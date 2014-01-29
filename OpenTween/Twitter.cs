@@ -3855,21 +3855,16 @@ namespace OpenTween
                 {
                     if (disposing)
                     {
-                        // TODO: マネージ状態を破棄します (マネージ オブジェクト)。
                         _streamActive = false;
                         if (_streamThread != null && _streamThread.IsAlive)
                         {
                             _streamThread.Abort();
                         }
                     }
-
-                    // TODO: アンマネージ リソース (アンマネージ オブジェクト) を解放し、下の Finalize() をオーバーライドします。
-                    // TODO: 大きなフィールドを null に設定します。
                 }
                 this.disposedValue = true;
             }
 
-            // TODO: 上の Dispose(bool disposing) にアンマネージ リソースを解放するコードがある場合にのみ、Finalize() をオーバーライドします。
             //protected Overrides void Finalize()
             //{
             //    // このコードを変更しないでください。クリーンアップ コードを上の Dispose(bool disposing) に記述します。
@@ -3899,17 +3894,12 @@ namespace OpenTween
             {
                 if (disposing)
                 {
-                    // TODO: マネージ状態を破棄します (マネージ オブジェクト)。
                     this.StopUserStream();
                 }
-
-                // TODO: アンマネージ リソース (アンマネージ オブジェクト) を解放し、下の Finalize() をオーバーライドします。
-                // TODO: 大きなフィールドを null に設定します。
             }
             this.disposedValue = true;
         }
 
-        // TODO: 上の Dispose(bool disposing) にアンマネージ リソースを解放するコードがある場合にのみ、Finalize() をオーバーライドします。
         //protected Overrides void Finalize()
         //{
         //    // このコードを変更しないでください。クリーンアップ コードを上の Dispose(bool disposing) に記述します。
