@@ -61,7 +61,7 @@ namespace OpenTween.Thumbnail.Services
                 client.Headers[HttpRequestHeader.Referer] = this.ImageUrl;
 
                 var task = client.DownloadDataAsync(new Uri(this.ThumbnailUrl), token)
-                    .ContinueWith(t => MemoryImage.CopyFromBytes(t.Result), token);
+                    .ContinueWith(t => MemoryImage.CopyFromBytes(t.Result));
 
                 task.ContinueWith(_ => client.Dispose());
 
