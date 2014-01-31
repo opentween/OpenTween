@@ -45,7 +45,7 @@ namespace OpenTween.Thumbnail
             var client = new OTWebClient();
 
             var task = client.DownloadDataAsync(new Uri(this.ThumbnailUrl), token)
-                .ContinueWith(t => MemoryImage.CopyFromBytes(t.Result));
+                .ContinueWith(t => MemoryImage.CopyFromBytes(t.Result), TaskScheduler.Default);
 
             task.ContinueWith(_ => client.Dispose());
 
