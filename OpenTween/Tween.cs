@@ -519,7 +519,7 @@ namespace OpenTween
             }
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void TweenMain_Load(object sender, EventArgs e)
         {
             _ignoreConfigSave = true;
             this.Visible = false;
@@ -2335,7 +2335,7 @@ namespace OpenTween
             this.Close();
         }
 
-        private void Tween_FormClosing(object sender, FormClosingEventArgs e)
+        private void TweenMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (!SettingDialog.CloseToExit && e.CloseReason == CloseReason.UserClosing && MyCommon._endingFlag == false)
             {
@@ -3370,7 +3370,7 @@ namespace OpenTween
                 OpenUriAsync(MyCommon.TwitterUrl + "#!/" + GetCurTabPost(_curList.SelectedIndices[0]).ScreenName + "/favorites");
         }
 
-        private void Tween_ClientSizeChanged(object sender, EventArgs e)
+        private void TweenMain_ClientSizeChanged(object sender, EventArgs e)
         {
             if ((!_initialLayout) && this.Visible)
             {
@@ -3452,7 +3452,7 @@ namespace OpenTween
             _modifySettingCommon = true;
         }
 
-        private void Tween_LocationChanged(object sender, EventArgs e)
+        private void TweenMain_LocationChanged(object sender, EventArgs e)
         {
             if (this.WindowState == FormWindowState.Normal && !_initialLayout)
             {
@@ -8076,13 +8076,13 @@ namespace OpenTween
             }
         }
 
-        private void Tabs_DoubleClick(object sender, MouseEventArgs e)
+        private void ListTab_DoubleClick(object sender, MouseEventArgs e)
         {
             string tn = ListTab.SelectedTab.Text;
             TabRename(ref tn);
         }
 
-        private void Tabs_MouseDown(object sender, MouseEventArgs e)
+        private void ListTab_MouseDown(object sender, MouseEventArgs e)
         {
             if (SettingDialog.TabMouseLock) return;
             Point cpos = new Point(e.X, e.Y);
@@ -8104,7 +8104,7 @@ namespace OpenTween
             }
         }
 
-        private void Tabs_DragEnter(object sender, DragEventArgs e)
+        private void ListTab_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(typeof(TabPage)))
                 e.Effect = DragDropEffects.Move;
@@ -8112,7 +8112,7 @@ namespace OpenTween
                 e.Effect = DragDropEffects.None;
         }
 
-        private void Tabs_DragDrop(object sender, DragEventArgs e)
+        private void ListTab_DragDrop(object sender, DragEventArgs e)
         {
             if (!e.Data.GetDataPresent(typeof(TabPage))) return;
 
