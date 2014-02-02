@@ -566,12 +566,12 @@
             this.ListTab.SelectedIndexChanged += new System.EventHandler(this.ListTab_SelectedIndexChanged);
             this.ListTab.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.ListTab_Selecting);
             this.ListTab.Deselected += new System.Windows.Forms.TabControlEventHandler(this.ListTab_Deselected);
-            this.ListTab.DragDrop += new System.Windows.Forms.DragEventHandler(this.Tabs_DragDrop);
-            this.ListTab.DragEnter += new System.Windows.Forms.DragEventHandler(this.Tabs_DragEnter);
+            this.ListTab.DragDrop += new System.Windows.Forms.DragEventHandler(this.ListTab_DragDrop);
+            this.ListTab.DragEnter += new System.Windows.Forms.DragEventHandler(this.ListTab_DragEnter);
             this.ListTab.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ListTab_KeyDown);
             this.ListTab.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ListTab_MouseClick);
-            this.ListTab.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Tabs_DoubleClick);
-            this.ListTab.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Tabs_MouseDown);
+            this.ListTab.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ListTab_DoubleClick);
+            this.ListTab.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ListTab_MouseDown);
             this.ListTab.MouseMove += new System.Windows.Forms.MouseEventHandler(this.ListTab_MouseMove);
             this.ListTab.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ListTab_MouseUp);
             // 
@@ -2499,11 +2499,11 @@
             this.ToolTip1.SetToolTip(this, resources.GetString("$this.ToolTip"));
             this.Activated += new System.EventHandler(this.TweenMain_Activated);
             this.Deactivate += new System.EventHandler(this.TweenMain_Deactivate);
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Tween_FormClosing);
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TweenMain_FormClosing);
+            this.Load += new System.EventHandler(this.TweenMain_Load);
             this.Shown += new System.EventHandler(this.TweenMain_Shown);
-            this.ClientSizeChanged += new System.EventHandler(this.Tween_ClientSizeChanged);
-            this.LocationChanged += new System.EventHandler(this.Tween_LocationChanged);
+            this.ClientSizeChanged += new System.EventHandler(this.TweenMain_ClientSizeChanged);
+            this.LocationChanged += new System.EventHandler(this.TweenMain_LocationChanged);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.TweenMain_DragDrop);
             this.DragOver += new System.Windows.Forms.DragEventHandler(this.TweenMain_DragOver);
             this.Resize += new System.EventHandler(this.TweenMain_Resize);
